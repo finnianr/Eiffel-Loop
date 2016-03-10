@@ -2,15 +2,15 @@ note
 	description: "${description}"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-28 17:09:01 GMT (Friday 28th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
-	EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make end]
+	EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make_empty end]
 
 inherit
 	EL_MODULE_STRING
@@ -24,9 +24,9 @@ feature {NONE} -- Initialization
 			--
 		do
 			create crc
-			create storage_file_path.make_from_string (File.swap_extension (a_file_path, "editions.xml"))
+			storage_file_path := a_file_path.with_new_extension ("editions.xml")
 
-			if File.exists (storage_file_path) then
+			if storage_file_path.exists then
 				set_editions_text
 			else
 				create editions_text.make_empty
@@ -73,7 +73,7 @@ feature -- Element change
 	set_storage_file_path (a_storage_file_path: like storage_file_path)
 		do
 			storage_file_path := a_storage_file_path
-			storage_file.change_name (storage_file_path.string)
+			storage_file.rename_file (storage_file_path.unicode)
 		end
 
 feature -- Basic operations
@@ -84,11 +84,11 @@ feature -- Basic operations
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT
 			edition_node_list: EL_XPATH_NODE_CONTEXT_LIST
 			edition_node: EL_XPATH_NODE_CONTEXT
-			template: EL_SUBSTITUTION_TEMPLATE
+			template: EL_SUBSTITUTION_TEMPLATE [STRING]
 		do
 			if not editions_text.is_empty then
 				create template.make (XML_template)
-				template.set_string ("EDITIONS_LIST", editions_text)
+				template.set_variable ("EDITIONS_LIST", editions_text)
 
 				create root_node.make_from_string (template.substituted)
 
@@ -204,7 +204,7 @@ feature {NONE} -- Implementation
 			xml.prune_all ('%U') -- Needed because of bug in manifest strings
 			storage_file.put_string (xml); storage_file.put_new_line
 			crc.add_string (xml)
-			storage_file.put_string (String.template (Editions_checksum_template).substituted (<< crc.checksum >>))
+			storage_file.put_string (Editions_checksum_template #$ [crc.checksum])
 			storage_file.put_new_line
 			storage_file.flush
 		end
@@ -286,7 +286,10 @@ feature {NONE} -- Constants
 		</list-editions>
 	]"
 
-	Editions_checksum_template: STRING = "<editions-checksum value=%"$S%"/>"
+	Editions_checksum_template: ASTRING
+		once
+			Result := "<editions-checksum value=%"$S%"/>"
+		end
 
 	Editions_checksum_beginning: STRING
 		once

@@ -2,12 +2,12 @@ note
 	description: "Eiffel object model"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:29 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_XML_TO_EIFFEL_OBJECT_BUILDER
@@ -15,10 +15,11 @@ class
 inherit
 	EL_XML_NODE_SCAN_SOURCE
 		rename
+			make_xml_text_source as make,
 			seed_object as target,
 			set_seed_object as set_target
 		redefine
-			set_target, target, make, make_pyxis_source, make_delimited_source, default_create
+			make_default, set_target, target
 		end
 
 create
@@ -26,30 +27,10 @@ create
 
 feature {NONE}  -- Initialisation
 
-	make
-			--
-		do
-			default_create
-			Precursor
-		end
-
-	make_pyxis_source
-			--
-		do
-			default_create
-			Precursor
-		end
-
-	make_delimited_source
-			--
-		do
-			default_create
-			Precursor
-		end
-
-	default_create
+	make_default
 		do
 			create context_stack.make (20)
+			Precursor
 		end
 
 feature {NONE} -- Parsing events

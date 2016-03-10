@@ -2,12 +2,12 @@ note
 	description: "Summary description for {SHARED_SERIALIZATION_LISTENER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-03-18 14:55:28 GMT (Monday 18th March 2013)"
-	revision: "2"
+	date: "2014-03-27 18:40:20 GMT (Thursday 27th March 2014)"
+	revision: "3"
 
 class
 	EL_SHARED_FILE_PROGRESS_LISTENER
@@ -41,7 +41,7 @@ feature {NONE} -- Constants
 
 	Do_nothing_listener: EL_DO_NOTHING_FILE_LISTENER
 		once
-			create Result
+			create Result.make
 		end
 
 end

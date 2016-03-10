@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-06-18 11:06:17 GMT (Tuesday 18th June 2013)"
 	revision: "2"
@@ -15,27 +15,27 @@ class
 inherit
 	HASH_TABLE [G, K]
 		rename
-			make as make_with_count
+			make as make_size
 		redefine
 			default_create
 		end
 
 create
-	make, make_with_count, default_create
+	make, make_size, make_equal, default_create
 
 feature {NONE} -- Initialization
 
 	make (array: ARRAY [TUPLE [K, G]])
 			--
 		do
-			make_with_count (array.count)
+			make_equal (array.count)
 			append_tuples (array)
 		end
 
 	default_create
 			--
 		do
-			make_with_count (3)
+			make_equal (3)
 		end
 
 feature -- Element change

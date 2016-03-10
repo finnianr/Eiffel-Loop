@@ -1,8 +1,13 @@
 note
 	description: "Default 'do nothing' log"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2013-10-22 8:42:38 GMT (Tuesday 22nd October 2013)"
+	revision: "3"
 
 class
 	EL_LOG
@@ -18,7 +23,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_TYPING
+	EL_MODULE_EIFFEL
 		export
 			{NONE} all
 		end
@@ -145,7 +150,6 @@ feature -- Output
 			--
 		do
 		end
-
 
 	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL)
 			--

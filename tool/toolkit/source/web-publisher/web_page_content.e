@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {WEB_CONTENT_CLEANER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 19:58:29 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	WEB_PAGE_CONTENT
@@ -15,7 +15,7 @@ class
 inherit
 	EL_FILE_EDITING_PROCESSOR
 		redefine
-			make_from_file
+			make_default, make_from_file
 		end
 
 	EL_TEXTUAL_PATTERN_FACTORY
@@ -24,6 +24,8 @@ inherit
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+		rename
+			make as make_machine
 		export
 			{NONE} all
 		end
@@ -38,6 +40,12 @@ create
 
 feature {NONE} -- Initialization
 
+	make_default
+		do
+			make_machine
+			Precursor
+		end
+
  	make_from_file (content_path: EL_FILE_PATH)
  			--
  		local
@@ -47,8 +55,8 @@ feature {NONE} -- Initialization
  			create last_language_name.make_empty
 			content_body_path := content_path.with_new_extension ("body.html")
 
-			create body_file.make_open_write (content_body_path.unicode)
-			do_with_lines (agent find_body_tag, create {EL_FILE_LINE_SOURCE}.make (content_path))
+			create body_file.make_open_write (content_body_path)
+			do_once_with_file_lines (agent find_body_tag, create {EL_FILE_LINE_SOURCE}.make (content_path))
 			body_file.close
 
  			Precursor (content_body_path)
@@ -186,7 +194,7 @@ feature {NONE} -- Parsing actions
 
 feature {NONE} -- Line procedure transitions
 
-	find_body_tag (line: EL_ASTRING)
+	find_body_tag (line: ASTRING)
 			--
 		do
 			if line.starts_with ("<body") then
@@ -195,7 +203,7 @@ feature {NONE} -- Line procedure transitions
 			end
 		end
 
-	find_end_of_body_attributes (line: EL_ASTRING)
+	find_end_of_body_attributes (line: ASTRING)
 			--
 		do
 			if line.ends_with (">") then
@@ -203,7 +211,7 @@ feature {NONE} -- Line procedure transitions
 			end
 		end
 
-	find_body_end (line: EL_ASTRING)
+	find_body_end (line: ASTRING)
 			--
 		do
 			if line.starts_with ("</body>") then

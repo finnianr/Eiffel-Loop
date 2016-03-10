@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {EL_ROUTINE_LOG}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2013-10-23 6:57:51 GMT (Wednesday 23rd October 2013)"
+	revision: "3"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -115,9 +120,9 @@ feature -- Basic operations
 		local
 			l_out: like output
 			count_trailing_characters: INTEGER
-			l_field_value: EL_ASTRING
-			l_lines: ARRAYED_LIST [EL_ASTRING]
-			l_lines_2: LIST [EL_ASTRING]
+			l_field_value: ASTRING
+			l_lines: EL_ASTRING_LIST
+			l_lines_2: LIST [ASTRING]
 		do
 			l_out := output
 			l_field_value := String.string_from_general (field_value)
@@ -137,13 +142,13 @@ feature -- Basic operations
 
 			if l_field_value.count > max_length then
 				l_lines.append (l_field_value.substring (1, max_length - count_trailing_characters).split ('%N'))
-				l_lines.last.append (once "..")
+				l_lines.last.append_string (once "..")
 
 				l_lines_2 := l_field_value.substring (
 					l_field_value.count - count_trailing_characters + 1, l_field_value.count
 				).split ('%N')
 
-				l_lines_2.first.prepend (once "..")
+				l_lines_2.first.prepend_string (once "..")
 				l_lines.append (l_lines_2)
 
 			else

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {PARSE_EVENT_CODER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:20:26 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_XML_PARSE_EVENT_GENERATOR
@@ -32,7 +32,7 @@ feature {NONE} -- Implementation
 	make_with_output (output_stream: like event_stream)
 			--
 		do
-			make
+			make_xml_text_source
 			create name_index_table.make (Name_index_table_size)
 			name_index_table.compare_objects
 			event_stream := output_stream
@@ -63,7 +63,7 @@ feature -- Basic operations
 		local
 			xml_file: PLAIN_TEXT_FILE
 		do
-			create xml_file.make_open_read (file_path.unicode)
+			create xml_file.make_open_read (file_path)
 			send (xml_file)
 			xml_file.close
 		end

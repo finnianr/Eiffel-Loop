@@ -2,12 +2,12 @@
 	description: "Codec for ISO_8859_8 automatically generated from decoder.c in VTD-XML source"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-17 17:31:58 GMT (Wednesday 17th July 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_ISO_8859_8_CODEC
@@ -83,66 +83,94 @@ feature -- Conversion
 			Result := code + offset
 		end
 
-	unicode_case_change_substitute (c: CHARACTER): CHARACTER_32
+	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
 			-- Returns Unicode case change character if c does not have a latin case change
 			-- or else the Null character
 		do
-			inspect c
-				when 'µ' then
+			inspect code
+				-- µ -> Μ
+				when 181 then
 					Result := 'Μ'
-				when 'À' then
+				-- À -> à
+				when 192 then
 					Result := 'à'
-				when 'Á' then
+				-- Á -> á
+				when 193 then
 					Result := 'á'
-				when 'Â' then
+				-- Â -> â
+				when 194 then
 					Result := 'â'
-				when 'Ã' then
+				-- Ã -> ã
+				when 195 then
 					Result := 'ã'
-				when 'Ä' then
+				-- Ä -> ä
+				when 196 then
 					Result := 'ä'
-				when 'Å' then
+				-- Å -> å
+				when 197 then
 					Result := 'å'
-				when 'Æ' then
+				-- Æ -> æ
+				when 198 then
 					Result := 'æ'
-				when 'Ç' then
+				-- Ç -> ç
+				when 199 then
 					Result := 'ç'
-				when 'È' then
+				-- È -> è
+				when 200 then
 					Result := 'è'
-				when 'É' then
+				-- É -> é
+				when 201 then
 					Result := 'é'
-				when 'Ê' then
+				-- Ê -> ê
+				when 202 then
 					Result := 'ê'
-				when 'Ë' then
+				-- Ë -> ë
+				when 203 then
 					Result := 'ë'
-				when 'Ì' then
+				-- Ì -> ì
+				when 204 then
 					Result := 'ì'
-				when 'Í' then
+				-- Í -> í
+				when 205 then
 					Result := 'í'
-				when 'Î' then
+				-- Î -> î
+				when 206 then
 					Result := 'î'
-				when 'Ï' then
+				-- Ï -> ï
+				when 207 then
 					Result := 'ï'
-				when 'Ð' then
+				-- Ð -> ð
+				when 208 then
 					Result := 'ð'
-				when 'Ñ' then
+				-- Ñ -> ñ
+				when 209 then
 					Result := 'ñ'
-				when 'Ò' then
+				-- Ò -> ò
+				when 210 then
 					Result := 'ò'
-				when 'Ó' then
+				-- Ó -> ó
+				when 211 then
 					Result := 'ó'
-				when 'Ô' then
+				-- Ô -> ô
+				when 212 then
 					Result := 'ô'
-				when 'Õ' then
+				-- Õ -> õ
+				when 213 then
 					Result := 'õ'
-				when 'Ö' then
+				-- Ö -> ö
+				when 214 then
 					Result := 'ö'
-				when 'Ø' then
+				-- Ø -> ø
+				when 216 then
 					Result := 'ø'
-				when 'Ù' then
+				-- Ù -> ù
+				when 217 then
 					Result := 'ù'
-				when 'Ú' then
+				-- Ú -> ú
+				when 218 then
 					Result := 'ú'
-				when 'ÿ' then
+				-- ÿ -> Ÿ
+				when 255 then
 					Result := 'Ÿ'
 			else end
 		end

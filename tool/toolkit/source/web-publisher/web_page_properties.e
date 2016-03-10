@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {WEB_PAGE_PROPERTIES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 19:58:17 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	WEB_PAGE_PROPERTIES
@@ -19,6 +19,11 @@ inherit
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+		rename
+			make as make_machine
+		undefine
+			default_create
+		end
 
 create
 	make_from_file
@@ -29,8 +34,9 @@ feature {NONE} -- Initaliazation
 			--
 		do
 			log.enter_with_args ("make_from_file", << file_path >>)
+			make_machine
 			create lines.make_empty
-			do_with_lines (agent find_html_tag, create {EL_FILE_LINE_SOURCE}.make (file_path))
+			do_once_with_file_lines (agent find_html_tag, create {EL_FILE_LINE_SOURCE}.make (file_path))
 			lines.extend ("</html>")
 			log.put_string_field_to_max_length ("XML", lines.joined_lines, 200)
 			log.put_new_line
@@ -41,7 +47,7 @@ feature {NONE} -- Initaliazation
 
 feature {NONE} -- Line procedure transitions
 
-	find_html_tag (line: EL_ASTRING)
+	find_html_tag (line: ASTRING)
 			--
 		do
 			if line.starts_with ("<html>") then
@@ -50,7 +56,7 @@ feature {NONE} -- Line procedure transitions
 			end
 		end
 
-	find_body_tag (line: EL_ASTRING)
+	find_body_tag (line: ASTRING)
 			--
 		do
 			line.left_adjust
@@ -64,7 +70,7 @@ feature {NONE} -- Line procedure transitions
 			end
 		end
 
-	find_end_of_body_attributes (line: EL_ASTRING)
+	find_end_of_body_attributes (line: ASTRING)
 			--
 		do
 			if lines.last /= line then
@@ -78,7 +84,7 @@ feature {NONE} -- Line procedure transitions
 
 feature {NONE} -- Implementation
 
-	lines: EL_LINKED_STRING_LIST [EL_ASTRING]
+	lines: EL_LINKED_STRING_LIST [ASTRING]
 		-- Header lines
 
 end

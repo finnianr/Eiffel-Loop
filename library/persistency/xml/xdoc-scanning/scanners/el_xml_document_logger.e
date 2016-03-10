@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_XML_DOCUMENT_LOGGER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:29 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_XML_DOCUMENT_LOGGER
@@ -15,12 +15,12 @@ class
 inherit
 	EL_XML_DOCUMENT_SCANNER
 		redefine
-			make_last_node
+			make_default
 		end
 
 	EL_EIF_OBJ_XPATH_CONTEXT
-		rename
-			make as make_context
+		redefine
+			make_default
 		end
 
 	EL_MODULE_STRING
@@ -35,11 +35,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make_last_node
+	make_default
 			--
 		do
-			Precursor
-			make_context
+			Precursor {EL_XML_DOCUMENT_SCANNER}
+			Precursor {EL_EIF_OBJ_XPATH_CONTEXT}
 		end
 
 feature -- Basic operations

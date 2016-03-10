@@ -6,7 +6,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-03-13 17:54:09 GMT (Wednesday 13th March 2013)"
 	revision: "2"
@@ -41,10 +41,7 @@ feature -- Basic operations
 	execute
 			--
 		do
-			File_listener.put (listener)
-			action.apply
-			listener.finish
-			File_listener.put (Do_nothing_listener)
+			track_progress (listener, action, agent do_nothing)
 		end
 
 feature {NONE} -- Implementation

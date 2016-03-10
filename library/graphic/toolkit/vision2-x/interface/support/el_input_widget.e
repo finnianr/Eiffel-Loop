@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {EL_USER_INPUT_LIST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 deferred class
 	EL_INPUT_WIDGET [G]
@@ -50,7 +55,7 @@ feature {NONE} -- Implementation
 			from i := lower until i > upper loop
 				create tuple
 				tuple.value := values [i]
-				tuple.displayed_value := displayed_value (tuple.value)
+				tuple.displayed_value := displayed_value (tuple.value).to_unicode
 				tuple.is_current_value := tuple.value ~ initial_value
 				tuples [i - lower + 1] := tuple
 				i := i + 1
@@ -83,7 +88,7 @@ feature {NONE} -- Implementation
 			)
 		end
 
-	displayed_value (value: G): EL_ASTRING
+	displayed_value (value: G): ASTRING
 		deferred
 		end
 

@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+	<title>Finnian's Milonga Playlists</title>
+	<style type="text/css">
+		body {
+			margin-top: 2em;
+			margin-left: 4em;
+			margin-right: 4em;
+			background-color: black;
+		}
+		p {margin-left: 1em;}
+
+		#page {
+			margin-left: auto;
+			margin-right: auto;
+			width: 60em;
+		}
+		#header {
+			background-color: Beige;
+
+			border-style: ridge;
+			border-width: 1ex;
+			border-color: Crimson;
+
+			height: auto;
+			padding-left: 2ex;
+
+			font-family: Verdana;
+		}
+		#header h1 {
+			text-align: center;
+		}
+		#content {
+			color: white;
+		}
+		#content a {
+			color: Crimson;
+		}
+
+		#content h1 {
+			margin-left: 1em;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="page">
+		<div id="header">
+			<h1>Finnian's Milonga Playlists</h1>
+			<h4>(Lookup songs by start time)</h4>
+		</div>
+		<div id="content">
+		#foreach $events_group in $events_by_year loop
+			<h2>$events_group.year</h2>
+			#foreach $event in $events_group.list loop
+			<p>
+				<a href="$event.html_page_name"><b>$event.formatted_month_date</b></a>
+			</p>
+			#end
+		#end
+		</div>
+	</div>
+</body>
+</html>

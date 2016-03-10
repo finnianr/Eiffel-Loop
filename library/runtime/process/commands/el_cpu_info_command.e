@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-07-22 18:08:02 GMT (Monday 22nd July 2013)"
 	revision: "3"
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			make, Line_processing_enabled, do_with_lines
+			make_default, Line_processing_enabled, do_with_lines
 		end
 
 create
@@ -25,11 +25,16 @@ create
 
 feature {NONE} -- Initialization
 
+	make_default
+		do
+			create model_name.make_empty
+			Precursor
+		end
+
 	make
 			--
 		do
-			Precursor
-			create model_name.make_empty
+			make_command
 			execute
 		end
 
@@ -43,7 +48,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			lines.compare_objects
-			lines.find_first (True, agent {EL_ASTRING}.starts_with ("model name"))
+			lines.find_first (True, agent {ASTRING}.starts_with ("model name"))
 			if not lines.after then
 				model_name := lines.item.substring (lines.item.index_of (':', 1) + 2, lines.item.count)
 			end

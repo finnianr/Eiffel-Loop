@@ -11,11 +11,15 @@ note
 			ping localhost -n 3 >nul
 			
 		provides some delay inorder to give calling process time to quit.
-		
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-03-02 13:21:10 GMT (Sunday 2nd March 2014)"
+	revision: "2"
 
 class
 	EL_INSTALLED_FILE_REMOVAL_COMMAND_IMPL
@@ -28,7 +32,7 @@ create
 
 feature {NONE} -- Constants
 
-	Command_template: EL_TEMPLATE_STRING
+	Command_template: EL_ASTRING
 		once
 			Result := "cmd /C %"$S%""
 		end

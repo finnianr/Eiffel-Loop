@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {TEST_UC_UTF8_STRING}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-23 17:01:44 GMT (Tuesday 23rd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	UC_UTF8_STRING_TESTS
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Implementation
 
-	index_of_unicode (l_uc: CHARACTER_32; s: UC_UTF8_STRING): INTEGER
+	index_of (l_uc: CHARACTER_32; s: UC_UTF8_STRING): INTEGER
 		local
 			uc: UC_CHARACTER
 		do
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 			l_s: STRING
 		do
 			l_s := s
-			Result := Typing.physical_size (s) + Typing.physical_size (l_s.area)
+			Result := Eiffel.physical_size (s) + Eiffel.physical_size (l_s.area)
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-26 15:35:52 GMT (Wednesday 26th March 2014)"
-	revision: "4"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "6"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -179,12 +179,6 @@ feature -- Basic operations
 			scroll_bar.set_value (0)
 			enable_automatic_scrollbar
 			set_focus
-
---			GUI.do_once_on_idle (
---				agent
---					do
---					end
---			)
 		end
 
 	position_pointer_on_first_line
@@ -399,12 +393,12 @@ feature {NONE} -- Constants
 			Result := 0.5
 		end
 
-	Link_text_previous: EL_ASTRING
+	Link_text_previous: ASTRING
 		once
 			Result := "Previous"
 		end
 
-	Link_text_next: EL_ASTRING
+	Link_text_next: ASTRING
 		once
 			Result := "Next"
 		end

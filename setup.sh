@@ -5,10 +5,18 @@
 #	date: "21 Dec 2012"
 #	revision: "0.1"
 
-sudo apt-get install python2.7-dev python-lxml scons
+sudo apt-get install python2.7-dev python-lxml scons libxrandr-dev
+# Required for example/manage-mp3 
+sudo apt-get install siggen libav-tools sox lame
 if [ $? == "0" ]
 then
-	sudo python setup.py install
+	if [ ! -d ~/bin ]
+	then
+		mkdir ~/bin
+	fi
+	bin_path=~/bin
+	eval bin_path=$bin_path
+	sudo python setup.py install --install-scripts=/usr/local/bin
 	python -m eiffel_loop.scripts.setup
 else
 	echo

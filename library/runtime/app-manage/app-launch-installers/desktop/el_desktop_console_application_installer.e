@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_MENU_CONSOLE_APPLICATION_LAUNCHER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 11:56:18 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-03-02 15:30:04 GMT (Sunday 2nd March 2014)"
+	revision: "3"
 
 class
 	EL_DESKTOP_CONSOLE_APPLICATION_INSTALLER
@@ -52,7 +52,7 @@ feature -- Access
 	terminal_height: INTEGER
 		-- height of terminal in characters
 
-	command: EL_ASTRING
+	command: ASTRING
 		do
 			Result := implementation.Command
 		end

@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 			word_table := a_word_table
 		end
 
-	make_from_string (a_word_table: like word_table; str: EL_ASTRING)
+	make_from_string (a_word_table: like word_table; str: ASTRING)
 			--
 		do
 			make_empty
@@ -71,13 +71,13 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	words: EL_ASTRING
+	words: ASTRING
 			-- space separated words
 		do
 			Result := word_table.tokens_to_string (Current)
 		end
 
-	token (word: EL_ASTRING): CHARACTER_32
+	token (word: ASTRING): CHARACTER_32
 			--
 		do
 			word_table.search (word)
@@ -119,7 +119,7 @@ feature -- Access
 
 feature -- Element change
 
-	append_word (word: EL_ASTRING)
+	append_word (word: ASTRING)
 			--
 		local
 			exception: EXCEPTION
@@ -133,10 +133,10 @@ feature -- Element change
 			extend (word_table.last_code.to_character_32)
 		end
 
-	append_as_tokenized_lower (str: EL_ASTRING)
+	append_as_tokenized_lower (str: ASTRING)
 			--
 		local
-			i: INTEGER; word: EL_ASTRING
+			i: INTEGER; word: ASTRING
 		do
 			resize (count + str.occurrences (' ') + 3)
 			create word.make (12)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-04 9:54:09 GMT (Saturday 4th January 2014)"
-	revision: "4"
+	date: "2014-03-02 13:05:49 GMT (Sunday 2nd March 2014)"
+	revision: "5"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -15,10 +15,12 @@ deferred class
 inherit
 	EVOLICITY_EIFFEL_CONTEXT
 		redefine
-			new_getter_functions
+			new_getter_functions, make_default
 		end
 
-	EL_MODULE_EVOLICITY_ENGINE
+	EL_ENCODEABLE_AS_TEXT
+
+	EL_MODULE_EVOLICITY_TEMPLATES
 
 	EL_MODULE_STRING
 
@@ -26,8 +28,17 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
+		do
+			Precursor
+			output_path := Empty_file_path
+			template_path := Empty_file_path
+			set_default_encoding
+		end
+
+	make_empty
+			-- make class template
 		do
 			make_from_template_and_output (Empty_file_path, Empty_file_path)
 		end
@@ -36,11 +47,11 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_from_template_and_output (Empty_file_path, a_output_path)
-			if output_file_exists and not output_path.exists then
+			if file_must_exist and not output_path.exists then
 				serialize
 			end
 		ensure
-			output_path_exists: output_file_exists implies output_path.exists
+			output_path_exists: file_must_exist implies output_path.exists
 		end
 
 	make_from_template (a_template_path: like output_path)
@@ -54,13 +65,12 @@ feature {NONE} -- Initialization
 		require
 			template_exists: not a_template_path.is_empty implies a_template_path.exists
 		do
-			make_eiffel_context
-			output_path := a_output_path
-			template_path := a_template_path
-			if template_path = Empty_file_path then
-				Evolicity_engine.set_template (template_name, stripped_template)
+			make_default
+			output_path := a_output_path; template_path := a_template_path
+			if template_path.is_empty then
+				Evolicity_templates.put (template_name, stripped_template)
 			else
-				Evolicity_engine.set_template_from_file (template_path)
+				Evolicity_templates.put_from_file (template_path)
 			end
 		end
 
@@ -68,10 +78,20 @@ feature -- Access
 
 	output_path: EL_FILE_PATH
 
-feature -- Status query
+feature -- Conversion
 
-	utf8_encoded: BOOLEAN
+	as_text: ASTRING
+			--
 		do
+			Evolicity_templates.set_text_encoding (Current)
+			Result := Evolicity_templates.merged (template_name, Current)
+		end
+
+	as_utf_8_text: STRING
+			--
+		do
+			Evolicity_templates.set_encoding_utf_8
+			Result := Evolicity_templates.merged_utf_8 (template_name, Current)
 		end
 
 feature -- Element change
@@ -81,13 +101,9 @@ feature -- Element change
 			output_path := a_output_path
 		end
 
-feature -- Conversion
-
-	serialized_text: EL_ASTRING
-			--
+	set_default_encoding
 		do
-			Evolicity_engine.set_utf8_encoded (utf8_encoded)
-			Result := Evolicity_engine.merged_template (template_name, Current)
+			set_utf_encoding (8)
 		end
 
 feature -- Basic operations
@@ -101,15 +117,15 @@ feature -- Basic operations
 	serialize_to_file (file_path: like output_path)
 			--
 		do
-			Evolicity_engine.set_utf8_encoded (utf8_encoded)
-			Evolicity_engine.merge_to_file (template_name, Current, file_path)
+			Evolicity_templates.set_text_encoding (Current)
+			Evolicity_templates.merge_to_file (template_name, Current, file_path)
 		end
 
-	serialize_to_stream (stream_out: IO_MEDIUM)
+	serialize_to_stream (stream_out: EL_OUTPUT_MEDIUM)
 			--
 		do
-			Evolicity_engine.set_utf8_encoded (utf8_encoded)
-			Evolicity_engine.merge_to_stream (template_name, Current, stream_out)
+			Evolicity_templates.set_text_encoding (Current)
+			Evolicity_templates.merge (template_name, Current, stream_out)
 		end
 
 feature {NONE} -- Implementation
@@ -118,16 +134,22 @@ feature {NONE} -- Implementation
 			--
 		do
 			Result := Precursor
-			Result.force (agent template_name, Variable_template_name)
+			Result [Variable_template_name] := agent template_name
+			Result [Variable_encoding_name] := agent encoding_name
 		end
 
-	stripped_template: EL_ASTRING
+	stripped_template: ASTRING
 			-- template stripped of any leading tabs
 		local
-			tab_count: INTEGER
-			new_line: EL_ASTRING
+			tab_count: INTEGER; new_line: ASTRING
+			l_template: like template
 		do
-			create Result.make_from_unicode (template)
+			l_template := template
+			if attached {ASTRING} l_template as astring_template then
+				Result := astring_template.twin
+			else
+				create Result.make_from_unicode (l_template)
+			end
 			if not Result.is_empty then
 				from until Result.code (tab_count + 1) /= Tabulation_code loop
 					tab_count := tab_count + 1
@@ -136,7 +158,7 @@ feature {NONE} -- Implementation
 
 			if tab_count > 1 then
 				new_line := "%N"
-				Result.prepend_string (new_line)
+				Result.prepend (new_line)
 				Result.replace_substring_all (create {STRING}.make_filled ('%N', tab_count), "%N")
 				Result.remove_head (1)
 			end
@@ -153,7 +175,7 @@ feature {NONE} -- Implementation
 					create Result
 					Result.set_base (generator)
 					Result.base.prepend_character ('{')
-					Result.base.append (once "}.template")
+					Result.base.append_string (once "}.template")
 					template_names.extend (Result, generator)
 				end
 			else
@@ -163,7 +185,7 @@ feature {NONE} -- Implementation
 
 	new_open_read_file (a_file_path: like output_path): PLAIN_TEXT_FILE
 		do
-			create Result.make_open_read (a_file_path.unicode)
+			create Result.make_open_read (a_file_path)
 		end
 
 	stored_successfully (a_file: like new_open_read_file): BOOLEAN
@@ -171,8 +193,8 @@ feature {NONE} -- Implementation
 			Result := True
 		end
 
-	output_file_exists: BOOLEAN
-			-- True if output file exists after creation
+	file_must_exist: BOOLEAN
+			-- True if output file always exists after creation
 		do
 		end
 
@@ -185,22 +207,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template_names: HASH_TABLE [EL_FILE_PATH, STRING]
-		once
-			create Result.make (7)
-		end
-
-	Variable_template_name: EL_ASTRING
-		once
-			Result := "template_name"
-		end
-
-	Tabulation_code: NATURAL
-			--
-		once
-			Result := {ASCII}.Tabulation.to_natural_32
-		end
-
 	Empty_template: STRING
 		once
 			create Result.make_empty
@@ -211,5 +217,27 @@ feature {NONE} -- Constants
 		once
 			create Result
 		end
+
+	Template_names: HASH_TABLE [EL_FILE_PATH, STRING]
+		once
+			create Result.make (7)
+		end
+
+	Tabulation_code: NATURAL
+			--
+		once
+			Result := {ASCII}.Tabulation.to_natural_32
+		end
+
+	Variable_template_name: ASTRING
+		once
+			Result := "template_name"
+		end
+
+	Variable_encoding_name: ASTRING
+		once
+			Result := "encoding_name"
+		end
+
 
 end

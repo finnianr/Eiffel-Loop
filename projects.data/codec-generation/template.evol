@@ -71,15 +71,16 @@ feature -- Conversion
 			Result := code + offset
 		end
 
-	unicode_case_change_substitute (c: CHARACTER): CHARACTER_32
+	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
 			-- Returns Unicode case change character if c does not have a latin case change
 			-- or else the Null character
 		do
-		#if not $case_change_substitutes.is_empty then
-			inspect c
-			#across $case_change_substitutes as $substitute loop
-				when '$substitute.key' then
-					Result := '$substitute.item'
+		#if not $single_case_character_set.is_empty then
+			inspect code
+			#across $single_case_character_set as $single_case_character loop
+				-- $single_case_character.item.unicode -> $single_case_character.item.inverse_case_unicode
+				when $single_case_character.item.code then
+					Result := '$single_case_character.item.inverse_case_unicode'
 			#end
 			else end
 		#end

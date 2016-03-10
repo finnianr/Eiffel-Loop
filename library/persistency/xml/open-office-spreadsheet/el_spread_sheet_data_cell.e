@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 22:12:10 GMT (Monday 22nd July 2013)"
-	revision: "4"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "6"
 
 class
 	EL_SPREAD_SHEET_DATA_CELL
@@ -26,8 +26,8 @@ feature {NONE} -- Initialization
 
 	make_empty
 		do
-			create text.make_empty
-			make_eiffel_context
+			create paragraphs.make_empty
+			make_default
 		end
 
 	make_from_context (cell_context: EL_XPATH_NODE_CONTEXT)
@@ -49,56 +49,70 @@ feature {NONE} -- Initialization
 			--		</text:p>
 			--	</table:table-cell>
 		local
-			paragraph_list: EL_XPATH_NODE_CONTEXT_LIST
-			value: EL_ASTRING
+			paragraph_nodes: EL_XPATH_NODE_CONTEXT_LIST; str: ASTRING
 		do
 			make_empty
 
 			cell_context.set_namespace (NS_text)
-			paragraph_list := cell_context.context_list (Xpath_text_paragraph)
-			from paragraph_list.start until paragraph_list.after loop
-				if paragraph_list.index > 1 then
-					text.append_character ('%N')
+			paragraph_nodes := cell_context.context_list (Xpath_text_paragraph)
+			paragraphs.grow (paragraph_nodes.count)
+			across paragraph_nodes as paragraph loop
+				str := paragraph.node.string_value
+				if str.is_empty then
+					str := paragraph.node.string_at_xpath (Xpath_text_node)
 				end
-				value := paragraph_list.context.normalized_string_value
-				if value.is_empty then
-					value := paragraph_list.context.string_at_xpath (Xpath_text_node)
+				if not str.is_empty then
+					paragraphs.extend (str)
 				end
-				text.append (value)
-				paragraph_list.forth
 			end
-			text.left_adjust; text.right_adjust
 		end
 
-	make (a_text: EL_ASTRING)
+	make (a_text: ASTRING)
 			-- Initialize from the characters of `s'.
 		do
-			text := a_text
-			make_eiffel_context
+			create paragraphs.make_with_lines (a_text)
+			make_default
 		end
 
 feature -- Status query
 
 	is_empty: BOOLEAN
 		do
-			Result := text.is_empty
+			Result := paragraphs.is_empty
 		end
 
 feature -- Access
 
-	text: EL_ASTRING
+	text: ASTRING
+		do
+			Result := paragraphs.joined_lines
+		end
+
+	paragraphs: EL_ASTRING_LIST
 
 	count: INTEGER
 		do
-			Result := text.count
+			Result := paragraphs.joined_character_count
+		end
+
+feature {NONE} -- Implementation
+
+	append_paragraph (paragraph_node: EL_XPATH_NODE_CONTEXT)
+		do
+			paragraphs.extend (paragraph_node.string_value)
+			if paragraphs.last.is_empty then
+				across paragraph_node.context_list (Xpath_text_node) as l_text loop
+					paragraphs.last.append (l_text.node.string_value)
+				end
+			end
 		end
 
 feature {NONE} -- Evolicity reflection
 
-	get_escape_single_quote: EL_ASTRING
+	get_escape_single_quote: ASTRING
 			--
 		do
-			Result := text.twin
+			Result := text
 			Result.replace_substring_all ("'", "\'")
 		end
 

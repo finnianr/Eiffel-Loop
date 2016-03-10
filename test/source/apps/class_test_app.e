@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {CLASS_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:27:41 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	CLASS_TEST_APP
@@ -18,13 +18,12 @@ inherit
 			Option_name
 		end
 
-
 create
 	make
 
 feature -- Basic operations
 
-	run
+	test_run
 			--
 		do
 
@@ -48,7 +47,7 @@ feature -- Basic operations
 
 		end
 
-feature -- Manual tests
+feature -- Tests
 
 	part_sorted_set
 			--
@@ -215,7 +214,7 @@ feature -- Manual tests
 			find_files_cmd: EL_FIND_FILES_COMMAND
 		do
 			log.enter ("find_files_with_exclusions")
-			create find_files_cmd.make (Execution.item ("EIFFEL_LOOP") + "/C_library", "*")
+			create find_files_cmd.make (Execution.item ("EIFFEL_LOOP") + "/C_library", All_routines)
 			find_files_cmd.exclude_path_containing_any_of (<<
 				"Make", "Expat", "WinCOM", "dirent", "audio"
 			>>)
@@ -280,7 +279,8 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{CLASS_TEST_APP}, "*"]
+				[{CLASS_TEST_APP}, All_routines],
+				[{EL_TEST_ROUTINES}, All_routines]
 			>>
 		end
 

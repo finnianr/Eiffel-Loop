@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_URL_ROUTINES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:16:31 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2013-10-16 13:49:39 GMT (Wednesday 16th October 2013)"
+	revision: "3"
 
 class
 	EL_URL_ROUTINES
@@ -21,17 +21,10 @@ inherit
 
 feature -- Conversion
 
-	uri (a_protocol: STRING; a_path: EL_FILE_PATH): EL_ASTRING
-		do
-			create Result.make_from_latin1 (a_protocol)
-			Result.append ("://")
-			Result.append (a_path.to_string)
-		end
-
 	encoded_uri (a_protocol: STRING; a_path: EL_FILE_PATH; leave_reserved_unescaped: BOOLEAN): STRING
 			--
 		do
-			Result := encoded_path (uri (a_protocol, a_path).to_utf8, leave_reserved_unescaped)
+			Result := encoded_path (uri (a_protocol, a_path), leave_reserved_unescaped)
 		end
 
 	encoded_uri_custom (
@@ -41,13 +34,21 @@ feature -- Conversion
 			Result := escape_custom (uri (a_protocol, a_path).to_utf8, unescaped_chars, escape_space_as_plus)
 		end
 
-	encoded_path (path: STRING; leave_reserved_unescaped: BOOLEAN): STRING
-			--
+	encoded (uc_string: READABLE_STRING_GENERAL): STRING
 		do
+			Result := escape_custom (String.as_utf8 (uc_string), Default_unescaped, False)
+		end
+
+	encoded_path (uc_path: READABLE_STRING_GENERAL; leave_reserved_unescaped: BOOLEAN): STRING
+			--
+		local
+			utf8_path: STRING
+		do
+			utf8_path := String.as_utf8 (uc_path)
 			if leave_reserved_unescaped then
-				Result := escape_custom (path, Default_unescaped_and_reserved, False)
+				Result := escape_custom (utf8_path, Default_unescaped_and_reserved, False)
 			else
-				Result := escape_custom (path, Default_unescaped, False)
+				Result := escape_custom (utf8_path, Default_unescaped, False)
 			end
 		end
 
@@ -55,11 +56,19 @@ feature -- Conversion
 			--
 		do
 			create Result.make_from_string (escaped_path)
-			Result.replace_substring_all ("+", Url_encoded_plus_sign)
+			Result.replace_substring_all (once "+", Url_encoded_plus_sign)
 			Result := unescape_string (Result)
 		end
 
-	unicode_decoded_path (escaped_utf8_path: STRING): EL_ASTRING
+	remove_protocol_prefix (a_uri: ASTRING): ASTRING
+			--
+		require
+			is_valid_uri: is_uri (a_uri)
+		do
+			Result := a_uri.substring (a_uri.substring_index (once "://", 1) + 3, a_uri.count)
+		end
+
+	unicode_decoded_path (escaped_utf8_path: STRING): ASTRING
 			--
 		local
 			l_escaped_path: STRING
@@ -69,20 +78,19 @@ feature -- Conversion
 			create Result.make_from_utf8 (unescape_string (l_escaped_path))
 		end
 
-	remove_protocol_prefix (a_uri: EL_ASTRING): EL_ASTRING
-			--
-		require
-			is_valid_uri: is_uri (a_uri)
+	uri (a_protocol: STRING; a_path: EL_FILE_PATH): ASTRING
 		do
-			Result := a_uri.substring (a_uri.substring_index ("://", 1) + 3, a_uri.count)
+			create Result.make_from_latin1 (a_protocol)
+			Result.append_string ("://")
+			Result.append (a_path)
 		end
 
 feature -- Status query
 
-	is_uri (a_uri: EL_ASTRING): BOOLEAN
+	is_uri (a_uri: ASTRING): BOOLEAN
 			--
 		local
-			components: LIST [EL_ASTRING]
+			components: LIST [ASTRING]
 		do
 			components := a_uri.split (':')
 			if components.count >= 2 and then components.i_th (2).starts_with ("//") and then
@@ -110,7 +118,6 @@ feature {NONE} -- Implementation
 
 	Url_encoded_plus_sign: STRING
 			--
-
 		once
 			Result := escape_string ("+")
 		end

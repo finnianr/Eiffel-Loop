@@ -2,35 +2,27 @@ note
 	description: "Summary description for {EL_XML_STORABLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 deferred class
 	EL_BUILDABLE_XML_FILE_PERSISTENT
 
 inherit
 	EL_BUILDABLE_FROM_XML
-		rename
-			make_default as make,
-			make_from_file as make_buildable_from_file,
-			make as make_buildable
 		redefine
-			make_from_binary_stream, make_from_binary_file
+			make_default, make_from_file, make_from_binary_stream, make_from_binary_file
 		end
 
 	EVOLICITY_SERIALIZEABLE_AS_XML
 		rename
-			save_as_xml as store_as,
-			make as make_serializeable,
-			make_from_file as make_serializeable_from_file
-		undefine
-			utf8_encoded
+			save_as_xml as store_as
 		redefine
-			encoding_name
+			make_from_file, make_default
 		end
 
 	EL_FILE_PERSISTENT
@@ -38,26 +30,24 @@ inherit
 			file_path as output_path,
 			set_file_path as set_output_path
 		redefine
-			make_from_file, make
+			make_from_file
 		end
 
 feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
 
-	make
-			--
+	make_default
 		do
-			Precursor
-			make_buildable
-			make_serializeable
+			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML}
+			Precursor {EL_BUILDABLE_FROM_XML}
 		end
 
 	make_from_file (a_file_path: like output_path)
 			--
 		do
-			Precursor (a_file_path)
-			make_serializeable_from_file (a_file_path)
+			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML} (a_file_path)
 			if a_file_path.exists then
-				make_buildable_from_file (a_file_path)
+				build_from_file (a_file_path)
+				set_encoding_from_name (Builder.encoding_name)
 			end
 		end
 
@@ -72,22 +62,8 @@ feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
 	make_from_binary_stream (a_stream: IO_MEDIUM)
 			--
 		do
-			make
+			make_default
 			Precursor (a_stream)
-		end
-
-feature -- Access
-
-	encoding_name: EL_ASTRING
-		do
-			Result := Builder.encoding_name
-		end
-
-feature -- Status query
-
-	utf8_encoded: BOOLEAN
-		do
-			Result := Builder.encoding_type ~ "UTF" and then Builder.encoding = 8
 		end
 
 end

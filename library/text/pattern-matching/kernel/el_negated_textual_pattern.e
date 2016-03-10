@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_NEGATED_TEXTUAL_PATTERN
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 	actual_try_to_match
 			-- Try to match one pattern
 		do
-			negated_pattern.set_target (target_text)
+			negated_pattern.set_text (text)
 			negated_pattern.try_to_match
 
 			if not_match_succeeded then
@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 	not_match_succeeded: BOOLEAN
 			--
 		do
-			Result := target_text.count = 0 or else not negated_pattern.match_succeeded
+			Result := text.count = 0 or else not negated_pattern.match_succeeded
 		end
 
 feature {NONE, EL_NEGATED_TEXTUAL_PATTERN} -- Implementation

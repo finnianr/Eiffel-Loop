@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Upgrade syntax of Eiffel Loop logging filter arrays"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 8:30:32 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EIFFEL_UPGRADE_LOG_FILTERS_APP

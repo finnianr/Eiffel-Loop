@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {EVOLICITY_COMPILED_TEMPLATE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2013-11-23 15:34:56 GMT (Saturday 23rd November 2013)"
+	revision: "4"
 
 class
 	EVOLICITY_COMPILED_TEMPLATE

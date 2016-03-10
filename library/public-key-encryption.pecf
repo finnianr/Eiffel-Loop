@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_public_key_encryption 
+	name = EL_public_key_encryption 
 	uuid = "229b7448-09aa-11df-87bc-335404ca99d5" 
-	library_target = el_public_key_encryption
+	library_target = EL_public_key_encryption
 	
 	target:
-		name = el_public_key_encryption
+		name = EL_public_key_encryption
 		
 		description: 
 			"""
@@ -40,13 +40,27 @@ system:
 		library:
 			name = encryption_base; location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"
 
+		# Eiffel-Loop
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 
 		library:
-			name = el_encryption
+			name = EL_encryption
 			location = "encryption.ecf"
 
+		# Source code
 		cluster:
 			name = RSA_public_key; location = "text/encryption/rsa"; recursive = true
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
 
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows

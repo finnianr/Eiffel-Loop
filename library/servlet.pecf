@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = "eiffel_loop_servlet" 
+	name = EL_servlet
 	uuid = "229b4c52-09aa-11df-876c-87080fdd2d54" 
-	library_target = eiffel_loop_servlet
+	library_target = EL_servlet
 	
 	target:
-		name = eiffel_loop_servlet
+		name = EL_servlet
 		
 		description: 
 			"""
@@ -30,23 +30,7 @@ system:
 
 		library: 
 			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
-
-		# Eiffel Loop
-		library:
-			name = el_base; location = "base.ecf"
-
-		library:
-			name = el_app_manage; location = "app-manage.ecf"; readonly = false
-
-		library:
-			name = el_xdoc_scanning; location = "xdoc-scanning.ecf"; readonly = false
-
-		#library:
-		#	name = gobo_base; location = "gobo-base.ecf"
-
-		library:
-			name = el_net_base; location = "network.ecf"
-
+		
 		library:
 			name = goanna; location = "$GOANNA/library/goanna.ecf"
 			readonly = false
@@ -55,6 +39,28 @@ system:
 			name = log4e; location = "$LOG4E/library/log4e.ecf"
 			readonly = false
 
+		# Eiffel Loop
+		library:
+			name = EL_base; location = "base.ecf"
+
+		library:
+			name = EL_app_manage; location = "app-manage.ecf"; readonly = false
+
+		library:
+			name = EL_encryption; location = "$EIFFEL_LOOP/library/encryption.ecf"
+			readonly = false
+
+		library:
+			name = EL_http; readonly = false
+			location = "http.ecf"
+
+		library:
+			name = EL_net_base; location = "network.ecf"
+
+		library:
+			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"; readonly = false
+
+		# Source code
 		cluster:
-			name = el_net_servlet; location = "network/servlet"; recursive = true
+			name = servlet; location = "network/servlet"; recursive = true
 

@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-09-30 18:03:39 GMT (Monday 30th September 2013)"
-	revision: "4"
+	date: "2014-03-02 13:16:38 GMT (Sunday 2nd March 2014)"
+	revision: "5"
 
 class
 	EL_UNINSTALL_APP
 
 inherit
-	EL_SUB_APPLICATION
-		rename
-			make as make_app
+	EL_INSTALLER_SUB_APPLICATION
 		redefine
-			option_name, install, installer, is_installable
+			option_name, installer, is_installable
 		end
 
 	EL_MODULE_STRING
@@ -27,15 +25,9 @@ inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
-	make
+	make_installer
 
 feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
-
-	make (a_app_list: like app_list)
-		do
-			app_list := a_app_list
-			make_app
-		end
 
 	initialize
 			--
@@ -47,14 +39,14 @@ feature -- Basic operations
 	run
 			--
 		do
-			io.put_string (String.template (confirmation_prompt_template).substituted (<< Installer.menu_name >>))
+			io.put_string (confirmation_prompt_template #$ [Installer.menu_name])
 
 			if User_input.entered_letter (yes [1]) then
 				io.put_new_line
 				io.put_string (commence_message)
 				io.put_new_line
 
-				across app_list as application loop
+				across sub_applications as application loop
 					if application.item.is_installable then
 						application.item.uninstall
 					end
@@ -77,15 +69,7 @@ feature {NONE} -- Implementation
 	delete_dir_tree (dir_path: EL_DIR_PATH)
 		do
 			File_system.delete_tree (dir_path)
-			File_system.delete_empty_steps (dir_path.parent.steps)
-		end
-
-	install (a_app_list: LIST [EL_SUB_APPLICATION])
-		require else
-			main_app_exists: across a_app_list as app some app.item.is_main end
-		do
-			app_list := a_app_list
-			Precursor (a_app_list)
+			File_system.delete_empty_branch (dir_path.parent)
 		end
 
 	new_installed_file_removal_command: EL_INSTALLED_FILE_REMOVAL_COMMAND
@@ -93,14 +77,7 @@ feature {NONE} -- Implementation
 			create {EL_INSTALLED_FILE_REMOVAL_COMMAND_IMPL} Result.make (Installer.menu_name)
 		end
 
-	app_list: LIST [EL_SUB_APPLICATION]
-
 feature {NONE} -- Strings
-
-	confirmation_prompt_template: STRING
-		do
-			Result := "Uninstall application %"$S%". Are you sure? (y/n)"
-		end
 
 	commence_message: STRING
 		do
@@ -110,6 +87,11 @@ feature {NONE} -- Strings
 feature {NONE} -- Constants
 
 	Option_name: STRING = "uninstall"
+
+	Confirmation_prompt_template: ASTRING
+		once
+			Result := "Uninstall application %"$S%". Are you sure? (y/n)"
+		end
 
 	Description: STRING
 		once
@@ -123,10 +105,10 @@ feature {NONE} -- Constants
 
 	Installer: EL_APPLICATION_INSTALLER
 		once
-			from app_list.start until app_list.after or app_list.item.is_main loop
-				app_list.forth
+			from sub_applications.start until sub_applications.after or sub_applications.item.is_main loop
+				sub_applications.forth
 			end
-			if attached {EL_DESKTOP_APPLICATION_INSTALLER} app_list.item.installer as master_app_installer then
+			if attached {EL_DESKTOP_APPLICATION_INSTALLER} sub_applications.item.installer as master_app_installer then
 				create {EL_DESKTOP_UNINSTALL_APP_INSTALLER} Result.make (Current, master_app_installer.launcher)
 			else
 				Result := Precursor

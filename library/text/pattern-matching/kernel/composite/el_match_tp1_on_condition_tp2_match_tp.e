@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 deferred class
 	EL_MATCH_TP1_ON_CONDITION_TP2_MATCH_TP
@@ -54,7 +54,7 @@ feature {NONE} -- Implementation
 		do
 			debug ("el_pattern_matching") actual_try_to_match_debug_1 end
 			from
-				repeated_pattern.set_target (target_text)
+				repeated_pattern.set_text (text)
 				terminating_pattern_matches := false
 			until
 				not repeated_pattern.last_match_succeeded or terminating_pattern_matches
@@ -78,7 +78,7 @@ feature {NONE} -- Implementation
 	try_to_match_terminating_pattern
 			--
 		do
-			terminating_pattern.set_target (repeated_pattern.remaining_unmatched_text)
+			terminating_pattern.set_text (repeated_pattern.remaining_unmatched_text)
 			terminating_pattern.try_to_match
 			if terminating_pattern.match_succeeded then
 				terminating_pattern_matches := true

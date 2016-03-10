@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-23 16:04:48 GMT (Sunday 23rd March 2014)"
-	revision: "5"
+	date: "2014-09-27 14:44:27 GMT (Saturday 27th September 2014)"
+	revision: "7"
 
 class
 	EL_VISION_2_GUI_ROUTINES
@@ -55,12 +55,12 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			make_platform
+			make_default
 			create environment
 			text_field_background_color := Implementation.text_field_background_color
 			text_field_font := (create {EV_TEXT_FIELD}).font
-			create keys
 			create screen
+			create timer_list.make (3)
 		end
 
 feature -- Access
@@ -68,8 +68,6 @@ feature -- Access
 	text_field_background_color: EV_COLOR
 
 	text_field_font: EV_FONT
-
-	keys: EV_KEY_CONSTANTS
 
 	screen: EL_SCREEN
 		-- Inherits EV_SCREEN
@@ -81,9 +79,25 @@ feature -- Access
 
 	environment: EV_ENVIRONMENT
 
+	window_parent (widget: EV_WIDGET): EV_WINDOW
+		local
+			l_parent: EV_CONTAINER
+			depth: INTEGER
+		do
+			from l_parent := widget.parent until attached {EV_WINDOW} l_parent or else depth > 50 loop
+				l_parent := l_parent.parent
+				depth := depth + 1
+			end
+			if attached {EV_WINDOW} l_parent as window then
+				Result := window
+			else
+				create Result
+			end
+		end
+
 feature -- Constants
 
-	General_font_families: ARRAYED_LIST [EL_ASTRING]
+	General_font_families: ARRAYED_LIST [ASTRING]
 			-- monospace + proportional
 		once
 			if attached {ARRAYED_LIST [STRING_32]} environment.Font_families as families then
@@ -97,7 +111,7 @@ feature -- Constants
 			sort (Result)
 		end
 
-	Monospace_font_families: ARRAYED_LIST [EL_ASTRING]
+	Monospace_font_families: ARRAYED_LIST [ASTRING]
 			--
 		local
 			l_font: EL_FONT
@@ -127,7 +141,7 @@ feature -- Component factory
 		local
 			l_text: READABLE_STRING_GENERAL
 		do
-			if attached {EL_ASTRING} a_text as astring then
+			if attached {ASTRING} a_text as astring then
 				l_text := astring.to_unicode
 			else
 				l_text := a_text
@@ -166,15 +180,11 @@ feature -- Component factory
  			Result.append_unexpanded (a_widgets)
 		end
 
-	menu_entry (a_text: EL_ASTRING; an_action: PROCEDURE [ANY, TUPLE]): EV_MENU_ITEM
+	menu_entry (a_text: ASTRING; an_action: PROCEDURE [ANY, TUPLE]): EV_MENU_ITEM
 		local
-			l_text: EL_ASTRING
+			l_text: ASTRING
 		do
 			l_text := a_text
-			if Screen_properties.is_windows_aero_theme_active then
---				Work around for bug in Windows 7 where last letter is partially obscured
-				l_text := a_text + " "
-			end
 			create Result.make_with_text_and_action (l_text, an_action)
 		end
 
@@ -211,6 +221,15 @@ feature -- Component factory
  			Result.append_unexpanded (a_widgets)
 		end
 
+	vertical_centered_box (a_border_cms, a_padding_cms: REAL; a_widgets: ARRAY [EV_WIDGET]): EL_VERTICAL_BOX
+			--
+		do
+ 			create Result.make (a_border_cms, a_padding_cms)
+ 			Result.extend (create {EV_CELL})
+ 			Result.append_unexpanded (a_widgets)
+ 			Result.extend (create {EV_CELL})
+		end
+
 	vertical_framed_box (
 		inner_border_cms, a_padding_cms: REAL; a_text: STRING; a_widgets: ARRAY [EV_WIDGET]
 	): EL_FRAME [EL_VERTICAL_BOX]
@@ -225,12 +244,9 @@ feature -- Font factory
 	font_regular (a_families_list: STRING; a_height_cms: REAL): EL_FONT
 			-- families separated by ';'
 		do
+			create Result.make_regular ("", a_height_cms) -- Adds to preferred_families
 			across a_families_list.split (';') as family loop
-				if family.cursor_index = 1 then
-					create Result.make_regular (family.item, a_height_cms) -- Adds to preferred_families
-				else
-					Result.preferred_families.extend (family.item)
-				end
+				Result.preferred_families.extend (family.item)
 			end
 		end
 
@@ -278,13 +294,14 @@ feature -- Basic operations
 			application.do_once_on_idle (an_action)
 		end
 
-	do_later (a_action: PROCEDURE [ANY, TUPLE]; an_interval: INTEGER_32)
+	do_later (a_action: PROCEDURE [ANY, TUPLE]; millisecs_interval: INTEGER_32)
 		local
 			timer: EV_TIMEOUT
 		do
-			create timer
+			create timer.make_with_interval (millisecs_interval)
+			timer_list.extend (timer)
 			timer.actions.extend_kamikaze (a_action)
-			timer.set_interval (an_interval)
+			timer.actions.extend_kamikaze (agent prune_timer (timer))
 		end
 
 	set_selection (widget: EV_SELECTABLE; is_selected: BOOLEAN)
@@ -318,9 +335,86 @@ feature -- Basic operations
 			field.set_minimum_width_in_characters (capacity)
 		end
 
+	propagate_background_color (container: EV_CONTAINER; background_color: EV_COLOR; exclusions: ARRAY [EV_WIDGET])
+			-- Propagate background
+		require
+			 exclusions_comparable_by_reference: not exclusions.object_comparison
+		local
+			list: LINEAR [EV_WIDGET]
+		do
+			if not exclusions.has (container) then
+				container.set_background_color (background_color)
+			end
+			list := container.linear_representation
+			from list.start until list.after loop
+				if attached {EV_CONTAINER} list.item as l_container
+					and then not exclusions.has (l_container)
+				then
+					propagate_background_color (l_container, background_color, exclusions)
+
+				elseif not exclusions.has (list.item) then
+					list.item.set_background_color (background_color)
+				end
+				list.forth
+			end
+		end
+
+feature -- Mouse pointer setting
+
+	restore_standard_pointer (widget: EV_WIDGET; seconds_delay: INTEGER)
+		do
+			do_later (agent (window_parent (widget)).set_pointer_style (Standard_cursor), seconds_delay * 1000)
+		end
+
+	set_busy_pointer_left (widget: EV_WIDGET)
+		do
+			set_busy_pointer (widget, 0, widget.height // 2)
+		end
+
+	set_busy_pointer_right (widget: EV_WIDGET)
+		do
+			set_busy_pointer (widget, widget.width, widget.height // 2)
+		end
+
+	set_busy_pointer_top (widget: EV_WIDGET)
+		do
+			set_busy_pointer (widget, widget.width // 2, 0)
+		end
+
+	set_busy_pointer_bottom (widget: EV_WIDGET)
+		do
+			set_busy_pointer (widget, widget.width // 2, widget.height)
+		end
+
+	set_busy_pointer_center (widget: EV_WIDGET)
+		do
+			set_busy_pointer (widget, widget.width // 2, widget.height // 2)
+		end
+
+	set_busy_pointer (widget: EV_WIDGET; position_x, position_y: INTEGER)
+		local
+			container: EV_CONTAINER; offset_x, offset_y: INTEGER
+		do
+			if position_x = 0 then
+				offset_x := Busy_cursor.x_hotspot - Busy_cursor.width
+			else
+				offset_x := Busy_cursor.x_hotspot
+			end
+			if position_y = 0 then
+				offset_y := Busy_cursor.y_hotspot - Busy_cursor.height
+			else
+				offset_y := Busy_cursor.y_hotspot
+			end
+			Screen.set_pointer_position (widget.screen_x + position_x + offset_x, widget.screen_y + position_y + offset_y)
+			window_parent (widget).set_pointer_style (Busy_cursor)
+			if {PLATFORM}.is_windows then
+				application.process_events
+			end
+		end
+
 feature -- Contract support
 
-	is_word_wrappable (a_text: EL_ASTRING; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
+	is_word_wrappable (a_text: ASTRING; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
 		do
 			Result := across a_text.split (' ') as word all a_font.string_width (word.item) < a_width end
 		end
@@ -330,31 +424,40 @@ feature -- Measurement
 	widest_width (strings: INDEXABLE [READABLE_STRING_GENERAL, INTEGER]; font: EV_FONT): INTEGER
 			-- widest string width for font
 		local
-			i, count: INTEGER
+			i, count, width: INTEGER
 			l_str: READABLE_STRING_GENERAL
 		do
 			count := strings.index_set.upper
 			from i := 1 until i > count loop
 				l_str := strings [i]
-				if attached {EL_ASTRING} l_str as l_astr then
+				if attached {ASTRING} l_str as l_astr then
 					l_str := l_astr.to_unicode
 				end
-				if font.string_width (l_str) > Result then
-					Result := font.string_width (l_str)
+				width := font.string_width (l_str)
+				if width > Result then
+					Result := width
 				end
 				i := i + 1
 			end
 		end
 
+	box_width_real (border_cms, padding_cms: REAL; widget_widths: ARRAY [REAL]): REAL
+		do
+			Result := border_cms * 2 + padding_cms * (widget_widths.count - 1)
+			across widget_widths as width loop
+				Result := Result + width.item
+			end
+		end
+
 feature -- Conversion
 
-	word_wrapped (a_text: EL_ASTRING; a_font: EV_FONT; a_width: INTEGER): EL_ASTRING
+	word_wrapped (a_text: ASTRING; a_font: EV_FONT; a_width: INTEGER): ASTRING
 			--
 		require
 			is_wrappable: is_word_wrappable (a_text, a_font, a_width)
 		local
-			wrapped_lines, words: EL_STRING_LIST [EL_ASTRING]
-			line: EL_ASTRING
+			wrapped_lines, words: EL_ASTRING_LIST
+			line: ASTRING
 		do
 			create wrapped_lines.make (10)
 			create line.make (60)
@@ -397,13 +500,21 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
-	sort (a_list: ARRAYED_LIST [EL_ASTRING])
+	sort (a_list: ARRAYED_LIST [ASTRING])
 		local
-			l_array: SORTABLE_ARRAY [EL_ASTRING]
+			l_array: SORTABLE_ARRAY [ASTRING]
 		do
 			create l_array.make_from_array (a_list.to_array)
 			l_array.compare_objects
 			l_array.sort
 		end
+
+	prune_timer (timer: EV_TIMEOUT)
+		do
+			timer.set_interval (0)
+			timer_list.prune (timer)
+		end
+
+	timer_list: ARRAYED_LIST [EV_TIMEOUT]
 
 end

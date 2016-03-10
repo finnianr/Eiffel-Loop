@@ -2,15 +2,15 @@ note
 	description: "Summary description for {EL_BINARY_STORABLE_EDITIONS_CHAIN}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 13:04:46 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-27 13:43:21 GMT (Saturday 27th September 2014)"
+	revision: "3"
 
 deferred class
-	EL_STORABLE_CHAIN_EDITIONS [G -> EL_MEMORY_READ_WRITEABLE]
+	EL_STORABLE_CHAIN_EDITIONS [G -> EL_STORABLE create make_default end]
 
 inherit
 	CHAIN [G]
@@ -29,12 +29,16 @@ feature {NONE} -- Initialization
 	make (storable_chain: like editions_file.item_chain)
 			--
 		do
-			create editions_file.make (editions_file_path, storable_chain)
+			if is_encrypted then
+				create {EL_ENCRYPTABLE_CHAIN_EDITIONS_FILE [G]} editions_file.make (editions_file_path, storable_chain)
+			else
+				create editions_file.make (editions_file_path, storable_chain)
+			end
 		end
 
 feature -- Access
 
-	editions_file: like Type_editions_file
+	editions_file: EL_CHAIN_EDITIONS_FILE [G]
 
 feature -- Element change
 
@@ -63,8 +67,7 @@ feature -- Basic operations
 			if editions_file.exists and then not editions_file.is_empty then
 				editions_file.apply
 			end
-			editions_file.open_read_write
-			editions_file.finish
+			editions_file.reopen
 		end
 
 feature -- Status query
@@ -75,6 +78,10 @@ feature -- Status query
 						or else editions_file.has_checksum_mismatch 	-- A checksum mismatch indicates that the editions
 																		-- have become corrupted somewhere, so save
 																		-- what's good and start a clean editions.
+		end
+
+	is_encrypted: BOOLEAN
+		deferred
 		end
 
 feature -- Removal
@@ -88,11 +95,19 @@ feature -- Removal
 			chain_remove
 		end
 
+	delete
+		do
+			if editions_file.is_open_write then
+				editions_file.put_edition (editions_file.Edition_code_delete, item)
+			end
+			chain_delete
+		end
+
 feature -- Status change
 
 	reopen
 		do
-			editions_file.open_append
+			editions_file.reopen
 		end
 
 feature {NONE} -- Implementation
@@ -100,6 +115,11 @@ feature {NONE} -- Implementation
 	editions_file_path: EL_FILE_PATH
 		do
 			Result := file_path.with_new_extension ("editions.dat")
+		end
+
+	chain_delete
+			--
+		deferred
 		end
 
 	chain_remove
@@ -117,14 +137,12 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	file_path: EL_FILE_PATH
+	store
 		deferred
 		end
 
-feature {NONE} -- Type definitions
-
-	Type_editions_file: EL_CHAIN_EDITIONS_FILE [G]
-		do
+	file_path: EL_FILE_PATH
+		deferred
 		end
 
 feature {NONE} -- Constants

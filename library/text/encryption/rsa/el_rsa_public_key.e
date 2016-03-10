@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_RSA_PUBLIC_KEY}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:31 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-30 11:00:08 GMT (Tuesday 30th September 2014)"
+	revision: "2"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -25,20 +25,39 @@ inherit
 	EL_RSA_KEY
 
 create
-	make, make_from_array, make_from_hex_byte_sequence
+	make, make_from_array, make_from_base_64, make_from_hex_byte_sequence, make_from_manifest
 
 feature {NONE} -- Initialization
 
 	make_from_hex_byte_sequence (hex_byte_sequence: STRING)
-			--
+			-- used to intialize from X509 cert
 		do
 			make (RSA.integer_x_from_hex_byte_sequence (hex_byte_sequence))
+		end
+
+	make_from_base_64 (base_64_string: STRING)
+			--
+		do
+			make_from_array (Base_64.decoded_array (base_64_string))
 		end
 
 	make_from_array (a_modulus: ARRAY [NATURAL_8])
 			--
 		do
 			make (Rsa.integer_x_from_array (a_modulus.area))
+		end
+
+	make_from_manifest (a_modulus: ARRAY [INTEGER])
+			-- use to intialize from manifest containing factorized digits multiplied back together
+			-- This form should make it more difficult for pirates to alter the machine code of executable
+		local
+			l_area: SPECIAL [NATURAL_8]
+		do
+			create l_area.make_filled (0, a_modulus.count)
+			across a_modulus as n loop
+				l_area [n.cursor_index - 1] := n.item.to_natural_8
+			end
+			make (Rsa.integer_x_from_array (l_area))
 		end
 
 	make (a_modulus: INTEGER_X)
@@ -64,4 +83,11 @@ feature -- Basic operations
 			Result := encrypt (message)
 		end
 
+	put_log
+		do
+			log.enter ("put_log")
+			put_number (Var_modulus, modulus, True)
+			put_number (Var_public_exponent, exponent, False)
+			log.exit
+		end
 end

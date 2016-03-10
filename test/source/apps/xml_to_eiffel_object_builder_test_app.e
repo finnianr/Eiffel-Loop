@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Test conversion of SMIL and XHTML documents to Eiffel and serialization back to XML."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:09:40 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP
@@ -32,12 +32,13 @@ feature {NONE} -- Initiliazation
 
 feature -- Basic operations
 
-	run
+	test_run
 			--
 		do
---			Test.do_file_test ("XML/creatable/linguistic-analysis.smil", agent build_and_serialize_file, 229756033)
---			Test.do_all_files_test ("XML/creatable", "*", agent build_and_serialize_file, 2747868864)
-			Test.do_file_test ("XML/creatable/download-page.xhtml", agent build_and_serialize_file, 481189273)
+			-- Jan 2015
+			Test.do_file_test ("XML/creatable/linguistic-analysis.smil", agent build_and_serialize_file, 3564006962)
+			Test.do_all_files_test ("XML/creatable", "*", agent build_and_serialize_file, 3315853670)
+			Test.do_file_test ("XML/creatable/download-page.xhtml", agent build_and_serialize_file, 3585601868)
 
 --			Test.do_all_files_test ("XML/creatable", "*", agent smart_build_file, 1417327426)
 --			Test.do_file_test ("pyxis/translations.xml.pyx", agent read_pyxis_translation_table, 3101056532)
@@ -50,7 +51,7 @@ feature -- Tests
 	read_translation_table (file_path: EL_FILE_PATH; from_source_string: BOOLEAN)
 		local
 			table: EL_TRANSLATION_TABLE
-			text: EL_ASTRING
+			text: ASTRING
 		do
 			if from_source_string then
 				create table.make_from_pyxis_source ("en", File_system.plain_text (file_path))
@@ -135,18 +136,16 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP}, "*"],
-				[{EL_EXPAT_XML_PARSER}, "*"],
-				[{EL_GC_PROTECTED_OBJECT}, "*"],
-				[{EL_TEST_ROUTINES}, "*"],
-				[{SMIL_AUDIO_SEQUENCE}, "*"],
-				[{SMIL_AUDIO_CLIP}, "*"],
-				[{SMIL_PRESENTATION}, "*"],
-				[{WEB_FORM}, "*"],
-				[{WEB_FORM_COMPONENT}, "*"],
-				[{WEB_FORM_DROP_DOWN_LIST}, "*"],
-				[{WEB_FORM_TEXT}, "*"],
-				[{WEB_FORM_LINE_BREAK}, "*"],
+				[{XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP}, All_routines],
+				[{EL_TEST_ROUTINES}, All_routines],
+				[{SMIL_AUDIO_SEQUENCE}, All_routines],
+				[{SMIL_AUDIO_CLIP}, All_routines],
+				[{SMIL_PRESENTATION}, All_routines],
+				[{WEB_FORM}, All_routines],
+				[{WEB_FORM_COMPONENT}, All_routines],
+				[{WEB_FORM_DROP_DOWN_LIST}, All_routines],
+				[{WEB_FORM_TEXT}, All_routines],
+				[{WEB_FORM_LINE_BREAK}, All_routines],
 				[{MATRIX_CALCULATOR}, "find_column_sum, find_column_average, set_calculation_procedure, add_row, -add_row_col"]
 			>>
 		end

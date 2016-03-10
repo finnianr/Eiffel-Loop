@@ -6,15 +6,15 @@
   <config:config-item-set config:name="ooo:view-settings">
    <config:config-item config:name="VisibleAreaTop" config:type="int">0</config:config-item>
    <config:config-item config:name="VisibleAreaLeft" config:type="int">0</config:config-item>
-   <config:config-item config:name="VisibleAreaWidth" config:type="int">37306</config:config-item>
-   <config:config-item config:name="VisibleAreaHeight" config:type="int">186166</config:config-item>
+   <config:config-item config:name="VisibleAreaWidth" config:type="int">37916</config:config-item>
+   <config:config-item config:name="VisibleAreaHeight" config:type="int">186914</config:config-item>
    <config:config-item-map-indexed config:name="Views">
     <config:config-item-map-entry>
      <config:config-item config:name="ViewId" config:type="string">view1</config:config-item>
      <config:config-item-map-named config:name="Tables">
       <config:config-item-map-entry config:name="IT Jobs">
-       <config:config-item config:name="CursorPositionX" config:type="int">0</config:config-item>
-       <config:config-item config:name="CursorPositionY" config:type="int">0</config:config-item>
+       <config:config-item config:name="CursorPositionX" config:type="int">2</config:config-item>
+       <config:config-item config:name="CursorPositionY" config:type="int">42</config:config-item>
        <config:config-item config:name="HorizontalSplitMode" config:type="short">0</config:config-item>
        <config:config-item config:name="VerticalSplitMode" config:type="short">0</config:config-item>
        <config:config-item config:name="HorizontalSplitPosition" config:type="int">0</config:config-item>
@@ -23,7 +23,7 @@
        <config:config-item config:name="PositionLeft" config:type="int">0</config:config-item>
        <config:config-item config:name="PositionRight" config:type="int">0</config:config-item>
        <config:config-item config:name="PositionTop" config:type="int">0</config:config-item>
-       <config:config-item config:name="PositionBottom" config:type="int">0</config:config-item>
+       <config:config-item config:name="PositionBottom" config:type="int">41</config:config-item>
        <config:config-item config:name="ZoomType" config:type="short">0</config:config-item>
        <config:config-item config:name="ZoomValue" config:type="int">100</config:config-item>
        <config:config-item config:name="PageViewZoomValue" config:type="int">60</config:config-item>
@@ -142,7 +142,7 @@
  </office:styles>
  <office:automatic-styles>
   <style:style style:name="co1" style:family="table-column">
-   <style:table-column-properties fo:break-before="auto" style:column-width="1.764cm"/>
+   <style:table-column-properties fo:break-before="auto" style:column-width="2.374cm"/>
   </style:style>
   <style:style style:name="co2" style:family="table-column">
    <style:table-column-properties fo:break-before="auto" style:column-width="6.232cm"/>
@@ -178,7 +178,7 @@
    <style:table-row-properties style:row-height="4.166cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
   </style:style>
   <style:style style:name="ro5" style:family="table-row">
-   <style:table-row-properties style:row-height="3.043cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+   <style:table-row-properties style:row-height="3.417cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
   </style:style>
   <style:style style:name="ro6" style:family="table-row">
    <style:table-row-properties style:row-height="5.666cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
@@ -199,10 +199,10 @@
    <style:table-row-properties style:row-height="6.415cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
   </style:style>
   <style:style style:name="ro12" style:family="table-row">
-   <style:table-row-properties style:row-height="3.417cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+   <style:table-row-properties style:row-height="3.792cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
   </style:style>
   <style:style style:name="ro13" style:family="table-row">
-   <style:table-row-properties style:row-height="3.792cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+   <style:table-row-properties style:row-height="3.043cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
   </style:style>
   <style:style style:name="ro14" style:family="table-row">
    <style:table-row-properties style:row-height="1.543cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
@@ -257,7 +257,7 @@
      <text:p><text:sheet-name>???</text:sheet-name> (<text:title>???</text:title>)</text:p>
     </style:region-left>
     <style:region-right>
-     <text:p><text:date style:data-style-name="N2" text:date-value="2013-08-05">00/00/0000</text:date>, <text:time style:data-style-name="N2" text:time-value="0000-00-00T09:32:03">?</text:time></text:p>
+     <text:p><text:date style:data-style-name="N2" text:date-value="2014-06-07">00/00/0000</text:date>, <text:time style:data-style-name="N2" text:time-value="0000-00-00T12:25:44">?</text:time></text:p>
     </style:region-right>
    </style:header>
    <style:header-left style:display="false"/>
@@ -279,13 +279,14 @@
     <table:table-column table:style-name="co7" table:default-cell-style-name="ce1"/>
     <table:table-row table:style-name="ro1">
      <table:table-cell office:value-type="string">
-      <text:p>Contract</text:p>
+      <text:p><text:s/>Contract</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
       <text:p>SAP VMS Expert With Experiencce In Automobile</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
-      <text:p>We are currently looking for a SAP Vehicle Management Solution expert with know how in SD, MM and Variant Configurator. The project language is English and French is a plus. Concerning the experience, the consultant should have a proven experience in the automobile industry. Finally, we need a strong team player with strong communication skills, written and verbal and familiar with international project.</text:p>
+      <text:p>We are currently looking for a SAP Vehicle Management Solution expert with know how in SD, MM and Variant Configurator. The project language is English and French is a plus. Concerning the experience, the consultant should have a proven experience in the automobile industry.</text:p>
+      <text:p>Finally, we need a strong team player with strong communication skills, written and verbal and familiar with international project.</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
       <text:p>Brussels</text:p>
@@ -370,7 +371,8 @@
       <text:p>Web Developer - ASP.NET &amp; SQL Server - Bedfordshire</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
-      <text:p>Web Developer with Visual Basic and ASP. NET skills required for this vibrant Web Design Agency. We are looking for someone who has experience of writing ASP.Net in Visual Basic and also have experience with SQL Server. You will have a strong background in Web and application development and also have experience of developing Websites from the ground up with experience of the full development life cycle. On the personality side, we need confident and enthusiastic individuals who can show proven commercial experience. @its is the trading name of @its (Search Selection) Ltd. Services offered are those of an agency for permanent work and employment business for the supply of contract staff.</text:p>
+      <text:p>Web Developer with Visual Basic and ASP. NET skills required for this vibrant Web Design Agency. We are looking for someone who has experience of writing ASP.Net in Visual Basic and also have experience with SQL Server. You will have a strong background in Web and application development and also have experience of developing Websites from the ground up with experience of the full development life cycle.</text:p>
+      <text:p>On the personality side, we need confident and enthusiastic individuals who can show proven commercial experience. @its is the trading name of @its (Search Selection) Ltd. Services offered are those of an agency for permanent work and employment business for the supply of contract staff.</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
       <text:p>Bedfordshire</text:p>
@@ -487,7 +489,8 @@
       <text:p>ACBS Senior BA</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
-      <text:p>A fantastic opportunity has arisen at a major investment bank for an experienced ACBS BA to make a difference by supporting the ACBS Programme. The successful candidate, who will be well rewarded by this fantastic organisation who strongly believe in investing in people and promote a life/work balance, will therefore need to have solid experience of ACBS (either implementation and/or migration), have good data migration experience and have solid experience of writing detailed analysis from user requirements. For more information please send your CV to or call Dominik Ferrara at 33-6 for more details.</text:p>
+      <text:p>A fantastic opportunity has arisen at a major investment bank for an experienced ACBS BA to make a difference by supporting the ACBS Programme. The successful candidate, who will be well rewarded by this fantastic organisation who strongly believe in investing in people and promote a life/work balance, will therefore need to have solid experience of ACBS (either implementation and/or migration), have good data migration experience and have solid experience of writing detailed analysis from user requirements.</text:p>
+      <text:p>For more information please send your CV to or call Dominik Ferrara at 33-6 for more details.</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
       <text:p>City, London</text:p>
@@ -635,7 +638,9 @@
       <text:p>Performance &amp; Test Tool Analyst, Loadrunner, QTP, Winrunner</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
-      <text:p>Performance &amp; Test Tool Analyst, LoadRunner, QTP, Mercury, Winrunner, Test Automation, Investment Banking, required to join a small core team within a processing system made up of multiple systems in an FX environment that has been tasked with additional scope for major new global releases. The main function of the processing system is trade processing, deal capture, confirmations, settlements, reconciliations and accounting that are deployed across multiple technologies including; WebLogic, Calypso, Oracle, Unix and Citrix. Responsibilities: The primary aspects of the role will include creation, management and support of the automation scripts/tools used during testing which will include; Mercury Test Director, Winrunner, LoadRunner, and Quick Test Pro. Reporting to the Test Manager you will also be to prepare and execute ad hoc testing when required, assistance in the creation of the test plan and project implementation reports. Experience Required; A Mercury Certified individual with in depth and proven experience of LoadRunner, Winrunner, Quick Test Professional, Test Automation. A committed individual with a very strong technical background who is keen position themselves in a long term position. This role offers a technically strong individual the opportunity to develop strong business knowledge as well as diversify their understanding of multiple technologies including Calypso, Middleware, WebLogic, Oracle, and Unix.</text:p>
+      <text:p>Performance &amp; Test Tool Analyst, LoadRunner, QTP, Mercury, Winrunner, Test Automation, Investment Banking, required to join a small core team within a processing system made up of multiple systems in an FX environment that has been tasked with additional scope for major new global releases. The main function of the processing system is trade processing, deal capture, confirmations, settlements, reconciliations and accounting that are deployed across multiple technologies including; WebLogic, Calypso, Oracle, Unix and Citrix.</text:p>
+      <text:p>Responsibilities: The primary aspects of the role will include creation, management and support of the automation scripts/tools used during testing which will include; Mercury Test Director, Winrunner, LoadRunner, and Quick Test Pro. Reporting to the Test Manager you will also be to prepare and execute ad hoc testing when required, assistance in the creation of the test plan and project implementation reports. Experience Required; A Mercury Certified individual with in depth and proven experience of LoadRunner, Winrunner, Quick Test Professional, Test Automation.</text:p>
+      <text:p>A committed individual with a very strong technical background who is keen position themselves in a long term position. This role offers a technically strong individual the opportunity to develop strong business knowledge as well as diversify their understanding of multiple technologies including Calypso, Middleware, WebLogic, Oracle, and Unix.</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
       <text:p>City Of London</text:p>
@@ -753,7 +758,7 @@
       <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
      </table:table-cell>
     </table:table-row>
-    <table:table-row table:style-name="ro12">
+    <table:table-row table:style-name="ro5">
      <table:table-cell office:value-type="string">
       <text:p>Permanent</text:p>
      </table:table-cell>
@@ -795,7 +800,7 @@
       <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
      </table:table-cell>
     </table:table-row>
-    <table:table-row table:style-name="ro13">
+    <table:table-row table:style-name="ro12">
      <table:table-cell office:value-type="string">
       <text:p>Permanent</text:p>
      </table:table-cell>
@@ -816,7 +821,7 @@
       <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
      </table:table-cell>
     </table:table-row>
-    <table:table-row table:style-name="ro5">
+    <table:table-row table:style-name="ro13">
      <table:table-cell office:value-type="string">
       <text:p>Permanent</text:p>
      </table:table-cell>
@@ -984,7 +989,7 @@
       <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
      </table:table-cell>
     </table:table-row>
-    <table:table-row table:style-name="ro3">
+    <table:table-row table:style-name="ro6">
      <table:table-cell office:value-type="string">
       <text:p>Permanent</text:p>
      </table:table-cell>
@@ -992,7 +997,8 @@
       <text:p>Senior Systems Analyst</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
-      <text:p>Senior Systems Analyst, User requirements, Systems Analysis, Experience of group systems (Gold Model) advantageous, experience of Life/Pensions beneficial but not essential. Senior Systems Analyst, requirements gathering, business process modelling. Opportunity to join a fast moving dynamic multi-skilled team within a multi-national Financial institution to assess the fit of Gold requirements as defined by the Insurance Business against vendor packages. Responsibilities will include identifying functional gaps to define the systems development/customisation, define Gold interfaces to other group systems, participate in the analysis of regional interface requirements for individual implementations and coordinate the work of Junior Analysts. Projects vary in size in size, complexity and delivery channels. A high percentage of offshore IT development resources are utilised in order to deliver a high volume of projects in a cost-effective manner. As part of the role you will undertake and/or supervise analysis activities throughout the life cycle of projects. This will involve project initiation, scoping and requirements gathering, proposing appropriately estimated, cost-effective solutions, production of initial prototypes, external design and production of detailed functional documentation, support programming and testing and implementation. The jobholder will be responsible for ensuring that solutions meet the business needs and that deliveries are on time, within budget and</text:p>
+      <text:p>Senior Systems Analyst, User requirements, Systems Analysis, Experience of group systems (Gold Model) advantageous, experience of Life/Pensions beneficial but not essential. Senior Systems Analyst, requirements gathering, business process modelling. Opportunity to join a fast moving dynamic multi-skilled team within a multi-national Financial institution to assess the fit of Gold requirements as defined by the Insurance Business against vendor packages. </text:p>
+      <text:p>Responsibilities will include identifying functional gaps to define the systems development/customisation, define Gold interfaces to other group systems, participate in the analysis of regional interface requirements for individual implementations and coordinate the work of Junior Analysts. Projects vary in size in size, complexity and delivery channels. A high percentage of offshore IT development resources are utilised in order to deliver a high volume of projects in a cost-effective manner. As part of the role you will undertake and/or supervise analysis activities throughout the life cycle of projects. This will involve project initiation, scoping and requirements gathering, proposing appropriately estimated, cost-effective solutions, production of initial prototypes, external design and production of detailed functional documentation, support programming and testing and implementation.</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
       <text:p>Sheffield, South Yorkshire</text:p>
@@ -1028,7 +1034,7 @@
       <text:p>7 Fifty Two Solutions Ltd (Employment Business)</text:p>
      </table:table-cell>
     </table:table-row>
-    <table:table-row table:style-name="ro12">
+    <table:table-row table:style-name="ro5">
      <table:table-cell office:value-type="string">
       <text:p>Contract</text:p>
      </table:table-cell>
@@ -1051,7 +1057,7 @@
       <text:p>7 Fifty Two Solutions Ltd (Employment Business)</text:p>
      </table:table-cell>
     </table:table-row>
-    <table:table-row table:style-name="ro10">
+    <table:table-row table:style-name="ro15">
      <table:table-cell office:value-type="string">
       <text:p>Contract</text:p>
      </table:table-cell>
@@ -1059,7 +1065,8 @@
       <text:p>Oracle Projects DBA</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
-      <text:p>Oracle DBA required by Tier1 Investment Bank The successful applicant will be a member of a small team (16 people), working in the London Database Administration team. The role will involve all tasks associated with an Oracle DBA including support and projects. 1st, 2nd line and project support for production and development Oracle environments, reviewing logical and physical database design, providing in-depth guidance to application teams on the use of architectures, maintaining documentation on the physical architectures being developed and deployed Globally. Applicants will ideally come from a background supporting large, distributed Server infrastructures, with experience of Production Database Support functions, hands-on experience with all current Oracle technologies. Skills required: Extensive Oracle skills ideally including RAC, Streams, AQ and ASM Production support between Oracle 9i and 10G Strong platform skills Performance &amp; tuning Scripting and networking (TCP/IP, DNS) experience. For further information please contact Gurdev Landa at 752 Solutions on 02074444178 or send me your CV for immediate consideration.</text:p>
+      <text:p>Oracle DBA required by Tier1 Investment Bank The successful applicant will be a member of a small team (16 people), working in the London Database Administration team. The role will involve all tasks associated with an Oracle DBA including support and projects. 1st, 2nd line and project support for production and development Oracle environments, reviewing logical and physical database design, providing in-depth guidance to application teams on the use of architectures, maintaining documentation on the physical architectures being developed and deployed Globally. Applicants will ideally come from a background supporting large, distributed Server infrastructures, with experience of Production Database Support functions, hands-on experience with all current Oracle technologies.</text:p>
+      <text:p>Skills required: Extensive Oracle skills ideally including RAC, Streams, AQ and ASM Production support between Oracle 9i and 10G Strong platform skills Performance &amp; tuning Scripting and networking (TCP/IP, DNS) experience. For further information please contact Gurdev Landa at 752 Solutions on 02074444178 or send me your CV for immediate consideration.</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
       <text:p>City Of London</text:p>
@@ -1095,7 +1102,7 @@
       <text:p>9-20 Recruitment (Employment Business)</text:p>
      </table:table-cell>
     </table:table-row>
-    <table:table-row table:style-name="ro15">
+    <table:table-row table:style-name="ro7">
      <table:table-cell office:value-type="string">
       <text:p>Contract</text:p>
      </table:table-cell>
@@ -1103,7 +1110,9 @@
       <text:p>Finance Analyst</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
-      <text:p>A J Accountants is currently recruiting for a Finance Analyst to join our well established team based in Crystal Palace, London. Key responsibilities: Produce accurate and timely financial information Undertake systematic analysis when problem solving and analysing information Able to identify the business implications in complex financial information new business acquisition Growing your existing portfolio by cross-selling and increasing remuneration Protecting existing income from portfolio by ensuring customer needs continue to be met Preparing and submitting Accounts and Self assessment Tax Returns to clients Benchmarking against high standards of professional service Analysing financial information to create potential new business and updating with new legislation. Requirements: the successful candidate will be degree educated in accountancy/finance subject and some experience in the financial sector is required. Personal qualities: good negotiator; excellent presentation and communication skills; advanced IT skills and data analysis (SQL or any database languages) Salary: £27k per annum Closing date for this position is 2 May 2008. Interested candidates please forward their CV&apos;s to (see below)</text:p>
+      <text:p>A J Accountants is currently recruiting for a Finance Analyst to join our well established team based in Crystal Palace, London.</text:p>
+      <text:p>Key responsibilities: Produce accurate and timely financial information Undertake systematic analysis when problem solving and analysing information Able to identify the business implications in complex financial information new business acquisition Growing your existing portfolio by cross-selling and increasing remuneration Protecting existing income from portfolio by ensuring customer needs continue to be met Preparing and submitting Accounts and Self assessment Tax Returns to clients Benchmarking against high standards of professional service Analysing financial information to create potential new business and updating with new legislation.</text:p>
+      <text:p>Requirements: the successful candidate will be degree educated in accountancy/finance subject and some experience in the financial sector is required. Personal qualities: good negotiator; excellent presentation and communication skills; advanced IT skills and data analysis (SQL or any database languages) Salary: £27k per annum Closing date for this position is 2 May 2008. Interested candidates please forward their CV&apos;s to (see below)</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
       <text:p>London</text:p>
@@ -1139,7 +1148,7 @@
       <text:p>Aardvark Europe Limited (Employment Business)</text:p>
      </table:table-cell>
     </table:table-row>
-    <table:table-row table:style-name="ro13">
+    <table:table-row table:style-name="ro12">
      <table:table-cell office:value-type="string">
       <text:p>Contract</text:p>
      </table:table-cell>
@@ -1147,7 +1156,8 @@
       <text:p>SAP LE/WM/QM Consultant - Belgium</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
-      <text:p>SAP LE/WM/QM Consultant - Belgium. An exciting opportunity has arisen for a strong SAP consultant with sufficient practical experience in the LE/WM and QM area ideally minimum of 3 years. As pure WM and QM only covers about 30% of the area which this vacancy covers, additional experience in the PP and MM area&apos;s is a definite plus. Frequently occuring subjects are: - Decentralized WM - Handling units - WM User Exits - ALE/i-docs for interfacing with non-SAP systems like Navision and MES - Kanban replenishment. The role mainly focusses (for about 60%) on handling Change Requests, which range from relatively small developments/customizing tasks that take from half a day to a week implement, but also covers larger change requests and assistance in projects that span several months. Dutch language is preferred. English mandatory. Please send your CV ASAP for immediate and confidential interviews.</text:p>
+      <text:p>SAP LE/WM/QM Consultant - Belgium. An exciting opportunity has arisen for a strong SAP consultant with sufficient practical experience in the LE/WM and QM area ideally minimum of 3 years. As pure WM and QM only covers about 30% of the area which this vacancy covers, additional experience in the PP and MM area&apos;s is a definite plus. Frequently occuring subjects are: - Decentralized WM - Handling units - WM User Exits - ALE/i-docs for interfacing with non-SAP systems like Navision and MES - Kanban replenishment. The role mainly focusses (for about 60%) on handling Change Requests, which range from relatively small developments/customizing tasks that take from half a day to a week implement, but also covers larger change requests and assistance in projects that span several months. Dutch language is preferred. English mandatory. </text:p>
+      <text:p>Please send your CV ASAP for immediate and confidential interviews.</text:p>
      </table:table-cell>
      <table:table-cell office:value-type="string">
       <text:p>Belgium</text:p>
@@ -1185,7 +1195,7 @@
       <text:p>Aardvark Europe Limited (Employment Business)</text:p>
      </table:table-cell>
     </table:table-row>
-    <table:table-row table:style-name="ro12">
+    <table:table-row table:style-name="ro5">
      <table:table-cell office:value-type="string">
       <text:p>Permanent</text:p>
      </table:table-cell>

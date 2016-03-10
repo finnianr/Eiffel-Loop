@@ -1,0 +1,135 @@
+From - Thu Nov 21 15:48:20 2013
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+FCC: mailbox://finnian@pop.myching.co/Sent
+X-Identity-Key: id4
+X-Account-Key: account6
+Message-ID: <528E2B44.4040604@myching.co>
+Date: Thu, 21 Nov 2013 15:48:20 +0000
+From: Finnian Reilly <finnian@myching.co>
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+Subject: Home
+Content-Type: text/html; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-15"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFCC" text="#000000">
+    <p>Try out My Ching now.</p>
+  </body>
+</html>
+From - Wed Jun 04 13:55:29 2014
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+FCC: mailbox://finnian@pop.myching.co/Sent
+X-Identity-Key: id4
+X-Account-Key: account6
+Message-ID: <528E0E25.5020108@myching.co>
+Date: Wed, 04 Jun 2014 13:55:29 +0100
+From: Finnian Reilly <finnian@myching.co>
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+Subject: Search Engine
+Content-Type: text/html; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-15"
+      http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFCC">
+    <p>Search quickly through thousands of entries<br>
+    </p>
+    <a
+      href="http://localhost/en/screenshots/search-engine-screenshot.html"><img
+        alt="Search Engine Screenshot" title="Click to see full size
+        screenshot"
+        src="http://localhost/images/screenshot/en/search-engine.white.png"
+        moz-do-not-send="true" height="944" width="1017" border="0"></a><br>
+  </body>
+</html>
+From - Wed Jul 16 17:47:20 2014
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+FCC: mailbox://finnian@pop.myching.co/Sent
+X-Identity-Key: id4
+X-Account-Key: account6
+Message-ID: <53C516BF.3000105@myching.co>
+Date: Wed, 16 Jul 2014 17:48:20 +0100
+From: Finnian Reilly <finnian@myching.co>
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+Subject: 5.Data Privacy
+Content-Type: text/html; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-15">
+  </head>
+  <body text="#000000" bgcolor="#FFFFCC">
+    <h2>Data Privacy</h2>
+    <p><i>My Ching</i> allows you to protect the privacy of selected
+      journals using a pass-phrase with strong encryption. You can make
+      a journal private either at the time of creation or at later
+      stage. To read a private journal you have to supply a pass-phrase
+      each time you open it.<br>
+    </p>
+    <h3>Lock Symbol</h3>
+    <p>Occasionally you might have protected and unprotected entries
+      open at the same time in different tabs. A small lock symbol is
+      displayed on the right in line with the tab headings to indicate
+      those that are protected.<br>
+    </p>
+    <a target="_blank"
+      href="http://localhost/en/screenshots/private-journal-entry.html"><img
+        alt="Screenshot of My Ching, the I Ching journal software"
+        title="Click to see fullsize screenshot"
+src="http://localhost/images/screenshot/en/thumbnail/private-journal.png"
+        moz-do-not-send="true" height="911" width="1012" border="0"></a><br>
+    <p> </p>
+    <h2>Encryption Details<br>
+    </h2>
+    <p>Private Journals are well protected with 128 bit <a target="_blank"
+        title="From Wikipedia: Advanced Encryption Standard" 
+        href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES encryption</a> and properly
+	<a target="_blank" title="From Wikipedia: Salt(cryptography)" href="http://en.wikipedia.org/wiki/Salt_%28cryptography%29">salted</a>*
+      passwords. Each journal entry is encrypted in a chain block,
+      meaning you cannot decrypt a particular journal entry unless you
+      have first decrypted the one before it, right back to the very
+      first entry. This is extra protection against brute force security
+      attacks.<br>
+    </p>
+    <p>The <a title="Source code repository" target="_blank"
+href="https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/binary-db">source
+
+
+
+
+
+
+
+
+        code</a> for the database has been published on github as open
+      source so it can be checked by security experts.</p>
+    <h2>Footnotes</h2>
+    <h3>* Password salt</h3>
+    <p>In cryptography a password salt is a string of random letters and
+      numbers mixed with the password before producing the password
+      verification string (of characters). It guards against hackers
+      using password guessing strategies.<br>
+    </p>
+  </body>
+</html>

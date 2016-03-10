@@ -2,12 +2,12 @@ note
 	description: "Summary description for {ENCRYPTABLE_FILED_WORD_TOKEN_TABLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 14:56:44 GMT (Tuesday 18th June 2013)"
-	revision: "3"
+	date: "2014-09-30 18:36:05 GMT (Tuesday 30th September 2014)"
+	revision: "5"
 
 class
 	EL_ENCRYPTABLE_STORED_WORD_TOKEN_TABLE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_STORED_WORD_TOKEN_TABLE
 		redefine
-			make_empty, open_word_file, Type_text_file
+			make_empty, new_word_file, open_write
 		end
 
 	EL_ENCRYPTABLE
@@ -24,16 +24,30 @@ inherit
 		end
 
 create
-	make_empty, make_from_file_and_encryption_key
+	make_empty, make_from_encrypted_file
 
 feature {NONE} -- Initialization
 
-	make_from_file_and_encryption_key (a_file_path: EL_FILE_PATH; key_data: ARRAY [NATURAL_8])
+	make_empty
 		do
-			log.enter ("make_from_file_and_encryption_key")
+			Precursor
+			if not attached encrypter then
+				make_default_encryptable
+			end
+		end
+
+	make_from_encrypted_file (a_file_path: EL_FILE_PATH; key_data: SPECIAL [NATURAL_8])
+		do
 			create encrypter.make_from_key (key_data)
 			make_from_file (a_file_path)
+		end
 
+feature -- Status setting
+
+	open_write
+		do
+			log.enter ("open_write")
+			Precursor
 			if log.current_routine_is_active and then not words.is_empty then
 				from words.go_i_th (words.count - 5) until words.after loop
 					log.put_string_field (words.index.out, words.item); log.put_new_line
@@ -43,25 +57,13 @@ feature {NONE} -- Initialization
 			log.exit
 		end
 
-	make_empty
-		do
-			Precursor
-			create encrypter
-		end
-
 feature {NONE} -- Implementation
 
-	open_word_file (a_file_path: EL_FILE_PATH; a_mode: INTEGER): like Type_text_file
+	new_word_file (a_file_path: EL_FILE_PATH): EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
 		do
-			Result := Precursor (a_file_path, a_mode)
+			create Result.make_with_name (a_file_path)
 			Result.set_encrypter (encrypter)
-			Result.set_encrypter_synchronization
-		end
-
-feature {NONE} -- Type definitions
-
-	Type_text_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
-		do
+			Result.prepare_for_append
 		end
 
 end

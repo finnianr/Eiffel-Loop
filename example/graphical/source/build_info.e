@@ -11,20 +11,15 @@ class
 inherit
 	EL_BUILD_INFO
 
-create
-	make
-
 feature -- Constants
 
-	Major_version: INTEGER = 1
+	Version_number: NATURAL = 01_00_00
 
-	Minor_version: INTEGER = 0
-
-	Build_number: INTEGER = 8
+	Build_number: NATURAL = 15
 
 	Installation_sub_directory: EL_DIR_PATH
 		once
-			Result := "Eiffel-Loop/graphical"
+			create Result.make_from_unicode ("Eiffel-Loop/graphical")
 		end
 
 end

@@ -18,6 +18,7 @@
 		<date>730486</date>
 		<media-type>audio/mpeg</media-type>
 		<mb-artistsortname>Tiersen, Yann</mb-artistsortname>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Le Quattro Stagioni &#xB4;L&#xB4;Estate`- I.Allegro non molto</title>
@@ -34,6 +35,7 @@
 		<bitrate>256</bitrate>
 		<date>723546</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>The Hangmans Reel</title>
@@ -51,6 +53,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Spatter the Dew</title>
@@ -69,6 +72,7 @@
 		<bitrate>50</bitrate>
 		<date>726833</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Tres Esquinas &#x2122;</title>
@@ -77,13 +81,14 @@
 		<album>Most Common Tangos For Dancing</album>
 		<duration>186</duration>
 		<file-size>14336</file-size>
-		<location>file://$WORKAREA/Music/Recent/%E2%82%AC%C3%81ngel%20D'agostino/%C3%81ngel%20D'agostino%20--%20Tres%20Esquinas.v02.mp3</location>
+		<location>file://$WORKAREA/Music/Recent/%E2%82%AC%C3%81ngel%20D'agostino/%C3%81ngel%20D'agostino%20--%20Tres%20Esquinas.02.mp3</location>
 		<mtime>1381244636</mtime>
 		<first-seen>1254415789</first-seen>
 		<last-seen>1381244876</last-seen>
 		<bitrate>50</bitrate>
 		<date>708571</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Recuerdo</title>
@@ -102,6 +107,7 @@
 		<bitrate>50</bitrate>
 		<date>732677</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Una l&#xE1;grima tuya</title>
@@ -118,6 +124,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Garras</title>
@@ -134,6 +141,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Sin Palabras</title>
@@ -150,6 +158,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>La Casita Est&#xE1; Triste</title>
@@ -168,6 +177,7 @@
 		<bitrate>50</bitrate>
 		<date>733408</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>No te Quiero M&#xE1;s</title>
@@ -185,6 +195,7 @@
 		<bitrate>138</bitrate>
 		<date>733408</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Suerte Loca</title>
@@ -193,7 +204,7 @@
 		<album>Most Common Tangos For Dancing</album>
 		<duration>161</duration>
 		<file-size>14336</file-size>
-		<location>file://$WORKAREA/Music/Enrique%20Rodr%C3%ADguez/Enrique%20Rodr%C3%ADguez%20--%20Suerte%20Loca.v01.mp3</location>
+		<location>file://$WORKAREA/Music/Enrique%20Rodr%C3%ADguez/Enrique%20Rodr%C3%ADguez%20--%20Suerte%20Loca.01.mp3</location>
 		<mtime>1384173013</mtime>
 		<first-seen>1254415797</first-seen>
 		<last-seen>1381244876</last-seen>
@@ -202,6 +213,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Tango Mio</title>
@@ -220,6 +232,7 @@
 		<bitrate>50</bitrate>
 		<date>731216</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Besos Brujos</title>
@@ -236,6 +249,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Mar De Fondo</title>
@@ -254,6 +268,7 @@
 		<bitrate>50</bitrate>
 		<date>733042</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Has Muerto Para Mi</title>
@@ -272,6 +287,7 @@
 		<bitrate>50</bitrate>
 		<date>733042</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>La pulpera de Santa Luc&#xED;a - (1924)</title>
@@ -288,6 +304,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>La Naranja Naci&#xF3; Verde</title>
@@ -306,6 +323,7 @@
 		<bitrate>50</bitrate>
 		<date>729025</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>El Temblor</title>
@@ -324,86 +342,92 @@
 		<bitrate>50</bitrate>
 		<date>731947</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
-		<title>--- Tanda 02: TANGO ---</title>
+		<title>A. TANGO tanda _______________</title>
 		<genre>Cortina</genre>
 		<artist>Enya</artist>
 		<album>Youtube</album>
 		<track-number>2</track-number>
 		<duration>20</duration>
 		<file-size>14336</file-size>
-		<location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2002:%20TANGO%20---.01.mp3</location>
+		<location>file://$WORKAREA/Music/Cortina/Enya/A.%20TANGO%20tanda%20_______________.mp3</location>
 		<mtime>1381244640</mtime>
 		<first-seen>1358180890</first-seen>
 		<last-seen>1381244876</last-seen>
 		<bitrate>50</bitrate>
 		<date>1</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
-		<title>--- Tanda 03: TANGO ---</title>
+		<title>B. TANGO tanda _______________</title>
 		<genre>Cortina</genre>
 		<artist>Enya</artist>
 		<album>Youtube</album>
 		<track-number>3</track-number>
 		<duration>20</duration>
 		<file-size>14336</file-size>
-		<location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2003:%20TANGO%20---.01.mp3</location>
+		<location>file://$WORKAREA/Music/Cortina/Enya/B.%20TANGO%20tanda%20_______________.mp3</location>
 		<mtime>1381244640</mtime>
 		<first-seen>1358180890</first-seen>
 		<last-seen>1381244876</last-seen>
 		<bitrate>50</bitrate>
 		<date>1</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
-		<title>--- Tanda 04: VALS ---</title>
+		<title>A. VALS tanda ________________</title>
 		<genre>Cortina</genre>
 		<artist>Enya</artist>
 		<album>Youtube</album>
 		<track-number>4</track-number>
 		<duration>20</duration>
 		<file-size>14336</file-size>
-		<location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2004:%20VALS%20---.01.mp3</location>
+		<location>file://$WORKAREA/Music/Cortina/Enya/A.%20VALS%20tanda%20________________.mp3</location>
 		<mtime>1381244640</mtime>
 		<first-seen>1358180890</first-seen>
 		<last-seen>1381244876</last-seen>
 		<bitrate>50</bitrate>
 		<date>1</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
-		<title>--- Tanda 01: MILONGA ---</title>
+		<title>A. MILONGA tanda _____________</title>
 		<genre>Cortina</genre>
 		<artist>Enya</artist>
 		<album>Youtube</album>
 		<track-number>1</track-number>
 		<duration>20</duration>
 		<file-size>14336</file-size>
-		<location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2001:%20MILONGA%20---.01.mp3</location>
+		<location>file://$WORKAREA/Music/Cortina/Enya/A.%20MILONGA%20tanda%20_____________.mp3</location>
 		<mtime>1381244640</mtime>
 		<first-seen>1358180890</first-seen>
 		<last-seen>1381244876</last-seen>
 		<bitrate>50</bitrate>
 		<date>1</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
-		<title>--- THE END ---</title>
+		<title>THE END</title>
 		<genre>Cortina</genre>
 		<artist>Enya</artist>
 		<album>Youtube</album>
 		<track-number>25</track-number>
 		<duration>20</duration>
 		<file-size>14336</file-size>
-		<location>file://$WORKAREA/Music/Cortina/Enya/---%20THE%20END%20---.01.mp3</location>
+		<location>file://$WORKAREA/Music/Cortina/Enya/THE%20END.mp3</location>
 		<mtime>1381244640</mtime>
 		<first-seen>1358180891</first-seen>
 		<last-seen>1381244876</last-seen>
 		<bitrate>50</bitrate>
 		<date>1</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Wake up</title>
@@ -420,6 +444,7 @@
 		<bitrate>50</bitrate>
 		<date>729755</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Coraz&#xF2;n de Oro</title>
@@ -431,13 +456,14 @@
 		<track-number>19</track-number>
 		<duration>188</duration>
 		<file-size>14336</file-size>
-		<location>file://$WORKAREA/Music/Recent/Francisco%20Canaro/Francisco%20Canaro%20--%20Coraz%C3%B2n%20de%20Oro.v01.mp3</location>
+		<location>file://$WORKAREA/Music/Recent/Francisco%20Canaro/Francisco%20Canaro%20--%20Coraz%C3%B2n%20de%20Oro.02.mp3</location>
 		<mtime>1381244640</mtime>
 		<first-seen>1254415807</first-seen>
 		<last-seen>1381244876</last-seen>
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Coraz&#xF2;n de Oro</title>
@@ -448,7 +474,7 @@
 		<album-artist>Singer: Ada Falc&#xF3;n</album-artist>
 		<duration>188</duration>
 		<file-size>14336</file-size>
-		<location>file://$WORKAREA/Music/Recent/Francisco%20Canaro/Francisco%20Canaro%20--%20Corazon%20de%20Oro.v01.mp3</location>
+		<location>file://$WORKAREA/Music/Recent/Francisco%20Canaro/Francisco%20Canaro%20--%20Corazon%20de%20Oro.01.mp3</location>
 		<mtime>1381244640</mtime>
 		<first-seen>1254415807</first-seen>
 		<last-seen>1381244876</last-seen>
@@ -457,6 +483,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Rosas de Oto&#xF1;o</title>
@@ -472,6 +499,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Con tu Mirar</title>
@@ -488,6 +516,7 @@
 		<bitrate>50</bitrate>
 		<date>733408</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Lo Que Vieron Tus Ojos</title>
@@ -507,6 +536,7 @@
 		<date>733042</date>
 		<media-type>audio/mpeg</media-type>
 		<beats-per-minute>3</beats-per-minute>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Caser&#xF3;n de tejas</title>
@@ -523,6 +553,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Tu Olvido</title>
@@ -543,6 +574,7 @@
 		<bitrate>212</bitrate>
 		<date>731216</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Florcita Criolla</title>
@@ -563,6 +595,7 @@
 		<bitrate>50</bitrate>
 		<date>704918</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Partita No. 1 in B-flat: I</title>
@@ -579,6 +612,7 @@
 		<bitrate>50</bitrate>
 		<date>733773</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Disamistade</title>
@@ -597,6 +631,7 @@
 		<bitrate>50</bitrate>
 		<date>728659</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>(India-USA) Kronos Quartet &amp; Asha Bhosle - Ekta Deshlai Kathi Jwalao (Light a Match)</title>
@@ -612,6 +647,7 @@
 		<bitrate>256</bitrate>
 		<date>732312</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Unknown (Beautiful Lilting Song)</title>
@@ -630,6 +666,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>(Armenia) Armenian Navy Band - Let The Factories Open</title>
@@ -646,6 +683,7 @@
 		<bitrate>50</bitrate>
 		<date>732312</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Carribean Blue</title>
@@ -663,6 +701,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Silence 1 second</title>
@@ -680,6 +719,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Silence 2 seconds</title>
@@ -697,6 +737,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
 		<title>Silence 3 seconds</title>
@@ -714,6 +755,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<composer>Unknown</composer>
 	</entry>
 	<entry type="iradio">
 		<title>Virgin Xtreme (Modem)</title>
@@ -753,4 +795,3 @@
 		<media-type>application/octet-stream</media-type>
 	</entry>
 </rhythmdb>
-		# Build: Thu Nov  7 19:21:12 GMT 2013

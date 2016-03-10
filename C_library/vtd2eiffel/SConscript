@@ -17,7 +17,8 @@ if platform.system () == "Windows":
 	]
 else:
 	compiler_flags = [
-		'-g', '-c', '-O3', '-w', '-fomit-frame-pointer', '-D_GNU_SOURCE',
+		'-c', '-w', '-O3', '-Wno-write-strings',
+		'-fomit-frame-pointer', '-D_GNU_SOURCE',
 		'-fforce-addr', '-frerun-cse-after-loop', '-fexpensive-optimizations', '-fregmove', '-frerun-loop-opt',
 		'-fmerge-all-constants', '-fno-branch-count-reg', '-funroll-loops', '-fpeephole',
 		'-DEIF_THREADS', '-DEIF_LINUXTHREADS', '-DISE_GC'

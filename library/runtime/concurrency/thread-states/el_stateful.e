@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2012-12-16 11:34:30 GMT (Sunday 16th December 2012)"
 	revision: "1"
@@ -14,7 +14,7 @@ class
 
 feature -- Initialization
 
-	make
+	make_default
 			--
 		do
 			create actual_state
@@ -38,6 +38,6 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	actual_state: EL_SYNCHRONIZED_NUMERIC [INTEGER]
+	actual_state: EL_MUTEX_NUMERIC [INTEGER]
 
 end

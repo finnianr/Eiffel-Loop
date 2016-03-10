@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_ENCRYPTABLE_PLAIN_TEXT_FILE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-03-22 19:28:08 GMT (Friday 22nd March 2013)"
-	revision: "3"
+	date: "2014-09-29 11:03:20 GMT (Monday 29th September 2014)"
+	revision: "4"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -34,7 +34,7 @@ feature -- Initialization
 			-- Create file object with `fn' as file name.
 		do
 			Precursor {EL_NOTIFYING_PLAIN_TEXT_FILE} (fn)
-			create encrypter
+			make_default_encryptable
 		end
 
 feature -- Access
@@ -48,7 +48,7 @@ feature -- Element change
 
 	put_string (s: STRING)
 		do
-			Precursor {EL_NOTIFYING_PLAIN_TEXT_FILE} (encrypter.base64_encrypted (s))
+			Precursor (encrypter.base64_encrypted (s))
 		end
 
 	set_line_start (a_line_start: like line_start)
@@ -58,57 +58,54 @@ feature -- Element change
 
 feature -- Status report
 
-	is_encrypter_synchronized: BOOLEAN
-		-- True if encryption chain is synchronized for appending to file
+	is_prepared_for_append: BOOLEAN
+		-- True if encryption chain state is prepared during reads for later appending
 
 feature -- Status setting
 
-	set_encrypter_synchronization
+	prepare_for_append
 		do
-			is_encrypter_synchronized := True
+			is_prepared_for_append := True
 		end
 
 	open_append
 		require else
-			encrypter_synchronized: is_encrypter_synchronized
+			prepared_for_append: is_prepared_for_append
 		do
-			precursor {EL_NOTIFYING_PLAIN_TEXT_FILE}
+			Precursor
 		end
 
 	open_write
 		do
 			encrypter.reset
-			precursor {EL_NOTIFYING_PLAIN_TEXT_FILE}
+			precursor
 		end
 
 	open_read
 		do
+			encrypter.reset
 			line_index := 0
-			Precursor {EL_NOTIFYING_PLAIN_TEXT_FILE}
+			Precursor
 		end
 
 feature -- Input
 
 	read_line
 		do
-			Precursor {EL_NOTIFYING_PLAIN_TEXT_FILE}
+			Precursor
 			line_index := line_index + 1
 			if line_index >= line_start and then not last_string.is_empty then
 				last_string := encrypter.decrypted_base64 (last_string)
-				if is_encrypter_synchronized then
-					synchronize_encryption_chain
+				if is_prepared_for_append then
+					call (encrypter.base64_encrypted (last_string))
 				end
 			end
 		end
 
-feature {NONE} -- Initialization
+feature {NONE} -- Implementation
 
-	synchronize_encryption_chain
-			-- Synchronize encryption chain for appending to file
-		local
-			base_64: STRING
+	call (object: ANY)
 		do
-			base_64 := encrypter.base64_encrypted (last_string)
 		end
 
 end

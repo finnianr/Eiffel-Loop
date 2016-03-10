@@ -6,31 +6,28 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-09 14:03:39 GMT (Monday 9th December 2013)"
-	revision: "4"
+	date: "2014-09-28 19:14:33 GMT (Sunday 28th September 2014)"
+	revision: "6"
 
 class
 	TEST_APP
 
 inherit
 	TEST_APPLICATION
-		redefine
-			Option_name
-		end
 
 	EL_MODULE_STRING
 
-	EL_MODULE_TYPING
+	EL_MODULE_EIFFEL
 
 create
 	make
 
 feature -- Basic operations
 
-	run
+	test_run
 		do
 			log.enter ("run")
-			run_9
+			run_1
 			log.exit
 		end
 
@@ -38,6 +35,24 @@ feature -- Basic operations
 		do
 			log.put_string (String.hexadecimal_to_natural_64 ("0x00000982").out)
 			log.put_new_line
+		end
+
+	run_10
+		local
+			table: HASH_TABLE [INTEGER, STRING_32]
+		do
+			create table.make_equal (23)
+
+			table.put (table.count + 1,"A")
+			table.put (table.count + 1,"A")
+			table.put (table.count + 1,"B")
+
+		end
+
+	run_11
+		do
+			Execution_environment.put ("sausage", "SSL_PW")
+			Execution_environment.system ("echo Password: $SSL_PW")
 		end
 
 	run_2
@@ -121,9 +136,23 @@ feature -- Basic operations
 
 feature -- Tests
 
-	hello_routine (a_arg: STRING)
+	boyer_moore_search (file_path: EL_FILE_PATH)
+			--
+		local
+			search_string, text: EL_TOKENIZED_STRING
 		do
-			log.enter_with_args ("hello_routine", << a_arg >>)
+			log.enter_with_args ("boyer_moore_search", << file_path >>)
+			search ("ionization", "ion ionization ionization")
+			search ("<audio", File_system.plain_text (file_path))
+--			(<< 1 >>).do_all (agent )
+			-- design print
+--			create search_string.make_from_array (<< 529, 1107 >>)
+
+			-- print designer
+--			create search_string.make_from_array (<< 1107, 422 >>)
+
+--			create text.make_from_array (<< 270, 2644, 529, 1107, 422, 2645, 2646, 69, 2647, 150, 2645, 492 >>)
+--			search (search_string, text)
 			log.exit
 		end
 
@@ -136,7 +165,7 @@ feature -- Tests
 			log.enter ("directory_creation")
 			opt_path_steps := "/opt/program-creation-test"
 			if opt_path_steps.is_createable_dir then
-				File_system.make_directory_from_steps (opt_path_steps)
+				File_system.make_directory (opt_path_steps)
 				log.put_string_field ("Path", opt_path_steps.as_directory_path.to_string)
 				log.put_string (" created")
 				log.put_new_line
@@ -175,6 +204,12 @@ feature -- Tests
 			log.exit
 		end
 
+	hello_routine (a_arg: STRING)
+		do
+			log.enter_with_args ("hello_routine", << a_arg >>)
+			log.exit
+		end
+
 	string_occurrence_intervals (file_path: EL_FILE_PATH)
 			--
 		local
@@ -199,8 +234,7 @@ feature -- Tests
 
 			log.put_line ("-----------------------")
 			String.delimited_list (text, "<audio ").do_all (
-				agent (item: EL_ASTRING)
-						--
+				agent (item: ASTRING)
 					do
 						log.put_line (item)
 						log.put_line ("-----------------------")
@@ -211,7 +245,7 @@ feature -- Tests
 			text := ", one, two, three, "
 			log.put_line (text)
 			String.delimited_list (text, ", ").do_all (
-				agent (item: EL_ASTRING)
+				agent (item: ASTRING)
 						--
 					do
 						log.put_string_field ("Item", item)
@@ -222,27 +256,27 @@ feature -- Tests
 			log.exit
 		end
 
-	boyer_moore_search (file_path: EL_FILE_PATH)
-			--
+feature {NONE} -- Implementation
+
+	directory_list: EL_DIRECTORY_PATH_LIST
+
+	has_repeated_hexadecimal_digit (n: NATURAL_64): BOOLEAN
 		local
-			search_string, text: EL_TOKENIZED_STRING
+			first, hex_digit: NATURAL_64
+			i: INTEGER
 		do
-			log.enter_with_args ("boyer_moore_search", << file_path >>)
-			search ("ionization", "ion ionization ionization")
-			search ("<audio", File_system.plain_text (file_path))
---			(<< 1 >>).do_all (agent )
-			-- design print
---			create search_string.make_from_array (<< 529, 1107 >>)
-
-			-- print designer
---			create search_string.make_from_array (<< 1107, 422 >>)
-
---			create text.make_from_array (<< 270, 2644, 529, 1107, 422, 2645, 2646, 69, 2647, 150, 2645, 492 >>)
---			search (search_string, text)
-			log.exit
+			first := n & 0xF
+			hex_digit := first
+			from i := 1 until hex_digit /= first or i > 15 loop
+				hex_digit := n.bit_shift_right (i * 4) & 0xF
+				i := i + 1
+			end
+			Result := i = 16 and then hex_digit = first
 		end
 
-feature {NONE} -- Implementation
+	s: UC_STRING
+
+--	latin1_directory_path_list: EL_LATIN1_DIRECTORY_PATH_LIST
 
 	search (search_string, text: STRING_32)
 			--
@@ -265,27 +299,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	has_repeated_hexadecimal_digit (n: NATURAL_64): BOOLEAN
-		local
-			first, hex_digit: NATURAL_64
-			i: INTEGER
-		do
-			first := n & 0xF
-			hex_digit := first
-			from i := 1 until hex_digit /= first or i > 15 loop
-				hex_digit := n.bit_shift_right (i * 4) & 0xF
-				i := i + 1
-			end
-			Result := i = 16 and then hex_digit = first
-		end
-
-	directory_list: EL_DIRECTORY_PATH_LIST
-
---	latin1_directory_path_list: EL_LATIN1_DIRECTORY_PATH_LIST
-
 feature {NONE} -- Constants
-
-	Option_name: STRING = "test"
 
 	Description: STRING = "Auto test class"
 
@@ -293,10 +307,12 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{TEST_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"],
-				[{EL_FIND_FILES_COMMAND}, "*"],
-				[{EL_BOYER_MOORE_SEARCHER_32}, "*"]
+				[{TEST_APP}, All_routines],
+				[{EL_TEST_ROUTINES}, All_routines],
+				[{EL_FIND_FILES_COMMAND}, All_routines],
+				[{EL_BOYER_MOORE_SEARCHER_32}, All_routines]
 			>>
 		end
+	Option_name: STRING = "test"
+
 end

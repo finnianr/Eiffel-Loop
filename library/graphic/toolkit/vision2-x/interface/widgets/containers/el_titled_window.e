@@ -2,23 +2,27 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-03 11:48:44 GMT (Monday 3rd June 2013)"
-	revision: "2"
+	date: "2014-09-17 16:39:50 GMT (Wednesday 17th September 2014)"
+	revision: "3"
 
 class
 	EL_TITLED_WINDOW
 
 inherit
 	EV_TITLED_WINDOW
+		rename
+			set_position as set_absolute_position,
+			set_x_position as set_absolute_x_position,
+			set_y_position as set_absolute_y_position
 		redefine
 			implementation, create_implementation
 		end
 
-	EL_WINDOW_POSITIONING
+	EL_WINDOW
 		undefine
 			copy, default_create
 		end
@@ -82,6 +86,13 @@ feature -- Basic operations
 			dialog.show_modal_to_window (Current)
 		end
 
+feature -- Status query
+
+	has_wide_theme_border: BOOLEAN
+		do
+			Result := implementation.has_wide_theme_border
+		end
+
 feature {EL_VISION2_USER_INTERFACE} -- Event handlers
 
 	on_close_request
@@ -117,20 +128,8 @@ feature {NONE} -- Implementation
 		local
 			active_count: INTEGER
 		do
-			Thread_manager.threads.lock
---			synchronized
-				across Thread_manager.threads.item as thread loop
-					if thread.item.is_active then
-						log_or_io.put_string ("Thread {")
-						log_or_io.put_string (thread.item.generator)
-						log_or_io.put_line ("} still active")
-						active_count := active_count + 1
-					end
-				end
---			end
-			Thread_manager.threads.unlock
-
-			set_title ("SHUTTING DOWN (Active threads: " + active_count.out + ")")
+			Thread_manager.list_active
+			set_title (Active_thread_title_template #$ [Thread_manager.active_count])
 			if active_count = 0 then
 				thread_check_timer.set_interval (0)
 				close_application
@@ -156,5 +155,10 @@ feature {NONE} -- Constants
 
 	Thread_status_update_interval_ms: INTEGER = 200
 		-- Interval between checking that all threads are stopped
+
+	Active_thread_title_template: ASTRING
+		once
+			Result := "SHUTTING DOWN (Active threads: $S)"
+		end
 
 end

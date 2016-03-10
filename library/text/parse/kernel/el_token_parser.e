@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 10:56:03 GMT (Sunday 28th July 2013)"
-	revision: "4"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "6"
 
 deferred class
 	EL_TOKEN_PARSER  [L -> EL_FILE_LEXER create make end]
@@ -17,12 +17,12 @@ inherit
 		rename
 			source_text as tokens_text
 		redefine
-			make, set_source_text
+			make_default, set_source_text
 		end
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
 		do
 			Precursor
@@ -49,7 +49,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	source_text_for_token (i: INTEGER; matched_tokens: EL_STRING_VIEW): EL_ASTRING
+	source_text_for_token (i: INTEGER; matched_tokens: EL_STRING_VIEW): ASTRING
 			-- source text corresponding to i'th token in matched_tokens
 		require
 			valid_index: i >= 1 and i <= matched_tokens.count

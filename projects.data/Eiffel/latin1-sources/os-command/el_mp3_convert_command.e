@@ -37,7 +37,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_source_path, a_destination_path: like input_file_path) is
+	make (output_file_path:@; input_file_path:@)
 			--
 		do
 			Precursor (a_source_path, a_destination_path)
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 
 feature -- Not element change
 
-	set_num_channels (a_num_channels: like num_channels) is
+	set_num_channels (a_num_channels: like num_channels)
 			-- Set `num_channels' to `a_mode'.
 		require
 			valid_num_channels: (1 |..| 2).has (a_num_channels)
@@ -55,11 +55,7 @@ feature -- Not element change
 			num_channels := a_num_channels
 		end
 
-	set_bit_rate_per_channel (a_bit_rate_per_channel: INTEGER) is
-			--
-		do
-			bit_rate_per_channel := a_bit_rate_per_channel
-		end
+	@set bit_rate_per_channel
 
 feature -- Access @title : STRING
 
@@ -71,7 +67,7 @@ feature -- Access @title : STRING
 
 	bit_rate_per_channel: INTEGER
 
-	bit_rate: INTEGER is
+	bit_rate: INTEGER
 			--
 		do
 			Result := num_channels * bit_rate_per_channel
@@ -79,32 +75,32 @@ feature -- Access @title : STRING
 
 feature {NONE} -- Constants
 
-	Mode_letters: ARRAY [CHARACTER] is
+	Mode_letters: ARRAY [CHARACTER]
 			-- mono or stereo
 		once
 			Result := << 'm', 's' >>
 		end
 
-	Default_bit_rate_per_channel: INTEGER is 64
+	Default_bit_rate_per_channel: INTEGER = 64
 			-- Kilo bits per sec
 
-	Default_num_channels: INTEGER is 1
+	Default_num_channels: INTEGER = 1
 
 feature {NONE} -- Evolicity reflection
 
-	get_bit_rate: REAL_REF is
+	get_bit_rate: REAL_REF
 			--
 		do
 			Result := bit_rate.to_real.to_reference
 		end
 
-	get_mode: STRING is
+	get_mode: STRING
 			--
 		do
 			Result := Mode_letters.item (num_channels).out
 		end
 
-	Getter_functions: EVOLICITY_GETTER_FUNCTION_TABLE is
+	Getter_functions: EVOLICITY_GETTER_FUNCTION_TABLE
 			--
 		once
 			create Result.make (<<

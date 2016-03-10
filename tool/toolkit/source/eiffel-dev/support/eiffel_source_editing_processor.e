@@ -1,19 +1,28 @@
-note
+﻿note
 	description: "Summary description for {EL_EIFFEL_SOURCE_EDITING_PROCESSOR}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 12:48:06 GMT (Sunday 28th July 2013)"
-	revision: "3"
+	date: "2014-10-06 17:37:02 GMT (Monday 6th October 2014)"
+	revision: "6"
 
 deferred class
 	EIFFEL_SOURCE_EDITING_PROCESSOR
 
 inherit
 	EL_FILE_EDITING_PROCESSOR
+		undefine
+			put_string
+		end
+
+	EL_EIFFEL_TEXT_FILE_EDITOR
+		rename
+			edit_text as edit_file,
+			set_input_file_path as set_convertor_input_file_path
+		end
 
 	EL_EIFFEL_PATTERN_FACTORY
 

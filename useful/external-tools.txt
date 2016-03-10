@@ -1,0 +1,18 @@
+1. Normalize features
+el_toolkit2 -feature_edit -no_highlighting -source "$file_name"
+
+2. Install executable
+cp -v $f_code/el_* ~/bin
+
+3. Nautilus
+launch_nautilus.sh "$(dirname "$(dirname "$project_directory")")"
+
+4. List feature catagories
+cat feature_constants.e
+working dir: /home/finnian/dev/Eiffel/Eiffel-Loop/tool/toolkit/source/eiffel-dev/class-edit/support
+
+5. Edit pecf
+edit_pecf.sh "$(dirname "$(dirname "$project_directory")")"
+
+6. Edit project.py
+edit_project_py.sh "$(dirname "$(dirname "$project_directory")")"

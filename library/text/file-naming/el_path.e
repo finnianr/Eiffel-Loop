@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-22 11:49:14 GMT (Friday 22nd November 2013)"
-	revision: "4"
+	date: "2014-09-19 14:16:38 GMT (Friday 19th September 2014)"
+	revision: "6"
 
 deferred class
 	EL_PATH
@@ -18,19 +18,12 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_DIRECTORY
 		undefine
 			is_equal, default_create, out, copy
 		end
 
 	COMPARABLE
-		undefine
-			is_equal, default_create, out, copy
-		end
-
-	EL_MODULE_STRING
-		export
-			{NONE} all
 		undefine
 			is_equal, default_create, out, copy
 		end
@@ -42,22 +35,24 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
+	EL_PATH_CONSTANTS
+		export
+			{NONE} all
+		undefine
+			is_equal, default_create, out, copy
+		end
+
 feature {NONE} -- Initialization
 
 	default_create
 		do
-			parent_path := Empty_path
-			base := Empty_path
+			parent_path := Empty_path; base := Empty_path
+			escaper := Default_escaper
 		end
 
-	make_from_latin1 (a_path: STRING_8)
+	make_from_unicode, make_from_latin1 (a_unicode_path: READABLE_STRING_GENERAL)
 		do
-			make (a_path)
-		end
-
-	make_from_unicode (a_path: STRING_32)
-		do
-			make (a_path)
+			make (create {ASTRING}.make_from_unicode (a_unicode_path))
 		end
 
 	make_from_path (a_path: PATH)
@@ -65,20 +60,28 @@ feature {NONE} -- Initialization
 			make_from_unicode (a_path.name)
 		end
 
+	make_from_other (other: EL_PATH)
+		do
+			base := other.base.twin
+			parent_path := other.parent_path.twin
+			is_absolute := other.is_absolute
+			escaper := other.escaper
+		end
+
 feature -- Initialization
 
-	make, set_path (a_path: EL_ASTRING)
+	make, set_path (a_path: ASTRING)
 			--
 		local
 			pos_last_separator: INTEGER
-			norm_path: EL_ASTRING
+			norm_path: ASTRING
 		do
 			default_create
 
 			-- Normalize path
-			if {PLATFORM}.is_windows and then not a_path.has (Separator) then
+			if not is_uri and then {PLATFORM}.is_windows and then not a_path.has (Separator) then
 				norm_path := a_path.twin
-				String.subst_all_characters (norm_path, '/', Separator)
+				norm_path.replace_character (Unix_separator, Separator)
 			else
 				norm_path := a_path
 			end
@@ -95,17 +98,23 @@ feature -- Initialization
 			set_parent_path (norm_path.substring (1, pos_last_separator))
 			base := norm_path.substring (pos_last_separator + 1, norm_path.count)
 			is_absolute := is_path_absolute (norm_path)
+		ensure
+			escaper_attached: attached {EL_CHARACTER_ESCAPER} escaper
 		end
 
 feature -- Access
 
-	extension: EL_ASTRING
+	extension: ASTRING
 			--
 		do
-			Result := base.substring (base.last_index_of ('.', base.count) + 1, base.count)
+			if base.has ('.') then
+				Result := base.substring (base.last_index_of ('.', base.count) + 1, base.count)
+			else
+				create Result.make_empty
+			end
 		end
 
-	base: EL_ASTRING
+	base: ASTRING
 
 	steps: EL_PATH_STEPS
 			--
@@ -113,40 +122,43 @@ feature -- Access
 			create Result.make (to_string)
 		end
 
-	parent: EL_DIR_PATH
-		local
-			l_parent: EL_ASTRING
+	parent: like Type_parent
 		do
-			l_parent := parent_path.twin
-			if l_parent.count > 1 then
-				l_parent.prune_all_trailing (Separator)
+			if has_parent then
+				create Result.make_from_other (Current)
+				Result.remove_base
+			else
+				create Result
 			end
-			Result := l_parent
 		end
 
 	hash_code: INTEGER
 			-- Hash code value
-		local
-			i, nb: INTEGER
-			l_area: SPECIAL [CHARACTER_8]
 		do
 			Result := internal_hash_code
 			if Result = 0 then
-				Result := parent_path.hash_code
-				nb := base.count
-				l_area := base.area
-				from i := 0 until i = nb loop
-					Result := ((Result \\ Magic_number) |<< 8) + l_area.item (i).code
-					i := i + 1
-				end
+				Result := combined_hash_code (<< parent_path, base >>)
 				internal_hash_code := Result
 			end
 		end
 
-feature -- Status report
+feature -- Status Query
 
-	out_abbreviated: BOOLEAN
-		-- is the current directory in 'out string' abbreviated to $CWD
+	exists: BOOLEAN
+		deferred
+		end
+
+	has_parent: BOOLEAN
+		local
+			parent_count: INTEGER
+		do
+			parent_count := parent_path.count
+			if is_absolute then
+				Result := not base.is_empty and then parent_count >= 1 and then parent_path [parent_count] = Separator
+			else
+				Result := not parent_path.is_empty and then parent_path [parent_count] = Separator
+			end
+		end
 
 	is_absolute: BOOLEAN
 
@@ -159,14 +171,34 @@ feature -- Status report
 			Result := not is_directory
 		end
 
-	exists: BOOLEAN
-		deferred
+	is_uri: BOOLEAN
+		do
 		end
 
 	is_empty: BOOLEAN
 		do
 			Result := parent_path.is_empty and base.is_empty
 		end
+
+	is_valid_on_ntfs: BOOLEAN
+			-- True if path is valid on Windows NT file system
+		local
+			i: INTEGER; l_characters: like Invalid_ntfs_characters_32
+			uc: CHARACTER_32; found: BOOLEAN
+		do
+			l_characters := Invalid_ntfs_characters_32
+			from i := 1 until found or i > l_characters.count loop
+				uc := l_characters [i]
+				if not ({PLATFORM}.is_unix and uc = '/') then
+					found := base.has (uc) or else parent_path.has (uc)
+				end
+				i := i + 1
+			end
+			Result := not found
+		end
+
+	out_abbreviated: BOOLEAN
+		-- is the current directory in 'out string' abbreviated to $CWD
 
 feature -- Status change
 
@@ -182,7 +214,72 @@ feature -- Status change
 
 feature -- Element change
 
-	set_parent_path (a_parent: EL_ASTRING)
+	append_file_path (a_file_path: EL_FILE_PATH)
+		require
+			current_not_a_file: not is_file
+		do
+			if not a_file_path.is_empty then
+				append (a_file_path)
+			end
+		end
+
+	append_dir_path (a_dir_path: EL_DIR_PATH)
+		do
+			if not a_dir_path.is_empty then
+				append (a_dir_path)
+			end
+		end
+
+	add_extension (a_extension: ASTRING)
+		local
+			l_base: ASTRING
+		do
+			create l_base.make (base.count + a_extension.count + 1)
+			l_base.append (base); l_base.append_character ('.'); l_base.append (a_extension)
+			base := l_base
+		end
+
+	change_to_unix
+		do
+			if {PLATFORM}.is_windows then
+				parent_path.replace_character (Windows_separator, Unix_separator)
+			end
+		end
+
+	change_to_windows
+		do
+			if not {PLATFORM}.is_windows then
+				parent_path.replace_character (Unix_separator, Windows_separator)
+			end
+		end
+
+	expand
+			-- expand an environment variables
+		do
+			if is_potenially_expandable (parent) or else is_potenially_expandable (base) then
+				set_path (steps.expanded_path.to_string)
+			end
+		end
+
+	rename_base (new_name: ASTRING; preserve_extension: BOOLEAN)
+			-- set new base to new_name, preserving extension if preserve_extension is True
+		local
+			l_extension: like extension
+		do
+			l_extension := extension
+			set_base (new_name)
+			if preserve_extension and then l_extension /~ extension then
+				add_extension (l_extension)
+			end
+		end
+
+	replace_extension (a_replacement: ASTRING)
+		do
+			remove_extension
+			add_extension (a_replacement)
+		end
+
+	set_parent_path (a_parent: ASTRING)
 		local
 			l_parent_set: like Parent_set
 		do
@@ -205,45 +302,14 @@ feature -- Element change
 			base := a_base
 		end
 
-	append_file_path (a_file_path: EL_FILE_PATH)
-		require
-			current_not_a_file: not is_file
+	set_escaper (a_escaper: like escaper)
 		do
-			append (a_file_path)
+			escaper := a_escaper
 		end
 
-	append_dir_path (a_dir_path: EL_DIR_PATH)
+	set_default_escaper
 		do
-			append (a_dir_path)
-		end
-
-	add_extension (a_extension: EL_ASTRING)
-		local
-			l_base: EL_ASTRING
-		do
-			create l_base.make (base.count + a_extension.count + 1)
-			l_base.append (base); l_base.append_character ('.'); l_base.append (a_extension)
-			base := l_base
-		end
-
-	replace_extension (a_replacement: EL_ASTRING)
-		do
-			remove_extension
-			add_extension (a_replacement)
-		end
-
-	change_to_unix
-		do
-			if {PLATFORM}.is_windows then
-				String.subst_all_characters (parent_path, Separator, '/')
-			end
-		end
-
-	change_to_windows
-		do
-			if not {PLATFORM}.is_windows then
-				String.subst_all_characters (parent_path, Separator, '\')
-			end
+			escaper := Default_escaper
 		end
 
 	share (other: like Current)
@@ -253,6 +319,12 @@ feature -- Element change
 			is_absolute := other.is_absolute
 		end
 
+	translate (originals, substitutions: ASTRING)
+		do
+			base.translate (originals, substitutions)
+			parent_path.translate (originals, substitutions)
+		end
+
 feature -- Removal
 
 	remove_extension
@@ -260,9 +332,30 @@ feature -- Removal
 			base.remove_tail (base.count - base.last_index_of ('.', base.count) + 1 )
 		end
 
+	wipe_out
+		do
+			parent_path.wipe_out; base.wipe_out
+		end
+
 feature -- Conversion
 
-	 to_string: EL_ASTRING
+	expanded_path: like Current
+		do
+			Result := twin
+			Result.expand
+		end
+
+	to_escaped_string: ASTRING
+			-- returns strings escaped with currently set escaper.
+			-- The default escaper does nothing
+		do
+			Result := to_string
+			if escaper /= Default_escaper then
+				Result.escape (escaper)
+			end
+		end
+
+	to_string: ASTRING
 			--
 		do
 			create Result.make (parent_path.count + base.count)
@@ -280,11 +373,11 @@ feature -- Conversion
 			Result := to_string.to_unicode
 		end
 
-	relative_path (a_parent: EL_DIR_PATH): like Current
+	relative_path (a_parent: EL_DIR_PATH): like new_relative_path
 		require
 			parent_is_parent: a_parent.is_parent_of (Current)
 		do
-			Result := twin
+			Result := new_relative_path
 			Result.parent_path.remove_head (a_parent.parent_path.count + a_parent.base.count + 1)
 			Result.set_relative
 		end
@@ -296,7 +389,7 @@ feature -- Conversion
 			l_out := to_string
 			if out_abbreviated then
 				-- Replaces String.abbreviate_working_directory
-				l_out.replace_substring_all (Execution.current_working_directory.to_string, "$CWD")
+				l_out.replace_substring_all (Directory.current_working.to_string, "$CWD")
 			end
 			Result := l_out
 		end
@@ -313,13 +406,19 @@ feature -- Conversion
 			Result.change_to_windows
 		end
 
+	translated (originals, substitutions: ASTRING): like Current
+		do
+			Result := twin
+			Result.translate (originals, substitutions)
+		end
+
 	without_extension: like Current
 		do
 			Result := twin
 			Result.remove_extension
 		end
 
-	with_new_extension (a_new_ext: EL_ASTRING): like Current
+	with_new_extension (a_new_ext: ASTRING): like Current
 		do
 			Result := twin
 			Result.replace_extension (a_new_ext)
@@ -347,14 +446,12 @@ feature -- Duplication
 
 	copy (other: like Current)
 		do
-			base := other.base.twin
-			parent_path := other.parent_path.twin
-			is_absolute := other.is_absolute
+			make_from_other (other)
 		end
 
 feature -- Contract Support
 
-	is_path_absolute (a_path: EL_ASTRING): BOOLEAN
+	is_path_absolute (a_path: ASTRING): BOOLEAN
 		do
 			if {PLATFORM}.is_windows then
 				Result := a_path.count >= 3 and then a_path [2] = ':' and then a_path [3] = Separator
@@ -365,18 +462,17 @@ feature -- Contract Support
 
 feature {EL_PATH} -- Implementation
 
-	parent_path: EL_ASTRING
-
 	append (a_path: EL_PATH)
 		require
 			relative_path: not a_path.is_absolute
 		local
-			l_parent: EL_ASTRING
+			l_parent: ASTRING
 		do
 			create l_parent.make (parent_path.count + base.count + parent_path.count + 2)
-			l_parent.append (to_string)
+			l_parent.append (parent_path)
+			l_parent.append (base)
 			if not base.is_empty then
-				l_parent.append_character (Separator)
+				l_parent.append_unicode (Separator.natural_32_code)
 			end
 			if not a_path.parent_path.is_empty then
 				l_parent.append (a_path.parent_path)
@@ -385,28 +481,99 @@ feature {EL_PATH} -- Implementation
 			base := a_path.base
 		end
 
-feature {NONE} -- Implementation
+	parent_path: ASTRING
 
-	internal_hash_code: INTEGER
+feature {EL_PATH} -- Implementation
 
-	parent_set: DS_HASH_SET [EL_ASTRING]
+	combined_hash_code (strings: ARRAY [like base]): INTEGER
+		local
+			i, nb: INTEGER
+			l_area: like base.area
+		do
+			across strings as string loop
+				l_area := string.item.area
+				nb := string.item.count
+				from i := 0 until i = nb loop
+					Result := ((Result \\ Magic_number) |<< 8) + l_area.item (i).code
+					i := i + 1
+				end
+			end
+		end
+
+	is_potenially_expandable (a_path: ASTRING): BOOLEAN
+		local
+			pos_dollor: INTEGER
+		do
+			pos_dollor := a_path.index_of ('$', 1)
+			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
+		end
+
+	parent_set: DS_HASH_SET [ASTRING]
 			--
 		once
 			create Result.make_equal (100)
 		end
 
+	remove_base
+		require
+			has_parent: has_parent
+		local
+			pos_separator, pos_last_separator: INTEGER
+		do
+			pos_last_separator := parent_path.count
+			if pos_last_separator = 1 then
+				base.wipe_out
+			else
+				pos_separator := parent_path.last_index_of (Separator, pos_last_separator - 1)
+				base := parent_path.substring (pos_separator + 1, pos_last_separator - 1)
+				set_parent_path (parent_path.substring (1, pos_separator))
+			end
+		end
+
+	new_relative_path: EL_PATH
+		deferred
+		end
+
+	internal_hash_code: INTEGER
+
+	escaper: EL_CHARACTER_ESCAPER
+
+feature {NONE} -- Type definitions
+
+	Type_parent: EL_DIR_PATH
+		require
+			never_called: False
+		once
+		end
+
+feature -- Constants
+
+	Unix_separator: CHARACTER_32 = '/'
+
+	Windows_separator: CHARACTER_32 = '\'
+
 feature {NONE} -- Constants
 
 	Magic_number: INTEGER = 8388593
 
-	Empty_path: EL_ASTRING
+	Default_escaper: EL_DO_NOTHING_CHARACTER_ESCAPER
+		once
+			create Result
+		end
+
+	Forward_slash: ASTRING
+		once
+			Result := "/"
+		end
+
+	Empty_path: ASTRING
 		once
 			create Result.make_empty
 		end
 		-- Greatest prime lower than 2^23
 		-- so that this magic number shifted to the left does not exceed 2^31.
 
-	Separator: CHARACTER
+	Separator: CHARACTER_32
 		once
 			Result := Operating_environment.Directory_separator
 		end

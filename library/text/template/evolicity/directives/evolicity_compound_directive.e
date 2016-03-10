@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-23 19:08:19 GMT (Sunday 23rd June 2013)"
-	revision: "2"
+	date: "2013-11-22 18:09:59 GMT (Friday 22nd November 2013)"
+	revision: "3"
 
 class
 	EVOLICITY_COMPOUND_DIRECTIVE
@@ -51,11 +51,11 @@ feature -- Element change
 
 feature -- Basic operations
 
-	execute (context: EVOLICITY_CONTEXT; output: IO_MEDIUM; utf8_encoded: BOOLEAN)
+	execute (context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
 		do
 			from start until off loop
-				item.execute (context, output, utf8_encoded)
+				item.execute (context, output)
 				forth
 			end
 		end

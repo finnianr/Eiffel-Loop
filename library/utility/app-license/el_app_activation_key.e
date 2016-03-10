@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-06-18 8:35:01 GMT (Tuesday 18th June 2013)"
 	revision: "2"
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EVOLICITY_SERIALIZEABLE_AS_XML
-		rename
-			make as make_serializeable
 		redefine
 			make_from_file, default_create, getter_function_table, Template
 		end
@@ -33,9 +31,9 @@ feature {NONE} -- Initialization
 	default_create
 			--
 		do
-			make_serializeable
 			name :=  "Unknown"
 			value := "ekr9Lbnwtut8bL+4ONia/xeNMQpCjvD/EZFZiFVKyLU="
+			make_empty
 		end
 
 	make_from_file (file_path: EL_FILE_PATH)
@@ -52,7 +50,7 @@ feature {NONE} -- Initialization
 	make (a_name, a_value: STRING)
 			--
 		do
-			make_serializeable
+			make_empty
 			name := a_name
 			value := a_value
 		end

@@ -13,7 +13,7 @@ class
 	EL_WORD_TOKEN_TABLE
 
 inherit
-	EL_UNIQUE_CODE_TABLE [EL_ASTRING]
+	EL_UNIQUE_CODE_TABLE [ASTRING]
 		export
 			{ANY} is_empty, count
 		redefine
@@ -34,11 +34,11 @@ feature -- Initialization
 
 feature -- Access
 
-	words: ARRAYED_LIST [EL_ASTRING]
+	words: ARRAYED_LIST [ASTRING]
 
 feature -- Element change
 
-	put (word: EL_ASTRING)
+	put (word: ASTRING)
 			--
 		do
 			Precursor (word)
@@ -57,7 +57,7 @@ feature -- Basic operations
 
 feature -- Conversion
 
-	tokens_to_string (tokens: EL_TOKENIZED_STRING): EL_ASTRING
+	tokens_to_string (tokens: EL_TOKENIZED_STRING): ASTRING
 		local
 			i: INTEGER
 		do

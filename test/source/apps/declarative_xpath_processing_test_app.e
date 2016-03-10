@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {DECLARATIVE_XPATH_PROCESSING_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-07 13:12:01 GMT (Sunday 7th July 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	DECLARATIVE_XPATH_PROCESSING_TEST_APP
@@ -23,13 +23,13 @@ create
 
 feature -- Basic operations
 
-	run
+	test_run
 			--
 		do
---			Test.do_file_test ("XML/creatable/linguistic-analysis.smil", agent test_smil, 1902646034)
---			Test.do_file_test ("vtd-xml/bioinfo.xml", agent test_bioinfo, 780707548)
+--			Test.do_file_test ("XML/creatable/linguistic-analysis.smil", agent test_smil, 291495884)
+--			Test.do_file_test ("vtd-xml/bioinfo.xml", agent test_bioinfo, 3962792973)
 --			Test.do_file_test ("XML/Hexagrams.xhtml", agent test_xhtml, 780707548)-- Doesn't work
-			Test.do_file_test ("XML/Hexagrams.utf8.xhtml", agent test_xhtml, 780707548)
+--			Test.do_file_test ("XML/Hexagrams.utf8.xhtml", agent test_xhtml, 780707548)
 		end
 
 feature -- Tests
@@ -69,7 +69,7 @@ feature -- Tests
 
 feature {NONE} -- Constants
 
-	Option_name: STRING = "test_declarative_xpath"
+	Option_name: STRING = "declarative_xpath"
 
 	Description: STRING = "Test declarative xpath processing of XML document"
 
@@ -77,11 +77,11 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{DECLARATIVE_XPATH_PROCESSING_TEST_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"],
-				[{EL_XPATH_MATCH_SCAN_SOURCE}, "*"],
-				[{SMIL_XPATH_MATCH_EVENTS}, "*"],
-				[{BIOINFO_XPATH_MATCH_EVENTS}, "*"]
+				[{DECLARATIVE_XPATH_PROCESSING_TEST_APP}, All_routines],
+				[{EL_TEST_ROUTINES}, All_routines],
+				[{EL_XPATH_MATCH_SCAN_SOURCE}, All_routines],
+				[{SMIL_XPATH_MATCH_EVENTS}, All_routines],
+				[{BIOINFO_XPATH_MATCH_EVENTS}, All_routines]
 			>>
 		end
 

@@ -1,0 +1,107 @@
+// <!-- <mdb:mork:z v="1.4"/> -->
+< <(a=c)> // (f=iso-8859-1)
+  (B8=cleanupBodies)(B9=applyToFlaggedMessages)(BA=useServerRetention)
+  (BB=sortType)(BC=sortOrder)(BD=viewFlags)(BE=viewType)(BF=columnStates)
+  (C0=MRUTime)(C1=sortColumns)(C2=MRMTime)(C3=storeToken)(C4=account)
+  (C5=dateReceived)(C6=ProtoThreadFlags)(C7=X-Identity-Key)
+  (C8=recipient_names)(C9=gloda-id)(CA=junkscore)(CB=gloda-dirty)
+  (CC=customSortCol)(CD=keywords)(CE=imageSize)(CF=sender_name)
+  (D0=notAPhishMessage)(80=ns:msg:db:row:scope:msgs:all)(81=subject)
+  (82=sender)(83=message-id)(84=references)(85=recipients)(86=date)
+  (87=size)(88=flags)(89=priority)(8A=label)(8B=statusOfset)(8C=numLines)
+  (8D=ccList)(8E=bccList)(8F=msgThreadId)(90=threadId)(91=threadFlags)
+  (92=threadNewestMsgDate)(93=children)(94=unreadChildren)
+  (95=threadSubject)(96=msgCharSet)(97=ns:msg:db:table:kind:msgs)
+  (98=ns:msg:db:table:kind:thread)(99=ns:msg:db:table:kind:allthreads)
+  (9A=ns:msg:db:row:scope:threads:all)(9B=threadParent)(9C=threadRoot)
+  (9D=msgOffset)(9E=offlineMsgSize)
+  (9F=ns:msg:db:row:scope:dbfolderinfo:all)
+  (A0=ns:msg:db:table:kind:dbfolderinfo)(A1=numMsgs)(A2=numNewMsgs)
+  (A3=folderSize)(A4=expungedBytes)(A5=folderDate)(A6=highWaterKey)
+  (A7=mailboxName)(A8=UIDValidity)(A9=totPendingMsgs)
+  (AA=unreadPendingMsgs)(AB=expiredMark)(AC=version)
+  (AD=fixedBadRefThreading)(AE=folderName)(AF=smartFolderName)
+  (B0=charSetOverride)(B1=charSet)(B2=retainBy)(B3=daysToKeepHdrs)
+  (B4=numHdrsToKeep)(B5=daysToKeepBodies)(B6=keepUnreadOnly)
+  (B7=useServerDefaults)>
+<(83=0)(90=5290f3ad)(80=1)>[1:m(^9C=0)(^90=0)(^92^90)(^91=0)(^93=1)
+    (^94=0)]
+<(92=4af)(9C=5290f3f6)>[2:m(^9C^92)(^90^92)(^92^9C)(^91=0)(^93=1)]
+
+<(99=1199)(8B=21)(8C=Finnian Reilly <finnian@myching.co>)(9A=Startseite)
+  (9B=5290F3F6.3080903@myching.co)(8F=account6)(91=ISO-8859-15)(9D=42f)
+  (9E=b)(94=ffffffff)(96=id4)(97=820|)(A5=820|Finnian Reilly)>
+{4AF:^80 {(k^98:c)(s=9)2:m } [4AF(^9D^92)(^C3^99)(^88=1)(^8A=0)(^8B=21)
+    (^82^8C)(^81^9A)(^83^9B)(^C4^8F)(^86^9C)(^C5^9C)(^89=1)(^96^91)
+    (^87^9D)(^8C=b)(^9B^94)(^8F^92)(^C6=0)(^C7^96)(^C8^97)(^CB=1)(^CF^A5)]}
+
+<(8D=Suchmaschine)(8E=5290F3AD.8000500@myching.co)(93=f)(98=2d8a)>
+{0:^80 {(k^98:c)(s=9)1:m } [0(^9D=0)(^C3=0)(^88=1)(^8A=0)(^8B=21)(^82^8C)
+    (^81^8D)(^83^8E)(^C4^8F)(^86^90)(^C5^90)(^89=1)(^96^91)(^87^92)
+    (^8C=f)(^9B^94)(^8F=0)(^C6=0)(^C7^96)(^C8^97)(^C9^98)(^CF^A5)(^CB=1)]}
+{1:^80 {(k^97:c)(s=9)} 0 4AF }
+{FFFFFFFD:^9A {(k^99:c)(s=9)} 
+  [0(^95^8D)]
+  [4AF(^95^9A)]}
+
+<(81=4)(82=de)(A1=8de)(A6=5290f406)(A3=1385231365)(86=12)(87=)(A4
+    ={"threadCol":{"visible":true,"ordinal":"1"},"flaggedCol":{"visible":true,\
+"ordinal":"3"},"attachmentCol":{"visible":true,"ordinal":"5"},"subjectCol":{"v\
+isible":true,"ordinal":"7"},"unreadButtonColHeader":{"visible":true,"ordinal":\
+"9"},"senderCol":{"visible":true,"ordinal":"11"},"recipientCol":{"visible":fal\
+se,"ordinal":"13"},"junkStatusCol":{"visible":true,"ordinal":"15"},"receivedCo\
+l":{"visible":false,"ordinal":"17"},"dateCol":{"visible":true,"ordinal":"19"},\
+"statusCol":{"visible":false,"ordinal":"21"},"sizeCol":{"visible":false,"ordin\
+al":"23"},"tagsCol":{"visible":false,"ordinal":"25"},"accountCol":{"visible":f\
+alse,"ordinal":"27"},"priorityCol":{"visible":false,"ordinal":"29"},"unreadCol\
+":{"visible":false,"ordinal":"31"},"totalCol":{"visible":false,"ordinal":"33"}\
+,"locationCol":{"visible":false,"ordinal":"35"},"idCol":{"visible":false,"ordi\
+nal":"37"}})(8A=1385231359)(A0=2)>
+{1:^9F {(k^A0:c)(s=9)} 
+  [1(^AC=1)(^AD=1)(^88=4)(^A7=de)(^A3^A1)(^A5^A6)(^BA=1)(^C0^A3)(^BB=12)
+    (^BC=1)(^BD=0)(^BE=0)(^C1=)(^BF^A4)(^C2^8A)(^A1=2)(^A2=0)(^A6^92)]}
+
+@$${A{@
+@$$}A}@
+
+@$${B{@
+<(A7=2d8b)>[-4AF:^80(^9D^92)(^C3^99)(^88=1)(^8A=0)(^8B=21)(^82^8C)
+    (^81^9A)(^83^9B)(^C4^8F)(^86^9C)(^C5^9C)(^89=1)(^96^91)(^87^9D)
+    (^8C=b)(^9B^94)(^8F^92)(^C6=0)(^C7^96)(^C8^97)(^CB=0)(^CF^A5)(^C9^A7)]
+[0:^80(^CB=0)]
+@$$}B}@
+
+@$${C{@
+@$$}C}@
+
+@$${E{@
+[1:^9F(^AE=de)]
+@$$}E}@
+
+@$${F{@
+@$$}F}@
+
+@$${11{@
+[0:^80(^CB=2)]
+[4AF:^80(^CB=2)]
+@$$}11}@
+
+@$${12{@
+@$$}12}@
+
+@$${13{@
+@$$}13}@
+
+@$${14{@
+<(A9=3439)>[-0:^80(^9D=0)(^C3=0)(^88=1)(^8A=0)(^8B=21)(^82^8C)(^81^8D)
+    (^83^8E)(^C4^8F)(^86^90)(^C5^90)(^89=1)(^96^91)(^87^92)(^8C=f)(^9B^94)
+    (^8F=0)(^C6=0)(^C7^96)(^C8^97)(^C9^A9)(^CF^A5)(^CB=0)]
+<(A8=3438)>[-4AF:^80(^9D^92)(^C3^99)(^88=1)(^8A=0)(^8B=21)(^82^8C)
+    (^81^9A)(^83^9B)(^C4^8F)(^86^9C)(^C5^9C)(^89=1)(^96^91)(^87^9D)
+    (^8C=b)(^9B^94)(^8F^92)(^C6=0)(^C7^96)(^C8^97)(^CB=0)(^CF^A5)(^C9^A8)]
+@$$}14}@
+
+@$${16{@
+< <(a=c)> // (f=iso-8859-1)
+  (D1=LastPurgeTime)>
+@$$}16}@

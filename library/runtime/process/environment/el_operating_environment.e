@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_OPERATING_ENVIRONMENT}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:02 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-02-02 11:39:39 GMT (Sunday 2nd February 2014)"
+	revision: "4"
 
 class
 	EL_OPERATING_ENVIRONMENT
@@ -44,16 +44,6 @@ feature -- Access
 			Result.replace_substring_all ("(R)", "")
 		end
 
-	Shell_path_escape_character: CHARACTER
-		once
-			Result := Implementation.Shell_path_escape_character
-		end
-
-	Shell_character_set_to_escape: READABLE_STRING_GENERAL
-		once
-			Result := Implementation.Shell_character_set_to_escape
-		end
-
 	Dynamic_module_extension: STRING
 		once
 			Result := Implementation.Dynamic_module_extension
@@ -70,14 +60,6 @@ feature -- Measurement
 			--
 		do
 			Result := Implementation.is_root_path (path)
-		end
-
-feature -- Conversion
-
-	shell_escaped (a_string: EL_ASTRING): EL_ASTRING
-			-- string with characters escaped that are not accepted by shell
-		do
-			Result := a_string.escaped (Shell_character_set_to_escape, Shell_path_escape_character)
 		end
 
 feature {NONE} -- Implementation

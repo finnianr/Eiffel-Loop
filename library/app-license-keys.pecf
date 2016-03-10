@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_app_license 
+	name = EL_app_license 
 	uuid = "229b6ebc-09aa-11df-87ae-dbc8674bb87b" 
-	library_target = el_app_license
+	library_target = EL_app_license
 	
 	target:
-		name = el_app_license
+		name = EL_app_license
 		
 		description: 
 			"""
@@ -35,19 +35,32 @@ system:
 			name = arbitrary_precision_math; location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
 
 		library:
-			name = el_base; location = "base.ecf"
+			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
 
 		library:
-			name = el_vtd_xml; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
+			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
+
+		# Eiffel-Loop libraries
 
 		library:
-			name = el_encryption
+			name = EL_base; location = "base.ecf"
+
+		library:
+			name = EL_encryption
 			location = "encryption.ecf"
 
 		library:
-			name = el_public_key_encryption
+			name = EL_network; readonly = false
+			location="$EIFFEL_LOOP/library/network.ecf"
+
+		library:
+			name = EL_vtd_xml; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
+
+		library:
+			name = EL_public_key_encryption
 			location = "public-key-encryption.ecf"
 
+		# Source code
 		cluster:
 			name = app_license; location = "utility/app-license"; recursive = true
 

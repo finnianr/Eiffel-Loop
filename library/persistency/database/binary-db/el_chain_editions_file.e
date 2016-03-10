@@ -2,15 +2,15 @@ note
 	description: "Summary description for {EL_BINARY_EDITIONS_FILE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 12:53:40 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
-	EL_CHAIN_EDITIONS_FILE [G -> EL_MEMORY_READ_WRITEABLE]
+	EL_CHAIN_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
 
 inherit
 	EL_NOTIFYING_RAW_FILE
@@ -31,7 +31,7 @@ feature -- Initialization
 			item_chain := a_storable_chain
 			reader_writer := item_chain.reader_writer
 			create crc
-			make_with_name (a_file_path.unicode)
+			make_with_name (a_file_path)
 			if exists then
 				open_read
 				if not is_empty then
@@ -62,6 +62,9 @@ feature -- Access
 	count: INTEGER
 		-- reported edition count
 
+	read_count: INTEGER
+		-- count of editions successfully read
+
 	actual_count: INTEGER
 		-- count of editions found
 
@@ -89,12 +92,28 @@ feature -- Status report
 			Result := count > 0
 		end
 
+	is_read_complete: BOOLEAN
+		do
+			Result := read_count = count
+		end
+
 feature -- Status change
 
 	close_and_delete
 			--
 		do
 			close; delete
+		end
+
+	reopen
+		do
+			if exists then
+				open_read_write
+				finish
+			else
+				open_write; put_header; close
+				reopen
+			end
 		end
 
 feature {EL_STORABLE_CHAIN_EDITIONS} -- Basic operations
@@ -110,18 +129,20 @@ feature {EL_STORABLE_CHAIN_EDITIONS} -- Basic operations
 				i := i + 1
 			end
 			close
+			read_count := i - 1
 		end
 
 	put_edition (edition_code: CHARACTER; a_item: G)
 		do
 			put_character (edition_code)
 			crc.add_character (edition_code)
-			inspect edition_code when Edition_code_remove, Edition_code_replace then
+			inspect edition_code when Edition_code_delete, Edition_code_remove, Edition_code_replace then
 				put_integer (item_chain.index)
 				crc.add_integer (item_chain.index)
 			else
 			end
-			inspect edition_code when Edition_code_replace, Edition_code_extend then
+			inspect edition_code when Edition_code_extend, Edition_code_replace then
+				reader_writer.set_for_writing
 				reader_writer.write (a_item, Current)
 				crc.add_data (reader_writer.data)
 			else
@@ -158,15 +179,15 @@ feature {NONE} -- Implementation
 		do
 			read_edition_code
 			crc.add_character (last_edition_code)
-			inspect last_edition_code when Edition_code_remove, Edition_code_replace then
+			inspect last_edition_code when Edition_code_delete, Edition_code_remove, Edition_code_replace then
 				read_integer
 				edition_index := last_integer
 				crc.add_integer (edition_index)
 			else
 			end
-			inspect last_edition_code when Edition_code_replace, Edition_code_extend then
-				l_item := item_chain.new_item
-				reader_writer.read (l_item, Current)
+			inspect last_edition_code when Edition_code_extend, Edition_code_replace then
+				reader_writer.set_for_reading
+				l_item := reader_writer.read_item (Current)
 				crc.add_data (reader_writer.data)
 			else
 			end
@@ -174,14 +195,18 @@ feature {NONE} -- Implementation
 			checksum := last_natural
 			if checksum = crc.checksum then
 				inspect last_edition_code
+					when Edition_code_delete then
+						item_chain.go_i_th (edition_index); item_chain.delete
+
+					when Edition_code_extend then
+						item_chain.extend (l_item)
+
 					when Edition_code_remove then
 						item_chain.go_i_th (edition_index); item_chain.remove
 
 					when Edition_code_replace then
 						item_chain.go_i_th (edition_index); item_chain.replace (l_item)
 
-					when Edition_code_extend then
-						item_chain.extend (l_item)
 				else
 				end
 			else
@@ -218,7 +243,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	reader_writer: EL_FILE_READER_WRITER
+	reader_writer: EL_FILE_READER_WRITER [G]
 
 	checksum: NATURAL
 
@@ -229,5 +254,7 @@ feature -- Constants
 	Edition_code_extend: CHARACTER = '2'
 
 	Edition_code_remove: CHARACTER = '3'
+
+	Edition_code_delete: CHARACTER = '4'
 
 end

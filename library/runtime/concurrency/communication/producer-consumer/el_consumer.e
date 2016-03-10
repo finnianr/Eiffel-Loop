@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-03-13 16:39:01 GMT (Wednesday 13th March 2013)"
 	revision: "2"
@@ -16,14 +16,8 @@ inherit
 	EL_STOPPABLE_THREAD
 
 	EL_THREAD_CONSTANTS
-		undefine
-			default_create
-		end
 
 	EL_MODULE_LOG
-		undefine
-			default_create
-		end
 
 feature -- Basic operations
 

@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {EL_MIXED_FONT_STYLEABLE_I}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-03-26 13:52:43 GMT (Wednesday 26th March 2014)"
+	revision: "4"
 
 deferred class
 	EL_MIXED_FONT_STYLEABLE_I

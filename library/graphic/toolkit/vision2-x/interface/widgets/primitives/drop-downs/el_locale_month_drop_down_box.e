@@ -2,20 +2,20 @@ note
 	description: "Summary description for {INTERNATIONAL_MONTH_LIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-01-07 11:26:09 GMT (Monday 7th January 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_LOCALE_MONTH_DROP_DOWN_BOX
 
 inherit
-	EL_MONTH_DROP_DOWN_BOX
+	EL_ENGLISH_MONTH_DROP_DOWN_BOX
 		redefine
-			Months_text, Long_months_text
+			Short_months, Long_months
 		end
 
 	EL_MODULE_LOCALE
@@ -26,19 +26,18 @@ inherit
 create
 	make, make_long
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	Months_text: ARRAY [STRING]
+	Short_months: EL_ASTRING_LIST
 			-- Short text representation of months
 		once
-			Result := Locale.translation_array (Precursor)
+			Result := Locale.date_text.short_month_names_list
 		end
 
-	Long_months_text: ARRAY [STRING]
+	Long_months: EL_ASTRING_LIST
 			-- Long text representation of months
 		once
-			Result := Locale.translation_array (Precursor)
-			Result [5] := Locale * "MAY.long"
+			Result := Locale.date_text.long_month_names_list
 		end
 
 end

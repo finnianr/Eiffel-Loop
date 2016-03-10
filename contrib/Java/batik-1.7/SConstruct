@@ -1,0 +1,28 @@
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2010 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "18 Dec 2012"
+#	revision: "0.1"
+
+import os, sys, platform
+
+from os import path
+
+from eiffel_loop.scons import util, package
+
+#Import ('env')
+env = Environment (ENV = os.environ)
+
+download_builder = Builder (action = package.get, suffix='.jar', src_suffix = '.getjar', emitter = util.complete_targets)
+env.Append (BUILDERS = {'Java_jar_download' : download_builder})
+
+lib_jars = env.Java_jar_download (Glob (path.join ('lib', '*.getjar')))
+
+main_jar = env.Java_jar_download (File ('batik-rasterizer.getjar'))
+
+Depends (main_jar, lib_jars)
+
+env.NoClean (main_jar, lib_jars)
+
+#Return ('main_jar')

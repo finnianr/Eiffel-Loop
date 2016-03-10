@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
 	revision: "1"
@@ -98,19 +98,19 @@ feature {NONE} -- Match actions
 
 	on_day (matched_text: EL_STRING_VIEW)
 		do
-			last_date.set_day (matched_text.view.to_integer)
+			last_date.set_day (matched_text.to_string_8.to_integer)
 		end
 
 	on_month (matched_text: EL_STRING_VIEW)
 		do
-			last_date.set_month (matched_text.view.to_integer)
+			last_date.set_month (matched_text.to_string_8.to_integer)
 		end
 
 	on_year (matched_text: EL_STRING_VIEW)
 		local
 			number: INTEGER
 		do
-			number := matched_text.view.to_integer
+			number := matched_text.to_string_8.to_integer
 			if number < 100 then
 				number := number + (last_date.year // 100) * 100
 			end

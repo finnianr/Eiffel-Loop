@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_VTD_EXCEPTIONS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:29 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_VTD_EXCEPTIONS
@@ -21,6 +21,8 @@ inherit
 	EL_C_CALLABLE
 		undefine
 			out
+		redefine
+			make
 		end
 
 	EL_VTD_CONSTANTS
@@ -48,19 +50,15 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
+			Precursor
 			create type_description.make_empty
 			create message.make_empty
 			create sub_message.make_empty
-			create c_callbacks_struct.make (1, 0)
 		end
 
 feature -- Access
 
-	type_description: STRING
-
 	message: STRING
-
-	sub_message: STRING
 
 	out: STRING
 			--
@@ -78,32 +76,11 @@ feature -- Access
 			Result.append_character (']')
 		end
 
+	sub_message: STRING
+
+	type_description: STRING
+
 feature -- Element change
-
-	set_gc_protected_callbacks_target (target: EL_GC_PROTECTED_OBJECT)
-			-- Fill in struct:
-			--		typedef struct {
-			--			Eiffel_procedure_t basic;
-			--			Eiffel_procedure_t full;
-			--		} Exception_handlers_t;
-			--
-			-- Notes:
-			-- * Target is actually current
-		do
-			c_callbacks_struct := <<
-				-- Eiffel_procedure_t basic
-				target.item, $on_exception_basic,
-
-				-- Eiffel_procedure_t full
-				target.item, $on_exception_full
-			>>
-		end
-
-	set_type_description (exception_type: INTEGER)
-			--
-		do
-			type_description := Exception_type_descriptions [exception_type + 1]
-		end
 
 	set_message (a_message: STRING)
 			--
@@ -115,6 +92,12 @@ feature -- Element change
 			--
 		do
 			sub_message := a_sub_message
+		end
+
+	set_type_description (exception_type: INTEGER)
+			--
+		do
+			type_description := Exception_type_descriptions [exception_type + 1]
 		end
 
 feature -- Basic operations
@@ -138,6 +121,25 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	frozen on_exception_basic (exception_type: INTEGER; evx_message: POINTER)
+			-- Handles C exception defined in vtdNav.c
+
+			--	void throwException2 (enum exception_type et, char *msg){
+			--		exception e;
+			--		e.et = et;
+			--		e.subtype = BASIC_EXCEPTION;
+			--		e.msg = msg;
+			--		Throw e;
+			--	}
+		require
+			evx_message_attached: is_attached (evx_message)
+		do
+			set_type_description (exception_type)
+			set_message (create {STRING}.make_from_c (evx_message))
+			alert
+			raise (out)
+		end
+
 	frozen on_exception_full (exception_type: INTEGER; evx_message, evx_sub_message: POINTER)
 			-- Handles C exception defined in vtdNav.c
 
@@ -160,23 +162,11 @@ feature {NONE} -- Implementation
 			raise (out)
 		end
 
-	frozen on_exception_basic (exception_type: INTEGER; evx_message: POINTER)
-			-- Handles C exception defined in vtdNav.c
+feature {NONE} -- Constants
 
-			--	void throwException2 (enum exception_type et, char *msg){
-			--		exception e;
-			--		e.et = et;
-			--		e.subtype = BASIC_EXCEPTION;
-			--		e.msg = msg;
-			--		Throw e;
-			--	}
-		require
-			evx_message_attached: is_attached (evx_message)
-		do
-			set_type_description (exception_type)
-			set_message (create {STRING}.make_from_c (evx_message))
-			alert
-			raise (out)
+	Call_back_routines: ARRAY [POINTER]
+		once
+			Result := << $on_exception_basic, $on_exception_full >>
 		end
 
 end

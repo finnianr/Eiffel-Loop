@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>$DJ_event.title -- $DJ_event.spell_date</title>
+		<style type="text/css">
+			body {
+				margin-top: 2em;
+				margin-left: 4em;
+				margin-right: 4em;
+				background-color: black;
+				font-family: Verdana;
+			}
+			p.link {
+				margin-left: 0em;
+				text-align: right;
+			}
+
+			#page {
+				margin-left: auto;
+				margin-right: auto;
+				width: 60em;
+			}
+			#header {
+				background-color: Beige;
+
+				border-style: ridge;
+				border-width: 1ex;
+				border-color: Crimson;
+
+				height: auto;
+				padding-left: 1.5em;
+				padding-right: 1.5em;
+
+			}
+			#header h1, h2 {
+				text-align: center;
+			}
+			#content {
+				color: white;
+				margin-bottom: 3em;
+			}
+			#content a {
+				color: Crimson;
+			}
+			#content p.title {
+				margin-left: 3em;
+				margin-bottom: 0;
+			}
+			#content p.artist {
+				margin-left: 6.5em;
+				margin-top: 0.2em;
+			}
+			#content p.title em.year {
+				position: absolute; 
+				left: 45em;
+			}
+
+			#content p em.time {
+				font-family: "Bitstream Vera Sans Mono";
+				font-size: medium
+			}
+			#content p b.not_played, p em.not_played {
+				text-decoration: line-through;
+			}
+			#content p em.skipped {
+				color: Red;
+			}
+
+			h1.Tango {color: Crimson}
+			h1.Vals {color: Deepskyblue}
+			h1.Milonga {color: Chocolate}
+			h1.World {color: Seashell}
+		</style>
+	</head>
+	<body>
+	<div id="page">
+		<div id="header">
+			<h1>$DJ_event.title</h1>
+			<h2>$DJ_event.spell_date</h2>
+			<h2>DJ: $DJ_event.DJ_name</h2>
+		</div>
+		<div id="content">
+			<p class="link">
+				<a href="http://www.tangofever.net"><em>(Compadrito Homepage)</em></a>
+			</p>
+			
+		<b>Milonga start time: $DJ_event.start_time</b>
+		<p>(Song start times are approximate)</p>
+		
+	#foreach $item in $DJ_event_playlist loop
+		#if $item.song.is_cortina then
+			#if not $item.is_final_cortina then
+		<h1 class="$item.tanda_type">Tanda: $item.tanda_type</h1>
+			#end
+		#else
+		<p class="title">
+			<em class="time">$item.start_time</em>
+			<b>
+				$item.song.title
+			</b>
+			<em class="duration">($item.song.duration_time)</em>
+			#if $item.song.recording_year > 1 then
+			<em class="year">
+				(Recorded: $item.song.recording_year)
+			</em>
+			#end
+		</p>
+		<p class="artist"><em>$item.artists</em></p>
+		#end
+	#end
+		<b>Finish</b>
+		</div>
+	</div>
+	</body>
+</html>
+

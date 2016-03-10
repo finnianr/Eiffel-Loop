@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-12 14:39:00 GMT (Sunday 12th January 2014)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 deferred class
 	EL_APPLICATION_PIXMAP
@@ -29,7 +29,7 @@ feature -- Access
 		do
 			if a_file_path.exists then
 				create Result
-				Result.set_with_named_file (a_file_path.unicode)
+				Result.set_with_named_file (a_file_path)
 			else
 				Result := Unknown_pixmap
 			end
@@ -42,8 +42,11 @@ feature -- Access
 feature -- Constants
 
 	Transparent_color: EL_COLOR
+		local
+			svg_pixmap: EL_SVG_PIXMAP
 		once
-			create Result
+			create svg_pixmap
+			Result := svg_pixmap.Transparent_color
 		end
 
 feature -- PNG
@@ -90,11 +93,8 @@ feature -- SVG
 			l_image_path: like image_path
 		do
 			l_image_path := image_path (relative_path_steps)
-			if background_color = Transparent_color then
-				create {EL_TRANSPARENT_SVG_PIXMAP} Result.make_with_width (l_image_path, width)
-
-			elseif l_image_path.with_new_extension ("png").exists then
-				create {EL_LINKED_PNG_SVG_PIXMAP} Result.make_with_width (l_image_path, width, background_color)
+			if l_image_path.with_new_extension ("png").exists then
+				create {EL_SVG_TEMPLATE_PIXMAP} Result.make_with_width (l_image_path, width, background_color)
 
 			else
 				create Result.make_with_width (l_image_path, width, background_color)
@@ -107,11 +107,8 @@ feature -- SVG
 			l_image_path: like image_path
 		do
 			l_image_path := image_path (relative_path_steps)
-			if background_color = Transparent_color then
-				create {EL_TRANSPARENT_SVG_PIXMAP} Result.make_with_width_cms (l_image_path, width_cms)
-
-			elseif l_image_path.with_new_extension ("png").exists then
-				create {EL_LINKED_PNG_SVG_PIXMAP} Result.make_with_width_cms (l_image_path, width_cms, background_color)
+			if l_image_path.with_new_extension ("png").exists then
+				create {EL_SVG_TEMPLATE_PIXMAP} Result.make_with_width_cms (l_image_path, width_cms, background_color)
 			else
 				create Result.make_with_width_cms (l_image_path, width_cms, background_color)
 			end
@@ -123,11 +120,8 @@ feature -- SVG
 			l_image_path: like image_path
 		do
 			l_image_path := image_path (relative_path_steps)
-			if background_color = Transparent_color then
-				create {EL_TRANSPARENT_SVG_PIXMAP} Result.make_with_height (l_image_path, height)
-
-			elseif l_image_path.with_new_extension ("png").exists then
-				create {EL_LINKED_PNG_SVG_PIXMAP} Result.make_with_height (l_image_path, height, background_color)
+			if l_image_path.with_new_extension ("png").exists then
+				create {EL_SVG_TEMPLATE_PIXMAP} Result.make_with_height (l_image_path, height, background_color)
 
 			else
 				create Result.make_with_height (l_image_path, height, background_color)
@@ -140,11 +134,8 @@ feature -- SVG
 			l_image_path: like image_path
 		do
 			l_image_path := image_path (relative_path_steps)
-			if background_color = Transparent_color then
-				create {EL_TRANSPARENT_SVG_PIXMAP} Result.make_with_height_cms (l_image_path, height_cms)
-
-			elseif l_image_path.with_new_extension ("png").exists then
-				create {EL_LINKED_PNG_SVG_PIXMAP} Result.make_with_height_cms (l_image_path, height_cms, background_color)
+			if l_image_path.with_new_extension ("png").exists then
+				create {EL_SVG_TEMPLATE_PIXMAP} Result.make_with_height_cms (l_image_path, height_cms, background_color)
 			else
 				create Result.make_with_height_cms (l_image_path, height_cms, background_color)
 			end

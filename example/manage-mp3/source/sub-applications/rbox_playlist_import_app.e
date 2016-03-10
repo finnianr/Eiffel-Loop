@@ -2,12 +2,12 @@ note
 	description: "Summary description for {RBOX_PLAYLIST_IMPORT_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-17 22:24:15 GMT (Monday 17th June 2013)"
-	revision: "2"
+	date: "2013-09-30 18:02:10 GMT (Monday 30th September 2013)"
+	revision: "3"
 
 class
 	RBOX_PLAYLIST_IMPORT_APP
@@ -43,10 +43,10 @@ feature -- Basic operations
 				File_system.file_list (m3u_dir, "*.m3u").do_all (
 					agent (m3u_path: EL_FILE_PATH)
 						do
-							database.import_m3u_playlist (create {M3U_PLAYLIST}.make (m3u_path))
+							database.import_m3u_playlist (create {M3U_PLAYLIST_READER}.make (m3u_path))
 						end
 				)
-				if not is_dry_run then
+				if not config.is_dry_run then
 					database.playlists.store
 				end
 			end

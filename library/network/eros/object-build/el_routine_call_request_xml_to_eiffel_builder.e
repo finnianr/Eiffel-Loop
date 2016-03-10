@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_ROUTINE_CALL_REQUEST_XML_TO_EIFFEL_BUILDER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:29 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_ROUTINE_CALL_REQUEST_XML_TO_EIFFEL_BUILDER
@@ -18,17 +18,15 @@ inherit
 			reset as parse_call_request,
 			target as call_argument
 		redefine
-			default_create, root_builder_context, parse_call_request
+			make, root_builder_context, parse_call_request
 		end
 
 	EL_ROUTINE_CALL_REQUEST_PARSER
-		rename
-			make as make_call_request_parser
 		export
 			{NONE} all
 			{ANY} routine_name, argument_list, class_name, call_request_source_text
-		undefine
-			default_create
+		redefine
+			make
 		end
 
 create
@@ -36,10 +34,11 @@ create
 
 feature {NONE} -- Initialization
 
-	default_create
+	make
 			--
 		do
-			make_call_request_parser
+			Precursor {EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER}
+
 		end
 
 feature -- Status report

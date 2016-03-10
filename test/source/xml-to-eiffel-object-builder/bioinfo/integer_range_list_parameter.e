@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {INTEGER_RANGE_LIST_PARAMETER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:22 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	INTEGER_RANGE_LIST_PARAMETER
@@ -46,16 +46,13 @@ feature {NONE} -- Build from XML
 	add_integer_range
 			--
 		local
-			node_string: STRING
+			integer_list: EL_ASTRING_LIST
 		do
-			node_string := node.to_string
-			create last_integer_range.make (node_string.occurrences (',') + 1)
-			node_string.split (',').do_all (
-				agent (str: STRING)
-					do
-						last_integer_range.extend (str.to_integer)
-					end
-			)
+			create integer_list.make_with_separator (node.to_string, ',', False)
+			create last_integer_range.make (integer_list.count)
+			across integer_list as str loop
+				last_integer_range.extend (str.item.to_integer)
+			end
 			extend (last_integer_range)
 		end
 

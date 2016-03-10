@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 10:55:23 GMT (Sunday 28th July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	EL_SOURCE_TEXT_PROCESSOR
@@ -15,7 +15,6 @@ class
 inherit
 	EL_FILE_PARSER
 		rename
-			make as make_parser,
 			new_pattern as delimiting_pattern
 		export
 			{NONE} all
@@ -40,7 +39,7 @@ feature {NONE} -- Initialization
 	make_with_delimiter (a_pattern: EL_TEXTUAL_PATTERN)
 
 		do
-			make_parser
+			make_default
 			delimiting_pattern := a_pattern
 		end
 

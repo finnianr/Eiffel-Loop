@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 9:30:29 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2014-02-02 11:03:48 GMT (Sunday 2nd February 2014)"
+	revision: "3"
 
 class
 	EL_OPERATING_ENVIRONMENT_IMPL

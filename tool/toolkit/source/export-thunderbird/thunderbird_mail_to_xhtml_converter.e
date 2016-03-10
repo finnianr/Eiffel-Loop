@@ -1,19 +1,19 @@
-note
+﻿note
 	description: "Summary description for {THUNDERBIRD_MAIL_TO_XHTML_CONVERTER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 19:58:44 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	THUNDERBIRD_MAIL_TO_XHTML_CONVERTER
 
 inherit
-	THUNDERBIRD_MAIL_CONVERTER
+	THUNDERBIRD_MAIL_CONVERTER [XHTML_WRITER]
 		rename
 			find_start as find_html
 		redefine
@@ -29,57 +29,50 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor (a_output_dir)
-			create html.make (50)
-
-			break_tag := XML.empty_tag ("br")
-
-			create substitutions.make_from_array (<<
-				["%T", 		XML.entity ({ASCII}.Tabulation.to_natural_32)],
-				["<br>", 	break_tag]
-			>>)
+			create html_lines.make (50)
 		end
 
 feature {NONE} -- State handlers
 
-	find_html (line: EL_ASTRING)
+	find_html (line: ASTRING)
 		do
 			if line.starts_with ("<html>") then
-				html.extend (XML_header)
-				html.extend (line)
-				state := agent find_meta
+				extend_html (XML_header)
+				extend_html (line)
+				state := agent find_meta_tag
 			end
 		end
 
-	find_meta (line: EL_ASTRING)
+	find_meta_tag (line: ASTRING)
+			-- close meta tag with forward slash
+			-- <meta content=".."/>
 		do
-			if trim_line.starts_with ("<meta ") then
-				state := agent find_meta_tag_end
-				find_meta_tag_end (line)
+			if line.starts_with (Meta_tag_start) then
+				state := agent find_meta_tag_close
+				find_meta_tag_close (line)
+
+			elseif line.starts_with (Head_tag_close) then
+				state := agent find_end_tag
+				extend_html (line)
 			else
-				html.extend (line)
+				extend_html (line)
 			end
 		end
 
-	find_meta_tag_end (line: EL_ASTRING)
-			--
+	find_meta_tag_close (line: ASTRING)
 		do
-			if trim_line.starts_with ("charset=") then
-				line.remove_tail (line.last_index_of ('=', line.count) - 1)
-				line.append ("UTF-8%"/>")
-				state := agent find_end_tag (?, "</html>")
+			if line [line.count] = '>' then
+				line.insert_character ('/', line.count)
+				state := agent find_meta_tag
 			end
-			html.extend (line)
+			extend_html (line)
 		end
 
 feature {NONE} -- Implementation
 
-	call (line: EL_ASTRING)
+	call (line: ASTRING)
 		-- call state procedure with item
 		do
-			from substitutions.start until substitutions.after loop
-				line.replace_substring_all (substitutions.item.original, substitutions.item.new)
-				substitutions.forth
-			end
 			if last_header.charset ~ "ISO-8859-1" then
 				Precursor (substitute_html_entities (line))
 			else
@@ -87,15 +80,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_line (line: EL_ASTRING; file_out: PLAIN_TEXT_FILE)
-		do
-			file_out.put_string (line.to_utf8)
-			file_out.put_new_line
-		end
-
-	substitute_html_entities (line: EL_ASTRING): EL_ASTRING
+	substitute_html_entities (line: ASTRING): ASTRING
 		local
-			parts: LIST [EL_ASTRING]
+			parts: LIST [ASTRING]
 			semi_colon_pos: INTEGER
 		do
 			parts := line.split ('&')
@@ -117,17 +104,30 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	file_out_extension: EL_ASTRING
+	file_out_extension: ASTRING
 		do
 			Result := "xhtml"
 		end
 
-	substitutions: ARRAYED_LIST [TUPLE [original: STRING; new: EL_ASTRING]]
-
 feature {NONE} -- Constants
+
+	End_tag: STRING
+		once
+			Result := XML.closed_tag ("html")
+		end
 
 	XML_header: STRING = "[
 		<?xml version="1.0" encoding="UTF-8"?>
 	]"
+
+	Meta_tag_start: ASTRING
+		once
+			Result := "<meta"
+		end
+
+	Head_tag_close: ASTRING
+		once
+			Result := XML.closed_tag ("head")
+		end
 
 end

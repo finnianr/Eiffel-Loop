@@ -2,23 +2,22 @@ note
 	description: "Summary description for {EL_FIND_OS_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:02 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-01-24 12:20:32 GMT (Friday 24th January 2014)"
+	revision: "4"
 
 class
 	EL_FIND_OS_COMMAND  [
-		T -> EL_FIND_COMMAND_IMPL create default_create end,
+		T -> EL_FIND_COMMAND_IMPL create make end,
 		P -> EL_PATH create make end
 	]
 
 inherit
 	EL_SINGLE_OPERAND_FILE_SYSTEM_COMMAND [T]
 		rename
-			make as make_path_command,
 			path as dir_path
 		redefine
 			Line_processing_enabled, do_command, do_with_lines, getter_function_table, make_default,
@@ -30,17 +29,12 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			Precursor
 			create exclude_containing_list.make
 			create exclude_ending_list.make
 			create path_list.make (20)
 			is_recursive := True
-		end
-
-	make (a_dir_path: like dir_path)
-			--
-		do
-			make_path_command (a_dir_path)
+			follow_symbolic_links := True
+			Precursor
 		end
 
 feature -- Access
@@ -84,25 +78,25 @@ feature -- Exclusion setting
 			exclude_ending_list.wipe_out
 		end
 
-	exclude_path_containing_any_of (path_fragments: ARRAY [EL_ASTRING])
+	exclude_path_containing_any_of (path_fragments: ARRAY [ASTRING])
 			-- List of directory path fragments that exclude directories
 		do
 			path_fragments.do_all (agent exclude_containing_list.extend)
 		end
 
-	exclude_path_containing (path_fragment: EL_ASTRING)
+	exclude_path_containing (path_fragment: ASTRING)
 			-- List of directory path fragments that exclude directories
 		do
 			exclude_containing_list.extend (path_fragment)
 		end
 
-	exclude_path_ending_any_of (path_endings: ARRAY [EL_ASTRING])
+	exclude_path_ending_any_of (path_endings: ARRAY [ASTRING])
 			-- List of directory path fragments that exclude directories
 		do
 			path_endings.do_all (agent exclude_ending_list.extend)
 		end
 
-	exclude_path_ending (path_ending: EL_ASTRING)
+	exclude_path_ending (path_ending: ASTRING)
 			-- List of directory path fragments that exclude directories
 		do
 			exclude_ending_list.extend (path_ending)
@@ -122,7 +116,7 @@ feature {NONE} -- Evolicity reflection
 
 feature {EL_COMMAND_IMPL} -- Implementation
 
-	do_command (a_system_command: EL_ASTRING)
+	do_command (a_system_command: ASTRING)
 			--
 		do
 			path_list.wipe_out
@@ -132,7 +126,7 @@ feature {EL_COMMAND_IMPL} -- Implementation
 	do_with_lines (lines: EL_FILE_LINE_SOURCE)
 			--
 		local
-			line: EL_ASTRING
+			line: ASTRING
 		do
 			from lines.start until lines.after loop
 				line := lines.item
@@ -149,7 +143,7 @@ feature {EL_COMMAND_IMPL} -- Implementation
 			Result := Precursor (output_file_path)
 		end
 
-	is_output_line_excluded (line: EL_ASTRING): BOOLEAN
+	is_output_line_excluded (line: ASTRING): BOOLEAN
 			--
 		do
 			Result := line.is_empty
@@ -161,9 +155,9 @@ feature {EL_COMMAND_IMPL} -- Implementation
 			end
 		end
 
-	exclude_containing_list: LINKED_LIST [EL_ASTRING]
+	exclude_containing_list: LINKED_LIST [ASTRING]
 
-	exclude_ending_list: LINKED_LIST [EL_ASTRING]
+	exclude_ending_list: LINKED_LIST [ASTRING]
 
 	Line_processing_enabled: BOOLEAN = true
 

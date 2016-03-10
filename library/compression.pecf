@@ -9,12 +9,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_compression 
+	name = EL_compression 
 	uuid = "229b6f84-09aa-11df-87b0-ab7c62abf4b2" 
-	library_target = el_compression
+	library_target = EL_compression
 	
 	target:
-		name = el_compression
+		name = EL_compression
 		
 		description: 
 			"""
@@ -50,8 +50,9 @@ system:
 		# Eiffel Loop
 
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 
+		# Source code
 		cluster:
 			name = compression; location = "utility/compression"
 

@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = wel_regedit
+	name = EL_regedit
 	uuid = "552d167e-5817-4a31-acb4-8611c5033b28" 
-	library_target = el_regedit_x
+	library_target = EL_regedit
 	
 	target:
-		name = el_regedit_x
+		name = EL_regedit
 		
 		description: 
 			"""
@@ -35,11 +35,16 @@ system:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library:
-			name = wel; location = "ES-wel.ecf"
+			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
+			condition:
+				platform:
+					value = windows
 
+		# Eiffel-Loop
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 
+		# Source code
 		cluster:
 			name = win_registry; location= "persistency/database/win-registry"; recursive = true
 

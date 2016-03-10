@@ -9,12 +9,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-21 10:17:34 GMT (Sunday 21st July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 deferred class
 	EL_EXPAT_CODEC
@@ -23,6 +23,8 @@ inherit
 	EL_C_CALLABLE
 		rename
 			make as make_callable
+		redefine
+			set_gc_protected_callbacks_target
 		end
 
 	EL_EXPAT_API
@@ -34,13 +36,10 @@ feature {NONE} -- Initialization
 
 	make (encoding_info_struct_ptr: POINTER)
 		do
+			make_callable
 			create encoding_info.share_from_pointer (encoding_info_struct_ptr, exml_XML_encoding_size)
 			fill_encoding_info_map
 			protect_c_callbacks
-		end
-
-	make_callable
-		do
 		end
 
 feature -- Element change

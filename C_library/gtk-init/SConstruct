@@ -1,0 +1,27 @@
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2010 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "5 Sep 2014"
+#	revision: "0.1"
+
+import os
+from os import path
+from eiffel_loop.eiffel import project
+
+if os.name == "posix":
+	env = Environment()
+	env.ParseConfig('pkg-config --cflags --libs gtk+-2.0')	
+
+	build_dir =  project.platform_spec_build_dir ()
+
+	VariantDir (build_dir, 'source', duplicate=0)
+
+	library_path = path.join (build_dir, 'gtkinit')
+
+	lib = env.StaticLibrary (library_path, File (path.join (build_dir, 'gtk-init.c')))
+#	lib = env.Program (library_path, File (path.join (build_dir, 'gtk-init.c')))
+
+	env.NoClean (lib)
+
+#Return ('lib')

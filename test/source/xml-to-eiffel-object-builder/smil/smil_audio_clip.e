@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:09:42 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	SMIL_AUDIO_CLIP
@@ -15,12 +15,17 @@ class
 inherit
 	EL_EIF_OBJ_BUILDER_CONTEXT
 		rename
-			make as make_xpath_context
+			make_default as make
 		redefine
-			on_context_exit
+			make, on_context_exit
 		end
 
 	EVOLICITY_EIFFEL_CONTEXT
+		rename
+			make_default as make
+		redefine
+			make
+		end
 
 	EL_SMIL_VALUE_PARSING
 
@@ -32,17 +37,16 @@ create
 feature {NONE} -- Initialization
 
 	make
-			--
 		do
-			make_xpath_context
-			make_eiffel_context
+			Precursor {EVOLICITY_EIFFEL_CONTEXT}
+			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 		end
 
 feature -- Access
 
-	source: EL_ASTRING
+	source: ASTRING
 
-	title: EL_ASTRING
+	title: ASTRING
 
 	onset: REAL
 
@@ -57,8 +61,8 @@ feature {NONE} -- Evolicity fields
 		do
 			create Result.make (<<
 				["id", 		agent: INTEGER_REF do Result := id.to_reference end],
-				["source",	agent: EL_ASTRING do Result := source end],
-				["title", 	agent: EL_ASTRING do Result := title end],
+				["source",	agent: ASTRING do Result := source end],
+				["title", 	agent: ASTRING do Result := title end],
 				["onset",	agent: STRING do Result := Seconds.formatted (onset) end],
 				["offset",	agent: STRING do Result := Seconds.formatted (offset) end]
 			>>)

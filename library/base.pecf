@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_base
+	name = EL_base
 	uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" 
-	library_target = el_base
+	library_target = EL_base
 	
 	target:
-		name = el_base
+		name = EL_base
 		
 		description: 
 			"""
@@ -23,6 +23,9 @@ system:
 			namespace = "Eiffel-Loop.Library"; trace = false; debug=false; warning=true; syntax = standard
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
+
+		mapping:
+			old_name = ASTRING; new_name = EL_ASTRING
 
 		# Needed for Windows XP
 		variable:
@@ -48,13 +51,13 @@ system:
 		library:
 			name = base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
 
-		library: 
+		library:
 			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
 
 		library: 
 			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
 
-		library: 
+		library:
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		#library: 
@@ -71,44 +74,6 @@ system:
 			name = data_structure; location = "data_structure"; recursive = true
 			option:
 				namespace = Data_structure
-
-		cluster:
-			name = language_interface; location = "language_interface"
-			option:
-				namespace = Language_interface
-
-			cluster:
-				name = C; location = "$|C"; recursive = true
-				file_rule:
-					exclude:
-						"/Java$"
-						"/Python$"
-
-				file_rule:
-					exclude:
-						"/windows$"
-					condition:
-						platform:
-							value = unix
-
-				file_rule:
-					exclude:
-						"/unix$"
-					condition:
-						platform:
-							value = windows
-
-			cluster:
-				name = cpp; location = "$|C++"; recursive = true
-
-			cluster:
-				name = ms_com; location = "$|MS-COM"; recursive = true
-				condition:
-					platform:
-						value = windows
-
-			cluster:
-				name = support; location = "$|support"
 
 		cluster:
 			name = graphic; location = "graphic"
@@ -156,9 +121,10 @@ system:
 			file_rule:
 				exclude:
 					"/encryption$"
-					"/internationalization-pyxis$"
-					"/internationalization$"
+					"/i18n-pyxis$"
+					"/i18n$"
 
+		# Source code
 		cluster:
 			name = testing; location = "testing"; recursive = true
 			option:

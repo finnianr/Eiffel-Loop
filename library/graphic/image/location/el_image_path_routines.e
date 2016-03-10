@@ -10,18 +10,18 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:07:58 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	EL_IMAGE_PATH_ROUTINES
 
 inherit
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_DIRECTORY
 		export
 			{NONE} all
 		end
@@ -51,50 +51,50 @@ feature -- Constants
 	Icons_path: EL_DIR_PATH
 			--
 		once
-			Result := Execution_environment.Application_installation_dir.joined_dir_path (Step_icons)
+			Result := Directory.application_installation.joined_dir_path (Step_icons)
 		end
 
 	Desktop_menu_icons_path: EL_DIR_PATH
 			--
 		once
-			Result := Execution_environment.Application_installation_dir.joined_dir_path (Step_desktop_icons)
+			Result := Directory.application_installation.joined_dir_path (Step_desktop_icons)
 		end
 
 	Images_path: EL_DIR_PATH
 			--
 		once
-			Result := Execution_environment.Application_installation_dir.joined_dir_path (Step_images)
+			Result := Directory.application_installation.joined_dir_path (Step_images)
 		end
 
 	User_icons_path: EL_DIR_PATH
 			--
 		once
-			Result := Execution_environment.User_configuration_dir.joined_dir_path (Step_icons)
+			Result := Directory.User_configuration.joined_dir_path (Step_icons)
 		end
 
 	User_desktop_menu_icons_path: EL_DIR_PATH
 			--
 		once
-			Result := Execution_environment.User_configuration_dir.joined_dir_path (Step_desktop_icons)
+			Result := Directory.User_configuration.joined_dir_path (Step_desktop_icons)
 		end
 
 	User_images_path: EL_DIR_PATH
 			--
 		once
-			Result := Execution_environment.User_configuration_dir.joined_dir_path (Step_images)
+			Result := Directory.User_configuration.joined_dir_path (Step_images)
 		end
 
-	Step_icons: EL_ASTRING
+	Step_icons: ASTRING
 		once
 			Result := "icons"
 		end
 
-	Step_desktop_icons: EL_ASTRING
+	Step_desktop_icons: ASTRING
 		once
 			Result := "desktop-icons"
 		end
 
-	Step_images: EL_ASTRING
+	Step_images: ASTRING
 		once
 			Result := "images"
 		end

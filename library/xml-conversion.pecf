@@ -1,0 +1,45 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = EL_xml_conversion
+	uuid = "229b53f0-09aa-11df-8778-2b7e79df966a" 
+	library_target = EL_xml_conversion
+	
+	target:
+		name = EL_xml_conversion
+		
+		description: 
+			"""
+				XML persistence library. Save Eiffel objects as XML. Create Eiffel objects from XML.
+				Read Open Office spreadsheets from XML format.
+			"""
+
+		root:
+			all_classes = true
+
+		option:
+			trace = false; debug = false; warning = true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		# Eiffel-Loop
+		library:
+			name = EL_base; location = "base.ecf"
+
+		library:
+			name = EL_vtd_xml; location = "vtd-xml.ecf"
+
+		# Source code
+		cluster:
+			name = object_conversion; location = "persistency/xml/object-conversion"; recursive = true
+
+		cluster:
+			name = open_office_spread_sheet; location = "persistency/xml/open-office-spreadsheet"; recursive = true
+

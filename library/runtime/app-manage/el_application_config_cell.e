@@ -4,23 +4,26 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
 	revision: "3"
 
 class
-	EL_APPLICATION_CONFIG_CELL [G -> {EL_FILE_PERSISTENT} create make, make_from_file end]
+	EL_APPLICATION_CONFIG_CELL [G -> {EL_FILE_PERSISTENT} create make_from_file end]
 
 inherit
 	CELL [G]
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_DIRECTORY
 		export
 			{NONE} all
 		end
 
 	EL_MODULE_FILE_SYSTEM
+		export
+			{NONE} all
+		end
 
 create
 	make_from_option_name, make, make_from_master
@@ -35,7 +38,7 @@ feature {NONE} -- Initialization
 	make (a_file_name: STRING)
 		do
 			file_name := a_file_name
-			put (create_config (config_file_path))
+			put (create {G}.make_from_file (config_file_path))
 		end
 
 	make_from_master (a_master_copy_path: EL_FILE_PATH)
@@ -55,25 +58,14 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	create_config (a_file_path: EL_FILE_PATH): G
-		do
-			if a_file_path.exists then
-				create Result.make_from_file (a_file_path)
-			else
-				create Result.make
-				Result.set_file_path (a_file_path)
-				Result.store
-			end
-		end
-
 	config_file_path: EL_FILE_PATH
 			--
 		require
-			configuration_directory_exists: (Execution_environment.User_configuration_dir.exists)
+			configuration_directory_exists: (Directory.User_configuration.exists)
 		local
 			l_dir_path: EL_DIR_PATH
 		do
-			l_dir_path := Execution_environment.User_configuration_dir.twin
+			l_dir_path := Directory.User_configuration.twin
 			if not Application_sub_option.is_empty then
 				l_dir_path.append_file_path (Application_sub_option)
 			end
@@ -83,7 +75,7 @@ feature {NONE} -- Implementation
 
 feature -- Access
 
-	file_name: EL_ASTRING
+	file_name: ASTRING
 
 feature {NONE} -- Constants
 

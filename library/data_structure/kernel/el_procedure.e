@@ -8,7 +8,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-06-18 12:36:30 GMT (Tuesday 18th June 2013)"
 	revision: "2"
@@ -30,22 +30,18 @@ convert
 
 feature -- Initialization
 
-	make (a_procedure: like procedure)
+	make (other: PROCEDURE [ANY, TUPLE])
 			--
 		do
-			procedure := a_procedure
+			encaps_rout_disp := other.encaps_rout_disp
 		end
 
-feature -- Status query
+feature -- Comparison
 
-	same_procedure (other: like procedure): BOOLEAN
+	same_procedure (other: PROCEDURE [ANY, TUPLE]): BOOLEAN
 			--
 		do
-			Result := procedure.encaps_rout_disp = other.encaps_rout_disp
+			Result := encaps_rout_disp = other.encaps_rout_disp
 		end
-
-feature {NONE} -- Implementation
-
-	procedure: PROCEDURE [ANY, TUPLE]
 
 end

@@ -2,18 +2,21 @@ note
 	description: "Windows command to find file count and directory file content size"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:30 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-01-24 11:02:04 GMT (Friday 24th January 2014)"
+	revision: "2"
 
 class
 	EL_DIRECTORY_INFO_COMMAND_IMPL
 
 inherit
 	EL_COMMAND_IMPL
+
+create
+	make
 
 feature -- Access
 

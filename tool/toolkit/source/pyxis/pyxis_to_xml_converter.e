@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {PYXIS_TO_XML_CONVERTER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 19:58:27 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	PYXIS_TO_XML_CONVERTER
@@ -20,11 +20,11 @@ inherit
 create
 	make, default_create
 
-feature {EL_COMMAND_LINE_SUB_APPLICATTION} -- Initialization
+feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
 	make (a_source_path, a_output_path: EL_FILE_PATH)
 		local
-			extension: EL_ASTRING
+			extension: ASTRING
 		do
 			source_path  := a_source_path
 			output_path := a_output_path
@@ -46,14 +46,19 @@ feature -- Basic operations
 	execute
 			--
 		local
-			out_file, in_file: PLAIN_TEXT_FILE
+			in_file: PLAIN_TEXT_FILE; out_file: EL_PLAIN_TEXT_FILE
+			encoding: EL_PYXIS_ENCODING
 		do
 			log.enter ("run")
 			log_or_io.put_path_field ("Converting", source_path)
 			log_or_io.put_new_line
 
-			create in_file.make_open_read (source_path.unicode)
-			create out_file.make_open_write (output_path.unicode)
+			create encoding.make_from_file (source_path)
+
+			create in_file.make_open_read (source_path)
+			create out_file.make_open_write (output_path)
+			out_file.set_encoding_from_other (encoding)
+
 			xml_generator.convert_stream (in_file, out_file)
 			in_file.close
 			out_file.close

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Queries an XPath context node for file specifiers"
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-02-23 13:01:17 GMT (Sunday 23rd February 2014)"
-	revision: "3"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 deferred class
 	FILE_SPECIFIER_LIST
@@ -24,7 +24,7 @@ feature {NONE} -- Implementation
 			-- Eg. filter/exclude
 			valid_query_path: query_path.split ('/').count = 2
 		local
-			specifier_name, file_specifier: EL_ASTRING
+			specifier_name, file_specifier: ASTRING
 		do
 			log.enter ("write_specifiers")
 			across directory_node.context_list (query_path) as specifier loop
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	put_file_specifier (specifier_name, file_specifier: EL_ASTRING)
+	put_file_specifier (specifier_name, file_specifier: ASTRING)
 			--
 		deferred
 		end

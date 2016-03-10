@@ -2,9 +2,14 @@ note
 	description: "[
 		Delayed removal of program directory on uninstall to avoid permission problem
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-03-02 13:11:20 GMT (Sunday 2nd March 2014)"
+	revision: "5"
 
 deferred class
 	EL_INSTALLED_FILE_REMOVAL_COMMAND
@@ -12,7 +17,6 @@ deferred class
 inherit
 	EVOLICITY_SERIALIZEABLE
 		rename
-			make as make_serializeable,
 			output_path as command_path,
 			serialize as write_command_script
 		end
@@ -43,16 +47,16 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	menu_name: EL_ASTRING
+	menu_name: ASTRING
 
 	script_dir: EL_DIR_PATH
 
-	removal_command: EL_ASTRING
+	removal_command: ASTRING
 		do
-			Result := command_template.substituted (<< command_path >>)
+			Result := command_template #$ [command_path]
 		end
 
-	uninstall_script_name: EL_ASTRING
+	uninstall_script_name: ASTRING
 		deferred
 		end
 
@@ -62,21 +66,9 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["program_directory", agent: EL_ASTRING
-					do
-						Result := Execution.Application_installation_dir.to_string
-					end
-				],
-				["software_company_directory", agent: EL_ASTRING
-					do
-						Result := Execution.Application_installation_dir.parent.to_string
-					end
-				],
-				["completion_message", agent: EL_ASTRING
-					do
-						Result := String.template (completion_message_template).substituted (<< menu_name >>)
-					end
-				]
+				["program_directory",			 agent: EL_PATH do Result := Directory.Application_installation end],
+				["software_company_directory", agent: EL_PATH do Result := Directory.Application_installation.parent end ],
+				["completion_message",			 agent: ASTRING do Result := completion_message_template #$ [menu_name] end]
 			>>)
 		end
 
@@ -84,13 +76,13 @@ feature {NONE} -- Evolicity fields
 		deferred
 		end
 
-	command_template: EL_TEMPLATE_STRING
+	command_template: ASTRING
 		deferred
 		end
 
 feature {NONE} -- Constants
 
-	completion_message_template: EL_ASTRING
+	completion_message_template: ASTRING
 		do
 			Result := "%"$S%" removed."
 		end

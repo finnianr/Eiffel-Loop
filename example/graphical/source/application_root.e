@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-02-13 13:06:38 GMT (Wednesday 13th February 2013)"
 	revision: "2"
@@ -27,7 +27,8 @@ feature {NONE} -- Implementation
 				{CONSOLE_LOGGING_QUANTUM_BALL_ANIMATION_APP},
 				{DOCKING_APP},
 				{QUANTUM_BALL_ANIMATION_APP},
-				{POST_CARD_VIEWER_APP}
+				{POST_CARD_VIEWER_APP},
+				{PANGO_CAIRO_TEST_APP}
 			>>
 		end
 

@@ -1,19 +1,22 @@
-note
+﻿note
 	description: "Summary description for {SMIL_XPATH_MATCH_EVENT_PROCESSOR}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-06 10:31:55 GMT (Saturday 6th July 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	SMIL_XPATH_MATCH_EVENTS
 
 inherit
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
+		rename
+			make_default as do_nothing
+		end
 
 	EL_MODULE_LOG
 
@@ -56,13 +59,13 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				-- Fixed paths
-				["/smil/body/seq/audio/@title", on_node_start, agent on_audio_title],
+				[on_open, "/smil/body/seq/audio/@title", agent on_audio_title],
 
-				["/smil", on_node_end, agent on_smil_end],
+				[on_close, "/smil", agent on_smil_end],
 
 				-- Wild card paths
-				["//audio", on_node_start, agent increment_audio_count],
-				["//meta/@name", on_node_start, agent on_meta_tag]
+				[on_open, "//audio", agent increment_audio_count],
+				[on_open, "//meta/@name", agent on_meta_tag]
 			>>
 		end
 

@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:29 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_EIF_OBJ_TEXT_TABLE_CONTEXT
@@ -25,8 +25,6 @@ inherit
 			do_with_xpath as put_text_value
 		undefine
 			copy, is_equal
-		redefine
-			make
 		end
 
 create
@@ -37,9 +35,8 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			make_table (5)
-			compare_objects
-			Precursor
+			make_equal (5)
+			make_default
 		end
 
 feature {NONE} -- Implementation

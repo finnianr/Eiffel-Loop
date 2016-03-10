@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EIFFEL_SOURCE_EDIT_SUB_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 9:57:52 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 deferred class
 	EIFFEL_SOURCE_EDIT_SUB_APP
@@ -15,7 +15,7 @@ deferred class
 inherit
 	FILE_OPERATING_SUB_APP
 
-feature -- bo
+feature -- Basic operations
 
 	normal_run
 		do
@@ -28,8 +28,7 @@ feature -- Testing
 	test_run
 			--
 		do
-			Test.do_file_test ("sample-source/EL_COPY_FILE_COMMAND.e", agent test_edit, checksum
-			)
+			Test.do_file_test ("Eiffel/latin1-sources/os-command/file-system/EL_COPY_FILE_COMMAND.e", agent test_edit, checksum)
 		end
 
 	test_edit (a_file_path: EL_FILE_PATH)

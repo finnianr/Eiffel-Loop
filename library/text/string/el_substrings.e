@@ -20,7 +20,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_string: EL_ASTRING)
+	make (a_string: ASTRING)
 			--
 		do
 			create string.make_empty
@@ -29,9 +29,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	string: EL_ASTRING
+	string: ASTRING
 
-	substring: EL_ASTRING
+	substring: ASTRING
 			--
 		do
 			Result := string.substring (interval.lower, interval.upper)

@@ -146,8 +146,7 @@ class FREEZE_BUILD (object):
 # Initialization
 	def __init__ (self, env, project_py):
 		self.env = env
-		self.major_version = project_py.major_version
-		self.minor_version = project_py.minor_version
+		self.version = project_py.version
 		self.ecf_path = env.get ('project')
 		self.pecf_path = None
 
@@ -284,7 +283,8 @@ class FREEZE_BUILD (object):
 		print 'Installing resources in:', destination_dir
 		copy_tree, copy_file, remove_tree, mkpath = self.__file_command_set (destination_dir)
 
-		mkpath (destination_dir)
+		if not path.exists (destination_dir):
+			mkpath (destination_dir)
 		resource_root_dir = "resources"
 		if path.exists (resource_root_dir):
 			excluded_dirs = ["workarea"]
@@ -292,15 +292,16 @@ class FREEZE_BUILD (object):
 				path.join (resource_root_dir, name) 
 					for name in os.listdir (resource_root_dir ) if not name in excluded_dirs
 			]
-			resource_directories = [dir_path for dir_path in resource_list if path.isdir (dir_path)]
-		
-			for resource_dir in resource_directories:
-				basename = path.basename (resource_dir)
+			for resource_path in resource_list:
+				basename = path.basename (resource_path)
 				self.write_io ('Installing %s\n' % basename)
-				resource_dest_dir = path.join (destination_dir, basename)
-				if path.exists (resource_dest_dir):
-					remove_tree (resource_dest_dir)	
-				copy_tree (resource_dir, resource_dest_dir)
+				if path.isdir (resource_path):
+					resource_dest_dir = path.join (destination_dir, basename)
+					if path.exists (resource_dest_dir):
+						remove_tree (resource_dest_dir)	
+					copy_tree (resource_path, resource_dest_dir)	
+				else:
+					copy_file (resource_path, destination_dir)
 
 	def install_executables (self, destination_dir):
 		print 'Installing executables in:', destination_dir
@@ -369,8 +370,7 @@ class FREEZE_BUILD (object):
 		f = open (file_path, 'w')
 		f.write (
 			build_info_class_template.substitute (
-				major_version = self.major_version, 
-				minor_version = self.minor_version,
+				version = "%02d_%02d_%02d" % self.version, 
 				build_no = build_no,
 				# Assumes unix separator
 				installation_sub_directory = self.installation_sub_directory
@@ -522,16 +522,11 @@ class
 inherit
 	EL_BUILD_INFO
 
-create
-	make
-
 feature -- Constants
 
-	Major_version: INTEGER = ${major_version}
+	Version_number: NATURAL = ${version}
 
-	Minor_version: INTEGER = ${minor_version}
-
-	Build_number: INTEGER = ${build_no}
+	Build_number: NATURAL = ${build_no}
 
 	Installation_sub_directory: EL_DIR_PATH
 		once

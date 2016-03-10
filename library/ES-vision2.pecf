@@ -1,10 +1,11 @@
 pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 system:
-	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-10-0"
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-13-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance"
-	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd"
-	name = vision2; uuid = "229b6d90-09aa-11df-87ab-f328e9f0867b"; library_target = vision2
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-13-0 http://www.eiffel.com/developers/xml/configuration-1-13-0.xsd"
+	name = vision2; uuid = "FF177272-9E24-4282-941E-60889FC503EB"
+	library_target = vision2
 	target:
 		name = vision2
 		description:
@@ -21,7 +22,8 @@ system:
 				"/\.svn$"
 				"/temp$"
 		option:
-			warning = true; is_attached_by_default = false; syntax = transitional; namespace = "EiffelSoftware.Library"
+			warning = true; full_class_checking = false; is_attached_by_default = false
+			void_safety = none; syntax = standard; namespace = "EiffelSoftware.Library"
 			warning:
 				name = syntax; enabled = false
 		setting:
@@ -110,6 +112,8 @@ system:
 					excluded_value = none
 				custom:
 					name = vision_implementation; excluded_value = cocoa
+				custom:
+					name = vision_implementation; excluded_value = gtk34
 		external_linker_flag:
 			value = "`$(ISE_LIBRARY)/library/vision2/implementation/gtk/Clib/vision2-gtk-config --object`"
 			condition:
@@ -191,18 +195,39 @@ system:
 				custom:
 					name = vision_implementation; excluded_value = gtk34
 		library:
+			name = objective_c; location = "$ISE_LIBRARY\library\objc_base\objc_base.ecf"
+			readonly = false
+			condition:
+				platform:
+					value = macintosh
+				custom:
+					name = vision_implementation; value = cocoa
+				custom:
+					name = vision_implementation; excluded_value = gtk34
+		library:
 			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
 		library:
-			name = wel; location = "ES-wel.ecf"
+			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
 				platform:
 					value = windows
 		assembly:
-			name = eiffelsoftware_runtime; location = "$ISE_EIFFEL\studio\spec\$ISE_PLATFORM\lib\EiffelSoftware.Runtime.dll"
+			name = eiffelsoftware_runtime
+			location = "$ISE_EIFFEL\studio\spec\$ISE_PLATFORM\lib\EiffelSoftware.Runtime.dll"
 		assembly:
 			name = mscorlib; location = "$ISE_DOTNET_FRAMEWORK\mscorlib.dll"
+			renaming:
+				old_name = INTERFACE_TYPE_ATTRIBUTE; new_name = SYSTEM_INTERFACE_TYPE_ATTRIBUTE
+			renaming:
+				old_name = ENCODING; new_name = SYSTEM_ENCODING
+			renaming:
+				old_name = THREAD_STATE; new_name = SYSTEM_THREAD_STATE
+			renaming:
+				old_name = TIMER; new_name = SYSTEM_TIMER
+			renaming:
+				old_name = WEAK_REFERENCE; new_name = SYSTEM_WEAK_REFERENCE
 		cluster:
-			name = contrib; location = "$ISE_LIBRARY\library\vision2\contrib\\"; recursive = true
+			name = contrib; location = "$ISE_LIBRARY/library/vision2/contrib"; recursive = true
 			option:
 				namespace = "Vision2.Contrib"
 			file_rule:
@@ -220,7 +245,8 @@ system:
 					platform:
 						value = windows
 		cluster:
-			name = implementation_cocoa; location = "$ISE_LIBRARY\library\vision2\implementation\cocoa\\"; recursive = true
+			name = implementation_cocoa; location = "$ISE_LIBRARY/library/vision2/implementation\cocoa\\"
+			recursive = true
 			condition:
 				platform:
 					value = macintosh
@@ -229,17 +255,7 @@ system:
 				custom:
 					name = vision_implementation; value = cocoa
 		cluster:
-			name = implementation_gtk34; location = "$ISE_LIBRARY\library\vision2\implementation\gtk34\\"; recursive = true
-			condition:
-				platform:
-					excluded_value = windows
-				custom:
-					name = vision_implementation; value = gtk34
-		cluster:
-			name = implementation_gtk; location = "$ISE_LIBRARY\library\vision2\implementation\gtk\\"; recursive = true
-			file_rule:
-				exclude:
-					"/ev_pixel_buffer_imp\.e"
+			name = implementation_gtk; location = "$ISE_LIBRARY/library/vision2/implementation/gtk"; recursive = true
 			condition:
 				platform:
 					excluded_value = windows
@@ -248,34 +264,21 @@ system:
 				custom:
 					name = vision_implementation; excluded_value = gtk34
 		cluster:
-			name = el_override; location = "graphic/toolkit/vision2-override"
-			cluster:
-				name = override_interface; location = "$|interface"; recursive = true
-			cluster:
-				name = override_implementation_interface; location = "$|implementation/implementation_interface"; recursive = true
-			cluster:
-				name = override_implementation_mswin; location = "$|implementation/mswin"; recursive = true
-				condition:
-					platform:
-						value = windows
-			cluster:
-				name = override_implementation_gtk; location = "$|implementation/gtk"; recursive = true
-				condition:
-					platform:
-						excluded_value = windows
-					custom:
-						name = vision_implementation; excluded_value = cocoa
-					custom:
-						name = vision_implementation; excluded_value = gtk34
+			name = implementation_gtk34; location = "$ISE_LIBRARY/library/vision2/implementation/gtk34"
+			recursive = true
+			condition:
+				platform:
+					excluded_value = windows
+				custom:
+					name = vision_implementation; value = gtk34
 		cluster:
-			name = implementation_interface; location = "$ISE_LIBRARY/library/vision2/implementation/implementation_interface/"; recursive = true
+			name = implementation_interface
+			location = "$ISE_LIBRARY/library/vision2/implementation/implementation_interface"; recursive = true
 			option:
 				namespace = "Vision2.$$Implementation.Interface"
-			file_rule:
-				exclude:
-					"/ev_pixel_buffer_i\.e"
 		cluster:
-			name = implementation_mswin; location = "$ISE_LIBRARY\library\vision2\implementation\mswin\\"; recursive = true
+			name = implementation_mswin; location = "$ISE_LIBRARY/library/vision2/implementation/mswin"
+			recursive = true
 			condition:
 				platform:
 					value = windows
@@ -287,7 +290,6 @@ system:
 					"/ev_internally_processed_textable_imp\.e"
 					"/ev_pixmap_imp\.e"
 					"/ev_pixmap_imp_drawable\.e"
-					"/ev_pixel_buffer_imp\.e"
 					"/ev_radio_button_imp\.e"
 				condition:
 					platform:
@@ -302,14 +304,35 @@ system:
 						value = windows
 					dotnet:
 						value = true
+
 		cluster:
-			name = interface; location = "$ISE_LIBRARY\library\vision2\interface\\"; recursive = true
+			name = interface; location = "$ISE_LIBRARY/library/vision2/interface"; recursive = true
 			option:
 				namespace = Vision2
 			file_rule:
 				exclude:
 					"/ev_environment_handler\.e"
-					"/ev_pixel_buffer\.e"
+		# Eiffel-Loop overrides
+		cluster:
+			name = EL_override; location = "graphic/toolkit/overrides/vision2"
+			cluster:
+				name = el_interface; location = "$|interface"; recursive = true
+			cluster:
+				name = el_implementation_interface; location = "$|implementation/implementation_interface"; recursive = true
+			cluster:
+				name = el_implementation_mswin; location = "$|implementation/mswin"; recursive = true
+				condition:
+					platform:
+						value = windows
+			cluster:
+				name = el_implementation_gtk; location = "$|implementation/gtk"; recursive = true
+				condition:
+					platform:
+						excluded_value = windows
+					custom:
+						name = vision_implementation; excluded_value = cocoa
+					custom:
+						name = vision_implementation; excluded_value = gtk34
 	target:
 		name = vision2_dotnet; extends = vision2
 		setting:

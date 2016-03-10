@@ -1,0 +1,717 @@
+<EIFFEL_DOCUMENT>
+	<PREFERENCE NAME="compiler.maximum_processors_usage" VALUE="0"/>
+	<PREFERENCE NAME="general.acrobat_reader" VALUE="acrobat"/>
+	<PREFERENCE NAME="editor.eiffel.text_mode_is_windows" VALUE="True"/>
+	<PREFERENCE NAME="general.internet_browser" VALUE="iexplore.exe $url"/>
+	<PREFERENCE NAME="general.dynamic_library_window_height" VALUE="300"/>
+	<PREFERENCE NAME="general.dynamic_library_window_width" VALUE="450"/>
+	<PREFERENCE NAME="general.preference_window_height" VALUE="755"/>
+	<PREFERENCE NAME="general.preference_window_width" VALUE="1322"/>
+	<PREFERENCE NAME="general.show_hidden_preferences" VALUE="False"/>
+	<PREFERENCE NAME="general.console_shell_command" VALUE=""/>
+	<PREFERENCE NAME="general.file_browser_command" VALUE="explorer $target"/>
+	<PREFERENCE NAME="general.external_editor_command" VALUE="gedit $target"/>
+	<PREFERENCE NAME="general.locale" VALUE="zh_CN;en_US;fr_FR;de_DE;ru_RU;[Unselected]"/>
+	<PREFERENCE NAME="general.pick_and_drop_(pnd)_mode" VALUE="False"/>
+	<PREFERENCE NAME="general.eis_path" VALUE="/home/finnian;/usr/local/Eiffel71/library"/>
+	<PREFERENCE NAME="general.use_postscript" VALUE="True"/>
+	<PREFERENCE NAME="tools.context_tool.show_all_callers" VALUE="True"/>
+	<PREFERENCE NAME="interface.development_window.expand_feature_tree" VALUE="True"/>
+	<PREFERENCE NAME="interface.development_window.features_tool.is_signature_enabled" VALUE="False"/>
+	<PREFERENCE NAME="interface.development_window.features_tool.is_alias_enabled" VALUE="True"/>
+	<PREFERENCE NAME="interface.development_window.features_tool.is_assigner_enabled" VALUE="False"/>
+	<PREFERENCE NAME="interface.development_window.feature_clause_order" VALUE="Initialization;Access;Measurement;Comparison;Status report;Status setting;Cursor movement;Element change;Removal;Resizing;Transformation;Conversion;Duplication;Miscellaneous;Basic operations;Obsolete;Inapplicable;Implementation;*"/>
+	<PREFERENCE NAME="tools.context_tool.excluded_indexing_items" VALUE="revision;date;status"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_on_terminate_external_command" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_on_terminate_freezing" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_on_terminate_finalizing" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_on_terminate_process" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_on_exit" VALUE="False"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_finalize" VALUE="False"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_freeze" VALUE="False"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_save_before_compile" VALUE="False"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_save_before_prettifying" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_finalize_assertions" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_clear_breakpoints" VALUE="False"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_ignore_all_breakpoints" VALUE="False"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_ignore_contract_violation" VALUE="False"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_always_apply_debugger_profiles_before_closing" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_always_compile_before_executing" VALUE="False"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_convert_project" VALUE="False"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_build_precompile" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_delete_eis_entries" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_remove_metric" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_save_metric" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.acknowledge_not_loaded" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_finalize_precompile" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.show_starting_dialog" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_resource_change_needs_restart" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.generate_homonyms" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.stop_execution_when_compiling" VALUE="False"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_kill" VALUE="False"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_kill_and_restart" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.dbg_confirm_detach" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_reload_execution_profile" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.already_editing_class" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.executing_command" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.confirm_replace_all" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.file_open_and_save_dialogs_remember_last_directory" VALUE="True"/>
+	<PREFERENCE NAME="interface.dialogs.last_opened_project_directory" VALUE=""/>
+	<PREFERENCE NAME="interface.dialogs.last_opened_dynamic_lib_directory" VALUE=""/>
+	<PREFERENCE NAME="interface.dialogs.last_opened_metric_browse_archive_directory" VALUE="/home/finnian"/>
+	<PREFERENCE NAME="interface.dialogs.last_imported_metric_definition_directory" VALUE=""/>
+	<PREFERENCE NAME="interface.dialogs.last_saved_dynamic_lib_directory" VALUE=""/>
+	<PREFERENCE NAME="interface.dialogs.last_saved_call_stack_directory" VALUE=""/>
+	<PREFERENCE NAME="interface.dialogs.last_saved_debugger_exception_directory" VALUE=""/>
+	<PREFERENCE NAME="interface.dialogs.last_saved_diagram_postscript_directory" VALUE=""/>
+	<PREFERENCE NAME="interface.dialogs.last_saved_exception_directory" VALUE="/home/finnian/Desktop"/>
+	<PREFERENCE NAME="interface.dialogs.last_saved_save_file_as_directory" VALUE="/home/finnian/Desktop"/>
+	<PREFERENCE NAME="interface.dialogs.last_saved_profile_result_directory" VALUE=""/>
+	<PREFERENCE NAME="interface.dialogs.project_settings_width" VALUE="1183"/>
+	<PREFERENCE NAME="interface.dialogs.project_settings_height" VALUE="770"/>
+	<PREFERENCE NAME="interface.dialogs.project_settings_position_x" VALUE="460"/>
+	<PREFERENCE NAME="interface.dialogs.project_settings_position_y" VALUE="142"/>
+	<PREFERENCE NAME="interface.dialogs.project_settings_split_position" VALUE="220"/>
+	<PREFERENCE NAME="interface.dialogs.starting_dialog_width" VALUE="529"/>
+	<PREFERENCE NAME="interface.dialogs.starting_dialog_height" VALUE="591"/>
+	<PREFERENCE NAME="interface.dialogs.open_project_dialog_width" VALUE="500"/>
+	<PREFERENCE NAME="interface.dialogs.open_project_dialog_height" VALUE="300"/>
+	<PREFERENCE NAME="interface.dialogs.discard_target_scope_customized_formatter" VALUE="True"/>
+	<PREFERENCE NAME="tools.context_tool.formatters_history_size" VALUE="60"/>
+	<PREFERENCE NAME="tools.context_tool.default_class_formatter_index" VALUE="5"/>
+	<PREFERENCE NAME="tools.context_tool.default_feature_formatter_index" VALUE="2"/>
+	<PREFERENCE NAME="tools.context_tool.default_dependency_formatter_index" VALUE="2"/>
+	<PREFERENCE NAME="debugger.last_saved_stack_path" VALUE=""/>
+	<PREFERENCE NAME="debugger.default_expanded_view_size" VALUE="500"/>
+	<PREFERENCE NAME="debugger.proportion" VALUE="0.168397"/>
+	<PREFERENCE NAME="debugger.left_debug_layout" VALUE="Features;closed;0;0;0;0;Clusters;closed;0;0;0;0;Properties;closed;0;0;0;0;Breakpoints;closed;0;0;0;0;Favorites;closed;0;0;0;0;Windows;closed;0;0;0;0;Threads;closed;0;0;0;38;Call Stack;visible;0;0;0;38"/>
+	<PREFERENCE NAME="debugger.right_debug_layout" VALUE="Search;closed;0;0;0;0;Editor;minimized;0;0;0;0;Context;visible;0;0;0;171;Debugging;visible;0;0;0;218"/>
+	<PREFERENCE NAME="debugger.colors.expanded_display_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="debugger.colors.grid_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="debugger.colors.grid_foreground_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="debugger.number_of_watch_tools" VALUE="2"/>
+	<PREFERENCE NAME="debugger.delay_before_cleaning_objects_grid" VALUE="500"/>
+	<PREFERENCE NAME="debugger.colors.row_highlight_background_color" VALUE="255;255;170"/>
+	<PREFERENCE NAME="debugger.colors.unsensitive_foreground_color" VALUE="150;150;150"/>
+	<PREFERENCE NAME="debugger.colors.row_replayable_background_color" VALUE="205;230;255"/>
+	<PREFERENCE NAME="debugger.select_call_stack_level_on_double_click" VALUE="False"/>
+	<PREFERENCE NAME="debugger.stack_grid_layout_managed" VALUE="True"/>
+	<PREFERENCE NAME="debugger.debugged_grid_layout_managed" VALUE="True"/>
+	<PREFERENCE NAME="debugger.watches_grids_layout_managed" VALUE="True"/>
+	<PREFERENCE NAME="debugger.display_agent_details" VALUE="True"/>
+	<PREFERENCE NAME="debugger.objects_tool_layout" VALUE="#1;1;2;3;4;5;6;#2"/>
+	<PREFERENCE NAME="debugger.watch_tools_layout" VALUE=""/>
+	<PREFERENCE NAME="debugger.always_show_callstack_tool_when_stopping" VALUE="True"/>
+	<PREFERENCE NAME="debugger.shortcuts.move_up_watch_expression" VALUE="True+False+True+Up"/>
+	<PREFERENCE NAME="debugger.shortcuts.move_down_watch_expression" VALUE="True+False+True+Down"/>
+	<PREFERENCE NAME="debugger.shortcuts.edit_bp_here" VALUE="False+True+False+F9"/>
+	<PREFERENCE NAME="debugger.shortcuts.enable_remove_here" VALUE="False+False+False+F9"/>
+	<PREFERENCE NAME="debugger.shortcuts.enable_disable_bp_here" VALUE="False+False+True+F9"/>
+	<PREFERENCE NAME="debugger.shortcuts.run_to_this_point" VALUE="False+True+False+F10"/>
+	<PREFERENCE NAME="tools.diagram_tool.diagram_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="tools.diagram_tool.diagram_toolbar_layout" VALUE="Center_diagram__visible;Separator;New_links__visible;Create_class__visible;Class_header_hole__visible;Delete_item__visible;Separator;Undo_command__visible;History_tool__visible;Redo_command__visible;Separator;Delete_hole__visible;Separator;Force_directed__visible;UML_visibility__visible;Force_settings__visible;Context_depth__visible;Separator;Inherit_visibility__visible;Supplier_visibility__visible;Labels_visibility__visible;Separator;Fit_to_screen__visible;Link_tool__hidden;Color__hidden;High_quality__hidden;Clusters_visibility__hidden;Anchor_remove__hidden;Display_legend__hidden;Diagram_to_png__hidden;Cluster_filling__hidden;Zoom_out__hidden;Zoom_in__hidden"/>
+	<PREFERENCE NAME="tools.diagram_tool.subcluster_depth" VALUE="1"/>
+	<PREFERENCE NAME="tools.diagram_tool.supercluster_depth" VALUE="1"/>
+	<PREFERENCE NAME="tools.diagram_tool.client_depth" VALUE="0"/>
+	<PREFERENCE NAME="tools.diagram_tool.supplier_depth" VALUE="0"/>
+	<PREFERENCE NAME="tools.diagram_tool.ancestor_depth" VALUE="1"/>
+	<PREFERENCE NAME="tools.diagram_tool.descendant_depth" VALUE="1"/>
+	<PREFERENCE NAME="tools.diagram_tool.ignore_excluded_class_figures" VALUE="False"/>
+	<PREFERENCE NAME="tools.diagram_tool.excluded_class_figures" VALUE="INTEGER;BOOLEAN;STRING;CHARACTER;REAL;DOUBLE"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_class_name_font" VALUE="sans-r-regular-10-sans"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_class_name_color" VALUE="17;3;80"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_class_fill_color" VALUE="204;204;253"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_class_uncompiled_fill_color" VALUE="234;234;234"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_class_generics_font" VALUE="sans-r-bold-10-sans"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_class_generics_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_client_label_font" VALUE="sans-r-regular-10-sans"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_client_label_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_client_color" VALUE="69;166;11"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_client_line_width" VALUE="5"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_cluster_line_color" VALUE="100;97;28"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_cluster_iconified_fill_color" VALUE="240;240;255"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_cluster_name_area_color" VALUE="254;253;203"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_cluster_name_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_cluster_name_font" VALUE="sans-r-bold-10-sans"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_inheritance_color" VALUE="230;0;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.bon.bon_inheritance_line_width" VALUE="2"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_class_name_font" VALUE="sans-r-regular-10-sans"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_class_deferred_font" VALUE="sans-i-regular-10-sans"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_class_properties_font" VALUE="sans-i-regular-10-sans"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_class_properties_color" VALUE="127;0;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_class_name_color" VALUE="0;25;127"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_class_fill_color" VALUE="255;255;255"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_generics_font" VALUE="sans-r-bold-10-sans"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_generics_color" VALUE="180;0;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_class_features_font" VALUE="sans-r-regular-10-sans"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_class_features_color" VALUE="0;127;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_class_feature_section_font" VALUE="sans-r-bold-10-sans"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_class_feature_section_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_client_line_width" VALUE="1"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_client_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_client_label_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_client_label_font" VALUE="sans-r-regular-10-sans"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_cluster_line_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_cluster_iconified_fill_color" VALUE="255;255;255"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_cluster_name_area_color" VALUE="255;255;255"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_cluster_name_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_cluster_name_font" VALUE="sans-r-regular-10-sans"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_inheritance_line_width" VALUE="1"/>
+	<PREFERENCE NAME="tools.diagram_tool.uml.uml_inheritance_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="tools.diagram_tool.autoscroll_speed" VALUE="50"/>
+	<PREFERENCE NAME="interface.development_window.is_force_debug_mode" VALUE="False"/>
+	<PREFERENCE NAME="interface.development_window.maximum_history_size" VALUE="20"/>
+	<PREFERENCE NAME="interface.development_window.remember_completion_list_size" VALUE="True"/>
+	<PREFERENCE NAME="interface.development_window.completion_list_height" VALUE="371"/>
+	<PREFERENCE NAME="interface.development_window.completion_list_width" VALUE="656"/>
+	<PREFERENCE NAME="interface.development_window.progress_bar_color" VALUE="0;0;128"/>
+	<PREFERENCE NAME="interface.development_window.ctrl_right_click_receiver" VALUE="[new_tab_editor];new_window;current_editor;context;external"/>
+	<PREFERENCE NAME="interface.development_window.class_completion" VALUE="True"/>
+	<PREFERENCE NAME="interface.development_window.last_browsed_cluster_directory" VALUE=""/>
+	<PREFERENCE NAME="interface.development_window.unified_stone" VALUE="False"/>
+	<PREFERENCE NAME="interface.development_window.link_tools" VALUE="False"/>
+	<PREFERENCE NAME="interface.development_window.graphical_output_disabled" VALUE="False"/>
+	<PREFERENCE NAME="interface.development_window.use_animated_icons" VALUE="True"/>
+	<PREFERENCE NAME="interface.development_window.external_compilation_output_prompted" VALUE="False"/>
+	<PREFERENCE NAME="interface.development_window.auto_hide_animation_speed" VALUE="20"/>
+	<PREFERENCE NAME="interface.development_window.undocked_window_lower_than_main_window" VALUE="False"/>
+	<PREFERENCE NAME="interface.development_window.show_all_applicable_docking_indicators" VALUE="True"/>
+	<PREFERENCE NAME="interface.development_window.outputs_tool_prompted" VALUE="True"/>
+	<PREFERENCE NAME="interface.development_window.estudio_dbg_menu_allowed" VALUE="True"/>
+	<PREFERENCE NAME="interface.development_window.estudio_dbg_menu_accelerator_allowed" VALUE="True"/>
+	<PREFERENCE NAME="interface.development_window.estudio_dbg_menu_enabled" VALUE="False"/>
+	<PREFERENCE NAME="recent_projects.last_opened_projects" VALUE="toolkit.ecf&gt;classic;myching.ecf&gt;classic;graphical.ecf&gt;classic;benchmark.ecf&gt;classic;test.ecf&gt;classic;eros-server.ecf&gt;classic;eiffel2java.ecf&gt;classic;manage-mp3.ecf&gt;classic;myching-server.ecf&gt;classic;gauges.ecf&gt;classic;electoral.ecf&gt;classic;eros-test-clients.ecf&gt;classic;myching-test.ecf&gt;classic;myching-test.ecf&gt;test;app-server.ecf&gt;classic;ise.ecf&gt;web_application;gobo-base.ecf&gt;gobo_base;vision2-x.ecf&gt;el_vision2_x;ES-vision2.ecf&gt;vision2;ninety-nine-bottles.ecf&gt;classic;yibase.ecf&gt;classic;www.yibase.ecf&gt;classic;vision2.ecf&gt;el_vision2;compile_ise.ecf&gt;fast_cgi;eiffel-loop-ftp.ecf&gt;eiffel_loop_ftp;eiffel-loop-public-key-encryption.ecf&gt;eiffel_loop_public_key_encryption;eiffel-loop-encryption.ecf&gt;eiffel_loop_encryption;eiffel-loop-vtd-xml.ecf&gt;eiffel_loop_vtd_xml;eiffel-loop-xdoc-scanning.ecf&gt;xdoc_scanning;eiffel-loop-base.ecf&gt;eiffel_loop_base"/>
+	<PREFERENCE NAME="editor.general.smart_indentation" VALUE="True"/>
+	<PREFERENCE NAME="editor.general.tab_step" VALUE="3"/>
+	<PREFERENCE NAME="editor.general.left_margin_width" VALUE="8"/>
+	<PREFERENCE NAME="editor.general.colors.margin_background_color" VALUE="212;208;200"/>
+	<PREFERENCE NAME="editor.general.colors.margin_separator_color" VALUE="192;192;192"/>
+	<PREFERENCE NAME="editor.general.colors.line_number_text_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="editor.general.use_tab_for_indentation" VALUE="True"/>
+	<PREFERENCE NAME="editor.general.scrolling_common_line_count" VALUE="1"/>
+	<PREFERENCE NAME="editor.general.mouse_wheel_scroll_full_page" VALUE="False"/>
+	<PREFERENCE NAME="editor.general.mouse_wheel_scroll_size" VALUE="8"/>
+	<PREFERENCE NAME="editor.general.remove_trailing_white_space" VALUE="True"/>
+	<PREFERENCE NAME="editor.general.blinking_cursor" VALUE="True"/>
+	<PREFERENCE NAME="editor.general.automatic_update" VALUE="True"/>
+	<PREFERENCE NAME="editor.general.show_line_numbers" VALUE="False"/>
+	<PREFERENCE NAME="editor.general.smart_home" VALUE="True"/>
+	<PREFERENCE NAME="editor.general.font_zoom_factor" VALUE="0"/>
+	<PREFERENCE NAME="editor.general.editor_font" VALUE="Monospace-r-regular-9-sans"/>
+	<PREFERENCE NAME="editor.general.header_font" VALUE="lucida-r-regular-8-modern"/>
+	<PREFERENCE NAME="editor.general.keyword_font" VALUE="Monospace-i-regular-9-sans"/>
+	<PREFERENCE NAME="editor.general.colors.normal_text_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="editor.general.colors.normal_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.general.colors.selection_text_color" VALUE="47;47;23"/>
+	<PREFERENCE NAME="editor.general.colors.selection_background_color" VALUE="104;186;192"/>
+	<PREFERENCE NAME="editor.general.colors.focus_out_selection_background_color" VALUE="226;213;196"/>
+	<PREFERENCE NAME="editor.general.colors.string_text_color" VALUE="0;128;128"/>
+	<PREFERENCE NAME="editor.general.colors.string_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.general.colors.keyword_text_color" VALUE="255;0;0"/>
+	<PREFERENCE NAME="editor.general.colors.keyword_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.general.colors.spaces_text_color" VALUE="128;128;128"/>
+	<PREFERENCE NAME="editor.general.colors.spaces_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.general.colors.comments_text_color" VALUE="74;125;80"/>
+	<PREFERENCE NAME="editor.general.colors.comments_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.general.colors.operator_text_color" VALUE="255;0;0"/>
+	<PREFERENCE NAME="editor.general.colors.operator_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.general.colors.number_text_color" VALUE="128;0;255"/>
+	<PREFERENCE NAME="editor.general.colors.number_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.general.colors.highlight_color" VALUE="50;250;30"/>
+	<PREFERENCE NAME="editor.general.colors.cursor_line_highlight_color" VALUE="255;128;128"/>
+	<PREFERENCE NAME="editor.general.quadruple_click_enabled" VALUE="True"/>
+	<PREFERENCE NAME="editor.general.use_buffered_line" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.colors.breakpoint_background_color" VALUE="212;208;200"/>
+	<PREFERENCE NAME="editor.eiffel.colors.assertion_tag_text_color" VALUE="64;0;0"/>
+	<PREFERENCE NAME="editor.eiffel.colors.assertion_tag_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.note_tag_text_color" VALUE="64;0;0"/>
+	<PREFERENCE NAME="editor.eiffel.colors.note_tag_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.reserved_text_color" VALUE="64;0;0"/>
+	<PREFERENCE NAME="editor.eiffel.colors.reserved_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.generic_text_color" VALUE="255;0;0"/>
+	<PREFERENCE NAME="editor.eiffel.colors.generic_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.local_text_color" VALUE="64;0;0"/>
+	<PREFERENCE NAME="editor.eiffel.colors.local_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.class_text_color" VALUE="0;0;255"/>
+	<PREFERENCE NAME="editor.eiffel.colors.class_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.feature_text_color" VALUE="23;146;23"/>
+	<PREFERENCE NAME="editor.eiffel.colors.feature_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.cluster_text_color" VALUE="128;0;0"/>
+	<PREFERENCE NAME="editor.eiffel.colors.cluster_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.error_text_color" VALUE="255;0;0"/>
+	<PREFERENCE NAME="editor.eiffel.colors.error_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.object_text_color" VALUE="0;0;255"/>
+	<PREFERENCE NAME="editor.eiffel.colors.object_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.target_text_color" VALUE="0;0;0"/>
+	<PREFERENCE NAME="editor.eiffel.colors.target_text_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.warning_text_color" VALUE="200;64;0"/>
+	<PREFERENCE NAME="editor.eiffel.colors.warning_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.argument_text_color" VALUE="145;86;84"/>
+	<PREFERENCE NAME="editor.eiffel.colors.argument_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.colors.folder_text_color" VALUE="166;137;149"/>
+	<PREFERENCE NAME="editor.eiffel.colors.folder_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="editor.eiffel.underscore_is_separator" VALUE="False"/>
+	<PREFERENCE NAME="editor.eiffel.once_and_constant_in_upper" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.auto-complete_brackets_and_parentheses" VALUE="False"/>
+	<PREFERENCE NAME="editor.eiffel.auto-complete_quotes" VALUE="False"/>
+	<PREFERENCE NAME="editor.eiffel.show_ANY_features" VALUE="False"/>
+	<PREFERENCE NAME="editor.eiffel.syntax_complete_enabled" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.auto_auto-complete" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.auto_complete_words" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.auto_remove_trailing_blank_when_saving" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.filter_completion_list" VALUE="False"/>
+	<PREFERENCE NAME="editor.eiffel.highlight_matching_braces" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.show_completion_signature" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.show_completion_type" VALUE="False"/>
+	<PREFERENCE NAME="editor.eiffel.show_completion_disambiguated_name" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.show_obsolete_items" VALUE="False"/>
+	<PREFERENCE NAME="editor.eiffel.show_completion_tooltip" VALUE="False"/>
+	<PREFERENCE NAME="editor.eiffel.customized_string_1" VALUE="$cursor$%Tset_x (a_x: like x)%N%T%Tdo%N%T%T%Tx := a_x%N%T%Tend%N%N"/>
+	<PREFERENCE NAME="editor.eiffel.customized_string_2" VALUE=": EL_ASTRING%N%T%Tonce%N%T%T%TResult := &quot;$cursor$&quot;%N%T%Tend"/>
+	<PREFERENCE NAME="editor.eiffel.customized_string_3" VALUE="feature -- {}$cursor$%N%N"/>
+	<PREFERENCE NAME="editor.general.new_tab_at_left" VALUE="False"/>
+	<PREFERENCE NAME="editor.eiffel.auto_show_feature_contract_tooltip" VALUE="False"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.note.autocomplete_note" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.note.use_default_note" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.note.custom_note_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.note.custom_note_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.note.custom_note_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.note.custom_note_return_later" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.class.autocomplete_class" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.class.use_default_class" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.class.custom_class_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.class.custom_class_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.class.custom_class_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.class.custom_class_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.inherit.autocomplete_inherit" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.inherit.use_default_inherit" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.inherit.custom_inherit_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.inherit.custom_inherit_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.inherit.custom_inherit_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.inherit.custom_inherit_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.creation.autocomplete_creation" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.creation.use_default_creation" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.creation.custom_creation_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.creation.custom_creation_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.creation.custom_creation_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.creation.custom_creation_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.feature.autocomplete_feature" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.feature.use_default_feature" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.feature.custom_feature_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.feature.custom_feature_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.feature.custom_feature_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.class_structure_keywords.feature.custom_feature_return_later" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.is.autocomplete_is" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.is.use_default_is" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.is.custom_is_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.is.custom_is_return" VALUE="%N$indent$%T%T-- $cursor$%N$indent$%T"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.is.custom_is_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.is.custom_is_return_later" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.require.autocomplete_require" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.require.use_default_require" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.require.custom_require_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.require.custom_require_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.require.custom_require_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.require.custom_require_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.require_else.autocomplete_require_else" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.require_else.use_default_require_else" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.require_else.custom_require_else_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.require_else.custom_require_else_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.require_else.custom_require_else_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.require_else.custom_require_else_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.local.autocomplete_local" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.local.use_default_local" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.local.custom_local_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.local.custom_local_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.local.custom_local_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.local.custom_local_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.attribute.autocomplete_attribute" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.attribute.use_default_attribute" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.attribute.custom_attribute_space" VALUE=" $cursor$ end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.attribute.custom_attribute_return" VALUE="%N$indent$%T$cursor$%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.attribute.custom_attribute_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.attribute.custom_attribute_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.do.autocomplete_do" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.do.use_default_do" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.do.custom_do_space" VALUE=" $cursor$ end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.do.custom_do_return" VALUE="%N$indent$%T$cursor$%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.do.custom_do_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.do.custom_do_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.once.autocomplete_once" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.once.use_default_once" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.once.custom_once_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.once.custom_once_return" VALUE="%N$indent$%T$cursor$%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.once.custom_once_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.once.custom_once_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.deferred.autocomplete_deferred" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.deferred.use_default_deferred" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.deferred.custom_deferred_space" VALUE=" end$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.deferred.custom_deferred_return" VALUE="%N$indent$end$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.deferred.custom_deferred_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.deferred.custom_deferred_return_later" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.external.autocomplete_external" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.external.use_default_external" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.external.custom_external_space" VALUE=" &quot;$cursor$&quot; end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.external.custom_external_return" VALUE="%N$indent$%T&quot;$cursor$&quot;%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.external.custom_external_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.external.custom_external_return_later" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.rescue.autocomplete_rescue" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.rescue.use_default_rescue" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.rescue.custom_rescue_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.rescue.custom_rescue_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.rescue.custom_rescue_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.rescue.custom_rescue_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.ensure.autocomplete_ensure" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.ensure.use_default_ensure" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.ensure.custom_ensure_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.ensure.custom_ensure_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.ensure.custom_ensure_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.ensure.custom_ensure_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.ensure_then.autocomplete_ensure_then" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.ensure_then.use_default_ensure_then" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.ensure_then.custom_ensure_then_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.ensure_then.custom_ensure_then_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.ensure_then.custom_ensure_then_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.ensure_then.custom_ensure_then_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.alias.autocomplete_alias" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.alias.use_default_alias" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.alias.custom_alias_space" VALUE=" &quot;$cursor$&quot;"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.alias.custom_alias_return" VALUE="%N$indent$%T&quot;$cursor$&quot;"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.alias.custom_alias_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.feature_structure_keywords.alias.custom_alias_return_later" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.rename.autocomplete_rename" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.rename.use_default_rename" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.rename.custom_rename_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.rename.custom_rename_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.rename.custom_rename_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.rename.custom_rename_return_later" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.redefine.autocomplete_redefine" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.redefine.use_default_redefine" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.redefine.custom_redefine_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.redefine.custom_redefine_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.redefine.custom_redefine_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.redefine.custom_redefine_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.undefine.autocomplete_undefine" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.undefine.use_default_undefine" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.undefine.custom_undefine_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.undefine.custom_undefine_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.undefine.custom_undefine_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.undefine.custom_undefine_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.select.autocomplete_select" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.select.use_default_select" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.select.custom_select_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.select.custom_select_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.select.custom_select_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.select.custom_select_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.export.autocomplete_export" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.export.use_default_export" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.export.custom_export_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.export.custom_export_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.export.custom_export_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.inherit_clauses_keywords.export.custom_export_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.if.autocomplete_if" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.if.use_default_if" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.if.custom_if_space" VALUE=" $cursor$ then%N$indent$%T%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.if.custom_if_return" VALUE="%N$indent$%T$cursor$%N$indent$then%N$indent$%T%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.if.custom_if_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.if.custom_if_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.then.autocomplete_then" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.then.use_default_then" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.then.custom_then_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.then.custom_then_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.then.custom_then_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.then.custom_then_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.elseif.autocomplete_elseif" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.elseif.use_default_elseif" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.elseif.custom_elseif_space" VALUE=" $cursor$ then%N$indent$%T"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.elseif.custom_elseif_return" VALUE="%N$indent$%T$cursor$%N$indent$then%N$indent$%T"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.elseif.custom_elseif_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.elseif.custom_elseif_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.else.autocomplete_else" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.else.use_default_else" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.else.custom_else_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.else.custom_else_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.else.custom_else_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.else.custom_else_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.inspect.autocomplete_inspect" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.inspect.use_default_inspect" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.inspect.custom_inspect_space" VALUE=" $cursor$%N$indent$when  then%N$indent$%T%N$indent$else%N$indent$%T%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.inspect.custom_inspect_return" VALUE="%N$indent$%T$cursor$%N$indent$when  then%N$indent$%T%N$indent$else%N$indent$%T%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.inspect.custom_inspect_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.inspect.custom_inspect_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.when.autocomplete_when" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.when.use_default_when" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.when.custom_when_space" VALUE=" $cursor$ then%N$indent$%T"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.when.custom_when_return" VALUE="%N$indent$%T$cursor$%N$indent$then%N$indent$%T"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.when.custom_when_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.when.custom_when_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.from.autocomplete_from" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.from.use_default_from" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.from.custom_from_space" VALUE=" $cursor$%N$indent$until%N$indent$loop%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.from.custom_from_return" VALUE="%N$indent$%T$cursor$%N$indent$until%N$indent$%T%N$indent$loop%N$indent$%T%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.from.custom_from_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.from.custom_from_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.variant.autocomplete_variant" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.variant.use_default_variant" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.variant.custom_variant_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.variant.custom_variant_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.variant.custom_variant_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.variant.custom_variant_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.until.autocomplete_until" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.until.use_default_until" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.until.custom_until_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.until.custom_until_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.until.custom_until_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.until.custom_until_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.loop.autocomplete_loop" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.loop.use_default_loop" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.loop.custom_loop_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.loop.custom_loop_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.loop.custom_loop_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.loop.custom_loop_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.debug.autocomplete_debug" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.debug.use_default_debug" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.debug.custom_debug_space" VALUE=" $cursor$ end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.debug.custom_debug_return" VALUE="%N$indent$%T$cursor$%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.debug.custom_debug_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.debug.custom_debug_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.check.autocomplete_check" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.check.use_default_check" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.check.custom_check_space" VALUE=" $cursor$ end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.check.custom_check_return" VALUE="%N$indent$%T$cursor$%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.check.custom_check_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.check.custom_check_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.across.autocomplete_across" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.across.use_default_across" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.across.custom_across_space" VALUE=" $cursor$ as  loop  end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.across.custom_across_return" VALUE="%N$indent$%T$cursor$ as %N$indent$loop%N$indent$%T%N$indent$end"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.across.custom_across_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.across.custom_across_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.some.autocomplete_some" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.some.use_default_some" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.some.custom_some_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.some.custom_some_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.some.custom_some_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.some.custom_some_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.all.autocomplete_all" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.all.use_default_all" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.all.custom_all_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.all.custom_all_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.all.custom_all_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.control_structure_keywords.all.custom_all_return_later" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.precursor.autocomplete_precursor" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.precursor.use_default_precursor" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.precursor.custom_precursor_space" VALUE=" {$cursor$}"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.precursor.custom_precursor_return" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.precursor.custom_precursor_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.precursor.custom_precursor_return_later" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.create.autocomplete_create" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.create.use_default_create" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.create.custom_create_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.create.custom_create_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.create.custom_create_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.create.custom_create_return_later" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.obsolete.autocomplete_obsolete" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.obsolete.use_default_obsolete" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.obsolete.custom_obsolete_space" VALUE=" &quot;$cursor$&quot;"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.obsolete.custom_obsolete_return" VALUE="%N$indent$%T&quot;$cursor$&quot;"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.obsolete.custom_obsolete_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.obsolete.custom_obsolete_return_later" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.invariant.autocomplete_invariant" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.invariant.use_default_invariant" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.invariant.custom_invariant_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.invariant.custom_invariant_return" VALUE="%N$indent$%T$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.invariant.custom_invariant_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.invariant.custom_invariant_return_later" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.end.autocomplete_end" VALUE="False"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.end.use_default_end" VALUE="True"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.end.custom_end_space" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.end.custom_end_return" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.end.custom_end_space_later" VALUE=" $cursor$"/>
+	<PREFERENCE NAME="editor.eiffel.autocomplete.other_keywords.end.custom_end_return_later" VALUE="%N$indent$$cursor$"/>
+	<PREFERENCE NAME="shortcuts.editor.customized_insertion_1" VALUE="False+False+False+F2"/>
+	<PREFERENCE NAME="shortcuts.editor.customized_insertion_2" VALUE="False+True+False+F2"/>
+	<PREFERENCE NAME="shortcuts.editor.customized_insertion_3" VALUE="False+False+True+F2"/>
+	<PREFERENCE NAME="shortcuts.editor.search_backward" VALUE="False+False+True+F3"/>
+	<PREFERENCE NAME="shortcuts.editor.search_forward" VALUE="False+False+False+F3"/>
+	<PREFERENCE NAME="shortcuts.editor.search_selection_forward" VALUE="False+True+False+F3"/>
+	<PREFERENCE NAME="shortcuts.editor.search_selection_backward" VALUE="False+True+True+F3"/>
+	<PREFERENCE NAME="shortcuts.editor.show_quick_search_bar" VALUE="False+True+False+F"/>
+	<PREFERENCE NAME="shortcuts.editor.show_search_and_replace_panel" VALUE="False+True+False+H"/>
+	<PREFERENCE NAME="shortcuts.editor.comment" VALUE="False+True+False+k"/>
+	<PREFERENCE NAME="shortcuts.editor.uncomment" VALUE="False+True+True+k"/>
+	<PREFERENCE NAME="shortcuts.editor.prettify" VALUE="False+True+True+P"/>
+	<PREFERENCE NAME="shortcuts.editor.set_to_uppercase" VALUE="False+True+False+U"/>
+	<PREFERENCE NAME="shortcuts.editor.set_to_lowercase" VALUE="False+True+True+U"/>
+	<PREFERENCE NAME="shortcuts.editor.toggle_line_number_visibility" VALUE="False+True+False+L"/>
+	<PREFERENCE NAME="shortcuts.editor.embed_if_clause" VALUE="False+True+False+I"/>
+	<PREFERENCE NAME="shortcuts.editor.embed_debug_clause" VALUE="False+True+False+D"/>
+	<PREFERENCE NAME="shortcuts.editor.find_matching_brace" VALUE="False+True+False+["/>
+	<PREFERENCE NAME="shortcuts.editor.show_goto_dialog" VALUE="False+True+False+g"/>
+	<PREFERENCE NAME="shortcuts.editor.maximize_editor_area" VALUE="False+True+False+M"/>
+	<PREFERENCE NAME="shortcuts.editor.minimize_editor_area" VALUE="False+True+True+M"/>
+	<PREFERENCE NAME="shortcuts.editor.zoom_in" VALUE="False+True+False+="/>
+	<PREFERENCE NAME="shortcuts.editor.zoom_out" VALUE="False+True+False+-"/>
+	<PREFERENCE NAME="shortcuts.editor.zoom_in_numpad" VALUE="False+True+False+NumPad +"/>
+	<PREFERENCE NAME="shortcuts.editor.zoom_out_numpad" VALUE="False+True+False+NumPad -"/>
+	<PREFERENCE NAME="shortcuts.editor.zoom_reset" VALUE="False+True+False+0"/>
+	<PREFERENCE NAME="shortcuts.editor.zoom_reset_numpad" VALUE="False+True+False+NumPad 0"/>
+	<PREFERENCE NAME="shortcuts.code_completion.autocomplete" VALUE="False+True+False+Space"/>
+	<PREFERENCE NAME="shortcuts.code_completion.class_autocomplete" VALUE="False+True+True+Space"/>
+	<PREFERENCE NAME="shortcuts.code_completion.toggle_filter" VALUE="False+False+False+F1"/>
+	<PREFERENCE NAME="shortcuts.code_completion.toggle_show_type" VALUE="False+False+False+F2"/>
+	<PREFERENCE NAME="shortcuts.code_completion.toggle_show_signature" VALUE="False+False+False+F3"/>
+	<PREFERENCE NAME="shortcuts.code_completion.toggle_show_disambiguated_name" VALUE="False+False+False+F4"/>
+	<PREFERENCE NAME="shortcuts.code_completion.toggle_show_obsolete_items" VALUE="False+False+False+F5"/>
+	<PREFERENCE NAME="shortcuts.code_completion.toggle_show_tooltip" VALUE="False+False+False+F6"/>
+	<PREFERENCE NAME="shortcuts.code_completion.toggle_remember_size" VALUE="False+False+False+F7"/>
+	<PREFERENCE NAME="tools.search_tool.init_incremental" VALUE="True"/>
+	<PREFERENCE NAME="tools.search_tool.init_match_case" VALUE="False"/>
+	<PREFERENCE NAME="tools.search_tool.init_use_regular_expression" VALUE="False"/>
+	<PREFERENCE NAME="tools.search_tool.init_whole_word" VALUE="True"/>
+	<PREFERENCE NAME="tools.search_tool.init_search_backwards" VALUE="False"/>
+	<PREFERENCE NAME="tools.search_tool.init_scope" VALUE="[Current Editor];Whole Project;Custom"/>
+	<PREFERENCE NAME="tools.search_tool.init_only_compiled_classes" VALUE="False"/>
+	<PREFERENCE NAME="tools.search_tool.init_subclusters" VALUE="False"/>
+	<PREFERENCE NAME="tools.search_tool.none_result_keyword_field_background_color" VALUE="255;175;138"/>
+	<PREFERENCE NAME="tools.class_browser.odd_row_background_color" VALUE="240;240;240"/>
+	<PREFERENCE NAME="tools.class_browser.even_row_background_color" VALUE="216;224;199"/>
+	<PREFERENCE NAME="tools.class_browser.show_unchanged_feature_from_any" VALUE="False"/>
+	<PREFERENCE NAME="tools.class_browser.show_tooltip" VALUE="False"/>
+	<PREFERENCE NAME="tools.class_browser.class_flat_view_sorting_order" VALUE="2:1"/>
+	<PREFERENCE NAME="tools.class_browser.class_flat_tree_sorting_order" VALUE="1:1"/>
+	<PREFERENCE NAME="tools.class_browser.class_client_sorting_order" VALUE="1:1"/>
+	<PREFERENCE NAME="tools.class_browser.feature_view_sorting_order" VALUE="1:1"/>
+	<PREFERENCE NAME="tools.class_browser.dependency_view_sorting_order" VALUE="1:1,2:1,3:1,4:1"/>
+	<PREFERENCE NAME="tools.class_browser.show_item_path" VALUE="False"/>
+	<PREFERENCE NAME="tools.class_browser.show_self_dependency" VALUE="False"/>
+	<PREFERENCE NAME="tools.class_browser.expand_referenced_class" VALUE="False"/>
+	<PREFERENCE NAME="tools.class_browser.expand_referencer_class" VALUE="False"/>
+	<PREFERENCE NAME="tools.class_browser.classes_categorized_folder" VALUE="False"/>
+	<PREFERENCE NAME="tools.class_browser.syntactical_classes" VALUE="False"/>
+	<PREFERENCE NAME="tools.class_browser.inheritance_classes" VALUE="False"/>
+	<PREFERENCE NAME="tools.class_browser.normal_referenced_classes" VALUE="True"/>
+	<PREFERENCE NAME="tools.class_browser.folder_search_recursive" VALUE="True"/>
+	<PREFERENCE NAME="tools.class_browser.expand_categorized_folder_level" VALUE="False"/>
+	<PREFERENCE NAME="tools.class_browser.caller_sorting_order" VALUE="1:1"/>
+	<PREFERENCE NAME="tools.class_browser.callee_sorting_order" VALUE="1:1"/>
+	<PREFERENCE NAME="shortcuts.external_commands.shortcut_0" VALUE="True+False+False+0"/>
+	<PREFERENCE NAME="shortcuts.external_commands.shortcut_1" VALUE="True+False+False+1"/>
+	<PREFERENCE NAME="shortcuts.external_commands.shortcut_2" VALUE="True+False+False+2"/>
+	<PREFERENCE NAME="shortcuts.external_commands.shortcut_3" VALUE="True+False+False+3"/>
+	<PREFERENCE NAME="shortcuts.external_commands.shortcut_4" VALUE="True+False+False+4"/>
+	<PREFERENCE NAME="shortcuts.external_commands.shortcut_5" VALUE="True+False+False+5"/>
+	<PREFERENCE NAME="shortcuts.external_commands.shortcut_6" VALUE="True+False+False+6"/>
+	<PREFERENCE NAME="shortcuts.external_commands.shortcut_7" VALUE="True+False+False+7"/>
+	<PREFERENCE NAME="shortcuts.external_commands.shortcut_8" VALUE="True+False+False+8"/>
+	<PREFERENCE NAME="shortcuts.external_commands.shortcut_9" VALUE="True+False+False+9"/>
+	<PREFERENCE NAME="tools.metric_tool.criterion_completion_list_height" VALUE="350"/>
+	<PREFERENCE NAME="tools.metric_tool.criterion_completion_list_width" VALUE="240"/>
+	<PREFERENCE NAME="tools.metric_tool.filter_invisible_result" VALUE="False"/>
+	<PREFERENCE NAME="tools.metric_tool.display_percentage_for_ratio" VALUE="True"/>
+	<PREFERENCE NAME="tools.metric_tool.automatic_go_to_result_panel" VALUE="True"/>
+	<PREFERENCE NAME="tools.metric_tool.unit_order" VALUE="1819086195;1951938661;709236;1920698224;56018019;1357306222;1457241460;1869613420;1818848869;886266990;1635894639"/>
+	<PREFERENCE NAME="tools.metric_tool.tree_view_for_metric_history" VALUE="False"/>
+	<PREFERENCE NAME="tools.metric_tool.history_flat_view_sorting_order" VALUE="1:1"/>
+	<PREFERENCE NAME="tools.metric_tool.history_tree_view_sorting_order" VALUE="1:1"/>
+	<PREFERENCE NAME="tools.metric_tool.hide_old_archive" VALUE="True"/>
+	<PREFERENCE NAME="tools.metric_tool.old_archive_age_in_days" VALUE="30"/>
+	<PREFERENCE NAME="tools.metric_tool.keep_archive_detailed_result" VALUE="False"/>
+	<PREFERENCE NAME="tools.metric_tool.keep_metric_detailed_result" VALUE="True"/>
+	<PREFERENCE NAME="tools.metric_tool.check_defined_warning" VALUE="True"/>
+	<PREFERENCE NAME="tools.metric_tool.warning_background_color" VALUE="253;209;199"/>
+	<PREFERENCE NAME="tools.metric_tool.maximize_metric_result_area" VALUE="False"/>
+	<PREFERENCE NAME="tools.metric_tool.highlight_background_color" VALUE="255;255;170"/>
+	<PREFERENCE NAME="tools.error_list.expand_errors" VALUE="False"/>
+	<PREFERENCE NAME="tools.error_list.show_tooltip" VALUE="True"/>
+	<PREFERENCE NAME="tools.error_list.report_c_compiler_errors" VALUE="none;[errors];errors_and_warnings"/>
+	<PREFERENCE NAME="shortcuts.general.focus_on_class_address" VALUE="False+False+False+F6"/>
+	<PREFERENCE NAME="shortcuts.general.close_focusing_docking_tool_or_editor" VALUE="False+True+False+F4"/>
+	<PREFERENCE NAME="shortcuts.general.show_context_help" VALUE="False+False+False+F1"/>
+	<PREFERENCE NAME="shortcuts.file.new_tab" VALUE="False+True+False+t"/>
+	<PREFERENCE NAME="shortcuts.file.new_window" VALUE="False+True+False+n"/>
+	<PREFERENCE NAME="shortcuts.file.save" VALUE="False+True+False+S"/>
+	<PREFERENCE NAME="shortcuts.file.save_all" VALUE="False+True+True+S"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_search_tool" VALUE="True+True+False+F"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_search_report_tool" VALUE="True+True+False+R"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_outputs_tool" VALUE="True+True+False+o"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_external_output_tool" VALUE="True+True+False+x"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_errors_and_warnings_tool" VALUE="True+True+False+e"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_logger_tool" VALUE="False+False+False+"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_properties_tool" VALUE="False+False+False+F4"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_features_tool" VALUE="True+True+False+]"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_clusters_tool" VALUE="True+True+False+U"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_metric_tool" VALUE="True+True+False+M"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_dependency_tool" VALUE="True+True+False+y"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_diagram_tool" VALUE="True+True+False+I"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_class_tool" VALUE="True+True+False+C"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_feature_relation_tool" VALUE="True+True+False+v"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_contract_tool" VALUE="True+True+False+g"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_favorites_tool" VALUE="True+True+False+a"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_windows_tool" VALUE="True+True+False+n"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_breakpoints_tool" VALUE="True+True+False+b"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_testing_tool" VALUE="True+True+False+,"/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_testing_results_tool" VALUE="True+True+False+."/>
+	<PREFERENCE NAME="shortcuts.view.tools.show_information_tool" VALUE="True+True+False+Q"/>
+	<PREFERENCE NAME="shortcuts.view.send_to_context" VALUE="True+False+False+Down"/>
+	<PREFERENCE NAME="shortcuts.view.basic_text_view" VALUE="False+True+True+t"/>
+	<PREFERENCE NAME="shortcuts.view.clickable_text_view" VALUE="False+True+True+C"/>
+	<PREFERENCE NAME="shortcuts.view.flat_view" VALUE="False+True+True+F"/>
+	<PREFERENCE NAME="shortcuts.view.contract_view" VALUE="False+True+True+o"/>
+	<PREFERENCE NAME="shortcuts.view.interface_view" VALUE="False+True+True+I"/>
+	<PREFERENCE NAME="shortcuts.view.go_back" VALUE="True+False+False+Left"/>
+	<PREFERENCE NAME="shortcuts.view.go_forth" VALUE="True+False+False+Right"/>
+	<PREFERENCE NAME="shortcuts.project.compile" VALUE="False+False+False+F7"/>
+	<PREFERENCE NAME="shortcuts.project.search_new_class_and_compile" VALUE="True+False+False+F8"/>
+	<PREFERENCE NAME="shortcuts.project.check_overrides_and_compile" VALUE="False+False+True+F8"/>
+	<PREFERENCE NAME="shortcuts.project.freeze" VALUE="False+True+False+F7"/>
+	<PREFERENCE NAME="shortcuts.project.finalize" VALUE="False+True+True+F7"/>
+	<PREFERENCE NAME="shortcuts.project.cancel" VALUE="False+True+False+Pause"/>
+	<PREFERENCE NAME="shortcuts.project.go_to_next_error" VALUE="False+True+False+F8"/>
+	<PREFERENCE NAME="shortcuts.project.go_to_previous_error" VALUE="False+True+True+F8"/>
+	<PREFERENCE NAME="shortcuts.project.go_to_next_warning" VALUE="True+True+False+F8"/>
+	<PREFERENCE NAME="shortcuts.project.go_to_previous_warning" VALUE="True+True+True+F8"/>
+	<PREFERENCE NAME="shortcuts.debug.step_by_step" VALUE="False+False+False+F10"/>
+	<PREFERENCE NAME="shortcuts.debug.step_into" VALUE="False+False+False+F11"/>
+	<PREFERENCE NAME="shortcuts.debug.step_out_of_routine" VALUE="False+False+True+F11"/>
+	<PREFERENCE NAME="shortcuts.debug.run" VALUE="False+False+False+F5"/>
+	<PREFERENCE NAME="shortcuts.debug.run_ignore_breakpoints" VALUE="False+True+False+F5"/>
+	<PREFERENCE NAME="shortcuts.debug.ignore_contract_violation" VALUE="False+True+False+F6"/>
+	<PREFERENCE NAME="shortcuts.debug.pause_application" VALUE="False+True+True+F5"/>
+	<PREFERENCE NAME="shortcuts.debug.stop_application" VALUE="False+False+True+F5"/>
+	<PREFERENCE NAME="shortcuts.debug.run_workbench_outside" VALUE="True+True+False+F5"/>
+	<PREFERENCE NAME="shortcuts.debug.run_finalized_outside" VALUE="True+True+True+F5"/>
+	<PREFERENCE NAME="shortcuts.debug.show_call_stack_tool" VALUE="True+True+False+S"/>
+	<PREFERENCE NAME="shortcuts.debug.show_threads_tool" VALUE="True+True+False+P"/>
+	<PREFERENCE NAME="shortcuts.debug.show_objects_tool" VALUE="True+True+False+j"/>
+	<PREFERENCE NAME="shortcuts.debug.show_object_viewer_tool" VALUE="True+True+False+L"/>
+	<PREFERENCE NAME="shortcuts.debug.show_watch_tool" VALUE="True+True+False+H"/>
+	<PREFERENCE NAME="interface.property.inherit_background_color" VALUE="245;245;245"/>
+	<PREFERENCE NAME="interface.property.override_background_color" VALUE="255;245;245"/>
+	<PREFERENCE NAME="debugger.default_maximum_stack_depth" VALUE="100"/>
+	<PREFERENCE NAME="debugger.critical_stack_depth" VALUE="1000"/>
+	<PREFERENCE NAME="debugger.interrupt_every_N_instructions" VALUE="1"/>
+	<PREFERENCE NAME="debugger.debug_output_evaluation" VALUE="True"/>
+	<PREFERENCE NAME="debugger.generating_type_evaluation" VALUE="True"/>
+	<PREFERENCE NAME="debugger.default_displayed_string_size" VALUE="50"/>
+	<PREFERENCE NAME="debugger.min_slice" VALUE="0"/>
+	<PREFERENCE NAME="debugger.max_slice" VALUE="50"/>
+	<PREFERENCE NAME="debugger.max_evaluation_duration" VALUE="5"/>
+	<PREFERENCE NAME="debugger.dotnet.keep_stepping_info_dotnet_feature" VALUE="True"/>
+	<PREFERENCE NAME="debugger.dotnet_debugger" VALUE="[EiffelStudio Dbg];cordbg;DbgCLR"/>
+	<PREFERENCE NAME="debugger.classic_debugger.close_dbg_daemon_on_end_of_debugging" VALUE="True"/>
+	<PREFERENCE NAME="debugger.classic_debugger.timeout" VALUE="0"/>
+	<PREFERENCE NAME="debugger.classic_debugger.ending_timeout" VALUE="0"/>
+	<PREFERENCE NAME="debugger.classic_debugger.debugger_location" VALUE=""/>
+	<PREFERENCE NAME="tools.refactoring.class_rename.file_rename" VALUE="True"/>
+	<PREFERENCE NAME="tools.refactoring.class_rename.allow_duplicate" VALUE="False"/>
+	<PREFERENCE NAME="tools.refactoring.class_rename.old_class_name" VALUE="EV_ENVIRONMENT_HANDLER_FEATURE_EDITOR"/>
+	<PREFERENCE NAME="tools.refactoring.class_rename.new_class_name" VALUE="EV_ENVIRONMENT_HANDLER_EIFFEL_FEATURE_EDITOR"/>
+	<PREFERENCE NAME="tools.refactoring.class_rename.all_classes" VALUE="False"/>
+	<PREFERENCE NAME="tools.refactoring.class_rename.update_comments" VALUE="False"/>
+	<PREFERENCE NAME="tools.refactoring.class_rename.update_strings" VALUE="False"/>
+	<PREFERENCE NAME="tools.refactoring.feature_rename.allow_duplicate" VALUE="False"/>
+	<PREFERENCE NAME="tools.refactoring.feature_rename.new_feature_name" VALUE="code_line_starts_with"/>
+	<PREFERENCE NAME="tools.refactoring.feature_rename.update_comments" VALUE="False"/>
+	<PREFERENCE NAME="tools.refactoring.feature_rename.update_strings" VALUE="False"/>
+</EIFFEL_DOCUMENT>

@@ -2,17 +2,25 @@ note
 	description: "Summary description for {EL_BASE_64}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:31 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-30 9:53:59 GMT (Tuesday 30th September 2014)"
+	revision: "2"
 
 class
 	EL_BASE_64_ROUTINES
 
+inherit
+	EL_MODULE_STRING
+
 feature -- Conversion
+
+	encoded (a_string: STRING): STRING
+		do
+			Result := encoded_special (String.to_code_array (a_string))
+		end
 
 	encoded_special (array: SPECIAL [NATURAL_8]): STRING
 			--
@@ -31,6 +39,15 @@ feature -- Conversion
 			Result := out_stream.string
 --		ensure
 --			reversable: array ~ decoded_array (Result).area
+		end
+
+	joined (base64_lines: STRING): STRING
+			-- base64 string with all newlines removed.
+			-- Useful for manifest constants of type "[
+			-- ]"
+		do
+			Result := base64_lines.twin
+			base64_lines.prune_all ('%N')
 		end
 
 	decoded (base64_string: STRING): STRING

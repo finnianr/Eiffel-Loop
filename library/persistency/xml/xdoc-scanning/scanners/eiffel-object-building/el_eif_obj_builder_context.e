@@ -2,12 +2,12 @@ note
 	description: "Eiffel object model Xpath context"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-04 11:42:02 GMT (Thursday 4th July 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -17,16 +17,15 @@ inherit
 		rename
 			do_with_xpath as apply_building_action_for_xpath
 		redefine
-			make
+			make_default
 		end
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
 		do
 			Precursor
-			default_create
 			building_actions := Building_actions_by_type.item (Current, agent create_building_actions)
 		end
 

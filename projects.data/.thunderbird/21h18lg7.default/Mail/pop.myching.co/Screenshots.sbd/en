@@ -1,0 +1,29 @@
+From - Sun Jun 01 15:38:04 2014
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+FCC: mailbox://finnian@pop.myching.co/Sent
+X-Identity-Key: id4
+X-Account-Key: account6
+Message-ID: <538AF96A.70003@myching.co>
+Date: Sun, 01 Jun 2014 15:38:04 +0100
+From: Finnian Reilly <finnian@myching.co>
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+Subject: Search Engine Screenshot
+Content-Type: text/html; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-15">
+  </head>
+  <body text="#000000" bgcolor="#FFFFCC">
+    <img moz-do-not-send="true" alt="Search engine screenshot"
+      title="Title text"
+      src="http://localhost/images/screenshot/en/search-engine.png"
+      height="944" width="1023"><br>
+  </body>
+</html>

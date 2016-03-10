@@ -11,16 +11,11 @@ class
 inherit
 	EL_BUILD_INFO
 
-create
-	make
-
 feature -- Constants
 
-	Major_version: INTEGER = 1
+	Version_number: NATURAL = 01_01_07
 
-	Minor_version: INTEGER = 1
-
-	Build_number: INTEGER = 133
+	Build_number: NATURAL = 231
 
 	Installation_sub_directory: EL_DIR_PATH
 		once

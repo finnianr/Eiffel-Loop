@@ -8,7 +8,7 @@
 	<PREFERENCE NAME="general.preference_window_height" VALUE="879"/>
 	<PREFERENCE NAME="general.preference_window_width" VALUE="1168"/>
 	<PREFERENCE NAME="general.show_hidden_preferences" VALUE="False"/>
-	<PREFERENCE NAME="general.console_shell_command" VALUE=""/>
+	<PREFERENCE NAME="general.console_shell_command" VALUE="ansicon"/>
 	<PREFERENCE NAME="general.external_editor_command" VALUE="gedit $target"/>
 	<PREFERENCE NAME="general.file_browser_command" VALUE="explorer $target"/>
 	<PREFERENCE NAME="general.locale" VALUE="de_DE;en_US;fr_FR;ru_RU;zh_CN;[Unselected]"/>
@@ -65,13 +65,13 @@
 	<PREFERENCE NAME="interface.dialogs.last_saved_debugger_exception_directory" VALUE=""/>
 	<PREFERENCE NAME="interface.dialogs.last_saved_diagram_postscript_directory" VALUE=""/>
 	<PREFERENCE NAME="interface.dialogs.last_saved_exception_directory" VALUE=""/>
-	<PREFERENCE NAME="interface.dialogs.last_saved_save_file_as_directory" VALUE="C:\Users\finnian\Desktop"/>
+	<PREFERENCE NAME="interface.dialogs.last_saved_save_file_as_directory" VALUE="D:\Eiffel\junk-source"/>
 	<PREFERENCE NAME="interface.dialogs.last_saved_profile_result_directory" VALUE=""/>
-	<PREFERENCE NAME="interface.dialogs.project_settings_width" VALUE="1183"/>
-	<PREFERENCE NAME="interface.dialogs.project_settings_height" VALUE="770"/>
-	<PREFERENCE NAME="interface.dialogs.project_settings_position_x" VALUE="460"/>
+	<PREFERENCE NAME="interface.dialogs.project_settings_width" VALUE="1500"/>
+	<PREFERENCE NAME="interface.dialogs.project_settings_height" VALUE="897"/>
+	<PREFERENCE NAME="interface.dialogs.project_settings_position_x" VALUE="298"/>
 	<PREFERENCE NAME="interface.dialogs.project_settings_position_y" VALUE="142"/>
-	<PREFERENCE NAME="interface.dialogs.project_settings_split_position" VALUE="220"/>
+	<PREFERENCE NAME="interface.dialogs.project_settings_split_position" VALUE="407"/>
 	<PREFERENCE NAME="interface.dialogs.starting_dialog_width" VALUE="538"/>
 	<PREFERENCE NAME="interface.dialogs.starting_dialog_height" VALUE="636"/>
 	<PREFERENCE NAME="interface.dialogs.open_project_dialog_width" VALUE="500"/>
@@ -83,7 +83,7 @@
 	<PREFERENCE NAME="tools.context_tool.default_dependency_formatter_index" VALUE="2"/>
 	<PREFERENCE NAME="debugger.last_saved_stack_path" VALUE=""/>
 	<PREFERENCE NAME="debugger.default_expanded_view_size" VALUE="500"/>
-	<PREFERENCE NAME="debugger.proportion" VALUE="0.906892"/>
+	<PREFERENCE NAME="debugger.proportion" VALUE="0.916667"/>
 	<PREFERENCE NAME="debugger.left_debug_layout" VALUE="Features;closed;0;0;0;0;Clusters;closed;0;0;0;0;Properties;closed;0;0;0;0;Breakpoints;closed;0;0;0;0;Favorites;closed;0;0;0;0;Windows;closed;0;0;0;0;Threads;closed;0;0;0;38;Call Stack;visible;0;0;0;38"/>
 	<PREFERENCE NAME="debugger.right_debug_layout" VALUE="Search;closed;0;0;0;0;Editor;minimized;0;0;0;0;Context;visible;0;0;0;171;Debugging;visible;0;0;0;218"/>
 	<PREFERENCE NAME="debugger.colors.expanded_display_background_color" VALUE="216;224;199"/>
@@ -162,7 +162,7 @@
 	<PREFERENCE NAME="interface.development_window.is_force_debug_mode" VALUE="False"/>
 	<PREFERENCE NAME="interface.development_window.maximum_history_size" VALUE="20"/>
 	<PREFERENCE NAME="interface.development_window.remember_completion_list_size" VALUE="True"/>
-	<PREFERENCE NAME="interface.development_window.completion_list_height" VALUE="310"/>
+	<PREFERENCE NAME="interface.development_window.completion_list_height" VALUE="293"/>
 	<PREFERENCE NAME="interface.development_window.completion_list_width" VALUE="933"/>
 	<PREFERENCE NAME="interface.development_window.progress_bar_color" VALUE="0;0;128"/>
 	<PREFERENCE NAME="interface.development_window.ctrl_right_click_receiver" VALUE="[new_tab_editor];new_window;current_editor;context;external"/>
@@ -179,8 +179,8 @@
 	<PREFERENCE NAME="interface.development_window.outputs_tool_prompted" VALUE="True"/>
 	<PREFERENCE NAME="interface.development_window.estudio_dbg_menu_allowed" VALUE="True"/>
 	<PREFERENCE NAME="interface.development_window.estudio_dbg_menu_accelerator_allowed" VALUE="True"/>
-	<PREFERENCE NAME="interface.development_window.estudio_dbg_menu_enabled" VALUE="False"/>
-	<PREFERENCE NAME="recent_projects.last_opened_projects" VALUE="D:\Eiffel\Yibase\myching.ecf&gt;classic;myching.ecf&gt;classic;D:\Eiffel\Eiffel-Loop\example\graphical\graphical.ecf&gt;classic;D:\Eiffel\Eiffel-Loop\tool\toolkit\toolkit.ecf&gt;classic;D:\Eiffel\Eiffel-Loop\library\vision2-x.ecf&gt;el_vision2_x;D:\Eiffel\Eiffel-Loop\library\ES-vision2.ecf&gt;vision2;ninety-nine-bottles.ecf&gt;classic;graphical.ecf&gt;classic;toolkit.ecf&gt;classic;manage-mp3.ecf&gt;classic;myching-server.ecf&gt;classic;test.ecf&gt;classic;eiffel2java.ecf&gt;classic;electoral.ecf&gt;classic;eros-server.ecf&gt;classic;eros-test-clients.ecf&gt;classic;yibase.ecf&gt;classic;www.yibase.ecf&gt;classic;vision2-x.ecf&gt;el_vision2_x;vision2.ecf&gt;el_vision2;ES-vision2.ecf&gt;vision2;compile_ise.ecf&gt;fast_cgi;eiffel-loop-ftp.ecf&gt;eiffel_loop_ftp;eiffel-loop-public-key-encryption.ecf&gt;eiffel_loop_public_key_encryption;eiffel-loop-encryption.ecf&gt;eiffel_loop_encryption;eiffel-loop-vtd-xml.ecf&gt;eiffel_loop_vtd_xml;eiffel-loop-xdoc-scanning.ecf&gt;xdoc_scanning;eiffel-loop-base.ecf&gt;eiffel_loop_base"/>
+	<PREFERENCE NAME="interface.development_window.estudio_dbg_menu_enabled" VALUE="True"/>
+	<PREFERENCE NAME="recent_projects.last_opened_projects" VALUE="D:\Eiffel\My Ching\myching.ecf&gt;classic;D:\Eiffel\Eiffel-Loop\tool\toolkit\toolkit.ecf&gt;classic;myching.ecf&gt;classic;D:\Eiffel\Yibase\myching.ecf&gt;classic;D:\Eiffel\Eiffel-Loop\example\graphical\graphical.ecf&gt;classic;test.ecf&gt;classic;D:\Eiffel\Eiffel-Loop\test\test.ecf&gt;classic;D:\Eiffel\Eiffel-Loop\library\ES-vision2.ecf&gt;vision2;D:\Eiffel\Eiffel-Loop\library\svg-graphics.ecf&gt;el_svg_graphics;D:\Eiffel\Eiffel-Loop\library\vision2-x.ecf&gt;el_vision2_x;ninety-nine-bottles.ecf&gt;classic;graphical.ecf&gt;classic;toolkit.ecf&gt;classic;manage-mp3.ecf&gt;classic;myching-server.ecf&gt;classic;eiffel2java.ecf&gt;classic;electoral.ecf&gt;classic;eros-server.ecf&gt;classic;eros-test-clients.ecf&gt;classic;yibase.ecf&gt;classic;www.yibase.ecf&gt;classic;vision2-x.ecf&gt;el_vision2_x;vision2.ecf&gt;el_vision2;ES-vision2.ecf&gt;vision2;compile_ise.ecf&gt;fast_cgi;eiffel-loop-ftp.ecf&gt;eiffel_loop_ftp;eiffel-loop-public-key-encryption.ecf&gt;eiffel_loop_public_key_encryption;eiffel-loop-encryption.ecf&gt;eiffel_loop_encryption;eiffel-loop-vtd-xml.ecf&gt;eiffel_loop_vtd_xml;eiffel-loop-xdoc-scanning.ecf&gt;xdoc_scanning;eiffel-loop-base.ecf&gt;eiffel_loop_base"/>
 	<PREFERENCE NAME="editor.general.smart_indentation" VALUE="True"/>
 	<PREFERENCE NAME="editor.general.tab_step" VALUE="3"/>
 	<PREFERENCE NAME="editor.general.left_margin_width" VALUE="8"/>
@@ -196,7 +196,7 @@
 	<PREFERENCE NAME="editor.general.automatic_update" VALUE="True"/>
 	<PREFERENCE NAME="editor.general.show_line_numbers" VALUE="False"/>
 	<PREFERENCE NAME="editor.general.smart_home" VALUE="True"/>
-	<PREFERENCE NAME="editor.general.font_zoom_factor" VALUE="0"/>
+	<PREFERENCE NAME="editor.general.font_zoom_factor" VALUE="1"/>
 	<PREFERENCE NAME="editor.general.editor_font" VALUE="Lucida Console-r-regular-9-modern"/>
 	<PREFERENCE NAME="editor.general.header_font" VALUE="-r-regular-8-modern"/>
 	<PREFERENCE NAME="editor.general.keyword_font" VALUE="Lucida Console-r-regular-9-modern"/>
@@ -705,13 +705,13 @@
 	<PREFERENCE NAME="debugger.classic_debugger.debugger_location" VALUE=""/>
 	<PREFERENCE NAME="tools.refactoring.class_rename.file_rename" VALUE="True"/>
 	<PREFERENCE NAME="tools.refactoring.class_rename.allow_duplicate" VALUE="False"/>
-	<PREFERENCE NAME="tools.refactoring.class_rename.old_class_name" VALUE="EL_STRING_DROP_DOWN_BOX"/>
-	<PREFERENCE NAME="tools.refactoring.class_rename.new_class_name" VALUE="EL_STRING_GENERAL_DROP_DOWN_BOX"/>
-	<PREFERENCE NAME="tools.refactoring.class_rename.all_classes" VALUE="False"/>
+	<PREFERENCE NAME="tools.refactoring.class_rename.old_class_name" VALUE="EL_WINDOW_POSITIONING"/>
+	<PREFERENCE NAME="tools.refactoring.class_rename.new_class_name" VALUE="EL_WINDOW"/>
+	<PREFERENCE NAME="tools.refactoring.class_rename.all_classes" VALUE="True"/>
 	<PREFERENCE NAME="tools.refactoring.class_rename.update_comments" VALUE="False"/>
 	<PREFERENCE NAME="tools.refactoring.class_rename.update_strings" VALUE="False"/>
 	<PREFERENCE NAME="tools.refactoring.feature_rename.allow_duplicate" VALUE="False"/>
-	<PREFERENCE NAME="tools.refactoring.feature_rename.new_feature_name" VALUE="on_theme_change"/>
+	<PREFERENCE NAME="tools.refactoring.feature_rename.new_feature_name" VALUE="center_point"/>
 	<PREFERENCE NAME="tools.refactoring.feature_rename.update_comments" VALUE="False"/>
 	<PREFERENCE NAME="tools.refactoring.feature_rename.update_strings" VALUE="False"/>
 </EIFFEL_DOCUMENT>

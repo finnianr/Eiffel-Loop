@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-06-24 12:01:15 GMT (Monday 24th June 2013)"
 	revision: "2"
@@ -83,9 +83,6 @@ feature {NONE} -- Events
 --			set_size (width * 4 // 5, height * 4 // 5)
 --			restore
 		end
-
-feature {NONE} -- UI construction
-
 
 feature {NONE} -- Implementation
 

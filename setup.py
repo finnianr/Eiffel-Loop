@@ -6,6 +6,9 @@
 #	revision: "0.1"
 
 from distutils.core import setup
+from os import path
+
+script_path = path.normpath ('tool/python-support/eiffel_loop/scripts/%s.py')
 
 setup (
 	name = 'Eiffel_Loop',
@@ -19,15 +22,14 @@ setup (
 		'eiffel_loop', 
 		'eiffel_loop.eiffel',
 		'eiffel_loop.distutils', 
-		'eiffel_loop.http', 
 		'eiffel_loop.os', 
 		'eiffel_loop.scons', 
 		'eiffel_loop.scripts', 
 		'eiffel_loop.xml'
 	],
-	package_dir = {'': 'tool/python-support'}
-#	scripts = [
-#		'tool/python-support/eiffel_loop/launch_estudio.py'
-#	]
+	package_dir = {'': 'tool/python-support'},
+	scripts = [
+		script_path % 'launch_estudio', script_path % 'ec_clean_build', script_path % 'ec_build_finalized'
+	]
 
 )

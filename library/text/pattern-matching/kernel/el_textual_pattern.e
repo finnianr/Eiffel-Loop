@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 deferred class
 	EL_TEXTUAL_PATTERN
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 	default_create
 			--
 		do
-			create target_text
+			create text
 			create event_list.make
 			create name.make_empty
 --			enable_case_sensitive
@@ -51,10 +51,14 @@ feature -- Element change
 			Result.set_action_on_match (action)
 		end
 
-	set_target (text: EL_STRING_VIEW)
+	set_text (a_text: EL_STRING_VIEW)
 			--
 		do
-			target_text.set_from_other (text)
+			if text.same_type (a_text) then
+				text.copy (a_text) -- less garbage collection
+			else
+				text := a_text.twin -- type EL_STRING_VIEW or EL_ASTRING_VIEW
+			end
 			match_succeeded := false
 			count_characters_matched := 0
 			event_list.wipe_out
@@ -86,7 +90,7 @@ feature -- Basic operations
 		do
 			actual_try_to_match
 			if match_succeeded then
-				target_text.set_length (count_characters_matched)
+				text.set_length (count_characters_matched)
 				collect_events
 				debug ("el_pattern_matching") debug_try_to_match end
 			end
@@ -101,7 +105,8 @@ feature -- Access
 
 	event_list: EL_PARSING_EVENT_LIST
 
-	target_text: EL_STRING_VIEW
+	text: EL_STRING_VIEW
+		-- text to match
 
 	action_on_match: PROCEDURE [ANY, TUPLE [EL_STRING_VIEW]]
 
@@ -114,9 +119,7 @@ feature -- Status Report
 	is_ready_to_match: BOOLEAN
 			-- 	
 		do
-			Result := not match_succeeded
-						and count_characters_matched = 0
-						and target_is_set
+			Result := not match_succeeded and count_characters_matched = 0 and target_is_set
 		end
 
 	profile--: BINARY_SET [?]
@@ -137,7 +140,7 @@ feature {NONE} -- Implementation
 			target_text_is_matched: match_succeeded
 		do
 			if action_on_match /= Default_match_action then
-				event_list.append_new_event (target_text, action_on_match)
+				event_list.append_new_event (text, action_on_match)
 			end
 		end
 
@@ -171,7 +174,7 @@ feature {NONE} -- Debug
 				line.append_string (generator)
 				line.append_character ('}')
 				line.append_string ( " matched " + count_characters_matched.out)
-				log.put_string_field_to_max_length (line, target_text, 60)
+				log.put_string_field_to_max_length (line, text, 60)
 				log.put_new_line
 				log.pause_for_enter_key
 			end

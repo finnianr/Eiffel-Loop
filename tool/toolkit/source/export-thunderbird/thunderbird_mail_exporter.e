@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {THUNDERBIRD_ACCOUNT}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 19:58:28 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	THUNDERBIRD_MAIL_EXPORTER
@@ -24,7 +24,10 @@ create
 
 feature {EL_SUB_APPLICATION} -- Initialization
 
-	make (a_account_name, a_export_type: EL_ASTRING; a_export_path, thunderbird_home_dir: EL_DIR_PATH)
+	make (
+		a_account_name, a_export_type: ASTRING; a_export_path, thunderbird_home_dir: EL_DIR_PATH
+		a_included_folders: like included_folders
+	)
 		require
 			valid_type: Export_types.has (a_export_type)
 		local
@@ -33,6 +36,9 @@ feature {EL_SUB_APPLICATION} -- Initialization
 		do
 			log.enter_with_args ("make", << a_account_name, a_export_path >>)
 			account_name := a_account_name; export_type := a_export_type; export_path := a_export_path
+			included_folders := a_included_folders
+			included_folders.compare_objects
+
 			mail_dir_path_steps := thunderbird_home_dir.steps
 			mail_dir_path_steps.extend (".thunderbird")
 			create profile_lines.make (mail_dir_path_steps.as_directory_path + "profiles.ini")
@@ -43,8 +49,8 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			end
 			mail_dir_path_steps.extend ("Mail")
 			mail_dir_path_steps.extend (account_name)
-			mail_dir_path := mail_dir_path_steps
-			log.put_line (mail_dir_path.to_string)
+			mail_dir := mail_dir_path_steps
+			log.put_line (mail_dir.to_string)
 			log.exit
 		end
 
@@ -55,7 +61,7 @@ feature -- Basic operations
 			find_files: EL_FIND_FILES_COMMAND
 		do
 			log.enter ("execute")
-			across mail_subdirs as subdir_path loop
+			across mail_folder_dir_list as subdir_path loop
 				create find_files.make (subdir_path.item, "*.msf")
 				find_files.execute
 				across find_files.path_list as file_path loop
@@ -67,34 +73,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	mail_subdirs: ARRAYED_LIST [EL_DIR_PATH]
-		local
-			find_command: EL_FIND_DIRECTORIES_COMMAND
-		do
-			create find_command.make (mail_dir_path)
-			find_command.disable_recursion
-			find_command.execute
-			create Result.make (find_command.path_list.count)
-			across find_command.path_list as dir loop
-				if dir.item.to_string.ends_with (".sbd") then
-					Result.extend (dir.item)
-				end
-			end
-		end
-
-	export_mails (mails_path: EL_FILE_PATH)
-		local
-			converter: like create_converter
-		do
-			log.enter_with_args ("export_mails", << mails_path >>)
-			converter := create_converter (mails_path)
-			log_or_io.put_path_field ("Exporting", mails_path)
-			log_or_io.put_new_line
-			converter.convert_mails (mails_path)
-			log.exit
-		end
-
-	create_converter (mails_path: EL_FILE_PATH): THUNDERBIRD_MAIL_CONVERTER
+	create_converter (mails_path: EL_FILE_PATH): THUNDERBIRD_MAIL_CONVERTER [HTML_WRITER]
 		local
 			relative_path_steps: EL_PATH_STEPS
 			output_dir: EL_DIR_PATH
@@ -127,32 +106,68 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	export_mails (mails_path: EL_FILE_PATH)
+		local
+			converter: like create_converter
+		do
+			log.enter_with_args ("export_mails", << mails_path >>)
+			converter := create_converter (mails_path)
+			log_or_io.put_path_field ("Exporting", mails_path)
+			log_or_io.put_new_line
+			converter.convert_mails (mails_path)
+			log.exit
+		end
+
+	mail_folder_dir_list: ARRAYED_LIST [EL_DIR_PATH]
+		local
+			find_command: EL_FIND_DIRECTORIES_COMMAND
+		do
+			create find_command.make (mail_dir)
+			find_command.disable_recursion
+			find_command.execute
+
+			create Result.make (find_command.path_list.count)
+			find_command.path_list.do_if (agent Result.extend, agent is_folder_included)
+		end
+
+	is_folder_included (folder_dir: EL_DIR_PATH): BOOLEAN
+		do
+			if folder_dir.extension.same_string ("sbd") then
+				Result := not included_folders.is_empty implies included_folders.has (folder_dir.without_extension.base)
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
 	account_name: STRING
 
 	export_path: EL_DIR_PATH
 
 	export_type: STRING
 
-	mail_dir_path: EL_DIR_PATH
+	included_folders: EL_ASTRING_LIST
+		-- .sbd folders
+
+	mail_dir: EL_DIR_PATH
 
 feature -- Constants
 
 	Dot_sbd_extension: STRING = ".sbd"
 
-	Type_xhtml: EL_ASTRING
+	Export_types: ARRAY [ASTRING]
 		once
-			Result := "xhtml"
+			Result := << Type_xhtml, Type_htmlbody >>
+			Result.compare_objects
 		end
 
-	Type_htmlbody: EL_ASTRING
+	Type_htmlbody: ASTRING
 		once
 			Result := "htmlbody"
 		end
 
-	Export_types: ARRAY [EL_ASTRING]
+	Type_xhtml: ASTRING
 		once
-			Result := << Type_xhtml, Type_htmlbody >>
-			Result.compare_objects
+			Result := "xhtml"
 		end
 
 end

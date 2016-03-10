@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 10:56:21 GMT (Sunday 28th July 2013)"
-	revision: "4"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "6"
 
 class
 	PRAAT_MAKE_FILE_PARSER
@@ -16,8 +16,6 @@ inherit
 	EL_FILE_PARSER
 		export
 			{NONE} all
-		redefine
-			make
 		end
 
 	EL_TEXTUAL_PATTERN_FACTORY
@@ -33,7 +31,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			Precursor
+			make_default
 			create c_library_name_list.make
 		end
 

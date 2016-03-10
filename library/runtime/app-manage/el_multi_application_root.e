@@ -6,28 +6,28 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-24 15:19:11 GMT (Wednesday 24th July 2013)"
-	revision: "4"
+	date: "2014-03-24 1:11:06 GMT (Monday 24th March 2014)"
+	revision: "5"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO] -- Generic to make sure scons generated BUILD_INFO is compiled from project source
 
 inherit
+	EL_INSTALLER_CONSTANTS
+
 	EL_MEMORY
 
 	EL_MODULE_ARGS
-
-	EL_MODULE_ENVIRONMENT
 
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_DIRECTORY
 
-	EL_MODULE_TYPING
+	EL_MODULE_ENVIRONMENT
 
 	EL_MODULE_STRING
 
@@ -39,6 +39,11 @@ inherit
 
 	EL_LOG_CONSTANTS
 
+	EL_SHARED_DIRECTORY
+		rename
+			Directory as Shared_directory
+		end
+
 feature {NONE} -- Initialization
 
 	make
@@ -48,7 +53,7 @@ feature {NONE} -- Initialization
 			output_dir_steps, temp_dir_steps: EL_PATH_STEPS
 		do
 			redirected_output := File_system.closed_none_plain_text
-			application_list := create_application_list
+			application_list := new_application_list
 
 			output_dir := Redirected_file_path.parent
 			if Is_console then
@@ -63,16 +68,19 @@ feature {NONE} -- Initialization
 			if Environment.Execution.Executable_path.is_file then
 			end
 
-			Args.set_boolean_from_word_option (Command_arg_activate_logging, agent logging.activate)
+			Args.set_boolean_from_word_option ({EL_LOG_COMMAND_OPTIONS}.Logging, agent logging.activate)
 				-- Partial logging initialization. Cannot do full one until launcher launch.
 
-			if Args.index_of_word_option ("install") = 1 then
+			if Args.index_of_word_option ({EL_COMMAND_OPTIONS}.Install) = 1 then
 				if is_package_installable then
-					install
+					if has_installer then
+						launch
+					else
+						install
+					end
 				else
 					io.put_string ("ERROR%NTo install application must be in %"package/$PLATFORM_NAME/bin%" directory.%N")
 				end
-
 			else
 				launch
 			end
@@ -95,20 +103,16 @@ feature {NONE} -- Initialization
 			end
 		end
 
-feature {NONE} -- Basic operations
+feature -- Access
+
+	application_list: EL_ARRAYED_LIST [EL_SUB_APPLICATION]
+
+feature -- Basic operations
 
 	launch
 			--
-		local
-			command_option_name: EL_ASTRING
 		do
-			if Args.argument_count >= 1 and then Args.argument (1).starts_with ("-") then
-				command_option_name := Args.argument_latin (1).to_unicode
-				command_option_name.remove_head (1)
-			else
-				create command_option_name.make_empty
-			end
-			application_list.find_first (command_option_name, agent {EL_SUB_APPLICATION}.latin_option_name)
+			application_list.find_first (Args.option_name (1), agent {EL_SUB_APPLICATION}.new_option_name)
 			if application_list.after then
 				io_put_menu
 				application_list.go_i_th (user_selection)
@@ -116,8 +120,9 @@ feature {NONE} -- Basic operations
 			if not application_list.off then
 
 				-- Execute application
-				if attached {EL_UNINSTALL_APP} application_list.item as uninstall_app then
-					uninstall_app.make (application_list)
+				if attached {EL_INSTALLER_SUB_APPLICATION} application_list.item as installer then
+					-- Might also be uninstaller
+					installer.make_installer (Current)
 				else
 					application_list.item.make
 				end
@@ -126,6 +131,7 @@ feature {NONE} -- Basic operations
 				io.put_new_line
 
 				application_list.wipe_out
+				-- Causes a crash on some multi-threaded applications
 				full_collect; full_collect
 					-- Double collect required for EL_GC_PROTECTED_OBJECT which releases
 					-- protected objects for collection as a side effect of dispose
@@ -139,14 +145,13 @@ feature {NONE} -- Basic operations
 		local
 			package_dir, destination_dir: EL_DIR_PATH
 			find_directories_command: EL_FIND_DIRECTORIES_COMMAND
+			template: ASTRING
 		do
-			destination_dir := Environment.Execution.Application_installation_dir
+			destination_dir := Directory.Application_installation
 			package_dir := Package_dir_steps
-			io.put_string (
-				String.template ("Installing: $S%NSource: $S%NDestination: $S%N").substituted (
-					<< Args.command_name, package_dir, destination_dir >>
-				)
-			)
+
+			template := once "Installing: $S%NSource: $S%NDestination: $S%N"
+			io.put_string (template #$ [Args.command_name, package_dir, destination_dir])
 			if not destination_dir.exists then
 				File_system.make_directory (destination_dir)
 			end
@@ -159,45 +164,51 @@ feature {NONE} -- Basic operations
 					copy_directory (source_dir.item, destination_dir)
 				end
 			end
-			across application_list as application loop
-				if application.item.is_installable then
-					application.item.install (application_list)
-				end
-			end
+			install_menus
 			io.put_string ("DONE")
 			io.put_new_line
+		end
+
+	install_menus
+		do
+			across application_list as application loop
+				if attached {EL_INSTALLER_SUB_APPLICATION} application.item as installer_app then
+					installer_app.set_root (Current)
+				end
+				if application.item.is_installable then
+					application.item.install
+				end
+			end
 		end
 
 feature -- Status query
 
 	is_package_installable: BOOLEAN
 		local
-			l_directory: EL_DIRECTORY
 			package_dir: EL_DIR_PATH
 		do
 			package_dir := Package_dir_steps
 			if package_dir.exists then
-				create l_directory.make (package_dir)
-				Result := not l_directory.is_empty
+				Result := not named_directory (package_dir).is_empty
 			end
 		end
 
-	is_work_bench_mode: BOOLEAN
-			-- Is application called from within EiffelStudio
+	has_installer: BOOLEAN
 		do
-			Result := Command_dir_steps.last ~ W_code
+			Result := across application_list as application some application.item.option_name ~ {EL_COMMAND_OPTIONS}.Install  end
 		end
 
 feature {NONE} -- Implementation
 
-	create_application_list: like application_list
+	new_application_list: like application_list
 		do
 			create Result.make (application_types.count)
 			across application_types as app_type loop
-				check attached {EL_SUB_APPLICATION} Typing.new_instance_of (app_type.item.type_id) as application then
+				check attached {EL_SUB_APPLICATION} Eiffel.new_instance_of (app_type.item.type_id) as application then
 					Result.extend (application)
 				end
 			end
+			Result.extend (create {EL_VERSION_APP})
 			Result.compare_objects
 		end
 
@@ -212,7 +223,7 @@ feature {NONE} -- Implementation
 				output_file_path := Redirected_file_path.with_new_extension (i.out.as_string_32 + ".txt")
 				i := i + 1
 			end
-			create redirected_output.make_open_write (output_file_path.unicode)
+			create redirected_output.make_open_write (output_file_path)
 			io.set_file_default (redirected_output)
 		end
 
@@ -242,15 +253,12 @@ feature {NONE} -- Implementation
 				io.put_string ("DESCRIPTION: ")
 				io.put_new_line
 				line_count := 0
-				application.item.description.split ('%N').do_all (
-					agent (line: STRING)
-						do
-							line_count := line_count + 1
-							io.put_string (String.space_chars (Tab_width, 2))
-							io.put_string (line)
-							io.put_new_line
-						end
-				)
+				across application.item.description.split ('%N') as line loop
+					line_count := line_count + 1
+					io.put_string (String.space_chars (Tab_width, 2))
+					io.put_string (line.item)
+					io.put_new_line
+				end
 				io.put_new_line
 			end
 		end
@@ -267,11 +275,11 @@ feature {NONE} -- Implementation
 
 	Redirected_file_path: EL_FILE_PATH
 		local
-			name: EL_ASTRING
+			name: ASTRING
 			l_location: EL_DIR_PATH
 		once
 			if Args.argument_count >= 1 then
-				name := Args.argument_latin (1)
+				name := Args.item (1)
 				name.remove_head (1)
 			else
 				name := "Eiffel-app"
@@ -281,6 +289,7 @@ feature {NONE} -- Implementation
 			Result.add_extension ("txt")
 		end
 
+
 	application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
 			--
 		deferred
@@ -288,36 +297,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation: attributes
 
-	application_list: EL_ARRAYED_LIST [EL_SUB_APPLICATION]
-
 	line_count: INTEGER
 
 	redirected_output: PLAIN_TEXT_FILE
 
 feature {NONE} -- Constants
-
-	Package_dir_steps: EL_PATH_STEPS
-		once
-			if is_work_bench_mode then
-				Result := << "package", Environment.Execution.item ("ISE_PLATFORM").to_string_8 >>
-					-- Eg. "package/win64"
-			else
-				-- This is assumed to be the directory 'package/bin' unpacked by installer to a temporary directory
-				Result := Command_dir_steps.twin
-				Result.remove_tail (1)
-			end
-		end
-
-	Command_dir_steps: EL_PATH_STEPS
-		-- location of executable
-		once
-			Result := Environment.Execution.executable_path.parent
-		end
-
-	W_code: EL_ASTRING
-		once
-			Result := "W_code"
-		end
 
 	Tab_width: INTEGER = 3
 

@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-15 11:42:28 GMT (Monday 15th July 2013)"
-	revision: "2"
+	date: "2014-01-25 12:28:55 GMT (Saturday 25th January 2014)"
+	revision: "3"
 
 class
 	EL_CONSOLE_AND_FILE_ROUTINE_LOG
@@ -134,7 +134,7 @@ feature {NONE} -- Implementation
 			elseif attached {EL_PATH} arg_object as path_arg then
 				l_out.put_quoted_string (path_arg.to_string)
 
-			elseif attached {EL_ASTRING} arg_object as astr then
+			elseif attached {ASTRING} arg_object as astr then
 				l_out.put_quoted_string (astr)
 			else
 				l_out.set_text_brown

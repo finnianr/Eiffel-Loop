@@ -80,29 +80,32 @@ def set_windows_build_environment (MSC_options):
 
 		# Switch Python and EiffelStudio paths to x86
 		if os.environ ['TARGET_CPU'] == 'x86':
-			os.environ ['ISE_PLATFORM'] = 'windows'
-			old_ise_eiffel = os.environ ['ISE_EIFFEL']
+			path_list = unexpanded_path_list (['ISE_EIFFEL', 'EIFFEL_LOOP'])
 
-			for name in ['ISE_EIFFEL', 'PYTHON_HOME']:
+			os.environ ['ISE_PLATFORM'] = 'windows'
+			for name in ['ISE_EIFFEL', 'PYTHON']:
 				program_files_path = os.environ [name]
 				os.environ [name] = program_files_path.replace ('Files', 'Files (x86)', 1)
 
-			new_path = ''
-			for bin_path in os.environ.get ('Path').split (os.pathsep):
-				if len (bin_path) > 0:
-					if bin_path.startswith (old_ise_eiffel):
-						if 'msys' in bin_path:
-							new_path = new_path + ';' + path.expandvars (r'$ISE_EIFFEL\gcc\$ISE_PLATFORM\msys\1.0\bin')
-
-						elif 'studio' in bin_path:
-							new_path = new_path + ';' + path.expandvars (r'$ISE_EIFFEL\studio\spec\$ISE_PLATFORM\bin')
-					elif len (new_path) > 0:
-						new_path = new_path + ';' + bin_path
-					else:
-						new_path = bin_path
-						
-			os.environ ['Path'] = new_path
+			os.environ ['Path'] = path.expandvars (';'.join (path_list))
 		
+def unexpanded_path_list (env_variables):
+	result = []
+	for bin_path in os.environ.get ('Path').split (os.pathsep):
+		is_appended = False
+		for var_name in env_variables:
+			env_value = os.environ [var_name]
+			if bin_path.startswith (env_value):
+				bin_path = bin_path.replace (env_value, '$'+var_name, 1)
+				bin_path = bin_path.replace (r'\win64', r'\$ISE_PLATFORM', 1)
+				result.append (bin_path)
+				is_appended = True
+				break
+		if bin_path and not is_appended:
+			result.append (bin_path)
+		
+	return result
+
 		
 def read_project_py ():
 	py_file, file_path, description = imp.find_module ('project', [path.abspath (os.curdir)])

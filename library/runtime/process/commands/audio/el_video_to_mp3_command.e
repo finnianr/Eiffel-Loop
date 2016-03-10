@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_MP3_CLIP_SAVER_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-14 9:20:34 GMT (Friday 14th June 2013)"
-	revision: "2"
+	date: "2013-11-09 13:55:37 GMT (Saturday 9th November 2013)"
+	revision: "3"
 
 class
 	EL_VIDEO_TO_MP3_COMMAND
@@ -29,15 +29,23 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_source_path, a_destination_path)
 			bit_rate := 128
-			create duration.make_by_compact_time (0)
+			create duration.make_by_seconds (0)
 			create offset_time.make_by_compact_time (0)
 		end
 
 feature -- Access
 
+	formatted_duration: STRING
+		local
+			time: TIME
+		do
+			create time.make_by_fine_seconds (duration.fine_seconds_count)
+			Result := time.formatted_out (Duration_format)
+		end
+
 	bit_rate: INTEGER
 
-	duration: TIME
+	duration: TIME_DURATION
 
 	offset_time: TIME
 
@@ -55,14 +63,20 @@ feature -- Element change
 
 	set_bit_rate (a_bit_rate: like bit_rate)
 		do
-			bit_rate := a_bit_rate
+			if a_bit_rate < 128 then
+				bit_rate := 128
+			elseif a_bit_rate < 192 then
+				bit_rate := 192
+			else
+				bit_rate := 256
+			end
 		end
 
 feature -- Status query
 
 	has_duration: BOOLEAN
 		do
-			Result := duration.fine_seconds > 0.1
+			Result := duration.fine_seconds_count > 0.1
 		end
 
 	has_offset_time: BOOLEAN
@@ -72,7 +86,7 @@ feature -- Status query
 
 feature -- Contract Support
 
-	is_valid_input_extension (extension: EL_ASTRING): BOOLEAN
+	is_valid_input_extension (extension: ASTRING): BOOLEAN
 		do
 			Result := Video_extensions.has (extension)
 		end
@@ -84,7 +98,7 @@ feature {NONE} -- Evolicity reflection
 		do
 			Result := Precursor
 			Result.append_tuples (<<
-				["duration", 				agent: STRING do Result := duration.formatted_out (Duration_format) end],
+				["duration", 				agent formatted_duration],
 				["has_duration",			agent: BOOLEAN_REF do Result := has_duration.to_reference end],
 				["has_offset_time",		agent: BOOLEAN_REF do Result := has_offset_time.to_reference end],
 				["offset_time", 			agent: STRING do Result := offset_time.formatted_out (Duration_format) end]
@@ -97,7 +111,7 @@ feature {NONE} -- Implementation
 
 feature -- Constants
 
-	Video_extensions: ARRAY [EL_ASTRING]
+	Video_extensions: ARRAY [ASTRING]
 		once
 			Result := << "flv", "mp4", "mov" >>
 			Result.compare_objects

@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-05-30 8:27:14 GMT (Thursday 30th May 2013)"
 	revision: "2"
@@ -13,10 +13,16 @@ class
 	EL_THREAD_MANAGER
 
 inherit
-	ANY
+	EL_MODULE_EXECUTION_ENVIRONMENT
 		redefine
 			default_create
 		end
+
+	EL_SINGLE_THREAD_ACCESS
+		undefine
+			default_create
+		end
+
 
 create
 	default_create
@@ -25,40 +31,72 @@ feature {NONE} -- Initialization
 
 	default_create
 		do
-			create threads.make (create {like threads.item}.make (10))
+			make_default
+			create threads.make (10)
 		end
 
 feature -- Access
 
 	active_count: INTEGER
 		do
-			threads.lock
+			restrict_access
 --			synchronized
-				across threads.item as thread loop
-					if not thread.item.is_stopped then
+				across threads as thread loop
+					if thread.item.is_active then
 						Result := Result + 1
 					end
 				end
 --			end
-			threads.unlock
+			end_restriction
 		end
-
-	threads: EL_STD_SYNCHRONIZED_REF [ARRAYED_LIST [EL_STOPPABLE_THREAD]]
 
 feature -- Basic operations
 
 	stop_all
 			--
 		do
-			threads.lock
+			restrict_access
 --			synchronized
-				across threads.item as thread loop
+				across threads as thread loop
 					if not (thread.item.is_stopped or thread.item.is_stopping) then
 						thread.item.stop
 					end
 				end
 --			end
-			threads.unlock
+			end_restriction
+		end
+
+	join_all
+		local
+			stopped: BOOLEAN
+		do
+			restrict_access
+--			synchronized
+				across threads as thread loop
+					-- Wait for thread to stop
+					from stopped := thread.item.is_stopped until stopped loop
+						log_or_io.put_labeled_string ("Waiting to stop thread", name (thread.item))
+						log_or_io.put_new_line
+						Execution.sleep (Default_stop_wait_time)
+						stopped := thread.item.is_stopped
+					end
+				end
+--			end
+			end_restriction
+		end
+
+	list_active
+		do
+			restrict_access
+--			synchronized
+				across threads as thread loop
+					if thread.item.is_active then
+						log_or_io.put_labeled_string ("Active thread", name (thread.item))
+						log_or_io.put_new_line
+					end
+				end
+--			end
+			end_restriction
 		end
 
 feature -- Element change
@@ -66,26 +104,26 @@ feature -- Element change
 	remove_all_stopped
 			--
 		do
-			threads.lock
+			restrict_access
 --			synchronized
-				from threads.item.start until threads.item.after loop
-					if threads.item.item.is_stopped then
-						threads.item.remove
+				from threads.start until threads.after loop
+					if threads.item.is_stopped then
+						threads.remove
 					else
-						threads.item.forth
+						threads.forth
 					end
 				end
 --			end
-			threads.unlock
+			end_restriction
 		end
 
 	extend (a_thread: EL_STOPPABLE_THREAD)
 		do
-			threads.lock
+			restrict_access
 --			synchronized
-				threads.item.extend (a_thread)
+				threads.extend (a_thread)
 --			end
-			threads.unlock
+			end_restriction
 		end
 
 feature -- Status query
@@ -93,11 +131,32 @@ feature -- Status query
 	all_threads_stopped: BOOLEAN
 			--
 		do
-			threads.lock
+			restrict_access
 --			synchronized
-				Result := threads.item.for_all (agent {EL_STOPPABLE_THREAD}.is_stopped)
+				Result := threads.for_all (agent {EL_STOPPABLE_THREAD}.is_stopped)
 --			end
-			threads.unlock
+			end_restriction
+		end
+
+feature {NONE} -- Implementation
+
+	name (thread: EL_STOPPABLE_THREAD): STRING
+		do
+			if attached {EL_IDENTIFIED_THREAD} thread as identified_thread then
+				Result := identified_thread.log_name
+			else
+				Result := thread.generator.as_lower
+			end
+		end
+
+	threads: ARRAYED_LIST [EL_STOPPABLE_THREAD]
+
+feature {NONE} -- Constants
+
+	Default_stop_wait_time: INTEGER
+			-- Default time to wait for thread to stop in milliseconds
+		once
+			Result := 2000
 		end
 
 end

@@ -9,26 +9,20 @@ import os, sys, platform
 
 from os import path
 
-from eiffel_loop.scons import util
-
-from eiffel_loop.eiffel import project
-from eiffel_loop.http import package
+from eiffel_loop.scons import util, package
 
 Import ('env')
-#env = Environment (ENV = os.environ, ISE_PLATFORM = os.environ ['ISE_PLATFORM'])
+#env = Environment (ENV = os.environ)
 
-env.Append (SOURCE_DIR = Dir ('lib').abspath)
-
-http_list = Glob (path.join ('lib', '*.http'))
-http_list.append (File ('batik-rasterizer.http'))
-
-download_builder = Builder (action = package.install_gnome_zip_from_http_sources, suffix='.jar', src_suffix = '.http', emitter = util.complete_targets)
+download_builder = Builder (action = package.get, suffix='.jar', src_suffix = '.getjar', emitter = util.complete_targets)
 env.Append (BUILDERS = {'Java_jar_download' : download_builder})
 
-jars = env.Java_jar_download (http_list)
+lib_jars = env.Java_jar_download (Glob (path.join ('lib', '*.getjar')))
 
-main_jar = jars [-1:][0]
+main_jar = env.Java_jar_download (File ('batik-rasterizer.getjar'))
 
-env.NoClean (jars)
+Depends (main_jar, lib_jars)
+
+env.NoClean (main_jar, lib_jars)
 
 Return ('main_jar')

@@ -2,22 +2,24 @@ note
 	description: "Summary description for {PYXIS_TO_XML_PARSER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
-	revision: "4"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "6"
 
 class
 	EL_XML_TEXT_GENERATOR
 
 inherit
 	EL_XML_DOCUMENT_SCANNER
+		rename
+			make_xml_text_source as make
 		export
 			{NONE} all
 		redefine
-			make_last_node
+			make_default
 		end
 
 	EL_MODULE_STRING
@@ -30,7 +32,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_XML
+	EL_XML_ROUTINES
 		export
 			{NONE} all
 		end
@@ -45,16 +47,16 @@ create
 
 feature {NONE} -- Initialization
 
-	make_last_node
+	make_default
 			--
 		do
-			Precursor
 			create output_stack.make (10)
+			Precursor
 		end
 
 feature -- Basic operations
 
-	convert_stream (a_input, a_output: IO_MEDIUM)
+	convert_stream (a_input: IO_MEDIUM; a_output: like output)
 			--
 		require
 			valid_input: a_input.is_open_read and a_input.is_readable
@@ -91,7 +93,7 @@ feature {NONE} -- Parsing events
 	on_start_tag
 			--
 		local
-			tag_output: like Type_string_list
+			tag_output: EL_ASTRING_LIST
 		do
 			put_last_tag (True)
 			create tag_output.make (attribute_list.count + 5)
@@ -101,7 +103,7 @@ feature {NONE} -- Parsing events
 			tag_output.extend (last_node_name.string)
 
 			from attribute_list.start until attribute_list.after loop
-				tag_output.extend (escaped (attribute_node_string (attribute_list.node)))
+				tag_output.extend (attribute_pair_string (attribute_list.node))
 				attribute_list.forth
 			end
 			tag_output.extend (Empty_element_end)
@@ -113,7 +115,7 @@ feature {NONE} -- Parsing events
 	on_end_tag
 			--
 		local
-			last_tag_output, tag_output: like Type_string_list
+			last_tag_output, tag_output: EL_ASTRING_LIST
 		do
 			last_tag_output := output_stack.item
 			if last_tag_output.last = Empty_element_end then
@@ -143,7 +145,7 @@ feature {NONE} -- Parsing events
 			--
 		local
 			has_multiple_lines: BOOLEAN
-			line_list: LIST [STRING_32]
+			line_list: like new_line_list
 		do
 			has_multiple_lines := last_node_text.has (New_line_character)
 			put_last_tag (True)
@@ -151,10 +153,10 @@ feature {NONE} -- Parsing events
 			output.put_string ("<!--")
 			if has_multiple_lines then
 				output.put_new_line
-				line_list := last_node_text.split ('%N')
+				line_list := new_line_list (last_node_text)
 				from line_list.start until line_list.after loop
 					output.put_string (tab_indent (output_stack.count + 1))
-					output.put_string (escaped (line_list.item))
+					output.put_string (line_list.item.escaped (xml_escaper))
 					output.put_new_line
 					line_list.forth
 				end
@@ -174,10 +176,26 @@ feature {NONE} -- Parsing events
 
 feature {NONE} -- Implementation
 
+	attribute_pair_string (attribute_node: EL_XML_ATTRIBUTE_NODE): ASTRING
+			--
+		do
+			create Result.make (attribute_node.name.count + attribute_node.to_string_32.count + 6)
+			Result.append_character (' ')
+			Result.append_unicode_general (attribute_node.name)
+			Result.append (once " = %"")
+			Result.append_unicode_general (escaped_attribute (attribute_node.to_string_32))
+			Result.append_character ('"')
+		end
+
+	new_line_list (lines: STRING_32): EL_ASTRING_LIST
+		do
+			create Result.make_with_separator (lines, New_line_character, False)
+		end
+
 	put_last_tag (append_new_line: BOOLEAN)
 			--
 		local
-			last_tag_output: like Type_string_list
+			last_tag_output: EL_ASTRING_LIST
 		do
 			if not output_stack.is_empty then
 				last_tag_output := output_stack.item
@@ -189,7 +207,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_output (tag_output: like Type_string_list; append_new_line: BOOLEAN)
+	put_output (tag_output: EL_ASTRING_LIST; append_new_line: BOOLEAN)
 			--
 		local
 			i: INTEGER
@@ -206,13 +224,14 @@ feature {NONE} -- Implementation
 	put_last_node_text
 			--
 		local
-			line_list: EL_LINE_LIST [STRING_32]
+			line_list: like new_line_list
+			line: ASTRING
 		do
 			if last_node_text.has (New_line_character) then
-				create line_list.make (last_node_text)
+				line_list := new_line_list (last_node_text)
 				output.put_new_line
 				from line_list.start until line_list.after loop
-					output.put_string (escaped (line_list.item))
+					output.put_string (line_list.item.escaped (xml_escaper))
 
 					line_list.forth
 					if not line_list.after then
@@ -222,25 +241,9 @@ feature {NONE} -- Implementation
 				output.put_new_line
 				last_state := State_multi_line_content
 			else
-				output.put_string (escaped (last_node_text))
+				line := last_node_text
+				output.put_string (line.escaped (xml_escaper))
 				last_state := State_content
-			end
-		end
-
-	escaped (a_string: STRING_32): STRING
-		local
-			l_result: EL_ASTRING
-		do
-			l_result := XML.basic_escaped (a_string)
-			if encoding_type = parse_event_source.Encoding_ISO_8859 then
-				Result := l_result.to_latin1
-
-			elseif encoding_type = parse_event_source.Encoding_utf then
-				if encoding = 8 then
-					Result := l_result.to_utf8
-				end
-			else
-				create Result.make_empty
 			end
 		end
 
@@ -256,20 +259,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	attribute_node_string (attribute_node: EL_XML_ATTRIBUTE_NODE): STRING_32
-			--
-		local
-			template: like Attribute_template
-		do
-			template := Attribute_template
-			template.set_variable (once "NAME", attribute_node.name)
-			template.set_variable (once "VALUE", attribute_node.to_string_32)
-			Result := template.substituted
-		end
+	output_stack: ARRAYED_STACK [EL_ASTRING_LIST]
 
-	output_stack: ARRAYED_STACK [like Type_string_list]
-
-	output: IO_MEDIUM
+	output: EL_OUTPUT_MEDIUM
 
 	last_queue_item_is_text: BOOLEAN
 
@@ -279,18 +271,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Attribute_template: EL_SUBSTITUTION_TEMPLATE [STRING_32]
+	Declaration_template: EL_SUBSTITUTION_TEMPLATE [ASTRING]
 			--
 		once
-			create Result.make (" $NAME = %"$VALUE%"")
-		end
-
-	Declaration_template: EL_SUBSTITUTION_TEMPLATE [STRING]
-			--
-		once
-			Result := "[
+			create Result.make ("[
 				<?xml version = "$VERSION" encoding = "$ENCODING"?>
-			]"
+				]")
 		end
 
 	Decimal_formatter: FORMAT_DOUBLE
@@ -299,19 +285,37 @@ feature {NONE} -- Constants
 			create Result.make (3, 1)
 		end
 
-	New_line: STRING_32 = "%N"
+	New_line: ASTRING
+		once
+			Result := "%N"
+		end
 
 	New_line_character: CHARACTER_32 = '%N'
 
-	Comment_end: STRING_32 = "-->"
+	Comment_end: ASTRING
+		once
+			Result := "-->"
+		end
 
-	Empty_element_end: STRING_32 = "/>"
+	Empty_element_end: ASTRING
+		once
+			Result := "/>"
+		end
 
-	Left_angle_bracket: STRING_32 = "<"
+	Left_angle_bracket: ASTRING
+		once
+			Result := "<"
+		end
 
-	Right_angle_bracket: STRING_32 = ">"
+	Right_angle_bracket: ASTRING
+		once
+			Result := ">"
+		end
 
-	Close_element_start: STRING_32 = "</"
+	Close_element_start: ASTRING
+		once
+			Result := "</"
+		end
 
 	State_tag: INTEGER = unique
 
@@ -322,11 +326,5 @@ feature {NONE} -- Constants
 	State_comment: INTEGER = unique
 
 	State_multi_line_content: INTEGER = unique
-
-feature {NONE} -- Constants
-
-	Type_string_list: ARRAYED_LIST [STRING_32]
-		once
-		end
 
 end

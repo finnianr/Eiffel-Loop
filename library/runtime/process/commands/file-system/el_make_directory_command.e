@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_MAKE_DIRECTORY_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-15 0:08:05 GMT (Saturday 15th June 2013)"
-	revision: "2"
+	date: "2013-10-09 13:33:15 GMT (Wednesday 9th October 2013)"
+	revision: "3"
 
 class
 	EL_MAKE_DIRECTORY_COMMAND
@@ -22,9 +22,9 @@ inherit
 		end
 
 create
-	make, make_default
+	make, default_create
 
-feature -- {}in
+feature {NONE} -- Initialization
 
 	make (a_directory_path: like directory_path)
 			--
@@ -40,7 +40,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["directory_path", agent: EL_ASTRING do Result := escaped_path (directory_path) end]
+				["directory_path", agent: EL_PATH do Result := directory_path end]
 			>>)
 		end
 

@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 13:09:50 GMT (Sunday 28th July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	EL_LITERAL_TEXTUAL_PATTERN
@@ -31,14 +31,14 @@ feature {NONE} -- Initialization
 		end
 
 
-	make_from_string (literal: EL_ASTRING)
+	make_from_string (literal: like literal_text)
 			--
 		do
 			default_create
 			set_literal_text (literal)
 		end
 
-	make_from_string_with_agent (literal: STRING; action: PROCEDURE [ANY, TUPLE [EL_STRING_VIEW]])
+	make_from_string_with_agent (literal: like literal_text; action: PROCEDURE [ANY, TUPLE [EL_STRING_VIEW]])
 			--
 		do
 			make_from_string (literal)
@@ -50,7 +50,7 @@ feature {NONE} -- Implementation
 	actual_try_to_match
 			--
 		do
-			if target_text.starts_with (literal_text) then
+			if text.starts_with (literal_text) then
 				match_succeeded := true
 				count_characters_matched := literal_text.count
 			end
@@ -58,7 +58,7 @@ feature {NONE} -- Implementation
 
 feature -- Element change
 
-	set_literal_text (a_literal: READABLE_STRING_GENERAL)
+	set_literal_text (a_literal: like literal_text)
 			--
 		do
 			literal_text := a_literal
@@ -66,14 +66,14 @@ feature -- Element change
 
 feature -- Access
 
-	literal_text: READABLE_STRING_GENERAL
+	literal_text: ASTRING
 
 feature {NONE} -- Constant
 
-	Empty_literal_text: READABLE_STRING_GENERAL
+	Empty_literal_text: ASTRING
 			--
 		once
-			Result := create {STRING}.make_empty
+			create Result.make_empty
 		end
 
 -- Used for specific test

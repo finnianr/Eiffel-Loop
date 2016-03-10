@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {FTP_BACKUP}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-02-23 12:18:22 GMT (Sunday 23rd February 2014)"
-	revision: "4"
+	date: "2014-10-01 11:57:34 GMT (Wednesday 1st October 2014)"
+	revision: "6"
 
 class
 	FTP_BACKUP
@@ -15,27 +15,30 @@ class
 inherit
 	EL_COMMAND
 
-	EL_WEBSITE_ROUTINES
-
-	EL_MODULE_EVOLICITY_ENGINE
+	EL_MODULE_EVOLICITY_TEMPLATES
 
 	EL_MODULE_FILE_SYSTEM
 
+	EL_MODULE_DIRECTORY
+
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_LOG
+
+	EL_MODULE_USER_INPUT
 
 	EL_MEMORY
 
 create
 	make, default_create
 
-feature {EL_COMMAND_LINE_SUB_APPLICATTION} -- Initialization
+feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
 	make (a_script_file_path_list: like script_file_path_list; a_ask_user_to_upload: BOOLEAN)
 		do
 			script_file_path_list  := a_script_file_path_list; ask_user_to_upload := a_ask_user_to_upload
 			create archive_and_destination_paths.make
 			create environment_variables.make_from_string_table (Execution_environment.starting_environment_variables)
-			ask_user_to_upload := True
 		end
 
 feature -- Access
@@ -53,11 +56,12 @@ feature -- Basic operations
 		local
 			total_size_mega_bytes: REAL
 			ftp_site_node: EL_XPATH_NODE_CONTEXT
+			website: EL_FTP_WEBSITE
 		do
 			across script_file_path_list as l_path loop
 				script_file_path := l_path.item
 				if not script_file_path.is_absolute then
-					script_file_path := Execution_environment.current_working_directory + script_file_path
+					script_file_path := Directory.current_working + script_file_path
 				end
 				set_root_node (script_file_path)
 				backup_all
@@ -80,8 +84,8 @@ feature -- Basic operations
 			if ask_user_to_upload then
 				log_or_io.put_string ("Copy files offsite? (y/n) ")
 				if User_input.entered_letter ('y') then
-					set_ftp_site (ftp_site_node)
-					do_ftp_upload (archive_and_destination_paths)
+					create website.make_from_node (ftp_site_node)
+					website.do_ftp_upload (archive_and_destination_paths)
 				end
 			end
 		end
@@ -92,16 +96,16 @@ feature -- Basic operations
 			target_directory_path: EL_DIR_PATH
 		do
 			log.enter ("backup_all")
-			across root_node.context_list ("/backup-script/directory") as directory loop
-				if directory.node.has ("path")  then
-					target_directory_path := directory.node.string_32_at_xpath ("path")
+			across root_node.context_list ("/backup-script/directory") as l_directory loop
+				if l_directory.node.has ("path")  then
+					target_directory_path := l_directory.node.string_32_at_xpath ("path")
 
 					if not target_directory_path.is_absolute then
 						target_directory_path := script_file_path.parent.joined_dir_path (target_directory_path)
 					end
 
 					if target_directory_path.exists then
-						backup_directory (directory.node, target_directory_path)
+						backup_directory (l_directory.node, target_directory_path)
 					else
 						log_or_io.put_path_field ("ERROR: no such directory", target_directory_path)
 						log_or_io.put_new_line
@@ -132,7 +136,7 @@ feature -- Basic operations
 				backup_name := target_directory_path.base
 			end
 
-			archive_dir_path := Execution.current_working_directory.joined_dir_steps (<< "tar.gz", backup_name >>)
+			archive_dir_path := Directory.current_working.joined_dir_steps (<< "tar.gz", backup_name >>)
 			File_system.make_directory (archive_dir_path)
 
 			create archive_file.make (directory_node, target_directory_path, archive_dir_path, backup_name)
@@ -162,12 +166,13 @@ feature -- Element change
 			pyxis_medium, xml_out_medium: EL_TEXT_IO_MEDIUM
 		do
 			create pyxis_medium.make_open_write (1024)
-			Evolicity_engine.set_template_from_file (file_path)
-			Evolicity_engine.merge_to_stream (file_path, environment_variables, pyxis_medium)
+			Evolicity_templates.put_from_file (file_path)
+			Evolicity_templates.merge (file_path, environment_variables, pyxis_medium)
 
 			create xml_out_medium.make_open_write (pyxis_medium.text.count)
 
 			create xml_generator.make
+			pyxis_medium.close
 			pyxis_medium.open_read
 			xml_generator.convert_stream (pyxis_medium, xml_out_medium)
 
@@ -181,7 +186,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation: attributes
 
-	archive_and_destination_paths: LINKED_LIST [like ftp.Type_source_destination]
+	archive_and_destination_paths: LINKED_LIST [TUPLE [source_path: EL_FILE_PATH; destination_path: EL_DIR_PATH]]
 
 	root_node: EL_XPATH_ROOT_NODE_CONTEXT
 

@@ -6,7 +6,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2012-12-16 11:34:30 GMT (Sunday 16th December 2012)"
 	revision: "1"
@@ -20,6 +20,8 @@ inherit
 			{NONE} all
 		end
 
+	EL_THREAD_ACCESS
+
 feature -- Element change
 
 	put_action (action: PROCEDURE [ANY, TUPLE])
@@ -32,50 +34,45 @@ feature -- Element change
 	put_event_indexes (a_event_indexes: LINKED_QUEUE [INTEGER])
 			--
 		do
-			Listener_pool.lock
---			synchronized
+			restrict_access (Listener_pool)
 				from until a_event_indexes.is_empty loop
 					generate_event (a_event_indexes.item)
 					a_event_indexes.remove
 				end
---			end
-			Listener_pool.unlock
+			end_restriction (Listener_pool)
 		end
 
 	put (event_listener: EL_EVENT_LISTENER)
 			-- Queue request to notify listener from main (GUI) thread
 			-- but we can't assume OS will return them in the same order
 		local
-			l_listener_pool: ARRAYED_LIST [EL_EVENT_LISTENER]
+			pool: like Listener_pool.item
 		do
-			Listener_pool.lock
-			l_listener_pool := Listener_pool.item
---			synchronized
-				l_listener_pool.start
-				l_listener_pool.search (Default_event_listener)
-				if l_listener_pool.exhausted then
-					l_listener_pool.extend (event_listener)
+			restrict_access (Listener_pool)
+				pool := Listener_pool.item
+				pool.start
+				pool.search (Default_event_listener)
+				if pool.exhausted then
+					pool.extend (event_listener)
 				else
-					l_listener_pool.replace (event_listener)
+					pool.replace (event_listener)
 				end
-				generate_event (l_listener_pool.index)
---			end
-			Listener_pool.unlock
+				generate_event (pool.index)
+			end_restriction (Listener_pool)
 		end
 
 	on_event (index: INTEGER)
 			--
 		local
-			l_listener_pool: ARRAYED_LIST [EL_EVENT_LISTENER]
 			event_listener: EL_EVENT_LISTENER
+			pool: like Listener_pool.item
 		do
-			Listener_pool.lock
-			l_listener_pool := Listener_pool.item
---			synchronized
-				event_listener := l_listener_pool [index]
-				l_listener_pool [index] := Default_event_listener
---			end
-			Listener_pool.unlock
+			restrict_access (Listener_pool)
+				pool := Listener_pool.item
+				event_listener := pool [index]
+				pool [index] := Default_event_listener
+			end_restriction (Listener_pool)
+
 			event_listener.notify
 		end
 
@@ -103,7 +100,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Listener_pool: EL_SYNCHRONIZED_REF [ARRAYED_LIST [EL_EVENT_LISTENER]]
+	Listener_pool: EL_LOGGED_MUTEX_REFERENCE [ARRAYED_LIST [EL_EVENT_LISTENER]]
 			-- Can't assume OS will return them in the same order
 		once ("PROCESS")
 			create Result.make (create_event_listener_pool)

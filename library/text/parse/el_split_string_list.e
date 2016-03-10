@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:31 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_SPLIT_STRING_LIST
@@ -32,12 +32,13 @@ inherit
 			make as make_list
 		end
 
+	EL_STRING_CONSTANTS
+		undefine
+			is_equal, copy
+		end
+
 create
 	make, make_with_delimiter
-
-feature {NONE} -- Implementation
-
-	Empty_string: STRING = ""
 
 feature {NONE} -- Initialization
 
@@ -78,7 +79,7 @@ feature -- Element change
 --			log.enter_with_args ("extend_from_string", <<target>>)
 			set_source_text (target)
 			processor_do_all
-			set_source_text (Empty_string)
+			set_source_text (Empty_string_32)
 --			log.exit
 		end
 

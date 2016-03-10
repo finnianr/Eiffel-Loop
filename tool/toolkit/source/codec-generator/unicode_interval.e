@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {UNICODE_INTERVAL}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "7"
 
 class
 	UNICODE_INTERVAL
@@ -16,6 +21,8 @@ inherit
 	EVOLICITY_EIFFEL_CONTEXT
 		undefine
 			is_equal, copy
+		redefine
+			make_default
 		end
 
 	COMPARABLE
@@ -31,11 +38,16 @@ convert
 
 feature {NONE} -- Initialization
 
+	make_default
+		do
+			create latin_characters.make (7)
+			Precursor
+		end
+
 	make (a_interval: INTEGER_INTERVAL)
 		do
 			make_interval (a_interval.lower, a_interval.upper)
-			make_eiffel_context
-			create latin_characters.make (7)
+			make_default
 		end
 
 feature -- Access
@@ -62,7 +74,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	character (code: NATURAL): EL_ASTRING
+	character (code: NATURAL): ASTRING
 		do
 			create Result.make (1)
 			Result.append_unicode (code)
@@ -74,8 +86,8 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["lower_character", agent: EL_ASTRING do Result := character (lower.to_natural_32) end ],
-				["upper_character", agent: EL_ASTRING do Result := character (upper.to_natural_32) end ],
+				["lower_character", agent: ASTRING do Result := character (lower.to_natural_32) end ],
+				["upper_character", agent: ASTRING do Result := character (upper.to_natural_32) end ],
 				["first_latin_character", agent: LATIN_CHARACTER do Result := latin_characters.first end],
 				["latin_characters", agent: ITERABLE [LATIN_CHARACTER] do Result := latin_characters end]
 			>>)

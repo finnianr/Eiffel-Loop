@@ -26,7 +26,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_string, a_search_string: EL_ASTRING)
+	make (a_string, a_search_string: ASTRING)
 			--
 		do
 			make_substrings (a_string)
@@ -82,7 +82,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	search_string: EL_ASTRING
+	search_string: ASTRING
 
 	finish
 			-- Move to last position.

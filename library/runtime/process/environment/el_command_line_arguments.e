@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-07-24 15:19:11 GMT (Wednesday 24th July 2013)"
 	revision: "3"
@@ -15,26 +15,9 @@ class
 inherit
 	ARGUMENTS_32
 
-	EL_MODULE_STRING
-
 feature -- Access
 
-	word_option_argument (a_word_option: EL_ASTRING): EL_ASTRING
-			-- Value of argument preceded by word option
-			-- Result is empty if none
-		local
-			index: INTEGER
-		do
-			create Result.make_empty
-			if word_option_exists (a_word_option.to_unicode) then
-				index := index_of_word_option (a_word_option.to_unicode) + 1
-				if index <= argument_count then
-					Result := argument_latin (index)
-				end
-			end
-		end
-
-	remaining (index: INTEGER): ARRAYED_LIST [EL_ASTRING]
+	remaining_items (index: INTEGER): ARRAYED_LIST [ASTRING]
 		require
 			valid_index: index <= argument_count
 		local
@@ -42,7 +25,7 @@ feature -- Access
 		do
 			create Result.make (argument_count - index + 1)
 			from i := index until i > argument_count loop
-				Result.extend (argument_latin (i))
+				Result.extend (item (i))
 				i := i + 1
 			end
 		end
@@ -50,89 +33,153 @@ feature -- Access
 	remaining_file_paths (index: INTEGER): ARRAYED_LIST [EL_FILE_PATH]
 		require
 			valid_index: index <= argument_count
+		local
+			l_remaining_items: like remaining_items
 		do
-			create Result.make (argument_count - index + 1)
-			across remaining (index) as l_arg loop
-				Result.extend (l_arg.item)
+			l_remaining_items := remaining_items (index)
+			create Result.make (l_remaining_items.count)
+			across l_remaining_items as string loop
+				Result.extend (string.item)
 			end
 		end
 
-	argument_latin (i: INTEGER): EL_ASTRING
+	item (i: INTEGER): ASTRING
+		require
+			item_exists: 1 <= i and i <= argument_count
 		do
 			create Result.make_from_unicode (argument (i))
+		end
+
+	directory_path (name: ASTRING): EL_DIR_PATH
+		require
+			has_value: has_value (name)
+		do
+			Result := value (name)
+		end
+
+	file_path (name: ASTRING): EL_FILE_PATH
+		require
+			has_value: has_value (name)
+		do
+			Result := value (name)
+		end
+
+	integer (name: ASTRING): INTEGER
+		require
+			integer_value_exists: has_integer (name)
+		do
+			Result := value (name).to_integer
+		end
+
+	option_name (index: INTEGER): ASTRING
+		do
+			if argument_array.valid_index (index) then
+				Result := item (index)
+				Result.prune_all_leading ('-')
+			else
+				create Result.make_empty
+			end
+		end
+
+	value (name: ASTRING): ASTRING
+			-- string value of name value pair arguments
+		require
+			has_value: has_value (name)
+		local
+			index: INTEGER
+		do
+			index := index_of_word_option (name.to_unicode) + 1
+			if index >= 2 and index <= argument_count then
+				Result := item (index)
+			else
+				create Result.make_empty
+			end
 		end
 
 feature -- Basic operations
 
 	set_string_from_word_option (
-		word_option: EL_ASTRING; string_setter: PROCEDURE [ANY, TUPLE [EL_ASTRING]]; default_value: EL_ASTRING
+		word_option: ASTRING; set_string: PROCEDURE [ANY, TUPLE [ASTRING]]; default_value: ASTRING
 	)
 			--
 		do
-			if argument_exists (word_option) then
-				string_setter.call ([argument_latin (index_of_word_option (word_option.to_unicode) + 1)])
+			if has_value (word_option) then
+				set_string (item (index_of_word_option (word_option.to_unicode) + 1))
 			else
-				string_setter.call ([default_value])
+				set_string (default_value)
 			end
 		end
 
 	set_real_from_word_option (
-		word_option: EL_ASTRING; value_setter: PROCEDURE [ANY, TUPLE [REAL]]; default_value: REAL
+		word_option: ASTRING; set_real: PROCEDURE [ANY, TUPLE [REAL]]; default_value: REAL
 	)
 			--
 		local
-			real_string: EL_ASTRING
+			real_string: ASTRING
 		do
-			if argument_exists (word_option) then
-				real_string := argument_latin (index_of_word_option (word_option.to_unicode) + 1)
+			if has_value (word_option) then
+				real_string := item (index_of_word_option (word_option.to_unicode) + 1)
 				if real_string.is_real then
-					value_setter.call ([real_string.to_real])
+					set_real (real_string.to_real)
 				end
 			else
-				value_setter.call ([default_value])
+				set_real (default_value)
 			end
 		end
 
 	set_integer_from_word_option (
-		word_option: EL_ASTRING; value_setter: PROCEDURE [ANY, TUPLE [INTEGER]]; default_value: INTEGER
+		word_option: ASTRING; set_integer: PROCEDURE [ANY, TUPLE [INTEGER]]; default_value: INTEGER
 	)
 			--
 		local
-			integer_string: EL_ASTRING
+			integer_string: ASTRING
 		do
-			if argument_exists (word_option.to_unicode) then
-				integer_string := argument_latin (index_of_word_option (word_option) + 1)
+			if has_value (word_option) then
+				integer_string := item (index_of_word_option (word_option) + 1)
 				if integer_string.is_integer then
-					value_setter.call ([integer_string.to_integer])
+					set_integer (integer_string.to_integer)
 				end
 			else
-				value_setter.call ([default_value])
+				set_integer (default_value)
 			end
 		end
 
 	set_boolean_from_word_option (
-		word_option: EL_ASTRING; value_setter: PROCEDURE [ANY, TUPLE]
+		word_option: ASTRING; set_boolean: PROCEDURE [ANY, TUPLE]
 	)
 			--
 		do
 			if word_option_exists (word_option) then
-				value_setter.call ([])
+				set_boolean.apply
 			end
 		end
 
 feature -- Status query
 
-	argument_exists (word_option: EL_ASTRING): BOOLEAN
-			--
+	has_integer (name: ASTRING): BOOLEAN
 		do
-			Result := index_of_word_option (word_option.to_unicode) > 0
-							and then (index_of_word_option (word_option.to_unicode) + 1) <= argument_count
+			Result := has_value (name) and then value (name).is_integer
 		end
 
-	word_option_exists (word_option: EL_ASTRING): BOOLEAN
+	has_value (name: ASTRING): BOOLEAN
+			--
+		local
+			unicode_name: READABLE_STRING_GENERAL
+		do
+			unicode_name := name.to_unicode
+			Result := index_of_word_option (unicode_name) > 0 and then (index_of_word_option (unicode_name) + 1) <= argument_count
+		end
+
+	word_option_exists (word_option: ASTRING): BOOLEAN
 			--
 		do
 			Result := index_of_word_option (word_option.to_unicode) > 0
+		end
+
+	character_option_exists (character_option: CHARACTER_32): BOOLEAN
+			--
+		do
+			Result := index_of_character_option (character_option) > 0
 		end
 
 end

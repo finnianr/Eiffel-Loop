@@ -2,15 +2,23 @@ note
 	description: "Summary description for {EL_STATE_MACHINE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-25 21:28:03 GMT (Tuesday 25th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_STATE_MACHINE [G]
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			state := agent final
+			create tuple
+		end
 
 feature -- Basic operations
 
@@ -35,7 +43,9 @@ feature {NONE} -- Implementation
 	call (item: G)
 		-- call state procedure with item
 		do
-			state.call ([item])
+			tuple.put_reference (item, 1)
+			state.set_operands (tuple)
+			state.apply
 		end
 
 	final (item: G)
@@ -44,5 +54,7 @@ feature {NONE} -- Implementation
 		end
 
 	state: PROCEDURE [like Current, TUPLE [G]]
+
+	tuple: TUPLE [G]
 
 end

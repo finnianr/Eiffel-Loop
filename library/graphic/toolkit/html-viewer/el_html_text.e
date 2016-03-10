@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_HTML_TEXT_2}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-06 10:29:51 GMT (Saturday 6th July 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_HTML_TEXT
@@ -17,7 +17,6 @@ inherit
 
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
 		rename
-			make as make_xpath_match_events,
 			build_from_file as set_text_from_xhtml_path
 		undefine
 			default_create, copy
@@ -53,18 +52,24 @@ create
 
 feature {NONE} -- Initialization
 
+	make_default
+		do
+			create text_blocks.make
+			create page_title.make_empty
+		end
+
 	make (a_font: EL_FONT; a_link_text_color: like link_text_color)
 		do
 			link_text_color := a_link_text_color
 			default_create
 			set_font (a_font)
-			create paragraphs.make
 
 			disable_edit
 			set_background_color (GUI.text_field_background_color)
 			set_tab_width (Screen.horizontal_pixels (0.5))
 			create style.make (a_font, background_color)
-			make_xpath_match_events
+
+			make_default
 		end
 
 feature -- Access
@@ -75,18 +80,18 @@ feature -- Access
 			level_3_link: EL_HTML_TEXT_HYPERLINK_AREA
 		do
 			create Result.make
-			across paragraphs as paragraph loop
-				if attached {EL_HTML_HEADER} paragraph.item as header then
+			across text_blocks as paragraph loop
+				if attached {EL_FORMATTED_TEXT_HEADER} paragraph.item as header then
 					if content_levels.has (header.level) then
 						if header.level = 3 then
 							create level_3_link.make (
-								header.text, agent scroll_to_heading_line (header.lower_pos),
+								header.text, agent scroll_to_heading_line (header.interval.lower),
 								content_heading_font (header), GUI.text_field_background_color
 							)
 							content_link := level_3_link
 						else
 							create content_link.make (
-								header.text, agent scroll_to_heading_line (header.lower_pos),
+								header.text, agent scroll_to_heading_line (header.interval.lower),
 								content_heading_font (header), GUI.text_field_background_color
 							)
 							if header.level > 3 then
@@ -100,86 +105,111 @@ feature -- Access
 			end
 		end
 
-	style: EL_HTML_STYLE
+	style: EL_TEXT_FORMATTING_STYLES
 
 	link_text_color: EL_COLOR
 
+	page_title: ASTRING
+
 feature {NONE} -- Xpath event handlers
+
+	on_title
+		do
+			on_heading (1)
+		end
+
+	on_title_close
+		do
+			if attached {EL_FORMATTED_TEXT_HEADER} text_blocks.last as title_header then
+				page_title := title_header.text
+			end
+			if not Headers_to_include.has (1) then
+				text_blocks.finish; text_blocks.remove
+			end
+		end
 
 	on_heading (level: INTEGER)
 			--
 		do
-			paragraphs.extend (create {EL_HTML_HEADER}.make (style, block_indent, level))
+			text_blocks.extend (create {EL_FORMATTED_TEXT_HEADER}.make (style, block_indent, level))
 		end
 
 	on_paragraph
 			--
 		do
-			paragraphs.extend (create {EL_HTML_PARAGRAPH}.make (style, block_indent))
+			text_blocks.extend (create {EL_FORMATTED_TEXT_BLOCK}.make (style, block_indent))
 		end
 
 	on_preformatted
 			--
 		do
-			paragraphs.extend (create {EL_HTML_PREFORMATTED_PARAGRAPH}.make (style, block_indent))
+			text_blocks.extend (create {EL_FORMATTED_MONOSPACE_TEXT}.make (style, block_indent))
 		end
 
-	on_html_end
+	on_html_close
 			--
 		local
-			l_total_count: INTEGER_REF
-			paragraph_previous: EL_HTML_PARAGRAPH
+			block_previous: EL_FORMATTED_TEXT_BLOCK
+			interval: INTEGER_INTERVAL; offset: INTEGER
 		do
-			create l_total_count
-			create paragraph_previous.make (style, 0)
-			across paragraphs as paragraph loop
-				paragraph.item.separate_from_previous (paragraph_previous)
-				paragraph_previous := paragraph.item
+			if not text_blocks.is_empty then
+				block_previous := text_blocks.last
+				across text_blocks as block loop
+					block.item.separate_from_previous (block_previous)
+					block_previous := block.item
+				end
+				block_previous.append_new_line
 			end
-			across paragraphs as paragraph loop
-				paragraph.item.attach_to_rich_text (Current, l_total_count)
+			across text_blocks as block loop
+				across block.item.paragraphs as paragraph loop
+					buffered_append (paragraph.item.text.to_unicode, paragraph.item.format)
+				end
 			end
 			flush_buffer
-			across paragraphs as paragraph loop
-				format_paragraph (paragraph.item.lower_pos, paragraph.item.upper_pos, paragraph.item.format.paragraph)
+			across text_blocks as block loop
+				block.item.set_offset (offset)
+				interval := block.item.interval
+				format_paragraph (interval.lower, interval.upper, block.item.format.paragraph)
+				offset := offset + block.item.count
 			end
+		end
+
+	on_numbered_list
+		do
+			list_item_number := 1
+			block_indent := block_indent + 1
 		end
 
 	on_numbered_list_start
 		do
-			list_item_number := 0
-			block_indent := block_indent + 1
+			list_item_number := last_node.to_integer
 		end
 
-	on_numbered_list_end
+	on_numbered_list_close
 		do
 			block_indent := block_indent - 1
 		end
 
 	on_numbered_list_item
 		do
+			text_blocks.extend (create {EL_FORMATTED_NUMBERED_PARAGRAPHS}.make (style, block_indent, list_item_number))
 			list_item_number := list_item_number + 1
-			paragraphs.extend (create {EL_HTML_NUMBERED_PARAGRAPH}.make (style, block_indent, list_item_number))
 		end
 
 	on_text
 		do
 			if not last_node.is_empty then
-				if attached {EL_HTML_PREFORMATTED_PARAGRAPH} paragraphs.last as preformatted then
+				if attached {EL_FORMATTED_MONOSPACE_TEXT} text_blocks.last as preformatted then
 					preformatted.append_text (last_node.to_raw_string)
 				else
-					paragraphs.last.append_text (last_node.to_string)
+					text_blocks.last.append_text (last_node.to_trim_lines.joined_words)
 				end
 			end
 		end
 
 	on_line_break
 		do
---			if attached {EL_HTML_PREFORMATTED_PARAGRAPH} paragraphs.last then
---				on_preformatted
---			else
-				paragraphs.last.append_new_line
---			end
+			text_blocks.last.append_new_line
 		end
 
 	on_block_quote
@@ -187,7 +217,7 @@ feature {NONE} -- Xpath event handlers
 			block_indent := block_indent + 1
 		end
 
-	on_block_quote_end
+	on_block_quote_close
 		do
 			block_indent := block_indent - 1
 		end
@@ -198,43 +228,42 @@ feature {NONE} -- Implementation
 			--
 		local
 			l_result: ARRAYED_LIST [like Type_agent_mapping]
-			l_xpath: STRING
 		do
 			create l_result.make_from_array (<<
-				["/html", on_node_end, 				agent on_html_end],
-				["//p", on_node_start, 				agent on_paragraph],
+				[on_open, "//p",  				agent on_paragraph],
 
-				["//pre", on_node_start, 			agent on_preformatted],
+				[on_open, "//title", 			agent on_title],
+				[on_close, "//title", 			agent on_title_close],
 
-				["//ol", on_node_start, 			agent on_numbered_list_start],
-				["//ol", on_node_end,	 			agent on_numbered_list_end],
-				["//ol/li", on_node_start,			agent on_numbered_list_item],
+				[on_open, "//pre",  				agent on_preformatted],
 
-				["//text()", on_node_start, 		agent on_text],
-				["//br", on_node_start, 			agent on_line_break],
+				[on_open, "//ol",  				agent on_numbered_list],
+				[on_open, "//ol/@start",		agent on_numbered_list_start],
+				[on_close, "//ol", 	 			agent on_numbered_list_close],
+				[on_open, "//ol/li", 			agent on_numbered_list_item],
 
-				["//i", on_node_start,				agent do paragraphs.last.enable_italic end],
-				["//i", on_node_end, 				agent do paragraphs.last.disable_italic end],
+				[on_open, "//text()", 			agent on_text],
+				[on_open, "//br",  				agent on_line_break],
 
-				["//a", on_node_start, 				agent do paragraphs.last.enable_blue end],
-				["//a", on_node_end, 				agent do paragraphs.last.disable_blue end],
+				[on_open, "//i", 					agent do text_blocks.last.enable_italic end],
+				[on_close, "//i",  				agent do text_blocks.last.disable_italic end],
 
-				["//blockquote", on_node_start,	agent on_block_quote],
-				["//blockquote", on_node_end,  	agent on_block_quote_end]
+				[on_open, "//a",  				agent do text_blocks.last.enable_blue end],
+				[on_close, "//a",  				agent do text_blocks.last.disable_blue end],
+
+				[on_open, "//blockquote", 		agent on_block_quote],
+				[on_close, "//blockquote",  	agent on_block_quote_close],
+
+				[on_close, "/html", 				agent on_html_close]
 
 			>>)
-			across 1 |..| 6 as header_level loop
-				if header_level.item = 1 then
-					l_xpath := "//title"
-				else
-					l_xpath := "//h" + header_level.item.out
-				end
-				l_result.extend ([l_xpath, on_node_start, agent on_heading (header_level.item)])
+			across Headers_to_include as header_level loop
+				l_result.extend ([on_open, "//h" + header_level.item.out, agent on_heading (header_level.item)])
 			end
 			Result := l_result.to_array
 		end
 
-	content_heading_font (a_header: EL_HTML_HEADER): EV_FONT
+	content_heading_font (a_header: EL_FORMATTED_TEXT_HEADER): EV_FONT
 		do
 			Result := a_header.format.character.font.twin
 			Result.set_weight (GUI.Weight_regular)
@@ -252,7 +281,7 @@ feature {NONE} -- Implementation
 
 	block_indent: INTEGER
 
-	paragraphs: LINKED_LIST [EL_HTML_PARAGRAPH]
+	text_blocks: LINKED_LIST [EL_FORMATTED_TEXT_BLOCK]
 
 feature {NONE} -- Constants
 
@@ -262,5 +291,11 @@ feature {NONE} -- Constants
 		end
 
 	Content_height_proportion: REAL = 0.9
+
+	Headers_to_include: INTEGER_INTERVAL
+			-- Heading 1 excluded
+		once
+			Result := 2 |..| 6
+		end
 
 end

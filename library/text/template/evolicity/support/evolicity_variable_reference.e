@@ -1,14 +1,19 @@
 note
 	description: "Summary description for {EVOLICITY_REFERENCE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2013-11-24 15:44:46 GMT (Sunday 24th November 2013)"
+	revision: "3"
 
 class
 	EVOLICITY_VARIABLE_REFERENCE
 
 inherit
-	ARRAYED_LIST [EL_ASTRING]
+	ARRAYED_LIST [ASTRING]
 		rename
 			item as step,
 			islast as is_last_step,

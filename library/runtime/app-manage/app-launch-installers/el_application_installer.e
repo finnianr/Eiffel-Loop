@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_APPLICATION_INSTALLER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-03-02 10:27:45 GMT (Sunday 2nd March 2014)"
+	revision: "4"
 
 deferred class
 	EL_APPLICATION_INSTALLER
@@ -15,12 +15,11 @@ deferred class
 inherit
 	EVOLICITY_SERIALIZEABLE
 		rename
-			make as make_serializeable,
 			serialize_to_file as write_script,
-			serialized_text as command_args,
+			as_text as command_args,
 			template as Command_args_template
 		redefine
-			default_create
+			make_default, default_create
 		end
 
 	EL_MODULE_ENVIRONMENT
@@ -40,14 +39,19 @@ inherit
 
 feature {NONE} -- Initialization
 
-	default_create
+	make_default
 		do
-			make_serializeable
+			Precursor
 			create command_option_name.make_empty
 			create command_line_options.make_empty
 			create description.make_empty
 			create menu_name.make_empty
 			create input_path_option_name.make_empty
+		end
+
+	default_create
+		do
+			make_empty
 		end
 
 feature -- Basic operations
@@ -66,15 +70,15 @@ feature -- Access
 
 	command_option_name: STRING
 
-	command_line_options: EL_ASTRING
+	command_line_options: ASTRING
 
-	description: EL_ASTRING
+	description: ASTRING
 
-	menu_name: EL_ASTRING
+	menu_name: ASTRING
 
 	input_path_option_name: STRING
 
-	command: EL_ASTRING
+	command: ASTRING
 			--
 		do
 			Result := Environment.Execution_environment.Executable_name

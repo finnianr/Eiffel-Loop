@@ -122,7 +122,7 @@ system:
 		# Eiffel Loop libraries
 		library:
 			name = el_base; location = "$EIFFEL_LOOP/library/base.ecf"
-			readonly = false
+			readonly = false	
 			#use_application_options = true
 
 		library:
@@ -130,21 +130,13 @@ system:
 			readonly = false
 
 		library:
-			name = el_eiffel2java; location = "$EIFFEL_LOOP/library/eiffel2java.ecf"
-			readonly = false
-			option:
-				assertions:
-					precondition = true; postcondition = true; check = true
-
-		library:
-			name = el_vision2; location = "$EIFFEL_LOOP/library/vision2-x.ecf"
-
-		library:
-			name = el_wel; location = "$EIFFEL_LOOP/library/wel-x.ecf"
-			readonly = false
+			name = EL_wel_x; location = "$EIFFEL_LOOP/library/wel-x.ecf"; readonly = false
 			condition:
 				platform:
 					value = windows
+
+		library:
+			name = el_vision2; location = "$EIFFEL_LOOP/library/vision2-x.ecf"
 
 		cluster:
 			name = project; location = "source"; recursive = true

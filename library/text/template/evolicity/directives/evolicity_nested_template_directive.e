@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EVOLICITY_NESTED_TEMPLATE_DIRECTIVE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:03 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2013-11-23 14:12:46 GMT (Saturday 23rd November 2013)"
+	revision: "4"
 
 deferred class
 	EVOLICITY_NESTED_TEMPLATE_DIRECTIVE
@@ -20,7 +20,7 @@ inherit
 			make
 		end
 
-	EL_MODULE_EVOLICITY_ENGINE
+	EL_MODULE_EVOLICITY_TEMPLATES
 		undefine
 			is_equal, copy
 		end
@@ -56,17 +56,8 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	put_indented_string (output: IO_MEDIUM; a_string: EL_ASTRING; utf8_encoded: BOOLEAN)
-			--
-		do
-			output.put_string (tabs)
-			put_string (output, String.indented_text (a_string, tabs.count), utf8_encoded)
-			output.put_string (tabs)
-			output.put_character ('%N')
-		end
-
 	variable_ref: EVOLICITY_VARIABLE_REFERENCE
 
-	tabs: EL_ASTRING
+	tabs: STRING
 
 end

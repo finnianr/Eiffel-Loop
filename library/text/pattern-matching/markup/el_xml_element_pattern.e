@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_XML_ELEMENT_PATTERN
@@ -44,14 +44,14 @@ feature {NONE} -- Initialization
 					create {ARRAYED_LIST [EL_TEXTUAL_PATTERN]}.make_from_array (nested_elements)
 				)
 			end
-			nested_element_alternatives.extend (comment)
+			nested_element_alternatives.extend (comment (Default_match_action))
 
 			make_pattern ( <<
 				-- 	<tag a1="value"> some stuff </tag>
 				all_of ( <<
-					named_opening_element (tag_name,">", attribute_patterns),
-					zero_or_more ( nested_element_alternatives  ),
-					named_closing_element (tag_name)
+--					named_opening_element (tag_name,">", attribute_patterns),
+--					zero_or_more ( nested_element_alternatives),
+--					named_closing_element (tag_name)
 				>> ),
 
 				-- 	<tag a1="value"/>

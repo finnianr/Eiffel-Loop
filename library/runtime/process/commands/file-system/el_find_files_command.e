@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-07-22 18:08:02 GMT (Monday 22nd July 2013)"
 	revision: "3"
@@ -21,7 +21,7 @@ inherit
 		end
 
 create
-	make, make_default
+	make, default_create
 
 feature {NONE} -- Initialization
 
@@ -42,9 +42,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	file_pattern: EL_ASTRING
+	file_pattern: ASTRING
 
-	path_list: ARRAYED_LIST [EL_FILE_PATH]
+	path_list: EL_ARRAYED_LIST [EL_FILE_PATH]
 
 feature -- Status query
 

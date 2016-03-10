@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {XML_REMOTE_BUILDER_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:24:40 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP
@@ -37,7 +37,7 @@ feature -- Basic operations
 	run
 			--
 		do
-			Test.do_all_files_test ("XML", "*", agent smart_build_file, 2902699395)
+			Test.do_all_files_test ("XML", All_routines, agent smart_build_file, 2902699395)
 		end
 
 feature {NONE} -- Implementation
@@ -64,9 +64,9 @@ feature {NONE} -- Implementation
 			event_stream: RAW_FILE
 		do
 			log.enter ("parse_from_file")
-			create event_stream.make_open_write (bexdat_extension (file_path).unicode)
+			create event_stream.make_open_write (bexdat_extension (file_path))
 			create parse_event_generator.make_with_output (event_stream)
-			create xml_file.make_open_read (file_path.unicode)
+			create xml_file.make_open_read (file_path)
 
 			parse_event_generator.send (xml_file)
 
@@ -96,7 +96,7 @@ feature {NONE} -- Constants
 			extras: ARRAYED_LIST [like Type_logging_filter]
 		do
 			create extras.make_from_array (<<
-				[{BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP}, "*"],
+				[{BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP}, All_routines],
 				[{BINARY_ENCODED_XML_DOCUMENT_SCANNER}, "on_start_tag, on_end_tag, on_content"],
 				[{EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE}, "-*"]
 

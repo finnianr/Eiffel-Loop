@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-22 12:27:52 GMT (Saturday 22nd June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	EVOLICITY_TEST_APP
@@ -18,14 +18,14 @@ inherit
 			option_name
 		end
 
-	EL_MODULE_EVOLICITY_ENGINE
+	EL_MODULE_EVOLICITY_TEMPLATES
 
 create
 	make
 
 feature -- Basic operations
 
-	run
+	test_run
 			--
 		do
 			Test.do_file_test ({STRING_32} "jobserve-results.evol", agent write_substituted_template, 4202159564)
@@ -39,10 +39,10 @@ feature -- Test
 		do
 			log.enter ("write_substituted_template")
 			create root_context.make
-			Evolicity_engine.set_template_from_file (template_path)
+			Evolicity_templates.put_from_file (template_path)
 
 			initialize_root_context
-			Evolicity_engine.merge_to_file (template_path.to_string, root_context, template_path.with_new_extension ("html"))
+			Evolicity_templates.merge_to_file (template_path.to_string, root_context, template_path.with_new_extension ("html"))
 			log.exit
 		end
 
@@ -50,18 +50,20 @@ feature -- Test
 			--
 		local
 			vars: EVOLICITY_CONTEXT_IMPL
+			var_x, var_y: ASTRING
 		do
 			log.enter ("test_if_then")
 			create vars.make
-			Evolicity_engine.set_template_from_file (template_path.to_string)
+			Evolicity_templates.put_from_file (template_path.to_string)
+			var_x := "x"; var_y := "y"
 
-			vars.put_integer_variable (2, "x")
-			vars.put_integer_variable (2, "y")
-			log.put_string_field_to_max_length ("RESULT", Evolicity_engine.merged_template (template_path.to_string, vars), 120)
+			vars.put_integer (var_x, 2)
+			vars.put_integer (var_y, 2)
+			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged (template_path.to_string, vars), 120)
 			log.put_new_line
 
-			vars.put_integer_variable (1, "x")
-			log.put_string_field_to_max_length ("RESULT", Evolicity_engine.merged_template (template_path.to_string, vars), 120)
+			vars.put_integer (var_x, 1)
+			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged (template_path.to_string, vars), 120)
 			log.exit
 		end
 
@@ -124,11 +126,11 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{EVOLICITY_TEST_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"],
-				[{EVOLICITY_ENGINE}, "merge_to_file"],
+				[{EVOLICITY_TEST_APP}, All_routines],
+				[{EL_TEST_ROUTINES}, All_routines],
+				[{EVOLICITY_TEMPLATES}, "merge_to_file"],
 				[{EVOLICITY_FILE_LEXER}, "consume_events, -add_token"],
-				[{EL_LITERAL_CHAR_TP}, "*"]
+				[{EL_LITERAL_CHAR_TP}, All_routines]
 			>>
 		end
 

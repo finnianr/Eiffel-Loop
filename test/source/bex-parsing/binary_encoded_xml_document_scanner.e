@@ -1,22 +1,23 @@
-note
+﻿note
 	description: "Summary description for {COMPRESSED_XML_DOCUMENT_SCANNER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:21 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	BINARY_ENCODED_XML_DOCUMENT_SCANNER
 
 inherit
 	EL_XML_DOCUMENT_SCANNER
+		rename
+			make_xml_text_source as make
 		redefine
-			make, 
-			on_xml_tag_declaration, on_start_document, on_end_document,
+			make, on_xml_tag_declaration, on_start_document, on_end_document,
 			on_start_tag, on_end_tag, on_content, on_comment, on_processing_instruction
 		end
 

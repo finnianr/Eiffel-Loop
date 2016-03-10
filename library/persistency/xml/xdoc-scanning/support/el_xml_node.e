@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	EL_XML_NODE
@@ -120,20 +120,36 @@ feature -- Access
 
 feature -- Extended Latin
 
-	to_raw_string: EL_ASTRING
+	to_raw_string: ASTRING
 			--
 		do
 			Result := raw_content
 		end
 
-	to_string: EL_ASTRING
+	to_string: ASTRING
 			--
 		do
 			Result := raw_content
 			trim (Result)
 		end
 
-	to_normalized_case_string: EL_ASTRING
+	to_string_8: STRING
+			--
+		do
+			Result := raw_content
+			trim (Result)
+		end
+
+	to_trim_lines: EL_ASTRING_LIST
+			-- left and right adjusted list of line strings
+		do
+			create Result.make_with_lines (to_string)
+			across Result as line loop
+				trim (line.item)
+			end
+		end
+
+	to_normalized_case_string: ASTRING
 			--
 		do
 			Result := to_normalized_case_string_32

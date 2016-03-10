@@ -2,12 +2,12 @@ note
 	description: "Delete file or directory"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:30 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2013-10-09 13:33:15 GMT (Wednesday 9th October 2013)"
+	revision: "2"
 
 class
 	EL_DELETE_PATH_COMMAND
@@ -22,7 +22,7 @@ inherit
 		end
 
 create
-	make, make_default
+	make, default_create
 
 feature {NONE} -- Evolicity reflection
 
@@ -30,7 +30,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["target_path", agent: EL_ASTRING do Result := escaped_path (target_path) end]
+				["target_path", agent: EL_PATH do Result := target_path end]
 			>>)
 		end
 

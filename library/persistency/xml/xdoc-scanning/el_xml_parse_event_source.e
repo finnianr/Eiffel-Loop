@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-23 17:05:56 GMT (Sunday 23rd June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 deferred class
 	EL_XML_PARSE_EVENT_SOURCE
@@ -25,13 +25,18 @@ feature {NONE} -- Initialisation
 			last_node := scanner.last_node
 			last_node_name := last_node.name
 			last_node_text := last_node.raw_content
-			encoding := Encoding_unknown
-			create encoding_type.make_empty
+			set_default_encoding
 		end
 
 feature -- Access
 
 	xml_version: REAL
+
+feature -- Status query
+
+	has_error: BOOLEAN
+		do
+		end
 
 feature -- Basic operations
 
@@ -43,6 +48,17 @@ feature -- Basic operations
 	parse_from_string (a_string: STRING)
 			-- Parse XML document from `a_string'.
 		deferred
+		end
+
+	log_error (a_log: EL_LOG)
+		do
+		end
+
+feature -- Element change
+
+	set_default_encoding
+		do
+			set_utf_encoding (8)
 		end
 
 feature {EL_XML_DOCUMENT_SCANNER} -- Implementation: attributes

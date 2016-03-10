@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-31 11:42:41 GMT (Tuesday 31st December 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 deferred class
 	EL_XML_FILE_PERSISTENT
@@ -15,39 +15,31 @@ deferred class
 inherit
 	EVOLICITY_SERIALIZEABLE_AS_XML
 		rename
-			save_as_xml as store_as,
-			make as make_serializeable,
-			make_from_file as make_serializeable_from_file
+			save_as_xml as store_as
+		export
+			{EL_XML_FILE_PERSISTENT} template_path
 		redefine
-			encoding_name, output_file_exists
+			make_from_file, file_must_exist
 		end
 
 	EL_FILE_PERSISTENT
 		rename
 			file_path as output_path,
 			set_file_path as set_output_path
-		redefine
-			make, make_from_file
+		undefine
+			make_from_file
 		end
 
 feature {NONE} -- Initialization
-
-	make
-		do
-			Precursor
-			encoding_name := Default_encoding_name
-			make_serializeable
-		end
 
 	make_from_file (a_file_path: EL_FILE_PATH)
 			--
 		local
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT
 		do
-			Precursor (a_file_path)
-			make_serializeable_from_file (a_file_path)
+			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML} (a_file_path)
 			create root_node.make_from_file (a_file_path)
-			encoding_name := root_node.encoding_name
+			set_encoding_from_name (root_node.encoding_name)
 			make_from_root_node (root_node)
 		end
 
@@ -55,10 +47,9 @@ feature {NONE} -- Initialization
 		local
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT
 		do
-			make
-			output_path := other.output_path.twin
+			make_from_template_and_output (other.template_path.twin, other.output_path.twin)
 			create root_node.make_from_string (other.to_xml)
-			encoding_name := root_node.encoding_name
+			set_encoding_from_name (root_node.encoding_name)
 			make_from_root_node (root_node)
 		end
 
@@ -66,13 +57,9 @@ feature {NONE} -- Initialization
 		deferred
 		end
 
-feature -- Access
-
-	encoding_name: STRING
-
 feature {NONE} -- Implementation
 
-	output_file_exists: BOOLEAN
+	file_must_exist: BOOLEAN
 			-- True if output file exists after creation
 		do
 			Result := True

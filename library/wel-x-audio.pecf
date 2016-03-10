@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_wel_x_audio
+	name = EL_wel_x_audio
 	uuid = "229b6df4-09aa-11df-87ac-abdb0fd497e6" 
-	library_target = el_wel_x_audio
+	library_target = EL_wel_x_audio
 	
 	target:
-		name = el_wel_x_audio
+		name = EL_wel_x_audio
 		
 		description: 
 			"""
@@ -39,15 +39,14 @@ system:
 			condition:
 				platform:
 					value = windows
-
+		
+		# Eiffel-Loop
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 
-		#library:
-		#	name = el_wel_x_audio; location = "wel-x.ecf"; recursive = true
-
+		# Source code
 		cluster:
-			name = el_audio; location = "multimedia/audio"
+			name = audio; location = "multimedia/audio"
 			cluster:
 				name = file; location = "$|file/wav"
 			cluster:

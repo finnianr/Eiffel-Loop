@@ -2,9 +2,14 @@ note
 	description: "[
 		Fixed area with multiple lines of labels with a mixture of font styles.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-09-02 10:55:13 GMT (Tuesday 2nd September 2014)"
+	revision: "6"
 
 class
 	EL_MIXED_STYLE_FIXED_LABELS

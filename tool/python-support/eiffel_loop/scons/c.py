@@ -5,10 +5,60 @@
 #	date: "16 Dec 2011"
 #	revision: "0.1"
 
-import os
+import os, subprocess
 from os import path
 
 from SCons.Script.SConscript import Configure
+
+
+def put_export_entry (fout, line):
+	if len (line) > 26:
+		fout.write ('\t%s\n' % line [26:])
+
+def drop_line (fout, line):
+	pass
+
+def write_dll_definitions (dll_path, def_path):
+	cmd = ['dumpbin','/EXPORTS', dll_path]
+	print cmd
+	proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+
+	fout = open (def_path, 'w')
+	fout.write ('LIBRARY %s\n' % path.basename (dll_path))
+	fout.write ('EXPORTS\n')
+
+	done = False
+	fn_put = drop_line
+	while not done:
+		line = proc.stdout.readline()
+		if len (line) == 0:
+			done = True
+
+		elif line.find ('ordinal hint') > 0:
+			fn_put = put_export_entry
+
+		elif line.find ('Summary') > 0:
+			fn_put = drop_line
+
+		else:
+			fn_put (fout, line.rstrip())
+	
+	fout.write ('\n')
+	fout.close
+
+
+# Convert Windows dll to def
+
+def dll_def_generator (target, source, env):
+	for i in range (0, len (source)):
+		def_src_path = str (source [i])
+		f_in = open (def_src_path, 'r')
+		dll_name = f_in.readline ().rstrip()
+		f_in.close
+		target_dir = path.dirname (str (target [i]))
+		dll_path = path.join (target_dir, dll_name)
+		write_dll_definitions (dll_path, str (target [i]))
+
 
 def has_ansi_C_standard_headers (conf):
 	result = True

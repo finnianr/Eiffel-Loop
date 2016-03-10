@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-03-13 16:48:12 GMT (Wednesday 13th March 2013)"
 	revision: "2"
@@ -15,50 +15,49 @@ deferred class
 inherit
 	EL_STOPPABLE_THREAD
 		redefine
-			default_create
+			make_default
 		end
 
 	EL_IDENTIFIED_THREAD_I
 		undefine
-			default_create, is_equal, copy
+			is_equal, copy
 		end
 
 	EL_THREAD_CONSTANTS
 		undefine
-			default_create, is_equal, copy
+			is_equal, copy
 		end
 
 	EL_THREAD_DEVELOPER_CLASS
 		undefine
-			default_create, is_equal, copy
+			is_equal, copy
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 		undefine
-			default_create, is_equal, copy
+			is_equal, copy
 		end
 
 	EL_MODULE_LOG_MANAGER
 		undefine
-			default_create, is_equal, copy
+			is_equal, copy
+		end
+
+	EL_MODULE_LOG
+		undefine
+			is_equal, copy
 		end
 
 feature {NONE} -- Initialization
 
-	default_create
+	make_default
 			--
 		do
-			Precursor {EL_STOPPABLE_THREAD}
+			Precursor
 			create thread.make (agent execute_thread)
 		end
 
 feature -- Access
-
-	thread_id: POINTER
-			--
-		do
-			Result := thread.thread_id
-		end
 
 	log_name: STRING
 			--
@@ -66,18 +65,16 @@ feature -- Access
 			Result := default_log_name
 		end
 
-feature -- Basic operations
-
-	launch
+	thread_id: POINTER
 			--
 		do
-			if not thread.is_launchable then
-				check
-					previous_thread_terminated: thread.terminated
-				end
-				create thread.make (agent execute)
-			end
-			thread.launch
+			Result := thread.thread_id
+		end
+
+feature -- Basic operations
+
+	execute
+		deferred
 		end
 
 	execute_thread
@@ -92,8 +89,49 @@ feature -- Basic operations
 			set_stopped
 		end
 
-	execute
-		deferred
+	launch
+			--
+		do
+			if not thread.is_launchable then
+				check
+					previous_thread_terminated: thread.terminated
+				end
+				create thread.make (agent execute_thread)
+			end
+			thread.launch
+		end
+
+	log_stopping
+		local
+			l_count, checks_per_2_secs: INTEGER
+		do
+			checks_per_2_secs := (2000 / Check_stopped_interval_ms).rounded
+			from until is_stopped loop
+				sleep (Check_stopped_interval_ms)
+				l_count := l_count + 1
+				if l_count \\  checks_per_2_secs = 0 then
+					log_or_io.put_labeled_string ("Stopping", log_name)
+					log_or_io.put_new_line
+				end
+			end
+		end
+
+	sleep (millisecs: INTEGER)
+			--
+		do
+			Execution_environment.sleep (millisecs)
+		end
+
+	sleep_nanosecs (nanosecs: INTEGER_64)
+			--
+		do
+			Execution_environment.sleep_nanosecs (nanosecs)
+		end
+
+	sleep_secs (secs: INTEGER)
+			--
+		do
+			sleep (secs * 1000)
 		end
 
 	wait_to_stop
@@ -106,38 +144,16 @@ feature -- Basic operations
 
 		end
 
-	sleep (millisecs: INTEGER)
-			--
-		do
-			Execution_environment.sleep (millisecs)
-		end
-
-	sleep_secs (secs: INTEGER)
-			--
-		do
-			sleep (secs * 1000)
-		end
-
-	sleep_nanosecs (nanosecs: INTEGER_64)
-			--
-		do
-			Execution_environment.sleep_nanosecs (nanosecs)
-		end
-
 feature -- Status query
 
 	is_visible_in_console: BOOLEAN
 			-- is logging output visible in console
+			-- Override to true if thread makes any reference to log object
 		do
 			Result := false
 		end
 
 feature {NONE} -- Implementation
-
-	on_exit
-			--
-		do
-		end
 
 	default_log_name: STRING
 			--
@@ -145,6 +161,18 @@ feature {NONE} -- Implementation
 			Result := generating_type.name.as_lower
 		end
 
+	on_exit
+			--
+		do
+		end
+
 	thread: WORKER_THREAD
 
+feature {NONE} -- Constants
+
+	Check_stopped_interval_ms: INTEGER
+			-- milliseconds between checking if thread is stopped
+		once
+			Result := 100
+		end
 end

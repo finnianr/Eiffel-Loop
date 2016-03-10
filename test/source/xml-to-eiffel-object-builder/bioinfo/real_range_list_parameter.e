@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {REAL_RANGE_LIST_PARAMETER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:22 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	REAL_RANGE_LIST_PARAMETER
@@ -46,16 +46,13 @@ feature {NONE} -- Build from XML
 	add_real_range
 			--
 		local
-			node_string: STRING
+			real_list: EL_ASTRING_LIST
 		do
-			node_string := node.to_string
-			create last_real_range.make (node_string.occurrences (',') + 1)
-			node_string.split (',').do_all (
-				agent (str: STRING)
-					do
-						last_real_range.extend (str.to_real)
-					end
-			)
+			create real_list.make_with_separator (node.to_string, ',', False)
+			create last_real_range.make (real_list.count)
+			across real_list as str loop
+				last_real_range.extend (str.item.to_real)
+			end
 			extend (last_real_range)
 		end
 

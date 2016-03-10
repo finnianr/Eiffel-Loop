@@ -8,12 +8,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 8:35:00 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2013-10-09 13:33:15 GMT (Wednesday 9th October 2013)"
+	revision: "3"
 
 class
 	EL_WAV_GENERATION_COMMAND
@@ -22,32 +22,23 @@ inherit
 	EL_SINGLE_OPERAND_FILE_SYSTEM_COMMAND [EL_WAV_GENERATION_COMMAND_IMPL]
 		rename
 			path as output_file_path,
-			set_path as set_output_file_path,
-			make as make_file_system_command
-
+			set_path as set_output_file_path
 		redefine
-			getter_function_table, output_file_path
+			make_default, getter_function_table, output_file_path
 		end
-
-	EL_MODULE_ENVIRONMENT
-
-	EL_MODULE_LOG
-
-	EL_MODULE_DIRECTORY
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_output_file_path: like output_file_path)
-			--
+	make_default
 		do
-			make_file_system_command (a_output_file_path)
 			sample_rate := Default_sample_rate
 			frequency_lower := 100; frequency_upper := 1000
 			duration := 1
 			cycles_per_sec := 1
+			Precursor
 		end
 
 feature -- Element change
@@ -102,7 +93,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["output_file_path", 	agent: EL_ASTRING do Result := escaped_path (output_file_path) end],
+				["output_file_path", 	agent: EL_PATH do Result := output_file_path end],
 				["cycles_per_sec", 		agent: REAL_REF do Result := cycles_per_sec.to_reference end],
 				["frequency_lower",		agent: INTEGER_REF do Result := frequency_lower.to_reference end],
 				["frequency_upper",		agent: INTEGER_REF do Result := frequency_upper.to_reference end],

@@ -31,7 +31,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_string, search_string: EL_ASTRING)
+	make (a_string, search_string: ASTRING)
 			--
 		local
 			l_occurrences: EL_OCCURRENCE_SUBSTRINGS

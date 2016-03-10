@@ -9,12 +9,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_id3_tags 
+	name = EL_id3_tags 
 	uuid = "229b4fae-09aa-11df-8771-e7444f3b4d30" 
-	library_target = el_id3_tags
+	library_target = EL_id3_tags
 	
 	target:
-		name = el_id3_tags
+		name = EL_id3_tags
 		
 		description: 
 			"""
@@ -103,11 +103,14 @@ system:
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		# Eiffel Loop
-
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 			readonly = false
 
+		library:
+			name = EL_c_api; location = "C-language-interface.ecf"
+
+		# Source code
 		cluster:
 			name = id3; location = "multimedia/audio/file"; recursive = true
 			file_rule:

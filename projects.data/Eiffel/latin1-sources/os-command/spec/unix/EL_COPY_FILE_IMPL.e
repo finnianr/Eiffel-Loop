@@ -12,7 +12,7 @@ inherit
 
 feature -- Access
 
-	template: STRING is
+	Template: STRING is
 		--
 	"[
 		cp
@@ -27,6 +27,8 @@ feature -- Access
 	
 	 	"$source_path" "$destination_path"
 	]"
+
+	Number: INTEGER = 1
 
 end
 

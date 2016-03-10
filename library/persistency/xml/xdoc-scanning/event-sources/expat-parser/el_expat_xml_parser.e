@@ -10,12 +10,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-08 13:58:15 GMT (Monday 8th July 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -23,7 +23,7 @@ class
 inherit
 	EL_XML_PARSE_EVENT_SOURCE
 		redefine
-			make
+			make, has_error, log_error
 		end
 
 	EL_EXPAT_API
@@ -42,12 +42,15 @@ inherit
 
 	EL_C_CALLABLE
 		rename
+			Empty_call_back_routines as call_back_routines,
 			pointer_to_c_callbacks_struct as self_ptr,
 			make as make_parser
 		export
 			{NONE} all
 		undefine
 			self_ptr
+		redefine
+			make_parser, set_gc_protected_callbacks_target
 		end
 
 	EXCEPTIONS
@@ -55,10 +58,10 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_LOG
-		export
-			{NONE} all
-		end
+--	EL_MODULE_LOG
+--		export
+--			{NONE} all
+--		end
 
 	EL_MODULE_C_DECODER
 		export
@@ -89,6 +92,7 @@ feature {NONE}  -- Initialisation
 	make_parser
 			--
 		do
+			Precursor
 			make_from_pointer (exml_xml_parsercreate (Default_pointer))
 			if not is_attached (self_ptr) then
 				raise ("failure to create parser with xml_parsercreate.")
@@ -151,6 +155,11 @@ feature -- Status report
 	is_stream_delimited: BOOLEAN
 		-- is end of stream delimited by Ctrl-z character
 
+	has_error: BOOLEAN
+		do
+			Result := not is_correct
+		end
+
 feature -- Error reporting
 
 	is_correct: BOOLEAN
@@ -185,6 +194,12 @@ feature -- Error reporting
 
 	last_internal_error: INTEGER
 			-- expat specific error code
+
+	log_error (a_log: EL_LOG)
+		do
+			a_log.put_labeled_string ("ERROR", last_error_extended_description)
+			a_log.put_new_line
+		end
 
 feature {EL_XML_PARSER_OUTPUT_MEDIUM} -- Implementation: routines
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-25 12:34:19 GMT (Saturday 25th January 2014)"
-	revision: "4"
+	date: "2014-03-02 11:01:06 GMT (Sunday 2nd March 2014)"
+	revision: "5"
 
 class
 	EL_LOG_MANAGER
@@ -17,7 +17,7 @@ inherit
 
 	EL_SINGLE_THREAD_ACCESS
 
-	EL_MODULE_ENVIRONMENT
+	EL_MODULE_DIRECTORY
 		export
 			{NONE} all
 		end
@@ -32,6 +32,11 @@ inherit
 			{NONE} all
 		end
 
+	EL_SHARED_DIRECTORY
+		rename
+			directory as shared_directory
+		end
+
 create
 	make
 
@@ -40,12 +45,13 @@ feature {NONE} -- Initialization
 	 make
 			--
 		do
-			make_thread_access
-
+			make_default
+			output_directory := Directory.current_working
 			create log_file_by_thread_id_table.make (11)
 			create log_file_by_object_id_table.make (11)
 			create thread_id_list.make (11)
-			is_highlighting_enabled := not (Args.word_option_exists ("no_highlighting") or {PLATFORM}.is_windows)
+			is_highlighting_enabled :=
+				not (Args.word_option_exists ({EL_LOG_COMMAND_OPTIONS}.no_highlighting) or {PLATFORM}.is_windows)
 		end
 
 feature -- Initialization
@@ -60,28 +66,6 @@ feature -- Initialization
 			create thread_registration_queue.make
 			thread_registration_queue.attach_consumer (thread_registration_consumer)
 		end
-
-feature {EL_CONSOLE_MANAGER} -- Access
-
-	console_thread_index: INTEGER
-		--	 Index number of thread currently directed to console
-		do
-			restrict_access
-			Result := thread_id_list.index
-
-			end_restriction
-		end
-
-	console_thread_log_file: EL_FILE_AND_CONSOLE_LOG_OUTPUT
-		--	 Log file of thread currently directed to console
-		do
-			restrict_access
-			Result := thread_log_file (thread_id_list.item)
-
-			end_restriction
-		end
-
-	thread_registration_consumer: EL_TUPLE_CONSUMER_MAIN_THREAD [EL_CONSOLE_MANAGER, TUPLE [STRING]]
 
 feature -- Access
 
@@ -110,14 +94,10 @@ feature -- Access
 			create Result.make_from_path (current_thread_log_file.path)
 		end
 
-feature {EL_LOG} -- Access
-
-	current_thread_log_file: EL_FILE_AND_CONSOLE_LOG_OUTPUT
-		--	 Log file for calling thread
+	output_directory_path: EL_DIR_PATH
 		do
 			restrict_access
-			Result := thread_log_file ({THREAD_ENVIRONMENT}.current_thread_id)
-
+			Result := output_directory.twin
 			end_restriction
 		end
 
@@ -168,6 +148,14 @@ feature -- Element change
 			end
 		end
 
+	set_output_directory (a_output_directory: like output_directory)
+		do
+			restrict_access
+			output_directory := a_output_directory
+
+			end_restriction
+		end
+
 feature -- Status query
 
 	no_thread_logs_created: BOOLEAN
@@ -193,6 +181,15 @@ feature -- Status query
 		do
 			restrict_access
 			Result := index >=1 and index <= thread_id_list.count
+
+			end_restriction
+		end
+
+	keep_logs: BOOLEAN
+			-- True if command line options exists
+		do
+			restrict_access
+			Result := Args.word_option_exists ({EL_LOG_COMMAND_OPTIONS}.Keep_logs)
 
 			end_restriction
 		end
@@ -255,9 +252,8 @@ feature -- Status setting
 			-- Call only when all threads are joined
 		do
 			restrict_access
-			from log_file_by_thread_id_table.start until log_file_by_thread_id_table.after loop
-				log_file_by_thread_id_table.item_for_iteration.close
-				log_file_by_thread_id_table.forth
+			across log_file_by_thread_id_table as log_file loop
+				log_file.item.close
 			end
 			end_restriction
 		end
@@ -266,35 +262,63 @@ feature -- Removal
 
 	delete_logs
 			--
-		local
-			log_directory: DIRECTORY
 		do
-			if Location_path.exists then
-				create log_directory.make_with_name (Location_path.unicode)
-				log_directory.delete_content
+			if output_directory.exists then
+				named_directory (output_directory).delete_content
 			end
 		end
 
+feature {EL_CONSOLE_MANAGER, EL_LOG} -- Access
+
+	console_thread_index: INTEGER
+		--	 Index number of thread currently directed to console
+		do
+			restrict_access
+			Result := thread_id_list.index
+
+			end_restriction
+		end
+
+	console_thread_log_file: EL_FILE_AND_CONSOLE_LOG_OUTPUT
+		--	 Log file of thread currently directed to console
+		do
+			restrict_access
+			Result := thread_log_file (thread_id_list.item)
+
+			end_restriction
+		end
+
+	current_thread_log_file: EL_FILE_AND_CONSOLE_LOG_OUTPUT
+		--	 Log file for calling thread
+		do
+			restrict_access
+			Result := thread_log_file ({THREAD_ENVIRONMENT}.current_thread_id)
+
+			end_restriction
+		end
+
+	thread_registration_consumer: EL_TUPLE_CONSUMER_MAIN_THREAD [EL_CONSOLE_MANAGER, TUPLE [STRING]]
+
 feature {NONE} -- Implementation
 
-	log_file_path (name: EL_ASTRING): EL_FILE_PATH
+	log_file_path (name: ASTRING): EL_FILE_PATH
 			--
 		local
 			count: INTEGER
 			is_available_path: BOOLEAN
-			combined_extension: EL_ASTRING
+			combined_extension: ASTRING
 		do
-			if not Location_path.exists then
-				File_system.make_directory (Location_path)
+			if not output_directory.exists then
+				File_system.make_directory (output_directory)
 			end
 
-			Result := Location_path + name
+			Result := output_directory + name
 
 			from until is_available_path loop
 				count := count + 1
 				combined_extension := Count_format.formatted (count)
 				combined_extension.append_character ('.')
-				combined_extension.append (Default_log_file_extension)
+				combined_extension.append_string (Default_log_file_extension)
 				Result.add_extension (combined_extension)
 				if Result.exists then
 					Result.base.remove_tail (combined_extension.count + 1)
@@ -316,6 +340,8 @@ feature {NONE} -- Implementation
 			Result := thread_log_file (thread_id).thread_name
 		end
 
+	output_directory: EL_DIR_PATH
+
 	log_file_by_thread_id_table: HASH_TABLE [EL_FILE_AND_CONSOLE_LOG_OUTPUT, POINTER]
 
 	log_file_by_object_id_table: HASH_TABLE [EL_FILE_AND_CONSOLE_LOG_OUTPUT, INTEGER]
@@ -327,13 +353,6 @@ feature {NONE} -- Implementation
 	console_manager_active: BOOLEAN
 
 feature {NONE} -- Constants
-
-	Location_path: EL_DIR_PATH
-			--
-		once ("PROCESS")
-			Result := Environment.Operating.Temp_directory_path.twin
-			Result.append_file_path (Environment.Execution.executable_name + "-logs")
-		end
 
 	Default_log_file_extension: STRING = "log"
 

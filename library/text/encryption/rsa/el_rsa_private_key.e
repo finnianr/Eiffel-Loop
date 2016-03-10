@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_RSA_PRIVATE_KEY}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:31 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_RSA_PRIVATE_KEY
@@ -18,8 +18,6 @@ inherit
 	EL_RSA_KEY
 
 	EL_MODULE_BASE_64
-
-	EL_PKCS1_RSA_FORMAT_CONSTANTS
 
 create
 	make, make_from_primes, make_from_pkcs1
@@ -52,6 +50,19 @@ feature -- Access
 			--
 		do
 			Result := Base_64.encoded_special (q.as_bytes)
+		end
+
+feature -- Basic operations
+
+	put_log
+		do
+			log.enter ("put_log")
+			put_number (Var_modulus, n, True)
+			put_number (Var_prime1, p, True)
+			put_number (Var_prime2, q, True)
+			put_number (Var_private_exponent, d, False)
+			put_number (Var_public_exponent, e, False)
+			log.exit
 		end
 
 end

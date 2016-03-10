@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_C_DATA_STRING}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:07:59 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 deferred class
 	EL_C_STRING
@@ -223,7 +223,7 @@ feature -- Status query
 
 feature -- Conversion
 
-	as_string: EL_ASTRING
+	as_string: ASTRING
 			--
 		do
 			Result := as_string_32

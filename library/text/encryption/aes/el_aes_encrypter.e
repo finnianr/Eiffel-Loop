@@ -2,12 +2,12 @@ note
 	description: "${description}"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:02 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-10-01 8:44:05 GMT (Wednesday 1st October 2014)"
+	revision: "4"
 
 class
 	EL_AES_ENCRYPTER
@@ -31,51 +31,52 @@ inherit
 		end
 
 create
-	default_create, make_from_key, make_256, make_192, make_128
+	default_create, make_from_key, make_256, make_192, make_128, make_from_other
 
 feature {NONE} -- Initialization
 
 	default_create
 		do
-			make_from_key (create {ARRAY [NATURAL_8]}.make (1, 16))
+			make_from_key (create {ARRAY [NATURAL_8]}.make_filled (0, 1, 16))
 		end
 
-	make_256 (pass_phrase: EL_ASTRING)
-			--
-		do
-			make (pass_phrase, 256)
-		end
-
-	make_192 (pass_phrase: EL_ASTRING)
-			--
-		do
-			make (pass_phrase, 192)
-		end
-
-	make_128 (pass_phrase: EL_ASTRING)
-			--
-		do
-			make (pass_phrase, 128)
-		end
-
-	make (pass_phrase: EL_ASTRING; key_size_bits: INTEGER)
+	make (pass_phrase: ASTRING; key_size_bits: INTEGER)
 			--
 		require
 			valid_key_size: (<< 128, 192, 256 >>).has (key_size_bits)
 		local
 			size_bytes: INTEGER
 		do
+			log.enter ("make")
 			key_data := Mod_encryption.sha256_digest_32 (pass_phrase.to_utf8)
 
 			size_bytes := key_size_bits // 8
 			if size_bytes < key_data.count then
-				key_data := key_data.subarray (1, size_bytes)
+				key_data.keep_head (size_bytes)
 			end
-
 			make_from_key (key_data)
+			log.exit
 		end
 
-	make_from_key (a_key_data: ARRAY [NATURAL_8])
+	make_128 (pass_phrase: ASTRING)
+			--
+		do
+			make (pass_phrase, 128)
+		end
+
+	make_192 (pass_phrase: ASTRING)
+			--
+		do
+			make (pass_phrase, 192)
+		end
+
+	make_256 (pass_phrase: ASTRING)
+			--
+		do
+			make (pass_phrase, 256)
+		end
+
+	make_from_key (a_key_data: like key_data)
 			--
 		require
 			valid_key_size: (<< 16, 24, 32 >>).has (a_key_data.count)
@@ -92,18 +93,9 @@ feature {NONE} -- Initialization
 			reset
 		end
 
-feature -- Status setting
-
-	reset
-			-- reset chain block to initial block
+	make_from_other (other: like Current)
 		do
-			create encryption.make (aes_key, initial_block, 0)
-			create decryption.make (aes_key, initial_block, 0)
-		end
-
-	set_encrypter_state (a_initial_block: SPECIAL [NATURAL_8])
-		do
-			encryption.make (aes_key, a_initial_block, 0)
+			make_from_key (other.key_data)
 		end
 
 feature -- Access
@@ -114,8 +106,8 @@ feature -- Access
 		do
 			create Result.make (key_data.count * 5 + 6)
 			Result.append ("<< ")
-			from i := 1 until i > key_data.count loop
-				if i > 1 then
+			from i := 0 until i = key_data.count loop
+				if i > 0 then
 					Result.append (", ")
 				end
 				Result.append_integer (key_data [i])
@@ -124,7 +116,52 @@ feature -- Access
 			Result.append (" >>")
 		end
 
-	key_data: ARRAY [NATURAL_8]
+feature -- Access attributes
+
+	key_data: SPECIAL [NATURAL_8]
+
+feature -- Status setting
+
+	reset
+			-- reset chain block to initial block
+		do
+			create encryption.make (aes_key, initial_block, 0)
+			create decryption.make (aes_key, initial_block, 0)
+		end
+
+feature -- Status query
+
+	is_default_state: BOOLEAN
+		do
+			Result := across key_data as component all component.item = 0 end
+		end
+
+feature -- File operations
+
+	save_encryption_state (file: RAW_FILE)
+		local
+			data: MANAGED_POINTER; block: ARRAY [NATURAL_8]
+		do
+--			log.enter ("save_encryption_state")
+			create block.make_from_special (encryption.last_block)
+			create data.make_from_array (block)
+			file.put_managed_pointer (data, 0, data.count)
+--			log.put_string_field ("Last block", Base_64.encoded_special (block))
+--			log.exit
+		end
+
+	restore_encryption_state (file: RAW_FILE)
+		local
+			data: MANAGED_POINTER; block: ARRAY [NATURAL_8]
+		do
+--			log.enter ("restore_encryption_state")
+			create data.make (Block_size)
+			file.read_to_managed_pointer (data, 0, data.count)
+			block := data.read_array (0, data.count)
+			encryption.make (aes_key, block, 0)
+--			log.put_string_field ("Last block", Base_64.encoded_special (block))
+--			log.exit
+		end
 
 feature -- Encryption
 
@@ -135,17 +172,6 @@ feature -- Encryption
 		do
 			create padded_plain_data.make_from_string (plain_text, Block_size)
 			Result := Base_64.encoded_special (encrypted (padded_plain_data))
-		end
-
-	encrypted_managed (managed: MANAGED_POINTER): EL_BYTE_ARRAY
-			--
-		local
-			padded_plain_data: EL_PADDED_BYTE_ARRAY
-		do
-			log.enter ("encrypted_managed")
-			create padded_plain_data.make_from_managed (managed, managed.count, Block_size)
-			Result := encrypted (padded_plain_data)
-			log.exit
 		end
 
 	encrypted (plain_data: EL_PADDED_BYTE_ARRAY): EL_BYTE_ARRAY
@@ -167,6 +193,17 @@ feature -- Encryption
 			end
 		end
 
+	encrypted_managed (managed: MANAGED_POINTER; count: INTEGER): EL_BYTE_ARRAY
+			--
+		local
+			padded_plain_data: EL_PADDED_BYTE_ARRAY
+		do
+			log.enter ("encrypted_managed")
+			create padded_plain_data.make_from_managed (managed, count, Block_size)
+			Result := encrypted (padded_plain_data)
+			log.exit
+		end
+
 feature -- Decryption
 
 	decrypted_base64 (base64_cipher_text: STRING): STRING
@@ -180,13 +217,13 @@ feature -- Decryption
 			Result := padded_decrypted (cipher_data).to_unpadded_string
 		end
 
-	decrypted_managed (managed: MANAGED_POINTER): SPECIAL [NATURAL_8]
+	decrypted_managed (managed: MANAGED_POINTER; count: INTEGER): SPECIAL [NATURAL_8]
 		require
 			is_16_byte_blocks: managed.count \\ Block_size = 0
 		local
 			cipher_data: EL_BYTE_ARRAY
 		do
-			create cipher_data.make_from_managed (managed, managed.count)
+			create cipher_data.make_from_managed (managed, count)
 			Result := padded_decrypted (cipher_data).unpadded
 		end
 
@@ -198,8 +235,7 @@ feature -- Decryption
 			i, block_count, offset: INTEGER
 			block_out, block_in: like Out_block
 		do
-			block_out := Out_block
-			block_in := In_block
+			block_in := In_block; block_out := Out_block
 			create Result.make (cipher_data.count, Block_size)
 
 			block_count := cipher_data.count // Block_size
@@ -214,13 +250,13 @@ feature -- Decryption
 
 feature {EL_ENCRYPTABLE} -- Implementation: attributes
 
-	initial_block: SPECIAL [NATURAL_8]
-
 	aes_key: AES_KEY
+
+	decryption: EL_CBC_DECRYPTION
 
 	encryption: EL_CBC_ENCRYPTION
 
-	decryption: EL_CBC_DECRYPTION
+	initial_block: SPECIAL [NATURAL_8]
 
 feature -- Constants
 

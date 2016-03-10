@@ -22,7 +22,7 @@ if platform.system () == "Windows":
 	
 else:
 	compiler_flags = [
-		'-g', '-O2', '-Wall', '-Wno-unused', '-Wno-inline', '-Woverloaded-virtual', '-Wmissing-declarations'
+		'-g', '-O2', '-Wall', '-Woverloaded-virtual', '-Wmissing-declarations', '-Wno-write-strings', '-Wno-unused', '-Wno-inline'
 	]
 	cpp_defines = ['HAVE_CONFIG_H', 'HAVE_UNISTD_H']
 

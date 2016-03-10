@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_REPEATED_TEXTUAL_PATTERN
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_from_array
 		redefine
-			set_target,
+			set_text,
 			collect_middle_events,
 			actual_try_to_match,
 			is_ready_to_match,
@@ -48,12 +48,14 @@ feature -- Access
 
 feature -- Element change
 
-	set_target (text: EL_STRING_VIEW)
-		require else
-			valid_target_text_copy: remaining_unmatched_text /= Void
+	set_text (a_target_text: EL_STRING_VIEW)
 		do
-			Precursor (text)
-			remaining_unmatched_text.set_from_other (target_text)
+			Precursor (a_target_text)
+			if remaining_unmatched_text.same_type (a_target_text) then
+				remaining_unmatched_text.copy (a_target_text)  -- less garbage collection
+			else
+				remaining_unmatched_text := a_target_text.twin
+			end
 			count_characters_matched := 0
 			count_successful_matches := 0
 			accumulated_event_list.wipe_out
@@ -65,7 +67,7 @@ feature -- Element change
 			-- there is an event assigned
 		do
 			match_succeeded := true
-			target_text.set_length (count_characters_matched)
+			text.set_length (count_characters_matched)
 			collect_beginning_events
 			target_is_set := false
 		end
@@ -87,7 +89,7 @@ feature {NONE} -- Implementation
 	actual_try_to_match
 			-- Prune matching characters from remaining_unmatched_text
 		do
-			pattern_to_match.set_target (remaining_unmatched_text)
+			pattern_to_match.set_text (remaining_unmatched_text)
 			pattern_to_match.try_to_match
 			last_match_succeeded := pattern_to_match.match_succeeded
 			if last_match_succeeded then

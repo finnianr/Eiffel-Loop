@@ -1,6 +1,9 @@
 note
 	description: "[
-		A latin encoded string augmented by a set of unicode foreign characters
+		A latin encoded string augmented by a set of unicode foreign characters.
+		
+		Potential problems:
+			Calling set_count can break a postcondition is_normalized
 	]"
 
 	author: "Finnian Reilly"
@@ -17,23 +20,42 @@ class
 inherit
 	STRING
 		rename
+			append as append_string_8,
+			append_string as append,
+			append_string_general as append_string,
+			as_string_8 as parent_as_string_8,
+			make_from_string as make_from_other,
+			has as has_character_8,
+			index_of as index_of_8,
+			insert_string as insert_string_8,
+			last_index_of as last_index_of_character_8,
+			replace_character as obsolete_replace_character,
+			replace_substring_all as replace_substring_all_8,
+			precede as precede_8,
+			prepend_character as prepend_character_8,
+			prepend as prepend_string_8,
+			prepend_string as prepend,
+			prepend_string_general as prepend_string,
+			prune_all as prune_all_8,
 			String_searcher as String_8_searcher,
 			split as unicode_split,
-			make_from_string as make_from_other,
-			as_string_8 as parent_as_string_8,
+			starts_with as starts_with_string_8,
+			starts_with_general as starts_with,
 			to_string_8 as parent_to_string_8
 		export
-			{EL_ASTRING, EL_ASTRING_SEARCHER} area_lower
-			{NONE} parent_as_string_8, parent_to_string_8, make_from_c
+			{EL_ASTRING, EL_ASTRING_SEARCHER} area_lower, set_count
+			{NONE} append_string_8, prepend_string_8, parent_as_string_8, parent_to_string_8, make_from_c, has_character_8,
+				last_index_of_character_8, index_of_8, insert_string_8, replace_substring_all_8, starts_with_string_8
 		redefine
 			make_from_other, make,
-			append, prepend, append_string_general,
+			append, append_string, prepend, prepend_string, replace_substring, remove, remove_substring,
 			as_string_32, to_string_32, share, out, copy, code,
 			to_lower, to_upper,
+			plus,
 			substring, substring_index, hash_code,
 			wipe_out, to_lower_area, to_upper_area,
 			keep_head, keep_tail, left_adjust, right_adjust,
-			is_equal, is_less, valid_code, same_string,
+			is_equal, is_less, valid_code, same_string, starts_with,
 			unicode_split
 		end
 
@@ -44,10 +66,12 @@ inherit
 			make as foreign_make,
 			to_string_32 as foreign_string_32,
 			index_of as foreign_index_of,
+			item as foreign_item,
 			capacity as foreign_capacity,
 			count as foreign_count,
 			is_empty as is_foreign_empty,
 			is_over_extended as has_unencoded_characters,
+			has as foreign_has,
 			area as foreign_characters,
 			extend as foreign_extend,
 			wipe_out as foreign_wipe_out,
@@ -56,7 +80,8 @@ inherit
 			has_characters as has_foreign_characters,
 			Default_area as Default_foreign_characters,
 			set_from_area as set_foreign_characters,
-			copy_from_other as copy_foreign_characters_from_other
+			copy_from_other as copy_foreign_characters_from_other,
+			keep_head as foreign_keep_head
 		export
 			{NONE} all
 			{ANY} upper_place_holder, foreign_string_32, has_foreign_characters, has_unencoded_characters
@@ -107,12 +132,11 @@ feature {NONE} -- Initialization
 			-- initialize with string with same encoding as codec
 		do
 			foreign_make_empty
-			area := s.area
-			count := s.count
+			area := s.area; count := s.count
 			internal_hash_code := 0
 			if Current /= s then
-				create area.make_empty (count + 1)
-				area.copy_data (s.area, s.area_lower, 0, count + 1)
+				make_filled ('%U', s.count)
+				area.copy_data (s.area, 0, 0, s.count)
 			end
 		end
 
@@ -123,23 +147,20 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_unicode (a_unicode: READABLE_STRING_GENERAL)
-			-- Initialize from the characters of `s'.
 		do
-			make_filled ('%/000/', a_unicode.count)
+			make_filled ('%U', a_unicode.count)
 			encode (a_unicode, 0)
 		ensure
 			unicode_place_holders_normalized: is_normalized
 		end
 
 	make_from_latin1 (latin1: READABLE_STRING_8)
-			-- Initialize from the characters of `s'.
 		do
 			make_filled ('%/000/', latin1.count)
 			encode (latin1, 0)
 		end
 
 	make_from_utf8 (utf8: READABLE_STRING_8)
-			-- Initialize from the characters of `s'.
 		local
 			l_unicode: STRING_32
 		do
@@ -148,28 +169,15 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_string_view (matched_text: EL_STRING_VIEW)
-		local
-			view_str: READABLE_STRING_GENERAL
 		do
-			view_str := matched_text.view_general
-			if attached {EL_ASTRING} view_str as el_str then
-				share (el_str)
-			else
-				make_from_unicode (view_str)
-			end
+			make_from_other (matched_text.to_string)
 		end
 
-	make_from_components (s: STRING; a_foreign_characters: STRING_32)
-		local
-			l_foreign_count: INTEGER
+	make_from_components (s: STRING; a_foreign_characters: like foreign_characters)
 		do
-			make (s.count)
-			append (s)
-			l_foreign_count := a_foreign_characters.count
-			if l_foreign_count > 0 then
-				create foreign_characters.make_filled ('%U', l_foreign_count)
-				foreign_characters.copy_data (a_foreign_characters.area, 0, 0, l_foreign_count)
-			end
+			make_filled ('%U', s.count)
+			area.copy_data (s.area, 0, 0, s.count)
+			foreign_characters := a_foreign_characters
 		end
 
 	make_shared (other: like Current)
@@ -214,168 +222,124 @@ feature -- Access
 			-- Hash code value
 		require else
 			place_holders_normalized: is_normalized
-		local
-			i, nb: INTEGER
-			l_area: like area
 		do
-			Result := internal_hash_code
-			if Result = 0 then
-				l_area := area
-					-- The magic number `8388593' below is the greatest prime lower than
-					-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
-				from i := 1; nb := count until i > nb loop
-					Result := ((Result \\ 8388593) |<< 8) + l_area.item (i - 1).code
-					i := i + 1
+			Result := Precursor
+		end
+
+	index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
+		local
+			c: CHARACTER
+		do
+			if uc = '%U' then
+				Result := index_of (uc.to_character_8, start_index)
+			else
+				c := place_holder (uc)
+				if c = '%U' then
+					c := codec.as_latin (uc)
 				end
-				internal_hash_code := Result
+				if c /= '%U' then
+					Result := index_of_8 (c, start_index)
+				end
 			end
 		end
 
+	last_index_of (uc: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
+		local
+			last_encoded_foreign_character: CHARACTER_32; c: CHARACTER_8
+			l_codec: like codec
+		do
+			l_codec := codec
+			l_codec.set_encoded_character (uc)
+			last_encoded_foreign_character := l_codec.last_encoded_foreign_character
+			if last_encoded_foreign_character /= '%U' and then foreign_has (last_encoded_foreign_character) then
+				c := place_holder (last_encoded_foreign_character)
+			else
+				c := l_codec.last_encoded_character
+			end
+			Result := last_index_of_character_8 (c, start_index_from_end)
+		end
+
 	substring_index (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
-			-- <Precursor>
 		local
 			l_other: EL_ASTRING
 		do
-			if attached {EL_ASTRING} other as astr then
-				l_other := astr
-			else
-				create l_other.make_from_unicode (other)
-			end
-			if has_foreign_characters or l_other.has_foreign_characters then
+			l_other := adapted_general (other)
+			if l_other.has_foreign_characters then
 				Result := string_searcher.substring_index (Current, l_other, start_index, count)
 			else
 				Result := Precursor (l_other, start_index)
 			end
 		end
 
-	index_of_unicode (uc: CHARACTER_32; start_index: INTEGER): INTEGER
+	word_index (word: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		local
-			c: CHARACTER
+			has_left_boundary, has_right_boundary, found: BOOLEAN
+			index: INTEGER
 		do
-			c := codec.as_latin (uc)
-			if c = '%U' then
-				c := place_holder (uc)
-				if c = '%U' then
-					Result := 0
-				else
-					Result := character_32_index_of (uc, start_index)
+			from index := start_index; Result := 1 until Result = 0 or else found or else index + word.count - 1 > count loop
+				Result := substring_index (word, index)
+				if Result > 0 then
+					has_left_boundary := Result = 1 or else not is_alpha_numeric_item (Result - 1)
+					has_right_boundary := Result + word.count - 1 = count or else not is_alpha_numeric_item (Result + word.count)
+					if has_left_boundary and has_right_boundary then
+						found := True
+					else
+						index := Result + 1
+					end
 				end
-			else
-				Result := index_of (c, start_index)
 			end
 		end
 
 feature -- Element change
 
-	left_adjust
-			-- Remove leading whitespace.
-		local
-			nb, nb_space: INTEGER
-			l_area: like area
-		do
-				-- Compute number of spaces at the left of current string.
-			from
-				nb := count - 1
-				l_area := area
-			until
-				nb_space > nb or else not is_space_character (l_area.item (nb_space))
-			loop
-				nb_space := nb_space + 1
-			end
-
-			if nb_space > 0 then
-					-- Set new count value.
-				nb := nb + 1 - nb_space
-					-- Shift characters to the left.
-				l_area.overlapping_move (nb_space, 0, nb)
-					-- Set new count.
-				count := nb
-				internal_hash_code := 0
-			end
-			normalize_place_holders
-		ensure then
-			unicode_place_holders_normalized: is_normalized
-		end
-
-	right_adjust
-			-- Remove trailing whitespace.
-		local
-			i, nb: INTEGER
-			nb_space: INTEGER
-			l_area: like area
-		do
-			if has_foreign_characters then
-					-- Compute number of spaces at the right of current string.
-				from
-					nb := count - 1
-					i := nb
-					l_area := area
-				until
-					i < 0 or else not is_space_character (l_area.item (i))
-				loop
-					nb_space := nb_space + 1
-					i := i - 1
-				end
-
-				if nb_space > 0 then
-						-- Set new count.
-					count := nb + 1 - nb_space
-					internal_hash_code := 0
-				end
-				normalize_place_holders
-			else
-				Precursor
-			end
-		ensure then
-			unicode_place_holders_normalized: is_normalized
-		end
-
-	set_from_unicode (s: READABLE_STRING_GENERAL)
-			-- Initialize from the characters of `s'.
-		do
-			grow (s.count)
-			foreign_make_empty
-			set_count (s.count)
-			encode (s, 0)
-		end
-
-	share (other: like Current)
-		do
-			Precursor (other)
-			foreign_characters := other.foreign_characters
-		end
-
-	append (s: READABLE_STRING_8)
+	append (s: like Current)
 		local
 			old_count: INTEGER
 		do
-			if attached {EL_ASTRING} s as l_as then
-				if l_as.has_foreign_characters then
-					old_count := count
-					Precursor (l_as) -- Append as STRING_8
-					if has_foreign_characters then
-						-- Normalize place holders
-						codec.update_foreign_characters (area, s.count, old_count, l_as, Current, False)
-					else
-						copy_foreign_characters_from_other (l_as)
-					end
+			if s.has_foreign_characters then
+				old_count := count
+				append_string_8 (s) -- Append as STRING_8
+				if has_foreign_characters then
+					-- Normalize place holders
+					codec.update_foreign_characters (area, s.count, old_count, s, Current, False)
 				else
-					Precursor (l_as)
+					copy_foreign_characters_from_other (s)
 				end
+				internal_hash_code := 0
 			else
-				append (create {EL_ASTRING}.make_from_latin1 (s))
+				append_string_8 (s)
 			end
 		ensure then
 			unicode_place_holders_normalized: is_normalized
 		end
 
-	append_string_general (s: READABLE_STRING_GENERAL)
+	append_string (s: READABLE_STRING_GENERAL)
 		do
-			if attached {READABLE_STRING_8} s as l_s8 then
-				append (l_s8)
+			if attached {EL_ASTRING} s as el_astring then
+				append (el_astring)
 			else
 				append_unicode_general (s)
 			end
+		end
+
+	append_unicode (c: like code)
+			-- Append `c' at end.
+			-- It would be nice to make this routine over ride 'append_code' but unfortunately
+			-- the post condition links it to 'code' and for performance reasons it is undesirable to have
+			-- code return unicode.
+		local
+			current_count: INTEGER
+		do
+			current_count := count + 1
+			if current_count > capacity then
+				resize (current_count)
+			end
+			set_count (current_count)
+			put_unicode (c, current_count)
+		ensure then
+			item_inserted: unicode (count) = c
+			new_count: count = old count + 1
+			stable_before: elks_checking implies substring (1, count - 1) ~ (old twin)
 		end
 
 	append_unicode_general (s: READABLE_STRING_GENERAL)
@@ -392,25 +356,69 @@ feature -- Element change
 			unicode_place_holders_normalized: is_normalized
 		end
 
-	prepend (s: READABLE_STRING_8)
+	escape (escaper: EL_CHARACTER_ESCAPER)
 		local
-			old_count: INTEGER
-			l_foreign_characters: EL_EXTRA_UNICODE_CHARACTERS
+			l_escaped: STRING_32
 		do
-			if attached {like Current} s as l_as then
-				if l_as.has_foreign_characters then
-					old_count := count
-					precursor (l_as)
-					create l_foreign_characters.make_from_other (Current)
-					copy_foreign_characters_from_other (l_as)
-					codec.update_foreign_characters (area, old_count, l_as.count, l_foreign_characters, Current, False)
-				else
-					Precursor (l_as)
+			l_escaped := escaper.escaped (to_unicode)
+			if l_escaped.count > count then
+				make_from_unicode (l_escaped)
+			end
+		end
+
+	enclose (left, right: CHARACTER_32)
+		do
+			grow (count + 2)
+			area.overlapping_move (0, 1, count)
+			set_count (count + 1)
+			put_unicode (left.natural_32_code, 1)
+			append_unicode (right.natural_32_code)
+		end
+
+	left_adjust
+			-- Remove leading whitespace.
+		local
+			nb, nb_space: INTEGER
+			l_area: like area
+		do
+			if has_foreign_characters then
+					-- Compute number of spaces at the left of current string.
+				from
+					nb := count - 1; l_area := area
+				until
+					nb_space > nb or else not is_space_character (l_area.item (nb_space))
+				loop
+					nb_space := nb_space + 1
 				end
+				keep_tail (nb + 1 - nb_space)
 			else
-				Precursor (s)
+				Precursor
 			end
 		ensure then
+			unicode_place_holders_normalized: is_normalized
+		end
+
+	insert_string (s: READABLE_STRING_GENERAL; i: INTEGER)
+		local
+			l_insert, l_tail: EL_ASTRING
+		do
+			l_insert := adapted_general (s)
+			if has_foreign_characters then
+				if l_insert.has_foreign_characters then
+					l_tail := substring (i, count)
+					keep_head (i - 1)
+					append (l_insert); append (l_tail)
+				else
+					insert_string_8 (l_insert, i)
+				end
+			else
+				-- Only other string has foreign characters
+				if l_insert.has_foreign_characters then
+					foreign_make_from_other (l_insert)
+				end
+				insert_string_8 (l_insert, i)
+			end
+		ensure
 			unicode_place_holders_normalized: is_normalized
 		end
 
@@ -452,6 +460,347 @@ feature -- Element change
 			unicode_place_holders_normalized: is_normalized
 		end
 
+	prepend (astr: like Current)
+		do
+			if astr.has_foreign_characters then
+				prepend_string_8 (astr)
+				codec.update_foreign_characters (area, astr.count, 0, astr, Current, False)
+				normalize_place_holders
+			else
+				prepend_string_8 (astr)
+			end
+		ensure then
+			unicode_place_holders_normalized: is_normalized
+		end
+
+	prepend_string (str: READABLE_STRING_GENERAL)
+		do
+			if attached {like Current} str as astr then
+				prepend (astr)
+			else
+				prepend_unicode_general (str)
+			end
+		end
+
+	prepend_unicode_general (s: READABLE_STRING_GENERAL)
+		local
+			s_count, l_count: INTEGER
+		do
+			s_count := s.count; l_count := count
+			grow (l_count + s_count)
+			set_count (l_count + s_count)
+			area.overlapping_move (0, s_count, l_count)
+			encode (s, 0)
+			if substring_has_place_holders (1, s_count) then
+				normalize_place_holders
+			end
+			internal_hash_code := 0
+		ensure then
+			unicode_place_holders_normalized: is_normalized
+		end
+
+	precede, prepend_character (uc: CHARACTER_32)
+		local
+			new_foreign_character: CHARACTER_32; c: CHARACTER
+		do
+			c := encoded_character_32 (uc, $new_foreign_character)
+			if new_foreign_character /= '%U' then
+				foreign_extend (uc)
+				c := upper_place_holder
+			end
+			prepend_character_8 (c)
+			if is_place_holder_item (c) then
+				normalize_place_holders
+			end
+		end
+
+	put_character (uc: CHARACTER_32 i: INTEGER)
+		do
+			put_unicode (uc.natural_32_code, i)
+		end
+
+	put_unicode (v: like code; i: INTEGER)
+			-- put unicode at i th position
+		require -- from STRING_GENERAL
+			valid_index: valid_index (i)
+		local
+			new_foreign_character: CHARACTER_32; c: CHARACTER
+			has_foreign_characters_change: BOOLEAN; l_area: like area
+		do
+			l_area := area
+			has_foreign_characters_change := is_place_holder_item (l_area [i - 1])
+			c := encoded_character_32 (v.to_character_32, $new_foreign_character)
+			if new_foreign_character /= '%U' then
+				foreign_extend (v.to_character_32)
+				c := upper_place_holder
+			end
+			l_area [i - 1] := c
+			if has_foreign_characters_change or else is_place_holder_item (c) then
+				normalize_place_holders
+			end
+			internal_hash_code := 0
+		ensure
+			inserted: unicode (i) = v
+			stable_count: count = old count
+			stable_before_i: Elks_checking implies substring (1, i - 1) ~ (old substring (1, i - 1))
+			stable_after_i: Elks_checking implies substring (i + 1, count) ~ (old substring (i + 1, count))
+			unicode_place_holders_normalized: is_normalized
+		end
+
+	quote (type: INTEGER)
+		require
+			type_is_single_or_double: type = 1 or type = 2
+		local
+			c: CHARACTER_32
+		do
+			if type = 1 then
+				 c := '%''
+			else
+				 c := '"'
+			end
+			enclose (c, c)
+		end
+
+	replace_delimited_substring (left, right, new: EL_ASTRING; include_delimiter: BOOLEAN; start_index: INTEGER)
+			-- Searching from start_index, replaces text delimited by left and right with 'new'
+			-- Text replaced includeds delimiter if 'include_delimiter' is true
+		local
+			pos_left, pos_right, start_pos, end_pos: INTEGER
+		do
+			pos_left := substring_index (left, start_index)
+			if pos_left > 0 then
+				start_pos := pos_left + left.count
+				pos_right := substring_index (right, start_pos)
+				if pos_right > 0 then
+					end_pos := pos_right - 1
+					if include_delimiter then
+						start_pos := start_pos - left.count
+						end_pos := end_pos + right.count
+					end
+					replace_substring (new, start_pos, end_pos)
+				end
+			end
+		end
+
+	replace_substring (s: EL_ASTRING; start_index, end_index: INTEGER)
+		local
+			i, l_count: INTEGER; l_area, s_area: like area
+			has_foreign_character_change, l_substring_has_place_holders: BOOLEAN
+			new_foreign_character: CHARACTER_32; c: CHARACTER
+		do
+			l_substring_has_place_holders := substring_has_place_holders (start_index, end_index)
+			Precursor (s, start_index, end_index)
+			if s.has_foreign_characters and not has_foreign_characters then
+				foreign_characters := s.foreign_characters.twin
+			else
+				if s.has_foreign_characters then
+					s_area := s.area; l_area := area; l_count := s.count
+					from i := 0 until i = l_count loop
+						if s.is_place_holder_item (s_area [i]) then
+							c := encoded_character_32 (s.code (i + 1).to_character_32, $new_foreign_character)
+							if new_foreign_character /= '%U' then
+								foreign_extend (new_foreign_character)
+								c := upper_place_holder
+							end
+							l_area [start_index + i - 1] := c
+						end
+						i := i + 1
+					end
+					has_foreign_character_change := True
+				else
+					has_foreign_character_change := l_substring_has_place_holders
+				end
+			end
+			if has_foreign_character_change then
+				normalize_place_holders
+			end
+		ensure then
+			normalized: is_normalized
+		end
+
+	replace_substring_all (a_original, a_new: READABLE_STRING_GENERAL)
+		local
+			original_8, new_8: STRING; original, new: EL_ASTRING
+			normalization_required: BOOLEAN; old_foreign_count: INTEGER
+		do
+			original := adapted_general (a_original); new := adapted_general (a_new)
+			if has_substring (original) then
+				normalization_required := has_foreign_characters
+				old_foreign_count := foreign_count
+				new_8 := place_holder_compatible (new); original_8 := place_holder_compatible (original)
+				normalization_required := not normalization_required implies old_foreign_count /= foreign_count
+				replace_substring_all_8 (original_8, new_8)
+				if normalization_required then
+					normalize_place_holders
+				end
+			end
+		ensure
+			unicode_place_holders_normalized: is_normalized
+		end
+
+	replace_character (old_character, new_character: CHARACTER_32)
+		local
+			l_area: like area; i: INTEGER; found, has_foreign_character_change: BOOLEAN
+			new_foreign_character: CHARACTER_32; old_chr, new_chr, c: CHARACTER
+		do
+			old_chr := encoded_character_32 (old_character, $new_foreign_character)
+			if old_chr /= '%U' then
+				new_chr := encoded_character_32 (new_character, $new_foreign_character)
+				if new_foreign_character /= '%U' then
+					foreign_extend (new_character)
+					new_chr := upper_place_holder
+				end
+				has_foreign_character_change := is_place_holder_item (new_chr)
+				l_area := area
+				from i := 0 until i = l_area.count loop
+					c := l_area [i]
+					if c = old_chr then
+						has_foreign_character_change := has_foreign_character_change or else is_place_holder_item (c)
+						l_area [i] := new_chr
+						found := True
+					end
+					i := i + 1
+				end
+				if found and then has_foreign_character_change then
+					normalize_place_holders
+				end
+			end
+		end
+
+	right_adjust
+			-- Remove trailing whitespace.
+		local
+			i, nb: INTEGER
+			nb_space: INTEGER
+			l_area: like area
+		do
+			if has_foreign_characters then
+					-- Compute number of spaces at the right of current string.
+				from
+					nb := count - 1
+					i := nb
+					l_area := area
+				until
+					i < 0 or else not is_space_character (l_area [i])
+				loop
+					nb_space := nb_space + 1
+					i := i - 1
+				end
+				keep_head (nb + 1 - nb_space)
+			else
+				Precursor
+			end
+		ensure then
+			unicode_place_holders_normalized: is_normalized
+		end
+
+	set_from_unicode (s: READABLE_STRING_GENERAL)
+			-- Initialize from the characters of `s'.
+		do
+			grow (s.count)
+			foreign_make_empty
+			set_count (s.count)
+			encode (s, 0)
+		end
+
+	share (other: like Current)
+		do
+			Precursor (other)
+			foreign_characters := other.foreign_characters
+		end
+
+	substitute_tuple (inserts: TUPLE)
+		local
+			insert_array: ARRAY [ANY]
+			i: INTEGER
+		do
+			create insert_array.make (1, inserts.count)
+			from i := 1 until i > inserts.count loop
+				insert_array [i] := inserts.item (i)
+				i := i + 1
+			end
+			substitute_indexable (insert_array)
+		end
+
+	substitute_indexable (inserts: INDEXABLE [ANY, INTEGER])
+		require
+			first_index_is_1: inserts.index_set.lower = 1
+		local
+			list: EL_DELIMITED_SUBSTRING_INTERVALS; out_inserts: ARRAY [EL_ASTRING]
+			l_insert: EL_ASTRING; l_item: ANY
+			size, i, l_count: INTEGER
+		do
+			create list.make (Current, "$S")
+			l_count := inserts.index_set.count
+			create out_inserts.make (1, l_count)
+			from i := 1 until i > l_count loop
+				l_item := inserts [i]
+				if attached {EL_ASTRING} l_item as l_astring then
+					l_insert := l_astring
+
+				elseif attached {READABLE_STRING_GENERAL} l_item as l_readable_string then
+					create l_insert.make_from_unicode (l_readable_string)
+				else
+					l_insert := l_item.out
+				end
+				out_inserts [i] := l_insert
+				size := size + l_insert.count
+				i := i + 1
+			end
+			size := size + count
+			make (size)
+			from list.start until list.after loop
+				append (list.substring)
+				if list.index <= out_inserts.count then
+					append (out_inserts [list.index])
+				end
+				list.forth
+			end
+		end
+
+	to_lower
+			-- Convert to lower case.
+		do
+			to_lower_area (area, 0, count - 1)
+			if has_foreign_characters then
+				foreign_to_lower
+			end
+			internal_hash_code := 0
+		end
+
+	to_upper
+			-- Convert to upper case.
+		do
+			to_upper_area (area, 0, count - 1)
+			if has_foreign_characters then
+				foreign_to_upper
+			end
+			internal_hash_code := 0
+		end
+
+	to_proper_case
+		local
+			i: INTEGER
+			state_alpha: BOOLEAN
+		do
+			to_lower
+			from i := 1 until i > count loop
+				if state_alpha then
+					if not is_alpha_item (i) then
+						state_alpha := False
+					end
+				else
+					if is_alpha_item (i) then
+						state_alpha := True
+						to_upper_area (area, i - 1, i - 1)
+					end
+				end
+				i := i + 1
+			end
+		ensure
+			unicode_place_holders_normalized: is_normalized
+		end
+
 	translate (originals, substitutions: like Current)
 			-- translate characters occurring in 'originals' with substitute
 			-- ommiting any characters that have a NUL substition character '%/000/'
@@ -469,67 +818,111 @@ feature -- Element change
 			unicode_place_holders_normalized: is_normalized
 		end
 
-	append_unicode (c: like code)
-			-- Append `c' at end.
-			-- It would be nice to make this routine over ride 'append_code' but unfortunately
-			-- the post condition links it to 'code' and for performance reasons it is undesirable to have
-			-- code return unicode.
-		local
-			current_count: INTEGER
-		do
-			current_count := count + 1
-			if current_count > capacity then
-				resize (current_count)
-			end
-			set_count (current_count)
-			put_unicode (c, current_count)
-		ensure then
-			item_inserted: unicode (count) = c
-			new_count: count = old count + 1
-			stable_before: elks_checking implies substring (1, count - 1) ~ (old twin)
-		end
+feature -- Removal
 
-	put_unicode (v: like code; i: INTEGER)
-			-- put unicode at i th position
-		require -- from STRING_GENERAL
-			valid_index: valid_index (i)
+	prune_all (uc: CHARACTER_32)
+			-- Remove all occurrences of `c'.
+		local
+			new_foreign_character: CHARACTER_32
 		do
-			codec.encode_character (v.to_character_32, area, i - 1, Current)
-			if has_foreign_characters and then i < count and then substring_has_place_holders (i + 1, count) then
+			prune_all_8 (encoded_character_32 (uc, $new_foreign_character))
+			if foreign_has (uc) then
 				normalize_place_holders
 			end
 		ensure
-			inserted: unicode (i) = v
-			stable_count: count = old count
-			stable_before_i: Elks_checking implies substring (1, i - 1) ~ (old substring (1, i - 1))
-			stable_after_i: Elks_checking implies substring (i + 1, count) ~ (old substring (i + 1, count))
 			unicode_place_holders_normalized: is_normalized
 		end
 
-	escape (unicode_characters: READABLE_STRING_GENERAL; escape_character: CHARACTER_32)
+	remove (i: INTEGER)
 		local
-			l_area: SPECIAL [CHARACTER_32]
-			c: CHARACTER_32
-			l_escaped: STRING_32
-			i, l_count: INTEGER
+			i_th_is_place_holder: BOOLEAN
 		do
-			l_count := count
-			l_area := to_unicode.area
-			create l_escaped.make (count)
-			from i := 0 until i = l_count loop
-				c := l_area [i]
-				if unicode_characters.has (c) then
-					l_escaped.append_character (escape_character)
-				end
-				l_escaped.append_character (c)
-				i := i + 1
-			end
-			if l_escaped.count > count then
-				make_from_unicode (l_escaped)
+			i_th_is_place_holder := substring_has_place_holders (i, i)
+			Precursor (i)
+			if i_th_is_place_holder then
+				normalize_place_holders
 			end
 		end
 
+	remove_quotes
+		require
+			long_enough: count >= 2
+		do
+			remove_head (1); remove_tail (1)
+		end
+
+	remove_substring (start_index, end_index: INTEGER)
+			-- TO DO: create some test for this
+		local
+			removed_string_had_placeholders: BOOLEAN
+		do
+			removed_string_had_placeholders := substring_has_place_holders (start_index, end_index)
+			Precursor (start_index, end_index)
+			if removed_string_had_placeholders then
+				normalize_place_holders
+			end
+		end
+
+	unescape (uc_escape_character: CHARACTER_32; uc_escaped_characters: HASH_TABLE [CHARACTER_32, CHARACTER_32])
+		require
+			double_escapes_are_literal_escapes: uc_escaped_characters [uc_escape_character] = uc_escape_character
+		local
+			pos_escape, start_index: INTEGER
+		do
+			from pos_escape := index_of (uc_escape_character, 1) until pos_escape = 0 loop
+				if pos_escape + 1 <= count then
+					uc_escaped_characters.search (unicode_item (pos_escape + 1))
+					if uc_escaped_characters.found then
+						put_unicode (uc_escaped_characters.found_item.natural_32_code, pos_escape + 1)
+						remove (pos_escape)
+						start_index := pos_escape + 1
+					else
+						start_index := pos_escape + 2
+					end
+					pos_escape := index_of (uc_escape_character, start_index)
+				else
+					pos_escape := 0
+				end
+			end
+		end
+
+	wipe_out
+			-- Remove all characters.
+		do
+			Precursor
+			foreign_make_empty
+		end
+
 feature -- Status query
+
+	encoded_with (a_codec: EL_CODEC): BOOLEAN
+		do
+			Result := a_codec.same_type (codec)
+		end
+
+	has_quotes (a_count: INTEGER): BOOLEAN
+		require
+			double_or_single: 1 <= a_count and a_count <= 2
+		local
+			c: CHARACTER_32
+		do
+			if a_count = 1 then
+				c := '%''
+			else
+				c := '"'
+			end
+			Result := count >= 2 and then character_32_item (1) = c and then character_32_item (count) = c
+		end
+
+	has (uc: CHARACTER_32): BOOLEAN
+		local
+			new_foreign_character: CHARACTER_32; c: CHARACTER
+		do
+			c := encoded_character_32 (uc, $new_foreign_character)
+			if new_foreign_character = '%U' then
+				Result := has_character_8 (c)
+			end
+		end
 
 	is_alpha_item (i: INTEGER): BOOLEAN
 		require
@@ -557,6 +950,25 @@ feature -- Status query
 			else
 				Result := codec.is_alpha_numeric (c.natural_32_code)
 			end
+		end
+
+	is_convertable (a_unicode: READABLE_STRING_GENERAL): BOOLEAN
+			-- is unicode string potentially convertible to EL_ASTRING without overflowing foreign characters
+			-- 'Potentially' means it is not absolutely guaranteed
+		local
+			i, l_count: INTEGER
+			big_characters: ARRAYED_LIST [CHARACTER_32]
+			c: CHARACTER_32
+		do
+			create big_characters.make (Maximum_place_holder_count + 1)
+			l_count := a_unicode.count
+			from i := 1 until big_characters.full or i > l_count loop
+				if c > '%/255/' and then not big_characters.has (c) then
+					big_characters.extend (c)
+				end
+				i := i + 1
+			end
+			Result := not big_characters.full
 		end
 
 	is_normalized: BOOLEAN
@@ -594,12 +1006,6 @@ feature -- Status query
 			end
 		end
 
-	valid_code (v: NATURAL_32): BOOLEAN
-			-- Is `v' a valid code for a CHARACTER_32?
-		do
-			Result := True
-		end
-
 	same_string (other: READABLE_STRING_8): BOOLEAN
 			-- Do `Current' and `other' have same character sequence?
 		do
@@ -610,6 +1016,23 @@ feature -- Status query
 			else
 				Result := same_items_as_other (create {like Current}.make_from_unicode (other), count)
 			end
+		end
+
+	starts_with (str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			if attached {EL_ASTRING} str as el_astring
+				and then not (has_foreign_characters or el_astring.has_foreign_characters)
+			then
+				Result := starts_with_string_8 (el_astring)
+			else
+				Result := Precursor (str)
+			end
+		end
+
+	valid_code (v: NATURAL_32): BOOLEAN
+			-- Is `v' a valid code for a CHARACTER_32?
+		do
+			Result := True
 		end
 
 feature -- Comparison
@@ -665,8 +1088,7 @@ feature -- Output
 			-- Printable representation
 		local
 			l_area: like area
-			i: INTEGER
-			c: CHARACTER
+			i: INTEGER; c: CHARACTER
 		do
 			if has_foreign_characters then
 				create Result.make (count + foreign_characters.count * 5 + foreign_characters.count + 3)
@@ -692,22 +1114,66 @@ feature -- Output
 
 feature -- Conversion
 
+	adapted_general (str: READABLE_STRING_GENERAL): EL_ASTRING
+		do
+			if attached {EL_ASTRING} str as astring then
+				Result := astring
+			else
+				create Result.make_from_unicode (str)
+			end
+		end
+
+	enclosed (left, right: CHARACTER_32): like Current
+		do
+			Result := twin
+			Result.enclose (left, right)
+		end
+
+	escaped (escaper: EL_CHARACTER_ESCAPER): like Current
+		do
+			create Result.make_from_other (Current)
+			Result.escape (escaper)
+		end
+
 	to_latin1: STRING
 			-- coded as ISO-8859-1
+		require
+			no_foreign_characters: not has_foreign_characters
+		local
+			i, l_count: INTEGER; l_area: like area
 		do
-			Result := to_latin1_32.to_string_8
+			if Codec.id = 1 then -- latin1
+				Result := to_string_8
+			else
+				Result := to_unicode.to_string_8
+			end
+			if has_foreign_characters then
+				-- Mark unencodeable as SUB character
+				l_area := Result.area; l_count := Result.count
+				from i := 0 until i = l_count loop
+					if is_place_holder_item (l_area [i]) then
+						l_area [i] := {ASCII}.sub.to_character_8
+					end
+					i := i + 1
+				end
+			end
 		end
 
 	to_utf8: STRING
 		do
-			Result := UTF.string_32_to_utf_8_string_8 (to_unicode)
+			Result := UTF.utf_32_string_to_utf_8_string_8 (to_unicode)
 		end
 
-	as_string_32, to_string_32, to_latin1_32, to_unicode: STRING_32
+	as_string_32, to_string_32, to_unicode: STRING_32
 			-- UCS-4
 		do
 			create Result.make_filled ('%/000/', count)
 			codec.decode (count, area, Result.area, Current)
+		end
+
+	to_unicode_general: READABLE_STRING_GENERAL
+		do
+
 		end
 
 	as_string_8, to_string_8: STRING_8
@@ -717,53 +1183,30 @@ feature -- Conversion
 			create Result.make_from_string (Current)
 		end
 
-	to_lower
-			-- Convert to lower case.
-		do
-			to_lower_area (area, 0, count - 1)
-			if has_foreign_characters then
-				foreign_to_lower
-			end
-			internal_hash_code := 0
-		end
-
-	to_upper
-			-- Convert to upper case.
-		do
-			to_upper_area (area, 0, count - 1)
-			if has_foreign_characters then
-				foreign_to_upper
-			end
-			internal_hash_code := 0
-		end
-
-	to_proper_case
-		local
-			i: INTEGER
-			state_alpha: BOOLEAN
-		do
-			to_lower
-			from i := 1 until i > count loop
-				if state_alpha then
-					if not is_alpha_item (i) then
-						state_alpha := False
-					end
-				else
-					if is_alpha_item (i) then
-						state_alpha := True
-						to_upper_area (area, i - 1, i - 1)
-					end
-				end
-				i := i + 1
-			end
-		ensure
-			unicode_place_holders_normalized: is_normalized
-		end
-
 	as_proper_case: EL_ASTRING
 		do
 			Result := twin
 			Result.to_proper_case
+		end
+
+	plus alias "+" (s: READABLE_STRING_GENERAL): like Current
+			-- <Precursor>
+		do
+			create Result.make (count + s.count)
+			Result.append (Current)
+			Result.append_string (s)
+		end
+
+	quoted (type: INTEGER): like Current
+		do
+			Result := twin
+			Result.quote (type)
+		end
+
+	substituted_tuple alias "#$" (inserts: TUPLE): like Current
+		do
+			Result := twin
+			Result.substitute_tuple (inserts)
 		end
 
 	translated (originals, substitutions: like Current): like Current
@@ -801,13 +1244,50 @@ feature -- Conversion
 			end
 		end
 
-	escaped (unicode_characters: READABLE_STRING_GENERAL; escape_character: CHARACTER_32): like Current
+	unescaped (
+		uc_escape_character: CHARACTER_32; uc_escaped_characters: EL_HASH_TABLE [CHARACTER_32, CHARACTER_32]
+	): like Current
 		do
 			create Result.make_from_other (Current)
-			Result.escape (unicode_characters, escape_character)
+			Result.unescape (uc_escape_character, uc_escaped_characters)
 		end
 
 feature -- Duplication
+
+	substring_between (start_string, end_string: READABLE_STRING_GENERAL; start_index: INTEGER): like Current
+			-- Returns string between substrings start_string and end_string from start_index.
+			-- if end_string is empty or not found, returns the tail string starting from the character
+			-- to the right of start_string. Returns empty string if start_string is not found.
+
+			--	EXAMPLE:
+			--			local
+			--				log_line, ip_address: ASTRING
+			--			do
+			--				log_line := "Apr 13 05:34:49 myching sshd[7079]: Failed password for root from 43.255.191.152 port 55471 ssh2"
+			--				ip_address := log_line.substring_between ("Failed password for root from ", " port")
+			--				check
+			--					correct_ip_address: ip_address.same_string ("43.255.191.152")
+			--				end
+			--			end
+		local
+			pos_start_string, pos_end_string: INTEGER
+		do
+			pos_start_string := substring_index (start_string, start_index)
+			if pos_start_string > 0 then
+				if end_string.is_empty then
+					pos_end_string := count + 1
+				else
+					pos_end_string := substring_index (end_string, pos_start_string + start_string.count)
+				end
+				if pos_end_string > 0 then
+					Result := substring (pos_start_string + start_string.count, pos_end_string - 1)
+				else
+					Result := substring (pos_start_string + start_string.count, count)
+				end
+			else
+				create Result.make_empty
+			end
+		end
 
 	substring (start_index, end_index: INTEGER): like Current
 			-- Copy of substring containing all characters at indices
@@ -825,6 +1305,13 @@ feature -- Duplication
 			end
 		ensure then
 			unicode_place_holders_normalized: Result.is_normalized
+		end
+
+	stripped: like Current
+		do
+			Result := twin
+			Result.left_adjust
+			Result.right_adjust
 		end
 
 feature -- Conversion
@@ -898,18 +1385,109 @@ feature -- Conversion
 		do
 			if other /= Current then
 				Precursor {STRING_8} (other)
-				if other.has_foreign_characters then
-					foreign_characters := other.foreign_characters.twin
-				end
+				foreign_make_from_other (other)
 			end
 		end
 
 feature {STRING_HANDLER, EL_ASTRING_SEARCHER} -- Implementation
 
-	String_searcher: EL_ASTRING_SEARCHER
-			-- String searcher specialized for READABLE_STRING_8 instances
-		once
-			create Result.make
+	normalize_place_holders
+			-- normalize order of place holders for foreign characters and their number
+			-- Going from left to right and ignoring repeats, each new place holder is 1 greater than previous.
+			-- The last new place holder must equal upper_place_holder
+			-- Strings initialized from the unicode are already normalized
+		do
+			if has_foreign_characters then
+				set_foreign_characters (codec.updated_foreign_characters (area, count, Current))
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	encode (s: READABLE_STRING_GENERAL; area_offset: INTEGER)
+		require
+			valid_area_offset: s.count > 0 implies area.valid_index (s.count + area_offset - 1)
+		do
+			codec.encode (s, area, area_offset, Current)
+		end
+
+	encoded_character_32 (uc: CHARACTER_32; new_foreign_character_32_ptr: POINTER): CHARACTER
+			-- encode 'uc' as either a place_holder or latin character
+			-- if a new place_holder is required, set value of boolean argument 'new_foreign_character_32_ptr'
+			-- to last_encoded_foreign_character
+		local
+			l_codec: like codec
+			last_encoded_foreign_character, null: CHARACTER_32
+			character_ptr: POINTER
+		do
+			l_codec := codec
+			l_codec.set_encoded_character (uc)
+			last_encoded_foreign_character := l_codec.last_encoded_foreign_character
+			if last_encoded_foreign_character = '%U' then
+				Result := l_codec.last_encoded_character
+			else
+				Result := place_holder (last_encoded_foreign_character)
+				if Result = '%U' then
+					-- Copy last_encoded_foreign_character into argument
+					character_ptr := $last_encoded_foreign_character
+				else
+					character_ptr := $null
+				end
+				new_foreign_character_32_ptr.memory_copy (character_ptr, {PLATFORM}.character_32_bytes)
+			end
+		end
+
+	has_place_holders (place_holder_upper: CHARACTER; start_index, end_index: INTEGER): BOOLEAN
+		local
+			i: INTEGER
+			l_area: like area
+			c: CHARACTER
+		do
+			if place_holder_upper > '%U' then
+				l_area := area
+				from i := start_index - 1 until Result or i = end_index loop
+					c := l_area [i]
+					Result := c <= place_holder_upper and then (c < '%T' or c > '%R')
+					i := i + 1
+				end
+			end
+		end
+
+	place_holder_compatible (str: EL_ASTRING): STRING
+			-- returns string with place holders swapped to be compatible with current
+			-- returns argument string if it has no foreign characters
+
+			-- Current place holders may no longer be normalized after call
+		local
+			i, l_count: INTEGER; c: CHARACTER; uc: CHARACTER_32
+			l_area: like area
+		do
+			if str.has_foreign_characters then
+				l_count := str.count
+				create Result.make (l_count)
+				l_area := str.area
+				from i := 0 until i = l_count loop
+					c := l_area [i]
+					if str.is_place_holder_item (c) then
+						uc := str.character_32_item (i + 1)
+						c := place_holder (uc)
+						if c = '%U' then
+							foreign_extend (uc)
+							c := upper_place_holder
+						end
+					end
+					Result.append_character (c)
+					i := i + 1
+				end
+			else
+				Result := str
+			end
+		end
+
+	same_items_as_other (other: like Current; a_count: INTEGER): BOOLEAN
+		do
+			Result := a_count = other.count 	and then area.same_items (other.area, other.area_lower, area_lower, a_count)
+														and then foreign_characters ~ other.foreign_characters
 		end
 
 	str_strict_compare (this: like area; this_index, other_index, n: INTEGER; other: like Current): INTEGER
@@ -966,43 +1544,9 @@ feature {STRING_HANDLER, EL_ASTRING_SEARCHER} -- Implementation
 			end
 		end
 
-	encode (s: READABLE_STRING_GENERAL; area_offset: INTEGER)
-		require
-			valid_area_offset: s.count > 0 implies area.valid_index (s.count + area_offset - 1)
-		do
-			codec.encode (s, area, area_offset, Current)
-		end
-
-	normalize_place_holders
-			-- normalize order of place holders for foreign characters and their number
-			-- Going from left to right and ignoring repeats, each new place holder is 1 greater than previous.
-			-- The last new place holder must equal upper_place_holder
-			-- Strings initialized from the unicode are already normalized
-		do
-			if has_foreign_characters then
-				set_foreign_characters (codec.updated_foreign_characters (area, count, Current))
-			end
-		end
-
 	substring_has_place_holders (start_index, end_index: INTEGER): BOOLEAN
 		do
 			Result := has_place_holders (upper_place_holder, start_index, end_index)
-		end
-
-	has_place_holders (place_holder_upper: CHARACTER; start_index, end_index: INTEGER): BOOLEAN
-		local
-			i: INTEGER
-			l_area: like area
-			c: CHARACTER
-		do
-			if place_holder_upper > '%U' then
-				l_area := area
-				from i := start_index - 1 until Result or i = end_index loop
-					c := l_area [i]
-					Result := c <= place_holder_upper and then (c < '%T' or c > '%R')
-					i := i + 1
-				end
-			end
 		end
 
 	to_lower_area (a: like area; start_index, end_index: INTEGER)
@@ -1019,19 +1563,17 @@ feature {STRING_HANDLER, EL_ASTRING_SEARCHER} -- Implementation
 			codec.upper_case (a, start_index, end_index, Current)
 		end
 
-	same_items_as_other (other: like Current; a_count: INTEGER): BOOLEAN
-		do
-			Result := area.same_items (other.area, other.area_lower, area_lower, a_count)
-							and then foreign_characters ~ other.foreign_characters
+feature {NONE} -- Constants
+
+	Codec: EL_CODEC
+		once
+			Result := system_codec
 		end
 
-feature -- Removal
-
-	wipe_out
-			-- Remove all characters.
-		do
-			Precursor
-			foreign_make_empty
+	String_searcher: EL_ASTRING_SEARCHER
+			-- String searcher specialized for READABLE_STRING_8 instances
+		once
+			create Result.make
 		end
 
 end

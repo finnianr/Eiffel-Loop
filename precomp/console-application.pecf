@@ -33,7 +33,7 @@ system:
 			name = base_x; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
 
 		library:
-			name = wel; location = "$EIFFEL_LOOP/library/ES-wel.ecf"
+			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
 				platform:
 					value = windows

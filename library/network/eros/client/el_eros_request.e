@@ -2,20 +2,22 @@ note
 	description: "Summary description for {EL_EROS_REQUEST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:07:17 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_EROS_REQUEST
 
 inherit
 	EVOLICITY_SERIALIZEABLE_AS_XML
+		rename
+			make_empty as make
 		redefine
-			make
+			make_default
 		end
 
 	EL_MODULE_LOG
@@ -25,7 +27,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
 		do
 			create argument_list.make_empty
@@ -113,28 +115,14 @@ feature {NONE} -- Implementation
 	argument_list: STRING
 		-- string argument_list
 
-feature {NONE} -- Evolicity fields
-
-	get_serializeable_argument: EVOLICITY_SERIALIZEABLE_AS_XML
-			--
-		do
-			Result := serializeable_argument
-		end
-
-	get_expression: STRING
-			--
-		do
-			Result := expression
-		end
-
 feature {NONE} -- Evolicity
 
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
-				["serializeable_argument", agent get_serializeable_argument],
-				["expression", agent get_expression]
+				["serializeable_argument", agent: EVOLICITY_SERIALIZEABLE_AS_XML do Result := serializeable_argument end],
+				["expression", agent: STRING do Result := expression end]
 			>>)
 		end
 

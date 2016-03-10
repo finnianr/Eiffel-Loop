@@ -2,12 +2,12 @@ note
 	description: "Class for parsing XML documents and matching sets of xpaths"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:27:50 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_XPATH_MATCH_SCAN_SOURCE
@@ -15,6 +15,7 @@ class
 inherit
 	EL_XML_NODE_SCAN_SOURCE
 		rename
+			make_xml_text_source as make,
 			seed_object as target_object,
 			set_seed_object as set_target_object
 		redefine
@@ -45,8 +46,8 @@ feature {NONE}  -- Initialisation
 	initialize
 			--
 		do
-			create xpath_step_lookup.make (23)
-			xpath_step_lookup.compare_objects
+			create xpath_step_lookup
+
 			create last_node_xpath.make (xpath_step_lookup)
 
 			create node_START_procedure_lookup.make (23)
@@ -91,6 +92,8 @@ feature {NONE} -- Parsing events
 			element_node: like last_node
 		do
 			last_node_xpath.append_step (last_node_name)
+			call_any_matching_procedures (node_START_procedure_lookup, node_START_wildcard_xpath_search_term_list)
+
 			if not attribute_list.is_empty then
 				element_node := last_node
 				from attribute_list.start until attribute_list.after loop
@@ -103,8 +106,6 @@ feature {NONE} -- Parsing events
 				last_node := element_node
 				target_object.set_last_node (element_node)
 			end
-
-			call_any_matching_procedures (node_START_procedure_lookup, node_START_wildcard_xpath_search_term_list)
 		end
 
 	on_end_tag
@@ -149,7 +150,7 @@ feature {NONE} -- Implementation
 
 	node_END_wildcard_xpath_search_term_list: like node_START_wildcard_xpath_search_term_list
 
-	xpath_step_lookup: HASH_TABLE [INTEGER_16, STRING_32]
+	xpath_step_lookup: EL_XPATH_TOKEN_TABLE
 
 feature {NONE} -- Xpath matching operations
 

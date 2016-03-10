@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:27 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 deferred class
 	EL_C_CALLABLE
@@ -19,7 +19,8 @@ feature {NONE} -- Initialization
 
 	make
 			--
-		deferred
+		do
+			create c_callbacks_struct.make_filled (default_pointer, call_back_routines.count, 2)
 		end
 
 feature -- Access
@@ -35,20 +36,24 @@ feature -- Access
 feature -- Element change
 
 	set_gc_protected_callbacks_target (target: EL_GC_PROTECTED_OBJECT)
-			-- Implement this procedure to fill in C callbacks struct
-			-- with callback target and pointers to procedures declared as 'frozen'
+			-- Fill C array of Eiffel call back structs
 
-			-- Example:
+			--		typedef struct {
+			--			Eiffel_procedure_t basic;
+			--			Eiffel_procedure_t full;
+			--		} Exception_handlers_t;
 
-			--	c_callbacks_struct := <<
-			--		target.item, $my_exception_handler,
-			--		target.item, $my_message_printer,
-			--		target.item, $my_whatever,
-			--	>>
 			-- Note: target.item is actually a pointer to the Current object
 			-- protected from garbage collection relocation by EL_GC_PROTECTED_OBJECT
-
-		deferred
+		local
+			row: INTEGER; routine_pointers: like call_back_routines
+		do
+			routine_pointers := call_back_routines
+			from row := 1 until row > routine_pointers.count loop
+				c_callbacks_struct [row, 1] := target.item 				-- frozen address of Current object
+				c_callbacks_struct [row, 2] := routine_pointers [row] -- address of frozen procedure in Current
+				row := row + 1
+			end
 		end
 
 feature -- Basic operations
@@ -77,14 +82,30 @@ feature --Contract support
 
 feature {NONE} -- Implementation
 
-	c_callbacks_struct: ARRAY [POINTER]
-		-- struct of C pointers to Eiffel callback target(s) and procedure(s)
+	c_callbacks_struct: ARRAY2 [POINTER]
+		-- Overlays an array of the C struct shown:
 
+		-- typedef struct {
+		--		EIF_REFERENCE p_object;
+		--		EIF_PROCEDURE p_procedure;
+		--	} Eiffel_procedure_t;
 
 	Protected_objects: ARRAYED_STACK [EL_GC_PROTECTED_OBJECT]
 			--
 		once
 			create Result.make (1)
+		end
+
+	call_back_routines: ARRAY [POINTER]
+			-- redefine with addresses of frozen procedures
+		deferred
+		end
+
+feature {NONE} -- Constants
+
+	Empty_call_back_routines: ARRAY [POINTER]
+		once
+			Result := << default_pointer >>
 		end
 
 end

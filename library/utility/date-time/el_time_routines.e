@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {EL_TIME_ROUTINES}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2013-11-19 17:30:20 GMT (Tuesday 19th November 2013)"
+	revision: "2"
 
 class
 	EL_TIME_ROUTINES
@@ -18,6 +23,18 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	is_valid (time_str: STRING): BOOLEAN
+		local
+			parts: LIST [STRING]
+		do
+			if time_str.count >= 4 then
+				parts := time_str.split (':')
+				if parts.count = 2 and then across parts as part all part.item.is_integer end then
+					Result := True
+				end
+			end
+		end
 
 	unix_date_time (a_date_time: DATE_TIME): INTEGER
 		do

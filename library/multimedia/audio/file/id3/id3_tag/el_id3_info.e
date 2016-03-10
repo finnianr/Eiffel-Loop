@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_ID3_TAG}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-29 20:08:35 GMT (Saturday 29th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	EL_ID3_INFO
@@ -43,7 +43,7 @@ inherit
 		end
 
 create
-	make, make_version_23
+	make, make_version, make_version_23
 
 feature {NONE} -- Initialization
 
@@ -60,10 +60,23 @@ feature {NONE} -- Initialization
 	make (a_mp3_path: EL_FILE_PATH)
 	 		--
 		do
+			make_version (a_mp3_path, 0.0)
+		end
+
+	make_version (a_mp3_path: EL_FILE_PATH; a_version: REAL)
+		require
+			valid_version: a_version /~ 0.0 implies a_version >= 2.2 and a_version <= 2.4
+		local
+			real: REAL
+		do
 			default_create
 			create header.make (a_mp3_path)
 			if header.is_valid then
-				implementation := create_implementation
+				if a_version ~ real.zero then
+					implementation := create_implementation (header.version)
+				else
+					implementation := create_implementation (a_version)
+				end
 				implementation.link_and_read (a_mp3_path)
 
 				initialize_tables
@@ -111,7 +124,7 @@ feature {NONE} -- Initialization
 	initialize_tables
 		local
 			field: EL_ID3_FRAME
-			name, value: EL_ASTRING
+			name, value: ASTRING
 		do
 			log.enter ("initialize_tables")
 			across fields as l_field loop
@@ -131,8 +144,8 @@ feature {NONE} -- Initialization
 
 				elseif field.code ~ Tag.Comment then
 					if field.description.is_empty then
-						name.wipe_out
-						name.append ("COMM_")
+						create name.make_empty
+						name.append_string ("COMM_")
 						name.append_integer (comment_table.count + 1)
 					else
 						name := field.description
@@ -161,25 +174,25 @@ feature {NONE} -- Initialization
 
 feature -- Basic fields
 
-	title: EL_ASTRING
+	title: ASTRING
 			--
 		do
 			Result := field_string (Tag.Title)
 		end
 
-	artist: EL_ASTRING
+	artist: ASTRING
 			--
 		do
 			Result := field_string (Tag.Artist)
 		end
 
-	album: EL_ASTRING
+	album: ASTRING
 			--
 		do
 			Result := field_string (Tag.Album)
 		end
 
-	album_artist: EL_ASTRING
+	album_artist: ASTRING
 			--
 		do
 			Result := field_string (Tag.Album_artist)
@@ -196,13 +209,13 @@ feature -- Basic fields
 			end
 		end
 
-	composer: EL_ASTRING
+	composer: ASTRING
 			--
 		do
 			Result := field_string (Tag.Composer)
 		end
 
-	genre: EL_ASTRING
+	genre: ASTRING
 			--
 		do
 			Result := field_string (Tag.Genre)
@@ -248,13 +261,13 @@ feature -- Access
 			Result := 2
 		end
 
-	comment (a_key: EL_ASTRING): EL_ASTRING
+	comment (a_key: ASTRING): ASTRING
 			--
 		do
 			Result := table_text (a_key, comment_table)
 		end
 
-	user_text (a_key: EL_ASTRING): EL_ASTRING
+	user_text (a_key: ASTRING): ASTRING
 			--
 		do
 			Result := table_text (a_key, user_text_table)
@@ -272,25 +285,25 @@ feature -- Access
 			end
 		end
 
-	field_string (id: STRING): EL_ASTRING
+	field_string (id: STRING): ASTRING
 				--
 		do
 			Result := field_of_type (agent {EL_ID3_FRAME}.string, id)
 		end
 
-	field_language (id: STRING): EL_ASTRING
+	field_language (id: STRING): ASTRING
 				--
 		do
 			Result := field_of_type (agent {EL_ID3_FRAME}.string, id)
 		end
 
-	field_description (id: STRING): EL_ASTRING
+	field_description (id: STRING): ASTRING
 				--
 		do
 			Result := field_of_type (agent {EL_ID3_FRAME}.description, id)
 		end
 
-	field_summary (id: STRING): EL_ASTRING
+	field_summary (id: STRING): ASTRING
 				--
 		do
 			Result := field_of_type (agent {EL_ID3_FRAME}.out, id)
@@ -442,7 +455,7 @@ feature -- Status report
 			year_set: a_year > 0 implies year ~ a_year
 		end
 
-	set_year_from_string (a_year: EL_ASTRING)
+	set_year_from_string (a_year: ASTRING)
 			--
 		do
 			set_field_string (Tag.Recording_time, a_year, encoding)
@@ -454,7 +467,7 @@ feature -- Status report
 			set_year (days // Days_in_year)
 		end
 
-	set_artist (a_artist: EL_ASTRING)
+	set_artist (a_artist: ASTRING)
 			--
 		do
 			set_field_string (Tag.Artist, a_artist, encoding)
@@ -462,7 +475,7 @@ feature -- Status report
 			is_set: artist ~ a_artist
 		end
 
-	set_album_artist (a_album_artist: EL_ASTRING)
+	set_album_artist (a_album_artist: ASTRING)
 			--
 		do
 			set_field_string (Tag.Album_artist, a_album_artist, encoding)
@@ -470,7 +483,7 @@ feature -- Status report
 			is_set: album_artist ~ a_album_artist
 		end
 
-	set_title (a_title: EL_ASTRING)
+	set_title (a_title: ASTRING)
 			--
 		do
 			set_field_string (Tag.Title, a_title, encoding)
@@ -478,7 +491,7 @@ feature -- Status report
 			is_set: title ~ a_title
 		end
 
-	set_album (a_album: EL_ASTRING)
+	set_album (a_album: ASTRING)
 			--
 		do
 			set_field_string (Tag.Album, a_album, encoding)
@@ -495,7 +508,7 @@ feature -- Status report
 			internal_album_picture.extend (implementation.create_album_picture_frame (a_picture))
 		end
 
-	set_genre (a_genre: EL_ASTRING)
+	set_genre (a_genre: ASTRING)
 			--
 		do
 			set_field_string (Tag.Genre, a_genre, encoding)
@@ -503,7 +516,7 @@ feature -- Status report
 			is_set: genre ~ a_genre
 		end
 
-	set_composer (a_composer: EL_ASTRING)
+	set_composer (a_composer: ASTRING)
 			--
 		do
 			set_field_string (Tag.Composer, a_composer, encoding)
@@ -511,13 +524,13 @@ feature -- Status report
 			is_set: composer ~ a_composer
 		end
 
-	set_comment (a_key, a_comment: EL_ASTRING)
+	set_comment (a_key, a_comment: ASTRING)
 			--
 		do
 			set_table_item (comment_table, a_key, a_comment, Tag.Comment)
 		end
 
-	set_user_text (a_key, a_text: EL_ASTRING)
+	set_user_text (a_key, a_text: ASTRING)
 			--
 		do
 			set_table_item (user_text_table, a_key, a_text, Tag.User_text)
@@ -550,17 +563,17 @@ feature -- Status report
 			create Result.make_by_compact_time (0)
 		end
 
- 	set_field_string (name: STRING; value: EL_ASTRING; a_encoding: INTEGER)
+ 	set_field_string (name: STRING; value: ASTRING; a_encoding: INTEGER)
  		do
  			set_field_of_type (agent {EL_ID3_FRAME}.set_string, name, value, a_encoding)
  		end
 
- 	set_field_description (name: STRING; value: EL_ASTRING; a_encoding: INTEGER)
+ 	set_field_description (name: STRING; value: ASTRING; a_encoding: INTEGER)
  		do
  			set_field_of_type (agent {EL_ID3_FRAME}.set_description, name, value, a_encoding)
  		end
 
- 	set_field_language (name: STRING; value: EL_ASTRING; a_encoding: INTEGER)
+ 	set_field_language (name: STRING; value: ASTRING; a_encoding: INTEGER)
  		do
  			set_field_of_type (agent {EL_ID3_FRAME}.set_language, name, value, a_encoding)
  		end
@@ -576,7 +589,7 @@ feature -- Status report
 
 feature {NONE} -- Element change
 
-	set_table_item (table: like comment_table; a_key, a_string: EL_ASTRING; a_code: STRING)
+	set_table_item (table: like comment_table; a_key, a_string: ASTRING; a_code: STRING)
 			-- set comment or user text table
 		require
 			valid_table: table = comment_table or table = user_text_table
@@ -596,14 +609,14 @@ feature {NONE} -- Element change
 			string_set: table.item (a_key).string ~ a_string and table.item (a_key).description ~ a_key
 		end
 
-	set_field (a_field: EL_ID3_FRAME; a_description, a_text: EL_ASTRING)
+	set_field (a_field: EL_ID3_FRAME; a_description, a_text: ASTRING)
 		do
 			a_field.set_encoding (encoding)
 			a_field.set_description (a_description)
 			a_field.set_string (a_text)
 		end
 
- 	set_field_of_type (setter_action: PROCEDURE [EL_ID3_FRAME, TUPLE]; name: STRING; value: EL_ASTRING; a_encoding: INTEGER)
+ 	set_field_of_type (setter_action: PROCEDURE [EL_ID3_FRAME, TUPLE]; name: STRING; value: ASTRING; a_encoding: INTEGER)
 			--
 		local
 			field: EL_ID3_FRAME
@@ -653,13 +666,13 @@ feature -- Removal
 			end
 		end
 
-	remove_comment (a_key: EL_ASTRING)
+	remove_comment (a_key: ASTRING)
 			--
 		do
 			remove_table_item (comment_table, a_key, Tag.Comment)
 		end
 
-	remove_user_text (a_key: EL_ASTRING)
+	remove_user_text (a_key: ASTRING)
 			--
 		do
 			remove_table_item (user_text_table, a_key, Tag.User_text)
@@ -770,7 +783,7 @@ feature -- Constants
 
 feature {NONE} -- Implementation
 
-	table_text (a_key: EL_ASTRING; a_table: like comment_table): EL_ASTRING
+	table_text (a_key: ASTRING; a_table: like comment_table): ASTRING
 			--
 		do
 			a_table.search (a_key)
@@ -792,7 +805,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	remove_table_item (a_table: like comment_table; a_key: EL_ASTRING; a_code: STRING)
+	remove_table_item (a_table: like comment_table; a_key: ASTRING; a_code: STRING)
 			--
 		do
 			a_table.search (a_key)
@@ -825,25 +838,25 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	field_of_type (getter_action: FUNCTION [EL_ID3_FRAME, TUPLE, EL_ASTRING]; id: STRING): EL_ASTRING
+	field_of_type (getter_action: FUNCTION [EL_ID3_FRAME, TUPLE, ASTRING]; id: STRING): ASTRING
 				--
 		do
 			basic_fields.search (id)
 			if basic_fields.found then
 				Result := getter_action.item ([basic_fields.found_item])
 			else
-				Result := Empty_string
+				create Result.make_empty
 			end
 		end
 
-	create_implementation: like implementation
+	create_implementation (a_version: REAL): like implementation
 		do
-			if header.version = 2.4 then
+			if a_version = 2.4 then
 				create {EL_UNDERBIT_ID3_TAG_INFO} Result.make
 
-			elseif header.version <= 2.3 and header.version >= 2.0 then
+			elseif a_version <= 2.3 and a_version >= 2.0 then
 				create {EL_LIBID3_TAG_INFO} Result.make
-				Result.set_version (header.version)
+				Result.set_version (a_version)
 
 			else
 				-- Unknown version
