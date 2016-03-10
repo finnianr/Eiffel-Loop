@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-22 14:56:51 GMT (Saturday 22nd June 2013)"
-	revision: "2"
+	date: "2013-11-26 0:18:59 GMT (Tuesday 26th November 2013)"
+	revision: "3"
 
 class
 	EVOLICITY_TOKENS
@@ -178,7 +178,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Next_unique_id: EL_SYNCHRONIZED_NUMERIC [NATURAL_32]
+	Next_unique_id: EL_MUTEX_NUMERIC [NATURAL_32]
 
 		once ("PROCESS")
 			create Result

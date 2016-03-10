@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = "gobo_base" 
+	name = gobo_base
 	uuid = "229b7312-09aa-11df-87b9-977f5d50d15d" 
 	library_target = "gobo_base"
 	
 	target:
-		name = "gobo_base"
+		name = gobo_base
 		
 		description: 
 			"""
@@ -30,9 +30,9 @@ system:
 		library: 
 			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
 
-		# GOBO
+		# Source code
 		cluster:
-			name = "gobo"; location = "$ISE_LIBRARY/contrib/library/gobo/library"
+			name = gobo; location = "$ISE_LIBRARY/contrib/library/gobo/library"
 			cluster:
 				name = uri; location = "$|utility/uri"; recursive = true
 

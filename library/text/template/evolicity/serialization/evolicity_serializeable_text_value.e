@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-06-27 18:34:13 GMT (Thursday 27th June 2013)"
 	revision: "2"
@@ -17,7 +17,7 @@ inherit
 
 feature -- Access
 
-	text: STRING
+	text: ASTRING
 
 feature {NONE} -- Evolicity reflection
 
@@ -27,7 +27,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["text", agent : STRING do Result := text end]
+				["text", agent: ASTRING do Result := text end]
 			>>)
 		end
 

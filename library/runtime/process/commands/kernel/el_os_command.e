@@ -2,44 +2,45 @@ note
 	description: "Summary description for {EL_OS_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-24 15:19:11 GMT (Wednesday 24th July 2013)"
-	revision: "3"
+	date: "2014-01-24 14:50:43 GMT (Friday 24th January 2014)"
+	revision: "4"
 
 deferred class
-	EL_OS_COMMAND [T -> EL_COMMAND_IMPL create default_create end]
+	EL_OS_COMMAND [T -> EL_COMMAND_IMPL create make end]
 
 inherit
 	EL_COMMAND
 
 	EVOLICITY_SERIALIZEABLE
 		rename
-			serialized_text as system_command,
-			make as make_serializeable
+			as_text as system_command,
+			make_empty as make_command
 		redefine
-			utf8_encoded
+			make_default, system_command
 		end
 
 	EL_CROSS_PLATFORM [T]
+		redefine
+			make_default
+		end
 
-	EL_PLATFORM_IMPL
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_MODULE_ENVIRONMENT
+	EL_MODULE_DIRECTORY
 
 	EL_MODULE_LOG
 
-	EL_MODULE_STRING
-
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
 		do
-			make_platform
-			make_serializeable
+			Precursor {EL_CROSS_PLATFORM}
+			Precursor {EVOLICITY_SERIALIZEABLE}
 			create working_directory
 		end
 
@@ -48,7 +49,7 @@ feature -- Access
 	executable_search_path: STRING
 			--
 		do
-			Result := environment.execution.executable_search_path
+			Result := Execution_environment.executable_search_path
 		end
 
 	working_directory: EL_DIR_PATH
@@ -68,39 +69,42 @@ feature -- Status query
 		do
 		end
 
-	utf8_encoded: BOOLEAN
+	back_quotes_escaped: BOOLEAN
+			-- If true, back quote characters ` are escaped on posix platforms
+			-- This means that commands that use BASH back-quote command substitution cannot be used
+			-- without first making sure that individual path operands are escaped
 		do
-			Result := True
+			Result := not {PLATFORM}.is_windows
 		end
+
+	redirect_errors: BOOLEAN
+			-- True if error messages are also captured in output lines
+		do
+		end
+
+	has_error: BOOLEAN
+		-- True if the command returned an error code on exit
 
 feature -- Basic operations
 
 	execute
 			--
 		local
-			l_command, l_displayed_command: like system_command
+			l_command: like system_command
 		do
-			log.enter ("execute")
+			log.enter_no_header ("execute")
 			l_command := system_command
-
 			if l_command.is_empty then
 				log_or_io.put_string_field ("Error in command template", generator)
 				log_or_io.put_new_line
 			else
 				if log.current_routine_is_active then
-					l_displayed_command := l_command.twin
-					l_displayed_command.replace_substring_all (
-						Environment.Execution.current_working_directory.to_string, "$CWD"
-					)
-					l_displayed_command.replace_substring_all ("%T", "  ")
-					log.put_string_field_to_max_length ("Call", l_displayed_command, 300)
-					log.put_new_line
+					display (l_command.split ('%N'))
 				end
-
-				l_command.left_adjust
-				do_command (l_command.translated (Tab_and_new_line, Null_and_space))
+				l_command.translate (Tab_and_new_line, Null_and_space)
+				do_command (l_command)
 			end
-			log.exit
+			log.exit_no_trailer
 		end
 
 feature -- Change OS environment
@@ -108,28 +112,64 @@ feature -- Change OS environment
 	set_executable_search_path (env_path: STRING)
 			--
 		do
-			environment.execution.set_executable_search_path (env_path)
+			Execution_environment.set_executable_search_path (env_path)
 		end
 
 	extend_executable_search_path (path: STRING)
 			--
 		do
 			log.enter ("extend_executable_search_path")
-			environment.execution.extend_executable_search_path (path)
+			Execution_environment.extend_executable_search_path (path)
 			log.put_string_field ("PATH", executable_search_path)
 			log.exit
 		end
 
 feature {NONE} -- Implementation
 
-	new_output_file (output_file_path: EL_FILE_PATH): PLAIN_TEXT_FILE
+	display (lines: LIST [ASTRING])
+			-- display word wrapped command
+		local
+			current_working_directory, printable_line, name, prompt, blank_prompt, word: ASTRING
+			max_width: INTEGER
 		do
-			create Result.make_open_write (output_file_path.unicode)
-		end
+			current_working_directory := Directory.current_working
+			name := generator
+			if name.starts_with (once "EL_") then
+				name.remove_head (3)
+			end
+			if name.ends_with (once  "_COMMAND") then
+				name.remove_tail (8)
+			end
+			name.translate (once "_", once " ")
+			create blank_prompt.make_filled (' ', name.count)
+			prompt := name
 
-	new_output_lines (output_file_path: EL_FILE_PATH): EL_FILE_LINE_SOURCE
-		do
-			Result := implementation.new_output_lines (output_file_path)
+			max_width := 100 - prompt.count  - 2
+
+			create printable_line.make (200)
+			across lines as line loop
+				line.item.replace_substring_all (current_working_directory, "$CWD")
+				line.item.left_adjust
+				across line.item.split (' ') as l_word loop
+					word := l_word.item
+					if not word.is_empty then
+						if not printable_line.is_empty then
+							printable_line.append_character (' ')
+						end
+						printable_line.append (word)
+						if printable_line.count > max_width then
+							printable_line.remove_tail (word.count)
+							log.put_labeled_string (prompt, printable_line)
+							log.put_new_line
+							printable_line.wipe_out
+							printable_line.append (word)
+							prompt := blank_prompt
+						end
+					end
+				end
+			end
+			log.put_labeled_string (prompt, printable_line)
+			log.put_new_line
 		end
 
 	do_command (a_system_command: like system_command)
@@ -141,18 +181,23 @@ feature {NONE} -- Implementation
 			output_file_path: EL_FILE_PATH
 		do
 			if not working_directory.is_empty then
-				previous_working_directory := Environment.Execution.current_working_directory
-				environment.execution.change_working_path (working_directory.to_path)
+				previous_working_directory := Directory.current_working
+				Execution_environment.change_working_path (working_directory)
 			end
 
 			if line_processing_enabled then
 				output_file_path := temporary_file_path
 				output := new_output_file (output_file_path); output.close
-				a_system_command.append (file_redirection_operator)
-				a_system_command.append (output_file_path.to_string)
+				a_system_command.append_string (file_redirection_operator)
+				a_system_command.append (output_file_path)
+				if redirect_errors then
+					a_system_command.append_string (implementation.Error_redirection_suffix)
+				end
 			end
 
-			Environment.execution.system (a_system_command.to_unicode)
+			has_error := False
+			Execution_environment.system (a_system_command.to_unicode)
+			has_error := Execution_environment.return_code /= 0
 
 			if line_processing_enabled then
 				output_lines := new_output_lines (output_file_path)
@@ -161,14 +206,8 @@ feature {NONE} -- Implementation
 			end
 
 			if not working_directory.is_empty then
-				environment.execution.change_working_path (previous_working_directory)
+				Execution_environment.change_working_path (previous_working_directory)
 			end
-		end
-
-	escaped_path (a_path: EL_PATH): EL_ASTRING
-			--
-		do
-			Result := Environment.Operating.shell_escaped (a_path.to_string)
 		end
 
 	do_with_lines (lines: EL_FILE_LINE_SOURCE)
@@ -176,10 +215,56 @@ feature {NONE} -- Implementation
 		do
 		end
 
+	path_arguments: ARRAYED_LIST [EL_PATH]
+		local
+			argument_fn: like getter_function_table.item
+		do
+			create Result.make (5)
+			across getter_functions as function loop
+				argument_fn := function.item
+				if argument_fn.open_count = 0 then
+					argument_fn.set_target (Current)
+					argument_fn.apply
+					if attached {EL_PATH} argument_fn.last_result as l_path then
+						Result.extend (l_path)
+					end
+				end
+			end
+		end
+
+	system_command: ASTRING
+		local
+			l_path_arguments: like path_arguments
+		do
+			if {PLATFORM}.is_windows then
+				Result := Precursor
+			else
+				-- ensure all path arguments are escaped on Posix platforms
+				-- Characters that have a special meaning for BASH: "`$%"\" will be escaped with a backslash
+				l_path_arguments := path_arguments
+				across l_path_arguments as path loop
+					path.item.set_escaper (implementation.path_escaper)
+				end
+				Result := Precursor
+				across l_path_arguments as path loop
+					path.item.set_default_escaper
+				end
+			end
+			Result.left_adjust
+		end
+
 	temporary_file_path: EL_FILE_PATH
 			-- Tempory file in temporary area set by env label "TEMP"
 		do
-			Result := Environment.operating.Temp_directory_path.joined_file_path ( ("{" + generator + "}.tmp").as_string_32)
+			Result := Directory.temporary + temporary_file_name
+		end
+
+	temporary_file_name: ASTRING
+		do
+			Result := generator
+			Result.grow (Result.count + 6)
+			Result.prepend_character ('{')
+			Result.append_string ("}.tmp")
 		end
 
 	template: READABLE_STRING_GENERAL
@@ -195,16 +280,27 @@ feature {NONE} -- Implementation
 			padded_with_spaces: Result.item (1) = ' ' and Result.item (Result.count) = ' '
 		end
 
+	new_output_file (output_file_path: EL_FILE_PATH): PLAIN_TEXT_FILE
+		do
+			create Result.make_open_write (output_file_path)
+		end
+
+	new_output_lines (output_file_path: EL_FILE_PATH): EL_FILE_LINE_SOURCE
+		do
+			Result := implementation.new_output_lines (output_file_path)
+		end
+
 feature {NONE} -- Constants
 
-	Tab_and_new_line: EL_ASTRING
+	Tab_and_new_line: ASTRING
 		once
 			Result := "%T%N"
 		end
 
-	Null_and_space: EL_ASTRING
+	Null_and_space: ASTRING
 		once
 			Result := "%/000/ "
 		end
 
 end
+

@@ -1,19 +1,19 @@
-note
+﻿note
 	description: "Summary description for {STRING_LIST_PARAMETER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:22 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	STRING_LIST_PARAMETER
 
 inherit
-	LIST_PARAMETER [STRING]
+	LIST_PARAMETER [ASTRING]
 		redefine
 			building_action_table, display_item
 		end
@@ -37,12 +37,8 @@ feature {NONE} -- Build from XML
 
 	extend_from_node
 			--
-		local
-			node_string: STRING
 		do
-			node_string := node.to_string
-			node_string.prune_all ({ASCII}.line_feed.to_character_8)
-			node_string.split ('|').do_all (agent extend)
+			node.to_string.translated (once "%N", once "%U").split ('|').do_all (agent extend)
 		end
 
 	building_action_table: like Type_building_actions

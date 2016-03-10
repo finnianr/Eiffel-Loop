@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-06-19 13:12:05 GMT (Wednesday 19th June 2013)"
 	revision: "2"
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_BUILD_INFO
 
-	EL_MODULE_STRING
+	EL_MODULE_DIRECTORY
 
 create
 	make, default_create
@@ -47,7 +47,7 @@ feature -- Basic operations
 		local
 			ico_icon_path, command_path: EL_FILE_PATH
 		do
-			command_path := Execution.Application_bin_path + launcher.command
+			command_path := Directory.Application_bin + launcher.command
 			ico_icon_path := launcher.icon_path.with_new_extension ("ico")
 		end
 
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 		local
 			directory_size_cmd: EL_DIRECTORY_INFO_COMMAND
 		do
-			create directory_size_cmd.make (Execution.Application_installation_dir)
+			create directory_size_cmd.make (Directory.Application_installation)
 			directory_size_cmd.execute
 			Result := (directory_size_cmd.size / 1024.0).rounded
 		end

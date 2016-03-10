@@ -26,4 +26,4 @@ system:
 		precompile:
 			name = vision2_pre; location = "$ISE_PRECOMP\vision2.ecf"
 		cluster:
-			name = root_cluster; location = source; recursive = true
+			name = root_cluster; location = "source/docking_control"; recursive = true

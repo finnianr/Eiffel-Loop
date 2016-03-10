@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {STORABLE_STRING}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-02 16:17:51 GMT (Tuesday 2nd July 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	STORABLE_STRING
@@ -15,9 +15,14 @@ class
 inherit
 	STRING
 
-	EL_MEMORY_READ_WRITEABLE
+	EL_STORABLE
+		rename
+			make_default as make_empty,
+			read_version as read_default_version
 		undefine
 			copy, is_equal, out
+		redefine
+			read_default, write
 		end
 
 create

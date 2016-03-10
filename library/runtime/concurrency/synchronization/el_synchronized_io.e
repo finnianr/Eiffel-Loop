@@ -17,7 +17,7 @@ obsolete
 
 feature -- Access
 
-	sio: EL_SYNCHRONIZED [EL_LOCKABLE_STD_FILES]
+	sio: EL_MUTEX_CREATEABLE_REFERENCE [EL_LOCKABLE_STD_FILES]
 			--
 		once ("process")
 			create Result

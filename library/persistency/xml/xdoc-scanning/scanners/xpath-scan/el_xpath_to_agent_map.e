@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:29 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_XPATH_TO_AGENT_MAP
@@ -25,13 +25,13 @@ feature {NONE} -- Initialization
 			action := a_action
 		end
 
-	make_from_tuple (tuple: TUPLE [STRING, BOOLEAN, like action])
+	make_from_tuple (tuple: TUPLE [BOOLEAN, STRING, like action])
 			--
 		do
-			if attached {STRING} tuple.reference_item (1) as a_xpath
+			if attached {STRING} tuple.reference_item (2) as a_xpath
 				and then attached {PROCEDURE [ANY, TUPLE]} tuple.reference_item (3) as a_action
 			then
-				make (tuple.boolean_item (2), a_xpath, a_action)
+				make (tuple.boolean_item (1), a_xpath, a_action)
 			end
 		end
 

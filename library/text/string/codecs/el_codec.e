@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_CODEC}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 10:24:30 GMT (Sunday 28th July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 deferred class
 	EL_CODEC
@@ -22,6 +22,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			create unicode_characters.make (31)
+			create latin_characters.make_filled ('%U', 1)
 			unicode_table := create_unicode_table
 			initialize_latin_sets
 		end
@@ -43,33 +44,27 @@ feature -- Access
 			Result.append_integer (id)
 		end
 
-feature -- Basic operations
-
-	encode_character (
-		uc: CHARACTER_32; latin_chars_out: SPECIAL [CHARACTER]; index: INTEGER
-		original_characters: EL_EXTRA_UNICODE_CHARACTERS
-	)
-			-- encode characters as latin using Ctrl characters as place holders for foreign characters (double byte)
-			-- Ctrl characters used are from 1->31 but excluding 9->13 (Tab to Carriage Return)
-		require
-			valid_latin_out_index: latin_chars_out.valid_index (index)
+	last_encoded_character: CHARACTER
 		local
-			c: CHARACTER
-			unicode: INTEGER
+			latin_array: like latin_characters
 		do
-			unicode := uc.code
-			if unicode <= 255 and then unicode_table [unicode] = uc then
-				latin_chars_out [index] := uc.to_character_8
-			else
-				c := latin_character (uc, unicode)
-				if c.code = 0 then
-					output_place_holder (uc, latin_chars_out, index, original_characters, False)
-				else
-					latin_chars_out [index] := c
-				end
+			latin_array := latin_characters
+			if latin_array.count > 0 then
+				Result := latin_array [0]
 			end
-			original_characters.check_if_over_extended
 		end
+
+	last_encoded_foreign_character: CHARACTER_32
+		local
+			l_unicode_characters: like unicode_characters
+		do
+			l_unicode_characters := unicode_characters
+			if not l_unicode_characters.is_empty then
+				Result := l_unicode_characters.item (1)
+			end
+		end
+
+feature -- Basic operations
 
 	encode (
 		unicode_in: READABLE_STRING_GENERAL; latin_chars_out: SPECIAL [CHARACTER]; out_offset: INTEGER
@@ -217,7 +212,7 @@ feature -- Conversion
 			reversible: code /= Result implies code = as_upper (Result)
 		end
 
-	unicode_case_change_substitute (c: CHARACTER): CHARACTER_32
+	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
 			-- Returns Unicode case change character if c does not have a latin case change
 			-- or else the Null character
 		deferred
@@ -231,10 +226,33 @@ feature -- Conversion
 			valid_latin: Result /= '%U' implies unicode_table [Result.code] = uc
 		end
 
-feature  {EL_ASTRING} -- Basic operations
+feature  {ASTRING} -- Element change
+
+	set_encoded_character (uc: CHARACTER_32)
+		local
+			l_unicode_characters: like unicode_characters
+			l_latin_characters: like latin_characters
+			c: CHARACTER; unicode: INTEGER
+		do
+			l_unicode_characters := unicode_characters; l_unicode_characters.wipe_out
+			l_latin_characters := latin_characters
+			unicode := uc.code
+			if unicode <= 255 and then unicode_table [unicode] = uc then
+				l_latin_characters [0] := uc.to_character_8
+			else
+				c := latin_character (uc, unicode)
+				if c.code = 0 then
+					output_place_holder (uc, l_latin_characters, 0, l_unicode_characters, True)
+				else
+					l_latin_characters [0] := c
+				end
+			end
+		end
+
+feature  {ASTRING} -- Basic operations
 
 	updated_foreign_characters (
-		latin_characters: SPECIAL [CHARACTER]; count: INTEGER; original_characters_string: EL_EXTRA_UNICODE_CHARACTERS
+		latin_array: SPECIAL [CHARACTER]; count: INTEGER; original_characters_string: EL_EXTRA_UNICODE_CHARACTERS
 	): SPECIAL [CHARACTER_32]
 		local
 			l_unicode_characters: like unicode_characters
@@ -242,7 +260,7 @@ feature  {EL_ASTRING} -- Basic operations
 			l_unicode_characters := unicode_characters
 			l_unicode_characters.wipe_out
 
-			update_foreign_characters (latin_characters, count, 0, original_characters_string, l_unicode_characters, True)
+			update_foreign_characters (latin_array, count, 0, original_characters_string, l_unicode_characters, True)
 
 			if l_unicode_characters.has_characters then
 				l_unicode_characters.check_if_over_extended
@@ -253,12 +271,12 @@ feature  {EL_ASTRING} -- Basic operations
 		end
 
 	update_foreign_characters (
-		latin_characters: SPECIAL [CHARACTER]; count, offset: INTEGER
+		latin_array: SPECIAL [CHARACTER]; count, offset: INTEGER
 		previous_original_characters_string, original_characters_string: EL_EXTRA_UNICODE_CHARACTERS
 		is_original_characters_reusable: BOOLEAN
 	)
 		require
-			valid_offset_and_count: count > 0 implies latin_characters.valid_index (count + offset - 1)
+			valid_offset_and_count: count > 0 implies latin_array.valid_index (count + offset - 1)
 		local
 			i, unicode, offset_count: INTEGER;
 			c, place_holder_upper: CHARACTER
@@ -270,50 +288,48 @@ feature  {EL_ASTRING} -- Basic operations
 			offset_count := count + offset
 
 			from i := offset until i = offset_count loop
-				c := latin_characters [i]
+				c := latin_array [i]
 				if c <= place_holder_upper then
 					unicode := c.code
 					if c > '%U' and c < '%T' then
 						uc := previous_original_characters [unicode - 1]
-						output_place_holder (uc, latin_characters, i, original_characters_string, is_original_characters_reusable)
+						output_place_holder (uc, latin_array, i, original_characters_string, is_original_characters_reusable)
 					elseif c > '%R' then
 						uc := previous_original_characters [unicode - 6]
-						output_place_holder (uc, latin_characters, i, original_characters_string, is_original_characters_reusable)
+						output_place_holder (uc, latin_array, i, original_characters_string, is_original_characters_reusable)
 					end
 				end
 				i := i + 1
 			end
 		end
 
-feature {EL_ASTRING} -- Implementation
+feature {ASTRING} -- Implementation
 
 	change_case (
-		latin_characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; change_to_upper: BOOLEAN
+		latin_array: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; change_to_upper: BOOLEAN
 		original_characters_string: EL_EXTRA_UNICODE_CHARACTERS
 	)
 		local
+			unicode_substitute: CHARACTER_32; c, place_holder_upper: CHARACTER
+			is_place_holder, case_change_exception_inserted: BOOLEAN
 			i: INTEGER
-			unicode_substitute: CHARACTER_32
-			c, place_holder_upper: CHARACTER
-			is_place_holder: BOOLEAN
-			case_change_exception_inserted: BOOLEAN
 				-- Set to true if the case changed to character not present in Latin set
 		do
 			place_holder_upper := original_characters_string.count.to_character_8 -- area count may not be right
 
 			from i := start_index until i > end_index loop
-				c := latin_characters [i]
+				c := latin_array [i]
 				is_place_holder := c <= place_holder_upper and then ((c > '%U' and c < '%T') or c > '%R')
 				if not is_place_holder then
-					unicode_substitute := unicode_case_change_substitute (c)
+					unicode_substitute := unicode_case_change_substitute (c.natural_32_code)
 					if unicode_substitute.code = 0 then
 						if change_to_upper then
-							latin_characters.put (as_upper (c.natural_32_code).to_character_8, i)
+							latin_array.put (as_upper (c.natural_32_code).to_character_8, i)
 						else
-							latin_characters.put (as_lower (c.natural_32_code).to_character_8, i)
+							latin_array.put (as_lower (c.natural_32_code).to_character_8, i)
 						end
 					else
-						output_place_holder (unicode_substitute, latin_characters, i, original_characters_string, False)
+						output_place_holder (unicode_substitute, latin_array, i, original_characters_string, False)
 						case_change_exception_inserted := True
 					end
 				end
@@ -321,7 +337,7 @@ feature {EL_ASTRING} -- Implementation
 			end
 			if case_change_exception_inserted then -- we need to normalize the string place holders because it's foreign
 				original_characters_string.set_from_area (
-					updated_foreign_characters (latin_characters, end_index + 1, original_characters_string)
+					updated_foreign_characters (latin_array, end_index + 1, original_characters_string)
 				)
 			end
 		end
@@ -375,6 +391,8 @@ feature {EL_ASTRING} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
+
+	latin_characters: SPECIAL [CHARACTER]
 
 	unicode_characters: EL_EXTRA_UNICODE_CHARACTERS
 		-- foreign character buffer

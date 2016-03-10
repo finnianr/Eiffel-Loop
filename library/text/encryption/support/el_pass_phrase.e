@@ -2,76 +2,102 @@ note
 	description: "Summary description for {EL_PASS_PHRASE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:31 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_PASS_PHRASE
 
 inherit
-	STRING
-		redefine
-			make_from_string
+	EL_MODULE_BASE_64
+
+	EL_MODULE_STRING
+		rename
+			String as Mod_string
 		end
 
-	EL_MODULE_CHARACTER
-		undefine
-			out, copy, is_equal
+	UUID_GENERATOR
+		export
+			{NONE} all
 		end
+
+	EVOLICITY_EIFFEL_CONTEXT
+		redefine
+			make_default
+		end
+
+	EL_MODULE_USER_INPUT
+
+	EL_MODULE_LOG
 
 create
-	make_from_string
+	make, make_default
 
 feature {NONE} -- Initialization
 
-	make_from_string (s: READABLE_STRING_8)
-			--
+	make (a_string: like string)
 		do
-			Precursor (s)
-			security_score := score (s)
+			make_default
+			set_string (a_string)
+			validate
+		end
+
+	make_default
+		do
+			Precursor
+			create string.make_empty
+			salt := Default_salt
+			create digest.make_filled (1, 32)
 		end
 
 feature -- Access
 
-	security_score: INTEGER
+	digest_base_64: STRING
+			-- pass phrase authentication digest
+		do
+			Result := base_64.encoded_special (digest)
+		end
 
-	security_description: STRING
+	password_strength: ASTRING
+		do
+			Result := English_password_strengths [security_score]
+		end
+
+	salt_base_64: STRING
+		do
+			Result := base_64.encoded_special (salt)
+		end
+
+	security_description: ASTRING
 			--
 		do
 			if security_score > 0 then
-				create Result.make_from_string (Security_description_words)
-				Result.append (" ")
-				Result.append (Password_strengths [security_score])
-				Result.append (" (")
-				Result.append_integer (security_score)
-				Result.append (")")
+				Result := Security_description_template.substituted_tuple ([password_strength, security_score])
 			else
 				create Result.make_empty
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	score (password: STRING): INTEGER
-			--
+	security_score: INTEGER
 		local
 			i, upper_count, lower_count, numeric_count, other_count: INTEGER
-			c: CHARACTER_8
+			c: CHARACTER_32
 		do
-			from i := 1 until i > password.count loop
-				c := password @ i
-				if Character.is_latin1_upper (c)  then
-					upper_count := upper_count + 1
-
-				elseif Character.is_latin1_lower (c)  then
-					lower_count := lower_count + 1
-
-				elseif c.is_digit then
+			from i := 1 until i > string.count loop
+				c := string.unicode_item (i)
+				if c.is_digit then
 					numeric_count := numeric_count + 1
+
+				elseif c.is_alpha then
+					if c.is_upper then
+						upper_count := upper_count + 1
+					else
+						lower_count := lower_count + 1
+					end
 
 				else
 					other_count := other_count + 1
@@ -85,34 +111,179 @@ feature {NONE} -- Implementation
 			Result := Result + other_count.min (1)
 
 			from i := 1 until i > Password_count_levels.count loop
-				if password.count >= Password_count_levels [i] then
+				if string.count >= Password_count_levels [i] then
 					Result := Result + 1
 				end
 				i := i + 1
 			end
-			Result := Result.min (Password_strengths.count)
+			Result := Result.min (English_password_strengths.count)
 		end
+
+	string: ASTRING
+
+feature -- Element change
+
+	ask_user
+		local
+			done: BOOLEAN
+		do
+			from  until done loop
+				string := User_input.line (English_user_prompt)
+				log_or_io.put_new_line
+				if is_salt_set then
+					if is_valid then
+						done := True
+					else
+						log_or_io.put_line (English_invalid_pass_phrase)
+					end
+				else
+					validate
+					done := True
+				end
+			end
+		end
+
+	set_string (a_string: like string)
+		do
+			string := a_string
+		end
+
+	set_salt (a_salt_base_64: STRING)
+		do
+			salt := Base_64.decoded_array (a_salt_base_64)
+		end
+
+	set_digest (a_digest_base_64: STRING)
+		do
+			digest := Base_64.decoded_array (a_digest_base_64)
+		end
+
+	validate
+		do
+			set_random_salt
+			digest := actual_digest
+		ensure
+			is_valid: is_valid
+		end
+
+feature -- Status query
+
+	is_valid: BOOLEAN
+		do
+			Result := is_salt_set and then digest ~ actual_digest
+		end
+
+	is_salt_set: BOOLEAN
+		do
+			Result := salt /= Default_salt
+		end
+
+feature -- Factory
+
+	new_aes_encrypter (bit_count: NATURAL): EL_AES_ENCRYPTER
+		require
+			valid_pass_phrase: is_valid
+		do
+			inspect bit_count
+				when 256 then
+					create Result.make_256 (string)
+				when 192 then
+					create Result.make_192 (string)
+			else
+				create Result.make_128 (string)
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	actual_digest: like salt
+		local
+			md5: MD5; sha: SHA256
+			md5_hash, data, phrase_data: like salt
+			i, j: INTEGER
+		do
+			create sha.make
+			create Result.make_filled (1, 32)
+			create md5.make
+			create md5_hash.make_filled (1, 16)
+			phrase_data := Mod_string.to_code_array (string.to_utf8)
+			from i := 0 until i > 50 loop
+				if i \\ 2 = 0 then
+					data := phrase_data
+				else
+					data := salt
+				end
+				if data.count > 0 then
+					j := i \\ data.count
+					if data [j] \\ 2 = 0 then
+						md5.sink_special (data, 0, data.count - 1)
+					else
+						sha.sink_special (data, 0, data.count - 1)
+					end
+				end
+				i := i + 1
+			end
+			sha.do_final (Result, 0)
+			md5.do_final (md5_hash, 0)
+			-- Merge hashes
+			from i := 0 until i = md5_hash.count loop
+				Result [i * 2] := Result.item (i * 2).bit_xor (md5_hash [i])
+				i := i + 1
+			end
+		end
+
+	set_random_salt
+		local
+			i: INTEGER
+		do
+			create salt.make_empty (Default_salt.count)
+			from i := 0 until i = salt.capacity loop
+				salt.extend (rand_byte)
+				i := i + 1
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	salt: SPECIAL [NATURAL_8]
+
+	digest: like salt
+
+feature {NONE} -- Evolicity fields
+
+	getter_function_table: like getter_functions
+			--
+		do
+			create Result.make (<<
+				["digest", 	agent digest_base_64],
+				["salt", 	agent salt_base_64]
+			>>)
+		end
+
 feature {NONE} -- Constants
 
-	Password_count_levels: ARRAY [INTEGER]
-			--
-		once
-			Result := << 8, 10, 12, 14, 16, 18 >>
+	Default_salt: SPECIAL [NATURAL_8]
+		once ("PROCESS")
+			create Result.make_filled (0, 24)
 		end
 
-	Security_description_words: STRING
-			--
+	English_invalid_pass_phrase: ASTRING
 		once
-			Result := "Passphrase strength"
+			Result := "Pass phrase is invalid"
 		end
 
-	Password_strengths: ARRAY [STRING]
+	English_user_prompt: ASTRING
+		once
+			Result := "Enter pass phrase"
+		end
+
+	English_password_strengths: ARRAY [STRING]
 			--
 		once
 			create Result.make (1, 9)
-			Result [1] := "is recklessly bad"
-			Result [2] := "is very bad"
-			Result [3] := "is bad"
+			Result [1] := "is absolutely terrible"
+			Result [2] := "is very poor"
+			Result [3] := "is poor"
 			Result [4] := "is below average"
 			Result [5] := "is average"
 			Result [6] := "is above average"
@@ -120,4 +291,16 @@ feature {NONE} -- Constants
 			Result [8] := "is very good"
 			Result [9] := "is excellent"
 		end
+
+	Password_count_levels: ARRAY [INTEGER]
+			--
+		once
+			Result := << 8, 10, 12, 14, 16, 18 >>
+		end
+
+	Security_description_template: ASTRING
+		once
+			Result := "Passphrase strength $S ($S)"
+		end
+
 end

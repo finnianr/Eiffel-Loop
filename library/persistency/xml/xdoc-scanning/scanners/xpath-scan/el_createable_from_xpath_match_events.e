@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-06 10:29:51 GMT (Saturday 6th July 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 deferred class
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
@@ -16,13 +16,6 @@ inherit
 	EL_CREATEABLE_FROM_XML
 		rename
 			node_source as Node_match_source
-		end
-
-feature {NONE} -- Initialization
-
-	make
-			--
-		do
 		end
 
 feature -- Access
@@ -66,15 +59,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Anchored type declaration
 
-	Type_agent_mapping: TUPLE [STRING, BOOLEAN, PROCEDURE [ANY, TUPLE]]
+	Type_agent_mapping: TUPLE [BOOLEAN, STRING, PROCEDURE [ANY, TUPLE]]
 		once
 		end
 
 feature {NONE} -- Constants
 
-	On_node_start: BOOLEAN = true
+	on_open: BOOLEAN = true
 
-	On_node_end: BOOLEAN = false
+	on_close: BOOLEAN = false
 
 end -- class EL_XML_EVENT_PROCESSOR
 

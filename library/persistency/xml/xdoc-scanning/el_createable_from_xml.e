@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:18:21 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 deferred class
 	EL_CREATEABLE_FROM_XML
@@ -24,7 +24,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
 		deferred
 		end
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 	make_from_binary_file (a_file_path: EL_FILE_PATH)
 			--
 		do
-			make
+			make_default
 			build_from_binary_file (a_file_path)
 		end
 
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 		require
 			path_exists: a_file_path.exists
 		do
-			make
+			make_default
 			build_from_file (a_file_path)
 		end
 
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 		require
 			open_stream: a_stream.is_open_read
 		do
-			make
+			make_default
 			build_from_binary_stream (a_stream)
 		end
 
@@ -59,14 +59,14 @@ feature {NONE} -- Initialization
 		require
 			open_stream: a_stream.is_open_read
 		do
-			make
+			make_default
 			build_from_stream (a_stream)
 		end
 
 	make_from_string (a_str: STRING)
 			--
 		do
-			make
+			make_default
 			build_from_string (a_str)
 		end
 
@@ -87,16 +87,18 @@ feature -- Basic operations
 			xml_source: IO_MEDIUM
 		do
 			if node_source.is_plain_text_event_source or node_source.is_pyxis_text_event_source then
-				create {PLAIN_TEXT_FILE} xml_source.make_open_read (a_file_path.unicode)
+				create {PLAIN_TEXT_FILE} xml_source.make_open_read (a_file_path)
 
 			elseif node_source.is_binary_event_source then
-				create {RAW_FILE} xml_source.make_open_read (a_file_path.unicode)
+				create {RAW_FILE} xml_source.make_open_read (a_file_path)
 
 			else
 				raise ("Invalid event source type")
 			end
 			build_from_stream (xml_source)
-			xml_source.close
+			if xml_source.is_open_read then
+				xml_source.close
+			end
 		end
 
 	build_from_binary_stream (a_stream: IO_MEDIUM)

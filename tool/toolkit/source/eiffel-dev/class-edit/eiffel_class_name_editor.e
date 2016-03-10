@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EIFFEL_CLASS_NAME_EDITOR}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 19:58:22 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	EIFFEL_CLASS_NAME_EDITOR
@@ -15,7 +15,7 @@ class
 inherit
 	EIFFEL_SOURCE_EDITING_PROCESSOR
 		redefine
-			make, reset
+			reset
 		end
 
 feature {NONE} -- Initialization
@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			create class_name.make_empty
-			Precursor
+			make_default
 		end
 
 feature {NONE} -- Pattern definitions
@@ -52,13 +52,13 @@ feature {NONE} -- Implementation
 		require
 			class_name_not_empty: not a_class_name.is_empty
 		local
-			class_file_name: EL_ASTRING
+			class_file_name: ASTRING
 		do
 			class_name := a_class_name.string
 			class_file_name := class_name.as_lower + ".e"
 			if output_file_path.base /~ class_file_name then
 				check attached {FILE} output as output_file then
-					output_file.rename_file ((output_file_path.parent + class_file_name).unicode)
+					output_file.rename_file (output_file_path.parent + class_file_name)
 					log_or_io.put_line ("  * * File renamed! * * ")
 				end
 			end

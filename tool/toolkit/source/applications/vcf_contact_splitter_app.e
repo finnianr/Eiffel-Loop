@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {VCF_CONTACT_SPLITTER_APP}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "7"
 
 class
 	VCF_CONTACT_SPLITTER_APP

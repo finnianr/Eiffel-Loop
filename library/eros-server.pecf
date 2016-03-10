@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_eros_server
+	name = EL_eros_server
 	uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" 
-	library_target = el_eros_server
+	library_target = EL_eros_server
 	
 	target:
-		name = el_eros_server
+		name = EL_eros_server
 		
 		description: 
 			"""
@@ -39,26 +39,24 @@ system:
 		# Eiffel Loop libraries
 
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 
 		library:
-			name = el_app_manage; location = "app-manage.ecf"
+			name = EL_app_manage; location = "app-manage.ecf"
 			readonly = false
 
 		library:
-			name = el_net_base; location = "network.ecf"
+			name = EL_net_base; location = "network.ecf"
 
 		library:
-			name = el_vision2; location = "vision2-x.ecf"
+			name = EL_vision2; location = "vision2-x.ecf"
 
 		library:
-			name = el_xdoc_scanning; location = "xdoc-scanning.ecf"
+			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
 
-		#library:
-		#	name = el_eiffel2java; location="eiffel-loop-eiffel2java.ecf"
-
+		# Source code
 		cluster:
-			name = el_net_eros; location = "network/eros"; recursive = true
+			name = net_eros; location = "network/eros"; recursive = true
 			option:
 				namespace = "Eiffel-Loop.EROS"
 

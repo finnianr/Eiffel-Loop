@@ -1,8 +1,13 @@
 note
 	description: "String to be styled with fixed width font in a styleable component"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-03-26 14:59:35 GMT (Wednesday 26th March 2014)"
+	revision: "5"
 
 class
 	EL_MONOSPACED_STYLED_ASTRING
@@ -17,7 +22,7 @@ create
 	make_from_latin1, make_from_other, make_empty, make_filled, make
 
 convert
-	make_from_latin1 ({STRING}), make_from_other ({EL_ASTRING})
+	make_from_latin1 ({STRING}), make_from_other ({ASTRING})
 
 feature -- Measurement
 

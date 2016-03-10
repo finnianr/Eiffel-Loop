@@ -1,8 +1,13 @@
 note
 	description: "Box with linked HTML color text box and color dialog button"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX
@@ -25,14 +30,14 @@ feature {NONE} -- Initialization
 
 	make (
 		a_border_cms, a_padding_cms: REAL; a_window: EV_WINDOW
-		label_text, tooltip_text, color_selection_text: EL_ASTRING
-		RGB_color_code: INTEGER; set_color_action: PROCEDURE [ANY, TUPLE [EV_COLOR]]
+		label_text, tooltip_text, color_selection_text: ASTRING
+		RGB_color_code: INTEGER; set_color_action: PROCEDURE [ANY, TUPLE [EL_COLOR]]
 	)
 		local
 			code_field: EV_TEXT_FIELD
 			html_color_code, longest_html_color_code: STRING
 			color_button: EL_COLOR_BUTTON
-			l_label_text: EL_ASTRING
+			l_label_text: ASTRING
 		do
 			make_box (a_border_cms, a_padding_cms)
 			html_color_code := GUI.rgb_code_to_html_code (RGB_color_code)

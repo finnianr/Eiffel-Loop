@@ -1,0 +1,64 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = EL_c_api
+	uuid = "229b522e-09aa-11df-8775-f3308731f240" 
+	library_target = EL_c_api
+	
+	target:
+		name = EL_c_api
+		
+		description: 
+			"""
+				Create Eiffel interfaces to C API's
+			"""
+
+		root:
+			all_classes = true
+
+		option:
+			trace = false; debug = false; warning = true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		library:
+			name = EL_base; location = "base.ecf"; readonly = false
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = api_wrapper; location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"
+
+		cluster:
+			name = c_api; location = "language_interface"; recursive = true
+			option:
+				namespace = C_api
+
+			file_rule:
+				exclude:
+					"/Java$"
+					"/Python$"
+					"/Matlab$"
+					"/Praat-script$"
+
+			file_rule:
+				exclude:
+					"/windows$"
+					"/MS-COM$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
+
+

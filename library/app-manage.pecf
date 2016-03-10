@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = "eiffel_loop_app_manage" 
+	name = EL_app_manage
 	uuid = "229b70ba-09aa-11df-87b3-13bae5c3e690" 
-	library_target = "eiffel_loop_app_manage"
+	library_target = EL_app_manage
 	
 	target:
-		name = "eiffel_loop_app_manage"
+		name = EL_app_manage
 		
 		description: 
 			"""
@@ -27,15 +27,23 @@ system:
 		library:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
+		# Eiffel-Loop
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 
 		library:
-			name = el_wel_regedit_x; location = "wel-regedit-x.ecf"
+			name = EL_c_api; location = "C-language-interface.ecf"
 			condition:
 				platform:
 					value = windows
 
+		library:
+			name = EL_wel_regedit_x; location = "wel-regedit-x.ecf"
+			condition:
+				platform:
+					value = windows
+
+		# Source code
 		cluster:
 			name = app_manage; location = "runtime/app-manage"; recursive = true
 

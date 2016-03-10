@@ -2,12 +2,12 @@ note
 	description: "Pattern factory"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_TEXTUAL_PATTERN_FACTORY
@@ -157,11 +157,11 @@ feature  -- Basic patterns
 			create Result.make (a_character_set)
 		end
 
-	string_literal (literal: STRING): EL_LITERAL_TEXTUAL_PATTERN
+	string_literal (literal: READABLE_STRING_GENERAL): EL_LITERAL_TEXTUAL_PATTERN
 			--
 		do
-			create Result.make_from_string (literal)
-			Result.set_name ("value (" +literal+")" )
+			create Result.make_from_string (create {ASTRING}.make_from_unicode (literal))
+			Result.set_name ("value (" + literal +")" )
 		end
 
 	character_literal (literal: CHARACTER): EL_LITERAL_CHAR_TP

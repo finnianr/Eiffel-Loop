@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-24 12:14:32 GMT (Friday 24th January 2014)"
-	revision: "3"
+	date: "2014-03-02 10:54:25 GMT (Sunday 2nd March 2014)"
+	revision: "4"
 
 class
 	EL_DESKTOP_UNINSTALL_APP_INSTALLER_IMPL
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_MODULE_BUILD_INFO
-
-	EL_MODULE_STRING
 
 	EL_MS_WINDOWS_DIRECTORIES
 
@@ -52,19 +50,19 @@ feature -- Basic operations
 			-- Add program to list in Control Panel/Programs and features
 		local
 			ico_icon_path, command_path: EL_FILE_PATH
+			uninstall_command: EL_ASTRING_LIST
 		do
-			command_path := Execution.Application_bin_path + launcher.command
+			command_path := Directory.Application_bin + launcher.command
 			ico_icon_path := launcher.icon_path.with_new_extension ("ico")
+			uninstall_command := << command_path.to_string.quoted (2), launcher.command_args >>
 
 			set_uninstall_registry_entry ("DisplayIcon", ico_icon_path)
 			set_uninstall_registry_entry ("DisplayName", display_name)
 			set_uninstall_registry_entry ("Comments", launcher.comment)
-			set_uninstall_registry_entry ("DisplayVersion", Build_info.version_string)
-			set_uninstall_registry_entry ("InstallLocation", Execution.Application_installation_dir)
+			set_uninstall_registry_entry ("DisplayVersion", Build_info.version.string)
+			set_uninstall_registry_entry ("InstallLocation", Directory.Application_installation)
 			set_uninstall_registry_entry ("Publisher", Build_info.installation_sub_directory.steps.first)
-			set_uninstall_registry_entry (
-				"UninstallString", String.joined_words (<< String.quoted (command_path), launcher.command_args >>)
-			)
+			set_uninstall_registry_entry ("UninstallString", uninstall_command.joined_words)
 
 			set_uninstall_registry_integer_entry ("EstimatedSize", estimated_size)
 			set_uninstall_registry_integer_entry ("NoModify", 1)
@@ -73,8 +71,6 @@ feature -- Basic operations
 
 	uninstall
 			-- Remove program from list in Control Panel/Programs and features
-		local
-			unistall_reg_node: POINTER
 		do
 			if launcher_exists then
 				Win_registry.remove_key (HKLM_uninstall_path, display_name)
@@ -98,7 +94,7 @@ feature {NONE} -- Implementation
 		local
 			directory_size_cmd: EL_DIRECTORY_INFO_COMMAND
 		do
-			create directory_size_cmd.make (Execution.Application_installation_dir)
+			create directory_size_cmd.make (Directory.Application_installation)
 			directory_size_cmd.execute
 			Result := (directory_size_cmd.size / 1024.0).rounded
 		end

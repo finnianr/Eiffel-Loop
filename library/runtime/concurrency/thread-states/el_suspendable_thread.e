@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2012-12-16 11:34:30 GMT (Sunday 16th December 2012)"
 	revision: "1"
@@ -14,16 +14,16 @@ deferred class
 
 inherit
 	EL_STATEFUL
-		rename
-			make as make_stateful
+		redefine
+			make_default
 		end
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
 		do
-			make_stateful
+			Precursor
 			create blocked_thread.make
 			create blocked_thread_mutex.make
 		end

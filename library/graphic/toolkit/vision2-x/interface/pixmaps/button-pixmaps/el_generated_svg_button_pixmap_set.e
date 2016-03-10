@@ -1,8 +1,13 @@
 note
 	description: "Generates clicked and hightlighted button from normal.svg"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	EL_GENERATED_SVG_BUTTON_PIXMAP_SET
@@ -129,8 +134,8 @@ feature {NONE} -- Implementation
 			File_system.make_directory (generated_svg_image_dir)
 			generated_svg_highlighted_file_path := generated_svg_image_dir + Highlighted_svg
 			if not generated_svg_highlighted_file_path.exists then
-				create file_highlighted.make_open_write (generated_svg_highlighted_file_path.unicode)
-				create file_clicked.make_open_write ((generated_svg_image_dir + Clicked_svg).unicode)
+				create file_highlighted.make_open_write (generated_svg_highlighted_file_path)
+				create file_clicked.make_open_write (generated_svg_image_dir + Depressed_svg)
 
 				create linear_gradient_lines.make (12)
 
@@ -146,8 +151,8 @@ feature {NONE} -- Implementation
 				Execution_environment.User_configuration_dir.joined_file_steps (final_relative_path_steps),
 				width_cms, background_color
 			)
-			final_relative_path_steps.finish; final_relative_path_steps.replace (Clicked_svg)
-			pixmaps [Clicked_svg] := create {like normal}.make_with_width_cms (
+			final_relative_path_steps.finish; final_relative_path_steps.replace (Depressed_svg)
+			pixmaps [Depressed_svg] := create {like normal}.make_with_width_cms (
 				Execution_environment.User_configuration_dir.joined_file_steps (final_relative_path_steps),
 				width_cms, background_color
 			)

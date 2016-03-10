@@ -1,22 +1,19 @@
-note
+﻿note
 	description: "Summary description for {BIOINFO_XPATH_MATCH_EVENT_PROCESSOR}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:47 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	BIOINFO_XPATH_MATCH_EVENTS
 
 inherit
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
-		redefine
-			make
-		end
 
 	EL_MODULE_LOG
 
@@ -25,7 +22,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
 		do
 			create label_count
@@ -50,7 +47,7 @@ feature {NONE} -- XPath match event handlers
 	on_label
 			--
 		local
-			node_string: EL_ASTRING
+			node_string: ASTRING
 		do
 			node_string := last_node.to_string
 			if node_string.starts_with ("Help") then
@@ -115,20 +112,20 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				-- Fixed paths
-				["/bix/package/env/text()", on_node_start, agent on_package_env],
-				["/bix/package/command/action/text()", on_node_start, agent on_command_action],
-				["/bix/package/command/parlist/par/value/@type", on_node_start, agent on_parameter_list_value_type],
-				["/bix/package/command/parlist/par/value/text()", on_node_start, agent on_parameter_list_value],
+				[on_open, "/bix/package/env/text()", agent on_package_env],
+				[on_open, "/bix/package/command/action/text()", agent on_command_action],
+				[on_open, "/bix/package/command/parlist/par/value/@type", agent on_parameter_list_value_type],
+				[on_open, "/bix/package/command/parlist/par/value/text()", agent on_parameter_list_value],
 
-				["/bix", on_node_end, agent log_results], -- matches only when closing tag encountered
+				[on_close, "/bix", agent log_results], -- matches only when closing tag encountered
 
 				-- Wildcard paths
-				["//par/value/*", on_node_start, agent on_parameter_data_value_field],
-				["//label/text()", on_node_start, agent on_label],
-				["//label", on_node_start, agent increment (label_count)],
-				["//par/id", on_node_start, agent increment (par_id_count)],
+				[on_open, "//par/value/*", agent on_parameter_data_value_field],
+				[on_open, "//label/text()", agent on_label],
+				[on_open, "//label", agent increment (label_count)],
+				[on_open, "//par/id", agent increment (par_id_count)],
 
-				["//par/id/text()", on_node_start, agent on_par_id]
+				[on_open, "//par/id/text()", agent on_par_id]
 			>>
 		end
 

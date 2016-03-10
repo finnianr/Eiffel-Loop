@@ -1,22 +1,29 @@
-note
+﻿note
 	description: "Summary description for {XHTML_XPATH_MATCH_EVENTS}."
 
+	notes: "[
+		Error processing ISO-8859-15 encoding
+
+		http://sourceforge.net/p/expat/bugs/498/
+
+		Expat does not support iso-8859-15. It only supports UTF-8, UTF-16, ISO-8859-1, and US-ASCII.
+		The XML specification does not require an XML parser to support anything else.
+		Your best bet is to convert the document to UTF-8 or UTF-16.
+	]"
+
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:09:44 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	XHTML_XPATH_MATCH_EVENTS
 
 inherit
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
-		redefine
-			make
-		end
 
 	EL_MODULE_LOG
 
@@ -25,7 +32,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
 		do
 			create title.make_empty
@@ -35,7 +42,19 @@ feature -- Access
 
 	paragraph_count: INTEGER
 
-	title: EL_ASTRING
+	title: ASTRING
+
+feature {NONE} -- XPath match event handlers
+
+	on_title
+		do
+			title := last_node.to_string
+		end
+
+	on_paragraph
+		do
+			paragraph_count := paragraph_count + 1
+		end
 
 feature {NONE} -- Implementation
 
@@ -44,10 +63,12 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				-- Fixed paths
-				["/html/head/title/text()", on_node_start, agent do title.copy (last_node.to_string) end],
+--				[on_open, "/html/head/title/text()", agent do title := last_node.to_string end],
+				[on_open, "/html/head/title/text()", agent on_title],
 
 				-- Wild card paths
-				["//p", on_node_start, agent do paragraph_count := paragraph_count + 1 end]
+--				[on_open, "//p", agent do paragraph_count := paragraph_count + 1 end]
+				[on_open, "//p", agent on_paragraph]
 			>>
 		end
 

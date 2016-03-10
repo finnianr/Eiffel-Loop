@@ -2,12 +2,12 @@ note
 	description: "Object representing table in OpenDocument Flat XML format spreadsheet"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-10-02 11:12:33 GMT (Thursday 2nd October 2014)"
+	revision: "5"
 
 class
 	EL_SPREAD_SHEET_TABLE
@@ -41,7 +41,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (table_node: EL_XPATH_NODE_CONTEXT; defined_ranges: EL_ASTRING_HASH_TABLE [EL_ASTRING])
+	make (table_node: EL_XPATH_NODE_CONTEXT; defined_ranges: EL_ASTRING_HASH_TABLE [ASTRING])
 			--
 		local
 			table_rows: EL_XPATH_NODE_CONTEXT_LIST
@@ -98,9 +98,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	name: EL_ASTRING
+	name: ASTRING
 
-	columns: ARRAY [EL_ASTRING]
+	columns: ARRAY [ASTRING]
 
 feature -- Removal
 
@@ -115,13 +115,13 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
-	column_table (defined_ranges: EL_ASTRING_HASH_TABLE [EL_ASTRING]): EL_ASTRING_HASH_TABLE [INTEGER]
+	column_table (defined_ranges: EL_ASTRING_HASH_TABLE [ASTRING]): EL_ASTRING_HASH_TABLE [INTEGER]
 
 		local
-			cell_range_address: EL_STRING_LIST [EL_ASTRING]
+			cell_range_address: EL_STRING_LIST [ASTRING]
 			column_interval: INTEGER_INTERVAL
 		do
-			create Result.make_with_count (11)
+			create Result.make_equal (11)
 			create columns.make_empty
 			across defined_ranges as range loop
 				create cell_range_address.make_with_separator (range.key, '.', True)

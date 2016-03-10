@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {ID3_TAG_TEST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:09:42 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	ID3_TAG_TEST
@@ -21,7 +21,7 @@ inherit
 
 feature -- Element change
 
-	set_mp3_path (a_mp3_path: EL_ASTRING)
+	set_mp3_path (a_mp3_path: ASTRING)
 			--
 		do
 			mp3_path := a_mp3_path

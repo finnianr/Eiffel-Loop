@@ -6,12 +6,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:29 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER
@@ -19,7 +19,7 @@ class
 inherit
 	EL_BUILDABLE_FROM_XML
 		redefine
-			make, root_builder_context, build_from_stream, build_from_string
+			root_builder_context, build_from_stream, build_from_string
 		end
 
 create
@@ -30,15 +30,9 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			Precursor
+			make_default
 			create root_builder_context.make (Root_node_name, Current)
 			target := Current
-		end
-
-	make_default
-		require else
-			never_called: False
-		do
 		end
 
 feature -- Access

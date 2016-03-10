@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EIFFEL_SOURCE_MANIFEST_LINE_COUNTER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	EIFFEL_CODEBASE_STATISTICS_COMMAND
@@ -10,15 +15,26 @@ class
 inherit
 	EIFFEL_SOURCE_MANIFEST_COMMAND
 		redefine
-			execute
+			make, execute
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+		rename
+			make as make_machine
+		end
 
 	EL_MODULE_FILE_SYSTEM
 
 create
 	make, default_create
+
+feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
+
+	make (source_manifest_path: EL_FILE_PATH)
+		do
+			make_machine
+			Precursor (source_manifest_path)
+		end
 
 feature -- Basic operations
 
@@ -47,14 +63,14 @@ feature -- Basic operations
 			source_lines: EL_FILE_LINE_SOURCE
 		do
 			class_count := class_count + 1
-			byte_count := byte_count + File_system.file_byte_count (source_path).to_natural_32
 			create source_lines.make (source_path)
-			do_with_lines (agent find_class_declaration, source_lines)
+			byte_count := source_lines.byte_count.to_natural_32
+			do_once_with_file_lines (agent find_class_declaration, source_lines)
 		end
 
 feature {NONE} -- State handlers
 
-	find_class_declaration (line: EL_ASTRING)
+	find_class_declaration (line: ASTRING)
 		do
 			if not line.is_empty and then line [1] /= '%T'
 				and then Class_declaration_keywords.has (line.split (' ').first)
@@ -64,9 +80,9 @@ feature {NONE} -- State handlers
 			end
 		end
 
-	count_lines (line: EL_ASTRING)
+	count_lines (line: ASTRING)
 		local
-			trim_line: EL_ASTRING
+			trim_line: ASTRING
 		do
 			trim_line := line
 			trim_line.left_adjust
@@ -85,7 +101,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Class_declaration_keywords: ARRAY [EL_ASTRING]
+	Class_declaration_keywords: ARRAY [ASTRING]
 		once
 			Result := << "frozen", "deferred", "class" >>
 			Class_declaration_keywords.compare_objects

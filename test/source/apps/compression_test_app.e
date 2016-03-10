@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {COMPRESSION_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-22 12:28:22 GMT (Saturday 22nd June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	COMPRESSION_TEST_APP
@@ -25,10 +25,10 @@ create
 
 feature -- Basic operations
 
-	run
+	test_run
 			--
 		do
-			Test.do_all_files_test ({STRING_32} "XML", "*", agent compress_file, 4254881218)
+			Test.do_all_files_test ({STRING_32} "XML", All_routines, agent compress_file, 4254881218)
 			Test.do_file_tree_test ({STRING_32} "XML", agent compress_files, 2040034646)
 		end
 
@@ -67,8 +67,8 @@ feature -- Tests
 		do
 			log.enter_with_args ("compress_files", << a_dir_path >>)
 			output_path := a_dir_path + "xml_files.z"
-			file_list := File_system.file_list (a_dir_path, "*")
-			create compressed_file.make_open_write (output_path.unicode)
+			file_list := File_system.file_list (a_dir_path, All_routines)
+			create compressed_file.make_open_write (output_path)
 
 			from file_list.start until file_list.after loop
 				compressed_file.append_file (file_list.item, 0.5, 9)
@@ -76,7 +76,7 @@ feature -- Tests
 			end
 			compressed_file.close
 
-			create compressed_file.make_open_read (output_path.unicode)
+			create compressed_file.make_open_read (output_path)
 			from file_list.start until file_list.after loop
 				compressed_file.read_compressed_file
 				if compressed_file.last_string ~ File_system.plain_text (file_list.item) then
@@ -102,8 +102,8 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{COMPRESSION_TEST_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"]
+				[{COMPRESSION_TEST_APP}, All_routines],
+				[{EL_TEST_ROUTINES}, All_routines]
 			>>
 		end
 

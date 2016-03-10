@@ -6,28 +6,47 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-05 9:54:41 GMT (Thursday 5th December 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
 
 inherit
 	EL_XPATH_NODE_CONTEXT
+		redefine
+			default_create
+		end
 
 	EL_ENCODEABLE_AS_TEXT
+		undefine
+			default_create
+		end
 
 	EL_MODULE_FILE_SYSTEM
+		undefine
+			default_create
+		end
 
 	EXCEPTION_MANAGER
 		export
 			{NONE} all
+		undefine
+			default_create
 		end
 
 create
-	make_from_file, make_from_string
+	default_create, make_from_file, make_from_string
+
+convert
+	make_from_file ({EL_FILE_PATH})
 
 feature {NONE} -- Initaliazation
+
+	default_create
+		do
+			make_from_string (default_xml)
+		end
 
 	make_from_file (a_file_path: EL_FILE_PATH)
 			--
@@ -43,18 +62,15 @@ feature {NONE} -- Initaliazation
 		do
 			create found_instruction.make_empty; create namespace.make_empty
 			if parse_failed then
-				document_xml := Default_xml
-				error_message := last_exception.message
+				parse_namespace_declarations (default_xml)
+				document_xml := default_xml
+				create error_message.make_from_unicode (last_exception.description)
 			else
-				if attached {EL_ASTRING} a_xml as l_xml then
-					document_xml := l_xml.to_utf8
-				else
-					document_xml := a_xml
-				end
+				parse_namespace_declarations (a_xml)
+				document_xml := a_xml
 				create error_message.make_empty
 			end
 
-			parse_namespace_declarations (document_xml)
 			l_context_pointer := Parser.root_context_pointer (document_xml, namespaces_defined)
 
 			if is_attached (l_context_pointer) then
@@ -99,11 +115,11 @@ feature -- Access
 			Result := c_evx_get_token_depth (self_ptr, index - 1)
 		end
 
-	document_xml: STRING
+	document_xml: EL_C_STRING_8
 
 	found_instruction: STRING
 
-	error_message: STRING
+	error_message: ASTRING
 
 feature -- Status query
 
@@ -143,18 +159,20 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	default_xml: STRING
+		local
+			default_doc: EL_DEFAULT_SERIALIZEABLE_XML
+		do
+			create default_doc
+			Result := default_doc.to_xml
+		end
+
+feature {NONE} -- Constants
+
 	Parser: EL_VTD_XML_PARSER
 			--
 		once
 			create Result.make
 		end
 
-feature {NONE} -- Constants
-
-	Default_xml: STRING =
-		--
-	"[
-		<?xml version="1.0" encoding="UTF-8"?>
-		<root/>
-	]"
 end

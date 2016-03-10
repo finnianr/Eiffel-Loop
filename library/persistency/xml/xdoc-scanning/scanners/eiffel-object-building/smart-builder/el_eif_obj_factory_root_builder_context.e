@@ -11,12 +11,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-22 12:45:33 GMT (Saturday 22nd June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT
@@ -32,7 +32,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_TYPING
+	EL_MODULE_EIFFEL
 		export
 			{NONE} all
 		end

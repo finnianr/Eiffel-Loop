@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_MENU_CONSOLE_APPLICATION_LAUNCHER_IMPL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-16 22:50:17 GMT (Sunday 16th June 2013)"
-	revision: "2"
+	date: "2014-02-27 16:30:27 GMT (Thursday 27th February 2014)"
+	revision: "3"
 
 class
 	EL_DESKTOP_CONSOLE_APPLICATION_INSTALLER_IMPL

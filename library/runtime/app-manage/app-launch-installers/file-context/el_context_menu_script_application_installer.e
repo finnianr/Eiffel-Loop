@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 6:46:13 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-02-20 13:02:19 GMT (Thursday 20th February 2014)"
+	revision: "3"
 
 class
 	EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER
@@ -54,7 +54,7 @@ feature -- Basic operations
 		do
 			set_launch_script_path
 
-			File_system.make_directory (launch_script_path.parent ())
+			File_system.make_directory (launch_script_path.parent)
 			io.put_string (launch_script_path.to_string)
 			io.put_new_line
 			write_script (launch_script_path)
@@ -71,7 +71,7 @@ feature -- Basic operations
 			if l_script_file.exists then
 				l_script_file.delete
 			end
-			File_system.delete_empty_steps (launch_script_path.parent.steps)
+			File_system.delete_empty_branch (launch_script_path.parent)
 		end
 
 feature -- Access
@@ -89,7 +89,7 @@ feature -- Access
 	script_file: PLAIN_TEXT_FILE
 			--
 		do
-			create Result.make_with_name (launch_script_path.unicode)
+			create Result.make_with_name (launch_script_path)
 		end
 
 feature {NONE} -- Implementation

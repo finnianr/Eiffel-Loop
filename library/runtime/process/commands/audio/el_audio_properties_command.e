@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_CPU_INFO_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-28 17:08:55 GMT (Friday 28th June 2013)"
-	revision: "2"
+	date: "2013-11-14 18:10:11 GMT (Thursday 14th November 2013)"
+	revision: "3"
 
 class
 	EL_AUDIO_PROPERTIES_COMMAND
@@ -20,23 +20,34 @@ inherit
 		export
 			{NONE} all
 		redefine
-			make, Line_processing_enabled, do_with_output_lines, getter_function_table,
+			make_default, make, Line_processing_enabled, do_with_output_lines, getter_function_table,
 			file_redirection_operator
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+		rename
+			make as make_machine
+		undefine
+			default_create
+		end
 
 create
 	make
 
 feature {NONE} -- Initialization
 
+	make_default
+		do
+			make_machine
+			Precursor
+		end
+
 	make (a_file_path: like file_path)
 			--
 		require else
 			is_file_path: a_file_path.is_file
 		do
-			create duration.make_by_compact_time (0)
+			create duration.make_by_seconds (0)
 			Precursor (a_file_path)
 			execute
 		end
@@ -49,7 +60,7 @@ feature -- Access
 	sampling_frequency: INTEGER
 		-- Hz
 
-	duration: TIME
+	duration: TIME_DURATION
 
 feature {NONE} -- Implementation
 
@@ -75,22 +86,24 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Line states
 
-	find_duration_tag (line: EL_ASTRING)
+	find_duration_tag (line: ASTRING)
 		local
 			pos_duration, pos_comma: INTEGER
+			time: TIME
 		do
 			pos_duration := line.substring_index (Duration_tag, 1)
 			if pos_duration > 0 then
 				pos_duration := pos_duration + Duration_tag.count + 1
 				pos_comma := line.index_of (',', pos_duration)
-				create duration.make_from_string (line.to_latin1.substring (pos_duration, pos_comma - 1), "hh24:[0]mi:[0]ss.ff2")
+				create time.make_from_string (line.to_latin1.substring (pos_duration, pos_comma - 1), "hh24:[0]mi:[0]ss.ff2")
+				duration := time.relative_duration (Time_zero)
 				state := agent find_audio_tag
 			end
 		end
 
-	find_audio_tag (line: EL_ASTRING)
+	find_audio_tag (line: ASTRING)
 		local
-			parts: LIST [EL_ASTRING]
+			parts: LIST [ASTRING]
 		do
 			if line.has_substring (Audio_tag) then
 				across String.delimited_list (line.split (':').last, ", ") as properties loop
@@ -109,14 +122,19 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Constants
 
-	Audio_tag: EL_ASTRING
+	Audio_tag: ASTRING
 		once
 			Result := "Audio:"
 		end
 
-	Duration_tag: EL_ASTRING
+	Duration_tag: ASTRING
 		once
 			Result := "Duration:"
+		end
+
+	Time_zero: TIME
+		once
+			create Result.make_by_seconds (0)
 		end
 
 end

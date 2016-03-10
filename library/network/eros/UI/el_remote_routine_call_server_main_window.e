@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:20:17 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW

@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-03-01 13:38:22 GMT (Friday 1st March 2013)"
-	revision: "2"
+	date: "2014-02-02 11:03:12 GMT (Sunday 2nd February 2014)"
+	revision: "3"
 
 class
 	EL_OPERATING_ENVIRONMENT_IMPL
@@ -46,12 +46,6 @@ feature -- Access
 			end
 			Result.left_adjust
 		end
-
-	Shell_path_escape_character: CHARACTER = '^'
-
-	Shell_character_set_to_escape: STRING = "&|()^"
-			-- Characters that should be escaped for Windows commands
-			-- Not needed if argument quoted
 
 	Dynamic_module_extension: STRING = "dll"
 

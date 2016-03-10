@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-03-26 18:27:18 GMT (Tuesday 26th March 2013)"
 	revision: "2"
@@ -64,7 +64,7 @@ feature -- Conversion
 
 	to_string: STRING
 		do
-			create Result.make_filled (create {CHARACTER}, area.count)
+			create Result.make_filled ('%U', count)
 			Result.area.base_address.memory_copy (area.base_address, count)
 		end
 

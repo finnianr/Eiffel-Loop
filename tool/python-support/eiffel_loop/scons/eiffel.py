@@ -44,23 +44,19 @@ def precompile (target, source, env):
 	ecf_path = env ['EIF_PRECOMP_MASTER_ECF']
 
 	os.chdir (precomp_dir)
-	if env ['ISE_PLATFORM'] == 'windows':
-		if not path.exists ('EIFGENS'):
-			dir_util.make_link ('EIFGENs', '..\win64\EIFGENs')
-	else:
-		file_util.copy_file (ecf_path, precomp_dir)
-		ecf_path = path.join (precomp_dir, path.basename (ecf_path))
+	file_util.copy_file (ecf_path, precomp_dir)
+	ecf_path = path.join (precomp_dir, path.basename (ecf_path))
 
-		compile_command = ['ec', '-batch', '-precompile', '-c_compile', '-config', ecf_path]
-		environ = env ['ASCII_ENV']
+	compile_command = ['ec', '-batch', '-precompile', '-c_compile', '-config', ecf_path]
+	environ = env ['ASCII_ENV']
+	
+	#for name, value in environ.items ():
+	#	if not (isinstance (name, str) and isinstance (value, str)):
+	#		sys.stdout.write ('Variable is not str: ' + str (name) + '\n')
+	#		sys.stdout.write (str (value) + '\n')
 		
-		#for name, value in environ.items ():
-		#	if not (isinstance (name, str) and isinstance (value, str)):
-		#		sys.stdout.write ('Variable is not str: ' + str (name) + '\n')
-		#		sys.stdout.write (str (value) + '\n')
-			
-		sys.stdout.write ('Subprocess: ' + str (compile_command) + '\n')
-		call_status = osprocess.call (compile_command, env = environ )
+	sys.stdout.write ('Subprocess: ' + str (compile_command) + '\n')
+	call_status = osprocess.call (compile_command, env = environ )
 
 	os.chdir (curdir)
 

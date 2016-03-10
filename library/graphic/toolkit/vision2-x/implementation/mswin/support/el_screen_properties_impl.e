@@ -2,18 +2,21 @@ note
 	description: "Summary description for {EL_GRAPHICS_SYSTEM}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-05-13 11:07:39 GMT (Monday 13th May 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_SCREEN_PROPERTIES_IMPL
 
 inherit
 	EL_PLATFORM_IMPL
+		undefine
+			make
+		end
 
 	EV_SCREEN_IMP
 		rename
@@ -21,37 +24,30 @@ inherit
 			horizontal_resolution as horizontal_pixels_per_inch,
 			width as screen_width,
 			height as screen_height,
-			log as logarithm
+			log as logarithm,
+			interface as ev_interface,
+			set_interface as set_ev_interface
 		export
 			{NONE} all
+		redefine
+			ev_interface
 		end
 
-	EL_GRAPHICS_SYSTEM_I
-		undefine
-			copy, default_create
-		end
+	EL_SCREEN_PROPERTIES_I
 
-	WEL_REGISTRY_ACCESS_MODE
-		undefine
-			copy, default_create
-		end
+	EL_WINDOWS_SYSTEM_METRICS_API
 
 create
-	make
+	make, make_special
+
+feature {NONE} -- Initialization
+
+	make_special
+		do
+			-- Does nothing on Windows but needed in Unix.
+		end
 
 feature -- Access
-
-	horizontal_resolution: REAL
-			-- Pixels per centimeter
-		do
-			Result := screen_width / screen_width_cms
-		end
-
-	vertical_resolution: REAL
-			-- Pixels per centimeter
-		do
-			Result := screen_height / screen_height_cms
-		end
 
 	screen_width_cms: REAL
 			-- screen width in centimeters
@@ -65,30 +61,19 @@ feature -- Access
 			Result := Monitor.height_centimeters
 		end
 
-	aero_theme: EL_WINDOWS_AERO_THEME
-		require
-			is_windows_7_or_vista: is_windows_7_or_vista
-		once
-			create Result.make
-		end
-
-feature -- Status query
-
-	is_windows_aero_theme_active: BOOLEAN
-			-- True if aero theme active but not Windows Classic theme or derivative
+	useable_area: EV_RECTANGLE
+			-- useable area not obscured by taskbar
+		local
+			l_rect: WEL_RECT
 		do
-			if is_windows_7_or_vista then
-				Result := not aero_theme.is_classic
+			create l_rect.make (0, 0, 0, 0)
+			if c_get_useable_window_area (l_rect.item) then
+				create Result.make (l_rect.x, l_rect.y, l_rect.width, l_rect.height)
+			else
+				create Result
 			end
 		end
 
-	is_windows_7_or_vista: BOOLEAN
-		local
-			registry: WEL_REGISTRY
-		once
-			create registry
-			Result := registry.open_key_with_access (HKCU_desktop_windows_manager, Key_read) /= Default_pointer
-		end
 
 feature {NONE} -- Implementation
 
@@ -98,8 +83,6 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-feature {NONE} -- Constants
-
-	HKCU_desktop_windows_manager: STRING = "HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM"
+	ev_interface: detachable EV_SCREEN
 
 end

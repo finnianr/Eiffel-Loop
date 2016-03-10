@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EIFFEL_SOURCE_FILENAME_NORMALIZER_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 8:31:21 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EIFFEL_SOURCE_FILE_NAME_NORMALIZER_APP

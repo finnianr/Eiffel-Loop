@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Test SET implementations"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-22 12:27:20 GMT (Saturday 22nd June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	TEST_SETS_APP
@@ -23,7 +23,7 @@ create
 
 feature -- Basic operations
 
-	run
+	test_run
 			--
 		do
 --			test_part_sorted_set				-- BUG
@@ -241,7 +241,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{TEST_SETS_APP}, "*"]
+				[{TEST_SETS_APP}, All_routines]
 			>>
 		end
 

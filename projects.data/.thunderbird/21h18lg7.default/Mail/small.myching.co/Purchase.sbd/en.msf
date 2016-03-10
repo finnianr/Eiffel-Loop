@@ -1,0 +1,91 @@
+// <!-- <mdb:mork:z v="1.4"/> -->
+< <(a=c)> // (f=iso-8859-1)
+  (B8=sortColumns)(B9=retainBy)(BA=daysToKeepHdrs)(BB=numHdrsToKeep)
+  (BC=daysToKeepBodies)(BD=keepUnreadOnly)(BE=useServerDefaults)
+  (BF=cleanupBodies)(C0=applyToFlaggedMessages)(C1=useServerRetention)
+  (C2=MRMTime)(C3=storeToken)(C4=account)(C5=dateReceived)
+  (C6=ProtoThreadFlags)(C7=origURIs)(C8=X-Identity-Key)
+  (C9=recipient_names)(CA=gloda-id)(CB=junkscore)
+  (80=ns:msg:db:row:scope:msgs:all)(81=subject)(82=sender)(83=message-id)
+  (84=references)(85=recipients)(86=date)(87=size)(88=flags)(89=priority)
+  (8A=label)(8B=statusOfset)(8C=numLines)(8D=ccList)(8E=bccList)
+  (8F=msgThreadId)(90=threadId)(91=threadFlags)(92=threadNewestMsgDate)
+  (93=children)(94=unreadChildren)(95=threadSubject)(96=msgCharSet)
+  (97=ns:msg:db:table:kind:msgs)(98=ns:msg:db:table:kind:thread)
+  (99=ns:msg:db:table:kind:allthreads)
+  (9A=ns:msg:db:row:scope:threads:all)(9B=threadParent)(9C=threadRoot)
+  (9D=msgOffset)(9E=offlineMsgSize)
+  (9F=ns:msg:db:row:scope:dbfolderinfo:all)
+  (A0=ns:msg:db:table:kind:dbfolderinfo)(A1=numMsgs)(A2=numNewMsgs)
+  (A3=folderSize)(A4=expungedBytes)(A5=folderDate)(A6=highWaterKey)
+  (A7=mailboxName)(A8=UIDValidity)(A9=totPendingMsgs)
+  (AA=unreadPendingMsgs)(AB=expiredMark)(AC=version)
+  (AD=fixedBadRefThreading)(AE=folderName)(AF=smartFolderName)
+  (B0=charSetOverride)(B1=charSet)(B2=sortType)(B3=sortOrder)
+  (B4=viewFlags)(B5=viewType)(B6=columnStates)(B7=MRUTime)>
+<(83=0)(8F=528e0cc7)(80=1)>[1:m(^9C=0)(^90=0)(^92^8F)(^91=0)(^93=1)]
+<(91=38e)(9C=528e0ce3)>[2:m(^9C^91)(^90^91)(^92^9C)(^91=0)(^93=1)]
+<(A3=727)(A7=528e0d02)>[3:m(^9C^A3)(^90^A3)(^92^A7)(^91=0)(^93=1)]
+<(AE=aa9)(B2=528e0d21)>[4:m(^9C^AE)(^90^AE)(^92^B2)(^91=0)(^93=1)]
+
+<(8A=21)(8B=Finnian Reilly <finnian@myching.co>)(8C=6 Month Subscription)
+  (8D=528E07B7.9090806@myching.co)(8E=account6)(90=ISO-8859-15)(92=a)
+  (93=ffffffff)(95=mailbox-message://finnian@pop.myching.co/Drafts#875)
+  (96=id4)(97=820|)(98=2d5b)>
+{0:^80 {(k^98:c)(s=9)1:m } [0(^9D=0)(^C3=0)(^88=1)(^8A=0)(^8B=21)(^82^8B)
+    (^81^8C)(^83^8D)(^C4^8E)(^86^8F)(^C5^8F)(^89=1)(^96^90)(^87^91)
+    (^8C=a)(^9B^93)(^8F=0)(^C6=0)(^C7^95)(^C8^96)(^C9^97)(^CA^98)]}
+
+<(AF=2729)(B0=5 Year Subscription)(B1=528E088F.7010004@myching.co)(B3=383)
+  (A9=9)(B5=mailbox-message://finnian@pop.myching.co/Drafts#5448)>
+{AA9:^80 {(k^98:c)(s=9)4:m } [AA9(^9D^AE)(^C3^AF)(^88=1)(^8A=0)(^8B=21)
+    (^82^8B)(^81^B0)(^83^B1)(^C4^8E)(^86^B2)(^C5^B2)(^89=1)(^96^90)
+    (^87^B3)(^8C=9)(^9B^93)(^8F^AE)(^C6=0)(^C7^B5)(^C8^96)(^C9^97)]}
+
+<(99=910)(9A=1 Year Subscription)(9B=528E07F0.7010006@myching.co)(9D=399)
+  (9E=b)(A0=mailbox-message://finnian@pop.myching.co/Drafts#2697)(A1=2d5d)
+  (A4=1831)(A5=2 Year Subscription)(A6=528E0810.2010607@myching.co)
+  (A8=382)(AB=mailbox-message://finnian@pop.myching.co/Drafts#3605)
+  (AC=2d5e)>
+{1:^80 {(k^97:c)(s=9)} 0 
+  [38E(^9D^91)(^C3^99)(^88=1)(^8A=0)(^8B=21)(^82^8B)(^81^9A)(^83^9B)
+    (^C4^8E)(^86^9C)(^C5^9C)(^89=1)(^96^90)(^87^9D)(^8C=b)(^9B^93)(^8F^91)
+    (^C6=0)(^C7^A0)(^C8^96)(^C9^97)(^CA^A1)]
+  [727(^9D^A3)(^C3^A4)(^88=1)(^8A=0)(^8B=21)(^82^8B)(^81^A5)(^83^A6)
+    (^C4^8E)(^86^A7)(^C5^A7)(^89=1)(^96^90)(^87^A8)(^8C=9)(^9B^93)(^8F^A3)
+    (^C6=0)(^C7^AB)(^C8^96)(^C9^97)(^CA^AC)]AA9 }
+{727:^80 {(k^98:c)(s=9)3:m } 727 }
+{38E:^80 {(k^98:c)(s=9)2:m } 38E }
+{FFFFFFFD:^9A {(k^99:c)(s=9)} [0(^95^8C)]
+  [38E(^95^9A)]
+  [727(^95^A5)]
+  [AA9(^95^B0)]}
+
+<(81=4)(82=en)(B6=e2c)(B7=528e0d35)(89=1385041205)(86=12)(87=)(88
+    ={"threadCol":{"visible":true},"attachmentCol":{"visible":true},"flaggedCo\
+l":{"visible":true},"subjectCol":{"visible":true},"unreadButtonColHeader":{"vi\
+sible":true},"senderCol":{"visible":true},"recipientCol":{"visible":false},"ju\
+nkStatusCol":{"visible":true},"dateCol":{"visible":true},"locationCol":{"visib\
+le":false}})>
+{1:^9F {(k^A0:c)(s=9u)} 
+  [1(^AC=1)(^AD=1)(^88=4)(^A7=en)(^A3^B6)(^A5^B7)(^B7^89)(^B2=12)(^B3=1)
+    (^B4=0)(^B5=0)(^B8=)(^B6^88)(^C1=1)(^C2^89)(^A1=4)(^A6^AE)]}
+
+@$${C{@
+< <(a=c)> // (f=iso-8859-1)
+  (CC=gloda-dirty)>
+<(B8=2d5f)>[AA9:^80(^CA^B8)]
+@$$}C}@
+
+@$${E{@
+<(B9=1385041389)>[1:^9F(^B7^B9)]
+@$$}E}@
+
+@$${F{@
+< <(a=c)> // (f=iso-8859-1)
+  (CD=customSortCol)(CE=keywords)(CF=imageSize)(D0=sender_name)>
+<(BA=820|Finnian Reilly)>[727:^80(^D0^BA)]
+[38E:^80(^D0^BA)]
+[0:^80(^D0^BA)]
+[AA9:^80(^D0^BA)]
+@$$}F}@

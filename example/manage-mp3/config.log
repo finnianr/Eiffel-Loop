@@ -1,7 +1,7 @@
-file /usr/local/lib/python2.7/dist-packages/eiffel_loop/eiffel/SConstruct.py,line 82:
+file /usr/local/lib/python2.7/dist-packages/eiffel_loop/scons/eiffel.py,line 77:
 	Configure(confdir = .sconf_temp)
 
-file /mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/SConscript,line 36:
+file /home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/SConscript,line 36:
 	Configure(confdir = .sconf_temp)
 scons: Configure: Checking for C function getopt_long()... 
 scons: Configure: ".sconf_temp/conftest_0.c" is up to date.
@@ -29,7 +29,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_0.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_0.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_0.c
+  |gcc -o .sconf_temp/conftest_0.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_0.c
   |
 scons: Configure: ".sconf_temp/conftest_0" is up to date.
 scons: Configure: The original builder output was:
@@ -63,7 +63,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_1.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_1.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_1.c
+  |gcc -o .sconf_temp/conftest_1.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_1.c
   |
 scons: Configure: ".sconf_temp/conftest_1" is up to date.
 scons: Configure: The original builder output was:
@@ -97,7 +97,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_2.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_2.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_2.c
+  |gcc -o .sconf_temp/conftest_2.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_2.c
   |
 scons: Configure: ".sconf_temp/conftest_2" is up to date.
 scons: Configure: The original builder output was:
@@ -116,7 +116,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_3.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_3.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_3.c
+  |gcc -o .sconf_temp/conftest_3.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_3.c
   |
 scons: Configure: (cached) yes
 
@@ -131,7 +131,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_4.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_4.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_4.c
+  |gcc -o .sconf_temp/conftest_4.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_4.c
   |
 scons: Configure: (cached) yes
 
@@ -146,7 +146,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: Building ".sconf_temp/conftest_5.o" failed in a previous run and all its sources are up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_5.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_5.c
+  |gcc -o .sconf_temp/conftest_5.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_5.c
   |
 scons: Configure: (cached) no
 
@@ -161,7 +161,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_6.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_6.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_6.c
+  |gcc -o .sconf_temp/conftest_6.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_6.c
   |
 scons: Configure: (cached) yes
 
@@ -176,7 +176,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_7.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_7.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_7.c
+  |gcc -o .sconf_temp/conftest_7.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_7.c
   |
 scons: Configure: (cached) yes
 
@@ -191,7 +191,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_8.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_8.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_8.c
+  |gcc -o .sconf_temp/conftest_8.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_8.c
   |
 scons: Configure: (cached) yes
 
@@ -206,7 +206,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_9.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_9.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_9.c
+  |gcc -o .sconf_temp/conftest_9.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_9.c
   |
 scons: Configure: (cached) yes
 
@@ -221,7 +221,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_10.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_10.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_10.c
+  |gcc -o .sconf_temp/conftest_10.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_10.c
   |
 scons: Configure: (cached) yes
 
@@ -236,7 +236,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_11.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_11.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_11.c
+  |gcc -o .sconf_temp/conftest_11.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_11.c
   |
 scons: Configure: (cached) yes
 
@@ -251,7 +251,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_12.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_12.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_12.c
+  |gcc -o .sconf_temp/conftest_12.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_12.c
   |
 scons: Configure: (cached) yes
 
@@ -266,7 +266,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_13.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_13.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_13.c
+  |gcc -o .sconf_temp/conftest_13.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_13.c
   |
 scons: Configure: (cached) yes
 
@@ -281,7 +281,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_14.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_14.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_14.c
+  |gcc -o .sconf_temp/conftest_14.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_14.c
   |
 scons: Configure: (cached) yes
 
@@ -296,7 +296,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_15.o" is up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_15.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_15.cpp
+  |g++ -o .sconf_temp/conftest_15.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_15.cpp
   |
 scons: Configure: (cached) yes
 
@@ -311,7 +311,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_16.o" is up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_16.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_16.cpp
+  |g++ -o .sconf_temp/conftest_16.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_16.cpp
   |
 scons: Configure: (cached) yes
 
@@ -326,7 +326,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_17.o" is up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_17.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_17.cpp
+  |g++ -o .sconf_temp/conftest_17.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_17.cpp
   |
 scons: Configure: (cached) yes
 
@@ -341,7 +341,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_18.o" is up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_18.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_18.cpp
+  |g++ -o .sconf_temp/conftest_18.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_18.cpp
   |
 scons: Configure: (cached) yes
 
@@ -356,7 +356,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_19.o" is up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_19.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_19.cpp
+  |g++ -o .sconf_temp/conftest_19.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_19.cpp
   |
 scons: Configure: (cached) yes
 
@@ -371,7 +371,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_20.o" is up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_20.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_20.cpp
+  |g++ -o .sconf_temp/conftest_20.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_20.cpp
   |
 scons: Configure: (cached) yes
 
@@ -386,7 +386,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_21.o" is up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_21.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_21.cpp
+  |g++ -o .sconf_temp/conftest_21.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_21.cpp
   |
 scons: Configure: (cached) yes
 
@@ -401,7 +401,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: Building ".sconf_temp/conftest_22.o" failed in a previous run and all its sources are up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_22.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_22.cpp
+  |g++ -o .sconf_temp/conftest_22.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_22.cpp
   |
 scons: Configure: (cached) no
 
@@ -416,7 +416,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_23.o" is up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_23.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_23.cpp
+  |g++ -o .sconf_temp/conftest_23.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_23.cpp
   |
 scons: Configure: (cached) yes
 
@@ -431,7 +431,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: Building ".sconf_temp/conftest_24.o" failed in a previous run and all its sources are up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_24.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_24.cpp
+  |g++ -o .sconf_temp/conftest_24.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_24.cpp
   |
 scons: Configure: (cached) no
 
@@ -446,7 +446,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_25.o" is up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_25.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_25.cpp
+  |g++ -o .sconf_temp/conftest_25.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_25.cpp
   |
 scons: Configure: (cached) yes
 
@@ -461,7 +461,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: Building ".sconf_temp/conftest_26.o" failed in a previous run and all its sources are up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_26.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_26.cpp
+  |g++ -o .sconf_temp/conftest_26.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_26.cpp
   |
 scons: Configure: (cached) no
 
@@ -476,7 +476,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_27.o" is up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_27.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_27.cpp
+  |g++ -o .sconf_temp/conftest_27.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_27.cpp
   |
 scons: Configure: (cached) yes
 
@@ -491,7 +491,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_28.o" is up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_28.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_28.cpp
+  |g++ -o .sconf_temp/conftest_28.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_28.cpp
   |
 scons: Configure: (cached) yes
 
@@ -506,7 +506,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_29.o" is up to date.
 scons: Configure: The original builder output was:
-  |g++ -o .sconf_temp/conftest_29.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_29.cpp
+  |g++ -o .sconf_temp/conftest_29.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_29.cpp
   |
 scons: Configure: (cached) yes
 
@@ -521,7 +521,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_30.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_30.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_30.c
+  |gcc -o .sconf_temp/conftest_30.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_30.c
   |
 scons: Configure: (cached) yes
 
@@ -536,7 +536,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_31.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_31.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_31.c
+  |gcc -o .sconf_temp/conftest_31.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_31.c
   |
 scons: Configure: (cached) yes
 
@@ -551,7 +551,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_32.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_32.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_32.c
+  |gcc -o .sconf_temp/conftest_32.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_32.c
   |
 scons: Configure: (cached) yes
 
@@ -566,12 +566,12 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_33.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_33.o -c -g -O2 -Wall -Wno-unused -Wno-inline -Woverloaded-virtual -Wmissing-declarations -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_33.c
+  |gcc -o .sconf_temp/conftest_33.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_33.c
   |
 scons: Configure: (cached) yes
 
 
-file /mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/SConscript,line 36:
+file /home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/SConscript,line 36:
 	Configure(confdir = .sconf_temp)
 scons: Configure: Checking for C header file assert.h... 
 scons: Configure: ".sconf_temp/conftest_34.c" is up to date.
@@ -584,7 +584,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_34.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_34.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_34.c
+  |gcc -o .sconf_temp/conftest_34.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_34.c
   |
 scons: Configure: (cached) yes
 
@@ -599,7 +599,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_35.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_35.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_35.c
+  |gcc -o .sconf_temp/conftest_35.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_35.c
   |
 scons: Configure: (cached) yes
 
@@ -614,7 +614,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_36.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_36.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_36.c
+  |gcc -o .sconf_temp/conftest_36.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_36.c
   |
 scons: Configure: (cached) yes
 
@@ -629,7 +629,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_37.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_37.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_37.c
+  |gcc -o .sconf_temp/conftest_37.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_37.c
   |
 scons: Configure: (cached) yes
 
@@ -644,7 +644,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_38.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_38.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_38.c
+  |gcc -o .sconf_temp/conftest_38.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_38.c
   |
 scons: Configure: (cached) yes
 
@@ -659,7 +659,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_39.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_39.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_39.c
+  |gcc -o .sconf_temp/conftest_39.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_39.c
   |
 scons: Configure: (cached) yes
 
@@ -674,7 +674,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_40.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_40.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_40.c
+  |gcc -o .sconf_temp/conftest_40.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_40.c
   |
 scons: Configure: (cached) yes
 
@@ -689,7 +689,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_41.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_41.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_41.c
+  |gcc -o .sconf_temp/conftest_41.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_41.c
   |
 scons: Configure: (cached) yes
 
@@ -704,7 +704,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_42.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_42.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_42.c
+  |gcc -o .sconf_temp/conftest_42.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_42.c
   |
 scons: Configure: (cached) yes
 
@@ -719,7 +719,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_43.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_43.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_43.c
+  |gcc -o .sconf_temp/conftest_43.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_43.c
   |
 scons: Configure: (cached) yes
 
@@ -734,7 +734,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_44.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_44.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_44.c
+  |gcc -o .sconf_temp/conftest_44.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_44.c
   |
 scons: Configure: (cached) yes
 
@@ -749,7 +749,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_45.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_45.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_45.c
+  |gcc -o .sconf_temp/conftest_45.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_45.c
   |
 scons: Configure: (cached) yes
 
@@ -764,7 +764,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_46.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_46.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_46.c
+  |gcc -o .sconf_temp/conftest_46.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_46.c
   |
 scons: Configure: (cached) yes
 
@@ -779,7 +779,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_47.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_47.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_47.c
+  |gcc -o .sconf_temp/conftest_47.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_47.c
   |
 scons: Configure: (cached) yes
 
@@ -794,7 +794,7 @@ scons: Configure: The original builder output was:
   |
 scons: Configure: ".sconf_temp/conftest_48.o" is up to date.
 scons: Configure: The original builder output was:
-  |gcc -o .sconf_temp/conftest_48.o -c -g -O2 -Wall -DHAVE_CONFIG_H -I/mnt/ocz/Eiffel71/C_library/zlib -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/mnt/Development/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_48.c
+  |gcc -o .sconf_temp/conftest_48.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel72/C_library/zlib -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_48.c
   |
 scons: Configure: (cached) yes
 

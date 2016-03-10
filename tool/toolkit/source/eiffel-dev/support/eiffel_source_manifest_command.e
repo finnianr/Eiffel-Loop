@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_EIFFEL_SOURCE_MANIFEST_COMMAND}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 deferred class
 	EIFFEL_SOURCE_MANIFEST_COMMAND
@@ -12,7 +17,7 @@ inherit
 
 	EL_MODULE_LOG
 
-feature {EL_COMMAND_LINE_SUB_APPLICATTION} -- Initialization
+feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
 	make (source_manifest_path: EL_FILE_PATH)
 		do
@@ -22,8 +27,15 @@ feature {EL_COMMAND_LINE_SUB_APPLICATTION} -- Initialization
 feature -- Basic operations
 
 	execute
+		local
+			file_list: like manifest.file_list
 		do
-			across manifest.file_list as file_path loop
+			if is_ordered then
+				file_list := manifest.sorted_file_list
+			else
+				file_list := manifest.file_list
+			end
+			across file_list as file_path loop
 				log_or_io.put_path_field ("Class", file_path.item); log_or_io.put_new_line
 				process_file (file_path.item)
 			end
@@ -36,5 +48,11 @@ feature -- Basic operations
 feature -- Access
 
 	manifest: EIFFEL_SOURCE_MANIFEST
+
+feature -- Status query
+
+	is_ordered: BOOLEAN
+		do
+		end
 
 end

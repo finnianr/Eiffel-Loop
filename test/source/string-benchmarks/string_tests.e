@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {TEST_STRING_TYPES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-27 8:51:13 GMT (Saturday 27th July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 deferred class
 	STRING_TESTS [S -> STRING_GENERAL create make_empty end]
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_MODULE_LOG
 	EL_MODULE_STRING
-	EL_MODULE_TYPING
+	EL_MODULE_EIFFEL
 
 	MEMORY
 	STRING_HANDLER
@@ -71,7 +71,7 @@ feature -- Access
 			Result := bytes / 1000000
 		end
 
-	name: EL_ASTRING
+	name: ASTRING
 
 feature -- Tests
 
@@ -130,7 +130,7 @@ feature -- Tests
 			from string_list.start until string_list.after loop
 				paragraph := string_list.item.twin
 				from until paragraph.is_empty loop
-					pos_space := index_of_unicode (' ', paragraph)
+					pos_space := index_of (' ', paragraph)
 					if pos_space > 0 then
 						paragraph.keep_tail (paragraph.count - pos_space)
 					else
@@ -211,7 +211,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	create_name: EL_ASTRING
+	create_name: ASTRING
 		do
 			Result := create_string ("").generator
 		end
@@ -245,7 +245,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	index_of_unicode (uc: CHARACTER_32; s: S): INTEGER
+	index_of (uc: CHARACTER_32; s: S): INTEGER
 		deferred
 		end
 

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-24 11:30:55 GMT (Friday 24th January 2014)"
-	revision: "3"
+	date: "2014-02-28 11:18:45 GMT (Friday 28th February 2014)"
+	revision: "4"
 
 deferred class
 	EL_FIND_COMMAND_IMPL

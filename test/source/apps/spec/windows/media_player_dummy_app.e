@@ -1,15 +1,15 @@
-note
+﻿note
 	description: "[
 		For Windows only. A 'do nothing app' for maintenance of class EL_AUDIO_PLAYER_THREAD.
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-19 21:55:22 GMT (Wednesday 19th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	MEDIA_PLAYER_DUMMY_APP

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: ""
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-25 19:35:31 GMT (Tuesday 25th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	STRING_EDITION_HISTORY_TEST_APP
@@ -32,7 +32,7 @@ feature {NONE} -- Initiliazation
 
 feature -- Basic operations
 
-	run
+	test_run
 			--
 		do
 			Test.do_file_test ({STRING_32} "string-edition-list.txt", agent test_editions, 4206604764)
@@ -49,7 +49,7 @@ feature -- Tests
 			create lines.make (file_path)
 			across lines as line loop
 				log.put_string_field ("string", edition_history.string); log.put_new_line
-				edition_history.extend (0, line.item)
+				edition_history.extend (line.item)
 			end
 			log.put_string_field ("string", edition_history.string); log.put_new_line
 
@@ -77,7 +77,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	edition_history: EL_STRING_EDITION_HISTORY
+	edition_history: EL_STRING_32_EDITION_HISTORY
 
 feature {NONE} -- Constants
 
@@ -89,8 +89,8 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{STRING_EDITION_HISTORY_TEST_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"]
+				[{STRING_EDITION_HISTORY_TEST_APP}, All_routines],
+				[{EL_TEST_ROUTINES}, All_routines]
 			>>
 		end
 

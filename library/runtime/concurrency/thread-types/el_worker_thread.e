@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-05-30 8:18:40 GMT (Thursday 30th May 2013)"
 	revision: "2"
@@ -14,6 +14,9 @@ class
 
 inherit
 	EL_IDENTIFIED_THREAD
+		redefine
+			log_name
+		end
 
 create
 	make
@@ -22,8 +25,16 @@ feature {NONE} -- Initialization
 
 	make (a_work_action: like work_action)
 		do
-			default_create
+			make_default
 			work_action := a_work_action
+		end
+
+feature -- Access
+
+	log_name: STRING
+			--
+		do
+			Result := work_action.target.generator.as_lower
 		end
 
 feature {NONE} -- Implementation

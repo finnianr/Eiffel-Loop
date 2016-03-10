@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {ARCHIVE_FILE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:30:59 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	ARCHIVE_FILE
@@ -71,23 +71,19 @@ feature {NONE} -- Initialization
 			log_or_io.put_path_field ("WORKING DIRECTORY", working_directory)
 			log_or_io.put_new_line
 
-			Archive_command.set_variables_from_array (<<
-
-				[ TAR_EXCLUDE, 		exclusion_list_file.file_path.name ],
-				[ TAR_INCLUDE, 		inclusion_list_file.file_path.name ],
-				[ TAR_NAME, 			(archive_dir_path + archive_file_path).to_string ],
-				[ TARGET_DIRECTORY, 	target_directory_name ]
-
+			Archive_command.put_variables (<<
+				[TAR_EXCLUDE, 			exclusion_list_file.file_path.name ],
+				[TAR_INCLUDE, 			inclusion_list_file.file_path.name ],
+				[TAR_NAME, 				(archive_dir_path + archive_file_path).to_string ],
+				[TARGET_DIRECTORY, 	target_directory_name ]
 			>> )
 
 			Archive_command.execute
 
-			make_open_read ((archive_directory_path + archive_file_path).unicode)
+			make_open_read (archive_directory_path + archive_file_path)
 			if exists then
-
 				kilo_bytes := (count / 1024).rounded
 				close
-
 				directory_node.find_node ("gpg-key")
 
 				if directory_node.node_found then
@@ -96,23 +92,19 @@ feature {NONE} -- Initialization
 					if gpg_key.has ("recipient") then
 						encrypted_archive_file_path := file_path
 						encrypted_archive_file_path.add_extension ("gpg")
-						create encrypted_archive_file.make (encrypted_archive_file_path.unicode)
+						create encrypted_archive_file.make_with_name (encrypted_archive_file_path)
 						if encrypted_archive_file.exists then
 							encrypted_archive_file.delete
 						end
 						Encryption_command.set_working_directory (Archive_directory_path)
 
---						New PROCESS version
---						Encryption_command.set_recipient (gpg_key ["recipient"])
---						Encryption_command.set_output_path (archive_file_path)
-
-						Encryption_command.set_string (GPG_KEY_ID, gpg_key ["recipient"])
-						Encryption_command.set_string (TAR_NAME, archive_file_path.to_string)
+						Encryption_command.put_string (GPG_KEY_ID, gpg_key ["recipient"])
+						Encryption_command.put_string (TAR_NAME, archive_file_path.to_string)
 
 						Encryption_command.execute
 						delete
 
-						make_with_name (encrypted_archive_file_path.unicode)
+						make_with_name (encrypted_archive_file_path)
 					end
 
 				end
@@ -135,7 +127,7 @@ feature {NONE} -- Implementation
 			log.enter ("save_version_no")
 			version_data_file_path := archive_directory_path + "version.txt"
 
-			create version_data_file.make (version_data_file_path.unicode)
+			create version_data_file.make_with_name (version_data_file_path)
 			if version_data_file.exists then
 				version_data_file.open_read
 				version_data_file.read_integer
@@ -182,18 +174,12 @@ feature {NONE} -- tar archive command with variables
 			--
 			-- --verbose
 		once
-			create Result.make ("tar",
-			"[
+			create Result.make ("[
 				tar --create --auto-compress --dereference --file="$TAR_NAME" "$TARGET_DIRECTORY"
 				--exclude-from="$TAR_EXCLUDE"
 				--files-from="$TAR_INCLUDE"
 			]")
 		end
-
---	Archive_command: EL_COMPRESSED_ARCHIVE_COMMAND
---		once
---			create Result.make_default
---		end
 
 feature {NONE} -- gpg encryption command with variables
 
@@ -202,8 +188,7 @@ feature {NONE} -- gpg encryption command with variables
 	Encryption_command: EL_GENERAL_OS_COMMAND
 			--
 		once
-			create Result.make ("gpg",
-			"[
+			create Result.make ("[
 				gpg --batch --encrypt --recipient $GPG_KEY_ID "$TAR_NAME"
 			]")
 		end

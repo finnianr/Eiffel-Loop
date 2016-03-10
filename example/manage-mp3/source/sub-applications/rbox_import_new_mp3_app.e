@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 8:33:25 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2013-11-02 11:24:43 GMT (Saturday 2nd November 2013)"
+	revision: "3"
 
 class
 	RBOX_IMPORT_NEW_MP3_APP
@@ -18,20 +18,11 @@ class
 inherit
 	RBOX_APPLICATION
 		redefine
-			Option_name, Ask_user_to_quit, normal_initialize
+			Option_name, Ask_user_to_quit
 		end
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	normal_initialize
-			--
-		do
-			Precursor
-			create_database
-		end
 
 feature -- Basic operations
 
@@ -40,6 +31,7 @@ feature -- Basic operations
 		local
 			new_mp3_list: LINKED_LIST [EL_FILE_PATH]
 		do
+			create_database
 			create new_mp3_list.make
 			across File_system.file_list (database.mp3_root_location, "*.mp3") as mp3_path loop
 				if not database.songs_by_location.has (mp3_path.item) then
@@ -50,7 +42,7 @@ feature -- Basic operations
 				log_or_io.put_line ("Importing new MP3")
 				log_or_io.put_new_line
 				new_mp3_list.do_all (agent database.import_mp3)
-				database.store
+				database.store_all
 			else
 				log_or_io.put_line ("Nothing to import")
 			end
@@ -76,14 +68,14 @@ feature -- Test operations
 			test_database_dir := data_path
 			normal_initialize
 
-			song1 := database.create_song
+			song1 := database.new_song
 			song1.set_mp3_path (database.mp3_root_location + "Tango/Carlos Di Sarli/disarli.mp3")
 			song1.set_title ("La Racha")
 			song1.set_genre ("Latin")
 			song1.set_artist ("Carlos Di Sarli")
 			song1.set_album ("Carlos Di Sarli greatest hits")
 
-			song2 := database.create_song
+			song2 := database.new_song
 			song2.set_mp3_path (database.mp3_root_location + "Vals/Edgardo Donato/estrellita.mp3")
 			song2.set_title ("Estrellita Mia")
 			song2.set_genre ("Latin")

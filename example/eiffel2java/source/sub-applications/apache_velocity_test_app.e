@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-07-22 20:07:59 GMT (Monday 22nd July 2013)"
 	revision: "3"
@@ -118,7 +118,7 @@ feature {NONE} -- Implementation
 	class_list (location: EL_DIR_PATH): J_LINKED_LIST
 			--
 		local
-			class_name: EL_ASTRING
+			class_name: ASTRING
 		do
 			create Result.make
 			across File_system.file_list (location, "*.e") as file_path loop

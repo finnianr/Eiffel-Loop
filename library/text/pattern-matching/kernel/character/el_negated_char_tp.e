@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_NEGATED_CHAR_TP
@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 	not_match_succeeded: BOOLEAN
 			--
 		do
-			Result := target_text.count >= 1 and then not negated_pattern.match_succeeded
+			Result := text.count >= 1 and then not negated_pattern.match_succeeded
 		end
 
 	Actual_count_characters_matched: INTEGER = 1

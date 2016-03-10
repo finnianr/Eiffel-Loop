@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-20 12:25:25 GMT (Friday 20th December 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	EL_RECTANGLE
@@ -49,6 +49,26 @@ feature -- Basic operations
 			-- center on other
 		do
 			move (other.x + (other.width - width) // 2, other.y + (other.height - height) // 2)
+		end
+
+	move_left_cms (offset_cms: REAL)
+		do
+			move (x - Screen.horizontal_pixels (offset_cms), y)
+		end
+
+	move_right_cms (offset_cms: REAL)
+		do
+			move (x + Screen.horizontal_pixels (offset_cms), y)
+		end
+
+	move_up_cms (offset_cms: REAL)
+		do
+			move (x, y - Screen.vertical_pixels (offset_cms))
+		end
+
+	move_down_cms (offset_cms: REAL)
+		do
+			move (x, y + Screen.vertical_pixels (offset_cms))
 		end
 
 feature -- Element change

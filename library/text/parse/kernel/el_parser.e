@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:02 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 deferred class
 	EL_PARSER
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
 		do
 			create event_list.make
@@ -40,13 +40,12 @@ feature -- Basic operations
 			log.enter ("find_all")
 			reassign_pattern_if_changed
 			from
-				text_view.set_text (source_text)
-				unmatched_text_view.set_text (source_text)
+				text_view := new_source_text_view; unmatched_text_view := new_source_text_view
 			until
 				-- keeps shrinking
 				text_view.count = 0
 			loop
-				pattern.set_target (text_view)
+				pattern.set_text (text_view)
 				pattern.try_to_match
 				prune_working_source_text
 			end
@@ -63,10 +62,10 @@ feature -- Basic operations
 		do
 			log.enter ("match_full")
 			reassign_pattern_if_changed
-			text_view.set_text (source_text)
-			pattern.set_target (text_view)
+			text_view := new_source_text_view
+			pattern.set_text (text_view)
 			pattern.try_to_match
-			if  pattern.count_characters_matched = text_view.count then
+			if pattern.count_characters_matched = text_view.count then
 				event_list.collect_from (pattern.event_list)
 				full_match_succeeded := true
 			else
@@ -114,26 +113,8 @@ feature -- Element change
 
 	set_source_text (a_source_text: like source_text)
 			--
-		local
-			l_str8: STRING
-			l_str32: STRING_32
-			l_el_str: EL_ASTRING
 		do
-			if attached {EL_ASTRING} a_source_text as el_str then
-				create l_el_str.make_empty
-				l_el_str.share (el_str)
-				source_text := l_el_str
-
-			elseif attached {STRING} a_source_text as str8 then
-				create l_str8.make_empty
-				l_str8.share (str8)
-				source_text := l_str8
-
-			elseif attached {STRING_32} a_source_text as str32 then
-				create l_str32.make_empty
-				l_str32.share (str32)
-				source_text := l_str32
-			end
+			source_text := a_source_text.twin
  			reset
 		end
 
@@ -149,6 +130,22 @@ feature -- Status setting
 			--
 		do
 			has_pattern_changed := true
+		end
+
+feature {NONE} -- Factory
+
+	new_source_text_view: EL_STRING_VIEW
+		do
+			if attached {ASTRING} source_text as al_source_text then
+				create {EL_ASTRING_VIEW} Result.make (al_source_text)
+			else
+				create Result.make (source_text)
+			end
+		end
+
+	new_pattern: EL_TEXTUAL_PATTERN
+			--
+		deferred
 		end
 
 feature {NONE} -- Implementation
@@ -227,10 +224,7 @@ feature {NONE} -- Implementation
 --			log.exit
 		end
 
-	new_pattern: EL_TEXTUAL_PATTERN
-			--
-		deferred
-		end
+feature {NONE} -- Implementation attributes
 
 	pattern: EL_TEXTUAL_PATTERN
 

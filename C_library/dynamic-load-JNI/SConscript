@@ -16,7 +16,7 @@ jdk_include_platform = path.join (jdk_include, sys.platform)
 if platform.system () == "Windows":
 	compiler_flags = ['-Ox', '-MT', '-w', '-nologo', '-D_WIN32_WINNT=0x0500', '-DWINVER=0x0500', '-D_CRT_SECURE_NO_DEPRECATE', '-D_UNICODE -DUNICODE']
 else:
-	compiler_flags = '-c -O3 -w -std=gnu99'
+	compiler_flags = '-c -O3 -w -Wno-write-strings -std=gnu99'
 
 include_path = ['source', jdk_include, jdk_include_platform]				
 

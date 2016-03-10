@@ -45,6 +45,7 @@ system:
 		library:
 			name = EL_vision2_x; location = "vision2-x.ecf"; readonly = false
 
+		# Source code
 		cluster:
 			name = viewer; location = "graphic/toolkit/html-viewer"; recursive = true
 

@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-01-25 23:12:27 GMT (Saturday 25th January 2014)"
+	revision: "3"
 
 class
 	EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT

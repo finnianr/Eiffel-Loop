@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_FILE_STRING_LIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 11:32:17 GMT (Sunday 28th July 2013)"
-	revision: "3"
+	date: "2014-09-16 17:53:57 GMT (Tuesday 16th September 2014)"
+	revision: "4"
 
 class
 	EL_FILE_LINE_SOURCE
@@ -16,8 +16,8 @@ inherit
 	EL_LINE_SOURCE [PLAIN_TEXT_FILE]
 		rename
 			make as make_from_file,
-			source as text_file,
-			source_copy as text_file_copy
+			make_latin_1 as make_latin_1_encoding,
+			source as text_file
 		export
 			{ANY} text_file
 		redefine
@@ -25,7 +25,7 @@ inherit
 		end
 
 create
-	default_create, make, make_from_file
+	default_create, make, make_latin_1, make_from_file
 
 feature {NONE} -- Initialization
 
@@ -39,9 +39,15 @@ feature {NONE} -- Initialization
 	make (a_file_path: EL_FILE_PATH)
 		do
 			default_create
-			create text_file.make_with_name (a_file_path.unicode)
+			create text_file.make_with_name (a_file_path)
 			make_from_file (text_file)
-			close_on_after := True
+			is_source_external := False -- Causes file to close automatically when after position is reached
+		end
+
+	make_latin_1 (a_file_path: EL_FILE_PATH)
+		do
+			make (a_file_path)
+			set_latin_encoding (1)
 		end
 
 feature -- Access
@@ -56,10 +62,9 @@ feature -- Access
 			Result := text_file.path
 		end
 
-feature -- Status query
-
-	is_utf8: BOOLEAN
+	date: INTEGER
 		do
+			Result := text_file.date
 		end
 
 feature -- Status setting
@@ -71,13 +76,6 @@ feature -- Status setting
 				text_file.close
 			end
 			text_file.delete
-		end
-
-feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
-
-	text_file_copy: PLAIN_TEXT_FILE
-		do
-			create Result.make_with_path (text_file.path)
 		end
 
 end

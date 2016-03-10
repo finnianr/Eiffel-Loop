@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_STORABLE_IN_FILE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:00 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 deferred class
 	EL_FILE_PERSISTENT
@@ -15,22 +15,12 @@ deferred class
 inherit
 	EL_MODULE_FILE_SYSTEM
 
-	EL_SHARED_THREAD_MANAGER
-
-	EL_SINGLE_THREAD_ACCESS
-		rename
-			make_thread_access as make
-		end
-
 feature {NONE} -- Initialization
 
 	make_from_file (a_file_path: like file_path)
 			--
 		do
-			make
 			set_file_path (a_file_path)
-		ensure
-			mutex_created: attached {MUTEX} mutex
 		end
 
 feature -- Access
@@ -41,20 +31,19 @@ feature -- Access
 
 feature -- Element change
 
-	rename_file (a_name: EL_ASTRING)
+	rename_file (new_name: ASTRING)
+			-- rename basename of file preserving the extension
 		local
-			l_file: RAW_FILE
+			old_path: like file_path
 		do
-			create l_file.make_with_name (file_path.unicode)
-			set_file_path (file_path.parent.joined_file_path (a_name))
-			if l_file.exists then
-				l_file.rename_file (file_path.unicode)
-			end
+			old_path := file_path.twin
+			file_path.rename_base (new_name, True)
+			File_system.rename_file (old_path, file_path)
 		end
 
-	rename_file_extension (a_extension: EL_ASTRING)
+	rename_file_extension (a_extension: ASTRING)
 		do
-			rename_file (file_path.with_new_extension (a_extension))
+			rename_file (file_path.with_new_extension (a_extension).base)
 		end
 
 	set_file_path (a_file_path: EL_FILE_PATH)
@@ -62,7 +51,7 @@ feature -- Element change
 		deferred
 		end
 
-	set_name_extension (a_extension: EL_ASTRING)
+	set_name_extension (a_extension: ASTRING)
 			-- Set name extension
 		do
 			set_file_path (file_path.with_new_extension (a_extension))
@@ -77,11 +66,7 @@ feature -- Basic operations
 
 	store
 		do
-			restrict_access
---			synchronized
-				store_as (file_path)
---			end
-			end_restriction
+			store_as (file_path)
 		end
 
 	safe_store
@@ -92,33 +77,20 @@ feature -- Basic operations
 			new_file_path: EL_FILE_PATH
 			new_file: like new_open_read_file
 		do
-			restrict_access
---			synchronized
-				last_store_ok := False
-				new_file_path := file_path.twin
-				new_file_path.add_extension ("new")
-				store_as (new_file_path)
+			last_store_ok := False
+			new_file_path := file_path.twin
+			new_file_path.add_extension ("new")
+			store_as (new_file_path)
 
-				new_file := new_open_read_file (new_file_path)
-				last_store_ok := stored_successfully (new_file)
-				new_file.close
+			new_file := new_open_read_file (new_file_path)
+			last_store_ok := stored_successfully (new_file)
+			new_file.close
 
-				if last_store_ok then
-					File_system.remove_file (file_path)
-					-- Change name
-					new_file.rename_file (file_path.unicode)
-				end
---			end
-			end_restriction
-		end
-
-	separate_safe_store
-		local
-			l_thread: EL_WORKER_THREAD
-		do
-			create l_thread.make (agent safe_store)
-			l_thread.launch
-			Thread_manager.extend (l_thread)
+			if last_store_ok then
+				File_system.remove_file (file_path)
+				-- Change name
+				new_file.rename_file (file_path)
+			end
 		end
 
 feature {NONE} -- Implementation

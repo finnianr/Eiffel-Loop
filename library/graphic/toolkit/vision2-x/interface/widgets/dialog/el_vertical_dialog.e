@@ -2,23 +2,27 @@ note
 	description: "Summary description for {DIALOG}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-06 15:28:52 GMT (Thursday 6th June 2013)"
-	revision: "2"
+	date: "2014-09-27 14:24:00 GMT (Saturday 27th September 2014)"
+	revision: "4"
 
 deferred class
 	EL_VERTICAL_DIALOG
 
 inherit
 	EV_UNTITLED_DIALOG
+		rename
+			set_position as set_absolute_position,
+			set_x_position as set_absolute_x_position,
+			set_y_position as set_absolute_y_position
 		redefine
 			show_modal_to_window
 		end
 
-	EL_WINDOW_POSITIONING
+	EL_WINDOW
 		undefine
 			default_create, copy
 		end
@@ -48,11 +52,22 @@ inherit
 			default_create, copy
 		end
 
+	SD_COLOR_HELPER
+		export
+			{NONE} all
+		undefine
+			default_create, copy
+		end
+
 feature {NONE} -- Initialization
 
-	make_dialog (a_title: EL_ASTRING; a_default_button_action: like default_button_action)
-			-- build dialog with components
+	make_dialog_with_button_texts (
+		a_title: ASTRING
+		a_button_text, a_cancel_button_text: like button_text; a_default_button_action: like default_button_action
+	)
 		do
+			button_text := a_button_text; cancel_button_text := a_cancel_button_text
+
 			default_create
 			set_title (a_title.to_unicode); default_button_action := a_default_button_action
 			disable_user_resize
@@ -62,19 +77,39 @@ feature {NONE} -- Initialization
 			show_actions.extend (agent on_show)
 		end
 
+	make_dialog (a_title: ASTRING; a_default_button_action: like default_button_action)
+			-- build dialog with components
+		do
+			make_dialog_with_button_texts (a_title, Default_button_text, Default_cancel_button_text, a_default_button_action)
+		end
+
 feature -- Access
 
-	title_label: EL_PIXMAPABLE_LABEL
+	title_label: EL_LABEL_PIXMAP
 
-	content_area_background_color: EL_COLOR
+	content_area_color: EL_COLOR
 		do
-			Result := Default_content_area_background_color
+			Result := Default_background_color
+		end
+
+	button_box_color: EL_COLOR
+		do
+			Result := Default_background_color
 		end
 
 	border_color: EL_COLOR
 		do
-			Result := Default_border_color
+			if content_area_color = Default_background_color then
+				Result := Default_border_color
+			else
+				Result := color_with_lightness (content_area_color, -0.2).twin
+			end
 		end
+
+	button_text: READABLE_STRING_GENERAL
+		-- default button text
+
+	cancel_button_text: READABLE_STRING_GENERAL
 
 feature -- Status query
 
@@ -83,25 +118,23 @@ feature -- Status query
 			Result := dialog_buttons.has (cancel_button)
 		end
 
-	is_container_background_color_propagated: BOOLEAN
-
 	is_cancelled: BOOLEAN
+
+	is_widget_content_area_color (widget: EV_WIDGET): BOOLEAN
+		do
+			Result := not attached {EV_TEXT_COMPONENT} widget
+		end
+
+	is_container_propagated_with_content_area_color (container: EV_CONTAINER): BOOLEAN
+		do
+			Result := not attached {EV_NOTEBOOK} container
+		end
 
 feature -- Element change
 
 	set_title_font (a_title_font : like Default_title_font)
 		do
-			title_label.set_font (a_title_font)
-		end
-
-	set_cancel_button_text (a_text: EL_ASTRING)
-		do
-			cancel_button.set_text (a_text.to_unicode)
-		end
-
-	set_default_button_text (a_text: EL_ASTRING)
-		do
-			default_button.set_text (a_text.to_unicode)
+			title_label.set_font_and_height (a_title_font)
 		end
 
 feature -- Basic operations
@@ -151,9 +184,9 @@ feature {NONE} -- Factory
 			title_label := new_title_label
 			create drag.make (Current, title_label, Grab_hand_pixmap)
 
-			create default_button.make_with_text (default_button_text.to_unicode)
+			default_button := new_button (button_text)
+			cancel_button := new_button (cancel_button_text)
 
-			create cancel_button.make_with_text (cancel_button_text.to_unicode)
 			Result := GUI.vertical_box (Dialog_border_width_cms, 0, << title_label >>)
 			Result.set_background_color (border_color)
 			Result.extend (new_border_box)
@@ -171,21 +204,28 @@ feature {NONE} -- Factory
 			add_components (outer_box)
 			Result := GUI.vertical_box (inner_border_cms, inner_border_cms, << outer_box >>)
 			if not l_buttons.is_empty then
-				button_box := GUI.horizontal_box (0, 0.4, l_buttons)
-				button_box.put_front (create {EL_EXPANDED_CELL})
+				create button_box.make (0, 0.4)
+				button_box.append_unexpanded (l_buttons)
+				right_align_buttons (button_box)
 				Result.extend_unexpanded (button_box)
+				if button_box_color /= Default_background_color then
+					button_box.set_background_color (button_box_color)
+				end
 			end
-			if content_area_background_color /= Default_content_area_background_color then
-				Result.set_background_color (content_area_background_color)
-				Result.propagate_background_color
+
+			if content_area_color /= Default_background_color then
+				propagate_content_area_color (Result)
 			end
 		end
 
 	new_title_label: like title_label
 		do
 			create Result.make_with_text_and_font (title, Default_title_font)
+			Result.set_minimum_width (
+				Default_title_font.string_width (title) + Screen.horizontal_pixels (Border_inner_width_cms)
+			)
 			if Title_background_pixmap.width * Title_background_pixmap.height > 1 then
-				Result.set_pixmap (Title_background_pixmap)
+				Result.set_tile_pixmap (Title_background_pixmap)
 			end
 			Result.align_text_center
 		end
@@ -206,19 +246,12 @@ feature {NONE} -- Factory
 			Result := GUI.horizontal_box (0, Widget_separation_cms, widgets)
 		end
 
-feature {NONE} -- Implementation
-
-	set_buttons
+	new_button (a_text: READABLE_STRING_GENERAL): EV_BUTTON
 		do
-			if dialog_buttons.has (default_button) then
-				set_default_push_button (default_button)
-				default_button.select_actions.extend (default_button_action)
-			end
-			if has_cancel_button then
-				set_default_cancel_button (cancel_button)
-				cancel_button.select_actions.extend (agent on_cancel)
-			end
+			create Result.make_with_text (a_text)
 		end
+
+feature {NONE} -- Implementation
 
 	add_components (box: EL_BOX)
 		local
@@ -232,16 +265,51 @@ feature {NONE} -- Implementation
 				i := i + 1
 			end
 			box.append_unexpanded (component_boxes.to_array)
-			if content_area_background_color /= Default_content_area_background_color
-				and then is_container_background_color_propagated
-			then
-				box.propagate_background_color
-			end
 		end
 
 	dialog_buttons: ARRAY [EV_WIDGET]
 		do
 			Result := << default_button, cancel_button >>
+		end
+
+	propagate_content_area_color (container: EV_CONTAINER)
+		require
+			content_area_color_set: content_area_color /= Default_background_color
+		local
+			list: LINEAR [EV_WIDGET]
+		do
+			if is_container_propagated_with_content_area_color (container) then
+				if is_widget_content_area_color (container) then
+					container.set_background_color (content_area_color)
+				end
+				list := container.linear_representation
+				from list.start until list.after loop
+					if attached {EV_CONTAINER} list.item as l_container then
+						propagate_content_area_color (l_container)
+
+					elseif is_widget_content_area_color (list.item) then
+						list.item.set_background_color (content_area_color)
+					end
+					list.forth
+				end
+			end
+		end
+
+	right_align_buttons (button_box: EL_HORIZONTAL_BOX)
+		do
+			button_box.put_front (create {EL_EXPANDED_CELL})
+		end
+
+	set_buttons
+		do
+			if dialog_buttons.has (default_button) then
+				set_default_push_button (default_button)
+				default_button.select_actions.extend (default_button_action)
+			end
+			if has_cancel_button then
+				set_default_cancel_button (cancel_button)
+				cancel_button.select_actions.extend (agent on_cancel)
+			end
 		end
 
 feature {NONE} -- Unimplementated
@@ -256,9 +324,9 @@ feature {NONE} -- Unimplementated
 
 feature {NONE} -- Implementation: attributes
 
-	default_button: EV_BUTTON
+	default_button: like new_button
 
-	cancel_button: EV_BUTTON
+	cancel_button: like new_button
 
 	component_boxes: ARRAYED_LIST [EL_BOX]
 
@@ -272,12 +340,12 @@ feature {NONE} -- Implementation: attributes
 
 feature -- Constants
 
-	Default_button_text: EL_ASTRING
+	Default_button_text: STRING
 		once
 			Result := "OK"
 		end
 
-	Cancel_button_text: EL_ASTRING
+	Default_cancel_button_text: STRING
 		once
 			Result := "Cancel"
 		end
@@ -303,7 +371,8 @@ feature -- Constants
 			Result := "cursor/hand.svg"
 		end
 
-	Default_content_area_background_color: EL_COLOR
+	frozen Default_background_color: EL_COLOR
+			-- Should not be redefined as it represents default dialog color
 		once
 			create Result
 		end

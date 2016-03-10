@@ -2,30 +2,24 @@ note
 	description: "Summary description for {SERIALIZATION_LISTENER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:24:30 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-03-30 13:59:44 GMT (Sunday 30th March 2014)"
+	revision: "3"
 
 deferred class
 	EL_FILE_PROGRESS_LISTENER
 
 inherit
 	EL_MODULE_FILE_SYSTEM
-		redefine
-			default_create
-		end
 
 	EL_MODULE_LOG
-		undefine
-			default_create
-		end
 
 feature {NONE} -- Initialization
 
-	default_create
+	make
 		do
 			create timer.make
 		end
@@ -45,7 +39,7 @@ feature -- Element change
 			timer.start
 		end
 
-	set_text (a_text: EL_ASTRING)
+	set_text (a_text: ASTRING)
 		deferred
 		end
 

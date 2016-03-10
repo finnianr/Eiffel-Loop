@@ -4,16 +4,19 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-29 11:51:12 GMT (Sunday 29th December 2013)"
-	revision: "3"
+	date: "2014-10-05 16:00:44 GMT (Sunday 5th October 2014)"
+	revision: "5"
 
 class
 	EL_PIXMAP
 
 inherit
 	EV_PIXMAP
+		redefine
+			sub_pixmap
+		end
 
 	EL_MODULE_SCREEN
 		undefine
@@ -26,13 +29,27 @@ inherit
 		end
 
 create
-	default_create, make_with_size, make_with_pointer_style, make_with_pixel_buffer, make_with_rectangle
+	default_create,
+	make_with_size, make_with_pointer_style, make_with_pixel_buffer, make_with_rectangle,
+	make_from_other
 
 feature {NONE} -- Initialization
 
 	make_with_rectangle (r: EL_RECTANGLE)
 		do
 			make_with_size (r.width, r.height)
+		end
+
+	make_from_other (other: like Current)
+		do
+			make_with_pixel_buffer (create {EV_PIXEL_BUFFER}.make_with_pixmap (other))
+		end
+
+feature -- Access
+
+	file_path: EL_FILE_PATH
+		do
+			Result := pixmap_path
 		end
 
 feature -- Measurement setting
@@ -65,4 +82,19 @@ feature -- Measurement setting
 			make_with_pixel_buffer (l_buffer.stretched ((width * a_factor).rounded, (height * a_factor).rounded))
 --			stretch ((width * a_factor).rounded, (height * a_factor).rounded)
 		end
+
+feature -- Duplication
+
+	sub_pixmap (area: EV_RECTANGLE): EL_PIXMAP
+		do
+			create Result.make_with_size (area.width, area.height)
+			Result.draw_sub_pixmap (0, 0, Current, area)
+		end
+
+feature {NONE} -- Implementation
+
+	redraw
+		do
+		end
+
 end

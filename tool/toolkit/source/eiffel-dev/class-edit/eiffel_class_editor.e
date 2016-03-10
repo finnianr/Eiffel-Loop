@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EIFFEL_CLASS_EDITOR}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:31:35 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EIFFEL_CLASS_EDITOR
@@ -15,7 +15,7 @@ class
 inherit
 	EIFFEL_SOURCE_EDITING_PROCESSOR
 		redefine
-			make, edit_file
+			edit_file
 		end
 
 	EL_MODULE_STRING
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			Precursor
+			make_default
 			create new_attribute_name.make_empty
 			create insertion_marker_list.make (10)
 		end
@@ -121,7 +121,7 @@ feature {NONE} -- Parsing actions
 		local
 			insertion_marker, feature_label: STRING
 		do
-			log.enter_with_args ("on_feature_label", << text.view >>)
+			log.enter_with_args ("on_feature_label", << text.to_string_8 >>)
 			feature_label := text
 			feature_label.right_adjust
 
@@ -140,7 +140,7 @@ feature {NONE} -- Parsing actions
 	on_new_attribute_name (attribute_name: EL_STRING_VIEW)
 			--
 		do
-			log.enter_with_args ("on_new_attribute_name", << attribute_name.view >>)
+			log.enter_with_args ("on_new_attribute_name", << attribute_name.to_string_8 >>)
 			new_attribute_name := attribute_name
 			log.exit
 		end

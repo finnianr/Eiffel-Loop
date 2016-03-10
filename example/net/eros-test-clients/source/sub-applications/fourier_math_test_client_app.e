@@ -2,12 +2,12 @@ note
 	description: "Summary description for {FOURIER_MATH_TEST_CLIENT_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:19 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-01-04 10:08:43 GMT (Saturday 4th January 2014)"
+	revision: "2"
 
 class
 	FOURIER_MATH_TEST_CLIENT_APP
@@ -22,7 +22,7 @@ inherit
 
 	EL_REMOTE_CALL_CONSTANTS
 
-	EL_MODULE_EVOLICITY_ENGINE
+	EL_MODULE_EVOLICITY_TEMPLATES
 
 create
 	make
@@ -52,7 +52,7 @@ feature {NONE} -- Initiliazation
 			random.set_seed (time.compact_time)
 			Args.set_integer_from_word_option ("duration", agent set_running_time_secs, 5)
 
-			Evolicity_engine.set_horrible_indentation
+			Evolicity_templates.set_horrible_indentation
 		end
 
 feature -- Basic operations

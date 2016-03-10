@@ -1,32 +1,29 @@
-note
+﻿note
 	description: "Test recursive conversion of XML document to Eiffel and serialization back to XML."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-22 16:23:23 GMT (Saturday 22nd June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP
 
 inherit
 	TEST_APPLICATION
-		redefine
-			Option_name
-		end
 
 create
 	make
 
 feature -- Basic operations
 
-	run
+	test_run
 			--
 		do
-			Test.do_file_test ("vtd-xml/bioinfo.xml", agent test_read_bioinfo, 2324937273)
+			Test.do_file_test ("vtd-xml/bioinfo.xml", agent test_read_bioinfo, 1823215752) -- Jan 2015
 		end
 
 	test_read_bioinfo (file_path: EL_FILE_PATH)
@@ -40,9 +37,6 @@ feature -- Basic operations
 			log.exit
 		end
 
-feature {NONE} -- Implementation
-
-
 feature {NONE} -- Constants
 
 	Option_name: STRING = "test_recursive_x2e_and_e2x"
@@ -53,22 +47,22 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"],
-				[{BIOINFORMATIC_COMMANDS}, "*"],
-				[{BIOINFO_COMMAND}, "*"],
-				[{CONTAINER_PARAMETER}, "*"],
-				[{TITLE_PARAMETER}, "*"],
-				[{URL_PARAMETER}, "*"],
-				[{RULES_LIST_PARAMETER}, "*"],
-				[{DATA_PARAMETER}, "*"],
-				[{BOOLEAN_PARAMETER}, "*"],
-				[{INTEGER_PARAMETER}, "*"],
-				[{REAL_PARAMETER}, "*"],
-				[{CHOICE_PARAMETER}, "*"],
-				[{INTEGER_RANGE_LIST_PARAMETER}, "*"],
-				[{REAL_RANGE_LIST_PARAMETER}, "*"],
-				[{STRING_LIST_PARAMETER}, "*"]
+				[{RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP}, All_routines],
+				[{EL_TEST_ROUTINES}, All_routines],
+				[{BIOINFORMATIC_COMMANDS}, All_routines],
+				[{BIOINFO_COMMAND}, All_routines],
+				[{CONTAINER_PARAMETER}, All_routines],
+				[{TITLE_PARAMETER}, All_routines],
+				[{URL_PARAMETER}, All_routines],
+				[{RULES_LIST_PARAMETER}, All_routines],
+				[{DATA_PARAMETER}, All_routines],
+				[{BOOLEAN_PARAMETER}, All_routines],
+				[{INTEGER_PARAMETER}, All_routines],
+				[{REAL_PARAMETER}, All_routines],
+				[{CHOICE_PARAMETER}, All_routines],
+				[{INTEGER_RANGE_LIST_PARAMETER}, All_routines],
+				[{REAL_RANGE_LIST_PARAMETER}, All_routines],
+				[{STRING_LIST_PARAMETER}, All_routines]
 
 			>>
 		end

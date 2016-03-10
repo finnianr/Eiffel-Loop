@@ -2,9 +2,7 @@
 
 from eiffel_loop.project import *
 	
-major_version = 1
-
-minor_version = 0
+version = (1, 0, 0)
 
 installation_sub_directory = 'Eiffel-Loop/eiffel2java'
 

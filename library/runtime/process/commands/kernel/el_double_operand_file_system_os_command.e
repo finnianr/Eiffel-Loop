@@ -2,15 +2,15 @@ note
 	description: "Summary description for {EL_DOUBLE_OPERAND_FILE_SYSTEM_OS_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:13:37 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2013-10-12 11:33:15 GMT (Saturday 12th October 2013)"
+	revision: "3"
 
 class
-	EL_DOUBLE_OPERAND_FILE_SYSTEM_OS_COMMAND [T -> EL_COMMAND_IMPL create default_create end]
+	EL_DOUBLE_OPERAND_FILE_SYSTEM_OS_COMMAND [T -> EL_COMMAND_IMPL create make end]
 
 inherit
 	EL_SINGLE_OPERAND_FILE_SYSTEM_COMMAND [T]
@@ -19,16 +19,10 @@ inherit
 			set_path as set_source_path,
 			make as make_source
 		redefine
-			getter_function_table, make_default
+			getter_function_table
 		end
 
 feature {NONE} -- Initialization
-
-	make_default
-			--
-		do
-			make_command
-		end
 
 	make (a_source_path, a_destination_path: like source_path)
 			--
@@ -77,16 +71,17 @@ feature {NONE} -- Evolicity reflection
 		do
 			Result := precursor
 			Result.append_tuples (<<
-				["source_path", 						agent: EL_ASTRING do Result := escaped_path (source_path) end],
-				["is_destination_a_normal_file", agent: BOOLEAN_REF do Result := is_destination_a_normal_file.to_reference end],
-				["destination_path", 				agent: STRING do Result := escaped_path (destination_path) end],
-				["source_last_step", 				agent: STRING do Result := Environment.Operating.shell_escaped (source_path.base) end]
+				["source_path", 						agent: EL_PATH do Result := source_path end],
+				["destination_path", 				agent: EL_PATH do Result := destination_path end],
+
+				["source_last_step", 				agent: ASTRING do Result := source_path.base end],
+				["is_destination_a_normal_file", agent: BOOLEAN_REF do Result := is_destination_a_normal_file.to_reference end]
 			>>)
 		end
 
 feature -- Constants
 
-	Valid_destination_extension: EL_ASTRING
+	Valid_destination_extension: ASTRING
 		once
 			create Result.make_empty
 		end

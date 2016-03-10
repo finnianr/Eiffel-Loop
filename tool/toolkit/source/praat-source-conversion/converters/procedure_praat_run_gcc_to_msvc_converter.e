@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 12:17:44 GMT (Sunday 28th July 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	PROCEDURE_PRAAT_RUN_GCC_TO_MSVC_CONVERTER
@@ -15,7 +15,6 @@ class
 inherit
 	EL_FILE_EDITING_PROCESSOR
 		rename
-			make as make_processor,
 			output as file_output,
 			new_output as actual_file_output
 		export
@@ -34,7 +33,7 @@ feature {NONE} -- Initialization
 	make (a_file_output: PLAIN_TEXT_FILE)
 			--
 		do
-			make_processor
+			make_default
 			actual_file_output := a_file_output
 		end
 

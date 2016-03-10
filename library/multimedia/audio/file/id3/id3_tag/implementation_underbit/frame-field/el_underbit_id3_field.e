@@ -2,12 +2,12 @@ note
 	description: "Encoded field, normally of type string_data"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:28 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_UNDERBIT_ID3_FIELD
@@ -29,7 +29,7 @@ feature -- Access
 			Result := Encoding_unknown
 		end
 
-	string: EL_ASTRING
+	string: ASTRING
 			--
 		local
 			l_type: INTEGER
@@ -140,7 +140,7 @@ feature -- Element change
 
 feature -- Element change: Field_type_list_string
 
-	set_strings (string_array: ARRAY [EL_ASTRING])
+	set_strings (string_array: ARRAY [ASTRING])
 			--
 		require
 			valid_type: field_type = Field_type_list_string
@@ -168,7 +168,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	string_at_address (str_ptr: POINTER): EL_ASTRING
+	string_at_address (str_ptr: POINTER): ASTRING
 			--
 		do
 			if encoding = Encoding_ISO_8859_1 then
@@ -189,7 +189,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	string_latin1 (str_ptr: POINTER): EL_ASTRING
+	string_latin1 (str_ptr: POINTER): ASTRING
 			--
 		local
 			latin1_ptr: POINTER
@@ -199,7 +199,7 @@ feature {NONE} -- Implementation
 			latin1_ptr.memory_free
 		end
 
-	string_utf8 (str_ptr: POINTER): EL_ASTRING
+	string_utf8 (str_ptr: POINTER): ASTRING
 			--
 		local
 			utf8: EL_C_UTF8_STRING_8
@@ -208,7 +208,7 @@ feature {NONE} -- Implementation
 			Result := utf8.as_string_32
 		end
 
-	string_utf16 (str_ptr: POINTER): EL_ASTRING
+	string_utf16 (str_ptr: POINTER): ASTRING
 			--
 		local
 			utf16_c_str: EL_C_STRING_16
@@ -217,12 +217,12 @@ feature {NONE} -- Implementation
 			create utf16_c_str.make_owned (c_id3_ucs4_utf16duplicate (str_ptr))
 			create Result.make (utf16_c_str.count)
 			from i := 1 until i > utf16_c_str.count loop
-				Result.append_code (utf16_c_str.item (i))
+				Result.append_unicode (utf16_c_str.item (i))
 				i := i + 1
 			end
 		end
 
-	to_ucs4 (str: EL_ASTRING): EL_C_DATA
+	to_ucs4 (str: ASTRING): EL_C_DATA
 			--
 		local
 			l_area: SPECIAL [CHARACTER_8]

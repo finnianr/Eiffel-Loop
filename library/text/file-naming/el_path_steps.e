@@ -2,18 +2,18 @@ note
 	description: "Summary description for {EL_PATH_STEPS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-24 15:19:10 GMT (Wednesday 24th July 2013)"
-	revision: "3"
+	date: "2014-10-06 16:01:12 GMT (Monday 6th October 2014)"
+	revision: "5"
 
 class
 	EL_PATH_STEPS
 
 inherit
-	EL_ARRAYED_LIST [EL_ASTRING]
+	EL_ARRAYED_LIST [ASTRING]
 		rename
 			make as make_list,
 			make_from_array as make_list_from_array
@@ -31,6 +31,11 @@ inherit
 			is_equal, copy, default_create
 		end
 
+	EL_MODULE_DIRECTORY
+		undefine
+			is_equal, copy, default_create
+		end
+
 	EL_MODULE_FILE_SYSTEM
 		undefine
 			is_equal, copy, default_create
@@ -42,16 +47,15 @@ create
 	make_from_directory_path, make_from_file_path
 
 convert
-	make_from_array ({ARRAY [EL_ASTRING]}),
+	make_from_array ({ARRAY [ASTRING]}),
 	make_from_latin1_array ({ARRAY [STRING]}),
 	make_from_unicode_array ({ARRAY [STRING_32]}),
 
 	make_from_latin1 ({STRING}),
 	make_from_unicode ({STRING_32}),
-	make ({EL_ASTRING}),
+	make ({ASTRING}),
 
-	as_file_path: {EL_FILE_PATH},
-	as_directory_path: {EL_DIR_PATH}
+	as_file_path: {EL_FILE_PATH}, as_directory_path: {EL_DIR_PATH}, unicode: {READABLE_STRING_GENERAL}
 
 feature {NONE} -- Initialization
 
@@ -82,10 +86,10 @@ feature {NONE} -- Initialization
 		do
 			make_with_count (a_steps.count)
 			from i := 1 until i > a_steps.count loop
-				if attached {EL_ASTRING} a_steps [i] as latin_step then
+				if attached {ASTRING} a_steps [i] as latin_step then
 					extend (latin_step)
 				else
-					extend (create {EL_ASTRING}.make_from_unicode (a_steps [i]))
+					extend (create {ASTRING}.make_from_unicode (a_steps [i]))
 				end
 				i := i + 1
 			end
@@ -98,9 +102,9 @@ feature -- Initialization
 		local
 			separator: like item.item
 			l_separator_count: INTEGER
-			l_path: EL_ASTRING
+			l_path: ASTRING
 		do
-			if attached {EL_ASTRING} a_path as el_string then
+			if attached {ASTRING} a_path as el_string then
 				l_path := el_string
 			else
 				create l_path.make_from_unicode (a_path)
@@ -150,22 +154,37 @@ feature -- Element change
 
 	expand_variables
 		local
-			l_index: INTEGER
-			l_is_absolute: BOOLEAN
+			steps: like to_array; environ_path: EL_DIR_PATH
+			variable_name: ASTRING
 		do
-			l_index := index
-			l_is_absolute := is_absolute
-			from start until after loop
-				if not (l_is_absolute and then index = 1) then
-					if item.count > 1 and then item [1] = '$' then
-						if attached {STRING_32} Execution.item (item.substring (2, item.count)) as value then
-							put_i_th (value , index)
-						end
+			steps := to_array.twin
+			wipe_out
+			across steps as step loop
+				if is_variable_name (step.item) then
+					variable_name := step.item; variable_name.remove_head (1)
+					environ_path := Execution_environment.variable_dir_path (variable_name.to_unicode)
+					if environ_path.is_empty then
+						extend (step.item)
+					else
+						environ_path.steps.do_all (agent extend)
 					end
+				else
+					extend (step.item)
 				end
-				forth
 			end
-			go_i_th (l_index)
+		end
+
+	is_variable_name (a_step: ASTRING): BOOLEAN
+		local
+			i: INTEGER
+		do
+			if a_step.count > 1 and then a_step [1] = '$' and then a_step.is_alpha_item (2) then
+				Result := True
+				from i := 3 until not Result or i > a_step.count loop
+					Result := a_step.is_alpha_numeric_item (i) or a_step [i] = '_'
+					i := i + 1
+				end
+			end
 		end
 
 feature -- Status query
@@ -209,11 +228,11 @@ feature -- Status query
 			-- True if steps are createable as a directory
 		do
 			if is_absolute then
-				if count > 1 and then File_system.dir_exists_and_is_writeable (sub_steps (1, count - 1)) then
+				if count > 1 and then sub_steps (1, count - 1).as_directory_path.exists_and_is_writeable then
 					Result := true
 				end
 			else
-				Result := File_system.dir_exists_and_is_writeable (File_system.current_working_directory)
+				Result := Directory.current_working.exists_and_is_writeable
 			end
 		end
 

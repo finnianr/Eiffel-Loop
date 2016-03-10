@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-08 13:49:21 GMT (Saturday 8th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 deferred class
 	EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER
@@ -147,9 +147,7 @@ feature {NONE} -- Constants
 	Window_border_cms: REAL
 			--
 		once
-			if Screen.is_windows_aero_theme_active then
-				Result := 0.0
-			else
+			if not has_wide_theme_border then
 				Result := 0.2
 			end
 		end

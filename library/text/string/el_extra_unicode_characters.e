@@ -5,12 +5,12 @@
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 10:24:30 GMT (Sunday 28th July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	EL_EXTRA_UNICODE_CHARACTERS
@@ -93,20 +93,27 @@ feature -- Access
 			Result := area.item (i - 1).natural_32_code
 		end
 
-	index_of (c: CHARACTER_32): INTEGER
-			-- Position of first occurrence of `c' at or after `start_index';
+	index_of (uc: CHARACTER_32): INTEGER
+			-- Position of first occurrence of 'uc' at or after 'start_index';
 			-- 0 if none.
 		local
 			l_area: like area
 			i, l_count: INTEGER
 		do
 			l_count := count; l_area := area
-			from i := 0 until i = l_count or else l_area.item (i) = c loop
+			from i := 0 until i = l_count or else l_area.item (i) = uc loop
 				i := i + 1
 			end
 			if i < l_count then
 				Result := i + 1
 			end
+		end
+
+	item (index: INTEGER): CHARACTER_32
+		require
+			valid_index: index >= 1 and index <= count
+		do
+			Result := area.item (index - 1)
 		end
 
 feature -- Status report
@@ -128,12 +135,9 @@ feature -- Status report
 		end
 
 	is_space_character (c: CHARACTER): BOOLEAN
-		local
-			l_unicode: CHARACTER_32
 		do
 			if is_place_holder_item (c) then
-				l_unicode := original_character (c)
-				Result := l_unicode.is_space
+				Result := original_character (c).is_space
 			else
 				Result := c.is_space
 			end
@@ -143,6 +147,11 @@ feature -- Status report
 			-- True if string has extra characters which could not be converted from unicode initialization sring
 		do
 			Result := area.count > 0
+		end
+
+	has (uc: CHARACTER_32): BOOLEAN
+		do
+			Result := index_of (uc) > 0
 		end
 
 	is_over_extended: BOOLEAN
@@ -176,6 +185,8 @@ feature -- Element change
 
 	extend (c: CHARACTER_32)
 			-- Append `c' at end.
+		require
+			is_new_character: not has (c)
 		do
 			if count = 0 then
 				make (1)
@@ -188,6 +199,14 @@ feature -- Element change
 		ensure
 			extended: area [count - 1] = c
 			one_greater: count = old count + 1
+		end
+
+	keep_head (n: INTEGER)
+		do
+			area.keep_head (n)
+			if area.count = 0 then
+				area := Default_area
+			end
 		end
 
 	check_if_over_extended
@@ -232,9 +251,8 @@ feature -- Conversion
 
 	to_string_32: STRING_32
 		do
-			create Result.make (count)
+			create Result.make_filled ('%U', count)
 			Result.area.copy_data (area, 0, 0, count)
-			Result.set_count (count)
 		end
 
 feature -- Duplication
@@ -262,7 +280,7 @@ feature -- Removal
 			area.wipe_out
 		end
 
-feature {EL_CODEC, EL_ASTRING_SEARCHER, EL_EXTRA_UNICODE_CHARACTERS} -- Implementation
+feature {STRING_HANDLER} -- Implementation
 
 	area: SPECIAL [CHARACTER_32]
 

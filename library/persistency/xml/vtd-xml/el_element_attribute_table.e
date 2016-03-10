@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-06 15:29:29 GMT (Friday 6th December 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	EL_ELEMENT_ATTRIBUTE_TABLE
@@ -34,36 +34,30 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item alias "[]", string (name: STRING_32): EL_ASTRING
-			-- attribute content as string
+	boolean (name: STRING_32): BOOLEAN
+			-- attribute content as a BOOLEAN
 		require
 			exists: has (name)
+			is_boolean: item (name).is_boolean
 		do
-			Result := wide_string (c_node_context_attribute_string (name))
+			Result := item (name).to_boolean
 		end
 
-	string_32 (name: STRING_32): STRING_32
-			-- attribute content as wide string
+	date (name: STRING_32): DATE
+			-- attribute content as a DOUBLE
 		require
 			exists: has (name)
+			days_format: item (name).is_natural
 		do
-			Result := wide_string (c_node_context_attribute_string (name))
+			create Result.make_by_days (integer (name))
 		end
 
-	raw_string (name: STRING_32): EL_ASTRING
-			--  attribute content as string with entities and char references not expanded
+	double (name: STRING_32): DOUBLE
+			-- attribute content as a DOUBLE
 		require
 			exists: has (name)
 		do
-			Result := wide_string (c_node_context_attribute_raw_string (name))
-		end
-
-	raw_string_32 (name: STRING_32): STRING_32
-			-- attribute content as wide string with entities and char references not expanded
-		require
-			exists: has (name)
-		do
-			Result := wide_string (c_node_context_attribute_raw_string (name))
+			Result := c_node_context_attribute_double (name)
 		end
 
 	integer (name: STRING_32): INTEGER
@@ -84,6 +78,53 @@ feature -- Access
 			Result := c_node_context_attribute_integer_64 (name)
 		end
 
+	item alias "[]", string (name: STRING_32): ASTRING
+			-- attribute content as augmented latin string
+		require
+			exists: has (name)
+		do
+			Result := wide_string (c_node_context_attribute_string (name))
+		end
+
+	string_8 (name: STRING_32): STRING_8
+		require
+			exists: has (name)
+		do
+			Result := wide_string (c_node_context_attribute_string (name))
+		end
+
+	string_32 (name: STRING_32): STRING_32
+		require
+			exists: has (name)
+		do
+			Result := wide_string (c_node_context_attribute_string (name))
+		end
+
+	raw_string (name: STRING_32): ASTRING
+			--  attribute content as string with entities and char references not expanded
+		require
+			exists: has (name)
+		do
+			Result := wide_string (c_node_context_attribute_raw_string (name))
+		end
+
+	raw_string_32 (name: STRING_32): STRING_32
+			-- attribute content as wide string with entities and char references not expanded
+		require
+			exists: has (name)
+		do
+			Result := wide_string (c_node_context_attribute_raw_string (name))
+		end
+
+	real (name: STRING_32): REAL
+			-- attribute content as a REAL
+		require
+			exists: has (name)
+			is_real: item (name).is_real
+		do
+			Result := c_node_context_attribute_real (name)
+		end
+
 	natural (name: STRING_32): NATURAL
 			-- attribute content as a NATURAL
 		require
@@ -100,33 +141,6 @@ feature -- Access
 			is_natural_64: item (name).is_natural_64
 		do
 			Result := item (name).to_natural_64
-		end
-
-	real (name: STRING_32): REAL
-			-- attribute content as a REAL
-		require
-			exists: has (name)
-			is_real: item (name).is_real
-		do
-			Result := c_node_context_attribute_real (name)
-		end
-
-	double (name: STRING_32): DOUBLE
-			-- attribute content as a DOUBLE
-		require
-			exists: has (name)
-			is_double: item (name).is_double
-		do
-			Result := c_node_context_attribute_double (name)
-		end
-
-	boolean (name: STRING_32): BOOLEAN
-			-- attribute content as a BOOLEAN
-		require
-			exists: has (name)
-			is_boolean: item (name).is_boolean
-		do
-			Result := item (name).to_boolean
 		end
 
 feature -- Status query

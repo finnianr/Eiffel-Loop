@@ -15,7 +15,7 @@ from eiffel_loop.eiffel import project
 if platform.system () == "Windows":
 	compiler_flags = ['-nologo', '-W1', '-c', '-MT', '-Ox', '-DCOMPILED_FROM_DSP', '-DNDEBUG', '-D_LIB', '-DXML_STATIC'	]
 else:
-	compiler_flags = ['-c', '-O3', '-w', '-DHAVE_EXPAT_CONFIG_H', '-DNDEBUG', '-D_LIB', '-DXML_STATIC', '-std=gnu99']
+	compiler_flags = ['-c', '-O3', '-w', '-Wno-write-strings', '-DHAVE_EXPAT_CONFIG_H', '-DNDEBUG', '-D_LIB', '-DXML_STATIC', '-std=gnu99']
 
 env = Environment (CCFLAGS = compiler_flags, CPPPATH = ['include'], ENV = os.environ)
 

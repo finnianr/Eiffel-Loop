@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 20:07:30 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES
@@ -33,10 +33,10 @@ feature {NONE} -- Initialization
 
 	default_create
 		do
-			create webstart_profiles.make_from_array (<< create_properties >>)
-			create plugin_profiles.make_from_array (<< create_properties >>)
+			create webstart_profiles.make_from_array (<< new_properties >>)
+			create plugin_profiles.make_from_array (<< new_properties >>)
 			create profiles.make (<<
-				["javaws", webstart_profiles],
+				[Var_javaws, webstart_profiles],
 				["javapi", plugin_profiles]
 			>>)
 		end
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 			default_create
 			create property_lines.make (file_path)
 			across property_lines as line loop
-				if not line.item.starts_with ("#") then
+				if not line.item.starts_with (once "#") then
 					import_line (line.item)
 				end
 			end
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	webstart_profiles: ARRAYED_LIST [like properties]
+	webstart_profiles: ARRAYED_LIST [like new_properties]
 		-- JRE Java web start properties by version
 
 	plugin_profiles: like webstart_profiles
@@ -72,7 +72,7 @@ feature -- Basic operations
 		do
 			log.enter ("dump")
 			across profiles as profile loop
-				if profile.key ~ "javaws" then
+				if profile.key ~ Var_javaws then
 					log.put_line ("Webstart Profiles")
 				else
 					log.put_line ("Plugin Profiles")
@@ -96,71 +96,83 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	import_line (line: STRING)
+	import_line (line: ASTRING)
 			--
 		local
-			key_path: LIST [STRING]
-			key, value, profile_type: STRING
+			key_path_list: LIST [ASTRING]
+			key, value, profile_type: ASTRING
 			profile_id, pos_equal_sign, pos_profile_id: INTEGER
 		do
 			pos_equal_sign := line.index_of ('=', 1)
-			key_path := line.substring (1, pos_equal_sign - 1).split ('.')
+			key_path_list := line.substring (1, pos_equal_sign - 1).split ('.')
 			value := line.substring (pos_equal_sign + 1, line.count)
-			profile_type := key_path.i_th (2)
-			if profile_type ~ "javaws" then
+			profile_type := key_path_list.i_th (2)
+			if profile_type ~ Var_javaws then
 				pos_profile_id := 4
 			else
 				pos_profile_id := 6
 			end
-			if key_path.count = pos_profile_id + 1
+			if key_path_list.count = pos_profile_id + 1
 				and then profiles.has_key (profile_type)
-				and then key_path.i_th (3) ~ "jre"
-				and then key_path.i_th (pos_profile_id).is_integer
+				and then key_path_list.i_th (3) ~ Var_jre
+				and then key_path_list.i_th (pos_profile_id).is_integer
 			then
-				key := key_path.last
-				profile_id := key_path.i_th (pos_profile_id).to_integer + 1
-				if key ~ "path" or key ~ "location" then
-					add_property (profiles [profile_type], key, String.unescaped (value, '\', Escaped_characters), profile_id)
+				key := key_path_list.last
+				profile_id := key_path_list.i_th (pos_profile_id).to_integer + 1
+				if key ~ Key_path or key ~ Key_location then
+					add_property (profiles [profile_type], key, value.unescaped ('\', Escaped_characters), profile_id)
 				else
 					add_property (profiles [profile_type], key, value, profile_id)
 				end
 			end
 		end
 
-	add_property (a_profile: like webstart_profiles; key, value: STRING; version: INTEGER)
+	add_property (a_profile: like webstart_profiles; key, value: ASTRING; version: INTEGER)
 		do
 --			log.enter_with_args ("add_property", << key, value, version >>)
 			if version > a_profile.count then
 				from until version = a_profile.count loop
-					a_profile.extend (create_properties)
+					a_profile.extend (new_properties)
 				end
 			end
 			a_profile.i_th (version).put (value, key)
 --			log.exit
 		end
 
-	create_properties: like properties
+	new_properties: EL_ASTRING_HASH_TABLE [ASTRING]
 		do
-			create Result.make (7)
-			Result.compare_objects
-		end
-
-feature {NONE} -- Anchored type defs.
-
-	properties: HASH_TABLE [STRING, STRING]
-		require
-			never_called: False
-		do
+			create Result.make_equal (7)
 		end
 
 feature {NONE} -- Constants
 
-	Escaped_characters: HASH_TABLE [CHARACTER, CHARACTER]
+	Var_javaws: ASTRING
+		once
+			Result := "javaws"
+		end
+
+	Var_jre: ASTRING
+		once
+			Result := "jre"
+		end
+
+	Key_path: ASTRING
+		once
+			Result := "path"
+		end
+
+	Key_location: ASTRING
+		once
+			Result := "location"
+		end
+
+	Escaped_characters: EL_HASH_TABLE [CHARACTER_32, CHARACTER_32]
 			--
 		once
-			create Result.make (4)
-			Result ['\'] := '\'
-			Result [':'] := ':'
+			create Result.make (<<
+				[{CHARACTER_32} '\', {CHARACTER_32} '\'],
+				[{CHARACTER_32} ':', {CHARACTER_32} ':']
+			>>)
 		end
 
 end

@@ -8,12 +8,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-10-02 11:12:34 GMT (Thursday 2nd October 2014)"
+	revision: "5"
 
 class
 	EL_SPREAD_SHEET
@@ -53,20 +53,20 @@ feature {NONE} -- Initaliazation
 			make_with_tables (file_name, << Wildcard_all >>)
 		end
 
-	make_with_tables (file_name: EL_FILE_PATH; table_names: ARRAY [EL_ASTRING])
+	make_with_tables (file_name: EL_FILE_PATH; table_names: ARRAY [ASTRING])
 			-- make with selected table names
 		require
 			valid_file_type: is_valid_file_type (file_name)
 		local
-			xpath, cell_range_address, name: EL_ASTRING
+			xpath, cell_range_address, name: ASTRING
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT
 			table_nodes: EL_XPATH_NODE_CONTEXT_LIST
-			defined_ranges: EL_ASTRING_HASH_TABLE [EL_ASTRING]
+			defined_ranges: EL_ASTRING_HASH_TABLE [ASTRING]
 			spreadsheet_ctx, document_ctx: EL_XPATH_NODE_CONTEXT
 		do
 			log.enter ("make_with_tables")
-			create tables.make_with_count (5)
-			create defined_ranges.make_with_count (11)
+			create tables.make_equal (5)
+			create defined_ranges.make_equal (11)
 			log.put_line ("Parsing XML")
 			create root_node.make_from_file (file_name)
 			log.put_line ("Building spreadsheet")
@@ -94,7 +94,7 @@ feature {NONE} -- Initaliazation
 						defined_ranges [cell_range_address] := name
 					end
 					xpath := selected_tables_xpath (table_names)
-					table_nodes := spreadsheet_ctx.context_list (xpath)
+					table_nodes := spreadsheet_ctx.context_list (xpath.to_unicode)
 					make_array (table_nodes.count)
 
 					across table_nodes as table_context loop
@@ -110,9 +110,9 @@ feature -- Access
 
 	office_version: REAL
 
-	mimetype: EL_ASTRING
+	mimetype: ASTRING
 
-	table (a_name: EL_ASTRING): EL_SPREAD_SHEET_TABLE
+	table (a_name: ASTRING): EL_SPREAD_SHEET_TABLE
 		do
 			Result := tables [a_name]
 		end
@@ -132,9 +132,9 @@ feature -- Contract support
 
 feature {NONE} -- Implementation
 
-	selected_tables_xpath (table_names: ARRAY [EL_ASTRING]): EL_ASTRING
+	selected_tables_xpath (table_names: ARRAY [ASTRING]): ASTRING
 		local
-			name_predicate: EL_ASTRING
+			name_predicate: ASTRING
 			i: INTEGER
 		do
 			create name_predicate.make_empty
@@ -158,7 +158,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Wildcard_all: EL_ASTRING
+	Wildcard_all: ASTRING
 		once
 			Result := "*"
 		end

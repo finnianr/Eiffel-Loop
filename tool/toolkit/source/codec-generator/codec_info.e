@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {CODEC_INFO}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-26 10:50:57 GMT (Friday 26th July 2013)"
-	revision: "5"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "7"
 
 class
 	CODEC_INFO
@@ -15,11 +15,15 @@ class
 inherit
 	EL_FILE_PARSER
 		rename
-			new_pattern as assignment_pattern,
-			make as make_parser
+			new_pattern as assignment_pattern
+		redefine
+			make_default
 		end
 
 	EVOLICITY_EIFFEL_CONTEXT
+		redefine
+			make_default
+		end
 
 	EL_MODULE_LOG
 	EL_MODULE_STRING
@@ -31,13 +35,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_codec_name: EL_ASTRING)
-			--
+	make_default
 		local
 			i: INTEGER
 		do
-			make_parser
-			codec_name := a_codec_name
 			create default_unicode_info.make (0)
 			create latin_table.make_filled (default_unicode_info, 0, 255)
 			create latin_characters.make (128)
@@ -47,11 +48,19 @@ feature {NONE} -- Initialization
 			end
 			create lower_case_offsets.make (7)
 			create upper_case_offsets.make (7)
-			create case_change_substitutes
+			create single_case_character_set.make (2)
 
 			create unicode_intervals.make (7)
 
-			make_eiffel_context
+			Precursor {EL_FILE_PARSER}
+			Precursor {EVOLICITY_EIFFEL_CONTEXT}
+		end
+
+	make (a_codec_name: ASTRING)
+			--
+		do
+			make_default
+			codec_name := a_codec_name
 		end
 
 feature -- Access
@@ -66,7 +75,7 @@ feature -- Access
 			Result := character_set (agent {LATIN_CHARACTER}.is_digit)
 		end
 
-	codec_base_name: EL_ASTRING
+	codec_base_name: ASTRING
 		do
 			if codec_name.has_substring ("iso") then
 				Result := "ISO_8859"
@@ -80,7 +89,7 @@ feature -- Access
 			Result := codec_name.substring (codec_name.last_index_of ('_', codec_name.count) + 1, codec_name.count).to_integer
 		end
 
-	codec_name: EL_ASTRING
+	codec_name: ASTRING
 
 	lower_case_offsets: HASH_TABLE [ARRAYED_LIST [INTEGER_INTERVAL], NATURAL]
 
@@ -90,7 +99,7 @@ feature -- Access
 
 feature -- Element change
 
-	add_assignment (text: EL_ASTRING)
+	add_assignment (text: ASTRING)
 			--
 		do
 			set_source_text (text)
@@ -139,14 +148,14 @@ feature -- Basic operations
 						unicode_changed := unicode.as_upper; case_offsets := lower_case_offsets
 					end
 					if unicode_changed = '%U' then
-						log_or_io.put_string_field ("Alpha is neither upper or lower", character_string (unicode).to_utf8)
+						log_or_io.put_string_field ("Alpha is neither upper or lower", latin_character.unicode_string)
 						log_or_io.put_new_line
 					else
 						table.find_first (unicode_changed.natural_32_code, agent {LATIN_CHARACTER}.unicode)
 						if table.after then
-							case_change_substitutes [character_string (unicode)] := character_string (unicode_changed)
-							log_or_io.put_string_field (case_type + " case character", character_string (unicode).to_utf8)
-							log_or_io.put_string_field (" has no latin case change", character_string (unicode_changed).to_utf8)
+							single_case_character_set.extend (latin_character)
+							log_or_io.put_string_field (case_type + " case character", latin_character.unicode_string)
+							log_or_io.put_string_field (" has no latin case change", latin_character.inverse_case_unicode_string)
 							log_or_io.put_new_line
 						else
 							extend_offset_interval (case_offsets, i.to_character_8, (table.index - 1).to_character_8)
@@ -218,7 +227,7 @@ feature {NONE} -- Match actions
 	on_latin_code (hexadecimal: EL_STRING_VIEW)
 			--
 		do
-			last_latin_code := String.hexadecimal_to_integer (hexadecimal.view)
+			last_latin_code := String.hexadecimal_to_integer (hexadecimal.to_string_8)
 			latin_characters.extend (create {LATIN_CHARACTER}.make (last_latin_code.to_natural_32))
 			latin_table [last_latin_code] := latin_characters.last
 		end
@@ -232,7 +241,7 @@ feature {NONE} -- Match actions
 	on_comment (a_comment: EL_STRING_VIEW)
 			--
 		local
-			l_name: EL_ASTRING
+			l_name: ASTRING
 		do
 			l_name := a_comment
 			l_name.left_adjust
@@ -242,12 +251,6 @@ feature {NONE} -- Match actions
 		end
 
 feature {NONE} -- Implementation
-
-	character_string (unicode: CHARACTER_32): EL_ASTRING
-		do
-			create Result.make (1)
-			Result.append_unicode (unicode.natural_32_code)
-		end
 
 	character_set (filter: PREDICATE [LATIN_CHARACTER, TUPLE]): ARRAYED_LIST [INTEGER_INTERVAL]
 		local
@@ -339,7 +342,7 @@ feature {NONE} -- Implementation
 
 	last_latin_code: INTEGER
 
-	case_change_substitutes: EL_ASTRING_HASH_TABLE [EL_ASTRING]
+	single_case_character_set: ARRAYED_LIST [LATIN_CHARACTER]
 
 feature {NONE} -- Evolicity fields
 
@@ -375,23 +378,21 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["codec_name", 		agent: EL_ASTRING do Result := codec_name.as_upper end],
-				["codec_base_name", 	agent: EL_ASTRING do Result := codec_base_name end],
-				["latin_characters", agent: ITERABLE [LATIN_CHARACTER] do Result := latin_characters end],
-				["lower_case_offsets", agent: ITERABLE [STRING]
-					do Result := case_change_offsets_string_table (lower_case_offsets) end
-				],
-				["upper_case_offsets", agent: ITERABLE [STRING]
-					do Result := case_change_offsets_string_table (upper_case_offsets) end
-				],
-				["lower_case_set_string", agent: STRING do Result := get_case_set_string (upper_case_offsets) end],
-				["upper_case_set_string", agent: STRING do Result := get_case_set_string (lower_case_offsets) end],
+				["codec_name", 						agent: ASTRING do Result := codec_name.as_upper end],
+				["codec_base_name", 					agent: ASTRING do Result := codec_base_name end],
+				["latin_characters", 				agent: ITERABLE [LATIN_CHARACTER] do Result := latin_characters end],
+				["lower_case_offsets", 				agent: ITERABLE [STRING]
+																do Result := case_change_offsets_string_table (lower_case_offsets) end],
+				["upper_case_offsets", 				agent: ITERABLE [STRING]
+																do Result := case_change_offsets_string_table (upper_case_offsets) end],
+				["lower_case_set_string", 			agent: STRING do Result := get_case_set_string (upper_case_offsets) end],
+				["upper_case_set_string", 			agent: STRING do Result := get_case_set_string (lower_case_offsets) end],
 				["unchangeable_case_set_string", agent get_unchangeable_case_set_string],
-				["alpha_set_string", agent: STRING do Result := code_intervals_string (alpha_set) end],
-				["numeric_set_string", agent: STRING do Result := code_intervals_string (numeric_set) end],
-				["codec_id", agent: INTEGER_REF do Result := codec_id.to_reference end],
-				["case_change_substitutes", agent: ITERABLE [STRING] do Result := case_change_substitutes end],
-				["unicode_intervals", agent: ITERABLE [UNICODE_INTERVAL] do Result := unicode_intervals end]
+				["alpha_set_string", 				agent: STRING do Result := code_intervals_string (alpha_set) end],
+				["numeric_set_string",				agent: STRING do Result := code_intervals_string (numeric_set) end],
+				["codec_id",							agent: INTEGER_REF do Result := codec_id.to_reference end],
+				["single_case_character_set", 	agent: ITERABLE [LATIN_CHARACTER] do Result := single_case_character_set end],
+				["unicode_intervals", 				agent: ITERABLE [UNICODE_INTERVAL] do Result := unicode_intervals end]
 			>>)
 		end
 

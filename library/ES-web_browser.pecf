@@ -1,5 +1,5 @@
 pyxis-doc:
-	version = 1.0; encoding = ISO-8859-1
+	version = 1.0; encoding = "ISO-8859-1"
 system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-5-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance"
@@ -41,14 +41,14 @@ system:
 				platform:
 					value = windows
 		library:
-			name = api_wrapper; location = "$ISE_LIBRARY\library\api_wrapper\api_wrapper.ecf"
+			name = api_wrapper; location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"
 		library:
-			name = base; location = "$ISE_LIBRARY\library\base\base.ecf"
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 		library:
 			name = vision2; location = "ES-vision2.ecf"
 
 		library:
-			name = wel; location = "ES-wel.ecf"
+			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
 				platform:
 					value = windows
@@ -70,7 +70,7 @@ system:
 
 		cluster:
 			name = implementation_gtk
-			location = "$ISE_LIBRARY\library\web_browser\implementation\gtk\\"
+			location = "$ISE_LIBRARY/library/web_browser/implementation/gtk"
 			recursive = true
 			file_rule:
 				exclude:
@@ -81,8 +81,8 @@ system:
 				custom:
 					name = vision_implementation; excluded_value = cocoa
 		cluster:
-			name = el_extras
-			location = "graphic/web_browser-override/implementation"; recursive = true
+			name = EL_override
+			location = "graphic/toolkit/overrides/web_browser/implementation"; recursive = true
 			file_rule:
 				exclude:
 					"/gtk$"
@@ -104,13 +104,13 @@ system:
 
 		cluster:
 			name = implementation_interface
-			location = "$ISE_LIBRARY\library\web_browser\implementation\implementation_interface\\"
+			location = "$ISE_LIBRARY/library/web_browser/implementation/implementation_interface"
 			recursive = true
 			option:
 				namespace = "Vision2.$$Implementation.Interface"
 		cluster:
 			name = implementation_mswin
-			location = "$ISE_LIBRARY\library\web_browser\implementation\mswin\\"
+			location = "$ISE_LIBRARY/library/web_browser/implementation/mswin"
 			recursive = true
 			condition:
 				platform:
@@ -134,7 +134,7 @@ system:
 					dotnet:
 						value = true
 		cluster:
-			name = interface; location = "$ISE_LIBRARY\library\web_browser\interface\\"
+			name = interface; location = "$ISE_LIBRARY/library/web_browser/interface"
 			recursive = true
 			option:
 				namespace = Vision2

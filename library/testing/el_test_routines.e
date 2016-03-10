@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_TEST_ROUTINES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:07:59 GMT (Monday 22nd July 2013)"
-	revision: "4"
+	date: "2014-09-19 11:25:53 GMT (Friday 19th September 2014)"
+	revision: "6"
 
 class
 	EL_TEST_ROUTINES
@@ -19,7 +19,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_DIRECTORY
 
 	EL_MODULE_URL
 
@@ -120,7 +120,7 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	do_directory_test (
-		a_input_dir_path: EL_DIR_PATH; file_name_pattern: EL_ASTRING
+		a_input_dir_path: EL_DIR_PATH; file_name_pattern: ASTRING
 		test_proc: like Type_test_procedure; valid_test_checksum: NATURAL
 	)
 			-- Perform test that operates on a directory search
@@ -128,9 +128,12 @@ feature {NONE} -- Implementation
 			input_dir_path: EL_DIR_PATH
 		do
 			create_workarea
-			File_system.copy_tree (a_input_dir_path, Work_area_directory)
-
 			input_dir_path := Work_area_directory.twin; input_dir_path.append_file_path (a_input_dir_path.steps.last)
+			if a_input_dir_path.exists then
+				File_system.copy_tree (a_input_dir_path, Work_area_directory)
+			else
+				File_system.make_directory (input_dir_path)
+			end
 			check
 				is_directory: input_dir_path.is_directory
 			end
@@ -144,7 +147,7 @@ feature {NONE} -- Implementation
 		end
 
 	do_test (
-		input_dir_path: EL_DIR_PATH; file_name_pattern: EL_ASTRING
+		input_dir_path: EL_DIR_PATH; file_name_pattern: ASTRING
 		test_proc: like Type_test_procedure; old_checksum: NATURAL
 	)
 			--
@@ -152,9 +155,11 @@ feature {NONE} -- Implementation
 			logging_active: logging.is_active
 		local
 			search_results: ARRAYED_LIST [EL_FILE_PATH]
+			timer: EL_EXECUTION_TIMER
 		do
 			Log_manager.clear_current_thread_log
 
+			create timer.make
 			if file_name_pattern = Empty_pattern then
 				is_executing := True; test_proc.apply; is_executing := False
 			else
@@ -165,6 +170,7 @@ feature {NONE} -- Implementation
 					search_results.forth
 				end
 			end
+			timer.stop
 
 			Log_manager.flush_current_thread_log
 			File_system.copy (Log_manager.current_thread_log_path, input_dir_path + "main.log")
@@ -172,6 +178,8 @@ feature {NONE} -- Implementation
 			log_or_io.put_new_line
 
 			last_test_succeeded := checksum = old_checksum
+
+			log.put_labeled_string ("Executed", timer.out); log.put_new_line
 			if last_test_succeeded then
 				log_or_io.put_line ("TEST IS OK ")
 
@@ -192,11 +200,11 @@ feature {NONE} -- Implementation
 			--
 		do
 			if not Work_area_directory.exists then
-				File_system.make_directory_from_steps (Work_area_directory.steps)
+				File_system.make_directory (Work_area_directory)
 			end
 		end
 
-	normalized_directory_path (a_unix_path: EL_ASTRING): EL_DIR_PATH
+	normalized_directory_path (a_unix_path: ASTRING): EL_DIR_PATH
 			-- normalize unix path for current platform
 		local
 			l_steps: EL_PATH_STEPS
@@ -231,9 +239,9 @@ feature {NONE} -- Implementation
 			checksum := CRC.checksum
 		end
 
-	binary_file_extensions: ARRAY [EL_ASTRING]
+	binary_file_extensions: ARRAY [ASTRING]
 
-	excluded_file_extensions: ARRAY [EL_ASTRING]
+	excluded_file_extensions: ARRAY [ASTRING]
 
 	checksum: NATURAL
 
@@ -242,7 +250,7 @@ feature -- Constants
 	Encoded_home_directory: STRING
 			--
 		once
-			Result := Url.encoded_path (Execution.home_directory.to_string, True)
+			Result := Url.encoded_path (Directory.home.to_string, True)
 		end
 
 	Work_area_directory: EL_DIR_PATH
@@ -263,7 +271,7 @@ feature -- Constants
 			create Result.make (10)
 		end
 
-	Empty_pattern: EL_ASTRING
+	Empty_pattern: ASTRING
 		once
 			create Result.make_empty
 		end

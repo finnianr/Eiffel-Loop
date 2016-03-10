@@ -2,22 +2,23 @@ note
 	description: "Summary description for {EL_EIF_OBJ_XPATH_CONTEXT}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:29 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
 		do
-			create xpath.make_empty
+			set_default_attributes
+			next_context := Default_next_context
 		end
 
 feature {EL_XML_TO_EIFFEL_OBJECT_BUILDER} -- Event handler
@@ -58,7 +59,6 @@ feature -- Element change
 		do
 			next_context := context
 			next_context.set_node (node)
-			has_next_context := true
 		end
 
 	add_xpath_step (tag_name: STRING_32)
@@ -89,8 +89,7 @@ feature -- Element change
 	delete_next_context
 			--
 		do
-			next_context := Void
-			has_next_context := false
+			next_context := Default_next_context
 		end
 
 feature -- Status query
@@ -121,8 +120,17 @@ feature -- Status query
 		end
 
 	has_next_context: BOOLEAN
+		do
+			Result := next_context /= Default_next_context
+		end
 
 feature {EL_EIF_OBJ_XPATH_CONTEXT} -- Implementation
+
+	set_default_attributes
+		do
+			node := Default_node
+			create xpath.make_empty
+		end
 
 	node: EL_XML_NODE
 
@@ -130,6 +138,17 @@ feature {EL_EIF_OBJ_XPATH_CONTEXT} -- Implementation
 
 feature {NONE} -- Constant
 
+	Default_next_context: EL_DEFAULT_EIF_OBJ_XPATH_CONTEXT
+		once ("PROCESS")
+			create Result
+			Result.set_default_attributes
+		end
+
 	Xpath_step_separator: CHARACTER_32 = '/'
+
+	Default_node: EL_XML_NODE
+		once ("PROCESS")
+			create Result
+		end
 
 end

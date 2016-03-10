@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {PARAMETER_LIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:22 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	PARAMETER_LIST
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_EIF_OBJ_BUILDER_CONTEXT
-		rename
-			make as make_builder
 		undefine
 			is_equal, copy
 		redefine
@@ -36,7 +34,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor (n)
-			make_builder
+			make_default
 		end
 
 feature {NONE} -- Build from XML

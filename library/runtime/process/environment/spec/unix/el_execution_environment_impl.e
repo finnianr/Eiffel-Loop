@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-02-02 11:10:20 GMT (Sunday 2nd February 2014)"
-	revision: "5"
+	date: "2014-03-23 15:01:12 GMT (Sunday 23rd March 2014)"
+	revision: "6"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMPL
@@ -17,33 +17,14 @@ inherit
 
 	EXECUTION_ENVIRONMENT
 
-	EL_MODULE_BUILD_INFO
-
-	EL_MODULE_STRING
+create
+	make
 
 feature {EL_EXECUTION_ENVIRONMENT} -- Access
 
-	user_configuration_steps: EL_PATH_STEPS
+	executable_file_extensions: LIST [ASTRING]
 		do
-			Result := Build_info.installation_sub_directory
-			Result.put_front (user_configuration_directory_name)
-		end
-
-	user_data_directory_steps: EL_PATH_STEPS
-			--
-		do
-			Result := Build_info.installation_sub_directory
-			Result.first.prepend (Data_dir_name_prefix)
-		end
-
-	user_profile_dir: EL_DIR_PATH
-		do
-			create Result.make_from_path (Home_directory_path)
-		end
-
-	executable_file_extensions: LIST [EL_ASTRING]
-		do
-			create {ARRAYED_LIST [EL_ASTRING]} Result.make_from_array (<< once "" >>)
+			create {ARRAYED_LIST [ASTRING]} Result.make_from_array (<< once "" >>)
 		end
 
 	console_code_page: NATURAL
@@ -65,27 +46,14 @@ feature {EL_EXECUTION_ENVIRONMENT} -- OS settings
 
 feature {EL_EXECUTION_ENVIRONMENT} -- Constants
 
-
-	Data_dir_name_prefix: EL_ASTRING
+	Data_dir_name_prefix: ASTRING
 		once
-			Result := {STRING_32} "."
+			Result := "."
 		end
 
-	Apps_install_dir: EL_FILE_PATH
+	User_configuration_directory_name: ASTRING
 		once
-			Result := {STRING_32} "/opt"
-		end
-
---	Apps_install_path: STRING is "/home/finnian/opt"
-
-	System_command_dir: EL_FILE_PATH
-		once
-			Result := {STRING_32} "/usr/bin"
-		end
-
-	User_configuration_directory_name: EL_ASTRING
-		once
-			Result := {STRING_32} ".config"
+			Result := ".config"
 		end
 
 end

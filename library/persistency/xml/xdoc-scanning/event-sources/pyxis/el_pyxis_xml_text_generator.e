@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-03 8:22:43 GMT (Wednesday 3rd July 2013)"
-	revision: "4"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	EL_PYXIS_XML_TEXT_GENERATOR
@@ -21,17 +21,18 @@ inherit
 			make as make_xml_source,
 			make_pyxis_source as make
 		redefine
-			XML
+			xml_escaper
 		end
 
 create
 	make
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	XML: EL_PYXIS_XML_ROUTINES
+	xml_escaper: EL_XML_CHARACTER_ESCAPER
 		once
-			create Result
+			create Result.make
+			Result.extend ('%T', Result.escape_sequence ('%T'))
 		end
 
 end

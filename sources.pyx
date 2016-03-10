@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-15"
 
 manifest:
-	locations:
+	location:
 		"$EIFFEL_LOOP/library"
 		"$EIFFEL_LOOP/example/eiffel2java/source"
 		"$EIFFEL_LOOP/example/graphical/source"

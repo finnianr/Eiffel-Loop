@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_FIND_DIRECTORIES_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 11:41:06 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2014-01-24 12:20:09 GMT (Friday 24th January 2014)"
+	revision: "3"
 
 class
 	EL_FIND_DIRECTORIES_COMMAND
@@ -19,11 +19,11 @@ inherit
 		end
 
 create
-	make, make_default
+	make, default_create
 
 feature -- Access
 
-	path_list: ARRAYED_LIST [EL_DIR_PATH]
+	path_list: EL_ARRAYED_LIST [EL_DIR_PATH]
 
 feature {NONE} -- Implementation
 

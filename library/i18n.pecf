@@ -1,0 +1,63 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = EL_i18n
+	uuid = "229b7376-09aa-11df-87ba-5b96f04f3b6d" 
+	library_target = EL_i18n
+	
+	target:
+		name = EL_i18n
+		
+		description: 
+			"""
+				Localization classes
+			"""
+		option: 
+			trace = false; debug = false; warning = true; syntax = standard
+
+		root:
+			all_classes = true
+
+		library:
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		library:
+			name = i18n; location = "$ISE_LIBRARY/library/i18n/i18n.ecf"
+			condition:
+				platform:
+					value = windows
+
+		# Eiffel-Loop
+		library:
+			name = EL_base; location = "base.ecf"
+
+		library:
+			name = EL_vtd_xml; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
+
+		library:
+			name = EL_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
+
+		# Source code
+		cluster:
+			name = EL_i18n; location = "text/i18n"; recursive = true
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
+

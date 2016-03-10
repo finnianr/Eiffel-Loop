@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-03-13 16:38:35 GMT (Wednesday 13th March 2013)"
 	revision: "2"
@@ -21,8 +21,6 @@ inherit
 	EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE
 		export
 			{NONE} all
-		undefine
-			default_create
 		end
 
 	EL_EVENT_LISTENER
@@ -30,16 +28,6 @@ inherit
 			notify as execute
 		export
 			{NONE} all
-		undefine
-			default_create
-		end
-
-feature {NONE} -- Initialization
-
-	make
-			--
-		do
-			default_create
 		end
 
 feature -- Basic operations

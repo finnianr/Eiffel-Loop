@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-02-02 11:17:08 GMT (Sunday 2nd February 2014)"
-	revision: "3"
+	date: "2014-03-23 13:09:58 GMT (Sunday 23rd March 2014)"
+	revision: "4"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMPL
@@ -16,29 +16,14 @@ inherit
 	EL_PLATFORM_IMPL
 
 	EL_MS_WINDOWS_DIRECTORIES
-		rename
-			Program_files_dir as Apps_install_dir,
-			System_dir as System_command_dir
 		export
 			{NONE} all
-			{ANY} Apps_install_dir, System_command_dir, User_profile_dir
 		end
 
-	EL_MODULE_BUILD_INFO
+create
+	make
 
 feature {EL_EXECUTION_ENVIRONMENT} -- Access
-
-	user_configuration_steps: EL_PATH_STEPS
-		do
-			Result := user_data_directory_steps.twin
-			Result.extend (user_configuration_directory_name)
-		end
-
-	user_data_directory_steps: EL_PATH_STEPS
-			--
-		do
-			Result := Build_info.installation_sub_directory
-		end
 
 	console_code_page: NATURAL
 		do

@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_eros
+	name = EL_eros
 	uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" 
-	library_target = el_eros
+	library_target = EL_eros
 	
 	target:
-		name = el_eros
+		name = EL_eros
 		
 		description: 
 			"""
@@ -34,14 +34,15 @@ system:
 		
 		# Eiffel Loop libraries
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 
 		library:
-			name = el_net_base; location = "network.ecf"
+			name = EL_net_base; location = "network.ecf"
 
 		library:
-			name = el_xdoc_scanning; location = "xdoc-scanning.ecf"
+			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
 
+		# Source code
 		cluster:
 			name = eros; location = "network/eros"; recursive = true
 			file_rule:

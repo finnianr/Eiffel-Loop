@@ -1,29 +1,31 @@
-note
+﻿note
 	description: "Summary description for {EIFFEL_CODE_HIGHLIGHTING_TRANSFORMER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 19:58:23 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-10-06 17:24:35 GMT (Monday 6th October 2014)"
+	revision: "6"
 
 class
 	EIFFEL_CODE_HIGHLIGHTING_TRANSFORMER
 
 inherit
-	EL_TEXT_EDITOR
+	EL_EIFFEL_TEXT_EDITOR
 		rename
-			make as make_editor,
 			edit_text as transform
 		redefine
-			transform, on_unmatched_text
+			make_default, transform, on_unmatched_text
 		end
 
 	EL_EIFFEL_PATTERN_FACTORY
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+		rename
+			make as make_machine
+		end
 
 	EL_MODULE_XML
 
@@ -32,10 +34,16 @@ create
 
 feature {NONE} -- Initialization
 
+	make_default
+		do
+			make_machine
+			Precursor
+		end
+
 	make (a_output: like output)
 			--
 		do
-			make_editor
+			make_default
 			output := a_output
 		end
 
@@ -52,9 +60,9 @@ feature {NONE} -- Initialization
 			create selected_text.make (source_lines.byte_count)
 
 			if selected_features.is_empty then
-				do_with_lines (agent find_class_declaration, source_lines)
+				do_once_with_file_lines (agent find_class_declaration, source_lines)
 			else
-				do_with_lines (agent find_feature_block, source_lines)
+				do_once_with_file_lines (agent find_feature_block, source_lines)
 			end
 			set_source_text (selected_text)
 		end
@@ -65,7 +73,7 @@ feature -- Basic operations
 			--
 		do
 			find_all
-			write_new_text
+			write_events_text
 		end
 
 feature {NONE} -- Pattern definitions
@@ -124,7 +132,7 @@ feature {NONE} -- Parsing actions
 
 feature {NONE} -- Line procedure transitions for whole class
 
-	find_class_declaration (line: EL_ASTRING)
+	find_class_declaration (line: ASTRING)
 			--
 		do
 			if line.starts_with ("class") or else line.starts_with ("deferred") then
@@ -133,7 +141,7 @@ feature {NONE} -- Line procedure transitions for whole class
 			end
 		end
 
-	append_to_selected_text (line: EL_ASTRING)
+	append_to_selected_text (line: ASTRING)
 			--
 		do
 			if not selected_text.is_empty then
@@ -146,7 +154,7 @@ feature {NONE} -- Line procedure transitions for whole class
 
 feature {NONE} -- Line procedure transitions for selected features
 
-	find_feature_block (line: EL_ASTRING)
+	find_feature_block (line: ASTRING)
 			--
 		do
 			if line.starts_with ("feature ") then
@@ -155,10 +163,10 @@ feature {NONE} -- Line procedure transitions for selected features
 			end
 		end
 
-	find_selected_feature (line: EL_ASTRING)
+	find_selected_feature (line: ASTRING)
 			--
 		local
-			trimmed_line: EL_ASTRING
+			trimmed_line: ASTRING
 			tab_count: INTEGER
 			found: BOOLEAN
 		do
@@ -190,10 +198,10 @@ feature {NONE} -- Line procedure transitions for selected features
 			end
 		end
 
-	find_feature_end (line: EL_ASTRING)
+	find_feature_end (line: ASTRING)
 			--
 		local
-			trimmed_line: EL_ASTRING
+			trimmed_line: ASTRING
 			tab_count: INTEGER
 		do
 			create trimmed_line.make_from_other (line)
@@ -220,12 +228,13 @@ feature {NONE} -- Implementation
 	put_escaped (text: EL_STRING_VIEW)
 			--
 		do
-			put_string (XML.escaped (text.view))
+			put_string (XML.escaped_128_plus (text.to_string_8))
 		end
 
-	new_output: like output
+	new_output: IO_MEDIUM
 			--
 		do
+			create {EL_TEXT_IO_MEDIUM} Result.make (0)
 		end
 
 	selected_text: STRING

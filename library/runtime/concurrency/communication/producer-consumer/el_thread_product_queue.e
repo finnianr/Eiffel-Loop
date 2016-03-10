@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-03-13 12:51:05 GMT (Wednesday 13th March 2013)"
 	revision: "2"
@@ -38,7 +38,7 @@ feature -- Initialization
 	make
 			-- Create linked queue.
 		do
-			make_thread_access
+			make_default
 			make_queue (50)
 		end
 

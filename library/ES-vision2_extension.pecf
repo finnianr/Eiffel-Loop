@@ -32,7 +32,10 @@ system:
 			name = vision2; location = "ES-vision2.ecf"
 			readonly = true
 		library:
-			name = wel; location = "ES-wel.ecf"; readonly = true
+			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
+			condition:
+				platform:
+					value = windows
 		assembly:
 			name = winforms; location = "$ISE_DOTNET_FRAMEWORK/System.Windows.Forms.dll"
 			prefix = WINFORMS_

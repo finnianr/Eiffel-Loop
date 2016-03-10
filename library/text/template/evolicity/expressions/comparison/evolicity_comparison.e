@@ -15,7 +15,7 @@ deferred class
 inherit
 	EVOLICITY_BOOLEAN_EXPRESSION
 
-	EL_MODULE_TYPING
+	EL_MODULE_EIFFEL
 
 feature -- Basic operation
 
@@ -60,7 +60,7 @@ feature {NONE} -- Implementation
 			operands: ARRAY [COMPARABLE]
 		do
 			if attached {NUMERIC} left_comparable as left and then attached {NUMERIC} right_comparable as right then
-				type_ids := << Typing.dynamic_type (left), Typing.dynamic_type (right) >>
+				type_ids := << Eiffel.dynamic_type (left), Eiffel.dynamic_type (right) >>
 				if type_ids.there_exists (agent is_floating_type) then
 					operands := double_operands (<< left_comparable, right_comparable >>)
 				else
@@ -138,13 +138,13 @@ feature -- Constants
 	Real_ref_type_id: INTEGER
 			--
 		once
-			Result := Typing.dynamic_type (create {REAL_REF})
+			Result := Eiffel.dynamic_type (create {REAL_REF})
 		end
 
 	Double_ref_type_id: INTEGER
 			--
 		once
-			Result := Typing.dynamic_type (create {DOUBLE_REF})
+			Result := Eiffel.dynamic_type (create {DOUBLE_REF})
 		end
 
 end

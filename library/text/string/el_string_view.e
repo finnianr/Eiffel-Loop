@@ -1,13 +1,16 @@
 note
-	description: "Defines a dynamic substring view of a string for use with lexers and parsers"
+	description: "[
+		Defines a dynamic substring view of a string for use with lexers and parsers
+		Encoding is assumed to be unicode
+	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 12:18:25 GMT (Sunday 28th July 2013)"
-	revision: "3"
+	date: "2014-02-20 17:49:07 GMT (Thursday 20th February 2014)"
+	revision: "4"
 
 class
 	EL_STRING_VIEW
@@ -19,51 +22,60 @@ inherit
 		end
 
 create
-	default_create, make_from_other
+	default_create, make
 
 convert
-	view: {STRING}, view_general: {READABLE_STRING_GENERAL}
+	to_string_8: {STRING}, to_string_32: {STRING_32}, to_string_general: {READABLE_STRING_GENERAL}
 
 feature {EL_PARSER, NONE} -- Initialization
+
+	make (a_text: like text)
+			-- Copied from {STRING}.share
+		do
+			text := a_text
+			count :=  a_text.count
+		end
 
 	default_create
 			--
 		do
 			create {STRING} text.make_empty
-			count := 0
-			zero_based_offset := 0
-		end
-
-	make_from_other (other: like Current)
-			--
-		do
-			set_from_other (other)
 		end
 
 feature -- Access
 
-	view_general: like text
+	item (i: INTEGER): NATURAL_32
+			-- Character at position `i'
+		do
+			Result := text.code (zero_based_offset + i)
+		end
+
+	item_absolute_pos (i: INTEGER): INTEGER
+			-- Absolute position of i
+		do
+			Result := zero_based_offset + i
+		end
+
+	to_string: ASTRING
+		do
+			create Result.make_from_unicode (to_string_general)
+		end
+
+	to_string_8: STRING
+			--
+		do
+			Result := to_string_general.as_string_8
+		end
+
+	to_string_32: STRING_32
+			--
+		do
+			Result := to_string_general.as_string_32
+		end
+
+	to_string_general: like text
 		do
 			Result := text.substring (zero_based_offset + 1, zero_based_offset + count)
-		end
-
-	view: STRING
-			--
-		do
-			Result := view_general.as_string_8
-		end
-
-	view_32: STRING_32
-			--
-		do
-			Result := view_general.as_string_32
-		end
-
-	count: INTEGER
-
-	maximum_count: INTEGER
-		do
-			Result := text.count
 		end
 
 feature -- Measurement
@@ -82,15 +94,14 @@ feature -- Measurement
 			end
 		end
 
-feature -- Element Change
+	count: INTEGER
 
-	set_from_other (other: like Current)
-			--
+	maximum_count: INTEGER
 		do
-			text := other.text
-			zero_based_offset := other.zero_based_offset
-			count := other.count
+			Result := text.count
 		end
+
+feature -- Element Change
 
 	set_view (a_from_index, a_count: INTEGER)
 			--
@@ -110,7 +121,7 @@ feature -- Element Change
 			count := new_count
 		end
 
-	set_text (a_text: READABLE_STRING_GENERAL)
+	set_text (a_text: like text)
 			-- Copied from {STRING}.share
 		do
 			text := a_text
@@ -137,18 +148,12 @@ feature -- Element Change
 			valid_from_index: zero_based_offset <= text.count
 		end
 
-feature -- Query
+feature -- Status report
 
-	item (i: INTEGER): NATURAL_32
-			-- Character at position `i'
+	is_empty: BOOLEAN
+			--
 		do
-			Result := text.code (zero_based_offset + i)
-		end
-
-	item_absolute_pos (i: INTEGER): INTEGER
-			-- Absolute position of i
-		do
-			Result := zero_based_offset + i
+			Result := count = 0
 		end
 
 	is_start_of_line: BOOLEAN
@@ -157,11 +162,11 @@ feature -- Query
 			if zero_based_offset = 0 then
 				Result := true
 			else
-				Result := text.code (zero_based_offset) = new_line_character
+				Result := text.code (zero_based_offset) = {ASCII}.Line_feed.to_natural_32
 			end
 		end
 
-	starts_with (a_text: READABLE_STRING_GENERAL): BOOLEAN
+	starts_with (a_text: ASTRING): BOOLEAN
 			--
 		local
 			i: INTEGER
@@ -176,7 +181,7 @@ feature -- Query
 				until
 					i > a_text.count or not Result
 				loop
-					Result := item (i) = a_text.code (i)
+					Result := same_i_th_code (a_text, i)
 					i := i + 1
 				end
 			end
@@ -197,31 +202,20 @@ feature -- Duplication
 			valid_indexes: (1 <= start_index) and (start_index <= end_index)
 							and (end_index <= count)
  		do
-			create Result.make_from_other (Current)
+			Result := twin
 			Result.set_view (zero_based_offset + start_index - 1, end_index - start_index + 1 )
-		end
-
-feature -- Status report
-
-	is_empty: BOOLEAN
-			--
-		do
-			Result := count = 0
 		end
 
 feature {EL_STRING_VIEW} -- Implementation
 
+	same_i_th_code (a_text: ASTRING; i: INTEGER): BOOLEAN
+		do
+			Result := text.code (zero_based_offset + i) = a_text.unicode (i)
+		end
+
 	text: READABLE_STRING_GENERAL
 
 	zero_based_offset: INTEGER -- Zero based index
-
-feature {NONE} -- Constant
-
-	new_line_character: NATURAL_32
-			--
-		once
-			Result := ('%N').code.to_natural_32
-		end
 
 invariant
 	valid_from_index: (0 |..| text.count).has (zero_based_offset)

@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_eyeD3
+	name = EL_eyeD3
 	uuid = "229b7182-09aa-11df-87b5-5f9130cd3f74" 
-	library_target = el_eyeD3
+	library_target = EL_eyeD3
 	
 	target:
-		name = el_eyeD3
+		name = EL_eyeD3
 		
 		description: 
 			"""
@@ -28,13 +28,15 @@ system:
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
+		# Eiffel-Loop
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 
 		library:
-			name = el_python; location = "eiffel2python.ecf"
+			name = EL_python; location = "eiffel2python.ecf"
 			readonly = false
 
+		# Source code
 		cluster:
 			name = eyeD3; location = "multimedia/audio/file/id3/eyeD3"
 

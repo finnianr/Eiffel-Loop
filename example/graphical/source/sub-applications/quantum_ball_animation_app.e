@@ -2,12 +2,12 @@ note
 	description: "Test of dialogs."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 11:54:40 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-01-04 10:01:03 GMT (Saturday 4th January 2014)"
+	revision: "3"
 
 class
 	QUANTUM_BALL_ANIMATION_APP

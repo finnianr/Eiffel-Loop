@@ -1,0 +1,69 @@
+# 	Cairo 1.12.16 for Windows
+#
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2010 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "7 Jan 2010"
+#	revision: "0.1"
+
+import os, sys, platform
+
+from os import path
+
+from eiffel_loop.scons import util
+from eiffel_loop.eiffel import project
+
+from eiffel_loop.scons import package
+from eiffel_loop.scons import c
+
+#Import ('env')
+
+print "SConscript Cairo-1.12.16"
+env = Environment (
+	ENV = os.environ, # this is needed to reproduce the environment for external commands like LIB
+	EIFFEL_LOOP = os.environ ['EIFFEL_LOOP'], ISE_PLATFORM = os.environ ['ISE_PLATFORM']
+)
+
+
+if platform.system () == "Windows":
+	build_dir =  project.platform_spec_build_dir ()
+	VariantDir (build_dir, 'source', duplicate=0)
+
+	dll_sources = Glob (path.join (build_dir, '*.getdll'))
+	def_sources = Glob (path.join (build_dir, '*.getdef'))
+	
+	dll_download_builder = Builder (action = package.get, suffix='.dll', src_suffix='.getdll', emitter = util.complete_targets)
+
+	lib_machine_specs = {'win64': 'X64', 'windows': 'X86'}
+	env.Append (MACHINE = lib_machine_specs [env ['ISE_PLATFORM']])
+
+	import_lib_builder = Builder (action = 'LIB /DEF:$SOURCE /MACHINE:$MACHINE /OUT:$TARGET', suffix = '.lib', src_suffix = '.def')
+	
+	def_builder = Builder (action = c.dll_def_generator, suffix = '.def', src_suffix = '.getdef', emitter = util.complete_targets)
+
+	env.Append (BUILDERS = {
+		'DLL_download' : dll_download_builder,
+		'DLL_def_builder' : def_builder,
+		'DLL_import_lib_builder' : import_lib_builder
+	})
+	
+	downloaded_DLLs = env.DLL_download (dll_sources)
+	import_defs = env.DLL_def_builder (def_sources)
+
+	Depends (import_defs, downloaded_DLLs)
+
+	dll_import_libs = []
+	for def_path in import_defs:
+		dll_import_libs += env.DLL_import_lib_builder (path.splitext (str (def_path))[0] + '.lib', def_path)
+	
+	env.NoClean (dll_import_libs)
+	env.NoClean (downloaded_DLLs)
+#	Return (['downloaded_DLLs', 'dll_import_libs'])
+	
+
+
+
+
+
+

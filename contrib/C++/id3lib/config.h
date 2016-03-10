@@ -2,21 +2,21 @@
 // Do not edit
 
 /* Define to 1 if you have the 'getopt_long' function.*/
-/* #undef HAVE_GETOPT_LONG */
+#define HAVE_GETOPT_LONG 1
 
 /* Define to 1 if you have the 'mkstemp' function.*/
-/* #undef HAVE_MKSTEMP */
+#define HAVE_MKSTEMP 1
 
 /* Define to 1 if you have the 'truncate' function.*/
-/* #undef HAVE_TRUNCATE */
+#define HAVE_TRUNCATE 1
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
-/* #undef HAVE_DLFCN */
+#define HAVE_DLFCN 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
-/* #undef HAVE_INTTYPES */
+#define HAVE_INTTYPES 1
 
-/* Define to 1 if you have the <libcw\sys.h> header file. */
+/* Define to 1 if you have the <libcw/sys.h> header file. */
 /* #undef HAVE_LIBCW_SYS */
 
 /* Define to 1 if you have the <memory.h> header file. */
@@ -28,17 +28,17 @@
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB 1
 
-/* Define to 1 if you have the <sys\param.h> header file. */
-/* #undef HAVE_SYS_PARAM */
+/* Define to 1 if you have the <sys/param.h> header file. */
+#define HAVE_SYS_PARAM 1
 
-/* Define to 1 if you have the <sys\stat.h> header file. */
+/* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT 1
 
-/* Define to 1 if you have the <sys\types.h> header file. */
+/* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES 1
 
 /* Define to 1 if you have the <unistd.h> header file. */
-/* #undef HAVE_UNISTD */
+#define HAVE_UNISTD 1
 
 /* Define to 1 if you have the <wchar.h> header file. */
 #define HAVE_WCHAR 1
@@ -86,7 +86,7 @@
 #define HAVE_STRING 1
 
 /* Define to 1 if you have the <strings.h> header file. */
-/* #undef HAVE_STRINGS */
+#define HAVE_STRINGS 1
 
 /* Define to 1 if you have the <string.h> header file. */
 #define HAVE_STRING 1

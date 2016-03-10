@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-03-13 17:46:54 GMT (Wednesday 13th March 2013)"
 	revision: "2"
@@ -17,24 +17,25 @@ inherit
 		rename
 			loop_action as wait_to_resume_action_loop
 		redefine
-			stop, default_create
+			stop, make_default
 		end
 
 	EL_SUSPENDABLE_THREAD
 		rename
-			make as make_suspendable,
 			suspend as suspend_thread
 		undefine
-			default_create, is_equal, copy
+			is_equal, copy
+		redefine
+			make_default
 		end
 
 feature {NONE} -- Initialization
 
-	default_create
+	make_default
 			--
 		do
+			Precursor {EL_SUSPENDABLE_THREAD}
 			Precursor {EL_CONTINUOUS_ACTION_THREAD}
-			make_suspendable
 			set_stopped
 		end
 

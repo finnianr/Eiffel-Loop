@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-25 16:29:21 GMT (Thursday 25th July 2013)"
-	revision: "3"
+	date: "2014-01-04 10:05:35 GMT (Saturday 4th January 2014)"
+	revision: "4"
 
 class
 	EVOLICITY_COMPILER
@@ -20,7 +20,7 @@ inherit
 			full_match_succeeded as parse_succeeded,
 			call_events as compile
 		redefine
-			make, set_source_text_from_file
+			set_source_text_from_file
 		end
 
 	EL_TEXTUAL_PATTERN_FACTORY
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			Precursor
+			make_default
 			create modification_time.make (0, 0, 0, 0, 0, 0)
 			reset_directives
 		end
@@ -325,7 +325,7 @@ feature {NONE} -- Actions
 	on_free_text (tokens_matched: EL_STRING_VIEW)
 			--
 		local
-			free_text_string: EL_ASTRING
+			free_text_string: ASTRING
 		do
 --			log.enter ("on_free_text")
 			free_text_string := source_text_for_token (1, tokens_matched)
@@ -626,7 +626,7 @@ feature {NONE} -- Implementation
 	set_nested_directive_indent (nested_directive: EVOLICITY_NESTED_TEMPLATE_DIRECTIVE; tokens_matched: EL_STRING_VIEW)
 			--
 		local
-			leading_space: EL_ASTRING
+			leading_space: ASTRING
 			space_count: INTEGER
 		do
 			leading_space := source_text_for_token (1, tokens_matched)
@@ -645,7 +645,7 @@ feature {NONE} -- Implementation
 		do
 --			log.enter ("tokens_to_variable_ref")
 			create Result.make (tokens_matched.occurrences (Unqualified_name))
-			from i := 1 until tokens_matched.item (i) = Left_bracket or i > tokens_matched.count loop
+			from i := 1 until i > tokens_matched.count or else tokens_matched.item (i) = Left_bracket loop
 				if tokens_matched.item (i) = Unqualified_name then
 					Result.extend (source_text_for_token (i, tokens_matched))
 				end
@@ -664,7 +664,7 @@ feature {NONE} -- Implementation
 			start_position_is_left_bracket: tokens_matched.item (position) = Left_bracket
 		local
 			i: INTEGER; i_th_token: NATURAL_32
-			string_argument: EL_ASTRING
+			string_argument: ASTRING
 			l_result: ARRAYED_LIST [ANY]
 		do
 			create l_result.make (2)

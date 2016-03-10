@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Encrypt contents of Pyxis file"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-25 18:58:02 GMT (Tuesday 25th June 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	PYXIS_ENCRYPTER
@@ -20,7 +20,7 @@ inherit
 create
 	make, default_create
 
-feature {EL_COMMAND_LINE_SUB_APPLICATTION} -- Initialization
+feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
 	make (a_source_path: like source_path; a_output_path: like output_path; a_pass_phrase: like pass_phrase)
 		do
@@ -51,7 +51,7 @@ feature -- Basic operations
 			log_or_io.put_path_field ("Encrypting", source_path); log_or_io.put_new_line
 			create encrypter.make_256 (pass_phrase)
 			create in_file_list.make (source_path)
-			create out_file.make_open_write (output_path.unicode)
+			create out_file.make_open_write (output_path)
 			from in_file_list.start until in_file_list.after loop
 				if in_file_list.index <= 2 or in_file_list.item.is_empty then
 					out_file.put_string (in_file_list.item)

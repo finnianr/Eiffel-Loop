@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {TEST_OS_COMMANDS_APP}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-09 9:52:30 GMT (Wednesday 9th October 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	TEST_OS_COMMANDS_APP
@@ -23,51 +23,59 @@ create
 
 feature -- Basic operations
 
-	run
+	test_run
 			--
 		local
 			id3_dir: EL_DIR_PATH
 		do
 			id3_dir := "id3$"
 			Test.set_binary_file_extensions (<< "mp3", "wav", "tag" >>)
---			Test.do_file_tree_test (id3_dir, agent copy_move_and_delete_files, 3560460545)
+			Test.do_file_tree_test (id3_dir, agent test_gvfs_copy_move_and_delete_files, 3560460545)
+--			Test.do_file_tree_test (id3_dir, agent test_copy_move_and_delete_files, 3560460545)
 --			Test.do_file_tree_test (id3_dir, agent test_find_files_and_directories, 235253851)
 --			Test.do_file_tree_test (id3_dir, agent id3_info, 1135003487)
 --			Test.do_file_tree_test (Path.directory_name ("wav"), agent mp3_writer, 1195281527)
 
-			Test.do_file_tree_test ("currencies", agent test_directory_name_encodings, 235253851)
+--			Test.do_file_tree_test ("currencies", agent test_directory_name_encodings, 2889297196)
 
 			Test.print_checksum_list -- Passed 7th Dec 2011
 		end
 
 feature -- Tests
 
+	test_gvfs_copy_move_and_delete_files (dir_path: EL_DIR_PATH)
+		local
+			gvfs_volume: EL_GVFS_VOLUME
+		do
+			create gvfs_volume.make ("Mint1", False)
+		end
+
 	test_copy_move_and_delete_files (dir_path: EL_DIR_PATH)
 			--
 		local
-			copy_command: EL_COPY_FILE_COMMAND
-			move_file_command: EL_MOVE_FILE_COMMAND
-			delete_file_command: EL_DELETE_PATH_COMMAND
-			delete_tree_command: EL_DELETE_TREE_COMMAND
+			copy_command: EL_COPY_FILE_COMMAND; move_file_command: EL_MOVE_FILE_COMMAND
+			delete_file_command, delete_tree_command: EL_DELETE_PATH_COMMAND
+			make_dir_command: EL_MAKE_DIRECTORY_COMMAND
+--			move_dir_command: EL_MOVE_D
 		do
 			log.enter ("copy_move_and_delete_files")
 			create copy_command.make (dir_path + "crc53865.mp3", dir_path + "crc53865 (copy).mp3")
 			copy_command.execute
 
-			create move_file_command.make (copy_command.destination_path, dir_path.joined_dir_path ("folder"))
+			create make_dir_command.make (dir_path.joined_dir_path ("folder"))
+			make_dir_command.execute
+
+			create move_file_command.make (copy_command.destination_path, make_dir_command.directory_path)
 			move_file_command.set_directory_destination
 			move_file_command.execute
 
-			log.put_new_line
 			create move_file_command.make (dir_path.joined_dir_path ("221"), dir_path.joined_dir_path ("folder"))
 			move_file_command.set_directory_destination
 			move_file_command.execute
 
-			log.put_new_line
 			create delete_file_command.make (copy_command.source_path)
 			delete_file_command.execute
 
-			log.put_new_line
 			create copy_command.make (dir_path + "ozzy.tag", dir_path.joined_dir_path ("folder"))
 			copy_command.set_file_destination
 			copy_command.execute
@@ -89,12 +97,12 @@ feature -- Tests
 		do
 			log.enter ("find_files_and_directories")
 --			create find_files_command.make (Directory.joined_path (dir_path, "curry"), "*.tag")
-			create find_files_command.make (dir_path, "*")
+			create find_files_command.make (dir_path, All_routines)
 			find_files_command.exclude_path_containing_any_of (<< "ozzy" >>)
 			find_files_command.exclude_path_ending (".mp3")
 			execute_find_command ("Find files excluding */ozzy/* and *.mp3", find_files_command)
 
-			create find_files_command.make (dir_path, "*")
+			create find_files_command.make (dir_path, All_routines)
 			find_files_command.disable_recursion
 			execute_find_command ("Find files non-recursively", find_files_command)
 
@@ -124,7 +132,7 @@ feature -- Tests
 			find_files_command: EL_FIND_FILES_COMMAND
 		do
 			log.enter ("id3_info")
-			create find_files_command.make (dir_path, "*")
+			create find_files_command.make (dir_path, All_routines)
 			find_files_command.execute
 
 			find_files_command.path_list.do_all (agent extract_tag_info)
@@ -197,10 +205,13 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{EL_TEST_ROUTINES}, "*"],
-				[{TEST_OS_COMMANDS_APP}, "*"],
-				[{EL_FIND_FILES_COMMAND}, "*"],
-				[{EL_FIND_DIRECTORIES_COMMAND}, "*"]
+				[{EL_TEST_ROUTINES}, All_routines],
+				[{TEST_OS_COMMANDS_APP}, All_routines],
+				[{EL_FIND_FILES_COMMAND}, All_routines],
+				[{EL_FIND_DIRECTORIES_COMMAND}, All_routines],
+				[{EL_COPY_FILE_COMMAND}, All_routines],
+				[{EL_MOVE_FILE_COMMAND}, All_routines],
+				[{EL_MAKE_DIRECTORY_COMMAND}, All_routines]
 			>>
 		end
 

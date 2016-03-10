@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-04 9:10:17 GMT (Saturday 4th January 2014)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	EL_TITLED_TAB_BOOK_WINDOW
@@ -31,10 +31,8 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			set_dimensions
-
 			create main_container
-			main_container.set_border_width (Screen.horizontal_pixels (Border_cms))
+			main_container.set_border_width (Screen.horizontal_pixels (Main_container_border_cms))
 			tab_book := new_tab_book
 			main_container.extend (tab_book)
 
@@ -47,10 +45,6 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	set_dimensions
-		do
-		end
-
 	main_container: EV_VERTICAL_BOX
 		-- Main container (contains all widgets displayed in this window)
 
@@ -61,8 +55,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Border_cms: REAL
+	Main_container_border_cms: REAL
 		once
-			Result := 0.07
+			if not has_wide_theme_border then
+				Result := 0.07
+			end
 		end
+
 end

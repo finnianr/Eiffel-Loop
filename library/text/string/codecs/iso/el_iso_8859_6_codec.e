@@ -2,12 +2,12 @@
 	description: "Codec for ISO_8859_6 automatically generated from decoder.c in VTD-XML source"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-17 17:31:58 GMT (Wednesday 17th July 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_ISO_8859_6_CODEC
@@ -103,30 +103,40 @@ feature -- Conversion
 			Result := code + offset
 		end
 
-	unicode_case_change_substitute (c: CHARACTER): CHARACTER_32
+	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
 			-- Returns Unicode case change character if c does not have a latin case change
 			-- or else the Null character
 		do
-			inspect c
-				when 'µ' then
+			inspect code
+				-- µ -> Μ
+				when 181 then
 					Result := 'Μ'
-				when 'À' then
+				-- À -> à
+				when 192 then
 					Result := 'à'
-				when 'ó' then
+				-- ó -> Ó
+				when 243 then
 					Result := 'Ó'
-				when 'ô' then
+				-- ô -> Ô
+				when 244 then
 					Result := 'Ô'
-				when 'õ' then
+				-- õ -> Õ
+				when 245 then
 					Result := 'Õ'
-				when 'ö' then
+				-- ö -> Ö
+				when 246 then
 					Result := 'Ö'
-				when 'ø' then
+				-- ø -> Ø
+				when 248 then
 					Result := 'Ø'
-				when 'ù' then
+				-- ù -> Ù
+				when 249 then
 					Result := 'Ù'
-				when 'ú' then
+				-- ú -> Ú
+				when 250 then
 					Result := 'Ú'
-				when 'ÿ' then
+				-- ÿ -> Ÿ
+				when 255 then
 					Result := 'Ÿ'
 			else end
 		end

@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_xdoc_scanning 
+	name = EL_xdoc_scanning 
 	uuid = "229b7772-09aa-11df-87c4-bbc432fe4581" 
-	library_target = el_xdoc_scanning
+	library_target = EL_xdoc_scanning
 	
 	target:
-		name = el_xdoc_scanning
+		name = EL_xdoc_scanning
 		
 		description: 
 			"""
@@ -47,12 +47,17 @@ system:
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
+		# Eiffel-Loop
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
+
+		library:
+			name = EL_c_api; location = "C-language-interface.ecf"
 
 		library:
 			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
 
+		# Source code
 		cluster:
 			name = xml; location = "persistency/xml/xdoc-scanning"; recursive = true
 			option:

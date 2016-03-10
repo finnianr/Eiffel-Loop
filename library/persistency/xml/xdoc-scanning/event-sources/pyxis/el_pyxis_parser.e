@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_PYXIS_PARSER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-24 15:19:10 GMT (Wednesday 24th July 2013)"
-	revision: "4"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "6"
 
 class
 	EL_PYXIS_PARSER
@@ -19,11 +19,15 @@ inherit
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+		rename
+			make as make_machine
 		redefine
 			call
 		end
 
 	EL_MODULE_STRING
+
+	EL_PYTHON_UNESCAPE_CONSTANTS
 
 	EL_MODULE_LOG
 
@@ -36,6 +40,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor (a_scanner)
+			make_machine
 			create verbatim_string.make_empty
 			create comment_string.make_empty
 			create attribute_parser.make
@@ -50,7 +55,7 @@ feature -- Basic operations
 	parse_from_stream (a_stream: IO_MEDIUM)
 			-- Parse XML document from input stream.
 		local
-			line_source: LINEAR [EL_ASTRING]
+			line_source: LINEAR [ASTRING]
 		do
 			if attached {EL_TEXT_IO_MEDIUM} a_stream as memory_file then
 				create {EL_TEXT_LINE_SOURCE} line_source.make (memory_file)
@@ -71,19 +76,19 @@ feature -- Basic operations
 	parse_from_string (a_string: STRING)
 			-- Parse document from `a_string'.
 		do
-			parse_from_stream (create {EL_TEXT_IO_MEDIUM}.make_open_read_from_string (a_string))
+			parse_from_stream (create {EL_TEXT_IO_MEDIUM}.make_open_read_from_text (a_string))
 		end
 
 feature {NONE} -- Line states
 
-	find_pyxis_doc (line: EL_ASTRING)
+	find_pyxis_doc (line: ASTRING)
 		do
 			if line.starts_with (Pyxis_doc) then
 				state := agent gather_element_attributes (?, Pyxis_doc)
 			end
 		end
 
-	parse_line (line: EL_ASTRING)
+	parse_line (line: ASTRING)
 			--
 		do
 			if line.is_empty then
@@ -123,7 +128,7 @@ feature {NONE} -- Line states
 			end
 		end
 
-	gather_element_attributes (line: EL_ASTRING; tag_name: EL_ASTRING)
+	gather_element_attributes (line: ASTRING; tag_name: ASTRING)
 		do
 			if line.is_empty then
 			elseif line.starts_with (once "#") then
@@ -153,7 +158,7 @@ feature {NONE} -- Line states
 			end
 		end
 
-	gather_comments (line: EL_ASTRING; is_first: BOOLEAN)
+	gather_comments (line: ASTRING; is_first: BOOLEAN)
 		do
 			if is_first or else line.starts_with ("#") then
 				state := agent gather_comments (?, False)
@@ -162,7 +167,7 @@ feature {NONE} -- Line states
 				if not comment_string.is_empty then
 					comment_string.append_character (New_line_character)
 				end
-				comment_string.append (line.to_unicode)
+				comment_string.append (line)
 
 			elseif line.is_empty then
 				comment_string.append_character (New_line_character)
@@ -173,7 +178,7 @@ feature {NONE} -- Line states
 			end
 		end
 
-	gather_verbatim_lines (line: EL_ASTRING; is_first: BOOLEAN)
+	gather_verbatim_lines (line: ASTRING; is_first: BOOLEAN)
 		do
 			if is_first then
 				create verbatim_string.make_empty
@@ -191,7 +196,7 @@ feature {NONE} -- Line states
 			end
 		end
 
-	output_content_lines (line: EL_ASTRING; is_first: BOOLEAN; content_type: INTEGER)
+	output_content_lines (line: ASTRING; is_first: BOOLEAN; content_type: INTEGER)
 		do
 			if is_first then
 				previous_state := state
@@ -242,12 +247,12 @@ feature {NONE} -- Parse events
 			scanner.on_start_document
 
 			if not comment_string.is_empty then
-				comment_string.prepend ("%N%N")
+				comment_string.prepend_string ("%N%N")
 			end
 			comment_string.prepend (English_auto_generated_notice)
 		end
 
-	on_start_tag (tag_name: EL_ASTRING)
+	on_start_tag (tag_name: ASTRING)
 			--
 		do
 			last_node.set_type_as_element
@@ -257,7 +262,7 @@ feature {NONE} -- Parse events
 			element_stack.put (tag_name)
 		end
 
-	on_end_tag (tag_name: EL_ASTRING)
+	on_end_tag (tag_name: ASTRING)
 		do
 			set_last_node_name (tag_name)
 			last_node.set_type_as_element
@@ -274,7 +279,7 @@ feature {NONE} -- Parse events
 			comment_string.wipe_out
 		end
 
-	on_content (text: EL_ASTRING)
+	on_content (text: ASTRING)
 			--
 		do
 			set_last_node_text (text)
@@ -282,10 +287,10 @@ feature {NONE} -- Parse events
 			scanner.on_content
 		end
 
-	on_content_line (line: EL_ASTRING; is_first: BOOLEAN; content_type: INTEGER)
+	on_content_line (line: ASTRING; is_first: BOOLEAN; content_type: INTEGER)
 			--
 		local
-			tag_name: EL_ASTRING
+			tag_name: ASTRING
 		do
 			if not is_first then
 				tag_name := element_stack.item
@@ -296,11 +301,11 @@ feature {NONE} -- Parse events
 			inspect content_type
 				when Content_double_quoted_string then
 					String.remove_double_quote (line)
-					set_last_node_text (String.unescaped_python_double_quoted (line))
+					set_last_node_text (line.unescaped (Escape_character, Double_quote_escape_table))
 
 				when Content_single_quoted_string then
 					String.remove_single_quote (line)
-					set_last_node_text (String.unescaped_python_single_quoted (line))
+					set_last_node_text (line.unescaped (Escape_character, Single_quote_escape_table))
 
 			else
 				set_last_node_text (line)
@@ -321,7 +326,7 @@ feature {NONE} -- Parse events
 
 feature {NONE} -- Implementation
 
-	call (line: EL_ASTRING)
+	call (line: ASTRING)
 		-- call state procedure with item
 		local
 			count_with_tabs: INTEGER
@@ -342,13 +347,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_last_node_name (name: EL_ASTRING)
+	set_last_node_name (name: ASTRING)
 		do
 			last_node_name.wipe_out
 			last_node_name.append (name.to_unicode)
 		end
 
-	set_last_node_text (text: EL_ASTRING)
+	set_last_node_text (text: ASTRING)
 		do
 			last_node_text.wipe_out
 			last_node_text.append (text.to_unicode)
@@ -358,13 +363,13 @@ feature {NONE} -- Implementation: attributes
 
 	previous_state: like state
 
-	element_stack: ARRAYED_STACK [EL_ASTRING]
+	element_stack: ARRAYED_STACK [ASTRING]
 
 	attribute_list: EL_XML_ATTRIBUTE_LIST
 
-	verbatim_string: EL_ASTRING
+	verbatim_string: ASTRING
 
-	comment_string: EL_ASTRING
+	comment_string: ASTRING
 
 	encodeable_line_source: EL_ENCODEABLE_AS_TEXT
 
@@ -374,7 +379,7 @@ feature {NONE} -- Implementation: attributes
 
 feature {NONE} -- Constants
 
-	English_auto_generated_notice: EL_ASTRING
+	English_auto_generated_notice: ASTRING
 		once
 			Result := "This file is auto-generated by class EL_PYXIS_PARSER (eiffel-loop.com)"
 		end
@@ -385,7 +390,7 @@ feature {NONE} -- Constants
 
 	Content_double_number: INTEGER = 3
 
-	Pyxis_doc: EL_ASTRING
+	Pyxis_doc: ASTRING
 		once
 			Result := "pyxis-doc:"
 		end

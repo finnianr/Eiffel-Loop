@@ -31,16 +31,17 @@ system:
 
 		# Eiffel Loop
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 
 		library:
-			name = el_vtd_xml; location = "vtd-xml.ecf"
+			name = EL_vtd_xml; location = "vtd-xml.ecf"
 
 		library:
-			name = el_encryption; location = "encryption.ecf"
+			name = EL_encryption; location = "encryption.ecf"
 
+		# Source code
 		cluster:
-			name = database; location = "persistency/database"; recursive = true
+			name = database; location = "persistency/database"; recursive = true; readonly = false
 			file_rule:
 				exclude:
 					"/win-registry$"

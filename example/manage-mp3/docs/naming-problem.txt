@@ -1,0 +1,45 @@
+Song collation task output
+
+1>             Reading file: "/home/finnian/.local/share/rhythmbox/rhythmdb.xml"
+Songs: [2410 of 2416]
+ 1>             Old path: Additions/Electro Dub Tango/Electrotango - La Bohemia.01.mp3
+ 1>             New path: Tango (Electro)/Electro Dub Tango/Electrotango - La Bohemia.01.mp3
+ 1>             
+ 1>             Old path: Additions/Alfredo Malerba/Madreselva.01.mp3
+ 1>             New path: Tango/Alfredo Malerba/Madreselva.01.mp3
+ 1>             
+ 1>             Old path: Additions/Alfredo Malerba/Sombras Nada Más.01.mp3
+ 1>             New path: Tango/Alfredo Malerba/Sombras Nada Más.01.mp3
+ 1>             
+ 1>             Old path: New Age/Del pe/Gate gate para gate parasangh gate Bodhi svaha.01.mp3.01.mp3
+ 1>             New path: New Age/Del pe/Gate gate para gate parasangh gate Bodhi svaha.01.mp3.01.mp3.01.mp3
+ 1>             
+ 1>             Old path: New Age/Del pe/OM Shanti, Shanti, Shanti Hum.01.mp3.01.mp3
+ 1>             New path: New Age/Del pe/OM Shanti, Shanti, Shanti Hum.01.mp3.01.mp3.01.mp3
+ 1>             
+ 1>             Old path: Classical (Choir)/Various/Es schneit, es schneit, es schneit.01.mp3.01.mp3
+ 1>             New path: Classical (Choir)/Various/Es schneit, es schneit, es schneit.01.mp3.01.mp3.01.mp3
+
+Here is a clue from avconv
+
+Input #0, mp3, from 'Gate gate para gate parasangh gate Bodhi svaha.01.mp3.01.mp3.01.mp3':
+  Metadata:
+    artist          : Del pe
+    album           : Chantrams of Transformation
+    genre           : New Age
+    track           : 6
+  Duration: 00:08:49.20, start: 0.000000, bitrate: 255 kb/s
+    Stream #0.0: Audio: mp3, 44100 Hz, stereo, s16p, 256 kb/s
+At least one output file must be specified
+finnian@MacMini ~/Music/New Age/Del pe $ avconv -i "Om Mane Padme Hum.02.mp3" 
+avconv version 9.16-6:9.16-0ubuntu0.14.04.1, Copyright (c) 2000-2014 the Libav developers
+  built on Aug 10 2014 18:16:02 with gcc 4.8 (Ubuntu 4.8.2-19ubuntu1)
+[mp3 @ 0x8a5a00] Skipping encrypted/compressed ID3v2 frame MCDI.
+[mp3 @ 0x8a5a00] Skipping encrypted/compressed ID3v2 frame PRIV.
+[mp3 @ 0x8a5a00] Invalid size in frame �@, skipping the rest of tag.
+[mp3 @ 0x8a5a00] max_analyze_duration reached
+[mp3 @ 0x8a5a00] Estimating duration from bitrate, this may be inaccurate
+Guessed Channel Layout for  Input Stream #0.0 : stereo
+
+* Editing title tag in Rhythmbox fixed the problem, but could it reoccur.
+

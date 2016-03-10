@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 8:35:00 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2013-11-07 16:19:53 GMT (Thursday 7th November 2013)"
+	revision: "3"
 
 class
 	EL_WAV_TO_MP3_COMMAND
@@ -27,18 +27,14 @@ inherit
 			Valid_destination_extension as File_extension_mp3
 		undefine
 			File_extension_wav, File_extension_mp3
-
 		redefine
 			getter_function_table, output_file_path
 		end
 
 	EL_MULTIMEDIA_CONSTANTS
-
-	EL_MODULE_ENVIRONMENT
-
-	EL_MODULE_LOG
-
-	EL_MODULE_DIRECTORY
+		undefine
+			default_create
+		end
 
 create
 	make
@@ -89,8 +85,9 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["input_file_path", 		agent: EL_ASTRING do Result := escaped_path (input_file_path) end],
-				["output_file_path", 	agent: EL_ASTRING do Result := escaped_path (output_file_path) end],
+				["input_file_path", 		agent: EL_PATH do Result := input_file_path end],
+				["output_file_path", 	agent: EL_PATH do Result := output_file_path end],
+
 				["bit_rate",				agent: REAL_REF do Result := bit_rate.to_real.to_reference end],
 				["mode", 					agent: STRING do Result := Mode_letters.item (num_channels).out end]
 			>>)
@@ -118,12 +115,12 @@ feature {NONE} -- Constants
 
 feature -- Constants
 
-	Valid_input_file_path_extension: EL_ASTRING
+	Valid_input_file_path_extension: ASTRING
 		once
 			Result := "wav"
 		end
 
-	Valid_output_file_path_extension: EL_ASTRING
+	Valid_output_file_path_extension: ASTRING
 		once
 			Result := "mp3"
 		end

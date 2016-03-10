@@ -1,5 +1,5 @@
-note
-	description: "Windows implementation"
+﻿note
+	description: "${description}"
 
 	notes: "[
 		In Windows 2000, Windows XP, and Windows Server 2003, the folder is located in %userprofile%\Start Menu for individual users, 
@@ -9,16 +9,16 @@ note
 		or %programdata%\Microsoft\Windows\Start Menu for all users collectively.
 		
 		The folder name Start Menu has a different name on non-English versions of Windows. 
-		Thus for example on German versions of Windows XP it is %userprofile%\Startmen�.
+		Thus for example on German versions of Windows XP it is %userprofile%\Startmenü.
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 8:35:20 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	EL_DESKTOP_APPLICATION_INSTALLER_IMPL
@@ -32,7 +32,7 @@ inherit
 	EL_MS_WINDOWS_DIRECTORIES
 
 create
-	make, default_create
+	make
 
 feature {NONE} -- Initialization
 
@@ -42,12 +42,9 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_interface)
 			create submenu_steps.make_filled ("", 1, submenu_path.count)
-			submenu_path.do_all_with_index (
-				agent (menu: EL_DESKTOP_MENU_ITEM; index: INTEGER)
-					do
-						submenu_steps [index] := menu.name
-					end
-			)
+			across submenu_path as submenu loop
+				submenu_steps [submenu.cursor_index] := submenu.item.name
+			end
 			application_menu_dir := Start_menu_programs_dir.joined_dir_steps (submenu_steps)
 			shortcut_path := application_menu_dir + shortcut_name
 		end
@@ -68,7 +65,7 @@ feature -- Basic operations
 			shortcut: EL_SHELL_LINK
 			ico_icon_path, command_path: EL_FILE_PATH
 		do
-			command_path := Execution.Application_bin_path + launcher.command
+			command_path := Directory.Application_bin + launcher.command
 			ico_icon_path := launcher.icon_path.with_new_extension ("ico")
 
 			if not application_menu_dir.exists then
@@ -94,7 +91,7 @@ feature -- Basic operations
 					File_system.delete (l_path.item)
 				end
 			end
-			File_system.delete_empty_steps (application_menu_dir)
+			File_system.delete_empty_branch (application_menu_dir)
 		end
 
 feature {NONE} -- Implementation
@@ -102,7 +99,7 @@ feature {NONE} -- Implementation
 	desktop_shortcut_path: EL_FILE_PATH
 		do
 			if has_desktop_launcher then
-				Result := Desktop_dir + shortcut_name
+				Result := Desktop_common + shortcut_name
 			else
 				create Result
 			end

@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-06-23 19:07:52 GMT (Sunday 23rd June 2013)"
 	revision: "2"
@@ -48,20 +48,20 @@ feature -- Basic operations
 			)
 		end
 
-	execute (context: EVOLICITY_CONTEXT; output: IO_MEDIUM; utf8_encoded: BOOLEAN)
+	execute (context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
 		do
 			boolean_expression.evaluate (context)
 			if boolean_expression.is_true then
 				from start until index > if_true_interval.upper loop
-					item.execute (context, output, utf8_encoded)
+					item.execute (context, output)
 					forth
 				end
 			else
 				from
 					go_i_th (if_false_interval.lower)
 				until after loop
-					item.execute (context, output, utf8_encoded)
+					item.execute (context, output)
 					forth
 				end
 			end

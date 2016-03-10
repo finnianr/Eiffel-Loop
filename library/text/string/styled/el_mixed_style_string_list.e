@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 10:24:30 GMT (Sunday 28th July 2013)"
-	revision: "3"
+	date: "2013-12-22 13:07:37 GMT (Sunday 22nd December 2013)"
+	revision: "4"
 
 class
 	EL_MIXED_STYLE_STRING_LIST

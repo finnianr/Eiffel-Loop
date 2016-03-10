@@ -11,7 +11,7 @@ From: Finnian Reilly <finnian@myching.co>
 X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: Journal Entries
+Subject: 3.Journal Entries
 Content-Type: text/html; charset=ISO-8859-15
 Content-Transfer-Encoding: 7bit
 
@@ -79,7 +79,7 @@ From: Finnian Reilly <finnian@myching.co>
 X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: Journals
+Subject: 2.Journals
 Content-Type: text/html; charset=ISO-8859-15
 Content-Transfer-Encoding: 7bit
 
@@ -122,6 +122,12 @@ Content-Transfer-Encoding: 7bit
     <p>In the Journal menu a count of entries is displayed in brackets
       to the right of each journal name.<br>
     </p>
+    <pre>six:n
+seven:n
+eight:n
+nine:n
+</pre>
+    <blockquote> </blockquote>
     <h4>Deleting a journal</h4>
     <p>To delete a journal first select it in the Journal menu. Then
       select "Delete current journal" from the Journal management menu.
@@ -144,7 +150,7 @@ From: Finnian Reilly <finnian@myching.co>
 X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: Keyboard Shortcuts
+Subject: 4.Keyboard Shortcuts
 Content-Type: text/html; charset=ISO-8859-15
 Content-Transfer-Encoding: 7bit
 
@@ -194,6 +200,8 @@ Content-Transfer-Encoding: 7bit
     <h4>Ctrl + Z<br>
     </h4>
     <p> Undo previous text editing operation. <i>(Applies to Notes and
+
+
         Question input area)</i></p>
     <h4>Alt + Left arrow</h4>
     <p>Select the previous journal entry section: <i>1. Question 2.
@@ -235,7 +243,7 @@ From: Finnian Reilly <finnian@eiffel-loop.com>
 X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: Quick Guide
+Subject: 5.Quick Guide
 Content-Type: text/html; charset=ISO-8859-15
 Content-Transfer-Encoding: 7bit
 
@@ -248,5 +256,90 @@ Content-Transfer-Encoding: 7bit
   <body shortname="quick" link="#0000EE" text="#000000" vlink="#551A8B"
     alink="#EE0000" bgcolor="#ffffcc">
     <h3>Basic Concepts</h3>
+    <br>
+    <p>By default <i>My Ching</i> only displays the primary and
+      resulting <i>(relating)</i> hexagram in a reading. This is
+      sufficient for a basic I Ching consultation that will satisfy most
+      people. However for those who desire a more in-depth reading,
+      there are a number of auxiliary hexagrams that can be derived from
+      the basic reading by analyzing the placement of changing lines. <i>My
+
+
+
+        Ching</i> provides the ones described by I Ching scholar Stephen
+      Karcher in the introduction of his I Ching translation <i>"Total
+        Yijing"</i>. There are four categories in total listed below.
+      When activated they will be added to the bottom of each reading
+      page.<br>
+    </p>
   </body>
 </html>
+From - Wed Apr 09 17:57:43 2014
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+FCC: mailbox://finnian@pop.myching.co/Sent
+X-Identity-Key: id4
+X-Account-Key: account6
+Message-ID: <4E9861EF.3050509@eiffel-loop.com>
+Date: Wed, 09 Apr 2014 19:57:44 +0100
+From: Finnian Reilly <finnian@myching.co>
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+Subject: 1.Hexagrams
+Content-Type: text/html; charset=ISO-8859-15
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-15">
+    <title>Hexagrams</title>
+  </head>
+  <body bgcolor="#ffffcc" text="#000000">
+    <h2>Speed Dialing</h2>
+    <p>A faster method is to use the text box to the left of the
+      hexagrams. Enter the results of your oracle by entering the
+      numeric values of the coin or yarrow stalk method from the bottom
+      line up. These numeric codes are as follows:<br>
+    </p>
+    <ol start="6">
+      <li>Six sets a changing yin line.</li>
+      <li>Seven sets a static yang line.</li>
+      <li>Eight sets a static yin line.</li>
+      <li>Nine set a changing yang line.</li>
+    </ol>
+    <h2>How Mouse Divination Works</h2>
+    <p>The author of My Ching felt it was important to retain the
+      element of human interaction following the traditional methods.
+      Before they started using sticks and coins the ancient Chinese
+      used turtle shells heated in a fire until they cracked. By a
+      curious twist of fate, computer mice bear some resemblance to
+      turtle shells and even have cracks in them.<br>
+    </p>
+    <p>For those who understand computer code here is the actual code in
+      My Ching used to determine the resulting number of yarrow sticks
+      in the left and right pile.<br>
+    </p>
+
+      <pre>left_pile_count := 1 + counter_thread.value \\ (sticks_remaining_count - 1)
+check
+   valid_pile_division: left_pile_count &gt;= 1 and left_pile_count &lt; sticks_remaining_count
+end
+stick_pile_count [Left] := left_pile_count
+stick_pile_count [Right] := sticks_remaining_count - left_pile_count</pre>
+
+    <p>The "counter_thread.value" variable represents the "stop watch
+      counter" that is stopped when the user clicks on a line. This
+      formula ensures there is always at least one stick in the left or
+      right pile after dividing. You could argue that when dividing a
+      real bunch of sticks you are generally dividing somewhere close to
+      the middle so perhaps the formula could be adapted to reflect
+      this. But mathematically the probabilities come out the same and
+      in theory there is no reason why you couldn't divide the pile so
+      only 1 remains in the left or right.<br>
+    </p>
+  </body>
+</html>
+

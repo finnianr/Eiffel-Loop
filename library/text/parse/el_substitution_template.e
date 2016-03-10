@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-28 16:43:10 GMT (Friday 28th June 2013)"
-	revision: "2"
+	date: "2014-09-28 10:02:14 GMT (Sunday 28th September 2014)"
+	revision: "4"
 
 class
 	EL_SUBSTITUTION_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -15,7 +15,6 @@ class
 inherit
 	EL_SUBST_VARIABLE_PARSER
 		rename
-			make as make_parser,
 			set_source_text as set_parser_text,
 			match_full as parse_template
 		export
@@ -23,14 +22,7 @@ inherit
 		undefine
 			default_create
 		redefine
-			parse_template
-		end
-
-	EL_MODULE_STRING
-		rename
-			String as Mod_string
-		undefine
-			default_create
+			parse_template, reset
 		end
 
 	STRING_HANDLER
@@ -49,11 +41,12 @@ feature {NONE} -- Initialization
 	default_create
 			--
 		do
-			make_parser
 			create string.make_empty
 			create decomposed_template.make (7)
-			create variables.make (5)
+			create place_holder_table.make (5)
 			create actual_template.make_empty
+			is_strict := True
+			make_default
 		end
 
 	make (a_template: S)
@@ -75,16 +68,29 @@ feature -- Access
 	string: S
 		-- substituted string
 
+	variables: ARRAYED_LIST [S]
+			-- variable name list
+		do
+			create Result.make_from_array (place_holder_table.current_keys)
+		end
+
 feature -- Basic operations
 
 	substitute
 			-- Concatanate from command text list
 		do
-			string.set_count (0)
+			wipe_out (string)
 			from decomposed_template.start until decomposed_template.after loop
 				string.append (decomposed_template.item)
 				decomposed_template.forth
 			end
+		end
+
+	reset
+		do
+			Precursor
+			decomposed_template.wipe_out
+			place_holder_table.wipe_out
 		end
 
 feature -- Status query
@@ -92,7 +98,7 @@ feature -- Status query
 	is_variables_table_empty: BOOLEAN
 			--
 		do
-			Result := variables.is_empty
+			Result := place_holder_table.is_empty
 		end
 
 	has_variable (name: READABLE_STRING_GENERAL): BOOLEAN
@@ -101,7 +107,17 @@ feature -- Status query
 		do
 			create variable_name.make_empty
 			variable_name.append (name)
-			Result:= variables.has (variable_name)
+			Result:= place_holder_table.has (variable_name)
+		end
+
+	is_strict: BOOLEAN
+		-- when true, enforces precondition that variables exist and raises an exception if a variable is not found
+
+feature -- Status change
+
+	disable_strict
+		do
+			is_strict := False
 		end
 
 feature -- Element change
@@ -120,36 +136,41 @@ feature -- Element change
 	set_variables_from_array (variable_name_and_value_array: ARRAY [like Type_name_value_pair])
 			--
 		require
-			valid_variables: across variable_name_and_value_array as tuple all has_variable (tuple.item.name) end
+			valid_variables: is_strict implies across variable_name_and_value_array as tuple all has_variable (tuple.item.name) end
 		do
 			across variable_name_and_value_array as tuple loop
 				set_variable (tuple.item.name, tuple.item.value)
 			end
 		end
 
-	set_variable (name: READABLE_STRING_GENERAL; value: ANY)
+	set_variable (a_name: READABLE_STRING_GENERAL; value: ANY)
 		require
-			valid_variable: has_variable (name)
+			valid_variable: is_strict implies has_variable (a_name)
 		local
 			variable_not_found_exception: EXCEPTION
 			variable_name, place_holder: S
+			l_template: ASTRING
 		do
-			create variable_name.make_empty
-			variable_name.append (name)
-			variables.search (variable_name)
-			if variables.found then
-				place_holder := variables.found_item
-				place_holder.set_count (0)
+			if attached {S} a_name as name then
+				variable_name := name
+			else
+				create variable_name.make_empty
+				variable_name.append (a_name)
+			end
+			place_holder_table.search (variable_name)
+			if place_holder_table.found then
+				place_holder := place_holder_table.found_item
+				wipe_out (place_holder)
 				if attached {READABLE_STRING_GENERAL} value as string_value then
 					place_holder.append (string_value)
 				else
 					place_holder.append (value.out)
 				end
-			else
+
+			elseif is_strict then
 				create variable_not_found_exception
-				variable_not_found_exception.set_description (
-					Mod_string.template ("class {$S}: Variable %"$S%" not found").substituted (<< generator, variable_name >>)
-				)
+				l_template := once "class {$S}: Variable %"$S%" not found"
+				variable_not_found_exception.set_description (l_template #$ [generator, variable_name])
 				variable_not_found_exception.raise
 			end
 		end
@@ -162,13 +183,19 @@ feature -- Element change
 			parse_template
 		end
 
+feature -- Type definitions
+
+	Type_name_value_pair: TUPLE [name: READABLE_STRING_GENERAL; value: ANY]
+		once
+		end
+
 feature {NONE} -- Implementation: parsing actions
 
 	on_literal_text (matched_text: EL_STRING_VIEW)
 			--
 		do
 --			log.enter_with_args ("on_literal_text", << matched_text.view >>)
-			decomposed_template.extend (matched_text.view_general)
+			decomposed_template.extend (matched_text.to_string)
 --			log.exit
 		end
 
@@ -179,12 +206,15 @@ feature {NONE} -- Implementation: parsing actions
 		do
 --			log.enter_with_args ("on_substitution_variable", << matched_text.view >>)
 			create variable_name.make_empty
-			variable_name.append (matched_text.view_general)
-			if variables.has (variable_name) then
-				place_holder := variables [variable_name]
+			variable_name.append (matched_text.to_string)
+			if place_holder_table.has (variable_name) then
+				place_holder := place_holder_table [variable_name]
 			else
-				create place_holder.make_empty
-				variables [variable_name] := place_holder
+				-- Initialize value as  $<variable name> to allow successive substitutions
+				create place_holder.make (variable_name.count + 1)
+				place_holder.append_code (('$').natural_32_code)
+				place_holder.append (variable_name)
+				place_holder_table [variable_name] := place_holder
 			end
 			decomposed_template.extend (place_holder)
 --			log.exit
@@ -192,9 +222,12 @@ feature {NONE} -- Implementation: parsing actions
 
 feature {NONE} -- Implementation
 
-	decomposed_template: ARRAYED_LIST [READABLE_STRING_GENERAL]
-
-	variables: HASH_TABLE [S, S]
+	wipe_out (str: S)
+		do
+			if attached {BAG [COMPARABLE]} str as characters then
+				characters.wipe_out
+			end
+		end
 
 	parse_template
 			--
@@ -214,12 +247,11 @@ feature {NONE} -- Implementation
 			Result := actual_template
 		end
 
+	decomposed_template: ARRAYED_LIST [READABLE_STRING_GENERAL]
+
+	place_holder_table: HASH_TABLE [S, S]
+		-- map variable name to place holder
+
 	actual_template: S
-
-feature {NONE} -- Type definitions
-
-	Type_name_value_pair: TUPLE [name: READABLE_STRING_GENERAL; value: ANY]
-		do
-		end
 
 end

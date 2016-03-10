@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_eiffel2python
+	name = EL_eiffel2python
 	uuid = "229b76a0-09aa-11df-87c2-1f2c9bdba815" 
 	library_target = el_eiffel2python
 	
 	target:
-		name = el_eiffel2python
+		name = EL_eiffel2python
 		
 		description: 
 			"""
@@ -57,20 +57,21 @@ system:
 		library: 
 			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
 
-		# Eiffel Loop
-		library:
-			name = el_base; location = "base.ecf"
-
 		library:
 			name = gobo_base; location = "gobo-base.ecf"
 
+		# Eiffel Loop
+		library:
+			name = EL_base; location = "base.ecf"
+
+		# Source code
 		cluster:
-			name = el_python; location = "language_interface/Python"; recursive = true
+			name = python; location = "language_interface/Python"; recursive = true
 			option:
 				namespace = "Eiffel-Loop.Python"
 
 		cluster:
-			name = "pepe"; location = "$EIFFEL_LOOP/contrib/Eiffel/PEPE"; recursive = true
+			name = pepe; location = "$EIFFEL_LOOP/contrib/Eiffel/PEPE"; recursive = true
 
 			option:
 				assertions:

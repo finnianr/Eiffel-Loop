@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {ENCRYPTION_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-25 19:35:34 GMT (Tuesday 25th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	ENCRYPTION_TEST_APP
@@ -23,7 +23,7 @@ create
 
 feature -- Basic operations
 
-	run
+	test_run
 			--
 		do
 			Test.do_file_tree_test ({STRING_32} "encryption", agent test_encryption, 2559561657)

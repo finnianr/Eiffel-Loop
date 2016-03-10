@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {EL_LOCALE_ACTION_MANAGER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	EL_LOCALE_ACTION_EXCEPTION_MANAGER [D -> EL_ERROR_DIALOG create make end]
@@ -20,12 +25,12 @@ create
 
 feature {NONE} -- Constants
 
-	Default_title: EL_ASTRING
+	Default_title: ASTRING
 		once
-			Result := Locale * "ERROR"
+			Result := Locale * "Error"
 		end
 
-	Default_message: EL_ASTRING
+	Default_message: ASTRING
 		once
 			Result := Locale * "{something bad happened}"
 		end

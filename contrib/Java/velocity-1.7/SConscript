@@ -12,7 +12,7 @@ from os import path
 from eiffel_loop.scons import util
 
 from eiffel_loop.eiffel import project
-from eiffel_loop.http import package
+from eiffel_loop.scons import package
 
 
 Import ('env')
@@ -20,10 +20,10 @@ Import ('env')
 
 env.Append (SOURCE_DIR = Dir ('source').abspath)
 
-download_builder = Builder (action = package.install_gnome_zip_from_http_sources, suffix='.jar', src_suffix = '.http', emitter = util.complete_targets)
+download_builder = Builder (action = package.get, suffix='.getjar', src_suffix = '.getjar', emitter = util.complete_targets)
 env.Append (BUILDERS = {'Java_jar_download' : download_builder})
 
-jars = env.Java_jar_download (File ('velocity-1.7-dep.http'))
+jars = env.Java_jar_download (File ('velocity-1.7-dep.getjar'))
 
 env.NoClean (jars)
 

@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_PARSING_EVENT
@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			event_procedure := procedure
-			create source_text_view_arg.make_from_other (source_text_view)
+			source_text_view_arg := source_text_view.twin
 		end
 
 feature {EL_PARSER} -- Basic Operation
@@ -32,18 +32,25 @@ feature {EL_PARSER} -- Basic Operation
 	call
 			-- Becareful to use 'out' when accessing the text
 		local
-			source_text_view_arg_tuple: TUPLE [EL_STRING_VIEW]
+			tuple: like Procedure_argument
 		do
-			create source_text_view_arg_tuple
-			source_text_view_arg_tuple.put (source_text_view_arg, 1)
-			event_procedure.call (source_text_view_arg_tuple)
+			tuple := Procedure_argument
+			tuple.put (source_text_view_arg, 1)
+			event_procedure.call (tuple)
 		end
 
 feature {NONE} -- Implementation
 
+	event_procedure: PROCEDURE [ANY, TUPLE [EL_STRING_VIEW]]
+
 	source_text_view_arg: EL_STRING_VIEW
 
-	event_procedure: PROCEDURE [ANY, TUPLE [EL_STRING_VIEW]]
+feature {NONE} -- Constants
+
+	Procedure_argument: TUPLE [EL_STRING_VIEW]
+		once
+			create Result
+		end
 
 end -- class EL_PARSING_EVENT
 

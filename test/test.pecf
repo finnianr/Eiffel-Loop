@@ -17,7 +17,7 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_test
+	name = EL_test
 	uuid="A325754F-7BEB-44B6-937C-CC7EBDDA764F"
 	
 	# classic means C code as an intermediate language
@@ -70,6 +70,9 @@ system:
 
 		library:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+			option:
+				assertions:
+					precondition = true; postcondition = true; check = true
 
 		library:
 			name = base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
@@ -93,25 +96,22 @@ system:
 
 		# Eiffel Loop libraries
 		library:
-			name = EL_base; location = "$EIFFEL_LOOP/library/base.ecf"
-			readonly = false
-			#; use_application_options = true
-
-		library:
 			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
 			readonly = false
 
 		library:
-			name = EL_svg_graphics; location="$EIFFEL_LOOP/library/svg-graphics.ecf"
-			readonly = false
+			name = EL_base; location = "$EIFFEL_LOOP/library/base.ecf"; readonly = false
+			option:
+				assertions:
+					precondition = true; postcondition = true; check = true
+			#; use_application_options = true
 
 		library:
-			name = EL_vtd_xml; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
-			readonly = false
+			name = EL_c_api; location = "$EIFFEL_LOOP/library/C-language-interface.ecf"; readonly = false
 
 		library:
-			name = EL_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
-			readonly = false
+			name = EL_image_utils; readonly = false
+			location="$EIFFEL_LOOP/library/image-utils.ecf"
 
 		library:
 			name = EL_id3_tags; location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
@@ -134,8 +134,28 @@ system:
 			location = "$EIFFEL_LOOP/library/database.ecf"
 
 		library:
+			name = EL_http; readonly = false
+			location = "$EIFFEL_LOOP/library/http.ecf"
+
+		library:
 			name = EL_i18n; readonly = false
-			location = "$EIFFEL_LOOP/library/internationalization.ecf"
+			location = "$EIFFEL_LOOP/library/i18n.ecf"
+
+		library:
+			name = EL_network; readonly = false
+			location="$EIFFEL_LOOP/library/network.ecf"
+
+		library:
+			name = EL_vtd_xml; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
+			readonly = false
+
+		library:
+			name = EL_xml_conversion; location = "$EIFFEL_LOOP/library/xml-conversion.ecf"
+			readonly = false
+
+		library:
+			name = EL_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
+			readonly = false
 
 		cluster:
 			name = project; location = "source"; recursive = true
@@ -153,3 +173,8 @@ system:
 				condition:
 					platform:
 						value = unix
+		# Build 2014-06-07 09:39:58.224360
+		# Build 2014-06-07 14:00:27.972927
+		# Build 2014-06-07 14:14:31.660026
+		# Build 2014-06-07 14:18:08.379267
+		# Build 2014-06-07 14:53:41.610995

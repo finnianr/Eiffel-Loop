@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_net_base
+	name = EL_net_base
 	uuid = "229b763c-09aa-11df-87c1-9fd182a2a60d" 
-	library_target = el_net_base
+	library_target = EL_net_base
 	
 	target:
-		name = el_net_base
+		name = EL_net_base
 		
 		description: 
 			"""
@@ -25,6 +25,26 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
+		
+		# C externals
+
+		external_include: 
+			location = "$(EIFFEL_LOOP_C)/network-adapter/source"
+
+
+		external_object:
+			location = "$(EIFFEL_LOOP_C)/network-adapter/spec/$(ISE_PLATFORM)/network-adapter.lib"
+			condition:
+				platform:
+					value = windows
+
+		external_object:
+			location = "IPHlpApi.lib"
+			condition:
+				platform:
+					value = windows
+		
+		# Import libraries
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
@@ -34,11 +54,30 @@ system:
 		library: 
 			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
 
+		# Eiffel-Loop
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 
+		library:
+			name = EL_c_api; location = "$EIFFEL_LOOP/library/C-language-interface.ecf"; readonly = false
+
+		# Source code
 		cluster:
-			name = el_net_base; location = "network/base"; recursive = true
+			name = EL_net_base; location = "network/base"; recursive = true
 			option:
 				namespace = "Eiffel-Loop-net"
+
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
 

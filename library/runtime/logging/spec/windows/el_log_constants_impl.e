@@ -19,8 +19,4 @@ feature {EL_LOG_CONSTANTS} -- Constants
 
 	Clear_screen_command: STRING = "cls"
 
-	Command_arg_activate_console_manager: STRING = "console"
-
-	Command_arg_activate_logging: STRING = "logging"
-
 end

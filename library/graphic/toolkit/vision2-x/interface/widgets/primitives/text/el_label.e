@@ -2,39 +2,56 @@ note
 	description: "Summary description for {EL_EV_LABEL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-24 15:21:42 GMT (Wednesday 24th July 2013)"
-	revision: "4"
+	date: "2014-09-02 10:55:13 GMT (Tuesday 2nd September 2014)"
+	revision: "6"
 
 class
 	EL_LABEL
 
 inherit
 	EV_LABEL
+		rename
+			set_text as set_text_general
 		redefine
-			initialize, set_text
+			initialize, align_text_top, align_text_vertical_center, align_text_bottom
 		end
 
-	EL_MODULE_GUI
+	EL_WORD_WRAPPABLE
+		rename
+			width as adjusted_width
 		undefine
-			is_equal, copy, default_create
+			is_equal, copy, default_create, is_left_aligned, is_center_aligned, is_right_aligned,
+			align_text_center, align_text_left, align_text_right
+		redefine
+			align_text_top, align_text_vertical_center, align_text_bottom
 		end
 
 create
-	default_create, make_with_text, make_with_wrapped_text
+	default_create, make_with_text, make_wrapped, make_wrapped_to_width
 
 feature {NONE} -- Initialization
 
-	make_with_wrapped_text (a_text: EL_ASTRING)
+	make_wrapped (a_text: ASTRING)
 			--
 		require
 			a_text_not_void: a_text /= Void
 		do
 			default_create
-			set_wrapped_text (a_text)
+			set_text_wrapped (a_text)
+		end
+
+	make_wrapped_to_width (a_text: ASTRING; a_font: EV_FONT; a_width: INTEGER)
+		do
+			default_create
+			set_minimum_width (a_width)
+			set_font (a_font)
+			unwrapped_text := a_text
+			is_wrapped := True
+			wrap_text
 		end
 
 	initialize
@@ -43,23 +60,33 @@ feature {NONE} -- Initialization
 			create timer.make_with_interval (0)
 			create unwrapped_text.make_empty
 			resize_actions.extend (agent on_resize)
+			resize_actions.block
 		end
+
+feature -- Access
+
+	unwrapped_text: ASTRING
 
 feature -- Element change
 
-	set_wrapped_text (a_text: EL_ASTRING)
-			--
+	set_text_wrapped (a_text: ASTRING)
+		-- wraps during component resizing
 		do
 			unwrapped_text := a_text
-			if GUI.is_word_wrappable (a_text, font, width) then
-				set_text (GUI.word_wrapped (a_text, font, width))
-				is_wrapped := True
-			else
-				GUI.do_once_on_idle (agent wrap_text)
-			end
+			is_wrapped := True
+			resize_actions.resume
 		end
 
-	set_transient_text (a_text: EL_ASTRING; timeout_secs: REAL)
+	set_text_wrapped_to_width (a_text: ASTRING; a_width: INTEGER)
+			-- does an immediate wrap
+		do
+			set_minimum_width (a_width)
+			unwrapped_text := a_text
+			is_wrapped := True
+			wrap_text
+		end
+
+	set_transient_text (a_text: ASTRING; timeout_secs: REAL)
 		do
 			set_text (a_text)
 			timer.set_interval ((1000 * timeout_secs).rounded)
@@ -67,34 +94,74 @@ feature -- Element change
 			timer.actions.extend_kamikaze (agent set_foreground_color (GUI.default_foreground_color))
 		end
 
-feature -- Element change
-
-	set_text (a_text: READABLE_STRING_GENERAL)
+	set_text (a_text: ASTRING)
 		do
-			if attached {EL_ASTRING} a_text as astring then
-				Precursor (astring.to_unicode)
-			else
-				Precursor (a_text)
-			end
+			is_wrapped := False
+			set_text_general (a_text.to_unicode)
 		end
 
-feature -- Access
+feature -- Status setting
 
-	unwrapped_text: EL_ASTRING
+	align_text_top
+			-- Display `text' vertically aligned at the top.
+		do
+			Precursor {EL_WORD_WRAPPABLE}
+			Precursor {EV_LABEL}
+		end
+
+	align_text_vertical_center
+			-- Display `text' vertically aligned at the center.
+		do
+			Precursor {EL_WORD_WRAPPABLE}
+			Precursor {EV_LABEL}
+		end
+
+	align_text_bottom
+			-- Display `text' vertically aligned at the bottom.
+		do
+			Precursor {EL_WORD_WRAPPABLE}
+			Precursor {EV_LABEL}
+		end
 
 feature {NONE} -- Implementation
 
-	on_resize (a_x: INTEGER; a_y: INTEGER; a_width: INTEGER; a_height: INTEGER)
+	on_resize (a_x, a_y, a_width, a_height: INTEGER)
 		do
-			if is_wrapped then
+			if a_width > 5 and then is_wrapped then
 				wrap_text
 			end
 		end
 
+feature {NONE} -- Implementation
+
 	wrap_text
+		local
+			l_wrapped_lines: like wrapped_lines
 		do
-			set_text (GUI.word_wrapped (unwrapped_text, font, width))
-			is_wrapped := True
+			if GUI.is_word_wrappable (unwrapped_text, font, adjusted_width) then
+				l_wrapped_lines := wrapped_lines (unwrapped_text)
+
+				-- Align with top edge if more than one line
+				if vertical_alignment_code = Alignment_center then
+					if l_wrapped_lines.count > 1 then
+						align_text_top
+						vertical_alignment_code := Alignment_center
+					else
+						align_text_vertical_center
+					end
+				end
+--				resize_actions.block
+				set_text_general (l_wrapped_lines.joined_lines.to_unicode)
+--				resize_actions.resume
+			else
+				GUI.do_once_on_idle (agent wrap_text)
+			end
+		end
+
+	adjusted_width: INTEGER
+			-- Needed due to layout bug where right most character is obscured
+		do
+			Result := width - font.string_width (once "a") // 3
 		end
 
 	is_wrapped: BOOLEAN

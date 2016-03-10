@@ -1,23 +1,21 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:34 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER
 
 inherit
 	GCC_TO_MSVC_CONVERTER
-		rename
-			output as file_output
 		redefine
-			delimiting_pattern, write_new_text, file_output
+			delimiting_pattern, write_events_text
 		end
 
 	EL_C_PATTERN_FACTORY
@@ -76,7 +74,7 @@ feature {NONE} -- Match actions
 			log.enter ("on_praat_run_procedure_statement_block")
 			log.put_string_field_to_max_length ("text", text, 100)
 			log.put_new_line
-			praat_run_c_procedure_converter.set_source_text (text.view)
+			praat_run_c_procedure_converter.set_source_text (text.to_string_8)
 			praat_run_c_procedure_converter.edit_file
 			log.exit
 		end
@@ -102,16 +100,14 @@ feature {NONE} -- Match actions
 
 feature {NONE} -- Implementation
 
-	write_new_text
+	write_events_text
 			--
 		do
-			create praat_run_c_procedure_converter.make (file_output)
+			create praat_run_c_procedure_converter.make (output)
 			Precursor
 		end
 
 	praat_run_c_procedure_converter: PROCEDURE_PRAAT_RUN_GCC_TO_MSVC_CONVERTER
-
-	file_output: PLAIN_TEXT_FILE
 
 	praat_exit_macro: STRING =
 			--

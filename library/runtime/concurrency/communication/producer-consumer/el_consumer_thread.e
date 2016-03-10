@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-03-13 17:46:54 GMT (Wednesday 13th March 2013)"
 	revision: "2"
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_CONSUMER [P]
 		undefine
-			is_equal, copy, stop, default_create
+			make_default, is_equal, copy, stop
 		end
 
 	EL_CONTINUOUS_ACTION_THREAD
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			default_create
+			make_default
 			create product_count.make (0)
 		end
 

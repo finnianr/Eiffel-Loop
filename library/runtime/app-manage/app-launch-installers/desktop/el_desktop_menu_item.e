@@ -2,12 +2,12 @@ note
 	description: ""
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 8:25:21 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2013-12-06 13:58:29 GMT (Friday 6th December 2013)"
+	revision: "3"
 
 class
 	EL_DESKTOP_MENU_ITEM
@@ -38,9 +38,9 @@ feature -- Access
 
 	icon_path: EL_FILE_PATH
 
-	name: EL_ASTRING
+	name: ASTRING
 
-	comment: EL_ASTRING
+	comment: ASTRING
 
 feature -- Status query
 

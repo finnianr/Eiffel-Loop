@@ -9,12 +9,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_audio_files 
+	name = EL_audio_files 
 	uuid = "229b770e-09aa-11df-87c3-c377311e3588" 
-	library_target = el_audio_files
+	library_target = EL_audio_files
 	
 	target:
-		name = el_audio_files
+		name = EL_audio_files
 		
 		description: 
 			"""
@@ -121,9 +121,10 @@ system:
 		# Eiffel Loop
 
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 			readonly = false
 
+		# Source code
 		cluster:
 			name = audio_files; location = "multimedia/audio"
 			option:

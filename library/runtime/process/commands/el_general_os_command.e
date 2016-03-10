@@ -2,106 +2,62 @@ note
 	description: "Summary description for {EL_GENERAL_OS_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-25 14:56:51 GMT (Thursday 25th July 2013)"
-	revision: "3"
+	date: "2013-10-20 9:43:34 GMT (Sunday 20th October 2013)"
+	revision: "4"
 
 class
 	EL_GENERAL_OS_COMMAND
 
 inherit
 	EL_OS_COMMAND [EL_GENERAL_COMMAND_IMPL]
-		rename
-			make as make_command
 		redefine
-			template, template_name
+			temporary_file_name, template, template_name, redirect_errors
 		end
 
 create
-	make
+	make, make_with_name
 
 feature {NONE} -- Initialization
 
-	make (name, a_template: STRING)
+	make (a_template: like template)
 			--
 		do
-			template_name := generating_type + "." + name
+			make_with_name (a_template.substring (1, a_template.index_of (' ', 1) - 1), a_template)
+		end
+
+	make_with_name (name: READABLE_STRING_GENERAL; a_template: like template)
+		do
 			template := a_template
+			template_name := name_template #$ [generating_type, name]
 			make_command
 		end
 
-feature -- Element change
+feature -- Status query
 
-	set_variables_from_array (variable_name_and_value_array: ARRAY [TUPLE])
-			--
-		require
-			valid_tuples:
-				across variable_name_and_value_array as tuple all
-					tuple.item.count = 2 and then attached {STRING} tuple.item.reference_item (1)
-				end
-		local
-			value_ref: ANY
+	redirect_errors: BOOLEAN
+
+feature -- Status change
+
+	enable_error_redirection
+			-- enable appending of error messages to captured output
 		do
-			across variable_name_and_value_array as tuple loop
-				if attached {STRING} tuple.item.reference_item (1) as variable_name then
-					if tuple.item.is_double_item (2) then
-						set_double (variable_name, tuple.item.real_64_item (2))
-
-					elseif tuple.item.is_real_item (2) then
-						set_real (variable_name, tuple.item.real_32_item (2))
-
-					elseif tuple.item.is_integer_item (2) then
-						set_integer (variable_name, tuple.item.integer_32_item (2))
-
-					else
-						value_ref := tuple.item.reference_item (2)
-						if attached {STRING} value_ref as str_value then
-							set_string (variable_name, str_value)
-						else
-							set_string (variable_name, value_ref.out)
-						end
-					end
-				end
-			end
-		end
-
-	set_variable_quoted_value (variable_name, value: STRING)
-		do
-			set_string (variable_name, String.quoted (value) )
-		end
-
-	set_string (variable_name, value: STRING)
-			--
-		do
-			put_variable (value, variable_name)
-		end
-
-	set_double (variable_name: STRING; value: DOUBLE)
-			--
-		do
-			put_double_variable (value, variable_name)
-		end
-
-	set_real (variable_name: STRING; value: REAL)
-			--
-		do
-			put_real_variable (value, variable_name)
-		end
-
-	set_integer (variable_name: STRING; value: INTEGER)
-			--
-		do
-			put_integer_variable (value, variable_name)
+			redirect_errors := True
 		end
 
 feature {NONE} -- Implementation
 
+	temporary_file_name: ASTRING
+		do
+			Result := template_name.base
+		end
+
 	template_name: EL_FILE_PATH
 
-	template: STRING_32
+	template: READABLE_STRING_GENERAL
 
 feature {NONE} -- Evolicity reflection
 
@@ -109,6 +65,13 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result
+		end
+
+feature {NONE} -- Constants
+
+	Name_template: ASTRING
+		once
+			Result := "{$S}.$S"
 		end
 
 end

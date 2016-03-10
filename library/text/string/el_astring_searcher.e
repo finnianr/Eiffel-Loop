@@ -20,10 +20,10 @@ create
 
 feature -- Access
 
-	string_type: EL_ASTRING
+	string_type: ASTRING
 			-- <Precursor>
 		do
-			Result := {STRING_32} ""
+			create Result.make_empty
 		end
 
 	max_code_point_value: INTEGER = 2_000

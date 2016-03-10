@@ -116,6 +116,10 @@ system:
 			readonly = false
 
 		library:
+			name = el_net_base; location = "$EIFFEL_LOOP/library/network.ecf"
+			readonly = false
+
+		library:
 			name = el_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
 			readonly = false
 

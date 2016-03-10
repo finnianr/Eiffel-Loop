@@ -2,12 +2,12 @@ note
 	description: "Creates a GNOME desktop menu application launcher"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 8:25:21 GMT (Tuesday 18th June 2013)"
-	revision: "3"
+	date: "2014-01-05 13:15:13 GMT (Sunday 5th January 2014)"
+	revision: "4"
 
 class
 	EL_DESKTOP_APPLICATION_INSTALLER_IMPL
@@ -18,6 +18,8 @@ inherit
 	EL_SHARED_APPLICATIONS_XDG_DESKTOP_MENU
 
 	EL_MODULE_BUILD_INFO
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
 	make, default_create
@@ -124,7 +126,7 @@ feature {EL_DESKTOP_APPLICATION_INSTALLER} -- Constants
 			--
 		local
 			kde_menu_name: EL_ASTRING_LIST
-			kde_menu_name_parts: ARRAY [EL_ASTRING]
+			kde_menu_name_parts: ARRAY [ASTRING]
 		do
 			kde_menu_name_parts := <<
 				"kde", Build_info.installation_sub_directory.to_string, Execution_environment.Executable_name + ".menu"

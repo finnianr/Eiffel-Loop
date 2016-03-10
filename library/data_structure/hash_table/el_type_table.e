@@ -19,7 +19,7 @@ inherit
 			remove as remove_function
 		end
 
-	EL_MODULE_TYPING
+	EL_MODULE_EIFFEL
 		undefine
 			is_equal, copy
 		end
@@ -34,7 +34,7 @@ feature -- Access
 		local
 			type_id: INTEGER
 		do
-			type_id := Typing.dynamic_type (object)
+			type_id := Eiffel.dynamic_type (object)
 			search (type_id)
 			if found then
 				Result := found_item
@@ -48,6 +48,6 @@ feature -- Removal
 
 	remove (object: BASE_TYPE)
 		do
-			remove_function (Typing.dynamic_type (object))
+			remove_function (Eiffel.dynamic_type (object))
 		end
 end

@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<seq id="seq_1" title="Extracts of conversation between Bill and Susan">
-			<audio id="audio_1" title="Greeting" src="Bill-and-Susan.mp3" clipBegin="5.5s" clipEnd="18.0s"/>
+			<audio id="audio_1" title="Greeting-€" src="Bill-and-Susan.mp3" clipBegin="5.5s" clipEnd="18.0s"/>
 			<audio id="audio_2" title="Interjection" src="Bill-and-Susan.mp3" clipBegin="25.5s" clipEnd="30.0s"/>
 			<audio id="audio_3" title="Disagreement" src="Bill-and-Susan.mp3" clipBegin="55.0s" clipEnd="67.0s"/>
 		</seq>

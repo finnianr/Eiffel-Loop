@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_LINEAR}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:27 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2013-10-18 15:06:42 GMT (Friday 18th October 2013)"
+	revision: "2"
 
 deferred class
 	EL_LINEAR [G]
@@ -15,42 +15,46 @@ deferred class
 inherit
 	LINEAR [G]
 
-feature -- Status setting
-
-	start_find
-		do
-			before_find := True
-		end
-
 feature -- Status query
 
-	before_find: BOOLEAN
-		-- True if starting a new find
+	found: BOOLEAN
+		do
+			Result := not exhausted
+		end
 
 feature -- Basic operations
 
 	find_first (value: ANY; value_function: FUNCTION [G, TUPLE, ANY])
 		do
-			start_find; find_next (value, value_function)
+			start; find_next_function_value (value, value_function)
 		end
 
 	find_next (value: ANY; value_function: FUNCTION [G, TUPLE, ANY])
+		do
+			forth
+			if not after then
+				find_next_function_value (value, value_function)
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	find_next_function_value (value: ANY; value_function: FUNCTION [G, TUPLE, ANY])
 			-- Find next item where function returns a value matching 'a_value'
 		require
 			valid_open_count: value_function.open_count = 1
 			valid_value_function: not off implies value_function.empty_operands.valid_type_for_index (item, 1)
 			function_result_same_type: not off implies value.same_type (value_function.item ([item]))
 		local
-			found: BOOLEAN
+			l_tuple: TUPLE [like item] -- Save on garbage collection for long lists
+			match_found: BOOLEAN
 		do
-			if before_find then
-				start; before_find := False
-			else
-				forth
-			end
-			from until found or after loop
-				found := value ~ value_function.item ([item])
-				if not found then
+			create l_tuple
+			from until match_found or after loop
+				l_tuple.put (item, 1)
+				if value ~ value_function.item (l_tuple) then
+					match_found := True
+				else
 					forth
 				end
 			end

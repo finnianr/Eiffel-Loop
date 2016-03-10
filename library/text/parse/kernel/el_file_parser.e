@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 12:34:25 GMT (Sunday 28th July 2013)"
-	revision: "4"
+	date: "2014-10-06 16:34:46 GMT (Monday 6th October 2014)"
+	revision: "6"
 
 deferred class
 	EL_FILE_PARSER
@@ -20,8 +20,10 @@ inherit
 					at_least_one_match_found, consume_events, is_reset, full_match_succeeded,
 					set_source_text, set_pattern_changed
 		redefine
-			make
+			make_default
 		end
+
+	EL_ENCODEABLE_AS_TEXT
 
 	EL_MODULE_ASCII
 		export
@@ -35,22 +37,12 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
 		do
 			Precursor
+			make_utf_8
 			create source_file_path
-		end
-
-feature -- Status query
-
-	is_utf8_source: BOOLEAN
-
-feature -- Status setting
-
-	set_is_utf8_source (flag: BOOLEAN)
-		do
-			is_utf8_source := flag
 		end
 
 feature -- Element Change
@@ -58,60 +50,45 @@ feature -- Element Change
   	set_source_text_from_file (file_path: EL_FILE_PATH)
  			--
  		local
- 			file: PLAIN_TEXT_FILE
+ 			lines: EL_FILE_LINE_SOURCE; input: PLAIN_TEXT_FILE
  		do
- 			create file.make_open_read (file_path.unicode)
- 			set_source_text_from_line_source (file)
- 			file.close
+ 			create input.make_open_read (file_path)
+ 			create lines.make_from_file (input)
+ 			lines.set_encoding_from_other (Current)
+ 			set_source_text_from_line_source (lines)
+ 			input.close
  		end
 
-	set_source_text_from_line_source (file: PLAIN_TEXT_FILE)
+	set_source_text_from_line_source (lines: EL_FILE_LINE_SOURCE)
 			--
 		local
-			text: STRING_GENERAL
-			is_utf8: BOOLEAN
+			text: STRING_GENERAL; line: ASTRING
 		do
- 			source_file_path := file.path
- 			if not is_utf8_source then
- 				is_utf8_source := has_bom_mark (file)
- 			end
- 			is_utf8 := is_utf8_source
- 			if is_utf8 then
-	 			create {STRING_32} text.make (file.count)
- 			else
-	 			create {STRING} text.make (file.count)
- 			end
-			from file.start until file.end_of_file loop
+ 			source_file_path := lines.file_path
+ 			set_encoding_from_other (lines) -- May have detected UTF-8 BOM
+ 			create {ASTRING} text.make (lines.byte_count)
+			from lines.start until lines.after loop
+				line := lines.item
 				if not text.is_empty then
 					text.append_code (10)
 				end
-				text.append (file_line (file, is_utf8))
+				-- if appending line to EL_ASTRING text overflows the foreign characters then change text to type STRING_32
+				if attached {ASTRING} text as el_astring then
+					el_astring.append (line)
+					if el_astring.has_unencoded_characters then
+						el_astring.remove_tail (line.count)
+						text := el_astring.to_unicode
+						text.append (line.to_unicode) -- text converted to STRING_32
+					end
+				else
+					text.append (line.to_unicode)
+				end
+				lines.forth
 			end
  			set_source_text (text)
 		end
 
 feature {NONE} -- Implementation
-
-	has_bom_mark (file: PLAIN_TEXT_FILE): BOOLEAN
-		do
-			file.start
-			file.read_stream (3)
-			Result := file.last_string ~ UTF.utf_8_bom_to_string_8
-		end
-
-	file_line (file: PLAIN_TEXT_FILE; is_utf8: BOOLEAN): READABLE_STRING_GENERAL
-		local
-			l_result: STRING
-		do
-			file.read_line
-			l_result := file.last_string
-			l_result.prune_all_trailing ('%R')
-			if is_utf8 then
-				Result := UTF.utf_8_string_8_to_string_32 (l_result)
-			else
-				Result := l_result
-			end
-		end
 
 	source_file_path: EL_FILE_PATH
 

@@ -11,12 +11,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-25 23:00:37 GMT (Thursday 25th July 2013)"
-	revision: "3"
+	date: "2013-11-24 16:02:17 GMT (Sunday 24th November 2013)"
+	revision: "4"
 
 class
 	EVOLICITY_FOREACH_DIRECTIVE
@@ -36,14 +36,14 @@ feature -- Initialization
 			--
 		do
 			Precursor
-			create outer_loop_variables.make_with_count (3)
+			create outer_loop_variables.make_equal (3)
 			create local_scope_variable_names.make_filled ("", 1, 2)
 			local_scope_variable_names [2] := Loop_index_var_name
 		end
 
 feature -- Element change
 
-	set_var_iterator (a_iterator_var_name: EL_ASTRING)
+	set_var_iterator (a_iterator_var_name: ASTRING)
 			--
 		do
 			iterator_var_name := a_iterator_var_name
@@ -58,7 +58,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	execute (a_context: EVOLICITY_CONTEXT; output: IO_MEDIUM; utf8_encoded: BOOLEAN)
+	execute (a_context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
 		local
 			loop_index: INTEGER_REF
@@ -95,7 +95,7 @@ feature {NONE} -- Implementation
 					else
 						name_space.remove (iterator_var_name)
 					end
-					Precursor (a_context, output, utf8_encoded)
+					Precursor (a_context, output)
 					l_cursor.forth; i := i + 1
 				end
 				name_space.remove (iterator_var_name)
@@ -136,11 +136,11 @@ feature {NONE} -- Implementation
 			outer_loop_variables.wipe_out
 		end
 
-	iterator_var_name: EL_ASTRING
+	iterator_var_name: ASTRING
 
 	traversable_container_variable_ref: EVOLICITY_VARIABLE_REFERENCE
 
-	local_scope_variable_names: ARRAY [EL_ASTRING]
+	local_scope_variable_names: ARRAY [ASTRING]
 
 	outer_loop_variables: EVOLICITY_OBJECT_TABLE [ANY]
 		-- Variables in outer loop that may have names clashing with this loop

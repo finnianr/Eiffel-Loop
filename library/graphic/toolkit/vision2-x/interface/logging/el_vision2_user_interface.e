@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-05-11 14:39:18 GMT (Saturday 11th May 2013)"
-	revision: "2"
+	date: "2014-09-28 8:51:35 GMT (Sunday 28th September 2014)"
+	revision: "3"
 
 class
 	EL_VISION2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end]
@@ -18,7 +18,7 @@ class
 inherit
 	EV_APPLICATION
 		redefine
-			create_implementation
+			create_implementation, create_interface_objects
 		end
 
 	EL_MODULE_LOG
@@ -61,11 +61,12 @@ feature {NONE} -- Initialization
 
 			if error_message.is_empty then
 				create main_window.make
+				prepare_to_show
 				if is_maximized then
 					main_window.maximize
+				else
+					main_window.show
 				end
-				prepare_to_show
-				main_window.show
 			else
 				create error_dialog.make_with_text_and_actions (error_message , << agent destroy >>)
 				create pixmaps
@@ -96,6 +97,15 @@ feature {NONE} -- Status query
 
 feature {NONE} -- Implementation
 
+	create_interface_objects
+		local
+			screen_properties: EL_SCREEN_PROPERTIES_IMPL
+		do
+			-- This has to be called before any GUI code to intialize a once function that
+			-- calls some GTK C code. This code is effectively a mini GTK app.
+			create screen_properties.make_special
+		end
+
 	prepare_to_show
 			--
 		do
@@ -114,12 +124,11 @@ feature {NONE} -- Implementation
 	create_implementation
 		do
 			Precursor
-			check attached {EL_APPLICATION_I} implementation as l_implementation then
+			if attached {EL_APPLICATION_I} implementation as l_implementation then
 				set_main_thread_event_request_queue (
 					create {EL_VISION2_MAIN_THREAD_EVENT_REQUEST_QUEUE}.make (l_implementation.event_emitter)
 				)
 			end
 		end
-
 
 end

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_SCREEN_IMP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:30 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_SCREEN_IMP
@@ -44,7 +44,7 @@ feature -- Access
 			{GTK2}.set_gdk_rectangle_struct_width (l_rect, 1); {GTK2}.set_gdk_rectangle_struct_height (l_rect, 1)
 			{GTK2}.set_gdk_rectangle_struct_x (l_rect, a_x); {GTK2}.set_gdk_rectangle_struct_y  (l_rect, a_y)
 			create l_pixmap
-			gdkpix := {EL_GTK}.gtk_widget_get_snapshot (a_widget.c_object, l_rect)
+			gdkpix := {EL_GTK2}.widget_get_snapshot (a_widget.c_object, l_rect)
 			check attached {EV_PIXMAP_IMP} l_pixmap.implementation as pixmap_imp then
 				pixmap_imp.copy_from_gdk_data (gdkpix, a_widget.NULL, 1, 1)
 			end

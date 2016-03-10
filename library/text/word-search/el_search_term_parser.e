@@ -2,12 +2,12 @@ note
 	description: "Summary description for {SEARCH_TERM_PARSER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-01-05 19:33:03 GMT (Sunday 5th January 2014)"
+	revision: "2"
 
 class
 	EL_SEARCH_TERM_PARSER
@@ -15,6 +15,8 @@ class
 inherit
 	EL_FILE_PARSER
 		rename
+			make_default as make,
+			consume_events as compile_criteria,
 			set_source_text as set_search_terms
 		export
 			{NONE} all
@@ -72,7 +74,7 @@ feature -- Element Change
 			match_full
 			is_valid := full_match_succeeded
 			if is_valid then
-				consume_events
+				compile_criteria
 			end
  		end
 
@@ -191,7 +193,7 @@ feature {NONE} -- Match actions
 		local
 			word_tokens: EL_TOKENIZED_STRING
 		do
-			log.enter_with_args ("on_default_word", << matched_text.view >>)
+			log.enter_with_args ("on_default_word", << matched_text.to_string_8 >>)
 			create word_tokens.make_from_string (word_token_table, matched_text)
 
 			log.put_string_field ("Tokens", word_tokens.out)
@@ -204,7 +206,7 @@ feature {NONE} -- Match actions
 
 	on_word_stem_plus_wildcard (matched_text: EL_STRING_VIEW)
 		local
-			word_stem: EL_ASTRING
+			word_stem: ASTRING
 		do
 			word_stem := matched_text
 			word_stem.prune_all_trailing ('*')
@@ -236,12 +238,12 @@ feature {NONE} -- Match actions
 
 feature {NONE} -- Implementation
 
-	add_one_of_words_search_term_criteria (phrase_stem_words: EL_TOKENIZED_STRING; word_stem: EL_ASTRING)
+	add_one_of_words_search_term_criteria (phrase_stem_words: EL_TOKENIZED_STRING; word_stem: ASTRING)
 		local
 			word_list: like word_token_table.words
 			potential_match_word, word_variations: EL_TOKENIZED_STRING
 			end_word_token: NATURAL
-			word_stem_lower: EL_ASTRING
+			word_stem_lower: ASTRING
 		do
 			word_stem_lower := word_stem.as_lower
 			create word_variations.make (word_token_table, 20)

@@ -18,13 +18,12 @@ class
 inherit
 	EIFFEL_SOURCE_EDITING_PROCESSOR
 		rename
-			delimiting_pattern as note_section,
-			make as make_proceessor
+			delimiting_pattern as note_section
 		redefine
 			note_section, reset, set_source_text_from_line_source, edit_file
 		end
 
-	EL_MODULE_EVOLICITY
+	EL_MODULE_EVOLICITY_TEMPLATES
 
 	EL_MODULE_DATE
 
@@ -45,35 +44,34 @@ feature {NONE} -- Initialization
 				[Field_contact, license_notes.contact],
 				[Field_license, license_notes.license]
 			>>)
-			create standard_field_table.make_with_count (7)
+			create standard_field_table.make_equal (7)
 			create non_standard_fields.make
-			Evolicity.set_template (Template_name, Note_template)
-			make_proceessor
+			Evolicity_templates.put (Template_name, Note_template)
+			make_default
 			create last_date_time_stamp.make_from_epoch (0)
 			log.exit
 		end
 
 feature -- Element change
 
-	set_source_text_from_line_source (file: PLAIN_TEXT_FILE)
+	set_source_text_from_line_source (lines: EL_FILE_LINE_SOURCE)
 			--
 		local
-			date_field_stamp: DATE_TIME
-			line: EL_ASTRING
-			date_string, field_value: STRING
+			date_field_stamp: DATE_TIME; date_string, field_value: STRING
 			date_found, revision_found: BOOLEAN
+			line: ASTRING
 		do
 			has_revision := False
- 			source_file_path := file.path
+ 			source_file_path := lines.file_path
  			create line.make_empty; create date_string.make_empty
- 			last_time_stamp := file.date
+ 			last_time_stamp := lines.date
  			create last_date_time_stamp.make_from_epoch (last_time_stamp)
- 			from file.start until
+ 			from lines.start until
  				(date_found and revision_found)
  					or across Class_declaration_keywords as keyword some line.starts_with (keyword.item) end
- 					or file.end_of_file
+ 					or lines.after
  			loop
- 				create line.make_from_unicode (file_line (file, is_utf8_source))
+	 			line := lines.item
  				line.left_adjust
 				if line.occurrences ('"') = 2 then
  					field_value := line.substring (line.index_of ('"', 1) + 1, line.last_index_of ('"', line.count) - 1).to_latin1
@@ -85,6 +83,7 @@ feature -- Element change
 	 					revision_found := True
 	 				end
  				end
+ 				lines.forth
  			end
  			if date_found then
  				create date_field_stamp.make_from_epoch (0)
@@ -96,7 +95,7 @@ feature -- Element change
 				end
  				has_revision := not date_field_stamp.is_equal (last_date_time_stamp)
  			end
-			Precursor (file)
+			Precursor (lines)
  		end
 
  	Class_declaration_keywords: ARRAY [STRING]
@@ -118,7 +117,7 @@ feature -- Basic operations
 		do
 			if not source_text.has_substring (Eiffel_web_address) and then has_revision then
 				Precursor
-				create source_file.make (source_file_path.unicode)
+				create source_file.make_with_name (source_file_path)
 				source_file.stamp (last_time_stamp)
 			end
 		end
@@ -164,18 +163,18 @@ feature {NONE} -- Parsing actions
 			--
 		do
 			if last_field_name ~ Field_date then
-				standard_field_table [Field_date] := String.template ("$S GMT ($S)").substituted (<<
+				standard_field_table [Field_date] := Time_template #$ [
 					last_date_time_stamp.formatted_out (Date_time_format),
-					Date.spelling_long (last_date_time_stamp.date, True)
-				>>)
+					Date.formatted (last_date_time_stamp.date, {EL_DATE_FORMATS}.canonical)
+				]
 			elseif last_field_name ~ Field_revision then
 				standard_field_table [Field_revision] := (last_revision + 1).out
 
 			elseif Standard_fields.has (last_field_name) then
-				standard_field_table [last_field_name] := text.view
+				standard_field_table [last_field_name] := text.to_string_8
 
 			else
-				non_standard_fields.extend (name_value_pair (last_field_name, text.view))
+				non_standard_fields.extend (name_value_pair (last_field_name, text.to_string_8))
 			end
 		end
 
@@ -184,7 +183,7 @@ feature {NONE} -- Parsing actions
 		local
 			quoted_verbatim_text: STRING
 		do
-			quoted_verbatim_text := "[%N" + text.view + "%N%T]"
+			quoted_verbatim_text := "[%N" + text.to_string_8 + "%N%T]"
 			if Standard_fields.has (last_field_name) then
 				standard_field_table [last_field_name] := quoted_verbatim_text
 			else
@@ -221,7 +220,7 @@ feature {NONE} -- Parsing actions
 			end
 			create variable_context.make_from_string_table (standard_field_table)
 			variable_context.put_variable (non_standard_fields, "other_fields")
-			put_string (Evolicity.merged_template (Template_name, variable_context))
+			put_string (Evolicity_templates.merged (Template_name, variable_context))
 
 			put_string (text)
 		end
@@ -262,13 +261,13 @@ feature {NONE} -- Implementation
 
 	non_standard_fields: LINKED_LIST [EVOLICITY_CONTEXT]
 
-	last_field_name: EL_ASTRING
+	last_field_name: ASTRING
 
-	current_note_section: EL_ASTRING
+	current_note_section: ASTRING
 
-	standard_field_table: EL_ASTRING_HASH_TABLE [EL_ASTRING]
+	standard_field_table: EL_ASTRING_HASH_TABLE [ASTRING]
 
-	default_values: EL_ASTRING_HASH_TABLE [EL_ASTRING]
+	default_values: EL_ASTRING_HASH_TABLE [ASTRING]
 
 	last_time_stamp: INTEGER
 
@@ -278,42 +277,42 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Fields
 
-	Field_author: EL_ASTRING
+	Field_author: ASTRING
 		once
 			Result := "author"
 		end
 
-	Field_description: EL_ASTRING
+	Field_description: ASTRING
 		once
 			Result := "description"
 		end
 
-	Field_copyright: EL_ASTRING
+	Field_copyright: ASTRING
 		once
 			Result := "copyright"
 		end
 
-	Field_contact: EL_ASTRING
+	Field_contact: ASTRING
 		once
 			Result := "contact"
 		end
 
-	Field_license: EL_ASTRING
+	Field_license: ASTRING
 		once
 			Result := "license"
 		end
 
-	Field_date: EL_ASTRING
+	Field_date: ASTRING
 		once
 			Result := "date"
 		end
 
-	Field_revision: EL_ASTRING
+	Field_revision: ASTRING
 		once
 			Result := "revision"
 		end
 
-	Standard_fields: ARRAY [EL_ASTRING]
+	Standard_fields: ARRAY [ASTRING]
 			--
 		once
 			Result := << Field_description, Field_author, Field_copyright, Field_contact, Field_license, Field_date, Field_revision >>
@@ -329,15 +328,20 @@ feature -- Constants
 
 	Date_time_format: STRING = "yyyy-[0]mm-[0]dd hh:[0]mi:[0]ss"
 
-	Repositary_checkout_fields: ARRAY [EL_ASTRING]
+	Repositary_checkout_fields: ARRAY [ASTRING]
 		once
 			Result := << Field_date, Field_revision >>
 			Result.compare_objects
 		end
 
-	Template_name: EL_ASTRING
+	Template_name: ASTRING
 		once
 			Result := "note"
+		end
+
+	Time_template: ASTRING
+		once
+			Result := "$S GMT ($S)"
 		end
 
 	Eiffel_web_address: STRING = "www.eiffel.com"

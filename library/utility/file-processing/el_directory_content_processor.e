@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-06-25 8:44:56 GMT (Tuesday 25th June 2013)"
 	revision: "2"
@@ -115,7 +115,7 @@ feature -- Basic operations
 				output_file_dir_path_steps.remove
 
 				input_file_path := input_file_path_steps.as_file_path
-				File_system.make_directory_from_steps (output_file_dir_path_steps)
+				File_system.make_directory (output_file_dir_path_steps)
 				destination_dir_path := output_file_dir_path_steps.as_directory_path
 
 				file_processing_action.call (

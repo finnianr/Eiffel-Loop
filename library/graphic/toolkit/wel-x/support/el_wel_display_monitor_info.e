@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-25 12:41:02 GMT (Saturday 25th January 2014)"
-	revision: "4"
+	date: "2014-09-02 10:55:13 GMT (Tuesday 2nd September 2014)"
+	revision: "6"
 
 class
 	EL_WEL_DISPLAY_MONITOR_INFO
@@ -78,6 +78,8 @@ feature {NONE} -- Initialization
 			else
 				is_valid := False
 			end
+			log.put_integer_field ("width cms", width_centimeters)
+			log.put_integer_field (" height cms", height_centimeters)
 			log.exit
 		end
 
@@ -158,7 +160,9 @@ feature {NONE} -- Implementation
 		local
 			EDID_registry_path: EL_DIR_PATH
 		do
-			across Win_registry.sub_keys (HKLM_enum_display.joined_dir_path (model)) as key until key.cursor_index > 1 loop
+			log.put_labeled_string ("Model", model)
+			log.put_new_line
+			across Win_registry.key_names (HKLM_enum_display.joined_dir_path (model)) as key until key.cursor_index > 1 loop
 				EDID_registry_path := HKLM_enum_display.joined_dir_steps (<<
 					model, key.item.name.to_string_8, "Device Parameters"
 				>>)

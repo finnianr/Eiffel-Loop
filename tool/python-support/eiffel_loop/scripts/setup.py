@@ -11,15 +11,16 @@ from distutils import dir_util, file_util
 from os import path
 
 from eiffel_loop.os import environ
-from eiffel_loop.http import remote_archive
-from eiffel_loop.http.resources import PYTHON_EXTENSION_PACKAGES_FOR_WINDOWS
+from eiffel_loop import package
+from eiffel_loop.package import ZIP_SOFTWARE_PACKAGE
+from eiffel_loop.package import PYTHON_EXTENSION_PACKAGES_FOR_WINDOWS
 
 if sys.platform == "win32":
 	import _winreg
 
 from eiffel_loop.scripts import templates
 
-python_home_dir = path.dirname (path.realpath (sys.executable))
+python_home_dir = environ.python_home_dir()
 eiffel_loop_home_dir = path.abspath (os.curdir)
 	
 class INSTALLER: # Common: Unix and Windows
@@ -80,14 +81,10 @@ class WINDOWS_INSTALLER (INSTALLER):
 	def install_scons (self):
 		os.chdir (eiffel_loop_home_dir)
 		if not environ.command_exists (['scons', '-v'], shell = True):
-			scons_url = 'http://freefr.dl.sourceforge.net/project/scons/scons/2.2.0/scons-2.2.0.zip'
-			remote_archive.download (scons_url, 'Downloads')
-			os.chdir ('Downloads')
-			scons_name = path.basename (scons_url)
+			scons_package = ZIP_SOFTWARE_PACKAGE ('http://freefr.dl.sourceforge.net/project/scons/scons/2.2.0/scons-2.2.0.zip')
+			scons_package.extract_all (package.download_dir)
 
-			zip_file = zipfile.ZipFile (scons_name, 'r')
-			zip_file.extractall ()
-			zip_file.close ()
+			scons_name = path.basename (scons_package.url)
 
 			os.chdir (path.splitext (scons_name)[0])
 			install_scons_cmd = ['python', 'setup.py', 'install', '--standard-lib']
@@ -148,24 +145,31 @@ class WINDOWS_INSTALLER (INSTALLER):
 				print 'gedit not installed'
 	
 		if gedit_exe_path:
-			py_icon_path = path.join (python_home_dir, 'DLLs', 'py.ico') 
+			py_icon_path = path.join (python_home_dir, 'DLLs', 'py.ico')
+			estudio_logo_path = r'"%ISE_EIFFEL%\contrib\examples\web\ewf\upload_image\htdocs\favicon.ico"'
+
+			conversion_cmd = 'cmd /C el_toolkit -pyxis_to_xml -remain -in "%1"'
+			edit_cmd = '"%s"  "%%1"' % gedit_exe_path
+			open_with_estudio_cmd = '"%s" "%%1"' % path.join (python_home_dir, "launch_estudio.bat")
+			open_with_gedit_cmd = edit_cmd
+
+			pecf_extension_cmds = { 'edit' : edit_cmd, 'open' : open_with_estudio_cmd, 'Convert To ECF' : conversion_cmd }
+			pyx_extension_cmds = { 'edit' : edit_cmd, 'open' : open_with_gedit_cmd, 'Convert To XML' : conversion_cmd }
+
 			mime_types = [
-				('.pecf', 'Pyxis.ECF.File', 'Pyxis Eiffel Configuration File', 'imageres.dll,-69', 'Convert To ECF'),
-				('.pyx', 'Pyxis.File', 'Pyxis Data File', py_icon_path, 'Convert To XML')
+				('.pecf', 'Pyxis.ECF.File', 'Pyxis Eiffel Configuration File', estudio_logo_path, pecf_extension_cmds),
+				('.pyx', 'Pyxis.File', 'Pyxis Data File', py_icon_path, pyx_extension_cmds)
 			]
-			for extension_name, pyxis_key_name, description, icon_path, conversion_name in mime_types:
+			for extension_name, pyxis_key_name, description, icon_path, extension_cmds in mime_types:
 				key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, extension_name, 0, _winreg.KEY_ALL_ACCESS)
 				_winreg.SetValue (key, '', _winreg.REG_SZ, pyxis_key_name)
 
 				pyxis_shell_path = path.join (pyxis_key_name, 'shell')
-		
-				for command_name in ['edit', 'open', conversion_name]:
+				for command_name, command in extension_cmds.iteritems():
 					command_path = path.join (pyxis_shell_path, command_name, 'command')
+					print 'Setting:', command_path, 'to', command
 					key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, command_path, 0, _winreg.KEY_ALL_ACCESS)
-					if command_name.startswith ('Convert'):
-						_winreg.SetValue (key, '', _winreg.REG_SZ, 'cmd /C el_toolkit -pyxis_to_xml -remain -in "%1"')
-					else:
-						_winreg.SetValue (key, '', _winreg.REG_SZ, ('"%s"  "%%1"' % gedit_exe_path))
+					_winreg.SetValue (key, '', _winreg.REG_SZ, command)
 
 				key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, pyxis_key_name, 0, _winreg.KEY_ALL_ACCESS)
 				_winreg.SetValue (key, '', _winreg.REG_SZ, description)

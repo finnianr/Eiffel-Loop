@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_ISO_8859_1_CODEC}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-28 10:24:30 GMT (Sunday 28th July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "5"
 
 class
 	EL_ISO_8859_1_CODEC
@@ -102,12 +102,14 @@ feature -- Character query
 			end
 		end
 
-	unicode_case_change_substitute (c: CHARACTER): CHARACTER_32
+	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
 		do
-			inspect c
-				when 'µ' then
+			inspect code
+				-- µ -> Μ
+				when 181 then
 					Result := 'Μ'
-				when 'ÿ' then
+				-- ÿ -> Ÿ
+				when 255 then
 					Result := 'Ÿ'
 			else end
 		end

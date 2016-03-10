@@ -1,23 +1,22 @@
 note
-	description: "Summary description for {EL_TEXT_COMPONENT}."
+	description: "Undoable text facility"
 
+	notes: "[
+		There were problems to make this work in Windows requiring overriding of on_en_change
+		in WEL implementation to suppress default Ctrl-z action by emptying Windows undo buffer
+		
+		Also had to set ignore_character_code to true for Ctrl-y and Ctrl-z to stop annoying system ping.
+	]"
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:31 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:13 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 deferred class
 	EL_UNDOABLE_TEXT
-
-feature {NONE} -- Initialization
-
-	make
-		do
-			create edit_history.make (100)
-		end
 
 feature -- Access
 
@@ -34,38 +33,14 @@ feature -- Access
 		deferred
 		end
 
-	change_actions: EV_NOTIFY_ACTION_SEQUENCE
-		deferred
-		end
-
 feature -- Element change
-
-	set_text (a_text: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	set_caret_position (a_caret_position: INTEGER)
-		deferred
-		end
 
 	set_edit_history_from_other (other: like Current)
 		do
-			edit_history := other.edit_history
+			implementation.set_edit_history_from_other (other.implementation)
 		end
 
 feature -- Status query
-
-	has_undo_items: BOOLEAN
-		do
-			Result := not edit_history.is_empty
-		end
-
-	has_redo_items: BOOLEAN
-		do
-			Result := edit_history.has_redo_items
-		end
-
-	is_undo_enabled: BOOLEAN
 
 	has_focus: BOOLEAN
 		deferred
@@ -75,35 +50,26 @@ feature -- Status query
 		deferred
 		end
 
+	has_undo_items: BOOLEAN
+		do
+			Result := implementation.has_undo_items
+		end
+
+	has_redo_items: BOOLEAN
+		do
+			Result := implementation.has_redo_items
+		end
+
 feature -- Status setting
 
 	enable_undo
 		do
-			if not is_undo_enabled then
-				edit_history.set_string (text)
-				edit_history.set_caret_position (caret_position)
-				change_actions.put_front (
-					agent
-						local
-							l_string: EL_ASTRING
-						do
-							l_string := text
-							if l_string /~ edit_history.string then
-								edit_history.extend (caret_position, l_string)
-							end
-						end
-				)
-				is_undo_enabled := True
-			end
+			implementation.enable_undo
 		end
 
 	disable_undo
 		do
-			if is_undo_enabled then
-				change_actions.start; change_actions.remove
-				is_undo_enabled := False
-				edit_history.wipe_out
-			end
+			implementation.disable_undo
 		end
 
 feature -- Basic operations
@@ -126,28 +92,26 @@ feature -- Basic operations
 
 	undo
 		do
-			if has_undo_items then
-				edit_history.undo; restore_from_history
-			end
+			implementation.undo
 		end
 
 	redo
 		do
-			if edit_history.has_redo_items then
-				edit_history.redo; restore_from_history
-			end
+			implementation.redo
 		end
 
 feature {EL_UNDOABLE_TEXT} -- Implementation
 
-	restore_from_history
-		do
-			change_actions.block
-			set_text (edit_history.string.to_unicode)
-			set_caret_position (edit_history.caret_position)
-			change_actions.resume
+	implementation: EL_UNDOABLE_TEXT_COMPONENT_I
+		deferred
 		end
 
-	edit_history: EL_STRING_EDITION_HISTORY
+	pointer_button_release_actions: EV_POINTER_BUTTON_ACTION_SEQUENCE
+		deferred
+		end
+
+	focus_in_actions: EV_NOTIFY_ACTION_SEQUENCE
+		deferred
+		end
 
 end

@@ -2,47 +2,50 @@ note
 	description: "Summary description for {EL_XML_DOCUMENT_SCANNER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-23 17:09:19 GMT (Sunday 23rd June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 deferred class
 	EL_XML_DOCUMENT_SCANNER
 
+inherit
+	EL_MODULE_LOG
+
 feature {NONE}  -- Initialisation
 
-	make
+	make_xml_text_source
 			--
 		do
-			make_last_node
+			make_default
 			set_plain_text_source
 		end
 
 	make_pyxis_source
 			--
 		do
-			make_last_node
+			make_default
 			set_pyxis_text_source
 		end
 
 	make_delimited_source
 			--
 		do
-			make_last_node
+			make_default
 			set_plain_text_end_delimited_source
 		end
 
 	make_binary_source
 			--
 		do
-			make_last_node
+			make_default
 			set_binary_node_source
 		end
 
-	make_last_node
+	make_default
 			--
 		do
 			create last_node
@@ -157,6 +160,9 @@ feature -- Basic operations
 			--
 		do
 			parse_event_source.parse_from_stream (a_stream)
+			if parse_event_source.has_error then
+				parse_event_source.log_error (log_or_io)
+			end
 		end
 
 feature {EL_XML_PARSE_EVENT_SOURCE} -- Parsing events

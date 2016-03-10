@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {JOBSERVE_SEARCH_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 19:58:25 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	JOBSERVE_SEARCH_APP
@@ -68,19 +68,19 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_root_node (file_path: EL_ASTRING)
+	set_root_node (file_path: ASTRING)
 			--
 		do
 			create root_node.make_from_file (file_path)
 		end
 
-	set_query_filter (a_query_filter: EL_ASTRING)
+	set_query_filter (a_query_filter: ASTRING)
 			--
 		do
 			query_filter := a_query_filter
 			if not query_filter.is_empty then
-				query_filter.prepend (" and (")
-				query_filter.append (")")
+				query_filter.prepend_string (" and (")
+				query_filter.append_string (")")
 			end
 		end
 
@@ -114,7 +114,7 @@ feature {NONE} -- Implementation: attributes
 
 	duration_parser: JOB_DURATION_PARSER
 
-	query_filter: EL_ASTRING
+	query_filter: ASTRING
 
 feature {NONE} -- Constants
 

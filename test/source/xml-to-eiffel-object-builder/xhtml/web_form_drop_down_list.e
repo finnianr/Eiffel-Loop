@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-22 15:05:05 GMT (Saturday 22nd June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class
 	WEB_FORM_DROP_DOWN_LIST
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	option_list: ARRAYED_LIST [STRING]
+	option_list: ARRAYED_LIST [ASTRING]
 
 	selected_option: INTEGER
 
@@ -54,7 +54,7 @@ feature {NONE} -- Build from XML
 		do
 			log.enter ("set_option_text")
 			log.put_line (node.to_string)
-			option_list.last.make_from_string (node.to_string)
+			option_list.last.share (node.to_string)
 			log.exit
 		end
 

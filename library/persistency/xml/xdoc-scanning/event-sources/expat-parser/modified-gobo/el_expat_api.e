@@ -4,12 +4,12 @@ note
 	library: "Gobo Eiffel XML Library"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-07 11:14:35 GMT (Sunday 7th July 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "3"
 
 class EL_EXPAT_API
 
@@ -813,7 +813,6 @@ feature -- XML_Error enum
 		alias
 			"XML_ERROR_PARAM_ENTITY_REF"
 		end
-
 
 	XML_ERROR_UNDEFINED_ENTITY: INTEGER
 		external

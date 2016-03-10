@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_C_STRING_8}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 17:52:06 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	EL_C_STRING_8
@@ -15,14 +15,28 @@ class
 inherit
 	EL_C_STRING
 		rename
-			Natural_8_bytes as width
+			Natural_8_bytes as width,
+			make_from_string as make_from_string_general
 		end
 
 create
-	default_create, make_owned, make_shared, make_owned_of_size, make_shared_of_size, make, make_from_string
+	default_create, make_owned, make_shared, make_owned_of_size, make_shared_of_size,
+	make, make_from_string_general, make_from_string
 
 convert
+	make_from_string ({STRING}),
 	as_string_8: {STRING}
+
+feature {NONE} -- Initialization
+
+	make_from_string (string: STRING)
+			--
+		do
+			count := string.count
+			capacity := count + 1
+			make_buffer (capacity)
+			base_address.memory_copy (string.area.base_address, capacity)
+		end
 
 feature -- Access
 

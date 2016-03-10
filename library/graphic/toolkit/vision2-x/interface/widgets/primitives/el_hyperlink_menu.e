@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_HYPERLINK_MENU}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-04 19:13:39 GMT (Tuesday 4th June 2013)"
-	revision: "2"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 deferred class
 	EL_HYPERLINK_MENU [G -> EL_NAMEABLE]
@@ -15,13 +15,18 @@ deferred class
 inherit
 	EL_HORIZONTAL_DIALOG
 		redefine
-			on_cancel, on_show, dialog_buttons, Widget_separation_cms, Content_area_background_color
+			on_cancel, on_show, dialog_buttons, Widget_separation_cms, content_area_color
+		end
+
+	EL_MODULE_KEY
+		undefine
+			copy , default_create
 		end
 
 feature {NONE} -- Initialization
 
 	make (
-		a_heading: EL_ASTRING; a_item_list: like item_list; a_select_action: like select_action;
+		a_heading: ASTRING; a_item_list: like item_list; a_select_action: like select_action;
 		a_font: like font; a_link_text_color: EV_COLOR
 	)
 		local
@@ -37,16 +42,15 @@ feature {NONE} -- Initialization
 				links.extend (link)
 				item_list.forth
 			end
-			is_container_background_color_propagated := True
 			make_dialog (a_heading, agent do_nothing)
 			focus_out_actions.extend (agent on_cancel)
 			create keyboard_shortcuts.make (Current)
-			keyboard_shortcuts.add_unmodified_key_action (GUI.keys.Key_escape, agent on_cancel)
+			keyboard_shortcuts.add_unmodified_key_action (Key.Key_escape, agent on_cancel)
 		end
 
 feature -- Access
 
-	content_area_background_color: EL_COLOR
+	content_area_color: EL_COLOR
 		do
 			Result := GUI.text_field_background_color
 		end

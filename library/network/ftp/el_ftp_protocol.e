@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_FTP_PROTOCOL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:00 GMT (Monday 22nd July 2013)"
-	revision: "5"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "7"
 
 class
 	EL_FTP_PROTOCOL
@@ -36,9 +36,14 @@ inherit
 		end
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
+
+	make_default
+		do
+			make (create {FTP_URL}.make (""))
+		end
 
 	make (addr: like address)
 			-- Create protocol.
@@ -79,7 +84,7 @@ feature -- Basic operations
 			binary_mode_set: is_binary_mode
 			file_to_upload_exists: a_file_path.exists
 		local
-			destination_file_path: EL_ASTRING
+			destination_file_path: ASTRING
 		do
 			log.enter_with_args ("upload_file", << a_file_path, destination_directory >>)
 
@@ -252,12 +257,12 @@ feature {NONE} -- Implementation
 			transfered_count, bytes_read: INTEGER
 			transfered_mb, total_mb: DOUBLE
 			format_mb: FORMAT_DOUBLE
-			template: EL_TEMPLATE_STRING
+			template: ASTRING
 			total_mb_string: STRING
 		do
 			log.enter_with_args ("transfer_file_data", << a_file_path >>)
 			create format_mb.make (4, 1)
-			create template.make_from_other ("[$S mb of $S mb]%R")
+			template := "[$S mb of $S mb]%R"
 			create packet.make (Default_packet_size)
 			create transfer_file.make_open_read (a_file_path.unicode)
 			total_mb := transfer_file.count / 1000000
@@ -274,7 +279,7 @@ feature {NONE} -- Implementation
 				end
 				transfered_count := transfered_count + bytes_read
 				transfered_mb := transfered_count / 1000000
-				log_or_io.put_string (template.substituted (<< format_mb.formatted (transfered_mb), total_mb_string >>))
+				log_or_io.put_string (template #$ [format_mb.formatted (transfered_mb), total_mb_string])
 			end
 			data_socket.close
 			is_packet_pending := false
@@ -329,7 +334,7 @@ feature {NONE} -- Implementation: parsing
 	on_reply_code (reply_code_str: EL_STRING_VIEW)
 			--
 		do
-			last_reply_code := reply_code_str.view.to_integer
+			last_reply_code := reply_code_str.to_string_8.to_integer
 		end
 
 	on_ftp_cmd_result (quoted_text: EL_STRING_VIEW)

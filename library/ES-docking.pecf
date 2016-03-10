@@ -1,5 +1,5 @@
 pyxis-doc:
-	version = 1.0; encoding = ISO-8859-1
+	version = 1.0; encoding = "ISO-8859-1"
 system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-5-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance"
@@ -40,7 +40,7 @@ system:
 			location = "ES-vision2_extension.ecf"
 			readonly = true
 		library:
-			name = wel; location = "ES-wel.ecf"; readonly = true
+			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 			condition:
 				platform:
 					value = windows
@@ -95,7 +95,7 @@ system:
 						"/sd_zone_navigation_dialog\.e"
 						"/sd_shared\.e"
 		cluster:
-			name = docking_override; location = "graphic/docking-override"
+			name = EL_override; location = "graphic/toolkit/overrides/docking"; recursive = true
 	target:
 		name = docking_dotnet; extends = docking
 		setting:

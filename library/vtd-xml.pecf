@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_vtd_xml
+	name = EL_vtd_xml
 	uuid = "229b77d6-09aa-11df-87c5-b77da3e246d9" 
-	library_target = el_vtd_xml
+	library_target = EL_vtd_xml
 	
 	target:
-		name = el_vtd_xml
+		name = EL_vtd_xml
 		
 		description: 
 			"""
@@ -51,12 +51,18 @@ system:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library:
-			name = el_base; location = "base.ecf"
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
+		# Eiffel-Loop
+		library:
+			name = EL_base; location = "base.ecf"
+
+		library:
+			name = EL_c_api; location = "C-language-interface.ecf"
+
+		# Source code
 		cluster:
-			name = vtd_xml; location = "persistency/xml/vtd-xml"; recursive = true
-			option:
-				namespace = Eiffel_Loop_VTD_XML
+			name = EL_vtd_xml; location = "persistency/xml/vtd-xml"; recursive = true
 			file_rule:
 				exclude:
 					"/windows$"
@@ -70,9 +76,4 @@ system:
 				condition:
 					platform:
 						value = windows
-
-		cluster:
-			name = open_office_spread_sheet; location = "persistency/xml/open-office-spreadsheet"; recursive = true
-			option:
-				namespace = Eiffel_Loop_VTD_XML
 

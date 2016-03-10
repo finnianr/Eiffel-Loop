@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-01-25 12:28:55 GMT (Saturday 25th January 2014)"
+	revision: "4"
 
 class
 	EL_CONSOLE_AND_FILE_LOG
@@ -211,7 +211,7 @@ feature {NONE} -- Implementation
 		local
 			type_id: INTEGER
 		do
-			type_id := Typing.dynamic_type (traced_object)
+			type_id := Eiffel.dynamic_type (traced_object)
 
 			traced_routine_call_stack.extend (logging.loggable_routine (type_id, routine_name))
 			set_log_sink_for_routine (current_routine)

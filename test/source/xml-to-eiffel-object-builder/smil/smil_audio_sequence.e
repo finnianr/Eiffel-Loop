@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:09:43 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
+	revision: "4"
 
 class
 	SMIL_AUDIO_SEQUENCE
@@ -15,10 +15,13 @@ class
 inherit
 	EL_EIF_OBJ_BUILDER_CONTEXT
 		redefine
-			make, building_action_table
+			make_default, building_action_table
 		end
 
 	EVOLICITY_EIFFEL_CONTEXT
+		redefine
+			make_default
+		end
 
 	EL_SMIL_VALUE_PARSING
 
@@ -29,11 +32,16 @@ create
 
 feature {NONE} -- Initialization
 
+	make_default
+		do
+			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
+			Precursor {EVOLICITY_EIFFEL_CONTEXT}
+		end
+
 	make
 			--
 		do
-			Precursor
-			make_eiffel_context
+			make_default
 			create audio_clip_list.make (7)
 		end
 
@@ -41,7 +49,7 @@ feature -- Access
 
 	audio_clip_list: ARRAYED_LIST [SMIL_AUDIO_CLIP]
 
-	title: EL_ASTRING
+	title: ASTRING
 
 	id: INTEGER
 
@@ -52,7 +60,7 @@ feature {NONE} -- Evolicity fields
 		do
 			create Result.make (<<
 				["id",					 agent: INTEGER_REF do Result := id.to_reference end],
-				["title",				 agent: EL_ASTRING do Result := title end],
+				["title",				 agent: ASTRING do Result := title end],
 				["audio_clip_list",	 agent: ITERABLE [SMIL_AUDIO_CLIP] do Result := audio_clip_list end]
 			>>)
 		end

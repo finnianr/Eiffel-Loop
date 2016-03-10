@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
 	revision: "4"
@@ -15,33 +15,33 @@ class
 inherit
 	EL_PLATFORM_IMPL
 		undefine
-			default_create, is_equal, copy
+			is_equal, copy
+		redefine
+			make
 		end
 
 	EL_FILE_API
 		undefine
-			default_create, is_equal, copy, dispose
+			is_equal, copy, dispose
 		end
 
 	MANAGED_POINTER
 		rename
 			make as make_file_lock_info,
 			item as file_lock_info
-		redefine
-			default_create
 		end
 
 	EL_MODULE_FILE_SYSTEM
 		undefine
-			default_create, is_equal, copy
+			is_equal, copy
 		end
 
 create
-	default_create
+	make
 
 feature {NONE} -- Initialization	
 
-	default_create
+	make
 		do
 			make_file_lock_info (0)
 			create locked_file_path
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 
 feature -- Status change
 
-	try_lock (name: EL_ASTRING)
+	try_lock (name: ASTRING)
 		local
 			native_path: NATIVE_STRING
 		do

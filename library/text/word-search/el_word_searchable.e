@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-22 13:18:54 GMT (Sunday 22nd December 2013)"
-	revision: "4"
+	date: "2014-03-26 13:51:15 GMT (Wednesday 26th March 2014)"
+	revision: "5"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -117,7 +117,7 @@ feature -- Access
 
 feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 
-	last_word (paragraph: EL_ASTRING): EL_ASTRING
+	last_word (paragraph: ASTRING): ASTRING
 		local
 			i: INTEGER
 		do
@@ -133,7 +133,7 @@ feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 			Result.to_lower
 		end
 
-	tokenized_paragraphs (paragraphs: LIST [EL_ASTRING]): ARRAYED_LIST [EL_TOKENIZED_STRING]
+	tokenized_paragraphs (paragraphs: LIST [ASTRING]): ARRAYED_LIST [EL_TOKENIZED_STRING]
 			--
 		do
 			create Result.make (paragraphs.count)
@@ -171,24 +171,24 @@ feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 			end
 		end
 
-	styled (str: EL_ASTRING): EL_STYLED_ASTRING
+	styled (str: ASTRING): EL_STYLED_ASTRING
 			--
 		do
 			create Result.make_from_other (str)
 		end
 
-	fixed_styled (str: EL_ASTRING): EL_MONOSPACED_STYLED_ASTRING
+	fixed_styled (str: ASTRING): EL_MONOSPACED_STYLED_ASTRING
 			--
 		do
 			create Result.make_from_other (str)
 		end
 
-	searchable_paragraphs_with_words: ARRAYED_LIST [EL_ASTRING]
+	searchable_paragraphs_with_words: ARRAYED_LIST [ASTRING]
 		local
 			paragraphs: like searchable_paragraphs
 			i: INTEGER
 			is_alpha_numeric: BOOLEAN
-			paragraph: EL_ASTRING
+			paragraph: ASTRING
 		do
 			paragraphs := searchable_paragraphs
 			create Result.make (paragraphs.count)
@@ -208,7 +208,7 @@ feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 
 feature {NONE} -- Unimplemented
 
-	searchable_paragraphs: LIST [EL_ASTRING]
+	searchable_paragraphs: LIST [ASTRING]
 		deferred
 		end
 
@@ -223,7 +223,7 @@ feature {NONE} -- Constants
 	Keyword_quote_leeway: INTEGER = 3
 		-- Number of words on either side of keywords to quote in search result extract
 
-	New_paragraph_symbol: EL_ASTRING
+	New_paragraph_symbol: ASTRING
 		once
 			Result := "<*>"
 		end

@@ -2,20 +2,32 @@ note
 	description: "Summary description for {EL_ENCRYPTION}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 12:45:22 GMT (Tuesday 18th June 2013)"
-	revision: "3"
+	date: "2014-09-24 12:41:13 GMT (Wednesday 24th September 2014)"
+	revision: "4"
 
 class
 	EL_ENCRYPTION_ROUTINES
 
 inherit
 	EL_BASE_64_ROUTINES
+		rename
+			String as Mod_string
+		end
 
 feature -- Conversion
+
+	base64_decrypt (key, cipher: STRING): STRING
+			-- decrypt base64 encoded cipher with base64 encoded key array
+		local
+			encrypter: EL_AES_ENCRYPTER
+		do
+			create encrypter.make_from_key (decoded_array (key))
+			Result := encrypter.decrypted_base64 (cipher)
+		end
 
 	md5_digest_16 (string: STRING): ARRAY [NATURAL_8]
 			--
@@ -26,6 +38,16 @@ feature -- Conversion
 			create Result.make (1, 16)
 			md5.sink_string (string)
 			md5.do_final (Result.area, 0)
+		end
+
+	plain_pyxis (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER): STRING
+		do
+			Result := plain_text_from_line (a_file_path, a_encrypter, 3)
+		end
+
+	plain_text (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER): STRING
+		do
+			Result := plain_text_from_line (a_file_path, a_encrypter, 0)
 		end
 
 	sha256_digest_32 (string: STRING): ARRAY [NATURAL_8]
@@ -39,23 +61,20 @@ feature -- Conversion
 			sha256.do_final (Result.area, 0)
 		end
 
-	base64_decrypt (key, cipher: STRING): STRING
-			-- decrypt base64 encoded cipher with base64 encoded key array
-		local
-			encrypter: EL_AES_ENCRYPTER
-		do
-			create encrypter.make_from_key (decoded_array (key))
-			Result := encrypter.decrypted_base64 (cipher)
-		end
+feature -- Factory
 
-	plain_text (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER): STRING
+	new_aes_encrypter (pass_phrase: ASTRING; bit_count: NATURAL): EL_AES_ENCRYPTER
 		do
-			Result := plain_text_from_line (a_file_path, a_encrypter, 0)
-		end
-
-	plain_pyxis (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER): STRING
-		do
-			Result := plain_text_from_line (a_file_path, a_encrypter, 3)
+			inspect bit_count
+				when 128 then
+					create Result.make_128 (pass_phrase)
+				when 192 then
+					create Result.make_192 (pass_phrase)
+				when 256 then
+					create Result.make_256 (pass_phrase)
+			else
+				create Result.make_128 (pass_phrase)
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -64,7 +83,7 @@ feature {NONE} -- Implementation
 		local
 			file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
 		do
-			create file.make_open_read (a_file_path.unicode)
+			create file.make_open_read (a_file_path)
 			file.set_line_start (a_line_start)
 			file.set_encrypter (a_encrypter)
 			create Result.make (file.count * 7 // 10)

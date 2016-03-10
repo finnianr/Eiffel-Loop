@@ -1,8 +1,13 @@
 note
 	description: "Windows implementation"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-03-02 13:10:07 GMT (Sunday 2nd March 2014)"
+	revision: "3"
 
 class
 	EL_INSTALLED_FILE_REMOVAL_COMMAND_IMPL
@@ -15,12 +20,12 @@ create
 
 feature {NONE} -- Constants
 
-	Command_template: EL_TEMPLATE_STRING
+	Command_template: ASTRING
 		once
 			Result := "cmd /C %"$S%""
 		end
 
-	Uninstall_script_name: EL_ASTRING
+	Uninstall_script_name: ASTRING
 		once
 			Result := "uninstall.bat"
 		end

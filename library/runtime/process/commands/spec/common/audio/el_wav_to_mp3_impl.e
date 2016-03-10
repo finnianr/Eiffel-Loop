@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_WAV_TO_MP3_IMPL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-16 22:51:58 GMT (Sunday 16th June 2013)"
-	revision: "2"
+	date: "2013-11-08 11:41:03 GMT (Friday 8th November 2013)"
+	revision: "3"
 
 class
 	EL_WAV_TO_MP3_IMPL
@@ -15,9 +15,12 @@ class
 inherit
 	EL_COMMAND_IMPL
 
+create
+	make
+
 feature -- Access
 
-	template: STRING
+	Template: STRING
 		once
 			Result := "[
 				lame --id3v2-only --tt "Title" --silent -h -b $bit_rate -m $mode "$input_file_path" "$output_file_path"

@@ -4,16 +4,16 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-22 13:24:23 GMT (Sunday 22nd December 2013)"
-	revision: "3"
+	date: "2014-03-26 15:00:34 GMT (Wednesday 26th March 2014)"
+	revision: "4"
 
 class
 	EL_STYLED_ASTRING
 
 inherit
-	EL_ASTRING
+	ASTRING
 		redefine
 			copy
 		end
@@ -22,7 +22,7 @@ create
 	make_from_latin1, make_from_other, make_empty, make_filled, make
 
 convert
-	make_from_latin1 ({STRING}), make_from_other ({EL_ASTRING})
+	make_from_latin1 ({STRING}), make_from_other ({ASTRING})
 
 feature -- Status report
 
@@ -72,7 +72,7 @@ feature -- Duplication
 	copy (other: like Current)
 		do
 			if other /= Current then
-				Precursor {EL_ASTRING} (other)
+				Precursor {ASTRING} (other)
 				is_bold := other.is_bold
 			end
 		end

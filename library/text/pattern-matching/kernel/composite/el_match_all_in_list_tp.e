@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	revision: "2"
 
 class
 	EL_MATCH_ALL_IN_LIST_TP
@@ -19,7 +19,7 @@ inherit
 			action_on_match as action_on_match_begin,
 			collect_events as collect_beginning_events
 		redefine
-			set_target,
+			set_text,
 			collect_beginning_events,
 			default_create,
 			set_debug_to_depth
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 		do
 			make_list
 			Precursor {EL_TEXTUAL_PATTERN}
-			create target_text_copy
+			create text_copy
 		end
 
 	make (patterns: ARRAY [EL_TEXTUAL_PATTERN])
@@ -70,10 +70,14 @@ feature -- Element change
 			action_on_match_end := action
 		end
 
-	set_target (text: EL_STRING_VIEW)
+	set_text (a_target_text: EL_STRING_VIEW)
 		do
-			Precursor (text)
-			target_text_copy.set_from_other (target_text)
+			Precursor (a_target_text)
+			if text_copy.same_type (a_target_text) then
+				text_copy.copy (a_target_text)  -- less garbage collection
+			else
+				text_copy := a_target_text.twin
+			end
 		end
 
 	set_debug_to_depth (depth: INTEGER)
@@ -96,10 +100,10 @@ feature {NONE} -- Implementation
 
 			-- target_text keeps shrinking
 			from start until after or sub_pattern_match_fails loop
-				sub_pattern.set_target (target_text_copy)
+				sub_pattern.set_text (text_copy)
 				sub_pattern.try_to_match
 				if sub_pattern.match_succeeded then
-					target_text_copy.prune_leading (sub_pattern.count_characters_matched)
+					text_copy.prune_leading (sub_pattern.count_characters_matched)
 					count := count + sub_pattern.count_characters_matched
 					forth
 				else
@@ -116,7 +120,7 @@ feature {NONE} -- Implementation
 
 	-- Only added to event_list if pattern matches as a whole
 	-- Hence "pending"
-	target_text_copy: EL_STRING_VIEW
+	text_copy: EL_STRING_VIEW
 
 	collect_beginning_events
 		do
@@ -146,7 +150,7 @@ feature {NONE} -- Implementation
 		do
 --			log.enter_no_header ("collect_beginning_events")
 			if action_on_match_end /= Void then
-				event_list.append_new_event (target_text, action_on_match_end)
+				event_list.append_new_event (text, action_on_match_end)
 			end
 --			log.exit_no_trailer
 		end

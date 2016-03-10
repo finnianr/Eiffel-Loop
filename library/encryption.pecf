@@ -5,12 +5,12 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_encryption
+	name = EL_encryption
 	uuid = "229b74ac-09aa-11df-87bd-ff346cce6bd1" 
-	library_target = el_encryption
+	library_target = EL_encryption
 	
 	target:
-		name = el_encryption
+		name = EL_encryption
 		
 		description: 
 			"""
@@ -32,13 +32,17 @@ system:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library:
+			name = uuid; location = "$ISE_EIFFEL/library/uuid/uuid.ecf"
+
+		library:
 			name = encryption_base; location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"
 
+		# Eiffel-Loop
 		library:
-			name = el_base; location = "base.ecf"
+			name = EL_base; location = "base.ecf"
 
 		library:
-			name = el_i18n; location = "internationalization.ecf"
+			name = EL_i18n; location = "i18n.ecf"
 
 		cluster:
 			name = encryption; location = "text/encryption"; recursive = true

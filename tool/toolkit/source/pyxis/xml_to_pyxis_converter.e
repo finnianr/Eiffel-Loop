@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {XML_TO_PYXIS_CONVERTER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:39:10 GMT (Monday 24th June 2013)"
-	revision: "4"
+	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
+	revision: "6"
 
 class
 	XML_TO_PYXIS_CONVERTER
@@ -46,7 +46,7 @@ inherit
 create
 	make, default_create
 
-feature {EL_COMMAND_LINE_SUB_APPLICATTION} -- Initiliazation
+feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initiliazation
 
 	default_create
 		do
@@ -102,7 +102,7 @@ feature -- Basic operations
 			log_or_io.put_path_field ("Converting", source_path)
 			log_or_io.put_new_line
 
-			create out_file.make_open_write (output_path.unicode)
+			create out_file.make_open_write (output_path)
 			last_node_type := 0; next_node_type := 0; node_depth := 0; attribute_node_depth := 0
 			last_attribute_name.wipe_out
 			token_count := xdoc.token_count
