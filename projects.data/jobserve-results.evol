@@ -1,0 +1,32 @@
+<html>
+	<a name="1"></a>
+	<h2>$page.title</h2>
+	<table cellpadding="4" cellspacing="2" border="0" width="100%">
+		<tr>
+			<td valign="top"></td>
+			<td valign="top"><b>Location</b></td>
+			<td valign="top"><b>Duration</b></td>
+		</tr>
+	#if $query.job_search.result_set.count > 0 then
+		#foreach $row in $query.job_search.result_set loop
+		<tr>
+			<td valign="top">
+				<b><a name="$loop_index" href="">$row.title:</a>
+				</b>&nbsp;$row.description
+				<br><b>Posted:</b> $row.date_posted_d_m_y<br>
+				<b>Salary:</b> &#8364; $row.salary
+				<br><b>Ref:</b> $row.job_reference<br> <b>Starting: $row.start_date_d_m_y
+				<br><b>Agent:</b> $row.contact_name
+				<br>
+			</td>
+			<td valign="top">$row.location</td>
+			<td valign="top">$row.duration</td>
+		</tr>
+		#end
+	</table>
+	#else
+	</table>
+	<a name="2"></a>
+	<h3>No matching records!</h3>
+	#end
+</html>

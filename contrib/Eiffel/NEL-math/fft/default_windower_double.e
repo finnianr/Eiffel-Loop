@@ -1,0 +1,79 @@
+indexing
+   description: "FFT window - cosine on a pedestal"
+   author: "Greg Lee"
+   copyright: "Copyright (c) 2005, Greg Lee"
+   license: "Eiffel Forum License v2 (see below)"
+   date: "$Date: 2005/10/31 12:00:00 $"
+   revision: "$Revision: 1.0 $"
+
+class
+	DEFAULT_WINDOWER_DOUBLE
+
+inherit
+	WINDOWER_DOUBLE
+	DOUBLE_MATH_EXTENDED
+
+create
+	make
+
+feature -- Initialization
+
+	make( n: INTEGER ) is
+		do
+			length := n
+		end
+
+feature -- Access
+
+	name: STRING is "DEFAULT"
+
+feature -- Element change
+
+	set_window( a_window: ARRAY[DOUBLE] ) is
+		local
+			i: INTEGER
+			g: DOUBLE
+			x: DOUBLE
+			y: DOUBLE
+		do
+      	y := 2.0*Pi/( 1.0*length )
+
+			from
+				i := 0
+			until
+				i >= length
+			loop
+				x := y*i
+				g := 0.52 - 0.48*cosine(x)
+				a_window.put( g, i + 1 )
+				i := i + 1
+			end
+
+		end
+
+indexing
+
+   license: "[ 
+      Eiffel Forum License, version 2
+      
+      1. Permission is hereby granted to use, copy, modify and/or distribute this 
+      package, provided that:
+         * copyright notices are retained unchanged,
+         * any distribution of this package, whether modified or not, includes 
+           this license text.
+         
+      2. Permission is hereby also granted to distribute binary programs which 
+      depend on this package. If the binary program depends on a modified 
+      version of this package, you are encouraged to publicly release the 
+      modified version of this package.
+   
+   
+      THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT WARRANTY. ANY EXPRESS OR 
+      IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
+      OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+      IN NO EVENT SHALL THE AUTHORS BE LIABLE TO ANY PARTY FOR ANY DIRECT, 
+      INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+      ARISING IN ANY WAY OUT OF THE USE OF THIS PACKAGE.
+      ]"
+
+end -- class DEFAULT_WINDOWER_DOUBLE

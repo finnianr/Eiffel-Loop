@@ -1,0 +1,801 @@
+file C:\Program Files\Python27\lib\site-packages\eiffel_loop\eiffel\SConstruct.py,line 82:
+	Configure(confdir = .sconf_temp)
+
+file D:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\SConscript,line 36:
+	Configure(confdir = .sconf_temp)
+scons: Configure: Checking for C header file assert.h... 
+scons: Configure: ".sconf_temp\conftest_0.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_0.c <-
+  |  |
+  |  |#include "assert.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_0.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_0.obj /c .sconf_temp\conftest_0.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file dlfcn.h... 
+scons: Configure: ".sconf_temp\conftest_1.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_1.c <-
+  |  |
+  |  |#include "dlfcn.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_1.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_1.obj /c .sconf_temp\conftest_1.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C header file inttypes.h... 
+scons: Configure: ".sconf_temp\conftest_2.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_2.c <-
+  |  |
+  |  |#include "inttypes.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_2.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_2.obj /c .sconf_temp\conftest_2.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C header file memory.h... 
+scons: Configure: ".sconf_temp\conftest_3.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_3.c <-
+  |  |
+  |  |#include "memory.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_3.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_3.obj /c .sconf_temp\conftest_3.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file stdint.h... 
+scons: Configure: ".sconf_temp\conftest_4.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_4.c <-
+  |  |
+  |  |#include "stdint.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_4.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_4.obj /c .sconf_temp\conftest_4.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file stdlib.h... 
+scons: Configure: ".sconf_temp\conftest_5.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_5.c <-
+  |  |
+  |  |#include "stdlib.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_5.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_5.obj /c .sconf_temp\conftest_5.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file strings.h... 
+scons: Configure: ".sconf_temp\conftest_6.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_6.c <-
+  |  |
+  |  |#include "strings.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_6.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_6.obj /c .sconf_temp\conftest_6.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C header file string.h... 
+scons: Configure: ".sconf_temp\conftest_7.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_7.c <-
+  |  |
+  |  |#include "string.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_7.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_7.obj /c .sconf_temp\conftest_7.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file sys\stat.h... 
+scons: Configure: ".sconf_temp\conftest_8.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_8.c <-
+  |  |
+  |  |#include "sys\stat.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_8.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_8.obj /c .sconf_temp\conftest_8.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file sys\types.h... 
+scons: Configure: ".sconf_temp\conftest_9.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_9.c <-
+  |  |
+  |  |#include "sys\types.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_9.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_9.obj /c .sconf_temp\conftest_9.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file unistd.h... 
+scons: Configure: ".sconf_temp\conftest_10.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_10.c <-
+  |  |
+  |  |#include "unistd.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_10.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_10.obj /c .sconf_temp\conftest_10.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C header file stdlib.h... 
+scons: Configure: ".sconf_temp\conftest_11.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_11.c <-
+  |  |
+  |  |#include "stdlib.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_11.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_11.obj /c .sconf_temp\conftest_11.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file stdarg.h... 
+scons: Configure: ".sconf_temp\conftest_12.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_12.c <-
+  |  |
+  |  |#include "stdarg.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_12.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_12.obj /c .sconf_temp\conftest_12.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file string.h... 
+scons: Configure: ".sconf_temp\conftest_13.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_13.c <-
+  |  |
+  |  |#include "string.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_13.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_13.obj /c .sconf_temp\conftest_13.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file float.h... 
+scons: Configure: ".sconf_temp\conftest_14.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_14.c <-
+  |  |
+  |  |#include "float.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_14.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_14.obj /c .sconf_temp\conftest_14.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
+  |
+scons: Configure: (cached) yes
+
+
+file D:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\SConscript,line 36:
+	Configure(confdir = .sconf_temp)
+scons: Configure: Checking for C function getopt_long()... 
+scons: Configure: ".sconf_temp\conftest_15.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_15.c <-
+  |  |
+  |  |
+  |  |#include <assert.h>
+  |  |
+  |  |#ifdef __cplusplus
+  |  |extern "C"
+  |  |#endif
+  |  |char getopt_long();
+  |  |
+  |  |int main() {
+  |  |#if defined (__stub_getopt_long) || defined (__stub___getopt_long)
+  |  |  fail fail fail
+  |  |#else
+  |  |  getopt_long();
+  |  |#endif
+  |  |
+  |  |  return 0;
+  |  |}
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_15.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_15.obj /c .sconf_temp\conftest_15.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: Building ".sconf_temp\conftest_15.exe" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |link /nologo /OUT:.sconf_temp\conftest_15.exe .sconf_temp\conftest_15.obj
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C function mkstemp()... 
+scons: Configure: ".sconf_temp\conftest_16.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_16.c <-
+  |  |
+  |  |
+  |  |#include <assert.h>
+  |  |
+  |  |#ifdef __cplusplus
+  |  |extern "C"
+  |  |#endif
+  |  |char mkstemp();
+  |  |
+  |  |int main() {
+  |  |#if defined (__stub_mkstemp) || defined (__stub___mkstemp)
+  |  |  fail fail fail
+  |  |#else
+  |  |  mkstemp();
+  |  |#endif
+  |  |
+  |  |  return 0;
+  |  |}
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_16.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_16.obj /c .sconf_temp\conftest_16.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: Building ".sconf_temp\conftest_16.exe" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |link /nologo /OUT:.sconf_temp\conftest_16.exe .sconf_temp\conftest_16.obj
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C function truncate()... 
+scons: Configure: ".sconf_temp\conftest_17.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_17.c <-
+  |  |
+  |  |
+  |  |#include <assert.h>
+  |  |
+  |  |#ifdef __cplusplus
+  |  |extern "C"
+  |  |#endif
+  |  |char truncate();
+  |  |
+  |  |int main() {
+  |  |#if defined (__stub_truncate) || defined (__stub___truncate)
+  |  |  fail fail fail
+  |  |#else
+  |  |  truncate();
+  |  |#endif
+  |  |
+  |  |  return 0;
+  |  |}
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_17.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_17.obj /c .sconf_temp\conftest_17.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: Building ".sconf_temp\conftest_17.exe" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |link /nologo /OUT:.sconf_temp\conftest_17.exe .sconf_temp\conftest_17.obj
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C header file dlfcn.h... 
+scons: Configure: ".sconf_temp\conftest_18.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_18.c <-
+  |  |
+  |  |#include "dlfcn.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_18.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_18.obj /c .sconf_temp\conftest_18.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C header file inttypes.h... 
+scons: Configure: ".sconf_temp\conftest_19.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_19.c <-
+  |  |
+  |  |#include "inttypes.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_19.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_19.obj /c .sconf_temp\conftest_19.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C header file libcw\sys.h... 
+scons: Configure: ".sconf_temp\conftest_20.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_20.c <-
+  |  |
+  |  |#include "libcw\sys.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_20.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_20.obj /c .sconf_temp\conftest_20.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C header file memory.h... 
+scons: Configure: ".sconf_temp\conftest_21.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_21.c <-
+  |  |
+  |  |#include "memory.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_21.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_21.obj /c .sconf_temp\conftest_21.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file stdint.h... 
+scons: Configure: ".sconf_temp\conftest_22.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_22.c <-
+  |  |
+  |  |#include "stdint.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_22.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_22.obj /c .sconf_temp\conftest_22.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file stdlib.h... 
+scons: Configure: ".sconf_temp\conftest_23.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_23.c <-
+  |  |
+  |  |#include "stdlib.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_23.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_23.obj /c .sconf_temp\conftest_23.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file sys\param.h... 
+scons: Configure: ".sconf_temp\conftest_24.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_24.c <-
+  |  |
+  |  |#include "sys\param.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_24.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_24.obj /c .sconf_temp\conftest_24.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C header file sys\stat.h... 
+scons: Configure: ".sconf_temp\conftest_25.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_25.c <-
+  |  |
+  |  |#include "sys\stat.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_25.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_25.obj /c .sconf_temp\conftest_25.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file sys\types.h... 
+scons: Configure: ".sconf_temp\conftest_26.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_26.c <-
+  |  |
+  |  |#include "sys\types.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_26.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_26.obj /c .sconf_temp\conftest_26.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file unistd.h... 
+scons: Configure: ".sconf_temp\conftest_27.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_27.c <-
+  |  |
+  |  |#include "unistd.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_27.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_27.obj /c .sconf_temp\conftest_27.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C header file wchar.h... 
+scons: Configure: ".sconf_temp\conftest_28.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_28.c <-
+  |  |
+  |  |#include "wchar.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_28.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_28.obj /c .sconf_temp\conftest_28.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file zlib.h... 
+scons: Configure: ".sconf_temp\conftest_29.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_29.c <-
+  |  |
+  |  |#include "zlib.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_29.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_29.obj /c .sconf_temp\conftest_29.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C++ header file bitset... 
+scons: Configure: ".sconf_temp\conftest_30.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_30.cpp <-
+  |  |
+  |  |#include "bitset"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_30.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_30.obj /c .sconf_temp\conftest_30.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C++ header file cctype... 
+scons: Configure: ".sconf_temp\conftest_31.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_31.cpp <-
+  |  |
+  |  |#include "cctype"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_31.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_31.obj /c .sconf_temp\conftest_31.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C++ header file climits... 
+scons: Configure: ".sconf_temp\conftest_32.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_32.cpp <-
+  |  |
+  |  |#include "climits"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_32.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_32.obj /c .sconf_temp\conftest_32.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C++ header file cstdio... 
+scons: Configure: ".sconf_temp\conftest_33.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_33.cpp <-
+  |  |
+  |  |#include "cstdio"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_33.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_33.obj /c .sconf_temp\conftest_33.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C++ header file cstdlib... 
+scons: Configure: ".sconf_temp\conftest_34.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_34.cpp <-
+  |  |
+  |  |#include "cstdlib"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_34.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_34.obj /c .sconf_temp\conftest_34.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C++ header file cstring... 
+scons: Configure: ".sconf_temp\conftest_35.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_35.cpp <-
+  |  |
+  |  |#include "cstring"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_35.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_35.obj /c .sconf_temp\conftest_35.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C++ header file fstream... 
+scons: Configure: ".sconf_temp\conftest_36.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_36.cpp <-
+  |  |
+  |  |#include "fstream"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_36.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_36.obj /c .sconf_temp\conftest_36.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C++ header file fstream.h... 
+scons: Configure: ".sconf_temp\conftest_37.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_37.cpp <-
+  |  |
+  |  |#include "fstream.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_37.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_37.obj /c .sconf_temp\conftest_37.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C++ header file iomanip... 
+scons: Configure: ".sconf_temp\conftest_38.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_38.cpp <-
+  |  |
+  |  |#include "iomanip"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_38.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_38.obj /c .sconf_temp\conftest_38.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C++ header file iomanip.h... 
+scons: Configure: ".sconf_temp\conftest_39.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_39.cpp <-
+  |  |
+  |  |#include "iomanip.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_39.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_39.obj /c .sconf_temp\conftest_39.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C++ header file iostream... 
+scons: Configure: ".sconf_temp\conftest_40.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_40.cpp <-
+  |  |
+  |  |#include "iostream"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_40.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_40.obj /c .sconf_temp\conftest_40.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C++ header file iostream.h... 
+scons: Configure: ".sconf_temp\conftest_41.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_41.cpp <-
+  |  |
+  |  |#include "iostream.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_41.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_41.obj /c .sconf_temp\conftest_41.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C++ header file string... 
+scons: Configure: ".sconf_temp\conftest_42.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_42.cpp <-
+  |  |
+  |  |#include "string"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_42.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_42.obj /c .sconf_temp\conftest_42.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C++ header file strings.h... 
+scons: Configure: ".sconf_temp\conftest_43.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_43.cpp <-
+  |  |
+  |  |#include "strings.h"
+  |  |
+  |  |
+  |
+scons: Configure: Building ".sconf_temp\conftest_43.obj" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_43.obj /c .sconf_temp\conftest_43.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) no
+
+scons: Configure: Checking for C++ header file string.h... 
+scons: Configure: ".sconf_temp\conftest_44.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_44.cpp <-
+  |  |
+  |  |#include "string.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_44.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_44.obj /c .sconf_temp\conftest_44.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file stdlib.h... 
+scons: Configure: ".sconf_temp\conftest_45.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_45.c <-
+  |  |
+  |  |#include "stdlib.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_45.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_45.obj /c .sconf_temp\conftest_45.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file stdarg.h... 
+scons: Configure: ".sconf_temp\conftest_46.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_46.c <-
+  |  |
+  |  |#include "stdarg.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_46.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_46.obj /c .sconf_temp\conftest_46.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file string.h... 
+scons: Configure: ".sconf_temp\conftest_47.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_47.c <-
+  |  |
+  |  |#include "string.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_47.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_47.obj /c .sconf_temp\conftest_47.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file float.h... 
+scons: Configure: ".sconf_temp\conftest_48.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp\conftest_48.c <-
+  |  |
+  |  |#include "float.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp\conftest_48.obj" is up to date.
+scons: Configure: The original builder output was:
+  |cl /Fo.sconf_temp\conftest_48.obj /c .sconf_temp\conftest_48.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel72\C_library\zlib" /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\Eiffel-Loop\contrib\C++\id3lib\include\id3
+  |
+scons: Configure: (cached) yes
+
+

@@ -1,0 +1,23 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+	# Backup thunderbird address book gpg encrypted for recipient "$RECIPIENT"
+
+backup-script:
+	ftp-site:
+		url:
+			"eiffel-loop.com"
+		user-home:
+			"/public/www"
+	directory:
+		path:
+			"$HOME/.mozilla-thunderbird"
+		name:
+			"thunderbird-address-book"
+		gpg-key:
+			recipient = "$RECIPIENT"
+		include:
+			all-files:
+				"*.default/abook.mab"
+		ftp-destination-path:
+			"my_files/test"

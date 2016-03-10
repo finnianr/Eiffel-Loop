@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>The Eiffel LOOP Library Collection</title>
+</head>
+<body bgcolor="#cccccc" text="#000000">
+<h1>Overview of the Eiffel Loop libraries</h1>
+<h3>Audio management</h3>
+<ul>
+  <li>Native Eiffel module to read and write wav audio file headers and
+data.</li>
+  <li>Eiffel interface to the eyeD3 Python library for reading and
+writing ID3 audio tags.</li>
+  <li>Unified Eiffel interface to both the libid3tag (C) and libid3
+(C++) for reading and
+writing ID3 audio tags. </li>
+</ul>
+<h3>Digital Signal Processing</h3>
+<ul>
+  <li>Eiffel interface to the Windows sound input API&nbsp; allowing
+streaming audio&nbsp;from the microphone to be processed in Eiffel
+using
+classes from the producer-consumer thread library. Implemented as a WEL
+extension.</li>
+  <li>Eiffel framework for buffering audio data into the Windows audio
+output API. Can be used to create audio synthesizers.<br>
+  </li>
+  <li>Eiffel interface to the Praat sound analysis engine and script
+interpreter. Praat is an open source tool used by linguists for
+analyzing speech. The interface allows Praat scripts to be run from
+Eiffel and
+the resulting values of script variables to be retrieved.&nbsp;<br>
+  </li>
+  <li>Eiffel/ActionScript 2.0 framework for building applications that
+analyze microphone input in real-time in the Praat speech analysis
+engine and visually representing the&nbsp;results in Macromedia Flash.
+The
+microphone status is presented in an Eiffel GUI as an overlay to a
+Flash presentation. Synchronized opening and closing of Flash/Eiffel
+applications gives the illusion of a single application. </li>
+</ul>
+<h3>Multi-threading</h3>
+<ul>
+  <li>A generic producer-consumer thread communication framework where
+a producing thread places products onto a queue for consumption by a
+consumer thread. <br>
+  </li>
+  <dl>
+    <dt>Features:<br>
+    </dt>
+  </dl>
+  <ul>
+    <li>Implementation of a single consumer thread consuming
+the products of a single worker thread.</li>
+    <li>Implementation of multiple consumer threads
+consuming
+the products of a single worker thread.</li>
+    <li>Vision2 extension allowing products of a thread to be consumed
+by the main GUI application thread.</li>
+    <li>Specialized consumer-producer thread classes for agent action
+consuming.</li>
+  </ul>
+  <li>A Vision2 extension framework for building proxy interfaces to
+GUI components that are callable from non-GUI threads. Allows non-GUI
+threads to asynchronously call routines that call Vision2
+routines.</li>
+  <li>Intermittent timed event framework</li>
+  <li>Specialized "action loop" thread classes with a number of
+variations:</li>
+  <ul>
+    <li>Intermittently repeat an action with a specified sleep interval
+until signaled to stop.</li>
+    <li>Continuously repeat an action until signaled to stop.</li>
+    <li>Continuously repeat an action until receiving a signal to
+suspend or exit. Remains suspended unless signaled to resume or exit.<br>
+    </li>
+  </ul>
+  <li>A generic synchronization monitor allowing synchronization on
+an object to be protected with a contract requiring that the object is
+locked before being referenced. It is integrated with the logging
+framework to help detect deadlock conditions. If a thread needs to wait
+for a lock on a synchronized object, both the waiting and acquiring of
+the lock is logged in the thread's log.</li>
+  <li>Container cell class for numeric types shared across threads.
+Features thread safe increment, decrement, add and subtract operations.</li>
+  <li>Thread safe queue and stack container classes.<br>
+  </li>
+</ul>
+<h3>Logging</h3>
+<p>Logging framework with the following features:</p>
+<ul>
+  <li>Output is indented to reflect the state of the call stack. Shows
+the entry and exit from routines in a way that is designed to mimic the
+routines code definition. </li>
+  <li>Global filtering mechanism to restrict output to selected classes
+and routines. A wildcard character can be used to log all routines for
+a
+particular class.</li>
+  <li>Integrated with UI component to switch thread context visible in
+console. <br>
+  </li>
+  <ul>
+    <li>Features:</li>
+  </ul>
+  <ul>
+    <li>Support for both Vision2 and WEL GUI toolkits.</li>
+    <li>Thread contexts selectable from a dialog
+drop down list</li>
+    <li>Thread selection history navigation buttons with browser style
+ALT
+left/right arrow keyboard shortcuts </li>
+  </ul>
+</ul>
+<h3>Client-server network</h3>
+<ul>
+  <li><b><a href="http://www.eiffel-loop.com/eros.html">EROS</a>,</b>
+an XML orientated remote procedure call application
+framework with an
+original protocol based purely on XML processing instructions rather
+that any special XML tags. <br>
+  </li>
+  <dl>
+    <dt>Features:</dt>
+  </dl>
+  <ul>
+    <li>Easily create multi threaded XML-RPC applications in Eiffel. </li>
+    <li>Allows standard XML documents (SVG, XHTML etc) to be turned
+into procedure calls with the addition of a single processing
+instruction.</li>
+    <li>Based on framework that allows flexible mapping of XML data to
+native Eiffel objects. Represent your XML data in Eiffel any way you
+want. Skim off as little or as much data from the document as you need.
+Much more efficient than DOM based approach.</li>
+    <li>Deserialization (XML-&gt;Eiffel) uses declarative xpath to
+setter mapping arrays. Multi context mapping greatly simplifies
+deserialization of complex documents and eliminating the need for very
+long absolute XPaths. Instead define a number of XML contexts with
+shorter relative xpaths.</li>
+    <li>Serialization (Eiffel-&gt;XML) uses Evolicity the Eiffel Loop
+templating mini language (Similar to Apache Velocity). Evolicity
+supports multi context serialization to simplify serialization of
+complex Eiffel structures.</li>
+    <li>Develop your remotely accessible application components on
+single threaded console test harness and deploy on multi-threaded
+server with thread output and performance monitor. </li>
+    <li>Demo application to calculate Fourier transformations based on
+Greg Lee's Numeric Eiffel Library.</li>
+    <li>Server GUI to control startup/shutdown and thread log output
+context switching in command console. Easily see whats happening with a
+large number of threads with browser like navigation controls.</li>
+    <li>Server GUI monitors 11 different performance characteristics. </li>
+  </ul>
+  <li>Eiffel/Flash ActionScript framework allowing Eiffel to make
+asynchronous calls to ActionScript procedures in a Flash application
+using simple XML messages. Also allows Flash button clicks to be
+actioned in Eiffel application.</li>
+  <li>Extension to Eiffel Software FTP_PROTOCOL class making it easy to
+upload files, create remote directories and perform other common FTP
+operations. </li>
+</ul>
+<h3>Application management</h3>
+<ul>
+  <li>Eiffel binding to Windows dll for creating and editing Windows
+short cuts.</li>
+  <li>Eiffel binding to Python library for creating and editing Gnome
+menus.</li>
+  <li>Framework for creating installer applications for Windows. <br>
+  </li>
+  <li>Framework for creating self installing multi-mode applications on
+Linux/Gnome (Windows version to follow). Features:</li>
+  <ul>
+    <li>Define application sub menus</li>
+    <li>Define application menu launchers</li>
+    <li>Define launcher as file context Nautilus action script.</li>
+    <li>Framework design is multi-platform.&nbsp; </li>
+  </ul>
+  <li>Framework for managing multiple applications in a single Eiffel
+project. Applications are selected for launch by a command line switch.
+Useful for managing many experimental variants of a single application.
+Integrated with "self installing app" framework.</li>
+</ul>
+<h3>GUI</h3>
+<ul>
+  <li>An Windows application configuration framework integrating user
+editions with command line parameter options. Features:</li>
+  <ul>
+    <li>MVC style binding of edit controls to textual, numeric and file
+name field containers.</li>
+    <li>Possible to register listeners for field containers value
+changes.</li>
+  </ul>
+</ul>
+<ul>
+  <li>A UI framework based on WEL library for creating applications
+that do directory tree file processing. <br>
+  </li>
+  <dl>
+    <dt>Features:</dt>
+  </dl>
+  <ul>
+    <li>Input and output directory selection</li>
+    <li>Files processed count monitor</li>
+    <li>Cancel batch button</li>
+  </ul>
+  <li>Framework for managing installed application graphics integrated
+with scons application build process.</li>
+  <li>Various UI components based on Vision2 GUI library including:</li>
+  <ul>
+    <li>Panel with On/Off status lights and configurable bulb icons.</li>
+    <li>Text box specialized for user selected directory paths</li>
+    <li>Slider control for integer interval with proportional setter
+procedure</li>
+    <li>Task completion bar display component for worker threads.</li>
+    <li>Grid of radio buttons component</li>
+  </ul>
+  <li>Various UI components based on WEL GUI library including:</li>
+  <ul>
+    <li>Audio input level indicator</li>
+    <li>Panel with On/Off status lights</li>
+  </ul>
+</ul>
+<h3>File naming and processing</h3>
+<ul>
+  <li>A framework for processing file trees.</li>
+  <li>A memory efficient file and directory name list container</li>
+  <li>Library of routines for managing file and directory paths.<br>
+  </li>
+</ul>
+<h3>Text processing</h3>
+<ul>
+  <li>A parsing and lexing library that allow grammars and text
+patterns to be completely specified in Eiffel without precompilation.<br>
+  </li>
+  <ul>
+  </ul>
+  <dl>
+    <dt>Features:</dt>
+  </dl>
+  <ul>
+    <li>Navigate of grammar structures in EiffelStudio.</li>
+    <li>agent based pattern match handling<br>
+    </li>
+    <li>A total of 21 kernel patterns constructs and 18 derived
+patterns.<br>
+    </li>
+    <li>For
+readability patterns are described textually in preference to regular
+expressions. <br>
+    </li>
+    <li>Same pattern matching engine is used for both text strings and
+token strings.</li>
+    <li>Collection of patterns to search for Eiffel code fragments.</li>
+    <li>Collection of patterns to search for C code fragments.</li>
+    <li>Collection of patterns to search for XML code fragments.</li>
+  </ul>
+  <li>A framework for creating automated text file editors operating on
+directory source trees. Based on the Eiffel Loop parsing and lexing
+library, it is able find and replace complex patterns with equally
+complex editions. It is both simpler and more powerful than the Unix
+sed utility. Programs are more readable than Perl scripts and equally
+powerful. Suited to creating tools for migrating a source tree to a
+different platform or compiler. If a new version of the source tree
+comes a long the migration tool you created for the previous version
+will probably still work.<br>
+  </li>
+  <li><i><b>Evolicity</b>,</i> an Eiffelized version of the <a
+ href="http://velocity.apache.org/">Apache
+Velocity</a> text substitution scripting language allowing Eiffel data
+to
+be easily interpolated into plain text. Evolicity was created using the
+Eiffel Loop parsing and lexing framework.<br>
+  </li>
+</ul>
+<h3>XML processing</h3>
+<ul>
+  <li>Eiffel
+interface to the <a href="http://vtd-xml.sourceforge.net/">VTD-XML</a>
+XML parser. VTD-XML is arguably the world's <a
+ href="http://ximpleware.wordpress.com/2009/08/">top performing XML
+parser</a> and xpath 1.0 implementation both in terms of speed and
+memory efficiency. The
+Eiffel interface actually represents an improvement over the original C
+and Java API. It supports nested
+xpath queries and is much more developer friendly requiring fewer
+objects to manage.</li>
+  <li>Eiffel
+interface to the <a href="http://expat.sourceforge.net/">Expat XML
+parser</a> that is significantly faster than the GOBO parser.</li>
+  <li>High performance XPath event processor based on declarative
+mapping of xpaths to Eiffel agents using a minimal subset of xpath
+query language.</li>
+  <li>An XML deserialization framework based on declarative mapping of
+relative xpaths to Eiffel builder agents. A builder agent is a routine
+that constructs some part of an Eiffel object. <br>
+  </li>
+  <dl>
+    <dt>Key features: <br>
+    </dt>
+  </dl>
+  <ul>
+    <li>Ability to define many mapping contexts for a single document.
+All Xpaths defined within a context are relative to a parent context.</li>
+    <li>Allows flexible mapping of XML documents to Eiffel models
+composed of an arbitrary number of classes.</li>
+    <li>Supports recursive data models.</li>
+    <li>Uses a small subset of the xpath query language.</li>
+    <li>Supports xpath mapping based on attribute value predicates,
+i.e. Expressions of the form AAA/BBB[@x='y'] may be used to map
+building agents.</li>
+  </ul>
+  <li>A framework for serializing Eiffel objects as XML based on the
+Eiffel Loop text substitution scripting language, Evolicity.</li>
+  <li>A DOM like mini framework for modeling XML in Eiffel.</li>
+  <li>A parser for an alternate "Pythonized" XML syntax called Pyxis
+(Acronym
+for <b>PY</b>thonic <b>X</b>ml <b>I</b>deal <b>S</b>ource). The
+goal is to have a
+more readable
+text for XML configuration files.&nbsp;<br>
+  </li>
+</ul>
+<h3>External Language integration</h3>
+<ul>
+  <li>An advanced framework for wrapping Java classes that adds a layer
+of abstraction to Eiffel Software's Java2Eiffel library. It is based on
+the concept of a Java agent in Eiffel (<i>JAVA_FUNCTION</i> or <i>JAVA_PROCEDURE</i>
+inheriting <i>JAVA_ROUTINE</i>) that is analogous to an Eiffel agent. <i>JAVA_ROUTINE's</i>
+automatically generate correct JNI call signatures. Allows the creation
+of recursively wrapped classes where the arguments and return types to
+wrapped routines are themselves wrapped classes.</li>
+  <li>An extension to the <a
+ href="http://eiffel.seibostudios.se/export/124/pepe/trunk/doc/pepe.pdf">PEPE
+framework</a> for wrapping Python libraries that automates the process
+of converting Eiffel types to Python types and vice-versa.</li>
+  <li>A framework for calling Matlab scripts and Matlab scripts that
+have been compiled into C, and processing the results in Eiffel.</li>
+  <li>A framework for running Praat speech analysis scripts in Eiffel
+and processing the results.</li>
+  <li>Container library for sharing data with C/C++ programs including:</li>
+  <ul>
+    <li>C strings covering all permutations of little and big endian 8,
+16 and 32 bit characters.</li>
+    <li>Wrapper for C numeric arrays.<br>
+    </li>
+  </ul>
+</ul>
+<h3>Math</h3>
+<ul>
+  <li>Basic column and row vector implementation<br>
+  </li>
+</ul>
+<h3>Structures</h3>
+<ul>
+  <li>An extension to the standard Elks <i>ARRAY </i>class that
+allows memory area sharing on sub arrays. Possible to see up to a 100%
+performance increase on digital processing applications which make
+heavy use of ARRAYs. (Standard Elks subarray function makes a copy of
+the subarray. Safe but not very efficient.) </li>
+  <li>Memory efficient form of numeric lists with many repeats
+implemented as run length encoded arrayed lists.</li>
+  <li>Numeric array serialization.<br>
+  </li>
+</ul>
+<h3>OS interaction</h3>
+<ul>
+  <li>Cross
+platform Eiffel interface to various OS file system commands including:<br>
+  </li>
+  <ul>
+    <li>File
+listing </li>
+    <li>Directory
+listing </li>
+    <li>Directory
+moving, copying and deleting.</li>
+    <li>File moving,
+copying and deleting.</li>
+  </ul>
+  <li>A
+command string variable substitution component<br>
+  </li>
+</ul>
+<h3>Tools</h3>
+<ul>
+  <li>Automatic code editor that operates on the gcc source code
+tree of the Praat linguistics tool. The editor adds hooks for an Eiffel
+interface and modifications allowing
+compilation with the MS VC++ compiler.</li>
+  <li>Documentation tool to create a class inventory in HTML format
+from an Eiffel source tree.</li>
+  <li>Build
+tool for commenting out logging lines in Eiffel source code.</li>
+  <li>Tool
+for normalizing Eiffel source code file names to match class names.</li>
+  <li>Eiffel
+class renaming tool that is faster than EiffelStudio.</li>
+  <li>Migration tool to translate a Pyxis data file into an XML data
+file. Pyxis is an alternate "Pythonized" XML syntax devised by Finnian
+Reilly.<br>
+  </li>
+</ul>
+<h3>Build scripts</h3>
+<p>A collection of Python scripts to aid Eiffel builds including:</p>
+<ul>
+  <li>A script to manage OS environments from a project Python script
+and launch EiffelStudio. </li>
+  <li>An extension to scons build system for Eiffel projects with the
+following features:</li>
+  <ul>
+    <li>Select freeze or finalize build</li>
+    <li>Builds any Eiffel library precompiles using a standard
+SConstruct<br>
+    </li>
+    <li>Checks for existence of SConstruct to build C dependencies</li>
+    <li>Installs application graphics specified with an extra ECF tag
+into standardized directories locatable by an Eiffel class.&nbsp;</li>
+  </ul>
+</ul>
+</body>
+</html>

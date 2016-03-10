@@ -1,0 +1,65 @@
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2009 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "20 July 2011"
+#	revision: "0.1"
+
+import os, sys, platform
+from os import path
+
+from eiffel_loop.scons import util
+from eiffel_loop.eiffel import project
+
+if platform.system () == "Windows":
+	is_unix = False
+	compiler_flags = ['-Ox', '-Zi', '-MT', '-w', '-nologo', '-DEIF_WINDOWS']
+	gtk_home = path.expandvars (path.normpath ('$EIFFEL_LOOP/contrib/C/gtk3.0'))
+	include_path = [path.join (gtk_home, 'include')] 
+	prefix = include_path [0]
+	include_path.extend (util.prefixed_list (prefix, ['libpng16', 'cairo', path.normpath ('librsvg-2.0/librsvg')]))
+	include_path.append (path.join (gtk_home, path.normpath ('lib/glib-2.0/include')))
+	
+	lib_path = [path.join (gtk_home, path.normpath ("spec/$ISE_PLATFORM"))]
+	libs = ['rsvg', 'cairo']
+	
+else:
+	is_unix = True
+	compiler_flags = ['-g', '-O2']
+	prefix = '/usr/include'
+	include_path = ['source', path.normpath ('$EIFFEL_LOOP/contrib/C/RSVG/source')]
+	include_path.extend (util.prefixed_list (prefix, ['libpng12', 'librsvg-2.0/librsvg'])) 
+	include_path.extend ([
+		'/usr/lib/glib-2.0/include', '/usr/lib/${ARCHITECTURE}-linux-gnu/glib-2.0/include', '/usr/include/cairo'
+	])
+	lib_path = ['/usr/lib/${ARCHITECTURE}-linux-gnu']
+	libs = ['rsvg-2']
+
+include_path.extend (
+	util.prefixed_list (prefix, ['gdk-pixbuf-2.0', 'glib-2.0',  'libxml2', 'pango-1.0', 'freetype2', 'pixman-1'])
+)
+
+cpp_defines = ['HAVE_CONFIG_H']
+
+env = Environment (
+	CPPDEFINES = cpp_defines, CCFLAGS = compiler_flags, CPPPATH = include_path, ENV = os.environ,
+	LIBPATH = lib_path, LIBS = libs, ARCHITECTURE = platform.machine (),
+	EIFFEL_LOOP = os.environ ['EIFFEL_LOOP'], ISE_PLATFORM = os.environ ['ISE_PLATFORM']
+)
+
+print 'Include path', env ['ARCHITECTURE']
+for include in include_path:
+	print env.subst (include)
+
+build_dir =  project.platform_spec_build_dir ()
+
+VariantDir (build_dir, 'source', duplicate=0)
+
+sources = Glob (path.join (build_dir, '*.c'))
+lib = env.SharedLibrary (path.join (build_dir, 'svg2png'), sources)
+
+if not is_unix:
+	Depends (lib, [SConscript (path.join (gtk_home, "SConscript"), exports='env')])
+	
+env.NoClean (lib)
+Return ('lib')

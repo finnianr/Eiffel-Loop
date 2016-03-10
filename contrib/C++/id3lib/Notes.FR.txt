@@ -1,0 +1,32 @@
+File io_helpers.cpp patched from this bug report
+
+http://sourceforge.net/p/id3lib/bugs/207/
+
+The string is UTF-16 (Unicode) but with no Byte Order Marker (BOM).
+Even though the Unicode standard says that big-endian should be assumed in the absence of
+a BOM, it also says that this can be overriden by other concerns. Some Windows software
+authors appear to have interpreted this as meaning that Wintel's little-endianism
+may override the presumption of big-endianism. Others assume that it does not.
+Files may, therefore, contain either, and neither big- nor little-endian is a safe
+assumption.
+For western alphabets, most characters are represented by a zero as the most significant
+byte. A zero as the second byte, therefore, indicates strongly that the string is
+little-endian. There are only five cases in which this is not true - where the first byte is:
+00 00 - Null (reversible, "non-endian", terminates string)
+01 00 - Latin capital letter A with macron
+02 00 - Latin capital letter A with double grave
+03 00 - Combining grave accent
+04 00 - Cyrillic capital letter IE with grave (U+0400)
+The corresponding reversed characters are:
+00 01 - Start of Heading
+00 02 - Start of Text
+00 03 - End of Text
+00 04 - End of Transmission
+None of these reversed characters are likely to occur in ID3 strings.
+We can therefore safely improve on the big-endian assumption for strings without BOM
+by recognising that if the second byte is zero, and the first byte is greater than 04,
+then the string must be little-endian.
+This modification does not address the missing BOM problem completely, because incorrectly
+non-BOMd little-endian strings using non-western alphabets will still not be detected.
+However, this method will not cause any "false positives" resulting in big-endian strings
+being incorrectly reversed.

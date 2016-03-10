@@ -1,0 +1,32 @@
+# Partial port of build process to Scons
+#
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2009 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "6 Jan 2010"
+#	revision: "0.1"
+
+import os, platform
+from os import path
+from eiffel_loop.os import path as el_path
+from eiffel_loop.eiffel import project
+
+if platform.system () == "Windows":
+	compiler_flags = ['-nologo', '-W1', '-c', '-MT', '-Ox', '-DCOMPILED_FROM_DSP', '-DNDEBUG', '-D_LIB', '-DXML_STATIC'	]
+else:
+	compiler_flags = ['-c', '-O3', '-w', '-DHAVE_EXPAT_CONFIG_H', '-DNDEBUG', '-D_LIB', '-DXML_STATIC', '-std=gnu99']
+
+env = Environment (CCFLAGS = compiler_flags, CPPPATH = ['include'], ENV = os.environ)
+
+build_dir = project.platform_spec_build_dir ()
+
+VariantDir (build_dir, 'source', duplicate=0)
+
+source_list = [path.join (build_dir, name) for name in ['xmlparse.c', 'xmlrole.c', 'xmltok.c']]
+
+lib = env.StaticLibrary (path.join (build_dir, 'expat'), source_list)
+
+env.NoClean (lib)
+
+Return ('lib')

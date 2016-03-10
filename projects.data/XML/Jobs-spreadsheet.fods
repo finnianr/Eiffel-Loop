@@ -1,0 +1,1305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:presentation="urn:oasis:names:tc:opendocument:xmlns:presentation:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0" xmlns:ooo="http://openoffice.org/2004/office" xmlns:ooow="http://openoffice.org/2004/writer" xmlns:oooc="http://openoffice.org/2004/calc" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rpt="http://openoffice.org/2005/report" xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:tableooo="http://openoffice.org/2009/table" xmlns:calcext="urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0" xmlns:field="urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0" xmlns:formx="urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0" xmlns:css3t="http://www.w3.org/TR/css3-text/" office:version="1.2" office:mimetype="application/vnd.oasis.opendocument.spreadsheet">
+ <office:meta><dc:date>2013-07-12T08:34:16</dc:date><dc:creator>Finnian Reilly</dc:creator><meta:generator>LibreOffice/3.6$Linux_X86_64 LibreOffice_project/360m1$Build-2</meta:generator><meta:editing-duration>P0D</meta:editing-duration><meta:editing-cycles>1</meta:editing-cycles><meta:document-statistic meta:table-count="1" meta:cell-count="293" meta:object-count="0"/></office:meta>
+ <office:settings>
+  <config:config-item-set config:name="ooo:view-settings">
+   <config:config-item config:name="VisibleAreaTop" config:type="int">0</config:config-item>
+   <config:config-item config:name="VisibleAreaLeft" config:type="int">0</config:config-item>
+   <config:config-item config:name="VisibleAreaWidth" config:type="int">37306</config:config-item>
+   <config:config-item config:name="VisibleAreaHeight" config:type="int">186166</config:config-item>
+   <config:config-item-map-indexed config:name="Views">
+    <config:config-item-map-entry>
+     <config:config-item config:name="ViewId" config:type="string">view1</config:config-item>
+     <config:config-item-map-named config:name="Tables">
+      <config:config-item-map-entry config:name="IT Jobs">
+       <config:config-item config:name="CursorPositionX" config:type="int">0</config:config-item>
+       <config:config-item config:name="CursorPositionY" config:type="int">0</config:config-item>
+       <config:config-item config:name="HorizontalSplitMode" config:type="short">0</config:config-item>
+       <config:config-item config:name="VerticalSplitMode" config:type="short">0</config:config-item>
+       <config:config-item config:name="HorizontalSplitPosition" config:type="int">0</config:config-item>
+       <config:config-item config:name="VerticalSplitPosition" config:type="int">0</config:config-item>
+       <config:config-item config:name="ActiveSplitRange" config:type="short">2</config:config-item>
+       <config:config-item config:name="PositionLeft" config:type="int">0</config:config-item>
+       <config:config-item config:name="PositionRight" config:type="int">0</config:config-item>
+       <config:config-item config:name="PositionTop" config:type="int">0</config:config-item>
+       <config:config-item config:name="PositionBottom" config:type="int">0</config:config-item>
+       <config:config-item config:name="ZoomType" config:type="short">0</config:config-item>
+       <config:config-item config:name="ZoomValue" config:type="int">100</config:config-item>
+       <config:config-item config:name="PageViewZoomValue" config:type="int">60</config:config-item>
+       <config:config-item config:name="ShowGrid" config:type="boolean">true</config:config-item>
+      </config:config-item-map-entry>
+     </config:config-item-map-named>
+     <config:config-item config:name="ActiveTable" config:type="string">IT Jobs</config:config-item>
+     <config:config-item config:name="HorizontalScrollbarWidth" config:type="int">270</config:config-item>
+     <config:config-item config:name="ZoomType" config:type="short">0</config:config-item>
+     <config:config-item config:name="ZoomValue" config:type="int">100</config:config-item>
+     <config:config-item config:name="PageViewZoomValue" config:type="int">60</config:config-item>
+     <config:config-item config:name="ShowPageBreakPreview" config:type="boolean">false</config:config-item>
+     <config:config-item config:name="ShowZeroValues" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="ShowNotes" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="ShowGrid" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="GridColor" config:type="long">12632256</config:config-item>
+     <config:config-item config:name="ShowPageBreaks" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="HasColumnRowHeaders" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="HasSheetTabs" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="IsOutlineSymbolsSet" config:type="boolean">true</config:config-item>
+     <config:config-item config:name="IsSnapToRaster" config:type="boolean">false</config:config-item>
+     <config:config-item config:name="RasterIsVisible" config:type="boolean">false</config:config-item>
+     <config:config-item config:name="RasterResolutionX" config:type="int">1000</config:config-item>
+     <config:config-item config:name="RasterResolutionY" config:type="int">1000</config:config-item>
+     <config:config-item config:name="RasterSubdivisionX" config:type="int">1</config:config-item>
+     <config:config-item config:name="RasterSubdivisionY" config:type="int">1</config:config-item>
+     <config:config-item config:name="IsRasterAxisSynchronized" config:type="boolean">true</config:config-item>
+    </config:config-item-map-entry>
+   </config:config-item-map-indexed>
+  </config:config-item-set>
+  <config:config-item-set config:name="ooo:configuration-settings">
+   <config:config-item config:name="ShowNotes" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="IsDocumentShared" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="AllowPrintJobCancel" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="ShowZeroValues" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="GridColor" config:type="long">12632256</config:config-item>
+   <config:config-item config:name="LoadReadonly" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="UpdateFromTemplate" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="ShowPageBreaks" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="ShowGrid" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="SaveVersionOnClose" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="IsKernAsianPunctuation" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="CharacterCompressionType" config:type="short">0</config:config-item>
+   <config:config-item-map-indexed config:name="ForbiddenCharacters">
+    <config:config-item-map-entry>
+     <config:config-item config:name="Language" config:type="string">en</config:config-item>
+     <config:config-item config:name="Country" config:type="string">IE</config:config-item>
+     <config:config-item config:name="Variant" config:type="string"/>
+     <config:config-item config:name="BeginLine" config:type="string"/>
+     <config:config-item config:name="EndLine" config:type="string"/>
+    </config:config-item-map-entry>
+   </config:config-item-map-indexed>
+   <config:config-item config:name="AutoCalculate" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="PrinterName" config:type="string"/>
+   <config:config-item config:name="PrinterSetup" config:type="base64Binary"/>
+   <config:config-item config:name="IsRasterAxisSynchronized" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="IsSnapToRaster" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="RasterSubdivisionX" config:type="int">1</config:config-item>
+   <config:config-item config:name="RasterResolutionY" config:type="int">1000</config:config-item>
+   <config:config-item config:name="RasterResolutionX" config:type="int">1000</config:config-item>
+   <config:config-item config:name="RasterIsVisible" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="LinkUpdateMode" config:type="short">3</config:config-item>
+   <config:config-item config:name="RasterSubdivisionY" config:type="int">1</config:config-item>
+   <config:config-item config:name="ApplyUserData" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="HasColumnRowHeaders" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="HasSheetTabs" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="IsOutlineSymbolsSet" config:type="boolean">true</config:config-item>
+  </config:config-item-set>
+ </office:settings>
+ <office:scripts>
+  <office:script script:language="ooo:Basic">
+   <ooo:libraries xmlns:ooo="http://openoffice.org/2004/office" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <ooo:library-embedded ooo:name="Standard"/>
+   </ooo:libraries>
+  </office:script>
+ </office:scripts>
+ <office:font-face-decls>
+  <style:font-face style:name="Arial" svg:font-family="Arial" style:font-family-generic="swiss" style:font-pitch="variable"/>
+  <style:font-face style:name="DejaVu Sans" svg:font-family="&apos;DejaVu Sans&apos;" style:font-family-generic="system" style:font-pitch="variable"/>
+  <style:font-face style:name="Lohit Hindi" svg:font-family="&apos;Lohit Hindi&apos;" style:font-family-generic="system" style:font-pitch="variable"/>
+ </office:font-face-decls>
+ <office:styles>
+  <style:default-style style:family="table-cell">
+   <style:paragraph-properties style:tab-stop-distance="1.25cm"/>
+   <style:text-properties style:font-name="Arial" fo:language="en" fo:country="IE" style:font-name-asian="DejaVu Sans" style:language-asian="zh" style:country-asian="CN" style:font-name-complex="DejaVu Sans" style:language-complex="hi" style:country-complex="IN"/>
+  </style:default-style>
+  <number:number-style style:name="N0">
+   <number:number number:min-integer-digits="1"/>
+  </number:number-style>
+  <number:currency-style style:name="N109P0" style:volatile="true">
+   <number:currency-symbol number:language="en" number:country="IE">€</number:currency-symbol>
+   <number:number number:decimal-places="2" number:min-integer-digits="1" number:grouping="true"/>
+  </number:currency-style>
+  <number:currency-style style:name="N109">
+   <style:text-properties fo:color="#ff0000"/>
+   <number:text>-</number:text>
+   <number:currency-symbol number:language="en" number:country="IE">€</number:currency-symbol>
+   <number:number number:decimal-places="2" number:min-integer-digits="1" number:grouping="true"/>
+   <style:map style:condition="value()&gt;=0" style:apply-style-name="N109P0"/>
+  </number:currency-style>
+  <style:style style:name="Default" style:family="table-cell">
+   <style:text-properties style:font-name-complex="Lohit Hindi"/>
+  </style:style>
+  <style:style style:name="Result" style:family="table-cell" style:parent-style-name="Default">
+   <style:text-properties fo:font-style="italic" style:text-underline-style="solid" style:text-underline-width="auto" style:text-underline-color="font-color" fo:font-weight="bold"/>
+  </style:style>
+  <style:style style:name="Result2" style:family="table-cell" style:parent-style-name="Result" style:data-style-name="N109"/>
+  <style:style style:name="Heading" style:family="table-cell" style:parent-style-name="Default">
+   <style:table-cell-properties style:text-align-source="fix" style:repeat-content="false"/>
+   <style:paragraph-properties fo:text-align="center"/>
+   <style:text-properties fo:font-size="16pt" fo:font-style="italic" fo:font-weight="bold"/>
+  </style:style>
+  <style:style style:name="Heading1" style:family="table-cell" style:parent-style-name="Heading">
+   <style:table-cell-properties style:rotation-angle="90"/>
+  </style:style>
+ </office:styles>
+ <office:automatic-styles>
+  <style:style style:name="co1" style:family="table-column">
+   <style:table-column-properties fo:break-before="auto" style:column-width="1.764cm"/>
+  </style:style>
+  <style:style style:name="co2" style:family="table-column">
+   <style:table-column-properties fo:break-before="auto" style:column-width="6.232cm"/>
+  </style:style>
+  <style:style style:name="co3" style:family="table-column">
+   <style:table-column-properties fo:break-before="auto" style:column-width="15.3cm"/>
+  </style:style>
+  <style:style style:name="co4" style:family="table-column">
+   <style:table-column-properties fo:break-before="auto" style:column-width="2.768cm"/>
+  </style:style>
+  <style:style style:name="co5" style:family="table-column">
+   <style:table-column-properties fo:break-before="auto" style:column-width="2.004cm"/>
+  </style:style>
+  <style:style style:name="co6" style:family="table-column">
+   <style:table-column-properties fo:break-before="auto" style:column-width="3.334cm"/>
+  </style:style>
+  <style:style style:name="co7" style:family="table-column">
+   <style:table-column-properties fo:break-before="auto" style:column-width="5.906cm"/>
+  </style:style>
+  <style:style style:name="co8" style:family="table-column">
+   <style:table-column-properties fo:break-before="auto" style:column-width="2.258cm"/>
+  </style:style>
+  <style:style style:name="ro1" style:family="table-row">
+   <style:table-row-properties style:row-height="1.917cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro2" style:family="table-row">
+   <style:table-row-properties style:row-height="2.293cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro3" style:family="table-row">
+   <style:table-row-properties style:row-height="6.041cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro4" style:family="table-row">
+   <style:table-row-properties style:row-height="4.166cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro5" style:family="table-row">
+   <style:table-row-properties style:row-height="3.043cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro6" style:family="table-row">
+   <style:table-row-properties style:row-height="5.666cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro7" style:family="table-row">
+   <style:table-row-properties style:row-height="5.292cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro8" style:family="table-row">
+   <style:table-row-properties style:row-height="0.452cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro9" style:family="table-row">
+   <style:table-row-properties style:row-height="2.667cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro10" style:family="table-row">
+   <style:table-row-properties style:row-height="4.542cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro11" style:family="table-row">
+   <style:table-row-properties style:row-height="6.415cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro12" style:family="table-row">
+   <style:table-row-properties style:row-height="3.417cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro13" style:family="table-row">
+   <style:table-row-properties style:row-height="3.792cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro14" style:family="table-row">
+   <style:table-row-properties style:row-height="1.543cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ro15" style:family="table-row">
+   <style:table-row-properties style:row-height="4.916cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
+  <style:style style:name="ta1" style:family="table" style:master-page-name="Default">
+   <style:table-properties table:display="true" style:writing-mode="lr-tb"/>
+  </style:style>
+  <style:style style:name="ce1" style:family="table-cell" style:parent-style-name="Default">
+   <style:table-cell-properties style:text-align-source="fix" style:repeat-content="false" fo:wrap-option="wrap" style:vertical-align="top"/>
+   <style:paragraph-properties fo:text-align="start"/>
+  </style:style>
+  <style:page-layout style:name="pm1">
+   <style:page-layout-properties style:writing-mode="lr-tb"/>
+   <style:header-style>
+    <style:header-footer-properties fo:min-height="0.75cm" fo:margin-left="0cm" fo:margin-right="0cm" fo:margin-bottom="0.25cm"/>
+   </style:header-style>
+   <style:footer-style>
+    <style:header-footer-properties fo:min-height="0.75cm" fo:margin-left="0cm" fo:margin-right="0cm" fo:margin-top="0.25cm"/>
+   </style:footer-style>
+  </style:page-layout>
+  <style:page-layout style:name="pm2">
+   <style:page-layout-properties style:writing-mode="lr-tb"/>
+   <style:header-style>
+    <style:header-footer-properties fo:min-height="0.75cm" fo:margin-left="0cm" fo:margin-right="0cm" fo:margin-bottom="0.25cm" fo:border="2.49pt solid #000000" fo:padding="0.018cm" fo:background-color="#c0c0c0">
+     <style:background-image/>
+    </style:header-footer-properties>
+   </style:header-style>
+   <style:footer-style>
+    <style:header-footer-properties fo:min-height="0.75cm" fo:margin-left="0cm" fo:margin-right="0cm" fo:margin-top="0.25cm" fo:border="2.49pt solid #000000" fo:padding="0.018cm" fo:background-color="#c0c0c0">
+     <style:background-image/>
+    </style:header-footer-properties>
+   </style:footer-style>
+  </style:page-layout>
+ </office:automatic-styles>
+ <office:master-styles>
+  <style:master-page style:name="Default" style:page-layout-name="pm1">
+   <style:header>
+    <text:p><text:sheet-name>???</text:sheet-name></text:p>
+   </style:header>
+   <style:header-left style:display="false"/>
+   <style:footer>
+    <text:p>Page <text:page-number>1</text:page-number></text:p>
+   </style:footer>
+   <style:footer-left style:display="false"/>
+  </style:master-page>
+  <style:master-page style:name="Report" style:page-layout-name="pm2">
+   <style:header>
+    <style:region-left>
+     <text:p><text:sheet-name>???</text:sheet-name> (<text:title>???</text:title>)</text:p>
+    </style:region-left>
+    <style:region-right>
+     <text:p><text:date style:data-style-name="N2" text:date-value="2013-08-05">00/00/0000</text:date>, <text:time style:data-style-name="N2" text:time-value="0000-00-00T09:32:03">?</text:time></text:p>
+    </style:region-right>
+   </style:header>
+   <style:header-left style:display="false"/>
+   <style:footer>
+    <text:p>Page <text:page-number>1</text:page-number> / <text:page-count>99</text:page-count></text:p>
+   </style:footer>
+   <style:footer-left style:display="false"/>
+  </style:master-page>
+ </office:master-styles>
+ <office:body>
+  <office:spreadsheet>
+   <table:table table:name="IT Jobs" table:style-name="ta1">
+    <table:table-column table:style-name="co1" table:default-cell-style-name="ce1"/>
+    <table:table-column table:style-name="co2" table:default-cell-style-name="ce1"/>
+    <table:table-column table:style-name="co3" table:default-cell-style-name="ce1"/>
+    <table:table-column table:style-name="co4" table:default-cell-style-name="ce1"/>
+    <table:table-column table:style-name="co5" table:default-cell-style-name="ce1"/>
+    <table:table-column table:style-name="co6" table:default-cell-style-name="ce1"/>
+    <table:table-column table:style-name="co7" table:default-cell-style-name="ce1"/>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SAP VMS Expert With Experiencce In Automobile</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>We are currently looking for a SAP Vehicle Management Solution expert with know how in SD, MM and Variant Configurator. The project language is English and French is a plus. Concerning the experience, the consultant should have a proven experience in the automobile industry. Finally, we need a strong team player with strong communication skills, written and verbal and familiar with international project.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Brussels</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>3 months +</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Upon Experience</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Westhouse Consulting GmbH (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro2">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SAP SRM Consultant</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Siamo alla ricerca di un consulente SRM per un´attivitá con sede a Roma. Il cliente necessita di un consulente che si occupi principalmente dell´upgrade per la realizzazione dei flussi. Il progetto ha una durata di circa 3 mesi, con inizio il prima possibile. Si richiede una disponibilitá part time di 4 giorni a settimana, MA l´attivitá Full time è comunque preferita. In caso di interesse, si richiede un CV aggiornato. Cordiali saluti E rica Luppi Resource Manager Westhouse Consulting GmbH Phone +49 89 383 772 25 Email (see below) Skype erica.luppi</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Roma</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>3 mesi</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Adequate</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Westhouse Consulting GmbH (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro3">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SQL Technical Consultant - .NET, SQL Server, ORACLE, Banking, VB, XML</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SQL Technical Consultant, inc eg .NET, SQL Server, Oracle, banking, VB, XML NB Application Website link will be emailed to you - check junk email folder. Role: We are looking for a new consultant with some commercial IT experience to join our team. Key skills : SQL, a programming language, self-reliance, adaptability and good communication You will learn banking software and we envisage that this role will quickly include that of a Team Leader. As a Microsoft partner we specialise in their software; however we also encounter non-Microsoft systems such as Oracle and Unix. Skills: The successful candidate will have: A sound knowledge of, and enthusiasm for, IT A good degree in a relevant subject Strong people skills and the ability to work well independently and as part of a team. Key skills : SQL, a programming language, self-reliance, adaptability and good communication Useful skills : .NET, SQL Server, Oracle, XML, banking experience, leadership, consultancy, VB About the Company: We are a small, dynamic and friendly IT consultancy. We install, develop and adapt IT systems for clients and write our own software. Clients include a number of international banks, smaller businesses and a few private clients. The atmosphere is relaxed, friendly and flexible. Consultants are based in their own homes but will be expected to work on clients&apos; sites from time to time, most of which are either in London or abroad. Application: This role requires some SQL knowledge and this will be</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>22k-30k Depending On Experience</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p><text:s/>(Company)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro4">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SUCHE SAP BI Berater (Pharma)</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Wir suchen eine SAP BI Berater mit 3 Jahren Erfahrung ideal SAP BI MDM Informatica ETL Branche: Chemie Start: ASAP Location: nähe Frankfurt (Hessen) Sprache: Deutsch + Englisch Sie sind verantwortlich für die Konzeption und Umsetzung von Enterprise Data Integration-Anwendungen auf einer Business-Intelligence-Plattform. Sie werden unabhängig voneinander analysieren Kundenanforderungen, die Kommunikation mit Spezialisten sowie Management und die Zusammenarbeit zwischen den internationalen Teams. Sie entwickeln Lösungen auf der Basis von aktuellen Daten-Integration-Technologien. Darüber hinaus das Aufgabengebiet umfasst die strategische/konzeptionelle Arbeit-Pakete, zB Stammdaten-Management-Konzepte sowie die Bewertung neuer Technologien im Rahmen der konzernweiten IT-Strategie. Interesse? dann bitte einen Anruf an mich. Freundliche Grüße Elizabeta Melcer</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Hessen, Germany</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="2"/>
+     <table:table-cell office:value-type="string">
+      <text:p>Westhouse Consulting GmbH (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro5">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Web Developer - ASP.NET &amp; SQL Server - Bedfordshire</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Web Developer with Visual Basic and ASP. NET skills required for this vibrant Web Design Agency. We are looking for someone who has experience of writing ASP.Net in Visual Basic and also have experience with SQL Server. You will have a strong background in Web and application development and also have experience of developing Websites from the ground up with experience of the full development life cycle. On the personality side, we need confident and enthusiastic individuals who can show proven commercial experience. @its is the trading name of @its (Search Selection) Ltd. Services offered are those of an agency for permanent work and employment business for the supply of contract staff.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Bedfordshire</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>30k-35k + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>@its (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro6">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SAP SCM-APO Project Manager</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SAP SCM, SD MM, APO, Project Management, Western Flanders, Belgium. Een van onze klanten in West-Vlaanderen is op zoek naar een SAP SCM-APO Project Consultant. U bent verantwoordelijk voor de definitie, ontwikkeling, coördinatie en uitvoering van projecten waarbij SAP SCM-APO in ruime zin betrokken is. U werkt die projecten uit in samenspraak met de logistieke verantwoordelijken van de verschillende business units. U staat in voor de bewaking en opvolging van de geïmplementeerde toepassingen en brengt vanuit een sterk logistiek gedreven invalshoek verbeteringen aan ter optimalisatie van de bestaande toepassingen. U werkt mee aan de verdere roll-out van SAP APO binnen de klant. U behaalde een diploma hoger onderwijs en hebt minimum 5 jaar werkervaring in het domein van planning en logistiek. U getuigt van een projectmatige en analytische aanpak. U bent communicatief vaardig en een echte teamplayer. U bent in staat om zelfstandig problemen op te lossen. U bezit volgende technische skills: - functionele kennis van en ervaring met SAP (of een gelijkwaardig ERP-pakket) - interesse en high level kennis in één of meerdere van de volgende aangrenzende functionele domeinen: SAP APO, SAP MM, SAP SD - ervaring met alle aspecten van projectmanagement: projectdefinitie, analyse, ontwerp, testing, training, implementatie.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Western Flanders, Belgium</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="2"/>
+     <table:table-cell office:value-type="string">
+      <text:p>Aston Carter (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro7">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SAP Netweaver Consultant</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SAP Netweaver, Java, Western Flanders, Belgium Voor een klant in West-Vlaanderen zijn we op zoek naar een SAP Netweaver consultant. Als SAP Netweaver Consultant bent u verantwoordelijk voor de bewaking en ondersteuning van de geïmplementeerde SAP Netweaver toepassingen (SAP BW/BI, SAP PI/XI, .). U bent verantwoordelijk voor de definitie, ontwikkeling, coördinatie en uitvoering van kleinere technische SAP Netweaver projecten. U werkt die projecten uit onder begeleiding van een ervaren SAP Technical Consultant. Vanuit een technisch gedreven invalshoek brengt u verbeteringen aan ter optimalisatie van de bestaande toepassingen. U behaalde een diploma hoger onderwijs met specialisatie informatica. U hebt een solide, grondige en brede informatica-technische kennis. Ervaring in een gelijkaardige functie is een pluspunt, doch niet noodzakelijk. U bent vooral open minded en toont de duidelijke will om permanent nieuwe SAP producten en oplossingen te leren kennen. U getuigt bovendien van een projectmatige en analytische aanpak. U bent communicatief vaardig en een echte teamplayer. U bezit volgende technische skills: goede kennis van Java SAP Certificatie in Netweaver 7 (of Netweaver 2004s) is een troef, doch niet noodzakelijk</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Belgium</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="2"/>
+     <table:table-cell office:value-type="string">
+      <text:p>Aston Carter (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Programmer C++/Zaventem</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Multilingual Solutions are a team of multi-lingual Recruitment Consultants specialising in selecting the perfect candidate for the best-suited position. For one of our client based in Brussels we are urgently looking for a Programmer C++/Zaventem/Start ASAP Good knowledge of C/C++ programming Experience with firmware, Embedded software, debugging and testing Languages: Dutch/French and English Is this the project you are looking for?</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Brussels, Belgium</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="2"/>
+     <table:table-cell office:value-type="string">
+      <text:p>Computer Futures Solutions - Brussels (Contract) (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro3">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Spcialiste En Cisco Telecom: 2 Ans De Contrat Bruxelles - ASAP</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Spcialiste Tlcoms Cisco Voici une occasion unique de collaborer avec les quipes de mon client situes Bruxelles. Relevant du directeur services-conseils, au sein du bureau de Bruxelles, le consultant choisi agira titre de Spcialiste Tlcoms Cisco. PRINCIPALES RESPONSABILITS: - Assurer la livraison des projets et la rsolution des problmes suite leur implantation; - Effectuer la configuration et le support de niveau 3 des infrastructures LAN et WAN dans un environnement financier exigeant et en constante volution; - Effectuer la supervision proactive des composantes rseau l&apos;aide des outils dj en place; - Grer le plan d&apos;adressage IP et les services de rseau DHCP et DNS; - Reprsenter l&apos;quipe tlcom dans les projets relis au rseau de l&apos;entreprise et dans les relations avec le client, les fournisseurs et les partenaires; - Planifier et coordonner les essais et les analyses complexes des composantes de rseau, y compris les routeurs, les commutateurs, les logiciels et les circuits de tlcommunications; - Rdiger des rapports d&apos;expertises, d&apos;avis et de positionnement de rseau; - Documenter l&apos;infrastructure du rseau; - Assister les autres conseillers de l&apos;quipe Tlcom dans leurs activits courantes. EXIGENCES: - Baccalaurat en gnie informatique ou experience quivalente; - 5 10 ans d&apos;exprience en tlcommunication; - Certification CCNP; - Experience dans un environnement de support de rseaux complexes; - Capacit rdiger des documents d&apos;analyses et d&apos;expertises; - Capacit travailler dans un milieu</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Brussels, Belgium</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>2 years</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>Computer Futures Solutions - Brussels (Contract) (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro8">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Javautvecklare</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Javautvecklare. Minst 4 erfarna Java-utvecklare med minst 4 års erfarenhet av Java-utveckling och gärna bankerfarenhet sökes till storbank i Stockholmsområdet. Uppdraget är att förvalta och vidareutveckla delar av Internetbank. Start omgående och pågår i sex månader.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Stockholm, Sweden</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>6 months</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>Aston Carter (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro9">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>ACBS Senior BA</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>A fantastic opportunity has arisen at a major investment bank for an experienced ACBS BA to make a difference by supporting the ACBS Programme. The successful candidate, who will be well rewarded by this fantastic organisation who strongly believe in investing in people and promote a life/work balance, will therefore need to have solid experience of ACBS (either implementation and/or migration), have good data migration experience and have solid experience of writing detailed analysis from user requirements. For more information please send your CV to or call Dominik Ferrara at 33-6 for more details.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>City, London</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>6 months +</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>£500-£600/Day</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>33-6 Consultancy Limited (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro9">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Analista Tecnico ABAP - Espana</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Analista técnico ABAP - Espana Para uno de nuestros clientes basado en Madrid (España), buscamos incorporar a 2 analistas técnico ABAP- 4 con 2 años de experiencia como mínimo para un servicio anual de hasta 3 años.Las tareas principales del analista técnico consisten en encargarse de la seguridad SAP (creación/modificaciónde perfiles, roles, etc.) versiones 4.6B y ECC, del desarrollo y mantenimiento de workflows, de la revisión y corrección de rendimiento de programas y de los desarrollos en archivado, firma electrónica y con el sistema de transportes. La incorporación es inmediata .</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Madrid</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>1 year</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>Pixie Recruitment Services Limited (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Consultor SAP ABAP HR - Espana</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Consultor SAP ABAP HR - España Para uno de nuestros clientes basados en Barcelona (España), buscamos a incorporar a programadores ABAP con unos DOS años de experiencia en programación sobre el módulo HR de SAP. La tarea principal del consultor será hacer modificaciones y nuevos desarrollos en el módulo HR de SAP. Se trata de un proyecto de larga duración ( un año ). La incorporación es para el mes de mayo .</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Barcelona</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>1 year</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>Pixie Recruitment Services Limited (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro2">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Consultant SAP MM Purchasing - Belgique</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Consultant SAP MM Purchasing - Belgique Nous recherchons pour un de nos clients basé à Bruxelles (Belgique) un consultant senior MM Purchasing pour effectuer un projet de 2 mois avec possible extension. Le profil recherché est un consultant ayant de l&apos;expérience en release procedures (business wise approval in procurement) et functional workflow. Une bonne maîtrise du français et de l&apos;anglais est requise. Le projet sera part time ou Full time et la date de démarrage est ASAP .</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Bruxelles, Belgium</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>2 months +/- </text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>Pixie Recruitment Services Limited (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro10">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Head Of Infrastructure/Service Management - Leeds, West Yorkshire</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Head of Infrastructure Management/Service Management. A prestigious professional services company in Leeds is looking for Head of Infrastructure Management to take responsibility for all live systems and infrastructure within the UK.Heading a team of 25 +, you will provide high quality support for incidents and problems. This will entail developing/adjusting Incident Management and Problem management procedures accordingly and managing the smooth transition of new services into the live environment. The successful candidate will be ITIL qualified (ideally up to Red Badge level) and have a detailed proven understanding of all all areas of ITIL, encompassing, Incident, Problem, Change, Capacity and Configuration Management. With a Service Delivery background, you will be a strong man manager with an analytical mind and the ability to influence/negotiate with all levels of seniority. Your experience should include the implementation of ITIL disciplines along with the introduction of significant procedural and process change. 4it Recruitment Limited acts as both an Agency and an Employment Business.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Leeds, West Yorkshire</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>To £55k + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>4it Recruitment (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro11">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Werken Met Spring/Hibernate/J2EE/JAVA/SUN CERTIFIED HAARLEM/AMSTERDAM</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>De organisatie Het betreft een vooraanstaande technische dienstverlener. Met innovatieve concepten en integrale oplossingen zetten zij de toon voor het succes van klanten in de industrie, utiliteit en infratechniek. Van ontwerp tot en met realisatie, onderhoud en beheer, in een grote verscheidenheid van technische disciplines. Onze klant werkt voor haar opdrachtgevers via een netwerk van vestigingen, samenwerkingsverbanden en strategische allianties. Zij hebben de kennis, ervaring en omvang om de meest uiteenlopende projecten uit te kunnen voeren. Van klein tot groot. Van eenvoudig tot complex. Kernbegrippen in hun dienstverlening zijn betrouwbaarheid, kwaliteit, flexibiliteit en verantwoordelijkheid. Dit TOP bedrijf heeft zo&apos;n 7.500 medewerkers in dienst en bestaat uit een netwerk van bedrijven die zich richten op regionale markten, specifieke marktsegmenten en specifieke technieken. Zij hebben Nederland als thuismarkt, maar ze zijn wereldwijd actief waar opdrachtgevers dat vragen. JIJ WILT: Voor een groot en stabiel bedrijf werken Veel vrijheid, VB. een dag vanuit huis werken, 6.00-15.00 werken of wat dacht je van 10.00-17.00 37 vakantiedagen! Werken in de Industrile automatisering met ontzettend veel afwisseling en uitdaging! Met het ontwikkelteam een toolbox ontwikkelen In een industrile omgeving aan projecten werken ( het automatiseren van produktie processen) Aansturen van besturingselementen m.b.v. zelf ontworpen Java applicatie Veel klantencontact TOP carrire richting</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Amsterdam, Noord-Holland</text:p>
+     </table:table-cell>
+     <table:table-cell table:number-columns-repeated="2"/>
+     <table:table-cell office:value-type="string">
+      <text:p>Progressive Netherlands (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>INFRASTRUCTURE NETWORK DESIGNER - Yorkshire</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>My client is looking for an infrastructure network support designer to work on a broad range of IT infrastructure projects. You will have strong infrastructure network support/design experience with good knowledge of Unix/Linux, Windows, n-tier (3-tier) Server applications and Firewalls. The role will involve dealing with high level network design. Must have good communication skills. 3-6 months initially. 4it Recruitment Limited acts as both an Agency and an Employment Business.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Yorkshire</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>3-6 months initially</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Market Rate</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>4it Recruitment (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro3">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Performance &amp; Test Tool Analyst, Loadrunner, QTP, Winrunner</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Performance &amp; Test Tool Analyst, LoadRunner, QTP, Mercury, Winrunner, Test Automation, Investment Banking, required to join a small core team within a processing system made up of multiple systems in an FX environment that has been tasked with additional scope for major new global releases. The main function of the processing system is trade processing, deal capture, confirmations, settlements, reconciliations and accounting that are deployed across multiple technologies including; WebLogic, Calypso, Oracle, Unix and Citrix. Responsibilities: The primary aspects of the role will include creation, management and support of the automation scripts/tools used during testing which will include; Mercury Test Director, Winrunner, LoadRunner, and Quick Test Pro. Reporting to the Test Manager you will also be to prepare and execute ad hoc testing when required, assistance in the creation of the test plan and project implementation reports. Experience Required; A Mercury Certified individual with in depth and proven experience of LoadRunner, Winrunner, Quick Test Professional, Test Automation. A committed individual with a very strong technical background who is keen position themselves in a long term position. This role offers a technically strong individual the opportunity to develop strong business knowledge as well as diversify their understanding of multiple technologies including Calypso, Middleware, WebLogic, Oracle, and Unix.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>City Of London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£48k - £52k Per Annum + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro4">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Business Analyst - Equities Settlements</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>A Business Analyst with experience of equities, global trading &amp; settlements is required to work as part of a project-focused team within a leading financial services solutions provider. Reporting directly to the project manager on all projects you will be expected to demonstrate a strong ability in business requirement gathering, functional specification preparation and contributing towards the business case. Coming from a financial services background, you will ideally have a background in Back Office and settlements environments, with a strong understanding of the equities trade life cycle, regulatory and compliance issues and the IT environment. A proven ability to source information is a must, as are excellent communication skills at all levels and the ability to analyse requirements and propose solutions and action plans to address those. Our client is offering a competitive basic salary and benefits package along with the opportunity to gain excellent exposure to the investment banking settlements environment.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>City Of London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>55k-65k + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro3">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>HEAT Systems Analyst - Financial</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>HEAT Systems Analyst required by leading Financial organisation. You will be HEAT Systems Analyst and overall project champion in working with the business on incorporating the HEAT system and processes into their current business processes. The job-holder will be key in advising on improving HEAT processes as well as offering ways in which HEAT can improve upon existing business processes. You will become the owner and organisational expert for the HEAT system, including understanding all of the current HEAT process flows and being able to recommend improvements. Become the main point of contact and training expert for all HEAT issues and system awareness. Act as HEAT spokesman and be responsible for highlighting use and marketing of the HEAT system. It is essential that you have worked within a HEAT type system for at least 18 months to 2 years (ideally in a Bank or Financial Services environment). Good, solid understanding of HEAT type system and how they work and how they can be used to improve business processes. Solid experience (at least 18 months) SQL. Knowledge of Project Management methodologies. Experience in workflow technologies and overall planning methodologies. Good, solid experience of MS Office tools, especially Project. For further information please contact Gurdev Landa on 02074444178 or send me your CV for immediate consideration.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>City Of London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£30k - £38k Per Annum + Benefits And Bonus</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro9">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Senior IT Support Analyst - Hedge Fund</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Senior IT Support Analyst - Exchange, Active Directory, Windows XP, Cisco required for leading City based Hedge Fund. They require a Senior support analyst to deliver solutions to all desktop and Server issues within a busy financial environment. You will currently be working for a Hedge Fund, Asset Manager or a small to mid sized financial institution and have a minimum 3 years with a financial institution. You will also need knowledge of MS Exchange, Active Directory, Windows XP, Bloomberg and various Cisco products. On offer is a £40k-50k salary plus benefits and highly a competitive bonus structure.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>City Of London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£40k - £50k Per Annum + Benefits + Performance Related Bonus</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro4">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Calypso Developer/Team Lead</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Calypso, Java, Developer, Team Leader, FX, MM. The successful candidate will join the team within the Foreign Exchange and Money Markets business of a major Investment Bank. The role is based around the Calypso Back Office system that covers the straight through processing of UK trade flow for all FX and some Money Market deals. A developer is required to work on the extended Calypso product within the trade processing subsystem. This is the largest of the subsystems and provides trade processing services (trade management, settlements, confirmations, accounting, re-valuation etc). You will also be required to lead a small team of developers. No previous team leading is necessary but you will need to prove that you are capable of moving into such a role. It is essential that you have previous in depth development experience with both Calypso and Java. If it is not clear from your CV that you have these skills you will not be considered for the role.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£70k-£80k + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro9">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Futures NyFix Front Office Support Analyst</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Futures, Options, Front Office, Support, NyFix. Opportunity to join the Futures Front Office support team within a major Investment Bank, involved in the implementation and support of Front Office systems for the Futures &amp; Options business. You will be expected to have previous experience working within a fast-paced, high pressure trading environment, supporting Front Office electronic trading applications, including NYFIX OBMS &amp; TT. Further required technical experience includes strong knowledge of Windows OS, RDBMS, TCP/IP over LAN, WAN, VPN and an understanding of Firewalls.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£45k-£50k + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro12">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Development Spacialist</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SDLC, RPBM, joining the team within a major global financial organisation. The successful candidate will be responsible for technical project management either on small independent projects or as a stream within a major project program. The job holder may manage and lead a team of technical specialists preparing and scheduling manpower resources ensuring they are effectively deployed, and will be free to operate within the system constraints and Bank methods and standards. Creativity and innovation will be used to design the most appropriate system solution with sound judgement. The job requires assessment of day to day priorities, advising the team on technical solutions and other matters as necessary; this may require the development of alternative solutions to problems.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>40k-45k + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro6">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Technical Analyst/Analyst Programmer</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SQL, Cognos 8, Report Studio, joining the team within a major global financial organisation. The successful candidate will ideally have proven analytic and problem solving skills, experience of working with the business and raw data to establish and confirm user requirements and experience of data analysis tools or methods to speed analysis tasks. Further to this you will also have experience of the IT development process and full software development life cycle. You will be used to working within a high-pressure environment, with the ability to deliver project work to strict and challenging deadlines, with strong interpersonal, organisational and written/verbal communication skills, able to liaise with development teams, project Manager and/or business to understand and determine data definitions, requirements or scope. The role requires an outgoing, self starter with enthusiasm, flexibility and a positive attitude and ability to work under pressure coupled with a strong commitment to succeed, with an ability to create a solution using component parts and lead a small team. You will have experience of working with large volumes of data in a complex BI environment, with relatively large data models and tight processing Windows with high job interdependency, able to develop under pressure to existing international standards within SQL, Cognos 8, Report Studio environment.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Sheffield, South Yorkshire</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£27k-£30k Per Annum + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro13">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Data Analyst</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Data Analyst. Opportunity to join a major global financial organisation. Proven Analytic and problem solving skills, with a good working knowledge of relational databases and SQL. Experience of the IT development process and full software development life cycle is essential, with the ability to deliver project work to strict and challenging deadlines. High levels of creativity to offer solutions to team standards and guidelines. Ability to produce functional specifications and other analysis documentation and input into testing construction, review and execution of comprehensive test plans to meet functional requirements. You will have strong interpersonal, organisational and written/verbal communication skills with the ability to liaise with development teams, project Manager and/or the business to understand and determine data definitions, requirements or scope.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>South Yorkshire</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£22k-£30k Per Annum + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro5">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Global MI Administrator - Investment Banking</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>MI Administrator, Finance, Excel. You will join the team within the Planning and Finance business within a major Investment Bank, supporting Global Banking &amp; Markets and Finance IT globally. The Global Reporting Team has developed 2 key systems (utilising the Hyperion Essbase and Hyperion Planning platforms) to assist in the Global reporting and Planning responsibilities. These are global tools and high profile. The core of the role will be to act as system administrator, supporting these systems. The successful candidate therefore needs to be interested in the technical aspects of systems and be technically motivated. Essential requirements include having previously working in a Finance environment, with Intermediate/Advanced knowledge of Excel.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£30k - £31k Per Annum + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro4">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Application Support Consultant</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>This International Investment Group require an experienced APPLICATION SUPPORT consultant to join this growing business and technical environment. Charles River, Murex, LatentZero, Golden Source are some of the applications used. You will be responsible for a range of Support and New Project work. You will be providing Business and Technical Support for the existing implementation of these applications, Application Administration whilst developing an overall and detailed understanding of the functionality provided by the applications and Liaising with the relevant 3rd party vendors. To be considered you should have first class communication skills and be well educated, ideally to a computer related degree level, have a solid understanding of the front, middle and Back Office workflow for Financial Applications and a variety of financial instruments. Familiarity with any of the following Applications would be desirable: Charles River Trading &amp; Compliance System, LatentZero, Murex, Golden Source.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Dublin, Ireland</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>Euro 50k Per Annum</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro7">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>HEAT Administrator</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>HEAT Administrator required by leading Financial organisation. You will be the main HEAT administrator and overall project champion in working with the business on incorporating the HEAT system and processes into their current business processes. The job-holder will be key in advising on improving HEAT processes as well as offering ways in which HEAT can improve upon existing business processes. You will become the owner and organisational expert for the HEAT system, including understanding all of the current HEAT process flows and being able to recommend improvements. Become the main point of contact and training expert for all HEAT issues and system awareness. Act as HEAT spokesman and be responsible for highlighting use and marketing of the HEAT system. It is essential that you have worked within a HEAT type system for at least 18 months to 2 years (ideally in a Bank or Financial Services environment). Good, solid understanding of HEAT type system and how they work and how they can be used to improve business processes. Solid experience (at least 18 months) SQL. Knowledge of Project Management methodologies. Experience in workflow technologies and overall planning methodologies. Good, solid experience of MS Office tools, especially Project.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>City Of London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£35k + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro4">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Project Manager - Risk, Issue Management, Niku, PMW, Banking</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Project Manager - Risk, Issue Management, Niku, PMW, MS Project required to join an integral and diverse, multi-disciplined Project team within the financial sector who run projects of various team sizes up to 20 man years effort. You will be required to have a proven track record of Risk and Issue Management experience &amp; capabilities. Proven history with budgetary management responsibilities. Strong leadership, communication, motivational and negotiating skills. The ability to engage with both IT and non-IT stakeholders. Experienced in the use of project management methodologies, project planning tools such as Niku, PMW to MS Project. Involvement in the full IT project life cycle and experience of working to and managing KPI&apos;s and SLA&apos;s. Though some kind of Financial sector experience would be a huge plus it is not essential and individuals from outside the financial sector with experience of working in large project teams on large scale assignments will be considered.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Sheffield, South Yorkshire</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£40k-50k + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro11">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Unix/LINUX Server NOC Engineer</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Unix/Linux/Windows Server NOC Engineers x 2 required by leading Hedge Fund. The Network Operations Center (NOC) provides 24x7 monitoring and 1st level support for the firm&apos;s computing infrastructure. Daily Responsibilities include: Monitoring the infrastructure systems for problems (including Servers, networking, storage, site and job scheduling, Troubleshooting issues as they arise as well as escalation to 2nd/3rd level support personnel as needed, Coordination of communication for support teams and the firm&apos;s broader technical community during outages and major changes. You will have worked in a 24x7 operations environment in a technical role. Excellent written and verbal communication skills and Experience working in fast paced, aggressive companies. Technically you will have Substantial experience working with Linux (preferably Redhat), Substantial experience Unix OS troubleshooting, Proven troubleshooting hardware problems. Skills around any of the following are highly beneficial: VMware, HP Blade Systems, Solaris 10 Knowledge, Shell Scripting (bash, Perl) helpful, Basic Windows administration knowledge, Basic understanding of SAN and NAS storage. This is a fantastic opportunity to join fantastic a company which is very much focused on technology and attracts some very talented individuals who possess tremendous intellectual talents. For further information please contact Gurdev Landa on 02074444178 for further information or send me your CV for immediate consideration.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>City Of London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£50k-£60k + Benefits And Bonus</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>DB2 DBA</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>DB2 DBA. As DB2 DBA you will join the database team within a major global organisation and will have knowledge of DB2 Database administration. Further positions are available for candidates with knowledge of Teradata. The role is aimed at candidates who have proven DB2 Database administration skills. The successful candidate will also be expected to have excellent interpersonal and communication skills and also be self-motivated.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Sheffield, South Yorkshire</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£28k - £43k Per Annum + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro9">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Technical Team Leader - Java, PSeries</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Java, pSeries, Technical Team Leader. An experienced Java/pSeries Technician is required by a major financial organisation to join their Regional Implementation Team. The successful candidate will be expected to lead a team for the new group insurance system, which will be responsible for the local build and implementation of the new system throughout Europe. The job holder will lead a team of analysts, programmers and testers, split across Sheffield and India, and will be expected to give strong technical guidance to ensure that the best possible solutions are delivered to a high quality. The role will involve line and performance management responsibility.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Sheffield, South Yorkshire</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£30k - £36k Per Annum + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro14">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Unix Administrator</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Unix SA, Solaris, HP-UK, SAN Production Support. You will join the team within a major Financial Services organisation as a Unix System Administrator. The successful candidate will have a strong background in Unix administration with strong knowledge of Solaris, HP-UK and SAN Production Support.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Barnsley, South Yorkshire</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£30k-£35k + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro3">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Senior Systems Analyst</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Senior Systems Analyst, User requirements, Systems Analysis, Experience of group systems (Gold Model) advantageous, experience of Life/Pensions beneficial but not essential. Senior Systems Analyst, requirements gathering, business process modelling. Opportunity to join a fast moving dynamic multi-skilled team within a multi-national Financial institution to assess the fit of Gold requirements as defined by the Insurance Business against vendor packages. Responsibilities will include identifying functional gaps to define the systems development/customisation, define Gold interfaces to other group systems, participate in the analysis of regional interface requirements for individual implementations and coordinate the work of Junior Analysts. Projects vary in size in size, complexity and delivery channels. A high percentage of offshore IT development resources are utilised in order to deliver a high volume of projects in a cost-effective manner. As part of the role you will undertake and/or supervise analysis activities throughout the life cycle of projects. This will involve project initiation, scoping and requirements gathering, proposing appropriately estimated, cost-effective solutions, production of initial prototypes, external design and production of detailed functional documentation, support programming and testing and implementation. The jobholder will be responsible for ensuring that solutions meet the business needs and that deliveries are on time, within budget and</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Sheffield, South Yorkshire</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£28k-£35k + Bonus + Benefits</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro2">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SQL Server Developer - Investment Banking</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SQL Server 2005 developer required for contract with tier 1 investment bank based in London. The role will get involved in database design, writing stored procedures and building tables and building the SQL Server Datawarehouse. The successful candidate will have a strong investment banking background and will be proficient in the following technologies: SQL Server 2005, MS Analysis Services, MDX and Autosys (nice to have). On offer is a 6 month contract paying up to £500p/d.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>City Of London</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>6 months</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>400-500/Day</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro12">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>C#, VBA, SQL, Apps Support Developer</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>C#, VBA, SQL Developer required immediately for a well established HEDGE FUND based in the heart of Mayfair in London. You will be performing a variety of duties such as Analysis of Systems and Requirements, bug fixing and the further development of these Front, Middle and Back Office solutions. Naturally you will need first class communication skills as you will be working directly with the business and brokers and need to be resilient at times. Well educated to degree level in Computer Sciences would prove beneficial in this role which will see you provide detailed analysis and development of these solutions. A background in the Financial Markets/Hedge Fund/Asset Management would prove beneficial but would also consider a particularly strong candidate that has worked on highly transactional solutions.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Mayfair, London</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>6 months +</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>500/Day</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro10">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Oracle Projects DBA</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Oracle DBA required by Tier1 Investment Bank The successful applicant will be a member of a small team (16 people), working in the London Database Administration team. The role will involve all tasks associated with an Oracle DBA including support and projects. 1st, 2nd line and project support for production and development Oracle environments, reviewing logical and physical database design, providing in-depth guidance to application teams on the use of architectures, maintaining documentation on the physical architectures being developed and deployed Globally. Applicants will ideally come from a background supporting large, distributed Server infrastructures, with experience of Production Database Support functions, hands-on experience with all current Oracle technologies. Skills required: Extensive Oracle skills ideally including RAC, Streams, AQ and ASM Production support between Oracle 9i and 10G Strong platform skills Performance &amp; tuning Scripting and networking (TCP/IP, DNS) experience. For further information please contact Gurdev Landa at 752 Solutions on 02074444178 or send me your CV for immediate consideration.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>City Of London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>500-600/Day</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>7 Fifty Two Solutions Ltd (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>RedDot CMS Developer</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Major Financial Services Organisation requires 3 RedDot CMS Developers for project based in Glasgow. Ideally you will have experience of the following: Creation of RedDot projects and Project variants, Create and Edit RedDot templates, Integrating Forms, Administering RedDot serever. You should also have strong skills in XHTML1.1, JavaScript and CSS. Any Java skills would be a bonus. Please email your CV in the first instance.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Glasgow, Scotland</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>2-3 months</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>300-350/Day</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>9-20 Recruitment (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro15">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Finance Analyst</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>A J Accountants is currently recruiting for a Finance Analyst to join our well established team based in Crystal Palace, London. Key responsibilities: Produce accurate and timely financial information Undertake systematic analysis when problem solving and analysing information Able to identify the business implications in complex financial information new business acquisition Growing your existing portfolio by cross-selling and increasing remuneration Protecting existing income from portfolio by ensuring customer needs continue to be met Preparing and submitting Accounts and Self assessment Tax Returns to clients Benchmarking against high standards of professional service Analysing financial information to create potential new business and updating with new legislation. Requirements: the successful candidate will be degree educated in accountancy/finance subject and some experience in the financial sector is required. Personal qualities: good negotiator; excellent presentation and communication skills; advanced IT skills and data analysis (SQL or any database languages) Salary: £27k per annum Closing date for this position is 2 May 2008. Interested candidates please forward their CV&apos;s to (see below)</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£27k</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>A J Accountancy (Company)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro2">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Functional Systems Tester - Europe</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Functional Systems Tester - Europe. An exciting opportunity has arsien for a strong Systems Tester with a functional background and experience in banking and chipcards. A successful candidate will have over 4 years experience as a Functional Systems Tester and a strong background of all spects of testing in a banking environment. Bonus skills are chipcard and ENV. This is an English speaking role, Dutch and French are bonus skills not mandatory. Please send yoru CV ASAP for immediate and confidential interviews.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Europe</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>6 months + extensions</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Competitive</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Aardvark Europe Limited (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro13">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SAP LE/WM/QM Consultant - Belgium</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SAP LE/WM/QM Consultant - Belgium. An exciting opportunity has arisen for a strong SAP consultant with sufficient practical experience in the LE/WM and QM area ideally minimum of 3 years. As pure WM and QM only covers about 30% of the area which this vacancy covers, additional experience in the PP and MM area&apos;s is a definite plus. Frequently occuring subjects are: - Decentralized WM - Handling units - WM User Exits - ALE/i-docs for interfacing with non-SAP systems like Navision and MES - Kanban replenishment. The role mainly focusses (for about 60%) on handling Change Requests, which range from relatively small developments/customizing tasks that take from half a day to a week implement, but also covers larger change requests and assistance in projects that span several months. Dutch language is preferred. English mandatory. Please send your CV ASAP for immediate and confidential interviews.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Belgium</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>6-12 months + extensions</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Competitive</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Aardvark Europe Limited (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro10">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SAP Variant Configurator - Sweden</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>SAP Variant Configurator - Sweden. An exciting opportunity has arisen for a SAP Variant Configurator to work on a critical project in Sweden. SAP variant Configurator involves the appearance of products in the product catalogue (ECP, CBS and MUS) from sales, ordering through to supply to network roll out. It is a crucial model/method in the success of releasing new products into the company system/landscape. A successful candidate will have over 3 years plus in SAP R/3 and Variant Configurator, good experience of product modelling and be from a programming background. The role involves the design and build configuration program/models, with extensive tarining in SAP and Variant Configuration, for one or several product areas. The work will involve the implementation of working procedures and standards, therefore communication and interaction with users is important. You will be able to show drive and structure methods to working in a co-operative approach and style. This is a Swedish &amp; English speaking role. Please send your CV ASAP for immediate and confidential interviews.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Sweden</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>6-12 months + extensions</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Competitive</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Aardvark Europe Limited (Employment Business)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro12">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Senior Enterprise Architect</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Our client is a global brand name based in Germany. They are seeking a Senior Enterprise Architect with strong SCM experience - preferably SAP - and good business acumen. The key responsibility is to support and assist the Architecture Manager in ensuring the effective integration of their Global IT Business Applications. The role involves developing and maintaining the applications architecture, providing a cross-application design and planning service, analysing and designing package integration requirements, giving strategic design direction and implementing strategic plans. Candidates must have strong SCM experience; a background in wholesale/retail business; process and Datamodelling skills; a sound knowledge of Enterprise IT Architecture - SAP or Oracle; and excellent communication skills in English (German not necessary).</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Germany</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>80k-85k Pa + 15% Bonus</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Abbeywood International (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro3">
+     <table:table-cell office:value-type="string">
+      <text:p>Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Web Developer C#, .NET, HTML, Microsoft</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Web Developer C#, ASP.Net 2.0, HTML, Microsoft, XML My client is currently looking for an experienced Developer (3 years or more) to work on a Full time basis on high-profile Web based technology project in Cambridge. The role will involve working closely with the project management team in understanding the technical and functional complexities of the project, as well as guiding a small team of developers in the technical development and design of the application Front End. The successful candidate will be awarded a permanent position and will be based at the company headquarters in Cambridge. The role is a fantastic opportunity for a senior ASP.Net Web developer to work on cutting edge projects &amp; be apart of one of the most exciting software companies in Europe. Technical skills: Strong C#, ASP.Net 2.0, VB.Net, XHTML, CSS2, XSLT and JavaScript programming skills Usability and accessibility knowledge Experience in designing Web layouts in emerging standards rather than the old table-based designs Personal skills: Excellent interpersonal skills Good written and verbal English communication skills Good management and organisational skills Good decision making skills To apply for this role please attach your CV and send to (see below) or call 01279 810 808 for more information. Developer (Front-End/Back End Applications) C#, ASP.Net 2.0, XHTML, CSS, XSLT, JavaScript, Microsoft certified.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Cambridge, Cambridgeshire</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£28k - £38k Per Annum + Bonus, Pension, Bupa, Share Options</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Ability Resourcing (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro15">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract/Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Test Area Manager - Banking or Asset Management - City</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>I&apos;m looking for an experienced Test professional to manage the test environment for a large financial institution. To be successful you will have significant Test management experience gained within an Investment Bank, or Asset management, or similar environment. Ideally you would have excellent knowledge of the area of Testing including the various testing tools and methods used. You will be required to build, maintain and manage the test environment in a controlled structured way ensuring the system is healthy and operates accordingly for the business. This is an excellent opportunity to join a growing financial company with benefits and an exceptional knowledge sharing and friendly team. Please send your CV now to be considered for the role. Abraxas Plc is a leading specialist recruitment agency for the IT industry. Due to the high level of applications we receive, please be aware that you may not hear from us immediately, as we can only respond to those applicants whose skills and qualifications are suitable for this position. Please note that no terminology in this advert is intended to discriminate on the grounds of age, and we confirm that we will gladly accept applications from persons of any age for this role.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>City, London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>50k</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Abraxas (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro15">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract/Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Messaging Support Law Firm - London, City</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>I m looking for a third line Messaging and Infrastructure Support professional, with legal applications experience, to join this Intentional law firm. You will be required to develop, maintain and provide third line support of the messaging infrastructure, including MS Exchange, Blackberry Server, Cirtix, VMware MS Server 2003, Enterprise Vault, and other legal applications. To be successful you should have previous experience in a similar environment with experience of legal applications like Interwoven worksite and MS Office. You should also possess good SAN skills and knowledge of Windows Domain controllers. Please send your CV now and feel free to call to discuss the role. Abraxas Plc is a leading specialist recruitment agency for the IT industry. Due to the high level of applications we receive, please be aware that you may not hear from us immediately, as we can only respond to those applicants whose skills and qualifications are suitable for this position. Please note that no terminology in this advert is intended to discriminate on the grounds of age, and we confirm that we will gladly accept applications from persons of any age for this role.</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>City, London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>45k</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Abraxas (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro3">
+     <table:table-cell office:value-type="string">
+      <text:p>Contract/Permanent</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>CRM Manager - InterAction - Legal Firm </text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>A leading international Law firm requires a CRM Professional to manage the development and implementation of their CRM systems (Interaction). You will be required to ensure the systems are used and developed to drive forward the firms strategic direction. You would be required to build both internal and external relationships often liaising with key stakeholders including business development managers, pitch managers, and business analysis managers. You will be expected to implement and expand the current CRM plan, whilst developing an excellent knowledge of Interaction and how it fits into the overall system. To be successful, you should have gained experience in using client information to move business strategy forward, possess excellent communication skills, hands on CRM (Interaction) and significant experience of managing B2B data. Ideally you should be working for a similar organisation (law firm) and an understanding of the processes and structure of such firms. Send your CV immediately to arrange an interview. Abraxas Plc is a leading specialist recruitment agency for the IT industry. Due to the high level of applications we receive, please be aware that you may not hear from us immediately, as we can only respond to those applicants whose skills and qualifications are suitable for this position. Please visit our Website. Please note that no terminology in this advert is intended to discriminate on the grounds of age, and we confirm that we will gladly accept</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>London</text:p>
+     </table:table-cell>
+     <table:table-cell/>
+     <table:table-cell office:value-type="string">
+      <text:p>£56k</text:p>
+     </table:table-cell>
+     <table:table-cell office:value-type="string">
+      <text:p>Abraxas (Employment Agency)</text:p>
+     </table:table-cell>
+    </table:table-row>
+   </table:table>
+   <table:named-expressions>
+    <table:named-range table:name="Agency" table:base-cell-address="$&apos;IT Jobs&apos;.$G$1" table:cell-range-address="$&apos;IT Jobs&apos;.$G$1:.$G$46"/>
+    <table:named-range table:name="Description" table:base-cell-address="$&apos;IT Jobs&apos;.$C$1" table:cell-range-address="$&apos;IT Jobs&apos;.$C$1:.$C$46"/>
+    <table:named-range table:name="Duration" table:base-cell-address="$&apos;IT Jobs&apos;.$E$1" table:cell-range-address="$&apos;IT Jobs&apos;.$E$1:.$E$46"/>
+    <table:named-range table:name="Location" table:base-cell-address="$&apos;IT Jobs&apos;.$D$1" table:cell-range-address="$&apos;IT Jobs&apos;.$D$1:.$D$46"/>
+    <table:named-range table:name="Remuneration" table:base-cell-address="$&apos;IT Jobs&apos;.$F$1" table:cell-range-address="$&apos;IT Jobs&apos;.$F$1:.$F$46"/>
+    <table:named-range table:name="Title" table:base-cell-address="$&apos;IT Jobs&apos;.$B$1" table:cell-range-address="$&apos;IT Jobs&apos;.$B$1:.$B$46"/>
+    <table:named-range table:name="Type" table:base-cell-address="$&apos;IT Jobs&apos;.$A$1" table:cell-range-address="$&apos;IT Jobs&apos;.$A$1:.$A$46"/>
+   </table:named-expressions>
+  </office:spreadsheet>
+ </office:body>
+</office:document>

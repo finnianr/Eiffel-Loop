@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<backup-script>
+	<ftp-site>
+		<url>eiffel-loop.com</url>
+		<user-home>/public/www</user-home>
+	</ftp-site>
+
+	<directory>
+		<path>rhythmbox</path>
+		<ftp-destination-path>linux_storage</ftp-destination-path>
+		<versions max="5"/> 
+	</directory>
+
+</backup-script>

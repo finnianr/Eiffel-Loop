@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-4-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-4-0 http://www.eiffel.com/developers/xml/configuration-1-4-0.xsd" name="sound-analyzer" uuid="A6C41AAD-CD4A-4523-86E9-6022AF1BF87D">
+	<target name="classic">
+		<root class="ROOT_CLASS" feature="make"/>
+		<setting name="multithreaded" value="true"/>
+
+		<external_include location="$(PRAAT_INCLUDE)"/>
+		<external_object location="-L$(PRAAT_LIB) -lartsynth-mt"/>
+		<external_object location="-L$(PRAAT_LIB) -ldwsys-mt"/>
+		<external_object location="-L$(PRAAT_LIB) -ldwtools-mt"/>
+		<external_object location="-L$(PRAAT_LIB) -lFFNet-mt"/>
+		<external_object location="-L$(PRAAT_LIB) -lfon-mt"/>
+		<external_object location="-L$(PRAAT_LIB) -lgsl-mt"/>
+		<external_object location="-L$(PRAAT_LIB) -lipa-mt"/>
+		<external_object location="-L$(PRAAT_LIB) -lLPC-mt"/>
+		<external_object location="-L$(PRAAT_LIB) -lsys-mt"/>
+
+		<external_object location="-L$(MSVC)\PlatformSDK\Lib -lWinMM"/>
+
+
+		<precompile name="precompiled_base" location="$ISE_PRECOMP\base.ecf"/>
+		<library name="base" location="$ISE_EIFFEL\library\base\base.ecf"/>
+		<library name="thread" location="$ISE_EIFFEL\library\thread\thread.ecf"/>
+		<library name="time" location="$ISE_EIFFEL\library\time\time.ecf"/>
+		<library name="net" location="$ISE_EIFFEL\library\net\net.ecf"/>
+		<library name="wel" location="$ISE_EIFFEL\library\wel\wel.ecf"/>
+
+		<cluster name="eiffel_loop" location="$EIFFEL_LOOP\library\" recursive="true">
+			<file_rule>
+				<exclude>/unix$</exclude>
+				<exclude>/implementation_gtk$</exclude>
+				<condition>
+					<platform value="windows"/>
+				</condition>
+			</file_rule>
+		</cluster>
+		<cluster name="project" location="source" recursive="true"/>
+	</target>
+</system>

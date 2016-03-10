@@ -1,0 +1,96 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = el_vision2_x 
+	uuid = "229b7510-09aa-11df-87be-876e1b168743" 
+	library_target = el_vision2_x
+	readonly = false
+	
+	target:
+		name = el_vision2_x
+		
+		description: 
+			"""
+				Extensions for Vision2 GUI library. (http://www.eiffel-loop.com)
+			"""
+		root:
+			all_classes = true
+
+		option: 
+			trace = false; debug = false; warning = true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = false; invariant = false
+			#precondition = true; postcondition = true; check = true; invariant = true
+
+		external_object:
+			location = "-lXrandr"
+			condition:
+				platform:
+					value = unix
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library: 
+			name = base_x; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
+
+		library:
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		library: 
+			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
+
+		library:
+			name = vision2; location = "ES-vision2.ecf"; readonly = false
+		
+		library:
+			name = docking; location = "ES-docking.ecf"; readonly = false
+		
+		library:
+			name = wel; location="$ISE_LIBRARY/library/wel/wel.ecf"
+			condition:
+				platform:
+					value = windows
+
+		library:
+			name = el_base; location = "base.ecf"
+			readonly = false
+
+		library:
+			name = el_svg_graphics; location="svg-graphics.ecf"
+
+		library:
+			name = el_xdoc_scanning; location = "xdoc-scanning.ecf"
+
+		library:
+			name = el_internationalization; location = "internationalization.ecf"
+
+		library:
+			name = el_wel_x; location = "wel-x.ecf"
+			condition:
+				platform:
+					value = windows
+
+		cluster:
+			name = interface; location = "graphic/toolkit/vision2-x"; recursive = true
+
+			file_rule:
+				exclude:
+					"/vision2-override$"
+					"/windows$"
+					"/mswin$"
+				condition:
+					platform:
+						value = unix
+			file_rule:
+				exclude:
+					"/vision2-override$"
+					"/unix$"
+					"/gtk$"
+				condition:
+					platform:
+						value = windows

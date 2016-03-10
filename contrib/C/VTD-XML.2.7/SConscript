@@ -1,0 +1,26 @@
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2009 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "20 July 2011"
+#	revision: "0.1"
+
+import os, sys, platform
+from os import path
+
+Import ("env")
+	
+include_path = ['include']
+	
+build_dir = path.normpath (path.expandvars ('spec/$ISE_PLATFORM'))
+
+VariantDir (build_dir, 'source', duplicate=0)
+source_files = Glob (path.join (build_dir, '*.c'))
+			
+objects = []
+for source in source_files:
+	objects += env.Object (source)
+	
+Return ('objects')
+
+

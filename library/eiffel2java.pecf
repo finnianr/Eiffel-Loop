@@ -1,0 +1,97 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = el_eiffel2java
+	uuid = "229b783a-09aa-11df-87c6-93dce164c2d4" 
+	library_target = el_eiffel2java
+	
+	target:
+		name = el_eiffel2java
+		
+		description: 
+			"""
+				Eiffel interface to Java. (http://www.eiffel-loop.com)
+			"""
+		root:
+			all_classes = true
+
+		option:
+			namespace = "Eiffel-Loop.Library.Encryption.Eiffel-to-Java"; trace = false; debug = true; warning = true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		# Java
+		external_include: 
+			location = "$(JDK_HOME)/include"
+
+		external_include: 
+			location = "$(JDK_HOME)/include/linux"
+			condition:
+				platform:
+					value = unix
+
+		external_include: 
+			location = "$(JDK_HOME)/include/win32"
+			condition:
+				platform:
+					value = windows
+
+		library: 
+			name = "base"; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library: 
+			name = api_wrapper; location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"
+
+		# Eiffel Loop
+		library:
+			name = el_base; location = "base.ecf"
+			
+		library:
+			name = win_regedit; location = "wel-regedit.ecf"
+			condition:
+				platform:
+					value = windows
+
+		cluster:
+			name = el_java; location = "language_interface/Java"; recursive = true
+			option:
+				namespace = Eiffel_Loop_Java
+
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
+			mapping:
+				old_name = OBSOLETE_JAVA_OBJECT; new_name = JAVA_OBJECT
+
+		cluster:
+			name = ise_eiffel2java; location = "$ISE_LIBRARY/library/Eiffel2Java/"; recursive = true
+			option:
+				namespace = ISE_eiffel2java
+
+			file_rule:
+				exclude:
+					"/jni_environment\.e$"
+					"/shared_jni_environment\.e$"
+					"/java_vm\.e$"
+					"/java_args\.e$"
+
+			mapping:
+				old_name = JNI_ENVIRONMENT; new_name = JAVA_ORB
+
+			mapping:
+				old_name = SHARED_JNI_ENVIRONMENT; new_name = JAVA_SHARED_ORB
+

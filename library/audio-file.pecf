@@ -1,0 +1,148 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+# Pyxis as an acronym stands for: Pythonic XML ideal source.
+# It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold 
+# cosmetics, trinkets or jewellery. 
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = el_audio_files 
+	uuid = "229b770e-09aa-11df-87c3-c377311e3588" 
+	library_target = el_audio_files
+	
+	target:
+		name = el_audio_files
+		
+		description: 
+			"""
+				Audio processing and ID3 library. (http://www.eiffel-loop.com)
+			"""
+
+		option:
+			namespace = "Eiffel-Loop.Library.Audio-files"; trace = false; debug = false; warning = true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		root:
+			all_classes = true
+
+		# For Windows: Internal WaveOut API callback function.
+		external_include: 
+			location = "$(EIFFEL_LOOP)/C_library/audio/source"
+			condition:
+				platform:
+					value = windows
+					
+		external_object:
+			location = "$(EIFFEL_LOOP)/C_library/audio/spec/$(ISE_PLATFORM)/el_audio.lib"
+			condition:
+				platform:
+					value = windows
+
+		external_object:
+			location = 'WinMM.lib'
+			condition:
+				platform:
+					value = windows
+
+		# libid3 and libid3tag externals
+		external_include: 
+			location = "$(EIFFEL_LOOP)/contrib/C/libid3tag-0.15.1b/include"
+		
+		# For Windows: libid3 and libid3tag externals
+		external_include: 
+			location = "$(EIFFEL_LOOP)/contrib/C++/id3lib/include"
+			condition:
+				platform:
+					value = windows
+
+		external_cflag:
+			value = "-DID3LIB_LINKOPTION=1 -DWIN32 -EHsc"
+			condition:
+				platform:
+					value = windows
+
+		external_object:
+			location = "$(EIFFEL_LOOP)/contrib/C/libid3tag-0.15.1b/spec/$(ISE_PLATFORM)/id3tag.lib"
+			condition:
+				platform:
+					value = windows
+
+		external_object:
+			location = "$(EIFFEL_LOOP)/contrib/C++/id3lib/spec/$(ISE_PLATFORM)/id3.lib"
+			condition:
+				platform:
+					value = windows
+
+
+		external_object:
+			location="$(ISE_LIBRARY)/library/vision2/spec/$ISE_C_COMPILER/$ISE_PLATFORM/lib/zlib.lib"
+			condition:
+				platform:
+					value = windows
+
+		# For Unix: libid3 and libid3tag externals
+		external_include: 
+			location = "$(EIFFEL_LOOP)/contrib/C++/id3lib/include"
+			condition:
+				platform:
+					value = unix
+
+		external_object:
+			location = "-L$(EIFFEL_LOOP)/contrib/C++/id3lib/spec/$(ISE_PLATFORM) -lid3"
+			condition:
+				platform:
+					value = unix
+
+		external_object:
+			location = "-L$(EIFFEL_LOOP)/contrib/C/libid3tag-0.15.1b/spec/$(ISE_PLATFORM) -lid3tag"
+			description: 
+				"""
+					WARNING: subtle bug
+					Only link against a static library. If linked against a shared object library
+					GetRawText() routine will return null for utf8 strings.
+				"""
+			condition:
+				platform:
+					value = unix
+
+		external_object:
+			location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
+			condition:
+				platform:
+					value = unix
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		# Eiffel Loop
+
+		library:
+			name = el_base; location = "base.ecf"
+			readonly = false
+
+		cluster:
+			name = audio_files; location = "multimedia/audio"
+			option:
+				namespace = "Audio-files"
+			cluster:
+				name = files; location = "$|file"; recursive = true
+				file_rule:
+					exclude:
+						"/eyeD3$"
+
+		cluster:
+			name = wel_constants; location = "multimedia/audio/wel-x-audio/support"
+			file_rule:
+				exclude:
+					"/el_.*\.e"
+
+				include:
+					"/el_mm_system_constants.*\.e"
+			condition:
+				platform:
+					value = windows
+

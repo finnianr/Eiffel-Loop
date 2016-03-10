@@ -1,0 +1,42 @@
+
+el_test: system execution failed.
+Following is the set of recorded exceptions:
+
+******************************** Thread exception *****************************
+In thread           Root thread            0x0 (thread id)
+*******************************************************************************
+-------------------------------------------------------------------------------
+Class / Object      Routine                Nature of exception           Effect
+-------------------------------------------------------------------------------
+EL_ASTRING          make_from_unicode @1   count:                       
+<0000000002948998>                         Feature call on void target.  Fail
+-------------------------------------------------------------------------------
+EL_ASTRING          make_from_unicode @1                                
+<0000000002948998>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+EL_DIR_PATH         make_from_unicode @1                                
+<00000000029488B8>  (From EL_PATH)         Routine failure.              Fail
+-------------------------------------------------------------------------------
+TEST_APP            test_data_directory @1                              
+<0000000002930F18>  (From TEST_APPLICATION)
+                                           Routine failure.              Fail
+-------------------------------------------------------------------------------
+TEST_APP            initialize @1                                       
+<0000000002930F18>  (From TEST_APPLICATION)
+                                           Routine failure.              Fail
+-------------------------------------------------------------------------------
+TEST_APP            make @15                                            
+<0000000002930F18>  (From EL_SUB_APPLICATION)
+                                           Routine failure.              Rescue
+-------------------------------------------------------------------------------
+APPLICATION_ROOT    launch @12                                          
+<00000000029305E8>  (From EL_MULTI_APPLICATION_ROOT)
+                                           Routine failure.              Fail
+-------------------------------------------------------------------------------
+APPLICATION_ROOT    make @15                                            
+<00000000029305E8>  (From EL_MULTI_APPLICATION_ROOT)
+                                           Routine failure.              Fail
+-------------------------------------------------------------------------------
+APPLICATION_ROOT    root's creation                                     
+<00000000029305E8>                         Routine failure.              Exit
+-------------------------------------------------------------------------------

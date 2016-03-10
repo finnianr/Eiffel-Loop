@@ -1,0 +1,77 @@
+pyxis-doc:
+	version = 1.0; encoding = ISO-8859-1
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-5-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-5-0 http://www.eiffel.com/developers/xml/configuration-1-5-0.xsd"
+	name = vision2_extension; uuid = "72EB29A8-4A3D-4B17-B2F6-365F388D2282"
+	library_target = vision2_extension
+	target:
+		name = vision2_extension
+		description:
+			"""
+				Extensions to the EiffelVision2 library.
+				Copyright (c) 1984-2006, Eiffel Software and others.
+				Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt).
+			"""
+		root:
+			all_classes = true
+		file_rule:
+			exclude:
+				"/\.svn"
+		option:
+			namespace = "EiffelSoftware.Library"
+		setting:
+			name = dotnet_naming_convention; value = true
+		library:
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"; readonly = true
+		library:
+			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
+			readonly = true
+		library:
+			name = vision2; location = "ES-vision2.ecf"
+			readonly = true
+		library:
+			name = wel; location = "ES-wel.ecf"; readonly = true
+		assembly:
+			name = winforms; location = "$ISE_DOTNET_FRAMEWORK/System.Windows.Forms.dll"
+			prefix = WINFORMS_
+		cluster:
+			name = independent_gtk; location = "$ISE_LIBRARY/library/vision2_extension/independent"; recursive = true
+			condition:
+				platform:
+					excluded_value = windows
+			file_rule:
+				exclude:
+					"/mswin$"
+		cluster:
+			name = independent_mswin; location = "$ISE_LIBRARY/library/vision2_extension/independent"; recursive = true
+			condition:
+				platform:
+					value = windows
+			option:
+				namespace = Vision2Extension
+			file_rule:
+				exclude:
+					"/gtk$"
+		cluster:
+			name = windows_dotnet; location = "$ISE_LIBRARY/library/vision2_extension/windows/dotnet"; recursive = true
+			condition:
+				dotnet:
+					value = true
+			option:
+				namespace = Vision2Extension
+		cluster:
+			name = windows_neutral; location = "$ISE_LIBRARY/library/vision2_extension/windows/neutral"; recursive = true
+			condition:
+				platform:
+					value = windows
+			condition:
+				dotnet:
+					value = true
+			option:
+				namespace = Vision2Extension
+	target:
+		name = vision2_extension_dotnet; extends = vision2_extension
+		setting:
+			name = msil_generation; value = true

@@ -1,0 +1,252 @@
+From - Thu Jun 13 17:23:52 2013
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+FCC: mailbox://finnian@pop.myching.co/Sent
+X-Identity-Key: id4
+X-Account-Key: account6
+Message-ID: <50A25118.5010209@eiffel-loop.com>
+Date: Thu, 13 Jun 2013 17:23:52 +0100
+From: Finnian Reilly <finnian@myching.co>
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+MIME-Version: 1.0
+Subject: Journal Entries
+Content-Type: text/html; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-15">
+  </head>
+  <body text="#000000" bgcolor="#ffffcc">
+    <h3>Creating a new entry</h3>
+    <p>From the Entry menu select "New entry" or alternatively press
+      Ctrl-T on the keyboard. An entry form will be displayed in a new
+      tab. A date and question box will appear. By default the current
+      date displayed is set. A set of navigation links is displayed to
+      enter your hexagram results and comments.</p>
+    <h4>Entering your hexagram</h4>
+    <p> After entering your question click on the hexagram link.
+      Assuming you have manually performed a divination ritual using the
+      yarrow stalks, coins or other method, you can now enter the
+      results of this reading. Two hexagram figures are displayed on the
+      hexagram editing page. The left one is the primary hexagram. The
+      one on the right is the result of any changing lines being applied
+      to the primary. By default hexagram number 1 is displayed but you
+      can change it to any hexagram by clicking on the lines of the left
+      hexagram which will invert to ying lines. Clicking again will
+      invert them back to yang. Click on the lines of the right hexagram
+      to indicate any changing lines.</p>
+    <h4>Performing a divination</h4>
+    <p>Performing a manual divination is optional. My Ching also
+      provides a simulation of the coin and yarrow method. Click on one
+      of the two buttons showing a Chinese coin or a bunch of yarrow
+      stalks to activate the divination process. Details can be found in
+      the help section titled "Creating hexagrams".<br>
+    </p>
+    <h4>Entering comments</h4>
+    <p>After consulting the text of your preferred I Ching translation
+      for an interpretation of the answer to your question, you may wish
+      to record any thoughts, ideas or sections of the text that struck
+      you as being particularly pertinent to the question. Click on the
+      comment link to enter these in the comment box.<br>
+    </p>
+    <h4>Saving</h4>
+    <p>When you have finished don't forget to save your reading by
+      clicking the save button or selecting "Save entry" from the Entry
+      menu. <i>(Ctrl-S on the keyboard)</i><br>
+    </p>
+    <h3>Editing an existing entry</h3>
+    <p>After clicking on a search engine result, the entry will open in
+      view mode in a new tab. Change to edit mode by selecting "Edit
+      entry" from the Edit menu or clicking on the Edit button. (Ctrl-E
+      on the keyboard) You can then change any detail of the entry.<br>
+    </p>
+  </body>
+</html>
+From - Thu Jun 13 17:23:59 2013
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+FCC: mailbox://finnian@pop.myching.co/Sent
+X-Identity-Key: id4
+X-Account-Key: account6
+Message-ID: <4E9AE29C.50508@eiffel-loop.com>
+Date: Thu, 13 Jun 2013 17:23:59 +0100
+From: Finnian Reilly <finnian@myching.co>
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+MIME-Version: 1.0
+Subject: Journals
+Content-Type: text/html; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-15">
+    <title>General</title>
+  </head>
+  <body text="#000000" bgcolor="#ffffcc">
+    <h3>Multiple Journals</h3>
+    <p><i>My Ching</i> allows you to maintain many separate journals.<br>
+    </p>
+    <h3>The Current Journal<br>
+    </h3>
+    <p>At any one time, only one journal is open for searching and
+      appending new entries. The name of this journal is shown in the
+      title of the search tab. To open a different journal for searching
+      and appending, go to the <i>Journal</i> menu, and select one of
+      the listed journals.<br>
+    </p>
+    <h3>Privacy Protection<br>
+    </h3>
+    <p>The licensed version of <i>My Ching</i> allows you to protect
+      the privacy of journals using AES encryption. Encrypted journals
+      have a little lock symbol displayed in the search tab to the left
+      of the title. Also journal entries that are encrypted, have the
+      same lock symbol displayed in the entry tab.<br>
+    </p>
+    <h3>Management<br>
+    </h3>
+    <h4>Creating a new journal<br>
+    </h4>
+    <p>To add a new journal select "New Journal" from the Journals menu.
+      A box will appear prompting you for a name. It has a checkbox to
+      indicate if you wish the journal to be encrypted or not. By
+      default it is unchecked. <br>
+    </p>
+    <h4>Journal entry count</h4>
+    <p>In the Journal menu a count of entries is displayed in brackets
+      to the right of each journal name.<br>
+    </p>
+    <h4>Deleting a journal</h4>
+    <p>To delete a journal first select it in the Journal menu. Then
+      select "Delete current journal" from the Journal management menu.
+      A confirmation prompt will appear. The default <i>General</i>
+      journal cannot be deleted.</p>
+    <br>
+    <br>
+  </body>
+</html>
+From - Thu Jun 13 17:24:06 2013
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+FCC: mailbox://finnian@pop.myching.co/Sent
+X-Identity-Key: id4
+X-Account-Key: account6
+Message-ID: <4E99D99E.9050100@eiffel-loop.com>
+Date: Thu, 13 Jun 2013 17:24:06 +0100
+From: Finnian Reilly <finnian@myching.co>
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+MIME-Version: 1.0
+Subject: Keyboard Shortcuts
+Content-Type: text/html; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-15">
+    <title>Keyboard Shortcuts</title>
+  </head>
+  <body text="#000000" bgcolor="#ffffcc">
+    <h3>Tab Control</h3>
+    <h4>Ctrl + Page Down</h4>
+    <p>Select the tab to the right of the current one.<br>
+    </p>
+    <h4>Ctrl + Page Up</h4>
+    <p>Select the tab to the left of the current one. </p>
+    <h4>Ctrl + T</h4>
+    <p>Open a new journal entry in a new tab.</p>
+    <h4>Ctrl + W (or Ctrl + F4)<br>
+    </h4>
+    <p>Close the currently selected tab. No effect on search tab.</p>
+    <h4>Shift + Ctrl + W (or Shift + Ctrl + F4)</h4>
+    <p>Close all open tabs with the exception of the search tab.</p>
+    <h3>Journal Entry Viewing</h3>
+    <h4>Ctrl + E</h4>
+    <p>Change the currently selected entry tab to editing mode.</p>
+    <h4>Delete</h4>
+    <p>Delete the current entry and display the next search result.<br>
+    </p>
+    <h4>Alt + Left arrow</h4>
+    <p>View the previous entry in the search result list.<br>
+    </p>
+    <h4>Alt + Right arrow</h4>
+    <p>View the next entry in the search result list.<br>
+    </p>
+    <h3>Journal Entry Editing</h3>
+    <h4>Ctrl + S</h4>
+    <p>Save changes to the entry being edited and switch back to viewing
+      mode.<br>
+    </p>
+    <h4>Ctrl + T</h4>
+    <p>Create a new entry in a new tab.</p>
+    <h4>Ctrl + Y<br>
+    </h4>
+    <p> Reapplies text editing operation that was undone with Ctrl + Z.
+      <i>(Applies to Notes and Question input area)</i></p>
+    <h4>Ctrl + Z<br>
+    </h4>
+    <p> Undo previous text editing operation. <i>(Applies to Notes and
+        Question input area)</i></p>
+    <h4>Alt + Left arrow</h4>
+    <p>Select the previous journal entry section: <i>1. Question 2.
+        Hexagram 3. Notes.</i><br>
+    </p>
+    <h4>Alt + Right arrow</h4>
+    <p>Select the next journal entry section: <i>1. Question 2.
+        Hexagram 3. Notes.</i> </p>
+    <h3>Scrollable Page</h3>
+    <h4>Home</h4>
+    <p>Scroll up to top of page.<br>
+    </p>
+    <h4>End</h4>
+    <p>Scroll down to bottom of page.<br>
+    </p>
+    <h4>Page Up</h4>
+    <p>Scroll upwards by one page <i>(viewable area height.)</i><br>
+    </p>
+    <h4>Page Down</h4>
+    <p>Scroll downwards by one page <i>(viewable area height.)</i><br>
+    </p>
+    <p> </p>
+    <h3>Application</h3>
+    <h4>Ctrl + Q</h4>
+    <p>Quit the application.</p>
+    <p> </p>
+  </body>
+</html>
+From - Thu Jun 13 17:24:19 2013
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+FCC: mailbox://finnian%40eiffel-loop.com@pop.eiffel-loop.com/Sent
+X-Identity-Key: id1
+X-Account-Key: account1
+Message-ID: <4E9AE29C.50508@eiffel-loop.com>
+Date: Thu, 13 Jun 2013 17:24:19 +0100
+From: Finnian Reilly <finnian@eiffel-loop.com>
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+MIME-Version: 1.0
+Subject: Quick Guide
+Content-Type: text/html; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-15">
+    <title>General</title>
+  </head>
+  <body shortname="quick" link="#0000EE" text="#000000" vlink="#551A8B"
+    alink="#EE0000" bgcolor="#ffffcc">
+    <h3>Basic Concepts</h3>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+Microsoft (R) COFF/PE Dumper Version 10.00.30319.01
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file spec\win64\svg2png.dll
+
+File Type: DLL
+
+  Section contains the following exports for svg2png.dll
+
+    00000000 characteristics
+    4EC83A87 time date stamp Sat Nov 19 23:23:51 2011
+        0.00 version
+           1 ordinal base
+           2 number of functions
+           2 number of names
+
+    ordinal hint RVA      name
+
+          1    0 00001250 convert_svg_to_height_png
+          2    1 00001230 convert_svg_to_width_png
+
+  Summary
+
+        4000 .data
+        1000 .pdata
+        4000 .rdata
+        1000 .reloc
+        D000 .text

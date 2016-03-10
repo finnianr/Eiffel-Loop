@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<media-sync>
+	<mount>/media/k750i</mount>
+	<send media_type="mp3" sync_method="ID3_unique_file_ID" id3_encoding="latin1" id3_version="2.3">
+		<from>$WORK_AREA/Music</from>
+		<to>$WORK_AREA/mobile-device/Music</to>
+	</send>
+</media-sync>

@@ -1,0 +1,57 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+# Pyxis as an acronym stands for: Pythonic XML ideal source.
+# It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold 
+# cosmetics, trinkets or jewellery. 
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = el_compression 
+	uuid = "229b6f84-09aa-11df-87b0-ab7c62abf4b2" 
+	library_target = el_compression
+	
+	target:
+		name = el_compression
+		
+		description: 
+			"""
+				wrapper for zlib. (http://www.eiffel-loop.com)
+			"""
+
+		option:
+			trace = false; debug = false; warning = true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		root:
+			all_classes = true
+				
+		external_include: 
+			location = "$(ISE_LIBRARY)/C_library/zlib"
+
+		external_object:
+			location = "$(ISE_LIBRARY)/library/vision2/spec/$ISE_C_COMPILER/$ISE_PLATFORM/lib/zlib.lib"
+			condition:
+				platform:
+					value = windows
+
+		external_object:
+			location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
+			condition:
+				platform:
+					value = unix
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		# Eiffel Loop
+
+		library:
+			name = el_base; location = "base.ecf"
+
+		cluster:
+			name = compression; location = "utility/compression"
+

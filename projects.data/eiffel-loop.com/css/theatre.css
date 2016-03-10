@@ -1,0 +1,272 @@
+/* css Zen Garden submission 202 - 'Retro Theater', by Eric Rogé, http://space-sheeps.info/ */
+/* css released under Creative Commons License - http://creativecommons.org/licenses/by-nc-sa/1.0/  */
+/* All associated graphics copyright 2006, Eric Rogé */
+/* Added: December 12th, 2006 */
+
+a, a:visited
+{
+	text-decoration:none;
+	color:#ccc;
+	position:relative;
+	font-style:italic;
+	text-decoration:underline;
+}
+div, p, body, ul, h1, h2, h3
+{
+	display:block;
+	margin:0;
+	padding:0;
+	border:none;
+}
+h1, h2, h3 {
+	text-transform:uppercase;
+	font-weight:normal;
+}
+acronym
+{
+	border:none;
+}
+body
+{
+	position:relative;
+	background:#000 url('/images/cote.png') repeat-y 50% 0%;
+	text-align:center;
+	z-index:1;
+}
+#container
+{
+	position:relative;
+	width:450px;
+	margin:0 auto;
+	padding:230px 0 350px 0;
+	font-size:0.8em;
+	font-family:arial, sans serif;
+	background-color:#313131;
+	color:#b9b9b9;
+	text-align:left;
+	background-image:url('/images/ecran.gif');
+	z-index:3;
+}
+p
+{
+	font-variant:small-caps;
+}
+#intro
+{
+	text-align:center;
+}
+#pageHeader h1 span,
+#pageHeader h2 span
+{
+	display:none;
+}
+#pageHeader h1
+{
+	width:450px;
+	height:258px;
+	background: url('/images/Eiffel-Loop-title.png') no-repeat 50% 0;
+}
+#pageHeader h2
+{
+	margin-top:-20px;
+	width:450px;
+	height:37px;
+}
+#quickSummary
+{
+	width:80%;
+	margin: 0 auto 0 auto;
+	text-align:center;
+}
+#quickSummary p
+{
+	display:inline;
+	font-size:250%;
+	line-height:80%;
+}
+#preamble h3
+{
+	margin-top:1.5em;
+	font-size:120%;
+	margin-bottom:1.5em;
+}
+#preamble h3 a
+{
+}
+
+#preamble p
+{
+	width:80%;
+	font-size: 120%;
+	line-height:110%;
+	margin:0 auto;
+}
+#supportingText
+{
+	float:left;
+	padding:1em 0;
+}
+#supportingText
+{
+	width:100%;
+	margin-top:2em;
+}
+#overview
+{
+	float: left;
+	width: 100%;
+	padding-bottom: 6em;
+}
+#overview h1
+{
+	font-size:200%;
+	font-weight:bold;
+	text-align:center;
+	margin:0 5% 0 10%;
+	padding-bottom:1em;
+}
+
+#overview h2
+{
+	font-size:150%;
+	font-weight:bold;
+	text-align:left;
+	margin:0 5% 0 10%;
+}
+#overview h3
+{
+	font-size:135%;
+	font-weight:bold;
+	text-align:left;
+	margin:0 5% 0 10%;
+}
+
+#overview p
+{
+	text-align:left;
+	margin:0 5% 0 10%;
+	font-variant:normal;
+	font-size:150%;
+}
+
+#overview ul
+{
+	padding: 0.5em;
+	list-style-type: square;
+	margin:0 5% 0 8%;
+}
+#overview ul ul, #overview ul dl
+{
+	list-style-type: disc;
+	margin:0 5% 0 4%;
+}
+#overview li, #overview dt
+{
+	padding: 0.3em;
+	font-size:150%;
+}
+
+#end
+{
+	padding-bottom:5em;
+	clear:both;
+}
+#end h3 {
+	font-size:150%;
+	font-weight:bold;
+	text-align: center;
+}
+
+#extraDiv1
+{
+	position:fixed !important;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:23.2% !important;
+	height:102px;
+	min-height:102px;
+	max-height:230px;
+	z-index:2;
+}
+#extraDiv1 span
+{
+	display:block;
+	position:absolute;
+	bottom:-198px;
+	left:0;
+	width:100%;
+	height:428px;
+	background:url('/images/haut1.png') no-repeat 50% 100%;
+}
+#extraDiv2
+{
+	position:fixed !important;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:23.2% !important;
+	height:102px;
+	min-height:102px;
+	max-height:230px;
+	background:url('/images/haut2.png') no-repeat 50% 100%;
+	z-index:4;
+}
+#card_link
+{
+	position:fixed !important;
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	height:30% !important;
+	height:110px;
+	min-height:110px;
+	max-height:318px;
+	background:url('/images/bas.png') no-repeat 50% 0%;
+	z-index:5;
+}
+#card_link a
+{
+	position:relative;
+	left: 460px;
+	top: 250px;
+	color: gray;
+}
+#card_link a:hover
+{
+	padding-top: 294px;
+	padding-left: 900px;
+	background: url('/images/card.jpg') no-repeat;
+}
+
+#extraDiv4
+{
+	position:fixed !important;
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	height:30% !important;
+	height:110px;
+	min-height:110px;
+	max-height:318px;
+	z-index:4;
+}
+#extraDiv4 a
+{
+	position:relative;
+	left: -460px;
+	top: -180px;
+	width: 80px;
+}
+#extraDiv4 a img
+{
+	border: none;
+	padding-left: 40px;
+	padding-right: 40px;
+	padding-bottom: 180px;
+}
+

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Author: Finnian Reilly <finnian@eiffel-loop.com>
+ Copyright (C) 2012 Finnian Reilly <finnian@eiffel-loop.com>
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Library General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Library General Public License for more details.
+
+ You should have received a copy of the GNU Library General Public
+ License along with this library; if not, write to the
+ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ Boston, MA 02111-1307, USA.
+
+-->
+<language id="pecf" _name="Eiffel Configuration File" version="2.0" _section="Markup">
+  <metadata>
+    <property name="mimetypes">text/x-pecf</property>
+    <property name="globs">*.pecf</property>
+    <property name="line-comment-start">#</property>
+  </metadata>
+
+  <styles>
+    <style id="module-handler"    _name="Module Handler"        map-to="def:preprocessor"/>
+    <style id="keyword"           _name="Keyword"               map-to="def:keyword"/>
+    <style id="multiline-string"  _name="Multiline string"      map-to="def:string"/>
+    <style id="string"            _name="String"                map-to="def:string"/>
+    <style id="escaped-char"      _name="Escaped Character"     map-to="def:special-char"/>
+    <style id="format"            _name="Format"                map-to="def:character"/>
+    <style id="string-conversion" _name="string-conversion"/>
+    <style id="special-variable"  _name="Special Variable"      map-to="def:identifier"/>
+    <style id="boolean"           _name="Boolean"               map-to="def:boolean"/>
+    <style id="floating-point"    _name="Floating point number" map-to="def:floating-point"/>
+    <style id="decimal"           _name="Decimal number"        map-to="def:decimal"/>
+    <style id="base-n-integer"    _name="Base-N number"         map-to="def:base-n-integer"/>
+    <style id="complex"           _name="Complex number"        map-to="def:complex"/>
+    <style id="builtin-constant"  _name="Builtin Constant"      map-to="def:special-constant"/>
+    <style id="builtin-object"    _name="Builtin Object"        map-to="def:type"/>
+    <style id="builtin-function"  _name="Builtin Function"      map-to="def:builtin"/>
+  </styles>
+
+  <definitions>
+    <define-regex id="identifier">[_a-zA-Z][_a-zA-Z0-9]*</define-regex>
+    <define-regex id="number">[1-9][0-9]*</define-regex>
+
+    <!-- http://docs.python.org/lib/typesseq-strings.html -->
+    <context id="format" style-ref="format" extend-parent="false">
+      <match extended="true">
+        %                       # leading % sign
+        \(\%{identifier}\)?     # mapping key
+        [#0\-\ \+]*             # conversion flags
+        (\-?\%{number}|\*)?     # minimum field width
+        (\.(\-?\%{number}|\*))? # precision
+        (hlL)?                  # lentgh modifier
+        [diouxXeEfFgGcrs%]      # conversion type
+      </match>
+    </context>
+
+    <!-- http://docs.python.org/ref/strings.html -->
+    <context id="escaped-char" style-ref="escaped-char" extend-parent="true">
+      <match extended="true">
+        \\(                 # leading backslash
+        [\\'"] 		      | # single escaped char
+        N\{[A-Z\ ]+\}     | # named unicode character
+        u[0-9A-Fa-f]{4}   | # xxxx - character with 16-bit hex value xxxx
+        U[0-9A-Fa-f]{8}   | # xxxxxxxx - character with 32-bit hex value xxxxxxxx
+        x[0-9A-Fa-f]{1,2} | # \xhh - character with hex value hh
+        [0-7]{1,3}          # \ooo - character with octal value ooo
+        )
+      </match>
+    </context>
+
+    <define-regex id="string-prefix">(u|U)?</define-regex>
+    <define-regex id="raw-string-prefix">(r|ur|R|UR|Ur|uR)</define-regex>
+
+    <context id="multiline-double-quoted-string" style-ref="multiline-string" class="string" class-disabled="no-spell-check">
+      <start>\%{string-prefix}"""</start>
+      <end>"""</end>
+      <include>
+        <context ref="format"/>
+        <context ref="escaped-char"/>
+      </include>
+    </context>
+
+    <context id="multiline-single-quoted-string" style-ref="multiline-string" class="string" class-disabled="no-spell-check">
+      <start>\%{string-prefix}'''</start>
+      <end>'''</end>
+      <include>
+        <context ref="format"/>
+        <context ref="escaped-char"/>
+      </include>
+    </context>
+
+    <context id="double-quoted-string" style-ref="string" end-at-line-end="true" class="string" class-disabled="no-spell-check">
+      <start>\%{string-prefix}"</start>
+      <end>"</end>
+      <include>
+        <context ref="format"/>
+        <context ref="escaped-char"/>
+        <context ref="def:line-continue"/>
+      </include>
+    </context>
+
+    <context id="single-quoted-string" style-ref="string" end-at-line-end="true" class="string" class-disabled="no-spell-check">
+      <start>\%{string-prefix}'</start>
+      <end>'</end>
+      <include>
+        <context ref="format"/>
+        <context ref="escaped-char"/>
+        <context ref="def:line-continue"/>
+      </include>
+    </context>
+
+    <context id="multiline-double-quoted-raw-string" style-ref="multiline-string" class="string" class-disabled="no-spell-check">
+      <start>\%{raw-string-prefix}"""</start>
+      <end>"""</end>
+      <include>
+        <context ref="format"/>
+      </include>
+    </context>
+
+    <context id="multiline-single-quoted-raw-string" style-ref="multiline-string" class="string" class-disabled="no-spell-check">
+      <start>\%{raw-string-prefix}'''</start>
+      <end>'''</end>
+      <include>
+        <context ref="format"/>
+      </include>
+    </context>
+
+    <context id="double-quoted-raw-string" style-ref="string" end-at-line-end="true" class="string" class-disabled="no-spell-check">
+      <start>\%{raw-string-prefix}"</start>
+      <end>"</end>
+      <include>
+        <context ref="format"/>
+        <context ref="def:line-continue"/>
+      </include>
+    </context>
+
+    <context id="single-quoted-raw-string" style-ref="string" end-at-line-end="true" class="string" class-disabled="no-spell-check">
+      <start>\%{raw-string-prefix}'</start>
+      <end>'</end>
+      <include>
+        <context ref="format"/>
+        <context ref="def:line-continue"/>
+      </include>
+    </context>
+
+    <context id="pecf" class="no-spell-check">
+      <include>
+        <context ref="def:shebang"/>
+        <context ref="def:shell-like-comment"/>
+
+        <context ref="multiline-double-quoted-string"/>
+        <context ref="multiline-single-quoted-string"/>
+        <context ref="double-quoted-string"/>
+        <context ref="single-quoted-string"/>
+
+        <context ref="multiline-double-quoted-raw-string"/>
+        <context ref="multiline-single-quoted-raw-string"/>
+        <context ref="double-quoted-raw-string"/>
+        <context ref="single-quoted-raw-string"/>
+
+        <context id="string-conversion" style-ref="string-conversion" end-at-line-end="true">
+          <start>`</start>
+          <end>`</end>
+          <include>
+            <context ref="pecf"/>
+          </include>
+        </context>
+
+        <context id="special-variables" style-ref="special-variable">
+
+			<prefix>=\s*</prefix>
+
+			<keyword>address_expression</keyword>
+			<keyword>all</keyword>
+			<keyword>array_optimization</keyword>
+			<keyword>automatic_backup</keyword>
+			<keyword>check_generic_creation_constraint</keyword>
+			<keyword>check_vape</keyword>
+			<keyword>classic</keyword>
+			<keyword>cls_compliant</keyword>
+			<keyword>common</keyword>
+			<keyword>compiler</keyword>
+			<keyword>concurrency</keyword>
+			<keyword>console_application</keyword>
+			<keyword>dead_code_removal</keyword>
+			<keyword>dotnet</keyword>
+			<keyword>dotnet_naming_convention</keyword>
+			<keyword>dynamic_runtime</keyword>
+			<keyword>enforce_unique_class_names</keyword>
+			<keyword>exception_trace</keyword>
+			<keyword>executable_name</keyword>
+			<keyword>export_class_missing</keyword>
+			<keyword>external_runtime</keyword>
+			<keyword>false</keyword>
+			<keyword>finalize</keyword>
+			<keyword>force_</keyword>
+			<keyword>il_verifiable</keyword>
+			<keyword>initialization</keyword>
+			<keyword>inlining</keyword>
+			<keyword>inlining_size</keyword>
+			<keyword>java_generation</keyword>
+			<keyword>library_root</keyword>
+			<keyword>line_generation</keyword>
+			<keyword>macintosh</keyword>
+			<keyword>metadata_cache_path</keyword>
+			<keyword>msil_assembly_compatibility</keyword>
+			<keyword>msil_classes_per_module</keyword>
+			<keyword>msil_clr</keyword>
+			<keyword>msil_clr_version</keyword>
+			<keyword>msil_culture</keyword>
+			<keyword>msil_generation</keyword>
+			<keyword>msil_generation_type</keyword>
+			<keyword>msil_key_file_name</keyword>
+			<keyword>msil_use_optimized_precompile</keyword>
+			<keyword>multithreaded</keyword>
+			<keyword>none</keyword>
+			<keyword>obsolete</keyword>
+			<keyword>obsolete_class</keyword>
+			<keyword>obsolete_feature</keyword>
+			<keyword>old_feature_replication</keyword>
+			<keyword>old_verbatim_strings</keyword>
+			<keyword>once_in_generic</keyword>
+			<keyword>option_unknown_class</keyword>
+			<keyword>platform</keyword>
+			<keyword>precompile</keyword>
+			<keyword>provisional</keyword>
+			<keyword>renaming_unknown_class</keyword>
+			<keyword>same_uuid</keyword>
+			<keyword>scoop</keyword>
+			<keyword>shared_library_definition</keyword>
+			<keyword>standard</keyword>
+			<keyword>syntax</keyword>
+			<keyword>thread</keyword>
+			<keyword>total_order_on_reals</keyword>
+			<keyword>transitional</keyword>
+			<keyword>true</keyword>
+			<keyword>unix</keyword>
+			<keyword>unused_local</keyword>
+			<keyword>use_all_cluster_name_as_namespace</keyword>
+			<keyword>use_cluster_name_as_namespace</keyword>
+			<keyword>vjrv</keyword>
+			<keyword>vweq</keyword>
+			<keyword>vxworks</keyword>
+			<keyword>windows</keyword>
+			<keyword>workbench</keyword>
+
+        </context>
+
+        <define-regex id="float" extended="true">
+          ( (\d+)?\.\d+ | \d+\. ) |
+          ( (\d+|(\d+)?\.\d+|\d+\.)[eE][+-]?\d+ )
+        </define-regex>
+
+        <context id="complex" style-ref="complex">
+          <match>(?&lt;![\w\.])(\%{float}|\d+)[jJ]\b</match>
+        </context>
+
+        <context id="float" style-ref="floating-point">
+          <match>(?&lt;![\w\.])\%{float}(?![\w\.])</match>
+        </context>
+
+        <context id="decimal" style-ref="decimal">
+          <match>(?&lt;![\w\.])([1-9][0-9]*|0)[lL]?(?![\w\.])</match>
+        </context>
+
+        <context id="octal" style-ref="base-n-integer">
+          <match>(?&lt;![\w\.])0[0-7]+[lL]?(?![\w\.])</match>
+        </context>
+
+        <context id="hex" style-ref="base-n-integer">
+          <match>(?&lt;![\w\.])0[xX][0-9A-Fa-f]+[lL]?(?![\w\.])</match>
+        </context>
+
+        <context id="builtin-objects" style-ref="builtin-object">
+			<prefix>(;\s*|\t)</prefix>
+
+			<keyword>abstract</keyword>
+			<keyword>all</keyword>
+			<keyword>all_classes</keyword>
+			<keyword>assembly</keyword>
+			<keyword>assembly_culture</keyword>
+			<keyword>assembly_key</keyword>
+			<keyword>assembly_name</keyword>
+			<keyword>assembly_version</keyword>
+			<keyword>build</keyword>
+			<keyword>cat_call_detection</keyword>
+			<keyword>check</keyword>
+			<keyword>class</keyword>
+			<keyword>class_rename</keyword>
+			<keyword>cluster</keyword>
+			<keyword>command</keyword>
+			<keyword>company</keyword>
+			<keyword>copyright</keyword>
+			<keyword>debug</keyword>
+			<keyword>eifgens</keyword>
+			<keyword>eifgens_location</keyword>
+			<keyword>enabled</keyword>
+			<keyword>encoding</keyword>
+			<keyword>excluded</keyword>
+			<keyword>excluded_value</keyword>
+			<keyword>extends</keyword>
+			<keyword>feature</keyword>
+			<keyword>feature_rename</keyword>
+			<keyword>full</keyword>
+			<keyword>full_class_checking</keyword>
+			<keyword>group</keyword>
+			<keyword>hidden</keyword>
+			<keyword>invariant</keyword>
+			<keyword>is_attached_by_default</keyword>
+			<keyword>is_void_safe</keyword>
+			<keyword>library_target</keyword>
+			<keyword>location</keyword>
+			<keyword>loop</keyword>
+			<keyword>major</keyword>
+			<keyword>max</keyword>
+			<keyword>min</keyword>
+			<keyword>minor</keyword>
+			<keyword>msil_application_optimize</keyword>
+			<keyword>name</keyword>
+			<keyword>namespace</keyword>
+			<keyword>new_name</keyword>
+			<keyword>old_name</keyword>
+			<keyword>optimize</keyword>
+			<keyword>postcondition</keyword>
+			<keyword>precondition</keyword>
+			<keyword>prefix</keyword>
+			<keyword>product</keyword>
+			<keyword>profile</keyword>
+			<keyword>protocol</keyword>
+			<keyword>readonly</keyword>
+			<keyword>recursive</keyword>
+			<keyword>release</keyword>
+			<keyword>src</keyword>
+			<keyword>succeed</keyword>
+			<keyword>supplier_precondition</keyword>
+			<keyword>syntax</keyword>
+			<keyword>trace</keyword>
+			<keyword>trademark</keyword>
+			<keyword>type</keyword>
+			<keyword>use_application_options</keyword>
+			<keyword>uuid</keyword>
+			<keyword>value</keyword>
+			<keyword>version</keyword>
+			<keyword>version_number</keyword>
+			<keyword>version_type</keyword>
+			<keyword>void_safety</keyword>
+			<keyword>warning</keyword>
+			<keyword>working_directory</keyword>
+			<keyword>xmlns</keyword>
+			<keyword>xmlns.xsi</keyword>
+			<keyword>xsi</keyword>
+			<keyword>xsi.schemaLocation</keyword>	
+
+		</context>
+
+        <context id="keyword" style-ref="keyword">
+			<prefix>^\t*</prefix>
+	      	<suffix>:</suffix>
+
+			<keyword>assembly</keyword>
+			<keyword>assertions</keyword>
+			<keyword>build</keyword>
+			<keyword>class</keyword>
+			<keyword>class_option</keyword>
+			<keyword>cluster</keyword>
+			<keyword>concurrency</keyword>
+			<keyword>condition</keyword>
+			<keyword>custom</keyword>
+			<keyword>debug</keyword>
+			<keyword>description</keyword>
+			<keyword>dotnet</keyword>
+			<keyword>dynamic_runtime</keyword>
+			<keyword>eis</keyword>
+			<keyword>exclude</keyword>
+			<keyword>external_cflag</keyword>
+			<keyword>external_include</keyword>
+			<keyword>external_library</keyword>
+			<keyword>external_linker_flag</keyword>
+			<keyword>external_make</keyword>
+			<keyword>external_object</keyword>
+			<keyword>external_resource</keyword>
+			<keyword>file_rule</keyword>
+			<keyword>include</keyword>
+			<keyword>library</keyword>
+			<keyword>mapping</keyword>
+			<keyword>multithreaded</keyword>
+			<keyword>note</keyword>
+			<keyword>option</keyword>
+			<keyword>override</keyword>
+			<keyword>overrides</keyword>
+			<keyword>platform</keyword>
+			<keyword>post_compile_action</keyword>
+			<keyword>pre_compile_action</keyword>
+			<keyword>precompile</keyword>
+			<keyword>pyxis-doc</keyword>
+			<keyword>renaming</keyword>
+			<keyword>root</keyword>
+			<keyword>setting</keyword>
+			<keyword>system</keyword>
+			<keyword>target</keyword>
+			<keyword>tests</keyword>
+			<keyword>uses</keyword>
+			<keyword>variable</keyword>
+			<keyword>version</keyword>
+			<keyword>visible</keyword>
+			<keyword>warning</keyword>
+        </context>
+
+      </include>
+    </context>
+  </definitions>
+</language>

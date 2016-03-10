@@ -1,0 +1,53 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = el_app_license 
+	uuid = "229b6ebc-09aa-11df-87ae-dbc8674bb87b" 
+	library_target = el_app_license
+	
+	target:
+		name = el_app_license
+		
+		description: 
+			"""
+				Application license key management based on RSA encryption
+			"""
+
+		root:
+			all_classes = true
+
+		option:
+			trace = false; debug=false; warning=true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		library:
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		library:
+			name = arbitrary_precision_math; location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
+
+		library:
+			name = el_base; location = "base.ecf"
+
+		library:
+			name = el_vtd_xml; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
+
+		library:
+			name = el_encryption
+			location = "encryption.ecf"
+
+		library:
+			name = el_public_key_encryption
+			location = "public-key-encryption.ecf"
+
+		cluster:
+			name = app_license; location = "utility/app-license"; recursive = true
+

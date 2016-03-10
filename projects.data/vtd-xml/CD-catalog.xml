@@ -1,0 +1,99 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<CATALOG>
+	<CD>
+		<TITLE>Michael Raucheisen Vol. 12</TITLE>
+		<ARTIST>Michael Raucheisen</ARTIST>
+		<COUNTRY>Deutschland</COUNTRY>
+		<COMPANY>Documents</COMPANY>
+		<PRICE>€7.98</PRICE>
+		<YEAR>2006</YEAR>
+		<CONTENTS>
+			<TRACK>Das Deutsche Lied: Im Spätboot, op. 56 Nr. 3</TRACK>
+			<TRACK>Das Deutsche Lied: Ich wollt' ein Sträußlein binden, op. 68 Nr. 2</TRACK>
+			<TRACK>Das Deutsche Lied: Prüfung des Küssens, WoO 89</TRACK>
+			<TRACK>Das Deutsche Lied: Bußlied, op. 48 Nr. 6</TRACK>
+			<TRACK>Das Deutsche Lied: Die Liebe des Nächsten, op. 48 Nr. 2</TRACK>
+		</CONTENTS>
+	 </CD>
+	<CD>
+		<TITLE>Empire Burlesque</TITLE>
+		<ARTIST>Bob Dylan</ARTIST>
+		<COUNTRY>USA</COUNTRY>
+		<COMPANY>Columbia</COMPANY>
+		<PRICE>€10.90</PRICE>
+		<YEAR>1985</YEAR>
+		<CONTENTS>
+			<TRACK>Tight Connection to My Heart (Has Anyone Seen My Love?)</TRACK>
+			<TRACK>Seeing the Real You at Last</TRACK>
+			<TRACK>I'll Remember You</TRACK>
+			<TRACK>Clean Cut Kid</TRACK>
+			<TRACK>Never Gonna Be the Same Again</TRACK>
+			<TRACK>Trust Yourself</TRACK>
+			<TRACK>Emotionally Yours</TRACK>
+			<TRACK>When the Night Comes Falling from the Sky</TRACK>
+			<TRACK>Something's Burning, Baby</TRACK>
+			<TRACK>Dark Eyes</TRACK>
+		</CONTENTS>
+	 </CD>
+	 <CD>
+		<TITLE>Still got the blues</TITLE>
+		<ARTIST>Gary More</ARTIST>
+		<COUNTRY>UK</COUNTRY>
+		<COMPANY>Virgin redords</COMPANY>
+		<PRICE>€10.20</PRICE>
+		<YEAR>1990</YEAR>
+		<CONTENTS>
+			<TRACK>Moving On</TRACK>
+			<TRACK>Oh, Pretty Woman</TRACK>
+			<TRACK>Walking by Myself</TRACK>
+			<TRACK>Still Got the Blues</TRACK>
+			<TRACK>Texas Strut</TRACK>
+			<TRACK>Too Tired</TRACK>
+			<TRACK>King of the Blues</TRACK>
+			<TRACK>As the Years Go Passing By</TRACK>
+			<TRACK>Midnight Blues</TRACK>
+			<TRACK>That Kind of Woman</TRACK>
+			<TRACK>All Your Love</TRACK>
+			<TRACK>Stop Messing Around</TRACK>
+		</CONTENTS>
+	 </CD>
+	 <CD>
+		<TITLE>Hide your heart</TITLE>
+		<ARTIST>Bonnie Tyler</ARTIST>
+		<COUNTRY>UK</COUNTRY>
+		<COMPANY>CBS Records</COMPANY>
+		<PRICE>€9.90</PRICE>
+		<YEAR>1988</YEAR>
+		<CONTENTS>
+			<TRACK>Notes from America</TRACK>
+			<TRACK>Hide Your Heart</TRACK>
+			<TRACK>Don't Turn Around</TRACK>
+			<TRACK>Save Up All Your Tears</TRACK>
+			<TRACK>To Love Somebody</TRACK>
+			<TRACK>Take Another Look at Your Heart</TRACK>
+			<TRACK>The Best</TRACK>
+			<TRACK>Shy with You</TRACK>
+			<TRACK>Streets of Little Italy</TRACK>
+			<TRACK>Turtle Blues</TRACK>
+		</CONTENTS>
+	 </CD>
+	 <CD>
+		<TITLE>Greatest Hits</TITLE>
+		<ARTIST>Dolly Parton</ARTIST>
+		<COUNTRY>USA</COUNTRY>
+		<COMPANY>RCA</COMPANY>
+		<PRICE>€9.90</PRICE>
+		<YEAR>1982</YEAR>
+		<CONTENTS>
+			<TRACK>9 To 5</TRACK>
+			<TRACK>But You Know I Love</TRACK>
+			<TRACK>Here You Come Again</TRACK>
+			<TRACK>Two Doors Down</TRACK>
+			<TRACK>It's All Wrong, But It's All Right</TRACK>
+			<TRACK>Islands In The Stream</TRACK>
+			<TRACK>Old Flames Can't Hold A Candle To You</TRACK>
+			<TRACK>Do I Ever Cross Your Mind</TRACK>
+			<TRACK>I Will Always Love You</TRACK>
+		</CONTENTS>
+	 </CD>
+</CATALOG>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Generate document views from variables, content file and templates.
+	See class WEB_SITE_GENERATOR_APP in project xml_demos.ecf
+-->
+<content-view-script>
+	<!--Global variables-->
+	<var name="images_loc">../../../docs/images</var>
+
+	<!--Style sheet-->
+	<content-view out="css/doc.css">
+		<template-file>template-doc.css.evol</template-file>
+	</content-view>
+
+	<content-view out="library.html">
+		<var name="include_printable_link">true</var>
+		<var name="printable_name">library-printable.html</var>
+		
+		<var name="EIFFEL_LOOP_DOCS">$EIFFEL_LOOP/docs</var>
+		
+		<!--Set variables title and content from content-file-->
+		<content-file>Thunderbird/The Eiffel LOOP Library Collection.html</content-file>
+		<template-file>template-default.evol</template-file>
+		
+	</content-view>
+	
+	<!--Printable view-->
+	<content-view out="library-printable.html">
+		<!--Set variables title and content from content-file-->
+		<content-file>Thunderbird/The Eiffel LOOP Library Collection.html</content-file>
+		<template-file>template-print-view.evol</template-file>
+		
+	</content-view>
+	
+</content-view-script>

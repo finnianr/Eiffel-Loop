@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<media-sync>
+	<mount>/media/k750i</mount>
+	<send media_type="mp3" sync_method="ID3_unique_file_ID" id3_encoding="latin1" id3_version="2.3">
+		<from>/home/finnian/Music/Recently added</from>
+		<to>/media/k750i/MP3/Recently added</to>
+	</send>
+</media-sync>

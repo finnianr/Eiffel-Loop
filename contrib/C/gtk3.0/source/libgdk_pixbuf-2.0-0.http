@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<package>
+	<url platform="win64">http://win32builder.gnome.org/gtk+-bundle_3.10.4-20131202_win64.zip</url>
+	<url platform="win32">http://win32builder.gnome.org/gtk+-bundle_3.10.4-20131202_win32.zip</url>
+</package>

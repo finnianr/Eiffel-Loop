@@ -1,0 +1,30 @@
+# Source file: Makefile.msc
+# Copyright Finnian Reilly 2008
+# finnian at eiffel-loop dot com 
+
+# mt-shell-link.lib 
+
+MV = copy
+CC = cl
+OUTPUT_CMD = -Fo
+CFLAGS = -MT -W0 -Ox -c  -I"$(ISE_EIFFEL)\studio\spec\windows\include"
+
+OBJ = shell32_ShellLink.obj 
+
+all:: mt-shell_link.lib
+
+mt-shell_link.lib: $(OBJ)
+	if exist $@ del $@
+	lib -OUT:$@ $(OBJ)
+	del *.obj
+	$(MV) $@ ..
+	del $@
+
+.cpp.obj::
+	$(CC) $(CFLAGS)  /nologo $<
+
+shell32_ShellLink.obj: shell32_ShellLink.cpp
+	$(CC) $(CFLAGS) -nologo $(OUTPUT_CMD)$@ $?
+	
+# -DWORKBENCH 
+

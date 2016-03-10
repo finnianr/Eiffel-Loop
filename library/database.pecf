@@ -1,0 +1,49 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = EL_database
+	uuid = "229b73e4-09aa-11df-87bb-93e5e9639079" 
+	library_target = EL_database
+	
+	target:
+		name = EL_database
+		
+		description: 
+			"""
+				A Simple XML Database based on VTD-XML xpath and XML parsing library.
+				Supports transactions and encryption
+			"""
+		option: 
+			trace = false; debug = false; warning = true; syntax = standard
+
+		root:
+			all_classes = true
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = uuid; location = "$ISE_EIFFEL/library/uuid/uuid.ecf"
+
+		# Eiffel Loop
+		library:
+			name = el_base; location = "base.ecf"
+
+		library:
+			name = el_vtd_xml; location = "vtd-xml.ecf"
+
+		library:
+			name = el_encryption; location = "encryption.ecf"
+
+		cluster:
+			name = database; location = "persistency/database"; recursive = true
+			file_rule:
+				exclude:
+					"/win-registry$"
+			
+
+

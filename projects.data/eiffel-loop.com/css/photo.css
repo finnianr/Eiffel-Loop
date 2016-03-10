@@ -1,0 +1,35 @@
+body {
+	background-color: black;
+}
+
+#big_photo {
+  width: 1200px ;
+  margin-top: 60px;
+  margin-left: auto ;
+  margin-right: auto ;
+}
+
+#big_photo a img {
+	border: solid;
+	border-width: 8px;
+	border-color: gray;
+}
+
+#content {
+	width: 900px ;
+	margin-top: 60px;
+	margin-left: auto ;
+	margin-right: auto ;
+}
+#content a img.nobreak {
+	border-style: solid;
+	border-width: 25px;
+	border-color: black;
+	display: inline;
+	padding: 8px;
+	background-color: white;
+
+	vertical-align: middle;
+
+}
+

@@ -1,0 +1,9 @@
+<library-manifest name="$library_name">
+#foreach( $directory in $directory_list )
+	<directory location="$directory.path">
+	#foreach( $class_name in $directory.class_name_list )
+		<class name="$class_name"/>
+	#end
+	</directory>
+#end
+</library-manifest>

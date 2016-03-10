@@ -1,0 +1,106 @@
+pyxis-doc:
+	version = 1.0; encoding = ISO-8859-1
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-5-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-5-0 http://www.eiffel.com/developers/xml/configuration-1-5-0.xsd"
+	name = docking; uuid = "7CD5D682-0880-46FA-85C3-7AADFF14DA11"
+	library_target = docking
+	target:
+		name = docking
+		description:
+			"""
+				Docking: Multiplatform docking library of reusable components for Eiffel.
+				Copyright (c) 1984-2006, Eiffel Software and others.
+				Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt).
+			"""
+		root:
+			all_classes = true
+		file_rule:
+			exclude:
+				"/\.svn"
+				"/EIFGEN.{0,1}$"
+				"/tmp$"
+				"/temp$"
+				"/release$"
+				"/obsolete$"
+		option:
+			namespace = "EiffelSoftware.Library.Docking"
+		setting:
+			name = dotnet_naming_convention; value = true
+		library:
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"; readonly = true
+		library:
+			name = kmp_matcher
+			location = "$ISE_LIBRARY/library/text/regexp/kmp_matcher/kmp_matcher.ecf"
+		library:
+			name = vision2; location = "ES-vision2.ecf"
+		library:
+			name = vision2_extension
+			location = "ES-vision2_extension.ecf"
+			readonly = true
+		library:
+			name = wel; location = "ES-wel.ecf"; readonly = true
+			condition:
+				platform:
+					value = windows
+		library:
+			name = cocoa; location = "$ISE_LIBRARY/library/cocoa/cocoa.ecf"; readonly = false
+			condition:
+				platform:
+					value = macintosh
+				custom:
+					name = vision_implementation; value = cocoa
+		cluster:
+			name = docking; location = "$ISE_LIBRARY/library/docking"
+			option:
+				namespace = Docking
+			cluster:
+				name = implementation_mswin; location = "$|implementation"; recursive = true
+				condition:
+					platform:
+						value = windows
+				option:
+					namespace = Implementation
+				file_rule:
+					exclude:
+						"/gtk$"
+						"/cocoa$"
+						"/sd_zone_navigation_dialog\.e"
+						"/sd_shared\.e"
+			cluster:
+				name = implementation_mac; location = "$|implementation"; recursive = true
+				condition:
+					platform:
+						value = macintosh
+					custom:
+						name = vision_implementation; value = cocoa
+				file_rule:
+					exclude:
+						"/mswin$"
+						"/gtk$"
+						"/sd_zone_navigation_dialog\.e"
+						"/sd_shared\.e"
+			cluster:
+				name = implementation_gtk; location = "$|implementation"; recursive = true
+				condition:
+					platform:
+						excluded_value = windows
+					custom:
+						name = vision_implementation; excluded_value = cocoa
+				file_rule:
+					exclude:
+						"/mswin$"
+						"/cocoa$"
+						"/sd_zone_navigation_dialog\.e"
+						"/sd_shared\.e"
+		cluster:
+			name = docking_override; location = "graphic/docking-override"
+	target:
+		name = docking_dotnet; extends = docking
+		setting:
+			name = msil_generation; value = true
+	target:
+		name = docking_unix; extends = docking
+		setting:
+			name = platform; value = unix

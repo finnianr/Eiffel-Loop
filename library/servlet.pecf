@@ -1,0 +1,60 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = "eiffel_loop_servlet" 
+	uuid = "229b4c52-09aa-11df-876c-87080fdd2d54" 
+	library_target = eiffel_loop_servlet
+	
+	target:
+		name = eiffel_loop_servlet
+		
+		description: 
+			"""
+				Servlet classes based on Goanna Fast-GGI. (http://www.eiffel-loop.com)
+			"""
+
+		root:
+			all_classes = true
+
+		option:
+			trace = false; debug=false; warning=true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library: 
+			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
+
+		# Eiffel Loop
+		library:
+			name = el_base; location = "base.ecf"
+
+		library:
+			name = el_app_manage; location = "app-manage.ecf"; readonly = false
+
+		library:
+			name = el_xdoc_scanning; location = "xdoc-scanning.ecf"; readonly = false
+
+		#library:
+		#	name = gobo_base; location = "gobo-base.ecf"
+
+		library:
+			name = el_net_base; location = "network.ecf"
+
+		library:
+			name = goanna; location = "$GOANNA/library/goanna.ecf"
+			readonly = false
+
+		library:
+			name = log4e; location = "$LOG4E/library/log4e.ecf"
+			readonly = false
+
+		cluster:
+			name = el_net_servlet; location = "network/servlet"; recursive = true
+

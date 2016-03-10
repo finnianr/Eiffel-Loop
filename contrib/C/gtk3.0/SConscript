@@ -1,0 +1,77 @@
+# 	Port of libid3tag autoconf configuration to Scons
+#
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2010 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "7 Jan 2010"
+#	revision: "0.1"
+
+import os, sys, platform
+
+from os import path
+
+from eiffel_loop.scons import util
+from eiffel_loop.eiffel import project
+
+from eiffel_loop.http import package
+
+def change_type_of_cairo_dll (target, source, env):
+	# change type of cairo target from cairo.dll to cairo.lib
+	(targets, sources) = util.complete_targets (target, source, env)
+	i = 0
+	for dll_target in targets:
+		if path.basename (str (dll_target)) == 'cairo.dll':
+			break
+		i = i + 1
+	# this shoud be cairo.dll
+	targets [i] = File (path.join (path.dirname (str (dll_target)), 'cairo.lib'))
+		
+	return (targets, sources)
+
+Import ('env')
+
+print "Sconscript gtk3.0"
+#env.Append (EIFFEL_LOOP = os.environ ['EIFFEL_LOOP'])
+env = Environment (
+	ENV = os.environ, # this is needed to reproduce the environment for external commands like LIB
+	EIFFEL_LOOP = os.environ ['EIFFEL_LOOP'], ISE_PLATFORM = os.environ ['ISE_PLATFORM']
+)
+
+
+if platform.system () == "Windows":
+	build_dir =  project.platform_spec_build_dir ()
+	VariantDir (build_dir, 'source', duplicate=0)
+
+	source_list = Glob (path.join (build_dir, '*.http'))
+	
+	dll_download_builder = Builder (
+		action = package.install_gnome_zip_from_http_sources, suffix='.dll', src_suffix='.http', 
+		emitter = change_type_of_cairo_dll
+	)
+
+	lib_machine_specs = {'win64': 'X64', 'windows': 'X86'}
+	env.Append (MACHINE = lib_machine_specs [env ['ISE_PLATFORM']])
+
+	lib_builder = Builder (
+		action = 'LIB /DEF:$SOURCE /MACHINE:$MACHINE /OUT:$TARGET', suffix = '.lib', src_suffix = '.def'
+	)
+
+	env.Append (BUILDERS = {'DLL_download' : dll_download_builder, 'DLLImportLibrary' : lib_builder})
+	downloaded_DLLs = env.DLL_download (source_list)
+
+	rsvg_lib = env.DLLImportLibrary (path.join (build_dir, 'rsvg'))
+	
+	#cairo_lib_path = env.subst (path.normpath ('$EIFFEL_LOOP/contrib/C/gtk+/spec/$ISE_PLATFORM/cairo.lib'))
+
+	Depends (rsvg_lib, downloaded_DLLs)
+	
+	env.NoClean (downloaded_DLLs)
+	Return ('downloaded_DLLs')
+	
+
+
+
+
+
+

@@ -1,0 +1,23 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+backup-script:
+	ftp-site:
+		url:
+			"eiffel-loop.com"
+
+		# ftp root directory
+		# for backup upload
+
+		user-home:
+			"/public/www"
+	directory:
+		path:
+			"$EIFFEL_LOOP/library"
+		ftp-destination-path:
+			"linux_storage/test"
+		versions:
+			max = 35
+		filter:
+			exclude:
+				"*/EIFGENs/*"
+

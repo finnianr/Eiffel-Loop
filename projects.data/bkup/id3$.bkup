@@ -1,0 +1,20 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+	# Backup selected files
+
+backup-script:
+	ftp-site:
+		url:
+			"eiffel-loop.com"
+		user-home:
+			"/public/www"
+	directory:
+		path:
+			"$EIFFEL_LOOP/projects.data/id3$/230"
+		include:
+			file:
+				"ozzy.tag"
+				"thatspot.tag"
+		ftp-destination-path:
+			"myfiles/test"

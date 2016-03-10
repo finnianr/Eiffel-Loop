@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "ISO-8859-1"?>
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" name = "eiffel_loop_ftp" uuid = "229b75d8-09aa-11df-87c0-a7bad3074ff0" library_target = "eiffel_loop_ftp">
+	<target name = "eiffel_loop_ftp">
+		<description>ftp upload classes. (http://www.eiffel-loop.com)</description>
+		<root all_classes = "true"/>
+		<option namespace = "Eiffel-Loop.Library.FTP" trace = "false" debug = "false" warning = "true" syntax = "standard">
+			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
+		</option>
+		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
+		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
+		<!--Eiffel Loop-->
+		<library name = "el_base" location = "base.ecf"/>
+		<library name = "gobo_base" location = "gobo-base.ecf"/>
+		<library name = "el_net_base" location = "network.ecf"/>
+		<library name = "eiffel_loop_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf"/>
+		<cluster name = "el_net_ftp" location = "network/ftp" recursive = "true">
+			<option namespace = "Eiffel-Loop.ftp"/>
+		</cluster>
+	</target>
+</system>

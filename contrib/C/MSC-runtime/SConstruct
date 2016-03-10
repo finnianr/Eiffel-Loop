@@ -1,0 +1,41 @@
+# 	Port of libid3tag autoconf configuration to Scons
+#
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2010 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "7 Jan 2010"
+#	revision: "0.1"
+
+import os, sys, platform
+
+from os import path
+
+from eiffel_loop.scons import util
+from eiffel_loop.eiffel import project
+
+from eiffel_loop.http import package
+
+#Import ('env')
+
+env = Environment (EIFFEL_LOOP = os.environ ['EIFFEL_LOOP'], ISE_PLATFORM = os.environ ['ISE_PLATFORM'])
+
+
+if platform.system () == "Windows":
+	build_dir =  project.platform_spec_build_dir ()
+	VariantDir (build_dir, 'source', duplicate=0)
+
+	dll_download_builder = Builder (action = package.install_gnome_zip_from_http_sources, suffix='.dll', src_suffix='.http')
+
+	env.Append (BUILDERS = {'DLL_download' : dll_download_builder})
+	downloaded_DLLs = env.DLL_download (Glob (path.join (build_dir, '*.http')))
+
+	env.NoClean (downloaded_DLLs)
+	Return ('downloaded_DLLs')
+	
+
+
+
+
+
+

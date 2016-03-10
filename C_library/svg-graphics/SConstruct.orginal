@@ -1,0 +1,80 @@
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2009 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "20 July 2011"
+#	revision: "0.1"
+
+import os, sys, platform
+from os import path
+
+from eiffel_loop.scons import util
+from eiffel_loop.eiffel import project
+
+rsvg_include = path.normpath ('$EIFFEL_LOOP/contrib/C/RSVG/source')
+
+include_path = ['source', rsvg_include]
+
+rsvg_lib_dir = path.expandvars (path.normpath ("$EIFFEL_LOOP/contrib/C/RSVG/spec/$ISE_PLATFORM"))
+lib_path = [rsvg_lib_dir]
+libs = ['rsvg']
+
+# NOTE: strange anomaly
+# libfreetype-6.dll on win64 is freetype6.dll on win32 
+# libintl-8.dll on win64 is intl.dll on win32
+
+if platform.system () == "Windows":
+	compiler_flags = ['-Ox', '-Zi', '-MT', '-w', '-nologo', '-DEIF_WINDOWS']
+	prefix = path.normpath ('$EIFFEL_LOOP/contrib/C/gtk+/include')
+	include_path = [prefix] + include_path
+	include_path.extend (util.prefixed_list (prefix, ['libpng14', 'cairo']))
+	
+	lib_path.append (path.normpath ("$EIFFEL_LOOP/contrib/C/gtk+/spec/$ISE_PLATFORM"))
+	libs.append ('cairo')
+	
+else:
+	compiler_flags = ['-g', '-O2']
+	prefix = '/usr/include'
+	include_path.extend (util.prefixed_list (prefix, ['libpng12']))
+	include_path.extend ([
+		'/usr/lib/glib-2.0/include', '/usr/lib/${ARCHITECTURE}-linux-gnu/glib-2.0/include',
+		'/mnt/Development/C/libcairo2-dev_1.10.2/include/cairo'
+	])
+
+include_path.extend (
+	util.prefixed_list ( 
+		prefix, ['gdk-pixbuf-2.0', 'glib-2.0',  'libxml2', 'pango-1.0', 'freetype2', 'pixman-1']
+	)
+)
+
+cpp_defines = [	'HAVE_CONFIG_H' ]
+
+env = Environment (
+	CPPDEFINES = cpp_defines, CCFLAGS = compiler_flags, CPPPATH = include_path, ENV = os.environ,
+	LIBPATH = lib_path, LIBS = libs, ARCHITECTURE = platform.machine (),
+	EIFFEL_LOOP = os.environ ['EIFFEL_LOOP'], ISE_PLATFORM = os.environ ['ISE_PLATFORM']
+)
+
+print 'Include path',env ['ARCHITECTURE']
+for include in include_path:
+	print env.subst (include)
+
+build_dir =  project.platform_spec_build_dir ()
+
+VariantDir (build_dir, 'source', duplicate=0)
+
+rsvg_sconsript = path.expandvars (path.normpath ("$EIFFEL_LOOP/contrib/C/RSVG/SConscript"))
+dependencies = [SConscript (rsvg_sconsript)]
+
+lib = env.StaticLibrary (path.join (build_dir, 'svg2png.c'))
+
+if platform.system () == "Windows":
+	gtk_sconsript_path = path.expandvars ("$EIFFEL_LOOP\contrib\C\gtk+\SConscript")
+	
+	gtk_sconsript = SConscript (gtk_sconsript_path, exports='env')
+	dependencies.append (gtk_sconsript)
+	
+Depends (lib, dependencies)
+
+env.NoClean (lib)
+Return ('lib')

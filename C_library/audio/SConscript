@@ -1,0 +1,33 @@
+# Partial port of build process to Scons
+#
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2009 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "6 Jan 2010"
+#	revision: "0.1"
+
+import os, platform
+from os import path
+from eiffel_loop.os import path as el_path
+from eiffel_loop.eiffel import project
+
+if platform.system () == "Windows":
+	include_path = [ path.normpath ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include'), 'include']
+	compiler_flags = ['-nologo', '-W1', '-c', '-MT', '-Ox']
+
+	env = Environment (
+		CCFLAGS = compiler_flags, CPPPATH = include_path, 
+		ENV = os.environ, ISE_EIFFEL = os.environ ['ISE_EIFFEL'], ISE_PLATFORM = os.environ ['ISE_PLATFORM']
+	)
+
+	build_dir = project.platform_spec_build_dir ()
+
+	VariantDir (build_dir, 'source', duplicate=0)
+
+	source_list = [path.join (build_dir, 'eiffel_loop_audio.c')]
+
+	lib = env.StaticLibrary (path.join (build_dir, 'el_audio'), source_list)
+
+	env.NoClean (lib)
+	Return ('lib')

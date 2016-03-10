@@ -1,0 +1,34 @@
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2010 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "18 Dec 2012"
+#	revision: "0.1"
+
+import os, sys, platform
+
+from os import path
+
+from eiffel_loop.scons import util
+
+from eiffel_loop.eiffel import project
+from eiffel_loop.http import package
+
+Import ('env')
+#env = Environment (ENV = os.environ, ISE_PLATFORM = os.environ ['ISE_PLATFORM'])
+
+env.Append (SOURCE_DIR = Dir ('lib').abspath)
+
+http_list = Glob (path.join ('lib', '*.http'))
+http_list.append (File ('batik-rasterizer.http'))
+
+download_builder = Builder (action = package.install_gnome_zip_from_http_sources, suffix='.jar', src_suffix = '.http', emitter = util.complete_targets)
+env.Append (BUILDERS = {'Java_jar_download' : download_builder})
+
+jars = env.Java_jar_download (http_list)
+
+main_jar = jars [-1:][0]
+
+env.NoClean (jars)
+
+Return ('main_jar')

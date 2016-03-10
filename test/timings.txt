@@ -1,0 +1,10 @@
+Workbench
+TIME: 0 hrs 0 mins 5 secs 648 ms
+TIME: 0 hrs 0 mins 5 secs 703 ms
+Finalized
+TIME: 0 hrs 0 mins 0 secs 135 ms
+TIME: 0 hrs 0 mins 0 secs 103 ms -- with hash table
+TIME: 0 hrs 0 mins 0 secs 101 ms -- with Global_native_xpath: EL_VTD_NATIVE_XPATH
+
+TIME: 0 hrs 0 mins 0 secs 135 ms -- with attribute name caching and once attribute
+TIME: 0 hrs 0 mins 0 secs 110 ms -- with local attributes

@@ -1,0 +1,36 @@
+/* 
+ * Copyright (C) 2002-2009 XimpleWare, info@ximpleware.com
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+Changes from Version 2.7 (10/2009)
+
+Expanded VTD-XML's Core API 
+ 
+* VTDNav: toStringUpperCase, toStringLowerCase, contains(), endsWith(), startsWith()
+   
+
+Improved Xpath
+ 
+* added the following XPath 2.0 functions: abs(), ends-with(), upper-case(), lower-case()
+* added support for variable reference 
+* significantly enhanced XPath syntax, checking error reporting (Special thanks to Mark Swanson)
+* Internal performance tuning
+
+Bug Fixes in VTDGen, VTDNav and AutoPilot
+
+Code Enhancement: Removed large number of warnings
+

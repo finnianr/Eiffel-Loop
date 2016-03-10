@@ -1,0 +1,20 @@
+# cwex.lib - Makefile for Microsoft C
+
+CC = cl
+CFLAGS = -nologo -W4 -c -Ox -I..\spec\windows\include -I$(ISE_EIFFEL)\studio\spec\$(ISE_PLATFORM)\include \
+	-I"$(VS2003)\Vc7\include" -I "$(VS2003)\Vc7\PlatformSDK\Include"
+
+.cpp.obj:
+	$(CC) $(CFLAGS) $<
+
+
+OBJ = cwex.obj
+
+cwex.lib: $(OBJ)
+	if exist $@ del $@
+	lib /OUT:$@ $(OBJ)
+	if not exist ..\spec\msc mkdir ..\spec\msc
+	if not exist ..\spec\msc\lib mkdir ..\spec\msc\lib
+	copy $@ ..\spec\msc\lib
+	del $@
+	del *.obj

@@ -1,0 +1,103 @@
+TITLE: Eiffel Configuration Tools
+
+TAGS: "Eiffel Configuration Files", Pyxis, ecf, pecf, gedit, pyx
+
+SHORT DESCRIPTION:
+
+== Introduction ==
+Lately I have had time to improve the tool support for Eiffel configuration files written in the Pyxis format, by the introduction of syntax highlighting in the gedit text editor and tools for converting XML to Pyxis. For those that are not familiar, Pyxis is an alternative syntax for XML files inspired by the Python programming language. Pyxis is what you get if you cross XML with Python. The purpose is to make XML more readable and easier to edit. For a full introduction see my [http://www.eiffelroom.com/node/527 previous article].
+
+== Gedit Syntax Highlighting ==
+
+Gedit is a popular text editor available for both Windows and Unix. ECF's written in Pyxis now has support for comprehensive syntax highlighting for every valid element name, attribute name and enumeration value. [http://www.eiffel-loop.com/images/screenshots/gedit-pecf.png See screen shot].  A new MIME type ''text/x-pecf'' with extension ''*.pecf'', has been introduced to facilitate this. Valid element names, attributes names, attribute values and quoted strings all appear in distinct colors. It is now possible to see at a glance if there are any spelling errors in the configuration. Anything colored black that is not an identifier created by the programmer, can be assumed to be a spelling mistake.
+
+=== Generic Highlighting ===
+As well as specific highlighting for ''ecf's'', I have also introduced generic highlighting for Pyxis documents with the MIME type ''text/x-pyxis (*.pyx)''.
+
+== XML to PYXIS tools ==
+The ''el_toolkit'' program now has options for converting arbitrary XML to Pyxis format with special support for ecf's. At present only mono-namespaces are supported.
+=== Single File Conversion ===
+The command for converting a file to Pyxis format is as follows:
+
+:<code>el_toolkit -xml_to_pyxis -in [INPUT FILE]</code>
+
+By default the output file is named by appending the extension ''.pyx''. The exception is for ecf's which are output in a file with extension ''pecf''. Any comments in the XML are preserved.
+
+=== Directory Tree Conversion ===
+To convert an entire library of ecf's to Pyxis format use the following command:
+
+:<code>el_toolkit -ecf_to_pecf -library_tree [DIRETORY PATH]</code>
+
+== PYXIS to XML ==
+The command for converting a Pyxis file to XML is as follows:
+
+:<code>el_toolkit -pyxis_to_xml -in [INPUT FILE]</code>
+
+If the input extension is ''.ecf'' the output name will be changed to ''.pecf''. If the extension is ''.pyx'', this is stripped off in the output file name. 
+
+== Building the Tool Kit ==
+To install the toolkit program and support for gedit syntax highlighting, download and unzip the Eiffel-Loop [http://www.eiffel-loop.com/download/Eiffel-Loop.1.1.tar.gz library package] and run the setup program from the Eiffel-Loop home directory. 
+
+The command for Unix is:
+:<code>. setup.sh</code>
+and for Windows:
+:<code>setup</code>
+
+=== Unix and Windows ===
+It is recommended to use the latest 7.1 version of EiffelStudio. The setup script is written in Python, so you need to have Python 2.6 or 2.7 installed and in your path. Python versions >= 3.0 are not compatible with the ''scons'' build tool. If required, the setup program will automatically download and install the dependencies ''scons'' and the Python ''lxml'' library.
+
+Note: building the tool may take 5 or 10 mins depending on how many CPU cores you have. 
+
+For more details see the ''Readme.html''.
+
+=== For Unix ===
+Unix setup was tested on Ubuntu Linux 10.10. It is possible that your system does not use the ''apt-get'' package manager. If so, you will need to make some editions to ''setup.sh'' first. Also some systems do not use the ''sudo'' root privileges command. Ammend script as necessary.
+
+=== For Windows ===
+The setup program assumes you have a recent version of the Microsoft SDK installed. Gedit is not installed automatically, so if you want syntax highlighting you need to install it first. A bonus for Windows is that after running the setup program, the ''.pecf'' extension will be associated with gedit. Also, right-clicking a ''pecf'' file will display an option '''Convert to ECF''' which invokes ''el_toolkit''. For this to work, you need to add the bin directory of el_toolkit to your path.
+:<code>%ProgramFiles%\Eiffel-Loop\bin</code>
+
+==== Gedit on Windows ====
+The Windows version of gedit is not as polished as the Unix version, but quite adequate for editing ''pecf'' files. If you want help, look for it online because the Windows help seems to be broken. You can change the sizes of the graphics (which look a little small on a big monitor) by editing the file:
+
+:<code>C:\Program Files (x86)\gedit\share\themes\MS-Windows\gtk-2.0\gtkrc</code>
+
+==== Windows 7/Vista ====
+To run the setup program you need to open a console window with administrator permissions.
+
+=== Source Code ===
+To browse the source code for the toolkit, open a console window in directory <code>Eiffel-loop/tool/toolkit</code> and launch EiffelStudio using the command:
+:<code>launch_estudio toolkit.pecf</code>
+This Python command is installed during setup and will launch estudio with the correct environment. The finalized toolkit built during setup will already have built the C dependencies.
+
+An example of how to convert Pyxis to XML in memory, can be found in the procedure <eiffel>{FTP_BACKUP}.set_root_node</eiffel>
+<eiffel>
+feature -- Element change
+
+    set_root_node (file_name: FILE_NAME)
+            --
+        local
+            xml_generator: EL_PYXIS_XML_TEXT_GENERATOR
+            pyxis_medium, xml_out_medium: EL_STRING_MEDIUM
+        do
+            create pyxis_medium.make_open_write (1024)
+            Evolicity_engine.set_template_from_file (file_name)
+            Evolicity_engine.merge_to_stream (file_name, environment_variables, pyxis_medium)
+
+            create xml_out_medium.make_open_write (pyxis_medium.string.count)
+
+            create xml_generator.make_pyxis_source
+            pyxis_medium.open_read
+            xml_generator.convert_stream (pyxis_medium, xml_out_medium)
+
+            create root_node.make_from_string (xml_out_medium.string)
+        end
+
+feature {NONE} -- Implementation: attributes
+
+    root_node: EL_XPATH_ROOT_NODE_CONTEXT
+
+</eiffel>
+
+== Eiffel Loop Libraries ==
+There are numerous changes and improvements in these libraries which I will document at a later stage.

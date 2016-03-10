@@ -1,0 +1,198 @@
+note
+	description: "Summary description for {FTP_BACKUP}."
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-02-23 12:18:22 GMT (Sunday 23rd February 2014)"
+	revision: "4"
+
+class
+	FTP_BACKUP
+
+inherit
+	EL_COMMAND
+
+	EL_WEBSITE_ROUTINES
+
+	EL_MODULE_EVOLICITY_ENGINE
+
+	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MEMORY
+
+create
+	make, default_create
+
+feature {EL_COMMAND_LINE_SUB_APPLICATTION} -- Initialization
+
+	make (a_script_file_path_list: like script_file_path_list; a_ask_user_to_upload: BOOLEAN)
+		do
+			script_file_path_list  := a_script_file_path_list; ask_user_to_upload := a_ask_user_to_upload
+			create archive_and_destination_paths.make
+			create environment_variables.make_from_string_table (Execution_environment.starting_environment_variables)
+			ask_user_to_upload := True
+		end
+
+feature -- Access
+
+	environment_variables: EVOLICITY_CONTEXT_IMPL
+
+feature -- Status query
+
+	ask_user_to_upload: BOOLEAN
+
+feature -- Basic operations
+
+	execute
+			--
+		local
+			total_size_mega_bytes: REAL
+			ftp_site_node: EL_XPATH_NODE_CONTEXT
+		do
+			across script_file_path_list as l_path loop
+				script_file_path := l_path.item
+				if not script_file_path.is_absolute then
+					script_file_path := Execution_environment.current_working_directory + script_file_path
+				end
+				set_root_node (script_file_path)
+				backup_all
+				total_size_mega_bytes := (total_kilo_bytes / 1000).truncated_to_real
+
+				root_node.find_node ("/backup-script/ftp-site")
+				if root_node.node_found then
+					ftp_site_node := root_node.found_node
+					log_or_io.put_new_line
+					if total_size_mega_bytes > Max_mega_bytes_to_send then
+						log_or_io.put_string ("WARNING, total backup size ")
+						log_or_io.put_real (total_size_mega_bytes)
+						log_or_io.put_string (" megabytes exceeds limit (")
+						log_or_io.put_real (Max_mega_bytes_to_send)
+						log_or_io.put_string (")")
+						log_or_io.put_new_line
+					end
+				end
+			end
+			if ask_user_to_upload then
+				log_or_io.put_string ("Copy files offsite? (y/n) ")
+				if User_input.entered_letter ('y') then
+					set_ftp_site (ftp_site_node)
+					do_ftp_upload (archive_and_destination_paths)
+				end
+			end
+		end
+
+	backup_all
+			--
+		local
+			target_directory_path: EL_DIR_PATH
+		do
+			log.enter ("backup_all")
+			across root_node.context_list ("/backup-script/directory") as directory loop
+				if directory.node.has ("path")  then
+					target_directory_path := directory.node.string_32_at_xpath ("path")
+
+					if not target_directory_path.is_absolute then
+						target_directory_path := script_file_path.parent.joined_dir_path (target_directory_path)
+					end
+
+					if target_directory_path.exists then
+						backup_directory (directory.node, target_directory_path)
+					else
+						log_or_io.put_path_field ("ERROR: no such directory", target_directory_path)
+						log_or_io.put_new_line
+					end
+				else
+					log_or_io.put_line ("ERROR: missing path node")
+				end
+			end
+			log.exit
+		end
+
+	backup_directory (directory_node: EL_XPATH_NODE_CONTEXT; target_directory_path: EL_DIR_PATH)
+			--
+		require
+			target_directory_path_exists: target_directory_path.exists
+		local
+			backup_name: STRING
+			archive_dir_path, ftp_destination_directory: EL_DIR_PATH
+			archive_file_path: EL_FILE_PATH
+			archive_file: ARCHIVE_FILE
+		do
+			log.enter ("backup_directory")
+			log_or_io.put_path_field ("Backup", target_directory_path)
+			log_or_io.put_new_line
+
+			backup_name := directory_node.string_at_xpath ("name")
+			if backup_name.is_empty then
+				backup_name := target_directory_path.base
+			end
+
+			archive_dir_path := Execution.current_working_directory.joined_dir_steps (<< "tar.gz", backup_name >>)
+			File_system.make_directory (archive_dir_path)
+
+			create archive_file.make (directory_node, target_directory_path, archive_dir_path, backup_name)
+			total_kilo_bytes := total_kilo_bytes + archive_file.kilo_bytes
+			archive_file_path := archive_file.file_path
+			log_or_io.put_path_field ("Creating archive", archive_file_path); log_or_io.put_new_line
+
+			if archive_file_path.exists then
+				 ftp_destination_directory := directory_node.string_32_at_xpath ("ftp-destination-path")
+
+				if not ftp_destination_directory.is_empty then
+					log.put_new_line
+					log.put_path_field ("ftp-destination", ftp_destination_directory)
+					log.put_new_line
+					archive_and_destination_paths.extend ([archive_file_path, ftp_destination_directory])
+				end
+			end
+			log.exit
+		end
+
+feature -- Element change
+
+	set_root_node (file_path: EL_FILE_PATH)
+			--
+		local
+			xml_generator: EL_PYXIS_XML_TEXT_GENERATOR
+			pyxis_medium, xml_out_medium: EL_TEXT_IO_MEDIUM
+		do
+			create pyxis_medium.make_open_write (1024)
+			Evolicity_engine.set_template_from_file (file_path)
+			Evolicity_engine.merge_to_stream (file_path, environment_variables, pyxis_medium)
+
+			create xml_out_medium.make_open_write (pyxis_medium.text.count)
+
+			create xml_generator.make
+			pyxis_medium.open_read
+			xml_generator.convert_stream (pyxis_medium, xml_out_medium)
+
+			create root_node.make_from_string (xml_out_medium.text)
+		end
+
+	set_script_file_path (a_script_file_path: like script_file_path)
+		do
+			script_file_path  := a_script_file_path
+		end
+
+feature {NONE} -- Implementation: attributes
+
+	archive_and_destination_paths: LINKED_LIST [like ftp.Type_source_destination]
+
+	root_node: EL_XPATH_ROOT_NODE_CONTEXT
+
+	total_kilo_bytes: INTEGER
+
+	script_file_path_list: ARRAYED_LIST [EL_FILE_PATH]
+
+	script_file_path: EL_FILE_PATH
+
+feature {NONE} -- Constants
+
+	Max_mega_bytes_to_send: REAL = 20.0
+
+end

@@ -1,0 +1,65 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+	# Combined backups
+
+backup-script:
+	ftp-site:
+		url:
+			"eiffel-loop.com"
+		user-home:
+			"/public/www"
+	directory:
+		path:
+			"$HOME/.mozilla"
+		name:
+			"firefox-bookmarks"
+		gpg-key:
+			recipient = "$RECIPIENT"
+		include:
+			all-files:
+				"firefox/*.default/bookmarkbackups/*"
+		ftp-destination-path:
+			"myfiles/test"
+	directory:
+		path:
+			"$HOME/.mozilla-thunderbird"
+		name:
+			"thunderbird-address-book"
+		gpg-key:
+			recipient = "$RECIPIENT"
+		include:
+			all-files:
+				"*.default/abook.mab"
+		ftp-destination-path:
+			"myfiles/test"
+	directory:
+		path:
+			"$HOME/.es63"
+		include:
+			file:
+				"ecrc63"
+				"ecrc63.org"
+		ftp-destination-path:
+			"myfiles/test"
+	directory:
+		path:
+			"$EIFFEL_LOOP_LIBRARY"
+		ftp-destination-path:
+			"myfiles/test"
+		versions:
+			max = 10
+		filter:
+			exclude:
+				"index.html"
+				"*/Praat-MSVC/*"
+				"*/EIFGENs/*"
+				"*/graphics/workarea/*"
+				"*.log"
+				"*.a"
+				"*~"
+				"*.zip"
+				"*.doc"
+				"*.lib"
+				"*.gz"
+				"index.html"

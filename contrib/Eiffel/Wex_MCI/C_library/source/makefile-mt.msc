@@ -1,0 +1,16 @@
+# wex_mci-mt.lib - Makefile for Microsoft C
+
+MV = move
+CC = cl
+CFLAGS = -nologo -W4 -c -MT -Ox -DEIF_THREADS -I.\include -I"$(ISE_EIFFEL)\studio\spec\windows\include"
+
+.cpp.obj:
+	$(CC) $(CFLAGS) $<
+
+OBJ = cwex.obj
+
+wex_mci-mt.lib: $(OBJ)
+	if exist $@ del $@
+	lib /OUT:$@ $(OBJ)
+	del *.obj
+	$(MV) $@ ..
