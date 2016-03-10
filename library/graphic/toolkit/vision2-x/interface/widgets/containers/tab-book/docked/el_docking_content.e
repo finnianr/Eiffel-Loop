@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_DOCKING_CONTENT}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-08-31 8:46:40 GMT (Monday 31st August 2015)"
+	revision: "7"
 
 class
 	EL_DOCKING_CONTENT
@@ -24,10 +24,8 @@ feature {NONE} -- Initialization
 		do
 			tab := a_tab
 			make_with_widget (tab.content_border_box, tab.unique_title)
-			if tab.is_closeable then
-				close_request_actions.extend (agent tab.close)
-			end
-			show_actions.extend (agent tab.on_show)
+			close_request_actions.extend (agent tab.close)
+			focus_in_actions.extend (agent tab.on_focus_in)
 		end
 
 feature -- Access

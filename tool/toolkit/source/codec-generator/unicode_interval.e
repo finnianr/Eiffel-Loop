@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "7"
+	date: "2015-12-18 11:11:34 GMT (Friday 18th December 2015)"
+	revision: "9"
 
 class
 	UNICODE_INTERVAL
@@ -74,7 +74,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	character (code: NATURAL): ASTRING
+	character (code: NATURAL): ZSTRING
 		do
 			create Result.make (1)
 			Result.append_unicode (code)
@@ -86,8 +86,8 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["lower_character", agent: ASTRING do Result := character (lower.to_natural_32) end ],
-				["upper_character", agent: ASTRING do Result := character (upper.to_natural_32) end ],
+				["lower_character", agent: ZSTRING do Result := character (lower.to_natural_32) end ],
+				["upper_character", agent: ZSTRING do Result := character (upper.to_natural_32) end ],
 				["first_latin_character", agent: LATIN_CHARACTER do Result := latin_characters.first end],
 				["latin_characters", agent: ITERABLE [LATIN_CHARACTER] do Result := latin_characters end]
 			>>)

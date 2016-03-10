@@ -1,8 +1,13 @@
 ﻿note
 	description: "Summary description for {EL_HTML_ROUTINES}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 7:08:35 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_HTML_ROUTINES
@@ -12,7 +17,7 @@ inherit
 
 feature -- Access
 
-	anchor_reference (name: ASTRING): ASTRING
+	anchor_reference (name: ZSTRING): ZSTRING
 		do
 			create Result.make (name.count + 1)
 			Result.append_character ('#')
@@ -20,12 +25,17 @@ feature -- Access
 			Result.translate (Space, Underscore)
 		end
 
-	book_mark_anchor_markup (id, text: ASTRING): ASTRING
+	book_mark_anchor_markup (id, text: ZSTRING): ZSTRING
 		do
 			Bookmark_template.set_variables_from_array (<<
 				[Variable.id, id.translated (Space, Underscore)], [Variable.text, text]
 			>>)
 			Result := Bookmark_template.substituted
+		end
+
+	table_data (data: ZSTRING): ZSTRING
+		do
+			Result := value_element_markup ("td", data)
 		end
 
 	text_element (name: READABLE_STRING_GENERAL; attributes: ARRAY [READABLE_STRING_GENERAL]): EL_XML_TEXT_ELEMENT
@@ -40,7 +50,7 @@ feature -- Access
 			Result.set_attributes (<< "class=" + class_name >>)
 		end
 
-	hyperlink (url, title, text: ASTRING): ASTRING
+	hyperlink (url, title, text: ZSTRING): ZSTRING
 		do
 			Hyperlink_template.set_variables_from_array (<<
 				[Variable.url, url], [Variable.title, title], [Variable.text, text]
@@ -48,7 +58,7 @@ feature -- Access
 			Result := Hyperlink_template.substituted
 		end
 
-	image (url, description: ASTRING): ASTRING
+	image (url, description: ZSTRING): ZSTRING
 		do
 			Image_template.set_variables_from_array (<<
 				[Variable.url, url], [Variable.description, description]
@@ -56,7 +66,7 @@ feature -- Access
 			Result := Image_template.substituted
 		end
 
-	unescape_character_entities (line: ASTRING)
+	unescape_character_entities (line: ZSTRING)
 		local
 			pos_ampersand, pos_semicolon: INTEGER
 			table: like Character_entity_table; entity_name: STRING
@@ -187,7 +197,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Bookmark_template: EL_SUBSTITUTION_TEMPLATE [ASTRING]
+	Bookmark_template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
 		once
 			create Result.make ("<a id=%"$id%">$text</a>")
 		end
@@ -203,21 +213,21 @@ feature {NONE} -- Constants
 			end
 		end
 
-	Hyperlink_template: EL_SUBSTITUTION_TEMPLATE [ASTRING]
+	Hyperlink_template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
 		once
 			create Result.make ("[
 				<a href="$url" title="$title">$text</a>
 			]")
 		end
 
-	Image_template: EL_SUBSTITUTION_TEMPLATE [ASTRING]
+	Image_template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
 		once
 			create Result.make ("[
 				<img src="$url" alt="$description">
 			]")
 		end
 
-	Variable: TUPLE [id, description, text, title, url: ASTRING]
+	Variable: TUPLE [id, description, text, title, url: ZSTRING]
 		once
 			create Result
 			Result.id := "id"
@@ -227,12 +237,12 @@ feature {NONE} -- Constants
 			Result.url := "url"
 		end
 
-	Space: ASTRING
+	Space: ZSTRING
 		once
 			Result := " "
 		end
 
-	Underscore: ASTRING
+	Underscore: ZSTRING
 		once
 			Result := "_"
 		end

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_HTTP_SERVLET_REQUEST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-04 9:50:21 GMT (Saturday 4th October 2014)"
-	revision: "5"
+	date: "2016-01-28 20:01:30 GMT (Thursday 28th January 2016)"
+	revision: "7"
 
 class
 	EL_HTTP_SERVLET_REQUEST
@@ -15,41 +15,26 @@ class
 inherit
 	GOA_FAST_CGI_SERVLET_REQUEST
 		rename
+			has_parameter as has_parameter_8,
 			servlet_path as servlet_path_string,
 			parameters as list_parameters, -- each value is a list
-			get_parameter as value_string_8,
+			path_info as path_info_utf_8,
 			parse_parameters as make_parameters
+		export
+			{NONE} has_parameter_8, get_parameter, path_info_utf_8
 		redefine
-			default_create, make_parameters,
-			has_parameter, value_string_8, path_info,
+			make_parameters,
 			parse_parameter_string
 		end
 
 	EL_MODULE_BASE_64
-		undefine
-			default_create
-		end
 
 	EL_MODULE_URL
-		undefine
-			default_create
-		end
 
 create
-	make, default_create
+	make
 
 feature {NONE} -- Initialization
-
-	default_create
-		do
-			create internal_content.make_empty
-			create internal_cookies.make_default
-			create internal_request.make
-			create internal_response.make (create {GOA_FAST_CGI_REQUEST}.make)
-			create list_parameters.make_default
-			create parameters.make_equal (0)
-			create session_id.make_empty
-		end
 
 	make_parameters
 		do
@@ -60,7 +45,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	value_string (name: ASTRING): ASTRING
+	value_string (name: ZSTRING): ZSTRING
 		local
 			l_parameters: like parameters
 		do
@@ -73,17 +58,17 @@ feature -- Access
 			end
 		end
 
-	value_string_8 (name: ASTRING): STRING
+	value_string_8 (name: ZSTRING): STRING
 		do
 			Result := value_string (name).as_string_8
 		end
 
-	value_natural (name: ASTRING): NATURAL
+	value_natural (name: ZSTRING): NATURAL
 		do
 			Result := value_string (name).to_natural_32
 		end
 
-	value_integer (name: ASTRING): INTEGER
+	value_integer (name: ZSTRING): INTEGER
 		do
 			Result := value_string (name).to_integer_32
 		end
@@ -91,9 +76,9 @@ feature -- Access
 	parameters: EL_HTTP_HASH_TABLE
 		-- non-duplicate http parameters
 
-	path_info: ASTRING
+	path_info: ZSTRING
 		do
-			create Result.make_from_utf8 (Precursor)
+			create Result.make_from_utf_8 (path_info_utf_8)
 			Result.prune_all_leading ('/')
 		end
 
@@ -125,7 +110,7 @@ feature -- Access
 
 feature -- Status report
 
-	has_parameter (name: ASTRING): BOOLEAN
+	has_parameter (name: ZSTRING): BOOLEAN
 			-- Does this request have a parameter named 'name'?
 		do
 			Result := parameters.has (name)

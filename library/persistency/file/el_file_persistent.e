@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_STORABLE_IN_FILE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-16 7:07:28 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 deferred class
 	EL_FILE_PERSISTENT
@@ -31,7 +31,7 @@ feature -- Access
 
 feature -- Element change
 
-	rename_file (new_name: ASTRING)
+	rename_file (new_name: ZSTRING)
 			-- rename basename of file preserving the extension
 		local
 			old_path: like file_path
@@ -41,7 +41,7 @@ feature -- Element change
 			File_system.rename_file (old_path, file_path)
 		end
 
-	rename_file_extension (a_extension: ASTRING)
+	rename_file_extension (a_extension: ZSTRING)
 		do
 			rename_file (file_path.with_new_extension (a_extension).base)
 		end
@@ -51,7 +51,7 @@ feature -- Element change
 		deferred
 		end
 
-	set_name_extension (a_extension: ASTRING)
+	set_name_extension (a_extension: ZSTRING)
 			-- Set name extension
 		do
 			set_file_path (file_path.with_new_extension (a_extension))

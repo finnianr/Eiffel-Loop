@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_GVFS_VOLUME_PARSER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 17:49:54 GMT (Wednesday 16th December 2015)"
+	revision: "3"
 
 class
 	EL_GVFS_MOUNT_LIST_COMMAND
@@ -28,7 +33,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	uri_root_table: EL_ASTRING_HASH_TABLE [EL_DIR_URI_PATH]
+	uri_root_table: EL_ZSTRING_HASH_TABLE [EL_DIR_URI_PATH]
 
 feature -- Status change
 
@@ -39,14 +44,14 @@ feature -- Status change
 
 feature {NONE} -- Line states
 
-	find_mount (line: ASTRING)
+	find_mount (line: ZSTRING)
 		local
 			pos_colon, pos_arrow: INTEGER
-			volume_name: ASTRING
+			volume_name: ZSTRING
 		do
-			if line.starts_with ("Mount(") then
+			if line.starts_with (Text_mount) then
 				pos_colon := line.index_of (':', 1)
-				pos_arrow := line.substring_index ("->", pos_colon)
+				pos_arrow := line.substring_index (Arrow_symbol, pos_colon)
 				volume_name := line.substring (pos_colon + 2, pos_arrow - 2)
 				uri_root_table [volume_name] := line.substring (pos_arrow + 3, line.count)
 			end
@@ -54,10 +59,21 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	call (line: ASTRING)
+	call (line: ZSTRING)
 		do
 			line.left_adjust
 			Precursor (line)
 		end
 
+feature {NONE} -- Constants
+
+	Text_mount: ZSTRING
+		once
+			Result := "Mount("
+		end
+
+	Arrow_symbol: ZSTRING
+		once
+			Result := "->"
+		end
 end

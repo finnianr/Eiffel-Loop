@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_VERSION_APP}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-04-06 10:47:34 GMT (Monday 6th April 2015)"
+	revision: "6"
 
 class
 	EL_VERSION_APP

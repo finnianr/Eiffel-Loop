@@ -4,19 +4,19 @@
 		
 			/* Define if you have the isnan function.  */
 			#if defined(linux) || defined (macintosh) || defined (_WIN32)
-			  #define HAVE_ISNAN 1
+				#define HAVE_ISNAN 1
 			#else
-			  #undef HAVE_ISNAN
+				#undef HAVE_ISNAN
 			#endif
 	
 		WITH:
 			/* Define if you have the isnan function.  */
 			#if defined (_MSC_VER) // MS Visual C++
-			  #undef HAVE_ISNAN
+				#undef HAVE_ISNAN
 			#elif defined(linux) || defined (macintosh) || defined (_WIN32)
-			  #define HAVE_ISNAN 1
+				#define HAVE_ISNAN 1
 			#else
-			  #undef HAVE_ISNAN
+				#undef HAVE_ISNAN
 			#endif
 	]"
 
@@ -25,8 +25,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2016-03-04 14:09:56 GMT (Friday 4th March 2016)"
+	revision: "4"
 
 class
 	FILE_GSL_CONFIG_H_GCC_TO_MSVC_CONVERTER
@@ -44,14 +44,14 @@ create
 
 feature {NONE} -- C constructs
 
-	delimiting_pattern: EL_FIRST_MATCH_IN_LIST_TP
+	delimiting_pattern: like one_of
 			--
 		do
 			Result := Precursor
 			Result.extend (platform_macro_condition_for_have_isnan)
 		end
 
-	platform_macro_condition_for_have_isnan: EL_MATCH_ALL_IN_LIST_TP
+	platform_macro_condition_for_have_isnan: like all_of
 			-- Eg. to match:
 
 			--	#if defined(linux) || defined (macintosh) || defined (_WIN32)
@@ -59,7 +59,7 @@ feature {NONE} -- C constructs
 		do
 			Result := all_of (<<
 				string_literal ("#if") |to| agent on_if,
-				repeat_pattern_1_until_pattern_2 (
+				repeat_p1_until_p2 (
 					-- Pattern 1
 					one_of (<<
 						c_identifier,

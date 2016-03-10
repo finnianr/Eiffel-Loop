@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PAYPAL_API_ARGUMENT}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 7:19:50 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_HTTP_NAME_VALUE_PARAMETER
@@ -25,9 +30,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	name: ASTRING
+	name: ZSTRING
 
-	value: ASTRING
+	value: ZSTRING
 
 feature {EL_HTTP_PARAMETER} -- Implementation
 

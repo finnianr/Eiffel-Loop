@@ -1,13 +1,13 @@
-note
+﻿note
 	description: ""
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-23 11:05:00 GMT (Wednesday 23rd December 2015)"
+	revision: "4"
 
 class
 	EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_default
-			building_actions := create_building_actions
+			building_actions := new_building_actions
 
 			root_node_xpath := a_root_node_xpath
 			target := a_target

@@ -1,13 +1,13 @@
-note
-	description: "${description}"
+﻿note
+	description: "AES encryption using chain blocks"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-01 8:44:05 GMT (Wednesday 1st October 2014)"
-	revision: "4"
+	date: "2016-03-04 18:11:23 GMT (Friday 4th March 2016)"
+	revision: "6"
 
 class
 	EL_AES_ENCRYPTER
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			make_from_key (create {ARRAY [NATURAL_8]}.make_filled (0, 1, 16))
 		end
 
-	make (pass_phrase: ASTRING; key_size_bits: INTEGER)
+	make (pass_phrase: ZSTRING; key_size_bits: INTEGER)
 			--
 		require
 			valid_key_size: (<< 128, 192, 256 >>).has (key_size_bits)
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			size_bytes: INTEGER
 		do
 			log.enter ("make")
-			key_data := Mod_encryption.sha256_digest_32 (pass_phrase.to_utf8)
+			key_data := Mod_encryption.sha256_digest_32 (pass_phrase.to_utf_8)
 
 			size_bytes := key_size_bits // 8
 			if size_bytes < key_data.count then
@@ -58,19 +58,19 @@ feature {NONE} -- Initialization
 			log.exit
 		end
 
-	make_128 (pass_phrase: ASTRING)
+	make_128 (pass_phrase: ZSTRING)
 			--
 		do
 			make (pass_phrase, 128)
 		end
 
-	make_192 (pass_phrase: ASTRING)
+	make_192 (pass_phrase: ZSTRING)
 			--
 		do
 			make (pass_phrase, 192)
 		end
 
-	make_256 (pass_phrase: ASTRING)
+	make_256 (pass_phrase: ZSTRING)
 			--
 		do
 			make (pass_phrase, 256)

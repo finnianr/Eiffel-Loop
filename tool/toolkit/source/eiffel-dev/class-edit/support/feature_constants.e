@@ -1,49 +1,54 @@
-note
+﻿note
 	description: "Summary description for {FEATURE_CONSTANTS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-18 12:46:11 GMT (Friday 18th December 2015)"
+	revision: "5"
 
 class
 	FEATURE_CONSTANTS
 
 feature {NONE} -- Constants
 
-	Feature_catagories: EL_ASTRING_HASH_TABLE [STRING]
+	Feature_catagories: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		once
-			create Result.make (<<
-				["ac", 	"Access"],
-				["at", 	"Attributes"],
-				["aa", 	"Access attributes"],
-				["bo", 	"Basic operations"],
-				["co", 	"Constants"],
-				["cp", 	"Comparison"],
-				["cs", 	"Contract Support"],
-				["cv", 	"Conversion"],
-				["cm", 	"Cursor movement"],
-				["dm", 	"Dimensions"],
-				["dp", 	"Disposal"],
-				["du", 	"Duplication"],
-				["ec", 	"Element change"],
-				["er", 	"Evolicity reflection"],
-				["ev", 	"Event handling"],
-				["fa", 	"Factory"],
-				["im", 	"Implementation"],
-				["ip", 	"Inapplicable"],
-				["ia", 	"Internal attributes"],
-				["in", 	"Initialization"],
-				["me", 	"Measurement"],
-				["mi",	"Miscellaneous"],
-				["ob", 	"Obsolete"],
-				["rm", 	"Removal"],
-				["rs", 	"Resizing"],
-				["sc", 	"Status change"],
-				["sq", 	"Status query"],
-				["sr", 	"Status report"],
-				["td", 	"Type definitions"],
-				["tf", 	"Transformation"],
-				["un", 	"Unimplemented"]
-			>>)
+			create Result.make_equal (20)
+
+			Result ["ac"] := "Access"
+			Result ["at"] := "Attributes"
+			Result ["aa"] := "Access attributes"
+			Result ["bo"] := "Basic operations"
+			Result ["co"] := "Constants"
+			Result ["cp"] := "Comparison"
+			Result ["cs"] := "Contract Support"
+			Result ["cv"] := "Conversion"
+			Result ["cm"] := "Cursor movement"
+			Result ["dm"] := "Dimensions"
+			Result ["dp"] := "Disposal"
+			Result ["du"] := "Duplication"
+			Result ["ec"] := "Element change"
+			Result ["er"] := "Evolicity reflection"
+			Result ["ev"] := "Event handling"
+			Result ["fa"] := "Factory"
+			Result ["im"] := "Implementation"
+			Result ["ip"] := "Inapplicable"
+			Result ["ia"] := "Internal attributes"
+			Result ["in"] := "Initialization"
+			Result ["me"] := "Measurement"
+			Result ["mi"] := "Miscellaneous"
+			Result ["ob"] := "Obsolete"
+			Result ["rm"] := "Removal"
+			Result ["rs"] := "Resizing"
+			Result ["sc"] := "Status change"
+			Result ["sq"] := "Status query"
+			Result ["sr"] := "Status report"
+			Result ["td"] := "Type definitions"
+			Result ["tf"] := "Transformation"
+			Result ["un"] := "Unimplemented"
 		end
 
 end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-05-22 17:22:34 GMT (Friday 22nd May 2015)"
+	revision: "4"
 
 class
 	EIFFEL_SOURCE_TREE_PROCESSOR

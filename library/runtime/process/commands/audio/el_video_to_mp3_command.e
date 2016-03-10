@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_MP3_CLIP_SAVER_COMMAND}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-09 13:55:37 GMT (Saturday 9th November 2013)"
-	revision: "3"
+	date: "2015-12-16 8:05:51 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_VIDEO_TO_MP3_COMMAND
@@ -63,13 +63,7 @@ feature -- Element change
 
 	set_bit_rate (a_bit_rate: like bit_rate)
 		do
-			if a_bit_rate < 128 then
-				bit_rate := 128
-			elseif a_bit_rate < 192 then
-				bit_rate := 192
-			else
-				bit_rate := 256
-			end
+			bit_rate := a_bit_rate
 		end
 
 feature -- Status query
@@ -86,7 +80,7 @@ feature -- Status query
 
 feature -- Contract Support
 
-	is_valid_input_extension (extension: ASTRING): BOOLEAN
+	is_valid_input_extension (extension: ZSTRING): BOOLEAN
 		do
 			Result := Video_extensions.has (extension)
 		end
@@ -111,7 +105,7 @@ feature {NONE} -- Implementation
 
 feature -- Constants
 
-	Video_extensions: ARRAY [ASTRING]
+	Video_extensions: ARRAY [ZSTRING]
 		once
 			Result := << "flv", "mp4", "mov" >>
 			Result.compare_objects

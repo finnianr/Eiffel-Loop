@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_DELETE_PATH_IMPL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 10:28:32 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2015-11-08 14:09:34 GMT (Sunday 8th November 2015)"
+	revision: "4"
 
 class
 	EL_DELETE_PATH_IMPL
@@ -20,8 +20,6 @@ create
 
 feature -- Access
 
-	template: STRING = "[
-		rm "$target_path"
-	]"
+	Template: STRING = "rm $target_path"
 
 end

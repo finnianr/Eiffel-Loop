@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {SERIALIZATION_LISTENER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-30 13:59:44 GMT (Sunday 30th March 2014)"
-	revision: "3"
+	date: "2016-01-01 9:37:08 GMT (Friday 1st January 2016)"
+	revision: "5"
 
 deferred class
 	EL_FILE_PROGRESS_LISTENER
@@ -39,7 +39,7 @@ feature -- Element change
 			timer.start
 		end
 
-	set_text (a_text: ASTRING)
+	set_text (a_text: ZSTRING)
 		deferred
 		end
 
@@ -50,7 +50,7 @@ feature -- Status query
 
 feature {EL_NOTIFYING_FILE, EL_SHARED_FILE_PROGRESS_LISTENER} -- Event handling
 
-	on_read, on_write (a_byte_count: INTEGER)
+	on_notify (a_byte_count: INTEGER)
 		do
 			byte_count := byte_count + a_byte_count
 			tick_count := byte_count // Bytes_per_tick

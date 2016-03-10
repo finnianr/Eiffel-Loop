@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		typedef struct {
 		  int map[256];
@@ -11,10 +11,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-07-03 8:10:30 GMT (Friday 3rd July 2015)"
+	revision: "5"
 
 deferred class
 	EL_EXPAT_CODEC

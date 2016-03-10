@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_SVG_TEXT_BUTTON_PIXMAP_SET}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-05 12:52:22 GMT (Friday 5th September 2014)"
-	revision: "5"
+	date: "2015-12-26 11:24:29 GMT (Saturday 26th December 2015)"
+	revision: "7"
 
 deferred class
 	EL_SVG_TEXT_BUTTON_PIXMAP_SET
@@ -54,7 +54,7 @@ feature -- Access
 			Result := pixmaps [Normal_svg]
 		end
 
-	text: ASTRING
+	text: ZSTRING
 
 	font: EL_FONT
 
@@ -147,7 +147,7 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	svg_icon (last_step: ASTRING; width_cms: REAL): like normal
+	svg_icon (last_step: ZSTRING; width_cms: REAL): like normal
 		do
 			Result := Precursor (last_step, width_cms)
 			Result.set_svg_width (svg_base_width + svg_text_width)

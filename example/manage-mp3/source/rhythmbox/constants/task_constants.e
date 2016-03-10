@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {TASK_CONSTANTS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-09-27 9:51:51 GMT (Sunday 27th September 2015)"
+	revision: "6"
 
 class
 	TASK_CONSTANTS
@@ -14,6 +19,8 @@ feature {NONE} -- Constants
 	Task_collate_songs: STRING = "collate_songs"
 
 	Task_delete_comments: STRING = "delete_comments"
+
+	Task_display_music_brainz_info: STRING = "display_music_brainz_info"
 
 	Task_export_dj_events: STRING = "export_dj_events"
 

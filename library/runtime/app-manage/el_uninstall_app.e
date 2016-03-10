@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_UNINSTALL_DUMMY_APP}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-02 13:16:38 GMT (Sunday 2nd March 2014)"
-	revision: "5"
+	date: "2015-12-26 17:24:50 GMT (Saturday 26th December 2015)"
+	revision: "7"
 
 class
 	EL_UNINSTALL_APP
@@ -17,8 +17,6 @@ inherit
 		redefine
 			option_name, installer, is_installable
 		end
-
-	EL_MODULE_STRING
 
 	EL_MODULE_USER_INPUT
 
@@ -88,9 +86,9 @@ feature {NONE} -- Constants
 
 	Option_name: STRING = "uninstall"
 
-	Confirmation_prompt_template: ASTRING
+	Confirmation_prompt_template: ZSTRING
 		once
-			Result := "Uninstall application %"$S%". Are you sure? (y/n)"
+			Result := "Uninstall application %"%S%". Are you sure? (y/n)"
 		end
 
 	Description: STRING

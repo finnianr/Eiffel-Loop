@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Object that allows audio player to asynchronously call event handling routines in GUI thread.
 		Essentially the calls are put into a queue and the GUI thread executes them whenever it gets a chance
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
+	revision: "3"
 
 class
 	EL_AUDIO_PLAYER_EVENT_LISTENER_MAIN_THREAD_PROXY

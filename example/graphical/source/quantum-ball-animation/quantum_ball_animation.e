@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:14:36 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2015-12-26 18:20:19 GMT (Saturday 26th December 2015)"
+	revision: "4"
 
 class
 	QUANTUM_BALL_ANIMATION
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER
 		rename
-			make as make_event_consumer,
+			make_default as make_event_consumer,
 			on_event as redraw,
 			stop as stop_consumer
 		export

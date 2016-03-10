@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_TESTABLE_APPLICATION}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:13 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-16 7:47:53 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 deferred class
 	EL_TESTABLE_APPLICATION
@@ -54,7 +54,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_option_name: ASTRING
+	new_option_name: ZSTRING
 			--
 		deferred
 		end

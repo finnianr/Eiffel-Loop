@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "7"
+	date: "2016-01-18 10:46:39 GMT (Monday 18th January 2016)"
+	revision: "9"
 
 class
 	CODEC_GENERATOR
@@ -54,36 +54,36 @@ feature -- Basic operations
 
 feature {NONE} -- State handlers
 
-	find_void_function (line: ASTRING)
-			-- Eg. void iso_8859_3_chars_init(){
-		local
-			codec_name: ASTRING
-		do
-			if line.starts_with ("void") then
-				codec_name := line.substring (6, line.substring_index ("_chars", 1) - 1)
-				codec_list.extend (create {CODEC_INFO}.make (codec_name))
-				log.put_new_line
-				log.put_line (codec_name)
-				state := agent find_chars_ready_assignment
-			end
-		end
-
-	find_chars_ready_assignment (line: ASTRING)
+	find_chars_ready_assignment (line: ZSTRING)
 			-- Eg. iso_8859_11_chars_ready = TRUE;
 		local
 			eiffel_source_path: EL_FILE_PATH
 		do
 			if line.has_substring (codec_list.last.codec_name + "_chars[0x") then
 				codec_list.last.add_assignment (line)
-			elseif line.ends_with ("_chars_ready = TRUE;") then
+			elseif line.ends_with (Chars_ready_equals_true) then
 				codec_list.last.set_case_change_offsets
 				codec_list.last.set_unicode_intervals
 
 				eiffel_source_path := template_path.twin
-				eiffel_source_path.set_base ("el__codec.e")
-				eiffel_source_path.base.insert_string (codec_list.last.codec_name, 4)
+				eiffel_source_path.set_base ("el_%S_zcodec.e")
+				eiffel_source_path.base.substitute_tuple ([codec_list.last.codec_name])
 				Evolicity_templates.merge_to_file (template_path, codec_list.last, eiffel_source_path)
 				state := agent find_void_function
+			end
+		end
+
+	find_void_function (line: ZSTRING)
+			-- Eg. void iso_8859_3_chars_init(){
+		local
+			codec_name: ZSTRING
+		do
+			if line.starts_with (Keyword_void) then
+				codec_name := line.substring (6, line.substring_index (Chars_suffix, 1) - 1)
+				codec_list.extend (create {CODEC_INFO}.make (codec_name))
+				log.put_new_line
+				log.put_line (codec_name)
+				state := agent find_chars_ready_assignment
 			end
 		end
 
@@ -95,4 +95,20 @@ feature {NONE} -- Implementation
 
 	template_path: EL_FILE_PATH
 
+feature {NONE} -- Constants
+
+	Keyword_void: ZSTRING
+		once
+			Result := "void"
+		end
+
+	Chars_suffix: ZSTRING
+		once
+			Result := "_chars"
+		end
+
+	Chars_ready_equals_true: ZSTRING
+		once
+			Result := "_chars_ready = TRUE;"
+		end
 end

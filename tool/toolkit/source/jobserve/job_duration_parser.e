@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {JOB_DURATION_PARSER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-04-14 11:29:18 GMT (Monday 14th April 2014)"
-	revision: "4"
+	date: "2015-12-20 14:29:07 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	JOB_DURATION_PARSER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_FILE_PARSER
 
-	EL_TEXTUAL_PATTERN_FACTORY
+	EL_ZTEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
@@ -46,19 +46,15 @@ feature -- Element change
 			days_per_unit := Default_days_per_unit
 			integer_from := 0
 			integer_to := 0
+			create duration_interval.make (999999, 999999)
 			is_extendable_contract := duration_text.has_substring ("exten")
 
-			match_full
-			if full_match_succeeded then
-				consume_events
-			else
-				create duration_interval.make (999999, 999999)
-			end
+			parse
 		end
 
 feature {NONE} -- Patterns
 
-	new_pattern: EL_MATCH_ALL_IN_LIST_TP
+	new_pattern: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -69,10 +65,10 @@ feature {NONE} -- Patterns
 				optional (plus_extension_pattern),
 				remainder_of_line
 			>>)
-			Result.set_action_on_match_end (agent on_duration)
+			Result.set_action_last (agent on_duration)
 		end
 
-	plus_extension_pattern: EL_MATCH_ALL_IN_LIST_TP
+	plus_extension_pattern: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -84,10 +80,10 @@ feature {NONE} -- Patterns
 					string_literal ("rolling")
 				>>)
 			>>)
-			Result.set_action_on_match_begin (agent on_plus_extension)
+			Result.set_action_first (agent on_plus_extension)
 		end
 
-	to_integer_pattern: EL_MATCH_ALL_IN_LIST_TP
+	to_integer_pattern: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -102,7 +98,7 @@ feature {NONE} -- Patterns
 			>>)
 		end
 
-	duration_unit: EL_MATCH_ALL_IN_LIST_TP
+	duration_unit: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -117,7 +113,7 @@ feature {NONE} -- Patterns
 			>>)
 		end
 
-	day_word: EL_FIRST_MATCH_IN_LIST_TP
+	day_word: like one_of
 			--
 		do
 			Result := one_of (<<
@@ -128,7 +124,7 @@ feature {NONE} -- Patterns
 			>>)
 		end
 
-	week_word: EL_FIRST_MATCH_IN_LIST_TP
+	week_word: like one_of
 			--
 		do
 			Result := one_of (<<
@@ -138,7 +134,7 @@ feature {NONE} -- Patterns
 			>>)
 		end
 
-	month_word: EL_FIRST_MATCH_IN_LIST_TP
+	month_word: like one_of
 			--
 		do
 			Result := one_of (<<
@@ -155,13 +151,13 @@ feature {NONE} -- Patterns
 			>>)
 		end
 
-	year_word: EL_FIRST_MATCH_IN_LIST_TP
+	year_word: like one_of
 			--
 		do
 			Result := one_of (<<
 				string_literal ("year"),
 				string_literal ("jahr"),
-				string_literal ("a�o"),
+				string_literal ("año"),
 				string_literal ("a")
 			>>)
 		end

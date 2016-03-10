@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-20 14:18:29 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	EXCLUSION_LIST_FILE
@@ -25,8 +25,6 @@ inherit
 	FILE_SPECIFIER_LIST
 
 	EL_MODULE_DIRECTORY
-
-	EL_MODULE_STRING
 
 create
 	make
@@ -59,7 +57,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	put_file_specifier (specifier_name, file_specifier: ASTRING)
+	put_file_specifier (specifier_name, file_specifier: ZSTRING)
 			--
 		do
 			put_string (file_specifier)

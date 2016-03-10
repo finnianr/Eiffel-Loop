@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-15 8:51:20 GMT (Tuesday 15th December 2015)"
+	revision: "4"
 
 class
 	BOOLEAN_PARAMETER
@@ -26,8 +26,7 @@ feature -- Basic operations
 	display_item
 			--
 		do
-			log.put_string ("value: ")
-			log.put_boolean (item)
+			log.put_labeled_string (" value", item.out)
 			log.put_new_line
 		end
 

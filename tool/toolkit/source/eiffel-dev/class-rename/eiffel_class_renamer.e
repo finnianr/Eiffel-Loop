@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-01-20 9:40:47 GMT (Wednesday 20th January 2016)"
+	revision: "6"
 
 class
 	EIFFEL_CLASS_RENAMER
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_editor
 		redefine
-			on_class_reference, on_class_name, class_identifier, edit_file
+			on_class_reference, on_class_name, class_name_pattern, edit
 		end
 
 create
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	edit_file
+	edit
 			--
 		do
 			Precursor
@@ -44,12 +44,12 @@ feature -- Basic operations
 
 feature {NONE} -- Patterns
 
-	class_identifier: EL_MATCH_ALL_IN_LIST_TP
+	class_name_pattern: like all_of
 			--
 		do
 			Result := all_of ( <<
 				string_literal (old_class_name),
-				not all_of (<< class_identifier_character >>)
+				not all_of (<< class_name_character >>)
 			>> )
 		end
 
@@ -70,9 +70,9 @@ feature {NONE} -- Events
 
 feature {NONE} -- Implementation
 
-	old_class_name: STRING
+	old_class_name: ZSTRING
 
-	new_class_name: STRING
+	new_class_name: ZSTRING
 
 end
 

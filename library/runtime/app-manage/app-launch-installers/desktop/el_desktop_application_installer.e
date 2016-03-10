@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Install application with a desktop menu"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-02 10:30:17 GMT (Sunday 2nd March 2014)"
-	revision: "3"
+	date: "2015-12-24 12:41:54 GMT (Thursday 24th December 2015)"
+	revision: "5"
 
 class
 	EL_DESKTOP_APPLICATION_INSTALLER
@@ -16,11 +16,6 @@ inherit
 	EL_APPLICATION_INSTALLER
 
 	EL_CROSS_PLATFORM_ABS
-		undefine
-			default_create
-		end
-
-	EL_MODULE_STRING
 		undefine
 			default_create
 		end
@@ -99,13 +94,13 @@ feature {NONE} -- Implementation
 			create {EL_DESKTOP_APPLICATION_INSTALLER_IMPL} implementation.make (Current)
 		end
 
-	Command_args_template: STRING_32
+	Command_args_template: ZSTRING
 			--
 		do
-			create Result.make_from_string (implementation.command_args_template)
+			create Result.make_from_latin_1 (implementation.command_args_template)
 			Result.left_adjust
 			Result.prune ('%T')
-			String.subst_all_characters (Result, '%N', ' ')
+			Result.replace_character ('%N', ' ')
 		end
 
 	implementation: EL_DESKTOP_APPLICATION_INSTALLER_I

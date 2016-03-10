@@ -1,10 +1,17 @@
-note
+﻿note
 	description: "[
 		Playlist exported from Rhythmbox in Pyxis format with information about DJ gig.
+		
+		** CHECK IF INDENTATION IS CORRECT **
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-24 15:14:58 GMT (Thursday 24th December 2015)"
+	revision: "8"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -24,7 +31,6 @@ inherit
 
 	EL_BUILDABLE_PYXIS_FILE_PERSISTENT
 		rename
-			make_empty as make_persistent,
 			make_from_file as make_from_pyxis_file
 		undefine
 			copy, is_equal
@@ -62,12 +68,12 @@ feature {NONE} -- Initialization
 	make (a_database: like database; playlist: RBOX_PLAYLIST; a_dj_name: like dj_name; a_title: like title)
 			--
 		local
-			word_list: EL_ASTRING_LIST; date_str: STRING
+			word_list: EL_ZSTRING_LIST; date_str: STRING
 		do
-			make_persistent
+			make_default
 			database := a_database; dj_name := a_dj_name; title := a_title
 			word_list := playlist.name
-			date_str := word_list.first.to_latin1
+			date_str := word_list.first.to_latin_1
 			if Date_checker.date_valid (date_str, Name_date_format) then
 				create date.make_from_string (date_str, Name_date_format)
 				word_list.start; word_list.remove
@@ -102,17 +108,17 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	DJ_name: ASTRING
+	DJ_name: ZSTRING
 
 	date: DATE
 
-	formatted_month_date: ASTRING
+	formatted_month_date: ZSTRING
 			--
 		do
 			Result := Mod_date.formatted (date, once "$long_month_name $canonical_numeric_month &nbsp;<i>($long_day_name)</i>")
 		end
 
-	html_page_name: ASTRING
+	html_page_name: ZSTRING
 		do
 			Result := output_path.without_extension.base + ".html"
 		end
@@ -129,7 +135,7 @@ feature -- Access
 			end
 		end
 
-	spell_date: ASTRING
+	spell_date: ZSTRING
 			--
 		do
 			Result := Mod_date.formatted (date, once "$short_day_name $canonical_numeric_month $long_month_name $year")
@@ -137,12 +143,12 @@ feature -- Access
 
 	start_time: TIME
 
-	title: ASTRING
+	title: ZSTRING
 
 	unplayed: PLAYLIST
 		-- songs unplayed on the night (marked by the DJ with an X as first character of path)
 
-	venue: ASTRING
+	venue: ZSTRING
 
 feature -- Status query
 
@@ -173,9 +179,9 @@ feature -- Element change
 
 feature {NONE} -- Evolicity fields
 
-	get_path_list: EL_ARRAYED_LIST [ASTRING]
+	get_path_list: EL_ARRAYED_LIST [ZSTRING]
 		local
-			escaper: EL_PYTHON_STRING_ESCAPER
+			escaper: EL_PYTHON_STRING_ESCAPER [ZSTRING]
 		do
 			create escaper.make (2)
 			create Result.make (count)
@@ -199,8 +205,8 @@ feature {NONE} -- Evolicity fields
 
 				["ignore", 						agent: STRING do Result := (not is_publishable).out.as_lower end],
 				["start_time",					agent: STRING do Result := start_time.formatted_out (once "hh:[0]mi") end],
-				["spell_date", 				agent: STRING do Result := spell_date end],
-				["formatted_month_date",	agent: STRING do Result := formatted_month_date end],
+				["spell_date", 				agent: ZSTRING do Result := spell_date end],
+				["formatted_month_date",	agent: ZSTRING do Result := formatted_month_date end],
 				["date", 						agent: STRING do Result := date.formatted_out (Date_format) end]
 			>>)
 		end
@@ -224,7 +230,7 @@ feature {NONE} -- Building from XML
 
 	extend_from_path_node
 		local
-			path: ASTRING; is_unplayed: BOOLEAN
+			path: ZSTRING; is_unplayed: BOOLEAN
 		do
 			path := node.to_string
 			is_unplayed := path [1] = 'X'
@@ -292,7 +298,7 @@ feature {NONE} -- Constants
 				#across $path_list as $path loop
 					"$path.item"
 				#end
-
+		
 	]"
 
 end

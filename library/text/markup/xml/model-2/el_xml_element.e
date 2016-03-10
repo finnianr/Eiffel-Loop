@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_XML_ELEMENT}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 8:07:48 GMT (Wednesday 16th December 2015)"
+	revision: "3"
 
 deferred class
 	EL_XML_ELEMENT
@@ -14,7 +19,7 @@ inherit
 
 feature -- Access
 
-	name: ASTRING
+	name: ZSTRING
 		deferred
 		end
 

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_IDENTIFIED_THREAD}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-03-13 16:48:12 GMT (Wednesday 13th March 2013)"
-	revision: "2"
+	date: "2015-05-20 8:16:41 GMT (Wednesday 20th May 2015)"
+	revision: "3"
 
 deferred class
 	EL_IDENTIFIED_THREAD

@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:04 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-15 13:11:37 GMT (Tuesday 15th December 2015)"
+	revision: "7"
 
 class
 	APPLICATION_ROOT
@@ -24,6 +24,7 @@ feature {NONE} -- Implementation
 			--
 		once
 			Result := <<
+				{MP3_AUDIO_SIGNATURE_READER_APP},
 				{RHYTHMBOX_MUSIC_MANAGER_APP},
 
 				{RBOX_IMPORT_NEW_MP3_APP},
@@ -35,6 +36,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	notes: PROJECT_NOTES
-
+	notes: TUPLE [DONE_LIST, TO_DO_LIST]
+		do
+		end
 end

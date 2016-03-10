@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {DJ_EVENT_TANDA_ITEM}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-28 10:52:41 GMT (Monday 28th December 2015)"
+	revision: "8"
 
 class
 	HTML_SONG
@@ -26,22 +31,22 @@ feature {NONE} -- Initialization
 			song := a_song; start_time := a_start_time; tanda_type := a_tanda_type
 			artists := song.lead_artist.twin
 			if song.artists_list.count > 1 then
-				if song.album_artists_prefix.as_lower.starts_with ("singer") then
-					artists.append (" with vocalist")
+				if song.album_artists_prefix.as_lower.starts_with_general ("singer") then
+					artists.append_string_general (" with vocalist")
 					if song.album_artists_list.count > 1 then
-						artists.append_string ("s: ")
+						artists.append_string_general ("s: ")
 					else
-						artists.append_string (": ")
+						artists.append_string_general (": ")
 					end
 					across song.album_artists_list as artist loop
 						if artist.cursor_index > 1 then
-							artists.append_string (", ")
+							artists.append_string_general (", ")
 						end
 						artists.append (artist.item)
 					end
 				else
-					artists.append_string (" and ")
-					artists.append (song.album_artists)
+					artists.append_string_general (" and ")
+					artists.append (song.album_artist)
 				end
 			end
 		end
@@ -52,9 +57,9 @@ feature -- Access
 
 	start_time: TIME
 
-	tanda_type: ASTRING
+	tanda_type: ZSTRING
 
-	artists: ASTRING
+	artists: ZSTRING
 
 feature -- Status query
 
@@ -71,8 +76,8 @@ feature {NONE} -- Evolicity fields
 			create Result.make (<<
 				["song", 				agent: like song do Result := song end],
 				["start_time", 		agent: STRING do Result := start_time.formatted_out (once "[0]hh:[0]mi") end],
-				["tanda_type", 		agent: ASTRING do Result := tanda_type end],
-				["artists", 			agent: ASTRING do Result := artists end],
+				["tanda_type", 		agent: ZSTRING do Result := tanda_type end],
+				["artists", 			agent: ZSTRING do Result := artists end],
 				["is_final_cortina", agent: BOOLEAN_REF do Result := is_final_cortina.to_reference end]
 			>>)
 		end

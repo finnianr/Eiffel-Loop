@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_RSA_LICENSE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 8:35:01 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2015-01-01 13:49:08 GMT (Thursday 1st January 2015)"
+	revision: "3"
 
 class
 	EL_APP_ACTIVATION_KEY

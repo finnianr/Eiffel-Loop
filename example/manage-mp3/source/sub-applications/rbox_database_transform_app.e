@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {RBOX_DATABASE_TRANSFORM_APP}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-27 11:55:36 GMT (Sunday 27th October 2013)"
-	revision: "3"
+	date: "2015-01-08 9:57:40 GMT (Thursday 8th January 2015)"
+	revision: "4"
 
 deferred class
 	RBOX_DATABASE_TRANSFORM_APP

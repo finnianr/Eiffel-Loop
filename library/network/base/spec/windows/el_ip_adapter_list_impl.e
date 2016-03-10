@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_IP_ADAPTER_LIST_IMPL}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-14 11:46:18 GMT (Sunday 14th September 2014)"
-	revision: "2"
+	date: "2015-06-24 11:47:44 GMT (Wednesday 24th June 2015)"
+	revision: "3"
 
 class
 	EL_IP_ADAPTER_LIST_IMPL

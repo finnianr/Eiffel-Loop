@@ -1,8 +1,13 @@
-note
+ï»¿note
 	description: "Summary description for {MP3_FILE_COLLATOR}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 8:16:21 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 class
 	MP3_FILE_COLLATOR
@@ -70,9 +75,9 @@ feature {NONE} -- Implementation
 
 	is_dry_run: BOOLEAN
 
-	new_artist (id3_info: EL_ID3_INFO; mp3_path: EL_FILE_PATH): ASTRING
+	new_artist (id3_info: EL_ID3_INFO; mp3_path: EL_FILE_PATH): ZSTRING
 		local
-			path, result_lower: ASTRING; found: BOOLEAN
+			path, result_lower: ZSTRING; found: BOOLEAN
 		do
 			Result := id3_info.artist
 			if Result.is_empty then
@@ -95,7 +100,7 @@ feature {NONE} -- Implementation
 			Result.left_adjust
 		end
 
-	new_genre (id3_info: EL_ID3_INFO): ASTRING
+	new_genre (id3_info: EL_ID3_INFO): ZSTRING
 		do
 			Result := id3_info.genre
 			if Result.is_empty or else Tango_genres.has (Result) then
@@ -110,7 +115,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_title (id3_info: EL_ID3_INFO; mp3_path: EL_FILE_PATH): ASTRING
+	new_title (id3_info: EL_ID3_INFO; mp3_path: EL_FILE_PATH): ZSTRING
 		do
 			Result := id3_info.title
 			if Result.is_empty then
@@ -128,7 +133,7 @@ feature {NONE} -- Implementation
 	relocate_mp3_file (mp3_path: EL_FILE_PATH)
 		local
 			id3_info: EL_ID3_INFO; destination_mp3_path: EL_FILE_PATH
-			title_count: INTEGER; genre, artist, title: ASTRING
+			title_count: INTEGER; genre, artist, title: ZSTRING
 		do
 			create id3_info.make_version (mp3_path, 2.4)
 			genre := new_genre (id3_info)
@@ -170,30 +175,30 @@ feature {NONE} -- Constants
 			Result.zero_fill
 		end
 
-	Electronica: ASTRING
+	Electronica: ZSTRING
 		once
 			Result := "Electronica"
 		end
 
-	Prefix_argentine: ASTRING
+	Prefix_argentine: ZSTRING
 		once
 			Result := "Argentine "
 		end
 
-	Standard_artist_words_lower: ARRAYED_LIST [EL_ASTRING_LIST]
+	Standard_artist_words_lower: ARRAYED_LIST [EL_ZSTRING_LIST]
 		once
 			create Result.make (Standard_artists_lower.count)
 			across Standard_artists_lower as name loop
-				Result.extend (create {EL_ASTRING_LIST}.make_with_words (name.item))
+				Result.extend (create {EL_ZSTRING_LIST}.make_with_words (name.item))
 			end
 		end
 
-	Standard_artists: ARRAY [ASTRING]
+	Standard_artists: ARRAY [ZSTRING]
 		once
 			Result := <<
 				"Alberto Moran",
-				"Aníbal Troilo",
-				"Ángel D'Agostino",
+				"AnÃ­bal Troilo",
+				"ngel D'Agostino",
 				"Alfredo Gobbi",
 
 				"Astor Piazzolla", -- Correct
@@ -206,7 +211,7 @@ feature {NONE} -- Constants
 				"Juan D'Arienzo",
 				"Jorge Dragone",
 				"Lucio Demare",
-				"Miguel Caló",
+				"Miguel CalÃ³",
 				"Pedro Laurenz",
 				"Osvaldo Pugliese",
 				"Roberto Goyeneche",
@@ -214,7 +219,7 @@ feature {NONE} -- Constants
 			>>
 		end
 
-	Standard_artists_lower: ARRAYED_LIST [ASTRING]
+	Standard_artists_lower: ARRAYED_LIST [ZSTRING]
 		once
 			create Result.make (Standard_artists.count)
 			across Standard_artists as name loop
@@ -222,18 +227,18 @@ feature {NONE} -- Constants
 			end
 		end
 
-	Tango: ASTRING
+	Tango: ZSTRING
 		once
 			Result := "Tango"
 		end
 
-	Tango_genres: ARRAY [ASTRING]
+	Tango_genres: ARRAY [ZSTRING]
 		once
 			Result := << "Latin", "(113)", "(4294967295)", "Traditional", "South/Central American" >>
 			Result.compare_objects
 		end
 
-	Unknown: ASTRING
+	Unknown: ZSTRING
 		once
 			Result := "Unknown"
 		end

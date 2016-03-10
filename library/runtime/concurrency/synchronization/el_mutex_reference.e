@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Restricts access to objects that require thread synchronization.
 		For debugging it is recommended to use EL_LOGGED_SYNCHRONIZED_REF to detect deadlock.
@@ -6,12 +6,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:30 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2015-05-15 12:47:03 GMT (Friday 15th May 2015)"
+	revision: "2"
 
 class
 	EL_MUTEX_REFERENCE [G]

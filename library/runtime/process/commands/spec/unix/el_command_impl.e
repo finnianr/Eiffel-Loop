@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_COMMAND_IMPL}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-24 14:49:48 GMT (Friday 24th January 2014)"
-	revision: "3"
+	date: "2015-12-22 19:21:12 GMT (Tuesday 22nd December 2015)"
+	revision: "5"
 
 deferred class
 	EL_COMMAND_IMPL
@@ -28,13 +28,22 @@ feature -- Access
 			Result.set_encoding (Result.Encoding_UTF, 8)
 		end
 
+	escaped_path (a_path: EL_PATH): ZSTRING
+		do
+			Result := a_path.to_string
+			Result.escape (Path_escaper)
+		end
+
 feature -- Constants
 
-	Path_escaper: EL_BASH_PATH_CHARACTER_ESCAPER
+	Path_escaper: EL_ZSTRING_BASH_PATH_CHARACTER_ESCAPER
 		once
 			create Result
 		end
 
-	Error_redirection_suffix: STRING = " 2>&1"
+	Error_redirection_suffix: ZSTRING
+		once
+			Result := " 2>&1"
+		end
 
 end

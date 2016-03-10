@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_HYPERLINK_MENU}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-26 11:22:50 GMT (Saturday 26th December 2015)"
+	revision: "6"
 
 deferred class
 	EL_HYPERLINK_MENU [G -> EL_NAMEABLE]
@@ -26,7 +26,7 @@ inherit
 feature {NONE} -- Initialization
 
 	make (
-		a_heading: ASTRING; a_item_list: like item_list; a_select_action: like select_action;
+		a_heading: ZSTRING; a_item_list: like item_list; a_select_action: like select_action;
 		a_font: like font; a_link_text_color: EV_COLOR
 	)
 		local

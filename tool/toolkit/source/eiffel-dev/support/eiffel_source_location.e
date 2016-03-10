@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EIFFEL_SOURCE_LOCATION}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-18 10:51:36 GMT (Friday 18th December 2015)"
+	revision: "8"
 
 class
 	EIFFEL_SOURCE_LOCATION
@@ -44,7 +49,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	name: ASTRING
+	name: ZSTRING
 
 	file_list: EL_FILE_PATH_LIST
 

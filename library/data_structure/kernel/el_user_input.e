@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-28 14:03:43 GMT (Monday 28th October 2013)"
-	revision: "2"
+	date: "2015-12-18 22:48:52 GMT (Friday 18th December 2015)"
+	revision: "4"
 
 class
 	EL_USER_INPUT
@@ -15,14 +15,12 @@ class
 inherit
 	EL_MODULE_LOG
 
-	EL_MODULE_STRING
-
 feature -- Basic operations
 
 	set_real_from_line (prompt: STRING; value_setter: PROCEDURE [ANY, TUPLE [REAL]])
 			--
 		local
-			real_string: STRING
+			real_string: ZSTRING
 		do
 			real_string := line (prompt)
 			if real_string.is_real then
@@ -41,37 +39,49 @@ feature -- Status query
 
 feature -- Input
 
-	integer (prompt: ASTRING): INTEGER
+	integer (prompt: ZSTRING): INTEGER
 		local
-			l_result: ASTRING
+			l_line: like line; done: BOOLEAN
 		do
-			from l_result := Under_score until l_result.is_integer loop
-				l_result := line (prompt)
+			from until done loop
+				l_line := line (prompt)
+				if l_line.is_empty then
+					done := True
+				elseif l_line.is_integer then
+					Result := l_line.to_integer; done := True
+				end
 			end
-			Result := l_result.to_integer
 		end
 
-	real (prompt: ASTRING): REAL
+	real (prompt: ZSTRING): REAL
 		local
-			l_result: ASTRING
+			l_line: like line; done: BOOLEAN
 		do
-			from l_result := Under_score until l_result.is_real loop
-				l_result := line (prompt)
+			from until done loop
+				l_line := line (prompt)
+				if l_line.is_empty then
+					done := True
+				elseif l_line.is_real then
+					Result := l_line.to_real; done := True
+				end
 			end
-			Result := l_result.to_real
 		end
 
-	natural (prompt: ASTRING): NATURAL
+	natural (prompt: ZSTRING): NATURAL
 		local
-			l_result: ASTRING
+			l_line: like line; done: BOOLEAN
 		do
-			from l_result := Under_score until l_result.is_natural loop
-				l_result := line (prompt)
+			from until done loop
+				l_line := line (prompt)
+				if l_line.is_empty then
+					done := True
+				elseif l_line.is_natural then
+					Result := l_line.to_natural; done := True
+				end
 			end
-			Result := l_result.to_natural
 		end
 
-	natural_from_values (prompt: ASTRING; values: FINITE [NATURAL]): NATURAL
+	natural_from_values (prompt: ZSTRING; values: FINITE [NATURAL]): NATURAL
 		local
 			done: BOOLEAN
 		do
@@ -81,54 +91,54 @@ feature -- Input
 			end
 		end
 
-	line (prompt: ASTRING): ASTRING
+	line (prompt: ZSTRING): ZSTRING
 			--
 		do
 			log_or_io.put_labeled_string (prompt, "")
 			io.read_line
-			create Result.make_from_utf8 (io.last_string)
+			create Result.make_from_utf_8 (io.last_string)
 		end
 
-	file_path (prompt: ASTRING): EL_FILE_PATH
+	file_path (prompt: ZSTRING): EL_FILE_PATH
 			--
 		do
 			Result := path (prompt)
 		end
 
-	dir_path (prompt: ASTRING): EL_DIR_PATH
+	dir_path (prompt: ZSTRING): EL_DIR_PATH
 			--
 		do
 			Result := path (prompt)
 		end
 
-	path (prompt: ASTRING): ASTRING
+	path (prompt: ZSTRING): ZSTRING
 			--
 		local
-			l_result: ASTRING
+			l_line: like line
 		do
-			l_result := line (prompt)
-			l_result.right_adjust
-			if l_result.has_quotes (1) then
-				l_result.remove_quotes
+			l_line := line (prompt)
+			l_line.right_adjust
+			if l_line.has_quotes (1) then
+				l_line.remove_quotes
 			end
-			Result := l_result
+			Result := l_line
 		end
 
 feature {NONE} -- Implementation
 
-	valid_values (a_values: FINITE [ANY]): ASTRING
+	valid_values (a_values: FINITE [ANY]): ZSTRING
 		local
 			values: LINEAR [ANY]
 			count: INTEGER
 		do
 			values := a_values.linear_representation
 			create Result.make (a_values.count * 7)
-			Result.append_string (" (")
+			Result.append_string_general (" (")
 			from values.start until values.after loop
 				if count > 0 then
-					Result.append_string (once ", ")
+					Result.append_string_general (once ", ")
 				end
-				Result.append_string (values.item.out)
+				Result.append_string_general (values.item.out)
 				values.forth
 				count := count + 1
 			end
@@ -137,7 +147,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Under_score: ASTRING
+	Under_score: ZSTRING
 		once
 			Result := "_"
 		end

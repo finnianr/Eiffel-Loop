@@ -6,11 +6,11 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-11-30 10:30:18 GMT (Monday 30th November 2015)"
+	revision: "5"
 
 deferred class
-	PATH_OPERATING_SUB_APP [P -> EL_PATH create make_from_latin1 end]
+	PATH_OPERATING_SUB_APP [P -> EL_PATH create make_from_latin_1 end]
 
 inherit
 	EL_SUB_APPLICATION
@@ -32,7 +32,7 @@ feature {NONE} -- Implementation
 
 	set_defaults
 		do
-			create input_path.make_from_latin1 (default_path)
+			create input_path.make_from_latin_1 (default_path)
 		end
 
 	input_path: P

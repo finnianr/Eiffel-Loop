@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_THUMBNAIL_RADIO_BUTTON_GROUP}."
 
 	author: "Finnian Reilly"
@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-26 11:24:43 GMT (Saturday 26th December 2015)"
+	revision: "7"
 
 class
 	EL_THUMBNAIL_RADIO_BUTTON_GROUP
 
 inherit
-	EL_RADIO_BUTTON_GROUP [ASTRING]
+	EL_RADIO_BUTTON_GROUP [ZSTRING]
 		rename
 			make as make_button_group,
 			default_sort_order as alphabetical_sort_order
@@ -29,7 +29,7 @@ create
 feature {NONE} -- Initialization
 
 	make (
-		initial_value: ASTRING; values: INDEXABLE [ASTRING, INTEGER]; a_thumbnails: like thumbnails
+		initial_value: ZSTRING; values: INDEXABLE [ZSTRING, INTEGER]; a_thumbnails: like thumbnails
 		a_value_change_action: like value_change_action
 	)
 		do
@@ -97,7 +97,7 @@ feature {NONE} -- Implementation
 			a_widget.pointer_leave_actions.extend (agent on_leave (a_box, a_button))
 		end
 
-	displayed_value (string: ASTRING): ASTRING
+	displayed_value (string: ZSTRING): ZSTRING
 		do
 			create Result.make_empty
 		end

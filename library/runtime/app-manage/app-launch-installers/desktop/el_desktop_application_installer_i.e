@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_MENU_APPLICATION_LAUNCHER_I}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-02-24 19:17:51 GMT (Monday 24th February 2014)"
-	revision: "3"
+	date: "2015-06-28 12:47:34 GMT (Sunday 28th June 2015)"
+	revision: "4"
 
 deferred class
 	EL_DESKTOP_APPLICATION_INSTALLER_I

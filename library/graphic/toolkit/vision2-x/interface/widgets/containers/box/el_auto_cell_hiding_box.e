@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		A box that will hide selected widget members if the mouse pointer is not over the box,
 		and show them if the pointer enters the box.
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-09-06 10:06:22 GMT (Sunday 6th September 2015)"
+	revision: "5"
 
 deferred class
 	EL_AUTO_CELL_HIDING_BOX
@@ -86,8 +86,9 @@ feature -- Status change
 
 	enable_shown (a_widget: EV_WIDGET)
 		do
-			always_hidden_components.prune (a_widget)
-			hidden_components.prune (a_widget)
+			across << always_hidden_components, hidden_components >> as components loop
+				components.item.start; components.item.prune (a_widget)
+			end
 		end
 
 	disable_auto_hide

@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_HTTP_PARAMETER_LIST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 7:20:02 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_HTTP_NAME_VALUE_PARAMETER_LIST
@@ -17,8 +22,7 @@ feature -- Element change
 			-- <name>: <value>
 			-- # symbol indicates comment line
 		local
-			pos_colon: INTEGER
-			l_line, value: ASTRING
+			pos_colon: INTEGER; l_line, value: ZSTRING
 		do
 			across lines as line loop
 				l_line := line.item

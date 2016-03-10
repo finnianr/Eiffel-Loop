@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_EROS_ERROR}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-03-11 17:30:25 GMT (Wednesday 11th March 2015)"
+	revision: "4"
 
 class
 	EL_EROS_ERROR_RESULT

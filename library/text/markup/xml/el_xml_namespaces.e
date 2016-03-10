@@ -1,23 +1,18 @@
-note
+﻿note
 	description: "Summary description for {EL_XML_NAME_SPACES}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-31 7:50:09 GMT (Wednesday 31st July 2013)"
-	revision: "4"
+	date: "2015-12-18 21:49:21 GMT (Friday 18th December 2015)"
+	revision: "6"
 
 class
 	EL_XML_NAMESPACES
 
 inherit
-	EL_MODULE_STRING
-		export
-			{NONE} all
-		end
-
 	EL_MODULE_FILE_SYSTEM
 
 create
@@ -39,36 +34,38 @@ feature {NONE} -- Initaliazation
 	make (xml: STRING)
 			--
 		local
-			xmlns_intervals: EL_OCCURRENCE_SUBSTRINGS
-			pos_double_quote: INTEGER
-			declaration: ASTRING
-			namespace_prefix_and_url: LIST [ASTRING]
+			xmlns_intervals: EL_SEQUENTIAL_INTERVALS; namespace_prefix_and_url: LIST [ZSTRING]
+			pos_double_quote: INTEGER; declaration, l_xml: ZSTRING
 		do
+			l_xml := xml
 			create namespace_urls.make_equal (11)
 			namespace_urls.compare_objects
-
-			create xmlns_intervals.make (xml, "xmlns:")
+			xmlns_intervals := l_xml.substring_intervals (Xml_namespace_marker)
 			from xmlns_intervals.start until xmlns_intervals.after loop
-				if xml.item (xmlns_intervals.interval.lower - 1).is_space then
-					pos_double_quote := xml.index_of (Double_quote, xmlns_intervals.interval.upper + 1)
+				if xml.item (xmlns_intervals.item_lower - 1).is_space then
+					pos_double_quote := xml.index_of (Double_quote, xmlns_intervals.item_upper + 1)
 					pos_double_quote := xml.index_of (Double_quote, pos_double_quote + 1)
 
-					declaration := xml.substring (xmlns_intervals.interval.upper + 1, pos_double_quote)
+					declaration := xml.substring (xmlns_intervals.item_upper + 1, pos_double_quote)
 					namespace_prefix_and_url := declaration.split ('=')
-					String.remove_bookends (namespace_prefix_and_url.last, "%"%"")
+					namespace_prefix_and_url.last.remove_quotes
 					namespace_urls.put (namespace_prefix_and_url.last, namespace_prefix_and_url.first)
 				end
-
 				xmlns_intervals.forth
 			end
 		end
 
 feature -- Access
 
-	namespace_urls: EL_ASTRING_HASH_TABLE [ASTRING]
+	namespace_urls: EL_ZSTRING_HASH_TABLE [ZSTRING]
 
 feature {NONE} -- Constants
 
 	Double_quote: CHARACTER = '"'
+
+	Xml_namespace_marker: ZSTRING
+		once
+			Result := "xmlns:"
+		end
 
 end

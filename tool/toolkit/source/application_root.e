@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-19 12:33:45 GMT (Friday 19th September 2014)"
-	revision: "8"
+	date: "2015-12-20 14:57:07 GMT (Sunday 20th December 2015)"
+	revision: "10"
 
 class
 	APPLICATION_ROOT
@@ -51,6 +51,7 @@ feature {NONE} -- Implementation
 
 				{EXPORT_THUNDERBIRD_HTML_APP},
 				{FTP_BACKUP_APP},
+				{HTML_BODY_WORD_COUNTER_APP},
 
 				{JOBSERVE_SEARCH_APP},
 				{LOGIN_MONITOR_APP},

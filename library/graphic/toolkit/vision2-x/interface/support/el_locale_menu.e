@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_LOCALE_MENU}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-26 14:42:35 GMT (Saturday 26th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_LOCALE_MENU
@@ -39,7 +44,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	name: ASTRING
+	name: ZSTRING
 		do
 			Result := Locale * English_name
 		end
@@ -70,7 +75,7 @@ feature -- Basic operations
 
 feature -- Element change
 
-	add_item (a_name: ASTRING; action: like Type_menu_action)
+	add_item (a_name: ZSTRING; action: like Type_menu_action)
 		do
 			menu.extend (new_item (a_name, action))
 		end
@@ -80,7 +85,7 @@ feature -- Element change
 			menu.extend (new_locale_item (a_english_name, action))
 		end
 
-	add_identified_item (id: INTEGER; a_name: ASTRING; action: like Type_menu_action)
+	add_identified_item (id: INTEGER; a_name: ZSTRING; action: like Type_menu_action)
 		local
 			l_item: like new_item
 		do
@@ -196,7 +201,7 @@ feature -- Basic operations
 
 feature {NONE} -- Factory
 
-	new_item (a_name: ASTRING; action: like Type_menu_action): EV_MENU_ITEM
+	new_item (a_name: ZSTRING; action: like Type_menu_action): EV_MENU_ITEM
 		do
 			create Result.make_with_text_and_action (a_name.to_unicode, action)
 		end
@@ -212,10 +217,10 @@ feature {NONE} -- Factory
 			Result.select_actions.extend (agent adjust_items_sensitivity)
 		end
 
-	new_shortcut_description (key_code: INTEGER; combined_modifiers: NATURAL): ASTRING
+	new_shortcut_description (key_code: INTEGER; combined_modifiers: NATURAL): ZSTRING
 			-- Eg. Ctrl+Shift+Delete
 		local
-			key_string: STRING_32; template: ASTRING
+			key_string: STRING_32
 		do
 			create Result.make (8)
 			across Modifier_list as modifer loop
@@ -231,10 +236,9 @@ feature {NONE} -- Factory
 			end
 			key_string := Key_strings [key_code]
 			if key_string.count = 1 then
-				Result.append (key_string.as_upper)
+				Result.append_string_general (key_string.as_upper)
 			else
-				template := once "{key-$S}"
-				Result.append (Locale * template #$ [key_string])
+				Result.append (Locale * Key_template #$ [key_string])
 			end
 		end
 
@@ -260,7 +264,7 @@ feature {NONE} -- Implementation
 
 	adjust_menu_item_text (menu_item: EV_MENU_ITEM)
 		local
-			adjusted_text: ASTRING
+			adjusted_text: ZSTRING
 		do
 			if not attached {EV_MENU_SEPARATOR} menu_item then
 				adjusted_text := menu_item.text
@@ -325,7 +329,7 @@ feature {NONE} -- Implementation
 
 	keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS
 
-	shortcut_descriptions: HASH_TABLE [ASTRING, INTEGER]
+	shortcut_descriptions: HASH_TABLE [ZSTRING, INTEGER]
 		-- keyboard shortcuts info indexed by menu item id
 
 feature {NONE} -- Type definitions
@@ -341,6 +345,13 @@ feature {NONE} -- Type definitions
 		require
 			never_called: False
 		do
+		end
+
+feature {NONE} -- Constants
+
+	Key_template: ZSTRING
+		once
+			Result := "{key-%S}"
 		end
 
 end

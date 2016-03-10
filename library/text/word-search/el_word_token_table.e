@@ -1,19 +1,19 @@
-note
+﻿note
 	description: "Summary description for {WORD_TOKEN_TABLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:03 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2015-12-16 8:06:31 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_WORD_TOKEN_TABLE
 
 inherit
-	EL_UNIQUE_CODE_TABLE [ASTRING]
+	EL_UNIQUE_CODE_TABLE [ZSTRING]
 		export
 			{ANY} is_empty, count
 		redefine
@@ -34,11 +34,11 @@ feature -- Initialization
 
 feature -- Access
 
-	words: ARRAYED_LIST [ASTRING]
+	words: ARRAYED_LIST [ZSTRING]
 
 feature -- Element change
 
-	put (word: ASTRING)
+	put (word: ZSTRING)
 			--
 		do
 			Precursor (word)
@@ -57,7 +57,7 @@ feature -- Basic operations
 
 feature -- Conversion
 
-	tokens_to_string (tokens: EL_TOKENIZED_STRING): ASTRING
+	tokens_to_string (tokens: EL_TOKENIZED_STRING): ZSTRING
 		local
 			i: INTEGER
 		do

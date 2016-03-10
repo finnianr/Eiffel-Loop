@@ -1,49 +1,34 @@
-note
-	description: "[
-	]"
+﻿note
+	description: "${description}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2016-01-18 15:56:35 GMT (Monday 18th January 2016)"
+	revision: "7"
 
 deferred class
 	EL_LINE_SOURCE [F -> FILE]
 
 inherit
-	EL_LINEAR [ASTRING]
-		redefine
-			default_create
-		end
+	EL_LINEAR [ZSTRING]
 
-	ITERABLE [ASTRING]
-		undefine
-			default_create
-		end
+	ITERABLE [ZSTRING]
 
 	EL_ENCODEABLE_AS_TEXT
-		undefine
-			default_create
 		redefine
 			set_encoding
 		end
 
-	EL_SHARED_CODEC_FACTORY
-		undefine
-			default_create
-		end
+	EL_SHARED_ZCODEC_FACTORY
 
 	EL_MODULE_UTF
-		undefine
-			default_create
-		end
 
 feature {NONE} -- Initialization
 
-	default_create
+	make_default
 			--
 		do
 			create item.make_empty
@@ -52,20 +37,20 @@ feature {NONE} -- Initialization
 
 	make (a_source: F)
 		do
-			default_create
+			make_default
 			source := a_source
 			is_source_external := True
 		end
 
 feature -- Access
 
-	item: ASTRING
+	item: ZSTRING
 
 	index: INTEGER
 
 	count: INTEGER
 
-	joined: ASTRING
+	joined: ZSTRING
 		do
 			create Result.make (source.count)
 			from start until after loop
@@ -109,7 +94,7 @@ feature -- Status query
 
 feature -- Conversion
 
-	list: EL_ASTRING_LIST
+	list: EL_ZSTRING_LIST
 			--
 		do
 			create Result.make_empty
@@ -169,18 +154,7 @@ feature -- Element change
 			--
 		do
 			Precursor (a_type, a_encoding)
-			if encoding_type = Encoding_ISO_8859 then
-				create {EL_ENCODED_LINE_READER [F]} decoder.make (new_iso_8859_codec (encoding))
-
-			elseif encoding_type = Encoding_windows then
-				create {EL_ENCODED_LINE_READER [F]} decoder.make (new_windows_codec (encoding))
-
-			elseif encoding_type = Encoding_utf then
-				if encoding = 8 then
-					create {EL_UTF_8_ENCODED_LINE_READER [F]} decoder
-
-				end
-			end
+			set_decoder
 		end
 
 feature -- Status setting
@@ -202,10 +176,26 @@ feature {NONE} -- Unused
 
 feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
 
-	next_line (a_source: F): ASTRING
+	next_line (a_source: F): ZSTRING
 		do
 			decoder.set_line_from_file (a_source)
 			Result := decoder.line
+		end
+
+	set_decoder
+		do
+			if encoding_type = Encoding_ISO_8859 then
+				create {EL_ENCODED_LINE_READER [F]} decoder.make (new_iso_8859_codec (encoding))
+
+			elseif encoding_type = Encoding_windows then
+				create {EL_ENCODED_LINE_READER [F]} decoder.make (new_windows_codec (encoding))
+
+			elseif encoding_type = Encoding_utf then
+				if encoding = 8 then
+					create {EL_UTF_8_ENCODED_LINE_READER [F]} decoder
+
+				end
+			end
 		end
 
 	decoder: EL_LINE_READER [F]

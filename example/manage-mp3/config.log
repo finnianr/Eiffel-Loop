@@ -1,4 +1,4 @@
-file /usr/local/lib/python2.7/dist-packages/eiffel_loop/scons/eiffel.py,line 77:
+file /usr/local/lib/python2.7/dist-packages/eiffel_loop/scons/eiffel.py,line 73:
 	Configure(confdir = .sconf_temp)
 
 file /home/finnian/dev/Eiffel/Eiffel-Loop/contrib/C++/id3lib/SConscript,line 36:

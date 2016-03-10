@@ -66,7 +66,7 @@ feature -- Element change
 			error_number: INTEGER
 			l_ex: EXCEPTIONS
 		do
-			jvm_library_handle := api_loader.load_library_from_path (libjvm_path.to_string.to_latin1)
+			jvm_library_handle := api_loader.load_library_from_path (libjvm_path.to_string.to_latin_1)
 			error_occured := jvm_library_handle = default_pointer
 
 			if not error_occured then

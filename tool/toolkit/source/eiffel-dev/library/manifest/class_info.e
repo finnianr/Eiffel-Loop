@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "7"
+	date: "2016-03-04 19:11:17 GMT (Friday 4th March 2016)"
+	revision: "9"
 
 class
 	CLASS_INFO
@@ -25,11 +25,13 @@ inherit
 			make_default
 		end
 
-	EL_EIFFEL_PATTERN_FACTORY
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
 
 	PART_COMPARABLE
 
 	EL_MODULE_XML
+
+	EL_MODULE_LOG
 
 create
 	make
@@ -55,7 +57,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	description: ASTRING
+	description: ZSTRING
 
 	name: STRING
 
@@ -80,7 +82,7 @@ feature -- Comparison
 
 feature {NONE} -- Pattern definitions
 
-	indexing_description_pattern: EL_MATCH_ALL_IN_LIST_TP
+	indexing_description_pattern: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -89,8 +91,8 @@ feature {NONE} -- Pattern definitions
 				string_literal ("description"), maybe_white_space, character_literal (':'),
 				maybe_white_space,
 				one_of (<<
-					unescaped_eiffel_string (agent on_description),
-					quoted_eiffel_string (agent on_description)
+					unescaped_manifest_string (agent on_description),
+					quoted_manifest_string (agent on_description)
 				>>)
 			>>)
 		end
@@ -102,27 +104,61 @@ feature {NONE} -- Match actions
 		do
 			description := text
 			if description.is_empty
-				or else description.starts_with ("Summary description for")
-				or else description.starts_with ("Objects that ...")
+				or else description.starts_with_general ("Summary description for")
+				or else description.starts_with_general ("Objects that ...")
 			then
 				create description.make_empty
 				has_description := false
 			else
- 				description := Manifest_string_line_split_matcher.deleted (description)
-				description := Tab_remover.normalized_text (description, 1)
-				description.right_adjust
+ 				description := normalized_indent (Manifest_string_line_split_matcher.deleted (description))
 				has_description := true
 			end
 		end
 
 feature {NONE} -- Implementation
 
+	normalized_indent (str: ZSTRING): ZSTRING
+		local
+			lines: EL_ZSTRING_LIST; tab_count: INTEGER
+		do
+ 			create lines.make_with_lines (str)
+			-- Ensure all lines have at least as many leading tabs as first line
+			lines.start
+			if not lines.off then
+				tab_count := lines.item_indent
+				lines.forth
+				from until lines.after loop
+					if lines.item_indent < tab_count then
+						lines.indent_item (tab_count - lines.item_indent)
+					end
+					lines.forth
+				end
+ 			end
+ 			-- Unindent as much as we can
+ 			from until not lines.is_indented loop
+ 				lines.unindent
+ 			end
+ 			lines.expand_tabs (Tab_spaces)
+ 			Result := lines.joined_lines
+		end
+
 	set_description_from_class_file_description
 			--
 		do
 			set_source_text_from_file (file_path)
 			find_all
-			consume_events
+		end
+
+feature {NONE} -- Evolicity fields
+
+	getter_function_table: like getter_functions
+			--
+		do
+			create Result.make (<<
+				["escaped_description", agent: ZSTRING do Result := XML.escaped (description) end],
+				["has_description", 		agent: BOOLEAN_REF do Result := has_description.to_reference end],
+				["name", 					agent: STRING do Result := name.string end]
+			>>)
 		end
 
 feature {NONE} -- Constants
@@ -135,22 +171,6 @@ feature {NONE} -- Constants
 			)
 		end
 
-	Tab_remover: EL_TAB_REMOVER
-		once
-			create Result.make
-			Result.ignore_leading_blank_lines
-		end
-
-feature {NONE} -- Evolicity fields
-
-	getter_function_table: like getter_functions
-			--
-		do
-			create Result.make (<<
-				["escaped_description", agent: ASTRING do Result := XML.escaped (description) end],
-				["has_description", 		agent: BOOLEAN_REF do Result := has_description.to_reference end],
-				["name", 					agent: STRING do Result := name.string end]
-			>>)
-		end
+	Tab_spaces: INTEGER = 3
 
 end

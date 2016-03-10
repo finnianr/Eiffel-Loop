@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ENCRYPTABLE_PLAIN_TEXT_FILE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-29 11:03:20 GMT (Monday 29th September 2014)"
-	revision: "4"
+	date: "2015-05-06 10:39:35 GMT (Wednesday 6th May 2015)"
+	revision: "5"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE

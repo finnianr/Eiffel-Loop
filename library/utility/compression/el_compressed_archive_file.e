@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_COMPRESSED_FILE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-04-01 21:37:35 GMT (Tuesday 1st April 2014)"
-	revision: "3"
+	date: "2015-12-16 19:14:44 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -74,7 +74,7 @@ feature -- Element change
 			end
 			compressed_data := Zlib.compress (file_data, expected_compression_ratio, level)
 
-			utf8_path := a_file_path.to_string.to_utf8
+			utf8_path := a_file_path.to_string.to_utf_8
 			put_integer (utf8_path.count)
 			put_string (utf8_path)
 
@@ -144,14 +144,14 @@ feature -- Input
 			open_read: is_open_read
 		local
 			file_name_count: INTEGER
-			l_file_path: ASTRING
+			l_file_path: ZSTRING
 		do
 			log.enter ("read_file_name")
 			read_integer
 			file_name_count := last_integer
 			if file_name_count < count - 4 then
 				read_stream (file_name_count)
-				create l_file_path.make_from_utf8 (last_string)
+				create l_file_path.make_from_utf_8 (last_string)
 				last_file_path := l_file_path
 			end
 			log.put_path_field ("Content", last_file_path); log.put_new_line

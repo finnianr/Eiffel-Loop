@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_MONTH_LIST}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-26 17:23:53 GMT (Saturday 26th December 2015)"
+	revision: "7"
 
 class
 	EL_ENGLISH_MONTH_DROP_DOWN_BOX
@@ -20,11 +20,6 @@ inherit
 			make as make_drop_down
 		redefine
 			displayed_month
-		end
-
-	EL_MODULE_STRING
-		undefine
-			default_create, is_equal, copy
 		end
 
 create
@@ -53,7 +48,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	displayed_month (a_month: INTEGER): ASTRING
+	displayed_month (a_month: INTEGER): ZSTRING
 		do
 			if is_long_format then
 				Result := Long_months [a_month]
@@ -64,7 +59,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Short_months: EL_ASTRING_LIST
+	Short_months: EL_ZSTRING_LIST
 			-- Short text representation of months
 		local
 			date_text: EL_ENGLISH_DATE_TEXT
@@ -73,7 +68,7 @@ feature {NONE} -- Constants
 			Result := date_text.short_month_names_list
 		end
 
-	Long_months: EL_ASTRING_LIST
+	Long_months: EL_ZSTRING_LIST
 			-- Long text representation of months
 		local
 			date_text: EL_ENGLISH_DATE_TEXT

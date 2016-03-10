@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Dummy file persistent"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2014-12-11 14:33:26 GMT (Thursday 11th December 2014)"
+	revision: "5"
 
 class
 	EL_FILE_PERSISTENT_IMPL

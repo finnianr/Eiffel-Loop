@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {PLAYLIST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 9:26:23 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	PLAYLIST
@@ -25,11 +30,11 @@ create
 
 feature -- Access
 
-	cortina_tanda_type: ASTRING
+	cortina_tanda_type: ZSTRING
 		require
 			song_item_is_cortina: song.is_cortina
 		local
-			match_found: BOOLEAN; next_genre: ASTRING
+			match_found: BOOLEAN; next_genre: ZSTRING
 		do
 			if islast then
 				Result := Tanda_type_the_end
@@ -51,7 +56,7 @@ feature -- Element change
 
 	replace_cortinas (cortina_set: CORTINA_SET)
 		local
-			tanda_type: ASTRING; was_removed: BOOLEAN
+			tanda_type: ZSTRING; was_removed: BOOLEAN
 		do
 			if is_template then
 				replace_template (cortina_set)
@@ -104,7 +109,7 @@ feature {NONE} -- Implementation
 
 	replace_template (cortina_set: CORTINA_SET)
 		local
-			tanda_type: ASTRING
+			tanda_type: ZSTRING
 			i: INTEGER; cortina_list: ARRAYED_LIST [RBOX_CORTINA_SONG]
 		do
 			from start until after loop

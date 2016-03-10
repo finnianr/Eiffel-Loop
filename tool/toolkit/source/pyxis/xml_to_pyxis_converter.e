@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2015-12-18 12:37:35 GMT (Friday 18th December 2015)"
+	revision: "8"
 
 class
 	XML_TO_PYXIS_CONVERTER
@@ -31,7 +31,7 @@ inherit
 			default_create
 		end
 
-	EL_PYXIS_PATTERN_FACTORY
+	EL_PYXIS_ZTEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		undefine
@@ -95,8 +95,8 @@ feature -- Basic operations
 		require else
 			convertable: is_convertable
 		local
-			i, type: INTEGER
-			node_text: STRING
+			i, l_type: INTEGER
+			node_text: ZSTRING
 		do
 			log.enter ("execute")
 			log_or_io.put_path_field ("Converting", source_path)
@@ -109,8 +109,8 @@ feature -- Basic operations
 			next_node_action := agent put_pyxis_doc
 			from i := 1 until i > token_count loop
 				node_depth := xdoc.token_depth (i).max (0)
-				type := xdoc.token_type (i); node_text := xdoc.node_text_at_index (i)
-				next_node_action.call ([i, type, node_text])
+				l_type := xdoc.token_type (i); node_text := xdoc.node_text_at_index (i)
+				next_node_action.call ([i, l_type, node_text])
 				i := i + 1
 			end
 			out_file.close
@@ -132,7 +132,7 @@ feature -- Status query
 
 feature {NONE} -- Parser state actions
 
-	put_pyxis_doc (i, type: INTEGER; node_text: STRING)
+	put_pyxis_doc (i, a_type: INTEGER; node_text: ZSTRING)
 		require
 			is_first_node: i = 1
 		do
@@ -141,38 +141,38 @@ feature {NONE} -- Parser state actions
 			next_node_action := agent call_action_for_type
 		end
 
-	call_action_for_type (i, type: INTEGER; node_text: STRING)
+	call_action_for_type (i, a_type: INTEGER; node_text: ZSTRING)
 		do
-			node_actions.search (type)
+			node_actions.search (a_type)
 			if node_actions.found then
 				if i < token_count then
 					next_node_type := xdoc.token_type (i + 1)
 				end
 				node_actions.found_item.call ([node_text])
-				last_node_type := type
+				last_node_type := a_type
 
-			elseif Attribute_name_types.has (type) then
+			elseif Attribute_name_types.has (a_type) then
 				attribute_node_depth := node_depth + 1
-				save_attribute_name (i, type, node_text)
+				save_attribute_name (i, a_type, node_text)
 			end
 		end
 
-	save_attribute_name (i, type: INTEGER; node_text: STRING)
+	save_attribute_name (i, a_type: INTEGER; node_text: ZSTRING)
 		do
-			if Attribute_name_types.has (type) then
-				last_attribute_name := node_text
-				String.subst_all_characters (last_attribute_name, ':', '.')
+			if Attribute_name_types.has (a_type) then
+				last_attribute_name := node_text.twin
+				last_attribute_name.replace_character (':', '.')
 				next_node_action := agent assign_value_to_attribute
 			else
 				put_attributes; attributes.wipe_out
 				next_node_action := agent call_action_for_type
-				call_action_for_type (i, type, node_text)
+				call_action_for_type (i, a_type, node_text)
 			end
 		end
 
-	assign_value_to_attribute (i, type: INTEGER; node_text: STRING)
+	assign_value_to_attribute (i, a_type: INTEGER; node_text: ZSTRING)
 		require
-			valid_type: Attribute_value_types.has (type)
+			valid_type: Attribute_value_types.has (a_type)
 		do
 			attributes [last_attribute_name] := node_text
 			if i = token_count then
@@ -183,15 +183,15 @@ feature {NONE} -- Parser state actions
 			end
 		end
 
-	try_nothing (i, type: INTEGER; node_text: STRING)
+	try_nothing (i, a_type: INTEGER; node_text: ZSTRING)
 		do
 		end
 
 feature {NONE} -- Node events
 
-	on_starting_tag (a_name: STRING)
+	on_starting_tag (a_name: ZSTRING)
 		local
-			python_name: STRING
+			python_name: ZSTRING
 		do
 			if is_last_node_an_attribute_value then
 				out_file.put_new_line
@@ -200,8 +200,8 @@ feature {NONE} -- Node events
 				or else next_node_type = Token_attribute_name
 			then
 				put_indent (node_depth)
-				python_name := a_name.string
-				String.subst_all_characters (python_name, ':', '.')
+				python_name := a_name.twin
+				python_name.replace_character (':', '.')
 				out_file.put_string (python_name)
 				out_file.put_character (':')
 				out_file.put_new_line
@@ -209,9 +209,9 @@ feature {NONE} -- Node events
 			last_starting_tag := a_name
 		end
 
-	on_character_data (a_data: STRING)
+	on_character_data (a_data: ZSTRING)
 		local
-			lines: LIST [STRING]
+			lines: LIST [ZSTRING]
 		do
 			if is_last_node_an_attribute_value then
 				out_file.put_new_line
@@ -234,9 +234,9 @@ feature {NONE} -- Node events
 			end
 		end
 
-	on_comment_text (a_comment: STRING)
+	on_comment_text (a_comment: ZSTRING)
 		local
-			l_lines: LIST [STRING]
+			l_lines: LIST [ZSTRING]
 		do
 			out_file.put_new_line
 			l_lines := a_comment.split ('%N')
@@ -255,7 +255,7 @@ feature {NONE} -- Node events
 
 feature {NONE} -- Implementation
 
-	node_actions_table: EL_HASH_TABLE [PROCEDURE [like Current, TUPLE [STRING]], INTEGER]
+	node_actions_table: EL_HASH_TABLE [PROCEDURE [like Current, TUPLE [ZSTRING]], INTEGER]
 		do
 			create Result.make (<<
 				[Token_starting_tag, agent on_starting_tag],
@@ -266,14 +266,14 @@ feature {NONE} -- Implementation
 
 	put_attributes
 		local
-			name_value_text, line: STRING
+			name_value_text, line: ZSTRING
 		do
 			create line.make (attributes.count * 60)
 			across attributes.current_keys as name loop
 				name_value_text := name.item + " = " + adjusted_value (attributes [name.item], False, True)
 				if line.count + name_value_text.count < 80 then
 					if not line.is_empty then
-						line.append ("; ")
+						line.append (Colon_separator)
 					end
 					line.append (name_value_text)
 				else
@@ -290,19 +290,19 @@ feature {NONE} -- Implementation
 
 	put_indent (a_node_depth: INTEGER)
 		local
-			tab_indent: STRING
+			tab_indent: ZSTRING
 		do
 			create tab_indent.make_filled ('%T', a_node_depth)
 			out_file.put_string (tab_indent)
 		end
 
-	put_line (a_line: STRING)
+	put_line (a_line: ZSTRING)
 		do
 			out_file.put_string (a_line)
 			out_file.put_new_line
 		end
 
-	adjusted_value (a_string: STRING; identifiers_in_quotes, escape_backslash_before_quote: BOOLEAN): STRING
+	adjusted_value (a_string: ZSTRING; identifiers_in_quotes, escape_backslash_before_quote: BOOLEAN): ZSTRING
 			-- Put quotes around string unless it looks like a number or identifier
 		local
 			quote: CHARACTER
@@ -325,15 +325,15 @@ feature {NONE} -- Implementation
 				Result.append (a_string)
 				Result.append_character (quote)
 				if quote = '"' and escape_backslash_before_quote then
-					Result.replace_substring_all ("\%"", "\\%"")
+					Result.replace_substring_all (Back_slash_quote, Double_back_slash_quote)
 				end
 			end
 		end
 
-	trim_lines (lines: LIST [STRING])
+	trim_lines (lines: LIST [ZSTRING])
 			-- Remove leading and trailing empty lines
 		do
-			lines.do_all (agent {STRING}.left_adjust); lines.do_all (agent {STRING}.right_adjust)
+			lines.do_all (agent {ZSTRING}.left_adjust); lines.do_all (agent {ZSTRING}.right_adjust)
 			from lines.start until lines.after or not lines.item.is_empty loop
 				if lines.item.is_empty then
 					lines.remove
@@ -355,13 +355,13 @@ feature {NONE} -- Internal attributes
 
 	node_actions: like node_actions_table
 
-	next_node_action: PROCEDURE [like Current, TUPLE [INTEGER, INTEGER, STRING]]
+	next_node_action: PROCEDURE [like Current, TUPLE [INTEGER, INTEGER, ZSTRING]]
 
-	attributes: EL_ASTRING_HASH_TABLE [STRING]
+	attributes: EL_ZSTRING_HASH_TABLE [ZSTRING]
 
-	last_starting_tag: STRING
+	last_starting_tag: ZSTRING
 
-	last_attribute_name: STRING
+	last_attribute_name: ZSTRING
 
 	text_matcher: EL_TEXT_MATCHER
 
@@ -395,7 +395,22 @@ feature {NONE} -- Constants
 			Result := << Token_attr_val, Token_dec_attr_val >>
 		end
 
-	Triple_quote: STRING
+	Back_slash_quote: ZSTRING
+		once
+			Result := "\%""
+		end
+
+	Colon_separator: ZSTRING
+		once
+			Result := "; "
+		end
+
+	Double_back_slash_quote: ZSTRING
+		once
+			Result := "\\%""
+		end
+
+	Triple_quote: ZSTRING
 		once
 			create Result.make_filled ('"', 3)
 		end

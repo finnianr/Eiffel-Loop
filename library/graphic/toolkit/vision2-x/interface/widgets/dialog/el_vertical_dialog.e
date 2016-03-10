@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {DIALOG}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-27 14:24:00 GMT (Saturday 27th September 2014)"
-	revision: "4"
+	date: "2015-12-26 17:25:03 GMT (Saturday 26th December 2015)"
+	revision: "6"
 
 deferred class
 	EL_VERTICAL_DIALOG
@@ -42,11 +42,6 @@ inherit
 			default_create, copy
 		end
 
-	EL_MODULE_STRING
-		undefine
-			default_create, copy
-		end
-
 	EL_MODULE_IMAGE
 		undefine
 			default_create, copy
@@ -62,7 +57,7 @@ inherit
 feature {NONE} -- Initialization
 
 	make_dialog_with_button_texts (
-		a_title: ASTRING
+		a_title: ZSTRING
 		a_button_text, a_cancel_button_text: like button_text; a_default_button_action: like default_button_action
 	)
 		do
@@ -77,7 +72,7 @@ feature {NONE} -- Initialization
 			show_actions.extend (agent on_show)
 		end
 
-	make_dialog (a_title: ASTRING; a_default_button_action: like default_button_action)
+	make_dialog (a_title: ZSTRING; a_default_button_action: like default_button_action)
 			-- build dialog with components
 		do
 			make_dialog_with_button_texts (a_title, Default_button_text, Default_cancel_button_text, a_default_button_action)

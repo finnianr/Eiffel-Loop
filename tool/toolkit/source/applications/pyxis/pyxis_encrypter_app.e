@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2016-01-19 12:55:30 GMT (Tuesday 19th January 2016)"
+	revision: "7"
 
 class
 	PYXIS_ENCRYPTER_APP
@@ -15,9 +15,9 @@ class
 inherit
 	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [PYXIS_ENCRYPTER]
 		rename
-			command as encrypter
+			command as pyxis_encrypter
 		redefine
-			Option_name, normal_initialize, encrypter, normal_run
+			Option_name, normal_initialize, pyxis_encrypter
 		end
 
 	EL_MODULE_USER_INPUT
@@ -31,59 +31,66 @@ feature {NONE} -- Initiliazation
 
 	normal_initialize
 		do
-			create pass_phrase.make_empty
+			if not is_test_mode then
+				create aes_encrypter.make_256 (User_input.line ("Enter pass phrase"))
+				log_or_io.put_new_line
+			end
 			Precursor
 		end
 
 feature -- Basic operations
 
-	normal_run
+	test_run
+			--
 		do
-			if not is_test_mode then
-				pass_phrase.share (User_input.line ("Enter pass phrase"))
-				log_or_io.put_new_line
-			end
-			precursor
+			-- Passed 19 Jan 2016
+			Test.do_file_test ("pyxis/localization/credits.xml.pyx", agent test_translation, 1781642312)
 		end
 
 feature -- Testing
 
-	test_run
-			--
-		do
-			Test.do_file_test ("pyxis/translations.xml.pyx", agent test_conversion, 150336385)
-		end
-
-	test_conversion (a_file_path: EL_FILE_PATH)
+	test_translation (a_file_path: EL_FILE_PATH)
 			--
 		local
-			decrypter: EL_AES_ENCRYPTER
+			decrypter: EL_AES_ENCRYPTER; table, decrypted_table: EL_TRANSLATION_TABLE
+			plain_text: STRING
 		do
-			pass_phrase.share ("happydays")
-			create encrypter.make (a_file_path, create {EL_FILE_PATH}, pass_phrase)
+			log.enter ("test_translation")
+			create aes_encrypter.make_128 ("happydays")
+			create pyxis_encrypter.make (a_file_path, create {EL_FILE_PATH}, aes_encrypter)
 			normal_run
-			create decrypter.make_256 (pass_phrase)
-			log.put_string_field_to_max_length ("Pyxis", Encryption.plain_pyxis (encrypter.output_path, decrypter), 240)
+			aes_encrypter.reset
+			plain_text := Encryption.plain_pyxis (pyxis_encrypter.output_path, aes_encrypter)
+
+			across << "en", "de" >> as language loop
+				log.put_labeled_string ("language", language.item)
+				log.put_new_line
+				create decrypted_table.make_from_pyxis_source (language.item, plain_text)
+				create table.make_from_pyxis (language.item, a_file_path)
+				across table as translation loop
+					decrypted_table.search (translation.key)
+					if decrypted_table.found and then translation.item ~ decrypted_table.found_item then
+						log.put_labeled_string (translation.key, "OK")
+					else
+						log.put_labeled_string (translation.key, "ERROR")
+						log.put_new_line
+						if decrypted_table.found then
+							log.put_string_field_to_max_length ("Original", translation.item, 240)
+							log.put_new_line
+							log.put_line ("NOT EQUAL TO")
+							log.put_string_field_to_max_length ("Decrypted", decrypted_table.found_item, 240)
+						else
+							log.put_line ("Cannot find decrypted key")
+						end
+						log.put_new_line
+					end
+					log.put_new_line
+				end
+			end
+			log.exit
 		end
 
 feature {NONE} -- Implementation
-
-	encrypter: PYXIS_ENCRYPTER
-
-	make_action: PROCEDURE [like encrypter, like default_operands]
-		do
-			Result := agent encrypter.make
-		end
-
-	default_operands: TUPLE [
-		source_path, output_path: EL_FILE_PATH; pass_phrase: STRING
-	]
-		do
-			create Result
-			Result.source_path := ""
-			Result.output_path := ""
-			Result.pass_phrase := pass_phrase
-		end
 
 	argument_specs: ARRAY [like Type_argument_specification]
 		do
@@ -93,11 +100,25 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	pass_phrase: STRING
+	default_operands: TUPLE [source_path, output_path: EL_FILE_PATH]
+		do
+			create Result
+			Result.source_path := ""
+			Result.output_path := ""
+		end
+
+	make_action: PROCEDURE [like pyxis_encrypter, like default_operands]
+		do
+			Result := agent pyxis_encrypter.make (?, ?, aes_encrypter)
+		end
+
+feature {NONE} -- Internal attributes
+
+	aes_encrypter: EL_AES_ENCRYPTER
+
+	pyxis_encrypter: PYXIS_ENCRYPTER
 
 feature {NONE} -- Constants
-
-	Option_name: STRING = "pyxis_encrypt"
 
 	Description: STRING = "Encrypt content of pyxis file"
 
@@ -110,5 +131,7 @@ feature {NONE} -- Constants
 				[{PYXIS_ENCRYPTER}, All_routines]
 			>>
 		end
+
+	Option_name: STRING = "pyxis_encrypt"
 
 end

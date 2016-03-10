@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		list of strings that should be rendered with either a regular, bold or fixed font
 	]"
@@ -8,16 +8,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-22 13:07:37 GMT (Sunday 22nd December 2013)"
-	revision: "4"
+	date: "2015-12-16 7:26:35 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_MIXED_STYLE_STRING_LIST
 
 inherit
-	ARRAYED_LIST [EL_STYLED_ASTRING]
+	ARRAYED_LIST [EL_STYLED_ZSTRING]
 
 create
-	make
+	make, make_from_array
 
 end

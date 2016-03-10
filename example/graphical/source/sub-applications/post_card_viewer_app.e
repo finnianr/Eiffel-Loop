@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {POST_CARD_VIEWER_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-05-11 10:02:26 GMT (Saturday 11th May 2013)"
-	revision: "2"
+	date: "2014-12-11 14:32:12 GMT (Thursday 11th December 2014)"
+	revision: "3"
 
 class
 	POST_CARD_VIEWER_APP

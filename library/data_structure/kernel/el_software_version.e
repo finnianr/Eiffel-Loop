@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_SOFTWARE_VERSION}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-18 22:33:21 GMT (Friday 18th December 2015)"
+	revision: "4"
 
 class
 	EL_SOFTWARE_VERSION
@@ -45,9 +50,9 @@ feature -- Access
 	out: STRING
 			--
 		local
-			template: ASTRING
+			template: ZSTRING
 		do
-			template := once "$S ($S)"
+			template := once "%S (%S)"
 			Result := (template #$ [string, build]).to_string_8
 		end
 
@@ -56,7 +61,7 @@ feature -- Access
 			list: EL_STRING_LIST [STRING]
 		do
 			create list.make_from_array (<< major.out, minor.out, maintenance.out >>)
-			Result := list.joined_with ('.', False)
+			Result := list.joined ('.')
 		end
 
 feature -- Measurement

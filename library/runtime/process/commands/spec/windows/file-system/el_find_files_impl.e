@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_FIND_FILES_IMPL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:30 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2015-09-16 10:16:36 GMT (Wednesday 16th September 2015)"
+	revision: "3"
 
 class
 	EL_FIND_FILES_IMPL
@@ -29,7 +29,7 @@ feature -- Access
 			/S
 		#end
 		
-		/A-D "$path\$file_pattern"
+		/A-D $file_pattern_path
 	]"
 
 end

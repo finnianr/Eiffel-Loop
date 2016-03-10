@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2016-01-21 11:21:10 GMT (Thursday 21st January 2016)"
+	revision: "7"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP
@@ -26,13 +26,12 @@ inherit
 		end
 
 	EL_MODULE_DIRECTORY
-		export
-			{NONE} all
-		end
+
+	EL_MODULE_LOG
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_TEXTUAL_PATTERN_FACTORY
+	EL_ZTEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
@@ -46,7 +45,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor
-			make_empty
+			make_default
 			directory_content_processor.set_input_dir (tree_path)
 
 			create directory_content_processor.make
@@ -55,7 +54,7 @@ feature {NONE} -- Initialization
 				Execution_environment.variable_dir_path ("EIFFEL_LOOP").joined_dir_steps (<< "C_library", "Praat-MSVC" >>).to_string
 			)
 
-			directory_content_processor.do_all (agent set_version_from_path, "praat.c")
+			directory_content_processor.do_all (agent set_version_from_path, Praat_source)
 
 			if attached {STRING} praat_version_no as version_no then
 				create make_file_parser.make
@@ -79,12 +78,12 @@ feature -- Basic operations
 			--
 		local
 			build_all_batch_file: EL_FILE_PATH
-			batch_file_name: ASTRING
+			batch_file_name: ZSTRING
 		do
 			if attached {STRING} praat_version_no as version_no then
-				directory_content_processor.do_all (agent convert_make_file, "Makefile")
-				directory_content_processor.do_all (agent convert_c_source_file , "*.h")
-				directory_content_processor.do_all (agent convert_c_source_file , "*.c")
+				directory_content_processor.do_all (agent convert_make_file, Source_type.make_file)
+				directory_content_processor.do_all (agent convert_c_source_file, Source_type.c_header)
+				directory_content_processor.do_all (agent convert_c_source_file, Source_type.c_source)
 
 				batch_file_name := "build_all_" + praat_version_no + ".bat"
 				build_all_batch_file := directory_content_processor.output_dir + batch_file_name
@@ -93,6 +92,13 @@ feature -- Basic operations
 			end
 		end
 
+	Source_type: TUPLE [make_file, c_header, c_source: ZSTRING]
+		once
+			create Result
+			Result.make_file := "Makefile"
+			Result.c_header := "*.h"
+			Result.c_source := "*.c"
+		end
 feature -- Test
 
 	test_run
@@ -106,8 +112,8 @@ feature {NONE} -- Evolicity access
 			--
 		do
 			create Result.make (<<
-				["c_library_name_list",	 agent: ITERABLE [STRING] do Result := make_file_parser.c_library_name_list end],
-				["praat_version_no",		 agent: STRING do Result := praat_version_no end]
+				["c_library_name_list",	 agent: ITERABLE [ZSTRING] do Result := make_file_parser.c_library_name_list end],
+				["praat_version_no",		 agent: ZSTRING do Result := praat_version_no end]
 			>>)
 		end
 
@@ -119,7 +125,7 @@ feature -- Element change
 			praat_version_no := text
 		end
 
-	set_destination_path (a_path: ASTRING)
+	set_destination_path (a_path: ZSTRING)
 			--
 		do
 			directory_content_processor.set_output_dir (
@@ -129,7 +135,7 @@ feature -- Element change
 
 	set_version_from_path (
 		input_file_path: EL_FILE_PATH; output_directory: EL_DIR_PATH
-		input_file_name, input_file_extension: STRING
+		input_file_name, input_file_extension: ZSTRING
 	)
 			--
 		local
@@ -140,7 +146,7 @@ feature -- Element change
 				all_of (<<
 					character_literal (Operating_environment.Directory_separator),
 					string_literal ("sources_"),
-					repeat (character_in_range ('0', '9'), 4 |..| 4) |to| agent set_praat_version_no
+					(character_in_range ('0', '9') #occurs (4 |..| 4)) |to| agent set_praat_version_no
 				>>)
 			)
 			path_processor.set_source_text (output_directory.to_string)
@@ -152,7 +158,7 @@ feature {NONE} -- Basic operations
 
 	convert_make_file (
 		input_file_path: EL_FILE_PATH; output_directory: EL_DIR_PATH
-		input_file_name, input_file_extension: STRING
+		input_file_name, input_file_extension: ZSTRING
 	)
 			--
 		do
@@ -181,20 +187,20 @@ feature {NONE} -- Basic operations
 
 	convert_c_source_file (
 		input_file_path: EL_FILE_PATH; output_directory: EL_DIR_PATH
-		input_file_name, input_file_extension: STRING
+		input_file_name, input_file_extension: ZSTRING
 	)
 			--
 		local
 			output_file_path: EL_FILE_PATH
 			converter: GCC_TO_MSVC_CONVERTER
-			source_name: STRING
+			source_name: ZSTRING
 		do
 			log.enter_with_args ("convert_c_source_file", << input_file_path, output_directory, input_file_name >>)
 
 			output_file_path := input_file_name
 			output_file_path.add_extension (input_file_extension)
 
-			create source_name.make_from_string (input_file_name)
+			source_name := input_file_name.twin
 			source_name.append_character ('.')
 			source_name.append (input_file_extension)
 
@@ -207,7 +213,7 @@ feature {NONE} -- Basic operations
 
 			converter.set_input_file_path (input_file_path)
 			converter.set_output_file_path (output_directory + output_file_path)
-			converter.edit_text
+			converter.edit
 
 			log.exit
 		end
@@ -245,6 +251,11 @@ feature {NONE} -- Constants
 	Option_name: STRING = "praat_to_msvc"
 
 	Description: STRING = "Convert Praat C source file directory and make file to compile with MS Visual C++"
+
+	Praat_source: ZSTRING
+		once
+			Result := "praat.c"
+		end
 
 	Installer: EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER
 		once

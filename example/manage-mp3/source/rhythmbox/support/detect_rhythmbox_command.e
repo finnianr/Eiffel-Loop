@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {DETECT_RHYTHMBOX_COMMAND}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-01-19 11:01:58 GMT (Monday 19th January 2015)"
+	revision: "7"
 
 class
 	DETECT_RHYTHMBOX_COMMAND

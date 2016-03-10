@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_EV_LABEL}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:13 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2015-12-26 11:23:04 GMT (Saturday 26th December 2015)"
+	revision: "8"
 
 class
 	EL_LABEL
@@ -35,7 +35,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_wrapped (a_text: ASTRING)
+	make_wrapped (a_text: ZSTRING)
 			--
 		require
 			a_text_not_void: a_text /= Void
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 			set_text_wrapped (a_text)
 		end
 
-	make_wrapped_to_width (a_text: ASTRING; a_font: EV_FONT; a_width: INTEGER)
+	make_wrapped_to_width (a_text: ZSTRING; a_font: EV_FONT; a_width: INTEGER)
 		do
 			default_create
 			set_minimum_width (a_width)
@@ -65,11 +65,11 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	unwrapped_text: ASTRING
+	unwrapped_text: ZSTRING
 
 feature -- Element change
 
-	set_text_wrapped (a_text: ASTRING)
+	set_text_wrapped (a_text: ZSTRING)
 		-- wraps during component resizing
 		do
 			unwrapped_text := a_text
@@ -77,7 +77,7 @@ feature -- Element change
 			resize_actions.resume
 		end
 
-	set_text_wrapped_to_width (a_text: ASTRING; a_width: INTEGER)
+	set_text_wrapped_to_width (a_text: ZSTRING; a_width: INTEGER)
 			-- does an immediate wrap
 		do
 			set_minimum_width (a_width)
@@ -86,7 +86,7 @@ feature -- Element change
 			wrap_text
 		end
 
-	set_transient_text (a_text: ASTRING; timeout_secs: REAL)
+	set_transient_text (a_text: ZSTRING; timeout_secs: REAL)
 		do
 			set_text (a_text)
 			timer.set_interval ((1000 * timeout_secs).rounded)
@@ -94,7 +94,7 @@ feature -- Element change
 			timer.actions.extend_kamikaze (agent set_foreground_color (GUI.default_foreground_color))
 		end
 
-	set_text (a_text: ASTRING)
+	set_text (a_text: ZSTRING)
 		do
 			is_wrapped := False
 			set_text_general (a_text.to_unicode)

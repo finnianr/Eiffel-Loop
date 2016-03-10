@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-01-17 14:27:55 GMT (Sunday 17th January 2016)"
+	revision: "6"
 
 class
 	CODEC_GENERATOR_APP
@@ -26,6 +26,7 @@ feature -- Test
 	test_run
 			--
 		do
+			Test.set_binary_file_extensions (<< "evc" >>)
 			Test.do_file_tree_test ("codec-generation", agent test_generation, 3741528401)
 		end
 

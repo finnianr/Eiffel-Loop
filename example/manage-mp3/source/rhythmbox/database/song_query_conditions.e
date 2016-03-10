@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {RBOX_QUERY_CONDITIONS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-28 11:13:29 GMT (Monday 28th December 2015)"
+	revision: "7"
 
 class
 	SONG_QUERY_CONDITIONS
@@ -22,9 +27,9 @@ inherit
 
 feature {NONE} -- Conditions
 
-	song_contains_path_step (a_path_step: ASTRING): like predicate
+	song_contains_path_step (a_path_step: ZSTRING): like predicate
 		do
-			Result := predicate (agent (song: RBOX_SONG; path_step: ASTRING): BOOLEAN
+			Result := predicate (agent (song: RBOX_SONG; path_step: ZSTRING): BOOLEAN
 				do
 					if path_step.is_empty then
 						Result := True
@@ -35,9 +40,14 @@ feature {NONE} -- Conditions
 			)
 		end
 
-	song_in_playlist (a_database: RBOX_DATABASE): PLAYLIST_MEMBER_QUERY_CONDITION
+	song_in_some_playlist (database: RBOX_DATABASE): SONG_IN_PLAYLIST_QUERY_CONDITION
 		do
-			create Result.make (a_database)
+			create Result.make (database)
+		end
+
+	song_in_playlist (name: ZSTRING; database: RBOX_DATABASE): SONG_IN_PLAYLIST_QUERY_CONDITION
+		do
+			create Result.make_with_name (name, database)
 		end
 
 	song_is_cortina: like predicate
@@ -55,19 +65,9 @@ feature {NONE} -- Conditions
 			Result := predicate (agent {RBOX_SONG}.is_modified)
 		end
 
-	song_is_new_export (a_sync_info: DEVICE_SYNC_INFO_TABLE): like predicate
+	song_is_genre (a_genre: ZSTRING): like predicate
 		do
-			Result := predicate (agent (song: RBOX_SONG; sync_info: DEVICE_SYNC_INFO_TABLE): BOOLEAN
-				do
-					Result := not sync_info.has_key (song.track_id)
-
-				end (?, a_sync_info)
-			)
-		end
-
-	song_is_genre (a_genre: ASTRING): like predicate
-		do
-			Result := predicate (agent (song: RBOX_SONG; genre: ASTRING): BOOLEAN
+			Result := predicate (agent (song: RBOX_SONG; genre: ZSTRING): BOOLEAN
 				do
 					if genre.is_empty then
 						Result := True
@@ -87,20 +87,9 @@ feature {NONE} -- Conditions
 			)
 		end
 
-	song_is_updated_export (a_sync_info: DEVICE_SYNC_INFO_TABLE): like predicate
+	song_has_artist_and_title (a_artist, a_title: ZSTRING): like predicate
 		do
-			Result := predicate (agent (song: RBOX_SONG; sync_info: DEVICE_SYNC_INFO_TABLE): BOOLEAN
-				do
-					sync_info.search (song.track_id)
-					Result := sync_info.found and then sync_info.found_item.checksum /= song.last_checksum
-
-				end (?, a_sync_info)
-			)
-		end
-
-	song_has_artist_and_title (a_artist, a_title: ASTRING): like predicate
-		do
-			Result := predicate (agent (song: RBOX_SONG; artist, title: ASTRING): BOOLEAN
+			Result := predicate (agent (song: RBOX_SONG; artist, title: ZSTRING): BOOLEAN
 				do
 					Result := song.artist ~ artist and song.title ~ title
 
@@ -117,9 +106,9 @@ feature {NONE} -- Conditions
 			)
 		end
 
-	song_has_album_name (a_name: ASTRING): like predicate
+	song_has_album_name (a_name: ZSTRING): like predicate
 		do
-			Result := predicate (agent (song: RBOX_SONG; name: ASTRING): BOOLEAN
+			Result := predicate (agent (song: RBOX_SONG; name: ZSTRING): BOOLEAN
 				do
 					Result := song.album ~ name
 
@@ -128,15 +117,15 @@ feature {NONE} -- Conditions
 		end
 
 	song_has_artist_or_album_picture (
-		pictures: EL_ASTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]
+		pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]
 	): EL_OR_QUERY_CONDITION [RBOX_SONG]
 		do
 			Result := song_has_artist_picture (pictures) or song_has_album_picture (pictures)
 		end
 
-	song_has_artist_picture (a_pictures: EL_ASTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]): like predicate
+	song_has_artist_picture (a_pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]): like predicate
 		do
-			Result := predicate (agent (song: RBOX_SONG; pictures: EL_ASTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]): BOOLEAN
+			Result := predicate (agent (song: RBOX_SONG; pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]): BOOLEAN
 				do
 					pictures.search (song.artist)
 					if pictures.found then
@@ -147,9 +136,9 @@ feature {NONE} -- Conditions
 			)
 		end
 
-	song_has_album_picture (a_pictures: EL_ASTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]): like predicate
+	song_has_album_picture (a_pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]): like predicate
 		do
-			Result := predicate (agent (song: RBOX_SONG; pictures: EL_ASTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]): BOOLEAN
+			Result := predicate (agent (song: RBOX_SONG; pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]): BOOLEAN
 				do
 					pictures.search (song.album)
 					if pictures.found then
@@ -157,6 +146,24 @@ feature {NONE} -- Conditions
 					end
 
 				end (?, a_pictures)
+			)
+		end
+
+	song_has_audio_id: like predicate
+		do
+			Result := predicate (agent (song: RBOX_SONG): BOOLEAN
+				do
+					Result := song.has_audio_id
+				end
+			)
+		end
+
+	song_has_music_brainz_track_id: like predicate
+		do
+			Result := predicate (agent (song: RBOX_SONG): BOOLEAN
+				do
+					Result := not song.audio_id.is_null
+				end
 			)
 		end
 
@@ -220,21 +227,21 @@ feature {NONE} -- Conditions
 			)
 		end
 
-	song_in_set (a_track_id_set: DS_HASH_SET [NATURAL_64]): like predicate
+	song_in_set (a_audio_id_set: DS_HASH_SET [EL_UUID]): like predicate
 		do
-			Result := predicate (agent (song: RBOX_SONG; track_id_set: DS_HASH_SET [NATURAL_64]): BOOLEAN
+			Result := predicate (agent (song: RBOX_SONG; audio_id_set: DS_HASH_SET [EL_UUID]): BOOLEAN
 				do
-					Result := track_id_set.has (song.track_id)
+					Result := audio_id_set.has (song.audio_id)
 
-				end (?, a_track_id_set)
+				end (?, a_audio_id_set)
 			)
 		end
 
-	song_one_of_genres (a_genres: LIST [ASTRING]): like predicate
+	song_one_of_genres (a_genres: LIST [ZSTRING]): like predicate
 		require
 			object_comparison: a_genres.object_comparison
 		do
-			Result := predicate (agent (a_song: RBOX_SONG; genres: LIST [ASTRING]): BOOLEAN
+			Result := predicate (agent (a_song: RBOX_SONG; genres: LIST [ZSTRING]): BOOLEAN
 				do
 					Result := genres.has (a_song.genre)
 
@@ -244,9 +251,14 @@ feature {NONE} -- Conditions
 
 feature {NONE} -- Constants
 
-	Unknown: ASTRING
+	Unknown: ZSTRING
 		once
 			Result := "Unknown"
+		end
+
+	Trackid: ZSTRING
+		once
+			Result := "trackid"
 		end
 
 end

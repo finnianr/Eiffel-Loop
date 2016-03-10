@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-01-19 12:57:30 GMT (Tuesday 19th January 2016)"
+	revision: "6"
 
 class
 	PYXIS_ENCRYPTER
@@ -22,14 +22,13 @@ create
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
-	make (a_source_path: like source_path; a_output_path: like output_path; a_pass_phrase: like pass_phrase)
+	make (a_source_path: like source_path; a_output_path: like output_path; a_encrypter: like encrypter)
 		do
-			source_path  := a_source_path; output_path := a_output_path; pass_phrase := a_pass_phrase
+			source_path  := a_source_path; output_path := a_output_path; encrypter := a_encrypter
 			if output_path.is_empty then
 				output_path := source_path.twin
 				output_path.add_extension ("aes")
 			end
-
 		end
 
 feature -- Access
@@ -41,32 +40,31 @@ feature -- Access
 feature -- Basic operations
 
 	execute
-			--
 		local
-			in_file_list: EL_FILE_LINE_SOURCE
-			out_file: PLAIN_TEXT_FILE
-			encrypter: EL_AES_ENCRYPTER
+			in_file, out_file: PLAIN_TEXT_FILE; line: STRING; line_count: INTEGER
 		do
 			log.enter ("execute")
 			log_or_io.put_path_field ("Encrypting", source_path); log_or_io.put_new_line
-			create encrypter.make_256 (pass_phrase)
-			create in_file_list.make (source_path)
+			create in_file.make_open_read (source_path)
 			create out_file.make_open_write (output_path)
-			from in_file_list.start until in_file_list.after loop
-				if in_file_list.index <= 2 or in_file_list.item.is_empty then
-					out_file.put_string (in_file_list.item)
-				else
-					out_file.put_string (encrypter.base64_encrypted (in_file_list.item))
+
+			from until in_file.end_of_file loop
+				in_file.read_line
+				line := in_file.last_string
+				line_count := line_count + 1
+				if line_count <= 2 then
+					out_file.put_string (line)
+				elseif not line.is_empty then
+					out_file.put_string (encrypter.base64_encrypted (line))
 				end
 				out_file.put_new_line
-				in_file_list.forth
 			end
-			out_file.close; in_file_list.close
+			out_file.close; in_file.close
 			log.exit
 		end
 
 feature {NONE} -- Implementation
 
-	pass_phrase: STRING
+	encrypter: EL_AES_ENCRYPTER
 
 end

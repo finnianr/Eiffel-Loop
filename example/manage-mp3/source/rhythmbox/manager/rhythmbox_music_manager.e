@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {RHYTHMBOX_MUSIC_MANAGER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-22 11:47:44 GMT (Tuesday 22nd December 2015)"
+	revision: "4"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER
@@ -35,7 +40,7 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 		do
 			config := a_config
 			File_system.make_directory (config.dj_events.playlist_dir)
-			create file_path; create dir_path
+			create file_path; create dir_path; create last_album_name.make_empty
 		end
 
 feature -- Basic operations
@@ -74,8 +79,6 @@ feature -- Basic operations
 
 feature -- Status query
 
-	user_quit: BOOLEAN
-
 	is_rhythmbox_open: BOOLEAN
 		local
 			rhythmbox: DETECT_RHYTHMBOX_COMMAND
@@ -84,6 +87,8 @@ feature -- Status query
 			rhythmbox.execute
 			Result := rhythmbox.is_launched
 		end
+
+	user_quit: BOOLEAN
 
 feature -- Tasks
 
@@ -116,6 +121,29 @@ feature -- Tasks
 				end
 				Database.store_all
 				File_system.make_directory (Database.mp3_root_location.joined_dir_path ("Additions"))
+			end
+			log.exit
+		end
+
+	display_music_brainz_info
+		local
+			id3_info: EL_ID3_INFO
+		do
+			log.enter ("display_music_brainz_info")
+			across Database.songs.query (not song_has_audio_id) as song loop
+				log_or_io.put_path_field ("MP3", song.item.mp3_path)
+				log_or_io.put_new_line
+				create id3_info.make (song.item.mp3_path)
+				across id3_info.user_text_table as user_text loop
+					log_or_io.put_string_field (user_text.key, user_text.item.string)
+					log_or_io.put_new_line
+				end
+				log_or_io.put_line ("UNIQUE IDs")
+				across id3_info.unique_id_list as unique_id loop
+					log_or_io.put_string_field (unique_id.item.owner, unique_id.item.id)
+					log_or_io.put_new_line
+				end
+				log_or_io.put_new_line
 			end
 			log.exit
 		end
@@ -232,6 +260,7 @@ feature -- Tasks: Import/Export
 			device: like new_device
 		do
 			log.enter ("export_music_to_device")
+			log_or_io.set_timer
 			device := new_device
 			if device.volume.is_valid then
 				if config.selected_genres.is_empty then
@@ -245,11 +274,12 @@ feature -- Tasks: Import/Export
 						end
 						log_or_io.put_new_line
 					end
-					device.export_songs_and_playlists (song_in_playlist (Database) or song_one_of_genres (config.selected_genres))
+					export_to_device (device, song_in_some_playlist (Database) or song_one_of_genres (config.selected_genres))
 				end
 			else
 				notify_invalid_volume
 			end
+			log_or_io.put_elapsed_time
 			log.exit
 		end
 
@@ -260,7 +290,7 @@ feature -- Tasks: Import/Export
 			log.enter ("export_playlists_to_device")
 			device := new_device
 			if device.volume.is_valid then
-				device.export_songs_and_playlists (song_in_playlist (Database))
+				export_to_device (device, song_in_some_playlist (Database))
 			else
 				notify_invalid_volume
 			end
@@ -270,9 +300,17 @@ feature -- Tasks: Import/Export
 	import_videos
 			--
 		local
-			done: BOOLEAN
+			import_notes: like Video_import_notes; done: BOOLEAN
+			song_count: INTEGER
 		do
-			across ("flv,m4v,mp4,mov").split (',') as extension loop
+			log_or_io.put_line ("VIDEO IMPORT NOTES")
+			import_notes := Video_import_notes #$ [Video_extensions]
+			across import_notes.lines as line loop
+				log_or_io.put_line (line.item)
+			end
+			song_count := Database.songs.count
+			log_or_io.put_new_line
+			across Video_extensions.split (',') as extension loop
 				across File_system.file_list (Database.mp3_root_location, "*." + extension.item) as video_path loop
 					log_or_io.put_path_field ("Found", video_path.item.relative_path (Database.mp3_root_location))
 					log_or_io.put_new_line
@@ -283,14 +321,16 @@ feature -- Tasks: Import/Export
 					File_system.delete (video_path.item)
 				end
 			end
-			Database.store_all
+			if Database.songs.count > song_count then
+				Database.store_all
+			end
 		end
 
 feature -- Tasks: Tag editing
 
 	add_album_art
 		local
-			pictures: EL_ASTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]
+			pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]
 			picture: EL_ID3_ALBUM_PICTURE
 			jpeg_path_list: LIST [EL_FILE_PATH]
 		do
@@ -306,13 +346,6 @@ feature -- Tasks: Tag editing
 				agent Database.add_song_picture (?, ?, ?, pictures)
 			)
 			Database.store_all
-			log.exit
-		end
-
-	print_comments
-		do
-			log.enter ("print_comments")
-			for_all_songs_id3_info (not song_is_hidden, agent Database.print_id3_comments)
 			log.exit
 		end
 
@@ -336,28 +369,19 @@ feature -- Tasks: Tag editing
 			log.exit
 		end
 
+	print_comments
+		do
+			log.enter ("print_comments")
+			for_all_songs_id3_info (not song_is_hidden, agent Database.print_id3_comments)
+			log.exit
+		end
+
 	remove_all_ufids
 			--
 		do
 			log.enter ("remove_all_ufids")
 			for_all_songs (not song_is_hidden, agent Database.remove_ufid)
 			Database.store_all
-			log.exit
-		end
-
-	update_comments_with_album_artists
-			--
-		do
-			log.enter ("update_comments_with_album_artists")
-			for_all_songs (not song_is_hidden, agent Database.update_song_comment_with_album_artists)
-			Database.store_all
-			log.exit
-		end
-
-	rewrite_incomplete_id3_info
-		do
-			log.enter ("rewrite_incomplete_id3_info")
-			for_all_songs (not song_is_hidden, agent Database.rewrite_id3_info)
 			log.exit
 		end
 
@@ -371,17 +395,115 @@ feature -- Tasks: Tag editing
 			log.exit
 		end
 
+	rewrite_incomplete_id3_info
+		do
+			log.enter ("rewrite_incomplete_id3_info")
+			for_all_songs (not song_is_hidden, agent Database.rewrite_id3_info)
+			log.exit
+		end
+
+	update_comments_with_album_artists
+			--
+		do
+			log.enter ("update_comments_with_album_artists")
+			for_all_songs (not song_is_hidden, agent Database.update_song_comment_with_album_artists)
+			Database.store_all
+			log.exit
+		end
+
 feature {NONE} -- Factory
 
-	new_device: USB_DEVICE
+	new_device: STORAGE_DEVICE
 		do
-			if config.volume.name.starts_with ("NOKIA") then
-				create {NOKIA_USB_DEVICE} Result.make (config, Database)
-			elseif config.volume.name.split (' ').first.same_string ("GT") then
-				create {GALAXY_TABLET_USB_DEVICE} Result.make (config, Database)
+			if config.volume.type.as_lower ~ Device_type.nokia_phone then
+				create {NOKIA_PHONE_DEVICE} Result.make (config, Database)
+
+			elseif config.volume.type.as_lower ~ Device_type.samsung_tablet then
+				create {SAMSUNG_TABLET_DEVICE} Result.make (config, Database)
+
+			elseif config.playlist_export.root.count > 1
+				and then config.playlist_export.root.unicode_item (1).is_alpha
+				and then config.playlist_export.root [2] = ':'
+			then
+				create {NOKIA_PHONE_DEVICE} Result.make (config, Database)
+
 			else
 				create Result.make (config, Database)
 			end
+		end
+
+	new_input_song_time (prompt: ZSTRING): TIME
+		local
+			time_str: STRING
+		do
+			time_str := User_input.line (prompt).to_string_8
+			if not time_str.has ('.') then
+				time_str.append (".000")
+			end
+			if Time.is_valid_fine (time_str) then
+				create Result.make_from_string (time_str, Fine_time_format)
+			else
+				create Result.make_by_seconds (0)
+			end
+		end
+
+	new_menu_option_input (prompt: ZSTRING; menu: EL_ZSTRING_LIST): INTEGER
+		local
+			is_valid: BOOLEAN
+		do
+			log_or_io.put_line (prompt)
+			across menu as option loop
+				log_or_io.put_labeled_string (option.cursor_index.out, option.item)
+				log_or_io.put_new_line
+			end
+			log_or_io.put_new_line
+			from until is_valid loop
+				Result := User_input.integer ("Enter a number")
+				log_or_io.put_new_line
+				if menu.valid_index (Result) then
+					is_valid := True
+				else
+					log_or_io.put_line ("Invalid option")
+					log_or_io.put_new_line
+				end
+			end
+		end
+
+	new_song_info_input (duration_time: TIME_DURATION; default_title, lead_artist: ZSTRING): like Type_song_info
+		local
+			zero: DOUBLE
+		do
+			create Result
+			Result.time_from := new_input_song_time ("From time")
+			Result.time_to := new_input_song_time ("To time")
+			if Result.time_to.fine_seconds ~ zero then
+				Result.time_to := new_time (duration_time.fine_seconds_count)
+			end
+			Result.beats_per_minute := User_input.integer ("Post play silence (secs)")
+			Result.title := User_input.line ("Title")
+			if Result.title.is_empty then
+				Result.title := default_title
+			end
+			Result.album_name := User_input.line ("Album name")
+			if Result.album_name ~ Ditto then
+				Result.album_name := last_album_name
+				log_or_io.put_labeled_string ("Using album name", last_album_name)
+				log_or_io.put_new_line
+			elseif Result.album_name.is_empty then
+				Result.album_name := lead_artist
+			end
+			last_album_name := Result.album_name
+			Result.album_artists := User_input.line ("Album artists")
+			Result.recording_year := User_input.integer ("Recording year")
+		end
+
+	new_substitution: TUPLE [deleted_path, replacement_path: EL_FILE_PATH]
+		do
+			create Result
+			Result.deleted_path := User_input.file_path ("Song to remove")
+			log_or_io.put_new_line
+			Result.replacement_path := User_input.file_path ("Song replacement")
+			log_or_io.put_new_line
 		end
 
 	new_substitution_list: LINKED_LIST [like new_substitution]
@@ -397,61 +519,16 @@ feature {NONE} -- Factory
 			Result.remove
 		end
 
-	new_substitution: TUPLE [deleted_path, replacement_path: EL_FILE_PATH]
-		do
-			create Result
-			Result.deleted_path := User_input.file_path ("Song to remove")
-			log_or_io.put_new_line
-			Result.replacement_path := User_input.file_path ("Song replacement")
-			log_or_io.put_new_line
-		end
-
-	new_song_info_input (
-		duration_time: TIME_DURATION; default_title, lead_artist: ASTRING
-
-	): TUPLE [time_from, time_to: TIME; title, album_artists, album_name: ASTRING; recording_year: INTEGER]
-		do
-			create Result
-			Result.time_from := new_input_time ("From time")
-			Result.time_to := new_input_time ("To time")
-			if Result.time_to.fine_second = 0 then
-				Result.time_to := new_time (duration_time.fine_seconds_count)
-			end
-			Result.title := User_input.line ("Title")
-			if Result.title.is_empty then
-				Result.title := default_title
-			end
-			Result.album_name := User_input.line ("Album name")
-			if Result.album_name.is_empty then
-				Result.album_name := lead_artist
-			end
-			Result.album_artists := User_input.line ("Album artists")
-			Result.recording_year := User_input.integer ("Recording year")
-		end
-
 	new_time (fine_seconds: DOUBLE): TIME
 		do
 			create Result.make_by_fine_seconds (fine_seconds)
 		end
 
-	new_input_time (prompt: ASTRING): TIME
-		local
-			line: ASTRING
-		do
-			line := User_input.line (prompt)
-			if Time.is_valid (line.to_string_8) then
-				create Result.make_from_string (line.to_string_8, "mi:ss")
-			else
-				create Result.make_by_seconds (0)
-			end
-		end
-
 	new_video_song (video_path: EL_FILE_PATH): RBOX_SONG
 		local
 			video_properties: EL_AUDIO_PROPERTIES_COMMAND; video_to_mp3_command: EL_VIDEO_TO_MP3_COMMAND
+			genre_path, artist_path: EL_DIR_PATH; song_info: like Type_song_info
 			duration_time: TIME_DURATION
-			genre_path, artist_path: EL_DIR_PATH
-			song_info: like new_song_info_input
 		do
 			artist_path := video_path.parent; genre_path := artist_path.parent
 			create video_properties.make (video_path)
@@ -462,6 +539,9 @@ feature {NONE} -- Factory
 			Result.set_genre (genre_path.base)
 			if song_info.recording_year > 0 then
 				Result.set_recording_year (song_info.recording_year)
+			end
+			if Database.silence_intervals.valid_index (song_info.beats_per_minute) then
+				Result.set_beats_per_minute (song_info.beats_per_minute)
 			end
 			Result.set_album (song_info.album_name)
 			Result.set_album_artists_list (song_info.album_artists)
@@ -474,12 +554,16 @@ feature {NONE} -- Factory
 			then
 				video_to_mp3_command.set_offset_time (song_info.time_from)
 				duration_time := song_info.time_to.relative_duration (song_info.time_from)
-				-- duration has extra 0.1 secs added to prevent rounding error below the required duration
-				duration_time.fine_second_add (0.1)
+				-- duration has extra 0.001 secs added to prevent rounding error below the required duration
+				duration_time.fine_second_add (0.001)
 				video_to_mp3_command.set_duration (duration_time)
 				Result.set_duration (duration_time.fine_seconds_count.rounded)
 			end
-			video_to_mp3_command.set_bit_rate (video_properties.bit_rate)
+			if song_info.beats_per_minute > 0 then
+				Result.set_beats_per_minute (song_info.beats_per_minute)
+			end
+			-- Increase bitrate by 64 for AAC -> MP3 conversion
+			video_to_mp3_command.set_bit_rate (video_properties.standard_bit_rate + 64)
 			log_or_io.put_string ("Converting..")
 			video_to_mp3_command.execute
 			Result.save_id3_info
@@ -487,6 +571,18 @@ feature {NONE} -- Factory
 		end
 
 feature {NONE} -- Implementation
+
+	ask_user_for_dir_path (name: ZSTRING)
+		do
+			dir_path := User_input.dir_path (Drag_and_drop_template #$ [name])
+			log_or_io.put_new_line
+		end
+
+	ask_user_for_file_path (name: ZSTRING)
+		do
+			file_path := User_input.file_path (Drag_and_drop_template #$ [name])
+			log_or_io.put_new_line
+		end
 
 	ask_user_for_task
 		local
@@ -509,21 +605,29 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	ask_user_for_dir_path (name: ASTRING)
-		do
-			dir_path := User_input.dir_path (Drag_and_drop_template #$ [name])
-			log_or_io.put_new_line
-		end
-
-	ask_user_for_file_path (name: ASTRING)
-		do
-			file_path := User_input.file_path (Drag_and_drop_template #$ [name])
-			log_or_io.put_new_line
-		end
-
 	database_dir_path: EL_DIR_PATH
 		do
 			Result := xml_database_file_path.parent
+		end
+
+	export_to_device (device: like new_device; a_condition: EL_QUERY_CONDITION [RBOX_SONG])
+		local
+			name_clashes: like Database.case_insensitive_name_clashes
+		do
+			name_clashes := Database.case_insensitive_name_clashes
+			if name_clashes.is_empty then
+				device.export_songs_and_playlists (a_condition)
+			else
+				-- A problem on NTFS and FAT32 filesystems
+				log_or_io.put_line ("CASE INSENSITIVE NAME CLASHES FOUND")
+				log_or_io.put_new_line
+				across name_clashes as path loop
+					log_or_io.put_path_field ("MP3", path.item)
+					log_or_io.put_new_line
+				end
+				log_or_io.put_new_line
+				log_or_io.put_line ("Fix before proceeding")
+			end
 		end
 
 	for_all_songs (
@@ -574,6 +678,7 @@ feature {NONE} -- Implementation
 				[Task_add_album_art, 							agent add_album_art],
 				[Task_collate_songs, 							agent collate_songs],
 				[Task_delete_comments, 							agent delete_comments],
+				[Task_display_music_brainz_info, 			agent display_music_brainz_info],
 				[Task_export_dj_events,							agent export_dj_events],
 				[Task_export_music_to_device,					agent export_music_to_device],
 				[Task_export_playlists_to_device, 			agent export_playlists_to_device],
@@ -607,25 +712,64 @@ feature {NONE} -- Internal attributes
 
 	config: MANAGER_CONFIG
 
-	file_path: EL_FILE_PATH
-
 	dir_path: EL_DIR_PATH
 
-feature {NONE} -- Constants
+	file_path: EL_FILE_PATH
 
-	Drag_and_drop_template: ASTRING
+	last_album_name: ZSTRING
+
+feature {NONE} -- Type definitions
+
+	Type_song_info: TUPLE [time_from, time_to: TIME; title, album_artists, album_name: ZSTRING; recording_year, beats_per_minute: INTEGER]
+		require
+			never_called: False
 		once
-			Result := "Drag and drop $S here"
+			create Result
 		end
+
+feature {NONE} -- Constants
 
 	Database: RBOX_DATABASE
 		once
 			create Result.make (xml_database_file_path, config.dj_events.playlist_dir)
 		end
 
-	Quit: ASTRING
+	Device_type: TUPLE [samsung_tablet, nokia_phone: ZSTRING]
+		once
+			create Result
+			Result.samsung_tablet := "samsung tablet"
+			Result.nokia_phone := "nokia phone"
+		end
+
+	Ditto: ZSTRING
+		once
+			Result := "%""
+		end
+
+	Drag_and_drop_template: ZSTRING
+		once
+			Result := "Drag and drop %S here"
+		end
+
+	Fine_time_format: STRING = "mi:ss.ff3"
+
+	Quit: ZSTRING
 		once
 			Result := "quit"
+		end
+
+	Video_extensions: STRING = "flv,m4a,m4v,mp4,mov"
+
+	Video_import_notes: ZSTRING
+			-- '#' is the same as '%S'
+		once
+			Result := "[
+				Place videos (or m4a audio files) in genre/artist folder.
+				Imports files with extensions: #.
+				Leave blank fields for the default. Default title is parent directory.
+				To duplicate previous album name enter " (for ditto).
+				Input offset times are in mm:ss[.xxx] form. If recording year is unknown, enter 0.
+			]"
 		end
 
 end

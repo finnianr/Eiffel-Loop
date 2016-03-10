@@ -1,14 +1,19 @@
-note
+﻿note
 	description: "Summary description for {CORTINA_SET}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 7:09:42 GMT (Wednesday 16th December 2015)"
+	revision: "4"
 
 class
 	CORTINA_SET
 
 inherit
-	EL_ASTRING_HASH_TABLE [EL_ARRAYED_LIST [RBOX_CORTINA_SONG]]
+	EL_ZSTRING_HASH_TABLE [EL_ARRAYED_LIST [RBOX_CORTINA_SONG]]
 		rename
 			make as make_string_table
 		end
@@ -32,7 +37,7 @@ feature {NONE} -- Initialization
 
 	make (a_database: like database; a_config: like config; a_source_song: like source_song)
 		local
-			genre: ASTRING
+			genre: ZSTRING
 		do
 			database := a_database; config := a_config; source_song := a_source_song
 			make_equal (4)
@@ -71,7 +76,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	new_cortina_list (genre: ASTRING): like item
+	new_cortina_list (genre: ZSTRING): like item
 		local
 			source_offset_secs, clip_duration: INTEGER; fade_in_duration, fade_out_duration: REAL
 			cortina: RBOX_CORTINA_SONG
@@ -104,6 +109,6 @@ feature {NONE} -- Implementation
 
 	database: RBOX_DATABASE
 
-	tanda_type_counts: EL_ASTRING_HASH_TABLE [INTEGER]
+	tanda_type_counts: EL_ZSTRING_HASH_TABLE [INTEGER]
 
 end

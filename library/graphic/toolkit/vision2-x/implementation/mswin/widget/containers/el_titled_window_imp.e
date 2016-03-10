@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Not so silly window"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-09-09 11:43:16 GMT (Wednesday 9th September 2015)"
+	revision: "5"
 
 class
 	EL_TITLED_WINDOW_IMP
@@ -47,7 +47,6 @@ feature -- Status query
 	has_wide_theme_border: BOOLEAN
 
 		local
-			max_path: REAL
 			theme_path: EL_PATH_STEPS
 		do
 			theme_path := current_theme_name

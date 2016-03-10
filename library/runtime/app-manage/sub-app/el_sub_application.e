@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-02-24 11:28:17 GMT (Monday 24th February 2014)"
-	revision: "5"
+	date: "2016-03-04 13:19:13 GMT (Friday 4th March 2016)"
+	revision: "7"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -69,9 +69,7 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 			end
 			log.exit
 			log_manager.close_logs
-			if not log_manager.keep_logs then
-				log_manager.delete_logs
-			end
+			log_manager.delete_logs
 
 		rescue
 			log.restore (log_stack_pos)
@@ -98,7 +96,7 @@ feature -- Access
 --			valid_name: across Result as char all char.item.is_alpha_numeric or char.item.code = {ASCII}.underlined end
 		end
 
-	new_option_name: ASTRING
+	new_option_name: ZSTRING
 		do
 			create Result.make_from_unicode (option_name)
 		end
@@ -220,14 +218,14 @@ feature {NONE} -- Element change
 			-- set class attribute from command line option
 		local
 			l_argument_index: INTEGER
-			l_argument: ASTRING
+			l_argument: ZSTRING
 		do
 			options_help.extend ([a_word_option, a_description, a_attribute.out])
 			if Args.has_value (a_word_option) then
 				l_argument_index := Args.index_of_word_option (a_word_option) + 1
 				l_argument := Args.item (l_argument_index)
 
-				if attached {ASTRING} a_attribute as a_string then
+				if attached {ZSTRING} a_attribute as a_string then
 					a_string.share (l_argument)
 
 				elseif attached {EL_DIR_PATH} a_attribute as a_dir_path then
@@ -258,7 +256,7 @@ feature {NONE} -- Element change
 				elseif attached {BOOLEAN_REF} a_attribute as a_boolean_value then
 					a_boolean_value.set_item (Args.word_option_exists (a_word_option))
 
-				elseif attached {EL_ASTRING_HASH_TABLE [STRING]} a_attribute as hash_table then
+				elseif attached {EL_ZSTRING_HASH_TABLE [STRING]} a_attribute as hash_table then
 					hash_table [a_word_option] := l_argument
 				end
 			else
@@ -315,7 +313,7 @@ feature {NONE} -- Element change
 			put_log_message (Template_command_error, [option_name.as_string_8])
 		end
 
-	put_log_message (a_template: ASTRING; a_inserts: TUPLE)
+	put_log_message (a_template: ZSTRING; a_inserts: TUPLE)
 		do
 			log_or_io.put_line (a_template #$ a_inserts)
 		end
@@ -397,7 +395,7 @@ feature {EL_APPLICATION_INSTALLER} -- Constants
 			l_steps: EL_PATH_STEPS
 		once
 			l_steps := Directory.user_data
-			l_steps.extend (create {ASTRING}.make_from_unicode (option_name))
+			l_steps.extend (create {ZSTRING}.make_from_unicode (option_name))
 			l_steps.extend ("logs")
 			Result := l_steps
 		end
@@ -408,39 +406,39 @@ feature {EL_APPLICATION_INSTALLER} -- Constants
 			Result := "file"
 		end
 
-	Template_required_argument_error: STRING
+	Template_required_argument_error: ZSTRING
 		once
 			Result := "[
-				A required argument "-$S" is not specified.
+				A required argument "-#" is not specified.
 			]"
 		end
 
-	Template_missing_argument_error: STRING
+	Template_missing_argument_error: ZSTRING
 		once
 			Result := "[
-				The word option "-$S" is not followed by an argument.
+				The word option "-#" is not followed by an argument.
 			]"
 		end
 
-	Template_path_error: STRING
+	Template_path_error: ZSTRING
 		once
 			Result := "[
-				ERROR in $S argument: "-$S"
-				The $S: "$S" does not exist.
+				ERROR in # argument: "-#"
+				The #: "#" does not exist.
 			]"
 		end
 
-	Template_type_error: STRING
+	Template_type_error: ZSTRING
 		once
 			Result := "[
-				ERROR: option "-$S" is not followed by a $S
+				ERROR: option "-#" is not followed by a #
 			]"
 		end
 
-	Template_command_error: STRING
+	Template_command_error: ZSTRING
 		once
 			Result := "[
-				Command "$S" failed!
+				Command "#" failed!
 			]"
 		end
 

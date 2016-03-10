@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Default 'do nothing' log"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-22 8:42:38 GMT (Tuesday 22nd October 2013)"
-	revision: "3"
+	date: "2015-05-03 10:50:59 GMT (Sunday 3rd May 2015)"
+	revision: "4"
 
 class
 	EL_LOG

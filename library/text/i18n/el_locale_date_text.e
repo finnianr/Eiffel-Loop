@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_DATE_ROUTINES}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-17 11:30:02 GMT (Thursday 17th December 2015)"
+	revision: "6"
 
 class
 	EL_LOCALE_DATE_TEXT
@@ -22,13 +22,13 @@ inherit
 
 feature {NONE} -- Implementation
 
-	week_day_name (day: INTEGER; short: BOOLEAN): ASTRING
+	week_day_name (day: INTEGER; short: BOOLEAN): ZSTRING
 			--	
 		do
 			Result := Locale * Precursor (day, short)
 		end
 
-	month_name (month_of_year: INTEGER; short: BOOLEAN): ASTRING
+	month_name (month_of_year: INTEGER; short: BOOLEAN): ZSTRING
 			--
 		do
 			if not short and then month_of_year = 5 then
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation
 
-	ordinal_indicator (i: INTEGER): ASTRING
+	ordinal_indicator (i: INTEGER): ZSTRING
 			--	
 		do
 			Result := Locale * Ordinal_indicator_template #$ [i]
@@ -48,15 +48,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Default_ordinal_indicator: ASTRING
+	Default_ordinal_indicator: ZSTRING
 			--	
 		once
 			Result := ordinal_indicator (0)
 		end
 
-	Ordinal_indicator_template: ASTRING
+	Ordinal_indicator_template: ZSTRING
 		once
-			Result := "{ordinal-indicator.$S}"
+			Result := "{ordinal-indicator.%S}"
 		end
 
 end

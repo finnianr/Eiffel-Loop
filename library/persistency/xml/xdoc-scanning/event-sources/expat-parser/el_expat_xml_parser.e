@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Wrapper for eXpat XML parser.
 	]"
@@ -12,10 +12,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-24 10:58:36 GMT (Thursday 24th December 2015)"
+	revision: "5"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -396,7 +396,7 @@ feature {NONE} -- Expat callbacks
 				c_decoder.set_from_utf8 (str, a_encoding)
 				set_encoding_from_name (str)
 			end
-			scanner.on_xml_tag_declaration
+			scanner.on_xml_tag_declaration (xml_version, Current)
 		end
 
 	frozen on_start_tag_parsed (tag_name_ptr, attribute_array_ptr: POINTER)

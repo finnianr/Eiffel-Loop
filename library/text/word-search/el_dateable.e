@@ -1,19 +1,31 @@
-note
+﻿note
 	description: "Summary description for {EL_DATE_STAMPED}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2016-01-04 12:39:26 GMT (Monday 4th January 2016)"
+	revision: "3"
 
-class
+deferred class
 	EL_DATEABLE
 
 feature -- Access
 
 	date: DATE
-	
+		deferred
+		end
+
+feature -- Status query
+
+	between (from_date, to_date: DATE): BOOLEAN
+		local
+			l_date: like date
+		do
+			l_date := date
+			Result := from_date <= l_date and then l_date <= to_date
+		end
+
 end

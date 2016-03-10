@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Switch order of first and secondname in contacts file"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 12:58:15 GMT (Sunday 20th December 2015)"
+	revision: "5"
 
 class
 	VCF_CONTACT_NAME_SWITCHER
@@ -50,9 +55,9 @@ feature -- Basic operations
 
 feature {NONE} -- State handlers
 
-	find_name (line: ASTRING)
+	find_name (line: ZSTRING)
 		local
-			name, field_name: ASTRING
+			name, field_name: ZSTRING
 		do
 			if across << Name_field, Name_field_utf_8 >> as field some line.starts_with (field.item) end then
 				field_name := line.substring (1, line.index_of (':', 1))
@@ -60,31 +65,31 @@ feature {NONE} -- State handlers
 				names.append_split (line.substring (field_name.count + 1, line.count), ';', false)
 				-- Swap
 				name := names [1]; names [1] := names [2]; names [2] := name
-				vcf_out.put_astring (field_name)
-				vcf_out.put_astring (names.joined_with (';', false))
+				vcf_out.put_string_z (field_name)
+				vcf_out.put_string_z (names.joined_with (';', false))
 
 				state := agent put_full_name (?, field_name)
 
 			elseif not line.is_empty then
-				vcf_out.put_astring (line)
+				vcf_out.put_string_z (line)
 			end
 			vcf_out.put_new_line
 		end
 
-	put_full_name (line: ASTRING; field_name: ASTRING)
+	put_full_name (line: ZSTRING; field_name: ZSTRING)
 		do
 			vcf_out.put_character ('F')
-			vcf_out.put_astring (field_name)
-			vcf_out.put_astring (names [2])
+			vcf_out.put_string_z (field_name)
+			vcf_out.put_string_z (names [2])
 			if field_name ~ Name_field then
 				vcf_out.put_character (' ')
 			else
 				vcf_out.put_string ("=20")
 			end
-			vcf_out.put_astring (names [1])
+			vcf_out.put_string_z (names [1])
 			vcf_out.put_new_line
-			if not line.starts_with ("FN") then
-				vcf_out.put_astring (line)
+			if not line.starts_with (Id_fn_upper) then
+				vcf_out.put_string_z (line)
 				vcf_out.put_new_line
 			end
 			state := agent find_name
@@ -96,16 +101,21 @@ feature {NONE} -- Implementation
 
 	vcf_out: EL_PLAIN_TEXT_FILE
 
-	names: EL_ASTRING_LIST
+	names: EL_ZSTRING_LIST
 
 feature {NONE} -- Constants
 
-	Name_field: ASTRING
+	Id_fn_upper: ZSTRING
+		once
+			Result := "FN"
+		end
+
+	Name_field: ZSTRING
 		once
 			Result := "N:"
 		end
 
-	Name_field_utf_8: ASTRING
+	Name_field_utf_8: ZSTRING
 		once
 			Result := "N;CHARSET=UTF-8"
 		end

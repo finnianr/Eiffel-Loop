@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_USER_INPUT_LIST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-26 11:22:53 GMT (Saturday 26th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_INPUT_WIDGET [G]
@@ -88,7 +88,7 @@ feature {NONE} -- Implementation
 			)
 		end
 
-	displayed_value (value: G): ASTRING
+	displayed_value (value: G): ZSTRING
 		deferred
 		end
 

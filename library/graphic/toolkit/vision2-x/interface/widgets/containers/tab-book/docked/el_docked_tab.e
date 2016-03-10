@@ -1,16 +1,19 @@
-note
+﻿note
 	description: "Summary description for {EL_VERTICAL_TAB_BOX}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2015-12-26 11:19:09 GMT (Saturday 26th December 2015)"
+	revision: "8"
 
 deferred class
 	EL_DOCKED_TAB
+
+inherit
+	EL_MODULE_GUI
 
 feature {NONE} -- Initialization
 
@@ -27,23 +30,13 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	unique_title: ASTRING
+	content_widget: like new_content_widget
+
+	description: ZSTRING
 		deferred
 		end
 
-	title: ASTRING
-		deferred
-		end
-
-	long_title: ASTRING
-		deferred
-		end
-
-	description: ASTRING
-		deferred
-		end
-
-	detail: ASTRING
+	detail: ZSTRING
 		deferred
 		end
 
@@ -51,18 +44,33 @@ feature -- Access
 		deferred
 		end
 
-	content_widget: like new_content_widget
+	long_title: ZSTRING
+		deferred
+		end
+
+	title: ZSTRING
+		deferred
+		end
+
+	unique_title: ZSTRING
+		deferred
+		end
 
 feature -- Status Query
-
-	is_selected: BOOLEAN
-		do
-			Result := tab_book.is_tab_selected (Current)
-		end
 
 	is_closeable: BOOLEAN
 		do
 			Result := True
+		end
+
+	is_selected: BOOLEAN
+		do
+			Result := properties.has_focus
+		end
+
+	is_current_tab_set: BOOLEAN
+		do
+			Result := tab_book.tabs.item = Current
 		end
 
 feature -- Basic operations
@@ -71,7 +79,6 @@ feature -- Basic operations
 		do
 			if is_closeable then
 				on_close
-				tab_book.prune (Current)
 				properties.close
 			end
 		end
@@ -87,6 +94,13 @@ feature -- Basic operations
 			properties.set_tab_tooltip (long_title.to_unicode)
 		end
 
+feature -- Status change
+
+	set_selected
+		do
+			properties.set_focus
+		end
+
 feature -- Comparison
 
 	is_less alias "<" (other: like Current): BOOLEAN
@@ -95,7 +109,7 @@ feature -- Comparison
 			Result := unique_title < other.unique_title
 		end
 
-feature {EL_DOCKED_TAB_BOOK, SD_WIDGET_FACTORY} -- Access
+feature {EL_DOCKED_TAB_BOOK, SD_WIDGET_FACTORY, SD_TAB_ZONE} -- Access
 
 	properties: EL_DOCKING_CONTENT
 		-- tab properties
@@ -118,17 +132,19 @@ feature {EL_DOCKED_TAB_BOOK} -- Element change
 
 feature {EL_DOCKED_TAB_BOOK, EL_DOCKING_CONTENT} -- Event handler
 
-	on_show
+	on_close
 		do
-			tab_book.select_tab (Current)
 		end
 
 	on_selected
+		require
+			current_tab_set: is_current_tab_set
 		do
 		end
 
-	on_close
+	on_focus_in
 		do
+			GUI.do_once_on_idle (agent on_selected)
 		end
 
 feature {SD_WIDGET_FACTORY} -- Factory
@@ -145,12 +161,12 @@ feature {SD_WIDGET_FACTORY} -- Factory
 
 feature {EL_DOCKING_CONTENT} -- Implementation
 
-	short_title (s: ASTRING): ASTRING
+	content_border_box: EL_HORIZONTAL_BOX
+
+	short_title (s: ZSTRING): ZSTRING
 		do
 			Result := s.substring (1, s.count.min (14)) + ".."
 		end
-
-	content_border_box: EL_HORIZONTAL_BOX
 
 feature {NONE} -- Constants
 

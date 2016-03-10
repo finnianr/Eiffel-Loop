@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-16 12:39:19 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	SMIL_AUDIO_SEQUENCE
@@ -49,7 +49,7 @@ feature -- Access
 
 	audio_clip_list: ARRAYED_LIST [SMIL_AUDIO_CLIP]
 
-	title: ASTRING
+	title: ZSTRING
 
 	id: INTEGER
 
@@ -60,7 +60,7 @@ feature {NONE} -- Evolicity fields
 		do
 			create Result.make (<<
 				["id",					 agent: INTEGER_REF do Result := id.to_reference end],
-				["title",				 agent: ASTRING do Result := title end],
+				["title",				 agent: ZSTRING do Result := title end],
 				["audio_clip_list",	 agent: ITERABLE [SMIL_AUDIO_CLIP] do Result := audio_clip_list end]
 			>>)
 		end

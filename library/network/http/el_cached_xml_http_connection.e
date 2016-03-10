@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_XML_HTTP_CONNECTION}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-05-20 14:29:01 GMT (Wednesday 20th May 2015)"
+	revision: "3"
 
 class
 	EL_CACHED_XML_HTTP_CONNECTION

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Syntax for looping over a sequence:
 			
@@ -13,10 +13,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-24 16:02:17 GMT (Sunday 24th November 2013)"
-	revision: "4"
+	date: "2015-12-16 8:15:07 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EVOLICITY_FOREACH_DIRECTIVE
@@ -43,7 +43,7 @@ feature -- Initialization
 
 feature -- Element change
 
-	set_var_iterator (a_iterator_var_name: ASTRING)
+	set_var_iterator (a_iterator_var_name: ZSTRING)
 			--
 		do
 			iterator_var_name := a_iterator_var_name
@@ -136,11 +136,11 @@ feature {NONE} -- Implementation
 			outer_loop_variables.wipe_out
 		end
 
-	iterator_var_name: ASTRING
+	iterator_var_name: ZSTRING
 
 	traversable_container_variable_ref: EVOLICITY_VARIABLE_REFERENCE
 
-	local_scope_variable_names: ARRAY [ASTRING]
+	local_scope_variable_names: ARRAY [ZSTRING]
 
 	outer_loop_variables: EVOLICITY_OBJECT_TABLE [ANY]
 		-- Variables in outer loop that may have names clashing with this loop

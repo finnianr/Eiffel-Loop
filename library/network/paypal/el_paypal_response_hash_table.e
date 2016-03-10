@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PAYPAL_RESPONSE_TABLE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 16:59:15 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	EL_PAYPAL_RESPONSE_HASH_TABLE
@@ -41,7 +46,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item (name: ASTRING): ASTRING
+	item (name: ZSTRING): ZSTRING
 		do
 			Result := Precursor (name)
 			if Result.has_quotes (2) then
@@ -49,21 +54,21 @@ feature -- Access
 			end
 		end
 
-	i_th_item (name_prefix: ASTRING; i: INTEGER): ASTRING
+	i_th_item (name_prefix: ZSTRING; i: INTEGER): ZSTRING
 		local
-			name: ASTRING
+			name: ZSTRING
 		do
 			name := empty_once_string
 			name.append (name_prefix)
-			name.append_code (Zero.natural_32_code + i.to_natural_32)
+			name.append_z_code (Zero.natural_32_code + i.to_natural_32)
 			Result := item (name)
 		end
 
-	name_value_pair (name: ASTRING): TUPLE [name, value: ASTRING]
+	name_value_pair (name: ZSTRING): TUPLE [name, value: ZSTRING]
 		require
 			valid_item: item (name).has ('=')
 		local
-			pos_equal: INTEGER;item_str: ASTRING
+			pos_equal: INTEGER;item_str: ZSTRING
 		do
 			item_str := item (name)
 			pos_equal := item_str.index_of ('=', 1)
@@ -76,13 +81,13 @@ feature -- Access
 
 feature {NONE} -- Constants
 
-	Once_key_set: EL_HASH_SET [ASTRING]
+	Once_key_set: EL_HASH_SET [ZSTRING]
 		local
 			i: INTEGER
 		once
 			create Result.make_equal (50)
 			from i := 1 until i > Variable.count loop
-				if attached {ASTRING} Variable.reference_item (i) as name then
+				if attached {ZSTRING} Variable.reference_item (i) as name then
 					Result.put (name)
 				end
 				i := i + 1

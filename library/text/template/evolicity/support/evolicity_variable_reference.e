@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EVOLICITY_REFERENCE}."
 
 	author: "Finnian Reilly"
@@ -6,42 +6,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-24 15:44:46 GMT (Sunday 24th November 2013)"
-	revision: "3"
+	date: "2015-12-18 22:34:19 GMT (Friday 18th December 2015)"
+	revision: "5"
 
 class
 	EVOLICITY_VARIABLE_REFERENCE
 
 inherit
-	ARRAYED_LIST [ASTRING]
+	EL_ZSTRING_LIST
 		rename
 			item as step,
 			islast as is_last_step,
 			last as last_step
 		redefine
-			default_create, out
-		end
-
-	EL_MODULE_STRING
-		undefine
-			default_create, is_equal, copy, out
+			out
 		end
 
 create
-	default_create, make, make_from_array
-
-feature {NONE} -- Initialization
-
-	default_create
-		do
-			make (0)
-		end
+	make_empty, make, make_from_array
 
 feature -- Access
 
 	out: STRING
 		do
-			Result := String.joined (Current, "/").to_utf8
+			Result := joined ('.').to_latin_1
 		end
 
 	arguments: ARRAY [ANY]

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_REMOTELY_ACCESSIBLE}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-24 12:35:09 GMT (Thursday 24th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_REMOTELY_ACCESSIBLE
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_MODULE_LOG
 
-	EL_MODULE_STRING
+	EL_MODULE_STRING_8
 
 	EL_REMOTE_CALL_CONSTANTS
 
@@ -137,23 +137,23 @@ feature {NONE} -- Implementation
 		do
 			from i := 1 until i > argument_list.count loop
 				argument := argument_list [i]
-				if String.has_enclosing (argument, once "''") then
-					String.remove_single_quote (argument)
+				if String_8.has_enclosing (argument, once "''") then
+					String_8.remove_single_quote (argument)
 					set_tuple_string (argument_tuple, i, argument)
 
-				elseif String.has_enclosing (argument, Curly_braces) then
+				elseif String_8.has_enclosing (argument, Curly_braces) then
 					set_tuple_deserialized_object (argument_tuple, i, argument, deserialized_object)
 
-				elseif String.has_enclosing (argument, Parenthesis) then
-					String.remove_bookends (argument, Parenthesis)
+				elseif String_8.has_enclosing (argument, Parenthesis) then
+					String_8.remove_bookends (argument, Parenthesis)
 					set_tuple_numeric (argument_tuple, i, argument)
 
-				elseif String.has_enclosing (argument, Angle_brackets) then
-					String.remove_bookends (argument, Angle_brackets)
+				elseif String_8.has_enclosing (argument, Angle_brackets) then
+					String_8.remove_bookends (argument, Angle_brackets)
 					set_tuple_boolean (argument_tuple, i, argument)
 
-				elseif String.has_enclosing (argument, Square_brackets) then
-					String.remove_bookends (argument, Square_brackets)
+				elseif String_8.has_enclosing (argument, Square_brackets) then
+					String_8.remove_bookends (argument, Square_brackets)
 					set_tuple_once_item (argument_tuple, i, argument)
 
 				end

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_LOG_MANAGER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-02 11:01:06 GMT (Sunday 2nd March 2014)"
-	revision: "5"
+	date: "2016-02-05 13:29:21 GMT (Friday 5th February 2016)"
+	revision: "7"
 
 class
 	EL_LOG_MANAGER
@@ -185,15 +185,6 @@ feature -- Status query
 			end_restriction
 		end
 
-	keep_logs: BOOLEAN
-			-- True if command line options exists
-		do
-			restrict_access
-			Result := Args.word_option_exists ({EL_LOG_COMMAND_OPTIONS}.Keep_logs)
-
-			end_restriction
-		end
-
 	is_highlighting_enabled: BOOLEAN
 		-- Can terminal color highlighting sequences be output to console
 
@@ -263,7 +254,7 @@ feature -- Removal
 	delete_logs
 			--
 		do
-			if output_directory.exists then
+			if not Args.word_option_exists ({EL_LOG_COMMAND_OPTIONS}.Keep_logs) and then output_directory.exists then
 				named_directory (output_directory).delete_content
 			end
 		end
@@ -301,31 +292,16 @@ feature {EL_CONSOLE_MANAGER, EL_LOG} -- Access
 
 feature {NONE} -- Implementation
 
-	log_file_path (name: ASTRING): EL_FILE_PATH
+	log_file_path (name: ZSTRING): EL_FILE_PATH
 			--
 		local
-			count: INTEGER
-			is_available_path: BOOLEAN
-			combined_extension: ASTRING
+			version_path: EL_FILE_PATH
 		do
 			if not output_directory.exists then
 				File_system.make_directory (output_directory)
 			end
-
-			Result := output_directory + name
-
-			from until is_available_path loop
-				count := count + 1
-				combined_extension := Count_format.formatted (count)
-				combined_extension.append_character ('.')
-				combined_extension.append_string (Default_log_file_extension)
-				Result.add_extension (combined_extension)
-				if Result.exists then
-					Result.base.remove_tail (combined_extension.count + 1)
-				else
-					is_available_path := True
-				end
-			end
+			version_path := output_directory + (name + ".001." + Default_log_file_extension)
+			Result := version_path.next_version_path
 		end
 
 	thread_log_file (thread_id: POINTER): EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -355,12 +331,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Default_log_file_extension: STRING = "log"
-
-	Count_format: FORMAT_INTEGER
-			--
-		once
-			create Result.make (3)
-			Result.zero_fill
-		end
 
 end

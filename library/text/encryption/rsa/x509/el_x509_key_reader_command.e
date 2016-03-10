@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Reads private key from X509 .key file"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-19 18:44:18 GMT (Friday 19th September 2014)"
-	revision: "4"
+	date: "2015-12-18 10:54:08 GMT (Friday 18th December 2015)"
+	revision: "6"
 
 class
 	EL_X509_KEY_READER_COMMAND
@@ -52,7 +52,7 @@ feature -- Access
 
 	key_file_path: EL_FILE_PATH
 
-	lines: ARRAYED_LIST [ASTRING]
+	lines: ARRAYED_LIST [ZSTRING]
 
 feature {NONE} -- Implementation
 
@@ -71,7 +71,7 @@ feature {NONE} -- Implementation
 
 	Line_processing_enabled: BOOLEAN = true
 
-	pass_phrase: ASTRING
+	pass_phrase: ZSTRING
 
 feature {NONE} -- Evolicity reflection
 
@@ -79,7 +79,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["key_file_path", agent: EL_PATH do Result := key_file_path end]
+				["key_file_path", agent: ZSTRING do Result := escaped_path (key_file_path) end]
 			>>)
 		end
 

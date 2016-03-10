@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "CRC32 algorithm described in RFC 1952"
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-16 12:12:46 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -40,89 +40,49 @@ feature -- Element change
 			add_data (File_system.file_data (file_path))
 		end
 
-	add_string (str: ASTRING)
+	add_string (str: ZSTRING)
 			--
-		local
-			data: like internal_data
 		do
-			add_string_8 (str)
-
-			if str.has_foreign_characters then
-				data := internal_data
-				data.set_from_pointer (str.foreign_characters.base_address, str.foreign_count * {PLATFORM}.character_32_bytes)
-				add_data (data)
-				data.set_from_pointer (Default_pointer, 0)
+			add_array (str.area.base_address, str.count, {PLATFORM}.character_8_bytes)
+			if str.has_mixed_encoding then
+				add_array (str.unencoded_area.base_address, str.unencoded_area.count, {PLATFORM}.character_32_bytes)
 			end
 		end
 
 	add_string_8 (str: STRING)
 			--
-		local
-			data: like internal_data
 		do
-			data := internal_data
-			data.set_from_pointer (str.area.base_address, str.count)
-			add_data (data)
-			data.set_from_pointer (Default_pointer, 0)
+			add_array (str.area.base_address, str.count, {PLATFORM}.character_8_bytes)
 		end
 
 	add_string_32 (str: STRING_32)
 			--
-		local
-			data: like internal_data
 		do
-			data := internal_data
-			data.set_from_pointer (str.area.base_address, str.count * {PLATFORM}.character_32_bytes)
-			add_data (data)
-			data.set_from_pointer (Default_pointer, 0)
+			add_array (str.area.base_address, str.count, {PLATFORM}.character_32_bytes)
 		end
 
 	add_character (c: CHARACTER)
 			--
-		local
-			data: like internal_data
 		do
-			data := internal_data
-			data.set_from_pointer ($c, {PLATFORM}.Character_8_bytes)
-			add_data (data)
-			data.set_from_pointer (Default_pointer, 0)
+			add_array ($c, 1, {PLATFORM}.Character_8_bytes)
 		end
 
 	add_integer (n: INTEGER)
 			--
-		local
-			data: like internal_data
 		do
-			data := internal_data
-			data.set_from_pointer ($n, {PLATFORM}.Integer_32_bytes)
-			add_data (data)
-			data.set_from_pointer (Default_pointer, 0)
+			add_array ($n, 1, {PLATFORM}.Integer_32_bytes)
 		end
 
 	add_natural (n: NATURAL)
 			--
-		local
-			data: like internal_data
 		do
-			data := internal_data
-			data.set_from_pointer ($n, {PLATFORM}.Integer_32_bytes)
-			add_data (data)
-			data.set_from_pointer (Default_pointer, 0)
+			add_array ($n, 1, {PLATFORM}.Integer_32_bytes)
 		end
 
 	add_data (data: MANAGED_POINTER)
 			--
-		local
-	 		i: INTEGER
-	 		c, index: NATURAL
 		do
-			c := checksum.bit_not
-			from i := 0 until i = data.count loop
-				index := c.bit_xor (data.read_natural_8 (i)) & 0xFF + 1
-				c := crc_table.item (index.to_integer_32).bit_xor (c |>> 8)
-				i := i + 1
-			end
-			checksum := c.bit_not
+			add_array (data.item, data.count, 1)
 		end
 
 	reset
@@ -132,6 +92,22 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	add_array (array_ptr: POINTER; count, item_bytes: INTEGER)
+		local
+			data: like internal_data; i: INTEGER; c, index: NATURAL
+		do
+			data := internal_data
+			data.set_from_pointer (array_ptr, count * item_bytes)
+			c := checksum.bit_not
+			from i := 0 until i = data.count loop
+				index := c.bit_xor (data.read_natural_8 (i)) & 0xFF + 1
+				c := crc_table.item (index.to_integer_32).bit_xor (c |>> 8)
+				i := i + 1
+			end
+			checksum := c.bit_not
+			data.set_from_pointer (Default_pointer, 0)
+		end
 
 	internal_data: MANAGED_POINTER
 			--

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-20 14:27:26 GMT (Sunday 20th December 2015)"
+	revision: "4"
 
 class
 	EL_SPLIT_STRING_LIST
@@ -22,12 +22,12 @@ inherit
 			make_with_delimiter
 		end
 
-	EL_TEXTUAL_PATTERN_FACTORY
+	EL_ZTEXT_PATTERN_FACTORY
 		undefine
 			is_equal, copy
 		end
 
-	LINKED_LIST [STRING]
+	LINKED_LIST [ZSTRING]
 		rename
 			make as make_list
 		end
@@ -42,36 +42,35 @@ create
 
 feature {NONE} -- Initialization
 
-	make (some_delimiters: ARRAY [CHARACTER])
+	make (a_character_set: STRING_32)
 			--
 		require
-			at_least_one_delimiter: some_delimiters.count >= 1
+			at_least_one_delimiter: a_character_set.count >= 1
 		local
-			character_set: STRING
+			character_set: ZSTRING
 		do
-			create character_set.make_empty
-			some_delimiters.do_all (agent character_set.append_character)
+			character_set := a_character_set
 			make_with_delimiter (create {EL_MATCH_ANY_CHAR_IN_SET_TP}.make (character_set))
 		end
 
-	make_with_delimiter (a_pattern: EL_TEXTUAL_PATTERN)
+	make_with_delimiter (a_pattern: EL_TEXT_PATTERN)
 
 		do
 			make_list
 			Precursor (a_pattern)
-			set_unmatched_text_action (agent on_unmatched_text)
+			set_unmatched_action (agent on_unmatched_text)
 		end
 
 feature -- Element change
 
-	set_from_string (target: STRING)
+	set_from_string (target: ZSTRING)
 			--
 		do
 			wipe_out
 			extend_from_string (target)
 		end
 
-	extend_from_string (target: STRING)
+	extend_from_string (target: ZSTRING)
 			--
 		require
 			target_not_void: target /= Void
@@ -79,7 +78,7 @@ feature -- Element change
 --			log.enter_with_args ("extend_from_string", <<target>>)
 			set_source_text (target)
 			processor_do_all
-			set_source_text (Empty_string_32)
+			set_source_text (Empty_string)
 --			log.exit
 		end
 
@@ -88,7 +87,7 @@ feature -- Element change
 		require
 			valid_delimiting_pattern: delimiting_pattern /= Void
 		do
-			delimiting_pattern.set_action_on_match (agent on_unmatched_text)
+			delimiting_pattern.set_action (agent on_unmatched_text)
 		end
 
 feature {NONE} -- Parsing actions

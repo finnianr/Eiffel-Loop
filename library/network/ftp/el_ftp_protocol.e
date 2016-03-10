@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_FTP_PROTOCOL}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "7"
+	date: "2015-12-20 14:27:26 GMT (Sunday 20th December 2015)"
+	revision: "9"
 
 class
 	EL_FTP_PROTOCOL
@@ -30,7 +30,7 @@ inherit
 			is_equal
 		end
 
-	EL_TEXTUAL_PATTERN_FACTORY
+	EL_ZTEXT_PATTERN_FACTORY
 		undefine
 			is_equal
 		end
@@ -84,7 +84,7 @@ feature -- Basic operations
 			binary_mode_set: is_binary_mode
 			file_to_upload_exists: a_file_path.exists
 		local
-			destination_file_path: ASTRING
+			destination_file_path: ZSTRING
 		do
 			log.enter_with_args ("upload_file", << a_file_path, destination_directory >>)
 
@@ -154,7 +154,7 @@ feature -- Basic operations
 		do
 			cmd := Ftp_make_directory.twin
 			cmd.extend (' ')
-			cmd.append (new_dir_path.as_unix.to_string)
+			cmd.append (new_dir_path.as_unix.to_string.to_latin_1)
 			send (main_socket, cmd)
 			Result := reply_code_ok (last_reply, << 257 >>)
 		end
@@ -236,7 +236,7 @@ feature -- Status setting
 		do
 			cmd := Ftp_change_working_directory.twin
 			cmd.extend (' ')
-			cmd.append (dir_path.to_unix.to_string)
+			cmd.append (dir_path.to_unix.to_string.to_latin_1)
 			send (main_socket, cmd)
 			Result := reply_code_ok (last_reply, << 200, 250 >>)
 		end
@@ -252,17 +252,13 @@ feature {NONE} -- Implementation
 	transfer_file_data (a_file_path: EL_FILE_PATH)
 			--
 		local
-			transfer_file: RAW_FILE
-			packet: PACKET
-			transfered_count, bytes_read: INTEGER
-			transfered_mb, total_mb: DOUBLE
-			format_mb: FORMAT_DOUBLE
-			template: ASTRING
-			total_mb_string: STRING
+			transfer_file: RAW_FILE; packet: PACKET
+			transfered_count, bytes_read: INTEGER; transfered_mb, total_mb: DOUBLE
+			format_mb: FORMAT_DOUBLE; template: ZSTRING; total_mb_string: STRING
 		do
 			log.enter_with_args ("transfer_file_data", << a_file_path >>)
 			create format_mb.make (4, 1)
-			template := "[$S mb of $S mb]%R"
+			template := "[%S mb of %S mb]%R"
 			create packet.make (Default_packet_size)
 			create transfer_file.make_open_read (a_file_path.unicode)
 			total_mb := transfer_file.count / 1000000
@@ -302,7 +298,7 @@ feature {NONE} -- Implementation: attributes
 
 feature {NONE} -- Implementation: parsing
 
-	ftp_reply_pattern: EL_MATCH_ALL_IN_LIST_TP
+	ftp_reply_pattern: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -312,7 +308,7 @@ feature {NONE} -- Implementation: parsing
 			>> )
 		end
 
-	quoted_string_pattern: EL_MATCH_ALL_IN_LIST_TP
+	quoted_string_pattern: like all_of
 			-- Quoted string with embedded double-quotes escaped by double-quotes
 		do
 			Result := all_of (<<

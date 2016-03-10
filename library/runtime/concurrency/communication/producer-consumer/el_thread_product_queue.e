@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Thread safe queue"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-03-13 12:51:05 GMT (Wednesday 13th March 2013)"
-	revision: "2"
+	date: "2015-01-01 13:42:51 GMT (Thursday 1st January 2015)"
+	revision: "3"
 
 class
 	EL_THREAD_PRODUCT_QUEUE [P]

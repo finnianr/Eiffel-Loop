@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Passphrase verifier"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-16 7:05:31 GMT (Wednesday 16th December 2015)"
+	revision: "4"
 
 class
 	EL_CRYPTO_PHRASE_CHECKER
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 			create digest.make_filled (0, 1, 32)
 		end
 
-	make_with_phrase (a_phrase: ASTRING)
+	make_with_phrase (a_phrase: ZSTRING)
 		do
 			salt := generate_uuid.out
 			digest := new_digest (a_phrase.to_utf8)
@@ -73,7 +73,7 @@ feature -- Access
 
 feature -- Status query
 
-	is_valid (a_phrase: ASTRING): BOOLEAN
+	is_valid (a_phrase: ZSTRING): BOOLEAN
 		do
 			Result := digest ~ new_digest (a_phrase.to_utf8)
 		end

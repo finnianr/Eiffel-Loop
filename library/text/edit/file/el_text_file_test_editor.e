@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -6,30 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-28 16:14:33 GMT (Monday 28th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_TEXT_FILE_TEST_EDITOR
 
 inherit
-	EL_TEXT_FILE_EDITOR
+	EL_TEXT_EDITOR
 		redefine
-			new_output, close
+			new_output
 		end
 
 feature {NONE} -- Implementation
 
-	new_output: EL_TEXT_IO_MEDIUM
+	new_output: EL_ZSTRING_IO_MEDIUM
 			--
 		do
-			create Result.make_open_write (source_text.count)
+			create Result.make (source_text.count)
 		end
 
-	close
-			--
-		do
-		end
-
-end -- class EL_SOURCE_FILE_EDITOR_TESTER
+end
 

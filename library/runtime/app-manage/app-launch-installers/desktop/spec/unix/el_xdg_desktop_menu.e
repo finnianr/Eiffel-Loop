@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2015-12-26 14:32:10 GMT (Saturday 26th December 2015)"
+	revision: "5"
 
 class
 	EL_XDG_DESKTOP_MENU
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 	make (a_name, a_file_name: STRING; standard: BOOLEAN)
 			--
 		do
-			make_empty
+			make_default
 			create menus.make (5)
 			create desktop_entries.make
 			name := a_name

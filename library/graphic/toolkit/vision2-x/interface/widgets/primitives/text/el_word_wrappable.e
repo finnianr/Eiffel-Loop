@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_WORD_WRAPPABLE}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:13 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-26 11:25:13 GMT (Saturday 26th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_WORD_WRAPPABLE
@@ -21,14 +21,14 @@ inherit
 
 feature {NONE} -- Implementation
 
-	wrapped_lines (a_text: ASTRING): EL_ASTRING_LIST
+	wrapped_lines (a_text: ZSTRING): EL_ZSTRING_LIST
 		require
 			GUI.is_word_wrappable (a_text, font, width)
 		do
 			Result := wrapped_text_rectangle (a_text).lines
 		end
 
-	wrapped_text_rectangle (a_text: ASTRING): EL_TEXT_RECTANGLE
+	wrapped_text_rectangle (a_text: ZSTRING): EL_TEXT_RECTANGLE
 		require
 			GUI.is_word_wrappable (a_text, font, width)
 		do
@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 			Result.append_words (a_text)
 		end
 
-	text_rectangle (a_text: ASTRING): EL_TEXT_RECTANGLE
+	text_rectangle (a_text: ZSTRING): EL_TEXT_RECTANGLE
 		require
 			GUI.is_word_wrappable (a_text, font, width)
 		do

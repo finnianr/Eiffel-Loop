@@ -1,19 +1,19 @@
-note
+﻿note
 	description: "Summary description for {EL_HTTP_COOKIES}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-20 16:58:23 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	EL_HTTP_COOKIES
 
 inherit
-	HASH_TABLE [ASTRING, STRING]
+	HASH_TABLE [ZSTRING, STRING]
 		redefine
 			default_create
 		end
@@ -48,22 +48,29 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- State handlers
 
-	find_first_cookie (line: ASTRING)
+	find_first_cookie (line: ZSTRING)
 		do
-			if not (line.is_empty or line.starts_with ("# ")) then
+			if not (line.is_empty or line.starts_with (Comment_start)) then
 				state := agent parse_cookie
 				parse_cookie (line)
 			end
 		end
 
-	parse_cookie (line: ASTRING)
+	parse_cookie (line: ZSTRING)
 		local
-			fields: LIST [ASTRING]
+			fields: LIST [ZSTRING]
 		do
 			fields := line.split ('%T')
 			if fields.count = 7 then
-				put (fields [7], fields.i_th (6).to_latin1)
+				put (fields [7], fields.i_th (6).to_latin_1)
 			end
+		end
+
+feature {NONE} -- Constants
+
+	Comment_start: ZSTRING
+		once
+			Result := "# "
 		end
 
 end

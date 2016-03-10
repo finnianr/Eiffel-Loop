@@ -1,19 +1,19 @@
-note
+﻿note
 	description: "Summary description for {EL_PATH_STEPS}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-06 16:01:12 GMT (Monday 6th October 2014)"
-	revision: "5"
+	date: "2015-12-16 17:55:17 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 class
 	EL_PATH_STEPS
 
 inherit
-	EL_ARRAYED_LIST [ASTRING]
+	EL_ARRAYED_LIST [ZSTRING]
 		rename
 			make as make_list,
 			make_from_array as make_list_from_array
@@ -41,19 +41,24 @@ inherit
 			is_equal, copy, default_create
 		end
 
+	STRING_HANDLER
+		undefine
+			is_equal, copy, default_create
+		end
+
 create
-	default_create, make_with_count, make, make_from_latin1, make_from_unicode,
-	make_from_array, make_from_unicode_array, make_from_latin1_array,
+	default_create, make_with_count, make, make_from_latin_1, make_from_unicode,
+	make_from_array, make_from_unicode_array, make_from_latin_1_array,
 	make_from_directory_path, make_from_file_path
 
 convert
-	make_from_array ({ARRAY [ASTRING]}),
-	make_from_latin1_array ({ARRAY [STRING]}),
+	make_from_array ({ARRAY [ZSTRING]}),
+	make_from_latin_1_array ({ARRAY [STRING]}),
 	make_from_unicode_array ({ARRAY [STRING_32]}),
 
-	make_from_latin1 ({STRING}),
+	make_from_latin_1 ({STRING}),
 	make_from_unicode ({STRING_32}),
-	make ({ASTRING}),
+	make ({ZSTRING}),
 
 	as_file_path: {EL_FILE_PATH}, as_directory_path: {EL_DIR_PATH}, unicode: {READABLE_STRING_GENERAL}
 
@@ -79,17 +84,17 @@ feature {NONE} -- Initialization
 			make (a_path.to_string)
 		end
 
-	make_from_array, make_from_unicode_array, make_from_latin1_array (a_steps: ARRAY [READABLE_STRING_GENERAL])
+	make_from_array, make_from_unicode_array, make_from_latin_1_array (a_steps: ARRAY [READABLE_STRING_GENERAL])
 			-- Create list from array `steps'.
 		local
 			i: INTEGER
 		do
 			make_with_count (a_steps.count)
 			from i := 1 until i > a_steps.count loop
-				if attached {ASTRING} a_steps [i] as latin_step then
-					extend (latin_step)
+				if attached {ZSTRING} a_steps [i] as l_step then
+					extend (l_step)
 				else
-					extend (create {ASTRING}.make_from_unicode (a_steps [i]))
+					extend (create {ZSTRING}.make_from_unicode (a_steps [i]))
 				end
 				i := i + 1
 			end
@@ -97,14 +102,14 @@ feature {NONE} -- Initialization
 
 feature -- Initialization
 
-	make, set_from_string, make_from_unicode, make_from_latin1 (a_path: READABLE_STRING_GENERAL)
+	make, set_from_string, make_from_unicode, make_from_latin_1 (a_path: READABLE_STRING_GENERAL)
 
 		local
 			separator: like item.item
 			l_separator_count: INTEGER
-			l_path: ASTRING
+			l_path: ZSTRING
 		do
-			if attached {ASTRING} a_path as el_string then
+			if attached {ZSTRING} a_path as el_string then
 				l_path := el_string
 			else
 				create l_path.make_from_unicode (a_path)
@@ -155,7 +160,7 @@ feature -- Element change
 	expand_variables
 		local
 			steps: like to_array; environ_path: EL_DIR_PATH
-			variable_name: ASTRING
+			variable_name: ZSTRING
 		do
 			steps := to_array.twin
 			wipe_out
@@ -174,7 +179,7 @@ feature -- Element change
 			end
 		end
 
-	is_variable_name (a_step: ASTRING): BOOLEAN
+	is_variable_name (a_step: ZSTRING): BOOLEAN
 		local
 			i: INTEGER
 		do
@@ -322,8 +327,7 @@ feature -- Access
 	hash_code: INTEGER
 			-- Hash code value
 		local
-			i, nb: INTEGER
-			l_area: SPECIAL [CHARACTER_8]
+			i, nb: INTEGER; l_area: SPECIAL [CHARACTER_8]
 		do
 			Result := internal_hash_code
 			if Result = 0 then

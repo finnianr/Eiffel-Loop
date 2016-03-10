@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_STRING_32_EDITION_HISTORY}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-12-20 16:12:41 GMT (Saturday 20th December 2014)"
+	revision: "4"
 
 class
 	EL_STRING_32_EDITION_HISTORY

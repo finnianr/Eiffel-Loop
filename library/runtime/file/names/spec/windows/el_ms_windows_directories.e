@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_MS_WINDOWS_DIRECTORIES}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-02-24 19:04:27 GMT (Monday 24th February 2014)"
-	revision: "4"
+	date: "2015-07-09 7:50:28 GMT (Thursday 9th July 2015)"
+	revision: "5"
 
 class
 	EL_MS_WINDOWS_DIRECTORIES

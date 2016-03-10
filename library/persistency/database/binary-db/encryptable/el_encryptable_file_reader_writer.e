@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ENCRYPTABLE_BINARY_FILE_READER_WRITER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-01-01 10:18:05 GMT (Friday 1st January 2016)"
+	revision: "6"
 
 class
 	EL_ENCRYPTABLE_FILE_READER_WRITER [G -> EL_STORABLE create make_default end]
@@ -21,8 +21,6 @@ inherit
 		end
 
 	EL_ENCRYPTABLE
-
-	EL_MODULE_LOG
 
 	EL_MODULE_BASE_64
 

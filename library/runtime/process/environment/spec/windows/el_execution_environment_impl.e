@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_EXECUTION_ENVIRONMENT_IMPL}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-23 13:09:58 GMT (Sunday 23rd March 2014)"
-	revision: "4"
+	date: "2015-06-27 20:18:55 GMT (Saturday 27th June 2015)"
+	revision: "5"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMPL

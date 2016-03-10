@@ -76,8 +76,10 @@ X-Account-Key: account6
 Message-ID: <4E9AE29C.50508@eiffel-loop.com>
 Date: Thu, 13 Jun 2013 17:23:59 +0100
 From: Finnian Reilly <finnian@myching.co>
-X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0;
+ attachmentreminder=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+ Thunderbird/38.2.0
 MIME-Version: 1.0
 Subject: 2.Journals
 Content-Type: text/html; charset=ISO-8859-15
@@ -274,21 +276,23 @@ Content-Transfer-Encoding: 7bit
     </p>
   </body>
 </html>
-From - Wed Apr 09 17:57:43 2014
+From - Tue Sep 08 13:09:43 2015
 X-Mozilla-Status: 0001
 X-Mozilla-Status2: 00000000
 X-Mozilla-Keys:                                                                                 
 FCC: mailbox://finnian@pop.myching.co/Sent
 X-Identity-Key: id4
 X-Account-Key: account6
-Message-ID: <4E9861EF.3050509@eiffel-loop.com>
-Date: Wed, 09 Apr 2014 19:57:44 +0100
-From: Finnian Reilly <finnian@myching.co>
-X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
+From: Finnian Reilly <finnian@myching.software>
 Subject: 1.Hexagrams
-Content-Type: text/html; charset=ISO-8859-15
+Message-ID: <4E9861EF.3050509@eiffel-loop.com>
+Date: Tue, 8 Sep 2015 13:09:43 +0100
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0;
+ attachmentreminder=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+ Thunderbird/38.2.0
+MIME-Version: 1.0
+Content-Type: text/html; charset=iso-8859-15
 Content-Transfer-Encoding: 8bit
 
 <html>

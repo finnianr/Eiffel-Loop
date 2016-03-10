@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "URL encoded string"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 18:30:48 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_URL_STRING
@@ -61,9 +66,9 @@ feature -- Status change
 
 feature -- Conversion
 
-	to_string: ASTRING
+	to_string: ZSTRING
 		do
-			create Result.make_from_utf8 (to_utf_8)
+			create Result.make_from_utf_8 (to_utf_8)
 		end
 
 	to_utf_8: STRING
@@ -125,10 +130,10 @@ feature -- Element change
 			reversible: substring (old count + 1, count).to_utf_8.same_string (utf_8)
 		end
 
-	set_from_string (str: ASTRING)
+	set_from_string (str: ZSTRING)
 		do
 			wipe_out
-			append_utf_8 (str.to_utf8)
+			append_utf_8 (str.to_utf_8)
 		end
 
 feature {NONE} -- Implementation

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Vision2 GUI supporting management of multi-threaded logging output
 		in terminal console
@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-28 8:51:35 GMT (Sunday 28th September 2014)"
-	revision: "3"
+	date: "2015-06-23 11:30:35 GMT (Tuesday 23rd June 2015)"
+	revision: "4"
 
 class
 	EL_VISION2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end]

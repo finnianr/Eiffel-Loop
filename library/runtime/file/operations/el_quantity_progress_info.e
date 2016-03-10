@@ -1,19 +1,16 @@
-note
+﻿note
 	description: "Summary description for {EL_FILE_PROGRESS_INFO}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-25 8:07:42 GMT (Friday 25th October 2013)"
-	revision: "3"
+	date: "2015-12-18 22:48:13 GMT (Friday 18th December 2015)"
+	revision: "5"
 
 class
 	EL_QUANTITY_PROGRESS_INFO
-
-inherit
-	EL_MODULE_STRING
 
 create
 	make
@@ -37,7 +34,7 @@ feature -- Access
 
 	units: STRING
 
-	last_string: ASTRING
+	last_string: ZSTRING
 
 feature -- Status query
 
@@ -59,11 +56,11 @@ feature -- Element change
 
 	increment (v: DOUBLE)
 		local
-			percentage: INTEGER; template: ASTRING
+			percentage: INTEGER; template: ZSTRING
 		do
 			sum := sum + v
 			percentage := (sum * 100 / sum_total).rounded
-			template := once "$S%% [$S of $S $S]"
+			template := once "%S%% [%S of %S %S]"
 
 			last_string := template #$ [percentage, formatter.formatted (sum), formatter.formatted (sum_total), units]
 		end

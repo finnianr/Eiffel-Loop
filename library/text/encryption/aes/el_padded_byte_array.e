@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		bytes with a count equal to muliple of a_block_size.
 		Creation area arguments that do not fit exactly are padded with bytes of value equal to the padding count.
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-19 18:23:08 GMT (Friday 19th September 2014)"
-	revision: "2"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "3"
 
 class
 	EL_PADDED_BYTE_ARRAY

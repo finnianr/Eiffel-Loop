@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-18 11:06:22 GMT (Friday 18th December 2015)"
+	revision: "7"
 
 class
 	LICENSE_NOTES
@@ -36,13 +36,13 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	author: ASTRING
+	author: ZSTRING
 
-	copyright: ASTRING
+	copyright: ZSTRING
 
-	contact: ASTRING
+	contact: ZSTRING
 
-	license: ASTRING
+	license: ZSTRING
 
 feature {NONE} -- Build from XML
 

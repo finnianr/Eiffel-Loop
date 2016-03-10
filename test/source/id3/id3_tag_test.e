@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-18 23:25:22 GMT (Friday 18th December 2015)"
+	revision: "7"
 
 class
 	ID3_TAG_TEST
@@ -15,13 +15,11 @@ class
 inherit
 	EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_STRING
-
 	EL_MODULE_LOG
 
 feature -- Element change
 
-	set_mp3_path (a_mp3_path: ASTRING)
+	set_mp3_path (a_mp3_path: ZSTRING)
 			--
 		do
 			mp3_path := a_mp3_path

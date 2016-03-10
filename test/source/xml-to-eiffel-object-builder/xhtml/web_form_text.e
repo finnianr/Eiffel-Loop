@@ -4,23 +4,20 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-24 14:52:03 GMT (Thursday 24th December 2015)"
+	revision: "5"
 
 class
 	WEB_FORM_TEXT
 
 inherit
 	WEB_FORM_COMPONENT
-		rename
-			make as make_component
-		end
 
 	EVOLICITY_SERIALIZEABLE_TEXT_VALUE
 		undefine
-			new_getter_functions, make_empty, make_default
+			new_getter_functions, make_default
 		end
 
 create
@@ -31,8 +28,8 @@ feature {NONE} -- Initialization
 	make (s: STRING)
 			--
 		do
-			make_component
 			text := s
+			make_default
 		end
 
 feature {NONE} -- Implementation

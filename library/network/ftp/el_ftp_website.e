@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_WEBSITE_ROUTINES}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-16 11:48:36 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_FTP_WEBSITE
@@ -28,11 +28,11 @@ feature -- Element change
 			make (ftp_site_node.string_at_xpath ("url"), ftp_site_node.string_32_at_xpath ("user-home"))
 		end
 
-	make (url: ASTRING; user_home_directory: EL_DIR_PATH)
+	make (url: ZSTRING; user_home_directory: EL_DIR_PATH)
 		local
 			ftp_site: FTP_URL
 		do
-			create ftp_site.make (url.to_latin1)
+			create ftp_site.make (url.to_latin_1)
 			if url.is_empty then
 				ftp := Default_ftp
 			else
@@ -87,10 +87,10 @@ feature {NONE} -- Implementation
 		end
 
 	set_login_detail (
-		prompt: STRING; setter: PROCEDURE [EL_FTP_PROTOCOL, TUPLE]; get_detail_action: FUNCTION [FTP_URL, TUPLE, STRING]
+		prompt: ZSTRING; setter: PROCEDURE [EL_FTP_PROTOCOL, TUPLE]; get_detail_action: FUNCTION [FTP_URL, TUPLE, STRING]
 	)
 		local
-			detail: STRING
+			detail: ZSTRING
 		do
 			log_or_io.put_new_line
 			detail := User_input.line (prompt)

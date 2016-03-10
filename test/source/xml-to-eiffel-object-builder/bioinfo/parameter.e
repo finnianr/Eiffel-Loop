@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-15 8:51:07 GMT (Tuesday 15th December 2015)"
+	revision: "4"
 
 class
 	PARAMETER
@@ -71,20 +71,17 @@ feature -- Basic operations
 	display
 			--
 		do
-			log.enter ("display")
-			log.put_string_field ("id", id)
-			log.put_new_line
+			log.enter_no_header ("display")
+			log.put_labeled_string ("class", generator.as_lower)
+			log.put_string_field (" id", id)
 			if not label.is_empty then
-				log.put_string_field ("label", label)
-				log.put_new_line
+				log.put_string_field (" label", label)
 			end
 			if not run_switch.is_empty then
-				log.put_string_field ("Run switch", run_switch)
-				log.put_new_line
+				log.put_string_field (" Run switch", run_switch)
 			end
-
 			display_item
-			log.exit
+			log.exit_no_trailer
 		end
 
 feature {NONE} -- Implementation

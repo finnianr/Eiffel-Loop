@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-20 13:07:54 GMT (Sunday 20th December 2015)"
+	revision: "7"
 
 class
 	EIFFEL_CODEBASE_STATISTICS_COMMAND
@@ -70,7 +70,7 @@ feature -- Basic operations
 
 feature {NONE} -- State handlers
 
-	find_class_declaration (line: ASTRING)
+	find_class_declaration (line: ZSTRING)
 		do
 			if not line.is_empty and then line [1] /= '%T'
 				and then Class_declaration_keywords.has (line.split (' ').first)
@@ -80,13 +80,13 @@ feature {NONE} -- State handlers
 			end
 		end
 
-	count_lines (line: ASTRING)
+	count_lines (line: ZSTRING)
 		local
-			trim_line: ASTRING
+			trim_line: ZSTRING
 		do
 			trim_line := line
 			trim_line.left_adjust
-			if not trim_line.is_empty and then not trim_line.starts_with ("--") then
+			if not trim_line.is_empty and then not trim_line.starts_with (Comment_prefix) then
 				count := count + 1
 			end
 		end
@@ -101,7 +101,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Class_declaration_keywords: ARRAY [ASTRING]
+	Comment_prefix: ZSTRING
+		once
+			Result := "--"
+		end
+
+	Class_declaration_keywords: ARRAY [ZSTRING]
 		once
 			Result := << "frozen", "deferred", "class" >>
 			Class_declaration_keywords.compare_objects

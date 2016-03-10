@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EIFFEL_OVERRIDE_FEATURE_EDITOR}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-18 10:50:11 GMT (Friday 18th December 2015)"
+	revision: "7"
 
 deferred class
 	EIFFEL_OVERRIDE_FEATURE_EDITOR
@@ -39,6 +44,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	feature_edit_actions: EL_ASTRING_HASH_TABLE [PROCEDURE [like Current, TUPLE [CLASS_FEATURE]]]
+	feature_edit_actions: EL_ZSTRING_HASH_TABLE [PROCEDURE [like Current, TUPLE [CLASS_FEATURE]]]
 
 end

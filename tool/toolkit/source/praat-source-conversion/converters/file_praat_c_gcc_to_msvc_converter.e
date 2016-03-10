@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2016-01-21 11:19:24 GMT (Thursday 21st January 2016)"
+	revision: "4"
 
 class
 	FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER
@@ -15,17 +15,19 @@ class
 inherit
 	GCC_TO_MSVC_CONVERTER
 		redefine
-			delimiting_pattern, write_events_text
+			delimiting_pattern, edit
 		end
 
 	EL_C_PATTERN_FACTORY
+
+	EL_MODULE_LOG
 
 create
 	make
 
 feature {NONE} -- C constructs
 
-	delimiting_pattern: EL_FIRST_MATCH_IN_LIST_TP
+	delimiting_pattern: like one_of
 			--
 		do
 			Result := Precursor
@@ -34,7 +36,7 @@ feature {NONE} -- C constructs
 			Result.extend (static_praat_exit_procedure_declaration)
 		end
 
-	praat_run_procedure: EL_MATCH_ALL_IN_LIST_TP
+	praat_run_procedure: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -44,7 +46,7 @@ feature {NONE} -- C constructs
 			>>)
 		end
 
-	exit_program_call: EL_MATCH_ALL_IN_LIST_TP
+	exit_program_call: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -55,7 +57,7 @@ feature {NONE} -- C constructs
 			>>) |to| agent on_exit_program_call
 		end
 
-	static_praat_exit_procedure_declaration: EL_MATCH_ALL_IN_LIST_TP
+	static_praat_exit_procedure_declaration: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -75,7 +77,7 @@ feature {NONE} -- Match actions
 			log.put_string_field_to_max_length ("text", text, 100)
 			log.put_new_line
 			praat_run_c_procedure_converter.set_source_text (text.to_string_8)
-			praat_run_c_procedure_converter.edit_file
+			praat_run_c_procedure_converter.edit
 			log.exit
 		end
 
@@ -100,7 +102,7 @@ feature {NONE} -- Match actions
 
 feature {NONE} -- Implementation
 
-	write_events_text
+	edit
 			--
 		do
 			create praat_run_c_procedure_converter.make (output)
@@ -118,6 +120,5 @@ feature {NONE} -- Implementation
 				#define PRAAT_EXIT static void praat_exit
 			#endif
 		]"
-
 
 end

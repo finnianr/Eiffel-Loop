@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_READABLE_STRING_GENERAL_LIST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-03-04 19:46:58 GMT (Friday 4th March 2016)"
+	revision: "6"
 
 deferred class
 	EL_STRING_GENERAL_CHAIN [S -> STRING_GENERAL create make, make_empty end]
@@ -33,10 +33,10 @@ feature {NONE} -- Initialization
 			make_with_separator (a_string, '%N', False)
 		end
 
-	make_with_separator (a_string: like item; separator: CHARACTER_32; left_adjust: BOOLEAN)
+	make_with_separator (a_string: like item; separator: CHARACTER_32; do_left_adjust: BOOLEAN)
 		do
 			make_empty
-			append_split (a_string, separator, left_adjust)
+			append_split (a_string, separator, do_left_adjust)
 		end
 
 	make_with_words (a_string: like item)
@@ -46,13 +46,13 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	append_split (a_string: S; a_separator: CHARACTER_32; left_adjust: BOOLEAN)
+	append_split (a_string: S; a_separator: CHARACTER_32; do_left_adjust: BOOLEAN)
 		local
 			list: LIST [like item]
 		do
 			list := a_string.split (a_separator)
 			grow (count + list.count)
-			if left_adjust then
+			if do_left_adjust then
 				across list as str loop
 					str.item.left_adjust
 				end
@@ -60,10 +60,81 @@ feature -- Element change
 			list.do_all (agent extend)
 		end
 
+	left_adjust
+		local
+			l_cursor: like cursor
+		do
+			l_cursor := cursor
+			from start until after loop
+				item.left_adjust
+				forth
+			end
+			go_to (l_cursor)
+		end
+
+	indent (tab_count: INTEGER)
+			-- prepend one tab character to each line
+		require
+			valid_tab_count: tab_count >= 0
+		local
+			l_cursor: like cursor; l_tab_string: like tab_string
+		do
+			if tab_count > 0 then
+				l_cursor := cursor
+				l_tab_string := tab_string (tab_count)
+				from start until after loop
+					item.prepend (l_tab_string)
+					forth
+				end
+				go_to (l_cursor)
+			end
+		ensure
+			indented: tab_count > 0 implies is_indented
+		end
+
+	indent_item (tab_count: INTEGER)
+			-- prepend one tab character to each line
+		require
+			not_off: not off
+			valid_tab_count: tab_count >= 0
+		do
+			if tab_count > 0 then
+				item.prepend (tab_string (tab_count))
+			end
+		end
+
+	right_adjust
+		local
+			l_cursor: like cursor
+		do
+			l_cursor := cursor
+			from start until after loop
+				item.right_adjust
+				forth
+			end
+			go_to (l_cursor)
+		end
+
+	unindent
+			-- remove one tab character from each line
+		require
+			is_indented: is_indented
+		local
+			l_cursor: like cursor
+		do
+			l_cursor := cursor
+			from start until after loop
+				item.keep_tail (item.count - 1)
+				forth
+			end
+			go_to (l_cursor)
+		end
+
 	wrap (line_width: INTEGER)
 		local
-			previous_item: S
+			l_cursor: like cursor; previous_item: S
 		do
+			l_cursor := cursor
 			if not is_empty then
 				from start; forth until after loop
 					previous_item := i_th (index - 1)
@@ -76,6 +147,7 @@ feature -- Element change
 					end
 				end
 			end
+			go_to (l_cursor)
 		end
 
 feature -- Resizing
@@ -89,15 +161,22 @@ feature -- Access
 
 	character_count: INTEGER
 			--
+		local
+			l_cursor: like cursor
 		do
+			l_cursor := cursor
 			from start until after loop
 				Result := Result + item.count
 				forth
 			end
+			go_to (l_cursor)
 		end
 
 	comma_separated: like item
+		local
+			l_cursor: like cursor
 		do
+			l_cursor := cursor
 			create Result.make (character_count + (count - 1).max (0) * 2)
 			from start until after loop
 				if index > 1 then
@@ -106,6 +185,26 @@ feature -- Access
 				Result.append (item)
 				forth
 			end
+			go_to (l_cursor)
+		end
+
+	item_indent: INTEGER
+		local
+			i: INTEGER; done: BOOLEAN
+		do
+			from i := 1 until done or i > item.count loop
+				if item.code (i) = Tabulation then
+					Result := Result + 1
+				else
+					done := True
+				end
+				i := i + 1
+			end
+		end
+
+	joined (a_separator: CHARACTER_32): like item
+		do
+			Result := joined_with (a_separator, False)
 		end
 
 	joined_character_count: INTEGER
@@ -134,7 +233,10 @@ feature -- Access
 
 	joined_with (a_separator: CHARACTER_32; proper_case_words: BOOLEAN): like item
 			-- Null character joins without separation
+		local
+			l_cursor: like cursor
 		do
+			l_cursor := cursor
 			if a_separator = '%U' then
 				create Result.make (character_count)
 			else
@@ -151,6 +253,24 @@ feature -- Access
 				end
 				forth
 			end
+			go_to (l_cursor)
+		end
+
+	joined_with_string (a_separator: like item): like item
+			-- Null character joins without separation
+		local
+			l_cursor: like cursor
+		do
+			l_cursor := cursor
+			create Result.make (character_count + (count - 1) * a_separator.count)
+			from start until after loop
+				if index > 1 then
+					Result.append (a_separator)
+				end
+				Result.append (item)
+				forth
+			end
+			go_to (l_cursor)
 		end
 
 	joined_words: like item
@@ -159,12 +279,30 @@ feature -- Access
 			Result := joined_with (' ', False)
 		end
 
+feature -- Status query
+
+	is_indented: BOOLEAN
+		 do
+		 	Result := across Current as str all
+		 		not str.item.is_empty and then str.item.code (1) = Tabulation
+		 	end
+		 end
+
 feature {NONE} -- Implementation
+
+	tab_string (a_count: INTEGER): READABLE_STRING_GENERAL
+		do
+			create {STRING} Result.make_filled (Tabulation.to_character_8, a_count)
+		end
 
 	proper_cased (word: like item): like item
 		do
 			Result := word.as_lower
 			Result.put_code (word.item (1).as_upper.natural_32_code, 1)
 		end
+
+feature {NONE} -- Constants
+
+	Tabulation: NATURAL = 9
 
 end

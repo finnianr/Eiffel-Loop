@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Object representing table row in OpenDocument Flat XML format spreadsheet
 	]"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-16 7:37:19 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 class
 	EL_SPREAD_SHEET_ROW
@@ -65,7 +65,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	cell (name: ASTRING): EL_SPREAD_SHEET_DATA_CELL
+	cell (name: ZSTRING): EL_SPREAD_SHEET_DATA_CELL
 		do
 			columns.search (name)
 			if columns.found then
@@ -85,7 +85,7 @@ feature -- Status report
 
 feature {NONE} -- Implementation
 
-	columns: EL_ASTRING_HASH_TABLE [INTEGER]
+	columns: EL_ZSTRING_HASH_TABLE [INTEGER]
 
 feature {NONE} -- Constants
 

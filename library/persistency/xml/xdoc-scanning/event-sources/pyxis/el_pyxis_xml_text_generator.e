@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		XML generator that does not split text nodes on new line character.
 		Tabs and new lines in from text content are escaped.
@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-16 18:48:40 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 class
 	EL_PYXIS_XML_TEXT_GENERATOR
@@ -29,10 +29,10 @@ create
 
 feature {NONE} -- Constants
 
-	xml_escaper: EL_XML_CHARACTER_ESCAPER
+	xml_escaper: EL_XML_CHARACTER_ESCAPER [ZSTRING]
 		once
 			create Result.make
-			Result.extend ('%T', Result.escape_sequence ('%T'))
+			Result.extend ('%T')
 		end
 
 end

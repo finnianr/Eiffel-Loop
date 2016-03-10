@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_SHARED_PAYPAL_VARIABLES}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 16:32:35 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	EL_SHARED_PAYPAL_VARIABLES
@@ -12,7 +17,7 @@ feature {NONE} -- Constants
 	Variable: TUPLE [
 		acknowledge,
 		button_code, button_country, button_language, button_status, button_sub_type, button_type,
-		hosted_button_id, notify_url, version, website_code: ASTRING
+		hosted_button_id, notify_url, version, website_code: ZSTRING
 	]
 		once
 			create Result

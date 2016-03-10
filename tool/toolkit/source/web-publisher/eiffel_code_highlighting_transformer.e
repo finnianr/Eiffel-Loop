@@ -4,28 +4,30 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-06 17:24:35 GMT (Monday 6th October 2014)"
-	revision: "6"
+	date: "2016-01-20 9:36:12 GMT (Wednesday 20th January 2016)"
+	revision: "8"
 
 class
 	EIFFEL_CODE_HIGHLIGHTING_TRANSFORMER
 
 inherit
-	EL_EIFFEL_TEXT_EDITOR
+	EL_TEXT_EDITOR
 		rename
-			edit_text as transform
+			edit as transform
 		redefine
-			make_default, transform, on_unmatched_text
+			make_default, on_unmatched_text
 		end
-
-	EL_EIFFEL_PATTERN_FACTORY
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
 			make as make_machine
 		end
+
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
+
+	EIFFEL_CONSTANTS
 
 	EL_MODULE_XML
 
@@ -67,31 +69,26 @@ feature {NONE} -- Initialization
 			set_source_text (selected_text)
 		end
 
-feature -- Basic operations
-
-	transform
-			--
-		do
-			find_all
-			write_events_text
-		end
-
 feature {NONE} -- Pattern definitions
 
-	delimiting_pattern: EL_FIRST_MATCH_IN_LIST_TP
+	delimiting_pattern: like one_of
 			--
+		local
+			double_angle_brackets: like one_of
 		do
+			double_angle_brackets := one_of (<<
+				string_literal ("<<"),
+				string_literal (">>")
+			>>)
 			create Result.make (<<
-				eiffel_comment												|to| agent put_emphasis (?, "comment"),
+				comment													|to| agent put_emphasis (?, "comment"),
 
-				unescaped_eiffel_string (Default_match_action)	|to| agent put_emphasis (?, "quote"),
-				quoted_eiffel_string (Default_match_action)		|to| agent put_emphasis (?, "quote"),
-				quoted_eiffel_character (Default_match_action)	|to| agent put_emphasis (?, "quote"),
+				unescaped_manifest_string (Default_action)	|to| agent put_emphasis (?, "quote"),
+				quoted_manifest_string (Default_action)		|to| agent put_emphasis (?, "quote"),
+				character_manifest (Default_action)				|to| agent put_emphasis (?, "quote"),
 
-				one_of (<<
-					string_literal ("<<"), string_literal (">>")
-				>>)															|to| agent put_emphasis (?, "class"),
-				identifier													|to| agent on_identifier
+				double_angle_brackets								|to| agent put_emphasis (?, "class"),
+				identifier												|to| agent on_identifier
 			>>)
 		end
 
@@ -123,7 +120,7 @@ feature {NONE} -- Parsing actions
 				end
 
 			elseif word.count > 1 and word /~ "NONE" then
-				put_emphasis (text, "class")
+				put_emphasis (text, Keyword_class)
 
 			else
 				put_escaped (text)
@@ -132,45 +129,45 @@ feature {NONE} -- Parsing actions
 
 feature {NONE} -- Line procedure transitions for whole class
 
-	find_class_declaration (line: ASTRING)
+	find_class_declaration (line: ZSTRING)
 			--
 		do
-			if line.starts_with ("class") or else line.starts_with ("deferred") then
+			if line.starts_with (Keyword_class) or else line.starts_with (Keyword_deferred) then
 				append_to_selected_text (line)
 				state := agent append_to_selected_text
 			end
 		end
 
-	append_to_selected_text (line: ASTRING)
+	append_to_selected_text (line: ZSTRING)
 			--
 		do
 			if not selected_text.is_empty then
 				selected_text.append_character ('%N')
 			end
 			line.grow (line.count + line.occurrences ('%T') * (Tab_spaces.count - 1))
-			line.replace_substring_all ("%T", Tab_spaces)
+			line.replace_substring_all (Tab_character_string, Tab_spaces)
 			selected_text.append (line)
 		end
 
 feature {NONE} -- Line procedure transitions for selected features
 
-	find_feature_block (line: ASTRING)
+	find_feature_block (line: ZSTRING)
 			--
 		do
-			if line.starts_with ("feature ") then
+			if line.starts_with (Keyword_feature) then
 				last_feature_block_line := line
 				state := agent find_selected_feature
 			end
 		end
 
-	find_selected_feature (line: ASTRING)
+	find_selected_feature (line: ZSTRING)
 			--
 		local
-			trimmed_line: ASTRING
+			trimmed_line: ZSTRING
 			tab_count: INTEGER
 			found: BOOLEAN
 		do
-			if line.starts_with ("feature ") then
+			if line.starts_with (Keyword_feature) then
 				last_feature_block_line := line
 			else
 				create trimmed_line.make_from_other (line)
@@ -198,10 +195,10 @@ feature {NONE} -- Line procedure transitions for selected features
 			end
 		end
 
-	find_feature_end (line: ASTRING)
+	find_feature_end (line: ZSTRING)
 			--
 		local
-			trimmed_line: ASTRING
+			trimmed_line: ZSTRING
 			tab_count: INTEGER
 		do
 			create trimmed_line.make_from_other (line)
@@ -231,31 +228,39 @@ feature {NONE} -- Implementation
 			put_string (XML.escaped_128_plus (text.to_string_8))
 		end
 
-	new_output: IO_MEDIUM
+	new_output: EL_OUTPUT_MEDIUM
 			--
 		do
-			create {EL_TEXT_IO_MEDIUM} Result.make (0)
+			create {EL_UTF_STRING_8_IO_MEDIUM} Result.make (0)
 		end
 
-	selected_text: STRING
+	selected_text: ZSTRING
 
-	selected_features: LIST [STRING]
+	selected_features: LIST [ZSTRING]
 
-	last_feature_block_line: STRING
+	last_feature_block_line: ZSTRING
 
-	last_feature_block_line_appended: STRING
+	last_feature_block_line_appended: ZSTRING
 
 feature {NONE} -- Constants
 
-	End_emphasis: STRING = "</em>"
+	End_emphasis: ZSTRING
+		once
+			Result := "</em>"
+		end
 
-	Tab_spaces: STRING
+	Tab_spaces: ZSTRING
 			--
 		once
 			create Result.make_filled (' ', 4)
 		end
 
-	Reserved_word_set: EL_HASH_SET [STRING]
+	Tab_character_string: ZSTRING
+		once
+			Result := "%T"
+		end
+
+	Reserved_word_set: EL_HASH_SET [ZSTRING]
 			--
 		once
 			create Result.make (Reserved_word_list.count)

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_FIND_FILES_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:02 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2015-12-16 7:07:42 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_FIND_FILES_COMMAND
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	file_pattern: ASTRING
+	file_pattern: ZSTRING
 
 	path_list: EL_ARRAYED_LIST [EL_FILE_PATH]
 
@@ -60,19 +60,18 @@ feature -- Element change
 
 feature {NONE} -- Evolicity reflection
 
-	get_file_pattern: like file_pattern
-			--
-		do
-			Result := file_pattern
-		end
-
 	getter_function_table: like getter_functions
 			--
 		do
 			Result := precursor
 			Result.append_tuples (<<
-				["file_pattern", agent get_file_pattern]
+				["file_pattern", agent: ZSTRING do Result := file_pattern end]
 			>>)
+			if {PLATFORM}.is_windows then
+				Result.append_tuples (<<
+					["file_pattern_path", agent: ZSTRING do Result := escaped_path (dir_path + file_pattern) end]
+				>>)
+			end
 		end
 
 end

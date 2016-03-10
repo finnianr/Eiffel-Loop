@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-20 12:50:02 GMT (Sunday 20th December 2015)"
+	revision: "7"
 
 class
 	EIFFEL_CLASS_RENAMER_COMMAND
@@ -19,8 +19,6 @@ inherit
 		redefine
 			execute
 		end
-
-	EL_MODULE_STRING
 
 	EL_MODULE_USER_INPUT
 
@@ -39,9 +37,8 @@ feature -- Basic operations
 
 	execute
 		local
-			is_done: BOOLEAN
-			user_input_file_path: EL_FILE_PATH
-			user_input_line: STRING
+			is_done: BOOLEAN; user_input_file_path: EL_FILE_PATH
+			user_input_line: ZSTRING
 		do
 --			log_or_io.put_path_field ("SOURCE ROOT", tree_path)
 			log_or_io.put_new_line
@@ -51,9 +48,9 @@ feature -- Basic operations
 					user_input_line := User_input.line ("Drag and drop class file")
 					user_input_line.right_adjust; user_input_line.left_adjust
 
-					across quote_types as quotes loop
-						if String.has_enclosing (user_input_line, quotes.item) then
-							String.remove_bookends (user_input_line, quotes.item)
+					across quote_types as type loop
+						if user_input_line.has_quotes (type.item) then
+							user_input_line.remove_quotes
 						end
 					end
 					if user_input_line.as_upper.is_equal ("QUIT") then
@@ -82,7 +79,7 @@ feature {NONE} -- Implementation
 
 	change_manifest_class_name
 		local
-			lower_old_class_name: ASTRING
+			lower_old_class_name: ZSTRING
 			found: BOOLEAN
 		do
 			log.enter ("change_manifest_class_name")
@@ -100,16 +97,16 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	old_class_name: STRING
+	old_class_name: ZSTRING
 
-	new_class_name: STRING
+	new_class_name: ZSTRING
 
 feature {NONE} -- Constants
 
-	Quote_types: ARRAY [READABLE_STRING_GENERAL]
+	Quote_types: ARRAY [INTEGER]
 			--
 		once
-			Result := << "%"%"", "''" >>
+			Result := << 1, 2 >>
 		end
 
 end

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_TIME_ROUTINES}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-19 17:30:20 GMT (Tuesday 19th November 2013)"
-	revision: "2"
+	date: "2015-10-20 12:26:09 GMT (Tuesday 20th October 2015)"
+	revision: "4"
 
 class
 	EL_TIME_ROUTINES
@@ -33,6 +33,20 @@ feature -- Access
 				if parts.count = 2 and then across parts as part all part.item.is_integer end then
 					Result := True
 				end
+			end
+		end
+
+	is_valid_fine (fine_time_str: STRING): BOOLEAN
+			-- True if 'fine_time_str' conforms to mm:ss:ff3
+			-- Eg. 1:02.555
+		local
+			parts: LIST [STRING]; mins, secs: STRING
+		do
+			parts := fine_time_str.split (':')
+			if parts.count = 2 then
+				mins := parts [1]; secs := parts [2]
+				secs.prune_all_leading ('0')
+				Result := mins.is_integer and secs.is_real
 			end
 		end
 

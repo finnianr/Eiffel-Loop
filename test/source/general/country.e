@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {COUNTRY}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 12:35:45 GMT (Wednesday 16th December 2015)"
+	revision: "4"
 
 class
 	COUNTRY
@@ -17,7 +22,7 @@ feature -- Access
 
 	code: STRING
 
-	name: ASTRING
+	name: ZSTRING
 
 	population: INTEGER
 

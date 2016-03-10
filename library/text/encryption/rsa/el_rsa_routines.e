@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_RSA_ROUTINES}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-19 9:13:22 GMT (Friday 19th September 2014)"
-	revision: "3"
+	date: "2015-04-22 13:16:31 GMT (Wednesday 22nd April 2015)"
+	revision: "4"
 
 class
 	EL_RSA_ROUTINES

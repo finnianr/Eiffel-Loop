@@ -1,16 +1,21 @@
-note
+﻿note
 	description: "Summary description for {EL_GVFS_FILE_EXISTS_COMMAND}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 7:08:08 GMT (Wednesday 16th December 2015)"
+	revision: "3"
 
 class
 	EL_GVFS_FILE_EXISTS_COMMAND
 
 inherit
-	EL_LINE_PROCESSED_OS_COMMAND
+	EL_GVFS_OS_COMMAND
 		redefine
-			default_create, find_line
+			default_create, on_error, find_line, reset
 		end
 
 create
@@ -20,10 +25,7 @@ feature {NONE} -- Initialization
 
 	default_create
 		do
-			make_with_name ("gvfs-info.type", "[
-				gvfs-info -a standard::type "$uri"
-			]")
-			enable_error_redirection
+			make_with_name ("gvfs-info.type", "gvfs-info -a standard::type $uri")
 		end
 
 feature -- Access
@@ -39,17 +41,19 @@ feature -- Element change
 
 feature {NONE} -- Line states
 
-	find_line (line: ASTRING)
+	find_line (line: ZSTRING)
 		do
-			file_exists := not line.starts_with (Error_message)
+			file_exists := True
 			state := agent final
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Event handling
 
-	Error_message: ASTRING
-		once
-			Result := "Error getting info"
+	on_error (message: ZSTRING)
+		do
+			if not is_file_not_found (message) then
+				Precursor (message)
+			end
 		end
 
 end

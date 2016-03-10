@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-01-21 11:19:33 GMT (Thursday 21st January 2016)"
+	revision: "6"
 
 class
 	WEB_PAGE_CONTENT
@@ -18,7 +18,7 @@ inherit
 			make_default, make_from_file
 		end
 
-	EL_TEXTUAL_PATTERN_FACTORY
+	EL_ZTEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
@@ -30,10 +30,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_STRING
-		export
-			{NONE} all
-		end
+	EL_MODULE_LOG
 
 create
 	make_from_file
@@ -61,7 +58,7 @@ feature {NONE} -- Initialization
 
  			Precursor (content_body_path)
 
-			edit_file
+			edit
 			log.exit
  		end
 
@@ -71,68 +68,68 @@ feature -- Status report
 
 feature {NONE} -- Pattern definitions
 
-	delimiting_pattern: EL_FIRST_MATCH_IN_LIST_TP
+	automatic_thunderbird_link: like all_of
+			--
+		local
+			link_text: like repeat_p1_until_p2
+		do
+			link_text := repeat_p1_until_p2 (any_character, string_literal ("</a>"))
+			link_text.set_action_combined_p1 (agent on_unmatched_text)
+			Result := all_of (<<
+				string_literal ("<a"),
+				white_space,
+				string_literal ("class=%"moz-txt-link"),
+				repeat_p1_until_p2 (any_character, string_literal ("%">")),
+				link_text
+			>>)
+		end
+
+	delimiting_pattern: like one_of
 			--
 		do
 			Result := one_of (<<
-				string_literal ("mozTocId")						 |to| agent delete,
+				string_literal ("mozTocId")							 |to| agent delete,
 				automatic_thunderbird_link,
-				string_literal ("<!--mozToc h1")				 |to| agent on_contents_start,
+				string_literal ("<!--mozToc h1")						 |to| agent on_contents_start,
 				string_literal ("<a href=%"http://localhost/")	 |to| agent replace (?, "<a href=%""),
 				image_tag_src,
 				source_code_include
 			>>)
 		end
 
-	automatic_thunderbird_link: EL_MATCH_ALL_IN_LIST_TP
-			--
-		local
-			link_text: EL_MATCH_TP1_UNTIL_TP2_MATCH_TP
-		do
-			link_text := repeat_pattern_1_until_pattern_2 (any_character, string_literal ("</a>"))
-			link_text.set_action_on_combined_repeated_match (agent on_unmatched_text)
-			Result := all_of (<<
-				string_literal ("<a"),
-				white_space,
-				string_literal ("class=%"moz-txt-link"),
-				repeat_pattern_1_until_pattern_2 (any_character, string_literal ("%">")),
-				link_text
-			>>)
-		end
-
-	image_tag_src: EL_MATCH_ALL_IN_LIST_TP
+	image_tag_src: like all_of
 			-- Remove http://localhost in src attribute of image tags
 		local
-			attributes: EL_MATCH_TP1_UNTIL_TP2_MATCH_TP
+			attributes: like repeat_p1_until_p2
 		do
-			attributes := repeat_pattern_1_until_pattern_2 (
+			attributes := repeat_p1_until_p2 (
 				any_character,
 				string_literal ("src=%"http://localhost") |to| agent replace (?, "src=%"")
 			)
-			attributes.set_action_on_combined_repeated_match (agent on_unmatched_text)
+			attributes.set_action_combined_p1 (agent on_unmatched_text)
 			Result := all_of (<<
 				string_literal ("<img ") |to| agent on_unmatched_text,
 				attributes,
-				repeat_pattern_1_until_pattern_2 (any_character, string_literal ("%">")) |to| agent on_unmatched_text
+				repeat_p1_until_p2 (any_character, string_literal ("%">")) |to| agent on_unmatched_text
 			>>)
 		end
 
-	source_code_include: EL_MATCH_ALL_IN_LIST_TP
+	source_code_include: like all_of
 			--
 		local
-			pre_content: EL_MATCH_TP1_WHILE_NOT_TP2_MATCH_TP
+			pre_content: like while_not_p1_repeat_p2
 		do
-			pre_content := while_not_pattern_1_repeat_pattern_2 (string_literal ("</pre>"), any_character)
+			pre_content := while_not_p1_repeat_p2 (string_literal ("</pre>"), any_character)
 			Result := all_of (<<
 				string_literal ("<pre") |to| agent on_pre_tag,
 				white_space,
 				string_literal ("lang="),
-				quoted_string_with_escape_sequence (string_literal ("\%""), agent on_language_name),
+				quoted_string (string_literal ("\%""), agent on_language_name),
 				maybe_white_space,
 				character_literal ('>'),
 				pre_content
 			>>)
-			pre_content.set_action_on_combined_repeated_match (agent on_pre_content)
+			pre_content.set_action_combined_p2 (agent on_pre_content)
 		end
 
 feature {NONE} -- Parsing actions
@@ -142,12 +139,6 @@ feature {NONE} -- Parsing actions
 		do
 			put_string (text)
 			has_contents := True
-		end
-
-	on_pre_tag (text: EL_STRING_VIEW)
-			--
-		do
-			last_language_name.wipe_out
 		end
 
 	on_language_name (text: EL_STRING_VIEW)
@@ -160,12 +151,11 @@ feature {NONE} -- Parsing actions
 			--
 		local
 			transformer: EIFFEL_CODE_HIGHLIGHTING_TRANSFORMER
-			src_path: EL_FILE_PATH
-			selected_class_features: LIST [STRING]
-			src_path_steps: EL_PATH_STEPS
+			selected_class_features: LIST [ZSTRING]
+			src_path_steps: EL_PATH_STEPS; src_path: EL_FILE_PATH
 		do
 			create src_path
-			selected_class_features := String.delimited_list (text, "<br>")
+			selected_class_features := text.to_string.substring_split (Break_open)
 			selected_class_features.start
 			if not selected_class_features.after then
 				src_path_steps := selected_class_features.item
@@ -192,32 +182,21 @@ feature {NONE} -- Parsing actions
 			end
 		end
 
+	on_pre_tag (text: EL_STRING_VIEW)
+			--
+		do
+			last_language_name.wipe_out
+		end
+
 feature {NONE} -- Line procedure transitions
 
-	find_body_tag (line: ASTRING)
+	find_body_end (line: ZSTRING)
 			--
 		do
-			if line.starts_with ("<body") then
-				state := agent find_end_of_body_attributes
-				find_end_of_body_attributes (line)
-			end
-		end
-
-	find_end_of_body_attributes (line: ASTRING)
-			--
-		do
-			if line.ends_with (">") then
-				state := agent find_body_end
-			end
-		end
-
-	find_body_end (line: ASTRING)
-			--
-		do
-			if line.starts_with ("</body>") then
+			if line.starts_with (Body_close) then
 				state := agent final
 			else
-				if line.starts_with ("<!--mozToc") then
+				if line.starts_with (Comment_moztoc) then
 					has_contents := True
 				end
 				body_file.put_string (line)
@@ -225,10 +204,54 @@ feature {NONE} -- Line procedure transitions
 			end
 		end
 
+	find_body_tag (line: ZSTRING)
+			--
+		do
+			if line.starts_with (Body_open) then
+				state := agent find_end_of_body_attributes
+				find_end_of_body_attributes (line)
+			end
+		end
+
+	find_end_of_body_attributes (line: ZSTRING)
+			--
+		do
+			if line.ends_with (Right_angle_bracket) then
+				state := agent find_body_end
+			end
+		end
+
 feature {NONE} -- Implementation
+
+	body_file: PLAIN_TEXT_FILE
 
 	last_language_name: STRING
 
-	body_file: PLAIN_TEXT_FILE
+feature {NONE} -- Constants
+
+	Comment_moztoc: ZSTRING
+		once
+			Result := "<!--mozToc"
+		end
+
+	Body_open: ZSTRING
+		once
+			Result := "<body"
+		end
+
+	Body_close: ZSTRING
+		once
+			Result := "</body>"
+		end
+
+	Break_open: ZSTRING
+		once
+			Result := "<br>"
+		end
+
+	Right_angle_bracket: ZSTRING
+		once
+			Result := ">"
+		end
 
 end

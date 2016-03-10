@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_XDG_DIRECTORY_DESKTOP_ENTRY}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-06 14:01:35 GMT (Friday 6th December 2013)"
-	revision: "3"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "4"
 
 class
 	EL_XDG_DESKTOP_DIRECTORY

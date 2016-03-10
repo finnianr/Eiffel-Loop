@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_XML_DOCUMENT_LOGGER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-24 13:16:01 GMT (Thursday 24th December 2015)"
+	revision: "4"
 
 class
 	EL_XML_DOCUMENT_LOGGER
@@ -21,11 +21,6 @@ inherit
 	EL_EIF_OBJ_XPATH_CONTEXT
 		redefine
 			make_default
-		end
-
-	EL_MODULE_STRING
-		export
-			{NONE} all
 		end
 
 	EL_MODULE_LOG
@@ -51,12 +46,12 @@ feature -- Basic operations
 
 feature {NONE} -- Parsing events
 
-	on_xml_tag_declaration
+	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
 			--
 		do
 			log.enter ("on_xml_tag_declaration")
-			log.put_real_field ("version", xml_version)
-			log.put_string_field (" encoding", encoding_name)
+			log.put_real_field ("version", version)
+			log.put_string_field (" encoding", encodeable.encoding_name)
 			log.put_new_line
 			log.exit
 		end

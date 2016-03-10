@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {MUSIC_VENUE_EVENTS}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-02 15:32:49 GMT (Sunday 2nd March 2014)"
-	revision: "6"
+	date: "2015-01-08 17:51:08 GMT (Thursday 8th January 2015)"
+	revision: "7"
 
 class
 	DJ_EVENTS_HTML_INDEX

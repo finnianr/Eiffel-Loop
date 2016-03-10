@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-15 8:52:34 GMT (Tuesday 15th December 2015)"
+	revision: "4"
 
 deferred class
 	LIST_PARAMETER [G]
@@ -51,6 +51,7 @@ feature -- Basic operations
 				display_item
 				forth
 			end
+			log.put_new_line
 		end
 
 	display_item

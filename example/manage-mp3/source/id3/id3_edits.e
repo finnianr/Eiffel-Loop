@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {ID3_EDIT}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-22 11:46:01 GMT (Friday 22nd November 2013)"
-	revision: "4"
+	date: "2015-12-16 12:26:06 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	ID3_EDITS
@@ -29,7 +29,7 @@ feature -- Basic operations
 			-- set genre and artist field from path, preserving any album artist info in the artist field
 		local
 			artist_dir, genre_dir: EL_DIR_PATH
-			album_artist: ASTRING
+			album_artist: ZSTRING
 		do
 			artist_dir := relative_song_path.parent
 			genre_dir := artist_dir.parent
@@ -42,7 +42,7 @@ feature -- Basic operations
 					album_artist := id3_info.artist
 
 				elseif not album_artist.ends_with (id3_info.artist) then
-					album_artist.append_string (once ", ")
+					album_artist.append_string_general (once ", ")
 					album_artist.append (id3_info.artist)
 				end
 
@@ -57,9 +57,16 @@ feature -- Basic operations
 			id3_info.update
 		end
 
+	remove_rbox_id (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)
+		do
+			id3_info.remove_unique_id ("http://musicbrainz.org")
+			id3_info.set_unique_id ("http://musicbrainz.org", "E5A98512-B327-2590-B57F-1516280FE58A")
+			id3_info.update
+		end
+
 	delete_id3_comments (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)
 		local
-			l_frame: EL_ID3_FRAME; frame_string: ASTRING; is_changed: BOOLEAN; pos_colon: INTEGER
+			l_frame: EL_ID3_FRAME; frame_string: ZSTRING; is_changed: BOOLEAN; pos_colon: INTEGER
 		do
 			if not id3_info.comment_table.is_empty then
 				print_id3 (id3_info, relative_song_path)
@@ -97,7 +104,7 @@ feature -- Basic operations
 			-- This is an antidote to a bug in Rhythmbox version 2.97 where editions to
 			-- 'c0' command are saved as 'Comment' and are no longer visible on reload.
 		local
-			text: ASTRING
+			text: ZSTRING
 		do
 			id3_info.comment_table.search (ID3_frame_comment)
 			if id3_info.comment_table.found then
@@ -153,7 +160,7 @@ feature -- Basic operations
 			id3_info.update
 		end
 
-	save_album_picture_id3 (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH; name: ASTRING)
+	save_album_picture_id3 (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH; name: ZSTRING)
 		local
 			jpg_file: RAW_FILE
 			album_picture: EL_ID3_ALBUM_PICTURE

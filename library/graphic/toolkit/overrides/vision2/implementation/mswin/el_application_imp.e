@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Mechanism to queue events from external threads and process them in the main GUI thread
 		by putting a dummy button event into the GTK message queue. The button state (normally used to store
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
+	revision: "4"
 
 class
 	EL_APPLICATION_IMP

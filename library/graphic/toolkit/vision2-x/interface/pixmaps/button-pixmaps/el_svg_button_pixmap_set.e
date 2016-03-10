@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Buttons with images for 3 states stored in application icons location
 	]"
@@ -6,51 +6,31 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2016-01-14 11:05:22 GMT (Thursday 14th January 2016)"
+	revision: "7"
 
 class
 	EL_SVG_BUTTON_PIXMAP_SET
 
 inherit
 	EL_MODULE_ICON
-		redefine
-			default_create
-		end
-
-	EL_MODULE_STRING
-		undefine
-			default_create
-		end
 
 	EL_MODULE_FILE_SYSTEM
-		undefine
-			default_create
-		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-		undefine
-			default_create
-		end
 
 	EL_MODULE_SCREEN
-		undefine
-			default_create
-		end
 
 	EL_MODULE_IMAGE_PATH
-		undefine
-			default_create
-		end
 
 create
-	default_create, make, make_transparent
+	make_default, make, make_transparent
 
 feature {NONE} -- Initialization
 
-	default_create
+	make_default
 		do
 			create pixmaps.make_equal (3)
 			create background_color
@@ -66,7 +46,7 @@ feature {NONE} -- Initialization
 	make (a_icon_path_steps: like icon_path_steps; width_cms: REAL; a_background_color: EL_COLOR)
 			--
 		do
-			default_create
+			make_default
 			icon_path_steps.grow (a_icon_path_steps.count + 1)
 			icon_path_steps.append (a_icon_path_steps)
 			background_color := a_background_color
@@ -133,7 +113,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	svg_icon (last_step: ASTRING; width_cms: REAL): like normal
+	svg_icon (last_step: ZSTRING; width_cms: REAL): like normal
 		do
 			icon_path_steps.extend (last_step)
 			Result := new_svg_image (Image_path.icon (icon_path_steps), width_cms)
@@ -145,7 +125,7 @@ feature {NONE} -- Implementation
 			create Result.make_with_width_cms (svg_path, width_cms, background_color)
 		end
 
-	pixmap (a_name: ASTRING): like normal
+	pixmap (a_name: ZSTRING): like normal
 		do
 			pixmaps.search (a_name)
 			if pixmaps.found then
@@ -155,7 +135,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_pixmap (name: ASTRING; a_svg_icon: like normal)
+	set_pixmap (name: ZSTRING; a_svg_icon: like normal)
 		do
 			pixmaps [name] := a_svg_icon
 		end
@@ -164,22 +144,22 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Highlighted_svg: ASTRING
+	Highlighted_svg: ZSTRING
 		once
 			Result := "highlighted.svg"
 		end
 
-	Depressed_svg: ASTRING
+	Depressed_svg: ZSTRING
 		once
 			Result := "depressed.svg"
 		end
 
-	Normal_svg: ASTRING
+	Normal_svg: ZSTRING
 		once
 			Result := "normal.svg"
 		end
 
-	pixmaps: EL_ASTRING_HASH_TABLE [like normal]
+	pixmaps: EL_ZSTRING_HASH_TABLE [like normal]
 
 	Highlighted_stop_color: STRING = "f9ffff"
 

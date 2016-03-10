@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-20 14:27:26 GMT (Sunday 20th December 2015)"
+	revision: "4"
 
 class
 	FILE_MOTIF_EMULATOR_C_GCC_TO_MSVC_CONVERTER
@@ -25,14 +25,14 @@ create
 
 feature {NONE} -- C constructs
 
-	delimiting_pattern: EL_FIRST_MATCH_IN_LIST_TP
+	delimiting_pattern: like one_of
 			--
 		do
 			Result := Precursor
 			Result.extend (praat_winmain_function)
 		end
 
-	praat_winmain_function: EL_MATCH_ALL_IN_LIST_TP
+	praat_winmain_function: like all_of
 			-- Eg. to match:
 
 			--	int APIENTRY WinMain (HINSTANCE instance, HINSTANCE previousInstance, LPSTR commandLine, int commandShow) {
@@ -53,7 +53,7 @@ feature {NONE} -- C constructs
 				string_literal ("int APIENTRY WinMain"),
 				non_breaking_white_space,
 				character_literal ('('),
-				repeat_pattern_1_until_pattern_2 (
+				repeat_p1_until_p2 (
 					-- pattern 1
 					one_of (<<
 						c_identifier,

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PATH}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-19 14:16:38 GMT (Friday 19th September 2014)"
-	revision: "6"
+	date: "2016-02-04 13:57:18 GMT (Thursday 4th February 2016)"
+	revision: "8"
 
 deferred class
 	EL_PATH
@@ -42,17 +42,21 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
+	STRING_HANDLER
+		undefine
+			is_equal, default_create, out, copy
+		end
+
 feature {NONE} -- Initialization
 
 	default_create
 		do
 			parent_path := Empty_path; base := Empty_path
-			escaper := Default_escaper
 		end
 
-	make_from_unicode, make_from_latin1 (a_unicode_path: READABLE_STRING_GENERAL)
+	make_from_unicode, make_from_latin_1 (a_unicode_path: READABLE_STRING_GENERAL)
 		do
-			make (create {ASTRING}.make_from_unicode (a_unicode_path))
+			make (create {ZSTRING}.make_from_unicode (a_unicode_path))
 		end
 
 	make_from_path (a_path: PATH)
@@ -65,16 +69,15 @@ feature {NONE} -- Initialization
 			base := other.base.twin
 			parent_path := other.parent_path.twin
 			is_absolute := other.is_absolute
-			escaper := other.escaper
 		end
 
 feature -- Initialization
 
-	make, set_path (a_path: ASTRING)
+	make, set_path (a_path: ZSTRING)
 			--
 		local
 			pos_last_separator: INTEGER
-			norm_path: ASTRING
+			norm_path: ZSTRING
 		do
 			default_create
 
@@ -97,14 +100,11 @@ feature -- Initialization
 
 			set_parent_path (norm_path.substring (1, pos_last_separator))
 			base := norm_path.substring (pos_last_separator + 1, norm_path.count)
-			is_absolute := is_path_absolute (norm_path)
-		ensure
-			escaper_attached: attached {EL_CHARACTER_ESCAPER} escaper
 		end
 
 feature -- Access
 
-	extension: ASTRING
+	extension: ZSTRING
 			--
 		do
 			if base.has ('.') then
@@ -114,7 +114,7 @@ feature -- Access
 			end
 		end
 
-	base: ASTRING
+	base: ZSTRING
 
 	steps: EL_PATH_STEPS
 			--
@@ -139,6 +139,53 @@ feature -- Access
 			if Result = 0 then
 				Result := combined_hash_code (<< parent_path, base >>)
 				internal_hash_code := Result
+			end
+		end
+
+	has_version_number: BOOLEAN
+		do
+			Result := version_number >= 0
+		end
+
+	version_number: INTEGER
+			-- Returns value of numeric value immediately before extension and separated by dots
+			-- Minus one if no version number found
+
+			-- Example: "myfile.02.mp3" returns 2
+		local
+			number: EL_ZSTRING; interval: like version_interval
+		do
+			interval := version_interval
+			if interval.is_empty then
+				Result := -1
+			else
+				number := base.substring (interval.lower, interval.upper)
+				number.prune_all_leading ('0')
+				if number.is_integer then
+					Result := number.to_integer
+				else
+					Result := -1
+				end
+			end
+		end
+
+	version_interval: INTEGER_INTERVAL
+		local
+			intervals: like base.substring_intervals
+			found: BOOLEAN
+		do
+			intervals := base.split_intervals (Dot_separator)
+			from intervals.finish until found or else intervals.before loop
+				if base.substring (intervals.item_lower, intervals.item_upper).is_natural then
+					found := True
+				else
+					intervals.back
+				end
+			end
+			if found then
+				Result := intervals.item_interval
+			else
+				Result := 1 |..| 0
 			end
 		end
 
@@ -230,9 +277,9 @@ feature -- Element change
 			end
 		end
 
-	add_extension (a_extension: ASTRING)
+	add_extension (a_extension: ZSTRING)
 		local
-			l_base: ASTRING
+			l_base: ZSTRING
 		do
 			create l_base.make (base.count + a_extension.count + 1)
 			l_base.append (base); l_base.append_character ('.'); l_base.append (a_extension)
@@ -261,7 +308,7 @@ feature -- Element change
 			end
 		end
 
-	rename_base (new_name: ASTRING; preserve_extension: BOOLEAN)
+	rename_base (new_name: ZSTRING; preserve_extension: BOOLEAN)
 			-- set new base to new_name, preserving extension if preserve_extension is True
 		local
 			l_extension: like extension
@@ -273,13 +320,13 @@ feature -- Element change
 			end
 		end
 
-	replace_extension (a_replacement: ASTRING)
+	replace_extension (a_replacement: ZSTRING)
 		do
 			remove_extension
 			add_extension (a_replacement)
 		end
 
-	set_parent_path (a_parent: ASTRING)
+	set_parent_path (a_parent: ZSTRING)
 		local
 			l_parent_set: like Parent_set
 		do
@@ -295,21 +342,25 @@ feature -- Element change
 					parent_path := a_parent
 				end
 			end
+			is_absolute := is_path_absolute (a_parent)
+		end
+
+	set_version_number (number: like version_number)
+		require
+			has_version_number: has_version_number
+		local
+			interval: like version_interval
+			l_integer: like Integer
+		do
+			l_integer := Integer
+			interval := version_interval
+			l_integer.set_width (interval.count)
+			base.replace_substring_general (l_integer.formatted (number), interval.lower, interval.upper)
 		end
 
 	set_base (a_base: like base)
 		do
 			base := a_base
-		end
-
-	set_escaper (a_escaper: like escaper)
-		do
-			escaper := a_escaper
-		end
-
-	set_default_escaper
-		do
-			escaper := Default_escaper
 		end
 
 	share (other: like Current)
@@ -319,7 +370,7 @@ feature -- Element change
 			is_absolute := other.is_absolute
 		end
 
-	translate (originals, substitutions: ASTRING)
+	translate (originals, substitutions: ZSTRING)
 		do
 			base.translate (originals, substitutions)
 			parent_path.translate (originals, substitutions)
@@ -332,11 +383,6 @@ feature -- Removal
 			base.remove_tail (base.count - base.last_index_of ('.', base.count) + 1 )
 		end
 
-	wipe_out
-		do
-			parent_path.wipe_out; base.wipe_out
-		end
-
 feature -- Conversion
 
 	expanded_path: like Current
@@ -345,17 +391,27 @@ feature -- Conversion
 			Result.expand
 		end
 
-	to_escaped_string: ASTRING
-			-- returns strings escaped with currently set escaper.
-			-- The default escaper does nothing
+	next_version_path: like Current
+			-- Next non existing path with version number before extension
+		require
+			has_version_number: has_version_number
 		do
-			Result := to_string
-			if escaper /= Default_escaper then
-				Result.escape (escaper)
+			Result := twin
+			from until not Result.exists loop
+				Result.set_version_number (Result.version_number + 1)
 			end
 		end
 
-	to_string: ASTRING
+	relative_path (a_parent: EL_DIR_PATH): like new_relative_path
+		require
+			parent_is_parent: a_parent.is_parent_of (Current)
+		do
+			Result := new_relative_path
+			Result.parent_path.remove_head (a_parent.parent_path.count + a_parent.base.count + 1)
+			Result.set_relative
+		end
+
+	to_string: ZSTRING
 			--
 		do
 			create Result.make (parent_path.count + base.count)
@@ -368,20 +424,6 @@ feature -- Conversion
 			create Result.make_from_string (unicode)
 		end
 
-	unicode: STRING_32
-		do
-			Result := to_string.to_unicode
-		end
-
-	relative_path (a_parent: EL_DIR_PATH): like new_relative_path
-		require
-			parent_is_parent: a_parent.is_parent_of (Current)
-		do
-			Result := new_relative_path
-			Result.parent_path.remove_head (a_parent.parent_path.count + a_parent.base.count + 1)
-			Result.set_relative
-		end
-
 	out: STRING
 		local
 			l_out: like to_string
@@ -389,7 +431,7 @@ feature -- Conversion
 			l_out := to_string
 			if out_abbreviated then
 				-- Replaces String.abbreviate_working_directory
-				l_out.replace_substring_all (Directory.current_working.to_string, "$CWD")
+				l_out.replace_substring_all (Directory.current_working.to_string, Variable_cwd)
 			end
 			Result := l_out
 		end
@@ -406,10 +448,15 @@ feature -- Conversion
 			Result.change_to_windows
 		end
 
-	translated (originals, substitutions: ASTRING): like Current
+	translated (originals, substitutions: ZSTRING): like Current
 		do
 			Result := twin
 			Result.translate (originals, substitutions)
+		end
+
+	unicode, as_string_32: STRING_32
+		do
+			Result := to_string.to_unicode
 		end
 
 	without_extension: like Current
@@ -418,7 +465,7 @@ feature -- Conversion
 			Result.remove_extension
 		end
 
-	with_new_extension (a_new_ext: ASTRING): like Current
+	with_new_extension (a_new_ext: ZSTRING): like Current
 		do
 			Result := twin
 			Result.replace_extension (a_new_ext)
@@ -451,7 +498,7 @@ feature -- Duplication
 
 feature -- Contract Support
 
-	is_path_absolute (a_path: ASTRING): BOOLEAN
+	is_path_absolute (a_path: ZSTRING): BOOLEAN
 		do
 			if {PLATFORM}.is_windows then
 				Result := a_path.count >= 3 and then a_path [2] = ':' and then a_path [3] = Separator
@@ -466,7 +513,7 @@ feature {EL_PATH} -- Implementation
 		require
 			relative_path: not a_path.is_absolute
 		local
-			l_parent: ASTRING
+			l_parent: ZSTRING
 		do
 			create l_parent.make (parent_path.count + base.count + parent_path.count + 2)
 			l_parent.append (parent_path)
@@ -481,7 +528,7 @@ feature {EL_PATH} -- Implementation
 			base := a_path.base
 		end
 
-	parent_path: ASTRING
+	parent_path: ZSTRING
 
 feature {EL_PATH} -- Implementation
 
@@ -500,7 +547,7 @@ feature {EL_PATH} -- Implementation
 			end
 		end
 
-	is_potenially_expandable (a_path: ASTRING): BOOLEAN
+	is_potenially_expandable (a_path: ZSTRING): BOOLEAN
 		local
 			pos_dollor: INTEGER
 		do
@@ -508,7 +555,7 @@ feature {EL_PATH} -- Implementation
 			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
 		end
 
-	parent_set: DS_HASH_SET [ASTRING]
+	parent_set: DS_HASH_SET [ZSTRING]
 			--
 		once
 			create Result.make_equal (100)
@@ -536,8 +583,6 @@ feature {EL_PATH} -- Implementation
 
 	internal_hash_code: INTEGER
 
-	escaper: EL_CHARACTER_ESCAPER
-
 feature {NONE} -- Type definitions
 
 	Type_parent: EL_DIR_PATH
@@ -554,19 +599,19 @@ feature -- Constants
 
 feature {NONE} -- Constants
 
-	Magic_number: INTEGER = 8388593
-
-	Default_escaper: EL_DO_NOTHING_CHARACTER_ESCAPER
+	Dot_separator: ZSTRING
 		once
-			create Result
+			Result := "."
 		end
 
-	Forward_slash: ASTRING
+	Magic_number: INTEGER = 8388593
+
+	Forward_slash: ZSTRING
 		once
 			Result := "/"
 		end
 
-	Empty_path: ASTRING
+	Empty_path: ZSTRING
 		once
 			create Result.make_empty
 		end
@@ -576,6 +621,17 @@ feature {NONE} -- Constants
 	Separator: CHARACTER_32
 		once
 			Result := Operating_environment.Directory_separator
+		end
+
+	Variable_cwd: ZSTRING
+		once
+			Result := "$CWD"
+		end
+
+	Integer: FORMAT_INTEGER
+		once
+			create Result.make (2)
+			Result.zero_fill
 		end
 
 end

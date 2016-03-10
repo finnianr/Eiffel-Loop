@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {DATABASE_EXPORT_CONFIG}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 9:26:06 GMT (Wednesday 16th December 2015)"
+	revision: "4"
 
 class
 	MANAGER_CONFIG
@@ -29,6 +34,7 @@ feature {NONE} -- Initialization
 			task := "none"
 			create volume
 			volume.name := "."
+			volume.type := Empty_string
 			volume.destination_dir := create {EL_DIR_PATH}
 			volume.is_windows_format := True
 			volume.id3_version := 2.3
@@ -70,21 +76,21 @@ feature -- Attributes access
 
 	cortina_set: TUPLE [fade_in_duration, fade_out_duration: REAL; clip_duration, tango_count, tangos_per_vals: INTEGER]
 
-	dj_events: TUPLE [playlist_dir: EL_DIR_PATH; dj_name, default_title: ASTRING; publisher: DJ_EVENT_PUBLISHER_CONFIG]
+	dj_events: TUPLE [playlist_dir: EL_DIR_PATH; dj_name, default_title: ZSTRING; publisher: DJ_EVENT_PUBLISHER_CONFIG]
 
-	error_message: ASTRING
+	error_message: ZSTRING
 
 	extra_music_dir: EL_DIR_PATH
 
-	playlist_export: TUPLE [root, subdirectory_name, m3u_extension: ASTRING]
+	playlist_export: TUPLE [root, subdirectory_name, m3u_extension: ZSTRING]
 
-	selected_genres: ARRAYED_LIST [ASTRING]
+	selected_genres: ARRAYED_LIST [ZSTRING]
 
 	task: STRING
 
 	test_checksum: NATURAL
 
-	volume: TUPLE [name: ASTRING; destination_dir: EL_DIR_PATH; is_windows_format: BOOLEAN; id3_version: REAL]
+	volume: TUPLE [name, type: ZSTRING; destination_dir: EL_DIR_PATH; is_windows_format: BOOLEAN; id3_version: REAL]
 
 feature -- Basic operations
 
@@ -113,7 +119,7 @@ feature -- Element change
 			volume.destination_dir := a_volume_destination_dir
 		end
 
-	set_volume_name (a_volume_name: ASTRING)
+	set_volume_name (a_volume_name: ZSTRING)
 		do
 			volume.name := a_volume_name
 		end
@@ -153,6 +159,7 @@ feature {NONE} -- Build from XML
 				["DJ-events/publish", 						agent do set_next_context (dj_events.publisher) end],
 
 				["volume/@name", 								agent do volume.name := node.to_string end],
+				["volume/@type", 								agent do volume.type := node.to_string end],
 				["volume/@destination", 					agent do volume.destination_dir := node.to_string end],
 				["volume/@id3_version", 					agent do volume.id3_version := node.to_real end],
 				["volume/@is_windows_format", 			agent do volume.is_windows_format := node.to_boolean end],
@@ -170,16 +177,16 @@ feature {NONE} -- Build from XML
 
 feature {NONE} -- Constants
 
-	Default_m3u_extension: ASTRING
+	Default_m3u_extension: ZSTRING
 		once
 			Result := "m3u"
 		end
 
-	Default_playlists_subdirectory_name: ASTRING
+	Default_playlists_subdirectory_name: ZSTRING
 		once
 			Result := "playlists"
 		end
-	Empty_string: ASTRING
+	Empty_string: ZSTRING
 		once
 			create Result.make_empty
 		end

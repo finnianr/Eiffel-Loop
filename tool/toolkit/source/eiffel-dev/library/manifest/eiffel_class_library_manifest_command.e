@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-06 11:45:17 GMT (Monday 6th October 2014)"
-	revision: "5"
+	date: "2016-03-04 14:28:30 GMT (Friday 4th March 2016)"
+	revision: "7"
 
 class
 	EIFFEL_CLASS_LIBRARY_MANIFEST_COMMAND
@@ -28,7 +28,7 @@ create
 
 feature {EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION} -- Initialization
 
-	make (source_manifest_path, a_output_path: EL_FILE_PATH; a_title: ASTRING; a_source_root_path: like source_root_path)
+	make (source_manifest_path, a_output_path: EL_FILE_PATH; a_title: ZSTRING; a_source_root_path: like source_root_path)
 		do
 			make_command (source_manifest_path); make_from_file (a_output_path)
 			title := a_title; source_root_path := a_source_root_path
@@ -42,9 +42,13 @@ feature -- Basic operations
 	execute
 			--
 		do
+			log.enter ("execute")
 			Precursor
 			add_eiffel_source (source_root_path + "last")
 			serialize_to_file (output_path)
+			log_or_io.put_path_field ("Saved", output_path)
+			log_or_io.put_new_line
+			log.exit
 		end
 
 feature -- Status query
@@ -70,7 +74,7 @@ feature {NONE} -- Implementation
 			cluster_file_list.extend (source_path)
 		end
 
-	title: ASTRING
+	title: ZSTRING
 
 	source_root_path: EL_DIR_PATH
 
@@ -87,7 +91,7 @@ feature {NONE} -- Evolicity fields
 		do
 			create Result.make (<<
 				["class_manifest", agent: CLASS_LIBRARY_MANIFEST do Result := library_manifest end],
-				["title",			 agent: ASTRING do Result := title end]
+				["title",			 agent: ZSTRING do Result := title end]
 			>>)
 		end
 
@@ -96,12 +100,13 @@ feature {NONE} -- Evolicity fields
 		-- The #evaluate routine is not indented because it contains the html preformat tag <pre>
 		-- which will not align properly otherwise.
 	"[
-		<?xml version="1.0" encoding="UTF-8"?>
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 			<head>
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 				<title>$title</title>
 				<style type="text/css">
-					body { text-align: center; }
+					body { text-align: center }
 					div#container {
 						margin-left: auto;
 						margin-right: auto;
@@ -109,6 +114,7 @@ feature {NONE} -- Evolicity fields
 						text-align: left;
 					}
 					p {margin-left: 2em;}
+					pre {margin-left: 4em;}
 				</style>
 			</head>
 			<body>

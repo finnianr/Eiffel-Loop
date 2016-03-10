@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_DRAWABLE}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-26 11:19:13 GMT (Saturday 26th December 2015)"
+	revision: "7"
 
 deferred class
 	EL_DRAWABLE
@@ -185,7 +185,7 @@ feature -- EV_DRAWABLE routines
 		deferred
 		end
 
-	draw_rotated_text (x, y: INTEGER; angle: REAL; a_text: ASTRING)
+	draw_rotated_text (x, y: INTEGER; angle: REAL; a_text: ZSTRING)
 			-- Draw rotated text `a_text' with left of baseline at (`x', `y') using `font'.
 			-- Rotation is number of radians counter-clockwise from horizontal plane.
 		do

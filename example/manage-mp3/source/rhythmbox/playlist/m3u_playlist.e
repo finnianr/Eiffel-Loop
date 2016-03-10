@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {M3U_PLAYLIST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-28 10:52:41 GMT (Monday 28th December 2015)"
+	revision: "4"
 
 class
 	M3U_PLAYLIST
@@ -15,11 +20,14 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_playlist: ARRAYED_LIST [RBOX_SONG]; a_playlist_root: like playlist_root; a_output_path: like output_path)
+	make (
+		a_playlist: ARRAYED_LIST [RBOX_SONG]; a_playlist_root: like playlist_root
+		a_is_windows_format: like is_windows_format; a_output_path: like output_path
+	)
 		local
 			tando_index: INTEGER
 		do
-			playlist_root := a_playlist_root
+			playlist_root := a_playlist_root; is_windows_format := a_is_windows_format
 			create playlist.make (a_playlist.count)
 			across a_playlist as song loop
 				if song.item.is_cortina then
@@ -30,16 +38,20 @@ feature {NONE} -- Initialization
 			make_from_file (a_output_path)
 		end
 
+feature -- Status change
+
+	is_windows_format: BOOLEAN
+
 feature {NONE} -- Implementation
 
 	new_song_context (song: RBOX_SONG; tando_index: INTEGER): EVOLICITY_CONTEXT_IMPL
 		local
-			artists, song_info, tanda_name: ASTRING
+			artists, song_info, tanda_name: ZSTRING
 		do
  			artists := song.lead_artist.twin
  			if not song.album_artists_list.is_empty then
- 				artists.append_string (" (")
- 				artists.append (song.album_artists)
+ 				artists.append_string_general (" (")
+ 				artists.append (song.album_artist)
  				artists.append_character (')')
  			end
 			create Result.make
@@ -58,12 +70,12 @@ feature {NONE} -- Implementation
 
 	relative_path (song: RBOX_SONG): EL_FILE_PATH
 		do
-			Result := song.mp3_relative_ntfs_path
+			Result := song.exported_relative_path (is_windows_format)
 		end
 
 feature {NONE} -- Attributes
 
-	playlist_root: ASTRING
+	playlist_root: ZSTRING
 
  	playlist: ARRAYED_LIST [like new_song_context]
 
@@ -91,24 +103,24 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Constants
 
-	Song_info_template: ASTRING
-		once
-			Result := "$S, $S -- $S"
-		end
-
-	Var_relative_path: ASTRING
-		once
-			Result := "relative_path"
-		end
-	Var_song_info: ASTRING
-		once
-			Result := "song_info"
-		end
-
 	Double_digits: FORMAT_INTEGER
 		once
 			create Result.make (2)
 			Result.zero_fill
+		end
+
+	Song_info_template: ZSTRING
+		once
+			Result := "%S, %S -- %S"
+		end
+
+	Var_relative_path: ZSTRING
+		once
+			Result := "relative_path"
+		end
+	Var_song_info: ZSTRING
+		once
+			Result := "song_info"
 		end
 
 end

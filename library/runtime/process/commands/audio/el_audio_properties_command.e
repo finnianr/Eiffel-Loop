@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_CPU_INFO_COMMAND}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-14 18:10:11 GMT (Thursday 14th November 2013)"
-	revision: "3"
+	date: "2015-12-16 17:30:45 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_AUDIO_PROPERTIES_COMMAND
@@ -57,6 +57,12 @@ feature -- Access
 	bit_rate: INTEGER
 		-- kbps
 
+	standard_bit_rate: INTEGER
+			-- nearest standard bit rate: 64, 128, 192, 256, 320
+		do
+			Result := (bit_rate / 64).rounded * 64
+		end
+
 	sampling_frequency: INTEGER
 		-- Hz
 
@@ -79,14 +85,14 @@ feature {NONE} -- Implementation
 
 	Line_processing_enabled: BOOLEAN = true
 
-	file_redirection_operator: STRING
+	file_redirection_operator: ZSTRING
 		do
-			create Result.make_from_string (" 2>> ")
+			Result := " 2>> "
 		end
 
 feature {NONE} -- Line states
 
-	find_duration_tag (line: ASTRING)
+	find_duration_tag (line: ZSTRING)
 		local
 			pos_duration, pos_comma: INTEGER
 			time: TIME
@@ -95,24 +101,25 @@ feature {NONE} -- Line states
 			if pos_duration > 0 then
 				pos_duration := pos_duration + Duration_tag.count + 1
 				pos_comma := line.index_of (',', pos_duration)
-				create time.make_from_string (line.to_latin1.substring (pos_duration, pos_comma - 1), "hh24:[0]mi:[0]ss.ff2")
+				create time.make_from_string (line.to_latin_1.substring (pos_duration, pos_comma - 1), "hh24:[0]mi:[0]ss.ff2")
 				duration := time.relative_duration (Time_zero)
 				state := agent find_audio_tag
 			end
 		end
 
-	find_audio_tag (line: ASTRING)
+	find_audio_tag (line: ZSTRING)
 		local
-			parts: LIST [ASTRING]
+			fields: EL_ZSTRING_LIST; words: LIST [STRING]
 		do
 			if line.has_substring (Audio_tag) then
-				across String.delimited_list (line.split (':').last, ", ") as properties loop
-					parts := properties.item.split (' ')
-					if parts.count = 2 then
-						if parts.last.is_equal ("kb/s") then
-							bit_rate := parts.first.to_integer
-						elseif parts.last.is_equal ("Hz") then
-							sampling_frequency := parts.first.to_integer
+				create fields.make_with_separator (line, ',', True)
+				across fields as field loop
+					words := field.item.to_string_8.split (' ')
+					if words.count = 2 then
+						if words.last ~ once "kb/s" then
+							bit_rate := words.first.to_integer
+						elseif words.last ~ once "Hz" then
+							sampling_frequency := words.first.to_integer
 						end
 					end
 				end
@@ -122,12 +129,12 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Constants
 
-	Audio_tag: ASTRING
+	Audio_tag: ZSTRING
 		once
 			Result := "Audio:"
 		end
 
-	Duration_tag: ASTRING
+	Duration_tag: ZSTRING
 		once
 			Result := "Duration:"
 		end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-15 8:54:58 GMT (Tuesday 15th December 2015)"
+	revision: "4"
 
 class
 	DATA_PARAMETER
@@ -48,13 +48,11 @@ feature {NONE} -- Implementation
 	display_item
 			--
 		do
+			log.put_new_line
 			log.put_string_field ("flow", flow)
-			log.put_new_line
-			log.put_string_field ("type", type)
-			log.put_new_line
-			log.put_string_field ("flavor", flavor)
-			log.put_new_line
-			log.put_string_field ("filename", filename)
+			log.put_string_field (" type", type)
+			log.put_string_field (" flavor", flavor)
+			log.put_string_field (" filename", filename)
 			log.put_new_line
 		end
 

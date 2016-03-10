@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-18 10:59:58 GMT (Friday 18th December 2015)"
+	revision: "7"
 
 deferred class
 	FILE_SPECIFIER_LIST
@@ -24,7 +24,7 @@ feature {NONE} -- Implementation
 			-- Eg. filter/exclude
 			valid_query_path: query_path.split ('/').count = 2
 		local
-			specifier_name, file_specifier: ASTRING
+			specifier_name, file_specifier: ZSTRING
 		do
 			log.enter ("write_specifiers")
 			across directory_node.context_list (query_path) as specifier loop
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	put_file_specifier (specifier_name, file_specifier: ASTRING)
+	put_file_specifier (specifier_name, file_specifier: ZSTRING)
 			--
 		deferred
 		end

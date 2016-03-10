@@ -63,3 +63,9 @@ system:
 			option:
 				namespace = XML
 
+		# Source code
+		cluster:
+			name = xdoc; location = "persistency/xml/xdoc-processing"; recursive = true
+			option:
+				namespace = XDOC_processing
+

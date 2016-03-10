@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Delayed removal of program directory on uninstall to avoid permission problem
 	]"
@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-02 13:11:20 GMT (Sunday 2nd March 2014)"
-	revision: "5"
+	date: "2015-12-17 11:27:55 GMT (Thursday 17th December 2015)"
+	revision: "7"
 
 deferred class
 	EL_INSTALLED_FILE_REMOVAL_COMMAND
@@ -47,16 +47,16 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	menu_name: ASTRING
+	menu_name: ZSTRING
 
 	script_dir: EL_DIR_PATH
 
-	removal_command: ASTRING
+	removal_command: ZSTRING
 		do
 			Result := command_template #$ [command_path]
 		end
 
-	uninstall_script_name: ASTRING
+	uninstall_script_name: ZSTRING
 		deferred
 		end
 
@@ -68,7 +68,7 @@ feature {NONE} -- Evolicity fields
 			create Result.make (<<
 				["program_directory",			 agent: EL_PATH do Result := Directory.Application_installation end],
 				["software_company_directory", agent: EL_PATH do Result := Directory.Application_installation.parent end ],
-				["completion_message",			 agent: ASTRING do Result := completion_message_template #$ [menu_name] end]
+				["completion_message",			 agent: ZSTRING do Result := completion_message_template #$ [menu_name] end]
 			>>)
 		end
 
@@ -76,15 +76,15 @@ feature {NONE} -- Evolicity fields
 		deferred
 		end
 
-	command_template: ASTRING
+	command_template: ZSTRING
 		deferred
 		end
 
 feature {NONE} -- Constants
 
-	completion_message_template: ASTRING
+	completion_message_template: ZSTRING
 		do
-			Result := "%"$S%" removed."
+			Result := "%"%S%" removed."
 		end
 
 end

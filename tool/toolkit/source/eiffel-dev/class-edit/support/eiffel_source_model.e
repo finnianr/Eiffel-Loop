@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Splits Eiffel source lines into feature groups and individual feature lines"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-01-18 11:59:09 GMT (Monday 18th January 2016)"
+	revision: "5"
 
 class
 	EIFFEL_SOURCE_MODEL
@@ -18,6 +23,8 @@ inherit
 	EL_MODULE_LOG
 
 	FEATURE_CONSTANTS
+
+	EIFFEL_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -50,7 +57,7 @@ feature -- Basic operations
 			feature_groups.start
 		end
 
-	search (name: ASTRING)
+	search (name: ZSTRING)
 		do
 			feature_groups.find_next (name, agent {CLASS_FEATURE_GROUP}.name)
 			if feature_groups.exhausted then
@@ -69,9 +76,9 @@ feature -- Status query
 
 feature {NONE} -- Factory
 
-	new_feature_group (export_list, name: ASTRING): CLASS_FEATURE_GROUP
+	new_feature_group (export_list, name: ZSTRING): CLASS_FEATURE_GROUP
 		local
-			first_line: ASTRING
+			first_line: ZSTRING
 		do
 			if export_list.is_empty then
 				first_line := "feature -- "
@@ -86,12 +93,12 @@ feature {NONE} -- Factory
 
 feature {NONE} -- State handlers
 
-	fill_class_footer (line: ASTRING)
+	fill_class_footer (line: ZSTRING)
 		do
 			class_footer.extend (line)
 		end
 
-	find_class_declaration (line: ASTRING)
+	find_class_declaration (line: ZSTRING)
 		do
 			if Class_declaration_keywords.there_exists (agent code_line_starts_with) then
 				state := agent find_first_feature_block
@@ -101,7 +108,7 @@ feature {NONE} -- State handlers
 			end
 		end
 
-	find_first_feature (line: ASTRING)
+	find_first_feature (line: ZSTRING)
 			-- find first feature in feature group
 		do
 			if code_line_is_feature_declaration then
@@ -115,7 +122,7 @@ feature {NONE} -- State handlers
 			end
 		end
 
-	find_first_feature_block (line: ASTRING)
+	find_first_feature_block (line: ZSTRING)
 		do
 			if code_line_starts_with (Keyword_feature) then
 				feature_groups.extend (create {CLASS_FEATURE_GROUP}.make (line))
@@ -125,7 +132,7 @@ feature {NONE} -- State handlers
 			end
 		end
 
-	find_next_feature (line: ASTRING)
+	find_next_feature (line: ZSTRING)
 			-- find next feature in feature group
 		do
 			if tab_count = 0 and then Footer_start_keywords.has (code_line) then
@@ -147,7 +154,7 @@ feature {NONE} -- State handlers
 			end
 		end
 
-	find_verbatim_string_end (line: ASTRING)
+	find_verbatim_string_end (line: ZSTRING)
 		do
 			last_feature_extend (line, False)
 			if code_line_is_verbatim_string_end then
@@ -157,9 +164,9 @@ feature {NONE} -- State handlers
 
 feature {NONE} -- Implementation
 
-	call (line: ASTRING)
+	call (line: ZSTRING)
 		local
-			trim_line: ASTRING
+			trim_line: ZSTRING
 		do
 			trim_line := line.twin
 			trim_line.prune_all_leading ('%T')
@@ -177,7 +184,7 @@ feature {NONE} -- Implementation
 			first_character: CHARACTER_32
 		do
 			if not code_line.is_empty then
-				first_character := code_line.character_32_item (1)
+				first_character := code_line [1]
 			end
 			Result := tab_count = 1 and first_character.is_alpha or else first_character = '@'
 		end
@@ -192,7 +199,7 @@ feature {NONE} -- Implementation
 			Result := across Open_verbatim_string_markers as marker some code_line.ends_with (marker.item) end
 		end
 
-	code_line_starts_with (keyword: ASTRING): BOOLEAN
+	code_line_starts_with (keyword: ZSTRING): BOOLEAN
 		local
 			l_line: like code_line
 		do
@@ -203,7 +210,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	last_feature_extend (line: ASTRING; is_new: BOOLEAN)
+	last_feature_extend (line: ZSTRING; is_new: BOOLEAN)
 		do
 			if is_new then
 				feature_groups.last.features.extend (create {CLASS_FEATURE}.make (line))
@@ -220,7 +227,7 @@ feature {NONE} -- Implementation attributes
 
 	class_notes: EIFFEL_SOURCE_LINES
 
-	code_line: ASTRING
+	code_line: ZSTRING
 
 	encoding: STRING
 
@@ -232,7 +239,7 @@ feature {NONE} -- Implementation attributes
 
 feature {NONE} -- Constants
 
-	Close_verbatim_string_markers: ARRAY [ASTRING]
+	Close_verbatim_string_markers: ARRAY [ZSTRING]
 		once
 			Result := << "]%"", "}%"" >>
 		end
@@ -242,61 +249,24 @@ feature {NONE} -- Constants
 			create Result.make ("")
 		end
 
-	Footer_start_keywords: EL_ASTRING_LIST
+	Footer_start_keywords: EL_ZSTRING_LIST
 		once
 			create Result.make_from_array (<< Keyword_invariant, Keyword_end, Keyword_note >>)
 		end
 
-	Class_declaration_keywords: EL_ASTRING_LIST
+	Class_declaration_keywords: EL_ZSTRING_LIST
 		once
 			create Result.make_from_array (<< Keyword_frozen, Keyword_deferred, Keyword_class >>)
 		end
 
-	Feature_header_export: EL_ASTRING
+	Feature_header_export: EL_ZSTRING
 		once
-			Result := "feature {$S} -- "
+			Result := "feature {%S} -- "
 		end
 
-	Open_verbatim_string_markers: ARRAY [ASTRING]
+	Open_verbatim_string_markers: ARRAY [ZSTRING]
 		once
 			Result := << "%"[", "%"{" >>
-		end
-
-feature {NONE} -- keywords
-
-	Keyword_class: EL_ASTRING
-		once
-			Result := "class"
-		end
-
-	Keyword_deferred: EL_ASTRING
-		once
-			Result := "deferred"
-		end
-
-	Keyword_end: ASTRING
-		once
-			Result := "end"
-		end
-
-	Keyword_feature: ASTRING
-		once
-			Result := "feature"
-		end
-
-	Keyword_frozen: EL_ASTRING
-		once
-			Result := "frozen"
-		end
-
-	Keyword_invariant: ASTRING
-		once
-			Result := "invariant"
-		end
-
-	Keyword_note: ASTRING
-		once
-			Result := "note"
 		end
 
 end

@@ -6,14 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2016-02-07 12:47:46 GMT (Sunday 7th February 2016)"
+	revision: "5"
 
 class
 	STORABLE_STRING_LIST
 
 inherit
 	EL_STORABLE_CHAIN [STORABLE_STRING]
+		rename
+			on_delete as do_nothing
 		undefine
 			valid_index, is_inserted, is_equal,
 			first, last,
@@ -33,6 +35,11 @@ feature {NONE} -- Implementation
 	new_item: like item
 		do
 			create Result.make_empty
+		end
+
+	software_version: NATURAL
+		-- Format of application version.
+		do
 		end
 
 end

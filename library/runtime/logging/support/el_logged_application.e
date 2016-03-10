@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Inherit this class from the root class of your application to configure logging output.
 		Call init_logging to configure the logging
@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-22 10:00:04 GMT (Tuesday 22nd October 2013)"
-	revision: "2"
+	date: "2014-12-29 11:59:04 GMT (Monday 29th December 2014)"
+	revision: "3"
 
 deferred class
 	EL_LOGGED_APPLICATION

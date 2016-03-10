@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_STRING_EDITOR}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2016-01-21 10:44:08 GMT (Thursday 21st January 2016)"
+	revision: "8"
 
 deferred class
 	EL_STRING_EDITOR
@@ -16,7 +16,7 @@ inherit
 	EL_TEXT_EDITOR
 		export
 			{NONE} all
-			{ANY} full_match_succeeded
+			{ANY} fully_matched
 		redefine
 			make_default
 		end
@@ -32,22 +32,22 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	edited_text: ASTRING
+	edited_text: ZSTRING
 		-- Edited text
 
 feature -- Basic operations
 
-	edit (a_text: ASTRING)
+	edit_text (a_text: ZSTRING)
 			--
 		do
 			set_source_text (a_text)
 			edited_text.wipe_out
-			edit_text
+			edit
 		end
 
 feature {NONE} -- Implementation
 
-	new_output: EL_TEXT_IO_MEDIUM
+	new_output: EL_ZSTRING_IO_MEDIUM
 			--
 		do
 			create Result.make_open_write_to_text (edited_text)

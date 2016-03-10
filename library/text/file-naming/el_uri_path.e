@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_URI_PATH}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 18:28:31 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 deferred class
 	EL_URI_PATH
@@ -25,7 +30,7 @@ feature {NONE} -- Initialization
 
 feature -- Initialization
 
-	make (a_path: ASTRING)
+	make (a_path: ZSTRING)
 		require else
 			is_absolute: a_path.has_substring (Protocol_sign)
 					implies a_path.index_of ('/', a_path.substring_index (Protocol_sign, 1) + 3) > 0
@@ -38,7 +43,7 @@ feature -- Initialization
 					implies (a_path.count > 1 and then a_path.unicode_item (1) = Unix_separator)
 		local
 			pos_protocol_sign, pos_first_slash: INTEGER
-			l_domain, l_protocol: ASTRING
+			l_domain, l_protocol: ZSTRING
 		do
 			pos_protocol_sign := a_path.substring_index (Protocol_sign, 1)
 			if pos_protocol_sign > 0 then
@@ -76,9 +81,9 @@ feature -- Access
 			end
 		end
 
-	domain: ASTRING
+	domain: ZSTRING
 
-	protocol: ASTRING
+	protocol: ZSTRING
 
 feature -- Status query
 
@@ -89,9 +94,9 @@ feature -- Status query
 
 feature -- Conversion
 
-	 to_string: ASTRING
+	 to_string: ZSTRING
 	 	local
-	 		l_path: ASTRING
+	 		l_path: ZSTRING
 	 	do
 	 		l_path := Precursor
 	 		create Result.make (protocol.count + 3 + domain.count + l_path.count)
@@ -102,7 +107,7 @@ feature -- Conversion
 	 	do
 	 		create Result.make_empty
 	 		Result.enable_space_escaping
-	 		Result.append_utf_8 (to_string.to_utf8)
+	 		Result.append_utf_8 (to_string.to_utf_8)
 	 	end
 
 feature -- Comparison
@@ -129,7 +134,7 @@ feature -- Comparison
 
 feature -- Contract Support
 
-	is_path_absolute (a_path: ASTRING): BOOLEAN
+	is_path_absolute (a_path: ZSTRING): BOOLEAN
 		do
 			Result := not a_path.is_empty and then a_path [1] = Separator
 		end
@@ -147,12 +152,12 @@ feature -- Constants
 			Result := Unix_separator
 		end
 
-	Protocol_sign: ASTRING
+	Protocol_sign: ZSTRING
 		once
 			Result := "://"
 		end
 
-	File_protocol_sign: ASTRING
+	File_protocol_sign: ZSTRING
 		once
 			Result := "file://"
 		end

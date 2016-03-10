@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_XML_OBJECT_EXCHANGER}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-24 12:32:57 GMT (Thursday 24th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_REMOTE_XML_OBJECT_EXCHANGER
@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			create parse_event_generator.make_with_output (create {EL_TEXT_IO_MEDIUM}.make_open_write (0))
+			create parse_event_generator.make_with_output (create {EL_ZTEXT_IO_MEDIUM}.make_open_write (0))
 			inbound_transmission_type := Transmission_type_plaintext
 			outbound_transmission_type := Transmission_type_plaintext
 		end

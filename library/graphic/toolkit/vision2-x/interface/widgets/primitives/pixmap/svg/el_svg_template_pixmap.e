@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_SVG_TEMPLATE_PIXMAP}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:13 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-26 16:36:49 GMT (Saturday 26th December 2015)"
+	revision: "7"
 
 class
 	EL_SVG_TEMPLATE_PIXMAP
@@ -65,12 +65,12 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_color (name: ASTRING; a_color: EL_COLOR)
+	set_color (name: ZSTRING; a_color: EL_COLOR)
 		do
 			color_table [name] := a_color.rgb_24_bit
 		end
 
-	set_variable (name: ASTRING; value: ANY)
+	set_variable (name: ZSTRING; value: ANY)
 		do
 			variables [name] := value
 		end
@@ -87,7 +87,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 
 	svg_xml (a_svg_template_path: like svg_template_path): STRING
 		local
-			svg_lines: EL_FILE_LINE_SOURCE; line: ASTRING
+			svg_lines: EL_FILE_LINE_SOURCE; line: ZSTRING
 		do
 			Result := empty_once_string_8
 			update_variables
@@ -104,7 +104,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 					end
 					line := template.substituted
 				end
-				Result.append (line.to_utf8)
+				Result.append (line.to_utf_8)
 				Result.append_character ('%N')
 				svg_lines.forth
 			end
@@ -127,7 +127,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			end
 		end
 
-	check_for_xlink_uri (a_svg_path: EL_FILE_PATH; line: ASTRING)
+	check_for_xlink_uri (a_svg_path: EL_FILE_PATH; line: ZSTRING)
 		local
 			variable_pos, forward_slash_pos: INTEGER; dir_uri: EL_DIR_URI_PATH
 		do
@@ -135,7 +135,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			variable_pos := line.substring_index (Var_file_dir_uri, 1)
 			forward_slash_pos := variable_pos + Var_file_dir_uri.count
 			Var_file_dir_uri.remove_head (1)
-			if variable_pos > 0 and then line.character_32_item (forward_slash_pos) = '/' then
+			if variable_pos > 0 and then line [forward_slash_pos] = '/' then
 				dir_uri := a_svg_path.parent
 				set_variable (Var_file_dir_uri, dir_uri.to_string)
 			end
@@ -145,13 +145,13 @@ feature {NONE} -- Internal attributes
 
 	color_table: HASH_TABLE [INTEGER, STRING]
 
-	template: EL_SUBSTITUTION_TEMPLATE [ASTRING]
+	template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
 
-	variables: EL_ASTRING_HASH_TABLE [ANY]
+	variables: EL_ZSTRING_HASH_TABLE [ANY]
 
 feature {NONE} -- Constants
 
-	Var_file_dir_uri: ASTRING
+	Var_file_dir_uri: ZSTRING
 		once
 			Result := "file_dir_uri"
 		end

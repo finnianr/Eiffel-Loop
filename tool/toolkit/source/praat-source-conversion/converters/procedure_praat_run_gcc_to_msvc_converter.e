@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-01-21 11:21:19 GMT (Thursday 21st January 2016)"
+	revision: "6"
 
 class
 	PROCEDURE_PRAAT_RUN_GCC_TO_MSVC_CONVERTER
@@ -25,12 +25,14 @@ inherit
 
 	EL_C_PATTERN_FACTORY
 
+	EL_MODULE_LOG
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_file_output: PLAIN_TEXT_FILE)
+	make (a_file_output: EL_PLAIN_TEXT_FILE)
 			--
 		do
 			make_default
@@ -39,7 +41,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- C constructs
 
-	delimiting_pattern: EL_MATCH_ALL_IN_LIST_TP
+	delimiting_pattern: like all_of
 			-- Abbreviated Eg.
 
 			-- if (Melder_batch) {
@@ -84,9 +86,9 @@ feature {NONE} -- Match actions
 
 feature {NONE} -- Implementation
 
-	actual_file_output: PLAIN_TEXT_FILE
+	actual_file_output: EL_PLAIN_TEXT_FILE
 
-	file_output: PLAIN_TEXT_FILE
+	file_output: EL_PLAIN_TEXT_FILE
 
 	close
 			--

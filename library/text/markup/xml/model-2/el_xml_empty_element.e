@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_XML_TEXT_ELEMENT}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-17 18:27:57 GMT (Thursday 17th December 2015)"
+	revision: "3"
 
 class
 	EL_XML_EMPTY_ELEMENT
@@ -36,7 +41,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	name: ASTRING
+	name: ZSTRING
 		local
 			pos_space: INTEGER
 		do
@@ -52,13 +57,13 @@ feature -- Access
 			end
 		end
 
-	open: ASTRING
+	open: ZSTRING
 
 feature -- Basic operations
 
 	write (medium: EL_OUTPUT_MEDIUM)
 		do
-			medium.put_astring (open)
+			medium.put_string_z (open)
 			medium.put_new_line
 		end
 
@@ -75,13 +80,13 @@ feature -- Element change
 		require
 			valid_attributes: across attributes as attrib all attrib.item.has ('=') end
 		local
-			count_extra: INTEGER; name_value_pair: ASTRING
-			escaped_attributes: EL_ASTRING_LIST
+			count_extra: INTEGER; name_value_pair: ZSTRING
+			escaped_attributes: EL_ZSTRING_LIST
 		do
 			create escaped_attributes.make (attributes.count)
 			across attributes as attrib loop
 				create name_value_pair.make (attrib.item.count + 2)
-				name_value_pair.append_string (attrib.item)
+				name_value_pair.append_string_general (attrib.item)
 				name_value_pair.escape (Attribute_escaper)
 				name_value_pair.insert_character ('"', name_value_pair.index_of ('=', 1) + 1)
 				name_value_pair.append_character ('"')
@@ -113,7 +118,7 @@ feature {NONE} -- Implementation
 			Result := open.count - 1
 		end
 
-	new_tag (a_name: READABLE_STRING_GENERAL; is_open: BOOLEAN): ASTRING
+	new_tag (a_name: READABLE_STRING_GENERAL; is_open: BOOLEAN): ZSTRING
 		local
 			count: INTEGER
 		do
@@ -127,7 +132,7 @@ feature {NONE} -- Implementation
 			if not is_open then
 				Result.append_character ('/')
 			end
-			Result.append_string (a_name)
+			Result.append_string_general (a_name)
 			Result.append_character (Right_bracket)
 		end
 
@@ -138,7 +143,7 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Escaped_quote: ASTRING
+	Escaped_quote: ZSTRING
 		once
 			Result := "&quot;"
 		end
@@ -148,7 +153,7 @@ feature {NONE} -- Constants
 			Result := '<'
 		end
 
-	Quote: ASTRING
+	Quote: ZSTRING
 		once
 			Result := "%""
 		end

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Object linked to table with key names matching class field names. The object is
 		initializeable from the string values of the table.
@@ -6,11 +6,16 @@ note
 			REAL_32
 			INTEGER
 			STRING
-			ASTRING
+			ZSTRING
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-22 18:22:38 GMT (Tuesday 22nd December 2015)"
+	revision: "5"
 
 class
 	EL_TABLE_LINKED
@@ -22,10 +27,10 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (field_values: EL_ASTRING_HASH_TABLE [ASTRING])
+	make (field_values: EL_ZSTRING_HASH_TABLE [ZSTRING])
 		local
 			i, field_count: INTEGER
-			field_name, value: ASTRING
+			field_name, value: ZSTRING
 			current_object: REFLECTED_REFERENCE_OBJECT
 		do
 			current_object := Once_current_object; current_object.set_object (Current)
@@ -33,7 +38,7 @@ feature {NONE} -- Initialization
 			field_count := current_object.field_count
 
 			from i := 1 until i > field_count loop
-				field_name.wipe_out; field_name.append_string (current_object.field_name (i))
+				field_name.wipe_out; field_name.append_string_general (current_object.field_name (i))
 				field_values.search (field_name)
 				if field_values.found then
 					value := field_values.found_item
@@ -47,7 +52,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	set_field (field: INTEGER; current_object: REFLECTED_REFERENCE_OBJECT; value: ASTRING)
+	set_field (field: INTEGER; current_object: REFLECTED_REFERENCE_OBJECT; value: ZSTRING)
 		local
 			type_id: INTEGER
 		do
@@ -61,14 +66,14 @@ feature {NONE} -- Implementation
 
 			else
 				type_id := current_object.field_static_type (field)
-				if type_id = Astring_type then
-					current_object.set_reference_field (field, value)						-- ASTRING
+				if type_id = String_z_type then
+					current_object.set_reference_field (field, value)						-- ZSTRING
 
 				elseif type_id = String_8_type then
-					current_object.set_reference_field (field, value.to_latin1)			-- STRING_8
-					
+					current_object.set_reference_field (field, value.to_latin_1)		-- STRING_8
+
 				elseif type_id = String_32_type then
-					current_object.set_reference_field (field, value.to_latin1)			-- STRING_32
+					current_object.set_reference_field (field, value.to_latin_1)		-- STRING_32
 				end
 			end
 		end

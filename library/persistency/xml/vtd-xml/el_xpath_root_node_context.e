@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-16 17:50:14 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
@@ -119,7 +119,7 @@ feature -- Access
 
 	found_instruction: STRING
 
-	error_message: ASTRING
+	error_message: ZSTRING
 
 feature -- Status query
 
@@ -164,7 +164,7 @@ feature {NONE} -- Implementation
 			default_doc: EL_DEFAULT_SERIALIZEABLE_XML
 		do
 			create default_doc
-			Result := default_doc.to_xml
+			Result := default_doc.to_utf_8_xml
 		end
 
 feature {NONE} -- Constants

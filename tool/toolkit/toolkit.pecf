@@ -76,7 +76,7 @@ system:
 		library:
 			name = base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
 
-		library: 
+		library:
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		library:
@@ -88,6 +88,10 @@ system:
 		library:
 			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
 
+		library:
+			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
+
+		# Eiffel-Loop
 		library:
 			name = EL_base; location = "$EIFFEL_LOOP/library/base.ecf"
 			readonly = false
@@ -115,6 +119,10 @@ system:
 			name = EL_encryption
 			location = "$EIFFEL_LOOP/library/encryption.ecf"
 			readonly = false
+
+		library:
+			name = EL_i18n; readonly = false
+			location = "$EIFFEL_LOOP/library/i18n.ecf"
 
 		library:
 			name = EL_public_key_encryption
@@ -246,3 +254,18 @@ system:
 		# Build 2015-07-27 15:54:27.453402
 		# Build 2015-08-15 11:06:40.596625
 		# Build 2015-08-15 11:43:08.196740
+		# Build 2015-09-08 12:58:00.204362
+		# Build 2015-09-08 16:43:56.581501
+		# Build 2015-10-28 13:20:39.335317
+		# Build 2016-01-18 10:34:53.229548
+		# Build 2016-01-18 10:47:08.301518
+		# Build 2016-01-18 11:05:05.621576
+		# Build 2016-01-19 11:58:32.217500
+		# Build 2016-01-19 12:11:48.690454
+		# Build 2016-01-21 10:42:08.006349
+		# Build 2016-01-21 10:44:42.541214
+		# Build 2016-03-04 12:42:26.182060
+		# Build 2016-03-04 14:37:04.200592
+		# Build 2016-03-04 18:13:49.569050
+		# Build 2016-03-04 18:17:30.683657
+		# Build 2016-03-04 19:13:38.143204

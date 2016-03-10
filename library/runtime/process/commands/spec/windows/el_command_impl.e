@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_COMMAND_IMPL}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-24 12:21:07 GMT (Friday 24th January 2014)"
-	revision: "3"
+	date: "2015-09-15 12:34:12 GMT (Tuesday 15th September 2015)"
+	revision: "5"
 
 deferred class
 	EL_COMMAND_IMPL
@@ -35,12 +35,15 @@ feature -- Basic operations
 			Result.set_encoding (Result.Encoding_UTF, 8)
 		end
 
-feature -- Constants
-
-	Path_escaper: EL_WINDOWS_PATH_CHARACTER_ESCAPER
-		once
-			create Result
+	escaped_path (a_path: EL_PATH): ASTRING
+		do
+			Result := a_path.to_string
+			if Result.has (' ') then
+				Result.quote (2)
+			end
 		end
+
+feature -- Constants
 
 	Error_redirection_suffix: STRING = ""
 

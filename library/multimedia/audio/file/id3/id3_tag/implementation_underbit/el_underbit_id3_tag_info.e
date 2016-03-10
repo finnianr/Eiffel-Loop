@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Wrapper for ID3 tag editing library libid3tag from Underbit Technologies
 		Reads ID3 version <= 2.3
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-16 13:47:56 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 class
 	EL_UNDERBIT_ID3_TAG_INFO
@@ -85,7 +85,7 @@ feature -- File writes
 
 feature {NONE} -- Removal
 
-	detach (field: like create_field)
+	detach (field: like new_field)
 			--
 		do
 			c_call_status := c_id3_tag_detachframe (frames_ptr, field.self_ptr)
@@ -113,7 +113,7 @@ feature -- Element change
 			wipe_out
 			make_from_pointer (file_c_pointer (File_mode_read_and_write))
 			frames_ptr := c_id3_file_tag (self_ptr)
-			frame_list := create_frame_list
+			frame_list := new_frame_list
 		end
 
 	link (a_mp3_path: like mp3_path)
@@ -124,27 +124,27 @@ feature -- Element change
 
 feature {NONE} -- Factory
 
-	create_field (an_id: STRING): EL_UNDERBIT_ID3_FRAME
+	new_field (an_id: STRING): EL_UNDERBIT_ID3_FRAME
 			--
 		do
 			create Result.make_with_code (an_id)
 			attach (Result)
 		end
 
-	create_unique_file_id_field (owner_id, an_id: STRING): EL_UNDERBIT_ID3_UNIQUE_FILE_ID
+	new_unique_file_id_field (owner_id: ZSTRING; an_id: STRING): EL_UNDERBIT_ID3_UNIQUE_FILE_ID
 			--
 		do
 			create Result.make (owner_id, an_id)
 			attach (Result)
 		end
 
-	create_album_picture_frame (a_picture: EL_ID3_ALBUM_PICTURE): EL_ALBUM_PICTURE_UNDERBIT_ID3_FRAME
+	new_album_picture_frame (a_picture: EL_ID3_ALBUM_PICTURE): EL_ALBUM_PICTURE_UNDERBIT_ID3_FRAME
 		do
 			create Result.make (a_picture)
 			attach (Result)
 		end
 
-	create_frame (index: INTEGER): EL_UNDERBIT_ID3_FRAME
+	new_frame (index: INTEGER): EL_UNDERBIT_ID3_FRAME
 		local
 			frame_ptr: POINTER
 		do
@@ -159,19 +159,19 @@ feature {NONE} -- Factory
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	create_frame_list: ARRAYED_LIST [EL_UNDERBIT_ID3_FRAME]
+	new_frame_list: ARRAYED_LIST [EL_UNDERBIT_ID3_FRAME]
 		local
    		i, count: INTEGER
 		do
 			count := frame_count
 			create Result.make (count)
 			from i := 1 until i > count loop
-				Result.extend (create_frame (i))
+				Result.extend (new_frame (i))
 				i := i + 1
 			end
 		end
+
+feature {NONE} -- Implementation
 
    frame_count: INTEGER
  		--
@@ -179,7 +179,7 @@ feature {NONE} -- Implementation
 			Result := c_frame_count (frames_ptr)
 		end
 
-	attach (field: like create_field)
+	attach (field: like new_field)
 			--
 		do
 			c_call_status := c_id3_tag_attachframe (frames_ptr, field.self_ptr)
@@ -195,7 +195,7 @@ feature {NONE} -- Implementation
 		local
 			l_file_path: STRING
 		do
-			l_file_path := mp3_path.to_string.to_utf8
+			l_file_path := mp3_path.to_string.to_utf_8
 			Result := c_id3_file_open (l_file_path.area.base_address, file_mode)
 		ensure
 			file_open: is_attached (Result)

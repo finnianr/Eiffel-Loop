@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Facility to cache conversion text"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 8:09:46 GMT (Wednesday 16th December 2015)"
+	revision: "4"
 
 deferred class
 	EVOLICITY_CACHEABLE
@@ -17,7 +22,7 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
-	as_text: ASTRING
+	as_text: ZSTRING
 			--
 		do
 			Result := cached_text.item
@@ -59,11 +64,11 @@ feature {NONE} -- Implementation
 			Result := << cached_text, cached_utf_8_text >>
 		end
 
-	cached_text: EL_CACHED_STRING [ASTRING]
+	cached_text: EL_CACHED_STRING [ZSTRING]
 
 	cached_utf_8_text: EL_CACHED_STRING [STRING]
 
-	new_text: ASTRING
+	new_text: ZSTRING
 			--
 		deferred
 		end

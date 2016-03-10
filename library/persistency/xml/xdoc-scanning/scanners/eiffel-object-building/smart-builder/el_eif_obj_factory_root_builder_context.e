@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Root builder context that changes the type of the target object to build according to a processing instruction
 		at the start of the XML. The example below will build an instance of class SMIL_PRESENTATION.
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-24 11:26:53 GMT (Thursday 24th December 2015)"
+	revision: "6"
 
 class
 	EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT
@@ -27,7 +27,7 @@ inherit
 			reset
 		end
 
-	EL_MODULE_STRING
+	EL_MODULE_STRING_8
 		export
 			{NONE} all
 		end
@@ -57,7 +57,7 @@ feature {NONE} -- Implementation
 			class_type: STRING
 		do
 			class_type := node.to_string
-			String.remove_bookends (class_type, "{}")
+			String_8.remove_bookends (class_type, "{}")
 
 			target := Factory.instance_from_class_name (class_type, agent {EL_BUILDABLE_FROM_XML}.make_default)
 			building_actions.extend (agent set_top_level_context, target.root_node_name)

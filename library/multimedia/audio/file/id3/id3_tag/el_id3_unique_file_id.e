@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_ID3_UNIQUE_FILE_ID}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-16 13:48:31 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_ID3_UNIQUE_FILE_ID
@@ -30,7 +30,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (owner_id, an_id: STRING)
+	make (owner_id: like owner; an_id: like id)
 			--
 		do
 			make_with_code (Tag.Unique_file_ID)
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	owner: STRING
+	owner: ZSTRING
 			--
 		require
 			valid_field_id: has_owner_field
@@ -70,7 +70,7 @@ feature -- Status query
 
 feature -- Element change
 
-	set_owner (owner_id: STRING)
+	set_owner (owner_id: ZSTRING)
 			--
 		require
 			valid_field_id: has_owner_field

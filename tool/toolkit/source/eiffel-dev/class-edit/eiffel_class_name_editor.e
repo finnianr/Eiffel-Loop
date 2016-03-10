@@ -4,19 +4,23 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2016-01-21 11:19:57 GMT (Thursday 21st January 2016)"
+	revision: "7"
 
 class
 	EIFFEL_CLASS_NAME_EDITOR
 
 inherit
 	EIFFEL_SOURCE_EDITING_PROCESSOR
+		rename
+			class_name as class_name_pattern
 		redefine
 			reset
 		end
+
+	EL_MODULE_LOG
 
 feature {NONE} -- Initialization
 
@@ -29,14 +33,14 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Pattern definitions
 
-	search_patterns: ARRAYED_LIST [EL_TEXTUAL_PATTERN]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
 		do
 			create Result.make_from_array (<<
 				all_of (<<
 					all_of (<< white_space, string_literal ("class"), white_space >>) |to| agent on_unmatched_text,
-					class_identifier |to| agent on_class_name
+					class_name_pattern |to| agent on_class_name
 				>>),
-				class_identifier |to| agent on_class_reference
+				class_name_pattern |to| agent on_class_reference
 			>>)
 		end
 
@@ -52,9 +56,9 @@ feature {NONE} -- Implementation
 		require
 			class_name_not_empty: not a_class_name.is_empty
 		local
-			class_file_name: ASTRING
+			class_file_name: ZSTRING
 		do
-			class_name := a_class_name.string
+			class_name := a_class_name.twin
 			class_file_name := class_name.as_lower + ".e"
 			if output_file_path.base /~ class_file_name then
 				check attached {FILE} output as output_file then
@@ -64,7 +68,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	class_name: STRING
+	class_name: ZSTRING
 
 feature {NONE} -- Events
 

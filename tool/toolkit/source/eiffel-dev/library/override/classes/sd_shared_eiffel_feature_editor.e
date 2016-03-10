@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {SD_SHARED_EIFFEL_FEATURE_EDITOR}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-03-04 12:16:25 GMT (Friday 4th March 2016)"
+	revision: "7"
 
 class
 	SD_SHARED_EIFFEL_FEATURE_EDITOR
@@ -29,7 +34,7 @@ feature -- Basic operations
 				search (Group_implementation)
 				if group_found then
 					create class_feature.make_with_lines (Source_widget_factory_cell)
-					class_feature.lines.indent
+					class_feature.lines.indent (1)
 					found_group.features.extend (class_feature)
 				end
 			end
@@ -37,7 +42,7 @@ feature -- Basic operations
 --			Type_widget_factory: SD_WIDGET_FACTORY
 			type_definition_group := new_feature_group ("NONE", "Type definitions")
 			type_definition_group.features.extend (create {CLASS_FEATURE}.make_with_lines (Source_type_widget_factory))
-			type_definition_group.features.last.lines.indent
+			type_definition_group.features.last.lines.indent (1)
 
 			feature_groups.extend (type_definition_group)
 
@@ -67,7 +72,7 @@ feature {NONE} -- Constants
 					once ("PROCESS")
 						create Result.put (Void)
 					end
-				
+
 			]")
 		end
 
@@ -77,7 +82,7 @@ feature {NONE} -- Constants
 				Type_widget_factory: SD_WIDGET_FACTORY
 					once
 					end
-				
+
 			]")
 		end
 
@@ -94,11 +99,11 @@ feature {NONE} -- Constants
 							widget_factory_cell.put (Result)
 						end
 					end
-				
+
 			]")
 		end
 
-	Group_implementation: EL_ASTRING
+	Group_implementation: ZSTRING
 		once
 			Result := "Implementation"
 		end

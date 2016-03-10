@@ -6,14 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-16 19:09:48 GMT (Wednesday 16th December 2015)"
+	revision: "4"
 
 class
 	RULES_LIST_PARAMETER
 
 inherit
-	LIST_PARAMETER [LIST [STRING]]
+	LIST_PARAMETER [LIST [ZSTRING]]
 		redefine
 			building_action_table, display_item
 		end

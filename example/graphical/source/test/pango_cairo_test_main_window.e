@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {TEST_WINDOW}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-26 18:21:56 GMT (Saturday 26th December 2015)"
+	revision: "5"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -35,7 +40,7 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			size_drop_down: EL_DROP_DOWN_BOX [REAL]; font_list_drop_down: EL_ASTRING_DROP_DOWN_BOX
+			size_drop_down: EL_DROP_DOWN_BOX [REAL]; font_list_drop_down: EL_ZSTRING_DROP_DOWN_BOX
 			text_angle_drop_down: EL_DROP_DOWN_BOX [INTEGER]
 			cell: EV_CELL; l_pixmap: EL_PIXMAP
 			picture_box: EL_HORIZONTAL_BOX
@@ -99,7 +104,7 @@ feature {NONE} -- Implementation
 
 	new_pixmap: EL_PIXMAP
 		do
-			Result := new_pixel_buffer (GUI.font_regular (font_family.to_latin1, font_size)).to_pixmap
+			Result := new_pixel_buffer (GUI.font_regular (font_family.to_latin_1, font_size)).to_pixmap
 		end
 
 	new_pixel_buffer (title_font: EL_FONT): EL_DRAWABLE_PIXEL_BUFFER
@@ -177,7 +182,7 @@ feature {NONE} -- Implementation
 
 	font_size: REAL
 
-	font_family: EL_ASTRING
+	font_family: ZSTRING
 
 	text_angle: INTEGER
 

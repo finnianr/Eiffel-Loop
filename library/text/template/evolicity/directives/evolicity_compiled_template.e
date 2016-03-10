@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EVOLICITY_COMPILED_TEMPLATE}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-23 15:34:56 GMT (Saturday 23rd November 2013)"
-	revision: "4"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "5"
 
 class
 	EVOLICITY_COMPILED_TEMPLATE

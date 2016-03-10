@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-02 13:05:49 GMT (Sunday 2nd March 2014)"
-	revision: "5"
+	date: "2015-12-24 14:43:13 GMT (Thursday 24th December 2015)"
+	revision: "7"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -22,25 +22,22 @@ inherit
 
 	EL_MODULE_EVOLICITY_TEMPLATES
 
-	EL_MODULE_STRING
-
 	EL_MODULE_FILE_SYSTEM
 
 feature {NONE} -- Initialization
 
 	make_default
 			--
+		require else
+			template_attached: attached template
 		do
 			Precursor
 			output_path := Empty_file_path
 			template_path := Empty_file_path
 			set_default_encoding
-		end
-
-	make_empty
-			-- make class template
-		do
-			make_from_template_and_output (Empty_file_path, Empty_file_path)
+			if has_string_template then
+				Evolicity_templates.put (template_name, stripped_template)
+			end
 		end
 
 	make_from_file (a_output_path: like output_path)
@@ -67,9 +64,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			output_path := a_output_path; template_path := a_template_path
-			if template_path.is_empty then
-				Evolicity_templates.put (template_name, stripped_template)
-			else
+			if not template_path.is_empty then
 				Evolicity_templates.put_from_file (template_path)
 			end
 		end
@@ -80,7 +75,7 @@ feature -- Access
 
 feature -- Conversion
 
-	as_text: ASTRING
+	as_text: ZSTRING
 			--
 		do
 			Evolicity_templates.set_text_encoding (Current)
@@ -96,14 +91,14 @@ feature -- Conversion
 
 feature -- Element change
 
-	set_output_path (a_output_path: like output_path)
-		do
-			output_path := a_output_path
-		end
-
 	set_default_encoding
 		do
 			set_utf_encoding (8)
+		end
+
+	set_output_path (a_output_path: like output_path)
+		do
+			output_path := a_output_path
 		end
 
 feature -- Basic operations
@@ -128,7 +123,19 @@ feature -- Basic operations
 			Evolicity_templates.merge (template_name, Current, stream_out)
 		end
 
+feature -- Status query
+
+	has_string_template: BOOLEAN
+		do
+			Result := not template.is_empty
+		end
+
 feature {NONE} -- Implementation
+
+	file_must_exist: BOOLEAN
+			-- True if output file always exists after creation
+		do
+		end
 
 	new_getter_functions: like getter_functions
 			--
@@ -138,30 +145,42 @@ feature {NONE} -- Implementation
 			Result [Variable_encoding_name] := agent encoding_name
 		end
 
-	stripped_template: ASTRING
+	new_open_read_file (a_file_path: like output_path): PLAIN_TEXT_FILE
+		do
+			create Result.make_open_read (a_file_path)
+		end
+
+	stored_successfully (a_file: like new_open_read_file): BOOLEAN
+		do
+			Result := True
+		end
+
+	stripped_template: ZSTRING
 			-- template stripped of any leading tabs
 		local
-			tab_count: INTEGER; new_line: ASTRING
-			l_template: like template
+			tab_count: INTEGER; l_template: like template
 		do
 			l_template := template
-			if attached {ASTRING} l_template as astring_template then
-				Result := astring_template.twin
+			if attached {ZSTRING} l_template as str_z then
+				Result := str_z.twin
 			else
 				create Result.make_from_unicode (l_template)
 			end
 			if not Result.is_empty then
-				from until Result.code (tab_count + 1) /= Tabulation_code loop
+				from until Result.z_code (tab_count + 1) /= Tabulation_code loop
 					tab_count := tab_count + 1
 				end
 			end
-
 			if tab_count > 1 then
-				new_line := "%N"
 				Result.prepend (new_line)
-				Result.replace_substring_all (create {STRING}.make_filled ('%N', tab_count), "%N")
+				Result.replace_substring_all (create {ZSTRING}.make_filled ('%N', tab_count), New_line)
 				Result.remove_head (1)
 			end
+		end
+
+	template: READABLE_STRING_GENERAL
+			--
+		deferred
 		end
 
 	template_name: EL_FILE_PATH
@@ -175,7 +194,7 @@ feature {NONE} -- Implementation
 					create Result
 					Result.set_base (generator)
 					Result.base.prepend_character ('{')
-					Result.base.append_string (once "}.template")
+					Result.base.append_string_general (once "}.template")
 					template_names.extend (Result, generator)
 				end
 			else
@@ -183,34 +202,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_open_read_file (a_file_path: like output_path): PLAIN_TEXT_FILE
-		do
-			create Result.make_open_read (a_file_path)
-		end
-
-	stored_successfully (a_file: like new_open_read_file): BOOLEAN
-		do
-			Result := True
-		end
-
-	file_must_exist: BOOLEAN
-			-- True if output file always exists after creation
-		do
-		end
-
-	template: READABLE_STRING_GENERAL
-			--
-		deferred
-		end
-
 	template_path: like output_path
 
 feature {NONE} -- Constants
-
-	Empty_template: STRING
-		once
-			create Result.make_empty
-		end
 
 	Empty_file_path: EL_FILE_PATH
 			--
@@ -218,9 +212,14 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Template_names: HASH_TABLE [EL_FILE_PATH, STRING]
+	Empty_template: STRING
 		once
-			create Result.make (7)
+			create Result.make_empty
+		end
+
+	New_line: ZSTRING
+		once
+			Result := "%N"
 		end
 
 	Tabulation_code: NATURAL
@@ -229,15 +228,20 @@ feature {NONE} -- Constants
 			Result := {ASCII}.Tabulation.to_natural_32
 		end
 
-	Variable_template_name: ASTRING
+	Template_names: HASH_TABLE [EL_FILE_PATH, STRING]
 		once
-			Result := "template_name"
+			create Result.make (7)
 		end
 
-	Variable_encoding_name: ASTRING
+	Variable_encoding_name: ZSTRING
 		once
 			Result := "encoding_name"
 		end
 
+
+	Variable_template_name: ZSTRING
+		once
+			Result := "template_name"
+		end
 
 end

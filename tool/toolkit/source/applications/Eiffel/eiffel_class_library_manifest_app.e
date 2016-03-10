@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-06 11:48:38 GMT (Monday 6th October 2014)"
-	revision: "7"
+	date: "2016-03-04 18:02:25 GMT (Friday 4th March 2016)"
+	revision: "9"
 
 class
 	EIFFEL_CLASS_LIBRARY_MANIFEST_APP
@@ -23,9 +23,8 @@ feature -- Testing
 	test_run
 			--
 		do
-			-- Test will always fail because of date stamp written to files (different CRC)
-			Test.do_file_tree_test ("Eiffel/latin1-sources", agent test_generate_manifest, 312859171)
---			Test.do_file_tree_test ("Eiffel/utf8-sources", agent test_generate_manifest, 1079811372)
+			Test.do_file_tree_test ("Eiffel/latin1-sources", agent test_generate_manifest, 1851538007)
+			Test.do_file_tree_test ("Eiffel/utf8-sources", agent test_generate_manifest, 3479053694)
 		end
 
 	test_generate_manifest (a_sources_path: EL_DIR_PATH)
@@ -47,8 +46,7 @@ feature {NONE} -- Implementation
 
 	default_operands: TUPLE [
 		source_manifest_path, output_path: EL_FILE_PATH
-		title: ASTRING
-		source_root_path: EL_DIR_PATH
+		title: ZSTRING; source_root_path: EL_DIR_PATH
 	]
 		do
 			create Result

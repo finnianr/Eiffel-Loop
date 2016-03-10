@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ELEMENT_ATTRIBUTE_TABLE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-16 9:23:12 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 class
 	EL_ELEMENT_ATTRIBUTE_TABLE
@@ -78,7 +78,7 @@ feature -- Access
 			Result := c_node_context_attribute_integer_64 (name)
 		end
 
-	item alias "[]", string (name: STRING_32): ASTRING
+	item alias "[]", string (name: STRING_32): ZSTRING
 			-- attribute content as augmented latin string
 		require
 			exists: has (name)
@@ -100,7 +100,7 @@ feature -- Access
 			Result := wide_string (c_node_context_attribute_string (name))
 		end
 
-	raw_string (name: STRING_32): ASTRING
+	raw_string (name: STRING_32): ZSTRING
 			--  attribute content as string with entities and char references not expanded
 		require
 			exists: has (name)

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-24 15:19:11 GMT (Wednesday 24th July 2013)"
-	revision: "3"
+	date: "2015-12-16 7:04:27 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -17,7 +17,7 @@ inherit
 
 feature -- Access
 
-	remaining_items (index: INTEGER): ARRAYED_LIST [ASTRING]
+	remaining_items (index: INTEGER): ARRAYED_LIST [ZSTRING]
 		require
 			valid_index: index <= argument_count
 		local
@@ -43,35 +43,35 @@ feature -- Access
 			end
 		end
 
-	item (i: INTEGER): ASTRING
+	item (i: INTEGER): ZSTRING
 		require
 			item_exists: 1 <= i and i <= argument_count
 		do
 			create Result.make_from_unicode (argument (i))
 		end
 
-	directory_path (name: ASTRING): EL_DIR_PATH
+	directory_path (name: ZSTRING): EL_DIR_PATH
 		require
 			has_value: has_value (name)
 		do
 			Result := value (name)
 		end
 
-	file_path (name: ASTRING): EL_FILE_PATH
+	file_path (name: ZSTRING): EL_FILE_PATH
 		require
 			has_value: has_value (name)
 		do
 			Result := value (name)
 		end
 
-	integer (name: ASTRING): INTEGER
+	integer (name: ZSTRING): INTEGER
 		require
 			integer_value_exists: has_integer (name)
 		do
 			Result := value (name).to_integer
 		end
 
-	option_name (index: INTEGER): ASTRING
+	option_name (index: INTEGER): ZSTRING
 		do
 			if argument_array.valid_index (index) then
 				Result := item (index)
@@ -81,7 +81,7 @@ feature -- Access
 			end
 		end
 
-	value (name: ASTRING): ASTRING
+	value (name: ZSTRING): ZSTRING
 			-- string value of name value pair arguments
 		require
 			has_value: has_value (name)
@@ -99,7 +99,7 @@ feature -- Access
 feature -- Basic operations
 
 	set_string_from_word_option (
-		word_option: ASTRING; set_string: PROCEDURE [ANY, TUPLE [ASTRING]]; default_value: ASTRING
+		word_option: ZSTRING; set_string: PROCEDURE [ANY, TUPLE [ZSTRING]]; default_value: ZSTRING
 	)
 			--
 		do
@@ -111,11 +111,11 @@ feature -- Basic operations
 		end
 
 	set_real_from_word_option (
-		word_option: ASTRING; set_real: PROCEDURE [ANY, TUPLE [REAL]]; default_value: REAL
+		word_option: ZSTRING; set_real: PROCEDURE [ANY, TUPLE [REAL]]; default_value: REAL
 	)
 			--
 		local
-			real_string: ASTRING
+			real_string: ZSTRING
 		do
 			if has_value (word_option) then
 				real_string := item (index_of_word_option (word_option.to_unicode) + 1)
@@ -128,11 +128,11 @@ feature -- Basic operations
 		end
 
 	set_integer_from_word_option (
-		word_option: ASTRING; set_integer: PROCEDURE [ANY, TUPLE [INTEGER]]; default_value: INTEGER
+		word_option: ZSTRING; set_integer: PROCEDURE [ANY, TUPLE [INTEGER]]; default_value: INTEGER
 	)
 			--
 		local
-			integer_string: ASTRING
+			integer_string: ZSTRING
 		do
 			if has_value (word_option) then
 				integer_string := item (index_of_word_option (word_option) + 1)
@@ -145,7 +145,7 @@ feature -- Basic operations
 		end
 
 	set_boolean_from_word_option (
-		word_option: ASTRING; set_boolean: PROCEDURE [ANY, TUPLE]
+		word_option: ZSTRING; set_boolean: PROCEDURE [ANY, TUPLE]
 	)
 			--
 		do
@@ -156,12 +156,12 @@ feature -- Basic operations
 
 feature -- Status query
 
-	has_integer (name: ASTRING): BOOLEAN
+	has_integer (name: ZSTRING): BOOLEAN
 		do
 			Result := has_value (name) and then value (name).is_integer
 		end
 
-	has_value (name: ASTRING): BOOLEAN
+	has_value (name: ZSTRING): BOOLEAN
 			--
 		local
 			unicode_name: READABLE_STRING_GENERAL
@@ -170,7 +170,7 @@ feature -- Status query
 			Result := index_of_word_option (unicode_name) > 0 and then (index_of_word_option (unicode_name) + 1) <= argument_count
 		end
 
-	word_option_exists (word_option: ASTRING): BOOLEAN
+	word_option_exists (word_option: ZSTRING): BOOLEAN
 			--
 		do
 			Result := index_of_word_option (word_option.to_unicode) > 0

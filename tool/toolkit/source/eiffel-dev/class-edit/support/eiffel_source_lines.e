@@ -1,55 +1,45 @@
-note
+﻿note
 	description: "Editable source lines"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-03-04 12:17:20 GMT (Friday 4th March 2016)"
+	revision: "5"
 
 class
 	EIFFEL_SOURCE_LINES
 
 inherit
-	EL_ASTRING_LIST
+	EL_ZSTRING_LIST
+		redefine
+			tab_string
+		end
 
 create
 	make, make_with_lines
 
 feature -- Element change
 
-	indent
-			-- indent by 1 tab stop
+	insert_line_right (line: ZSTRING; tab_count: INTEGER)
 		local
-			l_index: INTEGER
+			l_line: ZSTRING
 		do
-			l_index := index
-			from start until after loop
-				indent_line (1)
-				forth
-			end
-			go_i_th (l_index)
-		end
-
-	indent_line (a_count: INTEGER)
-		do
-			item.prepend_string (tabs (a_count))
-		end
-
-	insert_line_right (line: ASTRING; tab_count: INTEGER)
-		local
-			l_line: ASTRING
-		do
-			put_right (tabs (tab_count) + line)
+			put_right (tab_string (tab_count) + line)
 			l_line := i_th (index + 1)
 			l_line.append_character (' ')
 			l_line.append (Auto_edition_comment + "insertion")
 		end
 
-	put_auto_edit_comment_right (comment: ASTRING; tab_count: INTEGER)
+	put_auto_edit_comment_right (comment: ZSTRING; tab_count: INTEGER)
 		do
-			put_right (tabs (tab_count) + Auto_edition_comment)
+			put_right (tab_string (tab_count) + Auto_edition_comment)
 			i_th (index + 1).append (comment)
 		end
 
-	append_comment (comment: ASTRING)
+	append_comment (comment: ZSTRING)
 			-- append comment to current item
 		do
 			item.append_character (' ')
@@ -58,28 +48,14 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	tabs (a_count: INTEGER): ASTRING
-		local
-			i: INTEGER
+	tab_string (a_count: INTEGER): ZSTRING
 		do
-			Result := Tabs_string
-			if Result.count /= a_count then
-				Result.wipe_out
-				from i := 1 until i > a_count loop
-					Result.append_character ('%T')
-					i := i + 1
-				end
-			end
+			create Result.make_filled (Tabulation.to_character_8, a_count)
 		end
 
 feature {NONE} -- Constants
 
-	Tabs_string: ASTRING
-		once
-			create Result.make_empty
-		end
-
-	Auto_edition_comment: EL_ASTRING
+	Auto_edition_comment: ZSTRING
 		once
 			Result := "-- AUTO EDITION: "
 		end

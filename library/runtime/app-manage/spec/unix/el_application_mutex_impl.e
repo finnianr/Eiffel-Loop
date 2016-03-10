@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_APPLICATION_MUTEX_IMPL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
-	revision: "4"
+	date: "2015-12-16 6:58:53 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_APPLICATION_MUTEX_IMPL
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 
 feature -- Status change
 
-	try_lock (name: ASTRING)
+	try_lock (name: ZSTRING)
 		local
 			native_path: NATIVE_STRING
 		do

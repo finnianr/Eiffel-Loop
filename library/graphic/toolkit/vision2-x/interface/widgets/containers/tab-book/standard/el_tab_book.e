@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Extension to EV_NOTEBOOK
 	]"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-08-30 9:52:18 GMT (Sunday 30th August 2015)"
+	revision: "6"
 
 class
 	EL_TAB_BOOK [B -> {EL_BOX} create make end]
@@ -28,7 +28,7 @@ inherit
 			wipe_out
 		end
 
-	EL_TAB_BOOK_BASE
+	EL_TAB_SHORTCUTS
 		undefine
 			copy , default_create, is_equal
 		end
@@ -77,6 +77,7 @@ feature -- Access
 			Result := tabs.last
 		end
 
+
 feature -- Measurement
 
 	border_cms: REAL
@@ -86,6 +87,8 @@ feature -- Measurement
 feature -- Element change
 
 	set_selected_index (a_selected_index: INTEGER)
+		require
+			valid_index: valid_index (a_selected_index)
 		do
 			if a_selected_index /= selected_item_index then
 				select_tab (tabs [a_selected_index])
@@ -108,6 +111,27 @@ feature -- Status setting
 			--
 		do
 			select_item (tab.widget)
+		end
+
+feature -- Basic operations
+
+	select_left_tab
+			-- select tab to left wrapping around to last if gone past the first tab
+		do
+			select_neighbouring_tab (-1)
+		end
+
+	select_right_tab
+			-- select tab to right of current wrapping around to first if gone past the last tab
+		do
+			select_neighbouring_tab (1)
+		end
+
+	select_neighbouring_tab (index_delta: INTEGER)
+			-- select tab to left or right,
+			-- wrapping around if gone past the first or last tab
+		do
+			set_selected_index ((count + index_delta + selected_index - 1) \\ count + 1)
 		end
 
 feature -- Removal

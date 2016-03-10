@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {RBOX_APPLICATION}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-18 10:20:40 GMT (Wednesday 18th December 2013)"
-	revision: "3"
+	date: "2015-12-18 22:49:39 GMT (Friday 18th December 2015)"
+	revision: "5"
 
 deferred class
 	RBOX_APPLICATION
@@ -19,44 +19,11 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_MODULE_STRING
-
 	RHYTHMBOX_CONSTANTS
 
 	SONG_QUERY_CONDITIONS
 
 feature {NONE} -- Initialization
-
-	normal_initialize
-			--
-		local
-			config_file_path: EL_FILE_PATH
-		do
-			create test_wav_generator.make ("")
-			create random.make
-
-			create conditions.make (0)
-
-			xml_database_path := User_config_dir + "rhythmdb.xml"
-			set_attribute_from_command_opt (xml_database_path, "rhythmdb-file", "Path to Rhythmbox database: rhythmdb.xml")
-
-			create config_file_path
-			set_attribute_from_command_opt (config_file_path, "config", "Configuration file path")
-
-			if config_file_path.is_empty then
-				create config.make
-			else
-				create config.make_from_file (config_file_path)
-			end
-
-			if config.is_dry_run then
-				config.set_volume_name ("~")
-				config.set_volume_destination_dir ("Desktop/Music")
-			end
-			if not (Is_test_mode or command_line_help_option_exists) then
-				get_user_input
-			end
-		end
 
 	create_database
 			--
@@ -93,20 +60,45 @@ feature {NONE} -- Initialization
 						end
 					end
 				end
-				database.update_index_by_track_id
+				database.update_index_by_audio_id
 			else
 				create database.make (xml_database_path, DJ_events_dir)
 			end
 			log.exit
 		end
 
-feature -- Element change
-
-	set_song_genre (song: RBOX_SONG; genre: STRING)
+	normal_initialize
 			--
+		local
+			config_file_path: EL_FILE_PATH
 		do
-			song.set_genre (genre)
+			create test_wav_generator.make ("")
+			create random.make
+
+			create conditions.make (0)
+
+			xml_database_path := User_config_dir + "rhythmdb.xml"
+			set_attribute_from_command_opt (xml_database_path, "rhythmdb-file", "Path to Rhythmbox database: rhythmdb.xml")
+
+			create config_file_path
+			set_attribute_from_command_opt (config_file_path, "config", "Configuration file path")
+
+			if config_file_path.is_empty then
+				create config.make
+			else
+				create config.make_from_file (config_file_path)
+			end
+
+			if config.is_dry_run then
+				config.set_volume_name ("~")
+				config.set_volume_destination_dir ("Desktop/Music")
+			end
+			if not (Is_test_mode or command_line_help_option_exists) then
+				get_user_input
+			end
 		end
+
+feature -- Element change
 
 	set_song_artist (song: RBOX_SONG; artist: STRING)
 			--
@@ -114,25 +106,13 @@ feature -- Element change
 			song.set_artist (artist)
 		end
 
-feature {NONE} -- Implementation
-
-	get_user_input
-		do
-		end
-
-	substitute_work_area_variable (data_path: EL_DIR_PATH; xml_file_path: EL_FILE_PATH)
+	set_song_genre (song: RBOX_SONG; genre: STRING)
 			--
-		local
-			xml_file: PLAIN_TEXT_FILE
-			xml_text: STRING
 		do
-			xml_text := File_system.plain_text (xml_file_path)
-			xml_text.replace_substring_all ("$WORKAREA", data_path.to_string)
-
-			create xml_file.make_open_write (xml_file_path)
-			xml_file.put_string (xml_text)
-			xml_file.close
+			song.set_genre (genre)
 		end
+
+feature {NONE} -- Implementation
 
 	cached_song_file_path (song: RBOX_SONG; a_duration: INTEGER): EL_FILE_PATH
 			-- Path to auto generated mp3 file under build directory
@@ -181,25 +161,43 @@ feature {NONE} -- Implementation
 			file_exists: Result.exists
 		end
 
+	get_user_input
+		do
+		end
+
 	playlists_xml_path: EL_FILE_PATH
 		do
 			Result := xml_database_path.parent + "playlists.xml"
+		end
+
+	substitute_work_area_variable (data_path: EL_DIR_PATH; xml_file_path: EL_FILE_PATH)
+			--
+		local
+			xml_file: PLAIN_TEXT_FILE
+			xml_text: STRING
+		do
+			xml_text := File_system.plain_text (xml_file_path)
+			xml_text.replace_substring_all ("$WORKAREA", data_path.to_string.to_latin_1)
+
+			create xml_file.make_open_write (xml_file_path)
+			xml_file.put_string (xml_text)
+			xml_file.close
 		end
 
 feature {NONE} -- Implementation: attributes
 
 	conditions: ARRAYED_LIST [like predicate]
 
-	database: RBOX_DATABASE
-
-	test_database_dir: EL_DIR_PATH
-
 	config: MANAGER_CONFIG
 
-	xml_database_path: EL_FILE_PATH
+	database: RBOX_DATABASE
 
 	random: RANDOM
 
+	test_database_dir: EL_DIR_PATH
+
 	test_wav_generator: EL_WAV_GENERATION_COMMAND
+
+	xml_database_path: EL_FILE_PATH
 
 end

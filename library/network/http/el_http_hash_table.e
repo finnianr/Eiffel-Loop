@@ -1,14 +1,19 @@
-note
+﻿note
 	description: "HTTP name value pair table"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 7:19:40 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_HTTP_HASH_TABLE
 
 inherit
-	EL_ASTRING_HASH_TABLE [ASTRING]
+	EL_ZSTRING_HASH_TABLE [ZSTRING]
 		rename
 			item as table_item
 		export
@@ -47,9 +52,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item (key: ASTRING): ASTRING
+	item (key: ZSTRING): ZSTRING
 		do
-			if attached {ASTRING} table_item (key) as l_result then
+			if attached {ZSTRING} table_item (key) as l_result then
 				Result := l_result
 			else
 				Result := Empty_string
@@ -58,17 +63,17 @@ feature -- Access
 
 feature -- Element change
 
-	set_numeric (key: ASTRING; value: NUMERIC)
+	set_numeric (key: ZSTRING; value: NUMERIC)
 		do
 			set_string_general (key, value.out)
 		end
 
-	set_string_general (key: ASTRING; uc_value: READABLE_STRING_GENERAL)
+	set_string_general (key: ZSTRING; uc_value: READABLE_STRING_GENERAL)
 		do
-			set_string (key, create {ASTRING}.make_from_unicode (uc_value))
+			set_string (key, create {ZSTRING}.make_from_unicode (uc_value))
 		end
 
-	set_string (key, value: ASTRING)
+	set_string (key, value: ZSTRING)
 		do
 			force (value, key)
 		end

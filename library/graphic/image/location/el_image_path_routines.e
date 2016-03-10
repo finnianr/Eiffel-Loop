@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Object for locating installed images in Eiffel Loop standard directories
 		
@@ -12,10 +12,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-16 7:08:43 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_IMAGE_PATH_ROUTINES
@@ -84,17 +84,17 @@ feature -- Constants
 			Result := Directory.User_configuration.joined_dir_path (Step_images)
 		end
 
-	Step_icons: ASTRING
+	Step_icons: ZSTRING
 		once
 			Result := "icons"
 		end
 
-	Step_desktop_icons: ASTRING
+	Step_desktop_icons: ZSTRING
 		once
 			Result := "desktop-icons"
 		end
 
-	Step_images: ASTRING
+	Step_images: ZSTRING
 		once
 			Result := "images"
 		end

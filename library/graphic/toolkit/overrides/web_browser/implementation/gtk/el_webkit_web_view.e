@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 					Eiffel wrapper for WebKitView object
 					see: http://webkitgtk.org/reference/webkitgtk-WebKitWebView.html
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-05 12:17:48 GMT (Friday 5th September 2014)"
-	revision: "4"
+	date: "2015-11-30 14:29:56 GMT (Monday 30th November 2015)"
+	revision: "6"
 
 class
 	EL_WEBKIT_WEB_VIEW
@@ -41,7 +41,7 @@ feature {NONE} -- Implementation
 			end
 
 			if not lib_paths.is_empty then
-				create Result.make (lib_paths.first.without_extension.to_string.to_latin1)
+				create Result.make (lib_paths.first.without_extension.to_string.to_latin_1)
 			end
 		end
 

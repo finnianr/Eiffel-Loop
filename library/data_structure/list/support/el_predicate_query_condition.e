@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PREDICATE_QUERY_CONDITION}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-12-30 14:53:42 GMT (Tuesday 30th December 2014)"
+	revision: "2"
 
 class
 	EL_PREDICATE_QUERY_CONDITION [G]

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Procedure identifier based on address of Eiffel routine dispatcher
 		As it is not possible to compare agent references this serves as a workaround
@@ -6,12 +6,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 12:36:30 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2015-06-01 12:20:21 GMT (Monday 1st June 2015)"
+	revision: "3"
 
 class
 	EL_PROCEDURE

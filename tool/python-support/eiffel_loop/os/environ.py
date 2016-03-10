@@ -11,7 +11,22 @@ from os import path
 def python_home_dir ():
 	return os.path.dirname (os.path.realpath (sys.executable))
 
-def	python_dir_name ():
+def eiffel_loop_dir ():
+	env_eiffel_loop = 'EIFFEL_LOOP'
+	eiffel_loop = 'Eiffel-Loop'
+	if env_eiffel_loop in os.environ:
+		result = os.environ [env_eiffel_loop]
+	else:
+		result = path.abspath (os.curdir)
+		if os.sep + eiffel_loop in result:
+			while not path.basename (result).startswith (eiffel_loop):
+				result = path.dirname (result)	
+		else:
+			result = None
+
+	return result
+
+def python_dir_name ():
 	if os.name == 'posix':
 		version_tuple = platform.python_version_tuple()
 		result = 'python' + version_tuple[0] + '.' + version_tuple[1]

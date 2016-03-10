@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-18 10:30:20 GMT (Friday 18th December 2015)"
+	revision: "6"
 
 class
 	EVOLICITY_TEST_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 	test_run
 			--
 		do
-			Test.do_file_test ({STRING_32} "jobserve-results.evol", agent write_substituted_template, 4202159564)
-			Test.do_file_test ({STRING_32} "if_then.evol", agent test_if_then, 2566888200)
+			Test.do_file_test ("jobserve-results.evol", agent write_substituted_template, 1109681900)
+			Test.do_file_test ("if_then.evol", agent test_if_then, 525504879)
 		end
 
 feature -- Test
@@ -42,7 +42,7 @@ feature -- Test
 			Evolicity_templates.put_from_file (template_path)
 
 			initialize_root_context
-			Evolicity_templates.merge_to_file (template_path.to_string, root_context, template_path.with_new_extension ("html"))
+			Evolicity_templates.merge_to_file (template_path, root_context, template_path.with_new_extension ("html"))
 			log.exit
 		end
 
@@ -50,7 +50,7 @@ feature -- Test
 			--
 		local
 			vars: EVOLICITY_CONTEXT_IMPL
-			var_x, var_y: ASTRING
+			var_x, var_y: ZSTRING
 		do
 			log.enter ("test_if_then")
 			create vars.make
@@ -59,11 +59,11 @@ feature -- Test
 
 			vars.put_integer (var_x, 2)
 			vars.put_integer (var_y, 2)
-			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged (template_path.to_string, vars), 120)
+			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged (template_path, vars), 120)
 			log.put_new_line
 
 			vars.put_integer (var_x, 1)
-			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged (template_path.to_string, vars), 120)
+			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged (template_path, vars), 120)
 			log.exit
 		end
 
@@ -74,12 +74,9 @@ feature {NONE} -- Implementation
 	initialize_root_context
 			--
 		local
-			title_context: EVOLICITY_CONTEXT_IMPL
-			query_context: EVOLICITY_CONTEXT_IMPL
-			job_search_context: EVOLICITY_CONTEXT_IMPL
+			title_context, query_context, job_search_context: EVOLICITY_CONTEXT_IMPL
+			result_set_context: EVOLICITY_CONTEXT; title_var_ref: EVOLICITY_VARIABLE_REFERENCE
 			result_set: LINKED_LIST [EVOLICITY_CONTEXT]
-			result_set_context: EVOLICITY_CONTEXT
-			title_var_ref: EVOLICITY_VARIABLE_REFERENCE
 		do
 			-- #set ($page.title = "Jobserve results" )
 			log.enter ("initialize_root_context")
@@ -118,7 +115,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Option_name: STRING = "test_evolicity"
+	Option_name: STRING = "evolicity"
 
 	Description: STRING = "Test Evolicity template substitution"
 
@@ -129,8 +126,7 @@ feature {NONE} -- Constants
 				[{EVOLICITY_TEST_APP}, All_routines],
 				[{EL_TEST_ROUTINES}, All_routines],
 				[{EVOLICITY_TEMPLATES}, "merge_to_file"],
-				[{EVOLICITY_FILE_LEXER}, "consume_events, -add_token"],
-				[{EL_LITERAL_CHAR_TP}, All_routines]
+				[{EVOLICITY_FILE_LEXER}, "consume_events, -add_token"]
 			>>
 		end
 

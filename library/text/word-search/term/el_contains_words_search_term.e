@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {CONTAINS_WORDS_SEARCH_TERM}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-16 9:59:18 GMT (Sunday 16th March 2014)"
-	revision: "2"
+	date: "2016-01-13 10:16:43 GMT (Wednesday 13th January 2016)"
+	revision: "3"
 
 class
 	EL_CONTAINS_WORDS_SEARCH_TERM
@@ -37,7 +37,7 @@ feature -- Access
 
 feature -- Status report
 
-	matches (target: like Type_target): BOOLEAN
+	positive_match (target: like Type_target): BOOLEAN
 			--
 		do
 			if words.count = 1 then

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_DESKTOP_UNINSTALL_APP_INSTALLER_IMPL}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-02 10:54:25 GMT (Sunday 2nd March 2014)"
-	revision: "4"
+	date: "2015-06-27 20:11:05 GMT (Saturday 27th June 2015)"
+	revision: "5"
 
 class
 	EL_DESKTOP_UNINSTALL_APP_INSTALLER_IMPL

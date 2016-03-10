@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PAYPAL_NUMBERED_VARIABLE_NAME}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 16:31:51 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 deferred class
 	EL_PAYPAL_NUMBERED_VARIABLE_NAME_SEQUENCE
@@ -24,7 +29,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	new_name: ASTRING
+	new_name: ZSTRING
 		local
 			pos_qmark: INTEGER
 		do
@@ -35,7 +40,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	name_prefix: ASTRING
+	name_prefix: ZSTRING
 		deferred
 		ensure then
 			valid_name: Result.has ('?')

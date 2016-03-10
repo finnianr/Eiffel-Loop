@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Windows command to find file count and directory file content size"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-24 11:02:04 GMT (Friday 24th January 2014)"
-	revision: "2"
+	date: "2015-09-16 10:03:06 GMT (Wednesday 16th September 2015)"
+	revision: "4"
 
 class
 	EL_DIRECTORY_INFO_COMMAND_IMPL
@@ -51,10 +51,6 @@ feature {EL_DIRECTORY_INFO_COMMAND} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template: STRING =
-		--
-	"[
-		dir /S "$target_path"
-	]"
+	Template: STRING = "dir /S $target_path"
 
 end

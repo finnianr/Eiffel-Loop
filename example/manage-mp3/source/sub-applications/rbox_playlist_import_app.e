@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {RBOX_PLAYLIST_IMPORT_APP}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-09-30 18:02:10 GMT (Monday 30th September 2013)"
-	revision: "3"
+	date: "2015-12-18 22:50:12 GMT (Friday 18th December 2015)"
+	revision: "5"
 
 class
 	RBOX_PLAYLIST_IMPORT_APP
@@ -17,8 +17,6 @@ inherit
 		redefine
 			Option_name, normal_initialize
 		end
-
-	EL_MODULE_STRING
 
 create
 	make

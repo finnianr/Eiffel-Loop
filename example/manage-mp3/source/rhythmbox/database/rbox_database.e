@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {RBOX_DATABASE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-18 10:47:39 GMT (Wednesday 18th December 2013)"
-	revision: "5"
+	date: "2015-12-28 10:52:41 GMT (Monday 28th December 2015)"
+	revision: "7"
 
 class
 	RBOX_DATABASE
@@ -35,11 +35,11 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_MODULE_STRING
-
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_BUILD_INFO
 
 create
 	make
@@ -52,8 +52,8 @@ feature {NONE} -- Initialization
 			log_or_io.put_path_field ("Reading", a_xml_database_path)
 			log_or_io.put_new_line
 		 	create entries.make (0)
-			create songs_by_location.make (0)
-			create songs_by_track_id.make (0)
+			create songs_by_location.make_equal (0)
+			create songs_by_audio_id.make_equal (0)
 			create songs.make (0)
 			create mp3_root_location
 		 	create silence_intervals.make_filled (new_song, 1, 3)
@@ -62,7 +62,7 @@ feature {NONE} -- Initialization
 			 	songs.grow (line_ends_with_count (a_xml_database_path, "type=%"song%">"))
 				entries.grow (songs.capacity + 50)
 				create songs_by_location.make (entries.capacity)
-				create songs_by_track_id.make (entries.capacity)
+				create songs_by_audio_id.make (entries.capacity)
 			end
 
 			make_from_file (a_xml_database_path)
@@ -84,7 +84,7 @@ feature -- Access
 			Result.append (playlists_exported)
 		end
 
-	title_and_album (mp3_path: EL_FILE_PATH): ASTRING
+	title_and_album (mp3_path: EL_FILE_PATH): ZSTRING
 		do
 			songs_by_location.search (mp3_path)
 			if songs_by_location.found then
@@ -104,6 +104,32 @@ feature -- Access
 			end
 		end
 
+	case_insensitive_name_clashes: LINKED_LIST [EL_FILE_PATH]
+			-- list of mp3 paths having base names that clash with another in same directory
+			-- when compared without case insensitivity.
+		local
+			path_list: EL_SORTABLE_ARRAYED_LIST [EL_FILE_PATH]
+			name_set: EL_HASH_SET [EL_FILE_PATH]; last_dir: EL_DIR_PATH
+		do
+			create name_set.make_equal (11); create last_dir
+			create path_list.make (songs.count)
+			create Result.make
+			across songs as song loop
+				path_list.extend (song.item.mp3_relative_path)
+			end
+			path_list.sort
+			across path_list as file_path loop
+				if last_dir /~ file_path.item.parent then
+					name_set.wipe_out
+					last_dir := file_path.item.parent
+				end
+				name_set.put (file_path.item.base.as_lower)
+				if name_set.conflict then
+					Result.extend (file_path.item)
+				end
+			end
+		end
+
 feature -- Access attributes
 
 	entries: EL_ARRAYED_LIST [RBOX_IRADIO_ENTRY]
@@ -120,7 +146,7 @@ feature -- Access attributes
 
 	songs_by_location: HASH_TABLE [RBOX_SONG, EL_FILE_PATH]
 
-	songs_by_track_id: HASH_TABLE [RBOX_SONG, NATURAL_64]
+	songs_by_audio_id: HASH_TABLE [RBOX_SONG, EL_UUID]
 
 	silence_intervals: ARRAY [RBOX_SONG]
 
@@ -156,7 +182,7 @@ feature -- Status query
 			Result := songs_by_location.has (song_path)
 		end
 
-	is_valid_genre (a_genre: ASTRING): BOOLEAN
+	is_valid_genre (a_genre: ZSTRING): BOOLEAN
 		do
 			Result := across songs as song
 				some
@@ -177,30 +203,47 @@ feature -- Status query
 feature -- Element change
 
 	extend (a_entry: RBOX_IRADIO_ENTRY)
-		local
-			track_id: NATURAL_64
 		do
 			entries.extend (a_entry)
 			if attached {RBOX_SONG} a_entry as song and then song.mp3_path.extension ~ Mp3_extension then
-				songs_by_location.put (song, song.mp3_path)
-				if songs_by_location.conflict then
+				extend_with_song (song)
+			end
+		end
+
+	extend_with_song (song: RBOX_SONG)
+		local
+			audio_id: EL_UUID;
+		do
+			if not song.has_audio_id then
+				song.update_audio_id
+			end
+
+			songs_by_location.put (song, song.mp3_path)
+			if songs_by_location.conflict then
+				log_or_io.put_new_line
+				log_or_io.put_path_field ("DUPLICATE", song.mp3_path)
+				log_or_io.put_new_line
+			else
+				songs.extend (song)
+				audio_id := song.audio_id
+				if audio_id.is_null then
 					log_or_io.put_new_line
-					log_or_io.put_path_field ("DUPLICATE", song.mp3_path)
+					log_or_io.put_line ("NULL AUDIO ID")
+					log_or_io.put_path_field ("Song", song.mp3_path)
 					log_or_io.put_new_line
 				else
-					songs.extend (song)
-					track_id := song.track_id
-					if track_id > 0 then
-						songs_by_track_id.put (song, track_id)
-						if songs_by_track_id.conflict then
-							log_or_io.put_new_line
-							log_or_io.put_line ("DUPLICATES")
-							log_or_io.put_path_field ("Song 1", songs_by_track_id.item (track_id).mp3_path)
-							log_or_io.put_new_line
-							log_or_io.put_path_field ("Song 2", song.mp3_path)
-							log_or_io.put_new_line
-						end
+					songs_by_audio_id.put (song, audio_id)
+					if songs_by_audio_id.conflict then
+						log_or_io.put_new_line
+						log_or_io.put_line ("DUPLICATES")
+						log_or_io.put_path_field ("Song 1", songs_by_audio_id.item (audio_id).mp3_path)
+						log_or_io.put_new_line
+						log_or_io.put_path_field ("Song 2", song.mp3_path)
+						log_or_io.put_new_line
 					end
+				end
+				if song.is_genre_silence and then silence_intervals.valid_index (song.duration) then
+					silence_intervals [song.duration] := song
 				end
 			end
 		end
@@ -309,17 +352,17 @@ feature -- Element change
 			playlists_all.do_all (agent {PLAYLIST}.replace_song (deleted, replacement))
 		end
 
-	update_index_by_track_id
+	update_index_by_audio_id
 		do
-			songs_by_track_id.wipe_out
+			songs_by_audio_id.wipe_out
 			songs.do_query (not song_is_hidden)
 			across songs.last_query_items as song loop
-				songs_by_track_id.search (song.item.track_id)
-				if not songs_by_track_id.found then
-					songs_by_track_id.extend (song.item, song.item.track_id)
+				songs_by_audio_id.search (song.item.audio_id)
+				if not songs_by_audio_id.found then
+					songs_by_audio_id.extend (song.item, song.item.audio_id)
 				else
 					check
-						track_ids_are_unique: False
+						audio_ids_are_unique: False
 					end
 				end
 			end
@@ -424,7 +467,7 @@ feature -- Removal
 			songs.start; songs.prune (song)
 			entries.start; entries.prune (song)
 			songs_by_location.remove (song.mp3_path)
-			songs_by_track_id.remove (song.track_id)
+			songs_by_audio_id.remove (song.audio_id)
 		end
 
 	delete (condition: EL_QUERY_CONDITION [RBOX_SONG])
@@ -435,7 +478,7 @@ feature -- Removal
 				song := songs.item
 				if condition.include (song) then
 					songs_by_location.remove (song.mp3_path)
-					songs_by_track_id.remove (song.track_id)
+					songs_by_audio_id.remove (song.audio_id)
 					File_system.delete (song.mp3_path)
 					songs.remove
 					from entry_removed := False until entries.after or else entry_removed loop
@@ -460,7 +503,7 @@ feature -- Removal
 			entries.wipe_out
 			songs.wipe_out
 			songs_by_location.wipe_out
-			songs_by_track_id.wipe_out
+			songs_by_audio_id.wipe_out
 		end
 
 feature -- Tag editing
@@ -481,7 +524,7 @@ feature {RHYTHMBOX_MUSIC_MANAGER} -- Tag editing
 
 	add_song_picture (
 		song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO
-		pictures: EL_ASTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]
+		pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]
 	)
 		local
 			picture: EL_ID3_ALBUM_PICTURE
@@ -526,19 +569,19 @@ feature {RHYTHMBOX_MUSIC_MANAGER} -- Tag editing
 	update_song_comment_with_album_artists (song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO)
 			--
 		local
-			l_album_artists: ASTRING
+			l_album_artists: ZSTRING
 		do
-			l_album_artists := song.album_artists
+			l_album_artists := song.album_artist
 
 			-- Due to a bug in Rhythmbox, it is not possible to set album-artist to zero length
 			-- As a workaround, setting album-artist to '--' will cause it to be deleted
 
 			if song.album_artists_list.count = 1 and song.album_artists_list.first ~ song.artist
-				or else song.album_artists.is_equal ("--")
+				or else song.album_artist.is_equal ("--")
 			then
 				song.set_album_artists_list ("")
 				id3_info.remove_basic_field (Tag.Album_artist)
-				l_album_artists := song.album_artists
+				l_album_artists := song.album_artist
 			end
 			if l_album_artists /~ id3_info.comment (ID3_frame_c0) then
 				print_id3 (id3_info, relative_song_path)
@@ -620,11 +663,6 @@ feature {NONE} -- Build from XML
 		do
 			if attached {RBOX_IRADIO_ENTRY} context as entry then
 				extend (entry)
-				if attached {RBOX_SONG} entry as song and then song.is_genre_silence
-					and then silence_intervals.valid_index (song.duration)
-				then
-					silence_intervals [song.duration] := song
-				end
 			end
 		end
 
@@ -643,34 +681,34 @@ feature {NONE} -- Build from XML
 
 feature {NONE} -- Constants
 
-	Musicbrainz_album_id_set: ARRAY [ASTRING]
+	Musicbrainz_album_id_set: ARRAY [ZSTRING]
 			-- Both fields need to be set in ID3 info otherwise
 			-- Rhythmbox changes musicbrainz_albumid to match "MusicBrainz Album Id"
 		once
 			Result := << "MusicBrainz Album Id", "musicbrainz_albumid" >>
 		end
 
-	Music_extra: ASTRING
+	Music_extra: ZSTRING
 		once
 			Result := "Music Extra"
 		end
 
-	Read_progress_template: ASTRING
+	Read_progress_template: ZSTRING
 		once
-			Result := "%RSongs: [$S of $S]"
+			Result := "%RSongs: [%S of %S]"
 		end
 
-	Artists_field: ASTRING
+	Artists_field: ZSTRING
 		once
 			Result := "Artists: "
 		end
 
-	Mp3_extension: ASTRING
+	Mp3_extension: ZSTRING
 		once
 			Result := "mp3"
 		end
 
-	Unknown_artist_names: ARRAY [ASTRING]
+	Unknown_artist_names: ARRAY [ZSTRING]
 		once
 			Result := << "Various", "Various Artists", "Unknown" >>
 			Result.compare_objects

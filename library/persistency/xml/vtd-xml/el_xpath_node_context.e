@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "A Xpath queryable XML node"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2015-12-16 9:25:26 GMT (Wednesday 16th December 2015)"
+	revision: "8"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -137,7 +137,7 @@ feature -- Access
 			Result := new_query (a_xpath).evaluate_number.truncated_to_real
 		end
 
-	string_at_xpath (a_xpath: STRING_32): ASTRING
+	string_at_xpath (a_xpath: STRING_32): ZSTRING
 			--
 		do
 			Result := new_query (a_xpath).evaluate_string
@@ -238,7 +238,7 @@ feature -- Element values
 			Result := c_node_context_integer_64 (self_ptr)
 		end
 
-	normalized_string_value: ASTRING
+	normalized_string_value: ZSTRING
 			-- The leading and trailing white space characters will be stripped.
 			-- The entity and character references will be resolved
 			-- Multiple whitespaces char will be collapsed into one
@@ -254,7 +254,7 @@ feature -- Element values
 			Result := wide_string (c_node_context_normalized_string (self_ptr))
 		end
 
-	raw_string_value: ASTRING
+	raw_string_value: ZSTRING
 			-- element content as string with entities and char references not expanded
 			-- built-in entity and char references not resolved
 			-- entities and char references not expanded
@@ -270,7 +270,7 @@ feature -- Element values
 			Result := wide_string (c_node_context_raw_string (self_ptr))
 		end
 
-	string_value: ASTRING
+	string_value: ZSTRING
 			-- The entity and character references will be resolved
 		do
 			Result := wide_string (c_node_context_string (self_ptr))

@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2016-01-21 11:19:40 GMT (Thursday 21st January 2016)"
+	revision: "5"
 
 class
 	EIFFEL_CLASS_EDITOR
@@ -15,10 +15,10 @@ class
 inherit
 	EIFFEL_SOURCE_EDITING_PROCESSOR
 		redefine
-			edit_file
+			edit
 		end
 
-	EL_MODULE_STRING
+	EL_MODULE_LOG
 
 create
 	make
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	edit_file
+	edit
 			--
 		local
 			insertion_editor: EIFFEL_ATTRIBUTE_INSERTION_CLASS_EDITOR
@@ -45,12 +45,12 @@ feature -- Basic operations
 			create insertion_editor.make (insertion_marker_list, new_attribute_name, new_attribute_type)
 			insertion_editor.set_input_file_path (source_file_path)
 			insertion_editor.set_output_file_path (source_file_path)
-			insertion_editor.edit_text
+			insertion_editor.edit
 		end
 
 feature {NONE} -- Pattern definitions
 
-	search_patterns: ARRAYED_LIST [EL_TEXTUAL_PATTERN]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
 		do
 			create Result.make_from_array (<<
 				feature_header,
@@ -63,7 +63,7 @@ feature {NONE} -- Pattern definitions
 			>>)
 		end
 
-	feature_header: EL_MATCH_ALL_IN_LIST_TP
+	feature_header: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -71,7 +71,7 @@ feature {NONE} -- Pattern definitions
 				all_of (<<
 					all_of (<<
 						string_literal ("feature"),
-						while_not_pattern_1_repeat_pattern_2 (
+						while_not_p1_repeat_p2 (
 							string_literal ("--"),
 							any_character
 						),
@@ -84,23 +84,20 @@ feature {NONE} -- Pattern definitions
 			>>)
 		end
 
-	feature_comment: EL_MATCH_ONE_OR_MORE_TIMES_TP
+	feature_comment: like one_or_more
 			--
 		do
 			Result := one_or_more (
-				all_of (<<
-					identifier,
-					maybe_non_breaking_white_space
-				>>)
+				all_of (<< identifier, maybe_non_breaking_white_space >>)
 			)	|to| agent on_feature_label
 		end
 
-	field_insertion_marker: EL_MATCH_ALL_IN_LIST_TP
+	field_insertion_marker: like all_of
 			--
 		do
 			Result := all_of (<<
-				character_literal ('@')				|to| agent replace (?, ""),
-				identifier							|to| agent on_new_attribute_name,
+				character_literal ('@')					|to| agent replace (?, ""),
+				identifier									|to| agent on_new_attribute_name,
 				return_type_signature_declaration   |to| agent on_new_attribute_type
 			>>)
 		end
@@ -119,16 +116,16 @@ feature {NONE} -- Parsing actions
 	on_feature_label (text: EL_STRING_VIEW)
 			--
 		local
-			insertion_marker, feature_label: STRING
+			insertion_marker, feature_label: ZSTRING
 		do
 			log.enter_with_args ("on_feature_label", << text.to_string_8 >>)
 			feature_label := text
 			feature_label.right_adjust
 
-			create insertion_marker.make_from_string ("${insert_")
+			create insertion_marker.make_from_latin_1 ("${insert_")
 			insertion_marker.append  (feature_label)
-			insertion_marker.append ("}")
-			String.subst_all_characters (insertion_marker, ' ', '_')
+			insertion_marker.append_character ('}')
+			insertion_marker.replace_character (' ', '_')
 			insertion_marker.to_lower
 
 			insertion_marker_list.extend (insertion_marker)

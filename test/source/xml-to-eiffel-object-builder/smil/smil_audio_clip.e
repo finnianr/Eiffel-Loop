@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-16 12:39:14 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	SMIL_AUDIO_CLIP
@@ -44,9 +44,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	source: ASTRING
+	source: ZSTRING
 
-	title: ASTRING
+	title: ZSTRING
 
 	onset: REAL
 
@@ -61,8 +61,8 @@ feature {NONE} -- Evolicity fields
 		do
 			create Result.make (<<
 				["id", 		agent: INTEGER_REF do Result := id.to_reference end],
-				["source",	agent: ASTRING do Result := source end],
-				["title", 	agent: ASTRING do Result := title end],
+				["source",	agent: ZSTRING do Result := source end],
+				["title", 	agent: ZSTRING do Result := title end],
 				["onset",	agent: STRING do Result := Seconds.formatted (onset) end],
 				["offset",	agent: STRING do Result := Seconds.formatted (offset) end]
 			>>)

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Creates a GNOME desktop menu application launcher"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-05 13:15:13 GMT (Sunday 5th January 2014)"
-	revision: "4"
+	date: "2015-12-24 12:44:57 GMT (Thursday 24th December 2015)"
+	revision: "6"
 
 class
 	EL_DESKTOP_APPLICATION_INSTALLER_IMPL
@@ -125,14 +125,14 @@ feature {EL_DESKTOP_APPLICATION_INSTALLER} -- Constants
 	Applications_menu_file_path: EL_FILE_PATH
 			--
 		local
-			kde_menu_name: EL_ASTRING_LIST
-			kde_menu_name_parts: ARRAY [ASTRING]
+			kde_menu_name_parts: EL_ZSTRING_LIST; kde_menu_name: ZSTRING
 		do
-			kde_menu_name_parts := <<
+			create kde_menu_name_parts.make_from_array (<<
 				"kde", Build_info.installation_sub_directory.to_string, Execution_environment.Executable_name + ".menu"
-			>>
-			kde_menu_name := kde_menu_name_parts
-			Result := XDG_applications_merged_dir + kde_menu_name.joined_with ('-', False).translated ("/", "-")
+			>>)
+			kde_menu_name := kde_menu_name_parts.joined ('-')
+			kde_menu_name.replace_character ('/', '-')
+			Result := XDG_applications_merged_dir + kde_menu_name
 		end
 
 --	Command_template: STRING

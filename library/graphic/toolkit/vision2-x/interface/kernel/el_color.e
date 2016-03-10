@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_EV_COLOR}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-26 17:06:29 GMT (Saturday 26th December 2015)"
+	revision: "6"
 
 class
 	EL_COLOR
@@ -18,7 +18,7 @@ inherit
 			rgb_24_bit, set_rgb_with_24_bit
 		end
 
-	EL_MODULE_STRING
+	EL_MODULE_STRING_8
 		undefine
 			default_create, out, is_equal, copy
 		end
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 			valid_color_string: a_html_color.count = 7 and then a_html_color [1] = '#'
 		do
 			default_create
-			set_rgb_with_24_bit (String.hexadecimal_to_integer (a_html_color.substring (2, a_html_color.count)))
+			set_rgb_with_24_bit (String_8.hexadecimal_to_integer (a_html_color.substring (2, a_html_color.count)))
 		end
 
 	make_with_rgb_24_bit (a_24_bit_rgb: INTEGER)

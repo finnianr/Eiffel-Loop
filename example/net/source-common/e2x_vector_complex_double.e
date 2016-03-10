@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		VECTOR_COMPLEX_DOUBLE serializable to format:
 		
@@ -20,12 +20,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 12:03:11 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2015-12-26 18:06:38 GMT (Saturday 26th December 2015)"
+	revision: "4"
 
 deferred class
 	E2X_VECTOR_COMPLEX_DOUBLE
@@ -35,9 +35,10 @@ inherit
 		rename
 			make as make_matrix,
 			count as count_times_2,
-			log as natural_log
+			log as natural_log,
+			make_empty as make_default
 		redefine
-			make_empty, make_row, make_column
+			make_default, make_row, make_column
 		end
 
 	EL_BUILDABLE_XML_FILE_PERSISTENT
@@ -46,12 +47,12 @@ inherit
 		undefine
 			is_equal, copy, out
 		redefine
-			make_empty, building_action_table
+			make_default, building_action_table
 		end
 
 feature {NONE} -- Initialization
 
-	make_empty
+	make_default
 		do
 			Precursor {VECTOR_COMPLEX_DOUBLE}
 			Precursor {EL_BUILDABLE_XML_FILE_PERSISTENT}

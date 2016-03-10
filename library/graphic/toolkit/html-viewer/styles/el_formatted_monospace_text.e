@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Monospace text with preformatted indentation. Corresponds to html 'pre' tag."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-26 17:08:17 GMT (Saturday 26th December 2015)"
+	revision: "6"
 
 class
 	EL_FORMATTED_MONOSPACE_TEXT
@@ -23,14 +23,14 @@ create
 
 feature -- Element change
 
-	append_text (a_text: ASTRING)
+	append_text (a_text: ZSTRING)
 		local
 			maximum_count: INTEGER
-			lines: EL_LINKED_STRING_LIST [ASTRING]
-			blank_line, padding, text: ASTRING
+			lines: EL_ZSTRING_LIST
+			blank_line, padding, text: ZSTRING
 		do
 			create lines.make_with_lines (a_text)
-			maximum_count := String.maximum_count (lines)
+			maximum_count := String_8.maximum_count (lines)
 			create padding.make_empty
 			from lines.start until lines.after loop
 				create padding.make_filled (' ', maximum_count - lines.item.count)

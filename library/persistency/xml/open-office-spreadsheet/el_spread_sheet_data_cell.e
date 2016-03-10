@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Object representing table data cell in OpenDocument Flat XML format spreadsheet
 	]"
@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2015-12-16 19:07:14 GMT (Wednesday 16th December 2015)"
+	revision: "8"
 
 class
 	EL_SPREAD_SHEET_DATA_CELL
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 			--		</text:p>
 			--	</table:table-cell>
 		local
-			paragraph_nodes: EL_XPATH_NODE_CONTEXT_LIST; str: ASTRING
+			paragraph_nodes: EL_XPATH_NODE_CONTEXT_LIST; str: ZSTRING
 		do
 			make_empty
 
@@ -67,7 +67,7 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make (a_text: ASTRING)
+	make (a_text: ZSTRING)
 			-- Initialize from the characters of `s'.
 		do
 			create paragraphs.make_with_lines (a_text)
@@ -83,12 +83,12 @@ feature -- Status query
 
 feature -- Access
 
-	text: ASTRING
+	text: ZSTRING
 		do
 			Result := paragraphs.joined_lines
 		end
 
-	paragraphs: EL_ASTRING_LIST
+	paragraphs: EL_ZSTRING_LIST
 
 	count: INTEGER
 		do
@@ -109,11 +109,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Evolicity reflection
 
-	get_escape_single_quote: ASTRING
+	get_escape_single_quote: ZSTRING
 			--
 		do
 			Result := text
-			Result.replace_substring_all ("'", "\'")
+			Result.replace_substring_general_all ("'", "\'")
 		end
 
 	getter_function_table: like getter_functions

@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PAYPAL_BUTTON_VARIABLE_LIST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 16:31:28 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	EL_PAYPAL_BUTTON_SUB_PARAMETER_LIST
@@ -30,34 +35,34 @@ feature -- Element change
 			extend (Var_currency_code, code)
 		end
 
-	set_item_name (name: ASTRING)
+	set_item_name (name: ZSTRING)
 		do
 			extend (Var_item_name, name)
 		end
 
-	set_item_product_code (code: ASTRING)
+	set_item_product_code (code: ZSTRING)
 		do
 			extend (Var_item_number, code)
 		end
 
 feature {NONE} -- Constants
 
-	Name_prefix: ASTRING
+	Name_prefix: ZSTRING
 		once
 			Result := "L_BUTTONVAR"
 		end
 
-	Var_currency_code: ASTRING
+	Var_currency_code: ZSTRING
 		once
 			Result := "currency_code"
 		end
 
-	Var_item_name: ASTRING
+	Var_item_name: ZSTRING
 		once
 			Result := "item_name"
 		end
 
-	Var_item_number: ASTRING
+	Var_item_number: ZSTRING
 		once
 			Result := "item_number"
 		end

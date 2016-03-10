@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_BASE_64}."
 
 	author: "Finnian Reilly"
@@ -6,20 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-30 9:53:59 GMT (Tuesday 30th September 2014)"
-	revision: "2"
+	date: "2015-12-18 22:45:54 GMT (Friday 18th December 2015)"
+	revision: "4"
 
 class
 	EL_BASE_64_ROUTINES
 
 inherit
-	EL_MODULE_STRING
+	EL_MODULE_STRING_8
 
 feature -- Conversion
 
 	encoded (a_string: STRING): STRING
 		do
-			Result := encoded_special (String.to_code_array (a_string))
+			Result := encoded_special (String_8.to_code_array (a_string))
 		end
 
 	encoded_special (array: SPECIAL [NATURAL_8]): STRING

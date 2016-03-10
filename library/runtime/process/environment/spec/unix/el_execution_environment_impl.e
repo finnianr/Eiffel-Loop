@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_EXECUTION_ENVIRONMENT_IMPL}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-23 15:01:12 GMT (Sunday 23rd March 2014)"
-	revision: "6"
+	date: "2015-12-16 7:06:54 GMT (Wednesday 16th December 2015)"
+	revision: "8"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMPL
@@ -22,9 +22,9 @@ create
 
 feature {EL_EXECUTION_ENVIRONMENT} -- Access
 
-	executable_file_extensions: LIST [ASTRING]
+	executable_file_extensions: LIST [ZSTRING]
 		do
-			create {ARRAYED_LIST [ASTRING]} Result.make_from_array (<< once "" >>)
+			create {ARRAYED_LIST [ZSTRING]} Result.make_from_array (<< once "" >>)
 		end
 
 	console_code_page: NATURAL
@@ -46,12 +46,12 @@ feature {EL_EXECUTION_ENVIRONMENT} -- OS settings
 
 feature {EL_EXECUTION_ENVIRONMENT} -- Constants
 
-	Data_dir_name_prefix: ASTRING
+	Data_dir_name_prefix: ZSTRING
 		once
 			Result := "."
 		end
 
-	User_configuration_directory_name: ASTRING
+	User_configuration_directory_name: ZSTRING
 		once
 			Result := ".config"
 		end

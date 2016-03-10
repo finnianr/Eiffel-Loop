@@ -1,19 +1,19 @@
-note
+﻿note
 	description: "Summary description for {EL_HTML_PARAGRAPH}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-02 11:12:51 GMT (Thursday 2nd October 2014)"
-	revision: "5"
+	date: "2015-12-26 17:08:08 GMT (Saturday 26th December 2015)"
+	revision: "7"
 
 class
 	EL_FORMATTED_TEXT_BLOCK
 
 inherit
-	EL_MODULE_STRING
+	EL_MODULE_STRING_8
 
 	EL_MODULE_GUI
 
@@ -48,7 +48,7 @@ feature -- Access
 
 	styles: EL_TEXT_FORMATTING_STYLES
 
-	paragraphs: ARRAYED_LIST [TUPLE [text: ASTRING; format: EV_CHARACTER_FORMAT]]
+	paragraphs: ARRAYED_LIST [TUPLE [text: ZSTRING; format: EV_CHARACTER_FORMAT]]
 		-- paragraph with applied character formatting
 
 	text_style: EV_CHARACTER_FORMAT
@@ -72,11 +72,17 @@ feature -- Fonts
 			Result.set_shape (GUI.Shape_italic)
 		end
 
+	bold_font: EV_FONT
+		do
+			Result := font.twin
+			Result.set_weight (GUI.Weight_bold)
+		end
+
 feature -- Element change
 
-	append_text (a_text: ASTRING)
+	append_text (a_text: ZSTRING)
 		local
-			text: ASTRING
+			text: ZSTRING
 		do
 			text := a_text
 			if text.item (text.count) /= '%N' then
@@ -122,26 +128,16 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Status setting
+feature -- Enable styles
 
-	enable_italic
+	enable_bold
 		do
-			change_text_style (agent text_style.set_font (italic_font))
+			change_text_style (agent text_style.set_font (bold_font))
 		end
 
-	disable_italic
+	enable_blue
 		do
-			change_text_style (agent text_style.set_font (font))
-		end
-
-	enable_fixed_width
-		do
-			change_text_style (agent text_style.set_font (styles.fixed_width_font))
-		end
-
-	disable_fixed_width
-		do
-			change_text_style (agent text_style.set_font (font))
+			change_text_style (agent text_style.set_color (GUI.Blue))
 		end
 
 	enable_darkend_fixed_width
@@ -150,20 +146,32 @@ feature -- Status setting
 			change_text_style (agent text_style.set_background_color (styles.darkened_background_color))
 		end
 
-	disable_darkend_fixed_width
+	enable_fixed_width
 		do
-			disable_fixed_width
-			change_text_style (agent text_style.set_background_color (styles.background_color))
+			change_text_style (agent text_style.set_font (styles.fixed_width_font))
 		end
 
-	enable_blue
+	enable_italic
 		do
-			change_text_style (agent text_style.set_color (GUI.Blue))
+			change_text_style (agent text_style.set_font (italic_font))
 		end
+
+feature -- Disable styles
 
 	disable_blue
 		do
 			change_text_style (agent text_style.set_color (GUI.Black))
+		end
+
+	disable_bold, disable_fixed_width, disable_italic
+		do
+			change_text_style (agent text_style.set_font (font))
+		end
+
+	disable_darkend_fixed_width
+		do
+			disable_fixed_width
+			change_text_style (agent text_style.set_background_color (styles.background_color))
 		end
 
 feature {NONE} -- Implementation
@@ -188,19 +196,19 @@ feature {NONE} -- Implementation
 			Result := character_format_cache.found_item
 		end
 
-	Character_format_cache: EL_ASTRING_HASH_TABLE [EV_CHARACTER_FORMAT]
+	Character_format_cache: EL_ZSTRING_HASH_TABLE [EV_CHARACTER_FORMAT]
 		once
 			create Result.make_equal (7)
 		end
 
 feature {NONE} -- Constants
 
-	New_line: ASTRING
+	New_line: ZSTRING
 		once
 			create Result.make_filled ('%N', 1)
 		end
 
-	Double_new_line: ASTRING
+	Double_new_line: ZSTRING
 		once
 			create Result.make_filled ('%N', 2)
 		end

@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PAYPAL_BUY_OPTIONS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 16:31:32 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	EL_PAYPAL_BUY_OPTIONS
@@ -24,7 +29,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_id: like id; name: ASTRING; a_currency_code: like currency_code)
+	make (a_id: like id; name: ZSTRING; a_currency_code: like currency_code)
 		require
 			valid_id: a_id >= 0 and a_id <= 9
 		do
@@ -50,9 +55,9 @@ feature -- Access
 
 feature -- Element change
 
-	extend (option_name: ASTRING; price_x100: INTEGER)
+	extend (option_name: ZSTRING; price_x100: INTEGER)
 		local
-			price_string: ASTRING
+			price_string: ZSTRING
 		do
 			select_parameters.extend (option_name)
 
@@ -67,7 +72,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	parameter_name: ASTRING
+	parameter_name: ZSTRING
 		do
 			Result := "OPTION?NAME"
 			Result [7] := id.out [1]

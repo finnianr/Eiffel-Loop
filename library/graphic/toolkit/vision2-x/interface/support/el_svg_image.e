@@ -1,16 +1,22 @@
-note
+﻿note
 	description: "[
 		Class for converting SVG into different formats
 	]"
+
 	notes: "[
 		Not 100% reliable on Windows for rendering SVG.
 		For some reason the installed finalized version of My Ching would crash during graphic
 		initialization from SVG. Class EL_PNG_IMAGE_FILE is more reliable for SVG rendering and
 		is used instead.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-07-06 19:08:26 GMT (Monday 6th July 2015)"
+	revision: "3"
 
 class
 	EL_SVG_IMAGE

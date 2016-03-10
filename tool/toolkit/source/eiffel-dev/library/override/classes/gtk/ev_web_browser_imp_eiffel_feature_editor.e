@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EV_WEB_BROWSER_IMP_EIFFEL_FEATURE_EDITOR}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-18 10:54:25 GMT (Friday 18th December 2015)"
+	revision: "7"
 
 class
 	EV_WEB_BROWSER_IMP_EIFFEL_FEATURE_EDITOR
@@ -33,12 +38,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Statement_create_webkit: EL_ASTRING
+	Statement_create_webkit: ZSTRING
 		once
 			Result := "create webkit"
 		end
 
-	Statement_create_el_webkit: EL_ASTRING
+	Statement_create_el_webkit: ZSTRING
 		once
 			Result := "create {EL_WEBKIT_WEB_VIEW} webkit"
 		end

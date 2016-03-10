@@ -36,26 +36,26 @@ if not env.GetOption ('clean'):
 	conf = Configure (env)
 	config_header = CONFIG_HEADER (conf, '.')
 
-	config_header.write_defines_for_C_function_availability ([
+	config_header.set_defines_for_C_function_availability ([
 		'getopt_long', 'mkstemp', 'truncate']
 	)
 
-	config_header.write_defines_for_C_header_availability ([
+	config_header.set_defines_for_C_header_availability ([
 		'dlfcn.h', 'inttypes.h', 'libcw/sys.h', 'memory.h', 'stdint.h', 'stdlib.h',
 		'sys/param.h', 'sys/stat.h', 'sys/types.h', 'unistd.h', 'wchar.h', 'zlib.h'
 	])
-	config_header.write_defines_for_CPP_header_availability ([
+	config_header.set_defines_for_CPP_header_availability ([
 		'bitset', 'cctype', 'climits', 'cstdio', 'cstdlib',
 		'cstring', 'fstream', 'fstream.h', 'iomanip', 'iomanip.h', 'iostream',
 		'iostream.h' ,'string' ,'strings.h' ,'string.h'
 	])
 
 	if c_scons.has_ansi_C_standard_headers (conf):
-		config_header.write_defines ([
+		config_header.set_defines ([
 			('STDC_HEADERS', 1, 'if you have the ANSI C header files.')
 		])
 	
-	config_header.write_string_defines ([
+	config_header.set_string_defines ([
 		('VERSION', '3.8.3', None),
 		('_ID3LIB_NAME', 'id3lib', None),
 		('_ID3LIB_VERSION', '3.8.3', None),
@@ -63,14 +63,14 @@ if not env.GetOption ('clean'):
 		('_ID3LIB_FULLNAME', 'id3lib-3.8.3', None)
 
 	])
-	config_header.write_defines ([
+	config_header.set_defines ([
 		('_ID3LIB_MAJOR_VERSION', 3, None), ('_ID3LIB_MINOR_VERSION', 8, None),  ('_ID3LIB_PATCH_VERSION', 4, None),
 		('_ID3LIB_INTERFACE_AGE', 0, None), ('_ID3LIB_BINARY_AGE', 0, None)
 	])
 
-	config_header.write (config_h.header_text)
+	config_header.append_text (config_h.header_text)
 
-	config_header.close
+	config_header.save ()
 	env = conf.Finish()
 
 build_dir = project.platform_spec_build_dir ()

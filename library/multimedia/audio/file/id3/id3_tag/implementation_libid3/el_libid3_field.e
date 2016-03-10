@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_LIBID3_FIELD_IMPL}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-18 22:47:41 GMT (Friday 18th December 2015)"
+	revision: "5"
 
 class
 	EL_LIBID3_FIELD
@@ -18,11 +18,6 @@ inherit
 	EL_LIBID3_CONSTANTS
 
 	EL_ID3_FIELD_TYPES
-
-	EL_MODULE_STRING
-		rename
-			String as Mod_string
-		end
 
 	PLATFORM
 		export
@@ -73,7 +68,7 @@ feature -- Access
 			end
 		end
 
-	string: ASTRING
+	string: ZSTRING
 			--
 		local
 			l_encoding: INTEGER
@@ -87,7 +82,7 @@ feature -- Access
 				Result := text_unicode
 
 			elseif l_encoding = Encoding_UTF_8 then
-				create Result.make_from_utf8 (text_utf8)
+				create Result.make_from_utf_8 (text_utf8)
 
 			else
 				Result := text_latin1
@@ -131,17 +126,17 @@ feature -- Element change
 		do
 			l_encoding := encoding
 			if l_encoding = Encoding_ISO_8859_1 then
-				set_text_latin1 (str.to_latin1)
+				set_text_latin1 (str.to_latin_1)
 
 			elseif l_encoding = Encoding_UTF_16 or l_encoding = Encoding_UTF_16_BE then
 				-- A bit strange that only Big Endian works
 				set_text_unicode (str.to_unicode)
 
 			elseif l_encoding = Encoding_UTF_8 then
-				set_text_utf8 (str.to_utf8)
+				set_text_utf8 (str.to_utf_8)
 
 			else
-				set_text_latin1 (str.to_latin1)
+				set_text_latin1 (str.to_latin_1)
 
 			end
 		end

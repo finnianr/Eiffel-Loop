@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Windows implementation of program directory removal
 		
@@ -16,10 +16,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-02 13:21:10 GMT (Sunday 2nd March 2014)"
-	revision: "2"
+	date: "2015-12-17 11:28:36 GMT (Thursday 17th December 2015)"
+	revision: "4"
 
 class
 	EL_INSTALLED_FILE_REMOVAL_COMMAND_IMPL
@@ -34,7 +34,7 @@ feature {NONE} -- Constants
 
 	Command_template: EL_ASTRING
 		once
-			Result := "cmd /C %"$S%""
+			Result := "cmd /C %"%S%""
 		end
 
 	Uninstall_script_name: EL_ASTRING

@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {DONE_LIST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-03-04 11:40:20 GMT (Wednesday 4th March 2015)"
+	revision: "5"
 
 class
 	DONE_LIST

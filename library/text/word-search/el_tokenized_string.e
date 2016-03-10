@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_TOKENIZED_STRING}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:03 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2015-12-19 11:19:50 GMT (Saturday 19th December 2015)"
+	revision: "5"
 
 class
 	EL_TOKENIZED_STRING
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 			word_table := a_word_table
 		end
 
-	make_from_string (a_word_table: like word_table; str: ASTRING)
+	make_from_string (a_word_table: like word_table; str: ZSTRING)
 			--
 		do
 			make_empty
@@ -50,9 +50,7 @@ feature {NONE} -- Initialization
 	make_from_tokens (a_word_table: like word_table; a_tokens: STRING_32)
 			--
 		local
-			i: INTEGER
-			l_code, l_max_code: NATURAL
-			l_missing_token: BOOLEAN
+			i: INTEGER; l_code, l_max_code: NATURAL l_missing_token: BOOLEAN
 		do
 			make_tokens (a_tokens.count)
 			word_table := a_word_table
@@ -71,13 +69,13 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	words: ASTRING
+	words: ZSTRING
 			-- space separated words
 		do
 			Result := word_table.tokens_to_string (Current)
 		end
 
-	token (word: ASTRING): CHARACTER_32
+	token (word: ZSTRING): CHARACTER_32
 			--
 		do
 			word_table.search (word)
@@ -119,7 +117,7 @@ feature -- Access
 
 feature -- Element change
 
-	append_word (word: ASTRING)
+	append_word (word: ZSTRING)
 			--
 		local
 			exception: EXCEPTION
@@ -133,16 +131,16 @@ feature -- Element change
 			extend (word_table.last_code.to_character_32)
 		end
 
-	append_as_tokenized_lower (str: ASTRING)
+	append_as_tokenized_lower (str: ZSTRING)
 			--
 		local
-			i: INTEGER; word: ASTRING
+			i: INTEGER; word: ZSTRING
 		do
 			resize (count + str.occurrences (' ') + 3)
 			create word.make (12)
 			from i := 1 until i > str.count loop
 				if str.is_alpha_numeric_item (i) then
-					word.append_code (str.code (i))
+					word.append_z_code (str.z_code (i))
 				else
 					if not word.is_empty then
 						append_word (word.as_lower)

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_CUSTOM_SEARCH_TERM}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-16 9:59:53 GMT (Sunday 16th March 2014)"
-	revision: "2"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "3"
 
 deferred class
 	EL_CUSTOM_SEARCH_TERM  [G -> EL_WORD_SEARCHABLE]

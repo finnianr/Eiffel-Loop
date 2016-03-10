@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2016-01-04 10:38:49 GMT (Monday 4th January 2016)"
+	revision: "4"
 
 class
 	EL_TIMED_PROGRESS_BAR
@@ -17,37 +17,37 @@ inherit
 
 	EL_REGULAR_INTERVAL_EVENT_PROCESSOR
 		undefine
-			default_create, copy
+			copy, default_create
 		redefine
 			stop
 		end
 
 	EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER
 		rename
-			make as make_event_consumer,
+			make_default as make_consumer,
 			on_event as on_timer_event,
 			stop as stop_consumer
 		export
 			{NONE} all
 		undefine
-			default_create, copy
+			copy, default_create
 		redefine
 			on_events_start
 		end
 
 	EV_SHARED_APPLICATION
 		undefine
-			default_create, copy
+			copy, default_create
 		end
 
 	EV_FONT_CONSTANTS
 		undefine
-			default_create, copy
+			copy, default_create
 		end
 
 	EL_MODULE_LOG
 		undefine
-			default_create, copy
+			copy, default_create
 		end
 
 create
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 			colors: EV_STOCK_COLORS
 		do
 			default_create
-			make_event_consumer
+			make_consumer
 			make_event_producer (Current, "Progress bar timer", 100)
 
 			create colors
@@ -70,7 +70,6 @@ feature {NONE} -- Initialization
 			text_color := colors.White
 			expose_actions.force_extend (agent draw_meter)
 			create message.make_empty
-
 		end
 
 feature {NONE} -- Basic operations

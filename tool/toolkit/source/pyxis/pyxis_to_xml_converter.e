@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-18 11:10:00 GMT (Friday 18th December 2015)"
+	revision: "7"
 
 class
 	PYXIS_TO_XML_CONVERTER
@@ -24,7 +24,7 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
 	make (a_source_path, a_output_path: EL_FILE_PATH)
 		local
-			extension: ASTRING
+			extension: ZSTRING
 		do
 			source_path  := a_source_path
 			output_path := a_output_path

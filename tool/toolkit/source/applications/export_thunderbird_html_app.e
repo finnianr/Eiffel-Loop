@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2015-12-18 10:54:43 GMT (Friday 18th December 2015)"
+	revision: "8"
 
 class
 	EXPORT_THUNDERBIRD_HTML_APP
@@ -26,8 +26,8 @@ feature -- Test
 	test_run
 			--
 		do
---			Test.do_file_tree_test (".thunderbird", agent test_xhtml_export, 1409590078)
-			Test.do_file_tree_test (".thunderbird", agent test_html_body_export, 2247727507)
+			Test.do_file_tree_test (".thunderbird", agent test_xhtml_export, 3689436838)
+--			Test.do_file_tree_test (".thunderbird", agent test_html_body_export, 2247727507)
 --			Test.do_file_tree_test (".thunderbird", agent test_small_html_body_export, 3426906612)
 		end
 
@@ -66,7 +66,7 @@ feature {NONE} -- Implementation
 		end
 
 	default_operands: TUPLE [
-		account_name, export_type: ASTRING; export_path, thunderbird_home_dir: EL_DIR_PATH; included_folders: EL_ASTRING_LIST
+		account_name, export_type: ZSTRING; export_path, thunderbird_home_dir: EL_DIR_PATH; included_folders: EL_ZSTRING_LIST
 	]
 		do
 			create Result
@@ -74,7 +74,7 @@ feature {NONE} -- Implementation
 			Result.export_type := "xhtml"
 			Result.export_path := ""
 			Result.thunderbird_home_dir := Directory.Home
-			Result.included_folders := create {EL_ASTRING_LIST}.make (7)
+			Result.included_folders := create {EL_ZSTRING_LIST}.make (7)
 		end
 
 	argument_specs: ARRAY [like Type_argument_specification]
@@ -90,7 +90,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Empty_inluded_sbd_dirs: EL_ASTRING_LIST
+	Empty_inluded_sbd_dirs: EL_ZSTRING_LIST
 		once
 			create Result.make (0)
 		end
@@ -108,6 +108,7 @@ feature {NONE} -- Constants
 				[{THUNDERBIRD_MAIL_EXPORTER}, All_routines],
 				[{THUNDERBIRD_MAIL_TO_XHTML_CONVERTER}, All_routines],
 				[{THUNDERBIRD_MAIL_TO_HTML_BODY_CONVERTER}, All_routines]
+
 			>>
 		end
 

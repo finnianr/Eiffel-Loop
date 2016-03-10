@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_XPATH_TOKEN_TABLE}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-17 11:27:26 GMT (Thursday 17th December 2015)"
+	revision: "5"
 
 class
 	EL_XPATH_TOKEN_TABLE
@@ -49,7 +49,7 @@ feature -- Element change
 --			template: EL_ASTRING
 --		do
 --			log.enter ("extend")
---			template := "extend ($S,%"$S%")"
+--			template := "extend (%S,%"%S%")"
 --			log.put_line (template #$ [new, key])
 --			Precursor (new, key)
 --			log.exit
@@ -60,7 +60,7 @@ feature -- Element change
 --			template: EL_ASTRING
 --		do
 --			log.enter ("put")
---			template := "put ($S,%"$S%")"
+--			template := "put (%S,%"%S%")"
 --			log.put_line (template #$ [new, key])
 --			Precursor (new, key)
 --			log.put_integer_field ("count", count)

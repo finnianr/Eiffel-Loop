@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {ID3_READER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-04 17:40:47 GMT (Monday 4th November 2013)"
-	revision: "4"
+	date: "2015-12-16 8:16:07 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	ID3_EDITOR
@@ -61,15 +61,16 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (<<
 				["delete_id3_comments", agent id3_edits.delete_id3_comments],
-				["set_fields_from_path", agent id3_edits.set_fields_from_path]
+				["set_fields_from_path", agent id3_edits.set_fields_from_path],
+				["remove_rbox_id", agent id3_edits.remove_rbox_id]
 			>>)
 		end
 
 feature {NONE} -- Internal attributes
 
-	editions_table: EL_ASTRING_HASH_TABLE [PROCEDURE [ID3_EDITS, TUPLE [EL_ID3_INFO, EL_FILE_PATH]]]
+	editions_table: EL_ZSTRING_HASH_TABLE [PROCEDURE [ID3_EDITS, TUPLE [EL_ID3_INFO, EL_FILE_PATH]]]
 
-	edition_name: ASTRING
+	edition_name: ZSTRING
 
 	file_paths: EL_FILE_PATH_LIST
 

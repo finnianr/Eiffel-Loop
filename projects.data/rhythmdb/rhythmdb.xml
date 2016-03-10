@@ -17,6 +17,7 @@
 		<bitrate>192</bitrate>
 		<date>730486</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>CF22F4A6:D9D3:B4A6:674B:3866B6129A3C</mb-trackid>
 		<mb-artistsortname>Tiersen, Yann</mb-artistsortname>
 		<composer>Unknown</composer>
 	</entry>
@@ -35,6 +36,7 @@
 		<bitrate>256</bitrate>
 		<date>723546</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>0FB93991:9E3D:E420:8C80:4E55071786CE</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -53,6 +55,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>A9992D6D:C36F:B963:2E0F:E1E84EA056C8</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -72,6 +75,7 @@
 		<bitrate>50</bitrate>
 		<date>726833</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>73A5DD21:3AC1:33CF:D1D9:DC2CD96A16D0</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -88,6 +92,7 @@
 		<bitrate>50</bitrate>
 		<date>708571</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>7D34FCAB:B60C:3415:D73E:BF01C9DD55B7</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -107,6 +112,7 @@
 		<bitrate>50</bitrate>
 		<date>732677</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>79B0C800:5593:9816:4A66:801E2E2221D5</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -124,6 +130,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>964DD16D:C9C0:E636:2FB3:A29AE52F4036</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -141,6 +148,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>7452CE2A:54F6:CE52:053E:DE9CBC13F686</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -158,6 +166,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>26F28C48:3532:BB7A:F7C9:558C513F7D53</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -177,6 +186,7 @@
 		<bitrate>50</bitrate>
 		<date>733408</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>FD49C0EE:A5AA:F861:48D6:0EAE7322DD81</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -195,6 +205,7 @@
 		<bitrate>138</bitrate>
 		<date>733408</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>6F1392C7:DA08:62FE:B581:789DFD3DC5C5</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -213,6 +224,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>2CC27B53:763B:08F4:B057:E3D6F02290E4</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -232,6 +244,7 @@
 		<bitrate>50</bitrate>
 		<date>731216</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>E12EC8C4:AACF:7672:7EFE:C34E784374B1</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -249,6 +262,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>0F2256B1:9DD3:F8CC:A16E:27A13D1A6BB6</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -268,6 +282,7 @@
 		<bitrate>50</bitrate>
 		<date>733042</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>49F90E3B:E281:C2E5:ADF3:DE050AC801DD</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -287,6 +302,7 @@
 		<bitrate>50</bitrate>
 		<date>733042</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>AF68A93D:A4D0:4EF9:398B:FE813D34CD8E</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -304,6 +320,7 @@
 		<bitrate>50</bitrate>
 		<date>0</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>CB9FED83:BA18:5CB3:B7E3:F97294BC5FE3</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -323,6 +340,7 @@
 		<bitrate>50</bitrate>
 		<date>729025</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>CB5DDD55:68F9:2D00:DAF1:3A779548306B</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -342,6 +360,7 @@
 		<bitrate>50</bitrate>
 		<date>731947</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>3E54E3E3:5B76:488A:36D9:0DF5E16A81BC</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -359,6 +378,7 @@
 		<bitrate>50</bitrate>
 		<date>1</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>B769F1C8:C971:22DA:F856:575B765343FE</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -376,6 +396,7 @@
 		<bitrate>50</bitrate>
 		<date>1</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>C7BE5D94:A4E1:1AEA:B188:9A26EDDB2184</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -393,6 +414,7 @@
 		<bitrate>50</bitrate>
 		<date>1</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>61C33889:AE0A:C766:5CC7:80DE8930CBD0</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -410,6 +432,7 @@
 		<bitrate>50</bitrate>
 		<date>1</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>C2F71D2E:F532:5619:55B2:58210F7B4493</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -427,6 +450,7 @@
 		<bitrate>50</bitrate>
 		<date>1</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>9C9CA119:D932:706E:713D:8B6FC0382E1C</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
@@ -444,6 +468,7 @@
 		<bitrate>50</bitrate>
 		<date>729755</date>
 		<media-type>audio/mpeg</media-type>
+		<mb-trackid>F977C82F:D772:CE75:38CC:7067E8837C04</mb-trackid>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">

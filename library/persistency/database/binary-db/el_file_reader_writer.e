@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_BINARY_FILE_READER_WRITER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2016-01-02 12:25:46 GMT (Saturday 2nd January 2016)"
+	revision: "5"
 
 class
 	EL_FILE_READER_WRITER [G -> EL_STORABLE create make_default end]
@@ -20,13 +20,17 @@ inherit
 			write_header as memory_write_header
 		export
 			{NONE} all
-			{ANY} set_for_reading, set_for_writing, data, count, reset_count, buffer, write_integer_32, write_natural_8_array,
-			set_data_version
+			{ANY} buffer, data, data_version, count,
+					is_default_data_version,
+					reset_count,
+					set_for_reading, set_for_writing, set_data_version, set_default_data_version,
+					size_of_string, size_of_string_8, size_of_string_32,
+					write_integer_32, write_natural_8_array
 		redefine
 			new_item
 		end
 
-	EL_MODULE_LOG
+--	EL_MODULE_LOG
 
 create
 	make

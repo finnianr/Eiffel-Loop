@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {RHYTHMBOX_MUSIC_MANAGER_APP}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 9:26:50 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -94,7 +99,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Arg_config: ASTRING
+	Arg_config: ZSTRING
 		once
 			Result := "config"
 		end
@@ -114,13 +119,15 @@ feature {NONE} -- Constants
 				[{RBOX_DATABASE}, All_routines],
 
 				[{TEST_MUSIC_MANAGER}, All_routines],
-				[{TEST_USB_DEVICE}, All_routines],
+				[{TEST_STORAGE_DEVICE}, All_routines],
 
-				[{USB_DEVICE}, All_routines],
-				[{NOKIA_USB_DEVICE}, All_routines],
-				[{GALAXY_TABLET_USB_DEVICE}, All_routines]
+				[{STORAGE_DEVICE}, All_routines],
+				[{NOKIA_PHONE_DEVICE}, All_routines],
+				[{SAMSUNG_TABLET_DEVICE}, All_routines],
 --				[{EL_WAV_GENERATION_COMMAND}, All_routines],
 --				[{EL_WAV_TO_MP3_COMMAND}, All_routines]
+				[{EL_VIDEO_TO_MP3_COMMAND}, All_routines]
+
 			>>
 		end
 

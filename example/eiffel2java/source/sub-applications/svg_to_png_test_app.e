@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {SVG_TO_PNG_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-24 11:51:54 GMT (Monday 24th June 2013)"
-	revision: "2"
+	date: "2015-12-26 18:14:02 GMT (Saturday 26th December 2015)"
+	revision: "4"
 
 class
 	SVG_TO_PNG_TEST_APP
@@ -75,7 +75,7 @@ feature -- Test
 			output_path.add_extension ("png")
 			transcoder.set_width (width)
 			transcoder.set_background_color_with_24_bit_rgb (Colors [index])
-			transcoder.transcode (svg_path.to_string.to_latin1, output_path.to_string.to_latin1)
+			transcoder.transcode (svg_path.to_string.to_latin_1, output_path.to_string.to_latin_1)
 			log.exit
 		end
 

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Servlet service that runs in a background worker thread"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-17 13:37:38 GMT (Wednesday 17th September 2014)"
-	revision: "4"
+	date: "2015-12-20 16:30:52 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 deferred class
 	EL_BACKGROUND_FAST_CGI_SERVLET_SERVICE
@@ -38,7 +38,7 @@ inherit
 
 feature {EL_SERVLET_SUB_APPLICATION} -- Initialization
 
-	make (config_dir: EL_DIR_PATH; config_name: ASTRING)
+	make (config_dir: EL_DIR_PATH; config_name: ZSTRING)
 		do
 			Precursor (config_dir, config_name)
 			make_thread
@@ -105,18 +105,18 @@ feature {NONE} -- Implementation
 			web.close
 		end
 
-	protocol: ASTRING
+	protocol: ZSTRING
 		deferred
 		end
 
 feature {NONE} -- Constants
 
-	Default_protocol: ASTRING
+	Default_protocol: ZSTRING
 		once
 			Result := "http"
 		end
 
-	Secure_protocol: ASTRING
+	Secure_protocol: ZSTRING
 		once
 			Result := "https"
 		end

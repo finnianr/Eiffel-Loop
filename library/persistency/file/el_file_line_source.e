@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_FILE_STRING_LIST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-16 17:53:57 GMT (Tuesday 16th September 2014)"
-	revision: "4"
+	date: "2016-01-18 13:30:24 GMT (Monday 18th January 2016)"
+	revision: "6"
 
 class
 	EL_FILE_LINE_SOURCE
@@ -21,15 +21,15 @@ inherit
 		export
 			{ANY} text_file
 		redefine
-			default_create
+			make_default
 		end
 
 create
-	default_create, make, make_latin_1, make_from_file
+	make_default, make, make_latin_1, make_from_file
 
 feature {NONE} -- Initialization
 
-	default_create
+	make_default
 			--
 		do
 			Precursor
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 	make (a_file_path: EL_FILE_PATH)
 		do
-			default_create
+			make_default
 			create text_file.make_with_name (a_file_path)
 			make_from_file (text_file)
 			is_source_external := False -- Causes file to close automatically when after position is reached

@@ -1,16 +1,16 @@
-note
+﻿note
 	description: "[
 		Guards objects that require thread synchronization and helps to detect deadlock.
 		Any time a thread is forced to wait for a lock it is reported to the thread's log.
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:30 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2015-05-10 15:49:05 GMT (Sunday 10th May 2015)"
+	revision: "2"
 
 class
 	EL_LOGGED_MUTEX_REFERENCE [G]

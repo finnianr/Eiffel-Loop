@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_EXPAT_XML_PARSER_INPUT_MEDIUM}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-17 18:55:48 GMT (Thursday 17th December 2015)"
+	revision: "4"
 
 class
 	EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
@@ -23,7 +23,7 @@ inherit
 	EL_XML_PARSER_OUTPUT_MEDIUM
 		rename
 			make as make_output,
-			put_string as put_string_8
+			put_string as put_encoded_string_8
 		end
 
 	EL_OUTPUT_MEDIUM

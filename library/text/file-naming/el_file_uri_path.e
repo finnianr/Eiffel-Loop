@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_FILE_URI_PATH}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 7:07:37 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 class
 	EL_FILE_URI_PATH
@@ -17,16 +22,16 @@ inherit
 	EL_URI_PATH
 
 create
-	default_create, make, make_from_unicode, make_from_latin1, make_from_path, make_from_file_path
+	default_create, make, make_from_unicode, make_from_latin_1, make_from_path, make_from_file_path
 
 convert
-	make ({ASTRING}),
-	make_from_latin1 ({STRING}),
+	make ({ZSTRING}),
+	make_from_latin_1 ({STRING}),
 	make_from_unicode ({STRING_32}),
 	make_from_path ({PATH}),
 	make_from_file_path ({EL_FILE_PATH}),
 
- 	to_string: {ASTRING}, unicode: {READABLE_STRING_GENERAL}, steps: {EL_PATH_STEPS}, to_path: {PATH}
+ 	to_string: {ZSTRING}, unicode: {READABLE_STRING_GENERAL}, steps: {EL_PATH_STEPS}, to_path: {PATH}
 
 feature {NONE} -- Initialization
 

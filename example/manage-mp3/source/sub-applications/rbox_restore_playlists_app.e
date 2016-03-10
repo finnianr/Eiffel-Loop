@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {RBOX_RESTORE_PLAYLISTS_APP}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-09-30 17:31:15 GMT (Monday 30th September 2013)"
-	revision: "3"
+	date: "2015-09-12 12:11:30 GMT (Saturday 12th September 2015)"
+	revision: "5"
 
 class
 	RBOX_RESTORE_PLAYLISTS_APP
@@ -74,7 +74,7 @@ feature {NONE} -- Constants
 	Description: STRING = "Restores playslist from /home/<user>/.local/share/rhythmbox/playlists.backup.xml"
 
 	Warning_prompt: STRING = "[
-		This application will rewrite the playlists using track ids stored in playlists.backup.xml
+		This application will rewrite the playlists using audio ids stored in playlists.backup.xml
 	]"
 
 	Log_filter: ARRAY [like Type_logging_filter]
@@ -85,7 +85,7 @@ feature {NONE} -- Constants
 				[{EL_TEST_ROUTINES}, "*"],
 				[{RBOX_SONG}, "*"],
 				[{RBOX_DATABASE}, "*"],
-				[{RBOX_PLAYLIST}, "set_name_from_node", "add_song_from_track_id"]
+				[{RBOX_PLAYLIST}, "set_name_from_node", "add_song_from_audio_id"]
 			>>
 		end
 

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_SERVLET_CONFIG}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-20 17:03:47 GMT (Sunday 20th December 2015)"
+	revision: "7"
 
 class
 	EL_SERVLET_CONFIG
@@ -57,7 +57,7 @@ feature -- Access
 
 	document_root_dir: EL_DIR_PATH
 
-	error_messages: EL_ASTRING_LIST
+	error_messages: EL_ZSTRING_LIST
 
 	phrase: like new_pass_phrase
 
@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 	set_document_root_dir (a_document_root_dir: like document_root_dir)
 		do
 			document_root_dir := a_document_root_dir
-			document_root_utf8 := document_root_dir.to_string.to_utf8
+			document_root_utf8 := document_root_dir.to_string.to_utf_8
 		end
 
 	new_pass_phrase: EL_BUILDABLE_PASS_PHRASE

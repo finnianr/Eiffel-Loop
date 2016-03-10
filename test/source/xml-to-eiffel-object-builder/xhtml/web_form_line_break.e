@@ -6,14 +6,17 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-24 14:49:11 GMT (Thursday 24th December 2015)"
+	revision: "4"
 
 class
 	WEB_FORM_LINE_BREAK
 
 inherit
 	WEB_FORM_COMPONENT
+		rename
+			make_default as make
+		end
 
 create
 	make

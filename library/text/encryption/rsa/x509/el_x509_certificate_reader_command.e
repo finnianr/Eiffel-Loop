@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Parse public key from crt output text
 		
@@ -33,10 +33,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-19 16:45:53 GMT (Friday 19th September 2014)"
-	revision: "4"
+	date: "2015-12-20 13:53:12 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	EL_X509_CERTIFICATE_READER_COMMAND
@@ -86,14 +86,14 @@ feature -- Access
 
 feature {NONE} -- State handlers
 
-	find_modulus (line: ASTRING)
+	find_modulus (line: ZSTRING)
 		do
 			if line.starts_with (Field_modulus) then
 				state := agent find_exponent
 			end
 		end
 
-	find_exponent (line: ASTRING)
+	find_exponent (line: ZSTRING)
 		do
 			if line.starts_with (Field_exponent) then
 				create public_key.make_from_hex_byte_sequence (hex_byte_sequence)
@@ -112,7 +112,7 @@ feature {NONE} -- Implementation
 			parse_lines (agent find_modulus, lines)
 		end
 
-	call (line: ASTRING)
+	call (line: ZSTRING)
 		do
 			line.left_adjust
 			Precursor (line)
@@ -128,14 +128,20 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["crt_file_path", agent: EL_PATH do Result := crt_file_path end]
+				["crt_file_path", agent: ZSTRING do Result := escaped_path (crt_file_path) end]
 			>>)
 		end
 
 feature {NONE} -- Constants
 
-	Field_modulus: STRING = "Modulus:"
+	Field_modulus: ZSTRING
+		once
+			Result := "Modulus:"
+		end
 
-	Field_exponent: STRING = "Exponent:"
+	Field_exponent: ZSTRING
+		once
+			Result := "Exponent:"
+		end
 
 end

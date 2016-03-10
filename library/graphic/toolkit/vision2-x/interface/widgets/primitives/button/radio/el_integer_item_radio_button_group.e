@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_INTEGER_ITEM_RADIO_BUTTON_GROUP}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-26 11:22:59 GMT (Saturday 26th December 2015)"
+	revision: "6"
 
 class
 	EL_INTEGER_ITEM_RADIO_BUTTON_GROUP
@@ -35,12 +35,12 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	suffix: ASTRING
+	suffix: ZSTRING
 		-- display suffix
 
 feature {NONE} -- Implementation
 
-	displayed_value (value: INTEGER): ASTRING
+	displayed_value (value: INTEGER): ZSTRING
 		do
 			create Result.make (2)
 			Result.append_integer (value)

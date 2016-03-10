@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_FILTERABLE_CHAIN}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-18 10:43:05 GMT (Wednesday 18th December 2013)"
-	revision: "3"
+	date: "2014-12-31 10:29:02 GMT (Wednesday 31st December 2014)"
+	revision: "4"
 
 deferred class EL_QUERYABLE_CHAIN [G]
 

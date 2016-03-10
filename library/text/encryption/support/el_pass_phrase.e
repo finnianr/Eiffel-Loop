@@ -1,24 +1,19 @@
-note
+﻿note
 	description: "Summary description for {EL_PASS_PHRASE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-20 12:44:01 GMT (Sunday 20th December 2015)"
+	revision: "4"
 
 class
 	EL_PASS_PHRASE
 
 inherit
 	EL_MODULE_BASE_64
-
-	EL_MODULE_STRING
-		rename
-			String as Mod_string
-		end
 
 	UUID_GENERATOR
 		export
@@ -62,7 +57,7 @@ feature -- Access
 			Result := base_64.encoded_special (digest)
 		end
 
-	password_strength: ASTRING
+	password_strength: ZSTRING
 		do
 			Result := English_password_strengths [security_score]
 		end
@@ -72,7 +67,7 @@ feature -- Access
 			Result := base_64.encoded_special (salt)
 		end
 
-	security_description: ASTRING
+	security_description: ZSTRING
 			--
 		do
 			if security_score > 0 then
@@ -119,7 +114,7 @@ feature -- Access
 			Result := Result.min (English_password_strengths.count)
 		end
 
-	string: ASTRING
+	string: ZSTRING
 
 feature -- Element change
 
@@ -206,7 +201,7 @@ feature {NONE} -- Implementation
 			create Result.make_filled (1, 32)
 			create md5.make
 			create md5_hash.make_filled (1, 16)
-			phrase_data := Mod_string.to_code_array (string.to_utf8)
+			phrase_data := String_8.to_code_array (string.to_utf_8)
 			from i := 0 until i > 50 loop
 				if i \\ 2 = 0 then
 					data := phrase_data
@@ -267,12 +262,12 @@ feature {NONE} -- Constants
 			create Result.make_filled (0, 24)
 		end
 
-	English_invalid_pass_phrase: ASTRING
+	English_invalid_pass_phrase: ZSTRING
 		once
 			Result := "Pass phrase is invalid"
 		end
 
-	English_user_prompt: ASTRING
+	English_user_prompt: ZSTRING
 		once
 			Result := "Enter pass phrase"
 		end
@@ -298,9 +293,9 @@ feature {NONE} -- Constants
 			Result := << 8, 10, 12, 14, 16, 18 >>
 		end
 
-	Security_description_template: ASTRING
+	Security_description_template: ZSTRING
 		once
-			Result := "Passphrase strength $S ($S)"
+			Result := "Passphrase strength %S (%S)"
 		end
 
 end

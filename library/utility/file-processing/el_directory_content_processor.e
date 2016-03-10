@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-25 8:44:56 GMT (Tuesday 25th June 2013)"
-	revision: "2"
+	date: "2015-12-20 13:05:48 GMT (Sunday 20th December 2015)"
+	revision: "4"
 
 class
 	EL_DIRECTORY_CONTENT_PROCESSOR
@@ -68,18 +68,14 @@ feature -- Element change
 feature -- Basic operations
 
 	do_all (
-		file_processing_action: PROCEDURE [ANY, TUPLE [EL_FILE_PATH, EL_DIR_PATH, STRING, STRING]]
+		file_processing_action: PROCEDURE [ANY, TUPLE [EL_FILE_PATH, EL_DIR_PATH, ZSTRING, ZSTRING]]
 		wild_card: STRING
 	)
 			-- Apply file processing action to every file from input dir
-		require
-			input_dir_assigned: input_dir /= Void
-			output_dir_assigned: output_dir /= Void
 		local
-			output_file_unqualified_name, output_file_extension: STRING
-			destination_dir_path: EL_DIR_PATH
+			output_file_unqualified_name, output_file_extension: ZSTRING
+			destination_dir_path: EL_DIR_PATH; input_file_path: EL_FILE_PATH
 			input_file_path_steps, output_file_dir_path_steps: EL_PATH_STEPS
-			input_file_path: EL_FILE_PATH
 			dot_pos: INTEGER
 		do
 			create input_file_path_steps.make_with_count (20)

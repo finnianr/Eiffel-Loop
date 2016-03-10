@@ -1,16 +1,16 @@
-note
+﻿note
 	description: "[
 		Efficient Boyer-Moore Search for Unicode Strings
 		See: http://www.codeproject.com/KB/recipes/bmsearch.aspx
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2016-01-10 9:43:20 GMT (Sunday 10th January 2016)"
+	revision: "3"
 
 class
 	EL_BOYER_MOORE_SEARCHER_32
@@ -87,18 +87,16 @@ feature -- Access
 			-- index of first pattern occurrence in text starting from 'start_index'
 			-- Returns 0 if not found
 		local
-			pos, i, shift: INTEGER
-			position_shifted, found: BOOLEAN
+			pos, i, shift: INTEGER; position_shifted, found: BOOLEAN
+			shifts: like char_shifts; other_shifts: like other_char_shifts
 		do
---			log.enter ("search")
+			shifts := char_shifts; other_shifts := other_char_shifts
 			from pos := start_index until found or pos > text.count - pattern_count + 1 loop
 				position_shifted := False
---				log.put_integer_field ("pos", pos)
---				log.put_new_line
 				from i := pattern_count until position_shifted or i = 0 loop
-					char_shifts.search (text [pos + i - 1])
-					if char_shifts.found then
-						shift := char_shifts.found_item [i]
+					shifts.search (text [pos + i - 1])
+					if shifts.found then
+						shift := shifts.found_item [i]
 						if shift /= 0 then
 							pos := pos + shift
 							position_shifted := True
@@ -108,13 +106,12 @@ feature -- Access
 							found := True
 						end
 					else
-						pos := pos + other_char_shifts [i]
+						pos := pos + other_shifts [i]
 						position_shifted := True
 					end
 					i := i - 1
 				end
 			end
---			log.exit
 		end
 
 feature -- Basic operations

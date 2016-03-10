@@ -1,25 +1,18 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-25 9:07:13 GMT (Friday 25th December 2015)"
+	revision: "6"
 
 class
 	EL_XML_NODE
 
 inherit
-	EL_MODULE_STRING
-		export
-			{NONE} all
-		undefine
-			default_create
-		end
-
 	EL_MODULE_UTF
 		export
 			{NONE} all
@@ -120,13 +113,13 @@ feature -- Access
 
 feature -- Extended Latin
 
-	to_raw_string: ASTRING
+	to_raw_string: ZSTRING
 			--
 		do
 			Result := raw_content
 		end
 
-	to_string: ASTRING
+	to_string: ZSTRING
 			--
 		do
 			Result := raw_content
@@ -140,7 +133,7 @@ feature -- Extended Latin
 			trim (Result)
 		end
 
-	to_trim_lines: EL_ASTRING_LIST
+	to_trim_lines: EL_ZSTRING_LIST
 			-- left and right adjusted list of line strings
 		do
 			create Result.make_with_lines (to_string)
@@ -149,7 +142,7 @@ feature -- Extended Latin
 			end
 		end
 
-	to_normalized_case_string: ASTRING
+	to_normalized_case_string: ZSTRING
 			--
 		do
 			Result := to_normalized_case_string_32
@@ -316,8 +309,7 @@ feature -- Status query
 			Result := to_string_32.is_equal (a_string)
 		end
 
-feature -- Implementation
-	{EL_XML_PARSE_EVENT_SOURCE, EL_XML_NODE, EL_XML_ATTRIBUTE_LIST, EL_XML_DOCUMENT_SCANNER, EL_EIF_OBJ_BUILDER_CONTEXT}
+feature {EL_XML_NODE_CLIENT, EL_XML_NODE} -- Implementation	
 
 	raw_content: STRING_32
 		-- Unadjusted text content of node

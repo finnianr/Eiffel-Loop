@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_HTML_TEXT_2}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-26 17:24:06 GMT (Saturday 26th December 2015)"
+	revision: "5"
 
 class
 	EL_HTML_TEXT
@@ -23,11 +23,6 @@ inherit
 		end
 
 	EL_MODULE_GUI
-		undefine
-			default_create, copy
-		end
-
-	EL_MODULE_STRING
 		undefine
 			default_create, copy
 		end
@@ -109,7 +104,7 @@ feature -- Access
 
 	link_text_color: EL_COLOR
 
-	page_title: ASTRING
+	page_title: ZSTRING
 
 feature {NONE} -- Xpath event handlers
 
@@ -244,6 +239,9 @@ feature {NONE} -- Implementation
 
 				[on_open, "//text()", 			agent on_text],
 				[on_open, "//br",  				agent on_line_break],
+
+				[on_open, "//b", 					agent do text_blocks.last.enable_bold end],
+				[on_close, "//b",  				agent do text_blocks.last.disable_bold end],
 
 				[on_open, "//i", 					agent do text_blocks.last.enable_italic end],
 				[on_close, "//i",  				agent do text_blocks.last.disable_italic end],

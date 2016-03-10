@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		RSAPrivateKey ::= SEQUENCE {
 		    version           Version,
@@ -17,10 +17,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-19 18:40:58 GMT (Friday 19th September 2014)"
-	revision: "4"
+	date: "2015-12-19 15:01:04 GMT (Saturday 19th December 2015)"
+	revision: "6"
 
 class
 	EL_PKCS1_RSA_PRIVATE_KEY_READER
@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 			extend_values
 		end
 
-	make_from_lines (lines: ARRAYED_LIST [ASTRING])
+	make_from_lines (lines: ARRAYED_LIST [ZSTRING])
 		do
 			make
 			do_with_lines (agent find_first_variable, lines)
@@ -67,11 +67,11 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	values: HASH_TABLE [INTEGER_X, ASTRING]
+	values: HASH_TABLE [INTEGER_X, STRING]
 
 feature {NONE} -- State handlers
 
-	find_first_variable (line: ASTRING)
+	find_first_variable (line: ZSTRING)
 		do
 			if line.starts_with (Var_modulus) then
 				find_next_variable (line)
@@ -79,7 +79,7 @@ feature {NONE} -- State handlers
 			end
 		end
 
-	find_next_variable (line: ASTRING)
+	find_next_variable (line: ZSTRING)
 		do
 			if line.substring (1, 4).occurrences (' ') = 4 then
 				last_value.append (line)
@@ -108,8 +108,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	last_value: ASTRING
+	last_value: ZSTRING
 
-	last_name: ASTRING
+	last_name: ZSTRING
 
 end

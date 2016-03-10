@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Collection of all deployment.javaws.jre.* properties divided up into versions
 		deployment.javaws.jre.<version no>.<key>=<value>
@@ -7,20 +7,15 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-26 18:17:54 GMT (Saturday 26th December 2015)"
+	revision: "7"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES
 
 inherit
-	EL_MODULE_STRING
-		redefine
-			default_create
-		end
-
 	EL_MODULE_LOG
 		undefine
 			default_create
@@ -49,7 +44,7 @@ feature {NONE} -- Initialization
 			default_create
 			create property_lines.make (file_path)
 			across property_lines as line loop
-				if not line.item.starts_with (once "#") then
+				if not line.item.starts_with_general (once "#") then
 					import_line (line.item)
 				end
 			end
@@ -64,7 +59,7 @@ feature -- Access
 		-- JRE Java web start properties by version
 
 
-	profiles: EL_ASTRING_HASH_TABLE [like webstart_profiles]
+	profiles: EL_ZSTRING_HASH_TABLE [like webstart_profiles]
 
 feature -- Basic operations
 
@@ -96,11 +91,11 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	import_line (line: ASTRING)
+	import_line (line: ZSTRING)
 			--
 		local
-			key_path_list: LIST [ASTRING]
-			key, value, profile_type: ASTRING
+			key_path_list: LIST [ZSTRING]
+			key, value, profile_type: ZSTRING
 			profile_id, pos_equal_sign, pos_profile_id: INTEGER
 		do
 			pos_equal_sign := line.index_of ('=', 1)
@@ -120,14 +115,14 @@ feature {NONE} -- Implementation
 				key := key_path_list.last
 				profile_id := key_path_list.i_th (pos_profile_id).to_integer + 1
 				if key ~ Key_path or key ~ Key_location then
-					add_property (profiles [profile_type], key, value.unescaped ('\', Escaped_characters), profile_id)
+					add_property (profiles [profile_type], key, value.unescaped (Escaped_characters), profile_id)
 				else
 					add_property (profiles [profile_type], key, value, profile_id)
 				end
 			end
 		end
 
-	add_property (a_profile: like webstart_profiles; key, value: ASTRING; version: INTEGER)
+	add_property (a_profile: like webstart_profiles; key, value: ZSTRING; version: INTEGER)
 		do
 --			log.enter_with_args ("add_property", << key, value, version >>)
 			if version > a_profile.count then
@@ -139,40 +134,40 @@ feature {NONE} -- Implementation
 --			log.exit
 		end
 
-	new_properties: EL_ASTRING_HASH_TABLE [ASTRING]
+	new_properties: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		do
 			create Result.make_equal (7)
 		end
 
 feature {NONE} -- Constants
 
-	Var_javaws: ASTRING
+	Var_javaws: ZSTRING
 		once
 			Result := "javaws"
 		end
 
-	Var_jre: ASTRING
+	Var_jre: ZSTRING
 		once
 			Result := "jre"
 		end
 
-	Key_path: ASTRING
+	Key_path: ZSTRING
 		once
 			Result := "path"
 		end
 
-	Key_location: ASTRING
+	Key_location: ZSTRING
 		once
 			Result := "location"
 		end
 
-	Escaped_characters: EL_HASH_TABLE [CHARACTER_32, CHARACTER_32]
-			--
+	Escaped_characters: EL_ESCAPE_TABLE
+		local
+			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
 		once
-			create Result.make (<<
-				[{CHARACTER_32} '\', {CHARACTER_32} '\'],
-				[{CHARACTER_32} ':', {CHARACTER_32} ':']
-			>>)
+			create Result.make ('\', table)
+			create table.make (3)
+			table [':'] := ':'
 		end
 
 end

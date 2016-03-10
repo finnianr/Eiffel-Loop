@@ -1,15 +1,19 @@
-note
+﻿note
 	description: "[
 		Edits an Eiffel class by expanding feature abbreviations: @f {xx OR @f xx
 		where xx is a 2 letter code for a common feature label. The { character is 
 		expanded as {NONE}. Also reorders features alphabetically
 		
 		Expand @set <name> as setter routine
-
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-01-18 12:07:40 GMT (Monday 18th January 2016)"
+	revision: "6"
 
 class
 	EIFFEL_FEATURE_EDITOR_APP
@@ -23,21 +27,13 @@ inherit
 feature -- Testing
 
 	test_run
-			--
+			-- Passed Jan 2016
 		do
---			Test.do_file_test ("Eiffel/utf8-sources/tests/el_iso_8859_10_codec.e", agent test_file_edit, 170399589) -- March 2015
---			Test.do_file_test ("Eiffel/latin1-sources/parse/job_duration_parser.e", agent test_file_edit, 1281349911) -- March 2015
---			Test.do_file_test (
---				"Eiffel/latin1-sources/os-command/el_mp3_convert_command.e", agent test_file_edit,
---				3935449204 -- Jan 2015
---			)
---			Test.do_file_test (
---				"Eiffel/latin1-sources/os-command/spec/unix/EL_COPY_FILE_IMPL.e", agent test_file_edit,
---				1139986973 -- Jan 2015
---			)
-			Test.do_file_test (
-				"Eiffel/latin1-sources/email/subscription_delivery_email.e", agent test_file_edit, 1599303034
-			) -- March 2015
+			Test.do_file_test ("Eiffel/utf8-sources/tests/el_iso_8859_10_codec.e", agent test_file_edit, 3070285652)
+			Test.do_file_test ("Eiffel/latin1-sources/parse/job_duration_parser.e", agent test_file_edit, 2635298670)
+			Test.do_file_test ("Eiffel/latin1-sources/os-command/el_mp3_convert_command.e", agent test_file_edit, 3336329624)
+			Test.do_file_test ("Eiffel/latin1-sources/os-command/spec/unix/EL_COPY_FILE_IMPL.e", agent test_file_edit, 1693063132)
+			Test.do_file_test ("Eiffel/latin1-sources/email/subscription_delivery_email.e", agent test_file_edit, 1599303034)
 		end
 
 	test_file_edit (a_source_path: EL_FILE_PATH)

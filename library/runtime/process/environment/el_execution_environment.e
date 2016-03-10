@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_EXECUTION_ENVIRONMENT}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-23 15:15:06 GMT (Sunday 23rd March 2014)"
-	revision: "6"
+	date: "2015-12-16 17:44:37 GMT (Wednesday 16th December 2015)"
+	revision: "8"
 
 class
 	EL_EXECUTION_ENVIRONMENT
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 
-			executable_path := create_executable_path
+			executable_path := new_executable_path
 --			io.put_string ("Executable path: " + executable_path.to_string.out)
 --			io.put_new_line
 		end
@@ -55,12 +55,12 @@ feature -- Access
 			Result := executable_path.parent
 		end
 
-	data_dir_name_prefix: ASTRING
+	data_dir_name_prefix: ZSTRING
 		do
 			Result := implementation.data_dir_name_prefix
 		end
 
-	executable_name: ASTRING
+	executable_name: ZSTRING
 			-- Name of currently executing command
 		local
 			l_command_path: EL_FILE_PATH
@@ -73,13 +73,13 @@ feature -- Access
 			-- absolute path to currently executing command
 			-- or empty path if not found
 
-	executable_search_path: ASTRING
+	executable_search_path: ZSTRING
 			--
 		do
-			create Result.make_from_unicode (item ("PATH"))
+			Result := item ("PATH")
 		end
 
-	user_configuration_directory_name: STRING
+	user_configuration_directory_name: ZSTRING
 			--
 		do
 			Result := implementation.User_configuration_directory_name
@@ -146,9 +146,9 @@ feature -- Transformation
 			-- Absolute path to command in the search path
 			-- Empty if not found
 		local
-			path_list, extensions: LIST [ASTRING]
+			path_list, extensions: LIST [ZSTRING]
 			base_permutation_path, full_permutation_path: EL_FILE_PATH
-			extension: ASTRING
+			extension: ZSTRING
 		do
 			create Result
 			path_list := executable_search_path.split (Operating.Search_path_separator)
@@ -172,28 +172,28 @@ feature -- Transformation
 			end
 		end
 
-	dynamic_module_name (module_name: ASTRING): ASTRING
+	dynamic_module_name (module_name: ZSTRING): ZSTRING
 			-- normalized name for platform
 			-- name = "svg"
 			-- 	Linux: Result = "libsvg.so"
 			-- 	Windows: Result = "svg.dll"
 		do
 			create Result.make (module_name.count + 7)
-			Result.append_string (Operating.C_library_prefix)
+			Result.append_string_general (Operating.C_library_prefix)
 			Result.append (module_name)
 			Result.append_character ('.')
-			Result.append_string (Operating.Dynamic_module_extension)
+			Result.append_string_general (Operating.Dynamic_module_extension)
 		end
 
 feature -- Element change
 
-	extend_executable_search_path (a_path: ASTRING)
+	extend_executable_search_path (a_path: ZSTRING)
 			--
 		local
-			new_path, bin_path: ASTRING
+			new_path, bin_path: ZSTRING
 		do
 			new_path := executable_search_path
-			bin_path := a_path.string
+			bin_path := a_path.twin
 
 			if bin_path @ 1 = '"' and bin_path @ bin_path.count = '"' then
 				bin_path.remove_head (1)
@@ -207,7 +207,7 @@ feature -- Element change
 			end
 		end
 
-	set_executable_search_path (env_path: ASTRING)
+	set_executable_search_path (env_path: ZSTRING)
 			--
 		do
 			put (env_path.to_unicode, "PATH")
@@ -215,7 +215,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	create_executable_path: EL_FILE_PATH
+	new_executable_path: EL_FILE_PATH
 		do
 			create Result.make_from_unicode (Args.command_name)
 --			if not current_working_directory.is_parent_of (Result) then
@@ -237,7 +237,7 @@ feature -- Constants
 
 	Nanosecs_per_millisec: INTEGER_64 = 1000000
 
-	W_code: ASTRING
+	W_code: ZSTRING
 		once
 			Result := "W_code"
 		end

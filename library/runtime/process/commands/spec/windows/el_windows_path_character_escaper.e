@@ -1,12 +1,16 @@
-note
+﻿note
 	description: "[
 		Characters that have a special meaning for Windows command interprator and should 
 		be escaped in path arguments.
-
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-12-17 15:49:41 GMT (Wednesday 17th December 2014)"
+	revision: "2"
 
 class
 	EL_WINDOWS_PATH_CHARACTER_ESCAPER
