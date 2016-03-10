@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {DJ_EVENT_TANDA}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 9:14:50 GMT (Wednesday 16th December 2015)"
+	revision: "8"
 
 class
 	DJ_EVENT_HTML_PAGE
@@ -33,7 +38,7 @@ feature {NONE} -- Initialization
 
 	make (a_DJ_event: like DJ_event; a_template_path, a_output_path: like output_path)
 		local
-			playlist_duration: TIME_DURATION; tanda_type: ASTRING
+			playlist_duration: TIME_DURATION; tanda_type: ZSTRING
 			song: RBOX_SONG; played_list: PLAYLIST
 		do
 			make_from_template_and_output (a_template_path, a_output_path)

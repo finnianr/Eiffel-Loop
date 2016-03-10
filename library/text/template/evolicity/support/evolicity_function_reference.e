@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EVOLICITY_FUNCTION_REFERENCE}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-24 15:45:11 GMT (Sunday 24th November 2013)"
-	revision: "4"
+	date: "2015-12-16 8:15:18 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EVOLICITY_FUNCTION_REFERENCE
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_variable_ref_steps: ARRAY [ASTRING]; a_arguments: like arguments)
+	make (a_variable_ref_steps: ARRAY [ZSTRING]; a_arguments: like arguments)
 		do
 			make_from_array (a_variable_ref_steps)
 			arguments := a_arguments

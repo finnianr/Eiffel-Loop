@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_PIXMAP}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-05 16:00:44 GMT (Sunday 5th October 2014)"
-	revision: "5"
+	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
+	revision: "6"
 
 class
 	EL_PIXMAP

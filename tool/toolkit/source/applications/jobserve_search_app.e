@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-20 14:00:29 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	JOBSERVE_SEARCH_APP
@@ -68,19 +68,19 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_root_node (file_path: ASTRING)
+	set_root_node (file_path: ZSTRING)
 			--
 		do
 			create root_node.make_from_file (file_path)
 		end
 
-	set_query_filter (a_query_filter: ASTRING)
+	set_query_filter (a_query_filter: ZSTRING)
 			--
 		do
 			query_filter := a_query_filter
 			if not query_filter.is_empty then
-				query_filter.prepend_string (" and (")
-				query_filter.append_string (")")
+				query_filter.prepend_string_general (" and (")
+				query_filter.append_character (')')
 			end
 		end
 
@@ -95,7 +95,7 @@ feature {NONE} -- Tests
 			log.enter ("test_parser")
 			create duration_text_list.make (file_path)
 			from duration_text_list.start until duration_text_list.after loop
-				end_index := duration_text_list.item.substring_index ("(occurrences:", 1) - 2
+				end_index := duration_text_list.item.substring_index_general ("(occurrences:", 1) - 2
 				duration_parser.set_duration_interval (duration_text_list.item.substring (1, end_index))
 
 				log.put_integer_interval_field ("Range", duration_parser.duration_interval)
@@ -114,7 +114,7 @@ feature {NONE} -- Implementation: attributes
 
 	duration_parser: JOB_DURATION_PARSER
 
-	query_filter: ASTRING
+	query_filter: STRING
 
 feature {NONE} -- Constants
 

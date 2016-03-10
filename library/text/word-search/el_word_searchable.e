@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_WORD_SEARCHABLE}."
 
 	author: "Finnian Reilly"
@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-26 13:51:15 GMT (Wednesday 26th March 2014)"
-	revision: "5"
+	date: "2016-01-05 11:43:19 GMT (Tuesday 5th January 2016)"
+	revision: "7"
 
 deferred class
 	EL_WORD_SEARCHABLE
 
 feature {NONE} -- Initialization
 
-	make (a_word_table: like Type_word_table)
+	make (a_word_table: like word_table)
 			--
 		do
 			create searchable_words.make_empty
@@ -23,7 +23,7 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_word_table (a_word_table: like Type_word_table)
+	set_word_table (a_word_table: like word_table)
 		do
 			word_table := a_word_table
 			searchable_words.set_word_table (a_word_table)
@@ -117,7 +117,7 @@ feature -- Access
 
 feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 
-	last_word (paragraph: ASTRING): ASTRING
+	last_word (paragraph: ZSTRING): ZSTRING
 		local
 			i: INTEGER
 		do
@@ -133,7 +133,7 @@ feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 			Result.to_lower
 		end
 
-	tokenized_paragraphs (paragraphs: LIST [ASTRING]): ARRAYED_LIST [EL_TOKENIZED_STRING]
+	tokenized_paragraphs (paragraphs: LIST [ZSTRING]): ARRAYED_LIST [EL_TOKENIZED_STRING]
 			--
 		do
 			create Result.make (paragraphs.count)
@@ -171,24 +171,24 @@ feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 			end
 		end
 
-	styled (str: ASTRING): EL_STYLED_ASTRING
+	styled (str: ZSTRING): EL_STYLED_ZSTRING
 			--
 		do
 			create Result.make_from_other (str)
 		end
 
-	fixed_styled (str: ASTRING): EL_MONOSPACED_STYLED_ASTRING
+	fixed_styled (str: ZSTRING): EL_MONOSPACED_STYLED_ZSTRING
 			--
 		do
 			create Result.make_from_other (str)
 		end
 
-	searchable_paragraphs_with_words: ARRAYED_LIST [ASTRING]
+	searchable_paragraphs_with_words: ARRAYED_LIST [ZSTRING]
 		local
 			paragraphs: like searchable_paragraphs
 			i: INTEGER
 			is_alpha_numeric: BOOLEAN
-			paragraph: ASTRING
+			paragraph: ZSTRING
 		do
 			paragraphs := searchable_paragraphs
 			create Result.make (paragraphs.count)
@@ -204,18 +204,12 @@ feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 			end
 		end
 
-	word_table: like Type_word_table
+	word_table: EL_WORD_TOKEN_TABLE
 
 feature {NONE} -- Unimplemented
 
-	searchable_paragraphs: LIST [ASTRING]
+	searchable_paragraphs: LIST [ZSTRING]
 		deferred
-		end
-
-feature {NONE} -- Type definitions
-
-	Type_word_table: EL_WORD_TOKEN_TABLE
-		once
 		end
 
 feature {NONE} -- Constants
@@ -223,15 +217,15 @@ feature {NONE} -- Constants
 	Keyword_quote_leeway: INTEGER = 3
 		-- Number of words on either side of keywords to quote in search result extract
 
-	New_paragraph_symbol: ASTRING
+	New_paragraph_symbol: ZSTRING
 		once
 			Result := "<*>"
 		end
 
-	Ellipsis: EL_STYLED_ASTRING
+	Ellipsis: EL_STYLED_ZSTRING
 			--
 		once
-			create Result.make_from_latin1 ("..")
+			create Result.make_from_latin_1 ("..")
 		end
 
 end

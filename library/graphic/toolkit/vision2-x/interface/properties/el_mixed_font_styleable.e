@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Routines for label components with mixed font styles"
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-26 11:23:48 GMT (Saturday 26th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_MIXED_FONT_STYLEABLE
@@ -43,7 +43,7 @@ feature -- Access
 
 feature -- Measurement
 
-	mixed_style_width (a_mixed_text: INDEXABLE [EL_STYLED_ASTRING, INTEGER]): INTEGER
+	mixed_style_width (a_mixed_text: INDEXABLE [EL_STYLED_ZSTRING, INTEGER]): INTEGER
 		local
 			i, l_upper, l_space_width: INTEGER
 		do
@@ -112,10 +112,10 @@ feature -- Element change
 
 feature -- Drawing operations
 
-	draw_mixed_style_text_top_left (x, y: INTEGER; a_mixed_text: INDEXABLE [EL_STYLED_ASTRING, INTEGER])
+	draw_mixed_style_text_top_left (x, y: INTEGER; a_mixed_text: INDEXABLE [EL_STYLED_ZSTRING, INTEGER])
 		local
 			l_x, i, l_upper, l_space_width: INTEGER
-			i_th_text: EL_STYLED_ASTRING
+			i_th_text: EL_STYLED_ZSTRING
 		do
 			l_space_width := space_width
 			l_upper := a_mixed_text.index_set.upper

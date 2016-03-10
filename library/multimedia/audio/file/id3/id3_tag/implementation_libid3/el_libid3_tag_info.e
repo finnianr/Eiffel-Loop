@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Wrapper for ID3 tag editing library libid3 from id3lib.org
 
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-16 13:47:06 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 class
 	EL_LIBID3_TAG_INFO
@@ -99,7 +99,7 @@ feature {NONE} -- Removal
 			cpp_clear (self_ptr)
 		end
 
-	detach (field: like create_field)
+	detach (field: like new_field)
 			--
 		local
 			detached_ptr: POINTER
@@ -153,7 +153,7 @@ feature -- Element change
 			mp3_path := a_mp3_path
 			wipe_out
 			link_tags (ID3_v2)
-			frame_list := create_frame_list
+			frame_list := new_frame_list
 		end
 
 	link (a_mp3_path: like mp3_path)
@@ -166,21 +166,21 @@ feature -- Element change
 
 feature {NONE} -- Factory
 
-	create_field (a_code: STRING): EL_LIBID3_FRAME
+	new_field (a_code: STRING): EL_LIBID3_FRAME
 			--
 		do
 			create Result.make_with_code (a_code)
 			attach (Result)
 		end
 
-	create_unique_file_id_field (owner_id, an_id: STRING): EL_LIBID3_UNIQUE_FILE_ID
+	new_unique_file_id_field (owner_id: ZSTRING; an_id: STRING): EL_LIBID3_UNIQUE_FILE_ID
 			--
 		do
 			create Result.make (owner_id, an_id)
 			attach (Result)
 		end
 
-	create_album_picture_frame (a_picture: EL_ID3_ALBUM_PICTURE): EL_ALBUM_PICTURE_LIBID3_FRAME
+	new_album_picture_frame (a_picture: EL_ID3_ALBUM_PICTURE): EL_ALBUM_PICTURE_LIBID3_FRAME
 		do
 			create Result.make (a_picture)
 			attach (Result)
@@ -188,12 +188,12 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	create_frame_list: ARRAYED_LIST [EL_LIBID3_FRAME]
+	new_frame_list: ARRAYED_LIST [EL_LIBID3_FRAME]
 		local
 			iterator: EL_LIBID3_FRAME_ITERATOR
 		do
 			create Result.make (frame_count)
-			create iterator.make (agent create_frame_iterator)
+			create iterator.make (agent new_frame_iterator)
 			iterator.do_all (agent Result.extend)
 		end
 
@@ -203,13 +203,13 @@ feature {NONE} -- Implementation
 			Result := cpp_frame_count (self_ptr)
 		end
 
-	create_frame_iterator: POINTER
+	new_frame_iterator: POINTER
 			--
 		do
 			Result := cpp_iterator (self_ptr)
 		end
 
-	attach (field: like create_field)
+	attach (field: like new_field)
 			--
 		do
 			cpp_attach_frame (self_ptr, field.self_ptr)
@@ -220,7 +220,7 @@ feature {NONE} -- Implementation
 		local
 			utf8_file_path: STRING
 		do
-			utf8_file_path := mp3_path.to_string.to_utf8
+			utf8_file_path := mp3_path.to_string.to_utf_8
 			cpp_link (self_ptr, utf8_file_path.area.base_address, tag_types)
 		end
 

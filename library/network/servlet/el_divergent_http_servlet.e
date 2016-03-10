@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Experimental servlet with service procedure that distributes requests to procedures in
 		service_procedures_table according to the request path base name, i.e. the last directory 
@@ -6,9 +6,14 @@ note
 		 		
 		Works best if the web server URL matching rule is a regular expression.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "5"
 
 deferred class
 	EL_DIVERGENT_HTTP_SERVLET

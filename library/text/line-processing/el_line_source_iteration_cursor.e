@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_FILE_STRING_LIST_ITERATION_CURSOR}."
 
 	author: "Finnian Reilly"
@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-16 7:09:14 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_LINE_SOURCE_ITERATION_CURSOR [F -> FILE]
 
 inherit
-	ITERATION_CURSOR [ASTRING]
+	ITERATION_CURSOR [ZSTRING]
 
 create
 	make
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item: ASTRING
+	item: ZSTRING
 			-- Item at current cursor position.
 		do
 			Result := line_source.item

@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EIFFEL_FEATURE_EDITOR}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-18 12:43:22 GMT (Friday 18th December 2015)"
+	revision: "5"
 
 class
 	EIFFEL_FEATURE_EDITOR_COMMAND
@@ -31,7 +36,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	call (line: ASTRING)
+	call (line: ZSTRING)
 		do
 			if line.starts_with (Feature_abbreviation) then
 				expand (line)
@@ -45,26 +50,28 @@ feature {NONE} -- Implementation
 			feature_list.sort
 		end
 
-	expand (line: ASTRING)
+	expand (line: ZSTRING)
 		local
-			old_line, code: ASTRING
-			parts: EL_ASTRING_LIST
+			old_line, code: ZSTRING
+			parts: EL_ZSTRING_LIST
 		do
 			create parts.make_with_words (line)
 			if parts.first ~ Feature_abbreviation and parts.count = 2 then
 				old_line := line.twin
 				line.wipe_out
 				line.grow (50)
-				line.append_string ("feature ")
+				line.append_string (Keyword_feature)
+				line.append_character (' ')
 				code := parts.i_th (2)
 				if code [1] = '{' then
-					line.append_string ("{NONE} ")
+					line.append_string (None_access_modifier)
+					line.append_character (' ')
 					code.remove_head (1)
 				end
-				line.append_string ("-- ")
+				line.append_string (Comment_prefix)
 				Feature_catagories.search (code)
 				if Feature_catagories.found then
-					line.append (Feature_catagories.found_item)
+					line.append_string (Feature_catagories.found_item)
 				else
 					line.append (code)
 				end
@@ -75,7 +82,17 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Feature_abbreviation: ASTRING
+	Comment_prefix: ZSTRING
+		once
+			Result := "-- "
+		end
+
+	None_access_modifier: ZSTRING
+		once
+			Result := "{NONE}"
+		end
+
+	Feature_abbreviation: ZSTRING
 		once
 			Result := "@f"
 		end

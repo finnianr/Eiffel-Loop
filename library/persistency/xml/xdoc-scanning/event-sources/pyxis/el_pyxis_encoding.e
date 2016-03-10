@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PYXIS_ENCODING_READER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 7:27:30 GMT (Wednesday 16th December 2015)"
+	revision: "8"
 
 class
 	EL_PYXIS_ENCODING
@@ -31,9 +36,9 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- State handlers
 
-	find_encoding (line: ASTRING)
+	find_encoding (line: ZSTRING)
 		local
-			parts: EL_ASTRING_LIST
+			parts: EL_ZSTRING_LIST
 		do
 			if line.has_substring (once "encoding") then
 				line.right_adjust

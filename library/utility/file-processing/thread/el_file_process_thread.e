@@ -1,15 +1,15 @@
-note
+﻿note
 	description: "[
 		Thread for file serialization with progress notification
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-03-13 17:54:09 GMT (Wednesday 13th March 2013)"
-	revision: "2"
+	date: "2014-12-22 16:21:33 GMT (Monday 22nd December 2014)"
+	revision: "3"
 
 class
 	EL_FILE_PROCESS_THREAD

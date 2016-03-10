@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_LOCALE_ROUTINES}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-28 13:10:26 GMT (Sunday 28th September 2014)"
-	revision: "7"
+	date: "2015-12-28 13:18:18 GMT (Monday 28th December 2015)"
+	revision: "9"
 
 class
 	EL_LOCALE_ROUTINES
@@ -26,6 +26,8 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_SHARED_ONCE_STRINGS
 
 create
 	make
@@ -62,7 +64,7 @@ feature -- Access
 
 	date_text: EL_LOCALE_DATE_TEXT
 
-	translation alias "*" (general_key: READABLE_STRING_GENERAL): ASTRING
+	translation alias "*" (general_key: READABLE_STRING_GENERAL): ZSTRING
 			-- translation for source code string in current user language
 		do
 			restrict_access
@@ -70,7 +72,7 @@ feature -- Access
 			end_restriction
 		end
 
-	quantity_translation (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ASTRING
+	quantity_translation (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
 			-- translation with adjustments according to value of quanity
 			-- keys have
 		require
@@ -85,7 +87,7 @@ feature -- Access
 	quantity_translation_extra (
 		partial_key: READABLE_STRING_GENERAL; quantity: INTEGER
 		substitutions: ARRAY [like translation_template.Type_name_value_pair]
-	): ASTRING
+	): ZSTRING
 			-- translation with adjustments according to value of quanity
 		require
 			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
@@ -103,12 +105,12 @@ feature -- Access
 			end_restriction
 		end
 
-  	substituted (template_key: READABLE_STRING_GENERAL; inserts: TUPLE): ASTRING
+  	substituted (template_key: READABLE_STRING_GENERAL; inserts: TUPLE): ZSTRING
   		do
   			Result := translation (template_key).substituted_tuple (inserts)
   		end
 
-	translation_array (general_keys: INDEXABLE [READABLE_STRING_GENERAL, INTEGER]): ARRAY [ASTRING]
+	translation_array (general_keys: INDEXABLE [READABLE_STRING_GENERAL, INTEGER]): ARRAY [ZSTRING]
 			--
 		local
 			i, upper, lower: INTEGER
@@ -124,20 +126,10 @@ feature -- Access
 			end_restriction
 		end
 
-	word_count: INTEGER
-		local
-			token_string: EL_TOKENIZED_STRING
-			table: EL_TRANSLATION_TABLE
+	translation_keys: ARRAY [ZSTRING]
 		do
 			restrict_access -- synchronized
-				create token_string.make_empty
-				table := translations
-				from table.start until table.after loop
-					token_string.wipe_out
-					token_string.append_as_tokenized_lower (table.item_for_iteration)
-					Result := Result + token_string.count
-					table.forth
-				end
+				Result := translations.current_keys
 			end_restriction
 		end
 
@@ -173,19 +165,21 @@ feature -- Status report
 
 feature {NONE} -- Implementation
 
-	key (general_key: READABLE_STRING_GENERAL): ASTRING
+	key (general_key: READABLE_STRING_GENERAL): ZSTRING
 		do
-			Result := Shared_key
-			Result.wipe_out
-			Result.append_string (general_key)
+			if attached {ZSTRING} general_key as z_key then
+				Result := z_key
+			else
+				Result := empty_once_string
+				Result.append_string_general (general_key)
+			end
 		end
 
-	quantity_key (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ASTRING
+	quantity_key (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
 			-- complete partial_key by appending .zero .singular OR .plural
 		do
-			Result := Shared_key
-			Result.wipe_out
-			Result.append_string (partial_key)
+			Result := empty_once_string
+			Result.append_string_general (partial_key)
 			if quantity = 1 then
 				Result.append_string (Dot_singular)
 			else
@@ -214,7 +208,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	translated_string (table: like translations; a_key: ASTRING): ASTRING
+	translated_string (table: like translations; a_key: ZSTRING): ZSTRING
 		do
 			table.search (a_key)
 			if table.found then
@@ -224,7 +218,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	translation_template (a_key: ASTRING): EL_SUBSTITUTION_TEMPLATE [ASTRING]
+	translation_template (a_key: ZSTRING): EL_SUBSTITUTION_TEMPLATE [ZSTRING]
 		do
 			Result := translated_string (translations, a_key)
 		end
@@ -243,11 +237,6 @@ feature -- Constants
 
 feature {NONE} -- Constants
 
-	Shared_key: ASTRING
-		once
-			create Result.make_empty
-		end
-
 	XML_dir: EL_DIR_PATH
 			--
 		once
@@ -256,10 +245,19 @@ feature {NONE} -- Constants
 
 	Variable_quantity: STRING = "QUANTITY"
 
-	Dot_singular: STRING = ".singular"
+	Dot_singular: ZSTRING
+		once
+			Result := ".singular"
+		end
 
-	Dot_plural: STRING = ".plural"
+	Dot_plural: ZSTRING
+		once
+			Result := ".plural"
+		end
 
-	Dot_zero: STRING = ".zero"
+	Dot_zero: ZSTRING
+		once
+			Result := ".zero"
+		end
 
 end

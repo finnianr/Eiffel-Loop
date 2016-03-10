@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {RBOX_PLAYLIST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-27 15:44:55 GMT (Sunday 27th October 2013)"
-	revision: "5"
+	date: "2015-12-28 10:52:41 GMT (Monday 28th December 2015)"
+	revision: "7"
 
 class
 	RBOX_PLAYLIST
@@ -16,6 +16,13 @@ inherit
 	PLAYLIST
 		rename
 			make as make_playlist
+		end
+
+	MEDIA_ITEM
+		rename
+			relative_path as relative_m3u_path
+		undefine
+			is_equal, copy
 		end
 
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -42,7 +49,7 @@ inherit
 			is_equal, copy
 		end
 
-	EL_MODULE_STRING
+	EL_STRING_CONSTANTS
 		undefine
 			is_equal, copy
 		end
@@ -52,10 +59,25 @@ inherit
 			is_equal, copy
 		end
 
+	EL_MODULE_ENCRYPTION
+		undefine
+			is_equal, copy
+		end
+
 create
 	make, make_with_name
 
 feature {NONE} -- Initialization
+
+	make (a_database: RBOX_DATABASE)
+			--
+		do
+			make_default
+			index_by_location := a_database.songs_by_location
+			index_by_audio_id := a_database.songs_by_audio_id
+			silence_intervals := a_database.silence_intervals
+			set_name (Empty_string)
+		end
 
 	make_default
 		do
@@ -67,22 +89,53 @@ feature {NONE} -- Initialization
 	make_with_name (a_name: like name; a_database: RBOX_DATABASE)
 		do
 			make (a_database)
-			name := a_name
-		end
-
-	make (a_database: RBOX_DATABASE)
-			--
-		do
-			make_default
-			index_by_location := a_database.songs_by_location
-			index_by_track_id := a_database.songs_by_track_id
-			silence_intervals := a_database.silence_intervals
-			create name.make_empty
+			set_name (a_name)
 		end
 
 feature -- Access
 
-	name: ASTRING
+	file_size_mb: DOUBLE
+			-- Sum of size of m3u line (mega bytes) For example:
+
+			-- #EXTINF: 182, Te Aconsejo Que me Olvides -- Aníbal Troilo (Singers: Francisco Fiorentino)
+			-- /storage/sdcard1/Music/Tango/Aníbal Troilo/Te Aconsejo Que me Olvides.02.mp3
+		local
+			bytes: INTEGER
+		do
+			bytes := 8
+			from start until after loop
+				bytes := bytes + 22 + song.title.count + song.lead_artist.count + Root_m3u_path_count
+							+ song.mp3_path.to_string.count
+	 			if not song.album_artists_list.is_empty then
+	 				bytes := bytes + 3 + song.album_artist.count
+	 			end
+				forth
+			end
+			Result := bytes / 1000000
+		end
+
+	checksum: NATURAL_32
+			-- Media item attribute
+		local
+			crc: like new_crc_generator
+		do
+			crc := new_crc_generator
+			from start until after loop
+				crc.add_string (song.mp3_relative_path.to_string)
+				if song.has_silence_specified then
+					crc.add_integer (song.beats_per_minute)
+				end
+				forth
+			end
+			Result := crc.checksum
+		end
+
+	relative_m3u_path: EL_FILE_PATH
+			-- Media item attribute
+		do
+			Result := Playlists_dir + name
+			Result.add_extension (M3U_extension)
+		end
 
 	m3u_list: ARRAYED_LIST [RBOX_SONG]
 		 -- song list with extra silence when required by songs with not enough silence
@@ -99,11 +152,27 @@ feature -- Access
 			end
 		end
 
+	name: ZSTRING
+
 feature -- Status query
 
 	alternate_found: BOOLEAN
 
 feature -- Element change
+
+	add_song_from_audio_id (a_audio_id: EL_UUID)
+		do
+			log.enter_with_args ("add_song_from_audio_id", << a_audio_id >>)
+			index_by_audio_id.search (a_audio_id)
+			if index_by_audio_id.found then
+				extend (index_by_audio_id.found_item)
+				log_or_io.put_line (last.artist + ": " + last.title)
+			else
+				log_or_io.put_string_field ("Not found", a_audio_id.out)
+				log_or_io.put_new_line
+			end
+			log.exit
+		end
 
 	add_song_from_path (a_song_file_path: EL_FILE_PATH)
 		do
@@ -113,25 +182,17 @@ feature -- Element change
 			end
 		end
 
-	add_song_from_track_id (a_track_id: NATURAL_64)
+	set_name (a_name: like name)
 		do
-			log.enter_with_args ("add_song_from_track_id", << a_track_id >>)
-			index_by_track_id.search (a_track_id)
-			if index_by_track_id.found then
-				extend (index_by_track_id.found_item)
-				log_or_io.put_line (last.artist + ": " + last.title)
-			else
-				log_or_io.put_string_field ("Not found", a_track_id.to_hex_string)
-				log_or_io.put_new_line
-			end
-			log.exit
+			name := a_name
+			create id.make_from_array (Encryption.md5_digest_16 (a_name.to_utf_8))
 		end
 
 feature {NONE} -- Implementation
 
-	index_by_location: HASH_TABLE [RBOX_SONG, EL_FILE_PATH]
+	index_by_audio_id: HASH_TABLE [RBOX_SONG, EL_UUID]
 
-	index_by_track_id: HASH_TABLE [RBOX_SONG, NATURAL_64]
+	index_by_location: HASH_TABLE [RBOX_SONG, EL_FILE_PATH]
 
 	silence_intervals: ARRAY [RBOX_SONG]
 
@@ -143,15 +204,15 @@ feature {NONE} -- Build from XML
 			create Result.make (<<
 				["location/text()", agent
 					do
-						add_song_from_path (Url.remove_protocol_prefix (Url.unicode_decoded_path (node.to_string)))
+						add_song_from_path (Url.remove_protocol_prefix (Url.decoded_path (node.to_string_8)))
 					end
 				],
-				["track-id/text()", agent
+				["audio-id/text()", agent
 					do
-						add_song_from_track_id (String.hexadecimal_to_natural_64 (node.to_string))
+						add_song_from_audio_id (create {EL_UUID}.make_from_string (node.to_string_8))
 					end
 				],
-				["@name", agent do name := node.to_string end]
+				["@name", agent do set_name (node.to_string) end]
 			>>)
 		end
 
@@ -161,9 +222,20 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["name", agent: STRING do Result := name end],
+				["name", agent: ZSTRING do Result := name end],
 				["entries", agent: ITERABLE [RBOX_SONG] do Result := Current end]
 			>>)
 		end
 
+feature {NONE} -- Constants
+
+	Playlists_dir: EL_DIR_PATH
+		once
+			Result := "playlists"
+		end
+
+	M3U_extension: ZSTRING
+		once
+			Result := "m3u"
+		end
 end

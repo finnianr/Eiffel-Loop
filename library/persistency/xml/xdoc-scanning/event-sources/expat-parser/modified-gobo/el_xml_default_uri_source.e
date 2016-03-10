@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "The source of an XML document that has been retrieved via an URI"
 
 	library: "Gobo Eiffel XML Library"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2014-12-11 14:33:26 GMT (Thursday 11th December 2014)"
+	revision: "3"
 
 class EL_XML_DEFAULT_URI_SOURCE
 

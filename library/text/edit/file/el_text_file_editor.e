@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "${description}"
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2016-01-20 9:36:12 GMT (Wednesday 20th January 2016)"
+	revision: "8"
 
 deferred class
 	EL_TEXT_FILE_EDITOR
@@ -18,7 +18,7 @@ inherit
 			set_source_text_from_file as set_input_file_path
 		export
 			{NONE} all
-			{ANY} set_input_file_path, edit_text, set_pattern_changed
+			{ANY} set_input_file_path, edit, set_pattern_changed
 		end
 
 feature -- Element change
@@ -31,10 +31,12 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	new_output: PLAIN_TEXT_FILE
+	new_output: EL_PLAIN_TEXT_FILE
 			--
 		do
 			create Result.make_open_write (output_file_path)
+			Result.set_encoding_from_other (Current)
+			Result.put_bom
 		end
 
 	output_file_path: EL_FILE_PATH

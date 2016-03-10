@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Undoable text facility"
 
 	notes: "[
@@ -7,13 +7,14 @@ note
 		
 		Also had to set ignore_character_code to true for Ctrl-y and Ctrl-z to stop annoying system ping.
 	]"
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:13 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2014-12-20 13:44:27 GMT (Saturday 20th December 2014)"
+	revision: "4"
 
 deferred class
 	EL_UNDOABLE_TEXT

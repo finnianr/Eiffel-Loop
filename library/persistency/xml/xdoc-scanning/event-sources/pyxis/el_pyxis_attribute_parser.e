@@ -1,26 +1,24 @@
-note
+﻿note
 	description: "Summary description for {EL_PYXIS_ATTRIBUTE_PARSER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2015-12-20 14:30:08 GMT (Sunday 20th December 2015)"
+	revision: "8"
 
 class
 	EL_PYXIS_ATTRIBUTE_PARSER
 
 inherit
-	EL_FILE_PARSER
-		rename
-			match_full as parse
+	EL_PARSER
 		redefine
 			parse
 		end
 
-	EL_PYXIS_PATTERN_FACTORY
+	EL_PYXIS_ZTEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
@@ -50,12 +48,26 @@ feature -- Basic operations
 		do
 			attribute_list.wipe_out
 			Precursor
-			if full_match_succeeded then
-				consume_events
-			end
 		end
 
 feature {NONE} -- Pattern definitions		
+
+	assignment: EL_MATCH_ALL_IN_LIST_TP
+			--
+		do
+			Result := all_of ( <<
+				attribute_identifier |to| agent on_name,
+				maybe_non_breaking_white_space,
+				character_literal ('='),
+				maybe_non_breaking_white_space,
+				one_of (<<
+					xml_identifier |to| agent on_value,
+					numeric_constant |to| agent on_value,
+					quoted_string (double_quote_escape_sequence, agent on_quoted_value (?, True)),
+					single_quoted_string (single_quote_escape_sequence, agent on_quoted_value (?, False))
+				>>)
+			>> )
+		end
 
 	new_pattern: EL_MATCH_ALL_IN_LIST_TP
 			--
@@ -73,23 +85,6 @@ feature {NONE} -- Pattern definitions
 			>>)
 		end
 
-	assignment: EL_MATCH_ALL_IN_LIST_TP
-			--
-		do
-			Result := all_of ( <<
-				attribute_identifier |to| agent on_name,
-				maybe_non_breaking_white_space,
-				character_literal ('='),
-				maybe_non_breaking_white_space,
-				one_of (<<
-					xml_identifier |to| agent on_value,
-					numeric_constant |to| agent on_value,
-					quoted_string_with_escape_sequence (double_quote_escape_sequence, agent on_quoted_value (True, ?)),
-					single_quoted_string_with_escape_sequence (single_quote_escape_sequence, agent on_quoted_value (False, ?))
-				>>)
-			>> )
-		end
-
 feature {NONE} -- Title parsing actions
 
 	on_name (matched_text: EL_STRING_VIEW)
@@ -101,24 +96,25 @@ feature {NONE} -- Title parsing actions
 			attribute_list.extend (last_attribute)
 		end
 
+	on_quoted_value (matched_text: EL_STRING_VIEW; is_double_quote: BOOLEAN)
+			--
+		do
+			last_attribute.value := matched_text.to_string
+			if is_double_quote then
+				last_attribute.value.unescape (Double_quote_escape_table)
+			else
+				last_attribute.value.unescape (Single_quote_escape_table)
+			end
+		end
+
 	on_value (matched_text: EL_STRING_VIEW)
 			--
 		do
 			last_attribute.value := matched_text
 		end
 
-	on_quoted_value (is_double_quote: BOOLEAN; matched_text: EL_STRING_VIEW)
-			--
-		do
-			if is_double_quote then
-				last_attribute.value := matched_text.to_string.unescaped (Escape_character, Double_quote_escape_table)
-			else
-				last_attribute.value := matched_text.to_string.unescaped (Escape_character, Single_quote_escape_table)
-			end
-		end
-
 feature {NONE} -- Implementation
 
-	last_attribute: TUPLE [name, value: ASTRING]
+	last_attribute: TUPLE [name, value: EL_ZSTRING]
 
 end

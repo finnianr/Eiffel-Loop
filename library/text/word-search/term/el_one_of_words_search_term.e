@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Matches word token search string with any of the ending variations (last token)
 	]"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-16 9:59:43 GMT (Sunday 16th March 2014)"
-	revision: "2"
+	date: "2016-01-13 10:16:43 GMT (Wednesday 13th January 2016)"
+	revision: "3"
 
 class
 	EL_ONE_OF_WORDS_SEARCH_TERM
@@ -21,7 +21,7 @@ inherit
 			words as phrase_stem,
 			searcher as phrase_stem_searcher
 		redefine
-			matches
+			positive_match
 		end
 
 create
@@ -43,28 +43,29 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	matches (target: like Type_target): BOOLEAN
+	positive_match (target: like Type_target): BOOLEAN
 			--
 		local
 			phrase_stem_word_count, start_index, i: INTEGER
-			l_searchable_words, l_ending_variations: EL_TOKENIZED_STRING
-			word_token: CHARACTER_32
+			l_searchable_words, endings: EL_TOKENIZED_STRING
+			word_token: CHARACTER_32; stem_searcher: like phrase_stem_searcher
 		do
 			l_searchable_words := target.searchable_words
-			l_ending_variations := ending_variations
+			endings := ending_variations
 			if phrase_stem.is_empty then
-				from i := 1 until Result or i > l_ending_variations.count loop
-					Result := l_searchable_words.has (l_ending_variations [i])
+				from i := 1 until Result or i > endings.count loop
+					Result := l_searchable_words.has (endings [i])
 					i := i + 1
 				end
 			else
+				stem_searcher := phrase_stem_searcher
 				word_token := phrase_stem [1]
 				phrase_stem_word_count := phrase_stem.count
 				from start_index := 1 until Result or start_index = 0 loop
 					if phrase_stem_word_count = 1 then
 						start_index := l_searchable_words.index_of (word_token, start_index)
 					else
-						start_index := phrase_stem_searcher.index (l_searchable_words, start_index)
+						start_index := stem_searcher.index (l_searchable_words, start_index)
 					end
 					-- IF target contains phrase stem
 					if start_index > 0 then
@@ -73,7 +74,7 @@ feature {NONE} -- Implementation
 							start_index := 0
 
 						else -- IF token just after matched phrase stem matches a variation
-							Result := l_ending_variations.has (l_searchable_words [start_index])
+							Result := endings.has (l_searchable_words [start_index])
 						end
 					end
 				end

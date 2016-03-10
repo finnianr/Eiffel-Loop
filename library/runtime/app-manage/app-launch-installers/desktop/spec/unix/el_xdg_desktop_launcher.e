@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_XDG_APPLICATION_DESKTOP_ENTRY}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-06 14:03:09 GMT (Friday 6th December 2013)"
-	revision: "3"
+	date: "2015-12-16 8:06:36 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_XDG_DESKTOP_LAUNCHER
@@ -52,7 +52,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			Result := Precursor
-			Result ["command"] := agent: ASTRING do Result := command end
+			Result ["command"] := agent: ZSTRING do Result := command end
 		end
 
 	Template: STRING_32 = "[

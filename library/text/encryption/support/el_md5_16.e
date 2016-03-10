@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_MD5_16}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-28 12:55:05 GMT (Sunday 28th September 2014)"
-	revision: "2"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "3"
 
 class
 	EL_MD5_16

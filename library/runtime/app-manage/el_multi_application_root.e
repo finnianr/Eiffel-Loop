@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Selects an application to launch from an array of sub-applications by either user input or command switch.
 		Can also install/uninstall any sub-applications that have installation configuration info asssociated with them.
@@ -8,10 +8,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-24 1:11:06 GMT (Monday 24th March 2014)"
-	revision: "5"
+	date: "2015-12-18 22:21:59 GMT (Friday 18th December 2015)"
+	revision: "7"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO] -- Generic to make sure scons generated BUILD_INFO is compiled from project source
@@ -29,7 +29,7 @@ inherit
 
 	EL_MODULE_ENVIRONMENT
 
-	EL_MODULE_STRING
+	EL_MODULE_STRING_8
 
 	EL_MODULE_LOGGING
 
@@ -145,12 +145,12 @@ feature -- Basic operations
 		local
 			package_dir, destination_dir: EL_DIR_PATH
 			find_directories_command: EL_FIND_DIRECTORIES_COMMAND
-			template: ASTRING
+			template: ZSTRING
 		do
 			destination_dir := Directory.Application_installation
 			package_dir := Package_dir_steps
 
-			template := once "Installing: $S%NSource: $S%NDestination: $S%N"
+			template := once "Installing: %S%NSource: %S%NDestination: %S%N"
 			io.put_string (template #$ [Args.command_name, package_dir, destination_dir])
 			if not destination_dir.exists then
 				File_system.make_directory (destination_dir)
@@ -249,13 +249,13 @@ feature {NONE} -- Implementation
 				io.put_string (application.item.option_name.as_string_8)
 				io.put_new_line
 				io.put_new_line
-				io.put_string (String.space_chars (Tab_width, 1))
+				io.put_string (String_8.spaces (Tab_width, 1))
 				io.put_string ("DESCRIPTION: ")
 				io.put_new_line
 				line_count := 0
 				across application.item.description.split ('%N') as line loop
 					line_count := line_count + 1
-					io.put_string (String.space_chars (Tab_width, 2))
+					io.put_string (String_8.spaces (Tab_width, 2))
 					io.put_string (line.item)
 					io.put_new_line
 				end
@@ -275,7 +275,7 @@ feature {NONE} -- Implementation
 
 	Redirected_file_path: EL_FILE_PATH
 		local
-			name: ASTRING
+			name: ZSTRING
 			l_location: EL_DIR_PATH
 		once
 			if Args.argument_count >= 1 then

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_SVG_IMAGE_UTILS}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-16 18:49:03 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_SVG_IMAGE_UTILS
@@ -48,10 +48,10 @@ feature -- Contract Support
 	is_ansi_encoded (file_path: EL_FILE_PATH): BOOLEAN
 			-- The windows implementation of cairo cannot handle UTF-8 paths
 		local
-			l_path: ASTRING
+			l_path: ZSTRING
 		do
 			l_path := file_path
-			Result := l_path.count = l_path.to_utf8.count
+			Result := l_path.count = l_path.to_utf_8.count
 		end
 
 feature {NONE} -- Implementation

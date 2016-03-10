@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_FAST_CGI_REQUEST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 16:30:56 GMT (Sunday 20th December 2015)"
+	revision: "7"
 
 class
 	EL_FAST_CGI_REQUEST
@@ -31,9 +36,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	path_info: ASTRING
+	path_info: ZSTRING
 		do
-			create Result.make_from_utf8 (parameters.item (Path_info_var))
+			create Result.make_from_utf_8 (parameters.item (Path_info_var))
 			Result.prune_all_leading ('/')
 		end
 

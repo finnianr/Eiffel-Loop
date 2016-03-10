@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {DJ_EVENT_PUBLISHER_CONFIG}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 9:14:55 GMT (Wednesday 16th December 2015)"
+	revision: "8"
 
 class
 	DJ_EVENT_PUBLISHER_CONFIG
@@ -38,15 +43,15 @@ feature -- Access
 
 	www_dir: EL_DIR_PATH
 
-	html_template: ASTRING
+	html_template: ZSTRING
 
-	html_index_template: ASTRING
+	html_index_template: ZSTRING
 
-	ftp_url: ASTRING
+	ftp_url: ZSTRING
 
-	ftp_user_home: ASTRING
+	ftp_user_home: ZSTRING
 
-	ftp_destination_dir: ASTRING
+	ftp_destination_dir: ZSTRING
 
 feature -- Status query
 

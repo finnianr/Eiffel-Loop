@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-17 16:39:50 GMT (Wednesday 17th September 2014)"
-	revision: "3"
+	date: "2015-12-26 11:24:47 GMT (Saturday 26th December 2015)"
+	revision: "5"
 
 class
 	EL_TITLED_WINDOW
@@ -156,9 +156,9 @@ feature {NONE} -- Constants
 	Thread_status_update_interval_ms: INTEGER = 200
 		-- Interval between checking that all threads are stopped
 
-	Active_thread_title_template: ASTRING
+	Active_thread_title_template: ZSTRING
 		once
-			Result := "SHUTTING DOWN (Active threads: $S)"
+			Result := "SHUTTING DOWN (Active threads: %S)"
 		end
 
 end

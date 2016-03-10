@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Menu driven console command shell"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-30 12:37:09 GMT (Tuesday 30th September 2014)"
-	revision: "5"
+	date: "2015-12-20 12:52:37 GMT (Sunday 20th December 2015)"
+	revision: "7"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -28,6 +28,10 @@ inherit
 		rename
 			log as log_e
 		end
+
+	STRING_HANDLER
+
+	EL_STRING_CONSTANTS
 
 create
 	default_create
@@ -52,18 +56,18 @@ feature -- Basic operations
 			--
 		local
 			encrypter: like new_encrypter
-			text: ASTRING
+			text: ZSTRING
 		do
 			log.enter ("display_encrypted_text")
 			encrypter := new_encrypter (new_pass_phrase)
 			text := User_input.line ("Enter text")
-			text.replace_substring_all ("%%N", "%N")
+			text.replace_substring_all (Escaped_new_line, New_line_string)
 
 			log_or_io.put_string_field ("Key as base64", Base_64.encoded_special (encrypter.key_data))
 			log_or_io.put_new_line
 			log_or_io.put_labeled_string ("Key array", encrypter.out)
 			log_or_io.put_new_line
-			log_or_io.put_labeled_string ("Cipher text", encrypter.base64_encrypted (text.to_utf8))
+			log_or_io.put_labeled_string ("Cipher text", encrypter.base64_encrypted (text.to_utf_8))
 			log_or_io.put_new_line
 			log.exit
 		end
@@ -128,7 +132,7 @@ feature -- Basic operations
 			cipher_file.set_encrypter (new_encrypter (pass_phrase))
 			across key_reader.lines as line loop
 				log_or_io.put_line (line.item)
-				cipher_file.put_string (line.item.to_utf8)
+				cipher_file.put_string (line.item.to_utf_8)
 				cipher_file.put_new_line
 			end
 			cipher_file.close
@@ -145,7 +149,7 @@ feature -- Basic operations
 	write_string_signed_with_x509_private_key
 		local
 			private_key: like new_private_key
-			string: ASTRING; source_code: PLAIN_TEXT_FILE
+			string: ZSTRING; source_code: PLAIN_TEXT_FILE
 			signed_string: SPECIAL [NATURAL_8]
 			variable_name: STRING
 		do
@@ -261,7 +265,7 @@ feature {NONE} -- Implementation
 		do
 			create out_file.make_open_write (encrypted_lines.file_path.without_extension)
 			across encrypted_lines as line loop
-				out_file.put_astring (line.item)
+				out_file.put_string_z (line.item)
 				out_file.put_new_line
 			end
 			out_file.close
@@ -333,11 +337,11 @@ feature {NONE} -- Factory
 			log.put_new_line
 		end
 
-	new_file_path (name: ASTRING): EL_FILE_PATH
+	new_file_path (name: ZSTRING): EL_FILE_PATH
 		local
-			prompt: ASTRING
+			prompt: ZSTRING
 		do
-			prompt := "Drag and drop $S file"
+			prompt := "Drag and drop %S file"
 			Result := User_input.file_path (prompt #$ [name])
 			log.put_new_line
 		end
@@ -367,4 +371,10 @@ feature {NONE} -- Constants
 		once
 			Result := << 128, 256 >>
 		end
+
+	Escaped_new_line: ZSTRING
+		once
+			Result := "%%N"
+		end
+
 end

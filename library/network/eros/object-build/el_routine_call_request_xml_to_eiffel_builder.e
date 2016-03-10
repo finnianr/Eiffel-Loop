@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ROUTINE_CALL_REQUEST_XML_TO_EIFFEL_BUILDER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-24 12:47:11 GMT (Thursday 24th December 2015)"
+	revision: "4"
 
 class
 	EL_ROUTINE_CALL_REQUEST_XML_TO_EIFFEL_BUILDER
@@ -38,7 +38,6 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor {EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER}
-
 		end
 
 feature -- Status report
@@ -56,11 +55,6 @@ feature {NONE} -- Implementation
 				has_error := True
 			else
 				parse
-				if full_match_succeeded then
-					consume_events
-				else
-					has_error := True
-				end
 			end
 			Precursor
 		end

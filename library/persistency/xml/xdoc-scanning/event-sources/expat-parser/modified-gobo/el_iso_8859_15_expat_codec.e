@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ISO_8859_15_EXPAT_CODEC}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-18 10:18:56 GMT (Friday 18th December 2015)"
+	revision: "6"
 
 class
 	EL_ISO_8859_15_EXPAT_CODEC
@@ -20,7 +20,7 @@ inherit
 			make
 		end
 
-	EL_ISO_8859_15_CODEC
+	EL_ISO_8859_15_ZCODEC
 		rename
 			unicode_table as unicodes,
 			make as make_codec

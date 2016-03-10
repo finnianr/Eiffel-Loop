@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {PYXIS_TO_XML_PARSER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2015-12-24 13:19:26 GMT (Thursday 24th December 2015)"
+	revision: "8"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -20,11 +20,6 @@ inherit
 			{NONE} all
 		redefine
 			make_default
-		end
-
-	EL_MODULE_STRING
-		export
-			{NONE} all
 		end
 
 	EL_MODULE_LOG
@@ -68,15 +63,13 @@ feature -- Basic operations
 
 feature {NONE} -- Parsing events
 
-	on_xml_tag_declaration
+	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
 			--
 		do
 --			if encoding_type ~ Encoding_utf and then encoding = 8 then
 --				put BOM
 --			end
-			Declaration_template.set_variable (once "VERSION", Decimal_formatter.formatted (xml_version))
-			Declaration_template.set_variable (once "ENCODING", encoding_name)
-			output.put_string (Declaration_template.substituted)
+			output.put_string (Declaration_template #$ [Decimal_formatter.formatted (version), encoding_name])
 			output.put_new_line
 		end
 
@@ -93,7 +86,7 @@ feature {NONE} -- Parsing events
 	on_start_tag
 			--
 		local
-			tag_output: EL_ASTRING_LIST
+			tag_output: EL_ZSTRING_LIST
 		do
 			put_last_tag (True)
 			create tag_output.make (attribute_list.count + 5)
@@ -115,7 +108,7 @@ feature {NONE} -- Parsing events
 	on_end_tag
 			--
 		local
-			last_tag_output, tag_output: EL_ASTRING_LIST
+			last_tag_output, tag_output: EL_ZSTRING_LIST
 		do
 			last_tag_output := output_stack.item
 			if last_tag_output.last = Empty_element_end then
@@ -176,18 +169,18 @@ feature {NONE} -- Parsing events
 
 feature {NONE} -- Implementation
 
-	attribute_pair_string (attribute_node: EL_XML_ATTRIBUTE_NODE): ASTRING
+	attribute_pair_string (attribute_node: EL_XML_ATTRIBUTE_NODE): ZSTRING
 			--
 		do
 			create Result.make (attribute_node.name.count + attribute_node.to_string_32.count + 6)
 			Result.append_character (' ')
-			Result.append_unicode_general (attribute_node.name)
-			Result.append (once " = %"")
-			Result.append_unicode_general (escaped_attribute (attribute_node.to_string_32))
+			Result.append_string_general (attribute_node.name)
+			Result.append_string_general (once " = %"")
+			Result.append_string_general (escaped_attribute (attribute_node.to_string_32))
 			Result.append_character ('"')
 		end
 
-	new_line_list (lines: STRING_32): EL_ASTRING_LIST
+	new_line_list (lines: STRING_32): EL_ZSTRING_LIST
 		do
 			create Result.make_with_separator (lines, New_line_character, False)
 		end
@@ -195,7 +188,7 @@ feature {NONE} -- Implementation
 	put_last_tag (append_new_line: BOOLEAN)
 			--
 		local
-			last_tag_output: EL_ASTRING_LIST
+			last_tag_output: EL_ZSTRING_LIST
 		do
 			if not output_stack.is_empty then
 				last_tag_output := output_stack.item
@@ -207,7 +200,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_output (tag_output: EL_ASTRING_LIST; append_new_line: BOOLEAN)
+	put_output (tag_output: EL_ZSTRING_LIST; append_new_line: BOOLEAN)
 			--
 		local
 			i: INTEGER
@@ -225,7 +218,7 @@ feature {NONE} -- Implementation
 			--
 		local
 			line_list: like new_line_list
-			line: ASTRING
+			line: ZSTRING
 		do
 			if last_node_text.has (New_line_character) then
 				line_list := new_line_list (last_node_text)
@@ -259,7 +252,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	output_stack: ARRAYED_STACK [EL_ASTRING_LIST]
+	output_stack: ARRAYED_STACK [EL_ZSTRING_LIST]
 
 	output: EL_OUTPUT_MEDIUM
 
@@ -271,12 +264,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Declaration_template: EL_SUBSTITUTION_TEMPLATE [ASTRING]
+	Declaration_template: ZSTRING
 			--
 		once
-			create Result.make ("[
-				<?xml version = "$VERSION" encoding = "$ENCODING"?>
-				]")
+			Result := "[
+				<?xml version = "#" encoding = "#"?>
+			]"
 		end
 
 	Decimal_formatter: FORMAT_DOUBLE
@@ -285,34 +278,34 @@ feature {NONE} -- Constants
 			create Result.make (3, 1)
 		end
 
-	New_line: ASTRING
+	New_line: ZSTRING
 		once
 			Result := "%N"
 		end
 
 	New_line_character: CHARACTER_32 = '%N'
 
-	Comment_end: ASTRING
+	Comment_end: ZSTRING
 		once
 			Result := "-->"
 		end
 
-	Empty_element_end: ASTRING
+	Empty_element_end: ZSTRING
 		once
 			Result := "/>"
 		end
 
-	Left_angle_bracket: ASTRING
+	Left_angle_bracket: ZSTRING
 		once
 			Result := "<"
 		end
 
-	Right_angle_bracket: ASTRING
+	Right_angle_bracket: ZSTRING
 		once
 			Result := ">"
 		end
 
-	Close_element_start: ASTRING
+	Close_element_start: ZSTRING
 		once
 			Result := "</"
 		end

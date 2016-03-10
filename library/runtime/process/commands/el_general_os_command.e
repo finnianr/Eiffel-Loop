@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_GENERAL_OS_COMMAND}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-20 9:43:34 GMT (Sunday 20th October 2013)"
-	revision: "4"
+	date: "2016-02-07 12:43:47 GMT (Sunday 7th February 2016)"
+	revision: "6"
 
 class
 	EL_GENERAL_OS_COMMAND
@@ -33,9 +33,25 @@ feature {NONE} -- Initialization
 		do
 			template := a_template
 			template_name := name_template #$ [generating_type, name]
-			make_command
+			make_default
 		end
 
+feature -- Element change
+
+	put_path (variable_name: ZSTRING; a_path: EL_PATH)
+		do
+			getter_functions [variable_name] := agent escaped_path (a_path)
+		end
+
+	put_file_path (variable_name: ZSTRING; a_file_path: EL_FILE_PATH)
+		do
+			put_path (variable_name, a_file_path)
+		end
+
+	put_directory_path (variable_name: ZSTRING; a_dir_path: EL_DIR_PATH)
+		do
+			put_path (variable_name, a_dir_path)
+		end
 feature -- Status query
 
 	redirect_errors: BOOLEAN
@@ -50,14 +66,14 @@ feature -- Status change
 
 feature {NONE} -- Implementation
 
-	temporary_file_name: ASTRING
-		do
-			Result := template_name.base
-		end
+	template: READABLE_STRING_GENERAL
 
 	template_name: EL_FILE_PATH
 
-	template: READABLE_STRING_GENERAL
+	temporary_file_name: ZSTRING
+		do
+			Result := template_name.base
+		end
 
 feature {NONE} -- Evolicity reflection
 
@@ -69,9 +85,9 @@ feature {NONE} -- Evolicity reflection
 
 feature {NONE} -- Constants
 
-	Name_template: ASTRING
+	Name_template: ZSTRING
 		once
-			Result := "{$S}.$S"
+			Result := "{%S}.%S"
 		end
 
 end

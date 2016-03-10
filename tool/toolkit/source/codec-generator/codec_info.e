@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "7"
+	date: "2016-01-17 14:10:39 GMT (Sunday 17th January 2016)"
+	revision: "9"
 
 class
 	CODEC_INFO
@@ -25,10 +25,11 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_LOG
-	EL_MODULE_STRING
+	EL_ZTEXT_PATTERN_FACTORY
 
-	EL_TEXTUAL_PATTERN_FACTORY
+	EL_MODULE_LOG
+
+	EL_MODULE_STRING_8
 
 create
 	make
@@ -56,7 +57,7 @@ feature {NONE} -- Initialization
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
 		end
 
-	make (a_codec_name: ASTRING)
+	make (a_codec_name: ZSTRING)
 			--
 		do
 			make_default
@@ -75,7 +76,7 @@ feature -- Access
 			Result := character_set (agent {LATIN_CHARACTER}.is_digit)
 		end
 
-	codec_base_name: ASTRING
+	codec_base_name: ZSTRING
 		do
 			if codec_name.has_substring ("iso") then
 				Result := "ISO_8859"
@@ -89,7 +90,7 @@ feature -- Access
 			Result := codec_name.substring (codec_name.last_index_of ('_', codec_name.count) + 1, codec_name.count).to_integer
 		end
 
-	codec_name: ASTRING
+	codec_name: ZSTRING
 
 	lower_case_offsets: HASH_TABLE [ARRAYED_LIST [INTEGER_INTERVAL], NATURAL]
 
@@ -99,14 +100,11 @@ feature -- Access
 
 feature -- Element change
 
-	add_assignment (text: ASTRING)
+	add_assignment (text: ZSTRING)
 			--
 		do
 			set_source_text (text)
-			match_full
-			if full_match_succeeded then
-				consume_events
-			end
+			parse
 --			log.put_string ("Result [")
 --			log.put_string (latin_characters.last.code.to_hex_string.substring (7, 8))
 --			log.put_string ("] := ")
@@ -202,14 +200,14 @@ feature -- Basic operations
 
 feature {NONE} -- Pattern definitions
 
-	assignment_pattern: EL_MATCH_ALL_IN_LIST_TP
+	assignment_pattern: like all_of
 			--
 		do
 			Result := all_of (<<
 				string_literal ("%T%T"), c_identifier, string_literal ("[0x"),
-				alpha_numeric #occurs (2 |..| 2) |to| agent on_latin_code,
+				alphanumeric #occurs (2 |..| 2) |to| agent on_latin_code,
 				string_literal ("] = (char) (0x"),
-				alpha_numeric #occurs (4 |..| 4) |to| agent on_unicode,
+				alphanumeric #occurs (4 |..| 4) |to| agent on_unicode,
 				string_literal (");"),
 				optional (
 					all_of (<<
@@ -227,7 +225,7 @@ feature {NONE} -- Match actions
 	on_latin_code (hexadecimal: EL_STRING_VIEW)
 			--
 		do
-			last_latin_code := String.hexadecimal_to_integer (hexadecimal.to_string_8)
+			last_latin_code := String_8.hexadecimal_to_integer (hexadecimal.to_string_8)
 			latin_characters.extend (create {LATIN_CHARACTER}.make (last_latin_code.to_natural_32))
 			latin_table [last_latin_code] := latin_characters.last
 		end
@@ -235,13 +233,13 @@ feature {NONE} -- Match actions
 	on_unicode (hexadecimal: EL_STRING_VIEW)
 			--
 		do
-			latin_table.item (last_latin_code).set_unicode (String.hexadecimal_to_integer (hexadecimal).to_natural_32)
+			latin_table.item (last_latin_code).set_unicode (String_8.hexadecimal_to_integer (hexadecimal).to_natural_32)
 		end
 
 	on_comment (a_comment: EL_STRING_VIEW)
 			--
 		local
-			l_name: ASTRING
+			l_name: ZSTRING
 		do
 			l_name := a_comment
 			l_name.left_adjust
@@ -273,9 +271,8 @@ feature {NONE} -- Implementation
 
 	extend_offset_interval (case_offsets: like lower_case_offsets; c1, c2: CHARACTER)
 		local
-			offset: NATURAL
 			interval_list: ARRAYED_LIST [INTEGER_INTERVAL]
-			code: INTEGER
+			code: INTEGER; offset: NATURAL
 		do
 			if c1 < c2 then
 				offset := c2.natural_32_code - c1.natural_32_code
@@ -378,15 +375,15 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["codec_name", 						agent: ASTRING do Result := codec_name.as_upper end],
-				["codec_base_name", 					agent: ASTRING do Result := codec_base_name end],
+				["codec_name", 						agent: ZSTRING do Result := codec_name.as_upper end],
+				["codec_base_name", 					agent: ZSTRING do Result := codec_base_name end],
 				["latin_characters", 				agent: ITERABLE [LATIN_CHARACTER] do Result := latin_characters end],
 				["lower_case_offsets", 				agent: ITERABLE [STRING]
 																do Result := case_change_offsets_string_table (lower_case_offsets) end],
 				["upper_case_offsets", 				agent: ITERABLE [STRING]
 																do Result := case_change_offsets_string_table (upper_case_offsets) end],
-				["lower_case_set_string", 			agent: STRING do Result := get_case_set_string (upper_case_offsets) end],
-				["upper_case_set_string", 			agent: STRING do Result := get_case_set_string (lower_case_offsets) end],
+				["lower_case_set_string", 			agent: STRING do Result := get_case_set_string (lower_case_offsets) end],
+				["upper_case_set_string", 			agent: STRING do Result := get_case_set_string (upper_case_offsets) end],
 				["unchangeable_case_set_string", agent get_unchangeable_case_set_string],
 				["alpha_set_string", 				agent: STRING do Result := code_intervals_string (alpha_set) end],
 				["numeric_set_string",				agent: STRING do Result := code_intervals_string (numeric_set) end],

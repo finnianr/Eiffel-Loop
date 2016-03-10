@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:30 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2016-01-04 10:07:25 GMT (Monday 4th January 2016)"
+	revision: "3"
 
 deferred class
 	EL_REGULAR_INTERVAL_EVENT_CONSUMER
@@ -20,9 +20,6 @@ inherit
 		end
 
 	EL_REGULAR_INTERVAL_EVENT_CONSTANTS
-		undefine
-			default_create
-		end
 
 feature {NONE} -- Event handlers
 

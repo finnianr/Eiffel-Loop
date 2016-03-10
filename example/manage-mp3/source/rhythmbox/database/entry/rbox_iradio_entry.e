@@ -1,28 +1,30 @@
-note
+﻿note
 	description: "Summary description for {RBOX_IRADIO_ENTRY}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-11 13:18:13 GMT (Monday 11th November 2013)"
-	revision: "4"
+	date: "2015-12-28 20:24:18 GMT (Monday 28th December 2015)"
+	revision: "6"
 
 class
 	RBOX_IRADIO_ENTRY
 
 inherit
 	EL_EIF_OBJ_BUILDER_CONTEXT
+		rename
+			make_default as make
 		redefine
-			make_default
+			make, Underscore_substitute, set_string_field_from_node
 		end
 
 	EVOLICITY_SERIALIZEABLE
 		rename
-			make_empty as make
+			make_default as make
 		redefine
-			make_default, getter_function_table, Template
+			make, getter_function_table, Template, Underscore_substitute
 		end
 
 	EL_MODULE_XML
@@ -31,6 +33,8 @@ inherit
 
 	RHYTHMBOX_CONSTANTS
 
+	EL_XML_ESCAPING_CONSTANTS
+
 	HASHABLE
 
 create
@@ -38,28 +42,37 @@ create
 
 feature {NONE} -- Initialization
 
-	make_default
+	make
 			--
 		do
-			create title.make_empty
-			create genre.make_empty
+			title := Empty_string
+			genre := Empty_string
 			create location
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 			Precursor {EVOLICITY_SERIALIZEABLE}
 		end
 
+feature -- Rhythmbox XML fields
+
+	title: ZSTRING
+
+	genre: ZSTRING
+
 feature -- Access
 
 	location: EL_FILE_PATH
 
-	title: ASTRING
-
-	genre: ASTRING
-
-	genre_main: ASTRING
+	genre_main: ZSTRING
 			--
+		local
+			bracket_pos: INTEGER
 		do
-			Result := genre.split (' ').first
+			bracket_pos := genre.index_of ('(', 1)
+			if bracket_pos > 0 then
+				Result := genre.substring (1, bracket_pos - 2)
+			else
+				Result := genre
+			end
 		end
 
 	hash_code: INTEGER
@@ -67,20 +80,20 @@ feature -- Access
 			Result := location.hash_code
 		end
 
-	location_uri: ASTRING
+	location_uri: ZSTRING
 		do
 			Result := Url.uri (Protocol, location)
 		end
 
-	url_encoded_location_uri: ASTRING
+	url_encoded_location_uri: ZSTRING
 		do
 			Result := Url.uri (Protocol, location)
-			Result := Url.escape_custom (location_uri.to_utf8, Unescaped_location_characters, False)
+			Result := Url.escape_custom (location_uri.to_utf_8, Unescaped_location_characters, False)
 		end
 
 feature -- Element change
 
-	set_location_from_uri (a_uri: ASTRING)
+	set_location_from_uri (a_uri: ZSTRING)
 		do
 			location := Url.remove_protocol_prefix (a_uri)
 			location.enable_out_abbreviation
@@ -96,48 +109,70 @@ feature -- Element change
 
 feature {NONE} -- Build from XML
 
+	set_string_field_from_node (i: INTEGER)
+		local
+			value: ZSTRING
+		do
+			value := node.to_string
+			if value ~ Unknown_string then
+				value := Unknown_string
+			end
+			current_object.set_reference_field (i, value)
+		end
+
 	building_action_table: like Type_building_actions
 			--
 		do
 			create Result.make (<<
-				["location/text()", 	agent do set_location_from_uri (Url.unicode_decoded_path (node.to_string)) end],
-				["title/text()", 		agent do title := node.to_string end],
-				["genre/text()", 		agent do genre := node.to_string end]
+				["location/text()", 	agent do set_location_from_uri (Url.decoded_path (node.to_string_8)) end]
 			>>)
+			fill_with_field_setters (Result, String_z_type, Fields_not_stored)
 		end
 
 feature {NONE} -- Evolicity fields
+
+	get_non_zero_integer_fields: like field_table_with_condition
+		do
+			Result := field_table_with_condition (Integer_type, Fields_not_stored, True)
+		end
+
+	get_non_empty_string_fields: like string_field_table_with_condition
+		do
+			Result := string_field_table_with_condition (Fields_not_stored, Xml_128_plus_escaper, True)
+		end
 
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
-				["title", 				agent: ASTRING do Result := Xml.escaped (title) end],
-				["genre", 				agent: ASTRING do Result := Xml.escaped (genre) end],
-				["genre_main", 		agent: ASTRING do Result := Xml.escaped (genre_main) end],
-				["location_uri", 		agent: STRING do Result := Xml.escaped (url_encoded_location_uri) end]
+				-- title is included for reference by template loaded from DJ_EVENT_HTML_PAGE
+				["title", 							agent: ZSTRING do Result := Xml.escaped (title) end],
+				["genre_main", 					agent: ZSTRING do Result := Xml.escaped (genre_main) end],
+				["location_uri", 					agent: STRING do Result := Xml.escaped (url_encoded_location_uri) end],
+				["non_zero_integer_fields", 	agent get_non_zero_integer_fields],
+				["non_empty_string_fields",	agent get_non_empty_string_fields]
 			>>)
 		end
 
 feature {NONE} -- Constants
+
+	Fields_not_stored: ARRAY [STRING]
+			-- Object attributes that are not stored in Rhythmbox database
+		once
+			Result := << "album_artists_prefix", "encoding" >>
+		end
 
 	Template: STRING
 			--
 		once
 			Result := "[
 			<entry type="iradio">
-				<title>$title</title>
-				<genre>$genre</genre>
-				<artist></artist>
-				<album></album>
+			#across $non_empty_string_fields as $field loop
+				<$field.key>$field.item</$field.key>
+			#end
 				<location>$location_uri</location>
 				<date>0</date>
 				<mimetype>application/octet-stream</mimetype>
-				<mb-trackid></mb-trackid>
-				<mb-artistid></mb-artistid>
-				<mb-albumid></mb-albumid>
-				<mb-albumartistid></mb-albumartistid>
-				<mb-artistsortname></mb-artistsortname>
 			</entry>
 			]"
 		end
@@ -147,4 +182,14 @@ feature {NONE} -- Constants
 			Result := "http"
 		end
 
+	Underscore_substitute: CHARACTER
+			-- Eiffel field names adapted for Rbox XML
+		once
+			Result := '-'
+		end
+
+	Unknown_string: ZSTRING
+		once
+			Result := "Unknown"
+		end
 end

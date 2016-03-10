@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_CLASS_FEATURE_BLOCK}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-18 11:35:46 GMT (Friday 18th December 2015)"
+	revision: "5"
 
 class
 	CLASS_FEATURE_GROUP
@@ -12,7 +17,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (first_line: ASTRING)
+	make (first_line: ZSTRING)
 		do
 			create header.make (2)
 			header.extend (first_line)
@@ -25,11 +30,11 @@ feature -- Access
 
 	header: EIFFEL_SOURCE_LINES
 
-	name: ASTRING
+	name: ZSTRING
 		local
-			line: ASTRING
+			line: ZSTRING
 		do
-			header.find_first (True, agent {ASTRING}.has_substring (Comment_marks))
+			header.find_first (True, agent {ZSTRING}.has_substring (Comment_marks))
 			if header.exhausted then
 				create Result.make_empty
 			else
@@ -41,6 +46,9 @@ feature -- Access
 
 feature {NONE} -- Constants
 
-	Comment_marks: STRING = "--"
+	Comment_marks: ZSTRING
+		once
+			Result := "--"
+		end
 
 end

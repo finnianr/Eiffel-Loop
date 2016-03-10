@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Simple xpath parser that can parse xpaths like the following:
 		
@@ -23,50 +23,64 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-20 14:29:22 GMT (Sunday 20th December 2015)"
+	revision: "5"
 
 class
 	EL_XPATH_PARSER
 
 inherit
-	EL_FILE_PARSER
+	EL_PARSER
 		rename
 			make_default as make,
-			full_match_succeeded as is_attribute_selector_by_attribute_value
+			fully_matched as is_attribute_selector_by_attribute_value
 		redefine
-			reset
+			parse, make
 		end
 
-	EL_XML_PATTERN_FACTORY
+	EL_XML_TEXT_PATTERN_FACTORY
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	reset
-			--
+	make
 		do
 			Precursor
-			create step_list.make
+			create step_list.make (5)
+		end
+
+feature -- Basic operations
+
+	parse
+			--
+		do
+			step_list.wipe_out
 			path_contains_attribute_value_predicate := false
+			Precursor
 		end
 
 feature -- Access
 
-	step_list: LINKED_LIST [EL_XPATH_STEP]
-
 	path_contains_attribute_value_predicate: BOOLEAN
+
+	step_list: ARRAYED_LIST [EL_PARSED_XPATH_STEP]
 
 feature {NONE} -- Token actions
 
-	on_xpath_step (matched_text: EL_STRING_VIEW)
+	on_attribute_value_predicate (matched_text: EL_STRING_VIEW)
 			--
 		do
-			step_list.extend (create {EL_XPATH_STEP}.make (matched_text))
+			path_contains_attribute_value_predicate := true
+		end
+
+	on_element_name (matched_text: EL_STRING_VIEW)
+			-- 'x' in example: AAA/BBB[name='x']/@value
+		do
+			step_list.last.set_element_name (matched_text)
 		end
 
 	on_selecting_attribute_name (matched_text: EL_STRING_VIEW)
@@ -81,65 +95,35 @@ feature {NONE} -- Token actions
 			step_list.last.set_selecting_attribute_value (matched_text)
 		end
 
-	on_element_name (matched_text: EL_STRING_VIEW)
-			-- 'x' in example: AAA/BBB[name='x']/@value
-		do
-			step_list.last.set_element_name (matched_text)
-		end
-
-	on_attribute_value_predicate (matched_text: EL_STRING_VIEW)
+	on_xpath_step (matched_text: EL_STRING_VIEW)
 			--
 		do
-			path_contains_attribute_value_predicate := true
+			step_list.extend (create {EL_PARSED_XPATH_STEP}.make (matched_text))
 		end
 
 feature {NONE} -- Grammar
 
-	single_quote_literal: EL_LITERAL_CHAR_TP
-			--
-		do
-			create Result.make ({ASCII}.Singlequote.to_natural_32)
-		end
-
-	attribute_name_pattern: EL_MATCH_ALL_IN_LIST_TP
+	attribute_name_pattern: like all_of
 			--
 		do
 			Result := all_of (<< character_literal ('@'), xml_identifier >>)
 		end
 
-	attribute_value_predicate_pattern: EL_MATCH_ALL_IN_LIST_TP
+	attribute_value_predicate_pattern: like all_of
 			-- Expression like the following
 			--	[@x='y']
-		local
-			quoted_string_contents_including_end_quote: EL_MATCH_TP1_UNTIL_TP2_MATCH_TP
 		do
-			create quoted_string_contents_including_end_quote.make (
-				single_quote_literal, not single_quote_literal
-			)
-			quoted_string_contents_including_end_quote.set_action_on_combined_repeated_match (
-				agent on_selecting_attribute_value
-			)
 			Result := all_of ( <<
 				character_literal ('['),
 				attribute_name_pattern |to| agent on_selecting_attribute_name,
-				string_literal ("='"),
-				quoted_string_contents_including_end_quote,
+				string_literal ("="),
+				single_quoted_string (single_quote, agent on_selecting_attribute_value),
 				character_literal (']')
 			>> )
-			Result.set_action_on_match_end (agent on_attribute_value_predicate)
+			Result.set_action_last (agent on_attribute_value_predicate)
 		end
 
-	xpath_element_pattern: EL_MATCH_ALL_IN_LIST_TP
-			--
-		do
-			Result := all_of (<<
-				xml_identifier |to| agent on_element_name,
-				optional (attribute_value_predicate_pattern)
-			>>)
-			Result.set_name ("XP-Element")
-		end
-
-	new_pattern: EL_MATCH_ALL_IN_LIST_TP
+	new_pattern: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -149,14 +133,17 @@ feature {NONE} -- Grammar
 						character_literal ('/')
 					>>)
 				),
-				one_of (<<
-					string_literal ("text()"),
-					attribute_name_pattern,
-					xpath_element_pattern
-				>>) |to| agent on_xpath_step
-
+				one_of (<< string_literal ("text()"), attribute_name_pattern, xpath_element_pattern >>) |to| agent on_xpath_step
 			>>)
---			Result.set_debug_to_depth (4)
+		end
+
+	xpath_element_pattern: like all_of
+			--
+		do
+			Result := all_of (<<
+				xml_identifier |to| agent on_element_name,
+				optional (attribute_value_predicate_pattern)
+			>>)
 		end
 
 end

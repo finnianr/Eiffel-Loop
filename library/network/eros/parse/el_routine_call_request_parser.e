@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		parse something like: 
 		
@@ -13,10 +13,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-24 12:34:13 GMT (Thursday 24th December 2015)"
+	revision: "5"
 
 class
 	EL_ROUTINE_CALL_REQUEST_PARSER
@@ -25,13 +25,15 @@ inherit
 	EL_PARSER
 		rename
 			make_default as make,
-			match_full as parse,
 			source_text as call_request_source_text
 		redefine
 			make, reset
 		end
 
-	EL_EIFFEL_PATTERN_FACTORY
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
+		rename
+			class_name as class_name_pattern,
+			single_quote as single_quote_pattern
 		export
 			{NONE} all
 		end
@@ -78,7 +80,7 @@ feature {NONE} -- Syntax grammar
 				character_literal ('('),
 				maybe_white_space,
 				argument,
-				while_not_pattern_1_repeat_pattern_2 (
+				while_not_p1_repeat_p2 (
 					right_bracket,
 
 					-- pattern 2
@@ -109,9 +111,7 @@ feature {NONE} -- Syntax grammar
 			--
 		do
 			Result := all_of ( <<
-				character_literal ('{'),
-				class_identifier,
-				character_literal ('}')
+				character_literal ('{'), class_name_pattern, character_literal ('}')
 			>> )
 		end
 
@@ -128,8 +128,7 @@ feature {NONE} -- Syntax grammar
 			--
 		do
 			Result := all_of ( <<
-				single_quote,
-				while_not_pattern_1_repeat_pattern_2 (single_quote, any_character)
+				single_quote, while_not_p1_repeat_p2 (single_quote, any_character)
 			>> )
 		end
 

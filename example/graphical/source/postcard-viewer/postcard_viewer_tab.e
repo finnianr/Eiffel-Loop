@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {POSTCARD_BOX}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-28 11:00:32 GMT (Friday 28th March 2014)"
-	revision: "4"
+	date: "2015-12-26 18:21:49 GMT (Saturday 26th December 2015)"
+	revision: "6"
 
 class
 	POSTCARD_VIEWER_TAB
@@ -49,27 +49,27 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	unique_title: EL_ASTRING
+	unique_title: ZSTRING
 		do
 			Result := location.base
 		end
 
-	title: EL_ASTRING
+	title: ZSTRING
 		do
 			Result := unique_title
 		end
 
-	long_title: EL_ASTRING
+	long_title: ZSTRING
 		do
 			Result := title
 		end
 
-	description: EL_ASTRING
+	description: ZSTRING
 		do
 			Result := "Photo in directory"
 		end
 
-	detail: EL_ASTRING
+	detail: ZSTRING
 		do
 			Result := location
 		end
@@ -84,9 +84,9 @@ feature {NONE} -- Factory
 			postcard: EL_PIXMAP
 		do
 			create Result.make (0.3, 0.3)
-			create l_dir.make_open_read (location)
+			create l_dir.make (location)
 			across << "jpg", "png" >> as format loop
-				across l_dir.file_list (format.item) as image_path loop
+				across l_dir.files_with_extension (format.item) as image_path loop
 					create postcard
 					postcard.set_with_named_file (image_path.item.unicode)
 					postcard.scale_to_width_cms (20)

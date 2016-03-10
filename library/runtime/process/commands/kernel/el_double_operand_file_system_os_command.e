@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_DOUBLE_OPERAND_FILE_SYSTEM_OS_COMMAND}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-12 11:33:15 GMT (Saturday 12th October 2013)"
-	revision: "3"
+	date: "2015-12-16 7:06:38 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_DOUBLE_OPERAND_FILE_SYSTEM_OS_COMMAND [T -> EL_COMMAND_IMPL create make end]
@@ -52,16 +52,16 @@ feature -- Element change
 			is_destination_a_normal_file := attached {EL_FILE_PATH} destination_path as file_path
 		end
 
-	set_file_destination
-			--
-		do
-			is_destination_a_normal_file := true
-		end
-
 	set_directory_destination
 			--
 		do
 			is_destination_a_normal_file := false
+		end
+
+	set_file_destination
+			--
+		do
+			is_destination_a_normal_file := true
 		end
 
 feature {NONE} -- Evolicity reflection
@@ -71,17 +71,30 @@ feature {NONE} -- Evolicity reflection
 		do
 			Result := precursor
 			Result.append_tuples (<<
-				["source_path", 						agent: EL_PATH do Result := source_path end],
-				["destination_path", 				agent: EL_PATH do Result := destination_path end],
+				["source_path", 						agent: ZSTRING do Result := escaped_path (source_path) end],
+				["destination_path", 				agent: ZSTRING do Result := escaped_path (destination_path) end],
+				["is_destination_a_normal_file", agent: BOOLEAN_REF do Result := is_destination_a_normal_file.to_reference end],
 
-				["source_last_step", 				agent: ASTRING do Result := source_path.base end],
-				["is_destination_a_normal_file", agent: BOOLEAN_REF do Result := is_destination_a_normal_file.to_reference end]
+				-- For Windows
+				["xcopy_destination_path", 		agent xcopy_destination_path]
 			>>)
+		end
+
+feature {NONE} -- Implementation
+
+	xcopy_destination_path: ZSTRING
+			-- For Windows recursive copy
+		local
+			destination_dir: EL_DIR_PATH
+		do
+			destination_dir := destination_path.to_string
+			destination_dir.append_dir_path (source_path.base)
+			Result := escaped_path (destination_dir)
 		end
 
 feature -- Constants
 
-	Valid_destination_extension: ASTRING
+	Valid_destination_extension: ZSTRING
 		once
 			create Result.make_empty
 		end

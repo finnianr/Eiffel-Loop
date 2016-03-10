@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ENCODEABLE_AS_TEXT}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2016-01-29 13:18:51 GMT (Friday 29th January 2016)"
+	revision: "5"
 
 class
 	EL_ENCODEABLE_AS_TEXT
@@ -54,9 +54,29 @@ feature -- Status query
 			Result := Encoding_types.has (a_type.as_upper) and then Valid_encodings.item (a_type).has (a_encoding)
 		end
 
-	is_utf8_encoded: BOOLEAN
+	is_latin_encoded: BOOLEAN
 		do
-			Result := encoding_type = Encoding_utf and then encoding = 8
+			Result := encoding_type = Encoding_iso_8859
+		end
+
+	is_utf_encoded: BOOLEAN
+		do
+			Result := encoding_type = Encoding_utf
+		end
+
+	is_utf_8_encoded: BOOLEAN
+		do
+			Result := is_utf_encoded and then encoding = 8
+		end
+
+	is_utf_16_encoded: BOOLEAN
+		do
+			Result := is_utf_encoded and then encoding = 16
+		end
+
+	is_windows_encoded: BOOLEAN
+		do
+			Result := encoding_type = Encoding_windows
 		end
 
 feature -- Element change

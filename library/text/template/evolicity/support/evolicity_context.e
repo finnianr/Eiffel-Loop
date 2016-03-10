@@ -1,20 +1,20 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-24 16:03:11 GMT (Sunday 24th November 2013)"
-	revision: "4"
+	date: "2015-12-20 12:06:55 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 deferred class
 	EVOLICITY_CONTEXT
 
 feature -- Access
 
-	context_item (variable_name: ASTRING; function_args: ARRAY [ANY]): ANY
+	context_item (variable_name: ZSTRING; function_args: ARRAY [ANY]): ANY
 			--
 		do
 			Result := objects.item (variable_name)
@@ -31,19 +31,19 @@ feature -- Access
 
 feature -- Element change
 
-	has_variable (variable_name: ASTRING): BOOLEAN
+	has_variable (variable_name: ZSTRING): BOOLEAN
 			--
 		do
 			Result := objects.has (variable_name)
 		end
 
-	put_integer (variable_name: ASTRING; value: INTEGER)
+	put_integer (variable_name: ZSTRING; value: INTEGER)
 			--
 		do
 			objects.force (value.to_real.to_reference, variable_name)
 		end
 
-	put_variable (object: ANY; variable_name: ASTRING)
+	put_variable (object: ANY; variable_name: ZSTRING)
 			-- the order (value, variable_name) is special case due to function_item assign in descendant
 		do
 			objects.force (object, variable_name)
@@ -64,7 +64,7 @@ feature {EVOLICITY_CONTEXT} -- Implementation
 		require
 			valid_variable_ref: not variable_ref.off
 		local
-			last_step: ASTRING
+			last_step: ZSTRING
 		do
 			Result := context_item (variable_ref.step, variable_ref.arguments)
 			if not variable_ref.is_last_step then
@@ -108,7 +108,7 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 			-- * REAL_REF
 		do
 			if attached {EVOLICITY_CONTEXT} object as ctx or
-			else attached {ASTRING} object as al_string or
+			else attached {ZSTRING} object as zstring or
 			else attached {STRING} object as string or
 			else attached {BOOLEAN_REF} object as boolean_ref or
 
@@ -141,27 +141,27 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Feature_count: ASTRING
+	Feature_count: ZSTRING
 		once
 			Result := "count"
 		end
 
-	Feature_is_empty: ASTRING
+	Feature_is_empty: ZSTRING
 		once
 			Result := "is_empty"
 		end
 
-	Feature_lower: ASTRING
+	Feature_lower: ZSTRING
 		once
 			Result := "lower"
 		end
 
-	Feature_upper: ASTRING
+	Feature_upper: ZSTRING
 		once
 			Result := "upper"
 		end
 
-	Sequence_features: ARRAY [ASTRING]
+	Sequence_features: ARRAY [ZSTRING]
 		once
 			Result := << Feature_count, Feature_is_empty, Feature_lower, Feature_upper >>
 			Result.compare_objects

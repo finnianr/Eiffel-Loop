@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_NOTIFYING_PLAIN_TEXT_FILE}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2016-01-01 9:45:21 GMT (Friday 1st January 2016)"
+	revision: "5"
 
 class
 	EL_NOTIFYING_PLAIN_TEXT_FILE
@@ -22,12 +22,7 @@ inherit
 
 	PLAIN_TEXT_FILE
 		undefine
-			make_with_name, open_read, open_write, close, move,
-			read_character, read_line, read_to_managed_pointer,
-			put_managed_pointer, put_character, put_string, put_new_line
-		redefine
-			read_integer, read_real, read_to_managed_pointer,
-			put_new_line
+			make_with_name, open_read, open_write, close, move, go, recede, back, start, finish, forth
 		end
 
 create
@@ -40,24 +35,6 @@ feature -- Initialization
 	make_closed
 		do
 			make_with_name ("None.txt")
-		end
-
-feature -- Input
-
-	read_integer
-			-- Read the binary representation of a new 32-bit integer
-			-- from file. Make result available in `last_integer'.
-		do
-			Precursor
-			listener.on_read ({PLATFORM}.integer_32_bytes)
-		end
-
-	read_real
-			-- Read the binary representation of a new real
-			-- from file. Make result available in `last_real'.
-		do
-			Precursor
-			listener.on_read ({PLATFORM}.real_32_bytes)
 		end
 
 end

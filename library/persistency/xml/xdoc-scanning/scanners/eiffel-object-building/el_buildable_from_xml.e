@@ -1,4 +1,4 @@
- note
+﻿ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-01-01 15:27:19 GMT (Thursday 1st January 2015)"
+	revision: "4"
 
 deferred class
 	EL_BUILDABLE_FROM_XML
@@ -20,7 +20,7 @@ inherit
 
 	EL_EIF_OBJ_BUILDER_CONTEXT
 		redefine
-			make_default, create_building_actions
+			make_default, new_building_actions
 		end
 
 feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
@@ -29,7 +29,7 @@ feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
 			--
 		do
 			Precursor
-			PI_building_actions := PI_building_actions_by_type.item (Current, agent create_pi_building_actions)
+			PI_building_actions := PI_building_actions_by_type.item ({like Current}, agent new_pi_building_actions)
 			create xml_name_space.make_empty
 		end
 
@@ -42,20 +42,20 @@ feature {NONE} -- Element change
 	set_xml_name_space_from_node
 			--
 		do
-			xml_name_space := node.to_string
+			xml_name_space := node.to_string_8
 		end
 
 feature {EL_XML_TO_EIFFEL_OBJECT_BUILDER, EL_EIF_OBJ_ROOT_BUILDER_CONTEXT}
 	-- Implementation
 
-	create_building_actions: like building_actions
+	new_building_actions: like building_actions
 			--
 		do
 			Result := Precursor
 			Result.put (agent set_xml_name_space_from_node, ("@xmlns").as_string_32)
 		end
 
-	create_PI_building_actions: like building_actions
+	new_pi_building_actions: like building_actions
 			--
 		local
 			action_table: like PI_building_action_table
@@ -103,13 +103,10 @@ feature {NONE} -- Globals
 			create Result.make (11)
 		end
 
-	PI_building_actions_by_type: EL_TYPE_TABLE [
-		EL_EIF_OBJ_BUILDER_CONTEXT,
-		HASH_TABLE [PROCEDURE [EL_EIF_OBJ_BUILDER_CONTEXT, TUPLE], STRING_32]
-	]
+	PI_building_actions_by_type: EL_TYPE_TABLE [HASH_TABLE [PROCEDURE [EL_EIF_OBJ_BUILDER_CONTEXT, TUPLE], STRING_32]]
 			--
 		once
-			create Result.make (11)
+			create Result.make_equal (11)
 		end
 
 	Builder: EL_XML_TO_EIFFEL_OBJECT_BUILDER

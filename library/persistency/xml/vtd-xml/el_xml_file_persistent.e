@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_XML_FILE_PERSISTENT}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-16 17:13:51 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 deferred class
 	EL_XML_FILE_PERSISTENT
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT
 		do
 			make_from_template_and_output (other.template_path.twin, other.output_path.twin)
-			create root_node.make_from_string (other.to_xml)
+			create root_node.make_from_string (other.to_utf_8_xml)
 			set_encoding_from_name (root_node.encoding_name)
 			make_from_root_node (root_node)
 		end

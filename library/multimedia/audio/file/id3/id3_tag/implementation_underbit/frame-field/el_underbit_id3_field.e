@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Encoded field, normally of type string_data"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2016-01-21 14:32:05 GMT (Thursday 21st January 2016)"
+	revision: "5"
 
 class
 	EL_UNDERBIT_ID3_FIELD
@@ -29,17 +29,17 @@ feature -- Access
 			Result := Encoding_unknown
 		end
 
-	string: ASTRING
+	string: ZSTRING
 			--
 		local
 			l_type: INTEGER
 		do
 			l_type := field_type
 			if l_type = Field_type_latin1 then
-				create Result.make_from_latin1_c (c_id3_field_getlatin1 (self_ptr))
+				create Result.make_from_latin_1_c (c_id3_field_getlatin1 (self_ptr))
 
 			elseif l_type = field_type_full_latin1 then
-				create Result.make_from_latin1_c (c_id3_field_getfulllatin1 (self_ptr))
+				create Result.make_from_latin_1_c (c_id3_field_getfulllatin1 (self_ptr))
 
 			elseif l_type = Field_type_list_string then
 				if string_count >= 1 then
@@ -98,10 +98,10 @@ feature -- Element change
 		do
 			l_type := field_type
 			if l_type = Field_type_latin1 then
-				set_latin1_string (str.to_latin1)
+				set_latin1_string (str.to_latin_1)
 
 			elseif l_type = field_type_full_latin1 then
-				set_full_latin1_string (str.to_latin1)
+				set_full_latin1_string (str.to_latin_1)
 
 			elseif l_type = Field_type_list_string then
 				set_strings (<< str >>)
@@ -140,7 +140,7 @@ feature -- Element change
 
 feature -- Element change: Field_type_list_string
 
-	set_strings (string_array: ARRAY [ASTRING])
+	set_strings (string_array: ARRAY [ZSTRING])
 			--
 		require
 			valid_type: field_type = Field_type_list_string
@@ -168,7 +168,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	string_at_address (str_ptr: POINTER): ASTRING
+	string_at_address (str_ptr: POINTER): ZSTRING
 			--
 		do
 			if encoding = Encoding_ISO_8859_1 then
@@ -189,17 +189,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	string_latin1 (str_ptr: POINTER): ASTRING
+	string_latin1 (str_ptr: POINTER): ZSTRING
 			--
 		local
 			latin1_ptr: POINTER
 		do
 			latin1_ptr := c_id3_ucs4_latin1duplicate (str_ptr)
-			create Result.make_from_latin1_c (latin1_ptr)
+			create Result.make_from_latin_1_c (latin1_ptr)
 			latin1_ptr.memory_free
 		end
 
-	string_utf8 (str_ptr: POINTER): ASTRING
+	string_utf8 (str_ptr: POINTER): ZSTRING
 			--
 		local
 			utf8: EL_C_UTF8_STRING_8
@@ -208,7 +208,7 @@ feature {NONE} -- Implementation
 			Result := utf8.as_string_32
 		end
 
-	string_utf16 (str_ptr: POINTER): ASTRING
+	string_utf16 (str_ptr: POINTER): ZSTRING
 			--
 		local
 			utf16_c_str: EL_C_STRING_16
@@ -222,18 +222,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	to_ucs4 (str: ASTRING): EL_C_DATA
+	to_ucs4 (str: ZSTRING): EL_C_DATA
 			--
 		local
 			l_area: SPECIAL [CHARACTER_8]
 			l_area_16: SPECIAL [NATURAL_16]
 		do
 			if encoding = Encoding_ISO_8859_1 then
-				l_area := str.to_latin1.area
+				l_area := str.to_latin_1.area
 				create Result.make_owned (c_id3_latin1_ucs4duplicate (l_area.base_address))
 
 			elseif encoding = Encoding_UTF_8 then
-				l_area := str.to_utf8.area
+				l_area := str.to_utf_8.area
 				create Result.make_owned (c_id3_utf8_ucs4duplicate (l_area.base_address))
 
 			elseif encoding = Encoding_UTF_16 or encoding = Encoding_UTF_16_BE then

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EXTRACT_TAG_INFO_SYSTEM_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-25 19:35:33 GMT (Tuesday 25th June 2013)"
-	revision: "2"
+	date: "2015-12-16 19:10:39 GMT (Wednesday 16th December 2015)"
+	revision: "4"
 
 class
 	EL_EXTRACT_ID3_TAGS_COMMAND
@@ -41,11 +41,9 @@ feature {NONE} -- Implementation
 	do_with_lines (lines: EL_FILE_LINE_SOURCE)
 			--
 		local
-			pos_field_delimiter: INTEGER
+			last_character_is_T_or_U_count, pos_field_delimiter: INTEGER
+			T_or_U_set: ARRAY [CHARACTER]; last_character: CHARACTER
 			field_name, field_value: STRING
-			last_character_is_T_or_U_count: INTEGER
-			T_or_U_set: ARRAY [CHARACTER]
-			last_character: CHARACTER
 		do
 			T_or_U_set := << 'T', 'U' >>
 
@@ -78,6 +76,9 @@ feature {NONE} -- Constants
 
 	Line_processing_enabled: BOOLEAN = true
 
-	Field_delimiter: STRING = " - "
+	Field_delimiter: ZSTRING
+		once
+			Result := " - "
+		end
 
 end

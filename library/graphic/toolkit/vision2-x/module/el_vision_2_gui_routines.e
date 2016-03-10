@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_VISION_2_GUI_ROUTINES}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-27 14:44:27 GMT (Saturday 27th September 2014)"
-	revision: "7"
+	date: "2015-12-26 17:10:01 GMT (Saturday 26th December 2015)"
+	revision: "9"
 
 class
 	EL_VISION_2_GUI_ROUTINES
@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_STRING
+	EL_MODULE_STRING_8
 		export
 			{NONE} all
 		end
@@ -97,7 +97,7 @@ feature -- Access
 
 feature -- Constants
 
-	General_font_families: ARRAYED_LIST [ASTRING]
+	General_font_families: ARRAYED_LIST [ZSTRING]
 			-- monospace + proportional
 		once
 			if attached {ARRAYED_LIST [STRING_32]} environment.Font_families as families then
@@ -111,7 +111,7 @@ feature -- Constants
 			sort (Result)
 		end
 
-	Monospace_font_families: ARRAYED_LIST [ASTRING]
+	Monospace_font_families: ARRAYED_LIST [ZSTRING]
 			--
 		local
 			l_font: EL_FONT
@@ -141,7 +141,7 @@ feature -- Component factory
 		local
 			l_text: READABLE_STRING_GENERAL
 		do
-			if attached {ASTRING} a_text as astring then
+			if attached {ZSTRING} a_text as astring then
 				l_text := astring.to_unicode
 			else
 				l_text := a_text
@@ -180,9 +180,9 @@ feature -- Component factory
  			Result.append_unexpanded (a_widgets)
 		end
 
-	menu_entry (a_text: ASTRING; an_action: PROCEDURE [ANY, TUPLE]): EV_MENU_ITEM
+	menu_entry (a_text: ZSTRING; an_action: PROCEDURE [ANY, TUPLE]): EV_MENU_ITEM
 		local
-			l_text: ASTRING
+			l_text: ZSTRING
 		do
 			l_text := a_text
 			create Result.make_with_text_and_action (l_text, an_action)
@@ -414,7 +414,7 @@ feature -- Mouse pointer setting
 
 feature -- Contract support
 
-	is_word_wrappable (a_text: ASTRING; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
+	is_word_wrappable (a_text: ZSTRING; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
 		do
 			Result := across a_text.split (' ') as word all a_font.string_width (word.item) < a_width end
 		end
@@ -430,7 +430,7 @@ feature -- Measurement
 			count := strings.index_set.upper
 			from i := 1 until i > count loop
 				l_str := strings [i]
-				if attached {ASTRING} l_str as l_astr then
+				if attached {ZSTRING} l_str as l_astr then
 					l_str := l_astr.to_unicode
 				end
 				width := font.string_width (l_str)
@@ -451,13 +451,13 @@ feature -- Measurement
 
 feature -- Conversion
 
-	word_wrapped (a_text: ASTRING; a_font: EV_FONT; a_width: INTEGER): ASTRING
+	word_wrapped (a_text: ZSTRING; a_font: EV_FONT; a_width: INTEGER): ZSTRING
 			--
 		require
 			is_wrappable: is_word_wrappable (a_text, a_font, a_width)
 		local
-			wrapped_lines, words: EL_ASTRING_LIST
-			line: ASTRING
+			wrapped_lines, words: EL_ZSTRING_LIST
+			line: ZSTRING
 		do
 			create wrapped_lines.make (10)
 			create line.make (60)
@@ -495,14 +495,14 @@ feature -- Conversion
 			starts_with_hash: html_code.item (1) = '#'
 			has_six_digits: html_code.count = 7
 		do
-			Result := String.hexadecimal_to_integer (html_code.substring (2, 7))
+			Result := String_8.hexadecimal_to_integer (html_code.substring (2, 7))
 		end
 
 feature {NONE} -- Implementation
 
-	sort (a_list: ARRAYED_LIST [ASTRING])
+	sort (a_list: ARRAYED_LIST [ZSTRING])
 		local
-			l_array: SORTABLE_ARRAY [ASTRING]
+			l_array: SORTABLE_ARRAY [ZSTRING]
 		do
 			create l_array.make_from_array (a_list.to_array)
 			l_array.compare_objects

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Generates clicked and hightlighted button from normal.svg"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-01-04 10:29:47 GMT (Monday 4th January 2016)"
+	revision: "6"
 
 class
 	EL_GENERATED_SVG_BUTTON_PIXMAP_SET
@@ -15,59 +15,36 @@ class
 inherit
 	EL_SVG_BUTTON_PIXMAP_SET
 		redefine
-			fill_pixmaps
+			fill_pixmaps, make_default
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
-		undefine
-			default_create
+		rename
+			make as make_machine
 		end
 
 create
-	make, default_create
+	make, make_default
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			make_machine
+			Precursor
+		end
 
 feature {NONE} -- State procedures
 
-	find_linear_gradient_stop (line: EL_ASTRING)
+	add_to_output_files (line: ZSTRING)
 		do
-			add_to_output_files (line)
-			if line.ends_with (once "<stop") then
-				state := agent insert_stop_color
-			end
+			put_line (file_highlighted, line)
+			put_line (file_clicked, line)
 		end
 
-	insert_stop_color (line: EL_ASTRING)
+	find_border_rect_style (line: ZSTRING)
 		local
-			list: LIST [EL_ASTRING]
-		do
-			list := line.split (';')
-			list.first.remove_tail (6)
-			list.first.append (Highlighted_stop_color)
-			add_to_output_files (String.joined (list, ";"))
-			state := agent find_radial_gradient
-		end
-
-	find_radial_gradient (line: EL_ASTRING)
-		do
-			add_to_output_files (line)
-			if line.ends_with (once "<radialGradient") then
-				state := agent find_radius_r
-			end
-		end
-
-	find_radius_r (line: EL_ASTRING)
-		do
-			if line.has_substring (once "r=") then
-				line.remove_tail (5)
-				line.append ("%"180%"")
-				state := agent find_border_rect_style
-			end
-			add_to_output_files (line)
-		end
-
-	find_border_rect_style (line: EL_ASTRING)
-		local
-			list: LIST [EL_ASTRING]
+			list: LIST [ZSTRING]
 		do
 			if line.has_substring ("#radialGradient933") then
 				put_line (file_highlighted, line)
@@ -89,7 +66,7 @@ feature {NONE} -- State procedures
 			end
 		end
 
-	find_g_transform (line: EL_ASTRING)
+	find_g_transform (line: ZSTRING)
 		local
 			quote_pos: INTEGER
 		do
@@ -104,13 +81,48 @@ feature {NONE} -- State procedures
 			end
 		end
 
-	add_to_output_files (line: EL_ASTRING)
+	find_linear_gradient_stop (line: ZSTRING)
 		do
-			put_line (file_highlighted, line)
-			put_line (file_clicked, line)
+			add_to_output_files (line)
+			if line.ends_with_general (once "<stop") then
+				state := agent insert_stop_color
+			end
+		end
+
+	find_radial_gradient (line: ZSTRING)
+		do
+			add_to_output_files (line)
+			if line.ends_with (once "<radialGradient") then
+				state := agent find_radius_r
+			end
+		end
+
+	find_radius_r (line: ZSTRING)
+		do
+			if line.has_substring (once "r=") then
+				line.remove_tail (5)
+				line.append ("%"180%"")
+				state := agent find_border_rect_style
+			end
+			add_to_output_files (line)
+		end
+
+	insert_stop_color (line: ZSTRING)
+		local
+			list: LIST [ZSTRING]
+		do
+			list := line.split (';')
+			list.first.remove_tail (6)
+			list.first.append (Highlighted_stop_color)
+			add_to_output_files (String.joined (list, ";"))
+			state := agent find_radial_gradient
 		end
 
 feature {NONE} -- Implementation
+
+	file_clicked: PLAIN_TEXT_FILE
+
+	file_highlighted: PLAIN_TEXT_FILE
 
 	fill_pixmaps (width_cms: REAL)
 		local
@@ -158,15 +170,11 @@ feature {NONE} -- Implementation
 			)
 		end
 
-	put_line (a_file: PLAIN_TEXT_FILE; line: EL_ASTRING)
+	linear_gradient_lines: ARRAYED_LIST [ZSTRING]
+
+	put_line (a_file: PLAIN_TEXT_FILE; line: ZSTRING)
 		do
 			a_file.put_string (line); a_file.put_new_line
 		end
-
-	file_highlighted: PLAIN_TEXT_FILE
-
-	file_clicked: PLAIN_TEXT_FILE
-
-	linear_gradient_lines: ARRAYED_LIST [EL_ASTRING]
 
 end

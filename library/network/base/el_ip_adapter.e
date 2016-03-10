@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_IP_ADAPTER}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-11 13:16:18 GMT (Thursday 11th September 2014)"
-	revision: "2"
+	date: "2015-12-16 7:20:10 GMT (Wednesday 16th December 2015)"
+	revision: "4"
 
 class
 	EL_IP_ADAPTER
@@ -40,9 +40,9 @@ feature -- Access
 			end
 		end
 
-	name: ASTRING
+	name: ZSTRING
 
-	description: ASTRING
+	description: ZSTRING
 
 	type: INTEGER
 

@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-24 14:56:29 GMT (Thursday 24th December 2015)"
+	revision: "6"
 
 class
 	JOBS_RESULT_SET
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 		do
 			make_set
 			compare_objects
-			make_empty
+			make_default
 			xpath_query := a_xpath_query
 			across document_root_node.context_list (xpath_query) as job loop
 				extend (create {JOB_INFO}.make (job.node))

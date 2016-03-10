@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-01 11:57:34 GMT (Wednesday 1st October 2014)"
-	revision: "6"
+	date: "2015-12-28 16:15:26 GMT (Monday 28th December 2015)"
+	revision: "8"
 
 class
 	FTP_BACKUP
@@ -163,7 +163,7 @@ feature -- Element change
 			--
 		local
 			xml_generator: EL_PYXIS_XML_TEXT_GENERATOR
-			pyxis_medium, xml_out_medium: EL_TEXT_IO_MEDIUM
+			pyxis_medium, xml_out_medium: EL_ZSTRING_IO_MEDIUM
 		do
 			create pyxis_medium.make_open_write (1024)
 			Evolicity_templates.put_from_file (file_path)

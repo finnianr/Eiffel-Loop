@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Reads name value pairs from file encrypted using EL utility program: el_toolkit -crypto
 		
@@ -9,12 +9,15 @@ note
 			USER: finnian
 			SIGNATURE: A87F87C8789-AF89AA
 			PWD: dragon-legend1
-			
-
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 16:31:45 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	EL_PAYPAL_CREDENTIALS
@@ -41,7 +44,7 @@ feature {NONE} -- Initialization
 
 feature -- Contract Support
 
-	has_parameter (name: ASTRING): BOOLEAN
+	has_parameter (name: ZSTRING): BOOLEAN
 		do
 			find_first (name, agent {like item}.name)
 			Result := not exhausted
@@ -49,17 +52,17 @@ feature -- Contract Support
 
 feature {NONE} -- Constants
 
-	Var_password: ASTRING
+	Var_password: ZSTRING
 		once
 			Result := "PWD"
 		end
 
-	Var_signature: ASTRING
+	Var_signature: ZSTRING
 		once
 			Result := "SIGNATURE"
 		end
 
-	Var_user: ASTRING
+	Var_user: ZSTRING
 		once
 			Result := "USER"
 		end

@@ -144,3 +144,4 @@
 #  define ID3D_WARNING(x)
 
 #endif /* defined (ID3_ENABLE_DEBUG) && defined (HAVE_LIBCW_SYS_H) */
+

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_STD_IO_ROUTINE_LOG}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-09 14:39:43 GMT (Saturday 9th November 2013)"
-	revision: "3"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "4"
 
 class
 	EL_CONSOLE_ROUTINE_LOG

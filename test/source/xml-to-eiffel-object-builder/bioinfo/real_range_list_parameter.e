@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-16 9:16:24 GMT (Wednesday 16th December 2015)"
+	revision: "4"
 
 class
 	REAL_RANGE_LIST_PARAMETER
@@ -46,7 +46,7 @@ feature {NONE} -- Build from XML
 	add_real_range
 			--
 		local
-			real_list: EL_ASTRING_LIST
+			real_list: EL_ZSTRING_LIST
 		do
 			create real_list.make_with_separator (node.to_string, ',', False)
 			create last_real_range.make (real_list.count)

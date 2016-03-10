@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_DRAWABLE_PIXEL_BUFFER_I}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-05 13:07:55 GMT (Friday 5th September 2014)"
-	revision: "2"
+	date: "2015-08-14 15:45:56 GMT (Friday 14th August 2015)"
+	revision: "3"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I

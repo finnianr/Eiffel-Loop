@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_UTF_8_LINE_READER}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-11-04 9:48:44 GMT (Wednesday 4th November 2015)"
+	revision: "6"
 
 class
 	EL_UTF_8_ENCODED_LINE_READER [F -> FILE]
@@ -22,7 +22,7 @@ feature -- Element change
 
 	set_line (raw_line: STRING)
 		do
-			create line.make_from_utf8 (raw_line)
+			create line.make_from_utf_8 (raw_line)
 		end
 
 end

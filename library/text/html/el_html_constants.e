@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_HTML_CONSTANTS}."
 
 	author: "Finnian Reilly"
@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-06 15:59:55 GMT (Monday 6th October 2014)"
-	revision: "4"
+	date: "2015-12-16 7:15:30 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_HTML_CONSTANTS
 
 feature -- Constants
 
-	Entity_numbers: EL_ASTRING_HASH_TABLE [NATURAL]
+	Entity_numbers: EL_ZSTRING_HASH_TABLE [NATURAL]
 		local
 			l_entities: like Entities
 			i: INTEGER

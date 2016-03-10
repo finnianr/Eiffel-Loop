@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_SINGLE_OPERAND_FILE_SYSTEM_COMMAND}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-12 11:33:30 GMT (Saturday 12th October 2013)"
-	revision: "4"
+	date: "2015-12-24 14:46:37 GMT (Thursday 24th December 2015)"
+	revision: "6"
 
 deferred class
 	EL_SINGLE_OPERAND_FILE_SYSTEM_COMMAND [T -> EL_COMMAND_IMPL create make end]
@@ -28,13 +28,13 @@ feature {NONE} -- Initialization
 
 	default_create
 		do
-			make_command
+			make_default
 		end
 
 	make (a_path: like path)
 			--
 		do
-			make_command
+			make_default
 			path := a_path
 		end
 
@@ -54,7 +54,7 @@ feature -- Element change
 
 feature -- Contract Support
 
-	is_valid_extension (extension: STRING): BOOLEAN
+	is_valid_extension (extension: ZSTRING): BOOLEAN
 		do
 			Result := not Valid_extension.is_empty implies extension ~ Valid_extension
 		end
@@ -65,13 +65,13 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["path", agent: EL_PATH do Result := path end]
+				["path", agent: ZSTRING do Result := escaped_path (path) end]
 			>>)
 		end
 
 feature -- Constants
 
-	Valid_extension: ASTRING
+	Valid_extension: ZSTRING
 		once
 			create Result.make_empty
 		end

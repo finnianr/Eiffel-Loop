@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_INTRUSION_SCANNER_COMMAND}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-18 11:06:26 GMT (Friday 18th December 2015)"
+	revision: "4"
 
 class
 	LOGIN_MONITOR_COMMAND
@@ -37,7 +42,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	block_ip (ip_address: ASTRING)
+	block_ip (ip_address: ZSTRING)
 		do
 			log.put_labeled_string ("Blocking IP address", ip_address)
 			log.put_new_line
@@ -45,6 +50,6 @@ feature {NONE} -- Implementation
 
 	auth_log_scan_command: AUTH_LOG_TAIL_SCAN_COMMAND
 
-	address_set: EL_HASH_SET [ASTRING]
+	address_set: EL_HASH_SET [ZSTRING]
 
 end

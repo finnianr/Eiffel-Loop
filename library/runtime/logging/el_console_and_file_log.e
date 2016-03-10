@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-25 12:28:55 GMT (Saturday 25th January 2014)"
-	revision: "4"
+	date: "2015-05-03 10:50:07 GMT (Sunday 3rd May 2015)"
+	revision: "5"
 
 class
 	EL_CONSOLE_AND_FILE_LOG

@@ -20,7 +20,7 @@ inherit
 		rename
 			delimiting_pattern as note_section
 		redefine
-			note_section, reset, set_source_text_from_line_source, edit_file
+			note_section, reset, set_source_text_from_line_source, edit
 		end
 
 	EL_MODULE_EVOLICITY_TEMPLATES
@@ -28,6 +28,8 @@ inherit
 	EL_MODULE_DATE
 
 	EL_MODULE_TEST
+
+	EL_MODULE_LOG
 
 create
 	make
@@ -39,10 +41,10 @@ feature {NONE} -- Initialization
 		do
 			log.enter ("make")
 			create default_values.make (<<
-				[Field_author, license_notes.author],
-				[Field_copyright, license_notes.copyright],
-				[Field_contact, license_notes.contact],
-				[Field_license, license_notes.license]
+				[Field.author, license_notes.author],
+				[Field.copyright, license_notes.copyright],
+				[Field.contact, license_notes.contact],
+				[Field.license, license_notes.license]
 			>>)
 			create standard_field_table.make_equal (7)
 			create non_standard_fields.make
@@ -59,7 +61,7 @@ feature -- Element change
 		local
 			date_field_stamp: DATE_TIME; date_string, field_value: STRING
 			date_found, revision_found: BOOLEAN
-			line: ASTRING
+			line: ZSTRING
 		do
 			has_revision := False
  			source_file_path := lines.file_path
@@ -74,11 +76,11 @@ feature -- Element change
 	 			line := lines.item
  				line.left_adjust
 				if line.occurrences ('"') = 2 then
- 					field_value := line.substring (line.index_of ('"', 1) + 1, line.last_index_of ('"', line.count) - 1).to_latin1
-	 				if line.starts_with ("date:") then
+ 					field_value := line.substring (line.index_of ('"', 1) + 1, line.last_index_of ('"', line.count) - 1).to_latin_1
+	 				if line.starts_with (Field_marker.date) then
 	 					date_string := field_value
 	 					date_found := True
-	 				elseif line.starts_with ("revision:") and then field_value.is_integer then
+	 				elseif line.starts_with (Field_marker.revision) and then field_value.is_integer then
 	 					last_revision := field_value.to_integer
 	 					revision_found := True
 	 				end
@@ -98,11 +100,6 @@ feature -- Element change
 			Precursor (lines)
  		end
 
- 	Class_declaration_keywords: ARRAY [STRING]
- 		once
- 			Result := << "class", "deferred", "frozen" >>
- 		end
-
 feature -- Status query
 
 	has_revision: BOOLEAN
@@ -111,7 +108,7 @@ feature -- Status query
 
 feature -- Basic operations
 
-	edit_file
+	edit
 		local
 			source_file: PLAIN_TEXT_FILE
 		do
@@ -124,26 +121,24 @@ feature -- Basic operations
 
 feature {NONE} -- Pattern definitions
 
-	note_section: EL_MATCH_ALL_IN_LIST_TP
+	note_section: like all_of
 			--
 		local
-			note_fields: EL_MATCH_TP1_UNTIL_TP2_MATCH_TP
+			note_fields: like repeat_p1_until_p2
 		do
-			note_fields := repeat_pattern_1_until_pattern_2 (
-				one_of (<< white_space, note_field, eiffel_comment >>),
+			note_fields := repeat_p1_until_p2 (
+				one_of (<< white_space, note_field, comment >>),
 				class_declaration |to| agent on_class_declaration
 			)
-			note_fields.set_action_on_combined_repeated_match (agent on_note_fields)
+			note_fields.set_action_combined_p1 (agent on_note_fields)
 			Result := all_of (<<
-				one_of (<<
-					string_literal ("note"),
-					string_literal ("indexing")
-				>>) |to| agent on_unmatched_text,
+				start_of_line,
+				one_of (<< string_literal ("note"), string_literal ("indexing") >>) |to| agent on_unmatched_text,
 				note_fields
 			>>)
 		end
 
-	note_field: EL_MATCH_ALL_IN_LIST_TP
+	note_field: like all_of
 			--
 		do
 			Result := all_of ( <<
@@ -151,8 +146,8 @@ feature {NONE} -- Pattern definitions
 				character_literal (':'),
 				maybe_white_space,
 				one_of (<<
-					unescaped_eiffel_string (agent on_verbatim_field_text),
-					quoted_eiffel_string (agent on_field_text)
+					unescaped_manifest_string (agent on_verbatim_field_text),
+					quoted_manifest_string (agent on_field_text)
 				>>)
 			>> )
 		end
@@ -162,13 +157,13 @@ feature {NONE} -- Parsing actions
 	on_field_text (text: EL_STRING_VIEW)
 			--
 		do
-			if last_field_name ~ Field_date then
-				standard_field_table [Field_date] := Time_template #$ [
+			if last_field_name ~ Field.date then
+				standard_field_table [Field.date] := Time_template #$ [
 					last_date_time_stamp.formatted_out (Date_time_format),
 					Date.formatted (last_date_time_stamp.date, {EL_DATE_FORMATS}.canonical)
 				]
-			elseif last_field_name ~ Field_revision then
-				standard_field_table [Field_revision] := (last_revision + 1).out
+			elseif last_field_name ~ Field.revision then
+				standard_field_table [Field.revision] := (last_revision + 1).out
 
 			elseif Standard_fields.has (last_field_name) then
 				standard_field_table [last_field_name] := text.to_string_8
@@ -181,7 +176,7 @@ feature {NONE} -- Parsing actions
 	on_verbatim_field_text (text: EL_STRING_VIEW)
 			--
 		local
-			quoted_verbatim_text: STRING
+			quoted_verbatim_text: ZSTRING
 		do
 			quoted_verbatim_text := "[%N" + text.to_string_8 + "%N%T]"
 			if Standard_fields.has (last_field_name) then
@@ -233,7 +228,7 @@ feature {NONE} -- Parsing actions
 
 feature {NONE} -- Implementation
 
-	search_patterns: ARRAYED_LIST [EL_TEXTUAL_PATTERN]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
 		do
 			create Result.make (0)
 		end
@@ -261,13 +256,13 @@ feature {NONE} -- Implementation
 
 	non_standard_fields: LINKED_LIST [EVOLICITY_CONTEXT]
 
-	last_field_name: ASTRING
+	last_field_name: STRING
 
-	current_note_section: ASTRING
+	current_note_section: ZSTRING
 
-	standard_field_table: EL_ASTRING_HASH_TABLE [ASTRING]
+	standard_field_table: EL_HASH_TABLE [ZSTRING, STRING]
 
-	default_values: EL_ASTRING_HASH_TABLE [ASTRING]
+	default_values: EL_HASH_TABLE [ZSTRING, STRING]
 
 	last_time_stamp: INTEGER
 
@@ -277,49 +272,34 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Fields
 
-	Field_author: ASTRING
-		once
-			Result := "author"
+	Field: TUPLE [author, date, description, copyright, contact, license, revision: STRING]
+		do
+			create Result
+			Result := ["author", "date", "description", "copyright", "contact", "license", "revision"]
 		end
 
-	Field_description: ASTRING
-		once
-			Result := "description"
-		end
-
-	Field_copyright: ASTRING
-		once
-			Result := "copyright"
-		end
-
-	Field_contact: ASTRING
-		once
-			Result := "contact"
-		end
-
-	Field_license: ASTRING
-		once
-			Result := "license"
-		end
-
-	Field_date: ASTRING
-		once
-			Result := "date"
-		end
-
-	Field_revision: ASTRING
-		once
-			Result := "revision"
-		end
-
-	Standard_fields: ARRAY [ASTRING]
+	Standard_fields: EL_STRING_8_LIST
 			--
 		once
-			Result := << Field_description, Field_author, Field_copyright, Field_contact, Field_license, Field_date, Field_revision >>
+			create Result.make_from_tuple (Field)
 			Result.compare_objects
 		end
 
 feature -- Constants
+
+	Class_declaration: EL_MATCH_ALL_IN_LIST_TP
+			--
+		once
+			Result := all_of (<<
+				optional (all_of (<< string_literal ("deferred"), white_space >>)),
+				whole_word ("class")
+			>>)
+		end
+
+ 	Class_declaration_keywords: ARRAY [ZSTRING]
+ 		once
+ 			Result := << "class", "deferred", "frozen" >>
+ 		end
 
 	Date_time_code: DATE_TIME_CODE_STRING
 		once
@@ -328,20 +308,27 @@ feature -- Constants
 
 	Date_time_format: STRING = "yyyy-[0]mm-[0]dd hh:[0]mi:[0]ss"
 
-	Repositary_checkout_fields: ARRAY [ASTRING]
+ 	Field_marker: TUPLE [date, revision: ZSTRING]
+ 		once
+ 			create Result
+ 			Result.date := "date:"
+ 			Result.revision := "revision:"
+ 		end
+
+	Repositary_checkout_fields: ARRAY [ZSTRING]
 		once
-			Result := << Field_date, Field_revision >>
+			Result := << Field.date, Field.revision >>
 			Result.compare_objects
 		end
 
-	Template_name: ASTRING
+	Template_name: ZSTRING
 		once
 			Result := "note"
 		end
 
-	Time_template: ASTRING
+	Time_template: ZSTRING
 		once
-			Result := "$S GMT ($S)"
+			Result := "%S GMT (%S)"
 		end
 
 	Eiffel_web_address: STRING = "www.eiffel.com"
@@ -364,14 +351,5 @@ feature -- Constants
 
 
 }"
-
-	Class_declaration: EL_MATCH_ALL_IN_LIST_TP
-			--
-		once
-			Result := all_of (<<
-				optional (all_of (<< string_literal ("deferred"), white_space >>)),
-				whole_word ("class")
-			>>)
-		end
 
 end

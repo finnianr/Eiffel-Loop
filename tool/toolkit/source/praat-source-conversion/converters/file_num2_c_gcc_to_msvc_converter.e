@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-20 14:27:26 GMT (Sunday 20th December 2015)"
+	revision: "4"
 
 class
 	FILE_NUM2_C_GCC_TO_MSVC_CONVERTER
@@ -27,14 +27,14 @@ create
 
 feature {NONE} -- C constructs
 
-	delimiting_pattern: EL_FIRST_MATCH_IN_LIST_TP
+	delimiting_pattern: like one_of
 			--
 		do
 			Result := Precursor
 			Result.extend (include_melder_h_macro)
 		end
 
-	include_melder_h_macro: EL_MATCH_ALL_IN_LIST_TP
+	include_melder_h_macro: like all_of
 			--
 		do
 			Result := all_of (<<

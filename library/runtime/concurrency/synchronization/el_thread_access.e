@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_THREAD_ACCESS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-05-10 15:43:57 GMT (Sunday 10th May 2015)"
+	revision: "3"
 
 class
 	EL_THREAD_ACCESS

@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PYXIS_XML_ROUTINES}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-28 16:09:59 GMT (Monday 28th December 2015)"
+	revision: "6"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -34,9 +39,19 @@ feature -- Basic operations
 
 feature -- Access
 
-	to_xml (a_pyxis_file_path: EL_FILE_PATH): ASTRING
+	to_xml (a_pyxis_file_path: EL_FILE_PATH): ZSTRING
 		local
-			xml_out: EL_TEXT_IO_MEDIUM
+			xml_out: EL_ZSTRING_IO_MEDIUM
+		do
+			create xml_out.make_open_write (File_system.file_byte_count (a_pyxis_file_path))
+			convert_to_xml (a_pyxis_file_path, xml_out)
+			xml_out.close
+			Result := xml_out.text
+		end
+
+	to_utf_8_xml (a_pyxis_file_path: EL_FILE_PATH): STRING
+		local
+			xml_out: EL_UTF_STRING_8_IO_MEDIUM
 		do
 			create xml_out.make_open_write (File_system.file_byte_count (a_pyxis_file_path))
 			convert_to_xml (a_pyxis_file_path, xml_out)

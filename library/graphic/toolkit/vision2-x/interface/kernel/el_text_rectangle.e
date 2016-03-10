@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Container for wrapping text into a rectangular area before rendering it with a drawing command
 		
@@ -12,10 +12,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-26 11:24:34 GMT (Saturday 26th December 2015)"
+	revision: "5"
 
 class
 	EL_TEXT_RECTANGLE
@@ -94,7 +94,7 @@ feature -- Status query
 	is_text_squeezable: BOOLEAN
 		-- if true allows squeezing of text into available space by reducing font size
 
-	line_fits (line: ASTRING): BOOLEAN
+	line_fits (line: ZSTRING): BOOLEAN
 		do
 			Result := font.string_width (line.to_unicode) <= width
 		end
@@ -120,7 +120,7 @@ feature -- Element change
 			font := a_font.twin
 		end
 
-	append_line (a_line: ASTRING)
+	append_line (a_line: ZSTRING)
 			-- append line without wrapping
 		do
 			if is_text_squeezable then
@@ -130,7 +130,7 @@ feature -- Element change
 			end
 		end
 
-	append_words (words: EL_ASTRING_LIST)
+	append_words (words: EL_ZSTRING_LIST)
 			-- append words wrapping them if they do not fit in one line
 		do
 			if is_text_squeezable then
@@ -247,11 +247,11 @@ feature {EL_TEXT_RECTANGLE_IMP} -- Implementation
 			end
 		end
 
-	squeeze_flow_text (words: EL_ASTRING_LIST)
+	squeeze_flow_text (words: EL_ZSTRING_LIST)
 			-- append words, decreasing font size until text fits
 		local
 			appended: BOOLEAN; old_font: like font
-			wrapped_lines: EL_ASTRING_LIST
+			wrapped_lines: EL_ZSTRING_LIST
 		do
 			old_font := font.twin
 			from  until font.height < 4 or appended loop
@@ -268,7 +268,7 @@ feature {EL_TEXT_RECTANGLE_IMP} -- Implementation
 			font := old_font
 		end
 
-	squeeze_line (a_line: ASTRING)
+	squeeze_line (a_line: ZSTRING)
 			-- append line, reducing font size so the line fits in available space
 		local
 			appended: BOOLEAN
@@ -286,17 +286,17 @@ feature {EL_TEXT_RECTANGLE_IMP} -- Implementation
 			font := old_font
 		end
 
-	flow_text (words: EL_ASTRING_LIST)
+	flow_text (words: EL_ZSTRING_LIST)
 		do
 			word_wrapped_lines (words).do_all (agent extend_lines)
 		end
 
-	extend_lines (a_line: ASTRING)
+	extend_lines (a_line: ZSTRING)
 		do
 			internal_lines.extend (create_line (a_line))
 		end
 
-	create_line (a_text: ASTRING): like Type_line
+	create_line (a_text: ZSTRING): like Type_line
 		local
 			rect: EL_RECTANGLE
 		do
@@ -311,9 +311,9 @@ feature {EL_TEXT_RECTANGLE_IMP} -- Implementation
 			Result.rectangle := rect
 		end
 
-	word_wrapped_lines (words: EL_ASTRING_LIST): EL_ASTRING_LIST
+	word_wrapped_lines (words: EL_ZSTRING_LIST): EL_ZSTRING_LIST
 		local
-			line, word: ASTRING; stack: like new_word_stack
+			line, word: ZSTRING; stack: like new_word_stack
 			old_count: INTEGER
 		do
 			create Result.make (0)
@@ -352,7 +352,7 @@ feature {EL_TEXT_RECTANGLE_IMP} -- Implementation
 			end
 		end
 
-	hypenate_word (word, line: ASTRING)
+	hypenate_word (word, line: ZSTRING)
 		local
 			old_count: INTEGER
 		do
@@ -389,7 +389,7 @@ feature {EL_TEXT_RECTANGLE_IMP} -- Implementation
 			end
 		end
 
-	new_word_stack (words: EL_ASTRING_LIST): ARRAYED_STACK [ASTRING]
+	new_word_stack (words: EL_ZSTRING_LIST): ARRAYED_STACK [ZSTRING]
 		do
 			create Result.make (words.count)
 			from words.finish until words.before loop
@@ -402,7 +402,7 @@ feature {EL_TEXT_RECTANGLE_IMP} -- Implementation
 			end
 		end
 
-	hypenated_words (words: EL_ASTRING_LIST): EL_ASTRING_LIST
+	hypenated_words (words: EL_ZSTRING_LIST): EL_ZSTRING_LIST
 		do
 			create Result.make (words.count)
 		end
@@ -431,7 +431,7 @@ feature {EL_TEXT_RECTANGLE_IMP} -- Implementation
 
 feature {NONE} -- Type definitions
 
-	Type_line: TUPLE [text: ASTRING; font: EV_FONT; rectangle: EL_RECTANGLE; alignment: INTEGER]
+	Type_line: TUPLE [text: ZSTRING; font: EV_FONT; rectangle: EL_RECTANGLE; alignment: INTEGER]
 		once
 		end
 

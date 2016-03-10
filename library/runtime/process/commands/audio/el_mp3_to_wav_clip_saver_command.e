@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_MP3_TO_WAV_CLIP_SAVER_COMMAND}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-12 11:44:22 GMT (Saturday 12th October 2013)"
-	revision: "3"
+	date: "2015-12-16 7:24:08 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_MP3_TO_WAV_CLIP_SAVER_COMMAND
@@ -77,8 +77,8 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["input_file_path",	 agent: EL_PATH do Result := input_file_path end],
-				["output_file_path",	 agent: EL_PATH do Result := output_file_path end],
+				["input_file_path",	 agent: ZSTRING do Result := escaped_path (input_file_path) end],
+				["output_file_path",	 agent: ZSTRING do Result := escaped_path (output_file_path) end],
 				["log_level",			 agent: STRING do Result := log_level end],
 				["offset", 				 agent: INTEGER_REF do Result := offset.to_reference end],
 				["duration", 			 agent: INTEGER_REF do Result := duration.to_reference end]

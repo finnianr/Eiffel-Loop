@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_LOCALE_SCROLLABLE_SEARCH_RESULTS}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-26 11:23:23 GMT (Saturday 26th December 2015)"
+	revision: "5"
 
 class
 	EL_LOCALE_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -28,12 +28,12 @@ create
 
 feature {NONE} -- Constants
 
-	Link_text_previous: ASTRING
+	Link_text_previous: ZSTRING
 		once
 			Result := Locale * "Previous"
 		end
 
-	Link_text_next: ASTRING
+	Link_text_next: ZSTRING
 		once
 			Result := Locale * "Next"
 		end

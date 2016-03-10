@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Import mp3 not currently in database and set artist and genre according to current location in
 		Music/<genre>/<artist/composer>
@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-02 11:24:43 GMT (Saturday 2nd November 2013)"
-	revision: "3"
+	date: "2015-01-20 13:26:43 GMT (Tuesday 20th January 2015)"
+	revision: "4"
 
 class
 	RBOX_IMPORT_NEW_MP3_APP

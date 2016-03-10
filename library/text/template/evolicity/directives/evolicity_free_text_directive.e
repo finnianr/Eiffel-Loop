@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-20 16:39:50 GMT (Wednesday 20th November 2013)"
-	revision: "4"
+	date: "2015-12-16 8:15:13 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EVOLICITY_FREE_TEXT_DIRECTIVE
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	text: ASTRING
+	text: ZSTRING
 
 feature -- Basic operations
 

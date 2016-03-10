@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-26 0:18:59 GMT (Tuesday 26th November 2013)"
-	revision: "3"
+	date: "2015-05-10 15:48:22 GMT (Sunday 10th May 2015)"
+	revision: "4"
 
 class
 	EVOLICITY_TOKENS

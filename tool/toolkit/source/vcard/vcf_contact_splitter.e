@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-01-18 11:59:50 GMT (Monday 18th January 2016)"
+	revision: "6"
 
 class
 	VCF_CONTACT_SPLITTER
@@ -55,30 +55,30 @@ feature -- Basic operations
 
 feature {NONE} -- State handlers
 
-	find_begin_record (line: ASTRING)
+	find_begin_record (line: ZSTRING)
 		do
-			if line.starts_with ("BEGIN:") then
+			if line.starts_with (Field.begin) then
 				state := agent find_end_record
 				find_end_record (line)
 			end
 		end
 
-	find_end_record (a_line: ASTRING)
+	find_end_record (a_line: ZSTRING)
 		local
 			output_path: EL_FILE_PATH
 			file: PLAIN_TEXT_FILE
-			parts: LIST [ASTRING]
-			first_name, last_name: ASTRING
+			parts: LIST [ZSTRING]
+			first_name, last_name: ZSTRING
 		do
 			record_lines.extend (a_line)
-			if a_line.starts_with ("END:") then
+			if a_line.starts_with (Field.end_) then
 				output_path := output_dir + record_id
 				output_path.add_extension ("vcf")
 				log_or_io.put_path_field ("Writing", output_path)
 				log_or_io.put_new_line
 				create file.make_open_write (output_path)
 				across record_lines as line loop
-					file.put_string (line.item.to_utf8)
+					file.put_string (line.item.to_utf_8)
 					file.put_character ('%R'); file.put_new_line -- Windows new line
 				end
 				file.close
@@ -86,7 +86,7 @@ feature {NONE} -- State handlers
 
 				state := agent find_begin_record
 
-			elseif a_line.starts_with ("N:") then
+			elseif a_line.starts_with (Field.n) then
 				parts := a_line.split (';')
 				last_name := parts.i_th (1); first_name := parts.i_th (2)
 				last_name.remove_head (2)
@@ -94,7 +94,7 @@ feature {NONE} -- State handlers
 				record_lines.finish
 				record_lines.replace (Name_template #$ [first_name, last_name])
 
-			elseif a_line.starts_with ("X-IRMC-LUID:") then
+			elseif a_line.starts_with (Field.x_irmc_luid) then
 				record_id := a_line.substring (a_line.index_of (':', 1) + 1, a_line.count)
 			end
 		end
@@ -105,15 +105,24 @@ feature {NONE} -- Implementation
 
 	output_dir: EL_DIR_PATH
 
-	record_id: ASTRING
+	record_id: ZSTRING
 
-	record_lines: ARRAYED_LIST [ASTRING]
+	record_lines: ARRAYED_LIST [ZSTRING]
 
 feature {NONE} -- Constants
 
-	Name_template: ASTRING
+	Field: TUPLE [end_, begin, n, x_irmc_luid: ZSTRING]
 		once
-			Result := "N:$S;$S"
+			create Result
+			Result.begin := "BEGIN:"
+			Result.end_ := "END:"
+			Result.n := "N:"
+			Result.x_irmc_luid := "X-IRMC-LUID:"
+		end
+
+	Name_template: ZSTRING
+		once
+			Result := "N:%S;%S"
 		end
 
 end

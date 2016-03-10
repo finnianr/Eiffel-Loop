@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Desktop item for launching application"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-06 14:01:01 GMT (Friday 6th December 2013)"
-	revision: "4"
+	date: "2015-12-18 22:46:55 GMT (Friday 18th December 2015)"
+	revision: "6"
 
 class
 	EL_DESKTOP_LAUNCHER
@@ -17,8 +17,6 @@ inherit
 		redefine
 			make
 		end
-
-	EL_MODULE_STRING
 
 create
 	make
@@ -49,8 +47,8 @@ feature -- Element change
 
 feature -- Access
 
-	command: ASTRING
+	command: ZSTRING
 
-	command_args: ASTRING
+	command_args: ZSTRING
 
 end

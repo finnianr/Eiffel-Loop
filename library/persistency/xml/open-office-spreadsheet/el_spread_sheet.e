@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Object representing OpenDocument Flat XML spreadsheet as tables of rows of data strings
 		
@@ -10,10 +10,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-02 11:12:34 GMT (Thursday 2nd October 2014)"
-	revision: "5"
+	date: "2015-12-18 23:25:04 GMT (Friday 18th December 2015)"
+	revision: "7"
 
 class
 	EL_SPREAD_SHEET
@@ -32,11 +32,6 @@ inherit
 			is_equal, out, copy
 		end
 
-	EL_MODULE_STRING
-		undefine
-			copy, is_equal
-		end
-
 	EL_MODULE_LOG
 		undefine
 			copy, is_equal
@@ -53,15 +48,15 @@ feature {NONE} -- Initaliazation
 			make_with_tables (file_name, << Wildcard_all >>)
 		end
 
-	make_with_tables (file_name: EL_FILE_PATH; table_names: ARRAY [ASTRING])
+	make_with_tables (file_name: EL_FILE_PATH; table_names: ARRAY [ZSTRING])
 			-- make with selected table names
 		require
 			valid_file_type: is_valid_file_type (file_name)
 		local
-			xpath, cell_range_address, name: ASTRING
+			xpath, cell_range_address, name: ZSTRING
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT
 			table_nodes: EL_XPATH_NODE_CONTEXT_LIST
-			defined_ranges: EL_ASTRING_HASH_TABLE [ASTRING]
+			defined_ranges: EL_ZSTRING_HASH_TABLE [ZSTRING]
 			spreadsheet_ctx, document_ctx: EL_XPATH_NODE_CONTEXT
 		do
 			log.enter ("make_with_tables")
@@ -89,7 +84,7 @@ feature {NONE} -- Initaliazation
 					spreadsheet_ctx.set_namespace ("table")
 					across spreadsheet_ctx.context_list ("table:named-expressions/table:named-range") as named_range loop
 						cell_range_address := named_range.node.attributes ["table:cell-range-address"]
-						cell_range_address.translate ("$", "%U")
+						cell_range_address.prune_all ('$')
 						name := named_range.node.attributes ["table:name"]
 						defined_ranges [cell_range_address] := name
 					end
@@ -110,9 +105,9 @@ feature -- Access
 
 	office_version: REAL
 
-	mimetype: ASTRING
+	mimetype: ZSTRING
 
-	table (a_name: ASTRING): EL_SPREAD_SHEET_TABLE
+	table (a_name: ZSTRING): EL_SPREAD_SHEET_TABLE
 		do
 			Result := tables [a_name]
 		end
@@ -132,9 +127,9 @@ feature -- Contract support
 
 feature {NONE} -- Implementation
 
-	selected_tables_xpath (table_names: ARRAY [ASTRING]): ASTRING
+	selected_tables_xpath (table_names: ARRAY [ZSTRING]): ZSTRING
 		local
-			name_predicate: ASTRING
+			name_predicate: ZSTRING
 			i: INTEGER
 		do
 			create name_predicate.make_empty
@@ -142,9 +137,9 @@ feature {NONE} -- Implementation
 				name_predicate.append_character ('[')
 				from i := 1 until  i > table_names.count loop
 					if i > 1 then
-						name_predicate.append (" or ")
+						name_predicate.append_string (Or_operator)
 					end
-					name_predicate.append ("@table:name='")
+					name_predicate.append_string_general ("@table:name='")
 					name_predicate.append (table_names [i])
 					name_predicate.append_character ('%'')
 					i := i + 1
@@ -154,12 +149,17 @@ feature {NONE} -- Implementation
 			Result := "table:table" + name_predicate
 		end
 
-	tables: EL_ASTRING_HASH_TABLE [EL_SPREAD_SHEET_TABLE]
+	tables: EL_ZSTRING_HASH_TABLE [EL_SPREAD_SHEET_TABLE]
 
 feature {NONE} -- Constants
 
-	Wildcard_all: ASTRING
+	Wildcard_all: ZSTRING
 		once
 			Result := "*"
+		end
+
+	Or_operator: ZSTRING
+		once
+			Result := " or "
 		end
 end

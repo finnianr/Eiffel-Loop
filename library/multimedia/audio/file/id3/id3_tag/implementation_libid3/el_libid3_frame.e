@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Tag frame
 		C++ memory managed by EL_IDTHREE_TAG owner
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-18 22:47:53 GMT (Friday 18th December 2015)"
+	revision: "5"
 
 class
 	EL_LIBID3_FRAME
@@ -26,13 +26,6 @@ inherit
 	EL_LIBID3_CONSTANTS
 		export
 			{NONE} all
-		undefine
-			out
-		end
-
-	EL_MODULE_STRING
-		rename
-			String as Mod_string
 		undefine
 			out
 		end

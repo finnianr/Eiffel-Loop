@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_FILE_SYSTEM_OPERATIONS_U8}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-22 11:44:53 GMT (Friday 22nd November 2013)"
-	revision: "4"
+	date: "2015-12-24 14:47:26 GMT (Thursday 24th December 2015)"
+	revision: "6"
 
 class
 	EL_FILE_SYSTEM_ROUTINES
@@ -206,7 +206,7 @@ feature -- Console command operations
 			execute (Delete_tree_command)
 		end
 
-	file_list (a_dir_path: EL_DIR_PATH; a_file_pattern: STRING): EL_ARRAYED_LIST [EL_FILE_PATH]
+	file_list (a_dir_path: EL_DIR_PATH; a_file_pattern: ZSTRING): EL_ARRAYED_LIST [EL_FILE_PATH]
 			--
 		do
 			Find_files_command.set_path (a_dir_path)
@@ -245,7 +245,7 @@ feature {NONE} -- Implementation
 	Copy_command: EL_COPY_FILE_COMMAND
 			--
 		once
-			create Result
+			create Result.make_default
 			Result.enable_timestamp_preserved
 		end
 

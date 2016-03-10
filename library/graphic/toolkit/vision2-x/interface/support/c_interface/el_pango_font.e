@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Wrapper for PangoFontDescription
 	]"
@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-03-06 13:14:59 GMT (Friday 6th March 2015)"
+	revision: "4"
 
 class
 	EL_PANGO_FONT

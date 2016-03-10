@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Button decorated by a set of 3 images, one for each of the states:
 			1. Normal
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-01-04 10:35:52 GMT (Monday 4th January 2016)"
+	revision: "6"
 
 class
 	EL_DECORATED_BUTTON
@@ -193,7 +193,7 @@ feature {NONE} -- Constants
 
 	Default_pixmap_set: EL_SVG_BUTTON_PIXMAP_SET
 		once
-			create Result
+			create Result.make_default
 		end
 
 end

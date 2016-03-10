@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_LOG_OUTPUT}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-09 14:20:53 GMT (Saturday 9th November 2013)"
-	revision: "3"
+	date: "2015-12-16 11:47:27 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -59,7 +59,7 @@ feature -- Output
 
 	put_string (s: STRING)
 		require
-			not_augmented_latin_string: not attached {ASTRING} s
+			not_augmented_latin_string: not attached {ZSTRING} s
 		do
 			buffer.extend (s)
 		end
@@ -72,7 +72,7 @@ feature -- Output
 
 	put_keyword (keyword: STRING)
 		require
-			not_augmented_latin_string: not attached {ASTRING} keyword
+			not_augmented_latin_string: not attached {ZSTRING} keyword
 		do
 			set_text_red
 			buffer.extend (keyword)
@@ -81,7 +81,7 @@ feature -- Output
 
 	put_classname (a_name: STRING)
 		require
-			not_augmented_latin_string: not attached {ASTRING} a_name
+			not_augmented_latin_string: not attached {ZSTRING} a_name
 		do
 			set_text_light_blue
 			buffer.extend (a_name)
@@ -108,21 +108,21 @@ feature -- Output
 	put_string_general (s: READABLE_STRING_GENERAL)
 			--
 		local
-			l_str: ASTRING
+			l_str: ZSTRING
 		do
 			l_str := new_string
-			if attached {ASTRING} s as l_astr then
-				l_str.append (l_astr)
+			if attached {ZSTRING} s as str_z then
+				l_str.append (str_z)
 			else
-				l_str.append_unicode_general (s)
+				l_str.append_string_general (s)
 			end
 			buffer.extend (l_str)
 		end
 
-	put_lines (lines: LIST [ASTRING])
+	put_lines (lines: LIST [ZSTRING])
 			--
 		local
-			l_str: ASTRING
+			l_str: ZSTRING
 		do
 			from lines.start until lines.off loop
 				l_str := new_string; l_str.append (lines.item)
@@ -139,7 +139,7 @@ feature -- Output
 	put_integer (i: INTEGER)
 			-- Add a string to the buffer
 		local
-			numeric_str: ASTRING
+			numeric_str: ZSTRING
 		do
 			numeric_str := new_string
 			numeric_str.append_integer (i)
@@ -149,7 +149,7 @@ feature -- Output
 	put_character (c: CHARACTER)
 			--
 		local
-			character_str: ASTRING
+			character_str: ZSTRING
 		do
 			character_str := new_string
 			character_str.append_character (c)
@@ -159,7 +159,7 @@ feature -- Output
 	put_real (r: REAL)
 			--
 		local
-			numeric_str: ASTRING
+			numeric_str: ZSTRING
 		do
 			numeric_str := new_string
 			numeric_str.append_real (r)
@@ -169,7 +169,7 @@ feature -- Output
 	put_boolean (b: BOOLEAN)
 			--
 		local
-			numeric_str: ASTRING
+			numeric_str: ZSTRING
 		do
 			numeric_str := new_string
 			numeric_str.append_boolean (b)
@@ -179,7 +179,7 @@ feature -- Output
 	put_double (d: DOUBLE)
 			--
 		local
-			numeric_str: ASTRING
+			numeric_str: ZSTRING
 		do
 			numeric_str := new_string
 			numeric_str.append_double (d)
@@ -206,12 +206,12 @@ feature -- Basic operations
 
 	flush
 			-- Write contents of buffer to file if it is free (not locked by another thread)
-			-- Return strings of type {EL_ASTRING} to recyle pool
+			-- Return strings of type {EL_ZSTRING} to recyle pool
 		do
 			from buffer.start until buffer.after loop
-				if attached {ASTRING} buffer.item as l_astr then
-					write_string (l_astr)
-					recycle (l_astr)
+				if attached {ZSTRING} buffer.item as str_z then
+					write_string (str_z)
+					recycle (str_z)
 
 				elseif attached {STRING} buffer.item as l_str8 then
 					write_string_8 (l_str8)
@@ -270,9 +270,9 @@ feature -- Change text output color
 
 feature {NONE} -- Implementation
 
-	write_string (str: ASTRING)
+	write_string (str: ZSTRING)
 		do
-			io.put_string (str.to_utf8)
+			io.put_string (str.to_utf_8)
 		end
 
 	write_string_8 (str8: STRING)
@@ -283,7 +283,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_string: ASTRING
+	new_string: ZSTRING
 		do
 			if string_pool.is_empty then
 				create Result.make_empty
@@ -293,7 +293,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	recycle (a_str: ASTRING)
+	recycle (a_str: ZSTRING)
 		do
 			a_str.wipe_out
 			string_pool.put (a_str)
@@ -301,7 +301,7 @@ feature {NONE} -- Implementation
 
 	buffer: ARRAYED_LIST [READABLE_STRING_GENERAL]
 
-	string_pool: ARRAYED_STACK [ASTRING]
+	string_pool: ARRAYED_STACK [ZSTRING]
 		-- recycled strings
 
 	tab_repeat_count: INTEGER

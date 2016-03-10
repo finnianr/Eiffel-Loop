@@ -8,10 +8,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2016-01-18 11:58:38 GMT (Monday 18th January 2016)"
+	revision: "5"
 
 class
 	EIFFEL_UPGRADE_DEFAULT_POINTER_SYNTAX_EDITOR
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Pattern definitions
 
-	search_patterns: ARRAYED_LIST [EL_TEXTUAL_PATTERN]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
 		do
 			create Result.make_from_array (<<
 				pointer_comparison,
@@ -42,7 +42,7 @@ feature {NONE} -- Pattern definitions
 			>>)
 		end
 
-	pointer_comparison: EL_MATCH_ALL_IN_LIST_TP
+	pointer_comparison: like all_of
 			--
 		do
 			Result := all_of_separated_by (one_or_two_spaces, <<
@@ -53,10 +53,10 @@ feature {NONE} -- Pattern definitions
 				>>) |to| agent on_comparison_operator,
 				default_pointer_name
 			>> )
-			Result.set_action_on_match_end (agent on_pointer_comparison)
+			Result.set_action_last (agent on_pointer_comparison)
 		end
 
-	default_pointer_name: EL_MATCH_ALL_IN_LIST_TP
+	default_pointer_name: like all_of
 			--
 		do
 			Result := all_of ( << one_character_from ("Dd"), string_literal ("efault_pointer")>> )
@@ -97,13 +97,13 @@ feature {NONE} -- Implementation
 
 	is_equal_comparison: BOOLEAN
 
-	Template_attached: ASTRING
+	Template_attached: ZSTRING
 		do
-			Result := "is_attached ($S)"
+			Result := "is_attached (%S)"
 		end
 
-	Template_unattached: ASTRING
+	Template_unattached: ZSTRING
 		do
-			Result := "not is_attached ($S)"
+			Result := "not is_attached (%S)"
 		end
 end

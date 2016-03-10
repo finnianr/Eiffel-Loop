@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_LINEAR}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-06 14:15:08 GMT (Friday 6th December 2013)"
-	revision: "3"
+	date: "2015-12-16 7:04:12 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 deferred class EL_CHAIN [G]
 
@@ -37,7 +37,7 @@ feature -- Access
 			go_to (position)
 		end
 
-	string_array (string_function: FUNCTION [G, TUPLE, ASTRING]): ARRAY [ASTRING]
+	string_list (string_function: FUNCTION [G, TUPLE, ZSTRING]): EL_ZSTRING_LIST
 			-- collected results of call to string function on all items
 		require
 			valid_open_count: string_function.open_count = 1
@@ -46,9 +46,9 @@ feature -- Access
 			position: CURSOR
 		do
 			position := cursor
-			create Result.make (1, count)
+			create Result.make (count)
 			from start until after loop
-				Result [index] := string_function.item ([item])
+				Result.extend (string_function.item ([item]))
 				forth
 			end
 			go_to (position)

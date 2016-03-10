@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_RECOVERABLE_BINARY_STORABLE_CHAIN}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-27 13:51:20 GMT (Saturday 27th September 2014)"
-	revision: "4"
+	date: "2016-03-01 13:40:30 GMT (Tuesday 1st March 2016)"
+	revision: "6"
 
 deferred class
 	EL_RECOVERABLE_STORABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -17,7 +17,7 @@ inherit
 		rename
 			delete as chain_delete
 		redefine
-			make_from_file, rename_file
+			make_from_file, rename_file, safe_store
 		end
 
 	EL_STORABLE_CHAIN_EDITIONS [G]
@@ -27,34 +27,28 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_from_encrypted_file (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER; a_version: like version)
+	make_from_encrypted_file (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
 			--
 		do
 			encrypter := a_encrypter
-			make_from_file (a_file_path, a_version)
+			make_from_file (a_file_path)
 		end
 
-	make_from_file (a_file_path: EL_FILE_PATH; a_version: like version)
+	make_from_file (a_file_path: EL_FILE_PATH)
 		do
-			log.enter_no_header ("make_from_file")
-			Precursor (a_file_path, a_version)
+			Precursor (a_file_path)
 			make_editions (Current)
 			retrieve
 			apply_editions
-			if editions_file.is_read_complete then
-				log.put_integer_field ("Applied", editions_file.count); log.put_string (" editions")
-			else
-				log_or_io.put_line ("Editions file is incomplete")
-				log_or_io.put_integer_field ("Missing editions", editions_file.count - editions_file.read_count)
-			end
-			log_or_io.put_new_line
-			log_or_io.put_new_line
-			log.exit_no_trailer
 		end
+
+feature -- Access
+
+	status: INTEGER_8
 
 feature -- Element change
 
-	rename_file (a_name: ASTRING)
+	rename_file (a_name: ZSTRING)
 			--
 		do
 			Precursor (a_name)
@@ -66,28 +60,30 @@ feature -- Basic operations
 	close
 			--
 		do
-			log.enter_no_header ("close")
-			log_or_io.put_path_field ("Closing", file_path)
-			log_or_io.put_new_line
-			if is_time_to_store then
+			if is_integration_pending then
 				safe_store
 				if last_store_ok then
 					editions_file.close_and_delete
-					log_or_io.put_line ("Stored editions")
 					compact
+					status := Closed_safe_store
 				else
-					log_or_io.put_line ("Failed to store editions")
 					editions_file.close
+					status := Closed_safe_store_failed
 				end
 
 			elseif editions_file.has_editions then
 				editions_file.close
+				status := Closed_editions
 			else
-				log_or_io.put_line ("No editions made")
 				editions_file.close_and_delete
+				status := Closed_no_editions
 			end
-			log.put_new_line
-			log.exit_no_trailer
+		end
+
+	safe_store
+		do
+			reader_writer.set_default_data_version
+			Precursor
 		end
 
 feature -- Removal
@@ -98,7 +94,16 @@ feature -- Removal
 			wipe_out
 			editions_file.close_and_delete
 			File_system.remove_file (file_path)
-			make_from_file (file_path, version)
+			make_from_file (file_path)
 		end
 
+feature {NONE} -- Constants
+
+	Closed_safe_store: INTEGER_8 = 1
+
+	Closed_safe_store_failed: INTEGER_8 = 2
+
+	Closed_editions: INTEGER_8 = 3
+
+	Closed_no_editions: INTEGER_8 = 4
 end

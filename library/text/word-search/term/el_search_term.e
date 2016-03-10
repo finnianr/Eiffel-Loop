@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {SEARCH_TERM}."
 
 	author: "Finnian Reilly"
@@ -6,37 +6,37 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-16 10:00:44 GMT (Sunday 16th March 2014)"
-	revision: "2"
+	date: "2016-01-13 10:19:35 GMT (Wednesday 13th January 2016)"
+	revision: "4"
 
 deferred class
 	EL_SEARCH_TERM
 
 feature -- Status query
 
-	meets_criteria (target: like Type_target): BOOLEAN
+	matches (target: like Type_target): BOOLEAN
 			--
 		do
-			if is_inverse then
-				Result := not matches (target)
+			if is_negative then
+				Result := not positive_match (target)
 			else
-				Result := matches (target)
+				Result := positive_match (target)
 			end
 		end
 
-	is_inverse: BOOLEAN
+	is_negative: BOOLEAN
 
 feature -- Element change
 
-	set_inverse
+	set_negative
 			--
 		do
-			is_inverse := True
+			is_negative := True
 		end
 
 feature {NONE} -- Implementation
 
-	matches (target: like Type_target): BOOLEAN
+	positive_match (target: like Type_target): BOOLEAN
 			--
 		deferred
 		end

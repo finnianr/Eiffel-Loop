@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {MP3_FILE_COLLATOR_APP}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-01-17 19:45:06 GMT (Saturday 17th January 2015)"
+	revision: "6"
 
 class
 	MP3_FILE_COLLATOR_APP

@@ -1,15 +1,13 @@
-note
-	description: "[
-
-	]"
+﻿note
+	description: "${description}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-05 15:59:31 GMT (Sunday 5th October 2014)"
-	revision: "5"
+	date: "2016-01-01 9:37:59 GMT (Friday 1st January 2016)"
+	revision: "7"
 
 class
 	EL_SVG_PIXMAP
@@ -253,17 +251,17 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			pixmap_path := png_output_path.to_path
 		end
 
-	unique_rendering_name: ASTRING
+	unique_rendering_name: ZSTRING
 			-- name that is unique for combinded rendering variables
 		local
-			hex_string: ASTRING
+			hex_string: ZSTRING
 		do
 			Result := empty_once_string
 			across rendering_variables as modifier loop
 				if modifier.cursor_index > 1 then
 					Result.append_character ('.')
 				end
-				Result.append (modifier.item.code)
+				Result.append_string_general (modifier.item.code)
 				hex_string := modifier.item.value.to_hex_string
 				hex_string.prune_all_leading ('0')
 				if hex_string.is_empty then
@@ -307,7 +305,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 --			log.enter_no_header ("update_pixmap")
 			if a_svg_path.exists and then not png_output_path.exists then
 				l_svg_xml := svg_xml (a_svg_path)
-				file_listener.on_write (l_svg_xml.count)
+				file_listener.on_notify (l_svg_xml.count)
 
 				png_dir := png_output_path.parent
 				File_system.make_directory (png_dir)
@@ -320,7 +318,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 					png_image_file.render_svg_of_height (a_svg_path, l_svg_xml, dimension, background_color.rgb_32_bit)
 				end
 				png_image_file.close
-				file_listener.on_write (png_image_file.count)
+				file_listener.on_notify (png_image_file.count)
 			end
 			if png_output_path.exists then
 				set_with_named_path (pixmap_path)

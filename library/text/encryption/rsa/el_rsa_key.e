@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_RSA_KEY}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-18 10:54:00 GMT (Friday 18th December 2015)"
+	revision: "4"
 
 deferred class
 	EL_RSA_KEY
@@ -29,7 +29,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	put_number (label: ASTRING; number: INTEGER_X; indefinite_length: BOOLEAN)
+	put_number (label: ZSTRING; number: INTEGER_X; indefinite_length: BOOLEAN)
 			-- indefinite_length is a special case that indicates a form of encoding, known as "indefinite-length encoding,"
 			-- is being used, in which case the end of this ASN.1 value's data is marked by two consecutive zero-value octets.
 		local

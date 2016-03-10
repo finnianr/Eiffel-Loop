@@ -1,19 +1,21 @@
-note
+﻿note
 	description: "Summary description for {EL_XML_DOCUMENT_SCANNER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-25 9:07:13 GMT (Friday 25th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_XML_DOCUMENT_SCANNER
 
 inherit
 	EL_MODULE_LOG
+
+	EL_XML_NODE_CLIENT
 
 feature {NONE}  -- Initialisation
 
@@ -116,7 +118,7 @@ feature -- Element change
 	set_binary_node_source
 			--
 		do
-			if not attached {EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE} parse_event_source as binary then
+			if not attached {EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE} parse_event_source then
 				set_parse_event_source (create {EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE}.make (Current))
 			end
 		end
@@ -124,7 +126,7 @@ feature -- Element change
 	set_plain_text_source
 			--
 		do
-			if not attached {EL_EXPAT_XML_PARSER} parse_event_source as expat then
+			if not attached {EL_EXPAT_XML_PARSER} parse_event_source then
 				set_parse_event_source (create {EL_EXPAT_XML_PARSER}.make (Current))
 			end
 		end
@@ -132,7 +134,7 @@ feature -- Element change
 	set_pyxis_text_source
 			--
 		do
-			if not attached {EL_PYXIS_PARSER} parse_event_source as pyxis then
+			if not attached {EL_PYXIS_PARSER} parse_event_source then
 				set_parse_event_source (create {EL_PYXIS_PARSER}.make (Current))
 			end
 		end
@@ -167,7 +169,7 @@ feature -- Basic operations
 
 feature {EL_XML_PARSE_EVENT_SOURCE} -- Parsing events
 
-	on_xml_tag_declaration
+	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
 			--
 		deferred
 		end

@@ -1,14 +1,22 @@
-note
-	description: "Summary description for {EL_XML_BASIC_ESCAPER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+﻿note
+	description: "Summary description for {EL_XML_CHARACTER_ESCAPER}."
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-14 15:21:26 GMT (Monday 14th December 2015)"
+	revision: "7"
 
 class
-	EL_XML_CHARACTER_ESCAPER
+	EL_XML_CHARACTER_ESCAPER [S -> STRING_GENERAL create make end]
 
 inherit
-	EL_CHARACTER_ESCAPER
+	EL_CHARACTER_ESCAPER [S]
+		redefine
+			is_escaped
+		end
 
 create
 	make, make_128_plus
@@ -17,72 +25,82 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create predefined_entities.make (<<
-				[{CHARACTER_32}'<', named_entity ("lt")],
-				[{CHARACTER_32}'>', named_entity ("gt")],
-				[{CHARACTER_32}'&', named_entity ("amp")],
-				[{CHARACTER_32}'%'', named_entity ("apos")]
-			>>)
-			create character_intervals.make_empty (0)
+			create predefined_entities.make (4)
+			extend_entities ('<', "lt")
+			extend_entities ('>', "gt")
+			extend_entities ('&', "amp")
+			extend_entities ('%'', "apos")
+
+			create characters.make (predefined_entities.count)
+			across predefined_entities as entity loop
+				characters.append_code (entity.key)
+			end
 		end
 
 	make_128_plus
 			-- include escaping of all codes > 128
-		local
-			array: ARRAY [like character_intervals.item]
-			from_code, code: NATURAL
 		do
-			make
-			from_code := 129
-			array := << [from_code.to_character_32, code.Max_value.to_character_32] >>
-			character_intervals := array.area
+			make; escape_128_plus := True
 		end
 
 feature -- Transformation
 
-	escape_sequence (c: CHARACTER_32): STRING_32
+	escape_sequence (code: NATURAL): STRING
 		local
-			entities: like predefined_entities
+			entities: like predefined_entities; l_name: STRING
 		do
 			entities := predefined_entities
-			entities.search (c)
+			entities.search (code)
 			if entities.found then
 				Result := entities.found_item
 			else
-				Result := named_entity (once "#" + c.natural_32_code.out)
+				l_name := empty_once_string_8
+				l_name.append_character ('#')
+				l_name.append_natural_32 (code)
+				Result := named_entity (l_name)
 			end
 		end
 
 feature -- Element change
 
-	extend (c: CHARACTER_32; sequence: STRING_32)
+	extend_entities (uc: CHARACTER_32; name: STRING)
 		do
-			predefined_entities [c] := sequence
+			predefined_entities.extend (named_entity (name), uc.natural_32_code)
+		end
+
+	extend (uc: CHARACTER_32)
+		do
+			predefined_entities.extend (escape_sequence (uc.natural_32_code), uc.natural_32_code)
 		end
 
 feature {NONE} -- Implementation
 
-	append_escape_sequence (str: STRING_32; c: CHARACTER_32)
+	append_escape_sequence (str: S; code: NATURAL)
 		do
-			str.append (escape_sequence (c))
+			str.append (escape_sequence (code))
 		end
 
-	named_entity (a_name: STRING): STRING_32
+	is_escaped (a_characters: like characters; code: NATURAL): BOOLEAN
 		do
-
-			create Result.make_from_string (once "&" + a_name + once ";")
+			if escape_128_plus and then code > 128 then
+				Result := True
+			else
+				Result := Precursor (a_characters, code)
+			end
 		end
 
-	character_intervals: SPECIAL [TUPLE [from_code, to_code: CHARACTER_32]]
-
-	predefined_entities: EL_HASH_TABLE [STRING_32, CHARACTER_32]
-
-feature {NONE} -- Constants
-
-	Characters: STRING_32
-		once
-			create Result.make (predefined_entities.count)
-			predefined_entities.current_keys.do_all (agent Result.append_character)
+	named_entity (a_name: STRING): STRING
+		do
+			create Result.make (a_name.count + 2)
+			Result.append_character ('&')
+			Result.append (a_name)
+			Result.append_character (';')
 		end
+
+	predefined_entities: HASH_TABLE [STRING, NATURAL]
+
+	escape_128_plus: BOOLEAN
+
+	characters: STRING_32
 
 end

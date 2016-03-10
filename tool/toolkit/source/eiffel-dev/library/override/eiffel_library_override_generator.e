@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Creates class overrides of standard libraries for Eiffel-loop"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 13:09:47 GMT (Sunday 20th December 2015)"
+	revision: "7"
 
 class
 	EIFFEL_LIBRARY_OVERRIDE_GENERATOR
@@ -46,7 +51,7 @@ feature {NONE} -- Implementation
 			if source_path.exists then
 				log_or_io.put_path_field ("Editing", relative_path)
 				editor := editor_factory.instance_from_alias (
-					relative_path, agent {EIFFEL_OVERRIDE_FEATURE_EDITOR}.make (source_path)
+					relative_path.as_string_32, agent {EIFFEL_OVERRIDE_FEATURE_EDITOR}.make (source_path)
 				)
 				File_system.make_directory (output_path.parent)
 				editor.write_edited_lines (output_path)
@@ -103,6 +108,8 @@ feature {NONE} -- Constants
 		end
 
 note
+	description: "Creates class overrides of standard libraries for Eiffel-loop"
+
 	other_overrides: "[
 		vision2/implementation/gtk/ev_gtk_externals.e (Addition of missing externals)
 		
@@ -114,7 +121,15 @@ note
 
 		(Use 15.01. Changes for rotated text no longer needed.)
 		vision2/implementation/mswin/properties/ev_drawable_imp.e
-
-
 	]"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 13:09:47 GMT (Sunday 20th December 2015)"
+	revision: "7"
+
+
 end

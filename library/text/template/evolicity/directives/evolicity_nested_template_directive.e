@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EVOLICITY_NESTED_TEMPLATE_DIRECTIVE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-23 14:12:46 GMT (Saturday 23rd November 2013)"
-	revision: "4"
+	date: "2015-12-18 22:49:15 GMT (Friday 18th December 2015)"
+	revision: "6"
 
 deferred class
 	EVOLICITY_NESTED_TEMPLATE_DIRECTIVE
@@ -25,11 +25,6 @@ inherit
 			is_equal, copy
 		end
 
-	EL_MODULE_STRING
-		undefine
-			is_equal, copy
-		end
-
 feature -- Initialization
 
 	make
@@ -37,7 +32,7 @@ feature -- Initialization
 		do
 			Precursor
 			create tabs.make_empty
-			create variable_ref
+			create variable_ref.make_empty
 		end
 
 feature -- Element change

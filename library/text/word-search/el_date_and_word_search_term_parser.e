@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_DATE_AND_WORD_SEARCH_TERM_PARSER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2015-12-26 14:30:13 GMT (Saturday 26th December 2015)"
+	revision: "3"
 
 class
 	EL_DATE_AND_WORD_SEARCH_TERM_PARSER  [G -> {EL_WORD_SEARCHABLE, EL_DATEABLE}]
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Text patterns
 
-	custom_patterns: ARRAY [EL_TEXTUAL_PATTERN]
+	custom_patterns: ARRAY [EL_TEXT_PATTERN]
 		do
 			Result := << month_interval, day_interval, date, month >>
 		end
@@ -42,17 +42,17 @@ feature {NONE} -- Text patterns
 			--
 		do
 			Result := date_dd_mm_yyyy
-			Result.set_action_on_match_end (agent on_date)
+			Result.set_action_last (agent on_date)
 		end
 
 	month: like date_mm_yyyy
 			--
 		do
 			Result := date_mm_yyyy
-			Result.set_action_on_match_end (agent on_start_to_end_month)
+			Result.set_action_last (agent on_start_to_end_month)
 		end
 
-	month_interval: EL_MATCH_ALL_IN_LIST_TP
+	month_interval: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -60,10 +60,10 @@ feature {NONE} -- Text patterns
 				character_literal ('-') |to| agent on_interval,
 				date_mm_yyyy
 			>>)
-			Result.set_action_on_match_end (agent on_month_interval)
+			Result.set_action_last (agent on_month_interval)
 		end
 
-	day_interval: EL_MATCH_ALL_IN_LIST_TP
+	day_interval: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -71,10 +71,10 @@ feature {NONE} -- Text patterns
 				character_literal ('-') |to| agent on_interval,
 				date_dd_mm_yyyy
 			>>)
-			Result.set_action_on_match_end (agent on_day_interval)
+			Result.set_action_last (agent on_day_interval)
 		end
 
-	date_mm_yyyy: EL_MATCH_ALL_IN_LIST_TP
+	date_mm_yyyy: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -84,7 +84,7 @@ feature {NONE} -- Text patterns
 			>>)
 		end
 
-	date_dd_mm_yyyy: EL_MATCH_ALL_IN_LIST_TP
+	date_dd_mm_yyyy: like all_of
 			--
 		do
 			Result := all_of (<<

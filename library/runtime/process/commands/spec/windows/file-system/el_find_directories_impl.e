@@ -1,13 +1,13 @@
-note
+﻿note
 	description: ""
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-24 11:43:13 GMT (Friday 24th January 2014)"
-	revision: "2"
+	date: "2015-09-16 10:04:31 GMT (Wednesday 16th September 2015)"
+	revision: "4"
 
 class
 	EL_FIND_DIRECTORIES_IMPL
@@ -22,7 +22,7 @@ create
 
 feature -- Access
 
-	template: STRING =
+	Template: STRING =
 		--
 	"[
 		dir /B
@@ -31,7 +31,7 @@ feature -- Access
 		/S
 		#end
 		
-		/AD "$path"
+		/AD $path
 	]"
 
 feature -- Basic operations

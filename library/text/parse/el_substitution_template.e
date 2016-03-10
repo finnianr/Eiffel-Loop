@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-28 10:02:14 GMT (Sunday 28th September 2014)"
-	revision: "4"
+	date: "2015-12-20 14:27:26 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	EL_SUBSTITUTION_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -15,14 +15,13 @@ class
 inherit
 	EL_SUBST_VARIABLE_PARSER
 		rename
-			set_source_text as set_parser_text,
-			match_full as parse_template
+			set_source_text as set_parser_text
 		export
 			{NONE} all
 		undefine
 			default_create
 		redefine
-			parse_template, reset
+			parse, reset
 		end
 
 	STRING_HANDLER
@@ -149,7 +148,7 @@ feature -- Element change
 		local
 			variable_not_found_exception: EXCEPTION
 			variable_name, place_holder: S
-			l_template: ASTRING
+			l_template: ZSTRING
 		do
 			if attached {S} a_name as name then
 				variable_name := name
@@ -169,7 +168,7 @@ feature -- Element change
 
 			elseif is_strict then
 				create variable_not_found_exception
-				l_template := once "class {$S}: Variable %"$S%" not found"
+				l_template := once "class {%S}: Variable %"%S%" not found"
 				variable_not_found_exception.set_description (l_template #$ [generator, variable_name])
 				variable_not_found_exception.raise
 			end
@@ -180,7 +179,7 @@ feature -- Element change
 		do
 			actual_template := a_template
 			set_parser_text (actual_template)
-			parse_template
+			parse
 		end
 
 feature -- Type definitions
@@ -229,16 +228,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	parse_template
+	parse
 			--
 		do
 			decomposed_template.wipe_out
 			Precursor
-			if full_match_succeeded then
-				consume_events
-			end
 		ensure then
-			valid_command_syntax: full_match_succeeded
+			valid_command_syntax: fully_matched
 		end
 
 	template: S

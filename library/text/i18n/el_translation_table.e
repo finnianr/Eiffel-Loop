@@ -1,19 +1,19 @@
-note
+﻿note
 	description: "Summary description for {EL_LOCALIZATION_TABLE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "7"
+	date: "2015-12-21 11:19:23 GMT (Monday 21st December 2015)"
+	revision: "9"
 
 class
 	EL_TRANSLATION_TABLE
 
 inherit
-	EL_ASTRING_HASH_TABLE [ASTRING]
+	EL_ZSTRING_HASH_TABLE [ZSTRING]
 		rename
 			make as make_from_array,
 			put as put_table
@@ -27,11 +27,6 @@ inherit
 		end
 
 	EL_MODULE_LOG
-		undefine
-			is_equal, copy, default_create
-		end
-
-	EL_MODULE_STRING
 		undefine
 			is_equal, copy, default_create
 		end
@@ -98,9 +93,9 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
-	put (a_translation, translation_id: ASTRING)
+	put (a_translation, translation_id: ZSTRING)
 		local
-			translation: ASTRING
+			translation: ZSTRING
 		do
 			if a_translation ~ id_variable then
 				translation := translation_id
@@ -108,6 +103,9 @@ feature {NONE} -- Implementation
 				translation := a_translation
 				translation.prune_all_leading ('%N')
 				translation.right_adjust
+				if translation.has ('%%') then
+					translation.unescape (Substitution_mark_unescaper)
+				end
 			end
 			put_table (translation, translation_id)
 			if conflict then
@@ -118,12 +116,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Build from XML
 
-	last_id: ASTRING
+	last_id: ZSTRING
 
 	translation_text_xpath: STRING
 		do
-			Result := "item/translation[@lang='$S']/text()"
-			Result.replace_substring_all ("$S", language)
+			Result := "item/translation[@lang='%S']/text()"
+			Result.replace_substring_all ("%S", language)
 		end
 
 	building_action_table: like Type_building_actions
@@ -139,24 +137,33 @@ feature {NONE} -- Build from XML
 
 feature {NONE} -- Constants
 
-	ID_variable: ASTRING
+	ID_variable: ZSTRING
 		once
 			Result := "$id"
 		end
 
-	Xpath_language_available: ASTRING
+	Xpath_language_available: ZSTRING
 		once
-			Result := "boolean (//item[1]/translation[@lang='$S'])"
+			Result := "boolean (//item[1]/translation[@lang='%S'])"
 		end
 
-	Xpath_translations: ASTRING
+	Xpath_translations: ZSTRING
 		once
-			Result :=  "item/translation[@lang='$S']"
+			Result :=  "item/translation[@lang='%S']"
 		end
 
 	Xpath_parent_id: STRING_32
 		once
 			Result := "../@id"
+		end
+
+	Substitution_mark_unescaper: EL_ESCAPE_TABLE
+		local
+			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
+		once
+			create table.make_equal (3)
+			table ['S'] := '%S'
+			create Result.make ('%%', table)
 		end
 
 end

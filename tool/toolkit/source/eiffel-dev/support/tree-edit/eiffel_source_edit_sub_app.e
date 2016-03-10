@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2016-01-20 9:41:53 GMT (Wednesday 20th January 2016)"
+	revision: "5"
 
 deferred class
 	EIFFEL_SOURCE_EDIT_SUB_APP
@@ -20,7 +20,7 @@ feature -- Basic operations
 	normal_run
 		do
 			log_or_io.put_path_field ("Editing", file_path); log_or_io.put_new_line
-			create_file_editor.edit_file
+			create_file_editor.edit
 		end
 
 feature -- Testing	

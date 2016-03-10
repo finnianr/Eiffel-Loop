@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "7"
+	date: "2015-12-19 15:01:50 GMT (Saturday 19th December 2015)"
+	revision: "9"
 
 class
 	LATIN_CHARACTER
@@ -44,15 +44,15 @@ feature -- Access
 
 	unicode: NATURAL
 
-	name: ASTRING
+	name: ZSTRING
 
-	unicode_string: ASTRING
+	unicode_string: ZSTRING
 		do
 			create Result.make (1)
 			Result.append_unicode (unicode)
 		end
 
-	inverse_case_unicode_string: ASTRING
+	inverse_case_unicode_string: ZSTRING
 		local
 			c: CHARACTER_32
 		do
@@ -69,11 +69,11 @@ feature -- Access
 			end
 		end
 
-	hexadecimal_code_string: ASTRING
+	hexadecimal_code_string: ZSTRING
 		do
 			Result := code.to_hex_string
 			Result.prune_all_leading ('0')
-			Result.prepend_string (once "0x")
+			Result.prepend_string_general (once "0x")
 		end
 
 feature -- Comparison
@@ -122,7 +122,7 @@ feature {NONE} -- Evolicity fields
 				["unicode", 					agent unicode_string],
 				["inverse_case_unicode", 	agent inverse_case_unicode_string],
 				["code", 						agent: INTEGER_32_REF do Result := code.to_integer_32.to_reference end],
-				["name", 						agent: ASTRING do Result := name end]
+				["name", 						agent: ZSTRING do Result := name end]
 			>>)
 		end
 

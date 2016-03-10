@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {AUTHORIZATION_LOG_TAIL_COMMAND}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-18 10:31:42 GMT (Friday 18th December 2015)"
+	revision: "4"
 
 class
 	AUTH_LOG_TAIL_SCAN_COMMAND
@@ -23,14 +28,12 @@ feature {NONE} -- Initialization
 	default_create
 		do
 			create address_list.make (10)
-			make_with_name ("cat /var/log/auth.log", "[
-				cat /home/finnian/Desktop/failed-logins.txt
-			]")
+			make_with_name ("cat /var/log/auth.log", "cat /home/finnian/Desktop/failed-logins.txt")
 		end
 
 feature -- Access
 
-	address_list: EL_ASTRING_LIST
+	address_list: EL_ZSTRING_LIST
 
 feature -- Element change
 
@@ -41,21 +44,21 @@ feature -- Element change
 
 feature {NONE} -- Line states
 
-	read_ip_address (line: ASTRING)
+	read_ip_address (line: ZSTRING)
 		local
-			address: ASTRING
+			address: ZSTRING
 		do
 			address := line.substring_between (Word_from, Word_port, 1)
 		end
 
 feature {NONE} -- Constants
 
-	Word_from: ASTRING
+	Word_from: ZSTRING
 		once
 			Result := "from"
 		end
 
-	Word_port: ASTRING
+	Word_port: ZSTRING
 		once
 			Result := "port"
 		end

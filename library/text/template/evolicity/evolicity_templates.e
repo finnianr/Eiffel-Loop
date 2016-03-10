@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Top level class for Evolicity accessible though EL_MODULE_EVOLICITY_TEMPLATES
 	
@@ -10,10 +10,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-28 17:18:50 GMT (Thursday 28th November 2013)"
-	revision: "4"
+	date: "2016-01-18 11:00:45 GMT (Monday 18th January 2016)"
+	revision: "6"
 
 class
 	EVOLICITY_TEMPLATES
@@ -104,7 +104,7 @@ feature -- Element change
 			put (file_path, Default_source)
 		end
 
-	put (a_name: EL_FILE_PATH; template_source: ASTRING)
+	put (a_name: EL_FILE_PATH; template_source: ZSTRING)
 			-- compile template and add to global template table
 			-- or recompile if file template has been modified
 		local
@@ -167,15 +167,16 @@ feature -- Basic operations
 			log.enter_with_args ("merge_to_file", << a_name, file_path >>)
 			create text_file.make_open_write (file_path)
 			text_file.set_encoding_from_other (text_encoding)
+			text_file.put_bom
 			merge (a_name, context, text_file)
 			text_file.close
 			log.exit
 		end
 
-	merged (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): ASTRING
+	merged (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): ZSTRING
 			--
 		local
-			text_medium: EL_TEXT_IO_MEDIUM
+			text_medium: EL_ZSTRING_IO_MEDIUM
 		do
 			log.enter_with_args ("merged", << a_name >>)
 			create text_medium.make_open_write (1024)
@@ -189,7 +190,7 @@ feature -- Basic operations
 	merged_utf_8 (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): STRING
 			--
 		local
-			utf8_text_medium: EL_UTF_8_TEXT_IO_MEDIUM
+			utf8_text_medium: EL_UTF_STRING_8_IO_MEDIUM
 		do
 			log.enter_with_args ("merged_utf_8", << a_name >>)
 			create utf8_text_medium.make_open_write (1024)
@@ -238,7 +239,7 @@ feature -- Basic operations
 					-- Try again
 					merge (a_name, context, output)
 				else
-					if attached {EL_UTF_8_TEXT_IO_MEDIUM} output as text_output then
+					if attached {EL_UTF_STRING_8_IO_MEDIUM} output as text_output then
 						text_output.grow (template.minimum_buffer_length)
 					end
 					template.execute (context, output)
@@ -259,7 +260,7 @@ feature {NONE} -- Global attributes
 			create Result.make (create {like Compilers.item}.make (11))
 		end
 
-	Default_source: ASTRING
+	Default_source: ZSTRING
 		once ("PROCESS")
 			create Result.make_empty
 		end

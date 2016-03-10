@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_ID3_TAGS}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-09-30 13:21:35 GMT (Wednesday 30th September 2015)"
+	revision: "6"
 
 class
 	EL_ID3_TAGS
@@ -21,6 +21,8 @@ feature -- Basic tag frame codes
 	Album_artist: STRING = "TPE2"
 
 	Album: STRING = "TALB"
+
+	Beats_per_minute: STRING = "TBPM"
 
 	Composer: STRING = "TCOM"
 

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Minimal console only log responding only to requests from 'log_or_io' object.
 		This minimal logging is always active even when logging is turned off.
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-23 6:23:09 GMT (Wednesday 23rd October 2013)"
-	revision: "3"
+	date: "2015-12-16 7:04:52 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_CONSOLE_LOG
@@ -104,7 +104,7 @@ feature -- Output
 	put_path_field (label: READABLE_STRING_GENERAL; a_path: EL_PATH)
 			--
 		local
-			l_name: ASTRING
+			l_name: ZSTRING
 		do
 			create l_name.make_from_unicode (label)
 			l_name.append_character (' ')
@@ -165,12 +165,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	English_word_file: ASTRING
+	English_word_file: ZSTRING
 		once
 			Result := "file"
 		end
 
-	English_word_directory: ASTRING
+	English_word_directory: ZSTRING
 		once
 			Result := "directory"
 		end

@@ -28,10 +28,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-24 10:12:40 GMT (Thursday 24th December 2015)"
+	revision: "5"
 
 class
 	MATRIX_CALCULATOR
@@ -132,14 +132,13 @@ feature {NONE} -- Building from XML
 	add_row
 			--
 		do
-			log.enter ("add_row")
+			log_or_io.put_line ("add_row")
 			if is_empty then
 				extend (create {ARRAY [REAL]}.make (1, 0))
 			else
 				extend (create {ARRAY [REAL]}.make (1, row.count))
 			end
 			col_index := 0
-			log.exit
 		end
 
 	add_row_col

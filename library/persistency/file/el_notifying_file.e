@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_NOTIFYING_FILE}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-01-01 10:15:59 GMT (Friday 1st January 2016)"
+	revision: "6"
 
 deferred class
 	EL_NOTIFYING_FILE
@@ -15,9 +15,7 @@ deferred class
 inherit
 	FILE
 		redefine
-			make_with_name, open_read, open_write, close, move,
-			read_character, read_line, read_to_managed_pointer,
-			put_managed_pointer, put_character, put_string, put_new_line
+			make_with_name, open_read, open_write, close, move, go, recede, back, start, finish, forth
 		end
 
 	EL_SHARED_FILE_PROGRESS_LISTENER
@@ -47,78 +45,73 @@ feature -- Status setting
 feature -- Status setting
 
 	close
+		-- Notify listener of bytes read or written
 		do
 			Precursor
 			listener := Do_nothing_listener
 		end
 
+feature -- Basic operations
+
+	notify
+		local
+			l_count: INTEGER
+		do
+			l_count := position - last_position
+			if l_count > 0 then
+				listener.on_notify (l_count)
+			end
+			last_position := position
+		end
+
 feature -- Cursor movement
 
+	back
+		do
+			Precursor
+			last_position := position
+		end
+
+	start
+		do
+			Precursor
+			last_position := position
+		end
+
+	finish
+		do
+			Precursor
+			last_position := position
+		end
+
+	forth
+			-- Go to next position.
+		do
+			Precursor
+			last_position := position
+		end
+
+	go (abs_position: INTEGER)
+		do
+			Precursor (abs_position)
+			last_position := position
+		end
+
 	move (offset: INTEGER)
-			-- Advance by `offset' from current location.
 		do
 			Precursor (offset)
-			listener.on_read (offset)
+			last_position := position
 		end
 
-feature -- Input
-
-	read_character
+	recede (abs_position: INTEGER)
 		do
-			Precursor
-			listener.on_read ({PLATFORM}.character_8_bytes)
-		end
-
-	read_line
-		local
-			old_position: INTEGER
-		do
-			old_position := position
-			Precursor
-			listener.on_read (position - old_position)
-		end
-
-	read_to_managed_pointer (p: MANAGED_POINTER; start_pos, nb_bytes: INTEGER)
-			-- Read at most `nb_bytes' bound bytes and make result
-			-- available in `p' at position `start_pos'.
-		do
-			Precursor (p, start_pos, nb_bytes)
-			listener.on_read (bytes_read)
-		end
-
-feature -- Input
-
-	put_managed_pointer (p: MANAGED_POINTER; start_pos, nb_bytes: INTEGER)
-			-- Put data of length `nb_bytes' pointed by `start_pos' index in `p' at
-			-- current position.
-		do
-			Precursor (p, start_pos, nb_bytes)
-			listener.on_write (nb_bytes)
-		end
-
-	put_character (c: CHARACTER)
-			-- Write `c' at current position.
-		do
-			file_pc (file_pointer, c)
-			listener.on_write ({PLATFORM}.character_8_bytes)
-		end
-
-	put_new_line
-		local
-			old_position: INTEGER
-		do
-			old_position := position
-			Precursor
-			listener.on_write (position - old_position)
-		end
-
-	put_string (s: STRING)
-		do
-			Precursor (s)
-			listener.on_write (s.count)
+			Precursor (abs_position)
+			last_position := position
 		end
 
 feature -- Implementation
+
+	last_position: INTEGER
 
 	listener: EL_FILE_PROGRESS_LISTENER
 

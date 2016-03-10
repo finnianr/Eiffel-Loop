@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_IP_ADAPTER_LIST_IMPL}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-11 13:09:18 GMT (Thursday 11th September 2014)"
-	revision: "2"
+	date: "2015-12-20 16:47:12 GMT (Sunday 20th December 2015)"
+	revision: "4"
 
 class
 	EL_IP_ADAPTER_LIST_IMPL
@@ -36,7 +36,7 @@ feature -- Access
 			across ip_adapter_info.adapters as adapter loop
 				if adapter.item.type.same_string ("Wired") then
 					type := Type_ETHERNET_CSMACD
-				elseif adapter.item.type.starts_with ("802.11") then
+				elseif adapter.item.type.starts_with (Version_802_11) then
 					type := Type_IEEE80211
 				else
 					type := Type_OTHER
@@ -49,5 +49,12 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	interface: EL_IP_ADAPTER_LIST
+
+feature {NONE} -- Constants
+
+	Version_802_11: ZSTRING
+		once
+			Result := "802.11"
+		end
 
 end

@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {VCF_CONTACT_NAME_SWITCHER_APP}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-07-27 14:48:22 GMT (Monday 27th July 2015)"
+	revision: "7"
 
 class
 	VCF_CONTACT_NAME_SWITCHER_APP

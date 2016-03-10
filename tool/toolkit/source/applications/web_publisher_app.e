@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-20 13:58:21 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	WEB_PUBLISHER_APP
@@ -89,7 +89,7 @@ feature -- Test
 
 feature -- Element change
 
-	set_config_file_path (dir_path: ASTRING)
+	set_config_file_path (dir_path: ZSTRING)
 			--
 		do
 			config_file_path := dir_path
@@ -107,7 +107,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Generate web site from Thunderbird html content"
 
-	Default_config_file_path: STRING
+	Default_config_file_path: ZSTRING
 			--
 		once
 			create Result.make_empty

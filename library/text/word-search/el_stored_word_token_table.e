@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {WORD_TOKEN_TABLE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-16 9:53:52 GMT (Sunday 16th March 2014)"
-	revision: "4"
+	date: "2016-01-01 16:51:23 GMT (Friday 1st January 2016)"
+	revision: "6"
 
 class
 	EL_STORED_WORD_TOKEN_TABLE
@@ -19,11 +19,6 @@ inherit
 		end
 
 	EL_MODULE_LOG
-		undefine
-			is_equal, copy
-		end
-
-	EL_MODULE_STRING
 		undefine
 			is_equal, copy
 		end
@@ -48,7 +43,7 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	append (a_words: ARRAYED_LIST [ASTRING])
+	append (a_words: ARRAYED_LIST [ZSTRING])
 		do
 			from a_words.start until a_words.after loop
 				put (a_words.item)
@@ -56,16 +51,16 @@ feature -- Element change
 			end
 		end
 
-	put (a_word: ASTRING)
+	put (a_word: ZSTRING)
 			--
 		require else
 			file_open: is_open
-			word_is_normalized: a_word.is_normalized
 		do
 			Precursor (a_word)
 			if not found then
 				crc.add_string (a_word)
-				word_file.put_string (a_word.to_utf8); word_file.put_new_line
+				word_file.put_string (a_word.to_utf_8); word_file.put_new_line
+				word_file.notify
 			end
 		end
 
@@ -78,7 +73,7 @@ feature -- Status setting
 
 	open_write
 		local
-			line: ASTRING; utf8_line: STRING
+			line: ZSTRING; utf8_line: STRING
 		do
 			log.enter ("open_write")
 			if word_file.exists then
@@ -88,6 +83,7 @@ feature -- Status setting
 				log.put_line ("Reading data")
 				from until word_file.after loop
 					word_file.read_line
+					word_file.notify
 					utf8_line := word_file.last_string
 
 					-- Look for checksum in format: [999]
@@ -95,7 +91,7 @@ feature -- Status setting
 						if utf8_line.count > 2 and then utf8_line [1] = '[' and then utf8_line [utf8_line.count] = ']' then
 							last_checksum := utf8_line.substring (2, utf8_line.count - 1).to_natural
 						else
-							create line.make_from_utf8 (utf8_line)
+							create line.make_from_utf_8 (utf8_line)
 							extend (count + 1, line)
 							words.extend (line)
 							crc.add_string (line)

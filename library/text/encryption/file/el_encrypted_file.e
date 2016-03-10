@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_ENCRYPTED_FILE}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-19 18:25:20 GMT (Friday 19th September 2014)"
-	revision: "5"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "6"
 
 class
 	EL_ENCRYPTED_FILE

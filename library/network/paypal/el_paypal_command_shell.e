@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Command shell for testing purposes"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 16:31:36 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	EL_PAYPAL_COMMAND_SHELL
@@ -18,7 +23,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (credentials_path: EL_FILE_PATH; phrase: ASTRING)
+	make (credentials_path: EL_FILE_PATH; phrase: ZSTRING)
 		local
 			credentials: EL_PAYPAL_CREDENTIALS
 			pass_phrase: EL_PASS_PHRASE
@@ -125,7 +130,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_button_id: ASTRING
+	new_button_id: ZSTRING
 		do
 			Result := User_input.line ("Enter button code")
 			log.put_new_line

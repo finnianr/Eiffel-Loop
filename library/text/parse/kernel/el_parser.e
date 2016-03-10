@@ -1,128 +1,103 @@
-note
-	description: "Objects that ..."
+﻿note
+	description: "Summary description for {EL_TEXT_PARSER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
+	date: "2016-01-21 11:18:53 GMT (Thursday 21st January 2016)"
 	revision: "5"
 
 deferred class
 	EL_PARSER
 
 inherit
-	EL_MODULE_LOG
+	EL_STRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
 	make_default
 			--
 		do
-			create event_list.make
-			create {STRING} source_text.make_empty
-			create text_view
-			create unmatched_text_view
-			unmatched_text_action := default_match_action
+			source_text := Empty_string_8
+			create {EL_STRING_8_VIEW} source_view.make (Empty_string_8)
+			unmatched_action := default_action
 			set_pattern_changed
 			reset
 		end
 
+feature -- Access
+
+	source_text: READABLE_STRING_GENERAL
+
+feature -- Element change
+
+	reset
+			--
+		do
+			is_reset := true
+			fully_matched := false
+			reassign_pattern_if_changed
+		end
+
+	set_source_text (a_source_text: like source_text)
+			--
+		do
+			source_text := a_source_text
+			source_view := pattern.new_text_view (a_source_text)
+ 			reset
+		end
+
+	set_unmatched_action (a_unmatched_action: like default_action)
+		do
+			unmatched_action := a_unmatched_action
+		end
+
 feature -- Basic operations
 
-	find_all
-			-- Find all occurrences of pattern
-		require
-			valid_source_text: source_text /= Void
-			parser_initialized: is_reset
+	call_actions
 		do
-			log.enter ("find_all")
-			reassign_pattern_if_changed
-			from
-				text_view := new_source_text_view; unmatched_text_view := new_source_text_view
-			until
-				-- keeps shrinking
-				text_view.count = 0
-			loop
-				pattern.set_text (text_view)
-				pattern.try_to_match
-				prune_working_source_text
-			end
-			if unmatched_text_action /= default_match_action and count_characters_unmatched > 0 then
-				append_unmatched_text_event
-			end
-			log.exit
+			pattern.call_actions (source_view)
+		end
+
+	find_all
+		do
+			pattern.internal_find_all (source_view, unmatched_action)
 		end
 
 	match_full
 			-- Match pattern against full source_text
 		require
 			parser_initialized: is_reset
+		local
+			name_list: like pattern.name_list
 		do
-			log.enter ("match_full")
 			reassign_pattern_if_changed
-			text_view := new_source_text_view
-			pattern.set_text (text_view)
-			pattern.try_to_match
-			if pattern.count_characters_matched = text_view.count then
-				event_list.collect_from (pattern.event_list)
-				full_match_succeeded := true
+			name_list := pattern.name_list
+			pattern.match (source_view)
+			if pattern.count = source_text.count then
+				fully_matched := true
 			else
-				full_match_succeeded := false
-			end
-			log.exit
-		end
-
-	consume_events
-			-- Call events and remove from event list
-		do
-			from event_list.start until event_list.after loop
-				event_list.event.call
-				event_list.remove
+				fully_matched := false
 			end
 		end
 
-	call_events
-			--
+	parse
 		do
-			event_list.do_all (agent {EL_PARSING_EVENT}.call)
+			match_full
+			if fully_matched then
+				call_actions
+			end
 		end
 
-feature -- Status report
+feature -- Status query
 
-	at_least_one_match_found: BOOLEAN
-			--
-		do
-			Result := count_match_successes > 0
-		end
-
-	full_match_succeeded: BOOLEAN
+	fully_matched: BOOLEAN
 
 	has_pattern_changed: BOOLEAN
 
-feature -- Access
-
-	source_text: READABLE_STRING_GENERAL
-
 	is_reset: BOOLEAN
-
-	count_match_successes: INTEGER
-
-feature -- Element change
-
-	set_source_text (a_source_text: like source_text)
-			--
-		do
-			source_text := a_source_text.twin
- 			reset
-		end
-
-	set_unmatched_text_action (a_action: like unmatched_text_action)
-			--
-		do
-			unmatched_text_action := a_action
-		end
 
 feature -- Status setting
 
@@ -134,16 +109,7 @@ feature -- Status setting
 
 feature {NONE} -- Factory
 
-	new_source_text_view: EL_STRING_VIEW
-		do
-			if attached {ASTRING} source_text as al_source_text then
-				create {EL_ASTRING_VIEW} Result.make (al_source_text)
-			else
-				create Result.make (source_text)
-			end
-		end
-
-	new_pattern: EL_TEXTUAL_PATTERN
+	new_pattern: EL_TEXT_PATTERN
 			--
 		deferred
 		end
@@ -159,102 +125,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	reset
-			--
-		do
---			log.enter ("reset_parser")
-			event_list.wipe_out
-			is_reset := true
-			count_match_successes := 0
-			count_characters_unmatched := 0
-			full_match_succeeded := false
---			log.exit
-		end
-
-	prune_working_source_text
-			--
-		local
-			count_characters_matched: INTEGER
-		do
-			if pattern.match_succeeded then
-				if unmatched_text_action /= Void and count_characters_unmatched > 0 then
-					append_unmatched_text_event
-					unmatched_text_view.prune_leading (count_characters_unmatched)
-				end
-				count_characters_unmatched := 0
-
-				count_characters_matched := pattern.count_characters_matched
-				check count_characters_matched > 0 end
-
---				count_characters_matched := pattern.count_characters_matched.max (1)
---				Dubious fudge for zero_or_more (<pattern>)
---				causing: count_characters_matched = 0
-
-				count_match_successes := count_match_successes + 1
-
-				text_view.prune_leading (count_characters_matched)
-				if unmatched_text_action /= Void then
-					unmatched_text_view.prune_leading (count_characters_matched)
-				end
-
-				event_list.collect_from (pattern.event_list)
-				debug ("log") debug_reduce_working_source_text end
-			else
-				text_view.prune_leading (1)
-				count_characters_unmatched := count_characters_unmatched + 1
-			end
-		ensure
-			count_characters_unmatched_not_too_big:
-				count_characters_unmatched <= unmatched_text_view.count
-		end
-
-	append_unmatched_text_event
-			--
-		require
-			valid_count_characters_unmatched: count_characters_unmatched > 0
-			count_characters_unmatched_not_too_big: count_characters_unmatched <= unmatched_text_view.count
-		do
---			log.enter ("append_unmatched_text_event")
---			log.put_string_field ("unmatched_text", unmatched_text.out)
---			log.put_new_line
---			log.put_integer_field ("count_characters_unmatched", count_characters_unmatched)
---			log.put_new_line
-
-			event_list.append_new_event (unmatched_text_view.substring (1, count_characters_unmatched), unmatched_text_action)
---			log.exit
-		end
-
-feature {NONE} -- Implementation attributes
-
-	pattern: EL_TEXTUAL_PATTERN
-
-	event_list: EL_PARSING_EVENT_LIST
-
-	text_view: EL_STRING_VIEW
-
-	unmatched_text_view: EL_STRING_VIEW
-
-	unmatched_text_action: like default_match_action
-
-	count_characters_unmatched: INTEGER
-
-feature {NONE} -- Debug
-
-	debug_reduce_working_source_text
-			--
-		do
---			log.enter ("debug_reduce_working_source_text")
-			if log.current_routine_is_active then
---				log.put_string_field_to_max_length ("Source remaining",working_source_text.out,60)
---				log.put_string (" Count "+count_match_successes.out+" found with ")
---				log.put_string (pattern.count_characters_matched.out+" characters")
---				log.put_new_line
-			end
---			log.exit
-		end
-
-	default_match_action: PROCEDURE [ANY, TUPLE [EL_STRING_VIEW]]
+	default_action: like pattern.Default_action
 		deferred
 		end
 
-end -- class EL_PARSER
+feature {NONE} -- Internal attributes
+
+	unmatched_action: like default_action
+
+	pattern: EL_TEXT_PATTERN
+
+	source_view: EL_STRING_VIEW
+
+end

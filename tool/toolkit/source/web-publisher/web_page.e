@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-20 14:18:39 GMT (Sunday 20th December 2015)"
+	revision: "5"
 
 class
 	WEB_PAGE
@@ -19,8 +19,6 @@ inherit
 		end
 
 	PART_COMPARABLE
-
-	EL_MODULE_STRING
 
 	EL_MODULE_LOG
 

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Calculates elapsed time"
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-21 14:30:36 GMT (Monday 21st October 2013)"
-	revision: "2"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "3"
 
 class EL_EXECUTION_TIMER
 

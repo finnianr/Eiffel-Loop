@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Menu driven console terminal shell"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 7:04:38 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_COMMAND_SHELL
@@ -55,7 +60,7 @@ feature {NONE} -- Implementation
 
 	menu: like command_table.current_keys
 
-	command_table: EL_ASTRING_HASH_TABLE [PROCEDURE [ANY, TUPLE]]
+	command_table: EL_ZSTRING_HASH_TABLE [PROCEDURE [ANY, TUPLE]]
 
 	new_command_table: like command_table
 		deferred
@@ -63,7 +68,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Default_zero_option: ASTRING
+	Default_zero_option: ZSTRING
 		once
 			Result := "Quit"
 		end

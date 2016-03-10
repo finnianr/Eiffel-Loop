@@ -1,19 +1,19 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-05-24 9:02:30 GMT (Friday 24th May 2013)"
-	revision: "2"
+	date: "2015-12-16 8:08:53 GMT (Wednesday 16th December 2015)"
+	revision: "4"
 
 class
 	EL_XML_TAG_LIST
 
 inherit
-	LINKED_LIST [ASTRING]
+	LINKED_LIST [ZSTRING]
 		rename
 			make as make_list
 		export
@@ -75,7 +75,7 @@ feature -- Element change
 
 feature -- Conversion
 
-	to_string, to_xml: ASTRING
+	to_string, to_xml: ZSTRING
 			--
 		do
 			Buffer.clear_all
@@ -90,7 +90,7 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
-	append_to_buffer (s: ASTRING)
+	append_to_buffer (s: ZSTRING)
 			--
 		do
 			Buffer.append_string (s)
@@ -101,7 +101,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	Buffer: ASTRING
+	Buffer: ZSTRING
 			--
 		once
 			create Result.make (256)

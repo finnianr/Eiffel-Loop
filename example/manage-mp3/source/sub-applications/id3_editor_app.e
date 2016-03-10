@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {LIBID3_TEST_APP}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-02-20 12:00:44 GMT (Thursday 20th February 2014)"
-	revision: "5"
+	date: "2015-12-16 9:25:43 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 class
 	ID3_EDITOR_APP
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 			Result := agent command.make
 		end
 
-	default_operands: TUPLE [a_media_dir: EL_DIR_PATH; edition_name: ASTRING]
+	default_operands: TUPLE [a_media_dir: EL_DIR_PATH; edition_name: ZSTRING]
 		do
 			create Result
 			Result.a_media_dir := ""

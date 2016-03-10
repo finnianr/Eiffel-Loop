@@ -15,7 +15,7 @@ from eiffel_loop.eiffel.test import TESTS
 
 environ = { 
 
-	'EIFFEL_LOOP'					: path.curdir_up_to ('Eiffel-Loop'),
+	'EIFFEL_LOOP'					: environ.eiffel_loop_dir (),
 
 	'EIFFEL_LOOP_C' 				: '$EIFFEL_LOOP/C_library',
 
@@ -27,8 +27,8 @@ environ = {
 	'PYTHON_HOME'   				: environ.python_home_dir (),
 	'PYTHON_LIB_NAME'	  			: environ.python_dir_name (),
 
-	'EXPAT' 						: '$EIFFEL_LOOP/contrib/C/Expat',
-	'VTD_XML_INCLUDE' 				: '$EIFFEL_LOOP/contrib/C/VTD-XML.2.7/include'
+	'EXPAT' 							: '$EIFFEL_LOOP/contrib/C/Expat',
+	'VTD_XML_INCLUDE' 			: '$EIFFEL_LOOP/contrib/C/VTD-XML.2.7/include'
 }
 
 MSC_options = ['/x64', '/xp', '/Release']

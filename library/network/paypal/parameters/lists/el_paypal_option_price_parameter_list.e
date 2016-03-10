@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PAYPAL_OPTION_PRICE_VARIABLE_LIST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 16:32:00 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	EL_PAYPAL_OPTION_PRICE_PARAMETER_LIST
@@ -15,7 +20,7 @@ create
 
 feature {NONE} -- Constants
 
-	Name_prefix: EL_ASTRING
+	Name_prefix: ZSTRING
 		once
 			Result := "L_OPTION?PRICE"
 		end

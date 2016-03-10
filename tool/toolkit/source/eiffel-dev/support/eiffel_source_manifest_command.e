@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-03-04 18:17:07 GMT (Friday 4th March 2016)"
+	revision: "6"
 
 deferred class
 	EIFFEL_SOURCE_MANIFEST_COMMAND
@@ -36,7 +36,7 @@ feature -- Basic operations
 				file_list := manifest.file_list
 			end
 			across file_list as file_path loop
-				log_or_io.put_path_field ("Class", file_path.item); log_or_io.put_new_line
+				log_or_io.put_labeled_string ("Class", file_path.item.without_extension.base.as_upper); log_or_io.put_new_line
 				process_file (file_path.item)
 			end
 		end

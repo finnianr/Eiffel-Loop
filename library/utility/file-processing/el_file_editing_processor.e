@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Source file converter that overwrites source file with conversion"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 8:35:01 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2016-01-20 9:39:21 GMT (Wednesday 20th January 2016)"
+	revision: "4"
 
 deferred class
 	EL_FILE_EDITING_PROCESSOR
@@ -15,14 +15,13 @@ deferred class
 inherit
 	EL_TEXT_FILE_EDITOR
 		rename
-			edit_text as edit_file,
 			set_input_file_path as set_convertor_input_file_path
 		end
 
 	EL_FILE_PROCESSOR
 		rename
 			set_file_path as set_input_file_path,
-			execute as edit_file
+			execute as edit
 		redefine
 			set_input_file_path
 		end

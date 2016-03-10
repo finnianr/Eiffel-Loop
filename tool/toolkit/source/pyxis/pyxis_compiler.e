@@ -1,10 +1,15 @@
-note
+﻿note
 	description: "[
 		Compile tree of Pyxis source files into single XML file
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-28 16:15:39 GMT (Monday 28th December 2015)"
+	revision: "8"
 
 class
 	PYXIS_COMPILER
@@ -37,7 +42,7 @@ feature -- Basic operations
 	execute
 			--
 		local
-			pyxis_in: EL_TEXT_IO_MEDIUM; converter: EL_PYXIS_XML_TEXT_GENERATOR
+			pyxis_in: like merged_text; converter: EL_PYXIS_XML_TEXT_GENERATOR
 			xml_out: EL_PLAIN_TEXT_FILE; source_changed: BOOLEAN
 		do
 			log.enter ("execute")
@@ -61,16 +66,20 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	merged_text: EL_TEXT_IO_MEDIUM
+	merged_text: EL_UTF_STRING_8_IO_MEDIUM
 		local
-			pyxis_source: STRING
-			start_index: INTEGER
+			pyxis_source: STRING; start_index: INTEGER; path_list: like pyxis_file_path_list
+			count: INTEGER
 		do
 			log.enter ("merged_text")
-			create Result.make_open_write (1024)
+			path_list := pyxis_file_path_list
+			across path_list as source_path loop
+				count := count + File_system.file_byte_count (source_path.item)
+			end
+			create Result.make_open_write ((count * Pyxis_to_xml_size_scalar).rounded)
 			-- Merge Pyxis files into one monolithic file
 			log_or_io.put_line ("Merging")
-			across pyxis_file_path_list as source_path loop
+			across path_list as source_path loop
 				log_or_io.put_path_field ("Pyxis", source_path.item)
 				log_or_io.put_new_line
 				pyxis_source := File_system.plain_text (source_path.item)
@@ -96,10 +105,14 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	output_modification_time: DATE_TIME
-
 	output_file_path: EL_FILE_PATH
 
+	output_modification_time: DATE_TIME
+
 	source_tree_path: EL_DIR_PATH
+
+feature {NONE} -- Constants
+
+	Pyxis_to_xml_size_scalar: REAL = 1.3
 
 end

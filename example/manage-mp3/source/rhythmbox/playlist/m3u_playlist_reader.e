@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {M3U_PLAYLIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:04 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2015-12-16 9:34:22 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	M3U_PLAYLIST_READER
@@ -56,19 +56,19 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	name: STRING
+	name: ZSTRING
 
 feature {NONE} -- State line procedures
 
-	find_extinf (line: ASTRING)
+	find_extinf (line: ZSTRING)
 			--
 		do
-			if line.starts_with ("#EXTINF") then
+			if line.starts_with_general ("#EXTINF") then
 				state := agent find_path_entry
 			end
 		end
 
-	find_path_entry (line: ASTRING)
+	find_path_entry (line: ZSTRING)
 			--
 		local
 			l_path: EL_FILE_PATH

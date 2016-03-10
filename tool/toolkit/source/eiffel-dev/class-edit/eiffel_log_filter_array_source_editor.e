@@ -26,16 +26,19 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-20 14:27:26 GMT (Sunday 20th December 2015)"
+	revision: "5"
 
 class
 	EIFFEL_LOG_FILTER_ARRAY_SOURCE_EDITOR
 
 inherit
 	EIFFEL_SOURCE_EDITING_PROCESSOR
+		rename
+			class_name as class_name_pattern
+		end
 
 create
 	make
@@ -52,7 +55,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Pattern definitions
 
-	search_patterns: ARRAYED_LIST [EL_TEXTUAL_PATTERN]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
 		do
 			create Result.make_from_array (<<
 				logging_filter_function,
@@ -60,7 +63,7 @@ feature {NONE} -- Pattern definitions
 			>>)
 		end
 
-	logging_filter_function: EL_MATCH_ALL_IN_LIST_TP
+	logging_filter_function: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -76,12 +79,7 @@ feature {NONE} -- Pattern definitions
 				all_of_separated_by (white_space, <<
 					all_of (<<
 						character_literal (']'),
-						optional (
-							all_of (<<
-								white_space,
-								string_literal ("--")
-							>>)
-						)
+						optional (all_of (<< white_space, string_literal ("--") >>))
 					>>),
 					string_literal ("once"),
 					string_literal ("Result"),
@@ -92,42 +90,36 @@ feature {NONE} -- Pattern definitions
 				white_space |to| agent on_unmatched_text,
 
 				filter_tuple (True),
-				zero_or_more (
-					all_of (<<
-						character_literal (','),
-						white_space,
-						filter_tuple (False)
-					>>)
-				),
+				zero_or_more (all_of (<< character_literal (','), white_space, filter_tuple (False) >>)),
 
 				filter_end
 			>>)
 		end
 
-	filter_tuple (is_first: BOOLEAN): EL_MATCH_ALL_IN_LIST_TP
+	filter_tuple (is_first: BOOLEAN): like all_of
 			--
 		do
 			Result := all_of ( <<
 				character_literal ('['),
-				quoted_eiffel_string (agent on_class_name),
+				quoted_manifest_string (agent on_class_name),
 				one_or_more (feature_specifiers),
 				maybe_white_space,
 				character_literal (']')
 			>> )
-			Result.set_action_on_match_end (agent on_filter_end (?, is_first))
+			Result.set_action_last (agent on_filter_end (?, is_first))
 		end
 
-	feature_specifiers: EL_MATCH_ALL_IN_LIST_TP
+	feature_specifiers: like all_of
 			--
 		do
 			Result := all_of ( <<
 				character_literal (','),
 				maybe_white_space,
-				quoted_eiffel_string (agent on_feature_specifier)
+				quoted_manifest_string (agent on_feature_specifier)
 			>> )
 		end
 
-	filter_end: EL_MATCH_ALL_IN_LIST_TP
+	filter_end: like all_of
 			--
 		do
 			Result := all_of (<<

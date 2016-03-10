@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-28 15:28:31 GMT (Thursday 28th November 2013)"
-	revision: "3"
+	date: "2015-12-20 12:09:41 GMT (Sunday 20th December 2015)"
+	revision: "5"
 
 class
 	EVOLICITY_CONTEXT_IMPL
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 			objects.compare_objects
 		end
 
-	make_from_string_table (table: HASH_TABLE [STRING, STRING])
+	make_from_string_table (table: HASH_TABLE [READABLE_STRING_GENERAL, STRING])
 
 		do
 			create objects.make_equal (table.capacity)

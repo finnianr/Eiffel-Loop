@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PAYPAL_PARAMETER_LIST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 16:32:13 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 deferred class
 	EL_PAYPAL_PARAMETER_LIST
@@ -23,7 +28,7 @@ inherit
 
 feature -- Element change
 
-	extend (value: ASTRING)
+	extend (value: ZSTRING)
 		do
 			extend_list (create {like item}.make (new_name, value))
 		end

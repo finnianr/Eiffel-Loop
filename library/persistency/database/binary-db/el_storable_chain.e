@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_BINARY_STORABLE_LIST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-24 16:15:30 GMT (Wednesday 24th September 2014)"
-	revision: "4"
+	date: "2016-02-03 13:35:23 GMT (Wednesday 3rd February 2016)"
+	revision: "6"
 
 deferred class
 	EL_STORABLE_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -27,15 +27,13 @@ inherit
 
 	EL_ENCRYPTABLE
 
-	EL_MODULE_LOG
-
 feature {NONE} -- Initialization
 
 	make_chain_implementation (a_count: INTEGER)
 		deferred
 		end
 
-	make_from_file (a_file_path: like file_path; a_version: like version)
+	make_from_file (a_file_path: like file_path)
 		local
 			l_file: like new_open_read_file
 		do
@@ -46,14 +44,11 @@ feature {NONE} -- Initialization
 			make_chain_implementation (0)
 			reader_writer := new_reader_writer
 
-			version := a_version
 			if file_path.exists then
-				log_or_io.put_path_field ("Opening", a_file_path)
-				log_or_io.put_new_line
 				l_file := new_open_read_file (file_path)
 				-- Check version
 				l_file.read_natural_32
-				if l_file.last_natural_32 /= version then
+				if l_file.last_natural_32 /= software_version then
 					on_version_mismatch (l_file.last_natural_32)
 				end
 
@@ -70,11 +65,11 @@ feature {NONE} -- Initialization
 			l_file.close
 		end
 
-	make_from_file_and_encrypter (a_file_path: EL_FILE_PATH; a_version: like version; a_encrypter: EL_AES_ENCRYPTER)
+	make_from_file_and_encrypter (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
 			--
 		do
 			encrypter := a_encrypter
-			make_from_file (a_file_path, a_version)
+			make_from_file (a_file_path)
 		end
 
 feature -- Access
@@ -82,6 +77,18 @@ feature -- Access
 	deleted_count: INTEGER
 
 	file_path: EL_FILE_PATH
+
+	file_version: NATURAL
+		local
+			file: RAW_FILE
+		do
+			create file.make_open_read (file_path)
+			if file.count >= {PLATFORM}.Natural_32_bits then
+				file.read_natural
+				Result := file.last_natural
+			end
+			file.close
+		end
 
 	stored_byte_count: INTEGER
 
@@ -92,8 +99,10 @@ feature -- Access
 			Result := count - deleted_count
 		end
 
-	version: NATURAL
+	software_version: NATURAL
 		-- Format of application version.
+		deferred
+		end
 
 feature -- Basic operations
 
@@ -157,7 +166,8 @@ feature -- Removal
 			-- mark item for deletion on next store_as operation
 		do
 			item.delete
-			deleted_count  := deleted_count + 1
+			deleted_count := deleted_count + 1
+			on_delete
 		end
 
 	compact
@@ -180,6 +190,22 @@ feature -- Status query
 	is_encrypted: BOOLEAN
 		do
 			Result := encrypter /= Default_encrypter
+		end
+
+	has_version_mismatch: BOOLEAN
+			-- True if data version differs from software version
+		do
+			if attached reader_writer then
+				Result := not reader_writer.is_default_data_version
+			elseif file_path.exists then
+				Result := file_version /= software_version
+			end
+		end
+
+feature {NONE} -- Event handler
+
+	on_delete
+		deferred
 		end
 
 feature {NONE} -- Factory
@@ -215,7 +241,7 @@ feature {EL_CHAIN_EDITIONS_FILE} -- Implementation
 
 	put_header (a_file: RAW_FILE)
 		do
-			a_file.put_natural_32 (version)
+			a_file.put_natural_32 (software_version)
 			a_file.put_integer (undeleted_count)
 		end
 

@@ -4,16 +4,16 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-16 19:08:58 GMT (Wednesday 16th December 2015)"
+	revision: "4"
 
 class
 	STRING_LIST_PARAMETER
 
 inherit
-	LIST_PARAMETER [ASTRING]
+	LIST_PARAMETER [ZSTRING]
 		redefine
 			building_action_table, display_item
 		end
@@ -37,8 +37,12 @@ feature {NONE} -- Build from XML
 
 	extend_from_node
 			--
+		local
+			node_string: ZSTRING
 		do
-			node.to_string.translated (once "%N", once "%U").split ('|').do_all (agent extend)
+			node_string := node.to_string
+			node_string.prune_all ('%N')
+			node_string.split ('|').do_all (agent extend)
 		end
 
 	building_action_table: like Type_building_actions

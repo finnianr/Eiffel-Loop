@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_DYNAMICALLY_LOADED_C_API}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "1"
+	date: "2015-12-16 18:52:44 GMT (Wednesday 16th December 2015)"
+	revision: "3"
 
 deferred class
 	EL_DYNAMIC_MODULE
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			module_path: EL_FILE_PATH
 		do
 			module_path := Execution.dynamic_module_name (module_name)
-			make_module (module_path.without_extension.to_string.string)
+			make_module (module_path.without_extension.to_string.to_latin_1)
 		ensure
 			is_initialized: is_initialized
 		end

@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_BUILDABLE_PASS_PHRASE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-04-26 8:11:43 GMT (Sunday 26th April 2015)"
+	revision: "6"
 
 class
 	EL_BUILDABLE_PASS_PHRASE

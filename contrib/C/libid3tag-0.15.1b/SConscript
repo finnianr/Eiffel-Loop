@@ -36,14 +36,14 @@ if not env.GetOption ('clean'):
 	conf = Configure (env)
 	config_h = CONFIG_HEADER (conf, '.')
 
-	config_h.write_defines_for_C_header_availability (
+	config_h.set_defines_for_C_header_availability (
 		[	'assert.h',	'dlfcn.h', 'inttypes.h', 'memory.h', 'stdint.h', 
 			'stdlib.h', 'strings.h', 'string.h', 'sys/stat.h',
 			'sys/types.h', 'unistd.h'
 		]
 	)
 
-	config_h.write_string_defines ([
+	config_h.set_string_defines ([
 		("PACKAGE", "libid3tag", "name of package"),
 
 		("PACKAGE_BUGREPORT", "support@underbit.com", "address where bug reports for this package should be sent."),
@@ -60,11 +60,11 @@ if not env.GetOption ('clean'):
 	])
 
 	if c_scons.has_ansi_C_standard_headers (conf):
-		config_h.write_defines ([
+		config_h.set_defines ([
 			('STDC_HEADERS', 1, 'if you have the ANSI C header files.')
 		])
 
-	config_h.close
+	config_h.save ()
 	env = conf.Finish()
 
 build_dir = project.platform_spec_build_dir ()

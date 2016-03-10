@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {RBOX_CORTINA_SONG}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-11-14 18:10:55 GMT (Thursday 14th November 2013)"
-	revision: "4"
+	date: "2015-12-17 19:26:11 GMT (Thursday 17th December 2015)"
+	revision: "6"
 
 class
 	RBOX_CORTINA_SONG
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 
 	make (
 		a_database: like database; a_source_song: RBOX_SONG
-		tanda_type: ASTRING; a_track_number, a_duration: INTEGER
+		tanda_type: ZSTRING; a_track_number, a_duration: INTEGER
 	)
 		do
 			make_song (a_database)
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 				title := Tanda_type_the_end
 			else
 				title := Title_template #$ ['A' + (track_number - 1), tanda_type.as_upper]
-				title.append (create {ASTRING}.make_filled ('_', 30 - title.count))
+				title.append (create {ZSTRING}.make_filled ('_', 30 - title.count))
 			end
 			artist := source_song.artist
 			genre := Genre_cortina
@@ -91,9 +91,9 @@ feature -- Basic operations
 
 feature {NONE} -- Constants
 
-	Title_template: ASTRING
+	Title_template: ZSTRING
 		once
-			Result := "$S. $S tanda "
+			Result := "%S. %S tanda "
 		end
 
 end

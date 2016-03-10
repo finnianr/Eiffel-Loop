@@ -1,11 +1,16 @@
-note
+﻿note
 	description: "[
 		For example:
 			<p>Some text</p>
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-17 18:27:57 GMT (Thursday 17th December 2015)"
+	revision: "3"
 
 class
 	EL_XML_TEXT_ELEMENT
@@ -32,15 +37,15 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	text: ASTRING
+	text: ZSTRING
 
 feature -- Basic operations
 
 	write (medium: EL_OUTPUT_MEDIUM)
 		do
-			medium.put_astring (open)
-			medium.put_astring (text)
-			medium.put_astring (closed)
+			medium.put_string_z (open)
+			medium.put_string_z (text)
+			medium.put_string_z (closed)
 			medium.put_new_line
 		end
 

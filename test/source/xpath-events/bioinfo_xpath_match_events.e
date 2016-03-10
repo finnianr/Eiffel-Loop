@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-16 18:52:45 GMT (Wednesday 16th December 2015)"
+	revision: "7"
 
 class
 	BIOINFO_XPATH_MATCH_EVENTS
@@ -47,10 +47,10 @@ feature {NONE} -- XPath match event handlers
 	on_label
 			--
 		local
-			node_string: ASTRING
+			node_string: ZSTRING
 		do
 			node_string := last_node.to_string
-			if node_string.starts_with ("Help") then
+			if node_string.starts_with_general ("Help") then
 				log_or_io.put_string_field_to_max_length ("HELP LABEL", node_string, 100)
 				log_or_io.put_new_line
 				log_or_io.put_new_line
@@ -75,7 +75,7 @@ feature {NONE} -- XPath match event handlers
 	on_parameter_list_value
 			--
 		do
-			if is_type_url and then last_node.to_string.starts_with ("http:") then
+			if is_type_url and then last_node.to_string.starts_with_general ("http:") then
 				log_last_node ("HTTP URL")
 			end
 		end

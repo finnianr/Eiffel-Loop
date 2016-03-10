@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_XML_STORABLE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-28 9:13:03 GMT (Monday 28th December 2015)"
+	revision: "7"
 
 deferred class
 	EL_BUILDABLE_XML_FILE_PERSISTENT
@@ -21,6 +21,7 @@ inherit
 	EVOLICITY_SERIALIZEABLE_AS_XML
 		rename
 			save_as_xml as store_as
+--			make_default as make_serializeable
 		redefine
 			make_from_file, make_default
 		end
@@ -37,7 +38,9 @@ feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
 
 	make_default
 		do
+			-- NOT THIS:
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML}
+--			make_empty
 			Precursor {EL_BUILDABLE_FROM_XML}
 		end
 

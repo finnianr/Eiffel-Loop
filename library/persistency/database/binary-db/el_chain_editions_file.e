@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_BINARY_EDITIONS_FILE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-01-05 16:45:36 GMT (Tuesday 5th January 2016)"
+	revision: "6"
 
 class
 	EL_CHAIN_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -17,6 +17,8 @@ inherit
 		rename
 			make as make_file,
 			count as file_count
+		redefine
+			delete
 		end
 
 create
@@ -26,7 +28,7 @@ feature -- Initialization
 
 	make (a_file_path: EL_FILE_PATH; a_storable_chain: like item_chain)
 		local
-			i: INTEGER
+			i, l_position: INTEGER
 		do
 			item_chain := a_storable_chain
 			reader_writer := item_chain.reader_writer
@@ -38,13 +40,11 @@ feature -- Initialization
 					read_header
 					from i := 1 until i > count or end_of_file loop
 						read_edition_code
+						l_position := position
 						if not end_of_file then
 							skip_edition (last_edition_code)
-						end
-						if not end_of_file then
-							inspect last_edition_code when Edition_code_extend, Edition_code_replace then
-								new_item_count := new_item_count + 1
-							else
+							if last_edition_code = Edition_code_extend then
+								extended_byte_count := extended_byte_count + position - l_position
 							end
 						end
 						i := i + 1
@@ -68,8 +68,8 @@ feature -- Access
 	actual_count: INTEGER
 		-- count of editions found
 
-	new_item_count: INTEGER
-		-- count of editions that call new_item
+	extended_byte_count: INTEGER
+		-- total data bytes that extend list
 
 	crc: EL_CYCLIC_REDUNDANCY_CHECK_32
 
@@ -97,23 +97,19 @@ feature -- Status report
 			Result := read_count = count
 		end
 
-feature -- Status change
+feature -- Removal
+
+	delete
+		do
+			Precursor
+			count := 0; actual_count := 0; extended_byte_count := 0
+			crc.reset
+		end
 
 	close_and_delete
 			--
 		do
 			close; delete
-		end
-
-	reopen
-		do
-			if exists then
-				open_read_write
-				finish
-			else
-				open_write; put_header; close
-				reopen
-			end
 		end
 
 feature {EL_STORABLE_CHAIN_EDITIONS} -- Basic operations
@@ -154,6 +150,17 @@ feature {EL_STORABLE_CHAIN_EDITIONS} -- Basic operations
 			flush
 		end
 
+	reopen
+		do
+			if exists then
+				open_read_write
+				finish
+			else
+				open_write; put_header; close
+				reopen
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	put_header
@@ -165,6 +172,7 @@ feature {NONE} -- Implementation
 		do
 			read_integer_32
 			count := last_integer_32
+			notify
 		end
 
 	skip_header
@@ -212,6 +220,7 @@ feature {NONE} -- Implementation
 			else
 				has_checksum_mismatch := True
 			end
+			notify
 		end
 
 	read_edition_code

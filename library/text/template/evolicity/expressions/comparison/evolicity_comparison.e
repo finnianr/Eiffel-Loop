@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2012-12-16 11:34:32 GMT (Sunday 16th December 2012)"
-	revision: "1"
+	date: "2015-11-12 14:09:35 GMT (Thursday 12th November 2015)"
+	revision: "3"
 
 deferred class
 	EVOLICITY_COMPARISON
@@ -106,13 +106,13 @@ feature {NONE} -- Implementation
 			Result := operands
 			from i := 1 until i > Result.count loop
 				if attached {INTEGER_REF} Result.item (i) as integer then
-					Result [i] := integer.to_integer_64
+					Result [i] := integer.to_integer_64.to_reference
 
 				elseif attached {NATURAL_32_REF} Result.item (i) as natural_32 then
-					Result [i] := natural_32.to_integer_64
+					Result [i] := natural_32.to_integer_64.to_reference
 
 				elseif attached {NATURAL_64_REF} Result.item (i) as natural_64 then
-					Result [i] := natural_64.to_integer_64
+					Result [i] := natural_64.to_integer_64.to_reference
 
 				end
 				i := i + 1

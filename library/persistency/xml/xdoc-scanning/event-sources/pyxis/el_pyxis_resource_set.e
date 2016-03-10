@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Object for caching XML conversions of resource set in Pyxis format installed in application directory
 	]"
@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-16 7:27:57 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_PYXIS_RESOURCE_SET
@@ -95,7 +95,7 @@ feature -- Access
 
 feature {NONE} -- Line states
 
-	find_root_element (line: ASTRING; pyxis_out: PLAIN_TEXT_FILE; is_first: BOOLEAN)
+	find_root_element (line: ZSTRING; pyxis_out: PLAIN_TEXT_FILE; is_first: BOOLEAN)
 		do
 			if not line.is_empty
 				and then (not line.starts_with (once "pyxis-doc:") and line [1] /= '#' and line.item (line.count) = ':')
@@ -107,7 +107,7 @@ feature {NONE} -- Line states
 			end
 		end
 
-	extend (line: ASTRING; pyxis_out: PLAIN_TEXT_FILE)
+	extend (line: ZSTRING; pyxis_out: PLAIN_TEXT_FILE)
 		do
 			pyxis_out.put_string (line.to_utf8)
 			pyxis_out.put_new_line
@@ -125,6 +125,6 @@ feature {NONE} -- Implementation
 			Result := Execution.Application_installation_dir.joined_dir_path (directory_name)
 		end
 
-	directory_name: ASTRING
+	directory_name: ZSTRING
 
 end

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Wrapper for swgen test signal generation command
 		It generates 1 second of audio signal sweeping from 'frequency_lower' to 'frequency_lower' at
@@ -10,10 +10,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-09 13:33:15 GMT (Wednesday 9th October 2013)"
-	revision: "3"
+	date: "2015-12-16 8:05:59 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_WAV_GENERATION_COMMAND
@@ -93,7 +93,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["output_file_path", 	agent: EL_PATH do Result := output_file_path end],
+				["output_file_path", 	agent: ZSTRING do Result := escaped_path (output_file_path) end],
 				["cycles_per_sec", 		agent: REAL_REF do Result := cycles_per_sec.to_reference end],
 				["frequency_lower",		agent: INTEGER_REF do Result := frequency_lower.to_reference end],
 				["frequency_upper",		agent: INTEGER_REF do Result := frequency_upper.to_reference end],

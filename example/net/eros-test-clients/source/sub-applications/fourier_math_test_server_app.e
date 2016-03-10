@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Single threaded test server.
 		Notes:
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-04 10:14:55 GMT (Saturday 4th January 2014)"
-	revision: "2"
+	date: "2014-12-11 14:33:12 GMT (Thursday 11th December 2014)"
+	revision: "3"
 
 class
 	FOURIER_MATH_TEST_SERVER_APP

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_LINEAR}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-18 15:06:42 GMT (Friday 18th October 2013)"
-	revision: "2"
+	date: "2015-03-16 18:56:49 GMT (Monday 16th March 2015)"
+	revision: "3"
 
 deferred class
 	EL_LINEAR [G]

@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2016-03-02 13:23:09 GMT (Wednesday 2nd March 2016)"
+	revision: "5"
 
 class
 	WEB_FORM_DROP_DOWN_LIST
@@ -15,7 +15,9 @@ class
 inherit
 	WEB_FORM_COMPONENT
 		rename
-			make as make_component
+			make_default as make
+		redefine
+			make
 		end
 
 create
@@ -26,13 +28,13 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			make_component
 			create option_list.make (7)
+			Precursor
 		end
 
 feature -- Access
 
-	option_list: ARRAYED_LIST [ASTRING]
+	option_list: ARRAYED_LIST [ZSTRING]
 
 	selected_option: INTEGER
 
@@ -89,35 +91,17 @@ feature {NONE} -- Build from XML
 
 feature {NONE} -- Evolicity fields
 
-	get_option_list: ITERABLE [STRING]
-			--
-		do
-			Result := option_list
-		end
-
-	get_selected_option: REAL_REF
-			--
-		do
-			Result := selected_option.to_real.to_reference
-		end
-
-	get_name: STRING
-			--
-		do
-			Result := name
-		end
-
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
-				["option_list", agent get_option_list],
-				["selected_option", agent get_selected_option],
-				["name", agent get_name]
+				["option_list", agent: ITERABLE [ZSTRING] do Result := option_list end],
+				["selected_option", agent: REAL_REF do Result := selected_option.to_real.to_reference end],
+				["name", agent: STRING do Result := name end]
 			>>)
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
 	Template: STRING =
 		-- Substitution template

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Object that applies XML parse events to the construction of an object
 	]"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-24 16:08:14 GMT (Thursday 24th December 2015)"
+	revision: "4"
 
 deferred class
 	EL_XML_NODE_SCAN_SOURCE

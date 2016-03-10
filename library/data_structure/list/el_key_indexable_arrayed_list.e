@@ -1,16 +1,21 @@
-note
+﻿note
 	description: "Summary description for {EL_INDEXED_ARRAYED_LIST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
 
-class
-	EL_KEY_INDEXABLE_ARRAYED_LIST [G -> EL_KEY_IDENTIFIABLE]
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-02-12 13:57:20 GMT (Friday 12th February 2016)"
+	revision: "5"
+
+deferred class
+	EL_KEY_INDEXABLE_ARRAYED_LIST [G -> EL_KEY_IDENTIFIABLE_STORABLE]
 
 inherit
-	EL_ARRAYED_LIST [G]
+	EL_STORABLE_ARRAYED_LIST [G]
 		redefine
-			make, extend, replace, remove
+			make, extend, replace, on_delete
 		end
 
 feature {NONE} -- Initialization
@@ -23,7 +28,23 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	index_by_key: HASH_TABLE [G, NATURAL]
+	default_item: G
+		deferred
+		end
+
+	index_by_key: HASH_TABLE [INTEGER, NATURAL]
+
+	indexed_item (key: NATURAL): like item
+		local
+			l_index: INTEGER
+		do
+			l_index := index_by_key [key]
+			if l_index > 0 then
+				Result := i_th (l_index)
+			else
+				Result := default_item
+			end
+		end
 
 feature -- Element change
 
@@ -31,13 +52,7 @@ feature -- Element change
 		do
 			assign_key (a_item)
 			Precursor (a_item)
-			index_by_key.extend (a_item, a_item.key)
-		end
-
-	remove
-		do
-			index_by_key.remove (item.key)
-			Precursor
+			index_by_key.extend (count, a_item.key)
 		end
 
 	replace (a_item: like first)
@@ -47,12 +62,19 @@ feature -- Element change
 			assign_key (a_item)
 			old_item_key := item.key
 			Precursor (a_item)
-			index_by_key.put (a_item, a_item.key)
+			index_by_key.put (index, a_item.key)
 			if index_by_key.inserted then
 				index_by_key.remove (old_item_key)
 			else
-				index_by_key.force (a_item, a_item.key)
+				index_by_key.force (index, a_item.key)
 			end
+		end
+
+feature {NONE} -- Event handler
+
+	on_delete
+		do
+			index_by_key.remove (item.key)
 		end
 
 feature {NONE} -- Implementation

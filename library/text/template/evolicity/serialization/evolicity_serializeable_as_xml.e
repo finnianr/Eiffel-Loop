@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-04 9:54:45 GMT (Saturday 4th January 2014)"
-	revision: "4"
+	date: "2015-12-16 8:15:43 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE_AS_XML
@@ -62,7 +62,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Variable_to_xml: ASTRING
+	Variable_to_xml: ZSTRING
 		once
 			Result := "to_xml"
 		end

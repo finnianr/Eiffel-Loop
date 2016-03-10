@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-25 12:32:28 GMT (Saturday 25th January 2014)"
-	revision: "3"
+	date: "2015-12-16 11:47:51 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -66,7 +66,7 @@ feature -- Basic operations
 
 	flush
 			-- Write contents of buffer to file if it is free (not locked by another thread)
-			-- Return strings of type {EL_ASTRING} to recyle pool
+			-- Return strings of type {EL_ZSTRING} to recyle pool
 		do
 			if write_mutex.try_lock then
 --				synchronized
@@ -135,20 +135,20 @@ feature {NONE} -- Implementation
 			write_mutex.unlock
 		end
 
-	write_string (str: ASTRING)
+	write_string (str: ZSTRING)
 		do
-			put_file_string (str.to_utf8)
+			put_file_string (str.to_utf_8)
 			if is_directed_to_console.item then
-				io.put_string (str.to_utf8)
+				io.put_string (str.to_utf_8)
 			end
 		end
 
-	write_string_8 (str8: STRING)
+	write_string_8 (str_8: STRING)
 		do
-			if not Escape_sequences.has (str8) then
-				put_file_string (str8)
+			if not Escape_sequences.has (str_8) then
+				put_file_string (str_8)
 				if is_directed_to_console.item then
-					io.put_string (str8)
+					io.put_string (str_8)
 				end
 			end
 		end

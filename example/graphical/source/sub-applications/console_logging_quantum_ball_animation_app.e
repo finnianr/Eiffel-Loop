@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {CONSOLE_LOGGING_QUANTUM_BALL_ANIMATION_APP}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-04 10:01:13 GMT (Saturday 4th January 2014)"
-	revision: "2"
+	date: "2014-12-11 14:32:12 GMT (Thursday 11th December 2014)"
+	revision: "3"
 
 class
 	CONSOLE_LOGGING_QUANTUM_BALL_ANIMATION_APP

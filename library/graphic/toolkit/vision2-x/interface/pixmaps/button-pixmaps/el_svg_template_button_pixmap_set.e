@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_SVG_TEMPLATE_BUTTON_PIXMAP_SET}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-26 11:24:18 GMT (Saturday 26th December 2015)"
+	revision: "7"
 
 class
 	EL_SVG_TEMPLATE_BUTTON_PIXMAP_SET
@@ -30,7 +30,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	set_pixmap (name: ASTRING; a_svg_icon: like normal)
+	set_pixmap (name: ZSTRING; a_svg_icon: like normal)
 		do
 			Precursor (name, a_svg_icon)
 			a_svg_icon.update_png

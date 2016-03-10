@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Logs routines which are set to have logging enabled in the global configuration
 	]"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-25 12:28:55 GMT (Saturday 25th January 2014)"
-	revision: "3"
+	date: "2015-12-16 7:04:47 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_CONSOLE_AND_FILE_ROUTINE_LOG
@@ -134,7 +134,7 @@ feature {NONE} -- Implementation
 			elseif attached {EL_PATH} arg_object as path_arg then
 				l_out.put_quoted_string (path_arg.to_string)
 
-			elseif attached {ASTRING} arg_object as astr then
+			elseif attached {ZSTRING} arg_object as astr then
 				l_out.put_quoted_string (astr)
 			else
 				l_out.set_text_brown

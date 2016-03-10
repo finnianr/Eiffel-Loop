@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PYXIS_PARSER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2016-01-18 15:49:04 GMT (Monday 18th January 2016)"
+	revision: "8"
 
 class
 	EL_PYXIS_PARSER
@@ -24,8 +24,6 @@ inherit
 		redefine
 			call
 		end
-
-	EL_MODULE_STRING
 
 	EL_PYTHON_UNESCAPE_CONSTANTS
 
@@ -55,10 +53,10 @@ feature -- Basic operations
 	parse_from_stream (a_stream: IO_MEDIUM)
 			-- Parse XML document from input stream.
 		local
-			line_source: LINEAR [ASTRING]
+			line_source: LINEAR [ZSTRING]
 		do
-			if attached {EL_TEXT_IO_MEDIUM} a_stream as memory_file then
-				create {EL_TEXT_LINE_SOURCE} line_source.make (memory_file)
+			if attached {EL_STRING_IO_MEDIUM} a_stream as string_medium then
+				create {EL_TEXT_LINE_SOURCE} line_source.make (string_medium)
 
 			elseif attached {PLAIN_TEXT_FILE} a_stream as text_file then
 				create {EL_FILE_LINE_SOURCE} line_source.make_from_file (text_file)
@@ -75,26 +73,33 @@ feature -- Basic operations
 
 	parse_from_string (a_string: STRING)
 			-- Parse document from `a_string'.
+		local
+			stream: IO_MEDIUM
 		do
-			parse_from_stream (create {EL_TEXT_IO_MEDIUM}.make_open_read_from_text (a_string))
+			if pyxis_encoding (a_string) ~ once "UTF-8" then
+				create {EL_UTF_STRING_8_IO_MEDIUM} stream.make_open_read_from_text (a_string)
+			else
+				create {EL_ZSTRING_IO_MEDIUM} stream.make_open_read_from_text (a_string)
+			end
+			parse_from_stream (stream)
 		end
 
 feature {NONE} -- Line states
 
-	find_pyxis_doc (line: ASTRING)
+	find_pyxis_doc (line: ZSTRING)
 		do
 			if line.starts_with (Pyxis_doc) then
 				state := agent gather_element_attributes (?, Pyxis_doc)
 			end
 		end
 
-	parse_line (line: ASTRING)
+	parse_line (line: ZSTRING)
 			--
 		do
 			if line.is_empty then
 
 			-- if comment
-			elseif line.starts_with (once "#") then
+			elseif line.has_first ('#') then
 				previous_state := state
 				gather_comments (line, True)
 
@@ -113,10 +118,10 @@ feature {NONE} -- Line states
 				gather_verbatim_lines (line, True)
 
 			-- if element text
-			elseif String.has_double_quotes (line) then
+			elseif line.has_quotes (2) then
 				output_content_lines (line, True, Content_double_quoted_string)
 
-			elseif String.has_single_quotes (line) then
+			elseif line.has_quotes (1) then
 				output_content_lines (line, True, Content_single_quoted_string)
 
 			elseif line.is_double then
@@ -128,10 +133,10 @@ feature {NONE} -- Line states
 			end
 		end
 
-	gather_element_attributes (line: ASTRING; tag_name: ASTRING)
+	gather_element_attributes (line: ZSTRING; tag_name: ZSTRING)
 		do
 			if line.is_empty then
-			elseif line.starts_with (once "#") then
+			elseif line.has_first ('#') then
 				previous_state := state
 				gather_comments (line, True)
 
@@ -139,7 +144,7 @@ feature {NONE} -- Line states
 				attribute_parser.set_source_text (line)
 				attribute_parser.parse
 
-				if attribute_parser.full_match_succeeded then
+				if attribute_parser.fully_matched then
 					across attribute_parser.attribute_list as l_attribute loop
 						attribute_list.extend
 						attribute_list.last_node.set_name (l_attribute.item.name.to_unicode)
@@ -158,9 +163,9 @@ feature {NONE} -- Line states
 			end
 		end
 
-	gather_comments (line: ASTRING; is_first: BOOLEAN)
+	gather_comments (line: ZSTRING; is_first: BOOLEAN)
 		do
-			if is_first or else line.starts_with ("#") then
+			if is_first or else line.has_first ('#') then
 				state := agent gather_comments (?, False)
 				line.remove_head (1)
 				line.left_adjust
@@ -178,7 +183,7 @@ feature {NONE} -- Line states
 			end
 		end
 
-	gather_verbatim_lines (line: ASTRING; is_first: BOOLEAN)
+	gather_verbatim_lines (line: ZSTRING; is_first: BOOLEAN)
 		do
 			if is_first then
 				create verbatim_string.make_empty
@@ -196,17 +201,17 @@ feature {NONE} -- Line states
 			end
 		end
 
-	output_content_lines (line: ASTRING; is_first: BOOLEAN; content_type: INTEGER)
+	output_content_lines (line: ZSTRING; is_first: BOOLEAN; content_type: INTEGER)
 		do
 			if is_first then
 				previous_state := state
 				state := agent output_content_lines (?, false, content_type)
 				on_content_line (line, is_first, content_type)
 
-			elseif String.has_double_quotes (line) then
+			elseif line.has_quotes (2) then
 				on_content_line (line, is_first, Content_double_quoted_string)
 
-			elseif String.has_single_quotes (line) then
+			elseif line.has_quotes (1) then
 				on_content_line (line, is_first, Content_single_quoted_string)
 
 			elseif line.is_double then
@@ -236,23 +241,23 @@ feature {NONE} -- Parse events
 					xml_version := attribute_node.to_real
 
 				elseif attribute_name.same_string ("encoding") then
-					set_encoding_from_name (attribute_node.to_string.to_latin1)
+					set_encoding_from_name (attribute_node.to_string.to_latin_1)
 					encodeable_line_source.set_encoding_from_other (Current)
 				end
 				i := i + 1
 			end
-			scanner.on_xml_tag_declaration
+			scanner.on_xml_tag_declaration (xml_version, Current)
 			attribute_list.reset
 
 			scanner.on_start_document
 
 			if not comment_string.is_empty then
-				comment_string.prepend_string ("%N%N")
+				comment_string.prepend_string_general (once "%N%N")
 			end
 			comment_string.prepend (English_auto_generated_notice)
 		end
 
-	on_start_tag (tag_name: ASTRING)
+	on_start_tag (tag_name: ZSTRING)
 			--
 		do
 			last_node.set_type_as_element
@@ -262,7 +267,7 @@ feature {NONE} -- Parse events
 			element_stack.put (tag_name)
 		end
 
-	on_end_tag (tag_name: ASTRING)
+	on_end_tag (tag_name: ZSTRING)
 		do
 			set_last_node_name (tag_name)
 			last_node.set_type_as_element
@@ -279,7 +284,7 @@ feature {NONE} -- Parse events
 			comment_string.wipe_out
 		end
 
-	on_content (text: ASTRING)
+	on_content (text: ZSTRING)
 			--
 		do
 			set_last_node_text (text)
@@ -287,10 +292,10 @@ feature {NONE} -- Parse events
 			scanner.on_content
 		end
 
-	on_content_line (line: ASTRING; is_first: BOOLEAN; content_type: INTEGER)
+	on_content_line (line: ZSTRING; is_first: BOOLEAN; content_type: INTEGER)
 			--
 		local
-			tag_name: ASTRING
+			tag_name: ZSTRING
 		do
 			if not is_first then
 				tag_name := element_stack.item
@@ -300,12 +305,12 @@ feature {NONE} -- Parse events
 			last_node.set_type_as_text
 			inspect content_type
 				when Content_double_quoted_string then
-					String.remove_double_quote (line)
-					set_last_node_text (line.unescaped (Escape_character, Double_quote_escape_table))
+					line.remove_quotes
+					set_last_node_text (line.unescaped (Double_quote_escape_table))
 
 				when Content_single_quoted_string then
-					String.remove_single_quote (line)
-					set_last_node_text (line.unescaped (Escape_character, Single_quote_escape_table))
+					line.remove_quotes
+					set_last_node_text (line.unescaped (Single_quote_escape_table))
 
 			else
 				set_last_node_text (line)
@@ -326,7 +331,7 @@ feature {NONE} -- Parse events
 
 feature {NONE} -- Implementation
 
-	call (line: ASTRING)
+	call (line: ZSTRING)
 		-- call state procedure with item
 		local
 			count_with_tabs: INTEGER
@@ -347,13 +352,28 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_last_node_name (name: ASTRING)
+	pyxis_encoding (a_string: STRING): STRING
+		local
+			pos_encoding, pos_quote_1, pos_quote_2: INTEGER
+		do
+			pos_encoding := a_string.substring_index (once "encoding", 1)
+			if pos_encoding > 0 then
+				pos_quote_1 := a_string.index_of ('"', pos_encoding + 8).max (1)
+				pos_quote_2 := a_string.index_of ('"', pos_quote_1 + 1).max (2)
+			else
+				pos_quote_1 := 1
+				pos_quote_2 := 2
+			end
+			Result := a_string.substring (pos_quote_1 + 1, pos_quote_2 - 1).as_upper
+		end
+
+	set_last_node_name (name: ZSTRING)
 		do
 			last_node_name.wipe_out
 			last_node_name.append (name.to_unicode)
 		end
 
-	set_last_node_text (text: ASTRING)
+	set_last_node_text (text: ZSTRING)
 		do
 			last_node_text.wipe_out
 			last_node_text.append (text.to_unicode)
@@ -363,13 +383,13 @@ feature {NONE} -- Implementation: attributes
 
 	previous_state: like state
 
-	element_stack: ARRAYED_STACK [ASTRING]
+	element_stack: ARRAYED_STACK [ZSTRING]
 
 	attribute_list: EL_XML_ATTRIBUTE_LIST
 
-	verbatim_string: ASTRING
+	verbatim_string: ZSTRING
 
-	comment_string: ASTRING
+	comment_string: ZSTRING
 
 	encodeable_line_source: EL_ENCODEABLE_AS_TEXT
 
@@ -379,7 +399,7 @@ feature {NONE} -- Implementation: attributes
 
 feature {NONE} -- Constants
 
-	English_auto_generated_notice: ASTRING
+	English_auto_generated_notice: ZSTRING
 		once
 			Result := "This file is auto-generated by class EL_PYXIS_PARSER (eiffel-loop.com)"
 		end
@@ -390,7 +410,7 @@ feature {NONE} -- Constants
 
 	Content_double_number: INTEGER = 3
 
-	Pyxis_doc: ASTRING
+	Pyxis_doc: ZSTRING
 		once
 			Result := "pyxis-doc:"
 		end

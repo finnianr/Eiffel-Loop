@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {HTTP_USER_SESSION}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-03 10:36:28 GMT (Friday 3rd October 2014)"
-	revision: "5"
+	date: "2015-12-17 11:27:02 GMT (Thursday 17th December 2015)"
+	revision: "7"
 
 deferred class
 	EL_SERVLET_SESSION [G -> EL_SERVLET_CONFIG]
@@ -48,7 +48,7 @@ feature -- Basic operations
 				if function_table.found then
 					function_table.found_item.apply
 				else
-					http_result := String.template ("No function %"$S%" found.") #$ [function]
+					http_result := String.template ("No function %"%S%" found.") #$ [function]
 				end
 			end
 			response.set_content_length (http_result.count)

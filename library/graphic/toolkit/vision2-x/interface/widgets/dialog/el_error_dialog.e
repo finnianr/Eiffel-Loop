@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ERROR_DIALOG}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-26 11:19:50 GMT (Saturday 26th December 2015)"
+	revision: "7"
 
 deferred class
 	EL_ERROR_DIALOG
@@ -27,7 +27,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_title, a_message: ASTRING)
+	make (a_title, a_message: ZSTRING)
 		deferred
 		end
 

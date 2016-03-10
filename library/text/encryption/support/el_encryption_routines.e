@@ -1,22 +1,19 @@
-note
+﻿note
 	description: "Summary description for {EL_ENCRYPTION}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-24 12:41:13 GMT (Wednesday 24th September 2014)"
-	revision: "4"
+	date: "2015-12-18 22:45:47 GMT (Friday 18th December 2015)"
+	revision: "6"
 
 class
 	EL_ENCRYPTION_ROUTINES
 
 inherit
 	EL_BASE_64_ROUTINES
-		rename
-			String as Mod_string
-		end
 
 feature -- Conversion
 
@@ -34,7 +31,7 @@ feature -- Conversion
 		local
 			md5: MD5
 		do
-			create md5.make
+			md5 := MD5_generator; md5.reset
 			create Result.make (1, 16)
 			md5.sink_string (string)
 			md5.do_final (Result.area, 0)
@@ -63,7 +60,7 @@ feature -- Conversion
 
 feature -- Factory
 
-	new_aes_encrypter (pass_phrase: ASTRING; bit_count: NATURAL): EL_AES_ENCRYPTER
+	new_aes_encrypter (pass_phrase: ZSTRING; bit_count: NATURAL): EL_AES_ENCRYPTER
 		do
 			inspect bit_count
 				when 128 then
@@ -98,4 +95,10 @@ feature {NONE} -- Implementation
 			file.close
 		end
 
+feature {NONE} -- Constants
+
+	MD5_generator: MD5
+		once
+			create Result.make
+		end
 end

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_MEMORY_READER_WRITER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-23 13:51:44 GMT (Tuesday 23rd July 2013)"
-	revision: "3"
+	date: "2016-01-01 16:14:04 GMT (Friday 1st January 2016)"
+	revision: "5"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -53,19 +53,27 @@ feature -- Access
 			create Result.make_by_ordered_compact_date (read_integer_32)
 		end
 
-	read_string: ASTRING
+	read_string: ZSTRING
 		local
-			str: STRING; foreign_characters: SPECIAL [CHARACTER_32]
-			i, l_count: INTEGER
+			i, l_count: INTEGER; l_area: like read_string.area
+			extendible_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS
+			c: CHARACTER
 		do
-			str := read_string_8
 			l_count := read_integer_32
-			create foreign_characters.make_filled ('%U', l_count)
+			create Result.make (l_count)
+			l_area := Result.area
+			extendible_unencoded := Result.extendible_unencoded
 			from i := 0 until i = l_count loop
-				foreign_characters [i] := read_compressed_natural_32.to_character_32
+				c := read_character_8
+				l_area [i] := c
+				if c = Unencoded_character then
+					extendible_unencoded.extend (read_natural_32, i + 1)
+				end
 				i := i + 1
 			end
-			create Result.make_from_components (str, foreign_characters)
+			l_area [i] := c
+			Result.set_count (l_count)
+			Result.set_unencoded_area (extendible_unencoded.area_copy)
 		end
 
 	read_string_32: STRING_32
@@ -80,6 +88,21 @@ feature -- Access
 			end
 		end
 
+	size_of_string (str: ZSTRING): INTEGER
+		do
+			Result := {PLATFORM}.Integer_32_bytes + str.count + str.unencoded_count * {PLATFORM}.Natural_32_bytes
+		end
+
+	size_of_string_8 (str: STRING_8): INTEGER
+		do
+			Result := {PLATFORM}.Integer_32_bytes + str.count
+		end
+
+	size_of_string_32 (str: STRING_32): INTEGER
+		do
+			Result := {PLATFORM}.Integer_32_bytes + str.count * {PLATFORM}.Natural_32_bytes
+		end
+
 feature -- Status query
 
 	is_default_data_version: BOOLEAN
@@ -92,6 +115,11 @@ feature -- Element change
 	reset_count
 		do
 			count := 0
+		end
+
+	set_default_data_version
+		do
+			data_version := 0
 		end
 
 	set_data_version (a_data_version: like data_version)
@@ -125,15 +153,21 @@ feature -- Element change
 			end
 		end
 
-	write_string (a_string: ASTRING)
+	write_string (a_string: ZSTRING)
 		local
-			i, l_count: INTEGER
+			i, l_count: INTEGER; l_area: like read_string.area
+			interval_index: like read_string.unencoded_interval_index
+			c: CHARACTER
 		do
-			write_string_8 (a_string)
-			l_count := a_string.foreign_count
+			interval_index := a_string.unencoded_interval_index
+			l_count := a_string.count; l_area := a_string.area
 			write_integer_32 (l_count)
 			from i := 0 until i = l_count loop
-				write_compressed_natural_32 (a_string.foreign_characters.item (i).natural_32_code)
+				c := l_area [i]
+				write_character_8 (c)
+				if c = Unencoded_character then
+					write_natural_32 (interval_index.code (i + 1))
+				end
 				i := i + 1
 			end
 		end
@@ -190,4 +224,9 @@ feature {NONE} -- Implementation
 		do
 			create {EL_STORABLE_IMPL} Result.make_default
 		end
+
+feature {NONE} -- Constants
+
+	Unencoded_character: CHARACTER = '%/026/'
+
 end

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ENGLISH_DATE_ROUTINES}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-05 12:54:50 GMT (Sunday 5th January 2014)"
-	revision: "3"
+	date: "2015-12-16 7:06:45 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_ENGLISH_DATE_TEXT
@@ -17,13 +17,13 @@ inherit
 
 feature {NONE} -- Implementation
 
-	Default_ordinal_indicator: ASTRING
+	Default_ordinal_indicator: ZSTRING
 			--	
 		once
 			Result := "th"
 		end
 
-	ordinal_indicator (i: INTEGER): ASTRING
+	ordinal_indicator (i: INTEGER): ZSTRING
 		do
 			inspect i
 				when 1 then
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	week_day_name (day_of_week: INTEGER; short: BOOLEAN): ASTRING
+	week_day_name (day_of_week: INTEGER; short: BOOLEAN): ZSTRING
 			--
 		do
 			if short then
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 			Result.to_proper_case
 		end
 
-	month_name (month_of_year: INTEGER; short: BOOLEAN): ASTRING
+	month_name (month_of_year: INTEGER; short: BOOLEAN): ZSTRING
 			--
 		do
 			if short then

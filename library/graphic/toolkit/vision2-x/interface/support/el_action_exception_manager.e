@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_ACTION_MANAGER}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-26 11:18:45 GMT (Saturday 26th December 2015)"
+	revision: "6"
 
 class
 	EL_ACTION_EXCEPTION_MANAGER [D -> EL_ERROR_DIALOG create make end]
@@ -47,7 +47,7 @@ feature -- Basic operations
 		local
 			error_dialog: D
 			condition_found: BOOLEAN
-			title, message: ASTRING
+			title, message: ZSTRING
 			position_widget: EV_WIDGET
 		do
 			if error_occurred then
@@ -85,7 +85,7 @@ feature -- Type definitions
 	Type_error_condition: TUPLE [
 		exception_message, exception_recipient_name: STRING
 		dialog_position_widget: EV_WIDGET -- Dialog is centered below this widget
-		title, message: ASTRING
+		title, message: ZSTRING
 	]
 		once
 		end
@@ -98,12 +98,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Default_title: ASTRING
+	Default_title: ZSTRING
 		once
 			Result := "ERROR"
 		end
 
-	Default_message: ASTRING
+	Default_message: ZSTRING
 		once
 			Result := "Something bad happened that prevented this operation!"
 		end

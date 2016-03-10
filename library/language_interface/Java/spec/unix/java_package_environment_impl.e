@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {JAVA_ENVIRONMENT_IMPL}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-26 18:08:47 GMT (Saturday 26th December 2015)"
+	revision: "5"
 
 class
 	JAVA_PACKAGE_ENVIRONMENT_IMPL
@@ -18,7 +18,7 @@ inherit
 	EL_MODULE_DIRECTORY
 
 create
-	default_create
+	make
 
 feature -- Constants
 

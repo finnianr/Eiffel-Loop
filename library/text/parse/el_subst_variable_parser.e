@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-20 14:29:22 GMT (Sunday 20th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_SUBST_VARIABLE_PARSER
 
 inherit
-	EL_FILE_PARSER
+	EL_PARSER
 
-	EL_TEXTUAL_PATTERN_FACTORY
+	EL_ZTEXT_PATTERN_FACTORY
 		redefine
 			c_identifier
 		end
@@ -34,49 +34,41 @@ feature {NONE} -- Token actions
 
 feature {NONE} -- Implemenation
 
-	subst_variable: EL_TEXTUAL_PATTERN
+	subst_variable: like one_of
 			--
 		do
 			Result := one_of (<< variable, terse_variable >> )
 		end
 
-	variable: EL_MATCH_ALL_IN_LIST_TP
+	variable: like all_of
 			-- matches: ${name}
 		do
 			Result := all_of ( << string_literal ("${"), c_identifier, character_literal ('}') >> )
 		end
 
-	terse_variable: EL_MATCH_ALL_IN_LIST_TP
+	terse_variable: like all_of
 			-- matches: $name
 		do
 			Result := all_of ( << character_literal ('$'), c_identifier >> )
-			Result.set_debug_to_depth (2)
 		end
 
-	c_identifier: EL_MATCH_ALL_IN_LIST_TP
+	c_identifier: like all_of
 			--
 		do
 			Result := Precursor
-			Result.set_action_on_match_begin (agent on_substitution_variable)
+			Result.set_action_first (agent on_substitution_variable)
 		end
 
-	new_pattern: EL_TEXTUAL_PATTERN
+	new_pattern: EL_TEXT_PATTERN
 			--
 		local
-			literal_text_pattern: EL_TEXTUAL_PATTERN
+			literal_text_pattern: EL_TEXT_PATTERN
 		do
-			literal_text_pattern := one_or_more (
-				not one_character_from ("$")
-			)
-			literal_text_pattern.set_action_on_match (agent on_literal_text)
+			literal_text_pattern := one_or_more (not one_character_from ("$"))
+			literal_text_pattern.set_action (agent on_literal_text)
 
-			Result := one_or_more (
-				one_of ( <<
-					literal_text_pattern,
-					subst_variable
-				>> )
-			)
+			Result := one_or_more (one_of (<< literal_text_pattern, subst_variable >>))
 		end
 
-end -- class EL_SUBST_VARIABLE_PARSER
+end
 

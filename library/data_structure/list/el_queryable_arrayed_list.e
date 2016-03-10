@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_FILTERABLE_ARRAYED_LIST}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-12-18 10:08:23 GMT (Wednesday 18th December 2013)"
-	revision: "2"
+	date: "2014-12-30 16:31:26 GMT (Tuesday 30th December 2014)"
+	revision: "3"
 
 class
 	EL_QUERYABLE_ARRAYED_LIST [G]

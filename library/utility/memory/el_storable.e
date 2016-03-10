@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Object that can read and write itself to memory buffer EL_MEMORY_READER_WRITER"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-04 9:47:28 GMT (Saturday 4th January 2014)"
-	revision: "3"
+	date: "2016-02-11 15:47:43 GMT (Thursday 11th February 2016)"
+	revision: "5"
 
 deferred class
 	EL_STORABLE
@@ -39,22 +39,19 @@ feature -- Basic operations
 
 	write (a_writer: EL_MEMORY_READER_WRITER)
 		local
-			i, field_count: INTEGER
 			current_object: REFLECTED_REFERENCE_OBJECT
-			exclusions: like Once_excluded_fields
+			i, field_count: INTEGER; storable_fields: ARRAY [INTEGER]
 		do
 			current_object := new_current_object
-			field_count := current_object.field_count
-			exclusions := Once_excluded_fields
+			storable_fields := Once_storable_fields.item ({like Current}, agent new_storable_fields)
+			field_count := storable_fields.count
 			from i := 1 until i > field_count loop
-				if not exclusions.has (i) then
-					write_field (i, current_object, a_writer)
-				end
+				write_field (storable_fields [i], current_object, a_writer)
 				i := i + 1
 			end
 			Reflected_object_pool.put (current_object)
 		ensure
-			reversable: Current ~ a_writer.retrieved (old a_writer.count)
+			reversable: a_writer.is_default_data_version implies is_reversible (a_writer, old a_writer.count)
 		end
 
 feature -- Status query
@@ -85,17 +82,14 @@ feature {EL_STORABLE} -- Implementation
 	read_default (a_reader: EL_MEMORY_READER_WRITER)
 			-- Read default (current) version of data
 		local
-			i, field_count: INTEGER
-			current_object: REFLECTED_REFERENCE_OBJECT
-			exclusions: like Once_excluded_fields
+			current_object: REFLECTED_REFERENCE_OBJECT; i, field_count: INTEGER
+			storable_fields: ARRAY [INTEGER]
 		do
 			current_object := new_current_object
-			field_count := current_object.field_count
-			exclusions := Once_excluded_fields
+			storable_fields := Once_storable_fields.item ({like Current}, agent new_storable_fields)
+			field_count := storable_fields.count
 			from i := 1 until i > field_count loop
-				if not exclusions.has (i) then
-					read_field (i, current_object, a_reader)
-				end
+				read_field (storable_fields [i], current_object, a_reader)
 				i := i + 1
 			end
 			Reflected_object_pool.put (current_object)
@@ -116,120 +110,29 @@ feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
 		local
-			i, field_count: INTEGER
 			current_object, other_object: REFLECTED_REFERENCE_OBJECT
-			exclusions: like Once_excluded_fields
+			storable_fields: ARRAY [INTEGER]; i, field_count: INTEGER
 		do
 			current_object := new_current_object; other_object := new_current_object
 			other_object.set_object (other)
-			field_count := current_object.field_count
-			exclusions := Once_excluded_fields
+			storable_fields := Once_storable_fields.item ({like Current}, agent new_storable_fields)
+			field_count := storable_fields.count
 			Result := True
 			from i := 1 until i > field_count or else not Result loop
-				if not exclusions.has (i) then
-					Result := Result and equal_fields (i, current_object, other_object)
-				end
+				Result := Result and equal_fields (storable_fields [i], current_object, other_object)
 				i := i + 1
 			end
 			Reflected_object_pool.put (current_object)
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Contract Support
 
-	excluded_field_names: ARRAY [STRING]
+	is_reversible (a_writer: EL_MEMORY_READER_WRITER; from_count: INTEGER): BOOLEAN
 		do
-			create Result.make_empty
+			Result := Current ~ a_writer.retrieved (from_count)
 		end
 
-	equal_fields (field: INTEGER; current_object, other_object: REFLECTED_REFERENCE_OBJECT): BOOLEAN
-		local
-			type_id: INTEGER; reference_item, other_reference_item: ANY
-		do
-			type_id := current_object.field_type (field)
-			inspect type_id
-				when Boolean_type then
-					Result := current_object.boolean_field (field) = other_object.boolean_field (field)	 		-- BOOLEAN
-
-				when Integer_8_type then
-					Result := current_object.integer_8_field (field) = other_object.integer_8_field (field) 	-- INTEGER_8
-
-				when Integer_16_type then
-					Result := current_object.integer_16_field (field) = other_object.integer_16_field (field) -- INTEGER_16
-
-				when Integer_32_type then
-					Result := current_object.integer_32_field (field) = other_object.integer_32_field (field) -- INTEGER_32
-
-				when Integer_64_type then
-					Result := current_object.integer_64_field (field) = other_object.integer_64_field (field) -- INTEGER_64
-
-				when Real_32_type then
-					Result := current_object.real_32_field (field) = other_object.real_32_field (field)			-- REAL_32
-
-				when Real_64_type then
-					Result := current_object.real_64_field (field) = other_object.real_64_field (field)			-- REAL_64
-
-				when Natural_8_type then
-					Result := current_object.natural_8_field (field) = other_object.natural_8_field (field)	-- NATURAL_8
-
-				when Natural_16_type then
-					Result := current_object.natural_16_field (field) = other_object.natural_16_field (field)	-- NATURAL_16
-
-				when Natural_32_type then
-					Result := current_object.natural_32_field (field)  = other_object.natural_32_field (field)-- NATURAL_32
-
-				when Natural_64_type then
-					Result := current_object.natural_64_field (field) = other_object.natural_64_field (field) -- NATURAL_64
-			else
-				type_id := current_object.field_static_type (field)
-				reference_item := current_object.reference_field (field)
-				other_reference_item := other_object.reference_field (field)
-				if type_id = Astring_type or else type_id = String_8_type or else type_id = String_32_type	-- ASTRING or STRING
-					or else attached {EL_STORABLE} reference_item															-- EL_STORABLE
-					or else attached {TUPLE} reference_item as tuple and then tuple.object_comparison			-- TUPLE
-				then
-					Result := reference_item ~ other_reference_item
-				else
-					Result := True
-				end
-			end
-		end
-
-	excluded_fields: like Once_excluded_fields
-			-- array of indexes of excluded fields
-		local
-			i, field_count: INTEGER
-			current_object: REFLECTED_REFERENCE_OBJECT
-			names: ARRAYED_LIST [STRING]; l_result: ARRAYED_LIST [INTEGER]
-		do
-			current_object := new_current_object
-			field_count := current_object.field_count
-			create names.make_from_array (excluded_field_names)
-			names.extend ("is_deleted")
-			names.compare_objects
-			create l_result.make (names.count)
-			from i := 1 until i > field_count loop
-				if names.has (current_object.field_name (i)) then
-					l_result.extend (i)
-				end
-				i := i + 1
-			end
-			Result := l_result.to_array
-			Reflected_object_pool.put (current_object)
-		end
-
-	new_current_object: REFLECTED_REFERENCE_OBJECT
-		local
-			pool: like Reflected_object_pool
-		do
-			pool := Reflected_object_pool
-			if pool.is_empty then
-				create Result.make (Current)
-			else
-				Result := pool.item
-				Result.set_object (Current)
-				pool.remove
-			end
-		end
+feature {NONE} -- Read operations
 
 	read_field (field: INTEGER; current_object: REFLECTED_REFERENCE_OBJECT; a_reader: EL_MEMORY_READER_WRITER)
 		local
@@ -256,10 +159,10 @@ feature {NONE} -- Implementation
 					current_object.set_real_32_field (field, a_reader.read_real_32)			-- REAL
 
 				when Real_64_type then
-					current_object.set_real_64_field (field, a_reader.read_real_32)			-- REAL_64
+					current_object.set_real_64_field (field, a_reader.read_real_64)			-- REAL_64
 
 				when Natural_8_type then
-					current_object.set_natural_16_field (field, a_reader.read_natural_8) 	-- NATURAL_8
+					current_object.set_natural_8_field (field, a_reader.read_natural_8) 	-- NATURAL_8
 
 				when Natural_16_type then
 					current_object.set_natural_16_field (field, a_reader.read_natural_16) 	-- NATURAL_16
@@ -279,24 +182,31 @@ feature {NONE} -- Implementation
 			type_id: INTEGER; reference_item: ANY
 		do
 			type_id := current_object.field_static_type (field)
-			if type_id = Astring_type then
-				current_object.set_reference_field (field, a_reader.read_string)			-- ASTRING
 
-			elseif type_id = String_8_type then
-				current_object.set_reference_field (field, a_reader.read_string_8)		-- STRING_8
+			-- Cannot use inspect becase String_z_type is once function
+			if type_id = String_8_type then
+				current_object.set_reference_field (field, a_reader.read_string_8)	-- STRING_8
 
 			elseif type_id = String_32_type then
-				current_object.set_reference_field (field, a_reader.read_string_32)		-- STRING_32
+				current_object.set_reference_field (field, a_reader.read_string_32)	-- STRING_32
+
+			elseif type_id = String_z_type then
+				current_object.set_reference_field (field, read_string (a_reader))	-- ZSTRING
 
 			else
 				reference_item := current_object.reference_field (field)
 				if attached {EL_STORABLE} reference_item as readable then
-					readable.read (a_reader)															-- EL_STORABLE
+					readable.read (a_reader)														-- EL_STORABLE
 
 				elseif attached {TUPLE} reference_item as tuple then
-					read_tuple (tuple, a_reader)														-- TUPLE
+					read_tuple (tuple, a_reader)													-- TUPLE
 				end
 			end
+		end
+
+	read_string (a_reader: EL_MEMORY_READER_WRITER): ZSTRING
+		do
+			Result := a_reader.read_string
 		end
 
 	read_tuple (tuple: TUPLE; a_reader: EL_MEMORY_READER_WRITER)
@@ -304,21 +214,44 @@ feature {NONE} -- Implementation
 			i: INTEGER; reference_item: ANY
 		do
 			from i := 1 until i > tuple.count loop
-				if tuple.is_boolean_item (i) then
-					tuple.put_boolean (a_reader.read_boolean, i)						-- BOOLEAN
-				elseif tuple.is_integer_32_item (i) then
-					tuple.put_integer (a_reader.read_integer_32, i)					-- INTEGER
-				elseif tuple.is_reference_item (i) then
-					reference_item := tuple.reference_item (i)
-					if attached {ASTRING} reference_item as astring then
-						tuple.put_reference (a_reader.read_string, i)				-- ASTRING
-					elseif attached {STRING} reference_item as string then
-						tuple.put_reference (a_reader.read_string_8, i)				-- STRING
-					end
+				inspect tuple.item_code (i)
+					when {TUPLE}.Boolean_code then
+						tuple.put_boolean (a_reader.read_boolean, i)						-- BOOLEAN
+
+					when {TUPLE}.Integer_16_code then
+						tuple.put_integer_16 (a_reader.read_integer_16, i)				-- INTEGER_16
+
+					when {TUPLE}.Integer_32_code then
+						tuple.put_integer (a_reader.read_integer_32, i)					-- INTEGER_32
+
+					when {TUPLE}.Integer_64_code then
+						tuple.put_integer_64 (a_reader.read_integer_64, i)				-- INTEGER_64
+
+					when {TUPLE}.Natural_16_code then
+						tuple.put_natural_16 (a_reader.read_natural_16, i)				-- NATURAL_16
+
+					when {TUPLE}.Natural_32_code then
+						tuple.put_natural_32 (a_reader.read_natural_32, i)				-- NATURAL_32
+
+					when {TUPLE}.Natural_64_code then
+						tuple.put_natural_64 (a_reader.read_natural_64, i)				-- NATURAL_64
+
+					when {TUPLE}.Reference_code then
+						reference_item := tuple.reference_item (i)
+						if attached {ZSTRING} reference_item then
+							tuple.put_reference (read_string (a_reader), i)				-- ZSTRING
+						elseif attached {STRING} reference_item then
+							tuple.put_reference (a_reader.read_string_8, i)				-- STRING_8
+						elseif attached {STRING_32} reference_item then
+							tuple.put_reference (a_reader.read_string_32, i)			-- STRING_32
+						end
+				else
 				end
 				i := i + 1
 			end
 		end
+
+feature {NONE} -- Write operations
 
 	write_field (field: INTEGER; current_object: REFLECTED_REFERENCE_OBJECT; a_writer: EL_MEMORY_READER_WRITER)
 		local
@@ -367,8 +300,8 @@ feature {NONE} -- Implementation
 
 	write_reference_field (item: ANY; a_writer: EL_MEMORY_READER_WRITER)
 		do
-			if attached {ASTRING} item as astring then
-				a_writer.write_string (astring)					-- ASTRING
+			if attached {ZSTRING} item as zstring then
+				a_writer.write_string (zstring)					-- ZSTRING
 
 			elseif attached {STRING} item as string then
 				a_writer.write_string_8 (string)					-- STRING
@@ -386,22 +319,190 @@ feature {NONE} -- Implementation
 			i: INTEGER
 		do
 			from i := 1 until i > tuple.count loop
-				if tuple.is_boolean_item (i) then
-					a_writer.write_boolean (tuple.boolean_item (i))					-- BOOLEAN
-				elseif tuple.is_integer_32_item (i) then
-					a_writer.write_integer_32 (tuple.integer_32_item (i))			-- INTEGER
-				elseif tuple.is_reference_item (i) then
-					write_reference_field (tuple.reference_item (i), a_writer)
+				inspect tuple.item_code (i)
+					when {TUPLE}.Boolean_code then
+						a_writer.write_boolean (tuple.boolean_item (i))					-- BOOLEAN
+
+					when {TUPLE}.Integer_16_code then
+						a_writer.write_integer_16 (tuple.integer_16_item (i))			-- INTEGER_16
+
+					when {TUPLE}.Integer_32_code then
+						a_writer.write_integer_32 (tuple.integer_32_item (i))			-- INTEGER_32
+
+					when {TUPLE}.Integer_64_code then
+						a_writer.write_integer_64 (tuple.integer_64_item (i))			-- INTEGER_64
+
+					when {TUPLE}.Natural_16_code then
+						a_writer.write_natural_16 (tuple.natural_16_item (i))			-- NATURAL_16
+
+					when {TUPLE}.Natural_32_code then
+						a_writer.write_natural_32 (tuple.natural_32_item (i))			-- NATURAL_32
+
+					when {TUPLE}.Natural_64_code then
+						a_writer.write_natural_64 (tuple.natural_64_item (i))			-- NATURAL_64
+
+					when {TUPLE}.Reference_code then
+						write_reference_field (tuple.reference_item (i), a_writer)
+				else
 				end
 				i := i + 1
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	equal_fields (field: INTEGER; current_object, other_object: REFLECTED_REFERENCE_OBJECT): BOOLEAN
+		local
+			type_id: INTEGER; reference_item, other_reference_item: ANY
+		do
+			type_id := current_object.field_type (field)
+			inspect type_id
+				when Boolean_type then
+					Result := current_object.boolean_field (field) = other_object.boolean_field (field)	 		-- BOOLEAN
+
+				when Integer_8_type then
+					Result := current_object.integer_8_field (field) = other_object.integer_8_field (field) 	-- INTEGER_8
+
+				when Integer_16_type then
+					Result := current_object.integer_16_field (field) = other_object.integer_16_field (field) -- INTEGER_16
+
+				when Integer_32_type then
+					Result := current_object.integer_32_field (field) = other_object.integer_32_field (field) -- INTEGER_32
+
+				when Integer_64_type then
+					Result := current_object.integer_64_field (field) = other_object.integer_64_field (field) -- INTEGER_64
+
+				when Real_32_type then
+					Result := current_object.real_32_field (field) = other_object.real_32_field (field)			-- REAL_32
+
+				when Real_64_type then
+					Result := current_object.real_64_field (field) = other_object.real_64_field (field)			-- REAL_64
+
+				when Natural_8_type then
+					Result := current_object.natural_8_field (field) = other_object.natural_8_field (field)	-- NATURAL_8
+
+				when Natural_16_type then
+					Result := current_object.natural_16_field (field) = other_object.natural_16_field (field)	-- NATURAL_16
+
+				when Natural_32_type then
+					Result := current_object.natural_32_field (field)  = other_object.natural_32_field (field)-- NATURAL_32
+
+				when Natural_64_type then
+					Result := current_object.natural_64_field (field) = other_object.natural_64_field (field) -- NATURAL_64
+			else
+				type_id := current_object.field_static_type (field)
+				reference_item := current_object.reference_field (field)
+				other_reference_item := other_object.reference_field (field)
+				if String_types.has (type_id) or else attached {EL_STORABLE} reference_item						-- EL_STORABLE
+					or else attached {TUPLE} reference_item as tuple and then tuple.object_comparison			-- TUPLE
+				then
+					Result := reference_item ~ other_reference_item
+				else
+					Result := True
+				end
+			end
+		end
+
+	excluded_fields: ARRAY [STRING]
+		-- storable fields to be excluded from read/write
+		do
+			create Result.make_empty
+		end
+
+	is_storable (field: INTEGER; current_object: REFLECTED_REFERENCE_OBJECT): BOOLEAN
+		local
+			type_id: INTEGER; reference_field: ANY
+		do
+			type_id := current_object.field_type (field)
+			inspect type_id when
+				Boolean_type,
+				Integer_8_type, Integer_16_type, Integer_32_type, Integer_64_type,
+				Natural_8_type, Natural_16_type, Natural_32_type, Natural_64_type,
+				Real_32_type, Real_64_type
+			then
+				Result := True
+			else
+				type_id := current_object.field_static_type (field)
+				-- Cannot use inspect becase String_z_type is once function
+				if type_id = String_8_type or else type_id = String_32_type or else type_id = String_z_type then
+					Result := True
+				else
+					reference_field := current_object.reference_field (field)
+					if attached {EL_STORABLE} reference_field then
+						Result := True
+					elseif attached {TUPLE} reference_field as tuple then
+						Result := is_storable_tuple (tuple)
+					end
+				end
+			end
+		end
+
+	is_storable_tuple (tuple: TUPLE): BOOLEAN
+		local
+			i: INTEGER; reference_item: ANY
+		do
+			Result := True
+			from i := 1 until not Result or else i > tuple.count loop
+				inspect tuple.item_code (i)
+					when
+						{TUPLE}.Boolean_code,
+						{TUPLE}.Integer_16_code, {TUPLE}.Integer_32_code, {TUPLE}.Integer_64_code,
+						{TUPLE}.Natural_16_code, {TUPLE}.Natural_32_code, {TUPLE}.Natural_64_code
+					then
+						-- do nothing
+					when {TUPLE}.Reference_code then
+						reference_item := tuple.reference_item (i)
+						if not attached {STRING_GENERAL} reference_item then
+							Result := False
+						end
+				else
+					Result := False
+				end
+				i := i + 1
+			end
+		end
+
+	new_current_object: REFLECTED_REFERENCE_OBJECT
+		local
+			pool: like Reflected_object_pool
+		do
+			pool := Reflected_object_pool
+			if pool.is_empty then
+				create Result.make (Current)
+			else
+				Result := pool.item
+				Result.set_object (Current)
+				pool.remove
+			end
+		end
+
+	new_storable_fields: ARRAY [INTEGER]
+			-- field indices of storable fields
+		local
+			current_object: REFLECTED_REFERENCE_OBJECT; i, field_count: INTEGER
+			exclusions: EL_HASH_SET [STRING]; l_result: ARRAYED_LIST [INTEGER]
+		do
+			current_object := new_current_object
+			field_count := current_object.field_count
+			create exclusions.make_from_array (excluded_fields)
+			exclusions.put ("is_deleted")
+
+			create l_result.make (current_object.field_count)
+			from i := 1 until i > field_count loop
+				if is_storable (i, current_object) and then not exclusions.has (current_object.field_name (i)) then
+					l_result.extend (i)
+				end
+				i := i + 1
+			end
+			Result := l_result.to_array
+			Reflected_object_pool.put (current_object)
+		end
+
 feature {NONE} -- Constants
 
-	Once_excluded_fields: ARRAY [INTEGER]
+	Once_storable_fields: EL_TYPE_TABLE [ARRAY [INTEGER]]
 		once
-			create Result.make_empty
+			create Result.make_equal (11)
 		end
 
 	Reflected_object_pool: ARRAYED_STACK [REFLECTED_REFERENCE_OBJECT]

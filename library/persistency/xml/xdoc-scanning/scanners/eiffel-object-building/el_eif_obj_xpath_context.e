@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_EIF_OBJ_XPATH_CONTEXT}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-25 10:14:37 GMT (Friday 25th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT
@@ -21,7 +21,7 @@ feature {NONE} -- Initialization
 			next_context := Default_next_context
 		end
 
-feature {EL_XML_TO_EIFFEL_OBJECT_BUILDER} -- Event handler
+feature {EL_XML_NODE_CLIENT} -- Event handler
 
 	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
 			-- Called each time the XML parser returns from the context set by 'set_next_context'

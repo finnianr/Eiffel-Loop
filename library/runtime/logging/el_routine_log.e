@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ROUTINE_LOG}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-23 6:57:51 GMT (Wednesday 23rd October 2013)"
-	revision: "3"
+	date: "2015-12-22 9:59:51 GMT (Tuesday 22nd December 2015)"
+	revision: "5"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -30,8 +30,6 @@ inherit
 			-- Status
 			current_routine_is_active
 		end
-
-	EL_MODULE_STRING
 
 feature -- Status
 
@@ -67,112 +65,14 @@ feature -- Element change
 
 feature -- Basic operations
 
-	put_string (s: READABLE_STRING_GENERAL)
-			--
-		local
-			l_out: like output
-		do
-			l_out := output
-			l_out.put_string_general (s)
-			l_out.flush
-		end
-
-	put_labeled_string (label, str: READABLE_STRING_GENERAL)
-			--
-		local
-			l_out: like output
-		do
-			l_out := output
-			l_out.put_label (label)
-			l_out.set_text_brown
-			l_out.put_string_general (str)
-			l_out.set_text_default
-			l_out.flush
-		end
-
-	put_line (l: READABLE_STRING_GENERAL)
-			-- Put string with new line
-		local
-			l_out: like output
-		do
-			l_out := output
-
-			l_out.put_string_general (l)
-			l_out.put_new_line
-			l_out.flush
-		end
-
-	put_string_field (label, field_value: READABLE_STRING_GENERAL)
-			--
-		local
-			l_out: like output
-		do
-			l_out := output
-			l_out.put_label (label)
-			l_out.put_quoted_string (field_value)
-			l_out.flush
-		end
-
-	put_string_field_to_max_length (
-		label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER
-	)
-			-- Put string to log file buffer edited to fit into max_length
-		local
-			l_out: like output
-			count_trailing_characters: INTEGER
-			l_field_value: ASTRING
-			l_lines: EL_ASTRING_LIST
-			l_lines_2: LIST [ASTRING]
-		do
-			l_out := output
-			l_field_value := String.string_from_general (field_value)
-			create l_lines.make (l_field_value.occurrences ('%N') + 2)
-
-			count_trailing_characters := 30
-			count_trailing_characters := count_trailing_characters.min (max_length // 3)
-
-			l_out.put_label (label)
-
-			l_out.set_text_brown
-			l_out.put_string (once "%"[")
-			l_out.set_text_default
-
-			l_out.tab_right
-			l_out.put_new_line
-
-			if l_field_value.count > max_length then
-				l_lines.append (l_field_value.substring (1, max_length - count_trailing_characters).split ('%N'))
-				l_lines.last.append_string (once "..")
-
-				l_lines_2 := l_field_value.substring (
-					l_field_value.count - count_trailing_characters + 1, l_field_value.count
-				).split ('%N')
-
-				l_lines_2.first.prepend_string (once "..")
-				l_lines.append (l_lines_2)
-
-			else
-				l_lines.append (l_field_value.split ('%N'))
-			end
-			l_out.put_lines (l_lines)
-			l_out.tab_left
-			l_out.put_new_line
-
-			l_out.set_text_brown
-			l_out.put_string (once "]%"")
-			l_out.set_text_default
-
-			l_out.flush
-		end
-
-	put_integer (an_integer: INTEGER)
+	put_boolean (b: BOOLEAN)
 			--
 		local
 			l_out: like output
 		do
 			l_out := output
 
-			l_out.put_integer (an_integer)
+			l_out.put_boolean (b)
 			l_out.flush
 		end
 
@@ -187,28 +87,6 @@ feature -- Basic operations
 			l_out.flush
 		end
 
-	put_real (r: REAL)
-			--
-		local
-			l_out: like output
-		do
-			l_out := output
-
-			l_out.put_real (r)
-			l_out.flush
-		end
-
-	put_boolean (b: BOOLEAN)
-			--
-		local
-			l_out: like output
-		do
-			l_out := output
-
-			l_out.put_boolean (b)
-			l_out.flush
-		end
-
 	put_double (d: DOUBLE)
 			--
 		local
@@ -217,6 +95,44 @@ feature -- Basic operations
 			l_out := output
 
 			l_out.put_double (d)
+			l_out.flush
+		end
+
+	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE)
+			--
+		local
+			l_out: like output
+		do
+			l_out := output
+
+			l_out.put_label (label)
+			l_out.put_double (field_value)
+
+			l_out.flush
+		end
+
+	put_elapsed_time
+			-- Log time elapsed since set_timer called
+		local
+			l_out: like output
+		do
+			l_out := output
+
+			timer.stop
+			l_out.put_label (once "TIME")
+			l_out.put_string (timer.out)
+			l_out.put_new_line
+			l_out.flush
+		end
+
+	put_integer (an_integer: INTEGER)
+			--
+		local
+			l_out: like output
+		do
+			l_out := output
+
+			l_out.put_integer (an_integer)
 			l_out.flush
 		end
 
@@ -250,29 +166,28 @@ feature -- Basic operations
 			l_out.flush
 		end
 
-	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL)
+	put_labeled_string (label, str: READABLE_STRING_GENERAL)
 			--
 		local
 			l_out: like output
 		do
 			l_out := output
-
 			l_out.put_label (label)
-			l_out.put_real (field_value)
-
+			l_out.set_text_brown
+			l_out.put_string_general (str)
+			l_out.set_text_default
 			l_out.flush
 		end
 
-	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE)
-			--
+	put_line (l: READABLE_STRING_GENERAL)
+			-- Put string with new line
 		local
 			l_out: like output
 		do
 			l_out := output
 
-			l_out.put_label (label)
-			l_out.put_double (field_value)
-
+			l_out.put_string_general (l)
+			l_out.put_new_line
 			l_out.flush
 		end
 
@@ -288,17 +203,97 @@ feature -- Basic operations
 
 		end
 
-	put_elapsed_time
-			-- Log time elapsed since set_timer called
+	put_real (r: REAL)
+			--
 		local
 			l_out: like output
 		do
 			l_out := output
 
-			timer.stop
-			l_out.put_label (once "TIME")
-			l_out.put_string (timer.out)
+			l_out.put_real (r)
+			l_out.flush
+		end
+
+	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL)
+			--
+		local
+			l_out: like output
+		do
+			l_out := output
+
+			l_out.put_label (label)
+			l_out.put_real (field_value)
+
+			l_out.flush
+		end
+
+	put_string (s: READABLE_STRING_GENERAL)
+			--
+		local
+			l_out: like output
+		do
+			l_out := output
+			l_out.put_string_general (s)
+			l_out.flush
+		end
+
+	put_string_field (label, field_value: READABLE_STRING_GENERAL)
+			--
+		local
+			l_out: like output
+		do
+			l_out := output
+			l_out.put_label (label)
+			l_out.put_quoted_string (field_value)
+			l_out.flush
+		end
+
+	put_string_field_to_max_length (
+		label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER
+	)
+			-- Put string to log file buffer edited to fit into max_length
+		local
+			l_out: like output; count_trailing_characters: INTEGER
+			l_field_value: ZSTRING; l_lines: EL_ZSTRING_LIST; l_lines_2: LIST [ZSTRING]
+		do
+			l_out := output
+			create l_field_value.make_from_unicode (field_value)
+			create l_lines.make (l_field_value.occurrences ('%N') + 2)
+
+			count_trailing_characters := 30
+			count_trailing_characters := count_trailing_characters.min (max_length // 3)
+
+			l_out.put_label (label)
+
+			l_out.set_text_brown
+			l_out.put_string (once "%"[")
+			l_out.set_text_default
+
+			l_out.tab_right
 			l_out.put_new_line
+
+			if l_field_value.count > max_length then
+				l_lines.append (l_field_value.substring (1, max_length - count_trailing_characters).split ('%N'))
+				l_lines.last.append_string (Ellipsis_dots)
+
+				l_lines_2 := l_field_value.substring (
+					l_field_value.count - count_trailing_characters + 1, l_field_value.count
+				).lines
+
+				l_lines_2.first.prepend_string (Ellipsis_dots)
+				l_lines.append (l_lines_2)
+
+			else
+				l_lines.append (l_field_value.lines)
+			end
+			l_out.put_lines (l_lines)
+			l_out.tab_left
+			l_out.put_new_line
+
+			l_out.set_text_brown
+			l_out.put_string (once "]%"")
+			l_out.set_text_default
+
 			l_out.flush
 		end
 
@@ -320,4 +315,10 @@ feature {NONE} -- Implementation
 
 	timer: EL_EXECUTION_TIMER
 
+feature {NONE} -- Constants
+
+	Ellipsis_dots: ZSTRING
+		once
+			Result := ".."
+		end
 end

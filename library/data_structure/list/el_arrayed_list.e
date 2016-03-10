@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ARRAYED_LIST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-10-18 15:09:51 GMT (Friday 18th October 2013)"
-	revision: "2"
+	date: "2015-04-28 10:41:19 GMT (Tuesday 28th April 2015)"
+	revision: "3"
 
 class
 	EL_ARRAYED_LIST [G]

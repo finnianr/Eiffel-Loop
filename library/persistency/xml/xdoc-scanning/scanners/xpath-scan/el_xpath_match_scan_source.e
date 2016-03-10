@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Class for parsing XML documents and matching sets of xpaths"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-24 16:08:48 GMT (Thursday 24th December 2015)"
+	revision: "5"
 
 class
 	EL_XPATH_MATCH_SCAN_SOURCE
@@ -70,7 +70,7 @@ feature -- Element change
 
 feature {NONE} -- Parsing events
 
-	on_xml_tag_declaration
+	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
 			--
 		do
 		end

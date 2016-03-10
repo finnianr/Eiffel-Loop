@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ENCODED_LINE_READER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-06 18:14:59 GMT (Monday 6th October 2014)"
-	revision: "4"
+	date: "2016-01-18 13:21:56 GMT (Monday 18th January 2016)"
+	revision: "6"
 
 class
 	EL_ENCODED_LINE_READER  [F -> FILE]
@@ -16,14 +16,14 @@ inherit
 	EL_LINE_READER [F]
 
 	STRING_HANDLER
-	 	undefine
-	 		default_create
-	 	end
+		undefine
+			default_create
+		end
 
-	 EL_SHARED_ONCE_STRINGS
-	 	undefine
-	 		default_create
-	 	end
+	EL_SHARED_ONCE_STRINGS
+		undefine
+			default_create
+		end
 
 create
 	make
@@ -44,10 +44,10 @@ feature -- Element change
 			count: INTEGER
 		do
 			if codec.id = 1 then
-				create line.make_from_latin1 (raw_line)
+				create line.make_from_latin_1 (raw_line)
 
 			elseif Once_string.encoded_with (codec) then
-				-- Already the same as default EL_ASTRING encoding
+				-- Already the same as default ZSTRING encoding
 				create line.make_from_string (raw_line)
 
 			else
@@ -55,14 +55,14 @@ feature -- Element change
 				count := raw_line.count
 				buffer.grow (count)
 				buffer.set_count (count)
-				codec.decode (count, raw_line.area, buffer.area, empty_once_string)
+				codec.decode (count, raw_line.area, buffer.area)
 				create line.make_from_unicode (buffer)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	codec: EL_CODEC
+	codec: EL_ZCODEC
 
 feature {NONE} -- Constants
 

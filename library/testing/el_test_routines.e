@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_TEST_ROUTINES}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-19 11:25:53 GMT (Friday 19th September 2014)"
-	revision: "6"
+	date: "2015-12-16 12:24:12 GMT (Wednesday 16th December 2015)"
+	revision: "8"
 
 class
 	EL_TEST_ROUTINES
@@ -120,7 +120,7 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	do_directory_test (
-		a_input_dir_path: EL_DIR_PATH; file_name_pattern: ASTRING
+		a_input_dir_path: EL_DIR_PATH; file_name_pattern: ZSTRING
 		test_proc: like Type_test_procedure; valid_test_checksum: NATURAL
 	)
 			-- Perform test that operates on a directory search
@@ -147,7 +147,7 @@ feature {NONE} -- Implementation
 		end
 
 	do_test (
-		input_dir_path: EL_DIR_PATH; file_name_pattern: ASTRING
+		input_dir_path: EL_DIR_PATH; file_name_pattern: ZSTRING
 		test_proc: like Type_test_procedure; old_checksum: NATURAL
 	)
 			--
@@ -204,7 +204,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	normalized_directory_path (a_unix_path: ASTRING): EL_DIR_PATH
+	normalized_directory_path (a_unix_path: ZSTRING): EL_DIR_PATH
 			-- normalize unix path for current platform
 		local
 			l_steps: EL_PATH_STEPS
@@ -228,8 +228,8 @@ feature {NONE} -- Implementation
 					else
 						create line_list.make (file_list.path)
 						from line_list.start until line_list.after loop
-							line_list.item.replace_substring_all (Encoded_home_directory, once "")
-							CRC.add_string_8 (line_list.item)
+							line_list.item.replace_substring_general_all (Encoded_home_directory, once "")
+							CRC.add_string (line_list.item)
 							line_list.forth
 						end
 					end
@@ -239,9 +239,9 @@ feature {NONE} -- Implementation
 			checksum := CRC.checksum
 		end
 
-	binary_file_extensions: ARRAY [ASTRING]
+	binary_file_extensions: ARRAY [ZSTRING]
 
-	excluded_file_extensions: ARRAY [ASTRING]
+	excluded_file_extensions: ARRAY [ZSTRING]
 
 	checksum: NATURAL
 
@@ -271,7 +271,7 @@ feature -- Constants
 			create Result.make (10)
 		end
 
-	Empty_pattern: ASTRING
+	Empty_pattern: ZSTRING
 		once
 			create Result.make_empty
 		end

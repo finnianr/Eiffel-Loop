@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-26 18:13:41 GMT (Saturday 26th December 2015)"
+	revision: "4"
 
 deferred class
 	JAVA_ROUTINE [BASE_TYPE -> JAVA_OBJECT_REFERENCE]
@@ -19,7 +19,7 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_MODULE_TYPING
+	EL_MODULE_EIFFEL
 
 feature {NONE} -- Initialization
 
@@ -78,8 +78,8 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_from_string ("(")
 			from i := 1 until i > empty_operands.count loop
-				class_id := Typing.generic_dynamic_type (empty_operands, i)
-				if attached {JAVA_TYPE} Typing.new_instance_of (class_id) as type then
+				class_id := Eiffel.generic_dynamic_type (empty_operands, i)
+				if attached {JAVA_TYPE} Eiffel.new_instance_of (class_id) as type then
 					if attached {J_OBJECT_ARRAY [JAVA_OBJECT_REFERENCE]} type as array_type then
 						array_type.default_create
 					end

@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EV_RADIO_BUTTON_IMP_EIFFEL_FEATURE_EDITOR}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-18 12:55:12 GMT (Friday 18th December 2015)"
+	revision: "7"
 
 class
 	EV_RADIO_BUTTON_IMP_EIFFEL_FEATURE_EDITOR
@@ -21,13 +26,13 @@ feature -- Basic operations
 	write_edited_lines (output_path: EL_FILE_PATH)
 		local
 		do
-			class_header.find_first (True, agent {ASTRING}.has_substring ("EV_RADIO_PEER_IMP"))
+			class_header.find_first (True, agent {ZSTRING}.has_substring (Class_EV_RADIO_PEER_IMP))
 			class_header.put_right ("%T%Trename")
 			class_header.forth
 			class_header.insert_line_right ("enable_select as set_checked", 3)
 
-			class_header.find_first (True, agent {ASTRING}.has_substring ("WEL_RADIO_BUTTON"))
-			class_header.find_next (True, agent {ASTRING}.ends_with ("%Tend"))
+			class_header.find_first (True, agent {ZSTRING}.has_substring (Class_WEL_RADIO_BUTTON))
+			class_header.find_next (True, agent {ZSTRING}.ends_with (Indented_keyword_end))
 			class_header.back
 			class_header.put_right ("%T%Tselect")
 			class_header.forth
@@ -41,6 +46,18 @@ feature {NONE} -- Implementation
 	new_feature_edit_actions: like feature_edit_actions
 		do
 			create Result.make_size (0)
+		end
+
+feature {NONE} -- Constants
+
+	Class_WEL_RADIO_BUTTON: ZSTRING
+		once
+			Result := "WEL_RADIO_BUTTON"
+		end
+
+	Class_EV_RADIO_PEER_IMP: ZSTRING
+		once
+			Result := "EV_RADIO_PEER_IMP"
 		end
 
 end

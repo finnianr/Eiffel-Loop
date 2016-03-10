@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EIFFEL_FEATURE_EDITOR}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-18 12:55:09 GMT (Friday 18th December 2015)"
+	revision: "5"
 
 deferred class
 	EIFFEL_FEATURE_EDITOR
@@ -24,7 +29,11 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	edited_lines: EL_ASTRING_LIST
+	edit_feature_group (feature_list: EL_SORTABLE_ARRAYED_LIST [CLASS_FEATURE])
+		deferred
+		end
+
+	edited_lines: EL_ZSTRING_LIST
 		do
 			create Result.make (class_notes.count + class_footer.count + class_header.count + feature_groups.count * 5)
 			Result.append (class_notes)
@@ -39,7 +48,10 @@ feature {NONE} -- Implementation
 			Result.append (class_footer)
 		end
 
-	edit_feature_group (feature_list: EL_SORTABLE_ARRAYED_LIST [CLASS_FEATURE])
-		deferred
+feature {NONE} -- Constants
+
+	Indented_keyword_end: ZSTRING
+		once
+			Result := "%Tend"
 		end
 end

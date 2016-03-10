@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_APPLICATION_CONFIG_CELL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2015-12-16 12:13:54 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_APPLICATION_CONFIG_CELL [G -> {EL_FILE_PERSISTENT} create make_from_file end]
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			Application_sub_option.share (a_option_name)
 		end
 
-	make (a_file_name: STRING)
+	make (a_file_name: like file_name)
 		do
 			file_name := a_file_name
 			put (create {G}.make_from_file (config_file_path))
@@ -75,7 +75,7 @@ feature {NONE} -- Implementation
 
 feature -- Access
 
-	file_name: ASTRING
+	file_name: ZSTRING
 
 feature {NONE} -- Constants
 

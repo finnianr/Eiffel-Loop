@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_DRAWING_AREA_LABEL}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:13 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-04-02 13:01:01 GMT (Thursday 2nd April 2015)"
+	revision: "6"
 
 class
 	EL_DRAWING_AREA_LABEL

@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-28 8:20:18 GMT (Sunday 28th September 2014)"
-	revision: "8"
+	date: "2016-01-16 13:38:37 GMT (Saturday 16th January 2016)"
+	revision: "10"
 
 class
 	PYXIS_TO_XML_APP
@@ -26,8 +26,8 @@ feature -- Testing
 	test_run
 			--
 		do
-			Test.do_file_test ("pyxis/translations.xml.pyx", agent test_pyxis_to_xml, 1307182839)
---			Test.do_all_files_test ("pyxis" , All_routines, agent test_pyxis_to_xml, 2885827006)
+			Test.do_all_files_test ("pyxis/localization", "*.pyx", agent test_pyxis_to_xml, 1307182839)
+--			Test.do_all_files_test ("pyxis", "*", agent test_pyxis_to_xml, 2885827006)
 
 --			Test.do_file_test ("pyxis/translations.xml.pyx", agent test_pyxis_to_xml_from_string_medium, 1044910295)
 

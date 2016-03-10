@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_ID3_TAG_I}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-16 13:45:37 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 deferred class
 	EL_ID3_INFO_I
@@ -106,17 +106,17 @@ feature -- Removal
 
 feature -- Factory
 
-	create_field (an_id: STRING): EL_ID3_FRAME
+	new_field (an_id: STRING): EL_ID3_FRAME
 			--
 		deferred
 		end
 
-	create_unique_file_id_field (owner_id, an_id: STRING): EL_ID3_UNIQUE_FILE_ID
+	new_unique_file_id_field (owner_id: ZSTRING; an_id: STRING): EL_ID3_UNIQUE_FILE_ID
 			--
 		deferred
 		end
 
-	create_album_picture_frame (a_picture: EL_ID3_ALBUM_PICTURE): EL_ALBUM_PICTURE_ID3_FRAME
+	new_album_picture_frame (a_picture: EL_ID3_ALBUM_PICTURE): EL_ALBUM_PICTURE_ID3_FRAME
 		deferred
 		end
 

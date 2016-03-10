@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_SCROLLABLE_SEARCH_RESULTS}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2015-12-26 11:23:56 GMT (Saturday 26th December 2015)"
+	revision: "8"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -329,7 +329,7 @@ feature {NONE} -- Implementation: Routines
 		do
 		end
 
-	styled (a_string: EL_STYLED_ASTRING): EL_MIXED_STYLE_STRING_LIST
+	styled (a_string: EL_STYLED_ZSTRING): EL_MIXED_STYLE_STRING_LIST
 		do
 			create Result.make (1)
 			Result.extend (a_string)
@@ -393,12 +393,12 @@ feature {NONE} -- Constants
 			Result := 0.5
 		end
 
-	Link_text_previous: ASTRING
+	Link_text_previous: ZSTRING
 		once
 			Result := "Previous"
 		end
 
-	Link_text_next: ASTRING
+	Link_text_next: ZSTRING
 		once
 			Result := "Next"
 		end

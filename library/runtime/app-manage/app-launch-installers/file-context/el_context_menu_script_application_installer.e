@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Creates a file context menu entry for application in the OS file manager.
 		In Unix with the GNOME desktop this is implemented using Nautilus-scripts.
@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-02-20 13:02:19 GMT (Thursday 20th February 2014)"
-	revision: "3"
+	date: "2015-06-25 13:24:53 GMT (Thursday 25th June 2015)"
+	revision: "4"
 
 class
 	EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER

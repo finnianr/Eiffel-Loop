@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EV_INTERNALLY_PROCESSED_TEXTABLE_IMP_EIFFEL_FEATURE_EDITOR}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-18 12:50:06 GMT (Friday 18th December 2015)"
+	revision: "7"
 
 class
 	EV_INTERNALLY_PROCESSED_TEXTABLE_IMP_EIFFEL_FEATURE_EDITOR
@@ -26,7 +31,7 @@ feature {NONE} -- Implementation
 		do
 			class_feature.search_substring ("ampersand_occurrences_doubled")
 			if class_feature.found then
-				class_feature.found_line.replace_substring_all (": s.as_string_32", ": Result.as_string_32")
+				class_feature.found_line.replace_substring_general_all (": s.as_string_32", ": Result.as_string_32")
 				class_feature.lines.append_comment ("fix")
 			end
 		end

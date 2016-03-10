@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		An object that maps command line arguments to an Eiffel make procedure for a target object (command).
 		The 'command' object is automically created and the make procedure specified by 'make_action'
@@ -8,10 +8,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-28 12:27:08 GMT (Friday 28th March 2014)"
-	revision: "5"
+	date: "2016-02-02 11:38:20 GMT (Tuesday 2nd February 2016)"
+	revision: "7"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND create default_create end]
@@ -69,10 +69,10 @@ feature {NONE} -- Argument setting
 
 	set_reference_operand (a_index: INTEGER; arg_spec: like Type_argument_specification; argument_ref: ANY)
 		do
-			if attached {ASTRING} argument_ref then
+			if attached {ZSTRING} argument_ref then
 				set_string_operand (a_index, arg_spec)
 
-			elseif attached {EL_ASTRING_LIST} argument_ref as string_list then
+			elseif attached {EL_ZSTRING_LIST} argument_ref as string_list then
 				set_string_list_operand (a_index, arg_spec, string_list)
 
 			elseif attached {EL_FILE_PATH} argument_ref as file_path then
@@ -84,7 +84,7 @@ feature {NONE} -- Argument setting
 			elseif attached {ARRAYED_LIST [EL_FILE_PATH]} argument_ref as file_path_list then
 				set_file_list_operand (a_index, arg_spec, file_path_list)
 
-			elseif attached {EL_ASTRING_HASH_TABLE [ASTRING]} argument_ref as table then
+			elseif attached {EL_ZSTRING_HASH_TABLE [ZSTRING]} argument_ref as table then
 				set_table_operands (a_index, table)
 			end
 		end
@@ -143,7 +143,7 @@ feature {NONE} -- Argument setting
 		end
 
 	set_string_list_operand (
-		a_index: INTEGER; arg_spec: like Type_argument_specification; arg_string_list: EL_ASTRING_LIST
+		a_index: INTEGER; arg_spec: like Type_argument_specification; arg_string_list: EL_ZSTRING_LIST
 	)
 		do
 			if Args.has_value (arg_spec.word_option) then
@@ -172,10 +172,10 @@ feature {NONE} -- Argument setting
 
 	set_boolean_operand (a_index: INTEGER; arg_spec: like Type_argument_specification)
 		do
-			operands.put_boolean (Args.has_value (arg_spec.word_option), a_index)
+			operands.put_boolean (Args.word_option_exists (arg_spec.word_option), a_index)
 		end
 
-	set_table_operands (a_index: INTEGER; args_table: EL_ASTRING_HASH_TABLE [ASTRING])
+	set_table_operands (a_index: INTEGER; args_table: EL_ZSTRING_HASH_TABLE [ZSTRING])
 		do
 			across args_table as table loop
 				if Args.has_value (table.key) then
@@ -187,17 +187,17 @@ feature {NONE} -- Argument setting
 
 feature {NONE} -- Conversion
 
-	required_existing_path_argument (a_word_option, help_description: ASTRING): like Type_argument_specification
+	required_existing_path_argument (a_word_option, help_description: ZSTRING): like Type_argument_specification
 		do
 			Result := [a_word_option, help_description, True, True]
 		end
 
-	required_argument (a_word_option, help_description: ASTRING): like Type_argument_specification
+	required_argument (a_word_option, help_description: ZSTRING): like Type_argument_specification
 		do
 			Result := [a_word_option, help_description, True, False]
 		end
 
-	optional_argument (a_word_option, help_description: ASTRING): like Type_argument_specification
+	optional_argument (a_word_option, help_description: ZSTRING): like Type_argument_specification
 		do
 			Result := [a_word_option, help_description, False, False]
 		end
@@ -237,7 +237,7 @@ feature {NONE} -- Implementation
 feature {NONE} -- Type definitions
 
 	Type_argument_specification: TUPLE [
-		word_option, help_description: ASTRING; is_required, path_exists: BOOLEAN
+		word_option, help_description: ZSTRING; is_required, path_exists: BOOLEAN
 	]
 		require
 			never_called: False

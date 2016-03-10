@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_APPLICATION_INSTALLER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-02 10:27:45 GMT (Sunday 2nd March 2014)"
-	revision: "4"
+	date: "2015-12-24 14:52:38 GMT (Thursday 24th December 2015)"
+	revision: "6"
 
 deferred class
 	EL_APPLICATION_INSTALLER
@@ -19,39 +19,25 @@ inherit
 			as_text as command_args,
 			template as Command_args_template
 		redefine
-			make_default, default_create
+			make_default
 		end
 
 	EL_MODULE_ENVIRONMENT
-		undefine
-			default_create
-		end
 
 	EL_MODULE_DIRECTORY
-		undefine
-			default_create
-		end
 
 	EL_MODULE_ARGS
-		undefine
-			default_create
-		end
 
 feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor
 			create command_option_name.make_empty
 			create command_line_options.make_empty
 			create description.make_empty
 			create menu_name.make_empty
 			create input_path_option_name.make_empty
-		end
-
-	default_create
-		do
-			make_empty
+			Precursor
 		end
 
 feature -- Basic operations
@@ -70,15 +56,15 @@ feature -- Access
 
 	command_option_name: STRING
 
-	command_line_options: ASTRING
+	command_line_options: ZSTRING
 
-	description: ASTRING
+	description: ZSTRING
 
-	menu_name: ASTRING
+	menu_name: ZSTRING
 
 	input_path_option_name: STRING
 
-	command: ASTRING
+	command: ZSTRING
 			--
 		do
 			Result := Environment.Execution_environment.Executable_name
@@ -116,10 +102,10 @@ feature {NONE} -- Evolicity implementation
 			--
 		do
 			create Result.make (<<
-				["title", agent:STRING do create Result.make_from_string (menu_name); Result.to_upper end],
+				["title", agent: ZSTRING do Result := menu_name.as_upper end],
 				["command", agent command],
 				["sub_application_option", agent: STRING do Result := command_option_name end],
-				["command_options", agent: STRING do Result := command_line_options end]
+				["command_options", agent: ZSTRING do Result := command_line_options end]
 			>>)
 		end
 

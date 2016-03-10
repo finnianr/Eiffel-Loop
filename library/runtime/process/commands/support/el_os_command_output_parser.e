@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_OS_COMMAND_OUTPUT_PARSER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 7:24:57 GMT (Wednesday 16th December 2015)"
+	revision: "3"
 
 deferred class
 	EL_OS_COMMAND_OUTPUT_PARSER
@@ -25,7 +30,7 @@ feature -- Status change
 
 feature {NONE} -- Line states
 
-	find_line (line: ASTRING)
+	find_line (line: ZSTRING)
 		do
 		end
 

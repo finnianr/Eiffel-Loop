@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_CURL_ROUTINES}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-23 14:27:35 GMT (Tuesday 23rd September 2014)"
-	revision: "4"
+	date: "2015-05-10 15:54:36 GMT (Sunday 10th May 2015)"
+	revision: "5"
 
 class
 	EL_CURL_ROUTINES

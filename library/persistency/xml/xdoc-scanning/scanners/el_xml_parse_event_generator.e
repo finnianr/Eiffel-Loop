@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {PARSE_EVENT_CODER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-24 16:09:01 GMT (Thursday 24th December 2015)"
+	revision: "5"
 
 class
 	EL_XML_PARSE_EVENT_GENERATOR
@@ -100,7 +100,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	on_xml_tag_declaration
+	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
 			--
 		do
 		end

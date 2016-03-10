@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_BINARY_STORABLE_EDITIONS_CHAIN}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-27 13:43:21 GMT (Saturday 27th September 2014)"
-	revision: "3"
+	date: "2016-01-02 10:18:24 GMT (Saturday 2nd January 2016)"
+	revision: "5"
 
 deferred class
 	EL_STORABLE_CHAIN_EDITIONS [G -> EL_STORABLE create make_default end]
@@ -17,11 +17,6 @@ inherit
 		undefine
 			is_equal, copy, prune_all, prune, is_inserted, move, go_i_th, new_cursor,
 			isfirst, islast, first, last, start, finish, readable, off, remove
-		end
-
-	EL_MODULE_LOG
-		undefine
-			copy, is_equal
 		end
 
 feature {NONE} -- Initialization
@@ -72,12 +67,19 @@ feature -- Basic operations
 
 feature -- Status query
 
-	is_time_to_store: BOOLEAN
+	has_version_mismatch: BOOLEAN
+			-- True when the `software_version' does not match the stored data version
+		deferred
+		end
+
+	is_integration_pending: BOOLEAN
+			-- True when it becomes necessary to integrate editions into main list (chain) by calling `store'
 		do
 			Result := editions_file.kilo_byte_count > Minimum_editions_to_integrate
-						or else editions_file.has_checksum_mismatch 	-- A checksum mismatch indicates that the editions
-																		-- have become corrupted somewhere, so save
-																		-- what's good and start a clean editions.
+							or else has_version_mismatch or else editions_file.has_checksum_mismatch
+																						-- A checksum mismatch indicates that the editions
+																						-- have become corrupted somewhere, so save
+																						-- what's good and start a clean editions.
 		end
 
 	is_encrypted: BOOLEAN

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EVOLICITY_SERIALIZEABLE_TEXT_VALUE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-27 18:34:13 GMT (Thursday 27th June 2013)"
-	revision: "2"
+	date: "2015-12-16 8:15:47 GMT (Wednesday 16th December 2015)"
+	revision: "4"
 
 class
 	EVOLICITY_SERIALIZEABLE_TEXT_VALUE
@@ -17,7 +17,7 @@ inherit
 
 feature -- Access
 
-	text: ASTRING
+	text: ZSTRING
 
 feature {NONE} -- Evolicity reflection
 
@@ -27,7 +27,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["text", agent: ASTRING do Result := text end]
+				["text", agent: ZSTRING do Result := text end]
 			>>)
 		end
 

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Parses output of nm-tool to get MAC address of ethernet devices
 		
@@ -49,11 +49,15 @@ note
 
 		  Wired Properties
 		    Carrier:         off
-
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-24 15:03:52 GMT (Thursday 24th December 2015)"
+	revision: "6"
 
 class
 	EL_IP_ADAPTER_INFO_COMMAND
@@ -74,6 +78,8 @@ inherit
 			default_create
 		end
 
+	EL_MODULE_STRING_8
+
 create
 	make
 
@@ -89,7 +95,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_command
+			make_default
 			execute
 		end
 
@@ -99,20 +105,20 @@ feature -- Access
 
 feature {NONE} -- State handlers
 
-	find_first_device (line: ASTRING)
+	find_first_device (line: ZSTRING)
 		do
 			if line.has_substring (Field_device) then
 				add_device (line)
 			end
 		end
 
-	add_device (line: ASTRING)
+	add_device (line: ZSTRING)
 		do
 			adapters.extend (new_adapter_info (field_value (line)))
 			state := agent find_next_device
 		end
 
-	find_next_device (line: ASTRING)
+	find_next_device (line: ZSTRING)
 		do
 			if line.has_substring (Field_device) then
 				add_device (line)
@@ -140,7 +146,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	field_value (line: ASTRING): ASTRING
+	field_value (line: ZSTRING): ZSTRING
 		do
 			Result := line.substring (line.index_of (':', 1) + 2, line.count)
 			Result.prune_all_trailing ('-')
@@ -148,14 +154,14 @@ feature {NONE} -- Implementation
 			Result.right_adjust
 		end
 
-	hardware_address (line: ASTRING): ARRAY [NATURAL_8]
+	hardware_address (line: ZSTRING): ARRAY [NATURAL_8]
 		local
-			byte_list: EL_ASTRING_LIST
+			byte_list: EL_ZSTRING_LIST
 		do
 			create byte_list.make_with_separator (field_value (line), ':', False)
 			create Result.make_filled (0, 1, byte_list.count)
 			across byte_list as byte loop
-				Result [byte.cursor_index] := String.hexadecimal_to_integer (byte.item.as_string_8).to_natural_8
+				Result [byte.cursor_index] := String_8.hexadecimal_to_integer (byte.item.as_string_8).to_natural_8
 			end
 		end
 
@@ -163,7 +169,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Type definitions
 
-	new_adapter_info (name: ASTRING): TUPLE [name, type: ASTRING; address: like hardware_address]
+	new_adapter_info (name: ZSTRING): TUPLE [name, type: ZSTRING; address: like hardware_address]
 		do
 			create Result
 			Result.name := name

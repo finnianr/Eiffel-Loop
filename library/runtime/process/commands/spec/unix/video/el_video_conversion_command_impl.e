@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_VIDEO_COMMAND_IMPL}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2014-12-17 15:54:53 GMT (Wednesday 17th December 2014)"
+	revision: "3"
 
 deferred class
 	EL_VIDEO_CONVERSION_COMMAND_IMPL

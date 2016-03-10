@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:31 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-15 8:52:26 GMT (Tuesday 15th December 2015)"
+	revision: "4"
 
 class
 	INTEGER_PARAMETER
@@ -26,7 +26,7 @@ feature -- Basic operations
 	display_item
 			--
 		do
-			log.put_integer_field ("value", item)
+			log.put_integer_field (" value", item)
 			log.put_new_line
 		end
 

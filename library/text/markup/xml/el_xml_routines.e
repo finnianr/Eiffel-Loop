@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_XML_ROUTINES}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-12 12:37:15 GMT (Sunday 12th January 2014)"
-	revision: "5"
+	date: "2015-12-30 12:28:32 GMT (Wednesday 30th December 2015)"
+	revision: "7"
 
 class
 	EL_XML_ROUTINES
@@ -25,11 +25,6 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_STRING
-		export
-			{NONE} all
-		end
-
 	EL_MODULE_LOG
 		export
 			{NONE} all
@@ -37,21 +32,20 @@ inherit
 
 feature -- Measurement
 
-	data_payload_character_count (xml_text: STRING): INTEGER
+	data_payload_character_count (xml_text: ZSTRING): INTEGER
 			-- approximate count of text between tags
 		local
-			end_tag_list: EL_OCCURRENCE_SUBSTRINGS
-			data_from, data_to, i: INTEGER
+			end_tag_list: EL_SEQUENTIAL_INTERVALS; data_from, data_to, i: INTEGER
 			has_data: BOOLEAN
 		do
 --			log.enter ("data_payload_character_count")
-			create end_tag_list.make (xml_text, "</")
+			end_tag_list := xml_text.substring_intervals (Close_tag_marker)
 			from end_tag_list.start until end_tag_list.after loop
-				data_to := end_tag_list.interval.lower - 1
+				data_to := end_tag_list.item_lower - 1
 				data_from := xml_text.last_index_of ('>', data_to) + 1
 				has_data := False
 				from i := data_from until has_data or i > data_to loop
-					has_data := not xml_text.item (i).is_space
+					has_data := not xml_text.is_space_item (i)
 					i := i + 1
 				end
 				if has_data then
@@ -69,13 +63,12 @@ feature -- Measurement
 
 feature -- Access
 
-	entity (a_code: NATURAL): ASTRING
+	entity (unicode: NATURAL): ZSTRING
 		do
-			Result := xml_escaper.escape_sequence (a_code.to_character_32)
+			Result := xml_escaper.escape_sequence (unicode)
 		end
 
-
-	header (a_version: REAL; a_encoding: STRING): ASTRING
+	header (a_version: REAL; a_encoding: STRING): ZSTRING
 		local
 			f: FORMAT_DOUBLE
 		do
@@ -86,25 +79,25 @@ feature -- Access
 
 feature -- Conversion
 
-	escaped (a_string: ASTRING): ASTRING
+	escaped (a_string: ZSTRING): ZSTRING
 			-- Escapes characters: < > & '
 		do
 			Result := a_string.escaped (Xml_escaper)
 		end
 
-	escaped_128_plus (a_string: ASTRING): ASTRING
+	escaped_128_plus (a_string: ZSTRING): ZSTRING
 			-- Escapes characters: < > & ' and all codes > 128
 		do
 			Result := a_string.escaped (Xml_128_plus_escaper)
 		end
 
-	escaped_attribute (value: ASTRING): ASTRING
+	escaped_attribute (value: ZSTRING): ZSTRING
 			-- Escapes attribute value characters and double quotes
 		do
 			Result := value.escaped (Attribute_escaper)
 		end
 
-	escaped_attribute_128_plus (value: ASTRING): ASTRING
+	escaped_attribute_128_plus (value: ZSTRING): ZSTRING
 			-- Escapes attribute value characters and double quotes and all codes > 128
 		do
 			Result := value.escaped (Attribute_128_plus_escaper)
@@ -119,12 +112,17 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Header_template: ASTRING
+	Header_template: ZSTRING
 		once
 			Result := "[
-				<?xml version="$S" encoding="$S"?>
-
+				<?xml version="#" encoding="#"?>
+				
 			]"
+		end
+
+	Close_tag_marker: ZSTRING
+		once
+			Result := "</"
 		end
 
 end

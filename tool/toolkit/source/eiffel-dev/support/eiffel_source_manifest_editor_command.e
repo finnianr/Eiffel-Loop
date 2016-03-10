@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2016-01-20 9:41:53 GMT (Wednesday 20th January 2016)"
+	revision: "6"
 
 deferred class
 	EIFFEL_SOURCE_MANIFEST_EDITOR_COMMAND
@@ -31,7 +31,7 @@ feature -- Basic operations
 	process_file (source_path: EL_FILE_PATH)
 		do
 			file_editor.set_input_file_path (source_path)
-			file_editor.edit_file
+			file_editor.edit
 		end
 
 feature {NONE} -- Implementation

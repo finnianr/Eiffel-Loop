@@ -6,16 +6,18 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2016-01-21 11:19:49 GMT (Thursday 21st January 2016)"
+	revision: "5"
 
 class
 	EIFFEL_LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR
 
 inherit
 	EIFFEL_SOURCE_EDITING_PROCESSOR
+
+	EL_MODULE_LOG
 
 create
 	make
@@ -26,29 +28,27 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_default
-			create string_tokenizer_by_new_line.make (<<'%N'>>)
-			create string_tokenizer_by_eiffel_comment_marker.make_with_delimiter (
-				Eiffel_comment_marker
-			)
+			create string_tokenizer_by_new_line.make ("%N")
+			create string_tokenizer_by_eiffel_comment_marker.make_with_delimiter (comment_prefix)
 		end
 
 feature {NONE} -- Pattern definitions
 
-	search_patterns: ARRAYED_LIST [EL_TEXTUAL_PATTERN]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
 		do
 			create Result.make_from_array (<<
-				new_line_character |to| agent on_unmatched_text,
+				end_of_line_character |to| agent on_unmatched_text,
 				logging_statement  |to| agent on_logging_statement
 			>>)
 		end
 
-	logging_statement: EL_FIRST_MATCH_IN_LIST_TP
+	logging_statement: like one_of
 			--
 		do
 			Result := one_of (<< logging_command, redirect_thread_to_console_command >>)
 		end
 
-	logging_command: EL_MATCH_ALL_IN_LIST_TP
+	logging_command: like all_of
 			--
 		do
 			Result := all_of ( <<
@@ -58,14 +58,11 @@ feature {NONE} -- Pattern definitions
 					string_literal ("log_or_io.")
 				>>),
 				identifier,
-				all_of (<<
-					maybe_white_space,
-					bracketed_eiffel_expression
-				>>) #occurs (0 |..| 1)
+				all_of (<< maybe_white_space, bracketed_expression >>) #occurs (0 |..| 1)
 			>> )
 		end
 
-	redirect_thread_to_console_command: EL_MATCH_ALL_IN_LIST_TP
+	redirect_thread_to_console_command: like all_of
 			--
 		do
 			Result := all_of ( <<

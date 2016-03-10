@@ -1,8 +1,13 @@
-note
-	description: "Summary description for {PYXIS_COMPILER_APP}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+﻿note
+	description: "Compiles tree of Pyxis source files into single XML file"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-10-28 12:37:53 GMT (Wednesday 28th October 2015)"
+	revision: "7"
 
 class
 	PYXIS_COMPILER_APP
@@ -21,7 +26,7 @@ feature -- Testing
 	test_run
 			--
 		do
-			Test.do_file_tree_test ("pyxis/localization", agent test_compile, 3143367417)
+			Test.do_file_tree_test ("pyxis/localization", agent test_compile, 2897095105)
 		end
 
 	test_compile (source_tree_path: EL_DIR_PATH)

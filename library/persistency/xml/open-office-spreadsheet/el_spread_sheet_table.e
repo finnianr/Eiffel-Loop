@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Object representing table in OpenDocument Flat XML format spreadsheet"
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-02 11:12:33 GMT (Thursday 2nd October 2014)"
-	revision: "5"
+	date: "2015-12-26 18:03:46 GMT (Saturday 26th December 2015)"
+	revision: "7"
 
 class
 	EL_SPREAD_SHEET_TABLE
@@ -31,17 +31,12 @@ inherit
 			copy, is_equal
 		end
 
-	EL_MODULE_STRING
-		undefine
-			copy, is_equal
-		end
-
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (table_node: EL_XPATH_NODE_CONTEXT; defined_ranges: EL_ASTRING_HASH_TABLE [ASTRING])
+	make (table_node: EL_XPATH_NODE_CONTEXT; defined_ranges: EL_ZSTRING_HASH_TABLE [ZSTRING])
 			--
 		local
 			table_rows: EL_XPATH_NODE_CONTEXT_LIST
@@ -98,9 +93,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	name: ASTRING
+	name: ZSTRING
 
-	columns: ARRAY [ASTRING]
+	columns: ARRAY [ZSTRING]
 
 feature -- Removal
 
@@ -115,21 +110,21 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
-	column_table (defined_ranges: EL_ASTRING_HASH_TABLE [ASTRING]): EL_ASTRING_HASH_TABLE [INTEGER]
+	column_table (defined_ranges: EL_ZSTRING_HASH_TABLE [ZSTRING]): EL_ZSTRING_HASH_TABLE [INTEGER]
 
 		local
-			cell_range_address: EL_STRING_LIST [ASTRING]
+			cell_range_address: EL_ZSTRING_LIST
 			column_interval: INTEGER_INTERVAL
 		do
 			create Result.make_equal (11)
 			create columns.make_empty
 			across defined_ranges as range loop
 				create cell_range_address.make_with_separator (range.key, '.', True)
-				String.remove_bookends (cell_range_address.first, "''")
+				cell_range_address.first.remove_quotes
 				if cell_range_address.first ~ name then
 					create column_interval.make (
-						cell_range_address.i_th (2).code (1).to_integer_32 - 64,
-						cell_range_address.i_th (3).code (1).to_integer_32 - 64
+						cell_range_address.i_th (2).z_code (1).to_integer_32 - 64,
+						cell_range_address.i_th (3).z_code (1).to_integer_32 - 64
 					)
 					if column_interval.count = 1 then
 						Result [range.item] := column_interval.lower

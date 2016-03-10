@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Tag frame
 	]"
@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-16 9:19:33 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 class
 	EL_UNDERBIT_ID3_FRAME
@@ -80,7 +80,7 @@ feature -- Access
 			Result := field_list.first
 		end
 
-	string: ASTRING
+	string: ZSTRING
 		do
 			Result := Precursor
 			if Result.is_integer and then code ~ Tag.Genre then

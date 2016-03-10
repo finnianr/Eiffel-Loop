@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-18 11:05:03 GMT (Friday 18th December 2015)"
+	revision: "6"
 
 class
 	INCLUSION_LIST_FILE
@@ -22,7 +22,7 @@ create
 
 feature {NONE} -- Implementation
 
-	put_file_specifier (specifier_name, file_specifier: ASTRING)
+	put_file_specifier (specifier_name, file_specifier: ZSTRING)
 			--
 		local
 			find_files_command: EL_FIND_FILES_COMMAND
@@ -58,17 +58,17 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Specifier_all_files: ASTRING
+	Specifier_all_files: ZSTRING
 		once
 			Result := "all-files"
 		end
 
-	Specifier_file: ASTRING
+	Specifier_file: ZSTRING
 		once
 			Result := "file"
 		end
 
-	Short_directory_current: ASTRING
+	Short_directory_current: ZSTRING
 		once
 			Result := "."
 		end

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Creates a pointer to an Eiffel object that is temporarily exempted from garbage collection.
 		It's position in memory is gauranteed not to move. This is useful for calling Eiffel procedures from a C callback.
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "3"
 
 class
 	EL_GC_PROTECTED_OBJECT

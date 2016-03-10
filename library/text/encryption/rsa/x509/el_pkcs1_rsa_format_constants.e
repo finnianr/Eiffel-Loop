@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		RSAPrivateKey ::= SEQUENCE {
 		    version           Version,
@@ -19,63 +19,63 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-18 10:53:51 GMT (Friday 18th December 2015)"
+	revision: "6"
 
 class
 	EL_PKCS1_RSA_FORMAT_CONSTANTS
 
 feature -- Constants
 
-	Var_modulus: ASTRING
+	Var_modulus: ZSTRING
 		-- n
 		once
 			Result := "modulus"
 		end
 
-	Var_public_exponent: ASTRING
+	Var_public_exponent: ZSTRING
 		-- e
 		once
 			Result := "publicExponent"
 		end
 
-	Var_private_exponent: ASTRING
+	Var_private_exponent: ZSTRING
 		-- d
 		once
 			Result := "privateExponent"
 		end
 
-	Var_prime1: ASTRING
+	Var_prime1: ZSTRING
 		-- p
 		once
 			Result := "prime1"
 		end
 
-	Var_prime2: ASTRING
+	Var_prime2: ZSTRING
 		-- q
 		once
 			Result := "prime2"
 		end
 
-	Var_exponent1: ASTRING
+	Var_exponent1: ZSTRING
 		-- d mod (p-1)
 		once
 			Result := "exponent1"
 		end
 
-	Var_exponent2: ASTRING
+	Var_exponent2: ZSTRING
 		-- d mod (q-1)
 		once
 			Result := "exponent2"
 		end
 
-	Var_coefficient: ASTRING
+	Var_coefficient: ZSTRING
 		-- (inverse of q) mod p
 		once
 			Result := "coefficient"
 		end
 
-	Variable_names: ARRAY [ASTRING]
+	Variable_names: ARRAY [ZSTRING]
 		once
 			Result := <<
 				Var_modulus,

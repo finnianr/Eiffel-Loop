@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_ARRAYED_LIST_FROM_XML}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-30 13:00:39 GMT (Tuesday 30th September 2014)"
-	revision: "4"
+	date: "2014-12-11 14:33:26 GMT (Thursday 11th December 2014)"
+	revision: "5"
 
 deferred class
 	EL_LIST_FROM_XML [G -> EL_XML_CREATEABLE_OBJECT create make end]

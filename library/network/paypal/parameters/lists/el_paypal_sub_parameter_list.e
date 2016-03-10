@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PAYPAL_NVP_VARIABLE_LIST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-20 16:32:20 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 deferred class
 	EL_PAYPAL_SUB_PARAMETER_LIST
@@ -28,14 +33,14 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	value_extend (value: ASTRING)
+	value_extend (value: ZSTRING)
 		do
 			extend (Var_value, value)
 		end
 
-	extend (name, value: ASTRING)
+	extend (name, value: ZSTRING)
 		local
-			name_value_assignment: ASTRING
+			name_value_assignment: ZSTRING
 		do
 			create name_value_assignment.make (name.count + value.count + 1)
 			name_value_assignment.append (name)
@@ -46,7 +51,7 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Var_value: ASTRING
+	Var_value: ZSTRING
 		once
 			Result := "value"
 		end

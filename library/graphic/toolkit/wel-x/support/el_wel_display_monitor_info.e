@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_WEL_DISPLAY_MONITOR_INFO}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:13 GMT (Tuesday 2nd September 2014)"
-	revision: "6"
+	date: "2015-06-21 14:27:10 GMT (Sunday 21st June 2015)"
+	revision: "7"
 
 class
 	EL_WEL_DISPLAY_MONITOR_INFO

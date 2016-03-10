@@ -78,6 +78,9 @@ system:
 			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
 
 		library:
+			name = encryption_base; location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"
+
+		library:
 			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
 
 		library:
@@ -91,12 +94,28 @@ system:
 
 		# Eiffel Loop
 		library:
+			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
+			readonly = false
+
+		library:
 			name = EL_base; location = "$EIFFEL_LOOP/library/base.ecf"
 			readonly = false
 			# use_application_options = true
 
 		library:
-			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
+			name = EL_database; readonly = false
+			location = "$EIFFEL_LOOP/library/database.ecf"
+
+		library:
+			name = EL_encryption; readonly = false
+			location = "$EIFFEL_LOOP/library/encryption.ecf"
+
+		library:
+			name = EL_id3_tags; location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
+			readonly = false
+
+		library:
+			name = EL_ftp; location = "$EIFFEL_LOOP/library/ftp.ecf"
 			readonly = false
 
 		library:
@@ -105,14 +124,6 @@ system:
 
 		library:
 			name = EL_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
-			readonly = false
-
-		library:
-			name = EL_id3_tags; location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
-			readonly = false
-
-		library:
-			name = EL_ftp; location = "$EIFFEL_LOOP/library/ftp.ecf"
 			readonly = false
 
 		cluster:
@@ -241,3 +252,66 @@ system:
 		# Build 2015-06-01 09:25:16.331954
 		# Build 2015-06-01 10:15:01.366289
 		# Build 2015-06-01 12:07:47.346648
+		# Build 2015-09-13 10:37:10.611940
+		# Build 2015-09-13 10:40:30.122475
+		# Build 2015-09-13 11:02:40.454933
+		# Build 2015-09-13 11:51:58.948359
+		# Build 2015-09-13 11:53:45.386784
+		# Build 2015-09-13 12:07:13.210464
+		# Build 2015-09-13 13:00:15.635872
+		# Build 2015-09-14 11:27:49.527619
+		# Build 2015-09-14 12:35:54.131796
+		# Build 2015-09-14 12:42:59.188471
+		# Build 2015-09-15 14:00:35.581803
+		# Build 2015-09-15 14:10:17.846068
+		# Build 2015-09-15 14:27:49.309261
+		# Build 2015-09-15 14:43:13.764537
+		# Build 2015-09-15 16:48:52.194969
+		# Build 2015-09-15 19:13:54.280211
+		# Build 2015-09-16 12:47:00.903635
+		# Build 2015-09-16 12:57:41.433902
+		# Build 2015-09-16 13:05:33.892545
+		# Build 2015-09-16 13:57:32.285986
+		# Build 2015-09-25 14:11:46.061852
+		# Build 2015-09-27 12:09:38.912986
+		# Build 2015-09-27 12:18:40.541310
+		# Build 2015-09-27 12:25:41.118090
+		# Build 2015-09-27 12:55:27.083996
+		# Build 2015-09-27 13:13:32.165818
+		# Build 2015-09-27 13:19:39.992550
+		# Build 2015-09-27 13:36:00.277701
+		# Build 2015-09-27 13:39:06.824700
+		# Build 2015-09-27 15:01:23.765569
+		# Build 2015-09-27 15:39:25.626121
+		# Build 2015-09-27 17:03:53.229032
+		# Build 2015-09-28 10:58:01.042423
+		# Build 2015-09-28 11:37:24.077910
+		# Build 2015-09-28 11:55:02.624759
+		# Build 2015-09-28 12:12:05.020502
+		# Build 2015-09-28 12:19:41.370669
+		# Build 2015-09-28 16:45:00.354899
+		# Build 2015-09-28 17:34:22.256184
+		# Build 2015-09-29 12:31:20.179572
+		# Build 2015-09-29 18:33:43.173579
+		# Build 2015-09-30 12:19:21.231467
+		# Build 2015-09-30 13:06:11.936348
+		# Build 2015-09-30 13:17:06.276798
+		# Build 2015-09-30 13:37:33.029184
+		# Build 2015-09-30 13:42:04.537933
+		# Build 2015-09-30 14:51:33.673372
+		# Build 2015-09-30 15:47:38.719890
+		# Build 2015-10-03 11:35:11.111920
+		# Build 2015-10-03 12:30:50.838036
+		# Build 2015-10-03 12:42:31.225491
+		# Build 2015-10-04 11:33:25.933718
+		# Build 2015-10-04 13:07:48.623868
+		# Build 2015-10-04 13:10:22.285831
+		# Build 2015-10-04 15:07:56.353252
+		# Build 2015-10-04 19:36:13.671770
+		# Build 2015-10-20 13:45:15.942806
+		# Build 2015-10-20 14:27:08.406809
+		# Build 2015-10-20 16:54:35.295594
+		# Build 2015-10-21 11:58:21.743237
+		# Build 2015-10-21 13:27:58.372814
+		# Build 2015-10-21 13:54:43.512909
+		# Build 2016-02-18 10:23:22.392761

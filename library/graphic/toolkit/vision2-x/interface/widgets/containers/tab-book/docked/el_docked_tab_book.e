@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_DOCKED_TAB_BOOK}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-08-30 12:25:12 GMT (Sunday 30th August 2015)"
+	revision: "7"
 
 class
 	EL_DOCKED_TAB_BOOK
@@ -25,7 +25,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_TAB_BOOK_BASE
+	EL_TAB_SHORTCUTS
 		undefine
 			default_create, copy, is_equal
 		end
@@ -40,17 +40,6 @@ create
 
 feature -- Initialization
 
-	make (a_main_window: like main_window)
-		do
-			main_window := a_main_window
-			init_singletons
-			default_create
-			init_keyboard_shortcuts (a_main_window)
-			create tabs.make (10)
-			create manager.make (Current, a_main_window)
-			set_title_bar_height
-		end
-
 	init_singletons
 		local
 			l_factory: SD_WIDGET_FACTORY
@@ -60,32 +49,93 @@ feature -- Initialization
 			l_names := Tab_book_common.interface_names
 		end
 
+	make (a_main_window: like main_window)
+		do
+			main_window := a_main_window
+			init_singletons
+			default_create
+			init_keyboard_shortcuts (a_main_window)
+			create manager.make (Current, a_main_window)
+			set_title_bar_height
+		end
+
 feature -- Access
 
-	selected_tab: EL_DOCKED_TAB
+	count: INTEGER
+		do
+			across manager.contents as content loop
+				if attached {EL_DOCKING_CONTENT} content.item then
+					Result := Result + 1
+				end
+			end
+		end
+
+	selected: EL_DOCKED_TAB
 		require
 			not_empty: not is_empty
 		do
 			Result := tabs.item
 		end
 
-	selected_index: INTEGER
+	selected_zone_circular_tabs: ARRAYED_CIRCULAR [like selected]
+		local
+			zone_tabs: like selected_zone_tabs
+			selected_index: INTEGER
 		do
-			Result := tabs.index
+			zone_tabs := selected_zone_tabs
+			create Result.make (zone_tabs.count)
+			selected_index := zone_tabs.index
+			Result.append (zone_tabs)
+			Result.go_i_th (selected_index)
 		end
 
-	count: INTEGER
+	selected_zone_tabs: ARRAYED_LIST [like selected]
+		local
+			l_contents: ARRAYED_LIST [SD_CONTENT]
 		do
-			Result := tabs.count
+			if attached {SD_MULTI_CONTENT_ZONE} selected_zone as multi then
+				l_contents := multi.contents
+			elseif attached {SD_SINGLE_CONTENT_ZONE} selected_zone as single then
+				create l_contents.make_from_array (<< single.content >>)
+			else
+				create Result.make (0)
+			end
+			create Result.make (l_contents.count)
+			across l_contents as content loop
+				if attached {EL_DOCKING_CONTENT} content.item as docking_content then
+					if attached {like selected} docking_content.tab as zone_tab then
+						Result.extend (zone_tab)
+						if zone_tab.is_selected then
+							Result.finish
+						end
+					end
+				end
+			end
+		end
+
+	tabs: ARRAYED_LIST [like selected]
+			-- all open tabs
+		do
+			create Result.make (count)
+			across manager.contents as content loop
+				if attached {EL_DOCKING_CONTENT} content.item as tab_properties
+					and then attached {like selected} tab_properties.tab as tab
+				then
+					Result.extend (tab)
+					if tab.is_selected then
+						Result.finish
+					end
+				end
+			end
 		end
 
 	title_bar_height: INTEGER
 
 feature {EL_DOCKED_TAB} -- Access
 
-	docking_zone: SD_ZONE
+	selected_zone: SD_ZONE
 		do
-			Result := manager.zones.zone_by_content (selected_tab.properties)
+			Result := manager.zones.zone_by_content (manager.focused_content)
 		end
 
 	right_place_holder: EV_CELL
@@ -96,105 +146,82 @@ feature {EL_DOCKED_TAB} -- Access
 
 feature -- Element change
 
-	set_selected (a_tab: like selected_tab)
-		require
-			has_tab: has (a_tab)
-		do
-			select_tab (a_tab)
-			selected_tab.properties.set_focus
-		end
-
-	set_selected_index (a_selected_index: INTEGER)
-		do
-			tabs.go_i_th (a_selected_index)
-			selected_tab.properties.set_focus
-		end
-
 	add_toolbar (a_toolbar: SD_TOOL_BAR_CONTENT)
 		do
 			manager.tool_bar_manager.contents.extend (a_toolbar)
 			a_toolbar.set_top ({SD_ENUMERATION}.top)
 		end
 
-	extend (a_tab: like selected_tab)
+	extend (a_tab: like selected)
+		local
+			l_tabs: like tabs
 		do
 			a_tab.set_tab_book (Current)
-			tabs.extend (a_tab)
-			if tabs.count = 1 then
-				tabs.go_i_th (1)
-			end
 			manager.contents.extend (a_tab.properties)
-			if tabs.count = 1 then
+			if count = 1 then
 				set_delivery_zone
 			else
-				a_tab.properties.set_tab_with (tabs.i_th (tabs.count - 1).properties, False)
+				l_tabs := tabs
+				a_tab.properties.set_tab_with (l_tabs.i_th (l_tabs.count - 1).properties, False)
 			end
+			a_tab.properties.set_focus
 		end
 
-	prune (a_tab: like selected_tab)
-		require
-			has_tab: has (a_tab)
+	select_left_tab
+			-- select tab to left wrapping around to last if gone past the first tab
+		do
+			select_adjacent (-1)
+		end
+
+	select_right_tab
+			-- select tab to right of current wrapping around to first if gone past the last tab
+		do
+			select_adjacent (1)
+		end
+
+	select_adjacent (direction: INTEGER)
 		local
-			l_selected: like selected_tab
+			zone_tabs: like selected_zone_circular_tabs
 		do
-			set_previous_index
-			l_selected := selected_tab
-			if l_selected = a_tab then
-				tabs.remove
-				if tabs.after then
-					tabs.back
+			zone_tabs := selected_zone_circular_tabs
+			if zone_tabs.count > 1 then
+				if direction < 0 then
+					zone_tabs.back
+				else
+					zone_tabs.forth
 				end
-			else
-				tabs.start; tabs.prune (a_tab)
-				tabs.start; tabs.search (l_selected)
+				zone_tabs.item.set_selected
 			end
-			notify_selection_change
-		ensure
-			still_selected: a_tab /= old selected_tab implies selected_tab = old selected_tab
-		end
-
-feature {EL_DOCKED_TAB} -- Element change
-
-	select_tab (a_tab: like selected_tab)
-		do
-			set_previous_index
-			tabs.start; tabs.search (a_tab)
-			notify_selection_change
 		end
 
 feature -- Status query
 
+	has (a_tab: like selected): BOOLEAN
+		do
+			Result := manager.contents.has (a_tab.properties)
+		end
+
 	is_empty: BOOLEAN
 		do
-			Result := tabs.is_empty
-		end
-
-	is_tab_selected (a_tab: like selected_tab): BOOLEAN
-		do
-			if tabs.has (a_tab) then
-				Result := tabs.item = a_tab
-			end
-		end
-
-	has (a_tab: like selected_tab): BOOLEAN
-		do
-			Result := tabs.has (a_tab)
+			Result := count = 0
 		end
 
 feature -- Basic operations
 
 	close_all
 		do
-			across tabs.twin as tab loop
-				tab.item.close
+			across tabs as tab loop
+				if tab.item.is_closeable then
+					tab.item.close
+				end
 			end
 		end
 
-	close_all_except (a_tab: like selected_tab)
+	close_all_except (a_tab: like selected)
 		require
 			has_tab: has (a_tab)
 		do
-			across tabs.twin as tab loop
+			across tabs as tab loop
 				if tab.item /= a_tab then
 					tab.item.close
 				end
@@ -203,19 +230,16 @@ feature -- Basic operations
 			has_tab: has (a_tab)
 		end
 
-feature -- Contract Support
-
-	valid_index (a_index: INTEGER): BOOLEAN
-		do
-			Result := tabs.valid_index (a_index)
-		end
-
 feature {NONE} -- Implementation
 
-	set_previous_index
+	inner_container_main: SD_MULTI_DOCK_AREA
 		do
-			previous_index := selected_index
+			Result := manager.query.inner_container_main
 		end
+
+	main_window: EV_WINDOW
+
+	manager: SD_DOCKING_MANAGER
 
 	set_delivery_zone
 			-- set zone to receive new tab components
@@ -238,35 +262,16 @@ feature {NONE} -- Implementation
 			content.close
 		end
 
-	notify_selection_change
-		do
-			if previous_index /= selected_index then
-				selected_tab.on_selected
-			end
-		end
-
-	inner_container_main: SD_MULTI_DOCK_AREA
-		do
-			Result := manager.query.inner_container_main
-		end
-
-	tabs: ARRAYED_LIST [like selected_tab]
-
-	manager: SD_DOCKING_MANAGER
-
-	main_window: EV_WINDOW
-
-	previous_index: INTEGER
-
 feature {EL_DOCKED_TAB} -- Constants
+
+	Default_split_proportion: REAL
+		do
+			Result := 0.5
+		end
 
 	Tab_book_common: SD_SHARED
 		once
 			create Result
 		end
 
-	Default_split_proportion: REAL
-		do
-			Result := 0.5
-		end
 end

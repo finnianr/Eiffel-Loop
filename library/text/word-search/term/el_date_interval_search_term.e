@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {DATE_INTERVAL_SEARCH_TERM}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-16 9:59:35 GMT (Sunday 16th March 2014)"
-	revision: "2"
+	date: "2016-01-13 10:16:43 GMT (Wednesday 13th January 2016)"
+	revision: "4"
 
 class
 	EL_DATE_INTERVAL_SEARCH_TERM [G -> {EL_WORD_SEARCHABLE, EL_DATEABLE}]
@@ -20,21 +20,23 @@ create
 
 feature {NONE} -- Initialization
 
-	make (from_date, to_date: DATE)
+	make (a_from_date, a_to_date: DATE)
 			--
 		do
-			create date_interval.make (from_date.ordered_compact_date, to_date.ordered_compact_date)
+			from_date := a_from_date; to_date := a_to_date
 		end
 
 feature -- Access
 
-	date_interval: INTEGER_INTERVAL
+	from_date: DATE
+
+	to_date: DATE
 
 feature {NONE} -- Implementation
 
-	matches (target: like Type_target): BOOLEAN
+	positive_match (target: like Type_target): BOOLEAN
 			--
 		do
-			Result := date_interval.has (target.date.ordered_compact_date)
+			Result := target.between (from_date, to_date)
 		end
 end

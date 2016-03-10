@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {JAVA_PACKAGE_ENVIRONMENT}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "5"
+	date: "2015-12-26 18:17:17 GMT (Saturday 26th December 2015)"
+	revision: "7"
 
 class
 	JAVA_PACKAGE_ENVIRONMENT
@@ -25,8 +25,6 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_MODULE_STRING
-
 	EXCEPTION_MANAGER
 
 	MEMORY
@@ -40,7 +38,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_default
-			create class_path_list.make
+			create class_path_list.make (10)
 			class_path_list.compare_objects
 
 			if attached {STRING} Execution.get ("CLASSPATH") as environment_class_path then
@@ -64,7 +62,7 @@ feature -- Element change
 		do
 			across locations as location loop
 				if location.item.exists then
-					extend_class_path_list (location.item.to_string.to_latin1)
+					extend_class_path_list (location.item.to_string.to_latin_1)
 				end
 			end
 		end
@@ -92,7 +90,7 @@ feature -- Status change
 			end
 
 			if all_packages_found then
-				jorb.open (JVM_library_path, String.joined (class_path_list, class_path_separator.out))
+				jorb.open (JVM_library_path, class_path_list.joined (class_path_separator))
 				is_open := jorb.is_open
 			end
 		ensure
@@ -158,7 +156,7 @@ feature {NONE} -- Implementation
 				create package_list.make (jar_dir_list.item, jar_file_name)
 				if not package_list.is_empty then
 					last_package_found := True
-					extend_class_path_list (package_list.first_path.to_string.to_latin1)
+					extend_class_path_list (package_list.first_path.to_string.to_latin_1)
 				end
 				jar_dir_list.forth
 			end
@@ -191,7 +189,7 @@ feature {NONE} -- Implementation
 
 	jar_dir_list: ARRAYED_LIST [EL_DIR_PATH]
 
-	class_path_list: LINKED_LIST [STRING]
+	class_path_list: EL_STRING_LIST [STRING]
 
 	default_java_jar_dir: EL_DIR_PATH
 

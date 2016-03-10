@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_PYXIS_STRING_LIST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-16 7:28:02 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 deferred class
 	EL_PYXIS_STRING_LIST
@@ -20,7 +20,7 @@ inherit
 
 feature -- Element change
 
-	extend (str: ASTRING)
+	extend (str: ZSTRING)
 		deferred
 		end
 

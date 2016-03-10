@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_RAW_FILE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-06-26 10:16:19 GMT (Friday 26th June 2015)"
+	revision: "4"
 
 class
 	EL_RAW_FILE

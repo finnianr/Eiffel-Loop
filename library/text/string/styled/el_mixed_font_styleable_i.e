@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_MIXED_FONT_STYLEABLE_I}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-03-26 13:52:43 GMT (Wednesday 26th March 2014)"
-	revision: "4"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "5"
 
 deferred class
 	EL_MIXED_FONT_STYLEABLE_I

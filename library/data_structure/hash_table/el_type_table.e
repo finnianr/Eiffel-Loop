@@ -1,53 +1,38 @@
-note
-	description: "Summary description for {EL_TYPE_TABLE}."
+﻿note
+	description: "Caches objects associated with a type"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-04 8:15:04 GMT (Thursday 4th July 2013)"
-	revision: "2"
+	date: "2015-12-25 11:03:22 GMT (Friday 25th December 2015)"
+	revision: "4"
 
 class
-	EL_TYPE_TABLE [BASE_TYPE, G]
+	EL_TYPE_TABLE [G]
 
 inherit
-	HASH_TABLE [G, INTEGER]
+	HASH_TABLE [G, TYPE [ANY]]
 		rename
-			item as type_item,
-			remove as remove_function
-		end
-
-	EL_MODULE_EIFFEL
-		undefine
-			is_equal, copy
+			item as cached_item
 		end
 
 create
-	make
+	make_equal
 
 feature -- Access
 
-	item (object: BASE_TYPE; creation_function: FUNCTION [BASE_TYPE, TUPLE, like type_item]): like type_item
-			--
-		local
-			type_id: INTEGER
+	item (type: like key_for_iteration; new_item: FUNCTION [ANY, TUPLE, like cached_item]): like cached_item
+			-- Returns a `new_item' or else the `cached_item' for the `type'
 		do
-			type_id := Eiffel.dynamic_type (object)
-			search (type_id)
+			search (type)
 			if found then
 				Result := found_item
 			else
-				Result := creation_function.item ([])
-				extend (Result, type_id)
+				Result := new_item.item ([])
+				extend (Result, type)
 			end
 		end
 
-feature -- Removal
-
-	remove (object: BASE_TYPE)
-		do
-			remove_function (Eiffel.dynamic_type (object))
-		end
 end

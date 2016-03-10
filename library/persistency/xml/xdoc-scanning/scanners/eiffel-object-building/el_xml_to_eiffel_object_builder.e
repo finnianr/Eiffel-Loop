@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Eiffel object model"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-12-24 16:08:35 GMT (Thursday 24th December 2015)"
+	revision: "4"
 
 class
 	EL_XML_TO_EIFFEL_OBJECT_BUILDER
@@ -35,7 +35,7 @@ feature {NONE}  -- Initialisation
 
 feature {NONE} -- Parsing events
 
-	on_xml_tag_declaration
+	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
 			--
 		do
 		end

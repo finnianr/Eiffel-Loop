@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_FIND_OS_COMMAND}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-01-24 12:20:32 GMT (Friday 24th January 2014)"
-	revision: "4"
+	date: "2015-12-16 7:07:47 GMT (Wednesday 16th December 2015)"
+	revision: "6"
 
 class
 	EL_FIND_OS_COMMAND  [
@@ -78,25 +78,25 @@ feature -- Exclusion setting
 			exclude_ending_list.wipe_out
 		end
 
-	exclude_path_containing_any_of (path_fragments: ARRAY [ASTRING])
+	exclude_path_containing_any_of (path_fragments: ARRAY [ZSTRING])
 			-- List of directory path fragments that exclude directories
 		do
 			path_fragments.do_all (agent exclude_containing_list.extend)
 		end
 
-	exclude_path_containing (path_fragment: ASTRING)
+	exclude_path_containing (path_fragment: ZSTRING)
 			-- List of directory path fragments that exclude directories
 		do
 			exclude_containing_list.extend (path_fragment)
 		end
 
-	exclude_path_ending_any_of (path_endings: ARRAY [ASTRING])
+	exclude_path_ending_any_of (path_endings: ARRAY [ZSTRING])
 			-- List of directory path fragments that exclude directories
 		do
 			path_endings.do_all (agent exclude_ending_list.extend)
 		end
 
-	exclude_path_ending (path_ending: ASTRING)
+	exclude_path_ending (path_ending: ZSTRING)
 			-- List of directory path fragments that exclude directories
 		do
 			exclude_ending_list.extend (path_ending)
@@ -116,7 +116,7 @@ feature {NONE} -- Evolicity reflection
 
 feature {EL_COMMAND_IMPL} -- Implementation
 
-	do_command (a_system_command: ASTRING)
+	do_command (a_system_command: ZSTRING)
 			--
 		do
 			path_list.wipe_out
@@ -126,7 +126,7 @@ feature {EL_COMMAND_IMPL} -- Implementation
 	do_with_lines (lines: EL_FILE_LINE_SOURCE)
 			--
 		local
-			line: ASTRING
+			line: ZSTRING
 		do
 			from lines.start until lines.after loop
 				line := lines.item
@@ -143,7 +143,7 @@ feature {EL_COMMAND_IMPL} -- Implementation
 			Result := Precursor (output_file_path)
 		end
 
-	is_output_line_excluded (line: ASTRING): BOOLEAN
+	is_output_line_excluded (line: ZSTRING): BOOLEAN
 			--
 		do
 			Result := line.is_empty
@@ -155,9 +155,9 @@ feature {EL_COMMAND_IMPL} -- Implementation
 			end
 		end
 
-	exclude_containing_list: LINKED_LIST [ASTRING]
+	exclude_containing_list: LINKED_LIST [ZSTRING]
 
-	exclude_ending_list: LINKED_LIST [ASTRING]
+	exclude_ending_list: LINKED_LIST [ZSTRING]
 
 	Line_processing_enabled: BOOLEAN = true
 

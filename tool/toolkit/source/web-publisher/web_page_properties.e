@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:33 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-20 13:57:45 GMT (Sunday 20th December 2015)"
+	revision: "6"
 
 class
 	WEB_PAGE_PROPERTIES
@@ -47,44 +47,65 @@ feature {NONE} -- Initaliazation
 
 feature {NONE} -- Line procedure transitions
 
-	find_html_tag (line: ASTRING)
-			--
-		do
-			if line.starts_with ("<html>") then
-				lines.extend (line)
-				state := agent find_body_tag
-			end
-		end
-
-	find_body_tag (line: ASTRING)
+	find_body_tag (line: ZSTRING)
 			--
 		do
 			line.left_adjust
 			lines.extend (line)
-			if line.starts_with ("<meta") then
+			if line.starts_with (Meta_tag) then
 				line.insert_character ('/', line.count)
 
-			elseif line.starts_with ("<body") then
+			elseif line.starts_with (Body_tag) then
 				state := agent find_end_of_body_attributes
 				find_end_of_body_attributes (line)
 			end
 		end
 
-	find_end_of_body_attributes (line: ASTRING)
+	find_end_of_body_attributes (line: ZSTRING)
 			--
 		do
 			if lines.last /= line then
 				lines.extend (line)
 			end
-			if line.ends_with (">") then
+			if line.ends_with (Right_bracket) then
 				line.insert_character ('/', line.count)
 				state := agent final
 			end
 		end
 
+	find_html_tag (line: ZSTRING)
+			--
+		do
+			if line.starts_with (Html_open_tag) then
+				lines.extend (line)
+				state := agent find_body_tag
+			end
+		end
+
 feature {NONE} -- Implementation
 
-	lines: EL_LINKED_STRING_LIST [ASTRING]
+	lines: EL_LINKED_STRING_LIST [ZSTRING]
 		-- Header lines
 
+feature {NONE} -- Constants
+
+	Body_tag: ZSTRING
+		once
+			Result := "<body"
+		end
+
+	Html_open_tag: ZSTRING
+		once
+			Result := "<html>"
+		end
+
+	Meta_tag: ZSTRING
+		once
+			Result := "<meta"
+		end
+
+	Right_bracket: ZSTRING
+		once
+			Result := ">"
+		end
 end

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Demo of accessing Java Velocity package"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-07-22 20:07:59 GMT (Monday 22nd July 2013)"
-	revision: "3"
+	date: "2015-12-26 18:14:07 GMT (Saturday 26th December 2015)"
+	revision: "5"
 
 class
 	APACHE_VELOCITY_TEST_APP
@@ -80,7 +80,7 @@ feature {NONE} -- Implementation
 			create l_string_class_name_list.make_from_string ("class_name_list")
 
 			create string_writer.make
-			create file_writer.make_from_string (output_path.to_string.to_latin1)
+			create file_writer.make_from_string (output_path.to_string.to_latin_1)
 			create velocity_app.make
 			create context.make
 			create l_directory_list.make
@@ -88,7 +88,7 @@ feature {NONE} -- Implementation
 			across directory_list as dir loop
 				create l_directory_name_scope.make
 				java_line (
-					l_directory_name_scope.put_string (l_string_path, dir.item.to_string.to_latin1)
+					l_directory_name_scope.put_string (l_string_path, dir.item.to_string.to_latin_1)
 				)
 				java_line (
 					l_directory_name_scope.put (l_string_class_name_list, class_list (directory_list.path))
@@ -118,12 +118,12 @@ feature {NONE} -- Implementation
 	class_list (location: EL_DIR_PATH): J_LINKED_LIST
 			--
 		local
-			class_name: ASTRING
+			class_name: ZSTRING
 		do
 			create Result.make
 			across File_system.file_list (location, "*.e") as file_path loop
 				class_name := file_path.item.without_extension.base.as_upper
-				Result.add_last_string (class_name.to_latin1)
+				Result.add_last_string (class_name.to_latin_1)
 			end
 		end
 

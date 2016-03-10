@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Object for accessing http content
 		
@@ -8,10 +8,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-10-03 14:03:56 GMT (Friday 3rd October 2014)"
-	revision: "4"
+	date: "2015-12-26 14:49:43 GMT (Saturday 26th December 2015)"
+	revision: "6"
 
 class
 	EL_HTTP_CONNECTION
@@ -61,11 +61,6 @@ inherit
 		end
 
 	EL_MODULE_CURL
-		export
-			{NONE} all
-		end
-
-	EL_MODULE_STRING
 		export
 			{NONE} all
 		end
@@ -136,7 +131,7 @@ feature -- Access
 
 	last_string: STRING
 
-	url: ASTRING
+	url: ZSTRING
 
 feature -- Status query
 
@@ -304,16 +299,16 @@ feature -- Element change
 		do
 			url := a_url
 --			Curl already does url encoding
-			setopt_string (self_ptr, CURLOPT_url, a_url.to_utf8)
+			setopt_string (self_ptr, CURLOPT_url, a_url.to_utf_8)
 			set_get_method
 			-- Essential calls for using https
-			if a_url.starts_with ("https:") then
+			if a_url.starts_with (Secure_protocol) then
 				set_ssl_certificate_verification (is_certificate_verified)
 				set_ssl_hostname_verification (is_host_verified)
 			end
 		end
 
-	set_url_arguments (arguments: ASTRING)
+	set_url_arguments (arguments: ZSTRING)
 		local
 			pos_qmark: INTEGER
 			l_url: like url
@@ -460,5 +455,10 @@ feature {NONE} -- Constants
 		end
 
 	Title_tag: STRING = "<title>"
+
+	Secure_protocol: ZSTRING
+		once
+			Result := "https:"
+		end
 
 end

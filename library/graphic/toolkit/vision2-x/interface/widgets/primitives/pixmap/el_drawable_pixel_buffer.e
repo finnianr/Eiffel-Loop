@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Pixel drawing using cairo and pangocairo libraries.
 		When using 24 rgb format, make sure to lock pixmap before doing drawing operations
@@ -8,10 +8,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:13 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2015-07-06 12:17:32 GMT (Monday 6th July 2015)"
+	revision: "3"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER

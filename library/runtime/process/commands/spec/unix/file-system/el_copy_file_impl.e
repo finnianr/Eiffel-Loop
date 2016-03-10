@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_COPY_FILE_IMPL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2013-06-18 10:28:42 GMT (Tuesday 18th June 2013)"
-	revision: "2"
+	date: "2015-09-15 12:17:25 GMT (Tuesday 15th September 2015)"
+	revision: "4"
 
 class
 	EL_COPY_FILE_IMPL
@@ -31,7 +31,7 @@ feature -- Access
 		#if $is_destination_a_normal_file then
 			--no-target-directory
 		#end 
-	 	"$source_path" "$destination_path"
+	 	$source_path $destination_path
 	]"
 
 end

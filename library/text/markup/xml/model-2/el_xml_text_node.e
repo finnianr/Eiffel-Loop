@@ -1,8 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_XML_TEXT_NODE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2015-12-16 8:09:27 GMT (Wednesday 16th December 2015)"
+	revision: "3"
 
 class
 	EL_XML_TEXT_NODE
@@ -14,7 +19,7 @@ create
 	make
 
 convert
- make ({ASTRING})
+ make ({ZSTRING})
 
 feature {NONE} -- Initialization
 
@@ -25,12 +30,12 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	name: ASTRING
+	name: ZSTRING
 		do
 			Result := "text()"
 		end
 
-	text: ASTRING
+	text: ZSTRING
 
 feature -- Basic operations
 

@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ID3_TAG}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "4"
+	date: "2015-12-28 11:26:20 GMT (Monday 28th December 2015)"
+	revision: "6"
 
 class
 	EL_ID3_INFO
@@ -17,11 +17,6 @@ inherit
 		export
 			{NONE} all
 		redefine
-			default_create
-		end
-
-	EL_MODULE_STRING
-		undefine
 			default_create
 		end
 
@@ -73,9 +68,9 @@ feature {NONE} -- Initialization
 			create header.make (a_mp3_path)
 			if header.is_valid then
 				if a_version ~ real.zero then
-					implementation := create_implementation (header.version)
+					implementation := new_implementation (header.version)
 				else
-					implementation := create_implementation (a_version)
+					implementation := new_implementation (a_version)
 				end
 				implementation.link_and_read (a_mp3_path)
 
@@ -124,7 +119,7 @@ feature {NONE} -- Initialization
 	initialize_tables
 		local
 			field: EL_ID3_FRAME
-			name, value: ASTRING
+			name, value: ZSTRING
 		do
 			log.enter ("initialize_tables")
 			across fields as l_field loop
@@ -145,7 +140,7 @@ feature {NONE} -- Initialization
 				elseif field.code ~ Tag.Comment then
 					if field.description.is_empty then
 						create name.make_empty
-						name.append_string ("COMM_")
+						name.append_string_general ("COMM_")
 						name.append_integer (comment_table.count + 1)
 					else
 						name := field.description
@@ -174,25 +169,25 @@ feature {NONE} -- Initialization
 
 feature -- Basic fields
 
-	title: ASTRING
+	title: ZSTRING
 			--
 		do
 			Result := field_string (Tag.Title)
 		end
 
-	artist: ASTRING
+	artist: ZSTRING
 			--
 		do
 			Result := field_string (Tag.Artist)
 		end
 
-	album: ASTRING
+	album: ZSTRING
 			--
 		do
 			Result := field_string (Tag.Album)
 		end
 
-	album_artist: ASTRING
+	album_artist: ZSTRING
 			--
 		do
 			Result := field_string (Tag.Album_artist)
@@ -209,13 +204,13 @@ feature -- Basic fields
 			end
 		end
 
-	composer: ASTRING
+	composer: ZSTRING
 			--
 		do
 			Result := field_string (Tag.Composer)
 		end
 
-	genre: ASTRING
+	genre: ZSTRING
 			--
 		do
 			Result := field_string (Tag.Genre)
@@ -261,19 +256,19 @@ feature -- Access
 			Result := 2
 		end
 
-	comment (a_key: ASTRING): ASTRING
+	comment (a_key: ZSTRING): ZSTRING
 			--
 		do
 			Result := table_text (a_key, comment_table)
 		end
 
-	user_text (a_key: ASTRING): ASTRING
+	user_text (a_key: ZSTRING): ZSTRING
 			--
 		do
 			Result := table_text (a_key, user_text_table)
 		end
 
-	unique_id_for_owner (owner: STRING): STRING
+	unique_id_for_owner (owner: ZSTRING): STRING
 			--
 		do
 			create Result.make_empty
@@ -285,34 +280,34 @@ feature -- Access
 			end
 		end
 
-	field_string (id: STRING): ASTRING
+	field_string (id: STRING): ZSTRING
 				--
 		do
 			Result := field_of_type (agent {EL_ID3_FRAME}.string, id)
 		end
 
-	field_language (id: STRING): ASTRING
+	field_language (id: STRING): ZSTRING
 				--
 		do
 			Result := field_of_type (agent {EL_ID3_FRAME}.string, id)
 		end
 
-	field_description (id: STRING): ASTRING
+	field_description (id: STRING): ZSTRING
 				--
 		do
 			Result := field_of_type (agent {EL_ID3_FRAME}.description, id)
 		end
 
-	field_summary (id: STRING): ASTRING
+	field_summary (id: STRING): ZSTRING
 				--
 		do
-			Result := field_of_type (agent {EL_ID3_FRAME}.out, id)
+			Result := field_of_type (agent {EL_ID3_FRAME}.out_z, id)
 		end
 
 	field_integer (id: STRING): INTEGER
 			--
 		local
-			l_str: STRING
+			l_str: ZSTRING
 		do
 			l_str := field_string (id)
 			if l_str.is_integer then
@@ -347,9 +342,9 @@ feature -- Access
 			Result := implementation.mp3_path
 		end
 
-	comment_table: EL_ASTRING_HASH_TABLE [EL_ID3_FRAME]
+	comment_table: EL_ZSTRING_HASH_TABLE [EL_ID3_FRAME]
 
- 	user_text_table: EL_ASTRING_HASH_TABLE [EL_ID3_FRAME]
+ 	user_text_table: EL_ZSTRING_HASH_TABLE [EL_ID3_FRAME]
 
 	unique_id_list: LINKED_LIST [EL_ID3_UNIQUE_FILE_ID]
 
@@ -363,12 +358,7 @@ feature -- Status report
 
 	has_multiple_owners_for_UFID: BOOLEAN
 		do
-			Result := unique_id_owner_counts.linear_representation.there_exists (
-				agent (count: INTEGER): BOOLEAN
-					do
-						Result := count > 1
-					end
-			)
+			Result := across unique_id_owner_counts as count some count.item > 1 end
 		end
 
 	has_album_picture: BOOLEAN
@@ -376,7 +366,7 @@ feature -- Status report
 			Result := not internal_album_picture.is_empty
 		end
 
-	has_unique_id (owner: STRING): BOOLEAN
+	has_unique_id (owner: ZSTRING): BOOLEAN
 			--
 		do
 			Result := across unique_id_list as unique_file_id some unique_file_id.item.owner ~ owner end
@@ -385,6 +375,18 @@ feature -- Status report
 	duplicates_found: BOOLEAN
 
  feature -- Element change
+
+	set_beats_per_minute (a_beats_per_minute: INTEGER)
+			--
+		do
+			set_beats_per_minute_from_string (a_beats_per_minute.out)
+		end
+
+	set_beats_per_minute_from_string (a_beats_per_minute: ZSTRING)
+			--
+		do
+			set_field_string (Tag.Beats_per_minute, a_beats_per_minute, encoding)
+		end
 
 	set_encoding (a_name: STRING)
 			--
@@ -412,6 +414,26 @@ feature -- Status report
 			end
 		end
 
+	set_music_brainz_track_id (track_id: STRING)
+		do
+			remove_unique_id (Http_musicbrainz_org)
+			set_unique_id (Http_musicbrainz_org, track_id)
+		end
+
+	set_music_brainz_field (name: STRING; value: ZSTRING)
+		require
+			valid_name: Music_brainz_fields.has (name)
+		local
+			mb_name: ZSTRING
+		do
+			mb_name := Music_brainz_prefix + name
+			if value.is_empty then
+				remove_user_text (mb_name)
+			else
+				set_user_text (mb_name, value)
+			end
+		end
+
 	set_version (a_version: REAL)
 			--
 		local
@@ -428,22 +450,18 @@ feature -- Status report
 			end
 		end
 
-	set_unique_id (owner_id, hex_string: STRING)
+	set_unique_id (owner_id: ZSTRING; hex_string: STRING)
 			--
 		local
 			owner_found: BOOLEAN
 		do
-			from unique_id_list.start until unique_id_list.after or owner_found loop
-				if unique_id_list.item.owner ~ owner_id then
-					owner_found := true
-				else
-					unique_id_list.forth
-				end
+			across unique_id_list as unique_id until owner_found loop
+				owner_found := unique_id.item.owner ~ owner_id
 			end
 			if owner_found then
 				unique_id_list.item.set_id (hex_string)
 			else
-				unique_id_list.extend (implementation.create_unique_file_id_field (owner_id, hex_string))
+				unique_id_list.extend (implementation.new_unique_file_id_field (owner_id, hex_string))
 			end
 		end
 
@@ -455,7 +473,7 @@ feature -- Status report
 			year_set: a_year > 0 implies year ~ a_year
 		end
 
-	set_year_from_string (a_year: ASTRING)
+	set_year_from_string (a_year: ZSTRING)
 			--
 		do
 			set_field_string (Tag.Recording_time, a_year, encoding)
@@ -467,7 +485,7 @@ feature -- Status report
 			set_year (days // Days_in_year)
 		end
 
-	set_artist (a_artist: ASTRING)
+	set_artist (a_artist: ZSTRING)
 			--
 		do
 			set_field_string (Tag.Artist, a_artist, encoding)
@@ -475,7 +493,7 @@ feature -- Status report
 			is_set: artist ~ a_artist
 		end
 
-	set_album_artist (a_album_artist: ASTRING)
+	set_album_artist (a_album_artist: ZSTRING)
 			--
 		do
 			set_field_string (Tag.Album_artist, a_album_artist, encoding)
@@ -483,7 +501,7 @@ feature -- Status report
 			is_set: album_artist ~ a_album_artist
 		end
 
-	set_title (a_title: ASTRING)
+	set_title (a_title: ZSTRING)
 			--
 		do
 			set_field_string (Tag.Title, a_title, encoding)
@@ -491,7 +509,7 @@ feature -- Status report
 			is_set: title ~ a_title
 		end
 
-	set_album (a_album: ASTRING)
+	set_album (a_album: ZSTRING)
 			--
 		do
 			set_field_string (Tag.Album, a_album, encoding)
@@ -505,10 +523,10 @@ feature -- Status report
 				remove_field (internal_album_picture.first)
 				internal_album_picture.wipe_out
 			end
-			internal_album_picture.extend (implementation.create_album_picture_frame (a_picture))
+			internal_album_picture.extend (implementation.new_album_picture_frame (a_picture))
 		end
 
-	set_genre (a_genre: ASTRING)
+	set_genre (a_genre: ZSTRING)
 			--
 		do
 			set_field_string (Tag.Genre, a_genre, encoding)
@@ -516,7 +534,7 @@ feature -- Status report
 			is_set: genre ~ a_genre
 		end
 
-	set_composer (a_composer: ASTRING)
+	set_composer (a_composer: ZSTRING)
 			--
 		do
 			set_field_string (Tag.Composer, a_composer, encoding)
@@ -524,13 +542,13 @@ feature -- Status report
 			is_set: composer ~ a_composer
 		end
 
-	set_comment (a_key, a_comment: ASTRING)
+	set_comment (a_key, a_comment: ZSTRING)
 			--
 		do
 			set_table_item (comment_table, a_key, a_comment, Tag.Comment)
 		end
 
-	set_user_text (a_key, a_text: ASTRING)
+	set_user_text (a_key, a_text: ZSTRING)
 			--
 		do
 			set_table_item (user_text_table, a_key, a_text, Tag.User_text)
@@ -551,7 +569,7 @@ feature -- Status report
 			millisecs: INTEGER
 		do
 			millisecs := (a_duration.relative_duration (Zero_duration).fine_seconds_count * 1000).rounded
-			duration_field := implementation.create_field (Tag.Duration)
+			duration_field := implementation.new_field (Tag.Duration)
 			set_field_string (Tag.Duration, millisecs.out, Encoding_ISO_8859_1)
 		ensure
 			is_set: duration ~ a_duration
@@ -563,17 +581,17 @@ feature -- Status report
 			create Result.make_by_compact_time (0)
 		end
 
- 	set_field_string (name: STRING; value: ASTRING; a_encoding: INTEGER)
+ 	set_field_string (name: STRING; value: ZSTRING; a_encoding: INTEGER)
  		do
  			set_field_of_type (agent {EL_ID3_FRAME}.set_string, name, value, a_encoding)
  		end
 
- 	set_field_description (name: STRING; value: ASTRING; a_encoding: INTEGER)
+ 	set_field_description (name: STRING; value: ZSTRING; a_encoding: INTEGER)
  		do
  			set_field_of_type (agent {EL_ID3_FRAME}.set_description, name, value, a_encoding)
  		end
 
- 	set_field_language (name: STRING; value: ASTRING; a_encoding: INTEGER)
+ 	set_field_language (name: STRING; value: ZSTRING; a_encoding: INTEGER)
  		do
  			set_field_of_type (agent {EL_ID3_FRAME}.set_language, name, value, a_encoding)
  		end
@@ -589,7 +607,7 @@ feature -- Status report
 
 feature {NONE} -- Element change
 
-	set_table_item (table: like comment_table; a_key, a_string: ASTRING; a_code: STRING)
+	set_table_item (table: like comment_table; a_key, a_string: ZSTRING; a_code: STRING)
 			-- set comment or user text table
 		require
 			valid_table: table = comment_table or table = user_text_table
@@ -600,7 +618,7 @@ feature {NONE} -- Element change
 			if table.found then
 				field := table.found_item
 			else
-				field := implementation.create_field (a_code)
+				field := implementation.new_field (a_code)
 				field.set_encoding (encoding)
 				table.extend (field, a_key)
 			end
@@ -609,14 +627,14 @@ feature {NONE} -- Element change
 			string_set: table.item (a_key).string ~ a_string and table.item (a_key).description ~ a_key
 		end
 
-	set_field (a_field: EL_ID3_FRAME; a_description, a_text: ASTRING)
+	set_field (a_field: EL_ID3_FRAME; a_description, a_text: ZSTRING)
 		do
 			a_field.set_encoding (encoding)
 			a_field.set_description (a_description)
 			a_field.set_string (a_text)
 		end
 
- 	set_field_of_type (setter_action: PROCEDURE [EL_ID3_FRAME, TUPLE]; name: STRING; value: ASTRING; a_encoding: INTEGER)
+ 	set_field_of_type (setter_action: PROCEDURE [EL_ID3_FRAME, TUPLE]; name: STRING; value: ZSTRING; a_encoding: INTEGER)
 			--
 		local
 			field: EL_ID3_FRAME
@@ -624,7 +642,7 @@ feature {NONE} -- Element change
 			if basic_fields.has_key (name) then
 				field := basic_fields.found_item
 			else
-				field := implementation.create_field (name)
+				field := implementation.new_field (name)
 				if Tag.Basic.has (name) then
 					basic_fields [name] := field
 				end
@@ -637,20 +655,15 @@ feature -- Removal
 
 	remove_duplicate_unique_ids
 			--
-		local
-			count: INTEGER
-			owner_counts: like unique_id_owner_counts
 		do
-			from owner_counts.start until owner_counts.after loop
-				from count := owner_counts.item_for_iteration until count = 1 loop
-					remove_unique_id (owner_counts.key_for_iteration)
-					count := count - 1
+			across unique_id_owner_counts as owner_count loop
+				across 2 |..| owner_count.item as n loop
+					remove_unique_id (owner_count.key)
 				end
-				owner_counts.forth
 			end
 		end
 
-	remove_unique_id (owner_id: STRING)
+	remove_unique_id (owner_id: ZSTRING)
 			--
 		local
 			found: BOOLEAN
@@ -666,13 +679,13 @@ feature -- Removal
 			end
 		end
 
-	remove_comment (a_key: ASTRING)
+	remove_comment (a_key: ZSTRING)
 			--
 		do
 			remove_table_item (comment_table, a_key, Tag.Comment)
 		end
 
-	remove_user_text (a_key: ASTRING)
+	remove_user_text (a_key: ZSTRING)
 			--
 		do
 			remove_table_item (user_text_table, a_key, Tag.User_text)
@@ -771,19 +784,9 @@ feature -- File writes
 			implementation.strip_v2
 		end
 
-feature -- Constants
-
-	Days_in_year: INTEGER = 365
-
-	Default_encoding: INTEGER
-			--
-		once
-			Result := Encoding_UTF_8
-		end
-
 feature {NONE} -- Implementation
 
-	table_text (a_key: ASTRING; a_table: like comment_table): ASTRING
+	table_text (a_key: ZSTRING; a_table: like comment_table): ZSTRING
 			--
 		do
 			a_table.search (a_key)
@@ -805,7 +808,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	remove_table_item (a_table: like comment_table; a_key: ASTRING; a_code: STRING)
+	remove_table_item (a_table: like comment_table; a_key: ZSTRING; a_code: STRING)
 			--
 		do
 			a_table.search (a_key)
@@ -823,22 +826,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	unique_id_owner_counts: HASH_TABLE [INTEGER, STRING]
+	unique_id_owner_counts: HASH_TABLE [INTEGER, ZSTRING]
 		do
-			create Result.make (7)
-			Result.compare_objects
-			from unique_id_list.start until unique_id_list.after loop
-				Result.search (unique_id_list.item.owner)
-				if Result.found then
-					Result [unique_id_list.item.owner] := Result [unique_id_list.item.owner] + 1
-				else
-					Result.extend (1, unique_id_list.item.owner)
+			create Result.make_equal (7)
+			across unique_id_list as unique_id loop
+				Result.put (1, unique_id.item.owner)
+				if Result.conflict then
+					Result [unique_id.item.owner] := Result [unique_id.item.owner] + 1
 				end
-				unique_id_list.forth
 			end
 		end
 
-	field_of_type (getter_action: FUNCTION [EL_ID3_FRAME, TUPLE, ASTRING]; id: STRING): ASTRING
+	field_of_type (getter_action: FUNCTION [EL_ID3_FRAME, TUPLE, ZSTRING]; id: STRING): ZSTRING
 				--
 		do
 			basic_fields.search (id)
@@ -849,7 +848,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	create_implementation (a_version: REAL): like implementation
+	new_implementation (a_version: REAL): like implementation
 		do
 			if a_version = 2.4 then
 				create {EL_UNDERBIT_ID3_TAG_INFO} Result.make
@@ -874,4 +873,29 @@ feature {NONE} -- Implementation
 
 	implementation: EL_ID3_INFO_I
 
+feature -- Constants
+
+	Days_in_year: INTEGER = 365
+
+	Default_encoding: INTEGER
+			--
+		once
+			Result := Encoding_UTF_8
+		end
+
+	Http_musicbrainz_org: ZSTRING
+		once
+			Result := "http://musicbrainz.org"
+		end
+
+	Music_brainz_prefix: ZSTRING
+		once
+			Result := "musicbrainz_"
+		end
+
+	Music_brainz_fields: ARRAY [STRING]
+		once
+			Result := << "artistid", "albumid", "albumartistid", "artistsortname" >>
+			Result.compare_objects
+		end
 end

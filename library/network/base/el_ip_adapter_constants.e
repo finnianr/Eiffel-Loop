@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Adapter type constants based on Windows API IfType in struct _IP_ADAPTER_ADDRESSES
 		
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-14 11:16:39 GMT (Sunday 14th September 2014)"
-	revision: "2"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "3"
 
 class
 	EL_IP_ADAPTER_CONSTANTS

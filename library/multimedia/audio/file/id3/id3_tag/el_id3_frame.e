@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_ID3_FRAME}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "3"
+	date: "2015-12-16 13:59:41 GMT (Wednesday 16th December 2015)"
+	revision: "5"
 
 deferred class
 	EL_ID3_FRAME
@@ -51,7 +51,7 @@ feature -- Access
 		deferred
 		end
 
-	out: ASTRING
+	out: STRING
 			--
 		do
 			create Result.make_empty
@@ -60,7 +60,7 @@ feature -- Access
 					Result.append_character (' ')
 				end
 				if field.item.type = Type_string_data and then code ~ once "COMM" then
-					Result.append (field.item.string)
+					Result.append (field.item.string.to_latin_1)
 				else
 					Result.append_character ('[')
 					Result.append_string (field.item.type_name)
@@ -69,7 +69,7 @@ feature -- Access
 						Result.append_string (Encoding_names [field.item.integer])
 
 					elseif field.item.is_string then
-						Result.append (field.item.string)
+						Result.append (field.item.string.to_latin_1)
 
 					elseif field.item.is_integer then
 						Result.append_integer (field.item.integer)
@@ -83,7 +83,12 @@ feature -- Access
 			end
 		end
 
-	string: ASTRING
+	out_z: ZSTRING
+		do
+			Result := out
+		end
+
+	string: ZSTRING
 		do
 			Result := string_of_type (Type_string_data)
 		end
@@ -112,12 +117,12 @@ feature -- Access
 			end
 		end
 
-	language: ASTRING
+	language: ZSTRING
 		do
 			Result := string_of_type (Type_language)
 		end
 
-	key, description: ASTRING
+	key, description: ZSTRING
 		do
 			Result := string_of_type (Type_description)
 		end
@@ -149,7 +154,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_string (str: ASTRING)
+	set_string (str: ZSTRING)
 			--
 		do
 			set_string_of_type (Type_string_data, str)
@@ -177,13 +182,13 @@ feature -- Element change
 			end
 		end
 
-	set_language (str: ASTRING)
+	set_language (str: ZSTRING)
 			--
 		do
 			set_string_of_type (Type_language, str)
 		end
 
-	set_description (str: ASTRING)
+	set_description (str: ZSTRING)
 			--
 		do
 			set_string_of_type (Type_description, str)
@@ -211,7 +216,7 @@ feature -- Status query
 
 feature {EL_ID3_INFO} -- Implementation
 
-	set_string_of_type (type: INTEGER; value: ASTRING)
+	set_string_of_type (type: INTEGER; value: ZSTRING)
 		local
 			index: INTEGER
 		do
@@ -221,7 +226,7 @@ feature {EL_ID3_INFO} -- Implementation
 			end
 		end
 
-	string_of_type (type: INTEGER): ASTRING
+	string_of_type (type: INTEGER): ZSTRING
 		local
 			index: INTEGER
 		do

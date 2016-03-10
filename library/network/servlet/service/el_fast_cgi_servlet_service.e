@@ -1,13 +1,13 @@
-note
+﻿note
 	description: "Summary description for {EL_FAST_CGI_SERVLET_SERVICE_COMMAND}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-29 14:03:42 GMT (Monday 29th September 2014)"
-	revision: "5"
+	date: "2016-01-28 10:50:02 GMT (Thursday 28th January 2016)"
+	revision: "7"
 
 deferred class
 	EL_FAST_CGI_SERVLET_SERVICE
@@ -19,11 +19,15 @@ inherit
 			log as goa_log,
 			request as fast_cgi_request,
 			Execution_environment as goa_execution_environment,
-			run as execute,
-			register_servlets as set_servlets
+			register_servlets as set_servlets,
+			field_exception as received_termination_signal
 		redefine
-			fast_cgi_request, process_request, execute, initialise_logger, error, info, Log_hierarchy
+			fast_cgi_request, finish,
+			initialise_logger, error, info, Log_hierarchy,
+			Max_retries, max_retries_exceeded, process_request
 		end
+
+	EXCEPTION_MANAGER_FACTORY
 
 	EL_MODULE_LOG
 
@@ -35,7 +39,7 @@ inherit
 
 feature {EL_SERVLET_SUB_APPLICATION} -- Initialization
 
-	make (config_dir: EL_DIR_PATH; config_name: ASTRING)
+	make (config_dir: EL_DIR_PATH; config_name: ZSTRING)
 		do
 			Servlet_app_log_category.wipe_out
 			config := new_config (config_dir + (config_name + ".pyx"))
@@ -54,7 +58,7 @@ feature -- Basic operations
 				log_or_io.put_integer_field ("Listening on port", svr_port)
 				log_or_io.put_new_line
 
-				Precursor
+				run
 				on_shutdown
 			else
 				across config.error_messages as message loop
@@ -65,47 +69,67 @@ feature -- Basic operations
 			log.exit
 		end
 
+feature {NONE} -- Status query
+
+	received_termination_signal: BOOLEAN
+			-- True if exception `signal_code' is Unix interrupt (Ctrl-C) or terminate signal
+		do
+			if attached {OPERATING_SYSTEM_SIGNAL_FAILURE} Exception_manager.last_exception as os then
+				Result := os.signal_code = Unix.Sigint or os.signal_code = Unix.Sigterm
+			end
+		end
+
+	max_retries_exceeded: BOOLEAN
+		do
+			Result := retries > max_retries or else received_termination_signal
+		end
+
 feature {NONE} -- Implementation
 
 	call (object: ANY)
 		do
 		end
 
-	initialize
-		do
-			set_servlets
-		end
-
-	process_request
-			-- Redefined process request to have type of response and request object defined in servlet
+	error (logger: STRING; message: ANY)
 		local
-			servlet_path: ASTRING; found: BOOLEAN
+			trace_path: EL_FILE_PATH; trace_file: EL_PLAIN_TEXT_FILE
 		do
-			servlet_path := fast_cgi_request.path_info
-			if servlet_path.is_empty then
-				error (Servlet_app_log_category, "No path specified in HTTP header")
+			Precursor (logger, message)
+			if attached {STRING} message as str then
+				if logger ~ Servlet_app_log_category then
+					if str.ends_with ("retry not requested, so exiting...") then
+						trace_path := generator + "-exception.01.txt"
+						create trace_file.make_open_write (trace_path.next_version_path)
+						trace_file.put_string_32 (Exception_manager.last_exception.trace)
+						trace_file.close
+						log_message (str)
+
+					elseif str.starts_with ("Application ended") and received_termination_signal then
+						log_message ("Received termination signal. Exiting..")
+					else
+						log_message (str)
+					end
+				end
 			else
-				across << servlet_path, Default_servlet_key >> as path until found loop
-					servlet_path := path.item
-					servlets.search (servlet_path)
-					found := servlets.found
-				end
-				if found then
-					Service_info_template.set_variables_from_array (<<
-						[once "path", servlet_path], [once "servlet_class", servlets.found_item.generator]
-					>>)
-					info (Servlet_app_log_category, Service_info_template.substituted)
-					servlets.found_item.serve_fast_cgi (fast_cgi_request)
-				else
-					handle_missing_servlet (create {GOA_FAST_CGI_SERVLET_RESPONSE}.make (fast_cgi_request))
-				end
+				log_message (message.out)
 			end
 		end
 
-	set_servlets
-			-- assign servlets
+	finish
 		do
-			servlets := servlet_table
+			Precursor
+			-- Successfully finished responding to request so we can reset `retries' to zero
+			retries := 0
+		end
+
+	info (logger: STRING; message: ANY)
+		do
+			Precursor (logger, message)
+			if attached {READABLE_STRING_GENERAL} message as str then
+				log_message (str)
+			else
+				log_message (message.out)
+			end
 		end
 
 	initialise_logger
@@ -120,24 +144,9 @@ feature {NONE} -- Implementation
 			log_hierarchy.logger (Servlet_app_log_category).add_appender (appender)
 		end
 
-	error (logger: STRING; message: ANY)
+	initialize
 		do
-			Precursor (logger, message)
-			if attached {STRING} message as str then
-				log_message (str)
-			else
-				log_message (message.out)
-			end
-		end
-
-	info (logger: STRING; message: ANY)
-		do
-			Precursor (logger, message)
-			if attached {READABLE_STRING_GENERAL} message as str then
-				log_message (str)
-			else
-				log_message (message.out)
-			end
+			set_servlets
 		end
 
 	log_message (message: READABLE_STRING_GENERAL)
@@ -165,23 +174,49 @@ feature {NONE} -- Implementation
 			Log_hierarchy.close_all
 		end
 
-	field_exception: BOOLEAN
-			-- Should we attempt to retry?
+	process_request
+			-- Redefined process request to have type of response and request object defined in servlet
+		local
+			servlet_path: ZSTRING; found: BOOLEAN
 		do
+			servlet_path := fast_cgi_request.path_info
+			if servlet_path.is_empty then
+				error (Servlet_app_log_category, "No path specified in HTTP header")
+			else
+				across << servlet_path, Default_servlet_key >> as path until found loop
+					servlet_path := path.item
+					servlets.search (servlet_path)
+					found := servlets.found
+				end
+				if found then
+					Service_info_template.set_variable (Var_path, servlet_path)
+					Service_info_template.set_variable (Var_servlet_class, servlets.found_item.generator)
+					info (Servlet_app_log_category, Service_info_template.substituted)
+					servlets.found_item.serve_fast_cgi (fast_cgi_request)
+				else
+					handle_missing_servlet (create {GOA_FAST_CGI_SERVLET_RESPONSE}.make (fast_cgi_request))
+				end
+			end
 		end
 
 	servlet_table: like servlets
 		deferred
 		end
 
-feature {NONE} -- Implementation: attributes
+	set_servlets
+			-- assign servlets
+		do
+			servlets := servlet_table
+		end
 
-	servlets: EL_ASTRING_HASH_TABLE [EL_HTTP_SERVLET]
+feature {NONE} -- Implementation: attributes
 
 	config: EL_SERVLET_CONFIG
 			-- Configuration for servlets
 
 	fast_cgi_request: EL_FAST_CGI_REQUEST
+
+	servlets: EL_ZSTRING_HASH_TABLE [EL_HTTP_SERVLET]
 
 feature {NONE} -- Constants
 
@@ -191,13 +226,29 @@ feature {NONE} -- Constants
 			create Result.make (Info_p)
 		end
 
-	frozen Default_servlet_key: ASTRING
+	Max_retries: INTEGER
+		-- The maximum number of times application will retry
+		once
+			Result := 3
+		end
+
+	Service_info_template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
+		once
+			create Result.make ("Servicing path: %"$path%" with servlet $servlet_class")
+		end
+
+	Unix: UNIX_SIGNALS
+		once
+			create Result
+		end
+
+	Var_path: STRING = "path"
+
+	Var_servlet_class: STRING = "servlet_class"
+
+	frozen Default_servlet_key: ZSTRING
 		once
 			Result := "<DEFAULT>"
 		end
 
-	Service_info_template: EL_SUBSTITUTION_TEMPLATE [ASTRING]
-		once
-			create Result.make ("Servicing path: %"$path%" with servlet $servlet_class")
-		end
 end

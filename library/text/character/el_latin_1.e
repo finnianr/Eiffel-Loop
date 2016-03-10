@@ -1,4 +1,4 @@
-note
+ï»¿note
 	description: "Summary description for {EL_LATIN_1}."
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-09-02 10:55:12 GMT (Tuesday 2nd September 2014)"
-	revision: "2"
+	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
+	revision: "3"
 
 class
 	EL_LATIN_1
@@ -25,18 +25,18 @@ feature -- Ascii
 feature -- Latin 1 upper boundaries
 
 	Ucase_A_GRAVE: NATURAL = 192
-		-- À: Capital A, grave accent
+		-- : Capital A, grave accent
 
 	Ucase_THORN: NATURAL = 222
-		-- Þ: Capital THORN, Icelandic
+		-- Þº Capital THORN, Icelandic
 
 feature -- Latin 1 lower boundaries
 
 	Lcase_a_grave: NATURAL = 224
-		-- à: Small a, grave accent
+		-- àº Small a, grave accent
 
 	Lcase_thorn: NATURAL = 254
-		-- þ: Small thorn, Icelandic
+		-- : Small thorn, Icelandic
 
 feature -- Latin 1 upper/lower exceptions
 
@@ -47,9 +47,9 @@ feature -- Latin 1 upper/lower exceptions
 feature -- Latin 1 undefined case
 
 	Sharp_s: NATURAL = 223
-		-- ß: Small sharp s
+		-- ßº Small sharp s
 
 	Y_dieresis: NATURAL = 255
-		-- ÿ: Small y, dieresis
+		-- : Small y, dieresis
 
 end
