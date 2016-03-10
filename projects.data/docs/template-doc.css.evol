@@ -1,0 +1,76 @@
+body {
+	background: url('$images_loc/coded-eiffel-paper.jpg');
+	font-family: sans-serif;
+	font-size: 100%;
+}
+#logo {
+	position: fixed;
+	z-index: 3;
+	top: 30pt; 
+	left: 20pt;
+}
+#logo img {
+	border: none;
+}
+#logo_shadow {
+	position: fixed;
+	top: 35pt; 
+	left: 25pt;
+	z-index: 2;
+	background-color: #B3B3B3;
+	width: 225px;
+	height: 180px;
+}
+#page {
+	font-size: 1.2em;
+	
+	width: 52em;
+	padding-top: 1em;
+	padding-left: 2em;
+	padding-right: 2em;
+	padding-bottom: 2em;
+	
+	margin-left: 200pt;
+	margin-right: auto;
+	margin-bottom: 50pt;
+	
+	background: url('$images_loc/dimpled-paper.jpg');
+	border-left-color: #339966;
+	border-left-style: solid;
+	border-left-width: 1em;
+}
+.page_title {
+	font-size: 200%;
+	font-weight: bold;
+	text-align: center;
+	background-color: gainsboro;
+	border-bottom-color: #339966;
+	border-bottom-style: solid;
+	border-bottom-width: 0.2em;
+	padding: 0.2em;
+}
+.page_title p {
+	font-style: italic;
+	font-size: 75%;
+	font-weight: normal;
+	text-align: right;
+	margin: 0;
+	margin-right: 10pt;
+}
+#page p.printable_link {
+	font-size: 0.8em;
+	text-align: right;
+}
+#page i {
+	font-family: "Bitstream Vera Sans Mono", monospace;
+	font-size: 0.9em;
+	font-style: normal;
+	white-space: nowrap;
+}
+#page pre {
+	font-family: "Bitstream Vera Sans Mono", monospace;
+	font-size: 0.9em;
+	margin-left: 10pt;
+}
+
+

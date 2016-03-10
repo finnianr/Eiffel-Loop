@@ -1,0 +1,417 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-1">
+    <title>Eiffel-Loop Readme</title>
+  </head>
+  <body style="margin-left: 50px;" alink="#ee0000" bgcolor="#ffffcc"
+    link="#0000ee" text="#000000" vlink="#551a8b">
+    <h1 align="left">Eiffel-Loop Libraries</h1>
+    <h2>INSTALLATION</h2>
+    <h3>Requirements<br>
+    </h3>
+    <ul>
+      <li>
+        <p>EiffelStudio &gt;= 7.1 Variables <i>ISE_PLATFORM</i>, <i>ISE_EIFFEL</i>
+          and <i>ISE_C_COMPILER</i> should be defined. The <i>estudio</i>
+          command must be in your path.</p>
+      </li>
+      <li>
+        <p id="top">Python 2.6.x or 2.7.x. Versions &gt;= 3.0 are not
+          compatible with the <i><a href="http://www.scons.org/">scons</a></i>
+          builder. The <i>python</i> command must be in your path.<br>
+        </p>
+      </li>
+    </ul>
+    <h4>For Windows&nbsp;&nbsp;&nbsp; <br>
+    </h4>
+    <ul>
+      <li>Microsoft <a
+          href="http://www.microsoft.com/en-us/download/details.aspx?id=8279">Windows
+
+
+
+
+
+
+          SDK</a> for Windows 7.</li>
+      <li>Using the <i>eiffel2python</i> library requires the header
+        files and libraries from the 64-bit version of Python when
+        compiling with the 64-bit version of EiffelStudio. Similarly for
+        32-bit compilations. This is a precondition for compiling the <i>test.ecf
+
+
+
+
+
+
+        </i>project.<br>
+      </li>
+    </ul>
+    <h4>For Unix</h4>
+    <ul>
+      <li>Use a "manual install" of EiffelStudio and not the Debian
+        package. The Debian package installs library files in odd places
+        causing C compilation errors with Eiffel-Loop.<br>
+      </li>
+    </ul>
+    <h3>Setup Procedure</h3>
+    <p>Unzip the Eiffel-Loop archive to a development directory and then
+      open a terminal window. Change to the <i>Eiffel-Loop </i>home
+      directory and run the setup script. For Unix the command is:</p>
+    <blockquote>
+      <pre>. setup.sh
+</pre>
+    </blockquote>
+    <p>And for Windows:</p>
+    <blockquote>
+      <pre>setup
+</pre>
+    </blockquote>
+    <p>Note that for Windows 7/Vista you should open the terminal
+      console with administrator permissions. <br>
+    </p>
+    <p>The script achieves the following things.<br>
+    </p>
+    <ol>
+      <li>Installs extensions to <i><a href="http://www.scons.org/">scons</a></i>
+        for building Eiffel projects. <br>
+      </li>
+      <li>Installs <i><a href="http://www.scons.org/">scons</a></i> if
+        it is not already installed.</li>
+      <li>Installs Python package <i><a href="http://lxml.de">lxml</a></i>
+        if not already installed.</li>
+      <li>Builds the Eiffel toolkit program <i>el_toolkit</i>, which
+        amongst other things, can convert <a
+          href="http://www.eiffelroom.com/node/527">Pyxis</a> files to
+        XML and vice-versa.</li>
+      <li>If the <i><a href="http://projects.gnome.org/gedit/">gedit</a></i>
+        text editor is installed, syntax highlighting support for <a
+          href="http://www.eiffelroom.com/node/654">Pyxis Eiffel
+          Configuration</a> files and generic <a
+          href="http://www.eiffelroom.com/node/527">Pyxis</a> files is
+        installed.</li>
+      <li>A bonus for Windows:</li>
+      <ol>
+        <li><i><a href="http://projects.gnome.org/gedit/">gedit</a> </i>is
+
+
+
+
+
+          associated with <a
+            href="http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting"><i>.pecf</i></a>
+          files</li>
+        <li>The <a href="http://www.eiffelroom.com/node/527">Pyxis</a>
+          converter program is associated with <a
+            href="http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting"><i>.pecf</i></a>
+          files and accessible from an entry in the right-click context
+          menu, <b><i>Convert to ECF</i></b>.<br>
+        </li>
+      </ol>
+    </ol>
+    <h2>BUILDING THE EXAMPLES</h2>
+    <h3>Finalized Build</h3>
+    Open a terminal console and change to the project directory. Use
+    this command to do a finalized build.<br>
+    <blockquote>
+      <pre>scons project=[PROJECT NAME] action=finalize
+</pre>
+    </blockquote>
+    <p>Note that you can refer to the Eiffel project file using either
+      the <a href="http://dev.eiffel.com/Category:Configuration"><i>ecf</i></a>
+      or <a
+        href="http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting"><i>pecf</i></a>
+      file extension. In the case of a <a
+        href="http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting"><i>pecf</i></a>
+      file, it is first converted to <a
+        href="http://dev.eiffel.com/Category:Configuration"><i>ecf</i></a>
+      format as part of the build.<br>
+    </p>
+    <h4>Build Output</h4>
+    The output from the build can be found in this directory under the
+    project directory:<br>
+    <blockquote>
+      <pre>package/$ISE_PLATFORM/bin
+</pre>
+    </blockquote>
+    <h3>Browsing in EiffelStudio</h3>
+    <p>Before the examples can be opened in EiffelStudio, it is first
+      necessary to build any C or Java dependencies using a <i><a
+          href="http://www.scons.org/">scons</a></i> build. To do this,
+      open a terminal console and change to the project directory. Use
+      this command to build a <i>W_code</i> project for use in
+      EiffelStudio.<br>
+    </p>
+    <blockquote>
+      <pre>scons project=[PROJECT NAME] action=freeze
+</pre>
+    </blockquote>
+    <p>Note that you can refer to the Eiffel project file using either
+      the <a href="http://dev.eiffel.com/Category:Configuration"><i>ecf</i></a>
+      or <a
+        href="http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting"><i>pecf</i></a>
+      file extension. In the case of a <a
+        href="http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting"><i>pecf</i></a>
+      file, it is first converted to <a
+        href="http://dev.eiffel.com/Category:Configuration"><i>ecf</i></a>
+      format as part of the build.<br>
+    </p>
+    <p>After the build completes use the following command to open the
+      project in EiffelStudio.<br>
+    </p>
+    <blockquote>
+      <pre>launch_estudio [PROJECT NAME]
+</pre>
+    </blockquote>
+    <p>As with the <i><a href="http://www.scons.org/">scons</a></i>
+      command, you can use either the .<a
+        href="http://dev.eiffel.com/Category:Configuration"><i>ecf</i></a>
+      or <a
+        href="http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting"><i>.pecf</i></a>
+      project&nbsp; file. The <i>launch_estudio</i> command sets up the
+      correct&nbsp; environment for the project.<br>
+    </p>
+    <h3>Toolkit Program</h3>
+    <h4>Requirements -ftp_backup option<br>
+    </h4>
+    The following command line utilities must be in your path:<br>
+    <pre>tar, gpg, gzip</pre>
+    <h3>Manage MP3 Example</h3>
+    A selection of command line tools for use with the <a
+      href="http://en.wikipedia.org/wiki/Rhythmbox">Rhythmbox</a> audio
+    player.<br>
+    <h4>Requirements -create_cortina_set option</h4>
+    The following command line utilities must be in your path:<br>
+    <pre>avconv, lame, sox
+</pre>
+    <h2>USING THE EIFFEL LOOP SCONS BUILD SYSTEM</h2>
+    <h3>Python eiffel_loop package</h3>
+    <p>During setup, a Python package called <i>eiffel_loop</i> is
+      installed. This contains extensions to <i><a
+          href="http://www.scons.org/">scons</a> </i>for building
+      Eiffel systems<i>.</i>The source code can be found in:</p>
+    <blockquote>
+      <pre>Eiffel-Loop/tool/python-support
+</pre>
+    </blockquote>
+    <p>Features of this build system are as follows:</p>
+    <ul>
+      <li>
+        <p>Cross compilation.</p>
+      </li>
+      <li>
+        <p>Managing of resource files and shareable object dependencies
+          to create installable packages.</p>
+      </li>
+      <li>
+        <p>Ability to download and extract prebuilt binaries from zip
+          files using special source files with extension '<i>http</i>'.
+          They are managed in the same way as C source files. The
+          binaries could be any kind of shareable objects including Java
+          jars.</p>
+      </li>
+      <li>Generates Eiffel source file with build version information
+        available. This is accessed through once variable: {<i>EL_MODULE_BUILD_INFO</i>}.<i>Build_info</i>.<br>
+      </li>
+    </ul>
+    <p> </p>
+    <h3>Configuration Files</h3>
+    <h4>File: &lt;project name&gt;.ecf</h4>
+    <p>Each project can have two equivalent Eiffel configuration files.
+      One is in the standard <a
+        href="http://dev.eiffel.com/Category:Configuration"> ECF</a> XML
+      format. The other is in the more readable <a
+        href="http://www.eiffelroom.com/node/527">Pyxis</a> format and
+      has the extension <a
+        href="http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting"><i>pecf</i></a>.
+      Either file can be used to build the project or open it in
+      EiffelStudio. Use the following commands to convert from one to
+      the other:<br>
+    </p>
+    <blockquote>
+      <pre>el_toolkit -xml_to_pyxis -in [CONFIGURATION FILE]
+
+el_toolkit -pyxis_to_xml -in [CONFIGURATION FILE]
+
+el_toolkit -ecf_to_pecf -library_tree [DIRECTORY PATH]
+</pre>
+    </blockquote>
+    <p> </p>
+    <h4>File: project.py</h4>
+    This file is a Python script and is used to override default values
+    for various environment variables and compile options for the <i><a
+        href="http://www.scons.org/">scons</a></i> build.<br>
+    The following variables can be set.<br>
+    <h5>major_version</h5>
+    Set major version number. This variable will appear in the Eiffel <i>BUILD_INFO</i>
+    class.<br>
+    <h5>minor_version<br>
+    </h5>
+    Set minor version number. This variable will appear in the Eiffel <i>BUILD_INFO</i>
+    class.
+    <h5>installation_sub_directory</h5>
+    Set installation path for application relative to <i>/opt</i> in
+    Unix and <i>%ProgramFiles%</i> in Windows. It doesn't matter
+    whether you use the Windows or Unix path separator. This variable
+    will appear in the Eiffel <i>BUILD_INFO</i> class.
+    <h5>environ</h5>
+    This dictionary object defines the build shell environment. See
+    section <i>Build Environment </i>for details.
+    <h5>MSC_options</h5>
+    <p>This sequence object contains options for the Microsoft C
+      compiler.&nbsp; See section <i>Microsoft C options.</i><br>
+    </p>
+    <h4>File: SConstruct </h4>
+    This is a file that the <i><a href="http://www.scons.org/">scons</a>
+    </i>builder looks for<i> </i>in order to build a project. For
+    Eiffel projects it contains the single line:<br>
+    <blockquote>
+      <pre>import eiffel_loop.eiffel.SConstruct</pre>
+    </blockquote>
+    <h3>Build Environment</h3>
+    <p> </p>
+    <p>By editing the <i>project.py</i> file in each project directory,
+      you can add extra environment variables to the default environment
+      using the dictionary object 'environ'. For example:<br>
+    </p>
+    <blockquote>
+      <pre>environ ['EIFFEL_LOOP'] = path.join (path.dirname (path.abspath (os.curdir)), 'Eiffel-Loop')
+environ ['EPOSIX'] = '$EIF_LIBRARY/eposix-3.2.1'
+environ ['GOANNA'] = '$EIF_LIBRARY/goanna'
+environ ['LOG4E'] = '$EIF_LIBRARY/log4e'
+</pre>
+    </blockquote>
+    <p>Note that Unix style variable expansion is supported with the '$'
+      symbol. Since it is a Python script you can use any Python code
+      you want in this file.<br>
+    </p>
+    <p>To understand how the environment is constructed, read the source
+      text of the following Python modules:<br>
+    </p>
+    <blockquote>
+      <pre>eiffel_loop.eiffel.project
+eiffel_loop.os.environ
+eiffel_loop.project
+</pre>
+    </blockquote>
+    <p>(Found in: <i>Eiffel-Loop/tool/python-support</i>)</p>
+    <p>If you make any modifications you can activate them by running
+      the Setup Procedure again.<br>
+    </p>
+    <h4>Microsoft C options</h4>
+    <p>To configure the Microsoft C compiler environment, edit the <i>MSC_options</i>
+      variable in the <i>project.py</i>. Essentially these are
+      arguments for the <a
+href="http://msdn.microsoft.com/en-us/library/ff660764%28v=vs.100%29.aspx"><i>SetEnv.cmd</i></a>
+      command line tool. <br>
+    </p>
+    <p>By default <i>MSC_options </i>has the following values<i>.</i>
+    </p>
+    <blockquote>
+      <pre>MSC_options = ['/x64', '/xp' '/Release']</pre>
+    </blockquote>
+    <p>Note: if you set the cpu architecture option to be /x86, the
+      32bit version of EiffelStudio will be launched to compile the
+      project. However if all you want to do is change the cpu
+      architecture, it is better to do it with the <i>cpu=</i> command
+      option for <i><a href="http://www.scons.org/">scons</a></i> or <i>launch_estudio</i>.
+      For example:<br>
+    </p>
+    <blockquote>
+      <pre>scons cpu=x86 project=[PROJECT NAME] action=finalize</pre>
+    </blockquote>
+    More about this in the Cross Compilation section.<br>
+    <h3>Cross Compilation</h3>
+    The <i>eiffel_loop</i> <i><a href="http://www.scons.org/">scons</a>
+    </i> builder supports cross compilation. This feature is fully
+    operational on Windows and partially completed under Unix. When
+    doing finalized builds, an intermediate target is built under the <i>build</i>
+    directory:<br>
+    <blockquote>
+      <pre>build/F_code.tar.gz
+</pre>
+    </blockquote>
+    This is a platform neutral archive of the generated C code under <i>EIFGENS/classic/F_code.
+
+
+    </i>From this the final target is built in the <i>package/$ISE_PLATFORM/bin</i>
+    directory. In Windows you can build a 64 bit binary of your
+    application and then build a 32 bit version without having to do an
+    Eiffel compilation. The 32 bit version is built with the command:<br>
+    <blockquote>
+      <pre>scons cpu=x86 project=[PROJECT NAME] action=finalize
+</pre>
+    </blockquote>
+    <h4>Requirements<br>
+    </h4>
+    <p>To do cross compilation you must have a 64bit and a 32 bit
+      version of EiffelStudio installed under these directories
+      respectively.<br>
+    </p>
+    <blockquote>
+      <pre><i>C:\Program files</i>
+<i>C:\Program files x86</i>
+</pre>
+    </blockquote>
+    <p>If you wish to use the <i>eiffel2python</i> library, you need to
+      have both the 64 bit and 32 bit version of Python installed.<br>
+    </p>
+    <h2>UNMAINTAINED MODULES</h2>
+    The following modules dating back to 2007-2008 are no longer
+    maintained but included for posterity.<br>
+    <h3>Eiffel to Matlab Interface</h3>
+    <p>Developed with Matlab Version 6.5, VC++ 8.0 Express Edition,
+      Windows XP SP2. </p>
+    <h3>Eiffel to Praat Script Interface</h3>
+    <p><a href="http://www.fon.hum.uva.nl/praat/">Praat</a> is a free
+      tool <span class="st">for doing acoustic and phonetic analysis</span>.
+      It has it's own scripting language, <i>Praat Script</i>.</p>
+    <p>The <i>el_toolkit</i> utility has an option for converting the
+      Praat 4.4 source code to compile with MSC. Praat is designed to
+      compile with mingw compiler, but at the time this was developed
+      EiffelStudio didn't support mingw.</p>
+    <p>Developed with VC++ 8.0 Express Edition, Windows XP SP2, Praat
+      source code version 4.4.30.<br>
+      The conversion tool will not work with later versions of Praat.<br>
+    </p>
+    <h3>Laabhair Module</h3>
+    <p> Laabhair is a digital signal processing framework that allows
+      you process speech with a Praat script in real time and create
+      visual representations of the the data in Flash. Requires the
+      Eiffel Praat Script module.</p>
+    <p> Developed on Windows XP SP2 with Flash Professional 8 IDE,
+      EiffelStudio 6.1,&nbsp; VC++ 8.0 Express Edition.</p>
+    <h2>EXAMPLE APPLICATIONS<br>
+    </h2>
+    <h3>Invoking Sub-applications<br>
+    </h3>
+    <h2> </h2>
+    <p>To simplify development, Eiffel-Loop has the concept of a
+      multi-mode "Swiss Army Knife" application. Each individual
+      sub-application inherits from class EL_SUB_APPLICATION, and the
+      command line option is found by looking at the value implemented
+      of attribute 'option_name'. When calling the application, this
+      option name should be specified on the command line immediately
+      after the executable command name.<br>
+    </p>
+    <pre>    &lt;command&gt; -&lt;option-name&gt; [-logging]<br></pre>
+    <p>Should the need arise for a more compact executable, it should be
+      technically possible to designate each sub-application as the root
+      class for an Eiffel project. Are alternatively just comment out
+      the other sub-applications in the root manifest.<br>
+    </p>
+    <h3>Class APPLICATION_ROOT</h3>
+    <p>Each project has a class APPLICATION_ROOT which inherits from
+      EL_MULTI_APPLICATION_ROOT, and contains a manifest of all
+      available sub-applications.<br>
+    </p>
+    <h3>Logging</h3>
+    <p> Each sub-application has a minimum amount of terse log output.
+      This output can be expanded with the addition of the 'logging'
+      switch on the command line.<br>
+    </p>
+    <p> </p>
+    <br>
+  </body>
+</html>

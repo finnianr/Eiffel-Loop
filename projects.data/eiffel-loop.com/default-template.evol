@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+	<meta name="author" content="Finnian Reilly">
+
+	<meta name="keywords" content="$keywords">
+	<meta name="description" content="$description">
+
+	<title>$page_title</title>
+	<style type="text/css">
+	#if $is_print_view then
+		@import "/css/print.css";
+	#else
+		@import "/css/doc.css";
+	#end
+	</style>
+	<link rel="Shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+</head>
+<body>
+#if not $is_print_view then
+	<div id="menu">
+		<a href="/"><img src="/images/home-logo.png"/></a><hr/>
+	#foreach $item in $menu loop	
+		<a class="text" href="$item.href_name" title="$item.description">$item.menu_name</a><br>
+	#end
+	</div>
+	<div id="menu_shadow">
+		<a href="/"><img src="/images/home-logo.png"/></a><hr/>
+	#foreach $item in $menu loop	
+		<a class="text" href="$item.href_name" title="$item.description">$item.menu_name</a><br>
+	#end
+	</div>
+#end
+
+	<div id="page">
+		<div class="page_title">
+			$page_title
+			<p>Finnian Reilly</p>
+		</div>
+	#if $has_print_view then
+		<p class="printable_link">
+			<a href="$print_view_href_name">[ Printable view ]</a>
+		</p>
+	#end
+	#if $has_contents then
+		<h1>Contents</h1>
+	#end
+
+		#include ($content_path)
+		
+	</div>
+</body>
+</html>

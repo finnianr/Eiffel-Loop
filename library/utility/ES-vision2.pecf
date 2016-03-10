@@ -1,0 +1,311 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-10-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd"
+	name = vision2; uuid = "229b6d90-09aa-11df-87ab-f328e9f0867b"; library_target = vision2
+	target:
+		name = vision2
+		description:
+			"""
+				EiffelVision2: Multiplatform graphical library of reusable components for Eiffel.
+				Copyright (c) 1984-2006, Eiffel Software and others.
+				Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt).
+			"""
+		root:
+			all_classes = true
+		file_rule:
+			exclude:
+				"/EIFGEN.{0,1}$"
+				"/\.svn$"
+				"/temp$"
+		option:
+			warning = true; is_attached_by_default = false; syntax = transitional; namespace = "EiffelSoftware.Library"
+			warning:
+				name = syntax; enabled = false
+		setting:
+			name = dotnet_naming_convention; value = true
+		external_include:
+			location = "$(ISE_LIBRARY)\library\vision2\spec\include"
+			condition:
+				platform:
+					value = windows
+		external_include:
+			location = "$(ISE_LIBRARY)/library/vision2/spec/include"
+			condition:
+				platform:
+					excluded_value = windows
+		external_include:
+			location = "$(ISE_LIBRARY)/library/vision2/implementation/gtk/Clib"
+			condition:
+				platform:
+					excluded_value = windows
+				custom:
+					name = vision_implementation; excluded_value = cocoa
+				custom:
+					name = vision_implementation; excluded_value = gtk34
+		external_include:
+			location = "$(ISE_LIBRARY)/library/vision2/implementation/gtk34/Clib"
+			condition:
+				custom:
+					name = vision_implementation; value = gtk34
+		external_cflag:
+			value = "`$ISE_LIBRARY/library/vision2/implementation/gtk/Clib/vision2-gtk-config --include_path`"
+			condition:
+				platform:
+					excluded_value = windows
+				custom:
+					name = vision_implementation; excluded_value = cocoa
+				custom:
+					name = vision_implementation; excluded_value = gtk34
+		external_cflag:
+			value = "`$ISE_LIBRARY/library/vision2/implementation/gtk34/Clib/vision2-gtk-config --include_path`"
+			condition:
+				platform:
+					excluded_value = windows
+				custom:
+					name = vision_implementation; value = gtk34
+		external_object:
+			location = "$(ISE_LIBRARY)\library\vision2\spec\$ISE_C_COMPILER\$ISE_PLATFORM\lib\vision2.lib"
+			condition:
+				platform:
+					value = windows
+				concurrency:
+					value = none
+				dotnet:
+					value = false
+		external_object:
+			location = "$ISE_LIBRARY\library\vision2\spec\$ISE_C_COMPILER\$ISE_PLATFORM\lib\mtvision2.lib"
+			condition:
+				platform:
+					value = windows
+				concurrency:
+					excluded_value = none
+				dotnet:
+					value = false
+		external_object:
+			location = "$ISE_LIBRARY\library\vision2\spec\$ISE_C_COMPILER\$ISE_PLATFORM\lib\ilvision2.lib"
+			condition:
+				platform:
+					value = windows
+				dotnet:
+					value = true
+		external_object:
+			location = "$(ISE_LIBRARY)\library\vision2\spec\$ISE_C_COMPILER\$ISE_PLATFORM\lib\libpng.lib"
+			condition:
+				platform:
+					value = windows
+		external_object:
+			location = "$(ISE_LIBRARY)\library\vision2\spec\$ISE_C_COMPILER\$ISE_PLATFORM\lib\zlib.lib"
+			condition:
+				platform:
+					value = windows
+		external_linker_flag:
+			value = "`$(ISE_LIBRARY)/library/vision2/implementation/gtk/Clib/vision2-gtk-config --threads --object`"
+			condition:
+				platform:
+					excluded_value = windows
+				concurrency:
+					excluded_value = none
+				custom:
+					name = vision_implementation; excluded_value = cocoa
+		external_linker_flag:
+			value = "`$(ISE_LIBRARY)/library/vision2/implementation/gtk/Clib/vision2-gtk-config --object`"
+			condition:
+				platform:
+					excluded_value = windows
+				concurrency:
+					value = none
+				custom:
+					name = vision_implementation; excluded_value = cocoa
+				custom:
+					name = vision_implementation; excluded_value = gtk34
+		external_linker_flag:
+			value = "`$(ISE_LIBRARY)/library/vision2/implementation/gtk/Clib/vision2-gtk-config --threads --library`"
+			condition:
+				platform:
+					excluded_value = windows
+				concurrency:
+					excluded_value = none
+				custom:
+					name = vision_implementation; excluded_value = cocoa
+				custom:
+					name = vision_implementation; excluded_value = gtk34
+		external_linker_flag:
+			value = "`$(ISE_LIBRARY)/library/vision2/implementation/gtk/Clib/vision2-gtk-config --library`"
+			condition:
+				platform:
+					excluded_value = windows
+				concurrency:
+					value = none
+				custom:
+					name = vision_implementation; excluded_value = cocoa
+				custom:
+					name = vision_implementation; excluded_value = gtk34
+		external_linker_flag:
+			value = "`$(ISE_LIBRARY)/library/vision2/implementation/gtk34/Clib/vision2-gtk-config --threads --object`"
+			condition:
+				platform:
+					excluded_value = windows
+				concurrency:
+					excluded_value = none
+				custom:
+					name = vision_implementation; value = gtk34
+		external_linker_flag:
+			value = "`$(ISE_LIBRARY)/library/vision2/implementation/gtk34/Clib/vision2-gtk-config --object`"
+			condition:
+				platform:
+					excluded_value = windows
+				concurrency:
+					value = none
+				custom:
+					name = vision_implementation; value = gtk34
+		external_linker_flag:
+			value = "`$(ISE_LIBRARY)/library/vision2/implementation/gtk34/Clib/vision2-gtk-config --threads --library`"
+			condition:
+				platform:
+					excluded_value = windows
+				concurrency:
+					excluded_value = none
+				custom:
+					name = vision_implementation; value = gtk34
+		external_linker_flag:
+			value = "`$(ISE_LIBRARY)/library/vision2/implementation/gtk34/Clib/vision2-gtk-config --library`"
+			condition:
+				platform:
+					excluded_value = windows
+				concurrency:
+					value = none
+				custom:
+					name = vision_implementation; value = gtk34
+		library:
+			name = base; location = "$ISE_LIBRARY\library\base\base.ecf"
+		library:
+			name = cocoa; location = "$ISE_LIBRARY\library\cocoa\cocoa.ecf"; readonly = false
+			condition:
+				platform:
+					value = macintosh
+				custom:
+					name = vision_implementation; value = cocoa
+				custom:
+					name = vision_implementation; excluded_value = gtk34
+		library:
+			name = thread; location = "$ISE_LIBRARY\library\thread\thread.ecf"
+		library:
+			name = wel; location = "$ISE_LIBRARY\library\wel\wel.ecf"
+			condition:
+				platform:
+					value = windows
+		assembly:
+			name = eiffelsoftware_runtime; location = "$ISE_EIFFEL\studio\spec\$ISE_PLATFORM\lib\EiffelSoftware.Runtime.dll"
+		assembly:
+			name = mscorlib; location = "$ISE_DOTNET_FRAMEWORK\mscorlib.dll"
+		cluster:
+			name = contrib; location = "$ISE_LIBRARY\library\vision2\contrib\\"; recursive = true
+			option:
+				namespace = "Vision2.Contrib"
+			file_rule:
+				exclude:
+					"/mswin$"
+				condition:
+					platform:
+						excluded_value = windows
+					custom:
+						name = vision_implementation; excluded_value = gtk34
+			file_rule:
+				exclude:
+					"/gtk$"
+				condition:
+					platform:
+						value = windows
+		cluster:
+			name = implementation_cocoa; location = "$ISE_LIBRARY\library\vision2\implementation\cocoa\\"; recursive = true
+			condition:
+				platform:
+					value = macintosh
+				custom:
+					name = vision_implementation; excluded_value = gtk34
+				custom:
+					name = vision_implementation; value = cocoa
+		cluster:
+			name = implementation_gtk34; location = "$ISE_LIBRARY\library\vision2\implementation\gtk34\\"; recursive = true
+			condition:
+				platform:
+					excluded_value = windows
+				custom:
+					name = vision_implementation; value = gtk34
+		cluster:
+			name = implementation_gtk; location = "$ISE_LIBRARY\library\vision2\implementation\gtk\\"; recursive = true
+			condition:
+				platform:
+					excluded_value = windows
+				custom:
+					name = vision_implementation; excluded_value = cocoa
+				custom:
+					name = vision_implementation; excluded_value = gtk34
+		cluster:
+			name = el_override; location = "graphic/toolkit/vision2-x/vision2-override"
+			cluster:
+				name = override_interface; location = "$|interface"; recursive = true
+			cluster:
+				name = override_implementation_interface; location = "$|implementation/implementation_interface"; recursive = true
+			cluster:
+				name = override_implementation_mswin; location = "$|implementation/mswin"; recursive = true
+				condition:
+					platform:
+						value = windows
+			cluster:
+				name = override_implementation_gtk; location = "$|implementation/gtk"; recursive = true
+				condition:
+					platform:
+						excluded_value = windows
+					custom:
+						name = vision_implementation; excluded_value = cocoa
+					custom:
+						name = vision_implementation; excluded_value = gtk34
+		cluster:
+			name = implementation_interface; location = "$ISE_LIBRARY/library/vision2/implementation/implementation_interface/"; recursive = true
+			option:
+				namespace = "Vision2.$$Implementation.Interface"
+		cluster:
+			name = implementation_mswin; location = "$ISE_LIBRARY\library\vision2\implementation\mswin\\"; recursive = true
+			condition:
+				platform:
+					value = windows
+			option:
+				namespace = "Vision2.$$Implementation"
+			file_rule:
+				exclude:
+					"/dotnet$"
+					"/ev_internally_processed_textable_imp\.e"
+				condition:
+					platform:
+						value = windows
+					dotnet:
+						value = false
+			file_rule:
+				exclude:
+					"/classic$"
+				condition:
+					platform:
+						value = windows
+					dotnet:
+						value = true
+		cluster:
+			name = interface; location = "$ISE_LIBRARY\library\vision2\interface\\"; recursive = true
+			option:
+				namespace = Vision2
+			file_rule:
+				exclude:
+					"/ev_environment_handler\.e"
+	target:
+		name = vision2_dotnet; extends = vision2
+		setting:
+			name = msil_generation; value = true
+	target:
+		name = vision2_cocoa; extends = vision2
+		setting:
+			name = platform; value = macintosh
+		variable:
+			name = vision_implementation; value = cocoa

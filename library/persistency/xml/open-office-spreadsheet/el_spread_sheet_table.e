@@ -1,0 +1,156 @@
+note
+	description: "Object representing table in OpenDocument Flat XML format spreadsheet"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2013-07-22 18:08:01 GMT (Monday 22nd July 2013)"
+	revision: "3"
+
+class
+	EL_SPREAD_SHEET_TABLE
+
+inherit
+	ARRAYED_LIST [EL_SPREAD_SHEET_ROW]
+		rename
+			make as make_array,
+			item as row,
+			first as first_row,
+			last as last_row
+		end
+
+	EL_OPEN_OFFICE
+		undefine
+			copy, is_equal
+		end
+
+	EL_MODULE_LOG
+		undefine
+			copy, is_equal
+		end
+
+	EL_MODULE_STRING
+		undefine
+			copy, is_equal
+		end
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make (table_node: EL_XPATH_NODE_CONTEXT; defined_ranges: EL_ASTRING_HASH_TABLE [EL_ASTRING])
+			--
+		local
+			table_rows: EL_XPATH_NODE_CONTEXT_LIST
+			new_row: EL_SPREAD_SHEET_ROW
+			number_of_columns, count_repeated, i: INTEGER
+			l_column_table: like column_table
+		do
+			log.enter_with_args ("make_from_table_context", << table_node.attributes ["table:name"] >>)
+			name := table_node.attributes ["table:name"]
+			l_column_table := column_table (defined_ranges)
+			if not l_column_table.is_empty then
+				columns := l_column_table.current_keys
+			end
+
+			number_of_columns := table_node.integer_at_xpath ("table:table-row[1]/table:table-cell[1]/@table:number-columns-spanned")
+			if number_of_columns = 0 then
+				number_of_columns := Default_number_of_columns
+			end
+
+			table_rows := table_node.context_list ("table:table-row")
+			make_array (table_rows.count)
+			log.put_integer_field ("capacity", capacity); log.put_new_line
+			from table_rows.start until table_rows.after loop
+				log.put_integer_field ("Reading row", table_rows.index); log.put_new_line
+				if table_rows.context.attributes.has (Attribute_number_rows_repeated) then
+					count_repeated := table_rows.context.attributes.integer (Attribute_number_rows_repeated)
+					-- Ignore large repeat count occurring at end of every table
+					if count_repeated > Maximum_repeat_count then
+						count_repeated := 1
+					end
+				else
+					count_repeated := 1
+				end
+				create new_row.make (
+					table_rows.context.context_list (Xpath_table_cell), number_of_columns, l_column_table
+				)
+				from i := 1 until i > count_repeated loop
+					if i = 1 then
+						extend (new_row)
+					else
+						extend (new_row.deep_twin)
+					end
+					i := i + 1
+				end
+				table_rows.forth
+			end
+			log_or_io.put_integer_field ("Table column count", number_of_columns)
+			log_or_io.put_new_line
+			log_or_io.put_integer_field ("Table row count", count)
+			log_or_io.put_new_line
+
+			log.exit
+		end
+
+feature -- Access
+
+	name: EL_ASTRING
+
+	columns: ARRAY [EL_ASTRING]
+
+feature -- Removal
+
+	prune_trailing_blank_rows
+			-- prune trailing empty rows
+		do
+			log.put_line ("Removing trailing blank rows")
+			from finish until before or else not row.is_blank loop
+				remove; finish
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	column_table (defined_ranges: EL_ASTRING_HASH_TABLE [EL_ASTRING]): EL_ASTRING_HASH_TABLE [INTEGER]
+
+		local
+			cell_range_address: EL_STRING_LIST [EL_ASTRING]
+			column_interval: INTEGER_INTERVAL
+		do
+			create Result.make_with_count (11)
+			create columns.make_empty
+			across defined_ranges as range loop
+				create cell_range_address.make_with_separator (range.key, '.', True)
+				String.remove_bookends (cell_range_address.first, "''")
+				if cell_range_address.first ~ name then
+					create column_interval.make (
+						cell_range_address.i_th (2).code (1).to_integer_32 - 64,
+						cell_range_address.i_th (3).code (1).to_integer_32 - 64
+					)
+					if column_interval.count = 1 then
+						Result [range.item] := column_interval.lower
+					end
+				end
+			end
+		end
+
+feature {NONE} -- Constants
+
+	Xpath_table_cell: STRING_32 = "table:table-cell"
+
+	Attribute_number_rows_repeated: STRING_32 = "table:number-rows-repeated"
+
+	Default_number_of_columns: INTEGER
+		once
+			Result := 10
+		end
+
+	Maximum_repeat_count: INTEGER
+		once
+			Result := 1000
+		end
+end

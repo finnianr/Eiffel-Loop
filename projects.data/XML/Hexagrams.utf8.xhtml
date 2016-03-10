@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-15"/>
+    <title>Editing hexagrams</title>
+  </head>
+  <body text="#000000" bgcolor="#ffffcc">
+    <h2>Creating and Editing<br/>
+    </h2>
+    <p>To create a new hexagram entry in the currently selected journal, go to the "entry" menu and select "new entry".  To edit an existing hexagram listed by the search engine, first click on the search result link to display it, and then click on the edit button. Alternatively you can select "edit entry" from the "entry" menu. Click on the "hexagram" link at the top to navigate to the hexagram editing page.<br/>
+    </p>
+    <h2>Manual Entry</h2>
+    <p>My Ching offers a convenient method of manual entry for those who like to perform the old ritual way of casting an oracle using real coins or yarrow sticks. After opening the hexagram editing page you will see two hexagrams displayed. The one on the left is the result of any changing lines applied to the primary hexagram on the left.<br/>
+    </p>
+    <p>If it is a new entry all the lines will be set to yang by default. Enter the result of your divination by clicking on those yang lines on the left hand hexagram that you would like to open into ying lines. If you make a mistake just click it a second time to revert to yang. If you had any changing lines in your reading, enter them by clicking on the appropriate lines on the right hand hexagram.<br/>
+    </p>
+    <h2>Semi Automated Casting</h2>
+    <p>My Ching also offers semi-automated ways to generate hexagrams that still have a high level of human interaction like the traditional rituals. One method simulates the coin method of divination and the other the yarrow stalk method. The main difference between the two methods lies in the mathematical probability of obtaining a changing line. In the case of the coin method the probability of getting a changing line is 1 in 4 and this is the same whether the line is yang or ying.  In the case of the yarrow method the probability of a yang line changing is 3:16 and a ying line is only 1:16.<br/>
+    </p>
+    <p>To do an automated casting, select the hexagram page in entry edit mode and click on either of the buttons with representations of Chinese coins or a bunch of yarrow sticks. The casting starts by clearing the hexagram area except for the bottom lines of the both left and right hexagrams. The line will be seen to shimmer in a state of flux. Clicking on the line 3 times will resolve the line into either ying or yang. Each click represents either a coin toss or a division of the yarrow stalks. As you resolve each line a new one appears above it and so on until your hexagram is completed. As in the traditional rituals you should contemplate your question to the oracle while resolving each line in flux.<br/>
+    </p>
+    <h2>How Does Auto-cast Actually Work?</h2>
+    <p>What is important in these methods of generating hexagram lines is that the computer is not tossing the coins or dividing the yarrow stalks for you using some algorithm. It is the precise moment you decide to click the mouse that determines the reading. In this sense it is not an automated casting at all. The author of My Ching felt it was important to retain the element of human interaction following the traditional methods. It could be called "divination by mouse". Before they started using sticks and coins the ancient Chinese used turtle shells heated in a fire until they cracked. By a twist of fate computer mice bear some resemblance to turtle shells and even have cracks in them.<br/>
+    </p>
+    <p>For those who are curious as to what is actually happening when you are doing an automated casting you can think of it like this. Imagine you have a stop watch accurate to thousandths of a second. After letting it run for a little you stop it and look at the fine seconds count (thousandths). If the number is odd that can be equated to a coin toss coming up heads, and an even number as tails. When you start the hexagram casting an invisible stop watch is activated inside the My Ching program. Clicking on a shimmering line stops it randomly on an even or odd number. This gives you a heads or tails result. Repeating this 3 times determines the line.<br/>
+    </p>
+    <p>This can also be applied to representing the random division of a bunch of yarrow stalks. Say the number of stalks in the pile is 29 and the stop watch is showing 501 thousandths of a second. You can use modulo arithmetic to obtain a random division of the sticks. Modulo means the remainder of 501 after division by 29 which is 8. If you assume that you always want at least 1 in the resulting left pile you add 1 to the result to get the count of the left pile or 9. The right pile then contains 20. But what happens if the remainder is 28 and you add 1. There won't be anything in the right pile. It is better to subtract 1 first and use modulo 28.<br/>
+    </p>
+    <p>For those who understand computer code here is the actual code in My Ching used to determine the resulting number of yarrow sticks in the left and right pile.<br/>
+    </p>
+    <blockquote> </blockquote>
+    <blockquote>
+      <pre>left_pile_count := 1 + counter_thread.value \\ (sticks_remaining_count - 1)
+check
+   valid_pile_division: left_pile_count &gt;= 1 and left_pile_count &lt; sticks_remaining_count
+end
+stick_pile_count [Left] := left_pile_count
+stick_pile_count [Right] := sticks_remaining_count - left_pile_count</pre>
+    </blockquote>
+    <blockquote> </blockquote>
+    <p> The "counter_thread.value" variable represents the "stop watch counter" that is stopped when the user clicks on a line. This formula ensures there is always at least one stick in the left or right pile after dividing. You could argue that when dividing a real bunch of sticks you are generally dividing somewhere close to the middle so perhaps the formula could be adapted to reflect this. But mathematically the probabilities come out the same and in theory there is no reason why you couldn't divide the pile so only 1 remains in the left or right. </p>
+  </body>
+</html>

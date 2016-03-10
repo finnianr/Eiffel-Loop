@@ -1,0 +1,36 @@
+note
+	description: "Objects that ..."
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2012-12-16 11:34:19 GMT (Sunday 16th December 2012)"
+	revision: "1"
+
+class
+	QUANTUM_BALL_ANIMATION_AREA_CELL
+
+inherit
+	EV_MODEL_WORLD_CELL
+		redefine
+			initialize
+		end
+
+create
+	make_with_world
+
+feature {NONE} -- Initialization
+
+	initialize
+			-- Initialize `Current'.
+		do
+			Precursor {EV_MODEL_WORLD_CELL}
+			disable_resize
+			disable_scrollbars
+			projector.register_figure (create {MODEL_ELECTRON}, agent projector.draw_figure_picture)
+
+		end
+
+end

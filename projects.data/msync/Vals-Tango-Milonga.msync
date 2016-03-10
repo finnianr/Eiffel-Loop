@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<media-sync>
+	<mount>/media/k750i</mount>
+	<send media_type="mp3" sync_method="ID3_unique_file_ID" id3_encoding="latin1" id3_version="2.3">
+		<from>/home/finnian/Music/Tango</from>
+		<to>/home/finnian/Development/Eiffel/data/audio/media-dest/Tango</to>
+	</send>
+	<send media_type="mp3" sync_method="ID3_unique_file_ID" id3_encoding="latin1" id3_version="2.3">
+		<from>/home/finnian/Music/Vals</from>
+		<to>/home/finnian/Development/Eiffel/data/audio/media-dest/Vals</to>
+	</send>
+	<send media_type="mp3" sync_method="ID3_unique_file_ID" id3_encoding="latin1" id3_version="2.3">
+		<from>/home/finnian/Music/Tango (Electro)</from>
+		<to>/home/finnian/Development/Eiffel/data/audio/media-dest/Tango (Electro)</to>
+	</send>
+	<send media_type="mp3" sync_method="ID3_unique_file_ID" id3_encoding="latin1" id3_version="2.3">
+		<from>/home/finnian/Music/Milonga</from>
+		<to>/home/finnian/Development/Eiffel/data/audio/media-dest/Milonga</to>
+	</send>
+	<send media_type="mp3" sync_method="ID3_unique_file_ID" id3_encoding="latin1" id3_version="2.3">
+		<from>/home/finnian/Music/Milonga (Electro)</from>
+		<to>/home/finnian/Development/Eiffel/data/audio/media-dest/Milonga (Electro)</to>
+	</send>
+</media-sync>

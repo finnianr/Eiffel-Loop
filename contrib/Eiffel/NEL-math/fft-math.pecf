@@ -1,0 +1,28 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-4-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-4-0 http://www.eiffel.com/developers/xml/configuration-1-4-0.xsd" 
+	name = eiffel_loop_eros_server
+	uuid = "3E18E31F-29F6-44F2-BBA7-4D771DA5C5D4" 
+	library_target = NEL_fft_math
+	
+	target:
+		name = NEL_fft_math
+		
+		description: 
+			"""
+				Numeric Eiffel Library for fast fourier transforms
+			"""
+
+		root:
+			all_classes = true
+
+		library: 
+			name = base; location = "$ISE_EIFFEL/library/base/base.ecf"
+
+		cluster:
+			name = nel_math; location = "."; recursive = true
+

@@ -1,0 +1,49 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+# Defines tar.gz archive for release
+
+backup-script:
+	ftp-site:
+		url:
+			"eiffel-loop.com"
+		user-home:
+			"/public/www"
+	directory:
+		path:
+			"$EIFFEL_LOOP"
+		name:
+			"Eiffel-Loop.$EL_VERSION"
+		ftp-destination-path:
+			"download"
+		filter:
+			exclude:
+				"Eiffel-Loop/Downloads/*"
+				"Eiffel-Loop/build/*"
+				"Eiffel-Loop/projects.data/build/*"
+				"*/EIFGENs/*"
+				"*/package/win64/*"
+				"*/package/windows/*"
+				"*/package/temp/*"
+				"*/package/linux-x86-64/*"
+				"*/spec/win64/*"
+				"*/spec/windows/*"
+				"*/spec/linux-x86-64/*"
+				"*.sconf_temp"
+				"*.dblite"
+				"*.deps"
+				"*.o"
+				"*.class"
+				"*.obj"
+				"*.pyc"
+				"*.a"
+				"*.lib"
+				"*~"
+				"*.zip"
+				"*.gz"
+				"*.tar"
+				"*.jar"
+				"*.goutput*"
+				"*.diffs"
+				"*.rc"
+

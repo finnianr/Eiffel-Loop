@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Playlist names: $play_event.playlist_names 
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<title>$title -- $spell_date</title>
+		<style type="text/css">
+			body {
+				margin-top: 2em;
+				margin-left: 4em;
+				margin-right: 4em;
+				background-color: black;
+				font-family: Verdana;
+			}
+			p.link {
+				margin-left: 0em;
+				text-align: right;
+			}
+
+			#page {
+				margin-left: auto;
+				margin-right: auto;
+				width: 60em;
+			}
+			#header {
+				background-color: Beige;
+
+				border-style: ridge;
+				border-width: 1ex;
+				border-color: Crimson;
+
+				height: auto;
+				padding-left: 1.5em;
+				padding-right: 1.5em;
+
+			}
+			#header h1, h2 {
+				text-align: center;
+			}
+			#content {
+				color: white;
+				margin-bottom: 3em;
+			}
+			#content a {
+				color: Crimson;
+			}
+			#content p.title {
+				margin-left: 3em;
+				margin-bottom: 0;
+			}
+			#content p.artist {
+				margin-left: 6.5em;
+				margin-top: 0.2em;
+			}
+			#content p.title em.year {
+				position: absolute; 
+				left: 45em;
+			}
+
+			#content p em.time {
+				font-family: "Bitstream Vera Sans Mono";
+				font-size: medium
+			}
+			#content p b.not_played, p em.not_played {
+				text-decoration: line-through;
+			}
+			#content p em.skipped {
+				color: Red;
+			}
+
+			h1.Tango {color: Crimson}
+			h1.Vals {color: Deepskyblue}
+			h1.Milonga {color: Chocolate}
+			h1.World {color: Seashell}
+		</style>
+	</head>
+	<body>
+	<div id="page">
+		<div id="header">
+			<h1>$title</h1>
+			<h2>$spell_date</h2>
+			<h2>DJ: $disk_jockey_name</h2>
+		</div>
+		<div id="content">
+			<p class="link">
+				<a href="http://www.tangofever.net"><em>(Compadrito Homepage)</em></a>
+			</p>
+			
+		<b>Milonga start time: $start_time</b>
+		<p>(Song start times are approximate)</p>
+		
+		#foreach $genre_set in $genre_set_list loop
+			#foreach $item in $genre_set loop
+				#if $loop_index = 1 then
+					<h1 class="$item.song.genre_main">Tanda: $item.song.genre_main</h1>
+				#end
+				<p class="title">
+					#if $item.song_was_played then
+						<em class="time">$item.start_time </em>
+						<b>
+							$item.song.title
+						</b>
+						<em class="duration">($item.song.duration_time)</em>
+					#else
+						<em class="time">--:-- </em>
+						<b class="not_played">
+							$item.song.title
+						</b>
+						<em class="skipped">&nbsp;&nbsp;Skipped</em>
+					#end
+					#if $item.song.recording_year > 1 then
+					<em class="year">
+						(Recorded: $item.song.recording_year)
+					</em>
+					#end
+				</p>
+				<p class="artist">
+					<em>
+					$item.song.lead_artist 
+					#if $item.song.has_other_artists then
+						#if $item.song.artist_list.count > 2 then
+							with vocalists: $item.song.other_artists
+						#else
+							with vocalist: $item.song.other_artists
+						#end
+					#end
+					</em>
+				</p>
+			#end
+		#end
+		<b>Finish</b>
+		</div>
+	</div>
+	</body>
+</html>
+

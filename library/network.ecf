@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "ISO-8859-1"?>
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" name = "el_net_base" uuid = "229b763c-09aa-11df-87c1-9fd182a2a60d" library_target = "el_net_base">
+	<target name = "el_net_base">
+		<description>Basic network programming classes. (http://www.eiffel-loop.com)</description>
+		<root all_classes = "true"/>
+		<option namespace = "Eiffel-Loop.Library.net" trace = "false" debug = "false" warning = "true" syntax = "standard">
+			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
+		</option>
+		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
+		<library name = "thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
+		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
+		<library name = "el_base" location = "base.ecf"/>
+		<cluster name = "el_net_base" location = "network/base" recursive = "true">
+			<option namespace = "Eiffel-Loop-net"/>
+		</cluster>
+	</target>
+</system>

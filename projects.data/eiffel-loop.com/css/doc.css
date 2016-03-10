@@ -1,0 +1,151 @@
+html {
+	background: url('/images/coded-eiffel-paper.jpg');
+	margin: 0px;
+	padding: 0px;
+}
+body {
+	position:relative;
+	margin: 1em auto 1em auto;
+	width: 54em;
+	padding: 0px;
+	font-family: sans-serif;
+	font-size: 100%;
+}
+#menu {
+	position: fixed;
+	z-index: 3;
+	background-color: #FCFCFC;
+	line-height: 1.7;
+	padding-bottom: 1em;
+
+	top: 40px; 
+	left: 50px;
+}
+#menu_shadow {
+	position: fixed;
+	z-index: 2;
+	background-color: #B3B3B3;
+	line-height: 1.7;
+	padding-bottom: 1em;
+
+	top: 48px; 
+	left: 58px;
+}
+#menu a {
+	text-decoration: none;
+	color: red;
+}
+#menu a.text {
+	padding-left: 2em;
+	font-size: 120%;
+}
+#menu img {
+	border: none;
+}
+#menu_shadow img {
+	border: none;
+}
+#menu a.text:hover {
+	text-decoration: underline;
+	font-weight: bold;
+}
+#menu_shadow a, #menu_shadow hr {
+	visibility: hidden;
+}
+#menu_shadow a.text {
+	padding-left: 2em;
+	font-size: 120%;
+}
+
+#page {
+	padding-top: 1em;
+	padding-left: 2em;
+	padding-right: 2em;
+	padding-bottom: 2em;
+	
+	margin-bottom: 3em;
+	
+	background: url('/images/panel.jpg');
+	
+	border-left-color: #339966;
+	border-left-style: solid;
+	border-left-width: 0.7em;
+
+}
+.page_title {
+	font-size: 1.5em;
+	font-weight: bold;
+	text-align: center;
+	background-color: gainsboro;
+	border-bottom-color: #339966;
+	border-bottom-style: solid;
+	border-bottom-width: 0.4em;
+	padding: 0.5em;
+}
+.page_title p {
+	font-style: italic;
+	font-size: 75%;
+	font-weight: normal;
+	
+	padding-top: 0.5em;
+	text-align: right;
+	margin: 0;
+	margin-right: 1em;
+}
+#page p.printable_link {
+	font-size: 0.8em;
+	text-align: right;
+}
+#page i {
+	color: #006699;
+	font-family: "Bitstream Vera Sans Mono", monospace;
+	font-size: 0.9em;
+	font-style: normal;
+	white-space: nowrap;
+}
+#page pre {
+	color: #006699;
+	font-family: "Bitstream Vera Sans Mono", monospace;
+	font-size: 0.9em;
+	margin-left: 10pt;
+}
+
+#page pre.Eiffel {
+	color: black;
+	background: azure;
+	border: solid;
+	border-width: 1pt;
+	margin-left: 10pt;
+	padding: 5pt;
+}
+#page pre.Eiffel #keyword {
+	color: red;
+}
+#page pre.Eiffel #class {
+	font-style: normal;
+	color: blue;
+}
+#page pre.Eiffel #comment {
+	font-style: normal;
+	color: green;
+}
+#page pre.Eiffel #quote {
+	font-style: normal;
+	color: darkcyan;
+}
+
+#page h1 {
+	font-size: 1.6em;
+}
+#page h2 {
+	font-size: 1.3em;
+}
+#page h3 {
+	font-size: 1em;
+}
+#page h4 {
+	font-size: 1.1em;
+	font-weight: normal;
+}
+
+

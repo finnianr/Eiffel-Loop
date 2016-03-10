@@ -1,0 +1,81 @@
+# 	Port of libid3tag autoconf configuration to Scons
+#
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2010 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "7 Jan 2010"
+#	revision: "0.1"
+
+import os, sys, platform
+
+from os import path
+
+from eiffel_loop.scons import c as c_scons
+from eiffel_loop.scons.c import CONFIG_HEADER
+from eiffel_loop.eiffel import project
+
+include_path = 	[path.normpath ('$ISE_EIFFEL/C_library/zlib'), path.abspath (os.curdir), 'include']
+
+if platform.system () == "Windows":
+	compiler_flags = ['-Ox', '-Zi', '-MT', '-w', '-nologo']
+	
+else:
+	compiler_flags = ['-g', '-O2', '-Wall']
+
+cpp_defines = [	'HAVE_CONFIG_H' ]
+
+env = Environment(
+	CCFLAGS = compiler_flags, CPPPATH = include_path, CPPDEFINES = cpp_defines,
+	ENV = os.environ, ISE_EIFFEL = os.environ ['ISE_EIFFEL']
+)
+
+print "CPPPATH is:", env['CPPPATH']
+
+if not env.GetOption ('clean'):
+	conf = Configure (env)
+	config_h = CONFIG_HEADER (conf, '.')
+
+	config_h.write_defines_for_C_header_availability (
+		[	'assert.h',	'dlfcn.h', 'inttypes.h', 'memory.h', 'stdint.h', 
+			'stdlib.h', 'strings.h', 'string.h', 'sys/stat.h',
+			'sys/types.h', 'unistd.h'
+		]
+	)
+
+	config_h.write_string_defines ([
+		("PACKAGE", "libid3tag", "name of package"),
+
+		("PACKAGE_BUGREPORT", "support@underbit.com", "address where bug reports for this package should be sent."),
+
+		("PACKAGE_NAME", "ID3 Tag", "full name of this package."),
+
+		("PACKAGE_STRING", "ID3 Tag 0.15.1b", "full name and version of this package."),
+
+		("PACKAGE_TARNAME", "libid3tag", "one symbol short name of this package."),
+
+		("PACKAGE_VERSION", "0.15.1b", "version of this package."),
+
+		("VERSION", "0.15.1b", "Version number of package")
+	])
+
+	if c_scons.has_ansi_C_standard_headers (conf):
+		config_h.write_defines ([
+			('STDC_HEADERS', 1, 'if you have the ANSI C header files.')
+		])
+
+	config_h.close
+	env = conf.Finish()
+
+build_dir = project.platform_spec_build_dir ()
+
+VariantDir (build_dir, 'source', duplicate=0)
+
+library_path = path.join (build_dir, 'id3tag')
+
+source_list = Glob (path.join (build_dir, '*.c'))
+
+lib = env.StaticLibrary (library_path, source_list)
+
+env.NoClean (lib)
+Return ('lib')

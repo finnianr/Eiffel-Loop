@@ -1,0 +1,60 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = el_xdoc_scanning 
+	uuid = "229b7772-09aa-11df-87c4-bbc432fe4581" 
+	library_target = el_xdoc_scanning
+	
+	target:
+		name = el_xdoc_scanning
+		
+		description: 
+			"""
+				XML processing based on Expat. (http://www.eiffel-loop.com)
+			"""
+
+		root:
+			all_classes = true
+
+		option:
+			namespace = "Eiffel-Loop.Library.Xdoc-scanning"; trace = false; debug = false; warning = true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		# Expat
+		external_include: 
+			location = "$(EXPAT)/include"
+
+		external_cflag:
+			value = "-DXML_BUILDING_EXPAT"
+
+		external_object:
+			location = "-L$(EXPAT)/spec/$(ISE_PLATFORM) -lexpat"
+			condition:
+				platform:
+					value = unix
+
+		external_object:
+			location = "$(EXPAT)/spec/$(ISE_PLATFORM)/expat.lib"
+			condition:
+				platform:
+					value = windows
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = el_base; location = "base.ecf"
+
+		library:
+			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
+
+		cluster:
+			name = xml; location = "persistency/xml/xdoc-scanning"; recursive = true
+			option:
+				namespace = XML
+

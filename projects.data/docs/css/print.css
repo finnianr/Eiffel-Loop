@@ -1,0 +1,40 @@
+body {
+	font-size: 80%;
+}
+#page {
+	font-size: 1.2em;
+	
+	width: 52em;
+	padding-top: 1em;
+	padding-bottom: 2em;
+}
+.page_title {
+	font-size: 180%;
+	font-weight: bold;
+	text-align: center;
+	border-bottom-color: #339966;
+	border-bottom-style: solid;
+	border-bottom-width: 0.2em;
+	padding: 0.2em;
+}
+.page_title p {
+	font-style: italic;
+	font-size: 75%;
+	font-weight: normal;
+	text-align: right;
+	margin: 0;
+	margin-right: 10pt;
+}
+#page i {
+	font-family: "Bitstream Vera Sans Mono";
+	font-size: 0.9em;
+	font-style: normal;
+	white-space: nowrap;
+}
+#page pre {
+	font-family: "Bitstream Vera Sans Mono";
+	font-size: 0.8em;
+	margin-left: 10pt;
+}
+
+

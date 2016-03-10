@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?create {SMIL_PRESENTATION}?>
+<smil xmlns="http://www.w3.org/2001/SMIL20/Language">
+	<head>
+		<meta name="base" content="file:///home/john/audio-assets/linguistic/study/"/>
+		<meta name="author" content="Dr. John Smith"/>
+		<meta name="title" content="Linguistic analysis"/>
+	</head>
+	<body>
+		<seq id="seq_1" title="Extracts of conversation between Bill and Susan">
+			<audio id="audio_1" title="Greeting" src="Bill-and-Susan.mp3" clipBegin="5.5s" clipEnd="18.0s"/>
+			<audio id="audio_2" title="Interjection" src="Bill-and-Susan.mp3" clipBegin="25.5s" clipEnd="30.0s"/>
+			<audio id="audio_3" title="Disagreement" src="Bill-and-Susan.mp3" clipBegin="55.0s" clipEnd="67.0s"/>
+		</seq>
+		<seq id="seq_2" title="Auszüge des Gesprächs zwischen Matthäus und Günther">
+			<audio id="audio_4" title="Gruß" src="Matthäus-und-Günther.mp3" clipBegin="4.5s" clipEnd="17.0s"/>
+			<audio id="audio_5" title="Einführung" src="Matthäus-und-Günther.mp3" clipBegin="27.5s" clipEnd="37.0s"/>
+			<audio id="audio_6" title="Gespräch" src="Matthäus-und-Günther.mp3" clipBegin="58.0s" clipEnd="167.0s"/>
+		</seq>
+	</body>
+</smil>

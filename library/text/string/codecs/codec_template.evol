@@ -1,0 +1,169 @@
+﻿note
+	description: "Codec for ${codec_name} automatically generated from decoder.c in VTD-XML source"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2013 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2013-07-17 17:31:58 GMT (Wednesday 17th July 2013)"
+	revision: "2"
+
+class
+	EL_${codec_name}_CODEC
+
+inherit
+	EL_${codec_base_name}_CODEC
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	initialize_latin_sets
+		do
+	#across $unicode_intervals as $interval loop
+		#if $interval.item.count > 1 then
+			latin_set_$interval.cursor_index := latin_set_from_array (<<
+		#across $interval.item.latin_characters as $character loop
+			#if $character.cursor_index = $interval.item.latin_characters.count then
+				$character.item.code  -- '$character.item.unicode'
+			#else
+				$character.item.code, -- '$character.item.unicode'
+			#end
+		#end
+			>>)
+		#end
+	#end
+		end
+
+feature -- Access
+
+	id: INTEGER = $codec_id
+
+feature -- Conversion
+
+	as_upper (code: NATURAL): NATURAL
+		local
+			offset: NATURAL
+		do
+			inspect code
+			#across $lower_case_offsets as $offsets loop
+				when $offsets.item then
+					offset := $offsets.key
+			#end
+
+			else end
+			Result := code - offset
+		end
+
+	as_lower (code: NATURAL): NATURAL
+		local
+			offset: NATURAL
+		do
+			inspect code
+			#across $upper_case_offsets as $offsets loop
+				when $offsets.item then
+					offset := $offsets.key
+			#end
+
+			else end
+			Result := code + offset
+		end
+
+	unicode_case_change_substitute (c: CHARACTER): CHARACTER_32
+			-- Returns Unicode case change character if c does not have a latin case change
+			-- or else the Null character
+		do
+		#if not $case_change_substitutes.is_empty then
+			inspect c
+			#across $case_change_substitutes as $substitute loop
+				when '$substitute.key' then
+					Result := '$substitute.item'
+			#end
+			else end
+		#end
+		end
+
+#if not $unicode_intervals.is_empty then
+	latin_character (uc: CHARACTER_32; unicode: INTEGER): CHARACTER
+			-- unicode to latin translation
+			-- Returns '%U' if translation is the same as ISO-8859-1 or else not in ${codec_name}
+		do
+			inspect uc
+		#across $unicode_intervals as $interval loop
+			#if $interval.item.count > 1 then
+				when '$interval.item.lower_character'..'$interval.item.upper_character' then
+					Result := latin_set_$interval.cursor_index [unicode - $interval.item.lower]
+			#else
+				when '$interval.item.lower_character' then
+					Result := '%/$interval.item.first_latin_character.code/'
+			#end
+		#end
+			else end
+		end
+#end
+
+feature -- Character query
+
+	is_alpha (code: NATURAL): BOOLEAN
+		do
+			inspect code 
+				when $alpha_set_string then
+					Result := True
+			else
+			end
+		end
+
+	is_numeric (code: NATURAL): BOOLEAN
+		do
+			inspect code 
+				when $numeric_set_string then
+					Result := True
+			else
+			end
+		end
+
+	is_upper (code: NATURAL): BOOLEAN
+		do
+			inspect code 
+				when $upper_case_set_string then
+					Result := True
+			else
+			end
+		end
+
+	is_lower (code: NATURAL): BOOLEAN
+		do
+			inspect code 
+				when $lower_case_set_string then
+					Result := True
+			#if not $unchangeable_case_set_string.is_empty then
+
+				-- Characters which are only available in a single case
+				when $unchangeable_case_set_string then
+					Result := True
+			#end
+
+			else
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	create_unicode_table: SPECIAL [CHARACTER_32]
+			-- Unicode value indexed by ${codec_name} character values
+		do
+			Result := single_byte_unicode_chars
+		#across $latin_characters as $character loop
+			Result [$character.item.hex_code] := '$character.item.unicode' -- $character.item.name
+		#end
+		end
+#across $unicode_intervals as $interval loop
+	#if $interval.item.count > 1 then
+
+	latin_set_$interval.cursor_index: SPECIAL [CHARACTER]
+	#end
+#end
+
+end

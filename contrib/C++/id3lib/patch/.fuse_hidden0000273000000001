@@ -1,0 +1,147 @@
+--- D:\Docs\Nemesys\Development\id3lib-3.8.3\id3lib-3.8.3\src\io_helpers.cpp.original	2012-03-24 21:34:54.328769500 +0000
++++ D:\Docs\Nemesys\Development\id3lib-3.8.3\id3lib-3.8.3\src\io_helpers.cpp	2012-03-24 21:43:20.104105200 +0000
+@@ -131,10 +131,63 @@
+     return unicode;
+   }
+   int bom = isBOM(ch1, ch2);
++  int bo_actual;
++
+   if (!bom)
+   {
+-    unicode += static_cast<char>(ch1);
+-    unicode += static_cast<char>(ch2);
++    ID3D_NOTICE( "ID3_BOM::readUnicodeString(): Unicode has no BOM" );
++
++    // The string is UTF-16 (Unicode) but with no Byte Order Marker (BOM).
++    // Even though the Unicode standard says that big-endian should be assumed in the absence of
++    // a BOM, it also says that this can be overriden by other concerns.  Some Windows software
++    // authors appear to have interpreted this as meaning that Wintel's little-endianism
++    // may override the presumption of big-endianism.  Others assume that it does not.
++    // Files  may, therefore, contain either, and neither big- nor little-endian is a safe
++    // assumption.
++    // For western alphabets, most characters are represented by a zero as the most significant
++    // byte.  A zero as the second byte, therefore, indicates strongly that the string is
++    // little-endian.  There are only five cases in which this is not true - where the first byte is:
++    //    00 00 - Null (reversible, "non-endian", terminates string)
++    //    01 00 - Latin capital letter A with macron
++    //    02 00 - Latin capital letter A with double grave 
++    //    03 00 - Combining grave accent
++    //    04 00 - Cyrillic capital letter IE with grave (U+0400)
++    // The corresponding reversed characters are:
++    //    00 01 - Start of Heading
++    //    00 02 - Start of Text
++    //    00 03 - End of Text
++    //    00 04 - End of Transmission
++    // None of these reversed characters are likely to occur in ID3 strings.
++    // We can therefore safely improve on the big-endian assumption for strings without BOM
++    // by recognising that if the second byte is zero, and the first byte is greater than 04,
++    // then the string must be little-endian.
++    // This modification does not address the missing BOM problem completely, because incorrectly
++    // non-BOMd little-endian strings using non-western alphabets will still not be detected.
++    // However, this method will not cause any "false positives" resulting in big-endian strings
++    // being incorrectly reversed.
++
++    if ( ( ch1 >= 4 ) && ( ch2 == 0) )
++      // Probably little-endian
++      {
++      ID3D_NOTICE( "ID3_BOM::readUnicodeString(): Second char is zero: Probably little-endian" );
++      bo_actual = -1;
++      unicode += static_cast<char>(ch2);
++      unicode += static_cast<char>(ch1);
++      ID3D_NOTICE( "ID3_BOM::readUnicodeString(): Little-endian data read and stored as: " << static_cast<int>(ch2) << " " << static_cast<int>(ch1) );
++      }
++    else
++      // Probably big-endian
++      {
++      ID3D_NOTICE( "ID3_BOM::readUnicodeString(): Second char is non-zero: Probably big-endian" );
++      bo_actual = 1;
++      unicode += static_cast<char>(ch1);
++      unicode += static_cast<char>(ch2);
++      ID3D_NOTICE( "ID3_BOM::readUnicodeString(): Big-endian data read and stored as: " << static_cast<int>(ch1) << " " << static_cast<int>(ch2) );
++      }
++  }
++  else
++  {
++    bo_actual = bom;
+   }
+   while (!reader.atEnd())
+   {
+@@ -142,15 +195,17 @@
+     {
+       break;
+     }
+-    if (bom == -1)
++    if (bo_actual == -1)
+     {
+       unicode += static_cast<char>(ch2);
+       unicode += static_cast<char>(ch1);
++      ID3D_NOTICE( "ID3_BOM::readUnicodeString(): Little-endian data read and stored as: " << static_cast<int>(ch2) << " " << static_cast<int>(ch1) );
+     }
+     else
+     {
+       unicode += static_cast<char>(ch1);
+       unicode += static_cast<char>(ch2);
++      ID3D_NOTICE( "ID3_BOM::readUnicodeString(): Big-endian data read and stored as: " << static_cast<int>(ch1) << " " << static_cast<int>(ch2) );
+     }
+   }
+   return unicode;
+@@ -165,19 +220,46 @@
+     return unicode;
+   }
+   len -= 2;
++  ID3D_NOTICE( "ID3_BOM::readUnicodeText(): readUnicodeText entered" );
+   int bom = isBOM(ch1, ch2);
++  int bo_actual;
+   if (!bom)
+   {
+-    unicode += ch1;
+-    unicode += ch2;
+-    unicode += readText(reader, len);
++    ID3D_NOTICE( "ID3_BOM::readUnicodeText(): Unicode has no BOM" );
++    // See comment in readUnicodeString for description of method of detecting
++    // little-endian UTF-16 strings that have no Byte Order Marker.
++    if ( ( ch1 >= 4 ) && ( ch2 == 0) )
++    {
++      // Probably little-endian
++      bo_actual = -1;
++      ID3D_NOTICE( "ID3_BOM::readUnicodeText(): Second char is zero: Probably little-endian" );
++      unicode += static_cast<char>(ch2);
++      unicode += static_cast<char>(ch1);
++      ID3D_NOTICE( "ID3_BOM::readUnicodeText(): Little-endian data read and stored as: " << static_cast<int>(ch2) << " " << static_cast<int>(ch1) );
++    }
++    else
++    {
++      // Probably big-endian
++      bo_actual = 1;
++      ID3D_NOTICE( "ID3_BOM::readUnicodeText(): Second char is non-zero: Probably big-endian" );
++      unicode += ch1;
++      unicode += ch2;
++      ID3D_NOTICE( "ID3_BOM::readUnicodeText(): Big-endian data read and stored as: " << static_cast<int>(ch1) << " " << static_cast<int>(ch2) );
++    }
+   }
+-  else if (bom == 1)
++  else 
+   {
+-    unicode = readText(reader, len);
++      bo_actual = bom;
++  }
++  if (bo_actual == 1)
++  {
++    // BOM says big-endian or identified as big-endian
++    unicode += readText(reader, len);
++    ID3D_NOTICE( "ID3_BOM::readUnicodeText(): Big-endian data string read and stored" );
+   }
+   else
+   {
++    // BOM says little-endian or identified as little-endian
+     for (size_t i = 0; i < len; i += 2)
+     {
+       if (!readTwoChars(reader, ch1, ch2))
+@@ -186,6 +268,7 @@
+       }
+       unicode += ch2;
+       unicode += ch1;
++      ID3D_NOTICE( "ID3_BOM::readUnicodeText(): Little-endian data read and stored as: " << static_cast<int>(ch2) << " " << static_cast<int>(ch1) );
+     }
+   }
+   return unicode;

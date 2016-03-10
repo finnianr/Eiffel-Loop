@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
+  <title>TEST: Contents</title>
+</head>
+<body menu_name="Home"
+ description="Home page and contents of the Eiffel Loop library collection"
+ keywords="eiffel, library">
+<ul class="readonly" id="mozToc">
+<!--mozToc h1 1 h2 2 h3 3 h4 4 h5 5 h6 6-->
+  <li><a href="#mozTocId754622">Overview of the
+Eiffel Loop libraries</a></li>
+  <li><a href="#mozTocId726548">Library categories </a>
+    <ul>
+      <li><a href="#mozTocId643577">Audio management</a></li>
+      <li><a href="#mozTocId38562">Digital Signal
+Processing</a></li>
+      <li><a href="#mozTocId538704">Multi-threading</a></li>
+      <li><a href="#mozTocId771026">Logging</a></li>
+      <li><a href="#mozTocId668055">Client-server network</a></li>
+      <li><a href="#mozTocId430569">Application management</a></li>
+      <li><a href="#mozTocId197309">GUI</a></li>
+      <li><a href="#mozTocId76543">File naming and
+processing</a></li>
+      <li><a href="#mozTocId996526">Text processing</a></li>
+      <li><a href="#mozTocId257525">XML processing</a></li>
+      <li><a href="#mozTocId5963">External Language
+integration</a></li>
+      <li><a href="#mozTocId404840">Math</a></li>
+      <li><a href="#mozTocId266866">Structures</a></li>
+      <li><a href="#mozTocId857664">OS interaction</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId399545">Accessories</a>
+    <ul>
+      <li><a href="#mozTocId329351">Development tools</a>
+        <ul>
+          <li><a href="#mozTocId714455">Code editing</a></li>
+          <li><a href="#mozTocId812659">Build tools</a></li>
+        </ul>
+      </li>
+      <li><a href="#mozTocId232609">Applications </a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId893351">Download</a></li>
+</ul>
+<h2><a class="mozTocH1" name="mozTocId754622"></a>Overview of the
+Eiffel Loop libraries</h2>
+<p>The Eiffel Loop library collection started life in 2002 with the
+port of a
+small
+logging framework written in Java the previous year. As it happened
+Eiffel was a much more suitable language for implementing this
+framework. This was a followed followed by a parsing and pattern
+matching module and then based on this, various utilities and an
+auto-editing framework. Later came various modules for XML processing
+and extensions to the logging framework.</p>
+<h1><a class="mozTocH1" name="mozTocId726548"></a>Library categories<br>
+</h1>
+<h2><a class="mozTocH3" name="mozTocId643577"></a>Audio management</h2>
+<ul>
+  <li>Native Eiffel module to read and write wav audio file headers and
+data.</li>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId38562"></a>Digital Signal
+Processing</h2>
+<ul>
+  <li>Eiffel interface to the Windows sound input API&nbsp; allowing
+streaming audio&nbsp;from the microphone to be processed in Eiffel
+using
+classes from the producer-consumer thread library. Implemented as a WEL
+extension.</li>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId538704"></a>Multi-threading</h2>
+<ul>
+  <li>A generic producer-consumer thread communication framework where
+a producing thread places products onto a queue for consumption by a
+consumer thread. <br>
+  </li>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId771026"></a>Logging</h2>
+<p>Logging framework with the following features:</p>
+<ul>
+  <li>Output is indented to reflect the state of the call stack. Shows
+the entry and exit from routines in a way that is designed to mimic the
+routines code definition.</li>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId668055"></a>Client-server network</h2>
+<ul>
+  <li><b><a href="http://localhost/eros.html">EROS</a>,</b>
+an XML orientated remote procedure call application
+framework with an
+original protocol based purely on XML processing instructions rather
+that any special XML tags. <br>
+  </li>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId430569"></a>Application management</h2>
+<ul>
+  <li>Eiffel binding to Windows dll for creating and editing Windows
+short cuts.</li>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId197309"></a>GUI</h2>
+<ul>
+  <li>An Windows application configuration framework integrating user
+editions with command line parameter options. Features:</li>
+  <ul>
+    <li>MVC style binding of edit controls to textual, numeric and file
+name field containers.</li>
+    <li>Possible to register listeners for field containers value
+changes.</li>
+  </ul>
+</ul>
+<ul>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId76543"></a>File naming and
+processing</h2>
+<ul>
+  <li>A framework for processing file trees.</li>
+  <li>A memory efficient file and directory name list container</li>
+  <li>Library of routines for managing file and directory paths.<br>
+  </li>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId996526"></a>Text processing</h2>
+<ul>
+  <li>A parsing and lexing library that allow grammars and text
+patterns to be completely specified in Eiffel without precompilation.</li>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId257525"></a>XML processing</h2>
+<ul>
+  <li>Eiffel
+interface to the <a href="http://vtd-xml.sourceforge.net/">VTD-XML</a>
+XML parser. VTD-XML is arguably the world's <a
+ href="http://ximpleware.wordpress.com/2009/08/">top performing XML
+parser</a> and xpath 1.0 implementation both in terms of speed and
+memory efficiency. The
+Eiffel interface actually represents an improvement over the original C
+and Java API. It supports nested
+xpath queries and is much more developer friendly requiring fewer
+objects to manage.</li>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId5963"></a>External Language
+integration</h2>
+<ul>
+  <li>An advanced framework for wrapping Java classes that adds a layer
+of abstraction to Eiffel Software's Java2Eiffel library. It is based on
+the concept of a Java agent in Eiffel (<i>JAVA_FUNCTION</i> or <i>JAVA_PROCEDURE</i>
+inheriting <i>JAVA_ROUTINE</i>) that is analogous to an Eiffel agent. <i>JAVA_ROUTINE's</i>
+automatically generate correct JNI call signatures. Allows the creation
+of recursively wrapped classes where the arguments and return types to
+wrapped routines are themselves wrapped classes.</li>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId404840"></a>Math</h2>
+<ul>
+  <li>Basic column and row vector implementation<br>
+  </li>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId266866"></a>Structures</h2>
+<ul>
+  <li>An extension to the standard Elks <i>ARRAY </i>class that
+allows memory area sharing on sub arrays. Possible to see up to a 100%
+performance increase on digital processing applications which make
+heavy use of ARRAYs. (Standard Elks subarray function makes a copy of
+the subarray. Safe but not very efficient.) </li>
+</ul>
+<h2><a class="mozTocH3" name="mozTocId857664"></a>OS interaction</h2>
+<ul>
+  <li>Cross
+platform Eiffel interface to various OS file system commands including:<br>
+  </li>
+  <ul>
+    <li>File
+listing </li>
+    <li>Directory
+listing </li>
+    <li>Directory
+moving, copying and deleting.</li>
+    <li>File moving,
+copying and deleting.</li>
+  </ul>
+  <li>A
+command string variable substitution component</li>
+</ul>
+<h1><a class="mozTocH1" name="mozTocId399545"></a>Accessories</h1>
+<h2><a class="mozTocH3" name="mozTocId329351"></a>Development tools</h2>
+<h3><a class="mozTocH3" name="mozTocId714455"></a>Code editing</h3>
+<ul>
+  <li>Automatic code editor that operates on the gcc source code
+tree of the Praat linguistics tool. The editor adds hooks for an Eiffel
+interface and modifications allowing
+compilation with the MS VC++ compiler.</li>
+</ul>
+<h3>Build tools</h3>
+<ul>
+  <li>A script to manage OS environments from a project Python script
+and launch EiffelStudio. </li>
+</ul>
+<h2><a class="mozTocH2" name="mozTocId232609"></a>Applications<br>
+</h2>
+<ul>
+  <li>Documentation tool to create a class inventory in HTML format
+from an Eiffel source tree.</li>
+</ul>
+<h1><a class="mozTocH1" name="mozTocId893351"></a>Download</h1>
+<p><a href="http://www.eiffel-loop.com/download/Eiffel-Loop.1.0.tar.gz">http://www.eiffel-loop.com/download/Eiffel-Loop.1.0.tar.gz</a></p>
+<br>
+<br>
+</body>
+</html>

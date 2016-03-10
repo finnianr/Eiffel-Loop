@@ -1,0 +1,82 @@
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2009 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "20 July 2011"
+#	revision: "0.1"
+
+# Attempted to compile with mingw. Compiled just find but wouldn't link to MSVC project
+# Says: coundn't find symbol mingw_getsp. (Returns the stack pointer in setjmp.c) 
+# Couldn't find msvc equivlanet to do an imitation.
+
+
+import os, sys, platform
+from os import path
+from glob import glob
+from distutils import file_util
+
+def rename_library (target, source, env):
+	file_util.move_file (str (source [0]), str (target [0]))
+           
+compiler_flags = [
+	'-g', '-c', '-O3', '-w', '-fomit-frame-pointer', '-D_GNU_SOURCE',
+	'-fforce-addr', '-frerun-cse-after-loop', '-fexpensive-optimizations', '-fregmove', '-frerun-loop-opt',	
+	'-fmerge-all-constants', '-fno-branch-count-reg', '-funroll-loops', '-fpeephole',
+	'-DEIF_THREADS', '-DEIF_LINUXTHREADS', '-DISE_GC', '-D_MSC_VER=1600'
+]
+
+is_windows_platform = platform.system () == "Windows"
+
+if is_windows_platform:
+	#compiler_flags = '-DEIF_THREADS -DEIF_WINDOWS -DISE_GC -nologo -W1 -c -MT -Ox'
+	msvc_compiler_flags = [
+		'-Ox', '-Zi', '-MT', '-w', '-nologo', '-DEIF_THREADS', 
+		'-D_WIN32_WINNT=0x0500', '-DWINVER=0x0500', '-D_CRT_SECURE_NO_DEPRECATE', '-D_UNICODE', '-DUNICODE'
+	]
+	
+	env = Environment(tools = ['mingw'], ENV = os.environ)
+	env.PrependENVPath('PATH', path.expandvars ("$ISE_EIFFEL\\gcc\\$ISE_PLATFORM\\mingw\\bin"))
+	env.PrependENVPath('LIB', path.expandvars ("$ISE_EIFFEL\\gcc\\$ISE_PLATFORM\\mingw\\lib"))
+
+else:
+    env = Environment(ENV = os.environ)
+	
+vtd_xml_dir = path.normpath (path.expandvars ('$EIFFEL_LOOP/contrib/C/VTD-XML.2.7'))
+
+include_path = [
+	path.normpath (path.expandvars ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include')),
+	path.normpath (path.expandvars ('$EIFFEL_LOOP/C_library/include')),
+	path.join (vtd_xml_dir, 'include')
+]
+
+build_dir = path.normpath (path.expandvars ('spec/$ISE_PLATFORM'))
+VariantDir (build_dir, 'source', duplicate=0)
+
+library_path = path.join (build_dir, 'vtd-xml')
+
+print 'Include paths:'
+for i_path in include_path:
+	print i_path
+
+env.Append (CCFLAGS = compiler_flags)
+env.Append (CPPPATH = include_path)
+
+Export ("env")
+
+input_files = [path.join (build_dir, 'vtd2eiffel.c')] + SConscript (path.join (vtd_xml_dir, 'SConscript'))
+
+if is_windows_platform:
+	# rename libvtd-xml.a to vtd-xml.lib
+	lib_a = env.StaticLibrary (library_path, input_files)
+	renamer = Builder (action = rename_library)
+	env.Append (BUILDERS = {'Rename': renamer})
+	windows_library_path = path.join (path.dirname (library_path), "vtd-xml.lib")
+	lib = env.Rename (windows_library_path, lib_a [0])
+	
+else:
+	lib = env.StaticLibrary (library_path, input_files)
+
+print lib
+
+env.NoClean (lib)
+

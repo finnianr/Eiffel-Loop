@@ -1,0 +1,16 @@
+x = $x
+y = $y
+not ($$x = 1) and $$y = 2
+#if not ($x = 1) and $y = 2 then
+Condition is true
+#else
+Condition is false
+#end
+
+$$x = 1
+#if $x = 1 then
+Condition is true
+#else
+Condition is false
+#end
+

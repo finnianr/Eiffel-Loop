@@ -1,0 +1,178 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = el_base
+	uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" 
+	library_target = el_base
+	
+	target:
+		name = el_base
+		
+		description: 
+			"""
+				Library of reusable components for Eiffel. (http://www.eiffel-loop.com)
+			"""
+		root:
+			all_classes = true
+
+		option:
+			namespace = "Eiffel-Loop.Library"; trace = false; debug=false; warning=true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		# Needed for Windows XP
+		variable:
+			name = link_object; value = false
+			
+		external_object:
+			location = "$EIFFEL_LOOP/contrib/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll"
+			description:
+				"""
+					msvcr71.dll requires:
+					$EIFFEL_LOOP/contrib/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll
+				"""
+			condition:
+				platform:
+					value = windows
+				custom:
+					name = link_object; value = true
+		
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
+
+		library: 
+			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
+
+		library: 
+			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
+
+		library: 
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		#library: 
+		#	name = process; location = "$ISE_LIBRARY/library/process/process.ecf"
+
+		library:
+			name = gobo_base; location = "gobo-base.ecf"
+
+		library:
+			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
+			
+		# CLUSTERS
+		cluster:
+			name = data_structure; location = "data_structure"; recursive = true
+			option:
+				namespace = Data_structure
+
+		cluster:
+			name = language_interface; location = "language_interface"
+			option:
+				namespace = Language_interface
+
+			cluster:
+				name = C; location = "$|C"; recursive = true
+				file_rule:
+					exclude:
+						"/Java$"
+						"/Python$"
+
+				file_rule:
+					exclude:
+						"/windows$"
+					condition:
+						platform:
+							value = unix
+
+				file_rule:
+					exclude:
+						"/unix$"
+					condition:
+						platform:
+							value = windows
+
+			cluster:
+				name = cpp; location = "$|C++"; recursive = true
+
+			cluster:
+				name = ms_com; location = "$|MS-COM"; recursive = true
+				condition:
+					platform:
+						value = windows
+
+			cluster:
+				name = support; location = "$|support"
+
+		cluster:
+			name = graphic; location = "graphic"
+			cluster:
+				name = image_location; location = "$|image/location"; recursive = true
+
+		cluster:
+			name = math; location = "math"; recursive = true
+			option:
+				namespace = Math
+
+		cluster:
+			name = info; location = "."
+
+		cluster:
+			name = runtime; location = "runtime"; recursive = true
+			option:
+				namespace = Runtime
+			file_rule:
+				exclude:
+					"/app-manage$"
+					"/commands-experimental$"
+
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
+
+		cluster:
+			name = file_persistence; location = "persistency/file"; recursive = true
+
+		cluster:
+			name = text; location = "text"; recursive = true
+			option:
+				namespace = text
+			file_rule:
+				exclude:
+					"/encryption$"
+					"/internationalization-pyxis$"
+					"/internationalization$"
+
+		cluster:
+			name = testing; location = "testing"; recursive = true
+			option:
+				namespace = Testing
+
+		cluster:
+			name = utility; location = "utility"; recursive = true
+			option:
+				namespace = Utility
+			file_rule:
+				exclude:
+					"/installer-toolkit$"
+					"/compression$"
+					"/app-license$"
+
+
+

@@ -1,0 +1,57 @@
+body {
+	font-size: 80%;
+	font-family: sans-serif;
+}
+#page {
+	font-size: 1.2em;
+	
+	width: 52em;
+	padding-top: 1em;
+	padding-bottom: 2em;
+}
+.page_title {
+	font-size: 180%;
+	font-weight: bold;
+	text-align: center;
+	border-bottom-style: solid;
+	border-bottom-width: 0.2em;
+	padding: 0.2em;
+	margin-bottom: 1em;
+}
+.page_title p {
+	font-style: italic;
+	font-size: 75%;
+	font-weight: normal;
+	text-align: right;
+	margin: 0;
+	margin-right: 0.5em;
+}
+#page i {
+	font-family: "Bitstream Vera Sans Mono", monospace;
+	font-size: 0.9em;
+	font-style: normal;
+	white-space: nowrap;
+}
+#page pre {
+	font-family: "Bitstream Vera Sans Mono", monospace;
+	font-size: 0.8em;
+	margin-left: 1em;
+}
+#page pre.Eiffel {
+	font-style: normal;
+	border: solid;
+	border-width: 1pt;
+	margin-left: 0;
+	padding: 5pt;
+}
+#page pre.Eiffel #class {
+	font-style: normal;
+}
+#page pre.Eiffel #comment {
+	font-style: normal;
+}
+#page pre.Eiffel #quote {
+	font-style: normal;
+}
+
+

@@ -1,0 +1,5794 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<title>Eiffel Loop Classes</title>
+		<style type="text/css">
+			body { text-align: center; }
+			div#container {
+				margin-left: auto;
+				margin-right: auto;
+				width: 70em;
+				text-align: left;
+			}
+			p {margin-left: 2em;}
+		</style>
+	</head>
+	<body>
+	<div id="container">
+	<h1>Eiffel Loop Classes</h1>
+<h2>Contents</h2>
+	<p><a href="#CL1">example/eiffel2java/source</a></p>
+	<p><a href="#CL2">example/eiffel2java/source/java/java_classes</a></p>
+	<p><a href="#CL3">example/eiffel2java/source/java/java_classes/org.apache.velocity.app</a></p>
+	<p><a href="#CL4">example/eiffel2java/source/java/java_classes/org.apache.velocity.context</a></p>
+	<p><a href="#CL5">example/eiffel2java/source/java/java_classes/org.apache.velocity</a></p>
+	<p><a href="#CL6">example/eiffel2java/source/java/java_packages</a></p>
+	<p><a href="#CL7">example/eiffel2java/source/sub-applications</a></p>
+	<p><a href="#CL8">example/graphical/source</a></p>
+	<p><a href="#CL9">example/graphical/source/docking_control</a></p>
+	<p><a href="#CL10">example/graphical/source/docking_control/widgets</a></p>
+	<p><a href="#CL11">example/graphical/source/postcard-viewer</a></p>
+	<p><a href="#CL12">example/graphical/source/quantum-ball-animation</a></p>
+	<p><a href="#CL13">example/graphical/source/sub-applications</a></p>
+	<p><a href="#CL14">example/manage-mp3/source</a></p>
+	<p><a href="#CL15">example/manage-mp3/source/id3</a></p>
+	<p><a href="#CL16">example/manage-mp3/source/media-sync</a></p>
+	<p><a href="#CL17">example/manage-mp3/source/rhythmbox</a></p>
+	<p><a href="#CL18">example/manage-mp3/source/rhythmbox/support</a></p>
+	<p><a href="#CL19">example/manage-mp3/source/sub-applications</a></p>
+	<p><a href="#CL20">example/manage-mp3/source/sub-applications/transform</a></p>
+	<p><a href="#CL21">example/manage-mp3/source/title-normalization</a></p>
+	<p><a href="#CL22">example/net/eros-server/source</a></p>
+	<p><a href="#CL23">example/net/eros-server/source/sub-applications</a></p>
+	<p><a href="#CL24">example/net/eros-test-clients/source</a></p>
+	<p><a href="#CL25">example/net/eros-test-clients/source/client-proxies</a></p>
+	<p><a href="#CL26">example/net/eros-test-clients/source/server</a></p>
+	<p><a href="#CL27">example/net/eros-test-clients/source/sub-applications</a></p>
+	<p><a href="#CL28">example/net/source-common</a></p>
+	<p><a href="#CL29">library</a></p>
+	<p><a href="#CL30">library/data_structure/arrays</a></p>
+	<p><a href="#CL31">library/data_structure/arrays/serialization</a></p>
+	<p><a href="#CL32">library/data_structure/dynamic_creation</a></p>
+	<p><a href="#CL33">library/data_structure/event</a></p>
+	<p><a href="#CL34">library/data_structure/hash_table</a></p>
+	<p><a href="#CL35">library/data_structure/kernel</a></p>
+	<p><a href="#CL36">library/data_structure/list</a></p>
+	<p><a href="#CL37">library/data_structure/platform</a></p>
+	<p><a href="#CL38">library/data_structure/set</a></p>
+	<p><a href="#CL39">library/graphic/docking-override</a></p>
+	<p><a href="#CL40">library/graphic/image/SVG</a></p>
+	<p><a href="#CL41">library/graphic/image/location</a></p>
+	<p><a href="#CL42">library/graphic/obsolete/image-magick</a></p>
+	<p><a href="#CL43">library/graphic/obsolete/image-magick/support</a></p>
+	<p><a href="#CL44">library/graphic/obsolete/spec/unix</a></p>
+	<p><a href="#CL45">library/graphic/toolkit/html-viewer</a></p>
+	<p><a href="#CL46">library/graphic/toolkit/html-viewer/styles</a></p>
+	<p><a href="#CL47">library/graphic/toolkit/vision2-override/implementation/gtk</a></p>
+	<p><a href="#CL48">library/graphic/toolkit/vision2-override/implementation/gtk/support</a></p>
+	<p><a href="#CL49">library/graphic/toolkit/vision2-override/implementation/implementation_interface</a></p>
+	<p><a href="#CL50">library/graphic/toolkit/vision2-override/implementation/implementation_interface/support</a></p>
+	<p><a href="#CL51">library/graphic/toolkit/vision2-override/implementation/mswin</a></p>
+	<p><a href="#CL52">library/graphic/toolkit/vision2-override/implementation/mswin/properties</a></p>
+	<p><a href="#CL53">library/graphic/toolkit/vision2-override/implementation/mswin/support</a></p>
+	<p><a href="#CL54">library/graphic/toolkit/vision2-override/implementation/mswin/widgets/primitives</a></p>
+	<p><a href="#CL55">library/graphic/toolkit/vision2-override/interface/kernel</a></p>
+	<p><a href="#CL56">library/graphic/toolkit/vision2-override/interface/support</a></p>
+	<p><a href="#CL57">library/graphic/toolkit/vision2-x/implementation/gtk/kernel</a></p>
+	<p><a href="#CL58">library/graphic/toolkit/vision2-x/implementation/gtk/support</a></p>
+	<p><a href="#CL59">library/graphic/toolkit/vision2-x/implementation/gtk/widget/containers</a></p>
+	<p><a href="#CL60">library/graphic/toolkit/vision2-x/implementation/gtk/widget/primitives</a></p>
+	<p><a href="#CL61">library/graphic/toolkit/vision2-x/implementation/implementation_interface/kernel</a></p>
+	<p><a href="#CL62">library/graphic/toolkit/vision2-x/implementation/implementation_interface/support</a></p>
+	<p><a href="#CL63">library/graphic/toolkit/vision2-x/implementation/implementation_interface/widget</a></p>
+	<p><a href="#CL64">library/graphic/toolkit/vision2-x/implementation/implementation_interface/widget/containers</a></p>
+	<p><a href="#CL65">library/graphic/toolkit/vision2-x/implementation/mswin/kernel</a></p>
+	<p><a href="#CL66">library/graphic/toolkit/vision2-x/implementation/mswin/support</a></p>
+	<p><a href="#CL67">library/graphic/toolkit/vision2-x/implementation/mswin/widget/containers</a></p>
+	<p><a href="#CL68">library/graphic/toolkit/vision2-x/implementation/mswin/widget/primitives</a></p>
+	<p><a href="#CL69">library/graphic/toolkit/vision2-x/interface/kernel</a></p>
+	<p><a href="#CL70">library/graphic/toolkit/vision2-x/interface/logging</a></p>
+	<p><a href="#CL71">library/graphic/toolkit/vision2-x/interface/pixmaps</a></p>
+	<p><a href="#CL72">library/graphic/toolkit/vision2-x/interface/pixmaps/button-pixmaps</a></p>
+	<p><a href="#CL73">library/graphic/toolkit/vision2-x/interface/properties</a></p>
+	<p><a href="#CL74">library/graphic/toolkit/vision2-x/interface/support</a></p>
+	<p><a href="#CL75">library/graphic/toolkit/vision2-x/interface/thread</a></p>
+	<p><a href="#CL76">library/graphic/toolkit/vision2-x/interface/widgets/containers</a></p>
+	<p><a href="#CL77">library/graphic/toolkit/vision2-x/interface/widgets/containers/box</a></p>
+	<p><a href="#CL78">library/graphic/toolkit/vision2-x/interface/widgets/containers/scrollable</a></p>
+	<p><a href="#CL79">library/graphic/toolkit/vision2-x/interface/widgets/containers/scrollable/obsolete</a></p>
+	<p><a href="#CL80">library/graphic/toolkit/vision2-x/interface/widgets/containers/tab-book</a></p>
+	<p><a href="#CL81">library/graphic/toolkit/vision2-x/interface/widgets/containers/tab-book/docked</a></p>
+	<p><a href="#CL82">library/graphic/toolkit/vision2-x/interface/widgets/containers/tab-book/standard</a></p>
+	<p><a href="#CL83">library/graphic/toolkit/vision2-x/interface/widgets/dialog</a></p>
+	<p><a href="#CL84">library/graphic/toolkit/vision2-x/interface/widgets/drawable</a></p>
+	<p><a href="#CL85">library/graphic/toolkit/vision2-x/interface/widgets/primitives</a></p>
+	<p><a href="#CL86">library/graphic/toolkit/vision2-x/interface/widgets/primitives/button</a></p>
+	<p><a href="#CL87">library/graphic/toolkit/vision2-x/interface/widgets/primitives/button/radio</a></p>
+	<p><a href="#CL88">library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs</a></p>
+	<p><a href="#CL89">library/graphic/toolkit/vision2-x/interface/widgets/primitives/pixmap</a></p>
+	<p><a href="#CL90">library/graphic/toolkit/vision2-x/interface/widgets/primitives/text</a></p>
+	<p><a href="#CL91">library/graphic/toolkit/vision2-x/module</a></p>
+	<p><a href="#CL92">library/graphic/toolkit/wel-override/consts</a></p>
+	<p><a href="#CL93">library/graphic/toolkit/wel-x</a></p>
+	<p><a href="#CL94">library/graphic/toolkit/wel-x/batch-processing</a></p>
+	<p><a href="#CL95">library/graphic/toolkit/wel-x/config-edit/controls</a></p>
+	<p><a href="#CL96">library/graphic/toolkit/wel-x/config-edit/editable-types</a></p>
+	<p><a href="#CL97">library/graphic/toolkit/wel-x/config-edit/support</a></p>
+	<p><a href="#CL98">library/graphic/toolkit/wel-x/controls</a></p>
+	<p><a href="#CL99">library/graphic/toolkit/wel-x/logging</a></p>
+	<p><a href="#CL100">library/graphic/toolkit/wel-x/support</a></p>
+	<p><a href="#CL101">library/graphic/toolkit/wel-x/thread</a></p>
+	<p><a href="#CL102">library/graphic/web_browser-override/implementation/gtk</a></p>
+	<p><a href="#CL103">library/graphic/web_browser-override/implementation/windows</a></p>
+	<p><a href="#CL104">library/language_interface</a></p>
+	<p><a href="#CL105">library/language_interface/C++</a></p>
+	<p><a href="#CL106">library/language_interface/C</a></p>
+	<p><a href="#CL107">library/language_interface/C/eiffel-callback</a></p>
+	<p><a href="#CL108">library/language_interface/C/string</a></p>
+	<p><a href="#CL109">library/language_interface/C/string/16-bit</a></p>
+	<p><a href="#CL110">library/language_interface/C/string/32-bit</a></p>
+	<p><a href="#CL111">library/language_interface/C/string/8-bit</a></p>
+	<p><a href="#CL112">library/language_interface/C/string/spec/unix</a></p>
+	<p><a href="#CL113">library/language_interface/C/string/spec/windows</a></p>
+	<p><a href="#CL114">library/language_interface/Java</a></p>
+	<p><a href="#CL115">library/language_interface/Java/classes/com.eiffel_loop.svg</a></p>
+	<p><a href="#CL116">library/language_interface/Java/classes/java.awt</a></p>
+	<p><a href="#CL117">library/language_interface/Java/classes/java.io</a></p>
+	<p><a href="#CL118">library/language_interface/Java/classes/java.lang</a></p>
+	<p><a href="#CL119">library/language_interface/Java/classes/java.util</a></p>
+	<p><a href="#CL120">library/language_interface/Java/eiffel-interface/batik</a></p>
+	<p><a href="#CL121">library/language_interface/Java/environment</a></p>
+	<p><a href="#CL122">library/language_interface/Java/java_agents</a></p>
+	<p><a href="#CL123">library/language_interface/Java/java_primitives</a></p>
+	<p><a href="#CL124">library/language_interface/Java/overrides</a></p>
+	<p><a href="#CL125">library/language_interface/Java/packages</a></p>
+	<p><a href="#CL126">library/language_interface/Java/spec/unix</a></p>
+	<p><a href="#CL127">library/language_interface/Java/spec/windows</a></p>
+	<p><a href="#CL128">library/language_interface/MS-COM</a></p>
+	<p><a href="#CL129">library/language_interface/MS-COM/shell-link</a></p>
+	<p><a href="#CL130">library/language_interface/Matlab</a></p>
+	<p><a href="#CL131">library/language_interface/Praat-script</a></p>
+	<p><a href="#CL132">library/language_interface/Python</a></p>
+	<p><a href="#CL133">library/language_interface/support</a></p>
+	<p><a href="#CL134">library/localization</a></p>
+	<p><a href="#CL135">library/math</a></p>
+	<p><a href="#CL136">library/math/geometry</a></p>
+	<p><a href="#CL137">library/math/vector</a></p>
+	<p><a href="#CL138">library/multimedia/audio/file/id3</a></p>
+	<p><a href="#CL139">library/multimedia/audio/file/id3/eyeD3</a></p>
+	<p><a href="#CL140">library/multimedia/audio/file/id3/id3_tag</a></p>
+	<p><a href="#CL141">library/multimedia/audio/file/id3/id3_tag/implementation_libid3</a></p>
+	<p><a href="#CL142">library/multimedia/audio/file/id3/id3_tag/implementation_underbit</a></p>
+	<p><a href="#CL143">library/multimedia/audio/file/id3/id3_tag/implementation_underbit/frame-field</a></p>
+	<p><a href="#CL144">library/multimedia/audio/file/id3/id3_tag/internals</a></p>
+	<p><a href="#CL145">library/multimedia/audio/file/wav</a></p>
+	<p><a href="#CL146">library/multimedia/audio/laabhair</a></p>
+	<p><a href="#CL147">library/multimedia/audio/laabhair/UI/Flash</a></p>
+	<p><a href="#CL148">library/multimedia/audio/laabhair/UI/WEL</a></p>
+	<p><a href="#CL149">library/multimedia/audio/memory</a></p>
+	<p><a href="#CL150">library/multimedia/audio/processing</a></p>
+	<p><a href="#CL151">library/multimedia/audio/sample</a></p>
+	<p><a href="#CL152">library/multimedia/audio/vision2-x-audio/implementation/mswin</a></p>
+	<p><a href="#CL153">library/multimedia/audio/wel-x-audio</a></p>
+	<p><a href="#CL154">library/multimedia/audio/wel-x-audio/controls</a></p>
+	<p><a href="#CL155">library/multimedia/audio/wel-x-audio/formats</a></p>
+	<p><a href="#CL156">library/multimedia/audio/wel-x-audio/player</a></p>
+	<p><a href="#CL157">library/multimedia/audio/wel-x-audio/processing</a></p>
+	<p><a href="#CL158">library/multimedia/audio/wel-x-audio/support</a></p>
+	<p><a href="#CL159">library/network/base</a></p>
+	<p><a href="#CL160">library/network/base/local</a></p>
+	<p><a href="#CL161">library/network/eros</a></p>
+	<p><a href="#CL162">library/network/eros/UI</a></p>
+	<p><a href="#CL163">library/network/eros/client</a></p>
+	<p><a href="#CL164">library/network/eros/object-build</a></p>
+	<p><a href="#CL165">library/network/eros/parse</a></p>
+	<p><a href="#CL166">library/network/eros/thread-communication</a></p>
+	<p><a href="#CL167">library/network/flash</a></p>
+	<p><a href="#CL168">library/network/flash/RPC</a></p>
+	<p><a href="#CL169">library/network/ftp</a></p>
+	<p><a href="#CL170">library/network/servlet</a></p>
+	<p><a href="#CL171">library/network/servlet/support</a></p>
+	<p><a href="#CL172">library/persistency/database/binary-db</a></p>
+	<p><a href="#CL173">library/persistency/database/binary-db/encryptable</a></p>
+	<p><a href="#CL174">library/persistency/database/support</a></p>
+	<p><a href="#CL175">library/persistency/database/win-registry</a></p>
+	<p><a href="#CL176">library/persistency/database/xml-db/encryptable</a></p>
+	<p><a href="#CL177">library/persistency/database/xml-db/list-editions</a></p>
+	<p><a href="#CL178">library/persistency/file</a></p>
+	<p><a href="#CL179">library/persistency/xml/open-office-spreadsheet</a></p>
+	<p><a href="#CL180">library/persistency/xml/vtd-xml</a></p>
+	<p><a href="#CL181">library/persistency/xml/vtd-xml/implementation</a></p>
+	<p><a href="#CL182">library/persistency/xml/vtd-xml/implementation/spec/unix</a></p>
+	<p><a href="#CL183">library/persistency/xml/vtd-xml/implementation/spec/windows</a></p>
+	<p><a href="#CL184">library/persistency/xml/xdoc-scanning</a></p>
+	<p><a href="#CL185">library/persistency/xml/xdoc-scanning/event-sources/binary-encoded</a></p>
+	<p><a href="#CL186">library/persistency/xml/xdoc-scanning/event-sources/expat-parser</a></p>
+	<p><a href="#CL187">library/persistency/xml/xdoc-scanning/event-sources/expat-parser/modified-gobo</a></p>
+	<p><a href="#CL188">library/persistency/xml/xdoc-scanning/event-sources/pyxis</a></p>
+	<p><a href="#CL189">library/persistency/xml/xdoc-scanning/scanners</a></p>
+	<p><a href="#CL190">library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building</a></p>
+	<p><a href="#CL191">library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/smart-builder</a></p>
+	<p><a href="#CL192">library/persistency/xml/xdoc-scanning/scanners/visitor</a></p>
+	<p><a href="#CL193">library/persistency/xml/xdoc-scanning/scanners/xpath-scan</a></p>
+	<p><a href="#CL194">library/persistency/xml/xdoc-scanning/support</a></p>
+	<p><a href="#CL195">library/persistency/xml/xdoc-scanning/support/unused</a></p>
+	<p><a href="#CL196">library/runtime</a></p>
+	<p><a href="#CL197">library/runtime/app-manage</a></p>
+	<p><a href="#CL198">library/runtime/app-manage/app-launch-installers</a></p>
+	<p><a href="#CL199">library/runtime/app-manage/app-launch-installers/desktop</a></p>
+	<p><a href="#CL200">library/runtime/app-manage/app-launch-installers/desktop/spec/unix</a></p>
+	<p><a href="#CL201">library/runtime/app-manage/app-launch-installers/desktop/spec/windows</a></p>
+	<p><a href="#CL202">library/runtime/app-manage/app-launch-installers/file-context</a></p>
+	<p><a href="#CL203">library/runtime/app-manage/app-launch-installers/file-context/spec/unix</a></p>
+	<p><a href="#CL204">library/runtime/app-manage/app-launch-installers/file-context/spec/windows</a></p>
+	<p><a href="#CL205">library/runtime/app-manage/spec/unix</a></p>
+	<p><a href="#CL206">library/runtime/app-manage/spec/windows</a></p>
+	<p><a href="#CL207">library/runtime/concurrency</a></p>
+	<p><a href="#CL208">library/runtime/concurrency/communication</a></p>
+	<p><a href="#CL209">library/runtime/concurrency/communication/producer-consumer</a></p>
+	<p><a href="#CL210">library/runtime/concurrency/communication/producer-consumer/procedure-call</a></p>
+	<p><a href="#CL211">library/runtime/concurrency/communication/producer-consumer/timed</a></p>
+	<p><a href="#CL212">library/runtime/concurrency/communication/producer-consumer/timed/counter</a></p>
+	<p><a href="#CL213">library/runtime/concurrency/communication/producer-consumer/timed/events</a></p>
+	<p><a href="#CL214">library/runtime/concurrency/communication/producer-consumer/timed/procedure-call</a></p>
+	<p><a href="#CL215">library/runtime/concurrency/communication/proxy</a></p>
+	<p><a href="#CL216">library/runtime/concurrency/structures</a></p>
+	<p><a href="#CL217">library/runtime/concurrency/synchronization</a></p>
+	<p><a href="#CL218">library/runtime/concurrency/thread-states</a></p>
+	<p><a href="#CL219">library/runtime/concurrency/thread-types</a></p>
+	<p><a href="#CL220">library/runtime/file-operations</a></p>
+	<p><a href="#CL221">library/runtime/logging</a></p>
+	<p><a href="#CL222">library/runtime/logging/spec/unix</a></p>
+	<p><a href="#CL223">library/runtime/logging/spec/windows</a></p>
+	<p><a href="#CL224">library/runtime/logging/support</a></p>
+	<p><a href="#CL225">library/runtime/memory</a></p>
+	<p><a href="#CL226">library/runtime/process</a></p>
+	<p><a href="#CL227">library/runtime/process/commands-experimental</a></p>
+	<p><a href="#CL228">library/runtime/process/commands-experimental/kernel</a></p>
+	<p><a href="#CL229">library/runtime/process/commands-experimental/spec/generic</a></p>
+	<p><a href="#CL230">library/runtime/process/commands-experimental/spec/unix</a></p>
+	<p><a href="#CL231">library/runtime/process/commands-experimental/spec/windows</a></p>
+	<p><a href="#CL232">library/runtime/process/commands</a></p>
+	<p><a href="#CL233">library/runtime/process/commands/audio</a></p>
+	<p><a href="#CL234">library/runtime/process/commands/file-system</a></p>
+	<p><a href="#CL235">library/runtime/process/commands/kernel</a></p>
+	<p><a href="#CL236">library/runtime/process/commands/spec/common/audio</a></p>
+	<p><a href="#CL237">library/runtime/process/commands/spec/unix</a></p>
+	<p><a href="#CL238">library/runtime/process/commands/spec/unix/audio</a></p>
+	<p><a href="#CL239">library/runtime/process/commands/spec/unix/file-system</a></p>
+	<p><a href="#CL240">library/runtime/process/commands/spec/windows</a></p>
+	<p><a href="#CL241">library/runtime/process/commands/spec/windows/audio</a></p>
+	<p><a href="#CL242">library/runtime/process/commands/spec/windows/file-system</a></p>
+	<p><a href="#CL243">library/runtime/process/environment</a></p>
+	<p><a href="#CL244">library/runtime/process/environment/spec/unix</a></p>
+	<p><a href="#CL245">library/runtime/process/environment/spec/windows</a></p>
+	<p><a href="#CL246">library/testing</a></p>
+	<p><a href="#CL247">library/text/character</a></p>
+	<p><a href="#CL248">library/text/edit</a></p>
+	<p><a href="#CL249">library/text/edit/file</a></p>
+	<p><a href="#CL250">library/text/edit/history</a></p>
+	<p><a href="#CL251">library/text/encoding</a></p>
+	<p><a href="#CL252">library/text/encryption/aes</a></p>
+	<p><a href="#CL253">library/text/encryption/file</a></p>
+	<p><a href="#CL254">library/text/encryption/rsa</a></p>
+	<p><a href="#CL255">library/text/encryption/support</a></p>
+	<p><a href="#CL256">library/text/file-naming</a></p>
+	<p><a href="#CL257">library/text/file-naming/lists</a></p>
+	<p><a href="#CL258">library/text/general</a></p>
+	<p><a href="#CL259">library/text/html</a></p>
+	<p><a href="#CL260">library/text/internationalization-pyxis</a></p>
+	<p><a href="#CL261">library/text/internationalization-pyxis/spec/unix</a></p>
+	<p><a href="#CL262">library/text/internationalization-pyxis/spec/windows</a></p>
+	<p><a href="#CL263">library/text/internationalization</a></p>
+	<p><a href="#CL264">library/text/internationalization/spec/unix</a></p>
+	<p><a href="#CL265">library/text/internationalization/spec/windows</a></p>
+	<p><a href="#CL266">library/text/line-processing</a></p>
+	<p><a href="#CL267">library/text/line-processing/encoding</a></p>
+	<p><a href="#CL268">library/text/list</a></p>
+	<p><a href="#CL269">library/text/parse</a></p>
+	<p><a href="#CL270">library/text/parse/file</a></p>
+	<p><a href="#CL271">library/text/parse/file/csv</a></p>
+	<p><a href="#CL272">library/text/parse/kernel</a></p>
+	<p><a href="#CL273">library/text/parse/state-machine</a></p>
+	<p><a href="#CL274">library/text/parse/state-machine/character</a></p>
+	<p><a href="#CL275">library/text/parse/support</a></p>
+	<p><a href="#CL276">library/text/pattern-matching</a></p>
+	<p><a href="#CL277">library/text/pattern-matching/factory</a></p>
+	<p><a href="#CL278">library/text/pattern-matching/kernel</a></p>
+	<p><a href="#CL279">library/text/pattern-matching/kernel/character</a></p>
+	<p><a href="#CL280">library/text/pattern-matching/kernel/composite</a></p>
+	<p><a href="#CL281">library/text/pattern-matching/markup</a></p>
+	<p><a href="#CL282">library/text/string</a></p>
+	<p><a href="#CL283">library/text/string/codecs</a></p>
+	<p><a href="#CL284">library/text/string/codecs/iso</a></p>
+	<p><a href="#CL285">library/text/string/codecs/windows</a></p>
+	<p><a href="#CL286">library/text/string/styled</a></p>
+	<p><a href="#CL287">library/text/template</a></p>
+	<p><a href="#CL288">library/text/template/evolicity</a></p>
+	<p><a href="#CL289">library/text/template/evolicity/directives</a></p>
+	<p><a href="#CL290">library/text/template/evolicity/expressions</a></p>
+	<p><a href="#CL291">library/text/template/evolicity/expressions/boolean</a></p>
+	<p><a href="#CL292">library/text/template/evolicity/expressions/comparison</a></p>
+	<p><a href="#CL293">library/text/template/evolicity/serialization</a></p>
+	<p><a href="#CL294">library/text/template/evolicity/support</a></p>
+	<p><a href="#CL295">library/text/url</a></p>
+	<p><a href="#CL296">library/text/word-search</a></p>
+	<p><a href="#CL297">library/text/word-search/term</a></p>
+	<p><a href="#CL298">library/text/xml</a></p>
+	<p><a href="#CL299">library/utility/app-license</a></p>
+	<p><a href="#CL300">library/utility/compression</a></p>
+	<p><a href="#CL301">library/utility/date-time</a></p>
+	<p><a href="#CL302">library/utility/file-processing</a></p>
+	<p><a href="#CL303">library/utility/file-processing/support</a></p>
+	<p><a href="#CL304">library/utility/file-processing/thread</a></p>
+	<p><a href="#CL305">library/utility/installer-toolkit/windows</a></p>
+	<p><a href="#CL306">library/utility/memory</a></p>
+	<p><a href="#CL307">test/source</a></p>
+	<p><a href="#CL308">test/source/apps</a></p>
+	<p><a href="#CL309">test/source/apps/spec/unix</a></p>
+	<p><a href="#CL310">test/source/apps/spec/windows</a></p>
+	<p><a href="#CL311">test/source/bex-parsing</a></p>
+	<p><a href="#CL312">test/source/binary-storable</a></p>
+	<p><a href="#CL313">test/source/encryption</a></p>
+	<p><a href="#CL314">test/source/evolicity-test</a></p>
+	<p><a href="#CL315">test/source/general</a></p>
+	<p><a href="#CL316">test/source/id3</a></p>
+	<p><a href="#CL317">test/source/string-benchmarks</a></p>
+	<p><a href="#CL318">test/source/tests</a></p>
+	<p><a href="#CL319">test/source/vtd-xml</a></p>
+	<p><a href="#CL320">test/source/xml-to-eiffel-object-builder/bioinfo</a></p>
+	<p><a href="#CL321">test/source/xml-to-eiffel-object-builder/matrix-rpc</a></p>
+	<p><a href="#CL322">test/source/xml-to-eiffel-object-builder/smil</a></p>
+	<p><a href="#CL323">test/source/xml-to-eiffel-object-builder/xhtml</a></p>
+	<p><a href="#CL324">test/source/xpath-events</a></p>
+	<p><a href="#CL325">tool/toolkit/source</a></p>
+	<p><a href="#CL326">tool/toolkit/source/amazon-exercise</a></p>
+	<p><a href="#CL327">tool/toolkit/source/applications</a></p>
+	<p><a href="#CL328">tool/toolkit/source/applications/Eiffel</a></p>
+	<p><a href="#CL329">tool/toolkit/source/codec-generator</a></p>
+	<p><a href="#CL330">tool/toolkit/source/dependency-installer</a></p>
+	<p><a href="#CL331">tool/toolkit/source/eiffel-dev</a></p>
+	<p><a href="#CL332">tool/toolkit/source/eiffel-dev/class-edit</a></p>
+	<p><a href="#CL333">tool/toolkit/source/eiffel-dev/class-rename</a></p>
+	<p><a href="#CL334">tool/toolkit/source/eiffel-dev/find-and-replace</a></p>
+	<p><a href="#CL335">tool/toolkit/source/eiffel-dev/library-manifest</a></p>
+	<p><a href="#CL336">tool/toolkit/source/eiffel-dev/note-editor</a></p>
+	<p><a href="#CL337">tool/toolkit/source/eiffel-dev/support</a></p>
+	<p><a href="#CL338">tool/toolkit/source/eiffel-dev/support/tree-edit</a></p>
+	<p><a href="#CL339">tool/toolkit/source/export-thunderbird</a></p>
+	<p><a href="#CL340">tool/toolkit/source/ftp-backup</a></p>
+	<p><a href="#CL341">tool/toolkit/source/ftp-backup/eposix</a></p>
+	<p><a href="#CL342">tool/toolkit/source/html-body-substitution</a></p>
+	<p><a href="#CL343">tool/toolkit/source/jobserve</a></p>
+	<p><a href="#CL344">tool/toolkit/source/praat-source-conversion</a></p>
+	<p><a href="#CL345">tool/toolkit/source/praat-source-conversion/converters</a></p>
+	<p><a href="#CL346">tool/toolkit/source/pyxis</a></p>
+	<p><a href="#CL347">tool/toolkit/source/support</a></p>
+	<p><a href="#CL348">tool/toolkit/source/vcf-splitter</a></p>
+	<p><a href="#CL349">tool/toolkit/source/web-publisher</a></p>
+	<h4><a name="CL1"></a>example/eiffel2java/source</h4>
+	<p>
+			BUILD_INFO: <pre>    Build specification</pre>
+	</p>
+	<p>
+			APPLICATION_ROOT
+	</p>
+	<h4><a name="CL2"></a>example/eiffel2java/source/java/java_classes</h4>
+	<p>
+			J_J2E_TEST_TARGET
+	</p>
+	<h4><a name="CL3"></a>example/eiffel2java/source/java/java_classes/org.apache.velocity.app</h4>
+	<p>
+			J_VELOCITY
+	</p>
+	<h4><a name="CL4"></a>example/eiffel2java/source/java/java_classes/org.apache.velocity.context</h4>
+	<p>
+			J_CONTEXT
+	</p>
+	<h4><a name="CL5"></a>example/eiffel2java/source/java/java_classes/org.apache.velocity</h4>
+	<p>
+			J_TEMPLATE
+	</p>
+	<p>
+			J_VELOCITY_CONTEXT
+	</p>
+	<h4><a name="CL6"></a>example/eiffel2java/source/java/java_packages</h4>
+	<p>
+			ORG_APACHE_VELOCITY_APP_JPACKAGE
+	</p>
+	<p>
+			ORG_APACHE_VELOCITY_CONTEXT_JPACKAGE
+	</p>
+	<p>
+			ORG_APACHE_VELOCITY_JPACKAGE
+	</p>
+	<h4><a name="CL7"></a>example/eiffel2java/source/sub-applications</h4>
+	<p>
+			APACHE_VELOCITY_TEST_APP: <pre>    Demo of accessing Java Velocity package</pre>
+	</p>
+	<p>
+			JAVA_TEST_APP
+	</p>
+	<p>
+			SVG_TO_PNG_TEST_APP
+	</p>
+	<p>
+			TESTABLE_JAVA_APPLICATION
+	</p>
+	<h4><a name="CL8"></a>example/graphical/source</h4>
+	<p>
+			BUILD_INFO: <pre>    Build specification</pre>
+	</p>
+	<p>
+			APPLICATION_ROOT
+	</p>
+	<h4><a name="CL9"></a>example/graphical/source/docking_control</h4>
+	<p>
+			APPLICATION: <pre>    Root class for this application.</pre>
+	</p>
+	<p>
+			DOCKING_MANAGER_HODLER: <pre>                        Docking manager holder which hold an instance of {SD_DOCKING_MANAGER}</pre>
+	</p>
+	<p>
+			INTERFACE_NAMES: <pre>                        Strings for the Graphical User Interface</pre>
+	</p>
+	<p>
+			MAIN_WINDOW: <pre>                        Main window for this application</pre>
+	</p>
+	<h4><a name="CL10"></a>example/graphical/source/docking_control/widgets</h4>
+	<p>
+			ATTRIBUTE_SETTING_PANEL: <pre>                        Objects that represent an EV_TITLED_WINDOW.The original version of this class was generated by EiffelBuild.</pre>
+	</p>
+	<p>
+			ATTRIBUTE_SETTING_PANEL_IMP: <pre>            Objects that represent an EV_TITLED_WINDOW.
+            The original version of this class was generated by EiffelBuild.
+            This class is the implementation of an EV_TITLED_WINDOW generated by EiffelBuild.
+            You should not modify this code by hand, as it will be re-generated every time
+             modifications are made to the project.</pre>
+	</p>
+	<p>
+			CONSTANTS: <pre>                Objects that provide access to constants loaded from files.
+                Perform and desired constant redefinitions in this class.
+                Note that if you are loading constants from a file and wish to
+                change the location of the file, redefine `initialize_constants&apos; in this
+                class to load from the desired location.</pre>
+	</p>
+	<p>
+			CONSTANTS_IMP: <pre>                Objects that provide access to constants, possibly loaded from a files.
+                Each constant is generated into two features: both a query and a storage
+                feature. For example, for a STRING constant named `my_string&apos;, the following
+                features are generated: my_string: STRING and my_string_cell: CELL [STRING].
+                `my_string&apos; simply returns the current item of `my_string_cell&apos;. By seperating
+                the constant access in this way, it is possible to change the constant&apos;s value
+                by either redefining `my_string&apos; in descendent classes or simply performing
+                my_string_cell.put ("new_string") as required.
+                If you are loading the constants from a file and you wish to reload a different set
+                of constants for your interface (e.g. for multi-language support), you may perform
+                this in the following way:
+                
+                set_file_name ("my_constants_file.text")
+                reload_constants_from_file
+                
+                and then for each generated widget, call `set_all_attributes_using_constants&apos; to reset
+                the newly loaded constants into the attribute settings of each widget that relies on constants.
+                
+                Note that if you wish your constants file to be loaded from a specific location,
+                you may redefine `initialize_constants&apos; to handle the loading of the file from
+                an alternative location.
+                
+                Note that if you have selected to load constants from a file, and the file cannot
+                be loaded, you will get a precondition violation when attempting to access one
+                of the constants that should have been loaded. Therefore, you must ensure that either the
+                file is accessible or you do not specify to load from a file.</pre>
+	</p>
+	<p>
+			CONTENT_CONTROL_PANEL: <pre>                Control panel which hold sub widgets to control the target docking content.</pre>
+	</p>
+	<p>
+			GENERAL_SETTING_PANEL: <pre>                Objects that represent an EV_TITLED_WINDOW.The original version of this class was generated by EiffelBuild.</pre>
+	</p>
+	<p>
+			GENERAL_SETTING_PANEL_IMP: <pre>            Objects that represent an EV_TITLED_WINDOW.
+            The original version of this class was generated by EiffelBuild.
+            This class is the implementation of an EV_TITLED_WINDOW generated by EiffelBuild.
+            You should not modify this code by hand, as it will be re-generated every time
+             modifications are made to the project.</pre>
+	</p>
+	<p>
+			MINI_TOOL_BAR: <pre>            Objects that represent an EV_TITLED_WINDOW.The original version of this class was generated by EiffelBuild.</pre>
+	</p>
+	<p>
+			MINI_TOOL_BAR_IMP: <pre>            Objects that represent an EV_TITLED_WINDOW.
+            The original version of this class was generated by EiffelBuild.
+            This class is the implementation of an EV_TITLED_WINDOW generated by EiffelBuild.
+            You should not modify this code by hand, as it will be re-generated every time
+             modifications are made to the project.</pre>
+	</p>
+	<p>
+			RADIO_BUTTON_CREATION_DIALOG: <pre>            Objects that represent an EV_DIALOG.The original version of this class was generated by EiffelBuild.</pre>
+	</p>
+	<p>
+			RADIO_BUTTON_CREATION_DIALOG_IMP: <pre>            Objects that represent an EV_DIALOG.
+            The original version of this class was generated by EiffelBuild.
+            This class is the implementation of an EV_DIALOG generated by EiffelBuild.
+            You should not modify this code by hand, as it will be re-generated every time
+             modifications are made to the project.</pre>
+	</p>
+	<p>
+			TOOL_BAR_CONTROL_PANEL: <pre>            Objects that represent an EV_TITLED_WINDOW.The original version of this class was generated by EiffelBuild.</pre>
+	</p>
+	<p>
+			TOOL_BAR_CONTROL_PANEL_IMP: <pre>            Objects that represent an EV_TITLED_WINDOW.
+            The original version of this class was generated by EiffelBuild.
+            This class is the implementation of an EV_TITLED_WINDOW generated by EiffelBuild.
+            You should not modify this code by hand, as it will be re-generated every time
+             modifications are made to the project.</pre>
+	</p>
+	<p>
+			TRANSFORM_PANEL: <pre>            Objects that represent an EV_TITLED_WINDOW.The original version of this class was generated by EiffelBuild.</pre>
+	</p>
+	<p>
+			TRANSFORM_PANEL_IMP: <pre>            Objects that represent an EV_TITLED_WINDOW.
+            The original version of this class was generated by EiffelBuild.
+            This class is the implementation of an EV_TITLED_WINDOW generated by EiffelBuild.
+            You should not modify this code by hand, as it will be re-generated every time
+             modifications are made to the project.</pre>
+	</p>
+	<h4><a name="CL11"></a>example/graphical/source/postcard-viewer</h4>
+	<p>
+			ADDRESS_BAR
+	</p>
+	<p>
+			POSTCARD_VIEWER_MAIN_WINDOW
+	</p>
+	<p>
+			POSTCARD_VIEWER_TAB
+	</p>
+	<h4><a name="CL12"></a>example/graphical/source/quantum-ball-animation</h4>
+	<p>
+			MODEL_ELECTRON
+	</p>
+	<p>
+			MODEL_WORLD_TILER
+	</p>
+	<p>
+			QUANTUM_BALL_ANIMATION
+	</p>
+	<p>
+			QUANTUM_BALL_ANIMATION_AREA_CELL
+	</p>
+	<p>
+			QUANTUM_BALL_MAIN_WINDOW
+	</p>
+	<h4><a name="CL13"></a>example/graphical/source/sub-applications</h4>
+	<p>
+			QUANTUM_BALL_ANIMATION_APP: <pre>            Test of dialogs.</pre>
+	</p>
+	<p>
+			CONSOLE_LOGGING_QUANTUM_BALL_ANIMATION_APP
+	</p>
+	<p>
+			DOCKING_APP
+	</p>
+	<p>
+			POST_CARD_VIEWER_APP
+	</p>
+	<h4><a name="CL14"></a>example/manage-mp3/source</h4>
+	<p>
+			BUILD_INFO: <pre>            Build specification</pre>
+	</p>
+	<p>
+			APPLICATION_ROOT
+	</p>
+	<h4><a name="CL15"></a>example/manage-mp3/source/id3</h4>
+	<p>
+			ID3_EDITOR
+	</p>
+	<h4><a name="CL16"></a>example/manage-mp3/source/media-sync</h4>
+	<p>
+			COPY_UNIQUE_MP3_FILE_COMMAND
+	</p>
+	<p>
+			IDENTITY_TAGGED_MP3_MEDIA_ITEM
+	</p>
+	<p>
+			MEDIA_ITEM
+	</p>
+	<p>
+			MEDIA_ITEM_KEY
+	</p>
+	<p>
+			MEDIA_ITEM_SET
+	</p>
+	<p>
+			MEDIA_SYNC_CONFIGURATION
+	</p>
+	<p>
+			MEDIA_SYNC_XML_SCRIPT
+	</p>
+	<p>
+			SHARED_MEDIA_SYNC_CONFIGURATION
+	</p>
+	<p>
+			SMALL_DEVICE_MP3_MEDIA_ITEM
+	</p>
+	<p>
+			UNIQUELY_IDENTIFIABLE_MEDIA_ITEM
+	</p>
+	<h4><a name="CL17"></a>example/manage-mp3/source/rhythmbox</h4>
+	<p>
+			RBOX_SONG: <pre>            Object representing Rhythmbox 2.99.1 song entry in rhythmdb.xml</pre>
+	</p>
+	<p>
+			RBOX_APPLICATION
+	</p>
+	<p>
+			RBOX_CONSTANTS
+	</p>
+	<p>
+			RBOX_CORTINA_SONG
+	</p>
+	<p>
+			RBOX_DATABASE
+	</p>
+	<p>
+			RBOX_DATABASE_TRANSFORM_APP
+	</p>
+	<p>
+			RBOX_EXPORT_APPLICATION
+	</p>
+	<p>
+			RBOX_IGNORED_ENTRY
+	</p>
+	<p>
+			RBOX_IRADIO_ENTRY
+	</p>
+	<p>
+			RBOX_MODULE_SONG_FILTER
+	</p>
+	<p>
+			RBOX_PLAYLIST
+	</p>
+	<p>
+			RBOX_PLAYLIST_ARRAY
+	</p>
+	<p>
+			RBOX_SONG_FILTERS
+	</p>
+	<p>
+			RBOX_SONG_LIST
+	</p>
+	<p>
+			RBOX_SYNC_INFO
+	</p>
+	<p>
+			RBOX_SYNC_INFO_TABLE
+	</p>
+	<h4><a name="CL18"></a>example/manage-mp3/source/rhythmbox/support</h4>
+	<p>
+			ID3_LATIN1_FIELD_EDITOR: <pre>            Isolate anything at end of title that looks like a year in brackets (and possibley preceded by a hyphen)
+            Trim unwanted ".mp3" suffix</pre>
+	</p>
+	<p>
+			MP3_DEVICE: <pre>            Device to which to mp3 files can be exported</pre>
+	</p>
+	<p>
+			VIDEO_TITLE_PARSER: <pre>            Parse video title for album and segment information
+            
+                "&lt;title&gt; [&lt;album-artist&gt;](&lt;album&gt;) {&lt;time-from&gt;-&lt;time-to&gt;}.mp3"
+            
+            where time-from has format:
+            
+                mm:ss
+                
+            and time-to has format:
+                mm:ss
+                OR
+                end
+                
+            eg.
+                "Patienca(Singer: Louis Scalon){2:16-end}"</pre>
+	</p>
+	<p>
+			COMBINED_PLAYLIST_WEB_PAGE
+	</p>
+	<p>
+			ID3_EDITS
+	</p>
+	<p>
+			ID3_EDIT_CONSTANTS
+	</p>
+	<p>
+			ID3_LATIN1_TITLE_FIELD_EDITOR
+	</p>
+	<p>
+			M3U_PLAYLIST
+	</p>
+	<p>
+			MARKUP_LINE_COUNTER
+	</p>
+	<p>
+			MODULE_RHYTHMBOX
+	</p>
+	<p>
+			MP3_GENRE_SONG_SET
+	</p>
+	<p>
+			MUSIC_EVENT
+	</p>
+	<p>
+			MUSIC_VENUE_EVENTS
+	</p>
+	<p>
+			PYXIS_GENRE_LIST
+	</p>
+	<p>
+			RBOX_SONG_ID3_INFO
+	</p>
+	<h4><a name="CL19"></a>example/manage-mp3/source/sub-applications</h4>
+	<p>
+			MEDIA_SYNC_APP: <pre>                Synchronize directory of media files</pre>
+	</p>
+	<p>
+			RBOX_IMPORT_NEW_MP3_APP: <pre>            Import mp3 not currently in database and set artist and genre according to current location in
+            Music/&lt;genre&gt;/&lt;artist/composer&gt;</pre>
+	</p>
+	<p>
+			ID3_EDITOR_APP
+	</p>
+	<p>
+			RBOX_DATABASE_EXPORT_APP
+	</p>
+	<p>
+			RBOX_HTML_PLAYLIST_APP
+	</p>
+	<p>
+			RBOX_PLAYLIST_EXPORT_APP
+	</p>
+	<p>
+			RBOX_PLAYLIST_IMPORT_APP
+	</p>
+	<h4><a name="CL20"></a>example/manage-mp3/source/sub-applications/transform</h4>
+	<p>
+			RBOX_ARTIST_AND_TITLE_NORMALIZATION_APP: <pre>            If an entry has been removed from library (marked hidden) because it was a duplicate,
+            then any playlist entries referring to this hidden item it will be replaced by a
+            visible song with a matching artist and title.
+            
+            If word option: -autoedit is specified on command line then
+            
+            1. procedure cleanup_id3_tags will delete certain tags,
+            
+            2. procedure update_id3version will migrate ver 1.x and 2.3 tags to 2.4,
+            
+            3. procedure edit_song_fields will normalize word case of the artist and title field and
+            if the year of recording field is blank it will set it with anything that looks like a year in the title.
+            
+            4. procedure update_and_relocate_song will add a unique id tag named RBOX.</pre>
+	</p>
+	<p>
+			RBOX_COLLATION_BY_GENRE_AND_ARTIST_APP: <pre>            Application to sort mp3 files into directories according to genre and artist set in
+            Rhythmbox music library database. Playlist locations will be updated to match new
+            locations.</pre>
+	</p>
+	<p>
+			RBOX_ID3_EDIT_APP: <pre>            ID3 tags title, artist, genre and album will be overwritten with information entered
+            in Rhythmbox library database using UTF-8 encoding.</pre>
+	</p>
+	<p>
+			RBOX_ADD_ALBUM_PICTURES_APP
+	</p>
+	<p>
+			RBOX_REPLACE_CORTINA_SET_APP
+	</p>
+	<p>
+			RBOX_REPLACE_DELETED_SONGS_APP
+	</p>
+	<p>
+			RBOX_RESTORE_PLAYLISTS_APP
+	</p>
+	<p>
+			RBOX_VIDEO_IMPORT_APP
+	</p>
+	<h4><a name="CL21"></a>example/manage-mp3/source/title-normalization</h4>
+	<p>
+			AWARDS_FOR_WORLD_MUSIC_TITLE_EDITOR: <pre>            Parses artist field with format: "(&lt;country&gt;) &lt;artist&gt; - &lt;title&gt;" for album: Awards for World Music</pre>
+	</p>
+	<p>
+			ID3_LATIN1_CLASSICAL_TITLE_FIELD_EDITOR
+	</p>
+	<p>
+			RBOX_FINNIANS_DATABASE
+	</p>
+	<h4><a name="CL22"></a>example/net/eros-server/source</h4>
+	<p>
+			BUILD_INFO: <pre>            Build information</pre>
+	</p>
+	<p>
+			APPLICATION_ROOT
+	</p>
+	<h4><a name="CL23"></a>example/net/eros-server/source/sub-applications</h4>
+	<p>
+			CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP
+	</p>
+	<p>
+			FOURIER_MATH_SERVER_APP
+	</p>
+	<h4><a name="CL24"></a>example/net/eros-test-clients/source</h4>
+	<p>
+			BUILD_INFO: <pre>            Build information</pre>
+	</p>
+	<p>
+			APPLICATION_ROOT
+	</p>
+	<h4><a name="CL25"></a>example/net/eros-test-clients/source/client-proxies</h4>
+	<p>
+			FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY
+	</p>
+	<p>
+			SIGNAL_MATH_PROXY
+	</p>
+	<h4><a name="CL26"></a>example/net/eros-test-clients/source/server</h4>
+	<p>
+			EL_SERVER_SUB_APPLICATION
+	</p>
+	<h4><a name="CL27"></a>example/net/eros-test-clients/source/sub-applications</h4>
+	<p>
+			FOURIER_MATH_TEST_SERVER_APP: <pre>            Single threaded test server.
+            Notes:
+                For finalized exe use Ctrl-c to exit nicely.</pre>
+	</p>
+	<p>
+			BEXT_CLIENT_TEST_APP
+	</p>
+	<p>
+			BEXT_SERVER_TEST_APP
+	</p>
+	<p>
+			FOURIER_MATH_TEST_CLIENT_APP
+	</p>
+	<h4><a name="CL28"></a>example/net/source-common</h4>
+	<p>
+			E2X_VECTOR_COMPLEX_DOUBLE: <pre>            VECTOR_COMPLEX_DOUBLE serializable to format:
+            
+                &lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+                &lt;?type row?&gt;
+                &lt;vector-complex-double count="3"&gt;
+                    &lt;row real="2.2" imag="3"/&gt;
+                    &lt;row real="2.2" imag="6.03"/&gt;
+                    &lt;row real="1.1" imag="3.5"/&gt;
+                &lt;/vector-complex-double&gt;
+            OR
+                &lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+                &lt;?type col?&gt;
+                &lt;vector-complex-double count="3"&gt;
+                    &lt;col real="2.2" imag="3"/&gt;
+                    &lt;col real="2.2" imag="6.03"/&gt;
+                    &lt;col real="1.1" imag="3.5"/&gt;
+                &lt;/vector-complex-double&gt;</pre>
+	</p>
+	<p>
+			FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_I: <pre>                Remote interface to FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE</pre>
+	</p>
+	<p>
+			SIGNAL_MATH_I: <pre>                Remote interface to SIGNAL_MATH</pre>
+	</p>
+	<p>
+			APPLICATION_MENUS
+	</p>
+	<p>
+			COLUMN_VECTOR_COMPLEX_DOUBLE
+	</p>
+	<p>
+			E2X_COMPLEX_DOUBLE
+	</p>
+	<p>
+			FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE
+	</p>
+	<p>
+			ROW_VECTOR_COMPLEX_DOUBLE
+	</p>
+	<p>
+			SIGNAL_MATH
+	</p>
+	<p>
+			VECTOR_COMPLEX_DOUBLE_SEQUENCE
+	</p>
+	<h4><a name="CL29"></a>library</h4>
+	<p>
+			EL_TO_DO_NOTES: <pre>                Helper class to locate classes which need some fixing at a later stage</pre>
+	</p>
+	<h4><a name="CL30"></a>library/data_structure/arrays</h4>
+	<p>
+			EL_SUBARRAY: <pre>            Sub arrays implemented using shared memory areas rather than copied memory area. 
+            For large arrays, subarray memory copies can incurr a significant performance overhead. 
+            Using shared memory subarrays can in some applications reduce execution time by as much as 50%. (hard to believe I know)
+            
+            Sub array can be referenced using either lower to upper indexes of parent array or 1 based index.</pre>
+	</p>
+	<p>
+			EL_BYTE_ARRAY
+	</p>
+	<h4><a name="CL31"></a>library/data_structure/arrays/serialization</h4>
+	<p>
+			EL_ARRAY_READER
+	</p>
+	<p>
+			EL_ARRAY_WRITER
+	</p>
+	<p>
+			EL_ARRAY_WRITER_DOUBLE
+	</p>
+	<h4><a name="CL32"></a>library/data_structure/dynamic_creation</h4>
+	<p>
+			EL_FACTORY_CLIENT: <pre>            Allows descendants access to initialization agents for EL_OBJECT_FACTORY</pre>
+	</p>
+	<p>
+			EL_OBJECT_FACTORY
+	</p>
+	<h4><a name="CL33"></a>library/data_structure/event</h4>
+	<p>
+			EL_EVENT_CHECKER: <pre>            Object to periodically process events in some other context whilst in the midst of a computation.
+            Useful especially to check for UI events.</pre>
+	</p>
+	<p>
+			EL_DEFAULT_EVENT_LISTENER
+	</p>
+	<p>
+			EL_EVENT_LISTENER
+	</p>
+	<p>
+			EL_EVENT_LISTENER_MAIN_THREAD_PROXY
+	</p>
+	<p>
+			EL_EVENT_PROCESSOR
+	</p>
+	<p>
+			EL_QUANTITY_INCREASE_RATE_CALCULATOR
+	</p>
+	<h4><a name="CL34"></a>library/data_structure/hash_table</h4>
+	<p>
+			EL_ASTRING_HASH_TABLE
+	</p>
+	<p>
+			EL_CODE_TABLE
+	</p>
+	<p>
+			EL_HASH_TABLE
+	</p>
+	<p>
+			EL_TYPE_TABLE
+	</p>
+	<p>
+			EL_UNIQUE_CODE_TABLE
+	</p>
+	<h4><a name="CL35"></a>library/data_structure/kernel</h4>
+	<p>
+			EL_PROCEDURE: <pre>            Procedure identifier based on address of Eiffel routine dispatcher
+            As it is not possible to compare agent references this serves as a workaround
+            allowing you to determine whether two agents refer to the same procedure.</pre>
+	</p>
+	<p>
+			EL_BUILD_INFO
+	</p>
+	<p>
+			EL_FUNCTION_ID
+	</p>
+	<p>
+			EL_MODULE
+	</p>
+	<p>
+			EL_MODULE_BUILD_INFO
+	</p>
+	<p>
+			EL_MODULE_TYPING
+	</p>
+	<p>
+			EL_MODULE_USER_INPUT
+	</p>
+	<p>
+			EL_SHARED_CELL
+	</p>
+	<p>
+			EL_USER_INPUT
+	</p>
+	<h4><a name="CL36"></a>library/data_structure/list</h4>
+	<p>
+			EL_REPEATED_NUMERIC_LIST: <pre>            Object that uses run length encoding to data compress a sequence of numeric values that tend to repeat a lot.</pre>
+	</p>
+	<p>
+			EL_ARRAYED_LIST
+	</p>
+	<p>
+			EL_CALL_SEQUENCE
+	</p>
+	<p>
+			EL_CHAIN
+	</p>
+	<p>
+			EL_FILTERABLE_ARRAYED_LIST
+	</p>
+	<p>
+			EL_FILTERABLE_CHAIN
+	</p>
+	<p>
+			EL_LINEAR
+	</p>
+	<p>
+			EL_REPEATED_NUMERIC
+	</p>
+	<p>
+			EL_UNIQUE_ARRAYED_LIST
+	</p>
+	<h4><a name="CL37"></a>library/data_structure/platform</h4>
+	<p>
+			EL_PLATFORM_IMPL: <pre>            Platform dependent implementation</pre>
+	</p>
+	<p>
+			EL_CROSS_PLATFORM
+	</p>
+	<p>
+			EL_CROSS_PLATFORM_ABS
+	</p>
+	<h4><a name="CL38"></a>library/data_structure/set</h4>
+	<p>
+			EL_HASH_SET
+	</p>
+	<h4><a name="CL39"></a>library/graphic/docking-override</h4>
+	<p>
+			SD_SHARED: <pre>            Objects that contain all the singletons in Smart Docking library.</pre>
+	</p>
+	<p>
+			SD_ZONE_NAVIGATION_DIALOG: <pre>            Window allow user to navigate among all zones.The original version of this class was generated by EiffelBuild.</pre>
+	</p>
+	<h4><a name="CL40"></a>library/graphic/image/SVG</h4>
+	<p>
+			EL_SVG_GRAPHICS_API: <pre>            Loads module and call svg conversion function</pre>
+	</p>
+	<p>
+			EL_MODULE_SVG
+	</p>
+	<p>
+			EL_MODULE_SVG_ROUTINES
+	</p>
+	<h4><a name="CL41"></a>library/graphic/image/location</h4>
+	<p>
+			EL_IMAGE_PATH_ROUTINES: <pre>            Object for locating installed images in Eiffel Loop standard directories
+            
+            Under Unix these standard directories are (In order searched):
+            
+                .local/share/&lt;executable name&gt;/icons OR .local/share/&lt;executable name&gt;/images
+                
+                /usr/share/&lt;executable name&gt;/icons OR /usr/share/&lt;executable name&gt;/images</pre>
+	</p>
+	<p>
+			EL_MODULE_IMAGE_PATH
+	</p>
+	<h4><a name="CL42"></a>library/graphic/obsolete/image-magick</h4>
+	<p>
+			EL_IM_SVG_TO_PNG_CONVERTER: <pre>                ${description}</pre>
+	</p>
+	<p>
+			EL_IM_API
+	</p>
+	<p>
+			EL_IM_PIXEL_WAND
+	</p>
+	<p>
+			EL_IM_WAND
+	</p>
+	<h4><a name="CL43"></a>library/graphic/obsolete/image-magick/support</h4>
+	<p>
+			EL_SVG_BACKGROUND_COLOR_INSERTER: <pre>            insert string:
+                &lt;rect x="0" y="0" width="x" height="x" style="fill:#FFFFFF"/&gt; 
+            after &apos;svg&apos; open tag.</pre>
+	</p>
+	<h4><a name="CL44"></a>library/graphic/obsolete/spec/unix</h4>
+	<p>
+			EL_GNOME_MENU_EDITOR
+	</p>
+	<p>
+			EL_GNOME_MENU_TREE_ITEM
+	</p>
+	<p>
+			EL_SHARED_GNOME_MENU_EDITOR
+	</p>
+	<h4><a name="CL45"></a>library/graphic/toolkit/html-viewer</h4>
+	<p>
+			EL_CONTENTS_NODE_BUTTON: <pre>            Button to expand hidden content links underneath level 3 link</pre>
+	</p>
+	<p>
+			EL_HTML_TEXT_HYPERLINK_AREA: <pre>            Level 3 page navigation contents link containing hideable sub-level links</pre>
+	</p>
+	<p>
+			EL_HTML_TEXT
+	</p>
+	<h4><a name="CL46"></a>library/graphic/toolkit/html-viewer/styles</h4>
+	<p>
+			EL_HTML_HEADER
+	</p>
+	<p>
+			EL_HTML_NUMBERED_PARAGRAPH
+	</p>
+	<p>
+			EL_HTML_PARAGRAPH
+	</p>
+	<p>
+			EL_HTML_PREFORMATTED_PARAGRAPH
+	</p>
+	<p>
+			EL_HTML_STYLE
+	</p>
+	<h4><a name="CL47"></a>library/graphic/toolkit/vision2-override/implementation/gtk</h4>
+	<p>
+			EL_APPLICATION_IMP: <pre>            Mechanism to queue events from external threads and process them in the main GUI thread
+            by putting a dummy button event into the GTK message queue. The button state (normally used to store
+            a set of flags) is used to store an index which maps the event to an agent. 
+            Procedure &apos;on_event&apos; calls the agent associated with the index.</pre>
+	</p>
+	<p>
+			EV_GTK_EXTERNALS: <pre>            Routines missing from class GTK</pre>
+	</p>
+	<h4><a name="CL48"></a>library/graphic/toolkit/vision2-override/implementation/gtk/support</h4>
+	<p>
+			EV_PIXEL_BUFFER_IMP: <pre>            Gtk implementation for EV_PIXEL_BUFFER_I.</pre>
+	</p>
+	<h4><a name="CL49"></a>library/graphic/toolkit/vision2-override/implementation/implementation_interface</h4>
+	<p>
+			EL_APPLICATION_I
+	</p>
+	<h4><a name="CL50"></a>library/graphic/toolkit/vision2-override/implementation/implementation_interface/support</h4>
+	<p>
+			EV_PIXEL_BUFFER_I: <pre>            Implementation interface for EV_PIXEL_BUFFER.</pre>
+	</p>
+	<h4><a name="CL51"></a>library/graphic/toolkit/vision2-override/implementation/mswin</h4>
+	<p>
+			EL_APPLICATION_IMP: <pre>            Mechanism to queue events from external threads and process them in the main GUI thread
+            by putting a dummy button event into the GTK message queue. The button state (normally used to store
+            a set of flags) is used to store an index which maps the event to an agent. 
+            Procedure &apos;on_event&apos; calls the agent associated with the index.</pre>
+	</p>
+	<p>
+			EL_INTERNAL_EVENT_EMITTER_WINDOW_IMP
+	</p>
+	<h4><a name="CL52"></a>library/graphic/toolkit/vision2-override/implementation/mswin/properties</h4>
+	<p>
+			EV_INTERNALLY_PROCESSED_TEXTABLE_IMP: <pre>            Objects that process `text&apos; to include extra hidden characters at the Windows level.</pre>
+	</p>
+	<h4><a name="CL53"></a>library/graphic/toolkit/vision2-override/implementation/mswin/support</h4>
+	<p>
+			EV_PIXEL_BUFFER_IMP: <pre>            Windows implementation for EV_PIXEL_BUFFER_I.</pre>
+	</p>
+	<h4><a name="CL54"></a>library/graphic/toolkit/vision2-override/implementation/mswin/widgets/primitives</h4>
+	<p>
+			EV_PIXMAP_IMP: <pre>            Eiffel Vision pixmap. Mswindows implementation for a simple pixmap (not drawable, not self-displayable)</pre>
+	</p>
+	<p>
+			EV_PIXMAP_IMP_DRAWABLE: <pre>            EiffelVision pixmap. Mswindows implementation for drawable pixmap (drawable, not self-displayable)</pre>
+	</p>
+	<p>
+			EV_RADIO_BUTTON_IMP: <pre>            Eiffel Vision radio button. Mswindows implementation.</pre>
+	</p>
+	<h4><a name="CL55"></a>library/graphic/toolkit/vision2-override/interface/kernel</h4>
+	<p>
+			EV_ENVIRONMENT_HANDLER: <pre>            Used for global once storage for EV_ENVIRONMENT_I.</pre>
+	</p>
+	<h4><a name="CL56"></a>library/graphic/toolkit/vision2-override/interface/support</h4>
+	<p>
+			EV_PIXEL_BUFFER: <pre>            Pixel buffer used for storing RGBA values.</pre>
+	</p>
+	<p>
+			EL_DUMMY_MAIN_THREAD_EVENT_LISTENER
+	</p>
+	<p>
+			EL_EVENT_EMITTER
+	</p>
+	<p>
+			EL_MAIN_THREAD_EVENT_LISTENER
+	</p>
+	<h4><a name="CL57"></a>library/graphic/toolkit/vision2-x/implementation/gtk/kernel</h4>
+	<p>
+			EL_FONT_IMP: <pre>            Unix counterpart to Windows EL_FONT_IMP which fixes a problem settting the height in pixels</pre>
+	</p>
+	<p>
+			EL_SCREEN_IMP
+	</p>
+	<h4><a name="CL58"></a>library/graphic/toolkit/vision2-x/implementation/gtk/support</h4>
+	<p>
+			EL_X11_DISPLAY_OUTPUT_INFO: <pre>            typedef struct _XRROutputInfo {
+                Time	    timestamp;
+                RRCrtc	    crtc;
+                char	    *name;
+                int		    nameLen;
+                unsigned long   mm_width;
+                unsigned long   mm_height;
+                Connection	    connection;
+                SubpixelOrder   subpixel_order;
+                int		    ncrtc;
+                RRCrtc	    *crtcs;
+                int		    nclone;
+                RROutput	    *clones;
+                int		    nmode;
+                int		    npreferred;
+                RRMode	    *modes;
+            } XRROutputInfo;</pre>
+	</p>
+	<p>
+			EL_X11_SCREEN_RESOURCES_CURRENT: <pre>            typedef struct _XRRScreenResources {
+                Time	timestamp;
+                Time	configTimestamp;
+                int		ncrtc;
+                RRCrtc	*crtcs;
+                int		noutput;
+                RROutput	*outputs;
+                int		nmode;
+                XRRModeInfo	*modes;
+            } XRRScreenResources;</pre>
+	</p>
+	<p>
+			EL_GTK
+	</p>
+	<p>
+			EL_SCREEN_PROPERTIES_IMPL
+	</p>
+	<p>
+			EL_STOCK_COLORS_IMP
+	</p>
+	<p>
+			EL_VISION_2_GUI_ROUTINES_IMPL
+	</p>
+	<p>
+			EL_X11_API
+	</p>
+	<h4><a name="CL59"></a>library/graphic/toolkit/vision2-x/implementation/gtk/widget/containers</h4>
+	<p>
+			EL_TITLED_WINDOW_IMP: <pre>            Not so silly window</pre>
+	</p>
+	<p>
+			EL_EXPANDABLE_SCROLLABLE_AREA_IMP
+	</p>
+	<p>
+			EL_SCROLLABLE_AREA_IMP
+	</p>
+	<p>
+			EL_VERTICAL_BOX_IMP
+	</p>
+	<h4><a name="CL60"></a>library/graphic/toolkit/vision2-x/implementation/gtk/widget/primitives</h4>
+	<p>
+			EL_SCALE_SLIDER_IMP: <pre>            Warning: this implementation was originally written for Windows and may not work on GTK</pre>
+	</p>
+	<p>
+			EL_SHARED_RADIO_GROUP_TOOL_BAR_IMP: <pre>            Warning: this implementation was originally written for Windows and may not work on GTK</pre>
+	</p>
+	<p>
+			EL_TOOL_BAR_RADIO_BUTTON_GRID_IMP: <pre>            Warning: this implementation was originally written for Windows and may not work on GTK</pre>
+	</p>
+	<p>
+			EL_RICH_TEXT_IMP
+	</p>
+	<h4><a name="CL61"></a>library/graphic/toolkit/vision2-x/implementation/implementation_interface/kernel</h4>
+	<p>
+			EL_FONT_I
+	</p>
+	<p>
+			EL_SCREEN_I
+	</p>
+	<h4><a name="CL62"></a>library/graphic/toolkit/vision2-x/implementation/implementation_interface/support</h4>
+	<p>
+			EL_GRAPHICS_SYSTEM_I
+	</p>
+	<h4><a name="CL63"></a>library/graphic/toolkit/vision2-x/implementation/implementation_interface/widget</h4>
+	<p>
+			EL_RICH_TEXT_I
+	</p>
+	<p>
+			EL_SCALE_SLIDER_I
+	</p>
+	<p>
+			EL_SHARED_RADIO_GROUP_TOOL_BAR_I
+	</p>
+	<p>
+			EL_TOOL_BAR_RADIO_BUTTON_GRID_I
+	</p>
+	<h4><a name="CL64"></a>library/graphic/toolkit/vision2-x/implementation/implementation_interface/widget/containers</h4>
+	<p>
+			EL_EXPANDABLE_SCROLLABLE_AREA_I
+	</p>
+	<p>
+			EL_SCROLLABLE_AREA_I
+	</p>
+	<p>
+			EL_TITLED_WINDOW_I
+	</p>
+	<h4><a name="CL65"></a>library/graphic/toolkit/vision2-x/implementation/mswin/kernel</h4>
+	<p>
+			EL_FONT_IMP: <pre>            Override to EV_FONT fixing issue of setting font height in pixels</pre>
+	</p>
+	<p>
+			EL_SCREEN_IMP: <pre>            Windows extension to EV_SCREEN_IMP</pre>
+	</p>
+	<h4><a name="CL66"></a>library/graphic/toolkit/vision2-x/implementation/mswin/support</h4>
+	<p>
+			EL_SCREEN_PROPERTIES_IMPL
+	</p>
+	<p>
+			EL_VISION_2_GUI_ROUTINES_IMPL
+	</p>
+	<p>
+			EL_WINDOWS_AERO_THEME
+	</p>
+	<h4><a name="CL67"></a>library/graphic/toolkit/vision2-x/implementation/mswin/widget/containers</h4>
+	<p>
+			EL_TITLED_WINDOW_IMP: <pre>            Not so silly window</pre>
+	</p>
+	<p>
+			EL_EXPANDABLE_SCROLLABLE_AREA_IMP
+	</p>
+	<p>
+			EL_HORIZONTAL_BOX_IMP
+	</p>
+	<p>
+			EL_SCROLLABLE_AREA_IMP
+	</p>
+	<p>
+			EL_VERTICAL_BOX_IMP
+	</p>
+	<h4><a name="CL68"></a>library/graphic/toolkit/vision2-x/implementation/mswin/widget/primitives</h4>
+	<p>
+			EL_RICH_TEXT_IMP: <pre>            Rich text control that responds to HOME and END keyboard shortcuts (without Ctrl combination)</pre>
+	</p>
+	<p>
+			EL_SCALE_SLIDER_IMP
+	</p>
+	<p>
+			EL_SHARED_RADIO_GROUP_TOOL_BAR_IMP
+	</p>
+	<p>
+			EL_TOOL_BAR_RADIO_BUTTON_GRID_IMP
+	</p>
+	<h4><a name="CL69"></a>library/graphic/toolkit/vision2-x/interface/kernel</h4>
+	<p>
+			EL_APPLICATION_EVENT_PROCESSOR
+	</p>
+	<p>
+			EL_COLOR
+	</p>
+	<p>
+			EL_FONT
+	</p>
+	<p>
+			EL_PARAGRAPH_FORMAT
+	</p>
+	<p>
+			EL_RECTANGLE
+	</p>
+	<p>
+			EL_ROTATABLE_RECTANGLE
+	</p>
+	<p>
+			EL_SCREEN
+	</p>
+	<p>
+			EL_SHARED_APPLICATION_EVENT_PROCESSOR
+	</p>
+	<p>
+			EL_VISION2_MAIN_THREAD_EVENT_REQUEST_QUEUE
+	</p>
+	<p>
+			EL_WINDOW_POSITIONING
+	</p>
+	<h4><a name="CL70"></a>library/graphic/toolkit/vision2-x/interface/logging</h4>
+	<p>
+			EL_VISION2_USER_INTERFACE: <pre>            Vision2 GUI supporting management of multi-threaded logging output
+            in terminal console</pre>
+	</p>
+	<p>
+			EL_CONSOLE_MANAGER_TOOLBAR
+	</p>
+	<p>
+			EL_NAVIGATION_ICONS
+	</p>
+	<p>
+			EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER
+	</p>
+	<h4><a name="CL71"></a>library/graphic/toolkit/vision2-x/interface/pixmaps</h4>
+	<p>
+			EL_APPLICATION_DESKTOP_MENU_ICON
+	</p>
+	<p>
+			EL_APPLICATION_ICON
+	</p>
+	<p>
+			EL_APPLICATION_IMAGE
+	</p>
+	<p>
+			EL_APPLICATION_PIXMAP
+	</p>
+	<p>
+			EL_MODULE_DESKTOP_MENU_ICON
+	</p>
+	<p>
+			EL_MODULE_ICON
+	</p>
+	<p>
+			EL_MODULE_IMAGE
+	</p>
+	<p>
+			EL_SCREEN_RESOLUTION_SCALING
+	</p>
+	<h4><a name="CL72"></a>library/graphic/toolkit/vision2-x/interface/pixmaps/button-pixmaps</h4>
+	<p>
+			EL_GENERATED_SVG_BUTTON_PIXMAP_SET: <pre>            Generates clicked and hightlighted button from normal.svg</pre>
+	</p>
+	<p>
+			EL_SVG_BUTTON_PIXMAP_SET: <pre>            Buttons with images for 3 states stored in application icons location</pre>
+	</p>
+	<p>
+			EL_LINKED_PNG_SVG_BUTTON_PIXMAP_SET
+	</p>
+	<h4><a name="CL73"></a>library/graphic/toolkit/vision2-x/interface/properties</h4>
+	<p>
+			EL_MIXED_FONT_STYLEABLE: <pre>            Routines for label components with mixed font styles</pre>
+	</p>
+	<h4><a name="CL74"></a>library/graphic/toolkit/vision2-x/interface/support</h4>
+	<p>
+			EL_MANAGED_WIDGET: <pre>            Object to manage a containable widget in a searchable container.
+            The update routine causes the widget item to be replaced with a new widget created by the factory function</pre>
+	</p>
+	<p>
+			EL_HORIZONTAL_SELECTION
+	</p>
+	<p>
+			EL_INPUT_WIDGET
+	</p>
+	<p>
+			EL_KEYBOARD_SHORTCUTS
+	</p>
+	<p>
+			EL_KEY_MODIFIER_CONSTANTS
+	</p>
+	<p>
+			EL_MANAGED_CONTAINABLE
+	</p>
+	<p>
+			EL_RECTANGLE_ARRAY
+	</p>
+	<p>
+			EL_SCREEN_PROPERTIES
+	</p>
+	<p>
+			EL_STRING_EDIT_ACTION_SEQUENCE
+	</p>
+	<p>
+			EL_VERTICAL_PIXELS_INTEGER
+	</p>
+	<p>
+			EL_VERTICAL_PIXELS_INTEGER_REF
+	</p>
+	<p>
+			EL_WINDOW_DRAG
+	</p>
+	<p>
+			EV_LOCALE_DIALOG_CONSTANTS
+	</p>
+	<h4><a name="CL75"></a>library/graphic/toolkit/vision2-x/interface/thread</h4>
+	<p>
+			EL_REGULAR_TIME_CONSUMER: <pre>            Object that checks at timed intervals if a thread product is available and calls an agent to process it.
+            The product is processed in the main GUI thread.</pre>
+	</p>
+	<h4><a name="CL76"></a>library/graphic/toolkit/vision2-x/interface/widgets/containers</h4>
+	<p>
+			EL_CENTERED_VIEWPORT: <pre>            Viewport with horizontally centered content</pre>
+	</p>
+	<p>
+			EL_DIRECTORY_USER_SELECT
+	</p>
+	<p>
+			EL_EXPANDED_CELL
+	</p>
+	<p>
+			EL_FRAME
+	</p>
+	<p>
+			EL_TITLED_TAB_BOOK_WINDOW
+	</p>
+	<p>
+			EL_TITLED_WINDOW
+	</p>
+	<p>
+			EL_TOOL_BAR_RADIO_BUTTON_GRID
+	</p>
+	<h4><a name="CL77"></a>library/graphic/toolkit/vision2-x/interface/widgets/containers/box</h4>
+	<p>
+			EL_AUTO_CELL_HIDING_BOX: <pre>            A box that will hide selected widget members if the mouse pointer is not over the box,
+            and show them if the pointer enters the box.</pre>
+	</p>
+	<p>
+			EL_AUTO_CELL_HIDING_HORIZONTAL_BOX
+	</p>
+	<p>
+			EL_AUTO_CELL_HIDING_VERTICAL_BOX
+	</p>
+	<p>
+			EL_BOX
+	</p>
+	<p>
+			EL_CENTERED_VERTICAL_BOX
+	</p>
+	<p>
+			EL_HORIZONTAL_BOX
+	</p>
+	<p>
+			EL_VERTICAL_BOX
+	</p>
+	<h4><a name="CL78"></a>library/graphic/toolkit/vision2-x/interface/widgets/containers/scrollable</h4>
+	<p>
+			EL_LOCALE_SCROLLABLE_SEARCH_RESULTS
+	</p>
+	<p>
+			EL_SCROLLABLE_BOX
+	</p>
+	<p>
+			EL_SCROLLABLE_PAGE
+	</p>
+	<p>
+			EL_SCROLLABLE_SEARCH_RESULTS
+	</p>
+	<p>
+			EL_SCROLLABLE_VERTICAL_BOX
+	</p>
+	<h4><a name="CL79"></a>library/graphic/toolkit/vision2-x/interface/widgets/containers/scrollable/obsolete</h4>
+	<p>
+			EL_EXPANDABLE_SCROLLABLE_AREA: <pre>            Works on Unix</pre>
+	</p>
+	<p>
+			EL_SCROLLABLE_AREA
+	</p>
+	<h4><a name="CL80"></a>library/graphic/toolkit/vision2-x/interface/widgets/containers/tab-book</h4>
+	<p>
+			EL_TAB_BOOK_BASE: <pre>            Base class for notebooks</pre>
+	</p>
+	<h4><a name="CL81"></a>library/graphic/toolkit/vision2-x/interface/widgets/containers/tab-book/docked</h4>
+	<p>
+			EL_SPLIT_AREA_DOCKED_TAB_BOOK: <pre>            Docking split area with tabbed area on left and place_holder on right</pre>
+	</p>
+	<p>
+			EL_DOCKED_TAB
+	</p>
+	<p>
+			EL_DOCKED_TAB_BOOK
+	</p>
+	<p>
+			EL_TAB_LIST
+	</p>
+	<h4><a name="CL82"></a>library/graphic/toolkit/vision2-x/interface/widgets/containers/tab-book/standard</h4>
+	<p>
+			EL_TAB: <pre>            Tab for EL_TAB_BOOK</pre>
+	</p>
+	<p>
+			EL_TAB_BOOK: <pre>            Extension to EV_NOTEBOOK</pre>
+	</p>
+	<h4><a name="CL83"></a>library/graphic/toolkit/vision2-x/interface/widgets/dialog</h4>
+	<p>
+			EL_HORIZONTAL_DIALOG
+	</p>
+	<p>
+			EL_LOCALE_APPLY_CHANGES_DIALOG
+	</p>
+	<p>
+			EL_LOCALE_CONFIRMATION_DIALOG
+	</p>
+	<p>
+			EL_LOCALE_INFORMATION_DIALOG
+	</p>
+	<p>
+			EL_LOCALE_SAVE_CHANGES_DIALOG
+	</p>
+	<p>
+			EL_LOCALE_WARNING_DIALOG
+	</p>
+	<p>
+			EL_PROGRESS_DIALOG
+	</p>
+	<p>
+			EL_VERTICAL_DIALOG
+	</p>
+	<h4><a name="CL84"></a>library/graphic/toolkit/vision2-x/interface/widgets/drawable</h4>
+	<p>
+			EL_DRAWING_AREA_BASE: <pre>            Base class for drawable objects</pre>
+	</p>
+	<p>
+			EL_BUSY_PROCESS_ANIMATION
+	</p>
+	<p>
+			EL_DRAWABLE
+	</p>
+	<p>
+			EL_DRAWING_AREA
+	</p>
+	<p>
+			EL_HYPERLINK_AREA
+	</p>
+	<p>
+			EL_MIXED_STYLE_LABEL_AREA
+	</p>
+	<p>
+			EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA
+	</p>
+	<p>
+			EL_TIMED_PROGRESS_BAR
+	</p>
+	<h4><a name="CL85"></a>library/graphic/toolkit/vision2-x/interface/widgets/primitives</h4>
+	<p>
+			EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX: <pre>            Box with linked HTML color text box and color dialog button</pre>
+	</p>
+	<p>
+			EL_HYPERLINK_MENU
+	</p>
+	<p>
+			EL_RIGHT_CONTEXT_MENU
+	</p>
+	<p>
+			EL_SCALE_SLIDER
+	</p>
+	<p>
+			EL_SHARED_RADIO_GROUP_TOOL_BAR
+	</p>
+	<h4><a name="CL86"></a>library/graphic/toolkit/vision2-x/interface/widgets/primitives/button</h4>
+	<p>
+			EL_BUTTON
+	</p>
+	<p>
+			EL_COLOR_BUTTON
+	</p>
+	<p>
+			EL_SVG_BUTTON
+	</p>
+	<h4><a name="CL87"></a>library/graphic/toolkit/vision2-x/interface/widgets/primitives/button/radio</h4>
+	<p>
+			EL_INTEGER_ITEM_RADIO_BUTTON_GROUP
+	</p>
+	<p>
+			EL_LOCALE_STRING_ITEM_RADIO_BUTTON_GROUP
+	</p>
+	<p>
+			EL_RADIO_BUTTON_GROUP
+	</p>
+	<p>
+			EL_THUMBNAIL_RADIO_BUTTON_GROUP
+	</p>
+	<h4><a name="CL88"></a>library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs</h4>
+	<p>
+			EL_ASTRING_DROP_DOWN_BOX
+	</p>
+	<p>
+			EL_COMBO_BOX
+	</p>
+	<p>
+			EL_DROP_DOWN_BOX
+	</p>
+	<p>
+			EL_LOCALE_MONTH_DROP_DOWN_BOX
+	</p>
+	<p>
+			EL_LOCALE_STRING_DROP_DOWN_BOX
+	</p>
+	<p>
+			EL_MONTH_DROP_DOWN_BOX
+	</p>
+	<h4><a name="CL89"></a>library/graphic/toolkit/vision2-x/interface/widgets/primitives/pixmap</h4>
+	<p>
+			EL_LINKED_PNG_SVG_PIXMAP: <pre>            PNG graphic linked to SVG</pre>
+	</p>
+	<p>
+			EL_BUTTON_PIXMAP
+	</p>
+	<p>
+			EL_DRAWING_PIXMAP
+	</p>
+	<p>
+			EL_PIXMAP
+	</p>
+	<p>
+			EL_SVG_PIXMAP
+	</p>
+	<p>
+			EL_TRANSPARENT_SVG_PIXMAP
+	</p>
+	<h4><a name="CL90"></a>library/graphic/toolkit/vision2-x/interface/widgets/primitives/text</h4>
+	<p>
+			EL_MIXED_STYLE_FIXED_LABELS: <pre>            Fixed area with multiple lines of labels with a mixture of font styles.</pre>
+	</p>
+	<p>
+			EL_LABEL
+	</p>
+	<p>
+			EL_PIXMAPABLE_LABEL
+	</p>
+	<p>
+			EL_RICH_TEXT
+	</p>
+	<p>
+			EL_TEXT
+	</p>
+	<p>
+			EL_TEXT_FIELD
+	</p>
+	<p>
+			EL_TEXT_RECTANGLE
+	</p>
+	<p>
+			EL_UNDOABLE_TEXT
+	</p>
+	<h4><a name="CL91"></a>library/graphic/toolkit/vision2-x/module</h4>
+	<p>
+			EL_MODULE_GUI
+	</p>
+	<p>
+			EL_MODULE_SCREEN
+	</p>
+	<p>
+			EL_VISION_2_GUI_ROUTINES
+	</p>
+	<h4><a name="CL92"></a>library/graphic/toolkit/wel-override/consts</h4>
+	<p>
+			WEL_STRETCH_MODE_CONSTANTS: <pre>            Stretch mode constants.</pre>
+	</p>
+	<h4><a name="CL93"></a>library/graphic/toolkit/wel-x</h4>
+	<p>
+			EL_DIALOG
+	</p>
+	<p>
+			EL_WEL_EVENT_LISTENER
+	</p>
+	<p>
+			EL_WINDOW_LAYOUT
+	</p>
+	<h4><a name="CL94"></a>library/graphic/toolkit/wel-x/batch-processing</h4>
+	<p>
+			EL_BATCH_PROCESSING_DIALOG
+	</p>
+	<h4><a name="CL95"></a>library/graphic/toolkit/wel-x/config-edit/controls</h4>
+	<p>
+			EL_CONTROL
+	</p>
+	<p>
+			EL_INTEGER_EDIT_FIELD
+	</p>
+	<p>
+			EL_PUSH_BUTTON
+	</p>
+	<p>
+			EL_REAL_EDIT_FIELD
+	</p>
+	<p>
+			EL_SCRIPT_NAME_EDIT_FIELD
+	</p>
+	<p>
+			EL_TEXT_EDIT_FIELD
+	</p>
+	<h4><a name="CL96"></a>library/graphic/toolkit/wel-x/config-edit/editable-types</h4>
+	<p>
+			EL_EDITABLE
+	</p>
+	<p>
+			EL_EDITABLE_BOOLEAN
+	</p>
+	<p>
+			EL_EDITABLE_INTEGER
+	</p>
+	<p>
+			EL_EDITABLE_REAL
+	</p>
+	<p>
+			EL_EDITABLE_STRING
+	</p>
+	<p>
+			EL_EDITABLE_VALUE
+	</p>
+	<h4><a name="CL97"></a>library/graphic/toolkit/wel-x/config-edit/support</h4>
+	<p>
+			EL_APP_CONFIGURATION: <pre>            Base class for an application configuration class.
+            Configuration fields are editable either from the command line or a GUI editor.
+            Change listeners can be registered for each editable field.</pre>
+	</p>
+	<p>
+			EL_COMMAND_LINE_ARG
+	</p>
+	<p>
+			EL_EDIT_LISTENER
+	</p>
+	<h4><a name="CL98"></a>library/graphic/toolkit/wel-x/controls</h4>
+	<p>
+			EL_STATUS_INDICATOR_LIGHT: <pre>            Circular light that ligths up Green for ON and Red for OFF</pre>
+	</p>
+	<h4><a name="CL99"></a>library/graphic/toolkit/wel-x/logging</h4>
+	<p>
+			EL_ALT_ARROW_KEY_CAPTURE
+	</p>
+	<p>
+			EL_CONSOLE_HISTORY_NAVIGATION_BUTTON
+	</p>
+	<p>
+			EL_CONSOLE_MANAGER_DIALOG
+	</p>
+	<p>
+			EL_THREAD_NAME_DROP_DOWN_LIST
+	</p>
+	<h4><a name="CL100"></a>library/graphic/toolkit/wel-x/support</h4>
+	<p>
+			EL_WEL_DISPLAY_DEVICE: <pre>            Object that wraps:
+            
+                typedef struct _DISPLAY_DEVICE {
+                  DWORD cb;
+                  TCHAR DeviceName[32];
+                  TCHAR DeviceString[128];
+                  DWORD StateFlags;
+                  TCHAR DeviceID[128];
+                  TCHAR DeviceKey[128];
+                } DISPLAY_DEVICE, *PDISPLAY_DEVICE;</pre>
+	</p>
+	<p>
+			EL_WEL_CONVERSION
+	</p>
+	<p>
+			EL_WEL_DISPLAY_MONITOR_API
+	</p>
+	<p>
+			EL_WEL_DISPLAY_MONITOR_INFO
+	</p>
+	<h4><a name="CL101"></a>library/graphic/toolkit/wel-x/thread</h4>
+	<p>
+			EL_WEL_COMPOSITE_WINDOW: <pre>            Implementation of EL_MAIN_THREAD_EVENT_REQUEST_QUEUE for calling procedures from main application thread</pre>
+	</p>
+	<p>
+			EL_WEL_EXTERNAL_THREAD_ROUTINES: <pre>            Routines allowing threads other than the main Windows thread to make (asynchronous)
+            calls to WEL routines. This is done by &apos;posting&apos; rather than &apos;sending&apos; messages to the
+            Windows message queue. (The message is processed later by the Windows thread)
+            This is needed because if an external thread makes a synchronous (immediate) call
+            to a Windows routine, the application will freeze. :-(</pre>
+	</p>
+	<p>
+			EL_WEL_FRAME_WINDOW
+	</p>
+	<p>
+			EL_WEL_MAIN_DIALOG
+	</p>
+	<h4><a name="CL102"></a>library/graphic/web_browser-override/implementation/gtk</h4>
+	<p>
+			EL_WEBKIT_WEB_VIEW: <pre>                        Eiffel wrapper for WebKitView object
+                        see: http://webkitgtk.org/reference/webkitgtk-WebKitWebView.html</pre>
+	</p>
+	<p>
+			EL_WEB_BROWSER_INSTALLER: <pre>            Do nothing installation task for Unix</pre>
+	</p>
+	<p>
+			EV_WEB_BROWSER_IMP: <pre>                Vision2 Web browser GTK implementation</pre>
+	</p>
+	<h4><a name="CL103"></a>library/graphic/web_browser-override/implementation/windows</h4>
+	<p>
+			EL_WEB_BROWSER_INSTALLER: <pre>                Adds registry entry to prevent browser emulation mode of early IE version</pre>
+	</p>
+	<h4><a name="CL104"></a>library/language_interface</h4>
+	<p>
+			EL_MODULE_C_DECODER
+	</p>
+	<h4><a name="CL105"></a>library/language_interface/C++</h4>
+	<p>
+			EL_CPP_ITERATOR
+	</p>
+	<p>
+			EL_CPP_OBJECT
+	</p>
+	<h4><a name="CL106"></a>library/language_interface/C</h4>
+	<p>
+			EL_C_DATA
+	</p>
+	<p>
+			EL_C_OBJECT
+	</p>
+	<h4><a name="CL107"></a>library/language_interface/C/eiffel-callback</h4>
+	<p>
+			EL_C_CALLABLE: <pre>            Object with procedures to be called from C
+            See also: EL_C_TO_EIFFEL_CALLBACK_STRUCT</pre>
+	</p>
+	<p>
+			EL_C_CALLBACK: <pre>            C struct for C callbacks to Eiffel
+            
+                typedef struct {
+                    EIF_REFERENCE p_object;
+                    EIF_PROCEDURE p_procedure;
+                } Eiffel_procedure_t;</pre>
+	</p>
+	<p>
+			EL_C_TO_EIFFEL_CALLBACK_STRUCT: <pre>            Object with a target callable from C. 
+            The target is temporarily fixed in memory and guaranteed not to be moved by the garbage collector.
+            When the gc_protector object is collected it releases the target for collection.</pre>
+	</p>
+	<p>
+			EL_GC_PROTECTED_OBJECT: <pre>            Creates a pointer to an Eiffel object that is temporarily exempted from garbage collection.
+            It&apos;s position in memory is gauranteed not to move. This is useful for calling Eiffel procedures from a C callback.
+            
+            When diposed by the the garbage collector it frees the target for collection, so it should be
+            declared in a scope allowing it to be garbage collected independantly of the target object.
+            
+            See also: class EL_C_CALLBACK</pre>
+	</p>
+	<h4><a name="CL108"></a>library/language_interface/C/string</h4>
+	<p>
+			EL_C_DECODER
+	</p>
+	<p>
+			EL_C_STRING
+	</p>
+	<p>
+			EL_SHARED_C_WIDE_CHARACTER_STRING
+	</p>
+	<p>
+			EL_UC_ROUTINES
+	</p>
+	<h4><a name="CL109"></a>library/language_interface/C/string/16-bit</h4>
+	<p>
+			EL_C_STRING_16
+	</p>
+	<p>
+			EL_C_STRING_16_BE
+	</p>
+	<p>
+			EL_C_STRING_16_LE
+	</p>
+	<h4><a name="CL110"></a>library/language_interface/C/string/32-bit</h4>
+	<p>
+			EL_C_STRING_32
+	</p>
+	<p>
+			EL_C_STRING_32_BE
+	</p>
+	<p>
+			EL_C_STRING_32_LE
+	</p>
+	<h4><a name="CL111"></a>library/language_interface/C/string/8-bit</h4>
+	<p>
+			EL_C_STRING_8
+	</p>
+	<p>
+			EL_C_STRING_8_BE
+	</p>
+	<p>
+			EL_C_STRING_8_LE
+	</p>
+	<p>
+			EL_C_UTF8_STRING_8
+	</p>
+	<h4><a name="CL112"></a>library/language_interface/C/string/spec/unix</h4>
+	<p>
+			EL_C_WIDE_CHARACTER_STRING: <pre>            Unix compatible UCS-4 wchar_t</pre>
+	</p>
+	<h4><a name="CL113"></a>library/language_interface/C/string/spec/windows</h4>
+	<p>
+			EL_C_WIDE_CHARACTER_STRING: <pre>            Windows compatible UTF-16 wchar_t</pre>
+	</p>
+	<h4><a name="CL114"></a>library/language_interface/Java</h4>
+	<p>
+			EL_MODULE_JAVA_PACKAGES
+	</p>
+	<p>
+			JAVA_ARGUMENTS
+	</p>
+	<p>
+			JAVA_CLASS_REFERENCE
+	</p>
+	<p>
+			JAVA_OBJECT_OR_CLASS
+	</p>
+	<p>
+			JAVA_OBJECT_REFERENCE
+	</p>
+	<p>
+			JAVA_PRIMITIVE_TYPE
+	</p>
+	<p>
+			JAVA_TO_EIFFEL_CONVERTABLE
+	</p>
+	<p>
+			JAVA_TYPE
+	</p>
+	<p>
+			J_OBJECT_ARRAY
+	</p>
+	<p>
+			OBSOLETE_JAVA_OBJECT
+	</p>
+	<h4><a name="CL115"></a>library/language_interface/Java/classes/com.eiffel_loop.svg</h4>
+	<p>
+			J_SVG_TO_PNG_TRANSCODER
+	</p>
+	<h4><a name="CL116"></a>library/language_interface/Java/classes/java.awt</h4>
+	<p>
+			J_COLOR
+	</p>
+	<h4><a name="CL117"></a>library/language_interface/Java/classes/java.io</h4>
+	<p>
+			J_FILE
+	</p>
+	<p>
+			J_FILE_WRITER
+	</p>
+	<p>
+			J_OUTPUT_STREAM_WRITER
+	</p>
+	<p>
+			J_STRING_WRITER
+	</p>
+	<p>
+			J_WRITER
+	</p>
+	<h4><a name="CL118"></a>library/language_interface/Java/classes/java.lang</h4>
+	<p>
+			J_OBJECT
+	</p>
+	<p>
+			J_STRING
+	</p>
+	<h4><a name="CL119"></a>library/language_interface/Java/classes/java.util</h4>
+	<p>
+			J_HASH_MAP: <pre>            Eiffel wrapper for class java.util.HashMap</pre>
+	</p>
+	<p>
+			J_LINKED_LIST
+	</p>
+	<h4><a name="CL120"></a>library/language_interface/Java/eiffel-interface/batik</h4>
+	<p>
+			EL_BATIK_SVG
+	</p>
+	<p>
+			EL_MODULE_BATIK_SVG
+	</p>
+	<h4><a name="CL121"></a>library/language_interface/Java/environment</h4>
+	<p>
+			JAVA_DEPLOYMENT_PROPERTIES: <pre>            Collection of all deployment.javaws.jre.* properties divided up into versions
+            deployment.javaws.jre.&lt;version no&gt;.&lt;key&gt;=&lt;value&gt;</pre>
+	</p>
+	<p>
+			JAVA_PACKAGE_ENVIRONMENT
+	</p>
+	<h4><a name="CL122"></a>library/language_interface/Java/java_agents</h4>
+	<p>
+			JAVA_ATTRIBUTE
+	</p>
+	<p>
+			JAVA_CONSTRUCTOR
+	</p>
+	<p>
+			JAVA_FUNCTION
+	</p>
+	<p>
+			JAVA_PROCEDURE
+	</p>
+	<p>
+			JAVA_ROUTINE
+	</p>
+	<p>
+			JAVA_STATIC_ATTRIBUTE
+	</p>
+	<p>
+			JAVA_STATIC_FUNCTION
+	</p>
+	<p>
+			JAVA_STATIC_PROCEDURE
+	</p>
+	<h4><a name="CL123"></a>library/language_interface/Java/java_primitives</h4>
+	<p>
+			J_BOOLEAN
+	</p>
+	<p>
+			J_BYTE
+	</p>
+	<p>
+			J_CHAR
+	</p>
+	<p>
+			J_DOUBLE
+	</p>
+	<p>
+			J_FLOAT
+	</p>
+	<p>
+			J_INT
+	</p>
+	<p>
+			J_LONG
+	</p>
+	<p>
+			J_SHORT
+	</p>
+	<h4><a name="CL124"></a>library/language_interface/Java/overrides</h4>
+	<p>
+			JAVA_ARGS: <pre>            Argument list for calls to Java methods</pre>
+	</p>
+	<p>
+			JAVA_ORB: <pre>            Java Object Request Broker
+            
+            Adapted from ISE Eiffel2Java JNI_Environment class.
+            Holds information abouy JNI environment. Potentially many JNI environments can exists at once,
+            but more than one was never tested</pre>
+	</p>
+	<p>
+			JAVA_SHARED_ORB: <pre>            Shared JNI environment.</pre>
+	</p>
+	<p>
+			JAVA_VM: <pre>            This class is used to initially load the JVM into the running program</pre>
+	</p>
+	<h4><a name="CL125"></a>library/language_interface/Java/packages</h4>
+	<p>
+			COM_EIFFEL_LOOP_SVG_JPACKAGE
+	</p>
+	<p>
+			DEFAULT_JPACKAGE
+	</p>
+	<p>
+			JAVA_AWT_JPACKAGE
+	</p>
+	<p>
+			JAVA_IO_JPACKAGE
+	</p>
+	<p>
+			JAVA_LANG_JPACKAGE
+	</p>
+	<p>
+			JAVA_PACKAGE
+	</p>
+	<p>
+			JAVA_UTIL_JPACKAGE
+	</p>
+	<h4><a name="CL126"></a>library/language_interface/Java/spec/unix</h4>
+	<p>
+			JAVA_PACKAGE_ENVIRONMENT_IMPL
+	</p>
+	<h4><a name="CL127"></a>library/language_interface/Java/spec/windows</h4>
+	<p>
+			JAVA_PACKAGE_ENVIRONMENT_IMPL: <pre>            deployment.properties file location
+                Windows 7 : C:\Users\%username%\AppData\LocalLow\Sun\Java\Deployment
+                Windows XP : C:\Documents and Settings\%username%\Application Data\Sun\Java\Deployment</pre>
+	</p>
+	<p>
+			JAVA_RUNTIME_ENVIRONMENT_INFO: <pre>                Obtains location of Java runtime dll from Windows registry</pre>
+	</p>
+	<h4><a name="CL128"></a>library/language_interface/MS-COM</h4>
+	<p>
+			EL_WCOM_INITIALIZER
+	</p>
+	<p>
+			EL_WCOM_OBJECT
+	</p>
+	<p>
+			EL_WCOM_PERSIST_FILE
+	</p>
+	<h4><a name="CL129"></a>library/language_interface/MS-COM/shell-link</h4>
+	<p>
+			EL_SHELL_LINK: <pre>                Objects that creates a Windows shortcut</pre>
+	</p>
+	<p>
+			EL_SHELL_LINK_API
+	</p>
+	<h4><a name="CL130"></a>library/language_interface/Matlab</h4>
+	<p>
+			EL_MATLAB_APPLICATION: <pre>                Standalone application initialization routines</pre>
+	</p>
+	<p>
+			EL_MATLAB_ENGINE: <pre>                Connection with COM AUTOMATION instance of MATLAB</pre>
+	</p>
+	<p>
+			EL_MATLAB
+	</p>
+	<p>
+			EL_MATLAB_16_BIT_AUDIO_SEGMENT_LIST
+	</p>
+	<p>
+			EL_MATLAB_COLUMN_VECTOR_DOUBLE
+	</p>
+	<p>
+			EL_MATLAB_COMPLEX_COLUMN_VECTOR_DOUBLE
+	</p>
+	<p>
+			EL_MATLAB_COMPLEX_VECTOR_DOUBLE
+	</p>
+	<p>
+			EL_MATLAB_CONTEXT
+	</p>
+	<p>
+			EL_MATLAB_C_TYPE
+	</p>
+	<p>
+			EL_MATLAB_DOUBLE
+	</p>
+	<p>
+			EL_MATLAB_DOUBLE_ROW_VECTOR
+	</p>
+	<p>
+			EL_MATLAB_IMAGINARY_COLUMN_VECTOR_DOUBLE
+	</p>
+	<p>
+			EL_MATLAB_IMAGINARY_VECTOR_DOUBLE
+	</p>
+	<p>
+			EL_MATLAB_MATH
+	</p>
+	<p>
+			EL_MATLAB_MATRIX
+	</p>
+	<p>
+			EL_MATLAB_MEMORY_MONITOR
+	</p>
+	<p>
+			EL_MATLAB_STRING
+	</p>
+	<p>
+			EL_MATLAB_VECTOR
+	</p>
+	<p>
+			EL_MATLAB_VECTOR_DOUBLE
+	</p>
+	<h4><a name="CL131"></a>library/language_interface/Praat-script</h4>
+	<p>
+			EL_PRAAT_AUDIO_CLIP_ANALYZER: <pre>                Invokes praat analysis engine with using default script</pre>
+	</p>
+	<p>
+			EL_PRAAT_ENGINE: <pre>                Initializes and tears down the Praat analysis engine</pre>
+	</p>
+	<p>
+			EL_PRAAT_INTERPRETER: <pre>                Wraps Praat Interpreter object</pre>
+	</p>
+	<p>
+			EL_PRAAT_SCRIPT_CONTEXT: <pre>                Accesses the variables of a Praat script execution context</pre>
+	</p>
+	<p>
+			EL_PRAAT_VARIABLE: <pre>                Wraps a Praat interpreter variable</pre>
+	</p>
+	<p>
+			EL_SEND_PRAAT_API: <pre>                Interface to C API for sending commands to running instance of Praat.exe</pre>
+	</p>
+	<h4><a name="CL132"></a>library/language_interface/Python</h4>
+	<p>
+			EL_PYTHON_INTERFACE
+	</p>
+	<p>
+			EL_PYTHON_INTERPRETER
+	</p>
+	<p>
+			EL_PYTHON_INTERPRETER_CONSTANTS
+	</p>
+	<p>
+			EL_PYTHON_OBJECT
+	</p>
+	<p>
+			EL_PYTHON_SELF
+	</p>
+	<p>
+			EL_SHARED_PYTHON_INTERPRETER
+	</p>
+	<h4><a name="CL133"></a>library/language_interface/support</h4>
+	<p>
+			EL_EXTERNAL_LIBRARY
+	</p>
+	<p>
+			EL_INITIALIZEABLE
+	</p>
+	<p>
+			EL_SHARED_INITIALIZER
+	</p>
+	<h4><a name="CL134"></a>library/localization</h4>
+	<p>
+			EL_TEXT_ITEM_TRANSLATIONS_TABLE: <pre>            Translation table for text item serializeable as XML
+            
+            EG.
+        
+                &lt;item id="Delete current database"&gt;
+                    &lt;translation lang="en"&gt;$id&lt;/translation&gt;
+                    &lt;translation lang="de"&gt;Löschen aktuellen datenbank&lt;/translation&gt;
+                &lt;/item&gt;</pre>
+	</p>
+	<p>
+			EL_LOCALE_ROUTINES
+	</p>
+	<p>
+			EL_TRANSLATIONS_INFO
+	</p>
+	<p>
+			EL_TRANSLATION_TABLE
+	</p>
+	<p>
+			EL_TRANSLATION_TABLES
+	</p>
+	<h4><a name="CL135"></a>library/math</h4>
+	<p>
+			EL_CYCLIC_REDUNDANCY_CHECK_32: <pre>                CRC32 algorithm described in RFC 1952</pre>
+	</p>
+	<p>
+			EL_DOUBLE_COMPARISON
+	</p>
+	<h4><a name="CL136"></a>library/math/geometry</h4>
+	<p>
+			EL_GRAPH_POINT
+	</p>
+	<p>
+			EL_GRAPH_REAL_SCALE
+	</p>
+	<p>
+			EL_GRAPH_SCALE
+	</p>
+	<p>
+			EL_INTEGER_POINT
+	</p>
+	<p>
+			EL_INTERVAL_POSITION
+	</p>
+	<p>
+			EL_LINE_SEGMENT_SELECTION
+	</p>
+	<p>
+			EL_REAL_INTERVAL_POSITION
+	</p>
+	<h4><a name="CL137"></a>library/math/vector</h4>
+	<p>
+			EL_COLUMN_VECTOR
+	</p>
+	<p>
+			EL_COLUMN_VECTOR_DOUBLE
+	</p>
+	<p>
+			EL_COMPLEX_COLUMN_VECTOR
+	</p>
+	<h4><a name="CL138"></a>library/multimedia/audio/file/id3</h4>
+	<p>
+			EL_ID3_HEADER
+	</p>
+	<h4><a name="CL139"></a>library/multimedia/audio/file/id3/eyeD3</h4>
+	<p>
+			EL_EYED3_TAG
+	</p>
+	<p>
+			EL_EYED3_VERSION_CONSTANTS
+	</p>
+	<h4><a name="CL140"></a>library/multimedia/audio/file/id3/id3_tag</h4>
+	<p>
+			EL_ALBUM_PICTURE_ID3_FRAME
+	</p>
+	<p>
+			EL_ID3_ALBUM_PICTURE
+	</p>
+	<p>
+			EL_ID3_FRAME
+	</p>
+	<p>
+			EL_ID3_INFO
+	</p>
+	<p>
+			EL_ID3_UNIQUE_FILE_ID
+	</p>
+	<h4><a name="CL141"></a>library/multimedia/audio/file/id3/id3_tag/implementation_libid3</h4>
+	<p>
+			EL_LIBID3_FRAME: <pre>            Tag frame
+            C++ memory managed by EL_IDTHREE_TAG owner</pre>
+	</p>
+	<p>
+			EL_LIBID3_TAG_INFO: <pre>            Wrapper for ID3 tag editing library libid3 from id3lib.org
+            
+            Read and writes ID3 version 2.3. Does not seem to read earlier 2.x versions.
+            Useful for reading/writing ID3 tags version &lt;= 2.3</pre>
+	</p>
+	<p>
+			EL_ALBUM_PICTURE_LIBID3_FRAME
+	</p>
+	<p>
+			EL_LIBID3_CONSTANTS
+	</p>
+	<p>
+			EL_LIBID3_ENCODING_FIELD
+	</p>
+	<p>
+			EL_LIBID3_FIELD
+	</p>
+	<p>
+			EL_LIBID3_FIELD_ITERATOR
+	</p>
+	<p>
+			EL_LIBID3_FRAME_ITERATOR
+	</p>
+	<p>
+			EL_LIBID3_UNIQUE_FILE_ID
+	</p>
+	<h4><a name="CL142"></a>library/multimedia/audio/file/id3/id3_tag/implementation_underbit</h4>
+	<p>
+			EL_UNDERBIT_ID3_FRAME: <pre>            Tag frame</pre>
+	</p>
+	<p>
+			EL_UNDERBIT_ID3_TAG_INFO: <pre>            Wrapper for ID3 tag editing library libid3tag from Underbit Technologies
+            Reads ID3 version &lt;= 2.3
+            Writes ID3 version 2.4
+            Unable to read version number</pre>
+	</p>
+	<p>
+			EL_ALBUM_PICTURE_UNDERBIT_ID3_FRAME
+	</p>
+	<p>
+			EL_UNDERBIT_C_API
+	</p>
+	<p>
+			EL_UNDERBIT_ID3_TAG_CONSTANTS
+	</p>
+	<p>
+			EL_UNDERBIT_ID3_UNIQUE_FILE_ID
+	</p>
+	<p>
+			EL_UNDERBIT_STRING_ROUTINES
+	</p>
+	<h4><a name="CL143"></a>library/multimedia/audio/file/id3/id3_tag/implementation_underbit/frame-field</h4>
+	<p>
+			EL_UNDERBIT_ID3_FIELD: <pre>            Encoded field, normally of type string_data</pre>
+	</p>
+	<p>
+			EL_UNDERBIT_ID3_DESCRIPTION_FIELD
+	</p>
+	<p>
+			EL_UNDERBIT_ID3_ENCODED_FIELD
+	</p>
+	<p>
+			EL_UNDERBIT_ID3_ENCODING_FIELD
+	</p>
+	<h4><a name="CL144"></a>library/multimedia/audio/file/id3/id3_tag/internals</h4>
+	<p>
+			EL_ID3_ENCODINGS
+	</p>
+	<p>
+			EL_ID3_FIELD_TYPES
+	</p>
+	<p>
+			EL_ID3_FRAME_FIELD
+	</p>
+	<p>
+			EL_ID3_INFO_I
+	</p>
+	<p>
+			EL_ID3_TAGS
+	</p>
+	<p>
+			EL_MODULE_TAG
+	</p>
+	<h4><a name="CL145"></a>library/multimedia/audio/file/wav</h4>
+	<p>
+			EL_AUDIO_WAVE_HEADER
+	</p>
+	<p>
+			EL_FIXED_DEPTH_WAVE_FILE
+	</p>
+	<p>
+			EL_MONO_UNITIZED_SAMPLE_FILE
+	</p>
+	<p>
+			EL_WAVEFORM_FORMAT_ABS
+	</p>
+	<p>
+			EL_WAVE_FILE
+	</p>
+	<p>
+			EL_WAVE_SAMPLE_FILE
+	</p>
+	<p>
+			EL_WAVE_SAMPLE_FILE_ABS
+	</p>
+	<p>
+			EL_WAV_FORMAT_CHUNK
+	</p>
+	<p>
+			EL_WAV_FORMAT_CONSTANTS
+	</p>
+	<h4><a name="CL146"></a>library/multimedia/audio/laabhair</h4>
+	<p>
+			LB_AUDIO_CLIP_ANALYZER: <pre>            Consumes audio clips for analysis and posts results as XML remote procedure call messages</pre>
+	</p>
+	<p>
+			LB_BASIC_APP_CONFIGURATION: <pre>            Basic Laabhair user defined application configuration</pre>
+	</p>
+	<p>
+			LB_APPLICATION
+	</p>
+	<p>
+			LB_CONSTANTS
+	</p>
+	<p>
+			LB_SHARED_CONFIGURATION
+	</p>
+	<h4><a name="CL147"></a>library/multimedia/audio/laabhair/UI/Flash</h4>
+	<p>
+			LB_FLASH_APPLICATION_PROXY: <pre>            Proxy to the Flash object defined by the interface: com.laabhair.Application .</pre>
+	</p>
+	<p>
+			LB_MICROPHONE_FLASH_UI_LISTENER
+	</p>
+	<h4><a name="CL148"></a>library/multimedia/audio/laabhair/UI/WEL</h4>
+	<p>
+			LB_AUDIO_INPUT_WINDOW_THREAD_PROXY: <pre>            Proxy object to (asynchronously) call procedures of LB_AUDIO_INPUT_WINDOW from 
+            an external thread (non GUI thread)</pre>
+	</p>
+	<p>
+			LB_WEL_WINDOW_IDS: <pre>            Generated by h2e from the file 
+            D:\Articulate!\Programming\eiffel\soundbow\soundbow.rc.</pre>
+	</p>
+	<p>
+			LB_AUDIO_INPUT_WINDOW
+	</p>
+	<p>
+			LB_BASIC_CONFIG_EDIT_DIALOG
+	</p>
+	<p>
+			LB_CONSOLE_MANAGER_DIALOG
+	</p>
+	<p>
+			LB_MAIN_WINDOW
+	</p>
+	<h4><a name="CL149"></a>library/multimedia/audio/memory</h4>
+	<p>
+			EL_16_BIT_AUDIO_SAMPLE_ARRAYED_LIST
+	</p>
+	<p>
+			EL_AUDIO_SAMPLE_ARRAYED_LIST
+	</p>
+	<p>
+			EL_AUDIO_SAMPLE_LIST
+	</p>
+	<p>
+			EL_AUDIO_SAMPLE_MEMORY_LIST
+	</p>
+	<p>
+			EL_MULTICHANNEL_AUDIO_UNIT_SAMPLE_ARRAY
+	</p>
+	<p>
+			EL_PCM_SAMPLE_BLOCK_ARRAY
+	</p>
+	<h4><a name="CL150"></a>library/multimedia/audio/processing</h4>
+	<p>
+			EL_AUDIO_IO_MEDIUM: <pre>            Audio sample source for processing with EL_AUDIO_SAMPLE_PROCESSOR</pre>
+	</p>
+	<p>
+			EL_SEGMENTING_AUDIO_PROCESSOR: <pre>            Processes audio in manageable segments separated by silence (low signal)</pre>
+	</p>
+	<p>
+			EL_AUDIO_RMS_ENERGY
+	</p>
+	<p>
+			EL_AUDIO_SAMPLE_PROCESSOR
+	</p>
+	<p>
+			EL_AUDIO_SEGMENT_PARAMS
+	</p>
+	<h4><a name="CL151"></a>library/multimedia/audio/sample</h4>
+	<p>
+			EL_8_BIT_AUDIO_PCM_SAMPLE: <pre>            8-bit PCM data contained in WAV files is usually stored as
+            unsigned numbers, whereas the LM4549 codec (and most 16-bit WAV files) work with signed
+            quantities. Attempting to play unsigned samples directly will produce a horribly distorted
+            waveform. Thus, when playing unsigned sample data, an offset which corresponds to the mid-point 
+            value must be deducted from each sample value. For 8-bit unsigned values, this offset is 0x7F
+            
+            NOTES: not tested but should work</pre>
+	</p>
+	<p>
+			EL_AUDIO_PCM_SAMPLE: <pre>            ${description}</pre>
+	</p>
+	<p>
+			EL_16_BIT_AUDIO_PCM_SAMPLE
+	</p>
+	<p>
+			EL_32_BIT_AUDIO_PCM_SAMPLE
+	</p>
+	<h4><a name="CL152"></a>library/multimedia/audio/vision2-x-audio/implementation/mswin</h4>
+	<p>
+			EL_WAVE_AUDIO_PLAYBACK: <pre>            Class to help integrate WEX with Vision2</pre>
+	</p>
+	<h4><a name="CL153"></a>library/multimedia/audio/wel-x-audio</h4>
+	<p>
+			EL_AUDIO_INPUT_DEVICE: <pre>            Streams audio from microphone</pre>
+	</p>
+	<p>
+			EL_AUDIO_INPUT_CONTROLLER
+	</p>
+	<p>
+			EL_AUDIO_OUTPUT_DEVICE
+	</p>
+	<p>
+			EL_WINDOWS_AUDIO_API
+	</p>
+	<h4><a name="CL154"></a>library/multimedia/audio/wel-x-audio/controls</h4>
+	<p>
+			EL_AUDIO_MONITOR
+	</p>
+	<p>
+			EL_AUDIO_SIGNAL_LEVEL_METER
+	</p>
+	<h4><a name="CL155"></a>library/multimedia/audio/wel-x-audio/formats</h4>
+	<p>
+			EL_16BIT_MONO_PCM_WAVE_FORMAT
+	</p>
+	<p>
+			EL_PCM_WAVEFORM_FORMAT
+	</p>
+	<p>
+			EL_WAVEFORM_FORMAT
+	</p>
+	<h4><a name="CL156"></a>library/multimedia/audio/wel-x-audio/player</h4>
+	<p>
+			EL_AUDIO_PLAYER_EVENT_LISTENER_MAIN_THREAD_PROXY: <pre>            Object that allows audio player to asynchronously call event handling routines in GUI thread.
+            Essentially the calls are put into a queue and the GUI thread executes them whenever it gets a chance</pre>
+	</p>
+	<p>
+			EL_AUDIO_SAMPLE_SOURCE: <pre>            Sequence of PCM audio data blocks implemented as C arrays.</pre>
+	</p>
+	<p>
+			EL_AUDIO_SOURCE_PRODUCER_I: <pre>            Object that asynchronously calls routines in the audio producer thread. The calls are queued until
+            the producer thread gets around to them.</pre>
+	</p>
+	<p>
+			EL_AUDIO_PLAYER_CONSTANTS
+	</p>
+	<p>
+			EL_AUDIO_PLAYER_DO_NOTHING_EVENT_LISTENER
+	</p>
+	<p>
+			EL_AUDIO_PLAYER_EVENT_LISTENER
+	</p>
+	<p>
+			EL_AUDIO_PLAYER_THREAD
+	</p>
+	<p>
+			EL_AUDIO_SEGMENT_PLAYING_DEVICE
+	</p>
+	<p>
+			EL_AUDIO_SOURCE_PRODUCER
+	</p>
+	<p>
+			EL_AUDIO_SOURCE_PRODUCER_THREAD
+	</p>
+	<h4><a name="CL157"></a>library/multimedia/audio/wel-x-audio/processing</h4>
+	<p>
+			EL_AUDIO_CLIP_SAVER: <pre>            Thread consumer for audio clips taken from a (thread product) work queue.
+            Saves the clips in the temp directory with unique file names and puts the saved file path
+            onto a (thread product) work queue for processing by another thread.
+            Notifies a sound level listener of any audio clips which are silent (below the noise threshold)</pre>
+	</p>
+	<p>
+			EL_AUDIO_CLIP_SAVER_CONSTANTS
+	</p>
+	<p>
+			EL_SIGNAL_LEVEL_LISTENER
+	</p>
+	<h4><a name="CL158"></a>library/multimedia/audio/wel-x-audio/support</h4>
+	<p>
+			EL_MM_SYSTEM_CONSTANTS: <pre>            Multimedia Extensions Window Messages</pre>
+	</p>
+	<p>
+			EL_WAVE_AUDIO_16_BIT_CLIP: <pre>            Stores smaller amounts of waveaudio data in memory</pre>
+	</p>
+	<p>
+			EL_WAVE_AUDIO_CLIP: <pre>            Stores smaller amounts of waveaudio data in memory</pre>
+	</p>
+	<p>
+			EL_AUDIO_ANALYSIS_ROUTINES
+	</p>
+	<p>
+			EL_AUDIO_WAVE_BUFFER
+	</p>
+	<p>
+			EL_WAVE_IN_HANDLE
+	</p>
+	<h4><a name="CL159"></a>library/network/base</h4>
+	<p>
+			EL_XML_NETWORK_MESSENGER: <pre>            Sends an XML string representing a method invocation request</pre>
+	</p>
+	<p>
+			EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET
+	</p>
+	<p>
+			EL_NETWORK_STREAM_SOCKET
+	</p>
+	<p>
+			EL_PROTOCOL_CONSTANTS
+	</p>
+	<p>
+			EL_STREAM_SOCKET
+	</p>
+	<h4><a name="CL160"></a>library/network/base/local</h4>
+	<p>
+			EL_UNIX_STREAM_SOCKET
+	</p>
+	<h4><a name="CL161"></a>library/network/eros</h4>
+	<p>
+			EL_EROS_PROCEDURE_STATUS: <pre>            Procedure execution acknowlegement</pre>
+	</p>
+	<p>
+			EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER: <pre>            Object to handle remote procedure call requests for the duration of a session. A session finishes when the 
+            procedure &apos;set_stopping&apos; is called either by the server shutdown process or remotely by the client.
+            
+            Communication with the client is via either partial binary XML or plaintext XML. This mode is settable in either 
+            direction by set_inbound_transmission_type, set_outbound_transmission_type.
+            
+            AN EXAMPLE OF AN EROS XML PROCEDURE CALL:
+            
+            Suppose for example we have an audio player application that is able to play SMIL play lists. The audio player 
+            has a class SMIL_PRESENTATION that knows how to build itself from a SMIL document. The application has a remotely 
+            accessible class AUDIO_DEVICE with a procedure play_presentation taking an argument of type SMIL_PRESENTATION. In 
+            this example a SMIL document defines some clips to be played sequentially from an audio file. An EXP call message 
+            to remotely call the play_presentation procedure is created by inserting the processing instructions
+            into the SMIL document.
+            
+            &lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+            &lt;?create {SMIL_PRESENTATION}?&gt;
+            &lt;smil xmlns="http://www.w3.org/2001/SMIL20/Language"&gt;
+                &lt;head&gt;
+                    &lt;meta name="base" content="file:///home/john/audio-assets/linguistic/study/"/&gt;
+                    &lt;meta name="author" content="Dr. John Smith"/&gt;
+                    &lt;meta name="title" content="Linguistic analysis"/&gt;
+                &lt;/head&gt;
+                &lt;body&gt;
+                    &lt;seq id="seq_1" title="Extracts of conversation between Bill and Susan"&gt;
+                        &lt;audio id="audio_1" title="Greeting" src="Bill-and-Susan.mp3" clipBegin="5.5s" clipEnd="18.0s"/&gt;
+                        &lt;audio id="audio_2" title="Interjection" src="Bill-and-Susan.mp3" clipBegin="25.5s" clipEnd="30.0s"/&gt;
+                        &lt;audio id="audio_3" title="Disagreement" src="Bill-and-Susan.mp3" clipBegin="55.0s" clipEnd="67.0s"/&gt;
+                    &lt;/seq&gt;
+                &lt;/body&gt;
+            &lt;/smil&gt;
+            &lt;?call {AUDIO_DEVICE}.play_presentation ({SMIL_PRESENTATION})?&gt;
+            
+            The order of the processing instructions is significant as they are executed during an incremental parse of the document. 
+            The first instruction &lt;?create {SMIL_PRESENTATION}?&gt; is self-explanatory, creating an instance of SMIL_PRESENTATION to which
+            is added the document data as it is incrementally parsed. By the end of the document, the SMIL_PRESENTATION instance contains
+            a representation of the audio clip data. The call instruction on the last line invokes the procedure play_presentation passing
+            the instance of SMIL_PRESENTATION as an argument. {AUDIO_DEVICE} is a place holder for an instance of AUDIO_DEVICE created at
+            the start of a client session.
+            
+            The syntax of the call residing in the processing instruction is reminiscent of the syntax for Eiffel agents.
+            {SMIL_PRESENTATION} serves as a place-holder for the object created with the create instruction.</pre>
+	</p>
+	<p>
+			EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER: <pre>            Listener for routine call request handling events</pre>
+	</p>
+	<p>
+			EL_EROS_ERROR_RESULT
+	</p>
+	<p>
+			EL_EROS_STRING_RESULT
+	</p>
+	<p>
+			EL_REMOTELY_ACCESSIBLE
+	</p>
+	<p>
+			EL_REMOTE_CALL_CONSTANTS
+	</p>
+	<p>
+			EL_REMOTE_CALL_ERRORS
+	</p>
+	<p>
+			EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
+	</p>
+	<p>
+			EL_REMOTE_ROUTINE_CALL_SERVER_APPLICATION
+	</p>
+	<p>
+			EL_REMOTE_XML_OBJECT_EXCHANGER
+	</p>
+	<p>
+			EL_ROUTINE_CALL_SERVICE_STATS
+	</p>
+	<h4><a name="CL162"></a>library/network/eros/UI</h4>
+	<p>
+			EL_EROS_UI_CONSTANTS
+	</p>
+	<p>
+			EL_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW
+	</p>
+	<p>
+			EL_REMOTE_ROUTINE_CALL_SERVER_UI
+	</p>
+	<p>
+			EL_SERVER_ACTIVITY_METERS
+	</p>
+	<h4><a name="CL163"></a>library/network/eros/client</h4>
+	<p>
+			EL_EIFFEL_IDENTIFIER
+	</p>
+	<p>
+			EL_EROS_CLIENT_CONNECTION
+	</p>
+	<p>
+			EL_EROS_DEFAULT_ARGUMENT
+	</p>
+	<p>
+			EL_EROS_REQUEST
+	</p>
+	<p>
+			EL_REMOTE_PROXY
+	</p>
+	<p>
+			EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY
+	</p>
+	<h4><a name="CL164"></a>library/network/eros/object-build</h4>
+	<p>
+			EL_ROUTINE_CALL_REQUEST_XML_TO_EIFFEL_BUILDER
+	</p>
+	<h4><a name="CL165"></a>library/network/eros/parse</h4>
+	<p>
+			EL_ROUTINE_CALL_REQUEST_PARSER: <pre>            parse something like: 
+            
+                {MY_CLASS}.my_routine (1, {E2X_VECTOR_COMPLEX_DOUBLE}, 0.1, 2.3e-15, &apos;hello&apos;)
+            OR
+                {MY_CLASS}.my_routine
+                
+            Note: {E2X_VECTOR_COMPLEX_DOUBLE} is an example of a place holder for an instance of a class
+            deserialized from XML</pre>
+	</p>
+	<p>
+			EL_ROUTINE_CALL_REQUEST_PARSER_ROOT_BUILDER_CONTEXT
+	</p>
+	<h4><a name="CL166"></a>library/network/eros/thread-communication</h4>
+	<p>
+			EL_REMOTE_CALL_CLIENT_CONNECTION_QUEUE
+	</p>
+	<p>
+			EL_REMOTE_CALL_CONNECTION_MANAGER_THREAD
+	</p>
+	<p>
+			EL_REMOTE_CALL_REQUEST_DELEGATING_CONSUMER_THREAD
+	</p>
+	<p>
+			EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD
+	</p>
+	<h4><a name="CL167"></a>library/network/flash</h4>
+	<p>
+			EL_FLASH_REMOTE_UI_EVENT_LISTENER: <pre>            Interface to the Flash GUI. Listens for user commands on a network socket</pre>
+	</p>
+	<h4><a name="CL168"></a>library/network/flash/RPC</h4>
+	<p>
+			EL_FLASH_OBJECT_PROXY
+	</p>
+	<p>
+			EL_FLASH_XML_NETWORK_MESSENGER
+	</p>
+	<h4><a name="CL169"></a>library/network/ftp</h4>
+	<p>
+			EL_FTP_PROTOCOL
+	</p>
+	<p>
+			EL_TRANSFER_COMMAND_CONSTANTS
+	</p>
+	<p>
+			EL_WEBSITE_ROUTINES
+	</p>
+	<h4><a name="CL170"></a>library/network/servlet</h4>
+	<p>
+			EL_APPLICATION_SERVLET
+	</p>
+	<p>
+			EL_FAST_CGI_SERVLET_SERVICE
+	</p>
+	<p>
+			EL_HTTP_SERVLET
+	</p>
+	<p>
+			EL_SERVLET_CONFIG
+	</p>
+	<p>
+			EL_SERVLET_SESSION
+	</p>
+	<p>
+			EL_SERVLET_SUB_APPLICATION
+	</p>
+	<h4><a name="CL171"></a>library/network/servlet/support</h4>
+	<p>
+			EL_HTML_PROPERTIES
+	</p>
+	<h4><a name="CL172"></a>library/persistency/database/binary-db</h4>
+	<p>
+			EL_CHAIN_EDITIONS_FILE
+	</p>
+	<p>
+			EL_FILE_READER_WRITER
+	</p>
+	<p>
+			EL_RECOVERABLE_STORABLE_CHAIN
+	</p>
+	<p>
+			EL_STORABLE_CHAIN
+	</p>
+	<p>
+			EL_STORABLE_CHAIN_EDITIONS
+	</p>
+	<h4><a name="CL173"></a>library/persistency/database/binary-db/encryptable</h4>
+	<p>
+			EL_ENCRYPTABLE_EDITIONS_FILE
+	</p>
+	<p>
+			EL_ENCRYPTABLE_FILE_READER_WRITER
+	</p>
+	<p>
+			EL_ENCRYPTABLE_RECOVERABLE_STORABLE_CHAIN
+	</p>
+	<p>
+			EL_ENCRYPTABLE_STORABLE_CHAIN
+	</p>
+	<h4><a name="CL174"></a>library/persistency/database/support</h4>
+	<p>
+			EL_UUID
+	</p>
+	<p>
+			EL_UUID_GENERATOR
+	</p>
+	<h4><a name="CL175"></a>library/persistency/database/win-registry</h4>
+	<p>
+			EL_ITERABLE_REGISTRY_KEYS
+	</p>
+	<p>
+			EL_MODULE_WIN_REGISTRY
+	</p>
+	<p>
+			EL_REGISTRY_KEY_ITERATION_CURSOR
+	</p>
+	<p>
+			EL_WINDOWS_REGISTRY_ROUTINES
+	</p>
+	<h4><a name="CL176"></a>library/persistency/database/xml-db/encryptable</h4>
+	<p>
+			EL_ENCRYPTABLE_STORABLE_XML_ELEMENT
+	</p>
+	<p>
+			EL_ENCRYPTABLE_STORABLE_XML_ELEMENT_LIST
+	</p>
+	<p>
+			EL_ENCRYPTABLE_XML_ELEMENT_LIST_EDITIONS
+	</p>
+	<h4><a name="CL177"></a>library/persistency/database/xml-db/list-editions</h4>
+	<p>
+			EL_STORABLE_XML_EDITIONS_LIST: <pre>            Object to record to disk any editions made to current list of XML storable objects. If the list is reloaded 
+            the editions can be reapplied restoring the state of the previous application session. 
+            
+            The benefits are twofold:
+                1. A large list need not be saved each time the application exits as the most recent editions are recorded to disk.
+                
+                2. If the application crashes unexpectedly, no data is lost.</pre>
+	</p>
+	<p>
+			EL_XML_ELEMENT_LIST_EDITIONS: <pre>                ${description}</pre>
+	</p>
+	<p>
+			EL_CREATEABLE_FROM_XPATH_NODE_CONTEXT
+	</p>
+	<p>
+			EL_EXTENSION_EDITION
+	</p>
+	<p>
+			EL_REMOVAL_EDITION
+	</p>
+	<p>
+			EL_REPLACEMENT_EDITION
+	</p>
+	<p>
+			EL_STORABLE_XML_ELEMENT
+	</p>
+	<p>
+			EL_XML_ELEMENT_EDITION
+	</p>
+	<h4><a name="CL178"></a>library/persistency/file</h4>
+	<p>
+			EL_FILE_PERSISTENT_IMPL: <pre>                Dummy file persistent</pre>
+	</p>
+	<p>
+			EL_TEXT_IO_MEDIUM: <pre>            Text buffer medium encoded as latin1 or UTF-8</pre>
+	</p>
+	<p>
+			EL_DOUBLE_VARIABLE_TABLE
+	</p>
+	<p>
+			EL_FILE_LINE_SOURCE
+	</p>
+	<p>
+			EL_FILE_PERSISTENT
+	</p>
+	<p>
+			EL_INTEGER_VARIABLE_TABLE
+	</p>
+	<p>
+			EL_NOTIFYING_FILE
+	</p>
+	<p>
+			EL_NOTIFYING_PLAIN_TEXT_FILE
+	</p>
+	<p>
+			EL_NOTIFYING_RAW_FILE
+	</p>
+	<p>
+			EL_UTF_8_FILE_LINES
+	</p>
+	<p>
+			EL_VARIABLE_TABLE
+	</p>
+	<h4><a name="CL179"></a>library/persistency/xml/open-office-spreadsheet</h4>
+	<p>
+			EL_SPREAD_SHEET: <pre>            Object representing OpenDocument Flat XML spreadsheet as tables of rows of data strings
+            
+            xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+            office:mimetype="application/vnd.oasis.opendocument.spreadsheet"
+            office:version="1.2"</pre>
+	</p>
+	<p>
+			EL_SPREAD_SHEET_DATA_CELL: <pre>            Object representing table data cell in OpenDocument Flat XML format spreadsheet</pre>
+	</p>
+	<p>
+			EL_SPREAD_SHEET_ROW: <pre>            Object representing table row in OpenDocument Flat XML format spreadsheet</pre>
+	</p>
+	<p>
+			EL_SPREAD_SHEET_TABLE: <pre>            Object representing table in OpenDocument Flat XML format spreadsheet</pre>
+	</p>
+	<p>
+			EL_OPEN_OFFICE
+	</p>
+	<h4><a name="CL180"></a>library/persistency/xml/vtd-xml</h4>
+	<p>
+			EL_XPATH_NODE_CONTEXT: <pre>            A Xpath queryable XML node</pre>
+	</p>
+	<p>
+			EL_XPATH_NODE_CONTEXT_LIST: <pre>            A list of Xpath queryable XML nodes</pre>
+	</p>
+	<p>
+			EL_XPATH_NODE_CONTEXT_LIST_ITERATION_CURSOR: <pre>            Iteration cursor for node context list</pre>
+	</p>
+	<p>
+			EL_ELEMENT_ATTRIBUTE_TABLE
+	</p>
+	<p>
+			EL_XML_FILE_PERSISTENT
+	</p>
+	<p>
+			EL_XPATH_ROOT_NODE_CONTEXT
+	</p>
+	<h4><a name="CL181"></a>library/persistency/xml/vtd-xml/implementation</h4>
+	<p>
+			EL_VTD_CONTEXT_IMAGE: <pre>            Stores a serialized form of VTD-XML navigation location</pre>
+	</p>
+	<p>
+			EL_VTD_CONSTANTS
+	</p>
+	<p>
+			EL_VTD_EXCEPTIONS
+	</p>
+	<p>
+			EL_VTD_SHARED_NATIVE_XPATH
+	</p>
+	<p>
+			EL_VTD_XML_API
+	</p>
+	<p>
+			EL_VTD_XML_ATTRIBUTE_API
+	</p>
+	<p>
+			EL_VTD_XML_PARSER
+	</p>
+	<p>
+			EL_VTD_XPATH_QUERY
+	</p>
+	<h4><a name="CL182"></a>library/persistency/xml/vtd-xml/implementation/spec/unix</h4>
+	<p>
+			EL_VTD_NATIVE_XPATH
+	</p>
+	<h4><a name="CL183"></a>library/persistency/xml/vtd-xml/implementation/spec/windows</h4>
+	<p>
+			EL_VTD_NATIVE_XPATH
+	</p>
+	<h4><a name="CL184"></a>library/persistency/xml/xdoc-scanning</h4>
+	<p>
+			EL_CREATEABLE_FROM_XML: <pre>            Object that is createable from XML parse events</pre>
+	</p>
+	<p>
+			EL_XML_PARSE_EVENT_SOURCE
+	</p>
+	<h4><a name="CL185"></a>library/persistency/xml/xdoc-scanning/event-sources/binary-encoded</h4>
+	<p>
+			EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE
+	</p>
+	<h4><a name="CL186"></a>library/persistency/xml/xdoc-scanning/event-sources/expat-parser</h4>
+	<p>
+			EL_EXPAT_XML_PARSER: <pre>            Wrapper for eXpat XML parser.</pre>
+	</p>
+	<p>
+			EL_EXPAT_XML_ATTRIBUTE_LIST
+	</p>
+	<p>
+			EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
+	</p>
+	<h4><a name="CL187"></a>library/persistency/xml/xdoc-scanning/event-sources/expat-parser/modified-gobo</h4>
+	<p>
+			EL_EXPAT_API: <pre>            Expat API and associated classes modified to only have ISE base dependency</pre>
+	</p>
+	<p>
+			EL_EXPAT_CODEC: <pre>            typedef struct {
+              int map[256];
+              void *data;
+              int (*convert)(void *data, const char *s);
+              void (*release)(void *data);
+            } XML_Encoding;</pre>
+	</p>
+	<p>
+			EL_XML_DEFAULT_POSITION: <pre>            Positions in an XML document which has been parsed from a stream</pre>
+	</p>
+	<p>
+			EL_XML_DEFAULT_URI_SOURCE: <pre>            The source of an XML document that has been retrieved via an URI</pre>
+	</p>
+	<p>
+			EL_XML_POSITION: <pre>            Abstract definition of positions in XML documents</pre>
+	</p>
+	<p>
+			EL_XML_SOURCE: <pre>            Abstract definition of the source of an XML document</pre>
+	</p>
+	<p>
+			EL_XML_STREAM_POSITION: <pre>            Abstract definition of positions in XML documents which have been parsed from streams</pre>
+	</p>
+	<p>
+			EL_XML_STRING_SOURCE: <pre>            Strings as source of XML documents</pre>
+	</p>
+	<p>
+			EL_ISO_8859_15_EXPAT_CODEC
+	</p>
+	<h4><a name="CL188"></a>library/persistency/xml/xdoc-scanning/event-sources/pyxis</h4>
+	<p>
+			EL_PYXIS_XML_TEXT_GENERATOR: <pre>            XML generator that does not split text nodes on new line character.
+            Tabs and new lines in from text content are escaped.</pre>
+	</p>
+	<p>
+			EL_MODULE_PYXIS
+	</p>
+	<p>
+			EL_PYXIS_ATTRIBUTE_PARSER
+	</p>
+	<p>
+			EL_PYXIS_PARSER
+	</p>
+	<p>
+			EL_PYXIS_PATTERN_FACTORY
+	</p>
+	<p>
+			EL_PYXIS_STRING_LIST
+	</p>
+	<p>
+			EL_PYXIS_XML_ROUTINES
+	</p>
+	<h4><a name="CL189"></a>library/persistency/xml/xdoc-scanning/scanners</h4>
+	<p>
+			EL_XML_NODE_SCAN_SOURCE: <pre>            Object that applies XML parse events to the construction of an object</pre>
+	</p>
+	<p>
+			EL_XML_DOCUMENT_LOGGER
+	</p>
+	<p>
+			EL_XML_DOCUMENT_SCANNER
+	</p>
+	<p>
+			EL_XML_PARSE_EVENT_GENERATOR
+	</p>
+	<p>
+			EL_XML_TEXT_GENERATOR
+	</p>
+	<h4><a name="CL190"></a>library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building</h4>
+	<p>
+			EL_EIF_OBJ_BUILDER_CONTEXT: <pre>            Eiffel object model Xpath context</pre>
+	</p>
+	<p>
+			EL_EIF_OBJ_TEXT_TABLE_CONTEXT: <pre>            Convenience class to store all element values for a context in a table but without recursing deeper</pre>
+	</p>
+	<p>
+			EL_XML_TO_EIFFEL_OBJECT_BUILDER: <pre>            Eiffel object model</pre>
+	</p>
+	<p>
+			EL_XPATH_PARSER: <pre>            Simple xpath parser that can parse xpaths like the following:
+            
+            AAA/BBB
+            AAA/BBB/@name
+            AAA/BBB[@id=&apos;x&apos;]
+            AAA/BBB[@id=&apos;x&apos;]/@name
+            AAA/BBB[id=&apos;y&apos;]/CCC/text()
+            
+            &lt;AAA&gt;
+                &lt;BBB id="x" name="foo"&gt;
+                &lt;/BBB&gt;
+                &lt;BBB id="y" name="bar"&gt;
+                    &lt;CCC&gt;hello&lt;/CCC&gt;
+                &lt;/BBB&gt;
+            &lt;/AAA&gt;
+            
+            but cannot parse:
+            AAA/BBB[2]/@name</pre>
+	</p>
+	<p>
+			EL_BUILDABLE_FROM_PYXIS
+	</p>
+	<p>
+			EL_BUILDABLE_FROM_XML
+	</p>
+	<p>
+			EL_BUILDABLE_XML_FILE_PERSISTENT
+	</p>
+	<p>
+			EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
+	</p>
+	<p>
+			EL_EIF_OBJ_XPATH_CONTEXT
+	</p>
+	<p>
+			EL_XML_TO_EIFFEL_OBJECT_BUILDER_I
+	</p>
+	<p>
+			EL_XPATH_STEP
+	</p>
+	<h4><a name="CL191"></a>library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/smart-builder</h4>
+	<p>
+			EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT: <pre>            Root builder context that changes the type of the target object to build according to a processing instruction
+            at the start of the XML. The example below will build an instance of class SMIL_PRESENTATION.
+            
+                &lt;?xml version="1.0" encoding="utf-8"?&gt;
+                &lt;?create {SMIL_PRESENTATION}?&gt;
+                &lt;smil xmlns="http://www.w3.org/2001/SMIL20/Language"&gt;
+                ..
+                &lt;/smil&gt;</pre>
+	</p>
+	<p>
+			EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER: <pre>            Detects the desired target type from XML processing instruction &apos;create {G}&apos; 
+            and sets the type of target_object to G where G is a type conforming to EL_BUILDABLE_FROM_XML. 
+            Built object is made available as &apos;product&apos;.</pre>
+	</p>
+	<h4><a name="CL192"></a>library/persistency/xml/xdoc-scanning/scanners/visitor</h4>
+	<p>
+			EL_XML_NODE_VISITOR
+	</p>
+	<p>
+			EL_XML_NODE_VISITOR_DRIVER
+	</p>
+	<h4><a name="CL193"></a>library/persistency/xml/xdoc-scanning/scanners/xpath-scan</h4>
+	<p>
+			EL_TOKENIZED_XPATH: <pre>            Tokenized form of xpath</pre>
+	</p>
+	<p>
+			EL_XPATH_MATCH_SCAN_SOURCE: <pre>            Class for parsing XML documents and matching sets of xpaths</pre>
+	</p>
+	<p>
+			EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
+	</p>
+	<p>
+			EL_XPATH_TO_AGENT_MAP
+	</p>
+	<h4><a name="CL194"></a>library/persistency/xml/xdoc-scanning/support</h4>
+	<p>
+			EL_SMIL_VALUE_PARSING
+	</p>
+	<p>
+			EL_XML_ATTRIBUTE_LIST
+	</p>
+	<p>
+			EL_XML_ATTRIBUTE_NODE
+	</p>
+	<p>
+			EL_XML_NODE
+	</p>
+	<p>
+			EL_XML_PARSER_OUTPUT_MEDIUM
+	</p>
+	<p>
+			EL_XML_PARSE_EVENT_STREAM
+	</p>
+	<h4><a name="CL195"></a>library/persistency/xml/xdoc-scanning/support/unused</h4>
+	<p>
+			EL_LATIN1_XML_NODE
+	</p>
+	<p>
+			EL_UTF8_XML_NODE
+	</p>
+	<h4><a name="CL196"></a>library/runtime</h4>
+	<p>
+			EL_MODULE_EXCEPTIONS
+	</p>
+	<p>
+			EL_MODULE_EXECUTION_ENVIRONMENT
+	</p>
+	<h4><a name="CL197"></a>library/runtime/app-manage</h4>
+	<p>
+			EL_COMMAND_LINE_SUB_APPLICATTION: <pre>            An object that maps command line arguments to an Eiffel make procedure for a target object (command).
+            The &apos;command&apos; object is automically created and the make procedure specified by &apos;make_action&apos;
+            is called to intialize it.</pre>
+	</p>
+	<p>
+			EL_INSTALLED_FILE_REMOVAL_COMMAND: <pre>            Delayed removal of program directory on uninstall to avoid permission problem</pre>
+	</p>
+	<p>
+			EL_MULTI_APPLICATION_ROOT: <pre>            Selects an application to launch from an array of sub-applications by either user input or command switch.
+            Can also install/uninstall any sub-applications that have installation configuration info asssociated with them.
+            (System file context menu or system application launch menu)</pre>
+	</p>
+	<p>
+			EL_APPLICATION_CONFIG_CELL
+	</p>
+	<p>
+			EL_APPLICATION_MUTEX
+	</p>
+	<p>
+			EL_SHARED_APPLICATION_CONFIGURATION
+	</p>
+	<p>
+			EL_SUB_APPLICATION
+	</p>
+	<p>
+			EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION
+	</p>
+	<p>
+			EL_UNINSTALL_APP
+	</p>
+	<h4><a name="CL198"></a>library/runtime/app-manage/app-launch-installers</h4>
+	<p>
+			EL_APPLICATION_INSTALLER
+	</p>
+	<p>
+			EL_DO_NOTHING_INSTALLER
+	</p>
+	<h4><a name="CL199"></a>library/runtime/app-manage/app-launch-installers/desktop</h4>
+	<p>
+			EL_DESKTOP_APPLICATION_INSTALLER: <pre>            Install application with a desktop menu</pre>
+	</p>
+	<p>
+			EL_DESKTOP_LAUNCHER: <pre>            Desktop item for launching application</pre>
+	</p>
+	<p>
+			EL_DESKTOP_APPLICATION_INSTALLER_I
+	</p>
+	<p>
+			EL_DESKTOP_CONSOLE_APPLICATION_INSTALLER
+	</p>
+	<p>
+			EL_DESKTOP_MENU_ITEM
+	</p>
+	<p>
+			EL_DESKTOP_UNINSTALL_APP_INSTALLER
+	</p>
+	<h4><a name="CL200"></a>library/runtime/app-manage/app-launch-installers/desktop/spec/unix</h4>
+	<p>
+			EL_DESKTOP_APPLICATION_INSTALLER_IMPL: <pre>            Creates a GNOME desktop menu application launcher</pre>
+	</p>
+	<p>
+			EL_DESKTOP_CONSOLE_APPLICATION_INSTALLER_IMPL
+	</p>
+	<p>
+			EL_DESKTOP_UNINSTALL_APP_INSTALLER_IMPL
+	</p>
+	<p>
+			EL_SHARED_APPLICATIONS_XDG_DESKTOP_MENU
+	</p>
+	<p>
+			EL_XDG_DESKTOP_DIRECTORY
+	</p>
+	<p>
+			EL_XDG_DESKTOP_LAUNCHER
+	</p>
+	<p>
+			EL_XDG_DESKTOP_MENU
+	</p>
+	<p>
+			EL_XDG_DESKTOP_MENU_ITEM
+	</p>
+	<h4><a name="CL201"></a>library/runtime/app-manage/app-launch-installers/desktop/spec/windows</h4>
+	<p>
+			EL_DESKTOP_APPLICATION_INSTALLER_IMPL: <pre>            Windows implementation</pre>
+	</p>
+	<p>
+			EL_DESKTOP_CONSOLE_APPLICATION_INSTALLER_IMPL
+	</p>
+	<p>
+			EL_DESKTOP_UNINSTALL_APP_INSTALLER_IMPL
+	</p>
+	<h4><a name="CL202"></a>library/runtime/app-manage/app-launch-installers/file-context</h4>
+	<p>
+			EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER: <pre>            Creates a file context menu entry for application in the OS file manager.
+            In Unix with the GNOME desktop this is implemented using Nautilus-scripts.</pre>
+	</p>
+	<h4><a name="CL203"></a>library/runtime/app-manage/app-launch-installers/file-context/spec/unix</h4>
+	<p>
+			EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_IMPL: <pre>            Unix installer for GNOME desktop. Creates Nautilus script program launcher.</pre>
+	</p>
+	<h4><a name="CL204"></a>library/runtime/app-manage/app-launch-installers/file-context/spec/windows</h4>
+	<p>
+			EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_IMPL: <pre>            Unix installer for GNOME desktop. Creates Nautilus script program launcher.</pre>
+	</p>
+	<h4><a name="CL205"></a>library/runtime/app-manage/spec/unix</h4>
+	<p>
+			EL_INSTALLED_FILE_REMOVAL_COMMAND_IMPL: <pre>            Windows implementation</pre>
+	</p>
+	<p>
+			EL_APPLICATION_MUTEX_IMPL
+	</p>
+	<p>
+			EL_FILE_API
+	</p>
+	<h4><a name="CL206"></a>library/runtime/app-manage/spec/windows</h4>
+	<p>
+			EL_INSTALLED_FILE_REMOVAL_COMMAND_IMPL: <pre>            Windows implementation of program directory removal
+            
+            Command:
+                rmdir "$software_company_directory"
+                
+            only works if directory is empty (which is fine)
+                
+            Command:
+                ping localhost -n 3 &gt;nul
+                
+            provides some delay inorder to give calling process time to quit.</pre>
+	</p>
+	<p>
+			EL_APPLICATION_MUTEX_IMPL
+	</p>
+	<p>
+			EL_WINDOWS_MUTEX_API
+	</p>
+	<h4><a name="CL207"></a>library/runtime/concurrency</h4>
+	<p>
+			EL_THREAD_DEVELOPER_CLASS: <pre>            Developer class for code discovery/navigation purposes</pre>
+	</p>
+	<p>
+			EL_SHARED_THREAD_MANAGER
+	</p>
+	<p>
+			EL_THREAD_MANAGER
+	</p>
+	<h4><a name="CL208"></a>library/runtime/concurrency/communication</h4>
+	<p>
+			EL_DEFAULT_MAIN_THREAD_EVENT_REQUEST_QUEUE: <pre>            Saves event indexes for processing in descendant of EL_MAIN_THREAD_EVENT_REQUEST_QUEUE, EL_EV_APPLICATION_IMP.</pre>
+	</p>
+	<p>
+			EL_MAIN_THREAD_EVENT_REQUEST_QUEUE: <pre>            Queue to notify an event listener from main application thread</pre>
+	</p>
+	<p>
+			EL_EVENT_LISTENER_ACTION
+	</p>
+	<p>
+			EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE
+	</p>
+	<h4><a name="CL209"></a>library/runtime/concurrency/communication/producer-consumer</h4>
+	<p>
+			EL_CONSUMER_MAIN_THREAD: <pre>            Product consumer operating in main message_loop_callback GUI thread</pre>
+	</p>
+	<p>
+			EL_CONSUMER_THREAD: <pre>            Consumes the products of a product queue fed by another thread</pre>
+	</p>
+	<p>
+			EL_DELEGATING_CONSUMER_THREAD: <pre>            Consumer thread</pre>
+	</p>
+	<p>
+			EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE: <pre>            Product queue serviced by many consumers</pre>
+	</p>
+	<p>
+			EL_THREAD_PRODUCT_QUEUE: <pre>            Thread safe queue</pre>
+	</p>
+	<p>
+			EL_CONSUMER
+	</p>
+	<p>
+			EL_MANY_TO_ONE_CONSUMER_THREAD
+	</p>
+	<h4><a name="CL210"></a>library/runtime/concurrency/communication/producer-consumer/procedure-call</h4>
+	<p>
+			EL_TUPLE_CONSUMER_MAIN_THREAD: <pre>            Object that consumes tuples in main GUI thread with specified action/actions</pre>
+	</p>
+	<p>
+			EL_PROCEDURE_CALL_CONSUMER
+	</p>
+	<p>
+			EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD
+	</p>
+	<p>
+			EL_PROCEDURE_CALL_CONSUMER_THREAD
+	</p>
+	<p>
+			EL_PROCEDURE_CALL_QUEUE
+	</p>
+	<p>
+			EL_SEPARATE_PROCEDURE
+	</p>
+	<p>
+			EL_TUPLE_CONSUMER
+	</p>
+	<p>
+			EL_TUPLE_CONSUMER_THREAD
+	</p>
+	<h4><a name="CL211"></a>library/runtime/concurrency/communication/producer-consumer/timed</h4>
+	<p>
+			EL_TIMEOUT: <pre>            Repeatedly puts timer event onto a thread queue</pre>
+	</p>
+	<h4><a name="CL212"></a>library/runtime/concurrency/communication/producer-consumer/timed/counter</h4>
+	<p>
+			EL_COUNT_CONSUMER
+	</p>
+	<p>
+			EL_COUNT_CONSUMER_MAIN_THREAD
+	</p>
+	<p>
+			EL_COUNT_CONSUMER_THREAD
+	</p>
+	<p>
+			EL_TIMED_COUNT_PRODUCER
+	</p>
+	<h4><a name="CL213"></a>library/runtime/concurrency/communication/producer-consumer/timed/events</h4>
+	<p>
+			EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER
+	</p>
+	<p>
+			EL_REGULAR_INTERVAL_EVENT
+	</p>
+	<p>
+			EL_REGULAR_INTERVAL_EVENT_CONSTANTS
+	</p>
+	<p>
+			EL_REGULAR_INTERVAL_EVENT_CONSUMER
+	</p>
+	<p>
+			EL_REGULAR_INTERVAL_EVENT_PROCESSOR
+	</p>
+	<p>
+			EL_REGULAR_INTERVAL_EVENT_PRODUCER
+	</p>
+	<p>
+			EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER
+	</p>
+	<h4><a name="CL214"></a>library/runtime/concurrency/communication/producer-consumer/timed/procedure-call</h4>
+	<p>
+			EL_TIMED_PROCEDURE
+	</p>
+	<p>
+			EL_TIMED_PROCEDURE_MAIN_THREAD
+	</p>
+	<p>
+			EL_TIMED_PROCEDURE_THREAD
+	</p>
+	<h4><a name="CL215"></a>library/runtime/concurrency/communication/proxy</h4>
+	<p>
+			EL_MAIN_THREAD_PROXY: <pre>            Proxy object to (asynchronously) call procedures of BASE_TYPE from an external thread (non GUI thread)</pre>
+	</p>
+	<p>
+			EL_THREAD_PROXY: <pre>            Proxy object to (asynchronously) call procedures of BASE_TYPE from an another thread</pre>
+	</p>
+	<h4><a name="CL216"></a>library/runtime/concurrency/structures</h4>
+	<p>
+			EL_THREAD_SAFE_STACK
+	</p>
+	<h4><a name="CL217"></a>library/runtime/concurrency/synchronization</h4>
+	<p>
+			EL_STD_SYNCHRONIZED_REF: <pre>            Guards objects that require thread synchronization.
+            EL_STD_SYNCHRONIZED_REF is the same as EL_SYNCHRONIZED_REF except it does not write anything to
+            the logging framework. It is used within the logging framework to avoid circular calls.
+            
+            For normal use it is recommended that EL_SYNCHRONIZED_REF be used because it helps to detect deadlock.
+            Any time a thread is forced to wait for a lock it is reported to the thread&apos;s log.</pre>
+	</p>
+	<p>
+			EL_SYNCHRONIZED: <pre>            For creating objects with a default_create that require thread synchronization
+            E.g. INTEGER, REAL, BOOLEAN etc</pre>
+	</p>
+	<p>
+			EL_SYNCHRONIZED_REF: <pre>            Guards objects that require thread synchronization and helps to detect deadlock.
+            Any time a thread is forced to wait for a lock it is reported to the thread&apos;s log.</pre>
+	</p>
+	<p>
+			EL_LOCKABLE_STD_FILES
+	</p>
+	<p>
+			EL_SINGLE_THREAD_ACCESS
+	</p>
+	<p>
+			EL_STD_SYNCHRONIZED_HASH_TABLE
+	</p>
+	<p>
+			EL_SYNCHRONIZED_IO
+	</p>
+	<p>
+			EL_SYNCHRONIZED_NUMERIC
+	</p>
+	<p>
+			EL_THREAD_BLOCK
+	</p>
+	<h4><a name="CL218"></a>library/runtime/concurrency/thread-states</h4>
+	<p>
+			EL_STATEFUL
+	</p>
+	<p>
+			EL_STOPPABLE_THREAD
+	</p>
+	<p>
+			EL_SUSPENDABLE_THREAD
+	</p>
+	<p>
+			EL_THREAD_CONSTANTS
+	</p>
+	<h4><a name="CL219"></a>library/runtime/concurrency/thread-types</h4>
+	<p>
+			EL_DORMANT_ACTION_LOOP_THREAD: <pre>            Thread that remains dormant until signalled to resume action loop</pre>
+	</p>
+	<p>
+			EL_RHYTHMIC_ACTION_THREAD: <pre>            Repeats an action at timed intervals and prompts any registered responder
+            May work but not fully tested.</pre>
+	</p>
+	<p>
+			EL_CONTINUOUS_ACTION_THREAD
+	</p>
+	<p>
+			EL_IDENTIFIED_MAIN_THREAD
+	</p>
+	<p>
+			EL_IDENTIFIED_THREAD
+	</p>
+	<p>
+			EL_IDENTIFIED_THREAD_I
+	</p>
+	<p>
+			EL_INTERRUPTABLE_THREAD
+	</p>
+	<p>
+			EL_WORKER_THREAD
+	</p>
+	<h4><a name="CL220"></a>library/runtime/file-operations</h4>
+	<p>
+			EL_MODULE_FILE_SYSTEM: <pre>            File system commands accepting default UTF-8 encoded arguments</pre>
+	</p>
+	<p>
+			EL_DIRECTORY
+	</p>
+	<p>
+			EL_FILE_SYSTEM_ROUTINES
+	</p>
+	<p>
+			EL_QUANTITY_PROGRESS_INFO
+	</p>
+	<h4><a name="CL221"></a>library/runtime/logging</h4>
+	<p>
+			EL_CONSOLE_AND_FILE_ROUTINE_LOG: <pre>            Logs routines which are set to have logging enabled in the global configuration</pre>
+	</p>
+	<p>
+			EL_CONSOLE_LOG: <pre>            Minimal console only log responding only to requests from &apos;log_or_io&apos; object.
+            This minimal logging is always active even when logging is turned off.</pre>
+	</p>
+	<p>
+			EL_LOG: <pre>            Default &apos;do nothing&apos; log</pre>
+	</p>
+	<p>
+			EL_CONSOLE_AND_FILE_LOG
+	</p>
+	<p>
+			EL_CONSOLE_LOG_OUTPUT
+	</p>
+	<p>
+			EL_CONSOLE_ROUTINE_LOG
+	</p>
+	<p>
+			EL_FILE_AND_CONSOLE_LOG_OUTPUT
+	</p>
+	<p>
+			EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
+	</p>
+	<p>
+			EL_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
+	</p>
+	<p>
+			EL_MODULE_LOG
+	</p>
+	<p>
+			EL_MODULE_LOGGING
+	</p>
+	<p>
+			EL_MODULE_LOG_MANAGER
+	</p>
+	<p>
+			EL_ROUTINE_LOG
+	</p>
+	<h4><a name="CL222"></a>library/runtime/logging/spec/unix</h4>
+	<p>
+			EL_LOG_CONSTANTS_IMPL
+	</p>
+	<h4><a name="CL223"></a>library/runtime/logging/spec/windows</h4>
+	<p>
+			EL_LOG_CONSTANTS_IMPL
+	</p>
+	<h4><a name="CL224"></a>library/runtime/logging/support</h4>
+	<p>
+			EL_LOGGED_APPLICATION: <pre>            Inherit this class from the root class of your application to configure logging output.
+            Call init_logging to configure the logging</pre>
+	</p>
+	<p>
+			EL_CONSOLE_MANAGER
+	</p>
+	<p>
+			EL_GLOBAL_LOGGING
+	</p>
+	<p>
+			EL_LOG_CONSTANTS
+	</p>
+	<p>
+			EL_LOG_FILTER
+	</p>
+	<p>
+			EL_LOG_MANAGER
+	</p>
+	<h4><a name="CL225"></a>library/runtime/memory</h4>
+	<p>
+			EL_MEMORY
+	</p>
+	<p>
+			EL_MEMORY_ARRAY
+	</p>
+	<p>
+			EL_MEMORY_CHARACTER_ARRAY
+	</p>
+	<p>
+			EL_MEMORY_DOUBLE_ARRAY
+	</p>
+	<p>
+			EL_MEMORY_INTEGER_16_ARRAY
+	</p>
+	<h4><a name="CL226"></a>library/runtime/process</h4>
+	<p>
+			EL_EXECUTION_TIMER: <pre>            Calculates elapsed time</pre>
+	</p>
+	<p>
+			EL_MODULE_ARGS
+	</p>
+	<h4><a name="CL227"></a>library/runtime/process/commands-experimental</h4>
+	<p>
+			EL_DELETE_PATH_COMMAND: <pre>            Delete file or directory</pre>
+	</p>
+	<p>
+			EL_COMPRESSED_ARCHIVE_COMMAND
+	</p>
+	<p>
+			EL_COPY_FILE_COMMAND
+	</p>
+	<p>
+			EL_COPY_TREE_COMMAND
+	</p>
+	<p>
+			EL_DELETE_TREE_COMMAND
+	</p>
+	<p>
+			EL_EXTRACT_ID3_TAGS_COMMAND
+	</p>
+	<p>
+			EL_FIND_DIRECTORIES_COMMAND
+	</p>
+	<p>
+			EL_FIND_FILES_COMMAND
+	</p>
+	<p>
+			EL_FIND_OS_COMMAND
+	</p>
+	<p>
+			EL_GENERAL_OS_COMMAND
+	</p>
+	<p>
+			EL_GPG_ENCRYPT_COMMAND
+	</p>
+	<p>
+			EL_MAKE_DIRECTORY_COMMAND
+	</p>
+	<p>
+			EL_MOVE_FILE_COMMAND
+	</p>
+	<p>
+			EL_UNIX_CPU_INFO_COMMAND
+	</p>
+	<p>
+			EL_WAV_TO_MP3_COMMAND
+	</p>
+	<h4><a name="CL228"></a>library/runtime/process/commands-experimental/kernel</h4>
+	<p>
+			EL_COMMAND_ARGUMENT_LIST
+	</p>
+	<p>
+			EL_COMMAND_IMPL
+	</p>
+	<p>
+			EL_DOUBLE_OPERAND_FILE_SYSTEM_COMMAND
+	</p>
+	<p>
+			EL_FILE_SYSTEM_OS_COMMAND
+	</p>
+	<p>
+			EL_OS_COMMAND
+	</p>
+	<p>
+			EL_SINGLE_OPERAND_FILE_SYSTEM_COMMAND
+	</p>
+	<h4><a name="CL229"></a>library/runtime/process/commands-experimental/spec/generic</h4>
+	<p>
+			EL_WAV_TO_MP3_IMPL: <pre>         lame command
+             usage: lame [options] &lt;infile&gt; [outfile]
+            
+               &lt;infile&gt; and/or &lt;outfile&gt; can be "-", which means stdin/stdout.
+            
+             OPTIONS:
+                -b bitrate      set the bitrate, default 128 kbps
+                -f              fast num_channels (lower quality)
+                -h              higher quality, but a little slower.  Recommended.
+                -m num_channels         (s)tereo, (j)oint, (m)ono
+                                default is (j) or (s) depending on bitrate
+                -V n            quality setting for VBR.  default n=4
+            
+                --preset type   type must be "medium", "standard", "extreme", "insane",
+                                or a value for an average desired bitrate and depending
+                                on the value specified, appropriate quality settings will
+                                be used.
+                                "--preset help" gives more info on these
+            
+                --priority type  sets the process priority
+                                 0,1 = Low priority
+                                 2   = normal priority
+                                 3,4 = High priority
+            
+                --longhelp      full list of options
+                  --brief  		  print more useful information</pre>
+	</p>
+	<h4><a name="CL230"></a>library/runtime/process/commands-experimental/spec/unix</h4>
+	<p>
+			EL_COMPRESSED_ARCHIVE_IMPL
+	</p>
+	<p>
+			EL_COPY_FILE_IMPL
+	</p>
+	<p>
+			EL_COPY_TREE_IMPL
+	</p>
+	<p>
+			EL_CPU_INFO_COMMAND_IMPL
+	</p>
+	<p>
+			EL_DELETE_PATH_IMPL
+	</p>
+	<p>
+			EL_DELETE_TREE_IMPL
+	</p>
+	<p>
+			EL_EXTRACT_ID3_TAG_INFO_IMPL
+	</p>
+	<p>
+			EL_FIND_COMMAND_IMPL
+	</p>
+	<p>
+			EL_FIND_DIRECTORIES_IMPL
+	</p>
+	<p>
+			EL_FIND_FILES_IMPL
+	</p>
+	<p>
+			EL_GENERAL_COMMAND_IMPL
+	</p>
+	<p>
+			EL_GPG_ENCRYPT_IMPL
+	</p>
+	<p>
+			EL_MAKE_DIRECTORY_IMPL
+	</p>
+	<p>
+			EL_MONITOR_QUERY_COMMAND_IMPL
+	</p>
+	<p>
+			EL_MOVE_FILE_IMPL
+	</p>
+	<p>
+			EL_UNIX_CPU_INFO_COMMAND_IMPL
+	</p>
+	<h4><a name="CL231"></a>library/runtime/process/commands-experimental/spec/windows</h4>
+	<p>
+			EL_CMD_EXE_COMMAND: <pre>                Windows cmd.exe shell</pre>
+	</p>
+	<p>
+			EL_COPY_FILE_IMPL
+	</p>
+	<p>
+			EL_COPY_TREE_IMPL
+	</p>
+	<p>
+			EL_DELETE_PATH_IMPL
+	</p>
+	<p>
+			EL_DELETE_TREE_IMPL
+	</p>
+	<p>
+			EL_EXTRACT_ID3_TAG_INFO_IMPL
+	</p>
+	<p>
+			EL_FIND_COMMAND_IMPL
+	</p>
+	<p>
+			EL_FIND_DIRECTORIES_IMPL
+	</p>
+	<p>
+			EL_FIND_FILES_IMPL
+	</p>
+	<p>
+			EL_MAKE_DIRECTORY_IMPL
+	</p>
+	<p>
+			EL_MOVE_FILE_IMPL
+	</p>
+	<h4><a name="CL232"></a>library/runtime/process/commands</h4>
+	<p>
+			EL_COMMAND
+	</p>
+	<p>
+			EL_CPU_INFO_COMMAND
+	</p>
+	<p>
+			EL_GENERAL_OS_COMMAND
+	</p>
+	<h4><a name="CL233"></a>library/runtime/process/commands/audio</h4>
+	<p>
+			EL_WAV_GENERATION_COMMAND: <pre>            Wrapper for swgen test signal generation command
+            It generates 1 second of audio signal sweeping from &apos;frequency_lower&apos; to &apos;frequency_lower&apos; at
+            &apos;cycles_per_sec&apos; times per second
+            
+            See: http://manpages.ubuntu.com/manpages/natty/man1/swgen.1.html</pre>
+	</p>
+	<p>
+			EL_AUDIO_PROPERTIES_COMMAND
+	</p>
+	<p>
+			EL_EXTRACT_ID3_TAGS_COMMAND
+	</p>
+	<p>
+			EL_MP3_TO_WAV_CLIP_SAVER_COMMAND
+	</p>
+	<p>
+			EL_MULTIMEDIA_CONSTANTS
+	</p>
+	<p>
+			EL_VIDEO_TO_MP3_COMMAND
+	</p>
+	<p>
+			EL_WAV_FADER
+	</p>
+	<p>
+			EL_WAV_TO_MP3_COMMAND
+	</p>
+	<h4><a name="CL234"></a>library/runtime/process/commands/file-system</h4>
+	<p>
+			EL_DELETE_PATH_COMMAND: <pre>            Delete file or directory</pre>
+	</p>
+	<p>
+			EL_DIRECTORY_INFO_COMMAND: <pre>            Command to find file count and directory file content size</pre>
+	</p>
+	<p>
+			EL_COPY_FILE_COMMAND
+	</p>
+	<p>
+			EL_COPY_TREE_COMMAND
+	</p>
+	<p>
+			EL_DELETE_TREE_COMMAND
+	</p>
+	<p>
+			EL_FIND_DIRECTORIES_COMMAND
+	</p>
+	<p>
+			EL_FIND_FILES_COMMAND
+	</p>
+	<p>
+			EL_FIND_OS_COMMAND
+	</p>
+	<p>
+			EL_MAKE_DIRECTORY_COMMAND
+	</p>
+	<p>
+			EL_MOVE_FILE_COMMAND
+	</p>
+	<h4><a name="CL235"></a>library/runtime/process/commands/kernel</h4>
+	<p>
+			EL_DOUBLE_OPERAND_FILE_SYSTEM_OS_COMMAND
+	</p>
+	<p>
+			EL_FILE_SYSTEM_OS_COMMAND
+	</p>
+	<p>
+			EL_OS_COMMAND
+	</p>
+	<p>
+			EL_SINGLE_OPERAND_FILE_SYSTEM_COMMAND
+	</p>
+	<h4><a name="CL236"></a>library/runtime/process/commands/spec/common/audio</h4>
+	<p>
+			EL_AUDIO_PROPERTIES_COMMAND_IMPL
+	</p>
+	<p>
+			EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_IMPL
+	</p>
+	<p>
+			EL_VIDEO_TO_MP3_COMMAND_IMPL
+	</p>
+	<p>
+			EL_WAV_FADER_IMPL
+	</p>
+	<p>
+			EL_WAV_GENERATION_COMMAND_IMPL
+	</p>
+	<p>
+			EL_WAV_TO_MP3_IMPL
+	</p>
+	<h4><a name="CL237"></a>library/runtime/process/commands/spec/unix</h4>
+	<p>
+			EL_COMMAND_IMPL
+	</p>
+	<p>
+			EL_CPU_INFO_COMMAND_IMPL
+	</p>
+	<p>
+			EL_GENERAL_COMMAND_IMPL
+	</p>
+	<p>
+			EL_MONITOR_QUERY_COMMAND_IMPL
+	</p>
+	<h4><a name="CL238"></a>library/runtime/process/commands/spec/unix/audio</h4>
+	<p>
+			EL_EXTRACT_ID3_TAG_INFO_IMPL
+	</p>
+	<h4><a name="CL239"></a>library/runtime/process/commands/spec/unix/file-system</h4>
+	<p>
+			EL_DIRECTORY_INFO_COMMAND_IMPL: <pre>            Windows command to find file count and directory file content size</pre>
+	</p>
+	<p>
+			EL_COPY_FILE_IMPL
+	</p>
+	<p>
+			EL_DELETE_PATH_IMPL
+	</p>
+	<p>
+			EL_DELETE_TREE_IMPL
+	</p>
+	<p>
+			EL_FIND_COMMAND_IMPL
+	</p>
+	<p>
+			EL_FIND_DIRECTORIES_IMPL
+	</p>
+	<p>
+			EL_FIND_FILES_IMPL
+	</p>
+	<p>
+			EL_MAKE_DIRECTORY_IMPL
+	</p>
+	<p>
+			EL_MOVE_FILE_IMPL
+	</p>
+	<h4><a name="CL240"></a>library/runtime/process/commands/spec/windows</h4>
+	<p>
+			EL_COMMAND_IMPL
+	</p>
+	<p>
+			EL_CPU_INFO_COMMAND_IMPL
+	</p>
+	<p>
+			EL_GENERAL_COMMAND_IMPL
+	</p>
+	<p>
+			EL_GRAPHICS_INFO_IMPL
+	</p>
+	<h4><a name="CL241"></a>library/runtime/process/commands/spec/windows/audio</h4>
+	<p>
+			EL_EXTRACT_ID3_TAG_INFO_IMPL
+	</p>
+	<p>
+			EL_EXTRACT_TAG_INFO_IMPL
+	</p>
+	<h4><a name="CL242"></a>library/runtime/process/commands/spec/windows/file-system</h4>
+	<p>
+			EL_DIRECTORY_INFO_COMMAND_IMPL: <pre>            Windows command to find file count and directory file content size</pre>
+	</p>
+	<p>
+			EL_COPY_FILE_IMPL
+	</p>
+	<p>
+			EL_DELETE_PATH_IMPL
+	</p>
+	<p>
+			EL_DELETE_TREE_IMPL
+	</p>
+	<p>
+			EL_FIND_COMMAND_IMPL
+	</p>
+	<p>
+			EL_FIND_DIRECTORIES_IMPL
+	</p>
+	<p>
+			EL_FIND_FILES_IMPL
+	</p>
+	<p>
+			EL_MAKE_DIRECTORY_IMPL
+	</p>
+	<p>
+			EL_MOVE_FILE_IMPL
+	</p>
+	<h4><a name="CL243"></a>library/runtime/process/environment</h4>
+	<p>
+			EL_COMMAND_LINE_ARGUMENTS
+	</p>
+	<p>
+			EL_EXECUTION_ENVIRONMENT
+	</p>
+	<p>
+			EL_MODULE_ENVIRONMENT
+	</p>
+	<p>
+			EL_OPERATING_ENVIRONMENT
+	</p>
+	<p>
+			EL_SHARED_ENVIRONMENTS
+	</p>
+	<h4><a name="CL244"></a>library/runtime/process/environment/spec/unix</h4>
+	<p>
+			EL_EXECUTION_ENVIRONMENT_IMPL
+	</p>
+	<p>
+			EL_OPERATING_ENVIRONMENT_IMPL
+	</p>
+	<h4><a name="CL245"></a>library/runtime/process/environment/spec/windows</h4>
+	<p>
+			EL_EXECUTION_ENVIRONMENT_IMPL
+	</p>
+	<p>
+			EL_MS_WINDOWS_DIRECTORIES
+	</p>
+	<p>
+			EL_OPERATING_ENVIRONMENT_IMPL
+	</p>
+	<h4><a name="CL246"></a>library/testing</h4>
+	<p>
+			EL_MODULE_TEST
+	</p>
+	<p>
+			EL_TESTABLE_APPLICATION
+	</p>
+	<p>
+			EL_TEST_ROUTINES
+	</p>
+	<h4><a name="CL247"></a>library/text/character</h4>
+	<p>
+			EL_CHARACTER_ROUTINES
+	</p>
+	<p>
+			EL_LATIN_1
+	</p>
+	<p>
+			EL_MODULE_CHARACTER
+	</p>
+	<h4><a name="CL248"></a>library/text/edit</h4>
+	<p>
+			EL_STRING_EDITOR
+	</p>
+	<p>
+			EL_TEXT_EDITOR
+	</p>
+	<h4><a name="CL249"></a>library/text/edit/file</h4>
+	<p>
+			EL_TEXT_FILE_EDITOR: <pre>            ${description}</pre>
+	</p>
+	<p>
+			EL_FILE_TRAILING_SPACE_REMOVER
+	</p>
+	<p>
+			EL_TEXT_FILE_TEST_EDITOR
+	</p>
+	<h4><a name="CL250"></a>library/text/edit/history</h4>
+	<p>
+			EL_STRING_ASSIGN_EDITION
+	</p>
+	<p>
+			EL_STRING_DELETE_CHARACTER_EDITION
+	</p>
+	<p>
+			EL_STRING_DELETE_EDITION
+	</p>
+	<p>
+			EL_STRING_EDITION
+	</p>
+	<p>
+			EL_STRING_EDITION_HISTORY
+	</p>
+	<p>
+			EL_STRING_INSERT_CHARACTER_EDITION
+	</p>
+	<p>
+			EL_STRING_INSERT_EDITION
+	</p>
+	<p>
+			EL_STRING_REPLACE_CHARACTER_EDITION
+	</p>
+	<p>
+			EL_STRING_REPLACE_EDITION
+	</p>
+	<h4><a name="CL251"></a>library/text/encoding</h4>
+	<p>
+			EL_BASE_64_ROUTINES
+	</p>
+	<p>
+			EL_MODULE_BASE_64
+	</p>
+	<p>
+			EL_MODULE_UTF
+	</p>
+	<h4><a name="CL252"></a>library/text/encryption/aes</h4>
+	<p>
+			EL_AES_ENCRYPTER: <pre>            ${description}</pre>
+	</p>
+	<p>
+			EL_PADDED_BYTE_ARRAY: <pre>            bytes with a count equal to muliple of a_block_size.
+            Creation area arguments that do not fit exactly are padded with bytes of value equal to the padding count.</pre>
+	</p>
+	<p>
+			EL_CBC_DECRYPTION
+	</p>
+	<p>
+			EL_CBC_ENCRYPTION
+	</p>
+	<p>
+			EL_ENCRYPTABLE
+	</p>
+	<h4><a name="CL253"></a>library/text/encryption/file</h4>
+	<p>
+			EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
+	</p>
+	<p>
+			EL_ENCRYPTABLE_STORED_WORD_TOKEN_TABLE
+	</p>
+	<p>
+			EL_ENCRYPTED_PLAIN_TEXT_LINE_STATE_MACHINE
+	</p>
+	<h4><a name="CL254"></a>library/text/encryption/rsa</h4>
+	<p>
+			EL_PKCS1_RSA_FORMAT_CONSTANTS: <pre>            RSAPrivateKey ::= SEQUENCE {
+                version           Version,
+                modulus           INTEGER,  -- n
+                publicExponent    INTEGER,  -- e
+                privateExponent   INTEGER,  -- d
+                prime1            INTEGER,  -- p
+                prime2            INTEGER,  -- q
+                exponent1         INTEGER,  -- d mod (p-1)
+                exponent2         INTEGER,  -- d mod (q-1)
+                coefficient       INTEGER,  -- (inverse of q) mod p
+                otherPrimeInfos   OtherPrimeInfos OPTIONAL
+            }</pre>
+	</p>
+	<p>
+			EL_PKCS1_RSA_PRIVATE_KEY_READER: <pre>            RSAPrivateKey ::= SEQUENCE {
+                version           Version,
+                modulus           INTEGER,  -- n
+                publicExponent    INTEGER,  -- e
+                privateExponent   INTEGER,  -- d
+                prime1            INTEGER,  -- p
+                prime2            INTEGER,  -- q
+                exponent1         INTEGER,  -- d mod (p-1)
+                exponent2         INTEGER,  -- d mod (q-1)
+                coefficient       INTEGER,  -- (inverse of q) mod p
+                otherPrimeInfos   OtherPrimeInfos OPTIONAL
+            }</pre>
+	</p>
+	<p>
+			EL_RANDOM_SEED_INTEGER_X: <pre>            Object to time seed random state</pre>
+	</p>
+	<p>
+			EL_MODULE_RSA
+	</p>
+	<p>
+			EL_RSA_KEY
+	</p>
+	<p>
+			EL_RSA_KEY_PAIR
+	</p>
+	<p>
+			EL_RSA_PRIVATE_KEY
+	</p>
+	<p>
+			EL_RSA_PUBLIC_KEY
+	</p>
+	<p>
+			EL_RSA_ROUTINES
+	</p>
+	<h4><a name="CL255"></a>library/text/encryption/support</h4>
+	<p>
+			EL_ENCRYPTION_ROUTINES
+	</p>
+	<p>
+			EL_LOCALE_PASS_PHRASE
+	</p>
+	<p>
+			EL_MD5_16
+	</p>
+	<p>
+			EL_MODULE_ENCRYPTION
+	</p>
+	<p>
+			EL_PASS_PHRASE
+	</p>
+	<h4><a name="CL256"></a>library/text/file-naming</h4>
+	<p>
+			EL_DIRECTORY_NAMING_ROUTINES
+	</p>
+	<p>
+			EL_DIR_PATH
+	</p>
+	<p>
+			EL_FILE_PATH
+	</p>
+	<p>
+			EL_MODULE_DIRECTORY
+	</p>
+	<p>
+			EL_PATH
+	</p>
+	<p>
+			EL_PATH_STEPS
+	</p>
+	<h4><a name="CL257"></a>library/text/file-naming/lists</h4>
+	<p>
+			EL_DIRECTORY_PATH_LIST
+	</p>
+	<p>
+			EL_FILE_PATH_LIST
+	</p>
+	<h4><a name="CL258"></a>library/text/general</h4>
+	<p>
+			EL_LATIN_TEXT_IO_MEDIUM
+	</p>
+	<p>
+			EL_NAMEABLE
+	</p>
+	<p>
+			EL_STRING_ROUTINES
+	</p>
+	<h4><a name="CL259"></a>library/text/html</h4>
+	<p>
+			EL_HTML_CONSTANTS
+	</p>
+	<h4><a name="CL260"></a>library/text/internationalization-pyxis</h4>
+	<p>
+			EL_TEXT_ITEM_TRANSLATIONS_TABLE: <pre>            Translation table for text item serializeable as XML
+            
+            EG.
+        
+                &lt;item id="Delete current database"&gt;
+                    &lt;translation lang="en"&gt;$id&lt;/translation&gt;
+                    &lt;translation lang="de"&gt;Löschen aktuellen datenbank&lt;/translation&gt;
+                &lt;/item&gt;</pre>
+	</p>
+	<p>
+			EL_LOCALE_DATE_ROUTINES
+	</p>
+	<p>
+			EL_LOCALE_ROUTINES
+	</p>
+	<p>
+			EL_MODULE_LOCALE
+	</p>
+	<p>
+			EL_TRANSLATIONS_INFO
+	</p>
+	<p>
+			EL_TRANSLATION_GROUP
+	</p>
+	<p>
+			EL_TRANSLATION_TABLE
+	</p>
+	<p>
+			EL_TRANSLATION_TABLES
+	</p>
+	<p>
+			EL_TRANSLATION_TABLE_GROUPS
+	</p>
+	<h4><a name="CL261"></a>library/text/internationalization-pyxis/spec/unix</h4>
+	<p>
+			EL_LOCALE_ROUTINES_IMPL
+	</p>
+	<h4><a name="CL262"></a>library/text/internationalization-pyxis/spec/windows</h4>
+	<p>
+			EL_LOCALE_ROUTINES_IMPL
+	</p>
+	<h4><a name="CL263"></a>library/text/internationalization</h4>
+	<p>
+			EL_TEXT_ITEM_TRANSLATIONS_TABLE: <pre>            Translation table for text item serializeable as XML
+            
+            EG.
+        
+                &lt;item id="Delete current database"&gt;
+                    &lt;translation lang="en"&gt;$id&lt;/translation&gt;
+                    &lt;translation lang="de"&gt;LÃ¶schen aktuellen datenbank&lt;/translation&gt;
+                &lt;/item&gt;</pre>
+	</p>
+	<p>
+			EL_LOCALE_DATE_ROUTINES
+	</p>
+	<p>
+			EL_LOCALE_ROUTINES
+	</p>
+	<p>
+			EL_MODULE_LOCALE
+	</p>
+	<p>
+			EL_TRANSLATION_TABLE
+	</p>
+	<h4><a name="CL264"></a>library/text/internationalization/spec/unix</h4>
+	<p>
+			EL_LOCALE_ROUTINES_IMPL
+	</p>
+	<h4><a name="CL265"></a>library/text/internationalization/spec/windows</h4>
+	<p>
+			EL_LOCALE_ROUTINES_IMPL
+	</p>
+	<h4><a name="CL266"></a>library/text/line-processing</h4>
+	<p>
+			EL_LINE_MEDIUM
+	</p>
+	<p>
+			EL_LINE_SOURCE
+	</p>
+	<p>
+			EL_LINE_SOURCE_ITERATION_CURSOR
+	</p>
+	<p>
+			EL_TEXT_LINE_SOURCE
+	</p>
+	<h4><a name="CL267"></a>library/text/line-processing/encoding</h4>
+	<p>
+			EL_LATIN_LINE_DECODER: <pre>            Line reader that assumes that file is already encoded with the same ISO-8859 encoding
+            as used by EL_ASTRING. Set in EL_SHARED_CODEC. ISO-8859-15 by default.</pre>
+	</p>
+	<p>
+			EL_ENCODEABLE_AS_TEXT
+	</p>
+	<p>
+			EL_LATIN_1_LINE_DECODER
+	</p>
+	<p>
+			EL_LINE_DECODER
+	</p>
+	<p>
+			EL_UTF_8_LINE_DECODER
+	</p>
+	<h4><a name="CL268"></a>library/text/list</h4>
+	<p>
+			EL_ASTRING_LIST
+	</p>
+	<p>
+			EL_LINE_LIST
+	</p>
+	<p>
+			EL_LINKED_STRING_LIST
+	</p>
+	<p>
+			EL_STRING_GENERAL_CHAIN
+	</p>
+	<p>
+			EL_STRING_LIST
+	</p>
+	<h4><a name="CL269"></a>library/text/parse</h4>
+	<p>
+			EL_TAB_REMOVER: <pre>            Class to substitute spaces for tabs</pre>
+	</p>
+	<p>
+			EL_SOURCE_TEXT_PROCESSOR
+	</p>
+	<p>
+			EL_SPLIT_STRING_LIST
+	</p>
+	<p>
+			EL_SUBSTITUTION_TEMPLATE
+	</p>
+	<p>
+			EL_SUBST_VARIABLE_PARSER
+	</p>
+	<p>
+			EL_ZIP_FILE_LISTING_PARSER
+	</p>
+	<h4><a name="CL270"></a>library/text/parse/file</h4>
+	<p>
+			EL_HTTP_COOKIES
+	</p>
+	<p>
+			EL_PLAIN_TEXT_LINE_STATE_MACHINE
+	</p>
+	<h4><a name="CL271"></a>library/text/parse/file/csv</h4>
+	<p>
+			EL_COMMA_SEPARATED_FILE
+	</p>
+	<p>
+			EL_COMMA_SEPARATED_LINE
+	</p>
+	<h4><a name="CL272"></a>library/text/parse/kernel</h4>
+	<p>
+			EL_FILE_LEXER
+	</p>
+	<p>
+			EL_FILE_PARSER
+	</p>
+	<p>
+			EL_PARSER
+	</p>
+	<p>
+			EL_TOKEN_PARSER
+	</p>
+	<h4><a name="CL273"></a>library/text/parse/state-machine</h4>
+	<p>
+			EL_STATE_MACHINE
+	</p>
+	<h4><a name="CL274"></a>library/text/parse/state-machine/character</h4>
+	<p>
+			EL_CHARACTER_STATE_MACHINE
+	</p>
+	<h4><a name="CL275"></a>library/text/parse/support</h4>
+	<p>
+			EL_PARSING_EVENT
+	</p>
+	<p>
+			EL_PARSING_EVENT_LIST
+	</p>
+	<h4><a name="CL276"></a>library/text/pattern-matching</h4>
+	<p>
+			EL_MODULE_PATTERN
+	</p>
+	<p>
+			EL_TEXTUAL_PATTERN_MATCH_ROUTINES
+	</p>
+	<p>
+			EL_TEXT_MATCHER
+	</p>
+	<h4><a name="CL277"></a>library/text/pattern-matching/factory</h4>
+	<p>
+			EL_TEXTUAL_PATTERN_FACTORY: <pre>            Pattern factory</pre>
+	</p>
+	<p>
+			EL_C_PATTERN_FACTORY
+	</p>
+	<p>
+			EL_EIFFEL_PATTERN_FACTORY
+	</p>
+	<p>
+			EL_HTML_PATTERN_FACTORY
+	</p>
+	<p>
+			EL_XML_HTML_PATTERN_FACTORY
+	</p>
+	<p>
+			EL_XML_PATTERN_FACTORY
+	</p>
+	<h4><a name="CL278"></a>library/text/pattern-matching/kernel</h4>
+	<p>
+			EL_MATCH_BEGINNING_OF_LINE_TP: <pre>            Objects that matches start of new line</pre>
+	</p>
+	<p>
+			EL_LITERAL_TEXTUAL_PATTERN
+	</p>
+	<p>
+			EL_MATCH_PREVIOUSLY_MATCHED_TEXT_TP
+	</p>
+	<p>
+			EL_NEGATED_TEXTUAL_PATTERN
+	</p>
+	<p>
+			EL_RECURSIVE_FIRST_MATCH_IN_LIST_TP
+	</p>
+	<p>
+			EL_TEXTUAL_PATTERN
+	</p>
+	<h4><a name="CL279"></a>library/text/pattern-matching/kernel/character</h4>
+	<p>
+			EL_END_OF_LINE_CHAR_TP: <pre>            Objects that matches new line or EOF</pre>
+	</p>
+	<p>
+			EL_SINGLE_CHAR_TEXTUAL_PATTERN: <pre>            Pattern that matches only one character</pre>
+	</p>
+	<p>
+			EL_FIRST_MATCHING_CHAR_IN_LIST_TP
+	</p>
+	<p>
+			EL_LITERAL_CHAR_TP
+	</p>
+	<p>
+			EL_MATCH_ANY_CHAR_IN_SET_TP
+	</p>
+	<p>
+			EL_MATCH_ANY_CHAR_TP
+	</p>
+	<p>
+			EL_MATCH_CHAR_IN_ASCII_RANGE_TP
+	</p>
+	<p>
+			EL_MATCH_LEFT_AND_RIGHT_CHAR_TP
+	</p>
+	<p>
+			EL_NEGATED_CHAR_TP
+	</p>
+	<h4><a name="CL280"></a>library/text/pattern-matching/kernel/composite</h4>
+	<p>
+			EL_FIRST_MATCH_IN_LIST_TP: <pre>            List of alternative patterns evaluated from left to right until
+            a match is found</pre>
+	</p>
+	<p>
+			EL_MATCH_ALL_IN_LIST_TP
+	</p>
+	<p>
+			EL_MATCH_COUNT_WITHIN_BOUNDS_TP
+	</p>
+	<p>
+			EL_MATCH_ONE_OR_MORE_TIMES_TP
+	</p>
+	<p>
+			EL_MATCH_TP1_ON_CONDITION_TP2_MATCH_TP
+	</p>
+	<p>
+			EL_MATCH_TP1_UNTIL_TP2_MATCH_TP
+	</p>
+	<p>
+			EL_MATCH_TP1_WHILE_NOT_TP2_MATCH_TP
+	</p>
+	<p>
+			EL_MATCH_ZERO_OR_MORE_TIMES_TP
+	</p>
+	<p>
+			EL_REPEATED_TEXTUAL_PATTERN
+	</p>
+	<h4><a name="CL281"></a>library/text/pattern-matching/markup</h4>
+	<p>
+			EL_XML_ELEMENT_PATTERN
+	</p>
+	<p>
+			EL_XML_EMPTY_ELEMENT_PATTERN
+	</p>
+	<h4><a name="CL282"></a>library/text/string</h4>
+	<p>
+			EL_ASTRING: <pre>            A latin encoded string augmented by a set of unicode foreign characters</pre>
+	</p>
+	<p>
+			EL_ASTRING_SEARCHER: <pre>            Searcher for Augmented Latin strings</pre>
+	</p>
+	<p>
+			EL_EXTRA_UNICODE_CHARACTERS: <pre>            A lookup table for unicode characters foreign to character set defined by {EL_ASTRING}.codec
+            The index of each character maps to the Ctrl characters from 1:31 excluding 9:13 (Tab to Carriage Return)</pre>
+	</p>
+	<p>
+			EL_OCCURRENCE_SUBSTRINGS: <pre>            Visit all substrings in a string. &apos;interval&apos; contains indices of each substring.
+            EL_OCCURRENCE_SUBSTRINGS</pre>
+	</p>
+	<p>
+			EL_STRING_VIEW: <pre>            Defines a dynamic substring view of a string for use with lexers and parsers</pre>
+	</p>
+	<p>
+			EL_CASE_COMPARISON
+	</p>
+	<p>
+			EL_DELIMITED_SUBSTRINGS
+	</p>
+	<p>
+			EL_MODULE_ASCII
+	</p>
+	<p>
+			EL_MODULE_STRING
+	</p>
+	<p>
+			EL_MODULE_URL
+	</p>
+	<p>
+			EL_OCCURRENCE_SUBSTRING_LIST
+	</p>
+	<p>
+			EL_SUBSTRINGS
+	</p>
+	<h4><a name="CL283"></a>library/text/string/codecs</h4>
+	<p>
+			EL_CODEC
+	</p>
+	<p>
+			EL_SHARED_CODEC
+	</p>
+	<h4><a name="CL284"></a>library/text/string/codecs/iso</h4>
+	<p>
+			EL_ISO_8859_10_CODEC: <pre>            Codec for ISO_8859_10 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_11_CODEC: <pre>            Codec for ISO_8859_11 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_13_CODEC: <pre>            Codec for ISO_8859_13 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_14_CODEC: <pre>            Codec for ISO_8859_14 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_15_CODEC: <pre>            Codec for ISO_8859_15 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_2_CODEC: <pre>            Codec for ISO_8859_2 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_3_CODEC: <pre>            Codec for ISO_8859_3 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_4_CODEC: <pre>            Codec for ISO_8859_4 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_5_CODEC: <pre>            Codec for ISO_8859_5 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_6_CODEC: <pre>            Codec for ISO_8859_6 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_7_CODEC: <pre>            Codec for ISO_8859_7 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_8_CODEC: <pre>            Codec for ISO_8859_8 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_9_CODEC: <pre>            Codec for ISO_8859_9 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_ISO_8859_1_CODEC
+	</p>
+	<p>
+			EL_ISO_8859_CODEC
+	</p>
+	<h4><a name="CL285"></a>library/text/string/codecs/windows</h4>
+	<p>
+			EL_WINDOWS_1250_CODEC: <pre>            Codec for WINDOWS_1250 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_WINDOWS_1251_CODEC: <pre>            Codec for WINDOWS_1251 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_WINDOWS_1252_CODEC: <pre>            Codec for WINDOWS_1252 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_WINDOWS_1253_CODEC: <pre>            Codec for WINDOWS_1253 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_WINDOWS_1254_CODEC: <pre>            Codec for WINDOWS_1254 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_WINDOWS_1255_CODEC: <pre>            Codec for WINDOWS_1255 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_WINDOWS_1256_CODEC: <pre>            Codec for WINDOWS_1256 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_WINDOWS_1257_CODEC: <pre>            Codec for WINDOWS_1257 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_WINDOWS_1258_CODEC: <pre>            Codec for WINDOWS_1258 automatically generated from decoder.c in VTD-XML source</pre>
+	</p>
+	<p>
+			EL_WINDOWS_CODEC
+	</p>
+	<h4><a name="CL286"></a>library/text/string/styled</h4>
+	<p>
+			EL_MIXED_STYLE_STRING_LIST: <pre>            list of strings that should be rendered with either a regular, bold or fixed font</pre>
+	</p>
+	<p>
+			EL_MONOSPACED_STYLED_ASTRING: <pre>            String to be styled with fixed width font in a styleable component</pre>
+	</p>
+	<p>
+			EL_STYLED_ASTRING: <pre>            String to be styled with a regular or bold font in a styleable component</pre>
+	</p>
+	<p>
+			EL_HYPERLINKABLE
+	</p>
+	<p>
+			EL_MIXED_FONT_STYLEABLE_I
+	</p>
+	<h4><a name="CL287"></a>library/text/template</h4>
+	<p>
+			EL_TEMPLATE_STRING
+	</p>
+	<h4><a name="CL288"></a>library/text/template/evolicity</h4>
+	<p>
+			EL_MODULE_EVOLICITY_ENGINE: <pre>            Provides global access to the Evolicity template substitution engine.
+        
+            The templating substitution language was named "Evolicity" as a portmanteau of "Evolve" and "Felicity" 
+            which is also a partial anagram of "Velocity" the Apache project which inspired it. 
+            It also bows to an established tradition of naming Eiffel orientated projects starting with the letter &apos;E&apos;.</pre>
+	</p>
+	<p>
+			EVOLICITY_ENGINE: <pre>            Evolicity template substitution engine.
+        
+            The templating substitution language was named "Evolicity" as a portmanteau of "Evolve" and "Felicity" 
+            which is also a partial anagram of "Velocity" the Apache project which inspired it. 
+            It also bows to an established tradition of naming Eiffel orientated projects starting with the letter &apos;E&apos;.</pre>
+	</p>
+	<p>
+			EL_MODULE_EVOLICITY
+	</p>
+	<p>
+			EVOLICITY_COMPILER
+	</p>
+	<p>
+			EVOLICITY_FILE_LEXER
+	</p>
+	<h4><a name="CL289"></a>library/text/template/evolicity/directives</h4>
+	<p>
+			EVOLICITY_ACROSS_DIRECTIVE: <pre>            across loop duplicating Eiffel syntax</pre>
+	</p>
+	<p>
+			EVOLICITY_FOREACH_DIRECTIVE: <pre>            Syntax for looping over a sequence:
+                
+                #foreach &lt;iteration object variable name&gt; in &lt;sequence name&gt; loop
+                    
+                #end
+                
+            The iteration object variable name references the current sequence item.
+            Variable &apos;loop_index&apos; references the sequence index</pre>
+	</p>
+	<p>
+			EVOLICITY_COMPILED_TEMPLATE
+	</p>
+	<p>
+			EVOLICITY_COMPOUND_DIRECTIVE
+	</p>
+	<p>
+			EVOLICITY_DIRECTIVE
+	</p>
+	<p>
+			EVOLICITY_EVALUATE_DIRECTIVE
+	</p>
+	<p>
+			EVOLICITY_FREE_TEXT_DIRECTIVE
+	</p>
+	<p>
+			EVOLICITY_IF_ELSE_DIRECTIVE
+	</p>
+	<p>
+			EVOLICITY_INCLUDE_DIRECTIVE
+	</p>
+	<p>
+			EVOLICITY_NESTED_TEMPLATE_DIRECTIVE
+	</p>
+	<p>
+			EVOLICITY_VARIABLE_SUBST_DIRECTIVE
+	</p>
+	<h4><a name="CL290"></a>library/text/template/evolicity/expressions</h4>
+	<p>
+			EVOLICITY_COMPARABLE
+	</p>
+	<p>
+			EVOLICITY_COMPARABLE_VARIABLE
+	</p>
+	<p>
+			EVOLICITY_DOUBLE_COMPARABLE
+	</p>
+	<p>
+			EVOLICITY_EXPRESSION
+	</p>
+	<p>
+			EVOLICITY_INTEGER_64_COMPARABLE
+	</p>
+	<p>
+			EVOLICITY_NUMERIC_EXPRESSION
+	</p>
+	<p>
+			EVOLICITY_REFERENCE_EXPRESSION
+	</p>
+	<h4><a name="CL291"></a>library/text/template/evolicity/expressions/boolean</h4>
+	<p>
+			EVOLICITY_BOOLEAN_AND_EXPRESSION
+	</p>
+	<p>
+			EVOLICITY_BOOLEAN_CONJUNCTION_EXPRESSION
+	</p>
+	<p>
+			EVOLICITY_BOOLEAN_EXPRESSION
+	</p>
+	<p>
+			EVOLICITY_BOOLEAN_NOT_EXPRESSION
+	</p>
+	<p>
+			EVOLICITY_BOOLEAN_OR_EXPRESSION
+	</p>
+	<p>
+			EVOLICITY_BOOLEAN_REFERENCE_EXPRESSION
+	</p>
+	<h4><a name="CL292"></a>library/text/template/evolicity/expressions/comparison</h4>
+	<p>
+			EVOLICITY_COMPARISON
+	</p>
+	<p>
+			EVOLICITY_EQUAL_TO_COMPARISON
+	</p>
+	<p>
+			EVOLICITY_GREATER_THAN_COMPARISON
+	</p>
+	<p>
+			EVOLICITY_LESS_THAN_COMPARISON
+	</p>
+	<h4><a name="CL293"></a>library/text/template/evolicity/serialization</h4>
+	<p>
+			EVOLICITY_SERIALIZEABLE
+	</p>
+	<p>
+			EVOLICITY_SERIALIZEABLE_AS_XML
+	</p>
+	<p>
+			EVOLICITY_SERIALIZEABLE_TEXT_VALUE
+	</p>
+	<h4><a name="CL294"></a>library/text/template/evolicity/support</h4>
+	<p>
+			EVOLICITY_CONTEXT
+	</p>
+	<p>
+			EVOLICITY_CONTEXT_IMPL
+	</p>
+	<p>
+			EVOLICITY_EIFFEL_CONTEXT
+	</p>
+	<p>
+			EVOLICITY_FUNCTION_REFERENCE
+	</p>
+	<p>
+			EVOLICITY_OBJECT_TABLE
+	</p>
+	<p>
+			EVOLICITY_TEMPLATE_TABLE
+	</p>
+	<p>
+			EVOLICITY_TOKENS
+	</p>
+	<p>
+			EVOLICITY_VARIABLE_REFERENCE
+	</p>
+	<p>
+			EVOLICITY_XML_VALUE
+	</p>
+	<h4><a name="CL295"></a>library/text/url</h4>
+	<p>
+			EL_URL_ROUTINES
+	</p>
+	<h4><a name="CL296"></a>library/text/word-search</h4>
+	<p>
+			EL_BOYER_MOORE_SEARCHER_32: <pre>            Efficient Boyer-Moore Search for Unicode Strings
+            See: http://www.codeproject.com/KB/recipes/bmsearch.aspx</pre>
+	</p>
+	<p>
+			EL_DATEABLE
+	</p>
+	<p>
+			EL_DATE_AND_WORD_SEARCH_TERM_PARSER
+	</p>
+	<p>
+			EL_SEARCH_ENGINE
+	</p>
+	<p>
+			EL_SEARCH_TERM_PARSER
+	</p>
+	<p>
+			EL_STORED_WORD_TOKEN_TABLE
+	</p>
+	<p>
+			EL_TOKENIZED_STRING
+	</p>
+	<p>
+			EL_WORD_SEARCHABLE
+	</p>
+	<p>
+			EL_WORD_TOKEN_TABLE
+	</p>
+	<h4><a name="CL297"></a>library/text/word-search/term</h4>
+	<p>
+			EL_ONE_OF_WORDS_SEARCH_TERM: <pre>            Matches word token search string with any of the ending variations (last token)</pre>
+	</p>
+	<p>
+			EL_CONTAINS_WORDS_SEARCH_TERM
+	</p>
+	<p>
+			EL_CUSTOM_SEARCH_TERM
+	</p>
+	<p>
+			EL_DATE_INTERVAL_SEARCH_TERM
+	</p>
+	<p>
+			EL_OPERATOR_OR_SEARCH_TERM
+	</p>
+	<p>
+			EL_SEARCH_TERM
+	</p>
+	<h4><a name="CL298"></a>library/text/xml</h4>
+	<p>
+			EL_XML_PARENT_TAG_LIST: <pre>            XML tag that has child tags</pre>
+	</p>
+	<p>
+			EL_XML_VALUE_TAG_PAIR: <pre>            XML tag containing a single text node</pre>
+	</p>
+	<p>
+			EL_MODULE_XML
+	</p>
+	<p>
+			EL_SERIALIZEABLE_AS_XML
+	</p>
+	<p>
+			EL_XHTML_STRING_LIST
+	</p>
+	<p>
+			EL_XML_NAMESPACES
+	</p>
+	<p>
+			EL_XML_ROUTINES
+	</p>
+	<p>
+			EL_XML_TAG_LIST
+	</p>
+	<h4><a name="CL299"></a>library/utility/app-license</h4>
+	<p>
+			EL_APP_ACTIVATION_KEY
+	</p>
+	<p>
+			EL_APP_ACTIVATOR
+	</p>
+	<p>
+			EL_STORABLE_RSA_KEY
+	</p>
+	<p>
+			EL_STORABLE_RSA_KEY_PAIR
+	</p>
+	<p>
+			EL_STORABLE_RSA_PRIVATE_KEY
+	</p>
+	<p>
+			EL_STORABLE_RSA_PUBLIC_KEY
+	</p>
+	<h4><a name="CL300"></a>library/utility/compression</h4>
+	<p>
+			EL_COMPRESSED_ARCHIVE_FILE
+	</p>
+	<p>
+			EL_MODULE_ZLIB
+	</p>
+	<p>
+			EL_ZLIB_API
+	</p>
+	<p>
+			EL_ZLIB_ROUTINES
+	</p>
+	<h4><a name="CL301"></a>library/utility/date-time</h4>
+	<p>
+			EL_DATE_ROUTINES
+	</p>
+	<p>
+			EL_ENGLISH_DATE_ROUTINES
+	</p>
+	<p>
+			EL_MODULE_DATE
+	</p>
+	<p>
+			EL_MODULE_TIME
+	</p>
+	<p>
+			EL_TIME_ROUTINES
+	</p>
+	<h4><a name="CL302"></a>library/utility/file-processing</h4>
+	<p>
+			EL_FILE_EDITING_PROCESSOR: <pre>            Source file converter that overwrites source file with conversion</pre>
+	</p>
+	<p>
+			EL_DIRECTORY_CONTENT_PROCESSOR
+	</p>
+	<p>
+			EL_DIRECTORY_TREE_FILE_PROCESSOR
+	</p>
+	<p>
+			EL_FILE_PROCESSOR
+	</p>
+	<p>
+			EL_PARSING_FILE_PROCESSOR
+	</p>
+	<h4><a name="CL303"></a>library/utility/file-processing/support</h4>
+	<p>
+			EL_DO_NOTHING_FILE_LISTENER
+	</p>
+	<p>
+			EL_FILE_PROGRESS_LISTENER
+	</p>
+	<p>
+			EL_SHARED_FILE_PROGRESS_LISTENER
+	</p>
+	<h4><a name="CL304"></a>library/utility/file-processing/thread</h4>
+	<p>
+			EL_FILE_PROCESS_THREAD: <pre>            Thread for file serialization with progress notification</pre>
+	</p>
+	<p>
+			EL_BATCH_FILE_PROCESSING_THREAD
+	</p>
+	<h4><a name="CL305"></a>library/utility/installer-toolkit/windows</h4>
+	<p>
+			EL_APPLICATION_INSTALLER: <pre>            Windows application installer</pre>
+	</p>
+	<p>
+			EL_APPLICATION_INSTALLER_WINDOW
+	</p>
+	<p>
+			EL_INSTALLER_APP
+	</p>
+	<h4><a name="CL306"></a>library/utility/memory</h4>
+	<p>
+			EL_MEMORY_READ_WRITEABLE: <pre>            Object that can read and write itself to memory</pre>
+	</p>
+	<p>
+			EL_MEMORY_READER_WRITER
+	</p>
+	<h4><a name="CL307"></a>test/source</h4>
+	<p>
+			BUILD_INFO: <pre>            Build specification</pre>
+	</p>
+	<p>
+			APPLICATION_ROOT
+	</p>
+	<p>
+			TEST_APPLICATION
+	</p>
+	<h4><a name="CL308"></a>test/source/apps</h4>
+	<p>
+			CD_CATALOG_APP: <pre>            VTD-XML demo app to output CD albums costing less than $10</pre>
+	</p>
+	<p>
+			RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP: <pre>            Test recursive conversion of XML document to Eiffel and serialization back to XML.</pre>
+	</p>
+	<p>
+			TEST_SETS_APP: <pre>            Test SET implementations</pre>
+	</p>
+	<p>
+			XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP: <pre>            Test conversion of SMIL and XHTML documents to Eiffel and serialization back to XML.</pre>
+	</p>
+	<p>
+			BENCHMARK_STRINGS_APP
+	</p>
+	<p>
+			BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP
+	</p>
+	<p>
+			CHARACTER_STATE_MACHINE_TEST_APP
+	</p>
+	<p>
+			CLASS_TEST_APP
+	</p>
+	<p>
+			COMPRESSION_TEST_APP
+	</p>
+	<p>
+			DECLARATIVE_XPATH_PROCESSING_TEST_APP
+	</p>
+	<p>
+			EIFFEL_EXPERIMENTS_APP
+	</p>
+	<p>
+			EL_EYED3_TAG_TEST_APP
+	</p>
+	<p>
+			EVOLICITY_TEST_APP
+	</p>
+	<p>
+			STRING_EDITION_HISTORY_TEST_APP
+	</p>
+	<p>
+			SVG_TO_PNG_CONVERSION_TEST_APP
+	</p>
+	<p>
+			TEST_APP
+	</p>
+	<p>
+			TEST_OS_COMMANDS_APP
+	</p>
+	<p>
+			TEST_VTD_XML_APP
+	</p>
+	<h4><a name="CL309"></a>test/source/apps/spec/unix</h4>
+	<p>
+			MEDIA_PLAYER_DUMMY_APP: <pre>            For Windows only. A &apos;do nothing app&apos; for maintenance of class EL_AUDIO_PLAYER_THREAD.</pre>
+	</p>
+	<h4><a name="CL310"></a>test/source/apps/spec/windows</h4>
+	<p>
+			MEDIA_PLAYER_DUMMY_APP: <pre>            For Windows only. A &apos;do nothing app&apos; for maintenance of class EL_AUDIO_PLAYER_THREAD.</pre>
+	</p>
+	<h4><a name="CL311"></a>test/source/bex-parsing</h4>
+	<p>
+			BINARY_ENCODED_XML_DOCUMENT_SCANNER
+	</p>
+	<h4><a name="CL312"></a>test/source/binary-storable</h4>
+	<p>
+			STORABLE_STRING
+	</p>
+	<p>
+			STORABLE_STRING_LIST
+	</p>
+	<h4><a name="CL313"></a>test/source/encryption</h4>
+	<p>
+			ENCRYPTION_TEST_APP
+	</p>
+	<h4><a name="CL314"></a>test/source/evolicity-test</h4>
+	<p>
+			JOB_INFORMATION
+	</p>
+	<h4><a name="CL315"></a>test/source/general</h4>
+	<p>
+			AUDIO_EVENT: <pre>            Illustrates REAL assignment bug</pre>
+	</p>
+	<p>
+			EL_ROUTINE_INFO
+	</p>
+	<h4><a name="CL316"></a>test/source/id3</h4>
+	<p>
+			ID3_TAG_TEST
+	</p>
+	<h4><a name="CL317"></a>test/source/string-benchmarks</h4>
+	<p>
+			EL_ASTRING_TESTS
+	</p>
+	<p>
+			STRING_32_TESTS
+	</p>
+	<p>
+			STRING_TESTS
+	</p>
+	<p>
+			UC_UTF8_STRING_TESTS
+	</p>
+	<h4><a name="CL318"></a>test/source/tests</h4>
+	<p>
+			TEST_EL_ASTRING: <pre>            Eiffel tests that can be executed by testing tool.</pre>
+	</p>
+	<p>
+			FILE_TREE_TEST_SET
+	</p>
+	<h4><a name="CL319"></a>test/source/vtd-xml</h4>
+	<p>
+			SVG_INTEGER_POINT
+	</p>
+	<p>
+			SVG_POINT
+	</p>
+	<h4><a name="CL320"></a>test/source/xml-to-eiffel-object-builder/bioinfo</h4>
+	<p>
+			BIOINFORMATIC_COMMANDS: <pre>            Bioinformatic data demonstrating building from recursive XML
+            
+            Example:		
+            &lt;bix&gt;
+                &lt;package&gt;
+                    &lt;command&gt;
+                        &lt;parlist&gt;
+                            &lt;par&gt;
+                                &lt;value type="boolean"&gt;true&lt;/value&gt;
+                            &lt;/par&gt;
+                                &lt;value type="container"&gt;
+                                    &lt;parlist&gt;
+                                        &lt;par&gt;
+                                            &lt;value type="boolean"&gt;true&lt;/value&gt;
+                                        &lt;/par&gt;
+                                        &lt;par&gt;
+                                            &lt;value type="integer"&gt;12&lt;/value&gt;
+                                        &lt;/par&gt;
+                                        &lt;/par&gt;
+                                            &lt;value type="container"&gt;
+                                                &lt;parlist&gt;
+                                                    &lt;par&gt;
+                                                        &lt;value type="boolean"&gt;true&lt;/value&gt;
+                                                    &lt;/par&gt;
+                                                    &lt;par&gt;
+                                                        &lt;value type="integer"&gt;12&lt;/value&gt;
+                                                    &lt;/par&gt;
+                                                &lt;/parlist&gt;
+                                            &lt;/value&gt;
+                                        &lt;par&gt;
+                                    &lt;/parlist&gt;
+                                &lt;/value&gt;
+                            &lt;par&gt;
+                            &lt;/par&gt;
+                        &lt;/parlist&gt;
+                    &lt;/command&gt;
+                &lt;/package&gt;
+            &lt;/bix&gt;</pre>
+	</p>
+	<p>
+			CONTAINER_PARAMETER: <pre>            Recursive class. Attribute parameter_list may have other references to CONTAINER_PARAMETER</pre>
+	</p>
+	<p>
+			BIOINFO_COMMAND
+	</p>
+	<p>
+			BOOLEAN_PARAMETER
+	</p>
+	<p>
+			CHOICE_PARAMETER
+	</p>
+	<p>
+			DATA_PARAMETER
+	</p>
+	<p>
+			INTEGER_PARAMETER
+	</p>
+	<p>
+			INTEGER_RANGE_LIST_PARAMETER
+	</p>
+	<p>
+			LIST_PARAMETER
+	</p>
+	<p>
+			PARAMETER
+	</p>
+	<p>
+			PARAMETER_LIST
+	</p>
+	<p>
+			REAL_PARAMETER
+	</p>
+	<p>
+			REAL_RANGE_LIST_PARAMETER
+	</p>
+	<p>
+			RULES_LIST_PARAMETER
+	</p>
+	<p>
+			STRING_LIST_PARAMETER
+	</p>
+	<p>
+			STRING_PARAMETER
+	</p>
+	<p>
+			TITLE_PARAMETER
+	</p>
+	<p>
+			URL_PARAMETER
+	</p>
+	<h4><a name="CL321"></a>test/source/xml-to-eiffel-object-builder/matrix-rpc</h4>
+	<p>
+			MATRIX_CALCULATOR: <pre>            Perform calculations on matrix with procedure specified in processing instruction
+            
+            &lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+            &lt;?create {MATRIX_CALCULATOR}?&gt;
+            &lt;matrix&gt;
+                &lt;row&gt;
+                    &lt;col&gt;1.15&lt;/col&gt;
+                    &lt;col&gt;0.2&lt;/col&gt;
+                    &lt;col&gt;0.5&lt;/col&gt;
+                    &lt;col&gt;1.12&lt;/col&gt;
+                    &lt;col&gt;0.2&lt;/col&gt;
+                    &lt;col&gt;0.5&lt;/col&gt;
+                &lt;/row&gt;
+                &lt;row&gt;
+                    &lt;col&gt;0.1&lt;/col&gt;
+                    &lt;col&gt;0.28&lt;/col&gt;
+                    &lt;col&gt;0.5&lt;/col&gt;
+                    &lt;col&gt;6.2&lt;/col&gt;
+                    &lt;col&gt;0.55&lt;/col&gt;
+                    &lt;col&gt;0.1&lt;/col&gt;
+                &lt;/row&gt;
+            &lt;matrix&gt;
+            &lt;?procedure find_column_average?&gt;</pre>
+	</p>
+	<h4><a name="CL322"></a>test/source/xml-to-eiffel-object-builder/smil</h4>
+	<p>
+			SMIL_AUDIO_CLIP
+	</p>
+	<p>
+			SMIL_AUDIO_SEQUENCE
+	</p>
+	<p>
+			SMIL_PRESENTATION
+	</p>
+	<h4><a name="CL323"></a>test/source/xml-to-eiffel-object-builder/xhtml</h4>
+	<p>
+			WEB_FORM
+	</p>
+	<p>
+			WEB_FORM_COMPONENT
+	</p>
+	<p>
+			WEB_FORM_DROP_DOWN_LIST
+	</p>
+	<p>
+			WEB_FORM_LINE_BREAK
+	</p>
+	<p>
+			WEB_FORM_TEXT
+	</p>
+	<h4><a name="CL324"></a>test/source/xpath-events</h4>
+	<p>
+			BIOINFO_XPATH_MATCH_EVENTS
+	</p>
+	<p>
+			SMIL_XPATH_MATCH_EVENTS
+	</p>
+	<p>
+			XHTML_XPATH_MATCH_EVENTS
+	</p>
+	<h4><a name="CL325"></a>tool/toolkit/source</h4>
+	<p>
+			BUILD_INFO: <pre>            Build specification</pre>
+	</p>
+	<p>
+			APPLICATION_ROOT
+	</p>
+	<h4><a name="CL326"></a>tool/toolkit/source/amazon-exercise</h4>
+	<p>
+			AMAZON_EXERCISE_APP: <pre>            Write two functions with corresponding unit tests to reverse the order of a linked list 
+            using your implementation.
+            
+                You must provide:
+                
+                1. An iterative solution.
+                2. A recursive solution.</pre>
+	</p>
+	<p>
+			MY_LINKED_LIST: <pre>                Amazon exercise in linked list reversal</pre>
+	</p>
+	<p>
+			NODE_LINK: <pre>                Amazon exercise in linked list reversal</pre>
+	</p>
+	<h4><a name="CL327"></a>tool/toolkit/source/applications</h4>
+	<p>
+			DEPENDENCY_INSTALLER_APP: <pre>            Updates Linux packages by reading output of apt-rdepends from stdin
+            Calls apt-get to reinstall each package
+            
+            See: http://www.debianadmin.com/recursively-lists-package-dependencies-using-apt-rdepends.html</pre>
+	</p>
+	<p>
+			PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP: <pre>            ${description}</pre>
+	</p>
+	<p>
+			CODEC_GENERATOR_APP
+	</p>
+	<p>
+			CREATE_LICENSE_KEY_APP
+	</p>
+	<p>
+			CREATE_RSA_KEY_PAIR_APP
+	</p>
+	<p>
+			ENCRYPT_FILE_APP
+	</p>
+	<p>
+			ENCRYPT_TEXT_APP
+	</p>
+	<p>
+			EXPORT_THUNDERBIRD_HTML_APP
+	</p>
+	<p>
+			FTP_BACKUP_APP
+	</p>
+	<p>
+			JOBSERVE_SEARCH_APP
+	</p>
+	<p>
+			PYXIS_ENCRYPTER_APP
+	</p>
+	<p>
+			PYXIS_TO_XML_APP
+	</p>
+	<p>
+			VCF_CONTACT_SPLITTER_APP
+	</p>
+	<p>
+			WEB_PUBLISHER_APP
+	</p>
+	<p>
+			XML_TO_PYXIS_APP
+	</p>
+	<h4><a name="CL328"></a>tool/toolkit/source/applications/Eiffel</h4>
+	<p>
+			EIFFEL_CLASS_LIBRARY_MANIFEST_APP: <pre>            Generate HTML cluster manifest of from source tree manifest</pre>
+	</p>
+	<p>
+			EIFFEL_FIND_AND_REPLACE_APP: <pre>            Find and replace operating on a source manifest file</pre>
+	</p>
+	<p>
+			EIFFEL_NOTE_EDITOR_APP: <pre>            Fills in default values for indexing fields for source trees listed in a manifest</pre>
+	</p>
+	<p>
+			EIFFEL_UPGRADE_DEFAULT_POINTER_SYNTAX_APP: <pre>            App to change syntax of default_pointers references: 
+                ptr /= default_pointer TO is_attached (ptr)
+                and ptr = default_pointer TO not is_attached (ptr)</pre>
+	</p>
+	<p>
+			EIFFEL_UPGRADE_LOG_FILTERS_APP: <pre>                Upgrade syntax of Eiffel Loop logging filter arrays</pre>
+	</p>
+	<p>
+			EIFFEL_CLASS_EDITOR_APP
+	</p>
+	<p>
+			EIFFEL_CLASS_PREFIX_REMOVAL_APP
+	</p>
+	<p>
+			EIFFEL_CODEBASE_STATISTICS_APP
+	</p>
+	<p>
+			EIFFEL_CODE_HIGHLIGHTING_TEST_APP
+	</p>
+	<p>
+			EIFFEL_ECF_TO_PECF_APP
+	</p>
+	<p>
+			EIFFEL_FEATURE_LABEL_EXPANDER_APP
+	</p>
+	<p>
+			EIFFEL_SOURCE_FILE_NAME_NORMALIZER_APP
+	</p>
+	<p>
+			EIFFEL_SOURCE_LOG_LINE_REMOVER_APP
+	</p>
+	<p>
+			EIFFEL_SOURCE_TREE_CLASS_RENAME_APP
+	</p>
+	<h4><a name="CL329"></a>tool/toolkit/source/codec-generator</h4>
+	<p>
+			CODEC_GENERATOR
+	</p>
+	<p>
+			CODEC_INFO
+	</p>
+	<p>
+			LATIN_CHARACTER
+	</p>
+	<p>
+			UNICODE_INTERVAL
+	</p>
+	<h4><a name="CL330"></a>tool/toolkit/source/dependency-installer</h4>
+	<p>
+			DEPENDENCY_INSTALLER
+	</p>
+	<h4><a name="CL331"></a>tool/toolkit/source/eiffel-dev</h4>
+	<p>
+			EIFFEL_CODEBASE_STATISTICS_COMMAND
+	</p>
+	<h4><a name="CL332"></a>tool/toolkit/source/eiffel-dev/class-edit</h4>
+	<p>
+			EIFFEL_LOG_FILTER_ARRAY_SOURCE_EDITOR: <pre>            Object that upgrades syntax of log filters 
+            FROM
+            
+                Log_filter_old: ARRAY [TUPLE]
+                        --
+                    once
+                        Result := &lt;&lt;
+                            ["CREATE_RSA_KEY_PAIR_APP", "*", "run"],
+                            ["EL_RSA_KEY_PAIR", "*"]
+                        &gt;&gt;
+                    end
+            TO
+                Log_filter_new: ARRAY [like Type_logging_filter]
+                        --
+                    do
+                        Result := &lt;&lt;
+                            [{CREATE_RSA_KEY_PAIR_APP}, "*, run"],
+                            [{EL_RSA_KEY_PAIR}, "*"]
+                            
+                        &gt;&gt;
+                    end</pre>
+	</p>
+	<p>
+			EIFFEL_LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR: <pre>            Objects that comments out and comments in &apos;log.xxx&apos; lines</pre>
+	</p>
+	<p>
+			EIFFEL_UPGRADE_DEFAULT_POINTER_SYNTAX_EDITOR: <pre>            Change syntax of default_pointers references: 
+                ptr /= default_pointer TO is_attached (ptr)
+                ptr = default_pointer TO not is_attached (ptr)</pre>
+	</p>
+	<p>
+			EIFFEL_ATTRIBUTE_INSERTION_CLASS_EDITOR
+	</p>
+	<p>
+			EIFFEL_CLASS_EDITOR
+	</p>
+	<p>
+			EIFFEL_CLASS_NAME_EDITOR
+	</p>
+	<p>
+			EIFFEL_CLASS_PREFIX_REMOVER
+	</p>
+	<p>
+			EIFFEL_FEATURE_LABEL_EXPANDER
+	</p>
+	<h4><a name="CL333"></a>tool/toolkit/source/eiffel-dev/class-rename</h4>
+	<p>
+			EIFFEL_CLASS_FILE_NAME_NORMALIZER
+	</p>
+	<p>
+			EIFFEL_CLASS_RENAMER
+	</p>
+	<p>
+			EIFFEL_CLASS_RENAMER_COMMAND
+	</p>
+	<h4><a name="CL334"></a>tool/toolkit/source/eiffel-dev/find-and-replace</h4>
+	<p>
+			EIFFEL_FIND_AND_REPLACE_COMMAND
+	</p>
+	<p>
+			EIFFEL_FIND_AND_REPLACE_EDITOR
+	</p>
+	<h4><a name="CL335"></a>tool/toolkit/source/eiffel-dev/library-manifest</h4>
+	<p>
+			CLASS_LIBRARY_MANIFEST: <pre>            Generates XHTML representation of Eiffel cluster class list with indexing descriptions (if any)</pre>
+	</p>
+	<p>
+			EIFFEL_CLASS_LIBRARY_MANIFEST_COMMAND: <pre>            Write class library manifest from source manifest file</pre>
+	</p>
+	<p>
+			CLASS_INFO
+	</p>
+	<p>
+			CLUSTER
+	</p>
+	<h4><a name="CL336"></a>tool/toolkit/source/eiffel-dev/note-editor</h4>
+	<p>
+			EIFFEL_NOTE_EDITOR: <pre>            Edits note fields of an Eiffel class if the modified date has changed from note field date.
+            Then increment revision and fill in author, copyright, contact, license and revision fields.</pre>
+	</p>
+	<p>
+			EIFFEL_NOTE_EDITOR_COMMAND: <pre>            Edits notes in sources specified by manifest</pre>
+	</p>
+	<p>
+			LICENSE_NOTES
+	</p>
+	<h4><a name="CL337"></a>tool/toolkit/source/eiffel-dev/support</h4>
+	<p>
+			EIFFEL_SOURCE_EDITING_PROCESSOR
+	</p>
+	<p>
+			EIFFEL_SOURCE_MANIFEST
+	</p>
+	<p>
+			EIFFEL_SOURCE_MANIFEST_COMMAND
+	</p>
+	<p>
+			EIFFEL_SOURCE_MANIFEST_EDITOR_COMMAND
+	</p>
+	<h4><a name="CL338"></a>tool/toolkit/source/eiffel-dev/support/tree-edit</h4>
+	<p>
+			EIFFEL_SOURCE_EDIT_SUB_APP
+	</p>
+	<p>
+			EIFFEL_SOURCE_TREE_EDIT_COMMAND_LINE_SUB_APP
+	</p>
+	<p>
+			EIFFEL_SOURCE_TREE_EDIT_SUB_APP
+	</p>
+	<p>
+			EIFFEL_SOURCE_TREE_PROCESSOR
+	</p>
+	<h4><a name="CL339"></a>tool/toolkit/source/export-thunderbird</h4>
+	<p>
+			THUNDERBIRD_MAIL_CONVERTER
+	</p>
+	<p>
+			THUNDERBIRD_MAIL_EXPORTER
+	</p>
+	<p>
+			THUNDERBIRD_MAIL_TO_HTML_BODY_CONVERTER
+	</p>
+	<p>
+			THUNDERBIRD_MAIL_TO_XHTML_CONVERTER
+	</p>
+	<h4><a name="CL340"></a>tool/toolkit/source/ftp-backup</h4>
+	<p>
+			FILE_SPECIFIER_LIST: <pre>            Queries an XPath context node for file specifiers</pre>
+	</p>
+	<p>
+			ARCHIVE_FILE
+	</p>
+	<p>
+			EXCLUSION_LIST_FILE
+	</p>
+	<p>
+			FTP_BACKUP
+	</p>
+	<p>
+			INCLUSION_LIST_FILE
+	</p>
+	<h4><a name="CL341"></a>tool/toolkit/source/ftp-backup/eposix</h4>
+	<p>
+			FTP_BACKUP_2: <pre>            EPOSIX version of FTP_BACKUP</pre>
+	</p>
+	<p>
+			FTP_PROTOCOL_2
+	</p>
+	<h4><a name="CL342"></a>tool/toolkit/source/html-body-substitution</h4>
+	<p>
+			DOCUMENT_CONTEXT
+	</p>
+	<h4><a name="CL343"></a>tool/toolkit/source/jobserve</h4>
+	<p>
+			JOBS_RESULT_SET
+	</p>
+	<p>
+			JOB_DURATION_PARSER
+	</p>
+	<p>
+			JOB_INFO
+	</p>
+	<h4><a name="CL344"></a>tool/toolkit/source/praat-source-conversion</h4>
+	<p>
+			PRAAT_LIB_MAKE_FILE_GENERATOR
+	</p>
+	<p>
+			PRAAT_MAKE_FILE_PARSER
+	</p>
+	<h4><a name="CL345"></a>tool/toolkit/source/praat-source-conversion/converters</h4>
+	<p>
+			FILE_GSL_CONFIG_H_GCC_TO_MSVC_CONVERTER: <pre>            REPLACE in C source gsl__config.h:
+            
+                /* Define if you have the isnan function.  */
+                #if defined(linux) || defined (macintosh) || defined (_WIN32)
+                  #define HAVE_ISNAN 1
+                #else
+                  #undef HAVE_ISNAN
+                #endif
+        
+            WITH:
+                /* Define if you have the isnan function.  */
+                #if defined (_MSC_VER) // MS Visual C++
+                  #undef HAVE_ISNAN
+                #elif defined(linux) || defined (macintosh) || defined (_WIN32)
+                  #define HAVE_ISNAN 1
+                #else
+                  #undef HAVE_ISNAN
+                #endif</pre>
+	</p>
+	<p>
+			FILE_NUM2_C_GCC_TO_MSVC_CONVERTER: <pre>            Add line in NUM2.c to include gsl__config.h</pre>
+	</p>
+	<p>
+			FILE_MOTIF_EMULATOR_C_GCC_TO_MSVC_CONVERTER
+	</p>
+	<p>
+			FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER
+	</p>
+	<p>
+			GCC_TO_MSVC_CONVERTER
+	</p>
+	<p>
+			PROCEDURE_PRAAT_RUN_GCC_TO_MSVC_CONVERTER
+	</p>
+	<h4><a name="CL346"></a>tool/toolkit/source/pyxis</h4>
+	<p>
+			PYXIS_ENCRYPTER: <pre>            Encrypt contents of Pyxis file</pre>
+	</p>
+	<p>
+			PYXIS_TO_XML_CONVERTER
+	</p>
+	<p>
+			XML_TO_PYXIS_CONVERTER
+	</p>
+	<h4><a name="CL347"></a>tool/toolkit/source/support</h4>
+	<p>
+			FILE_OPERATING_SUB_APP
+	</p>
+	<p>
+			FILE_TREE_OPERATING_SUB_APP
+	</p>
+	<p>
+			PATH_OPERATING_SUB_APP
+	</p>
+	<h4><a name="CL348"></a>tool/toolkit/source/vcf-splitter</h4>
+	<p>
+			VCF_CONTACT_SPLITTER
+	</p>
+	<h4><a name="CL349"></a>tool/toolkit/source/web-publisher</h4>
+	<p>
+			EIFFEL_CODE_HIGHLIGHTING_TRANSFORMER
+	</p>
+	<p>
+			WEB_PAGE
+	</p>
+	<p>
+			WEB_PAGE_CONTENT
+	</p>
+	<p>
+			WEB_PAGE_PROPERTIES
+	</p>
+	<p>
+			WEB_PUBLISHER_CONFIG
+	</p>
+
+	</div>
+	</body>
+</html>

@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<rhythmdb-playlists>
+  <playlist name="My Top Rated" type="automatic" sort-key="Rating" sort-direction="1">
+    <conjunction>
+      <equals prop="type">song</equals>
+      <subquery>
+        <conjunction>
+          <greater prop="rating">4.000000</greater>
+        </conjunction>
+      </subquery>
+    </conjunction>
+  </playlist>
+  <playlist name="Recently Added" type="automatic" sort-key="FirstSeen" sort-direction="1">
+    <conjunction>
+      <equals prop="type">song</equals>
+      <subquery>
+        <conjunction>
+          <current-time-within prop="first-seen">604800</current-time-within>
+        </conjunction>
+      </subquery>
+    </conjunction>
+  </playlist>
+  <playlist name="Recently Played" type="automatic" sort-key="LastPlayed" sort-direction="1">
+    <conjunction>
+      <equals prop="type">song</equals>
+      <subquery>
+        <conjunction>
+          <current-time-within prop="last-played">604800</current-time-within>
+        </conjunction>
+      </subquery>
+    </conjunction>
+  </playlist>
+  <playlist name="Belvedere" type="static">
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2001:%20MILONGA%20---.01.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Feb%2028/Various%20Artists%20-%20El%20Temblor.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/March%2016/08%20-%20La%20Naranja%20Naci%20Verde.mp3</location>
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2002:%20TANGO%20---.01.mp3</location>
+    <location>file://$WORKAREA/Music/Enrique%20Rodr%C3%ADguez/Enrique%20Rodr%C3%ADguez%20--%20Suerte%20Loca.v01.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Feb%2017/Enrique%20Rodr%C3%ADguez/Enrique%20Rodriguez%20%26%20His%20Orchestra%20-%20No%20te%20Quiero%20M_s.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Feb%2017/Enrique%20Rodr%C3%ADguez/Enrique%20Rodriguez%20&amp;%20His%20Orchestra%20-%20No%20te%20Quiero%20M_s.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Feb%2017/Enrique%20Rodr%C3%ADguez/Enrique%20Rodriguez%20_%20His%20Orchestra%20-%20La%20Casita%20Est_%20Triste.mp3</location>
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2003:%20TANGO%20---.01.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/La%20Mujer%20y%20el%20Tango/La%20pulpera%20de%20Santa%20Luc%C3%ADa%20-%20Nelly%20Omar.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/La%20Mujer%20y%20el%20Tango/Sin%20Palabras%20-%20Susana%20Rinaldi.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/La%20Mujer%20y%20el%20Tango/Una%20l%C3%A1grima%20tuya%20-%20Susy%20Leiva.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/La%20Mujer%20y%20el%20Tango/Garras%20-%20Virginia%20Luque.mp3</location>
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2004:%20VALS%20---.01.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Feb%2017/Enrique%20Rodriguez%20&amp;%20His%20Orchestra%20-%20Con%20tu%20Mirar.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/June%2010/Ada%20Falc_n%20-%20Florcita%20Criolla.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Francisco%20Canaro/Francisco%20Canaro%20--%20Corazon%20de%20Oro.v01.mp3</location>
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20THE%20END%20---.01.mp3</location>
+  </playlist>
+  <playlist name="Turks Head" type="static">
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2001:%20MILONGA%20---.01.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Feb%2028/Various%20Artists%20-%20El%20Temblor.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/March%2016/08%20-%20La%20Naranja%20Naci%20Verde.mp3</location>
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2002:%20TANGO%20---.01.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Feb%204/Francisco%20Lomuto%20y%20su%20orquesta%20tipica%20-%20Has%20Muerto%20Para%20Mi.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Feb%204/Francisco%20Lomuto%20y%20su%20orquesta%20tipica%20-%20Mar%20De%20Fondo.mp3</location>
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2003:%20TANGO%20---.01.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/%E2%82%AC%C3%81ngel%20D'agostino/%C3%81ngel%20D'agostino%20--%20Tres%20Esquinas.v02.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Feb%204/Various%20-%20Recuerdo.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/La%20Mujer%20y%20el%20Tango/Besos%20Brujos%20-%20Elsa%20Rivas.mp3</location>
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2004:%20VALS%20---.01.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Francisco%20Canaro/Francisco%20Canaro%20--%20Coraz%C3%B2n%20de%20Oro.v01.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Feb%204/Francisco%20Lomuto%20y%20su%20orquesta%20tipica%20-%20Lo%20Que%20Vieron%20Tus%20Ojos.mp3</location>
+    <location>file://$WORKAREA/Music/Recent/Feb%2028/Juan%20D%27Arienzo%20-%20Tu%20Olvido.mp3</location>
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20THE%20END%20---.01.mp3</location>
+  </playlist>
+  <playlist name="Play Queue (5)" type="queue">
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2001:%20MILONGA%20---.01.mp3</location>
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2002:%20TANGO%20---.01.mp3</location>
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2003:%20TANGO%20---.01.mp3</location>
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2004:%20VALS%20---.01.mp3</location>
+    <location>file://$WORKAREA/Music/Cortina/Enya/---%20THE%20END%20---.01.mp3</location>
+  </playlist>
+</rhythmdb-playlists>

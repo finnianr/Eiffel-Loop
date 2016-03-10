@@ -1,0 +1,756 @@
+<?xml version="1.0" standalone="yes"?>
+<rhythmdb version="1.8">
+	<entry type="song">
+		<title>L'Autre Valse d'Am&#xE9;lie</title>
+		<genre>Vals (Modern)</genre>
+		<artist>Yann Tiersen</artist>
+		<album>Le Fabuleux Destin d'Am&#xE9;lie Poulain</album>
+		<comment>Composer: Yann Tiersen</comment>
+		<album-artist>Composer: Yann Tiersen</album-artist>
+		<track-number>6</track-number>
+		<duration>93</duration>
+		<file-size>2244105</file-size>
+		<location>file://$WORKAREA/Music/Vals%20(Modern)/Yann%20Tiersen/L'Autre%20Valse%20d'Am%C3%A9lie.02.mp3</location>
+		<mtime>1335094508</mtime>
+		<first-seen>1358180915</first-seen>
+		<last-seen>1382259840</last-seen>
+		<bitrate>192</bitrate>
+		<date>730486</date>
+		<media-type>audio/mpeg</media-type>
+		<mb-artistsortname>Tiersen, Yann</mb-artistsortname>
+	</entry>
+	<entry type="song">
+		<title>Le Quattro Stagioni &#xB4;L&#xB4;Estate`- I.Allegro non molto</title>
+		<genre>Classical</genre>
+		<artist>Antonio Vivaldi</artist>
+		<album>The English Concert Orchestra, Trevor Pinnock: Le Quattro Stagioni</album>
+		<track-number>4</track-number>
+		<duration>284</duration>
+		<file-size>9105536</file-size>
+		<location>file://$WORKAREA/Music/Classical/Antonio%20Vivaldi/Le%20Quattro%20Stagioni%20%C2%B4L%C2%B4Estate%60-%20I.Allegro%20non%20molto.02.mp3</location>
+		<mtime>1335094506</mtime>
+		<first-seen>1358180877</first-seen>
+		<last-seen>1381250183</last-seen>
+		<bitrate>256</bitrate>
+		<date>723546</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>The Hangmans Reel</title>
+		<genre>Irish Traditional</genre>
+		<artist>Zoe Conway</artist>
+		<album>Youtube</album>
+		<duration>206</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/April%2014/Zoe%20Conway%20_%20John%20McIntyre%20at%20Whelans%20Dublin%209th%20October%20_07.mp3</location>
+		<mtime>1381244640</mtime>
+		<first-seen>1271262342</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>3</play-count>
+		<last-played>1271270638</last-played>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Spatter the Dew</title>
+		<genre>Irish Traditional</genre>
+		<artist>Anisa Angarola</artist>
+		<album>Irish Airs &amp; Dances</album>
+		<track-number>11</track-number>
+		<duration>197</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/April%2014/Anisa%20Angarola%20-%20Spatter%20the%20Dew.mp3</location>
+		<mtime>1381244640</mtime>
+		<first-seen>1271241117</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>2</play-count>
+		<last-played>1271270431</last-played>
+		<bitrate>50</bitrate>
+		<date>726833</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Tres Esquinas &#x2122;</title>
+		<genre>Tango</genre>
+		<artist>&#xC1;ngel D'Agostino</artist>
+		<album>Most Common Tangos For Dancing</album>
+		<duration>186</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/%E2%82%AC%C3%81ngel%20D'agostino/%C3%81ngel%20D'agostino%20--%20Tres%20Esquinas.v02.mp3</location>
+		<mtime>1381244636</mtime>
+		<first-seen>1254415789</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>708571</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Recuerdo</title>
+		<genre>Tango</genre>
+		<artist>Bianco-bachicha</artist>
+		<album>50 Ans De Tangos</album>
+		<track-number>8</track-number>
+		<duration>159</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/Feb%204/Various%20-%20Recuerdo.mp3</location>
+		<mtime>1381244638</mtime>
+		<first-seen>1265301537</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>3</play-count>
+		<last-played>1276021541</last-played>
+		<bitrate>50</bitrate>
+		<date>732677</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Una l&#xE1;grima tuya</title>
+		<genre>Tango</genre>
+		<artist>Susy Leiva</artist>
+		<album>La Mujer y el Tango</album>
+		<track-number>6</track-number>
+		<duration>185</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/La%20Mujer%20y%20el%20Tango/Una%20l%C3%A1grima%20tuya%20-%20Susy%20Leiva.mp3</location>
+		<mtime>1381244638</mtime>
+		<first-seen>1265890986</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Garras</title>
+		<genre>Tango</genre>
+		<artist>Virginia Luque</artist>
+		<album>La Mujer y el Tango</album>
+		<track-number>10</track-number>
+		<duration>229</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/La%20Mujer%20y%20el%20Tango/Garras%20-%20Virginia%20Luque.mp3</location>
+		<mtime>1381244638</mtime>
+		<first-seen>1265890986</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Sin Palabras</title>
+		<genre>Tango</genre>
+		<artist>Susana Rinaldi</artist>
+		<album>La Mujer y el Tango</album>
+		<track-number>7</track-number>
+		<duration>161</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/La%20Mujer%20y%20el%20Tango/Sin%20Palabras%20-%20Susana%20Rinaldi.mp3</location>
+		<mtime>1381244638</mtime>
+		<first-seen>1265890986</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>La Casita Est&#xE1; Triste</title>
+		<genre>Tango</genre>
+		<artist>Enrique Rodr&#xED;guez</artist>
+		<album>The History of Tango / Enrique Rodr&#xED;guez - Recordings 1939-1</album>
+		<track-number>16</track-number>
+		<duration>160</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/Feb%2017/Enrique%20Rodr%C3%ADguez/Enrique%20Rodriguez%20_%20His%20Orchestra%20-%20La%20Casita%20Est_%20Triste.mp3</location>
+		<mtime>1384173013</mtime>
+		<first-seen>1266847190</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>2</play-count>
+		<last-played>1266867468</last-played>
+		<bitrate>50</bitrate>
+		<date>733408</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>No te Quiero M&#xE1;s</title>
+		<genre>Tango</genre>
+		<artist>Enrique Rodr&#xED;guez</artist>
+		<album>The History of Tango / Enrique Rodr&#xED;guez - Recordings 1939-1</album>
+		<track-number>1</track-number>
+		<disc-number>1</disc-number>
+		<duration>134</duration>
+		<file-size>2380115</file-size>
+		<location>file://$WORKAREA/Music/Recent/Feb%2017/Enrique%20Rodr%C3%ADguez/Enrique%20Rodriguez%20%26%20His%20Orchestra%20-%20No%20te%20Quiero%20M_s.mp3</location>
+		<mtime>1384173013</mtime>
+		<first-seen>1266846786</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>138</bitrate>
+		<date>733408</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Suerte Loca</title>
+		<genre>Tango</genre>
+		<artist>Enrique Rodr&#xED;guez</artist>
+		<album>Most Common Tangos For Dancing</album>
+		<duration>161</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Enrique%20Rodr%C3%ADguez/Enrique%20Rodr%C3%ADguez%20--%20Suerte%20Loca.v01.mp3</location>
+		<mtime>1384173013</mtime>
+		<first-seen>1254415797</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>3</play-count>
+		<last-played>1269630155</last-played>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Tango Mio</title>
+		<genre>Tango</genre>
+		<artist>Juan Llossas</artist>
+		<comment>Performers: Juan Llossas German-Spanish Orchestra</comment>
+		<album-artist>Performers: Juan Llossas German-Spanish Orchestra</album-artist>
+		<album>Tanztempo Vol.6 - Tango</album>
+		<track-number>22</track-number>
+		<duration>204</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/Feb%204/Various%20Artists%20-%20Tango%20Mio.mp3</location>
+		<mtime>1381244637</mtime>
+		<first-seen>1265304192</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>731216</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Besos Brujos</title>
+		<genre>Tango</genre>
+		<artist>Elsa Rivas</artist>
+		<album>La Mujer y el Tango</album>
+		<track-number>8</track-number>
+		<duration>138</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/La%20Mujer%20y%20el%20Tango/Besos%20Brujos%20-%20Elsa%20Rivas.mp3</location>
+		<mtime>1381244638</mtime>
+		<first-seen>1265890986</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Mar De Fondo</title>
+		<genre>Tango</genre>
+		<artist>Francisco Lomuto</artist>
+		<album>Buenos Aires Querido</album>
+		<track-number>9</track-number>
+		<duration>163</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/Feb%204/Francisco%20Lomuto%20y%20su%20orquesta%20tipica%20-%20Mar%20De%20Fondo.mp3</location>
+		<mtime>1381244638</mtime>
+		<first-seen>1265298471</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>1</play-count>
+		<last-played>1273753582</last-played>
+		<bitrate>50</bitrate>
+		<date>733042</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Has Muerto Para Mi</title>
+		<genre>Tango</genre>
+		<artist>Francisco Lomuto</artist>
+		<album>Buenos Aires Querido</album>
+		<track-number>8</track-number>
+		<duration>219</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/Feb%204/Francisco%20Lomuto%20y%20su%20orquesta%20tipica%20-%20Has%20Muerto%20Para%20Mi.mp3</location>
+		<mtime>1381244638</mtime>
+		<first-seen>1265298471</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>2</play-count>
+		<last-played>1273268128</last-played>
+		<bitrate>50</bitrate>
+		<date>733042</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>La pulpera de Santa Luc&#xED;a - (1924)</title>
+		<genre>Tango</genre>
+		<artist>Nelly Omar</artist>
+		<album>La Mujer y el Tango</album>
+		<track-number>1</track-number>
+		<duration>177</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/La%20Mujer%20y%20el%20Tango/La%20pulpera%20de%20Santa%20Luc%C3%ADa%20-%20Nelly%20Omar.mp3</location>
+		<mtime>1381244638</mtime>
+		<first-seen>1265890986</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>La Naranja Naci&#xF3; Verde</title>
+		<genre>Milonga (Modern)</genre>
+		<artist>Orquesta Reliquias Porte&#xF1;as</artist>
+		<album>Bailando Milongas De Antes</album>
+		<track-number>8</track-number>
+		<duration>118</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/March%2016/08%20-%20La%20Naranja%20Naci%20Verde.mp3</location>
+		<mtime>1381244639</mtime>
+		<first-seen>1268751775</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>1</play-count>
+		<last-played>1268751900</last-played>
+		<bitrate>50</bitrate>
+		<date>729025</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>El Temblor</title>
+		<genre>Milonga</genre>
+		<artist>Juan d'arienzo</artist>
+		<album>Milonga</album>
+		<comment>Singer: Alberto Echague</comment>
+		<album-artist>Singers: Alberto Echague, Ada Falc&#xF3;n</album-artist>
+		<track-number>8</track-number>
+		<duration>119</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/Feb%2028/Various%20Artists%20-%20El%20Temblor.mp3</location>
+		<mtime>1381244639</mtime>
+		<first-seen>1267378198</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>731947</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>--- Tanda 02: TANGO ---</title>
+		<genre>Cortina</genre>
+		<artist>Enya</artist>
+		<album>Youtube</album>
+		<track-number>2</track-number>
+		<duration>20</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2002:%20TANGO%20---.01.mp3</location>
+		<mtime>1381244640</mtime>
+		<first-seen>1358180890</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>1</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>--- Tanda 03: TANGO ---</title>
+		<genre>Cortina</genre>
+		<artist>Enya</artist>
+		<album>Youtube</album>
+		<track-number>3</track-number>
+		<duration>20</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2003:%20TANGO%20---.01.mp3</location>
+		<mtime>1381244640</mtime>
+		<first-seen>1358180890</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>1</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>--- Tanda 04: VALS ---</title>
+		<genre>Cortina</genre>
+		<artist>Enya</artist>
+		<album>Youtube</album>
+		<track-number>4</track-number>
+		<duration>20</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2004:%20VALS%20---.01.mp3</location>
+		<mtime>1381244640</mtime>
+		<first-seen>1358180890</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>1</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>--- Tanda 01: MILONGA ---</title>
+		<genre>Cortina</genre>
+		<artist>Enya</artist>
+		<album>Youtube</album>
+		<track-number>1</track-number>
+		<duration>20</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Cortina/Enya/---%20Tanda%2001:%20MILONGA%20---.01.mp3</location>
+		<mtime>1381244640</mtime>
+		<first-seen>1358180890</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>1</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>--- THE END ---</title>
+		<genre>Cortina</genre>
+		<artist>Enya</artist>
+		<album>Youtube</album>
+		<track-number>25</track-number>
+		<duration>20</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Cortina/Enya/---%20THE%20END%20---.01.mp3</location>
+		<mtime>1381244640</mtime>
+		<first-seen>1358180891</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>1</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Wake up</title>
+		<genre>Rock</genre>
+		<artist>Rage Against The Machine</artist>
+		<album>The Matrix</album>
+		<track-number>13</track-number>
+		<duration>363</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Rock/Rage%20Against%20The%20Machine/Wake%20up.01.mp3</location>
+		<mtime>1381244636</mtime>
+		<first-seen>1358180898</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>729755</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Coraz&#xF2;n de Oro</title>
+		<genre>Vals</genre>
+		<artist>Francisco Canaro</artist>
+		<album>TANGO</album>
+	 	<comment>Singer: J. Fern&#xE0;ndez</comment>
+		<album-artist>Singer: J. Fern&#xE0;ndez</album-artist>
+		<track-number>19</track-number>
+		<duration>188</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/Francisco%20Canaro/Francisco%20Canaro%20--%20Coraz%C3%B2n%20de%20Oro.v01.mp3</location>
+		<mtime>1381244640</mtime>
+		<first-seen>1254415807</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Coraz&#xF2;n de Oro</title>
+		<genre>Vals</genre>
+		<artist>Francisco Canaro</artist>
+		<album>Voces de mi ciudad</album>
+		<comment>Singer: Ada Falc&#xF3;n</comment>
+		<album-artist>Singer: Ada Falc&#xF3;n</album-artist>
+		<duration>188</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/Francisco%20Canaro/Francisco%20Canaro%20--%20Corazon%20de%20Oro.v01.mp3</location>
+		<mtime>1381244640</mtime>
+		<first-seen>1254415807</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>3</play-count>
+		<last-played>1269458351</last-played>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Rosas de Oto&#xF1;o</title>
+		<genre>Vals</genre>
+		<artist>Rafael Rossi</artist>
+		<album>Web collection</album>
+		<duration>131</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Vals/Rafael%20Rossi/Rosas%20de%20Oto%C3%B1o.01.mp3</location>
+		<mtime>1381244637</mtime>
+		<first-seen>1358180915</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Con tu Mirar</title>
+		<genre>Vals</genre>
+		<artist>Enrique Rodr&#xED;guez</artist>
+		<album>The History of Tango / Enrique Rodr&#xED;guez - Recordings 1939-1</album>
+		<track-number>6</track-number>
+		<duration>127</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/Feb%2017/Enrique%20Rodriguez%20&amp;%20His%20Orchestra%20-%20Con%20tu%20Mirar.mp3</location>
+		<mtime>1384173013</mtime>
+		<first-seen>1381244876</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>733408</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Lo Que Vieron Tus Ojos</title>
+		<genre>Vals</genre>
+		<artist>Francisco Lomuto</artist>
+		<album>Buenos Aires Querido</album>
+		<track-number>15</track-number>
+		<duration>179</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/Feb%204/Francisco%20Lomuto%20y%20su%20orquesta%20tipica%20-%20Lo%20Que%20Vieron%20Tus%20Ojos.mp3</location>
+		<mtime>1381244639</mtime>
+		<first-seen>1265298638</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>17</play-count>
+		<last-played>1275334334</last-played>
+		<bitrate>50</bitrate>
+		<date>733042</date>
+		<media-type>audio/mpeg</media-type>
+		<beats-per-minute>3</beats-per-minute>
+	</entry>
+	<entry type="song">
+		<title>Caser&#xF3;n de tejas</title>
+		<genre>Vals</genre>
+		<artist>Nelly Vazquez</artist>
+		<album>La Mujer y el Tango</album>
+		<track-number>11</track-number>
+		<duration>167</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/La%20Mujer%20y%20el%20Tango/Caser%C3%B3n%20de%20tejas%20-%20Nelly%20Vazquez.mp3</location>
+		<mtime>1381244639</mtime>
+		<first-seen>1265890986</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Tu Olvido</title>
+		<genre>Vals</genre>
+		<artist>Juan D`Arienzo</artist>
+		<album>Juan D'Arienzo: Discograf&#xED;a Completa Vol. 1</album>
+		<comment>Singer: Walter Cabral</comment>
+		<album-artist>Singer: Walter Cabral</album-artist>
+		<track-number>11</track-number>
+		<disc-number>1</disc-number>
+		<duration>142</duration>
+		<file-size>3879893</file-size>
+		<location>file://$WORKAREA/Music/Recent/Feb%2028/Juan%20D%27Arienzo%20-%20Tu%20Olvido.mp3</location>
+		<first-seen>1267378198</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>4</play-count>
+		<last-played>1275334189</last-played>
+		<bitrate>212</bitrate>
+		<date>731216</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Florcita Criolla</title>
+		<genre>Vals</genre>
+		<artist>Francisco Canaro</artist>
+		<album>Grandes Del Tango 41</album>
+		<comment>Singers: Ada Falc&#xF3;n</comment>
+		<album-artist>Singer: Ada Falc&#xF3;n</album-artist>
+		<track-number>20</track-number>
+		<duration>183</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/June%2010/Ada%20Falc_n%20-%20Florcita%20Criolla.mp3</location>
+		<mtime>1381244639</mtime>
+		<first-seen>1276187030</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>3</play-count>
+		<last-played>1276368322</last-played>
+		<bitrate>50</bitrate>
+		<date>704918</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Partita No. 1 in B-flat: I</title>
+		<genre>Classical</genre>
+		<artist>William Appling</artist>
+		<album>William Appling Plays Scott Joplin and J.S. Bach</album>
+		<track-number>11</track-number>
+		<duration>117</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/March%2014/William%20Appling%20-%20Partita%20No.%201%20in%20B-flat_%20I.mp3</location>
+		<mtime>1381244639</mtime>
+		<first-seen>1268529694</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>733773</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Disamistade</title>
+		<genre>World</genre>
+		<artist>Fabrizio De Andr&#xE8;</artist>
+		<album>Anime salve</album>
+		<track-number>6</track-number>
+		<duration>312</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/March%2023/09_-_Fabrizio_De_Andr%C3%A8_-_Disamistade.mp3</location>
+		<mtime>1381244639</mtime>
+		<first-seen>1269364110</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>1</play-count>
+		<last-played>1269632462</last-played>
+		<bitrate>50</bitrate>
+		<date>728659</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>(India-USA) Kronos Quartet &amp; Asha Bhosle - Ekta Deshlai Kathi Jwalao (Light a Match)</title>
+		<genre>World</genre>
+		<artist>(India-USA) Kronos Quartet &amp; Asha Bhosle - Ekta Deshlai Kathi Jwalao (Light a Match)</artist>
+		<album>Awards for World Music 2006 (Disk 2 of 2)</album>
+		<track-number>2</track-number>
+		<duration>238</duration>
+		<file-size>7638594</file-size>
+		<location>file://$WORKAREA/Music/Recent/Awards%20for%20World%20Music%202006/(India-USA)%20Kronos%20Quartet%20%26%20Asha%20Bhosle%20-%20Ekta%20Deshlai%20Kathi%20Jwalao%20(Light%20a%20Match).mp3</location>
+		<first-seen>1250776233</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>256</bitrate>
+		<date>732312</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Unknown (Beautiful Lilting Song)</title>
+		<genre>World</genre>
+		<artist>Unknown</artist>
+		<album>Spanish song</album>
+		<track-number>4</track-number>
+		<duration>212</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/Feb%2023/04%20Exotic%20modern.mp3</location>
+		<mtime>1381244639</mtime>
+		<first-seen>1266927266</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>11</play-count>
+		<last-played>1272055570</last-played>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>(Armenia) Armenian Navy Band - Let The Factories Open</title>
+		<genre>World</genre>
+		<artist>(Armenia) Armenian Navy Band - Let The Factories Open</artist>
+		<album>Awards For World Music 2006 (Disc 1 of 2)</album>
+		<track-number>14</track-number>
+		<duration>242</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Recent/Awards%20for%20World%20Music%202006/(Armenia)%20Armenian%20Navy%20Band%20-%20Let%20The%20Factories%20Open.mp3</location>
+		<mtime>1381244637</mtime>
+		<first-seen>1250776233</first-seen>
+		<last-seen>1381244876</last-seen>
+		<bitrate>50</bitrate>
+		<date>732312</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Carribean Blue</title>
+		<genre>Pop</genre>
+		<artist>Enya</artist>
+		<album>Youtube</album>
+		<duration>221</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Pop/Enya/Carribean%20Blue.02.mp3</location>
+		<mtime>1381244637</mtime>
+		<first-seen>1306864717</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>13</play-count>
+		<last-played>1354657195</last-played>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Silence 1 second</title>
+		<genre>Silence</genre>
+		<artist>Unknown</artist>
+		<album>Unknown</album>
+		<duration>1</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Special/silence-1.mp3</location>
+		<mtime>1381244636</mtime>
+		<first-seen>1364144943</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>1</play-count>
+		<last-played>1364145027</last-played>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Silence 2 seconds</title>
+		<genre>Silence</genre>
+		<artist>Unknown</artist>
+		<album>Unknown</album>
+		<duration>2</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Special/silence-2.mp3</location>
+		<mtime>1381244636</mtime>
+		<first-seen>1364144943</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>2</play-count>
+		<last-played>1364145031</last-played>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="song">
+		<title>Silence 3 seconds</title>
+		<genre>Silence</genre>
+		<artist>Unknown</artist>
+		<album>Unknown</album>
+		<duration>3</duration>
+		<file-size>14336</file-size>
+		<location>file://$WORKAREA/Music/Special/silence.mp3</location>
+		<mtime>1381244636</mtime>
+		<first-seen>1362933632</first-seen>
+		<last-seen>1381244876</last-seen>
+		<play-count>5</play-count>
+		<last-played>1364145036</last-played>
+		<bitrate>50</bitrate>
+		<date>0</date>
+		<media-type>audio/mpeg</media-type>
+	</entry>
+	<entry type="iradio">
+		<title>Virgin Xtreme (Modem)</title>
+		<genre>Modern Rock</genre>
+		<artist></artist>
+		<album></album>
+		<location>http://www.smgradio.com/core/audio/ogg/live.pls?service=vx</location>
+		<date>0</date>
+		<media-type>application/octet-stream</media-type>
+	</entry>
+	<entry type="iradio">
+		<title>Virgin Xtreme (Broadband)</title>
+		<genre>Modern Rock</genre>
+		<artist></artist>
+		<album></album>
+		<location>http://www.smgradio.com/core/audio/ogg/live.pls?service=vxbb</location>
+		<date>0</date>
+		<media-type>application/octet-stream</media-type>
+	</entry>
+	<entry type="iradio">
+		<title>wbur.org - Boston's NPR news source</title>
+		<genre>News</genre>
+		<artist></artist>
+		<album></album>
+		<location>http://www.wbur.org/listen/feed/ogg.m3u</location>
+		<date>0</date>
+		<media-type>application/octet-stream</media-type>
+	</entry>
+	<entry type="ignore">
+		<title></title>
+		<genre></genre>
+		<artist></artist>
+		<album></album>
+		<location>file://$WORKAREA/Music/Tango/Juan%20de%20Dios%20Filiberto/convert_to_mp3.sh</location>
+		<last-seen>1358180918</last-seen>
+		<date>0</date>
+		<media-type>application/octet-stream</media-type>
+	</entry>
+</rhythmdb>
+		# Build: Thu Nov  7 19:21:12 GMT 2013

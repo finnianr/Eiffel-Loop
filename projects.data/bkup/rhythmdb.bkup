@@ -1,0 +1,23 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+	# Backup files selected with wildcard and then gpg encrypted for recipient
+
+backup-script:
+	ftp-site:
+		url:
+			"eiffel-loop.com"
+		user-home:
+			"/public/www"
+	directory:
+		path:
+			"$EIFFEL_LOOP/projects.data/rhythmdb"
+		name:
+			"Rhythmbox_database"
+		gpg-key:
+			recipient = "$RECIPIENT"
+		include:
+			all-files:
+				"*.xml"
+		ftp-destination-path:
+			"rhythmdb"

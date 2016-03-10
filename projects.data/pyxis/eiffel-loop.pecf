@@ -1,0 +1,381 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+# Pyxis is a data format inspired by the Python programming language and designed to be a more
+# readable supplement/substitute for XML configuration files.
+
+# Pyxis as an acronym stands for: Pythonic XML ideal source.
+# It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold 
+# cosmetics, trinkets or jewellery. 
+
+# The following is project configuration data for an Eiffel programming language project
+# compiled with the EiffelStudio IDE
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-4-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-4-0 http://www.eiffel.com/developers/xml/configuration-1-4-0.xsd" 
+	name = "eiffel_loop" 
+	uuid = "229b7902-09aa-11df-87c8-a37f6661c468" 
+	library_target = "eiffel_loop"
+	
+	target:
+		name = "eiffel_loop"
+		
+		description: 
+			"""
+				Library of reusable components for Eiffel. (http://www.eiffel-loop.com)
+			"""
+		root:
+			all_classes = true
+
+		option:
+			namespace = "Eiffel-Loop.Library"
+
+		# Expat or vtd-xml
+		external_include: 
+			location = "$(EIFFEL_LOOP_C)/include"
+			description: 
+				"""
+					C implementation of EL_C_CALLABLE_PROCEDURE
+				"""
+			condition:
+				custom:
+					name = include_vtd_xml; value = true
+
+			condition:
+				custom:
+					name = include_expat; value = true
+
+		# Expat
+		external_include: 
+			location = "$(EXPAT)/include -DXML_BUILDING_EXPAT"
+			condition:
+				custom:
+					name = include_expat; value = true
+
+		external_object:
+			location = "-L$(EXPAT) -lexpat"
+			condition:
+				custom:
+					name = include_expat; value = true
+
+		# vtd-xml
+		external_include: 
+			location = "$(VTD_XML_INCLUDE)"
+			condition:
+				custom:
+					name = include_vtd_xml; value = true
+
+		external_include: 
+			location = "$(EIFFEL_LOOP_C)/vtd2eiffel/source"
+			condition:
+				custom:
+					name = include_vtd_xml; value = true
+
+		external_object:
+			location = "-L$(EIFFEL_LOOP_C)/vtd2eiffel -lvtd-xml"
+			condition:
+				custom:
+					name = include_vtd_xml; value = true
+
+		# ID3
+		external_include: 
+			location = "$(ID3_LIB)/include"
+			condition:
+				custom:
+					name = include_id3; value = true
+		
+		external_include: 
+			location = "$(ID3_TAG_LIB)/include"
+			condition:
+				custom:
+					name = include_id3; value = true
+
+		external_object:
+			location = "-L$(ID3_LIB) -lid3"
+			condition:
+				custom:
+					name = include_id3; value = true
+
+		external_object:
+			location = "-L$(ID3_TAG_LIB) -lid3tag"
+			description: 
+				"""
+					WARNING: subtle bug
+					Only link against a static library. If linked against a shared object library
+					GetRawText() routine will return null for utf8 strings.
+				"""
+
+			condition:
+				custom:
+					name = include_id3; value = true
+
+		# Java
+		external_include: 
+			location = "$(JDK_HOME)/include"
+			condition:
+				custom:
+					name = include_java; value = true
+
+			condition:
+				custom:
+					name = include_vision2; value = true
+
+		external_include: 
+			location = "$(JDK_HOME)/include/linux"
+			condition:
+				custom:
+					name = include_java; value = true
+
+			condition:
+				custom:
+					name = include_vision2; value = true
+
+		external_include: 
+			location = "$(EIFFEL_LOOP_C)/dynamic-load-JNI/source"
+			condition:
+				custom:
+					name = include_java; value = true
+
+			condition:
+				custom:
+					name = include_vision2; value = true
+
+		external_object:
+			location = "-L$(EIFFEL_LOOP_C)/dynamic-load-JNI -ldljni"
+			condition:
+				custom:
+					name = include_java; value = true
+
+			condition:
+				custom:
+					name = include_vision2; value = true
+
+		external_object:
+			location = "-ldl"
+			condition:
+				custom:
+					name = include_java; value = true
+
+		# Python
+		external_include: 
+			location = "$(PYTHON_INCLUDE)"
+			condition:
+				custom:
+					name = include_python; value = true
+
+		external_object:
+			location = "-lpython2.5"
+			condition:
+				custom:
+					name = include_python; value = true
+
+		external_object:
+			location = "-lz"
+			condition:
+				custom:
+					name = include_python; value = true
+
+		library: 
+			name = "base"; location = "$ISE_EIFFEL/library/base/base.ecf"
+
+		library: 
+			name = "net"; location = "$ISE_EIFFEL/library/net/net.ecf"
+
+		library: 
+			name = "thread"; location = "$ISE_EIFFEL/library/thread/thread.ecf"
+
+		library: 
+			name = "time"; location = "$ISE_EIFFEL/library/time/time.ecf"
+
+		library: 
+			name = "vision2"; location = "$ISE_EIFFEL/library/vision2/vision2.ecf"
+			condition:
+				custom:
+					name = include_vision2; value = true
+
+		cluster:
+			name = "build_info"; location = "$PROJECT/build_info"
+		
+		cluster:
+			name = "eiffel_loop"; location = "."; recursive = true
+
+			file_rule:
+				exclude:
+					"/windows$"
+					"/implementation_mswin$"
+					"/installer-toolkit$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"/unix$"
+					"/implementation_gtk$"
+				condition:
+					platform:
+						value = windows
+
+			file_rule:
+				exclude:
+					"/fail-safe-list$"
+					"/node-processing$"
+					"/xml/parser/expat$"
+				condition:
+					custom:
+						name = include_expat; excluded_value = true
+
+			file_rule:
+				exclude:
+					"/crypto$"
+				condition:
+					custom:
+						name = include_cryptography; excluded_value = true
+
+			file_rule:
+				exclude:
+					"/vtd-xml$"
+				condition:
+					custom:
+						name = include_vtd_xml; excluded_value = true
+
+			file_rule:
+				exclude:
+					"/laabhair$"
+				condition:
+					custom:
+						name = include_laabhair; excluded_value = true
+
+			file_rule:
+				exclude:
+					"/wel-x$"
+				condition:
+					custom:
+						name = include_wel; excluded_value = true
+
+			file_rule:
+				exclude:
+					"/audio-mm$"
+				condition:
+					custom:
+						name = include_audio; excluded_value = true
+
+			file_rule:
+				exclude:
+					"/Praat-script$"
+				condition:
+					custom:
+						name = include_praat_script; excluded_value = true
+
+			file_rule:
+				exclude:
+					"/Java$"
+				condition:
+					custom:
+						name = include_java; excluded_value = true
+				condition:
+					custom:
+						name = include_vision2; excluded_value = true
+
+			file_rule:
+				exclude:
+					"/Matlab$"
+				condition:
+					custom:
+						name = include_matlab; excluded_value = true
+
+			file_rule:
+				exclude:
+					"/Python$"
+				condition:
+					custom:
+						name = include_python; excluded_value = true
+
+			file_rule:
+				exclude:
+					"/net$"
+				condition:
+					custom:
+						name = include_net; excluded_value = true
+
+			file_rule:
+				exclude:
+					"/vision2-x$"
+				condition:
+					custom:
+						name = include_vision2; excluded_value = true
+
+			mapping:
+				old_name = OBSOLETE_JAVA_OBJECT; new_name = JAVA_OBJECT
+
+			# End of cluster eiffel_loop
+
+		cluster:
+			name = "eiffel2java"; location = "$ISE_EIFFEL/library/Eiffel2Java/"; recursive = true
+			condition:
+				custom:
+					name = include_java; value = true
+
+			condition:
+				custom:
+					name = include_vision2; value = true
+
+			option:
+				debug = false
+				debug:
+					name = "jni"; enabled = false
+
+			file_rule:
+				exclude:
+					"/jni_environment.e$"
+					"/shared_jni_environment.e$"
+					"/java_vm.e$"
+
+			mapping:
+				old_name = JNI_ENVIRONMENT; new_name = JAVA_ORB
+
+			mapping:
+				old_name = SHARED_JNI_ENVIRONMENT; new_name = JAVA_SHARED_ORB
+
+		cluster:
+			name = "pepe"; location = "$EIFFEL_LOOP/contrib/Eiffel/PEPE"; recursive = true
+			condition:
+				custom:
+					name = include_python; value = true
+
+			option:
+				assertions:
+					postcondition = true; check = true; invariant = true
+
+			option:
+				assertions:
+					postcondition = true; check = true; invariant = true
+
+		cluster:
+			name = "cryptography"; location = "$EIFFEL_LOOP/contrib/Eiffel/cryptography"; recursive = true
+			condition:
+				custom:
+					name = include_cryptography; value = true
+
+		cluster:
+			name = "gobo"; location = "$GOBO/library/"
+			cluster:
+				name = "kernel"; location = "$GOBO/library/kernel/"; recursive = true
+				file_rule:
+					exclude:
+						"/ge$"
+
+			cluster:
+				name = "utility"; location = "$GOBO/library/utility/"; recursive = true
+
+			cluster:
+				name = "structure"; location = "$GOBO/library/structure/"; recursive = true
+
+			cluster:
+				name = "string_support"; location = "$GOBO/library/string/support/"; recursive = true
+
+		# Build: Thu Jan 31 14:36:19 GMT 2013
+		
+

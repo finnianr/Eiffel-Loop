@@ -1,0 +1,30 @@
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2010 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "18 Dec 2012"
+#	revision: "0.1"
+
+import os, sys, platform
+
+from os import path
+
+from eiffel_loop.scons import util
+
+from eiffel_loop.eiffel import project
+from eiffel_loop.http import package
+
+
+Import ('env')
+#env = Environment (ENV = os.environ, ISE_PLATFORM = os.environ ['ISE_PLATFORM'])
+
+env.Append (SOURCE_DIR = Dir ('source').abspath)
+
+download_builder = Builder (action = package.install_gnome_zip_from_http_sources, suffix='.jar', src_suffix = '.http', emitter = util.complete_targets)
+env.Append (BUILDERS = {'Java_jar_download' : download_builder})
+
+jars = env.Java_jar_download (File ('velocity-1.7-dep.http'))
+
+env.NoClean (jars)
+
+Return ('jars')

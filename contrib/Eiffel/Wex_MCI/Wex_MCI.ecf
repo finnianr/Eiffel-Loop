@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><system xmlns="http://www.eiffel.com/developers/xml/configuration-1-0-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-0-0 http://www.eiffel.com/developers/xml/configuration-1-0-0.xsd" 
+	name="Wex_MCI" uuid="264827f0-fcb7-11dc-95ff-0800200c9a66" library_target="Wex_MCI">
+	
+	<target name="Wex_MCI">
+		<root all_classes="true"/>
+		<option warning="true">
+			<assertions precondition="true" postcondition="true" check="true" invariant="false" loop="false"/>
+		</option>
+		<cluster name="Wex" location="source" recursive="true"/>
+
+		<external_include location="$WEX_MCI_LIBRARY\C_library\source">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+				
+		<external_object location="$WEX_MCI_LIBRARY\C_library\wex_mci-mt.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(PLATFORM_SDK)\Lib\WinMM.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+
+		<library name="wel" location="$ISE_LIBRARY\library\wel\wel.ecf"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+	</target>
+</system>

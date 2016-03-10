@@ -1,0 +1,54 @@
+#	author: "Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2009 Finnian Reilly"
+#	contact: "finnian at eiffel hyphen loop dot com"
+#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+#	date: "20 July 2011"
+#	revision: "0.1"
+
+import os, sys, platform
+from os import path
+from glob import glob
+
+if platform.system () == "Windows":
+	#compiler_flags = '-DEIF_THREADS -DEIF_WINDOWS -DISE_GC -nologo -W1 -c -MT -Ox'
+	compiler_flags = [
+		'-Ox', '-Zi', '-MT', '-w', '-nologo', '-DEIF_THREADS', 
+		'-D_WIN32_WINNT=0x0500', '-DWINVER=0x0500', '-D_CRT_SECURE_NO_DEPRECATE', '-D_UNICODE', '-DUNICODE'
+	]
+else:
+	compiler_flags = [
+		'-g', '-c', '-O3', '-w', '-fomit-frame-pointer', '-D_GNU_SOURCE',
+		'-fforce-addr', '-frerun-cse-after-loop', '-fexpensive-optimizations', '-fregmove', '-frerun-loop-opt',
+		'-fmerge-all-constants', '-fno-branch-count-reg', '-funroll-loops', '-fpeephole',
+		'-DEIF_THREADS', '-DEIF_LINUXTHREADS', '-DISE_GC'
+	]
+	
+vtd_xml_dir = path.normpath (path.expandvars ('$EIFFEL_LOOP/contrib/C/VTD-XML.2.7'))
+
+include_path = [
+	path.normpath (path.expandvars ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include')),
+	path.normpath (path.expandvars ('$EIFFEL_LOOP/C_library/include')),
+	path.join (vtd_xml_dir, 'include')
+]
+
+build_dir = path.normpath (path.expandvars ('spec/$ISE_PLATFORM'))
+VariantDir (build_dir, 'source', duplicate=0)
+
+library_path = path.join (build_dir, 'vtd-xml')
+
+print 'Include paths:'
+for i_path in include_path:
+	print i_path
+
+env = Environment(CCFLAGS = compiler_flags, CPPPATH = include_path, ENV = os.environ)
+
+Export ("env")
+
+input_files = [path.join (build_dir, 'vtd2eiffel.c')] + SConscript (path.join (vtd_xml_dir, 'SConscript'))
+	
+lib = env.StaticLibrary (library_path, input_files)
+print lib
+
+env.NoClean (lib)
+Return ('lib')
+

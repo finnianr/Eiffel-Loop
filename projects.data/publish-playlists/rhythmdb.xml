@@ -1,0 +1,2201 @@
+<?xml version="1.0" standalone="yes"?>
+<rhythmdb version="1.6">
+  <entry type="song">
+    <title>Cantando Bajito</title>
+    <genre>Tango</genre>
+    <artist>Edgardo Donato</artist>
+    <album>Donato</album>
+    <track-number>18</track-number>
+    <duration>162</duration>
+    <file-size>2799488</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Edgardo%20Donato/Cantando%20Bajito.01.mp3</location>
+    <mtime>1277477713</mtime>
+    <first-seen>1254415794</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>4</play-count>
+    <last-played>1266867969</last-played>
+    <bitrate>138</bitrate>
+    <date>732312</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>2245220971</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Miss Pesares</title>
+    <genre>Tango</genre>
+    <artist>Edgardo Donato</artist>
+    <album>Donato</album>
+    <track-number>7</track-number>
+    <duration>147</duration>
+    <file-size>2398080</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Edgardo%20Donato/Miss%20Pesares.01.mp3</location>
+    <mtime>1277477713</mtime>
+    <first-seen>1254415794</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1275326242</last-played>
+    <bitrate>129</bitrate>
+    <date>732312</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1315644549</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Inspiraci&#xF3;n</title>
+    <genre>Tango</genre>
+    <artist>Adolfo Carabelli</artist>
+    <album>Cafet&#xED;n de Buenos Aires, Vol. 1 - Vuyo Verde</album>
+    <track-number>15</track-number>
+    <disc-number>1</disc-number>
+    <duration>202</duration>
+    <file-size>4331784</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Adolfo%20Carabelli/Inspiraci%C3%B3n.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1271339941</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>5</play-count>
+    <last-played>1277228983</last-played>
+    <bitrate>168</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>547219195</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Cuatro Pal&#xE1;bras</title>
+    <genre>Tango</genre>
+    <artist>Adolfo Carabelli</artist>
+    <album>Cafet&#xED;n de Buenos Aires, Vol. 2 - Rodriguez Pe&#xF1;a</album>
+    <track-number>15</track-number>
+    <disc-number>1</disc-number>
+    <duration>144</duration>
+    <file-size>2745846</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Adolfo%20Carabelli/Cuatro%20Pal%C3%A1bras.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1271339941</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>2</play-count>
+    <last-played>1277229288</last-played>
+    <bitrate>148</bitrate>
+    <date>1</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>127900889</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Volv&#xE9;</title>
+    <genre>Tango</genre>
+    <artist>Adolfo Carabelli</artist>
+    <album>Cafet&#xED;n de Buenos Aires, Vol. 2 - Rodriguez Pe&#xF1;a</album>
+    <track-number>14</track-number>
+    <disc-number>1</disc-number>
+    <duration>158</duration>
+    <file-size>2797754</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Adolfo%20Carabelli/Volv%C3%A9.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1271339941</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1277229142</last-played>
+    <bitrate>139</bitrate>
+    <date>1</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>2303809236</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Felicia</title>
+    <genre>Tango</genre>
+    <artist>Adolfo Carabelli</artist>
+    <album>Tangos Para Bailar - Documentos Tango</album>
+    <track-number>4</track-number>
+    <disc-number>1</disc-number>
+    <duration>155</duration>
+    <file-size>3522286</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Adolfo%20Carabelli/Felicia.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1264605883</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>17</play-count>
+    <last-played>1277229444</last-played>
+    <bitrate>177</bitrate>
+    <date>1</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>2502993707</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>El Pa&#xF1;uelito</title>
+    <genre>Tango</genre>
+    <artist>Libertad Lamarque</artist>
+    <album>Libertad Lamarque</album>
+    <duration>207</duration>
+    <file-size>3321291</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Libertad%20Lamarque/El%20Pa%C3%B1uelito.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415798</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>4</play-count>
+    <last-played>1268163667</last-played>
+    <bitrate>128</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1008588088</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Sin Sabor</title>
+    <genre>Tango</genre>
+    <artist>Edgardo Donato, Lita Morales, Horacio Lagos</artist>
+    <album>Donato  1938-1942  -  Colecci&#xF3;n 78</album>
+    <duration>173</duration>
+    <file-size>2776830</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Edgardo%20Donato/Sin%20Sabor%20-%20Lita%20Morales%20-%20Horacio%20Lagos.01.mp3</location>
+    <mtime>1277477713</mtime>
+    <first-seen>1254996267</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>5</play-count>
+    <last-played>1267726645</last-played>
+    <bitrate>128</bitrate>
+    <date>707840</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>496840987</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Recuerdo</title>
+    <genre>Tango</genre>
+    <artist>Bianco-bachicha</artist>
+    <album>50 Ans De Tangos</album>
+    <track-number>8</track-number>
+    <disc-number>5</disc-number>
+    <duration>170</duration>
+    <file-size>3234753</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Bianco-bachicha/Recuerdo.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1265301537</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>4</play-count>
+    <last-played>1276979910</last-played>
+    <bitrate>149</bitrate>
+    <date>732677</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1996702891</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Viejo Poncho</title>
+    <genre>Tango</genre>
+    <artist>Bianco-bachicha</artist>
+    <album>Golden Age Tango Bands 1927-19</album>
+    <duration>161</duration>
+    <file-size>3880832</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Bianco-bachicha/Viejo%20Poncho.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1254415791</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>4</play-count>
+    <last-played>1276021704</last-played>
+    <bitrate>192</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3390039344</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Cumparsita</title>
+    <genre>Tango</genre>
+    <artist>Bianco-bachicha</artist>
+    <album>Golden Age Tango Bands 1927-19</album>
+    <duration>158</duration>
+    <file-size>3807104</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Bianco-bachicha/Cumparsita.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1254415791</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1276021327</last-played>
+    <bitrate>192</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>611086674</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Se va la Vida</title>
+    <genre>Tango</genre>
+    <artist>Bianco-bachicha</artist>
+    <album>Golden Age Tango Bands 1927-19</album>
+    <duration>181</duration>
+    <file-size>4349824</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Bianco-bachicha/Se%20va%20la%20Vida.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1254415791</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1276020980</last-played>
+    <bitrate>192</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3188401011</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Mama yo Quiero un Novio</title>
+    <genre>Tango</genre>
+    <artist>Emilia Garcia</artist>
+    <album>Tango Ladies - El Tango Hecho</album>
+    <track-number>15</track-number>
+    <duration>169</duration>
+    <file-size>2717341</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Emilia%20Garcia/Mama%20yo%20Quiero%20un%20Novio.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415790</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>5</play-count>
+    <last-played>1277234584</last-played>
+    <bitrate>128</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1563127457</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Carnaval de mi Barrio</title>
+    <genre>Tango</genre>
+    <artist>Unknown</artist>
+    <album>Mujer del Tango</album>
+    <duration>197</duration>
+    <file-size>3945407</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Unknown/Carnaval%20de%20mi%20Barrio.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415799</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>7</play-count>
+    <last-played>1275507222</last-played>
+    <bitrate>160</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3047562104</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Cantando</title>
+    <genre>Tango</genre>
+    <artist>Mercedes Simone</artist>
+    <album>Mercedes Simone</album>
+    <track-number>16</track-number>
+    <duration>162</duration>
+    <file-size>2594688</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Mercedes%20Simone/Cantando.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415798</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>2</play-count>
+    <last-played>1276172943</last-played>
+    <bitrate>128</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1423411961</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Mi Serenata</title>
+    <genre>Tango</genre>
+    <artist>Edgardo Donato, Lita Morales, Romeo Gavioli</artist>
+    <album>A Media Luz</album>
+    <track-number>9</track-number>
+    <duration>180</duration>
+    <file-size>5053468</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Edgardo%20Donato/Mi%20Serenata%20-%20Lita%20Morales%20-%20Romeo%20Gavioli.01.mp3</location>
+    <mtime>1277477713</mtime>
+    <first-seen>1257344661</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>6</play-count>
+    <last-played>1275326093</last-played>
+    <bitrate>224</bitrate>
+    <date>708205</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>2940499070</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Si Soy As&#xED;</title>
+    <genre>Tango</genre>
+    <artist>Francisco Lomuto</artist>
+    <album>Cafetin De Buenos Arires, Vol. 10</album>
+    <track-number>10</track-number>
+    <disc-number>1</disc-number>
+    <duration>196</duration>
+    <file-size>4268488</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Francisco%20Lomuto/Si%20Soy%20As%C3%AD.01.mp3</location>
+    <mtime>1277477714</mtime>
+    <first-seen>1273754496</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>171</bitrate>
+    <date>733773</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1306053623</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Se Han Sentado Las Carretas</title>
+    <genre>Tango</genre>
+    <artist>Francisco Lomuto</artist>
+    <album>Buenos Aires Querido</album>
+    <track-number>17</track-number>
+    <disc-number>1</disc-number>
+    <duration>181</duration>
+    <file-size>5193065</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Francisco%20Lomuto/Se%20Han%20Sentado%20Las%20Carretas.01.mp3</location>
+    <mtime>1277477714</mtime>
+    <first-seen>1265298471</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1273267732</last-played>
+    <bitrate>225</bitrate>
+    <date>733042</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1596188141</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>El Barco Maria</title>
+    <genre>Tango</genre>
+    <artist>Francisco Lomuto</artist>
+    <album>Cafetin De Buenos Arires, Vol. 7</album>
+    <track-number>8</track-number>
+    <disc-number>1</disc-number>
+    <duration>160</duration>
+    <file-size>3939994</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Francisco%20Lomuto/El%20Barco%20Maria.01.mp3</location>
+    <mtime>1277477714</mtime>
+    <first-seen>1277400582</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>193</bitrate>
+    <date>733773</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>4052407827</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Caminito</title>
+    <genre>Tango</genre>
+    <artist>Francisco Lomuto</artist>
+    <album>Cafetin De Buenos Arires, Vol. 9</album>
+    <track-number>14</track-number>
+    <disc-number>1</disc-number>
+    <duration>194</duration>
+    <file-size>4420638</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Francisco%20Lomuto/Caminito.01.mp3</location>
+    <mtime>1277477714</mtime>
+    <first-seen>1273755373</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>179</bitrate>
+    <date>733773</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3161179146</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>A la Gran Mu&#xF1;eca</title>
+    <genre>Tango</genre>
+    <artist>Rodolfo Biagi</artist>
+    <album>From Argentina To The World</album>
+    <track-number>9</track-number>
+    <duration>126</duration>
+    <file-size>5064576</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Rodolfo%20Biagi/A%20la%20Gran%20Mu%C3%B1eca.01.mp3</location>
+    <mtime>1277477722</mtime>
+    <first-seen>1254415788</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1259863185</last-played>
+    <bitrate>320</bitrate>
+    <date>732312</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1057633870</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Re-fa-si</title>
+    <genre>Tango</genre>
+    <artist>Rodolfo Biagi</artist>
+    <album>From Argentina To The World</album>
+    <track-number>4</track-number>
+    <duration>172</duration>
+    <file-size>6922112</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Rodolfo%20Biagi/Re-fa-si.01.mp3</location>
+    <mtime>1277477721</mtime>
+    <first-seen>1254415788</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>320</bitrate>
+    <date>732312</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1515698281</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Cielito Mio</title>
+    <genre>Tango</genre>
+    <artist>Rodolfo Biagi</artist>
+    <album>From Argentina To The World</album>
+    <track-number>20</track-number>
+    <duration>153</duration>
+    <file-size>6133632</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Rodolfo%20Biagi/Cielito%20Mio.01.mp3</location>
+    <mtime>1277477719</mtime>
+    <first-seen>1254415788</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1256065652</last-played>
+    <bitrate>320</bitrate>
+    <date>732312</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>70855383</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Pura Clase</title>
+    <genre>Tango</genre>
+    <artist>Rodolfo Biagi</artist>
+    <album>From Argentina To The World</album>
+    <track-number>12</track-number>
+    <duration>151</duration>
+    <file-size>6074240</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Rodolfo%20Biagi/Pura%20Clase.01.mp3</location>
+    <mtime>1277477720</mtime>
+    <first-seen>1254415788</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>320</bitrate>
+    <date>732312</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1099981332</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Poliya</title>
+    <genre>Tango</genre>
+    <artist>Osvaldo Fresedo</artist>
+    <album>Fresedo Tangos</album>
+    <track-number>5</track-number>
+    <duration>147</duration>
+    <file-size>2453376</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Osvaldo%20Fresedo/Poliya.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415790</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>2</play-count>
+    <last-played>1264359966</last-played>
+    <bitrate>132</bitrate>
+    <date>731216</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3244533468</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Tigre Viejo</title>
+    <genre>Tango</genre>
+    <artist>Osvaldo Fresedo</artist>
+    <album>Fresedo Tangos</album>
+    <track-number>6</track-number>
+    <duration>185</duration>
+    <file-size>3272576</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Osvaldo%20Fresedo/Tigre%20Viejo.01.mp3</location>
+    <mtime>1277477713</mtime>
+    <first-seen>1254415790</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>5</play-count>
+    <last-played>1264880881</last-played>
+    <bitrate>141</bitrate>
+    <date>731216</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1736501348</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Siempre es Carnaval</title>
+    <genre>Tango</genre>
+    <artist>Osvaldo Fresedo</artist>
+    <album>Fresedo Tangos</album>
+    <duration>206</duration>
+    <file-size>3309440</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Osvaldo%20Fresedo/Siempre%20es%20Carnaval.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415790</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>2</play-count>
+    <last-played>1265916915</last-played>
+    <bitrate>128</bitrate>
+    <date>707110</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>949021493</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Pimienta</title>
+    <genre>Tango</genre>
+    <artist>Osvaldo Fresedo</artist>
+    <album>Fresedo Tangos</album>
+    <track-number>4</track-number>
+    <duration>168</duration>
+    <file-size>2981760</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Osvaldo%20Fresedo/Pimienta.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415790</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1261954123</last-played>
+    <bitrate>141</bitrate>
+    <date>731216</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>2184404954</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Ciego</title>
+    <genre>Tango</genre>
+    <artist>Francisco Canaro, Roberto Maida</artist>
+    <album>Unknown</album>
+    <track-number>9</track-number>
+    <duration>179</duration>
+    <file-size>2867193</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Francisco%20Canaro/Ciego%20-%20Roberto%20Maida.01.mp3</location>
+    <mtime>1277477713</mtime>
+    <first-seen>1254415793</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>128</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1478029577</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Cambalache</title>
+    <genre>Tango</genre>
+    <artist>Francisco Canaro, Roberto Maida</artist>
+    <album>Unknown</album>
+    <duration>184</duration>
+    <file-size>2947891</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Francisco%20Canaro/Cambalache%20-%20Roberto%20Maida.01.mp3</location>
+    <mtime>1277477713</mtime>
+    <first-seen>1273755893</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>128</bitrate>
+    <date>706379</date>
+    <replaygain-track-gain>-2.5049999999999999</replaygain-track-gain>
+    <replaygain-track-peak>0.42194500000000001</replaygain-track-peak>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3050386754</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Retintin</title>
+    <genre>Tango</genre>
+    <artist>Francisco Canaro</artist>
+    <album>Most Common Tangos For Dancing</album>
+    <duration>151</duration>
+    <file-size>3644578</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Francisco%20Canaro/Retintin.01.mp3</location>
+    <mtime>1277477714</mtime>
+    <first-seen>1254415793</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>192</bitrate>
+    <date>0</date>
+    <replaygain-track-gain>-0.44500000000000001</replaygain-track-gain>
+    <replaygain-track-peak>0.667439</replaygain-track-peak>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1113762641</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>La Clavada</title>
+    <genre>Tango</genre>
+    <artist>Francisco Canaro</artist>
+    <album>Nobleza de Arrabal 1937-1941 (Su Quinteto Pirincho)</album>
+    <track-number>3</track-number>
+    <duration>141</duration>
+    <file-size>5674880</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Francisco%20Canaro/La%20Clavada.01.mp3</location>
+    <mtime>1277477714</mtime>
+    <first-seen>1254415793</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>320</bitrate>
+    <date>731581</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3928125921</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Mi Dolor</title>
+    <genre>Tango</genre>
+    <artist>Alfredo de Angelis</artist>
+    <album>Most Common Tangos For Dancing</album>
+    <duration>170</duration>
+    <file-size>4103325</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Alfredo%20de%20Angelis/Mi%20Dolor.01.mp3</location>
+    <mtime>1277477715</mtime>
+    <first-seen>1254415798</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>192</bitrate>
+    <date>0</date>
+    <replaygain-track-gain>0.55000000000000004</replaygain-track-gain>
+    <replaygain-track-peak>0.63943700000000003</replaygain-track-peak>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>523844771</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Pavadita</title>
+    <genre>Tango</genre>
+    <artist>Alfredo de Angelis</artist>
+    <album>Most Common Tangos For Dancing</album>
+    <duration>172</duration>
+    <file-size>6915578</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Alfredo%20de%20Angelis/Pavadita.01.mp3</location>
+    <mtime>1277477717</mtime>
+    <first-seen>1254415798</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>320</bitrate>
+    <date>714780</date>
+    <replaygain-track-gain>-0.37</replaygain-track-gain>
+    <replaygain-track-peak>0.60979399999999995</replaygain-track-peak>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>4120154004</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>A Media Luz</title>
+    <genre>Tango</genre>
+    <artist>Alfredo de Angelis</artist>
+    <album>Step Into Tango</album>
+    <track-number>16</track-number>
+    <duration>147</duration>
+    <file-size>4725213</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Alfredo%20de%20Angelis/A%20Media%20Luz.01.mp3</location>
+    <mtime>1277477716</mtime>
+    <first-seen>1254415798</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>256</bitrate>
+    <date>732677</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3415658143</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Carnaval</title>
+    <genre>Tango</genre>
+    <artist>Alfredo de Angelis, Carlos Dan</artist>
+    <album>Alfredo De Angelis</album>
+    <track-number>17</track-number>
+    <duration>155</duration>
+    <file-size>2492897</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Alfredo%20de%20Angelis/Carnaval%20-%20Carlos%20Dan.01.mp3</location>
+    <mtime>1277477716</mtime>
+    <first-seen>1254415798</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1268164274</last-played>
+    <bitrate>128</bitrate>
+    <date>710397</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3398106829</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Emancipacion</title>
+    <genre>Tango</genre>
+    <artist>Osv&#xE1;ldo Pugliese</artist>
+    <album>From Argentina to the World</album>
+    <track-number>1</track-number>
+    <duration>204</duration>
+    <file-size>4908929</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Osv%C3%A1ldo%20Pugliese/Emancipacion.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415791</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1265915661</last-played>
+    <bitrate>192</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>2577839463</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Recuerdo</title>
+    <genre>Tango</genre>
+    <artist>Osv&#xE1;ldo Pugliese</artist>
+    <album>Ausencia</album>
+    <track-number>3</track-number>
+    <duration>164</duration>
+    <file-size>2641792</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Osv%C3%A1ldo%20Pugliese/Recuerdo.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415792</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1276194540</last-played>
+    <bitrate>128</bitrate>
+    <date>709301</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3833203358</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>La Yumba</title>
+    <genre>Tango</genre>
+    <artist>Osv&#xE1;ldo Pugliese</artist>
+    <album>The Tango Lesson</album>
+    <duration>167</duration>
+    <file-size>2686443</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Osv%C3%A1ldo%20Pugliese/La%20Yumba.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415792</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1265915199</last-played>
+    <bitrate>128</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3946536627</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>El Tango es el Tango</title>
+    <genre>Tango</genre>
+    <artist>Ricardo Tanturi</artist>
+    <album>Most Common Tangos For Dancing</album>
+    <duration>147</duration>
+    <file-size>5920756</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Ricardo%20Tanturi/El%20Tango%20es%20el%20Tango.01.mp3</location>
+    <mtime>1277477723</mtime>
+    <first-seen>1254415792</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1271624513</last-played>
+    <bitrate>320</bitrate>
+    <date>708936</date>
+    <replaygain-track-gain>0.33500000000000002</replaygain-track-gain>
+    <replaygain-track-peak>0.58169800000000005</replaygain-track-peak>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>2434743981</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>As&#xED; se Baila el Tango</title>
+    <genre>Tango</genre>
+    <artist>Ricardo Tanturi, Alberto Castillo</artist>
+    <album>Tangos - Tango Made In Argenti</album>
+    <track-number>4</track-number>
+    <duration>157</duration>
+    <file-size>5038598</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Ricardo%20Tanturi/As%C3%AD%20se%20Baila%20el%20Tango%20-%20Alberto%20Castillo.01.mp3</location>
+    <mtime>1277477723</mtime>
+    <first-seen>1254415792</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>2</play-count>
+    <last-played>1271624176</last-played>
+    <bitrate>256</bitrate>
+    <date>708936</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1277703464</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Al Comp&#xE1;s de un Tango</title>
+    <genre>Tango</genre>
+    <artist>Ricardo Tanturi, Alberto Castillo</artist>
+    <album>Cuatro Compases</album>
+    <track-number>6</track-number>
+    <duration>154</duration>
+    <file-size>2477849</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Ricardo%20Tanturi/Al%20Comp%C3%A1s%20de%20un%20Tango%20-%20Alberto%20Castillo.01.mp3</location>
+    <mtime>1277477723</mtime>
+    <first-seen>1254415792</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>2</play-count>
+    <last-played>1266960295</last-played>
+    <bitrate>128</bitrate>
+    <date>708936</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3274422178</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Pocas Palabras</title>
+    <genre>Tango</genre>
+    <artist>Ricardo Tanturi, Alberto Castillo</artist>
+    <album>Tandas de Dani de Buenos Aires</album>
+    <duration>147</duration>
+    <file-size>1354096</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Ricardo%20Tanturi/Pocas%20Palabras%20-%20Alberto%20Castillo.01.mp3</location>
+    <mtime>1277477723</mtime>
+    <first-seen>1266793972</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>2</play-count>
+    <last-played>1271624018</last-played>
+    <bitrate>64</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1695064386</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>La Racha</title>
+    <genre>Tango</genre>
+    <artist>Carlos di Sarli</artist>
+    <album>Tangos</album>
+    <track-number>2</track-number>
+    <duration>158</duration>
+    <file-size>5062334</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Carlos%20di%20Sarli/La%20Racha.01.mp3</location>
+    <mtime>1277477724</mtime>
+    <first-seen>1254415796</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>11</play-count>
+    <last-played>1272307705</last-played>
+    <bitrate>256</bitrate>
+    <date>729755</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>552011067</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>El Cabur&#xE9;</title>
+    <genre>Tango</genre>
+    <artist>Carlos di Sarli</artist>
+    <album>Historia Del Tango - La Guardia Vieja - Vol. 1</album>
+    <track-number>8</track-number>
+    <disc-number>1</disc-number>
+    <duration>159</duration>
+    <file-size>3357112</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Carlos%20di%20Sarli/El%20Cabur%C3%A9.01.mp3</location>
+    <mtime>1277477724</mtime>
+    <first-seen>1271344708</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>12</play-count>
+    <last-played>1277233782</last-played>
+    <bitrate>164</bitrate>
+    <date>731947</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1262051949</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Bar Exposici&#xF3;n</title>
+    <genre>Tango</genre>
+    <artist>Carlos di Sarli</artist>
+    <album>Historia Del Tango - La Guardia Vieja - Vol. 1</album>
+    <track-number>13</track-number>
+    <disc-number>1</disc-number>
+    <duration>135</duration>
+    <file-size>2668401</file-size>
+    <location>file://$WORK_AREA/Music/Tango/Carlos%20di%20Sarli/Bar%20Exposici%C3%B3n.01.mp3</location>
+    <mtime>1277477724</mtime>
+    <first-seen>1271344708</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>5</play-count>
+    <last-played>1277233918</last-played>
+    <bitrate>153</bitrate>
+    <date>731947</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3120909954</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Milonga de Los Fortines</title>
+    <genre>Milonga</genre>
+    <artist>Orquesta T&#xED;pica Victor</artist>
+    <album>Youtube</album>
+    <duration>169</duration>
+    <file-size>2716075</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Orquesta%20T%C3%ADpica%20Victor/Milonga%20de%20Los%20Fortines.01.mp3</location>
+    <mtime>1277477724</mtime>
+    <first-seen>1254415783</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>5</play-count>
+    <last-played>1266348154</last-played>
+    <bitrate>128</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>266455011</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Cacareando</title>
+    <genre>Milonga</genre>
+    <artist>Orquesta T&#xED;pica Victor</artist>
+    <album>Youtube</album>
+    <duration>167</duration>
+    <file-size>6718809</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Orquesta%20T%C3%ADpica%20Victor/Cacareando.01.mp3</location>
+    <mtime>1277477713</mtime>
+    <first-seen>1268314018</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>6</play-count>
+    <last-played>1276598965</last-played>
+    <bitrate>320</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1317212087</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Track 06</title>
+    <genre>Milonga</genre>
+    <artist>Francisco Canaro</artist>
+    <album>Milonga Vol 1 - Rojoy</album>
+    <duration>162</duration>
+    <file-size>2594479</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Francisco%20Canaro/Track%2006.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415784</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>7</play-count>
+    <last-played>1276196224</last-played>
+    <bitrate>128</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3805739452</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>El Esquinazo</title>
+    <genre>Milonga</genre>
+    <artist>Francisco Canaro</artist>
+    <album>Milonga Vol 1 - Rojoy</album>
+    <track-number>9</track-number>
+    <duration>152</duration>
+    <file-size>2436265</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Francisco%20Canaro/El%20Esquinazo.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415784</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1276599372</last-played>
+    <bitrate>128</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>4226657568</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Milonga Sentimental</title>
+    <genre>Milonga</genre>
+    <artist>Francisco Canaro</artist>
+    <album>Vieja Milonga</album>
+    <track-number>14</track-number>
+    <duration>192</duration>
+    <file-size>6147841</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Francisco%20Canaro/Milonga%20Sentimental.01.mp3</location>
+    <mtime>1277477713</mtime>
+    <first-seen>1254415784</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1266786388</last-played>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1696661830</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>No Hay Tierra Como la M&#xED;a</title>
+    <genre>Milonga</genre>
+    <artist>Francisco Canaro</artist>
+    <album>Unknown</album>
+    <track-number>6</track-number>
+    <duration>170</duration>
+    <file-size>5444150</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Francisco%20Canaro/No%20Hay%20Tierra%20Como%20la%20M%C3%ADa.01.mp3</location>
+    <mtime>1277477718</mtime>
+    <first-seen>1254415784</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1275332305</last-played>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3431057111</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Milonga Del Novecientos</title>
+    <genre>Milonga</genre>
+    <artist>Francisco Canaro</artist>
+    <album>Serie para baile - Vol.1 - Todo milonga</album>
+    <track-number>2</track-number>
+    <duration>173</duration>
+    <file-size>4167691</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Francisco%20Canaro/Milonga%20Del%20Novecientos.01.mp3</location>
+    <mtime>1277477724</mtime>
+    <first-seen>1254415783</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>192</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3438243712</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Negrito</title>
+    <genre>Milonga</genre>
+    <artist>Francisco Canaro</artist>
+    <album>Serie para baile - Vol.1 - Todo milonga</album>
+    <track-number>3</track-number>
+    <duration>162</duration>
+    <file-size>3908123</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Francisco%20Canaro/Negrito.01.mp3</location>
+    <mtime>1277477718</mtime>
+    <first-seen>1254415783</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>5</play-count>
+    <last-played>1263839745</last-played>
+    <bitrate>192</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1944340301</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Parque Patricios</title>
+    <genre>Milonga</genre>
+    <artist>Francisco Canaro</artist>
+    <album>Canaro Milonga</album>
+    <track-number>7</track-number>
+    <duration>152</duration>
+    <file-size>3659157</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Francisco%20Canaro/Parque%20Patricios.01.mp3</location>
+    <mtime>1277477713</mtime>
+    <first-seen>1254415784</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1262456082</last-played>
+    <bitrate>192</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>4046890541</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Ella es Asi</title>
+    <genre>Milonga</genre>
+    <artist>Horacio Lagos</artist>
+    <album>Horacio Lagos</album>
+    <track-number>23</track-number>
+    <duration>154</duration>
+    <file-size>3712323</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Horacio%20Lagos/Ella%20es%20Asi.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415784</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>192</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>751073341</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Milonga Del 900</title>
+    <genre>Milonga</genre>
+    <artist>Francisco Canaro, Ernesto Fam&#xE1;</artist>
+    <album>Milongas De Omar</album>
+    <track-number>3</track-number>
+    <duration>172</duration>
+    <file-size>3218369</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Francisco%20Canaro/Milonga%20Del%20900%20-%20Ernesto%20Fam%C3%A1.01.mp3</location>
+    <mtime>1277477723</mtime>
+    <first-seen>1267392764</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1267392871</last-played>
+    <bitrate>149</bitrate>
+    <date>707840</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1031637143</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Estampa de Varon</title>
+    <genre>Milonga</genre>
+    <artist>Juan D'Arienzo</artist>
+    <album>Vieja Milonga</album>
+    <track-number>19</track-number>
+    <duration>122</duration>
+    <file-size>3925066</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Juan%20D'Arienzo/Estampa%20de%20Varon.01.mp3</location>
+    <mtime>1277477713</mtime>
+    <first-seen>1254415785</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1267389829</last-played>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1616628873</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Milonga Del Corazon</title>
+    <genre>Milonga</genre>
+    <artist>Juan D'Arienzo</artist>
+    <album>Vieja Milonga</album>
+    <track-number>8</track-number>
+    <duration>146</duration>
+    <file-size>4680743</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Juan%20D'Arienzo/Milonga%20Del%20Corazon.01.mp3</location>
+    <mtime>1277477718</mtime>
+    <first-seen>1254415784</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>2126652010</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Milonga Vieja Milonga</title>
+    <genre>Milonga</genre>
+    <artist>Juan D'Arienzo</artist>
+    <album>Vieja Milonga</album>
+    <track-number>9</track-number>
+    <duration>156</duration>
+    <file-size>5018085</file-size>
+    <location>file://$WORK_AREA/Music/Milonga/Juan%20D'Arienzo/Milonga%20Vieja%20Milonga.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415785</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1262456507</last-played>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1105372468</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>-- Valses (i) --</title>
+    <genre>Cortina</genre>
+    <artist>Ravid Goldschmidt</artist>
+    <album>Cortina</album>
+    <duration>20</duration>
+    <file-size>645101</file-size>
+    <location>file://$WORK_AREA/Music/Cortina/Ravid%20Goldschmidt/--%20Valses%20(i)%20--.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1254415782</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1275326602</last-played>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1438167590</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>-- Tangos (iii) --</title>
+    <genre>Cortina</genre>
+    <artist>Ravid Goldschmidt</artist>
+    <album>Cortina</album>
+    <duration>20</duration>
+    <file-size>645103</file-size>
+    <location>file://$WORK_AREA/Music/Cortina/Ravid%20Goldschmidt/--%20Tangos%20(iii)%20--.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415782</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>6</play-count>
+    <last-played>1276192144</last-played>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>380325801</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>-- Tangos (ii) --</title>
+    <genre>Cortina</genre>
+    <artist>Ravid Goldschmidt</artist>
+    <album>Cortina</album>
+    <duration>20</duration>
+    <file-size>645303</file-size>
+    <location>file://$WORK_AREA/Music/Cortina/Ravid%20Goldschmidt/--%20Tangos%20(ii)%20--.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1254415782</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1271344060</last-played>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1032732794</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>-- End --</title>
+    <genre>Cortina</genre>
+    <artist>Ravid Goldschmidt</artist>
+    <album>Cortina</album>
+    <track-number>15</track-number>
+    <duration>183</duration>
+    <file-size>5869810</file-size>
+    <location>file://$WORK_AREA/Music/Cortina/Ravid%20Goldschmidt/--%20End%20--.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415782</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>764643633</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>-- Milongas --</title>
+    <genre>Cortina</genre>
+    <artist>Ravid Goldschmidt</artist>
+    <album>Cortina</album>
+    <duration>20</duration>
+    <file-size>645548</file-size>
+    <location>file://$WORK_AREA/Music/Cortina/Ravid%20Goldschmidt/--%20Milongas%20--.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415782</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1275331575</last-played>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>2933895511</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>-- Tangos (final) --</title>
+    <genre>Cortina</genre>
+    <artist>Ravid Goldschmidt</artist>
+    <album>Cortina</album>
+    <duration>20</duration>
+    <file-size>645802</file-size>
+    <location>file://$WORK_AREA/Music/Cortina/Ravid%20Goldschmidt/--%20Tangos%20(final)%20--.01.mp3</location>
+    <mtime>1277477713</mtime>
+    <first-seen>1254415782</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>2</play-count>
+    <last-played>1275332326</last-played>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>839426413</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>-- Tangos (i) --</title>
+    <genre>Cortina</genre>
+    <artist>Ravid Goldschmidt</artist>
+    <album>Cortina</album>
+    <duration>20</duration>
+    <file-size>645302</file-size>
+    <location>file://$WORK_AREA/Music/Cortina/Ravid%20Goldschmidt/--%20Tangos%20(i)%20--.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1254415782</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>6</play-count>
+    <last-played>1267726810</last-played>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>2900033984</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>El Vals So&#xF1;ador</title>
+    <genre>Vals</genre>
+    <artist>Miguel Cal&#xF3;, Raul Beron</artist>
+    <album>Las Estrellas 1941-1944</album>
+    <track-number>2</track-number>
+    <duration>208</duration>
+    <file-size>8330990</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Miguel%20Cal%C3%B3/El%20Vals%20So%C3%B1ador%20-%20Raul%20Beron.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1254415806</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1276617831</last-played>
+    <bitrate>320</bitrate>
+    <date>708936</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1538322891</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Florcita Criolla</title>
+    <genre>Vals</genre>
+    <artist>Francisco Canaro, Ada Falc&#xF3;n</artist>
+    <album>Grandes Del Tango 41</album>
+    <track-number>20</track-number>
+    <disc-number>1</disc-number>
+    <duration>183</duration>
+    <file-size>5021697</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Francisco%20Canaro/Florcita%20Criolla%20-%20Ada%20Falc%C3%B3n.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1276187030</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>4</play-count>
+    <last-played>1276617474</last-played>
+    <bitrate>217</bitrate>
+    <date>704918</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>563113161</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Violetas</title>
+    <genre>Vals</genre>
+    <artist>Alberto Castillo</artist>
+    <album>Los Cl&#xE1;sicos Argentinos - Tango V17</album>
+    <duration>156</duration>
+    <file-size>3135551</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Alberto%20Castillo/Violetas.01.mp3</location>
+    <mtime>1277477723</mtime>
+    <first-seen>1254415807</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>2</play-count>
+    <last-played>1269375924</last-played>
+    <bitrate>160</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3147141468</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Coraz&#xF2;n de Oro</title>
+    <genre>Vals</genre>
+    <artist>Francisco Canaro, J. Fern&#xE0;ndez</artist>
+    <album>TANGO</album>
+    <track-number>19</track-number>
+    <duration>188</duration>
+    <file-size>4524189</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Francisco%20Canaro/Coraz%C3%B2n%20de%20Oro%20-%20J.%20Fern%C3%A0ndez.01.mp3</location>
+    <mtime>1277477723</mtime>
+    <first-seen>1254415807</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>192</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3108327544</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Esmeralda</title>
+    <genre>Vals</genre>
+    <artist>Julio de Caro, Roberto Taibo</artist>
+    <album>Various</album>
+    <track-number>11</track-number>
+    <duration>158</duration>
+    <file-size>2531758</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Julio%20de%20Caro/Esmeralda%20-%20Roberto%20Taibo.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415789</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>2</play-count>
+    <last-played>1271710388</last-played>
+    <bitrate>128</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>388564815</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Pobre Flor</title>
+    <genre>Vals</genre>
+    <artist>Unknown</artist>
+    <album>Various</album>
+    <track-number>12</track-number>
+    <duration>163</duration>
+    <file-size>2614494</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Unknown/Pobre%20Flor.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415799</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>128</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>453961725</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Viejo Port&#xF3;n</title>
+    <genre>Vals</genre>
+    <artist>Rodolfo Biagi</artist>
+    <album>Rodolfo Biagi - Sus &#xC9;xitos con</album>
+    <duration>146</duration>
+    <file-size>2350842</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Rodolfo%20Biagi/Viejo%20Port%C3%B3n.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415806</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1276617621</last-played>
+    <bitrate>128</bitrate>
+    <date>729755</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1808133829</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Esquinas Porte&#xF1;as</title>
+    <genre>Vals</genre>
+    <artist>Mercedes Simone</artist>
+    <album>Mercedes Simone</album>
+    <duration>138</duration>
+    <file-size>2214077</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Mercedes%20Simone/Esquinas%20Porte%C3%B1as.01.mp3</location>
+    <mtime>1277477723</mtime>
+    <first-seen>1254415807</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>9</play-count>
+    <last-played>1270752499</last-played>
+    <bitrate>128</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3752333820</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Bajo el Cielo Azul</title>
+    <genre>Vals</genre>
+    <artist>Francisco Canaro</artist>
+    <album>Desde el Alma</album>
+    <track-number>5</track-number>
+    <duration>183</duration>
+    <file-size>4398976</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Francisco%20Canaro/Bajo%20el%20Cielo%20Azul.01.mp3</location>
+    <mtime>1277477715</mtime>
+    <first-seen>1254415807</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>191</bitrate>
+    <date>728659</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1017914444</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Tristeza Criolla</title>
+    <genre>Vals</genre>
+    <artist>Francisco Canaro</artist>
+    <album>Desde el Alma</album>
+    <track-number>16</track-number>
+    <duration>173</duration>
+    <file-size>4155264</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Francisco%20Canaro/Tristeza%20Criolla.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1254415806</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>191</bitrate>
+    <date>728659</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1399700145</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Margaritas</title>
+    <genre>Vals</genre>
+    <artist>Francisco Canaro</artist>
+    <album>La Melodia De Nuestro Adios</album>
+    <track-number>7</track-number>
+    <duration>192</duration>
+    <file-size>6164352</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Francisco%20Canaro/Margaritas.01.mp3</location>
+    <mtime>1277477722</mtime>
+    <first-seen>1254415807</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>2</play-count>
+    <last-played>1271711242</last-played>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3332202748</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Jardin Del Amor</title>
+    <genre>Vals</genre>
+    <artist>Francisco Canaro</artist>
+    <album>La Melodia De Nuestro Adios</album>
+    <track-number>16</track-number>
+    <duration>305</duration>
+    <file-size>9774976</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Francisco%20Canaro/Jardin%20Del%20Amor.01.mp3</location>
+    <mtime>1277477712</mtime>
+    <first-seen>1254415807</first-seen>
+    <last-seen>1277477736</last-seen>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3528951699</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Ronda Del Querer</title>
+    <genre>Vals</genre>
+    <artist>Francisco Canaro, Carlos Gal&#xE1;n</artist>
+    <album>La Melodia De Nuestro Adios</album>
+    <track-number>5</track-number>
+    <duration>187</duration>
+    <file-size>6011444</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Francisco%20Canaro/Ronda%20Del%20Querer%20-%20Carlos%20Gal%C3%A1n.01.mp3</location>
+    <mtime>1277477711</mtime>
+    <first-seen>1254415807</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>6</play-count>
+    <last-played>1270141875</last-played>
+    <bitrate>256</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>3707820249</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Recuerdo</title>
+    <genre>Vals</genre>
+    <artist>Ricardo Tanturi, Alberto Castillo</artist>
+    <album>Todo Valses de FM Tango para usted</album>
+    <track-number>3</track-number>
+    <duration>146</duration>
+    <file-size>2924413</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Ricardo%20Tanturi/Recuerdo%20-%20Alberto%20Castillo.01.mp3</location>
+    <mtime>1277477715</mtime>
+    <first-seen>1254415807</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>5</play-count>
+    <last-played>1269457012</last-played>
+    <bitrate>160</bitrate>
+    <date>0</date>
+    <replaygain-track-gain>0.19</replaygain-track-gain>
+    <replaygain-track-peak>0.599881</replaygain-track-peak>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>274766722</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Con Los Amigos (A mi Madre)</title>
+    <genre>Vals</genre>
+    <artist>Ricardo Tanturi, Alberto Castillo</artist>
+    <album>Todo Valses de FM Tango para usted</album>
+    <track-number>13</track-number>
+    <duration>161</duration>
+    <file-size>3242082</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Ricardo%20Tanturi/Con%20Los%20Amigos%20(A%20mi%20Madre)%20-%20Alberto%20Castillo.01.mp3</location>
+    <mtime>1277477715</mtime>
+    <first-seen>1254415807</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>3</play-count>
+    <last-played>1271710884</last-played>
+    <bitrate>160</bitrate>
+    <date>0</date>
+    <replaygain-track-gain>0.13500000000000001</replaygain-track-gain>
+    <replaygain-track-peak>0.49898399999999998</replaygain-track-peak>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1680185059</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Rosas de Oto&#xF1;o</title>
+    <genre>Vals</genre>
+    <artist>Carlos di Sarli</artist>
+    <album>Unknown</album>
+    <track-number>12</track-number>
+    <duration>131</duration>
+    <file-size>2637662</file-size>
+    <location>file://$WORK_AREA/Music/Vals/Carlos%20di%20Sarli/Rosas%20de%20Oto%C3%B1o.01.mp3</location>
+    <mtime>1277477715</mtime>
+    <first-seen>1254415807</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>1</play-count>
+    <last-played>1262801617</last-played>
+    <bitrate>160</bitrate>
+    <date>0</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1925098533</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="song">
+    <title>Time to Say Goodbye (Con Te Partiro)</title>
+    <genre>Classical (Opera)</genre>
+    <artist>Andrea Bocelli, Sarah Brightman</artist>
+    <album>Time to Say Goodbye</album>
+    <track-number>1</track-number>
+    <duration>246</duration>
+    <file-size>5921005</file-size>
+    <location>file://$WORK_AREA/Music/Classical%20(Opera)/Andrea%20Bocelli/Time%20to%20Say%20Goodbye%20(Con%20Te%20Partiro)%20-%20Sarah%20Brightman.01.mp3</location>
+    <mtime>1277477724</mtime>
+    <first-seen>1277399639</first-seen>
+    <last-seen>1277477736</last-seen>
+    <play-count>2</play-count>
+    <last-played>1277403239</last-played>
+    <bitrate>192</bitrate>
+    <date>729025</date>
+    <mimetype>application/x-id3</mimetype>
+    <mb-trackid>1333609416</mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>CBC Radio One (Canada)</title>
+    <genre>General</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://www.cbc.ca/livemedia/cbcr1-toronto.m3u</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>NRK P3 (Norway)</title>
+    <genre>General</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://media.hiof.no/streams/m3u/nrk-petre-172.ogg.m3u</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>CBC Radio Two (Canada)</title>
+    <genre>General</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://www.cbc.ca/livemedia/cbcr2-toronto.m3u</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>NRK P2 (Norway)</title>
+    <genre>General</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://media.hiof.no/streams/m3u/nrk-p2-172.ogg.m3u</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>NRK P1 (Norway)</title>
+    <genre>General</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://media.hiof.no/streams/m3u/nrk-p1-172.ogg.m3u</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>Virgin Radio UK (Broadband)</title>
+    <genre>Pop</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://www.smgradio.com/core/audio/ogg/live.pls?service=vrbb</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>Virgin Radio UK (Modem)</title>
+    <genre>Pop</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://www.smgradio.com/core/audio/ogg/live.pls?service=vr</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>HBR1.com - I.D.M. Tranceponder</title>
+    <genre>Trance</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://ubuntu.hbr1.com:19800/trance.ogg</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>Virgin Classic Rock (Broadband)</title>
+    <genre>Rock'n'Roll</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://www.smgradio.com/core/audio/ogg/live.pls?service=vcbb</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>Virgin Classic Rock (Modem)</title>
+    <genre>Rock'n'Roll</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://www.smgradio.com/core/audio/ogg/live.pls?service=vc</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>NRK Stortinget (Norway)</title>
+    <genre>Unknown</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://media.hiof.no/streams/m3u/nrk-stortinget-172.ogg.m3u</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>NRK Alltid Klassisk (Norway)</title>
+    <genre>Unknown</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://media.hiof.no/streams/m3u/nrk-alltid-klassisk-172.ogg.m3u</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>NRK mP3 (Norway)</title>
+    <genre>Unknown</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://media.hiof.no/streams/m3u/nrk-mpetre-172.ogg.m3u</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>NRK Alltid Nyheter (Norway)</title>
+    <genre>Unknown</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://media.hiof.no/streams/m3u/nrk-alltid-nyheter-172.ogg.m3u</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>http://www.audiolunchbox.com/preview.mp3?i=792448</title>
+    <genre>Unknown</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://www.audiolunchbox.com/preview.mp3?i=792448</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>HBR1.com - Dream Factory</title>
+    <genre>Ambient</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://ubuntu.hbr1.com:19800/ambient.ogg</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>WKNC 88.1 FM (NC State) (Modem)</title>
+    <genre>Music</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://wknc.org:8000/wknclq.ogg.m3u</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>WKNC 88.1 FM (NC State) (Broadband)</title>
+    <genre>Music</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://wknc.org:8000/wkncmq.ogg.m3u</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>HBR1.com - Tronic Lounge</title>
+    <genre>House</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://ubuntu.hbr1.com:19800/tronic.ogg</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>wbur.org - Boston's NPR news source</title>
+    <genre>News</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://www.wbur.org/listen/feed/ogg.m3u</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>Virgin Xtreme (Modem)</title>
+    <genre>Modern Rock</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://www.smgradio.com/core/audio/ogg/live.pls?service=vx</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+  <entry type="iradio">
+    <title>Virgin Xtreme (Broadband)</title>
+    <genre>Modern Rock</genre>
+    <artist></artist>
+    <album></album>
+    <location>http://www.smgradio.com/core/audio/ogg/live.pls?service=vxbb</location>
+    <date>0</date>
+    <mimetype>application/octet-stream</mimetype>
+    <mb-trackid></mb-trackid>
+    <mb-artistid></mb-artistid>
+    <mb-albumid></mb-albumid>
+    <mb-albumartistid></mb-albumartistid>
+    <mb-artistsortname></mb-artistsortname>
+  </entry>
+</rhythmdb>

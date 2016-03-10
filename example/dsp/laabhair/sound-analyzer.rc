@@ -1,0 +1,55 @@
+#include <windows.h>
+
+#define ID_ICO_APPLICATION					1
+#define ID_ICO_SOUNDBOW   	          		2
+#define ID_ICO_HELLO_WORLD 					3
+
+#define ID_MAIN_MENU             			1
+
+#define CMD_COMMAND_LINE_HELP      	    			104
+#define CMD_EDIT_CONFIG   		       				105
+#define CMD_CONSOLE_CONTROLLER						106
+
+#define CMD_REFRESH_THREAD_NAME_DROP_DOWN_LIST		107
+
+// Configuration dialog
+
+#define ID_APPLY_CONFIG_BUTTON    			 		108
+#define ID_FILE_BROWSE_BUTTON   	    			109
+
+#define ID_CONSOLE_THREAD_LEFT_BUTTON 				110
+#define ID_CONSOLE_THREAD_RIGHT_BUTTON 				111
+#define ID_CONSOLE_THREAD_START_BUTTON 				112
+#define ID_CONSOLE_THREAD_FINISH_BUTTON				113
+
+#define ID_CONSOLE_THREAD_REFRESH_BUTTON			114
+
+// Credits
+#define CMD_CREDITS									115
+
+// Icon
+ID_ICO_APPLICATION		ICON           "graphics\\images\\laabhair.ico"
+ID_ICO_SOUNDBOW 		ICON           "graphics\\images\\soundbow.ico"
+ID_ICO_HELLO_WORLD   	ICON           "graphics\\images\\hello_world.ico"
+
+// Menu
+
+ID_MAIN_MENU MENU 
+BEGIN
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Configuration",     CMD_EDIT_CONFIG
+    END
+    
+    POPUP "&Console"
+    BEGIN
+        MENUITEM "&Thread selector",   CMD_CONSOLE_CONTROLLER
+    END
+
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Command line", 		CMD_COMMAND_LINE_HELP
+        MENUITEM "Cre$dits",   			CMD_CREDITS
+    END
+END
+

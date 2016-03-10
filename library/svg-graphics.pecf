@@ -1,0 +1,120 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = el_svg_graphics
+	uuid = "229b6cc8-09aa-11df-87a9-ffc4e5fcb1e7" 
+	library_target = el_svg_graphics
+	
+	target:
+		name = el_svg_graphics
+		
+		description: 
+			"""
+				SVG to PNG conversion based on librsvg (http://librsvg.sourceforge.net/)
+			"""
+
+		root:
+			all_classes = true
+
+		option:
+			trace = false; debug = false; warning = true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+
+		external_include:
+			location = "$(EIFFEL_LOOP)/C_library/svg-graphics/source"
+
+		# Windows includes
+		external_include: 
+			location = "$(EIFFEL_LOOP)/contrib/C/gtk3.0/include/glib-2.0"
+			condition:
+				platform:
+					value = windows
+
+		external_include: 
+			location = "$(EIFFEL_LOOP)/contrib/C/gtk3.0/lib/glib-2.0/include"
+			condition:
+				platform:
+					value = windows
+
+		# Unix includes
+		external_include:
+			location = "/usr/include/glib-2.0"
+			condition:
+				platform:
+					value = unix
+
+		# Needs to be a way to select the 32 bit version but how?
+		external_include: 
+			location = "/usr/lib/x86_64-linux-gnu/glib-2.0/include"
+			condition:
+				platform:
+					value = unix
+
+		# The following objects are deliberately excluded from being linked because they are intended for
+		# dynamic linking at runtime. They are included here for the Eiffel Loop scons build.
+			
+		# For Windows
+		variable:
+			name = link_object; value = false
+
+		external_object:
+			location = "$(EIFFEL_LOOP)/C_library/svg-graphics/spec/$(ISE_PLATFORM)/svg2png.dll"
+			description:
+				"""
+					svg2png.dll requires:
+					$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_PLATFORM/svg2png.dll
+					$EIFFEL_LOOP/contrib/C/gtk3.0/spec/$ISE_PLATFORM/*.dll
+				"""
+			condition:
+				platform:
+					value = windows
+				custom:
+					name = link_object; value = true
+
+
+		# For Unix
+
+		external_object:
+			location = "$(EIFFEL_LOOP)/C_library/svg-graphics/spec/$(ISE_PLATFORM)/libsvg2png.so"
+			description:
+				"""
+					libsvg2png.so requires:
+					$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_PLATFORM/libsvg2png.so
+				"""
+			condition:
+				platform:
+					value = unix
+				custom:
+					name = link_object; value = true
+
+		library:
+			name = el_base; location = "base.ecf"; readonly = false
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = api_wrapper; location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"
+
+		cluster:
+			name = el_svg; location = "graphic/image/SVG"; recursive = true
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
+
