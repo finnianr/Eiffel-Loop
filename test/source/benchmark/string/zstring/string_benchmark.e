@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-03 12:40:30 GMT (Thursday 3rd March 2016)"
+	date: "2016-03-11 14:26:28 GMT (Friday 11th March 2016)"
 	revision: "5"
 
 deferred class
@@ -56,12 +56,15 @@ feature -- Basic operations
 			do_performance_test ("as_string_32", "$A $D", agent test_as_string_32)
 			do_performance_test ("as_upper", "$A $D", agent test_as_upper)
 
+			do_performance_test ("code (z_code)", "$A $D", agent test_code)
+
 			do_performance_test ("ends_with", "D", agent test_ends_with)
 			do_performance_test ("escaped (as XML)", "put_amp (D)", agent test_xml_escape)
 
 			do_performance_test ("index_of", "D", agent test_index_of)
 			do_performance_test ("insert_string", "D", agent test_insert_string)
 			do_performance_test ("is_less (sort)", "D", agent test_sort)
+			do_performance_test ("item", "$A $D", agent test_item)
 
 			do_performance_test ("last_index_of", "D", agent test_last_index_of)
 			do_performance_test ("left_adjust", "padded (A)", agent test_left_adjust)
@@ -100,12 +103,17 @@ feature -- Basic operations
 			do_performance_test ("as_string_32", "$A $B $C $D", agent test_as_string_32)
 			do_performance_test ("as_upper", "$A $B $C $D", agent test_as_upper)
 
+			do_performance_test ("code (z_code)", "$A $B $C $D", agent test_code)
+			do_performance_test ("code (z_code)", "$B $C", agent test_code)
+
 			do_performance_test ("ends_with", "$B $C", agent test_ends_with)
 			do_performance_test ("escaped (as XML)", "put_amp ($B $C)", agent test_xml_escape)
 
 			do_performance_test ("index_of", "$B $C", agent test_index_of)
 			do_performance_test ("is_less (sort)", "B", agent test_sort)
 			do_performance_test ("insert_string", "$B $C", agent test_insert_string)
+			do_performance_test ("item", "$A $B $C $D", agent test_item)
+			do_performance_test ("item", "$B $C", agent test_item)
 
 			do_performance_test ("last_index_of", "$B $C", agent test_last_index_of)
 			do_performance_test ("left_adjust", "padded (C)", agent test_left_adjust)
@@ -167,16 +175,31 @@ feature -- Benchmark tests
 
 	test_as_string_32
 		local
-			str_32: STRING_32
+			str: like new_string; i: INTEGER
 		do
 			across input_string_list as string loop
-				str_32 := string.item.as_string_32
+				i := string.cursor_index
+				str := string.item
+				call (str.as_string_32)
 			end
 		end
 
 	test_as_upper
 		do
 			change_case (False)
+		end
+
+	test_code
+		local
+			i: INTEGER; str: STRING_GENERAL
+		do
+			across input_string_list as string loop
+				str := string.item
+				from i := 1 until i > str.count loop
+					call (str.code (i))
+					i := i + 1
+				end
+			end
 		end
 
 	test_ends_with
@@ -198,6 +221,19 @@ feature -- Benchmark tests
 				str := string.item
 				uc := input_character_list.i_th (string.cursor_index).last_character
 				call (str.index_of (uc, 1))
+			end
+		end
+
+	test_item
+		local
+			i: INTEGER; str: STRING_GENERAL
+		do
+			across input_string_list as string loop
+				str := string.item
+				from i := 1 until i > str.count loop
+					call (item (str, i))
+					i := i + 1
+				end
 			end
 		end
 
@@ -477,12 +513,15 @@ feature {NONE} -- Implementation
 		end
 
 	displayed_input_format: STRING
+		local
+			pos_first, pos_last: INTEGER
 		do
-			if input_format.has ('$') then
-				create Result.make (input_format.count + 2)
-				Result.append_character ('"')
-				Result.append (input_format)
-				Result.append_character ('"')
+			pos_first := input_format.index_of ('$', 1)
+			if pos_first > 0 then
+				Result := input_format.twin
+				Result.insert_character ('"', pos_first)
+				pos_last := Result.last_index_of ('$', Result.count)
+				Result.insert_character ('"', pos_last + 2)
 			else
 				Result := input_format
 			end
@@ -647,6 +686,10 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
+	item (target: STRING_GENERAL; index: INTEGER): CHARACTER_32
+		deferred
+		end
+
 	prepend (target: STRING_GENERAL; s: STRING_GENERAL)
 		deferred
 		end
@@ -728,11 +771,6 @@ feature {NONE} -- Constants
 			Result ['T'] := '%T'
  		end
 
-	Empty_operands: TUPLE [ARRAYED_LIST [ARRAYED_LIST [STRING_GENERAL]]]
-		once
-			create Result
-		end
-
 	Escaped: STRING = "escaped"
 
 	Ogham_padding: STRING_32
@@ -746,16 +784,9 @@ feature {NONE} -- Constants
 
 	Pinyin_u: CHARACTER_32 = 'ū'
 
-	Space_8: STRING = " "
-
 	Space_padding: STRING_32
 		once
 			create Result.make_filled (' ', 5)
-		end
-
-	Space_z: EL_ZSTRING
-		once
-			Result := " "
 		end
 
 end

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 12:39:33 GMT (Wednesday 16th December 2015)"
+	date: "2016-03-11 10:39:59 GMT (Friday 11th March 2016)"
 	revision: "5"
 
 class
@@ -17,6 +17,7 @@ inherit
 		redefine
 			make
 		end
+
 create
 	make
 
@@ -43,6 +44,11 @@ feature {NONE} -- Implementation
 	insert_string (target, insertion: like new_string; index: INTEGER)
 		do
 			target.insert_string (insertion, index)
+		end
+
+	item (target: like new_string; index: INTEGER): CHARACTER_32
+		do
+			Result := target [index]
 		end
 
 	prepend (target: like new_string; s: STRING_GENERAL)

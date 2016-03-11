@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-03 18:21:47 GMT (Thursday 3rd March 2016)"
+	date: "2016-03-11 11:15:14 GMT (Friday 11th March 2016)"
 	revision: "5"
 
 deferred class
@@ -66,6 +66,12 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	next_table_id: INTEGER_REF
+		do
+			Table_id.set_item (Table_id.item + 1)
+			Result := Table_id.twin
+		end
+
 feature {NONE} -- Internal attributes
 
 	string_32_benchmark: STRING_32_BENCHMARK
@@ -80,7 +86,8 @@ feature {NONE} -- Evolicity fields
 			create Result.make (<<
 				["column_title", 	agent: STRING do Result := column_title end],
 				["title", 			agent: ZSTRING do Result := title end],
-				["data_rows", 		agent: EL_ZSTRING_LIST do Result := data_rows end]
+				["data_rows", 		agent: EL_ZSTRING_LIST do Result := data_rows end],
+				["table_id", 		agent next_table_id]
 			>>)
 		end
 
@@ -91,9 +98,15 @@ feature {NONE} -- Constants
 			create Result.make (100)
 		end
 
+	Table_id: INTEGER_REF
+		once
+			create Result
+		end
+
 	Template: STRING =
 	"[
 		<h3>$title</h3>
+		<caption>Table $table_id</caption>
 		<table>
 			<tr>
 				<th width="40%">$column_title</th>
