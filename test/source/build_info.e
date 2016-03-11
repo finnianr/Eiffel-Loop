@@ -15,7 +15,7 @@ feature -- Constants
 
 	Version_number: NATURAL = 01_00_01
 
-	Build_number: NATURAL = 183
+	Build_number: NATURAL = 187
 
 	Installation_sub_directory: EL_DIR_PATH
 		once

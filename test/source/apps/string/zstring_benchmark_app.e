@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-03 18:30:03 GMT (Thursday 3rd March 2016)"
+	date: "2016-03-11 11:07:21 GMT (Friday 11th March 2016)"
 	revision: "6"
 
 class
@@ -18,15 +18,9 @@ inherit
 			Option_name
 		end
 
-	EL_FACTORY_CLIENT
-
 	MODULE_HEXAGRAM
 
-	EL_MODULE_UTF
-
 	EL_SHARED_ZCODEC
-
-	BENCHMARK_ROUTINES
 
 create
 	make
