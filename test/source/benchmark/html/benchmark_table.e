@@ -2,11 +2,11 @@
 	description: "Summary description for {BENCHMARK_TABLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-11 11:15:14 GMT (Friday 11th March 2016)"
+	date: "2016-03-17 12:53:20 GMT (Thursday 17th March 2016)"
 	revision: "5"
 
 deferred class
@@ -26,20 +26,18 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_pure (encoding_id: INTEGER; a_string_32_benchmark: like string_32_benchmark; a_zstring_benchmark: like zstring_benchmark)
-		do
-			make (Title_latin #$ [encoding_id], a_string_32_benchmark, a_zstring_benchmark)
-		end
-
-	make_mixed (encoding_id: INTEGER; a_string_32_benchmark: like string_32_benchmark; a_zstring_benchmark: like zstring_benchmark)
-		do
-			make (Title_mixed #$ [encoding_id], a_string_32_benchmark, a_zstring_benchmark)
-		end
-
-	make (a_title: like title; a_string_32_benchmark: like string_32_benchmark; a_zstring_benchmark: like zstring_benchmark)
+	make (encoding_id: INTEGER; a_benchmark: like benchmark)
+		require
+			valid_zstring_benchmark: attached {ZSTRING_BENCHMARK} a_benchmark.zstring
+			valid_string_32_benchmark: attached {STRING_32_BENCHMARK} a_benchmark.string_32
 		do
 			make_default
-			title := a_title; string_32_benchmark := a_string_32_benchmark; zstring_benchmark := a_zstring_benchmark
+			if attached {MIXED_ENCODING_ZSTRING_BENCHMARK} a_benchmark.zstring then
+				title := Title_mixed #$ [encoding_id]
+			else
+				title := Title_latin #$ [encoding_id]
+			end
+			benchmark := a_benchmark
 			set_data_rows
 		end
 
@@ -55,6 +53,8 @@ feature -- Access
 	data_rows: EL_ZSTRING_LIST
 
 	title: ZSTRING
+
+	benchmark: TUPLE [zstring, string_32: STRING_BENCHMARK]
 
 feature {NONE} -- Implementation
 
@@ -72,12 +72,6 @@ feature {NONE} -- Implementation
 			Result := Table_id.twin
 		end
 
-feature {NONE} -- Internal attributes
-
-	string_32_benchmark: STRING_32_BENCHMARK
-
-	zstring_benchmark: ZSTRING_BENCHMARK
-
 feature {NONE} -- Evolicity fields
 
 	getter_function_table: like getter_functions
@@ -89,6 +83,14 @@ feature {NONE} -- Evolicity fields
 				["data_rows", 		agent: EL_ZSTRING_LIST do Result := data_rows end],
 				["table_id", 		agent next_table_id]
 			>>)
+		end
+
+feature {NONE} -- Type definition
+
+	Type_benchmark: STRING_BENCHMARK
+		require
+			never_called: False
+		once
 		end
 
 feature {NONE} -- Constants
@@ -121,12 +123,6 @@ feature {NONE} -- Constants
 		#end
 		</table>
 	]"
-
-	Type_benchmark: STRING_BENCHMARK
-		require
-			never_called: False
-		once
-		end
 
 	Title_mixed: ZSTRING
 		once

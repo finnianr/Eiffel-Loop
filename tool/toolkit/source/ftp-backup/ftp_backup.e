@@ -2,11 +2,11 @@
 	description: "Summary description for {FTP_BACKUP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 16:15:26 GMT (Monday 28th December 2015)"
+	date: "2016-03-15 13:42:23 GMT (Tuesday 15th March 2016)"
 	revision: "8"
 
 class
@@ -50,45 +50,6 @@ feature -- Status query
 	ask_user_to_upload: BOOLEAN
 
 feature -- Basic operations
-
-	execute
-			--
-		local
-			total_size_mega_bytes: REAL
-			ftp_site_node: EL_XPATH_NODE_CONTEXT
-			website: EL_FTP_WEBSITE
-		do
-			across script_file_path_list as l_path loop
-				script_file_path := l_path.item
-				if not script_file_path.is_absolute then
-					script_file_path := Directory.current_working + script_file_path
-				end
-				set_root_node (script_file_path)
-				backup_all
-				total_size_mega_bytes := (total_kilo_bytes / 1000).truncated_to_real
-
-				root_node.find_node ("/backup-script/ftp-site")
-				if root_node.node_found then
-					ftp_site_node := root_node.found_node
-					log_or_io.put_new_line
-					if total_size_mega_bytes > Max_mega_bytes_to_send then
-						log_or_io.put_string ("WARNING, total backup size ")
-						log_or_io.put_real (total_size_mega_bytes)
-						log_or_io.put_string (" megabytes exceeds limit (")
-						log_or_io.put_real (Max_mega_bytes_to_send)
-						log_or_io.put_string (")")
-						log_or_io.put_new_line
-					end
-				end
-			end
-			if ask_user_to_upload then
-				log_or_io.put_string ("Copy files offsite? (y/n) ")
-				if User_input.entered_letter ('y') then
-					create website.make_from_node (ftp_site_node)
-					website.do_ftp_upload (archive_and_destination_paths)
-				end
-			end
-		end
 
 	backup_all
 			--
@@ -157,6 +118,45 @@ feature -- Basic operations
 			log.exit
 		end
 
+	execute
+			--
+		local
+			total_size_mega_bytes: REAL
+			ftp_site_node: EL_XPATH_NODE_CONTEXT
+			website: EL_FTP_WEBSITE
+		do
+			across script_file_path_list as l_path loop
+				script_file_path := l_path.item
+				if not script_file_path.is_absolute then
+					script_file_path := Directory.current_working + script_file_path
+				end
+				set_root_node (script_file_path)
+				backup_all
+				total_size_mega_bytes := (total_kilo_bytes / 1000).truncated_to_real
+
+				root_node.find_node ("/backup-script/ftp-site")
+				if root_node.node_found then
+					ftp_site_node := root_node.found_node
+					log_or_io.put_new_line
+					if total_size_mega_bytes > Max_mega_bytes_to_send then
+						log_or_io.put_string ("WARNING, total backup size ")
+						log_or_io.put_real (total_size_mega_bytes)
+						log_or_io.put_string (" megabytes exceeds limit (")
+						log_or_io.put_real (Max_mega_bytes_to_send)
+						log_or_io.put_string (")")
+						log_or_io.put_new_line
+					end
+				end
+			end
+			if ask_user_to_upload then
+				log_or_io.put_string ("Copy files offsite? (y/n) ")
+				if User_input.entered_letter ('y') then
+					create website.make_from_node (ftp_site_node)
+					website.do_ftp_upload (archive_and_destination_paths)
+				end
+			end
+		end
+
 feature -- Element change
 
 	set_root_node (file_path: EL_FILE_PATH)
@@ -190,11 +190,11 @@ feature {NONE} -- Implementation: attributes
 
 	root_node: EL_XPATH_ROOT_NODE_CONTEXT
 
-	total_kilo_bytes: INTEGER
+	script_file_path: EL_FILE_PATH
 
 	script_file_path_list: ARRAYED_LIST [EL_FILE_PATH]
 
-	script_file_path: EL_FILE_PATH
+	total_kilo_bytes: INTEGER
 
 feature {NONE} -- Constants
 

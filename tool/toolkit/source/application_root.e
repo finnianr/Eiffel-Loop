@@ -2,11 +2,11 @@
 	description: ""
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 14:57:07 GMT (Sunday 20th December 2015)"
+	date: "2016-03-15 12:51:21 GMT (Tuesday 15th March 2016)"
 	revision: "10"
 
 class
@@ -27,7 +27,6 @@ feature {NONE} -- Implementation
 				{CODEC_GENERATOR_APP},
 				{CRYPTO_APP},
 
-				{EIFFEL_CLASS_EDITOR_APP},
 				{EIFFEL_CLASS_LIBRARY_MANIFEST_APP},
 				{EIFFEL_CLASS_PREFIX_REMOVAL_APP},
 

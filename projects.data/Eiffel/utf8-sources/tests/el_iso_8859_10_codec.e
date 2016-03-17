@@ -95,7 +95,7 @@ feature -- Character query
 			end
 		end
 
-@f {im
+feature {NONE} -- Implementation
 
 	create_unicode_table: SPECIAL [CHARACTER_32]
 			-- Unicode value indexed by ISO_8859_10 character values

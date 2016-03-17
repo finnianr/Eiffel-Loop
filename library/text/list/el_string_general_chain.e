@@ -2,11 +2,11 @@
 	description: "Summary description for {EL_READABLE_STRING_GENERAL_LIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-04 19:46:58 GMT (Friday 4th March 2016)"
+	date: "2016-03-16 10:37:36 GMT (Wednesday 16th March 2016)"
 	revision: "6"
 
 deferred class
@@ -73,7 +73,7 @@ feature -- Element change
 		end
 
 	indent (tab_count: INTEGER)
-			-- prepend one tab character to each line
+			-- prepend `tab_count' tab character to each line
 		require
 			valid_tab_count: tab_count >= 0
 		local
@@ -158,6 +158,19 @@ feature -- Resizing
 		end
 
 feature -- Access
+
+	as_string_32_list: ARRAYED_LIST [STRING_32]
+		local
+			l_cursor: like cursor
+		do
+			l_cursor := cursor
+			create Result.make (count)
+			from start until after loop
+				Result.extend (item.as_string_32)
+				forth
+			end
+			go_to (l_cursor)
+		end
 
 	character_count: INTEGER
 			--

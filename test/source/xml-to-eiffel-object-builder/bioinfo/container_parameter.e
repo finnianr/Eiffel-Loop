@@ -2,7 +2,7 @@
 	description: "Recursive class. Attribute parameter_list may have other references to CONTAINER_PARAMETER"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"

@@ -2,11 +2,11 @@
 	description: "Summary description for {MEMORY_BENCHMARK_TABLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-03 18:20:40 GMT (Thursday 3rd March 2016)"
+	date: "2016-03-17 12:47:58 GMT (Thursday 17th March 2016)"
 	revision: "5"
 
 class
@@ -16,17 +16,20 @@ inherit
 	BENCHMARK_TABLE
 
 create
-	make_pure, make_mixed
+	make
 
 feature {NONE} -- Implementation
 
 	set_data_rows
 		local
-			string_32_test: like string_32_benchmark.memory_tests.item
+			string_32_test: like Type_benchmark.memory_tests.item
 			zstring_bytes, string_32_bytes: INTEGER
 		do
-			across zstring_benchmark.memory_tests as zstring_test loop
-				string_32_test := string_32_benchmark.memory_tests [zstring_test.cursor_index]
+			benchmark.zstring.do_memory_tests
+			benchmark.string_32.do_memory_tests
+
+			across benchmark.zstring.memory_tests as zstring_test loop
+				string_32_test := benchmark.string_32.memory_tests [zstring_test.cursor_index]
 				Html_row.wipe_out
 				Html_row.append (Html.table_data (zstring_test.item.description))
 				Html_row.append (Html.table_data (XML.escaped (zstring_test.item.input_format)))

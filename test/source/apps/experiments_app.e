@@ -2,11 +2,11 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-15 11:45:00 GMT (Friday 15th January 2016)"
+	date: "2016-03-16 11:03:07 GMT (Wednesday 16th March 2016)"
 	revision: "5"
 
 class
@@ -15,7 +15,7 @@ class
 inherit
 	EL_SUB_APPLICATION
 		rename
-			run as test_pointer_width
+			run as test_substitution
 		redefine
 			Option_name
 		end
@@ -353,6 +353,17 @@ feature -- Basic operations
 			log.enter ("test_pointer_width")
 			ptr := $test_pointer_width
 			log.put_integer_field (ptr.out, ptr.out.count)
+			log.exit
+		end
+
+	test_substitution
+		local
+			template: EL_SUBSTITUTION_TEMPLATE [STRING]
+		do
+			log.enter ("test_substitution")
+			create template.make ("from $var := 1 until $var > 10 loop")
+			template.set_variable ("var", "i")
+			log.put_line (template.substituted)
 			log.exit
 		end
 
