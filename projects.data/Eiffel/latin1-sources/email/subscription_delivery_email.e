@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			email_path.add_extension ("eml")
 		end
 
-@f bo
+feature -- Basic operations
 
 	send
 		local
@@ -76,7 +76,7 @@ feature {NONE} -- Evolicity fields
 			>>)
 		end
 
-@f {im
+feature {NONE} -- Implementation
 
 	subject: ASTRING
 		do
@@ -89,7 +89,7 @@ feature {NONE} -- Attributes
 
 	pack: SUBSCRIPTION_PACK
 
-@f {co
+feature {NONE} -- Constants
 
 	Sendmail_command: EL_GENERAL_OS_COMMAND
 		once

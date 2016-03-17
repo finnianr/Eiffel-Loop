@@ -2,11 +2,11 @@
 	description: "Summary description for {ZSTRING_BENCHMARK_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-11 11:07:21 GMT (Friday 11th March 2016)"
+	date: "2016-03-17 12:51:30 GMT (Thursday 17th March 2016)"
 	revision: "6"
 
 class
@@ -67,8 +67,14 @@ feature -- Basic operations
 			log_or_io.put_new_line
 			log_or_io.put_new_line
 
-			do_latin_encoding_tests
-			do_mixed_encoding_tests
+			do_encoding_tests ([
+				create {ZSTRING_BENCHMARK}.make (Number_of_runs, routine_filter),
+				create {STRING_32_BENCHMARK}.make (Number_of_runs, routine_filter)
+			])
+			do_encoding_tests ([
+				create {MIXED_ENCODING_ZSTRING_BENCHMARK}.make (Number_of_runs, routine_filter),
+				create {MIXED_ENCODING_STRING_32_BENCHMARK}.make (Number_of_runs, routine_filter)
+			])
 
 			benchmark_html.serialize
 
@@ -77,48 +83,10 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	do_latin_encoding_tests
-		local
-			benchmark: like new_benchmark
+	do_encoding_tests (benchmark: like Type_benchmark_table.benchmark)
 		do
-			benchmark := new_benchmark
-			benchmark.zstring.do_latin_encoding_performance_tests
-			benchmark.string_32.do_latin_encoding_performance_tests
-			benchmark_html.performance_tables.extend (
-				create {PERFORMANCE_BENCHMARK_TABLE}.make_pure (system_codec.id, benchmark.string_32, benchmark.zstring)
-			)
-
-			benchmark.zstring.do_latin_encoding_memory_tests
-			benchmark.string_32.do_latin_encoding_memory_tests
-			benchmark_html.memory_tables.extend (
-				create {MEMORY_BENCHMARK_TABLE}.make_pure (system_codec.id, benchmark.string_32, benchmark.zstring)
-			)
-		end
-
-	do_mixed_encoding_tests
-		local
-			benchmark: like new_benchmark
-		do
-			benchmark := new_benchmark
-			benchmark.zstring.do_mixed_encoding_performance_tests
-			benchmark.string_32.do_mixed_encoding_performance_tests
-			benchmark_html.performance_tables.extend (
-				create {PERFORMANCE_BENCHMARK_TABLE}.make_mixed (system_codec.id, benchmark.string_32, benchmark.zstring)
-			)
-
-			benchmark.zstring.do_mixed_encoding_memory_tests
-			benchmark.string_32.do_mixed_encoding_memory_tests
-			benchmark_html.memory_tables.extend (
-				create {MEMORY_BENCHMARK_TABLE}.make_mixed (system_codec.id, benchmark.string_32, benchmark.zstring)
-			)
-		end
-
-	new_benchmark: TUPLE [string_32: STRING_32_BENCHMARK; zstring: ZSTRING_BENCHMARK]
-		do
-			Result := [
-				create {STRING_32_BENCHMARK}.make (Number_of_runs, routine_filter),
-				create {ZSTRING_BENCHMARK}.make (Number_of_runs, routine_filter)
-			]
+			benchmark_html.performance_tables.extend (create {PERFORMANCE_BENCHMARK_TABLE}.make (system_codec.id, benchmark))
+			benchmark_html.memory_tables.extend (create {MEMORY_BENCHMARK_TABLE}.make (system_codec.id, benchmark))
 		end
 
 feature {NONE} -- Internal attributes
@@ -128,6 +96,14 @@ feature {NONE} -- Internal attributes
 	number_of_runs: INTEGER_REF
 
 	routine_filter: ZSTRING
+
+feature {NONE} -- Type definition
+
+	Type_benchmark_table: BENCHMARK_TABLE
+		require
+			never_called: False
+		once
+		end
 
 feature {NONE} -- Constants
 

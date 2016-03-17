@@ -2,11 +2,11 @@
 	description: "Summary description for {HEXAGRAM_DATA}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-08 16:25:52 GMT (Tuesday 8th December 2015)"
+	date: "2016-03-17 10:20:36 GMT (Thursday 17th March 2016)"
 	revision: "5"
 
 class

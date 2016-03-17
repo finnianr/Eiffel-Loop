@@ -2,11 +2,11 @@
 	description: "Summary description for {PERFORMANCE_BENCHMARK_TABLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-03 18:22:12 GMT (Thursday 3rd March 2016)"
+	date: "2016-03-17 12:48:04 GMT (Thursday 17th March 2016)"
 	revision: "5"
 
 class
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make_pure, make_mixed
+	make
 
 feature {NONE} -- Initialization
 
@@ -33,13 +33,16 @@ feature {NONE} -- Implementation
 
 	set_data_rows
 		local
-			string_32_test: like string_32_benchmark.performance_tests.item
+			string_32_test: like Type_benchmark.performance_tests.item
 			l_sorted_data_rows: ARRAY [like sorted_data_rows.item]
 			sorter: DS_ARRAY_QUICK_SORTER [like sorted_data_rows.item]
 			zstring_time, string_32_time: DOUBLE
 		do
-			across zstring_benchmark.performance_tests as zstring_test loop
-				string_32_test := string_32_benchmark.performance_tests [zstring_test.cursor_index]
+			benchmark.zstring.do_performance_tests
+			benchmark.string_32.do_performance_tests
+
+			across benchmark.zstring.performance_tests as zstring_test loop
+				string_32_test := benchmark.string_32.performance_tests [zstring_test.cursor_index]
 				Html_row.wipe_out
 				Html_row.append (Html.table_data (zstring_test.item.routines))
 				Html_row.append (Html.table_data (XML.escaped (zstring_test.item.input_format)))

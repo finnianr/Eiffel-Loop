@@ -8,11 +8,11 @@
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 12:07:40 GMT (Monday 18th January 2016)"
+	date: "2016-03-16 11:47:32 GMT (Wednesday 16th March 2016)"
 	revision: "6"
 
 class
@@ -29,11 +29,10 @@ feature -- Testing
 	test_run
 			-- Passed Jan 2016
 		do
-			Test.do_file_test ("Eiffel/utf8-sources/tests/el_iso_8859_10_codec.e", agent test_file_edit, 3070285652)
-			Test.do_file_test ("Eiffel/latin1-sources/parse/job_duration_parser.e", agent test_file_edit, 2635298670)
-			Test.do_file_test ("Eiffel/latin1-sources/os-command/el_mp3_convert_command.e", agent test_file_edit, 3336329624)
-			Test.do_file_test ("Eiffel/latin1-sources/os-command/spec/unix/EL_COPY_FILE_IMPL.e", agent test_file_edit, 1693063132)
-			Test.do_file_test ("Eiffel/latin1-sources/email/subscription_delivery_email.e", agent test_file_edit, 1599303034)
+--			Test.do_file_test ("Eiffel/feature-edits/job_duration_parser.e", agent test_file_edit, 2770358171)
+--			Test.do_file_test ("Eiffel/feature-edits/el_mp3_convert_command.e", agent test_file_edit, 1765953481)
+			Test.do_file_test ("Eiffel/feature-edits/el_copy_file_impl.e", agent test_file_edit, 1693063132)
+--			Test.do_file_test ("Eiffel/feature-edits/subscription_delivery_email.e", agent test_file_edit, 1599303034)
 		end
 
 	test_file_edit (a_source_path: EL_FILE_PATH)

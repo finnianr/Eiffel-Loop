@@ -37,9 +37,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (output_file_path:@; input_file_path:@)
+	make (a_output_file_path: like output_file_path; a_input_file_path: like input_file_path)
 			--
 		do
+			output_file_path := a_output_file_path; input_file_path := a_input_file_path
 			Precursor (a_source_path, a_destination_path)
 			bit_rate_per_channel := Default_bit_rate_per_channel
 			num_channels := Default_num_channels
@@ -47,6 +48,11 @@ feature {NONE} -- Initialization
 
 feature -- Not element change
 
+	set_bit_rate_per_channel (a_bit_rate_per_channel: like bit_rate_per_channel)
+		do
+			bit_rate_per_channel := a_bit_rate_per_channel
+		end
+		
 	set_num_channels (a_num_channels: like num_channels)
 			-- Set `num_channels' to `a_mode'.
 		require
@@ -55,17 +61,7 @@ feature -- Not element change
 			num_channels := a_num_channels
 		end
 
-	@set bit_rate_per_channel
-
 feature -- Access @title : STRING
-
-	output_file_path: FILE_NAME
-
-	input_file_path: FILE_NAME
-
-	num_channels: INTEGER
-
-	bit_rate_per_channel: INTEGER
 
 	bit_rate: INTEGER
 			--
@@ -73,7 +69,20 @@ feature -- Access @title : STRING
 			Result := num_channels * bit_rate_per_channel
 		end
 
+	bit_rate_per_channel: INTEGER
+
+	input_file_path: FILE_NAME
+
+	num_channels: INTEGER
+
+	output_file_path: FILE_NAME
+
 feature {NONE} -- Constants
+
+	Default_bit_rate_per_channel: INTEGER = 64
+			-- Kilo bits per sec
+
+	Default_num_channels: INTEGER = 1
 
 	Mode_letters: ARRAY [CHARACTER]
 			-- mono or stereo
@@ -81,24 +90,7 @@ feature {NONE} -- Constants
 			Result := << 'm', 's' >>
 		end
 
-	Default_bit_rate_per_channel: INTEGER = 64
-			-- Kilo bits per sec
-
-	Default_num_channels: INTEGER = 1
-
 feature {NONE} -- Evolicity reflection
-
-	get_bit_rate: REAL_REF
-			--
-		do
-			Result := bit_rate.to_real.to_reference
-		end
-
-	get_mode: STRING
-			--
-		do
-			Result := Mode_letters.item (num_channels).out
-		end
 
 	Getter_functions: EVOLICITY_GETTER_FUNCTION_TABLE
 			--
@@ -111,4 +103,16 @@ feature {NONE} -- Evolicity reflection
 			>>)
 		end
 		
+	get_bit_rate: REAL_REF
+			--
+		do
+			Result := bit_rate.to_real.to_reference
+		end
+
+	get_mode: STRING
+			--
+		do
+			Result := Mode_letters.item (num_channels).out
+		end
+
 end

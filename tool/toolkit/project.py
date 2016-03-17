@@ -2,7 +2,7 @@
 
 from eiffel_loop.project import *
 
-version = (1, 1, 10)
+version = (1, 1, 11)
 # 1.1.2
 # Fixed handling of verbatim strings so they do not confused with class features
 
@@ -10,6 +10,10 @@ installation_sub_directory = 'Eiffel-Loop/utils'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.1.11
+# Fixed feature edit utility
+# Added loop expansion
 
 # 1.1.10
 # Fixed EIFFEL_CLASS_LIBRARY_MANIFEST_APP. Added indent handling routines to EL_STRING_GENERAL_CHAIN.

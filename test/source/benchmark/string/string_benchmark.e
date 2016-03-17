@@ -1,12 +1,12 @@
 ﻿note
-	description: "Summary description for {STRING_BENCHMARK}."
+	description: "Benchmark using pure Latin encodable string data"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-11 14:26:28 GMT (Friday 11th March 2016)"
+	date: "2016-03-17 10:20:24 GMT (Thursday 17th March 2016)"
 	revision: "5"
 
 deferred class
@@ -47,7 +47,7 @@ feature -- Access
 
 feature -- Basic operations
 
-	do_latin_encoding_performance_tests
+	do_performance_tests
 		do
 			do_performance_test ("append_string", "D", agent test_append_string)
 			do_performance_test ("append_string_general", "A,D", agent test_append_string_general)
@@ -88,67 +88,10 @@ feature -- Basic operations
 			do_performance_test ("unescape (C lang string)", "escaped (D)", agent test_unescape)
 		end
 
-	do_latin_encoding_memory_tests
+	do_memory_tests
 		do
 			do_memory_test ("$A $D", 1)
 			do_memory_test ("$A $D", 64)
-		end
-
-	do_mixed_encoding_performance_tests
-		do
-			do_performance_test ("append_string", "$B $C", agent test_append_string)
-			do_performance_test ("append_string_general", "A,B,C,D", agent test_append_string_general)
-
-			do_performance_test ("as_lower", "$A $B $C $D", agent test_as_lower)
-			do_performance_test ("as_string_32", "$A $B $C $D", agent test_as_string_32)
-			do_performance_test ("as_upper", "$A $B $C $D", agent test_as_upper)
-
-			do_performance_test ("code (z_code)", "$A $B $C $D", agent test_code)
-			do_performance_test ("code (z_code)", "$B $C", agent test_code)
-
-			do_performance_test ("ends_with", "$B $C", agent test_ends_with)
-			do_performance_test ("escaped (as XML)", "put_amp ($B $C)", agent test_xml_escape)
-
-			do_performance_test ("index_of", "$B $C", agent test_index_of)
-			do_performance_test ("is_less (sort)", "B", agent test_sort)
-			do_performance_test ("insert_string", "$B $C", agent test_insert_string)
-			do_performance_test ("item", "$A $B $C $D", agent test_item)
-			do_performance_test ("item", "$B $C", agent test_item)
-
-			do_performance_test ("last_index_of", "$B $C", agent test_last_index_of)
-			do_performance_test ("left_adjust", "padded (C)", agent test_left_adjust)
-
-			do_performance_test ("prepend_string", "$B $C", agent test_prepend_string)
-			do_performance_test ("prepend_string_general", "A,B,C,D", agent test_prepend_string_general)
-
-			do_performance_test ("prune_all", "$B $C", agent test_prune_all)
-
-			do_performance_test ("remove_substring", "$A $B $C", agent test_remove_substring)
-			do_performance_test ("replace_substring", "$A $B $C", agent test_replace_substring)
-			do_performance_test ("replace_substring_all", "$A $B $C", agent test_replace_substring_all)
-			do_performance_test ("right_adjust", "padded (C)", agent test_right_adjust)
-
-			do_performance_test ("split, substring", "$A $B $C $D", agent test_split)
-			do_performance_test ("starts_with", "$B $C", agent test_starts_with)
-			do_performance_test ("substring_index", "$A $B $C", agent test_substring_index)
-			do_performance_test ("substring_index", "$B $C $A", agent test_substring_index)
-			do_performance_test ("translate", "$B $C", agent test_translate)
-
-			set_escape_character (Pinyin_u)
-			do_performance_test ("unescape (C lang string)", "escaped ($B $C)", agent test_unescape)
-			set_escape_character (Back_slash)
-		end
-
-	do_mixed_encoding_memory_tests
-		do
-			do_memory_test ("$B", 1)
-			do_memory_test ("$B", 64)
-
-			do_memory_test ("$C", 1)
-			do_memory_test ("$C", 64)
-
-			do_memory_test ("$A $B $C $D", 1)
-			do_memory_test ("$A $B $C $D", 64)
 		end
 
 feature -- Benchmark tests

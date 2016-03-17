@@ -2,11 +2,11 @@
 	description: "Splits Eiffel source lines into feature groups and individual feature lines"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 11:59:09 GMT (Monday 18th January 2016)"
+	date: "2016-03-16 10:30:25 GMT (Wednesday 16th March 2016)"
 	revision: "5"
 
 class
@@ -185,8 +185,8 @@ feature {NONE} -- Implementation
 		do
 			if not code_line.is_empty then
 				first_character := code_line [1]
+				Result := tab_count = 1 and then (first_character.is_alpha or else first_character = '@')
 			end
-			Result := tab_count = 1 and first_character.is_alpha or else first_character = '@'
 		end
 
 	code_line_is_verbatim_string_end: BOOLEAN

@@ -1,12 +1,12 @@
 ﻿note
-	description: "Summary description for {STRING_32_BENCHMARK}."
+	description: "Benchmark using pure Latin encodable string data"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-11 10:39:59 GMT (Friday 11th March 2016)"
+	date: "2016-03-17 9:37:26 GMT (Thursday 17th March 2016)"
 	revision: "5"
 
 class
