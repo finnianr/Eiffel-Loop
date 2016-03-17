@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-11 11:39:35 GMT (Friday 11th March 2016)"
+	date: "2016-03-17 13:41:08 GMT (Thursday 17th March 2016)"
 	revision: "5"
 
 class
@@ -63,9 +63,13 @@ feature {NONE} -- Implemenation
 		do
 			create Result.make_from_array (<<
 				"apps/string/zstring_benchmark_app.e",
-				"benchmark/string/zstring/string_benchmark.e",
+				"benchmark/string/string_benchmark.e",
 				"benchmark/string/zstring/zstring_benchmark.e",
-				"benchmark/string/zstring/string_32_benchmark.e"
+				"benchmark/string/string_32/string_32_benchmark.e",
+
+				"benchmark/string/mixed_encoding_string_benchmark.e",
+				"benchmark/string/zstring/mixed_encoding_zstring_benchmark.e",
+				"benchmark/string/string_32/mixed_encoding_string_32_benchmark.e"
 			>>)
 		end
 

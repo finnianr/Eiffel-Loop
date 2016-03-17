@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-17 12:51:30 GMT (Thursday 17th March 2016)"
+	date: "2016-03-17 13:11:34 GMT (Thursday 17th March 2016)"
 	revision: "6"
 
 class
@@ -67,11 +67,11 @@ feature -- Basic operations
 			log_or_io.put_new_line
 			log_or_io.put_new_line
 
-			do_encoding_tests ([
+			add_benchmarks ([
 				create {ZSTRING_BENCHMARK}.make (Number_of_runs, routine_filter),
 				create {STRING_32_BENCHMARK}.make (Number_of_runs, routine_filter)
 			])
-			do_encoding_tests ([
+			add_benchmarks ([
 				create {MIXED_ENCODING_ZSTRING_BENCHMARK}.make (Number_of_runs, routine_filter),
 				create {MIXED_ENCODING_STRING_32_BENCHMARK}.make (Number_of_runs, routine_filter)
 			])
@@ -83,7 +83,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	do_encoding_tests (benchmark: like Type_benchmark_table.benchmark)
+	add_benchmarks (benchmark: like Type_benchmark_table.benchmark)
 		do
 			benchmark_html.performance_tables.extend (create {PERFORMANCE_BENCHMARK_TABLE}.make (system_codec.id, benchmark))
 			benchmark_html.memory_tables.extend (create {MEMORY_BENCHMARK_TABLE}.make (system_codec.id, benchmark))
