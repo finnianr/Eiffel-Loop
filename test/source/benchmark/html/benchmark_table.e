@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-17 12:53:20 GMT (Thursday 17th March 2016)"
+	date: "2016-03-18 12:26:06 GMT (Friday 18th March 2016)"
 	revision: "5"
 
 deferred class
@@ -18,7 +18,7 @@ inherit
 			make_default
 		end
 
-	BENCHMARK_ROUTINES
+	EL_BENCHMARK_ROUTINES
 
 	EL_MODULE_HTML
 

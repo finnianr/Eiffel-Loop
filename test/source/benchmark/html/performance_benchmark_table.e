@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-17 12:48:04 GMT (Thursday 17th March 2016)"
+	date: "2016-03-18 12:23:00 GMT (Friday 18th March 2016)"
 	revision: "5"
 
 class
@@ -49,8 +49,8 @@ feature {NONE} -- Implementation
 
 				zstring_time := zstring_test.item.average_time; string_32_time := string_32_test.average_time
 
-				Html_row.append (Html.table_data (comparative_millisecs (zstring_time, string_32_time)))
-				Html_row.append (Html.table_data (comparative_millisecs (string_32_time, string_32_time)))
+				Html_row.append (Html.table_data (comparative_millisecs_string (zstring_time, string_32_time)))
+				Html_row.append (Html.table_data (comparative_millisecs_string (string_32_time, string_32_time)))
 
 				sorted_data_rows.extend ([relative_percentage (zstring_time, string_32_time), Html_row.twin])
 			end
