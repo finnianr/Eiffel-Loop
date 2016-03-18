@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-18 13:09:34 GMT (Friday 18th March 2016)"
+	date: "2016-03-18 15:05:56 GMT (Friday 18th March 2016)"
 	revision: "3"
 
 deferred class
@@ -54,9 +54,8 @@ feature {NONE} -- Implementation
 
 	compare_benchmarks (actions: like Type_actions)
 		local
-			times: HASH_TABLE [DOUBLE, STRING]; fastest: STRING
-			minimum_time, execution_time: DOUBLE
-			label: ZSTRING
+			times: HASH_TABLE [DOUBLE, STRING]; fastest: STRING; label: ZSTRING
+			fastest_time, execution_time, argument_a: DOUBLE
 		do
 			create times.make_equal (actions.count)
 			label := "Executing %S times"
@@ -66,10 +65,10 @@ feature {NONE} -- Implementation
 				execution_time := average_execution (action.item)
 				times [action.key] := execution_time
 				if action.cursor_index = 1 then
-					minimum_time := execution_time
+					fastest_time := execution_time
 					fastest := action.key
-				elseif execution_time < minimum_time then
-					minimum_time := execution_time
+				elseif execution_time < fastest_time then
+					fastest_time := execution_time
 					fastest := action.key
 				end
 			end
@@ -77,12 +76,12 @@ feature {NONE} -- Implementation
 			log_or_io.put_line ("Average Execution Times")
 			across actions as action loop
 				if action.key ~ fastest then
-					log_or_io.put_labeled_string (action.key, comparative_millisecs_string (minimum_time, minimum_time))
-					log_or_io.put_new_line
+					argument_a := fastest_time
 				else
-					log_or_io.put_labeled_string (action.key, comparative_millisecs_string (times [action.key], minimum_time))
-					log_or_io.put_new_line
+					argument_a := times [action.key]
 				end
+				log_or_io.put_labeled_string (action.key, comparative_millisecs_string (argument_a, fastest_time))
+				log_or_io.put_new_line
 			end
 		end
 
