@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-18 12:54:22 GMT (Friday 18th March 2016)"
+	date: "2016-03-18 14:31:39 GMT (Friday 18th March 2016)"
 	revision: "5"
 
 class
@@ -31,9 +31,9 @@ feature -- Basic operations
 			log.enter ("compare_list_iteration_methods")
 			create array.make_filled (10000)
 			create actions.make (<<
-				["from_i_until_i_gt_count", 	agent iterate_from_i_until_i_gt_count (array)],
-				["start_after_forth", 			agent iterate_start_after_forth (array)],
-				["across_array_as_n", 			agent iterate_across_array_as_n (array)]
+				["from i := 1 until i > array.count loop", 	agent iterate_from_i_until_i_gt_count (array)],
+				["from array.start until array.after loop", 	agent iterate_start_after_forth (array)],
+				["across array as number loop", 					agent iterate_across_array_as_n (array)]
 			>>)
 			compare_benchmarks (actions)
 			log.exit
