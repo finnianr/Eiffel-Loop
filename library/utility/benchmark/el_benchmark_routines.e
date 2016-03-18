@@ -6,17 +6,15 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-03 18:13:04 GMT (Thursday 3rd March 2016)"
-	revision: "5"
+	date: "2016-03-18 12:29:25 GMT (Friday 18th March 2016)"
+	revision: "3"
 
 class
-	BENCHMARK_ROUTINES
+	EL_BENCHMARK_ROUTINES
 
 feature {NONE} -- Implementation
 
-	comparative_millisecs (a, b: DOUBLE): STRING
-		local
-			percent: INTEGER
+	comparative_millisecs_string (a, b: DOUBLE): STRING
 		do
 			if a = b then
 				Result := Double.formatted (a) + " ms"

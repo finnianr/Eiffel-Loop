@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-17 13:11:34 GMT (Thursday 17th March 2016)"
+	date: "2016-03-17 14:01:41 GMT (Thursday 17th March 2016)"
 	revision: "6"
 
 class
@@ -115,7 +115,9 @@ feature {NONE} -- Constants
 			Result := <<
 				[{ZSTRING_BENCHMARK_APP}, All_routines],
 				[{STRING_32_BENCHMARK}, All_routines],
-				[{ZSTRING_BENCHMARK}, All_routines]
+				[{ZSTRING_BENCHMARK}, All_routines],
+				[{MIXED_ENCODING_STRING_32_BENCHMARK}, All_routines],
+				[{MIXED_ENCODING_ZSTRING_BENCHMARK}, All_routines]
 			>>
 		end
 
