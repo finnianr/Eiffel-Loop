@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-18 12:50:28 GMT (Friday 18th March 2016)"
+	date: "2016-03-18 13:09:34 GMT (Friday 18th March 2016)"
 	revision: "3"
 
 deferred class
@@ -74,7 +74,7 @@ feature {NONE} -- Implementation
 				end
 			end
 			log_or_io.put_new_line
-			log_or_io.put_line ("BENCHMARKS")
+			log_or_io.put_line ("Average Execution Times")
 			across actions as action loop
 				if action.key ~ fastest then
 					log_or_io.put_labeled_string (action.key, comparative_millisecs_string (minimum_time, minimum_time))
