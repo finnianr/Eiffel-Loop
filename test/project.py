@@ -4,7 +4,7 @@ from eiffel_loop.project import *
 
 environ ['LD_LIBRARY_PATH'] = "$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_PLATFORM"
 
-version = (1, 0, 2)
+version = (1, 0, 3)
 
 installation_sub_directory = 'Eiffel-Loop/test'
 
