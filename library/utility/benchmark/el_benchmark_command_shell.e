@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-18 15:05:56 GMT (Friday 18th March 2016)"
+	date: "2016-03-19 9:24:28 GMT (Saturday 19th March 2016)"
 	revision: "3"
 
 deferred class
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	average_execution (action: PROCEDURE [ANY, TUPLE]): DOUBLE
+	average_execution (action: ROUTINE [ANY, TUPLE]): DOUBLE
 		local
 			timer: EL_EXECUTION_TIMER; i: INTEGER
 		do
@@ -54,14 +54,18 @@ feature {NONE} -- Implementation
 
 	compare_benchmarks (actions: like Type_actions)
 		local
-			times: HASH_TABLE [DOUBLE, STRING]; fastest: STRING; label: ZSTRING
+			times: HASH_TABLE [DOUBLE, STRING]; fastest, padding: STRING; label: ZSTRING
 			fastest_time, execution_time, argument_a: DOUBLE
+			description_width: INTEGER
 		do
 			create times.make_equal (actions.count)
 			label := "Executing %S times"
 			across actions as action loop
 				log_or_io.put_labeled_string (label #$ [number_of_runs] , action.key)
 				log_or_io.put_new_line
+				if action.key.count > description_width then
+					description_width := action.key.count
+				end
 				execution_time := average_execution (action.item)
 				times [action.key] := execution_time
 				if action.cursor_index = 1 then
@@ -80,7 +84,8 @@ feature {NONE} -- Implementation
 				else
 					argument_a := times [action.key]
 				end
-				log_or_io.put_labeled_string (action.key, comparative_millisecs_string (argument_a, fastest_time))
+				create padding.make_filled (' ', description_width - action.key.count + 1)
+				log_or_io.put_labeled_string (action.key + padding, comparative_millisecs_string (argument_a, fastest_time))
 				log_or_io.put_new_line
 			end
 		end
@@ -91,7 +96,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Type definitions
 
-	Type_actions: EL_HASH_TABLE [PROCEDURE [ANY, TUPLE], STRING]
+	Type_actions: EL_HASH_TABLE [ROUTINE [ANY, TUPLE], STRING]
 		require
 			never_called: False
 		once
