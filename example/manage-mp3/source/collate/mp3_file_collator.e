@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 8:16:21 GMT (Wednesday 16th December 2015)"
+	date: "2016-06-20 7:37:58 GMT (Monday 20th June 2016)"
 	revision: "7"
 
 class
@@ -153,7 +153,7 @@ feature {NONE} -- Implementation
 
 			if not is_dry_run then
 				File_system.make_directory (destination_mp3_path.parent)
-				File_system.move (mp3_path, destination_mp3_path)
+				File_system.move_file (mp3_path, destination_mp3_path)
 				File_system.delete_empty_branch (mp3_path.parent)
 			end
 

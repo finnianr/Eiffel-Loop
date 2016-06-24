@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 13:41:48 GMT (Sunday 20th December 2015)"
+	date: "2016-06-11 9:27:34 GMT (Saturday 11th June 2016)"
 	revision: "7"
 
 deferred class
@@ -58,8 +58,7 @@ feature -- Basic operations
 			file_lines: EL_FILE_LINE_SOURCE
 		do
 			log.enter ("convert_mails")
-			create file_lines.make (mails_path)
-			file_lines.set_encoding (file_lines.Encoding_iso_8859, 15)
+			create file_lines.make_latin (15, mails_path)
 
 			do_once_with_file_lines (agent find_first_field, file_lines)
 

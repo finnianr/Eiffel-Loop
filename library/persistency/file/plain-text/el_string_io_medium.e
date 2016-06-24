@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 15:37:06 GMT (Monday 18th January 2016)"
+	date: "2016-04-10 13:40:24 GMT (Sunday 10th April 2016)"
 	revision: "6"
 
 deferred class
@@ -273,6 +273,13 @@ feature -- Output
 			-- Write a new line character to medium
 		do
 			text.append_code (10)
+		end
+
+feature -- Resizing
+
+	grow (new_size: INTEGER)
+			--
+		deferred
 		end
 
 feature {NONE} -- Implementation

@@ -12,7 +12,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 11:00:45 GMT (Monday 18th January 2016)"
+	date: "2016-04-25 14:58:53 GMT (Monday 25th April 2016)"
 	revision: "6"
 
 class
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 	default_create
 			--
 		do
-			create table.make_equal (19)
+			create stack_table.make_equal (19)
 			set_nice_indentation
 			create text_encoding.make_utf_8
 		end
@@ -159,15 +159,12 @@ feature -- Removal
 
 feature -- Basic operations
 
-	merge_to_file (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT; file_path: EL_FILE_PATH)
+	merge_to_file (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT; text_file: EL_PLAIN_TEXT_FILE)
 			--
-		local
-			text_file: EL_PLAIN_TEXT_FILE
+		require
+			writeable: text_file.is_open_write
 		do
-			log.enter_with_args ("merge_to_file", << a_name, file_path >>)
-			create text_file.make_open_write (file_path)
-			text_file.set_encoding_from_other (text_encoding)
-			text_file.put_bom
+			log.enter_with_args ("merge_to_file", << a_name, text_file.path.name >>)
 			merge (a_name, context, text_file)
 			text_file.close
 			log.exit
@@ -205,14 +202,18 @@ feature -- Basic operations
 		require
 			output_writeable: output.is_open_write and output.is_writable
 		local
-			template: EVOLICITY_COMPILED_TEMPLATE
+			template: EVOLICITY_COMPILED_TEMPLATE; stack: like stack_table.stack
 			found: BOOLEAN; compiler_table: like Compilers.item
 		do
-			table.search (a_name)
-			if table.found then
-				template := table.found_item
-				found := True
+			stack_table.search (a_name)
+			if stack_table.found then
+				stack := stack_table.found_stack
 			else
+				-- using a stack enables use of recursive templates
+				create stack.make (5)
+				stack_table.extend (stack, a_name)
+			end
+			if stack.is_empty then
 				restrict_access (Compilers)
 					compiler_table := Compilers.item
 					compiler_table.search (a_name)
@@ -222,7 +223,7 @@ feature -- Basic operations
 						template := compiler_table.found_item.compiled_template
 						log.put_string_field ("Compiled template", a_name.to_string)
 						log.put_new_line
-						table [a_name] := template
+						stack.put (template)
 						found := True
 					else
 						log_or_io.put_path_field ("ERROR template", a_name)
@@ -230,27 +231,33 @@ feature -- Basic operations
 						log_or_io.put_new_line
 					end
 				end_restriction (Compilers)
+			else
+				template := stack_table.found_stack.item
+				found := True
 			end
 			if found then
 				if template.has_file_source and then a_name.modification_time > template.modification_time then
 					-- File was modified
-					table.remove (a_name)
+					stack_table.remove (a_name)
 					put_from_file (a_name)
 					-- Try again
 					merge (a_name, context, output)
 				else
-					if attached {EL_UTF_STRING_8_IO_MEDIUM} output as text_output then
+					stack.remove
+					if attached {EL_STRING_IO_MEDIUM} output as text_output then
 						text_output.grow (template.minimum_buffer_length)
 					end
 					template.execute (context, output)
+					stack.put (template)
 				end
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	table: EVOLICITY_TEMPLATE_TABLE
-		-- compiled templates
+	stack_table: EVOLICITY_TEMPLATE_STACK_TABLE
+		-- stacks of compiled templates
+		-- This design enables use of recursive templates
 
 feature {NONE} -- Global attributes
 

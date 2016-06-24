@@ -2,12 +2,12 @@
 	description: "Summary description for {EIFFEL_CLASS_PREFIX_REMOVAL_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-06-24 9:20:21 GMT (Friday 24th June 2016)"
+	revision: "4"
 
 class
 	EIFFEL_CLASS_PREFIX_REMOVAL_APP
@@ -54,9 +54,9 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Removes all classname prefixes over a source directory"
 
-	Installer: EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER
+	Installer: EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_I
 		once
-			create Result.make ("Eiffel Loop/Development/Remove classname prefixes")
+			create {EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_IMP} Result.make ("Eiffel Loop/Development/Remove classname prefixes")
 		end
 
 	Log_filter: ARRAY [like Type_logging_filter]

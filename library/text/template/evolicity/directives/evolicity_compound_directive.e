@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "4"
+	date: "2016-04-10 14:41:26 GMT (Sunday 10th April 2016)"
+	revision: "5"
 
 class
 	EVOLICITY_COMPOUND_DIRECTIVE
@@ -53,10 +53,12 @@ feature -- Basic operations
 
 	execute (context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
+		local
+			i: INTEGER
 		do
-			from start until off loop
-				item.execute (context, output)
-				forth
+			from i := 1 until i > count loop
+				i_th (i).execute (context, output)
+				i := i + 1
 			end
 		end
 

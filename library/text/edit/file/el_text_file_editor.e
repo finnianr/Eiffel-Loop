@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-20 9:36:12 GMT (Wednesday 20th January 2016)"
+	date: "2016-04-22 10:57:28 GMT (Friday 22nd April 2016)"
 	revision: "8"
 
 deferred class
@@ -36,6 +36,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_open_write (output_file_path)
 			Result.set_encoding_from_other (Current)
+			Result.enable_bom
 			Result.put_bom
 		end
 

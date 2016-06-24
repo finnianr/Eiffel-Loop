@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 12:24:12 GMT (Wednesday 16th December 2015)"
+	date: "2016-06-20 7:24:44 GMT (Monday 20th June 2016)"
 	revision: "8"
 
 class
@@ -70,34 +70,24 @@ feature -- Basic operations
 			log.exit
 		end
 
-	do_file_test (
-		a_input_file_path: EL_FILE_PATH; test_proc: like Type_test_procedure; valid_test_checksum: NATURAL
-
-	)
+	do_file_test (a_input_file_path: EL_FILE_PATH; test_proc: like Type_test_procedure; valid_test_checksum: NATURAL)
 			-- Perform test that operates on a single file
 		local
 			input_file_path: EL_FILE_PATH
 		do
 			log.enter ("do_file_test")
-			create_workarea
+			create_work_area
 			input_file_path := a_input_file_path
-			File_system.copy (input_file_path, Work_area_directory)
+			File_system.copy_file (input_file_path, Work_area_directory)
 
 			input_file_path := Work_area_directory + input_file_path.steps.last
 
 			test_proc.set_operands ([input_file_path])
 			do_test (Work_area_directory, Empty_pattern, test_proc, valid_test_checksum)
-
-			across File_system.file_list (Work_area_directory, "*") as file_path loop
-					File_system.delete (file_path.item)
-			end
 			log.exit
 		end
 
-	do_file_tree_test (
-		a_input_dir_path: EL_DIR_PATH; test_proc: like Type_test_procedure; valid_test_checksum: NATURAL
-
-	)
+	do_file_tree_test (a_input_dir_path: EL_DIR_PATH; test_proc: like Type_test_procedure; valid_test_checksum: NATURAL)
 			-- Perform test that operates on a file tree
 		do
 			log.enter ("do_file_tree_test")
@@ -127,8 +117,8 @@ feature {NONE} -- Implementation
 		local
 			input_dir_path: EL_DIR_PATH
 		do
-			create_workarea
-			input_dir_path := Work_area_directory.twin; input_dir_path.append_file_path (a_input_dir_path.steps.last)
+			create_work_area
+			input_dir_path := Work_area_directory.joined_dir_path (a_input_dir_path.steps.last)
 			if a_input_dir_path.exists then
 				File_system.copy_tree (a_input_dir_path, Work_area_directory)
 			else
@@ -142,8 +132,6 @@ feature {NONE} -- Implementation
 				test_proc.set_operands ([input_dir_path])
 			end
 			do_test (input_dir_path, file_name_pattern, test_proc, valid_test_checksum)
-
-			File_system.delete_tree (input_dir_path)
 		end
 
 	do_test (
@@ -173,7 +161,7 @@ feature {NONE} -- Implementation
 			timer.stop
 
 			Log_manager.flush_current_thread_log
-			File_system.copy (Log_manager.current_thread_log_path, input_dir_path + "main.log")
+			File_system.copy_file (Log_manager.current_thread_log_path, input_dir_path + "main.log")
 			set_checksum (input_dir_path)
 			log_or_io.put_new_line
 
@@ -192,11 +180,13 @@ feature {NONE} -- Implementation
 				io.read_line
 			end
 			Checksum_list.extend (checksum)
+			File_system.delete_tree (Work_area_directory)
+			create_work_area
 
 			log_or_io.put_new_line
 		end
 
-	create_workarea
+	create_work_area
 			--
 		do
 			if not Work_area_directory.exists then

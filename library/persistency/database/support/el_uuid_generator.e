@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_UUID_GENERATOR}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:26 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-03-29 12:19:01 GMT (Tuesday 29th March 2016)"
+	revision: "4"
 
 class
 	EL_UUID_GENERATOR
@@ -22,10 +22,10 @@ feature -- Access
 
 	generate_uuid: EL_UUID
 		local
-			l_id: UUID
+			u: UUID
 		do
-			l_id := Precursor
-			create Result.make (l_id.data_1, l_id.data_2, l_id.data_3, l_id.data_4, l_id.data_5)
+			u := Precursor
+			create Result.make (u.data_1, u.data_2, u.data_3, u.data_4, u.data_5)
 		end
 
 end

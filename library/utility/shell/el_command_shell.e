@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 7:04:38 GMT (Wednesday 16th December 2015)"
+	date: "2016-04-01 10:37:38 GMT (Friday 1st April 2016)"
 	revision: "5"
 
 deferred class
@@ -36,11 +36,15 @@ feature -- Basic operations
 				put_menu
 				option := User_input.integer ("Enter option number")
 				if option = 0 then done := True elseif menu.valid_index (option) then
+					log_or_io.put_new_line
+					log_or_io.put_labeled_string ("SELECTED", menu [option])
+					log_or_io.put_new_line
+
 					command_table.item (menu [option]).apply
 				else
 					log_or_io.put_integer_field ("Invalid option", option)
+					log_or_io.put_new_line
 				end
-				log_or_io.put_new_line
 			end
 		end
 

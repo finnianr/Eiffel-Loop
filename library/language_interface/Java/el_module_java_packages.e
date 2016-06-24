@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_MODULE_JAVA_PACKAGES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-06-22 15:24:09 GMT (Wednesday 22nd June 2016)"
+	revision: "4"
 
 class
 	EL_MODULE_JAVA_PACKAGES
@@ -17,10 +17,10 @@ inherit
 
 feature -- Acess
 
-	Java_packages: JAVA_PACKAGE_ENVIRONMENT
+	Java_packages: JAVA_PACKAGE_ENVIRONMENT_I
 			--
 		once
-			create Result.make
+			create {JAVA_PACKAGE_ENVIRONMENT_IMP} Result.make
 		end
 
 end

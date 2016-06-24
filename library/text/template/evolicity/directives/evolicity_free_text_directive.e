@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 8:15:13 GMT (Wednesday 16th December 2015)"
+	date: "2016-04-21 9:29:01 GMT (Thursday 21st April 2016)"
 	revision: "6"
 
 class
@@ -34,7 +34,7 @@ feature -- Basic operations
 	execute (context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
 		do
-			output.put_string (text)
+			output.put_string_z (text)
 		end
 
-end -- class EVOLICITY_FREE_TEXT_DIRECTIVE
+end

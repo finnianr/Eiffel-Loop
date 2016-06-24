@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_ENCRYPTED_FILE_LINE_SOURCE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-04-26 9:24:45 GMT (Sunday 26th April 2015)"
-	revision: "6"
+	date: "2016-06-11 9:26:26 GMT (Saturday 11th June 2016)"
+	revision: "7"
 
 class
 	EL_ENCRYPTED_FILE_LINE_SOURCE
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 
 	make (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
 		do
-			make_latin_1 (a_file_path)
+			make_latin (1, a_file_path)
 			encrypted_text_file.set_encrypter (a_encrypter)
 		end
 

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 11:48:36 GMT (Wednesday 16th December 2015)"
+	date: "2016-04-08 11:45:31 GMT (Friday 8th April 2016)"
 	revision: "6"
 
 class
@@ -96,9 +96,9 @@ feature {NONE} -- Implementation
 			detail := User_input.line (prompt)
 			if detail.is_empty then
 				-- Use previous value
-				detail := get_detail_action.item ([ftp.address])
+				detail := get_detail_action (ftp.address)
 			end
-			setter (detail)
+			setter (detail.to_latin_1)
 		end
 
 	ftp: EL_FTP_PROTOCOL

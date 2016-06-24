@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 12:58:15 GMT (Sunday 20th December 2015)"
+	date: "2016-06-11 9:27:01 GMT (Saturday 11th June 2016)"
 	revision: "5"
 
 class
@@ -45,7 +45,7 @@ feature -- Basic operations
 			source_lines: EL_FILE_LINE_SOURCE
 		do
 			log.enter ("execute")
-			create source_lines.make_latin_1 (vcf_path)
+			create source_lines.make_latin (1, vcf_path)
 
 			vcf_out.open_write
 			do_once_with_file_lines (agent find_name, source_lines)

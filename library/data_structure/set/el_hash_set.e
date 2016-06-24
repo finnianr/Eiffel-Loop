@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-15 16:52:35 GMT (Tuesday 15th December 2015)"
+	date: "2016-06-18 10:17:32 GMT (Saturday 18th June 2016)"
 	revision: "5"
 
 class
@@ -52,6 +52,37 @@ feature -- Element change
 feature -- Access
 
 	index: INTEGER
+
+	subset_include (is_member: PREDICATE [ANY, TUPLE [G]]): like Current
+		do
+			Result := subset (is_member, False)
+		end
+
+	subset_exclude (is_member: PREDICATE [ANY, TUPLE [G]]): like Current
+		do
+			Result := subset (is_member, True)
+		end
+
+	subset (is_member: PREDICATE [ANY, TUPLE [G]]; inverse: BOOLEAN): like Current
+		do
+			if object_comparison then
+				create Result.make_equal (count // 2)
+			else
+				create Result.make (count // 2)
+			end
+			from start until after loop
+				if inverse then
+					if not is_member (item_for_iteration) then
+						Result.put (item_for_iteration)
+					end
+				else
+					if is_member (item_for_iteration) then
+						Result.put (item_for_iteration)
+					end
+				end
+				forth
+			end
+		end
 
 feature {NONE} -- Unused
 

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 10:30:20 GMT (Friday 18th December 2015)"
+	date: "2016-06-24 9:23:17 GMT (Friday 24th June 2016)"
 	revision: "6"
 
 class
@@ -36,20 +36,24 @@ feature -- Test
 
 	write_substituted_template (template_path: EL_FILE_PATH)
 			--
+		local
+			html_file: EL_PLAIN_TEXT_FILE
 		do
 			log.enter ("write_substituted_template")
 			create root_context.make
 			Evolicity_templates.put_from_file (template_path)
 
 			initialize_root_context
-			Evolicity_templates.merge_to_file (template_path, root_context, template_path.with_new_extension ("html"))
+			create html_file.make_open_write (template_path.with_new_extension ("html"))
+			Evolicity_templates.merge_to_file (template_path, root_context, html_file)
+			html_file.close
 			log.exit
 		end
 
 	test_if_then (template_path: EL_FILE_PATH)
 			--
 		local
-			vars: EVOLICITY_CONTEXT_IMPL
+			vars: EVOLICITY_CONTEXT_IMP
 			var_x, var_y: ZSTRING
 		do
 			log.enter ("test_if_then")
@@ -69,12 +73,12 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	root_context: EVOLICITY_CONTEXT_IMPL
+	root_context: EVOLICITY_CONTEXT_IMP
 
 	initialize_root_context
 			--
 		local
-			title_context, query_context, job_search_context: EVOLICITY_CONTEXT_IMPL
+			title_context, query_context, job_search_context: EVOLICITY_CONTEXT_IMP
 			result_set_context: EVOLICITY_CONTEXT; title_var_ref: EVOLICITY_VARIABLE_REFERENCE
 			result_set: LINKED_LIST [EVOLICITY_CONTEXT]
 		do

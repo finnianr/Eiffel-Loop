@@ -1,7 +1,7 @@
 ﻿note
 	description: "[
-					Eiffel wrapper for WebKitView object
-					see: http://webkitgtk.org/reference/webkitgtk-WebKitWebView.html
+		Eiffel wrapper for WebKitView object
+		see: http://webkitgtk.org/reference/webkitgtk-WebKitWebView.html
 	]"
 
 	author: "Finnian Reilly"
@@ -9,7 +9,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-11-30 14:29:56 GMT (Monday 30th November 2015)"
+	date: "2016-06-20 18:16:42 GMT (Monday 20th June 2016)"
 	revision: "6"
 
 class
@@ -21,6 +21,7 @@ inherit
 			api_loader
 		end
 
+	EL_MODULE_COMMAND
 	EL_MODULE_FILE_SYSTEM
 
 feature {NONE} -- Implementation
@@ -28,16 +29,16 @@ feature {NONE} -- Implementation
 	api_loader: DYNAMIC_MODULE
 			-- API dynamic loader
 		local
-			find_files_command: EL_FIND_FILES_COMMAND
+			find_files_cmd: like Command.new_find_files
 			lib_paths: ARRAYED_LIST [EL_FILE_PATH]
 		once
 			create lib_paths.make (5)
 			across << "/usr/lib", "/usr/lib/x86_64-linux-gnu" >> as dir loop
-				create find_files_command.make (dir.item, "libwebkit*.so") -- Mac uses a different extension
-				find_files_command.disable_recursion
-				find_files_command.set_follow_symbolic_links (True)
-				find_files_command.execute
-				lib_paths.append (Find_files_command.path_list)
+				find_files_cmd := Command.new_find_files (dir.item, "libwebkit*.so") -- Mac uses a different extension
+				find_files_cmd.set_depth (1 |..| 1)
+				find_files_cmd.set_follow_symbolic_links (True)
+				find_files_cmd.execute
+				lib_paths.append (find_files_cmd.path_list)
 			end
 
 			if not lib_paths.is_empty then

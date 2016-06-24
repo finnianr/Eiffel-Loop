@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 17:24:50 GMT (Saturday 26th December 2015)"
+	date: "2016-06-24 9:14:30 GMT (Friday 24th June 2016)"
 	revision: "7"
 
 class
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_USER_INPUT
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_ENVIRONMENT
 
 create
 	make_installer
@@ -36,12 +36,14 @@ feature -- Basic operations
 
 	run
 			--
+		local
+			dir_path: EL_DIR_PATH
 		do
-			io.put_string (confirmation_prompt_template #$ [Installer.menu_name])
+			io.put_string (confirmation_prompt_template.substituted_tuple ([Installer.menu_name]).to_utf_8)
 
-			if User_input.entered_letter (yes [1]) then
+			if User_input.entered_letter (yes.to_latin_1 [1]) then
 				io.put_new_line
-				io.put_string (commence_message)
+				io.put_string (Commence_message.to_utf_8)
 				io.put_new_line
 
 				across sub_applications as application loop
@@ -49,9 +51,13 @@ feature -- Basic operations
 						application.item.uninstall
 					end
 				end
-				across User_data_directories as data_directory loop
-					if data_directory.item.exists then
-						delete_dir_tree (data_directory.item)
+				-- Remove application data and configuration directories for all users
+				across Environment.Operating.user_list as user loop
+					across For_user_directories as user_dir loop
+						dir_path := user_dir.item (user.item)
+						if dir_path.exists then
+							delete_dir_tree (dir_path)
+						end
 					end
 				end
 				new_installed_file_removal_command.execute
@@ -72,19 +78,17 @@ feature {NONE} -- Implementation
 
 	new_installed_file_removal_command: EL_INSTALLED_FILE_REMOVAL_COMMAND
 		do
-			create {EL_INSTALLED_FILE_REMOVAL_COMMAND_IMPL} Result.make (Installer.menu_name)
-		end
-
-feature {NONE} -- Strings
-
-	commence_message: STRING
-		do
-			Result := "Uninstalling:"
+			create {EL_INSTALLED_FILE_REMOVAL_COMMAND_IMP} Result.make (Installer.menu_name)
 		end
 
 feature {NONE} -- Constants
 
 	Option_name: STRING = "uninstall"
+
+	Commence_message: ZSTRING
+		once
+			Result := "Uninstalling:"
+		end
 
 	Confirmation_prompt_template: ZSTRING
 		once
@@ -96,18 +100,18 @@ feature {NONE} -- Constants
 			Result := "Uninstall application"
 		end
 
-	Yes: STRING
+	Yes: ZSTRING
 		once
 			Result := "yes"
 		end
 
-	Installer: EL_APPLICATION_INSTALLER
+	Installer: EL_APPLICATION_INSTALLER_I
 		once
 			from sub_applications.start until sub_applications.after or sub_applications.item.is_main loop
 				sub_applications.forth
 			end
-			if attached {EL_DESKTOP_APPLICATION_INSTALLER} sub_applications.item.installer as master_app_installer then
-				create {EL_DESKTOP_UNINSTALL_APP_INSTALLER} Result.make (Current, master_app_installer.launcher)
+			if attached {EL_DESKTOP_APPLICATION_INSTALLER_I} sub_applications.item.installer as master_app_installer then
+				create {EL_DESKTOP_UNINSTALL_APP_INSTALLER_IMP} Result.make (Current, master_app_installer.launcher)
 			else
 				Result := Precursor
 			end

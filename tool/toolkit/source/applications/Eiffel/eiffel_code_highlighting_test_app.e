@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 14:01:01 GMT (Sunday 20th December 2015)"
+	date: "2016-04-22 10:31:48 GMT (Friday 22nd April 2016)"
 	revision: "7"
 
 class
@@ -42,8 +42,7 @@ feature -- Tests
 			--
 		local
 			transformer: EIFFEL_CODE_HIGHLIGHTING_TRANSFORMER
-			output_path: EL_FILE_PATH
-			html_file: EL_PLAIN_TEXT_FILE
+			output_path: EL_FILE_PATH; html_file: EL_PLAIN_TEXT_FILE
 		do
 			log.enter ("test_code_highlighting")
 			output_path := file_path.without_extension

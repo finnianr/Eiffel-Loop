@@ -1,6 +1,7 @@
 ﻿note
 	description: "[
-		plain text file encoded as UTF-8 by default
+		Plain text file encoded as UTF-8 by default
+		By default it does not write a byte-order mark unless `is_bom_enabled' is set to True
 	]"
 
 	author: "Finnian Reilly"
@@ -8,26 +9,15 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-17 18:53:51 GMT (Thursday 17th December 2015)"
+	date: "2016-04-22 11:09:21 GMT (Friday 22nd April 2016)"
 	revision: "5"
 
 class
 	EL_PLAIN_TEXT_FILE
 
 inherit
-	EL_FILE
-		rename
-			index as position,
-			put_string as put_encoded_string_8
-		undefine
-			is_plain_text
-		redefine
-			make_with_name, make_with_path
-		end
-
 	PLAIN_TEXT_FILE
 		rename
-			copy_to as copy_to_file,
 			put_string as put_encoded_string_8
 		redefine
 			make_with_name, make_with_path
@@ -57,10 +47,4 @@ feature {NONE} -- Initialization
 			set_utf_encoding (8)
 		end
 
-feature {NONE} -- Factory
-
-	new_file (file_path: EL_FILE_PATH): like Current
-		do
-			create Result.make_with_name (file_path)
-		end
 end

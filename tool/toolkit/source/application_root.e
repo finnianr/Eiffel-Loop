@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-15 12:51:21 GMT (Tuesday 15th March 2016)"
+	date: "2016-06-21 12:01:56 GMT (Tuesday 21st June 2016)"
 	revision: "10"
 
 class
@@ -48,17 +48,17 @@ feature {NONE} -- Implementation
 				{EIFFEL_SOURCE_LOG_LINE_REMOVER_APP},
 				{EIFFEL_SOURCE_TREE_CLASS_RENAME_APP},
 
-				{EXPORT_THUNDERBIRD_HTML_APP},
 				{FTP_BACKUP_APP},
 				{HTML_BODY_WORD_COUNTER_APP},
-
 				{JOBSERVE_SEARCH_APP},
-				{LOGIN_MONITOR_APP},
-				{PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP},
 
+				{PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP},
 				{PYXIS_COMPILER_APP},
 				{PYXIS_ENCRYPTER_APP},
 				{PYXIS_TO_XML_APP},
+
+				{THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP},
+				{THUNDERBIRD_WWW_EXPORTER_APP},
 
 				{VCF_CONTACT_SPLITTER_APP},
 				{VCF_CONTACT_NAME_SWITCHER_APP},

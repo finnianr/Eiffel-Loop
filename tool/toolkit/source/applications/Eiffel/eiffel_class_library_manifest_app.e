@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-04 18:02:25 GMT (Friday 4th March 2016)"
+	date: "2016-06-02 11:36:22 GMT (Thursday 2nd June 2016)"
 	revision: "9"
 
 class
@@ -72,9 +72,9 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Generate HTML cluster manifest of from source tree manifest"
 
-	Installer: EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER
+	Installer: EL_APPLICATION_INSTALLER_I
 		once
-			create Result.make ("Eiffel Loop/Development/Create HTML cluster manifest")
+			Result := new_context_menu_installer ("Eiffel Loop/Development/Create HTML cluster manifest")
 		end
 
 	Log_filter: ARRAY [like Type_logging_filter]

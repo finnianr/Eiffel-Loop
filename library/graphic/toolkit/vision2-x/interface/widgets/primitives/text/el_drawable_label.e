@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:19:17 GMT (Saturday 26th December 2015)"
+	date: "2016-06-24 8:07:12 GMT (Friday 24th June 2016)"
 	revision: "7"
 
 deferred class
@@ -94,9 +94,9 @@ feature {NONE} -- Implementation
 		do
 			clear; draw_background
 			if is_word_wrapped then
-				wrapped_text_rectangle (text).draw (Current)
+				new_wrapped_text_rectangle (text).draw (Current)
 			else
-				text_rectangle (text).draw (Current)
+				new_text_rectangle (text).draw (Current)
 			end
 		end
 

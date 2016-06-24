@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 11:47:51 GMT (Wednesday 16th December 2015)"
+	date: "2016-06-06 12:05:48 GMT (Monday 6th June 2016)"
 	revision: "5"
 
 class
@@ -107,7 +107,7 @@ feature {NONE} -- Implementation
 		do
 			write_mutex.lock
 --			synchronized
-				Environment.Execution.system (Clear_screen_command)
+				Environment.Execution.system (Environment.Operating.clear_screen_command)
 
 				-- 1st time
 				close; open_read

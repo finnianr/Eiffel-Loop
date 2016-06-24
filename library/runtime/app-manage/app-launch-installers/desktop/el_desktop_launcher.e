@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 22:46:55 GMT (Friday 18th December 2015)"
+	date: "2016-04-21 12:37:31 GMT (Thursday 21st April 2016)"
 	revision: "6"
 
 class
@@ -42,7 +42,7 @@ feature -- Element change
 			--
 		do
 			command_args := a_command_args
-			command_args.replace_character ('%N', ' ')
+--			command_args.replace_character ('%N', ' ')
 		end
 
 feature -- Access

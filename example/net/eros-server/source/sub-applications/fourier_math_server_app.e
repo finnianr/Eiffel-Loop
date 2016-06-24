@@ -2,12 +2,12 @@
 	description: "Summary description for {FOURIER_MATH_SERVER_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:06 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-06-24 9:28:20 GMT (Friday 24th June 2016)"
+	revision: "4"
 
 class
 	FOURIER_MATH_SERVER_APP
@@ -42,10 +42,10 @@ feature {NONE} -- Constants
 			Result := "EROS server to do fourier transformations on signal waveforms"
 		end
 
-	Installer: EL_DESKTOP_APPLICATION_INSTALLER
+	Installer: EL_DESKTOP_APPLICATION_INSTALLER_I
 			--
 		once
-			create Result.make (
+			create {EL_DESKTOP_APPLICATION_INSTALLER_IMP} Result.make (
 				Current, Menu_path, new_launcher ("Fourier math server (NO CONSOLE)", Icon_path_server_menu)
 			)
 			Result.set_command_line_options ("-max_threads 3")

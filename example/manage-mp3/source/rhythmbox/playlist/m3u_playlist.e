@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 10:52:41 GMT (Monday 28th December 2015)"
+	date: "2016-06-24 9:18:42 GMT (Friday 24th June 2016)"
 	revision: "4"
 
 class
@@ -44,7 +44,7 @@ feature -- Status change
 
 feature {NONE} -- Implementation
 
-	new_song_context (song: RBOX_SONG; tando_index: INTEGER): EVOLICITY_CONTEXT_IMPL
+	new_song_context (song: RBOX_SONG; tando_index: INTEGER): EVOLICITY_CONTEXT_IMP
 		local
 			artists, song_info, tanda_name: ZSTRING
 		do

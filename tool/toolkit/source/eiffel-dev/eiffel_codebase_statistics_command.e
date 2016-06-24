@@ -1,12 +1,12 @@
 ﻿note
-	description: "Summary description for {EIFFEL_SOURCE_MANIFEST_LINE_COUNTER}."
+	description: "Count actual code words in Eiffel source trees"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 13:07:54 GMT (Sunday 20th December 2015)"
+	date: "2016-04-03 15:22:29 GMT (Sunday 3rd April 2016)"
 	revision: "7"
 
 class
@@ -48,7 +48,7 @@ feature -- Basic operations
 			log_or_io.put_new_line
 			log_or_io.put_integer_field ("Classes", class_count)
 			log_or_io.put_new_line
-			log_or_io.put_integer_field ("Lines", count)
+			log_or_io.put_integer_field ("Words", word_count)
 			log_or_io.put_new_line
 			if byte_count < 100000 then
 				log_or_io.put_integer_field ("Bytes", byte_count.to_integer_32)
@@ -64,52 +64,109 @@ feature -- Basic operations
 		do
 			class_count := class_count + 1
 			create source_lines.make (source_path)
-			byte_count := source_lines.byte_count.to_natural_32
-			do_once_with_file_lines (agent find_class_declaration, source_lines)
+			byte_count := byte_count + source_lines.byte_count
+			do_once_with_file_lines (agent count_words, source_lines)
 		end
 
-feature {NONE} -- State handlers
+feature {NONE} -- Line state handlers
 
-	find_class_declaration (line: ZSTRING)
+	count_words (line: ZSTRING)
+		local
+			l_keyword, l_line: ZSTRING; comment_index: INTEGER
 		do
-			if not line.is_empty and then line [1] /= '%T'
-				and then Class_declaration_keywords.has (line.split (' ').first)
-			then
-				count := count + 1
-				state := agent count_lines
+			l_keyword := leftmost_keyword (line)
+			if Indexing_keywords.has (l_keyword) then
+				state := agent find_class_code
+			else
+				if Keyword_feature /~ l_keyword then
+					comment_index := line.substring_index (Comment_marker, 1)
+					if comment_index > 0 then
+						l_line := line.substring (1, comment_index - 1)
+					else
+						l_line := line
+					end
+					word_count := word_count + line_word_count (l_line)
+				end
 			end
 		end
 
-	count_lines (line: ZSTRING)
-		local
-			trim_line: ZSTRING
+	find_class_code (line: ZSTRING)
 		do
-			trim_line := line
-			trim_line.left_adjust
-			if not trim_line.is_empty and then not trim_line.starts_with (Comment_prefix) then
-				count := count + 1
+			if Code_start_keywords.has (leftmost_keyword (line)) then
+				state := agent count_words
+				count_words (line)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	count: INTEGER
+	line_word_count (line: ZSTRING): INTEGER
+		local
+			i: INTEGER; appending: BOOLEAN
+		do
+			from i := 1 until i > line.count loop
+				if appending then
+					if not line.is_alpha_numeric_item (i) then
+						appending := False
+					end
+				else
+					if line.is_alpha_numeric_item (i) then
+						appending := True
+						Result := Result + 1
+					end
+				end
+				i := i + 1
+			end
+		end
+
+	leftmost_keyword (line: ZSTRING): ZSTRING
+			-- keyword with no whitespace preceding it
+		local
+			i: INTEGER; appending: BOOLEAN
+		do
+			create Result.make (10)
+			appending := True
+			from i := 1 until not appending or else i > line.count loop
+				if line.is_alpha_item (i) then
+					Result.append_z_code (line.z_code (i))
+				else
+					appending := False
+				end
+				i := i + 1
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	byte_count: INTEGER
 
 	class_count: INTEGER
 
-	byte_count: NATURAL
+	word_count: INTEGER
 
 feature {NONE} -- Constants
 
-	Comment_prefix: ZSTRING
+	Code_start_keywords: ARRAY [ZSTRING]
+		once
+			Result := << "frozen", "deferred", "class", "end", "feature" >>
+			Result.compare_objects
+		end
+
+	Comment_marker: ZSTRING
 		once
 			Result := "--"
 		end
 
-	Class_declaration_keywords: ARRAY [ZSTRING]
+	Indexing_keywords: ARRAY [ZSTRING]
 		once
-			Result := << "frozen", "deferred", "class" >>
-			Class_declaration_keywords.compare_objects
+			Result := << "note", ";note", "indexing" >>
+			-- ;note is frequently seen in Eiffel Software code
+			Result.compare_objects
+		end
+
+	Keyword_feature: ZSTRING
+		once
+			Result := "feature"
 		end
 
 end

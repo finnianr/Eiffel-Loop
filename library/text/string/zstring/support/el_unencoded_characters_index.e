@@ -8,7 +8,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 19:23:28 GMT (Friday 18th December 2015)"
+	date: "2016-03-30 17:49:39 GMT (Wednesday 30th March 2016)"
 	revision: "5"
 
 class
@@ -152,7 +152,7 @@ feature -- Element change
 
 	set_area (a_area: like area)
 		local
-			i, l_lower, l_upper, area_count: INTEGER
+			i, area_count: INTEGER
 		do
 			area := a_area
 			wipe_out

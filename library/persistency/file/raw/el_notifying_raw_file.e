@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-01 9:45:09 GMT (Friday 1st January 2016)"
+	date: "2016-04-06 14:56:30 GMT (Wednesday 6th April 2016)"
 	revision: "5"
 
 class
@@ -15,13 +15,12 @@ class
 inherit
 	EL_NOTIFYING_FILE
 		rename
-			index as position,
-			copy_to as copy_to_file
+			index as position
 		undefine
 			file_reopen, file_open, file_dopen, read_to_managed_pointer
 		end
 
-	EL_RAW_FILE
+	RAW_FILE
 		undefine
 			make_with_name, open_read, open_write, close, move, go, recede, back, start, finish, forth
 		end

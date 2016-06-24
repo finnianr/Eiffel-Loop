@@ -4,7 +4,7 @@ from eiffel_loop.project import *
 
 environ ['LD_LIBRARY_PATH'] = "$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_PLATFORM"
 
-version = (1, 0, 3)
+version = (1, 0, 4)
 
 installation_sub_directory = 'Eiffel-Loop/test'
 
@@ -15,6 +15,10 @@ tests.append (['-test_x2e_and_e2x', '-logging'])
 tests.append (['-test_recursive_x2e_and_e2x', '-logging'])
 tests.append (['-test_evolicity', '-logging'])
 tests.append (['-test_declarative_xpath', '-logging'])
+
+
+# 1.0.4
+# Changed ZSTRING argument adapation to NOT use appending to once string
 
 # 1.0.2
 # Refactored ZSTRING_BENCHMARK_APP

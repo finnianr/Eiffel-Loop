@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-02-07 12:46:19 GMT (Sunday 7th February 2016)"
+	date: "2016-06-23 14:24:12 GMT (Thursday 23rd June 2016)"
 	revision: "6"
 
 class
@@ -14,16 +14,13 @@ class
 
 inherit
 	EL_MODULE_DIRECTORY
-		redefine
-			default_create
-		end
 
 create
 	make, make_with_volume
 
 feature {NONE} -- Initialization
 
-	default_create
+	make_default
 		do
 			create name.make_empty
 			uri_root := Default_uri_root
@@ -31,13 +28,13 @@ feature {NONE} -- Initialization
 
 	make (a_uri_root: like uri_root; a_is_windows_format: BOOLEAN)
 		do
-			default_create
+			make_default
 			uri_root := a_uri_root; is_windows_format := a_is_windows_format
 		end
 
 	make_with_volume (a_name: like name; a_is_windows_format: BOOLEAN)
 		do
-			default_create
+			make_default
 			name := a_name; is_windows_format := a_is_windows_format
 			if a_name ~ Current_directory then
 				create {EL_DIR_PATH} uri_root.make_from_latin_1 (".")
@@ -53,6 +50,8 @@ feature -- Access attributes
 	name: ZSTRING
 
 	uri_root: EL_DIR_PATH
+
+	cmd: EL_GVFS_OS_COMMAND
 
 feature -- File operations
 
@@ -292,7 +291,7 @@ feature {NONE} -- Standard commands
 
 	Remove_command: EL_GVFS_REMOVE_FILE_COMMAND
 		once
-			create Result
+			create Result.make
 		end
 
 	Copy_command: EL_GVFS_OS_COMMAND
@@ -304,22 +303,22 @@ feature {NONE} -- Special commands
 
 	File_list_command: EL_GVFS_FILE_LIST_COMMAND
 		once
-			create Result
+			create Result.make
 		end
 
 	Get_file_count_commmand: EL_GVFS_FILE_COUNT_COMMAND
 		once
-			create Result
+			create Result.make
 		end
 
 	Get_file_type_commmand: EL_GVFS_FILE_EXISTS_COMMAND
 		once
-			create Result
+			create Result.make
 		end
 
 	Mount_list_command: EL_GVFS_MOUNT_LIST_COMMAND
 		once
-			create Result
+			create Result.make
 		end
 
 feature {NONE} -- Constants

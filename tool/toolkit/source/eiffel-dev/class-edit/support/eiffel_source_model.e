@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-16 10:30:25 GMT (Wednesday 16th March 2016)"
+	date: "2016-06-11 9:26:53 GMT (Saturday 11th June 2016)"
 	revision: "5"
 
 class
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 			create code_line.make_empty
 			found_group := Default_group
 
-			create input_lines.make_latin_1 (source_path)
+			create input_lines.make_latin (1, source_path)
 			do_once_with_file_lines (agent find_class_declaration, input_lines)
 			encoding := input_lines.encoding_name
 		end

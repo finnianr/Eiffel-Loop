@@ -2,20 +2,20 @@
 	description: "Summary description for {DETECT_RHYTHMBOX_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-19 11:01:58 GMT (Monday 19th January 2015)"
-	revision: "7"
+	date: "2016-06-23 14:19:46 GMT (Thursday 23rd June 2016)"
+	revision: "8"
 
 class
 	DETECT_RHYTHMBOX_COMMAND
 
 inherit
-	EL_LINE_PROCESSED_OS_COMMAND
+	EL_OS_COMMAND
 		rename
-			make as make_general_command
+			make as make_command
 		end
 
 create
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			make_general_command ("ps -C rhythmbox")
+			make_with_name ("detect_rhythmbox", "ps -C rhythmbox")
 		end
 
 feature -- Status query
@@ -36,9 +36,4 @@ feature -- Status query
 			Result := not has_error
 		end
 
-feature {NONE} -- Implementation
-
-	reset
-		do
-		end
 end

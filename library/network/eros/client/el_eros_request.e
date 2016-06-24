@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_EROS_REQUEST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-03-11 17:46:59 GMT (Wednesday 11th March 2015)"
-	revision: "4"
+	date: "2016-06-24 9:34:10 GMT (Friday 24th June 2016)"
+	revision: "5"
 
 class
 	EL_EROS_REQUEST
@@ -15,9 +15,9 @@ class
 inherit
 	EVOLICITY_SERIALIZEABLE_AS_XML
 		rename
-			make_empty as make
+			make_default as make
 		redefine
-			make_default
+			make
 		end
 
 	EL_MODULE_LOG
@@ -27,7 +27,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_default
+	make
 			--
 		do
 			create argument_list.make_empty

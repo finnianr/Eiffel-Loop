@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:23:52 GMT (Saturday 26th December 2015)"
+	date: "2016-06-24 7:42:30 GMT (Friday 24th June 2016)"
 	revision: "7"
 
 class
@@ -19,6 +19,11 @@ inherit
 		end
 
 	EL_MODULE_GUI
+		undefine
+			is_equal, default_create, copy
+		end
+
+	EL_MODULE_VISION_2
 		undefine
 			is_equal, default_create, copy
 		end
@@ -65,7 +70,7 @@ feature {NONE} -- Event handling
 	on_color_select (RGB_color_code: INTEGER; code_field: EV_TEXT_FIELD; set_color_action: PROCEDURE [ANY, TUPLE [EV_COLOR]])
 		do
 			code_field.set_text (GUI.rgb_code_to_html_code (RGB_color_code))
-			set_color_action.call ([GUI.color_from_rgb_code (RGB_color_code)])
+			set_color_action.call ([Vision_2.new_color (RGB_color_code)])
 		end
 
 feature {NONE} -- Implementation
@@ -77,7 +82,7 @@ feature {NONE} -- Implementation
 		local
 			l_color: EL_COLOR
 		do
-			l_color:= GUI.color_from_rgb_code (GUI.html_code_to_rgb_code (html_code_field.text))
+			l_color:= Vision_2.new_color (GUI.html_code_to_rgb_code (html_code_field.text))
 			if color_button.color /~ l_color then
 				color_button.set_color (l_color.rgb_24_bit)
 				set_color_action.call ([l_color])

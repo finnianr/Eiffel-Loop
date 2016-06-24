@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-29 17:55:12 GMT (Friday 29th January 2016)"
+	date: "2016-04-07 11:40:53 GMT (Thursday 7th April 2016)"
 	revision: "5"
 
 deferred class
@@ -1470,6 +1470,8 @@ feature {EL_READABLE_ZSTRING} -- Element change
 		end
 
 	append_tuple_item (tuple: TUPLE; i: INTEGER)
+		local
+			l_reference: ANY
 		do
 			inspect tuple.item_code (i)
 				when {TUPLE}.Boolean_code then
@@ -1509,8 +1511,15 @@ feature {EL_READABLE_ZSTRING} -- Element change
 					append_double (tuple.real_64_item (i))
 
 				when {TUPLE}.Reference_code then
-					if attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as string then
+					l_reference := tuple.reference_item (i)
+					if attached {READABLE_STRING_GENERAL} l_reference as string then
 						append_string_general (string)
+					elseif attached {EL_PATH} l_reference as path then
+						append_string (path.to_string)
+					elseif attached {PATH} l_reference as path then
+						append_string_general (path.name)
+					else
+						append_string_general (l_reference.out)
 					end
 			else
 			end
@@ -1994,7 +2003,7 @@ feature {NONE} -- Implementation
 
 	tuple_as_string_count (tuple: TUPLE): INTEGER
 		local
-			l_count, i: INTEGER
+			l_count, i: INTEGER; l_reference: ANY
 		do
 			from i := 1 until i > tuple.count loop
 				inspect tuple.item_code (i)
@@ -2024,8 +2033,11 @@ feature {NONE} -- Implementation
 						l_count := 9
 
 					when {TUPLE}.Reference_code then
-						if attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as str then
+						l_reference := tuple.reference_item (i)
+						if attached {READABLE_STRING_GENERAL} l_reference as str then
 							l_count := str.count
+						elseif attached {EL_PATH} l_reference as path then
+							l_count := path.parent_path.count + path.base.count + 1
 						end
 
 				else -- Double or real or something else

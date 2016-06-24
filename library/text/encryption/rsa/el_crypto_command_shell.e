@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 12:52:37 GMT (Sunday 20th December 2015)"
+	date: "2016-06-23 13:52:39 GMT (Thursday 23rd June 2016)"
 	revision: "7"
 
 class
@@ -23,6 +23,8 @@ inherit
 	EL_MODULE_ENCRYPTION
 
 	EL_MODULE_RSA
+
+	EL_MODULE_X509_COMMAND
 
 	SINGLE_MATH
 		rename
@@ -75,10 +77,8 @@ feature -- Basic operations
 	encrypt_file_with_aes
 		local
 			cipher_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
-			plain_text_file: PLAIN_TEXT_FILE
-			encrypter: like new_encrypter
+			plain_text_file: PLAIN_TEXT_FILE; encrypter: like new_encrypter; pass_phrase: like new_pass_phrase
 			input_path, output_path: EL_FILE_PATH
-			pass_phrase: like new_pass_phrase
 		do
 			log.enter ("encrypt_file_with_aes")
 			input_path := new_file_path ("input")
@@ -113,7 +113,7 @@ feature -- Basic operations
 
 	export_x509_private_key_to_aes
 		local
-			key_reader: EL_X509_KEY_READER_COMMAND
+			key_reader: like X509_command.new_key_reader
 			pass_phrase: like new_pass_phrase
 			key_file_path, export_file_path: EL_FILE_PATH
 			cipher_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -123,7 +123,7 @@ feature -- Basic operations
 				key_file_path := new_file_path ("private X509")
 			end
 			pass_phrase := new_pass_phrase
-			create key_reader.make (key_file_path, pass_phrase.string)
+			key_reader := X509_command.new_key_reader (key_file_path, pass_phrase.string)
 			key_reader.execute
 
 			export_file_path := key_file_path.twin
@@ -169,7 +169,7 @@ feature -- Basic operations
 
 	write_x509_public_key_code_assignment
 		local
-			reader_command: EL_X509_CERTIFICATE_READER_COMMAND
+			reader_command: like X509_command.new_certificate_reader
 			variable_name: STRING
 			crt_file_path: EL_FILE_PATH; eiffel_source_name: like new_eiffel_source_name
 			source_code: PLAIN_TEXT_FILE
@@ -181,7 +181,7 @@ feature -- Basic operations
 			eiffel_source_name := new_eiffel_source_name
 			variable_name := User_input.line ("Variable name").to_string_8
 
-			create reader_command.make (crt_file_path)
+			reader_command := X509_command.new_certificate_reader (crt_file_path)
 			reader_command.execute
 			create source_code.make_open_write (eiffel_source_name)
 			write_public_key_eiffel_code_assignment (source_code, variable_name, reader_command.public_key.modulus.as_bytes)

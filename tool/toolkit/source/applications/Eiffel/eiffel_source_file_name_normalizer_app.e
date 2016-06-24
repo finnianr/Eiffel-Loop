@@ -2,12 +2,12 @@
 	description: "Summary description for {EIFFEL_SOURCE_FILENAME_NORMALIZER_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
-	revision: "4"
+	date: "2016-05-16 17:34:36 GMT (Monday 16th May 2016)"
+	revision: "5"
 
 class
 	EIFFEL_SOURCE_FILE_NAME_NORMALIZER_APP
@@ -36,9 +36,9 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Normalize class filenames as lowercase classnames within a source directory"
 
-	Installer: EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER
+	Installer: EL_APPLICATION_INSTALLER_I
 		once
-			create Result.make ("Eiffel Loop/Development/Normalize class filenames")
+			Result := new_context_menu_installer ("Eiffel Loop/Development/Normalize class filenames")
 		end
 
 	Log_filter: ARRAY [like Type_logging_filter]

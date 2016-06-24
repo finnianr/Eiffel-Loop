@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 17:25:03 GMT (Saturday 26th December 2015)"
+	date: "2016-06-24 7:49:34 GMT (Friday 24th June 2016)"
 	revision: "6"
 
 deferred class
@@ -43,6 +43,11 @@ inherit
 		end
 
 	EL_MODULE_IMAGE
+		undefine
+			default_create, copy
+		end
+
+	EL_MODULE_VISION_2
 		undefine
 			default_create, copy
 		end
@@ -182,7 +187,7 @@ feature {NONE} -- Factory
 			default_button := new_button (button_text)
 			cancel_button := new_button (cancel_button_text)
 
-			Result := GUI.vertical_box (Dialog_border_width_cms, 0, << title_label >>)
+			Result := Vision_2.new_vertical_box (Dialog_border_width_cms, 0, << title_label >>)
 			Result.set_background_color (border_color)
 			Result.extend (new_border_box)
 		end
@@ -197,7 +202,7 @@ feature {NONE} -- Factory
 			l_buttons := dialog_buttons
 			outer_box := new_outer_box
 			add_components (outer_box)
-			Result := GUI.vertical_box (inner_border_cms, inner_border_cms, << outer_box >>)
+			Result := Vision_2.new_vertical_box (inner_border_cms, inner_border_cms, << outer_box >>)
 			if not l_buttons.is_empty then
 				create button_box.make (0, 0.4)
 				button_box.append_unexpanded (l_buttons)
@@ -238,7 +243,7 @@ feature {NONE} -- Factory
 
 	new_inner_box (widgets: ARRAY [EV_WIDGET]): EL_BOX
 		do
-			Result := GUI.horizontal_box (0, Widget_separation_cms, widgets)
+			Result := Vision_2.new_horizontal_box (0, Widget_separation_cms, widgets)
 		end
 
 	new_button (a_text: READABLE_STRING_GENERAL): EV_BUTTON

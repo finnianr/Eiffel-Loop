@@ -2,12 +2,15 @@
 
 from eiffel_loop.project import *
 
-version = (1, 3, 7)
+version = (1, 3, 8)
 
 installation_sub_directory = 'Eiffel-Loop/manage-mp3'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_rhythmbox_read_write', '-logging'])
+
+# 1.3.8
+# Removed bridge pattern
 
 # 1.3.7
 # Set increased bitrate to compensate for quality loss of AAC -> MP3 conversion

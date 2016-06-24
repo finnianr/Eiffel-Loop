@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 22:50:12 GMT (Friday 18th December 2015)"
+	date: "2016-06-20 7:08:16 GMT (Monday 20th June 2016)"
 	revision: "5"
 
 class
@@ -65,7 +65,7 @@ feature -- Tests
 			normal_initialize
 			test_database_dir := data_path
 			m3u_dir := test_database_dir
-			File_system.copy (test_database_dir + "empty-playlists.xml", test_database_dir + "playlists.xml")
+			File_system.copy_file (test_database_dir + "empty-playlists.xml", test_database_dir + "playlists.xml")
 			normal_run
 			log.exit
 		end

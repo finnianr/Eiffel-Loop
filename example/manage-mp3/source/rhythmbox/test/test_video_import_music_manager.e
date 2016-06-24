@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-02-07 12:46:18 GMT (Sunday 7th February 2016)"
+	date: "2016-06-23 14:19:46 GMT (Thursday 23rd June 2016)"
 	revision: "4"
 
 class
@@ -95,9 +95,9 @@ feature {NONE} -- Constants
 			end
 		end
 
-	AVconv_mp3_to_mp4: EL_GENERAL_OS_COMMAND
+	AVconv_mp3_to_mp4: EL_OS_COMMAND
 		once
-			create Result.make ("[
+			create Result.make_with_name ("avconv.generate_mp4", "[
 				avconv -v quiet -i $mp3_path
 				-f image2 -loop 1 -r 10 -i $jpeg_path
 				-shortest -strict experimental -acodec aac -c:v libx264 -crf 23 -ab 48000 $mp4_path

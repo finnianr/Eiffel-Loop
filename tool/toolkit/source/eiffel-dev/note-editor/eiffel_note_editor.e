@@ -195,7 +195,7 @@ feature {NONE} -- Parsing actions
 	on_class_declaration (text: EL_STRING_VIEW)
 			--
 		local
-			variable_context: EVOLICITY_CONTEXT_IMPL
+			variable_context: EVOLICITY_CONTEXT_IMP
 		do
 			across default_values as default_value loop
 				standard_field_table.search (default_value.key)
@@ -233,7 +233,7 @@ feature {NONE} -- Implementation
 			create Result.make (0)
 		end
 
-	name_value_pair (name, value: STRING): EVOLICITY_CONTEXT_IMPL
+	name_value_pair (name, value: STRING): EVOLICITY_CONTEXT_IMP
 			--
 		do
 			create Result.make

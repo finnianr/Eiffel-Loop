@@ -2,12 +2,12 @@
 	description: "Adds registry entry to prevent browser emulation mode of early IE version"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "5"
+	date: "2016-03-30 17:40:47 GMT (Wednesday 30th March 2016)"
+	revision: "6"
 
 class
 	EL_WEB_BROWSER_INSTALLER
@@ -35,7 +35,7 @@ feature {NONE} -- Constants
 
 	Internet_explorer_major_version: INTEGER
 		local
-			version: EL_ASTRING
+			version: ZSTRING
 		once
 			across << "svcVersion", "Version" >> as key_name until Result > 0 loop
 				version := Win_registry.string (HKLM_Internet_explorer, key_name.item)

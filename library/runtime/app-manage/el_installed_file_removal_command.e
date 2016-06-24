@@ -8,7 +8,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-17 11:27:55 GMT (Thursday 17th December 2015)"
+	date: "2016-04-25 13:39:50 GMT (Monday 25th April 2016)"
 	revision: "7"
 
 deferred class
@@ -42,6 +42,7 @@ feature -- Basic operations
 	execute
 		do
 			write_command_script
+			command_file.add_permission ("uog", "x")
 			Execution.launch (removal_command.to_unicode)
 		end
 
@@ -50,6 +51,12 @@ feature {NONE} -- Implementation
 	menu_name: ZSTRING
 
 	script_dir: EL_DIR_PATH
+
+	command_file: PLAIN_TEXT_FILE
+			--
+		do
+			create Result.make_with_name (command_path)
+		end
 
 	removal_command: ZSTRING
 		do
@@ -68,7 +75,7 @@ feature {NONE} -- Evolicity fields
 			create Result.make (<<
 				["program_directory",			 agent: EL_PATH do Result := Directory.Application_installation end],
 				["software_company_directory", agent: EL_PATH do Result := Directory.Application_installation.parent end ],
-				["completion_message",			 agent: ZSTRING do Result := completion_message_template #$ [menu_name] end]
+				["completion_message",			 agent: ZSTRING do Result := Completion_message_template #$ [menu_name] end]
 			>>)
 		end
 
@@ -82,8 +89,8 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Constants
 
-	completion_message_template: ZSTRING
-		do
+	Completion_message_template: ZSTRING
+		once
 			Result := "%"%S%" removed."
 		end
 

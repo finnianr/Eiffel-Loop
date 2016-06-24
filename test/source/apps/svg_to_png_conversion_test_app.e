@@ -2,12 +2,12 @@
 	description: "Summary description for {TEST_IMAGE_MAGICK_CONVERT_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 14:53:27 GMT (Thursday 1st January 2015)"
-	revision: "4"
+	date: "2016-06-24 9:23:02 GMT (Friday 24th June 2016)"
+	revision: "5"
 
 class
 	SVG_TO_PNG_CONVERSION_TEST_APP
@@ -45,11 +45,13 @@ feature -- Tests
 	test_conversion (svg_path: EL_FILE_PATH)
 			--
 		local
-			svg_background_path: EL_FILE_PATH
+			svg_background_path: EL_FILE_PATH; svg_file: EL_PLAIN_TEXT_FILE
 		do
 			log.enter ("test_conversion")
 			Evolicity_templates.put_from_file (svg_path)
-			Evolicity_templates.merge_to_file (svg_path, environment_variables, svg_path)
+			create svg_file.make_open_write (svg_path)
+			Evolicity_templates.merge_to_file (svg_path, environment_variables, svg_file)
+			svg_file.close
 			across Sizes as size loop
 				across Colors as color loop
 					convert_to_width_and_color (size.item, color.item, svg_path)
@@ -73,7 +75,7 @@ feature -- Tests
 			log.exit
 		end
 
-	environment_variables: EVOLICITY_CONTEXT_IMPL
+	environment_variables: EVOLICITY_CONTEXT_IMP
 
 feature {NONE} -- Constants
 

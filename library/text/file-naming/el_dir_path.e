@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 7:06:29 GMT (Wednesday 16th December 2015)"
+	date: "2016-04-15 15:48:17 GMT (Friday 15th April 2016)"
 	revision: "7"
 
 class
@@ -84,7 +84,11 @@ feature -- Status report
 		local
 			dir: like Shared_directory
 		do
-			dir := named_directory (Current)
+			if is_empty then
+				dir := named_directory (".")
+			else
+				dir := named_directory (Current)
+			end
 			Result := dir.exists and then dir.is_writable
 		end
 

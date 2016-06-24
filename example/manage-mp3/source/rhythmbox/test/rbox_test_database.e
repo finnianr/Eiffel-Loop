@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-15 13:05:41 GMT (Tuesday 15th December 2015)"
+	date: "2016-06-23 8:33:23 GMT (Thursday 23rd June 2016)"
 	revision: "8"
 
 class
@@ -17,6 +17,8 @@ inherit
 		redefine
 			add_song_entry, make_from_file, new_song, extend_with_song, update_mp3_root_location
 		end
+
+	EL_MODULE_AUDIO_COMMAND
 
 create
 	make
@@ -38,7 +40,7 @@ feature -- Element change
 			end
 			if not song.is_hidden and then not song.mp3_path.exists then
 				File_system.make_directory (song.mp3_path.parent)
-				File_system.copy (cached_song_file_path (song), song.mp3_path)
+				File_system.copy_file (cached_song_file_path (song), song.mp3_path)
 			end
 			song.set_modification_time (Test_time)
 			Precursor (song)
@@ -66,7 +68,8 @@ feature {NONE} -- Implementation
 		require
 			valid_duration: song.duration > 0
 		local
-			mp3_writer: EL_WAV_TO_MP3_COMMAND; relative_path, wav_path: EL_FILE_PATH; l_id3_info: EL_ID3_INFO
+			mp3_writer: like Audio_command.new_wav_to_mp3
+			relative_path, wav_path: EL_FILE_PATH; l_id3_info: EL_ID3_INFO
 		do
 			relative_path := song.mp3_path.relative_path (mp3_root_location)
 
@@ -88,11 +91,11 @@ feature {NONE} -- Implementation
 				Random.forth
 
 				if song.duration > 0 then
-					Test_wav_generator.set_duration (song.duration * 1000)
+					Test_wav_generator.set_duration (song.duration)
 				end
 				Test_wav_generator.execute
 
-				create mp3_writer.make (wav_path, Result)
+				mp3_writer := Audio_command.new_wav_to_mp3 (wav_path, Result)
 				mp3_writer.set_bit_rate_per_channel (48)
 				mp3_writer.set_num_channels (1)
 				mp3_writer.execute
@@ -112,9 +115,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Test_wav_generator: EL_WAV_GENERATION_COMMAND
+	Test_wav_generator: EL_WAV_GENERATION_COMMAND_I
 		once
-			create Result.make ("")
+			create {EL_WAV_GENERATION_COMMAND_IMP} Result.make ("")
 		end
 
 	Random: RANDOM

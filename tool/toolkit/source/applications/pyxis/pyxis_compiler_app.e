@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-10-28 12:37:53 GMT (Wednesday 28th October 2015)"
+	date: "2016-04-11 17:54:42 GMT (Monday 11th April 2016)"
 	revision: "7"
 
 class
@@ -26,7 +26,7 @@ feature -- Testing
 	test_run
 			--
 		do
-			Test.do_file_tree_test ("pyxis/localization", agent test_compile, 2897095105)
+			Test.do_file_tree_test ("pyxis/localization", agent test_compile, 3357932840)
 		end
 
 	test_compile (source_tree_path: EL_DIR_PATH)

@@ -27,6 +27,9 @@ system:
 		library:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
+		library:
+			name = encoding; location = "$ISE_LIBRARY/library/encoding/encoding.ecf"
+
 		# Eiffel-Loop
 		library:
 			name = EL_base; location = "base.ecf"

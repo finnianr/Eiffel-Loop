@@ -10,7 +10,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 22:21:59 GMT (Friday 18th December 2015)"
+	date: "2016-06-20 10:16:50 GMT (Monday 20th June 2016)"
 	revision: "7"
 
 deferred class
@@ -22,6 +22,8 @@ inherit
 	EL_MEMORY
 
 	EL_MODULE_ARGS
+
+	EL_MODULE_COMMAND
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -36,8 +38,6 @@ inherit
 	EL_MODULE_LOG
 
 	EL_MODULE_BUILD_INFO
-
-	EL_LOG_CONSTANTS
 
 	EL_SHARED_DIRECTORY
 		rename
@@ -58,8 +58,8 @@ feature {NONE} -- Initialization
 			output_dir := Redirected_file_path.parent
 			if Is_console then
 				-- Force console creation. Needed for set_utf8_console_output to work in Windows
-				io.put_character ({ASCII}.back_space.to_character_8)
-				Environment.Execution.set_utf_8_console_output
+--				io.put_character ({ASCII}.back_space.to_character_8)
+--				Environment.Execution.set_utf_8_console_output
 					-- Only has effect in Windows command console
 			else
 				set_redirected_output (output_dir)
@@ -79,13 +79,13 @@ feature {NONE} -- Initialization
 						install
 					end
 				else
-					io.put_string ("ERROR%NTo install application must be in %"package/$PLATFORM_NAME/bin%" directory.%N")
+					io.put_string (Error_empty_package_bin)
 				end
 			else
 				launch
 			end
 			if Is_console then
-				Environment.Execution.restore_last_code_page
+--				Environment.Execution.restore_last_code_page
 					-- FOR WINDOWS
 					-- If the original code page is not restored after changing to 65001 (utf-8)
 					-- this could effect subsequent programs that run in the same shell.
@@ -143,26 +143,21 @@ feature -- Basic operations
 		require
 			package_installable: is_package_installable
 		local
-			package_dir, destination_dir: EL_DIR_PATH
-			find_directories_command: EL_FIND_DIRECTORIES_COMMAND
-			template: ZSTRING
+			destination_dir: EL_DIR_PATH; find_directories_cmd: like Command.new_find_directories
 		do
 			destination_dir := Directory.Application_installation
-			package_dir := Package_dir_steps
-
-			template := once "Installing: %S%NSource: %S%NDestination: %S%N"
-			io.put_string (template #$ [Args.command_name, package_dir, destination_dir])
-			if not destination_dir.exists then
-				File_system.make_directory (destination_dir)
+			debug ("installer")
+				destination_dir := Directory.Desktop.joined_dir_path (Build_info.installation_sub_directory)
 			end
 
-			create find_directories_command.make (package_dir)
-			find_directories_command.disable_recursion
-			find_directories_command.execute
-			across find_directories_command.path_list as source_dir loop
-				if not_same_directory (source_dir.item, package_dir) then
-					copy_directory (source_dir.item, destination_dir)
-				end
+			io.put_string (Installing_template #$ [Args.command_name, Package_dir, destination_dir])
+			File_system.make_directory (destination_dir)
+
+			find_directories_cmd := Command.new_find_directories (Package_dir)
+			find_directories_cmd.set_depth (1 |..| 1)
+			find_directories_cmd.execute
+			across find_directories_cmd.path_list as source_dir loop
+				copy_directory (source_dir.item, destination_dir)
 			end
 			install_menus
 			io.put_string ("DONE")
@@ -184,12 +179,9 @@ feature -- Basic operations
 feature -- Status query
 
 	is_package_installable: BOOLEAN
-		local
-			package_dir: EL_DIR_PATH
 		do
-			package_dir := Package_dir_steps
-			if package_dir.exists then
-				Result := not named_directory (package_dir).is_empty
+			if Package_dir.exists then
+				Result := not named_directory (Package_dir).is_empty
 			end
 		end
 
@@ -227,16 +219,11 @@ feature {NONE} -- Implementation
 			io.set_file_default (redirected_output)
 		end
 
-	copy_directory (package_dir: EL_DIR_PATH; destination_dir: EL_DIR_PATH)
+	copy_directory (source_dir: EL_DIR_PATH; destination_dir: EL_DIR_PATH)
 		do
-			io.put_string (package_dir.to_string); io.put_new_line
+			io.put_string (source_dir.to_string); io.put_new_line
 			io.put_string (destination_dir.to_string); io.put_new_line
-			File_system.copy_tree (package_dir, destination_dir)
-		end
-
-	not_same_directory (package_sub_dir: EL_DIR_PATH; package_dir: EL_DIR_PATH): BOOLEAN
-		do
-			Result := package_sub_dir /~ package_dir
+			File_system.copy_tree (source_dir, destination_dir)
 		end
 
 	io_put_menu
@@ -289,7 +276,6 @@ feature {NONE} -- Implementation
 			Result.add_extension ("txt")
 		end
 
-
 	application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
 			--
 		deferred
@@ -303,7 +289,20 @@ feature {NONE} -- Implementation: attributes
 
 feature {NONE} -- Constants
 
-	Tab_width: INTEGER = 3
+	Error_empty_package_bin: STRING = "[
+		ERROR: No executable found in "package/$PLATFORM_NAME/bin" directory.
+
+	]"
+
+	Installing_template: ZSTRING
+		once
+			Result := "[
+				Installing: #
+				Source: #
+				Destination: #
+
+			]"
+		end
 
 	Double_directory_separator: STRING
 			--
@@ -316,5 +315,7 @@ feature {NONE} -- Constants
 		once
 			Result := True
 		end
+
+	Tab_width: INTEGER = 3
 
 end

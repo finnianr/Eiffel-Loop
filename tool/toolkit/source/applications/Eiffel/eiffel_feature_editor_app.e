@@ -1,10 +1,6 @@
 ﻿note
 	description: "[
-		Edits an Eiffel class by expanding feature abbreviations: @f {xx OR @f xx
-		where xx is a 2 letter code for a common feature label. The { character is 
-		expanded as {NONE}. Also reorders features alphabetically
-		
-		Expand @set <name> as setter routine
+		Expands Eiffel shorthand code. See class `EIFFEL_FEATURE_EDITOR_COMMAND'
 	]"
 
 	author: "Finnian Reilly"
@@ -12,7 +8,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-16 11:47:32 GMT (Wednesday 16th March 2016)"
+	date: "2016-06-22 9:36:22 GMT (Wednesday 22nd June 2016)"
 	revision: "6"
 
 class

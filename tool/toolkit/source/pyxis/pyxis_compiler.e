@@ -8,7 +8,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 16:15:39 GMT (Monday 28th December 2015)"
+	date: "2016-04-22 10:59:10 GMT (Friday 22nd April 2016)"
 	revision: "8"
 
 class
@@ -53,6 +53,7 @@ feature -- Basic operations
 				pyxis_in := merged_text
 				pyxis_in.open_read
 				create xml_out.make_open_write (output_file_path)
+				xml_out.enable_bom
 				create converter.make
 				log_or_io.put_new_line
 				log_or_io.put_line ("Compiling ..")
@@ -84,12 +85,12 @@ feature {NONE} -- Implementation
 				log_or_io.put_new_line
 				pyxis_source := File_system.plain_text (source_path.item)
 				if source_path.cursor_index = 1 then
-					Result.put_string (pyxis_source)
+					Result.put_encoded_string_8 (pyxis_source)
 				else
 					-- Skip to first item
 					start_index := pyxis_source.substring_index ("%Titem:", 1)
 					if start_index > 0 then
-						Result.put_string (pyxis_source.substring (start_index, pyxis_source.count))
+						Result.put_encoded_string_8 (pyxis_source.substring (start_index, pyxis_source.count))
 					end
 				end
 				Result.put_new_line

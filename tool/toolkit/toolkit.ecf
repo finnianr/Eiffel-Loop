@@ -10,7 +10,7 @@
 	cosmetics, trinkets or jewellery.
 	
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" uuid = "7B1312E8-019E-4B01-B160-744B3B2E1915" name = "el_toolkit2">
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" uuid = "7B1312E8-019E-4B01-B160-744B3B2E1915" name = "el_toolkit">
 	<!--"Swiss army knife" toolkit containing a suite of command line tools for Eiffel development-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
@@ -192,5 +192,24 @@
 	Build 2016-03-15 13:18:47.749566
 	Build 2016-03-15 13:38:43.212119
 	Build 2016-03-16 11:37:56.729870
+	Build 2016-04-03 13:16:45.263582
+	Build 2016-04-03 13:26:53.987846
+	Build 2016-04-03 15:52:53.388357
+	Build 2016-04-03 16:01:02.287039
+	Build 2016-04-03 17:14:44.162178
+	Build 2016-04-03 17:24:21.865680
+	Build 2016-04-03 19:01:54.398973
+	Build 2016-04-04 11:33:08.598885
+	Build 2016-04-08 12:09:27.075370
+	Build 2016-04-08 12:10:50.580434
+	Build 2016-04-08 12:11:20.955910
+	Build 2016-04-08 12:46:56.192406
+	Build 2016-04-08 14:28:24.065966
+	Build 2016-04-11 18:57:21.030484
+	Build 2016-04-15 17:00:18.080685
+	Build 2016-06-10 11:22:51.690066
+	Build 2016-06-11 10:35:08.719145
+	Build 2016-06-11 10:55:41.260302
+	Build 2016-06-24 07:47:15.641276
 	
 -->

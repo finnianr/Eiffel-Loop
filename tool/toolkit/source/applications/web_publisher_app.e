@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 13:58:21 GMT (Sunday 20th December 2015)"
+	date: "2016-06-21 8:37:40 GMT (Tuesday 21st June 2016)"
 	revision: "6"
 
 class
@@ -20,8 +20,8 @@ inherit
 
 	EL_TESTABLE_APPLICATION
 
+	EL_MODULE_COMMAND
 	EL_MODULE_EXECUTION_ENVIRONMENT
-
 	EL_MODULE_FILE_SYSTEM
 
 create
@@ -42,16 +42,16 @@ feature -- Basic operations
 			--
 		local
 			content_dir: EL_DIR_PATH
-			find_command: EL_FIND_FILES_COMMAND
+			find_cmd: like Command.new_find_files
 			page_list: PART_SORTED_TWO_WAY_LIST [WEB_PAGE]
 			page_content_path_list: LIST [EL_FILE_PATH]
 		do
 			log.enter ("run")
 			content_dir := config.web_root_dir.joined_dir_path ("content")
-			create find_command.make (content_dir, "*.html")
-			find_command.exclude_path_ending (".body.html")
-			find_command.execute
-			page_content_path_list := find_command.path_list
+			find_cmd := Command.new_find_files (content_dir, "*.html")
+			find_cmd.set_not_path_included_condition (agent is_body_html)
+			find_cmd.execute
+			page_content_path_list := find_cmd.path_list
 			create page_list.make
 			from page_content_path_list.start until page_content_path_list.after loop
 				log_or_io.put_path_field ("CONTENT", page_content_path_list.item)
@@ -95,7 +95,14 @@ feature -- Element change
 			config_file_path := dir_path
 		end
 
-feature {NONE} -- Implementation: attributes
+feature {NONE} -- Implementation
+
+	is_body_html (path: ZSTRING): BOOLEAN
+		do
+			Result := path.ends_with_general (".body.html")
+		end
+
+feature {NONE} -- Internal attributes
 
 	config_file_path: EL_FILE_PATH
 

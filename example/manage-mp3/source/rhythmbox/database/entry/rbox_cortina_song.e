@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-17 19:26:11 GMT (Thursday 17th December 2015)"
+	date: "2016-06-23 8:26:33 GMT (Thursday 23rd June 2016)"
 	revision: "6"
 
 class
@@ -22,6 +22,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_MODULE_AUDIO_COMMAND
 
 create
 	make
@@ -56,35 +58,35 @@ feature -- Basic operations
 	write_clip (a_offset_secs: INTEGER; a_fade_in_duration, a_fade_out_duration: REAL)
 			-- Write clip from full length song at offset with fade in and fade out
 		local
-			clip_saver: EL_MP3_TO_WAV_CLIP_SAVER_COMMAND
-			convertor: EL_WAV_TO_MP3_COMMAND; fader: EL_WAV_FADER
+			clip_saver: like Audio_command.new_mp3_to_wav_clip_saver
+			convertor: like Audio_command.new_wav_to_mp3; fader: like Audio_command.new_wav_fader
 			wav_path, faded_wav_path: EL_FILE_PATH
-			audio_properties: EL_AUDIO_PROPERTIES_COMMAND
+			audio_properties: like Audio_command.new_audio_properties
 		do
 			wav_path := mp3_path.with_new_extension ("wav")
 			faded_wav_path := mp3_path.with_new_extension ("faded.wav")
 
 			-- Cutting
-			create clip_saver.make (source_song.mp3_path, wav_path)
+			clip_saver := Audio_command.new_mp3_to_wav_clip_saver (source_song.mp3_path, wav_path)
 			clip_saver.set_duration (duration); clip_saver.set_offset (a_offset_secs)
 
 			File_system.make_directory (mp3_path.parent)
 			clip_saver.execute
 
 			-- Fading
-			create fader.make (wav_path, faded_wav_path)
+			fader := Audio_command.new_wav_fader (wav_path, faded_wav_path)
 			fader.set_duration (duration)
 			fader.set_fade_in (a_fade_in_duration)
 			fader.set_fade_out (a_fade_out_duration)
 			fader.execute
-			File_system.delete (wav_path)
+			File_system.delete_file (wav_path)
 
 			-- Compressing
-			create convertor.make (faded_wav_path, mp3_path)
-			create audio_properties.make (mp3_path)
+			convertor := Audio_command.new_wav_to_mp3 (faded_wav_path, mp3_path)
+			audio_properties := Audio_command.new_audio_properties (mp3_path)
 			convertor.set_bit_rate_per_channel (audio_properties.bit_rate)
 			convertor.execute
-			File_system.delete (faded_wav_path)
+			File_system.delete_file (faded_wav_path)
 
 			write_id3_info (id3_info)
 		end

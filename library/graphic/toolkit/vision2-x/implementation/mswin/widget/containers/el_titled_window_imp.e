@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-09-09 11:43:16 GMT (Wednesday 9th September 2015)"
+	date: "2016-03-30 17:40:05 GMT (Wednesday 30th March 2016)"
 	revision: "5"
 
 class
@@ -59,7 +59,7 @@ feature {EV_ANY, EV_ANY_I} -- Implementation
 
 feature {NONE} -- Constants
 
-	Aero: ASTRING
+	Aero: ZSTRING
 		once
 			Result := "Aero"
 		end

@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-06-19 11:46:13 GMT (Sunday 19th June 2016)"
+	revision: "4"
 
 class
 	EL_DIRECTORY_TREE_FILE_PROCESSOR
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_MODULE_LOG
+
+	EL_MODULE_COMMAND
 
 create
 	make, default_create
@@ -38,16 +40,15 @@ feature -- Basic operations
 	do_all
 			--
 		local
-			find_command: EL_FIND_FILES_COMMAND
+			find_cmd: like Command.new_find_files
 		do
 			log.enter ("do_all")
 			counter := 0
 			io.put_new_line
-
-			create find_command.make (source_directory_path, file_pattern)
-			find_command.set_follow_symbolic_links (True)
-			find_command.execute
-			find_command.path_list.do_all (agent do_with_file_and_increment_counter)
+			find_cmd := Command.new_find_files (source_directory_path, file_pattern)
+			find_cmd.set_follow_symbolic_links (True)
+			find_cmd.execute
+			find_cmd.path_list.do_all (agent do_with_file_and_increment_counter)
 			log_or_io.put_string ("Found ")
 			log_or_io.put_integer (counter)
 			log_or_io.put_string(" files.%NDone!%N")

@@ -2,12 +2,12 @@
 	description: "Test of dialogs."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:32:12 GMT (Thursday 11th December 2014)"
-	revision: "4"
+	date: "2016-06-24 9:27:15 GMT (Friday 24th June 2016)"
+	revision: "5"
 
 class
 	QUANTUM_BALL_ANIMATION_APP
@@ -81,10 +81,10 @@ feature {NONE} -- Constants
 			Result := "Animation of hydrogen atom as timer thread test"
 		end
 
-	Installer: EL_DESKTOP_APPLICATION_INSTALLER
+	Installer: EL_APPLICATION_INSTALLER_I
 			--
 		once
-			create Result.make (
+			create {EL_DESKTOP_APPLICATION_INSTALLER_IMP} Result.make (
 				Current, << Development_menu, Eiffel_loop_menu >>,
 				new_launcher ("Physics lesson (NO CONSOLE)", Icon_path_animation)
 			)

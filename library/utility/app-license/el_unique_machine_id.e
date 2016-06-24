@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_UNIQUE_MACHINE_ID}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-07-09 17:06:53 GMT (Thursday 9th July 2015)"
-	revision: "3"
+	date: "2016-06-21 11:06:53 GMT (Tuesday 21st June 2016)"
+	revision: "4"
 
 class
 	EL_UNIQUE_MACHINE_ID
@@ -83,11 +83,11 @@ feature {NONE} -- Implementation
 	mac_address: ARRAY [NATURAL_8]
 		local
 			sorter: DS_ARRAY_QUICK_SORTER [EL_IP_ADAPTER]
-			adapter_array: like new_adapter_array
+			adapter_array: ARRAY [EL_IP_ADAPTER]
 		do
 --			log.enter ("mac_address")
 			create sorter.make (Current)
-			adapter_array := new_adapter_array
+			adapter_array := new_adapter_list.to_array
 
 --			log_array (adapter_array)
 --			log.put_line ("Sorting")
@@ -108,13 +108,9 @@ feature {NONE} -- Implementation
 --			log.exit
 		end
 
-	new_adapter_array: ARRAY [EL_IP_ADAPTER]
-		local
-			list: ARRAYED_LIST [EL_IP_ADAPTER]
+	new_adapter_list: EL_IP_ADAPTER_LIST_I
 		do
-			create list.make (0)
-			list.append (create {EL_IP_ADAPTER_LIST}.make)
-			Result := list.to_array
+			create {EL_IP_ADAPTER_LIST_IMP} Result.make
 		end
 
 	less_than (u, v: EL_IP_ADAPTER): BOOLEAN

@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_WEL_DISPLAY_MONITOR_INFO}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-06-21 14:27:10 GMT (Sunday 21st June 2015)"
-	revision: "7"
+	date: "2016-03-30 17:40:51 GMT (Wednesday 30th March 2016)"
+	revision: "8"
 
 class
 	EL_WEL_DISPLAY_MONITOR_INFO
@@ -180,7 +180,7 @@ feature {NONE} -- Implementation
 			height_centimeters := EDID.read_natural_8 (22).to_integer_32
 		end
 
-	EDID_model: EL_ASTRING
+	EDID_model: ZSTRING
 		local
 			byte1, byte2: NATURAL_16
 			manufacturer_id: ARRAY [NATURAL_16]

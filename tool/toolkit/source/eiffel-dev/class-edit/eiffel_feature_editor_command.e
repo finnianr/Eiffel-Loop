@@ -1,12 +1,57 @@
 ﻿note
-	description: "Summary description for {EIFFEL_FEATURE_EDITOR}."
+	description: "[
+		Performs the following edits and shorthand expansions on an Eiffel class
+		1. Expands 
+				@f xx
+			as
+				feature -- <comment>
+			where xx is a 2 letter code representing common feature block labels
+			
+		2. Expands 
+				@f {xx
+			as
+				feature {NONE} -- <label-xx>
+			where xx is a 2 letter code representing common feature labels
+			See class: `FEATURE_CONSTANTS'
+		
+		3. Expands setter shorthand indented by one tab stop
+				@set name
+			as
+				set_name (a_name: like name)
+					do
+						name := a_name
+					end
+					
+		4. Expands loop termination expressions like the following
+				@from i > n
+			as
+				from i := 1 until i > n loop
+					i := i + 1
+				end
+				
+		5. Expands forwards list iteration expressions
+				@from list.after
+			as
+				from list.start until list.after loop
+					list.forth
+				end
+				
+		6. Expands backwards list iteration expressions
+				@from list.before
+			as
+				from list.finish until list.before loop
+					list.back
+				end
+				
+		7. Reorders features in each feature block alphabetically
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 12:43:22 GMT (Friday 18th December 2015)"
+	date: "2016-06-22 10:00:24 GMT (Wednesday 22nd June 2016)"
 	revision: "5"
 
 class

@@ -5,12 +5,12 @@
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-20 13:26:43 GMT (Tuesday 20th January 2015)"
-	revision: "4"
+	date: "2016-06-20 7:08:16 GMT (Monday 20th June 2016)"
+	revision: "5"
 
 class
 	RBOX_IMPORT_NEW_MP3_APP
@@ -87,7 +87,7 @@ feature -- Test operations
 			random.set_seed (song1.last_checksum.to_integer_32)
 			across << song1, song2 >> as song loop
 				File_system.make_directory (song.item.mp3_path.parent)
-				File_system.copy (cached_song_file_path (song.item, 2), song.item.mp3_path)
+				File_system.copy_file (cached_song_file_path (song.item, 2), song.item.mp3_path)
 			end
 
 			normal_run

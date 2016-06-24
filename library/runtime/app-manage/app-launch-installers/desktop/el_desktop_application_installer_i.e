@@ -1,61 +1,69 @@
 ﻿note
-	description: "Summary description for {EL_MENU_APPLICATION_LAUNCHER_I}."
+	description: "Install application with a desktop menu"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-06-28 12:47:34 GMT (Sunday 28th June 2015)"
-	revision: "4"
+	date: "2016-05-15 17:25:26 GMT (Sunday 15th May 2016)"
+	revision: "5"
 
 deferred class
 	EL_DESKTOP_APPLICATION_INSTALLER_I
 
 inherit
-	EL_PLATFORM_IMPL
-		rename
-			make as make_default,
-			set_interface as make
-		export
-			{NONE} make
-		redefine
-			interface
+	EL_APPLICATION_INSTALLER_I
+
+feature {NONE} -- Initialization
+
+	make (a_application: EL_SUB_APPLICATION; a_submenu_path: like submenu_path; a_launcher: EL_DESKTOP_LAUNCHER)
+			--
+		do
+			make_default
+			submenu_path := a_submenu_path; launcher := a_launcher
+			description := a_application.single_line_description
+			command_option_name := a_application.option_name
+			input_path_option_name := a_application.input_path_option_name
+			menu_name := launcher.name
 		end
-
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_FILE_SYSTEM
 
 feature -- Access
 
-	submenu_path: ARRAY [EL_DESKTOP_MENU_ITEM]
-		do
-			Result := interface.submenu_path
-		end
-
 	launcher: EL_DESKTOP_LAUNCHER
-		-- launcher menu item
-		do
-			Result := interface.launcher
-		end
 
-	command_args_template: STRING
-			--
-		once
-			Result := "-$sub_application_option $command_options"
-		end
+	submenu_path: ARRAY [EL_DESKTOP_MENU_ITEM]
 
 feature -- Basic operations
 
 	install
 			--
-		deferred
+		do
+			launcher.set_command (launch_command)
+			launcher.set_command_args (command_args)
+			launcher.set_comment (description)
+			if not launcher_exists then
+				add_menu_entry
+			end
+		ensure then
+			launcher_exists: launcher_exists
 		end
 
 	uninstall
 			--
-		deferred
+		do
+			if launcher_exists then
+				remove_menu_entry
+			end
+		ensure then
+			menu_entry_no_longer_exists: not launcher_exists
+		end
+
+feature -- Status change
+
+	enable_desktop_launcher
+		do
+			has_desktop_launcher := True
 		end
 
 feature -- Status query
@@ -66,12 +74,31 @@ feature -- Status query
 		end
 
 	has_desktop_launcher: BOOLEAN
+
+feature {NONE} -- Implementation
+
+	add_menu_entry
+		deferred
+		end
+
+	remove_menu_entry
+		deferred
+		end
+
+	command_args_template: ZSTRING
+			--
 		do
-			Result := interface.has_desktop_launcher
+			create Result.make_from_unicode (new_command_args_template)
+			Result.left_adjust
+			Result.prune ('%T')
+			Result.replace_character ('%N', ' ')
 		end
 
 feature {NONE} -- Implementation
 
-	interface: EL_DESKTOP_APPLICATION_INSTALLER
+	new_command_args_template: ZSTRING
+		do
+			Result := "-$sub_application_option $command_options"
+		end
 
 end

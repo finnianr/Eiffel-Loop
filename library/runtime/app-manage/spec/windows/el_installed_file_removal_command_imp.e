@@ -1,0 +1,68 @@
+﻿note
+	description: "[
+		Windows implementation of program directory removal
+		
+		Command:
+			rmdir "$software_company_directory"
+			
+		only works if directory is empty (which is fine)
+			
+		Command:
+			ping localhost -n 3 >nul
+			
+		provides some delay inorder to give calling process time to quit.
+	]"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-06-24 8:51:53 GMT (Friday 24th June 2016)"
+	revision: "4"
+
+class
+	EL_INSTALLED_FILE_REMOVAL_COMMAND_IMP
+
+inherit
+	EL_INSTALLED_FILE_REMOVAL_COMMAND
+		redefine
+			serialize_to_file
+		end
+
+create
+	make
+
+feature {NONE} -- Implemenation
+
+	serialize_to_file (file_path: like command_path)
+		local
+			script_file: EL_BATCH_SCRIPT_FILE
+		do
+			create script_file.make_open_write (file_path)
+			serialize_to_stream (script_file)
+			script_file.close
+		end
+
+feature {NONE} -- Constants
+
+	Command_template: ZSTRING
+		once
+			Result := "cmd /C %"%S%""
+		end
+
+	Uninstall_script_name: ZSTRING
+		once
+			Result := "uninstall.bat"
+		end
+
+	Template: STRING = "[
+		@echo off
+		ping localhost -n 3 >nul
+		rmdir /S /Q "$program_directory"
+		rmdir "$software_company_directory"
+		echo $completion_message
+		pause
+	]"
+
+end

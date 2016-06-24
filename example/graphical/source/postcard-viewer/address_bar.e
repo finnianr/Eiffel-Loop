@@ -2,12 +2,12 @@
 	description: "Summary description for {DIRECTORY_SELECT_BOX}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:32:12 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-06-24 8:18:10 GMT (Friday 24th June 2016)"
+	revision: "4"
 
 class
 	ADDRESS_BAR
@@ -19,6 +19,12 @@ inherit
 		undefine
 			default_create, copy, is_equal
 		end
+
+	EL_MODULE_VISION_2
+		undefine
+			default_create, copy, is_equal
+		end
+
 create
 	make
 
@@ -30,7 +36,7 @@ feature {NONE} -- Initialization
 			list: ARRAYED_SET [SD_TOOL_BAR_ITEM]
 		do
 			create list.make (2)
-			location_input := GUI.text_field (40)
+			location_input := Vision_2.new_text_field (40)
 
 			list.extend (bar_item (location_input, "Address box"))
 

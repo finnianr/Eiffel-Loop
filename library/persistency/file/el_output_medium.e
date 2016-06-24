@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-02 17:16:30 GMT (Saturday 2nd January 2016)"
+	date: "2016-04-22 10:56:45 GMT (Friday 22nd April 2016)"
 	revision: "6"
 
 deferred class
@@ -39,7 +39,7 @@ feature -- Output
 		require
 			start_of_file: position = 0
 		do
-			if encoding_type = Encoding_utf and encoding = 8 then
+			if is_bom_writeable then
 				put_encoded_string_8 (UTF.Utf_8_bom_to_string_8)
 			end
 		end
@@ -166,6 +166,18 @@ feature -- Element change
 			set_encoding (Encoding_iso_8859, 1)
 		end
 
+feature -- Status change
+
+	enable_bom
+		do
+			is_bom_enabled := True
+		end
+
+	disable_bom
+		do
+			is_bom_enabled := False
+		end
+
 feature -- Status query
 
 	is_open_write: BOOLEAN
@@ -175,6 +187,14 @@ feature -- Status query
 	is_writable: BOOLEAN
 		deferred
 		end
+
+	is_bom_writeable: BOOLEAN
+		do
+			Result := is_bom_enabled and then (encoding_type = Encoding_utf and encoding = 8)
+		end
+
+	is_bom_enabled: BOOLEAN
+		-- True if UTF-8 byte-order-mark writing is enabled
 
 feature -- Basic operations
 

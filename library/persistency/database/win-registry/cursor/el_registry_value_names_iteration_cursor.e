@@ -2,18 +2,18 @@
 	description: "Summary description for {EL_REGISTRY_VALUE_ITERATION_CURSOR}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:26 GMT (Thursday 11th December 2014)"
-	revision: "4"
+	date: "2016-03-30 17:37:53 GMT (Wednesday 30th March 2016)"
+	revision: "5"
 
 class
 	EL_REGISTRY_VALUE_NAMES_ITERATION_CURSOR
 
 inherit
-	EL_REGISTRY_ITERATION_CURSOR [EL_ASTRING]
+	EL_REGISTRY_ITERATION_CURSOR [ZSTRING]
 		rename
 			item as name
 		end
@@ -23,7 +23,7 @@ create
 
 feature -- Access
 
-	name: EL_ASTRING
+	name: ZSTRING
 			-- Item at current cursor position.
 		do
 			Result := registry.enumerate_value (registry_node, cursor_index - 1)

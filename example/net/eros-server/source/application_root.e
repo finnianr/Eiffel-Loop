@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:06 GMT (Thursday 11th December 2014)"
-	revision: "2"
+	date: "2016-04-25 13:27:17 GMT (Monday 25th April 2016)"
+	revision: "3"
 
 class
 	APPLICATION_ROOT
@@ -25,7 +25,8 @@ feature {NONE} -- Implementation
 		once
 			Result := <<
 				{FOURIER_MATH_SERVER_APP},
-				{CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP}
+				{CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP},
+				{EL_UNINSTALL_APP}
 			>>
 		end
 

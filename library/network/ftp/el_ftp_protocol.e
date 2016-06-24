@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 14:27:26 GMT (Sunday 20th December 2015)"
+	date: "2016-04-08 12:51:01 GMT (Friday 8th April 2016)"
 	revision: "9"
 
 class
@@ -340,7 +340,6 @@ feature {NONE} -- Implementation: parsing
 		end
 
 	reply_parser: EL_SOURCE_TEXT_PROCESSOR
-
 
 feature {NONE} -- Constants
 

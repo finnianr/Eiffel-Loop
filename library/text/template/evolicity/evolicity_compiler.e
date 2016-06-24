@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-22 12:06:49 GMT (Tuesday 22nd December 2015)"
+	date: "2016-06-20 10:00:33 GMT (Monday 20th June 2016)"
 	revision: "6"
 
 class
@@ -82,7 +82,10 @@ feature -- Element change
 	 			reset
 			else
 	 			set_source_text (new_source_text (lines))
-				write_tokens_text (compiled_source_path)
+	 			-- Check write permission
+				if compiled_source_path.parent.exists_and_is_writeable then
+					write_tokens_text (compiled_source_path)
+				end
 			end
 		end
 
@@ -211,8 +214,7 @@ feature {NONE} -- Expresssions
 			conjunction_plus_right_operand.set_action_last (agent on_boolean_conjunction_expression)
 
 			Result := all_of (<<
-				simple_boolean_expression,
-				optional (conjunction_plus_right_operand)
+				simple_boolean_expression, optional (conjunction_plus_right_operand)
 			>>)
 		end
 

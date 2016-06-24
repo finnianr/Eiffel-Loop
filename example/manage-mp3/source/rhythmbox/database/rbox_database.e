@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 10:52:41 GMT (Monday 28th December 2015)"
+	date: "2016-06-20 7:38:38 GMT (Monday 20th June 2016)"
 	revision: "7"
 
 class
@@ -163,12 +163,11 @@ feature -- Factory
 		require
 			mp3_root_location_set: not mp3_root_location.is_empty
 		local
-			find_files_command: EL_FIND_FILES_COMMAND
+			path_list: like File_system.file_list
 		do
-			create find_files_command.make (DJ_events_dir, "*.pyx")
-			find_files_command.execute
-			create Result.make (find_files_command.path_list.count)
-			across find_files_command.path_list as path loop
+			path_list := File_system.file_list (DJ_events_dir, "*.pyx")
+			create Result.make (path_list.count)
+			across path_list as path loop
 				Result.extend (create {DJ_EVENT_PLAYLIST}.make_from_file (Current, path.item))
 			end
 		end
@@ -290,7 +289,7 @@ feature -- Element change
 
 				song.write_id3_info (id3_info)
 				song.set_mp3_path (song.unique_normalized_mp3_path)
-				File_system.move (mp3_path, song.mp3_path)
+				File_system.move_file (mp3_path, song.mp3_path)
 
 				extend (song)
 				log_or_io.put_path_field ("Imported", song.mp3_relative_path)
@@ -414,7 +413,7 @@ feature -- Basic operations
 				log_or_io.put_path_field ("Restoring playlists from", backup_path); log_or_io.put_new_line
 
 				create playlists.make (backup_path, Current)
-				File_system.delete (playlists_xml_path)
+				File_system.delete_file (playlists_xml_path)
 				playlists.set_output_path (playlists_xml_path)
 				playlists.store
   			else
@@ -479,7 +478,7 @@ feature -- Removal
 				if condition.include (song) then
 					songs_by_location.remove (song.mp3_path)
 					songs_by_audio_id.remove (song.audio_id)
-					File_system.delete (song.mp3_path)
+					File_system.delete_file (song.mp3_path)
 					songs.remove
 					from entry_removed := False until entries.after or else entry_removed loop
 						if song = entries.item then
