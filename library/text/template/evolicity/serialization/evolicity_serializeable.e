@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 14:43:13 GMT (Thursday 24th December 2015)"
+	date: "2016-04-22 16:22:22 GMT (Friday 22nd April 2016)"
 	revision: "7"
 
 deferred class
@@ -113,7 +113,7 @@ feature -- Basic operations
 			--
 		do
 			Evolicity_templates.set_text_encoding (Current)
-			Evolicity_templates.merge_to_file (template_name, Current, file_path)
+			Evolicity_templates.merge_to_file (template_name, Current, new_open_write_file (file_path))
 		end
 
 	serialize_to_stream (stream_out: EL_OUTPUT_MEDIUM)
@@ -130,11 +130,17 @@ feature -- Status query
 			Result := not template.is_empty
 		end
 
+	is_bom_enabled: BOOLEAN
+		do
+			Result := False
+		end
+
 feature {NONE} -- Implementation
 
 	file_must_exist: BOOLEAN
 			-- True if output file always exists after creation
 		do
+			Result := False
 		end
 
 	new_getter_functions: like getter_functions
@@ -145,9 +151,19 @@ feature {NONE} -- Implementation
 			Result [Variable_encoding_name] := agent encoding_name
 		end
 
-	new_open_read_file (a_file_path: like output_path): PLAIN_TEXT_FILE
+	new_open_read_file (file_path: like output_path): PLAIN_TEXT_FILE
 		do
-			create Result.make_open_read (a_file_path)
+			create Result.make_open_read (file_path)
+		end
+
+	new_open_write_file (file_path: like output_path): EL_PLAIN_TEXT_FILE
+			--
+		do
+			create Result.make_open_write (file_path)
+			Result.set_encoding_from_other (Current)
+			if is_bom_enabled then
+				Result.enable_bom; Result.put_bom
+			end
 		end
 
 	stored_successfully (a_file: like new_open_read_file): BOOLEAN

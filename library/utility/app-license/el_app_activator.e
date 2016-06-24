@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-04 10:05:57 GMT (Monday 4th January 2016)"
+	date: "2016-06-21 11:21:01 GMT (Tuesday 21st June 2016)"
 	revision: "4"
 
 class
@@ -27,7 +27,7 @@ feature {NONE} -- Initiliazation
 	make (registration_name: STRING; private_key_path: EL_FILE_PATH)
 			--
 		local
-			key_reader: EL_X509_CERTIFICATE_READER_COMMAND
+			key_reader: EL_X509_CERTIFICATE_READER_COMMAND_I
 --			private: EL_STORABLE_RSA_PRIVATE_KEY
 			user_cpu_source: STRING
 		do

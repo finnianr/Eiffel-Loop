@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_MODULE_BUILD_INFO}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-05-03 10:50:59 GMT (Sunday 3rd May 2015)"
-	revision: "3"
+	date: "2016-05-15 11:00:11 GMT (Sunday 15th May 2016)"
+	revision: "4"
 
 class
 	EL_MODULE_BUILD_INFO
@@ -25,6 +25,7 @@ feature -- Access
 			factory: EL_OBJECT_FACTORY [EL_BUILD_INFO]
 		once
 			create factory
+			-- BUILD_INFO exists only in the application project
 			Result := factory.instance_from_class_name ("BUILD_INFO", agent {EL_BUILD_INFO}.do_nothing)
 		end
 end

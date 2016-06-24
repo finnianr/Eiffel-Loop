@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-18 12:26:06 GMT (Friday 18th March 2016)"
+	date: "2016-04-05 9:42:58 GMT (Tuesday 5th April 2016)"
 	revision: "5"
 
 deferred class
@@ -419,8 +419,7 @@ feature {NONE} -- Implementation
 				full_collect
 				create timer.make
 				from i := 1 until i > number_of_runs loop
-					procedure.apply
-					full_collect
+					procedure.apply; full_collect
 					i := i + 1
 				end
 				timer.stop

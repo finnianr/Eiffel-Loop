@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 15:56:35 GMT (Monday 18th January 2016)"
+	date: "2016-05-16 13:48:55 GMT (Monday 16th May 2016)"
 	revision: "7"
 
 deferred class
@@ -62,7 +62,7 @@ feature -- Access
 			end
 		end
 
-	new_cursor: EL_LINE_SOURCE_ITERATION_CURSOR [F]
+	new_cursor: EL_LINE_SOURCE_ITERATION_CURSOR
 			--
 		do
 			create Result.make (Current)

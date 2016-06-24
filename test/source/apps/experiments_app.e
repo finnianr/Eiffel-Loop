@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-16 11:03:07 GMT (Wednesday 16th March 2016)"
+	date: "2016-06-22 10:44:36 GMT (Wednesday 22nd June 2016)"
 	revision: "5"
 
 class
@@ -15,7 +15,7 @@ class
 inherit
 	EL_SUB_APPLICATION
 		rename
-			run as test_substitution
+			run as test_container_extension
 		redefine
 			Option_name
 		end
@@ -367,7 +367,47 @@ feature -- Basic operations
 			log.exit
 		end
 
+	test_replace_delimited_substring_general
+		local
+			email: ZSTRING
+		do
+			log.enter ("test_replace_delimited_substring_general")
+			across << "freilly8@gmail.com", "finnian@gmail.com", "finnian-buyer@eiffel-loop.com" >> as address loop
+				email := address.item
+				log.put_string (email)
+				email.replace_delimited_substring_general ("finnian", "@eiffel", "", False, 1)
+				log.put_string (" -> "); log.put_string (email)
+				log.put_new_line
+			end
+			log.exit
+		end
+
+	test_boolean_ref
+		local
+			b1: BOOLEAN
+			b1_ref, b2_ref: BOOLEAN
+		do
+			log.enter ("test_boolean_ref")
+			b1_ref := b1.to_reference
+			b2_ref := not b1_ref
+			log.put_string ("b2_ref.item: ")
+			log.put_boolean (b2_ref.item)
+			log.exit
+		end
+
+	test_container_extension
+		do
+			log.enter ("test_container_extension")
+			extend_container (create {ARRAYED_LIST [EL_DIR_PATH]}.make (0))
+			log.exit
+		end
+
 feature {NONE} -- Implementation
+
+	extend_container (container: LIST [EL_PATH])
+		do
+			container.extend (Directory.current_working)
+		end
 
 	log_integer (n: INTEGER; str: STRING)
 		do

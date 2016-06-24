@@ -9,6 +9,9 @@ import os, string, sys, imp, subprocess
 
 from string import Template
 from os import path
+from glob import glob
+
+from eiffel_loop.xml.xpath import XPATH_CONTEXT
 
 global ascii_environ
 ascii_environ = {}
@@ -123,7 +126,8 @@ def read_project_py ():
 		result = None
 
 	return result
-		
+
+	
 class TESTS (object):
 
 # Initialization
@@ -144,5 +148,42 @@ class TESTS (object):
 			subprocess.call ([exe_path] + test_args)
 		
 		
-		
+class EIFFEL_PROJECT (object):
+
+# Initialization
+	def __init__ (self):
+		# Get version from Eiffel class BUILD_INFO in source
+		f = open (path.normpath ('source/build_info.e'), 'r')
+		for ln in f.readlines ():
+			if ln.startswith ('\tVersion_number'):
+				numbers = ln [ln.rfind (' ') + 1:-1].split ('_')
+				break
+		f.close ()
+		for i, n in enumerate (numbers):
+			numbers [i] = str (int (n))
+		self.version = ('.').join (numbers)
+
+		project_name = glob ('*.ecf')[0]
+		self.exe_name = XPATH_CONTEXT (project_name, 'ec').attribute ('/ec:system/@name')
+
+# Basic operation
+	def install (self, install_dir, f_code = False):
+		# Install linked version of executable in `install_dir'
+		platform = os.environ ["ISE_PLATFORM"]
+		if f_code:
+			exe_path = path.join ("build", platform, "EIFGENs", 'classic', 'F_code', self.exe_name)
+		else:
+			exe_path = path.join ("package", platform, "bin", self.exe_name)
+
+		exe_dest_path = path.join (install_dir, self.exe_name + '-' + self.version)
+
+		if subprocess.call(['sudo', 'cp', '-T', exe_path, exe_dest_path]) == 0:
+			print "Copied " + exe_path + " to", install_dir
+		else:
+			print "Copy error"
+
+		if subprocess.call(['sudo', 'ln', '-f', '-s', exe_dest_path, path.join (install_dir, self.exe_name)]) == 0:
+			print 'Linked', self.exe_name, '->', exe_dest_path
+		else:
+			print "Link error"
 

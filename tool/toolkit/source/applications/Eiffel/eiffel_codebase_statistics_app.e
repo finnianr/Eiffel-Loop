@@ -2,12 +2,12 @@
 	description: "Summary description for {EIFFEL_LINE_COUNTER_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
-	revision: "5"
+	date: "2016-04-04 10:31:30 GMT (Monday 4th April 2016)"
+	revision: "6"
 
 class
 	EIFFEL_CODEBASE_STATISTICS_APP
@@ -23,8 +23,8 @@ feature -- Testing
 	test_run
 			--
 		do
-			Test.do_file_tree_test ("Eiffel/latin1-sources", agent test_note_edit, 3648850805)
---			Test.do_file_tree_test ("Eiffel/utf8-sources", agent test_note_edit, 32294144)
+			Test.do_file_tree_test ("Eiffel/latin1-sources", agent test_note_edit, 1404346495)
+			Test.do_file_tree_test ("Eiffel/utf8-sources", agent test_note_edit, 191337464)
 		end
 
 	test_note_edit (a_sources_path: EL_DIR_PATH)

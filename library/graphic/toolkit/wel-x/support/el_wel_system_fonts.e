@@ -4,12 +4,12 @@
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "7"
+	date: "2016-05-17 10:03:36 GMT (Tuesday 17th May 2016)"
+	revision: "8"
 
 class
 	EL_WEL_SYSTEM_FONTS
@@ -42,7 +42,7 @@ feature -- Element change
 			valid_font_type: Valid_font_types.has (font_type)
 		local
 			font_path: NATIVE_STRING
-			font_name: EL_ASTRING
+			font_name: ZSTRING
 		do
 			across File_system.file_list (source_dir, "*." + font_type) as package_path loop
 				font_name := package_path.item.without_extension.base
@@ -59,9 +59,9 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	has_true_type_font (font_name: EL_ASTRING): BOOLEAN
+	has_true_type_font (font_name: ZSTRING): BOOLEAN
 		local
-			font_registry_name: EL_ASTRING
+			font_registry_name: ZSTRING
 		do
 			font_registry_name := font_name + True_type_suffix
 			Result := across Win_registry.value_names (HKLM_fonts) as value some
@@ -77,9 +77,7 @@ feature -- Constants
 			Result.compare_objects
 		end
 
-	Substitute_fonts: HASH_TABLE [EL_ASTRING, STRING_32]
-		local
-			key_name: STRING_32
+	Substitute_fonts: HASH_TABLE [ZSTRING, STRING_32]
 		once
 			create Result.make_equal (30)
 			across Win_registry.string_list (HKLM_font_substitutes) as string loop

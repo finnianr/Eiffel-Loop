@@ -2,12 +2,12 @@
 	description: "Summary description for {MUSIC_VENUE_EVENTS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-08 17:51:08 GMT (Thursday 8th January 2015)"
-	revision: "7"
+	date: "2016-06-24 9:18:50 GMT (Friday 24th June 2016)"
+	revision: "8"
 
 class
 	DJ_EVENTS_HTML_INDEX
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 		local
 			events_ordered_by_date: EL_SORTABLE_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
 			events_for_year: EL_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
-			year: INTEGER; year_context: EVOLICITY_CONTEXT_IMPL
+			year: INTEGER; year_context: EVOLICITY_CONTEXT_IMP
 		do
 			create events_by_year.make (10)
 			make_from_template_and_output (a_template_path, a_output_path)
@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	events_by_year: EL_ARRAYED_LIST [EVOLICITY_CONTEXT_IMPL]
+	events_by_year: EL_ARRAYED_LIST [EVOLICITY_CONTEXT_IMP]
 
 feature {NONE} -- Evolicity fields
 

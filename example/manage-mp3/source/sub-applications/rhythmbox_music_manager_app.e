@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 9:26:50 GMT (Wednesday 16th December 2015)"
+	date: "2016-06-23 7:48:00 GMT (Thursday 23rd June 2016)"
 	revision: "5"
 
 class
@@ -126,7 +126,7 @@ feature {NONE} -- Constants
 				[{SAMSUNG_TABLET_DEVICE}, All_routines],
 --				[{EL_WAV_GENERATION_COMMAND}, All_routines],
 --				[{EL_WAV_TO_MP3_COMMAND}, All_routines]
-				[{EL_VIDEO_TO_MP3_COMMAND}, All_routines]
+				[{EL_VIDEO_TO_MP3_COMMAND_IMP}, All_routines]
 
 			>>
 		end

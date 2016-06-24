@@ -5,12 +5,12 @@
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-29 11:59:04 GMT (Monday 29th December 2014)"
-	revision: "3"
+	date: "2016-06-06 11:58:25 GMT (Monday 6th June 2016)"
+	revision: "4"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -21,11 +21,6 @@ inherit
 	EL_MODULE_LOG_MANAGER
 
 	EL_MODULE_ARGS
-
-	EL_LOG_CONSTANTS
-		rename
-			implementation as implementation_log_constants
-		end
 
 feature -- Status query
 

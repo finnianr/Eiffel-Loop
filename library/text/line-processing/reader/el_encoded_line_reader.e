@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 13:21:56 GMT (Monday 18th January 2016)"
+	date: "2016-06-13 16:23:03 GMT (Monday 13th June 2016)"
 	revision: "6"
 
 class
@@ -40,8 +40,7 @@ feature -- Element change
 
 	set_line (raw_line: STRING)
 		local
-			buffer: like Unicode_buffer
-			count: INTEGER
+			buffer: STRING_32
 		do
 			if codec.id = 1 then
 				create line.make_from_latin_1 (raw_line)
@@ -51,11 +50,8 @@ feature -- Element change
 				create line.make_from_string (raw_line)
 
 			else
-				buffer := Unicode_buffer
-				count := raw_line.count
-				buffer.grow (count)
-				buffer.set_count (count)
-				codec.decode (count, raw_line.area, buffer.area)
+				create buffer.make_filled ('%U', raw_line.count)
+				codec.decode (raw_line.count, raw_line.area, buffer.area)
 				create line.make_from_unicode (buffer)
 			end
 		end
@@ -63,12 +59,5 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	codec: EL_ZCODEC
-
-feature {NONE} -- Constants
-
-	Unicode_buffer: STRING_32
-		once
-			create Result.make_empty
-		end
 
 end

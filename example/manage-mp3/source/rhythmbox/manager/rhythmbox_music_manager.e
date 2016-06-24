@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-22 11:47:44 GMT (Tuesday 22nd December 2015)"
+	date: "2016-06-23 7:47:42 GMT (Thursday 23rd June 2016)"
 	revision: "4"
 
 class
@@ -15,13 +15,13 @@ class
 inherit
 	EL_COMMAND
 
+	EL_MODULE_AUDIO_COMMAND
+
 	EL_MODULE_LOG
 
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_FILE_SYSTEM
-
-	TASK_CONSTANTS
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -30,6 +30,9 @@ inherit
 	EL_MODULE_TIME
 
 	SONG_QUERY_CONDITIONS
+
+	TASK_CONSTANTS
+
 
 create
 	make, default_create
@@ -112,7 +115,7 @@ feature -- Tasks
 					log_or_io.put_new_line
 					log_or_io.put_new_line
 					File_system.make_directory (new_mp3_path.parent)
-					File_system.move (song.mp3_path, new_mp3_path)
+					File_system.move_file (song.mp3_path, new_mp3_path)
 					if song.mp3_path.parent.exists then
 						File_system.delete_empty_branch (song.mp3_path.parent)
 					end
@@ -220,7 +223,7 @@ feature -- Tasks
 				then
 					Database.replace (substitution.item.deleted_path, substitution.item.replacement_path)
 					Database.remove (Database.songs_by_location [substitution.item.deleted_path])
-					File_system.delete (substitution.item.deleted_path)
+					File_system.delete_file (substitution.item.deleted_path)
 				else
 					log_or_io.put_line ("INVALID SUBSTITUTION")
 					log_or_io.put_path_field ("Target", substitution.item.deleted_path)
@@ -318,7 +321,7 @@ feature -- Tasks: Import/Export
 						Database.extend (new_video_song (video_path.item))
 						done := not video_contains_another_song
 					end
-					File_system.delete (video_path.item)
+					File_system.delete_file (video_path.item)
 				end
 			end
 			if Database.songs.count > song_count then
@@ -526,12 +529,13 @@ feature {NONE} -- Factory
 
 	new_video_song (video_path: EL_FILE_PATH): RBOX_SONG
 		local
-			video_properties: EL_AUDIO_PROPERTIES_COMMAND; video_to_mp3_command: EL_VIDEO_TO_MP3_COMMAND
+			video_properties: like Audio_command.new_audio_properties
+			video_to_mp3_command: like Audio_command.new_video_to_mp3
 			genre_path, artist_path: EL_DIR_PATH; song_info: like Type_song_info
 			duration_time: TIME_DURATION
 		do
 			artist_path := video_path.parent; genre_path := artist_path.parent
-			create video_properties.make (video_path)
+			video_properties := Audio_command.new_audio_properties (video_path)
 			song_info := new_song_info_input (video_properties.duration, video_path.without_extension.base, artist_path.base)
 			Result := database.new_song
 			Result.set_title (song_info.title)
@@ -547,7 +551,7 @@ feature {NONE} -- Factory
 			Result.set_album_artists_list (song_info.album_artists)
 			Result.set_mp3_path (Result.unique_normalized_mp3_path)
 
-			create video_to_mp3_command.make (video_path, Result.mp3_path)
+			video_to_mp3_command := Audio_command.new_video_to_mp3 (video_path, Result.mp3_path)
 
 			if song_info.time_from.seconds > 0
 				or song_info.time_to.fine_seconds /~ video_properties.duration.fine_seconds_count

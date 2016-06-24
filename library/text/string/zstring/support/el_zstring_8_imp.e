@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-10 18:05:54 GMT (Thursday 10th December 2015)"
+	date: "2016-04-09 9:25:32 GMT (Saturday 9th April 2016)"
 	revision: "5"
 
 class
@@ -17,7 +17,7 @@ inherit
 		export
 			{EL_READABLE_ZSTRING} str_strict_cmp
 		redefine
-			append_double,
+			append_boolean, append_double,
 			append_integer, append_integer_16, append_integer_64,
 			append_natural_16, append_natural_32, append_natural_64,
 			append_real,
@@ -44,6 +44,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Element change
+
+	append_boolean (b: BOOLEAN)
+		do
+			Precursor (b); zstring.set_count (count)
+		end
 
 	append_double (n: DOUBLE)
 		do

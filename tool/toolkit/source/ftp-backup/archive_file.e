@@ -2,12 +2,12 @@
 	description: "Summary description for {ARCHIVE_FILE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-03-03 13:09:17 GMT (Tuesday 3rd March 2015)"
-	revision: "4"
+	date: "2016-06-23 14:21:19 GMT (Thursday 23rd June 2016)"
+	revision: "5"
 
 class
 	ARCHIVE_FILE
@@ -170,7 +170,7 @@ feature {NONE} -- tar archive command with variables
 
 	TARGET_DIRECTORY: STRING = "TARGET_DIRECTORY"
 
-	Archive_command: EL_GENERAL_OS_COMMAND
+	Archive_command: EL_OS_COMMAND
 			--
 			-- --verbose
 		once
@@ -185,7 +185,7 @@ feature {NONE} -- gpg encryption command with variables
 
 	GPG_KEY_ID: STRING = "GPG_KEY_ID"
 
-	Encryption_command: EL_GENERAL_OS_COMMAND
+	Encryption_command: EL_OS_COMMAND
 			--
 		once
 			create Result.make ("[

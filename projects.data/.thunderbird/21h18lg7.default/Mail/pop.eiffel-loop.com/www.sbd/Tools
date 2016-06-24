@@ -1,0 +1,107 @@
+From - Sun Apr 03 12:25:48 2016
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+FCC: mailbox://finnian%40eiffel-loop.com@pop.eiffel-loop.com/Sent
+X-Identity-Key: id1
+X-Account-Key: account1
+From: Finnian Reilly <finnian@eiffel-loop.com>
+Subject: Toolkit functions
+Message-ID: <4D94A700.1000105@eiffel-loop.com>
+Date: Sun, 3 Apr 2016 12:25:48 +0100
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0;
+ attachmentreminder=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+ Thunderbird/38.6.0
+MIME-Version: 1.0
+Content-Type: text/html; charset=iso-8859-15
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+  </head>
+  <body keywords="demos, examples, Eiffel examples, example code"
+    description="Inventory of example applications"
+    menu_name="Applications" text="#000000" bgcolor="#FFFFCC">
+    <ul>
+      <li>Documentation tool to create a class inventory in HTML format
+        from an Eiffel source tree.</li>
+      <li>A web publishing application configured by an XML script to
+        create multiple views of HTML documents created in the
+        Thunderbird
+        email client HTML editor.</li>
+      <li>An application to perform off-site archiving of project files
+        featuring:</li>
+      <ul>
+        <li>Backups scripted with XML.</li>
+        <li>File filtering and wildcards.</li>
+        <li>Optional cyclical versioning upto a maximum version.</li>
+        <li>Optional gpg encryption for selected directories.</li>
+        <li>Archive compression.</li>
+        <li>Offsite transfer of all archives via ftp.</li>
+      </ul>
+    </ul>
+  </body>
+</html>
+From - Thu Jun 09 13:38:23 2016
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+FCC: mailbox://finnian%40eiffel-loop.com@pop.eiffel-loop.com/Sent
+X-Identity-Key: id1
+X-Account-Key: account1
+From: Finnian Reilly <finnian@eiffel-loop.com>
+Subject: Development Tools
+Message-ID: <5759633F.6050700@eiffel-loop.com>
+Date: Thu, 9 Jun 2016 13:38:23 +0100
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0;
+ attachmentreminder=0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+ Thunderbird/38.8.0
+MIME-Version: 1.0
+Content-Type: text/html; charset=iso-8859-15
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-15">
+  </head>
+  <body bgcolor="#FFFFCC" text="#000000">
+    <h2>Code editing</h2>
+    <ul>
+      <li>Automatic code editor that operates on the gcc source code
+        tree of the Praat linguistics tool. The editor adds hooks for an
+        Eiffel interface and modifications allowing compilation with the
+        MS VC++ compiler.</li>
+      <li>Build tool for commenting out logging lines in Eiffel source
+        code.</li>
+      <li>Tool for normalizing Eiffel source code file names to match
+        class names.</li>
+      <li>Eiffel class renaming tool that is faster than EiffelStudio.</li>
+    </ul>
+    <h2>Build tools</h2>
+    <ul>
+      <li>A script to manage OS environments from a project Python
+        script and launch EiffelStudio. </li>
+      <li>An extension to scons build system for Eiffel projects with
+        the following features:</li>
+      <ul>
+        <li>Select freeze or finalize build</li>
+        <li>Builds any Eiffel library precompiles using a standard
+          SConstruct<br>
+        </li>
+        <li>Checks for existence of SConstruct to build C dependencies</li>
+        <li>Installs application graphics specified with an extra ECF
+          tag into standardized directories locatable by an Eiffel
+          class. <br>
+        </li>
+      </ul>
+      <li>Migration tool to translate an Eiffel configuration file
+        written in the Pyxis data format to XML format. Pyxis is an
+        alternate "Pythonized" XML syntax devised by Finnian Reilly.</li>
+    </ul>
+  </body>
+</html>

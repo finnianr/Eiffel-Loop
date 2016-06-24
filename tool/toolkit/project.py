@@ -2,14 +2,31 @@
 
 from eiffel_loop.project import *
 
-version = (1, 1, 11)
-# 1.1.2
-# Fixed handling of verbatim strings so they do not confused with class features
+version = (1, 1, 17)
 
 installation_sub_directory = 'Eiffel-Loop/utils'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.1.17
+# Removed bridge pattern
+
+# 1.1.16
+# Changed Thunderbird 'export_type' to optional boolean 'as_xhtml'
+
+# 1.1.15
+# Fixed bug in Thunderbird html export
+
+# 1.1.14
+# Fixed encoding bug in pyxis to xml compiler
+
+# 1.1.13
+# Fixed EL_SOURCE_TEXT_PROCESSOR in FTP_BACKUP_APP 
+
+# 1.1.12
+# Added word count to codebase statistics
+# Fixed handling of verbatim strings so they do not confused with class features
 
 # 1.1.11
 # Fixed feature edit utility

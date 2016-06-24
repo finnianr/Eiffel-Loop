@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 12:55:09 GMT (Friday 18th December 2015)"
+	date: "2016-04-22 10:37:50 GMT (Friday 22nd April 2016)"
 	revision: "5"
 
 deferred class
@@ -19,7 +19,7 @@ feature -- Basic operations
 
 	write_edited_lines (output_path: EL_FILE_PATH)
 		local
-			output: EL_PLAIN_TEXT_FILE
+			output: EIFFEL_SOURCE_FILE
 		do
 			create output.make_open_write (output_path)
 			output.set_encoding_from_name (encoding)

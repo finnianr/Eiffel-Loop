@@ -1,11 +1,11 @@
 #! /usr/bin/env python
 
 #	author: "Finnian Reilly"
-#	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 #	contact: "finnian at eiffel hyphen loop dot com"
 #	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-#	date: "10 Dec 2012"
-#	revision: "0.1"
+#	date: "9 April 2016"
+#	revision: "0.0"
 
 import subprocess, sys, os, stat
 
@@ -16,7 +16,7 @@ from eiffel_loop.eiffel import project
 
 
 def convert_pyxis_to_xml (pecf_path):
-	subprocess.call (['el_toolkit2', '-pyxis_to_xml', '-no_highlighting', '-in', pecf_path])
+	subprocess.call (['el_toolkit', '-pyxis_to_xml', '-no_highlighting', '-in', pecf_path])
 
 project.set_build_environment (project.read_project_py ())
 

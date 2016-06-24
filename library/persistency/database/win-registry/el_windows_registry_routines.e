@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_WEL_REGISTRY_ROUTINES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:26 GMT (Thursday 11th December 2014)"
-	revision: "4"
+	date: "2016-03-30 17:41:00 GMT (Wednesday 30th March 2016)"
+	revision: "5"
 
 class
 	EL_WINDOWS_REGISTRY_ROUTINES
@@ -17,7 +17,7 @@ inherit
 
 feature -- Access
 
-	string (key_path: EL_DIR_PATH; key_name: EL_ASTRING): EL_ASTRING
+	string (key_path: EL_DIR_PATH; key_name: ZSTRING): ZSTRING
 		do
 			if attached {WEL_REGISTRY_KEY_VALUE} key_value (key_path, key_name) as value
 			then
@@ -32,7 +32,7 @@ feature -- Access
 			create Result.make (key_path)
 		end
 
-	integer (key_path: EL_DIR_PATH; key_name: EL_ASTRING): INTEGER
+	integer (key_path: EL_DIR_PATH; key_name: ZSTRING): INTEGER
 		do
 			if attached {WEL_REGISTRY_KEY_VALUE} key_value (key_path, key_name) as value then
 				Result := value.dword_value
@@ -44,7 +44,7 @@ feature -- Access
 			create Result.make (key_path)
 		end
 
-	data (key_path: EL_DIR_PATH; key_name: EL_ASTRING): MANAGED_POINTER
+	data (key_path: EL_DIR_PATH; key_name: ZSTRING): MANAGED_POINTER
 		do
 			if attached {WEL_REGISTRY_KEY_VALUE} key_value (key_path, key_name) as value then
 				Result := value.data
@@ -72,7 +72,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_string (key_path: EL_DIR_PATH; name, value: EL_ASTRING)
+	set_string (key_path: EL_DIR_PATH; name, value: ZSTRING)
 		local
 			registry_value: WEL_REGISTRY_KEY_VALUE
 		do
@@ -80,12 +80,12 @@ feature -- Element change
 			set_value (key_path, name, registry_value)
 		end
 
-	set_integer (key_path: EL_DIR_PATH; name: EL_ASTRING; value: INTEGER)
+	set_integer (key_path: EL_DIR_PATH; name: ZSTRING; value: INTEGER)
 		do
 			set_value (key_path, name, create {WEL_REGISTRY_KEY_VALUE}.make_with_dword_value (value))
 		end
 
-	set_binary_data (key_path: EL_DIR_PATH; name: EL_ASTRING; value: MANAGED_POINTER)
+	set_binary_data (key_path: EL_DIR_PATH; name: ZSTRING; value: MANAGED_POINTER)
 		local
 			registry_value: WEL_REGISTRY_KEY_VALUE
 		do
@@ -93,14 +93,14 @@ feature -- Element change
 			set_value (key_path, name, registry_value)
 		end
 
-	set_value (key_path: EL_DIR_PATH; name: EL_ASTRING; value: WEL_REGISTRY_KEY_VALUE)
+	set_value (key_path: EL_DIR_PATH; name: ZSTRING; value: WEL_REGISTRY_KEY_VALUE)
 		do
 			registry.save_key_value (key_path.unicode, name.to_unicode, value)
 		end
 
 feature -- Removal
 
-	remove_key_value (key_path: EL_DIR_PATH; value_name: EL_ASTRING)
+	remove_key_value (key_path: EL_DIR_PATH; value_name: ZSTRING)
 		local
 			node_ptr: POINTER;
 			l_registry: like registry
@@ -112,7 +112,7 @@ feature -- Removal
 			end
 		end
 
-	remove_key (parent_path: EL_DIR_PATH; key_name: EL_ASTRING)
+	remove_key (parent_path: EL_DIR_PATH; key_name: ZSTRING)
 		local
 			node_ptr: POINTER
 			l_registry: like registry
@@ -136,7 +136,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	key_value (key_path: EL_DIR_PATH; key_name: EL_ASTRING): detachable WEL_REGISTRY_KEY_VALUE
+	key_value (key_path: EL_DIR_PATH; key_name: ZSTRING): detachable WEL_REGISTRY_KEY_VALUE
 		do
 			Result := registry.open_key_value (key_path.unicode, key_name.to_unicode)
 		end

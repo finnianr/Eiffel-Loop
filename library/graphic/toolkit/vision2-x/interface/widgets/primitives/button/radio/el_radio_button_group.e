@@ -2,18 +2,20 @@
 	description: "Summary description for {RADIO_OPTIONS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "6"
+	date: "2016-06-24 7:34:35 GMT (Friday 24th June 2016)"
+	revision: "7"
 
 deferred class
 	EL_RADIO_BUTTON_GROUP [G]
 
 inherit
 	EL_INPUT_WIDGET [G]
+
+	EL_MODULE_VISION_2
 
 feature {NONE} -- Initialization
 
@@ -36,13 +38,13 @@ feature -- Access
 
 	horizontal_box (a_border_cms, a_padding_cms: REAL): EL_HORIZONTAL_BOX
 		do
-			Result := GUI.horizontal_box (a_border_cms, a_padding_cms, buttons.to_array)
+			Result := Vision_2.new_horizontal_box (a_border_cms, a_padding_cms, buttons.to_array)
 			set_selected
 		end
 
 	vertical_box (a_border_cms, a_padding_cms: REAL): EL_VERTICAL_BOX
 		do
-			Result := GUI.vertical_box (a_border_cms, a_padding_cms, buttons.to_array)
+			Result := Vision_2.new_vertical_box (a_border_cms, a_padding_cms, buttons.to_array)
 			set_selected
 		end
 

@@ -6,16 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 17:08:08 GMT (Saturday 26th December 2015)"
+	date: "2016-06-24 7:35:27 GMT (Friday 24th June 2016)"
 	revision: "7"
 
 class
 	EL_FORMATTED_TEXT_BLOCK
 
 inherit
-	EL_MODULE_STRING_8
-
 	EL_MODULE_GUI
+
+	EL_MODULE_VISION_2
 
 create
 	make
@@ -215,7 +215,7 @@ feature {NONE} -- Constants
 
 	New_line_format: EV_CHARACTER_FORMAT
 		do
-			create Result.make_with_font (GUI.font_regular ("Arial", Line_separation_cms))
+			create Result.make_with_font (Vision_2.new_font_regular ("Arial", Line_separation_cms))
 		end
 
 	Line_separation_cms: REAL

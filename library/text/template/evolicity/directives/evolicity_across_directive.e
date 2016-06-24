@@ -8,7 +8,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-21 12:01:38 GMT (Monday 21st December 2015)"
+	date: "2016-06-24 9:17:00 GMT (Friday 24th June 2016)"
 	revision: "5"
 
 class
@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 			a_context.put_variable (iterater_context, iterator_var_name)
 		end
 
-	iterater_context: EVOLICITY_CONTEXT_IMPL
+	iterater_context: EVOLICITY_CONTEXT_IMP
 
 feature {NONE} -- Constants
 

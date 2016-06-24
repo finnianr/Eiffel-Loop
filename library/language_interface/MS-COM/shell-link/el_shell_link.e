@@ -2,12 +2,12 @@
 	description: "Objects that creates a Windows shortcut"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "6"
+	date: "2016-03-30 17:39:57 GMT (Wednesday 30th March 2016)"
+	revision: "7"
 
 class
 	EL_SHELL_LINK
@@ -67,13 +67,13 @@ feature -- Element change
 			last_call_result := cpp_set_path (self_ptr, wide_string (target_path).base_address)
 		end
 
-	set_command_arguments (command_arguments: EL_ASTRING)
+	set_command_arguments (command_arguments: ZSTRING)
 			--
 		do
 			last_call_result := cpp_set_arguments (self_ptr, wide_string (command_arguments).base_address)
 		end
 
-	set_description (description: EL_ASTRING)
+	set_description (description: ZSTRING)
 			--
 		do
 			last_call_result := cpp_set_description (self_ptr, wide_string (description).base_address)
@@ -110,7 +110,7 @@ feature {NONE} -- Implementation
 
 feature -- Constants
 
-	Extension_lnk: EL_ASTRING
+	Extension_lnk: ZSTRING
 		once
 			Result := "lnk"
 		end

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 14:18:39 GMT (Sunday 20th December 2015)"
+	date: "2016-04-22 12:25:47 GMT (Friday 22nd April 2016)"
 	revision: "5"
 
 class
@@ -96,6 +96,8 @@ feature -- Basic operations
 
 	publish
 			-- publish generated page
+		local
+			html_file: EL_PLAIN_TEXT_FILE
 		do
 			log.enter ("publish")
 			has_contents := content.has_contents
@@ -104,14 +106,18 @@ feature -- Basic operations
 			Evolicity_templates.set_horrible_indentation
 			log_or_io.put_path_field ("Writing", output_path)
 			log_or_io.put_new_line
-			Evolicity_templates.merge_to_file (config.default_template, Current, output_path)
+			create html_file.make_open_write (output_path)
+			html_file.enable_bom
+			Evolicity_templates.merge_to_file (config.default_template, Current, html_file)
 
 			if has_print_view then
 				is_print_view := True
 				has_print_view := False
 				log_or_io.put_path_field ("Writing", print_view_output_path)
 				log_or_io.put_new_line
-				Evolicity_templates.merge_to_file (config.default_template, Current, print_view_output_path)
+				create html_file.make_open_write (print_view_output_path)
+				html_file.enable_bom
+				Evolicity_templates.merge_to_file (config.default_template, Current, html_file)
 
 				is_print_view := False
 				has_print_view := True

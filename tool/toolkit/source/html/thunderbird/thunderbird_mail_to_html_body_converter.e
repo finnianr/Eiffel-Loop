@@ -22,7 +22,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 13:52:46 GMT (Sunday 20th December 2015)"
+	date: "2016-04-22 11:03:13 GMT (Friday 22nd April 2016)"
 	revision: "7"
 
 class
@@ -72,7 +72,7 @@ feature -- Basic operations
 				order_file_path := output_dir + "order.txt"
 				new_order_file_path := order_file_path.with_new_extension ("new.txt")
 				create order_file.make_open_write (new_order_file_path)
-				order_file.set_encoding_from_name ("UTF-8")
+				order_file.enable_bom
 				order_file.put_lines (order_lines)
 				order_file.close
 
@@ -218,7 +218,7 @@ feature {NONE} -- Implementation
 				log_or_io.put_path_field ("Write H2", h2_list_file_path)
 				log_or_io.put_new_line
 				create h2_file.make_open_write (h2_list_file_path)
-				h2_file.set_encoding_from_name ("UTF-8")
+				h2_file.enable_bom
 				h2_file.put_lines (h2_list)
 				h2_file.close
 			end

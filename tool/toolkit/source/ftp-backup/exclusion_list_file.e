@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 14:18:29 GMT (Sunday 20th December 2015)"
+	date: "2016-06-20 6:56:41 GMT (Monday 20th June 2016)"
 	revision: "6"
 
 class
@@ -24,6 +24,8 @@ inherit
 
 	FILE_SPECIFIER_LIST
 
+	EL_MODULE_COMMAND
+
 	EL_MODULE_DIRECTORY
 
 create
@@ -31,9 +33,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (
-		directory_node: EL_XPATH_NODE_CONTEXT; a_archive_directory_path, a_target_path: EL_DIR_PATH
-	)
+	make (directory_node: EL_XPATH_NODE_CONTEXT; a_archive_directory_path, a_target_path: EL_DIR_PATH)
 			--
 		local
 			l_file_path: EL_FILE_PATH

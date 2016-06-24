@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-19 12:55:30 GMT (Tuesday 19th January 2016)"
+	date: "2016-05-16 17:35:42 GMT (Monday 16th May 2016)"
 	revision: "7"
 
 class
@@ -52,7 +52,7 @@ feature -- Testing
 	test_translation (a_file_path: EL_FILE_PATH)
 			--
 		local
-			decrypter: EL_AES_ENCRYPTER; table, decrypted_table: EL_TRANSLATION_TABLE
+			table, decrypted_table: EL_TRANSLATION_TABLE
 			plain_text: STRING
 		do
 			log.enter ("test_translation")

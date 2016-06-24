@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 12:32:57 GMT (Thursday 24th December 2015)"
+	date: "2016-04-09 10:44:48 GMT (Saturday 9th April 2016)"
 	revision: "5"
 
 deferred class
@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			create parse_event_generator.make_with_output (create {EL_ZTEXT_IO_MEDIUM}.make_open_write (0))
+			create parse_event_generator.make_with_output (create {EL_ZSTRING_IO_MEDIUM}.make_open_write (0))
 			inbound_transmission_type := Transmission_type_plaintext
 			outbound_transmission_type := Transmission_type_plaintext
 		end

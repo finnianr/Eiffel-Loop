@@ -29,7 +29,11 @@ setup (
 	],
 	package_dir = {'': 'tool/python-support'},
 	scripts = [
-		script_path % 'launch_estudio', script_path % 'ec_clean_build', script_path % 'ec_build_finalized'
+		script_path % 'launch_estudio',
+		script_path % 'ec_build_finalized',
+		script_path % 'ec_clean_build',
+		script_path % 'ec_install_app',
+		script_path % 'ec_write_software_version'
 	]
 
 )

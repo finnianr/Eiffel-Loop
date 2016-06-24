@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:19:21 GMT (Saturday 26th December 2015)"
+	date: "2016-06-24 7:33:14 GMT (Friday 24th June 2016)"
 	revision: "6"
 
 class
@@ -16,6 +16,11 @@ inherit
 	EL_RECTANGLE
 		rename
 			make as make_rectangle
+		end
+
+	EL_MODULE_VISION_2
+		undefine
+			out
 		end
 
 	EL_MODULE_GUI
@@ -158,7 +163,7 @@ feature {NONE} -- Implementation
 			l_font: EL_FONT
 			position: EV_COORDINATE
 		do
-			l_font := GUI.font_regular ("", 0.35)
+			l_font := Vision_2.new_font_regular ("", 0.35)
 			position := drawing_area.pointer_position
 
 			create text_rect.make_for_text (tool_tip, l_font)

@@ -5,12 +5,12 @@
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-06-23 11:30:35 GMT (Tuesday 23rd June 2015)"
-	revision: "4"
+	date: "2016-06-24 8:46:58 GMT (Friday 24th June 2016)"
+	revision: "5"
 
 class
 	EL_VISION2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end]
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 
 	create_interface_objects
 		local
-			screen_properties: EL_SCREEN_PROPERTIES_IMPL
+			screen_properties: EL_SCREEN_PROPERTIES_IMP
 		do
 			-- This has to be called before any GUI code to intialize a once function that
 			-- calls some GTK C code. This code is effectively a mini GTK app.

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 17:08:17 GMT (Saturday 26th December 2015)"
+	date: "2016-06-24 7:37:07 GMT (Friday 24th June 2016)"
 	revision: "6"
 
 class
@@ -17,6 +17,8 @@ inherit
 		redefine
 			set_format, append_text, append_new_line
 		end
+
+	EL_MODULE_STRING_32
 
 create
 	make
@@ -30,7 +32,7 @@ feature -- Element change
 			blank_line, padding, text: ZSTRING
 		do
 			create lines.make_with_lines (a_text)
-			maximum_count := String_8.maximum_count (lines)
+			maximum_count := String_32.maximum_count (lines)
 			create padding.make_empty
 			from lines.start until lines.after loop
 				create padding.make_filled (' ', maximum_count - lines.item.count)

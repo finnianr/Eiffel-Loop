@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 8:15:43 GMT (Wednesday 16th December 2015)"
+	date: "2016-04-22 12:27:26 GMT (Friday 22nd April 2016)"
 	revision: "6"
 
 deferred class
@@ -21,7 +21,7 @@ inherit
 		export
 			{ANY} Template
 		redefine
-			new_getter_functions, stored_successfully
+			is_bom_enabled, new_getter_functions, stored_successfully
 		end
 
 	EL_SERIALIZEABLE_AS_XML
@@ -37,6 +37,13 @@ feature -- Access
 		do
 			pos_last_left_bracket := Template.last_index_of ('<', Template.count)
 			Result := Template.substring (pos_last_left_bracket + 2, Template.count - 1).to_string_8
+		end
+
+feature -- Status query
+
+	is_bom_enabled: BOOLEAN
+		do
+			Result := True
 		end
 
 feature {NONE} -- Implementation

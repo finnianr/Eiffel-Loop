@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_MODULE_GUI}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-06-24 8:48:16 GMT (Friday 24th June 2016)"
+	revision: "4"
 
 class
 	EL_MODULE_GUI
@@ -17,10 +17,10 @@ inherit
 
 feature -- Access
 
-	GUI: EL_VISION_2_GUI_ROUTINES
+	GUI: EL_VISION_2_GUI_ROUTINES_I
 			--
 		once ("PROCESS")
-			create Result.make
+			create {EL_VISION_2_GUI_ROUTINES_IMP} Result.make
 		end
 
 end

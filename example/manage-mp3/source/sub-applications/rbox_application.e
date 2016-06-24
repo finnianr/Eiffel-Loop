@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 22:49:39 GMT (Friday 18th December 2015)"
+	date: "2016-06-23 8:32:57 GMT (Thursday 23rd June 2016)"
 	revision: "5"
 
 deferred class
@@ -18,6 +18,8 @@ inherit
 	EL_TESTABLE_APPLICATION
 
 	EL_MODULE_LOG
+
+	EL_MODULE_AUDIO_COMMAND
 
 	RHYTHMBOX_CONSTANTS
 
@@ -56,7 +58,7 @@ feature {NONE} -- Initialization
 								l_duration := l_duration // 10
 							end
 							File_system.make_directory (song.mp3_path.parent)
-							File_system.copy (cached_song_file_path (song, l_duration), song.mp3_path)
+							File_system.copy_file (cached_song_file_path (song, l_duration), song.mp3_path)
 						end
 					end
 				end
@@ -72,7 +74,7 @@ feature {NONE} -- Initialization
 		local
 			config_file_path: EL_FILE_PATH
 		do
-			create test_wav_generator.make ("")
+			create {EL_WAV_GENERATION_COMMAND_IMP} test_wav_generator.make ("")
 			create random.make
 
 			create conditions.make (0)
@@ -119,7 +121,7 @@ feature {NONE} -- Implementation
 		require
 			valid_duration: a_duration > 0
 		local
-			mp3_writer: EL_WAV_TO_MP3_COMMAND
+			mp3_writer: like Audio_command.new_wav_to_mp3
 			relative_steps: EL_PATH_STEPS
 			wav_path: EL_FILE_PATH
 			id3_info: EL_ID3_INFO
@@ -147,7 +149,7 @@ feature {NONE} -- Implementation
 				end
 				test_wav_generator.execute
 
-				create mp3_writer.make (wav_path, Result)
+				mp3_writer := Audio_command.new_wav_to_mp3 (wav_path, Result)
 				mp3_writer.set_bit_rate_per_channel (48)
 				mp3_writer.set_num_channels (1)
 				mp3_writer.execute
@@ -196,7 +198,7 @@ feature {NONE} -- Implementation: attributes
 
 	test_database_dir: EL_DIR_PATH
 
-	test_wav_generator: EL_WAV_GENERATION_COMMAND
+	test_wav_generator: EL_WAV_GENERATION_COMMAND_I
 
 	xml_database_path: EL_FILE_PATH
 

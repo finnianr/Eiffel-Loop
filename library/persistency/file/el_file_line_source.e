@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 13:30:24 GMT (Monday 18th January 2016)"
+	date: "2016-06-11 9:53:53 GMT (Saturday 11th June 2016)"
 	revision: "6"
 
 class
@@ -25,7 +25,7 @@ inherit
 		end
 
 create
-	make_default, make, make_latin_1, make_from_file
+	make_default, make, make_latin, make_from_file, make_windows
 
 feature {NONE} -- Initialization
 
@@ -44,10 +44,16 @@ feature {NONE} -- Initialization
 			is_source_external := False -- Causes file to close automatically when after position is reached
 		end
 
-	make_latin_1 (a_file_path: EL_FILE_PATH)
+	make_latin (a_encoding: INTEGER; a_file_path: EL_FILE_PATH)
 		do
 			make (a_file_path)
-			set_latin_encoding (1)
+			set_latin_encoding (a_encoding)
+		end
+
+	make_windows (a_encoding: INTEGER; a_file_path: EL_FILE_PATH)
+		do
+			make (a_file_path)
+			set_windows_encoding (a_encoding)
 		end
 
 feature -- Access

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 12:32:20 GMT (Wednesday 16th December 2015)"
+	date: "2016-06-20 7:07:47 GMT (Monday 20th June 2016)"
 	revision: "4"
 
 class
@@ -236,7 +236,7 @@ feature {NONE} -- Implementation
 
 			if not media_item.is_update implies not volume.file_exists (relative_file_path) then
 				if attached {RBOX_SONG} media_item as song then
-					File_system.copy (song.mp3_path, temp_file_path)
+					File_system.copy_file (song.mp3_path, temp_file_path)
 
 					create id3_info.make (temp_file_path); id3_info.set_encoding ("UTF-8")
 					adjust_genre (id3_info)

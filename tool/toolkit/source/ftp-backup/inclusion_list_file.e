@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 11:05:03 GMT (Friday 18th December 2015)"
+	date: "2016-06-20 18:11:35 GMT (Monday 20th June 2016)"
 	revision: "6"
 
 class
@@ -25,7 +25,7 @@ feature {NONE} -- Implementation
 	put_file_specifier (specifier_name, file_specifier: ZSTRING)
 			--
 		local
-			find_files_command: EL_FIND_FILES_COMMAND
+			find_files_cmd: like Command.new_find_files
 			path_steps: EL_PATH_STEPS
 			target_parent, specifier_path: EL_DIR_PATH
 		do
@@ -35,15 +35,15 @@ feature {NONE} -- Implementation
 
 			elseif specifier_name ~ Specifier_all_files then
 				specifier_path := Directory.path (Short_directory_current).joined_dir_path (file_specifier)
-				create find_files_command.make (specifier_path.parent, specifier_path.base)
-				find_files_command.disable_recursion
-				find_files_command.set_follow_symbolic_links (True)
-				find_files_command.set_working_directory (target_parent)
-				log_or_io.put_path_field ("Working", find_files_command.working_directory)
+				find_files_cmd := Command.new_find_files (specifier_path.parent, specifier_path.base)
+				find_files_cmd.set_depth (1 |..| 1)
+				find_files_cmd.set_follow_symbolic_links (True)
+				find_files_cmd.set_working_directory (target_parent)
+				log_or_io.put_path_field ("Working", find_files_cmd.working_directory)
 				log_or_io.put_new_line
-				find_files_command.execute
+				find_files_cmd.execute
 
-				across find_files_command.path_list as found_path loop
+				across find_files_cmd.path_list as found_path loop
 					create path_steps
 					path_steps.append (found_path.item.parent.steps)
 					path_steps.extend (found_path.item.base)

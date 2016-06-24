@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-04 13:19:13 GMT (Friday 4th March 2016)"
+	date: "2016-06-24 9:14:19 GMT (Friday 24th June 2016)"
 	revision: "7"
 
 deferred class
@@ -20,10 +20,15 @@ inherit
 		end
 
 	EL_MODULE_BUILD_INFO
+
 	EL_MODULE_EXCEPTIONS
+
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
 	EL_MODULE_DIRECTORY
+
 	EL_MODULE_FILE_SYSTEM
+
 	EL_MODULE_IMAGE_PATH
 
 feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
@@ -118,7 +123,7 @@ feature -- Access
 			end
 		end
 
-	installer: EL_APPLICATION_INSTALLER
+	installer: EL_APPLICATION_INSTALLER_I
 		do
 			Result := Default_installer
 		end
@@ -133,7 +138,7 @@ feature -- Basic operations
 	install
 		do
 			installer.set_description (single_line_description)
-			installer.set_command_option_name (option_name.as_string_8)
+			installer.set_command_option_name (option_name)
 			installer.set_input_path_option_name (Input_path_option_name)
 			installer.install
 		end
@@ -197,7 +202,7 @@ feature {NONE} -- Element change
 	set_app_configuration_option_name (a_name: STRING)
 			-- set once attribute 'Application_sub_option' in class EL_APPLICATION_CONFIG_CELL
 		local
-			config_cell: EL_APPLICATION_CONFIG_CELL [EL_FILE_PERSISTENT_IMPL]
+			config_cell: EL_APPLICATION_CONFIG_CELL [EL_FILE_PERSISTENT_IMP]
 		do
 			create config_cell.make_from_option_name (a_name)
 		end
@@ -325,11 +330,6 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	User_data_directories: ARRAY [EL_DIR_PATH]
-		once
-			Result := << Directory.User_data, Directory.User_configuration >>
-		end
-
 	io_put_header (a_log_filters: like log_filter_array)
 		local
 			build_version, test: STRING
@@ -371,23 +371,28 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Factory routines
 
-	new_menu_item (a_name, a_comment: STRING_8; a_icon_path: EL_FILE_PATH): EL_DESKTOP_MENU_ITEM
+	new_menu_item (a_name, a_comment: ZSTRING; a_icon_path: EL_FILE_PATH): EL_DESKTOP_MENU_ITEM
 			-- User defined submenu
 		do
 			create Result.make (a_name, a_comment, a_icon_path)
 		end
 
-	new_launcher (a_name: STRING; a_icon_path: EL_FILE_PATH): EL_DESKTOP_LAUNCHER
+	new_launcher (a_name: ZSTRING; a_icon_path: EL_FILE_PATH): EL_DESKTOP_LAUNCHER
 			--
 		do
 			create Result.make (a_name, "", a_icon_path)
 		end
 
-feature {EL_APPLICATION_INSTALLER} -- Constants
+	new_context_menu_installer (menu_path: ZSTRING): EL_APPLICATION_INSTALLER_I
+		do
+			create {EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_IMP} Result.make (menu_path)
+		end
+
+feature {EL_APPLICATION_INSTALLER_I} -- Constants
 
 	Default_installer: EL_DO_NOTHING_INSTALLER
 		once
-			create Result
+			create Result.make_default
 		end
 
 	Log_output_directory: EL_DIR_PATH
@@ -460,6 +465,16 @@ feature {EL_APPLICATION_INSTALLER} -- Constants
 	English_integer: STRING
 		once
 			Result := "integer"
+		end
+
+	For_user_directories: ARRAY [FUNCTION [EL_STANDARD_DIRECTORY_I, TUPLE [ZSTRING], EL_DIR_PATH]]
+		once
+			Result := << agent Directory.data_dir_for_user, agent Directory.configuration_dir_for_user >>
+		end
+
+	User_data_directories: ARRAY [EL_DIR_PATH]
+		once
+			Result := << Directory.User_data, Directory.User_configuration >>
 		end
 
 end

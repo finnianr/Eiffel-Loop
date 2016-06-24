@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-02-04 13:57:18 GMT (Thursday 4th February 2016)"
+	date: "2016-06-20 17:59:27 GMT (Monday 20th June 2016)"
 	revision: "8"
 
 deferred class
@@ -265,16 +265,12 @@ feature -- Element change
 		require
 			current_not_a_file: not is_file
 		do
-			if not a_file_path.is_empty then
-				append (a_file_path)
-			end
+			append (a_file_path)
 		end
 
 	append_dir_path (a_dir_path: EL_DIR_PATH)
 		do
-			if not a_dir_path.is_empty then
-				append (a_dir_path)
-			end
+			append (a_dir_path)
 		end
 
 	add_extension (a_extension: ZSTRING)
@@ -328,21 +324,25 @@ feature -- Element change
 
 	set_parent_path (a_parent: ZSTRING)
 		local
-			l_parent_set: like Parent_set
+			l_parent_set: like Parent_set; l_parent: ZSTRING
 		do
-			if a_parent.is_empty then
-				parent_path := a_parent
+			l_parent  := a_parent.twin
+			if l_parent.is_empty then
+				parent_path := l_parent
 			else
+				if l_parent [l_parent.count] /= Separator then
+					l_parent.append_character (Separator)
+				end
 				l_parent_set := Parent_set
-				l_parent_set.search (a_parent)
+				l_parent_set.search (l_parent)
 				if l_parent_set.found then
 					parent_path := l_parent_set.found_item
 				else
-					l_parent_set.force_new (a_parent)
-					parent_path := a_parent
+					l_parent_set.force_new (l_parent)
+					parent_path := l_parent
 				end
 			end
-			is_absolute := is_path_absolute (a_parent)
+			is_absolute := is_path_absolute (l_parent)
 		end
 
 	set_version_number (number: like version_number)
@@ -507,7 +507,7 @@ feature -- Contract Support
 			end
 		end
 
-feature {EL_PATH} -- Implementation
+feature {EL_PATH, STRING_HANDLER} -- Implementation
 
 	append (a_path: EL_PATH)
 		require
@@ -515,17 +515,19 @@ feature {EL_PATH} -- Implementation
 		local
 			l_parent: ZSTRING
 		do
-			create l_parent.make (parent_path.count + base.count + parent_path.count + 2)
-			l_parent.append (parent_path)
-			l_parent.append (base)
-			if not base.is_empty then
-				l_parent.append_unicode (Separator.natural_32_code)
+			if not a_path.is_empty then
+				create l_parent.make (parent_path.count + base.count + parent_path.count + 2)
+				l_parent.append (parent_path)
+				l_parent.append (base)
+				if not base.is_empty then
+					l_parent.append_unicode (Separator.natural_32_code)
+				end
+				if not a_path.parent_path.is_empty then
+					l_parent.append (a_path.parent_path)
+				end
+				set_parent_path (l_parent)
+				base := a_path.base
 			end
-			if not a_path.parent_path.is_empty then
-				l_parent.append (a_path.parent_path)
-			end
-			set_parent_path (l_parent)
-			base := a_path.base
 		end
 
 	parent_path: ZSTRING

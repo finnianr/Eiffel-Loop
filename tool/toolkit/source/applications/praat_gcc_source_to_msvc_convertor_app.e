@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-21 11:21:10 GMT (Thursday 21st January 2016)"
+	date: "2016-05-16 17:34:23 GMT (Monday 16th May 2016)"
 	revision: "7"
 
 class
@@ -257,9 +257,9 @@ feature {NONE} -- Constants
 			Result := "praat.c"
 		end
 
-	Installer: EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER
+	Installer: EL_APPLICATION_INSTALLER_I
 		once
-			create Result.make ("Eiffel Loop/Development/Convert Praat source for Visual C++")
+			Result := new_context_menu_installer ("Eiffel Loop/Development/Convert Praat source for Visual C++")
 		end
 
 	Log_filter: ARRAY [like Type_logging_filter]

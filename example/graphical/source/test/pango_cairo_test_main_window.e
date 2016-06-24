@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 18:21:56 GMT (Saturday 26th December 2015)"
+	date: "2016-06-24 8:19:18 GMT (Friday 24th June 2016)"
 	revision: "5"
 
 class
@@ -24,6 +24,11 @@ inherit
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
+		undefine
+			default_create, copy, is_equal
+		end
+
+	EL_MODULE_VISION_2
 		undefine
 			default_create, copy, is_equal
 		end
@@ -64,15 +69,15 @@ feature {NONE} -- Initialization
 			cell.set_minimum_size (l_pixmap.width, l_pixmap.height)
 
 			create pixmap_cell.make_with_container (cell, agent new_pixmap)
-			picture_box := GUI.horizontal_box (0.3, 0.0, << cell >>)
+			picture_box := Vision_2.new_horizontal_box (0.3, 0.0, << cell >>)
 			picture_box.set_background_color (GUI.White)
 			extend (
-				GUI.vertical_box (0.1, 0.1, <<
+				Vision_2.new_vertical_box (0.1, 0.1, <<
 					picture_box,
-					GUI.horizontal_box (0.2, 0.1, <<
-						GUI.label ("Font:"), font_list_drop_down,
-						GUI.label ("Size:"), size_drop_down,
-						GUI.label ("Angle:"), text_angle_drop_down,
+					Vision_2.new_horizontal_box (0.2, 0.1, <<
+						Vision_2.new_label ("Font:"), font_list_drop_down,
+						Vision_2.new_label ("Size:"), size_drop_down,
+						Vision_2.new_label ("Angle:"), text_angle_drop_down,
 						create {EL_EXPANDED_CELL}
 					>>)
 				>>)
@@ -104,7 +109,7 @@ feature {NONE} -- Implementation
 
 	new_pixmap: EL_PIXMAP
 		do
-			Result := new_pixel_buffer (GUI.font_regular (font_family.to_latin_1, font_size)).to_pixmap
+			Result := new_pixel_buffer (Vision_2.new_font_regular (font_family.to_latin_1, font_size)).to_pixmap
 		end
 
 	new_pixel_buffer (title_font: EL_FONT): EL_DRAWABLE_PIXEL_BUFFER

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 23:25:22 GMT (Friday 18th December 2015)"
+	date: "2016-06-19 12:03:23 GMT (Sunday 19th June 2016)"
 	revision: "7"
 
 class
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 			log.put_line (copied_file_path.to_string)
 
 			if mp3_path.exists then
-				file_system.copy (mp3_path, copied_file_path)
+				file_system.copy_file (mp3_path, copied_file_path)
 				mp3_path := copied_file_path
 			end
 		end

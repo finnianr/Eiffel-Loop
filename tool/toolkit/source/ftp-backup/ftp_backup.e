@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-15 13:42:23 GMT (Tuesday 15th March 2016)"
+	date: "2016-06-24 9:20:28 GMT (Friday 24th June 2016)"
 	revision: "8"
 
 class
@@ -43,7 +43,7 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
 feature -- Access
 
-	environment_variables: EVOLICITY_CONTEXT_IMPL
+	environment_variables: EVOLICITY_CONTEXT_IMP
 
 feature -- Status query
 

@@ -6,6 +6,6 @@ environ ['EIFFEL_NUMERICAL'] = '$EIFFEL_LOOP/contrib/Eiffel/NEL-math'
 
 version = (1, 0, 0)
 
-installation_sub_directory = 'Eiffel-Loop'
+installation_sub_directory = 'Eiffel-Loop/EROS'
 
 tests = None

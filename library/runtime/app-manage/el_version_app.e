@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_VERSION_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-04-06 10:47:34 GMT (Monday 6th April 2015)"
-	revision: "6"
+	date: "2016-04-22 10:58:02 GMT (Friday 22nd April 2016)"
+	revision: "7"
 
 class
 	EL_VERSION_APP
@@ -38,12 +38,12 @@ feature -- Basic operations
 	run
 			--
 		local
-			version_out: EL_PLAIN_TEXT_FILE
+			version_out: PLAIN_TEXT_FILE
 		do
 			if not file_path.is_empty then
 				File_system.make_directory (file_path.parent)
 				create version_out.make_open_write (file_path)
-				version_out.put_string_8 (Build_info.version.string)
+				version_out.put_string (Build_info.version.string)
 				version_out.close
 			end
 		end

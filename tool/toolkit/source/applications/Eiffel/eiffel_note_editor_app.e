@@ -13,7 +13,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-04 18:36:09 GMT (Friday 4th March 2016)"
+	date: "2016-05-16 17:34:51 GMT (Monday 16th May 2016)"
 	revision: "11"
 
 class
@@ -77,9 +77,9 @@ feature {NONE} -- Constants
 		revision number.
 	]"
 
-	Installer: EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER
+	Installer: EL_APPLICATION_INSTALLER_I
 		once
-			create Result.make ("Eiffel Loop/Development/Set note field defaults")
+			Result := new_context_menu_installer ("Eiffel Loop/Development/Set note field defaults")
 		end
 
 	Log_filter: ARRAY [like Type_logging_filter]

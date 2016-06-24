@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_INSTALLER_CONSTANTS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-07-04 9:27:30 GMT (Saturday 4th July 2015)"
-	revision: "6"
+	date: "2016-04-10 11:35:50 GMT (Sunday 10th April 2016)"
+	revision: "7"
 
 class
 	EL_INSTALLER_CONSTANTS
@@ -17,22 +17,15 @@ inherit
 
 feature {NONE} -- Constants
 
-	Package_dir_steps: EL_PATH_STEPS
+	Package_dir: EL_DIR_PATH
 		once
 			if Execution_environment.is_work_bench_mode then
-				Result := << "package", Execution_environment.item ("ISE_PLATFORM").to_string_8 >>
+				Result := "package/$ISE_PLATFORM"; Result.expand
 					-- Eg. "package/win64"
 			else
 				-- This is assumed to be the directory 'package/bin' unpacked by installer to a temporary directory
-				Result := Command_dir_steps.twin
-				Result.remove_tail (1)
+				Result := Execution_environment.executable_path.parent.parent
 			end
-		end
-
-	Command_dir_steps: EL_PATH_STEPS
-		-- location of executable
-		once
-			Result := Execution_environment.executable_path.parent
 		end
 
 end

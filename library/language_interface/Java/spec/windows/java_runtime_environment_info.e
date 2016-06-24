@@ -2,12 +2,12 @@
 	description: "Obtains location of Java runtime dll from Windows registry"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "4"
+	date: "2016-06-22 15:42:35 GMT (Wednesday 22nd June 2016)"
+	revision: "5"
 
 class
 	JAVA_RUNTIME_ENVIRONMENT_INFO
@@ -23,8 +23,7 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			registry: WEL_REGISTRY
-			key: POINTER
+			registry: WEL_REGISTRY; key: POINTER
 			current_version: STRING
 			jvm_path_steps: EL_PATH_STEPS
 		do

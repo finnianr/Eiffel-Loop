@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 18:14:07 GMT (Saturday 26th December 2015)"
+	date: "2016-06-22 15:18:17 GMT (Wednesday 22nd June 2016)"
 	revision: "5"
 
 class
@@ -40,7 +40,7 @@ feature -- Basic operations
 		do
 			normal_initialize
 			Test.do_file_tree_test ("sample-source", agent write_class_manifest, 3687286250)
-			File_system.delete (create {EL_FILE_PATH}.make ("velocity.log"))
+			File_system.delete_file (create {EL_FILE_PATH}.make ("velocity.log"))
 			Java_packages.close
 		end
 
@@ -143,7 +143,7 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{APACHE_VELOCITY_TEST_APP}, "*"],
-				[{JAVA_PACKAGE_ENVIRONMENT}, "*"],
+				[{JAVA_PACKAGE_ENVIRONMENT_I}, "*"],
 				[{EL_TEST_ROUTINES}, "*"]
 			>>
 		end

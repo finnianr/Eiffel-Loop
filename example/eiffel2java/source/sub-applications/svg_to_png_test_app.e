@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 18:14:02 GMT (Saturday 26th December 2015)"
+	date: "2016-06-22 15:18:17 GMT (Wednesday 22nd June 2016)"
 	revision: "4"
 
 class
@@ -101,8 +101,8 @@ feature {NONE} -- Constants
 			Result := <<
 				[{SVG_TO_PNG_TEST_APP}, "*"],
 				[{EL_TEST_ROUTINES}, "*"],
-				[{JAVA_PACKAGE_ENVIRONMENT}, "*"],
-				[{JAVA_PACKAGE_ENVIRONMENT}, "*"]
+				[{JAVA_PACKAGE_ENVIRONMENT_I}, "*"],
+				[{JAVA_PACKAGE_ENVIRONMENT_I}, "*"]
 			>>
 		end
 

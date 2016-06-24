@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_MS_WINDOWS_DIRECTORIES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-07-09 7:50:28 GMT (Thursday 9th July 2015)"
-	revision: "5"
+	date: "2016-05-15 12:20:40 GMT (Sunday 15th May 2016)"
+	revision: "6"
 
 class
 	EL_MS_WINDOWS_DIRECTORIES
@@ -32,7 +32,7 @@ feature -- Access
 			Result := win_folder_path (Folder.desktop)
 		end
 
-	User_profile_dir: EL_DIR_PATH
+	User, User_profile_dir: EL_DIR_PATH
 		once
 			Result := win_folder_path (Folder.user_profile)
 		end
@@ -54,7 +54,7 @@ feature -- Access
 			Result := win_folder_path (Folder.system)
 		end
 
-	Executable_extensions_spec: ASTRING
+	Executable_extensions_spec: ZSTRING
 		once
 			Result := item ("PATHEXT")
 		end

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-17 10:11:01 GMT (Sunday 17th January 2016)"
+	date: "2016-06-20 6:51:59 GMT (Monday 20th June 2016)"
 	revision: "7"
 
 class
@@ -37,8 +37,6 @@ feature {NONE} -- Implementation
 
 				{DECLARATIVE_XPATH_PROCESSING_TEST_APP},
 
-				{TEST_APP},
-				{TEST_OS_COMMANDS_APP},
 
 				{RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP},
 
@@ -52,7 +50,7 @@ feature {NONE} -- Implementation
 
 				{EYED3_TAG_TEST_APP},
 
-				{TEST_SETS_APP},
+				{AUTOTEST_DEVELOPMENT_APP},
 				{TEST_SIMPLE_CLIENT},
 				{TEST_SIMPLE_SERVER},
 				{TEST_VTD_XML_APP},

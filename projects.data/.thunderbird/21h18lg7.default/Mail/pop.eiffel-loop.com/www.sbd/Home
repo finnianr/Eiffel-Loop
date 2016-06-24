@@ -1,0 +1,138 @@
+From - Thu Mar 31 12:45:39 2011
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+FCC: mailbox://finnian%40eiffel-loop.com@pop.eiffel-loop.com/Sent
+X-Identity-Key: id2
+Message-ID: <4D946963.5010709@eiffel-loop.com>
+Date: Thu, 31 Mar 2011 12:45:39 +0100
+From: Finnian Reilly <finnian@eiffel-loop.com>
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; uuencode=0
+User-Agent: Thunderbird 2.0.0.24 (X11/20100317)
+MIME-Version: 1.0
+Subject: Installing Eiffel Loop
+Content-Type: text/html; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Installing Eiffel Loop</title>
+</head>
+<body menu_name="Installing"
+ description="How to install Eiffel Loop and build applications"
+ keywords="Installation">
+<h1><a class="mozTocH2" name="mozTocId161302"></a>Installation<br>
+</h1>
+Unpack the distribution archive to a preferred location. Eiffel Loop
+has it's own scons based build system supported by a Python module. A
+setup script <i>setup.py</i> is provided in the Eiffel Loop root
+directory to install this Python module. Open a command terminal and
+run this command from the Eiffel-Loop directory.
+<pre>sudo python setup.py install --install-scripts=~/bin</pre>
+As well as some extensions to Scons it will also install a
+script that configures the project environment for EiffelStudio based
+on a dictionary table in a project file <i>project.py. </i>The script
+is named: <i>launch_estudio.py<br>
+<br>
+</i>If you omit the <i>--install-scripts </i>option from the setup
+command the script will be installed in <i>/usr/bin. </i><br>
+<p>Each example project directory contains in addition to the ecf
+files, the two files: <i>project.py </i>and <i>SConstruct. </i>The <i>SConstruct
+</i>is a standard file which is the same for all Eiffel Loop projects.
+The file <i>project.py </i>contains environment variable
+configuration table.<br>
+</p>
+<h1>Setup</h1>
+<p></p>
+<h2><a class="mozTocH2" name="mozTocId958864"></a>The scons extension
+module<br>
+</h2>
+Eiffel Loop has a Python module <i>eiffel_loop.scons.eiffel </i>for
+building Eiffel finalized and frozen projects. It does not do
+dependency checking on Eiffel source files. It only compares the ecf
+project file and the F_code or W_code target executable. To force a
+rebuild either delete the executable or resave the ecf project file so
+it appears to scons as modified.<br>
+<h2><a class="mozTocH3" name="mozTocId905886"></a>Environment variables</h2>
+The <i>eiffel_loop.scons.eiffel</i> builder constructs a project
+environment using the <i>environ</i> dictionary specified in the
+standard file <i>project.py </i>located in the project directory<i>.</i><br>
+<h2><a class="mozTocH3" name="mozTocId836368"></a>Precompiles</h2>
+Any Eiffel precompiled libraries are built using the standard <i>SConstruct</i>
+located in the <i>Eiffel-Loop/precomp </i>directory. <br>
+<h2><a class="mozTocH3" name="mozTocId951184"></a>C libraries</h2>
+<p>The <i>eiffel_loop.scons.eiffel</i> builder scans the project for C
+libraries. If the library does not exist but there is a SConstruct file
+in the parent directory then that SConstruct is included in the build.<br>
+</p>
+<h2><a class="mozTocH3" name="mozTocId50391"></a>Graphics</h2>
+The <i>eiffel_loop.scons.eiffel</i> builder scans the project for
+three kinds of special variable tags describing the location of
+graphics for use with the class <i>EL_IMAGE_PATH_ROUTINES</i>:<br>
+<pre>&lt;variable name="icons" value="graphics/icons"/&gt;
+
+&lt;variable name="desktop-icons" value="graphics/desktop-icons"/&gt;
+
+&lt;variable name="images" value="graphics/images"/&gt;</pre>
+The paths in the value attribute are relative to the project directory.
+Under Unix these graphics directories will be installed in the
+directory:<br>
+<pre>/&lt;user&gt;/home/.local/share/&lt;executable name&gt;
+</pre>
+The graphics will be installed in one of three sub directories: <i>icons,
+images</i> and <i>desktop-icons.</i><br>
+<p>Absolute&nbsp;paths for these graphics can be obtained by calling
+one of the functions <i>icon, image </i>or<i> desktop_menu_icon </i>from
+class <i>EL_IMAGE_PATH_ROUTINES. </i>Each of these functions takes a
+file path argument relative to the standard directories: <i>icons,
+images</i> and <i>desktop-icons</i>. A global instance of <i>EL_IMAGE_PATH_ROUTINES
+</i>is obtainable from class <i>EL_MODULE_IMAGE_PATH </i>as <i>Image_path.</i></p>
+<h1><a class="mozTocH2" name="mozTocId455970"></a>Building the demo
+applications</h1>
+<h3><a class="mozTocH3" name="mozTocId464763"></a>Finalized applications</h3>
+To build a finalized application open a command terminal and set the
+current directory to: <i>Eiffel-Loop/apps/example/thread.<br>
+</i>First build the server:<br>
+<pre>scons finalize=yes project=server.ecf
+</pre>
+Then the client:<br>
+<pre>scons finalize=yes project=eros-test.ecf
+</pre>
+The first time the projects are built, some precompiled Eiffel
+libraries and C libraries dependencies will be built. The precompiled
+Eiffel libraries especially take some time to build.<br>
+<h3><a class="mozTocH3" name="mozTocId758292"></a>Frozen (or debug
+mode) applications</h3>
+To build the demo projects for use in the EiffelStudio IDE use the
+following commands:<br>
+<pre>scons freeze=yes project=server.ecf
+scons freeze=yes project=eros-test.ecf</pre>
+This will build "workbench mode" applications and install any
+associated graphics.<br>
+<h1><a class="mozTocH4" name="mozTocId677391"></a>Launching
+EiffelStudio<br>
+</h1>
+Do not launch EiffelStudio directly but instead use the script <i>launch_estudio.py
+</i>which is installed as part of the Eiffel Loop setup process. This
+script imports the table setting up the project environment variables
+from the script <i>project.py </i>found in each project directory. To
+use the script, open a command terminal and change to the project
+directory and type <i>launch_estudio.py </i>followed by the name of
+the project configuration file:<br>
+<pre>launch_estudio.py server.ecf
+</pre>
+OR<br>
+<pre>launch_estudio.py eros-test.ecf
+</pre>
+<h3><a class="mozTocH3" name="mozTocId677146"></a>Problem compiling</h3>
+<p>Make sure Python module <i>eiffel_loop.scons.eiffel </i>has been
+installed from the <i>python-support</i> directory. If not follow the
+instructions for installing Eiffel Loop using <i>setup.py.<br>
+</i></p>
+<p>Make sure you are using SCons Ver 1.2. It may work with an earlier
+version but this hasn't been tested.<br>
+</p>
+</body>
+</html>
+

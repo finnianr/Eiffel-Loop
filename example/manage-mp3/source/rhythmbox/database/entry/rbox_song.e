@@ -8,7 +8,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 20:41:50 GMT (Monday 28th December 2015)"
+	date: "2016-06-20 7:38:37 GMT (Monday 20th June 2016)"
 	revision: "8"
 
 class
@@ -297,7 +297,7 @@ feature -- Element change
 			mp3_path := unique_normalized_mp3_path
 
 			File_system.make_directory (mp3_path.parent)
-			File_system.move (old_mp3_path, mp3_path)
+			File_system.move_file (old_mp3_path, mp3_path)
 			if old_mp3_path.parent.exists then
 				File_system.delete_empty_branch (old_mp3_path.parent)
 			end

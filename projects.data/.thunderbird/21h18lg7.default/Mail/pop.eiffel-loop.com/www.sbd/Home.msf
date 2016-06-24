@@ -1,0 +1,166 @@
+// <!-- <mdb:mork:z v="1.4"/> -->
+< <(a=c)> // (f=iso-8859-1)
+  (B8=columnStates)(B9=useServerRetention)(BA=smartFolderName)
+  (BB=MRMTime)(BC=storeToken)(BD=gloda-id)(BE=ProtoThreadFlags)
+  (BF=gloda-dirty)(C0=sender_name)(C1=junkscore)
+  (80=ns:msg:db:row:scope:msgs:all)(81=subject)(82=sender)(83=message-id)
+  (84=references)(85=recipients)(86=date)(87=size)(88=flags)(89=priority)
+  (8A=label)(8B=statusOfset)(8C=numLines)(8D=ccList)(8E=bccList)
+  (8F=msgThreadId)(90=threadId)(91=threadFlags)(92=threadNewestMsgDate)
+  (93=children)(94=unreadChildren)(95=threadSubject)(96=msgCharSet)
+  (97=ns:msg:db:table:kind:msgs)(98=ns:msg:db:table:kind:thread)
+  (99=ns:msg:db:table:kind:allthreads)
+  (9A=ns:msg:db:row:scope:threads:all)(9B=threadParent)(9C=threadRoot)
+  (9D=msgOffset)(9E=offlineMsgSize)
+  (9F=ns:msg:db:row:scope:dbfolderinfo:all)
+  (A0=ns:msg:db:table:kind:dbfolderinfo)(A1=numMsgs)(A2=numNewMsgs)
+  (A3=folderSize)(A4=expungedBytes)(A5=folderDate)(A6=highWaterKey)
+  (A7=mailboxName)(A8=UIDValidity)(A9=totPendingMsgs)
+  (AA=unreadPendingMsgs)(AB=expiredMark)(AC=version)
+  (AD=fixedBadRefThreading)(AE=charSetOverride)(AF=charSet)
+  (B0=folderName)(B1=MRUTime)(B2=sortType)(B3=sortOrder)(B4=viewFlags)
+  (B5=viewType)(B6=LastPurgeTime)(B7=sortColumns)>
+<(81=0)(9D=4d946963)(80=1)>[1:m(^9C=0)(^90=0)(^92^9D)(^91=0)(^93=1)]
+
+<(99=21)(9A=Finnian Reilly <finnian@eiffel-loop.com>)(9B
+    =Installing Eiffel Loop)(9C=4D946963.5010709@eiffel-loop.com)(9E
+    =ISO-8859-1)(9F=1a2f)(A0=7a)(A1=ffffffff)(A3=1580|Finnian Reilly)>
+{0:^80 {(k^98:c)(s=9)1:m } [0(^9D=0)(^BC=0)(^88=1)(^8A=0)(^8B=21)(^82^9A)
+    (^85^9A)(^81^9B)(^83^9C)(^86^9D)(^89=1)(^96^9E)(^87^9F)(^8C=7a)
+    (^9B^A1)(^8F=0)(^BD=0)(^BE=0)(^BF=0)(^C0^A3)]}
+{1:^80 {(k^97:c)(s=9)} 0 }
+{FFFFFFFD:^9A {(k^99:c)(s=9)} 
+  [0(^95^9B)]}
+
+<(A4=57599ca7)(83=139b0)(86=4)(87=www.eiffel-loop.com)(94=Home)(98
+    =1465490599)(8A=12)(8B=2)(8C=Thu Jan 10 16:39:51 2013)(8D=)(8E
+    ={"threadCol":{"visible":true,"ordinal":"1"},"flaggedCol":{"visible":true,\
+"ordinal":"3"},"attachmentCol":{"visible":true,"ordinal":"5"},"subjectCol":{"v\
+isible":true,"ordinal":"7"},"unreadButtonColHeader":{"visible":true,"ordinal":\
+"9"},"senderCol":{"visible":true,"ordinal":"11"},"recipientCol":{"visible":fal\
+se,"ordinal":"13"},"junkStatusCol":{"visible":true,"ordinal":"15"},"receivedCo\
+l":{"visible":false,"ordinal":"17"},"dateCol":{"visible":true,"ordinal":"19"},\
+"statusCol":{"visible":false,"ordinal":"21"},"sizeCol":{"visible":false,"ordin\
+al":"23"},"tagsCol":{"visible":false,"ordinal":"25"},"accountCol":{"visible":f\
+alse,"ordinal":"27"},"priorityCol":{"visible":false,"ordinal":"29"},"unreadCol\
+":{"visible":false,"ordinal":"31"},"totalCol":{"visible":false,"ordinal":"33"}\
+,"locationCol":{"visible":false,"ordinal":"35"},"idCol":{"visible":false,"ordi\
+nal":"37"}})>
+{1:^9F {(k^A0:c)(s=9u)} 
+  [1(^AC=1)(^AD=1)(^A3^9F)(^A5^A4)(^A1=1)(^A6^83)(^88=4)(^A7^87)(^B0^94)
+    (^B1^98)(^A2=0)(^B2=12)(^B3=2)(^B4=0)(^B5=0)(^B6^8C)(^A4=0)(^B7=)
+    (^B8^8E)(^B9=1)(^BB^98)]}
+
+@$${24{@
+< <(a=c)> // (f=iso-8859-1)
+  (C2=keywords)>
+@$$}24}@
+
+@$${25{@
+@$$}25}@
+
+@$${26{@
+<(A5=74d8)>[0:^80(^BD^A5)]
+@$$}26}@
+
+@$${28{@
+<(A6=1465490641)>[1:^9F(^B1^A6)]
+@$$}28}@
+
+@$${29{@
+< <(a=c)> // (f=iso-8859-1)
+  (C3=customSortCol)(C4=retainBy)(C5=daysToKeepHdrs)(C6=numHdrsToKeep)
+  (C7=daysToKeepBodies)(C8=keepUnreadOnly)(C9=useServerDefaults)
+  (CA=cleanupBodies)(CB=applyToFlaggedMessages)>
+@$$}29}@
+
+@$${2A{@
+@$$}2A}@
+
+@$${2B{@
+< <(a=c)> // (f=iso-8859-1)
+  (CC=imageSize)>
+@$$}2B}@
+
+@$${2D{@
+<(A7=1465490652)>[1:^9F(^B1^A7)]
+@$$}2D}@
+
+@$${2E{@
+@$$}2E}@
+
+@$${2F{@
+@$$}2F}@
+
+@$${31{@
+<(A8=1465490807)>[1:^9F(^B1^A8)]
+@$$}31}@
+
+@$${32{@
+@$$}32}@
+
+@$${33{@
+@$$}33}@
+
+@$${34{@
+<(A9=1465490852)>[1:^9F(^B1^A9)]
+@$$}34}@
+
+@$${35{@
+@$$}35}@
+
+@$${36{@
+@$$}36}@
+
+@$${38{@
+<(AA=1465490911)>[1:^9F(^B1^AA)]
+@$$}38}@
+
+@$${39{@
+@$$}39}@
+
+@$${3A{@
+@$$}3A}@
+
+@$${3C{@
+[1:^9F(^B0=)]
+@$$}3C}@
+
+@$${3D{@
+<(AB=www - Home)>[1:^9F(^B0^AB)]
+@$$}3D}@
+
+@$${3E{@
+<(AC=1465490916)>[1:^9F(^B1^AC)]
+@$$}3E}@
+
+@$${3F{@
+@$$}3F}@
+
+@$${41{@
+<(AD=1465490982)>[1:^9F(^B1^AD)]
+@$$}41}@
+
+@$${42{@
+@$$}42}@
+
+@$${43{@
+@$$}43}@
+
+@$${44{@
+@$$}44}@
+
+@$${46{@
+[1:^9F(^B0=)]
+@$$}46}@
+
+@$${47{@
+[1:^9F(^B0^94)]
+@$$}47}@
+
+@$${48{@
+<(AE=1465490985)>[1:^9F(^B1^AE)]
+@$$}48}@
+
+@$${49{@
+@$$}49}@

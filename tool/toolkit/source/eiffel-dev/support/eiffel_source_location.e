@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 10:51:36 GMT (Friday 18th December 2015)"
+	date: "2016-04-04 10:23:52 GMT (Monday 4th April 2016)"
 	revision: "8"
 
 class
@@ -41,8 +41,8 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			create file_list.make_empty
 			create name.make_empty
+			create dir_path
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 		end
@@ -51,7 +51,12 @@ feature -- Access
 
 	name: ZSTRING
 
+	dir_path: EL_DIR_PATH
+
 	file_list: EL_FILE_PATH_LIST
+		do
+			create Result.make (dir_path, "*.e")
+		end
 
 feature -- Comparison
 
@@ -74,22 +79,11 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Build from Pyxis
 
-	append_files
-			--
-		local
-			dir_path_steps: EL_PATH_STEPS
-		do
-			dir_path_steps := node.to_string
-			dir_path_steps.expand_variables
-			file_list.append_files (dir_path_steps, "*.e")
-		end
-
 	building_action_table: like Type_building_actions
-			-- Nodes relative to root element: bix
 		do
 			create Result.make (<<
 				["@name", agent do name := node.to_string end],
-				["text()", agent append_files]
+				["text()", agent do dir_path := node.to_string; dir_path.expand end]
 			>>)
 		end
 end

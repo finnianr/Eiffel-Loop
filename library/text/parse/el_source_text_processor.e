@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 14:29:07 GMT (Sunday 20th December 2015)"
+	date: "2016-04-08 13:26:53 GMT (Friday 8th April 2016)"
 	revision: "7"
 
 class
@@ -16,11 +16,13 @@ inherit
 	EL_FILE_PARSER
 		rename
 			new_pattern as delimiting_pattern,
+			pattern as delimiting_pattern,
 			find_all as do_all
 		export
 			{NONE} all
 			{ANY} do_all, fully_matched,
-				set_source_text, set_unmatched_action, set_source_text_from_line_source, set_source_text_from_file
+				set_source_text, set_unmatched_action, set_source_text_from_line_source, set_source_text_from_file,
+				delimiting_pattern
 		end
 
 	EL_ZTEXT_PATTERN_FACTORY
@@ -30,10 +32,6 @@ inherit
 
 create
 	make_with_delimiter
-
-feature -- Access
-
-	delimiting_pattern: EL_TEXT_PATTERN
 
 feature {NONE} -- Initialization
 

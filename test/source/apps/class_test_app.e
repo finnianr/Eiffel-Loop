@@ -2,12 +2,12 @@
 	description: "Summary description for {CLASS_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 14:53:14 GMT (Thursday 1st January 2015)"
-	revision: "4"
+	date: "2016-06-21 7:48:41 GMT (Tuesday 21st June 2016)"
+	revision: "5"
 
 class
 	CLASS_TEST_APP
@@ -17,6 +17,8 @@ inherit
 		redefine
 			Option_name
 		end
+
+	EL_MODULE_COMMAND
 
 create
 	make
@@ -194,32 +196,11 @@ feature -- Tests
 	find_files_command_on_root
 			--
 		local
-			find_files_cmd: EL_FIND_FILES_COMMAND
+			find_files_cmd: like Command.new_find_files
 		do
 			log.enter ("find_files_command_on_root")
-			create find_files_cmd.make ("/", "*.rc")
-			find_files_cmd.disable_recursion
-			find_files_cmd.execute
-			log.put_new_line
-			from find_files_cmd.path_list.start until find_files_cmd.path_list.after loop
-				log.put_line (find_files_cmd.path_list.item.to_string)
-				find_files_cmd.path_list.forth
-			end
-			log.exit
-		end
-
-	find_files_with_exclusions
-			--
-		local
-			find_files_cmd: EL_FIND_FILES_COMMAND
-		do
-			log.enter ("find_files_with_exclusions")
-			create find_files_cmd.make (Execution.item ("EIFFEL_LOOP") + "/C_library", All_routines)
-			find_files_cmd.exclude_path_containing_any_of (<<
-				"Make", "Expat", "WinCOM", "dirent", "audio"
-			>>)
-			find_files_cmd.exclude_path_ending (".h")
-			find_files_cmd.exclude_path_ending_any_of (<< "~", ".a", ".txt" >>)
+			find_files_cmd := Command.new_find_files ("/", "*.rc")
+			find_files_cmd.set_depth (1 |..| 1)
 			find_files_cmd.execute
 			log.put_new_line
 			from find_files_cmd.path_list.start until find_files_cmd.path_list.after loop

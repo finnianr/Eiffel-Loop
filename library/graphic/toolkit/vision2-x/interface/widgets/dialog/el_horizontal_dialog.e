@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_HORIZONTAL_DIALOG_2}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "5"
+	date: "2016-06-24 7:44:46 GMT (Friday 24th June 2016)"
+	revision: "6"
 
 deferred class
 	EL_HORIZONTAL_DIALOG
@@ -27,7 +27,7 @@ feature {NONE} -- Implementation
 
 	new_inner_box (widgets: ARRAY [EV_WIDGET]): EL_BOX
 		do
-			Result := GUI.vertical_box (0, Widget_separation_cms, widgets)
+			Result := Vision_2.new_vertical_box (0, Widget_separation_cms, widgets)
 		end
 
 feature {NONE} -- Dimensions

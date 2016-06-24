@@ -6,11 +6,11 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 7:09:14 GMT (Wednesday 16th December 2015)"
+	date: "2016-05-16 13:48:40 GMT (Monday 16th May 2016)"
 	revision: "6"
 
 class
-	EL_LINE_SOURCE_ITERATION_CURSOR [F -> FILE]
+	EL_LINE_SOURCE_ITERATION_CURSOR
 
 inherit
 	ITERATION_CURSOR [ZSTRING]
@@ -20,9 +20,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_line_source: like line_source)
+	make (a_lines: like lines)
 		do
-			line_source := a_line_source
+			lines := a_lines
 		end
 
 feature -- Access
@@ -30,19 +30,19 @@ feature -- Access
 	item: ZSTRING
 			-- Item at current cursor position.
 		do
-			Result := line_source.item
+			Result := lines.item
 		end
 
 	cursor_index: INTEGER
 		do
-			Result := line_source.index
+			Result := lines.index
 		end
 
 feature -- Status report	
 
 	after: BOOLEAN
 		do
-			Result := line_source.after
+			Result := lines.after
 		end
 
 feature -- Cursor movement
@@ -50,17 +50,17 @@ feature -- Cursor movement
 	start
 			-- Move to first position if any.
 		do
-			line_source.start
+			lines.start
 		end
 
 	forth
 			--
 		do
-			line_source.forth
+			lines.forth
 		end
 
 feature {NONE} -- Implementation
 
-	line_source: EL_LINE_SOURCE [F]
+	lines: LINEAR [ZSTRING]
 
 end

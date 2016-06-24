@@ -1,0 +1,93 @@
+// <!-- <mdb:mork:z v="1.4"/> -->
+< <(a=c)> // (f=iso-8859-1)
+  (B8=cleanupBodies)(B9=applyToFlaggedMessages)(BA=useServerRetention)
+  (BB=sortType)(BC=sortOrder)(BD=viewFlags)(BE=viewType)(BF=columnStates)
+  (C0=MRUTime)(C1=sortColumns)(C2=MRMTime)(C3=storeToken)(C4=account)
+  (C5=dateReceived)(C6=ProtoThreadFlags)(C7=origURIs)(C8=X-Identity-Key)
+  (C9=recipient_names)(CA=gloda-dirty)(CB=gloda-id)(CC=sender_name)
+  (CD=junkscore)(CE=keywords)(CF=customSortCol)(D0=imageSize)
+  (D1=LastPurgeTime)(80=ns:msg:db:row:scope:msgs:all)(81=subject)
+  (82=sender)(83=message-id)(84=references)(85=recipients)(86=date)
+  (87=size)(88=flags)(89=priority)(8A=label)(8B=statusOfset)(8C=numLines)
+  (8D=ccList)(8E=bccList)(8F=msgThreadId)(90=threadId)(91=threadFlags)
+  (92=threadNewestMsgDate)(93=children)(94=unreadChildren)
+  (95=threadSubject)(96=msgCharSet)(97=ns:msg:db:table:kind:msgs)
+  (98=ns:msg:db:table:kind:thread)(99=ns:msg:db:table:kind:allthreads)
+  (9A=ns:msg:db:row:scope:threads:all)(9B=threadParent)(9C=threadRoot)
+  (9D=msgOffset)(9E=offlineMsgSize)
+  (9F=ns:msg:db:row:scope:dbfolderinfo:all)
+  (A0=ns:msg:db:table:kind:dbfolderinfo)(A1=numMsgs)(A2=numNewMsgs)
+  (A3=folderSize)(A4=expungedBytes)(A5=folderDate)(A6=highWaterKey)
+  (A7=mailboxName)(A8=UIDValidity)(A9=totPendingMsgs)
+  (AA=unreadPendingMsgs)(AB=expiredMark)(AC=version)
+  (AD=fixedBadRefThreading)(AE=folderName)(AF=smartFolderName)
+  (B0=charSetOverride)(B1=charSet)(B2=retainBy)(B3=daysToKeepHdrs)
+  (B4=numHdrsToKeep)(B5=daysToKeepBodies)(B6=keepUnreadOnly)
+  (B7=useServerDefaults)>
+<(83=0)(98=5700fdbc)(80=1)>[1:m(^9C=0)(^90=0)(^92^98)(^91=0)(^93=1)]
+<(9A=73b)(A5=5759633f)>[2:m(^9C^9A)(^90^9A)(^92^A5)(^91=0)(^93=1)]
+
+<(93=21)(94=Finnian Reilly <finnian@eiffel-loop.com>)(95=Toolkit functions)
+  (96=4D94A700.1000105@eiffel-loop.com)(97=account1)(99=windows-1252)
+  (9B=1c)(9C=ffffffff)(9D
+    =mailbox-message://finnian%40eiffel-loop.com@pop.eiffel-loop.com/Drafts#28\
+0573)(9E=id1)(9F=1483|)(AE=74e7)(A1=1580|Finnian Reilly)>
+{0:^80 {(k^98:c)(s=9)1:m } [0(^9D=0)(^C3=0)(^88=1)(^8A=0)(^8B=21)(^82^94)
+    (^81^95)(^83^96)(^C4^97)(^86^98)(^C5^98)(^89=1)(^96^99)(^87^9A)
+    (^8C=1c)(^9B^9C)(^8F=0)(^C6=0)(^C7^9D)(^C8^9E)(^C9^9F)(^CA=0)(^CB^AE)
+    (^CC^A1)]}
+
+<(A2=1851)(A3=Development Tools)(A4=5759633F.6050700@eiffel-loop.com)
+  (A6=iso-8859-15)(A7=968)(A8=29)(A9=1580|)(B1=74e8)>
+{1:^80 {(k^97:c)(s=9)} 0 
+  [73B(^9D^9A)(^C3^A2)(^88=1)(^8A=0)(^8B=21)(^82^94)(^81^A3)(^83^A4)
+    (^C4^97)(^86^A5)(^C5^A5)(^89=1)(^96^A6)(^87^A7)(^8C=29)(^9B^9C)
+    (^8F^9A)(^C6=0)(^C8^9E)(^C9^A9)(^CA=0)(^CB^B1)(^CC^A1)]}
+{73B:^80 {(k^98:c)(s=9)2:m } 73B }
+{FFFFFFFD:^9A {(k^99:c)(s=9)} [0(^95^95)]
+  [73B(^95^A3)]}
+
+<(81=4)(82=www - Tools)(AC=10a3)(AD=57599cc9)(B9=1465490995)(86=12)
+  (87=)(88
+    ={"threadCol":{"visible":true,"ordinal":"1"},"flaggedCol":{"visible":true,\
+"ordinal":"3"},"attachmentCol":{"visible":true,"ordinal":"5"},"subjectCol":{"v\
+isible":true,"ordinal":"7"},"unreadButtonColHeader":{"visible":true,"ordinal":\
+"9"},"senderCol":{"visible":true,"ordinal":"11"},"recipientCol":{"visible":fal\
+se,"ordinal":"13"},"junkStatusCol":{"visible":true,"ordinal":"15"},"receivedCo\
+l":{"visible":false,"ordinal":"17"},"dateCol":{"visible":true,"ordinal":"19"},\
+"statusCol":{"visible":false,"ordinal":"21"},"sizeCol":{"visible":true,"ordina\
+l":"23"},"tagsCol":{"visible":false,"ordinal":"25"},"accountCol":{"visible":fa\
+lse,"ordinal":"27"},"priorityCol":{"visible":false,"ordinal":"29"},"unreadCol"\
+:{"visible":false,"ordinal":"31"},"totalCol":{"visible":false,"ordinal":"33"},\
+"locationCol":{"visible":false,"ordinal":"35"},"idCol":{"visible":false,"ordin\
+al":"37"}})(90=Tools)(92=1465490633)(AB=2)>
+{1:^9F {(k^A0:c)(s=9u)} 
+  [1(^AC=1)(^AD=1)(^88=4)(^A7^82)(^A3^AC)(^A5^AD)(^BA=1)(^C0^B9)(^BB=12)
+    (^BC=1)(^BD=0)(^BE=0)(^C1=)(^BF^88)(^AE^90)(^C2^92)(^A1=2)(^A6^9A)]}
+
+@$${5D{@
+@$$}5D}@
+
+@$${5E{@
+@$$}5E}@
+
+@$${5F{@
+@$$}5F}@
+
+@$${60{@
+@$$}60}@
+
+@$${61{@
+@$$}61}@
+
+@$${62{@
+@$$}62}@
+
+@$${63{@
+@$$}63}@
+
+@$${64{@
+@$$}64}@
+
+@$${65{@
+@$$}65}@

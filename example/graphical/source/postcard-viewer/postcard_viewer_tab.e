@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 18:21:49 GMT (Saturday 26th December 2015)"
+	date: "2016-06-24 8:19:28 GMT (Friday 24th June 2016)"
 	revision: "6"
 
 class
@@ -31,6 +31,11 @@ inherit
 		end
 
 	EL_MODULE_LOG
+		undefine
+			default_create, copy, is_equal
+		end
+
+	EL_MODULE_VISION_2
 		undefine
 			default_create, copy, is_equal
 		end
@@ -91,9 +96,9 @@ feature {NONE} -- Factory
 					postcard.set_with_named_file (image_path.item.unicode)
 					postcard.scale_to_width_cms (20)
 					Result.extend_unexpanded (
-						GUI.horizontal_box (0, 0, <<
+						Vision_2.new_horizontal_box (0, 0, <<
 							create {EL_EXPANDED_CELL},
-							GUI.vertical_box (0, 0.2, << GUI.label (image_path.item.base.to_unicode), postcard >>),
+							Vision_2.new_vertical_box (0, 0.2, << Vision_2.new_label (image_path.item.base.to_unicode), postcard >>),
 							create {EL_EXPANDED_CELL}
 						>>)
 					)

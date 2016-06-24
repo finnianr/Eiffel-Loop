@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 11:10:00 GMT (Friday 18th December 2015)"
+	date: "2016-04-22 10:59:49 GMT (Friday 22nd April 2016)"
 	revision: "7"
 
 class
@@ -57,6 +57,7 @@ feature -- Basic operations
 
 			create in_file.make_open_read (source_path)
 			create out_file.make_open_write (output_path)
+			out_file.enable_bom
 			out_file.set_encoding_from_other (encoding)
 
 			xml_generator.convert_stream (in_file, out_file)

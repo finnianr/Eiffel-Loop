@@ -1,0 +1,414 @@
+// <!-- <mdb:mork:z v="1.4"/> -->
+< <(a=c)> // (f=iso-8859-1)
+  (B8=cleanupBodies)(B9=applyToFlaggedMessages)(BA=useServerRetention)
+  (BB=sortType)(BC=sortOrder)(BD=viewFlags)(BE=viewType)(BF=columnStates)
+  (C0=MRUTime)(C1=sortColumns)(C2=MRMTime)(C3=storeToken)
+  (C4=dateReceived)(C5=ProtoThreadFlags)(C6=gloda-id)(C7=recipient_names)
+  (C8=sender_name)(C9=junkscore)(CA=account)(CB=X-Identity-Key)
+  (CC=gloda-dirty)(CD=origURIs)(80=ns:msg:db:row:scope:msgs:all)
+  (81=subject)(82=sender)(83=message-id)(84=references)(85=recipients)
+  (86=date)(87=size)(88=flags)(89=priority)(8A=label)(8B=statusOfset)
+  (8C=numLines)(8D=ccList)(8E=bccList)(8F=msgThreadId)(90=threadId)
+  (91=threadFlags)(92=threadNewestMsgDate)(93=children)
+  (94=unreadChildren)(95=threadSubject)(96=msgCharSet)
+  (97=ns:msg:db:table:kind:msgs)(98=ns:msg:db:table:kind:thread)
+  (99=ns:msg:db:table:kind:allthreads)
+  (9A=ns:msg:db:row:scope:threads:all)(9B=threadParent)(9C=threadRoot)
+  (9D=msgOffset)(9E=offlineMsgSize)
+  (9F=ns:msg:db:row:scope:dbfolderinfo:all)
+  (A0=ns:msg:db:table:kind:dbfolderinfo)(A1=numMsgs)(A2=numNewMsgs)
+  (A3=folderSize)(A4=expungedBytes)(A5=folderDate)(A6=highWaterKey)
+  (A7=mailboxName)(A8=UIDValidity)(A9=totPendingMsgs)
+  (AA=unreadPendingMsgs)(AB=expiredMark)(AC=version)
+  (AD=fixedBadRefThreading)(AE=folderName)(AF=smartFolderName)
+  (B0=charSetOverride)(B1=charSet)(B2=retainBy)(B3=daysToKeepHdrs)
+  (B4=numHdrsToKeep)(B5=daysToKeepBodies)(B6=keepUnreadOnly)
+  (B7=useServerDefaults)>
+<(83=0)(A4=4da02e5b)(80=1)>[1:m(^9C=0)(^90=0)(^92^A4)(^91=0)(^93=1)]
+<(A6=100b9)(B0=57595612)>[2:m(^9C^A6)(^90^A6)(^92^B0)(^91=0)(^93=1)]
+<(B7=105ce)(BB=57595696)>[3:m(^9C^B7)(^90^B7)(^92^BB)(^91=0)(^93=1)]
+<(C0=10e88)(C4=57595755)>[4:m(^9C^C0)(^90^C0)(^92^C4)(^91=0)(^93=1)]
+<(C8=11879)(CC=57595925)>[5:m(^9C^C8)(^90^C8)(^92^CC)(^91=0)(^93=1)]
+<(D1=1245c)(D5=575963c9)>[6:m(^9C^D1)(^90^D1)(^92^D5)(^91=0)(^93=1)]
+<(DA=15146)(DE=5759641a)>[7:m(^9C^DA)(^90^DA)(^92^DE)(^91=0)(^93=1)]
+<(E3=19db3)(E7=57596444)>[8:m(^9C^E3)(^90^E3)(^92^E7)(^91=0)(^93=1)]
+<(EC=1ad7b)(F0=575965f3)>[9:m(^9C^EC)(^90^EC)(^92^F0)(^91=0)(^93=1)]
+<(F6=1de53)(FA=57596687)>[A:m(^9C^F6)(^90^F6)(^92^FA)(^91=0)(^93=1)]
+<(100=1e76d)(104=57596704)>[B:m(^9C^100)(^90^100)(^92^104)(^91=0)(^93=1)]
+<(10A=1f0c6)(10E=5759675a)>[C:m(^9C^10A)(^90^10A)(^92^10E)(^91=0)(^93=1)]
+<(114=1fd5e)(118=575967d0)>[D:m(^9C^114)(^90^114)(^92^118)(^91=0)(^93=1)]
+<(11E=221c3)(122=5759681c)>[E:m(^9C^11E)(^90^11E)(^92^122)(^91=0)(^93=1)]
+
+<(D2=74844)(9F=21)(A0=Finnian Reilly <finnian@eiffel-loop.com>)(D3
+    =Building Eiffel objects from XML data)(D4
+    =575963C9.9080408@eiffel-loop.com)(AF=account1)(B1=iso-8859-15)
+  (D6=2cea)(D7=d5)(A8=ffffffff)(B3=id1)(B5=1580|)(AB=1580|Finnian Reilly)>
+{1245C:^80 {(k^98:c)(s=9)6:m } [1245C(^9D^D1)(^C3^D2)(^88=1)(^8A=0)(^8B=21)
+    (^82^A0)(^81^D3)(^83^D4)(^CA^AF)(^86^D5)(^C4^D5)(^89=1)(^96^B1)
+    (^87^D6)(^8C=d5)(^9B^A8)(^8F^D1)(^C5=0)(^CB^B3)(^C6=0)(^C7^B5)(^CC=0)
+    (^C8^AB)]}
+
+<(C1=69256)(C2=Graphical user interface)(C3
+    =57595755.4070905@eiffel-loop.com)(C5=9f1)(C6=32)>
+{10E88:^80 {(k^98:c)(s=9)4:m } [10E88(^9D^C0)(^C3^C1)(^88=1)(^8A=0)(^8B=21)
+    (^82^A0)(^81^C2)(^83^C3)(^CA^AF)(^86^C4)(^C4^C4)(^89=1)(^96^B1)
+    (^87^C5)(^8C=32)(^9B^A8)(^8F^C0)(^C5=0)(^CB^B3)(^C6=0)(^C7^B5)(^C8^AB)
+    (^CC=0)]}
+
+<(A1=Finnian Reilly <freilly8@gmail.com>)(A2
+    =EROS - the Eiffel Remote Object Server framework)(A3
+    =4BC06807.8000101@eiffel-loop.com)(A5=ISO-8859-1)(A7=5cf)(AA
+    =1483|Finnian Reilly)>
+{0:^80 {(k^98:c)(s=9)1:m } [0(^9D=0)(^C3=0)(^88=1)(^8A=0)(^8B=21)(^82^A0)
+    (^85^A1)(^81^A2)(^83^A3)(^86^A4)(^C4^A4)(^89=1)(^96^A5)(^87^A6)
+    (^8C^A7)(^9B^A8)(^8F=0)(^C5=0)(^C6=0)(^C7^AA)(^C8^AB)]}
+
+<(AC=65721)(AD=Audio management)(AE=57595612.5020600@eiffel-loop.com)
+  (B2=515)(86=12)(B8=67022)(B9=Digital Signal Processing)(BA
+    =57595696.3020002@eiffel-loop.com)(BC=8ba)(BD=27)(C9=71801)(CA
+    =Text processing)(CB=57595925.80601@eiffel-loop.com)(CD=be3)(CE=3e)
+  (DB=86342)(DC=Logging)(DD=5759641A.60104@eiffel-loop.com)(DF=4c6d)
+  (E0=17c)(E4=105907)(E5=XML processing)(E6
+    =57596444.8040306@eiffel-loop.com)(E8=fc8)(E9=41)(ED=109947)(EE
+    =Application management)(EF=575955B6.6060100@eiffel-loop.com)(F1=30d8)
+  (F2=10f)(F3
+    =mailbox-message://finnian%40eiffel-loop.com@pop.eiffel-loop.com/Drafts#14\
+7546)(F7=122451)(F8=Miscellaneous)(F9=5759585B.2040207@eiffel-loop.com)
+  (FB=91a)(FC=2c)(FD
+    =mailbox-message://finnian%40eiffel-loop.com@pop.eiffel-loop.com/Drafts#17\
+2846)(101=124781)(102=External Language integration)(103
+    =575956E9.2000508@eiffel-loop.com)(105=959)(106=23)(107
+    =mailbox-message://finnian%40eiffel-loop.com@pop.eiffel-loop.com/Drafts#16\
+6602)(10B=127174)(10C=Multi-threading)(10D
+    =575958DC.5050705@eiffel-loop.com)(10F=c98)(110=3a)(111
+    =mailbox-message://finnian%40eiffel-loop.com@pop.eiffel-loop.com/Drafts#17\
+1431)(115=130398)(116=Evolicity template substitution language)(117
+    =57595A64.8020903@eiffel-loop.com)(119=2465)(11A=be)(11B
+    =mailbox-message://finnian%40eiffel-loop.com@pop.eiffel-loop.com/Drafts#17\
+7928)(11F=139715)(120=Client-server network)(121
+    =57595665.9040202@eiffel-loop.com)(123=e67)(124=3d)(125
+    =mailbox-message://finnian%40eiffel-loop.com@pop.eiffel-loop.com/Drafts#19\
+6832)>
+{1:^80 {(k^97:c)(s=9)} 0 
+  [100B9(^9D^A6)(^C3^AC)(^88=1)(^8A=0)(^8B=21)(^82^A0)(^81^AD)(^83^AE)
+    (^CA^AF)(^86^B0)(^C4^B0)(^89=1)(^96^B1)(^87^B2)(^8C=12)(^9B^A8)
+    (^8F^A6)(^C5=0)(^CB^B3)(^C6=0)(^C7^B5)(^C8^AB)(^CC=0)]
+  [105CE(^9D^B7)(^C3^B8)(^88=1)(^8A=0)(^8B=21)(^82^A0)(^81^B9)(^83^BA)
+    (^CA^AF)(^86^BB)(^C4^BB)(^89=1)(^96^B1)(^87^BC)(^8C=27)(^9B^A8)
+    (^8F^B7)(^C5=0)(^CB^B3)(^C6=0)(^C7^B5)(^C8^AB)(^CC=0)]10E88 
+  [11879(^9D^C8)(^C3^C9)(^88=1)(^8A=0)(^8B=21)(^82^A0)(^81^CA)(^83^CB)
+    (^CA^AF)(^86^CC)(^C4^CC)(^89=1)(^96^B1)(^87^CD)(^8C=3e)(^9B^A8)
+    (^8F^C8)(^C5=0)(^CB^B3)(^C6=0)(^C7^B5)(^CC=0)(^C8^AB)]1245C 
+  [15146(^9D^DA)(^C3^DB)(^88=1)(^8A=0)(^8B=21)(^82^A0)(^81^DC)(^83^DD)
+    (^CA^AF)(^86^DE)(^C4^DE)(^89=1)(^96^B1)(^87^DF)(^8C^E0)(^9B^A8)
+    (^8F^DA)(^C5=0)(^CB^B3)(^C7^B5)(^CC=0)(^C8^AB)(^C6=0)]
+  [19DB3(^9D^E3)(^C3^E4)(^88=1)(^8A=0)(^8B=21)(^82^A0)(^81^E5)(^83^E6)
+    (^CA^AF)(^86^E7)(^C4^E7)(^89=1)(^96^B1)(^87^E8)(^8C=41)(^9B^A8)
+    (^8F^E3)(^C5=0)(^CB^B3)(^C6=0)(^C7^B5)(^CC=0)(^C8^AB)]
+  [1AD7B(^9D^EC)(^C3^ED)(^88=1)(^8A=0)(^8B=21)(^82^A0)(^81^EE)(^83^EF)
+    (^CA^AF)(^86^F0)(^C4^F0)(^89=1)(^96^B1)(^87^F1)(^8C^F2)(^9B^A8)
+    (^8F^EC)(^C5=0)(^CD^F3)(^CB^B3)(^C6=0)(^C7^B5)(^CC=0)(^C8^AB)]
+  [1DE53(^9D^F6)(^C3^F7)(^88=1)(^8A=0)(^8B=21)(^82^A0)(^81^F8)(^83^F9)
+    (^CA^AF)(^86^FA)(^C4^FA)(^89=1)(^96^B1)(^87^FB)(^8C=2c)(^9B^A8)
+    (^8F^F6)(^C5=0)(^CD^FD)(^CB^B3)(^C6=0)(^C7^B5)(^CC=0)(^C8^AB)]
+  [1E76D(^9D^100)(^C3^101)(^88=1)(^8A=0)(^8B=21)(^82^A0)(^81^102)(^83^103)
+    (^CA^AF)(^86^104)(^C4^104)(^89=1)(^96^B1)(^87=959)(^8C=23)(^9B^A8)
+    (^8F^100)(^C5=0)(^CD^107)(^CB^B3)(^C7^B5)(^C6=0)(^CC=0)(^C8^AB)]
+  [1F0C6(^9D^10A)(^C3^10B)(^88=1)(^8A=0)(^8B=21)(^82^A0)(^81^10C)(^83^10D)
+    (^CA^AF)(^86^10E)(^C4^10E)(^89=1)(^96^B1)(^87=c98)(^8C=3a)(^9B^A8)
+    (^8F^10A)(^C5=0)(^CD^111)(^CB^B3)(^C7^B5)(^C6=0)(^CC=0)(^C8^AB)]
+  [1FD5E(^9D^114)(^C3^115)(^88=1)(^8A=0)(^8B=21)(^82^A0)(^81^116)(^83^117)
+    (^CA^AF)(^86^118)(^C4^118)(^89=1)(^96^B1)(^87^119)(^8C=be)(^9B^A8)
+    (^8F^114)(^C5=0)(^CD^11B)(^CB^B3)(^C7^B5)(^C6=0)(^CC=0)(^C8^AB)]
+  [221C3(^9D^11E)(^C3^11F)(^88=1)(^8A=0)(^8B=21)(^82^A0)(^81^120)(^83^121)
+    (^CA^AF)(^86^122)(^C4^122)(^89=1)(^96^B1)(^87=e67)(^8C=3d)(^9B^A8)
+    (^8F^11E)(^C5=0)(^CD^125)(^CB^B3)(^C7^B5)(^C6=0)(^CC=0)(^C8^AB)]}
+{1FD5E:^80 {(k^98:c)(s=9)D:m } 1FD5E }
+{100B9:^80 {(k^98:c)(s=9)2:m } 100B9 }
+{105CE:^80 {(k^98:c)(s=9)3:m } 105CE }
+{1AD7B:^80 {(k^98:c)(s=9)9:m } 1AD7B }
+{1F0C6:^80 {(k^98:c)(s=9)C:m } 1F0C6 }
+{15146:^80 {(k^98:c)(s=9)7:m } 15146 }
+{221C3:^80 {(k^98:c)(s=9)E:m } 221C3 }
+{11879:^80 {(k^98:c)(s=9)5:m } 11879 }
+{1E76D:^80 {(k^98:c)(s=9)B:m } 1E76D }
+{1DE53:^80 {(k^98:c)(s=9)A:m } 1DE53 }
+{19DB3:^80 {(k^98:c)(s=9)8:m } 19DB3 }
+{FFFFFFFD:^9A {(k^99:c)(s=9)} [0(^95^A2)]
+  [100B9(^95^AD)]
+  [105CE(^95^B9)]
+  [10E88(^95^C2)]
+  [11879(^95^CA)]
+  [1245C(^95^D3)]
+  [15146(^95^DC)]
+  [19DB3(^95^E5)]
+  [1AD7B(^95^EE)]
+  [1DE53(^95^F8)]
+  [1E76D(^95^102)]
+  [1F0C6(^95^10C)]
+  [1FD5E(^95^116)]
+  [221C3(^95^120)]}
+
+<(81=4)(82=www - Libraries)(128=2302a)(129=57599cb0)(9E=1465490607)
+  (87=)(88
+    ={"threadCol":{"visible":true,"ordinal":"1"},"flaggedCol":{"visible":true,\
+"ordinal":"3"},"attachmentCol":{"visible":true,"ordinal":"5"},"subjectCol":{"v\
+isible":true,"ordinal":"7"},"unreadButtonColHeader":{"visible":true,"ordinal":\
+"9"},"senderCol":{"visible":true,"ordinal":"11"},"recipientCol":{"visible":fal\
+se,"ordinal":"13"},"junkStatusCol":{"visible":true,"ordinal":"15"},"receivedCo\
+l":{"visible":false,"ordinal":"17"},"dateCol":{"visible":true,"ordinal":"19"},\
+"statusCol":{"visible":false,"ordinal":"21"},"sizeCol":{"visible":true,"ordina\
+l":"23"},"tagsCol":{"visible":false,"ordinal":"25"},"accountCol":{"visible":fa\
+lse,"ordinal":"27"},"priorityCol":{"visible":false,"ordinal":"29"},"unreadCol"\
+:{"visible":false,"ordinal":"31"},"totalCol":{"visible":false,"ordinal":"33"},\
+"locationCol":{"visible":false,"ordinal":"35"},"idCol":{"visible":false,"ordin\
+al":"37"}})(9C=Libraries)(127=e)>
+{1:^9F {(k^A0:c)(s=9u)} 
+  [1(^AC=1)(^AD=1)(^88=4)(^A7^82)(^A3^128)(^A5^129)(^BA=1)(^C0^9E)(^BB=12)
+    (^BC=1)(^BD=0)(^BE=0)(^C1=)(^BF^88)(^AE^9C)(^C2^9E)(^A1=e)(^A6^11E)]}
+
+@$${1E{@
+< <(a=c)> // (f=iso-8859-1)
+  (CE=keywords)>
+@$$}1E}@
+
+@$${1F{@
+@$$}1F}@
+
+@$${20{@
+<(135=74e4)>[1F0C6:^80(^C6^135)]
+<(130=74df)>[15146:^80(^C6^130)]
+<(137=74e6)>[221C3:^80(^C6^137)]
+<(12E=74dd)>[11879:^80(^C6^12E)]
+<(134=74e3)>[1E76D:^80(^C6^134)]
+<(133=74e2)>[1DE53:^80(^C6^133)]
+<(131=74e0)>[19DB3:^80(^C6^131)]
+<(12F=74de)>[1245C:^80(^C6^12F)]
+<(12D=74dc)>[10E88:^80(^C6^12D)]
+<(12A=74d9)>[0:^80(^C6^12A)]
+<(136=74e5)>[1FD5E:^80(^C6^136)]
+<(12B=74da)>[100B9:^80(^C6^12B)]
+<(12C=74db)>[105CE:^80(^C6^12C)]
+<(132=74e1)>[1AD7B:^80(^C6^132)]
+@$$}20}@
+
+@$${22{@
+<(138=1465490641)>[1:^9F(^C0^138)]
+@$$}22}@
+
+@$${23{@
+< <(a=c)> // (f=iso-8859-1)
+  (CF=customSortCol)>
+@$$}23}@
+
+@$${24{@
+@$$}24}@
+
+@$${25{@
+< <(a=c)> // (f=iso-8859-1)
+  (D0=imageSize)>
+@$$}25}@
+
+@$${27{@
+<(139=1465490653)>[1:^9F(^C0^139)]
+@$$}27}@
+
+@$${28{@
+@$$}28}@
+
+@$${29{@
+@$$}29}@
+
+@$${2B{@
+<(13A=1465490808)>[1:^9F(^C0^13A)]
+@$$}2B}@
+
+@$${2C{@
+@$$}2C}@
+
+@$${2D{@
+@$$}2D}@
+
+@$${2F{@
+<(13B=1465490870)>[1:^9F(^C0^13B)]
+@$$}2F}@
+
+@$${30{@
+@$$}30}@
+
+@$${31{@
+@$$}31}@
+
+@$${33{@
+<(13C=1465490917)>[1:^9F(^C0^13C)]
+@$$}33}@
+
+@$${34{@
+@$$}34}@
+
+@$${35{@
+@$$}35}@
+
+@$${37{@
+[1:^9F(^AE=)]
+@$$}37}@
+
+@$${38{@
+[1:^9F(^AE^82)]
+@$$}38}@
+
+@$${39{@
+<(13D=1465490922)>[1:^9F(^C0^13D)]
+@$$}39}@
+
+@$${3A{@
+@$$}3A}@
+
+@$${3C{@
+<(13E=1465490934)>[1:^9F(^C0^13E)]
+@$$}3C}@
+
+@$${3D{@
+@$$}3D}@
+
+@$${3E{@
+@$$}3E}@
+
+@$${40{@
+<(13F=1465490987)>[1:^9F(^C0^13F)]
+@$$}40}@
+
+@$${41{@
+@$$}41}@
+
+@$${42{@
+@$$}42}@
+
+@$${44{@
+[1:^9F(^AE=)]
+@$$}44}@
+
+@$${45{@
+[1:^9F(^AE^9C)]
+@$$}45}@
+
+@$${46{@
+<(140=1465490990)>[1:^9F(^C0^140)]
+@$$}46}@
+
+@$${47{@
+@$$}47}@
+
+@$${49{@
+< <(a=c)> // (f=iso-8859-1)
+  (D1=LastPurgeTime)>
+@$$}49}@
+
+@$${4A{@
+@$$}4A}@
+
+@$${4B{@
+@$$}4B}@
+
+@$${4C{@
+@$$}4C}@
+
+@$${4D{@
+@$$}4D}@
+
+@$${4E{@
+@$$}4E}@
+
+@$${4F{@
+@$$}4F}@
+
+@$${50{@
+@$$}50}@
+
+@$${51{@
+@$$}51}@
+
+@$${52{@
+@$$}52}@
+
+@$${53{@
+@$$}53}@
+
+@$${54{@
+@$$}54}@
+
+@$${55{@
+@$$}55}@
+
+@$${56{@
+@$$}56}@
+
+@$${57{@
+@$$}57}@
+
+@$${58{@
+@$$}58}@
+
+@$${59{@
+@$$}59}@
+
+@$${5A{@
+@$$}5A}@
+
+@$${5B{@
+@$$}5B}@
+
+@$${5C{@
+@$$}5C}@
+
+@$${5D{@
+@$$}5D}@
+
+@$${5E{@
+@$$}5E}@
+
+@$${5F{@
+@$$}5F}@
+
+@$${60{@
+@$$}60}@
+
+@$${61{@
+@$$}61}@
+
+@$${62{@
+@$$}62}@
+
+@$${63{@
+@$$}63}@
+
+@$${64{@
+@$$}64}@
+
+@$${65{@
+@$$}65}@
+
+@$${66{@
+@$$}66}@
+
+@$${67{@
+@$$}67}@
+
+@$${68{@
+@$$}68}@
+
+@$${69{@
+@$$}69}@
+
+@$${6A{@
+@$$}6A}@
+
+@$${6B{@
+@$$}6B}@
+
+@$${6D{@
+<(141=1465553183)>[1:^9F(^C0^141)]
+@$$}6D}@
+
+@$${6E{@
+@$$}6E}@

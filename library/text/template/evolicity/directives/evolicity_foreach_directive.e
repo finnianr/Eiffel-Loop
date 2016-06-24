@@ -15,7 +15,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 8:15:07 GMT (Wednesday 16th December 2015)"
+	date: "2016-04-11 12:26:21 GMT (Monday 11th April 2016)"
 	revision: "6"
 
 class
@@ -43,17 +43,17 @@ feature -- Initialization
 
 feature -- Element change
 
+	set_traversable_container_variable_ref (a_traversable_container_variable_ref: EVOLICITY_VARIABLE_REFERENCE)
+			--
+		do
+			traversable_container_variable_ref := a_traversable_container_variable_ref
+		end
+
 	set_var_iterator (a_iterator_var_name: ZSTRING)
 			--
 		do
 			iterator_var_name := a_iterator_var_name
 			local_scope_variable_names [1] := a_iterator_var_name
-		end
-
-	set_traversable_container_variable_ref (a_traversable_container_variable_ref: EVOLICITY_VARIABLE_REFERENCE)
-			--
-		do
-			traversable_container_variable_ref := a_traversable_container_variable_ref
 		end
 
 feature {NONE} -- Implementation
@@ -104,46 +104,56 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	put_iteration_object (a_context: EVOLICITY_CONTEXT; a_cursor: ITERATION_CURSOR [ANY]; a_iteration_object: ANY)
+		do
+			a_context.put_variable (a_iteration_object, iterator_var_name)
+		end
+
 	put_loop_index (a_context: EVOLICITY_CONTEXT; a_loop_index: INTEGER_REF)
 		do
 			a_context.put_variable (a_loop_index, Loop_index_var_name)
 		end
 
-	put_iteration_object (a_context: EVOLICITY_CONTEXT; a_cursor: ITERATION_CURSOR [ANY]; a_iteration_object: ANY)
+	restore_outer_loop_variables (name_space: like outer_loop_variables)
+			-- Restore any previous objects that had the same name as objects used in this loop
+		local
+			variables: like outer_loop_variables
 		do
-			a_context.put_variable (a_iteration_object, iterator_var_name)
+			variables := outer_loop_variables
+			from variables.start until variables.after loop
+				name_space [variables.key_for_iteration] := variables.item_for_iteration
+				variables.forth
+			end
+			variables.wipe_out
 		end
 
 	save_outer_loop_variables (name_space: like outer_loop_variables)
 			-- Save value of context objects with same names as objects used in this loop
 		require
 			empty_saved_objects_context: outer_loop_variables.is_empty
+		local
+			i: INTEGER; name: ZSTRING; names: like local_scope_variable_names
 		do
-			across local_scope_variable_names as name loop
-				name_space.search (iterator_var_name)
+			names := local_scope_variable_names
+			from i := 1 until i > names.count loop
+				name := names [i]; name_space.search (name)
 				if name_space.found then
-					outer_loop_variables.extend (name_space.found_item, name.item)
+					outer_loop_variables.extend (name_space.found_item, name)
 				end
+				i := i + 1
 			end
 		end
 
-	restore_outer_loop_variables (name_space: like outer_loop_variables)
-			-- Restore any previous objects that had the same name as objects used in this loop
-		do
-			across outer_loop_variables as variable loop
-				name_space [variable.key] := variable.item
-			end
-			outer_loop_variables.wipe_out
-		end
+feature {NONE} -- Internal attributes
 
 	iterator_var_name: ZSTRING
-
-	traversable_container_variable_ref: EVOLICITY_VARIABLE_REFERENCE
 
 	local_scope_variable_names: ARRAY [ZSTRING]
 
 	outer_loop_variables: EVOLICITY_OBJECT_TABLE [ANY]
 		-- Variables in outer loop that may have names clashing with this loop
+
+	traversable_container_variable_ref: EVOLICITY_VARIABLE_REFERENCE
 
 feature -- Constants
 

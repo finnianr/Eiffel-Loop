@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 10:46:39 GMT (Monday 18th January 2016)"
+	date: "2016-04-22 12:12:06 GMT (Friday 22nd April 2016)"
 	revision: "9"
 
 class
@@ -57,7 +57,7 @@ feature {NONE} -- State handlers
 	find_chars_ready_assignment (line: ZSTRING)
 			-- Eg. iso_8859_11_chars_ready = TRUE;
 		local
-			eiffel_source_path: EL_FILE_PATH
+			eiffel_source_path: EL_FILE_PATH; source_file: EIFFEL_SOURCE_FILE
 		do
 			if line.has_substring (codec_list.last.codec_name + "_chars[0x") then
 				codec_list.last.add_assignment (line)
@@ -68,7 +68,8 @@ feature {NONE} -- State handlers
 				eiffel_source_path := template_path.twin
 				eiffel_source_path.set_base ("el_%S_zcodec.e")
 				eiffel_source_path.base.substitute_tuple ([codec_list.last.codec_name])
-				Evolicity_templates.merge_to_file (template_path, codec_list.last, eiffel_source_path)
+				create source_file.make_open_write (eiffel_source_path)
+				Evolicity_templates.merge_to_file (template_path, codec_list.last, source_file)
 				state := agent find_void_function
 			end
 		end

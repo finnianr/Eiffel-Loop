@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 9:23:07 GMT (Wednesday 16th December 2015)"
+	date: "2016-04-21 12:29:05 GMT (Thursday 21st April 2016)"
 	revision: "5"
 
 class
@@ -20,9 +20,7 @@ feature {NONE} -- Initialization
 	make (a_name, a_comment: like name; a_icon_path: EL_FILE_PATH)
 			--
 		do
-			name := a_name
-			comment := a_comment
-			icon_path := a_icon_path
+			name := a_name; comment := a_comment; icon_path := a_icon_path
 		end
 
 	make_standard (a_name: like name)
