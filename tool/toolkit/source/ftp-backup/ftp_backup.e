@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:20:28 GMT (Friday 24th June 2016)"
+	date: "2016-06-24 18:37:02 GMT (Friday 24th June 2016)"
 	revision: "8"
 
 class
@@ -121,8 +121,7 @@ feature -- Basic operations
 	execute
 			--
 		local
-			total_size_mega_bytes: REAL
-			ftp_site_node: EL_XPATH_NODE_CONTEXT
+			total_size_mega_bytes: REAL; ftp_site_node: EL_XPATH_NODE_CONTEXT
 			website: EL_FTP_WEBSITE
 		do
 			across script_file_path_list as l_path loop

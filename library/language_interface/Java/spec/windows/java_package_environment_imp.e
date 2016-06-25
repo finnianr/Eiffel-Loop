@@ -11,7 +11,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-22 15:43:54 GMT (Wednesday 22nd June 2016)"
+	date: "2016-06-24 11:27:29 GMT (Friday 24th June 2016)"
 	revision: "5"
 
 class
@@ -37,7 +37,7 @@ feature -- Constants
 
 	Default_java_jar_dir: EL_DIR_PATH
 		once
-			Result := Java_home_dir + "lib"
+			Result := Java_home_dir.joined_dir_path ("lib")
 		end
 
 	Java_home_dir: EL_DIR_PATH

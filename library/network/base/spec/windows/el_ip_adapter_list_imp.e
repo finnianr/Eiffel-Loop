@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-21 11:07:31 GMT (Tuesday 21st June 2016)"
+	date: "2016-06-24 11:01:16 GMT (Friday 24th June 2016)"
 	revision: "4"
 
 class
@@ -14,13 +14,20 @@ class
 
 inherit
 	EL_IP_ADAPTER_LIST_I
+		export
+			{NONE} all
+		end
 
 	EL_MEMORY
+		export
+			{NONE} all
 		undefine
 			copy, is_equal
 		end
 
 	EL_SHARED_C_WIDE_CHARACTER_STRING
+		export
+			{NONE} all
 		undefine
 			copy, is_equal
 		end
@@ -34,6 +41,9 @@ inherit
 		undefine
 			copy, is_equal
 		end
+
+create
+	make
 
 feature {NONE} -- Initialization
 

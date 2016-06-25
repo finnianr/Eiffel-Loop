@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-22 15:18:17 GMT (Wednesday 22nd June 2016)"
+	date: "2016-06-24 12:26:33 GMT (Friday 24th June 2016)"
 	revision: "4"
 
 class
@@ -239,4 +239,4 @@ feature {NONE} -- Constants
 			>>
 		end
 
-end -- class JAVA_TEST
+end

@@ -18,7 +18,7 @@ system:
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
 	uuid = "20FD9834-3FC9-4349-AD78-73ABA2C735D4"
-	name = eiffel2java
+	name = EL_eiffel2java
 	
 	# classic means C code as an intermediate language
 	target: 
@@ -93,15 +93,15 @@ system:
 		# Eiffel Loop
 
 		library:
-			name = eiffel_loop_base; location = "$EIFFEL_LOOP/library/base.ecf"
+			name = EL_base; location = "$EIFFEL_LOOP/library/base.ecf"
 			readonly = false
 
 		library:
-			name = eiffel_loop_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
+			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
 			readonly = false
 
 		library:
-			name = eiffel_loop_eiffel2java; location = "$EIFFEL_LOOP/library/eiffel2java.ecf"
+			name = EL_eiffel2java; location = "$EIFFEL_LOOP/library/eiffel2java.ecf"
 			readonly = false
 			option:
 				assertions:

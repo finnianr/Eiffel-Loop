@@ -9,7 +9,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 18:17:54 GMT (Saturday 26th December 2015)"
+	date: "2016-06-24 12:25:52 GMT (Friday 24th June 2016)"
 	revision: "7"
 
 class
@@ -17,16 +17,13 @@ class
 
 inherit
 	EL_MODULE_LOG
-		undefine
-			default_create
-		end
 
 create
-	make, default_create
+	make
 
 feature {NONE} -- Initialization
 
-	default_create
+	make_default
 		do
 			create webstart_profiles.make_from_array (<< new_properties >>)
 			create plugin_profiles.make_from_array (<< new_properties >>)
@@ -41,10 +38,10 @@ feature {NONE} -- Initialization
 		local
 			property_lines: EL_FILE_LINE_SOURCE
 		do
-			default_create
+			make_default
 			create property_lines.make (file_path)
 			across property_lines as line loop
-				if not line.item.starts_with_general (once "#") then
+				if not (line.item.is_empty or else line.item.starts_with (Hash_sign)) then
 					import_line (line.item)
 				end
 			end
@@ -94,12 +91,12 @@ feature {NONE} -- Implementation
 	import_line (line: ZSTRING)
 			--
 		local
-			key_path_list: LIST [ZSTRING]
+			key_path_list: EL_ZSTRING_LIST
 			key, value, profile_type: ZSTRING
 			profile_id, pos_equal_sign, pos_profile_id: INTEGER
 		do
 			pos_equal_sign := line.index_of ('=', 1)
-			key_path_list := line.substring (1, pos_equal_sign - 1).split ('.')
+			create key_path_list.make_with_separator (line.substring (1, pos_equal_sign - 1), '.', False)
 			value := line.substring (pos_equal_sign + 1, line.count)
 			profile_type := key_path_list.i_th (2)
 			if profile_type ~ Var_javaws then
@@ -141,6 +138,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Hash_sign: ZSTRING
+		once
+			Result := "#"
+		end
+
 	Var_javaws: ZSTRING
 		once
 			Result := "javaws"
@@ -165,9 +167,8 @@ feature {NONE} -- Constants
 		local
 			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
 		once
+			create table.make (3); table [':'] := ':'
 			create Result.make ('\', table)
-			create table.make (3)
-			table [':'] := ':'
 		end
 
 end

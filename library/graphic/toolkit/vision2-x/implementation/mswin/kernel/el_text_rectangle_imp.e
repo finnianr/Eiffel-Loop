@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 8:46:15 GMT (Friday 24th June 2016)"
+	date: "2016-06-24 10:59:38 GMT (Friday 24th June 2016)"
 	revision: "4"
 
 class
@@ -30,9 +30,9 @@ feature {NONE} -- Implementation
 
 	draw_rotated_on_buffer (buffer: EL_DRAWABLE_PIXEL_BUFFER; a_angle: DOUBLE)
 		local
-			line: like internal_lines
+			line: like internal_lines.item
 		do
-			line_text_group.rotate_around (a_angle, interface.x, interface.y)
+			line_text_group.rotate_around (a_angle, x, y)
 			across line_text_group as text_point loop
 				line := internal_lines [text_point.cursor_index]
 				if not line.text.is_empty and then attached {EV_MODEL_DOT} text_point.item as point then
