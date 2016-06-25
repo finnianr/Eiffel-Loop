@@ -1,12 +1,12 @@
 ﻿note
-	description: "Command that takes an input and output file argument"
+	description: "Command that converts files from one type to anothers"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 7:36:15 GMT (Thursday 23rd June 2016)"
+	date: "2016-06-24 16:04:33 GMT (Friday 24th June 2016)"
 	revision: "5"
 
 deferred class

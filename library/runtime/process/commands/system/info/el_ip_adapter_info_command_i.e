@@ -56,7 +56,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 19:37:10 GMT (Thursday 23rd June 2016)"
+	date: "2016-06-24 18:44:23 GMT (Friday 24th June 2016)"
 	revision: "6"
 
 deferred class
@@ -161,7 +161,7 @@ feature {NONE} -- Implementation
 			create byte_list.make_with_separator (field_value (line), ':', False)
 			create Result.make_filled (0, 1, byte_list.count)
 			across byte_list as byte loop
-				Result [byte.cursor_index] := String_8.hexadecimal_to_integer (byte.item.as_string_8).to_natural_8
+				Result [byte.cursor_index] := String_8.hexadecimal_to_integer (byte.item).to_natural_8
 			end
 		end
 

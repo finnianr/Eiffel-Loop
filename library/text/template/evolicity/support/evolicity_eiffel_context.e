@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-16 13:29:39 GMT (Saturday 16th January 2016)"
+	date: "2016-06-24 18:40:12 GMT (Friday 24th June 2016)"
 	revision: "6"
 
 deferred class
@@ -21,8 +21,6 @@ inherit
 		end
 
 	EL_REFLECTION
-
-	EL_MODULE_STRING_8
 
 	EL_STRING_CONSTANTS
 

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-22 16:12:47 GMT (Wednesday 22nd June 2016)"
+	date: "2016-06-24 18:50:57 GMT (Friday 24th June 2016)"
 	revision: "5"
 
 deferred class
@@ -36,7 +36,6 @@ feature {EL_MODULE_EXECUTION_ENVIRONMENT} -- Initialization
 	make
 		do
 			executable_path := new_executable_path
-			create directory_stack.make (1)
 --			io.put_string ("Executable path: " + executable_path.to_string.out)
 --			io.put_new_line
 		end
@@ -270,9 +269,12 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	directory_stack: ARRAYED_STACK [EL_DIR_PATH]
-
 feature -- Constants
+
+	Directory_stack: ARRAYED_STACK [EL_DIR_PATH]
+		once
+			create Result.make (1)
+		end
 
 	Nanosecs_per_millisec: INTEGER_64 = 1000000
 

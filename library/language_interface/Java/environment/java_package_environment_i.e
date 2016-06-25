@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-22 15:26:45 GMT (Wednesday 22nd June 2016)"
+	date: "2016-06-24 11:43:51 GMT (Friday 24th June 2016)"
 	revision: "7"
 
 deferred class
@@ -32,13 +32,12 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			class_path_list.compare_objects
-
 			if attached {STRING_32} Execution.item ("CLASSPATH") as environment_class_path then
 				create class_path_list.make_with_separator (environment_class_path, class_path_separator, False)
 			else
 				create class_path_list.make_empty
 			end
+			class_path_list.compare_objects
 			create jar_dir_list.make_from_array (<< default_java_jar_dir >>)
 			if (not JVM_library_path.is_empty) and then JVM_library_path.exists then
 				is_java_installed := True

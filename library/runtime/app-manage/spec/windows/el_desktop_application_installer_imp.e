@@ -17,7 +17,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 10:02:12 GMT (Friday 24th June 2016)"
+	date: "2016-06-24 10:59:57 GMT (Friday 24th June 2016)"
 	revision: "6"
 
 class
@@ -89,7 +89,7 @@ feature -- Basic operations
 		do
 			across << shortcut_path, desktop_shortcut_path >> as l_path loop
 				if l_path.item.exists then
-					File_system.delete (l_path.item)
+					File_system.remove_file (l_path.item)
 				end
 			end
 			File_system.delete_empty_branch (application_menu_dir)
