@@ -1,17 +1,17 @@
 ﻿note
 	description: "[
-		Object with a target callable from C. 
-		The target is temporarily fixed in memory and guaranteed not to be moved by the garbage collector.
-		When the gc_protector object is collected it releases the target for collection.
+		Object with a target callable from C. The target is temporarily fixed in memory and
+		guaranteed not to be moved by the garbage collector.When the gc_protector object is
+		collected it releases the target for collection.
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-07 11:14:00 GMT (Thursday 7th July 2016)"
+	revision: "4"
 
 class
 	EL_C_TO_EIFFEL_CALLBACK_STRUCT [TARGET -> EL_C_CALLABLE create make end]

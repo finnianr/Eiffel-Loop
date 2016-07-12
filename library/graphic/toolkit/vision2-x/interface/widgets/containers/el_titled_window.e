@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:24:47 GMT (Saturday 26th December 2015)"
+	date: "2016-07-08 20:18:30 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -19,7 +19,7 @@ inherit
 			set_x_position as set_absolute_x_position,
 			set_y_position as set_absolute_y_position
 		redefine
-			implementation, create_implementation
+			implementation, create_implementation, initialize
 		end
 
 	EL_WINDOW
@@ -60,12 +60,17 @@ feature {EL_VISION2_USER_INTERFACE} -- Initialization
 	make
 		do
 			default_create
-			create keyboard_shortcuts.make (Current)
 			create thread_check_timer
 			set_close_request_actions
 --			show_actions.extend_kamikaze (agent on_initial_show)
 
 --			GUI.do_once_on_idle (agent on_initial_show)
+		end
+
+	initialize
+		do
+			Precursor
+			create keyboard_shortcuts.make (Current)
 		end
 
 	prepare_to_show
@@ -104,7 +109,7 @@ feature {EL_VISION2_USER_INTERFACE} -- Event handlers
 			if Thread_manager.all_threads_stopped then
 				close_application
 			else
-				log_or_io.put_line ("Stopping threads ..")
+				lio.put_line ("Stopping threads ..")
 				thread_check_timer.actions.extend (agent try_close_application)
 				thread_check_timer.set_interval (Thread_status_update_interval_ms)
 			end
@@ -140,7 +145,7 @@ feature {NONE} -- Implementation
 		do
 			destroy
 			ev_application.destroy
-			log_or_io.put_line ("CLOSED")
+			lio.put_line ("CLOSED")
 		end
 
 	thread_check_timer: EV_TIMEOUT

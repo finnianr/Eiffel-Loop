@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 13:44:02 GMT (Thursday 1st January 2015)"
-	revision: "3"
+	date: "2016-07-02 19:42:31 GMT (Saturday 2nd July 2016)"
+	revision: "4"
 
 class
 	EL_THREAD_MANAGER
@@ -22,7 +22,6 @@ inherit
 		undefine
 			default_create
 		end
-
 
 create
 	default_create
@@ -52,6 +51,10 @@ feature -- Access
 
 feature -- Basic operations
 
+	list_active
+		do
+		end
+
 	stop_all
 			--
 		do
@@ -75,24 +78,9 @@ feature -- Basic operations
 				across threads as thread loop
 					-- Wait for thread to stop
 					from stopped := thread.item.is_stopped until stopped loop
-						log_or_io.put_labeled_string ("Waiting to stop thread", name (thread.item))
-						log_or_io.put_new_line
+						on_wait (thread.item.name)
 						Execution.sleep (Default_stop_wait_time)
 						stopped := thread.item.is_stopped
-					end
-				end
---			end
-			end_restriction
-		end
-
-	list_active
-		do
-			restrict_access
---			synchronized
-				across threads as thread loop
-					if thread.item.is_active then
-						log_or_io.put_labeled_string ("Active thread", name (thread.item))
-						log_or_io.put_new_line
 					end
 				end
 --			end
@@ -140,13 +128,8 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	name (thread: EL_STOPPABLE_THREAD): STRING
+	on_wait (thread_name: STRING)
 		do
-			if attached {EL_IDENTIFIED_THREAD} thread as identified_thread then
-				Result := identified_thread.log_name
-			else
-				Result := thread.generator.as_lower
-			end
 		end
 
 	threads: ARRAYED_LIST [EL_STOPPABLE_THREAD]

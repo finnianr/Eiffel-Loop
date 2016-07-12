@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-10 12:23:55 GMT (Friday 10th June 2016)"
+	date: "2016-07-05 5:05:11 GMT (Tuesday 5th July 2016)"
 	revision: "5"
 
 class
@@ -19,7 +19,7 @@ feature {EL_SUB_APPLICATION} -- Initialization
 
 	make (a_account_name: ZSTRING; a_export_path, thunderbird_home_dir: EL_DIR_PATH)
 		local
-			profile_lines: EL_UTF_8_FILE_LINES; mail_dir_path_steps: EL_PATH_STEPS
+			profile_lines: EL_FILE_LINE_SOURCE; mail_dir_path_steps: EL_PATH_STEPS
 		do
 			log.enter_with_args ("make", << a_account_name, a_export_path >>)
 			account_name := a_account_name; export_path := a_export_path

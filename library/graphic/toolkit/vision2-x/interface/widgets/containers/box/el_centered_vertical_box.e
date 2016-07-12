@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_CENTERED_CELL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "6"
+	date: "2016-07-01 14:41:03 GMT (Friday 1st July 2016)"
+	revision: "7"
 
 class
 	EL_CENTERED_VERTICAL_BOX
@@ -33,10 +33,10 @@ inherit
 			default_create, is_equal, copy
 		end
 
-	EL_MODULE_LOG
-		undefine
-			default_create, is_equal, copy
-		end
+--	EL_MODULE_LOG
+--		undefine
+--			default_create, is_equal, copy
+--		end
 
 create
 	make, default_create

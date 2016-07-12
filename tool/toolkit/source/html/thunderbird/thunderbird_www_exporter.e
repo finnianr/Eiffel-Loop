@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-10 13:25:51 GMT (Friday 10th June 2016)"
+	date: "2016-07-01 8:05:45 GMT (Friday 1st July 2016)"
 	revision: "5"
 
 class
@@ -21,7 +21,10 @@ inherit
 	EL_COMMAND
 
 	EL_MODULE_DIRECTORY
+
 	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_OS
 
 create
 	default_create, make
@@ -34,7 +37,7 @@ feature -- Basic operations
 			output_dir: EL_DIR_PATH
 		do
 			log.enter ("execute")
-			across File_system.file_list (mail_dir.joined_dir_path (WWW_dir_name), "*.msf") as path loop
+			across OS.file_list (mail_dir.joined_dir_path (WWW_dir_name), "*.msf") as path loop
 				file_path := path.item.without_extension
 				log.put_path_field ("Content", file_path)
 				log.put_new_line

@@ -1,8 +1,8 @@
 ﻿note
 	description: "[
-		Top level class for Evolicity accessible though EL_MODULE_EVOLICITY_TEMPLATES
+		Top level class for Evolicity accessible though `EL_MODULE_EVOLICITY_TEMPLATES'
 	
-		The templating substitution language was named "Evolicity" as a portmanteau of "Evolve" and "Felicity" 
+		The templating substitution language was named `Evolicity' as a portmanteau of "Evolve" and "Felicity" 
 		which is also a partial anagram of "Velocity" the Apache project which inspired it. 
 		It also bows to an established tradition of naming Eiffel orientated projects starting with the letter 'E'.
 	]"
@@ -12,29 +12,23 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-25 14:58:53 GMT (Monday 25th April 2016)"
+	date: "2016-07-07 21:21:26 GMT (Thursday 7th July 2016)"
 	revision: "6"
 
 class
 	EVOLICITY_TEMPLATES
 
 inherit
-	EL_MODULE_LOG
-		redefine
-			default_create
-		end
-
 	EL_THREAD_ACCESS
-		undefine
-			default_create
-		end
+
+	EL_MODULE_EXCEPTION
 
 create
-	default_create
+	make
 
 feature {NONE} -- Initialization
 
-	default_create
+	make
 			--
 		do
 			create stack_table.make_equal (19)
@@ -111,7 +105,6 @@ feature -- Element change
 			compiler: EVOLICITY_COMPILER
 			is_file_template: BOOLEAN; compiler_table: like Compilers.item
  		do
-			log.enter_with_args ("put", << a_name.to_string >>)
 			is_file_template := template_source = Default_source
 			restrict_access (Compilers)
 				compiler_table := Compilers.item
@@ -129,14 +122,13 @@ feature -- Element change
 					compiler.parse
 					if compiler.parse_succeeded then
 						compiler_table [a_name] := compiler
-						log.put_string_field ("Parsed template", a_name.to_string)
-						log.put_new_line
+--						log.put_string_field ("Parsed template", a_name.to_string)
+--						log.put_new_line
 					else
-						log_or_io.put_line ("Compilation failed")
+						Exception.raise_developer ("Evolicity compilation failed %S", [a_name])
 					end
 				end
 			end_restriction (Compilers)
-			log.exit
 		end
 
 	clear_all
@@ -164,10 +156,8 @@ feature -- Basic operations
 		require
 			writeable: text_file.is_open_write
 		do
-			log.enter_with_args ("merge_to_file", << a_name, text_file.path.name >>)
 			merge (a_name, context, text_file)
 			text_file.close
-			log.exit
 		end
 
 	merged (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): ZSTRING
@@ -175,13 +165,11 @@ feature -- Basic operations
 		local
 			text_medium: EL_ZSTRING_IO_MEDIUM
 		do
-			log.enter_with_args ("merged", << a_name >>)
 			create text_medium.make_open_write (1024)
 			text_medium.set_encoding_from_other (text_encoding)
 			merge (a_name, context, text_medium)
 			text_medium.close
 			Result := text_medium.text
-			log.exit
 		end
 
 	merged_utf_8 (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): STRING
@@ -189,12 +177,10 @@ feature -- Basic operations
 		local
 			utf8_text_medium: EL_UTF_STRING_8_IO_MEDIUM
 		do
-			log.enter_with_args ("merged_utf_8", << a_name >>)
 			create utf8_text_medium.make_open_write (1024)
 			merge (a_name, context, utf8_text_medium)
 			utf8_text_medium.close
 			Result := utf8_text_medium.text
-			log.exit
 		end
 
 	merge (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
@@ -221,14 +207,12 @@ feature -- Basic operations
 						-- Changed 23 Nov 2013
 						-- Before it used to make a deep_twin of an existing compiled template
 						template := compiler_table.found_item.compiled_template
-						log.put_string_field ("Compiled template", a_name.to_string)
-						log.put_new_line
+--						log.put_string_field ("Compiled template", a_name.to_string)
+--						log.put_new_line
 						stack.put (template)
 						found := True
 					else
-						log_or_io.put_path_field ("ERROR template", a_name)
-						log_or_io.put_string (" not found!")
-						log_or_io.put_new_line
+						Exception.raise_developer ("Template [%S] not found", [a_name])
 					end
 				end_restriction (Compilers)
 			else
@@ -261,7 +245,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Global attributes
 
-	Compilers: EL_LOGGED_MUTEX_REFERENCE [HASH_TABLE [EVOLICITY_COMPILER, EL_FILE_PATH]]
+	Compilers: EL_MUTEX_REFERENCE [HASH_TABLE [EVOLICITY_COMPILER, EL_FILE_PATH]]
 			-- Global template compilers table
 		once ("PROCESS")
 			create Result.make (create {like Compilers.item}.make (11))

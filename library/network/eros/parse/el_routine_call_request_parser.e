@@ -6,7 +6,7 @@
 		OR
 			{MY_CLASS}.my_routine
 			
-		Note: {E2X_VECTOR_COMPLEX_DOUBLE} is an example of a place holder for an instance of a class
+		Note: `E2X_VECTOR_COMPLEX_DOUBLE' is an example of a place holder for an instance of a class
 		deserialized from XML
 	]"
 
@@ -15,7 +15,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 12:34:13 GMT (Thursday 24th December 2015)"
+	date: "2016-07-05 9:04:49 GMT (Tuesday 5th July 2016)"
 	revision: "5"
 
 class

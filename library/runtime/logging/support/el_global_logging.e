@@ -2,24 +2,26 @@
 	description: "Summary description for {EL_GLOBAL_LOGGING}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-05-03 10:50:58 GMT (Sunday 3rd May 2015)"
-	revision: "5"
+	date: "2016-07-08 14:17:35 GMT (Friday 8th July 2016)"
+	revision: "6"
 
 class
 	EL_GLOBAL_LOGGING
 
 inherit
+	EL_SINGLE_THREAD_ACCESS
+
 	EL_MODULE_ARGS
 
 	EL_MODULE_EIFFEL
 
 	EL_MODULE_LOG_MANAGER
 
-	EL_SINGLE_THREAD_ACCESS
+	EL_MODULE_LOG
 
 create
 	make
@@ -37,12 +39,12 @@ feature {NONE} -- Initialization
 
 			create Routine_table.make (Routine_hash_table_size)
 			create Routine_id_table.make (Routine_hash_table_size)
-
+			is_active := Args.word_option_exists ({EL_LOG_COMMAND_OPTIONS}.Logging)
 		end
 
 feature {EL_CONSOLE_AND_FILE_LOG} -- Access
 
-	loggable_routine (type_id: INTEGER; routine_name: STRING): like Type_routine_info
+	loggable_routine (type_id: INTEGER; routine_name: STRING): EL_LOGGED_ROUTINE_INFO
 			--
 		do
 			restrict_access
@@ -52,36 +54,6 @@ feature {EL_CONSOLE_AND_FILE_LOG} -- Access
 		end
 
 feature -- Element change
-
-	activate
-			--	
-		require
-			no_thread_logs_created_yet: log_manager.no_thread_logs_created
-		do
-			restrict_access
-			active := true
-			Active_or_inactive_log.replace (create {EL_CONSOLE_AND_FILE_LOG}.make)
-			end_restriction
-		end
-
-	deactivate
-			--	
-		require
-			no_thread_logs_created_yet: log_manager.no_thread_logs_created
-		do
-			restrict_access
-			active := false
-
-			end_restriction
-		end
-
-	set_state_from_command_line_option
-			-- Turn logging on if word option is present on command line
-		require
-			no_thread_logs_created_yet: log_manager.no_thread_logs_created
-		do
-			Args.set_boolean_from_word_option ({EL_LOG_COMMAND_OPTIONS}.Logging, agent activate)
-		end
 
 	set_prompt_user_on_exit (flag: BOOLEAN)
 			-- If true prompts user on exit of each logged routine
@@ -112,12 +84,6 @@ feature -- Element change
 feature -- Status query
 
 	is_active: BOOLEAN
-			--
-		do
-			restrict_access
-			Result := active
-			end_restriction
-		end
 
 	is_user_prompt_active: BOOLEAN
 			--
@@ -128,7 +94,7 @@ feature -- Status query
 			end_restriction
 		end
 
-	logging_enabled (routine: like Type_routine_info): BOOLEAN
+	logging_enabled (routine: EL_LOGGED_ROUTINE_INFO): BOOLEAN
 			-- True if logging enabled for routine
 		do
 			restrict_access
@@ -147,11 +113,10 @@ feature {NONE} -- Implementation
 
 			routine_names_not_empty: not a_filter.routines.is_empty
 		local
-			routine_name: STRING
-			routine: like Type_routine_info
+			routine_name: STRING; routine: EL_LOGGED_ROUTINE_INFO
 			i, type_id: INTEGER
 		do
-			type_id := a_filter.type.type_id
+			type_id := a_filter.class_type.type_id
 			from i := 1 until i > a_filter.routines.count loop
 				routine_name := a_filter.routines [i]
 
@@ -173,7 +138,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	routine_by_type_and_routine_id (type_id, a_routine_id: INTEGER; routine_name: STRING): like Type_routine_info
+	routine_by_type_and_routine_id (type_id, a_routine_id: INTEGER; routine_name: STRING): EL_LOGGED_ROUTINE_INFO
 			-- Unique routine by generating type and routine id
 		require
 			enough_space_to_store_type_in_routine_id_key: type_id <= Max_classes
@@ -188,7 +153,7 @@ feature {NONE} -- Implementation
 				Result := Routine_table.found_item
 			else
 				class_name := Eiffel.type_name_of_type (type_id)
-				Result := [l_routine_id, type_id, routine_name, class_name]
+				create Result.make (l_routine_id, type_id, routine_name, class_name)
 				Routine_table.put (Result, l_routine_id)
 			end
 		end
@@ -209,21 +174,13 @@ feature {NONE} -- Implementation
 
 	Log_enabled_classes: HASH_TABLE [INTEGER, INTEGER]
 
-	Routine_table: HASH_TABLE [like Type_routine_info, INTEGER]
+	Routine_table: HASH_TABLE [EL_LOGGED_ROUTINE_INFO, INTEGER]
 
 	Routine_id_table: HASH_TABLE [INTEGER, STRING]
 
 	filter_access: MUTEX
 
-	active: BOOLEAN
-
 	user_prompt_active: BOOLEAN
-
-feature -- Type definitions
-
-	Type_routine_info: TUPLE [id, class_type_id: INTEGER; name, class_name: STRING]
-		once
-		end
 
 feature -- Constants
 

@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_EIFFEL_SOURCE_MANIFEST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-10 10:45:05 GMT (Saturday 10th January 2015)"
-	revision: "5"
+	date: "2016-07-06 12:42:27 GMT (Wednesday 6th July 2016)"
+	revision: "6"
 
 class
 	EIFFEL_SOURCE_MANIFEST
@@ -42,11 +42,11 @@ feature -- Access
 			l_file_list: EL_FILE_PATH_LIST
 		do
 			across locations as location loop
-				file_count := file_count + location.item.file_list.count
+				file_count := file_count + location.item.path_list.count
 			end
 			create Result.make_with_count (file_count)
 			across locations as location loop
-				l_file_list := location.item.file_list
+				l_file_list := location.item.path_list
 				from l_file_list.start until l_file_list.after loop
 					Result.extend (l_file_list.path)
 					l_file_list.forth
@@ -60,20 +60,19 @@ feature -- Access
 			Result.sort
 		end
 
-	sorted_locations: EL_SORTABLE_ARRAYED_LIST [EIFFEL_SOURCE_LOCATION]
+	sorted_locations: EL_SORTABLE_ARRAYED_LIST [EIFFEL_SOURCE_TREE]
 		do
-			create Result.make_from_array (locations.to_array)
-			Result.sort
+			create Result.make_sorted (locations)
 		end
 
-	locations: EL_ARRAYED_LIST [EIFFEL_SOURCE_LOCATION]
+	locations: EL_ARRAYED_LIST [EIFFEL_SOURCE_TREE]
 
 feature {NONE} -- Build from Pyxis
 
 	extend_locations
 			--
 		do
-			locations.extend (create {EIFFEL_SOURCE_LOCATION}.make)
+			locations.extend (create {EIFFEL_SOURCE_TREE}.make_default)
 			set_next_context (locations.last)
 		end
 

@@ -10,7 +10,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 15:14:58 GMT (Thursday 24th December 2015)"
+	date: "2016-07-08 10:35:16 GMT (Friday 8th July 2016)"
 	revision: "8"
 
 class
@@ -244,11 +244,11 @@ feature {NONE} -- Building from XML
 					unplayed.extend (last)
 				end
 			else
-				log_or_io.put_labeled_string ("Venue", venue)
-				log_or_io.put_labeled_string (" Date", date.formatted_out (Date_format))
-				log_or_io.put_new_line
-				log_or_io.put_labeled_string ("Exported song not found", path)
-				log_or_io.put_new_line
+				lio.put_labeled_string ("Venue", venue)
+				lio.put_labeled_string (" Date", date.formatted_out (Date_format))
+				lio.put_new_line
+				lio.put_labeled_string ("Exported song not found", path)
+				lio.put_new_line
 			end
 		end
 
@@ -298,7 +298,7 @@ feature {NONE} -- Constants
 				#across $path_list as $path loop
 					"$path.item"
 				#end
-		
+
 	]"
 
 end

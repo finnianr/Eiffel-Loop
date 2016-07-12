@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_REMOTE_CALL_CONNECTION_MANAGER_THREAD}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "4"
+	date: "2016-07-03 11:36:45 GMT (Sunday 3rd July 2016)"
+	revision: "5"
 
 class
 	EL_REMOTE_CALL_CONNECTION_MANAGER_THREAD
@@ -17,10 +17,15 @@ inherit
 		rename
 			loop_action as poll_for_requests
 		redefine
-			execute, log_name, is_visible_in_console
+			execute, on_start
 		end
 
 	EL_MODULE_LOG
+		undefine
+			default_create, is_equal, copy
+		end
+
+	EL_MODULE_LOG_MANAGER
 		undefine
 			default_create, is_equal, copy
 		end
@@ -36,7 +41,8 @@ feature {NONE} -- Initialization
 	)
 			--
 		do
-			default_create
+			make_default
+			set_name ("Connection manager")
 			port_number := a_port_number
 			create logarithmic_polling_rates.make (5)
 			(2 |..| 6).do_all (
@@ -49,12 +55,19 @@ feature {NONE} -- Initialization
 			create client_connection_queue.make (request_handler_count_max, a_routine_call_event_listener)
 		end
 
+feature {NONE} -- Event handling
+
+	on_start
+		do
+			Log_manager.add_thread (Current)
+		end
+
 feature {NONE} -- Implementation
 
 	execute
 			--
 		do
-			log.enter ("execute")
+			log.enter ("execute_thread")
 			create connecting_socket.make_server_by_port (port_number)
 			connecting_socket.listen (client_connection_queue.request_thread_count_max)
 			connecting_socket.set_non_blocking
@@ -88,17 +101,17 @@ feature {NONE} -- Implementation
 			sleep (1000 // polls_per_second)
 		end
 
+feature {NONE} -- Internal attributes
+
 	client_connection_queue: EL_REMOTE_CALL_CLIENT_CONNECTION_QUEUE
 
 	connecting_socket: EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET
 
-	port_number: INTEGER
-
 	logarithmic_polling_rates: ARRAYED_LIST [INTEGER]
 
-feature {NONE} -- Constants
+	port_number: INTEGER
 
-	Log_name: STRING = "Connection manager"
+feature {NONE} -- Constants
 
 	Is_visible_in_console: BOOLEAN = true
 

@@ -7,7 +7,7 @@
 	cosmetics, trinkets or jewellery.
 	
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" name = "EL_compression" uuid = "229b6f84-09aa-11df-87b0-ab7c62abf4b2" library_target = "el_compression">
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" name = "EL_compression" uuid = "229b6f84-09aa-11df-87b0-ab7c62abf4b2" library_target = "EL_compression">
 	<target name = "EL_compression">
 		<description>wrapper for zlib. (http://www.eiffel-loop.com)</description>
 		<option trace = "false" debug = "false" warning = "true" syntax = "standard">
@@ -30,7 +30,8 @@
 			Eiffel Loop
 			
 		-->
-		<library name = "EL_base" location = "base.ecf"/>
+		<library name = "EL_base" location = "base/base.ecf"/>
+		<!--Source code-->
 		<cluster name = "compression" location = "utility/compression"/>
 	</target>
 </system>

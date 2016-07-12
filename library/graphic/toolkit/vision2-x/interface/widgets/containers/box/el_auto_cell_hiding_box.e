@@ -9,7 +9,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-09-06 10:06:22 GMT (Sunday 6th September 2015)"
+	date: "2016-07-01 14:40:48 GMT (Friday 1st July 2016)"
 	revision: "5"
 
 deferred class
@@ -30,10 +30,10 @@ inherit
 			is_equal, default_create, copy
 		end
 
-	EL_MODULE_LOG
-		undefine
-			is_equal, default_create, copy
-		end
+--	EL_MODULE_LOG
+--		undefine
+--			is_equal, default_create, copy
+--		end
 
 feature {NONE} -- Initialization
 

@@ -51,7 +51,7 @@ class EIFFEL_CONFIG_FILE (object):
 		for attrib in ecf_ctx.node_list (xpath):
 			location = path.normpath (path.expandvars (attrib).translate (string.maketrans ('\\','/')))
 			#print 'location:', location
-			if not path.dirname (location) or location.startswith ('..'):
+			if not path.isabs (location):
 				location = path.join (path.dirname (ecf_path),  location)
 			# Recurse ecf file
 			ecf = EIFFEL_CONFIG_FILE (location)
@@ -78,7 +78,7 @@ class EIFFEL_CONFIG_FILE (object):
 		location = ecf_ctx.attribute ('/ec:system/ec:target/ec:precompile/@location')
 		if location:
 			self.precompile_path = self.__expanded_path (location)
-	
+
 	def __external_libs (self, ecf_ctx):
 		xpath = "//ec:system/ec:target/ec:external_object [count (%s)=0]/@location" % self.__excluded_library_or_external_object_conditions ()
 		result = []
@@ -177,7 +177,7 @@ class FREEZE_BUILD (object):
 		self.system_type = self.ecf.system_type
 		self.dir_build_info = self.ecf.dir_build_info
 		self.library_names = []
-		
+
 		print 'Precompile: '
 		print '  ', self.precompile_path
 
@@ -230,7 +230,7 @@ class FREEZE_BUILD (object):
 		return path.join ('build', self.ise_platform)
 
 	def compilation_options (self):
-		return ['-freeze', '-c_compile']
+		return ['-freeze']
 
 	def resources_destination (self):
 		self.write_io ('resources_destination freeze\n')
@@ -248,18 +248,6 @@ class FREEZE_BUILD (object):
 			
 		return result
 
-	def precompile_name (self):
-		# Platform version may not exist yet so look for copy in parent directory (precomp)
-		parent_dir = path.dirname (path.dirname (self.precompile_path))
-		precompile_path = path.join (parent_dir, path.basename (self.precompile_path))
-		
-		ctx = XPATH_CONTEXT (precompile_path, 'ec')
-		result = ctx.attribute ('/ec:system/@library_target')
-		if result:
-			result = result.lower ()
-		
-		return result
-
 	def archive_target (self):
 		return path.join ('build', os_platform.system () + '-F_code.tar.gz')
 	
@@ -271,7 +259,8 @@ class FREEZE_BUILD (object):
 		self.__write_class_build_info ()
 	
 	def compile (self):
-		command = ['ec', '-batch'] + self.compilation_options () + ['-config', self.ecf_path, '-project_path', self.project_path ()]
+		# Will automatically do precompile if needed
+		command = ['ec', '-batch', '-c_compile'] + self.compilation_options () + ['-config', self.ecf_path, '-project_path', self.project_path ()]
 		self.write_io ('Subprocess: %s\n' % command)
 			
 		ret_code = osprocess.call (command, env = self.env ['ASCII_ENV'])
@@ -391,7 +380,10 @@ class FREEZE_BUILD (object):
 		return result
 	
 	def __has_SConscript (self, lib):
-		return path.exists (self.__SConscript_path (lib))
+		lib_sconscript = self.__SConscript_path (lib)
+		result = path.exists (lib_sconscript)
+		# print lib, "has", lib_sconscript, result
+		return result
 
 # end FREEZE_BUILD
 
@@ -490,7 +482,7 @@ class FINALIZE_AND_TEST_BUILD (FREEZE_BUILD): # Obsolete July 2012
 
 # Access
 	def compilation_options (self):
-		return ['-finalize', '-keep', '-c_compile']
+		return ['-finalize', '-keep']
 
 # Status query
 

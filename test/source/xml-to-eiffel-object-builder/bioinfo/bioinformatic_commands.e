@@ -2,51 +2,51 @@
 	description: "[
 		Bioinformatic data demonstrating building from recursive XML
 		
-		Example:		
-		<bix>
-			<package>
-				<command>
-					<parlist>
-						<par>
-							<value type="boolean">true</value>
-						</par>
-							<value type="container">
-								<parlist>
-									<par>
-										<value type="boolean">true</value>
-									</par>
-									<par>
-										<value type="integer">12</value>
-									</par>
-									</par>
-										<value type="container">
-											<parlist>
-												<par>
-													<value type="boolean">true</value>
-												</par>
-												<par>
-													<value type="integer">12</value>
-												</par>
-											</parlist>
-										</value>
-									<par>
-								</parlist>
-							</value>
-						<par>
-						</par>
-					</parlist>
-				</command>
-			</package>
-		</bix>
+		**Example**
+			<bix>
+				<package>
+					<command>
+						<parlist>
+							<par>
+								<value type="boolean">true</value>
+							</par>
+								<value type="container">
+									<parlist>
+										<par>
+											<value type="boolean">true</value>
+										</par>
+										<par>
+											<value type="integer">12</value>
+										</par>
+										</par>
+											<value type="container">
+												<parlist>
+													<par>
+														<value type="boolean">true</value>
+													</par>
+													<par>
+														<value type="integer">12</value>
+													</par>
+												</parlist>
+											</value>
+										<par>
+									</parlist>
+								</value>
+							<par>
+							</par>
+						</parlist>
+					</command>
+				</package>
+			</bix>
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 15:24:58 GMT (Thursday 1st January 2015)"
-	revision: "4"
+	date: "2016-07-07 16:21:02 GMT (Thursday 7th July 2016)"
+	revision: "5"
 
 class
 	BIOINFORMATIC_COMMANDS

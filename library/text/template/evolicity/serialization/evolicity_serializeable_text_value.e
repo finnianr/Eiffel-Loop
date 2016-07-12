@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 8:15:47 GMT (Wednesday 16th December 2015)"
+	date: "2016-07-05 5:56:53 GMT (Tuesday 5th July 2016)"
 	revision: "4"
 
 class
@@ -14,14 +14,42 @@ class
 
 inherit
 	EVOLICITY_SERIALIZEABLE_AS_XML
+		redefine
+			make_default
+		end
+
+	EL_STRING_CONSTANTS
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make (a_text: ZSTRING)
+			--
+		do
+			make_default
+			text := a_text
+		end
+
+	make_default
+		do
+			text := Empty_string
+			Precursor
+		end
 
 feature -- Access
 
 	text: ZSTRING
 
-feature {NONE} -- Evolicity reflection
+feature -- Element change
 
-	Template: STRING_32 = "$text"
+	set_text (a_text: like text)
+		do
+			text := a_text
+		end
+
+feature {NONE} -- Evolicity reflection
 
 	getter_function_table: like getter_functions
 			--
@@ -29,6 +57,13 @@ feature {NONE} -- Evolicity reflection
 			create Result.make (<<
 				["text", agent: ZSTRING do Result := text end]
 			>>)
+		end
+
+feature {NONE} -- Constants
+
+	Template: READABLE_STRING_GENERAL
+		once
+			Result := "$text"
 		end
 
 end

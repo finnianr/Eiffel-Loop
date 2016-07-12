@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 11:59:50 GMT (Monday 18th January 2016)"
+	date: "2016-07-08 7:22:10 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 class
@@ -74,8 +74,8 @@ feature {NONE} -- State handlers
 			if a_line.starts_with (Field.end_) then
 				output_path := output_dir + record_id
 				output_path.add_extension ("vcf")
-				log_or_io.put_path_field ("Writing", output_path)
-				log_or_io.put_new_line
+				lio.put_path_field ("Writing", output_path)
+				lio.put_new_line
 				create file.make_open_write (output_path)
 				across record_lines as line loop
 					file.put_string (line.item.to_utf_8)

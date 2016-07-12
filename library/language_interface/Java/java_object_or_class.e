@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-06-30 18:08:23 GMT (Thursday 30th June 2016)"
+	revision: "4"
 
 deferred class
 	JAVA_OBJECT_OR_CLASS
@@ -31,18 +31,17 @@ feature -- Access
 		deferred
 		end
 
-feature {NONE} -- Obsolete
+feature {NONE} -- Unimplemented
 
-	obsolete_object_method (mid: POINTER; args: JAVA_ARGS): OBSOLETE_JAVA_OBJECT
-
-		obsolete "class OBSOLETE_JAVA_OBJECT is not used in Java Eiffel Tango"
+	obsolete_object_method (mid: POINTER; args: detachable JAVA_ARGS): JAVA_OBJECT
+		require else
+			never_called: False
 		do
 		end
 
-	obsolete_object_attribute (fid: POINTER): OBSOLETE_JAVA_OBJECT
-
-		obsolete "class OBSOLETE_JAVA_OBJECT is not used in Java Eiffel Tango"
+	obsolete_object_attribute (fid: POINTER): JAVA_OBJECT
+		require else
+			never_called: False
 		do
 		end
-
-end -- class JAVA_OBJECT_OR_CLASS
+end

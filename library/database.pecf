@@ -27,17 +27,23 @@ system:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library:
-			name = uuid; location = "$ISE_EIFFEL/library/uuid/uuid.ecf"
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		# Eiffel Loop
 		library:
-			name = EL_base; location = "base.ecf"
-
-		library:
-			name = EL_vtd_xml; location = "vtd-xml.ecf"
+			name = EL_base; location = "base/base.ecf"
 
 		library:
 			name = EL_encryption; location = "encryption.ecf"
+
+		library:
+			name = EL_evolicity; location = "evolicity.ecf"
+
+		library:
+			name = EL_logging; location = "logging.ecf"
+
+		library:
+			name = EL_vtd_xml; location = "vtd-xml.ecf"
 
 		# Source code
 		cluster:

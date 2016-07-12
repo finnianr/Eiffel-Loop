@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_THREAD_SAFE_STACK}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-03-11 17:13:14 GMT (Wednesday 11th March 2015)"
-	revision: "2"
+	date: "2016-07-02 10:19:06 GMT (Saturday 2nd July 2016)"
+	revision: "3"
 
 class
 	EL_THREAD_SAFE_STACK [G]
@@ -57,19 +57,6 @@ feature -- Removal
 			end_restriction
 		end
 
-	logged_removed_item: G
-			-- Same as 'removed_item' but logged
-		do
-			log.enter ("removed_item")
-			logged_restrict_access
-			Result := stack_item
-			stack_remove
-			log.put_line (Result.out)
-
-			end_restriction
-			log.exit
-		end
-
 feature -- Access
 
 	count: INTEGER
@@ -86,8 +73,7 @@ feature -- Status report
 			--
 		do
 			restrict_access
-			Result := is_stack_empty
-
+				Result := is_stack_empty
 			end_restriction
 		end
 
@@ -97,30 +83,15 @@ feature -- Element change
 			--
 		do
 			restrict_access
-			stack_put (v)
-
+				stack_put (v)
 			end_restriction
-		end
-
-	logged_put (v: G)
-			-- Same as 'put' but logged
-		do
-			log.enter ("put")
-			logged_restrict_access
-			log.put_line (v.out)
-
-			stack_put (v)
-
-			end_restriction
-			log.exit
 		end
 
 	wipe_out
 			--
 		do
 			restrict_access
-			stack_wipe_out
-
+				stack_wipe_out
 			end_restriction
 		end
 

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 8:32:57 GMT (Thursday 23rd June 2016)"
+	date: "2016-07-08 18:36:44 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 deferred class
@@ -14,12 +14,15 @@ deferred class
 
 inherit
 	EL_SUB_APPLICATION
+		undefine
+			new_lio, new_log_manager
+		end
 
-	EL_TESTABLE_APPLICATION
-
-	EL_MODULE_LOG
+	EL_REGRESSION_TESTING_APPLICATION
 
 	EL_MODULE_AUDIO_COMMAND
+
+	EL_MODULE_OS
 
 	RHYTHMBOX_CONSTANTS
 
@@ -58,7 +61,7 @@ feature {NONE} -- Initialization
 								l_duration := l_duration // 10
 							end
 							File_system.make_directory (song.mp3_path.parent)
-							File_system.copy_file (cached_song_file_path (song, l_duration), song.mp3_path)
+							OS.copy_file (cached_song_file_path (song, l_duration), song.mp3_path)
 						end
 					end
 				end

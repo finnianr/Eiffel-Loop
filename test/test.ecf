@@ -42,13 +42,14 @@
 		<library name = "base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
 		<library name = "thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
+		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
 		<library name = "testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
 		<!--Gobo-->
 		<library name = "gobo_kernel" location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"/>
 		<library name = "gobo_base" location = "$EIFFEL_LOOP/library/gobo-base.ecf"/>
 		<!--Eiffel Loop libraries-->
 		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
-		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base.ecf" readonly = "false">
+		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false">
 			<option>
 				<assertions precondition = "true" postcondition = "true" check = "true"/>
 			</option>
@@ -64,9 +65,14 @@
 		<library name = "EL_eyeD3" location = "$EIFFEL_LOOP/library/eyeD3.ecf" readonly = "false"/>
 		<library name = "EL_encryption" location = "$EIFFEL_LOOP/library/encryption.ecf" readonly = "false"/>
 		<library name = "EL_database" readonly = "false" location = "$EIFFEL_LOOP/library/database.ecf"/>
+		<library name = "EL_ftp" readonly = "false" location = "$EIFFEL_LOOP/library/ftp.ecf"/>
+		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
 		<library name = "EL_http" readonly = "false" location = "$EIFFEL_LOOP/library/http.ecf"/>
 		<library name = "EL_i18n" readonly = "false" location = "$EIFFEL_LOOP/library/i18n.ecf"/>
+		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
 		<library name = "EL_network" readonly = "false" location = "$EIFFEL_LOOP/library/network.ecf"/>
+		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
+		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
 		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>
 		<library name = "EL_xml_conversion" location = "$EIFFEL_LOOP/library/xml-conversion.ecf" readonly = "false"/>
 		<library name = "EL_xdoc_scanning" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf" readonly = "false"/>
@@ -272,5 +278,6 @@
 	Build 2016-04-04 18:52:09.577005
 	Build 2016-04-04 19:20:20.502322
 	Build 2016-06-19 19:48:24.603860
+	Build 2016-07-06 11:03:08.572443
 	
 -->

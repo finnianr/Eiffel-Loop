@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:14:19 GMT (Friday 24th June 2016)"
+	date: "2016-07-08 14:14:51 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 deferred class
@@ -36,19 +36,20 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 	make
 			--
 		local
-			log_stack_pos: INTEGER
-			l_log_filters: like log_filter_array
+			log_stack_pos: INTEGER; l_log_filters: like log_filter_array
 		do
 			create options_help.make
 			Exceptions.catch (Exceptions.Signal_exception)
 
-			create is_logging_active
-			set_boolean_from_command_opt (is_logging_active, {EL_LOG_COMMAND_OPTIONS}.Logging, "Activate application logging to console")
+			-- Add logging menu option. The actual is_active status is tested in `EL_GLOBAL_LOGGING'
+			set_boolean_from_command_opt (
+				create {BOOLEAN_REF}, {EL_LOG_COMMAND_OPTIONS}.Logging, "Activate application logging to console"
+			)
 
 			l_log_filters := log_filter_array
-			init_logging (is_logging_active.item, l_log_filters, Log_output_directory)
+			init_logging (l_log_filters, Log_output_directory)
 			io_put_header (l_log_filters)
-			log_or_io.put_new_line
+			lio.put_new_line
 
 			log.enter ("make")
 			log_stack_pos := log.call_stack_count;
@@ -67,8 +68,8 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 			else
 				run
 				if Ask_user_to_quit then
-					log_or_io.put_new_line
-					log_or_io.put_string ("<RETURN TO QUIT>")
+					lio.put_new_line
+					lio.put_string ("<RETURN TO QUIT>")
 					io.read_character
 				end
 			end
@@ -151,16 +152,16 @@ feature -- Basic operations
 
 	print_command_option_help
 		do
-			log_or_io.put_line ("COMMAND LINE OPTIONS:")
-			log_or_io.put_new_line
+			lio.put_line ("COMMAND LINE OPTIONS:")
+			lio.put_new_line
 
 			across options_help as option loop
-				log_or_io.put_line (indent (4) + "-" + option.item.name + ":")
-				log_or_io.put_line (indent (8) + option.item.description)
+				lio.put_line (indent (4) + "-" + option.item.name + ":")
+				lio.put_line (indent (8) + option.item.description)
 				if not option.item.default_value.is_empty then
-					log_or_io.put_line (indent (8) + "Default: " + option.item.default_value)
+					lio.put_line (indent (8) + "Default: " + option.item.default_value)
 				end
-				log_or_io.put_new_line
+				lio.put_new_line
 			end
 
 		end
@@ -168,8 +169,6 @@ feature -- Basic operations
 feature -- Status query
 
 	has_invalid_argument: BOOLEAN
-
-	is_logging_active: BOOLEAN_REF
 
 	is_installable: BOOLEAN
 		do
@@ -314,13 +313,13 @@ feature {NONE} -- Element change
 
 	put_command_failed_error
 		do
-			log_or_io.put_new_line
+			lio.put_new_line
 			put_log_message (Template_command_error, [option_name.as_string_8])
 		end
 
 	put_log_message (a_template: ZSTRING; a_inserts: TUPLE)
 		do
-			log_or_io.put_line (a_template #$ a_inserts)
+			lio.put_line (a_template #$ a_inserts)
 		end
 
 feature {NONE} -- Implementation
@@ -335,26 +334,26 @@ feature {NONE} -- Implementation
 			build_version, test: STRING
 		do
 			log.enter_no_header ("io_put_header")
-			log_or_io.put_new_line
+			lio.put_new_line
 			test := "test"
 			if Args.argument_count >= 2 and then Args.item (2).same_string (test) then
 				build_version := test
 			else
 				build_version := Build_info.version.out
 			end
-			log_or_io.put_labeled_string ("Executable", Execution.executable_path.base)
-			log_or_io.put_labeled_string (" Version", build_version)
-			log_or_io.put_new_line
+			lio.put_labeled_string ("Executable", Execution.executable_path.base)
+			lio.put_labeled_string (" Version", build_version)
+			lio.put_new_line
 
-			log_or_io.put_labeled_string ("Class", generator)
-			log_or_io.put_labeled_string (" Option", option_name)
-			log_or_io.put_new_line
-			log_or_io.put_string_field ("Description", description)
+			lio.put_labeled_string ("Class", generator)
+			lio.put_labeled_string (" Option", option_name)
+			lio.put_new_line
+			lio.put_string_field ("Description", description)
 
 			log.exit_no_trailer
 
 			log.put_configuration_info (a_log_filters)
-			log_or_io.put_new_line
+			lio.put_new_line
 		end
 
 	indent (n: INTEGER): STRING

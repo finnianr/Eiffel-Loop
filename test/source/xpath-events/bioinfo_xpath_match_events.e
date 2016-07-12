@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 18:52:45 GMT (Wednesday 16th December 2015)"
+	date: "2016-07-08 10:39:37 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -51,9 +51,9 @@ feature {NONE} -- XPath match event handlers
 		do
 			node_string := last_node.to_string
 			if node_string.starts_with_general ("Help") then
-				log_or_io.put_string_field_to_max_length ("HELP LABEL", node_string, 100)
-				log_or_io.put_new_line
-				log_or_io.put_new_line
+				lio.put_string_field_to_max_length ("HELP LABEL", node_string, 100)
+				lio.put_new_line
+				lio.put_new_line
 			end
 		end
 
@@ -132,9 +132,9 @@ feature {NONE} -- Implementation
 	log_last_node (label: STRING)
 			--
 		do
-			log_or_io.put_string_field (label, last_node.to_string)
-			log_or_io.put_new_line
-			log_or_io.put_new_line
+			lio.put_string_field (label, last_node.to_string)
+			lio.put_new_line
+			lio.put_new_line
 		end
 
 	increment (counter: INTEGER_REF)

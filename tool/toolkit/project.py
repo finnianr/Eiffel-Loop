@@ -2,12 +2,18 @@
 
 from eiffel_loop.project import *
 
-version = (1, 1, 17)
+version = (1, 1, 19)
 
 installation_sub_directory = 'Eiffel-Loop/utils'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.1.18
+# Added new ftp class: EL_FTP_SYNC
+
+# 1.1.18
+# New class EIFFEL_REPOSITORY_PUBLISHER_APP to replace index generator
 
 # 1.1.17
 # Removed bridge pattern

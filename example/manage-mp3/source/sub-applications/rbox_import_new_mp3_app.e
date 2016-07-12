@@ -1,7 +1,7 @@
 ﻿note
 	description: "[
 		Import mp3 not currently in database and set artist and genre according to current location in
-		Music/<genre>/<artist/composer>
+			Music/<genre>/<artist/composer>
 	]"
 
 	author: "Finnian Reilly"
@@ -9,7 +9,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 7:08:16 GMT (Monday 20th June 2016)"
+	date: "2016-07-08 18:33:30 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -33,18 +33,18 @@ feature -- Basic operations
 		do
 			create_database
 			create new_mp3_list.make
-			across File_system.file_list (database.mp3_root_location, "*.mp3") as mp3_path loop
+			across OS.file_list (database.mp3_root_location, "*.mp3") as mp3_path loop
 				if not database.songs_by_location.has (mp3_path.item) then
 					new_mp3_list.extend (mp3_path.item)
 				end
 			end
 			if not new_mp3_list.is_empty then
-				log_or_io.put_line ("Importing new MP3")
-				log_or_io.put_new_line
+				lio.put_line ("Importing new MP3")
+				lio.put_new_line
 				new_mp3_list.do_all (agent database.import_mp3)
 				database.store_all
 			else
-				log_or_io.put_line ("Nothing to import")
+				lio.put_line ("Nothing to import")
 			end
 		end
 
@@ -87,7 +87,7 @@ feature -- Test operations
 			random.set_seed (song1.last_checksum.to_integer_32)
 			across << song1, song2 >> as song loop
 				File_system.make_directory (song.item.mp3_path.parent)
-				File_system.copy_file (cached_song_file_path (song.item, 2), song.item.mp3_path)
+				OS.copy_file (cached_song_file_path (song.item, 2), song.item.mp3_path)
 			end
 
 			normal_run
@@ -108,9 +108,8 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{RBOX_IMPORT_NEW_MP3_APP}, "*"],
-				[{RBOX_DATABASE}, "*"],
-				[{EL_TEST_ROUTINES}, "*"]
+				[{RBOX_IMPORT_NEW_MP3_APP}, All_routines],
+				[{RBOX_DATABASE}, All_routines]
 			>>
 		end
 

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 15:49:04 GMT (Monday 18th January 2016)"
+	date: "2016-07-08 10:43:56 GMT (Friday 8th July 2016)"
 	revision: "8"
 
 class
@@ -27,7 +27,7 @@ inherit
 
 	EL_PYTHON_UNESCAPE_CONSTANTS
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make
@@ -128,8 +128,8 @@ feature {NONE} -- Line states
 				output_content_lines (line, True, Content_double_number)
 
 			else
-				log_or_io.put_string_field ("Invalid Pyxis line", line)
-				log_or_io.put_new_line
+				lio.put_string_field ("Invalid Pyxis line", line)
+				lio.put_new_line
 			end
 		end
 

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 20:25:30 GMT (Monday 28th December 2015)"
+	date: "2016-07-08 18:35:12 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -21,8 +21,6 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_TIME
-
-	EL_MODULE_TEST
 
 create
 	make

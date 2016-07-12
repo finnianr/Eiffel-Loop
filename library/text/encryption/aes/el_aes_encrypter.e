@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-04 18:11:23 GMT (Friday 4th March 2016)"
+	date: "2016-07-01 14:18:16 GMT (Friday 1st July 2016)"
 	revision: "6"
 
 class
@@ -21,11 +21,6 @@ inherit
 	EL_MODULE_ENCRYPTION
 		rename
 			Encryption as Mod_encryption
-		undefine
-			default_create, out
-		end
-
-	EL_MODULE_LOG
 		undefine
 			default_create, out
 		end
@@ -47,7 +42,6 @@ feature {NONE} -- Initialization
 		local
 			size_bytes: INTEGER
 		do
-			log.enter ("make")
 			key_data := Mod_encryption.sha256_digest_32 (pass_phrase.to_utf_8)
 
 			size_bytes := key_size_bits // 8
@@ -55,7 +49,6 @@ feature {NONE} -- Initialization
 				key_data.keep_head (size_bytes)
 			end
 			make_from_key (key_data)
-			log.exit
 		end
 
 	make_128 (pass_phrase: ZSTRING)
@@ -198,10 +191,8 @@ feature -- Encryption
 		local
 			padded_plain_data: EL_PADDED_BYTE_ARRAY
 		do
-			log.enter ("encrypted_managed")
 			create padded_plain_data.make_from_managed (managed, count, Block_size)
 			Result := encrypted (padded_plain_data)
-			log.exit
 		end
 
 feature -- Decryption

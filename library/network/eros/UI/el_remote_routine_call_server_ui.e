@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_REMOTE_ROUTINE_CALL_SERVER_UI}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "4"
+	date: "2016-07-03 11:46:36 GMT (Sunday 3rd July 2016)"
+	revision: "5"
 
 class
 	EL_REMOTE_ROUTINE_CALL_SERVER_UI
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 	make (a_name: STRING; a_port_number, a_request_handler_count_max: INTEGER)
 		do
 			name := a_name; port_number := a_port_number; request_handler_count_max := a_request_handler_count_max
-			make_ui
+			make_ui (True)
 		end
 
 feature {NONE} -- Implementation

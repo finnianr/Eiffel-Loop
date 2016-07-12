@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-04-25 10:07:16 GMT (Saturday 25th April 2015)"
-	revision: "2"
+	date: "2016-07-03 6:35:33 GMT (Sunday 3rd July 2016)"
+	revision: "3"
 
 deferred class
 	EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_REGULAR_INTERVAL_EVENT_CONSUMER
 		undefine
-			is_equal, copy, stop
+			is_equal, copy, stop, name
 		redefine
 			make_default
 		end

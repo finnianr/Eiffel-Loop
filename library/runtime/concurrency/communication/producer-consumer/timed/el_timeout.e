@@ -2,12 +2,12 @@
 	description: "Repeatedly puts timer event onto a thread queue"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-03 9:24:57 GMT (Sunday 3rd July 2016)"
+	revision: "4"
 
 class
 	EL_TIMEOUT
@@ -16,11 +16,6 @@ inherit
 	EL_RHYTHMIC_ACTION_THREAD
 		redefine
 			execute
-		end
-
-	EL_MODULE_LOG
-		undefine
-			default_create, is_equal, copy
 		end
 
 create
@@ -40,24 +35,27 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	event_queue: EL_THREAD_PRODUCT_QUEUE [TUPLE [INTEGER]]
-
 	count: INTEGER
+
+	event_queue: EL_THREAD_PRODUCT_QUEUE [TUPLE [INTEGER]]
 
 feature -- Basic operations
 
 	loop_action
 			--
 		do
-			log.enter ("do_action")
 			if count > 0 then
 				timer.update
 				event_queue.put ([timer.elapsed_millisecs])
-				log.put_integer_field ("Elapsed time", timer.elapsed_millisecs)
-				log.put_new_line
+				on_post_event
 			end
 			count := count + 1
-			log.exit
+		end
+
+feature {NONE} -- Event handling
+
+	on_post_event
+		do
 		end
 
 feature {NONE} -- Implementation

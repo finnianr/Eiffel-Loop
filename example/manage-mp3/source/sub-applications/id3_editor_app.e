@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 9:25:43 GMT (Wednesday 16th December 2015)"
+	date: "2016-07-08 18:32:20 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -81,9 +81,8 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{ID3_EDITOR_APP}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines],
 				[{ID3_EDITOR}, All_routines],
-				[{EL_ID3_INFO}, No_routines],
+--				[{EL_ID3_INFO}, No_routines],
 				[{ID3_EDITS}, All_routines]
 			>>
 		end

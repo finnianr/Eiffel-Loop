@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_VTD_EXCEPTIONS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-07-23 19:06:44 GMT (Thursday 23rd July 2015)"
-	revision: "3"
+	date: "2016-07-08 10:51:59 GMT (Friday 8th July 2016)"
+	revision: "4"
 
 class
 	EL_VTD_EXCEPTIONS
@@ -30,7 +30,7 @@ inherit
 			out
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 		undefine
 			out
 		end
@@ -105,18 +105,16 @@ feature -- Basic operations
 	alert
 			--
 		do
-			log.enter ("alert")
-			log_or_io.put_string_field ("VTD-XML ERROR", type_description)
-			log_or_io.put_new_line
+			lio.put_string_field ("VTD-XML ERROR", type_description)
+			lio.put_new_line
 
-			log_or_io.put_string ("DETAILS: ")
-			log_or_io.put_string (message)
+			lio.put_string ("DETAILS: ")
+			lio.put_string (message)
 			if not sub_message.is_empty then
-				log_or_io.put_string (", ")
-				log_or_io.put_string (sub_message)
+				lio.put_string (", ")
+				lio.put_string (sub_message)
 			end
-			log_or_io.put_new_line
-			log.exit
+			lio.put_new_line
 		end
 
 feature {NONE} -- Implementation

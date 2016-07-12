@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_SERVER_ACTIVITY_METERS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-05-10 15:58:24 GMT (Sunday 10th May 2015)"
-	revision: "4"
+	date: "2016-07-03 11:44:55 GMT (Sunday 3rd July 2016)"
+	revision: "5"
 
 class
 	EL_SERVER_ACTIVITY_METERS
@@ -55,7 +55,7 @@ feature {NONE} -- Initialization
 
 			create service_stats.make (max_threads)
 			service_stats.set_display_refresh_timer (
-				create {EL_REGULAR_INTERVAL_EVENT_PROCESSOR}.make_event_producer (Current, "Activity meters refresh timer", Refresh_interval)
+				create {EL_LOGGED_REGULAR_INTERVAL_EVENT_PROCESSOR}.make_event_producer ("Activity meters refresh timer", Current, Refresh_interval)
 			)
 
 			create thread_count_suffix.make_from_string (" of ")
@@ -207,13 +207,12 @@ feature -- Element change
 
 feature {NONE} -- UI building
 
-	create_meter_frame (name: STRING; meters: ARRAY [EV_LABEL]): EL_FRAME [EL_HORIZONTAL_BOX]
+	create_meter_frame (a_name: STRING; meters: ARRAY [EV_LABEL]): EL_FRAME [EL_HORIZONTAL_BOX]
 			--
 		local
-			meter: EV_LABEL
-			i: INTEGER
+			meter: EV_LABEL; i: INTEGER
 		do
-			create Result.make_with_text (0.2, 0.2, name)
+			create Result.make_with_text (0.2, 0.2, a_name)
 			Result.set_style (Frame_style.Ev_frame_etched_out)
 
 			from i := 1 until i > meters.count loop

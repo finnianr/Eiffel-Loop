@@ -6,14 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-25 9:07:13 GMT (Friday 25th December 2015)"
-	revision: "4"
+	date: "2016-07-08 10:40:02 GMT (Friday 8th July 2016)"
+	revision: "5"
 
 deferred class
 	EL_XML_NODE_VISITOR
 
 inherit
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	EL_XML_NODE_CLIENT
 
@@ -67,7 +67,7 @@ feature -- Basic operations
 		do
 			parse_event_source.parse_from_stream (a_stream)
 			if parse_event_source.has_error then
-				parse_event_source.log_error (log_or_io)
+				parse_event_source.log_error (lio)
 			end
 		end
 

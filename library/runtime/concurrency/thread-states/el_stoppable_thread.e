@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-04-23 10:20:42 GMT (Thursday 23rd April 2015)"
-	revision: "2"
+	date: "2016-07-03 6:12:50 GMT (Sunday 3rd July 2016)"
+	revision: "3"
 
 deferred class
 	EL_STOPPABLE_THREAD
@@ -17,6 +17,8 @@ inherit
 		redefine
 			make_default
 		end
+
+	EL_NAMED_THREAD
 
 feature {NONE} -- Initialization
 
@@ -29,19 +31,31 @@ feature {NONE} -- Initialization
 
 feature -- Status change
 
-	stop, set_stopping
-			-- Tell the thread to stop
-		do
-			set_state (State_stopping)
-		end
-
 	activate
 			--
 		do
 			set_state (State_activating)
 		end
 
+	stop, set_stopping
+			-- Tell the thread to stop
+		do
+			set_state (State_stopping)
+		end
+
 feature -- Query status
+
+	is_activating: BOOLEAN
+			--
+		do
+			Result := state = State_activating
+		end
+
+	is_active: BOOLEAN
+			--
+		do
+			Result := state = State_active
+		end
 
 	is_stopped: BOOLEAN
 			--
@@ -55,26 +69,14 @@ feature -- Query status
 			Result := state = State_stopping
 		end
 
-	is_active: BOOLEAN
-			--
-		do
-			Result := state = State_active
-		end
-
-	is_activating: BOOLEAN
-			--
-		do
-			Result := state = State_activating
-		end
-
 feature -- Constants
 
-	State_active: INTEGER
+	State_activating: INTEGER
 			--
 		deferred
 		end
 
-	State_activating: INTEGER
+	State_active: INTEGER
 			--
 		deferred
 		end
@@ -89,18 +91,31 @@ feature -- Constants
 		deferred
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Event handler
 
-	set_stopped
+	on_exit
 			--
 		do
-			set_state (State_stopped)
 		end
+
+	on_start
+		do
+		end
+
+feature {NONE} -- Implementation
 
 	set_active
 			--
 		do
 			set_state (State_active)
+			on_start
+		end
+
+	set_stopped
+			--
+		do
+			on_exit
+			set_state (State_stopped)
 		end
 
 end

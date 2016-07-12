@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-15 8:58:44 GMT (Tuesday 15th December 2015)"
+	date: "2016-07-08 11:23:36 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -48,7 +48,6 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines],
 				[{BIOINFORMATIC_COMMANDS}, All_routines],
 				[{BIOINFO_COMMAND}, All_routines],
 				[{CONTAINER_PARAMETER}, All_routines],

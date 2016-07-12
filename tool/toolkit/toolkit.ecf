@@ -34,9 +34,7 @@
 			LIBRARIES
 			
 		-->
-		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf">
-			<renaming old_name = "EL_ASTRING" new_name = "ASTRING"/>
-		</library>
+		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "arbitrary_precision_math" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
@@ -44,15 +42,19 @@
 		<library name = "gobo_base" location = "$EIFFEL_LOOP/library/gobo-base.ecf"/>
 		<library name = "testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
 		<!--Eiffel-Loop-->
-		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base.ecf" readonly = "false"/>
-		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
-		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>
-		<library name = "EL_xdoc_scanning" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf" readonly = "false"/>
-		<library name = "EL_ftp" location = "$EIFFEL_LOOP/library/ftp.ecf" readonly = "false"/>
-		<library name = "EL_encryption" location = "$EIFFEL_LOOP/library/encryption.ecf" readonly = "false"/>
-		<library name = "EL_i18n" readonly = "false" location = "$EIFFEL_LOOP/library/i18n.ecf"/>
-		<library name = "EL_public_key_encryption" location = "$EIFFEL_LOOP/library/public-key-encryption.ecf" readonly = "false"/>
 		<library name = "EL_app_license_keys" location = "$EIFFEL_LOOP/library/app-license-keys.ecf" readonly = "false"/>
+		<library name = "EL_base" readonly = "false" location = "$EIFFEL_LOOP/library/base/base.ecf"/>
+		<library name = "EL_app_manage" readonly = "false" location = "$EIFFEL_LOOP/library/app-manage.ecf"/>
+		<library name = "EL_ftp" readonly = "false" location = "$EIFFEL_LOOP/library/ftp.ecf"/>
+		<library name = "EL_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/encryption.ecf"/>
+		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
+		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
+		<library name = "EL_i18n" readonly = "false" location = "$EIFFEL_LOOP/library/i18n.ecf"/>
+		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
+		<library name = "EL_public_key_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/public-key-encryption.ecf"/>
+		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
+		<library name = "EL_vtd_xml" readonly = "false" location = "$EIFFEL_LOOP/library/vtd-xml.ecf"/>
+		<library name = "EL_xdoc_scanning" readonly = "false" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"/>
 		<cluster name = "project" location = "source" recursive = "true"/>
 	</target>
 </system>
@@ -211,5 +213,28 @@
 	Build 2016-06-11 10:35:08.719145
 	Build 2016-06-11 10:55:41.260302
 	Build 2016-06-24 07:47:15.641276
+	Build 2016-07-01 08:23:41.387383
+	Build 2016-07-01 08:25:03.646247
+	Build 2016-07-01 08:26:17.304057
+	Build 2016-07-06 13:08:43.232012
+	Build 2016-07-06 13:31:29.797190
+	Build 2016-07-06 13:53:06.315566
+	Build 2016-07-06 14:13:31.532948
+	Build 2016-07-06 15:15:26.467800
+	Build 2016-07-06 15:55:11.068956
+	Build 2016-07-06 16:17:24.266224
+	Build 2016-07-07 10:44:55.976853
+	Build 2016-07-07 11:01:32.971891
+	Build 2016-07-07 11:11:14.728787
+	Build 2016-07-07 11:34:05.700755
+	Build 2016-07-07 12:27:15.530954
+	Build 2016-07-07 12:57:22.529036
+	Build 2016-07-07 13:07:45.024755
+	Build 2016-07-07 14:53:30.686342
+	Build 2016-07-07 15:15:00.721593
+	Build 2016-07-07 15:27:48.639798
+	Build 2016-07-11 19:40:20.694651
+	Build 2016-07-11 19:43:57.928659
+	Build 2016-07-11 19:48:03.892963
 	
 -->

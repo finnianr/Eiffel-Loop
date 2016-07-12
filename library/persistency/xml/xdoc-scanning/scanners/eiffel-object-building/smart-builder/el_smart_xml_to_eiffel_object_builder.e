@@ -1,17 +1,17 @@
 ﻿note
 	description: "[
-		Detects the desired target type from XML processing instruction 'create {G}' 
-		and sets the type of target_object to G where G is a type conforming to EL_BUILDABLE_FROM_XML. 
-		Built object is made available as 'product'.
+		Detects the desired target type from XML processing instruction `create {G}' 
+		and sets the type of target_object to G where G is a type conforming to `EL_BUILDABLE_FROM_XML'. 
+		Built object is made available as `product'.
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 13:53:19 GMT (Thursday 1st January 2015)"
-	revision: "4"
+	date: "2016-07-07 16:17:19 GMT (Thursday 7th July 2016)"
+	revision: "5"
 
 class
 	EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-17 10:11:01 GMT (Sunday 17th January 2016)"
+	date: "2016-07-08 10:48:37 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -96,8 +96,7 @@ feature {NONE} -- Constants
 		do
 			create extras.make_from_array (<<
 				[{BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP}, All_routines],
-				[{BINARY_ENCODED_XML_DOCUMENT_SCANNER}, "on_start_tag, on_end_tag, on_content"],
-				[{EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE}, "-*"]
+				[{BINARY_ENCODED_XML_DOCUMENT_SCANNER}, "on_start_tag, on_end_tag, on_content"]
 
 			>>)
 			extras.append (create {ARRAYED_LIST [like Type_logging_filter]}.make_from_array (Precursor))

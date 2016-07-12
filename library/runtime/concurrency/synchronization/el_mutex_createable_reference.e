@@ -1,16 +1,16 @@
 ﻿note
 	description: "[
 		For creating objects with a default_create that require thread synchronization
-		E.g. INTEGER, REAL, BOOLEAN etc
+		E.g. `INTEGER', `REAL', `BOOLEAN' etc
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-05-10 15:51:03 GMT (Sunday 10th May 2015)"
-	revision: "2"
+	date: "2016-07-07 15:44:28 GMT (Thursday 7th July 2016)"
+	revision: "3"
 
 class
 	EL_MUTEX_CREATEABLE_REFERENCE [G -> ANY create default_create end]

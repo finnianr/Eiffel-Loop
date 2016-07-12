@@ -2,12 +2,12 @@
 	description: "Summary description for {CHARACTER_STATE_MACHINE_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 14:53:20 GMT (Thursday 1st January 2015)"
-	revision: "4"
+	date: "2016-07-08 11:22:45 GMT (Friday 8th July 2016)"
+	revision: "5"
 
 class
 	CHARACTER_STATE_MACHINE_TEST_APP
@@ -56,8 +56,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{CHARACTER_STATE_MACHINE_TEST_APP}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines]
+				[{CHARACTER_STATE_MACHINE_TEST_APP}, All_routines]
 			>>
 		end
 

@@ -1,0 +1,76 @@
+﻿note
+	description: "Summary description for {LIBRARY_EIFFEL_CLASS}."
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-07-07 10:05:27 GMT (Thursday 7th July 2016)"
+	revision: "7"
+
+class
+	LIBRARY_EIFFEL_CLASS
+
+inherit
+	EIFFEL_CLASS
+		redefine
+			make_default, is_library, getter_function_table, serialize
+		end
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			create client_examples.make (5)
+			Precursor
+		end
+
+feature -- Status query
+
+	is_library: BOOLEAN
+		do
+			Result := True
+		end
+
+feature -- Access
+
+	client_examples: EL_ARRAYED_LIST [EIFFEL_CLASS]
+
+feature -- Basic operations
+
+	serialize
+		local
+			l_classes: like repository.example_classes
+		do
+			l_classes := repository.example_classes
+			from l_classes.start until l_classes.after or else client_examples.count = Maximum_examples loop
+				if l_classes.item.has_class_name (name) then
+					client_examples.extend (l_classes.item)
+				end
+				l_classes.forth
+			end
+			Precursor
+		end
+
+feature {NONE} -- Evolicity fields
+
+	getter_function_table: like getter_functions
+			--
+		do
+			Result := Precursor
+			Result.append_tuples (<<
+				["client_examples", agent: like client_examples do Result := client_examples end]
+			>>)
+		end
+
+feature {NONE} -- Constants
+
+	Maximum_examples: INTEGER
+		once
+			Result := 20
+		end
+end

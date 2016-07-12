@@ -2,12 +2,12 @@
 	description: "Summary description for {MP3_FILE_COLLATOR_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-17 19:45:06 GMT (Saturday 17th January 2015)"
-	revision: "6"
+	date: "2016-07-08 18:32:37 GMT (Friday 8th July 2016)"
+	revision: "7"
 
 class
 	MP3_FILE_COLLATOR_APP
@@ -71,9 +71,8 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{EL_TEST_ROUTINES}, "*"],
-				[{MP3_FILE_COLLATOR_APP}, "*"],
-				[{MP3_FILE_COLLATOR}, "*"]
+				[{MP3_FILE_COLLATOR_APP}, All_routines],
+				[{MP3_FILE_COLLATOR}, All_routines]
 			>>
 		end
 

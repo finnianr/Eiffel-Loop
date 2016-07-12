@@ -2,53 +2,50 @@
 	description: "[
 		Parses output of nm-tool to get MAC address of ethernet devices
 		
-		SAMPLE OUTPUT
-		
-		NetworkManager Tool
+		**NetworkManager Tool Output**
 
-		State: connected (global)
+			State: connected (global)
 
-		- Device: wlan0  [Auto Rafael] -------------------------------------------------
-		  Type:              802.11 WiFi
-		  Driver:            b43
-		  State:             connected
-		  Default:           yes
-		  HW Address:        88:53:95:2E:74:99
+			Device: wlan0  [Auto Rafael] -------------------------------------------------
+			Type:              802.11 WiFi
+			Driver:            b43
+			State:             connected
+			Default:           yes
+			HW Address:        88:53:95:2E:74:99
 
-		  Capabilities:
-		    Speed:           24 Mb/s
+			Capabilities:
+				Speed:           24 Mb/s
 
-		  Wireless Properties
-		    WEP Encryption:  yes
-		    WPA Encryption:  yes
-		    WPA2 Encryption: yes
+			Wireless Properties
+				WEP Encryption:  yes
+				WPA Encryption:  yes
+				WPA2 Encryption: yes
 
-		  Wireless Access Points (* = current AP)
-		    eircom33071194:  Infra, EC:43:F6:C3:1B:D8, Freq 2412 MHz, Rate 54 Mb/s, Strength 50 WPA WPA2
-		    *Rafael:         Infra, EC:43:F6:C5:EE:30, Freq 2462 MHz, Rate 54 Mb/s, Strength 53 WPA WPA2
-		    Vodafone_32FE:   Infra, 00:25:68:CD:8E:5E, Freq 2437 MHz, Rate 54 Mb/s, Strength 24 WEP
-		    eircom07150498:  Infra, 5C:F4:AB:5A:F5:54, Freq 2457 MHz, Rate 54 Mb/s, Strength 22 WPA WPA2
+			Wireless Access Points (* = current AP)
+				eircom33071194:  Infra, EC:43:F6:C3:1B:D8, Freq 2412 MHz, Rate 54 Mb/s, Strength 50 WPA WPA2
+				*Rafael:         Infra, EC:43:F6:C5:EE:30, Freq 2462 MHz, Rate 54 Mb/s, Strength 53 WPA WPA2
+				Vodafone_32FE:   Infra, 00:25:68:CD:8E:5E, Freq 2437 MHz, Rate 54 Mb/s, Strength 24 WEP
+				eircom07150498:  Infra, 5C:F4:AB:5A:F5:54, Freq 2457 MHz, Rate 54 Mb/s, Strength 22 WPA WPA2
 
-		  IPv4 Settings:
-		    Address:         192.168.1.4
-		    Prefix:          24 (255.255.255.0)
-		    Gateway:         192.168.1.254
+			IPv4 Settings:
+				Address:         192.168.1.4
+				Prefix:          24 (255.255.255.0)
+				Gateway:         192.168.1.254
 
-		    DNS:             192.168.1.254
+				DNS:             192.168.1.254
 
+			Device: eth0 -----------------------------------------------------------------
+			Type:              Wired
+			Driver:            tg3
+			State:             unavailable
+			Default:           no
+			HW Address:        A8:20:66:50:C4:36
 
-		- Device: eth0 -----------------------------------------------------------------
-		  Type:              Wired
-		  Driver:            tg3
-		  State:             unavailable
-		  Default:           no
-		  HW Address:        A8:20:66:50:C4:36
+			Capabilities:
+				Carrier Detect:  yes
 
-		  Capabilities:
-		    Carrier Detect:  yes
-
-		  Wired Properties
-		    Carrier:         off
+			Wired Properties
+				Carrier:         off
 	]"
 
 	author: "Finnian Reilly"
@@ -56,7 +53,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 18:44:23 GMT (Friday 24th June 2016)"
+	date: "2016-07-07 16:02:15 GMT (Thursday 7th July 2016)"
 	revision: "6"
 
 deferred class

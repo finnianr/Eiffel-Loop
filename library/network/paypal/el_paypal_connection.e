@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 17:10:09 GMT (Sunday 20th December 2015)"
+	date: "2016-07-09 8:12:40 GMT (Saturday 9th July 2016)"
 	revision: "6"
 
 class
@@ -69,7 +69,6 @@ feature -- Button management
 			variable_names: EL_ARRAYED_LIST [ZSTRING]; button_id_variable_names: ARRAYED_LIST [ZSTRING]
 			start_date, end_date: EL_PAYPAL_DATE_TIME_PARAMETER
 		do
-			log.enter ("button_id_list")
 			create start_date.make (Parameter.start_date, create {DATE_TIME}.make (2000, 1, 1, 0, 0, 0))
 			create end_date.make (Parameter.end_date, create {DATE_TIME}.make_now_utc)
 
@@ -85,33 +84,26 @@ feature -- Button management
 			else
 				create Result.make (0)
 			end
-			log.exit
 		end
 
 	create_buy_now_button (
 		locale_code: STRING; button_params: EL_PAYPAL_BUTTON_SUB_PARAMETER_LIST; buy_options: EL_PAYPAL_BUY_OPTIONS
 	)
 		do
-			log.enter ("create_buy_now_button")
 			call_method (Method.create_button, <<
 				new_button_locale (locale_code),
 				Parameter.hosted_button_code, Parameter.buy_now_button_type, button_params, buy_options
 			>>)
-			log.exit
 		end
 
 	delete_button (id: ZSTRING)
 		do
-			log.enter ("delete_button")
 			call_method (Method.manage_button_status, << new_hosted_button_id_param (id), Parameter.button_status_delete >>)
-			log.exit
 		end
 
 	get_button_details (id: ZSTRING)
 		do
-			log.enter ("get_button_details")
 			call_method (Method.get_button_details, << new_hosted_button_id_param (id) >>)
-			log.exit
 		end
 
 	update_buy_now_button (
@@ -119,14 +111,12 @@ feature -- Button management
 		button_params: EL_PAYPAL_BUTTON_SUB_PARAMETER_LIST; buy_options: EL_PAYPAL_BUY_OPTIONS
 	)
 		do
-			log.enter ("update_buy_now_button")
 			call_method (
 				Method.update_button,
 				<< new_button_locale (locale_code), new_hosted_button_id_param (id),
 					Parameter.hosted_button_code, Parameter.buy_now_button_type, Parameter.button_sub_type_products,
 					button_params, buy_options >>
 			)
-			log.exit
 		end
 
 feature -- Basic operations
@@ -134,11 +124,13 @@ feature -- Basic operations
 	log_response_values
 		do
 			if has_error then
-				log_or_io.put_line ("HTTP read failed")
+				lio.put_line ("HTTP read failed")
 			else
-				across response_values as value loop
-					log_or_io.put_labeled_string (value.key, value.item)
-					log_or_io.put_new_line
+				if is_lio_enabled then
+					across response_values as value loop
+						lio.put_labeled_string (value.key, value.item)
+						lio.put_new_line
+					end
 				end
 			end
 		end
@@ -197,15 +189,19 @@ feature {NONE} -- Implementation
 			value_table: EL_HTTP_HASH_TABLE
 		do
 			reset
+			if is_lio_enabled then
+				lio.put_labeled_substitution ("call_method", "(%S, %S)", [method_parameter.name, method_parameter.value])
+				lio.put_new_line
+			end
 			create parameter_list.make_from_array (<< credentials, api_version, method_parameter >>)
 			parameter_list.append_array (a_parameters)
 
 			value_table := parameter_list.to_table
 
-			if log.current_routine_is_active then
+			if is_lio_enabled then
 				across value_table as value loop
-					log.put_labeled_string (value.key, value.item)
-					log.put_new_line
+					lio.put_labeled_string (value.key, value.item)
+					lio.put_new_line
 				end
 			end
 			post_parameters (value_table)

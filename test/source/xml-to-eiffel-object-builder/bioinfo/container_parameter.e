@@ -1,12 +1,12 @@
 ﻿note
-	description: "Recursive class. Attribute parameter_list may have other references to CONTAINER_PARAMETER"
+	description: "Recursive class. Attribute parameter_list may have other references to `CONTAINER_PARAMETER'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-15 8:51:33 GMT (Tuesday 15th December 2015)"
+	date: "2016-07-07 16:21:20 GMT (Thursday 7th July 2016)"
 	revision: "4"
 
 class

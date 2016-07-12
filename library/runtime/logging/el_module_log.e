@@ -1,13 +1,25 @@
 ﻿note
-	description: "Summary description for {EL_MODULE_LOG}."
+	description: "[
+		Access to the Eiffel-Loop log output routines defined by class `EL_LOGGABLE'
+		
+		**Notes**
+		If inheriting this module in a class which already inherits `EL_MODULE_LIO' then undefine
+		these factory functions from `EL_MODULE_LIO'
+
+			undefine
+				new_lio, new_log_manager
+			end
+			
+		This is because `EL_MODULE_LOG' redefines the lio `object' to be loggable.
+	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "4"
+	date: "2016-07-09 7:25:04 GMT (Saturday 9th July 2016)"
+	revision: "5"
 
 class
 	EL_MODULE_LOG
@@ -15,42 +27,46 @@ class
 inherit
 	EL_MODULE_LOGGING
 
-feature -- Access
-
-	log: EL_LOG
-		--	Normal logging available only when -logging switch is set on command line
-		do
-			Result := Active_or_inactive_log.item
-			Result.set_logged_object (Current)
+	EL_MODULE_LIO
+		redefine
+			new_lio
 		end
 
-	log_or_io: EL_LOG
-			-- Minimal 'console only logging' that is always on even when normal logging is disabled
+feature -- Access
+
+	log: EL_LOGGABLE
+		--	Normal logging available only when -logging switch is set on command line
 		do
-			if logging.is_active then
-				Result := log
-			else
-				Result := Default_console_only_log
-			end
+			Result := Once_log
+			Result.set_logged_object (Current)
 		end
 
 feature {NONE} -- Implementation
 
-	Active_or_inactive_log: CELL [EL_LOG]
-		--	
-		once
+	new_log: EL_LOGGABLE
+		do
 			if logging.is_active then
-				create Result.put (create {EL_CONSOLE_AND_FILE_LOG}.make) -- Normal logging object
+				create {EL_CONSOLE_AND_FILE_LOG} Result.make -- Normal logging object
 			else
-				create Result.put (create {EL_LOG}) -- Silent 'turned off' logging object
+				create {EL_SILENT_LOG} Result
 			end
 		end
 
-	Default_console_only_log: EL_CONSOLE_LOG
-			-- Minimal console only logging that is always on even when logging is disabled
-			-- available through the 'log_or_io' object.
+	new_lio: EL_LOGGABLE
+		do
+			if logging.is_active then
+				Result := Once_log
+			else
+				Result := Precursor
+			end
+		end
+
+feature {NONE} -- Constants
+
+	Once_log: EL_LOGGABLE
+		--	
 		once
-			create Result.make
+			Result := new_log
 		end
 
 end

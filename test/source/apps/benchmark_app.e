@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-07 10:35:34 GMT (Monday 7th December 2015)"
+	date: "2016-07-08 10:40:56 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -48,8 +48,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{BENCHMARK_APP}, "*"],
-				[{BENCHMARK_COMMAND_SHELL}, "*"]
+				[{BENCHMARK_APP}, "*"]
 			>>
 		end
 end

@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_MANY_TO_ONE_CONSUMER_THREAD}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "2"
+	date: "2016-07-02 9:57:44 GMT (Saturday 2nd July 2016)"
+	revision: "3"
 
 deferred class
 	EL_MANY_TO_ONE_CONSUMER_THREAD [P]
@@ -46,19 +46,13 @@ feature {NONE} -- Implementation
 	 consume_next_product
 			--
 		do
-			log.enter ("consume_next_product")
 			consume_product
 			available_consumers.put (Current)
-			log.put_integer_field ("available_consumers.count", available_consumers.count)
-			log.put_new_line
-
-			log.put_line ("Notifying delegator")
 			-- Notify the delegator that current consumer is available for
 			-- another request
 			consumption_delegator_thread.notify
 			previous_call_is_thread_signal
 -- THREAD SIGNAL
-			log.exit
 		end
 
 	on_stopping

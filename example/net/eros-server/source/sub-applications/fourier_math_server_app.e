@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:28:20 GMT (Friday 24th June 2016)"
+	date: "2016-07-03 11:55:36 GMT (Sunday 3rd July 2016)"
 	revision: "4"
 
 class
@@ -57,15 +57,14 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{FOURIER_MATH_SERVER_APP}, "*"],
-				[{SIGNAL_MATH}, "*"],
-				[{FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}, "*"],
-				[{EL_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW}, "*"],
-				[{EL_REMOTE_CALL_REQUEST_DELEGATING_CONSUMER_THREAD}, "*"],
-				[{EL_REMOTE_CALL_CONNECTION_MANAGER_THREAD}, "*"],
-				[{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD}, "*"],
-				[{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER}, "*"],
-				[{EL_REMOTE_CALL_CLIENT_CONNECTION_QUEUE}, "*"],
+				[{FOURIER_MATH_SERVER_APP}, All_routines],
+				[{SIGNAL_MATH}, All_routines],
+				[{FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}, All_routines],
+				[{EL_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW}, All_routines],
+				[{EL_REMOTE_CALL_REQUEST_DELEGATING_CONSUMER_THREAD}, All_routines],
+				[{EL_REMOTE_CALL_CONNECTION_MANAGER_THREAD}, All_routines],
+				[{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD}, All_routines],
+				[{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER}, All_routines],
 				[{EL_SERVER_ACTIVITY_METERS}, "prompt_refresh, refresh"]
 			>>
 		end

@@ -14,16 +14,16 @@ from eiffel_loop.scons import util
 from eiffel_loop.eiffel import project
 from eiffel_loop.scons import package
 
-
 Import ('env')
 #env = Environment (ENV = os.environ, ISE_PLATFORM = os.environ ['ISE_PLATFORM'])
 
 env.Append (SOURCE_DIR = Dir ('source').abspath)
 
-download_builder = Builder (action = package.get, suffix='.getjar', src_suffix = '.getjar', emitter = util.complete_targets)
+download_builder = Builder (action = package.get, suffix='.jar', src_suffix = '.getjar', emitter = util.complete_targets)
 env.Append (BUILDERS = {'Java_jar_download' : download_builder})
 
-jars = env.Java_jar_download (File ('velocity-1.7-dep.getjar'))
+jars = env.Java_jar_download (Glob ('*.getjar'))
+#jars = env.Java_jar_download (File ('velocity-1.7-dep.jar.getjar'))
 
 env.NoClean (jars)
 

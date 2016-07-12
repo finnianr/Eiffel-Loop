@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 13:16:01 GMT (Thursday 24th December 2015)"
+	date: "2016-07-08 20:13:13 GMT (Friday 8th July 2016)"
 	revision: "4"
 
 class
@@ -23,7 +23,7 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make_pyxis_source
@@ -49,74 +49,73 @@ feature {NONE} -- Parsing events
 	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
 			--
 		do
-			log.enter ("on_xml_tag_declaration")
-			log.put_real_field ("version", version)
-			log.put_string_field (" encoding", encodeable.encoding_name)
-			log.put_new_line
-			log.exit
+--			lio.put_line ("on_xml_tag_declaration")
+--			lio.put_real_field ("version", version)
+--			lio.put_string_field (" encoding", encodeable.encoding_name)
+--			lio.put_new_line
+--			lio.put_new_line
 		end
 
 	on_start_document
 			--
 		do
-			log_or_io.put_line ("Document start")
+--			lio.put_line ("Document start")
 		end
 
 	on_end_document
 			--
 		do
-			log_or_io.put_line ("Document end")
+--			lio.put_line ("Document end")
 		end
 
 	on_start_tag
 			--
 		local
-			i: INTEGER
-			attribute_node: EL_XML_ATTRIBUTE_NODE
+			i: INTEGER; attribute_node: EL_XML_ATTRIBUTE_NODE
 		do
-			log.enter ("on_start_tag")
+--			lio.put_line ("on_start_tag")
 			add_xpath_step (last_node.xpath_name)
-			log_or_io.put_line (xpath)
+--			lio.put_line (xpath)
 			from i := 1  until i > attribute_list.count loop
 				attribute_node := attribute_list [i]
 				add_xpath_step (attribute_node.xpath_name)
-				log.put_string_field (xpath, attribute_node.to_string)
-				log.put_new_line
+--				lio.put_string_field (xpath, attribute_node.to_string)
+--				lio.put_new_line
 				remove_xpath_step
 				i := i + 1
 			end
-			log.exit
+--			lio.put_new_line
 		end
 
 	on_end_tag
 			--
 		do
-			log.enter ("on_end_tag")
+--			lio.put_line ("on_end_tag")
 			remove_xpath_step
-			log_or_io.put_line (xpath)
-			log.exit
+--			lio.put_line (xpath)
+--			lio.put_new_line
 		end
 
 	on_content
 			--
 		do
-			log.enter ("on_content")
+--			lio.put_line ("on_content")
 			add_xpath_step (last_node.xpath_name)
-			log_or_io.put_line (xpath)
-			log_or_io.put_string_field_to_max_length ("CONTENT", last_node_text, 120)
+--			lio.put_line (xpath)
+--			lio.put_string_field_to_max_length ("CONTENT", last_node_text, 120)
 			remove_xpath_step
-			log.exit
+--			lio.put_new_line
 		end
 
 	on_comment
 			--
 		do
-			log.enter ("on_comment")
+--			lio.put_line ("on_comment")
 			add_xpath_step (last_node.xpath_name)
-			log_or_io.put_line (xpath)
-			log_or_io.put_line ( last_node_text)
+--			lio.put_line (xpath)
+--			lio.put_line ( last_node_text)
 			remove_xpath_step
-			log.exit
+--			lio.put_new_line
 		end
 
 	on_processing_instruction

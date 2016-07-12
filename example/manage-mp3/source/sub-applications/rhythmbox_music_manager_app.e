@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 7:48:00 GMT (Thursday 23rd June 2016)"
+	date: "2016-07-08 19:03:09 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -17,7 +17,7 @@ inherit
 		rename
 			command as music_manager_command
 		redefine
-			Option_name, set_reference_operand, skip_normal_normal_initialize
+			Option_name, set_reference_operand, skip_normal_initialize, initialize
 		end
 
 	TASK_CONSTANTS
@@ -25,19 +25,15 @@ inherit
 create
 	make
 
-feature -- Testing
+feature {NONE} -- Initialization
 
-	test_run
-			--
+	initialize
 		do
-			if not has_invalid_argument then
-				Test.set_excluded_file_extensions (<< "mp3", "jpeg" >>)
-				if attached {MANAGER_CONFIG} operands.reference_item (1) as config then
-					config.dj_events.playlist_dir := "workarea/rhythmdb/Documents/DJ-events"
-					Test.do_file_tree_test ("rhythmdb", agent test_music_manager (?, config), config.test_checksum)
-				end
-			end
+			Console.show ({EL_VIDEO_TO_MP3_COMMAND_IMP})
+			Precursor
 		end
+
+feature -- Testing
 
 	test_music_manager (data_path: EL_DIR_PATH; config: MANAGER_CONFIG)
 			--
@@ -52,7 +48,37 @@ feature -- Testing
 			log.exit
 		end
 
+	test_run
+			--
+		do
+			if not has_invalid_argument then
+				Test.set_excluded_file_extensions (<< "mp3", "jpeg" >>)
+				if attached {MANAGER_CONFIG} operands.reference_item (1) as config then
+					config.dj_events.playlist_dir := "workarea/rhythmdb/Documents/DJ-events"
+					Test.do_file_tree_test ("rhythmdb", agent test_music_manager (?, config), config.test_checksum)
+				end
+			end
+		end
+
 feature {NONE} -- Implementation
+
+	argument_specs: ARRAY [like Type_argument_specification]
+		do
+			Result := <<
+				required_existing_path_argument (Arg_config, "Task configuration file")
+			>>
+		end
+
+	default_operands: TUPLE [config: MANAGER_CONFIG]
+		do
+			create Result
+			Result.config := create {MANAGER_CONFIG}.make
+		end
+
+	make_action: PROCEDURE [like music_manager_command, like default_operands]
+		do
+			Result := agent music_manager_command.make
+		end
 
 	set_reference_operand (a_index: INTEGER; arg_spec: like Type_argument_specification; argument_ref: ANY)
 		local
@@ -74,27 +100,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	skip_normal_normal_initialize: BOOLEAN
+	skip_normal_initialize: BOOLEAN
 		do
 			Result := False
-		end
-
-	make_action: PROCEDURE [like music_manager_command, like default_operands]
-		do
-			Result := agent music_manager_command.make
-		end
-
-	default_operands: TUPLE [config: MANAGER_CONFIG]
-		do
-			create Result
-			Result.config := create {MANAGER_CONFIG}.make
-		end
-
-	argument_specs: ARRAY [like Type_argument_specification]
-		do
-			Result := <<
-				required_existing_path_argument (Arg_config, "Task configuration file")
-			>>
 		end
 
 feature {NONE} -- Constants
@@ -104,15 +112,12 @@ feature {NONE} -- Constants
 			Result := "config"
 		end
 
-	Option_name: STRING = "manager"
-
 	Description: STRING = "Manage Rhythmbox Music Collection"
 
 	Log_filter: ARRAY [like Type_logging_filter]
 			--
 		do
 			Result := <<
-				[{EL_TEST_ROUTINES}, All_routines],
 				[{RHYTHMBOX_MUSIC_MANAGER_APP}, All_routines],
 				[{RHYTHMBOX_MUSIC_MANAGER}, All_routines],
 				[{TEST_VIDEO_IMPORT_MUSIC_MANAGER}, All_routines],
@@ -123,12 +128,10 @@ feature {NONE} -- Constants
 
 				[{STORAGE_DEVICE}, All_routines],
 				[{NOKIA_PHONE_DEVICE}, All_routines],
-				[{SAMSUNG_TABLET_DEVICE}, All_routines],
---				[{EL_WAV_GENERATION_COMMAND}, All_routines],
---				[{EL_WAV_TO_MP3_COMMAND}, All_routines]
-				[{EL_VIDEO_TO_MP3_COMMAND_IMP}, All_routines]
-
+				[{SAMSUNG_TABLET_DEVICE}, All_routines]
 			>>
 		end
+
+	Option_name: STRING = "manager"
 
 end

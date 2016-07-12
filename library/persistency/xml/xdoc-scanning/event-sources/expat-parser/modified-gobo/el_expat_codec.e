@@ -1,20 +1,21 @@
 ﻿note
 	description: "[
-		typedef struct {
-		  int map[256];
-		  void *data;
-		  int (*convert)(void *data, const char *s);
-		  void (*release)(void *data);
-		} XML_Encoding;
+		Sets encoding map specified in C-struct
+			typedef struct {
+			  int map[256];
+			  void *data;
+			  int (*convert)(void *data, const char *s);
+			  void (*release)(void *data);
+			} XML_Encoding;
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-07-03 8:10:30 GMT (Friday 3rd July 2015)"
-	revision: "5"
+	date: "2016-07-07 16:12:06 GMT (Thursday 7th July 2016)"
+	revision: "6"
 
 deferred class
 	EL_EXPAT_CODEC

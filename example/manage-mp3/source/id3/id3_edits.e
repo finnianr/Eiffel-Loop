@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 12:26:06 GMT (Wednesday 16th December 2015)"
+	date: "2016-07-08 10:34:59 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 class
@@ -33,8 +33,8 @@ feature -- Basic operations
 		do
 			artist_dir := relative_song_path.parent
 			genre_dir := artist_dir.parent
-			log_or_io.put_path_field ("MP3", relative_song_path)
-			log_or_io.put_new_line
+			lio.put_path_field ("MP3", relative_song_path)
+			lio.put_new_line
 			id3_info.set_genre (genre_dir.base)
 			if artist_dir.base /~ id3_info.artist then
 				album_artist := id3_info.album_artist
@@ -46,10 +46,10 @@ feature -- Basic operations
 					album_artist.append (id3_info.artist)
 				end
 
---				log_or_io.put_labeled_string ("Genre", genre_dir.base)
---				log_or_io.put_labeled_string (" Artist", artist_dir.base)
---				log_or_io.put_labeled_string (" Album artists", album_artist)
---				log_or_io.put_new_line
+--				lio.put_labeled_string ("Genre", genre_dir.base)
+--				lio.put_labeled_string (" Artist", artist_dir.base)
+--				lio.put_labeled_string (" Album artists", album_artist)
+--				lio.put_new_line
 
 				id3_info.set_artist (artist_dir.base)
 				id3_info.set_album_artist (album_artist)
@@ -73,8 +73,8 @@ feature -- Basic operations
 				across id3_info.comment_table.current_keys as key loop
 					l_frame := id3_info.comment_table [key.item]
 					frame_string := l_frame.out
-					log_or_io.put_string_field (key.item, frame_string)
-					log_or_io.put_new_line
+					lio.put_string_field (key.item, frame_string)
+					lio.put_new_line
 					if key.item.is_equal (ID3_frame_comment) then
 						pos_colon := l_frame.string.index_of (':', 1)
 						if pos_colon > 0 and then Comment_fields.has (l_frame.string.substring (1, pos_colon - 1)) then
@@ -95,7 +95,7 @@ feature -- Basic operations
 				if is_changed then
 					id3_info.update
 				end
-				log_or_io.put_new_line
+				lio.put_new_line
 			end
 		end
 
@@ -123,10 +123,10 @@ feature -- Basic operations
 			if not id3_info.comment_table.is_empty then
 				print_id3 (id3_info, relative_song_path)
 				across id3_info.comment_table as comment loop
-					log_or_io.put_string_field (comment.item.description, comment.item.out)
-					log_or_io.put_new_line
+					lio.put_string_field (comment.item.description, comment.item.out)
+					lio.put_new_line
 				end
-				log_or_io.put_new_line
+				lio.put_new_line
 			end
 		end
 
@@ -137,19 +137,19 @@ feature -- Basic operations
 			print_id3 (id3_info, relative_song_path)
 			mtime := Time.unix_date_time (id3_info.mp3_path.modification_time)
 --			mtime := mtime & File_system.file_byte_count (id3_info.mp3_path)
-			log_or_io.put_integer_field ("File time", mtime)
-			log_or_io.put_new_line
+			lio.put_integer_field ("File time", mtime)
+			lio.put_new_line
 
-			log_or_io.put_integer_field ("Rhythmdb", 1383852243)
-			log_or_io.put_new_line
+			lio.put_integer_field ("Rhythmdb", 1383852243)
+			lio.put_new_line
 
 		end
 
 	print_id3 (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)
 		do
-			log_or_io.put_path_field ("Song", relative_song_path)
-			log_or_io.put_real_field (" Version", id3_info.version)
-			log_or_io.put_new_line
+			lio.put_path_field ("Song", relative_song_path)
+			lio.put_real_field (" Version", id3_info.version)
+			lio.put_new_line
 		end
 
 	set_version_23 (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)

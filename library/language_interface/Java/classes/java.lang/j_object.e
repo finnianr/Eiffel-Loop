@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-09 7:29:15 GMT (Saturday 9th July 2016)"
+	revision: "4"
 
 class
 	J_OBJECT
@@ -29,9 +29,7 @@ feature -- Access
 	to_string: J_STRING
 			--
 		do
-			log.enter ("to_string")
 			Result := jagent_to_string.item (Current, [])
-			log.exit
 		end
 
 feature {NONE} -- Implementation

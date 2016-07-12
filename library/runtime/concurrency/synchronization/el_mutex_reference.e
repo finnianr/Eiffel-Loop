@@ -1,17 +1,18 @@
 ﻿note
 	description: "[
 		Restricts access to objects that require thread synchronization.
-		For debugging it is recommended to use EL_LOGGED_SYNCHRONIZED_REF to detect deadlock.
+		For debugging it is recommended to use
+		[./logging/concurrency/el_logged_mutex_reference.html EL_LOGGED_MUTEX_REFERENCE] to detect deadlock.
 		Any time a thread is forced to wait for a lock it is reported to the thread's log.
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-05-15 12:47:03 GMT (Friday 15th May 2015)"
-	revision: "2"
+	date: "2016-07-07 15:47:04 GMT (Thursday 7th July 2016)"
+	revision: "3"
 
 class
 	EL_MUTEX_REFERENCE [G]

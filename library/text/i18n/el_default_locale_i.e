@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 9:14:54 GMT (Friday 24th June 2016)"
-	revision: "7"
+	revision: "4"
 
 deferred class
 	EL_DEFAULT_LOCALE_I

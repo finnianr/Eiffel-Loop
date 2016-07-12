@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-21 9:08:17 GMT (Tuesday 21st June 2016)"
+	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -23,6 +23,7 @@ inherit
 	EL_MODULE_COMMAND
 	EL_MODULE_DIRECTORY
 	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_OS
 
 create
 	default_create, make
@@ -45,7 +46,7 @@ feature -- Basic operations
 		do
 			log.enter ("execute")
 			across mail_folder_dir_list as subdir_path loop
-				across File_system.file_list (subdir_path.item, "*.msf") as file_path loop
+				across OS.file_list (subdir_path.item, "*.msf") as file_path loop
 					export_mails (file_path.item.without_extension)
 				end
 			end
@@ -93,8 +94,8 @@ feature {NONE} -- Implementation
 		do
 			log.enter_with_args ("export_mails", << mails_path >>)
 			converter := create_converter (mails_path)
-			log_or_io.put_path_field ("Exporting", mails_path)
-			log_or_io.put_new_line
+			lio.put_path_field ("Exporting", mails_path)
+			lio.put_new_line
 			converter.convert_mails (mails_path)
 			log.exit
 		end

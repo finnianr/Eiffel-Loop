@@ -2,12 +2,12 @@
 	description: "Summary description for {ENCRYPTION_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 14:52:30 GMT (Thursday 1st January 2015)"
-	revision: "4"
+	date: "2016-07-08 11:22:21 GMT (Friday 8th July 2016)"
+	revision: "5"
 
 class
 	ENCRYPTION_TEST_APP
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 	test_encryption (data_path: EL_DIR_PATH)
 			--
 		do
-			File_system.file_list (data_path, "*.txt").do_all (agent test_file_encryption)
+			OS.file_list (data_path, "*.txt").do_all (agent test_file_encryption)
 		end
 
 	test_file_encryption (file_path: EL_FILE_PATH)
@@ -88,9 +88,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{ENCRYPTION_TEST_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"]
-
+				[{ENCRYPTION_TEST_APP}, All_routines]
 			>>
 		end
 

@@ -6,16 +6,16 @@
 		When diposed by the the garbage collector it frees the target for collection, so it should be
 		declared in a scope allowing it to be garbage collected independantly of the target object.
 		
-		See also: class EL_C_CALLBACK
+		See also: class [./el_c_callback.html EL_C_CALLBACK]
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-07 11:29:03 GMT (Thursday 7th July 2016)"
+	revision: "4"
 
 class
 	EL_GC_PROTECTED_OBJECT
@@ -27,8 +27,6 @@ inherit
 		redefine
 			dispose
 		end
-
-	EL_MODULE_LOG
 
 create
 	make

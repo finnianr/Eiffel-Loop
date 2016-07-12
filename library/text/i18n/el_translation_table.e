@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-21 11:19:23 GMT (Monday 21st December 2015)"
+	date: "2016-07-09 6:06:45 GMT (Saturday 9th July 2016)"
 	revision: "9"
 
 class
@@ -26,7 +26,7 @@ inherit
 			make_default, building_action_table
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 		undefine
 			is_equal, copy, default_create
 		end
@@ -70,14 +70,16 @@ feature {NONE} -- Initialization
 		local
 			translations: EL_XPATH_NODE_CONTEXT_LIST
 		do
-			log.enter_with_args ("make_from_root_node", << a_language >>)
+			if is_lio_enabled then
+				lio.put_labeled_string ("make_from_root_node",  a_language)
+				lio.put_new_line
+			end
 			make (a_language)
 			translations := root_node.context_list (Xpath_translations.substituted_tuple ([language]).to_unicode)
 			accommodate (translations.count)
 			across translations as translation loop
 				put (translation.node.string_value, translation.node.string_at_xpath (Xpath_parent_id))
 			end
-			log.exit
 		end
 
 feature -- Access
@@ -109,8 +111,8 @@ feature {NONE} -- Implementation
 			end
 			put_table (translation, translation_id)
 			if conflict then
-				log.put_string_field ("Duplicate id", translation_id)
-				log.put_new_line
+				lio.put_string_field ("Duplicate id", translation_id)
+				lio.put_new_line
 			end
 		end
 

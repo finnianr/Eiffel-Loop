@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 18:03:46 GMT (Saturday 26th December 2015)"
+	date: "2016-07-09 7:44:41 GMT (Saturday 9th July 2016)"
 	revision: "7"
 
 class
@@ -26,7 +26,7 @@ inherit
 			copy, is_equal
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 		undefine
 			copy, is_equal
 		end
@@ -44,7 +44,10 @@ feature {NONE} -- Initialization
 			number_of_columns, count_repeated, i: INTEGER
 			l_column_table: like column_table
 		do
-			log.enter_with_args ("make_from_table_context", << table_node.attributes ["table:name"] >>)
+			if is_lio_enabled then
+				lio.put_substitution ("make_from_table_context (%S)", [table_node.attributes ["table:name"]])
+				lio.put_new_line
+			end
 			name := table_node.attributes ["table:name"]
 			l_column_table := column_table (defined_ranges)
 			if not l_column_table.is_empty then
@@ -58,9 +61,13 @@ feature {NONE} -- Initialization
 
 			table_rows := table_node.context_list ("table:table-row")
 			make_array (table_rows.count)
-			log.put_integer_field ("capacity", capacity); log.put_new_line
+			if is_lio_enabled then
+				lio.put_integer_field ("capacity", capacity); lio.put_new_line
+			end
 			from table_rows.start until table_rows.after loop
-				log.put_integer_field ("Reading row", table_rows.index); log.put_new_line
+				if is_lio_enabled then
+					lio.put_integer_field ("Reading row", table_rows.index); lio.put_new_line
+				end
 				if table_rows.context.attributes.has (Attribute_number_rows_repeated) then
 					count_repeated := table_rows.context.attributes.integer (Attribute_number_rows_repeated)
 					-- Ignore large repeat count occurring at end of every table
@@ -83,12 +90,13 @@ feature {NONE} -- Initialization
 				end
 				table_rows.forth
 			end
-			log_or_io.put_integer_field ("Table column count", number_of_columns)
-			log_or_io.put_new_line
-			log_or_io.put_integer_field ("Table row count", count)
-			log_or_io.put_new_line
-
-			log.exit
+			if is_lio_enabled then
+				lio.put_integer_field ("Table column count", number_of_columns)
+				lio.put_new_line
+				lio.put_integer_field ("Table row count", count)
+				lio.put_new_line
+				lio.put_new_line
+			end
 		end
 
 feature -- Access
@@ -102,7 +110,9 @@ feature -- Removal
 	prune_trailing_blank_rows
 			-- prune trailing empty rows
 		do
-			log.put_line ("Removing trailing blank rows")
+			if is_lio_enabled then
+				lio.put_line ("Removing trailing blank rows")
+			end
 			from finish until before or else not row.is_blank loop
 				remove; finish
 			end

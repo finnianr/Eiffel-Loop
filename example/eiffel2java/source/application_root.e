@@ -2,12 +2,12 @@
 	description: "Summary description for {APPLICATION_ROOT}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:16 GMT (Thursday 11th December 2014)"
-	revision: "2"
+	date: "2016-06-30 13:59:46 GMT (Thursday 30th June 2016)"
+	revision: "3"
 
 class
 	APPLICATION_ROOT
@@ -28,6 +28,10 @@ feature {NONE} -- Implementation
 				{JAVA_TEST_APP},
 				{SVG_TO_PNG_TEST_APP}
 			>>
+		end
+
+	notes: TUPLE [DONE_LIST, TO_DO_LIST]
+		do
 		end
 
 end

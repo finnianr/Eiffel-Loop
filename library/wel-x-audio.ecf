@@ -18,7 +18,8 @@
 			</condition>
 		</library>
 		<!--Eiffel-Loop-->
-		<library name = "EL_base" location = "base.ecf"/>
+		<library name = "EL_base" location = "base/base.ecf"/>
+		<!--Source code-->
 		<cluster name = "audio" location = "multimedia/audio">
 			<cluster name = "file" location = "$|file/wav"/>
 			<cluster name = "sample" location = "$|sample"/>

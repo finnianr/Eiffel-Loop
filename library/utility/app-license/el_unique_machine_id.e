@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-21 11:06:53 GMT (Tuesday 21st June 2016)"
+	date: "2016-07-01 14:38:55 GMT (Friday 1st July 2016)"
 	revision: "4"
 
 class
@@ -45,14 +45,14 @@ inherit
 			is_equal
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_ENVIRONMENT
 		export
 			{NONE} all
 		undefine
 			is_equal
 		end
 
-	EL_MODULE_ENVIRONMENT
+	EL_MODULE_OS
 		export
 			{NONE} all
 		undefine
@@ -67,7 +67,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			sink_string (Environment.Operating.Cpu_model_name)
+			sink_string (OS.Cpu_model_name)
 			sink_array (mac_address)
 		end
 
@@ -131,19 +131,19 @@ feature {NONE} -- Implementation
 
 	log_array (adapter_array: ARRAY [EL_IP_ADAPTER])
 		do
-			log.enter ("log_array")
+--			log.enter ("log_array")
 			across adapter_array as adapter loop
-				log.put_string_field ("Name", adapter.item.name)
-				log.put_new_line
-				log.put_string_field ("Description", adapter.item.description)
-				log.put_new_line
-				log.put_integer_field ("Type", adapter.item.type)
-				log.put_new_line
-				log.put_string_field ("MAC", adapter.item.address_string)
-				log.put_new_line
-				log.put_new_line
+--				log.put_string_field ("Name", adapter.item.name)
+--				log.put_new_line
+--				log.put_string_field ("Description", adapter.item.description)
+--				log.put_new_line
+--				log.put_integer_field ("Type", adapter.item.type)
+--				log.put_new_line
+--				log.put_string_field ("MAC", adapter.item.address_string)
+--				log.put_new_line
+--				log.put_new_line
 			end
-			log.exit
+--			log.exit
 		end
 
 feature {NONE} -- Constants

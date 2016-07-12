@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 8:26:33 GMT (Thursday 23rd June 2016)"
+	date: "2016-07-01 9:30:24 GMT (Friday 1st July 2016)"
 	revision: "6"
 
 class
@@ -79,14 +79,14 @@ feature -- Basic operations
 			fader.set_fade_in (a_fade_in_duration)
 			fader.set_fade_out (a_fade_out_duration)
 			fader.execute
-			File_system.delete_file (wav_path)
+			OS.delete_file (wav_path)
 
 			-- Compressing
 			convertor := Audio_command.new_wav_to_mp3 (faded_wav_path, mp3_path)
 			audio_properties := Audio_command.new_audio_properties (mp3_path)
 			convertor.set_bit_rate_per_channel (audio_properties.bit_rate)
 			convertor.execute
-			File_system.delete_file (faded_wav_path)
+			OS.delete_file (faded_wav_path)
 
 			write_id3_info (id3_info)
 		end

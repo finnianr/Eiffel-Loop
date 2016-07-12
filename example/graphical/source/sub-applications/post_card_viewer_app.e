@@ -2,12 +2,12 @@
 	description: "Summary description for {POST_CARD_VIEWER_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:32:12 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-03 8:41:04 GMT (Sunday 3rd July 2016)"
+	revision: "4"
 
 class
 	POST_CARD_VIEWER_APP
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 	initialize
 			--
 		do
-			create gui.make
+			create gui.make (False)
 		end
 
 feature -- Basic operations

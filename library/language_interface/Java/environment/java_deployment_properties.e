@@ -1,7 +1,7 @@
 ﻿note
 	description: "[
 		Collection of all deployment.javaws.jre.* properties divided up into versions
-		deployment.javaws.jre.<version no>.<key>=<value>
+			deployment.javaws.jre.<version no>.<key>=<value>
 	]"
 
 	author: "Finnian Reilly"
@@ -9,14 +9,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 12:25:52 GMT (Friday 24th June 2016)"
+	date: "2016-07-09 6:59:36 GMT (Saturday 9th July 2016)"
 	revision: "7"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES
 
 inherit
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make
@@ -62,28 +62,28 @@ feature -- Basic operations
 
 	dump
 		do
-			log.enter ("dump")
+			lio.put_line ("dump")
 			across profiles as profile loop
 				if profile.key ~ Var_javaws then
-					log.put_line ("Webstart Profiles")
+					lio.put_line ("Webstart Profiles")
 				else
-					log.put_line ("Plugin Profiles")
+					lio.put_line ("Plugin Profiles")
 				end
-				log.put_new_line
+				lio.put_new_line
 
 				across profile.item as l_properties loop
 					if not l_properties.item.is_empty then
-						log.put_integer_field ("JRE profile", l_properties.cursor_index - 1)
-						log.put_new_line
+						lio.put_integer_field ("JRE profile", l_properties.cursor_index - 1)
+						lio.put_new_line
 						across l_properties.item.current_keys as name loop
-							log.put_string_field (name.item, l_properties.item [name.item])
-							log.put_new_line
+							lio.put_string_field (name.item, l_properties.item [name.item])
+							lio.put_new_line
 						end
-						log.put_new_line
+						lio.put_new_line
 					end
 				end
 			end
-			log.exit
+			lio.put_new_line
 		end
 
 feature {NONE} -- Implementation
@@ -121,14 +121,19 @@ feature {NONE} -- Implementation
 
 	add_property (a_profile: like webstart_profiles; key, value: ZSTRING; version: INTEGER)
 		do
---			log.enter_with_args ("add_property", << key, value, version >>)
+			if is_lio_enabled then
+				lio.put_labeled_substitution ("add_property", " (%"%S%", %"%S%", %S)", [key, value, version])
+				lio.put_new_line
+			end
 			if version > a_profile.count then
 				from until version = a_profile.count loop
 					a_profile.extend (new_properties)
 				end
 			end
 			a_profile.i_th (version).put (value, key)
---			log.exit
+			if is_lio_enabled then
+				lio.put_new_line
+			end
 		end
 
 	new_properties: EL_ZSTRING_HASH_TABLE [ZSTRING]

@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "2"
+	date: "2016-07-03 7:26:28 GMT (Sunday 3rd July 2016)"
+	revision: "3"
 
 class
 	EL_REGULAR_INTERVAL_EVENT_PRODUCER
@@ -16,19 +16,14 @@ inherit
 	EL_DORMANT_ACTION_LOOP_THREAD
 		rename
 			stop as stop_thread,
-			do_action as post_event_after_a_little_sleep,
+			do_action as sleep_then_post_event,
 			suspend as stop,
 			resume as start
 		redefine
-			on_resumption, on_suspension, is_visible_in_console, log_name
+			on_resumption, on_suspension
 		end
 
 	EL_SHARED_THREAD_MANAGER
-		undefine
-			default_create, is_equal, copy
-		end
-
-	EL_MODULE_LOG
 		undefine
 			default_create, is_equal, copy
 		end
@@ -45,11 +40,10 @@ feature {NONE} -- Initialization
 		require
 			an_interval_not_negative: an_interval >= 0
 		do
-			default_create
+			make_default
 			interval := an_interval
 			create event_queue.make
 			is_bounded_loop := false
-			log_name := default_log_name
 		end
 
 	make_with_interval_and_upper_count (an_interval, an_upper_count: INTEGER)
@@ -71,12 +65,6 @@ feature -- Access
 	upper_count: INTEGER
 
 feature -- Element change
-
-	set_log_name (a_name: like log_name)
-			-- Set `name' to `a_name'.
-		do
-			log_name := a_name
-		end
 
 	set_consumer (a_consumer: like consumer)
 			--
@@ -113,51 +101,45 @@ feature -- Status query
 			Result := consumer /= Void
 		end
 
-	is_visible_in_console: BOOLEAN
-			-- is logging output visible in console
-		do
-			Result := true
-		end
+feature {NONE} -- Event handling
 
-feature {NONE} -- Implementation
+	on_event_posted
+		do
+		end
 
 	on_resumption
 			--
 		do
-			log.enter ("on_resumption")
-			event_queue.logged_put (create {EL_REGULAR_INTERVAL_EVENT}.make_delimiter_start)
+			event_queue.put (create {EL_REGULAR_INTERVAL_EVENT}.make_delimiter_start)
 			elapsed_millisecs := 0
 			count := 1
-			log.exit
 		end
 
 	on_suspension
 			--
 		do
-			log.enter ("on_suspension")
-			event_queue.logged_put (create {EL_REGULAR_INTERVAL_EVENT}.make_delimiter_end)
-			log.exit
+			event_queue.put (create {EL_REGULAR_INTERVAL_EVENT}.make_delimiter_end)
 		end
 
-	post_event_after_a_little_sleep
+feature {NONE} -- Implemenation
+
+	sleep_then_post_event
 			--
 		local
 			event: EL_REGULAR_INTERVAL_EVENT
 		do
-			log.enter ("post_event_after_a_little_sleep")
 			sleep (interval)
 			if not (is_stopping or is_suspending) then
 				elapsed_millisecs := elapsed_millisecs + interval
 				create event.make (elapsed_millisecs, count)
-				event_queue.logged_put (event)
-
+				event_queue.put (event)
 				count := count + 1
+				on_event_posted
 
 				if is_bounded_loop and count > upper_count then
 					stop
 				end
 			end
-			log.exit
 		end
 
 	interval: INTEGER
@@ -167,7 +149,5 @@ feature {NONE} -- Implementation
 	event_queue: EL_THREAD_PRODUCT_QUEUE [EL_REGULAR_INTERVAL_EVENT]
 
 	consumer: EL_REGULAR_INTERVAL_EVENT_CONSUMER
-
-	log_name: STRING
 
 end

@@ -30,7 +30,7 @@ system:
 
 		# Eiffel-Loop
 		library:
-			name = EL_base; location = "base.ecf"
+			name = EL_base; location = "base/base.ecf"
 
 		library:
 			name = EL_python; location = "eiffel2python.ecf"

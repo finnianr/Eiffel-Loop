@@ -15,27 +15,7 @@ from eiffel_loop.scons import eiffel
 
 from SCons.Script import *
 
-def set_precompile_variables (env, config):
-	env.Append (EIF_PRECOMP_ECF = config.precompile_path)
-
-	env.Append (EIF_PRECOMP_PLATFORM_DIR = path.dirname (config.precompile_path))
-	env.Append (EIF_PRECOMP_DIR = path.dirname (env ['EIF_PRECOMP_PLATFORM_DIR']))
-	env.Append (EIF_PRECOMP_NAME = config.precompile_name ())
-	
-	env.Append (EIF_PRECOMP_MASTER_ECF = path.join (env ['EIF_PRECOMP_DIR'], path.basename (config.precompile_path)))
-
-	if env.has_key ('ISE_C_COMPILER'):
-		# Must be Windows environment
-		template = path.normpath ('$EIF_PRECOMP_PLATFORM_DIR/EIFGENs/$EIF_PRECOMP_NAME/W_code/$ISE_C_COMPILER/precomp$LIBSUFFIX')
-	else:
-		# Must be Unix environment
-		template = path.normpath ('$EIF_PRECOMP_PLATFORM_DIR/EIFGENs/$EIF_PRECOMP_NAME/W_code/preobj$OBJSUFFIX')
-
-	env.Append (EIF_PRECOMP_OBJECT = env.subst (template))
-	print 'EIF_PRECOMP_OBJECT =', env ['EIF_PRECOMP_OBJECT']
-
 # SCRIPT START
-
 project_py = project.read_project_py ()
 project.set_build_environment (project_py) 
 
@@ -98,6 +78,13 @@ else:
 			env.Append (BUILDERS = {'PECF_converter' : Builder (action = eiffel.write_ecf_from_pecf)})
 			ecf = env.PECF_converter (config.ecf_path, config.pecf_path)
 
+		if config.precompile_path:
+			env.Append (BUILDERS = {'precomp_copier' : Builder (action = eiffel.copy_precompile)})
+			precompile_name = path.basename (config.precompile_path)
+			precompile_dir = path.dirname (path.dirname (config.precompile_path))
+			precomp_ecf = env.precomp_copier (config.precompile_path, path.join (precompile_dir, precompile_name))
+			Depends (executable, config.precompile_path)
+
 		eiffel.check_C_libraries (env, config)
 		print "\nDepends on External libraries", config.SConscripts
 		SConscript (config.SConscripts, exports='env')
@@ -111,15 +98,5 @@ else:
 
 		Depends (executable, lib_dependencies)
 
-		if config.precompile_path:
-			set_precompile_variables (env, config)
-
-			env.Append (BUILDERS = {'Precompile' : Builder (action = eiffel.precompile)})
-
-			precompile = env.Precompile ('$EIF_PRECOMP_OBJECT', '$EIF_PRECOMP_MASTER_ECF')
-
-			Depends (executable, precompile)
-			env.NoClean (precompile)
-
-		env.NoClean (executable)
+		env.NoClean ([executable, precomp_ecf])
 

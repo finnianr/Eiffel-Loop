@@ -1,12 +1,16 @@
 ﻿note
-	description: "Test of dialogs."
+	description: "[
+		Application to demonstrate multi-threaded console output switching.
+		One thread produces timer events and another consumes them. Use the console toolbar to
+		switch log output that is visible in terminal console.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:27:15 GMT (Friday 24th June 2016)"
+	date: "2016-07-07 14:44:22 GMT (Thursday 7th July 2016)"
 	revision: "5"
 
 class
@@ -26,7 +30,7 @@ feature {NONE} -- Initialization
 	initialize
 			--
 		do
-			create gui.make
+			create gui.make (True)
 		end
 
 feature -- Basic operations
@@ -94,12 +98,12 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{QUANTUM_BALL_ANIMATION_APP}, "*"],
-				[{QUANTUM_BALL_MAIN_WINDOW}, "*"],
-				[{QUANTUM_BALL_ANIMATION}, "redraw, consume_product"],
-				[{EL_REGULAR_INTERVAL_EVENT_PRODUCER}, "-*"],
-				[{EL_THREAD_PRODUCT_QUEUE [EL_REGULAR_INTERVAL_EVENT]}, "*"]
---				[{EL_WEL_DISPLAY_MONITOR_INFO}, "*"] Windows only
+				[{QUANTUM_BALL_ANIMATION_APP}, All_routines],
+				[{QUANTUM_BALL_MAIN_WINDOW}, All_routines],
+				[{QUANTUM_BALL_ANIMATION}, All_routines],
+				[{EL_LOGGED_REGULAR_INTERVAL_EVENT_PRODUCER}, All_routines]
+--				[{EL_THREAD_PRODUCT_QUEUE [EL_REGULAR_INTERVAL_EVENT]}, All_routines]
+--				[{EL_WEL_DISPLAY_MONITOR_INFO}, All_routines] Windows only
 			>>
 		end
 

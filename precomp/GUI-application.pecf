@@ -14,7 +14,7 @@ system:
 		
 		description:
 			"""
-				Precompile for GUI apps. (http://www.eiffel-loop.com)
+				Precompile for GUI apps
 			"""
 		root:
 			all_classes = true
@@ -38,9 +38,13 @@ system:
 		library: 
 			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
 
+		# GUI
 		library: 
 			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 
 		library:
-			name = vision2; location = "$EIFFEL_LOOP/library/ES-vision2.ecf"
+			name = vision2; location = "$EIFFEL_LOOP/library/override/ES-vision2.ecf"
+
+		library:
+			name = docking; location = "$EIFFEL_LOOP/library/override/ES-docking.ecf"
 

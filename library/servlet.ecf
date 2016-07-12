@@ -13,11 +13,13 @@
 		<library name = "log4e" location = "$LOG4E/library/log4e.ecf" readonly = "false"/>
 		<library name = "time" location = "$ISE_EIFFEL/library/time/time.ecf"/>
 		<!--Eiffel Loop-->
-		<library name = "EL_base" location = "base.ecf"/>
-		<library name = "EL_app_manage" location = "app-manage.ecf" readonly = "false"/>
+		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_app_manage" location = "app-manage.ecf"/>
 		<library name = "EL_encryption" location = "$EIFFEL_LOOP/library/encryption.ecf" readonly = "false"/>
-		<library name = "EL_http" readonly = "false" location = "http.ecf"/>
+		<library name = "EL_http" location = "http.ecf"/>
+		<library name = "EL_logging" location = "logging.ecf"/>
 		<library name = "EL_net_base" location = "network.ecf"/>
+		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf" readonly = "false"/>
 		<!--Source code-->
 		<cluster name = "servlet" location = "network/servlet" recursive = "true"/>

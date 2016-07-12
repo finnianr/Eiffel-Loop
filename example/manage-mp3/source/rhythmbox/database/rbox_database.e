@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 7:38:38 GMT (Monday 20th June 2016)"
+	date: "2016-07-08 10:35:23 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -39,6 +39,8 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
+	EL_MODULE_OS
+
 	EL_MODULE_BUILD_INFO
 
 create
@@ -49,8 +51,8 @@ feature {NONE} -- Initialization
 	make (a_xml_database_path: EL_FILE_PATH; DJ_events_dir: EL_DIR_PATH)
 			--
 		do
-			log_or_io.put_path_field ("Reading", a_xml_database_path)
-			log_or_io.put_new_line
+			lio.put_path_field ("Reading", a_xml_database_path)
+			lio.put_new_line
 		 	create entries.make (0)
 			create songs_by_location.make_equal (0)
 			create songs_by_audio_id.make_equal (0)
@@ -66,7 +68,7 @@ feature {NONE} -- Initialization
 			end
 
 			make_from_file (a_xml_database_path)
-			log_or_io.put_new_line
+			lio.put_new_line
 
 			playlists_xml_path := xml_database_path.parent + "playlists.xml"
 			create playlists.make (playlists_xml_path, Current)
@@ -163,9 +165,9 @@ feature -- Factory
 		require
 			mp3_root_location_set: not mp3_root_location.is_empty
 		local
-			path_list: like File_system.file_list
+			path_list: like OS.file_list
 		do
-			path_list := File_system.file_list (DJ_events_dir, "*.pyx")
+			path_list := OS.file_list (DJ_events_dir, "*.pyx")
 			create Result.make (path_list.count)
 			across path_list as path loop
 				Result.extend (create {DJ_EVENT_PLAYLIST}.make_from_file (Current, path.item))
@@ -219,26 +221,26 @@ feature -- Element change
 
 			songs_by_location.put (song, song.mp3_path)
 			if songs_by_location.conflict then
-				log_or_io.put_new_line
-				log_or_io.put_path_field ("DUPLICATE", song.mp3_path)
-				log_or_io.put_new_line
+				lio.put_new_line
+				lio.put_path_field ("DUPLICATE", song.mp3_path)
+				lio.put_new_line
 			else
 				songs.extend (song)
 				audio_id := song.audio_id
 				if audio_id.is_null then
-					log_or_io.put_new_line
-					log_or_io.put_line ("NULL AUDIO ID")
-					log_or_io.put_path_field ("Song", song.mp3_path)
-					log_or_io.put_new_line
+					lio.put_new_line
+					lio.put_line ("NULL AUDIO ID")
+					lio.put_path_field ("Song", song.mp3_path)
+					lio.put_new_line
 				else
 					songs_by_audio_id.put (song, audio_id)
 					if songs_by_audio_id.conflict then
-						log_or_io.put_new_line
-						log_or_io.put_line ("DUPLICATES")
-						log_or_io.put_path_field ("Song 1", songs_by_audio_id.item (audio_id).mp3_path)
-						log_or_io.put_new_line
-						log_or_io.put_path_field ("Song 2", song.mp3_path)
-						log_or_io.put_new_line
+						lio.put_new_line
+						lio.put_line ("DUPLICATES")
+						lio.put_path_field ("Song 1", songs_by_audio_id.item (audio_id).mp3_path)
+						lio.put_new_line
+						lio.put_path_field ("Song 2", song.mp3_path)
+						lio.put_new_line
 					end
 				end
 				if song.is_genre_silence and then silence_intervals.valid_index (song.duration) then
@@ -289,11 +291,11 @@ feature -- Element change
 
 				song.write_id3_info (id3_info)
 				song.set_mp3_path (song.unique_normalized_mp3_path)
-				File_system.move_file (mp3_path, song.mp3_path)
+				OS.move_file (mp3_path, song.mp3_path)
 
 				extend (song)
-				log_or_io.put_path_field ("Imported", song.mp3_relative_path)
-				log_or_io.put_new_line
+				lio.put_path_field ("Imported", song.mp3_relative_path)
+				lio.put_new_line
 			end
 			log.exit
 		end
@@ -371,8 +373,8 @@ feature -- Basic operations
 
 	import_m3u_playlist (m3u_playlist: M3U_PLAYLIST_READER)
 		do
-			log_or_io.put_string_field ("Importing playlist", m3u_playlist.name)
-			log_or_io.put_new_line
+			lio.put_string_field ("Importing playlist", m3u_playlist.name)
+			lio.put_new_line
 			playlists.extend (create_playlist (m3u_playlist.name))
 			m3u_playlist.do_all (
 				agent (path_steps: EL_PATH_STEPS)
@@ -382,14 +384,14 @@ feature -- Basic operations
 						song_path := mp3_root_location.joined_file_steps (path_steps)
 						if has_song (song_path) then
 							playlists.last.add_song_from_path (song_path)
-							log_or_io.put_path_field ("Imported", song_path)
+							lio.put_path_field ("Imported", song_path)
 						else
-							log_or_io.put_path_field ("Not found", song_path)
+							lio.put_path_field ("Not found", song_path)
 						end
-						log_or_io.put_new_line
+						lio.put_new_line
 					end
 			)
-			log_or_io.put_new_line
+			lio.put_new_line
 		end
 
 	update_mp3_root_location
@@ -410,14 +412,14 @@ feature -- Basic operations
 		do
 			backup_path := playlists_xml_path.with_new_extension ("backup.xml")
 			if backup_path.exists then
-				log_or_io.put_path_field ("Restoring playlists from", backup_path); log_or_io.put_new_line
+				lio.put_path_field ("Restoring playlists from", backup_path); lio.put_new_line
 
 				create playlists.make (backup_path, Current)
-				File_system.delete_file (playlists_xml_path)
+				OS.delete_file (playlists_xml_path)
 				playlists.set_output_path (playlists_xml_path)
 				playlists.store
   			else
-				log_or_io.put_path_field ("File not found", backup_path); log_or_io.put_new_line
+				lio.put_path_field ("File not found", backup_path); lio.put_new_line
 			end
 		end
 
@@ -478,7 +480,7 @@ feature -- Removal
 				if condition.include (song) then
 					songs_by_location.remove (song.mp3_path)
 					songs_by_audio_id.remove (song.audio_id)
-					File_system.delete_file (song.mp3_path)
+					OS.delete_file (song.mp3_path)
 					songs.remove
 					from entry_removed := False until entries.after or else entry_removed loop
 						if song = entries.item then
@@ -514,8 +516,8 @@ feature -- Tag editing
 				Musicbrainz_album_id_set.do_all (agent id3_info.remove_user_text)
 				id3_info.update
 				song.set_album_picture_checksum (0)
-				log_or_io.put_path_field ("Removed album picture", relative_song_path)
-				log_or_io.put_new_line
+				lio.put_path_field ("Removed album picture", relative_song_path)
+				lio.put_new_line
 			end
 		end
 
@@ -538,11 +540,11 @@ feature {RHYTHMBOX_MUSIC_MANAGER} -- Tag editing
 				create picture
 			end
 			if picture.data.count > 0 and then picture.checksum /= song.album_picture_checksum then
-				log_or_io.put_labeled_string ("Setting", picture.description.as_proper_case + " picture")
-				log_or_io.put_new_line
-				log_or_io.put_path_field ("Song", relative_song_path)
-				log_or_io.put_new_line
-				log_or_io.put_new_line
+				lio.put_labeled_string ("Setting", picture.description.as_proper_case + " picture")
+				lio.put_new_line
+				lio.put_path_field ("Song", relative_song_path)
+				lio.put_new_line
+				lio.put_new_line
 
 				id3_info.set_album_picture (picture)
 
@@ -584,10 +586,10 @@ feature {RHYTHMBOX_MUSIC_MANAGER} -- Tag editing
 			end
 			if l_album_artists /~ id3_info.comment (ID3_frame_c0) then
 				print_id3 (id3_info, relative_song_path)
-				log_or_io.put_string_field ("Album artists", l_album_artists)
-				log_or_io.put_new_line
-				log_or_io.put_string_field (ID3_frame_c0, id3_info.comment (ID3_frame_c0))
-				log_or_io.put_new_line
+				lio.put_string_field ("Album artists", l_album_artists)
+				lio.put_new_line
+				lio.put_string_field (ID3_frame_c0, id3_info.comment (ID3_frame_c0))
+				lio.put_new_line
 				if l_album_artists.is_empty then
 					id3_info.remove_comment (ID3_frame_c0)
 				else

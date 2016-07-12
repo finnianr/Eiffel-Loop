@@ -2,12 +2,12 @@
 	description: "Thread safe queue"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 13:42:51 GMT (Thursday 1st January 2015)"
-	revision: "3"
+	date: "2016-07-02 10:13:05 GMT (Saturday 2nd July 2016)"
+	revision: "4"
 
 class
 	EL_THREAD_PRODUCT_QUEUE [P]
@@ -55,19 +55,6 @@ feature -- Removal
 			end_restriction
 		end
 
-	logged_removed_item: P
-			-- Same as 'removed_item' but logged
-		do
-			log.enter ("removed_item")
-			logged_restrict_access
-			Result := queue_item
-			queue_remove
-			log.put_line (Result.out)
-
-			end_restriction
-			log.exit
-		end
-
 feature -- Status report
 
 	is_empty: BOOLEAN
@@ -89,20 +76,6 @@ feature -- Element change
 			consumer.prompt
 
 			end_restriction
-		end
-
-	logged_put (v: P)
-			-- Same as 'put' but logged
-		do
-			log.enter ("put")
-			logged_restrict_access
-			log.put_line (v.out)
-
-			queue_put (v)
-			consumer.prompt
-
-			end_restriction
-			log.exit
 		end
 
 	wipe_out

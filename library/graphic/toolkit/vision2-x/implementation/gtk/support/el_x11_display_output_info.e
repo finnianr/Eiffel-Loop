@@ -1,40 +1,39 @@
 ﻿note
 	description: "[
-		typedef struct _XRROutputInfo {
-		    Time	    timestamp;
-		    RRCrtc	    crtc;
-		    char	    *name;
-		    int		    nameLen;
-		    unsigned long   mm_width;
-		    unsigned long   mm_height;
-		    Connection	    connection;
-		    SubpixelOrder   subpixel_order;
-		    int		    ncrtc;
-		    RRCrtc	    *crtcs;
-		    int		    nclone;
-		    RROutput	    *clones;
-		    int		    nmode;
-		    int		    npreferred;
-		    RRMode	    *modes;
-		} XRROutputInfo;
-	]"
-
-	notes: "[
-
-		static Display	*dpy;
-		root = RootWindow (dpy, screen);
-		res = XRRGetScreenResourcesCurrent (dpy, root);
- 	    for (o = 0; o < res->noutput; o++) {
-			XRROutputInfo	*output_info = XRRGetOutputInfo (dpy, res, res->outputs[o]);
+		Class based on C-struct
+			typedef struct _XRROutputInfo {
+			    Time	    timestamp;
+			    RRCrtc	    crtc;
+			    char	    *name;
+			    int		    nameLen;
+			    unsigned long   mm_width;
+			    unsigned long   mm_height;
+			    Connection	    connection;
+			    SubpixelOrder   subpixel_order;
+			    int		    ncrtc;
+			    RRCrtc	    *crtcs;
+			    int		    nclone;
+			    RROutput	    *clones;
+			    int		    nmode;
+			    int		    npreferred;
+			    RRMode	    *modes;
+			} XRROutputInfo;
+			
+		**Notes**
+			static Display	*dpy;
+			root = RootWindow (dpy, screen);
+			res = XRRGetScreenResourcesCurrent (dpy, root);
+	 	    for (o = 0; o < res->noutput; o++) {
+				XRROutputInfo	*output_info = XRRGetOutputInfo (dpy, res, res->outputs[o]);
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "4"
+	date: "2016-07-07 14:47:05 GMT (Thursday 7th July 2016)"
+	revision: "5"
 
 class
 	EL_X11_DISPLAY_OUTPUT_INFO

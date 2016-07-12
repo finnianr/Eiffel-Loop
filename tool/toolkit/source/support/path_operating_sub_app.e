@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-11-30 10:30:18 GMT (Monday 30th November 2015)"
+	date: "2016-07-08 20:04:24 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 deferred class
@@ -14,8 +14,11 @@ deferred class
 
 inherit
 	EL_SUB_APPLICATION
+		undefine
+			new_lio, new_log_manager
+		end
 
-	EL_TESTABLE_APPLICATION
+	EL_REGRESSION_TESTING_APPLICATION
 
 feature {NONE} -- Initialization
 

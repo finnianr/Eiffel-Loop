@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 13:09:47 GMT (Sunday 20th December 2015)"
+	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -49,17 +49,17 @@ feature {NONE} -- Implementation
 			source_path := ise_library_dir + relative_path
 			output_path := output_dir + relative_path
 			if source_path.exists then
-				log_or_io.put_path_field ("Editing", relative_path)
+				lio.put_path_field ("Editing", relative_path)
 				editor := editor_factory.instance_from_alias (
 					relative_path.as_string_32, agent {EIFFEL_OVERRIDE_FEATURE_EDITOR}.make (source_path)
 				)
 				File_system.make_directory (output_path.parent)
 				editor.write_edited_lines (output_path)
 			else
-				log_or_io.put_line ("ERROR: source file missing")
-				log_or_io.put_path_field ("Source", source_path)
+				lio.put_line ("ERROR: source file missing")
+				lio.put_path_field ("Source", source_path)
 			end
-			log_or_io.put_new_line
+			lio.put_new_line
 		end
 
 feature {NONE} -- Internal attributes
@@ -128,7 +128,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 13:09:47 GMT (Sunday 20th December 2015)"
+	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 

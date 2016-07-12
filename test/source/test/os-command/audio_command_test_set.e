@@ -6,28 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 6:46:31 GMT (Thursday 23rd June 2016)"
+	date: "2016-07-10 7:30:45 GMT (Sunday 10th July 2016)"
 	revision: "5"
 
 class
 	AUDIO_COMMAND_TEST_SET
 
 inherit
-	FILE_DATA_TEST_SET
-
-	EL_MODULE_LOG
-		undefine
-			default_create
-		end
-
-	EL_MODULE_FILE_SYSTEM
-		undefine
-			default_create
-		end
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
-		undefine
-			default_create
+	EL_FILE_DATA_TEST_SET
+		rename
+			new_file_tree as new_empty_file_tree
 		end
 
 	EL_MODULE_AUDIO_COMMAND

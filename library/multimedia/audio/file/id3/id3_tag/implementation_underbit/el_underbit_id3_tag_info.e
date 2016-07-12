@@ -11,7 +11,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 13:47:56 GMT (Wednesday 16th December 2015)"
+	date: "2016-07-01 14:03:38 GMT (Friday 1st July 2016)"
 	revision: "7"
 
 class
@@ -30,11 +30,6 @@ inherit
 	EL_UNDERBIT_ID3_TAG_CONSTANTS
 		export
 			{NONE} all
-		undefine
-			default_create
-		end
-
-	EL_MODULE_LOG
 		undefine
 			default_create
 		end

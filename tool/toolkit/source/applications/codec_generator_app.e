@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-17 14:27:55 GMT (Sunday 17th January 2016)"
+	date: "2016-07-08 19:56:34 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 class
@@ -73,9 +73,8 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{CODEC_GENERATOR_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"],
-				[{CODEC_GENERATOR}, "*"]
+				[{CODEC_GENERATOR_APP}, All_routines],
+				[{CODEC_GENERATOR}, All_routines]
 			>>
 		end
 

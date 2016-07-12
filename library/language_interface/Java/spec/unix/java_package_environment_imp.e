@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-22 15:40:18 GMT (Wednesday 22nd June 2016)"
+	date: "2016-06-30 10:31:04 GMT (Thursday 30th June 2016)"
 	revision: "5"
 
 class
@@ -46,14 +46,18 @@ feature -- Constants
 				find_command.execute
 				libjvm_path_list := find_command.path_list
 				found := False
-				from libjvm_path_list.start until found or libjvm_path_list.after loop
-					if libjvm_path_list.item.base.same_string ("server") then
-						Result := libjvm_path_list.item
+				across libjvm_path_list as path until found loop
+					if path.item.steps.has (Server) then
+						Result := path.item
 						found := True
 					end
-					libjvm_path_list.forth
 				end
 			end
+		end
+
+	Server: ZSTRING
+		once
+			Result := "server"
 		end
 
 	User_application_data_dir, Default_user_application_data_dir: EL_DIR_PATH

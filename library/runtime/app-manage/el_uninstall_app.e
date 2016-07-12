@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:14:30 GMT (Friday 24th June 2016)"
+	date: "2016-07-01 9:54:00 GMT (Friday 1st July 2016)"
 	revision: "7"
 
 class
@@ -18,10 +18,12 @@ inherit
 			option_name, installer, is_installable
 		end
 
-	EL_MODULE_USER_INPUT
-
 	EL_MODULE_ENVIRONMENT
 
+	EL_MODULE_OS
+
+	EL_MODULE_USER_INPUT
+	
 create
 	make_installer
 
@@ -52,7 +54,7 @@ feature -- Basic operations
 					end
 				end
 				-- Remove application data and configuration directories for all users
-				across Environment.Operating.user_list as user loop
+				across OS.user_list as user loop
 					across For_user_directories as user_dir loop
 						dir_path := user_dir.item (user.item)
 						if dir_path.exists then
@@ -72,7 +74,7 @@ feature {NONE} -- Implementation
 
 	delete_dir_tree (dir_path: EL_DIR_PATH)
 		do
-			File_system.delete_tree (dir_path)
+			OS.delete_tree (dir_path)
 			File_system.delete_empty_branch (dir_path.parent)
 		end
 

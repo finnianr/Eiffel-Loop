@@ -15,6 +15,10 @@ from SCons import Script
 
 # Builder routines
 
+def copy_precompile (target, source, env):
+	# Copy precompile into precomp/$ISE_PLATFORM
+	file_util.copy_file (str (source [0]), str (target [0]))
+
 def compile_to_C (target, source, env):
 	config = env ['EIFFEL_CODE_ARCHIVE_CONFIG']
 
@@ -38,31 +42,9 @@ def compile_executable (target, source, env):
 	if install and path.exists (package_exe_path):
 		osprocess.sudo_call ([package_exe_path, '-install'])
 
-def precompile (target, source, env):
-	curdir = path.abspath (os.curdir)
-	precomp_dir = env ['EIF_PRECOMP_PLATFORM_DIR']
-	ecf_path = env ['EIF_PRECOMP_MASTER_ECF']
-
-	os.chdir (precomp_dir)
-	file_util.copy_file (ecf_path, precomp_dir)
-	ecf_path = path.join (precomp_dir, path.basename (ecf_path))
-
-	compile_command = ['ec', '-batch', '-precompile', '-c_compile', '-config', ecf_path]
-	environ = env ['ASCII_ENV']
-	
-	#for name, value in environ.items ():
-	#	if not (isinstance (name, str) and isinstance (value, str)):
-	#		sys.stdout.write ('Variable is not str: ' + str (name) + '\n')
-	#		sys.stdout.write (str (value) + '\n')
-		
-	sys.stdout.write ('Subprocess: ' + str (compile_command) + '\n')
-	call_status = osprocess.call (compile_command, env = environ )
-
-	os.chdir (curdir)
-
 def write_ecf_from_pecf (target, source, env):
-	# Converts pyxis format precompile ecf to normal
-	pyxis_to_xml_cmd = ['el_toolkit2', '-pyxis_to_xml', '-no_highlighting', '-in', str (source [0])]
+	# Converts Pyxis format EC to XML
+	pyxis_to_xml_cmd = ['el_toolkit', '-pyxis_to_xml', '-no_highlighting', '-in', str (source [0])]
 	sys.stdout.write (' '.join (pyxis_to_xml_cmd) + '\n')
 	if subprocess.call (pyxis_to_xml_cmd) != 0:
 		Script.Exit (1)

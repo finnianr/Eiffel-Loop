@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 7:08:16 GMT (Monday 20th June 2016)"
+	date: "2016-07-08 18:33:53 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -38,7 +38,7 @@ feature -- Basic operations
 		do
 			create_database
 			if database.is_initialized then
-				File_system.file_list (m3u_dir, "*.m3u").do_all (
+				OS.file_list (m3u_dir, "*.m3u").do_all (
 					agent (m3u_path: EL_FILE_PATH)
 						do
 							database.import_m3u_playlist (create {M3U_PLAYLIST_READER}.make (m3u_path))
@@ -65,7 +65,7 @@ feature -- Tests
 			normal_initialize
 			test_database_dir := data_path
 			m3u_dir := test_database_dir
-			File_system.copy_file (test_database_dir + "empty-playlists.xml", test_database_dir + "playlists.xml")
+			OS.copy_file (test_database_dir + "empty-playlists.xml", test_database_dir + "playlists.xml")
 			normal_run
 			log.exit
 		end
@@ -84,9 +84,8 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{RBOX_PLAYLIST_IMPORT_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"],
-				[{RBOX_SONG}, "*"]
+				[{RBOX_PLAYLIST_IMPORT_APP}, All_routines],
+				[{RBOX_SONG}, All_routines]
 			>>
 		end
 

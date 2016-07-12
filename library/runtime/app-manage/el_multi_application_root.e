@@ -10,7 +10,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 10:16:50 GMT (Monday 20th June 2016)"
+	date: "2016-07-08 14:06:25 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 deferred class
@@ -27,6 +27,8 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
+	EL_MODULE_OS
+
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_ENVIRONMENT
@@ -34,8 +36,6 @@ inherit
 	EL_MODULE_STRING_8
 
 	EL_MODULE_LOGGING
-
-	EL_MODULE_LOG
 
 	EL_MODULE_BUILD_INFO
 
@@ -67,9 +67,6 @@ feature {NONE} -- Initialization
 			-- Must be called before current_working_directory changes
 			if Environment.Execution.Executable_path.is_file then
 			end
-
-			Args.set_boolean_from_word_option ({EL_LOG_COMMAND_OPTIONS}.Logging, agent logging.activate)
-				-- Partial logging initialization. Cannot do full one until launcher launch.
 
 			if Args.index_of_word_option ({EL_COMMAND_OPTIONS}.Install) = 1 then
 				if is_package_installable then
@@ -223,7 +220,7 @@ feature {NONE} -- Implementation
 		do
 			io.put_string (source_dir.to_string); io.put_new_line
 			io.put_string (destination_dir.to_string); io.put_new_line
-			File_system.copy_tree (source_dir, destination_dir)
+			OS.copy_tree (source_dir, destination_dir)
 		end
 
 	io_put_menu

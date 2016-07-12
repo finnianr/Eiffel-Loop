@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-28 10:50:02 GMT (Thursday 28th January 2016)"
+	date: "2016-07-08 19:55:03 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 deferred class
@@ -55,15 +55,15 @@ feature -- Basic operations
 				-- Call initialize here rather than in make so that a background thread will have it's own template copies
 				-- stored in once per thread instance of EVOLICITY_TEMPLATES
 				initialize
-				log_or_io.put_integer_field ("Listening on port", svr_port)
-				log_or_io.put_new_line
+				lio.put_integer_field ("Listening on port", svr_port)
+				lio.put_new_line
 
 				run
 				on_shutdown
 			else
 				across config.error_messages as message loop
-					log_or_io.put_labeled_string ("Error " + message.cursor_index.out, message.item)
-					log_or_io.put_new_line
+					lio.put_labeled_string ("Error " + message.cursor_index.out, message.item)
+					lio.put_new_line
 				end
 			end
 			log.exit
@@ -155,12 +155,10 @@ feature {NONE} -- Implementation
 		do
 			pos_colon := message.index_of (':', 1)
 			if pos_colon > 0 then
-				log_or_io.put_labeled_string (
-					message.substring (1, pos_colon - 1), message.substring (pos_colon + 2, message.count)
-				)
-				log_or_io.put_new_line
+				lio.put_labeled_string (message.substring (1, pos_colon - 1), message.substring (pos_colon + 2, message.count))
+				lio.put_new_line
 			else
-				log_or_io.put_line (message)
+				lio.put_line (message)
 			end
 		end
 

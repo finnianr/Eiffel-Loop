@@ -1,13 +1,13 @@
 ﻿note
-	description: "Node visitor that is attached to a EL_XML_NODE_TREE_PROCESSOR"
+	description: "Node visitor that is attached to a `EL_XML_NODE_TREE_PROCESSOR'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-25 9:10:18 GMT (Friday 25th December 2015)"
-	revision: "4"
+	date: "2016-07-07 16:10:34 GMT (Thursday 7th July 2016)"
+	revision: "5"
 
 deferred class
 	EL_ATTACHED_XML_NODE_VISITOR

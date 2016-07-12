@@ -8,7 +8,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-22 10:59:10 GMT (Friday 22nd April 2016)"
+	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "8"
 
 class
@@ -18,6 +18,8 @@ inherit
 	EL_COMMAND
 
 	EL_MODULE_LOG
+
+	EL_MODULE_OS
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -55,12 +57,12 @@ feature -- Basic operations
 				create xml_out.make_open_write (output_file_path)
 				xml_out.enable_bom
 				create converter.make
-				log_or_io.put_new_line
-				log_or_io.put_line ("Compiling ..")
+				lio.put_new_line
+				lio.put_line ("Compiling ..")
 				converter.convert_stream (pyxis_in, xml_out)
 				pyxis_in.close; xml_out.close
 			else
-				log_or_io.put_line ("Source has not changed")
+				lio.put_line ("Source has not changed")
 			end
 			log.exit
 		end
@@ -79,10 +81,10 @@ feature {NONE} -- Implementation
 			end
 			create Result.make_open_write ((count * Pyxis_to_xml_size_scalar).rounded)
 			-- Merge Pyxis files into one monolithic file
-			log_or_io.put_line ("Merging")
+			lio.put_line ("Merging")
 			across path_list as source_path loop
-				log_or_io.put_path_field ("Pyxis", source_path.item)
-				log_or_io.put_new_line
+				lio.put_path_field ("Pyxis", source_path.item)
+				lio.put_new_line
 				pyxis_source := File_system.plain_text (source_path.item)
 				if source_path.cursor_index = 1 then
 					Result.put_encoded_string_8 (pyxis_source)
@@ -99,9 +101,9 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	pyxis_file_path_list: like File_system.file_list
+	pyxis_file_path_list: like OS.file_list
 		do
-			Result := File_system.file_list (source_tree_path, "*.pyx")
+			Result := OS.file_list (source_tree_path, "*.pyx")
 		end
 
 feature {NONE} -- Internal attributes

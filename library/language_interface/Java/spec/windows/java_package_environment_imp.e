@@ -1,9 +1,12 @@
 ﻿note
 	description: "[
 		Windows implementation of `JAVA_PACKAGE_ENVIRONMENT_I' interface
-		deployment.properties file location
-			Windows 7 : C:\Users\%username%\AppData\LocalLow\Sun\Java\Deployment
-			Windows XP : C:\Documents and Settings\%username%\Application Data\Sun\Java\Deployment
+		`deployment.properties' file location
+
+		**Windows 7**
+			C:\Users\%username%\AppData\LocalLow\Sun\Java\Deployment
+		**Windows XP**
+			C:\Documents and Settings\%username%\Application Data\Sun\Java\Deployment
 	]"
 
 	author: "Finnian Reilly"
@@ -11,7 +14,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 11:27:29 GMT (Friday 24th June 2016)"
+	date: "2016-07-06 14:28:29 GMT (Wednesday 6th July 2016)"
 	revision: "5"
 
 class

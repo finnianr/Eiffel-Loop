@@ -34,10 +34,19 @@ system:
 		
 		# Eiffel Loop libraries
 		library:
-			name = EL_base; location = "base.ecf"
+			name = EL_base; location = "base/base.ecf"
+
+		library:
+			name = EL_evolicity; location = "evolicity.ecf"
 
 		library:
 			name = EL_net_base; location = "network.ecf"
+
+		library:
+			name = EL_logging; location = "logging.ecf"
+
+		library:
+			name = EL_thread; location = "thread.ecf"
 
 		library:
 			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"

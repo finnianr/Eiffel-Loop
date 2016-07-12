@@ -2,12 +2,12 @@
 	description: "Consumes the products of a product queue fed by another thread"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-04-23 10:28:40 GMT (Thursday 23rd April 2015)"
-	revision: "3"
+	date: "2016-07-03 6:34:53 GMT (Sunday 3rd July 2016)"
+	revision: "4"
 
 deferred class
 	EL_CONSUMER_THREAD [P]
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_CONSUMER [P]
 		undefine
-			make_default, is_equal, copy, stop
+			make_default, is_equal, copy, stop, name
 		end
 
 	EL_CONTINUOUS_ACTION_THREAD
@@ -56,6 +56,18 @@ feature -- Basic operations
 			end
 		end
 
+feature {NONE} -- Event handlers
+
+	on_continue
+			-- Continue after waiting
+		do
+		end
+
+	on_stopping
+			--
+		do
+		end
+
 feature {NONE} -- Implementation
 
 	execute
@@ -65,12 +77,11 @@ feature {NONE} -- Implementation
 		do
 			set_active
 			from until is_stopping loop
-				log.put_line ("waiting")
 				set_waiting
 				product_count.wait
 				Previous_call_is_blocking_thread
 -- THREAD WAITING
-				log.put_line ("received product")
+				on_continue
 				if not is_stopping and is_product_available then
 					set_consuming
 					consume_next_product
@@ -78,11 +89,6 @@ feature {NONE} -- Implementation
 			end
 			on_stopping
 			set_stopped
-		end
-
-	on_stopping
-			--
-		do
 		end
 
 	product_count: SEMAPHORE

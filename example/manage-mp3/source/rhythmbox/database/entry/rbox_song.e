@@ -8,7 +8,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 7:38:37 GMT (Monday 20th June 2016)"
+	date: "2016-07-07 7:52:11 GMT (Thursday 7th July 2016)"
 	revision: "8"
 
 class
@@ -30,6 +30,8 @@ inherit
 			relative_path as mp3_relative_path,
 			checksum as last_checksum
 		end
+
+	EL_MODULE_OS
 
 	EL_MODULE_TAG
 
@@ -297,7 +299,7 @@ feature -- Element change
 			mp3_path := unique_normalized_mp3_path
 
 			File_system.make_directory (mp3_path.parent)
-			File_system.move_file (old_mp3_path, mp3_path)
+			OS.move_file (old_mp3_path, mp3_path)
 			if old_mp3_path.parent.exists then
 				File_system.delete_empty_branch (old_mp3_path.parent)
 			end
@@ -499,9 +501,9 @@ feature {NONE} -- Implementation
 	main_fields_checksum: NATURAL
 			--
 		local
-			crc: like new_crc_generator; l_picture_checksum: NATURAL
+			crc: like crc_generator; l_picture_checksum: NATURAL
 		do
-			crc := new_crc_generator
+			crc := crc_generator
 			across << artists_list.comma_separated, album, title, genre, comment >> as field loop
 				crc.add_string (field.item)
 			end

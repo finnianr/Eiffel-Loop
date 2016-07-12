@@ -21,7 +21,7 @@ def get (target, source, env):
 	# Scons builder action to extract targets from sources
 	packages = {}
 	for i in range (0, len (source)):
-		#print 'source [%s]' % i, source [i]
+		print 'source [%s]' % i, source [i]
 		url, member_name = source_url_and_member_name (str (source [i]), subst_variables)
 		if url in packages:
 			package = packages [url]
@@ -68,9 +68,16 @@ def platform_variables ():
 	var_debian_platform = 'DEB_PLATFORM'
 	var_cpu_bits = 'CPU_BITS'
 	
-	for ise_variable in [var_ise_eiffel, var_ise_platform, var_ise_library, var_ise_c_compiler]:
+	for ise_variable in [var_ise_eiffel, var_ise_platform, var_ise_library]:
 		result [ise_variable] = os.environ [ise_variable]
 
+	if os.environ.has_key (var_ise_c_compiler):
+		result [var_ise_c_compiler] = os.environ [var_ise_c_compiler]
+	elif os.name == 'posix':
+		result [var_ise_c_compiler] = 'gcc'
+	else:
+		result [var_ise_c_compiler] = 'msc'
+		
 	ise_platform = os.environ [var_ise_platform]
 	if ise_platform == 'windows':
 		cpu_bits = '32'; gnome_platform = 'win32'; debian_platform = 'i386'

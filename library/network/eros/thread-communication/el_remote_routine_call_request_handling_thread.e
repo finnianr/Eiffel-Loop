@@ -2,23 +2,23 @@
 	description: "Summary description for {EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-03 11:46:02 GMT (Sunday 3rd July 2016)"
+	revision: "4"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD
 
 inherit
-	EL_MANY_TO_ONE_CONSUMER_THREAD [EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET]
+	EL_LOGGED_MANY_TO_ONE_CONSUMER_THREAD [EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET]
 		rename
 			product as client_socket,
 			consume_product as serve_client
 		redefine
-			launch, stop, log_name, is_visible_in_console
+			launch, stop
 		end
 
 create
@@ -29,7 +29,7 @@ feature -- Element change
 	set_log_name_suffix (suffix: INTEGER)
 			--
 		do
-			log_name := Log_name_root + suffix.out
+			set_name (Log_name_root + suffix.out)
 		end
 
 	set_client_request_handler (a_client_request_handler: like client_request_handler)
@@ -80,14 +80,15 @@ feature {NONE} -- Implementation
 
 	client_request_handler: EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
 
-	log_name: STRING
-
 	routine_call_event_listener: EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER
 
 feature {NONE} -- Constants
 
 	Is_visible_in_console: BOOLEAN = true
 
-	Log_name_root: STRING = "Client request handler "
+	Log_name_root: ZSTRING
+		once
+			Result := "Client request handler "
+		end
 
 end

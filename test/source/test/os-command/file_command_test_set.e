@@ -6,24 +6,19 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 19:42:50 GMT (Thursday 23rd June 2016)"
+	date: "2016-07-10 12:06:05 GMT (Sunday 10th July 2016)"
 	revision: "5"
 
 class
 	FILE_COMMAND_TEST_SET
 
 inherit
-	FILE_DATA_TEST_SET
+	HELP_PAGES_TEST_SET
 		redefine
-			new_file_tree, on_prepare
+			on_prepare
 		end
 
 	EL_MODULE_COMMAND
-		undefine
-			default_create
-		end
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
 		undefine
 			default_create
 		end
@@ -37,26 +32,26 @@ feature -- Tests
 			volume_root_path, volume_workarea_dir, volume_workarea_copy_dir, volume_destination_dir: EL_DIR_PATH
 			relative_file_path: EL_FILE_PATH
 		do
-			log.enter ("test_gnome_virtual_file_system")
+			lio.enter ("test_gnome_virtual_file_system")
 			l_file_set := file_set_absolute; l_file_set.start
 			create mount_list_cmd.make
 			mount_list_cmd.execute
 			across mount_list_cmd.uri_root_table as root until found_volume loop
-				log.put_path_field (root.key, root.item)
-				log.put_new_line
+				lio.put_path_field (root.key, root.item)
+				lio.put_new_line
 				if root.item.protocol ~ File_protocol then
 					file_path_string := root.item.to_string
 					file_path_string.remove_head (File_protocol.count + 3)
 					if l_file_set.item_for_iteration.to_string.starts_with (file_path_string) then
 						volume_name := root.key
 						volume_root_path := file_path_string
-						volume_workarea_dir := Work_area_dir_absolute.relative_path (volume_root_path)
+						volume_workarea_dir := Current_work_area_dir.relative_path (volume_root_path)
 						found_volume := True
 					end
 				end
 			end
-			log.put_labeled_string ("volume_name", volume_name)
-			log.put_new_line
+			lio.put_labeled_string ("volume_name", volume_name)
+			lio.put_new_line
 			create volume.make_with_volume (volume_name, False)
 			volume_workarea_copy_dir := volume_workarea_dir.joined_dir_path ("copy")
 			volume.make_directory (volume_workarea_copy_dir)
@@ -69,29 +64,29 @@ feature -- Tests
 				)
 				l_file_set.put (volume_root_path + (volume_destination_dir + relative_file_path.base))
 			end
-			execute_and_assert (Command.new_find_files (Work_area_dir_absolute, "*"), l_file_set)
-			log.exit
+			execute_and_assert (Command.new_find_files (Current_work_area_dir, "*"), l_file_set)
+			lio.exit
 		end
 
 	test_relative_file_move_and_copy
 		do
-			log.enter ("test_relative_file_move_and_copy")
+			lio.enter ("test_relative_file_move_and_copy")
 			file_move_and_copy (True)
-			log.exit
+			lio.exit
 		end
 
 	test_absolute_file_move_and_copy
 		do
-			log.enter ("test_absolute_file_move_and_copy")
+			lio.enter ("test_absolute_file_move_and_copy")
 			file_move_and_copy (False)
-			log.exit
+			lio.exit
 		end
 
 	test_delete_paths
 		local
 			l_file_set: like file_set
 		do
-			log.enter ("delete_paths")
+			lio.enter ("delete_paths")
 			l_file_set := file_set.subset_exclude (agent path_contains (?, Help_pages_bcd_dir))
 			l_file_set := l_file_set.subset_exclude (agent path_contains (?, Wireless_notes_path))
 			Command.new_delete_file (Work_area_dir + Wireless_notes_path).execute
@@ -99,39 +94,39 @@ feature -- Tests
 
 			execute_and_assert (all_files_cmd (Work_area_dir), l_file_set)
 
-			log.exit
+			lio.exit
 		end
 
 	test_directory_info
 		local
 			directory_info_cmd: like Command.new_directory_info
 		do
-			log.enter ("test_directory_info")
+			lio.enter ("test_directory_info")
 			directory_info_cmd := Command.new_directory_info (Work_area_dir)
 			assert ("same file count", directory_info_cmd.file_count = file_set.count)
 			assert ("same total bytes", directory_info_cmd.size = total_file_size)
-			log.exit
+			lio.exit
 		end
 
 	test_find_directories
 		do
-			log.enter ("test_find_directories")
+			lio.enter ("test_find_directories")
 			find_directories (True); find_directories (False)
-			log.exit
+			lio.exit
 		end
 
 	test_find_files
 		do
-			log.enter ("test_find_files")
+			lio.enter ("test_find_files")
 			find_files (True); find_files (False)
-			log.exit
+			lio.exit
 		end
 
 	test_search_path_list
 		do
-			log.enter ("test_search_path_list")
+			lio.enter ("test_search_path_list")
 			assert ("has estudio", Execution_environment.executable_search_list.has_executable ("estudio"))
-			log.exit
+			lio.exit
 		end
 
 	test_read_directories
@@ -139,7 +134,7 @@ feature -- Tests
 			l_dir: EL_DIRECTORY; find_directories_cmd: like Command.new_find_directories
 			dir_path: EL_DIR_PATH
 		do
-			log.enter ("test_read_directories")
+			lio.enter ("test_read_directories")
 			dir_path := Work_area_dir.joined_dir_path (Windows_dir)
 			create l_dir.make (dir_path)
 			find_directories_cmd := Command.new_find_directories (dir_path)
@@ -155,7 +150,7 @@ feature -- Tests
 			find_directories_cmd.execute
 			assert_same_entries (l_dir.recursive_directories, find_directories_cmd.path_list)
 
-			log.exit
+			lio.exit
 		end
 
 	test_read_directory_files
@@ -163,7 +158,7 @@ feature -- Tests
 			l_dir: EL_DIRECTORY; find_files_cmd: like Command.new_find_files
 			dir_path: EL_DIR_PATH
 		do
-			log.enter ("test_read_directory_files")
+			lio.enter ("test_read_directory_files")
 			dir_path := Work_area_dir.joined_dir_path (Windows_dir)
 
 			create l_dir.make (dir_path)
@@ -182,7 +177,7 @@ feature -- Tests
 			find_files_cmd.execute
 			assert_same_entries (l_dir.recursive_files_with_extension ("text"), find_files_cmd.path_list)
 
-			log.exit
+			lio.exit
 		end
 
 feature {NONE} -- Events
@@ -240,14 +235,14 @@ feature {NONE} -- Implementation
 			entries_1.compare_objects; entries_2.compare_objects
 			if False then
 				across << entries_1, entries_2 >> as entries loop
-					log.put_integer_field ("entries", entries.cursor_index)
-					log.put_new_line
+					lio.put_integer_field ("entries", entries.cursor_index)
+					lio.put_new_line
 					across entries.item as entry loop
-						log.put_path_field ("entry " + entry.cursor_index.out, entry.item)
-						log.put_new_line
+						lio.put_path_field ("entry " + entry.cursor_index.out, entry.item)
+						lio.put_new_line
 					end
 				end
-				log.put_new_line
+				lio.put_new_line
 			end
 			assert ("same count", entries_1.count = entries_2.count)
 			assert ("all 1st in 2nd", across entries_1 as entry all entries_2.has (entry.item) end)
@@ -266,25 +261,25 @@ feature {NONE} -- Implementation
 			find_cmd.execute
 			if False then
 				if not find_cmd.limitless_max_depth then
-					log.put_integer_interval_field ("Depth", find_cmd.min_depth |..| find_cmd.max_depth)
-					log.put_new_line
+					lio.put_integer_interval_field ("Depth", find_cmd.min_depth |..| find_cmd.max_depth)
+					lio.put_new_line
 				end
-				log.put_integer_field (a_path_set.generator, a_path_set.count)
-				log.put_new_line
+				lio.put_integer_field (a_path_set.generator, a_path_set.count)
+				lio.put_new_line
 				from a_path_set.start until a_path_set.after loop
-					log.put_path_field ("a_path_set", a_path_set.key_for_iteration)
-					log.put_new_line
+					lio.put_path_field ("a_path_set", a_path_set.key_for_iteration)
+					lio.put_new_line
 					a_path_set.forth
 				end
-				log.put_integer_field (find_cmd.generator, find_cmd.path_list.count)
-				log.put_new_line
+				lio.put_integer_field (find_cmd.generator, find_cmd.path_list.count)
+				lio.put_new_line
 				across find_cmd.path_list as path loop
 					l_path := path.item
-					log.put_path_field ("path_list", l_path)
-					log.put_new_line
+					lio.put_path_field ("path_list", l_path)
+					lio.put_new_line
 					assert ("set has member", a_path_set.has (l_path))
 				end
-				log.put_new_line
+				lio.put_new_line
 			end
 			assert ("same set count", find_cmd.path_list.count = a_path_set.count)
 			assert ("same set members", across find_cmd.path_list as path all a_path_set.has (path.item) end)
@@ -296,11 +291,11 @@ feature {NONE} -- Implementation
 			dir_path: EL_DIR_PATH; l_dir_set: like dir_set; lower, upper: INTEGER
 		do
 			if use_relative_path then
-				log.put_line ("Using relative paths")
+				lio.put_line ("Using relative paths")
 				dir_path := Work_area_dir; l_dir_set := dir_set
 			else
-				log.put_line ("Using absolute paths")
-				dir_path := Work_area_dir_absolute; l_dir_set := dir_set_absolute
+				lio.put_line ("Using absolute paths")
+				dir_path := Current_work_area_dir; l_dir_set := dir_set_absolute
 			end
 			find_directories_cmd := Command.new_find_directories (dir_path)
 			execute_and_assert (find_directories_cmd, l_dir_set)
@@ -328,11 +323,11 @@ feature {NONE} -- Implementation
 			dir_path: EL_DIR_PATH; l_file_set: like file_set; lower, upper: INTEGER
 		do
 			if use_relative_path then
-				log.put_line ("Using relative paths")
+				lio.put_line ("Using relative paths")
 				dir_path := Work_area_dir; l_file_set := file_set
 			else
-				log.put_line ("Using absolute paths")
-				dir_path := Work_area_dir_absolute; l_file_set := file_set_absolute
+				lio.put_line ("Using absolute paths")
+				dir_path := Current_work_area_dir; l_file_set := file_set_absolute
 			end
 			find_files_cmd := Command.new_find_files (dir_path, "*")
 			execute_and_assert (find_files_cmd, l_file_set)
@@ -360,7 +355,7 @@ feature {NONE} -- Implementation
 			if use_relative_paths then
 				l_file_set := new_file_set; dir_path := Work_area_dir
 			else
-				l_file_set := file_set_absolute; dir_path := Work_area_dir_absolute
+				l_file_set := file_set_absolute; dir_path := Current_work_area_dir
 			end
 			l_file_set.put (dir_path + Wireless_notes_path_copy)
 			mint_copy_dir := Help_pages_mint_dir.joined_dir_path ("copy")
@@ -387,31 +382,6 @@ feature {NONE} -- Implementation
 			execute_and_assert (all_files_cmd (dir_path), l_file_set)
 		end
 
-	new_file_tree: HASH_TABLE [ARRAY [READABLE_STRING_GENERAL], EL_DIR_PATH]
-		do
-			create Result.make (0)
-			Result [{STRING_32} "Help-pages/Windows™/boot"] := <<
-				"BootRec.exe.text", "bootrec_error_msg.text", "Bootrec.exe-tool.text"
-			>>
-			Result [Help_pages_bcd_dir] := <<
-				{STRING_32} "bcd-setup.3.txt", {STRING_32}"bcd-setup.2.txt", {STRING_32}"bcdedit_import_error.txt",
-				{STRING_32} "bcd-setup-€.txt"
-			>>
-			Result [{STRING_32} "Help-pages/Windows™"] := <<
-				{STRING_32} "diskpart-2.txt", {STRING_32} "diskpart-€.txt",
-				{STRING_32} "required-device-is-inaccessible-0xc000000e.txt"
-			>>
-			Result ["Help-pages/Ubuntu"] := <<
-				"error.txt", "firmware-b43-installer.txt", "bcm-reinstall.txt"
-			>>
-			Result [Help_pages_mint_dir] := <<
-				Wireless_notes_path.base.to_latin_1, "Broadcom missing.txt"
-			>>
-			Result [Help_pages_mint_docs_dir] := <<
-				"Graphic.spec.txt", "grub.error.txt", "Intel HD-4000 framebuffer.txt"
-			>>
-		end
-
 	dir_set_absolute: like dir_set
 		do
 			create Result.make_equal (dir_set.count)
@@ -434,31 +404,6 @@ feature {NONE} -- Constants
 	File_protocol: ZSTRING
 		once
 			Result := "file"
-		end
-
-	Help_pages_bcd_dir: EL_DIR_PATH
-		once
-			Result := {STRING_32} "Help-pages/Windows™/bcd"
-		end
-
-	Help_pages_mint_dir: EL_DIR_PATH
-		once
-			Result := "Help-pages/Mint"
-		end
-
-	Help_pages_mint_docs_dir: EL_DIR_PATH
-		once
-			Result := Help_pages_mint_dir.joined_dir_path ("docs")
-		end
-
-	Windows_dir: EL_DIR_PATH
-		once
-			Result := {STRING_32} "Help-pages/Windows™"
-		end
-
-	Wireless_notes_path: EL_FILE_PATH
-		once
-			Result := Help_pages_mint_dir + "wireless_notes.txt"
 		end
 
 	Wireless_notes_path_copy: EL_FILE_PATH

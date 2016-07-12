@@ -7,7 +7,7 @@ system:
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
 	name = EL_eiffel2java
 	uuid = "229b783a-09aa-11df-87c6-93dce164c2d4" 
-	library_target = el_eiffel2java
+	library_target = EL_eiffel2java
 	
 	target:
 		name = EL_eiffel2java
@@ -20,25 +20,10 @@ system:
 			all_classes = true
 
 		option:
-			namespace = "Eiffel-Loop.Library.Encryption.Eiffel-to-Java"; trace = false; debug = true; warning = true; syntax = standard
+			namespace = "Eiffel-Loop.Library.Language_interface.Eiffel2Java"
+			trace = false; debug = true; warning = true; syntax = standard
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
-
-		# Java
-		external_include: 
-			location = "$(JDK_HOME)/include"
-
-		external_include: 
-			location = "$(JDK_HOME)/include/linux"
-			condition:
-				platform:
-					value = unix
-
-		external_include: 
-			location = "$(JDK_HOME)/include/win32"
-			condition:
-				platform:
-					value = windows
 
 		library: 
 			name = "base"; location = "$ISE_LIBRARY/library/base/base.ecf"
@@ -46,10 +31,22 @@ system:
 		library: 
 			name = api_wrapper; location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"
 
+		#	renaming:
+		#		old_name = JAVA_OBJECT; new_name = OBSOLETE_JAVA_OBJECT
+		library:
+			name = eiffel2java; location = "override/ES-eiffel2java.ecf"
+			renaming:
+				old_name = JNI_ENVIRONMENT; new_name = JAVA_ORB
+			renaming:
+				old_name = SHARED_JNI_ENVIRONMENT; new_name = JAVA_SHARED_ORB
+
 		# Eiffel Loop
 		library:
-			name = EL_base; location = "base.ecf"
-			
+			name = EL_base; location = "base/base.ecf"
+
+		library:
+			name = EL_os_command; location = "os-command.ecf"
+
 		library:
 			name = EL_wel_regedit; location = "wel-regedit-x.ecf"
 			condition:
@@ -59,9 +56,6 @@ system:
 		# Source code
 		cluster:
 			name = EL_java; location = "language_interface/Java"; recursive = true
-			option:
-				namespace = Eiffel_Loop_Java
-
 			file_rule:
 				exclude:
 					"/windows$"
@@ -75,24 +69,5 @@ system:
 				condition:
 					platform:
 						value = windows
-			mapping:
-				old_name = OBSOLETE_JAVA_OBJECT; new_name = JAVA_OBJECT
 
-		cluster:
-			name = ise_eiffel2java; location = "$ISE_LIBRARY/library/Eiffel2Java/"; recursive = true
-			option:
-				namespace = ISE_eiffel2java
-
-			file_rule:
-				exclude:
-					"/jni_environment\.e$"
-					"/shared_jni_environment\.e$"
-					"/java_vm\.e$"
-					"/java_args\.e$"
-
-			mapping:
-				old_name = JNI_ENVIRONMENT; new_name = JAVA_ORB
-
-			mapping:
-				old_name = SHARED_JNI_ENVIRONMENT; new_name = JAVA_SHARED_ORB
 

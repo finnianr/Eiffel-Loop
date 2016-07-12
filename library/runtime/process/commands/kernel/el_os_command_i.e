@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-19 16:10:56 GMT (Sunday 19th June 2016)"
+	date: "2016-07-09 6:07:16 GMT (Saturday 9th July 2016)"
 	revision: "5"
 
 deferred class
@@ -28,7 +28,7 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 feature {NONE} -- Initialization
 
@@ -92,20 +92,18 @@ feature -- Basic operations
 		local
 			l_command: like system_command
 		do
-			log.enter_no_header ("execute")
 			reset
 			l_command := system_command
 			if l_command.is_empty then
-				log_or_io.put_string_field ("Error in command template", generator)
-				log_or_io.put_new_line
+				lio.put_string_field ("Error in command template", generator)
+				lio.put_new_line
 			else
-				if log.current_routine_is_active then
+				if is_lio_enabled then
 					display (l_command.lines)
 				end
 				l_command.translate_and_delete (Tab_and_new_line, Null_and_space)
 				do_command (l_command)
 			end
-			log.exit_no_trailer
 		end
 
 feature -- Change OS environment
@@ -113,10 +111,7 @@ feature -- Change OS environment
 	extend_executable_search_path (path: STRING)
 			--
 		do
-			log.enter ("extend_executable_search_path")
 			Execution_environment.extend_executable_search_path (path)
-			log.put_string_field ("PATH", executable_search_path)
-			log.exit
 		end
 
 	set_executable_search_path (env_path: STRING)
@@ -160,8 +155,8 @@ feature {NONE} -- Implementation
 						printable_line.append (word)
 						if printable_line.count > max_width then
 							printable_line.remove_tail (word.count)
-							log.put_labeled_string (prompt, printable_line)
-							log.put_new_line
+							lio.put_labeled_string (prompt, printable_line)
+							lio.put_new_line
 							printable_line.wipe_out
 							printable_line.append (word)
 							prompt := blank_prompt
@@ -169,8 +164,8 @@ feature {NONE} -- Implementation
 					end
 				end
 			end
-			log.put_labeled_string (prompt, printable_line)
-			log.put_new_line
+			lio.put_labeled_string (prompt, printable_line)
+			lio.put_new_line
 		end
 
 	do_command (a_system_command: like system_command)

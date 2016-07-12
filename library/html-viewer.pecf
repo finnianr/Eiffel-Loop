@@ -9,7 +9,6 @@ system:
 	uuid = "229b4d24-09aa-11df-876d-3bc274397d13" 
 	library_target = EL_html_viewer
 	readonly = false
-
 	
 	target:
 		name = EL_html_viewer
@@ -32,11 +31,11 @@ system:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library:
-			name = vision2; location = "ES-vision2.ecf"; readonly = false
+			name = vision2; location = "override/ES-vision2.ecf"; readonly = false
 	
 		# Eiffel Loop
 		library:
-			name = EL_base; location = "base.ecf"
+			name = EL_base; location = "base/base.ecf"
 			readonly = false
 
 		library:

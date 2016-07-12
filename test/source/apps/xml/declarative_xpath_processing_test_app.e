@@ -2,12 +2,12 @@
 	description: "Summary description for {DECLARATIVE_XPATH_PROCESSING_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 14:50:47 GMT (Thursday 1st January 2015)"
-	revision: "4"
+	date: "2016-07-08 11:21:44 GMT (Friday 8th July 2016)"
+	revision: "5"
 
 class
 	DECLARATIVE_XPATH_PROCESSING_TEST_APP
@@ -78,8 +78,6 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{DECLARATIVE_XPATH_PROCESSING_TEST_APP}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines],
-				[{EL_XPATH_MATCH_SCAN_SOURCE}, All_routines],
 				[{SMIL_XPATH_MATCH_EVENTS}, All_routines],
 				[{BIOINFO_XPATH_MATCH_EVENTS}, All_routines]
 			>>

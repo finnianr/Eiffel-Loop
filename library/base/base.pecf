@@ -1,0 +1,107 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	name = EL_base
+	uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" 
+	library_target = EL_base
+	
+	target:
+		name = EL_base
+		
+		description: 
+			"""
+				Library of reusable components for Eiffel. (http://www.eiffel-loop.com)
+			"""
+		root:
+			all_classes = true
+
+		option:
+			namespace = "Eiffel-Loop.Library"; trace = false; debug=false; warning=true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		mapping:
+			old_name = ZSTRING; new_name = EL_ZSTRING
+
+		# Needed for Windows XP
+		variable:
+			name = link_object; value = false
+			
+		external_object:
+			location = "$EIFFEL_LOOP/contrib/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll"
+			description:
+				"""
+					msvcr71.dll requires:
+					$EIFFEL_LOOP/contrib/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll
+				"""
+			condition:
+				platform:
+					value = windows
+				custom:
+					name = link_object; value = true
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
+
+		library:
+			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
+
+		library:
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		library:
+			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
+
+		library:
+			name = uuid; location = "$ISE_LIBRARY/library/uuid/uuid.ecf"
+		
+		# GOBO
+		library:
+			name = gobo_base; location = "../gobo-base.ecf"
+
+		library:
+			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
+
+				
+		# CLUSTERS
+		cluster:
+			name = data_structure; location = "data_structure"; recursive = true
+
+		cluster:
+			name = math; location = "math"; recursive = true
+
+		cluster:
+			name = runtime; location = "runtime"; recursive = true
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
+
+		cluster:
+			name = persistency; location = "persistency"; recursive = true
+
+		cluster:
+			name = text; location = "text"; recursive = true
+
+		# Source code
+		cluster:
+			name = utility; location = "utility"; recursive = true
+
+
+

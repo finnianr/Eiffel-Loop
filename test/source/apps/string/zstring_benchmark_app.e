@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-17 14:01:41 GMT (Thursday 17th March 2016)"
+	date: "2016-07-08 10:40:45 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 class
@@ -61,11 +61,11 @@ feature -- Basic operations
 			--
 		do
 			log.enter ("run")
-			log_or_io.put_integer_field ("Codec is latin", system_codec.id)
-			log_or_io.put_new_line
-			log_or_io.put_integer_field ("Runs per test", Number_of_runs)
-			log_or_io.put_new_line
-			log_or_io.put_new_line
+			lio.put_integer_field ("Codec is latin", system_codec.id)
+			lio.put_new_line
+			lio.put_integer_field ("Runs per test", Number_of_runs)
+			lio.put_new_line
+			lio.put_new_line
 
 			add_benchmarks ([
 				create {ZSTRING_BENCHMARK}.make (Number_of_runs, routine_filter),

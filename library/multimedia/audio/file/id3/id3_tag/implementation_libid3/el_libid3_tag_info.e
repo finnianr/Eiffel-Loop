@@ -11,7 +11,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 13:47:06 GMT (Wednesday 16th December 2015)"
+	date: "2016-07-01 14:33:23 GMT (Friday 1st July 2016)"
 	revision: "7"
 
 class
@@ -32,11 +32,6 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_LOG
-		undefine
-			default_create
-		end
-
 create
 	make
 
@@ -45,10 +40,10 @@ feature -- Initialization
 	make
 			--
 		do
-			log.enter ("make")
+--			log.enter ("make")
 			default_create
 			make_from_pointer (cpp_new)
-			log.exit
+--			log.exit
 		end
 
 feature -- Access

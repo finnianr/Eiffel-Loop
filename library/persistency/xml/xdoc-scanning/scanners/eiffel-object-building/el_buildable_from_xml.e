@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_EIF_OBJ_BUILDER_CONTEXT
+		export
+			{EL_XML_TO_EIFFEL_OBJECT_BUILDER} set_node
 		redefine
 			make_default, new_building_actions
 		end

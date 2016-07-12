@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-05 9:42:58 GMT (Tuesday 5th April 2016)"
+	date: "2016-07-08 10:40:33 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 deferred class
@@ -412,8 +412,8 @@ feature {NONE} -- Implementation
 		do
 			if routines.has_substring (routine_filter) then
 				log.enter_no_header ("do_performance_test")
-				log_or_io.put_labeled_string (generator, routines); log_or_io.put_labeled_string (" input", a_input_format)
-				log_or_io.put_new_line
+				lio.put_labeled_string (generator, routines); lio.put_labeled_string (" input", a_input_format)
+				lio.put_new_line
 				input_format := a_input_format
 				fill_input_strings (routines)
 				full_collect
@@ -440,8 +440,8 @@ feature {NONE} -- Implementation
 			else
 				description := "Lines 1 to " + rows.out
 			end
-			log_or_io.put_labeled_string (generator, description); log_or_io.put_labeled_string (" input", a_input_format)
-			log_or_io.put_new_line
+			lio.put_labeled_string (generator, description); lio.put_labeled_string (" input", a_input_format)
+			lio.put_new_line
 			input_format := a_input_format
 			fill_input_strings ("append_string")
 			output_string := input_string_list.first.twin

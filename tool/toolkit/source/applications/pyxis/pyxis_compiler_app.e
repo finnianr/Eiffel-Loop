@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-11 17:54:42 GMT (Monday 11th April 2016)"
+	date: "2016-07-08 20:00:28 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -69,8 +69,7 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{PYXIS_COMPILER_APP}, All_routines],
-				[{PYXIS_COMPILER}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines]
+				[{PYXIS_COMPILER}, All_routines]
 			>>
 		end
 

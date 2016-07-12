@@ -10,7 +10,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-02-02 11:38:20 GMT (Tuesday 2nd February 2016)"
+	date: "2016-07-01 8:16:28 GMT (Friday 1st July 2016)"
 	revision: "7"
 
 deferred class
@@ -22,6 +22,8 @@ inherit
 	EL_MODULE_EIFFEL
 
 	EL_COMMAND_CLIENT
+
+	EL_MODULE_OS
 
 feature {NONE} -- Initiliazation
 

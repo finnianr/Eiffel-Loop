@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-03 15:22:29 GMT (Sunday 3rd April 2016)"
+	date: "2016-07-08 7:22:10 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -45,15 +45,15 @@ feature -- Basic operations
 			log.enter ("execute")
 			Precursor
 			mega_bytes := (byte_count / 100000).rounded / 10
-			log_or_io.put_new_line
-			log_or_io.put_integer_field ("Classes", class_count)
-			log_or_io.put_new_line
-			log_or_io.put_integer_field ("Words", word_count)
-			log_or_io.put_new_line
+			lio.put_new_line
+			lio.put_integer_field ("Classes", class_count)
+			lio.put_new_line
+			lio.put_integer_field ("Words", word_count)
+			lio.put_new_line
 			if byte_count < 100000 then
-				log_or_io.put_integer_field ("Bytes", byte_count.to_integer_32)
+				lio.put_integer_field ("Bytes", byte_count.to_integer_32)
 			else
-				log_or_io.put_real_field ("Mega bytes", mega_bytes.truncated_to_real)
+				lio.put_real_field ("Mega bytes", mega_bytes.truncated_to_real)
 			end
 			log.exit
 		end

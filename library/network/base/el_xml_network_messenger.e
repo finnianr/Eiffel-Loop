@@ -2,12 +2,12 @@
 	description: "Sends an XML string representing a method invocation request"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-02 18:43:16 GMT (Saturday 2nd July 2016)"
+	revision: "4"
 
 class
 	EL_XML_NETWORK_MESSENGER
@@ -19,7 +19,7 @@ inherit
 			make as make_consumer,
 			product as xml_message
 		redefine
-			execute, is_visible_in_console
+			execute
 		end
 
 	ASCII
@@ -43,10 +43,6 @@ feature {NONE} -- Initialization
 			make_consumer
 			create listen_socket.make_server_by_port (port_num)
 		end
-
-feature -- Status query
-
-	is_visible_in_console: BOOLEAN = True
 
 feature {NONE} -- Implementation
 

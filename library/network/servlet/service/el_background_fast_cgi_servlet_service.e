@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 16:30:52 GMT (Sunday 20th December 2015)"
+	date: "2016-07-08 19:55:13 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 deferred class
@@ -27,11 +27,11 @@ inherit
 			launch
 		end
 
-	EL_IDENTIFIED_THREAD
+	EL_LOGGED_IDENTIFIED_THREAD
 		rename
 			make_default as make_thread
 		redefine
-			stop, is_visible_in_console
+			stop
 		end
 
 	EL_SHARED_THREAD_MANAGER
@@ -41,6 +41,7 @@ feature {EL_SERVLET_SUB_APPLICATION} -- Initialization
 	make (config_dir: EL_DIR_PATH; config_name: ZSTRING)
 		do
 			Precursor (config_dir, config_name)
+			set_name (config_name)
 			make_thread
 		end
 
@@ -53,14 +54,32 @@ feature -- Status change
 			call_stop_servlet -- Wakes up port listener so we can stop service
 		end
 
-feature -- Status query
-
-	is_visible_in_console: BOOLEAN
-		do
-			Result := True
-		end
-
 feature {NONE} -- Implementation
+
+	call_stop_servlet
+		local
+			localhost_root: EL_DIR_URI_PATH; localhost_uri: EL_FILE_URI_PATH
+			web: EL_HTTP_CONNECTION; retry_count: INTEGER
+		do
+			localhost_root := protocol + "://localhost" + Servlet_root_path
+			localhost_uri := localhost_root + stop_servlet_path
+
+			create web.make
+			web.open (localhost_uri)
+			from retry_count := 1 until retry_count > 2 loop
+				lio.put_labeled_string ("Servlet", localhost_uri.to_string); lio.put_string (" ")
+				web.read_string
+				if web.has_error then
+					lio.put_string ("FAILED retrying..")
+					retry_count := retry_count + 1
+				else
+					lio.put_string (web.last_string)
+					retry_count := retry_count + 10
+				end
+				lio.put_new_line
+			end
+			web.close
+		end
 
 	finish
 			-- finish serving request
@@ -78,31 +97,6 @@ feature {NONE} -- Implementation
 			stop_servlet_path.set_base ("stop")
 			create stop_servlet.make (config)
 			servlets [stop_servlet_path] := stop_servlet
-		end
-
-	call_stop_servlet
-		local
-			localhost_root: EL_DIR_URI_PATH; localhost_uri: EL_FILE_URI_PATH
-			web: EL_HTTP_CONNECTION; retry_count: INTEGER
-		do
-			localhost_root := protocol + "://localhost" + Servlet_root_path
-			localhost_uri := localhost_root + stop_servlet_path
-
-			create web.make
-			web.open (localhost_uri)
-			from retry_count := 1 until retry_count > 2 loop
-				log_or_io.put_labeled_string ("Servlet", localhost_uri.to_string); log_or_io.put_string (" ")
-				web.read_string
-				if web.has_error then
-					log_or_io.put_string ("FAILED retrying..")
-					retry_count := retry_count + 1
-				else
-					log_or_io.put_string (web.last_string)
-					retry_count := retry_count + 10
-				end
-				log_or_io.put_new_line
-			end
-			web.close
 		end
 
 	protocol: ZSTRING
@@ -129,8 +123,8 @@ feature {NONE} -- Constants
 			Result := "/"
 		end
 
-	stop_servlet_path: EL_FILE_PATH
-
 	stop_servlet: EL_OK_SERVLET
+
+	stop_servlet_path: EL_FILE_PATH
 
 end

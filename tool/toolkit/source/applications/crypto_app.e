@@ -2,12 +2,12 @@
 	description: "Summary description for {CRYPTO_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
-	revision: "5"
+	date: "2016-07-08 10:16:13 GMT (Friday 8th July 2016)"
+	revision: "6"
 
 class
 	CRYPTO_APP
@@ -35,8 +35,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{CRYPTO_APP}, "*"],
-				[{EL_CRYPTO_COMMAND_SHELL}, "*"]
+				[{CRYPTO_APP}, "*"]
 			>>
 		end
 end

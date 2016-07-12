@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-22 10:59:49 GMT (Friday 22nd April 2016)"
+	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -50,8 +50,8 @@ feature -- Basic operations
 			encoding: EL_PYXIS_ENCODING
 		do
 			log.enter ("run")
-			log_or_io.put_path_field ("Converting", source_path)
-			log_or_io.put_new_line
+			lio.put_path_field ("Converting", source_path)
+			lio.put_new_line
 
 			create encoding.make_from_file (source_path)
 

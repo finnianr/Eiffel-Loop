@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-10 12:15:57 GMT (Friday 10th June 2016)"
+	date: "2016-07-08 20:00:50 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -72,12 +72,9 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{EL_TEST_ROUTINES}, All_routines],
-
 				[{THUNDERBIRD_WWW_EXPORTER_APP}, All_routines],
 				[{THUNDERBIRD_WWW_EXPORTER}, All_routines],
 				[{THUNDERBIRD_MAIL_TO_HTML_BODY_CONVERTER}, All_routines]
-
 			>>
 		end
 

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-11 9:27:34 GMT (Saturday 11th June 2016)"
+	date: "2016-07-08 7:22:10 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 deferred class
@@ -24,8 +24,7 @@ inherit
 	EL_SHARED_ZCODEC_FACTORY
 
 	EL_MODULE_TIME
---	EL_MODULE_STRING
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_OS
 	EL_MODULE_XML
 	EL_MODULE_LOG
 	EL_MODULE_URL
@@ -63,11 +62,11 @@ feature -- Basic operations
 			do_once_with_file_lines (agent find_first_field, file_lines)
 
 			-- Remove old files that don't have a match in current set
-			across File_system.file_list (output_dir, file_out_wildcard) as file_path loop
+			across OS.file_list (output_dir, file_out_wildcard) as file_path loop
 				if not file_base_name_set.has (file_path.item.base) then
 
-					log_or_io.put_path_field ("Removing", file_path.item)
-					log_or_io.put_new_line
+					lio.put_path_field ("Removing", file_path.item)
+					lio.put_new_line
 					remove_file (file_path.item)
 				end
 			end
@@ -183,7 +182,7 @@ feature {NONE} -- Implementation
 
 	remove_file (file_path: EL_FILE_PATH)
 		do
-			File_system.remove_file (file_path)
+			OS.File_system.remove_file (file_path)
 		end
 
 	set_header_date
@@ -239,10 +238,10 @@ feature {NONE} -- Implementation
 			log.enter ("write_html")
 --			File_system.make_directory (output_file_path.parent)
 			if not output_file_path.exists or else last_header.date > output_file_path.modification_time then
-				log_or_io.put_path_field (file_out_extension, output_file_path)
-				log_or_io.put_new_line
-				log_or_io.put_string_field ("Character set", last_header.charset)
-				log_or_io.put_new_line
+				lio.put_path_field (file_out_extension, output_file_path)
+				lio.put_new_line
+				lio.put_string_field ("Character set", last_header.charset)
+				lio.put_new_line
 				source_text := html_lines.joined_lines
 				if source_text.ends_with (Break_tag) then
 					source_text.remove_tail (Break_tag.count)

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 19:14:44 GMT (Wednesday 16th December 2015)"
+	date: "2016-07-09 7:52:01 GMT (Saturday 9th July 2016)"
 	revision: "5"
 
 class
@@ -24,11 +24,11 @@ inherit
 			make_with_name, after, off
 		end
 
-	EL_MODULE_ZLIB
-
 	EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
+
+	EL_MODULE_ZLIB
 
 create
 	make_open_write, make_open_read, make_default
@@ -66,7 +66,6 @@ feature -- Element change
 		local
 			file_data: MANAGED_POINTER; compressed_data, utf8_path: STRING
 		do
-			log.enter ("append_file")
 			file_data := File_system.file_data (a_file_path)
 			if is_checksum_enabled then
 				crc_32.reset
@@ -84,7 +83,6 @@ feature -- Element change
 				put_natural (crc_32.checksum)
 			end
 			put_string (compressed_data)
-			log.exit
 		end
 
 feature -- Status change
@@ -108,35 +106,42 @@ feature -- Input
 		local
 			uncompressed_count: INTEGER; compressed_data: MANAGED_POINTER; check_sum: NATURAL
 		do
-			log.enter ("read_compressed_file")
 			read_integer
 			uncompressed_count := last_integer
-			log.put_integer_field ("uncompressed_count", uncompressed_count)
+			if is_lio_enabled then
+				lio.put_integer_field ("READ: uncompressed_count", uncompressed_count)
+			end
 			read_integer
 			create compressed_data.make (last_integer)
 			if is_checksum_enabled then
 				read_natural
 				check_sum := last_natural
 			end
-			log.put_integer_field (" compressed_data.count", compressed_data.count)
+			if is_lio_enabled then
+				lio.put_integer_field (" compressed_data.count", compressed_data.count)
+			end
 			read_to_managed_pointer (compressed_data, 0, compressed_data.count)
 			last_string := Zlib.uncompress (compressed_data, uncompressed_count)
 			last_managed_pointer.set_from_pointer (last_string.area.base_address, last_string.count)
 			if is_checksum_enabled then
 				crc_32.reset
 				crc_32.add_data (last_managed_pointer)
-				log.put_string_field (" crc.checksum", crc_32.checksum.out)
+				if is_lio_enabled then
+					lio.put_string_field (" crc.checksum", crc_32.checksum.out)
+				end
 				is_last_managed_pointer_ok := check_sum = crc_32.checksum
-				if is_last_managed_pointer_ok then
-					log.put_string (" OK")
-				else
-					log.put_string (" ERROR")
+				if is_lio_enabled then
+					if is_last_managed_pointer_ok then
+						lio.put_string (" OK")
+					else
+						lio.put_string (" ERROR")
+					end
+					lio.put_new_line
 				end
 			else
 				is_last_managed_pointer_ok := True
 			end
 			extracted_count := extracted_count + 1
-			log.exit
 		end
 
 	read_file_name
@@ -146,7 +151,6 @@ feature -- Input
 			file_name_count: INTEGER
 			l_file_path: ZSTRING
 		do
-			log.enter ("read_file_name")
 			read_integer
 			file_name_count := last_integer
 			if file_name_count < count - 4 then
@@ -154,8 +158,10 @@ feature -- Input
 				create l_file_path.make_from_utf_8 (last_string)
 				last_file_path := l_file_path
 			end
-			log.put_path_field ("Content", last_file_path); log.put_new_line
-			log.exit
+			if is_lio_enabled then
+				lio.put_path_field ("Read", last_file_path)
+				lio.put_new_line
+			end
 		end
 
 feature -- Status query

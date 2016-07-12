@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-09-12 12:11:30 GMT (Saturday 12th September 2015)"
+	date: "2016-07-08 18:34:05 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -81,10 +81,9 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{RBOX_RESTORE_PLAYLISTS_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"],
-				[{RBOX_SONG}, "*"],
-				[{RBOX_DATABASE}, "*"],
+				[{RBOX_RESTORE_PLAYLISTS_APP}, All_routines],
+				[{RBOX_SONG}, All_routines],
+				[{RBOX_DATABASE}, All_routines],
 				[{RBOX_PLAYLIST}, "set_name_from_node", "add_song_from_audio_id"]
 			>>
 		end

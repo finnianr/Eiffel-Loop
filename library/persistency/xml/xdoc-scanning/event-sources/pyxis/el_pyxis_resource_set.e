@@ -8,7 +8,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 7:27:57 GMT (Wednesday 16th December 2015)"
+	date: "2016-07-05 5:05:00 GMT (Tuesday 5th July 2016)"
 	revision: "6"
 
 class
@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 			-- merge all Pyxis files into monolithic file
 			-- Fatal crash when using this from EL_LOCALE_ROUTINES
 		local
-			pyxis_lines: EL_UTF_8_FILE_LINES
+			pyxis_lines: EL_FILE_LINE_SOURCE
 			pyxis_out: PLAIN_TEXT_FILE
 			pyxis_file_paths: like xml_file_paths
 			monolithic_pyxis_path: EL_FILE_PATH; xml_out: EL_PLAIN_TEXT_FILE

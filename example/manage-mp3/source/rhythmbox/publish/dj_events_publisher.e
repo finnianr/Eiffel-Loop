@@ -2,12 +2,12 @@
 	description: "Summary description for {DJ_EVENTS_PUBLISHER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-26 11:49:55 GMT (Monday 26th January 2015)"
-	revision: "7"
+	date: "2016-07-08 10:34:18 GMT (Friday 8th July 2016)"
+	revision: "8"
 
 class
 	DJ_EVENTS_PUBLISHER
@@ -59,7 +59,7 @@ feature -- Basic operations
 				end
 			end
 			if config.upload then
-				log_or_io.put_string ("Upload pages (y/n) ")
+				lio.put_string ("Upload pages (y/n) ")
 				if user_input.entered_letter ('y') then
 					create website.make (config.ftp_url, config.ftp_user_home)
 					website.do_ftp_upload (file_upload_list)

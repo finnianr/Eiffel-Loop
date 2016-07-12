@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-22 10:44:36 GMT (Wednesday 22nd June 2016)"
+	date: "2016-07-09 7:38:16 GMT (Saturday 9th July 2016)"
 	revision: "5"
 
 class
@@ -14,13 +14,15 @@ class
 
 inherit
 	EL_SUB_APPLICATION
-		rename
-			run as test_container_extension
 		redefine
 			Option_name
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_STRING_8
+
+	EL_MODULE_COMMAND
 
 create
 	make
@@ -33,68 +35,31 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	equality_question
-		local
-			s1: STRING; s2: READABLE_STRING_GENERAL
-			s1_equal_to_s2: BOOLEAN
+	run
 		do
-			log.enter ("equality_question")
-			s1 := "abc"; s2 := "abc"
-			s1_equal_to_s2 := s1 ~ s2
-			log.put_labeled_string ("s1 is equal to s2", s1_equal_to_s2.out)
-			log.exit
+			lio.enter ("find_directories")
+			find_directories
+			lio.exit
 		end
 
-	problem_with_function_returning_real_with_assignment
-			--
-		local
-			event: AUDIO_EVENT
+feature -- Experiments
+
+	alternative_once_naming
 		do
-			log.enter ("problem_with_function_returning_real_with_assignment")
-			create event.make (1.25907 ,1.38513)
-			log.put_string ("Is threshold exceeded: ")
-			if event.is_threshold_exceeded (0.12606) then
-				log.put_string ("true")
-			else
-				log.put_string ("false")
+			lio.put_line (Mime_type_template)
+			lio.put_line (Text_charset_template)
+		end
+
+	audio_info_parsing
+		local
+			s: ZSTRING; parts: EL_ZSTRING_LIST
+		do
+			s := "Stream #0.0(und): Audio: aac, 44100 Hz, stereo, fltp, 253 kb/s"
+			create parts.make_with_separator (s, ',', True)
+			across parts as part loop
+				log.put_string_field (part.cursor_index.out, part.item)
+				log.put_new_line
 			end
-			log.put_new_line
-			log.exit
-		end
-
-	problem_with_function_returning_result_with_set_item
-			-- if {AUDIO_EVENT}
-		local
-			event_list: LINKED_LIST [AUDIO_EVENT]
-			event: AUDIO_EVENT
-		do
-			log.enter ("problem_with_function_returning_result_with_set_item")
-			create event_list.make
-			create event.make (1.25907 ,1.38513)
-			event_list.extend (event)
-
-			log.put_real_field ("event_list.last.duration", event_list.last.duration)
-			log.put_new_line
-			log.exit
-		end
-
-	find_iteration_order_of_linked_queue
-			--
-		local
-			queue: LINKED_QUEUE [INTEGER]
-		do
-			log.enter ("find_iteration_order_of_linked_queue")
-			create queue.make
-			queue.extend (1)
-			queue.extend (2)
-			queue.extend (3)
-			queue.linear_representation.do_all (
-				agent (n: INTEGER) do
-					log.put_integer (n)
-					log.put_new_line
-				end
-			)
-			log.exit
 		end
 
 	automatic_object_initialization
@@ -102,8 +67,6 @@ feature -- Basic operations
 			country: COUNTRY
 			table: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		do
-			log.enter ("automatic_object_initialization")
-
 			create table.make (<<
 				["code", new ("IE")],
 				["literacy_rate", new ("0.9")],
@@ -119,45 +82,194 @@ feature -- Basic operations
 			log.put_new_line
 			log.put_integer_field ("population", country.population)
 			log.put_new_line
-
-			log.exit
 		end
 
-	test_audio_info_parsing
+	boolean_ref
 		local
-			s: ZSTRING; parts: EL_ZSTRING_LIST
+			b1: BOOLEAN
+			b1_ref, b2_ref: BOOLEAN
 		do
-			log.enter ("test_audio_info_parsing")
-			s := "Stream #0.0(und): Audio: aac, 44100 Hz, stereo, fltp, 253 kb/s"
-			create parts.make_with_separator (s, ',', True)
-			across parts as part loop
-				log.put_string_field (part.cursor_index.out, part.item)
-				log.put_new_line
+			b1_ref := b1.to_reference
+			b2_ref := not b1_ref
+			log.put_string ("b2_ref.item: ")
+			log.put_boolean (b2_ref.item)
+		end
+
+	circular_removal
+		local
+			list: TWO_WAY_CIRCULAR [STRING]
+		do
+			create list.make
+			list.extend ("a")
+			list.extend ("b")
+--			list.extend ("c")
+
+			list.start
+			list.remove
+			list.start
+			log.put_string_field ("first item", list.item)
+			log.put_new_line
+		end
+
+	container_extension
+		do
+			extend_container (create {ARRAYED_LIST [EL_DIR_PATH]}.make (0))
+		end
+
+	default_tuple_comparison
+		do
+			if ["one"] ~ ["one"] then
+				log.put_string ("is_object_comparison")
+			else
+				log.put_string ("is_reference_comparison")
 			end
-			log.exit
 		end
 
-	test_substitution_template
-			--
+	equality_question
 		local
-			template: EL_SUBSTITUTION_TEMPLATE [STRING]
+			s1: STRING; s2: READABLE_STRING_GENERAL
+			s1_equal_to_s2: BOOLEAN
 		do
-			log.enter ("test_substitution_template")
-			create template.make ("x=$x, y=$y")
-			template.set_variable ("x", "100")
-			template.set_variable ("y", "200")
-			log.put_line (template.substituted)
-			log.exit
+			s1 := "abc"; s2 := "abc"
+			s1_equal_to_s2 := s1 ~ s2
+			log.put_labeled_string ("s1 is equal to s2", s1_equal_to_s2.out)
 		end
 
-	test_random_sequence
+	escaping_text
+		do
+			log.put_string_field ("&aa&bb&", escaped_text ("&aa&bb&").as_string_8)
+		end
+
+	find_directories
+		local
+			find_cmd: like Command.new_find_directories
+		do
+			find_cmd := Command.new_find_directories ("source")
+			find_cmd.set_depth (1 |..| 1)
+			find_cmd.execute
+			across find_cmd.path_list as dir loop
+				lio.put_path_field ("", dir.item)
+				lio.put_new_line
+			end
+		end
+
+	file_position
+		local
+			file: PLAIN_TEXT_FILE
+		do
+			create file.make_open_write ("test.txt")
+			file.put_string ("one two three")
+			lio.put_integer_field ("file.position", file.position)
+			file.close
+			file.delete
+		end
+
+	find_iteration_order_of_linked_queue
 			--
 		local
-			random: RANDOM
-			odd, even: INTEGER
-			time: TIME
+			queue: LINKED_QUEUE [INTEGER]
 		do
-			log.enter ("test_random_sequence")
+			create queue.make
+			queue.extend (1)
+			queue.extend (2)
+			queue.extend (3)
+			queue.linear_representation.do_all (
+				agent (n: INTEGER) do
+					log.put_integer (n)
+					log.put_new_line
+				end
+			)
+		end
+
+	generic_types
+		local
+			type_8, type_32: TYPE [LIST [READABLE_STRING_GENERAL]]
+		do
+			type_8 := {ARRAYED_LIST [STRING]}
+			type_32 := {ARRAYED_LIST [STRING_32]}
+		end
+
+	hexadecimal_to_natural_64
+		do
+			log.put_string (String_8.hexadecimal_to_natural_64 ("0x00000982").out)
+			log.put_new_line
+		end
+
+	make_directory_path
+		local
+			dir: EL_DIR_PATH; temp: EL_FILE_PATH
+		do
+			create dir.make_from_latin_1 ("E:/")
+			temp := dir + "temp"
+			log.put_string_field ("Path", temp.as_windows.to_string)
+		end
+
+	negative_integer_32_in_integer_64
+			-- is it possible to store 2 negative INTEGER_32's in one INTEGER_64
+		local
+			n: INTEGER_64
+		do
+			n := ((10).to_integer_64 |<< 32) | -10
+			log.put_integer_field ("low", n.to_integer_32) -- yes you can
+			log.put_integer_field (" hi", (n |>> 32).to_integer_32) -- yes you can
+		end
+
+	pointer_width
+		local
+			ptr: POINTER
+		do
+			ptr := $pointer_width
+			log.put_integer_field (ptr.out, ptr.out.count)
+		end
+
+	problem_with_function_returning_real_with_assignment
+			--
+		local
+			event: AUDIO_EVENT
+		do
+			create event.make (1.25907 ,1.38513)
+			log.put_string ("Is threshold exceeded: ")
+			if event.is_threshold_exceeded (0.12606) then
+				log.put_string ("true")
+			else
+				log.put_string ("false")
+			end
+			log.put_new_line
+		end
+
+	problem_with_function_returning_result_with_set_item
+			-- if {AUDIO_EVENT}
+		local
+			event_list: LINKED_LIST [AUDIO_EVENT]
+			event: AUDIO_EVENT
+		do
+			create event_list.make
+			create event.make (1.25907 ,1.38513)
+			event_list.extend (event)
+
+			log.put_real_field ("event_list.last.duration", event_list.last.duration)
+			log.put_new_line
+		end
+
+	procedure_call
+		local
+			procedure: PROCEDURE [like Current, TUPLE]
+		do
+			procedure := agent log_integer (?, "n")
+			procedure (2)
+		end
+
+	put_execution_environment_variables
+		do
+			Execution_environment.put ("sausage", "SSL_PW")
+			Execution_environment.system ("echo Password: $SSL_PW")
+		end
+
+	random_sequence
+			--
+		local
+			random: RANDOM; odd, even: INTEGER; time: TIME
+		do
 			create time.make_now
 			create random.make
 			random.set_seed (time.compact_time)
@@ -178,39 +290,85 @@ feature -- Basic operations
 			log.put_new_line
 			log.put_integer_field ("even", even)
 			log.put_new_line
-			log.exit
 		end
 
-	test_self_deletion_from_batch
+	replace_delimited_substring_general
+		local
+			email: ZSTRING
+		do
+			across << "freilly8@gmail.com", "finnian@gmail.com", "finnian-buyer@eiffel-loop.com" >> as address loop
+				email := address.item
+				log.put_string (email)
+				email.replace_delimited_substring_general ("finnian", "@eiffel", "", False, 1)
+				log.put_string (" -> "); log.put_string (email)
+				log.put_new_line
+			end
+		end
+
+	self_deletion_from_batch
 		do
 			Execution_environment.launch ("cmd /C D:\Development\Eiffel\Eiffel-Loop\test\uninstall.bat")
 		end
 
-	test_escaped_text
+	set_tuple_values
+		local
+			internal: INTERNAL; color: TUPLE [margins, background: STRING]
 		do
-			log.enter ("test_escaped_text")
-			log.put_string_field ("&aa&bb&", escaped_text ("&aa&bb&").as_string_8)
-			log.exit
+			create internal
+			create color
+			color.margins := "blue"
+			color.background := "red"
+			log.put_integer_field ("First field", internal.field_count (color))
+			log.put_new_line
 		end
 
-	test_template
+	substitute_template_with_string_8
 		local
 			type: STRING
 		do
-			log.enter ("test_template")
 			type := "html"
 			log.put_string_field ("Content", Mime_type_template #$ [type, "UTF-8"])
 			log.put_new_line
 			log.put_string_field ("Content", Mime_type_template #$ [type, "UTF-8"])
-			log.exit
 		end
 
-	test_time_input_formats
+	substitution
+		local
+			template: EL_SUBSTITUTION_TEMPLATE [STRING]
+		do
+			create template.make ("from $var := 1 until $var > 10 loop")
+			template.set_variable ("var", "i")
+			log.put_line (template.substituted)
+		end
+
+	substitution_template
+			--
+		local
+			l_template: EL_SUBSTITUTION_TEMPLATE [STRING]
+		do
+			create l_template.make ("x=$x, y=$y")
+			l_template.set_variable ("x", "100")
+			l_template.set_variable ("y", "200")
+			log.put_line (l_template.substituted)
+		end
+
+	system_path
+		do
+			Execution_environment.system ("cp /home/finnian/Music/Foxtrot/Cristian\ Vasile/Saruta-Ma\!.01.mp3 ~/Desktop/Music")
+		end
+
+	test_has_repeated_hexadecimal_digit
+		do
+			log.put_boolean (has_repeated_hexadecimal_digit (0xAAAAAAAAAAAAAAAA)); log.put_new_line
+			log.put_boolean (has_repeated_hexadecimal_digit (0x1AAAAAAAAAAAAAAA)); log.put_new_line
+			log.put_boolean (has_repeated_hexadecimal_digit (0xAAAAAAAAAAAAAAA1)); log.put_new_line
+		end
+
+	time_input_formats
 		local
 			from_time, to_time: TIME; duration: TIME_DURATION
 			format, from_str, to_str: STRING
 		do
-			log.enter ("test_time_input_formats")
 			format := "mi:ss.ff3"
 --			from_str := "1:01.500"; to_str := "1:03.001"
 			from_str := "0:05.452"; to_str := "5:34.49"
@@ -226,15 +384,13 @@ feature -- Basic operations
 			else
 				log.put_line ("Invalid time format")
 			end
-			log.exit
 		end
 
-	test_time_parsing
+	time_parsing
 		local
 			time_str, format: STRING; time: TIME
 			checker: TIME_VALIDITY_CHECKER
 		do
-			log.enter ("test_time_parsing")
 			time_str := "21:15"; format := "hh:mi"
 			create checker
 			if True or checker.time_valid (time_str, format) then
@@ -244,10 +400,29 @@ feature -- Basic operations
 			end
 			log.put_labeled_string ("Time", time.formatted_out ("hh:[0]mi"))
 			log.put_new_line
-			log.exit
 		end
 
-	test_url_string
+	twinning_procedures
+		local
+			action, action_2: PROCEDURE [ANY, TUPLE [STRING]]
+		do
+			action := agent hello_routine
+			action_2 := action.twin
+			action_2.set_operands (["wonderful"])
+			action_2.apply
+		end
+
+	type_conforming_test
+		local
+			escaper: EL_DO_NOTHING_CHARACTER_ESCAPER [STRING]
+			is_do_nothing_escaper: BOOLEAN
+		do
+			create escaper
+			is_do_nothing_escaper := {EL_DO_NOTHING_CHARACTER_ESCAPER [STRING_GENERAL]} < escaper.generating_type
+			log.put_labeled_string ("Is do nothing escaper", is_do_nothing_escaper.out)
+		end
+
+	url_string
 		local
 			str: EL_URL_STRING
 		do
@@ -255,189 +430,12 @@ feature -- Basic operations
 			str.append_utf_8 ("freilly8@gmail.com")
 		end
 
-	test_default_tuple_comparison
-		do
-			log.enter ("test_default_tuple_comparison")
-			if ["one"] ~ ["one"] then
-				log.put_string ("is_object_comparison")
-			else
-				log.put_string ("is_reference_comparison")
-			end
-			log.exit
-		end
-
-	test_circular_removal
-		local
-			list: TWO_WAY_CIRCULAR [STRING]
-		do
-			log.enter ("test_circular_removal")
-			create list.make
-			list.extend ("a")
-			list.extend ("b")
---			list.extend ("c")
-
-			list.start
-			list.remove
-			list.start
-			log.put_string_field ("first item", list.item)
-			log.put_new_line
-			log.exit
-		end
-
-	test_system_path
-		do
-			Execution_environment.system ("cp /home/finnian/Music/Foxtrot/Cristian\ Vasile/Saruta-Ma\!.01.mp3 ~/Desktop/Music")
-		end
-
-	test_procedure_call
-		local
-			procedure: PROCEDURE [like Current, TUPLE]
-		do
-			log.enter ("test_procedure_call")
-			procedure := agent log_integer (?, "n")
-			procedure (2)
-			log.exit
-		end
-
-	test_integer_64
-			-- is it possible to store 2 negative INTEGER_32's in one INTEGER_64
-		local
-			n: INTEGER_64
-		do
-			log.enter ("test_integer_64")
-			n := ((10).to_integer_64 |<< 32) | -10
-			log.put_integer_field ("low", n.to_integer_32) -- yes you can
-			log.put_integer_field (" hi", (n |>> 32).to_integer_32) -- yes you can
-			log.exit
-		end
-
-	test_generic_types
-		local
-			type_8, type_32: TYPE [LIST [READABLE_STRING_GENERAL]]
-		do
-			log.enter ("test_generic_types")
-			type_8 := {ARRAYED_LIST [STRING]}
-			type_32 := {ARRAYED_LIST [STRING_32]}
-			log.exit
-		end
-
-	test_type_conforming_test
-		local
-			escaper: EL_DO_NOTHING_CHARACTER_ESCAPER [STRING]
-			is_do_nothing_escaper: BOOLEAN
-		do
-			log.enter ("test_type_conforming_test")
-			create escaper
-			is_do_nothing_escaper := {EL_DO_NOTHING_CHARACTER_ESCAPER [STRING_GENERAL]} < escaper.generating_type
-			log.put_labeled_string ("Is do nothing escaper", is_do_nothing_escaper.out)
-			log.exit
-		end
-
-	test_file_position
-		local
-			file: PLAIN_TEXT_FILE
-		do
-			log.enter ("test_file_position")
-			create file.make_open_write ("test.txt")
-			file.put_string ("one two three")
-			log_or_io.put_integer_field ("file.position", file.position)
-			file.close
-			file.delete
-			log.exit
-		end
-
-	test_pointer_width
-		local
-			ptr: POINTER
-		do
-			log.enter ("test_pointer_width")
-			ptr := $test_pointer_width
-			log.put_integer_field (ptr.out, ptr.out.count)
-			log.exit
-		end
-
-	test_substitution
-		local
-			template: EL_SUBSTITUTION_TEMPLATE [STRING]
-		do
-			log.enter ("test_substitution")
-			create template.make ("from $var := 1 until $var > 10 loop")
-			template.set_variable ("var", "i")
-			log.put_line (template.substituted)
-			log.exit
-		end
-
-	test_replace_delimited_substring_general
-		local
-			email: ZSTRING
-		do
-			log.enter ("test_replace_delimited_substring_general")
-			across << "freilly8@gmail.com", "finnian@gmail.com", "finnian-buyer@eiffel-loop.com" >> as address loop
-				email := address.item
-				log.put_string (email)
-				email.replace_delimited_substring_general ("finnian", "@eiffel", "", False, 1)
-				log.put_string (" -> "); log.put_string (email)
-				log.put_new_line
-			end
-			log.exit
-		end
-
-	test_boolean_ref
-		local
-			b1: BOOLEAN
-			b1_ref, b2_ref: BOOLEAN
-		do
-			log.enter ("test_boolean_ref")
-			b1_ref := b1.to_reference
-			b2_ref := not b1_ref
-			log.put_string ("b2_ref.item: ")
-			log.put_boolean (b2_ref.item)
-			log.exit
-		end
-
-	test_container_extension
-		do
-			log.enter ("test_container_extension")
-			extend_container (create {ARRAYED_LIST [EL_DIR_PATH]}.make (0))
-			log.exit
-		end
-
 feature {NONE} -- Implementation
-
-	extend_container (container: LIST [EL_PATH])
-		do
-			container.extend (Directory.current_working)
-		end
-
-	log_integer (n: INTEGER; str: STRING)
-		do
-			log.put_integer_field (str, n)
-			log.put_new_line
-		end
-
-	is_valid_time (str: STRING): BOOLEAN
-		local
-			parts: LIST [STRING]; mins, secs: STRING
-		do
-			parts := str.split (':')
-			if parts.count = 2 then
-				mins := parts [1]; secs := parts [2]
-				secs.prune_all_leading ('0')
-				Result := mins.is_integer and secs.is_real
-			end
-		end
-
-	new (str: STRING): ZSTRING
-		do
-			Result := str
-		end
 
 	escaped_text (s: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 			-- `text' with doubled ampersands.
 		local
-			n, l_count: INTEGER
-			l_amp_code: NATURAL_32
-			l_string_32: STRING_32
+			n, l_count: INTEGER; l_amp_code: NATURAL_32; l_string_32: STRING_32
 		do
 			l_amp_code := ('&').code.as_natural_32
 			l_count := s.count
@@ -473,6 +471,54 @@ feature {NONE} -- Implementation
 				(old s.twin.as_string_32).occurrences ('&') * 2
 		end
 
+	extend_container (container: LIST [EL_PATH])
+		do
+			container.extend (Directory.current_working)
+		end
+
+	has_repeated_hexadecimal_digit (n: NATURAL_64): BOOLEAN
+		local
+			first, hex_digit: NATURAL_64
+			i: INTEGER
+		do
+			first := n & 0xF
+			hex_digit := first
+			from i := 1 until hex_digit /= first or i > 15 loop
+				hex_digit := n.bit_shift_right (i * 4) & 0xF
+				i := i + 1
+			end
+			Result := i = 16 and then hex_digit = first
+		end
+
+	hello_routine (a_arg: STRING)
+		do
+			log.enter_with_args ("hello_routine", << a_arg >>)
+			log.exit
+		end
+
+	is_valid_time (str: STRING): BOOLEAN
+		local
+			parts: LIST [STRING]; mins, secs: STRING
+		do
+			parts := str.split (':')
+			if parts.count = 2 then
+				mins := parts [1]; secs := parts [2]
+				secs.prune_all_leading ('0')
+				Result := mins.is_integer and secs.is_real
+			end
+		end
+
+	log_integer (n: INTEGER; str: STRING)
+		do
+			log.put_integer_field (str, n)
+			log.put_new_line
+		end
+
+	new (str: STRING): ZSTRING
+		do
+			Result := str
+		end
+
 	pi: DOUBLE
 			-- Given that Pi can be estimated using the function 4 * (1 - 1/3 + 1/5 - 1/7 + ..)
 			-- with more terms giving greater accuracy, write a function that calculates Pi to
@@ -497,13 +543,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Mime_type_template: ZSTRING
-		once
-			Result := "text/%S; charset=%S"
-		end
-
-	Option_name: STRING = "experiments"
-
 	Description: STRING = "Experiment with Eiffel code to fix bugs"
 
 	Log_filter: ARRAY [like Type_logging_filter]
@@ -513,5 +552,12 @@ feature {NONE} -- Constants
 				[{EXPERIMENTS_APP}, All_routines]
 			>>
 		end
+
+	Mime_type_template, Text_charset_template: ZSTRING
+		once
+			Result := "text/%S; charset=%S"
+		end
+
+	Option_name: STRING = "experiments"
 
 end

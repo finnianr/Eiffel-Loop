@@ -2,12 +2,12 @@
 	description: "Summary description for {TESTABLE_JAVA_APPLICATION}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:16 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-08 20:23:43 GMT (Friday 8th July 2016)"
+	revision: "4"
 
 deferred class
 	TESTABLE_JAVA_APPLICATION
@@ -15,19 +15,11 @@ deferred class
 inherit
 	EL_SUB_APPLICATION
 		undefine
-			option_name
+			option_name, new_lio, new_log_manager
 		end
 
-	EL_TESTABLE_APPLICATION
+	EL_REGRESSION_TESTING_APPLICATION
 
 	EL_MODULE_JAVA_PACKAGES
-
-feature {NONE} -- Constants
-
-	Eiffel_loop_dir: EL_DIR_PATH
-		once
-			Result := Execution.variable_dir_path ("EIFFEL_LOOP")
-		end
-
 
 end

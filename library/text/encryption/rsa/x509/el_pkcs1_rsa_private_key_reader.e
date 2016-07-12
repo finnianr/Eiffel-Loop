@@ -1,17 +1,20 @@
 ﻿note
 	description: "[
-		RSAPrivateKey ::= SEQUENCE {
-		    version           Version,
-		    modulus           INTEGER,  -- n
-		    publicExponent    INTEGER,  -- e
-		    privateExponent   INTEGER,  -- d
-		    prime1            INTEGER,  -- p
-		    prime2            INTEGER,  -- q
-		    exponent1         INTEGER,  -- d mod (p-1)
-		    exponent2         INTEGER,  -- d mod (q-1)
-		    coefficient       INTEGER,  -- (inverse of q) mod p
-		    otherPrimeInfos   OtherPrimeInfos OPTIONAL
-		}
+		Class to read PKCS1 RSA private key
+		
+		**Information**
+			RSAPrivateKey ::= SEQUENCE {
+			    version           Version,
+			    modulus           INTEGER,  -- n
+			    publicExponent    INTEGER,  -- e
+			    privateExponent   INTEGER,  -- d
+			    prime1            INTEGER,  -- p
+			    prime2            INTEGER,  -- q
+			    exponent1         INTEGER,  -- d mod (p-1)
+			    exponent2         INTEGER,  -- d mod (q-1)
+			    coefficient       INTEGER,  -- (inverse of q) mod p
+			    otherPrimeInfos   OtherPrimeInfos OPTIONAL
+			}
 	]"
 
 	author: "Finnian Reilly"
@@ -19,7 +22,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-19 15:01:04 GMT (Saturday 19th December 2015)"
+	date: "2016-07-07 21:22:29 GMT (Thursday 7th July 2016)"
 	revision: "6"
 
 class

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 14:21:19 GMT (Thursday 23rd June 2016)"
+	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -68,8 +68,8 @@ feature {NONE} -- Initialization
 
 			working_directory := target_dir_path.parent
 			Archive_command.set_working_directory (working_directory)
-			log_or_io.put_path_field ("WORKING DIRECTORY", working_directory)
-			log_or_io.put_new_line
+			lio.put_path_field ("WORKING DIRECTORY", working_directory)
+			lio.put_new_line
 
 			Archive_command.put_variables (<<
 				[TAR_EXCLUDE, 			exclusion_list_file.file_path.name ],

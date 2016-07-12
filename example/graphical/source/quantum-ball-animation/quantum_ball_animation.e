@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 18:20:19 GMT (Saturday 26th December 2015)"
+	date: "2016-07-03 8:13:27 GMT (Sunday 3rd July 2016)"
 	revision: "4"
 
 class
@@ -24,7 +24,9 @@ inherit
 			on_events_start
 		end
 
-	EL_REGULAR_INTERVAL_EVENT_PROCESSOR
+	EL_LOGGED_EVENT_COUNTER
+
+	EL_LOGGED_REGULAR_INTERVAL_EVENT_PROCESSOR
 		undefine
 			default_create
 		end
@@ -35,6 +37,11 @@ inherit
 		end
 
 	EL_MODULE_ARGS
+		undefine
+			default_create
+		end
+
+	EL_MODULE_LOG
 		undefine
 			default_create
 		end
@@ -70,7 +77,8 @@ feature {NONE} -- Initialization
 		do
 			make_event_consumer
 
-			make_event_producer (Current, "Ball animation timer", (1000 / Frames_per_sec).rounded)
+--			make_event_producer (Current, (1000 / Frames_per_sec).rounded)
+			make_event_producer ("Animation timer", Current, (1000 / Frames_per_sec).rounded)
 --			make_bounded_loop_event_producer (Current, "Ball animation timer", (1000 / Frames_per_sec).rounded, 3)
 
 			radius := 70
@@ -93,23 +101,10 @@ feature {NONE} -- Initialization
 			world.extend (lesson_label)
 
 			create pos.make_with_position ((Background_tile.width * 2.3).rounded, (Background_tile.height * 0.16).rounded)
-			create arrow.make_with_positions (pos.x, pos.y, pos.x + 20, pos.y)
-			arrow.set_line_width (2)
-			arrow.enable_end_arrow
-			arrow.rotate (-pi * 3 / 4)
-			world.extend (arrow)
-			world.send_backward (arrow)
-
-			create label.make_with_text ("Dark matter")
-			label.set_point_position (arrow.point_a_x + 3, arrow.point_a_y)
-			world.extend (label)
 
 			create proton.make_with_pixmap (Soccer_ball_image)
 			world.extend (proton)
-			proton.set_x_y (
-				model_cell.width // 2,
-				model_cell.height // 2
-			)
+			proton.set_x_y (model_cell.width // 2, model_cell.height // 2)
 
 			set_position (0)
 			create electron.make
@@ -133,17 +128,15 @@ feature -- Access
 
 	lesson_label: EV_MODEL_TEXT
 
-	arrow: EV_MODEL_LINE
-
 feature -- Element change
 
-	set_position (elapsed_millisecs: INTEGER)
+	set_position (a_elapsed_millisecs: INTEGER)
 			--
 		local
 			proportion_x, proportion_y, proportion_radius, radius_variability: DOUBLE
 			new_angle: DOUBLE
 		do
-			new_angle := radians_per_millisec * elapsed_millisecs
+			new_angle := radians_per_millisec * a_elapsed_millisecs
 
 			proportion_x := sine (new_angle)
 			proportion_y := cosine (new_angle / 2)
@@ -160,14 +153,23 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
+	count: INTEGER
+		do
+			Result := event.count
+		end
+
+	elapsed_millisecs: INTEGER
+		do
+			Result := event.elapsed_millisecs
+		end
+
 	redraw
 			--
 		local
-			previous_pos_flag: BOOLEAN
-			size_proportion: DOUBLE
+			previous_pos_flag: BOOLEAN; size_proportion: DOUBLE
 		do
-			log.enter_with_args ("redraw", << event.elapsed_millisecs >>)
-			set_position (event.elapsed_millisecs)
+			log_event
+			set_position (elapsed_millisecs)
 
 			electron.set_x_y (x_pos, y_pos)
 			size_proportion := 0.2 + 0.8 * (proportion_z + 1) / 2.0
@@ -175,10 +177,6 @@ feature {NONE} -- Implementation
 
 			previous_pos_flag := is_electron_behind_proton
 			is_electron_behind_proton := size_proportion < 0.7 and electron.bounding_box.intersects (proton.bounding_box)
-
-			log.put_string ("Behind is ")
-			log.put_boolean (is_electron_behind_proton)
-			log.put_new_line
 
 			if previous_pos_flag /= is_electron_behind_proton then
 				world.finish
@@ -190,13 +188,13 @@ feature {NONE} -- Implementation
 			if millisecs_per_cycle > 1000.0 then
 				millisecs_per_cycle := millisecs_per_cycle - 0.4
 			end
-			log.exit
 		end
 
 	on_events_start
 			--
 		do
 			z_acceleration_proportion := 0.5
+			reset
 		end
 
 	radians_per_millisec: DOUBLE
@@ -253,5 +251,9 @@ feature {NONE} -- Constants
 			create Result
 		end
 
+	Count_label: ZSTRING
+		once
+			Result := "Redraws"
+		end
 
 end

@@ -1,5 +1,11 @@
 indexing
-	description: "Summary description for {APPLICATION_ROOT}."
+	description: "[
+		Eiffel submission for website holding a collection of the Song 99 Bottles of Beer programmed 
+		in different programming languages. Actually the song is represented in 1500 different
+		programming languages and variations.
+		See: [http://www.99-bottles-of-beer.net/language-eiffel:-analysis,-design-and-programming-2256.html 1st submission 12 May 2009]
+		and [http://www.99-bottles-of-beer.net/language-eiffel-2259.html 2nd submission 12th June 2009]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2012 Finnian Reilly"

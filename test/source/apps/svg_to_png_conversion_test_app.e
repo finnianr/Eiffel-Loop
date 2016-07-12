@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:23:02 GMT (Friday 24th June 2016)"
+	date: "2016-07-08 11:22:03 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -99,9 +99,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{SVG_TO_PNG_CONVERSION_TEST_APP}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines]
-
+				[{SVG_TO_PNG_CONVERSION_TEST_APP}, All_routines]
 			>>
 		end
 

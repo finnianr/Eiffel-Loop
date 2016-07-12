@@ -1,7 +1,8 @@
 ﻿note
 	description: "[
-		Servlet that returns OK as a response. Useful for closing down a background servlet by
-		first calling {EL_FAST_CGI_SERVLET_SERVICE}.set_end_application and then invoking this servlet using CURL.
+		Servlet that returns `OK' as a response. Useful for closing down a background servlet by
+		first calling `{EL_FAST_CGI_SERVLET_SERVICE}.set_end_application' and then invoking this 
+		servlet using CURL.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,7 +10,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-29 11:29:05 GMT (Friday 29th January 2016)"
+	date: "2016-07-07 15:19:53 GMT (Thursday 7th July 2016)"
 	revision: "7"
 
 class

@@ -21,10 +21,11 @@
 			</condition>
 		</external_object>
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
-		<!--Eiffel-Loop-->
-		<library name = "EL_base" location = "base.ecf"/>
-		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<library name = "gobo_kernel" location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"/>
+		<!--Eiffel-Loop-->
+		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
+		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<!--Source code-->
 		<cluster name = "xml" location = "persistency/xml/xdoc-scanning" recursive = "true">
 			<option namespace = "XML"/>
