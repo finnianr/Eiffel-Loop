@@ -2,12 +2,15 @@
 
 from eiffel_loop.project import *
 
-version = (1, 1, 19)
+version = (1, 1, 20)
 
 installation_sub_directory = 'Eiffel-Loop/utils'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.1.20
+# Fixed version reading problem on EIFFEL_REPOSITORY_PUBLISHER_APP
 
 # 1.1.18
 # Added new ftp class: EL_FTP_SYNC

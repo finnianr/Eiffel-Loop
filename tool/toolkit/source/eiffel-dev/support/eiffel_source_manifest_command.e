@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
+	date: "2016-07-12 14:15:06 GMT (Tuesday 12th July 2016)"
 	revision: "6"
 
 deferred class
@@ -18,6 +18,11 @@ inherit
 	EL_MODULE_LOG
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
+
+	make_default
+		do
+			create manifest.make_default
+		end
 
 	make (source_manifest_path: EL_FILE_PATH)
 		do

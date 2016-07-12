@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-11 18:47:53 GMT (Monday 11th July 2016)"
+	date: "2016-07-12 12:02:00 GMT (Tuesday 12th July 2016)"
 	revision: "5"
 
 class
@@ -55,10 +55,9 @@ feature -- Basic operations
 
 	set_progress (proportion: DOUBLE)
 		local
-			count, percentage: INTEGER; c: CHARACTER
+			count: INTEGER; c: CHARACTER
 		do
 			count := (Space_count * proportion).rounded
-			percentage := (100 * proportion).rounded
 			from until index > count loop
 				if index > 0 then
 					if index > 1 then
@@ -74,7 +73,7 @@ feature -- Basic operations
 				index := index + 1
 			end
 			lio.put_character ('%R')
-			lio.put_substitution (Template, [filled_space, Integer.formatted (percentage)])
+			lio.put_substitution (Template, [filled_space, Double.formatted (100 * proportion)])
 		end
 
 feature {NONE} -- Implementation
@@ -95,8 +94,8 @@ feature {NONE} -- Constants
 			Result := 80
 		end
 
-	Integer: FORMAT_INTEGER
+	Double: FORMAT_DOUBLE
 		once
-			create Result.make (3)
+			create Result.make (5, 1)
 		end
 end

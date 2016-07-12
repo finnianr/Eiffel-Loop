@@ -10,7 +10,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 8:16:28 GMT (Friday 1st July 2016)"
+	date: "2016-07-12 11:53:46 GMT (Tuesday 12th July 2016)"
 	revision: "7"
 
 deferred class
@@ -71,8 +71,8 @@ feature {NONE} -- Argument setting
 
 	set_reference_operand (a_index: INTEGER; arg_spec: like Type_argument_specification; argument_ref: ANY)
 		do
-			if attached {ZSTRING} argument_ref then
-				set_string_operand (a_index, arg_spec)
+			if attached {READABLE_STRING_GENERAL} argument_ref as string_ref then
+				set_string_operand (a_index, string_ref, arg_spec)
 
 			elseif attached {EL_ZSTRING_LIST} argument_ref as string_list then
 				set_string_list_operand (a_index, arg_spec, string_list)
@@ -135,10 +135,20 @@ feature {NONE} -- Argument setting
 			operands.put_reference (arg_file_list, a_index)
 		end
 
-	set_string_operand (a_index: INTEGER; arg_spec: like Type_argument_specification)
+	set_string_operand (a_index: INTEGER; default_arg: READABLE_STRING_GENERAL; arg_spec: like Type_argument_specification)
+		local
+			string: READABLE_STRING_GENERAL; arg: ZSTRING
 		do
 			if Args.has_value (arg_spec.word_option) then
-				operands.put_reference (Args.value (arg_spec.word_option), a_index)
+				arg := Args.value (arg_spec.word_option)
+				if attached {ZSTRING} default_arg then
+					string := arg
+				elseif attached {STRING_8} default_arg then
+					string := arg.to_string_8
+				elseif attached {STRING_32} default_arg then
+					string := arg.to_string_32
+				end
+				operands.put_reference (string, a_index)
 			elseif arg_spec.is_required then
 				set_missing_argument_error (arg_spec.word_option)
 			end

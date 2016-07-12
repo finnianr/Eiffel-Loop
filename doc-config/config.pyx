@@ -15,7 +15,7 @@ publish-repository:
 	root-dir:
 		"$EIFFEL_LOOP"
 	output-dir:
-		"$EIFFEL_LOOP/doc"
+		"$EIFFEL_LOOP_DOC"
 	github-url:
 		"https://github.com/finnianr/eiffel-loop"
 
@@ -25,7 +25,7 @@ publish-repository:
 		user-home:
 			"/public/www"
 		sync-path:
-			"$EIFFEL_LOOP/doc/ftp.sync"
+			"$EIFFEL_LOOP_DOC/ftp.sync"
 
 	sources:
 		# Examples

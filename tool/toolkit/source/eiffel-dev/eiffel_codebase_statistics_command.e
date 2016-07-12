@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:10 GMT (Friday 8th July 2016)"
+	date: "2016-07-12 14:44:26 GMT (Tuesday 12th July 2016)"
 	revision: "7"
 
 class
@@ -15,7 +15,12 @@ class
 inherit
 	EIFFEL_SOURCE_MANIFEST_COMMAND
 		redefine
-			make, execute
+			make, make_default, execute
+		end
+
+	EVOLICITY_EIFFEL_CONTEXT
+		redefine
+			make_default
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -26,25 +31,44 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 create
-	make, default_create
+	make, make_default, default_create
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
-	make (source_manifest_path: EL_FILE_PATH)
+	make_default
 		do
 			make_machine
+			Precursor {EIFFEL_SOURCE_MANIFEST_COMMAND}
+			Precursor {EVOLICITY_EIFFEL_CONTEXT}
+		end
+
+	make (source_manifest_path: EL_FILE_PATH)
+		do
+			make_default
 			Precursor (source_manifest_path)
+		end
+
+feature -- Access
+
+	byte_count: INTEGER
+
+	class_count: INTEGER
+
+	word_count: INTEGER
+
+	mega_bytes: DOUBLE
+		do
+			Result := byte_count / 1000_000
 		end
 
 feature -- Basic operations
 
 	execute
 		local
-			mega_bytes: DOUBLE
+
 		do
 			log.enter ("execute")
 			Precursor
-			mega_bytes := (byte_count / 100000).rounded / 10
 			lio.put_new_line
 			lio.put_integer_field ("Classes", class_count)
 			lio.put_new_line
@@ -100,6 +124,23 @@ feature {NONE} -- Line state handlers
 
 feature {NONE} -- Implementation
 
+	leftmost_keyword (line: ZSTRING): ZSTRING
+			-- keyword with no whitespace preceding it
+		local
+			i: INTEGER; appending: BOOLEAN
+		do
+			create Result.make (10)
+			appending := True
+			from i := 1 until not appending or else i > line.count loop
+				if line.is_alpha_item (i) then
+					Result.append_z_code (line.z_code (i))
+				else
+					appending := False
+				end
+				i := i + 1
+			end
+		end
+
 	line_word_count (line: ZSTRING): INTEGER
 		local
 			i: INTEGER; appending: BOOLEAN
@@ -119,30 +160,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	leftmost_keyword (line: ZSTRING): ZSTRING
-			-- keyword with no whitespace preceding it
-		local
-			i: INTEGER; appending: BOOLEAN
+feature {NONE} -- Evolicity fields
+
+	getter_function_table: like getter_functions
+			--
 		do
-			create Result.make (10)
-			appending := True
-			from i := 1 until not appending or else i > line.count loop
-				if line.is_alpha_item (i) then
-					Result.append_z_code (line.z_code (i))
-				else
-					appending := False
-				end
-				i := i + 1
-			end
+			create Result.make (<<
+				["class_count", 		agent: INTEGER_REF do Result := class_count.to_reference end],
+				["word_count", 		agent: INTEGER_REF do Result := word_count.to_reference end],
+				["mega_bytes", 		agent: STRING do Result := Double.formatted (mega_bytes) end]
+			>>)
 		end
-
-feature {NONE} -- Internal attributes
-
-	byte_count: INTEGER
-
-	class_count: INTEGER
-
-	word_count: INTEGER
 
 feature {NONE} -- Constants
 
@@ -168,5 +196,12 @@ feature {NONE} -- Constants
 		once
 			Result := "feature"
 		end
+
+	Double: FORMAT_DOUBLE
+		once
+			create Result.make (6, 1)
+			Result.no_justify
+		end
+
 
 end

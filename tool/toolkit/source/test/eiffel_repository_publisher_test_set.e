@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-11 17:15:16 GMT (Monday 11th July 2016)"
+	date: "2016-07-12 11:38:14 GMT (Tuesday 12th July 2016)"
 	revision: "8"
 
 class
@@ -28,9 +28,9 @@ feature -- Tests
 			html_file_path: EL_FILE_PATH; source_tree: REPOSITORY_SOURCE_TREE
 			checksum: NATURAL
 		do
-			create publisher.make (Work_area_dir + "doc-config/config.pyx", "1.3.4")
+			create publisher.make (Work_area_dir + "doc-config/config.pyx", "1.4.0")
 			publisher.set_output_dir (Doc_dir)
-			publisher.ftp_sync.set_sync_file_path (Doc_dir + "ftp.sync")
+			publisher.ftp_sync.ftp.set_default_state -- Turn off ftp
 			publisher.tree_list.wipe_out
 			across Sources as src loop
 				create source_tree.make_with_name (publisher, src.key, Eiffel_loop_dir.joined_dir_path (src.item))
