@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-25 9:07:13 GMT (Friday 25th December 2015)"
-	revision: "4"
+	date: "2016-07-08 10:40:15 GMT (Friday 8th July 2016)"
+	revision: "5"
 
 deferred class
 	EL_XML_PARSE_EVENT_SOURCE_2
@@ -57,7 +57,7 @@ feature -- Basic operations
 		deferred
 		end
 
-	log_error (a_log: EL_LOG)
+	log_error (a_log: EL_LOGGABLE)
 		do
 		end
 

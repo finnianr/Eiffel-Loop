@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 11:43:51 GMT (Friday 24th June 2016)"
+	date: "2016-07-09 7:15:49 GMT (Saturday 9th July 2016)"
 	revision: "7"
 
 deferred class
@@ -21,7 +21,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	EXCEPTION_MANAGER
 
@@ -56,7 +56,7 @@ feature -- Element change
 		do
 			across locations as location loop
 				if location.item.exists then
-					extend_class_path_list (location.item.to_string.to_latin_1)
+					extend_class_path_list (location.item)
 				end
 			end
 		end
@@ -78,13 +78,15 @@ feature -- Status change
 				all_packages_found := all_packages_found and last_package_found
 				i := i + 1
 			end
-			log_or_io.put_line ("CLASSPATH:")
-			across class_path_list as class_path loop
-				log_or_io.put_line (class_path.item)
+			if is_lio_enabled then
+				lio.put_line ("CLASSPATH:")
+				across class_path_list as class_path loop
+					lio.put_line (class_path.item)
+				end
 			end
 
 			if all_packages_found then
-				jorb.open (JVM_library_path, class_path_list.joined (class_path_separator))
+				jorb.open (JVM_library_path.to_string.to_latin_1, class_path_list.joined (class_path_separator))
 				is_open := jorb.is_open
 			end
 		ensure
@@ -107,31 +109,34 @@ feature -- Clean up
 		local
 			object_references: INTEGER
 		do
-			log.enter ("close")
-			log.put_integer_field ("Object references", jorb.object_count)
-			log.put_new_line
-			log.put_line ("Full collect")
+			if is_lio_enabled then
+				lio.put_line ("close")
+				lio.put_integer_field ("Object references", jorb.object_count)
+				lio.put_new_line
+				lio.put_line ("Full collect")
+			end
 			full_collect
 
 			object_references := jorb.object_count
-			log.put_integer_field ("Object references remaining", object_references)
-			log.put_new_line
-			debug ("jni")
-				if object_references > 0 then
-					log.put_line ("Objects still referenced")
-					jorb.referenced_objects.do_all (
-						agent (java_object_id: POINTER)
-							do
-								log.put_line (jorb.object_names [java_object_id])
-							end
-					)
+			if is_lio_enabled then
+				lio.put_integer_field ("Object references remaining", object_references)
+				lio.put_new_line
+				debug ("jni")
+					if object_references > 0 then
+						lio.put_line ("Objects still referenced")
+						across jorb.referenced_objects as object_id loop
+							lio.put_line (jorb.object_names [object_id.item])
+						end
+					end
 				end
 			end
 
 			jorb.close_jvm
 			is_open := False
-			log_or_io.put_line ("JVM removed from memory")
-			log.exit
+			if is_lio_enabled then
+				lio.put_line ("JVM removed from memory")
+				lio.put_new_line
+			end
 		ensure
 			all_references_deleted: jorb.object_count = 0
 		end
@@ -155,26 +160,24 @@ feature {NONE} -- Implementation
 	add_package_to_classpath (package_name: STRING)
 			--
 		local
-			package_list: EL_FILE_PATH_LIST
-			jar_file_name: STRING
+			package_list: EL_FILE_PATH_LIST; jar_file_name: STRING
 		do
 			create jar_file_name.make_from_string (package_name + "*.jar")
 			last_package_found := False
-			from jar_dir_list.start until last_package_found or jar_dir_list.after loop
-				create package_list.make (jar_dir_list.item, jar_file_name)
+			across jar_dir_list as jar_dir until last_package_found loop
+				create package_list.make (jar_dir.item, jar_file_name)
 				if not package_list.is_empty then
 					last_package_found := True
-					extend_class_path_list (package_list.first_path.to_string.to_latin_1)
+					extend_class_path_list (package_list.first_path)
 				end
-				jar_dir_list.forth
 			end
 			if not last_package_found then
-				log.put_string_field ("Could not find jars:", jar_file_name)
-				log.put_new_line
+				lio.put_string_field ("Could not find jars:", jar_file_name)
+				lio.put_new_line
 			end
 		end
 
-	extend_class_path_list (location: STRING)
+	extend_class_path_list (location: ZSTRING)
 		do
 			class_path_list.start
 			class_path_list.search (location)

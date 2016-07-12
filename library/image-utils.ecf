@@ -91,7 +91,7 @@ $EIFFEL_LOOP/C_library/image-utils/spec/$ISE_PLATFORM/libelimageutils.so
 		</external_object>
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<!--Eiffel-Loop-->
-		<library name = "EL_base" location = "base.ecf" readonly = "false"/>
+		<library name = "EL_base" location = "base/base.ecf" readonly = "false"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf" readonly = "false"/>
 		<!--Source code-->
 		<cluster name = "image_utils" location = "graphic/image/utils" recursive = "true">

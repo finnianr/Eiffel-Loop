@@ -1,10 +1,10 @@
 ﻿note
 	description: "[
 		Wrapper for swgen test signal generation command
-		It generates 1 second of audio signal sweeping from 'frequency_lower' to 'frequency_lower' at
-		'cycles_per_sec' times per second
+		It generates 1 second of audio signal sweeping from `frequency_lower' to `frequency_lower' at
+		`cycles_per_sec' times per second
 
-		See: http://manpages.ubuntu.com/manpages/natty/man1/swgen.1.html
+		See: [http://manpages.ubuntu.com/manpages/natty/man1/swgen.1.html swgen maunal]
 	]"
 
 	author: "Finnian Reilly"
@@ -12,7 +12,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-18 14:15:05 GMT (Saturday 18th June 2016)"
+	date: "2016-07-07 15:53:10 GMT (Thursday 7th July 2016)"
 	revision: "5"
 
 deferred class

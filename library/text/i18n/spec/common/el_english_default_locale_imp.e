@@ -1,7 +1,7 @@
 ﻿note
 	description: "[
 		Establishes English as the key language to use for translation lookups
-		Override this in EL_MODULE_LOCALE for other languages
+		Override this in `EL_MODULE_LOCALE' for other languages
 	]"
 
 	author: "Finnian Reilly"
@@ -9,7 +9,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:14:54 GMT (Friday 24th June 2016)"
+	date: "2016-07-07 21:23:18 GMT (Thursday 7th July 2016)"
 	revision: "6"
 
 class

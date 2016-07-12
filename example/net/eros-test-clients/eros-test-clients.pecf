@@ -35,31 +35,22 @@ system:
 
 		setting:
 			name = address_expression; value = false
-
 		setting:
 			name = array_optimization; value = false
-
 		setting:
 			name = check_vape; value = true
-
 		setting:
 			name = console_application; value = true
-
 		setting:
 			name = dead_code_removal; value = true
-
 		setting:
 			name = dynamic_runtime; value = false
-
 		setting:
 			name = exception_trace; value = false
-
 		setting:
 			name = inlining; value = false
-
 		setting:
 			name = line_generation; value = false
-
 		setting:
 			name = concurrency; value = thread
 
@@ -83,22 +74,30 @@ system:
 
 		# Eiffel Loop libraries
 		library:
-			name = eiffel_loop_base; location = "$EIFFEL_LOOP/library/base.ecf"
+			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"
 			#readonly = false; use_application_options = true
 
 		library:
-			name = eiffel_loop_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
+			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
 			readonly = false
 
 		library:
-			name = eiffel_loop_eros_client; location = "$EIFFEL_LOOP/library/eros-client.ecf"
+			name = EL_eros_client; location = "$EIFFEL_LOOP/library/eros-client.ecf"
 			readonly = false
 
 		library:
-			name = eiffel_loop_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
+			name = EL_evolicity; readonly = false
+			location = "$EIFFEL_LOOP/library/evolicity.ecf"
 
 		library:
-			name = eiffel_loop_net_base; location = "$EIFFEL_LOOP/library/network.ecf"
+			name = EL_logging; readonly = false
+			location = "$EIFFEL_LOOP/library/logging.ecf"
+
+		library:
+			name = EL_net_base; location = "$EIFFEL_LOOP/library/network.ecf"
+
+		library:
+			name = EL_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
 
 		cluster:
 			name = project; location = "source"; recursive = true

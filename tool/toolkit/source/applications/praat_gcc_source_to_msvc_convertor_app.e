@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-05-16 17:34:23 GMT (Monday 16th May 2016)"
+	date: "2016-07-08 20:04:54 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -26,8 +26,6 @@ inherit
 		end
 
 	EL_MODULE_DIRECTORY
-
-	EL_MODULE_LOG
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
@@ -266,10 +264,9 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP}, "*"],
-				[{EVOLICITY_TEMPLATES}, "*"],
-				[{FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER}, "*"],
-				[{PROCEDURE_PRAAT_RUN_GCC_TO_MSVC_CONVERTER}, "*"]
+				[{PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP}, All_routines],
+				[{FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER}, All_routines],
+				[{PROCEDURE_PRAAT_RUN_GCC_TO_MSVC_CONVERTER}, All_routines]
 			>>
 		end
 

@@ -4,12 +4,12 @@
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-05-10 15:49:05 GMT (Sunday 10th May 2015)"
-	revision: "2"
+	date: "2016-07-02 10:58:53 GMT (Saturday 2nd July 2016)"
+	revision: "3"
 
 deferred class
 	EL_MAIN_THREAD_EVENT_REQUEST_QUEUE
@@ -100,7 +100,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Listener_pool: EL_LOGGED_MUTEX_REFERENCE [ARRAYED_LIST [EL_EVENT_LISTENER]]
+	Listener_pool: EL_MUTEX_REFERENCE [ARRAYED_LIST [EL_EVENT_LISTENER]]
 			-- Can't assume OS will return them in the same order
 		once ("PROCESS")
 			create Result.make (create_event_listener_pool)

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-02-05 13:29:21 GMT (Friday 5th February 2016)"
+	date: "2016-07-08 13:25:30 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -17,20 +17,13 @@ inherit
 
 	EL_SINGLE_THREAD_ACCESS
 
+	EL_MODULE_CONSOLE
+
 	EL_MODULE_DIRECTORY
-		export
-			{NONE} all
-		end
 
 	EL_MODULE_FILE_SYSTEM
-		export
-			{NONE} all
-		end
 
 	EL_MODULE_ARGS
-		export
-			{NONE} all
-		end
 
 	EL_SHARED_DIRECTORY
 		rename
@@ -50,8 +43,6 @@ feature {NONE} -- Initialization
 			create log_file_by_thread_id_table.make (11)
 			create log_file_by_object_id_table.make (11)
 			create thread_id_list.make (11)
-			is_highlighting_enabled :=
-				not (Args.word_option_exists ({EL_LOG_COMMAND_OPTIONS}.no_highlighting) or {PLATFORM}.is_windows)
 		end
 
 feature -- Initialization
@@ -61,13 +52,27 @@ feature -- Initialization
 		do
 			delete_logs
 			create thread_registration_consumer.make
-			thread_registration_consumer.disable_logging
 
 			create thread_registration_queue.make
 			thread_registration_queue.attach_consumer (thread_registration_consumer)
 		end
 
 feature -- Access
+
+	current_thread_log_path: EL_FILE_PATH
+			--
+		require
+			logging_is_active: logging.is_active
+		do
+			create Result.make_from_path (current_thread_log_file.path)
+		end
+
+	output_directory_path: EL_DIR_PATH
+		do
+			restrict_access
+			Result := output_directory.twin
+			end_restriction
+		end
 
 	thread_index (name: STRING): INTEGER
 			--
@@ -86,21 +91,6 @@ feature -- Access
 			end_restriction
 		end
 
-	current_thread_log_path: EL_FILE_PATH
-			--
-		require
-			logging_is_active: logging.is_active
-		do
-			create Result.make_from_path (current_thread_log_file.path)
-		end
-
-	output_directory_path: EL_DIR_PATH
-		do
-			restrict_access
-			Result := output_directory.twin
-			end_restriction
-		end
-
 feature -- Element change
 
 	activate_console_manager
@@ -112,10 +102,10 @@ feature -- Element change
 			end_restriction
 		end
 
-	add_visible_thread (thread: EL_IDENTIFIED_THREAD_I; name: STRING)
+	add_thread (thread: EL_IDENTIFIED_THREAD_I)
 			--	make thread output visible in console
 		local
-			log_file: EL_FILE_AND_CONSOLE_LOG_OUTPUT
+			log_file: like new_log_file
 		do
 			if logging.is_active then
 				restrict_access
@@ -131,18 +121,11 @@ feature -- Element change
 					if thread_id_list.count = 1 then
 						thread_id_list.start
 					end
-					if is_highlighting_enabled then
-						create {EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT} log_file.make (
-							log_file_path (name), name, thread_id_list.count
-						)
-					else
-						create log_file.make (log_file_path (name), name, thread_id_list.count)
-					end
+					log_file := new_log_file (thread)
 					log_file_by_thread_id_table [thread.thread_id] := log_file
 					log_file_by_object_id_table [thread.object_id] := log_file
 
-					thread_registration_queue.put ([name])
-
+					thread_registration_queue.put ([thread])
 				end
 				end_restriction
 			end
@@ -157,15 +140,6 @@ feature -- Element change
 		end
 
 feature -- Status query
-
-	no_thread_logs_created: BOOLEAN
-			--
-		do
-			restrict_access
-			Result := log_file_by_thread_id_table.is_empty
-
-			end_restriction
-		end
 
 	is_console_manager_active: BOOLEAN
 			--
@@ -185,8 +159,14 @@ feature -- Status query
 			end_restriction
 		end
 
-	is_highlighting_enabled: BOOLEAN
-		-- Can terminal color highlighting sequences be output to console
+	no_thread_logs_created: BOOLEAN
+			--
+		do
+			restrict_access
+			Result := log_file_by_thread_id_table.is_empty
+
+			end_restriction
+		end
 
 feature -- Basic operations
 
@@ -230,15 +210,6 @@ feature -- Status setting
 			log_file.open_write
 		end
 
-	flush_current_thread_log
-			--
-		local
-			log_file: EL_FILE_AND_CONSOLE_LOG_OUTPUT
-		do
-			log_file := current_thread_log_file
-			log_file.flush_file
-		end
-
 	close_logs
 			-- Call only when all threads are joined
 		do
@@ -247,6 +218,15 @@ feature -- Status setting
 				log_file.item.close
 			end
 			end_restriction
+		end
+
+	flush_current_thread_log
+			--
+		local
+			log_file: EL_FILE_AND_CONSOLE_LOG_OUTPUT
+		do
+			log_file := current_thread_log_file
+			log_file.flush_file
 		end
 
 feature -- Removal
@@ -259,7 +239,7 @@ feature -- Removal
 			end
 		end
 
-feature {EL_CONSOLE_MANAGER, EL_LOG} -- Access
+feature {EL_CONSOLE_MANAGER, EL_LOGGABLE} -- Access
 
 	console_thread_index: INTEGER
 		--	 Index number of thread currently directed to console
@@ -288,7 +268,28 @@ feature {EL_CONSOLE_MANAGER, EL_LOG} -- Access
 			end_restriction
 		end
 
-	thread_registration_consumer: EL_TUPLE_CONSUMER_MAIN_THREAD [EL_CONSOLE_MANAGER, TUPLE [STRING]]
+	thread_registration_consumer: EL_TUPLE_CONSUMER_MAIN_THREAD [EL_CONSOLE_MANAGER, TUPLE [EL_IDENTIFIED_THREAD_I]]
+
+feature {NONE} -- Factory
+
+	new_log_file (thread: EL_IDENTIFIED_THREAD_I): EL_FILE_AND_CONSOLE_LOG_OUTPUT
+		do
+			if Console.is_highlighting_enabled then
+				Result := new_highlighted_output (log_file_path (thread.name), thread.name, thread_id_list.count)
+			else
+				Result := new_output (log_file_path (thread.name), thread.name, thread_id_list.count)
+			end
+		end
+
+	new_highlighted_output (log_path: EL_FILE_PATH; a_thread_name: STRING; a_index: INTEGER): like new_log_file
+		do
+			create {EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT} Result.make (log_path, a_thread_name, a_index)
+		end
+
+	new_output (log_path: EL_FILE_PATH; a_thread_name: STRING; a_index: INTEGER): like new_log_file
+		do
+			create Result.make (log_path, a_thread_name, a_index)
+		end
 
 feature {NONE} -- Implementation
 
@@ -316,17 +317,19 @@ feature {NONE} -- Implementation
 			Result := thread_log_file (thread_id).thread_name
 		end
 
-	output_directory: EL_DIR_PATH
+feature {NONE} -- Internal attributes
 
-	log_file_by_thread_id_table: HASH_TABLE [EL_FILE_AND_CONSOLE_LOG_OUTPUT, POINTER]
+	console_manager_active: BOOLEAN
 
 	log_file_by_object_id_table: HASH_TABLE [EL_FILE_AND_CONSOLE_LOG_OUTPUT, INTEGER]
 
+	log_file_by_thread_id_table: HASH_TABLE [EL_FILE_AND_CONSOLE_LOG_OUTPUT, POINTER]
+
+	output_directory: EL_DIR_PATH
+
 	thread_id_list: ARRAYED_LIST [POINTER]
 
-	thread_registration_queue: EL_THREAD_PRODUCT_QUEUE [TUPLE [STRING]]
-
-	console_manager_active: BOOLEAN
+	thread_registration_queue: EL_THREAD_PRODUCT_QUEUE [TUPLE [EL_IDENTIFIED_THREAD_I]]
 
 feature {NONE} -- Constants
 

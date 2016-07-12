@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 16:31:36 GMT (Sunday 20th December 2015)"
+	date: "2016-07-08 18:59:35 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 class
@@ -47,71 +47,71 @@ feature -- Basic operations
 
 	create_button
 		do
-			log.enter ("create_button")
+			lio.put_line ("create_button")
 			paypal.create_buy_now_button ("en_US", new_single_license_button, new_buy_options (1.0))
 			paypal.log_response_values
-			log.exit
+			lio.put_new_line
 		end
 
 	delete_all_buttons
 		do
-			log.enter ("delete_all_buttons")
+			lio.put_line ("delete_all_buttons")
 			across paypal.button_id_list as id loop
-				log.put_labeled_string ("Deleting button", id.item)
-				log.put_new_line
+				lio.put_labeled_string ("Deleting button", id.item)
+				lio.put_new_line
 				paypal.delete_button (id.item)
 			end
 			if paypal.last_call_succeeded then
-				log.put_line ("ALL BUTTONS DELETED")
+				lio.put_line ("ALL BUTTONS DELETED")
 				list_buttons
 			else
-				log.put_line ("ERROR")
+				lio.put_line ("ERROR")
 			end
-			log.exit
+			lio.put_new_line
 		end
 
 	delete_button
 		do
-			log.enter ("delete_button")
+			lio.put_line ("delete_button")
 			paypal.delete_button (new_button_id)
 			if paypal.last_call_succeeded then
-				log.put_line ("BUTTON DELETED")
+				lio.put_line ("BUTTON DELETED")
 				paypal.log_response_values
 				list_buttons
 			else
-				log.put_line ("ERROR")
+				lio.put_line ("ERROR")
 			end
-			log.exit
+			lio.put_new_line
 		end
 
 	get_button_details
 		do
-			log.enter ("get_button_details")
+			lio.put_line ("get_button_details")
 			paypal.get_button_details (new_button_id)
 			if paypal.last_call_succeeded then
-				log.put_line ("BUTTON DETAILS")
+				lio.put_line ("BUTTON DETAILS")
 				paypal.log_response_values
 			else
-				log.put_line ("ERROR")
+				lio.put_line ("ERROR")
 			end
-			log.exit
+			lio.put_new_line
 		end
 
 	list_buttons
 		do
-			log.enter ("list_buttons")
-			log.put_line ("ID list")
+			lio.put_line ("list_buttons")
+			lio.put_line ("ID list")
 			across paypal.button_id_list as id loop
-				log.put_labeled_string (id.cursor_index.out, id.item)
-				log.put_new_line
+				lio.put_labeled_string (id.cursor_index.out, id.item)
+				lio.put_new_line
 			end
 			if paypal.last_call_succeeded then
-				log.put_new_line
+				lio.put_new_line
 				paypal.log_response_values
 			else
-				log.put_line ("ERROR")
+				lio.put_line ("ERROR")
 			end
-			log.exit
+			lio.put_new_line
 		end
 
 	run_command_loop
@@ -122,10 +122,10 @@ feature -- Basic operations
 
 	update_button
 		do
-			log.enter ("update_button")
+			lio.put_line ("update_button")
 			paypal.update_buy_now_button ("en_US", new_button_id, new_single_license_button, new_buy_options (1.1))
 			paypal.log_response_values
-			log.exit
+			lio.put_new_line
 		end
 
 feature {NONE} -- Implementation
@@ -133,7 +133,7 @@ feature {NONE} -- Implementation
 	new_button_id: ZSTRING
 		do
 			Result := User_input.line ("Enter button code")
-			log.put_new_line
+			lio.put_new_line
 		end
 
 	new_buy_options (price_factor: REAL): EL_PAYPAL_BUY_OPTIONS

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 8:33:23 GMT (Thursday 23rd June 2016)"
+	date: "2016-07-01 9:28:25 GMT (Friday 1st July 2016)"
 	revision: "8"
 
 class
@@ -40,7 +40,7 @@ feature -- Element change
 			end
 			if not song.is_hidden and then not song.mp3_path.exists then
 				File_system.make_directory (song.mp3_path.parent)
-				File_system.copy_file (cached_song_file_path (song), song.mp3_path)
+				OS.copy_file (cached_song_file_path (song), song.mp3_path)
 			end
 			song.set_modification_time (Test_time)
 			Precursor (song)

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 9:25:26 GMT (Wednesday 16th December 2015)"
+	date: "2016-07-08 10:52:07 GMT (Friday 8th July 2016)"
 	revision: "8"
 
 class
@@ -39,7 +39,7 @@ inherit
 
 	EL_VTD_CONSTANTS
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make_from_other
@@ -88,9 +88,7 @@ feature -- Access
 	context_list (a_xpath: STRING_32): EL_XPATH_NODE_CONTEXT_LIST
 			--
 		do
-			log.enter ("context_list")
 			create Result.make (Current, a_xpath)
-			log.exit
 		end
 
 	double_at_xpath (a_xpath: STRING_32): DOUBLE

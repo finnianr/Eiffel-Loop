@@ -2,27 +2,34 @@
 	description: "Summary description for {EL_REMOTE_CALL_REQUEST_DELEGATING_CONSUMER_THREAD}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-03 11:40:26 GMT (Sunday 3rd July 2016)"
+	revision: "4"
 
 class
 	EL_REMOTE_CALL_REQUEST_DELEGATING_CONSUMER_THREAD
 
 inherit
-	EL_DELEGATING_CONSUMER_THREAD [EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET, EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD]
+	EL_LOGGED_DELEGATING_CONSUMER_THREAD [EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET, EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD]
 		rename
 			product_queue as client_request_queue
 		redefine
-			create_consumer_delegate, log_name, is_visible_in_console, prompt
+			make_default, new_consumer_delegate, prompt
 		end
 
 create
 	make
 
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			Precursor
+			set_name ("Request delegator")
+		end
 feature -- Element change
 
 	set_routine_call_event_listener (a_routine_call_event_listener: like routine_call_event_listener)
@@ -33,7 +40,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	create_consumer_delegate: EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD
+	new_consumer_delegate: EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD
 			--
 		do
 			create Result.make (Current, client_request_queue.available_consumers)
@@ -55,11 +62,5 @@ feature {NONE} -- Implementation
 		end
 
 	routine_call_event_listener: EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER
-
-feature {NONE} -- Constants
-
-	Log_name: STRING = "Request delegator"
-
-	Is_visible_in_console: BOOLEAN = true
 
 end

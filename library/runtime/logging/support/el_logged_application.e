@@ -9,7 +9,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-06 11:58:25 GMT (Monday 6th June 2016)"
+	date: "2016-07-08 17:48:24 GMT (Friday 8th July 2016)"
 	revision: "4"
 
 deferred class
@@ -28,13 +28,12 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	init_logging (is_logging_active: BOOLEAN; a_log_filters: like log_filter_array; output_directory: EL_DIR_PATH)
+	init_logging (a_log_filters: like log_filter_array; output_directory: EL_DIR_PATH)
 			--
 		do
 			log_manager.set_output_directory (output_directory)
 			log_manager.initialize
-			if is_logging_active then
-				logging.activate
+			if logging.is_active then
 				logging.set_routines_to_log (a_log_filters)
 			else
 				if log_manager.is_console_manager_active then
@@ -43,7 +42,7 @@ feature {NONE} -- Implementation
 				end
 			end
 
-			log_manager.add_visible_thread (create {EL_IDENTIFIED_MAIN_THREAD}, "Main")
+			log_manager.add_thread (new_identified_main_thread)
 
 			is_logging_initialized := true
 		end
@@ -63,6 +62,11 @@ feature {NONE} -- Implementation
 	log_filter: ARRAY [like Type_logging_filter]
 			--
 		deferred
+		end
+
+	new_identified_main_thread: EL_IDENTIFIED_MAIN_THREAD
+		do
+			create Result.make ("Main")
 		end
 
 feature {NONE} -- Type definitions

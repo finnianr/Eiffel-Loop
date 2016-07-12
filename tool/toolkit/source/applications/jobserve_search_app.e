@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 14:00:29 GMT (Sunday 20th December 2015)"
+	date: "2016-07-08 20:03:14 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 class
@@ -14,11 +14,13 @@ class
 
 inherit
 	EL_SUB_APPLICATION
+		undefine
+			new_lio, new_log_manager
 		redefine
 			option_name
 		end
 
-	EL_TESTABLE_APPLICATION
+	EL_REGRESSION_TESTING_APPLICATION
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -132,8 +134,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{JOBSERVE_SEARCH_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"]
+				[{JOBSERVE_SEARCH_APP}, All_routines]
 			>>
 		end
 

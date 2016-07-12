@@ -1,7 +1,6 @@
 ﻿note
 	description: "[
-		Test UC_UTF8_STRING replace_substring_all
-		(Distributed in EiffelStudio version 15.01.9.6535)
+		Test `UC_UTF8_STRING}.replace_substring_all' distributed in EiffelStudio version 15.01.9.6535
 	]"
 
 	author: "Finnian Reilly"
@@ -9,7 +8,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-17 12:29:55 GMT (Thursday 17th March 2016)"
+	date: "2016-07-07 16:20:05 GMT (Thursday 7th July 2016)"
 	revision: "5"
 
 class

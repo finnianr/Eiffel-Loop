@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-04 10:30:40 GMT (Monday 4th April 2016)"
+	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 deferred class
@@ -32,9 +32,9 @@ feature -- Basic operations
 			count_x_50: INTEGER
 		do
 			across manifest.locations as location loop
-				log_or_io.put_line (location.item.dir_path)
+				lio.put_line (location.item.dir_path)
 			end
-			log_or_io.put_new_line
+			lio.put_new_line
 			if is_ordered then
 				file_list := manifest.sorted_file_list
 			else
@@ -42,10 +42,10 @@ feature -- Basic operations
 			end
 			across file_list as file_path loop
 				if (file_path.cursor_index - 1) \\ 50 = 0 then
-					log_or_io.put_character ('.')
+					lio.put_character ('.')
 					count_x_50 := count_x_50 + 1
 					if count_x_50 \\ 100 = 0 then
-						log_or_io.put_new_line
+						lio.put_new_line
 					end
 				end
 				process_file (file_path.item)

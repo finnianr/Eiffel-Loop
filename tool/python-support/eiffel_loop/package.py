@@ -76,8 +76,8 @@ class SOFTWARE_PACKAGE (object):
 
 	def __download (self):
 		dir_util.mkpath (download_dir)
-		print 'Downloading:', url, ' to:', self.file_path
-		urllib.urlretrieve (url, fpath, display_progress)
+		print 'Downloading:', self.url, ' to:', self.file_path
+		urllib.urlretrieve (self.url, self.file_path, display_progress)
 
 
 class ZIP_SOFTWARE_PACKAGE (SOFTWARE_PACKAGE):

@@ -12,9 +12,10 @@ Read Open Office spreadsheets from XML format.
 		</option>
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<!--Eiffel-Loop-->
-		<library name = "EL_base" location = "base.ecf"/>
+		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
-		<!--Source trees-->
+		<!--Source code-->
 		<cluster name = "object_conversion" location = "persistency/xml/object-conversion" recursive = "true"/>
 		<cluster name = "open_office_spread_sheet" location = "persistency/xml/open-office-spreadsheet" recursive = "true"/>
 	</target>

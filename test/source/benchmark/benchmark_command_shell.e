@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-04 15:36:38 GMT (Monday 4th April 2016)"
+	date: "2016-07-08 10:39:22 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -28,7 +28,7 @@ feature -- Benchmarks
 			actions: like Type_actions; array: ARRAYED_LIST [INTEGER]
 			i: INTEGER; sum: INTEGER_REF
 		do
-			log.enter ("compare_list_iteration_methods")
+			lio.enter ("compare_list_iteration_methods")
 			create array.make_filled (10000)
 			create sum
 			create actions.make (<<
@@ -39,14 +39,14 @@ feature -- Benchmarks
 				["array.do_all (agent increment (sum, ?))",	agent iterate_do_all (array, sum)]
 			>>)
 			compare_benchmarks (actions)
-			log.exit
+			lio.exit
 		end
 
 	compare_string_concatenation
 		local
 			actions: like Type_actions; array: ARRAYED_LIST [STRING]
 		do
-			log.enter ("compare_list_iteration_methods")
+			lio.enter ("compare_list_iteration_methods")
 			create array.make ((('z').natural_32_code - ('A').natural_32_code + 1).to_integer_32)
 			from until array.full loop
 				array.extend (create {STRING}.make_filled (('A').plus (array.count), 100))
@@ -57,33 +57,33 @@ feature -- Benchmarks
 				["append strings to once string with local",		agent string_append_once_string_with_local (array)]
 			>>)
 			compare_benchmarks (actions)
-			log.exit
+			lio.exit
 		end
 
 	compare_replace_substring
 		local
 			actions: like Type_actions
 		do
-			log.enter ("compare_replace_substring")
+			lio.enter ("compare_replace_substring")
 			create actions.make (<<
 				["replace_substring_general_all", 	agent replace_substring_general_all],
 				["replace_substring_all",				agent replace_substring_all]
 			>>)
 			compare_benchmarks (actions)
-			log.exit
+			lio.exit
 		end
 
 	compare_substring_index
 		local
 			actions: like Type_actions
 		do
-			log.enter ("compare_substring_index")
+			lio.enter ("compare_substring_index")
 			create actions.make (<<
 				["substring_index", 						agent substring_index],
 				["substring_index_general",			agent substring_index_general]
 			>>)
 			compare_benchmarks (actions)
-			log.exit
+			lio.exit
 		end
 
 feature {NONE} -- Iteration variations

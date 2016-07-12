@@ -70,11 +70,8 @@ GetRawText() routine will return null for utf8 strings.
 		</external_object>
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
-		<!--
-			Eiffel Loop
-			
-		-->
-		<library name = "EL_base" location = "base.ecf" readonly = "false"/>
+		<!--Eiffel Loop-->
+		<library name = "EL_base" location = "base/base.ecf" readonly = "false"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<!--Source code-->
 		<cluster name = "id3" location = "multimedia/audio/file" recursive = "true">

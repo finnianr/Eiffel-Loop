@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-05-16 17:35:42 GMT (Monday 16th May 2016)"
+	date: "2016-07-08 20:00:34 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -33,7 +33,7 @@ feature {NONE} -- Initiliazation
 		do
 			if not is_test_mode then
 				create aes_encrypter.make_256 (User_input.line ("Enter pass phrase"))
-				log_or_io.put_new_line
+				lio.put_new_line
 			end
 			Precursor
 		end
@@ -127,7 +127,6 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{PYXIS_ENCRYPTER_APP}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines],
 				[{PYXIS_ENCRYPTER}, All_routines]
 			>>
 		end

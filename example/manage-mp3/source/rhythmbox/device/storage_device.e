@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 7:07:47 GMT (Monday 20th June 2016)"
+	date: "2016-07-08 10:35:09 GMT (Friday 8th July 2016)"
 	revision: "4"
 
 class
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_OS
 
 	EL_MODULE_LOG
 
@@ -45,7 +47,7 @@ feature {NONE} -- Initialization
 			temporary_dir := Operating.Temp_directory_path.joined_dir_path (generator)
 			temporary_dir.append_dir_path (export_config.volume.destination_dir)
 			if temporary_dir.exists then
-				File_system.delete_tree (temporary_dir)
+				OS.delete_tree (temporary_dir)
 			end
 			Root_m3u_path_count.set_item (export_config.playlist_export.root.count + ("/Music/").count)
 			log.exit
@@ -145,7 +147,7 @@ feature {NONE} -- Volume file operations
 	 	do
 	 		stack_count := log.call_stack_count
 
-			log_or_io.put_line ("Reading file sync info")
+			lio.put_line ("Reading file sync info")
 			if local_sync_table_file_path.exists then
 				backup_table_path := local_sync_table_file_path.with_new_extension ("bak")
 				if backup_table_path.exists then
@@ -171,8 +173,8 @@ feature {NONE} -- Volume file operations
 	 	do
 	 		stack_count := log.call_stack_count
 
-			log_or_io.put_path_field ("Deleting", file_path)
-			log_or_io.put_new_line
+			lio.put_path_field ("Deleting", file_path)
+			lio.put_new_line
 			volume.delete_file (file_path)
 		rescue
 			recover_from_error (stack_count); retry
@@ -200,13 +202,13 @@ feature {NONE} -- Volume file operations
 		local
 			volume_is_valid: BOOLEAN; message: READABLE_STRING_GENERAL
 		do
-			log_or_io.restore (log_stack_count)
+			lio.restore (log_stack_count)
 			message := last_exception.description
 			from until volume_is_valid loop
-				log_or_io.put_line (message)
-				log_or_io.put_string ("Retry (y/n)?")
+				lio.put_line (message)
+				lio.put_string ("Retry (y/n)?")
 				if User_input.entered_letter ('y') then
-					log_or_io.put_new_line
+					lio.put_new_line
 					-- User reconnect device if disconnected
 					-- Might have different usb port number in url
 					volume.reset_uri_root
@@ -236,7 +238,7 @@ feature {NONE} -- Implementation
 
 			if not media_item.is_update implies not volume.file_exists (relative_file_path) then
 				if attached {RBOX_SONG} media_item as song then
-					File_system.copy_file (song.mp3_path, temp_file_path)
+					OS.copy_file (song.mp3_path, temp_file_path)
 
 					create id3_info.make (temp_file_path); id3_info.set_encoding ("UTF-8")
 					adjust_genre (id3_info)
@@ -256,7 +258,7 @@ feature {NONE} -- Implementation
 			progress_info: EL_QUANTITY_PROGRESS_INFO; exported_mb: DOUBLE
 		do
 			if list.is_empty then
-				log_or_io.put_line ("Nothing to export")
+				lio.put_line ("Nothing to export")
 			else
 				across list as media loop
 					 exported_mb := exported_mb + media.item.file_size_mb
@@ -267,9 +269,9 @@ feature {NONE} -- Implementation
 				end
 				across list as media loop
 					progress_info.increment (media.item.file_size_mb)
-					log_or_io.put_string (progress_info.last_string)
-					log_or_io.put_path_field (" Copying", media.item.relative_path)
-					log_or_io.put_new_line
+					lio.put_string (progress_info.last_string)
+					lio.put_path_field (" Copying", media.item.relative_path)
+					lio.put_new_line
 
 					export_item (media.item)
 				end
@@ -278,9 +280,9 @@ feature {NONE} -- Implementation
 
 	export_temporary_dir
 		do
-			across File_system.file_list (temporary_dir, "*") as file_path loop
-				log_or_io.put_path_field ("Moving", file_path.item)
-				log_or_io.put_new_line
+			across OS.file_list (temporary_dir, "*") as file_path loop
+				lio.put_path_field ("Moving", file_path.item)
+				lio.put_new_line
 				move_file_to_volume (file_path.item, Empty_dir)
 			end
 		end
@@ -308,11 +310,11 @@ feature {NONE} -- Implementation
 
 	store_sync_table
 	 	do
-			log_or_io.put_line ("Saving file sync info")
+			lio.put_line ("Saving file sync info")
 			has_sync_table_changed := False
 			sync_table.store
 			if last_sync_checksum = sync_checksum then
-				log_or_io.put_line ("Sync file has not changed")
+				lio.put_line ("Sync file has not changed")
 			else
 				copy_file_to_volume (sync_table.output_path, Empty_dir)
 				has_sync_table_changed := True
@@ -331,9 +333,9 @@ feature {NONE} -- Implementation
 
 	sync_checksum: NATURAL
 		local
-			crc: like new_crc_generator
+			crc: like crc_generator
 		do
-			crc := new_crc_generator
+			crc := crc_generator
 			crc.add_file (sync_table.output_path)
 			Result := crc.checksum
 		end

@@ -14,7 +14,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 10:58:36 GMT (Thursday 24th December 2015)"
+	date: "2016-07-08 10:43:44 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -195,7 +195,7 @@ feature -- Error reporting
 	last_internal_error: INTEGER
 			-- expat specific error code
 
-	log_error (a_log: EL_LOG)
+	log_error (a_log: EL_LOGGABLE)
 		do
 			a_log.put_labeled_string ("ERROR", last_error_extended_description)
 			a_log.put_new_line

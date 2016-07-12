@@ -2,7 +2,7 @@
 	description: "[
 		Container for wrapping text into a rectangular area before rendering it with a drawing command
 		
-		Supports:
+		**Supports**
 			* Multiple simultaneous font sizes
 			* Word wrapping
 			* Squeezing of text into available space by adjusting the font size
@@ -14,7 +14,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 8:12:10 GMT (Friday 24th June 2016)"
+	date: "2016-07-07 14:49:04 GMT (Thursday 7th July 2016)"
 	revision: "5"
 
 deferred class

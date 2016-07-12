@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 12:26:33 GMT (Friday 24th June 2016)"
+	date: "2016-07-09 7:36:52 GMT (Saturday 9th July 2016)"
 	revision: "4"
 
 class
@@ -14,6 +14,8 @@ class
 
 inherit
 	TESTABLE_JAVA_APPLICATION
+
+	SHARED_JNI_ENVIRONMENT
 
 create
 	make
@@ -23,6 +25,11 @@ feature {NONE} -- Initiliazation
 	normal_initialize
 			--
 		do
+			Console.show_all (<<
+				{JAVA_PACKAGE_ENVIRONMENT_IMP},
+				{J_INT}, {J_STRING}, {J_LINKED_LIST}, {J_OBJECT}, {J_VELOCITY},
+				{J_VELOCITY_CONTEXT}, {J_TEMPLATE}, {JAVA_DEPLOYMENT_PROPERTIES}
+			>>)
 		end
 
 feature -- Basic operations
@@ -35,8 +42,9 @@ feature -- Basic operations
 	test_run
 			--
 		do
+			Test.set_excluded_file_extensions (<< "class" >>)
 			Test.do_file_tree_test ("java_classes", agent call_java_classes, 430205812)
-			Test.do_file_test ("java_source/deployment.properties", agent read_deployment_file, 1966068268)
+--			Test.do_file_test ("java_source/deployment.properties", agent read_deployment_file, 1966068268)
 		end
 
 feature -- Test
@@ -73,14 +81,13 @@ feature {NONE} -- Implementation
 	basic_tests_1
 			-- Basic Eiffel2Java library test
 		local
-			class_test: JAVA_CLASS
-			instance_of_class_test: JAVA_OBJECT
+			class_test: JAVA_CLASS; instance_of_class_test: JAVA_OBJECT
 			fid: POINTER
 			value: INTEGER
 		do
 			log.enter ("basic_tests_1")
 
-			class_test := Java_packages.jorb.find_class ("J2ETestTarget")
+			class_test := Jorb.find_class ("J2ETestTarget")
 
 			log.put_new_line
 			log.put_string ("Creating instance of class `test")
@@ -93,31 +100,31 @@ feature {NONE} -- Implementation
 			value := instance_of_class_test.integer_attribute (fid)
 
 			log.put_new_line
-			log.put_string ("Value of `my_integer' is " + value.out)
+			log.put_integer_field ("my_integer", value)
 
 				--| Access to a static attribute using directly the JAVA_CLASS_REFERENCE
 			fid := class_test.field_id ("my_static_integer", "I")
 			value := class_test.integer_attribute (fid)
 
 			log.put_new_line
-			log.put_string ("Value of `my_static_integer' is " + value.out)
+			log.put_integer_field ("my_static_integer", value)
 
 			fid := instance_of_class_test.field_id ("my_integer", "I")
 				-- 'value' contains the value of the field referenced by 'fid'
 			value := instance_of_class_test.integer_attribute (fid)
 
 			log.put_new_line
-			log.put_string ("Value of `my_integer' after call to `my_method' is " + value.out)
+			log.put_integer_field ("my_integer after call to my_method", value)
 
 				--| Access to a static attribute using directly the JAVA_CLASS_REFERENCE
 			fid := class_test.field_id ("my_static_integer", "I")
 			value := class_test.integer_attribute (fid)
 
 			log.put_new_line
-			log.put_string ("Value of `my_static_integer' after call to `my_method' is " + value.out )
+			log.put_integer_field ("my_static_integer after call to my_method", value)
 
 			log.put_new_line
-			Java_packages.jorb.delete_local_ref (instance_of_class_test.java_object_id)
+			Jni.delete_local_ref (instance_of_class_test.java_object_id)
 			log.exit
 		end
 
@@ -133,7 +140,7 @@ feature {NONE} -- Implementation
 
 			create j2e_test.make
 			create num_8255.make_from_integer (8255370)
-			create hello_msg.make_from_string ("Hello world!")
+			create hello_msg.make_from_utf_8 ("Hello world!")
 
 			jfloat_value := j2e_test.my_function (num_8255, hello_msg)
 			j2e_test.my_method (num_8255, hello_msg)
@@ -164,11 +171,7 @@ feature {NONE} -- Implementation
 			until
 				java_string_list.is_empty.value.item
 			loop
-				string_list.extend (
-					create {J_STRING}.make_from_java_object (
-						java_string_list.remove_first
-					)
-				)
+				string_list.extend (create {J_STRING}.make_from_java_object (java_string_list.remove_first))
 			end
 
 			from
@@ -202,7 +205,7 @@ feature {NONE} -- Implementation
 
 			create j2e_test.make
 			create num_8255.make_from_integer (8255370)
-			create hello_msg.make_from_string ("Hello world!")
+			create hello_msg.make_from_utf_8 ("Hello world!")
 
 			create linked_list.make
 			linked_list.add_last (j2e_test.to_java_lang_object)
@@ -223,19 +226,9 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{JAVA_TEST_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"],
-				[{J_J2E_TEST_TARGET}, "*"],
-				[{J_INT}, "*"],
-				[{J_STRING}, "-*"],
-				[{J_LINKED_LIST}, "-*"],
-				[{J_OBJECT}, "-*"],
---				[{JAVA_FUNCTION}, "*"], now a generic class
-				[{J_VELOCITY}, "*"],
-				[{J_VELOCITY_CONTEXT}, "*"],
-				[{J_TEMPLATE}, "*"],
-				[{JAVA_PACKAGE_ENVIRONMENT_I}, "*"],
-				[{JAVA_DEPLOYMENT_PROPERTIES}, "*"]
+				[{JAVA_TEST_APP}, All_routines],
+				[{J_J2E_TEST_TARGET}, All_routines]
+
 			>>
 		end
 

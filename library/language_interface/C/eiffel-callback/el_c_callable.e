@@ -1,16 +1,15 @@
 ﻿note
 	description: "[
-		Object with procedures to be called from C
-		See also: EL_C_TO_EIFFEL_CALLBACK_STRUCT
+		Object with procedures to be called from C. See also: [./el_c_to_eiffel_callback_struct.html EL_C_TO_EIFFEL_CALLBACK_STRUCT]
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-07-04 10:58:30 GMT (Saturday 4th July 2015)"
-	revision: "3"
+	date: "2016-07-07 11:18:44 GMT (Thursday 7th July 2016)"
+	revision: "4"
 
 deferred class
 	EL_C_CALLABLE

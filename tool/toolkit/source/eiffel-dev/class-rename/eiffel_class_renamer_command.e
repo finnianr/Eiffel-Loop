@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 12:50:02 GMT (Sunday 20th December 2015)"
+	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -41,8 +41,8 @@ feature -- Basic operations
 			user_input_line: ZSTRING
 		do
 --			log_or_io.put_path_field ("SOURCE ROOT", tree_path)
-			log_or_io.put_new_line
-			log_or_io.put_new_line
+			lio.put_new_line
+			lio.put_new_line
 			if new_class_name.is_empty then
 				from  until is_done loop
 					user_input_line := User_input.line ("Drag and drop class file")

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 13:08:24 GMT (Sunday 20th December 2015)"
+	date: "2016-07-01 8:08:30 GMT (Friday 1st July 2016)"
 	revision: "5"
 
 class
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_OS
 
 create
 	default_create, make
@@ -34,7 +34,7 @@ feature -- Basic operations
 	execute
 		do
 			log.enter ("execute")
-			File_system.file_list (html_body_dir, "*.body").do_all (agent count_words)
+			OS.file_list (html_body_dir, "*.body").do_all (agent count_words)
 			log.exit
 		end
 
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 			node_event_generator: EL_XML_NODE_EVENT_GENERATOR; counter: EL_XHTML_WORD_COUNTER
 		do
 			log.enter_with_args ("count_words", << body_path.to_string.to_utf_8 >>)
-			create xhtml.make (File_system.plain_text (body_path))
+			create xhtml.make (OS.File_system.plain_text (body_path))
 			create counter
 			create node_event_generator.make (counter)
 			node_event_generator.scan (xhtml.source)

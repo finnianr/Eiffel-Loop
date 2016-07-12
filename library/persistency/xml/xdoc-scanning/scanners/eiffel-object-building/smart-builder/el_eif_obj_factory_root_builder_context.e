@@ -1,7 +1,7 @@
 ﻿note
 	description: "[
 		Root builder context that changes the type of the target object to build according to a processing instruction
-		at the start of the XML. The example below will build an instance of class SMIL_PRESENTATION.
+		at the start of the XML. The example below will build an instance of class `SMIL_PRESENTATION'.
 
 			<?xml version="1.0" encoding="utf-8"?>
 			<?create {SMIL_PRESENTATION}?>
@@ -15,7 +15,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 11:26:53 GMT (Thursday 24th December 2015)"
+	date: "2016-07-07 16:13:35 GMT (Thursday 7th July 2016)"
 	revision: "6"
 
 class

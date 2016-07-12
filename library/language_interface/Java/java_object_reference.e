@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-09 7:17:03 GMT (Saturday 9th July 2016)"
+	revision: "4"
 
 deferred class
 	JAVA_OBJECT_REFERENCE
@@ -130,11 +130,13 @@ feature {NONE} -- Disposal
 	dispose
 			--
 		do
-			log.enter ("dispose")
+			if is_lio_enabled then
+				lio.put_labeled_string ("disposing", generator)
+				lio.put_new_line
+			end
 			if is_attached_to_java_object then
 				jorb.decrement_object_ref_count (java_object_id)
 			end
-			log.exit
 		end
 
 feature {JAVA_ROUTINE} -- Implementation
@@ -386,7 +388,7 @@ feature -- Attributes setting
 			jorb.set_string_field (java_object_id, fid, value)
 		end
 
-	set_object_attribute (fid: POINTER; value: OBSOLETE_JAVA_OBJECT)
+	set_object_attribute (fid: POINTER; value: JAVA_OBJECT)
 			-- Set a java object attribute to 'value'
 		do
 			jorb.set_object_field (java_object_id, fid, value.java_object_id)

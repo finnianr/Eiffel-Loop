@@ -24,8 +24,10 @@
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel-Loop-->
-		<library name = "EL_base" location = "base.ecf"/>
+		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
+		<library name = "EL_evolicity" location = "evolicity.ecf"/>
+		<!--Source code-->
 		<cluster name = "EL_vtd_xml" location = "persistency/xml/vtd-xml" recursive = "true">
 			<file_rule>
 				<exclude>/windows$</exclude>

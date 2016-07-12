@@ -1,10 +1,9 @@
 ﻿note
 	description: "[
 		Object representing OpenDocument Flat XML spreadsheet as tables of rows of data strings
-		
-		xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
-		office:mimetype="application/vnd.oasis.opendocument.spreadsheet"
-		office:version="1.2"
+			xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+			office:mimetype="application/vnd.oasis.opendocument.spreadsheet"
+			office:version="1.2"
 	]"
 
 	author: "Finnian Reilly"
@@ -12,7 +11,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 23:25:04 GMT (Friday 18th December 2015)"
+	date: "2016-07-09 7:41:58 GMT (Saturday 9th July 2016)"
 	revision: "7"
 
 class
@@ -32,7 +31,7 @@ inherit
 			is_equal, out, copy
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 		undefine
 			copy, is_equal
 		end
@@ -59,12 +58,11 @@ feature {NONE} -- Initaliazation
 			defined_ranges: EL_ZSTRING_HASH_TABLE [ZSTRING]
 			spreadsheet_ctx, document_ctx: EL_XPATH_NODE_CONTEXT
 		do
-			log.enter ("make_with_tables")
 			create tables.make_equal (5)
 			create defined_ranges.make_equal (11)
-			log.put_line ("Parsing XML")
+			lio.put_line ("Parsing XML")
 			create root_node.make_from_file (file_name)
-			log.put_line ("Building spreadsheet")
+			lio.put_line ("Building spreadsheet")
 
 			root_node.set_namespace ("office")
 
@@ -98,7 +96,7 @@ feature {NONE} -- Initaliazation
 					end
 				end
 			end
-			log.exit
+			lio.put_new_line
 		end
 
 feature -- Access

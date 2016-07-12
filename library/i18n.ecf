@@ -13,7 +13,8 @@
 			</condition>
 		</library>
 		<!--Eiffel-Loop-->
-		<library name = "EL_base" location = "base.ecf"/>
+		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf"/>
 		<library name = "EL_xdoc_scanning" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"/>
 		<!--Source code-->

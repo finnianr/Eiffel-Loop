@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "4"
+	date: "2016-07-03 5:51:11 GMT (Sunday 3rd July 2016)"
+	revision: "5"
 
 class
 	EL_CONSOLE_MANAGER_TOOLBAR
@@ -133,19 +133,17 @@ feature {EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER} -- Implementation
 			keyboard_shortcuts.add_alt_key_action ({EV_KEY_CONSTANTS}.Key_right, agent go_history_right)
 		end
 
-	add_thread (a_thread_name: STRING)
+	add_thread (a_thread: EL_IDENTIFIED_THREAD_I)
 			--
 		local
-			position: INTEGER
-			list_item: EV_LIST_ITEM
+			position: INTEGER; list_item: EV_LIST_ITEM
 		do
 			position := thread_name_drop_down_list.count + 1
-			create list_item.make_with_text (position.out + ". " + a_thread_name)
+			create list_item.make_with_text (Name_template #$ [position, a_thread.name])
 			thread_name_drop_down_list.extend (list_item)
 
 --			name_width := thread_name_drop_down_list.font.string_width (list_item.text)
  			thread_name_drop_down_list.set_minimum_width_in_characters (list_item.text.count + 3)
-
 		end
 
 	select_drop_down_list_item (an_index: INTEGER)
@@ -155,5 +153,12 @@ feature {EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER} -- Implementation
 		end
 
 	thread_name_drop_down_list: EL_COMBO_BOX
+
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "%S. %S"
+		end
 
 end

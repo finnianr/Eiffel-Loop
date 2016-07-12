@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 12:44:01 GMT (Sunday 20th December 2015)"
+	date: "2016-07-08 11:10:33 GMT (Friday 8th July 2016)"
 	revision: "4"
 
 class
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_USER_INPUT
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make, make_default
@@ -124,12 +124,12 @@ feature -- Element change
 		do
 			from  until done loop
 				string := User_input.line (English_user_prompt)
-				log_or_io.put_new_line
+				lio.put_new_line
 				if is_salt_set then
 					if is_valid then
 						done := True
 					else
-						log_or_io.put_line (English_invalid_pass_phrase)
+						lio.put_line (English_invalid_pass_phrase)
 					end
 				else
 					validate

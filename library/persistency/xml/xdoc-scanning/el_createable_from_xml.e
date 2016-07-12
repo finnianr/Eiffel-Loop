@@ -8,7 +8,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 16:08:09 GMT (Thursday 24th December 2015)"
+	date: "2016-07-01 10:21:57 GMT (Friday 1st July 2016)"
 	revision: "5"
 
 deferred class

@@ -6,14 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 17:25:54 GMT (Monday 18th January 2016)"
+	date: "2016-06-28 8:47:46 GMT (Tuesday 28th June 2016)"
 	revision: "5"
 
 class
 	TRANSLATION_TABLE_TEST_SET
 
 inherit
-	PROJECTS_DATA_TEST_SET
+	EIFFEL_LOOP_TEST_SET
 
 feature -- Tests
 
@@ -41,7 +41,7 @@ feature {NONE} -- Implementation
 			create crc_32
 			across Pyxis_translation_checksums as checksum loop
 				crc_32.reset
-				pyxis_file_path := Project_data_dir.joined_file_steps (<< "pyxis", "localization", checksum.key + ".xml.pyx" >>)
+				pyxis_file_path := Test_data_dir.joined_file_steps (<< "pyxis", "localization", checksum.key + ".xml.pyx" >>)
 				log.put_path_field ("Localization", pyxis_file_path)
 				log.put_new_line
 				across << "en", "de" >> as language loop

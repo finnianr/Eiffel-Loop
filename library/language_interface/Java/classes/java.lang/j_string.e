@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-06-30 18:12:16 GMT (Thursday 30th June 2016)"
+	revision: "4"
 
 class
 	J_STRING
@@ -20,7 +20,7 @@ inherit
 			Jclass
 		end
 
-	JAVA_TO_EIFFEL_CONVERTABLE [STRING]
+	JAVA_TO_EIFFEL_CONVERTABLE [ZSTRING]
 		undefine
 			is_equal
 		end
@@ -28,6 +28,7 @@ inherit
 create
 	default_create,
 	make,
+	make_from_utf_8,
 	make_from_string,
 	make_from_java_method_result,
 	make_from_java_attribute,
@@ -35,23 +36,31 @@ create
 	make_from_pointer
 
 convert
-	make_from_string ({STRING})
+	make_from_utf_8 ({STRING}), make_from_string ({ZSTRING})
 
 feature {NONE} -- Initialization
 
-	make_from_string (s: STRING)
+	make_from_string (str: ZSTRING)
 			--
 		do
-			make_from_pointer (jni.new_string (s) )
+			make_from_utf_8 (str.to_utf_8)
+		end
+
+	make_from_utf_8 (utf_8: STRING)
+			--
+		do
+			make_from_pointer (jni.new_string (utf_8) )
 		end
 
 feature -- Access
 
-	value: STRING
+	value: ZSTRING
 			--
 		do
 			if is_attached (java_object_id) then
-				Result := jni.get_string (java_object_id)
+				create Result.make_from_utf_8 (jni.get_string (java_object_id))
+			else
+				create Result.make_empty
 			end
 		end
 
@@ -63,4 +72,4 @@ feature {NONE} -- Constant
 			create Result.make (Package_name, "String")
 		end
 
-end -- class J_STRING
+end

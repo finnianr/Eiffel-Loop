@@ -112,10 +112,10 @@ system:
 			name = api_wrapper; location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"
 
 		library:
-			name = vision2; location = "ES-vision2.ecf"; readonly = false
+			name = vision2; location = "override/ES-vision2.ecf"; readonly = false
 		
 		library:
-			name = docking; location = "ES-docking.ecf"; readonly = false
+			name = docking; location = "override/ES-docking.ecf"; readonly = false
 		
 		library:
 			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
@@ -131,11 +131,14 @@ system:
 
 		# Eiffel-Loop
 		library:
-			name = EL_base; location = "base.ecf"
+			name = EL_base; location = "base/base.ecf"
 			readonly = false
 
 		library:
 			name = EL_c_api; location = "C-language-interface.ecf"
+
+		library:
+			name = EL_database; location = "database.ecf"
 
 		library:
 			name = EL_image_utils; location = "image-utils.ecf"
@@ -144,13 +147,19 @@ system:
 			name = EL_i18n; location = "i18n.ecf"
 
 		library:
-			name = EL_wel_x; location = "wel-x.ecf"; readonly = false
+			name = EL_logging; location = "logging.ecf"
+
+		library:
+			name = EL_thread; location = "thread.ecf"
+
+		library:
+			name = EL_wel_x; location = "wel-x.ecf"
 			condition:
 				platform:
 					value = windows
 
 		library:
-			name = EL_wel_regedit_x; location = "wel-regedit-x.ecf"; readonly = false
+			name = EL_wel_regedit_x; location = "wel-regedit-x.ecf"
 			condition:
 				platform:
 					value = windows

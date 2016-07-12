@@ -2,12 +2,12 @@
 	description: "Summary description for {TEST_SIMPLE_SERVER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 14:52:54 GMT (Thursday 1st January 2015)"
-	revision: "4"
+	date: "2016-07-08 11:23:29 GMT (Friday 8th July 2016)"
+	revision: "5"
 
 class
 	TEST_SIMPLE_SERVER
@@ -61,7 +61,6 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{TEST_SIMPLE_SERVER}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines],
 				[{SIMPLE_COMMAND_HANDLER}, All_routines],
 				[{EL_SIMPLE_SERVER [SIMPLE_COMMAND_HANDLER]}, All_routines]
 			>>

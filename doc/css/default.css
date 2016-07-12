@@ -1,0 +1,88 @@
+html {
+	background: url('../images/background.png');
+}
+
+body {
+	font-family: Verdana, Helvetica, Arial, Geneva, sans-serif;
+	font-size: 18px;
+	text-align: left
+}
+div#centered {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 150px;
+	width: 900px;
+	background-color: rgba(190, 190, 190, 0.6);
+}
+div#centered img {
+	background-color: white;
+	padding-top: 5px;
+}
+div#download {
+	background-color: white;
+	padding-top: 4px;
+}
+div#download p {
+	text-align: right;
+	margin-right: 10px;
+	margin-top: 0px;
+	padding-bottom: 5px;
+}
+div#download p:first-child {
+	float: left;
+}
+div#text p {
+	padding-left: 10px;
+}
+a#contents {
+	padding-left: 10px;
+}
+div#text p {
+	padding-left: 10px;
+	margin-right: 10px;
+	margin-bottom: -5px;
+}
+em#code {
+	font-family: "Bitstream Vera Sans Mono", monospace;
+	font-size: 0.9em;
+	padding-left: 3px;
+	padding-right: 3px;
+	font-style: normal;
+	background-color: #E2E5E5;
+	border: outset #F0F0F0 1px;
+}
+
+div#footer {
+	background-color: white;
+	border: 1px solid white;
+	padding-right: 50px;
+}
+div#footer a:first-child {
+	float: left;
+}
+div#footer p {
+	text-align: center;
+}
+
+a:visited {
+	color: #5882FA;
+}
+blockquote, p, h1, h2, h3, h4 {
+	margin-left: 20px;
+}
+h4 {
+	line-height: 5px;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+pre {
+	font-family: "Bitstream Vera Sans Mono", monospace;
+	font-size: 0.9em;
+	margin-left: 30px;
+	margin-right: 20px;
+	padding: 10px;
+	background-color: #E2E2E2;
+	border: outset #F0F0F0 2px;
+	padding: 5px;
+}
+

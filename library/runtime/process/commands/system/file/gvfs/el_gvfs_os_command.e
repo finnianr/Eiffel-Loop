@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 14:24:12 GMT (Thursday 23rd June 2016)"
+	date: "2016-07-04 8:35:14 GMT (Monday 4th July 2016)"
 	revision: "3"
 
 class
@@ -33,6 +33,8 @@ inherit
 			do_with_lines as parse_lines
 		end
 
+	EL_MODULE_EXCEPTION
+
 create
 	make, make_with_name
 
@@ -54,12 +56,8 @@ feature {NONE} -- Line states
 feature {NONE} -- Event handling
 
 	on_error
-		local
-			exception: DEVELOPER_EXCEPTION
 		do
-			create exception
-			exception.set_description (error_message.to_string_32)
-			exception.raise
+			Exception.raise_developer (error_message, [])
 		end
 
 feature {NONE} -- Line states

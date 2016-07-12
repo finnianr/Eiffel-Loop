@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_TIMED_PROCEDURE_THREAD}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-04-25 10:17:55 GMT (Saturday 25th April 2015)"
-	revision: "2"
+	date: "2016-07-03 6:36:26 GMT (Sunday 3rd July 2016)"
+	revision: "3"
 
 class
 	EL_TIMED_PROCEDURE_THREAD  [BASE_TYPE, OPEN_ARGS -> TUPLE create default_create end]
@@ -15,7 +15,7 @@ class
 inherit
 	EL_TIMED_PROCEDURE [BASE_TYPE, OPEN_ARGS]
 		undefine
-			is_equal, copy, stop_consumer
+			is_equal, copy, stop_consumer, name
 		redefine
 			make, make_default
 		end

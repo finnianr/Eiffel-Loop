@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-29 18:05:12 GMT (Friday 29th January 2016)"
+	date: "2016-07-06 10:00:17 GMT (Wednesday 6th July 2016)"
 	revision: "5"
 
 class
@@ -42,7 +42,7 @@ feature {NONE} -- Events
 
 	on_prepare
 		do
---			set_system_codec (create {EL_ISO_8859_1_CODEC}.make)
+			set_system_codec (create {EL_ISO_8859_1_ZCODEC}.make)
 		end
 
 feature -- Conversion tests
@@ -583,20 +583,24 @@ feature -- Status query tests
 		note
 			testing: "covers/{ZSTRING}.starts_with", "covers/{ZSTRING}.remove_head"
 		local
-			str_32, word_32: STRING_32; str, word: ZSTRING; i, count: INTEGER
+			str_32, word_32: STRING_32; str, word: ZSTRING; pos_space: INTEGER
+			done: BOOLEAN
 		do
-			str_32 := Text_russian_and_english.twin; str := str_32
-			from i := 1 until i > Text_words.count loop
-				word_32 := Text_words [i]; word := word_32
-				if i = 1 then
-					count := word.count
-				else
-					count := word.count + 1
+			across Text_lines as line loop
+				str_32 := line.item.twin; str := str_32
+				from done := False until done loop
+					pos_space := str_32.index_of (' ', 1)
+					if pos_space > 0 then
+						word_32 := str_32.substring (1, pos_space)
+					else
+						word_32 := str_32
+						done := True
+					end
+					word := word_32
+					assert ("starts_with OK", str.starts_with (word) = str_32.starts_with (word_32))
+					str_32.remove_head (word_32.count); str.remove_head (word.count)
+					assert ("remove_head OK", str.to_unicode ~ str_32)
 				end
-				assert ("starts_with OK", str.starts_with (word) = str_32.starts_with (word_32))
-				str_32.remove_head (count); str.remove_head (count)
-				assert ("remove_head OK", str.to_unicode ~ str_32)
-				i := i + 1
 			end
 		end
 

@@ -2,14 +2,18 @@
 	description: "Summary description for {PROJECT_NOTES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-03-04 12:14:38 GMT (Wednesday 4th March 2015)"
-	revision: "3"
+	date: "2016-07-07 17:12:14 GMT (Thursday 7th July 2016)"
+	revision: "4"
 
 class
-	PROJECT_NOTES
+	PROJECT_NOTES
 
-end
+feature -- Ideas
+
+	-- use lftp to sync with ftp account
+	-- See https://www.linux.com/blog/using-lftp-synchronize-folders-ftp-account
+end

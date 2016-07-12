@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 16:09:01 GMT (Thursday 24th December 2015)"
+	date: "2016-07-08 10:46:52 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -22,7 +22,7 @@ inherit
 
 	EL_XML_PARSE_EVENT_STREAM
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make_with_output
@@ -71,25 +71,25 @@ feature -- Basic operations
 	send_string (string: STRING)
 			--
 		do
-			log.enter ("send_string")
+			lio.enter ("send_string")
 			scan (string)
-			log.exit
+			lio.exit
 		end
 
 	send (in_stream: IO_MEDIUM)
 			--
 		do
-			log.enter ("send")
+			lio.enter ("send")
 			scan_from_stream (in_stream)
-			log.exit
+			lio.exit
 		end
 
 	send_object (object: EVOLICITY_SERIALIZEABLE_AS_XML)
 			--
 		do
-			log.enter_with_args ("send_object", << object.generator >>)
+			lio.enter_with_args ("send_object", << object.generator >>)
 			parse_event_source.parse_from_serializable_object (object)
-			log.exit
+			lio.exit
 		end
 
 	close
@@ -108,7 +108,7 @@ feature {NONE} -- Implementation
 	on_start_tag
 			--
 		do
-			log.enter ("on_start_tag")
+			lio.enter ("on_start_tag")
 			put_named_parse_event (
 				last_node_name,
 				Parse_event_existing_start_tag, Parse_event_new_start_tag
@@ -120,66 +120,66 @@ feature {NONE} -- Implementation
 				)
 				put_parse_event (attribute_list.node.raw_content.count, Parse_event_attribute_text)
 				event_stream.put_string (attribute_list.node.raw_content)
-				log.put_string_field (attribute_list.node.xpath_name, attribute_list.node.to_string)
-				log.put_new_line
+				lio.put_string_field (attribute_list.node.xpath_name, attribute_list.node.to_string)
+				lio.put_new_line
 				attribute_list.forth
 			end
-			log.exit
+			lio.exit
 		end
 
 	on_end_tag
 			--
 		do
-			log.enter ("on_end_tag")
+			lio.enter ("on_end_tag")
 			put_parse_event (0, Parse_event_end_tag)
-			log.exit
+			lio.exit
 		end
 
 	on_content
 			--
 		do
-			log.enter ("on_content")
+			lio.enter ("on_content")
 			put_parse_event (last_node_text.count, Parse_event_text)
 			event_stream.put_string (last_node_text)
-			log.exit
+			lio.exit
 		end
 
 	on_comment
 			--
 		do
-			log.enter ("on_comment")
+			lio.enter ("on_comment")
 			put_parse_event (last_node_text.count, Parse_event_comment_text)
 			event_stream.put_string (last_node_text)
-			log.exit
+			lio.exit
 		end
 
 	on_processing_instruction
 			--
 		do
-			log.enter ("on_processing_instruction")
+			lio.enter ("on_processing_instruction")
 			put_named_parse_event (
 				last_node_name, Parse_event_existing_processing_instruction, Parse_event_new_processing_instruction
 			)
 			event_stream.put_natural_16 (last_node_text.count.to_natural_16)
 			event_stream.put_string (last_node_text)
-			log.exit
+			lio.exit
 		end
 
 	on_start_document
 			--
 		do
-			log.enter ("on_start_document")
+			lio.enter ("on_start_document")
 			name_index_table.wipe_out
 			put_parse_event (0, Parse_event_start_document)
-			log.exit
+			lio.exit
 		end
 
 	on_end_document
 			--
 		do
-			log.enter ("on_end_document")
+			lio.enter ("on_end_document")
 			put_parse_event (0, Parse_event_end_document)
-			log.exit
+			lio.exit
 		end
 
 feature {NONE} -- Implementation

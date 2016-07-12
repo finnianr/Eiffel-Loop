@@ -1,4 +1,4 @@
-file /usr/local/lib/python2.7/dist-packages/eiffel_loop/scons/eiffel.py,line 73:
+file /usr/local/lib/python2.7/dist-packages/eiffel_loop/scons/eiffel.py,line 55:
 	Configure(confdir = .sconf_temp)
 scons: Configure: Checking for C library $PYTHON_LIB_NAME... 
 scons: Configure: ".sconf_temp/conftest_0.c" is up to date.

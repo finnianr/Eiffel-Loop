@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="Author" content="Finnian Reilly"/>
+		<meta name="Audience" content="all"/>
+		<meta name="Content-Language" content="english">
+	#if $is_index_page then
+		<meta name="Description" content="Eiffel-Loop is a collection of software components for Eiffel developers"/>
+	#else
+		<meta name="Description" content="Source code for Eiffel $category: $name"/>
+	#end
+		<meta name="Keywords" content="Eiffel language, Eiffel library, Eiffel programming, Eiffel developer, Eiffel coder, Eiffel code, Eiffel source code, Eiffel source, Eiffel open source"/>
+		<meta name="ROBOTS" content="Index, FOLLOW">
+
+		<title>$title</title>
+		<style type="text/css">
+			@import "$top_dir/css/default.css";
+		</style>
+	</head>
+	<body>
+	<a name="top"></a>
+	<div id="centered">
+		<a href="$top_dir/index.html" title="Eiffel-Loop Home"><img src="$top_dir/images/banner-logo.png"></a>
+		<div id="download">
+			<p><a href="$github_url" target="_blank">Github</a></p>
+			<p>Download latest: <a href="$github_url/archive/${version}.zip">Windows</a> 
+				or <a href="$github_url/archive/${version}.tar.gz">Linux</a>
+			</p>
+		</div>
+		<div id="text">
+	#if $is_index_page then
+		#across $category_list as $category loop
+			<h2>$category.item.name</h2>
+			#across $category.item.page_list as $page loop
+			<p><a href="$page.item.relative_file_path">$page.item.name</a></p>
+			#end
+		#end
+	#else
+		<h1>$category: $name</h1>
+		<h2>Directory: $relative_path</h2>
+		#if $has_sub_directory then
+			#across $directory_list as $directory loop
+			<p><a href="#$directory.item.index">$directory.item.contents_dir_title</a></p>
+			#end
+		#end
+		#across $directory_list as $directory loop
+			#if $has_sub_directory then
+		<h3><a name="$directory.item.index">$directory.item.dir_title</a></h3>
+			#else
+		<h3>Classes</h3>
+			#end
+			#across $directory.item.class_list as $class loop
+		<h4><a href="$class.item.html_path" name="$class.item.name" target="_blank">$class.item.name</a></h4>
+				#across $class.item.description_paragraphs as $paragraph loop
+					#if $paragraph.item.is_preformatted then
+		<pre>$paragraph.item.text</pre>
+					#else
+		<p>$paragraph.item.text</p>
+					#end
+				#end
+				#if $class.item.is_library then
+					#if $class.item.client_examples.count > 0 then
+						<h4>Client examples</h4>
+						<p><small>
+						#across $class.item.client_examples as $example loop
+							#if $example.cursor_index > 1 then
+								;&nbsp;
+							#end
+							<a href="$top_dir/$example.item.relative_dir/${example.item.name_as_lower}.html"
+								target="_blank">$example.item.name</a>
+						#end
+						</small></p>
+					#end
+				#end
+			#end
+		#end
+	#end
+		<br>
+		</div>
+		<div id="footer">
+			<a href="#top" title="Scroll to top of page"><img src="$top_dir/images/top.png"></a>
+			<p>Copyright &copy; 2016 Finnian Reilly</p>
+		</div>
+	</div>
+	</body>
+</html>

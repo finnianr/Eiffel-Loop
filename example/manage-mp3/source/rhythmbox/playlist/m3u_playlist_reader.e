@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 9:34:22 GMT (Wednesday 16th December 2015)"
+	date: "2016-07-05 5:07:15 GMT (Tuesday 5th July 2016)"
 	revision: "5"
 
 class
@@ -44,11 +44,7 @@ feature {NONE} -- Initialization
 			make_list; make_machine
 
 			if a_file_path.exists then
-				if a_file_path.extension ~ "m3u8" then
-					create {EL_UTF_8_FILE_LINES} lines.make (a_file_path)
-				else
-					create lines.make (a_file_path)
-				end
+				create lines.make (a_file_path)
 				do_once_with_file_lines (agent find_extinf, lines)
 			end
 			name := a_file_path.without_extension.base

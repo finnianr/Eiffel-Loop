@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 13:52:39 GMT (Thursday 23rd June 2016)"
+	date: "2016-07-08 10:15:42 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -27,9 +27,6 @@ inherit
 	EL_MODULE_X509_COMMAND
 
 	SINGLE_MATH
-		rename
-			log as log_e
-		end
 
 	STRING_HANDLER
 
@@ -42,16 +39,16 @@ feature -- Basic operations
 
 	decrypt_file_with_aes
 		do
-			log.enter ("decrypt_file_with_aes")
+			lio.enter ("decrypt_file_with_aes")
 			do_with_encrypted_file (agent write_plain_text)
-			log.exit
+			lio.exit
 		end
 
 	display_encrypted_file
 		do
-			log.enter ("display_encrypted_file")
+			lio.enter ("display_encrypted_file")
 			do_with_encrypted_file (agent display_plain_text)
-			log.exit
+			lio.exit
 		end
 
 	display_encrypted_text
@@ -60,18 +57,18 @@ feature -- Basic operations
 			encrypter: like new_encrypter
 			text: ZSTRING
 		do
-			log.enter ("display_encrypted_text")
+			lio.enter ("display_encrypted_text")
 			encrypter := new_encrypter (new_pass_phrase)
 			text := User_input.line ("Enter text")
 			text.replace_substring_all (Escaped_new_line, New_line_string)
 
-			log_or_io.put_string_field ("Key as base64", Base_64.encoded_special (encrypter.key_data))
-			log_or_io.put_new_line
-			log_or_io.put_labeled_string ("Key array", encrypter.out)
-			log_or_io.put_new_line
-			log_or_io.put_labeled_string ("Cipher text", encrypter.base64_encrypted (text.to_utf_8))
-			log_or_io.put_new_line
-			log.exit
+			lio.put_string_field ("Key as base64", Base_64.encoded_special (encrypter.key_data))
+			lio.put_new_line
+			lio.put_labeled_string ("Key array", encrypter.out)
+			lio.put_new_line
+			lio.put_labeled_string ("Cipher text", encrypter.base64_encrypted (text.to_utf_8))
+			lio.put_new_line
+			lio.exit
 		end
 
 	encrypt_file_with_aes
@@ -80,7 +77,7 @@ feature -- Basic operations
 			plain_text_file: PLAIN_TEXT_FILE; encrypter: like new_encrypter; pass_phrase: like new_pass_phrase
 			input_path, output_path: EL_FILE_PATH
 		do
-			log.enter ("encrypt_file_with_aes")
+			lio.enter ("encrypt_file_with_aes")
 			input_path := new_file_path ("input")
 			pass_phrase := new_pass_phrase
 			log_pass_phrase_info (pass_phrase)
@@ -89,12 +86,12 @@ feature -- Basic operations
 			output_path := input_path.twin
 			output_path.add_extension ("aes")
 
-			log_or_io.put_string ("Encrypt file (y/n): ")
+			lio.put_string ("Encrypt file (y/n): ")
 			if User_input.entered_letter ('y') then
 
-				log_or_io.put_string_field ("Key as base64", Base_64.encoded_special (encrypter.key_data))
-				log_or_io.put_new_line
-				log_or_io.put_line ("Key: " + encrypter.out)
+				lio.put_string_field ("Key as base64", Base_64.encoded_special (encrypter.key_data))
+				lio.put_new_line
+				lio.put_line ("Key: " + encrypter.out)
 
 				create plain_text_file.make_open_read (input_path)
 				create cipher_file.make_open_write (output_path)
@@ -108,7 +105,7 @@ feature -- Basic operations
 				cipher_file.close
 				plain_text_file.close
 			end
-			log.exit
+			lio.exit
 		end
 
 	export_x509_private_key_to_aes
@@ -118,7 +115,7 @@ feature -- Basic operations
 			key_file_path, export_file_path: EL_FILE_PATH
 			cipher_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
 		do
-			log.enter ("export_x509_private_key_to_aes")
+			lio.enter ("export_x509_private_key_to_aes")
 			from create key_file_path until key_file_path.extension.same_string ("key") loop
 				key_file_path := new_file_path ("private X509")
 			end
@@ -131,19 +128,19 @@ feature -- Basic operations
 			create cipher_file.make_open_write (export_file_path)
 			cipher_file.set_encrypter (new_encrypter (pass_phrase))
 			across key_reader.lines as line loop
-				log_or_io.put_line (line.item)
+				lio.put_line (line.item)
 				cipher_file.put_string (line.item.to_utf_8)
 				cipher_file.put_new_line
 			end
 			cipher_file.close
-			log.exit
+			lio.exit
 		end
 
 	generate_pass_phrase_salt
 		do
-			log.enter ("generate_pass_phrase_salt")
+			lio.enter ("generate_pass_phrase_salt")
 			log_pass_phrase_info (new_pass_phrase)
-			log.exit
+			lio.exit
 		end
 
 	write_string_signed_with_x509_private_key
@@ -153,7 +150,7 @@ feature -- Basic operations
 			signed_string: SPECIAL [NATURAL_8]
 			variable_name: STRING
 		do
-			log.enter ("write_string_signed_with_x509_private_key")
+			lio.enter ("write_string_signed_with_x509_private_key")
 			private_key := new_private_key
 			string := User_input.line ("Enter string to sign")
 			create signed_string.make_filled (0, 16)
@@ -164,7 +161,7 @@ feature -- Basic operations
 
 			write_signed_array_eiffel_code_assignment (private_key, source_code, variable_name, signed_string)
 			source_code.close
-			log.exit
+			lio.exit
 		end
 
 	write_x509_public_key_code_assignment
@@ -174,7 +171,7 @@ feature -- Basic operations
 			crt_file_path: EL_FILE_PATH; eiffel_source_name: like new_eiffel_source_name
 			source_code: PLAIN_TEXT_FILE
 		do
-			log.enter ("write_x509_public_key_code_assignment")
+			lio.enter ("write_x509_public_key_code_assignment")
 			from create crt_file_path until crt_file_path.extension.same_string ("crt") loop
 				crt_file_path := new_file_path ("public x509")
 			end
@@ -186,8 +183,8 @@ feature -- Basic operations
 			create source_code.make_open_write (eiffel_source_name)
 			write_public_key_eiffel_code_assignment (source_code, variable_name, reader_command.public_key.modulus.as_bytes)
 			source_code.close
-			log_or_io.put_labeled_string ("Created", eiffel_source_name)
-			log.exit
+			lio.put_labeled_string ("Created", eiffel_source_name)
+			lio.exit
 		end
 
 feature {NONE} -- Implementation
@@ -195,7 +192,7 @@ feature {NONE} -- Implementation
 	display_plain_text (encrypted_lines: EL_ENCRYPTED_FILE_LINE_SOURCE)
 		do
 			across encrypted_lines as line loop
-				log_or_io.put_line (line.item)
+				lio.put_line (line.item)
 			end
 		end
 
@@ -204,11 +201,11 @@ feature {NONE} -- Implementation
 			input_path: EL_FILE_PATH
 		do
 			input_path := new_file_path ("input")
-			log_or_io.put_new_line
+			lio.put_new_line
 			if input_path.extension.same_string ("aes") then
 				action.call ([create {EL_ENCRYPTED_FILE_LINE_SOURCE}.make (input_path, new_encrypter (new_pass_phrase))])
 			else
-				log_or_io.put_line ("Invalid file extension (.aes expected)")
+				lio.put_line ("Invalid file extension (.aes expected)")
 			end
 		end
 
@@ -231,12 +228,12 @@ feature {NONE} -- Implementation
 
 	log_pass_phrase_info (pass_phrase: EL_PASS_PHRASE)
 		do
-			log_or_io.put_labeled_string ("Salt", pass_phrase.salt_base_64)
-			log_or_io.put_new_line
-			log_or_io.put_labeled_string ("Digest", pass_phrase.digest_base_64)
-			log_or_io.put_new_line
-			log_or_io.put_labeled_string ("Is valid", pass_phrase.is_valid.out)
-			log_or_io.put_new_line
+			lio.put_labeled_string ("Salt", pass_phrase.salt_base_64)
+			lio.put_new_line
+			lio.put_labeled_string ("Digest", pass_phrase.digest_base_64)
+			lio.put_new_line
+			lio.put_labeled_string ("Is valid", pass_phrase.is_valid.out)
+			lio.put_new_line
 		end
 
 	write_base64_eiffel_code_assignment (source_code: PLAIN_TEXT_FILE; name: STRING; array: SPECIAL [NATURAL_8])
@@ -334,7 +331,7 @@ feature {NONE} -- Factory
 	new_encrypter (pass_phrase: EL_PASS_PHRASE): EL_AES_ENCRYPTER
 		do
 			Result := pass_phrase.new_aes_encrypter (User_input.natural_from_values ("AES encryption bit count", AES_types))
-			log.put_new_line
+			lio.put_new_line
 		end
 
 	new_file_path (name: ZSTRING): EL_FILE_PATH
@@ -343,7 +340,7 @@ feature {NONE} -- Factory
 		do
 			prompt := "Drag and drop %S file"
 			Result := User_input.file_path (prompt #$ [name])
-			log.put_new_line
+			lio.put_new_line
 		end
 
 	new_pass_phrase: EL_PASS_PHRASE

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-28 20:36:34 GMT (Thursday 28th January 2016)"
+	date: "2016-07-08 19:06:36 GMT (Friday 8th July 2016)"
 	revision: "8"
 
 deferred class
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 	on_operating_system_signal
 			--
 		do
-			log_or_io.put_line ("Closing application")
+			lio.put_line ("Closing application")
 		end
 
 feature {NONE} -- Constants

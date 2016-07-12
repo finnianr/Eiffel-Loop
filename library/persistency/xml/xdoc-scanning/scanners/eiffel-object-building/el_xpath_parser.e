@@ -2,22 +2,22 @@
 	description: "[
 		Simple xpath parser that can parse xpaths like the following:
 		
-		AAA/BBB
-		AAA/BBB/@name
-		AAA/BBB[@id='x']
-		AAA/BBB[@id='x']/@name
-		AAA/BBB[id='y']/CCC/text()
+			AAA/BBB
+			AAA/BBB/@name
+			AAA/BBB[@id='x']
+			AAA/BBB[@id='x']/@name
+			AAA/BBB[id='y']/CCC/text()
 		
-		<AAA>
-			<BBB id="x" name="foo">
-			</BBB>
-			<BBB id="y" name="bar">
-				<CCC>hello</CCC>
-			</BBB>
-		</AAA>
+			<AAA>
+				<BBB id="x" name="foo">
+				</BBB>
+				<BBB id="y" name="bar">
+					<CCC>hello</CCC>
+				</BBB>
+			</AAA>
 		
 		but cannot parse:
-		AAA/BBB[2]/@name
+			AAA/BBB[2]/@name
 	]"
 
 	author: "Finnian Reilly"
@@ -25,7 +25,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 14:29:22 GMT (Sunday 20th December 2015)"
+	date: "2016-07-07 16:13:00 GMT (Thursday 7th July 2016)"
 	revision: "5"
 
 class

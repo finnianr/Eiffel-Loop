@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-21 11:19:57 GMT (Thursday 21st January 2016)"
+	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 			if output_file_path.base /~ class_file_name then
 				check attached {FILE} output as output_file then
 					output_file.rename_file (output_file_path.parent + class_file_name)
-					log_or_io.put_line ("  * * File renamed! * * ")
+					lio.put_line ("  * * File renamed! * * ")
 				end
 			end
 		end

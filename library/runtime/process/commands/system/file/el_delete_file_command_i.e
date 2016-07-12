@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-20 7:27:40 GMT (Monday 20th June 2016)"
-	revision: "3"
+	revision: "6"
 
 deferred class
 	EL_DELETE_FILE_COMMAND_I

@@ -104,7 +104,7 @@ system:
 		
 		# Eiffel Loop overrides
 		library:
-			name = vision2; location = "$EIFFEL_LOOP/library/ES-vision2.ecf"
+			name = vision2; location = "$EIFFEL_LOOP/library/override/ES-vision2.ecf"
 			readonly = false
 
 			option:
@@ -113,7 +113,7 @@ system:
 
 		library:
 			name = docking; readonly = false
-			location = "$EIFFEL_LOOP/library/ES-docking.ecf"
+			location = "$EIFFEL_LOOP/library/override/ES-docking.ecf"
 			
 			option:
 				assertions:
@@ -121,13 +121,21 @@ system:
 
 		# Eiffel Loop libraries
 		library:
-			name = el_base; location = "$EIFFEL_LOOP/library/base.ecf"
+			name = el_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
+			readonly = false
+
+		library:
+			name = el_base; location = "$EIFFEL_LOOP/library/base/base.ecf"
 			readonly = false	
 			#use_application_options = true
 
 		library:
-			name = el_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
-			readonly = false
+			name = EL_logging; readonly = false
+			location = "$EIFFEL_LOOP/library/logging.ecf"
+
+		library:
+			name = EL_thread; readonly = false
+			location = "$EIFFEL_LOOP/library/thread.ecf"
 
 		library:
 			name = EL_wel_x; location = "$EIFFEL_LOOP/library/wel-x.ecf"; readonly = false

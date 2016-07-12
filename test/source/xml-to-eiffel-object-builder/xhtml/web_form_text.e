@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 14:52:03 GMT (Thursday 24th December 2015)"
+	date: "2016-07-05 5:56:37 GMT (Tuesday 5th July 2016)"
 	revision: "5"
 
 class
@@ -22,15 +22,6 @@ inherit
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make (s: STRING)
-			--
-		do
-			text := s
-			make_default
-		end
 
 feature {NONE} -- Implementation
 

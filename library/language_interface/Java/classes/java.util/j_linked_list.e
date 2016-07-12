@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-09 7:29:49 GMT (Saturday 9th July 2016)"
+	revision: "4"
 
 class
 	J_LINKED_LIST
@@ -28,9 +28,7 @@ feature -- Element change
 	remove_first: J_OBJECT
 			--
 		do
-			log.enter ("remove_first")
 			Result := jagent_remove_first.item (Current, [])
-			log.exit
 		end
 
 	add_last_string (string: J_STRING)
@@ -42,9 +40,7 @@ feature -- Element change
 	add_last (obj: J_OBJECT)
 			--
 		do
-			log.enter ("add_last")
 			jagent_add_last.call (Current, [obj])
-			log.exit
 		end
 
 feature -- Status query
@@ -52,9 +48,7 @@ feature -- Status query
 	is_empty: J_BOOLEAN
 			--
 		do
-			log.enter ("is_empty")
 			Result := jagent_is_empty.item (Current, [])
-			log.exit
 		end
 
 feature {NONE} -- Implementation
@@ -85,4 +79,4 @@ feature {NONE} -- Constant
 			create Result.make (Package_name, "LinkedList")
 		end
 
-end -- class J_LINKED_LIST
+end

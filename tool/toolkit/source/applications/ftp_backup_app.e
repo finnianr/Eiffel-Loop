@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-05-16 17:34:41 GMT (Monday 16th May 2016)"
+	date: "2016-07-09 8:46:03 GMT (Saturday 9th July 2016)"
 	revision: "8"
 
 class
@@ -17,7 +17,7 @@ inherit
 		rename
 			command as ftp_command
 		redefine
-			Option_name, Installer, ftp_command
+			Option_name, Installer, ftp_command, initialize
 		end
 
 	EL_MODULE_USER_INPUT
@@ -25,6 +25,15 @@ inherit
 create
 	make
 
+feature {NONE} -- Initialization
+
+	initialize
+			--
+		do
+			Console.show ({EL_FTP_PROTOCOL})
+			Precursor
+		end
+		
 feature -- Test operations
 
 	test_run
@@ -108,17 +117,11 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{FTP_BACKUP_APP}, "*"],
-				[{ARCHIVE_FILE}, "*"],
-				[{INCLUSION_LIST_FILE}, "*"],
-				[{EXCLUSION_LIST_FILE}, "*"],
-				[{EL_XPATH_ROOT_NODE_CONTEXT}, "*"],
-				[{EL_FTP_PROTOCOL}, "*"],
-				[{FTP_BACKUP}, "*"],
-				[{EL_XPATH_NODE_CONTEXT_LIST}, "-*"],
-				[{EL_XPATH_NODE_CONTEXT}, "-*"],
-				[{EL_VTD_EXCEPTIONS}, "*"],
-				[{EL_TEST_ROUTINES}, "*"]
+				[{FTP_BACKUP_APP}, All_routines],
+				[{ARCHIVE_FILE}, All_routines],
+				[{INCLUSION_LIST_FILE}, All_routines],
+				[{EXCLUSION_LIST_FILE}, All_routines],
+				[{FTP_BACKUP}, All_routines]
 			>>
 		end
 

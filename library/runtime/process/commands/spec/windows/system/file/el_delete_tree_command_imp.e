@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-17 17:52:38 GMT (Friday 17th June 2016)"
-	revision: "5"
+	revision: "4"
 
 class
 	EL_DELETE_TREE_COMMAND_IMP

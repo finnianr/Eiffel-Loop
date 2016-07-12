@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 7:37:58 GMT (Monday 20th June 2016)"
+	date: "2016-07-08 10:34:39 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_LOG
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_OS
 
 	EL_MODULE_USER_INPUT
 
@@ -37,13 +39,13 @@ feature -- Basic operations
 
 	execute
 		local
-			file_list: like File_system.file_list
+			file_list: like OS.file_list
 			per_page: INTEGER
 		do
 			log.enter ("execute")
 			per_page := 50
 			if dir_path.exists then
-				file_list := File_system.file_list (dir_path, "*.mp3")
+				file_list := OS.file_list (dir_path, "*.mp3")
 				song_title_counts.accommodate (file_list.count)
 				if is_dry_run then
 					across file_list as mp3_path loop
@@ -51,12 +53,12 @@ feature -- Basic operations
 							relocate_mp3_file (mp3_path.item)
 							if mp3_path.cursor_index \\ per_page = 0 then
 								page := page + 1
-								log_or_io.put_integer_field ("Page", page);
-								log_or_io.put_new_line
+								lio.put_integer_field ("Page", page);
+								lio.put_new_line
 								from until User_input.line ("Press return to continue").is_empty loop
-									log_or_io.put_new_line
+									lio.put_new_line
 								end
-								log_or_io.put_new_line
+								lio.put_new_line
 							end
 						end
 					end
@@ -153,15 +155,15 @@ feature {NONE} -- Implementation
 
 			if not is_dry_run then
 				File_system.make_directory (destination_mp3_path.parent)
-				File_system.move_file (mp3_path, destination_mp3_path)
+				OS.move_file (mp3_path, destination_mp3_path)
 				File_system.delete_empty_branch (mp3_path.parent)
 			end
 
-			log_or_io.put_path_field ("NEW", destination_mp3_path.relative_path (dir_path))
-			log_or_io.put_new_line
+			lio.put_path_field ("NEW", destination_mp3_path.relative_path (dir_path))
+			lio.put_new_line
 			if title ~ Unknown or else artist ~ Unknown then
-				log_or_io.put_path_field ("ORIGINAL", mp3_path.relative_path (dir_path))
-				log_or_io.put_new_line
+				lio.put_path_field ("ORIGINAL", mp3_path.relative_path (dir_path))
+				lio.put_new_line
 			end
 		end
 

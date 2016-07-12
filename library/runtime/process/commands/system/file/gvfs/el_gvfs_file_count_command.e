@@ -1,6 +1,7 @@
 ﻿note
 	description: "[
-		Parses output of command: gvfs-ls "$uri" | grep -c "^.*$"
+		Parses output of command
+			gvfs-ls "$uri" | grep -c "^.*$"
 	]"
 
 	author: "Finnian Reilly"
@@ -8,7 +9,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 14:24:12 GMT (Thursday 23rd June 2016)"
+	date: "2016-07-07 16:02:59 GMT (Thursday 7th July 2016)"
 	revision: "3"
 
 class

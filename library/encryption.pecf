@@ -39,7 +39,10 @@ system:
 
 		# Eiffel-Loop
 		library:
-			name = EL_base; location = "base.ecf"
+			name = EL_base; location = "base/base.ecf"
+
+		library:
+			name = EL_evolicity; location = "evolicity.ecf"
 
 		library:
 			name = EL_i18n; location = "i18n.ecf"

@@ -9,7 +9,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 10:05:00 GMT (Friday 24th June 2016)"
+	date: "2016-07-01 9:55:07 GMT (Friday 1st July 2016)"
 	revision: "6"
 
 class
@@ -26,6 +26,8 @@ inherit
 	EL_SHARED_APPLICATIONS_XDG_DESKTOP_MENU
 
 	EL_MODULE_BUILD_INFO
+
+	EL_MODULE_OS
 
 create
 	make
@@ -56,7 +58,7 @@ feature -- Basic operations
 		do
 			for_each_entry_path_step (desktop_entry_path, agent uninstall_desktop_entry)
 			if Applications_menu_file_path.exists then
-				File_system.delete_file (Applications_menu_file_path)
+				OS.delete_file (Applications_menu_file_path)
 			end
 		end
 
@@ -133,7 +135,7 @@ feature {NONE} -- Implementation
 			if file_path.exists then
 				io.put_string ("Deleting entry: " + file_path.to_string)
 				io.put_new_line
-				File_system.delete_file (file_path)
+				OS.delete_file (file_path)
 			end
 		end
 

@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_ZLIB_ROUTINES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "2"
+	date: "2016-07-04 8:36:52 GMT (Monday 4th July 2016)"
+	revision: "3"
 
 class
 	EL_ZLIB_ROUTINES
@@ -17,7 +17,7 @@ inherit
 
 	STRING_HANDLER
 
---	EL_MODULE_LOG
+	EL_MODULE_EXCEPTION
 
 feature -- Conversion
 
@@ -88,7 +88,6 @@ feature {NONE} -- Initialization
 
 	on_error (error: INTEGER)
 		local
-			exception: DEVELOPER_EXCEPTION
 			message: STRING
 		do
 			inspect error
@@ -115,8 +114,6 @@ feature {NONE} -- Initialization
 			else
 				message := ""
 			end
-			create exception
-			exception.set_message ("Zlib: " + message)
-			exception.raise
+			Exception.raise_developer ("Zlib: " + message, [])
 		end
 end

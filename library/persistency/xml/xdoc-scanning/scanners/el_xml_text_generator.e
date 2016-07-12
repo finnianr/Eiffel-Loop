@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 13:19:26 GMT (Thursday 24th December 2015)"
+	date: "2016-07-08 10:44:32 GMT (Friday 8th July 2016)"
 	revision: "8"
 
 class
@@ -22,10 +22,7 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_LOG
-		export
-			{NONE} all
-		end
+	EL_MODULE_LIO
 
 	EL_XML_ROUTINES
 		export
@@ -33,9 +30,6 @@ inherit
 		end
 
 	EL_MODULE_UTF
-		export
-			{NONE} all
-		end
 
 create
 	make, make_binary_source, make_delimited_source

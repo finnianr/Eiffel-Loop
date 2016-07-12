@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-25 9:07:13 GMT (Friday 25th December 2015)"
+	date: "2016-06-28 10:58:59 GMT (Tuesday 28th June 2016)"
 	revision: "6"
 
 class
@@ -63,12 +63,26 @@ feature -- Access
 	type: INTEGER
 		-- Node type id
 
+feature -- Conversion
+
 	to_boolean: BOOLEAN
 			--
 		require
 			valid_node: is_boolean
 		do
 			Result := to_string.to_boolean
+		end
+
+	to_expanded_dir_path: EL_DIR_PATH
+		do
+			Result := to_string
+			Result.expand
+		end
+
+	to_expanded_file_path: EL_FILE_PATH
+		do
+			Result := to_string
+			Result.expand
 		end
 
 	to_integer: INTEGER

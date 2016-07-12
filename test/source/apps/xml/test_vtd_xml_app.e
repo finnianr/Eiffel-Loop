@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-17 11:15:43 GMT (Thursday 17th December 2015)"
+	date: "2016-07-09 7:45:26 GMT (Saturday 9th July 2016)"
 	revision: "7"
 
 class
@@ -20,8 +20,9 @@ inherit
 
 	EXCEPTIONS
 
-	EL_MODULE_XML
+	EL_MODULE_OS
 
+	EL_MODULE_XML
 
 create
 	make
@@ -32,6 +33,7 @@ feature {NONE} -- Initiliazation
 			--
 		do
 			log.enter ("initialize")
+			Console.show ({EL_SPREAD_SHEET_TABLE})
 			Precursor
 			create root_node
 			log.exit
@@ -351,17 +353,17 @@ feature {NONE} -- Implementation
 			xpath := template #$ [criteria]
 
 			across root_node.context_list (xpath) as cd loop
-				log_or_io.put_string_field ("ALBUM", cd.node.string_at_xpath ("TITLE"))
-				log_or_io.put_new_line
-				log_or_io.put_string_field ("ARTIST", cd.node.string_at_xpath ("ARTIST"))
-				log_or_io.put_new_line
-				log_or_io.put_string_field ("PRICE", cd.node.string_at_xpath ("PRICE"))
-				log_or_io.put_new_line
+				lio.put_string_field ("ALBUM", cd.node.string_at_xpath ("TITLE"))
+				lio.put_new_line
+				lio.put_string_field ("ARTIST", cd.node.string_at_xpath ("ARTIST"))
+				lio.put_new_line
+				lio.put_string_field ("PRICE", cd.node.string_at_xpath ("PRICE"))
+				lio.put_new_line
 				across cd.node.context_list ("CONTENTS/TRACK") as track loop
-					log_or_io.put_string ("    " + track.cursor_index.out + ". ")
-					log_or_io.put_line (track.node.string_value)
+					lio.put_string ("    " + track.cursor_index.out + ". ")
+					lio.put_line (track.node.string_value)
 				end
-				log_or_io.put_new_line
+				lio.put_new_line
 			end
 			log.exit
 		end
@@ -369,7 +371,7 @@ feature {NONE} -- Implementation
 	taylor_series_document_nodes (a_dir_path: EL_DIR_PATH): LINKED_LIST [EL_XPATH_ROOT_NODE_CONTEXT]
 		do
 			create Result.make
-			across File_system.file_list (a_dir_path, "*.xml") as file_path loop
+			across OS.file_list (a_dir_path, "*.xml") as file_path loop
 				log.put_path_field ("Parsing", file_path.item)
 				log.put_new_line
 				Result.extend (create {EL_XPATH_ROOT_NODE_CONTEXT}.make_from_file (file_path.item))
@@ -417,16 +419,10 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{TEST_VTD_XML_APP}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines],
-
-				[{EL_XPATH_ROOT_NODE_CONTEXT}, "-*"],
-				[{EL_XPATH_NODE_CONTEXT_LIST}, "-*"],
-				[{EL_XPATH_NODE_CONTEXT}, "-*"],
-				[{EL_VTD_EXCEPTIONS}, All_routines],
-
-				[{EL_SPREAD_SHEET}, All_routines],
-				[{EL_SPREAD_SHEET_TABLE}, All_routines]
+				[{TEST_VTD_XML_APP}, All_routines]
+--				[{EL_TEST_ROUTINES}, All_routines],
+--				[{EL_SPREAD_SHEET}, All_routines],
+--				[{EL_SPREAD_SHEET_TABLE}, All_routines]
 			>>
 		end
 

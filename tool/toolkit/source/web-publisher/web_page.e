@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-22 12:25:47 GMT (Friday 22nd April 2016)"
+	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -55,15 +55,15 @@ feature {NONE} -- Initialization
 			menu_name := properties.string_at_xpath ("/html/body/@menu_name")
 			page_title := properties.string_at_xpath ("/html/head/title")
 
-			log_or_io.put_string_field ("PAGE TITLE", page_title)
-			log_or_io.put_new_line
-			log_or_io.put_string_field ("DESCRIPTION", description)
-			log_or_io.put_new_line
-			log_or_io.put_string_field ("MENU NAME", menu_name)
-			log_or_io.put_new_line
-			log_or_io.put_string_field ("BASENAME", output_path.base)
-			log_or_io.put_new_line
-			log_or_io.put_new_line
+			lio.put_string_field ("PAGE TITLE", page_title)
+			lio.put_new_line
+			lio.put_string_field ("DESCRIPTION", description)
+			lio.put_new_line
+			lio.put_string_field ("MENU NAME", menu_name)
+			lio.put_new_line
+			lio.put_string_field ("BASENAME", output_path.base)
+			lio.put_new_line
+			lio.put_new_line
 
 			value := properties.string_at_xpath ("/html/body/@has_print_view")
 			if value.is_boolean then
@@ -104,8 +104,8 @@ feature -- Basic operations
 
 			is_print_view := False
 			Evolicity_templates.set_horrible_indentation
-			log_or_io.put_path_field ("Writing", output_path)
-			log_or_io.put_new_line
+			lio.put_path_field ("Writing", output_path)
+			lio.put_new_line
 			create html_file.make_open_write (output_path)
 			html_file.enable_bom
 			Evolicity_templates.merge_to_file (config.default_template, Current, html_file)
@@ -113,8 +113,8 @@ feature -- Basic operations
 			if has_print_view then
 				is_print_view := True
 				has_print_view := False
-				log_or_io.put_path_field ("Writing", print_view_output_path)
-				log_or_io.put_new_line
+				lio.put_path_field ("Writing", print_view_output_path)
+				lio.put_new_line
 				create html_file.make_open_write (print_view_output_path)
 				html_file.enable_bom
 				Evolicity_templates.merge_to_file (config.default_template, Current, html_file)

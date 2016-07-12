@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-21 8:38:46 GMT (Tuesday 21st June 2016)"
+	date: "2016-06-30 10:18:54 GMT (Thursday 30th June 2016)"
 	revision: "5"
 
 deferred class
@@ -77,7 +77,6 @@ feature -- Status change
 		do
 			follow_symbolic_links := flag
 		end
-
 
 feature -- Path filter change
 

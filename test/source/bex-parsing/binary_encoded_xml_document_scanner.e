@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 16:08:56 GMT (Thursday 24th December 2015)"
+	date: "2016-07-08 10:46:09 GMT (Friday 8th July 2016)"
 	revision: "4"
 
 class
@@ -16,6 +16,8 @@ inherit
 	EL_XML_DOCUMENT_SCANNER
 		rename
 			make_xml_text_source as make
+		undefine
+			new_lio
 		redefine
 			make, on_xml_tag_declaration, on_start_document, on_end_document,
 			on_start_tag, on_end_tag, on_content, on_comment, on_processing_instruction

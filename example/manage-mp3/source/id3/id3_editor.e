@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 8:16:07 GMT (Wednesday 16th December 2015)"
+	date: "2016-07-08 10:34:12 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 class
@@ -43,14 +43,14 @@ feature -- Basic operations
 					editions_table.found_item.call ([create {EL_ID3_INFO}.make_version (mp3_path.item, 2.4), mp3_path.item])
 --					if mp3_path.cursor_index \\ 40 = 0 then
 --						from until User_input.line ("Press return to continue").is_empty loop
---							log_or_io.put_new_line
+--							lio.put_new_line
 --						end
---						log_or_io.put_new_line
+--						lio.put_new_line
 --					end
 				end
 			else
-				log_or_io.put_string_field ("Invalid edition name", edition_name)
-				log_or_io.put_new_line
+				lio.put_string_field ("Invalid edition name", edition_name)
+				lio.put_new_line
 			end
 			log.exit
 		end

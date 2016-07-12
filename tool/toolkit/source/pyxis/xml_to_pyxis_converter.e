@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 12:37:35 GMT (Friday 18th December 2015)"
+	date: "2016-07-08 7:22:10 GMT (Friday 8th July 2016)"
 	revision: "8"
 
 class
@@ -83,8 +83,8 @@ feature -- Element change
 			end
 			create xdoc.make_from_file (source_path)
 			if xdoc.parse_failed then
-				log_or_io.put_new_line
-				log_or_io.put_line (xdoc.error_message)
+				lio.put_new_line
+				lio.put_line (xdoc.error_message)
 			end
  		end
 
@@ -99,8 +99,8 @@ feature -- Basic operations
 			node_text: ZSTRING
 		do
 			log.enter ("execute")
-			log_or_io.put_path_field ("Converting", source_path)
-			log_or_io.put_new_line
+			lio.put_path_field ("Converting", source_path)
+			lio.put_new_line
 
 			create out_file.make_open_write (output_path)
 			last_node_type := 0; next_node_type := 0; node_depth := 0; attribute_node_depth := 0

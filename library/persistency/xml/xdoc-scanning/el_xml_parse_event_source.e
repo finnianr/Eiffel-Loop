@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-25 9:07:13 GMT (Friday 25th December 2015)"
+	date: "2016-07-08 9:03:39 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 deferred class
@@ -52,7 +52,7 @@ feature -- Basic operations
 		deferred
 		end
 
-	log_error (a_log: EL_LOG)
+	log_error (a_log: EL_LOGGABLE)
 		do
 		end
 

@@ -15,11 +15,11 @@ feature -- Constants
 
 	Version_number: NATURAL = 01_00_00
 
-	Build_number: NATURAL = 31
+	Build_number: NATURAL = 41
 
 	Installation_sub_directory: EL_DIR_PATH
 		once
-			Result := "Eiffel-Loop/eiffel2java"
+			create Result.make_from_unicode ("Eiffel-Loop/eiffel2java")
 		end
 
 end

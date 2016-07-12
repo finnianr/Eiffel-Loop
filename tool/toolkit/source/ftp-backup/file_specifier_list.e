@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 10:59:58 GMT (Friday 18th December 2015)"
+	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 deferred class
@@ -30,8 +30,8 @@ feature {NONE} -- Implementation
 			across directory_node.context_list (query_path) as specifier loop
 				specifier_name := specifier.node.name
 				file_specifier := specifier.node.normalized_string_value
-				log_or_io.put_string_field (specifier_name.as_proper_case, file_specifier)
-				log_or_io.put_new_line
+				lio.put_string_field (specifier_name.as_proper_case, file_specifier)
+				lio.put_new_line
 				put_file_specifier (specifier_name, file_specifier)
 			end
 			log.exit

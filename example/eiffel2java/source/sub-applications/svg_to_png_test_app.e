@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-22 15:18:17 GMT (Wednesday 22nd June 2016)"
+	date: "2016-07-09 7:31:22 GMT (Saturday 9th July 2016)"
 	revision: "4"
 
 class
@@ -23,6 +23,7 @@ feature {NONE} -- Initiliazation
 	normal_initialize
 			--
 		do
+			Console.show ({JAVA_PACKAGE_ENVIRONMENT_IMP})
 			Java_packages.append_jar_locations (<<
 				eiffel_loop_dir.joined_dir_steps (<< "contrib", "Java", "batik-1.7" >>)
 			>>)
@@ -75,7 +76,7 @@ feature -- Test
 			output_path.add_extension ("png")
 			transcoder.set_width (width)
 			transcoder.set_background_color_with_24_bit_rgb (Colors [index])
-			transcoder.transcode (svg_path.to_string.to_latin_1, output_path.to_string.to_latin_1)
+			transcoder.transcode (svg_path.to_string.to_latin_1, output_path.to_string)
 			log.exit
 		end
 
@@ -99,10 +100,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{SVG_TO_PNG_TEST_APP}, "*"],
-				[{EL_TEST_ROUTINES}, "*"],
-				[{JAVA_PACKAGE_ENVIRONMENT_I}, "*"],
-				[{JAVA_PACKAGE_ENVIRONMENT_I}, "*"]
+				[{SVG_TO_PNG_TEST_APP}, All_routines]
 			>>
 		end
 

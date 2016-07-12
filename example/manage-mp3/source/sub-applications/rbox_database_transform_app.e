@@ -2,12 +2,12 @@
 	description: "Summary description for {RBOX_DATABASE_TRANSFORM_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-08 9:57:40 GMT (Thursday 8th January 2015)"
-	revision: "4"
+	date: "2016-07-08 10:35:36 GMT (Friday 8th July 2016)"
+	revision: "5"
 
 deferred class
 	RBOX_DATABASE_TRANSFORM_APP
@@ -29,14 +29,14 @@ feature -- Basic operations
 				if is_test_mode then
 					user_agreed := True
 				else
-					log_or_io.put_string_field_to_max_length ("WARNING", Warning_prompt, Warning_prompt.count)
-					log_or_io.put_new_line
+					lio.put_string_field_to_max_length ("WARNING", Warning_prompt, Warning_prompt.count)
+					lio.put_new_line
 
-					log_or_io.put_line ("Have you backed up your mp3 music collection and the files:")
-					log_or_io.put_string ("rhythmdb.xml ; playlists.xml found in " + User_config_dir.to_string + "? (y/n) ")
+					lio.put_line ("Have you backed up your mp3 music collection and the files:")
+					lio.put_string ("rhythmdb.xml ; playlists.xml found in " + User_config_dir.to_string + "? (y/n) ")
 
 					user_agreed := User_input.entered_letter ('y')
-					log_or_io.put_new_line
+					lio.put_new_line
 				end
 				if user_agreed then
 					if config.is_dry_run then
@@ -46,7 +46,7 @@ feature -- Basic operations
 						transform_database
 					end
 				else
-					log_or_io.put_line ("User did not press 'y'.")
+					lio.put_line ("User did not press 'y'.")
 				end
 			end
 		end

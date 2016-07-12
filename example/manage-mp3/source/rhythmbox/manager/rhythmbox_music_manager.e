@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 7:47:42 GMT (Thursday 23rd June 2016)"
+	date: "2016-07-08 10:34:50 GMT (Friday 8th July 2016)"
 	revision: "4"
 
 class
@@ -23,7 +23,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_OS
 
 	EL_MODULE_DIRECTORY
 
@@ -58,22 +58,22 @@ feature -- Basic operations
 				tasks := task_table
 				tasks.search (config.task.to_string_8)
 				if tasks.found then
-					log_or_io.put_labeled_string ("Task", config.task)
-					log_or_io.put_new_line
+					lio.put_labeled_string ("Task", config.task)
+					lio.put_new_line
 					if is_rhythmbox_open then
-						log_or_io.put_line ("ERROR: Rhythmbox application is open. Exit and try again.")
+						lio.put_line ("ERROR: Rhythmbox application is open. Exit and try again.")
 					else
 						config.error_check
 						if config.error_message.is_empty then
 							tasks.found_item.apply
 						else
-							log_or_io.put_labeled_string ("ERROR", config.error_message)
+							lio.put_labeled_string ("ERROR", config.error_message)
 						end
 					end
 				else
-					log_or_io.put_line ("ERROR")
-					log_or_io.put_labeled_string ("Task not found", config.task)
-					log_or_io.put_new_line
+					lio.put_line ("ERROR")
+					lio.put_labeled_string ("Task not found", config.task)
+					lio.put_new_line
 				end
 				ask_user_for_task
 			end
@@ -104,18 +104,18 @@ feature -- Tasks
 			log.enter ("collate_songs")
 			Database.songs.do_query (not one_of (<< song_is_hidden, song_is_cortina, song_has_normalized_mp3_path >>))
 			if Database.songs.last_query_items.is_empty then
-				log_or_io.put_line ("All songs are normalized")
+				lio.put_line ("All songs are normalized")
 			else
 				across Database.songs.last_query_items as query loop
 					song := query.item
 					new_mp3_path := song.unique_normalized_mp3_path
-					log_or_io.put_labeled_string ("Old path", song.mp3_relative_path)
-					log_or_io.put_new_line
-					log_or_io.put_labeled_string ("New path", new_mp3_path.relative_path (Database.mp3_root_location))
-					log_or_io.put_new_line
-					log_or_io.put_new_line
+					lio.put_labeled_string ("Old path", song.mp3_relative_path)
+					lio.put_new_line
+					lio.put_labeled_string ("New path", new_mp3_path.relative_path (Database.mp3_root_location))
+					lio.put_new_line
+					lio.put_new_line
 					File_system.make_directory (new_mp3_path.parent)
-					File_system.move_file (song.mp3_path, new_mp3_path)
+					OS.move_file (song.mp3_path, new_mp3_path)
 					if song.mp3_path.parent.exists then
 						File_system.delete_empty_branch (song.mp3_path.parent)
 					end
@@ -134,19 +134,19 @@ feature -- Tasks
 		do
 			log.enter ("display_music_brainz_info")
 			across Database.songs.query (not song_has_audio_id) as song loop
-				log_or_io.put_path_field ("MP3", song.item.mp3_path)
-				log_or_io.put_new_line
+				lio.put_path_field ("MP3", song.item.mp3_path)
+				lio.put_new_line
 				create id3_info.make (song.item.mp3_path)
 				across id3_info.user_text_table as user_text loop
-					log_or_io.put_string_field (user_text.key, user_text.item.string)
-					log_or_io.put_new_line
+					lio.put_string_field (user_text.key, user_text.item.string)
+					lio.put_new_line
 				end
-				log_or_io.put_line ("UNIQUE IDs")
+				lio.put_line ("UNIQUE IDs")
 				across id3_info.unique_id_list as unique_id loop
-					log_or_io.put_string_field (unique_id.item.owner, unique_id.item.id)
-					log_or_io.put_new_line
+					lio.put_string_field (unique_id.item.owner, unique_id.item.id)
+					lio.put_new_line
 				end
-				log_or_io.put_new_line
+				lio.put_new_line
 			end
 			log.exit
 		end
@@ -169,19 +169,19 @@ feature -- Tasks
 		do
 			silence_1_sec := Database.silence_intervals [1]
 			if Database.music_extra_playlist.count = 1 then
-				log_or_io.put_line ("No songs listed in %"Music Extra%" (except %"Silence 1 sec%")")
+				lio.put_line ("No songs listed in %"Music Extra%" (except %"Silence 1 sec%")")
 			else
 				across Database.music_extra_playlist as song loop
-					log_or_io.put_labeled_string ("Song", song.item.mp3_relative_path)
+					lio.put_labeled_string ("Song", song.item.mp3_relative_path)
 					if song.item = silence_1_sec then
-						log_or_io.put_line (" is silence")
+						lio.put_line (" is silence")
 					elseif Database.is_song_in_any_playlist (song.item) then
-						log_or_io.put_line (" belongs to a playlist")
+						lio.put_line (" belongs to a playlist")
 					else
 						Database.remove (song.item)
 						song.item.set_mp3_root_location (config.extra_music_dir)
 						song.item.move_mp3_to_normalized_file_path
-						log_or_io.put_line (" relocated to Music Extra")
+						lio.put_line (" relocated to Music Extra")
 					end
 				end
 				Database.music_extra_playlist.wipe_out
@@ -198,13 +198,13 @@ feature -- Tasks
 			ask_user_for_file_path ("mp3 for cortina")
 
 			if Database.songs_by_location.has (file_path) then
-				log_or_io.put_line ("Replacing current set")
+				lio.put_line ("Replacing current set")
 				create cortina_set.make (Database, config, Database.songs_by_location [file_path])
 				Database.replace_cortinas (cortina_set)
 				Database.store_all
 			else
-				log_or_io.put_path_field ("ERROR file not found", file_path)
-				log_or_io.put_new_line
+				lio.put_path_field ("ERROR file not found", file_path)
+				lio.put_new_line
 			end
 			log.exit
 		end
@@ -223,13 +223,13 @@ feature -- Tasks
 				then
 					Database.replace (substitution.item.deleted_path, substitution.item.replacement_path)
 					Database.remove (Database.songs_by_location [substitution.item.deleted_path])
-					File_system.delete_file (substitution.item.deleted_path)
+					OS.delete_file (substitution.item.deleted_path)
 				else
-					log_or_io.put_line ("INVALID SUBSTITUTION")
-					log_or_io.put_path_field ("Target", substitution.item.deleted_path)
-					log_or_io.put_new_line
-					log_or_io.put_path_field ("Replacement", substitution.item.replacement_path)
-					log_or_io.put_new_line
+					lio.put_line ("INVALID SUBSTITUTION")
+					lio.put_path_field ("Target", substitution.item.deleted_path)
+					lio.put_new_line
+					lio.put_path_field ("Replacement", substitution.item.replacement_path)
+					lio.put_new_line
 				end
 			end
 			if not substitution_list.is_empty then
@@ -263,7 +263,7 @@ feature -- Tasks: Import/Export
 			device: like new_device
 		do
 			log.enter ("export_music_to_device")
-			log_or_io.set_timer
+			lio.set_timer
 			device := new_device
 			if device.volume.is_valid then
 				if config.selected_genres.is_empty then
@@ -271,18 +271,18 @@ feature -- Tasks: Import/Export
 				else
 					across config.selected_genres as genre loop
 						if Database.is_valid_genre (genre.item) then
-							log_or_io.put_string_field ("Genre " + genre.cursor_index.out, genre.item)
+							lio.put_string_field ("Genre " + genre.cursor_index.out, genre.item)
 						else
-							log_or_io.put_string_field ("Invalid genre", genre.item)
+							lio.put_string_field ("Invalid genre", genre.item)
 						end
-						log_or_io.put_new_line
+						lio.put_new_line
 					end
 					export_to_device (device, song_in_some_playlist (Database) or song_one_of_genres (config.selected_genres))
 				end
 			else
 				notify_invalid_volume
 			end
-			log_or_io.put_elapsed_time
+			lio.put_elapsed_time
 			log.exit
 		end
 
@@ -306,22 +306,22 @@ feature -- Tasks: Import/Export
 			import_notes: like Video_import_notes; done: BOOLEAN
 			song_count: INTEGER
 		do
-			log_or_io.put_line ("VIDEO IMPORT NOTES")
+			lio.put_line ("VIDEO IMPORT NOTES")
 			import_notes := Video_import_notes #$ [Video_extensions]
 			across import_notes.lines as line loop
-				log_or_io.put_line (line.item)
+				lio.put_line (line.item)
 			end
 			song_count := Database.songs.count
-			log_or_io.put_new_line
+			lio.put_new_line
 			across Video_extensions.split (',') as extension loop
-				across File_system.file_list (Database.mp3_root_location, "*." + extension.item) as video_path loop
-					log_or_io.put_path_field ("Found", video_path.item.relative_path (Database.mp3_root_location))
-					log_or_io.put_new_line
+				across OS.file_list (Database.mp3_root_location, "*." + extension.item) as video_path loop
+					lio.put_path_field ("Found", video_path.item.relative_path (Database.mp3_root_location))
+					lio.put_new_line
 					from done := False until done loop
 						Database.extend (new_video_song (video_path.item))
 						done := not video_contains_another_song
 					end
-					File_system.delete_file (video_path.item)
+					OS.delete_file (video_path.item)
 				end
 			end
 			if Database.songs.count > song_count then
@@ -338,7 +338,7 @@ feature -- Tasks: Tag editing
 			jpeg_path_list: LIST [EL_FILE_PATH]
 		do
 			log.enter ("add_album_art")
-			jpeg_path_list := File_system.file_list (config.album_art_dir, "*.jpeg")
+			jpeg_path_list := OS.file_list (config.album_art_dir, "*.jpeg")
 			create pictures.make_equal (jpeg_path_list.count)
 			across jpeg_path_list as jpeg_path loop
 				create picture.make_from_file (jpeg_path.item, jpeg_path.item.parent.steps.last)
@@ -454,20 +454,20 @@ feature {NONE} -- Factory
 		local
 			is_valid: BOOLEAN
 		do
-			log_or_io.put_line (prompt)
+			lio.put_line (prompt)
 			across menu as option loop
-				log_or_io.put_labeled_string (option.cursor_index.out, option.item)
-				log_or_io.put_new_line
+				lio.put_labeled_string (option.cursor_index.out, option.item)
+				lio.put_new_line
 			end
-			log_or_io.put_new_line
+			lio.put_new_line
 			from until is_valid loop
 				Result := User_input.integer ("Enter a number")
-				log_or_io.put_new_line
+				lio.put_new_line
 				if menu.valid_index (Result) then
 					is_valid := True
 				else
-					log_or_io.put_line ("Invalid option")
-					log_or_io.put_new_line
+					lio.put_line ("Invalid option")
+					lio.put_new_line
 				end
 			end
 		end
@@ -490,8 +490,8 @@ feature {NONE} -- Factory
 			Result.album_name := User_input.line ("Album name")
 			if Result.album_name ~ Ditto then
 				Result.album_name := last_album_name
-				log_or_io.put_labeled_string ("Using album name", last_album_name)
-				log_or_io.put_new_line
+				lio.put_labeled_string ("Using album name", last_album_name)
+				lio.put_new_line
 			elseif Result.album_name.is_empty then
 				Result.album_name := lead_artist
 			end
@@ -504,9 +504,9 @@ feature {NONE} -- Factory
 		do
 			create Result
 			Result.deleted_path := User_input.file_path ("Song to remove")
-			log_or_io.put_new_line
+			lio.put_new_line
 			Result.replacement_path := User_input.file_path ("Song replacement")
-			log_or_io.put_new_line
+			lio.put_new_line
 		end
 
 	new_substitution_list: LINKED_LIST [like new_substitution]
@@ -568,10 +568,10 @@ feature {NONE} -- Factory
 			end
 			-- Increase bitrate by 64 for AAC -> MP3 conversion
 			video_to_mp3_command.set_bit_rate (video_properties.standard_bit_rate + 64)
-			log_or_io.put_string ("Converting..")
+			lio.put_string ("Converting..")
 			video_to_mp3_command.execute
 			Result.save_id3_info
-			log_or_io.put_new_line
+			lio.put_new_line
 		end
 
 feature {NONE} -- Implementation
@@ -579,13 +579,13 @@ feature {NONE} -- Implementation
 	ask_user_for_dir_path (name: ZSTRING)
 		do
 			dir_path := User_input.dir_path (Drag_and_drop_template #$ [name])
-			log_or_io.put_new_line
+			lio.put_new_line
 		end
 
 	ask_user_for_file_path (name: ZSTRING)
 		do
 			file_path := User_input.file_path (Drag_and_drop_template #$ [name])
-			log_or_io.put_new_line
+			lio.put_new_line
 		end
 
 	ask_user_for_task
@@ -602,10 +602,10 @@ feature {NONE} -- Implementation
 						create config.make_from_file (config_file_path)
 						done := True
 					else
-						log_or_io.put_line ("File is not a valid pyxis document")
+						lio.put_line ("File is not a valid pyxis document")
 					end
 				end
-				log_or_io.put_new_line
+				lio.put_new_line
 			end
 		end
 
@@ -623,14 +623,14 @@ feature {NONE} -- Implementation
 				device.export_songs_and_playlists (a_condition)
 			else
 				-- A problem on NTFS and FAT32 filesystems
-				log_or_io.put_line ("CASE INSENSITIVE NAME CLASHES FOUND")
-				log_or_io.put_new_line
+				lio.put_line ("CASE INSENSITIVE NAME CLASHES FOUND")
+				lio.put_new_line
 				across name_clashes as path loop
-					log_or_io.put_path_field ("MP3", path.item)
-					log_or_io.put_new_line
+					lio.put_path_field ("MP3", path.item)
+					lio.put_new_line
 				end
-				log_or_io.put_new_line
-				log_or_io.put_line ("Fix before proceeding")
+				lio.put_new_line
+				lio.put_line ("Fix before proceeding")
 			end
 		end
 
@@ -666,14 +666,14 @@ feature {NONE} -- Implementation
 		do
 			create Result
 			Result.clip_duration := User_input.integer ("Clip duration")
-			log_or_io.put_line ("CLOSE RHYTHMBOX BEFORE CONTINUING")
+			lio.put_line ("CLOSE RHYTHMBOX BEFORE CONTINUING")
 			Result.source_path := User_input.file_path ("Cortina song ")
 		end
 
 	notify_invalid_volume
 		do
-			log_or_io.put_labeled_string ("Volume not mounted", config.volume.name)
-			log_or_io.put_new_line
+			lio.put_labeled_string ("Volume not mounted", config.volume.name)
+			lio.put_new_line
 		end
 
 	task_table: EL_HASH_TABLE [PROCEDURE [RHYTHMBOX_MUSIC_MANAGER, TUPLE], like config.task]
@@ -702,9 +702,9 @@ feature {NONE} -- Implementation
 
 	video_contains_another_song: BOOLEAN
 		do
-			log_or_io.put_string ("Extract another song from this video (y/n): ")
+			lio.put_string ("Extract another song from this video (y/n): ")
 			Result := User_input.entered_letter ('y')
-			log_or_io.put_new_line
+			lio.put_new_line
 		end
 
 	xml_database_file_path: EL_FILE_PATH

@@ -17,7 +17,7 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = el_eros
+	name = EL_eros
 	uuid = "229B79CA-09AA-11DF-87CA-871F44C15657"
 	
 	# classic means C code as an intermediate language
@@ -103,24 +103,36 @@ system:
 
 		# Eiffel Loop libraries
 		library:
-			name = el_base; location = "$EIFFEL_LOOP/library/base.ecf"
+			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"
 			readonly = false
 			# use_application_options = true
 
 		library:
-			name = el_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
+			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
 			readonly = false
 
 		library:
-			name = el_eros_server; location = "$EIFFEL_LOOP/library/eros-server.ecf"
+			name = EL_eros_server; location = "$EIFFEL_LOOP/library/eros-server.ecf"
 			readonly = false
 
 		library:
-			name = el_net_base; location = "$EIFFEL_LOOP/library/network.ecf"
+			name = EL_evolicity; location = "$EIFFEL_LOOP/library/evolicity.ecf"
 			readonly = false
 
 		library:
-			name = el_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
+			name = EL_logging; readonly = false
+			location = "$EIFFEL_LOOP/library/logging.ecf"
+
+		library:
+			name = EL_net_base; location = "$EIFFEL_LOOP/library/network.ecf"
+			readonly = false
+
+		library:
+			name = EL_thread; readonly = false
+			location = "$EIFFEL_LOOP/library/thread.ecf"
+
+		library:
+			name = EL_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
 			readonly = false
 
 		cluster:
@@ -128,9 +140,6 @@ system:
 
 		cluster:
 			name = common; location = "../source-common"; recursive = true
-
-			
-
 
 		# Build 2016-04-10 12:09:56.720450
 		# Build 2016-04-21 13:52:45.611314

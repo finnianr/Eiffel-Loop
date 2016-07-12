@@ -28,6 +28,9 @@ inherit
 	EL_MODULE_DATE
 
 	EL_MODULE_TEST
+		undefine
+			new_lio
+		end
 
 	EL_MODULE_LOG
 

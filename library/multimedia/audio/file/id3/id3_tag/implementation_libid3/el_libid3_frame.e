@@ -9,7 +9,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 22:47:53 GMT (Friday 18th December 2015)"
+	date: "2016-07-01 14:33:58 GMT (Friday 1st July 2016)"
 	revision: "5"
 
 class
@@ -30,10 +30,6 @@ inherit
 			out
 		end
 
-	EL_MODULE_LOG
-		undefine
-			out
-		end
 create
 	make_from_pointer, make_with_code
 
@@ -44,25 +40,25 @@ feature {NONE} -- Initialization
 		local
 			field_iterator: EL_LIBID3_FIELD_ITERATOR
 		do
-			log.enter ("make_from_pointer")
+--			log.enter ("make_from_pointer")
 			Precursor (cpp_ptr)
 			create field_list.make (field_count)
 			create field_iterator.make (agent create_field_iterator)
 			from field_iterator.start until field_iterator.after loop
-				log.put_string_field ("Type", field_iterator.item.type_name)
+--				log.put_string_field ("Type", field_iterator.item.type_name)
 				if field_iterator.item.type = Type_encoding then
-					log.put_string_field (" Encoding", Encoding_names [field_iterator.item.integer])
+--					log.put_string_field (" Encoding", Encoding_names [field_iterator.item.integer])
 				else
-					log.put_string_field (" Encoding", Encoding_names [field_iterator.item.encoding])
+--					log.put_string_field (" Encoding", Encoding_names [field_iterator.item.encoding])
 				end
 				if field_iterator.item.type = Type_string_data then
-					log.put_string_field (" STRING", field_iterator.item.string)
+--					log.put_string_field (" STRING", field_iterator.item.string)
 				end
-				log.put_new_line
+--				log.put_new_line
 				field_list.extend (field_iterator.item)
 				field_iterator.forth
 			end
-			log.exit
+--			log.exit
 		ensure then
 			field_count_correct: field_list.count = field_count
 		end

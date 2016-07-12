@@ -6,16 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-19 12:03:23 GMT (Sunday 19th June 2016)"
+	date: "2016-07-08 11:44:04 GMT (Friday 8th July 2016)"
 	revision: "7"
 
-class
+deferred class
 	ID3_TAG_TEST
 
 inherit
 	EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_LOG
+	EL_MODULE_OS
 
 feature -- Element change
 
@@ -34,12 +34,16 @@ feature {NONE} -- Implementation
 		do
 			copied_file_path := "workarea"
 			copied_file_path.append_file_path (suffix + "." + mp3_path.base)
-			log.put_line (copied_file_path.to_string)
+			lio.put_line (copied_file_path.to_string)
 
 			if mp3_path.exists then
-				file_system.copy_file (mp3_path, copied_file_path)
+				OS.copy_file (mp3_path, copied_file_path)
 				mp3_path := copied_file_path
 			end
+		end
+
+	lio: EL_LOGGABLE
+		deferred
 		end
 
 	mp3_path: EL_FILE_PATH

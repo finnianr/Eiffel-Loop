@@ -2,27 +2,27 @@
 	description: "[
 		Perform calculations on matrix with procedure specified in processing instruction
 
-		<?xml version="1.0" encoding="ISO-8859-1"?>
-		<?create {MATRIX_CALCULATOR}?>
-		<matrix>
-			<row>
-				<col>1.15</col>
-				<col>0.2</col>
-				<col>0.5</col>
-				<col>1.12</col>
-				<col>0.2</col>
-				<col>0.5</col>
-			</row>
-			<row>
-				<col>0.1</col>
-				<col>0.28</col>
-				<col>0.5</col>
-				<col>6.2</col>
-				<col>0.55</col>
-				<col>0.1</col>
-			</row>
-		<matrix>
-		<?procedure find_column_average?>
+			<?xml version="1.0" encoding="ISO-8859-1"?>
+			<?create {MATRIX_CALCULATOR}?>
+			<matrix>
+				<row>
+					<col>1.15</col>
+					<col>0.2</col>
+					<col>0.5</col>
+					<col>1.12</col>
+					<col>0.2</col>
+					<col>0.5</col>
+				</row>
+				<row>
+					<col>0.1</col>
+					<col>0.28</col>
+					<col>0.5</col>
+					<col>6.2</col>
+					<col>0.55</col>
+					<col>0.1</col>
+				</row>
+			<matrix>
+			<?procedure find_column_average?>
 	]"
 
 	author: "Finnian Reilly"
@@ -30,7 +30,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 10:12:40 GMT (Thursday 24th December 2015)"
+	date: "2016-07-08 10:40:25 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -132,7 +132,7 @@ feature {NONE} -- Building from XML
 	add_row
 			--
 		do
-			log_or_io.put_line ("add_row")
+			lio.put_line ("add_row")
 			if is_empty then
 				extend (create {ARRAY [REAL]}.make (1, 0))
 			else

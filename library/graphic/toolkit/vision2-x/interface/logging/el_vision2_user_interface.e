@@ -9,7 +9,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 8:46:58 GMT (Friday 24th June 2016)"
+	date: "2016-07-03 8:45:04 GMT (Sunday 3rd July 2016)"
 	revision: "5"
 
 class
@@ -26,7 +26,7 @@ inherit
 			copy, default_create
 		end
 
-	EL_SHARED_THREAD_MANAGER
+	EL_SHARED_LOGGED_THREAD_MANAGER
 		undefine
 			copy, default_create
 		end
@@ -43,18 +43,18 @@ create
 
 feature {NONE} -- Initialization
 
-	make_maximized
+	make_maximized (log_thread_management: BOOLEAN)
 		do
 			is_maximized := True
-			make
+			make (log_thread_management)
 		end
 
-	make
+	make (log_thread_management: BOOLEAN)
 			--
 		local
-			error_dialog: EV_INFORMATION_DIALOG
-			pixmaps: EV_STOCK_PIXMAPS
+			error_dialog: EV_INFORMATION_DIALOG; pixmaps: EV_STOCK_PIXMAPS
 		do
+			call (Thread_manager)
 			log.enter ("make")
 			create error_message.make_empty
 			default_create
@@ -95,7 +95,14 @@ feature {NONE} -- Status query
 
 	is_maximized: BOOLEAN
 
+	is_thread_management_logged: BOOLEAN
+
 feature {NONE} -- Implementation
+
+	call (object: ANY)
+			-- For initializing once routines
+		do
+		end
 
 	create_interface_objects
 		local

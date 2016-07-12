@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-19 12:57:30 GMT (Tuesday 19th January 2016)"
+	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 class
@@ -44,7 +44,7 @@ feature -- Basic operations
 			in_file, out_file: PLAIN_TEXT_FILE; line: STRING; line_count: INTEGER
 		do
 			log.enter ("execute")
-			log_or_io.put_path_field ("Encrypting", source_path); log_or_io.put_new_line
+			lio.put_path_field ("Encrypting", source_path); lio.put_new_line
 			create in_file.make_open_read (source_path)
 			create out_file.make_open_write (output_path)
 

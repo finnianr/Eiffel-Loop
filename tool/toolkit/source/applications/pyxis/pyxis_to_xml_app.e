@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-16 13:38:37 GMT (Saturday 16th January 2016)"
+	date: "2016-07-08 20:15:42 GMT (Friday 8th July 2016)"
 	revision: "10"
 
 class
@@ -104,11 +104,7 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{PYXIS_TO_XML_APP}, All_routines],
-				[{EL_PYXIS_PARSER}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines],
-				[{EL_XML_DOCUMENT_LOGGER}, All_routines],
-				[{PYXIS_TO_XML_CONVERTER}, All_routines],
-				[{EL_PYXIS_XML_TEXT_GENERATOR}, All_routines]
+				[{PYXIS_TO_XML_CONVERTER}, All_routines]
 			>>
 		end
 

@@ -1,6 +1,6 @@
 ﻿note
 	description: "[
-		List of users determined by listing directories in C:\Users (Windows) or /home (Linux)
+		List of users determined by listing directories in `C:\Users' (Windows) or `/home' (Linux)
 		For Windows, hidden or system directories are ignored, also the Public folder
 	]"
 
@@ -9,7 +9,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-21 11:12:34 GMT (Tuesday 21st June 2016)"
+	date: "2016-07-07 16:03:35 GMT (Thursday 7th July 2016)"
 	revision: "5"
 
 deferred class

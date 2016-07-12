@@ -2,12 +2,12 @@
 	description: "Product queue serviced by many consumers"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-03 11:55:20 GMT (Sunday 3rd July 2016)"
+	revision: "4"
 
 class
 	EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
@@ -43,9 +43,9 @@ feature -- Basic operations
 			--
 		do
 			delegator.launch
-			all_consumers.do_all (
-				agent (consumer: CONSUMER_TYPE) do consumer.launch end
-			)
+			across all_consumers as consumer loop
+				consumer.item.launch
+			end
 		end
 
 feature {EL_DELEGATING_CONSUMER_THREAD} -- Access

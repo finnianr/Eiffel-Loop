@@ -1,19 +1,19 @@
 ﻿note
 	description: "[
-		Adapter type constants based on Windows API IfType in struct _IP_ADAPTER_ADDRESSES
+		Adapter type constants based on Windows API `IfType' in `struct _IP_ADAPTER_ADDRESSES'
 		
-		http://msdn.microsoft.com/en-us/library/windows/desktop/aa366058%28v=vs.85%29.aspx
+		[http://msdn.microsoft.com/en-us/library/windows/desktop/aa366058%28v=vs.85%29.aspx See Microsoft MSDN article]
 		
 		Shared with Unix implementations
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-06 15:01:07 GMT (Wednesday 6th July 2016)"
+	revision: "4"
 
 class
 	EL_IP_ADAPTER_CONSTANTS

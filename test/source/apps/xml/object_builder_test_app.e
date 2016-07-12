@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-17 10:17:18 GMT (Sunday 17th January 2016)"
+	date: "2016-07-08 11:23:43 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -117,7 +117,6 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{OBJECT_BUILDER_TEST_APP}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines],
 				[{SMIL_AUDIO_SEQUENCE}, All_routines],
 				[{SMIL_AUDIO_CLIP}, All_routines],
 				[{SMIL_PRESENTATION}, All_routines],

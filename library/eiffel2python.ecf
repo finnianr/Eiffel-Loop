@@ -33,7 +33,8 @@
 		<library name = "gobo_kernel" location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"/>
 		<library name = "gobo_base" location = "gobo-base.ecf"/>
 		<!--Eiffel Loop-->
-		<library name = "EL_base" location = "base.ecf"/>
+		<library name = "EL_base" location = "base/base.ecf"/>
+		<!--Source code-->
 		<cluster name = "python" location = "language_interface/Python" recursive = "true">
 			<option namespace = "Eiffel-Loop.Python"/>
 		</cluster>

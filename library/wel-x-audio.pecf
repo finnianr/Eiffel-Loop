@@ -42,7 +42,7 @@ system:
 		
 		# Eiffel-Loop
 		library:
-			name = EL_base; location = "base.ecf"
+			name = EL_base; location = "base/base.ecf"
 
 		# Source code
 		cluster:

@@ -28,25 +28,31 @@ system:
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
-		library: 
+		library:
 			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
+
+		# Gobo
+		library: 
+			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
 
 		library:
 			name = gobo_base; location = "gobo-base.ecf"
 
 		# Eiffel Loop
 		library:
-			name = EL_base; location = "base.ecf"
+			name = EL_base; location = "base/base.ecf"
 
 		library:
 			name = EL_network; location = "network.ecf"
 
 		library:
-			name = EL_vtd_xml; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
+			name = EL_vtd_xml; location = "vtd-xml.ecf"
+
+		library:
+			name = EL_xdoc_scanning; readonly = false
+			location = "xdoc-scanning.ecf"
 
 		# Source code
 		cluster:
-			name = ftp; location = "network/ftp"; recursive = true
-			option:
-				namespace = "Eiffel-Loop.ftp"
+			name = ftp; location = "network/protocol/ftp"; recursive = true
 

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 7:27:30 GMT (Wednesday 16th December 2015)"
+	date: "2016-07-05 5:04:45 GMT (Tuesday 5th July 2016)"
 	revision: "8"
 
 class
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 	make_from_file (a_file_path: EL_FILE_PATH)
 		local
-			source_lines: EL_UTF_8_FILE_LINES
+			source_lines: EL_FILE_LINE_SOURCE
 		do
 			make_machine
 			create source_lines.make (a_file_path)

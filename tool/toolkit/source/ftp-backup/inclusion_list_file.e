@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 18:11:35 GMT (Monday 20th June 2016)"
+	date: "2016-07-08 7:22:10 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 class
@@ -39,8 +39,8 @@ feature {NONE} -- Implementation
 				find_files_cmd.set_depth (1 |..| 1)
 				find_files_cmd.set_follow_symbolic_links (True)
 				find_files_cmd.set_working_directory (target_parent)
-				log_or_io.put_path_field ("Working", find_files_cmd.working_directory)
-				log_or_io.put_new_line
+				lio.put_path_field ("Working", find_files_cmd.working_directory)
+				lio.put_new_line
 				find_files_cmd.execute
 
 				across find_files_cmd.path_list as found_path loop

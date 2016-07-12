@@ -2,12 +2,12 @@
 	description: "Summary description for {XML_TO_PYXIS_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-06-26 14:32:36 GMT (Friday 26th June 2015)"
-	revision: "7"
+	date: "2016-07-08 20:01:37 GMT (Friday 8th July 2016)"
+	revision: "8"
 
 class
 	XML_TO_PYXIS_APP
@@ -44,7 +44,7 @@ feature -- Test
 	test_xml_to_pyxis (a_dir_path: EL_DIR_PATH)
 			--
 		do
-			across File_system.file_list (a_dir_path, "*") as file_path loop
+			across OS.file_list (a_dir_path, "*") as file_path loop
 				create converter.make (file_path.item)
 				normal_run
 			end
@@ -89,7 +89,6 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{XML_TO_PYXIS_APP}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines],
 				[{XML_TO_PYXIS_CONVERTER}, All_routines]
 			>>
 		end

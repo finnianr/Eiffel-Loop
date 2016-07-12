@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 11:26:20 GMT (Monday 28th December 2015)"
+	date: "2016-07-01 14:33:11 GMT (Friday 1st July 2016)"
 	revision: "6"
 
 class
@@ -17,11 +17,6 @@ inherit
 		export
 			{NONE} all
 		redefine
-			default_create
-		end
-
-	EL_MODULE_LOG
-		undefine
 			default_create
 		end
 
@@ -121,7 +116,7 @@ feature {NONE} -- Initialization
 			field: EL_ID3_FRAME
 			name, value: ZSTRING
 		do
-			log.enter ("initialize_tables")
+--			log.enter ("initialize_tables")
 			across fields as l_field loop
 				field := l_field.item
 				if attached {EL_ID3_UNIQUE_FILE_ID} field as unique_id_field and then not unique_id_field.id.is_empty then
@@ -161,10 +156,10 @@ feature {NONE} -- Initialization
 					name := Encoding_names [field.encoding]; value := field.string
 
 				end
-				log.put_string_field (field.code + " (" + name + ")", value)
-				log.put_new_line
+--				log.put_string_field (field.code + " (" + name + ")", value)
+--				log.put_new_line
 			end
-			log.exit
+--			log.exit
 		end
 
 feature -- Basic fields

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 16:08:48 GMT (Thursday 24th December 2015)"
+	date: "2016-07-08 10:47:00 GMT (Friday 8th July 2016)"
 	revision: "5"
 
 class
@@ -22,7 +22,7 @@ inherit
 			make, make_pyxis_source, target_object, set_target_object
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make, make_pyxis_source
@@ -161,8 +161,8 @@ feature {NONE} -- Xpath matching operations
 			--
 		do
 			debug ("EL_XPATH_MATCH_SCAN_SOURCE")
-				log.put_string_field ("Xpath current node ", last_node_xpath.out)
-				log.put_new_line
+				lio.put_string_field ("Xpath current node ", last_node_xpath.out)
+				lio.put_new_line
 			end
 			-- first try and match full path
 			procedure_lookup.search (last_node_xpath)
@@ -200,14 +200,14 @@ feature {NONE} -- Xpath matching operations
 			node_procedure_lookup.put (node_action.action, xpath)
 
 			if node_procedure_lookup = node_START_procedure_lookup then
-				log.put_string_field ("Xpath on_node_start", node_action.xpath)
+				lio.put_string_field ("Xpath on_node_start", node_action.xpath)
 			else
-				log.put_string_field ("Xpath on_node_end", node_action.xpath)
+				lio.put_string_field ("Xpath on_node_end", node_action.xpath)
 			end
-			log.put_new_line
-			log.put_string_field ("Tokenized xpath", xpath.out)
-			log.put_new_line
-			log.put_new_line
+			lio.put_new_line
+			lio.put_string_field ("Tokenized xpath", xpath.out)
+			lio.put_new_line
+			lio.put_new_line
 		end
 
 	fill_xpath_action_table (agent_map_array: ARRAY [EL_XPATH_TO_AGENT_MAP])
@@ -215,7 +215,7 @@ feature {NONE} -- Xpath matching operations
 		local
 			i: INTEGER
 		do
-			log.enter ("fill_xpath_action_table")
+			lio.enter ("fill_xpath_action_table")
 			from i := 1 until i > agent_map_array.count loop
 				if agent_map_array.item (i).is_applied_to_open_element then
 					add_node_action_to_procedure_lookup (
@@ -228,7 +228,7 @@ feature {NONE} -- Xpath matching operations
 				end
 				i := i + 1
 			end
-			log.exit
+			lio.exit
 		end
 
 end

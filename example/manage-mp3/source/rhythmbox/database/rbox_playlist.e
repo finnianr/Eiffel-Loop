@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 10:52:41 GMT (Monday 28th December 2015)"
+	date: "2016-07-08 10:34:32 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -117,9 +117,9 @@ feature -- Access
 	checksum: NATURAL_32
 			-- Media item attribute
 		local
-			crc: like new_crc_generator
+			crc: like crc_generator
 		do
-			crc := new_crc_generator
+			crc := crc_generator
 			from start until after loop
 				crc.add_string (song.mp3_relative_path.to_string)
 				if song.has_silence_specified then
@@ -166,10 +166,10 @@ feature -- Element change
 			index_by_audio_id.search (a_audio_id)
 			if index_by_audio_id.found then
 				extend (index_by_audio_id.found_item)
-				log_or_io.put_line (last.artist + ": " + last.title)
+				lio.put_line (last.artist + ": " + last.title)
 			else
-				log_or_io.put_string_field ("Not found", a_audio_id.out)
-				log_or_io.put_new_line
+				lio.put_string_field ("Not found", a_audio_id.out)
+				lio.put_new_line
 			end
 			log.exit
 		end

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-21 12:01:56 GMT (Tuesday 21st June 2016)"
+	date: "2016-07-04 12:12:41 GMT (Monday 4th July 2016)"
 	revision: "10"
 
 class
@@ -24,10 +24,11 @@ feature {NONE} -- Implementation
 			--
 		once
 			Result := <<
+				{AUTOTEST_DEVELOPMENT_APP},
+
 				{CODEC_GENERATOR_APP},
 				{CRYPTO_APP},
 
-				{EIFFEL_CLASS_LIBRARY_MANIFEST_APP},
 				{EIFFEL_CLASS_PREFIX_REMOVAL_APP},
 
 				{EIFFEL_CODE_HIGHLIGHTING_TEST_APP},
@@ -43,6 +44,7 @@ feature {NONE} -- Implementation
 
 				{EIFFEL_UPGRADE_DEFAULT_POINTER_SYNTAX_APP},
 				{EIFFEL_UPGRADE_LOG_FILTERS_APP},
+				{EIFFEL_REPOSITORY_PUBLISHER_APP},
 
 				{EIFFEL_SOURCE_FILE_NAME_NORMALIZER_APP},
 				{EIFFEL_SOURCE_LOG_LINE_REMOVER_APP},

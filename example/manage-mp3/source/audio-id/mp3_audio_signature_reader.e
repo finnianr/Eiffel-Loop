@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-09-12 12:30:06 GMT (Saturday 12th September 2015)"
+	date: "2016-07-01 9:24:43 GMT (Friday 1st July 2016)"
 	revision: "4"
 
 class
@@ -16,7 +16,7 @@ inherit
 	EL_COMMAND
 
 	EL_MODULE_LOG
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_OS
 
 create
 	default_create, make
@@ -37,7 +37,7 @@ feature -- Basic operations
 			mp3: MP3_IDENTIFIER
 		do
 			log.enter ("execute")
-			across File_system.file_list (music_dir, "*.mp3") as mp3_path loop
+			across OS.file_list (music_dir, "*.mp3") as mp3_path loop
 				create mp3.make (mp3_path.item)
 				mp3_path_table.put (mp3_path.item, mp3.audio_id)
 				if mp3_path_table.inserted then
@@ -75,7 +75,7 @@ feature {NONE} -- Implementation
 				if l_file_1 ~ l_file_2 then
 					log.put_path_field ("Removed", file_2)
 					log.put_new_line
-					File_system.remove_file (file_2)
+					OS.File_system.remove_file (file_2)
 				end
 			end
 			log.exit

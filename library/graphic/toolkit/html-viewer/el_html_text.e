@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 17:24:06 GMT (Saturday 26th December 2015)"
+	date: "2016-07-01 14:42:43 GMT (Friday 1st July 2016)"
 	revision: "5"
 
 class
@@ -32,10 +32,10 @@ inherit
 			default_create, copy
 		end
 
-	EL_MODULE_LOG
-		undefine
-			default_create, copy
-		end
+--	EL_MODULE_LOG
+--		undefine
+--			default_create, copy
+--		end
 
 	EL_MODULE_FILE_SYSTEM
 		undefine

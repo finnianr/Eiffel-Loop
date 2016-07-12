@@ -1,18 +1,18 @@
 ﻿note
 	description: "[
-		Extract all html between <body> and </body> tags and output as "<subject name>.body"
+		Extract all html between `<body>' and `</body>' tags and output as `<subject name>.body'.
 		Insert a page anchor before each h2 heading
 			
 			<a id="Title 1"></a>
 			<h2>Title 1</h2>
 			
-		Write and index file of all <h2> tags named "<subject name>.h2"
+		Write and index file of all `<h2>' tags named `<subject name>.h2'
 			
 			Title 1
 			Title 2
 			..
 			
-		insert a class attribute into the first h2 element in the page
+		Insert a class attribute into the first h2 element in the page.
 
 			<h2 class="first">Title 1</h2>
 	]"
@@ -22,7 +22,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-22 11:03:13 GMT (Friday 22nd April 2016)"
+	date: "2016-07-08 7:22:10 GMT (Friday 8th July 2016)"
 	revision: "7"
 
 class
@@ -82,14 +82,14 @@ feature -- Basic operations
 				end
 				new_crc.add_file (new_order_file_path)
 				if crc.checksum = new_crc.checksum then
-					File_system.remove_file (new_order_file_path)
+					OS.File_system.remove_file (new_order_file_path)
 				else
-					log_or_io.put_path_field ("Created new", order_file_path)
-					log_or_io.put_new_line
+					lio.put_path_field ("Created new", order_file_path)
+					lio.put_new_line
 					if order_file_path.exists then
-						File_system.remove_file (order_file_path)
+						OS.File_system.remove_file (order_file_path)
 					end
-					File_system.rename_file (new_order_file_path, order_file_path)
+					OS.File_system.rename_file (new_order_file_path, order_file_path)
 				end
 			end
 		end
@@ -215,8 +215,8 @@ feature {NONE} -- Implementation
 			end
 			Precursor
 			if is_html_updated then
-				log_or_io.put_path_field ("Write H2", h2_list_file_path)
-				log_or_io.put_new_line
+				lio.put_path_field ("Write H2", h2_list_file_path)
+				lio.put_new_line
 				create h2_file.make_open_write (h2_list_file_path)
 				h2_file.enable_bom
 				h2_file.put_lines (h2_list)

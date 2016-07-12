@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 22:35:01 GMT (Friday 18th December 2015)"
+	date: "2016-07-05 17:26:14 GMT (Tuesday 5th July 2016)"
 	revision: "7"
 
 class
@@ -43,6 +43,12 @@ feature -- Basic operations
 
 				elseif attached {DOUBLE_REF} value as double_ref then
 					put_double_value (output, double_ref.out)
+
+				elseif attached {INTEGER_REF} value as integer_ref then
+					output.put_integer (integer_ref.item)
+
+				elseif attached {NATURAL_32_REF} value as natural_ref then
+					output.put_natural (natural_ref.item)
 
 				else
 					output.put_string (value.out)

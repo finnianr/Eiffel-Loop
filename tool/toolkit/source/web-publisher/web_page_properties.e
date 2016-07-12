@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 13:57:45 GMT (Sunday 20th December 2015)"
+	date: "2016-07-08 20:06:11 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 class
@@ -33,16 +33,14 @@ feature {NONE} -- Initaliazation
 	make_from_file (file_path: EL_FILE_PATH)
 			--
 		do
-			log.enter_with_args ("make_from_file", << file_path >>)
 			make_machine
 			create lines.make_empty
 			do_once_with_file_lines (agent find_html_tag, create {EL_FILE_LINE_SOURCE}.make (file_path))
 			lines.extend ("</html>")
-			log.put_string_field_to_max_length ("XML", lines.joined_lines, 200)
-			log.put_new_line
+			lio.put_string_field_to_max_length ("XML", lines.joined_lines, 200)
+			lio.put_new_line
 			make_from_string (lines.joined_lines)
 			lines.wipe_out
-			log.exit
 		end
 
 feature {NONE} -- Line procedure transitions

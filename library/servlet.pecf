@@ -44,21 +44,26 @@ system:
 
 		# Eiffel Loop
 		library:
-			name = EL_base; location = "base.ecf"
+			name = EL_base; location = "base/base.ecf"
 
 		library:
-			name = EL_app_manage; location = "app-manage.ecf"; readonly = false
+			name = EL_app_manage; location = "app-manage.ecf"
 
 		library:
 			name = EL_encryption; location = "$EIFFEL_LOOP/library/encryption.ecf"
 			readonly = false
 
 		library:
-			name = EL_http; readonly = false
-			location = "http.ecf"
+			name = EL_http; location = "http.ecf"
+
+		library:
+			name = EL_logging; location = "logging.ecf"
 
 		library:
 			name = EL_net_base; location = "network.ecf"
+
+		library:
+			name = EL_thread; location = "thread.ecf"
 
 		library:
 			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"; readonly = false

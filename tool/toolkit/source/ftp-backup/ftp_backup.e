@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 18:37:02 GMT (Friday 24th June 2016)"
+	date: "2016-07-10 8:48:48 GMT (Sunday 10th July 2016)"
 	revision: "8"
 
 class
@@ -68,11 +68,11 @@ feature -- Basic operations
 					if target_directory_path.exists then
 						backup_directory (l_directory.node, target_directory_path)
 					else
-						log_or_io.put_path_field ("ERROR: no such directory", target_directory_path)
-						log_or_io.put_new_line
+						lio.put_path_field ("ERROR: no such directory", target_directory_path)
+						lio.put_new_line
 					end
 				else
-					log_or_io.put_line ("ERROR: missing path node")
+					lio.put_line ("ERROR: missing path node")
 				end
 			end
 			log.exit
@@ -89,8 +89,8 @@ feature -- Basic operations
 			archive_file: ARCHIVE_FILE
 		do
 			log.enter ("backup_directory")
-			log_or_io.put_path_field ("Backup", target_directory_path)
-			log_or_io.put_new_line
+			lio.put_path_field ("Backup", target_directory_path)
+			lio.put_new_line
 
 			backup_name := directory_node.string_at_xpath ("name")
 			if backup_name.is_empty then
@@ -103,7 +103,7 @@ feature -- Basic operations
 			create archive_file.make (directory_node, target_directory_path, archive_dir_path, backup_name)
 			total_kilo_bytes := total_kilo_bytes + archive_file.kilo_bytes
 			archive_file_path := archive_file.file_path
-			log_or_io.put_path_field ("Creating archive", archive_file_path); log_or_io.put_new_line
+			lio.put_path_field ("Creating archive", archive_file_path); lio.put_new_line
 
 			if archive_file_path.exists then
 				 ftp_destination_directory := directory_node.string_32_at_xpath ("ftp-destination-path")
@@ -112,7 +112,9 @@ feature -- Basic operations
 					log.put_new_line
 					log.put_path_field ("ftp-destination", ftp_destination_directory)
 					log.put_new_line
-					archive_and_destination_paths.extend ([archive_file_path, ftp_destination_directory])
+					archive_and_destination_paths.extend (
+						create {EL_FTP_UPLOAD_ITEM}.make (archive_file_path, ftp_destination_directory)
+					)
 				end
 			end
 			log.exit
@@ -136,22 +138,25 @@ feature -- Basic operations
 				root_node.find_node ("/backup-script/ftp-site")
 				if root_node.node_found then
 					ftp_site_node := root_node.found_node
-					log_or_io.put_new_line
+					lio.put_new_line
 					if total_size_mega_bytes > Max_mega_bytes_to_send then
-						log_or_io.put_string ("WARNING, total backup size ")
-						log_or_io.put_real (total_size_mega_bytes)
-						log_or_io.put_string (" megabytes exceeds limit (")
-						log_or_io.put_real (Max_mega_bytes_to_send)
-						log_or_io.put_string (")")
-						log_or_io.put_new_line
+						lio.put_string ("WARNING, total backup size ")
+						lio.put_real (total_size_mega_bytes)
+						lio.put_string (" megabytes exceeds limit (")
+						lio.put_real (Max_mega_bytes_to_send)
+						lio.put_string (")")
+						lio.put_new_line
 					end
 				end
 			end
 			if ask_user_to_upload then
-				log_or_io.put_string ("Copy files offsite? (y/n) ")
+				lio.put_string ("Copy files offsite? (y/n) ")
 				if User_input.entered_letter ('y') then
 					create website.make_from_node (ftp_site_node)
-					website.do_ftp_upload (archive_and_destination_paths)
+					website.login
+					if website.is_logged_in then
+						website.do_ftp_upload (archive_and_destination_paths)
+					end
 				end
 			end
 		end
@@ -185,7 +190,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation: attributes
 
-	archive_and_destination_paths: LINKED_LIST [TUPLE [source_path: EL_FILE_PATH; destination_path: EL_DIR_PATH]]
+	archive_and_destination_paths: LINKED_LIST [EL_FTP_UPLOAD_ITEM]
 
 	root_node: EL_XPATH_ROOT_NODE_CONTEXT
 

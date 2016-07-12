@@ -21,7 +21,7 @@ system:
 			all_classes = true
 
 		option:
-			namespace = "Eiffel-Loop.Library.FTP"; trace = false; debug=false; warning=true; syntax = standard
+			namespace = "Eiffel-Loop.Library.http"; trace = false; debug=false; warning=true; syntax = standard
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
@@ -32,11 +32,11 @@ system:
 			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
 
 		library:
-			name = url_client; location = "ES-cURL.ecf"
+			name = url_client; location = "override/ES-cURL.ecf"
 
 		# Eiffel Loop
 		library:
-			name = EL_base; location = "base.ecf"
+			name = EL_base; location = "base/base.ecf"
 
 		library:
 			name = EL_c_api; location = "C-language-interface.ecf"; readonly = false
@@ -46,11 +46,14 @@ system:
 			location = "encryption.ecf"
 
 		library:
+			name = EL_thread; location = "thread.ecf"
+
+		library:
 			name = EL_vtd_xml; location = "vtd-xml.ecf"; readonly = false
 
 		# Source code
 		cluster:
-			name = http; location = "network/http"; recursive = true
+			name = http; location = "network/protocol/http"; recursive = true
 			option:
 				namespace = "Eiffel-Loop.http"
 

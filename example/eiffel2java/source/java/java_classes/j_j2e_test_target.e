@@ -2,12 +2,12 @@
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:16 GMT (Thursday 11th December 2014)"
-	revision: "2"
+	date: "2016-07-09 7:27:18 GMT (Saturday 9th July 2016)"
+	revision: "3"
 
 class
 	J_J2E_TEST_TARGET
@@ -16,6 +16,14 @@ inherit
 	DEFAULT_JPACKAGE
 
 	JAVA_OBJECT_REFERENCE
+		undefine
+			new_lio
+		end
+
+	EL_MODULE_LOG
+		undefine
+			is_equal
+		end
 
 create
 	make_from_string,

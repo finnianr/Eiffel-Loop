@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:23:17 GMT (Friday 24th June 2016)"
+	date: "2016-07-08 15:05:31 GMT (Friday 8th July 2016)"
 	revision: "6"
 
 class
@@ -28,8 +28,9 @@ feature -- Basic operations
 	test_run
 			--
 		do
-			Test.do_file_test ("jobserve-results.evol", agent write_substituted_template, 1109681900)
-			Test.do_file_test ("if_then.evol", agent test_if_then, 525504879)
+			Test.set_excluded_file_extensions (<< "evc" >>)
+			Test.do_file_test ("jobserve-results.evol", agent write_substituted_template, 2094473397)
+			Test.do_file_test ("if_then.evol", agent test_if_then, 1380087703)
 		end
 
 feature -- Test
@@ -46,7 +47,6 @@ feature -- Test
 			initialize_root_context
 			create html_file.make_open_write (template_path.with_new_extension ("html"))
 			Evolicity_templates.merge_to_file (template_path, root_context, html_file)
-			html_file.close
 			log.exit
 		end
 
@@ -128,9 +128,7 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{EVOLICITY_TEST_APP}, All_routines],
-				[{EL_TEST_ROUTINES}, All_routines],
-				[{EVOLICITY_TEMPLATES}, "merge_to_file"],
-				[{EVOLICITY_FILE_LEXER}, "consume_events, -add_token"]
+				[{EL_REGRESSION_TESTING_ROUTINES}, All_routines]
 			>>
 		end
 
