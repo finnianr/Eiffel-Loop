@@ -13,9 +13,9 @@ inherit
 
 feature -- Constants
 
-	Version_number: NATURAL = 01_01_19
+	Version_number: NATURAL = 01_01_20
 
-	Build_number: NATURAL = 290
+	Build_number: NATURAL = 294
 
 	Installation_sub_directory: EL_DIR_PATH
 		once

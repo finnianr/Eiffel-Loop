@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-11 17:13:29 GMT (Monday 11th July 2016)"
+	date: "2016-07-12 11:37:51 GMT (Tuesday 12th July 2016)"
 	revision: "9"
 
 class
@@ -115,6 +115,8 @@ feature -- Element change
 					current_directory := current_directory.joined_dir_path (a_current_directory)
 				end
 			end
+		ensure
+			changed: get_current_directory ~ current_directory
 		end
 
 	set_home_directory (a_home_directory: like home_directory)
@@ -302,6 +304,11 @@ feature -- Status change
 			else
 				lio.put_line ("QUIT command failed")
 			end
+		end
+
+	set_default_state
+		do
+			make_default
 		end
 
 feature {NONE} -- Implementation

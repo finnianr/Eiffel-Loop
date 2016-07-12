@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 14:14:52 GMT (Thursday 7th July 2016)"
+	date: "2016-07-12 14:38:05 GMT (Tuesday 12th July 2016)"
 	revision: "4"
 
 class
@@ -28,6 +28,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			create source_tree_pages.make (0)
+			create stats_cmd.make_default
 			Precursor
 		end
 
@@ -35,6 +36,10 @@ feature {NONE} -- Initialization
 		do
 			make_page (a_repository)
 			source_tree_pages := a_source_tree_pages
+			across repository.tree_list as tree loop
+				stats_cmd.manifest.locations.extend (tree.item)
+			end
+			stats_cmd.execute
 		end
 
 feature -- Access
@@ -68,7 +73,8 @@ feature {NONE} -- Evolicity fields
 		do
 			Result := Precursor
 			Result.append_tuples (<<
-				["category_list",	agent: like category_list do Result := category_list end]
+				["category_list",	agent: like category_list do Result := category_list end],
+				["stats", 			agent: like stats_cmd do Result := stats_cmd end]
 			>>)
 		end
 
@@ -95,6 +101,8 @@ feature {NONE} -- Implementation
 		end
 
 	source_tree_pages: like repository.new_source_tree_pages
+
+	stats_cmd: EIFFEL_CODEBASE_STATISTICS_COMMAND
 
 feature -- Constants
 
