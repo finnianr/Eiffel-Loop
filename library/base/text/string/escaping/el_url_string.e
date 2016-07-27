@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "URL encoded string"
 
 	author: "Finnian Reilly"

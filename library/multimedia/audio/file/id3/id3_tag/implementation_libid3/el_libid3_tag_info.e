@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Wrapper for ID3 tag editing library libid3 from id3lib.org
 

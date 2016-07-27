@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_WEL_CONVERSION}."
 
 	author: "Finnian Reilly"

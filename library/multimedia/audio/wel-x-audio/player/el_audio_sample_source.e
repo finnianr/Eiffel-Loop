@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Sequence of PCM audio data blocks implemented as C arrays.
 	]"

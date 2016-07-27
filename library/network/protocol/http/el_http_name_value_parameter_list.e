@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_HTTP_PARAMETER_LIST}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Class for parsing XML documents and matching sets of xpaths"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,24 @@
-﻿note
-	description: "Objects that ..."
+note
+	description: "[
+		Makes calls over a network socket to the Flash ActionScript object of type:
+		[https://github.com/finnianr/Eiffel-Loop/blob/master/Flash_library/eiffel_loop/laabhair/LAABHAIR_SERVER_PROXY.as eiffel_loop.laabhair.LAABHAIR_SERVER_PROXY].
+		Calls to ActionScript objects are encoded with XML as for example:
+
+			<flash-procedure-call>
+				<object-name>$object_name</object-name>
+				<procedure-name>$procedure_name</procedure-name>
+				<arguments>
+					<Number>$arg1</Number>
+					<Boolean>$arg2</Boolean>
+					<String>$arg3</String>
+					<Array>
+						<Number>1</Number>
+						<Number>2</Number>
+						<Number>3</Number>
+					</Array>
+				</arguments>
+			</flash-procedure-call>
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
@@ -23,21 +42,6 @@ inherit
 feature {NONE} -- Initialization
 
 	make (a_procedure_call_request_queue: EL_THREAD_PRODUCT_QUEUE [STRING])
-
-			--		<flash-procedure-call>
-			--			<object-name>$object_name</object-name>
-			--			<procedure-name>$procedure_name</procedure-name>
-			--			<arguments>
-			--				<Number>$arg1</Number>
-			--				<Boolean>$arg2</Boolean>
-			--				<String>$arg3</String>
-			--				<Array>
-			--					<Number>1</Number>
-			--					<Number>2</Number>
-			--					<Number>3</Number>
-			--				</Array>
-			--			</arguments>
-			--		</flash-procedure-call>
 
 		do
 			procedure_call_request_queue := a_procedure_call_request_queue
@@ -218,6 +222,5 @@ feature {NONE} -- Implementation
 	nested_array_arg_xml: EL_XML_PARENT_TAG_LIST
 
 end
-
 
 

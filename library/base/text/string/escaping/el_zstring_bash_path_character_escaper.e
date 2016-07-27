@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ZSTRING_BASH_PATH_CHARACTER_ESCAPER}."
 
 	author: "Finnian Reilly"

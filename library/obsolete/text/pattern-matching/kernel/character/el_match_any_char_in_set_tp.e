@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -62,4 +62,3 @@ feature -- Access
 	character_set: STRING_GENERAL
 
 end -- class EL_MATCH_ANY_CHAR_IN_SET_TP
-

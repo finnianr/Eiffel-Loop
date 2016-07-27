@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Interface to C API for sending commands to running instance of Praat.exe"
 
 	author: "Finnian Reilly"
@@ -68,5 +68,4 @@ feature {NONE} -- C externals
 		end
 	
 end
-
 

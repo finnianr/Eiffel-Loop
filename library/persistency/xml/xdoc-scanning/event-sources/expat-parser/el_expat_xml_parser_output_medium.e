@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EXPAT_XML_PARSER_INPUT_MEDIUM}."
 
 	author: "Finnian Reilly"

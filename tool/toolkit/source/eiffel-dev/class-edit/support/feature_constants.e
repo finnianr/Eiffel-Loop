@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {FEATURE_CONSTANTS}."
 
 	author: "Finnian Reilly"

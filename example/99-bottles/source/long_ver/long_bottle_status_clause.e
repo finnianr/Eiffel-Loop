@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Summary description for {LONG_BOTTLE_STATUS_CLAUSE}."
 
 	author: "Finnian Reilly"
@@ -26,7 +26,7 @@ convert
 
 feature {NONE} -- Initialization
 
-	make (quantity: INTEGER) is
+	make (quantity: INTEGER)
 
 		do
 			Precursor (quantity)

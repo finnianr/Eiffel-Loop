@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -40,4 +40,3 @@ feature -- Element change
 		end
 
 end -- class EL_PARSING_EVENT_LIST
-

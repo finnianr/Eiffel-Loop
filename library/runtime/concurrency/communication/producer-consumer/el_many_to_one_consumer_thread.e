@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MANY_TO_ONE_CONSUMER_THREAD}."
 
 	author: "Finnian Reilly"

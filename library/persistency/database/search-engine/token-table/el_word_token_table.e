@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {WORD_TOKEN_TABLE}."
 
 	author: "Finnian Reilly"

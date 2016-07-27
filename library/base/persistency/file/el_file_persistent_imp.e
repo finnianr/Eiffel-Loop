@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Dummy file persistent"
 
 	author: "Finnian Reilly"

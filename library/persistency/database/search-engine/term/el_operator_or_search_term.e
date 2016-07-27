@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {OPERATOR_OR_SEARCH_TERM}."
 
 	author: "Finnian Reilly"

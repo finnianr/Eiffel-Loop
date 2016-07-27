@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ELEMENT_ATTRIBUTE_TABLE}."
 
 	author: "Finnian Reilly"

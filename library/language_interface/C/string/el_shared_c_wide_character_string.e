@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SHARED_C_WIDE_CHARACTER_STRING}."
 
 	author: "Finnian Reilly"

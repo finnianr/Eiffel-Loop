@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XML_ELEMENT}."
 
 	author: "Finnian Reilly"

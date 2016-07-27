@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {TO_DO_LIST}."
 
 	author: "Finnian Reilly"

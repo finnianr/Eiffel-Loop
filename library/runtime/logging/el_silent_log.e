@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Silent 'do nothing' log"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Invokes praat analysis engine with using default script"
 
 	author: "Finnian Reilly"
@@ -223,7 +223,6 @@ invariant
 	Result_consumer_purely_for_reference_as_an_anchor_type: Result_consumer_type = Void
 
 end
-
 
 
 

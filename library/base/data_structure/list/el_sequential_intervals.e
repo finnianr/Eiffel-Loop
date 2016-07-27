@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Sequence of consecutive INTEGER_32 intervals (compressed as INTEGER_64's for better performance)
 			
@@ -13,7 +13,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-21 14:44:18 GMT (Thursday 21st January 2016)"
-	revision: "5"
+	revision: "3"
 
 class
 	EL_SEQUENTIAL_INTERVALS

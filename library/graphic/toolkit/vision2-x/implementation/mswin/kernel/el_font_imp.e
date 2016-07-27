@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Override to `EV_FONT' fixing issue of setting font height in pixels
 	]"

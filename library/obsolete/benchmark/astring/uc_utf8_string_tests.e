@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {TEST_UC_UTF8_STRING}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Checks if [http://www.accuhash.com/what-is-crc32.html CRC-32] checksum for program output differs
 		from previously established checksum.

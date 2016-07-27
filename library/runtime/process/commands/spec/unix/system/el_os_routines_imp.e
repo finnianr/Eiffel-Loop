@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Unix implementation of `EL_OS_ROUTINES_I' interface"
 
 	author: "Finnian Reilly"

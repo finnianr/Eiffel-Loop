@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Intermittently log counting of timed event activity in thread classes like 
 		`EL_REGULAR_INTERVAL_EVENT_PRODUCER' or `EL_CONSUMER'. Output frequency is determined
@@ -11,7 +11,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-07 15:51:29 GMT (Thursday 7th July 2016)"
-	revision: "4"
+	revision: "3"
 
 deferred class
 	EL_LOGGED_EVENT_COUNTER

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_NON_BREAKING_WHITE_SPACE_Z_CHAR_TP}."
 
 	author: "Finnian Reilly"

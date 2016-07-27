@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		GDK wrapped to find physical dimensions of monitor, but not returning correct values
 		on Windows.

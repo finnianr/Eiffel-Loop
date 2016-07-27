@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {COLUMN_VECTOR_COMPLEX_DOUBLE}."
 
 	author: "Finnian Reilly"

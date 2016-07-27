@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MATCH_P1_UNTIL_P2_MATCH_TP2}."
 
 	author: "Finnian Reilly"

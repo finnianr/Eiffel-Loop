@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Quantity description of remaining bottles"
 
 	author: "Finnian Reilly"
@@ -26,7 +26,7 @@ convert
 
 feature {NONE} -- Initialization
 
-	make (quantity: INTEGER) is
+	make (quantity: INTEGER)
 
 		local
 			bottle_quantity: QUANTITY_EXPRESSION
@@ -50,9 +50,9 @@ feature {NONE} -- Initialization
 
 feature -- Constants
 
-	Bottle_singular: STRING is "bottle"
+	Bottle_singular: STRING = "bottle"
 
-	Bottle_plural: STRING is
+	Bottle_plural: STRING
 			--
 		once
 			create Result.make_from_string (Bottle_singular)

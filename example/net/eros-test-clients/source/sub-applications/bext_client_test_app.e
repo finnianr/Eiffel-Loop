@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {BEXT_CLIENT_TEST_APP}."
 
 	author: "Finnian Reilly"

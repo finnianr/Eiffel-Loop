@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_BASH_PATH_CHARACTER_ESCAPER}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-22 18:49:15 GMT (Tuesday 22nd December 2015)"
-	revision: "3"
+	revision: "5"
 
 class
 	EL_BASH_PATH_CHARACTER_ESCAPER [S -> STRING_GENERAL create make end]

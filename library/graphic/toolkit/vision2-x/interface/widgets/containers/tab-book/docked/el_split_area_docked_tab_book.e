@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Docking split area with tabbed area on left and place_holder on right"
 
 	author: "Finnian Reilly"

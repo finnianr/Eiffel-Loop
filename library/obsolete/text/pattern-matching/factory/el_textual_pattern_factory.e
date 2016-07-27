@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Pattern factory"
 
 	author: "Finnian Reilly"
@@ -454,4 +454,3 @@ feature {NONE} -- Constants
 		end
 
 end -- class EL_TEXTUAL_PATTERN_FACTORY
-

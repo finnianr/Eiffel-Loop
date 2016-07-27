@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {XML_TO_PYXIS_APP}."
 
 	author: "Finnian Reilly"
@@ -13,7 +13,7 @@ class
 	XML_TO_PYXIS_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [XML_TO_PYXIS_CONVERTER]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [XML_TO_PYXIS_CONVERTER]
 		rename
 			command as converter
 		redefine

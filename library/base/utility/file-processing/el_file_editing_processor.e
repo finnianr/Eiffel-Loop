@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Source file converter that overwrites source file with conversion"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-20 9:39:21 GMT (Wednesday 20th January 2016)"
 	revision: "4"
@@ -45,5 +45,4 @@ feature -- Element change
  			set_output_file_path (a_file_path)
  		end
 
-end -- class EL_SOURCE_FILE_EDITOR
-
+end

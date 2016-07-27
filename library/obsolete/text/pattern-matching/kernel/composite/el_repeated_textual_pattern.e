@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -124,4 +124,3 @@ feature -- Status check
 		end
 
 end -- class EL_REPEATED_TEXTUAL_PATTERN
-

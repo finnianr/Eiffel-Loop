@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_VISION_2_GUI_ROUTINES}."
 
 	author: "Finnian Reilly"

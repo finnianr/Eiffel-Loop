@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_FIRST_MATCHING_CHAR_IN_LIST_TP2}."
 
 	author: "Finnian Reilly"

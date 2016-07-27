@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Command shell for testing purposes"
 
 	author: "Finnian Reilly"

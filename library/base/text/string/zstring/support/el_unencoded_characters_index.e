@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Fast lookup of code in unencoded intervals array
 	]"

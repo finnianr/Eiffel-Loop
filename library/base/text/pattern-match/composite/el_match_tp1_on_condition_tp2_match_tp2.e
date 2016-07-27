@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MATCH_TP1_ON_CONDITION_TP2_MATCH_TP2}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Convenience class to store all element values for a context in a table but without recursing deeper
 	]"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Editable source lines"
 
 	author: "Finnian Reilly"

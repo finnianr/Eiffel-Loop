@@ -14,8 +14,13 @@ system:
 		
 		description: 
 			"""
-				A Simple XML Database based on VTD-XML xpath and XML parsing library.
+				1. A simple database based on the Eiffel CHAIN class interface
 				Supports transactions and encryption
+				
+				2. A simple XML database based on VTD-XML xpath and XML parsing library.
+				Supports transactions and encryption
+
+				3. Search engine classes
 			"""
 		option: 
 			trace = false; debug = false; warning = true; syntax = standard

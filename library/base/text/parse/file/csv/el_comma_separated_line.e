@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_COMMA_SEPARATED_PARSER}."
 
 	author: "Finnian Reilly"

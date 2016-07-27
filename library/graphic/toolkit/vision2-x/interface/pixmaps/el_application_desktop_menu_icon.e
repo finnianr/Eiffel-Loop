@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DESKTOP_MENU_PIXMAPS}."
 
 	author: "Finnian Reilly"

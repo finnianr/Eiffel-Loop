@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -401,7 +401,6 @@ feature {NONE} -- Default creation values
 		end
 		
 end
-
 
 
 

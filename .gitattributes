@@ -1,0 +1,6 @@
+*.c linguist-language=Eiffel
+*.h linguist-language=Eiffel
+*.cpp linguist-language=Eiffel
+*.java linguist-language=Eiffel
+*.as linguist-language=Eiffel
+

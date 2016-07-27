@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Class to read PKCS1 RSA private key
 		

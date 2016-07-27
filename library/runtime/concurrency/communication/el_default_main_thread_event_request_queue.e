@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Saves event indexes for processing in descendant of `EL_MAIN_THREAD_EVENT_REQUEST_QUEUE',
 		`EL_EV_APPLICATION_IMP'.

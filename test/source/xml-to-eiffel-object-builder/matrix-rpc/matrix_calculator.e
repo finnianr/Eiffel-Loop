@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Perform calculations on matrix with procedure specified in processing instruction
 

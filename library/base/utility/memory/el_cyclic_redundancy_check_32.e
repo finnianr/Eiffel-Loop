@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "CRC32 algorithm described in RFC 1952"
 
 	author: "Finnian Reilly"

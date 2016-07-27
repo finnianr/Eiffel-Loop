@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SVG_TEMPLATE_PIXMAP}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Find and replace operating on a source manifest file"
 
 	author: "Finnian Reilly"
@@ -13,7 +13,7 @@ class
 	EIFFEL_FIND_AND_REPLACE_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [EIFFEL_FIND_AND_REPLACE_COMMAND]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [EIFFEL_FIND_AND_REPLACE_COMMAND]
 		redefine
 			Option_name
 		end

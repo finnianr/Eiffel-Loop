@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {CONSOLE_LOGGING_QUANTUM_BALL_ANIMATION_APP}."
 
 	author: "Finnian Reilly"

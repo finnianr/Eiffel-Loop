@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {MEDIA_ITEM}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 9:26:15 GMT (Wednesday 16th December 2015)"
-	revision: "5"
+	revision: "4"
 
 deferred class
 	MEDIA_ITEM

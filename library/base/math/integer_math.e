@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {INTEGER_MATH}."
 
 	author: "Finnian Reilly"

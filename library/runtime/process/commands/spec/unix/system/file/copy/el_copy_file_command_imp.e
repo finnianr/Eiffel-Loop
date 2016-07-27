@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Unix implementation of `EL_COPY_FILE_COMMAND_I' interface"
 
 	author: "Finnian Reilly"

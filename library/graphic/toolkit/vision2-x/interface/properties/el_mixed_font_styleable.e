@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Routines for label components with mixed font styles"
 
 	author: "Finnian Reilly"

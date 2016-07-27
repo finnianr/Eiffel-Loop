@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LOGGED_THREAD_SAFE_STACK}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-02 10:20:26 GMT (Saturday 2nd July 2016)"
-	revision: "4"
+	revision: "3"
 
 class
 	EL_LOGGED_THREAD_SAFE_STACK [G]

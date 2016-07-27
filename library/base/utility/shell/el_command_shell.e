@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Menu driven console terminal shell"
 
 	author: "Finnian Reilly"

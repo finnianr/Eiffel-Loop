@@ -8,9 +8,44 @@
 body {
 	background-color: white;
 }
-p {
+div#notes {
+	background-color: #E0E0E0;
+	margin-left: 2px;
+	padding: 5px;
+}
+p, li {
+	font-size: 18px;
+}
+p, h2, li {
+	font-family: Verdana, Helvetica, Arial, Geneva, sans-serif;
+	margin-left: 15px;
+}
+em#code {
+	font-family: "Bitstream Vera Sans Mono", monospace;
+	font-size: 0.9em;
+	padding-left: 3px;
+	padding-right: 3px;
+	font-style: normal;
+	background-color: #F0F0F0;
+	border: outset #FFFFFF 1px;
+}
+div#notes p, div#notes h2 {
+	text-align: left;
+	width: 60em;
+}
+div#notes pre {
+	font-family: "Bitstream Vera Sans Mono", monospace;
+	font-size: 0.9em;
+	margin-left: 30px;
+	padding: 5px;
+	background-color: #F0F0F0;
+	border: outset #FFFFFF 2px;
+	width: 71em;
+}
+p.fixed {
 	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 	color: red;	
+	margin-left: 0px;
 }
 p.black {
 	color: black;	

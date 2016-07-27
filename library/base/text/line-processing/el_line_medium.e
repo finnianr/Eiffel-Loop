@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LINE_MEDIUM}."
 
 	author: "Finnian Reilly"

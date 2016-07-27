@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_WINDOW_DRAG}."
 
 	author: "Finnian Reilly"

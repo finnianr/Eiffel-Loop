@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {URL_PARAMETER}."
 
 	author: "Finnian Reilly"

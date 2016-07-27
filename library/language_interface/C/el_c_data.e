@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_C_DATA}."
 
 	author: "Finnian Reilly"

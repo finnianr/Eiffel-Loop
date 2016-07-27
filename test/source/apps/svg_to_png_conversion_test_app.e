@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {TEST_IMAGE_MAGICK_CONVERT_APP}."
 
 	author: "Finnian Reilly"

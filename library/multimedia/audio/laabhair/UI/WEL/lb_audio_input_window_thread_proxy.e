@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Proxy object to (asynchronously) call procedures of `LB_AUDIO_INPUT_WINDOW' from 
 		an external thread (non GUI thread)

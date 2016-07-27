@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object to manage a containable widget in a searchable container.
 		The update routine causes the widget item to be replaced with a new widget created by the factory function

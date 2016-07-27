@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_STRING_HASH_TABLE}."
 
 	author: "Finnian Reilly"

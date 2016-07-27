@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Iteration cursor for node context list"
 
 	author: "Finnian Reilly"

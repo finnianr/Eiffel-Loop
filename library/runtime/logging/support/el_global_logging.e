@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_GLOBAL_LOGGING}."
 
 	author: "Finnian Reilly"

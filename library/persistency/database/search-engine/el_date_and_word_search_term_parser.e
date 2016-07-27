@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DATE_AND_WORD_SEARCH_TERM_PARSER}."
 
 	author: "Finnian Reilly"

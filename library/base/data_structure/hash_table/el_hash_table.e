@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_HASH_TABLE}."
 
 	author: "Finnian Reilly"

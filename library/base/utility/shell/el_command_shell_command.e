@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "`EL_COMMAND_SHELL' that plugs into `EL_COMMAND_SHELL_SUB_APPLICATTION'"
 
 	author: "Finnian Reilly"

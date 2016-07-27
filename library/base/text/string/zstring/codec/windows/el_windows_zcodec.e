@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_WINDOWS_CODEC}."
 
 	author: "Finnian Reilly"

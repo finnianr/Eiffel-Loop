@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Characters that have a special meaning for Windows command interprator and should 
 		be escaped in path arguments.

@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {EL_READABLE_ZSTRING}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-06 10:18:36 GMT (Wednesday 6th July 2016)"
 	revision: "5"
@@ -156,6 +156,13 @@ inherit
 		end
 
 	STRING_HANDLER
+		undefine
+			is_equal, copy, out
+		end
+
+	DEBUG_OUTPUT
+		rename
+			debug_output as as_string_32
 		undefine
 			is_equal, copy, out
 		end

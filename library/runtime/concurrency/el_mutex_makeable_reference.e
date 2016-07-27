@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DEFAULT_CREATE_SYNCHRONIZED_REF}."
 
 	author: "Finnian Reilly"

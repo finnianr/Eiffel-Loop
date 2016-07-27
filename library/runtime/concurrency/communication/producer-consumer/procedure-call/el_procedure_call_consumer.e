@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PROCEDURE_CALL_CONSUMER}."
 
 	author: "Finnian Reilly"

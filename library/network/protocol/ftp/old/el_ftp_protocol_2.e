@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_FTP_PROTOCOL}."
 
 	author: "Finnian Reilly"

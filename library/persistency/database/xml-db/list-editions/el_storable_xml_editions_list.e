@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object to record to disk any editions made to current list of XML storable objects. If the list is reloaded 
 		the editions can be reapplied restoring the state of the previous application session. 

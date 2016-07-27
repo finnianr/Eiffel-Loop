@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PROGRESS_DIALOG}."
 
 	author: "Finnian Reilly"

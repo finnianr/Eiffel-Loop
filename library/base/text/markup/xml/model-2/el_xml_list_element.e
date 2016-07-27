@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "XML element with list of nested elements"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SHARED_LOGGED_THREAD_MANAGER}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 8:43:02 GMT (Sunday 3rd July 2016)"
-	revision: "4"
+	revision: "3"
 
 deferred class
 	EL_SHARED_LOGGED_THREAD_MANAGER

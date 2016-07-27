@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XPATH_TOKEN_CONSTANTS}."
 
 	author: "Finnian Reilly"

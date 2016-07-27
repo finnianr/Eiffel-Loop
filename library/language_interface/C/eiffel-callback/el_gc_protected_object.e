@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Creates a pointer to an Eiffel object that is temporarily exempted from garbage collection.
 		It's position in memory is gauranteed not to move. This is useful for calling Eiffel procedures from a C callback.

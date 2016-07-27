@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_GVFS_FILE_LIST_COMMAND}."
 
 	author: "Finnian Reilly"

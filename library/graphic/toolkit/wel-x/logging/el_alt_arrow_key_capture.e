@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -54,5 +54,4 @@ feature -- Event handlers
 		deferred
 		end
 end
-
 

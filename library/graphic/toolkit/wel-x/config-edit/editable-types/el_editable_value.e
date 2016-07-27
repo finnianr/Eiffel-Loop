@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -43,4 +43,3 @@ feature {NONE} -- Implementation
 	edit_listener: EL_EDIT_LISTENER
 	
 end
-

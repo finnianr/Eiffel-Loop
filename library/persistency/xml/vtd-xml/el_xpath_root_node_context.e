@@ -1,10 +1,10 @@
-﻿note
-	description: "Objects that ..."
+note
+	description: "Top level object representing an XML document"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 17:50:14 GMT (Wednesday 16th December 2015)"
 	revision: "7"

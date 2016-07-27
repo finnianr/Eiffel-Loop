@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_UNIQUE_MACHINE_ID}."
 
 	author: "Finnian Reilly"

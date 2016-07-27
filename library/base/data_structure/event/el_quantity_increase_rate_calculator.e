@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_QUANTITY_INCREASE_RATE_CALCULATOR}."
 
 	author: "Finnian Reilly"

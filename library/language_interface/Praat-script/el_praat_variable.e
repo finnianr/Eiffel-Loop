@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Wraps a Praat interpreter variable"
 
 	author: "Finnian Reilly"
@@ -68,4 +68,3 @@ feature {NONE} -- C externals
 			"numericValue"
 		end
 end
-

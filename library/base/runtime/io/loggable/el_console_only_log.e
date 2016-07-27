@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Minimal console only log accessed by the `lio' object in class [./el_module_lio.html EL_MODULE_LIO]
 		It is effectively just an extension of the standard `io' object. It can be optionally integrated with

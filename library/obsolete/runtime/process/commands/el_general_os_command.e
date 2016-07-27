@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_GENERAL_OS_COMMAND}."
 
 	author: "Finnian Reilly"

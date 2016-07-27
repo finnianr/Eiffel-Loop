@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_GVFS_VOLUME_PARSER}."
 
 	author: "Finnian Reilly"

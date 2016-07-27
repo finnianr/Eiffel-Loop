@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Procedure execution acknowlegement"
 
 	author: "Finnian Reilly"

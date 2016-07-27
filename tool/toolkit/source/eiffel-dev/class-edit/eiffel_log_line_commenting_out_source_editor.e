@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Objects that comments out and comments in 'log.xxx' lines
 	]"
@@ -106,4 +106,3 @@ feature {NONE} -- Implementation
 	string_tokenizer_by_eiffel_comment_marker: EL_SPLIT_STRING_LIST
 
 end
-

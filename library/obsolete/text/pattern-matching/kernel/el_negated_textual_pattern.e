@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -65,4 +65,3 @@ feature {NONE} -- Anchored type
 		end
 
 end -- class EL_NEGATED_TEXTUAL_PATTERN
-

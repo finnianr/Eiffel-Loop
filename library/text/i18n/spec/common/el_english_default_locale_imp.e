@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Establishes English as the key language to use for translation lookups
 		Override this in `EL_MODULE_LOCALE' for other languages

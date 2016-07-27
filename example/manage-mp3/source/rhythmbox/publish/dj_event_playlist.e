@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Playlist exported from Rhythmbox in Pyxis format with information about DJ gig.
 		

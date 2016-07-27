@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_FTP_UPLOAD_ITEM}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-11 8:13:28 GMT (Monday 11th July 2016)"
-	revision: "6"
+	revision: "9"
 
 class
 	EL_FTP_UPLOAD_ITEM

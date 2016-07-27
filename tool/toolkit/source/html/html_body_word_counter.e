@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {HTML_BODY_WORD_COUNTER}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-01 8:08:30 GMT (Friday 1st July 2016)"
-	revision: "5"
+	revision: "6"
 
 class
 	HTML_BODY_WORD_COUNTER

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Class to help integrate WEX with Vision2"
 
 	author: "Finnian Reilly"

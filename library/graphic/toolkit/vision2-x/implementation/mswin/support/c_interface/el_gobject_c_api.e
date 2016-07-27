@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_GTK_C_API}."
 
 	author: "Finnian Reilly"

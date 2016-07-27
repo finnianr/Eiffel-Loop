@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DELETE_PATH_IMPL}."
 
 	author: "Finnian Reilly"

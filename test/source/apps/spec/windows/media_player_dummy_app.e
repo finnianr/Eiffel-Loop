@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		For Windows only. A 'do nothing app' for maintenance of class `EL_AUDIO_PLAYER_THREAD'.
 	]"

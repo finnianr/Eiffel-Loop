@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_STRING_MEDIUM_LINE_SOURCE}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {TESTABLE_JAVA_APPLICATION}."
 
 	author: "Finnian Reilly"

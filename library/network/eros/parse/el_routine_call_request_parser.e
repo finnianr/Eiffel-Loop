@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		parse something like: 
 		

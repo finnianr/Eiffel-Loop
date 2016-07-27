@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {VCF_CONTACT_SPLITTER}."
 
 	author: "Finnian Reilly"

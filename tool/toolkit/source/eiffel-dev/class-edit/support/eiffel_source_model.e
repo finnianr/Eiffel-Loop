@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Splits Eiffel source lines into feature groups and individual feature lines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-11 9:26:53 GMT (Saturday 11th June 2016)"
 	revision: "5"
@@ -252,11 +252,6 @@ feature {NONE} -- Constants
 	Footer_start_keywords: EL_ZSTRING_LIST
 		once
 			create Result.make_from_array (<< Keyword_invariant, Keyword_end, Keyword_note >>)
-		end
-
-	Class_declaration_keywords: EL_ZSTRING_LIST
-		once
-			create Result.make_from_array (<< Keyword_frozen, Keyword_deferred, Keyword_class >>)
 		end
 
 	Feature_header_export: EL_ZSTRING

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {APPLICATION_MUTEX}."
 
 	author: "Finnian Reilly"

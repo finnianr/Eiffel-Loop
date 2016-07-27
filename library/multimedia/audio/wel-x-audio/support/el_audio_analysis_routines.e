@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -113,6 +113,5 @@ feature {NONE} -- Implementation
 	Percent_of_samples_for_signal_test: REAL = 0.01
 
 end
-
 
 

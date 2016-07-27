@@ -1,53 +1,17 @@
-﻿note
+note
 	description: "[
 		Object to handle remote procedure call requests for the duration of a session. A session finishes when the 
 		procedure `set_stopping' is called either by the server shutdown process or remotely by the client.
 		
 		Communication with the client is via either partial binary XML or plaintext XML. This mode is settable in either 
 		direction by `set_inbound_transmission_type', set_outbound_transmission_type.
-		
-		**AN EXAMPLE OF AN EROS XML PROCEDURE CALL**
-
-		Suppose for example we have an audio player application that is able to play SMIL play lists. The audio player 
-		has a class `SMIL_PRESENTATION' that knows how to build itself from a SMIL document. The application has a remotely 
-		accessible class `AUDIO_DEVICE' with a procedure play_presentation taking an argument of type `SMIL_PRESENTATION'. In 
-		this example a SMIL document defines some clips to be played sequentially from an audio file. An EXP call message 
-		to remotely call the play_presentation procedure is created by inserting the processing instructions
-		into the SMIL document.
-
-			<?xml version="1.0" encoding="ISO-8859-1"?>
-			<?create {SMIL_PRESENTATION}?>
-			<smil xmlns="http://www.w3.org/2001/SMIL20/Language">
-				<head>
-					<meta name="base" content="file:///home/john/audio-assets/linguistic/study/"/>
-					<meta name="author" content="Dr. John Smith"/>
-					<meta name="title" content="Linguistic analysis"/>
-				</head>
-				<body>
-					<seq id="seq_1" title="Extracts of conversation between Bill and Susan">
-					    <audio id="audio_1" title="Greeting" src="Bill-and-Susan.mp3" clipBegin="5.5s" clipEnd="18.0s"/>
-					    <audio id="audio_2" title="Interjection" src="Bill-and-Susan.mp3" clipBegin="25.5s" clipEnd="30.0s"/>
-					    <audio id="audio_3" title="Disagreement" src="Bill-and-Susan.mp3" clipBegin="55.0s" clipEnd="67.0s"/>
-					</seq>
-				</body>
-			</smil>
-			<?call {AUDIO_DEVICE}.play_presentation ({SMIL_PRESENTATION})?>
-
-		The order of the processing instructions is significant as they are executed during an incremental parse of the document. 
-		The first instruction `<?create {SMIL_PRESENTATION}?>' is self-explanatory, creating an instance of `SMIL_PRESENTATION' to which
-		is added the document data as it is incrementally parsed. By the end of the document, the `SMIL_PRESENTATION' instance contains
-		a representation of the audio clip data. The call instruction on the last line invokes the procedure play_presentation passing
-		the instance of `SMIL_PRESENTATION' as an argument. `AUDIO_DEVICE' is a place holder for an instance of `AUDIO_DEVICE' created at
-		the start of a client session.
-
-		The syntax of the call residing in the processing instruction is reminiscent of the syntax for Eiffel agents.
-		`SMIL_PRESENTATION' serves as a place-holder for the object created with the create instruction.
 	]"
+	notes: "See end of page"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-05 9:46:45 GMT (Tuesday 5th July 2016)"
 	revision: "4"
@@ -277,5 +241,46 @@ feature {NONE} -- Constants
 			create Result.make
 			Result.set_plain_text_end_delimited_source
 		end
+
+note
+	notes: "[
+		**AN EXAMPLE OF AN EROS XML PROCEDURE CALL**
+
+		Suppose for example we have an audio player application that is able to play SMIL play lists. The audio player
+		has a class `[../../../test/source/xml-to-eiffel-object-builder/smil/smil_presentation.html SMIL_PRESENTATION]'
+		that knows how to build itself from a SMIL document. The application has a remotely
+		accessible class `AUDIO_DEVICE' with a procedure play_presentation taking an argument of type `SMIL_PRESENTATION'. In
+		this example a SMIL document defines some clips to be played sequentially from an audio file. An EXP call message
+		to remotely call the play_presentation procedure is created by inserting the processing instructions
+		into the SMIL document.
+
+			<?xml version="1.0" encoding="ISO-8859-1"?>
+			<?create {SMIL_PRESENTATION}?>
+			<smil xmlns="http://www.w3.org/2001/SMIL20/Language">
+				<head>
+					<meta name="base" content="file:///home/john/audio-assets/linguistic/study/"/>
+					<meta name="author" content="Dr. John Smith"/>
+					<meta name="title" content="Linguistic analysis"/>
+				</head>
+				<body>
+					<seq id="seq_1" title="Extracts of conversation between Bill and Susan">
+					    <audio id="audio_1" title="Greeting" src="Bill-and-Susan.mp3" clipBegin="5.5s" clipEnd="18.0s"/>
+					    <audio id="audio_2" title="Interjection" src="Bill-and-Susan.mp3" clipBegin="25.5s" clipEnd="30.0s"/>
+					    <audio id="audio_3" title="Disagreement" src="Bill-and-Susan.mp3" clipBegin="55.0s" clipEnd="67.0s"/>
+					</seq>
+				</body>
+			</smil>
+			<?call {AUDIO_DEVICE}.play_presentation ({SMIL_PRESENTATION})?>
+
+		The order of the processing instructions is significant as they are executed during an incremental parse of the document.
+		The first instruction `<?create {SMIL_PRESENTATION}?>' is self-explanatory, creating an instance of `SMIL_PRESENTATION' to which
+		is added the document data as it is incrementally parsed. By the end of the document, the `SMIL_PRESENTATION' instance contains
+		a representation of the audio clip data. The call instruction on the last line invokes the procedure play_presentation passing
+		the instance of `SMIL_PRESENTATION' as an argument. `AUDIO_DEVICE' is a place holder for an instance of `AUDIO_DEVICE' created at
+		the start of a client session.
+
+		The syntax of the call residing in the processing instruction is reminiscent of the syntax for Eiffel agents.
+		`SMIL_PRESENTATION' serves as a place-holder for the object created with the create instruction.
+	]"
 
 end

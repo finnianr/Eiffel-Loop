@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Command that converts files from one type to anothers"
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 16:04:33 GMT (Friday 24th June 2016)"
-	revision: "5"
+	revision: "6"
 
 deferred class
 	EL_FILE_CONVERSION_COMMAND_I

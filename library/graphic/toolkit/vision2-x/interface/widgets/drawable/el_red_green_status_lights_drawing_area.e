@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA}."
 
 	author: "Finnian Reilly"

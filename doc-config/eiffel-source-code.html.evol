@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="digest" content="$crc_digest"/>
+		<meta name="Description" content="Source code for class $name"/>
+
+		<title>$source_path</title>
+
+		<link href="$top_dir/css/prism.css" rel="stylesheet" />
+
+		#include ($favicon_markup_path)
+	</head>
+	<body>
+		<script src="$top_dir/js/prism.js"></script>
+		<p class="fixed">class <a href="$index_dir/class-index.html#$name" title="Link to class index">$name</a></p>
+		<p><a href="#source" title="Skip to class source code">(source code)</a></p>
+#if $is_library then
+	#if $client_examples.count > 0 then
+		<p class="black"><b>Client examples:</b>
+		#across $client_examples as $example loop
+			#if $example.cursor_index > 1 then
+				;&nbsp;
+			#end
+			<a href="$top_dir/$example.item.relative_dir/${example.item.name_as_lower}.html">$example.item.name</a>
+		#end
+		</p>
+	#end
+#end
+#if $has_fields then
+	<div id="notes">
+	#across $note_fields as $field loop
+		<h2>$field.item.title</h2>
+		#across $field.item.element_list as $element loop
+		<$element.item.tag_name>$element.item.text</$element.item.tag_name>
+		#end
+	#end
+	</div>
+#end
+		<pre><code class="language-eiffel">$notes_text</code></pre>
+		<a name="source"/>
+		<pre><code class="language-eiffel">$class_text</code></pre>
+	</body>
+</html>

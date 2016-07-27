@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_STRING_CONSTANTS}."
 
 	author: "Finnian Reilly"

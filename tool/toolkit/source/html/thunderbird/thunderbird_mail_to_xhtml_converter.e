@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {THUNDERBIRD_MAIL_TO_XHTML_CONVERTER}."
 
 	author: "Finnian Reilly"

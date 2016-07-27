@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_VERSION_APP}."
 
 	author: "Finnian Reilly"

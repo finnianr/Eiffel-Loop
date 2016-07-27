@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SERVER_ACTIVITY_METERS}."
 
 	author: "Finnian Reilly"

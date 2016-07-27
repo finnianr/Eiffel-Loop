@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -19,4 +19,3 @@ inherit
 		end
 
 end -- class EL_PARSING_FILE_PROCESSOR
-

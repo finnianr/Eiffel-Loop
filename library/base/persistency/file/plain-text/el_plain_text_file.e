@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Plain text file encoded as UTF-8 by default
 		By default it does not write a byte-order mark unless `is_bom_enabled' is set to `True'

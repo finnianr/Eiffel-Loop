@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_STORABLE_IN_FILE}."
 
 	author: "Finnian Reilly"

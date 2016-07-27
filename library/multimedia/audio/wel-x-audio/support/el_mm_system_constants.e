@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Multimedia Extensions Window Messages"
 
 	author: "Finnian Reilly"
@@ -167,4 +167,3 @@ feature -- Error codes
 		end
 
 end
-

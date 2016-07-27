@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Windows batch script encoded using default code page returned by chcp
 	]"
@@ -9,7 +9,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-06 16:28:52 GMT (Wednesday 6th April 2016)"
-	revision: "6"
+	revision: "3"
 
 class
 	EL_BATCH_SCRIPT_FILE

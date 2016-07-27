@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Class for converting SVG into different formats
 	]"

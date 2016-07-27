@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Container for wrapping text into a rectangular area before rendering it with a drawing command
 		

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Abstract definition of the source of an XML document"
 
 	library: "Gobo Eiffel XML Library"
@@ -20,4 +20,3 @@ inherit
 		end
 
 end
-

@@ -1,0 +1,23 @@
+<h2>Repository Statistics</h2>
+<p>
+	<b>$stats.class_count</b> Eiffel classes containing <b>$stats.word_count</b> words* of code.
+	Total source code: <b>$stats.mega_bytes mb</b>.
+</p>
+<p><small>* Code words include keywords, identifier words and quoted strings, but exclude comments and indexing notes.</small></p>
+<h2>Contents</h2>
+#across $category_list as $category loop
+	<p><a href="#$category.cursor_index">$category.item.name</a></p>
+#end
+#across $category_list as $category loop
+	<h2><a name="$category.cursor_index">$category.item.name</a></h2>
+	#across $category.item.page_list as $page loop
+	<p><b><a href="$page.item.relative_file_path">$page.item.name</a></b></p>
+		#if $page.item.has_ecf_name then
+	<p><b>ECF:</b> $page.item.ecf_name</p>
+		#end
+		#across $page.item.home_description_elements as $element loop
+			<$element.item.tag_name>$element.item.text</$element.item.tag_name>
+		#end
+	#end
+#end
+

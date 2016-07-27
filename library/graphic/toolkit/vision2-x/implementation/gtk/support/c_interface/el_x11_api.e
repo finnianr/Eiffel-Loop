@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_X11_API}."
 
 	author: "Finnian Reilly"

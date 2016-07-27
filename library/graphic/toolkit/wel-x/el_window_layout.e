@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -71,5 +71,4 @@ invariant
 	layout_size_set: layout_size /= Void
 
 end
-
 

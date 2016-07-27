@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -44,4 +44,3 @@ feature -- Status query
 		
 
 end
-

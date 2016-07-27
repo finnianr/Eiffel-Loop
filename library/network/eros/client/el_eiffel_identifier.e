@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EIFFEL_IDENTIFIER}."
 
 	author: "Finnian Reilly"

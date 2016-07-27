@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Windows implementation of `EL_COPY_TREE_COMMAND_I' interface"
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-17 17:52:16 GMT (Friday 17th June 2016)"
-	revision: "4"
+	revision: "5"
 
 class
 	EL_COPY_TREE_COMMAND_IMP

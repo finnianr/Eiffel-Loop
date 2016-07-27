@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Console application installer"
 
 	author: "Finnian Reilly"

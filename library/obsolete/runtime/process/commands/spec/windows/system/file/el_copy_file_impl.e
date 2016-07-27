@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_COPY_FILE_IMPL}."
 
 	author: "Finnian Reilly"

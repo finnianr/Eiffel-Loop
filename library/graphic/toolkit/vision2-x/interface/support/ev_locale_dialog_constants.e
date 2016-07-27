@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EV_LOCALE_DIALOG_CONSTANTS}."
 
 	author: "Finnian Reilly"

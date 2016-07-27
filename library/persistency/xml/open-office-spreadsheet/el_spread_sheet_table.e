@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Object representing table in OpenDocument Flat XML format spreadsheet"
 
 	author: "Finnian Reilly"

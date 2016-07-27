@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {JOB_DURATION_PARSER}."
 
 	author: "Finnian Reilly"
@@ -157,7 +157,7 @@ feature {NONE} -- Patterns
 			Result := one_of (<<
 				string_literal ("year"),
 				string_literal ("jahr"),
-				string_literal ("año"),
+				string_literal ("a�o"),
 				string_literal ("a")
 			>>)
 		end

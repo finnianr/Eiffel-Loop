@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Compiles tree of Pyxis source files into single XML file"
 
 	author: "Finnian Reilly"
@@ -13,7 +13,7 @@ class
 	PYXIS_COMPILER_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [PYXIS_COMPILER]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [PYXIS_COMPILER]
 		redefine
 			Option_name
 		end

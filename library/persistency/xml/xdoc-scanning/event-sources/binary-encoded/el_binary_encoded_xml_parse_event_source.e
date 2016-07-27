@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {XML_PARSE_EVENT_STREAM_CLIENT}."
 
 	author: "Finnian Reilly"

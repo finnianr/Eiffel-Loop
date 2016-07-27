@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {CODEC_GENERATER_APP}."
 
 	author: "Finnian Reilly"
@@ -13,7 +13,7 @@ class
 	CODEC_GENERATOR_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [CODEC_GENERATOR]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [CODEC_GENERATOR]
 		redefine
 			Option_name
 		end

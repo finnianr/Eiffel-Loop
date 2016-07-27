@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_GRAPHICS_INFO_IMPL}."
 
 	author: "Finnian Reilly"

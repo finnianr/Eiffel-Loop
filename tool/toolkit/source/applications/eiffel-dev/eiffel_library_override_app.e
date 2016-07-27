@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EIFFEL_LIBRARY_OVERRIDE_APP}."
 
 	author: "Finnian Reilly"

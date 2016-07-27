@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {TEST_STRING_TYPES}."
 
 	author: "Finnian Reilly"

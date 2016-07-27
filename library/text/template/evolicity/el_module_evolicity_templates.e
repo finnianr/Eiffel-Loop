@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Provides global access to the Evolicity template substitution engine.
 	

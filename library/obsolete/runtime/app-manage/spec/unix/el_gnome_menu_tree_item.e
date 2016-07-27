@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_GNOME_MENU_TREE_ITEM}."
 
 	author: "Finnian Reilly"

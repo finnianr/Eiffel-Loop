@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_AUDIO_COMMAND_FACTORY}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-23 8:20:53 GMT (Thursday 23rd June 2016)"
-	revision: "5"
+	revision: "7"
 
 class
 	EL_AUDIO_COMMAND_FACTORY

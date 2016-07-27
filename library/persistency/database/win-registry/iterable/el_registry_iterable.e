@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_REGISTRY_ITERABLE}."
 
 	author: "Finnian Reilly"

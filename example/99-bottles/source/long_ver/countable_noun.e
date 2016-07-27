@@ -1,4 +1,4 @@
-indexing
+note
 	description: "String representing a quantity"
 
 	author: "Finnian Reilly"
@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Implementation
 
-	make (noun: STRING; quantity: INTEGER) is
+	make (noun: STRING; quantity: INTEGER)
 			--
 		do
 			make_from_string (noun)

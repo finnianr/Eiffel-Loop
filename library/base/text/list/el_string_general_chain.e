@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {EL_READABLE_STRING_GENERAL_LIST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-16 10:37:36 GMT (Wednesday 16th March 2016)"
 	revision: "6"
@@ -60,18 +60,6 @@ feature -- Element change
 			list.do_all (agent extend)
 		end
 
-	left_adjust
-		local
-			l_cursor: like cursor
-		do
-			l_cursor := cursor
-			from start until after loop
-				item.left_adjust
-				forth
-			end
-			go_to (l_cursor)
-		end
-
 	indent (tab_count: INTEGER)
 			-- prepend `tab_count' tab character to each line
 		require
@@ -101,6 +89,18 @@ feature -- Element change
 			if tab_count > 0 then
 				item.prepend (tab_string (tab_count))
 			end
+		end
+
+	left_adjust
+		local
+			l_cursor: like cursor
+		do
+			l_cursor := cursor
+			from start until after loop
+				item.left_adjust
+				forth
+			end
+			go_to (l_cursor)
 		end
 
 	right_adjust
@@ -167,19 +167,6 @@ feature -- Access
 			create Result.make (count)
 			from start until after loop
 				Result.extend (item.as_string_32)
-				forth
-			end
-			go_to (l_cursor)
-		end
-
-	character_count: INTEGER
-			--
-		local
-			l_cursor: like cursor
-		do
-			l_cursor := cursor
-			from start until after loop
-				Result := Result + item.count
 				forth
 			end
 			go_to (l_cursor)
@@ -292,6 +279,21 @@ feature -- Access
 			Result := joined_with (' ', False)
 		end
 
+feature -- Measurement
+
+	character_count: INTEGER
+			--
+		local
+			l_cursor: like cursor
+		do
+			l_cursor := cursor
+			from start until after loop
+				Result := Result + item.count
+				forth
+			end
+			go_to (l_cursor)
+		end
+
 feature -- Status query
 
 	is_indented: BOOLEAN
@@ -303,15 +305,15 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	tab_string (a_count: INTEGER): READABLE_STRING_GENERAL
-		do
-			create {STRING} Result.make_filled (Tabulation.to_character_8, a_count)
-		end
-
 	proper_cased (word: like item): like item
 		do
 			Result := word.as_lower
 			Result.put_code (word.item (1).as_upper.natural_32_code, 1)
+		end
+
+	tab_string (a_count: INTEGER): READABLE_STRING_GENERAL
+		do
+			create {STRING} Result.make_filled (Tabulation.to_character_8, a_count)
 		end
 
 feature {NONE} -- Constants

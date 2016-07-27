@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Queries an XPath context node for file specifiers"
 
 	author: "Finnian Reilly"

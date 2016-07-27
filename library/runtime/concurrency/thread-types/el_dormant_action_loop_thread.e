@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Thread that remains dormant until signalled to resume action loop"
 
 	author: "Finnian Reilly"

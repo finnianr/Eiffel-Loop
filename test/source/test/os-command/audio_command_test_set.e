@@ -1,13 +1,13 @@
-﻿note
+note
 	description: "Summary description for {AUDIO_COMMAND_TEST_SET}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-10 7:30:45 GMT (Sunday 10th July 2016)"
-	revision: "5"
+	revision: "7"
 
 class
 	AUDIO_COMMAND_TEST_SET
@@ -71,6 +71,6 @@ feature {NONE} -- Constants
 
 	Id3_artist: STRING = "Franciso Canaro"
 
-	Id3_title: STRING = "La Copla Porte񡢍
+	Id3_title: STRING = "La Copla Porte�a"
 
 end

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Syntax for looping over a sequence:
 			
@@ -13,7 +13,7 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-11 12:26:21 GMT (Monday 11th April 2016)"
 	revision: "6"
@@ -61,10 +61,8 @@ feature {NONE} -- Implementation
 	execute (a_context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
 		local
-			loop_index: INTEGER_REF
-			i: INTEGER
+			loop_index: INTEGER_REF; i: INTEGER; l_cursor: ITERATION_CURSOR [ANY]
 			name_space: like outer_loop_variables
-			l_cursor: ITERATION_CURSOR [ANY]
 		do
 			name_space := a_context.objects
 			if attached {ITERABLE [ANY]} a_context.referenced_item (traversable_container_variable_ref) as iterable then

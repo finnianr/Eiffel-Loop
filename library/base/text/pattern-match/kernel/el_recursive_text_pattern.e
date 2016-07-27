@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_RECURSED_TEXT_PATTERN}."
 
 	author: "Finnian Reilly"

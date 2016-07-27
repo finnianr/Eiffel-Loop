@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-21 19:04:07 GMT (Monday 21st December 2015)"
 	revision: "8"
@@ -47,14 +47,8 @@ feature -- Element Change
 
   	set_source_text_from_file (file_path: EL_FILE_PATH)
  			--
- 		local
- 			lines: EL_FILE_LINE_SOURCE; input: PLAIN_TEXT_FILE
  		do
- 			create input.make_open_read (file_path)
- 			create lines.make_from_file (input)
- 			lines.set_encoding_from_other (Current)
- 			set_source_text_from_line_source (lines)
- 			input.close
+ 			set_source_text_from_line_source (new_input_lines (file_path))
  		end
 
 	set_source_text_from_line_source (lines: EL_FILE_LINE_SOURCE)
@@ -65,7 +59,12 @@ feature -- Element Change
  			set_source_text (new_source_text (lines))
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Factory
+
+ 	new_input_lines (file_path: EL_FILE_PATH): EL_FILE_LINE_SOURCE
+ 		do
+ 			create Result.make_encoded (Current, file_path)
+ 		end
 
 	new_source_text (lines: EL_FILE_LINE_SOURCE): ZSTRING
 		do
@@ -79,6 +78,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Internal attributes
+
 	source_file_path: EL_FILE_PATH
 
-end -- class EL_LEXICAL_PARSER
+end

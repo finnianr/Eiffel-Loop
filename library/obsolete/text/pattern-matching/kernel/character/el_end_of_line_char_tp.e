@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that matches new line or EOF"
 
 	author: "Finnian Reilly"
@@ -46,4 +46,3 @@ feature {NONE} -- Implementation
 		end
 
 end -- class EL_END_OF_LINE_CHAR_TP
-

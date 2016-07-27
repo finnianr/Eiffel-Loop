@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ENCRYPTABLE_MULTI_TYPE_FILE_READER_WRITER}."
 
 	author: "Finnian Reilly"

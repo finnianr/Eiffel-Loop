@@ -1,13 +1,13 @@
-﻿note
+note
 	description: "General purpose OS command using an externally supplied template"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-23 19:39:00 GMT (Thursday 23rd June 2016)"
-	revision: "5"
+	revision: "6"
 
 class
 	EL_OS_COMMAND

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Install application with a desktop menu"
 
 	author: "Finnian Reilly"

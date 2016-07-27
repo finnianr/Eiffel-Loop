@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DOCKED_TAB_BOOK}."
 
 	author: "Finnian Reilly"

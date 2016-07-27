@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {BEX_TEST_SERVER_APP}."
 
 	author: "Finnian Reilly"

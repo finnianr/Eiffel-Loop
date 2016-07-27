@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Buttons with images for 3 states stored in application icons location
 	]"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Provides access to make routines of classes descended from EL_COMMAND"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LOCALE_SCROLLABLE_SEARCH_RESULTS}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "A list of Xpath queryable XML nodes"
 
 	author: "Finnian Reilly"

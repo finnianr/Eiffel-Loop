@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}."
 
 	author: "Finnian Reilly"

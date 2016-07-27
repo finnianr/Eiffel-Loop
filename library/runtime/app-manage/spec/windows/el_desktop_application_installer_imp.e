@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Windows implementation of `EL_DESKTOP_APPLICATION_INSTALLER_I' interface"
 
 	notes: "[
@@ -9,7 +9,7 @@
 		or %programdata%\Microsoft\Windows\Start Menu for all users collectively.
 		
 		The folder name Start Menu has a different name on non-English versions of Windows. 
-		Thus for example on German versions of Windows XP it is %userprofile%\Startmenü.
+		Thus for example on German versions of Windows XP it is %userprofile%\Startmen�.
 	]"
 
 	author: "Finnian Reilly"

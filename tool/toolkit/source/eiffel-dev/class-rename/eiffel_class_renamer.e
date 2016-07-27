@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -75,4 +75,3 @@ feature {NONE} -- Implementation
 	new_class_name: ZSTRING
 
 end
-

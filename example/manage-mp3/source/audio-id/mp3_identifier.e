@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {MP3_AUDIO_SIGNATURE}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-09-12 13:11:14 GMT (Saturday 12th September 2015)"
-	revision: "4"
+	revision: "7"
 
 class
 	MP3_IDENTIFIER

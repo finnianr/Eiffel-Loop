@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_HYPERLINK_MENU}."
 
 	author: "Finnian Reilly"

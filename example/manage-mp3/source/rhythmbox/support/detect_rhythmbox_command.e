@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {DETECT_RHYTHMBOX_COMMAND}."
 
 	author: "Finnian Reilly"

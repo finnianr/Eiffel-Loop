@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SHARED_IMAGE_UTILS_API}."
 
 	author: "Finnian Reilly"

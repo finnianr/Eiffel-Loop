@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {RBOX_IRADIO_ENTRY}."
 
 	author: "Finnian Reilly"

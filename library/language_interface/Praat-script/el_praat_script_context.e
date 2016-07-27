@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Accesses the variables of a Praat script execution context"
 
 	author: "Finnian Reilly"
@@ -42,5 +42,4 @@ feature -- Access
 		end
 
 end
-
 

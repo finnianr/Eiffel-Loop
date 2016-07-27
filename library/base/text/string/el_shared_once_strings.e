@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {SHARED_REUSABLE_STRINGS}."
 
 	author: "Finnian Reilly"

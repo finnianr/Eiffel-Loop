@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Test conversion of SMIL and XHTML documents to Eiffel and serialization back to XML."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 11:23:43 GMT (Friday 8th July 2016)"
 	revision: "7"
@@ -97,7 +97,7 @@ feature -- Tests
 
 	smart_builder: EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER
 
-	createable: EL_BUILDABLE_FROM_XML_2 [EL_OBJECT_BUILDING_XML_NODE_VISITOR]
+--	createable: EL_BUILDABLE_FROM_XML_2 [EL_OBJECT_BUILDING_XML_NODE_VISITOR]
 
 feature {NONE} -- Constants
 

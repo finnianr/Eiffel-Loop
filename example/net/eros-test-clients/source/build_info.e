@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Build information"
 
 	notes: "GENERATED FILE. Do not edit"

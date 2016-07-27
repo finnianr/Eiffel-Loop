@@ -1,4 +1,4 @@
-ï»¿note
+note
 	description: "Summary description for {MP3_FILE_COLLATOR}."
 
 	author: "Finnian Reilly"
@@ -199,7 +199,7 @@ feature {NONE} -- Constants
 		once
 			Result := <<
 				"Alberto Moran",
-				"AnÃ­bal Troilo",
+				"Aníbal Troilo",
 				"ngel D'Agostino",
 				"Alfredo Gobbi",
 
@@ -213,7 +213,7 @@ feature {NONE} -- Constants
 				"Juan D'Arienzo",
 				"Jorge Dragone",
 				"Lucio Demare",
-				"Miguel CalÃ³",
+				"Miguel Caló",
 				"Pedro Laurenz",
 				"Osvaldo Pugliese",
 				"Roberto Goyeneche",

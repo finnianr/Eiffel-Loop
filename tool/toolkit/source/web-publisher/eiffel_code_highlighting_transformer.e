@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EIFFEL_CODE_HIGHLIGHTING_TRANSFORMER}."
 
 	author: "Finnian Reilly"

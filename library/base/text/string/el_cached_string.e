@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_CACHED_STRING}."
 
 	author: "Finnian Reilly"

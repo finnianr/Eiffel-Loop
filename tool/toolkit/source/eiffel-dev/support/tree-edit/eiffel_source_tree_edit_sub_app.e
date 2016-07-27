@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EIFFEL_SOURCE_EDIT_SUB_APP}."
 
 	author: "Finnian Reilly"

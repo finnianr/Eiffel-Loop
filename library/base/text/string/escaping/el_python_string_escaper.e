@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PYTHON_STRING_ESCAPER}."
 
 	author: "Finnian Reilly"

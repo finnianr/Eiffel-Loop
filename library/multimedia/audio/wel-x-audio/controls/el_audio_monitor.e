@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -62,6 +62,5 @@ feature {LB_MAIN_WINDOW} -- Implementation
 	signal_level_meter: EL_AUDIO_SIGNAL_LEVEL_METER
 
 end
-
 
 

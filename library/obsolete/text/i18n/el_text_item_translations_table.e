@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Translation table for text item serializeable as XML
 		
@@ -6,7 +6,7 @@
 	
 			<item id="Delete current database">
 				<translation lang="en">$id</translation>
-				<translation lang="de">Löschen aktuellen Datenbank</translation>
+				<translation lang="de">L�schen aktuellen Datenbank</translation>
 			</item>
 	]"
 

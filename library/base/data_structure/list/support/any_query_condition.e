@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {ANY_QUERY_CONDITION}."
 
 	author: "Finnian Reilly"

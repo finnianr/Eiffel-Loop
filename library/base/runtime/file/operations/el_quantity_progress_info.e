@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_FILE_PROGRESS_INFO}."
 
 	author: "Finnian Reilly"

@@ -1,10 +1,10 @@
-indexing
+note
 	description: "Verse sentence"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2012-12-16 11:34:19 GMT (Sunday 16th December 2012)"
 	revision: "1"
@@ -26,7 +26,7 @@ create
 
 feature -- Element change
 
-	extend (a_clause: like clause) is
+	extend (a_clause: like clause)
 			--
 		require
 			first_sentence_starts_with_capital_letter:
@@ -37,7 +37,7 @@ feature -- Element change
 
 feature -- Access
 
-	clause: CLAUSE is
+	clause: CLAUSE
 			--
 		do
 			if {c: CLAUSE} item then
@@ -49,7 +49,7 @@ feature -- Access
 
 feature -- Basic operations
 
-	print_to_medium (io_medium: IO_MEDIUM) is
+	print_to_medium (io_medium: IO_MEDIUM)
 			--
 		do
 			from start until after loop

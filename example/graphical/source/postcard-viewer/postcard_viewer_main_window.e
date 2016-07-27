@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {POSTCARD_VIEWER_MAIN_WINDOW}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_FIND_DIRECTORIES_COMMAND_I}."
 
 	author: "Finnian Reilly"

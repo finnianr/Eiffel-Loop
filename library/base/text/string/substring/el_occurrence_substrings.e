@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Visit all substrings in a string. `interval' contains indices of each substring.
 		`EL_OCCURRENCE_SUBSTRINGS'

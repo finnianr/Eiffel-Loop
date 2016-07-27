@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {FOURIER_MATH_SERVER_APP}."
 
 	author: "Finnian Reilly"

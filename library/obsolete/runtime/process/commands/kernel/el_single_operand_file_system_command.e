@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SINGLE_OPERAND_FILE_SYSTEM_COMMAND}."
 
 	author: "Finnian Reilly"

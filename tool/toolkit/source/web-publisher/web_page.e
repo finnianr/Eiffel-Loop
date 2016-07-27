@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {WEB_PAGE_GENERATOR}."
 
 	author: "Finnian Reilly"

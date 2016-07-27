@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Export HTML under www sub-directory"
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-01 8:05:45 GMT (Friday 1st July 2016)"
-	revision: "5"
+	revision: "7"
 
 class
 	THUNDERBIRD_WWW_EXPORTER

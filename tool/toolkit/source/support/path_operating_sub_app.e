@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {PATH_OPERATING_SUB_APPLICATION}."
 
 	author: "Finnian Reilly"

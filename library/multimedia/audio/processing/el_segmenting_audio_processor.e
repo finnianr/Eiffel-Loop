@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Processes audio in manageable segments separated by silence (low signal)"
 
 	author: "Finnian Reilly"

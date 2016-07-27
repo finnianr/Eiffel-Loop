@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {EL_ENCODEABLE_AS_TEXT}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-29 13:18:51 GMT (Friday 29th January 2016)"
 	revision: "5"
@@ -119,10 +119,9 @@ feature -- Element change
 	set_encoding_from_name (name: READABLE_STRING_GENERAL)
 			--
 		local
-			parts: LIST [READABLE_STRING_GENERAL]
-			l_type: STRING
+			parts: LIST [STRING]; l_type: STRING
 		do
-			parts := name.as_upper.split ('-')
+			parts := name.to_string_8.as_upper.split ('-')
 			create l_type.make (parts.first.count)
 			l_type.append_string_general (parts.first)
 			if parts.count = 3 then
@@ -170,4 +169,3 @@ feature -- Constants
 		end
 
 end
-

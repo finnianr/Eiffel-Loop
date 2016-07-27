@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {REAL_PARAMETER}."
 
 	author: "Finnian Reilly"

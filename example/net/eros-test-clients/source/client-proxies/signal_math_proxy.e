@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {SIGNAL_MATH_PROXY}."
 
 	author: "Finnian Reilly"

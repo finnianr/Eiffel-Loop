@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object that applies XML parse events to the construction of an object
 	]"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Eiffel object model Xpath context"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object to periodically process events in some other context whilst in the midst of a computation.
 		Useful especially to check for UI events.

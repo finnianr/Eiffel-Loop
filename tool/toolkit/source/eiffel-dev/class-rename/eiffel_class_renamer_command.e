@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {EL_EIFFEL_SOURCE_MANIFEST_CLASS_RENAMER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "7"
@@ -25,7 +25,7 @@ inherit
 create
 	make, default_create
 
-feature {EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION} -- Initialization
+feature {EL_SUB_APPLICATION} -- Initialization
 
 	make (source_manifest_path: EL_FILE_PATH; a_old_class_name, a_new_class_name: STRING)
 		do
@@ -72,7 +72,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	create_file_editor: EIFFEL_CLASS_RENAMER
+	new_file_editor: EIFFEL_CLASS_RENAMER
 		do
 			create Result.make (old_class_name, new_class_name)
 		end

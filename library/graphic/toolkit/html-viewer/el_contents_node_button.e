@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Button to expand hidden content links underneath level 3 link
 	]"

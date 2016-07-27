@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		For example:
 			<p>Some text</p>

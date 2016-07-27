@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object for caching XML conversions of resource set in Pyxis format installed in application directory
 	]"

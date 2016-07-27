@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PYXIS_ENCODING_READER}."
 
 	author: "Finnian Reilly"

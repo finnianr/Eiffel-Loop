@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_VERTICAL_TAB_BOX}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		A box that will hide selected widget members if the mouse pointer is not over the box,
 		and show them if the pointer enters the box.

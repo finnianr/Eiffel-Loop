@@ -1,13 +1,13 @@
-﻿note
+note
 	description: "Summary description for {EIFFEL_REPOSITORY_PUBLISHER_TEST_SET}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-12 11:38:14 GMT (Tuesday 12th July 2016)"
-	revision: "8"
+	revision: "5"
 
 class
 	EIFFEL_REPOSITORY_PUBLISHER_TEST_SET
@@ -20,20 +20,29 @@ inherit
 			on_prepare
 		end
 
+	EL_MODULE_USER_INPUT
+		undefine
+			default_create
+		end
+
 feature -- Tests
 
 	test_publisher
 		local
 			publisher: EIFFEL_REPOSITORY_PUBLISHER
 			html_file_path: EL_FILE_PATH; source_tree: REPOSITORY_SOURCE_TREE
-			checksum: NATURAL
+			checksum: NATURAL; n: INTEGER
 		do
+			log.enter ("test_publisher")
 			create publisher.make (Work_area_dir + "doc-config/config.pyx", "1.4.0")
 			publisher.set_output_dir (Doc_dir)
 			publisher.ftp_sync.ftp.set_default_state -- Turn off ftp
 			publisher.tree_list.wipe_out
 			across Sources as src loop
-				create source_tree.make_with_name (publisher, src.key, Eiffel_loop_dir.joined_dir_path (src.item))
+				create source_tree.make_with_name (publisher, src.key, Eiffel_loop_dir.joined_dir_path (src.item.source_dir))
+				if not src.item.description.is_empty then
+					source_tree.set_description_lines (src.item.description)
+				end
 				publisher.tree_list.extend (source_tree)
 			end
 
@@ -47,6 +56,8 @@ feature -- Tests
 			checksum := file_modification_checksum
 			publisher.execute
 			assert ("no file was modified", checksum = file_modification_checksum)
+			n := User_input.integer ("Return to finish")
+			log.exit
 		end
 
 feature {NONE} -- Events
@@ -77,14 +88,34 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Sources: EL_HASH_TABLE [STRING, STRING]
+	Sources: EL_HASH_TABLE [TUPLE [source_dir, description: STRING], STRING]
 		once
-			create Result.make (<<
-				["EROS server", "example/net/eros-server/source"],
-				["Eiffel object reflection", "library/base/runtime/reflection"],
-				["Eiffel Remote Object Server (EROS)", "library/network/eros"],
-				["Basic Networking Classes", "library/network/base"]
-			>>)
+			create Result.make_equal (7)
+			Result ["Eiffel object reflection"] := ["library/base/runtime/reflection", "[
+				See class [./library/base/runtime/reflection/el_reflection.html EL_REFLECTION]
+			]"]
+
+			Result ["Eiffel Remote Object Server (EROS)"] := ["library/network/eros", ""]
+
+			Result ["Basic Networking Classes"] := ["library/network/base", "[
+				* Basic client-server classes
+				* Class to find network MAC address
+			]"]
+
+			Result ["Vision 2 override"] := ["library/override/graphic/toolkit/vision2", ""]
+			Result ["C callbacks"] := ["library/language_interface/C/eiffel-callback", ""]
+
+			Result ["Submission for 99-bottles-of-beer.net"] := ["example/99-bottles/source", "[
+				Eiffel submission for [http://www.99-bottles-of-beer.net/ www.99-bottles-of-beer.net].
+				
+				This website contains sample programs for over 1500 languages and variations, all of
+				which print the lyrics of the song "99 Bottles of Beer" using.
+				
+				**ECF:** ninety-nine-bottles.ecf
+			]"]
+
+			Result ["Eiffel Development Tools"] := ["tool/toolkit/source/applications/eiffel-dev", ""]
+			Result ["SMIL class test"] := ["test/source/xml-to-eiffel-object-builder/smil", ""]
 		end
 
 	Doc_dir: EL_DIR_PATH

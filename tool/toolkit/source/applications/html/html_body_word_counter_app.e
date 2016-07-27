@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {HTML_BODY_WORD_COUNT_APP}."
 
 	author: "Finnian Reilly"
@@ -13,7 +13,7 @@ class
 	HTML_BODY_WORD_COUNTER_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [HTML_BODY_WORD_COUNTER]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [HTML_BODY_WORD_COUNTER]
 		redefine
 			Option_name
 		end

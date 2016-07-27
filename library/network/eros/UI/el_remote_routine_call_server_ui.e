@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_REMOTE_ROUTINE_CALL_SERVER_UI}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Wrapper for ID3 tag editing library libid3tag from Underbit Technologies
 		Reads ID3 version <= 2.3

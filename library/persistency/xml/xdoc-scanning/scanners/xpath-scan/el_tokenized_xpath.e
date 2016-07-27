@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Tokenized form of xpath"
 
 	author: "Finnian Reilly"
@@ -228,4 +228,3 @@ feature {NONE} -- Implementation
 		end
 
 end -- class EL_COMPRESSED_XPATH_STRING
-

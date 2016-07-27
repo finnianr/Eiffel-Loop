@@ -22,7 +22,7 @@ system:
 		option:
 			namespace = "Eiffel-Loop.Library"; trace = false; debug=false; warning=true; syntax = standard
 			assertions:
-				precondition = true; postcondition = true; check = true; invariant = true
+				precondition = true; postcondition = true; check = true; invariant = false
 
 		mapping:
 			old_name = ZSTRING; new_name = EL_ZSTRING

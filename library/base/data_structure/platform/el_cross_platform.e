@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_CROSS_PLATFORM}."
 
 	author: "Finnian Reilly"

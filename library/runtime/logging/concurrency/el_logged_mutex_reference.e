@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Guards objects that require thread synchronization and helps to detect deadlock.
 		Any time a thread is forced to wait for a lock it is reported to the thread's log.
@@ -76,7 +76,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

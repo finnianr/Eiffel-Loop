@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {COMPRESSED_XML_DOCUMENT_SCANNER}."
 
 	author: "Finnian Reilly"

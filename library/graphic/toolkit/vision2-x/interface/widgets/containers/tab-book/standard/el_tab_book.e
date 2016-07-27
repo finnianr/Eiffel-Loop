@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Extension to EV_NOTEBOOK
 	]"

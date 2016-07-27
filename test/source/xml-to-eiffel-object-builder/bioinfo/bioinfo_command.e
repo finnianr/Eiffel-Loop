@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {BIOINFO_COMMAND}."
 
 	author: "Finnian Reilly"

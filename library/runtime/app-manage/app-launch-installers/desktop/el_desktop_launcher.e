@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Desktop item for launching application"
 
 	author: "Finnian Reilly"

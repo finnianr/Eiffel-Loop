@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		C struct for C callbacks to Eiffel
 		

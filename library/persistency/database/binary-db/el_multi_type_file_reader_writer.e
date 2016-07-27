@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Object that can store types conforming to type G"
 
 	author: "Finnian Reilly"

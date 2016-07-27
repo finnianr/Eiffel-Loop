@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_NOT_QUERY_CONDITION}."
 
 	author: "Finnian Reilly"

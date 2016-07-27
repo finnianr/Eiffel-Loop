@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Sentence clause"
 
 	author: "Finnian Reilly"

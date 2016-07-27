@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XML_CHARACTER_ESCAPER}."
 
 	author: "Finnian Reilly"

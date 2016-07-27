@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {RBOX_IGNORED_FILE}."
 
 	author: "Finnian Reilly"

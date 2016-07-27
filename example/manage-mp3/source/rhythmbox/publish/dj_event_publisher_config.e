@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {DJ_EVENT_PUBLISHER_CONFIG}."
 
 	author: "Finnian Reilly"

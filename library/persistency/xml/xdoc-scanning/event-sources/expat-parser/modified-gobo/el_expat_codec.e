@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Sets encoding map specified in C-struct
 			typedef struct {

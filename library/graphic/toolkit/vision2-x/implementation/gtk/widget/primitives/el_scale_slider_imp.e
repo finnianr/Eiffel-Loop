@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Warning: this implementation was originally written for Windows and may not work on GTK
 	]"

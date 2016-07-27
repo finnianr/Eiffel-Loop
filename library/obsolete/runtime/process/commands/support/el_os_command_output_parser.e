@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_OS_COMMAND_OUTPUT_PARSER}."
 
 	author: "Finnian Reilly"

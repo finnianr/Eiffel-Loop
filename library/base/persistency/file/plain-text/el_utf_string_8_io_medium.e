@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Text buffer medium encoded as UTF-8"
 
 	author: "Finnian Reilly"

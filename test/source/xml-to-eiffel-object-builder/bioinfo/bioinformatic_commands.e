@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Bioinformatic data demonstrating building from recursive XML
 		

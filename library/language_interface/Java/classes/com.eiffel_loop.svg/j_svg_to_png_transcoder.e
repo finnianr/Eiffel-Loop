@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {J_SVG_TO_PNG_TRANSCODER}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DRAWING_AREA_LABEL}."
 
 	author: "Finnian Reilly"

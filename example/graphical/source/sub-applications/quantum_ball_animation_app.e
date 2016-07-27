@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Application to demonstrate multi-threaded console output switching.
 		One thread produces timer events and another consumes them. Use the console toolbar to

@@ -3,8 +3,13 @@
 <system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" name = "EL_database" uuid = "229b73e4-09aa-11df-87bb-93e5e9639079" library_target = "EL_database">
 	<target name = "EL_database">
 		<description>
-A Simple XML Database based on VTD-XML xpath and XML parsing library.
+1. A simple database based on the Eiffel CHAIN class interface
 Supports transactions and encryption
+
+2. A simple XML database based on VTD-XML xpath and XML parsing library.
+Supports transactions and encryption
+
+3. Search engine classes
 		</description>
 		<option trace = "false" debug = "false" warning = "true" syntax = "standard"/>
 		<root all_classes = "true"/>

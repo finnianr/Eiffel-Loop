@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Unix implementation of `EL_DELETION_COMMAND_I' interface"
 
 	author: "Finnian Reilly"

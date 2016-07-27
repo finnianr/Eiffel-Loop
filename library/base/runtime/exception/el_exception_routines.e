@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Exception routines that make use of `EL_ZSTRING' templating feature"
 
 	author: "Finnian Reilly"

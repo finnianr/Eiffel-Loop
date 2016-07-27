@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DRAWABLE_PIXEL_BUFFER_I}."
 
 	author: "Finnian Reilly"

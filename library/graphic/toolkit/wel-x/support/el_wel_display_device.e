@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object that wraps:
 		

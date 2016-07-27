@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PYTHON_UNESCAPE_CONSTANTS_2}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-20 14:29:45 GMT (Sunday 20th December 2015)"
-	revision: "8"
+	revision: "5"
 
 class
 	EL_PYTHON_UNESCAPE_CONSTANTS

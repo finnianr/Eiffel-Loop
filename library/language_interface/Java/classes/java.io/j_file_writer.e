@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {J_FILE_WRITER}."
 
 	author: "Finnian Reilly"

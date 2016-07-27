@@ -1,10 +1,14 @@
-﻿note
-	description: "Summary description for {EL_RECOVERABLE_BINARY_STORABLE_CHAIN}."
+note
+	description: "[
+		Chain of storable items which are recoverable from an editions files should the power go off
+		on the computer. Items must implement the deferred class 
+		[../../../../library/base/utility/memory/el_storable.html EL_STORABLE].
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-01 13:40:30 GMT (Tuesday 1st March 2016)"
 	revision: "6"

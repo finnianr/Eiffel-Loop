@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {EL_STATE_MACHINE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-01-13 15:46:39 GMT (Tuesday 13th January 2015)"
 	revision: "4"
@@ -28,17 +28,21 @@ feature -- Basic operations
 			final_state: EL_PROCEDURE
 		do
 			create final_state.make (agent final)
+
 			from
-				sequence.start; state := initial
+				item_number := 0; sequence.start; state := initial
 			until
 				sequence.after or final_state.same_procedure (state)
 			loop
+				item_number := item_number + 1
 				call (sequence.item)
 				sequence.forth
 			end
 		end
 
 feature {NONE} -- Implementation
+
+	item_number: INTEGER
 
 	call (item: G)
 		-- call state procedure with item
@@ -48,7 +52,7 @@ feature {NONE} -- Implementation
 			state.apply
 		end
 
-	final (item: G)
+	frozen final (item: G)
 			--
 		do
 		end

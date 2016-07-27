@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_COPY_TREE_COMMAND}."
 
 	author: "Finnian Reilly"

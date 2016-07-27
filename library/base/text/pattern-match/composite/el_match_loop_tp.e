@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MATCH_LOOP_TP2}."
 
 	author: "Finnian Reilly"

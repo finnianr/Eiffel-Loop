@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -59,4 +59,3 @@ feature -- Access
 
 --	invariant valid_action_on_match: action_on_match /= Void
 end -- class EL_LITERAL_CHAR_TP
-

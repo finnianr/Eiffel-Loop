@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Edits notes in sources specified by manifest"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
 	revision: "6"
@@ -21,7 +21,7 @@ inherit
 create
 	make, default_create
 
-feature {EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION} -- Initialization
+feature {EL_SUB_APPLICATION} -- Initialization
 
 	make (source_manifest_path, license_notes_path: EL_FILE_PATH)
 
@@ -34,7 +34,7 @@ feature {EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION} -- Initialization
 
 feature {NONE} -- Implementation
 
-	create_file_editor: EIFFEL_NOTE_EDITOR
+	new_file_editor: EIFFEL_NOTE_EDITOR
 		do
 			create Result.make (license_notes)
 		end

@@ -1,4 +1,4 @@
-indexing
+note
 	description: "[
 		Application to generate lyrics for the song 99 Bottles of Beer
 		See: [http://www.99-bottles-of-beer.net http://www.99-bottles-of-beer.net]
@@ -7,7 +7,7 @@ indexing
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2012-12-16 11:34:19 GMT (Sunday 16th December 2012)"
 	revision: "1"
@@ -26,7 +26,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make is
+	make
 			-- Run application.
 		local
 			lyrics: SONG_LYRICS
@@ -66,13 +66,13 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	io: STD_FILES is
+	io: STD_FILES
 			--
 		once
 			create Result
 		end
 
-	output: PLAIN_TEXT_FILE is
+	output: PLAIN_TEXT_FILE
 			--
 		once
 			if {console: PLAIN_TEXT_FILE} io.output then
@@ -84,6 +84,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Max_bottles: INTEGER is 99
+	Max_bottles: INTEGER = 99
 
 end -- class APPLICATION

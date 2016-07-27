@@ -39,10 +39,6 @@ system:
 		library:
 			name = EL_vtd_xml; location = "vtd-xml.ecf"
 
-		# Source code
-		cluster:
-			name = object_conversion; location = "persistency/xml/object-conversion"; recursive = true
-
 		cluster:
 			name = open_office_spread_sheet; location = "persistency/xml/open-office-spreadsheet"; recursive = true
 

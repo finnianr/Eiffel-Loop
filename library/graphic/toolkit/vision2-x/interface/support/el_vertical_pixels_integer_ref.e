@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_VERTICAL_PIXELS_REF}."
 
 	author: "Finnian Reilly"

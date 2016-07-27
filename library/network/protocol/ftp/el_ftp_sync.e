@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Synchronizes a local directory of files with a corresponding directory on an ftp site
 		Files deleted locally are deleted on ftp site as well, and empty directories are deleted.
@@ -7,10 +7,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-12 11:31:30 GMT (Tuesday 12th July 2016)"
-	revision: "6"
+	revision: "9"
 
 class
 	EL_FTP_SYNC
@@ -199,9 +199,9 @@ feature {NONE} -- Build from Pyxis
 	building_action_table: like Type_building_actions
 		do
 			create Result.make (<<
-				["url/text()", agent do ftp.make_write (create {FTP_URL}.make (node.to_string_8)) end],
-				["user-home/text()", agent do ftp.set_home_directory (node.to_string) end],
-				["sync-path/text()", agent do sync_file_path := node.to_expanded_file_path end]
+				["@url", 		agent do ftp.make_write (create {FTP_URL}.make (node.to_string_8)) end],
+				["@user-home", agent do ftp.set_home_directory (node.to_string) end],
+				["@sync-path", agent do sync_file_path := node.to_expanded_file_path end]
 			>>)
 		end
 

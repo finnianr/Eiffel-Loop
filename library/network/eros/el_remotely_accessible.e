@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_REMOTELY_ACCESSIBLE}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {REAL_RANGE_LIST_PARAMETER}."
 
 	author: "Finnian Reilly"

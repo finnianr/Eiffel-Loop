@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -167,7 +167,6 @@ invariant
 	valid_audio_input_device: audio_input_device /= Void
 
 end
-
 
 
 

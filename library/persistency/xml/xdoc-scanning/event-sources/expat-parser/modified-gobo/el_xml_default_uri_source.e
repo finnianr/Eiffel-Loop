@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "The source of an XML document that has been retrieved via an URI"
 
 	library: "Gobo Eiffel XML Library"
@@ -44,4 +44,3 @@ feature -- Access
 		end
 
 end
-

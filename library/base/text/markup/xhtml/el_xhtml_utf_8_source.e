@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XHTML_UTF_8_SOURCE}."
 
 	author: "Finnian Reilly"

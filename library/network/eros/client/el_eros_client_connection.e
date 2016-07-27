@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EROS_CLIENT_CONNECTION}."
 
 	author: "Finnian Reilly"

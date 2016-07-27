@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Base class for an application configuration class.
 		Configuration fields are editable either from the command line or a GUI editor.
@@ -179,7 +179,6 @@ feature {NONE} -- Implementation
 	change_actions_to_apply: LINKED_SET [PROCEDURE [ANY, TUPLE]]
 
 end
-
 
 
 

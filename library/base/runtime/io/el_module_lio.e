@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Access to instance of `EL_CONSOLE_ONLY_LOG' which serves as an extension of the standard `io'
 		object. As the name implies, output is sent only to the terminal console.
@@ -16,7 +16,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-09 8:17:09 GMT (Saturday 9th July 2016)"
-	revision: "5"
+	revision: "3"
 
 class
 	EL_MODULE_LIO

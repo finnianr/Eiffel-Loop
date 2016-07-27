@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {WEB_PROPERTIES}."
 
 	author: "Finnian Reilly"

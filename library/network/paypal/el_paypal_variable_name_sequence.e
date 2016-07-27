@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PAYPAL_SEQUENTIAL_VARIABLE_NAME}."
 
 	author: "Finnian Reilly"

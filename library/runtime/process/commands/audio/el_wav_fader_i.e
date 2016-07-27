@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_WAV_FADER}."
 
 	author: "Finnian Reilly"

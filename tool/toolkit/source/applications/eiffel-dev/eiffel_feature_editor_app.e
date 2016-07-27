@@ -1,21 +1,26 @@
-﻿note
+note
 	description: "[
-		Expands Eiffel shorthand code. See class `EIFFEL_FEATURE_EDITOR_COMMAND'
+		This application can save a lot of keyboard typing during Eiffel development. It performs 
+		a series shorthand expansions on a single Eiffel class, as well as alphabetically ordering the
+		routines in each feature block. It can be usefully incoporated into EiffelStudio using this external
+		command template:
+			el_toolkit -feature_edit -no_highlighting -source "$file_name"
 	]"
+	instructions: "See bottom of page"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 19:57:41 GMT (Friday 8th July 2016)"
+	date: "2016-07-13 8:40:36 GMT (Wednesday 13th July 2016)"
 	revision: "6"
 
 class
 	EIFFEL_FEATURE_EDITOR_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [EIFFEL_FEATURE_EDITOR_COMMAND]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [EIFFEL_FEATURE_EDITOR_COMMAND]
 		redefine
 			Option_name
 		end
@@ -62,11 +67,7 @@ feature {NONE} -- Constants
 
 	Option_name: STRING = "feature_edit"
 
-	Description: STRING = "[
-		Edits an Eiffel class by expanding feature abbreviations: @f {xx OR @f xx
-		where xx is a 2 letter code for a common feature label. The { character is 
-		expanded as {NONE}. Also reorders features alphabetically
-	]"
+	Description: STRING = "Performs a series of edits and shorthand expansions on an Eiffel class"
 
 	Log_filter: ARRAY [like Type_logging_filter]
 			--
@@ -76,5 +77,63 @@ feature {NONE} -- Constants
 				[{EIFFEL_FEATURE_EDITOR_COMMAND}, All_routines]
 			>>
 		end
+
+note
+	instructions: "[
+		The following is a list expansion rules which the tool recognizes:
+		
+		**1.** Expands feature block headings using two letter abbeviations for titles as for example:
+			@f ec
+		becomes:
+			feature -- Element change
+	
+		A list of title codes is defined in class [../../eiffel-dev/class-edit/support/feature_constants.html FEATURE_CONSTANTS].
+			
+		**2.** Similar to 1 but for unexported feature blocks as for example:
+			@f {ia
+		becomes:
+			feature {NONE} -- Internal attributes
+		
+		**3.** Expands attribute setting procedures as for example:
+			@set name
+		becomes:
+			set_name (a_name: like name)
+				do
+					name := a_name
+				end
+				
+		**4.** Expands shorthand for intialization arguments as for example:
+			make (one:@; two:@; three:@)
+				do
+				end
+		becomes:	
+			make (a_one: like one; a_two: like two; a_three: like three)
+				do
+					one := a_one; two := a_two; three := a_three
+				end
+					
+		**5.** Expands shorthand form of incremented variable iteration as for example:
+			@from j > n
+		becomes:
+			from j := 1 until j > n loop
+				j := j + 1
+			end
+				
+		**6.** Expands forwards list iteration shorthand as for example: 
+			@from list.after
+		becomes:
+			from list.start until list.after loop
+				list.forth
+			end
+				
+		**7.** Expands backwards list iteration shorthand as for example:
+			@from list.before
+		becomes:
+			from list.finish until list.before loop
+				list.back
+			end
+				
+		**8.** Reorders alphabetically the features in each feature block
+	]"
 
 end

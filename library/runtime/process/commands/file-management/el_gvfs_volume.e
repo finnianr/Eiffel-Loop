@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Gnome Virtual Filesystem volume"
 
 	author: "Finnian Reilly"

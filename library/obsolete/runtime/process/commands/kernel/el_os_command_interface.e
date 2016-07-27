@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_OS_COMMAND_I}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-13 16:32:17 GMT (Monday 13th June 2016)"
-	revision: "5"
+	revision: "6"
 
 deferred class
 	EL_OS_COMMAND_INTERFACE

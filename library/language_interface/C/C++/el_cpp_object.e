@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_CPP_OBJECT}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Obtains location of Java runtime dll from Windows registry"
 
 	author: "Finnian Reilly"

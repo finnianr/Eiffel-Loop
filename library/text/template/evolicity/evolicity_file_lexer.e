@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-21 18:46:57 GMT (Monday 21st December 2015)"
 	revision: "4"

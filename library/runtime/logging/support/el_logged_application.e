@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Inherit this class from the root class of your application to configure logging output.
 		Call init_logging to configure the logging

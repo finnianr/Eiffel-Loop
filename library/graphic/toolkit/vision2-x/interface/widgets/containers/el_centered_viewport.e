@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Viewport with horizontally centered content"
 
 	author: "Finnian Reilly"

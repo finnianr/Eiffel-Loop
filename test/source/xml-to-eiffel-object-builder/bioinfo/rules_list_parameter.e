@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {RULES_LIST_PARAMETER}."
 
 	author: "Finnian Reilly"

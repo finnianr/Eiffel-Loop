@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		
 		8-bit PCM data contained in WAV files is usually stored as

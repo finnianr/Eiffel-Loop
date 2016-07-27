@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MIXED_FONT_STYLEABLE_I}."
 
 	author: "Finnian Reilly"

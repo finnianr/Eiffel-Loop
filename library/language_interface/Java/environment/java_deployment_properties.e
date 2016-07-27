@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Collection of all deployment.javaws.jre.* properties divided up into versions
 			deployment.javaws.jre.<version no>.<key>=<value>

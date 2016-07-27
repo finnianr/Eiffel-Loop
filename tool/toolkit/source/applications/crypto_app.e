@@ -1,10 +1,15 @@
-﻿note
-	description: "Summary description for {CRYPTO_APP}."
+note
+	description: "[
+		Menu driven shell of various cryptographic funtions. These are listed in function
+		{[../../../../library/text/encryption/rsa/el_crypto_command_shell.html EL_CRYPTO_COMMAND_SHELL]}.new_command_table
+		
+		Usage: `el_toolkit -crypto'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 10:16:13 GMT (Friday 8th July 2016)"
 	revision: "6"

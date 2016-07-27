@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {J_LONG_INT}."
 
 	author: "Finnian Reilly"

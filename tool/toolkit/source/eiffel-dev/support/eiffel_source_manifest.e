@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EIFFEL_SOURCE_MANIFEST}."
 
 	author: "Finnian Reilly"

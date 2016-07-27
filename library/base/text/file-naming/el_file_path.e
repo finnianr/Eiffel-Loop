@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LATIN_FILE_PATH}."
 
 	author: "Finnian Reilly"

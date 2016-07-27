@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Nokia have their own Windows style playlist format"
 
 	author: "Finnian Reilly"

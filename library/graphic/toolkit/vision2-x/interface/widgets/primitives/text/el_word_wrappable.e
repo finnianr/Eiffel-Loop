@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_WORD_WRAPPABLE}."
 
 	author: "Finnian Reilly"

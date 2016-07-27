@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {CHOICE_PARAMETER}."
 
 	author: "Finnian Reilly"

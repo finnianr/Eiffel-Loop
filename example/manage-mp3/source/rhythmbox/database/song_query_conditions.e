@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {RBOX_QUERY_CONDITIONS}."
 
 	author: "Finnian Reilly"

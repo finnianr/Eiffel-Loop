@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {NOKIA_PLAYLIST}."
 
 	author: "Finnian Reilly"

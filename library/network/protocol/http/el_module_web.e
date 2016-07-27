@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MODULE_WEB}."
 
 	author: "Finnian Reilly"

@@ -1,10 +1,16 @@
-﻿note
-	description: "Objects that ..."
+note
+	description: "[
+		A createable Evolicity context where you add variables in the following ways:
+		
+		* from a table of strings using `make_from_string_table'
+		* from a table of referenceable objects using `make_from_object_table'
+		* Calling `put_variable' or `put_integer'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 9:16:29 GMT (Friday 24th June 2016)"
 	revision: "5"
@@ -48,4 +54,4 @@ feature -- Access
 
 	objects: EVOLICITY_OBJECT_TABLE [ANY]
 
-end -- class EVOLICITY_CONTEXT_IMPL
+end

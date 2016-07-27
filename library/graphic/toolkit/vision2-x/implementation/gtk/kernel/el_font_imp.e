@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Unix counterpart to Windows `EL_FONT_IMP' which fixes a problem settting the height in pixels
 	]"

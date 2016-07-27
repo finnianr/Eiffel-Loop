@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PANGO_I}."
 
 	author: "Finnian Reilly"

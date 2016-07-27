@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		A latin encoded string augmented by a set of unicode foreign characters.
 		

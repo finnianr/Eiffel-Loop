@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {DIRECTORY_SELECT_BOX}."
 
 	author: "Finnian Reilly"

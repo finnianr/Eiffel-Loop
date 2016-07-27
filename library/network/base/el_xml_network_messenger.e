@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Sends an XML string representing a method invocation request"
 
 	author: "Finnian Reilly"
@@ -75,7 +75,6 @@ feature {NONE} -- Implementation
 	net_exception_occurred: BOOLEAN
 
 end
-
 
 
 

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Count actual code words in Eiffel source trees"
 
 	author: "Finnian Reilly"
@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-12 14:44:26 GMT (Tuesday 12th July 2016)"
+	date: "2016-07-13 8:39:16 GMT (Wednesday 13th July 2016)"
 	revision: "7"
 
 class
@@ -79,6 +79,7 @@ feature -- Basic operations
 			else
 				lio.put_real_field ("Mega bytes", mega_bytes.truncated_to_real)
 			end
+			lio.put_new_line
 			log.exit
 		end
 

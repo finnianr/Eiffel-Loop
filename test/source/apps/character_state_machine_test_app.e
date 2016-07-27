@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {CHARACTER_STATE_MACHINE_TEST_APP}."
 
 	author: "Finnian Reilly"

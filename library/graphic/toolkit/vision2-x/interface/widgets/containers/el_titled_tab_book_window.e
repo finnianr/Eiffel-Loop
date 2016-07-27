@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_TITLED_TAB_BOOK_WINDOW}."
 
 	author: "Finnian Reilly"

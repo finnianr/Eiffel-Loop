@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Implementation of `EL_X509_KEY_READER_COMMAND_I' interface"
 
 	author: "Finnian Reilly"

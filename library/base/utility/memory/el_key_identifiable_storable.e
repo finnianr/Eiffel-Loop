@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_KEY_IDENTIFIABLE_STORABLE}."
 
 	author: "Finnian Reilly"

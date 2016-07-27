@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ARRAYED_LIST}."
 
 	author: "Finnian Reilly"

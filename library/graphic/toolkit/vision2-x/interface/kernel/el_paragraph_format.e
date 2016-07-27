@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PARAGRAPH_FORMAT}."
 
 	author: "Finnian Reilly"

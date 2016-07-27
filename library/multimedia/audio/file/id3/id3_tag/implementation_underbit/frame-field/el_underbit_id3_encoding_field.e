@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_UNDERBIT_ID3_ENCODING_FIELD}."
 
 	author: "Finnian Reilly"

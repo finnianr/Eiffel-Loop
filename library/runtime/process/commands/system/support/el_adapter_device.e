@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ADAPTER_DEVICE}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-21 10:30:14 GMT (Tuesday 21st June 2016)"
-	revision: "5"
+	revision: "6"
 
 class
 	EL_ADAPTER_DEVICE

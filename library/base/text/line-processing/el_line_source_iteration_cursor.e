@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_FILE_STRING_LIST_ITERATION_CURSOR}."
 
 	author: "Finnian Reilly"

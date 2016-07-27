@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_BUILDABLE_PASS_PHRASE}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Windows implementation of `EL_EXECUTION_ENVIRONMENT_I' interface"
 
 	author: "Finnian Reilly"

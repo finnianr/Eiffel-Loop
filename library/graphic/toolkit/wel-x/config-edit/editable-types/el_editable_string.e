@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -29,4 +29,3 @@ feature -- Element change
 		end
 
 end
-

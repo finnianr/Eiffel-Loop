@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Standalone application initialization routines"
 
 	author: "Finnian Reilly"

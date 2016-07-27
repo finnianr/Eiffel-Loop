@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		insert string:
 			<rect x="0" y="0" width="x" height="x" style="fill:#FFFFFF"/> 

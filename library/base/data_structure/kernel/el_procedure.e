@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Procedure identifier based on address of Eiffel routine dispatcher
 		As it is not possible to compare agent references this serves as a workaround

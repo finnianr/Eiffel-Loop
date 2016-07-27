@@ -1,0 +1,13 @@
+**Evolicity** is a text substitution language that was inspired by the [http://velocity.apache.org/ Velocity text substitution language] for Java. ''Evolicity'' provides a way to merge the data from Eiffel objects into a text template. The template can be either supplied externally or hard-coded into an Eiffel class. The language includes, substitution variables, conditional statements and loops. Substitution variables have a BASH like syntax. Conditionals and loops have an Eiffel like syntax.
+
+The text of this web page was generated using an ''Evolicity'' template which you can see here:
+[https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/source-code.html.evol https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/source-code.html.evol]
+
+To make an Eiffel class serializable with ''Evolicity'' you inherit from class [./library/text/template/evolicity/serialization/evolicity_serializeable.html `EVOLICITY_SERIALIZEABLE']. Read the class notes for details on how to use. You can also access the substitution engine directly from the shared instance in class [./library/text/template/evolicity/el_module_evolicity_templates.html `EL_MODULE_EVOLICITY_TEMPLATES']
+
+**Features**
+
+* Templates are compiled to an intermediate byte code stored in `.evc' files. This saves time consuming lexing operations on large templates.
+* Has a class [./library/text/template/evolicity/serialization/evolicity_cacheable_serializeable.html `EVOLICITY_CACHEABLE_SERIALIZEABLE']
+for caching the substituted output. Useful for generating pages on a web-server.
+

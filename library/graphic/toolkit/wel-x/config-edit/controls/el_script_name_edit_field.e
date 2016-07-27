@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -53,5 +53,4 @@ feature -- Constants
 	Default_script_file_name: STRING = "default"
 
 end
-
 

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LIBID3_FRAME_ITERATOR}."
 
 	author: "Finnian Reilly"

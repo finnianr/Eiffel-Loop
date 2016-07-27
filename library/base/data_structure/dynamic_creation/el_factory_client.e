@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Allows descendants access to initialization agents for EL_OBJECT_FACTORY"
 
 	author: "Finnian Reilly"

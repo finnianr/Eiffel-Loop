@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_UNIX_STREAM_SOCKET}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object representing table data cell in OpenDocument Flat XML format spreadsheet
 	]"

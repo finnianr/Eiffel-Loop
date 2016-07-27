@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "File that can notify a listener of the progress of file read/write operations"
 
 	author: "Finnian Reilly"

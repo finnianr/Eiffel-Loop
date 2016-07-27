@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Button decorated by a set of 3 images, one for each of the states:
 			1. Normal

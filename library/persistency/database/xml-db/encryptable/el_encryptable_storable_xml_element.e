@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ENCRYPTABLE_STORABLE_XML_ELEMENT}."
 
 	author: "Finnian Reilly"

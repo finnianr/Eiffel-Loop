@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EVOLICITY_BOOLEAN_CONJUNCTION_EXPRESSION}."
 
 	author: "Finnian Reilly"

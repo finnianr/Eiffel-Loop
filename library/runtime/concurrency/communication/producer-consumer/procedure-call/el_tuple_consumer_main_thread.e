@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Object that consumes tuples in main GUI thread with specified action/actions"
 
 	author: "Finnian Reilly"

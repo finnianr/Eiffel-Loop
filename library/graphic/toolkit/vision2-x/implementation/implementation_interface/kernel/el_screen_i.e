@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SCREEN_I}."
 
 	author: "Finnian Reilly"

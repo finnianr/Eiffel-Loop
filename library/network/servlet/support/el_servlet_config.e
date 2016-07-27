@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SERVLET_CONFIG}."
 
 	author: "Finnian Reilly"

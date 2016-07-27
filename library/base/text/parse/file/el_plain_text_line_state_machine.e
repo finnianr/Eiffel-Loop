@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {EL_PLAIN_TEXT_LINE_PROCESSOR}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-05 5:17:59 GMT (Tuesday 5th July 2016)"
 	revision: "6"
@@ -15,7 +15,8 @@ class
 inherit
 	EL_STATE_MACHINE [ZSTRING]
 		rename
-			traverse as do_with_lines
+			traverse as do_with_lines,
+			item_number as line_number
 		end
 
 feature -- Basic operations

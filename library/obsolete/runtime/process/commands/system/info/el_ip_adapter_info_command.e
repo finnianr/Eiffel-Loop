@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Parses output of nm-tool to get MAC address of ethernet devices
 		

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ID3_ALBUM_PICTURE}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object with procedures to be called from C. See also: [./el_c_to_eiffel_callback_struct.html EL_C_TO_EIFFEL_CALLBACK_STRUCT]
 	]"

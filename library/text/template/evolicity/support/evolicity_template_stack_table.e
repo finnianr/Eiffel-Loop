@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Stacks of templates to enable use of recursive templates"
 
 	author: "Finnian Reilly"

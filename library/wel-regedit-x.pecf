@@ -14,7 +14,7 @@ system:
 		
 		description: 
 			"""
-				Windows registry editing classes
+				Windows registry searching, reading and editing classes
 			"""
 
 		root:

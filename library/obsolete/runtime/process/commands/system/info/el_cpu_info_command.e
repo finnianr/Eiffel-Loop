@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_CPU_INFO_COMMAND}."
 
 	author: "Finnian Reilly"

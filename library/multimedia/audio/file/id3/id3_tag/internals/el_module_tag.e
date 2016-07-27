@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SHARED_ID3_TAGS}."
 
 	author: "Finnian Reilly"

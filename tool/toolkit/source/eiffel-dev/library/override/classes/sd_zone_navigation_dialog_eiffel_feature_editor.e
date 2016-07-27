@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {SD_ZONE_NAVIGATION_DIALOG_EIFFEL_FEATURE_EDITOR}."
 
 	author: "Finnian Reilly"

@@ -1,10 +1,17 @@
-﻿note
-	description: "Summary description for {PYXIS_ENCRYPTER_APP}."
+note
+	description: "[
+		Encrypts a file using AES cryptography
+		
+		Usage:
+			el_toolkit -pyxis_encrypt -in <input-name> -out <output-name>
+			
+		If `-out' is not specified, it outputs the file as `<input-name>.aes'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 20:00:34 GMT (Friday 8th July 2016)"
 	revision: "7"
@@ -13,7 +20,7 @@ class
 	PYXIS_ENCRYPTER_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [PYXIS_ENCRYPTER]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [PYXIS_ENCRYPTER]
 		rename
 			command as pyxis_encrypter
 		redefine

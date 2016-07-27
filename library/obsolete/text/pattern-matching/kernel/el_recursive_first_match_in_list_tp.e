@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -69,4 +69,3 @@ feature {NONE} -- Implementation
 
 
 end -- class EL_RECURSIVE_FIRST_MATCH_IN_LIST_TP
-

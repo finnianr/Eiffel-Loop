@@ -27,7 +27,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 
-		option: 
+		option:
 			trace = false; debug = false; warning = true; syntax = standard
 			debug:
 				name = pyxis; enabled = false

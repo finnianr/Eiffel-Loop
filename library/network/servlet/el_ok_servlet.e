@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Servlet that returns `OK' as a response. Useful for closing down a background servlet by
 		first calling `{EL_FAST_CGI_SERVLET_SERVICE}.set_end_application' and then invoking this 

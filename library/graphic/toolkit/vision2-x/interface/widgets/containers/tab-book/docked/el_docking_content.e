@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DOCKING_CONTENT}."
 
 	author: "Finnian Reilly"

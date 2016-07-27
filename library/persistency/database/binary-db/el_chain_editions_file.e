@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_BINARY_EDITIONS_FILE}."
 
 	author: "Finnian Reilly"

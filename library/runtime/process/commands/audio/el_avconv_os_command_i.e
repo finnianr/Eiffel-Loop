@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Selects between commands avconv and ffmpeg depending on what's installed"
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-22 17:34:48 GMT (Wednesday 22nd June 2016)"
-	revision: "4"
+	revision: "5"
 
 deferred class
 	EL_AVCONV_OS_COMMAND_I

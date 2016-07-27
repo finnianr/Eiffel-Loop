@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Unix implementation of `EL_DESKTOP_CONSOLE_APPLICATION_INSTALLER_I' interface"
 
 	author: "Finnian Reilly"

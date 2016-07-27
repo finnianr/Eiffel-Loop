@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {CODEC_INFO}."
 
 	author: "Finnian Reilly"

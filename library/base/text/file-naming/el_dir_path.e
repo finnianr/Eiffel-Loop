@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DIR_PATH}."
 
 	author: "Finnian Reilly"

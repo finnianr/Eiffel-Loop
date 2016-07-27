@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_UNDERBIT_ID3_ENCODED_FIELD}."
 
 	author: "Finnian Reilly"
@@ -119,4 +119,3 @@ feature {NONE} -- Implementation
 	encoding_field: EL_UNDERBIT_ID3_ENCODING_FIELD
 
 end
-

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Generates clicked and hightlighted button from normal.svg"
 
 	author: "Finnian Reilly"

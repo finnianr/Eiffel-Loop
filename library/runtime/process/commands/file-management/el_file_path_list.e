@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "File path list from OS command"
 
 	author: "Finnian Reilly"

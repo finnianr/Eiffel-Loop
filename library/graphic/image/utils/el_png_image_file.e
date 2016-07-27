@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "File for reading and writing Cairo image surfaces from PNG format graphical files"
 
 	author: "Finnian Reilly"

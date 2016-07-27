@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_BUTTON_PIXMAP}."
 
 	author: "Finnian Reilly"

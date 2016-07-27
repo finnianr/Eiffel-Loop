@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PAYPAL_OPTION_SELECT_VARIABLE_LIST}."
 
 	author: "Finnian Reilly"

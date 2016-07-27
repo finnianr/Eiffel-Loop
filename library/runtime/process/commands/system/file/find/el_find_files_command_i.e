@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Cross platform interface to `EL_FIND_FILES_COMMAND_IMP'"
 
 	author: "Finnian Reilly"

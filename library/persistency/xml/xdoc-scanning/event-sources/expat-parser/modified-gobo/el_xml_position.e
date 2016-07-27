@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Abstract definition of positions in XML documents"
 
 	library: "Gobo Eiffel XML Library"
@@ -40,4 +40,3 @@ invariant
 	source_not_void: source /= Void
 
 end
-

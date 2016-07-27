@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Worker thread with logging output visible in console"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_STD_IO_ROUTINE_LOG}."
 
 	author: "Finnian Reilly"

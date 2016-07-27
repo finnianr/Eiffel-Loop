@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		PKCS1 RSA Constants
 			RSAPrivateKey ::= SEQUENCE {

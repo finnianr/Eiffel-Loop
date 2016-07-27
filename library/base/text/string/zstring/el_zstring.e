@@ -1,10 +1,10 @@
-﻿note
-	description: "Summary description for {EL_ZSTRING}."
+note
+	description: "Class EL_ZSTRING (AKA ZSTRING) is a memory efficient alternative to using STRING_32"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-06 7:41:19 GMT (Wednesday 6th July 2016)"
 	revision: "5"
@@ -212,7 +212,7 @@ feature -- Element change
 
 	put_z_code (a_z_code: like z_code; i: INTEGER)
 		do
-			if a_z_code < 0xFF then
+			if a_z_code <= 0xFF then
 				area [i - 1] := a_z_code.to_character_8
 			else
 				area [i - 1] := Unencoded_character

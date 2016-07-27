@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PANGO_CAIRO_API}."
 
 	author: "Finnian Reilly"

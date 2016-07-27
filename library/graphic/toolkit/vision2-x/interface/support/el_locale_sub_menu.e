@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LOCALE_SUB_MENU}."
 
 	author: "Finnian Reilly"

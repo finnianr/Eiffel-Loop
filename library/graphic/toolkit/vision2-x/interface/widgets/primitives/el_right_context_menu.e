@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_RIGHT_CONTEXT_MENU_2}."
 
 	author: "Finnian Reilly"

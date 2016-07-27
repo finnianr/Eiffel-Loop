@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_VERTICAL_PIXELS_INTEGER}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "5"
+	revision: "4"
 
 
 expanded class

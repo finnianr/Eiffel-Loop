@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Class based on C-struct
 			typedef struct _XRROutputInfo {

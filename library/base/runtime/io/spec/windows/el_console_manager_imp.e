@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Windows implementation of `EL_CONSOLE_MANAGER_I' interface"
 
 	author: "Finnian Reilly"

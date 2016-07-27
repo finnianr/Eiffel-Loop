@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {SVG_INTEGER_POINT}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -41,5 +41,4 @@ feature {NONE} -- Implementation
 		end
 
 end
-
 

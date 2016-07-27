@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Switch order of first and secondname in contacts file"
 
 	author: "Finnian Reilly"

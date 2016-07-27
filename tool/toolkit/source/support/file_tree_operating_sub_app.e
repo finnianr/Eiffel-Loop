@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {FILE_TREE_OPERATING_SUB_APPLICATION}."
 
 	author: "Finnian Reilly"

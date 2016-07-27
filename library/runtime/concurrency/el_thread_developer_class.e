@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Developer class for code discovery/navigation purposes"
 
 	author: "Finnian Reilly"

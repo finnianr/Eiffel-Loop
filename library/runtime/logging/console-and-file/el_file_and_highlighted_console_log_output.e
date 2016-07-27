@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT}."
 
 	author: "Finnian Reilly"

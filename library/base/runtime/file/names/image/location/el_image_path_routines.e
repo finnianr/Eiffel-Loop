@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object for locating installed images in Eiffel Loop standard directories
 		

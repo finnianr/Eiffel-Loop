@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_VTD_NATIVE_XPATH}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PYTHON_SELF}."
 
 	author: "Finnian Reilly"
@@ -41,4 +41,3 @@ feature {EL_PYTHON_SELF, EL_PYTHON_INTERPRETER} -- Implementation
 	self: EL_PYTHON_OBJECT
 
 end
-

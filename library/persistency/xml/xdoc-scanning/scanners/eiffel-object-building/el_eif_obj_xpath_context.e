@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EIF_OBJ_XPATH_CONTEXT}."
 
 	author: "Finnian Reilly"

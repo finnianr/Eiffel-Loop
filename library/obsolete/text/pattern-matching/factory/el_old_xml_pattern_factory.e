@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -70,4 +70,3 @@ feature {NONE} -- XML element patterns
 		end
 
 end -- class XML_PATTERNS
-

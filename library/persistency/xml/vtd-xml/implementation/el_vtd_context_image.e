@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Stores a serialized form of VTD-XML navigation location"
 
 	author: "Finnian Reilly"

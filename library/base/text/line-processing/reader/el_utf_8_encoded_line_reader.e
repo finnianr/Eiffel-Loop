@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_UTF_8_LINE_READER}."
 
 	author: "Finnian Reilly"

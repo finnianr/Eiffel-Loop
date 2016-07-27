@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Windows implementation of EL_VISION_2_GUI_ROUTINES_I interface"
 
 	author: "Finnian Reilly"

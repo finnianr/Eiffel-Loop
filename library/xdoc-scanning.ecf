@@ -30,9 +30,14 @@
 		<cluster name = "xml" location = "persistency/xml/xdoc-scanning" recursive = "true">
 			<option namespace = "XML"/>
 		</cluster>
-		<!--Source code-->
-		<cluster name = "xdoc" location = "persistency/xml/xdoc-processing" recursive = "true">
-			<option namespace = "XDOC_processing"/>
-		</cluster>
 	</target>
 </system>
+<!--
+	Source code
+	cluster:
+	name = xdoc; location = "persistency/xml/xdoc-processing"; recursive = true
+	option:
+	namespace = XDOC_processing
+	
+	
+-->

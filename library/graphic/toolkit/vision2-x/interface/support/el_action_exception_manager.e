@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ACTION_MANAGER}."
 
 	author: "Finnian Reilly"
@@ -109,4 +109,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

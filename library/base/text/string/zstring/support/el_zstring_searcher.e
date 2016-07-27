@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ZSTRING_SEARCHER}."
 
 	author: "Finnian Reilly"

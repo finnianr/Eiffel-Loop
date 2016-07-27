@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Command to find file count and directory file content size"
 
 	author: "Finnian Reilly"

@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {EL_FILE_SYSTEM_OPERATIONS_U8}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-01 8:37:11 GMT (Friday 1st July 2016)"
 	revision: "6"
@@ -14,6 +14,11 @@ class
 
 inherit
 	EL_SHARED_DIRECTORY
+	 	rename
+	 		copy as copy_object
+	 	end
+
+	 EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 	 	rename
 	 		copy as copy_object
 	 	end
@@ -29,6 +34,15 @@ feature -- Access
 			--
 		do
 			create Result.make_with_name (a_file_path)
+		end
+
+	file_checksum (a_file_path: EL_FILE_PATH): NATURAL
+		local
+			crc: like crc_generator
+		do
+			crc := crc_generator
+			crc.add_file (a_file_path)
+			Result := crc.checksum
 		end
 
 	file_megabyte_count (a_file_path: EL_FILE_PATH): DOUBLE
@@ -220,6 +234,5 @@ feature {NONE} -- Implementation
 				l_file.notify
 			end
 		end
-
 
 end

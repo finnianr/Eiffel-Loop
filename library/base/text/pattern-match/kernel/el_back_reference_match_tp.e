@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "matches text of previously matched pattern"
 
 	author: "Finnian Reilly"

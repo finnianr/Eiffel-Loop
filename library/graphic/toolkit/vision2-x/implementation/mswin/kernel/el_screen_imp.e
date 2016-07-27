@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Windows extension to `EV_SCREEN_IMP'"
 
 	author: "Finnian Reilly"

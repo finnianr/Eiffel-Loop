@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Delete file or directory"
 
 	author: "Finnian Reilly"

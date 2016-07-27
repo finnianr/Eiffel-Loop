@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Strings as source of XML documents"
 
 	library: "Gobo Eiffel XML Library"
@@ -26,4 +26,3 @@ feature -- Output
 		end
 	
 end
-

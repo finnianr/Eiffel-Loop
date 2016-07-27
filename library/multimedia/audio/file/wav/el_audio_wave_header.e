@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -372,4 +372,3 @@ feature {NONE} -- Constants
 	Bits_per_byte: INTEGER = 8
 
 end
-

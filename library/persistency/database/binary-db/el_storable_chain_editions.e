@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_BINARY_STORABLE_EDITIONS_CHAIN}."
 
 	author: "Finnian Reilly"

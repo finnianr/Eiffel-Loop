@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Repeats an action at timed intervals and prompts any registered responder
 		May work but not fully tested.
@@ -59,4 +59,3 @@ feature {NONE} -- Implementation
 		-- Time interval in millisecs
 
 end
-

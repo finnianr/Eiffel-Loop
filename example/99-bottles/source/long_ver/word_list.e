@@ -1,10 +1,10 @@
-indexing
+note
 	description: "Summary description for {WORD_LIST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2012-12-16 11:34:19 GMT (Sunday 16th December 2012)"
 	revision: "1"
@@ -22,7 +22,7 @@ inherit
 
 feature	-- Initialization
 
-	make_from_string (str: STRING) is
+	make_from_string (str: STRING)
 			--
 		do
 			make
@@ -31,7 +31,7 @@ feature	-- Initialization
 
 feature -- Element change
 
-	capitalize_first is
+	capitalize_first
 			-- Make first letter uppercase
 		require
 			at_least_one_character: first_word.count >= 1
@@ -41,7 +41,7 @@ feature -- Element change
 			end
 		end
 
-	append_string (str: STRING) is
+	append_string (str: STRING)
 			-- Inline agent demo
 		do
 			if {word_list: LIST [STRING_8]} str.split (' ') then
@@ -51,7 +51,7 @@ feature -- Element change
 			end
 		end
 
-	append_other (other: WORD_LIST) is
+	append_other (other: WORD_LIST)
 			--
 		do
 			other.do_all (agent extend)
@@ -59,7 +59,7 @@ feature -- Element change
 
 feature -- Status query
 
-	first_is_upper: BOOLEAN is
+	first_is_upper: BOOLEAN
 			--
 		do
 			Result := not is_empty implies not first_word.item (1).is_alpha or else first_word.item (1).is_upper
@@ -67,7 +67,7 @@ feature -- Status query
 
 feature -- Output
 
-	print_to_medium (io_medium: IO_MEDIUM) is
+	print_to_medium (io_medium: IO_MEDIUM)
 			--
 		do
 			from start until after loop

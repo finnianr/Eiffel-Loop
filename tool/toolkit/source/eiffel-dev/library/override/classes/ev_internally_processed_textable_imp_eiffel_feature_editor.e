@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EV_INTERNALLY_PROCESSED_TEXTABLE_IMP_EIFFEL_FEATURE_EDITOR}."
 
 	author: "Finnian Reilly"

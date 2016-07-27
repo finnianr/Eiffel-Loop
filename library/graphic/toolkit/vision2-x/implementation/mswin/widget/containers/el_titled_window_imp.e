@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Not so silly window"
 
 	author: "Finnian Reilly"

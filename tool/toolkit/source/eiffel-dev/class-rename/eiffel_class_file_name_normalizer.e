@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EIFFEL_CLASS_FILE_NAME_NORMALIZER}."
 
 	author: "Finnian Reilly"

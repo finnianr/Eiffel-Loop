@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Creates a file context menu entry for application in the OS file manager.
 		In Unix with the GNOME desktop this is implemented using Nautilus-scripts.

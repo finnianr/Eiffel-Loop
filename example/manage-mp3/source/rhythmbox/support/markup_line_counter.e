@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {MARKUP_LINE_COUNTER}."
 
 	author: "Finnian Reilly"

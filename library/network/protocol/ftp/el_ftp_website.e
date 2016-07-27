@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_WEBSITE_ROUTINES}."
 
 	author: "Finnian Reilly"

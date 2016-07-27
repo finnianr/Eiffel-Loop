@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Circular light that ligths up Green for ON and Red for OFF"
 
 	author: "Finnian Reilly"
@@ -107,4 +107,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

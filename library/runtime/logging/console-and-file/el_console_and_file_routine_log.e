@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Logs routines which are set to have logging enabled in the global configuration
 	]"
@@ -153,7 +153,6 @@ feature {NONE} -- Implementation
 	traced_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE_INFO]
 
 end -- class EL_ROUTINE_LOG
-
 
 
 

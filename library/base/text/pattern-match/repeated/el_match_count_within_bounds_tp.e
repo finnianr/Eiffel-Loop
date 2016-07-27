@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MATCH_COUNT_WITHIN_BOUNDS_TP2}."
 
 	author: "Finnian Reilly"

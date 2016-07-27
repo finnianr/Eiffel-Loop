@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PIXMAPABLE_LABEL}."
 
 	author: "Finnian Reilly"

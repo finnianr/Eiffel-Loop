@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EIFFEL_SOURCE_MANIFEST_EDITOR}."
 
 	author: "Finnian Reilly"
@@ -23,7 +23,7 @@ feature {NONE} -- Initialization
 	make (source_manifest_path: EL_FILE_PATH)
 		do
 			Precursor (source_manifest_path)
-			file_editor := create_file_editor
+			file_editor := new_file_editor
 		end
 
 feature -- Basic operations
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 
 	file_editor: EIFFEL_SOURCE_EDITING_PROCESSOR
 
-	create_file_editor: EIFFEL_SOURCE_EDITING_PROCESSOR
+	new_file_editor: EIFFEL_SOURCE_EDITING_PROCESSOR
 		deferred
 		end
 

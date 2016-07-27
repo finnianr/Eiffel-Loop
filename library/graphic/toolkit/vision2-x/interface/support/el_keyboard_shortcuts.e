@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EV_KEYBOARD_SHORTCUTS}."
 
 	author: "Finnian Reilly"

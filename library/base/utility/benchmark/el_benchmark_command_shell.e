@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_BENCHMARK_COMMAND_SHELL}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 10:38:54 GMT (Friday 8th July 2016)"
-	revision: "7"
+	revision: "5"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL

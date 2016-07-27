@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_GNOME_MENU_EDITOR}."
 
 	author: "Finnian Reilly"
@@ -95,4 +95,3 @@ feature -- Constants
 	Alacarte_MenuEditor: STRING = "Alacarte.MenuEditor"
 
 end
-

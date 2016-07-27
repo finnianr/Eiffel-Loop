@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {ECF_TO_PECF_APP}."
 
 	author: "Finnian Reilly"
@@ -13,7 +13,7 @@ class
 	EIFFEL_ECF_TO_PECF_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [EL_DIRECTORY_TREE_FILE_PROCESSOR]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [EL_DIRECTORY_TREE_FILE_PROCESSOR]
 		rename
 			command as tree_processor
 		redefine

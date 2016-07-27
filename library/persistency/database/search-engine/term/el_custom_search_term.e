@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_CUSTOM_SEARCH_TERM}."
 
 	author: "Finnian Reilly"

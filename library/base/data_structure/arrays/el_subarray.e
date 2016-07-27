@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Sub arrays implemented using shared memory areas rather than copied memory area. 
 		For large arrays, subarray memory copies can incurr a significant performance overhead. 

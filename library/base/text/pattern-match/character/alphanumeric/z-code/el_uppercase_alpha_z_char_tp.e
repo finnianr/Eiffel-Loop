@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_UPPERCASE_ALPHA_Z_CHAR_TP}."
 
 	author: "Finnian Reilly"

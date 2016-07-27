@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Unix implementation of `JAVA_PACKAGE_ENVIRONMENT_I' interface"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {JAVA_AWT_JPACKAGE}."
 
 	author: "Finnian Reilly"

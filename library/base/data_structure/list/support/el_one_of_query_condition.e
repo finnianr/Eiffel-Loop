@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ONE_OF_QUERY_CONDITION}."
 
 	author: "Finnian Reilly"

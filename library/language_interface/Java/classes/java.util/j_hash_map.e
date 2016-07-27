@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Eiffel wrapper for class java.util.HashMap"
 
 	author: "Finnian Reilly"

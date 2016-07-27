@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Searcher for Augmented Latin strings"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_BUSY_PROCESS_ANIMATION}."
 
 	author: "Finnian Reilly"

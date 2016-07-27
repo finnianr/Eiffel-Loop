@@ -1,0 +1,10 @@
+**Status:** No longer maintained
+
+[http://www.fon.hum.uva.nl/praat Praat] is a free tool for doing acoustic
+and phonetic analysis and has it's own scripting language, Praat-script.
+
+The `el_toolkit' utility has an option for converting the source code of Praat ver. 4.4 to compile with MSC.
+(Praat compiles "out of the box" with the mingw compiler, but at the time EiffelStudio didn't support mingw)
+
+Developed with VC++ 8.0 Express Edition, Windows XP SP2, Praat source code version 4.4.30. The conversion
+tool will not work with later versions of Praat.

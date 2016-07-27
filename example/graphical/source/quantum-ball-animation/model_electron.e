@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {MODEL_ELECTRON}."
 
 	author: "Finnian Reilly"

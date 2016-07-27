@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {SHARED_SERIALIZATION_LISTENER}."
 
 	author: "Finnian Reilly"

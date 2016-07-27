@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Vision2 GUI supporting management of multi-threaded logging output
 		in terminal console

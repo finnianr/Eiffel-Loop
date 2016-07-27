@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Unix implementation of `EL_DELETE_TREE_COMMAND_I' interface"
 
 	author: "Finnian Reilly"

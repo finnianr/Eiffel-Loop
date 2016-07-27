@@ -1,19 +1,22 @@
-﻿note
-	description: "Summary description for {EIFFEL_LINE_COUNTER_APP}."
+note
+	description: "[
+		Count lines of eiffel code for combined source trees defined by a source tree manifest. 
+		Lines are counted starting from the class keyword and exclude comments and blank lines.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 19:57:02 GMT (Friday 8th July 2016)"
+	date: "2016-07-13 8:38:59 GMT (Wednesday 13th July 2016)"
 	revision: "6"
 
 class
 	EIFFEL_CODEBASE_STATISTICS_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [EIFFEL_CODEBASE_STATISTICS_COMMAND]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [EIFFEL_CODEBASE_STATISTICS_COMMAND]
 		redefine
 			Option_name
 		end

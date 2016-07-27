@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Proxy object to (asynchronously) call procedures of BASE_TYPE from an external thread (non GUI thread)
 	]"

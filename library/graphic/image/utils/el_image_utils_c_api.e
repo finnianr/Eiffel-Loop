@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Loads module and call svg conversion function"
 
 	author: "Finnian Reilly"

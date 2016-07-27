@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Listener for routine call request handling events"
 
 	author: "Finnian Reilly"

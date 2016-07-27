@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_UNDERBIT_ID3_TAG_CONSTANTS}."
 
 	author: "Finnian Reilly"

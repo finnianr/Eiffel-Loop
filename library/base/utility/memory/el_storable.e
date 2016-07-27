@@ -1,10 +1,13 @@
-﻿note
-	description: "Object that can read and write itself to memory buffer `EL_MEMORY_READER_WRITER'"
+note
+	description: "[
+		Object that can read and write itself to a memory buffer of type `EL_MEMORY_READER_WRITER'.
+	]"
+	instructions: "See end of page"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-07 15:23:22 GMT (Thursday 7th July 2016)"
 	revision: "5"
@@ -509,5 +512,18 @@ feature {NONE} -- Constants
 		once
 			create Result.make (3)
 		end
+
+note
+	instructions: "[
+		There is support for automatic reading and writing of the following attribute types:
+
+		* Basic types conforming to `NUMERIC'
+		* Basic string types conforming to `STRING_GENERAL'. Includes `STRING_8', `STRING_32' and `EL_ZSTRING'
+		(AKA `ZSTRING').
+		* Types conforming to `EL_STORABLE'. (recursion)
+		* A `TUPLE' type composed of any of the previously mentioned types. (recursion)
+
+		Override the function `excluded_fields' to define a list of fields which should not be storable.
+	]"
 
 end
