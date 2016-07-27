@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EROS_MULTI_APPLICATION_ROOT}."
 
 	author: "Finnian Reilly"

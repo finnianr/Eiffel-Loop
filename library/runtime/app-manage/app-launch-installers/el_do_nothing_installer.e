@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DO_NOTHING__INSTALLER}."
 
 	author: "Finnian Reilly"

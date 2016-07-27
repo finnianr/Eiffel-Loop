@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LOCALE_DROP_DOWN_LIST_BOX}."
 
 	author: "Finnian Reilly"

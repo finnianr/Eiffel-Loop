@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {PATH_TEST_SET}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-04 14:14:21 GMT (Monday 4th July 2016)"
-	revision: "5"
+	revision: "7"
 
 class
 	PATH_TEST_SET

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Passphrase verifier"
 
 	author: "Finnian Reilly"

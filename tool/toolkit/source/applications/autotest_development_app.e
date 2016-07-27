@@ -1,10 +1,10 @@
-﻿note
-	description: "Developmental testing of AutoTest classes"
+note
+	description: "Convenience class to develop AutoTest classes"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 20:07:43 GMT (Friday 8th July 2016)"
 	revision: "8"
@@ -13,14 +13,7 @@ class
 	AUTOTEST_DEVELOPMENT_APP
 
 inherit
-	EL_SUB_APPLICATION
-		rename
-			run as test_publisher
-		redefine
-			Option_name
-		end
-
-	EL_MODULE_USER_INPUT
+	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
 
 create
 	make
@@ -33,22 +26,25 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	test_publisher
-		local
-			test_set: EIFFEL_REPOSITORY_PUBLISHER_TEST_SET
-			n: INTEGER
+	run
 		do
-			log.enter ("test_publisher")
-			create test_set
-			test_set.test_publisher
-			n := User_input.integer ("Return to finish")
-			test_set.clean (False)
-			log.exit
+			do_file_data_test (agent publisher_test_set.test_publisher)
+--			do_file_data_test (agent note_editor_test_set.test_editor_with_new_class)
+		end
+
+feature {NONE} -- Test
+
+	publisher_test_set: EIFFEL_REPOSITORY_PUBLISHER_TEST_SET
+		do
+			create Result
+		end
+
+	note_editor_test_set: EIFFEL_NOTE_EDITOR_TEST_SET
+		do
+			create Result
 		end
 
 feature {NONE} -- Constants
-
-	Description: STRING = "Call manual and automatic sets"
 
 	Log_filter: ARRAY [like Type_logging_filter]
 			--
@@ -56,10 +52,10 @@ feature {NONE} -- Constants
 			Result := <<
 				[{AUTOTEST_DEVELOPMENT_APP}, All_routines],
 				[{REPOSITORY_SOURCE_TREE}, All_routines],
-				[{REPOSITORY_SOURCE_TREE_PAGE}, All_routines]
+				[{REPOSITORY_SOURCE_TREE_PAGE}, All_routines],
+				[{EIFFEL_NOTE_EDITOR_TEST_SET}, All_routines],
+				[{EIFFEL_REPOSITORY_PUBLISHER_TEST_SET}, All_routines]
 			>>
 		end
-
-	Option_name: STRING = "autotest"
 
 end

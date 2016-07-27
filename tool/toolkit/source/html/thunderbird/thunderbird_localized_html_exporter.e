@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {THUNDERBIRD_ACCOUNT}."
 
 	author: "Finnian Reilly"

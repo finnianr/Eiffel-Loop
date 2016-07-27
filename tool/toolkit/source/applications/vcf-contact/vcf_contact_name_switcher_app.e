@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {VCF_CONTACT_NAME_SWITCHER_APP}."
 
 	author: "Finnian Reilly"
@@ -13,7 +13,7 @@ class
 	VCF_CONTACT_NAME_SWITCHER_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [VCF_CONTACT_NAME_SWITCHER]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [VCF_CONTACT_NAME_SWITCHER]
 		redefine
 			Option_name
 		end

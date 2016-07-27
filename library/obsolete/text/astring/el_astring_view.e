@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ASTRING_VIEW}."
 
 	author: "Finnian Reilly"

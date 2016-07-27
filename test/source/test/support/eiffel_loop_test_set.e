@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Test set using files in $EIFFEL_LOOP/projects.data"
 
 	author: "Finnian Reilly"

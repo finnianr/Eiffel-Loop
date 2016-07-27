@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_HTML_TEXT_2}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Windows implementation of program directory removal command:
 			rmdir "$software_company_directory"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "File system commands accepting default UTF-8 encoded arguments"
 
 	author: "Finnian Reilly"

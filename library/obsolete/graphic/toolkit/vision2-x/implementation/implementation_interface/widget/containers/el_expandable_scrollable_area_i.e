@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EXPANDABLE_SCROLLABLE_AREA_I}."
 
 	author: "Finnian Reilly"

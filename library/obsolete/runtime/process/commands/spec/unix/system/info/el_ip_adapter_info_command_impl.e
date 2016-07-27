@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_IP_ADAPTER_INFO_COMMAND_IMPL}."
 
 	author: "Finnian Reilly"

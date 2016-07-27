@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {RBOX_CORTINA_SONG}."
 
 	author: "Finnian Reilly"

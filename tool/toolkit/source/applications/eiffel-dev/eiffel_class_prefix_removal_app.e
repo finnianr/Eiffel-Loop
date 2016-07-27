@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EIFFEL_CLASS_PREFIX_REMOVAL_APP}."
 
 	author: "Finnian Reilly"

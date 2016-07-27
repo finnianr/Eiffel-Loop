@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Unix implementation of `EL_DESKTOP_APPLICATION_INSTALLER_I' interface
 		Creates a GNOME desktop menu application launcher

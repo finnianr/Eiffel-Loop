@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		An object that maps command line arguments to an Eiffel make procedure for a target object (command).
 		The 'command' object is automically created and the make procedure specified by 'make_action'

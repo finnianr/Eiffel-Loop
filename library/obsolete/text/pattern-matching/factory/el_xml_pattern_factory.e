@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XML_PATTERN_FACTORY}."
 
 	author: "Finnian Reilly"
@@ -60,4 +60,3 @@ feature -- Access
 		end
 
 end
-

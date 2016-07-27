@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Pattern that matches only one character"
 
 	author: "Finnian Reilly"
@@ -33,4 +33,3 @@ feature -- Conversion
 		end
 
 end -- class EL_SINGLE_CHAR_TEXTUAL_PATTERN
-

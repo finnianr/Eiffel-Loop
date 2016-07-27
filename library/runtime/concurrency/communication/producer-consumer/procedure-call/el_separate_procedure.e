@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SEPARATE_PROCEDURE}."
 
 	author: "Finnian Reilly"

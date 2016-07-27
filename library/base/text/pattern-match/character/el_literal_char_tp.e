@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LITERAL_CHAR_TP2}."
 
 	author: "Finnian Reilly"

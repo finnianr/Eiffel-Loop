@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {CLASS_TEST_APP}."
 
 	author: "Finnian Reilly"

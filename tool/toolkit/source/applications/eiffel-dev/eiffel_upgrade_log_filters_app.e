@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Upgrade syntax of Eiffel Loop logging filter arrays"
 
 	author: "Finnian Reilly"

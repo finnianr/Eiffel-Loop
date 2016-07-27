@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Expat API and associated classes modified to only have ISE base dependency"
 
 	library: "Gobo Eiffel XML Library"
@@ -999,4 +999,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

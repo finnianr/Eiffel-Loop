@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Parent of classes that implements OS specific details of abstract interface"
 
 	author: "Finnian Reilly"

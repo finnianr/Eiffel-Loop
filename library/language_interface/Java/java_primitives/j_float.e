@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -64,4 +64,3 @@ feature {NONE, JAVA_FUNCTION} -- Implementation
 	Jni_type_signature: STRING = "F"
 
 end -- class J_FLOAT
-

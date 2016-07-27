@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP}."
 
 	author: "Finnian Reilly"

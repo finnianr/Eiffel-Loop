@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_COMPRESSED_FILE}."
 
 	author: "Finnian Reilly"

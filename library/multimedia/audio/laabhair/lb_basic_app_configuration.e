@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Basic Laabhair user defined application configuration"
 
 	author: "Finnian Reilly"
@@ -131,7 +131,6 @@ feature -- Default values
 		end
 	
 end
-
 
 
 

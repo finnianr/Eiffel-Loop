@@ -1,10 +1,10 @@
-﻿note
-	description: "Summary description for {EVOLICITY_CACHEABLE_SERIALIZEABLE}."
+note
+	description: "Caches the substituted output"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-01-01 13:10:47 GMT (Thursday 1st January 2015)"
 	revision: "5"

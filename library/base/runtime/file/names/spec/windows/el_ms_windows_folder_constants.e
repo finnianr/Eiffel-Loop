@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MS_WINDOWS_FOLDERS}."
 
 	author: "Finnian Reilly"

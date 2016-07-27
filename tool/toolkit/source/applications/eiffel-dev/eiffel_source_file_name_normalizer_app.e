@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EIFFEL_SOURCE_FILENAME_NORMALIZER_APP}."
 
 	author: "Finnian Reilly"

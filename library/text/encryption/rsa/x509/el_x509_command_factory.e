@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_X509_COMMAND_FACTORY}."
 
 	author: "Finnian Reilly"

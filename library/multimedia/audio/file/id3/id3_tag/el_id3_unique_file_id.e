@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ID3_UNIQUE_FILE_ID}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {RBOX_DATABASE_TRANSFORM_APP}."
 
 	author: "Finnian Reilly"

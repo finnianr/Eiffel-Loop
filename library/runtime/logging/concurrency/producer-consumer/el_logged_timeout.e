@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LOGGED_TIMEOUT}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 9:41:10 GMT (Sunday 3rd July 2016)"
-	revision: "4"
+	revision: "3"
 
 class
 	EL_LOGGED_TIMEOUT

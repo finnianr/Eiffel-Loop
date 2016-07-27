@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SHARED_CODEC_FACTORY}."
 
 	author: "Finnian Reilly"

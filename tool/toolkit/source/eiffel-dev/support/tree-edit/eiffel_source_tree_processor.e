@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -31,4 +31,3 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 		end
 
 end -- class EIFFEL_SOURCE_TREE_PROCESSOR
-

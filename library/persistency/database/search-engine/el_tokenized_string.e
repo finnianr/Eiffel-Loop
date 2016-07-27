@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_TOKENIZED_STRING}."
 
 	author: "Finnian Reilly"

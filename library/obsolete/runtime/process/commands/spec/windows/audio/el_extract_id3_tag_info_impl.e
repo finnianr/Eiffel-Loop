@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EXTRACT_ID3_TAG_INFO_IMPL}."
 
 	author: "Finnian Reilly"

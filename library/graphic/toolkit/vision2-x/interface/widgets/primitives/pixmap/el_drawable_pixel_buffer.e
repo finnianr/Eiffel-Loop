@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Pixel drawing using cairo and pangocairo libraries.
 		When using 24 rgb format, make sure to lock pixmap before doing drawing operations

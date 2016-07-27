@@ -1,4 +1,4 @@
-ï»¿note
+note
 	description: "Summary description for {TEST_RHYTHMBOX_MUSIC_MANAGER}."
 
 	author: "Finnian Reilly"
@@ -107,7 +107,7 @@ feature {NONE} -- Factory
 		do
 			create substitution
 			substitution.deleted_path := "workarea/rhythmdb/Music/Recent/Francisco Canaro/Francisco Canaro -- Corazon de Oro.01.mp3"
-			substitution.replacement_path := "workarea/rhythmdb/Music/Recent/Francisco Canaro/Francisco Canaro -- CorazÃ²n de Oro.02.mp3"
+			substitution.replacement_path := "workarea/rhythmdb/Music/Recent/Francisco Canaro/Francisco Canaro -- Corazòn de Oro.02.mp3"
 			create Result.make
 			Result.extend (substitution)
 		end
@@ -127,7 +127,7 @@ feature {NONE} -- User input
 	ask_user_for_file_path (name: ZSTRING)
 		do
 			if config.task.same_string ("replace_cortina_set") then
-				file_path := "workarea/rhythmdb/Music/Recent/March 23/09_-_Fabrizio_De_AndrÃ¨_Disamistade.mp3"
+				file_path := "workarea/rhythmdb/Music/Recent/March 23/09_-_Fabrizio_De_Andrè_Disamistade.mp3"
 			else
 				create file_path
 			end

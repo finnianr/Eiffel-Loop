@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {RBOX_PLAYLIST_IMPORT_APP}."
 
 	author: "Finnian Reilly"

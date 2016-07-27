@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PAYPAL_RESPONSE_TABLE}."
 
 	author: "Finnian Reilly"

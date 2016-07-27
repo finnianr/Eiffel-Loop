@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SHARED_CAIRO_API}."
 
 	author: "Finnian Reilly"

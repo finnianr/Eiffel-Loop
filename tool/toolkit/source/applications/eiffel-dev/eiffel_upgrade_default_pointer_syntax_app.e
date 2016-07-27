@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		App to change syntax of default_pointers references: 
 			ptr /= default_pointer TO is_attached (ptr)

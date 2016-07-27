@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Demo of accessing Java Velocity package"
 
 	author: "Finnian Reilly"

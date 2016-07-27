@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "String to be styled with fixed width font in a styleable component"
 
 	author: "Finnian Reilly"

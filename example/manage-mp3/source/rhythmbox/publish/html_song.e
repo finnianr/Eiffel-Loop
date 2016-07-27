@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {DJ_EVENT_TANDA_ITEM}."
 
 	author: "Finnian Reilly"

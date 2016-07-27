@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {POST_CARD_VIEWER_APP}."
 
 	author: "Finnian Reilly"

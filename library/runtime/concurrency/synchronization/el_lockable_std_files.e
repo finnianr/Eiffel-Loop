@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -55,6 +55,5 @@ feature -- Basic operations
 		end
 
 end
-
 
 

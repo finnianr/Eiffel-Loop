@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_REMOTE_CALL_CLIENT_CONNECTION_QUEUE}."
 
 	author: "Finnian Reilly"

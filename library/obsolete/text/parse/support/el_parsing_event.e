@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -53,4 +53,3 @@ feature {NONE} -- Constants
 		end
 
 end -- class EL_PARSING_EVENT
-

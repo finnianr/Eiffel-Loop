@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Implementation of `EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_I' interface"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EVOLICITY_COMPILED_TEMPLATE}."
 
 	author: "Finnian Reilly"

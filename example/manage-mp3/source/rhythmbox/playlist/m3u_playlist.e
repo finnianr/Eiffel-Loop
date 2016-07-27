@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {M3U_PLAYLIST}."
 
 	author: "Finnian Reilly"

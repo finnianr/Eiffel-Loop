@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {EVOLICITY_INCLUDE_DIRECTIVE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-29 13:17:04 GMT (Friday 29th January 2016)"
 	revision: "6"
@@ -31,10 +31,7 @@ feature -- Basic operations
 			line_source: EL_FILE_LINE_SOURCE
 		do
 			if attached {ZSTRING} context.referenced_item (variable_ref) as file_path then
-				create line_source.make (file_path)
-				if output.is_utf_8_encoded then
-					line_source.set_utf_encoding (8)
-				end
+				create line_source.make_encoded (output, file_path)
 				if Evolicity_templates.is_nested_output_indented then
 					output.put_indented_lines (tabs, line_source)
 				else

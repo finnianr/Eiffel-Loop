@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_FAST_CGI_SERVLET_SERVICE_COMMAND}."
 
 	author: "Finnian Reilly"

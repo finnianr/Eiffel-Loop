@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "AAC -> MP3 conversion"
 
 	notes: "[

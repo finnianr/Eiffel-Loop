@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Object to time seed random state"
 
 	author: "Finnian Reilly"

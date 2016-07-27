@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XML_TO_EIFFEL_OBJECT_BUILDER_I}."
 
 	author: "Finnian Reilly"

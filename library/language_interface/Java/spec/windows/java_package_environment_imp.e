@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Windows implementation of `JAVA_PACKAGE_ENVIRONMENT_I' interface
 		`deployment.properties' file location

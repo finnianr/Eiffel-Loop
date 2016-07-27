@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {ROW_VECTOR_COMPLEX_DOUBLE}."
 
 	author: "Finnian Reilly"

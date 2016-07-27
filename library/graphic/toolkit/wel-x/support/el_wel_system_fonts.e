@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object for installing a new system true type font
 	]"

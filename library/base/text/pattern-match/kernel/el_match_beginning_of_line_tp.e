@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MATCH_BEGINNING_OF_LINE_TP2}."
 
 	author: "Finnian Reilly"

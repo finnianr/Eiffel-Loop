@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -65,4 +65,3 @@ feature {NONE} -- Constants
 	Max_16_bit_plus_1: INTEGER = 32768
 		
 end
-

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Unix copy command template"
 
 	author: "Finnian Reilly"

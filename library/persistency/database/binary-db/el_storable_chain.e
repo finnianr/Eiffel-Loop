@@ -1,10 +1,13 @@
-﻿note
-	description: "Summary description for {EL_BINARY_STORABLE_LIST}."
+note
+	description: "[
+		Chain of storable items which can be saved to and read from a file. Items must implement the deferred class
+		[../../../../library/base/utility/memory/el_storable.html EL_STORABLE].
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-02-03 13:35:23 GMT (Wednesday 3rd February 2016)"
 	revision: "6"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_INSTALLER_SUB_APPLICATION}."
 
 	author: "Finnian Reilly"

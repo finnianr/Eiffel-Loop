@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_WINDOWS_MUTEX_API}."
 
 	author: "Finnian Reilly"

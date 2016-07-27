@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EVOLICITY_SERIALIZEABLE_TEXT_VALUE}."
 
 	author: "Finnian Reilly"

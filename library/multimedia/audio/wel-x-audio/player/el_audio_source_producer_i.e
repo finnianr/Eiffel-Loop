@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object that asynchronously calls routines in the audio producer thread. The calls are queued until
 		the producer thread gets around to them.

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		XML generator that does not split text nodes on new line character.
 		Tabs and new lines in from text content are escaped.

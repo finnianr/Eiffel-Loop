@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {JOB_INFO}."
 
 	author: "Finnian Reilly"

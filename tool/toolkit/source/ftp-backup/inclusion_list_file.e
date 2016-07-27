@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {INCLUSION_LIST_FILE}."
 
 	author: "Finnian Reilly"

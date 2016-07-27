@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object that allows audio player to asynchronously call event handling routines in GUI thread.
 		Essentially the calls are put into a queue and the GUI thread executes them whenever it gets a chance

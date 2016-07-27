@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -36,4 +36,3 @@ feature {NONE} -- Parsing actions
 		end
 
 end -- class EL_XML_HTML_TEXTUAL_PATTERNS
-

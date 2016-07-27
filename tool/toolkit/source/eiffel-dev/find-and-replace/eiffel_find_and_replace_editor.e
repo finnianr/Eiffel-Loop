@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EIFFEL_FIND_AND_REPLACE_SOURCE_EDITOR}."
 
 	author: "Finnian Reilly"

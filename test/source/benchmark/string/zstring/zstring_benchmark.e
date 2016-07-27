@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Benchmark using pure Latin encodable string data"
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-17 9:37:16 GMT (Thursday 17th March 2016)"
-	revision: "5"
+	revision: "7"
 
 class
 	ZSTRING_BENCHMARK

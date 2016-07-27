@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		List of alternative patterns evaluated from left to right until
 		a match is found
@@ -63,4 +63,3 @@ feature {NONE} -- Implementation
 		end
 
 end -- class EL_FIRST_MATCH_IN_LIST_TP
-

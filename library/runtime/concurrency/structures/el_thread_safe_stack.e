@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_THREAD_SAFE_STACK}."
 
 	author: "Finnian Reilly"

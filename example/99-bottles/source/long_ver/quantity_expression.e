@@ -1,4 +1,4 @@
-indexing
+note
 	description: "Summary description for {QUANTITY_EXPRESSION}."
 
 	author: "Finnian Reilly"
@@ -26,7 +26,7 @@ convert
 
 feature {NONE} -- Initialization	
 
-	make (countable_noun: STRING; quantity: INTEGER) is
+	make (countable_noun: STRING; quantity: INTEGER)
 			--
 		do
 			make_list
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			extend (create {COUNTABLE_NOUN}.make (countable_noun, quantity))
 		end
 
-	make_from_tuple (args: TUPLE [STRING, INTEGER]) is
+	make_from_tuple (args: TUPLE [STRING, INTEGER])
 			--
 		do
 			make_list;

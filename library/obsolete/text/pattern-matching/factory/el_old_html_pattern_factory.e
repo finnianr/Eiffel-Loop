@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -106,4 +106,3 @@ feature {NONE} -- HTML element patterns
 		end
 
 end -- class EL_HTML_PATTERNS
-

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_STRING_8_LIST}."
 
 	author: "Finnian Reilly"

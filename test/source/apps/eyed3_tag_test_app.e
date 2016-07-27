@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EYED3_TAG_TEST_APP}."
 
 	author: "Finnian Reilly"

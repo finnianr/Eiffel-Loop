@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SERVER_COMMAND_HANDLER}."
 
 	author: "Finnian Reilly"

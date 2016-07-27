@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Extends `EL_CONSOLE_LOG_OUTPUT' for regression testing"
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 14:35:12 GMT (Friday 8th July 2016)"
-	revision: "6"
+	revision: "4"
 
 class
 	EL_TESTING_CONSOLE_LOG_OUTPUT

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Calculates elapsed time"
 
 	author: "Finnian Reilly"
@@ -104,4 +104,3 @@ feature {NONE} -- Implementation
 	stop_time: TIME
 
 end -- class EL_TIMER
-

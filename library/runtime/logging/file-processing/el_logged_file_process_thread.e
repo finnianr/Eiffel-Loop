@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LOGGED_FILE_PROCESS_THREAD}."
 
 	author: "Finnian Reilly"

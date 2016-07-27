@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_VISION2_MAIN_THREAD_EVENT_REQUEST_QUEUE}."
 
 	author: "Finnian Reilly"

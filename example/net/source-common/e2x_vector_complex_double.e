@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		VECTOR_COMPLEX_DOUBLE serializable to format:
 		

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_INTEGER_ITEM_RADIO_BUTTON_GROUP}."
 
 	author: "Finnian Reilly"

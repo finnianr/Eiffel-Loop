@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {ZSTRING_BENCHMARK_APP}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 10:40:45 GMT (Friday 8th July 2016)"
-	revision: "6"
+	revision: "5"
 
 class
 	ZSTRING_BENCHMARK_APP

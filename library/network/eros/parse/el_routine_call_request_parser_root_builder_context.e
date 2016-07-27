@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ROUTINE_CALL_REQUEST_PARSER_ROOT_BUILDER_CONTEXT}."
 
 	author: "Finnian Reilly"
@@ -55,4 +55,3 @@ feature {NONE} -- Implementation
 	Xpath_processing_instruction_call: STRING = "processing-instruction('call')"
 
 end
-

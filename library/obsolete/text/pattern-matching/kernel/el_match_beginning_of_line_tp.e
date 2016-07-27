@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that matches start of new line"
 
 	author: "Finnian Reilly"

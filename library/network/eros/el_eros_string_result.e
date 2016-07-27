@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EROS_STRING_RESULT}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_USER_LIST_COMMAND_IMPL}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-05-17 11:31:16 GMT (Tuesday 17th May 2016)"
-	revision: "3"
+	revision: "4"
 
 class
 	EL_USER_LIST_COMMAND_IMPL

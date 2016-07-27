@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MODULE_WINOS_LOCALE_INFO}."
 
 	author: "Finnian Reilly"

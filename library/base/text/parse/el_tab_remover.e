@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Class to substitute spaces for tabs"
 
 	author: "Finnian Reilly"

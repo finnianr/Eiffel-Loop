@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_TEXT_PARSER}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-21 11:18:53 GMT (Thursday 21st January 2016)"
-	revision: "5"
+	revision: "8"
 
 deferred class
 	EL_PARSER

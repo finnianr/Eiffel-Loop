@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Reads encoded lines using set encoding, UTF-8 by default.
 		If a UTF-8 BOM is detected the encoding changes accordingly.
@@ -7,7 +7,7 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-05 5:13:47 GMT (Tuesday 5th July 2016)"
 	revision: "7"
@@ -43,6 +43,7 @@ feature {NONE} -- Initialization
 			make_default
 			source := a_source
 			is_source_external := True
+			check_for_bom
 		end
 
 feature -- Access
@@ -74,16 +75,19 @@ feature -- Access
 
 feature -- Status query
 
-	is_open: BOOLEAN
-			--
-		do
-			Result := source.is_open_read
-		end
-
 	after: BOOLEAN
 			-- Is there no valid position to the right of current one?
 		do
 			Result := index = count + 1
+		end
+
+	has_utf_8_bom: BOOLEAN
+		-- True if source has UTF-8 byte order mark		
+
+	is_open: BOOLEAN
+			--
+		do
+			Result := source.is_open_read
 		end
 
 	is_empty: BOOLEAN
@@ -112,19 +116,7 @@ feature -- Cursor movement
 	start
 			-- Move to first position if any.
 		do
-			if not source.is_open_read then
-				source.open_read
-			else
-				source.go (0)
-			end
-			if source.count >= 3 then
-				source.read_stream (3)
-				if source.last_string ~ UTF.Utf_8_bom_to_string_8 then
-					set_utf_encoding (8)
-				else
-					source.go (0)
-				end
-			end
+			open_at_start
 			count := 0
 			if source.off then
 				index := 1
@@ -170,6 +162,18 @@ feature -- Status setting
 			end
 		end
 
+	open_at_start
+		do
+			if not source.is_open_read then
+				source.open_read
+			end
+			if has_utf_8_bom then
+				source.go (3)
+			else
+				source.go (0)
+			end
+		end
+
 feature {NONE} -- Unused
 
 	finish
@@ -178,6 +182,24 @@ feature {NONE} -- Unused
 		end
 
 feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
+
+	check_for_bom
+		local
+			is_open_read: BOOLEAN
+		do
+			is_open_read := source.is_open_read
+			open_at_start
+			if source.count >= 3 then
+				source.read_stream (3)
+				has_utf_8_bom := source.last_string ~ UTF.Utf_8_bom_to_string_8
+				if has_utf_8_bom then
+					set_utf_encoding (8)
+				end
+			end
+			if not is_open_read then
+				source.close
+			end
+		end
 
 	next_line (a_source: F): ZSTRING
 		do

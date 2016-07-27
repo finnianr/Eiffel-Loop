@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Thread for file serialization with progress notification
 	]"

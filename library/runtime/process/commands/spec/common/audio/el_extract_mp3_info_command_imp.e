@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Implementation of `EL_EXTRACT_MP3_INFO_COMMAND_I' interface"
 
 	author: "Finnian Reilly"

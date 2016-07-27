@@ -1,10 +1,14 @@
-﻿note
-	description: "Summary description for {EL_EIFFEL_SOURCE_MANIFEST_COMMAND}."
+note
+	description: "[
+		Process files specified in a Pyxis format source manifest as for example:
+		[https://github.com/finnianr/Eiffel-Loop/blob/master/sources.pyx sources.pyx]
+		
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-12 14:15:06 GMT (Tuesday 12th July 2016)"
 	revision: "6"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Recursive class. Attribute parameter_list may have other references to `CONTAINER_PARAMETER'"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -142,4 +142,3 @@ invariant
 	valid_block_align: c_block_align (item) = c_num_channels (item) * c_bits_per_sample (item) // 8
 
 end
-

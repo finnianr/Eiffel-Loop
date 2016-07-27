@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {COM_EIFFEL_LOOP_SVG_JPACKAGE}."
 
 	author: "Finnian Reilly"

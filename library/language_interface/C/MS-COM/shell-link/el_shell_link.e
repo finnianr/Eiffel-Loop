@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that creates a Windows shortcut"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XML_PARSER_IO_MEDIUM}."
 
 	author: "Finnian Reilly"

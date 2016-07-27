@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Abstraction representing patterns that are repeated. Any repeated pattern that has actions defined for it are
 		added to list as faux-patterns so they can have their actions called from `call_actions'

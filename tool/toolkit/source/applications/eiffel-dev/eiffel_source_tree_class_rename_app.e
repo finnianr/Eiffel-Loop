@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EIFFEL_SOURCE_TREE_CLASS_RENAME_APP}."
 
 	author: "Finnian Reilly"
@@ -13,7 +13,7 @@ class
 	EIFFEL_SOURCE_TREE_CLASS_RENAME_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [EIFFEL_CLASS_RENAMER_COMMAND]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [EIFFEL_CLASS_RENAMER_COMMAND]
 		redefine
 			Option_name, Installer
 		end

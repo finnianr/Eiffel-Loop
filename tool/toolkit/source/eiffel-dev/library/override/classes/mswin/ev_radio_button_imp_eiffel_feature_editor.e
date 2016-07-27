@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EV_RADIO_BUTTON_IMP_EIFFEL_FEATURE_EDITOR}."
 
 	author: "Finnian Reilly"

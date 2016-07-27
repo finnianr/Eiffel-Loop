@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_FIND_OS_COMMAND}."
 
 	author: "Finnian Reilly"

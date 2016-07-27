@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Dummy counterpart to Unix only class"
 
 	author: "Finnian Reilly"

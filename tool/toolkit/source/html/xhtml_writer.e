@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {XHTML_WRITER}."
 
 	author: "Finnian Reilly"

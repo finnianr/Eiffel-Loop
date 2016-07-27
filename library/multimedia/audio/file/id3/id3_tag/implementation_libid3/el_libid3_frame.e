@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Tag frame
 		C++ memory managed by EL_IDTHREE_TAG owner

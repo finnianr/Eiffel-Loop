@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Element containing either an element list or some text"
 
 	author: "Finnian Reilly"

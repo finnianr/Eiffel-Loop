@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_COPY_MOVE_COMMAND_I}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-17 16:01:59 GMT (Friday 17th June 2016)"
-	revision: "6"
+	revision: "5"
 
 deferred class
 	EL_MOVE_FILE_COMMAND_I

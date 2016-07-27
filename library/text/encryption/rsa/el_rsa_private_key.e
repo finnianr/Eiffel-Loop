@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_RSA_PRIVATE_KEY}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EXTRACT_TAG_INFO_SYSTEM_COMMAND}."
 
 	author: "Finnian Reilly"

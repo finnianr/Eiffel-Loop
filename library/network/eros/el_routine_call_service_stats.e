@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ROUTINE_CALL_SERVICE_STATS}."
 
 	author: "Finnian Reilly"

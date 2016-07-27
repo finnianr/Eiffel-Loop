@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -73,4 +73,3 @@ feature {NONE} -- Constants
 	Cmd_stop: STRING = "stop"
 
 end
-

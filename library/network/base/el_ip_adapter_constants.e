@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Adapter type constants based on Windows API `IfType' in `struct _IP_ADAPTER_ADDRESSES'
 		

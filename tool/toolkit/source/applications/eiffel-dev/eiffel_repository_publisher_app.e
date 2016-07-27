@@ -1,13 +1,13 @@
-﻿note
-	description: "Summary description for {EIFFEL_REPOSITORY_PUBLISHER_APP}."
+note
+	description: "Publishes an Eiffel repository to a website"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-06 13:13:15 GMT (Wednesday 6th July 2016)"
-	revision: "4"
+	date: "2016-07-13 7:43:24 GMT (Wednesday 13th July 2016)"
+	revision: "11"
 
 class
 	EIFFEL_REPOSITORY_PUBLISHER_APP
@@ -44,9 +44,7 @@ feature {NONE} -- Constants
 
 	Option_name: STRING = "publish_repository"
 
-	Description: STRING = "[
-		Publishes a website summarizing contents of an Eiffel repository and integrated with github
-	]"
+	Description: STRING = "Publishes an Eiffel repository to a website"
 
 	Log_filter: ARRAY [like Type_logging_filter]
 			--

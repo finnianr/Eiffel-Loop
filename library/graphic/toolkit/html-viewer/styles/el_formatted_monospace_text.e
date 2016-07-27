@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Monospace text with preformatted indentation. Corresponds to html 'pre' tag."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LOCALE_APPLY_CHANGES_DIALOG}."
 
 	author: "Finnian Reilly"

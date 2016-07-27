@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_REMOTE_CALL_REQUEST_DELEGATING_CONSUMER_THREAD}."
 
 	author: "Finnian Reilly"

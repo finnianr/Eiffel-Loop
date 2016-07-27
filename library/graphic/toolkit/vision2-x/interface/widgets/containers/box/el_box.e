@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EXPANDED_CELL}."
 
 	author: "Finnian Reilly"

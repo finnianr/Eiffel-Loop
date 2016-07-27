@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_COUNT_CONSUMER_MAIN_THREAD}."
 
 	author: "Finnian Reilly"

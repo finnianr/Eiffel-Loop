@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Audio sample source for processing with `EL_AUDIO_SAMPLE_PROCESSOR'"
 
 	author: "Finnian Reilly"

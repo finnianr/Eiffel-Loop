@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		REPLACE in C source gsl__config.h:
 		

@@ -1,12 +1,12 @@
-﻿note
+note
 	description: ""
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-04 12:12:41 GMT (Monday 4th July 2016)"
+	date: "2016-07-13 7:52:15 GMT (Wednesday 13th July 2016)"
 	revision: "10"
 
 class
@@ -35,6 +35,7 @@ feature {NONE} -- Implementation
 				{EIFFEL_CODEBASE_STATISTICS_APP},
 
 				{EIFFEL_ECF_TO_PECF_APP},
+				{EIFFEL_ENCODING_CHECK_APP},
 
 				{EIFFEL_FEATURE_EDITOR_APP},
 				{EIFFEL_FIND_AND_REPLACE_APP},

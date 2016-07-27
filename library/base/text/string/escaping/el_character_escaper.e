@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {EL_CHARACTER_ESCAPER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-24 12:17:28 GMT (Thursday 24th December 2015)"
 	revision: "5"

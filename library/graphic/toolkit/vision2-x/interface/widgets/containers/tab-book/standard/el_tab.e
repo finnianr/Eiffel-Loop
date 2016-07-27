@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Tab for EL_TAB_BOOK
 	]"

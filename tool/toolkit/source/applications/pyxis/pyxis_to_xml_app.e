@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {PYXIS_TO_XML_APP}."
 
 	author: "Finnian Reilly"
@@ -13,7 +13,7 @@ class
 	PYXIS_TO_XML_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [PYXIS_TO_XML_CONVERTER]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [PYXIS_TO_XML_CONVERTER]
 		redefine
 			Option_name, ask_user_to_quit
 		end

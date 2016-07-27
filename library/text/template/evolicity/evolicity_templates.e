@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Top level class for Evolicity accessible though `EL_MODULE_EVOLICITY_TEMPLATES'
 	

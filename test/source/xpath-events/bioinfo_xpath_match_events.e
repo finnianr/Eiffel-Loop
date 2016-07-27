@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {BIOINFO_XPATH_MATCH_EVENT_PROCESSOR}."
 
 	author: "Finnian Reilly"

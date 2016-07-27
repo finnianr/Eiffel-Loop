@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Windows implementation of `EL_IP_ADAPTER_LIST_I' interface"
 
 	author: "Finnian Reilly"

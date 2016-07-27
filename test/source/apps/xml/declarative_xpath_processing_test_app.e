@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {DECLARATIVE_XPATH_PROCESSING_TEST_APP}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MODULE_TIME}."
 
 	author: "Finnian Reilly"

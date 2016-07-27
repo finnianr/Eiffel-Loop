@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_TEXT_PATTERN_FACTORY}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-11 12:22:22 GMT (Monday 11th January 2016)"
-	revision: "5"
+	revision: "4"
 
 class
 	EL_TEXT_PATTERN_FACTORY
@@ -322,4 +322,3 @@ feature {NONE} -- Constants
 			Result := l_pattern.Default_action
 		end
 end
-

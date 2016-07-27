@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Thread consumer for audio clips taken from a (thread product) work queue.
 		Saves the clips in the temp directory with unique file names and puts the saved file path
@@ -178,7 +178,6 @@ feature -- Constants
 		end
 
 end
-
 
 
 

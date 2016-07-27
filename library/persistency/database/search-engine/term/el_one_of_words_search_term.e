@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Matches word token search string with any of the ending variations (last token)
 	]"

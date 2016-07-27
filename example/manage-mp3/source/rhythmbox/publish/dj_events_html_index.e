@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {MUSIC_VENUE_EVENTS}."
 
 	author: "Finnian Reilly"

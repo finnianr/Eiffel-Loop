@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Implementation of `EL_WAV_FADER_I' interface"
 
 	author: "Finnian Reilly"

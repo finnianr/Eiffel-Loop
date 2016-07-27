@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {STORABLE_STRING_LIST}."
 
 	author: "Finnian Reilly"

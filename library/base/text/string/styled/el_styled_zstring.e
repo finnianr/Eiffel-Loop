@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "String to be styled with a regular or bold font in a styleable component"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		SVG template graphic where the relative width to height can be altered before rendering
 	]"
@@ -57,4 +57,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

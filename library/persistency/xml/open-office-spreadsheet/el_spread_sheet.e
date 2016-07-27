@@ -1,6 +1,9 @@
-﻿note
+note
 	description: "[
-		Object representing OpenDocument Flat XML spreadsheet as tables of rows of data strings
+		Object representing [http://www.datypic.com/sc/odf/e-office_spreadsheet.html OpenDocument Flat XML spreadsheets]
+		as tables of rows of data strings.
+		
+		**XML namespace**
 			xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
 			office:mimetype="application/vnd.oasis.opendocument.spreadsheet"
 			office:version="1.2"
@@ -9,7 +12,7 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-09 7:41:58 GMT (Saturday 9th July 2016)"
 	revision: "7"

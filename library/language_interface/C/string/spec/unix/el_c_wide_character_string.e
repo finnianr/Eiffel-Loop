@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Unix compatible UCS-4 wchar_t"
 
 	author: "Finnian Reilly"

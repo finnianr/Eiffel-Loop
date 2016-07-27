@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_UNINSTALL_DUMMY_APP}."
 
 	author: "Finnian Reilly"

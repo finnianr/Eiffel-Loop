@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -44,4 +44,3 @@ feature -- Access
 	is_applied_to_open_element: BOOLEAN
 
 end -- class EL_XPATH_TO_AGENT_MAP
-

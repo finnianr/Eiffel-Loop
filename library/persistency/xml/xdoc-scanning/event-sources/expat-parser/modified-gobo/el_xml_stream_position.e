@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Abstract definition of positions in XML documents which have been parsed from streams"
 
 	library: "Gobo Eiffel XML Library"
@@ -60,4 +60,3 @@ invariant
 	row_positive: row >= 0
 
 end
-

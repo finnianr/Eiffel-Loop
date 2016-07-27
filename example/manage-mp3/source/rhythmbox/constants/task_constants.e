@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {TASK_CONSTANTS}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {IMAGE_MAGICK_CONVERTER}."
 
 	author: "Finnian Reilly"

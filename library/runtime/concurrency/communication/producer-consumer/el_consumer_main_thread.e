@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Product consumer operating in main message_loop_callback GUI thread"
 
 	author: "Finnian Reilly"
@@ -68,4 +68,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

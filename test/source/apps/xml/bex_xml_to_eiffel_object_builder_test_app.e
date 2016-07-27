@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {XML_REMOTE_BUILDER_TEST_APP}."
 
 	author: "Finnian Reilly"

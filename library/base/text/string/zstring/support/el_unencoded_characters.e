@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Representation of consecutive substrings in a `STRING_32' string that could not be encoded using
 		a latin character set. The substring are held in the array unecoded: `SPECIAL [CHARACTER_32]'

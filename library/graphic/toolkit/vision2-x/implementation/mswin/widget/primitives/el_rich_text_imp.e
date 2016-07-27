@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Rich text control that responds to HOME and END keyboard shortcuts (without Ctrl combination)
 	]"

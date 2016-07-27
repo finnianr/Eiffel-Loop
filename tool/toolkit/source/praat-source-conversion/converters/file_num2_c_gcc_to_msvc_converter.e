@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Add line in NUM2.c to include gsl__config.h
 	]"

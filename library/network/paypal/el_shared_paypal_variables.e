@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SHARED_PAYPAL_VARIABLES}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_FIND_COMMAND_IMP}."
 
 	author: "Finnian Reilly"

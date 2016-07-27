@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object representing Rhythmbox 2.99.1 song entry in rhythmdb.xml
 	]"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MATCH_CHAR_IN_ASCII_RANGE_TP2}."
 
 	author: "Finnian Reilly"

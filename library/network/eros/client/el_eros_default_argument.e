@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DEFAULT_EROS_REQUEST_OBJECT}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Streams audio from microphone"
 
 	author: "Finnian Reilly"
@@ -279,5 +279,4 @@ invariant
 	valid_audio_buffer_structure_size: audio_buffers.first.structure_size /= 0
 
 end
-
 

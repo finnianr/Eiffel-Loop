@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Wraps Praat Interpreter object"
 
 	author: "Finnian Reilly"
@@ -128,7 +128,6 @@ feature {NONE} -- C externals
 		end
 
 end
-
 
 
 

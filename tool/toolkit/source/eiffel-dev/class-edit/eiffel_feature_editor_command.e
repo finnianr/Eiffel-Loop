@@ -1,35 +1,7 @@
-﻿note
+note
 	description: "[
-		Performs the following edits and shorthand expansions on an Eiffel class.
-		
-		**1.** Expands `@f xx' as `feature -- <comment>' where xx is a 2 letter code representing
-		common feature block labels
-			
-		**2.** Expands `@f {xx' as `feature {NONE} -- <label-xx>' where `xx' is a 2 letter code
-		representing common feature labels. See class: `FEATURE_CONSTANTS'
-		
-		**3.** Expands setter shorthand `@set name' (indented by one tab) as follows:
-			set_name (a_name: like name)
-				do
-					name := a_name
-				end
-					
-		**4.** Expands value iteration shorthand of the form `@from i > n' as follows:
-			from i := 1 until i > n loop
-				i := i + 1
-			end
-				
-		**5.** Expands list iteration shorthand of the form `@from list.after' as follows:
-			from list.start until list.after loop
-				list.forth
-			end
-				
-		**6.** Expands list iteration shorthand of the form `@from list.before' as follows:
-			from list.finish until list.before loop
-				list.back
-			end
-				
-		**7.** Reorders features in each feature block alphabetically
+		Command for command-line sub-application:
+		[../../../application/eiffel_feature_editor_command_app.html `EIFFEL_FEATURE_EDITOR_COMMAND_APP']
 	]"
 
 	author: "Finnian Reilly"
@@ -37,7 +9,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
+	date: "2016-07-13 7:54:18 GMT (Wednesday 13th July 2016)"
 	revision: "5"
 
 class

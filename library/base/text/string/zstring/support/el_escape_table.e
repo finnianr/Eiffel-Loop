@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Z-code escape table"
 
 	author: "Finnian Reilly"

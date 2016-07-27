@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object linked to table with key names matching class field names. The object is
 		initializeable from the string values of the table.

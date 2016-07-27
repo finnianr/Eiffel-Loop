@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {HTML_BODY_WRITER}."
 
 	author: "Finnian Reilly"

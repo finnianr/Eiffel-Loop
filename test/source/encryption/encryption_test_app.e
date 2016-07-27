@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {ENCRYPTION_TEST_APP}."
 
 	author: "Finnian Reilly"

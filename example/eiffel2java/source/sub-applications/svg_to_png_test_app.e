@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {SVG_TO_PNG_TEST_APP}."
 
 	author: "Finnian Reilly"

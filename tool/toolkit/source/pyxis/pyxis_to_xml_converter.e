@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {PYXIS_TO_XML_CONVERTER}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_TIMED_COUNT_PRODUCER}."
 
 	author: "Finnian Reilly"

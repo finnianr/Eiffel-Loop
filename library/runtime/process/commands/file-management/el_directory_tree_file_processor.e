@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -102,4 +102,3 @@ feature -- Element change
 		end
 
 end -- class EL_DIRECTORY_TREE_FILE_PROCESSOR
-

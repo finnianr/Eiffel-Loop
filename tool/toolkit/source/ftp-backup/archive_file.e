@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {ARCHIVE_FILE}."
 
 	author: "Finnian Reilly"

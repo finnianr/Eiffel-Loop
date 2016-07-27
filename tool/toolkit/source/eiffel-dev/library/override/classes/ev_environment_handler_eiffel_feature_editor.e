@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EV_ENVIRONMENT_HANDLER_FEATURE_EDITOR}."
 
 	author: "Finnian Reilly"

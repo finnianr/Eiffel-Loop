@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {TEST_USB_DEVICE}."
 
 	author: "Finnian Reilly"

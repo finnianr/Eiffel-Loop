@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Level 3 page navigation contents link containing hideable sub-level links
 	]"

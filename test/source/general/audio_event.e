@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Illustrates REAL assignment bug"
 
 	author: "Finnian Reilly"

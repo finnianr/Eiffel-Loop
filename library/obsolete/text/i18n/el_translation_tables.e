@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_TRANSLATION_TABLES}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -51,5 +51,4 @@ feature {NONE} -- Implementation
 	parent_dialog: EL_DIALOG
 
 end
-
 

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_BATIK_SVG}."
 
 	author: "Finnian Reilly"

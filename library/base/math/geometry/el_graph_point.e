@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -87,4 +87,3 @@ feature -- Access
 	y: INTEGER
 
 end
-

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_TRANSLATIONS_INFO}."
 
 	author: "Finnian Reilly"

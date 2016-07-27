@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "XML tag containing a single text node"
 
 	author: "Finnian Reilly"
@@ -58,4 +58,3 @@ feature {NONE} -- Implementation
 	new_line_after_open_tag: BOOLEAN = false
 
 end
-

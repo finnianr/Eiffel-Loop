@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -45,4 +45,3 @@ feature {NONE} -- Implementation
 	character_range: INTEGER_INTERVAL
 
 end -- class EL_MATCH_CHAR_IN_ASCII_RANGE_TP
-

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Interface to the Flash GUI. Listens for user commands on a network socket
 	]"
@@ -170,7 +170,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

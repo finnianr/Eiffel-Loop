@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PATH_STEPS}."
 
 	author: "Finnian Reilly"

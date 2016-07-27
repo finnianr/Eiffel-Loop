@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Test recursive conversion of XML document to Eiffel and serialization back to XML."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_COMMAND_FACTORY}."
 
 	author: "Finnian Reilly"

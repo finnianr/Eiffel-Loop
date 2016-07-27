@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XHTML_WORD_COUNTER}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_TIMED_PROCEDURE}."
 
 	author: "Finnian Reilly"

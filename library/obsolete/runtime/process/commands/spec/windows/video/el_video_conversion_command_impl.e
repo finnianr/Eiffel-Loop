@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_VIDEO_COMMAND_IMPL}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Caches objects associated with a type"
 
 	author: "Finnian Reilly"

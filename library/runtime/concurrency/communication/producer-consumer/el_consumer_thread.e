@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Consumes the products of a product queue fed by another thread"
 
 	author: "Finnian Reilly"
@@ -94,6 +94,5 @@ feature {NONE} -- Implementation
 	product_count: SEMAPHORE
 
 end
-
 
 

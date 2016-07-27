@@ -2,12 +2,18 @@
 
 from eiffel_loop.project import *
 
-version = (1, 1, 20)
+version = (1, 1, 22)
 
 installation_sub_directory = 'Eiffel-Loop/utils'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.1.22
+# fixed relative html paths links in Eiffel-View publisher
+
+# 1.1.21
+# Added formatting for source tree descriptions
 
 # 1.1.20
 # Fixed version reading problem on EIFFEL_REPOSITORY_PUBLISHER_APP

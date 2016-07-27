@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EVOLICITY_NESTED_TEMPLATE_DIRECTIVE}."
 
 	author: "Finnian Reilly"

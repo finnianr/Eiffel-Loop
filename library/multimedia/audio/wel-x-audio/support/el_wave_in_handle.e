@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -47,4 +47,3 @@ feature {NONE} -- Externals
 			"sizeof (HWAVEIN)"
 		end
 end
-

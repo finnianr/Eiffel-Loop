@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_UTF8_TO_LATIN1_C_DECODER}."
 
 	author: "Finnian Reilly"

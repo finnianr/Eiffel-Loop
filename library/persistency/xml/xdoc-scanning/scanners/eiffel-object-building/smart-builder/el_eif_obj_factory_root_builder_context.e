@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Root builder context that changes the type of the target object to build according to a processing instruction
 		at the start of the XML. The example below will build an instance of class `SMIL_PRESENTATION'.

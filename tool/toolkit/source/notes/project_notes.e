@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {PROJECT_NOTES}."
 
 	author: "Finnian Reilly"

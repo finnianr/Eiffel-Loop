@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {ID3_TAG_TEST}."
 
 	author: "Finnian Reilly"

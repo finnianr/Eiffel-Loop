@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_APP_ACTIVATOR}."
 
 	author: "Finnian Reilly"

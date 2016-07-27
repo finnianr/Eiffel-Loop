@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {TEST_WINDOW}."
 
 	author: "Finnian Reilly"

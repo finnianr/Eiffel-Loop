@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_APPLICATION_PIXMAP}."
 
 	author: "Finnian Reilly"

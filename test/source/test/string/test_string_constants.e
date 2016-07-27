@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-30 13:30:08 GMT (Wednesday 30th December 2015)"
-	revision: "5"
+	revision: "7"
 
 class
 	TEST_STRING_CONSTANTS
@@ -86,7 +86,7 @@ feature {NONE} -- String_32 contants
 			>>
 		end
 
-	Vivalidi_title: STRING_32 = "Le Quattro Stagioni ´L´Estate`- I.Allegro non molto"
+	Vivalidi_title: STRING_32 = "Le Quattro Stagioni ´L´Estate`- I. Allegro non molto"
 
 	Lower_case_characters: STRING_32 = "™ÿaàöžšœ" --
 

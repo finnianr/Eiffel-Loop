@@ -48,8 +48,5 @@ system:
 			name = EL_i18n; location = "i18n.ecf"
 
 		cluster:
-			name = encryption; location = "text/encryption"; recursive = true
-			file_rule:
-				exclude:
-					"/rsa$"
+			name = encryption; location = "text/encryption/aes"; recursive = true
 

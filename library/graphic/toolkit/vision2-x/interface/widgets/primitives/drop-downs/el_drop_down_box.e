@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DROP_DOWN_BOX_2}."
 
 	author: "Finnian Reilly"

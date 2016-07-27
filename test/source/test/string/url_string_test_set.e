@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Eiffel tests that can be executed by testing tool.
 	]"
@@ -33,5 +33,4 @@ feature -- Test routines
 		end
 
 end
-
 

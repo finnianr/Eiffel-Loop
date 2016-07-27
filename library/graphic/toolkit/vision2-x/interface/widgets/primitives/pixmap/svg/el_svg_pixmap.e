@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Class for rendering SVG as a pixmap"
 
 	author: "Finnian Reilly"

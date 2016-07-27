@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "XML tag that has child tags"
 
 	author: "Finnian Reilly"
@@ -105,4 +105,3 @@ feature {NONE} -- Implementation
 		end
 		
 end
-

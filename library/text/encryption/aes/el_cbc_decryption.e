@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_CBC_DECRYPTION}."
 
 	author: "Finnian Reilly"

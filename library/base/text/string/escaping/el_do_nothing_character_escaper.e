@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DO_NOTHING_CHARACTER_ESCAPER}."
 
 	author: "Finnian Reilly"

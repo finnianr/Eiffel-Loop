@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {E2X_COMPLEX_DOUBLE}."
 
 	author: "Finnian Reilly"

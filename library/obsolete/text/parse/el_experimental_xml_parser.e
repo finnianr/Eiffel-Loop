@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XML_PATTERN_FACTORY_OBSOLETE}."
 
 	author: "Finnian Reilly"

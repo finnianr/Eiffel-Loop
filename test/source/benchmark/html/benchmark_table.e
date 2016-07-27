@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {BENCHMARK_TABLE}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-18 12:26:06 GMT (Friday 18th March 2016)"
-	revision: "5"
+	revision: "7"
 
 deferred class
 	BENCHMARK_TABLE

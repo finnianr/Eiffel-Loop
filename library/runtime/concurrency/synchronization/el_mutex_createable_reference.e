@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		For creating objects with a default_create that require thread synchronization
 		E.g. `INTEGER', `REAL', `BOOLEAN' etc
@@ -33,6 +33,5 @@ feature {NONE} -- Initialization
 		end
 
 end
-
 
 

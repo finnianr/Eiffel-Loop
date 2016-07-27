@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object that checks at timed intervals if a thread product is available and calls an agent to process it.
 		The product is processed in the main GUI thread.
@@ -59,4 +59,3 @@ feature {NONE} -- Implementation
 	consumption_action: PROCEDURE [ANY, TUPLE [P]]
 
 end
-

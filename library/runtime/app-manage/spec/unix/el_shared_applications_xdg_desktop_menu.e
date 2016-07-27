@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SHARED_APPLICATIONS_XDG_DESKTOP_MENU}."
 
 	author: "Finnian Reilly"

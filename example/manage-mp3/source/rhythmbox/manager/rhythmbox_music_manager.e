@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {RHYTHMBOX_MUSIC_MANAGER}."
 
 	author: "Finnian Reilly"

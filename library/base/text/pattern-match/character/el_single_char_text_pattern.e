@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SINGLE_CHAR_TEXT_PATTERN}."
 
 	author: "Finnian Reilly"

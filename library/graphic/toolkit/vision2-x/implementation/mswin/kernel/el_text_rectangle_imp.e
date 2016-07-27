@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Windows implementation of `EL_TEXT_RECTANGLE_I' interface"
 
 	author: "Finnian Reilly"

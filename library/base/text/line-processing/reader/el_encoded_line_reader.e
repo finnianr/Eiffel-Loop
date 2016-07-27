@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ENCODED_LINE_READER}."
 
 	author: "Finnian Reilly"

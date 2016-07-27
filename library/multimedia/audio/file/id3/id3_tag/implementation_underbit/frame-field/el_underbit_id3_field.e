@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Encoded field, normally of type string_data"
 
 	author: "Finnian Reilly"

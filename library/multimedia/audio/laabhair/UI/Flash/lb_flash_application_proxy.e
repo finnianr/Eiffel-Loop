@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Proxy to the Flash object defined by the interface: com.laabhair.Application .
 	]"
@@ -69,7 +69,6 @@ feature {NONE} -- Implementation
 	object_name: STRING = "application"
 
 end
-
 
 
 

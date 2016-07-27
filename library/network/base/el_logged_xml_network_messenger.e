@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LOGGED_XML_NETWORK_MESSENGER}."
 
 	author: "Finnian Reilly"

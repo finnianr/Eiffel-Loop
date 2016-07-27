@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {BENCHMARK_APP}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 10:40:56 GMT (Friday 8th July 2016)"
-	revision: "5"
+	revision: "8"
 
 class
 	BENCHMARK_APP

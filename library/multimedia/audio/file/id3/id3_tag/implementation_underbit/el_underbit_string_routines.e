@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_UNDERBIT_STRING_ROUTINES}."
 
 	author: "Finnian Reilly"

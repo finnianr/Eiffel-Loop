@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Thread safe queue"
 
 	author: "Finnian Reilly"
@@ -113,7 +113,6 @@ feature {NONE} -- Implementation
 	consumer: EL_CONSUMER [P]
 
 end
-
 
 
 

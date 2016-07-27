@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Import mp3 not currently in database and set artist and genre according to current location in
 			Music/<genre>/<artist/composer>

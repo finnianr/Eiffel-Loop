@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Product queue serviced by many consumers"
 
 	author: "Finnian Reilly"

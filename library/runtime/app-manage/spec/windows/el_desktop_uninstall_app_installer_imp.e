@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Windows implementation of `EL_DESKTOP_UNINSTALL_APP_INSTALLER_I' interface"
 
 	author: "Finnian Reilly"

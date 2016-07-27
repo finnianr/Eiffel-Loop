@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ISO_8859_15_EXPAT_CODEC}."
 
 	author: "Finnian Reilly"

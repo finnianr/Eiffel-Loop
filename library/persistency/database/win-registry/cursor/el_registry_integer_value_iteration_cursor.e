@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_REGISTRY_INTEGER_VALUE_ITERATION_CURSOR}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PYXIS_ATTRIBUTE_PARSER_TEST_DATA}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-17 12:03:17 GMT (Thursday 17th December 2015)"
-	revision: "5"
+	revision: "7"
 
 class
 	PYXIS_ATTRIBUTE_PARSER_TEST_DATA

@@ -1,13 +1,13 @@
-﻿note
+note
 	description: "Test using a set of files generated in workarea directory"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-10 7:30:53 GMT (Sunday 10th July 2016)"
-	revision: "4"
+	revision: "6"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -47,10 +47,16 @@ inherit
 
 feature {NONE} -- Events
 
+	on_clean
+		do
+			clean_work_area
+		end
+
 	on_prepare
 		local
 			l_dir: EL_DIRECTORY; text_file: PLAIN_TEXT_FILE
 		do
+			create file_checksums.make_equal (3)
 			create l_dir.make (Work_area_dir)
 			if l_dir.exists and not l_dir.is_empty then
 				l_dir.recursive_delete
@@ -67,12 +73,19 @@ feature {NONE} -- Events
 			end
 		end
 
-	on_clean
+feature {NONE} -- Implementation
+
+	store_checksum (file_path: EL_FILE_PATH)
 		do
-			clean_work_area
+			file_checksums [file_path] := OS.File_system.file_checksum (file_path)
 		end
 
-feature {NONE} -- Implementation
+	has_changed (file_path: EL_FILE_PATH): BOOLEAN
+		require
+			file_checksums.has (file_path)
+		do
+			Result := file_checksums [file_path] /= OS.File_system.file_checksum (file_path)
+		end
 
 	clean_work_area
 		local
@@ -81,8 +94,6 @@ feature {NONE} -- Implementation
 			create l_dir.make (Work_area_dir)
 			l_dir.recursive_delete
 		end
-
-	file_set: EL_HASH_SET [EL_FILE_PATH]
 
 	file_set_absolute: EL_HASH_SET [EL_FILE_PATH]
 		do
@@ -99,15 +110,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Internal attributes
+
+	file_checksums: EL_HASH_TABLE [NATURAL, EL_FILE_PATH]
+
+	file_set: EL_HASH_SET [EL_FILE_PATH]
+
 feature {NONE} -- Factory
 
 	new_empty_file_tree: HASH_TABLE [ARRAY [READABLE_STRING_GENERAL], EL_DIR_PATH]
 		do
 			create Result.make (0)
-		end
-
-	new_file_tree: like new_empty_file_tree
-		deferred
 		end
 
 	new_file_set: EL_HASH_SET [EL_FILE_PATH]
@@ -124,6 +137,10 @@ feature {NONE} -- Factory
 					Result.put (data_dir + l_step)
 				end
 			end
+		end
+
+	new_file_tree: like new_empty_file_tree
+		deferred
 		end
 
 feature {NONE} -- Constants

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_STOCK_COLORS_IMP}."
 
 	author: "Finnian Reilly"

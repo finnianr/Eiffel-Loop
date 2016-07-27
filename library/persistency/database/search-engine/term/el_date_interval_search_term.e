@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {DATE_INTERVAL_SEARCH_TERM}."
 
 	author: "Finnian Reilly"

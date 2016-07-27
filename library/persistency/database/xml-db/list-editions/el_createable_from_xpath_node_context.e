@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_CREATEABLE_FROM_XPATH_NODE_CONTEXT}."
 
 	author: "Finnian Reilly"

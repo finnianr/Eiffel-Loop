@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {THUNDERBIRD_EXPORTER}."
 
 	author: "Finnian Reilly"

@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {LIBRARY_EIFFEL_CLASS}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-07 10:05:27 GMT (Thursday 7th July 2016)"
 	revision: "7"
@@ -15,7 +15,7 @@ class
 inherit
 	EIFFEL_CLASS
 		redefine
-			make_default, is_library, getter_function_table, serialize
+			make_default, is_library, getter_function_table, serialize, further_information_fields
 		end
 
 create
@@ -54,6 +54,16 @@ feature -- Basic operations
 				l_classes.forth
 			end
 			Precursor
+		end
+
+feature {NONE} -- Implementation
+
+	further_information_fields: EL_ZSTRING_LIST
+		do
+			Result := Precursor
+			if not client_examples.is_empty then
+				Result.extend ("client examples")
+			end
 		end
 
 feature {NONE} -- Evolicity fields

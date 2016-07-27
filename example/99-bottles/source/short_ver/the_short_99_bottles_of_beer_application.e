@@ -1,4 +1,4 @@
-indexing
+note
 	description: "[
 		Short application to generate lyrics for the song 99 Bottles of Beer
 		See: [http://www.99-bottles-of-beer.net http://www.99-bottles-of-beer.net]
@@ -7,7 +7,7 @@ indexing
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2012-12-16 11:34:19 GMT (Sunday 16th December 2012)"
 	revision: "1"
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make is
+	make
 			--
 		do
 			print ("Lyrics of the song 99 Bottles of Beer%N%N")
@@ -29,8 +29,8 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	print_verse (count_consumed: INTEGER) is
-			--
+	print_verse (count_consumed: INTEGER)
+			-- print verse
 		local
 			count, x, y, z: INTEGER
 		do
@@ -50,7 +50,7 @@ feature -- Basic operations
 
 feature -- Implementation
 
-	bottle_expression (count, position: INTEGER): STRING is
+	bottle_expression (count, position: INTEGER): STRING
 			--
 		do
 			inspect count
@@ -66,7 +66,7 @@ feature -- Implementation
 			end
 		end
 
-	replace_verse_template (count: INTEGER): STRING is
+	replace_verse_template (count: INTEGER): STRING
 			--
 		do
 			Result := "$x of beer on the wall, $y of beer.%N$action, $z of beer on the wall.%N%N"
@@ -77,13 +77,13 @@ feature -- Implementation
 
 feature -- Constants
 
-	Verse_line_2_alternatives: ARRAY [STRING] is
+	Verse_line_2_alternatives: ARRAY [STRING]
 			--
 		once
 			Result := << "Go to the store and buy some more", "Take one down and pass it around" >>
 		end
 
-	Substitution_variable_names: ARRAY [STRING] is
+	Substitution_variable_names: ARRAY [STRING]
 			--
 		once
 			Result := << "$x", "$y", "$z" >>

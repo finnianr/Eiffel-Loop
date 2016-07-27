@@ -4,7 +4,7 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-06 10:00:17 GMT (Wednesday 6th July 2016)"
 	revision: "5"
@@ -211,25 +211,35 @@ feature -- Element change tests
 			end
 		end
 
-	test_escape
+	test_xml_escape
 		local
 			xml_escaper: EL_XML_CHARACTER_ESCAPER [ZSTRING]; xml_escaper_32: EL_XML_CHARACTER_ESCAPER [STRING_32]
+		do
+			create xml_escaper.make; create xml_escaper_32.make
+			escape_test ("XML basic", xml_escaper, xml_escaper_32)
+
+			create xml_escaper.make_128_plus; create xml_escaper_32.make_128_plus
+			escape_test ("XML 128 plus", xml_escaper, xml_escaper_32)
+		end
+
+	test_bash_escape
+		local
 			bash_escaper: EL_ZSTRING_BASH_PATH_CHARACTER_ESCAPER; bash_escaper_32: EL_BASH_PATH_CHARACTER_ESCAPER [STRING_32]
+		do
+			create bash_escaper; create bash_escaper_32
+			escape_test ("BASH", bash_escaper, bash_escaper_32)
+		end
+
+	escape_test (name: STRING; escaper: EL_CHARACTER_ESCAPER [ZSTRING]; escaper_32: EL_CHARACTER_ESCAPER [STRING_32])
+		local
 			str_32: STRING_32; str: ZSTRING
 		do
-			create xml_escaper.make_128_plus; create xml_escaper_32.make_128_plus
-			str_32 := Text_russian_and_english.twin
-			str_32.replace_substring_all ("Wanting", "&")
-			str := str_32
-			str := str.escaped (xml_escaper)
-			str_32 := xml_escaper_32.escaped (str_32)
-			assert ("XML escape OK", str.to_unicode ~ str_32)
-
-			create bash_escaper; create bash_escaper_32
-			str_32 := Vivalidi_title; str := str_32
-			str := str.escaped (bash_escaper)
-			str_32 := bash_escaper_32.escaped (str_32)
-			assert ("BASH escape OK", str.to_unicode ~ str_32)
+			across << Text_russian_and_english, Vivalidi_title, Lower_case_characters >> as string loop
+				str_32 := string.item.twin
+				String_32.replace_character (str_32, '+', '&')
+				str := str_32
+				assert (name + " escape OK", escaper.escaped (str).to_unicode ~ escaper_32.escaped (str_32))
+			end
 		end
 
 	test_insert_character

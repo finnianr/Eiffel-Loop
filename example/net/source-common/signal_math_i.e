@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Remote interface to SIGNAL_MATH"
 
 	author: "Finnian Reilly"

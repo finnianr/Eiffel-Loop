@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_OPEN_OFFICE}."
 
 	author: "Finnian Reilly"

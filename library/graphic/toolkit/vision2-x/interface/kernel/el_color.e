@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EV_COLOR}."
 
 	author: "Finnian Reilly"

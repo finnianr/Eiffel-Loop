@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Simple xpath parser that can parse xpaths like the following:
 		

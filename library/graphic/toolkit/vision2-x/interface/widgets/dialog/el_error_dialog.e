@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ERROR_DIALOG}."
 
 	author: "Finnian Reilly"

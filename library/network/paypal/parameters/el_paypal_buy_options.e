@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PAYPAL_BUY_OPTIONS}."
 
 	author: "Finnian Reilly"

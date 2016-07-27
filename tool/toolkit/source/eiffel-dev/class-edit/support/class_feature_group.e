@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_CLASS_FEATURE_BLOCK}."
 
 	author: "Finnian Reilly"

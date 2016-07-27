@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_USER_INPUT_LIST}."
 
 	author: "Finnian Reilly"

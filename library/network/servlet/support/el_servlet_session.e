@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {HTTP_USER_SESSION}."
 
 	author: "Finnian Reilly"

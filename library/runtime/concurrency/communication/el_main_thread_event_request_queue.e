@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Queue to notify an event listener from main application thread
 	]"

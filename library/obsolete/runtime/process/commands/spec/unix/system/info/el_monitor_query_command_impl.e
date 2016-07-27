@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MONITOR_QUERY_COMMAND_IMPL}."
 
 	author: "Finnian Reilly"

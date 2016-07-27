@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Repeatedly puts timer event onto a thread queue"
 
 	author: "Finnian Reilly"

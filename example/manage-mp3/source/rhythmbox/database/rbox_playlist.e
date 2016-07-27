@@ -1,4 +1,4 @@
-ï»¿note
+note
 	description: "Summary description for {RBOX_PLAYLIST}."
 
 	author: "Finnian Reilly"
@@ -97,8 +97,8 @@ feature -- Access
 	file_size_mb: DOUBLE
 			-- Sum of size of m3u line (mega bytes) For example:
 
-			-- #EXTINF: 182, Te Aconsejo Que me Olvides -- AnÃ­bal Troilo (Singers: Francisco Fiorentino)
-			-- /storage/sdcard1/Music/Tango/AnÃ­bal Troilo/Te Aconsejo Que me Olvides.02.mp3
+			-- #EXTINF: 182, Te Aconsejo Que me Olvides -- Aníbal Troilo (Singers: Francisco Fiorentino)
+			-- /storage/sdcard1/Music/Tango/Aníbal Troilo/Te Aconsejo Que me Olvides.02.mp3
 		local
 			bytes: INTEGER
 		do

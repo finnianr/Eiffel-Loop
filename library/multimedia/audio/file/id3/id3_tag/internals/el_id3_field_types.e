@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ID3_FIELD_TYPES}."
 
 	author: "Finnian Reilly"

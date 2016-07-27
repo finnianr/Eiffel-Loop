@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XDG_APPLICATION_DESKTOP_ENTRY}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_OS_COMMAND}."
 
 	author: "Finnian Reilly"
@@ -278,4 +278,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

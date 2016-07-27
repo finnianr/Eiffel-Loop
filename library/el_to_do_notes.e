@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Helper class to locate classes which need some fixing at a later stage"
 
 	author: "Finnian Reilly"

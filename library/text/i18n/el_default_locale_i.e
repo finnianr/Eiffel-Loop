@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DEFAULT_LOCALE_I}."
 
 	author: "Finnian Reilly"

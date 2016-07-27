@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {J_OUTPUT_STREAM_WRITER}."
 
 	author: "Finnian Reilly"

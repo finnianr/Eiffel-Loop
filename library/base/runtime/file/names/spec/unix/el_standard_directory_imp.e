@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Unix implementation of `EL_STANDARD_DIRECTORY_I' interface"
 
 	author: "Finnian Reilly"

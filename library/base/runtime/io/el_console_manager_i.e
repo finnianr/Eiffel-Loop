@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_CONSOLE_MANAGER_I}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {VECTOR_COMPLEX_DOUBLE_SEQUENCE}."
 
 	author: "Finnian Reilly"

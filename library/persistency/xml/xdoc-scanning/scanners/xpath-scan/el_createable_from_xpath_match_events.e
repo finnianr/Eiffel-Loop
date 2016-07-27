@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -70,4 +70,3 @@ feature {NONE} -- Constants
 	on_close: BOOLEAN = false
 
 end -- class EL_XML_EVENT_PROCESSOR
-

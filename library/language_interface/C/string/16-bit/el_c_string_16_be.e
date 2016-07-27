@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_C_STRING_16_BE}."
 
 	author: "Finnian Reilly"

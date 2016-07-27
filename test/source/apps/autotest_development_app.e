@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Aid to development of AutoTest classes"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-11 11:39:40 GMT (Monday 11th July 2016)"
 	revision: "8"
@@ -13,10 +13,7 @@ class
 	AUTOTEST_DEVELOPMENT_APP
 
 inherit
-	EL_SUB_APPLICATION
-		redefine
-			Option_name
-		end
+	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
 
 create
 	make
@@ -82,19 +79,7 @@ feature -- Tests
 			create Result
 		end
 
-feature {NONE} -- Implementation
-
-	do_file_data_test (test: PROCEDURE [EQA_TEST_SET, TUPLE])
-		do
-			test.apply
-			if attached {EL_FILE_DATA_TEST_SET} test.target as data_test then
-				data_test.clean (False)
-			end
-		end
-
 feature {NONE} -- Constants
-
-	Description: STRING = "Develop AutoTest sets"
 
 	Log_filter: ARRAY [like Type_logging_filter]
 			--
@@ -110,7 +95,5 @@ feature {NONE} -- Constants
 --				[{EL_GVFS_OS_COMMAND}, All_routines]
 			>>
 		end
-
-	Option_name: STRING = "autotest"
 
 end

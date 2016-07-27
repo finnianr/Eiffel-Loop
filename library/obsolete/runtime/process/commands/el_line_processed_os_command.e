@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LINE_PROCESSED_OS_COMMAND}."
 
 	author: "Finnian Reilly"

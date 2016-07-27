@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_RICH_TEXT_IMP}."
 
 	author: "Finnian Reilly"

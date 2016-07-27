@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {DATABASE_EXPORT_CONFIG}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Unix implementation of `EL_SCREEN_PROPERTIES_I' interface"
 
 	author: "Finnian Reilly"

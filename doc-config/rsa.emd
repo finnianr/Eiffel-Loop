@@ -1,0 +1,7 @@
+Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability
+to read key-pairs conforming to the X509 PKCS1 standard. The top level class to access these facilities is `[./library/text/encryption/rsa/x509/el_module_x509_command.html EL_MODULE_X509_COMMAND]'.
+
+The private key reader however uses a non-standard encryption scheme. It assumes the file is encrypted using the Eiffel-Loop
+utility contained in `el_toolkit'. See class [./tool/toolkit/source/applications/crypto_app.html `CRYPTO_APP'] for details.
+
+

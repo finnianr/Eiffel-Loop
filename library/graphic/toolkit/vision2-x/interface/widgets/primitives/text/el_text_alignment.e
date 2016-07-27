@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_TEXT_ALIGNMENT}."
 
 	author: "Finnian Reilly"

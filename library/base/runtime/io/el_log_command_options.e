@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Command line options for logging"
 
 	author: "Finnian Reilly"

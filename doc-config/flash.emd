@@ -1,0 +1,13 @@
+**Status:** No longer maintained
+
+Eiffel interface to
+[https://github.com/finnianr/Eiffel-Loop/blob/master/Flash_library/eiffel_loop/laabhair Flash ActionScript objects]
+used in the **Laabhair** digital signal processing framework.
+This framework allows you to create applications that process speech with a
+[http://www.fon.hum.uva.nl/praat Praat] script in real time and create visual representations
+of the the data in Flash. Depends on the Eiffel-Loop Praat-script interface library.
+
+Developed on Windows XP SP2 with Flash Professional 8 IDE, EiffelStudio 6.1,  VC++ 8.0 Express Edition.
+
+Laabhair was developed at the [http://dmc.dit.ie/ Digital Media Centre at the Dublin Institute of Technology]
+

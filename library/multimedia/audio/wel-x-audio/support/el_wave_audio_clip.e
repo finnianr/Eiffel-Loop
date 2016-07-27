@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Stores smaller amounts of waveaudio data in memory"
 
 	author: "Finnian Reilly"
@@ -173,4 +173,3 @@ feature {NONE} -- C externals: setters
 		end
 
 end
-

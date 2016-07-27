@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DEFAULT_SERIALIZEABLE_XML}."
 
 	author: "Finnian Reilly"

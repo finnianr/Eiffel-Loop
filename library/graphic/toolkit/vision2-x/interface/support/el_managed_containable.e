@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MANAGED_CONTAINABLE}."
 
 	author: "Finnian Reilly"

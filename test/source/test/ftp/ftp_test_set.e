@@ -1,13 +1,13 @@
-ï»¿note
+note
 	description: "Summary description for {FTP_TEST_SET}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-11 17:32:20 GMT (Monday 11th July 2016)"
-	revision: "5"
+	revision: "7"
 
 class
 	FTP_TEST_SET
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 		do
 			log.enter ("basic_tests")
 
-			dir := "Kö¬®¯Hauptbahnhof"
+			dir := "Köln/Hauptbahnhof"
 			ftp.change_home_dir
 			ftp.make_directory (dir)
 			assert ("Exists", ftp.directory_exists (dir))

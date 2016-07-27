@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MODULE_SVG_TO_PNG_TRANSCODER}."
 
 	author: "Finnian Reilly"

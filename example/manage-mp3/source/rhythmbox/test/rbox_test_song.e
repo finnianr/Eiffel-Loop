@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {RBOX_TEST_SONG}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-15 13:04:46 GMT (Tuesday 15th December 2015)"
-	revision: "4"
+	revision: "5"
 
 class
 	RBOX_TEST_SONG

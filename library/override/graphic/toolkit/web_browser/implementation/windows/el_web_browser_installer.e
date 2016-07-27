@@ -2,12 +2,12 @@
 	description: "Adds registry entry to prevent browser emulation mode of early IE version"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-30 17:40:47 GMT (Wednesday 30th March 2016)"
-	revision: "6"
+	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
+	revision: "5"
 
 class
 	EL_WEB_BROWSER_INSTALLER

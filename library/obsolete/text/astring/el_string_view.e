@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Defines a dynamic substring view of a string for use with lexers and parsers
 		Encoding is assumed to be unicode

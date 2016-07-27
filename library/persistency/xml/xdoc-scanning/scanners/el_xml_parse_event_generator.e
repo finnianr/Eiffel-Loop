@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {PARSE_EVENT_CODER}."
 
 	author: "Finnian Reilly"
@@ -216,4 +216,3 @@ feature {NONE} -- Implementation: attributes
 	parse_event_source: EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
 
 end
-

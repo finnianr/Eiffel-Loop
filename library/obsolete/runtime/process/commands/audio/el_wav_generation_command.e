@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Wrapper for swgen test signal generation command
 		It generates 1 second of audio signal sweeping from 'frequency_lower' to 'frequency_lower' at

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_TEST_SERVLET}."
 
 	author: "Finnian Reilly"

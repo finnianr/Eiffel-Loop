@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object that is createable from XML parse events
 	]"

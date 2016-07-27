@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {JAVA_ARRAY}."
 
 	author: "Finnian Reilly"

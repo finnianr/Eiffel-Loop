@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_TEXTUAL_PATTERN_MATCH_ROUTINES}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MATCH_LEFT_AND_RIGHT_CHAR_TP}."
 
 	author: "Finnian Reilly"

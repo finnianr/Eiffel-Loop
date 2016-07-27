@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PIXEL_WAND}."
 
 	author: "Finnian Reilly"

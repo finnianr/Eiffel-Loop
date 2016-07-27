@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {RBOX_RESTORE_PLAYLISTS_APP}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Servlet service that runs in a background worker thread"
 
 	author: "Finnian Reilly"

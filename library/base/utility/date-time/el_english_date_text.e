@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ENGLISH_DATE_ROUTINES}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object that uses run length encoding to data compress a sequence of numeric values that tend to repeat a lot.
 	]"

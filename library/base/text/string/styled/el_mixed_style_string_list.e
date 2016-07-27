@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		list of strings that should be rendered with either a regular, bold or fixed font
 	]"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {ENCRYPTABLE_FILED_WORD_TOKEN_TABLE}."
 
 	author: "Finnian Reilly"

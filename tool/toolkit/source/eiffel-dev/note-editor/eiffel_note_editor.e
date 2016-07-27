@@ -27,12 +27,12 @@ inherit
 
 	EL_MODULE_DATE
 
-	EL_MODULE_TEST
-		undefine
-			new_lio
-		end
-
 	EL_MODULE_LOG
+
+	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+		rename
+			make as make_machine
+		end
 
 create
 	make
@@ -43,6 +43,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			log.enter ("make")
+			make_machine
 			create default_values.make (<<
 				[Field.author, license_notes.author],
 				[Field.copyright, license_notes.copyright],
@@ -53,7 +54,6 @@ feature {NONE} -- Initialization
 			create non_standard_fields.make
 			Evolicity_templates.put (Template_name, Note_template)
 			make_default
-			create last_date_time_stamp.make_from_epoch (0)
 			log.exit
 		end
 
@@ -62,52 +62,25 @@ feature -- Element change
 	set_source_text_from_line_source (lines: EL_FILE_LINE_SOURCE)
 			--
 		local
-			date_field_stamp: DATE_TIME; date_string, field_value: STRING
-			date_found, revision_found: BOOLEAN
-			line: ZSTRING
+			date_field_stamp: DATE_TIME; time_stamp: INTEGER
+			date_string: STRING
 		do
 			has_revision := False
  			source_file_path := lines.file_path
- 			create line.make_empty; create date_string.make_empty
  			last_time_stamp := lines.date
- 			create last_date_time_stamp.make_from_epoch (last_time_stamp)
- 			from lines.start until
- 				(date_found and revision_found)
- 					or across Class_declaration_keywords as keyword some line.starts_with (keyword.item) end
- 					or lines.after
- 			loop
-	 			line := lines.item
- 				line.left_adjust
-				if line.occurrences ('"') = 2 then
- 					field_value := line.substring (line.index_of ('"', 1) + 1, line.last_index_of ('"', line.count) - 1).to_latin_1
-	 				if line.starts_with (Field_marker.date) then
-	 					date_string := field_value
-	 					date_found := True
-	 				elseif line.starts_with (Field_marker.revision) and then field_value.is_integer then
-	 					last_revision := field_value.to_integer
-	 					revision_found := True
-	 				end
- 				end
- 				lines.forth
- 			end
- 			if date_found then
- 				create date_field_stamp.make_from_epoch (0)
-				if date_string [1] /= '$' and then date_string.has_substring ("GMT") then
-					date_string := date_string.substring (1, date_string.substring_index ("GMT", 1) - 2)
- 					if not test.is_executing and then Date_time_code.is_date_time (date_string) then
-	 					date_field_stamp := Date_time_code.create_date_time (date_string)
- 					end
-				end
- 				has_revision := not date_field_stamp.is_equal (last_date_time_stamp)
- 			end
+
+			last_revision := -1; create date_string.make_empty
+			do_with_lines (agent find_date_and_revision (?, date_string), lines)
+			date_field_stamp := new_date_field_stamp (date_string)
+
+			time_stamp := date_field_stamp.relative_duration (Epoch_date).seconds_count.to_integer_32
+			has_revision := last_revision = 0 or else (time_stamp - last_time_stamp).abs > 1
 			Precursor (lines)
  		end
 
 feature -- Status query
 
 	has_revision: BOOLEAN
-
-	is_eiffel_software: BOOLEAN
 
 feature -- Basic operations
 
@@ -118,11 +91,25 @@ feature -- Basic operations
 			if not source_text.has_substring (Eiffel_web_address) and then has_revision then
 				Precursor
 				create source_file.make_with_name (source_file_path)
-				source_file.stamp (last_time_stamp)
+				source_file.stamp (last_time_stamp + 1)
 			end
 		end
 
 feature {NONE} -- Pattern definitions
+
+	note_field: like all_of
+			--
+		do
+			Result := all_of ( <<
+				c_identifier |to| agent on_field_name,
+				character_literal (':'),
+				maybe_white_space,
+				one_of (<<
+					unescaped_manifest_string (agent on_verbatim_field_text),
+					quoted_manifest_string (agent on_field_text)
+				>>)
+			>> )
+		end
 
 	note_section: like all_of
 			--
@@ -141,59 +128,7 @@ feature {NONE} -- Pattern definitions
 			>>)
 		end
 
-	note_field: like all_of
-			--
-		do
-			Result := all_of ( <<
-				c_identifier |to| agent on_field_name,
-				character_literal (':'),
-				maybe_white_space,
-				one_of (<<
-					unescaped_manifest_string (agent on_verbatim_field_text),
-					quoted_manifest_string (agent on_field_text)
-				>>)
-			>> )
-		end
-
 feature {NONE} -- Parsing actions
-
-	on_field_text (text: EL_STRING_VIEW)
-			--
-		do
-			if last_field_name ~ Field.date then
-				standard_field_table [Field.date] := Time_template #$ [
-					last_date_time_stamp.formatted_out (Date_time_format),
-					Date.formatted (last_date_time_stamp.date, {EL_DATE_FORMATS}.canonical)
-				]
-			elseif last_field_name ~ Field.revision then
-				standard_field_table [Field.revision] := (last_revision + 1).out
-
-			elseif Standard_fields.has (last_field_name) then
-				standard_field_table [last_field_name] := text.to_string_8
-
-			else
-				non_standard_fields.extend (name_value_pair (last_field_name, text.to_string_8))
-			end
-		end
-
-	on_verbatim_field_text (text: EL_STRING_VIEW)
-			--
-		local
-			quoted_verbatim_text: ZSTRING
-		do
-			quoted_verbatim_text := "[%N" + text.to_string_8 + "%N%T]"
-			if Standard_fields.has (last_field_name) then
-				standard_field_table [last_field_name] := quoted_verbatim_text
-			else
-				non_standard_fields.extend (name_value_pair (last_field_name, quoted_verbatim_text))
-			end
-		end
-
-	on_field_name (text: EL_STRING_VIEW)
-			--
-		do
-			last_field_name := text
-		end
 
 	on_class_declaration (text: EL_STRING_VIEW)
 			--
@@ -203,7 +138,7 @@ feature {NONE} -- Parsing actions
 			across default_values as default_value loop
 				standard_field_table.search (default_value.key)
 				if standard_field_table.found then
-					if Repositary_checkout_fields.has (default_value.key) then
+					if repository_checkout_fields.has (default_value.key) then
 						if standard_field_table.found_item.is_empty
 							or is_place_holder_value (default_value.key, standard_field_table.found_item)
 						then
@@ -223,17 +158,71 @@ feature {NONE} -- Parsing actions
 			put_string (text)
 		end
 
+	on_field_name (text: EL_STRING_VIEW)
+			--
+		do
+			last_field_name := text
+		end
+
+	on_field_text (text: EL_STRING_VIEW)
+			--
+		do
+			if last_field_name ~ Field.date then
+				standard_field_table [Field.date] := Time_template #$ [
+					last_time_stamp_as_date.formatted_out (Date_time_format),
+					Date.formatted (last_time_stamp_as_date.date, {EL_DATE_FORMATS}.canonical)
+				]
+			elseif last_field_name ~ Field.revision then
+				standard_field_table [Field.revision] := (last_revision + 1).out
+
+			elseif Standard_fields.has (last_field_name) then
+				standard_field_table [last_field_name] := text.to_string_8
+
+			else
+				non_standard_fields.extend (name_value_pair (last_field_name, text.to_string_8))
+			end
+		end
+
 	on_note_fields (text: EL_STRING_VIEW)
 			--
 		do
 			current_note_section := text
 		end
 
+	on_verbatim_field_text (text: EL_STRING_VIEW)
+			--
+		local
+			quoted_verbatim_text: ZSTRING
+		do
+			quoted_verbatim_text := "[%N" + text.to_string_8 + "%N%T]"
+			if Standard_fields.has (last_field_name) then
+				standard_field_table [last_field_name] := quoted_verbatim_text
+			else
+				non_standard_fields.extend (name_value_pair (last_field_name, quoted_verbatim_text))
+			end
+		end
+
 feature {NONE} -- Implementation
 
-	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
+ 	new_date_field_stamp (date_string: STRING): DATE_TIME
+ 		local
+ 			l_date: STRING; pos_gmt: INTEGER
+ 		do
+			create Result.make_from_epoch (0)
+			if not date_string.is_empty then
+				pos_gmt := date_string.substring_index ("GMT", 1)
+				if pos_gmt > 0 then
+					l_date := date_string.substring (1, pos_gmt - 2)
+ 					if Date_time_code.is_date_time (l_date) then
+ 						Result := Date_time_code.create_date_time (l_date)
+ 					end
+				end
+			end
+ 		end
+
+	is_place_holder_value (variable, value: STRING): BOOLEAN
 		do
-			create Result.make (0)
+			Result := ("$" + variable + "$") ~ value.as_lower
 		end
 
 	name_value_pair (name, value: STRING): EVOLICITY_CONTEXT_IMP
@@ -244,11 +233,6 @@ feature {NONE} -- Implementation
 			Result.put_variable (value, "value")
 		end
 
-	is_place_holder_value (variable, value: STRING): BOOLEAN
-		do
-			Result := ("$" + variable + "$") ~ value.as_lower
-		end
-
 	reset
 			--
 		do
@@ -257,21 +241,53 @@ feature {NONE} -- Implementation
 			non_standard_fields.wipe_out
 		end
 
-	non_standard_fields: LINKED_LIST [EVOLICITY_CONTEXT]
+	search_patterns: ARRAYED_LIST [EL_TEXT_PATTERN]
+		do
+			create Result.make (0)
+		end
 
-	last_field_name: STRING
+feature {NONE} -- Line states
+
+	find_date_and_revision (line: ZSTRING; date_string: STRING)
+		local
+			field_name, value: ZSTRING
+		do
+			field_name := colon_name (line)
+			if field_name ~ Field.date then
+				date_string.share (colon_value (line))
+			elseif field_name ~ Field.revision then
+				value := colon_value (line)
+				if value.is_integer then
+					last_revision := value.to_integer
+				else
+					last_revision := 0
+				end
+			end
+			if not date_string.is_empty and last_revision >= 0 then
+				state := agent final
+			end
+		end
+
+feature {NONE} -- Internal attributes
 
 	current_note_section: ZSTRING
 
-	standard_field_table: EL_HASH_TABLE [ZSTRING, STRING]
-
 	default_values: EL_HASH_TABLE [ZSTRING, STRING]
+
+	last_field_name: STRING
+
+	last_revision: INTEGER
 
 	last_time_stamp: INTEGER
 
-	last_date_time_stamp: DATE_TIME
+	last_time_stamp_as_date: DATE_TIME
+		do
+			create Result.make_from_epoch (last_time_stamp)
+		end
 
-	last_revision: INTEGER
+	non_standard_fields: LINKED_LIST [EVOLICITY_CONTEXT]
+
+	standard_field_table: EL_HASH_TABLE [ZSTRING, STRING]
 
 feature {NONE} -- Fields
 
@@ -311,30 +327,19 @@ feature -- Constants
 
 	Date_time_format: STRING = "yyyy-[0]mm-[0]dd hh:[0]mi:[0]ss"
 
+	Eiffel_web_address: STRING = "www.eiffel.com"
+
+	Epoch_date: DATE_TIME
+		once
+			create Result.make_from_epoch (0)
+		end
+
  	Field_marker: TUPLE [date, revision: ZSTRING]
  		once
  			create Result
  			Result.date := "date:"
  			Result.revision := "revision:"
  		end
-
-	Repositary_checkout_fields: ARRAY [ZSTRING]
-		once
-			Result := << Field.date, Field.revision >>
-			Result.compare_objects
-		end
-
-	Template_name: ZSTRING
-		once
-			Result := "note"
-		end
-
-	Time_template: ZSTRING
-		once
-			Result := "%S GMT (%S)"
-		end
-
-	Eiffel_web_address: STRING = "www.eiffel.com"
 
 	Note_template: STRING = "{
 
@@ -354,5 +359,21 @@ feature -- Constants
 
 
 }"
+
+	Template_name: ZSTRING
+		once
+			Result := "note"
+		end
+
+	Time_template: ZSTRING
+		once
+			Result := "%S GMT (%S)"
+		end
+
+	repository_checkout_fields: ARRAY [ZSTRING]
+		once
+			Result := << Field.date, Field.revision >>
+			Result.compare_objects
+		end
 
 end

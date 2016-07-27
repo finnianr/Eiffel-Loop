@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Delayed removal of program directory on uninstall to avoid permission problem
 	]"

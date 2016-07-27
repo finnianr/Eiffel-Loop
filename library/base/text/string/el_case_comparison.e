@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_CASE_COMPARISON}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MENU_CONSOLE_APPLICATION_LAUNCHER}."
 
 	author: "Finnian Reilly"

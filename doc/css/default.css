@@ -12,7 +12,7 @@ div#centered {
 	margin-right: auto;
 	margin-bottom: 150px;
 	width: 900px;
-	background-color: rgba(190, 190, 190, 0.6);
+	background-color: rgba(210, 210, 210, 0.6);
 }
 div#centered img {
 	background-color: white;
@@ -34,6 +34,9 @@ div#download p:first-child {
 div#text p {
 	padding-left: 10px;
 }
+div#text ul {
+	list-style: inside;
+}
 a#contents {
 	padding-left: 10px;
 }
@@ -48,8 +51,8 @@ em#code {
 	padding-left: 3px;
 	padding-right: 3px;
 	font-style: normal;
-	background-color: #E2E5E5;
-	border: outset #F0F0F0 1px;
+	background-color: #F0F0F0;
+	border: outset #FFFFFF 1px;
 }
 
 div#footer {
@@ -81,8 +84,8 @@ pre {
 	margin-left: 30px;
 	margin-right: 20px;
 	padding: 10px;
-	background-color: #E2E2E2;
-	border: outset #F0F0F0 2px;
+	background-color: #F0F0F0;
+	border: outset #FFFFFF 2px;
 	padding: 5px;
 }
 

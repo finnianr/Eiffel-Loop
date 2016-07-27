@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_IMMUTABLE_STRING_8}."
 
 	author: "Finnian Reilly"

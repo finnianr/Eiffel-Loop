@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Extract all html between `<body>' and `</body>' tags and output as `<subject name>.body'.
 		Insert a page anchor before each h2 heading

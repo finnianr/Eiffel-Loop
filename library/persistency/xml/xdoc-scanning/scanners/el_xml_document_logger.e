@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XML_DOCUMENT_LOGGER}."
 
 	author: "Finnian Reilly"

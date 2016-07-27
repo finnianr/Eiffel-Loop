@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_RICH_TEXT_I}."
 
 	author: "Finnian Reilly"

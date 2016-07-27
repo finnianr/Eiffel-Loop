@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {UNICODE_INTERVAL}."
 
 	author: "Finnian Reilly"

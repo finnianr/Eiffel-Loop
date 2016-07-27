@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Efficient Boyer-Moore Search for Unicode Strings
 		See: [http://www.codeproject.com/KB/recipes/bmsearch.aspx codeproject.com Article]

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_EV_SCROLLABLE_AREA_IMP}."
 
 	author: "Finnian Reilly"

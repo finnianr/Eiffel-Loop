@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Base class for drawable objects"
 
 	author: "Finnian Reilly"

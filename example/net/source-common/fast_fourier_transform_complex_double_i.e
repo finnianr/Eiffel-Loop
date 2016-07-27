@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Remote interface to FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE"
 
 	author: "Finnian Reilly"

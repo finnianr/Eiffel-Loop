@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {EL_REMOTE_CALL_CONNECTION_MANAGER_THREAD}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 11:36:45 GMT (Sunday 3rd July 2016)"
 	revision: "5"
@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 		do
 			connecting_socket.accept
 			if connecting_socket.is_client_connected then
-				log_or_io.put_line ("Connection accepted")
+				lio.put_line ("Connection accepted")
 				client_connection_queue.put (connecting_socket.accepted)
 				log.put_line ("Waiting for connection ..")
 				if not logarithmic_polling_rates.islast then

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {RBOX_TEST_DATABASE}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-01 9:28:25 GMT (Friday 1st July 2016)"
-	revision: "8"
+	revision: "5"
 
 class
 	RBOX_TEST_DATABASE

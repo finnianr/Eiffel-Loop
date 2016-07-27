@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MP3_TO_WAV_CLIP_SAVER_COMMAND}."
 
 	author: "Finnian Reilly"

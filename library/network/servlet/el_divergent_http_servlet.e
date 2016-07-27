@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Experimental servlet with service procedure that distributes requests to procedures in
 		service_procedures_table according to the request path base name, i.e. the last directory 

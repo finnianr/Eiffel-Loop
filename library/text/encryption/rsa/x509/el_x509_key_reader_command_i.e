@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Reads private key from X509 .key file"
 
 	author: "Finnian Reilly"

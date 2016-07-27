@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {LIBID3_TEST_APP}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 18:32:20 GMT (Friday 8th July 2016)"
 	revision: "7"
@@ -13,7 +13,7 @@ class
 	ID3_EDITOR_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [ID3_EDITOR]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [ID3_EDITOR]
 		redefine
 			Option_name, Ask_user_to_quit
 		end

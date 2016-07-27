@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LOGGABLE}."
 
 	author: "Finnian Reilly"

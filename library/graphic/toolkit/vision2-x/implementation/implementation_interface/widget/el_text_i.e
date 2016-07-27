@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_UNDOABLE_TEXT_I}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -205,4 +205,3 @@ feature {EL_TEXTUAL_PATTERN_FACTORY, EL_TEXT_PATTERN_FACTORY} -- Constants
 		end
 
 end -- class EL_TEXTUAL_PATTERN
-

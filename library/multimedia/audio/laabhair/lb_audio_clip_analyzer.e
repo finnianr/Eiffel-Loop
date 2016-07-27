@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Consumes audio clips for analysis and posts results as XML remote procedure call messages"
 
 	author: "Finnian Reilly"
@@ -21,4 +21,3 @@ inherit
 		end
 
 end
-

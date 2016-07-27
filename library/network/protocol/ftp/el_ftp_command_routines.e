@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Constants base on [http://www.nsftools.com/tips/RawFTP.htm list of raw ftp commands]
 	]"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Windows implementation of `EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_I' interface"
 
 	author: "Finnian Reilly"

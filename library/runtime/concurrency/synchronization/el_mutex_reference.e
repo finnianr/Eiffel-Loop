@@ -1,8 +1,8 @@
-﻿note
+note
 	description: "[
 		Restricts access to objects that require thread synchronization.
 		For debugging it is recommended to use
-		[./logging/concurrency/el_logged_mutex_reference.html EL_LOGGED_MUTEX_REFERENCE] to detect deadlock.
+		[../../logging/concurrency/el_logged_mutex_reference.html EL_LOGGED_MUTEX_REFERENCE] to detect deadlock.
 		Any time a thread is forced to wait for a lock it is reported to the thread's log.
 	]"
 
@@ -91,7 +91,6 @@ feature {NONE} -- Implementation
 	actual_item: G
 
 end
-
 
 
 

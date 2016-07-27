@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Parses output of command
 			gvfs-ls "$uri" | grep -c "^.*$"

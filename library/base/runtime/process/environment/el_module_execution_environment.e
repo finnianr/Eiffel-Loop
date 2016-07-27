@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MODULE_EXECUTION_ENVIRONMENT}."
 
 	author: "Finnian Reilly"

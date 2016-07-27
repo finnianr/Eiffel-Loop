@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {TEST_VIDEO_IMPORT_MUSIC_MANAGER}."
 
 	author: "Finnian Reilly"
@@ -83,7 +83,7 @@ feature {NONE} -- Constants
 
 	Video_song_titles: ARRAY [ZSTRING]
 		once
-			Result := << "L'Autre Valse d'Amélie", "The Hangmans Reel">>
+			Result := << "L'Autre Valse d'Am�lie", "The Hangmans Reel">>
 			Result.compare_objects
 		end
 

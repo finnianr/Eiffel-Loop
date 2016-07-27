@@ -1,0 +1,8 @@
+Classes for scanning XML and [https://room.eiffel.com/node/527 Pyxis] documents using a common interface.
+Pyxis is a more readable XML equivalent that resembles Python code.
+
+This interface also includes a way of building Eiffel objects from element contexts defined by relative Xpaths.
+Although this is only a very partial implementation of Xpath, it is still very useful.
+
+The XML implementation is based on a modified GOBO wrapper for the [http://expat.sourceforge.net/ eXpat XML parser]
+(written in C). The Pyxis implementation is pure Eiffel.

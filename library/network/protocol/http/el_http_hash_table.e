@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "HTTP name value pair table"
 
 	author: "Finnian Reilly"

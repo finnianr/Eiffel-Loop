@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Application that can be regression tested"
 
 	author: "Finnian Reilly"

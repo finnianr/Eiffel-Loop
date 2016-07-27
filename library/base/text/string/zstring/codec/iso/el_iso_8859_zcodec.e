@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ISO_8859_CODEC_2}."
 
 	author: "Finnian Reilly"

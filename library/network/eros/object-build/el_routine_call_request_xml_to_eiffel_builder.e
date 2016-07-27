@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ROUTINE_CALL_REQUEST_XML_TO_EIFFEL_BUILDER}."
 
 	author: "Finnian Reilly"

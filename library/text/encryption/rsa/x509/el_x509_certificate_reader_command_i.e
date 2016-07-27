@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Parse public key from crt output text
 		

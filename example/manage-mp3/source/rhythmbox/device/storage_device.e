@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Device to which to mp3 files can be exported"
 
 	author: "Finnian Reilly"

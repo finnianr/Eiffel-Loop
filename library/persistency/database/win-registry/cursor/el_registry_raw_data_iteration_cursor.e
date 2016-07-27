@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_REGISTRY_RAW_DATA_ITERATION_CURSOR}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32}."
 
 	author: "Finnian Reilly"

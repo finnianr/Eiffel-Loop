@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SEND_MAIL_COMMAND}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-23 14:04:01 GMT (Thursday 23rd June 2016)"
-	revision: "5"
+	revision: "6"
 
 deferred class
 	EL_SEND_MAIL_COMMAND_I

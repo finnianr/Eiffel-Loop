@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SHARED_APPLICATION_CONFIGURATION}."
 
 	author: "Finnian Reilly"

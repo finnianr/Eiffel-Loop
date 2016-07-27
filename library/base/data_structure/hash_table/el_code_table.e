@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_CODE_TABLE}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Text buffer medium"
 
 	author: "Finnian Reilly"

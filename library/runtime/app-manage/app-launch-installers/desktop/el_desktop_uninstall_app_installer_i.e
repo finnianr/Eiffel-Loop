@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DESKTOP_UNINSTALL_APP_INSTALLER}."
 
 	author: "Finnian Reilly"

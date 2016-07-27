@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {MEDIA_ITEM_SYNC_TABLE}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-09-29 11:24:10 GMT (Tuesday 29th September 2015)"
-	revision: "5"
+	revision: "4"
 
 class
 	MEDIA_ITEM_DEVICE_SYNC_TABLE

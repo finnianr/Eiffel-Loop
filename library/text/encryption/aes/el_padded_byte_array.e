@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		bytes with a count equal to muliple of a_block_size.
 		Creation area arguments that do not fit exactly are padded with bytes of value equal to the padding count.

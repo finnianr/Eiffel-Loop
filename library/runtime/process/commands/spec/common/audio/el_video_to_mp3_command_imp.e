@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Implementation of `EL_VIDEO_TO_MP3_COMMAND_I' interface
 		Does AAC -> MP3 audio conversion

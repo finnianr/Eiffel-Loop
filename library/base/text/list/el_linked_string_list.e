@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LINKED_STRING_LIST}."
 
 	author: "Finnian Reilly"

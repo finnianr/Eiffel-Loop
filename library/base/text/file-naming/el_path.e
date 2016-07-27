@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {EL_PATH}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-11 12:52:12 GMT (Monday 11th July 2016)"
 	revision: "8"
@@ -43,6 +43,13 @@ inherit
 		end
 
 	STRING_HANDLER
+		undefine
+			is_equal, default_create, out, copy
+		end
+
+	DEBUG_OUTPUT
+		rename
+			debug_output as as_string_32
 		undefine
 			is_equal, default_create, out, copy
 		end
@@ -124,7 +131,9 @@ feature -- Access
 
 	step_count: INTEGER
 		do
-			Result := parent_path.occurrences (Separator) + 1
+			if not is_empty then
+				Result := parent_path.occurrences (Separator) + 1
+			end
 		end
 
 	first_step: ZSTRING

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Cookie table that can be loaded from cookie file"
 
 	author: "Finnian Reilly"

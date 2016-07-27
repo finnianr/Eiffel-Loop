@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Positions in an XML document which has been parsed from a stream"
 
 	library: "Gobo Eiffel XML Library"
@@ -57,4 +57,3 @@ feature -- Access
 			-- Row of token in file
 
 end
-

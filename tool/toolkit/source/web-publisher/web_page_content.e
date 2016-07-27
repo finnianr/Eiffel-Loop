@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {WEB_CONTENT_CLEANER}."
 
 	author: "Finnian Reilly"

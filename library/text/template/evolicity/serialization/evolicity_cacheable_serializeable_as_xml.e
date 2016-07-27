@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EVOLICITY_CACHEABLE_SERIALIZEABLE_AS_XML}."
 
 	author: "Finnian Reilly"

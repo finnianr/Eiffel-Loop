@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EVOLICITY_DOUBLE_COMPARABLE}."
 
 	author: "Finnian Reilly"

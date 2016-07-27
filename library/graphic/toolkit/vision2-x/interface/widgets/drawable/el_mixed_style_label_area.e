@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MIXED_STYLE_LABEL_AREA}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Platform independent interface to standard OS directories
 	]"

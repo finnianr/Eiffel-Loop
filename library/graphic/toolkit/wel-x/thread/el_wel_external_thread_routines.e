@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Routines allowing threads other than the main Windows thread to make (asynchronous)
 		calls to WEL routines. This is done by 'posting' rather than 'sending' messages to the
@@ -55,4 +55,3 @@ feature {NONE} -- Implememtation
 		end
 	
 end
-

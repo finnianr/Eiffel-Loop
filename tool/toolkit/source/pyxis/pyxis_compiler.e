@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Compile tree of Pyxis source files into single XML file
 	]"

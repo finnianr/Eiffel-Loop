@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {TEST_EL_STRING}."
 
 	author: "Finnian Reilly"

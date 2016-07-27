@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -126,5 +126,4 @@ invariant
 	contains_only_repeated_and_terminating: pattern_count = 2
 
 end -- class EL_MATCH_TP1_ON_CONDITION_TP2_MATCH_TP
-
 

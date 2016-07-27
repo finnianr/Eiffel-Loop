@@ -1,0 +1,33 @@
+<h1>$category: $name</h1>
+#across $description_elements as $element loop
+	<$element.item.tag_name>$element.item.text</$element.item.tag_name>
+#end
+#if $has_ecf_name then
+<p><b>ECF:</b> $ecf_name</p>
+#end
+<h2>Directory: $relative_path</h2>
+#if $has_sub_directory then
+	#across $directory_list as $directory loop
+	<p><a href="#$directory.item.index">$directory.item.contents_dir_title</a></p>
+	#end
+#end
+#across $directory_list as $directory loop
+	#if $has_sub_directory then
+<h3><a name="$directory.item.index">$directory.item.dir_title</a></h3>
+	#else
+<h3>Classes</h3>
+	#end
+	#across $directory.item.class_list as $class loop
+<h4><a href="$class.item.html_path" name="$class.item.name" target="_blank">$class.item.name</a></h4>
+		#across $class.item.description_elements as $element loop
+			<$element.item.tag_name>$element.item.text</$element.item.tag_name>
+		#end
+		#if $class.item.has_further_information then
+			#if $class.item.has_description then
+			<p><b>Further Information</b></p>
+			#end
+			<p>Click on class link to see $class.item.further_information.</p>
+		#end
+	#end
+#end
+

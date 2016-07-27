@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Unix implementation of EL_USER_LIST_COMMAND"
 
 	author: "Finnian Reilly"

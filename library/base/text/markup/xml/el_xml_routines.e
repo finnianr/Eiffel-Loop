@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XML_ROUTINES}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_STRING_INTERVAL}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-07 13:21:49 GMT (Monday 7th December 2015)"
-	revision: "7"
+	revision: "4"
 
 class
 	EL_STRING_INTERVAL

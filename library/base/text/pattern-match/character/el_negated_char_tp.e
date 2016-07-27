@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_NEGATED_CHAR_TP2}."
 
 	author: "Finnian Reilly"

@@ -1,17 +1,12 @@
-﻿note
+note
 	description: "[
 		Fills in default values for indexing fields for source trees listed in a manifest
-		
-		
-		**** REVISE THIS APPLICATION ****
-		
-		10th Sept 2015 This program seems to be causing corruption in UTF-8 files
 	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 19:58:09 GMT (Friday 8th July 2016)"
 	revision: "11"
@@ -20,28 +15,9 @@ class
 	EIFFEL_NOTE_EDITOR_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [EIFFEL_NOTE_EDITOR_COMMAND]
+	EL_COMMAND_LINE_SUB_APPLICATION [EIFFEL_NOTE_EDITOR_COMMAND]
 		redefine
 			Option_name, Installer
-		end
-
-feature -- Testing
-
-	test_run
-			--
-		do
---			Test.do_file_tree_test ("Eiffel/sources", agent test_note_edit, 3186546115)
-
---			Passed Jan 2016
---			Test.do_file_tree_test ("Eiffel/latin1-sources", agent test_note_edit, 2106583659)
-			Test.do_file_tree_test ("Eiffel/utf8-sources", agent test_note_edit, 550929738)
-		end
-
-	test_note_edit (a_sources_path: EL_DIR_PATH)
-			--
-		do
-			create command.make (a_sources_path + "manifest.pyx", Execution.variable_dir_path ("EIFFEL_LOOP") + "license.pyx")
-			normal_run
 		end
 
 feature {NONE} -- Implementation

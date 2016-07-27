@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD}."
 
 	author: "Finnian Reilly"

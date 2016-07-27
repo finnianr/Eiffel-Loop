@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_AUTO_CELL_HIDING_VERTICAL_BOX}."
 
 	author: "Finnian Reilly"

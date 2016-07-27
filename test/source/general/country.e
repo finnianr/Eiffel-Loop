@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {COUNTRY}."
 
 	author: "Finnian Reilly"

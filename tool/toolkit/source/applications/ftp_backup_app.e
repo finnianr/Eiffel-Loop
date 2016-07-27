@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {FTP_BACKUP_APP}."
 
 	author: "Finnian Reilly"
@@ -13,7 +13,7 @@ class
 	FTP_BACKUP_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION [FTP_BACKUP]
+	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [FTP_BACKUP]
 		rename
 			command as ftp_command
 		redefine

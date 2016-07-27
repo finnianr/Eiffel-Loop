@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Facility to cache conversion text"
 
 	author: "Finnian Reilly"

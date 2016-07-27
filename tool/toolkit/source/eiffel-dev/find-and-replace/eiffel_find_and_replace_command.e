@@ -1,10 +1,10 @@
-﻿note
+note
 	description: "Summary description for {EIFFEL_FIND_AND_REPLACE_SOURCE_MANIFEST_EDITOR}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
 	revision: "6"
@@ -21,7 +21,7 @@ inherit
 create
 	make, default_create
 
-feature {EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION} -- Initialization
+feature {EL_SUB_APPLICATION} -- Initialization
 
 	make (
 		source_manifest_path: EL_FILE_PATH; a_find_text: like find_text; a_replacement_text: like replacement_text
@@ -35,7 +35,7 @@ feature {EL_TESTABLE_COMMAND_LINE_SUB_APPLICATTION} -- Initialization
 
 feature {NONE} -- Implementation
 
-	create_file_editor: EIFFEL_FIND_AND_REPLACE_EDITOR
+	new_file_editor: EIFFEL_FIND_AND_REPLACE_EDITOR
 		do
 			create Result.make (find_text, replacement_text)
 		end

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_MATCH_TP1_WHILE_NOT_TP2_MATCH_TP2}."
 
 	author: "Finnian Reilly"

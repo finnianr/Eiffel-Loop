@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Access to the Eiffel-Loop log output routines defined by class `EL_LOGGABLE'
 		

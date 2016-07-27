@@ -1,10 +1,10 @@
-﻿note
-	description: "Encrypt contents of Pyxis file"
+note
+	description: "Encrypt contents of a file adding the aes extension"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "6"

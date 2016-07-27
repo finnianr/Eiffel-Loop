@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DYNAMICALLY_LOADED_C_API}."
 
 	author: "Finnian Reilly"

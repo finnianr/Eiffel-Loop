@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Box with linked HTML color text box and color dialog button"
 
 	author: "Finnian Reilly"

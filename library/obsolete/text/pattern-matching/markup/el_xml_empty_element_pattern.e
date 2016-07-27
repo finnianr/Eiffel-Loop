@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -37,4 +37,3 @@ feature {NONE} -- Initialization
 
 
 end -- class XML_EMPTY_ELEMENT_PATTERN
-

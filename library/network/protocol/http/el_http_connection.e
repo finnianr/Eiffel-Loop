@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object for accessing http content
 		

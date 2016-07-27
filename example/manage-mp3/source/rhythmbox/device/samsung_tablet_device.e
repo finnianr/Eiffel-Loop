@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {GALAXY_TAB_DEVICE}."
 
 	author: "Finnian Reilly"

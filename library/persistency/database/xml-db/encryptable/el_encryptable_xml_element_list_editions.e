@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ENCRYPTABLE_XML_RECORD_OPERATION_LIST}."
 
 	author: "Finnian Reilly"

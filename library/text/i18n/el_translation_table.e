@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_LOCALIZATION_TABLE}."
 
 	author: "Finnian Reilly"

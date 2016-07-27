@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PAYPAL_LOCALE_PARAMETER}."
 
 	author: "Finnian Reilly"

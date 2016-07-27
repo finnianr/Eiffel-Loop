@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {DO_NOTHING_SERIALIZATION_LISTENER}."
 
 	author: "Finnian Reilly"

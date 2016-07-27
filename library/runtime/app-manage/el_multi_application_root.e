@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Selects an application to launch from an array of sub-applications by either user input or command switch.
 		Can also install/uninstall any sub-applications that have installation configuration info asssociated with them.

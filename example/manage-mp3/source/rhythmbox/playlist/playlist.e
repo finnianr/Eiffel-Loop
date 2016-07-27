@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {PLAYLIST}."
 
 	author: "Finnian Reilly"

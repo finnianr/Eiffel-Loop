@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_PAYPAL_API_ARGUMENT}."
 
 	author: "Finnian Reilly"

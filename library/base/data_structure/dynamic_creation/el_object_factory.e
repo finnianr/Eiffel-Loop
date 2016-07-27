@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_OBJECT_FACTORY_2}."
 
 	author: "Finnian Reilly"

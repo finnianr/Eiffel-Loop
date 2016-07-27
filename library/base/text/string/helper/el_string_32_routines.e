@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_STRING_32_ROUTINES}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-18 23:24:40 GMT (Friday 18th December 2015)"
-	revision: "5"
+	revision: "4"
 
 class
 	EL_STRING_32_ROUTINES

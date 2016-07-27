@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Connection with COM AUTOMATION instance of MATLAB"
 
 	author: "Finnian Reilly"

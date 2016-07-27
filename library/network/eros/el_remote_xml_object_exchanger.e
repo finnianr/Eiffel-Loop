@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_XML_OBJECT_EXCHANGER}."
 
 	author: "Finnian Reilly"

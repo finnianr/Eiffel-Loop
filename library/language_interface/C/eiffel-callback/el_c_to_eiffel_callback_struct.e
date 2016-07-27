@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object with a target callable from C. The target is temporarily fixed in memory and
 		guaranteed not to be moved by the garbage collector.When the gc_protector object is

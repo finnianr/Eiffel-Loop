@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_BUILDABLE_PYXIS_FILE_PERSISTENT}."
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Initializes and tears down the Praat analysis engine"
 
 	author: "Finnian Reilly"
@@ -186,6 +186,5 @@ feature {NONE} -- C externals
 
 
 end
-
 
 

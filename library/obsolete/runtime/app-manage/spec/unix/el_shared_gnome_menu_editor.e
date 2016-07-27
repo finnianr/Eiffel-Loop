@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_SHARED_GNOME_MENU_EDITOR}."
 
 	author: "Finnian Reilly"

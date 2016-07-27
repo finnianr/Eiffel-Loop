@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Implementation of `EL_WAV_TO_MP3_COMMAND_I' interface"
 
 	author: "Finnian Reilly"

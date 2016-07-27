@@ -1,10 +1,10 @@
-indexing
+note
 	description: "Lyrics of the song 99 Bottles of Beer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2012-12-16 11:34:19 GMT (Sunday 16th December 2012)"
 	revision: "1"
@@ -24,7 +24,7 @@ create
 
 feature -- Initialization
 
-	make is
+	make
 			--
 		do
 			make_list
@@ -32,13 +32,12 @@ feature -- Initialization
 
 feature -- Element change
 
-	append_long_status_clause (long_status: LONG_BOTTLE_STATUS_CLAUSE) is
-			--
+	append_long_status_clause (long_status: LONG_BOTTLE_STATUS_CLAUSE)
 		do
 			append_to_last_sentence (long_status)
 		end
 
-	append_status_clause (bottle_count: INTEGER) is
+	append_status_clause (bottle_count: INTEGER)
 			--
 		local
 			status: BOTTLE_STATUS_CLAUSE
@@ -47,19 +46,19 @@ feature -- Element change
 			append_to_last_sentence (status)
 		end
 
-	append_go_to_the_store_clause is
+	append_go_to_the_store_clause
 
 		do
 			append_to_last_sentence ("Go to the store and buy some more")
 		end
 
-	append_take_one_down_clause is
+	append_take_one_down_clause
 
 		do
 			append_to_last_sentence ("Take one down and pass it around")
 		end
 
-	append_to_last_sentence (clause: CLAUSE) is
+	append_to_last_sentence (clause: CLAUSE)
 
 		do
 			if last_verse.last_sentence.is_empty then
@@ -70,20 +69,20 @@ feature -- Element change
 
 feature -- Access
 
-	new_verse is
+	new_verse
 
 		do
 			extend (create {VERSE}.make)
 			new_sentence
 		end
 
-	new_sentence is
+	new_sentence
 
 		do
 			last_verse.extend (create {SENTENCE}.make)
 		end
 
-	last_verse: VERSE is
+	last_verse: VERSE
 			--
 		do
 			if {verse: VERSE} last then
@@ -95,7 +94,7 @@ feature -- Access
 
 feature -- Output		
 
-	print_to_medium (io_medium: IO_MEDIUM) is
+	print_to_medium (io_medium: IO_MEDIUM)
 			--
 
 		do

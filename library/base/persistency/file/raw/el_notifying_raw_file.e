@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_NOTIFYING_RAW_FILE}."
 
 	author: "Finnian Reilly"

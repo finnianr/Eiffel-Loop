@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Windows implementation of `EL_DIRECTORY_INFO_COMMAND_I' interface"
 
 	author: "Finnian Reilly"

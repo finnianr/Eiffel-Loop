@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_DOUBLE_PATH_OPERAND_COMMAND_I}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-23 7:23:12 GMT (Thursday 23rd June 2016)"
-	revision: "5"
+	revision: "6"
 
 deferred class
 	EL_DOUBLE_PATH_OPERAND_COMMAND_I

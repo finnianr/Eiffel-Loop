@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Single threaded test server.
 		Notes:

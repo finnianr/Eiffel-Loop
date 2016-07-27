@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Creates class overrides of standard libraries for Eiffel-loop"
 
 	author: "Finnian Reilly"

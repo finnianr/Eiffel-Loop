@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_UTF8_XML_NODE}."
 
 	author: "Finnian Reilly"

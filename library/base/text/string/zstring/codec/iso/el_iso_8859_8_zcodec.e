@@ -4,7 +4,7 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-18 11:06:56 GMT (Monday 18th January 2016)"
 	revision: "3"
@@ -197,7 +197,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 97..122, 181, 192..214, 216..222, 251..255 then
 					Result := True
 			else
@@ -206,7 +206,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 97..122, 251..254 then
 					Result := True
 
@@ -220,7 +220,7 @@ feature -- Character query
 
 	is_numeric (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 48..57 then
 					Result := True
 			else
@@ -229,7 +229,7 @@ feature -- Character query
 
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 219..222 then
 					Result := True
 			else
@@ -242,55 +242,55 @@ feature {NONE} -- Implementation
 			-- Unicode value indexed by ISO_8859_8 character values
 		do
 			Result := single_byte_unicode_chars
-			Result [0xAA] := '×' -- 
-			Result [0xAB] := '«' -- 
-			Result [0xAC] := '¬' -- 
-			Result [0xAD] := '­' -- 
-			Result [0xAE] := '®' -- 
-			Result [0xAF] := '‾' -- 
-			Result [0xB0] := '°' -- 
-			Result [0xB1] := '±' -- 
-			Result [0xB2] := '²' -- 
-			Result [0xB3] := '³' -- 
-			Result [0xB4] := '´' -- 
-			Result [0xB5] := 'µ' -- 
-			Result [0xB6] := '¶' -- 
-			Result [0xB7] := '·' -- 
-			Result [0xB8] := '¸' -- 
-			Result [0xB9] := '¹' -- 
-			Result [0xBA] := '÷' -- 
-			Result [0xBB] := '»' -- 
-			Result [0xBC] := '¼' -- 
-			Result [0xBD] := '½' -- 
-			Result [0xBE] := '¾' -- 
-			Result [0xDF] := '‗' -- 
-			Result [0xE0] := 'א' -- 
-			Result [0xE1] := 'ב' -- 
-			Result [0xE2] := 'ג' -- 
-			Result [0xE3] := 'ד' -- 
-			Result [0xE4] := 'ה' -- 
-			Result [0xE5] := 'ו' -- 
-			Result [0xE6] := 'ז' -- 
-			Result [0xE7] := 'ח' -- 
-			Result [0xE8] := 'ט' -- 
-			Result [0xE9] := 'י' -- 
-			Result [0xEA] := 'ך' -- 
-			Result [0xEB] := 'כ' -- 
-			Result [0xEC] := 'ל' -- 
-			Result [0xED] := 'ם' -- 
-			Result [0xEE] := 'מ' -- 
-			Result [0xEF] := 'ן' -- 
-			Result [0xF0] := 'נ' -- 
-			Result [0xF1] := 'ס' -- 
-			Result [0xF2] := 'ע' -- 
-			Result [0xF3] := 'ף' -- 
-			Result [0xF4] := 'פ' -- 
-			Result [0xF5] := 'ץ' -- 
-			Result [0xF6] := 'צ' -- 
-			Result [0xF7] := 'ק' -- 
-			Result [0xF8] := 'ר' -- 
-			Result [0xF9] := 'ש' -- 
-			Result [0xFA] := 'ת' -- 
+			Result [0xAA] := '×' --
+			Result [0xAB] := '«' --
+			Result [0xAC] := '¬' --
+			Result [0xAD] := '­' --
+			Result [0xAE] := '®' --
+			Result [0xAF] := '‾' --
+			Result [0xB0] := '°' --
+			Result [0xB1] := '±' --
+			Result [0xB2] := '²' --
+			Result [0xB3] := '³' --
+			Result [0xB4] := '´' --
+			Result [0xB5] := 'µ' --
+			Result [0xB6] := '¶' --
+			Result [0xB7] := '·' --
+			Result [0xB8] := '¸' --
+			Result [0xB9] := '¹' --
+			Result [0xBA] := '÷' --
+			Result [0xBB] := '»' --
+			Result [0xBC] := '¼' --
+			Result [0xBD] := '½' --
+			Result [0xBE] := '¾' --
+			Result [0xDF] := '‗' --
+			Result [0xE0] := 'א' --
+			Result [0xE1] := 'ב' --
+			Result [0xE2] := 'ג' --
+			Result [0xE3] := 'ד' --
+			Result [0xE4] := 'ה' --
+			Result [0xE5] := 'ו' --
+			Result [0xE6] := 'ז' --
+			Result [0xE7] := 'ח' --
+			Result [0xE8] := 'ט' --
+			Result [0xE9] := 'י' --
+			Result [0xEA] := 'ך' --
+			Result [0xEB] := 'כ' --
+			Result [0xEC] := 'ל' --
+			Result [0xED] := 'ם' --
+			Result [0xEE] := 'מ' --
+			Result [0xEF] := 'ן' --
+			Result [0xF0] := 'נ' --
+			Result [0xF1] := 'ס' --
+			Result [0xF2] := 'ע' --
+			Result [0xF3] := 'ף' --
+			Result [0xF4] := 'פ' --
+			Result [0xF5] := 'ץ' --
+			Result [0xF6] := 'צ' --
+			Result [0xF7] := 'ק' --
+			Result [0xF8] := 'ר' --
+			Result [0xF9] := 'ש' --
+			Result [0xFA] := 'ת' --
 		end
 
 	latin_set_1: SPECIAL [CHARACTER]

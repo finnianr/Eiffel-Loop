@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -66,4 +66,3 @@ feature -- Access
 	length: REAL
 	
 end
-

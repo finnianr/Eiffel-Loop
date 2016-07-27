@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {FTP_BACKUP}."
 
 	author: "Finnian Reilly"

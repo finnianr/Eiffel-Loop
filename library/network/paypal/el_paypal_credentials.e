@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Reads name value pairs from file encrypted using EL utility program: el_toolkit -crypto
 		

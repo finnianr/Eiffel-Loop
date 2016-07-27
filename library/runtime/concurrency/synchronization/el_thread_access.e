@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_THREAD_ACCESS}."
 
 	author: "Finnian Reilly"

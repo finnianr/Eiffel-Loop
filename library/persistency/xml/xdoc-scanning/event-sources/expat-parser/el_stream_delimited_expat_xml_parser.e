@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_STREAM_DELIMITED_EXPAT_XML_PARSER}."
 
 	author: "Finnian Reilly"

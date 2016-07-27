@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		across loop duplicating Eiffel syntax
 	]"

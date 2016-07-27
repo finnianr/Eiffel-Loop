@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Summary description for {EL_ZLIB_API}."
 
 	author: "Finnian Reilly"

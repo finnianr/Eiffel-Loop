@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
@@ -100,4 +100,3 @@ feature {NONE} -- Constants
 		end
 
 end -- class EL_EXPAT_ATTRIBUTE_LIST
-
