@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 13:01:07 GMT (Wednesday 16th December 2015)"
-	revision: "3"
+	revision: "1"
 
 class
 	EVOLICITY_INTEGER_64_COMPARABLE

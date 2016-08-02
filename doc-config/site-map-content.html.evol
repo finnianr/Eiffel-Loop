@@ -1,13 +1,19 @@
-<h2>Repository Statistics</h2>
-<p>
-	<b>$stats.class_count</b> Eiffel classes containing <b>$stats.word_count</b> words* of code.
-	Total source code: <b>$stats.mega_bytes mb</b>.
-</p>
-<p><small>* Code words include keywords, identifier words and quoted strings, but exclude comments and indexing notes.</small></p>
 <h2>Contents</h2>
+	<p><a href="#about">About</a></p>
 #across $category_list as $category loop
 	<p><a href="#$category.cursor_index">$category.item.name</a></p>
 #end
+
+<h2><a name="about">About</a></h2>
+<p>This website is the home page for Eiffel-Loop, a collection of software libraries, example programs and tools for the Eiffel programming language. Here you can explore the complete source code for Eiffel-Loop with indexing notes formatted with bold, italics, code blocks etc. See <b>Tools</b> section.</p>
+
+<p><b>Statistics:</b> Eiffel-Loop has <b>$stats.class_count</b> classes containing <b>$stats.word_count</b> words* of code.
+	Total size: <b>$stats.mega_bytes mb</b>.
+</p>
+<p><b>Contact:</b> please address questions and comments to <em id="code">finnian <i>at</i> eiffel <i>hyphen</i> loop <i>dot</i> com</em></p>
+<p><b>Published:</b> This website was published using the <a target="_blank" href="./tool/toolkit/source/applications/eiffel-dev/eiffel_repository_publisher_app.html">Eiffel-View repository publisher</a></p>
+<p><small>* Code words include keywords, identifier words and quoted strings, but exclude comments and indexing notes.</small></p>
+
 #across $category_list as $category loop
 	<h2><a name="$category.cursor_index">$category.item.name</a></h2>
 	#across $category.item.page_list as $page loop

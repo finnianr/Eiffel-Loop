@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 20:14:32 GMT (Friday 8th July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EIFFEL_SOURCE_LOG_LINE_REMOVER_APP

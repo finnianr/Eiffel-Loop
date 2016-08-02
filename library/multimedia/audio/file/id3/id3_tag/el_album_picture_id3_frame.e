@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 9:15:05 GMT (Wednesday 16th December 2015)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_ALBUM_PICTURE_ID3_FRAME

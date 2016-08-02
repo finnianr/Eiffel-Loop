@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-10-30 10:27:45 GMT (Friday 30th October 2015)"
-	revision: "3"
+	revision: "1"
 
 deferred class
 	EL_ISO_8859_ZCODEC

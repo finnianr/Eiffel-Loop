@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-18 15:59:25 GMT (Monday 18th January 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_TEXT_LINE_SOURCE

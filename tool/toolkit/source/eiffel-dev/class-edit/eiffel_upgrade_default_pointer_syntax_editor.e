@@ -11,7 +11,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-18 11:58:38 GMT (Monday 18th January 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EIFFEL_UPGRADE_DEFAULT_POINTER_SYNTAX_EDITOR

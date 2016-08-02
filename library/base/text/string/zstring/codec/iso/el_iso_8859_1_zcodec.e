@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-06 8:56:35 GMT (Wednesday 6th July 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_ISO_8859_1_ZCODEC

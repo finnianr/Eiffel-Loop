@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-05-16 17:40:37 GMT (Monday 16th May 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_FIND_DIRECTORIES_IMPL

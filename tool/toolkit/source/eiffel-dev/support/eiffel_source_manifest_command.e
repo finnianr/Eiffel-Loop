@@ -2,16 +2,15 @@ note
 	description: "[
 		Process files specified in a Pyxis format source manifest as for example:
 		[https://github.com/finnianr/Eiffel-Loop/blob/master/sources.pyx sources.pyx]
-		
 	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-12 14:15:06 GMT (Tuesday 12th July 2016)"
-	revision: "6"
+	date: "2016-07-19 7:29:10 GMT (Tuesday 19th July 2016)"
+	revision: "1"
 
 deferred class
 	EIFFEL_SOURCE_MANIFEST_COMMAND

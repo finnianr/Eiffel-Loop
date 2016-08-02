@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 11:44:04 GMT (Friday 8th July 2016)"
-	revision: "7"
+	revision: "1"
 
 deferred class
 	ID3_TAG_TEST

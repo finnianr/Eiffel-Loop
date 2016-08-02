@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-05-15 13:53:45 GMT (Sunday 15th May 2016)"
-	revision: "3"
+	revision: "1"
 
 deferred class
 	EL_APPLICATION_MUTEX_I

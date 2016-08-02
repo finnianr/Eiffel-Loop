@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EIFFEL_FIND_AND_REPLACE_SOURCE_MANIFEST_EDITOR}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
-	revision: "6"
+	date: "2016-07-19 6:36:17 GMT (Tuesday 19th July 2016)"
+	revision: "1"
 
 class
 	EIFFEL_FIND_AND_REPLACE_COMMAND

@@ -10,10 +10,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:16:29 GMT (Friday 24th June 2016)"
-	revision: "5"
+	date: "2016-07-25 8:39:32 GMT (Monday 25th July 2016)"
+	revision: "1"
 
 class
 	EVOLICITY_CONTEXT_IMP

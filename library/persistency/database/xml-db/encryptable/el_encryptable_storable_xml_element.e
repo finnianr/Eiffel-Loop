@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_ENCRYPTABLE_STORABLE_XML_ELEMENT}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-01-01 14:14:34 GMT (Thursday 1st January 2015)"
-	revision: "3"
+	revision: "1"
 
 deferred class
 	EL_ENCRYPTABLE_STORABLE_XML_ELEMENT

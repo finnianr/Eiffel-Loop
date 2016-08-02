@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 5:39:07 GMT (Sunday 3rd July 2016)"
-	revision: "3"
+	revision: "1"
 
 deferred class
 	EL_IDENTIFIED_THREAD_I

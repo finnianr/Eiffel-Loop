@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-20 13:38:21 GMT (Sunday 20th December 2015)"
-	revision: "7"
+	revision: "1"
 
 class
 	THUNDERBIRD_MAIL_TO_XHTML_CONVERTER

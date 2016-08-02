@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 9:28:13 GMT (Friday 24th June 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP

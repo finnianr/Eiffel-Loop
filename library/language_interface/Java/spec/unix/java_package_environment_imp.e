@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-30 10:31:04 GMT (Thursday 30th June 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	JAVA_PACKAGE_ENVIRONMENT_IMP

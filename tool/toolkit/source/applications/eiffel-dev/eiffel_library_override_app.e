@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EIFFEL_LIBRARY_OVERRIDE_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-05-22 17:20:37 GMT (Friday 22nd May 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EIFFEL_LIBRARY_OVERRIDE_APP

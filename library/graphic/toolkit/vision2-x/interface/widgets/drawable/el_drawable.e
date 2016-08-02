@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-26 11:19:13 GMT (Saturday 26th December 2015)"
-	revision: "7"
+	revision: "1"
 
 deferred class
 	EL_DRAWABLE

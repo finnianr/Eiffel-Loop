@@ -29,12 +29,14 @@
 #end
 #if $has_fields then
 	<div id="notes">
-	#across $note_fields as $field loop
-		<h2>$field.item.title</h2>
-		#across $field.item.element_list as $element loop
-		<$element.item.tag_name>$element.item.text</$element.item.tag_name>
+		<div id="notes_inner">
+		#across $note_fields as $field loop
+			<h2>$field.item.title</h2>
+			#across $field.item.element_list as $element loop
+			<$element.item.tag_name>$element.item.text</$element.item.tag_name>
+			#end
 		#end
-	#end
+		</div>
 	</div>
 #end
 		<pre><code class="language-eiffel">$notes_text</code></pre>

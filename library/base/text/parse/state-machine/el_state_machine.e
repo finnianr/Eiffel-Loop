@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_STATE_MACHINE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-13 15:46:39 GMT (Tuesday 13th January 2015)"
-	revision: "4"
+	date: "2016-07-20 5:56:55 GMT (Wednesday 20th July 2016)"
+	revision: "1"
 
 class
 	EL_STATE_MACHINE [G]

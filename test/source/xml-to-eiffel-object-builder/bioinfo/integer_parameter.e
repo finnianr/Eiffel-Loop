@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-15 8:52:26 GMT (Tuesday 15th December 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	INTEGER_PARAMETER

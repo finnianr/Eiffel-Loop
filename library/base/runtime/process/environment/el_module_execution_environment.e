@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-30 21:21:55 GMT (Thursday 30th June 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_MODULE_EXECUTION_ENVIRONMENT

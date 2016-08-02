@@ -9,7 +9,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 19:07:14 GMT (Wednesday 16th December 2015)"
-	revision: "8"
+	revision: "1"
 
 class
 	EL_SPREAD_SHEET_DATA_CELL

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-05 16:46:44 GMT (Tuesday 5th January 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_ENCRYPTABLE_CHAIN_EDITIONS_FILE [G -> EL_STORABLE create make_default end]

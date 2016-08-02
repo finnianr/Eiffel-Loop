@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-20 17:08:23 GMT (Sunday 20th December 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_TEXTUAL_PATTERN_MATCH_ROUTINES

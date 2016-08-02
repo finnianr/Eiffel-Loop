@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-13 16:32:36 GMT (Monday 13th June 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_SEND_MAIL_COMMAND

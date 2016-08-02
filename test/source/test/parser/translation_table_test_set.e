@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-28 8:47:46 GMT (Tuesday 28th June 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	TRANSLATION_TABLE_TEST_SET

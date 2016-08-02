@@ -1,13 +1,28 @@
 note
-	description: "Summary description for {EL_DROP_DOWN_BOX_2}."
+	description: "[
+		List of drop down element choices mapped to a type specified by generic paramater `G' and initialized with the following:
+		
+		**1. ** an initial value of type `G'
+		
+		**2. ** a container conforming to `FINITE [G]'
+		
+		**3. ** a change agent of type `PROCEDURE [ANY, TUPLE [G]]'
+
+
+		Optional initialization settings:
+		
+		**1. ** alphabetical ordering
+		
+		**2. ** Width adjustment for longest display string
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:19:24 GMT (Saturday 26th December 2015)"
-	revision: "7"
+	date: "2016-07-29 16:12:22 GMT (Friday 29th July 2016)"
+	revision: "1"
 
 class
 	EL_DROP_DOWN_BOX [G]
@@ -35,17 +50,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (
-		a_initial_value: G; a_values: INDEXABLE [G, INTEGER]; a_value_change_action: like value_change_action
-	)
+	make (a_initial_value: G; a_values: FINITE [G]; a_value_change_action: like value_change_action)
 		do
 			is_width_adjusted := True
 			Precursor (a_initial_value, a_values, a_value_change_action)
 		end
 
-	make_alphabetical (
-		a_initial_value: G; a_values: INDEXABLE [G, INTEGER]; a_value_change_action: like value_change_action
-	)
+	make_alphabetical (a_initial_value: G; a_values: FINITE [G]; a_value_change_action: like value_change_action)
 			-- sorted alphabetially
 		do
 			is_width_adjusted := True
@@ -53,17 +64,13 @@ feature {NONE} -- Initialization
 			make (a_initial_value, a_values, a_value_change_action)
 		end
 
-	make_unadjusted (
-		a_initial_value: G; a_values: INDEXABLE [G, INTEGER]; a_value_change_action: like value_change_action
-	)
+	make_unadjusted (a_initial_value: G; a_values: FINITE [G]; a_value_change_action: like value_change_action)
 			-- Make drop down box with minimum width unadjusted for longest value
 		do
 			make (a_initial_value, a_values, a_value_change_action)
 		end
 
-	make_alphabetical_unadjusted (
-		a_initial_value: G; a_values: INDEXABLE [G, INTEGER]; a_value_change_action: like value_change_action
-	)
+	make_alphabetical_unadjusted (a_initial_value: G; a_values: FINITE [G]; a_value_change_action: like value_change_action)
 			-- Make drop down box with minimum width unadjusted for longest value
 			-- and sorted alphabetially
 		do

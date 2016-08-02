@@ -2,12 +2,12 @@ note
 	description: "Summary description for {TEST_STRING_32}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-05-03 10:50:08 GMT (Sunday 3rd May 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	STRING_32_TESTS

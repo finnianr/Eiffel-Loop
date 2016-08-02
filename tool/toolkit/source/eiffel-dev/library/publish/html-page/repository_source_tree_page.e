@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-11 16:44:30 GMT (Monday 11th July 2016)"
-	revision: "7"
+	date: "2016-07-27 13:32:45 GMT (Wednesday 27th July 2016)"
+	revision: "1"
 
 class
 	REPOSITORY_SOURCE_TREE_PAGE
@@ -137,6 +137,7 @@ feature -- Basic operations
 		do
 			lio.put_line (name)
 			across source_tree.directory_list as l_directory loop
+				l_directory.item.read_class_notes
 				if l_directory.item.is_modified then
 					lio.put_character ('.')
 					l_directory.item.write_class_html (top_dir)

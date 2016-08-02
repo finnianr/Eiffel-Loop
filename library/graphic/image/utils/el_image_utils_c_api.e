@@ -2,12 +2,12 @@ note
 	description: "Loads module and call svg conversion function"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-07-06 17:27:56 GMT (Monday 6th July 2015)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_IMAGE_UTILS_C_API

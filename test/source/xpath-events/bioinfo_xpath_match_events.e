@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 10:39:37 GMT (Friday 8th July 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	BIOINFO_XPATH_MATCH_EVENTS

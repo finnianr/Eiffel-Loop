@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-20 6:56:41 GMT (Monday 20th June 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EXCLUSION_LIST_FILE

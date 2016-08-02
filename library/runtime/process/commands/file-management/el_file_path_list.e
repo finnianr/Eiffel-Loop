@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-04 12:27:47 GMT (Monday 4th July 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_FILE_PATH_LIST

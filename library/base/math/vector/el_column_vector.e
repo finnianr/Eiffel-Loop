@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-01 11:33:15 GMT (Friday 1st July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_COLUMN_VECTOR [G -> NUMERIC]

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-28 16:09:59 GMT (Monday 28th December 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_PYXIS_XML_ROUTINES

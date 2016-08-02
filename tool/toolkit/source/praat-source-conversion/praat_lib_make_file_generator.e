@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-24 14:56:30 GMT (Thursday 24th December 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	PRAAT_LIB_MAKE_FILE_GENERATOR

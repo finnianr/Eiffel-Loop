@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 8:43:02 GMT (Sunday 3rd July 2016)"
-	revision: "3"
+	revision: "1"
 
 deferred class
 	EL_SHARED_LOGGED_THREAD_MANAGER

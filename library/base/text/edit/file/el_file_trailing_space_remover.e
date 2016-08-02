@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-20 16:48:05 GMT (Sunday 20th December 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_FILE_TRAILING_SPACE_REMOVER

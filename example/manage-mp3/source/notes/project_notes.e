@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-15 13:11:52 GMT (Tuesday 15th December 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	PROJECT_NOTES

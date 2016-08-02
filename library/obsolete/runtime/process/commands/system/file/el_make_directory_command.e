@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 7:20:42 GMT (Wednesday 16th December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_MAKE_DIRECTORY_COMMAND

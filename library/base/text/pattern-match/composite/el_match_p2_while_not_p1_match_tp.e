@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-11 12:21:51 GMT (Monday 11th January 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_MATCH_P2_WHILE_NOT_P1_MATCH_TP

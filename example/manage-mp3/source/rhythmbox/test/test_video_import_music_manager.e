@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 14:19:46 GMT (Thursday 23rd June 2016)"
-	revision: "4"
+	date: "2016-08-01 11:02:19 GMT (Monday 1st August 2016)"
+	revision: "1"
 
 class
 	TEST_VIDEO_IMPORT_MUSIC_MANAGER

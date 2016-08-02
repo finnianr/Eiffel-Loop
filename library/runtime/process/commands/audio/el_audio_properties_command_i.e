@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-22 17:31:14 GMT (Wednesday 22nd June 2016)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I

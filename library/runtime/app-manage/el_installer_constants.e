@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-10 11:35:50 GMT (Sunday 10th April 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	EL_INSTALLER_CONSTANTS

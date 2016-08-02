@@ -21,7 +21,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-07 21:18:56 GMT (Thursday 7th July 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_PKCS1_RSA_FORMAT_CONSTANTS

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-30 9:09:46 GMT (Thursday 30th June 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	JAVA_CLASS_REFERENCE

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-30 17:37:27 GMT (Wednesday 30th March 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_REGISTRY_INTEGER_VALUE_ITERATION_CURSOR

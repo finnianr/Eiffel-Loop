@@ -2,12 +2,12 @@ note
 	description: "Product consumer operating in main message_loop_callback GUI thread"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-04-23 13:17:12 GMT (Thursday 23rd April 2015)"
-	revision: "3"
+	revision: "1"
 
 deferred class
 	EL_CONSUMER_MAIN_THREAD [P]

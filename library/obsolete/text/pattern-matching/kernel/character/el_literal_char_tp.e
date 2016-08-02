@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-02 13:56:57 GMT (Wednesday 2nd December 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_LITERAL_CHAR_TP

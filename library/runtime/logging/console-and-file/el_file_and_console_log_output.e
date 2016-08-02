@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-06 12:05:48 GMT (Monday 6th June 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT

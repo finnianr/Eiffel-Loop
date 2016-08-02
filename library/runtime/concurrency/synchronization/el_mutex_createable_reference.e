@@ -10,7 +10,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-07 15:44:28 GMT (Thursday 7th July 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_MUTEX_CREATEABLE_REFERENCE [G -> ANY create default_create end]

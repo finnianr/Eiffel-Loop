@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-09 6:06:45 GMT (Saturday 9th July 2016)"
-	revision: "9"
+	revision: "1"
 
 class
 	EL_TRANSLATION_TABLE

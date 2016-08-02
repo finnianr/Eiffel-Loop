@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-18 10:54:00 GMT (Friday 18th December 2015)"
-	revision: "4"
+	revision: "1"
 
 deferred class
 	EL_RSA_KEY

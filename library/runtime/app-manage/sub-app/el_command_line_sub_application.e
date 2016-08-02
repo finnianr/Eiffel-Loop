@@ -11,7 +11,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-12 11:53:46 GMT (Tuesday 12th July 2016)"
-	revision: "7"
+	revision: "1"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND create default_create end]

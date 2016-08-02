@@ -9,10 +9,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:16:13 GMT (Friday 8th July 2016)"
-	revision: "6"
+	date: "2016-07-25 10:55:16 GMT (Monday 25th July 2016)"
+	revision: "1"
 
 class
 	CRYPTO_APP

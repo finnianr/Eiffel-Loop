@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-10 8:48:48 GMT (Sunday 10th July 2016)"
-	revision: "8"
+	date: "2016-08-01 13:03:35 GMT (Monday 1st August 2016)"
+	revision: "1"
 
 class
 	FTP_BACKUP
@@ -97,7 +97,7 @@ feature -- Basic operations
 				backup_name := target_directory_path.base
 			end
 
-			archive_dir_path := Directory.current_working.joined_dir_steps (<< "tar.gz", backup_name >>)
+			archive_dir_path := script_file_path.parent.joined_dir_steps (<< "tar.gz", backup_name >>)
 			File_system.make_directory (archive_dir_path)
 
 			create archive_file.make (directory_node, target_directory_path, archive_dir_path, backup_name)

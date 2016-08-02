@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 8:40:56 GMT (Sunday 3rd July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	PANGO_CAIRO_TEST_APP

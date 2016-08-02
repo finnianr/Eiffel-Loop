@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-09-30 13:21:35 GMT (Wednesday 30th September 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_ID3_TAGS

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:34:50 GMT (Friday 8th July 2016)"
-	revision: "4"
+	date: "2016-08-02 11:16:17 GMT (Tuesday 2nd August 2016)"
+	revision: "1"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER
@@ -42,7 +42,6 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 	make (a_config: like config)
 		do
 			config := a_config
-			File_system.make_directory (config.dj_events.playlist_dir)
 			create file_path; create dir_path; create last_album_name.make_empty
 		end
 
@@ -156,22 +155,21 @@ feature -- Tasks
 			events_publisher: DJ_EVENTS_PUBLISHER
 		do
 			log.enter ("publish_dj_events")
-			Database.set_exported_playlists (config.dj_events.playlist_dir)
-			create events_publisher.make (config.dj_events.publisher, Database.playlists_exported)
+			create events_publisher.make (config.dj_events.publisher, Database.dj_playlists)
 			events_publisher.publish
 			log.exit
 		end
 
-	relocate_songs
-			-- relocate song in Music Extra playlist
+	archive_songs
+			-- archive songs in the Archive playlist
 		local
 			silence_1_sec: RBOX_SONG
 		do
 			silence_1_sec := Database.silence_intervals [1]
-			if Database.music_extra_playlist.count = 1 then
+			if Database.archive_playlist.count = 1 then
 				lio.put_line ("No songs listed in %"Music Extra%" (except %"Silence 1 sec%")")
 			else
-				across Database.music_extra_playlist as song loop
+				across Database.archive_playlist as song loop
 					lio.put_labeled_string ("Song", song.item.mp3_relative_path)
 					if song.item = silence_1_sec then
 						lio.put_line (" is silence")
@@ -179,13 +177,13 @@ feature -- Tasks
 						lio.put_line (" belongs to a playlist")
 					else
 						Database.remove (song.item)
-						song.item.set_mp3_root_location (config.extra_music_dir)
+						song.item.set_mp3_root_location (config.archive_dir)
 						song.item.move_mp3_to_normalized_file_path
 						lio.put_line (" relocated to Music Extra")
 					end
 				end
-				Database.music_extra_playlist.wipe_out
-				Database.music_extra_playlist.extend (silence_1_sec)
+				Database.archive_playlist.wipe_out
+				Database.archive_playlist.extend (silence_1_sec)
 				database.store_all
 			end
 		end
@@ -238,25 +236,15 @@ feature -- Tasks
 			log.exit
 		end
 
-feature -- Tasks: Import/Export
-
-	export_dj_events
-		local
-			events_file_path: EL_FILE_PATH
-			event_playlist: DJ_EVENT_PLAYLIST
+	update_DJ_playlists
 		do
-			log.enter ("export_dj_events")
-			across Database.playlists as playlist loop
-				events_file_path := config.dj_events.playlist_dir + playlist.item.name
-				events_file_path.add_extension ("pyx")
-				if not events_file_path.exists then
-					create event_playlist.make (Database, playlist.item, config.dj_events.dj_name, config.dj_events.default_title)
-					event_playlist.set_output_path (events_file_path)
-					event_playlist.store
-				end
-			end
+			log.enter ("update_DJ_playlists")
+			Database.update_dj_playlists (config.dj_events.dj_name, config.dj_events.default_title)
+			Database.store_all
 			log.exit
 		end
+
+feature -- Tasks: Import/Export
 
 	export_music_to_device
 		local
@@ -361,6 +349,14 @@ feature -- Tasks: Tag editing
 			log.exit
 		end
 
+	display_incomplete_id3_info
+			-- Display songs with incomplete TXXX ID3 tags
+		do
+			log.enter ("display_incomplete_id3_info")
+			for_all_songs (not song_is_hidden, agent Database.display_incomplete_id3_info)
+			log.exit
+		end
+
 	normalize_comments
 			-- Rename 'Comment' comments as 'c0'
 			-- This is an antidote to a bug in Rhythmbox version 2.97 where editions to
@@ -395,13 +391,6 @@ feature -- Tasks: Tag editing
 				not song_is_hidden and song_has_unknown_artist_and_album, agent Database.remove_unknown_album_picture
 			)
 			Database.store_all
-			log.exit
-		end
-
-	rewrite_incomplete_id3_info
-		do
-			log.enter ("rewrite_incomplete_id3_info")
-			for_all_songs (not song_is_hidden, agent Database.rewrite_id3_info)
 			log.exit
 		end
 
@@ -680,21 +669,21 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (<<
 				[Task_add_album_art, 							agent add_album_art],
+				[Task_archive_songs, 							agent archive_songs],
 				[Task_collate_songs, 							agent collate_songs],
 				[Task_delete_comments, 							agent delete_comments],
+				[Task_display_incomplete_id3_info,			agent display_incomplete_id3_info],
 				[Task_display_music_brainz_info, 			agent display_music_brainz_info],
-				[Task_export_dj_events,							agent export_dj_events],
+				[Task_update_dj_playlists,						agent update_DJ_playlists],
 				[Task_export_music_to_device,					agent export_music_to_device],
 				[Task_export_playlists_to_device, 			agent export_playlists_to_device],
 				[Task_import_videos, 							agent import_videos],
 				[Task_normalize_comments, 						agent normalize_comments],
 				[Task_print_comments, 							agent print_comments],
 				[Task_publish_dj_events, 						agent publish_dj_events],
-				[Task_relocate_songs, 							agent relocate_songs],
 				[Task_remove_all_ufids, 						agent remove_all_ufids],
 				[Task_replace_cortina_set,						agent replace_cortina_set],
-				[task_replace_songs,								agent replace_songs],
-				[Task_rewrite_incomplete_id3_info,			agent rewrite_incomplete_id3_info],
+				[Task_replace_songs,								agent replace_songs],
 				[Task_remove_unknown_album_pictures, 		agent remove_unknown_album_pictures],
 				[Task_update_comments_with_album_artists, agent update_comments_with_album_artists]
 			>>)
@@ -735,7 +724,7 @@ feature {NONE} -- Constants
 
 	Database: RBOX_DATABASE
 		once
-			create Result.make (xml_database_file_path, config.dj_events.playlist_dir)
+			create Result.make (xml_database_file_path)
 		end
 
 	Device_type: TUPLE [samsung_tablet, nokia_phone: ZSTRING]
@@ -770,7 +759,7 @@ feature {NONE} -- Constants
 			Result := "[
 				Place videos (or m4a audio files) in genre/artist folder.
 				Imports files with extensions: #.
-				Leave blank fields for the default. Default title is parent directory.
+				Leave blank fields for the default. Default artist is the parent directory name.
 				To duplicate previous album name enter " (for ditto).
 				Input offset times are in mm:ss[.xxx] form. If recording year is unknown, enter 0.
 			]"

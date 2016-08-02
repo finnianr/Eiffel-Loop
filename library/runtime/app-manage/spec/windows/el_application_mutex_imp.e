@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 10:01:35 GMT (Friday 24th June 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_APPLICATION_MUTEX_IMP

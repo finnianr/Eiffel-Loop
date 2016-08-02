@@ -2,12 +2,12 @@ note
 	description: "Summary description for {TEST_UC_UTF8_STRING}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-05-03 10:50:07 GMT (Sunday 3rd May 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	UC_UTF8_STRING_TESTS

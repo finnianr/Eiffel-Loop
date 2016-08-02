@@ -9,7 +9,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-21 11:19:49 GMT (Thursday 21st January 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EIFFEL_LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR

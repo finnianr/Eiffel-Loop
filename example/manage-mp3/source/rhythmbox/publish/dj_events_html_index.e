@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 9:18:50 GMT (Friday 24th June 2016)"
-	revision: "8"
+	revision: "1"
 
 class
 	DJ_EVENTS_HTML_INDEX

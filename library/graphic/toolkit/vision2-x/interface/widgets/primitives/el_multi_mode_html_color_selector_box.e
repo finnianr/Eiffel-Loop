@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 7:42:30 GMT (Friday 24th June 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX

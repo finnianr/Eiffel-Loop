@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-02 19:42:31 GMT (Saturday 2nd July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_THREAD_MANAGER

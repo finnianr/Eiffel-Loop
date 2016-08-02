@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-13 8:39:16 GMT (Wednesday 13th July 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	EIFFEL_CODEBASE_STATISTICS_COMMAND

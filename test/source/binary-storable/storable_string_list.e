@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-02-07 12:47:46 GMT (Sunday 7th February 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	STORABLE_STRING_LIST

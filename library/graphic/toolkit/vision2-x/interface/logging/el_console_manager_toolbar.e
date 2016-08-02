@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 5:51:11 GMT (Sunday 3rd July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_CONSOLE_MANAGER_TOOLBAR

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-05 5:17:59 GMT (Tuesday 5th July 2016)"
-	revision: "6"
+	date: "2016-07-20 5:57:12 GMT (Wednesday 20th July 2016)"
+	revision: "1"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE

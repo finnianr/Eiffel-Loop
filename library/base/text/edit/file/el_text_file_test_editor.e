@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-28 16:14:33 GMT (Monday 28th December 2015)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_TEXT_FILE_TEST_EDITOR

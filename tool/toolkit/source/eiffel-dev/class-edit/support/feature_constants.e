@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-18 12:46:11 GMT (Friday 18th December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	FEATURE_CONSTANTS

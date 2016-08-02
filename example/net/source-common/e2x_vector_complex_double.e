@@ -25,7 +25,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-26 18:06:38 GMT (Saturday 26th December 2015)"
-	revision: "4"
+	revision: "1"
 
 deferred class
 	E2X_VECTOR_COMPLEX_DOUBLE

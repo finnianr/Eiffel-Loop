@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 9:14:55 GMT (Wednesday 16th December 2015)"
-	revision: "8"
+	date: "2016-08-01 10:07:34 GMT (Monday 1st August 2016)"
+	revision: "1"
 
 class
 	DJ_EVENT_PUBLISHER_CONFIG
@@ -62,7 +62,7 @@ feature {NONE} -- Build from XML
 	building_action_table: like Type_building_actions
 		do
 			create Result.make (<<
-				["@www_dir", 							agent do www_dir := node.to_string end],
+				["@www_dir", 							agent do www_dir := node.to_expanded_dir_path end],
 				["@html_template", 					agent do html_template := node.to_string end],
 				["@html_index_template",			agent do html_index_template := node.to_string end],
 				["@upload",								agent do upload := node.to_boolean end],

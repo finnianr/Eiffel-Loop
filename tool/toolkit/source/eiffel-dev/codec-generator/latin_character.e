@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-19 15:01:50 GMT (Saturday 19th December 2015)"
-	revision: "9"
+	revision: "1"
 
 class
 	LATIN_CHARACTER

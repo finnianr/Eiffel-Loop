@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-11 17:32:20 GMT (Monday 11th July 2016)"
-	revision: "7"
+	date: "2016-07-18 11:31:34 GMT (Monday 18th July 2016)"
+	revision: "1"
 
 class
 	FTP_TEST_SET

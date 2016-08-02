@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 20:24:18 GMT (Monday 28th December 2015)"
-	revision: "6"
+	date: "2016-08-01 11:58:18 GMT (Monday 1st August 2016)"
+	revision: "1"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -17,7 +17,7 @@ inherit
 		rename
 			make_default as make
 		redefine
-			make, Underscore_substitute, set_string_field_from_node
+			make, Underscore_substitute, set_string_field_from_node, on_context_exit
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -45,8 +45,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			title := Empty_string
-			genre := Empty_string
+			title := Empty_string; genre := Empty_string; media_type := Empty_string
 			create location
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 			Precursor {EVOLICITY_SERIALIZEABLE}
@@ -54,13 +53,13 @@ feature {NONE} -- Initialization
 
 feature -- Rhythmbox XML fields
 
-	title: ZSTRING
-
 	genre: ZSTRING
 
-feature -- Access
+	media_type: ZSTRING
 
-	location: EL_FILE_PATH
+	title: ZSTRING
+
+feature -- Access
 
 	genre_main: ZSTRING
 			--
@@ -80,6 +79,8 @@ feature -- Access
 			Result := location.hash_code
 		end
 
+	location: EL_FILE_PATH
+
 	location_uri: ZSTRING
 		do
 			Result := Url.uri (Protocol, location)
@@ -93,6 +94,12 @@ feature -- Access
 
 feature -- Element change
 
+	set_location (a_location: like location)
+			--
+		do
+			location := a_location
+		end
+
 	set_location_from_uri (a_uri: ZSTRING)
 		do
 			location := Url.remove_protocol_prefix (a_uri)
@@ -101,13 +108,30 @@ feature -- Element change
 			reversible: a_uri ~ location_uri
 		end
 
-	set_location (a_location: like location)
+	set_media_type (a_media_type: like media_type)
+		do
+			media_type := a_media_type
+		end
+	
+feature {NONE} -- Build from XML
+
+	building_action_table: like Type_building_actions
 			--
 		do
-			location := a_location
+			create Result.make (<<
+				["location/text()", 	agent do set_location_from_uri (Url.decoded_path (node.to_string_8)) end]
+			>>)
+			fill_with_field_setters (Result, String_z_type, Fields_not_stored)
 		end
 
-feature {NONE} -- Build from XML
+	on_context_exit
+		do
+			Media_types.start
+			Media_types.search (media_type)
+			if not Media_types.exhausted then
+				media_type := Media_types.item
+			end
+		end
 
 	set_string_field_from_node (i: INTEGER)
 		local
@@ -120,25 +144,16 @@ feature {NONE} -- Build from XML
 			current_object.set_reference_field (i, value)
 		end
 
-	building_action_table: like Type_building_actions
-			--
-		do
-			create Result.make (<<
-				["location/text()", 	agent do set_location_from_uri (Url.decoded_path (node.to_string_8)) end]
-			>>)
-			fill_with_field_setters (Result, String_z_type, Fields_not_stored)
-		end
-
 feature {NONE} -- Evolicity fields
-
-	get_non_zero_integer_fields: like field_table_with_condition
-		do
-			Result := field_table_with_condition (Integer_type, Fields_not_stored, True)
-		end
 
 	get_non_empty_string_fields: like string_field_table_with_condition
 		do
 			Result := string_field_table_with_condition (Fields_not_stored, Xml_128_plus_escaper, True)
+		end
+
+	get_non_zero_integer_fields: like field_table_with_condition
+		do
+			Result := field_table_with_condition (Integer_type, Fields_not_stored, True)
 		end
 
 	getter_function_table: like getter_functions
@@ -162,6 +177,11 @@ feature {NONE} -- Constants
 			Result := << "album_artists_prefix", "encoding" >>
 		end
 
+	Protocol: STRING
+		once
+			Result := "http"
+		end
+
 	Template: STRING
 			--
 		once
@@ -172,14 +192,8 @@ feature {NONE} -- Constants
 			#end
 				<location>$location_uri</location>
 				<date>0</date>
-				<mimetype>application/octet-stream</mimetype>
 			</entry>
 			]"
-		end
-
-	Protocol: STRING
-		once
-			Result := "http"
 		end
 
 	Underscore_substitute: CHARACTER

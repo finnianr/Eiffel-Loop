@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-03 11:36:45 GMT (Sunday 3rd July 2016)"
-	revision: "5"
+	date: "2016-07-21 8:35:08 GMT (Thursday 21st July 2016)"
+	revision: "1"
 
 class
 	EL_REMOTE_CALL_CONNECTION_MANAGER_THREAD

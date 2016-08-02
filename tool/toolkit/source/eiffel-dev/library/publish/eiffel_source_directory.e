@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 13:50:25 GMT (Thursday 7th July 2016)"
-	revision: "7"
+	date: "2016-07-27 13:32:12 GMT (Wednesday 27th July 2016)"
+	revision: "1"
 
 class
 	EIFFEL_SOURCE_DIRECTORY
@@ -75,6 +75,11 @@ feature -- Status query
 		end
 
 feature -- Basic operations
+
+	read_class_notes
+		do
+			class_list.do_all (agent {EIFFEL_CLASS}.fill_notes)
+		end
 
 	write_class_html (class_index_top_dir: STRING)
 		do

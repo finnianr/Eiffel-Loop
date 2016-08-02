@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-14 19:00:16 GMT (Monday 14th December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_XML_ELEMENT_PATTERN

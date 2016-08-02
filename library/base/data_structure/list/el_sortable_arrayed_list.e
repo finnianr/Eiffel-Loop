@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-28 9:54:38 GMT (Tuesday 28th June 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-20 10:00:33 GMT (Monday 20th June 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EVOLICITY_COMPILER

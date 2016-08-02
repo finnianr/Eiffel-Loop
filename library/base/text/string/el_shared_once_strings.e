@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 10:20:28 GMT (Wednesday 16th December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_SHARED_ONCE_STRINGS

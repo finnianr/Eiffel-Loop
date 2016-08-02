@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-17 11:30:02 GMT (Thursday 17th December 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_LOCALE_DATE_TEXT

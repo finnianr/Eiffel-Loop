@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-18 11:11:34 GMT (Friday 18th December 2015)"
-	revision: "9"
+	revision: "1"
 
 class
 	UNICODE_INTERVAL

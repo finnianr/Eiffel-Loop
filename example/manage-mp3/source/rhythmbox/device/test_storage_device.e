@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-10-04 13:38:42 GMT (Sunday 4th October 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	TEST_STORAGE_DEVICE

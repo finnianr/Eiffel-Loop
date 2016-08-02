@@ -1,8 +1,6 @@
 note
 	description: "[
 		Playlist exported from Rhythmbox in Pyxis format with information about DJ gig.
-		
-		** CHECK IF INDENTATION IS CORRECT **
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:35:16 GMT (Friday 8th July 2016)"
-	revision: "8"
+	date: "2016-07-30 9:47:52 GMT (Saturday 30th July 2016)"
+	revision: "1"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -298,7 +296,7 @@ feature {NONE} -- Constants
 				#across $path_list as $path loop
 					"$path.item"
 				#end
-
+		
 	]"
 
 end

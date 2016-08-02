@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-25 13:19:37 GMT (Monday 25th April 2016)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_XDG_DESKTOP_MENU_ITEM

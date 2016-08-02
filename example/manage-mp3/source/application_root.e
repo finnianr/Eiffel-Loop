@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-15 13:11:37 GMT (Tuesday 15th December 2015)"
-	revision: "7"
+	date: "2016-08-01 9:59:14 GMT (Monday 1st August 2016)"
+	revision: "1"
 
 class
 	APPLICATION_ROOT
@@ -32,7 +32,7 @@ feature {NONE} -- Implementation
 				{RBOX_RESTORE_PLAYLISTS_APP},
 
 				{ID3_EDITOR_APP},
-				{MP3_FILE_COLLATOR_APP}
+				{TANGO_MP3_FILE_COLLATOR_APP}
 			>>
 		end
 

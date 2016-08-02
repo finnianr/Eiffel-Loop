@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-14 15:21:26 GMT (Monday 14th December 2015)"
-	revision: "7"
+	revision: "1"
 
 class
 	EL_XML_CHARACTER_ESCAPER [S -> STRING_GENERAL create make end]

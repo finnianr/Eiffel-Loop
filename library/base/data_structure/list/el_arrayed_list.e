@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-04 12:27:31 GMT (Monday 4th July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_ARRAYED_LIST [G]

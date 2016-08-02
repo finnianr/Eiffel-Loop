@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-21 9:29:01 GMT (Thursday 21st April 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EVOLICITY_FREE_TEXT_DIRECTIVE

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {INTEGER_MATH}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-05-17 14:24:57 GMT (Sunday 17th May 2015)"
-	revision: "3"
+	revision: "1"
 
 class
 	INTEGER_MATH

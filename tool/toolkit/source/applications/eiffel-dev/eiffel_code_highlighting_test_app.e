@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 20:02:43 GMT (Friday 8th July 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	EIFFEL_CODE_HIGHLIGHTING_TEST_APP

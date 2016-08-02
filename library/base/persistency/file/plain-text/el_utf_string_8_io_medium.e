@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-18 13:45:58 GMT (Monday 18th January 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_UTF_STRING_8_IO_MEDIUM

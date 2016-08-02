@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-02-03 14:21:14 GMT (Wednesday 3rd February 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_STORABLE_ARRAYED_LIST [G -> EL_STORABLE]

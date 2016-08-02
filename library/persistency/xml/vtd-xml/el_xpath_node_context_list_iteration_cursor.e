@@ -2,12 +2,12 @@ note
 	description: "Iteration cursor for node context list"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-06-01 11:46:30 GMT (Monday 1st June 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_XPATH_NODE_CONTEXT_LIST_ITERATION_CURSOR

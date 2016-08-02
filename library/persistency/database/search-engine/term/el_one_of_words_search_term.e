@@ -9,7 +9,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-13 10:16:43 GMT (Wednesday 13th January 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_ONE_OF_WORDS_SEARCH_TERM

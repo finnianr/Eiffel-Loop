@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-18 10:18:56 GMT (Friday 18th December 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_ISO_8859_15_EXPAT_CODEC

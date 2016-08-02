@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-12 11:37:51 GMT (Tuesday 12th July 2016)"
-	revision: "9"
+	revision: "1"
 
 class
 	EL_FTP_PROTOCOL

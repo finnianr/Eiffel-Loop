@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-10 7:30:45 GMT (Sunday 10th July 2016)"
-	revision: "7"
+	date: "2016-07-18 17:47:16 GMT (Monday 18th July 2016)"
+	revision: "1"
 
 class
 	AUDIO_COMMAND_TEST_SET

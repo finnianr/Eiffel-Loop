@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-20 7:31:46 GMT (Monday 20th June 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_DELETE_FILE_COMMAND_IMP

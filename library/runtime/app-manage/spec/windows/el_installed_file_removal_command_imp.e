@@ -15,7 +15,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-07 15:49:45 GMT (Thursday 7th July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_INSTALLED_FILE_REMOVAL_COMMAND_IMP

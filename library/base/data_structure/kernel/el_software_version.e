@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-18 22:33:21 GMT (Friday 18th December 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_SOFTWARE_VERSION

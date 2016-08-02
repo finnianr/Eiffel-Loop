@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-21 10:44:08 GMT (Thursday 21st January 2016)"
-	revision: "8"
+	revision: "1"
 
 deferred class
 	EL_STRING_EDITOR

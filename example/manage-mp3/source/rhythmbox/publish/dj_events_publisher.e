@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:34:18 GMT (Friday 8th July 2016)"
-	revision: "8"
+	date: "2016-07-27 13:40:33 GMT (Wednesday 27th July 2016)"
+	revision: "1"
 
 class
 	DJ_EVENTS_PUBLISHER
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make
@@ -69,17 +69,14 @@ feature -- Basic operations
 
 feature {NONE} -- Factory
 
-	new_copy_file_arguments (
-		source_path: EL_FILE_PATH; destination_dir: EL_DIR_PATH
-
-	): TUPLE [source_path: EL_FILE_PATH; destination_dir: EL_DIR_PATH]
+	new_copy_file_arguments (source_path: EL_FILE_PATH; destination_dir: EL_DIR_PATH): EL_FTP_UPLOAD_ITEM
 		do
-			Result := [source_path, destination_dir]
+			create Result.make (source_path, destination_dir)
 		end
 
 feature {NONE} -- Implementation: attributes
 
-	file_upload_list: LINKED_LIST [like new_copy_file_arguments]
+	file_upload_list: LINKED_LIST [EL_FTP_UPLOAD_ITEM]
 
 	config: DJ_EVENT_PUBLISHER_CONFIG
 

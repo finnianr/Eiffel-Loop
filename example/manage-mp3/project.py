@@ -2,12 +2,16 @@
 
 from eiffel_loop.project import *
 
-version = (1, 3, 8)
+version = (1, 3, 9)
 
 installation_sub_directory = 'Eiffel-Loop/manage-mp3'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_rhythmbox_read_write', '-logging'])
+
+# 1.3.9
+# Integrated DJ event playlists more tightly by placing them $HOME/Music/Playlists and adding them to the database
+# as ignored entries with genre "playlist" and media type "text/pyxis"
 
 # 1.3.8
 # Removed bridge pattern

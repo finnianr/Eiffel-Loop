@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-30 18:12:16 GMT (Thursday 30th June 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	J_STRING

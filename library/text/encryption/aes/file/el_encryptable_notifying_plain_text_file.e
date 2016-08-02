@@ -2,12 +2,12 @@ note
 	description: "Encrypted text file using AES cipher blocks chains"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-05-06 10:39:35 GMT (Wednesday 6th May 2015)"
-	revision: "5"
+	date: "2016-07-25 14:58:05 GMT (Monday 25th July 2016)"
+	revision: "1"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE

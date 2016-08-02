@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-04 19:08:12 GMT (Friday 4th March 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_ZSTRING_LIST

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 9:26:06 GMT (Wednesday 16th December 2015)"
-	revision: "4"
+	date: "2016-08-02 11:15:15 GMT (Tuesday 2nd August 2016)"
+	revision: "1"
 
 class
 	MANAGER_CONFIG
@@ -40,13 +40,12 @@ feature {NONE} -- Initialization
 			volume.id3_version := 2.3
 
 			create dj_events
-			dj_events.playlist_dir := Directory.home.joined_dir_path ("Documents/DJ-events")
 			dj_events.dj_name := "Unknown"
 			dj_events.default_title := ""
 			dj_events.publisher := create {DJ_EVENT_PUBLISHER_CONFIG}.make
 
 			album_art_dir := Directory.home.joined_dir_path ("Pictures/Album Art")
-			extra_music_dir := Directory.home.joined_dir_path ("Music Extra")
+			create archive_dir
 			create selected_genres.make (10); selected_genres.compare_objects
 
 			playlist_export := [Empty_string, Default_playlists_subdirectory_name, Default_m3u_extension]
@@ -76,11 +75,12 @@ feature -- Attributes access
 
 	cortina_set: TUPLE [fade_in_duration, fade_out_duration: REAL; clip_duration, tango_count, tangos_per_vals: INTEGER]
 
-	dj_events: TUPLE [playlist_dir: EL_DIR_PATH; dj_name, default_title: ZSTRING; publisher: DJ_EVENT_PUBLISHER_CONFIG]
+	dj_events: TUPLE [dj_name, default_title: ZSTRING; publisher: DJ_EVENT_PUBLISHER_CONFIG]
 
 	error_message: ZSTRING
 
-	extra_music_dir: EL_DIR_PATH
+	archive_dir: EL_DIR_PATH
+		-- directory for archived music
 
 	playlist_export: TUPLE [root, subdirectory_name, m3u_extension: ZSTRING]
 
@@ -97,17 +97,13 @@ feature -- Basic operations
 	error_check
 		do
 			error_message.wipe_out
-			if playlist_changing_tasks.has (task) then
-				if not dj_events.playlist_dir.exists then
-					error_message := "Cannot find directory: DJ-events/playlist_dir"
-				end
-			elseif task ~ Task_replace_cortina_set then
+			if task ~ Task_replace_cortina_set then
 				if cortina_set.tango_count \\ cortina_set.tangos_per_vals /= 0 then
 					error_message := "tango_count must be exactly divisible by tangos_per_vals"
 				end
-			elseif task ~ Task_relocate_songs then
-				if not extra_music_dir.exists then
-					error_message := "Cannot find directory: extra_music_location"
+			elseif task ~ Task_archive_songs then
+				if not archive_dir.exists then
+					error_message := "Use 'archive-dir' in the task configuration to specify the archive directory"
 				end
 			end
 		end
@@ -150,12 +146,13 @@ feature {NONE} -- Build from XML
 				["@task", 										agent do task := node.to_string.as_string_8 end],
 				["@test_checksum", 							agent do test_checksum := node.to_natural end],
 
-				["album-art-location/text()", 			agent do album_art_dir := node.to_string end],
+				["archive-dir/text()",						agent do archive_dir := node.to_expanded_dir_path end],
+
+				["album-art-location/text()", 			agent do album_art_dir := node.to_expanded_dir_path end],
 				["selected-genres/text()", 				agent do selected_genres.extend (node.to_string) end],
 
 				["DJ-events/@DJ_name", 						agent do dj_events.dj_name := node.to_string end],
 				["DJ-events/@default_title", 				agent do dj_events.default_title := node.to_string end],
-				["DJ-events/@playlist_dir", 				agent do dj_events.playlist_dir := node.to_string end],
 				["DJ-events/publish", 						agent do set_next_context (dj_events.publisher) end],
 
 				["volume/@name", 								agent do volume.name := node.to_string end],

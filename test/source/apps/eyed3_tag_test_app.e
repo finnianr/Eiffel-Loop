@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-11-13 18:05:01 GMT (Friday 13th November 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	EYED3_TAG_TEST_APP

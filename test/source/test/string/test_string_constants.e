@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-30 13:30:08 GMT (Wednesday 30th December 2015)"
-	revision: "7"
+	date: "2016-07-18 14:01:23 GMT (Monday 18th July 2016)"
+	revision: "1"
 
 class
 	TEST_STRING_CONSTANTS

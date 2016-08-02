@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EIFFEL_SOURCE_TREE_EDIT_COMMAND_LINE_SUB_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
-	revision: "5"
+	date: "2016-07-19 6:35:19 GMT (Tuesday 19th July 2016)"
+	revision: "1"
 
 deferred class
 	EIFFEL_SOURCE_TREE_EDIT_COMMAND_LINE_SUB_APP

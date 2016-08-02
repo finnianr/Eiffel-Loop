@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 7:26:28 GMT (Sunday 3rd July 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_REGULAR_INTERVAL_EVENT_PRODUCER

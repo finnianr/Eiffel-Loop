@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-20 14:20:23 GMT (Sunday 20th December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_FIRST_MATCHING_CHAR_IN_LIST_TP

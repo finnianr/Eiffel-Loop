@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-04 15:13:06 GMT (Friday 4th December 2015)"
-	revision: "5"
+	revision: "1"
 
 
 frozen class

@@ -13,7 +13,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-06 15:01:07 GMT (Wednesday 6th July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_IP_ADAPTER_CONSTANTS

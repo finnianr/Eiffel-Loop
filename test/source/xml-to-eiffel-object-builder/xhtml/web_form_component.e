@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-24 14:48:54 GMT (Thursday 24th December 2015)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	WEB_FORM_COMPONENT

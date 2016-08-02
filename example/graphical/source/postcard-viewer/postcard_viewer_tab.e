@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 8:19:28 GMT (Friday 24th June 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	POSTCARD_VIEWER_TAB

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 12:39:14 GMT (Wednesday 16th December 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	SMIL_AUDIO_CLIP

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 17:56:57 GMT (Friday 8th July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_CONSOLE_MANAGER_IMP

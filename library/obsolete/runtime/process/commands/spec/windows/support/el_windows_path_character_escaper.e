@@ -10,7 +10,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-30 17:56:59 GMT (Wednesday 30th March 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_WINDOWS_PATH_CHARACTER_ESCAPER

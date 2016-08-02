@@ -17,7 +17,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 18:45:34 GMT (Wednesday 16th December 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	XHTML_XPATH_MATCH_EVENTS

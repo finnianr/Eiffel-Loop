@@ -2,12 +2,12 @@ note
 	description: "Object that consumes tuples in main GUI thread with specified action/actions"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-04-23 13:19:22 GMT (Thursday 23rd April 2015)"
-	revision: "2"
+	revision: "1"
 
 class
 	EL_TUPLE_CONSUMER_MAIN_THREAD [BASE_TYPE, OPEN_ARGS -> TUPLE create default_create end]

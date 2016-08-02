@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 19:09:48 GMT (Wednesday 16th December 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	RULES_LIST_PARAMETER

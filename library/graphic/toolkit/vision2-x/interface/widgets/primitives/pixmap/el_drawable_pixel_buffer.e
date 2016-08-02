@@ -1,17 +1,29 @@
 note
 	description: "[
-		Pixel drawing using cairo and pangocairo libraries.
+		Pixel buffer drawing using the [https://cairographics.org/ Cairo] and [http://www.pango.org/ Pangocairo]
+		graphics libraries.
+	]"
+
+	instructions: "[
 		When using 24 rgb format, make sure to lock pixmap before doing drawing operations
 		and unlocking before calling to_pixmap.
+
+		Note that for the Windows implementation you will need to distribute the Cairo, Pango and GTK DLLs with your application.
+		It is recommended to use the Eiffel-Loop Scons build system for the initial application freeze as this will download the required
+		DLL's and header files. See [https://github.com/finnianr/Eiffel-Loop/blob/master/Readme.md Readme.md]
+			scons action=freeze project=<project-name>.ecf
+		
+		Doing a finalized build with scons will place the required DLLs under `package/<$ISE_PLATFORM>/bin'
+			scons action=finalize project=<project-name>.ecf
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-07-06 12:17:32 GMT (Monday 6th July 2015)"
-	revision: "3"
+	date: "2016-07-29 12:25:24 GMT (Friday 29th July 2016)"
+	revision: "1"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER

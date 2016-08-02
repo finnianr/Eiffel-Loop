@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:24:43 GMT (Saturday 26th December 2015)"
-	revision: "7"
+	date: "2016-07-29 10:27:40 GMT (Friday 29th July 2016)"
+	revision: "1"
 
 class
 	EL_THUMBNAIL_RADIO_BUTTON_GROUP
@@ -29,7 +29,7 @@ create
 feature {NONE} -- Initialization
 
 	make (
-		initial_value: ZSTRING; values: INDEXABLE [ZSTRING, INTEGER]; a_thumbnails: like thumbnails
+		initial_value: ZSTRING; values: FINITE [ZSTRING]; a_thumbnails: like thumbnails
 		a_value_change_action: like value_change_action
 	)
 		do

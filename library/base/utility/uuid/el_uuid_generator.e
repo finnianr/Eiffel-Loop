@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-29 12:19:01 GMT (Tuesday 29th March 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_UUID_GENERATOR

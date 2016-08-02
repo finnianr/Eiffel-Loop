@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 5:48:28 GMT (Sunday 3rd July 2016)"
-	revision: "3"
+	revision: "1"
 
 deferred class
 	EL_CONSOLE_MANAGER

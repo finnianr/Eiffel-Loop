@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-05-15 16:15:43 GMT (Sunday 15th May 2016)"
-	revision: "3"
+	revision: "1"
 
 deferred class
 	EL_DESKTOP_UNINSTALL_APP_INSTALLER_I

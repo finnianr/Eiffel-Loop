@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-09-16 10:26:30 GMT (Wednesday 16th September 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_LOCALE_ROUTINES_IMPL

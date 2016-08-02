@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-01 16:14:04 GMT (Friday 1st January 2016)"
-	revision: "5"
+	date: "2016-07-29 14:48:29 GMT (Friday 29th July 2016)"
+	revision: "1"
 
 class
 	EL_MEMORY_READER_WRITER
 
 inherit
 	SED_MEMORY_READER_WRITER
+		export
+			{EL_STORABLE} buffer
 		redefine
 			make_with_buffer, read_string_32, write_string_32, check_buffer
 		end
@@ -184,24 +186,11 @@ feature -- Element change
 			end
 		end
 
-feature {EL_MEMORY_READER_WRITER} -- Element change
+feature {EL_STORABLE} -- Element change
 
 	set_count (a_count: like count)
 		do
 			count := a_count
-		end
-
-feature {EL_STORABLE} -- Contract Support
-
-	retrieved (from_count: INTEGER): like new_item
-			-- See postcondition of {EL_STORABLE}.write
-		local
-			reader: EL_MEMORY_READER_WRITER
-		do
-			create reader.make_with_buffer (buffer)
-			reader.set_count (from_count)
-			Result := new_item
-			Result.read (reader)
 		end
 
 feature {NONE} -- Buffer update

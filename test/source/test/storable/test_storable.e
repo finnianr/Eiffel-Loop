@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-30 14:05:43 GMT (Wednesday 30th December 2015)"
-	revision: "7"
+	revision: "1"
 
 class
 	TEST_STORABLE

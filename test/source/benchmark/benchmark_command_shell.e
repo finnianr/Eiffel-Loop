@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 10:39:22 GMT (Friday 8th July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	BENCHMARK_COMMAND_SHELL

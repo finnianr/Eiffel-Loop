@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-23 14:18:42 GMT (Thursday 23rd June 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_DIRECTORY_INFO_COMMAND_IMP

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 18:40:12 GMT (Friday 24th June 2016)"
-	revision: "6"
+	revision: "1"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT

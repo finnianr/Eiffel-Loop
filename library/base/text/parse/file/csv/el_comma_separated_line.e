@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_COMMA_SEPARATED_PARSER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-01-14 10:43:32 GMT (Wednesday 14th January 2015)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_COMMA_SEPARATED_LINE

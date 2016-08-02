@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_PAYPAL_DATE_TIME_PARAMETER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-03-31 17:48:01 GMT (Tuesday 31st March 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_PAYPAL_DATE_TIME_PARAMETER

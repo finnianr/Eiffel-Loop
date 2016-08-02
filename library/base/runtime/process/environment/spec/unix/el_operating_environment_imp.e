@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-07 15:26:40 GMT (Thursday 7th July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_OPERATING_ENVIRONMENT_IMP

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-18 12:26:06 GMT (Friday 18th March 2016)"
-	revision: "7"
+	revision: "1"
 
 deferred class
 	BENCHMARK_TABLE

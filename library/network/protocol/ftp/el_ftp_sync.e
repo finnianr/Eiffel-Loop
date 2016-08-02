@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-12 11:31:30 GMT (Tuesday 12th July 2016)"
-	revision: "9"
+	date: "2016-07-24 8:04:53 GMT (Sunday 24th July 2016)"
+	revision: "1"
 
 class
 	EL_FTP_SYNC

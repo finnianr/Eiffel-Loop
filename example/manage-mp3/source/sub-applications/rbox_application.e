@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 18:36:44 GMT (Friday 8th July 2016)"
-	revision: "5"
+	date: "2016-08-01 11:09:29 GMT (Monday 1st August 2016)"
+	revision: "1"
 
 deferred class
 	RBOX_APPLICATION
@@ -36,12 +36,10 @@ feature {NONE} -- Initialization
 			playlist_path: EL_FILE_PATH
 --			test_database_dir_abs: EL_DIR_PATH
 			song: RBOX_SONG; l_duration: INTEGER; modification_time: DATE_TIME
-			DJ_events_dir: EL_DIR_PATH
 		do
 			log.enter ("create_database")
 			if Is_test_mode then
 				create modification_time.make (2011, 11, 11, 11, 11, 11)
-				DJ_events_dir := Directory.home.joined_dir_path ("Documents/DJ-events")
 				xml_database_path := test_database_dir + "rhythmdb.xml"
 --				test_database_dir_abs := Directory.joined_path (Directory.current_working_directory, test_database_dir)
 
@@ -50,7 +48,7 @@ feature {NONE} -- Initialization
 				playlist_path := xml_database_path.parent + "playlists.xml"
 				substitute_work_area_variable (test_database_dir, playlist_path)
 
-				create database.make (xml_database_path, DJ_events_dir)
+				create database.make (xml_database_path)
 
 				if not (test_database_dir + "Music").exists then
 					across database.songs as l_song loop
@@ -67,7 +65,7 @@ feature {NONE} -- Initialization
 				end
 				database.update_index_by_audio_id
 			else
-				create database.make (xml_database_path, DJ_events_dir)
+				create database.make (xml_database_path)
 			end
 			log.exit
 		end

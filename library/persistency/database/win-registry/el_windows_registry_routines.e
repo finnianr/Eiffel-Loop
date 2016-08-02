@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-30 17:41:00 GMT (Wednesday 30th March 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_WINDOWS_REGISTRY_ROUTINES

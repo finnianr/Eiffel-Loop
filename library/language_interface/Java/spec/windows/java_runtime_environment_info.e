@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 11:39:32 GMT (Friday 24th June 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	JAVA_RUNTIME_ENVIRONMENT_INFO

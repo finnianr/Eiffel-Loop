@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-23 13:44:26 GMT (Thursday 23rd June 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_MODULE_COMMAND

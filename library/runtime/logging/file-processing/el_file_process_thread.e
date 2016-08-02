@@ -9,7 +9,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-02 18:40:28 GMT (Saturday 2nd July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_FILE_PROCESS_THREAD

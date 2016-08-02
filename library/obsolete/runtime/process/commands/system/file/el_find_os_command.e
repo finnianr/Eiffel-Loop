@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-05-17 11:02:11 GMT (Tuesday 17th May 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_FIND_OS_COMMAND  [

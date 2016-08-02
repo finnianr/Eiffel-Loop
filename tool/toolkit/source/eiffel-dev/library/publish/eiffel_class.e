@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-11 18:05:14 GMT (Monday 11th July 2016)"
-	revision: "9"
+	date: "2016-07-27 13:15:33 GMT (Wednesday 27th July 2016)"
+	revision: "1"
 
 class
 	EIFFEL_CLASS
@@ -166,11 +166,21 @@ feature -- Status report
 			Result := crc_digest /= meta_crc_digest
 		end
 
+	notes_filled: BOOLEAN
+
 feature -- Basic operations
+
+	fill_notes
+		do
+			notes.fill (source_path)
+			notes_filled := True
+		end
 
 	serialize
 		do
-			notes.fill (source_path)
+			if not notes_filled then
+				fill_notes
+			end
 			Precursor
 			repository.ftp_sync.extend_modified (html_path.relative_path (repository.output_dir))
 		end

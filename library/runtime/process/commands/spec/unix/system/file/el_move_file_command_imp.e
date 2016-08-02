@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-20 7:53:23 GMT (Monday 20th June 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_MOVE_FILE_COMMAND_IMP

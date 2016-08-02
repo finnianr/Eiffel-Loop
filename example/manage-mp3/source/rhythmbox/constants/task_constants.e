@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-09-27 9:51:51 GMT (Sunday 27th September 2015)"
-	revision: "6"
+	date: "2016-08-02 11:08:03 GMT (Tuesday 2nd August 2016)"
+	revision: "1"
 
 class
 	TASK_CONSTANTS
@@ -22,7 +22,7 @@ feature {NONE} -- Constants
 
 	Task_display_music_brainz_info: STRING = "display_music_brainz_info"
 
-	Task_export_dj_events: STRING = "export_dj_events"
+	Task_update_dj_playlists: STRING = "update_dj_playlists"
 
 	Task_export_music_to_device: STRING = "export_music_to_device"
 
@@ -36,7 +36,7 @@ feature {NONE} -- Constants
 
 	Task_publish_dj_events: STRING = "publish_dj_events"
 
-	Task_relocate_songs: STRING = "relocate_songs"
+	Task_archive_songs: STRING = "archive_songs"
 
 	Task_remove_all_ufids: STRING = "remove_all_ufids"
 
@@ -44,16 +44,10 @@ feature {NONE} -- Constants
 
 	Task_replace_cortina_set: STRING = "replace_cortina_set"
 
-	Task_rewrite_incomplete_id3_info: STRING = "rewrite_incomplete_id3_info"
+	Task_display_incomplete_id3_info: STRING = "display_incomplete_id3_info"
 
 	Task_remove_unknown_album_pictures: STRING = "remove_unknown_album_pictures"
 
 	Task_update_comments_with_album_artists: STRING = "update_comments_with_album_artists"
-
-	Playlist_changing_tasks: ARRAY [STRING]
-			-- Task that cause contents of playlists to change
-		once
-			Result := << task_replace_songs, Task_replace_cortina_set, Task_collate_songs >>
-		end
 
 end

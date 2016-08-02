@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-04 9:58:06 GMT (Monday 4th January 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_LOCALE_STRING_ITEM_RADIO_BUTTON_GROUP

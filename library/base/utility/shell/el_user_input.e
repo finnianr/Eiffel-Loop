@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:14:32 GMT (Friday 8th July 2016)"
-	revision: "4"
+	date: "2016-07-29 15:38:24 GMT (Friday 29th July 2016)"
+	revision: "1"
 
 class
 	EL_USER_INPUT
@@ -128,8 +128,7 @@ feature {NONE} -- Implementation
 
 	valid_values (a_values: FINITE [ANY]): ZSTRING
 		local
-			values: LINEAR [ANY]
-			count: INTEGER
+			values: LINEAR [ANY]; count: INTEGER
 		do
 			values := a_values.linear_representation
 			create Result.make (a_values.count * 7)

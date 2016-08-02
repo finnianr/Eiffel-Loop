@@ -15,7 +15,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 10:43:44 GMT (Friday 8th July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_EXPAT_XML_PARSER

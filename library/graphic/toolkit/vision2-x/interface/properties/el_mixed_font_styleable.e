@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Routines for label components with mixed font styles"
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-26 11:23:48 GMT (Saturday 26th December 2015)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_MIXED_FONT_STYLEABLE

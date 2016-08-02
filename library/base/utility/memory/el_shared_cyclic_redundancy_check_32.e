@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-06 6:47:25 GMT (Wednesday 6th July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-12 12:02:00 GMT (Tuesday 12th July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_CONSOLE_FILE_PROGRESS
