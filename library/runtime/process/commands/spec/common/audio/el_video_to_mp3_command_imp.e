@@ -19,7 +19,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-23 8:36:45 GMT (Thursday 23rd June 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_VIDEO_TO_MP3_COMMAND_IMP

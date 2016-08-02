@@ -9,7 +9,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-08-30 9:52:18 GMT (Sunday 30th August 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_TAB_BOOK [B -> {EL_BOX} create make end]

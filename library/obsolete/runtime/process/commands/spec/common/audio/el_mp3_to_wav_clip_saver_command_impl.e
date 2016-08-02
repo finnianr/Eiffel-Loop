@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-05-11 14:35:48 GMT (Wednesday 11th May 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_IMPL

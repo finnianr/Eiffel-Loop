@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-05-15 14:36:50 GMT (Sunday 15th May 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_DO_NOTHING_INSTALLER

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 11:23:36 GMT (Friday 8th July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP

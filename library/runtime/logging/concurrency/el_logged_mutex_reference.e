@@ -10,7 +10,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-02 10:59:13 GMT (Saturday 2nd July 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_LOGGED_MUTEX_REFERENCE [G]

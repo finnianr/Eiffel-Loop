@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-22 17:41:44 GMT (Tuesday 22nd December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_REFLECTOR_CONSTANTS

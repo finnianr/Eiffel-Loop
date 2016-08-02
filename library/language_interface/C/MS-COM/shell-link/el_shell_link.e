@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-30 17:39:57 GMT (Wednesday 30th March 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	EL_SHELL_LINK

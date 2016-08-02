@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-28 20:01:30 GMT (Thursday 28th January 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	EL_HTTP_SERVLET_REQUEST

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 10:01:52 GMT (Friday 24th June 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_IMP

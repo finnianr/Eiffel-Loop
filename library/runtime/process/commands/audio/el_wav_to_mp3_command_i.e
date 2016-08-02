@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-23 7:36:15 GMT (Thursday 23rd June 2016)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_WAV_TO_MP3_COMMAND_I

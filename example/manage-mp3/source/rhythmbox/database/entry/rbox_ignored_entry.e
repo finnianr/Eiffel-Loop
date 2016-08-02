@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 18:35:12 GMT (Friday 8th July 2016)"
-	revision: "5"
+	date: "2016-08-01 11:54:38 GMT (Monday 1st August 2016)"
+	revision: "1"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -48,6 +48,12 @@ feature -- Access
 
 feature -- Element change
 
+	set_genre (a_genre: like genre)
+			--
+		do
+			genre := a_genre
+		end
+
 	set_last_seen_time (a_last_seen_time: like last_seen_time)
 		do
 			last_seen := Time.unix_date_time (a_last_seen_time)
@@ -56,6 +62,12 @@ feature -- Element change
 	set_modification_time (a_modification_time: like modification_time)
 		do
 			mtime := Time.unix_date_time (a_modification_time)
+		end
+
+	set_title (a_title: like title)
+			--
+		do
+			title := a_title
 		end
 
 feature -- Rhythmbox XML fields
@@ -105,7 +117,6 @@ feature -- Constants
 					<$field.key>$field.item</$field.key>
 				#end
 					<date>0</date>
-					<media-type>application/octet-stream</media-type>
 				</entry>
 			]"
 		end

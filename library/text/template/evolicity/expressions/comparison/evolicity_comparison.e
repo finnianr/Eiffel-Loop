@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-11-12 14:09:35 GMT (Thursday 12th November 2015)"
-	revision: "3"
+	revision: "1"
 
 deferred class
 	EVOLICITY_COMPARISON

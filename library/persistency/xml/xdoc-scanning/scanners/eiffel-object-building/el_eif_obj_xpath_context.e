@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-25 10:14:37 GMT (Friday 25th December 2015)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT

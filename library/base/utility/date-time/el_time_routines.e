@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-10-20 12:26:09 GMT (Tuesday 20th October 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_TIME_ROUTINES

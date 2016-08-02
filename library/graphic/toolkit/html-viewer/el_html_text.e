@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-01 14:42:43 GMT (Friday 1st July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_HTML_TEXT

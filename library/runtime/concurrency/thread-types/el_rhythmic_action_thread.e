@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-04-23 13:11:11 GMT (Thursday 23rd April 2015)"
-	revision: "3"
+	revision: "1"
 
 deferred class
 	EL_RHYTHMIC_ACTION_THREAD

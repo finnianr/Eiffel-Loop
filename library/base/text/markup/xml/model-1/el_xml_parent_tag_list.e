@@ -2,12 +2,12 @@ note
 	description: "XML tag that has child tags"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-06-02 8:24:10 GMT (Tuesday 2nd June 2015)"
-	revision: "2"
+	revision: "1"
 
 class
 	EL_XML_PARENT_TAG_LIST

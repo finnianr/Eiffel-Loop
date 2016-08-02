@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 8:43:19 GMT (Friday 24th June 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_TEXT_RECTANGLE_IMP

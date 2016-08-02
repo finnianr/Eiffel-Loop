@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-08 13:26:53 GMT (Friday 8th April 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	EL_SOURCE_TEXT_PROCESSOR

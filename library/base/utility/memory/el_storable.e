@@ -2,15 +2,16 @@ note
 	description: "[
 		Object that can read and write itself to a memory buffer of type `EL_MEMORY_READER_WRITER'.
 	]"
+
 	instructions: "See end of page"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 15:23:22 GMT (Thursday 7th July 2016)"
-	revision: "5"
+	date: "2016-07-29 14:51:13 GMT (Friday 29th July 2016)"
+	revision: "1"
 
 deferred class
 	EL_STORABLE
@@ -132,7 +133,15 @@ feature {NONE} -- Contract Support
 
 	is_reversible (a_writer: EL_MEMORY_READER_WRITER; from_count: INTEGER): BOOLEAN
 		do
-			Result := Current ~ a_writer.retrieved (from_count)
+			Result := is_equal (read_twin (a_writer, from_count))
+		end
+
+	read_twin (a_writer: EL_MEMORY_READER_WRITER; from_count: INTEGER): like Current
+		local
+			reader: EL_MEMORY_READER_WRITER
+		do
+			create reader.make_with_buffer (a_writer.buffer); reader.set_count (from_count)
+			Result := new_twin; Result.read (reader)
 		end
 
 feature {NONE} -- Read operations
@@ -501,6 +510,11 @@ feature {NONE} -- Implementation
 			Reflected_object_pool.put (current_object)
 		end
 
+	new_twin: like Current
+		do
+			Result := twin
+		end
+
 feature {NONE} -- Constants
 
 	Once_storable_fields: EL_TYPE_TABLE [ARRAY [INTEGER]]
@@ -514,6 +528,12 @@ feature {NONE} -- Constants
 		end
 
 note
+	description: "[
+		Object that can read and write itself to a memory buffer of type `EL_MEMORY_READER_WRITER'.
+	]"
+
+	instructions: "See end of page"
+
 	instructions: "[
 		There is support for automatic reading and writing of the following attribute types:
 
@@ -525,5 +545,14 @@ note
 
 		Override the function `excluded_fields' to define a list of fields which should not be storable.
 	]"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-07-29 14:51:13 GMT (Friday 29th July 2016)"
+	revision: "1"
+
 
 end

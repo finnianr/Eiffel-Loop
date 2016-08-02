@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 6:35:52 GMT (Sunday 3rd July 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_PROCEDURE_CALL_CONSUMER_THREAD [BASE_TYPE, OPEN_ARGS -> TUPLE create default_create end]

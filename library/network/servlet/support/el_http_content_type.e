@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-30 13:29:49 GMT (Saturday 30th January 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	EL_HTTP_CONTENT_TYPE

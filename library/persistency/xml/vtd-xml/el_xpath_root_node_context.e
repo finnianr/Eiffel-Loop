@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 17:50:14 GMT (Wednesday 16th December 2015)"
-	revision: "7"
+	date: "2016-07-21 18:43:14 GMT (Thursday 21st July 2016)"
+	revision: "1"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-21 11:21:01 GMT (Tuesday 21st June 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_APP_ACTIVATOR

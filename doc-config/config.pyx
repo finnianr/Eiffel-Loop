@@ -20,6 +20,7 @@ publish-repository:
 			"description"
 			"instructions"
 			"notes"
+			"warning"
 
 	sources:
 		# Examples
@@ -69,8 +70,7 @@ publish-repository:
 		tree:
 			name = "Development Toolkit Program"; dir = "tool/toolkit/source"
 			description:
-				"""
-				"""
+				"toolkit.emd"
 		# Test
 		tree:
 			name = "Development Testing"; dir = "test/source"
@@ -129,9 +129,9 @@ publish-repository:
 				"""
 		tree:
 			name = "Vision-2 GUI Extensions"; dir = "library/graphic/toolkit/vision2-x"
+			ecf = "vision2-x.ecf"
 			description:
-				"""
-				"""
+				"vision2-x.emd"
 		tree:
 			name = "Windows Eiffel Library Extensions"; dir = "library/graphic/toolkit/wel-x"
 			description:

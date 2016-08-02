@@ -9,7 +9,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-05 13:01:49 GMT (Tuesday 5th July 2016)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-26 17:06:29 GMT (Saturday 26th December 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_COLOR

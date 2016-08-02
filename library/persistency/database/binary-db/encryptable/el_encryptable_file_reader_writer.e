@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-01 10:18:05 GMT (Friday 1st January 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_ENCRYPTABLE_FILE_READER_WRITER [G -> EL_STORABLE create make_default end]

@@ -1,13 +1,23 @@
 note
-	description: "Summary description for {RBOX_DATABASE}."
+	description: "[
+		Database of all Rhythmbox songs, playlists, radio entries and ignored entries.
+		It is read from these files:
+			$HOME/.local/share/rhythmbox/rhythmdb.xml
+			$HOME/.local/share/rhythmbox/playlists.xml
+			$HOME/Music/Playlists/*.pyx
+			
+		The `*.pyx' ones are playlists which have been saved using the `update_dj_playlists' task.
+			
+		Note that this database save modifications to songs and playlists.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:35:23 GMT (Friday 8th July 2016)"
-	revision: "7"
+	date: "2016-08-02 11:16:51 GMT (Tuesday 2nd August 2016)"
+	revision: "1"
 
 class
 	RBOX_DATABASE
@@ -48,17 +58,20 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_xml_database_path: EL_FILE_PATH; DJ_events_dir: EL_DIR_PATH)
+	make (a_xml_database_path: EL_FILE_PATH)
 			--
 		do
 			lio.put_path_field ("Reading", a_xml_database_path)
 			lio.put_new_line
-		 	create entries.make (0)
-			create songs_by_location.make_equal (0)
-			create songs_by_audio_id.make_equal (0)
-			create songs.make (0)
+		 	create entries.make (1000)
+			create songs_by_location.make_equal (entries.capacity)
+			create songs_by_audio_id.make_equal (entries.capacity)
+			create songs.make (entries.capacity)
 			create mp3_root_location
 		 	create silence_intervals.make_filled (new_song, 1, 3)
+			create dj_playlists.make (20)
+
+			File_system.make_directory (DJ_event_playlist_dir)
 
 			if a_xml_database_path.exists then
 			 	songs.grow (line_ends_with_count (a_xml_database_path, "type=%"song%">"))
@@ -74,16 +87,15 @@ feature {NONE} -- Initialization
 			create playlists.make (playlists_xml_path, Current)
 			is_initialized := not songs.is_empty
 			update_mp3_root_location
-			set_exported_playlists (DJ_events_dir)
 		end
 
 feature -- Access
 
 	playlists_all: EL_ARRAYED_LIST [PLAYLIST]
 		do
-			create Result.make (playlists.count + playlists_exported.count)
+			create Result.make (playlists.count + dj_playlists.count)
 			Result.append (playlists)
-			Result.append (playlists_exported)
+			Result.append (dj_playlists)
 		end
 
 	title_and_album (mp3_path: EL_FILE_PATH): ZSTRING
@@ -96,9 +108,9 @@ feature -- Access
 			end
 		end
 
-	music_extra_playlist: RBOX_PLAYLIST
+	archive_playlist: RBOX_PLAYLIST
 		do
-			playlists.find_first (Music_extra, agent {RBOX_PLAYLIST}.name)
+			playlists.find_first (Archive, agent {RBOX_PLAYLIST}.name)
 			if playlists.exhausted then
 				create Result.make (Current)
 			else
@@ -140,7 +152,8 @@ feature -- Access attributes
 
 	playlists: RBOX_PLAYLIST_ARRAY
 
-	playlists_exported: like new_exported_playlists
+	dj_playlists: like new_dj_event_playlists
+		-- Playlists with DJ event information stored in $HOME/Music/Playlists using Pyxis format
 
 	playlists_xml_path: EL_FILE_PATH
 
@@ -161,17 +174,26 @@ feature -- Factory
 			create Result.make (Current)
 		end
 
-	new_exported_playlists (DJ_events_dir: EL_DIR_PATH): EL_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
+	new_dj_event_playlists: EL_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
 		require
 			mp3_root_location_set: not mp3_root_location.is_empty
 		local
 			path_list: like OS.file_list
 		do
-			path_list := OS.file_list (DJ_events_dir, "*.pyx")
+			path_list := OS.file_list (DJ_event_playlist_dir, "*.pyx")
 			create Result.make (path_list.count)
 			across path_list as path loop
 				Result.extend (create {DJ_EVENT_PLAYLIST}.make_from_file (Current, path.item))
 			end
+		end
+
+	new_dj_playlist_entry (playlist: DJ_EVENT_PLAYLIST): RBOX_IGNORED_ENTRY
+		do
+			create Result.make
+			Result.set_genre (Playlist_genre)
+			Result.set_title (playlist.title)
+			Result.set_media_type (Text_pyxis)
+			Result.set_location (playlist.output_path)
 		end
 
 feature -- Status query
@@ -193,9 +215,9 @@ feature -- Status query
 
 	is_song_in_any_playlist (song: RBOX_SONG): BOOLEAN
 		local
-			l_music_extra_playlist: like music_extra_playlist
+			l_music_extra_playlist: like archive_playlist
 		do
-			l_music_extra_playlist := music_extra_playlist
+			l_music_extra_playlist := archive_playlist
 			Result := across playlists_all as playlist some
 				playlist.item /= l_music_extra_playlist and then playlist.item.has (song)
 			end
@@ -208,6 +230,10 @@ feature -- Element change
 			entries.extend (a_entry)
 			if attached {RBOX_SONG} a_entry as song and then song.mp3_path.extension ~ Mp3_extension then
 				extend_with_song (song)
+
+			elseif attached {RBOX_IGNORED_ENTRY} a_entry as entry and then entry.genre ~ Playlist_genre then
+				dj_playlists.extend (create {DJ_EVENT_PLAYLIST}.make_from_file (Current, entry.location))
+				entry.set_title (dj_playlists.last.title) -- Override title with the one in the DJ event playlist
 			end
 		end
 
@@ -300,11 +326,6 @@ feature -- Element change
 			log.exit
 		end
 
-	set_exported_playlists (DJ_events_dir: EL_DIR_PATH)
-		do
-			playlists_exported := new_exported_playlists (DJ_events_dir)
-		end
-
 	set_playlists (a_playlists: like playlists)
 			--
 		do
@@ -369,6 +390,22 @@ feature -- Element change
 			end
 		end
 
+	update_DJ_playlists (dj_name, default_title: ZSTRING)
+			-- update DJ event playlists with any new Rhythmbox playlists
+		local
+			events_file_path: EL_FILE_PATH; event_playlist: DJ_EVENT_PLAYLIST
+		do
+			across playlists as playlist loop
+				events_file_path := DJ_event_playlist_dir + playlist.item.name
+				events_file_path.add_extension ("pyx")
+				if not events_file_path.exists then
+					create event_playlist.make (Current, playlist.item, dj_name, default_title)
+					event_playlist.set_output_path (events_file_path)
+					entries.extend (new_dj_playlist_entry (event_playlist))
+				end
+			end
+		end
+
 feature -- Basic operations
 
 	import_m3u_playlist (m3u_playlist: M3U_PLAYLIST_READER)
@@ -392,6 +429,18 @@ feature -- Basic operations
 					end
 			)
 			lio.put_new_line
+		end
+
+	display_incomplete_id3_info (song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO)
+			-- Display songs with incomplete TXXX ID3 tags
+		do
+			if across id3_info.user_text_table as user_text
+				some
+					user_text.item.description.is_empty and then user_text.item.string.is_integer
+				end
+			then
+				print_id3 (id3_info, relative_song_path)
+			end
 		end
 
 	update_mp3_root_location
@@ -440,7 +489,7 @@ feature -- Basic operations
 		do
 			log.put_line ("Saving playlists")
 			playlists.store
-			across playlists_exported as playlist loop
+			across dj_playlists as playlist loop
 				playlist.item.store
 			end
 		end
@@ -599,17 +648,6 @@ feature {RHYTHMBOX_MUSIC_MANAGER} -- Tag editing
 			end
 		end
 
-	rewrite_id3_info (song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO)
-		do
-			if across id3_info.user_text_table as user_text
-				some
-					user_text.item.description.is_empty and then user_text.item.string.is_integer
-				end
-			then
-				print_id3 (id3_info, relative_song_path)
-			end
-		end
-
 feature {RHYTHMBOX_MUSIC_MANAGER} -- Implementation
 
 	create_playlist (a_name: STRING): RBOX_PLAYLIST
@@ -689,9 +727,9 @@ feature {NONE} -- Constants
 			Result := << "MusicBrainz Album Id", "musicbrainz_albumid" >>
 		end
 
-	Music_extra: ZSTRING
+	Archive: ZSTRING
 		once
-			Result := "Music Extra"
+			Result := "Archive"
 		end
 
 	Read_progress_template: ZSTRING
@@ -707,6 +745,17 @@ feature {NONE} -- Constants
 	Mp3_extension: ZSTRING
 		once
 			Result := "mp3"
+		end
+
+	Playlist_genre: ZSTRING
+		-- special genre to mark Rhythmbox ignored entry as a DJ event playlist
+		once
+			Result := "playlist"
+		end
+
+	DJ_event_playlist_dir: EL_DIR_PATH
+		once
+			Result := Directory.Home.joined_dir_path ("Music/Playlists")
 		end
 
 	Unknown_artist_names: ARRAY [ZSTRING]

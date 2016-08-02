@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-24 13:15:23 GMT (Thursday 24th December 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_XHTML_WORD_COUNTER

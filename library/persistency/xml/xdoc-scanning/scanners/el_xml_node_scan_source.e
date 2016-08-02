@@ -9,7 +9,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-24 16:08:14 GMT (Thursday 24th December 2015)"
-	revision: "4"
+	revision: "1"
 
 deferred class
 	EL_XML_NODE_SCAN_SOURCE

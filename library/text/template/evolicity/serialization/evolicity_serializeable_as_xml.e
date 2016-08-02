@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-22 12:27:26 GMT (Friday 22nd April 2016)"
-	revision: "6"
+	revision: "1"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE_AS_XML

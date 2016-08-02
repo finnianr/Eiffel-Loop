@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-16 11:47:05 GMT (Wednesday 16th March 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	CLASS_FEATURE

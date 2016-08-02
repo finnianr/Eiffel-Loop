@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 12:03:13 GMT (Wednesday 16th December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_ID3_ALBUM_PICTURE

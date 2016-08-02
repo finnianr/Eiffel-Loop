@@ -2,12 +2,12 @@ note
 	description: "Summary description for {DONE_LIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-03-04 12:16:59 GMT (Wednesday 4th March 2015)"
-	revision: "3"
+	revision: "1"
 
 class
 	DONE_LIST

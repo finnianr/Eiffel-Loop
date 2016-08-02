@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-01-01 12:36:50 GMT (Thursday 1st January 2015)"
-	revision: "4"
+	revision: "1"
 
 deferred class
 	EL_FILE_LEXER

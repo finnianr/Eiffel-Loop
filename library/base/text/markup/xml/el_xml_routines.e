@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-02 7:05:47 GMT (Saturday 2nd July 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	EL_XML_ROUTINES

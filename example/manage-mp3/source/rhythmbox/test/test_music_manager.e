@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 12:29:31 GMT (Wednesday 16th December 2015)"
-	revision: "4"
+	date: "2016-08-01 11:50:39 GMT (Monday 1st August 2016)"
+	revision: "1"
 
 class
 	TEST_MUSIC_MANAGER
@@ -16,7 +16,7 @@ inherit
 	RHYTHMBOX_MUSIC_MANAGER
 		redefine
 			make, Database, xml_database_file_path,
-			export_dj_events, export_music_to_device, export_playlists_to_device,
+			update_DJ_playlists, export_music_to_device, export_playlists_to_device,
 
 			new_device, new_substitution_list, new_menu_option_input,
 
@@ -42,10 +42,10 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
 feature -- Tasks: Import/Export
 
-	export_dj_events
+	update_DJ_playlists
 		do
 			Precursor
-			across Database.new_exported_playlists (config.dj_events.playlist_dir) as playlist loop
+			across Database.new_dj_event_playlists as playlist loop
 				log.put_labeled_string ("Title", playlist.item.title)
 				log.put_new_line
 				across playlist.item as song loop
@@ -101,6 +101,11 @@ feature {NONE} -- Factory
 			create Result.make (config, Database)
 		end
 
+	new_menu_option_input (prompt: ZSTRING; menu: EL_ZSTRING_LIST): INTEGER
+		do
+			Result := 1
+		end
+
 	new_substitution_list: LINKED_LIST [like new_substitution]
 		local
 			substitution: like new_substitution
@@ -112,16 +117,10 @@ feature {NONE} -- Factory
 			Result.extend (substitution)
 		end
 
-	new_menu_option_input (prompt: ZSTRING; menu: EL_ZSTRING_LIST): INTEGER
-		do
-			Result := 1
-		end
-
 feature {NONE} -- User input
 
-	ask_user_for_task
+	ask_user_for_dir_path (name: ZSTRING)
 		do
-			user_quit := True
 		end
 
 	ask_user_for_file_path (name: ZSTRING)
@@ -133,8 +132,9 @@ feature {NONE} -- User input
 			end
 		end
 
-	ask_user_for_dir_path (name: ZSTRING)
+	ask_user_for_task
 		do
+			user_quit := True
 		end
 
 feature {NONE} -- Implementation
@@ -162,6 +162,6 @@ feature {NONE} -- Constants
 
 	Database: RBOX_TEST_DATABASE
 		once
-			create Result.make (xml_database_file_path, config.dj_events.playlist_dir)
+			create Result.make (xml_database_file_path)
 		end
 end

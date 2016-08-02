@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-17 10:20:36 GMT (Thursday 17th March 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	I_CHING_HEXAGRAM_CONSTANTS

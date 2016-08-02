@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-04 12:16:25 GMT (Friday 4th March 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	SD_SHARED_EIFFEL_FEATURE_EDITOR

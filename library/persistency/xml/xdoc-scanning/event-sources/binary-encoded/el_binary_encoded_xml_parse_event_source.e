@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 10:46:42 GMT (Friday 8th July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE

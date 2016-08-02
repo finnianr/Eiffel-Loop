@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-21 14:32:05 GMT (Thursday 21st January 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_UNDERBIT_ID3_FIELD

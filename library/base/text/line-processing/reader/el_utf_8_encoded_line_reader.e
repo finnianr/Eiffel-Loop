@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-11-04 9:48:44 GMT (Wednesday 4th November 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_UTF_8_ENCODED_LINE_READER [F -> FILE]

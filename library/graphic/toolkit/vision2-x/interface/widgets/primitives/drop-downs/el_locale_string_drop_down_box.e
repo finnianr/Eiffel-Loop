@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_LOCALE_DROP_DOWN_LIST_BOX}."
+	description: "Drop down box with localized display strings"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:23:27 GMT (Saturday 26th December 2015)"
-	revision: "8"
+	date: "2016-07-29 12:30:07 GMT (Friday 29th July 2016)"
+	revision: "1"
 
 class
 	EL_LOCALE_STRING_DROP_DOWN_BOX

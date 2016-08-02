@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-02 7:19:51 GMT (Saturday 2nd July 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_XHTML_STRING_LIST

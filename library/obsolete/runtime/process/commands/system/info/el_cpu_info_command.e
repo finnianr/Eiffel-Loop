@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-18 8:52:42 GMT (Saturday 18th June 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_CPU_INFO_COMMAND

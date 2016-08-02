@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-01 9:24:43 GMT (Friday 1st July 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	MP3_AUDIO_SIGNATURE_READER

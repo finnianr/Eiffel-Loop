@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_TEXT_COMPONENT_IMPL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-19 17:30:24 GMT (Friday 19th December 2014)"
-	revision: "3"
+	revision: "1"
 
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT_IMP

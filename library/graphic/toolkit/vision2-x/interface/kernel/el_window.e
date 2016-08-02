@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_WINDOW_POSITIONING}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-01-02 10:32:14 GMT (Friday 2nd January 2015)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_WINDOW

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-13 16:22:33 GMT (Monday 13th June 2016)"
-	revision: "6"
+	revision: "1"
 
 deferred class
 	EL_SINGLE_OPERAND_FILE_SYSTEM_COMMAND [T -> EL_OS_COMMAND_INTERFACE create default_create end]

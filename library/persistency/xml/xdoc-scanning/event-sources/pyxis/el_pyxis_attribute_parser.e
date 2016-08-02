@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-20 14:30:08 GMT (Sunday 20th December 2015)"
-	revision: "8"
+	revision: "1"
 
 class
 	EL_PYXIS_ATTRIBUTE_PARSER

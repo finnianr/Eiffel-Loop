@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 16:04:33 GMT (Friday 24th June 2016)"
-	revision: "6"
+	revision: "1"
 
 deferred class
 	EL_FILE_CONVERSION_COMMAND_I

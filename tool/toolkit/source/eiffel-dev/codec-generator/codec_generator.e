@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-22 12:12:06 GMT (Friday 22nd April 2016)"
-	revision: "9"
+	revision: "1"
 
 class
 	CODEC_GENERATOR

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 15:47:04 GMT (Thursday 7th July 2016)"
-	revision: "3"
+	date: "2016-07-27 10:13:27 GMT (Wednesday 27th July 2016)"
+	revision: "1"
 
 class
 	EL_MUTEX_REFERENCE [G]

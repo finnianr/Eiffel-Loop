@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_DEFAULT_EIF_OBJ_XPATH_CONTEXT}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-01-01 15:38:09 GMT (Thursday 1st January 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_DEFAULT_EIF_OBJ_XPATH_CONTEXT

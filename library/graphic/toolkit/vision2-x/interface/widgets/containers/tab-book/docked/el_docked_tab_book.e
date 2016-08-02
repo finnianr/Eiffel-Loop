@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-08-30 12:25:12 GMT (Sunday 30th August 2015)"
-	revision: "7"
+	revision: "1"
 
 class
 	EL_DOCKED_TAB_BOOK

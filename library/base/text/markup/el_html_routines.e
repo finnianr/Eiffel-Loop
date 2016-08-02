@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 7:08:35 GMT (Wednesday 16th December 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_HTML_ROUTINES

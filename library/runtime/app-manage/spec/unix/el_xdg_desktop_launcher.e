@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-21 12:48:50 GMT (Thursday 21st April 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_XDG_DESKTOP_LAUNCHER

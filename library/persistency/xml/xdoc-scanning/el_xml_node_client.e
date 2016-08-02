@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-25 9:07:13 GMT (Friday 25th December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_XML_NODE_CLIENT

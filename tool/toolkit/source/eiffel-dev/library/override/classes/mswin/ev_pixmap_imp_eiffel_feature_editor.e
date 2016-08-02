@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-18 12:55:27 GMT (Friday 18th December 2015)"
-	revision: "7"
+	revision: "1"
 
 class
 	EV_PIXMAP_IMP_EIFFEL_FEATURE_EDITOR

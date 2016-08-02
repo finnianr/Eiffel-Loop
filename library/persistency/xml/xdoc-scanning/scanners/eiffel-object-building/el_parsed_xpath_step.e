@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-14 14:55:17 GMT (Monday 14th December 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_PARSED_XPATH_STEP

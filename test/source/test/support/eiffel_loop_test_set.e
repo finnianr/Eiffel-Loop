@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-28 8:48:20 GMT (Tuesday 28th June 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EIFFEL_LOOP_TEST_SET

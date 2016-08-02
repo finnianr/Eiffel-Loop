@@ -26,7 +26,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-04 14:09:56 GMT (Friday 4th March 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	FILE_GSL_CONFIG_H_GCC_TO_MSVC_CONVERTER

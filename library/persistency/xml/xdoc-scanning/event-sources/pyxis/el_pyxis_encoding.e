@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-05 5:04:45 GMT (Tuesday 5th July 2016)"
-	revision: "8"
+	revision: "1"
 
 class
 	EL_PYXIS_ENCODING

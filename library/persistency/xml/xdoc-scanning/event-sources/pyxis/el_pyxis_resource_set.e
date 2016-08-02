@@ -9,7 +9,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-05 5:05:00 GMT (Tuesday 5th July 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_PYXIS_RESOURCE_SET

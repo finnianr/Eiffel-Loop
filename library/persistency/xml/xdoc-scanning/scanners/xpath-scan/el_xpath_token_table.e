@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-17 11:27:26 GMT (Thursday 17th December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_XPATH_TOKEN_TABLE

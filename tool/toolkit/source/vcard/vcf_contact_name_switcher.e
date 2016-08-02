@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-11 9:27:01 GMT (Saturday 11th June 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	VCF_CONTACT_NAME_SWITCHER

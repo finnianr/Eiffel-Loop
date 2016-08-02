@@ -6,15 +6,16 @@ note
 		Communication with the client is via either partial binary XML or plaintext XML. This mode is settable in either 
 		direction by `set_inbound_transmission_type', set_outbound_transmission_type.
 	]"
+
 	notes: "See end of page"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-05 9:46:45 GMT (Tuesday 5th July 2016)"
-	revision: "4"
+	date: "2016-07-22 13:10:53 GMT (Friday 22nd July 2016)"
+	revision: "1"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
@@ -243,6 +244,16 @@ feature {NONE} -- Constants
 		end
 
 note
+	description: "[
+		Object to handle remote procedure call requests for the duration of a session. A session finishes when the 
+		procedure `set_stopping' is called either by the server shutdown process or remotely by the client.
+		
+		Communication with the client is via either partial binary XML or plaintext XML. This mode is settable in either 
+		direction by `set_inbound_transmission_type', set_outbound_transmission_type.
+	]"
+
+	notes: "See end of page"
+
 	notes: "[
 		**AN EXAMPLE OF AN EROS XML PROCEDURE CALL**
 
@@ -282,5 +293,14 @@ note
 		The syntax of the call residing in the processing instruction is reminiscent of the syntax for Eiffel agents.
 		`SMIL_PRESENTATION' serves as a place-holder for the object created with the create instruction.
 	]"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-07-22 13:10:53 GMT (Friday 22nd July 2016)"
+	revision: "1"
+
 
 end

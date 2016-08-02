@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-09 7:44:41 GMT (Saturday 9th July 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	EL_SPREAD_SHEET_TABLE

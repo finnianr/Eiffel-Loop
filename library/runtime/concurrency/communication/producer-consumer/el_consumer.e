@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-02 7:50:59 GMT (Saturday 2nd July 2016)"
-	revision: "4"
+	revision: "1"
 
 deferred class
 	EL_CONSUMER [P]

@@ -13,7 +13,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-21 14:44:18 GMT (Thursday 21st January 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_SEQUENTIAL_INTERVALS

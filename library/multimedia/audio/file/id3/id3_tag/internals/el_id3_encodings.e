@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_ID3_TAG_CONSTANTS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-01-10 9:26:20 GMT (Saturday 10th January 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_ID3_ENCODINGS

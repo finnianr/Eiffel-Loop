@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-21 8:37:36 GMT (Monday 21st December 2015)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_STRING_VIEW

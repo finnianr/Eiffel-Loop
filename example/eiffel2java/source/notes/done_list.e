@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-30 14:00:10 GMT (Thursday 30th June 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	DONE_LIST

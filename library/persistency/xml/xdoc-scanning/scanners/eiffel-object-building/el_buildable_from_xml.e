@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 15:27:19 GMT (Thursday 1st January 2015)"
-	revision: "4"
+	date: "2016-07-21 17:31:14 GMT (Thursday 21st July 2016)"
+	revision: "1"
 
 deferred class
 	EL_BUILDABLE_FROM_XML

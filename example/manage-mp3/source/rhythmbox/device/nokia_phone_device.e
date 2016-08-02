@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-10-04 13:38:19 GMT (Sunday 4th October 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	NOKIA_PHONE_DEVICE

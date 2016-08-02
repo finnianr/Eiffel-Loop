@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_THREAD_BLOCK}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-07-02 20:20:38 GMT (Thursday 2nd July 2015)"
-	revision: "2"
+	revision: "1"
 
 class
 	EL_THREAD_BLOCK

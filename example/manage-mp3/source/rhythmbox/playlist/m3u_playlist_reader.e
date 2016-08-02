@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-05 5:07:15 GMT (Tuesday 5th July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	M3U_PLAYLIST_READER

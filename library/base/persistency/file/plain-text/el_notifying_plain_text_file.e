@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-01 9:45:21 GMT (Friday 1st January 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_NOTIFYING_PLAIN_TEXT_FILE

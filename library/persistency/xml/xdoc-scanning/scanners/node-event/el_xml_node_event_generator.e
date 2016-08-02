@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-24 13:16:18 GMT (Thursday 24th December 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_XML_NODE_EVENT_GENERATOR

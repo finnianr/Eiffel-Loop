@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-22 18:49:15 GMT (Tuesday 22nd December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_BASH_PATH_CHARACTER_ESCAPER [S -> STRING_GENERAL create make end]

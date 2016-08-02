@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-06 9:15:31 GMT (Wednesday 6th April 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_MODULE_WINOS_LOCALE_INFO

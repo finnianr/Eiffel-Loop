@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-11 9:50:47 GMT (Monday 11th July 2016)"
-	revision: "6"
+	revision: "1"
 
 deferred class
 	EL_NOTIFYING_FILE

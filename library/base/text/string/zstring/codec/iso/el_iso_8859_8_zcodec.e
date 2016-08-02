@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 11:06:56 GMT (Monday 18th January 2016)"
-	revision: "3"
+	date: "2016-07-18 15:40:13 GMT (Monday 18th July 2016)"
+	revision: "1"
 
 class
 	EL_ISO_8859_8_ZCODEC

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-22 19:19:19 GMT (Tuesday 22nd December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_ZSTRING_BASH_PATH_CHARACTER_ESCAPER

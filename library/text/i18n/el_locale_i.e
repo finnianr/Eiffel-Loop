@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_LOCALE_ROUTINES}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-05-15 13:20:02 GMT (Sunday 15th May 2016)"
-	revision: "9"
+	revision: "1"
 
 deferred class
 	EL_LOCALE_I

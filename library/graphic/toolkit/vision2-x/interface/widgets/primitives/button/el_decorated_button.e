@@ -12,7 +12,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-04 10:35:52 GMT (Monday 4th January 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_DECORATED_BUTTON

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_GTK_INIT_API}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-24 22:05:08 GMT (Wednesday 24th December 2014)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_GTK_INIT_API

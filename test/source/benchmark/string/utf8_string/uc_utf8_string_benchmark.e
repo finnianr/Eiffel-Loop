@@ -12,7 +12,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-17 12:59:04 GMT (Thursday 17th March 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	UC_UTF8_STRING_BENCHMARK

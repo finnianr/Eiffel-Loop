@@ -1,0 +1,17 @@
+A "Swiss-army knife" of useful Eiffel command line development tools. The most useful ones are listed here with command line switchs:
+
+[./tool/toolkit/source/applications/eiffel-dev/eiffel_repository_publisher_app.html `EIFFEL_REPOSITORY_PUBLISHER_APP']
+`-publish_repository': publishes an Eiffel code repository as a website with module descriptions.
+
+[./tool/toolkit/source/applications/eiffel-dev/eiffel_note_editor_app.html `EIFFEL_NOTE_EDITOR_APP']
+`-edit_notes': Add default values to note fields using a source tree manifest.
+
+[./tool/toolkit/source/applications/eiffel-dev/eiffel_feature_editor_app.html `EIFFEL_FEATURE_EDITOR_APP']
+`-feature_edit': expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
+
+[./tool/toolkit/source/applications/crypto_app.html `CRYPTO_APP']
+`-crypto': menu driven shell of useful cryptographic operations.
+
+**Download**
+
+Download binary of [https://github.com/finnianr/Eiffel-Loop/releases/download/1.4.1/el_toolkit-1.1.22 `el_toolkit'] for ''Ubuntu 14.04'' or ''Linux Mint 17.x''.

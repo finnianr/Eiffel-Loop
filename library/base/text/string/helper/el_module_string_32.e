@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-10-26 18:14:45 GMT (Monday 26th October 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_MODULE_STRING_32

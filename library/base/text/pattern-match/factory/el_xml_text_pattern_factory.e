@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-11 12:22:23 GMT (Monday 11th January 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_XML_TEXT_PATTERN_FACTORY

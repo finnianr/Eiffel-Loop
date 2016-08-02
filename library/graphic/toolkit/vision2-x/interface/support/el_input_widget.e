@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:22:53 GMT (Saturday 26th December 2015)"
-	revision: "5"
+	date: "2016-07-29 10:27:02 GMT (Friday 29th July 2016)"
+	revision: "1"
 
 deferred class
 	EL_INPUT_WIDGET [G]
@@ -19,13 +19,13 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (initial_value: G; values: INDEXABLE [G, INTEGER]; a_value_change_action: like value_change_action)
+	make (initial_value: G; values: FINITE [G]; a_value_change_action: like value_change_action)
 		do
 			value_change_action := a_value_change_action
 			make_widget (initialization_tuples (initial_value, values))
 		end
 
-	make_sorted (initial_value: G; values: INDEXABLE [G, INTEGER]; a_value_change_action: like value_change_action)
+	make_sorted (initial_value: G; values: FINITE [G]; a_value_change_action: like value_change_action)
 		do
 			is_sorted := True
 			value_change_action := a_value_change_action
@@ -42,23 +42,45 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	initialization_tuples (initial_value: G; values: INDEXABLE [G, INTEGER]): ARRAYED_LIST [like Type_widget_initialization_tuple]
+	alphabetical_sort_order: KL_AGENT_COMPARATOR [like Type_widget_initialization_tuple]
+		do
+			create Result.make (
+				agent (a, b: like Type_widget_initialization_tuple): BOOLEAN
+					do
+						Result := a.displayed_value < b.displayed_value
+					end
+			)
+		end
+
+	default_sort_order: KL_COMPARATOR [like Type_widget_initialization_tuple]
+		deferred
+		end
+
+	displayed_value (value: G): ZSTRING
+		deferred
+		end
+
+	do_change_action (value: G)
+		do
+			value_change_action.call ([value])
+		end
+
+	initialization_tuples (initial_value: G; values: FINITE [G]): ARRAYED_LIST [like Type_widget_initialization_tuple]
 		local
-			i, lower, upper: INTEGER
+			linear_values: LINEAR [G]
 			tuple: like Type_widget_initialization_tuple
 			tuples: ARRAY [like Type_widget_initialization_tuple]
 		do
-			lower := values.index_set.lower
-			upper := values.index_set.upper
 			create tuple
-			create tuples.make_filled (tuple, 1, values.index_set.count)
-			from i := lower until i > upper loop
+			create tuples.make_filled (tuple, 1, values.count)
+			linear_values := values.linear_representation
+			from linear_values.start until linear_values.after loop
 				create tuple
-				tuple.value := values [i]
+				tuple.value := linear_values.item
 				tuple.displayed_value := displayed_value (tuple.value).to_unicode
 				tuple.is_current_value := tuple.value ~ initial_value
-				tuples [i - lower + 1] := tuple
-				i := i + 1
+				tuples [linear_values.index] := tuple
+				linear_values.forth
 			end
 			if is_sorted then
 				sort_tuples (tuples)
@@ -72,29 +94,6 @@ feature {NONE} -- Implementation
 		do
 			create sorter.make (default_sort_order)
 			sorter.sort (tuples)
-		end
-
-	default_sort_order: KL_COMPARATOR [like Type_widget_initialization_tuple]
-		deferred
-		end
-
-	alphabetical_sort_order: KL_AGENT_COMPARATOR [like Type_widget_initialization_tuple]
-		do
-			create Result.make (
-				agent (a, b: like Type_widget_initialization_tuple): BOOLEAN
-					do
-						Result := a.displayed_value < b.displayed_value
-					end
-			)
-		end
-
-	displayed_value (value: G): ZSTRING
-		deferred
-		end
-
-	do_change_action (value: G)
-		do
-			value_change_action.call ([value])
 		end
 
 	value_change_action: PROCEDURE [ANY, TUPLE [G]]

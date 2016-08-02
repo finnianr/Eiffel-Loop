@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-29 13:20:57 GMT (Friday 29th January 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_SHARED_ZCODEC_FACTORY

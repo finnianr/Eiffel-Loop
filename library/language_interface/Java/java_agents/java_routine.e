@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-09 6:20:45 GMT (Saturday 9th July 2016)"
-	revision: "4"
+	revision: "1"
 
 deferred class
 	JAVA_ROUTINE [BASE_TYPE -> JAVA_OBJECT_REFERENCE]

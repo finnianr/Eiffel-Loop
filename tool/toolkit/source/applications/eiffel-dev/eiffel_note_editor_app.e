@@ -1,15 +1,15 @@
 note
 	description: "[
-		Fills in default values for indexing fields for source trees listed in a manifest
+		Fills in default values for note fields for source trees listed in a manifest
 	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 19:58:09 GMT (Friday 8th July 2016)"
-	revision: "11"
+	date: "2016-07-27 14:47:40 GMT (Wednesday 27th July 2016)"
+	revision: "1"
 
 class
 	EIFFEL_NOTE_EDITOR_APP

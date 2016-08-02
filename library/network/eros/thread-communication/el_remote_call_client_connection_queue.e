@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 11:52:43 GMT (Sunday 3rd July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_REMOTE_CALL_CLIENT_CONNECTION_QUEUE

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-01 9:14:07 GMT (Friday 1st July 2016)"
-	revision: "4"
+	revision: "1"
 
 deferred class
 	EL_OS_ROUTINES_I

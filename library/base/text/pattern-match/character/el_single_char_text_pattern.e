@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-20 14:26:31 GMT (Sunday 20th December 2015)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_SINGLE_CHAR_TEXT_PATTERN

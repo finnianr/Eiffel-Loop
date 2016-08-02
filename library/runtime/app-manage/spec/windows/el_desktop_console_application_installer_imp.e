@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 10:02:36 GMT (Friday 24th June 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_DESKTOP_CONSOLE_APPLICATION_INSTALLER_IMP

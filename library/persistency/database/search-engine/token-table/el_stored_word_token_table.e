@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-01 16:51:23 GMT (Friday 1st January 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_STORED_WORD_TOKEN_TABLE

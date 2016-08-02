@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-02 10:18:24 GMT (Saturday 2nd January 2016)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_STORABLE_CHAIN_EDITIONS [G -> EL_STORABLE create make_default end]

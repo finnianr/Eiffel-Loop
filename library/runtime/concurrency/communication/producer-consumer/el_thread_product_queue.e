@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-02 10:13:05 GMT (Saturday 2nd July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_THREAD_PRODUCT_QUEUE [P]

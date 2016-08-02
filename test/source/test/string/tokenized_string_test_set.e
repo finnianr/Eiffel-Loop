@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-19 11:34:45 GMT (Saturday 19th December 2015)"
-	revision: "7"
+	revision: "1"
 
 class
 	TOKENIZED_STRING_TEST_SET

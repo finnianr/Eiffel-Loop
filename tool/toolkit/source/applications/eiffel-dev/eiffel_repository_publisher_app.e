@@ -1,13 +1,21 @@
 note
-	description: "Publishes an Eiffel repository to a website"
+	description: "[
+		**Eiffel-View**, an application for publishing an Eiffel repository to a website. See Eiffel Room articles:
+		
+		**Part I:** [https://room.eiffel.com/blog/finnianr/part_i_eiffelview_10_the_new_eiffel_repository_publishing_tool Eiffel-View 1.0,
+		the new Eiffel repository publishing tool]
+		
+		**PART II:** [https://room.eiffel.com/blog/finnianr/part_ii_eiffelview_11_the_new_eiffel_repository_publishing_tool Eiffel-View 1.1,
+		the new Eiffel repository publishing tool]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-13 7:43:24 GMT (Wednesday 13th July 2016)"
-	revision: "11"
+	date: "2016-07-27 14:43:56 GMT (Wednesday 27th July 2016)"
+	revision: "1"
 
 class
 	EIFFEL_REPOSITORY_PUBLISHER_APP

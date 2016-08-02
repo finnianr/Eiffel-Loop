@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-27 18:22:33 GMT (Sunday 27th December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_DO_NOTHING_CHARACTER_ESCAPER [S -> STRING_GENERAL create make end]

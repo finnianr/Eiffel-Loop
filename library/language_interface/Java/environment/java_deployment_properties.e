@@ -10,7 +10,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-09 6:59:36 GMT (Saturday 9th July 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES

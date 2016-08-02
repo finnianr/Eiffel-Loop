@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-11-30 16:58:25 GMT (Monday 30th November 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_MATCH_ALL_IN_LIST_TP

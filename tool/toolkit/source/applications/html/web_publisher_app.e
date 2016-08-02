@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 20:14:22 GMT (Friday 8th July 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	WEB_PUBLISHER_APP

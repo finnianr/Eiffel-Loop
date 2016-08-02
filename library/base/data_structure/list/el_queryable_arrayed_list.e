@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_FILTERABLE_ARRAYED_LIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-30 16:31:26 GMT (Tuesday 30th December 2014)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_QUERYABLE_ARRAYED_LIST [G]

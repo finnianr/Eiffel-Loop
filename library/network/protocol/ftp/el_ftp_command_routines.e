@@ -9,7 +9,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-11 9:30:56 GMT (Monday 11th July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_FTP_COMMAND_ROUTINES

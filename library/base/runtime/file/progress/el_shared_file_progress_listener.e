@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-11 17:24:51 GMT (Monday 11th July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_SHARED_FILE_PROGRESS_LISTENER

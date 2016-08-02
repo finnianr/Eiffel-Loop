@@ -2,12 +2,12 @@ note
 	description: "Summary description for {STORABLE_STRING}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-05-12 7:41:57 GMT (Tuesday 12th May 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	STORABLE_STRING

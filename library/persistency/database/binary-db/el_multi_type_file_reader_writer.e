@@ -2,12 +2,12 @@ note
 	description: "Object that can store types conforming to type G"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-05-07 10:12:51 GMT (Thursday 7th May 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_MULTI_TYPE_FILE_READER_WRITER [G -> EL_STORABLE create make_default end]

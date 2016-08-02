@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 10:40:15 GMT (Friday 8th July 2016)"
-	revision: "6"
+	revision: "1"
 
 deferred class
 	EL_XML_PARSE_EVENT_SOURCE_2

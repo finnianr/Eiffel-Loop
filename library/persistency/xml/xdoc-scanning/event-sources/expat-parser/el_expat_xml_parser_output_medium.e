@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-17 18:55:48 GMT (Thursday 17th December 2015)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM

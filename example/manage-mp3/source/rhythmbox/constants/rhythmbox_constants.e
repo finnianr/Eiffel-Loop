@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 9:26:46 GMT (Wednesday 16th December 2015)"
-	revision: "6"
+	date: "2016-08-01 12:30:30 GMT (Monday 1st August 2016)"
+	revision: "1"
 
 class
 	RHYTHMBOX_CONSTANTS
@@ -70,6 +70,23 @@ feature {NONE} -- Constants
 	ID3_comment_description: ZSTRING
 		once
 			Result := "c0"
+		end
+
+	Media_types: EL_ZSTRING_LIST
+		once
+			create Result.make_from_array (
+				<< "application/octet-stream", "audio/mpeg", Text_plain, Text_pyxis >>
+			)
+		end
+
+	Text_plain: ZSTRING
+		once
+			Result := "text/plain"
+		end
+
+	Text_pyxis: ZSTRING
+		once
+			Result := "text/pyxis"
 		end
 
 	Tanda_types: ARRAY [ZSTRING]

@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-19 10:57:32 GMT (Saturday 19th December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	STRING_32_ROUTINES_TEST_SET

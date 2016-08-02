@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {EIFFEL_NOTES}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-07-23 7:35:42 GMT (Saturday 23rd July 2016)"
+	revision: "1"
 
 class
 	EIFFEL_NOTES

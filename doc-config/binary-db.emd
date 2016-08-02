@@ -1,12 +1,11 @@
-Implements "in-memory" database tables based on an interface defined by the kernel Eiffel class [https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/list/chain_chart.html `CHAIN']. There are two main table types:
+Implements "in-memory" database tables based on an interface defined by the kernel Eiffel class [https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/list/chain_chart.html `CHAIN [G\]']. There are two main table types:
 
 **1.** Monolithic tables which can only be saved to disk as a whole and any new items which have not been saved will be lost.
 
 **2.** Transactional tables where the effects of the table item operations: ''extend, replace or delete'',  are immediately committed to disk in an editions table file. When the editions file gets too large, the editions are consolidated into the main table file.
 
-Monolithic tables are implemented by class:
-
-[./library/persistency/database/binary-db/el_storable_chain.html `EL_STORABLE_CHAIN'] `[G ->' [./library/base/utility/memory/el_storable.html `EL_STORABLE'] `create make_default end]'
+Monolithic tables are implemented by class: `[./library/persistency/database/binary-db/el_storable_chain.html EL_STORABLE_CHAIN] [G -> 
+[./library/base/utility/memory/el_storable.html EL_STORABLE]]'
 
 This class defines the basic database ''CRUD'' concept of **C**reate, **R**ead, **U**pdate and **D**elete:
 

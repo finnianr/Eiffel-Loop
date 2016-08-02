@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-05 5:56:53 GMT (Tuesday 5th July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EVOLICITY_SERIALIZEABLE_TEXT_VALUE

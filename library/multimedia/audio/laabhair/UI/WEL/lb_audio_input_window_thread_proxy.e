@@ -10,7 +10,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-07 14:57:48 GMT (Thursday 7th July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	LB_AUDIO_INPUT_WINDOW_THREAD_PROXY

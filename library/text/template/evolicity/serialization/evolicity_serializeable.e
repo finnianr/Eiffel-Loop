@@ -5,15 +5,16 @@ note
 		objects. The template can be an either an external file or hard coded in the class by implementing the
 		function `template: READABLE_STRING_GENERAL'.
 	]"
+
 	notes: "See end of page"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-22 16:22:22 GMT (Friday 22nd April 2016)"
-	revision: "7"
+	date: "2016-07-27 10:46:40 GMT (Wednesday 27th July 2016)"
+	revision: "1"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -266,6 +267,15 @@ feature {NONE} -- Constants
 		end
 
 note
+	description: "[
+		Classes which inherit from `EVOLICITY_SERIALIZEABLE' can be serialized as text files using an Evolicity
+		template. A template contains a mixture of literal text and Evolicity code that outputs data from Eiffel
+		objects. The template can be an either an external file or hard coded in the class by implementing the
+		function `template: READABLE_STRING_GENERAL'.
+	]"
+
+	notes: "See end of page"
+
 	notes: "[
 		**VARIABLE CONTEXTS**
 		
@@ -400,7 +410,7 @@ note
 		the nested text spans multiple lines, as it most likely will do, it will be indented to same indent level as
 		the `#evaluate' directive.
 		
-		**The Include Directive
+		**The Include Directive**
 		
 			#include ($<file-path>)
 		
@@ -408,5 +418,14 @@ note
 		
 		(TO DO: Allow relative path as a string constant argument)
 	]"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-07-27 10:46:40 GMT (Wednesday 27th July 2016)"
+	revision: "1"
+
 
 end

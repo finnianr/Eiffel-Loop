@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_LATIN_1}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "3"
+	date: "2016-07-19 8:58:48 GMT (Tuesday 19th July 2016)"
+	revision: "1"
 
 class
 	EL_LATIN_1

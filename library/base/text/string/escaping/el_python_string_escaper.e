@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-14 19:01:13 GMT (Monday 14th December 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_PYTHON_STRING_ESCAPER [S -> STRING_GENERAL create make end]

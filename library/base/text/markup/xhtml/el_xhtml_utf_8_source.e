@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-10-27 17:23:41 GMT (Tuesday 27th October 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_XHTML_UTF_8_SOURCE

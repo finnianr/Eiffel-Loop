@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-04 8:35:14 GMT (Monday 4th July 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_GVFS_OS_COMMAND

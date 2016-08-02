@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-04 10:07:25 GMT (Monday 4th January 2016)"
-	revision: "3"
+	revision: "1"
 
 deferred class
 	EL_REGULAR_INTERVAL_EVENT_CONSUMER

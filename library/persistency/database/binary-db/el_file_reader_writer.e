@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-02 12:25:46 GMT (Saturday 2nd January 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_FILE_READER_WRITER [G -> EL_STORABLE create make_default end]

@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-10 12:06:05 GMT (Sunday 10th July 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	FILE_COMMAND_TEST_SET

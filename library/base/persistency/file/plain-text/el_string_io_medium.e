@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-10 13:40:24 GMT (Sunday 10th April 2016)"
-	revision: "6"
+	revision: "1"
 
 deferred class
 	EL_STRING_IO_MEDIUM

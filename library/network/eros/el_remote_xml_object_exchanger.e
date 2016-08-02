@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-09 10:44:48 GMT (Saturday 9th April 2016)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_REMOTE_XML_OBJECT_EXCHANGER

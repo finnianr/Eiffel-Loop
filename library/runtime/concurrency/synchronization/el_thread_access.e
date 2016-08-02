@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_THREAD_ACCESS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-05-10 15:43:57 GMT (Sunday 10th May 2015)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_THREAD_ACCESS

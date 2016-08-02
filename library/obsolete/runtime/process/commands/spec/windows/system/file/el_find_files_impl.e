@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-05-11 14:09:07 GMT (Wednesday 11th May 2016)"
-	revision: "3"
+	revision: "1"
 
 class
 	EL_FIND_FILES_IMPL

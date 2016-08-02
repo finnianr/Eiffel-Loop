@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:34:39 GMT (Friday 8th July 2016)"
-	revision: "7"
+	date: "2016-08-01 9:58:51 GMT (Monday 1st August 2016)"
+	revision: "1"
 
 class
-	MP3_FILE_COLLATOR
+	TANGO_MP3_FILE_COLLATOR
 
 inherit
 	EL_COMMAND

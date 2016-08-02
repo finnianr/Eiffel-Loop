@@ -6,15 +6,16 @@ note
 		command template:
 			el_toolkit -feature_edit -no_highlighting -source "$file_name"
 	]"
+
 	instructions: "See bottom of page"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-13 8:40:36 GMT (Wednesday 13th July 2016)"
-	revision: "6"
+	date: "2016-07-21 18:11:01 GMT (Thursday 21st July 2016)"
+	revision: "1"
 
 class
 	EIFFEL_FEATURE_EDITOR_APP
@@ -79,6 +80,16 @@ feature {NONE} -- Constants
 		end
 
 note
+	description: "[
+		This application can save a lot of keyboard typing during Eiffel development. It performs 
+		a series shorthand expansions on a single Eiffel class, as well as alphabetically ordering the
+		routines in each feature block. It can be usefully incoporated into EiffelStudio using this external
+		command template:
+			el_toolkit -feature_edit -no_highlighting -source "$file_name"
+	]"
+
+	instructions: "See bottom of page"
+
 	instructions: "[
 		The following is a list expansion rules which the tool recognizes:
 		
@@ -135,5 +146,14 @@ note
 				
 		**8.** Reorders alphabetically the features in each feature block
 	]"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+	
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-07-21 18:11:01 GMT (Thursday 21st July 2016)"
+	revision: "1"
+
 
 end

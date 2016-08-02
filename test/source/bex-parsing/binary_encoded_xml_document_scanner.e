@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 10:46:09 GMT (Friday 8th July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	BINARY_ENCODED_XML_DOCUMENT_SCANNER

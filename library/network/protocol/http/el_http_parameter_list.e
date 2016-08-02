@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_HTTP_PARAMETER_LIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-05-28 8:26:23 GMT (Thursday 28th May 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_HTTP_PARAMETER_LIST [P -> EL_HTTP_PARAMETER]

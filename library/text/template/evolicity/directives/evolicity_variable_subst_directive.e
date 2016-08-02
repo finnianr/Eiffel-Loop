@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-05 17:26:14 GMT (Tuesday 5th July 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	EVOLICITY_VARIABLE_SUBST_DIRECTIVE

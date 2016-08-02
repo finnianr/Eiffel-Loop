@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-24 12:35:09 GMT (Thursday 24th December 2015)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_REMOTELY_ACCESSIBLE

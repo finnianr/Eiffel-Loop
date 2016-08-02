@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-23 19:40:30 GMT (Thursday 23rd June 2016)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_CAPTURED_OS_COMMAND

@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Summary description for {EL_STRING_X_ROUTINES}."
 
 	author: "Finnian Reilly"
@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-26 17:07:53 GMT (Saturday 26th December 2015)"
-	revision: "6"
+	revision: "1"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]

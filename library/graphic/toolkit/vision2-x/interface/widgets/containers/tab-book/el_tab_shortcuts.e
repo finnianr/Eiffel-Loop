@@ -9,7 +9,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-08-30 9:52:18 GMT (Sunday 30th August 2015)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_TAB_SHORTCUTS

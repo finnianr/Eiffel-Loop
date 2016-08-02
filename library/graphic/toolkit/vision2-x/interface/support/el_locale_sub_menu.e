@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-08-29 12:06:37 GMT (Saturday 29th August 2015)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_LOCALE_SUB_MENU

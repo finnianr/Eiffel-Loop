@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-10-04 14:00:10 GMT (Sunday 4th October 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	SAMSUNG_TABLET_DEVICE

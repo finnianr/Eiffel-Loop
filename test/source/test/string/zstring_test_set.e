@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-06 10:00:17 GMT (Wednesday 6th July 2016)"
-	revision: "5"
+	date: "2016-07-18 14:16:47 GMT (Monday 18th July 2016)"
+	revision: "1"
 
 class
 	ZSTRING_TEST_SET

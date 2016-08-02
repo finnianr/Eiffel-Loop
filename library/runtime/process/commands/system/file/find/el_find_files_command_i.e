@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-21 8:45:45 GMT (Tuesday 21st June 2016)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_FIND_FILES_COMMAND_I

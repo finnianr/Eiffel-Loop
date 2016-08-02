@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 7:52:11 GMT (Thursday 7th July 2016)"
-	revision: "8"
+	date: "2016-08-01 11:54:22 GMT (Monday 1st August 2016)"
+	revision: "1"
 
 class
 	RBOX_SONG
@@ -384,12 +384,6 @@ feature -- Element change
 			first_seen := Time.unix_date_time (a_first_seen_time)
 		end
 
-	set_genre (a_genre: like genre)
-			--
-		do
-			genre := a_genre
-		end
-
 	set_mp3_root_location (a_mp3_root_location: like mp3_root_location)
 			--
 		do
@@ -405,12 +399,6 @@ feature -- Element change
 	set_recording_year (a_year: INTEGER)
 		do
 			date := a_year * Days_in_year
-		end
-
-	set_title (a_title: like title)
-			--
-		do
-			title := a_title
 		end
 
 	set_track_number (a_track_number: like track_number)
@@ -553,6 +541,7 @@ feature {NONE} -- Build from XML
 	on_context_exit
 			-- Called when the parser leaves the current context
 		do
+			Precursor
 			update_checksum
 			set_album_artists_list (album_artist)
 		end
@@ -655,7 +644,6 @@ feature -- Constants
 			<replaygain-track-gain>$gain</replaygain-track-gain>
 			<replaygain-track-peak>$peak</replaygain-track-peak>
 			#end
-			<media-type>audio/mpeg</media-type>
 			<mb-trackid>$mb_trackid</mb-trackid>
 		#across $non_zero_integer_fields as $field loop
 			<$field.key>$field.item</$field.key>

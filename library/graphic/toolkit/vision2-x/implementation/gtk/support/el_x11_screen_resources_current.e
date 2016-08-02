@@ -19,7 +19,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-07 14:51:07 GMT (Thursday 7th July 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_X11_SCREEN_RESOURCES_CURRENT

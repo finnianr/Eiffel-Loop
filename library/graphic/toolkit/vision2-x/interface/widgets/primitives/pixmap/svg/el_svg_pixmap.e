@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-11 9:53:33 GMT (Monday 11th July 2016)"
-	revision: "7"
+	revision: "1"
 
 class
 	EL_SVG_PIXMAP

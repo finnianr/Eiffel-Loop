@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 11:22:03 GMT (Friday 8th July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	SVG_TO_PNG_CONVERSION_TEST_APP

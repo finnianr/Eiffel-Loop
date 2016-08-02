@@ -13,7 +13,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-07 15:53:10 GMT (Thursday 7th July 2016)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_WAV_GENERATION_COMMAND_I

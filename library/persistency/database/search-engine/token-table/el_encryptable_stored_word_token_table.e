@@ -2,12 +2,12 @@ note
 	description: "Summary description for {ENCRYPTABLE_FILED_WORD_TOKEN_TABLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2014 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-05-06 10:46:23 GMT (Wednesday 6th May 2015)"
-	revision: "6"
+	revision: "1"
 
 class
 	EL_ENCRYPTABLE_STORED_WORD_TOKEN_TABLE

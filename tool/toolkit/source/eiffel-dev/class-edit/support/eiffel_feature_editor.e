@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-22 10:37:50 GMT (Friday 22nd April 2016)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EIFFEL_FEATURE_EDITOR

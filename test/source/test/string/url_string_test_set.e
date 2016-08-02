@@ -11,7 +11,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-11-13 18:04:29 GMT (Friday 13th November 2015)"
-	revision: "5"
+	revision: "1"
 
 class
 	URL_STRING_TEST_SET

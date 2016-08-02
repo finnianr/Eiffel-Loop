@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-22 11:23:10 GMT (Tuesday 22nd December 2015)"
-	revision: "6"
+	date: "2016-07-25 10:17:28 GMT (Monday 25th July 2016)"
+	revision: "1"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE

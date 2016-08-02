@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
+	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-11 11:39:40 GMT (Monday 11th July 2016)"
-	revision: "8"
+	date: "2016-07-18 14:35:50 GMT (Monday 18th July 2016)"
+	revision: "1"
 
 class
 	AUTOTEST_DEVELOPMENT_APP

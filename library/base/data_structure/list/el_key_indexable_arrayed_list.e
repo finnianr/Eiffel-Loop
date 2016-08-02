@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-02-12 13:57:20 GMT (Friday 12th February 2016)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	EL_KEY_INDEXABLE_ARRAYED_LIST [G -> EL_KEY_IDENTIFIABLE_STORABLE]

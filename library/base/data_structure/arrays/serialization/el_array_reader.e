@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-02 6:57:26 GMT (Saturday 2nd July 2016)"
-	revision: "5"
+	revision: "1"
 
 class
 	EL_ARRAY_READER

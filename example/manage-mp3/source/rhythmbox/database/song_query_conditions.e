@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-28 11:13:29 GMT (Monday 28th December 2015)"
-	revision: "7"
+	revision: "1"
 
 class
 	SONG_QUERY_CONDITIONS

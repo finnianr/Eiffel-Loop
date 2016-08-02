@@ -7,7 +7,7 @@ note
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-28 8:44:45 GMT (Tuesday 28th June 2016)"
-	revision: "4"
+	revision: "1"
 
 class
 	EL_TEST_CONSTANTS

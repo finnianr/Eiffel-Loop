@@ -7,7 +7,7 @@
 	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-10 12:02:48 GMT (Sunday 10th July 2016)"
-	revision: "5"
+	revision: "1"
 
 deferred class
 	HELP_PAGES_TEST_SET
