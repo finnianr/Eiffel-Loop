@@ -27,7 +27,7 @@ create
 
 feature -- Initialization
 
-	make (a_path: like source_directory_path; a_file_processor: EL_FILE_PROCESSOR)
+	make (a_path: like source_directory_path; a_file_processor: EL_FILE_PROCESSING_COMMAND)
 			--
 		do
 			source_directory_path := a_path
@@ -79,7 +79,7 @@ feature {NONE} -- Implementation
 
 	file_pattern: STRING
 
-	file_processor: EL_FILE_PROCESSOR
+	file_processor: EL_FILE_PROCESSING_COMMAND
 
 feature -- Element change
 
@@ -89,7 +89,7 @@ feature -- Element change
 			source_directory_path := a_path
 		end
 
-	set_file_processor (a_file_processor: EL_FILE_PROCESSOR)
+	set_file_processor (a_file_processor: EL_FILE_PROCESSING_COMMAND)
 			--
 		do
 			file_processor := a_file_processor

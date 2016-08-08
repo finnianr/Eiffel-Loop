@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-20 9:40:47 GMT (Wednesday 20th January 2016)"
-	revision: "1"
+	date: "2016-08-04 10:35:34 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_CLASS_RENAMER
@@ -28,9 +28,8 @@ feature {NONE} -- Initialization
 	make (a_old_class_name, a_new_class_name: like old_class_name)
 			--
 		do
+			old_class_name := a_old_class_name; new_class_name := a_new_class_name
 			make_editor
-			old_class_name := a_old_class_name
-			new_class_name := a_new_class_name
 		end
 
 feature -- Basic operations

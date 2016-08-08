@@ -6,16 +6,16 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-21 11:19:49 GMT (Thursday 21st January 2016)"
-	revision: "1"
+	date: "2016-08-04 7:40:34 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR
 
 inherit
-	EIFFEL_SOURCE_EDITING_PROCESSOR
+	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
 
 	EL_MODULE_LOG
 

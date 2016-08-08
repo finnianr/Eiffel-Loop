@@ -4,18 +4,18 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-21 11:19:33 GMT (Thursday 21st January 2016)"
-	revision: "1"
+	date: "2016-08-03 19:14:15 GMT (Wednesday 3rd August 2016)"
+	revision: "2"
 
 class
 	WEB_PAGE_CONTENT
 
 inherit
-	EL_FILE_EDITING_PROCESSOR
+	EL_FILE_PARSER_TEXT_FILE_CONVERTER
 		redefine
-			make_default, make_from_file
+			make_default
 		end
 
 	EL_ZTEXT_PATTERN_FACTORY
@@ -56,8 +56,7 @@ feature {NONE} -- Initialization
 			do_once_with_file_lines (agent find_body_tag, create {EL_FILE_LINE_SOURCE}.make (content_path))
 			body_file.close
 
- 			Precursor (content_body_path)
-
+ 			set_input_file_path (content_body_path)
 			edit
 			log.exit
  		end

@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-19 15:30:53 GMT (Tuesday 19th July 2016)"
 	revision: "1"
@@ -35,12 +35,17 @@ inherit
 
 feature {NONE} -- Initialization
 
+	make_encodable
+		do
+			make_utf_8
+		end
+
 	make_default
 			--
 		do
 			Precursor
-			make_utf_8
-			create source_file_path
+			make_encodable
+			source_file_path := Default_file_path
 		end
 
 feature -- Element Change
@@ -81,5 +86,12 @@ feature {NONE} -- Factory
 feature {NONE} -- Internal attributes
 
 	source_file_path: EL_FILE_PATH
+
+feature {NONE} -- Constants
+
+	Default_file_path: EL_FILE_PATH
+		once
+			create Result
+		end
 
 end

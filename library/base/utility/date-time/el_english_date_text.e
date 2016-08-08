@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 7:06:45 GMT (Wednesday 16th December 2015)"
 	revision: "1"
@@ -14,6 +14,9 @@ class
 
 inherit
 	EL_DATE_TEXT
+
+create
+	make
 
 feature {NONE} -- Implementation
 

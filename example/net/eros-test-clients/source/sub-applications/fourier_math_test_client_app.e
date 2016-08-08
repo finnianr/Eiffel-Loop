@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 9:34:50 GMT (Friday 24th June 2016)"
 	revision: "1"
@@ -174,17 +174,17 @@ feature {NONE} -- Implementation
 			c: COMPLEX_DOUBLE
 		do
 			log.enter ("print_vector")
-			log_or_io.put_string ("Vector rows [10 of ")
-			log_or_io.put_integer (vector.count)
-			log_or_io.put_line ("]:")
+			lio.put_string ("Vector rows [10 of ")
+			lio.put_integer (vector.count)
+			lio.put_line ("]:")
 			from i := 1 until i > 10 loop
 				c := vector [i]
-				log_or_io.put_integer (i)
-				log_or_io.put_string (": "); log_or_io.put_double (c.r)
-				log_or_io.put_string (" + "); log_or_io.put_double (c.i); log_or_io.put_line ("i")
+				lio.put_integer (i)
+				lio.put_string (": "); lio.put_double (c.r)
+				lio.put_string (" + "); lio.put_double (c.i); lio.put_line ("i")
 				i := i + 1
 			end
-			log_or_io.put_line ("..")
+			lio.put_line ("..")
 			log.exit
 		end
 

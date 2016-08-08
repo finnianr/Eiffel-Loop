@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 9:33:37 GMT (Friday 24th June 2016)"
 	revision: "1"
@@ -63,8 +63,8 @@ feature {NONE} -- Implementation
 			request := Call_request
 			request.set_expression_and_serializeable_argument (Current, routine_name, argument_tuple)
 
-			log_or_io.put_string_field ("Sending request", request.expression)
-			log_or_io.put_new_line
+			lio.put_string_field ("Sending request", request.expression)
+			lio.put_new_line
 
 			send_object (request, net_socket)
 
@@ -73,9 +73,9 @@ feature {NONE} -- Implementation
 
 			if attached {EL_EROS_ERROR_RESULT} result_object as error then
 				error_code := error.id
-				log_or_io.put_string_field ("ERROR", error.description)
-				log_or_io.put_string (", ")
-				log_or_io.put_line (error.detail)
+				lio.put_string_field ("ERROR", error.description)
+				lio.put_string (", ")
+				lio.put_line (error.detail)
 
 			elseif attached {EL_EROS_PROCEDURE_STATUS} result_object as procedure_status then
 				log.put_line ("Received acknowledgement")

@@ -7,7 +7,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 15:09:53 GMT (Friday 8th July 2016)"
 	revision: "1"
@@ -148,7 +148,6 @@ feature {NONE} -- Implementation
 			search_results: ARRAYED_LIST [EL_FILE_PATH]
 			timer: EL_EXECUTION_TIMER; new_checksum: NATURAL
 		do
-			log.enter_no_header ("do_test")
 			create timer.make
 			Crc_32.reset
 
@@ -169,23 +168,22 @@ feature {NONE} -- Implementation
 			new_checksum := Crc_32.checksum
 			last_test_succeeded := new_checksum = old_checksum
 
-			log.put_labeled_string ("Executed", timer.out); log.put_new_line
+			lio.put_labeled_string ("Executed", timer.out); lio.put_new_line
 			if last_test_succeeded then
-				log.put_line ("TEST IS OK ")
+				lio.put_line ("TEST IS OK ")
 
 			else
-				log.put_line ("TEST FAILURE! ")
-				log.put_labeled_string ("Target checksum", old_checksum.out)
-				log.put_labeled_string (" Actual sum", new_checksum.out)
-				log.put_new_line
-				log.put_string ("<RETURN> to continue")
+				lio.put_line ("TEST FAILURE! ")
+				lio.put_labeled_string ("Target checksum", old_checksum.out)
+				lio.put_labeled_string (" Actual sum", new_checksum.out)
+				lio.put_new_line
+				lio.put_string ("<RETURN> to continue")
 				io.read_line
 			end
 			Checksum_list.extend (new_checksum)
 			OS.delete_tree (Work_area_dir)
 			create_work_area
-			log.put_new_line
-			log.exit_no_trailer
+			lio.put_new_line
 		end
 
 	create_work_area

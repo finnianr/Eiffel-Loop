@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-20 9:34:23 GMT (Wednesday 20th July 2016)"
-	revision: "1"
+	date: "2016-08-05 8:25:40 GMT (Friday 5th August 2016)"
+	revision: "2"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent publisher_test_set.test_publisher)
---			do_file_data_test (agent note_editor_test_set.test_editor_with_new_class)
+--			do_file_data_test (agent publisher_test_set.test_publisher)
+			do_file_data_test (agent note_editor_test_set.test_editor_with_new_class)
 		end
 
 feature {NONE} -- Test

@@ -26,16 +26,16 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 14:27:26 GMT (Sunday 20th December 2015)"
-	revision: "1"
+	date: "2016-08-04 7:40:34 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_LOG_FILTER_ARRAY_SOURCE_EDITOR
 
 inherit
-	EIFFEL_SOURCE_EDITING_PROCESSOR
+	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
 		rename
 			class_name as class_name_pattern
 		end

@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-30 10:31:04 GMT (Thursday 30th June 2016)"
 	revision: "1"
@@ -47,7 +47,7 @@ feature -- Constants
 				libjvm_path_list := find_command.path_list
 				found := False
 				across libjvm_path_list as path until found loop
-					if path.item.steps.has (Server) then
+					if path.item.has_step (Server) then
 						Result := path.item
 						found := True
 					end

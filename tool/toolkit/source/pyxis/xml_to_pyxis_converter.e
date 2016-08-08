@@ -4,18 +4,17 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:10 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-08-03 18:59:22 GMT (Wednesday 3rd August 2016)"
+	revision: "2"
 
 class
 	XML_TO_PYXIS_CONVERTER
 
 inherit
-	EL_FILE_PROCESSOR
+	EL_FILE_PROCESSING_COMMAND
 		rename
-			file_path as source_path,
 			set_file_path as set_source_path
 		redefine
 			set_source_path, default_create
@@ -370,6 +369,8 @@ feature {NONE} -- Internal attributes
 	xml_identifier_or_numeric_constant_pattern: like one_of
 
 	output_path: EL_FILE_PATH
+
+	source_path: EL_FILE_PATH
 
 	xdoc: EL_XPATH_ROOT_NODE_CONTEXT
 

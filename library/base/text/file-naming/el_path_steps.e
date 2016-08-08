@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-07 7:55:04 GMT (Thursday 7th July 2016)"
 	revision: "1"
@@ -71,19 +71,6 @@ feature {NONE} -- Initialization
 			compare_objects
 		end
 
-	make_with_count (n: INTEGER)
-			--
-		do
-			make_list (n)
-			internal_hash_code := 0
-			compare_objects
-		end
-
-	make_from_directory_path, make_from_file_path (a_path: EL_PATH)
-		do
-			make (a_path.to_string)
-		end
-
 	make_from_array, make_from_unicode_array, make_from_latin_1_array (a_steps: ARRAY [READABLE_STRING_GENERAL])
 			-- Create list from array `steps'.
 		local
@@ -98,6 +85,19 @@ feature {NONE} -- Initialization
 				end
 				i := i + 1
 			end
+		end
+
+	make_from_directory_path, make_from_file_path (a_path: EL_PATH)
+		do
+			make (a_path.to_string)
+		end
+
+	make_with_count (n: INTEGER)
+			--
+		do
+			make_list (n)
+			internal_hash_code := 0
+			compare_objects
 		end
 
 feature -- Initialization
@@ -126,35 +126,35 @@ feature -- Initialization
 				-- a_path.string required so we don't have steps of type FILE_NAME
 		end
 
+feature -- Access
+
+	hash_code: INTEGER
+			-- Hash code value
+		local
+			i, nb: INTEGER; l_area: SPECIAL [CHARACTER_8]
+		do
+			Result := internal_hash_code
+			if Result = 0 then
+				from start until after loop
+					nb := item.count
+					l_area := item.area
+					from i := 0 until i = nb loop
+						Result := ((Result \\ Magic_number) |<< 8) + l_area.item (i).code
+						i := i + 1
+					end
+					forth
+				end
+				internal_hash_code := Result
+			end
+		end
+
 feature -- Element change
-
-	extend (step: like item)
-			-- Add `step' to end.
-			-- Do not move cursor.
-		do
-			internal_hash_code := 0
-			Precursor (step)
-		end
-
-	remove
-			-- Remove current item.
-		do
-			internal_hash_code := 0
-			Precursor
-		end
 
 	append (steps: SEQUENCE [like item])
 			-- Append a copy of `steps'.
 		do
 			internal_hash_code := 0
 			Precursor (steps)
-		end
-
-	replace (step: like first)
-			-- Replace current item by `step'.
-		do
-			internal_hash_code := 0
-			Precursor (step)
 		end
 
 	expand_variables
@@ -179,6 +179,14 @@ feature -- Element change
 			end
 		end
 
+	extend (step: like item)
+			-- Add `step' to end.
+			-- Do not move cursor.
+		do
+			internal_hash_code := 0
+			Precursor (step)
+		end
+
 	is_variable_name (a_step: ZSTRING): BOOLEAN
 		local
 			i: INTEGER
@@ -192,7 +200,44 @@ feature -- Element change
 			end
 		end
 
+	remove
+			-- Remove current item.
+		do
+			internal_hash_code := 0
+			Precursor
+		end
+
+	replace (step: like first)
+			-- Replace current item by `step'.
+		do
+			internal_hash_code := 0
+			Precursor (step)
+		end
+
 feature -- Status query
+
+	is_absolute: BOOLEAN
+		do
+			if not is_empty then
+				if {PLATFORM}.is_windows then
+					Result := is_volume_name (first)
+				else
+					Result := first.is_empty
+				end
+			end
+		end
+
+	is_createable_dir: BOOLEAN
+			-- True if steps are createable as a directory
+		do
+			if is_absolute then
+				if count > 1 and then sub_steps (1, count - 1).as_directory_path.exists_and_is_writeable then
+					Result := true
+				end
+			else
+				Result := Directory.current_working.exists_and_is_writeable
+			end
+		end
 
 	starts_with (other: like Current): BOOLEAN
 			--
@@ -218,30 +263,33 @@ feature -- Status query
 			end
 		end
 
-	is_absolute: BOOLEAN
-		do
-			if not is_empty then
-				if {PLATFORM}.is_windows then
-					Result := is_volume_name (first)
-				else
-					Result := first.is_empty
-				end
-			end
-		end
-
-	is_createable_dir: BOOLEAN
-			-- True if steps are createable as a directory
-		do
-			if is_absolute then
-				if count > 1 and then sub_steps (1, count - 1).as_directory_path.exists_and_is_writeable then
-					Result := true
-				end
-			else
-				Result := Directory.current_working.exists_and_is_writeable
-			end
-		end
-
 feature -- Conversion
+
+	as_directory_path: EL_DIR_PATH
+		do
+			Result := to_string
+		end
+
+	as_expanded_directory_path: EL_DIR_PATH
+		do
+			Result := expanded_path.to_string
+		end
+
+	as_expanded_file_path: EL_FILE_PATH
+		do
+			Result := expanded_path.to_string
+		end
+
+	as_file_path: EL_FILE_PATH
+		do
+			Result := to_string
+		end
+
+	expanded_path: like Current
+		do
+			Result := twin
+			result.expand_variables
+		end
 
 	joined alias "+" (other: like Current): like Current
 		do
@@ -296,54 +344,6 @@ feature -- Conversion
 			Result := to_string.to_unicode
 		end
 
-	as_file_path: EL_FILE_PATH
-		do
-			Result := to_string
-		end
-
-	as_directory_path: EL_DIR_PATH
-		do
-			Result := to_string
-		end
-
-	as_expanded_file_path: EL_FILE_PATH
-		do
-			Result := expanded_path.to_string
-		end
-
-	as_expanded_directory_path: EL_DIR_PATH
-		do
-			Result := expanded_path.to_string
-		end
-
-	expanded_path: like Current
-		do
-			Result := twin
-			result.expand_variables
-		end
-
-feature -- Access
-
-	hash_code: INTEGER
-			-- Hash code value
-		local
-			i, nb: INTEGER; l_area: SPECIAL [CHARACTER_8]
-		do
-			Result := internal_hash_code
-			if Result = 0 then
-				from start until after loop
-					nb := item.count
-					l_area := item.area
-					from i := 0 until i = nb loop
-						Result := ((Result \\ Magic_number) |<< 8) + l_area.item (i).code
-						i := i + 1
-					end
-					forth
-				end
-				internal_hash_code := Result
-			end
-		end
-
 feature -- Removal
 
 	remove_tail (n: INTEGER)
@@ -359,12 +359,12 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
+	internal_hash_code: INTEGER
+
 	is_volume_name (name: STRING): BOOLEAN
 		do
 			Result := name.count = 2 and then name.item (1).is_alpha and then name @ 2 = ':'
 		end
-
-	internal_hash_code: INTEGER
 
 feature -- Constants
 

@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-04 13:56:42 GMT (Monday 4th July 2016)"
 	revision: "1"
@@ -14,6 +14,9 @@ class
 
 inherit
 	EL_PATH
+		redefine
+			has_step
+		end
 
 	EL_SHARED_DIRECTORY
 		rename
@@ -35,14 +38,15 @@ convert
 
 feature -- Conversion
 
+	joined_dir_path (a_dir_path: EL_DIR_PATH): like Current
+		do
+			create Result.make_from_other (Current)
+			Result.append_dir_path (a_dir_path)
+		end
+
 	joined_dir_steps (a_steps: EL_PATH_STEPS): like Current
 		do
 			Result := joined_dir_path (a_steps)
-		end
-
-	joined_file_steps (a_steps: EL_PATH_STEPS): like joined_file_path
-		do
-			Result := joined_file_path (a_steps)
 		end
 
 	joined_file_path alias "+" (a_file_path: EL_FILE_PATH): like Type_file_path
@@ -50,29 +54,16 @@ feature -- Conversion
 			create Result.make_from_other (Current); Result.append (a_file_path)
 		end
 
-	joined_dir_path (a_dir_path: EL_DIR_PATH): like Current
+	joined_file_steps (a_steps: EL_PATH_STEPS): like joined_file_path
 		do
-			create Result.make_from_other (Current)
-			Result.append_dir_path (a_dir_path)
+			Result := joined_file_path (a_steps)
 		end
 
 feature -- Status report
 
-	is_parent_of (other: EL_PATH): BOOLEAN
-		do
-			if other.parent_path.starts_with (parent_path) then
-				Result := other.parent_path.substring_index (base, parent_path.count + 1) = parent_path.count + 1
-			end
-		end
-
 	exists: BOOLEAN
 		do
 			Result := named_directory (Current).exists
-		end
-
-	is_writable: BOOLEAN
-		do
-			Result := named_directory (Current).is_writable
 		end
 
 	exists_and_is_writeable: BOOLEAN
@@ -87,9 +78,27 @@ feature -- Status report
 			Result := dir.exists and then dir.is_writable
 		end
 
+	has_step (step: ZSTRING): BOOLEAN
+			-- true if path has directory step
+		do
+			Result := base ~ step or else Precursor (step)
+		end
+
 	is_createable: BOOLEAN
 		do
 			Result := parent.exists_and_is_writeable
+		end
+
+	is_parent_of (other: EL_PATH): BOOLEAN
+		do
+			if other.parent_path.starts_with (parent_path) then
+				Result := other.parent_path.substring_index (base, parent_path.count + 1) = parent_path.count + 1
+			end
+		end
+
+	is_writable: BOOLEAN
+		do
+			Result := named_directory (Current).is_writable
 		end
 
 feature {NONE} -- Implementation

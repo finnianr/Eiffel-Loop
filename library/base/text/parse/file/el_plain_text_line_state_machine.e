@@ -1,10 +1,19 @@
 note
-	description: "Summary description for {EL_PLAIN_TEXT_LINE_PROCESSOR}."
+	description: "[
+		A state machine for processing lines from a line source, using a line processing procedure
+		defined by the attribute:
+		
+			state: PROCEDURE [like Current, TUPLE [ZSTRING]]
+			
+		The line processing state can be changed by assigning a new procedure to `state'.
+		Line processing stops either when `state' is assigned the procedure `final' or the last line
+		in the line source is reached.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-20 5:57:12 GMT (Wednesday 20th July 2016)"
 	revision: "1"
@@ -27,7 +36,7 @@ feature -- Basic operations
 			lines.close
 		end
 
-feature -- Access
+feature {NONE} -- Implementation
 
 	colon_name (line: ZSTRING): ZSTRING
 		local

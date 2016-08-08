@@ -14,7 +14,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-08-02 11:16:51 GMT (Tuesday 2nd August 2016)"
 	revision: "1"
@@ -194,6 +194,11 @@ feature -- Factory
 			Result.set_title (playlist.title)
 			Result.set_media_type (Text_pyxis)
 			Result.set_location (playlist.output_path)
+		end
+
+	new_playlist (a_name: STRING): RBOX_PLAYLIST
+		do
+			create Result.make_with_name (a_name, Current)
 		end
 
 feature -- Status query
@@ -412,7 +417,7 @@ feature -- Basic operations
 		do
 			lio.put_string_field ("Importing playlist", m3u_playlist.name)
 			lio.put_new_line
-			playlists.extend (create_playlist (m3u_playlist.name))
+			playlists.extend (new_playlist (m3u_playlist.name))
 			m3u_playlist.do_all (
 				agent (path_steps: EL_PATH_STEPS)
 					local
@@ -649,11 +654,6 @@ feature {RHYTHMBOX_MUSIC_MANAGER} -- Tag editing
 		end
 
 feature {RHYTHMBOX_MUSIC_MANAGER} -- Implementation
-
-	create_playlist (a_name: STRING): RBOX_PLAYLIST
-		do
-			create Result.make_with_name (a_name, Current)
-		end
 
 	set_longest_common_directory (song: RBOX_SONG)
 			--

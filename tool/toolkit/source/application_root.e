@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-19 6:37:18 GMT (Tuesday 19th July 2016)"
-	revision: "1"
+	date: "2016-08-03 19:34:37 GMT (Wednesday 3rd August 2016)"
+	revision: "2"
 
 class
 	APPLICATION_ROOT
@@ -66,7 +66,6 @@ feature {NONE} -- Implementation
 				{VCF_CONTACT_SPLITTER_APP},
 				{VCF_CONTACT_NAME_SWITCHER_APP},
 
-				{WEB_PUBLISHER_APP},
 				{XML_TO_PYXIS_APP}
 			>>
 		end

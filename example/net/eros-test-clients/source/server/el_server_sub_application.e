@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:33:12 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -38,10 +38,10 @@ feature -- Basic operations
 			log.enter ("run")
 			connecting_socket.listen (3)
 			from until exit_signal_received loop
-				log_or_io.put_line ("Waiting for connection ..")
+				lio.put_line ("Waiting for connection ..")
 				connecting_socket.accept
 				if connecting_socket.is_client_connected then
-					log_or_io.put_line ("Connection accepted")
+					lio.put_line ("Connection accepted")
 					serve (connecting_socket.accepted)
 				end
 			end

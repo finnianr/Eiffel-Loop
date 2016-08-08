@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 20:14:32 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-08-04 9:42:38 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_SOURCE_LOG_LINE_REMOVER_APP
@@ -23,14 +23,17 @@ create
 
 feature {NONE} -- Implementation
 
-	create_file_editor: EIFFEL_LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR
+	new_editor: EIFFEL_LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR
 		do
 			create Result.make
 		end
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 0
+	Checksum: ARRAY [NATURAL]
+		once
+			Result := << 0, 0 >>
+		end
 
 	Option_name: STRING = "elog_remover"
 

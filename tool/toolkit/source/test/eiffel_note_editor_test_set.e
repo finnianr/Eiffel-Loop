@@ -4,9 +4,9 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-22 8:10:25 GMT (Friday 22nd July 2016)"
+	date: "2016-08-07 10:13:16 GMT (Sunday 7th August 2016)"
 	revision: "1"
 
 class
@@ -53,7 +53,7 @@ feature -- Tests
 				restore_default_fields (file_path)
 
 				encoding := encoding_name (file_path); crc := crc_32 (file_path)
-				editor.set_input_file_path (Work_area_dir + file_path.base)
+				editor.set_file_path (Work_area_dir + file_path.base)
 				editor.edit
 				encoding_after := encoding_name (file_path)
 				assert ("encoding has not changed", encoding.is_equal (encoding_after))
@@ -71,7 +71,7 @@ feature {NONE} -- Line states
 
 	find_author (line: ZSTRING)
 		do
-			if colon_name (line).same_string ("author") then
+			if colon_name (line) ~ Field.author then
 				file_out.put_new_line
 				file_out.put_string (Default_fields.joined_lines)
 				file_out.put_new_line

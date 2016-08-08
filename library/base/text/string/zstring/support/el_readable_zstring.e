@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-19 17:00:51 GMT (Tuesday 19th July 2016)"
 	revision: "1"
@@ -1514,8 +1514,8 @@ feature {EL_READABLE_ZSTRING} -- Element change
 					l_reference := tuple.reference_item (i)
 					if attached {READABLE_STRING_GENERAL} l_reference as string then
 						append_string_general (string)
-					elseif attached {EL_PATH} l_reference as path then
-						append_string (path.to_string)
+					elseif attached {EL_PATH} l_reference as l_path then
+						append_string (l_path.to_string)
 					elseif attached {PATH} l_reference as path then
 						append_string_general (path.name)
 					else
