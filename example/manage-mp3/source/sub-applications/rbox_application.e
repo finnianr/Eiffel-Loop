@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-08-01 11:09:29 GMT (Monday 1st August 2016)"
 	revision: "1"
@@ -131,7 +131,7 @@ feature {NONE} -- Implementation
 			log.put_new_line
 
 			relative_steps := song.mp3_path.relative_path (database.mp3_root_location).steps
-			Result := Directory.path ("build").joined_file_steps (relative_steps)
+			Result := Directory.new_path ("build").joined_file_steps (relative_steps)
 			if not Result.exists then
 				File_system.make_directory (Result.parent)
 				wav_path := Result.with_new_extension ("wav")

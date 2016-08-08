@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-18 16:41:55 GMT (Monday 18th July 2016)"
-	revision: "1"
+	date: "2016-08-07 10:12:37 GMT (Sunday 7th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_NOTE_EDITOR_COMMAND
@@ -34,7 +34,7 @@ feature {EL_SUB_APPLICATION} -- Initialization
 
 feature {NONE} -- Implementation
 
-	new_file_editor: EIFFEL_NOTE_EDITOR
+	new_editor: EIFFEL_NOTE_EDITOR
 		do
 			create Result.make (license_notes)
 		end

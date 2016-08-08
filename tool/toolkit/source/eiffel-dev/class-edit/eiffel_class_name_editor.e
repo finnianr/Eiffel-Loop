@@ -4,16 +4,16 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-08-04 7:40:34 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_CLASS_NAME_EDITOR
 
 inherit
-	EIFFEL_SOURCE_EDITING_PROCESSOR
+	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
 		rename
 			class_name as class_name_pattern
 		redefine
@@ -60,9 +60,9 @@ feature {NONE} -- Implementation
 		do
 			class_name := a_class_name.twin
 			class_file_name := class_name.as_lower + ".e"
-			if output_file_path.base /~ class_file_name then
+			if file_path.base /~ class_file_name then
 				check attached {FILE} output as output_file then
-					output_file.rename_file (output_file_path.parent + class_file_name)
+					output_file.rename_file (file_path.parent + class_file_name)
 					lio.put_line ("  * * File renamed! * * ")
 				end
 			end

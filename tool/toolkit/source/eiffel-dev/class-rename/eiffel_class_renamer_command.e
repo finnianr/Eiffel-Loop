@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-19 6:35:58 GMT (Tuesday 19th July 2016)"
-	revision: "1"
+	date: "2016-08-03 17:14:37 GMT (Wednesday 3rd August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_CLASS_RENAMER_COMMAND
@@ -61,7 +61,7 @@ feature -- Basic operations
 
 						new_class_name.share (User_input.line ("New class name"))
 						new_class_name.left_adjust; new_class_name.right_adjust
-						file_editor.set_pattern_changed
+						editor.set_pattern_changed
 						Precursor; change_manifest_class_name
 					end
 				end
@@ -72,7 +72,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_file_editor: EIFFEL_CLASS_RENAMER
+	new_editor: EIFFEL_CLASS_RENAMER
 		do
 			create Result.make (old_class_name, new_class_name)
 		end

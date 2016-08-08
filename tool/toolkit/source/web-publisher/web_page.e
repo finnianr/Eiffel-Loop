@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-08-03 19:33:53 GMT (Wednesday 3rd August 2016)"
+	revision: "2"
 
 class
 	WEB_PAGE
@@ -38,8 +38,7 @@ feature {NONE} -- Initialization
 	make (a_config: like config; file_path: EL_FILE_PATH)
 			--
 		local
-			properties: WEB_PAGE_PROPERTIES
-			value: STRING
+			properties: WEB_PAGE_PROPERTIES; value: STRING
 		do
 			log.enter_with_args ("make", << file_path >>)
 			make_default
@@ -135,7 +134,6 @@ feature -- Element change
 			a_menu.do_if (agent menu.extend, agent not_this_current_web_page)
 		end
 
-
 feature -- Comparison
 
 	is_less alias "<" (other: like Current): BOOLEAN
@@ -162,7 +160,7 @@ feature {NONE} -- Evolicity fields
 				["description", 				agent: STRING do Result := description end],
 				["page_title", 				agent: STRING do Result := page_title end],
 				["menu_name", 					agent: STRING do Result := menu_name end],
-				["content_path", 				agent: STRING do Result := content.file_path.to_string end],
+				["content_path", 				agent: EL_FILE_PATH do Result := content.input_file_path end],
 				["has_contents", 				agent: BOOLEAN_REF do Result := has_contents.to_reference end],
 				["has_print_view", 			agent: BOOLEAN_REF do Result := has_print_view.to_reference end],
 				["is_print_view", 			agent: BOOLEAN_REF do Result := is_print_view.to_reference end],

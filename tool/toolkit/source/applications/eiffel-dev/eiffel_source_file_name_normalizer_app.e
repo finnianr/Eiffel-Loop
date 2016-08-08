@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 20:15:13 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-08-04 10:26:50 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_SOURCE_FILE_NAME_NORMALIZER_APP
@@ -23,14 +23,18 @@ create
 
 feature {NONE} -- Implementation
 
-	create_file_editor: EIFFEL_CLASS_FILE_NAME_NORMALIZER
+	new_editor: EIFFEL_CLASS_FILE_NAME_NORMALIZER
 		do
 			create Result.make
 		end
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 0
+	Checksum: ARRAY [NATURAL]
+			-- 4 Aug 2016
+		once
+			Result := << 1536695909, 358964446 >>
+		end
 
 	Option_name: STRING = "normalize_class_file_name"
 

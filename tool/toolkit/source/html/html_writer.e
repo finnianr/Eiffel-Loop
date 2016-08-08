@@ -4,16 +4,16 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-20 9:36:12 GMT (Wednesday 20th January 2016)"
-	revision: "1"
+	date: "2016-08-04 8:33:13 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 deferred class
 	HTML_WRITER
 
 inherit
-	EL_TEXT_FILE_EDITOR
+	EL_FILE_PARSER_TEXT_EDITOR
 		rename
 			edit as write
 		redefine
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 			make_default
 			date_stamp := a_date_stamp
 			create last_attribute_name.make_empty
-			set_output_file_path (output_path)
+			set_file_path (output_path)
 			set_source_text (a_source_text)
 			set_utf_encoding (8)
 		end

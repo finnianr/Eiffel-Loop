@@ -4,16 +4,16 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-20 9:36:12 GMT (Wednesday 20th January 2016)"
-	revision: "1"
+	date: "2016-08-03 13:10:59 GMT (Wednesday 3rd August 2016)"
+	revision: "2"
 
 class
 	GCC_TO_MSVC_CONVERTER
 
 inherit
-	EL_TEXT_FILE_EDITOR
+	EL_FILE_PARSER_TEXT_FILE_CONVERTER
 		rename
 			make_default as make
 		redefine

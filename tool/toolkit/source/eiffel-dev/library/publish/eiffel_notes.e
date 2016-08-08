@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-23 7:35:42 GMT (Saturday 23rd July 2016)"
-	revision: "1"
+	date: "2016-08-07 10:38:50 GMT (Sunday 7th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_NOTES
@@ -51,12 +51,12 @@ feature -- Access
 			context: EVOLICITY_CONTEXT_IMP; element_list: EIFFEL_NOTE_HTML_TEXT_ELEMENT_LIST
 		do
 			create Result.make (fields.count)
-			across fields as field loop
-				create element_list.make (field.item, Empty_dir)
+			across fields as l_field loop
+				create element_list.make (l_field.item, Empty_dir)
 				create context.make
 				context.put_variable (element_list, Var_element_list)
-				context.put_variable (new_title (field.key), Var_title)
-				if field.key ~ Field_description then
+				context.put_variable (new_title (l_field.key), Var_title)
+				if l_field.key ~ Field_description then
 					Result.put_front (context)
 				else
 					Result.extend (context)
@@ -68,9 +68,9 @@ feature -- Access
 			-- other fields besides the description
 		do
 			create Result.make_empty
-			across fields as field loop
-				if field.key /~ Field_description then
-					Result.extend (new_title (field.key))
+			across fields as l_field loop
+				if l_field.key /~ Field_description then
+					Result.extend (new_title (l_field.key))
 				end
 			end
 		end
@@ -87,7 +87,7 @@ feature -- Status query
 
 	has_other_field_titles: BOOLEAN
 		do
-			Result := across fields as field some field.key /~ Field_description end
+			Result := across fields as l_field some l_field.key /~ Field_description end
 		end
 
 	has_fields: BOOLEAN

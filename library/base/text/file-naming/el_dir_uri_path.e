@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 7:06:34 GMT (Wednesday 16th December 2015)"
 	revision: "1"
@@ -22,6 +22,9 @@ inherit
 		end
 
 	EL_URI_PATH
+		undefine
+			has_step
+		end
 
 create
 	default_create, make, make_from_unicode, make_from_latin_1, make_from_path, make_from_dir_path

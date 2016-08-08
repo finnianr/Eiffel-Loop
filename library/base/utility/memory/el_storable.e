@@ -528,12 +528,6 @@ feature {NONE} -- Constants
 		end
 
 note
-	description: "[
-		Object that can read and write itself to a memory buffer of type `EL_MEMORY_READER_WRITER'.
-	]"
-
-	instructions: "See end of page"
-
 	instructions: "[
 		There is support for automatic reading and writing of the following attribute types:
 
@@ -545,14 +539,5 @@ note
 
 		Override the function `excluded_fields' to define a list of fields which should not be storable.
 	]"
-
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
-	
-	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-29 14:51:13 GMT (Friday 29th July 2016)"
-	revision: "1"
-
 
 end

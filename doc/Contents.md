@@ -10,12 +10,68 @@ Example program demonstrating how a client can call a server created with the ER
 ## Eiffel to Java
 Demonstration program for the Eiffel-Loop Java interface library. This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
 ## Rhythmbox MP3 Collection Manager
-This is a full-blown MP3 collection manager that is designed to work in conjunction with the Rhythmbox media player.
+This is a full-blown MP3 collection manager that is designed to work in conjunction with the [Rhythmbox media player](https://wiki.gnome.org/Apps/Rhythmbox) and has a number of features of particular interest to Tango DJs.
+
+**Manger Syntax**
+
+	el_rhythmbox -manager -config <task-configuration>.pyx
+
+**Features**
+
+
+* Integrates with the GNOME desktop and the [GNOME terminal](https://en.wikipedia.org/wiki/GNOME_Terminal) so you can drag and drop task configuration files on to either a [desktop launcher](https://developer.gnome.org/integration-guide/stable/desktop-files.html.en) or the GNOME terminal.
+* Automatically add album art to MP3 files from a directory based on album name or artist name.
+* Collate songs into a directory structure according to song tags:
+
+	<genre>/<artist-name>/<song-title>.<unique id>.mp3
+
+
+* Import videos in various formats as MP3 files automatically adding ID3 tags according to folder location. Includes facility for mapping video segments to individual MP3 files.
+* Replace songs marked as duplicated, updating all playlists and removing replaced song from collection.
+* Display all ID3 tag comments
+* Create [tango cortinas](https://en.wikipedia.org/wiki/Cortina_(tango)) to act as breaks between a set of dance songs.
+* Delete all ID3 tag comments except for the Rhythmbox 'c0' comment. (Gets rid of iTune identifiers etc.)
+* Remove all UFID fields from ID3 tags
+* Store playlists in a special format that can be easily edited in a text editor to add DJ event information.
+* Publish playlists augmented with DJ event information to a website using an Evolicity HTML template.
+* Display [MusicBrainz info](https://en.wikipedia.org/wiki/MusicBrainz) for any songs that have it.
+* Display songs with incomplete [TXXX ID3](http://id3.org/id3v2.3.0#Declared_ID3v2_frames) tags (User defined text).
+* Archive songs placed in a special "Archive" playlist. This removes them from the main Rhythmbox collection but does not delete them.
+* Append field "album-artist" into main 'c0' comment.
+* Replace 'c0' comment with album-artist info
+* Synchronize all (or selected genres) of music with connected device.
+* Export all playlists and associated MP3 to external device
+* Has a trick where the beats-per-minute ID3 field can be used to generate a silent pause after particular songs in a playlist.
+* Writes a unique audio signature into the MusicBrainz track id to facilitate foolproof device synchronization.
+
+**Manual**
+
+For details on how to use, read the [source documentation notes](http://www.eiffel-loop.com/example/manage-mp3/source/sub-applications/rhythmbox_music_manager_app.html).
+
+**Download**
+
+Download the latest executable for *Ubuntu 14.04* or *Linux Mint 17.x* at the bottom of [this page](https://github.com/finnianr/Eiffel-Loop/releases/latest). You also need the following command line tools to be installed: `sox, swgen, avconv, lame, gvfs-mount`.
+
+Warning: **Use at your own risk.** It is recommended that you have a backup of your MP3 collection and rhythmbox configuration files (Usually in `$HOME/.local/share/rhythmbox`). The developer does not take any responsibility for any data loss that may occur as a result of using *el_rhythmbox*.
 
 
 ## Vision-2 Extensions Demo
 
 ## Development Toolkit Program
+A "Swiss-army knife" of useful Eiffel command line development tools. The most useful ones are listed here with command line switchs:
+
+[`EIFFEL_REPOSITORY_PUBLISHER_APP`](http://www.eiffel-loop.com/tool/toolkit/source/applications/eiffel-dev/eiffel_repository_publisher_app.html) `-publish_repository`: publishes an Eiffel code repository as a website with module descriptions.
+
+[`EIFFEL_NOTE_EDITOR_APP`](http://www.eiffel-loop.com/tool/toolkit/source/applications/eiffel-dev/eiffel_note_editor_app.html) `-edit_notes`: Add default values to note fields using a source tree manifest.
+
+[`EIFFEL_FEATURE_EDITOR_APP`](http://www.eiffel-loop.com/tool/toolkit/source/applications/eiffel-dev/eiffel_feature_editor_app.html) `-feature_edit`: expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
+
+[`CRYPTO_APP`](http://www.eiffel-loop.com/tool/toolkit/source/applications/crypto_app.html) `-crypto`: menu driven shell of useful cryptographic operations.
+
+**Download**
+
+Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releases/download/1.4.1/el_toolkit-1.1.22) for *Ubuntu 14.04* or *Linux Mint 17.x*.
+
 
 ## Development Testing
 
@@ -38,6 +94,18 @@ This is a full-blown MP3 collection manager that is designed to work in conjunct
 ## HTML Viewer (based on Vision-2)
 
 ## Vision-2 GUI Extensions
+Provides many extensions to the Eiffel Software [Vision-2 cross-platform GUI library](https://www.eiffel.org/doc/solutions/EiffelVision%202) and the [Smart Docking library](https://dev.eiffel.com/Smart_Docking_library).
+
+**Features**
+
+
+* Advanced pixel buffer rendering with transparencies and anti-aliasing using the [Cairo](https://cairographics.org/) and [Pangocairo](http://www.pango.org/) 2D graphics library. See class [`EL_DRAWABLE_PIXEL_BUFFER`](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/pixmap/el_drawable_pixel_buffer.html)
+* Drop-down combo boxes linked to data containers conforming to `[FINITE](https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/storage/finite_flat.html) [G]` and initialized with a value of type *G*, and a selection change agent of type `PROCEDURE [ANY, TUPLE [G]]`. See class `[EL_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_drop_down_box.html)`
+* Drop-down combo boxes with localized display strings. See class `[EL_LOCALE_STRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_locale_string_drop_down_box.html)`
+* Drop down combo box for months of year specified as integers and displayed with English names and a localized variant `[EL_LOCALE_MONTH_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_locale_month_drop_down_box.html)`
+
+These features are only the tip of the ice-berg.
+
 
 ## Windows Eiffel Library Extensions
 
@@ -95,15 +163,13 @@ Laabhair was developed at the [Digital Media Centre at the Dublin Institute of T
 ## Goanna Servlet Extensions
 
 ## Eiffel CHAIN Orientated Binary Database
-Implements "in-memory" database tables based on an interface defined by the kernel Eiffel class [`CHAIN`](https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/list/chain_chart.html). There are two main table types:
+Implements "in-memory" database tables based on an interface defined by the kernel Eiffel class [`CHAIN [G\](https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/list/chain_chart.html)`]. There are two main table types:
 
 **1.** Monolithic tables which can only be saved to disk as a whole and any new items which have not been saved will be lost.
 
 **2.** Transactional tables where the effects of the table item operations: *extend, replace or delete*,  are immediately committed to disk in an editions table file. When the editions file gets too large, the editions are consolidated into the main table file.
 
-Monolithic tables are implemented by class:
-
-[`EL_STORABLE_CHAIN`](http://www.eiffel-loop.com/library/persistency/database/binary-db/el_storable_chain.html) `[G ->` [`EL_STORABLE`](http://www.eiffel-loop.com/library/base/utility/memory/el_storable.html) `create make_default end]`
+Monolithic tables are implemented by class: `[EL_STORABLE_CHAIN](http://www.eiffel-loop.com/library/persistency/database/binary-db/el_storable_chain.html) [G ->  [EL_STORABLE](http://www.eiffel-loop.com/library/base/utility/memory/el_storable.html)]`
 
 This class defines the basic database *CRUD* concept of **C**reate, **R**ead, **U**pdate and **D**elete:
 
@@ -211,7 +277,17 @@ The private key reader however uses a non-standard encryption scheme. It assumes
 ## Evolicity Text Substitution Engine
 **Evolicity** is a text substitution language that was inspired by the [Velocity text substitution language](http://velocity.apache.org/) for Java. *Evolicity* provides a way to merge the data from Eiffel objects into a text template. The template can be either supplied externally or hard-coded into an Eiffel class. The language includes, substitution variables, conditional statements and loops. Substitution variables have a BASH like syntax. Conditionals and loops have an Eiffel like syntax.
 
-The text of this web page was generated using an *Evolicity* template which you can see here: [https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/source-code.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/source-code.html.evol)
+The text of this web page was generated by the [Eiffel-view repository publisher](http://www.eiffel-loop.com/tool/toolkit/source/applications/eiffel-dev/eiffel_repository_publisher_app.html) using the following combination of *Evolicity* templates:
+
+1. [doc-config/main-template.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/main-template.html.evol)
+
+2. [doc-config/site-map-content.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/site-map-content.html.evol)
+
+3. [doc-config/directory-tree-content.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/directory-tree-content.html.evol)
+
+4. [doc-config/eiffel-source-code.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/eiffel-source-code.html.evol)
+
+
 
 To make an Eiffel class serializable with *Evolicity* you inherit from class [`EVOLICITY_SERIALIZEABLE`](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable.html). Read the class notes for details on how to use. You can also access the substitution engine directly from the shared instance in class [`EL_MODULE_EVOLICITY_TEMPLATES`](http://www.eiffel-loop.com/library/text/template/evolicity/el_module_evolicity_templates.html)
 

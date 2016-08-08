@@ -3,5 +3,5 @@ pyxis-doc:
 
 manifest:
 	location:
-		"$EIFFEL_LOOP/tool/toolkit/source/eiffel-dev/class-rename"
+		"$EIFFEL_LOOP/tool/toolkit/source"
 

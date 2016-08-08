@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:33:12 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -74,8 +74,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{BEXT_CLIENT_TEST_APP}, "*"],
-				[{EL_XML_PARSE_EVENT_GENERATOR}, "*"]
+				[{BEXT_CLIENT_TEST_APP}, All_routines]
 			>>
 		end
 

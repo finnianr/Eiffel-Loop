@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-22 17:02:25 GMT (Friday 22nd July 2016)"
 	revision: "1"
@@ -283,6 +283,20 @@ feature -- Status Query
 				i := i + 1
 			end
 			Result := not found
+		end
+
+	has_step (step: ZSTRING): BOOLEAN
+			-- true if path has directory step
+		local
+			pos_left_separator, pos_right_separator: INTEGER
+		do
+			pos_left_separator := parent_path.substring_index (step, 1) - 1
+			pos_right_separator := pos_left_separator + step.count + 1
+			if 0 <= pos_left_separator and pos_right_separator <= parent_path.count then
+				if parent_path [pos_right_separator] = Separator then
+					Result := pos_left_separator > 0 implies parent_path [pos_left_separator] = Separator
+				end
+			end
 		end
 
 	out_abbreviated: BOOLEAN

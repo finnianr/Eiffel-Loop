@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-19 6:35:19 GMT (Tuesday 19th July 2016)"
-	revision: "1"
+	date: "2016-08-04 10:38:16 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_SOURCE_TREE_CLASS_RENAME_APP
@@ -26,14 +26,16 @@ feature -- Testing
 	test_run
 			--
 		do
---			Test.do_file_tree_test ("Eiffel", agent test_source_manifest_class_renamer, 1485581754)
-			Test.do_file_tree_test ("Eiffel", agent test_drag_and_drop, 632591952)
+			-- 4 Aug 2016
+			Test.do_file_tree_test ("Eiffel/latin1-sources", agent test_source_manifest_class_renamer, 3285795821)
+
+--			Test.do_file_tree_test ("Eiffel", agent test_drag_and_drop, 632591952)
 		end
 
 	test_source_manifest_class_renamer (a_sources_path: EL_DIR_PATH)
 			--
 		do
-			create command.make (a_sources_path + "sources-manifest.pyx" , "FILE_NAME", "EL_FILE_PATH")
+			create command.make (a_sources_path + "manifest.pyx" , "FILE_NAME", "EL_FILE_PATH")
 			normal_run
 		end
 

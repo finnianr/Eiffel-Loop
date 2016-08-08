@@ -6,7 +6,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-05 13:01:49 GMT (Tuesday 5th July 2016)"
 	revision: "1"
@@ -37,7 +37,7 @@ inherit
 
 feature -- Factory
 
-	path (a_path: READABLE_STRING_GENERAL): EL_DIR_PATH
+	new_path (a_path: READABLE_STRING_GENERAL): EL_DIR_PATH
 		do
 			create Result.make_from_unicode (a_path.as_string_32)
 		end

@@ -8,10 +8,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 20:16:11 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-08-03 18:57:38 GMT (Wednesday 3rd August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_UPGRADE_DEFAULT_POINTER_SYNTAX_APP
@@ -27,7 +27,7 @@ create
 
 feature {NONE} -- Implementation
 
-	create_file_editor: EIFFEL_UPGRADE_DEFAULT_POINTER_SYNTAX_EDITOR
+	new_editor: EIFFEL_UPGRADE_DEFAULT_POINTER_SYNTAX_EDITOR
 		do
 			create Result.make
 		end

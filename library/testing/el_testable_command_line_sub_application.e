@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-19 6:35:19 GMT (Tuesday 19th July 2016)"
 	revision: "1"
@@ -27,6 +27,9 @@ feature {NONE} -- Initiliazation
 		do
 			create command
 			set_operands
+			if Is_test_mode then
+				Console.show ({EL_REGRESSION_TESTING_ROUTINES})
+			end
 			if not has_invalid_argument then
 				make_command
 			end

@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-01 9:28:25 GMT (Friday 1st July 2016)"
 	revision: "1"
@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 			log.put_path_field ("Reading", relative_path)
 			log.put_new_line
 
-			Result := Directory.path ("build") + relative_path
+			Result := Directory.new_path ("build") + relative_path
 			if not Result.exists then
 				File_system.make_directory (Result.parent)
 				wav_path := Result.with_new_extension ("wav")

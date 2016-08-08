@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 20:15:29 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-08-04 9:42:55 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_CLASS_PREFIX_REMOVAL_APP
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	create_file_editor: EIFFEL_CLASS_PREFIX_REMOVER
+	new_editor: EIFFEL_CLASS_PREFIX_REMOVER
 		do
 			create Result.make (prefix_letters)
 		end
@@ -48,7 +48,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 0
+	Checksum: ARRAY [NATURAL]
+		once
+			Result := << 0, 0 >>
+		end
 
 	Option_name: STRING = "remove_prefix"
 

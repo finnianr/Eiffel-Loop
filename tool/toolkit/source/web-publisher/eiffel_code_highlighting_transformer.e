@@ -4,20 +4,18 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-20 9:36:12 GMT (Wednesday 20th January 2016)"
-	revision: "1"
+	date: "2016-08-04 8:48:02 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_CODE_HIGHLIGHTING_TRANSFORMER
 
 inherit
-	EL_TEXT_EDITOR
-		rename
-			edit as transform
+	EL_FILE_PARSER_TEXT_EDITOR
 		redefine
-			make_default, on_unmatched_text
+			make_default, on_unmatched_text, new_output
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -47,18 +45,19 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			output := a_output
+			set_encoding_from_other (output)
 		end
 
-	make_from_file (a_output: like output; file_path: EL_FILE_PATH; a_selected_features: like selected_features)
+	make_from_file (a_output: like output; a_file_path: EL_FILE_PATH; a_selected_features: like selected_features)
 			--
 		local
 			source_lines: EL_FILE_LINE_SOURCE
 		do
 			make (a_output)
 
- 			source_file_path := file_path
+ 			file_path := a_file_path
  			selected_features := a_selected_features
- 			create source_lines.make (source_file_path)
+ 			create source_lines.make (file_path)
 			create selected_text.make (source_lines.byte_count)
 
 			if selected_features.is_empty then
@@ -228,10 +227,10 @@ feature {NONE} -- Implementation
 			put_string (XML.escaped_128_plus (text.to_string_8))
 		end
 
-	new_output: EL_OUTPUT_MEDIUM
-			--
+	new_output: EL_PLAIN_TEXT_FILE
+			-- Use the initialized output
 		do
-			create {EL_UTF_STRING_8_IO_MEDIUM} Result.make (0)
+			Result := output
 		end
 
 	selected_text: ZSTRING

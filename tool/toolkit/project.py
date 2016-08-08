@@ -2,12 +2,18 @@
 
 from eiffel_loop.project import *
 
-version = (1, 1, 22)
+version = (1, 1, 24)
 
 installation_sub_directory = 'Eiffel-Loop/utils'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.1.24
+# new EIFFEL_NOTE_EDITOR using line parsing
+
+# 1.1.23
+# Fixed bug in note editor which copied fields to bottom of page
 
 # 1.1.22
 # fixed relative html paths links in Eiffel-View publisher

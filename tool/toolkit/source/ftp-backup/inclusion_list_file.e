@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:10 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-08-03 11:39:41 GMT (Wednesday 3rd August 2016)"
+	revision: "2"
 
 class
 	INCLUSION_LIST_FILE
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 				Precursor (specifier_name, file_specifier)
 
 			elseif specifier_name ~ Specifier_all_files then
-				specifier_path := Directory.path (Short_directory_current).joined_dir_path (file_specifier)
+				specifier_path := Directory.new_path (Short_directory_current).joined_dir_path (file_specifier)
 				find_files_cmd := Command.new_find_files (specifier_path.parent, specifier_path.base)
 				find_files_cmd.set_depth (1 |..| 1)
 				find_files_cmd.set_follow_symbolic_links (True)

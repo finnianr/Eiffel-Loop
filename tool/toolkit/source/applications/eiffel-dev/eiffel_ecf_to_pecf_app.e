@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {ECF_TO_PECF_APP}."
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-19 6:35:19 GMT (Tuesday 19th July 2016)"
-	revision: "1"
+	date: "2016-08-03 9:57:04 GMT (Wednesday 3rd August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_ECF_TO_PECF_APP
@@ -53,7 +55,7 @@ feature {NONE} -- Implementation
 			Result := agent tree_processor.make
 		end
 
-	default_operands: TUPLE [dir_path: EL_DIR_PATH; processor: EL_FILE_PROCESSOR]
+	default_operands: TUPLE [dir_path: EL_DIR_PATH; processor: EL_FILE_PROCESSING_COMMAND]
 		do
 			create Result
 			Result.dir_path := ""

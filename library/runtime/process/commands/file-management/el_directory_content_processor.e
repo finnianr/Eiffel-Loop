@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 18:24:39 GMT (Friday 8th July 2016)"
 	revision: "1"
@@ -81,11 +81,7 @@ feature -- Basic operations
 			create input_file_path_steps.make_with_count (20)
 			create output_file_dir_path_steps.make_with_count (20)
 			find_files (wild_card)
-			from
-				input_file_relative_path_steps_list.start
-			until
-				input_file_relative_path_steps_list.after
-			loop
+			from input_file_relative_path_steps_list.start until input_file_relative_path_steps_list.after loop
 				input_file_path_steps.wipe_out
 				output_file_dir_path_steps.wipe_out
 				create input_file_path

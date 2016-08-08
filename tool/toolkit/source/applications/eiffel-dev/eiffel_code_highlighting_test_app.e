@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 20:02:43 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-08-04 7:53:47 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_CODE_HIGHLIGHTING_TEST_APP
@@ -51,8 +51,8 @@ feature -- Tests
 			output_path.add_extension ("e.html")
 			create html_file.make_open_write (output_path)
 			create transformer.make (html_file)
-			transformer.set_source_text_from_file (file_path)
-			transformer.transform
+			transformer.set_file_path (file_path)
+			transformer.edit
 			html_file.close
 			log.exit
 		end

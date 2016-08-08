@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-19 6:36:17 GMT (Tuesday 19th July 2016)"
-	revision: "1"
+	date: "2016-08-03 17:13:58 GMT (Wednesday 3rd August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_FIND_AND_REPLACE_COMMAND
@@ -35,7 +35,7 @@ feature {EL_SUB_APPLICATION} -- Initialization
 
 feature {NONE} -- Implementation
 
-	new_file_editor: EIFFEL_FIND_AND_REPLACE_EDITOR
+	new_editor: EIFFEL_FIND_AND_REPLACE_EDITOR
 		do
 			create Result.make (find_text, replacement_text)
 		end

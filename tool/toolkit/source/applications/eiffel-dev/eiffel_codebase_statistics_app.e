@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-19 6:35:19 GMT (Tuesday 19th July 2016)"
-	revision: "1"
+	date: "2016-08-07 10:12:16 GMT (Sunday 7th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_CODEBASE_STATISTICS_APP
@@ -71,7 +71,6 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{EIFFEL_CODEBASE_STATISTICS_APP}, All_routines],
-				[{EIFFEL_NOTE_EDITOR}, All_routines],
 				[{EIFFEL_CODEBASE_STATISTICS_COMMAND}, All_routines]
 			>>
 		end

@@ -1,10 +1,10 @@
 note
-	description: "Summary description for {EL_TEXT_INDENTABLE}."
+	description: "Encoded text medium"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-05 17:26:41 GMT (Tuesday 5th July 2016)"
 	revision: "1"

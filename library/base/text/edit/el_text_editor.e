@@ -1,46 +1,60 @@
 note
-	description: "Summary description for {EL_TEXT_EDITOR}."
-
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
-	
-	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-20 9:37:28 GMT (Wednesday 20th January 2016)"
-	revision: "1"
+	description: "[
+		Editor that reads text from a encodeable source and sends an edited version to output either
+		directly or using one of the convenience routines: `put_string' or `put_new_line'
+	]"
+	author: ""
+	date: "$Date$"
+	revision: "$Revision$"
 
 deferred class
 	EL_TEXT_EDITOR
 
 inherit
-	EL_FILE_PARSER
-		rename
-			new_pattern as delimiting_pattern
-		redefine
-			make_default
-		end
-
-	EL_ZTEXT_PATTERN_FACTORY
+	EL_ENCODEABLE_AS_TEXT
 
 feature {NONE} -- Initialization
 
 	make_default
 			--
 		do
-			Precursor
-			set_unmatched_action (agent on_unmatched_text)
+			output := Default_output
 		end
 
 feature -- Basic operations
 
 	edit
 		do
-			output := new_output
-			find_all
-			close
+			output := new_output; output.set_encoding_from_other (Current)
+
+			if is_bom_enabled and then attached {EL_PLAIN_TEXT_FILE} output then
+				output.enable_bom; output.put_bom
+			end
+			put_editions; close
+		end
+
+feature -- Status query
+
+	is_bom_enabled: BOOLEAN
+		do
 		end
 
 feature {NONE} -- Implementation
+
+	close
+			--
+		do
+			output.close
+		end
+
+	new_output: EL_OUTPUT_MEDIUM
+			--
+		deferred
+		end
+
+	put_editions
+		deferred
+		end
 
 	put_new_line
 			--
@@ -54,34 +68,15 @@ feature {NONE} -- Implementation
 			output.put_string (str)
 		end
 
-	new_output: EL_OUTPUT_MEDIUM
-			--
-		deferred
-		end
-
-	close
-			--
-		do
-			output.close
-		end
-
-	on_unmatched_text (text: EL_STRING_VIEW)
-			--
-		do
-			put_string (text)
-		end
-
-	replace (text: EL_STRING_VIEW; new_text: ZSTRING)
-			--
-		do
-			put_string (new_text)
-		end
-
-	delete (text: EL_STRING_VIEW)
-			--
-		do
-		end
+feature {NONE} -- Internal attributes
 
 	output: like new_output
+
+feature {NONE} -- Constants
+
+	Default_output: EL_ZSTRING_IO_MEDIUM
+		once
+			create Result.make (0)
+		end
 
 end

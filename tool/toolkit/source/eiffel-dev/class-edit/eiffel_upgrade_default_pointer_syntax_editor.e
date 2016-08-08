@@ -8,17 +8,17 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 11:58:38 GMT (Monday 18th January 2016)"
-	revision: "1"
+	date: "2016-08-04 7:40:34 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_UPGRADE_DEFAULT_POINTER_SYNTAX_EDITOR
 
 
 inherit
-	EIFFEL_SOURCE_EDITING_PROCESSOR
+	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
 
 create
 	make
