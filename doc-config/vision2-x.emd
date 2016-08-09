@@ -4,8 +4,8 @@ Provides many extensions to the Eiffel Software [https://www.eiffel.org/doc/solu
 
 * Advanced pixel buffer rendering with transparencies and anti-aliasing using the [https://cairographics.org/ Cairo] and [http://www.pango.org/ Pangocairo] 2D graphics library.
 See class [./library/graphic/toolkit/vision2-x/interface/widgets/primitives/pixmap/el_drawable_pixel_buffer.html `EL_DRAWABLE_PIXEL_BUFFER']
-* Drop-down combo boxes linked to data containers conforming to `[https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/storage/finite_flat.html FINITE] [G]' and initialized with a value of type ''G'', and a selection change agent of type `PROCEDURE [ANY, TUPLE [G]]'. See class `[./library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_drop_down_box.html EL_DROP_DOWN_BOX]'
-* Drop-down combo boxes with localized display strings. See class `[./library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_locale_string_drop_down_box.html EL_LOCALE_STRING_DROP_DOWN_BOX]'
-* Drop down combo box for months of year specified as integers and displayed with English names and a localized variant `[./library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_locale_month_drop_down_box.html EL_LOCALE_MONTH_DROP_DOWN_BOX]'
+* Drop-down combo boxes linked to data containers conforming to [https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/storage/finite_flat.html `FINITE']` [G]' and initialized with a value of type ''G'', and a selection change agent of type `PROCEDURE [ANY, TUPLE [G]]'. See class [./library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_drop_down_box.html `EL_DROP_DOWN_BOX']
+* Drop-down combo boxes with localized display strings. See class [./library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_locale_string_drop_down_box.html `EL_LOCALE_STRING_DROP_DOWN_BOX']
+* Drop down combo box for months of year specified as integers and displayed with English names and a localized variant [./library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_locale_month_drop_down_box.html `EL_LOCALE_MONTH_DROP_DOWN_BOX']
 
 These features are only the tip of the ice-berg.

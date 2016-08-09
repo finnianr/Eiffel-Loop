@@ -1,10 +1,11 @@
 note
 	description: "[
-		Eiffel submission for website demonstrating how to generate the lyrics of the song "99 Bottles of Beer"
+		Three Eiffel submissions for website demonstrating how to generate the lyrics of the song "99 Bottles of Beer"
 		using over 1500 programming languages and variations.
 		
-		See: [http://www.99-bottles-of-beer.net/language-eiffel:-analysis,-design-and-programming-2256.html 1st submission 12 May 2009]
-		and [http://www.99-bottles-of-beer.net/language-eiffel-2259.html 2nd submission 12th June 2009]
+		1. [http://www.99-bottles-of-beer.net/language-eiffel:-analysis,-design-and-programming-2256.html Submission 12 May 2009]
+		2. [http://www.99-bottles-of-beer.net/language-eiffel-2259.html Submission 12th June 2009]
+		3. [./short_ver/lyrics_99_bottles_of_beer.html Submission 9 August 2016]
 	]"
 
 	author: "Finnian Reilly"

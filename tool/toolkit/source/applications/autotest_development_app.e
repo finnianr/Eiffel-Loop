@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
---			do_file_data_test (agent publisher_test_set.test_publisher)
-			do_file_data_test (agent note_editor_test_set.test_editor_with_new_class)
+			do_file_data_test (agent publisher_test_set.test_publisher)
+--			do_file_data_test (agent note_editor_test_set.test_editor_with_new_class)
 		end
 
 feature {NONE} -- Test

@@ -1,12 +1,12 @@
 **Introduction**
 This library accomplishes two goals:
 
-**1.** Manage a collection of small (and possibility related) "mini-applications" as a single Eiffel
+1. Manage a collection of small (and possibility related) "mini-applications" as a single Eiffel
 application.
-
-**2.** Implement the concept of a self-installing/uninstalling application on multiple-platforms.
+2. Implement the concept of a self-installing/uninstalling application on multiple-platforms.
 
 **"Swiss-army-knife applications"**
+
 Creating a new project application in Eiffel is expensive both in terms of time to create a new ECF and
 project directory structure, and in terms of diskspace. If all you want to do is create a small utility
 to do some relatively minor task, it makes sense to include it with a other such utilities in a single
@@ -15,6 +15,7 @@ classes [./library/runtime/app-manage/el_multi_application_root.html `EL_MULTI_A
 [./library/runtime/app-manage/sub-app/el_sub_application.html `EL_SUB_APPLICATION'] provide this capability.
 
 **Command line sub-applications**
+
 The following features exist for creating command line applications:
 
 * The class [./library/runtime/app-manage/sub-app/el_command_line_sub_application.html `EL_COMMAND_LINE_SUB_APPLICATION']

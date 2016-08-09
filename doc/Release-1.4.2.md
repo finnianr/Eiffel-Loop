@@ -6,6 +6,7 @@ Changed EL_DROP_DOWN_BOX to be initialised by any finite container instead of an
 ## TOOLS Eiffel-View publisher
 * It is now possible to escape square brackets so generic class can be hyper linked. For example [https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/list/chain_chart.html `CHAIN [G\]']. This prevents the right bracket in `[G]` from being interpreted as the end of hyper link text.
 * Fixed bug in note editor where classes that had notes at the bottom of page had the standard fields copied in twice.
+* Fixed some problems with the output of Contents.md using Github markdown.
 
 ## BASE library
 * Removed function `retrieved` from class `EL_MEMORY_READER_WRITER` used by `{EL_STORABLE}.is_reversible` and instead created `{EL_STORABLE}.read_twin`

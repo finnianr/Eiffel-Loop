@@ -2,12 +2,15 @@
 
 from eiffel_loop.project import *
 
-version = (1, 1, 24)
+version = (1, 1, 25)
 
 installation_sub_directory = 'Eiffel-Loop/utils'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.1.25
+# Improved Eiffel-View to Github markdown translation
 
 # 1.1.24
 # new EIFFEL_NOTE_EDITOR using line parsing

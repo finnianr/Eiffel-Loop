@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-29 11:15:25 GMT (Friday 29th July 2016)"
 	revision: "1"
@@ -140,6 +140,10 @@ feature {NONE} -- Constants
 		once
 			create Result.make_from_array (<<
 				new_markup_substitution ("[li]", "[/li]", "<li>", "</li>"),
+
+				-- Ordered list item with span to allow bold numbering using CSS
+				new_markup_substitution ("[oli]", "[/oli]", "<li><span>", "</span></li>"),
+
 				new_markup_substitution ("`", Escaped_apostrophe, "<em id=%"code%">", "</em>"),
 				new_markup_substitution ("**", "**", "<b>", "</b>"),
 				new_markup_substitution (Double_escaped_apostrophe, Double_escaped_apostrophe, "<i>", "</i>"),

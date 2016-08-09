@@ -16,14 +16,25 @@ div#notes {
 div#notes_inner {
 	width: 900px;
 }
-
 p, li {
 	font-size: 18px;
 }
 p, h2, li {
 	font-family: Verdana, Helvetica, Arial, Geneva, sans-serif;
+}
+p, h2 {
 	margin-left: 15px;
 }
+ul, ol {
+	list-style-position: inside;
+}
+ol {
+	font-weight: bold;
+}
+li span {
+	font-weight: normal;
+}
+
 em#code {
 	font-family: "Bitstream Vera Sans Mono", monospace;
 	font-size: 0.9em;
