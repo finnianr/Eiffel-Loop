@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-26 8:56:49 GMT (Tuesday 26th July 2016)"
 	revision: "1"
@@ -33,6 +33,11 @@ inherit
 		end
 
 	EL_STRING_CONSTANTS
+		undefine
+			is_equal, copy
+		end
+
+	MARKDOWN_ROUTINES
 		undefine
 			is_equal, copy
 		end
@@ -82,13 +87,13 @@ feature {NONE} -- Line states Eiffel
 			end
 		end
 
-	find_end_of_bullet_list (line: ZSTRING)
+	find_end_of_list (line: ZSTRING)
 		do
-			if line.starts_with (Bullet_point) then
+			if is_list_item (line) then
 				if not lines.is_empty then
-					lines.extend (List_item_tag_close)
+					lines.extend (new_list_item_tag (element_type, False))
 				end
-				lines.extend (List_item_tag_open + line.substring (3, line.count))
+				lines.extend (new_list_item_tag (element_type, True) + line.substring (list_prefix_count (line) + 1, line.count))
 
 			elseif line.is_empty then
 				add_element
@@ -112,11 +117,11 @@ feature {NONE} -- Line states Eiffel
 				add_element
 				state := agent find_not_empty
 
-			elseif line.starts_with (Bullet_point) then
+			elseif is_list_item (line) then
 				add_element
-				element_type := Type_bullet_list
-				state := agent find_end_of_bullet_list
-				find_end_of_bullet_list (line)
+				element_type := list_type (line)
+				state := agent find_end_of_list
+				find_end_of_list (line)
 
 			elseif line [1] = '%T' then
 				add_element
@@ -133,6 +138,21 @@ feature {NONE} -- Factory
 	new_filler (n: INTEGER): ZSTRING
 		do
 			create Result.make_filled (' ', n)
+		end
+
+	new_list_item_tag (type: STRING; open: BOOLEAN): STRING
+		-- returns one of: [li], [oli], [/li], [/oli]
+		local
+			l_insert: STRING
+		do
+			create Result.make (6)
+			Result.append (once "[li]")
+			if type = Type_ordered_list then
+				Result.insert_character ('o', 2)
+			end
+			if not open then
+				Result.insert_character ('/', 2)
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -164,8 +184,8 @@ feature {NONE} -- Implementation
 					extend (create {HTML_TEXT_ELEMENT}.make (XML.escaped (lines.joined_lines), element_type))
 
 				else
-					if element_type ~ Type_bullet_list then
-						lines.extend (List_item_tag_close)
+					if element_type ~ Type_ordered_list or element_type ~ Type_unordered_list then
+						lines.extend (new_list_item_tag (element_type, False))
 					end
 					extend (create {HTML_TEXT_ELEMENT}.make (html_description, element_type))
 				end
@@ -187,26 +207,9 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	List_item_tag_open: ZSTRING
-		once
-			Result := "[li]"
-		end
-
-	List_item_tag_close: ZSTRING
-		once
-			Result := "[/li]"
-		end
-
 	Type_paragraph: STRING = "p"
 
 	Type_preformatted: STRING = "pre"
-
-	Type_bullet_list: STRING = "ul"
-
-	Bullet_point: ZSTRING
-		once
-			Result := "* "
-		end
 
 	Markdown: MARKDOWN_RENDERER
 		once

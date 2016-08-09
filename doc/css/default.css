@@ -34,9 +34,16 @@ div#download p:first-child {
 div#text p {
 	padding-left: 10px;
 }
-div#text ul {
-	list-style: inside;
+div#text ul, div#text ol {
+	list-style-position: inside;
 }
+div#text ol {
+	font-weight: bold;
+}
+li span {
+	font-weight: normal;
+}
+
 a#contents {
 	padding-left: 10px;
 }

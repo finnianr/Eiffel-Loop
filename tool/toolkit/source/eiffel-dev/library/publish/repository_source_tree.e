@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-26 15:13:00 GMT (Tuesday 26th July 2016)"
 	revision: "1"
@@ -58,26 +58,6 @@ feature -- Access
 
 	ecf_name: ZSTRING
 
-	github_description: ZSTRING
-		-- Eiffel-View markdown translated to Github markdown
-		do
-			create Result.make (description_lines.character_count)
-			across description_lines as line loop
-				if not Result.is_empty then
-					if line.item.is_empty then
-						Result.append_string_general (Double_new_line)
-					elseif line.item.starts_with (Bullet_point) then
-						Result.append_character ('%N')
-					elseif not Result.ends_with (Double_new_line) then
-						Result.append_character (' ')
-					end
-				end
-				Result.append (line.item)
-			end
-			replace_links (Result); replace_apostrophes (Result)
-			Result.replace_substring_general_all ("''", "*")
-		end
-
 feature -- Element change
 
 	set_description_lines (a_description: ZSTRING)
@@ -130,56 +110,6 @@ feature {NONE} -- Implementation
 			file_lines.do_all (agent Result.extend)
 		end
 
-	replace_apostrophes (text: ZSTRING)
-			-- change (`xx') to (`xx`) in order be compatible with Github markdown
-		local
-			pos_grave, pos_apostrophe: INTEGER; done: BOOLEAN
-		do
-			from done := False until done or pos_grave > text.count loop
-				pos_grave := text.index_of ('`', pos_grave + 1)
-				if pos_grave > 0 then
-					pos_apostrophe := text.index_of ('%'', pos_grave + 1)
-					if pos_apostrophe > 0 then
-						text.put ('`', pos_apostrophe)
-						pos_grave := pos_apostrophe
-					end
-				else
-					done := True
-				end
-			end
-		end
-
-	replace_links (text: ZSTRING)
-			-- change [http://address.com click here] to [click here](http://address.com)
-			-- in order to be compatible with Github markdown
-		local
-			pos_link, pos_space, pos_right_bracket: INTEGER; done: BOOLEAN
-			link_address: ZSTRING
-		do
-			across Http_links as http loop
-				from done := False until done loop
-					pos_link := text.substring_index (http.item, pos_link + 1)
-					if pos_link > 0 then
-						pos_space := text.index_of (' ', pos_link + 1)
-						if pos_space > 0 then
-							link_address := text.substring (pos_link + 1, pos_space - 1)
-							if link_address [1] = '.' then
-								link_address.replace_substring (repository.web_address, 1, 1)
-							end
-							text.remove_substring (pos_link + 1, pos_space)
-							pos_right_bracket := text.index_of (']', pos_link + 1)
-							if pos_right_bracket > 0 then
-								text.insert_string (link_address.enclosed ('(', ')'), pos_right_bracket + 1)
-								pos_link := pos_right_bracket + link_address.count + 2
-							end
-						end
-					else
-						done := True
-					end
-				end
-			end
-		end
-
 	repository: EIFFEL_REPOSITORY_PUBLISHER
 
 feature {NONE} -- Evolicity fields
@@ -191,7 +121,7 @@ feature {NONE} -- Evolicity fields
 			Result.append_tuples (<<
 				["directory_list",		agent: like directory_list do Result := directory_list end],
 				["has_description",		agent: BOOLEAN_REF do Result := (not description_lines.is_empty).to_reference end],
-				["github_description",	agent github_description]
+				["github_description",	agent: ZSTRING do Result := Translater.to_github_markdown (description_lines) end]
 			>>)
 		end
 
@@ -240,24 +170,14 @@ feature {NONE} -- Build from Pyxis
 
 feature {NONE} -- Constants
 
+	Translater: MARKDOWN_TRANSLATER
+		once
+			create Result.make (repository.web_address)
+		end
+
 	Dot_emd_extension: ZSTRING
 		once
 			Result := ".emd"
-		end
-
-	Double_new_line: ZSTRING
-		once
-			Result := "%N%N"
-		end
-
-	Bullet_point: ZSTRING
-		once
-			Result := "* "
-		end
-
-	Http_links: ARRAY [ZSTRING]
-		once
-			Result := << "[http://", "[https://", "[./" >>
 		end
 
 	Library: ZSTRING
