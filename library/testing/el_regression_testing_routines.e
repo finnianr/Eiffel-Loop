@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 15:09:53 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-08-04 9:57:28 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES

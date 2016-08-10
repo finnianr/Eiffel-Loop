@@ -3,13 +3,15 @@ note
 
 	notes: "GENERATED FILE. Do not edit"
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "${date}"
-	revision: "${revision}"
+	date: "2016-08-02 11:45:32 GMT (Tuesday 2nd August 2016)"
+	revision: "1"
 
 class
 	BUILD_INFO
