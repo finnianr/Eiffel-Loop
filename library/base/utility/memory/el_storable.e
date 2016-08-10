@@ -5,13 +5,15 @@ note
 
 	instructions: "See end of page"
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-29 14:51:13 GMT (Friday 29th July 2016)"
-	revision: "1"
+	date: "2016-08-02 12:53:24 GMT (Tuesday 2nd August 2016)"
+	revision: "2"
 
 deferred class
 	EL_STORABLE

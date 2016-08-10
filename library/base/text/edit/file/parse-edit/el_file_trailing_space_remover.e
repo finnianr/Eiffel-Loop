@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 16:48:05 GMT (Sunday 20th December 2015)"
-	revision: "1"
+	date: "2016-08-04 8:32:56 GMT (Thursday 4th August 2016)"
+	revision: "2"
 
 class
 	EL_FILE_TRAILING_SPACE_REMOVER

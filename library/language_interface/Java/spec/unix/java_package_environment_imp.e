@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-30 10:31:04 GMT (Thursday 30th June 2016)"
-	revision: "1"
+	date: "2016-08-06 8:34:11 GMT (Saturday 6th August 2016)"
+	revision: "2"
 
 class
 	JAVA_PACKAGE_ENVIRONMENT_IMP

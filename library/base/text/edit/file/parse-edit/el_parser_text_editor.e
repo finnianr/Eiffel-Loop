@@ -3,9 +3,14 @@ note
 		Text editor that searchs for a grammatical pattern. The pattern event handler is reponsible for
 		sending modified text to the output. Unmatched text is automatically sent to output.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-08-04 8:15:23 GMT (Thursday 4th August 2016)"
+	revision: "1"
 
 deferred class
 	EL_PARSER_TEXT_EDITOR

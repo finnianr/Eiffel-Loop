@@ -7,9 +7,10 @@ Changed EL_DROP_DOWN_BOX to be initialised by any finite container instead of an
 * It is now possible to escape square brackets so generic class can be hyper linked. For example [https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/list/chain_chart.html `CHAIN [G\]']. This prevents the right bracket in `[G]` from being interpreted as the end of hyper link text.
 * Fixed bug in note editor where classes that had notes at the bottom of page had the standard fields copied in twice.
 * Fixed some problems with the output of Contents.md using Github markdown.
+* Added support for ordered list items with item text rendered as `<li><span>Item text</span></li>` to allow bold numbering using CSS.
 
 ## BASE library
-* Removed function `retrieved` from class `EL_MEMORY_READER_WRITER` used by `{EL_STORABLE}.is_reversible` and instead created `{EL_STORABLE}.read_twin`
+* Removed contract support function `{EL_MEMORY_READER_WRITER}.retrieved` used by  routine `{EL_STORABLE}.is_reversible` and instead created `{EL_STORABLE}.read_twin`
 * Refactored `EL_TEXT_EDITOR` so that it doesn't inherit `EL_FILE_PARSER`. Added new classes to hierarchy: `EL_PARSER_TEXT_EDITOR`, `EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR`, `EL_TEXT_FILE_EDITOR`, `EL_TEXT_FILE_CONVERTER`, `EL_FILE_PARSER_TEXT_EDITOR`
 * New classes `EL_LINE_STATE_MACHINE_TEXT_FILE_EDITOR` and `EL_EIFFEL_LINE_STATE_MACHINE_TEXT_FILE_EDITOR` inheriting from `EL_TEXT_FILE_EDITOR`.
 * Added function `has_step` to `EL_PATH`.

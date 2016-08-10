@@ -1,8 +1,13 @@
 note
 	description: "Translates Eiffel-View publisher markdown to Github markdown"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-08-09 13:12:15 GMT (Tuesday 9th August 2016)"
+	revision: "1"
 
 class
 	MARKDOWN_TRANSLATER
