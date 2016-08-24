@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {EL_CPP_ITERATOR}."
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-08-24 15:30:14 GMT (Wednesday 24th August 2016)"
+	revision: "2"
 
 deferred class
 	EL_CPP_ITERATOR [G -> EL_CPP_OBJECT create make_from_pointer end]
@@ -53,7 +55,7 @@ feature -- Cursor movement
 			cpp_item := cpp_iterator_next (self_ptr)
 			index := index + 1
 			if not after then
-				item := create_item
+				item := new_item
 --				create item.make_from_pointer (cpp_item)
 				check
 					item_does_not_own_memory: not item.is_memory_owned
@@ -88,7 +90,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	create_item: G
+	new_item: G
 		do
 			create Result.make_from_pointer (cpp_item)
 		end

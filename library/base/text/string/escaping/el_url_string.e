@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 18:30:48 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2016-08-21 12:55:41 GMT (Sunday 21st August 2016)"
+	revision: "2"
 
 class
 	EL_URL_STRING
@@ -17,13 +17,12 @@ inherit
 		rename
 			append as append_8,
 			append_string_general as append_general,
-			make_from_string as make_encoded,
 			set as set_encoded
 		export
 			{NONE} all
-			{ANY} append_general, Is_string_8, wipe_out, share, set_encoded, count, area
+			{ANY} append_general, Is_string_8, wipe_out, share, set_encoded, count, area, is_empty, capacity
 		redefine
-			make_encoded, make_empty, append_general
+			make, append_general, new_string
 		end
 
 	EL_MODULE_UTF
@@ -34,22 +33,22 @@ inherit
 		end
 
 create
-	make_encoded, make_empty
+	make_encoded, make_empty, make
 
 convert
 	make_encoded ({STRING})
 
 feature {NONE} -- Initialization
 
-	make_empty
+	make (n: INTEGER)
 		do
-			Precursor
+			Precursor (n)
 			is_plus_defined_as_space := True
 		end
 
 	make_encoded (s: READABLE_STRING_8)
 		do
-			Precursor (s)
+			make_from_string (s)
 			is_plus_defined_as_space := True
 		end
 
@@ -74,13 +73,14 @@ feature -- Conversion
 	to_utf_8: STRING
 		local
 			l_area: like area; i, nb, step: INTEGER
-			c, hi_c, low_c: CHARACTER
+			c, hi_c, low_c: CHARACTER; plus_for_space: BOOLEAN
 		do
 			create Result.make (count - occurrences ('%%') * 2)
 			l_area := area; nb := count
+			plus_for_space := is_plus_defined_as_space
 			from i := 0 until i = nb loop
 				c := l_area [i]; step := 1
-				if c = '+' then
+				if c = '+' and then plus_for_space then
 					Result.append_character (' ')
 				elseif c = '%%' and then i + 2 < nb then
 					hi_c := l_area [i + 1]; low_c := l_area [i + 2]
@@ -166,4 +166,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_string (n: INTEGER): like Current
+			-- New instance of current with space for at least `n' characters.
+		do
+			create Result.make (n)
+		end
 end

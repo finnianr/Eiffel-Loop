@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-09 11:43:23 GMT (Tuesday 9th August 2016)"
-	revision: "3"
+	date: "2016-08-10 7:50:10 GMT (Wednesday 10th August 2016)"
+	revision: "4"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent publisher_test_set.test_publisher)
---			do_file_data_test (agent note_editor_test_set.test_editor_with_new_class)
+--			do_file_data_test (agent publisher_test_set.test_publisher)
+			do_file_data_test (agent note_editor_test_set.test_editor_with_new_class)
 		end
 
 feature {NONE} -- Test

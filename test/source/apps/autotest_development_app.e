@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-18 14:35:50 GMT (Monday 18th July 2016)"
-	revision: "1"
+	date: "2016-08-21 12:49:57 GMT (Sunday 21st August 2016)"
+	revision: "2"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -29,7 +29,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent ftp_test_set.test_ftp)
+			do_file_data_test (agent url_string_test_set.test_conversion)
 		end
 
 feature -- Tests
@@ -70,6 +70,11 @@ feature -- Tests
 		end
 
 	translation_table_test_set: TRANSLATION_TABLE_TEST_SET
+		do
+			create Result
+		end
+
+	url_string_test_set: EL_URL_STRING_TEST_SET
 		do
 			create Result
 		end

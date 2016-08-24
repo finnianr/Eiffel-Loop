@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-07 10:38:50 GMT (Sunday 7th August 2016)"
-	revision: "2"
+	date: "2016-08-10 8:46:11 GMT (Wednesday 10th August 2016)"
+	revision: "3"
 
 class
 	EIFFEL_NOTES
@@ -18,9 +18,12 @@ inherit
 			make as make_machine
 		end
 
+	EIFFEL_CONSTANTS
+
+	EL_MODULE_COLON_FIELD
+
 	EL_MODULE_XML
 
-	EIFFEL_CONSTANTS
 
 create
 	make
@@ -171,7 +174,7 @@ feature {NONE} -- Line states
 			if found_end_keyword then
 				state := agent find_note_section
 			else
-				field_name := colon_name (line)
+				field_name := Colon_field.name (line)
 				if selected_fields.has (field_name) or else field_name ~ Field_description then
 					create lines.make (5)
 					fields [field_name] := lines

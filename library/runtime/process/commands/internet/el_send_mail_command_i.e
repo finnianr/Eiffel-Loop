@@ -4,93 +4,82 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 14:04:01 GMT (Thursday 23rd June 2016)"
-	revision: "1"
+	date: "2016-08-24 11:40:09 GMT (Wednesday 24th August 2016)"
+	revision: "2"
 
 deferred class
 	EL_SEND_MAIL_COMMAND_I
 
 inherit
-	EL_OS_COMMAND_I
-		export
-			{NONE} all
+	EL_CAPTURED_OS_COMMAND_I
 		redefine
-			is_asynchronous
+			do_with_lines, execute
+		end
+
+	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+		rename
+			make as make_machine,
+			do_with_lines as do_with_machine_lines
 		end
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_email: like email)
 		do
-			create email_path
-			create actual_log_path
-			create to_address.make_empty
-			make_default
+			make_default; make_machine
+			email := a_email
+			create log_lines.make_empty
 		end
 
 feature -- Access
 
-	email_path: EL_FILE_PATH
+	email: EL_EMAIL
 
-	log_path: EL_FILE_PATH
-		do
-			if actual_log_path.is_empty then
-				Result := email_path.with_new_extension ("log")
-			else
-				Result := actual_log_path
-			end
-		end
-
-	to_address: ZSTRING
-
-feature -- Element change
-
-	set_email_path (a_email_path: like email_path)
-		do
-			email_path := a_email_path
-		end
-
-	set_log_path (a_log_path: like log_path)
-		do
-			actual_log_path := a_log_path
-		end
-
-	set_to_address (a_to_address: like to_address)
-		do
-			to_address := a_to_address
-		end
+	log_lines: EL_ZSTRING_LIST
 
 feature -- Basic operations
 
-	send (email: EVOLICITY_SERIALIZEABLE_AS_XML)
-		require
-			email_path_set: not email_path.is_empty
-			to_address_set: not to_address.is_empty
-		local
-			file_out: EL_PLAIN_TEXT_FILE
+	execute
 		do
-			File_system.make_directory (email_path.parent)
-			File_system.make_directory (log_path.parent)
-
-			create file_out.make_open_write (email_path)
-			file_out.set_encoding_from_other (email)
-			across email.to_xml.lines as line loop
-				file_out.put_string_z (line.item)
-				file_out.put_character ('%R')
-				file_out.put_new_line
-			end
-			file_out.close
-			execute
+			email.serialize
+			Precursor
 		end
 
-feature -- Status query
+feature {NONE} -- Implementation
 
-	is_asynchronous: BOOLEAN
-			--
+	do_with_lines (lines: like adjusted_lines)
 		do
-			Result := True
+			do_with_machine_lines (agent find_message_accepted, lines)
+			if has_error then
+				lines.do_all (agent log_lines.extend)
+			end
+		end
+
+feature {NONE} -- Line states
+
+	find_message_accepted (line: ZSTRING)
+		do
+			if line.has_substring (Connecting_to_local) then
+				has_error := True
+				state := agent final
+
+				-- If it's connecting to local, it's because it failed to send
+
+				--	050 503-Rejecting due to poor sender reputation: 78.19.215.59
+				--	050 503 Valid RCPT command must precede DATA
+				--	050 >>> RSET
+				--	050 250 Reset OK
+				--	050 <finnian@localhost.localdomain>... Connecting to local...
+				--	050 <finnian@localhost.localdomain>... Sent
+				--	250 2.0.0 u7NFs1UU007567 Message accepted for delivery
+				--	tanguero@eiffel-loop.com... Sent (u7NFs1UU007567 Message accepted for delivery)
+				--	Closing connection to [127.0.0.1]
+
+			elseif line.has_substring (Message_accepted) then
+				state := agent final
+			end
 		end
 
 feature {NONE} -- Evolicity reflection
@@ -99,14 +88,20 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["email_path", agent: ZSTRING do Result := escaped_path (email_path) end],
-				["log_path", agent: ZSTRING do Result := escaped_path (log_path) end],
-				["to_address", agent: ZSTRING do Result := to_address end]
+				["email_path", agent: ZSTRING do Result := escaped_path (email.email_path) end],
+				["to_address", agent: ZSTRING do Result := email.to_address end]
 			>>)
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	actual_log_path: EL_FILE_PATH
+	Connecting_to_local: ZSTRING
+		once
+			Result := "Connecting to local"
+		end
+	Message_accepted: ZSTRING
+		once
+			Result := "Message accepted for delivery"
+		end
 
 end

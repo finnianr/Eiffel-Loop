@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 6:07:16 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2016-08-23 10:47:28 GMT (Tuesday 23rd August 2016)"
+	revision: "2"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -72,11 +72,6 @@ feature -- Status query
 
 	has_error: BOOLEAN
 		-- True if the command returned an error code on exit
-
-	is_asynchronous: BOOLEAN
-			--
-		do
-		end
 
 	is_valid_platform: BOOLEAN
 		do
@@ -181,13 +176,8 @@ feature {NONE} -- Implementation
 			error_path := temporary_error_file_path
 			File_system.make_directory (error_path.parent)
 
-			if is_asynchronous then
-				Execution_environment.launch (command_string)
-				has_error := False
-			else
-				Execution_environment.system (command_string)
-				has_error := Execution_environment.return_code /= 0
-			end
+			Execution_environment.system (command_string)
+			has_error := Execution_environment.return_code /= 0
 			if not working_directory.is_empty then
 				Execution_environment.pop_current_working
 			end
@@ -234,9 +224,7 @@ feature {NONE} -- Factory
 				command_prefix.count +  system_cmd_32.count +  Error_redirection_operator.count +  error_file_path.count
 			)
 			Result.append (command_prefix); Result.append (system_cmd_32)
-			if not is_asynchronous then
-				Result.append (Error_redirection_operator); Result.append (error_file_path)
-			end
+			Result.append (Error_redirection_operator); Result.append (error_file_path)
 		end
 
 	new_temporary_file_path (a_extension: STRING): EL_FILE_PATH

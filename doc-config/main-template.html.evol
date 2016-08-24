@@ -27,7 +27,7 @@
 		<a href="$top_dir/index.html" title="Eiffel-Loop Home"><img src="$top_dir/images/banner-logo.png"></a>
 		<div id="download">
 			<p><a href="$github_url" target="_blank">Github</a></p>
-			<p>Download latest: <a href="$github_url/archive/${version}.zip">Windows</a> 
+			<p>Download version $version: <a href="$github_url/archive/${version}.zip">Windows</a> 
 				or <a href="$github_url/archive/${version}.tar.gz">Linux</a>
 			</p>
 		</div>

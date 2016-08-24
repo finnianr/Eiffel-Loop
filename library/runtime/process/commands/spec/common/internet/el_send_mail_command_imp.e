@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 14:06:05 GMT (Thursday 23rd June 2016)"
-	revision: "1"
+	date: "2016-08-24 11:40:19 GMT (Wednesday 24th August 2016)"
+	revision: "2"
 
 class
 	EL_SEND_MAIL_COMMAND_IMP
@@ -20,7 +20,7 @@ inherit
 
 	EL_OS_COMMAND_IMP
 		undefine
-			is_asynchronous
+			make_default, execute, do_command, new_command_string
 		end
 
 create
@@ -28,10 +28,9 @@ create
 
 feature -- Access
 
-	Template: STRING = "[
-		sendmail -v $to_address < $email_path | grep -P "^... RCPT To|^... 55[0-9]" >> $log_path
-	]"
+	Template: STRING = "sendmail -v $to_address < $email_path"
 
+-- sendmail -v $to_address < $email_path | grep -P "^... RCPT To|^... 55[0-9]" >> $log_path
 -- sendmail -O DeliveryMode=background $to_address < $email_path
 
 end

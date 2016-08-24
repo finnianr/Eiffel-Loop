@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-07 10:23:47 GMT (Sunday 7th August 2016)"
-	revision: "1"
+	date: "2016-08-10 9:33:35 GMT (Wednesday 10th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_NOTE_EDITOR
@@ -20,7 +20,7 @@ class
 inherit
 	EL_EIFFEL_LINE_STATE_MACHINE_TEXT_FILE_EDITOR
 		redefine
-			edit, colon_name
+			edit
 		end
 
 	EIFFEL_CONSTANTS
@@ -30,6 +30,10 @@ inherit
 	EL_MODULE_DATE
 
 	EL_MODULE_DIRECTORY
+
+	EL_MODULE_TIME
+
+	EL_MODULE_COLON_FIELD
 
 create
 	make
@@ -54,6 +58,7 @@ feature -- Element change
 	reset
 		do
 			fill_standard_fields
+			output_lines.wipe_out
 			has_revision := False
 		end
 
@@ -68,7 +73,7 @@ feature -- Basic operations
 				do_with_lines (agent read_standard_fields, input_lines)
 
 	 			last_time_stamp := input_lines.date
-				time_stamp := standard_field_date.relative_duration (Date.epoch).seconds_count.to_integer_32
+				time_stamp := Time.unix_date_time (standard_field_date)
 				last_revision := standard_field_revision
 				has_revision := last_revision = 0 or else (time_stamp - last_time_stamp).abs > 1
 
@@ -102,12 +107,11 @@ feature {NONE} -- Line states
 
 	read_standard_fields (line: ZSTRING)
 		local
-			field_name: STRING; value: ZSTRING
+			field_name: STRING
 		do
 			field_name := colon_name (line)
 			if standard_fields.has (field_name) then
-				value := colon_value (line); value.remove_quotes
-				standard_fields [field_name] := value
+				standard_fields [field_name] := Colon_field.value (line)
 
 			elseif is_class_definition_start (line) then
 				state := agent final
@@ -121,7 +125,7 @@ feature {NONE} -- Implementation
 	colon_name (line: ZSTRING): ZSTRING
 		do
 			if line.leading_occurrences ('%T') = 1 then
-				Result := Precursor (line)
+				Result := Colon_field.name (line)
 			else
 				create Result.make_empty
 			end

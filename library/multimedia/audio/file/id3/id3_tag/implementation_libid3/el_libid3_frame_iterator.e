@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-08-24 15:29:37 GMT (Wednesday 24th August 2016)"
+	revision: "2"
 
 class
 	EL_LIBID3_FRAME_ITERATOR
@@ -15,7 +15,7 @@ class
 inherit
 	EL_CPP_ITERATOR [EL_LIBID3_FRAME]
 		redefine
-			create_item
+			new_item
 		end
 
 	EL_MODULE_TAG
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Implementation
 
-	create_item: EL_LIBID3_FRAME
+	new_item: EL_LIBID3_FRAME
 		do
 			Result := Precursor
 			if Result.code ~ Tag.Unique_file_id then

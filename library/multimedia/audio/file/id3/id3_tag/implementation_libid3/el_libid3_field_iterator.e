@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-08-24 15:29:32 GMT (Wednesday 24th August 2016)"
+	revision: "2"
 
 class
 	EL_LIBID3_FIELD_ITERATOR
@@ -15,7 +15,7 @@ class
 inherit
 	EL_CPP_ITERATOR [EL_LIBID3_FIELD]
 		redefine
-			create_item
+			new_item
 		end
 
 	EL_ID3_FIELD_TYPES
@@ -28,7 +28,7 @@ create
 
 feature {NONE} -- Implementation
 
-	create_item: EL_LIBID3_FIELD
+	new_item: EL_LIBID3_FIELD
 		do
 			create Result.make_from_pointer (cpp_item)
 			if Result.type = Type_encoding then
