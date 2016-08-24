@@ -4,13 +4,20 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-21 9:26:31 GMT (Tuesday 21st June 2016)"
-	revision: "1"
+	date: "2016-08-24 11:40:33 GMT (Wednesday 24th August 2016)"
+	revision: "2"
 
 class
 	EL_COMMAND_FACTORY
+
+feature -- Internet
+
+	new_sendmail (email: EL_EMAIL): EL_SEND_MAIL_COMMAND_I
+		do
+			create {EL_SEND_MAIL_COMMAND_IMP} Result.make (email)
+		end
 
 feature -- Informational
 

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-17 11:30:02 GMT (Thursday 17th December 2015)"
-	revision: "1"
+	date: "2016-08-21 12:08:45 GMT (Sunday 21st August 2016)"
+	revision: "2"
 
 class
 	EL_LOCALE_DATE_TEXT
@@ -20,6 +20,9 @@ inherit
 
 	EL_MODULE_LOCALE
 
+create
+	make
+	
 feature {NONE} -- Implementation
 
 	week_day_name (day: INTEGER; short: BOOLEAN): ZSTRING

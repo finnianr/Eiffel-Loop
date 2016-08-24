@@ -34,12 +34,13 @@ div#download p:first-child {
 div#text p {
 	padding-left: 10px;
 }
-div#text ul, div#text ol {
-	list-style-position: inside;
-}
 div#text ol {
 	font-weight: bold;
 }
+div#text ol, div#text ul {
+	margin-left: 15px;
+}
+
 li span {
 	font-weight: normal;
 }

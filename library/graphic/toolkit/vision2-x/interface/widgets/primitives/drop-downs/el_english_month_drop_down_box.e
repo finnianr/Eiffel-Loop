@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 17:23:53 GMT (Saturday 26th December 2015)"
-	revision: "1"
+	date: "2016-08-10 8:57:20 GMT (Wednesday 10th August 2016)"
+	revision: "2"
 
 class
 	EL_ENGLISH_MONTH_DROP_DOWN_BOX
@@ -64,7 +64,7 @@ feature {NONE} -- Constants
 		local
 			date_text: EL_ENGLISH_DATE_TEXT
 		once
-			create date_text
+			create date_text.make
 			Result := date_text.short_month_names_list
 		end
 
@@ -73,7 +73,7 @@ feature {NONE} -- Constants
 		local
 			date_text: EL_ENGLISH_DATE_TEXT
 		once
-			create date_text
+			create date_text.make
 			Result := date_text.long_month_names_list
 		end
 

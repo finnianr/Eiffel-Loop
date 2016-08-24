@@ -25,9 +25,6 @@ p, h2, li {
 p, h2 {
 	margin-left: 15px;
 }
-ul, ol {
-	list-style-position: inside;
-}
 ol {
 	font-weight: bold;
 }

@@ -81,7 +81,7 @@ A "Swiss-army knife" of useful Eiffel command line development tools. The most u
 
 **Download**
 
-Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releases/download/1.4.1/el_toolkit-1.1.22) for *Ubuntu 14.04* or *Linux Mint 17.x*.
+Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
 
 
 ## Development Testing

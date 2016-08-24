@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-04 8:35:14 GMT (Monday 4th July 2016)"
-	revision: "1"
+	date: "2016-08-10 8:55:58 GMT (Wednesday 10th August 2016)"
+	revision: "2"
 
 class
 	EL_GVFS_OS_COMMAND
@@ -34,6 +34,8 @@ inherit
 		end
 
 	EL_MODULE_EXCEPTION
+
+	EL_MODULE_COLON_FIELD
 
 create
 	make, make_with_name
@@ -74,7 +76,7 @@ feature {NONE} -- Implementation
 			if errors.is_empty then
 				Result := "Unknown error"
 			else
-				Result := colon_value (errors.first)
+				Result := Colon_field.value (errors.first)
 			end
 		end
 

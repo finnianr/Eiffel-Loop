@@ -1,16 +1,15 @@
 note
-	description: "Objects that ..."
+	description: "Eiffel tinkering and minor experiments"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
-	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 7:38:16 GMT (Saturday 9th July 2016)"
-	revision: "1"
 
-class
-	EXPERIMENTS_APP
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-08-20 15:48:19 GMT (Saturday 20th August 2016)"
+	revision: "2"
+
+class EXPERIMENTS_APP
 
 inherit
 	EL_SUB_APPLICATION
@@ -23,6 +22,8 @@ inherit
 	EL_MODULE_STRING_8
 
 	EL_MODULE_COMMAND
+
+	EL_MODULE_EIFFEL
 
 create
 	make
@@ -37,8 +38,8 @@ feature -- Basic operations
 
 	run
 		do
-			lio.enter ("find_directories")
-			find_directories
+			lio.enter ("remove_from_list")
+			remove_from_list
 			lio.exit
 		end
 
@@ -64,8 +65,7 @@ feature -- Experiments
 
 	automatic_object_initialization
 		local
-			country: COUNTRY
-			table: EL_ZSTRING_HASH_TABLE [ZSTRING]
+			country: COUNTRY; table: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		do
 			create table.make (<<
 				["code", new ("IE")],
@@ -140,6 +140,17 @@ feature -- Experiments
 			log.put_string_field ("&aa&bb&", escaped_text ("&aa&bb&").as_string_8)
 		end
 
+	file_position
+		local
+			file: PLAIN_TEXT_FILE
+		do
+			create file.make_open_write ("test.txt")
+			file.put_string ("one two three")
+			lio.put_integer_field ("file.position", file.position)
+			file.close
+			file.delete
+		end
+
 	find_directories
 		local
 			find_cmd: like Command.new_find_directories
@@ -151,17 +162,6 @@ feature -- Experiments
 				lio.put_path_field ("", dir.item)
 				lio.put_new_line
 			end
-		end
-
-	file_position
-		local
-			file: PLAIN_TEXT_FILE
-		do
-			create file.make_open_write ("test.txt")
-			file.put_string ("one two three")
-			lio.put_integer_field ("file.position", file.position)
-			file.close
-			file.delete
 		end
 
 	find_iteration_order_of_linked_queue
@@ -202,6 +202,13 @@ feature -- Experiments
 			create dir.make_from_latin_1 ("E:/")
 			temp := dir + "temp"
 			log.put_string_field ("Path", temp.as_windows.to_string)
+		end
+
+	my_procedure_test
+		local
+			my_procedure: MY_PROCEDURE [like Current, TUPLE]
+		do
+--			create my_procedure.adapt (agent my_procedure_test)
 		end
 
 	negative_integer_32_in_integer_64
@@ -259,6 +266,17 @@ feature -- Experiments
 			procedure (2)
 		end
 
+	procedure_pointer
+		local
+			pointer: PROCEDURE_POINTER
+			proc_random_sequence: PROCEDURE [like Current, TUPLE]
+		do
+			proc_random_sequence := agent random_sequence
+			create pointer.make (proc_random_sequence, $random_sequence)
+			proc_random_sequence.apply
+			create pointer.make (proc_random_sequence, $random_sequence)
+		end
+
 	put_execution_environment_variables
 		do
 			Execution_environment.put ("sausage", "SSL_PW")
@@ -292,6 +310,39 @@ feature -- Experiments
 			log.put_new_line
 		end
 
+	remove_from_list
+		local
+			my_list: TWO_WAY_LIST[INTEGER]
+			i: INTEGER
+		do
+			create my_list.make
+			from i := 1
+			until i > 9
+			loop
+				my_list.extend (i)
+				i := i + 1
+			end
+			print ("%NList contents: ")
+			across my_list as m loop print (m.item.out + " ") end
+
+			print ("%NRemoving item where contents = 3 within across")
+			from my_list.start until my_list.exhausted loop
+				my_list.prune (3)
+			end
+--			across my_list as m loop
+--				if m.item.is_equal (3) then
+--					my_list.go_i_th (m.cursor_index)
+--					my_list.remove; my_list.back
+--				end
+--				print ("%Nloop number " + m.target_index.out)
+--			end
+			print ("%N(across loop is terminated after element removal)")
+			print ("%N3 removed correctly, List contents: ")
+			across my_list as m loop print (m.item.out + " ") end
+			print ('%N')
+
+		end
+
 	replace_delimited_substring_general
 		local
 			email: ZSTRING
@@ -303,6 +354,14 @@ feature -- Experiments
 				log.put_string (" -> "); log.put_string (email)
 				log.put_new_line
 			end
+		end
+
+	routine_compile
+			-- compilation test
+		local
+			proc: PROCEDURE_2 [like Current, TUPLE]; func: FUNCTION_2 [like Current, TUPLE, INTEGER]
+			pred: PREDICATE_2 [like Current, TUPLE]
+		do
 		end
 
 	self_deletion_from_batch
@@ -400,6 +459,19 @@ feature -- Experiments
 			end
 			log.put_labeled_string ("Time", time.formatted_out ("hh:[0]mi"))
 			log.put_new_line
+		end
+
+	transient_fields
+		local
+			field_count, i: INTEGER
+		do
+			field_count := Eiffel.field_count (Current)
+			from i := 1 until i > field_count loop
+				lio.put_labeled_string (i.out, Eiffel.field_name (i, Current))
+				lio.put_character (' '); lio.put_boolean (Eiffel.is_field_transient (i, Current))
+				lio.put_new_line
+				i := i + 1
+			end
 		end
 
 	twinning_procedures

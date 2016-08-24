@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-07 10:07:04 GMT (Sunday 7th August 2016)"
-	revision: "2"
+	date: "2016-08-10 8:21:26 GMT (Wednesday 10th August 2016)"
+	revision: "3"
 
 deferred class
 	EL_DATE_TEXT
@@ -24,12 +24,9 @@ feature {NONE} -- Initialization
 		do
 			create format_templates.make (3)
 			text_functions := new_text_functions
-			create epoch.make_from_epoch (0)
 		end
 
 feature -- Access
-
-	epoch: DATE_TIME
 
 	formatted (date: DATE; format: STRING): ZSTRING
 		require

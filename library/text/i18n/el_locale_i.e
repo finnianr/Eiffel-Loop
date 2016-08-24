@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-05-15 13:20:02 GMT (Sunday 15th May 2016)"
-	revision: "1"
+	date: "2016-08-21 12:08:57 GMT (Sunday 21st August 2016)"
+	revision: "2"
 
 deferred class
 	EL_LOCALE_I
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 			make_default
 			restrict_access
 				default_language := a_default_language
-				create date_text
+				create date_text.make
 				create root_node.make_from_file (XML_dir + "localization.xml")
 
 				set_all_languages (root_node)

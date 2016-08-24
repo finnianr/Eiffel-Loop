@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-07 10:13:16 GMT (Sunday 7th August 2016)"
-	revision: "1"
+	date: "2016-08-10 9:21:06 GMT (Wednesday 10th August 2016)"
+	revision: "2"
 
 class
 	EIFFEL_NOTE_EDITOR_TEST_SET
@@ -25,11 +25,6 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_USER_INPUT
-		undefine
-			default_create
-		end
-
 	EIFFEL_CONSTANTS
 		undefine
 			default_create
@@ -40,12 +35,28 @@ inherit
 			default_create
 		end
 
+	EL_MODULE_COLON_FIELD
+		undefine
+			default_create
+		end
+
+	EL_MODULE_USER_INPUT
+		undefine
+			default_create
+		end
+
+	EL_MODULE_TIME
+		undefine
+			default_create
+		end
+
 feature -- Tests
 
 	test_editor_with_new_class
 		local
 			n: INTEGER; encoding, encoding_after: STRING; crc: NATURAL
-			file_path: EL_FILE_PATH
+			file_path: EL_FILE_PATH; old_revision, new_revision: INTEGER_REF
+			file: PLAIN_TEXT_FILE
 		do
 			log.enter ("test_editor")
 			across Sources as path loop
@@ -62,6 +73,19 @@ feature -- Tests
 				store_checksum (file_path)
 				editor.edit
 				assert ("not file changed", not has_changed (file_path))
+
+				create old_revision; create new_revision
+				across << old_revision, new_revision >> as revision loop
+					do_once_with_file_lines (
+						agent get_revision (?, revision.item), create {EL_FILE_LINE_SOURCE}.make_latin (1, file_path)
+					)
+					if revision.cursor_index = 1 then
+						create file.make_with_name (file_path)
+						file.stamp (Time.unix_date_time (create {DATE_TIME}.make_now_utc) + 5)
+						editor.edit
+					end
+				end
+				assert ("revision incremented", new_revision ~ old_revision + 1)
 			end
 			n := User_input.integer ("Return to finish")
 			log.exit
@@ -71,7 +95,7 @@ feature {NONE} -- Line states
 
 	find_author (line: ZSTRING)
 		do
-			if colon_name (line) ~ Field.author then
+			if Colon_field.name (line) ~ Field.author then
 				file_out.put_new_line
 				file_out.put_string (Default_fields.joined_lines)
 				file_out.put_new_line
@@ -95,6 +119,16 @@ feature {NONE} -- Line states
 	find_end (line: ZSTRING)
 		do
 			file_out.put_new_line; file_out.put_string (line)
+		end
+
+	get_revision (line: ZSTRING; revision: INTEGER_REF)
+		do
+			if Colon_field.name (line) ~ Field.revision then
+				if attached {INTEGER_REF} Colon_field.integer (line) as l_revision then
+					revision.set_item (l_revision)
+				end
+				state := agent final
+			end
 		end
 
 feature {NONE} -- Events

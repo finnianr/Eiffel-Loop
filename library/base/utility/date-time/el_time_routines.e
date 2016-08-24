@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-10-20 12:26:09 GMT (Tuesday 20th October 2015)"
-	revision: "1"
+	date: "2016-08-10 8:19:59 GMT (Wednesday 10th August 2016)"
+	revision: "2"
 
 class
 	EL_TIME_ROUTINES
@@ -19,7 +19,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create unix_origin.make_fine (1970, 1, 1, 0, 0, 0.0)
+			create unix_origin.make_from_epoch (0)
 		end
 
 feature -- Access

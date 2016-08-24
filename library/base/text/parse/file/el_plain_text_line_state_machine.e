@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-05 9:21:17 GMT (Friday 5th August 2016)"
-	revision: "2"
+	date: "2016-08-10 8:42:46 GMT (Wednesday 10th August 2016)"
+	revision: "3"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -34,34 +34,6 @@ feature -- Basic operations
 		do
 			do_with_lines (initial, lines)
 			lines.close
-		end
-
-feature {NONE} -- Implementation
-
-	colon_name (line: ZSTRING): ZSTRING
-		local
-			pos_colon: INTEGER
-		do
-			pos_colon := line.index_of (':', 1)
-			if pos_colon > 0 then
-				Result := line.substring (1, pos_colon - 1)
-				Result.left_adjust
-			else
-				create Result.make_empty
-			end
-		end
-
-	colon_value (line: ZSTRING): ZSTRING
-		local
-			pos_colon: INTEGER
-		do
-			pos_colon := line.index_of (':', 1)
-			if pos_colon > 0 and then pos_colon + 2 <= line.count then
-				Result := line.substring (pos_colon + 1, line.count)
-				Result.left_adjust
-			else
-				create Result.make_empty
-			end
 		end
 
 end

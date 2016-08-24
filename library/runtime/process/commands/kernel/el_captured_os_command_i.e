@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-19 15:22:29 GMT (Sunday 19th June 2016)"
-	revision: "1"
+	date: "2016-08-23 10:48:00 GMT (Tuesday 23rd August 2016)"
+	revision: "2"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_I
@@ -25,11 +25,9 @@ feature {NONE} -- Factory
 			l_output_file_path: STRING_32
 		do
 			Result := Precursor (a_system_command)
-			if not is_asynchronous then
-				l_output_file_path := temporary_output_file_path.unicode
-				Result.grow (Result.count + Output_redirection_operator.count + l_output_file_path.count)
-				Result.append (Output_redirection_operator); Result.append (l_output_file_path)
-			end
+			l_output_file_path := temporary_output_file_path.unicode
+			Result.grow (Result.count + Output_redirection_operator.count + l_output_file_path.count)
+			Result.append (Output_redirection_operator); Result.append (l_output_file_path)
 		end
 
 feature {NONE} -- Implementation
@@ -44,7 +42,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			Precursor (a_system_command)
-			if not (is_asynchronous or has_error) then
+			if not has_error then
 				do_with_lines (adjusted_lines (new_output_lines (output_file_path)))
 			end
 			File_system.remove_file (temporary_output_file_path)
