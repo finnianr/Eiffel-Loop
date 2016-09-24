@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 7:19:40 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2016-08-26 12:13:01 GMT (Friday 26th August 2016)"
+	revision: "2"
 
 class
 	EL_HTTP_HASH_TABLE
@@ -26,17 +26,16 @@ inherit
 		end
 
 create
-	make_equal, make_from_nvp_string
+	make_equal, make_from_url_query
 
 feature {NONE} -- Initialization
 
-	make_from_nvp_string (nvp_string: STRING)
+	make_from_url_query (query: STRING)
 		local
 			list: EL_STRING_LIST [STRING]; name_value_pair: STRING
-			name, value: EL_URL_STRING
-			pos_equals: INTEGER
+			name, value: like url_string; pos_equals: INTEGER
 		do
-			create list.make_with_separator (nvp_string, '&', False)
+			create list.make_with_separator (query, '&', False)
 			make_equal (list.count)
 			create name.make_empty; create value.make_empty
 			across list as pair loop
@@ -80,7 +79,7 @@ feature -- Element change
 
 feature -- Conversion
 
-	name_value_pairs_string: STRING
+	url_query_string: STRING
 			-- utf-8 URL encoded name value pairs
 		local
 			sum_count: INTEGER
@@ -105,7 +104,7 @@ feature -- Conversion
 
 feature {NONE} -- Constants
 
-	Url_string: EL_URL_STRING
+	Url_string: EL_URL_QUERY_STRING
 		once
 			create Result.make_empty
 		end

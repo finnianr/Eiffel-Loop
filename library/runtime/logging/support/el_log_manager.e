@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 13:25:30 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-08-28 11:57:35 GMT (Sunday 28th August 2016)"
+	revision: "2"
 
 class
 	EL_LOG_MANAGER
@@ -194,6 +194,25 @@ feature -- Basic operations
 				log_file.redirect_to_console
 			end
 
+			end_restriction
+		end
+
+	redirect_output_to_console (thread: EL_IDENTIFIED_THREAD_I)
+		local
+			thread_id: POINTER
+		do
+			thread_id := thread.thread_id
+			restrict_access
+			if logging.is_active and then thread_id_list.item /= thread_id
+				and then log_file_by_thread_id_table.has (thread_id)
+			then
+				log_file_by_thread_id_table.item (thread_id_list.item).stop_console
+				thread_id_list.start; thread_id_list.search (thread_id)
+				check
+					found_thread: not thread_id_list.exhausted
+				end
+				log_file_by_thread_id_table.item (thread_id_list.item).redirect_to_console
+			end
 			end_restriction
 		end
 

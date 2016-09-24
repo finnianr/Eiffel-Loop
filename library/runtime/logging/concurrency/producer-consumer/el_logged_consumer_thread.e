@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-24 10:52:11 GMT (Wednesday 24th August 2016)"
-	revision: "2"
+	date: "2016-08-27 9:49:05 GMT (Saturday 27th August 2016)"
+	revision: "3"
 
 deferred class
 	EL_LOGGED_CONSUMER_THREAD [P]
@@ -30,7 +30,7 @@ feature {NONE} -- Event handling
 	on_continue
 			-- Continue after waiting
 		do
-			log.put_line ("received " + product.generator + " object")
+			log.put_line ("received " + ({P}).name + " object")
 		end
 
 	set_waiting

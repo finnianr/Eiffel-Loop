@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -158,13 +158,13 @@ feature {NONE} -- Component layout
 			thread_name_drop_down_list.select_item (index - 1)
 		end
 
-	add_thread (a_thread_name: STRING)
+	add_thread (a_thread: EL_IDENTIFIED_THREAD)
 			--
 		local
 			position: INTEGER
 		do
 			position := thread_name_drop_down_list.count + 1
-			thread_name_drop_down_list.add_string (position.out + ". " + a_thread_name)
+			thread_name_drop_down_list.add_string (position.out + ". " + a_thread.name)
 
 			if not thread_name_drop_down_list.selected then
 				thread_name_drop_down_list.select_item (0)

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-05-20 14:30:16 GMT (Wednesday 20th May 2015)"
-	revision: "1"
+	date: "2016-09-19 17:42:37 GMT (Monday 19th September 2016)"
+	revision: "2"
 
 class
 	EL_XML_HTTP_CONNECTION
@@ -16,7 +16,7 @@ inherit
 	EL_HTTP_CONNECTION
 		rename
 			make as make_http,
-			read_string as read_xml
+			read_string_get as read_xml
 		redefine
 			read_xml
 		end

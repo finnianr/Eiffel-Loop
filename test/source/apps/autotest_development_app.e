@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-21 12:49:57 GMT (Sunday 21st August 2016)"
-	revision: "2"
+	date: "2016-09-21 10:14:14 GMT (Wednesday 21st September 2016)"
+	revision: "3"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -29,7 +29,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent url_string_test_set.test_conversion)
+			do_file_data_test (agent http_test_set.test_cookies)
 		end
 
 feature -- Tests
@@ -74,7 +74,7 @@ feature -- Tests
 			create Result
 		end
 
-	url_string_test_set: EL_URL_STRING_TEST_SET
+	http_test_set: HTTP_CONNECTION_TEST_SET
 		do
 			create Result
 		end
@@ -95,7 +95,8 @@ feature {NONE} -- Constants
 				[{FILE_COMMAND_TEST_SET}, All_routines],
 				[{OS_COMMAND_TEST_SET}, All_routines],
 				[{AUDIO_COMMAND_TEST_SET}, All_routines],
-				[{FTP_TEST_SET}, All_routines]
+				[{FTP_TEST_SET}, All_routines],
+				[{HTTP_CONNECTION_TEST_SET}, All_routines]
 --				[{EL_WAV_TO_MP3_COMMAND_IMP}, All_routines]
 --				[{EL_GVFS_OS_COMMAND}, All_routines]
 			>>

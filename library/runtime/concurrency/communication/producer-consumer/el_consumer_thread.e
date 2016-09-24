@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-03 6:34:53 GMT (Sunday 3rd July 2016)"
-	revision: "1"
+	date: "2016-08-28 10:21:57 GMT (Sunday 28th August 2016)"
+	revision: "2"
 
 deferred class
 	EL_CONSUMER_THREAD [P]
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_CONTINUOUS_ACTION_THREAD
-		rename
-			loop_action as consume_product
 		redefine
 			execute, stop
 		end
@@ -44,12 +42,11 @@ feature -- Basic operations
 
 	stop
 			-- Tell the thread to stop
-		local
-			waiting_for_prompt: BOOLEAN
 		do
-			waiting_for_prompt := is_waiting
-			set_state (State_stopping)
-			if waiting_for_prompt then
+			if is_consuming then
+				Precursor
+			else
+				Precursor
 				prompt
 				previous_call_is_thread_signal
 -- THREAD SIGNAL
@@ -75,20 +72,25 @@ feature {NONE} -- Implementation
 		require else
 			waiting_condition_set: product_count.is_set
 		do
-			set_active
-			from until is_stopping loop
-				set_waiting
-				product_count.wait
-				Previous_call_is_blocking_thread
--- THREAD WAITING
-				on_continue
-				if not is_stopping and is_product_available then
-					set_consuming
+			Precursor
+			if consume_remaining_enabled then
+				from until product_queue.is_empty loop
 					consume_next_product
 				end
 			end
-			on_stopping
-			set_stopped
+		end
+
+	loop_action
+		do
+			set_waiting
+			product_count.wait
+			Previous_call_is_blocking_thread
+-- THREAD WAITING
+			on_continue
+			if not is_stopping and then is_product_available then
+				set_consuming
+				consume_next_product
+			end
 		end
 
 	product_count: SEMAPHORE

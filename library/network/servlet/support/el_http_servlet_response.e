@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-31 12:53:53 GMT (Sunday 31st January 2016)"
-	revision: "1"
+	date: "2016-09-17 16:14:00 GMT (Saturday 17th September 2016)"
+	revision: "2"
 
 class
 	EL_HTTP_SERVLET_RESPONSE

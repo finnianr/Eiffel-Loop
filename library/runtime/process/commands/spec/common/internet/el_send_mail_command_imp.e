@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-24 11:40:19 GMT (Wednesday 24th August 2016)"
-	revision: "2"
+	date: "2016-09-14 8:49:55 GMT (Wednesday 14th September 2016)"
+	revision: "3"
 
 class
 	EL_SEND_MAIL_COMMAND_IMP
@@ -28,7 +28,7 @@ create
 
 feature -- Access
 
-	Template: STRING = "sendmail -v $to_address < $email_path"
+	Template: STRING = "sendmail -v -f $from_address $to_address < $email_path"
 
 -- sendmail -v $to_address < $email_path | grep -P "^... RCPT To|^... 55[0-9]" >> $log_path
 -- sendmail -O DeliveryMode=background $to_address < $email_path

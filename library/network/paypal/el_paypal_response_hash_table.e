@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {EL_PAYPAL_RESPONSE_TABLE}."
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 16:59:15 GMT (Sunday 20th December 2015)"
-	revision: "1"
+	date: "2016-08-26 10:09:04 GMT (Friday 26th August 2016)"
+	revision: "2"
 
 class
 	EL_PAYPAL_RESPONSE_HASH_TABLE
@@ -34,7 +36,7 @@ inherit
 		end
 
 create
-	make_equal, make_from_nvp_string
+	make_equal, make_from_url_query
 
 feature {NONE} -- Initialization
 

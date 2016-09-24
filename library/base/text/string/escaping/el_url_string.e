@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-21 12:55:41 GMT (Sunday 21st August 2016)"
-	revision: "2"
+	date: "2016-08-26 12:00:38 GMT (Friday 26th August 2016)"
+	revision: "3"
 
 class
 	EL_URL_STRING
@@ -17,12 +17,13 @@ inherit
 		rename
 			append as append_8,
 			append_string_general as append_general,
+			make_from_string as make_encoded,
 			set as set_encoded
 		export
 			{NONE} all
 			{ANY} append_general, Is_string_8, wipe_out, share, set_encoded, count, area, is_empty, capacity
 		redefine
-			make, append_general, new_string
+			append_general, new_string
 		end
 
 	EL_MODULE_UTF
@@ -38,31 +39,6 @@ create
 convert
 	make_encoded ({STRING})
 
-feature {NONE} -- Initialization
-
-	make (n: INTEGER)
-		do
-			Precursor (n)
-			is_plus_defined_as_space := True
-		end
-
-	make_encoded (s: READABLE_STRING_8)
-		do
-			make_from_string (s)
-			is_plus_defined_as_space := True
-		end
-
-feature -- Access
-
-	is_plus_defined_as_space: BOOLEAN
-
-feature -- Status change
-
-	enable_space_escaping
-		do
-			is_plus_defined_as_space := False
-		end
-
 feature -- Conversion
 
 	to_string: ZSTRING
@@ -73,29 +49,31 @@ feature -- Conversion
 	to_utf_8: STRING
 		local
 			l_area: like area; i, nb, step: INTEGER
-			c, hi_c, low_c: CHARACTER; plus_for_space: BOOLEAN
+			c, hi_c, low_c: CHARACTER
 		do
 			create Result.make (count - occurrences ('%%') * 2)
 			l_area := area; nb := count
-			plus_for_space := is_plus_defined_as_space
 			from i := 0 until i = nb loop
 				c := l_area [i]; step := 1
-				if c = '+' and then plus_for_space then
-					Result.append_character (' ')
-				elseif c = '%%' and then i + 2 < nb then
+				if c = '%%' and then i + 2 < nb then
 					hi_c := l_area [i + 1]; low_c := l_area [i + 2]
 					if hi_c.is_hexa_digit and low_c.is_hexa_digit then
 						Result.append_code ((to_decimal (hi_c) |<< 4) | to_decimal (low_c))
 					end
 					step := 3
 				else
-					Result.append_character (c)
+					append_decoded_utf_8 (Result, c)
 				end
 				i := i + step
 			end
 		end
 
 feature -- Element change
+
+	append_decoded_utf_8 (utf_8: STRING; c: CHARACTER)
+		do
+			utf_8.append_character (c)
+		end
 
 	append_general (s: READABLE_STRING_GENERAL)
 		do
@@ -104,25 +82,12 @@ feature -- Element change
 
 	append_utf_8 (utf_8: STRING)
 		local
-			l_area: like area; i, nb: INTEGER; code_hi, code_low: NATURAL
-			c: CHARACTER; plus_for_space: BOOLEAN
+			l_area: like area; i, nb: INTEGER
 		do
 			l_area := utf_8.area; nb := utf_8.count
-			plus_for_space := is_plus_defined_as_space
 			grow (count + nb)
 			from i := 0 until i = nb loop
-				c := l_area [i]
-				if c.code = 32 and then plus_for_space then
-					append_character ('+')
-				elseif is_unescaped (c) then
-					append_character (c)
-				else
-					code_hi := c.natural_32_code |>> 4
-					code_low := c.natural_32_code & 0xF
-					append_character ('%%')
-					append_character (code_hi.to_hex_character)
-					append_character (code_low.to_hex_character)
-				end
+				append_encoded (l_area [i])
 				i := i + 1
 			end
 			internal_hash_code := 0
@@ -137,6 +102,21 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	append_encoded (c: CHARACTER)
+		local
+			code_hi, code_low: NATURAL
+		do
+			if is_unescaped (c) then
+				append_character (c)
+			else
+				code_hi := c.natural_32_code |>> 4
+				code_low := c.natural_32_code & 0xF
+				append_character ('%%')
+				append_character (code_hi.to_hex_character)
+				append_character (code_low.to_hex_character)
+			end
+		end
 
 	is_unescaped (c: CHARACTER): BOOLEAN
 		do

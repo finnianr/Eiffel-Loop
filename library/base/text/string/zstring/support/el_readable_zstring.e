@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-07 7:08:27 GMT (Sunday 7th August 2016)"
-	revision: "2"
+	date: "2016-09-19 10:59:24 GMT (Monday 19th September 2016)"
+	revision: "3"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -346,7 +346,7 @@ feature -- Access
 
 	substring_between_general (start_string, end_string: READABLE_STRING_GENERAL; start_index: INTEGER): like Current
 		do
-			Result := substring_between_general (adapted_general (start_string, 1), adapted_general (end_string, 2), start_index)
+			Result := substring_between (adapted_general (start_string, 1), adapted_general (end_string, 2), start_index)
 		end
 
 	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:47:00 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-08-27 10:42:15 GMT (Saturday 27th August 2016)"
+	revision: "2"
 
 class
 	EL_XPATH_MATCH_SCAN_SOURCE
@@ -199,15 +199,17 @@ feature {NONE} -- Xpath matching operations
 			end
 			node_procedure_lookup.put (node_action.action, xpath)
 
-			if node_procedure_lookup = node_START_procedure_lookup then
-				lio.put_string_field ("Xpath on_node_start", node_action.xpath)
-			else
-				lio.put_string_field ("Xpath on_node_end", node_action.xpath)
+			debug ("EL_XPATH_MATCH_SCAN_SOURCE")
+				if node_procedure_lookup = node_START_procedure_lookup then
+					lio.put_string_field ("Xpath on_node_start", node_action.xpath)
+				else
+					lio.put_string_field ("Xpath on_node_end", node_action.xpath)
+				end
+				lio.put_new_line
+				lio.put_string_field ("Tokenized xpath", xpath.out)
+				lio.put_new_line
+				lio.put_new_line
 			end
-			lio.put_new_line
-			lio.put_string_field ("Tokenized xpath", xpath.out)
-			lio.put_new_line
-			lio.put_new_line
 		end
 
 	fill_xpath_action_table (agent_map_array: ARRAY [EL_XPATH_TO_AGENT_MAP])
@@ -215,7 +217,6 @@ feature {NONE} -- Xpath matching operations
 		local
 			i: INTEGER
 		do
-			lio.enter ("fill_xpath_action_table")
 			from i := 1 until i > agent_map_array.count loop
 				if agent_map_array.item (i).is_applied_to_open_element then
 					add_node_action_to_procedure_lookup (
@@ -228,7 +229,6 @@ feature {NONE} -- Xpath matching operations
 				end
 				i := i + 1
 			end
-			lio.exit
 		end
 
 end

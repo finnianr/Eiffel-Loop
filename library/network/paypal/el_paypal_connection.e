@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 8:12:40 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2016-09-19 17:45:22 GMT (Monday 19th September 2016)"
+	revision: "2"
 
 class
 	EL_PAYPAL_CONNECTION
@@ -204,11 +204,11 @@ feature {NONE} -- Implementation
 					lio.put_new_line
 				end
 			end
-			post_parameters (value_table)
+			set_post_parameters (value_table); read_string_post
 			if has_error then
 				response_values.wipe_out
 			else
-				create response_values.make_from_nvp_string (last_string)
+				create response_values.make_from_url_query (last_string)
 			end
 		end
 

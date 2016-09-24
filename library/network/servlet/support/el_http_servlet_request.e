@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {EL_HTTP_SERVLET_REQUEST}."
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-28 20:01:30 GMT (Thursday 28th January 2016)"
-	revision: "1"
+	date: "2016-08-26 10:09:04 GMT (Friday 26th August 2016)"
+	revision: "2"
 
 class
 	EL_HTTP_SERVLET_REQUEST
@@ -121,7 +123,7 @@ feature {NONE} -- Implementation
 	parse_parameter_string (str: STRING)
 		do
 			-- This does not allow duplicate parameters, original parameters does.
-			create parameters.make_from_nvp_string (str)
+			create parameters.make_from_url_query (str)
 		end
 
 feature {NONE} -- Constants

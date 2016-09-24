@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -13,7 +13,7 @@ class
 	EL_GOBJECT_API
 
 inherit
-	EL_DYNAMIC_MODULE
+	EL_DYNAMIC_MODULE [EL_GOBJECT_API_POINTERS]
 
 	EL_GOBJECT_C_API
 		undefine
@@ -35,17 +35,8 @@ feature -- Disposal
 
 	object_unref (a_object: POINTER)
 		do
-			g_object_unref (pointer_g_object_unref, a_object)
+			g_object_unref (api.object_unref, a_object)
 		end
-
-feature {NONE} -- Implementation
-
-	assign_pointers
-		do
-			pointer_g_object_unref := function_pointer ("object_unref")
-		end
-
-	pointer_g_object_unref: POINTER
 
 feature {NONE} -- Constants
 

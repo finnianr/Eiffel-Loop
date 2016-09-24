@@ -88,19 +88,19 @@ Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releas
 
 ## Audio Processing Classes
 
-## Base Data Structures
+## Data Structures
 
-## Base Math Classes
+## Math Classes
 
-## Base Persistency Classes
+## Persistency Classes
 
-## Base Runtime Classes
+## Runtime Classes
 
-## Base Text Processing Classes
+## Text Processing Classes
 
-## Base Miscellaneous Utility Classes
+## Miscellaneous Utility Classes
 
-## Graphical Image Utilities
+## Image Utilities
 
 ## HTML Viewer (based on Vision-2)
 
@@ -120,9 +120,9 @@ These features are only the tip of the ice-berg.
 
 ## Windows Eiffel Library Extensions
 
-## Interface to C/C++ and MS COM objects
+## C/C++ and MS COM objects
 
-## Interface to Java
+## Java
 A high-level framework for wrapping Java classes that adds a useful layer of abstraction to Eiffel Software's  interface to the JNI ([Java Native Interface](https://en.wikipedia.org/wiki/Java_Native_Interface)) called [eiffel2java](https://www.eiffel.org/doc/solutions/Eiffel2Java).
 
 **Features**
@@ -135,11 +135,11 @@ The framework is based on the concept of a Java agent that is similar to an Eiff
 [See here](http://www.eiffel-loop.com/example/eiffel2java/source/class-index.html) for an example of it's use.
 
 
-## Interface to Matlab
+## Matlab
 **Status:** No longer maintained
 
 [Matlab](http://uk.mathworks.com/products/matlab/) is a popular math orientated scripting language. This interface was developed with Matlab Version 6.5, VC++ 8.0 Express Edition and Windows XP SP2.
-## Interface to Praat-script
+## Praat-script
 **Status:** No longer maintained
 
 [Praat](http://www.fon.hum.uva.nl/praat) is a free tool for doing acoustic and phonetic analysis and has it's own scripting language, Praat-script.
@@ -149,10 +149,10 @@ The `el_toolkit` utility has an option for converting the source code of Praat v
 Developed with VC++ 8.0 Express Edition, Windows XP SP2, Praat source code version 4.4.30. The conversion tool will not work with later versions of Praat.
 
 
-## Interface to Python
+## Python
 
 ## Basic Networking Classes
-
+Extensions for ISE network sockets and a class for obtaining the MAC address of network devices on both Windows and Linux.
 ## Adobe Flash interface for Laabhair
 **Status:** No longer maintained
 
@@ -166,13 +166,23 @@ Laabhair was developed at the [Digital Media Centre at the Dublin Institute of T
 
 
 ## Eiffel Remote Object Server (EROS)
+An implementation of an experimental XML orientated remote procedure call protocol.
 
-## Transfer Protocols
+**ECF Instructions**
 
-## Interface to Paypal API (HTTP NVP)
+When including the ECF `eros.ecf` in your project it is necessary to define a custom variable `eros_server_enabled`. To build a server application set the value to `true`. To build a client application set value to `false`.
 
-## Goanna Servlet Extensions
 
+
+
+## File Transfer Protocol (FTP)
+Classes for uploading files to a server and managing server directory structure.
+## PayPal Payments Standard Button Manager API
+An Eiffel interface to the [PayPal Payments Standard Button Manager NVP HTTP API](https://developer.paypal.com/docs/classic/button-manager/integration-guide/).
+## Hypertext Transfer Protocol (HTTP)
+Classes for interacting with a HTTP server. Supports the following HTTP commands: HEAD, POST, GET.
+## HTTP Servlet Services
+Classes for creating single and multi-threaded HTTP servlet services that extend the [Goanna servlet library](http://goanna.sourceforge.net/).
 ## Eiffel CHAIN Orientated Binary Database
 Implements "in-memory" database tables based on an interface defined by the kernel Eiffel class [`CHAIN`](https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/list/chain_chart.html). There are two table types:
 

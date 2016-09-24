@@ -25,6 +25,23 @@ system:
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
+		# C interface
+		external_include: 
+			location = "$(EIFFEL_LOOP_C)/cURL/source"
+
+		external_object:
+			location = "-L$(EIFFEL_LOOP_C)/cURL/spec/$(ISE_PLATFORM) -lelcurl"
+			condition:
+				platform:
+					value = unix
+
+		external_object:
+			location = "$(EIFFEL_LOOP_C)/cURL/spec/$(ISE_PLATFORM)/elcurl.lib"
+			condition:
+				platform:
+					value = windows
+
+		# Include libraries
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
@@ -32,7 +49,14 @@ system:
 			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
 
 		library:
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		library:
 			name = url_client; location = "override/ES-cURL.ecf"
+
+		# Gobo
+		library: 
+			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
 
 		# Eiffel Loop
 		library:
@@ -56,4 +80,7 @@ system:
 			name = http; location = "network/protocol/http"; recursive = true
 			option:
 				namespace = "Eiffel-Loop.http"
+
+		cluster:
+			name = http_util; location = "../contrib/Eiffel/etar/src/util"
 

@@ -1,4 +1,4 @@
-<h1>$category: $name</h1>
+<h1>$category_title: $name</h1>
 #across $description_elements as $element loop
 	<$element.item.tag_name>$element.item.text</$element.item.tag_name>
 #end

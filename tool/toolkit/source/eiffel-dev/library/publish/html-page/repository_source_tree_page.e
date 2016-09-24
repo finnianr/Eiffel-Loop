@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-27 13:32:45 GMT (Wednesday 27th July 2016)"
 	revision: "1"
@@ -58,6 +58,8 @@ feature {NONE} -- Initialization
 			description_checksum := l_crc.checksum
 			make_page (repository)
 			make_meta_digest (output_path)
+			category := relative_path.first_step.as_proper_case
+			sort_category := new_sort_category
 		end
 
 feature -- Access
@@ -74,23 +76,34 @@ feature -- Access
 
 	title: ZSTRING
 		do
-			Result := Title_template #$ [repository.name, category, name]
+			Result := Title_template #$ [repository.name, category_title, name]
 		end
 
 feature -- Access
 
 	category: ZSTRING
+
+	category_title: ZSTRING
+		-- displayed category title
 		do
-			Result := relative_path.first_step.as_proper_case
+			if sub_category.is_empty then
+				Result := category
+			else
+				Result := sub_category + Space_string + category
+			end
 		end
 
-	category_plural: ZSTRING
+	category_index_title: ZSTRING
+		-- Category title for sitemap index
 		do
-			Result := category
+			Result := category.twin
 			if Result [Result.count] = 'y' then
 				Result.remove_tail (1); Result.append_string_general ("ies")
 			else
 				Result.append_character ('s')
+			end
+			if category ~ Library_category then
+				Result := Category_title_template  #$ [Result, sub_category]
 			end
 		end
 
@@ -98,6 +111,20 @@ feature -- Access
 		do
 			Result := source_tree.dir_path.relative_path (repository.root_dir)
 		end
+
+	sub_category: ZSTRING
+		local
+			words: EL_ZSTRING_LIST
+		do
+			if category ~ Library_category then
+				create words.make_with_separator (relative_path.steps [2], '_', False)
+				Result := words.joined_propercase_words
+			else
+				create Result.make_empty
+			end
+		end
+
+	sort_category: ZSTRING
 
 feature -- Status query
 
@@ -116,10 +143,10 @@ feature -- Comparison
 	is_less alias "<" (other: like Current): BOOLEAN
 			-- Is current object less than `other'?
 		do
-			if category ~ other.category then
+			if sort_category ~ other.sort_category then
 				Result := name < other.name
 			else
-				Result := category < other.category
+				Result := sort_category < other.sort_category
 			end
 		end
 
@@ -171,6 +198,14 @@ feature {NONE} -- Implementation
 			Result := relative_path.steps.count
 		end
 
+	new_sort_category: ZSTRING
+		do
+			Result := category
+			if category ~ Library_category then
+				Result := category + Space_string + sub_category
+			end
+		end
+
 feature {NONE} -- Evolicity fields
 
 	getter_function_table: like getter_functions
@@ -181,7 +216,7 @@ feature {NONE} -- Evolicity fields
 				["home_description_elements",	agent home_description_elements],
 				["description_elements",		agent description_elements],
 
-				["category",			 			agent: ZSTRING do Result := category end],
+				["category_title",	 			agent: ZSTRING do Result := category_title end],
 				["ecf_name",			 			agent: ZSTRING do Result := source_tree.ecf_name end],
 				["directory_list", 				agent: ITERABLE [EIFFEL_SOURCE_DIRECTORY] do Result := source_tree.directory_list end],
 				["has_ecf_name",					agent: BOOLEAN_REF do Result := has_ecf_name.to_reference end],
@@ -196,6 +231,16 @@ feature {NONE} -- Internal attributes
 	source_tree: REPOSITORY_SOURCE_TREE
 
 feature {NONE} -- Constants
+
+	Category_title_template: ZSTRING
+		once
+			Result := "%S (%S)"
+		end
+
+	Library_category: ZSTRING
+		once
+			Result := "Library"
+		end
 
 	Title_template: ZSTRING
 		once

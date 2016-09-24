@@ -56,7 +56,8 @@
 			
 		-->
 		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
-		<library name = "EL_eros_server" location = "$EIFFEL_LOOP/library/eros-server.ecf" readonly = "false"/>
+		<variable name = "eros_server_enabled" value = "true"/>
+		<library name = "EL_eros" location = "$EIFFEL_LOOP/library/eros.ecf" readonly = "false"/>
 		<library name = "EL_evolicity" location = "$EIFFEL_LOOP/library/evolicity.ecf" readonly = "false"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
 		<library name = "EL_net_base" location = "$EIFFEL_LOOP/library/network.ecf" readonly = "false"/>

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:38:54 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-09-19 7:53:40 GMT (Monday 19th September 2016)"
+	revision: "2"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -54,7 +54,7 @@ feature {NONE} -- Implementation
 
 	compare_benchmarks (actions: like Type_actions)
 		local
-			times: HASH_TABLE [DOUBLE, STRING]; fastest, padding: STRING; label: ZSTRING
+			times: HASH_TABLE [DOUBLE, STRING]; fastest, l_padding: STRING; label: ZSTRING
 			fastest_time, execution_time, argument_a: DOUBLE
 			description_width: INTEGER
 		do
@@ -84,8 +84,8 @@ feature {NONE} -- Implementation
 				else
 					argument_a := times [action.key]
 				end
-				create padding.make_filled (' ', description_width - action.key.count + 1)
-				lio.put_labeled_string (action.key + padding, comparative_millisecs_string (argument_a, fastest_time))
+				create l_padding.make_filled (' ', description_width - action.key.count + 1)
+				lio.put_labeled_string (action.key + l_padding, comparative_millisecs_string (argument_a, fastest_time))
 				lio.put_new_line
 			end
 		end

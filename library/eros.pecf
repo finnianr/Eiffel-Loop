@@ -4,13 +4,13 @@ pyxis-doc:
 system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
-	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = EL_eros_server
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd"
+	name = EL_eros
 	uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" 
-	library_target = EL_eros_server
+	library_target = EL_eros
 	
 	target:
-		name = EL_eros_server
+		name = EL_eros
 		
 		description: 
 			"""
@@ -34,7 +34,9 @@ system:
 		# Eiffel Loop overrides
 		library:
 			name = vision2; location = "override/ES-vision2.ecf"
-			readonly = false
+			condition:
+				custom:
+					name = eros_server_enabled; value = true
 
 		# Eiffel Loop libraries
 
@@ -58,13 +60,35 @@ system:
 
 		library:
 			name = EL_vision2; location = "vision2-x.ecf"
+			condition:
+				custom:
+					name = eros_server_enabled; value = true
 
 		library:
 			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
 
 		# Source code
 		cluster:
-			name = net_eros; location = "network/eros"; recursive = true
-			option:
-				namespace = "Eiffel-Loop.EROS"
+			name = common; location = "network/eros"; recursive = true
+			file_rule:
+				exclude:
+					"/UI$"
+			file_rule:
+				exclude:
+					"/client$"
+			file_rule:
+				exclude:
+					"/server$"
+
+		cluster:
+			name = client; location = "network/eros/client"; recursive = true
+			condition:
+				custom:
+					name = eros_server_enabled; value = false
+
+		cluster:
+			name = server; location = "network/eros/server"; recursive = true
+			condition:
+				custom:
+					name = eros_server_enabled; value = true
 

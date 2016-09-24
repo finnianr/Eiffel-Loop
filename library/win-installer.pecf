@@ -5,34 +5,32 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = EL_eros
-	uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" 
-	library_target = EL_eros
+	name = EL_win_installer
+	uuid = "7A2B2FBA-809E-11E6-8CE5-07CE5F46A9E9" 
+	library_target = EL_win_installer
 	
 	target:
-		name = EL_eros
+		name = EL_win_installer
 		
 		description: 
 			"""
-				Eiffel Remote Object Framework 
-				Classes for creating and testing EROS client applications. (http://www.eiffel-loop.com/eros.html)
+				Classes to create a Windows install program. (http://www.eiffel-loop.com)
 			"""
-
 		root:
 			all_classes = true
 
 		option:
 			trace = false; debug=false; warning=true; syntax = standard
 			assertions:
-				precondition = true; postcondition = true; check = true; invariant = false
+				precondition = true; postcondition = true; check = true; invariant = true
 
-		library: 
+		library:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
-		library: 
-			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
-		
-		# Eiffel Loop libraries
+		library:
+			name = vision2; location="override/ES-vision2.ecf"
+
+		# Eiffel-Loop
 		library:
 			name = EL_base; location = "base/base.ecf"
 
@@ -40,22 +38,19 @@ system:
 			name = EL_evolicity; location = "evolicity.ecf"
 
 		library:
-			name = EL_net_base; location = "network.ecf"
+			name = EL_os_command; location = "os-command.ecf"
 
 		library:
 			name = EL_logging; location = "logging.ecf"
 
 		library:
-			name = EL_thread; location = "thread.ecf"
+			name = EL_wel_regedit_x; location = "wel-regedit-x.ecf"
 
 		library:
-			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
+			name = EL_vision2_x; location = "vision2-x.ecf"
 
 		# Source code
 		cluster:
-			name = eros; location = "network/eros"; recursive = true
-			file_rule:
-				exclude:
-					"/UI$"
+			name = installer; location = "runtime/windows-installer"; recursive = true
 
 

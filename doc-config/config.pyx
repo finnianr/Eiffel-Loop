@@ -83,42 +83,42 @@ publish-repository:
 			description:
 				"""
 				"""
-		# Library base
+		# Library Base
 		tree:
-			name = "Base Data Structures"; dir = "library/base/data_structure"
+			name = "Data Structures"; dir = "library/base/data_structure"
 			description:
 				"""
 				"""
 		tree:
-			name = "Base Math Classes"; dir = "library/base/math"
+			name = "Math Classes"; dir = "library/base/math"
 			description:
 				"""
 				"""
 		tree:
-			name = "Base Persistency Classes"; dir = "library/base/persistency"
+			name = "Persistency Classes"; dir = "library/base/persistency"
 			description:
 				"""
 				"""
 		tree:
-			name = "Base Runtime Classes"; dir = "library/base/runtime"
+			name = "Runtime Classes"; dir = "library/base/runtime"
 			description:
 				"""
 				"""
 		tree:
-			name = "Base Text Processing Classes"; dir = "library/base/text"
+			name = "Text Processing Classes"; dir = "library/base/text"
 			alias-map:
 				old_name = EL_ZSTRING; new_name = ZSTRING
 			description:
 				"""
 				"""
 		tree:
-			name = "Base Miscellaneous Utility Classes"; dir = "library/base/utility"
+			name = "Miscellaneous Utility Classes"; dir = "library/base/utility"
 			description:
 				"""
 				"""
 		# Library Graphics
 		tree:
-			name = "Graphical Image Utilities"; dir = "library/graphic/image/utils"
+			name = "Image Utilities"; dir = "library/graphic/image/utils"
 			description:
 				"""
 				"""
@@ -137,18 +137,19 @@ publish-repository:
 			description:
 				"""
 				"""
-		# Library language_interface
+		# Library (Language Interface)
 		tree:
-			name = "Interface to C/C++ and MS COM objects"; dir = "library/language_interface/C"
+			name = "C/C++ and MS COM objects"; dir = "library/language_interface/C"
+			ecf = "C-language-interface.ecf"
 			description:
 				"""
 				"""
 		tree:
-			name = "Interface to Java"; dir = "library/language_interface/Java"; ecf = "eiffel2java.ecf"
+			name = "Java"; dir = "library/language_interface/Java"; ecf = "eiffel2java.ecf"
 			description:
 				"Java.emd"
 		tree:
-			name = "Interface to Matlab"; dir = "library/language_interface/Matlab"
+			name = "Matlab"; dir = "library/language_interface/Matlab"
 			description:
 				"""
 					**Status:** No longer maintained
@@ -158,20 +159,23 @@ publish-repository:
 					Windows XP SP2.
 				"""
 		tree:
-			name = "Interface to Praat-script"; dir = "library/language_interface/Praat-script"
+			name = "Praat-script"; dir = "library/language_interface/Praat-script"
 			description:
 				"Praat-script.emd"
 		tree:
-			name = "Interface to Python"; dir = "library/language_interface/Python"
+			name = "Python"; dir = "library/language_interface/Python"
 			description:
 				"""
 				"""
 
-		# Library Network
+		# Library (Network)
 		tree:
 			name = "Basic Networking Classes"; dir = "library/network/base"
+			ecf = "network.ecf"
 			description:
 				"""
+					Extensions for ISE network sockets and a class for obtaining the
+					MAC address of network devices on both Windows and Linux.
 				"""
 		tree:
 			name = "Adobe Flash interface for Laabhair"; dir = "library/network/flash"
@@ -179,25 +183,45 @@ publish-repository:
 				"flash.emd"
 		tree:
 			name = "Eiffel Remote Object Server (EROS)"; dir = "library/network/eros"
+			ecf = "eros.ecf"
+			description:
+				"eros.emd"
+		tree:
+			name = "File Transfer Protocol (FTP)"; dir = "library/network/protocol/ftp"
+			ecf = "ftp.ecf"
 			description:
 				"""
+					Classes for uploading files to a server and managing server directory
+					structure.
 				"""
 		tree:
-			name = "Transfer Protocols"; dir = "library/network/protocol"
+			name = "PayPal Payments Standard Button Manager API"; dir = "library/network/paypal"
+			ecf = "paypal.ecf"
 			description:
 				"""
+					An Eiffel interface to the
+					[https://developer.paypal.com/docs/classic/button-manager/integration-guide/ PayPal Payments Standard Button Manager NVP HTTP API]. 
 				"""
+
 		tree:
-			name = "Interface to Paypal API (HTTP NVP)"; dir = "library/network/paypal"
+			name = "Hypertext Transfer Protocol (HTTP)"; dir = "library/network/protocol/http"
+			ecf = "http.ecf"
 			description:
 				"""
+					Classes for interacting with a HTTP server. Supports the following HTTP commands:
+					HEAD, POST, GET.
 				"""
+
 		tree:
-			name = "Goanna Servlet Extensions"; dir = "library/network/servlet"
+			name = "HTTP Servlet Services"; dir = "library/network/servlet"
+			ecf = "servlet.ecf"
 			description:
 				"""
+					Classes for creating single and multi-threaded HTTP servlet services that extend the
+					[http://goanna.sourceforge.net/ Goanna servlet library].
 				"""
-		# Library Database
+
+		# Library (Persistency)
 		tree:
 			name = "Eiffel CHAIN Orientated Binary Database"; dir = "library/persistency/database/binary-db"
 			ecf = "database.ecf"
@@ -220,7 +244,6 @@ publish-repository:
 			description:
 				"""
 				"""
-		# Library XML
 		tree:
 			name = "XML and Pyxis Document Scanning and Object Building (eXpat)"; dir = "library/persistency/xml/xdoc-scanning"
 			ecf = "xdoc-scanning.ecf"
@@ -232,7 +255,6 @@ publish-repository:
 			description:
 				"vtd-xml.emd"
 
-		# Library spreadsheet
 		tree:
 			name = "OpenOffice Spreadsheet"; dir = "library/persistency/xml/open-office-spreadsheet"
 			ecf = "xml-conversion.ecf"
@@ -242,7 +264,7 @@ publish-repository:
 					using [http://vtd-xml.sourceforge.net/ VTD-XML].				
 				"""
 
-		# Library Runtime
+		# Library (Runtime)
 		tree:
 			name = "Multi-application Management"; dir = "library/runtime/app-manage"
 			ecf = "app-manage.ecf"
@@ -263,14 +285,15 @@ publish-repository:
 			description:
 				"""
 				"""
-		# Library Testing
+
+		# Library (Testing)
 		tree:
 			name = "Development Testing Classes"; dir = "library/testing"
 			description:
 				"""
 				"""
 
-		# Library Testing
+		# Library (Text)
 		tree:
 			name = "AES Encryption Extensions"; dir = "library/text/encryption/aes"; ecf = "encryption.ecf"
 			description:
@@ -297,7 +320,7 @@ publish-repository:
 			description:
 				"evolicity.emd"
 
-		# Library Utility
+		# Library (Utility)
 		tree:
 			name = "Application License Management"; dir = "library/utility/app-license"; ecf = "app-license-keys.ecf"
 			description:
@@ -312,7 +335,7 @@ publish-repository:
 			description:
 				"""
 				"""
-		# Library Overrides
+		# Library (Override)
 		tree:
 			name = "Override of ES GUI Toolkits"; dir = "library/override/graphic/toolkit"
 			description:

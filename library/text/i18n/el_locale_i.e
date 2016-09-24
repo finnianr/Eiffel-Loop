@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-21 12:08:57 GMT (Sunday 21st August 2016)"
-	revision: "2"
+	date: "2016-09-08 17:17:18 GMT (Thursday 8th September 2016)"
+	revision: "3"
 
 deferred class
 	EL_LOCALE_I
@@ -136,6 +136,14 @@ feature -- Access
 		end
 
 feature -- Status report
+
+	has_key (general_key: READABLE_STRING_GENERAL): BOOLEAN
+			-- translation for source code string in current user language
+		do
+			restrict_access
+				Result := translations.has (key (general_key))
+			end_restriction
+		end
 
 	has_translation (a_language: STRING): BOOLEAN
 		do

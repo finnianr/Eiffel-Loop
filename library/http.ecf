@@ -7,9 +7,25 @@
 		<option namespace = "Eiffel-Loop.Library.http" trace = "false" debug = "false" warning = "true" syntax = "standard">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
+		<!--C interface-->
+		<external_include location = "$(EIFFEL_LOOP_C)/cURL/source"/>
+		<external_object location = "-L$(EIFFEL_LOOP_C)/cURL/spec/$(ISE_PLATFORM) -lelcurl">
+			<condition>
+				<platform value = "unix"/>
+			</condition>
+		</external_object>
+		<external_object location = "$(EIFFEL_LOOP_C)/cURL/spec/$(ISE_PLATFORM)/elcurl.lib">
+			<condition>
+				<platform value = "windows"/>
+			</condition>
+		</external_object>
+		<!--Include libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
+		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "url_client" location = "override/ES-cURL.ecf"/>
+		<!--Gobo-->
+		<library name = "gobo_kernel" location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf" readonly = "false"/>
@@ -20,5 +36,6 @@
 		<cluster name = "http" location = "network/protocol/http" recursive = "true">
 			<option namespace = "Eiffel-Loop.http"/>
 		</cluster>
+		<cluster name = "http_util" location = "../contrib/Eiffel/etar/src/util"/>
 	</target>
 </system>

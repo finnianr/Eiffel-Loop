@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 18:28:31 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2016-08-26 11:47:20 GMT (Friday 26th August 2016)"
+	revision: "2"
 
 deferred class
 	EL_URI_PATH
@@ -106,7 +106,6 @@ feature -- Conversion
 	 to_encoded_utf_8: EL_URL_STRING
 	 	do
 	 		create Result.make_empty
-	 		Result.enable_space_escaping
 	 		Result.append_utf_8 (to_string.to_utf_8)
 	 	end
 

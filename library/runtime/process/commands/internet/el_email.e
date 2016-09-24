@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-24 11:47:11 GMT (Wednesday 24th August 2016)"
-	revision: "1"
+	date: "2016-08-25 17:07:31 GMT (Thursday 25th August 2016)"
+	revision: "2"
 
 deferred class
 	EL_EMAIL
@@ -23,9 +23,13 @@ inherit
 feature {NONE} -- Initialization
 
 	make_default
+		local
+			boundary: INTEGER
 		do
 			Precursor
 			create date_time.make_now_utc
+			boundary := date_time.time.compact_time + ($Current).to_integer_32
+			multipart_boundary := create {STRING}.make_filled ('-', 12) + boundary.to_hex_string
 		end
 
 feature -- Basic operations
@@ -67,6 +71,8 @@ feature {NONE} -- Implementation
 			Result := parts.joined_propercase_words.to_string_8
 		end
 
+	multipart_boundary: STRING
+
 feature {NONE} -- Evolicity fields
 
 	getter_function_table: like getter_functions
@@ -75,7 +81,8 @@ feature {NONE} -- Evolicity fields
 			create Result.make (<<
 				["date", 			agent date_string],
 				["to_address", 	agent: ZSTRING do Result := to_address end ],
-				["from_address", 	agent: ZSTRING do Result := from_address end]
+				["from_address", 	agent: ZSTRING do Result := from_address end],
+				["boundary", 		agent: STRING do Result := multipart_boundary end]
 			>>)
 		end
 

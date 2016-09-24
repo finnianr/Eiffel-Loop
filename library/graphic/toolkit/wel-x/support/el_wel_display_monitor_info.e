@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-30 17:40:51 GMT (Wednesday 30th March 2016)"
 	revision: "1"
@@ -30,7 +30,7 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 		undefine
 			default_create
 		end
@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 			monitor: POINTER
 			point: WEL_POINT
 		do
-			log.enter ("default_create")
+			lio.enter ("default_create")
 			create EDID.make (0)
 			make_from_pointer (self_ptr.memory_calloc (1, c_size_of_monitor_info_struct))
 			cwin_set_struct_size (self_ptr, c_size_of_monitor_info_struct)
@@ -78,9 +78,9 @@ feature {NONE} -- Initialization
 			else
 				is_valid := False
 			end
-			log.put_integer_field ("width cms", width_centimeters)
-			log.put_integer_field (" height cms", height_centimeters)
-			log.exit
+			lio.put_integer_field ("width cms", width_centimeters)
+			lio.put_integer_field (" height cms", height_centimeters)
+			lio.exit
 		end
 
 feature -- Access
@@ -160,8 +160,8 @@ feature {NONE} -- Implementation
 		local
 			EDID_registry_path: EL_DIR_PATH
 		do
-			log.put_labeled_string ("Model", model)
-			log.put_new_line
+			lio.put_labeled_string ("Model", model)
+			lio.put_new_line
 			across Win_registry.key_names (HKLM_enum_display.joined_dir_path (model)) as key until key.cursor_index > 1 loop
 				EDID_registry_path := HKLM_enum_display.joined_dir_steps (<<
 					model, key.item.name.to_string_8, "Device Parameters"
@@ -199,8 +199,8 @@ feature {NONE} -- Implementation
 			manufacturer_id [4] := 0
 
 			Result := string16_to_string8 (manufacturer_id.area.base_address) + product_code
---			log.put_string_field ("EDID_model", Result)
---			log.put_new_line
+--			lio.put_string_field ("EDID_model", Result)
+--			lio.put_new_line
 		end
 
     Is_memory_owned: BOOLEAN = True

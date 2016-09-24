@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 8:19:18 GMT (Friday 24th June 2016)"
 	revision: "1"
@@ -56,9 +56,9 @@ feature {NONE} -- Initialization
 			font_size := 0.5
 			create size_drop_down.make (font_size, Font_sizes, agent set_font_size)
 
---			font_family := "Verdana"
+			font_family := "Verdana"
 --			font_family := "Courier 10 Pitch"
-			font_family := "Garuda"
+--			font_family := "Garuda"
 			create font_list_drop_down.make (font_family, GUI.General_font_families, agent set_font_family)
 
 			text_angle := 0

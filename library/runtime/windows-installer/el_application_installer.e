@@ -1,7 +1,5 @@
 note
-	description: "[
-		Windows application installer
-	]"
+	description: "Windows application installer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

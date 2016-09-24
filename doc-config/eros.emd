@@ -1,0 +1,8 @@
+An implementation of an experimental XML orientated remote procedure call protocol.
+
+**ECF Instructions**
+
+When including the ECF `eros.ecf' in your project it is necessary to define a custom variable
+`eros_server_enabled'. To build a server application set the value to `true'. To build a client
+application set value to `false'.
+

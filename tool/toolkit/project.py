@@ -2,12 +2,15 @@
 
 from eiffel_loop.project import *
 
-version = (1, 1, 25)
+version = (1, 1, 26)
 
 installation_sub_directory = 'Eiffel-Loop/utils'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.1.26
+# Added sub category for Library in Eiffel-View publisher
 
 # 1.1.25
 # Improved Eiffel-View to Github markdown translation
