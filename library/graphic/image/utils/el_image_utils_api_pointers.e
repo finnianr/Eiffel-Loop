@@ -1,5 +1,5 @@
 note
-	description: "API pointers for lib"
+	description: "API pointers for SO elimageutils"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
