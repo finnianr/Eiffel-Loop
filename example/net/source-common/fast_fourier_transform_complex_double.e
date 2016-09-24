@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:06 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-09-23 11:19:01 GMT (Friday 23rd September 2016)"
+	revision: "2"
 
 class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE

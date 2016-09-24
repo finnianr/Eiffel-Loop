@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 10:58:48 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2016-09-21 12:48:51 GMT (Wednesday 21st September 2016)"
+	revision: "2"
 
 class
 	EL_WEL_SYSTEM_FONTS

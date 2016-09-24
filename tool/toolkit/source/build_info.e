@@ -3,7 +3,13 @@ note
 
 	notes: "GENERATED FILE. Do not edit"
 
-	author: "Python module: eiffel_loop.eiffel.ecf.py"
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-09-23 15:26:10 GMT (Friday 23rd September 2016)"
+	revision: "1"
 
 class
 	BUILD_INFO
