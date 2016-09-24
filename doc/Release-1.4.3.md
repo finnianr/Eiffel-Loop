@@ -3,7 +3,7 @@
 ## BASE library
 * Added class `EL_COLON_FIELD_ROUTINES` accessible through class `EL_MODULE_COLON_FIELD`. Used to parse colon delimited fields in file line.
 
-* Created class EL_COMMAND_MENU for use with EL_COMMAND_SHELL. This class displays a command menu using columns with a maximum of 10 rows in each.
+* Created class `EL_COMMAND_MENU` for use with `EL_COMMAND_SHELL`. This class displays a command menu using columns with a maximum of 10 rows in each.
 
 * Fixed recursion bug in `{EL_READABLE_ZSTRING}.substring_between_general`
 
@@ -16,13 +16,13 @@
 ## HTTP library
 
 * Fixed the problems identified in this [code review](https://groups.google.com/forum/#!topic/eiffel-users/5rXQC2sQNZU) of the ISE library `cURL` by creating a new Eiffel C API interface to libcurl.
-* Fixed class EL_HTTP_COOKIES so it can decode UTF-8 values like "K\303\266ln-Altstadt-S\303\274d"
-* Added download progress monitoring via class EL_SHARED_FILE_PROGRESS_LISTENER
+* Fixed class EL_HTTP_COOKIES so it can decode UTF-8 values like `"K\303\266ln-Altstadt-S\303\274d"`
+* Added download progress monitoring via class `EL_SHARED_FILE_PROGRESS_LISTENER`
 * Created an AutoTest suite `HTTP_CONNECTION_TEST_SET` to test the most common `EL_HTTP_CONNECTION` operations.
 
 ### Class EL_HTTP_CONNECTION
 
-* Removed the dependency on class CURL_EASY_EXTERNALS from library cURL
+* Removed the dependency on class `CURL_EASY_EXTERNALS` from library cURL
 * Changed cookie handling to allow for the possibility of using separate file for loading and storing HTTP cookies.
 * Added new routine `download` for downloading data directly to a file.
 * Added routine `read_string_head` to execute a HTTP HEAD command making the result available in `last_string`. Useful for reading HTTP headers associated with a file without having to download a file.
