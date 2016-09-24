@@ -121,13 +121,17 @@ system:
 
 		# Eiffel Loop libraries
 		library:
-			name = el_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
+			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
 			readonly = false
 
 		library:
-			name = el_base; location = "$EIFFEL_LOOP/library/base/base.ecf"
+			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"
 			readonly = false	
 			#use_application_options = true
+
+		library:
+			name = EL_c_api; location = "$EIFFEL_LOOP/library/C-language-interface.ecf"
+			readonly = false	
 
 		library:
 			name = EL_logging; readonly = false

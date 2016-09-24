@@ -81,8 +81,11 @@ system:
 			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
 			readonly = false
 
+		variable:
+			name = eros_server_enabled; value = false
+
 		library:
-			name = EL_eros_client; location = "$EIFFEL_LOOP/library/eros-client.ecf"
+			name = EL_eros; location = "$EIFFEL_LOOP/library/eros.ecf"
 			readonly = false
 
 		library:

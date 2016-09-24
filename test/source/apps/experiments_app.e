@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-20 15:48:19 GMT (Saturday 20th August 2016)"
-	revision: "2"
+	date: "2016-08-26 12:34:27 GMT (Friday 26th August 2016)"
+	revision: "3"
 
 class EXPERIMENTS_APP
 
@@ -38,8 +38,8 @@ feature -- Basic operations
 
 	run
 		do
-			lio.enter ("remove_from_list")
-			remove_from_list
+			lio.enter ("string_to_integer_conversion")
+			string_to_integer_conversion
 			lio.exit
 		end
 
@@ -379,6 +379,15 @@ feature -- Experiments
 			color.background := "red"
 			log.put_integer_field ("First field", internal.field_count (color))
 			log.put_new_line
+		end
+
+	string_to_integer_conversion
+		local
+			str: ZSTRING
+		do
+			str := ""
+			log.put_string ("str.is_integer: ")
+			log.put_boolean (str.is_integer)
 		end
 
 	substitute_template_with_string_8

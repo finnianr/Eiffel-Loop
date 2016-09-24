@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-24 11:40:09 GMT (Wednesday 24th August 2016)"
-	revision: "2"
+	date: "2016-09-14 8:50:17 GMT (Wednesday 14th September 2016)"
+	revision: "3"
 
 deferred class
 	EL_SEND_MAIL_COMMAND_I
@@ -88,8 +88,9 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["email_path", agent: ZSTRING do Result := escaped_path (email.email_path) end],
-				["to_address", agent: ZSTRING do Result := email.to_address end]
+				["email_path", 	agent: ZSTRING do Result := escaped_path (email.email_path) end],
+				["from_address", 	agent: ZSTRING do Result := email.from_address end],
+				["to_address",		agent: ZSTRING do Result := email.to_address end]
 			>>)
 		end
 
@@ -99,6 +100,7 @@ feature {NONE} -- Constants
 		once
 			Result := "Connecting to local"
 		end
+
 	Message_accepted: ZSTRING
 		once
 			Result := "Message accepted for delivery"

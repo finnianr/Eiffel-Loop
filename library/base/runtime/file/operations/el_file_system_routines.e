@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-22 13:03:08 GMT (Friday 22nd July 2016)"
 	revision: "1"
@@ -14,14 +14,14 @@ class
 
 inherit
 	EL_SHARED_DIRECTORY
-	 	rename
-	 		copy as copy_object
-	 	end
+		rename
+			copy as copy_object
+		end
 
-	 EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
-	 	rename
-	 		copy as copy_object
-	 	end
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+		rename
+			copy as copy_object
+		end
 
 feature -- Access
 
@@ -147,6 +147,15 @@ feature -- Basic operations
 			destination_file.put_managed_pointer (data, 0, byte_count)
 			notify_progress (destination_file)
 			destination_file.close
+		end
+
+	copy_file_contents_to_dir (source_file: FILE; destination_dir: EL_DIR_PATH)
+		local
+			destination_path: EL_FILE_PATH
+		do
+			destination_path := source_file.path
+			destination_path.set_parent_path (destination_dir)
+			copy_file_contents (source_file, destination_path)
 		end
 
 	remove_file (a_file_path: EL_FILE_PATH)

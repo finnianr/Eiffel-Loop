@@ -1,33 +1,39 @@
 note
-	description: "[
-		Object for accessing http content
-		
-		Note: cookies are not written until close is called
+	description: "Retrieves data using the HTTP command GET, POST and HEAD"
+
+	notes: "[
+		See class [test/source/test/http/http_connection_test_set.html HTTP_CONNECTION_TEST_SET] for examples
+		on how to use.
 	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 7:57:58 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2016-09-21 9:39:54 GMT (Wednesday 21st September 2016)"
+	revision: "2"
 
 class
 	EL_HTTP_CONNECTION
 
 inherit
-	CURL_EASY_EXTERNALS
-		rename
-			cleanup as curl_close,
-			init as new_pointer
+	EL_C_OBJECT
 		export
 			{NONE} all
+		redefine
+			is_memory_owned, c_free
 		end
 
-	CURL_OPT_CONSTANTS
+	EL_CURL_OPTION_CONSTANTS
 		rename
-			is_valid as is_valid_opt_constant
+			is_valid as is_valid_option_constant
+		export
+			{NONE} all
+			{ANY} is_valid_http_command
+		end
+
+	EL_CURL_INFO_CONSTANTS
 		export
 			{NONE} all
 		end
@@ -37,17 +43,6 @@ inherit
 			is_valid as is_valid_form_constant
 		export
 			{NONE} all
-		end
-
-	EL_C_OBJECT
-		rename
-			c_free as curl_close
-		export
-			{NONE} all
-		undefine
-			curl_close
-		redefine
-			is_memory_owned, dispose
 		end
 
 	EL_MODULE_URL
@@ -60,40 +55,35 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_CURL
-		export
-			{NONE} all
-		end
-
 	EL_MODULE_LIO
 		export
 			{NONE} all
 		end
 
+	EL_MODULE_UTF
+
 	EL_STRING_CONSTANTS
 
+	EL_SHARED_CURL_API
+
 create
-	make, make_with_cookie
+	make
+--	, make_with_cookie
 
 feature {NONE} -- Initialization
 
 	make
 		do
-			Curl.initialize
-			create cookie_file_path
+			disable_cookies
 			create last_string.make_empty
-			http_method := CURLOPT_httpget
-		end
-
-	make_with_cookie (a_cookie_file_path: like cookie_file_path)
-		do
-			make
-			cookie_file_path := a_cookie_file_path
+			create http_response.make_empty
 		end
 
 feature -- Access
 
-	cookie_file_path: EL_FILE_PATH
+	cookie_load_path: EL_FILE_PATH
+
+	cookie_store_path: EL_FILE_PATH
 
 	error_code: INTEGER
 		-- curl error code
@@ -127,6 +117,11 @@ feature -- Access
 			else
 				create Result.make_empty
 			end
+		end
+
+	last_headers: EL_HTTP_HEADERS
+		do
+			create Result.make (last_string)
 		end
 
 	last_string: STRING
@@ -172,11 +167,25 @@ feature -- Status query
 feature -- Basic operations
 
 	close
-			-- write any cookies and close connection
+			-- write any cookies if `cookie_store_path' is set and closes connection
 		do
 			url := Empty_string
 			dispose
-			full_collect -- Workaround for a strange bug where a second call to read_string would hang
+			full_collect -- Workaround for a weird bug where a second call to read_string would hang
+
+			-- September 2016: It's possible this weird bug might have been resolved by the rewrite of code
+			-- handling cURL C callbacks that happened in this month.
+		end
+
+	download (file_path: EL_FILE_PATH)
+		-- save document downloaded using the HTTP GET command
+		local
+			download_cmd: EL_SAVE_DOWNLOAD_HTTP_COMMAND
+		do
+			create download_cmd.make (Current, file_path)
+			set_http_command (CURLOPT_httpget)
+			set_cookies
+			download_cmd.execute
 		end
 
 	open (a_url: like url)
@@ -184,52 +193,46 @@ feature -- Basic operations
 			if is_lio_enabled then
 				lio.put_labeled_string ("open", a_url); lio.put_new_line
 			end
-			make_from_pointer (new_pointer)
+			make_from_pointer (Curl.new_pointer)
 			reset
-			if not cookie_file_path.is_empty then
-				setopt_string (self_ptr, CURLOPT_cookiejar, cookie_file_path)
-				setopt_string (self_ptr, CURLOPT_cookiefile, cookie_file_path)
-			end
 			set_url (a_url)
 		ensure
 			opened: is_open
 		end
 
-	post_parameters (parameters: EL_HTTP_HASH_TABLE)
+	read_string_get
+		-- read document string using the HTTP GET command
 		do
-			post_raw_parameters_string (parameters.name_value_pairs_string)
+			read_string (CURLOPT_httpget)
 		end
 
-	post_raw_parameters_string (raw_string_8: STRING)
+	read_string_head
+		-- read document headers string using the HTTP HEAD command
 		do
-			setopt_string (self_ptr, CURLOPT_postfields, raw_string_8)
-			http_method := CURLOPT_postfields
-			read_string
+			read_string (CURLOPT_nobody)
 		end
 
-	read_string
-		local
-			http_response: CURL_STRING
+	read_string_post
+		-- read document string using the HTTP POST command
 		do
-			create http_response.make_empty
-			set_write_function (self_ptr)
+			read_string (CURLOPT_post)
+		end
 
---			You must make sure that the data is formatted the way you want the server to receive it.
---			libcurl will not convert or encode it for you in any way. For example, the web server may
---			assume that this data is url-encoded.
-			if url.has ('?') then
-				set_get_method
-			end
+feature -- Status setting
 
-			setopt_integer (self_ptr, CURLOPT_writedata, http_response.object_id)
-			error_code := perform (self_ptr)
-			if has_error then
-				lio.put_integer_field ("CURL error code", error_code)
-				lio.put_new_line
-				last_string.wipe_out
-			else
-				last_string.share (http_response)
-			end
+	disable_cookies
+		do
+			disable_cookie_store; disable_cookie_load
+		end
+
+	disable_cookie_store
+		do
+			create cookie_store_path
+		end
+
+	disable_cookie_load
+		do
+			create cookie_load_path
 		end
 
 	reset_cookie_session
@@ -237,17 +240,13 @@ feature -- Basic operations
 			-- that are "session cookies" from the previous session. By default, libcurl always stores and loads all cookies,
 			-- independent if they are session cookies or not. Session cookies are cookies without expiry date and they are meant
 			-- to be alive and existing for this "session" only.
-		require
-			cookie_file_path_set: not cookie_file_path.is_empty
 		do
-			setopt_integer (self_ptr, CURLOPT_cookiesession, 1)
+			set_curl_boolean_option (CURLOPT_cookiesession, True)
 		end
-
-feature -- Status setting
 
 	set_redirection_follow
 		do
-			setopt_integer (self_ptr, CURLOPT_followlocation, 1)
+			set_curl_boolean_option (CURLOPT_followlocation, True)
 		end
 
 feature -- Element change
@@ -258,16 +257,58 @@ feature -- Element change
 			error_code := 0
 		end
 
-	set_cookie_file_path (a_cookie_file_path: like cookie_file_path)
+	set_cookie_paths (a_cookie_path: like cookie_store_path)
+			-- Set both `cookie_load_path' and `cookie_store_path' to the same file
 		do
-			cookie_file_path := a_cookie_file_path
+			cookie_load_path := a_cookie_path
+			cookie_store_path := a_cookie_path
+		end
+
+	set_cookie_load_path (a_cookie_load_path: like cookie_load_path)
+		-- Enables the cookie engine, making the connection parse and send cookies on subsequent requests.
+		-- The cookie data can be in either the old Netscape / Mozilla cookie data format or just
+		-- regular HTTP headers (Set-Cookie style) dumped to a file.
+
+		-- Exercise caution if you are using this option and multiple transfers may occur.
+		-- If you use the Set-Cookie format and don't specify a domain then the cookie is sent
+		-- for any domain (even after redirects are followed) and cannot be modified by a server-set
+		-- cookie. If a server sets a cookie of the same name then both will be sent on a future
+		-- transfer to that server, likely not what you intended. To address these issues set a domain
+		-- in Set-Cookie (doing that will include sub-domains) or use the Netscape format.
+
+		-- See also: https://curl.haxx.se/libcurl/c/CURLOPT_COOKIEFILE.html
+		do
+			cookie_load_path := a_cookie_load_path
+		end
+
+	set_cookie_store_path (a_cookie_store_path: like cookie_store_path)
+			-- This will make the connection write all internally known cookies to the
+			-- specified file when close is called.
+
+			-- See also: https://curl.haxx.se/libcurl/c/CURLOPT_COOKIEJAR.html
+		do
+			cookie_store_path := a_cookie_store_path
+		end
+
+	set_post_parameters (parameters: EL_HTTP_HASH_TABLE)
+		do
+			set_post_raw_parameters_string (parameters.url_query_string)
+		end
+
+	set_post_raw_parameters_string (raw_string_8: STRING)
+		-- You must make sure that the data is formatted the way you want the server to receive it.
+		-- libcurl will not convert or encode it for you in any way. For example, the web server may
+		-- assume that this data is url-encoded.
+		do
+			set_curl_string_8_option (CURLOPT_postfields, raw_string_8)
+			set_curl_integer_option (CURLOPT_postfieldsize, raw_string_8.count)
 		end
 
 	set_ssl_certificate_verification (flag: BOOLEAN)
 			-- Curl verifies whether the certificate is authentic,
 			-- i.e. that you can trust that the server is who the certificate says it is.
 		do
-			setopt_integer (self_ptr, CURLOPT_ssl_verifypeer, flag.to_integer)
+			set_curl_boolean_option (CURLOPT_ssl_verifypeer, flag)
 		end
 
 	set_ssl_hostname_verification (flag: BOOLEAN)
@@ -275,33 +316,32 @@ feature -- Element change
      		-- they have mentioned in their server certificate's commonName (or
      		-- subjectAltName) fields, libcurl will refuse to connect.
 		do
-			setopt_integer (self_ptr, CURLOPT_ssl_verifyhost, flag.to_integer)
+			set_curl_boolean_option (CURLOPT_ssl_verifyhost, flag)
 		end
 
 	set_timeout (millisecs: INTEGER)
 			-- set maximum time in milli-seconds the request is allowed to take
 		do
-			setopt_integer (self_ptr, CURLOPT_timeout_ms, millisecs)
+			set_curl_integer_option (CURLOPT_timeout_ms, millisecs)
 		end
 
 	set_timeout_seconds (seconds: INTEGER)
 			-- set maximum time in seconds the request is allowed to take
 		do
-			setopt_integer (self_ptr, CURLOPT_timeout, seconds)
+			set_curl_integer_option (CURLOPT_timeout, seconds)
 		end
 
 	set_timeout_to_connect (seconds: INTEGER)
 			--
 		do
-			setopt_integer (self_ptr, CURLOPT_timeout, seconds)
+			set_curl_integer_option (CURLOPT_timeout, seconds)
 		end
 
 	set_url (a_url: like url)
 		do
 			url := a_url
 --			Curl already does url encoding
-			setopt_string (self_ptr, CURLOPT_url, a_url.to_utf_8)
-			set_get_method
+			set_curl_string_8_option (CURLOPT_url, a_url.to_utf_8)
 			-- Essential calls for using https
 			if a_url.starts_with (Secure_protocol) then
 				set_ssl_certificate_verification (is_certificate_verified)
@@ -328,49 +368,34 @@ feature -- Element change
 
 	set_user_agent (user_agent: STRING)
 		do
-			setopt_string (self_ptr, {CURL_OPT_CONSTANTS}.CURLOPT_useragent, user_agent)
+			set_curl_string_8_option (CURLOPT_useragent, user_agent)
 		end
 
-feature -- Disposal
+feature {NONE} -- Disposal
 
-	dispose
+	c_free (this: POINTER)
+			--
 		do
 			if is_open then
-				curl_close (self_ptr)
-				self_ptr := Default_pointer
+				Curl.clean_up (self_ptr)
 			end
 		end
 
 feature {NONE} -- Experimental
 
 	read_string_experiment
-			-- Cannot get this to work
+			-- Failed experiment. Might come back to it again
 		local
-			http_response: CURL_STRING
 			form_post, form_last: CURL_FORM
 		do
 			create form_post.make; create form_last.make
 			set_form_parameters (form_post, form_last)
 
 			create http_response.make_empty
-			set_write_function (self_ptr)
-			setopt_integer (self_ptr, CURLOPT_writedata, http_response.object_id)
-			error_code := perform (self_ptr)
+--			set_write_function (self_ptr)
+			set_curl_integer_option (CURLOPT_writedata, http_response.object_id)
+			error_code := Curl.perform (self_ptr)
 			last_string.share (http_response)
-		end
-
-	set_form_parameters (form_post, form_last: CURL_FORM)
-			-- Haven't worked out how to use this
-		do
---			across parameters as parameter loop
---				Curl.formadd_string_string (
---					form_post, form_last,
---					CURLFORM_COPYNAME, parameter.key,
---					CURLFORM_COPYCONTENTS, parameter.item,
---					CURLFORM_END
---				)
---			end
-			setopt_form (self_ptr, CURLOPT_httppost, form_post)
 		end
 
 	redirection_url: STRING
@@ -384,35 +409,119 @@ feature {NONE} -- Experimental
 		do
 			create Result.make_empty
 			create result_cell.put (Result)
-			status := getinfo (self_ptr, Curlinfo_redirect_url, result_cell)
+			status := Curl.get_info (self_ptr, Curlinfo_redirect_url, result_cell)
 			if status = 0 then
 				Result := result_cell.item
 			end
 		end
 
+	set_form_parameters (form_post, form_last: CURL_FORM)
+			-- Haven't worked out how to use this
+		do
+--			across parameters as parameter loop
+--				Curl.formadd_string_string (
+--					form_post, form_last,
+--					CURLFORM_COPYNAME, parameter.key,
+--					CURLFORM_COPYCONTENTS, parameter.item,
+--					CURLFORM_END
+--				)
+--			end
+			Curl.setopt_form (self_ptr, CURLOPT_httppost, form_post)
+		end
+
+feature {EL_HTTP_COMMAND} -- Implementation
+
+	do_transfer
+		-- do data transfer to/from host
+		do
+			error_code := Curl.perform (self_ptr)
+			if has_error then
+				lio.put_integer_field ("CURL error code", error_code)
+				lio.put_new_line
+			end
+		end
+
+	set_curl_option_with_data (a_option: INTEGER; a_data_ptr: POINTER)
+		do
+			Curl.setopt_void_star (self_ptr, a_option, a_data_ptr)
+		end
+
 feature {NONE} -- Implementation
 
-	set_get_method
+	read_string (a_http_command: like http_command)
+		local
+			download_cmd: EL_STRING_DOWNLOAD_HTTP_COMMAND
 		do
-			if http_method /= CURLOPT_httpget then
-				setopt_integer (self_ptr, CURLOPT_httpget, 1)
-				http_method := CURLOPT_httpget
+			if a_http_command = CURLOPT_nobody then
+				create {EL_HEADER_DOWNLOAD_HTTP_COMMAND} download_cmd.make (Current)
+			else
+				create download_cmd.make (Current)
+			end
+			set_http_command (a_http_command)
+			set_cookies
+			download_cmd.execute
+			if has_error then
+				last_string.wipe_out
+			else
+				last_string.share (download_cmd.string)
+			end
+		end
+
+	set_cookies
+		do
+			if not cookie_store_path.is_empty then
+				set_curl_string_option (CURLOPT_cookiejar, cookie_store_path)
+			end
+			if not cookie_load_path.is_empty then
+				set_curl_string_option (CURLOPT_cookiefile, cookie_load_path)
+			end
+		end
+
+	set_curl_boolean_option (a_option: INTEGER; flag: BOOLEAN)
+		do
+			Curl.setopt_integer (self_ptr, a_option, flag.to_integer)
+		end
+
+	set_curl_integer_option (a_option: INTEGER; value: INTEGER)
+		do
+			Curl.setopt_integer (self_ptr, a_option, value)
+		end
+
+	set_curl_string_32_option (a_option: INTEGER; string: STRING_32)
+		do
+			Curl.setopt_string (self_ptr, a_option, UTF.string_32_to_utf_8_string_8 (string))
+		end
+
+	set_curl_string_8_option (a_option: INTEGER; string: STRING)
+		do
+			Curl.setopt_string (self_ptr, a_option, string)
+		end
+
+	set_curl_string_option (a_option: INTEGER; string: ZSTRING)
+		do
+			Curl.setopt_string (self_ptr, a_option, string.to_utf_8)
+		end
+
+	set_http_command (a_http_command: like http_command)
+		require
+			valid_command: is_valid_http_command (a_http_command)
+		do
+			if http_command /= a_http_command then
+				set_curl_boolean_option (a_http_command, True)
+				http_command := a_http_command
 			end
 		end
 
 feature {NONE} -- Implementation attributes
 
-	http_method: INTEGER
-		-- POST or GET
+	http_command: INTEGER
+		-- POST, HEAD (NOBODY) or GET
+
+	http_response: CURL_STRING
 
 	is_memory_owned: BOOLEAN = True
 
 feature {NONE} -- Constants
-
-	Curlinfo_redirect_url: INTEGER
-		once
-			Result := {CURL_INFO_CONSTANTS}.Curlinfo_string + 31
-		end
 
 	Doctype_declaration: STRING = "<!DOCTYPE"
 
@@ -455,11 +564,11 @@ feature {NONE} -- Constants
 			Result [510] := "Not Extended"
 		end
 
-	Title_tag: STRING = "<title>"
-
 	Secure_protocol: ZSTRING
 		once
 			Result := "https:"
 		end
+
+	Title_tag: STRING = "<title>"
 
 end

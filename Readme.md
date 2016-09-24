@@ -9,8 +9,16 @@
 * EXAMPLE APPLICATIONS
 * SOURCE TREE DESCRIPTIONS
 
-## RELEASE NOTES 1.4.1
-See [doc/Release-1.4.1.md](doc/Release-1.4.1.md)
+## RELEASE NOTES 
+
+[doc/Release-1.2.6.md](doc/Release-1.2.6.md)
+[doc/Release-1.3.2.md](doc/Release-1.3.2.md)
+[doc/Release-1.3.3.md](doc/Release-1.3.3.md)
+[doc/Release-1.3.4.md](doc/Release-1.3.4.md)
+[doc/Release-1.4.0.md](doc/Release-1.4.0.md)
+[doc/Release-1.4.1.md](doc/Release-1.4.1.md)
+[doc/Release-1.4.2.md](doc/Release-1.4.2.md)
+[doc/Release-1.4.3.md](doc/Release-1.4.3.md)
 
 ## LIBRARY CONTENTS
 For a short description of each module see [doc/Contents.md](doc/Contents.md) or [www.eiffel-loop.com](http://www.eiffel-loop.com).

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 19:55:13 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-09-19 17:44:31 GMT (Monday 19th September 2016)"
+	revision: "2"
 
 deferred class
 	EL_BACKGROUND_FAST_CGI_SERVLET_SERVICE
@@ -41,7 +41,6 @@ feature {EL_SERVLET_SUB_APPLICATION} -- Initialization
 	make (config_dir: EL_DIR_PATH; config_name: ZSTRING)
 		do
 			Precursor (config_dir, config_name)
-			set_name (config_name)
 			make_thread
 		end
 
@@ -68,7 +67,7 @@ feature {NONE} -- Implementation
 			web.open (localhost_uri)
 			from retry_count := 1 until retry_count > 2 loop
 				lio.put_labeled_string ("Servlet", localhost_uri.to_string); lio.put_string (" ")
-				web.read_string
+				web.read_string_get
 				if web.has_error then
 					lio.put_string ("FAILED retrying..")
 					retry_count := retry_count + 1

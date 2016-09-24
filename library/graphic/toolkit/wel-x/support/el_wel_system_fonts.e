@@ -6,7 +6,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 10:58:48 GMT (Friday 24th June 2016)"
 	revision: "1"
@@ -42,12 +42,13 @@ feature -- Element change
 			valid_font_type: Valid_font_types.has (font_type)
 		local
 			font_path: NATIVE_STRING
-			font_name: ZSTRING
+			font_name: ZSTRING; package_file: RAW_FILE
 		do
-			across File_system.file_list (source_dir, "*." + font_type) as package_path loop
+			across File_system.recursive_files_with_extension (source_dir, font_type) as package_path loop
 				font_name := package_path.item.without_extension.base
 				if not has_true_type_font (font_name) then
-					File_system.copy_file (package_path.item, System_fonts_dir)
+					create package_file.make_with_name (package_path.item)
+					File_system.copy_file_contents_to_dir (package_file, System_fonts_dir)
 					create font_path.make ((System_fonts_dir + package_path.item.base).to_string.to_unicode)
 					if {EL_WEL_API}.add_font_resource (font_path.item) > 0 then
 						{WEL_API}.send_message (Hwnd_broadcast, Wm_fontchange, Default_pointer, Default_pointer)

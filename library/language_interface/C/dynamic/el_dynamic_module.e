@@ -1,32 +1,90 @@
 note
-	description: "Summary description for {EL_DYNAMICALLY_LOADED_C_API}."
+	description: "[
+		Defines interface to dynamically load C API.
+	]"
+
+	instructions: "[
+		If all the API names have a common prefix, then set `name_prefix' to be this prefix.
+		For each API name define an attribute of type `POINTER' and named as `pointer_<api_name>'
+		where `api_name' is a C identifier with the common prefix ommitted. Using the library 'libcurl'
+		as an example,	the following API names would be set up as shown below.
+		
+		*C function names*
+			curl_easy_init
+			curl_easy_setopt
+			curl_easy_perform
+			curl_easy_cleanup
+
+		*CURL_API class*
+			class
+				CURL_API
+			inherit
+				EL_DYNAMIC_MODULE
+			create
+				make
+				
+			feature {NONE} -- API pointers
+
+				pointer_cleanup: POINTER
+
+				pointer_init: POINTER
+
+				pointer_perform: POINTER
+
+				pointer_setopt: POINTER
+
+			feature -- Constants
+
+				Module_name: STRING = "libcurl"
+
+				Name_prefix: STRING = "curl_easy_"
+			end
+
+		If the pointer names correspond exactly to the C identifer names, the pointers will be
+		initialized automatically in the creation procedure.
+
+		*Upper case names*
+
+		If any of the API names contains an uppercase character, then these names must be listed by
+		overriding the function `function_names_with_upper'. Make sure the common prefix defined by
+		`name_prefix' is ommitted.
+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 18:52:44 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2016-09-18 14:12:42 GMT (Sunday 18th September 2016)"
+	revision: "2"
 
 deferred class
-	EL_DYNAMIC_MODULE
+	EL_DYNAMIC_MODULE [G -> EL_DYNAMIC_MODULE_POINTERS create make end]
 
 inherit
 	DYNAMIC_MODULE
 		rename
 			module_name as internal_module_name,
-			make as make_module,
-			initialize as assign_pointers
+			make as make_module
 		export
 			{NONE} all
-		undefine
-			assign_pointers
+		redefine
+			initialize
 		end
+
+	EL_SHARED_ONCE_STRINGS
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
+	EL_REFLECTION
+
 feature {NONE} -- Initialization
+
+	initialize
+		do
+			create api.make (Current)
+		end
 
 	make
 		local
@@ -45,14 +103,14 @@ feature -- Status query
 			Result := module_handle /= default_pointer
 		end
 
-feature {NONE} -- Implementation
+feature {EL_DYNAMIC_MODULE_POINTERS} -- Access
 
 	function_pointer (name: STRING): POINTER
+		-- API function pointer for `name_prefix + name'
 		local
 			l_name: STRING
 		do
-			l_name := String_buffer
-			l_name.wipe_out
+			l_name := empty_once_string
 			if not name_prefix.is_empty then
 				l_name.append (name_prefix)
 			end
@@ -60,20 +118,31 @@ feature {NONE} -- Implementation
 			Result := api_pointer (l_name)
 		end
 
-	module_name: STRING
-		deferred
-		end
-
 	name_prefix: STRING
 			-- function name prefix
 		deferred
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	String_buffer: STRING
-		once
-			create Result.make_empty
+	call (function_name: STRING; c_function: PROCEDURE [like Current, TUPLE [POINTER]])
+			-- call API function specified by fully qualified name `function_name' (including
+			-- any common name prefix)
+		local
+			function: POINTER
+		do
+			function := api_pointer (function_name)
+			if function /= default_pointer then
+				c_function (function)
+			end
 		end
+
+	module_name: STRING
+		deferred
+		end
+
+feature {NONE} -- Internal attributes
+
+	api: G
 
 end

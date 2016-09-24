@@ -83,8 +83,8 @@ feature {NONE} -- Implementation
 			create category.make_empty
 			create list.make (0)
 			across source_tree_pages as page loop
-				if category /~ page.item.category_plural then
-					category := page.item.category_plural
+				if category /~ page.item.category_index_title then
+					category := page.item.category_index_title
 					list.sort
 					create list.make (10)
 					Result.extend (create {EVOLICITY_CONTEXT_IMP}.make)

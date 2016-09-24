@@ -6,7 +6,7 @@ system:
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
 	name = EL_app_manage
-	uuid = "229b70ba-09aa-11df-87b3-13bae5c3e690" 
+	uuid = "229B70BA-09AA-11DF-87B3-13BAE5C3E690" 
 	library_target = EL_app_manage
 	
 	target:
@@ -26,6 +26,12 @@ system:
 
 		library:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = vision2; location="override/ES-vision2.ecf"
+			condition:
+				custom:
+					name = gui_installer_enabled; value = true
 
 		library:
 			name = encoding; location = "$ISE_LIBRARY/library/encoding/encoding.ecf"
@@ -61,6 +67,10 @@ system:
 
 			file_rule:
 				exclude:
+					"/gui-installer$"
+
+			file_rule:
+				exclude:
 					"/windows$"
 				condition:
 					platform:
@@ -72,4 +82,7 @@ system:
 				condition:
 					platform:
 						value = windows
+
+
+
 
