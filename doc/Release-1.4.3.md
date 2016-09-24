@@ -10,17 +10,20 @@
 * Added new class `EL_NAME_VALUE_PAIR` to parse strings that use a character like ':' to indicate a named string value.
 * Added new class `EL_JSON_NAME_VALUE_PAIR` based on `EL_NAME_VALUE_PAIR`.
 
+## EROS library
+The client and server ECF for the [EROS library](http://www.eiffel-loop.com/library/network/eros/class-index.html) have been merged into one ECF. A custom ECF variable `eros_server_enabled` allows the ECF `eros.ecf` to be used for both client and server applications.
+
 ## LOG library
 * Added `redirect_output_to_console (thread: EL_IDENTIFIED_THREAD_I)` to class `EL_LOG_MANAGER`
 
 ## HTTP library
 
 * Fixed the problems identified in this [code review](https://groups.google.com/forum/#!topic/eiffel-users/5rXQC2sQNZU) of the ISE library `cURL` by creating a new Eiffel C API interface to libcurl.
-* Fixed class EL_HTTP_COOKIES so it can decode UTF-8 values like `"K\303\266ln-Altstadt-S\303\274d"`
-* Added download progress monitoring via class `EL_SHARED_FILE_PROGRESS_LISTENER`
-* Created an AutoTest suite `HTTP_CONNECTION_TEST_SET` to test the most common `EL_HTTP_CONNECTION` operations.
+* Fixed class `EL_HTTP_COOKIES` so it can decode UTF-8 values like `"K\303\266ln-Altstadt-S\303\274d"`
+* Added download progress monitoring via base class [EL_SHARED_FILE_PROGRESS_LISTENER](http://www.eiffel-loop.com/library/base/runtime/class-index.html#EL_SHARED_FILE_PROGRESS_LISTENER)
+* Created an AutoTest suite [HTTP_CONNECTION_TEST_SET](http://www.eiffel-loop.com/test/source/test/http/http_connection_test_set.html) to test the most common `EL_HTTP_CONNECTION` operations.
 
-### Class EL_HTTP_CONNECTION
+### Class [EL_HTTP_CONNECTION](http://www.eiffel-loop.com/library/network/protocol/http/class-index.html#EL_HTTP_CONNECTION)
 
 * Removed the dependency on class `CURL_EASY_EXTERNALS` from library cURL
 * Changed cookie handling to allow for the possibility of using separate file for loading and storing HTTP cookies.
