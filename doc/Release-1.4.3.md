@@ -9,6 +9,9 @@
 
 * Added new class `EL_NAME_VALUE_PAIR` to parse strings that use a character like ':' to indicate a named string value.
 * Added new class `EL_JSON_NAME_VALUE_PAIR` based on `EL_NAME_VALUE_PAIR`.
+ 
+## C-LANGUAGE-INTERFACE library
+* Modified class [EL_DYNAMIC_MODULE](http://www.eiffel-loop.com/library/language_interface/C/class-index.html#EL_DYNAMIC_MODULE) to take a generic parameter of type [EL_DYNAMIC_MODULE_POINTERS](http://www.eiffel-loop.com/library/language_interface/C/class-index.html#EL_DYNAMIC_MODULE_POINTERS). Class `EL_DYNAMIC_MODULE_POINTERS` is used to define the shared object C function pointers.
 
 ## EROS library
 The client and server ECF for the [EROS library](http://www.eiffel-loop.com/library/network/eros/class-index.html) have been merged into one ECF. A custom ECF variable `eros_server_enabled` allows the ECF `eros.ecf` to be used for both client and server applications.
