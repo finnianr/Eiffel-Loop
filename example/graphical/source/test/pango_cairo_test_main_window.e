@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 8:19:18 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2016-09-21 14:21:57 GMT (Wednesday 21st September 2016)"
+	revision: "2"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW

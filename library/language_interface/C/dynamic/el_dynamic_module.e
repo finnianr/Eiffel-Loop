@@ -56,8 +56,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-18 14:12:42 GMT (Sunday 18th September 2016)"
-	revision: "2"
+	date: "2016-09-21 13:44:18 GMT (Wednesday 21st September 2016)"
+	revision: "3"
 
 deferred class
 	EL_DYNAMIC_MODULE [G -> EL_DYNAMIC_MODULE_POINTERS create make end]
