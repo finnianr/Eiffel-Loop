@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_CURL_API_POINTERS}."
+	description: "API pointers for shared object libcurl"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
