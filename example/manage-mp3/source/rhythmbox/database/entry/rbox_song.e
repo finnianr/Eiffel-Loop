@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-01 11:54:22 GMT (Monday 1st August 2016)"
-	revision: "1"
+	date: "2016-09-26 9:55:58 GMT (Monday 26th September 2016)"
+	revision: "2"
 
 class
 	RBOX_SONG
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_entry
-			database := a_database; mp3_root_location := a_database.mp3_root_location
+			database := a_database; music_dir := a_database.music_dir
 		end
 
 	make_entry
@@ -223,10 +223,10 @@ feature -- Locations
 
 	mp3_relative_path: EL_FILE_PATH
 		do
-			Result := mp3_path.relative_path (mp3_root_location)
+			Result := mp3_path.relative_path (music_dir)
 		end
 
-	mp3_root_location: EL_DIR_PATH
+	music_dir: EL_DIR_PATH
 
 feature -- Status query
 
@@ -276,7 +276,7 @@ feature -- Status query
 		local
 			l_extension, l_actual_path, l_normalized_path: ZSTRING
 		do
-			l_actual_path := mp3_path.relative_path (mp3_root_location).without_extension
+			l_actual_path := mp3_path.relative_path (music_dir).without_extension
 			l_normalized_path := normalized_path_steps.as_file_path
 			if l_actual_path.starts_with (l_normalized_path) then
 				l_extension := l_actual_path.substring (l_normalized_path.count + 1, l_actual_path.count) -- .00
@@ -384,10 +384,10 @@ feature -- Element change
 			first_seen := Time.unix_date_time (a_first_seen_time)
 		end
 
-	set_mp3_root_location (a_mp3_root_location: like mp3_root_location)
+	set_music_dir (a_music_dir: like music_dir)
 			--
 		do
-			mp3_root_location := a_mp3_root_location
+			music_dir := a_music_dir
 		end
 
 	set_recording_date (a_recording_date: like recording_date)
@@ -515,7 +515,7 @@ feature {NONE} -- Implementation
 	normalized_mp3_base_path: EL_FILE_PATH
 			-- normalized path <mp3_root_location>/<genre>/<artist>/<title>[<- vocalists>]
 		do
-			Result := mp3_root_location.joined_file_steps (normalized_path_steps)
+			Result := music_dir.joined_file_steps (normalized_path_steps)
 		end
 
 	normalized_path_steps: EL_PATH_STEPS

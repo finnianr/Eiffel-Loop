@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-04 9:57:28 GMT (Thursday 4th August 2016)"
-	revision: "2"
+	date: "2016-09-28 12:08:35 GMT (Wednesday 28th September 2016)"
+	revision: "3"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -88,7 +88,7 @@ feature -- Basic operations
 			input_file_path := a_input_file_path
 			OS.copy_file (input_file_path, Work_area_dir)
 
-			input_file_path := Work_area_dir + input_file_path.steps.last
+			input_file_path := Work_area_dir + input_file_path.base
 
 			test_proc.set_operands ([input_file_path])
 			do_test (Work_area_dir, Empty_pattern, test_proc, valid_test_checksum)
@@ -123,7 +123,7 @@ feature {NONE} -- Implementation
 			input_dir_path: EL_DIR_PATH
 		do
 			create_work_area
-			input_dir_path := Work_area_dir.joined_dir_path (a_input_dir_path.steps.last)
+			input_dir_path := Work_area_dir.joined_dir_path (a_input_dir_path.base)
 			if a_input_dir_path.exists then
 				OS.copy_tree (a_input_dir_path, Work_area_dir)
 			else

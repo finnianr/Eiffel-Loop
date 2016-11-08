@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-18 12:50:30 GMT (Sunday 18th September 2016)"
-	revision: "1"
+	date: "2016-09-27 8:07:46 GMT (Tuesday 27th September 2016)"
+	revision: "2"
 
 class
 	EL_HEADER_DOWNLOAD_HTTP_COMMAND
@@ -18,7 +18,7 @@ class
 inherit
 	EL_STRING_DOWNLOAD_HTTP_COMMAND
 		redefine
-			callback_curl_option , callback_curl_data_option
+			callback_curl_option, callback_curl_data_option
 		end
 
 create

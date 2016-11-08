@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-29 13:20:57 GMT (Friday 29th January 2016)"
-	revision: "1"
+	date: "2016-09-29 7:33:05 GMT (Thursday 29th September 2016)"
+	revision: "2"
 
 class
 	EL_SHARED_ZCODEC_FACTORY
@@ -32,17 +32,39 @@ feature {NONE} -- Factory
 
 	new_iso_8859_codec (id: INTEGER): EL_ISO_8859_ZCODEC
 		require
-			not_iso_8859_12: id /= 12
-			valid_id: (1 |..| 15).has (id)
+			valid_id: is_valid_iso_8859_encoding (id)
 		do
 			Result := ISO_8859_factory.instance_from_type (ISO_8859_codec [id], agent {EL_ISO_8859_ZCODEC}.make)
 		end
 
 	new_windows_codec (id: INTEGER): EL_WINDOWS_ZCODEC
 		require
-			valid_id: (1250 |..| 1258).has (id)
+			valid_id: is_valid_windows_encoding (id)
 		do
 			Result := Windows_factory.instance_from_type (Windows_codec [id], agent {EL_WINDOWS_ZCODEC}.make)
+		end
+
+feature {NONE}
+
+	has_codec (encodeable: EL_ENCODEABLE_AS_TEXT): BOOLEAN
+		require
+			not_utf_encoded: not encodeable.is_utf_encoded
+		do
+			if encodeable.is_windows_encoded then
+				Result := is_valid_windows_encoding (encodeable.encoding)
+			elseif encodeable.is_latin_encoded then
+				Result := is_valid_iso_8859_encoding (encodeable.encoding)
+			end
+		end
+
+	is_valid_windows_encoding (id: INTEGER): BOOLEAN
+		do
+			Result := (1250 |..| 1258).has (id)
+		end
+
+	is_valid_iso_8859_encoding (id: INTEGER): BOOLEAN
+		do
+			Result := (1 |..| 15).has (id) and then id /= 12
 		end
 
 feature {NONE} -- Constants

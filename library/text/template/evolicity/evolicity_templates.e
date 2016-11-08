@@ -7,13 +7,15 @@ note
 		It also bows to an established tradition of naming Eiffel orientated projects starting with the letter 'E'.
 	]"
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 21:21:26 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2016-10-03 10:13:42 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EVOLICITY_TEMPLATES
@@ -110,7 +112,7 @@ feature -- Element change
 				compiler_table := Compilers.item
 				compiler_table.search (a_name)
 				if not compiler_table.found
-					or else is_file_template and then a_name.modification_time > compiler_table.found_item.modification_time
+					or else is_file_template and then a_name.modification_date_time > compiler_table.found_item.modification_time
 				then
 					create compiler.make
 					if is_file_template then
@@ -220,7 +222,7 @@ feature -- Basic operations
 				found := True
 			end
 			if found then
-				if template.has_file_source and then a_name.modification_time > template.modification_time then
+				if template.has_file_source and then a_name.modification_date_time > template.modification_time then
 					-- File was modified
 					stack_table.remove (a_name)
 					put_from_file (a_name)

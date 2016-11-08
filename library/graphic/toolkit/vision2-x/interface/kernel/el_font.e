@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:19:53 GMT (Saturday 26th December 2015)"
-	revision: "1"
+	date: "2016-10-16 12:02:51 GMT (Sunday 16th October 2016)"
+	revision: "2"
 
 class
 	EL_FONT
@@ -61,6 +61,7 @@ feature -- Element change
 	set_height_cms (a_height_cms: REAL)
 		do
 			set_height (Screen.vertical_pixels (a_height_cms))
+--			implementation.set_height_cms (a_height_cms)
 		end
 
 feature {NONE} -- Implementation
@@ -72,4 +73,5 @@ feature {NONE} -- Implementation
 		do
 			create {EL_FONT_IMP} implementation.make
 		end
+
 end

@@ -1,8 +1,8 @@
 # EiffelStudio project environment
 
-from eiffel_loop.project import *
+from eiffel_loop.eiffel.dev_environ import *
 
-environ ['LD_LIBRARY_PATH'] = "$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_PLATFORM"
+set_environ ('LD_LIBRARY_PATH', "$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_PLATFORM")
 
 version = (1, 0, 4)
 

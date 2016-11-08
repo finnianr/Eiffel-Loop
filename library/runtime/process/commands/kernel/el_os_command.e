@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-25 9:30:26 GMT (Monday 25th July 2016)"
-	revision: "1"
+	date: "2016-10-03 9:37:40 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EL_OS_COMMAND
@@ -59,6 +59,11 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	escaped_path (a_path: EL_PATH): ZSTRING
+		do
+			Result := a_path.escaped
+		end
 
 	template: READABLE_STRING_GENERAL
 

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 10:02:36 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2016-10-03 8:33:41 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EL_DESKTOP_CONSOLE_APPLICATION_INSTALLER_IMP
@@ -42,7 +42,7 @@ feature {EL_DESKTOP_CONSOLE_APPLICATION_INSTALLER_I} -- Implementation
 
 	Command: STRING = "gnome-terminal"
 
-feature {EL_DESKTOP_CONSOLE_APPLICATION_INSTALLER} -- Constants
+feature {EL_DESKTOP_CONSOLE_APPLICATION_INSTALLER_I} -- Constants
 
 	Default_terminal_pos: EL_GRAPH_POINT
 			--

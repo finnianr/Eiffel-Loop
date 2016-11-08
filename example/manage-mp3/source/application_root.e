@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-01 9:59:14 GMT (Monday 1st August 2016)"
-	revision: "1"
+	date: "2016-09-25 8:49:17 GMT (Sunday 25th September 2016)"
+	revision: "2"
 
 class
 	APPLICATION_ROOT
@@ -27,9 +27,9 @@ feature {NONE} -- Implementation
 				{MP3_AUDIO_SIGNATURE_READER_APP},
 				{RHYTHMBOX_MUSIC_MANAGER_APP},
 
-				{RBOX_IMPORT_NEW_MP3_APP},
-				{RBOX_PLAYLIST_IMPORT_APP},
-				{RBOX_RESTORE_PLAYLISTS_APP},
+				{RBOX_IMPORT_NEW_MP3_APP}, -- Obsolete
+				{RBOX_PLAYLIST_IMPORT_APP}, -- Obsolete
+				{RBOX_RESTORE_PLAYLISTS_APP}, -- Obsolete
 
 				{ID3_EDITOR_APP},
 				{TANGO_MP3_FILE_COLLATOR_APP}

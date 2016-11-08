@@ -1,18 +1,40 @@
 note
 	description: "[
-		Object with procedures to be called from C. See also: [./el_c_to_eiffel_callback_struct.html EL_C_TO_EIFFEL_CALLBACK_STRUCT]
+		Ancestor for classes that are intended to handle callbacks from a C language routine. 
+		See also: [./el_c_to_eiffel_callback_struct.html EL_C_TO_EIFFEL_CALLBACK_STRUCT]
+	]"
+	instructions: "[
+		To enable the descendant object item for callbacks, assign the result of the function 
+		`new_callback' to a temporary variable before invoking the C routine which makes callbacks.
+		
+		**Example**
+			execute (connection: EL_HTTP_CONNECTION)
+				local
+					callback: like new_callback
+				do
+					reset
+					callback := new_callback
+					connection.set_curl_option_with_data (callback_curl_option, callback_address)
+					connection.set_curl_option_with_data (callback_curl_data_option, pointer_to_c_callbacks_struct)
+					connection.do_transfer
+					callback.release
+				end
+
 	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 11:18:44 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2016-10-03 16:34:32 GMT (Monday 3rd October 2016)"
+	revision: "3"
 
 deferred class
 	EL_C_CALLABLE
+
+inherit
+	EL_POINTER_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -34,7 +56,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_gc_protected_callbacks_target (target: EL_GC_PROTECTED_OBJECT)
+	set_fixed_address (fixed_address_ptr: POINTER)
 			-- Fill C array of Eiffel call back structs
 
 			--		typedef struct {
@@ -49,26 +71,10 @@ feature -- Element change
 		do
 			routine_pointers := call_back_routines
 			from row := 1 until row > routine_pointers.count loop
-				c_callbacks_struct [row, 1] := target.item 				-- frozen address of Current object
+				c_callbacks_struct [row, 1] := fixed_address_ptr		-- frozen address of Current object
 				c_callbacks_struct [row, 2] := routine_pointers [row] -- address of frozen procedure in Current
 				row := row + 1
 			end
-		end
-
-feature -- Basic operations
-
-	protect_C_callbacks
-			-- Protect C callbacks from garbage collection for current object
-		do
-			Protected_objects.put (create {EL_GC_PROTECTED_OBJECT}.make (Current))
-			set_gc_protected_callbacks_target (Protected_objects.item)
-		end
-
-	unprotect_C_callbacks
-			--
-		do
-			Protected_objects.item.unprotect
-			Protected_objects.remove
 		end
 
 feature --Contract support
@@ -77,6 +83,17 @@ feature --Contract support
 			--
 		do
 			Result := not c_callbacks_struct.is_empty
+		end
+
+feature {EL_C_TO_EIFFEL_CALLBACK_STRUCT} -- Factory
+
+	new_callback: EL_CALLBACK_FIXER_I
+		do
+			if {MEMORY}.collecting then
+				create {EL_CALLBACK_FIXER} Result.make (Current)
+			else
+				create {EL_SPECIAL_CALLBACK_FIXER} Result.make (Current)
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -89,11 +106,7 @@ feature {NONE} -- Implementation
 		--		EIF_PROCEDURE p_procedure;
 		--	} Eiffel_procedure_t;
 
-	Protected_objects: ARRAYED_STACK [EL_GC_PROTECTED_OBJECT]
-			--
-		once
-			create Result.make (1)
-		end
+		-- Eiffel_procedure_t procedures [n];
 
 	call_back_routines: ARRAY [POINTER]
 			-- redefine with addresses of frozen procedures

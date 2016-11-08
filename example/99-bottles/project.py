@@ -1,6 +1,6 @@
 # EiffelStudio project environment
 
-from eiffel_loop.project import *
+from eiffel_loop.eiffel.dev_environ import *
 
 version = (1, 0, 0)
 

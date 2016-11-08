@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 9:54:00 GMT (Friday 1st July 2016)"
-	revision: "1"
+	date: "2016-10-03 11:30:57 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EL_UNINSTALL_APP
@@ -23,7 +23,7 @@ inherit
 	EL_MODULE_OS
 
 	EL_MODULE_USER_INPUT
-	
+
 create
 	make_installer
 
@@ -78,7 +78,7 @@ feature {NONE} -- Implementation
 			File_system.delete_empty_branch (dir_path.parent)
 		end
 
-	new_installed_file_removal_command: EL_INSTALLED_FILE_REMOVAL_COMMAND
+	new_installed_file_removal_command: EL_INSTALLED_FILE_REMOVAL_COMMAND_I
 		do
 			create {EL_INSTALLED_FILE_REMOVAL_COMMAND_IMP} Result.make (Installer.menu_name)
 		end
@@ -117,7 +117,7 @@ feature {NONE} -- Constants
 			else
 				Result := Precursor
 			end
-			Result.set_command_line_options ("-console_on")
+			Result.set_command_line_options ("-" + {EL_COMMAND_OPTIONS}.Console_on)
 		end
 
 	Log_filter: ARRAY [like Type_logging_filter]

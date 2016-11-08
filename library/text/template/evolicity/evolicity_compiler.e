@@ -1,13 +1,15 @@
 note
 	description: "Objects that ..."
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 10:00:33 GMT (Monday 20th June 2016)"
-	revision: "1"
+	date: "2016-10-03 10:13:42 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EVOLICITY_COMPILER
@@ -59,7 +61,7 @@ feature -- Element change
 
  	set_source_text_from_file (file_path: EL_FILE_PATH)
 		do
-			modification_time := file_path.modification_time
+			modification_time := file_path.modification_date_time
 			has_file_source := True
 			Precursor (file_path)
 		end
@@ -74,7 +76,7 @@ feature -- Element change
 
 			compiled_source_path := source_file_path.with_new_extension ("evc")
 			if compiled_source_path.exists
-				and then compiled_source_path.modification_time > source_file_path.modification_time
+				and then compiled_source_path.modification_date_time > source_file_path.modification_date_time
 			then
 				read_tokens_text (compiled_source_path)
 				tokens_view := pattern.new_text_view (tokens_text)

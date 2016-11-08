@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 12:19:44 GMT (Sunday 3rd July 2016)"
 	revision: "1"
@@ -122,11 +122,15 @@ feature -- Basic operations
 	wait_to_stop
 			--
 		do
-			stop
-			thread.join
+			stop; join
 			Previous_call_is_blocking_thread
 -- THREAD WAITING
 
+		end
+
+	join
+		do
+			thread.join
 		end
 
 feature {NONE} -- Internal attributes

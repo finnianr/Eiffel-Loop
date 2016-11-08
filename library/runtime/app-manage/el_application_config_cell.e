@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {EL_APPLICATION_CONFIG_CELL}."
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 12:13:54 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2016-09-28 12:07:36 GMT (Wednesday 28th September 2016)"
+	revision: "2"
 
 class
 	EL_APPLICATION_CONFIG_CELL [G -> {EL_FILE_PERSISTENT} create make_from_file end]
@@ -45,7 +47,7 @@ feature {NONE} -- Initialization
 		require
 			master_copy_exists: a_master_copy_path.exists
 		do
-			file_name := a_master_copy_path.steps.last
+			file_name := a_master_copy_path.base
 			if config_file_path.exists then
 				make (file_name)
 			else

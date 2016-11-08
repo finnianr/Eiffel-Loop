@@ -4,25 +4,44 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
-	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 13:22:30 GMT (Friday 1st July 2016)"
-	revision: "1"
 
-deferred class
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-10-12 12:35:36 GMT (Wednesday 12th October 2016)"
+	revision: "2"
+
+class
 	EL_FILE_PROGRESS_LISTENER
 
 inherit
 	EL_MODULE_FILE_SYSTEM
 
+create
+	make, make_estimated
+
 feature {NONE} -- Initialization
 
-	make
+	make (a_display: like display)
 		do
-			create timer.make
+			display := a_display
+			final_tick_count := Default_final_tick_count
 		end
 
+	make_estimated (a_display: like display; a_estimated_byte_count: INTEGER)
+		do
+			make (a_display)
+			estimated_byte_count := a_estimated_byte_count
+		end
+
+feature -- Access
+
+	display: EL_FILE_PROGRESS_DISPLAY
+
 feature -- Element change
+
+	increment_estimated_bytes (a_count: INTEGER)
+		do
+			estimated_byte_count := estimated_byte_count + a_count
+		end
 
 	increment_estimated_bytes_from_file (a_file_path: EL_FILE_PATH)
 		do
@@ -31,98 +50,71 @@ feature -- Element change
 			end
 		end
 
-	increment_estimated_bytes (a_count: INTEGER)
+	set_final_tick_count (a_final_tick_count: like final_tick_count)
 		do
-			estimated_byte_count := estimated_byte_count + a_count
-			timer.start
+			final_tick_count := a_final_tick_count
 		end
 
-	set_text (a_text: ZSTRING)
-		deferred
-		end
-
-feature -- Status query
-
-	is_time_estimated: BOOLEAN
-		-- true if completion time has been estimated
-
-feature {EL_NOTIFYING_FILE, EL_SHARED_FILE_PROGRESS_LISTENER} -- Event handling
+feature {EL_NOTIFYING_FILE, EL_FILE_PROGRESS_LISTENER,  EL_SHARED_FILE_PROGRESS_LISTENER} -- Event handling
 
 	on_notify (a_byte_count: INTEGER)
 		do
-			byte_count := byte_count + a_byte_count
-			tick_count := byte_count // Bytes_per_tick
-			if tick_count > previous_tick_count then
-				previous_tick_count := tick_count
-
-				if is_time_estimated then
-					set_progress (byte_count / estimated_byte_count)
-				else
-					if tick_count >= Time_estimatation_tick_count then
-						timer.stop
-						bytes_per_sec := byte_count / (timer.elapsed_millisecs / 1000)
-						on_time_estimation ((estimated_byte_count / bytes_per_sec).rounded)
-						is_time_estimated := True
-					end
-				end
+			if bytes_per_tick = 0 then
+				bytes_per_tick := estimated_byte_count // final_tick_count
+				display.on_start (bytes_per_tick)
+				next_byte_count := bytes_per_tick
 			end
-		end
-
-	on_time_estimation (a_seconds: INTEGER)
-			-- called when completion time is estimatated
-		deferred
-		end
-
-	on_finish
-		deferred
+			byte_count := byte_count + a_byte_count
+			if byte_count > next_byte_count then
+				tick_count := tick_count + 1
+				next_byte_count := next_byte_count + bytes_per_tick
+				display.set_progress (tick_count / final_tick_count)
+			end
 		end
 
 feature -- Basic operations
 
-	set_progress (proportion: DOUBLE)
-		deferred
-		end
-
 	finish
 		do
---			log.enter ("on_finish")
-			byte_count := byte_count + tick_count
---			log.put_integer_interval_field ("Bytes", byte_count |..| sum_file_count)
---			log.put_new_line
-			tick_count := 0
-			set_progress (byte_count / estimated_byte_count)
-			on_finish
---			log.exit
+			display.set_progress (1.0)
+			display.on_finish
+			reset
 		end
 
 feature {NONE} -- Implementation
 
-	timer: EL_EXECUTION_TIMER
+	reset
+		do
+			byte_count := 0
+			bytes_per_tick := 0
+			estimated_byte_count := 0
+			next_byte_count := 0
+			tick_count := 0
+			final_tick_count := Default_final_tick_count
+		end
 
-	estimated_byte_count: INTEGER
+feature {NONE} -- Internal attributes
 
 	byte_count: INTEGER
 		-- bytes read/written
 
+	bytes_per_tick: INTEGER
+
+	estimated_byte_count: INTEGER
+
+	final_tick_count: INTEGER
+
+	next_byte_count: INTEGER
+		-- next value of `byte_count' to increment the `tick_count'
+
 	tick_count: INTEGER
 		-- number of times set_progress has been called
 
-	previous_tick_count: INTEGER
-
-	bytes_per_sec: DOUBLE
-
 feature {NONE} -- Constants
 
-	Bytes_per_tick: INTEGER
+	Default_final_tick_count: INTEGER
 		once
-			Result := 256
-		end
-		-- data bytes per progress tick
-
-	Time_estimatation_tick_count: INTEGER
-			-- number of ticks required to estimate completion time
-		once
-			Result := 8 -- 256 * 8 = 2K
+			Result := 100
 		end
 
 end

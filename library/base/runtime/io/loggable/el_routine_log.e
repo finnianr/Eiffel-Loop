@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-11 18:20:28 GMT (Monday 11th July 2016)"
-	revision: "1"
+	date: "2016-10-15 8:29:05 GMT (Saturday 15th October 2016)"
+	revision: "2"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -23,7 +23,7 @@ feature -- Status
 			Result := true
 		end
 
-feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LOG} -- Element change
+feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LIO} -- Element change
 
 	set_logged_object (current_logged_object: ANY)
 			--
@@ -52,6 +52,7 @@ feature -- Element change
 			l_out.put_new_line
 			l_out.flush
 			create timer.make
+			timer.start
 		end
 
 feature -- Input

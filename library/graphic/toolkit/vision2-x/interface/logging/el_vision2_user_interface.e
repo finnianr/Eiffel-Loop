@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-03 8:45:04 GMT (Sunday 3rd July 2016)"
-	revision: "1"
+	date: "2016-10-13 9:16:16 GMT (Thursday 13th October 2016)"
+	revision: "2"
 
 class
 	EL_VISION2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end]
@@ -60,7 +60,7 @@ feature {NONE} -- Initialization
 			default_create
 
 			if error_message.is_empty then
-				create main_window.make
+				main_window := new_window
 				prepare_to_show
 				if is_maximized then
 					main_window.maximize
@@ -102,6 +102,11 @@ feature {NONE} -- Implementation
 	call (object: ANY)
 			-- For initializing once routines
 		do
+		end
+
+	new_window: like main_window
+		do
+			create Result.make
 		end
 
 	create_interface_objects

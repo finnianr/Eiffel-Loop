@@ -4,21 +4,16 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 9:23:12 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2016-10-03 15:37:41 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EL_ELEMENT_ATTRIBUTE_TABLE
 
 inherit
 	EL_VTD_XML_ATTRIBUTE_API
-
-	EL_MEMORY
-		export
-			{NONE} all
-		end
 
 create
 	make
@@ -148,7 +143,7 @@ feature -- Status query
 	has (name: STRING_32): BOOLEAN
 			--
 		do
-			Result := is_attached (c_node_context_attribute_string (name))
+			Result := not c_node_context_attribute_string (name).is_default_pointer
 		end
 
 end

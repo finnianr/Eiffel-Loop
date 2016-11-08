@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-01 9:58:51 GMT (Monday 1st August 2016)"
-	revision: "1"
+	date: "2016-09-28 11:56:47 GMT (Wednesday 28th September 2016)"
+	revision: "2"
 
 class
 	TANGO_MP3_FILE_COLLATOR
@@ -121,7 +121,7 @@ feature {NONE} -- Implementation
 		do
 			Result := id3_info.title
 			if Result.is_empty then
-				Result := mp3_path.without_extension.base
+				Result := mp3_path.base_sans_extension
 			end
 			-- Remove numbers and other rubbish from start
 			from until Result.is_empty or else Result.unicode_item (1).is_alpha loop

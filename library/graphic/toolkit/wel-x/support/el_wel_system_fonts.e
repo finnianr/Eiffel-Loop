@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 12:48:51 GMT (Wednesday 21st September 2016)"
-	revision: "2"
+	date: "2016-10-20 12:27:17 GMT (Thursday 20th October 2016)"
+	revision: "4"
 
 class
 	EL_WEL_SYSTEM_FONTS
@@ -27,9 +27,13 @@ inherit
 
 	EL_MODULE_WIN_REGISTRY
 
+	EL_MODULE_REG_KEY
+
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_WINDOWS
 
 create
 	default_create
@@ -45,7 +49,7 @@ feature -- Element change
 			font_name: ZSTRING; package_file: RAW_FILE
 		do
 			across File_system.recursive_files_with_extension (source_dir, font_type) as package_path loop
-				font_name := package_path.item.without_extension.base
+				font_name := package_path.item.base_sans_extension
 				if not has_true_type_font (font_name) then
 					create package_file.make_with_name (package_path.item)
 					File_system.copy_file_contents_to_dir (package_file, System_fonts_dir)
@@ -95,17 +99,12 @@ feature {NONE} -- Constants
 
 	HKLM_fonts: EL_DIR_PATH
 		once
-			Result := HKLM_windows_current_version.joined_dir_path ("Fonts")
+			Result := Reg_key.Windows_nt.current_version ("Fonts")
 		end
 
 	HKLM_font_substitutes: EL_DIR_PATH
 		once
-			Result := HKLM_windows_current_version.joined_dir_path ("FontSubstitutes")
-		end
-
-	HKLM_windows_current_version: EL_DIR_PATH
-		once
-			Result := "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion"
+			Result := Reg_key.Windows_nt.current_version ("FontSubstitutes")
 		end
 
 	True_type_suffix: STRING = " (TrueType)"

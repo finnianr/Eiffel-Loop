@@ -4,20 +4,30 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-30 17:41:00 GMT (Wednesday 30th March 2016)"
-	revision: "1"
+	date: "2016-10-10 10:02:41 GMT (Monday 10th October 2016)"
+	revision: "2"
 
 class
 	EL_WINDOWS_REGISTRY_ROUTINES
 
 inherit
-	EL_MEMORY
+	EL_POINTER_ROUTINES
 
 feature -- Access
 
 	string (key_path: EL_DIR_PATH; key_name: ZSTRING): ZSTRING
+		do
+			Result := string_32 (key_path, key_name)
+		end
+
+	string_8 (key_path: EL_DIR_PATH; key_name: ZSTRING): STRING
+		do
+			Result := string_32 (key_path, key_name)
+		end
+
+	string_32 (key_path: EL_DIR_PATH; key_name: ZSTRING): STRING_32
 		do
 			if attached {WEL_REGISTRY_KEY_VALUE} key_value (key_path, key_name) as value
 			then

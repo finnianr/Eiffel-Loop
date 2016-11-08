@@ -1,7 +1,7 @@
 # EiffelStudio project environment
 
 import os
-from eiffel_loop.project import *
+from eiffel_loop.eiffel.dev_environ import *
 
 version = (1, 0, 0)
 
@@ -18,7 +18,7 @@ if platform.system () == "Windows":
 	# DLL paths must be prepended to search path otherwise you get this error:
 	# "The procedure entry point g_type_class_adjust_private_offset cannot be found in library libgobject-2.0-0.dll"
 
-	environ ['Path'] = "%s;%s;$Path" % (cairo_path, image_utils_path)
+	set_environ ('Path', "%s;%s;$Path" % (cairo_path, image_utils_path))
 
 
 #	gtk_path = "$EIFFEL_LOOP/contrib/C/gtk3.0/spec/$ISE_PLATFORM"
@@ -27,5 +27,5 @@ if platform.system () == "Windows":
 	
 else:
 	program_files_dir = '/opt'
-	environ ['LD_LIBRARY_PATH'] = "$EIFFEL_LOOP/C_library/image-utils/spec/$ISE_PLATFORM"
+	set_environ ('LD_LIBRARY_PATH', "$EIFFEL_LOOP/C_library/image-utils/spec/$ISE_PLATFORM")
 

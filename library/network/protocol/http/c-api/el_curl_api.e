@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 13:43:07 GMT (Wednesday 21st September 2016)"
-	revision: "2"
+	date: "2016-10-04 7:49:40 GMT (Tuesday 4th October 2016)"
+	revision: "3"
 
 class
 	EL_CURL_API
@@ -15,16 +15,14 @@ class
 inherit
 	EL_DYNAMIC_MODULE [EL_CURL_API_POINTERS]
 		rename
-			clean_up as module_clean_up
+			clean_up as global_clean_up
 		redefine
-			make
+			make, global_clean_up
 		end
 
 	EL_CURL_C_API
 		export
 			{ANY} is_valid_option_constant
-		undefine
-			dispose
 		end
 
 	EL_CURL_INFO_CONSTANTS
@@ -50,6 +48,9 @@ feature {NONE} -- Initialization
 				make_module (module_name)
 			end
 			call ("curl_global_init", agent c_global_init (?, {CURL_GLOBAL_CONSTANTS}.curl_global_all))
+			curl_global_cleanup_ptr := api_pointer ("curl_global_cleanup")
+		ensure then
+			curl_global_cleanup_ptr_attached: is_attached (curl_global_cleanup_ptr)
 		end
 
 feature -- Access
@@ -94,12 +95,12 @@ feature -- Access
 			end
 		end
 
-feature -- Basic operations
-
 	new_pointer: POINTER
 		do
 			Result := c_init (api.init)
 		end
+
+feature -- Basic operations
 
 	perform (a_curl_handle: POINTER): INTEGER
 			-- Declared as curl_easy_perform().
@@ -115,11 +116,6 @@ feature -- Basic operations
 			valid_handle: is_attached (a_curl_handle)
 		do
 			c_cleanup (api.cleanup, a_curl_handle)
-		end
-
-	global_cleanup
-		do
-			call ("curl_global_cleanup", agent c_global_cleanup)
 		end
 
 feature -- Element change
@@ -156,7 +152,18 @@ feature -- Element change
 			c_setopt (api.setopt, a_curl_handle, a_opt, a_data)
 		end
 
-feature -- Constants
+feature {NONE} -- Implementation
+
+	global_clean_up
+		do
+			c_global_cleanup (curl_global_cleanup_ptr)
+		end
+
+feature {NONE} -- Internal attributes
+
+	curl_global_cleanup_ptr: POINTER
+
+feature {NONE} -- Constants
 
 	Module_name: STRING = "libcurl"
 

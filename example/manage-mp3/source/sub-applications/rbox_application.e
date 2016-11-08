@@ -6,11 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-06 8:27:27 GMT (Saturday 6th August 2016)"
-	revision: "2"
+	date: "2016-09-25 8:48:31 GMT (Sunday 25th September 2016)"
+	revision: "3"
 
-deferred class
-	RBOX_APPLICATION
+deferred class	RBOX_APPLICATION obsolete "Rewrite descendants using music manager task"
 
 inherit
 	EL_SUB_APPLICATION
@@ -33,7 +32,7 @@ feature {NONE} -- Initialization
 	create_database
 			--
 		local
-			playlist_path: EL_FILE_PATH
+			playlist_path: EL_FILE_PATH; music_dir: EL_DIR_PATH
 --			test_database_dir_abs: EL_DIR_PATH
 			song: RBOX_SONG; l_duration: INTEGER; modification_time: DATE_TIME
 		do
@@ -48,7 +47,7 @@ feature {NONE} -- Initialization
 				playlist_path := xml_database_path.parent + "playlists.xml"
 				substitute_work_area_variable (test_database_dir, playlist_path)
 
-				create database.make (xml_database_path)
+				create database.make (xml_database_path, xml_database_path.parent.joined_dir_path ("Music"))
 
 				if not (test_database_dir + "Music").exists then
 					across database.songs as l_song loop
@@ -65,7 +64,8 @@ feature {NONE} -- Initialization
 				end
 				database.update_index_by_audio_id
 			else
-				create database.make (xml_database_path)
+				music_dir := "$HOME/Music"; music_dir.expand
+				create database.make (xml_database_path, music_dir)
 			end
 			log.exit
 		end
@@ -130,7 +130,7 @@ feature {NONE} -- Implementation
 			log.put_path_field ("Reading", song.mp3_path)
 			log.put_new_line
 
-			relative_steps := song.mp3_path.relative_path (database.mp3_root_location).steps
+			relative_steps := song.mp3_path.relative_path (database.music_dir).steps
 			Result := Directory.new_path ("build").joined_file_steps (relative_steps)
 			if not Result.exists then
 				File_system.make_directory (Result.parent)

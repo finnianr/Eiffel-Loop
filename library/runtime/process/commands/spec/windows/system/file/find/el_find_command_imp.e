@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 18:06:34 GMT (Monday 20th June 2016)"
-	revision: "1"
+	date: "2016-10-04 8:13:41 GMT (Tuesday 4th October 2016)"
+	revision: "2"
 
 deferred class
 	EL_FIND_COMMAND_IMP
@@ -34,8 +34,7 @@ feature {NONE} -- Implementation
 	 adjusted_lines (lines: like new_output_lines): EL_ZSTRING_LIST
 			-- Adjust results of Windows 'dir' to match Unix 'find' command with -mindepth and -maxdepth arguments
 		local
-			file_path: EL_FILE_PATH; line_position, dir_path_occurrences, depth: INTEGER
-			line: ZSTRING
+			line_position, dir_path_occurrences, depth: INTEGER; line: ZSTRING
 		do
 			create Result.make (20)
 			dir_path_occurrences := dir_path.unicode.occurrences ('\')

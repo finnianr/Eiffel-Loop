@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-17 17:52:16 GMT (Friday 17th June 2016)"
-	revision: "1"
+	date: "2016-10-03 10:33:50 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EL_COPY_TREE_COMMAND_IMP
@@ -50,7 +50,7 @@ feature {NONE} -- Implementation
 		do
 			destination_dir := destination_path.to_string
 			destination_dir.append_dir_path (source_path.base)
-			Result := escaped_path (destination_dir)
+			Result := destination_dir.escaped
 		end
 
 feature {NONE} -- Constants

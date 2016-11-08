@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-24 8:04:53 GMT (Sunday 24th July 2016)"
-	revision: "1"
+	date: "2016-10-17 12:57:06 GMT (Monday 17th October 2016)"
+	revision: "2"
 
 class
 	EL_FTP_SYNC
@@ -67,7 +67,6 @@ feature -- Element change
 			valid_root_dir: not root_dir.is_empty
 		do
 			modified_files.put (file_path)
-			progress_listener.increment_estimated_bytes_from_file (root_dir + file_path)
 		end
 
 	set_root_dir (a_root_dir: like root_dir)
@@ -86,10 +85,8 @@ feature -- Basic operations
 		do
 			ftp.open; ftp.login; ftp.change_home_dir
 			lio.put_new_line
-			progress_listener.set_text ("Synchronizing with " + ftp.address.host)
-			if modified_files.is_empty then
-				progress_listener.set_progress (1.0)
-			end
+
+			progress_listener.display.set_text ("Synchronizing with " + ftp.address.host)
 			upload (file_list)
 			ftp.close
 		end
@@ -103,6 +100,9 @@ feature -- Basic operations
 			previous_files: like new_previous_files; item: EL_FTP_UPLOAD_ITEM
 			deleted_dir_set: EL_HASH_SET [EL_DIR_PATH]
 		do
+			across modified_files as file_path loop
+				progress_listener.increment_estimated_bytes_from_file (root_dir + file_path.item)
+			end
 			create item.make_default
 			previous_files := new_previous_files
 			across file_list as file loop

@@ -4,16 +4,18 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-10-08 16:21:15 GMT (Saturday 8th October 2016)"
+	revision: "2"
 
 class
 	EL_SCREEN
 
 inherit
 	EV_SCREEN
+		export
+			{NONE} pixel_color_relative_to -- Doesn't work on Windows
 		redefine
 			implementation, create_implementation
 		end

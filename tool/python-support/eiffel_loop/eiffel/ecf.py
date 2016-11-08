@@ -17,7 +17,26 @@ from eiffel_loop.distutils import dir_util, file_util
 from eiffel_loop.xml.xpath import XPATH_CONTEXT
 from eiffel_loop.eiffel import project
 
+from subprocess import call
+
 global platform, is_unix
+
+def programs_suffix ():
+	if sys.platform == 'win32':
+		result = '.exe'
+	else:
+		result = ''
+	return result
+
+def expanded_path (a_path):
+	result = path.normpath (a_path.translate (string.maketrans ('\\','/')))
+	result = path.expandvars (result)
+	return result
+
+def put_unique (list, elem):
+	if not elem in list:
+		list.append (elem)
+
 platform  = os_platform.system ().lower ()
 if platform in ['unix', 'linux']:
 	platform  = 'unix'
@@ -49,7 +68,7 @@ class EIFFEL_CONFIG_FILE (object):
 		xpath = "//ec:system/ec:target/ec:library[%s]/@location" % library_condition
 		
 		for attrib in ecf_ctx.node_list (xpath):
-			location = path.normpath (path.expandvars (attrib).translate (string.maketrans ('\\','/')))
+			location = expanded_path (attrib)
 			#print 'location:', location
 			if not path.isabs (location):
 				location = path.join (path.dirname (ecf_path),  location)
@@ -77,7 +96,7 @@ class EIFFEL_CONFIG_FILE (object):
 
 		location = ecf_ctx.attribute ('/ec:system/ec:target/ec:precompile/@location')
 		if location:
-			self.precompile_path = self.__expanded_path (location)
+			self.precompile_path = expanded_path (location)
 
 	def __external_libs (self, ecf_ctx):
 		xpath = "//ec:system/ec:target/ec:external_object [count (%s)=0]/@location" % self.__excluded_library_or_external_object_conditions ()
@@ -94,11 +113,11 @@ class EIFFEL_CONFIG_FILE (object):
 						prefix = prefix.strip ('"')
 					else:
 						if prefix:
-							result.append (self.__expanded_path (path.join (prefix, 'lib%s.a' % lib [2:])))
+							result.append (expanded_path (path.join (prefix, 'lib%s.a' % lib [2:])))
 						elif lib.startswith ('-l'):
 							result.append (lib)
 						else:
-							result.append (self.__expanded_path (lib))
+							result.append (expanded_path (lib))
 			
 		return result
 
@@ -110,8 +129,9 @@ class EIFFEL_CONFIG_FILE (object):
 		result = []
 		for description in ecf_ctx.node_list (xpath):
 			# Add lines skipping 1st
-			requires_list = description.text.strip().splitlines ()[1:] 
-			result.extend (requires_list)
+			requires_list = description.text.strip().splitlines ()[1:]
+			for lib in requires_list:
+				result.append (expanded_path (lib))
 	
 		return result
 
@@ -132,22 +152,12 @@ class EIFFEL_CONFIG_FILE (object):
 		result = "ec:condition [%s]" % combined_conditions
 		return result
 
-	def __expanded_path (self, a_path):
-		if is_unix:
-			result = path.normpath (a_path.translate (string.maketrans ('\\','/')))
-		else:
-			result = path.normpath (a_path)
-			
-		result = path.expandvars (result)
-		return result
-
 class FREEZE_BUILD (object):
 
 # Initialization
-	def __init__ (self, env, project_py):
-		self.env = env
-		self.version = project_py.version
-		self.ecf_path = env.get ('project')
+	def __init__ (self, ecf, project_py):
+		self.ecf = ecf
+		self.ecf_path = ecf.location
 		self.pecf_path = None
 
 		ecf_path_parts = path.splitext (self.ecf_path)
@@ -155,7 +165,9 @@ class FREEZE_BUILD (object):
 			self.pecf_path = self.ecf_path
 			self.ecf_path = ecf_path_parts [0] + '.ecf'
 
-		self.ise_platform = env ['ISE_PLATFORM']
+		self.version = project_py.version
+
+		self.ise_platform = os.environ ['ISE_PLATFORM']
 		
 		# This should be kept with Unix forward slash directory separator
 		if '\\' in project_py.installation_sub_directory:
@@ -171,9 +183,8 @@ class FREEZE_BUILD (object):
 		self.scons_buildable_libs = []
 		self.SConscripts = []
 
-		self.ecf = EIFFEL_CONFIG_FILE (self.ecf_path, True)
 		self.precompile_path = self.ecf.precompile_path
-		self.exe_name = env.subst (self.ecf.exe_name + '$PROGSUFFIX')
+		self.exe_name = self.ecf.exe_name + programs_suffix ()
 		self.system_type = self.ecf.system_type
 		self.dir_build_info = self.ecf.dir_build_info
 		self.library_names = []
@@ -191,33 +202,44 @@ class FREEZE_BUILD (object):
 				for lib in ecf.external_libs:
 					print '  ', lib
 					if lib.startswith ('-l'):
-						self.implicit_C_libs.append (lib [2:])
+						put_unique (self.implicit_C_libs, lib [2:])
 
 					elif lib.endswith ('.lib') and not path.dirname (lib):
-						self.implicit_C_libs.append (lib [:-4])
+						put_unique (self.implicit_C_libs, lib [:-4])
 
 					elif self.__has_SConscript (lib):
-						self.scons_buildable_libs.append (lib)
-						self.SConscripts.append (self.__SConscript_path (lib))
+						if not lib in self.scons_buildable_libs:
+							self.scons_buildable_libs.append (lib)
+							self.SConscripts.append (self.__SConscript_path (lib))
 					else:
-						self.explicit_C_libs.append (lib)
+						put_unique (self.explicit_C_libs, lib)
 
 			for object_path in ecf.c_shared_objects:
 				print '   Dynamically loaded:', object_path
-				if self.__has_SConscript (object_path):
-					sconscript_path = self.__SConscript_path (object_path)
-					if not sconscript_path in self.scons_SConscripts_libs:
-						self.scons_buildable_libs.append (object_path)
-						self.SConscripts.append (sconscript_path)
+				if not path.basename (object_path).startswith ('*.'):
+					if self.__has_SConscript (object_path):
+						if not object_path in self.scons_buildable_libs:
+							self.scons_buildable_libs.append (object_path)
+							self.SConscripts.append (self.__SConscript_path (object_path))
 
 # Access
 	def build_type (self):
-		return 'W'
+		return 'W_code'
 
 	def target (self):
-		# Build target
-		eifgens_path = 'build/%s/EIFGENs/%s/%s_code/%s' % (self.ise_platform, self.system_type, self.build_type (), self.exe_name)
-		result = path.normpath (eifgens_path) 
+		# Build target as for example:
+		# 'build/win64/EIFGENs/classic/F_code/myching.exe'
+		result = os.sep.join (self.target_steps ())
+		return result
+
+	def target_steps (self):
+		result = ['build', self.ise_platform, 'EIFGENs', self.system_type, self.build_type (), self.exe_name]
+		return result
+
+	def win64_target (self):
+		steps = self.target_steps ()
+		steps [1] = 'win64'
+		result = os.sep.join (steps)
 		return result
 
 	def exe_path (self):
@@ -260,10 +282,10 @@ class FREEZE_BUILD (object):
 	
 	def compile (self):
 		# Will automatically do precompile if needed
-		command = ['ec', '-batch', '-c_compile'] + self.compilation_options () + ['-config', self.ecf_path, '-project_path', self.project_path ()]
-		self.write_io ('Subprocess: %s\n' % command)
+		cmd = ['ec', '-batch', '-c_compile'] + self.compilation_options () + ['-config', self.ecf_path, '-project_path', self.project_path ()]
+		self.write_io ('cmd = %s\n' % cmd)
 			
-		ret_code = osprocess.call (command, env = self.env ['ASCII_ENV'])
+		ret_code = call (cmd)
 
 	def post_compilation (self):
 		self.install_resources (self.resources_destination ())
@@ -332,7 +354,7 @@ class FREEZE_BUILD (object):
 		result = []
 		for ecf in self.ecf.libraries:
 			for object_path in ecf.c_shared_objects:
-				object_path = path.expandvars (path.normpath (object_path))
+				object_path = expanded_path (object_path)
 				if path.basename (object_path).startswith ('*.'):
 					result.extend (glob (object_path))
 				else:
@@ -387,97 +409,58 @@ class FREEZE_BUILD (object):
 
 # end FREEZE_BUILD
 
-class GENERATE_EIFFEL_C_CODE (FREEZE_BUILD):
+class FINALIZE_BUILD (FREEZE_BUILD):
 
 # Access
 	def build_type (self):
-		return 'F'
-
-	def target (self):
-		#result = path.normpath ('build/EIFGENs/%s/F_code/Makefile.SH' % self.system_type)
-		result = self.archive_target ()
-		return result
-
-	def project_path (self):
-		return 'build'
+		return 'F_code'
 
 	def compilation_options (self):
 		return ['-finalize']
 
 	def resources_destination (self):
-		None
-
-	def code_dir_path (self):
-		return path.normpath ('build/EIFGENs/%s/F_code' % self.system_type)
+		return path.join ('build', self.ise_platform, 'package')
 
 # Status query
 
 # Basic operations
 	def post_compilation (self):
-		self.write_io ('Archiving to: %s\n' % self.archive_target ())
-		dir_util.make_archive (self.archive_target (), self.code_dir_path ())
-		dir_util.remove_tree (path.join ('build', 'EIFGENs'))
+		destination = self.resources_destination ()
+		self.install_resources (destination)
+		self.install_executables (destination)
 		
-# end GENERATE_EIFFEL_C_CODE
+# end FINALIZE_BUILD
 
-class EIFFEL_C_CODE_COMPILE (FREEZE_BUILD):
-
-# Access
-
-	def build_type (self):
-		return 'F'
-
-	def target (self):
-		# Build target
-		result = path.normpath ('package/%s/bin/%s' % (self.ise_platform, self.exe_name)) 
-		return result
-
-	def code_dir_path (self):
-		result = path.normpath ('build/%s/EIFGENs/%s/F_code' % (self.ise_platform, self.system_type)) 
-		return result
-
-	def resources_destination (self):
-		return path.join ('package', self.ise_platform)
-
-	def exe_path (self):
-		return path.join (self.code_dir_path (), self.exe_name)
-
-# Status query
+class RECOMPILED_X64_FINALIZE_BUILD (FINALIZE_BUILD):
+# Recyles an existing win64 F_code target for x86 build
 
 # Basic operations
-
-	def pre_compilation (self):
-		self.write_io ('pre_compilation\n')
-		
-		f_code_parent = path.dirname (self.code_dir_path ())
-		if path.exists (self.code_dir_path ()):
-			dir_util.remove_tree (self.code_dir_path ())
-		if not path.exists (f_code_parent):
-			dir_util.mkpath (f_code_parent)
-		self.write_io ('Extracting archive %s to: %s\n' % (self.archive_target (), f_code_parent))
-		dir_util.extract_archive (self.archive_target (), f_code_parent, self.env ['ASCII_ENV'])
-		
 	def compile (self):
+		self.__copy_win64_F_code ()
+
 		curdir = path.abspath (os.curdir)
 		os.chdir (self.code_dir_path ())
-		command = ['finish_freezing']
-		self.write_io ('Subprocess: %s\n' % command)
-		ret_code = osprocess.call (command, env = self.env ['ASCII_ENV'])
+		ret_code = osprocess.call (['finish_freezing'])
 		os.chdir (curdir)
 
-	def post_compilation (self):
-		self.install_resources (self.resources_destination ())
-		self.install_executables (self.resources_destination ())
-		dir_util.remove_tree (self.code_dir_path ())
-		os.mkdir (self.code_dir_path ())
-		
-# end FINISH_FINALIZE_BUILD
+# Implementation
+
+	def __copy_win64_F_code (self):
+		f_code_tar_path = project.create_classic_f_code_tar ('win64')
+
+		file_util.copy_file (r'build\win64\myching.rc', r'build\windows')
+
+		project.restore_classic_f_code_tar (f_code_tar_path, 'windows')
+
+		os.remove (f_code_tar_path)
+
+# end RECOMPILED_X64_FINALIZE_BUILD
 
 class FINALIZE_AND_TEST_BUILD (FREEZE_BUILD): # Obsolete July 2012
 
 # Initialization
-	def __init__ (self, ecf_path, project_py):
-		FREEZE_BUILD.__init__ (self, ecf_path, project_py)
+	def __init__ (self, ecf, project_py):
+		FREEZE_BUILD.__init__ (self, ecf, project_py)
 		self.tests = project_py.tests
 
 # Access

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 8:50:19 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2016-10-09 17:11:57 GMT (Sunday 9th October 2016)"
+	revision: "2"
 
 class
 	EL_SCREEN_PROPERTIES_IMP
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_DISPLAY_SCREEN
 
 	EL_WINDOWS_SYSTEM_METRICS_API
+
+	EL_MODULE_WINDOWS
 
 	EL_OS_IMPLEMENTATION
 
@@ -34,10 +36,14 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		local
-			monitor: EL_WEL_DISPLAY_MONITOR_INFO
+			display: EL_WEL_DISPLAY_SIZE_INFO
 		do
-			create monitor
-			width_cms := monitor.width_centimeters; height_cms := monitor.height_centimeters
+			if Windows.major_version >= 10 then
+				create {EL_WEL_WIN_10_DISPLAY_SIZE_INFO} display
+			else
+				create {EL_WEL_DISPLAY_MONITOR_INFO} display
+			end
+			width_cms := display.width_centimeters; height_cms := display.height_centimeters
 		end
 
 feature -- Access

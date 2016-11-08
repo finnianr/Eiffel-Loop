@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:34:59 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-10-12 7:57:46 GMT (Wednesday 12th October 2016)"
+	revision: "2"
 
 class
 	ID3_EDITS
@@ -135,7 +135,7 @@ feature -- Basic operations
 			mtime: INTEGER
 		do
 			print_id3 (id3_info, relative_song_path)
-			mtime := Time.unix_date_time (id3_info.mp3_path.modification_time)
+			mtime := Time.unix_date_time (id3_info.mp3_path.modification_date_time)
 --			mtime := mtime & File_system.file_byte_count (id3_info.mp3_path)
 			lio.put_integer_field ("File time", mtime)
 			lio.put_new_line

@@ -19,7 +19,6 @@ Supports transactions and encryption
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
-		<library name = "EL_logging" location = "logging.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
 		<!--Source code-->
 		<cluster name = "database" location = "persistency/database" recursive = "true" readonly = "false">

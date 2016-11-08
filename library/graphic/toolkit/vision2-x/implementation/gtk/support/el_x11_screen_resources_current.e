@@ -16,10 +16,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 14:51:07 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2016-10-04 7:48:20 GMT (Tuesday 4th October 2016)"
+	revision: "2"
 
 class
 	EL_X11_SCREEN_RESOURCES_CURRENT
@@ -35,8 +35,6 @@ inherit
 	EL_X11_API
 		export
 			{NONE} all
-		undefine
-			dispose
 		end
 
 create
@@ -99,14 +97,14 @@ feature {EL_X11_DISPLAY_OUTPUT_INFO} -- Implementation
 
     c_free (self: POINTER)
             --
-        local
-        	status: INTEGER
-        do
-        	XRR_free_screen_resources (self)
-        	if is_attached (display_ptr) then
-        		status := X11_close_display (display_ptr)
-        	end
-        end
+		local
+			status: INTEGER
+		do
+			XRR_free_screen_resources (self)
+			if is_attached (display_ptr) then
+				status := X11_close_display (display_ptr)
+			end
+		end
 
 	display_ptr: POINTER
 

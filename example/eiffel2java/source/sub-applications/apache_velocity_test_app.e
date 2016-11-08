@@ -1,13 +1,15 @@
 note
 	description: "Demo of accessing Java Velocity package"
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 7:31:08 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2016-09-28 12:04:16 GMT (Wednesday 28th September 2016)"
+	revision: "2"
 
 class
 	APACHE_VELOCITY_TEST_APP
@@ -118,7 +120,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make
 			across OS.file_list (location, "*.e") as file_path loop
-				class_name := file_path.item.without_extension.base.as_upper
+				class_name := file_path.item.base_sans_extension.as_upper
 				Result.add_last_string (class_name)
 			end
 		end

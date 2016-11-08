@@ -20,10 +20,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-29 12:25:24 GMT (Friday 29th July 2016)"
-	revision: "1"
+	date: "2016-10-08 9:20:16 GMT (Saturday 8th October 2016)"
+	revision: "2"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -135,9 +135,19 @@ feature -- Basic operations
 			implementation.draw_pixel_buffer (x, y, a_buffer.implementation)
 		end
 
-	draw_scaled_pixel_buffer (x, y, size: INTEGER; size_is_width: BOOLEAN; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_pixel_buffer_scaled_to_width (x, y, a_width: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		do
-			implementation.draw_scaled_pixel_buffer (x, y, size,size_is_width, a_buffer)
+			draw_scaled_pixel_buffer (x, y, a_width / a_buffer.width, a_buffer)
+		end
+
+	draw_pixel_buffer_scaled_to_height (x, y, a_height: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+		do
+			draw_scaled_pixel_buffer (x, y, a_height / a_buffer.height, a_buffer)
+		end
+
+	draw_scaled_pixel_buffer (x, y: INTEGER; scale_factor: DOUBLE; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+		do
+			implementation.draw_scaled_pixel_buffer (x, y, scale_factor, a_buffer)
 		end
 
 	draw_pixmap (x, y: INTEGER; a_pixmap: EV_PIXMAP)
@@ -323,10 +333,15 @@ feature -- Conversion
 
 	to_pixmap: EL_PIXMAP
 			-- Convert to EV_PIXMAP.
-		require else
+		do
+			create Result.make_with_pixel_buffer (to_rgb_24_buffer)
+		end
+
+	to_rgb_24_buffer: EL_DRAWABLE_PIXEL_BUFFER
+		require
 			not_locked: not is_locked
 		do
-			Result := implementation.to_pixmap
+			Result := implementation.to_rgb_24_buffer
 		end
 
 feature {NONE} -- Implementation

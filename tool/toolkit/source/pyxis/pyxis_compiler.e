@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-10-12 7:53:41 GMT (Wednesday 12th October 2016)"
+	revision: "2"
 
 class
 	PYXIS_COMPILER
@@ -33,7 +33,7 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 			source_tree_path  := a_source_tree_path
 			output_file_path := a_output_file_path
 			if output_file_path.exists then
-				output_modification_time := output_file_path.modification_time
+				output_modification_time := output_file_path.modification_date_time
 			else
 				create output_modification_time.make (0, 0, 0, 0, 0, 0)
 			end
@@ -49,7 +49,7 @@ feature -- Basic operations
 		do
 			log.enter ("execute")
 			source_changed := across pyxis_file_path_list as file_path some
-										file_path.item.modification_time > output_modification_time
+										file_path.item.modification_date_time > output_modification_time
 									end
 			if source_changed then
 				pyxis_in := merged_text

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 7:23:12 GMT (Thursday 23rd June 2016)"
-	revision: "1"
+	date: "2016-10-03 9:21:41 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 deferred class
 	EL_DOUBLE_PATH_OPERAND_COMMAND_I
@@ -68,7 +68,7 @@ feature {NONE} -- Evolicity reflection
 		do
 			Result := precursor
 			Result.append_tuples (<<
-				[var_name_path_2, 		agent: ZSTRING do Result := escaped_path (destination_path) end],
+				[var_name_path_2, 		agent: ZSTRING do Result := destination_path.escaped end],
 				["is_file_destination", agent: BOOLEAN_REF do Result := is_file_destination.to_reference end]
 			>>)
 		end

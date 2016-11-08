@@ -1,13 +1,18 @@
 # EiffelStudio project environment
 
-from eiffel_loop.project import *
+from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 3, 9)
+version = (1, 4, 0)
 
 installation_sub_directory = 'Eiffel-Loop/manage-mp3'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_rhythmbox_read_write', '-logging'])
+
+# 1.4.0
+# 25 Sep 2016
+# Introduced music_dir in task configuration with default value of $HOME/Music
+# Change structure of DJ playlists to use "mp3-path" for location list
 
 # 1.3.9
 # Integrated DJ event playlists more tightly by placing them $HOME/Music/Playlists and adding them to the database

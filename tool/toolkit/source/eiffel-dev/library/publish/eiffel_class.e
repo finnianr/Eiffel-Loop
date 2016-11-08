@@ -3,13 +3,15 @@ note
 		Class to render github like markdown found in the description note field of Eiffel classes.
 	]"
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-27 13:15:33 GMT (Wednesday 27th July 2016)"
-	revision: "1"
+	date: "2016-09-28 12:05:26 GMT (Wednesday 28th September 2016)"
+	revision: "2"
 
 class
 	EIFFEL_CLASS
@@ -83,7 +85,7 @@ feature {NONE} -- Initialization
 				a_repository.templates.eiffel_source, a_repository.output_dir + relative_source_path.with_new_extension ("html")
 			)
 			source_path := a_source_path; relative_html_path := a_relative_html_path; repository := a_repository
-			name := source_path.without_extension.base.as_upper
+			name := source_path.base_sans_extension.as_upper
 			raw_source := File_system.plain_text (source_path)
 			l_crc := crc_generator
 			l_crc.add_string_8 (raw_source)

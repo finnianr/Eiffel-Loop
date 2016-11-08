@@ -4,13 +4,12 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
-	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 18:34:05 GMT (Friday 8th July 2016)"
-	revision: "1"
 
-class
-	RBOX_RESTORE_PLAYLISTS_APP
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-09-25 8:47:38 GMT (Sunday 25th September 2016)"
+	revision: "2"
+
+class RBOX_RESTORE_PLAYLISTS_APP obsolete "Rewrite using music manager task"
 
 inherit
 	RBOX_DATABASE_TRANSFORM_APP

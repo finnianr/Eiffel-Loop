@@ -1,13 +1,13 @@
 ﻿note
-	description: "Summary description for {ASTRING_2_TEST_SET}."
+	description: "Tests for class EL_ZSTRING"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-18 14:16:47 GMT (Monday 18th July 2016)"
-	revision: "1"
+	date: "2016-11-04 10:03:57 GMT (Friday 4th November 2016)"
+	revision: "2"
 
 class
 	ZSTRING_TEST_SET
@@ -228,18 +228,6 @@ feature -- Element change tests
 		do
 			create bash_escaper; create bash_escaper_32
 			escape_test ("BASH", bash_escaper, bash_escaper_32)
-		end
-
-	escape_test (name: STRING; escaper: EL_CHARACTER_ESCAPER [ZSTRING]; escaper_32: EL_CHARACTER_ESCAPER [STRING_32])
-		local
-			str_32: STRING_32; str: ZSTRING
-		do
-			across << Text_russian_and_english, Vivalidi_title, Lower_case_characters >> as string loop
-				str_32 := string.item.twin
-				String_32.replace_character (str_32, '+', '&')
-				str := str_32
-				assert (name + " escape OK", escaper.escaped (str).to_unicode ~ escaper_32.escaped (str_32))
-			end
 		end
 
 	test_insert_character
@@ -780,6 +768,18 @@ feature {NONE} -- Implementation
 			lower := lower_32; upper :=  upper_32
 			assert ("to_upper OK", lower.as_upper.to_unicode ~ upper_32)
 			assert ("to_lower OK", upper.as_lower.to_unicode ~ lower_32)
+		end
+
+	escape_test (name: STRING; escaper: EL_CHARACTER_ESCAPER [ZSTRING]; escaper_32: EL_CHARACTER_ESCAPER [STRING_32])
+		local
+			str_32: STRING_32; str: ZSTRING
+		do
+			across << Text_russian_and_english, Vivalidi_title, Lower_case_characters >> as string loop
+				str_32 := string.item.twin
+				String_32.replace_character (str_32, '+', '&')
+				str := str_32
+				assert (name + " escape OK", escaper.escaped (str).to_unicode ~ escaper_32.escaped (str_32))
+			end
 		end
 
 	new_escape_table: HASH_TABLE [CHARACTER_32, CHARACTER_32]

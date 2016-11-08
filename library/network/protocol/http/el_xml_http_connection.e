@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-19 17:42:37 GMT (Monday 19th September 2016)"
-	revision: "2"
+	date: "2016-09-28 9:41:17 GMT (Wednesday 28th September 2016)"
+	revision: "3"
 
 class
 	EL_XML_HTTP_CONNECTION
@@ -16,9 +16,10 @@ inherit
 	EL_HTTP_CONNECTION
 		rename
 			make as make_http,
-			read_string_get as read_xml
+			read_string_get as read_xml_get,
+			read_string_post as read_xml_post
 		redefine
-			read_xml
+			read_string
 		end
 
 create
@@ -50,19 +51,6 @@ feature -- Status query
 			Result := root_node.node_found
 		end
 
-feature -- Basic operations
-
-	read_xml
-		do
-			Precursor
-			if has_error or else has_some_http_error or else not last_string.starts_with ("<?xml") then
-				on_not_xml_read
-			else
-				on_xml_read
-			end
-			create root_node.make_from_string (last_string)
-		end
-
 feature {NONE} -- Event handling
 
 	on_not_xml_read
@@ -75,6 +63,21 @@ feature {NONE} -- Event handling
 		end
 
 feature {NONE} -- Implementation
+
+	read_string (a_http_command: like http_command)
+		do
+			Precursor (a_http_command)
+			if a_http_command /= CURLOPT_nobody then
+				if has_error or else has_some_http_error or else not last_string.starts_with ("<?xml") then
+					on_not_xml_read
+				else
+					on_xml_read
+				end
+				create root_node.make_from_string (last_string)
+			end
+		end
+
+feature {NONE} -- Internal attributes
 
 	default_document: EL_SERIALIZEABLE_AS_XML
 

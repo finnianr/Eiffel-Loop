@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-01 16:51:23 GMT (Friday 1st January 2016)"
-	revision: "1"
+	date: "2016-10-05 9:27:15 GMT (Wednesday 5th October 2016)"
+	revision: "2"
 
 class
 	EL_STORED_WORD_TOKEN_TABLE
@@ -18,7 +18,7 @@ inherit
 			put, flush
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 		undefine
 			is_equal, copy
 		end
@@ -75,12 +75,12 @@ feature -- Status setting
 		local
 			line: ZSTRING; utf8_line: STRING
 		do
-			log.enter ("open_write")
+			lio.enter ("open_write")
 			if word_file.exists then
 				crc.reset
 				word_file.open_read
 				make (word_file.count // 8)
-				log.put_line ("Reading data")
+				lio.put_line ("Reading data")
 				from until word_file.after loop
 					word_file.read_line
 					word_file.notify
@@ -101,12 +101,12 @@ feature -- Status setting
 				word_file.close
 
 				if last_checksum = crc.checksum then
-					log.put_line ("open_append")
+					lio.put_line ("open_append")
 					word_file.open_append
 					is_restored := True
 				else
-					log.put_line ("Checksum does not match")
-					log.put_line ("open_write")
+					lio.put_line ("Checksum does not match")
+					lio.put_line ("open_write")
 					word_file.open_write
 					crc.reset; wipe_out; words.wipe_out
 				end
@@ -114,7 +114,7 @@ feature -- Status setting
 			else
 				word_file.open_write
 			end
-			log.exit
+			lio.exit
 		end
 
 	close

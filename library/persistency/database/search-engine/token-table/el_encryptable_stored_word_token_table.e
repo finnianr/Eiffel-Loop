@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-05-06 10:46:23 GMT (Wednesday 6th May 2015)"
-	revision: "1"
+	date: "2016-10-05 9:27:30 GMT (Wednesday 5th October 2016)"
+	revision: "2"
 
 class
 	EL_ENCRYPTABLE_STORED_WORD_TOKEN_TABLE
@@ -46,15 +46,15 @@ feature -- Status setting
 
 	open_write
 		do
-			log.enter ("open_write")
+			lio.enter ("open_write")
 			Precursor
-			if log.current_routine_is_active and then not words.is_empty then
+			if lio.current_routine_is_active and then not words.is_empty then
 				from words.go_i_th (words.count - 5) until words.after loop
-					log.put_string_field (words.index.out, words.item); log.put_new_line
+					lio.put_string_field (words.index.out, words.item); lio.put_new_line
 					words.forth
 				end
 			end
-			log.exit
+			lio.exit
 		end
 
 feature {NONE} -- Implementation

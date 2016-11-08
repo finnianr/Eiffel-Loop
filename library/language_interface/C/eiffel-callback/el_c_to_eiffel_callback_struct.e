@@ -8,10 +8,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 11:14:00 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2016-09-29 15:53:52 GMT (Thursday 29th September 2016)"
+	revision: "3"
 
 class
 	EL_C_TO_EIFFEL_CALLBACK_STRUCT [TARGET -> EL_C_CALLABLE create make end]
@@ -25,24 +25,17 @@ feature {NONE} -- Initialization
 			--
 		do
 			create target.make
-			create gc_protector.make (target)
-			target.set_gc_protected_callbacks_target (gc_protector)
+			callback := target.new_callback
 		end
 
 feature -- Access
 
-	item: POINTER
-			--
-		do
-			Result := target.pointer_to_c_callbacks_struct
-		end
-
-feature {NONE} -- Implementation
-
 	target: TARGET
 		-- Call back target object
 
-	gc_protector: EL_GC_PROTECTED_OBJECT
+feature {NONE} -- Implementation
+
+	callback: like target.new_callback
 		-- Stops target from being moved by garbage collector
 
 end

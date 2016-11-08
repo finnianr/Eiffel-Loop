@@ -30,10 +30,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 14:47:05 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2016-10-03 15:58:51 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EL_X11_DISPLAY_OUTPUT_INFO
@@ -45,9 +45,7 @@ inherit
 		end
 
 	EL_X11_API
-		undefine
-			dispose
-		end
+
 create
 	make, default_create
 
@@ -64,16 +62,12 @@ feature -- Access
 
 	connection: INTEGER
 		do
-			if is_attached (self_ptr) then
-				Result := XRR_output_info_connection (self_ptr)
-			end
+			Result := XRR_output_info_connection (self_ptr)
 		end
 
 	crtc: POINTER
 		do
-			if is_attached (self_ptr) then
-				Result := XRR_output_info_crtc (self_ptr)
-			end
+			Result := XRR_output_info_crtc (self_ptr)
 		end
 
 	width_mm: INTEGER
@@ -85,26 +79,21 @@ feature -- Access
 
 	height_mm: INTEGER
 		do
-			if is_attached (self_ptr) then
-				Result := XRR_output_info_mm_height (self_ptr)
-			end
+			Result := XRR_output_info_mm_height (self_ptr)
 		end
 
 feature -- Status query
 
 	is_active: BOOLEAN
 		do
-			if is_attached (self_ptr) then
-				Result := connection = XRR_Connected and is_attached (crtc)
-			end
+			Result := connection = XRR_Connected and is_attached (crtc)
 		end
+
 feature {NONE} -- Implementation
 
-    c_free (self: POINTER)
+    c_free (this: POINTER)
             --
-        do
-        	if is_attached (self) then
-	        	XRR_free_output_info (self)
-        	end
-        end
+		do
+			XRR_free_output_info (this)
+		end
 end

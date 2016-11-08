@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 11:01:16 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2016-10-03 16:21:35 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EL_IP_ADAPTER_LIST_IMP
@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MEMORY
+	EL_POINTER_ROUTINES
 		export
 			{NONE} all
 		undefine

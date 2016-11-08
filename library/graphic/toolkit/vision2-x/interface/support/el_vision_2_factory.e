@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 8:36:07 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2016-10-02 13:33:16 GMT (Sunday 2nd October 2016)"
+	revision: "2"
 
 class
 	EL_VISION_2_FACTORY
@@ -127,16 +127,6 @@ feature -- Factory
 		do
 			create Result
 			GUI.set_text_field_characteristics (Result, capacity, a_font)
-		end
-
-	new_text_rectangle (a_x, a_y, a_width, a_height: INTEGER): EL_TEXT_RECTANGLE_I
-		do
-			create {EL_TEXT_RECTANGLE_IMP} Result.make (a_x, a_y, a_width, a_height)
-		end
-
-	new_text_rectangle_from_rectangle (rectangle: EL_RECTANGLE): EL_TEXT_RECTANGLE_I
-		do
-			create {EL_TEXT_RECTANGLE_IMP} Result.make_from_rectangle (rectangle)
 		end
 
 	new_vertical_box (a_border_cms, a_padding_cms: REAL; a_widgets: ARRAY [EV_WIDGET]): EL_VERTICAL_BOX

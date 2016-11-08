@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-17 18:55:48 GMT (Thursday 17th December 2015)"
-	revision: "1"
+	date: "2016-09-29 15:54:41 GMT (Thursday 29th September 2016)"
+	revision: "3"
 
 class
 	EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
@@ -49,15 +49,17 @@ feature -- Basic operations
 
 	parse_from_serializable_object (object: EVOLICITY_SERIALIZEABLE_AS_XML)
 			--
+		local
+			callback: like new_callback
 		do
 			reset
-			protect_C_callbacks
+			callback := new_callback
 			scanner.on_start_document
 			object.serialize_to_stream (Current)
 			if is_correct then
 				finish_incremental
 			end
-			unprotect_C_callbacks
+			callback.release
 		end
 
 feature {NONE} -- Unimplemented

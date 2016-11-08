@@ -3,6 +3,8 @@ pyxis-doc:
 
 music-collection:
 	task = "publish_dj_events"; is_dry_run = False; test_checksum = 3895769834
+	music_dir = "workarea/rhythmdb/Music"
+
 	DJ-events:
 		playlist_dir = "workarea/rhythmdb/Documents/DJ-events"
 		publish:

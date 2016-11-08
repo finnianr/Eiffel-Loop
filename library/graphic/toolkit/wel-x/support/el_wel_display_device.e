@@ -15,20 +15,18 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-10-03 12:03:07 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EL_WEL_DISPLAY_DEVICE
 
 inherit
-	EL_C_OBJECT
+	EL_ALLOCATED_C_OBJECT
 		rename
 			is_attached as is_pointer_attached
-		redefine
-			Is_memory_owned
 		end
 
 	EL_WEL_CONVERSION
@@ -41,7 +39,7 @@ feature {NONE} -- Initialization
 	make (adapter_name: STRING_32; device_number: INTEGER)
 			--
 		do
-			make_from_pointer (self_ptr.memory_calloc (1, c_size_of_display_device_struct))
+			make_with_size (c_size_of_display_device_struct)
 			cwin_set_struct_size (self_ptr, c_size_of_display_device_struct)
 
 			is_valid := cwin_enum_display_devices (wel_string_from_string (adapter_name).item, device_number, self_ptr, 0)
@@ -86,8 +84,6 @@ feature -- Status query
 		end
 
 feature {NONE} -- Implementation
-
-    Is_memory_owned: BOOLEAN = True
 
     status_flags: INTEGER
     	do

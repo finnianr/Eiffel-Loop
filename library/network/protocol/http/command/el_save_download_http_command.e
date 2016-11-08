@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 9:31:15 GMT (Wednesday 21st September 2016)"
-	revision: "1"
+	date: "2016-09-28 7:55:51 GMT (Wednesday 28th September 2016)"
+	revision: "2"
 
 class
 	EL_SAVE_DOWNLOAD_HTTP_COMMAND
@@ -18,9 +18,9 @@ class
 inherit
 	EL_DOWNLOAD_HTTP_COMMAND
 		rename
-			make as make_command
+			execute as execute_command
 		redefine
-			execute
+			make
 		end
 
 	EL_MODULE_FILE_SYSTEM
@@ -30,18 +30,19 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_connection: like connection; file_path: EL_FILE_PATH)
+	make
 		do
-			make_command (a_connection)
-			File_system.make_directory (file_path.parent)
-			create file_out.make_open_write (file_path)
+			Precursor
+			create file_out.make_with_name ("none")
 		end
 
 feature -- Basic operations
 
-	execute
+	execute (connection: EL_HTTP_CONNECTION; file_path: EL_FILE_PATH)
 		do
-			Precursor
+			File_system.make_directory (file_path.parent)
+			create file_out.make_open_write (file_path)
+			execute_command (connection)
 			file_out.close
 		end
 

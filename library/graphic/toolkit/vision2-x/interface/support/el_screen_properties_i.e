@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-05-15 13:55:17 GMT (Sunday 15th May 2016)"
-	revision: "1"
+	date: "2016-10-09 16:52:56 GMT (Sunday 9th October 2016)"
+	revision: "2"
 
 deferred class
 	EL_SCREEN_PROPERTIES_I

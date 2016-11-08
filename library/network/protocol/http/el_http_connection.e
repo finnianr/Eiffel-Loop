@@ -2,8 +2,8 @@ note
 	description: "Retrieves data using the HTTP command GET, POST and HEAD"
 
 	notes: "[
-		See class [test/source/test/http/http_connection_test_set.html HTTP_CONNECTION_TEST_SET] for examples
-		on how to use.
+		See class [http://eiffel-loop.com/test/source/test/http/http_connection_test_set.html HTTP_CONNECTION_TEST_SET]
+		for examples on how to use.
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 10:34:03 GMT (Wednesday 21st September 2016)"
-	revision: "3"
+	date: "2016-10-13 11:49:31 GMT (Thursday 13th October 2016)"
+	revision: "5"
 
 class
 	EL_HTTP_CONNECTION
@@ -171,21 +171,23 @@ feature -- Basic operations
 		do
 			url := Empty_string
 			dispose
-			full_collect -- Workaround for a weird bug where a second call to read_string would hang
+
+			-- Workaround for a weird bug where a second call to read_string would hang
+--			full_collect
 
 			-- September 2016: It's possible this weird bug might have been resolved by the rewrite of code
 			-- handling cURL C callbacks that happened in this month.
 		end
 
 	download (file_path: EL_FILE_PATH)
-		-- save document downloaded using the HTTP GET command
+			-- save document downloaded using the HTTP GET command
 		local
 			download_cmd: EL_SAVE_DOWNLOAD_HTTP_COMMAND
 		do
-			create download_cmd.make (Current, file_path)
+			create {EL_SAVE_DOWNLOAD_HTTP_COMMAND} download_cmd.make
 			set_http_command (CURLOPT_httpget)
 			set_cookies
-			download_cmd.execute
+			download_cmd.execute (Current, file_path)
 		end
 
 	open (a_url: like url)
@@ -193,8 +195,8 @@ feature -- Basic operations
 			if is_lio_enabled then
 				lio.put_labeled_string ("open", a_url); lio.put_new_line
 			end
-			make_from_pointer (Curl.new_pointer)
 			reset
+			make_from_pointer (Curl.new_pointer)
 			set_url (a_url)
 		ensure
 			opened: is_open
@@ -233,6 +235,16 @@ feature -- Status setting
 	disable_cookie_load
 		do
 			create cookie_load_path
+		end
+
+	disable_verbose
+		do
+			set_curl_boolean_option (CURLOPT_verbose, False)
+		end
+
+	enable_verbose
+		do
+			set_curl_boolean_option (CURLOPT_verbose, True)
 		end
 
 	reset_cookie_session
@@ -376,7 +388,7 @@ feature {NONE} -- Disposal
 	c_free (this: POINTER)
 			--
 		do
-			if is_open then
+			if not is_in_final_collect then
 				Curl.clean_up (self_ptr)
 			end
 		end
@@ -416,7 +428,7 @@ feature {NONE} -- Experimental
 		end
 
 	set_form_parameters (form_post, form_last: CURL_FORM)
-			-- Haven't worked out how to use this
+			-- Haven't worked out how to use this yet
 		do
 --			across parameters as parameter loop
 --				Curl.formadd_string_string (
@@ -435,7 +447,7 @@ feature {EL_HTTP_COMMAND} -- Implementation
 		-- do data transfer to/from host
 		do
 			error_code := Curl.perform (self_ptr)
-			if has_error then
+			if has_error and then is_lio_enabled then
 				lio.put_integer_field ("CURL error code", error_code)
 				lio.put_new_line
 			end
@@ -453,13 +465,13 @@ feature {NONE} -- Implementation
 			download_cmd: EL_STRING_DOWNLOAD_HTTP_COMMAND
 		do
 			if a_http_command = CURLOPT_nobody then
-				create {EL_HEADER_DOWNLOAD_HTTP_COMMAND} download_cmd.make (Current)
+				create {EL_HEADER_DOWNLOAD_HTTP_COMMAND} download_cmd.make
 			else
-				create download_cmd.make (Current)
+				create {EL_STRING_DOWNLOAD_HTTP_COMMAND} download_cmd.make
 			end
 			set_http_command (a_http_command)
 			set_cookies
-			download_cmd.execute
+			download_cmd.execute (Current)
 			if has_error then
 				last_string.wipe_out
 			else
@@ -519,8 +531,6 @@ feature {NONE} -- Implementation attributes
 
 	http_response: CURL_STRING
 
-	is_memory_owned: BOOLEAN = True
-
 feature {NONE} -- Constants
 
 	Doctype_declaration: STRING = "<!DOCTYPE"
@@ -563,6 +573,8 @@ feature {NONE} -- Constants
 			Result [509] := "Bandwidth Limit Exceeded"
 			Result [510] := "Not Extended"
 		end
+
+	Is_memory_owned: BOOLEAN = True
 
 	Secure_protocol: ZSTRING
 		once

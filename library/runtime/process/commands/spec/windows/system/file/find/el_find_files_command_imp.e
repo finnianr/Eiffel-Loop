@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 13:18:13 GMT (Monday 20th June 2016)"
-	revision: "1"
+	date: "2016-10-03 10:33:49 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EL_FIND_FILES_COMMAND_IMP
@@ -40,7 +40,7 @@ feature {NONE} -- Evolicity reflection
 		do
 			Result := Precursor {EL_FIND_FILES_COMMAND_I}
 			Result.append_tuples (<<
-				["file_pattern_path", agent: ZSTRING do Result := escaped_path (dir_path + name_pattern) end]
+				["file_pattern_path", agent: ZSTRING do Result := (dir_path + name_pattern).escaped end]
 			>>)
 		end
 

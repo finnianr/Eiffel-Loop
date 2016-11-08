@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-03-06 13:14:59 GMT (Friday 6th March 2015)"
-	revision: "1"
+	date: "2016-10-03 16:44:12 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EL_PANGO_FONT
@@ -136,7 +136,9 @@ feature {NONE} -- Disposal
 	c_free (this: POINTER)
 			--
 		do
-			Pango.font_description_free (this)
+			if not is_in_final_collect then
+				Pango.font_description_free (this)
+			end
 		end
 
 end

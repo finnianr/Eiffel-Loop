@@ -1,13 +1,16 @@
 # EiffelStudio project environment
 
-from eiffel_loop.project import *
+from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 1, 26)
+version = (1, 1, 27)
 
 installation_sub_directory = 'Eiffel-Loop/utils'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.1.27
+# Changes to file progress system
 
 # 1.1.26
 # Added sub category for Library in Eiffel-View publisher

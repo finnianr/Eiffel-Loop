@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-25 8:33:38 GMT (Monday 25th July 2016)"
-	revision: "1"
+	date: "2016-09-28 11:17:04 GMT (Wednesday 28th September 2016)"
+	revision: "2"
 
 deferred class
 	EVOLICITY_CONTEXT
@@ -40,7 +40,7 @@ feature -- Element change
 	put_integer (variable_name: ZSTRING; value: INTEGER)
 			--
 		do
-			objects.force (value.to_real.to_reference, variable_name)
+			objects.force (value.to_reference, variable_name)
 		end
 
 	put_variable (object: ANY; variable_name: ZSTRING)

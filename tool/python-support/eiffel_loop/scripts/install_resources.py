@@ -2,14 +2,12 @@ import os
 
 from eiffel_loop.eiffel import project
 
-from eiffel_loop.eiffel import ecf
+from eiffel_loop.eiffel.ecf import EIFFEL_CONFIG_FILE
+from eiffel_loop.eiffel.ecf import FREEZE_BUILD
 
 from SCons.Environment import Base
 from SCons.Variables import Variables
 from glob import glob
-
-project_py = project.read_project_py ()
-project.set_build_environment (project_py) 
 
 var = Variables ()
 var.Add ('cpu', '', 'x64')
@@ -24,6 +22,12 @@ var.Update (env)
 env.Append (ENV = os.environ)
 env.Append (ISE_PLATFORM = os.environ ['ISE_PLATFORM'])
 
-config = ecf.FREEZE_BUILD (env, project_py)
-config.install_resources (config.resources_destination ())
+project_py = project.read_project_py ()
+project_py.update_os_environ (env.get ('cpu') == 'x86')
+
+ecf_path = env.get ('project')
+config = EIFFEL_CONFIG_FILE (ecf_path, True)
+
+build = FREEZE_BUILD (config, project_py)
+build.install_resources (build.resources_destination ())
 
