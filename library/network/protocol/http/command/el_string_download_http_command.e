@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-18 12:50:37 GMT (Sunday 18th September 2016)"
-	revision: "1"
+	date: "2016-09-28 7:52:42 GMT (Wednesday 28th September 2016)"
+	revision: "2"
 
 class
 	EL_STRING_DOWNLOAD_HTTP_COMMAND
@@ -26,9 +26,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_connection: like connection)
+	make
 		do
-			Precursor (a_connection)
+			Precursor
 			create string.make_empty
 		end
 
@@ -38,9 +38,9 @@ feature -- Access
 
 feature -- Basic operations
 
-	execute
+	execute (connection: EL_HTTP_CONNECTION)
 		do
-			Precursor
+			Precursor (connection)
 			string.right_adjust
 			if string.has ('%R') then
 				string.replace_substring_all (once "%R%N", once "%N")

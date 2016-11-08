@@ -1,13 +1,15 @@
 note
 	description: "Export HTML under www sub-directory"
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 8:05:45 GMT (Friday 1st July 2016)"
-	revision: "1"
+	date: "2016-09-28 12:09:03 GMT (Wednesday 28th September 2016)"
+	revision: "2"
 
 class
 	THUNDERBIRD_WWW_EXPORTER
@@ -41,7 +43,7 @@ feature -- Basic operations
 				file_path := path.item.without_extension
 				log.put_path_field ("Content", file_path)
 				log.put_new_line
-				output_dir := export_path.joined_dir_path (file_path.steps.last)
+				output_dir := export_path.joined_dir_path (file_path.base)
 				File_system.make_directory (output_dir)
 				create converter.make (output_dir)
 				converter.convert_mails (file_path)

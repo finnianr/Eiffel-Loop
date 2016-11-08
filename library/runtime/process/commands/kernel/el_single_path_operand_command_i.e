@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 7:25:35 GMT (Thursday 23rd June 2016)"
-	revision: "1"
+	date: "2016-10-03 9:21:21 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 deferred class
 	EL_SINGLE_PATH_OPERAND_COMMAND_I
@@ -51,7 +51,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				[var_name_path, agent: ZSTRING do Result := escaped_path (path) end]
+				[var_name_path, agent: ZSTRING do Result := path.escaped end]
 			>>)
 		end
 

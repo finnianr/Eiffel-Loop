@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 18:50:57 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2016-10-03 10:57:17 GMT (Monday 3rd October 2016)"
+	revision: "3"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -36,6 +36,7 @@ feature {EL_MODULE_EXECUTION_ENVIRONMENT} -- Initialization
 	make
 		do
 			executable_path := new_executable_path
+			last_code_page := console_code_page
 --			io.put_string ("Executable path: " + executable_path.to_string.out)
 --			io.put_new_line
 		end
@@ -67,7 +68,7 @@ feature -- Access
 			l_command_path: EL_FILE_PATH
 		do
 			create l_command_path.make_from_unicode (Args.command_name)
-			Result := l_command_path.steps.last
+			Result := l_command_path.base
 		end
 
 	executable_path: EL_FILE_PATH
@@ -168,7 +169,6 @@ feature -- Status setting
 			-- Python scripts for example, might give a "LookupError: unknown encoding: cp65001".
 
 		do
-			last_code_page := console_code_page
 		end
 
 feature -- Transformation

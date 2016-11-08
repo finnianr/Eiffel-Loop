@@ -1,7 +1,6 @@
 note
 	description: "[
-		*Dynamic module API function pointers*
-		
+		Dynamic module API function pointers.		
 		This class automates the process of assigning shared object (DLL) API function pointers to
 		pointer attributes.
 	]"
@@ -15,12 +14,14 @@ note
 		In the `make' routine these pointer attributes will be automatically initialized, by inferring the
 		C function names from the attribute names using object reflection.
 		
-		*Reserved Words*
+		**Reserved Words**
+		
 		If the C function name happens to coincide with an Eiffel reserved word, `create' for example, the attribute
 		name can be tweaked with addition of an underscore, `create_' in this example. This will resolve any compilation
 		problems. The C function name will still be correctly inferred.
 		
-		*Upper case letters*
+		**Upper case letters**
+		
 		Any C function names that happen to contain uppercase characters, must be explicitly listed by redefining
 		the array function `function_names_with_upper'. This is because Eiffel identifers are case-insensitive and
 		the object reflection always returns the name in lowercase.
@@ -32,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 14:46:23 GMT (Wednesday 21st September 2016)"
-	revision: "1"
+	date: "2016-09-24 11:28:28 GMT (Saturday 24th September 2016)"
+	revision: "2"
 
 class
 	EL_DYNAMIC_MODULE_POINTERS

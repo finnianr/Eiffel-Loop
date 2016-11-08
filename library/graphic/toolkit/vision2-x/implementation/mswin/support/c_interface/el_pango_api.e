@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 14:03:02 GMT (Wednesday 21st September 2016)"
-	revision: "2"
+	date: "2016-10-03 16:22:08 GMT (Monday 3rd October 2016)"
+	revision: "3"
 
 class
 	EL_PANGO_API
@@ -16,14 +16,8 @@ inherit
 	EL_DYNAMIC_MODULE [EL_PANGO_API_POINTERS]
 
 	EL_PANGO_I
-		undefine
-			dispose
-		end
 
 	EL_PANGO_C_API
-		undefine
-			dispose
-		end
 
 create
 	make

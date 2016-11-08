@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:59:54 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2016-10-03 10:32:47 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -35,14 +35,6 @@ feature -- Basic operations
 					Result.extend (list.item)
 				end
 				list.forth
-			end
-		end
-
-	escaped_path (a_path: EL_PATH): ZSTRING
-		do
-			Result := a_path.to_string
-			if Result.has (' ') then
-				Result.quote (2)
 			end
 		end
 

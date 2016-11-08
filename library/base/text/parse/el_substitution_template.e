@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-04 8:30:52 GMT (Monday 4th July 2016)"
-	revision: "1"
+	date: "2016-10-04 8:13:42 GMT (Tuesday 4th October 2016)"
+	revision: "2"
 
 class
 	EL_SUBSTITUTION_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -152,7 +152,6 @@ feature -- Element change
 			valid_variable: is_strict implies has_variable (a_name)
 		local
 			variable_name, place_holder: S
-			l_template: ZSTRING
 		do
 			if attached {S} a_name as name then
 				variable_name := name

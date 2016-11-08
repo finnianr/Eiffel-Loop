@@ -12,10 +12,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 17:42:29 GMT (Thursday 24th December 2015)"
-	revision: "1"
+	date: "2016-10-05 9:25:33 GMT (Wednesday 5th October 2016)"
+	revision: "2"
 
 deferred class
 	EL_STORABLE_XML_EDITIONS_LIST [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make_default end]
@@ -27,7 +27,7 @@ inherit
 			isfirst, islast, first, last, start, finish, readable, off, before, after, remove
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 		undefine
 			copy, is_equal
 		end

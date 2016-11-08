@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-20 10:04:48 GMT (Tuesday 20th September 2016)"
-	revision: "1"
+	date: "2016-10-04 8:13:43 GMT (Tuesday 4th October 2016)"
+	revision: "2"
 
 class
 	EL_JSON_NAME_VALUE_PAIR
@@ -49,8 +49,7 @@ feature {NONE} -- Implementation
 
 	decode (string: ZSTRING)
 		local
-			pos_encoded: INTEGER; done: BOOLEAN
-			hex_digits: STRING; code: INTEGER
+			pos_encoded: INTEGER; hex_digits: STRING; code: INTEGER
 			str: like Once_string
 		do
 			from pos_encoded := 1 until pos_encoded = 0 loop

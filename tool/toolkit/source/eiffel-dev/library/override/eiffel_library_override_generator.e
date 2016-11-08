@@ -1,10 +1,23 @@
 note
 	description: "Creates class overrides of standard libraries for Eiffel-loop"
 
+	other_overrides: "[
+		vision2/implementation/gtk/ev_gtk_externals.e (Addition of missing externals)
+		
+		(Use 15.01 version)
+		vision2/implementation/gtk/support/ev_pixel_buffer_imp.e 
+		vision2/implementation/mswin/support/ev_pixel_buffer_imp.e
+		vision2/implementation/implementation_interface/support/ev_pixel_buffer_i.e
+		vision2/interface/support/ev_pixel_buffer.e
+
+		(Use 15.01. Changes for rotated text no longer needed.)
+		vision2/implementation/mswin/properties/ev_drawable_imp.e
+	]"
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
 	revision: "1"
@@ -106,30 +119,6 @@ feature {NONE} -- Constants
 				"vision2/implementation/mswin/widgets/primitives/ev_pixmap_imp_drawable.e"
 			)
 		end
-
-note
-	description: "Creates class overrides of standard libraries for Eiffel-loop"
-
-	other_overrides: "[
-		vision2/implementation/gtk/ev_gtk_externals.e (Addition of missing externals)
-		
-		(Use 15.01 version)
-		vision2/implementation/gtk/support/ev_pixel_buffer_imp.e 
-		vision2/implementation/mswin/support/ev_pixel_buffer_imp.e
-		vision2/implementation/implementation_interface/support/ev_pixel_buffer_i.e
-		vision2/interface/support/ev_pixel_buffer.e
-
-		(Use 15.01. Changes for rotated text no longer needed.)
-		vision2/implementation/mswin/properties/ev_drawable_imp.e
-	]"
-
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
-	
-	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
-	revision: "1"
 
 
 end

@@ -6,18 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 12:49:08 GMT (Wednesday 21st September 2016)"
-	revision: "2"
+	date: "2016-10-10 9:03:52 GMT (Monday 10th October 2016)"
+	revision: "3"
 
 class
 	EL_WEL_DISPLAY_MONITOR_INFO
 
 inherit
-	EL_C_OBJECT
+	EL_WEL_DISPLAY_SIZE_INFO
+		redefine
+			default_create
+		end
+
+	EL_ALLOCATED_C_OBJECT
 		undefine
 			default_create
-		redefine
-			Is_memory_owned
 		end
 
 	EL_WEL_DISPLAY_MONITOR_API
@@ -40,6 +43,11 @@ inherit
 			default_create
 		end
 
+	EL_MODULE_REG_KEY
+		undefine
+			default_create
+		end
+
 	EL_WEL_CONVERSION
 		undefine
 			default_create
@@ -56,9 +64,8 @@ feature {NONE} -- Initialization
 			monitor: POINTER
 			point: WEL_POINT
 		do
-			lio.enter ("default_create")
 			create EDID.make (0)
-			make_from_pointer (self_ptr.memory_calloc (1, c_size_of_monitor_info_struct))
+			make_with_size (c_size_of_monitor_info_struct)
 			cwin_set_struct_size (self_ptr, c_size_of_monitor_info_struct)
 
 			create point.make (0, 0)
@@ -78,16 +85,14 @@ feature {NONE} -- Initialization
 			else
 				is_valid := False
 			end
-			lio.put_integer_field ("width cms", width_centimeters)
-			lio.put_integer_field (" height cms", height_centimeters)
-			lio.exit
+			if is_lio_enabled then
+				lio.put_double_field ("width cms", width_centimeters)
+				lio.put_double_field (" height cms", height_centimeters)
+				lio.put_new_line
+			end
 		end
 
 feature -- Access
-
-	width_centimeters: INTEGER
-
-	height_centimeters: INTEGER
 
 	name: STRING_32
 			--
@@ -160,9 +165,13 @@ feature {NONE} -- Implementation
 		local
 			EDID_registry_path: EL_DIR_PATH
 		do
-			lio.put_labeled_string ("Model", model)
-			lio.put_new_line
-			across Win_registry.key_names (HKLM_enum_display.joined_dir_path (model)) as key until key.cursor_index > 1 loop
+			if is_lio_enabled then
+				lio.put_labeled_string ("Model", model)
+				lio.put_new_line
+			end
+			across
+				Win_registry.key_names (HKLM_enum_display.joined_dir_path (model)) as key
+			until key.cursor_index > 1 loop
 				EDID_registry_path := HKLM_enum_display.joined_dir_steps (<<
 					model, key.item.name.to_string_8, "Device Parameters"
 				>>)
@@ -176,8 +185,8 @@ feature {NONE} -- Implementation
 		require
 			model_agrees_with_model_in_EDID: model ~ EDID_model
 		do
-			width_centimeters := EDID.read_natural_8 (21).to_integer_32
-			height_centimeters := EDID.read_natural_8 (22).to_integer_32
+			width_centimeters := EDID.read_natural_8 (21)
+			height_centimeters := EDID.read_natural_8 (22)
 		end
 
 	EDID_model: ZSTRING
@@ -199,17 +208,17 @@ feature {NONE} -- Implementation
 			manufacturer_id [4] := 0
 
 			Result := string16_to_string8 (manufacturer_id.area.base_address) + product_code
---			lio.put_string_field ("EDID_model", Result)
---			lio.put_new_line
+			if is_lio_enabled then
+				lio.put_string_field ("EDID_model", Result)
+				lio.put_new_line
+			end
 		end
-
-    Is_memory_owned: BOOLEAN = True
 
 feature {NONE} -- Constants
 
 	HKLM_enum_display: EL_DIR_PATH
 		once
-			Result := "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\DISPLAY"
+			Result := Reg_key.current_control_set ("Enum\DISPLAY")
 		end
 
 end

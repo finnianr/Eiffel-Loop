@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-10-03 9:33:10 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EL_MODULE_FILE_SYSTEM
@@ -17,10 +17,10 @@ inherit
 
 feature -- Access
 
-	File_system: EL_FILE_SYSTEM_ROUTINES
+	File_system: EL_FILE_SYSTEM_ROUTINES_I
 			-- File system routines using utf-8 encoded file paths
 		once
-			create Result
+			create {EL_FILE_SYSTEM_ROUTINES_IMP} Result
 		end
 
 end

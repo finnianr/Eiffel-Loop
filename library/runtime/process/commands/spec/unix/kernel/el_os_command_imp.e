@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:58:51 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2016-10-03 9:31:32 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -25,12 +25,6 @@ inherit
 
 feature {NONE} -- Implementation
 
-	escaped_path (a_path: EL_PATH): ZSTRING
-		do
-			Result := a_path.to_string
-			Result.escape (Path_escaper)
-		end
-
 	new_output_lines (file_path: EL_FILE_PATH): EL_FILE_LINE_SOURCE
 		do
 			create Result.make (file_path)
@@ -41,11 +35,6 @@ feature {NONE} -- Constants
 	Command_prefix: STRING_32
 		once
 			create Result.make_empty
-		end
-
-	Path_escaper: EL_ZSTRING_BASH_PATH_CHARACTER_ESCAPER
-		once
-			create Result
 		end
 
 end

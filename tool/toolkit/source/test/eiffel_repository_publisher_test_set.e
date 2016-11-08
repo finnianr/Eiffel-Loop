@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-26 13:55:11 GMT (Tuesday 26th July 2016)"
-	revision: "1"
+	date: "2016-10-12 7:54:32 GMT (Wednesday 12th October 2016)"
+	revision: "2"
 
 class
 	EIFFEL_REPOSITORY_PUBLISHER_TEST_SET
@@ -80,7 +80,7 @@ feature {NONE} -- Implementation
 		do
 			create crc
 			across OS.file_list (Doc_dir, "*.html") as html loop
-				modification_time := html.item.modification_time
+				modification_time := html.item.modification_date_time
 				crc.add_integer (modification_time.date.ordered_compact_date)
 				crc.add_integer (modification_time.time.compact_time)
 			end

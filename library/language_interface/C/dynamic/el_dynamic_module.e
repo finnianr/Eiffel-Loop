@@ -9,13 +9,13 @@ note
 		where `api_name' is a C identifier with the common prefix ommitted. Using the library 'libcurl'
 		as an example,	the following API names would be set up as shown below.
 		
-		*C function names*
+		**C function names**
 			curl_easy_init
 			curl_easy_setopt
 			curl_easy_perform
 			curl_easy_cleanup
 
-		*CURL_API class*
+		**CURL_API class**
 			class
 				CURL_API
 			inherit
@@ -43,7 +43,7 @@ note
 		If the pointer names correspond exactly to the C identifer names, the pointers will be
 		initialized automatically in the creation procedure.
 
-		*Upper case names*
+		**Upper case names**
 
 		If any of the API names contains an uppercase character, then these names must be listed by
 		overriding the function `function_names_with_upper'. Make sure the common prefix defined by
@@ -56,8 +56,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 13:44:18 GMT (Wednesday 21st September 2016)"
-	revision: "3"
+	date: "2016-09-24 11:24:25 GMT (Saturday 24th September 2016)"
+	revision: "4"
 
 deferred class
 	EL_DYNAMIC_MODULE [G -> EL_DYNAMIC_MODULE_POINTERS create make end]

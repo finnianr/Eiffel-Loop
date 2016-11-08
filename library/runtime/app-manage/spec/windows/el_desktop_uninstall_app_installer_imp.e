@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 10:02:55 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2016-10-20 12:27:02 GMT (Thursday 20th October 2016)"
+	revision: "2"
 
 class
 	EL_DESKTOP_UNINSTALL_APP_INSTALLER_IMP
@@ -30,6 +30,8 @@ inherit
 	EL_MS_WINDOWS_DIRECTORIES
 
 	EL_MODULE_WIN_REGISTRY
+
+	EL_MODULE_REG_KEY
 
 create
 	make
@@ -119,7 +121,7 @@ feature {NONE} -- Constants
 
 	HKLM_uninstall_path: EL_DIR_PATH
 		once
-			Result := "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
+			Result := Reg_key.Windows.current_version ("Uninstall")
 		end
 
 end

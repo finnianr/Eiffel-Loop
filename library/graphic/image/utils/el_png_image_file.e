@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-07-06 18:13:31 GMT (Monday 6th July 2015)"
-	revision: "1"
+	date: "2016-10-03 16:33:40 GMT (Monday 3rd October 2016)"
+	revision: "3"
 
 class
 	EL_PNG_IMAGE_FILE
@@ -45,21 +45,25 @@ feature -- Basic operations
 	put_image (cairo_surface: POINTER)
 		require
 			open_write: is_open_write
+		local
+			callback: like new_callback
 		do
 			set_callback_routine ($on_append_data)
-			protect_c_callbacks
+			callback := new_callback
 			Image_utils.save_cairo_image (cairo_surface, pointer_to_c_callbacks_struct)
-			unprotect_c_callbacks
+			callback.release
 		end
 
 	read_cairo_surface: POINTER
 		require
 			open_read: is_open_read
+		local
+			callback: like new_callback
 		do
 			set_callback_routine ($on_read_data_block)
-			protect_c_callbacks
+			callback := new_callback
 			Result := Image_utils.read_cairo_image (pointer_to_c_callbacks_struct)
-			unprotect_c_callbacks
+			callback.release
 		end
 
 	render_svg_of_width (svg_uri: EL_FILE_URI_PATH; svg_utf_8_xml: STRING; width, background_color: INTEGER)
@@ -82,15 +86,15 @@ feature -- Basic operations
 			is_width_conversion: width > 0 implies height = Undefined_dimension
 			is_height_conversion: height > 0 implies width = Undefined_dimension
 		local
-			image_data: MANAGED_POINTER
+			image_data: MANAGED_POINTER; callback: like new_callback
 		do
 			image_data := Image_utils.new_svg_image_data (svg_uri, svg_utf_8_xml)
 			set_callback_routine ($on_append_data)
-			protect_c_callbacks
+			callback := new_callback
 			last_render_succeeded := Image_utils.render_svg (
 				image_data.item, pointer_to_c_callbacks_struct, width, height, background_color
 			)
-			unprotect_c_callbacks
+			callback.release
 		ensure
 			succeeded: last_render_succeeded
 		end

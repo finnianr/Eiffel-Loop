@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-18 11:31:34 GMT (Monday 18th July 2016)"
-	revision: "1"
+	date: "2016-10-17 12:58:35 GMT (Monday 17th October 2016)"
+	revision: "2"
 
 class
 	FTP_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			on_prepare, on_clean
 		end
 
-	EL_SHARED_FILE_PROGRESS_LISTENER
+	EL_FILE_PROGRESS_TRACKER
 		undefine
 			default_create
 		end
@@ -61,10 +61,13 @@ feature {NONE} -- Implementation
 	ftp_sync_test
 		local
 			sync: EL_FTP_SYNC; file_list: EL_ARRAYED_LIST [EL_FILE_PATH]
+			progress_display: EL_CONSOLE_FILE_PROGRESS_DISPLAY; listener: like progress_listener
 		do
 			log.enter ("ftp_sync_test")
 
-			set_progress_listener (create {EL_CONSOLE_FILE_PROGRESS}.make)
+			create progress_display.make
+			listener := progress_display.new_progress_listener
+			listener.set_final_tick_count (1000)
 
 			ftp.change_home_dir
 			create sync.make (ftp, Ftp_sync_path, Work_area_dir)
@@ -74,8 +77,8 @@ feature {NONE} -- Implementation
 				sync.extend_modified (file_list.last)
 			end
 
-			progress_listener.set_text ("Synchronizing with " + ftp.address.host)
-			track_progress (progress_listener, agent sync.upload (file_list), agent do_nothing)
+			progress_display.set_text ("Synchronizing with " + ftp.address.host)
+			track_progress (listener, agent sync.upload (file_list), agent do_nothing)
 
 			assert ("files exist", across file_list as path all ftp.file_exists (path.item) end)
 

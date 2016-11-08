@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-26 13:52:37 GMT (Tuesday 26th July 2016)"
-	revision: "1"
+	date: "2016-10-18 8:26:42 GMT (Tuesday 18th October 2016)"
+	revision: "2"
 
 class
 	EIFFEL_REPOSITORY_PUBLISHER
@@ -22,7 +22,7 @@ inherit
 
 	EL_STRING_CONSTANTS
 
-	EL_SHARED_FILE_PROGRESS_LISTENER
+	EL_FILE_PROGRESS_TRACKER
 
 	EL_MODULE_LIO
 
@@ -102,10 +102,10 @@ feature -- Basic operations
 		local
 			relative_html_path: EL_FILE_PATH; sync_list: EL_ARRAYED_LIST [EL_FILE_PATH]
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
+			console_display: EL_CONSOLE_FILE_PROGRESS_DISPLAY; listener: like progress_listener
 		do
 			create sync_list.make (100)
 			ftp_sync.set_root_dir (output_dir)
-			set_progress_listener (create {EL_CONSOLE_FILE_PROGRESS}.make)
 
 			if version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {EL_DIR_PATH}.exists)
@@ -136,8 +136,11 @@ feature -- Basic operations
 				lio.put_string ("Upload to website (y/n) ")
 				if User_input.entered_letter ('y') then
 					lio.put_new_line
+					create console_display.make
+					listener := console_display.new_progress_listener
+					listener.set_final_tick_count (1000)
 					track_progress (
-						progress_listener, agent ftp_sync.login_and_upload (sync_list), agent lio.put_line ("Synchronized")
+						listener, agent ftp_sync.login_and_upload (sync_list), agent lio.put_line ("Synchronized")
 					)
 				end
 			end

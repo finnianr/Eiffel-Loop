@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {THUNDERBIRD_ACCOUNT}."
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-09-28 12:05:35 GMT (Wednesday 28th September 2016)"
+	revision: "2"
 
 class
 	THUNDERBIRD_LOCALIZED_HTML_EXPORTER
@@ -117,7 +119,7 @@ feature {NONE} -- Implementation
 		do
 			if path.ends_with (Dot_sbd_extension) then
 				folder_dir := path
-				Result := not included_folders.is_empty implies included_folders.has (folder_dir.without_extension.base)
+				Result := not included_folders.is_empty implies included_folders.has (folder_dir.base_sans_extension)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-03 17:14:37 GMT (Wednesday 3rd August 2016)"
-	revision: "2"
+	date: "2016-09-28 12:05:18 GMT (Wednesday 28th September 2016)"
+	revision: "3"
 
 class
 	EIFFEL_CLASS_RENAMER_COMMAND
@@ -57,7 +57,7 @@ feature -- Basic operations
 						is_done := true
 					else
 						user_input_file_path := user_input_line
-						old_class_name.share (user_input_file_path.without_extension.base.as_upper)
+						old_class_name.share (user_input_file_path.base_sans_extension.as_upper)
 
 						new_class_name.share (User_input.line ("New class name"))
 						new_class_name.left_adjust; new_class_name.right_adjust
@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 			lower_old_class_name := old_class_name.as_lower
 			across manifest.file_list as source_path until found loop
 				if source_path.item.base.starts_with (lower_old_class_name)
-					and then source_path.item.without_extension.base ~ lower_old_class_name
+					and then source_path.item.base_sans_extension ~ lower_old_class_name
 				then
 					source_path.item.base.wipe_out
 					source_path.item.base.append (new_class_name.as_lower + ".e")

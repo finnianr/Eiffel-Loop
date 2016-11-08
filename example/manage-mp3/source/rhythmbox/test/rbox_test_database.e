@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-06 8:27:20 GMT (Saturday 6th August 2016)"
-	revision: "2"
+	date: "2016-09-25 8:40:22 GMT (Sunday 25th September 2016)"
+	revision: "3"
 
 class
 	RBOX_TEST_DATABASE
@@ -15,21 +15,13 @@ class
 inherit
 	RBOX_DATABASE
 		redefine
-			add_song_entry, make_from_file, new_song, extend_with_song, update_mp3_root_location
+			add_song_entry, new_song, extend_with_song
 		end
 
 	EL_MODULE_AUDIO_COMMAND
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make_from_file (a_xml_database_path: EL_FILE_PATH)
-		do
-			mp3_root_location := a_xml_database_path.parent.joined_dir_path ("Music")
-			Precursor (a_xml_database_path)
-		end
 
 feature -- Element change
 
@@ -71,7 +63,7 @@ feature {NONE} -- Implementation
 			mp3_writer: like Audio_command.new_wav_to_mp3
 			relative_path, wav_path: EL_FILE_PATH; l_id3_info: EL_ID3_INFO
 		do
-			relative_path := song.mp3_path.relative_path (mp3_root_location)
+			relative_path := song.mp3_path.relative_path (music_dir)
 
 			log.put_path_field ("Reading", relative_path)
 			log.put_new_line
@@ -103,7 +95,6 @@ feature {NONE} -- Implementation
 
 				create l_id3_info.make (wav_path.with_new_extension ("mp3"))
 				song.write_id3_info (l_id3_info)
-
 			end
 		ensure
 			file_exists: Result.exists

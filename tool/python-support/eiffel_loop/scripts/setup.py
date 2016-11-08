@@ -28,9 +28,9 @@ class INSTALLER: # Common: Unix and Windows
 		
 		os.chdir (path.join (eiffel_loop_home_dir, path.normpath ('tool/toolkit')))
 		if not environ.command_exists (['el_toolkit', '-pyxis_to_xml', '-h'], shell=self.is_windows ()):
-			if subprocess.call (['scons', 'project=toolkit.ecf', 'action=finalize'], shell=self.is_windows ()) == 0:
+			if subprocess.call (['scons', 'action=finalize', 'project=toolkit.ecf'], shell=self.is_windows ()) == 0:
 				dir_util.mkpath (self.tools_bin ())
-				package_bin = path.expandvars (path.normpath ('package/$ISE_PLATFORM/bin'))
+				package_bin = path.expandvars (path.normpath ('build/$ISE_PLATFORM/package/bin'))
 				for dest_path in dir_util.copy_tree (package_bin, self.tools_bin ()):
 					print 'Copied:', dest_path
 				self.print_completion ()
@@ -115,14 +115,15 @@ class WINDOWS_INSTALLER (INSTALLER):
 		setenv_cmd_path = path.join (path.normpath (sdk_path), 'Bin\\setenv.cmd')
 		print setenv_cmd_path
 
-		batch_file_templates = [
-			('launch_estudio.bat', templates.launch_estudio_bat),
-			('set_msc_environment.bat', templates.set_msc_environment_txt)
-		]
-		for batch_name, template in batch_file_templates:
+		
+		script_templates = {
+			'launch_estudio' : templates.launch_estudio_bat,
+			'create_f_code_tar_gz' : templates.create_f_code_tar_gz_bat
+		}		
+		for name in script_templates:
 			self.write_script_file (
-				path.join (python_home_dir, batch_name), 
-				template.substitute (setenv_cmd_path = setenv_cmd_path, python_home_dir = python_home_dir)
+				path.join (python_home_dir, name + '.bat'), 
+				(script_templates [name]).substitute (setenv_cmd_path = setenv_cmd_path, python_home_dir = python_home_dir)
 			)
 
 	def install_gedit_pecf_support (self):

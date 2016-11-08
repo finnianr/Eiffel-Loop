@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-20 12:58:19 GMT (Tuesday 20th September 2016)"
-	revision: "1"
+	date: "2016-10-12 17:14:54 GMT (Wednesday 12th October 2016)"
+	revision: "2"
 
 class
 	EL_HTTP_HEADERS
@@ -36,26 +36,30 @@ inherit
 		end
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
+
+	make_default
+		do
+			make_machine
+			make_table (0)
+			create nvp.make_empty
+			setter_table := new_setter_table
+			server := Empty_string_8
+			encoding_name := Empty_string_8
+			content_type := Empty_string_8
+			create date_stamp.make_from_epoch (0)
+		end
 
 	make (string: STRING)
 		local
 			lines: LIST [STRING]
 		do
 			lines := string.split ('%N')
+			make_default
 			make_equal (lines.count)
-			make_machine
-			create nvp.make_empty
-			setter_table := new_setter_table
-			server := Empty_string_8
-			encoding_name := Empty_string_8
-			content_type := Empty_string_8
 			do_with_lines (agent find_response, lines)
-			if not attached date_stamp then
-				create date_stamp.make_from_epoch (0)
-			end
 		end
 
 feature -- Access

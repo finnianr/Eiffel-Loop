@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-30 9:47:52 GMT (Saturday 30th July 2016)"
-	revision: "1"
+	date: "2016-09-28 12:04:49 GMT (Wednesday 28th September 2016)"
+	revision: "2"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -118,7 +118,7 @@ feature -- Access
 
 	html_page_name: ZSTRING
 		do
-			Result := output_path.without_extension.base + ".html"
+			Result := output_path.base_sans_extension + ".html"
 		end
 
 	less_unplayed: PLAYLIST
@@ -216,13 +216,13 @@ feature {NONE} -- Building from XML
 	building_action_table: like Type_building_actions
 		do
 			create Result.make (<<
-				["@title", 						agent do title := node.to_string end],
-				["@DJ_name",					agent do dj_name := node.to_string end],
-				["@venue",						agent do venue := node.to_string end],
-				["@date", 						agent set_date_from_node],
-				["@start_time", 				agent set_start_time_from_node],
-				["@ignore", 					agent do is_publishable := not node.to_boolean end],
-				["playlist/path/text()", 	agent extend_from_path_node]
+				["@title", 				agent do title := node.to_string end],
+				["@DJ_name",			agent do dj_name := node.to_string end],
+				["@venue",				agent do venue := node.to_string end],
+				["@date", 				agent set_date_from_node],
+				["@start_time", 		agent set_start_time_from_node],
+				["@ignore", 			agent do is_publishable := not node.to_boolean end],
+				["mp3-path/text()", 	agent extend_from_path_node]
 			>>)
 		end
 
@@ -235,7 +235,7 @@ feature {NONE} -- Building from XML
 			if is_unplayed then
 				path.remove_head (1)
 			end
-			database.songs_by_location.search (database.mp3_root_location + path)
+			database.songs_by_location.search (database.music_dir + path)
 			if database.songs_by_location.found then
 				extend (database.songs_by_location.found_item)
 				if is_unplayed then
@@ -291,12 +291,10 @@ feature {NONE} -- Constants
 		DJ-event:
 			title = "$title"; date = "$date"; start_time = "$start_time"
 			venue = "$venue"; DJ_name = "$DJ_name"; ignore = $ignore
-			playlist:
-				path:
-				#across $path_list as $path loop
-					"$path.item"
-				#end
-		
+			mp3-path:
+			#across $path_list as $path loop
+				"$path.item"
+			#end
 	]"
 
 end

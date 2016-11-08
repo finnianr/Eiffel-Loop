@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 9:23:32 GMT (Wednesday 21st September 2016)"
-	revision: "2"
+	date: "2016-09-28 9:04:52 GMT (Wednesday 28th September 2016)"
+	revision: "3"
 
 class
 	EL_HTTP_COOKIES
@@ -84,7 +84,9 @@ feature {NONE} -- State handlers
 			fields := line.split ('%T')
 			if fields.count = 7 then
 				value := decoded (fields [7])
-				value.remove_quotes
+				if value.has_quotes (2) then
+					value.remove_quotes
+				end
 				put (value, fields.i_th (6))
 			end
 		end

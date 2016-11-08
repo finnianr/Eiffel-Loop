@@ -1,8 +1,8 @@
 # EiffelStudio project environment
 
-from eiffel_loop.project import *
+from eiffel_loop.eiffel.dev_environ import *
 
-environ ['EIFFEL_NUMERICAL'] = '$EIFFEL_LOOP/contrib/Eiffel/NEL-math'
+set_environ ('EIFFEL_NUMERICAL', '$EIFFEL_LOOP/contrib/Eiffel/NEL-math')
 
 version = (1, 0, 0)
 

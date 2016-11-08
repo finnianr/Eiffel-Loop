@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 14:48:19 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2016-10-08 15:40:21 GMT (Saturday 8th October 2016)"
+	revision: "2"
 
 class
 	EL_SCREEN_IMP
@@ -33,22 +33,23 @@ create
 feature -- Access
 
 	widget_pixel_color (a_widget: EV_WIDGET_IMP; a_x, a_y: INTEGER): EV_COLOR
-			--
+			-- From stackoverflow
+			-- http://stackoverflow.com/questions/19129421/windows-api-getpixel-always-return-clr-invalid-but-setpixel-is-worked
 		local
-			l_result: WEL_COLOR_REF
-			l_abs_rect: WEL_RECT
+			c: WEL_COLOR_REF; bitmap: WEL_BITMAP; mem_dc: WEL_MEMORY_DC
 		do
 			create Result
-			check attached {EV_COLOR_IMP} Result.implementation as color_imp then
-				check attached {WEL_WINDOW} a_widget as wel_window then
-					l_abs_rect := wel_window.window_rect
-					l_result := dc.pixel_color (l_abs_rect.x +  a_x, l_abs_rect.y + a_y)
+			create mem_dc.make_by_dc (dc)
+			create bitmap.make_compatible (dc, 1, 1)
+			mem_dc.select_bitmap (bitmap)
 
-					color_imp.wel_set_red (l_result.red)
-					color_imp.wel_set_green (l_result.green)
-					color_imp.wel_set_blue (l_result.blue)
-				end
-			end
+			mem_dc.bit_blt (
+				0, 0, 1, 1, dc, a_widget.screen_x +  a_x, a_widget.screen_y + a_y,
+				{WEL_RASTER_OPERATIONS_CONSTANTS}.Srccopy
+			)
+
+			c := mem_dc.pixel_color (0, 0)
+			Result.set_rgb_with_8_bit (c.red, c.green, c.blue)
 		end
 
 	border_padding: INTEGER

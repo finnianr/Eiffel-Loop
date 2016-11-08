@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-01 13:03:35 GMT (Monday 1st August 2016)"
-	revision: "1"
+	date: "2016-10-17 11:07:09 GMT (Monday 17th October 2016)"
+	revision: "2"
 
 class
 	FTP_BACKUP
@@ -26,8 +26,6 @@ inherit
 	EL_MODULE_LOG
 
 	EL_MODULE_USER_INPUT
-
-	EL_MEMORY
 
 create
 	make, default_create

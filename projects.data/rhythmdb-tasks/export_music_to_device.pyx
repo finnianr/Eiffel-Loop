@@ -3,6 +3,7 @@ pyxis-doc:
 
 music-collection:
 	task = "export_music_to_device"; is_dry_run = False; test_checksum = 3285487728
+	music_dir = "workarea/rhythmdb/Music"
 	
 	volume:
 		name = "TABLET"; destination = "Card/Music"; id3_version = 2.3

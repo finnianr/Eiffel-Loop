@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {RBOX_CORTINA_SONG}."
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 9:30:24 GMT (Friday 1st July 2016)"
-	revision: "1"
+	date: "2016-09-26 9:54:57 GMT (Monday 26th September 2016)"
+	revision: "2"
 
 class
 	RBOX_CORTINA_SONG
@@ -45,7 +47,7 @@ feature {NONE} -- Initialization
 			end
 			artist := source_song.artist
 			genre := Genre_cortina
-			mp3_path := mp3_root_location.joined_file_steps (<< genre, artist, title + ".mp3" >>)
+			mp3_path := music_dir.joined_file_steps (<< genre, artist, title + ".mp3" >>)
 			album := source_song.album
 		end
 

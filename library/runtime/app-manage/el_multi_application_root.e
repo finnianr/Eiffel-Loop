@@ -8,18 +8,16 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 14:06:25 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-10-03 15:58:01 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO] -- Generic to make sure scons generated BUILD_INFO is compiled from project source
 
 inherit
 	EL_INSTALLER_CONSTANTS
-
-	EL_MEMORY
 
 	EL_MODULE_ARGS
 
@@ -57,8 +55,9 @@ feature {NONE} -- Initialization
 
 			output_dir := Redirected_file_path.parent
 			if Is_console then
-				-- Force console creation. Needed for set_utf8_console_output to work in Windows
---				io.put_character ({ASCII}.back_space.to_character_8)
+				-- Force console creation. Needed to set `{EL_EXECUTION_ENVIRONMENT_I}.last_codepage'
+				io.put_character ({ASCII}.back_space.to_character_8)
+
 --				Environment.Execution.set_utf_8_console_output
 					-- Only has effect in Windows command console
 			else
@@ -129,9 +128,7 @@ feature -- Basic operations
 
 				application_list.wipe_out
 				-- Causes a crash on some multi-threaded applications
-				full_collect; full_collect
-					-- Double collect required for EL_GC_PROTECTED_OBJECT which releases
-					-- protected objects for collection as a side effect of dispose
+				{MEMORY}.full_collect
 			end
 		end
 

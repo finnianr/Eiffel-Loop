@@ -10,24 +10,22 @@ import os, sys
 from os import path
 
 from eiffel_loop.eiffel import project
-from eiffel_loop.eiffel import ecf
 from eiffel_loop.scons import eiffel
+
+from eiffel_loop.eiffel.ecf import EIFFEL_CONFIG_FILE
+from eiffel_loop.eiffel.ecf import FREEZE_BUILD
+from eiffel_loop.eiffel.ecf import FINALIZE_BUILD
+from eiffel_loop.eiffel.ecf import RECOMPILED_X64_FINALIZE_BUILD
 
 from SCons.Script import *
 
 # SCRIPT START
-project_py = project.read_project_py ()
-project.set_build_environment (project_py) 
-
 arguments = Variables()
 arguments.Add (EnumVariable('cpu', 'Set target cpu for compiler', 'x64', allowed_values=('x64', 'x86')))
 arguments.Add (
 	EnumVariable('action', 'Set build action', 'finalize',
 		allowed_values=(
-			'freeze',
-			'finalize', 
-			'finalize_and_test', 
-			'finalize_and_install',
+			'freeze', 'finalize', 'finalize_and_test', 'finalize_and_install',
 			'install_resources',
 			'make_installers'
 		)
@@ -36,11 +34,7 @@ arguments.Add (
 arguments.Add (BoolVariable ('install', 'Set to \'yes\' to install finalized release', 'no'))
 arguments.Add (PathVariable ('project', 'Path to Eiffel configuration file', 'default.ecf'))		
 
-env = Environment (
-	variables = arguments, ENV = os.environ, ASCII_ENV = project.ascii_environ, ISE_PLATFORM = os.environ ['ISE_PLATFORM']
-)
-if os.environ.has_key ('ISE_C_COMPILER'):
-	env.Replace (ISE_C_COMPILER = os.environ ['ISE_C_COMPILER'])
+env = Environment (variables = arguments)
 
 Help (arguments.GenerateHelpText (env) + '\nproject: Set to name of Eiffel project configuration file (*.ecf)\n')
 
@@ -48,50 +42,61 @@ if env.GetOption ('help'):
 	None
 	
 else:
+	is_windows_platform = sys.platform == 'win32'
+	project_py = project.read_project_py ()
+	
+	cpu_option = env.get ('cpu')
+	project_py.MSC_options.append ('/' + cpu_option)
+	ecf_path = env.get ('project')
 	action = env.get ('action') 
+
+	project_py.update_os_environ (cpu_option == 'x86')
+
+	env.Append (ENV = os.environ, ISE_PLATFORM = os.environ ['ISE_PLATFORM'])
+	if 'ISE_C_COMPILER' in os.environ:
+		env.Append (ISE_C_COMPILER = os.environ ['ISE_C_COMPILER'])
+
+	config = EIFFEL_CONFIG_FILE (ecf_path, True)
+
 	if action == 'install_resources':
-		config = ecf.FREEZE_BUILD (env, project_py)
-		config.post_compilation ()
+		build = FREEZE_BUILD (config, project_py)
+		build.post_compilation ()
 	else:
 		if action in ['finalize', 'make_installers']:
-			code_archive_config = ecf.GENERATE_EIFFEL_C_CODE (env, project_py)
-			config = ecf.EIFFEL_C_CODE_COMPILE  (env, project_py)
-
-			env.Append (EIFFEL_CONFIG = config)
-			env.Append (EIFFEL_CODE_ARCHIVE_CONFIG = code_archive_config)
-
-			env.Append (BUILDERS = {'Generate_code_archive' : Builder (action = eiffel.compile_to_C)})
-			env.Append (BUILDERS = {'Eiffel_C_compile' : Builder (action = eiffel.compile_executable)})
-
-			code_archive = env.Generate_code_archive (code_archive_config.target (), code_archive_config.ecf_path)
-			print 'code_archive', code_archive
-			env.NoClean (code_archive)
-
-			executable = env.Eiffel_C_compile (config.target (), code_archive_config.target ())
+			build = FINALIZE_BUILD (config, project_py)
+			if is_windows_platform and '/x86' in project_py.MSC_options:
+				print 'Found:', build.win64_target ()
+				if path.exists (build.win64_target ()):
+					build = RECOMPILED_X64_FINALIZE_BUILD (config, project_py)
 		else:
-			config = ecf.FREEZE_BUILD (env, project_py)
-			env.Append (EIFFEL_CONFIG = config)
-			env.Append (BUILDERS = {'Freeze_compile' : Builder (action = eiffel.compile_executable)})
-			executable = env.Freeze_compile (config.target (), config.ecf_path)
+			build = FREEZE_BUILD (config, project_py)
 
-		if config.pecf_path:
+		env.Append (EIFFEL_BUILD = build)
+		env.Append (BUILDERS = {'eiffel_compile' : Builder (action = eiffel.compile_executable)})
+		executable = env.eiffel_compile (build.target (), build.ecf_path)
+
+		if build.pecf_path:
 			env.Append (BUILDERS = {'PECF_converter' : Builder (action = eiffel.write_ecf_from_pecf)})
-			ecf = env.PECF_converter (config.ecf_path, config.pecf_path)
+			ecf = env.PECF_converter (build.ecf_path, build.pecf_path)
 
-		if config.precompile_path:
+		if build.precompile_path:
 			env.Append (BUILDERS = {'precomp_copier' : Builder (action = eiffel.copy_precompile)})
-			precompile_name = path.basename (config.precompile_path)
-			precompile_dir = path.dirname (path.dirname (config.precompile_path))
-			precomp_ecf = env.precomp_copier (config.precompile_path, path.join (precompile_dir, precompile_name))
-			Depends (executable, config.precompile_path)
+			precompile_name = path.basename (build.precompile_path)
+			precompile_dir = path.dirname (path.dirname (build.precompile_path))
+			precomp_ecf = env.precomp_copier (build.precompile_path, path.join (precompile_dir, precompile_name))
+			Depends (executable, build.precompile_path)
 
-		eiffel.check_C_libraries (env, config)
-		print "\nDepends on External libraries", config.SConscripts
-		SConscript (config.SConscripts, exports='env')
+		eiffel.check_C_libraries (env, build)
+		if len (build.SConscripts) > 0:
+			print "\nDepends on External libraries:"
+			for script in build.SConscripts:
+				print "\t" + script
+
+		SConscript (build.SConscripts, exports='env')
 
 		# only make library a dependency if it doesn't exist or object files are being cleaned out
 		lib_dependencies = []
-		for lib in config.scons_buildable_libs:
+		for lib in build.scons_buildable_libs:
 			if env.GetOption ('clean') or not path.exists (lib):
 				if not lib in lib_dependencies:
 					lib_dependencies.append (lib)

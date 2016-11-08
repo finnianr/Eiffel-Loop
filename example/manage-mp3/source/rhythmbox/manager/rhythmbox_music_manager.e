@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-02 11:16:17 GMT (Tuesday 2nd August 2016)"
-	revision: "1"
+	date: "2016-10-18 8:41:35 GMT (Tuesday 18th October 2016)"
+	revision: "3"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER
@@ -32,7 +32,6 @@ inherit
 	SONG_QUERY_CONDITIONS
 
 	TASK_CONSTANTS
-
 
 create
 	make, default_create
@@ -110,7 +109,7 @@ feature -- Tasks
 					new_mp3_path := song.unique_normalized_mp3_path
 					lio.put_labeled_string ("Old path", song.mp3_relative_path)
 					lio.put_new_line
-					lio.put_labeled_string ("New path", new_mp3_path.relative_path (Database.mp3_root_location))
+					lio.put_labeled_string ("New path", new_mp3_path.relative_path (Database.music_dir))
 					lio.put_new_line
 					lio.put_new_line
 					File_system.make_directory (new_mp3_path.parent)
@@ -122,7 +121,7 @@ feature -- Tasks
 					song.set_mp3_path (new_mp3_path)
 				end
 				Database.store_all
-				File_system.make_directory (Database.mp3_root_location.joined_dir_path ("Additions"))
+				File_system.make_directory (Database.music_dir.joined_dir_path ("Additions"))
 			end
 			log.exit
 		end
@@ -177,7 +176,7 @@ feature -- Tasks
 						lio.put_line (" belongs to a playlist")
 					else
 						Database.remove (song.item)
-						song.item.set_mp3_root_location (config.archive_dir)
+						song.item.set_music_dir (config.archive_dir)
 						song.item.move_mp3_to_normalized_file_path
 						lio.put_line (" relocated to Music Extra")
 					end
@@ -302,8 +301,8 @@ feature -- Tasks: Import/Export
 			song_count := Database.songs.count
 			lio.put_new_line
 			across Video_extensions.split (',') as extension loop
-				across OS.file_list (Database.mp3_root_location, "*." + extension.item) as video_path loop
-					lio.put_path_field ("Found", video_path.item.relative_path (Database.mp3_root_location))
+				across OS.file_list (Database.music_dir, "*." + extension.item) as video_path loop
+					lio.put_path_field ("Found", video_path.item.relative_path (Database.music_dir))
 					lio.put_new_line
 					from done := False until done loop
 						Database.extend (new_video_song (video_path.item))
@@ -329,8 +328,8 @@ feature -- Tasks: Tag editing
 			jpeg_path_list := OS.file_list (config.album_art_dir, "*.jpeg")
 			create pictures.make_equal (jpeg_path_list.count)
 			across jpeg_path_list as jpeg_path loop
-				create picture.make_from_file (jpeg_path.item, jpeg_path.item.parent.steps.last)
-				pictures [jpeg_path.item.without_extension.base] := picture
+				create picture.make_from_file (jpeg_path.item, jpeg_path.item.parent.base)
+				pictures [jpeg_path.item.base_sans_extension] := picture
 			end
 			for_all_songs (
 				not song_is_hidden and song_has_artist_or_album_picture (pictures),
@@ -525,7 +524,7 @@ feature {NONE} -- Factory
 		do
 			artist_path := video_path.parent; genre_path := artist_path.parent
 			video_properties := Audio_command.new_audio_properties (video_path)
-			song_info := new_song_info_input (video_properties.duration, video_path.without_extension.base, artist_path.base)
+			song_info := new_song_info_input (video_properties.duration, video_path.base_sans_extension, artist_path.base)
 			Result := database.new_song
 			Result.set_title (song_info.title)
 			Result.set_artist (artist_path.base)
@@ -598,9 +597,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	database_dir_path: EL_DIR_PATH
+	xml_data_dir: EL_DIR_PATH
 		do
-			Result := xml_database_file_path.parent
+			Result := User_config_dir
+		end
+
+	xml_file_path (name: STRING): EL_FILE_PATH
+		do
+			Result := xml_data_dir + (name + ".xml")
 		end
 
 	export_to_device (device: like new_device; a_condition: EL_QUERY_CONDITION [RBOX_SONG])
@@ -696,11 +700,6 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	xml_database_file_path: EL_FILE_PATH
-		do
-			Result := User_config_dir + "rhythmdb.xml"
-		end
-
 feature {NONE} -- Internal attributes
 
 	config: MANAGER_CONFIG
@@ -724,7 +723,7 @@ feature {NONE} -- Constants
 
 	Database: RBOX_DATABASE
 		once
-			create Result.make (xml_database_file_path)
+			create Result.make (xml_file_path ("rhythmdb"), config.music_dir)
 		end
 
 	Device_type: TUPLE [samsung_tablet, nokia_phone: ZSTRING]

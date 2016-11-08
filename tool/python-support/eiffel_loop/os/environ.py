@@ -47,6 +47,7 @@ def jdk_home ():
 			software_path = path.join (software_path, jdk_version)
 			key = _winreg.OpenKey (_winreg.HKEY_LOCAL_MACHINE, software_path, 0, _winreg.KEY_READ)
 			result = _winreg.QueryValueEx (key, "JavaHome")[0]
+			result = result.encode ('ascii')
 		
 		except (WindowsError), err:
 			result = 'Unknown'

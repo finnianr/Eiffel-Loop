@@ -3,6 +3,7 @@ pyxis-doc:
 
 music-collection:
 	task = "import_videos"; is_dry_run = False; test_checksum = 1627140719
+	music_dir = "workarea/rhythmdb/Music"
 
 	
 

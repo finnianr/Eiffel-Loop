@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:26 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-09-28 21:05:37 GMT (Wednesday 28th September 2016)"
+	revision: "2"
 
 class
 	EL_VTD_XML_API
@@ -151,7 +151,7 @@ feature {NONE} -- Implementation
 	Exception_callbacks_c_struct: POINTER
 			--
 		once
-			Result := Exception_callbacks_struct.item
+			Result := Exception_callbacks_struct.target.pointer_to_c_callbacks_struct
 		end
 
 	Exception_callbacks_struct: EL_C_TO_EIFFEL_CALLBACK_STRUCT [EL_VTD_EXCEPTIONS]

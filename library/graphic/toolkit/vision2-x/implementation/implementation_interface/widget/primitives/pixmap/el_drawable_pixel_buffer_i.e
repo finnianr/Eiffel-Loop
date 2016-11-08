@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-08-14 15:45:56 GMT (Friday 14th August 2015)"
-	revision: "1"
+	date: "2016-10-08 9:29:00 GMT (Saturday 8th October 2016)"
+	revision: "2"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -30,6 +30,13 @@ inherit
 			default_create
 		redefine
 			interface
+		end
+
+	EL_DISPOSEABLE
+		undefine
+			default_create
+		redefine
+			dispose
 		end
 
 	EL_SHARED_CAIRO_API
@@ -70,13 +77,6 @@ inherit
 	EL_MODULE_GUI
 		undefine
 			default_create
-		end
-
-	EL_MEMORY
-		undefine
-			default_create
-		redefine
-			dispose
 		end
 
 	MATH_CONST
@@ -340,22 +340,15 @@ feature -- Basic operations
 			restore
 		end
 
-	draw_scaled_pixel_buffer (x, y, size: INTEGER; size_is_width: BOOLEAN; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
-		local
-			scale_factor: DOUBLE
+	draw_scaled_pixel_buffer (x, y: INTEGER; scale_factor: DOUBLE; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		do
-			if size_is_width then
-				scale_factor :=  size / a_buffer.width
-			else
-				scale_factor :=  size / a_buffer.height
-			end
 			save
 			scale (scale_factor, scale_factor)
 			draw_pixel_buffer (x, y, a_buffer.implementation)
 			restore
 		end
 
-	draw_scaled_pixmap (x, y, size: INTEGER; size_is_width: BOOLEAN; a_pixmap: EV_PIXMAP)
+	draw_scaled_pixmap (x, y: INTEGER; scale_factor: DOUBLE; a_pixmap: EV_PIXMAP)
 		require
 			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
 		local
@@ -363,7 +356,7 @@ feature -- Basic operations
 		do
 			create rgb_24_buffer.make_rgb_24_with_pixmap (a_pixmap)
 			rgb_24_buffer.lock
-			draw_scaled_pixel_buffer (x, y, size, size_is_width, rgb_24_buffer)
+			draw_scaled_pixel_buffer (x, y, scale_factor, rgb_24_buffer)
 			rgb_24_buffer.unlock
 		end
 
@@ -531,21 +524,18 @@ feature -- Status change
 
 feature -- Conversion
 
-	to_pixmap: EL_PIXMAP
+	to_rgb_24_buffer: EL_DRAWABLE_PIXEL_BUFFER
 		require
 			unlocked_for_24_rgb_format: is_rgb_24_bit implies not is_locked
-		local
-			rgb_24_buffer: EL_DRAWABLE_PIXEL_BUFFER
 		do
 			if is_rgb_24_bit then
-				rgb_24_buffer := interface
+				Result := interface
 			else
-				create rgb_24_buffer.make_rgb_24_with_size (width, height)
-				rgb_24_buffer.lock
-				rgb_24_buffer.draw_pixel_buffer (0, 0, interface)
-				rgb_24_buffer.unlock
+				create Result.make_rgb_24_with_size (width, height)
+				Result.lock
+				Result.draw_pixel_buffer (0, 0, interface)
+				Result.unlock
 			end
-			create Result.make_with_pixel_buffer (rgb_24_buffer)
 		end
 
 feature {EL_SVG_IMAGE, EL_DRAWABLE_PIXEL_BUFFER_I} -- Access
@@ -600,7 +590,9 @@ feature {NONE} -- Implementation
 
 	dispose
 		do
-			free_cairo_context
+			if not is_in_final_collect then
+				free_cairo_context
+			end
 		end
 
 	draw_layout_text

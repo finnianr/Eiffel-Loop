@@ -4,16 +4,16 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-07-06 17:27:56 GMT (Monday 6th July 2015)"
-	revision: "1"
+	date: "2016-10-03 15:53:52 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 deferred class
 	EL_IMAGE_UTILS_C_API
 
 inherit
-	EL_MEMORY
+	EL_POINTER_ROUTINES
 
 feature {NONE} -- C Externals
 

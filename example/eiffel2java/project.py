@@ -1,8 +1,8 @@
 # EiffelStudio project environment
 
-from eiffel_loop.project import *
+from eiffel_loop.eiffel.dev_environ import *
 
-environ ['ISE_CFLAGS'] = "-Wno-write-strings"
+set_environ ('ISE_CFLAGS', "-Wno-write-strings")
 version = (1, 0, 0)
 
 installation_sub_directory = 'Eiffel-Loop/eiffel2java'

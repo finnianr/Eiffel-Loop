@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 14:45:33 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2016-10-17 9:14:16 GMT (Monday 17th October 2016)"
+	revision: "2"
 
 class
 	EL_FONT_IMP

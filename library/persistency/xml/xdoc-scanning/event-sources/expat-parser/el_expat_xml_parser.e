@@ -12,10 +12,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:43:44 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-10-04 8:13:42 GMT (Tuesday 4th October 2016)"
+	revision: "3"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -29,8 +29,6 @@ inherit
 	EL_EXPAT_API
 		export
 			{NONE} all
-		undefine
-			dispose
 		end
 
 	EL_C_OBJECT
@@ -50,7 +48,7 @@ inherit
 		undefine
 			self_ptr
 		redefine
-			make_parser, set_gc_protected_callbacks_target
+			make_parser, set_fixed_address
 		end
 
 	EXCEPTIONS
@@ -58,10 +56,7 @@ inherit
 			{NONE} all
 		end
 
---	EL_MODULE_LOG
---		export
---			{NONE} all
---		end
+	EL_SHARED_ZCODEC_FACTORY
 
 	EL_MODULE_C_DECODER
 		export
@@ -109,26 +104,30 @@ feature -- Basic operations
 
 	parse_from_stream (a_stream: IO_MEDIUM)
 			-- Parse XML document from input stream.
+		local
+			callback: like new_callback
 		do
 			reset
-			protect_C_callbacks
+			callback := new_callback
 			parse_incremental_from_stream (a_stream)
 			if is_correct then
 				finish_incremental
 			end
-			unprotect_C_callbacks
+			callback.release
 		end
 
 	parse_from_string (a_string: STRING)
 			-- Parse XML document from `a_string'.
+		local
+			callback: like new_callback
 		do
 			reset
-			protect_C_callbacks
+			callback := new_callback
 			parse_incremental_from_string (a_string)
 			if is_correct then
 				finish_incremental
 			end
-			unprotect_C_callbacks
+			callback.release
 		end
 
 feature -- Element change
@@ -288,12 +287,12 @@ feature {EL_XML_PARSER_OUTPUT_MEDIUM} -- Implementation: routines
 			end
 		end
 
-	set_gc_protected_callbacks_target (target: EL_GC_PROTECTED_OBJECT)
+	set_fixed_address (fixed_address_ptr: POINTER)
 			-- Register Expat callback object
 		do
-			exml_XML_SetUserData (self_ptr, target.item)
-			exml_XML_SetExternalEntityRefHandlerArg (self_ptr, target.item)
-			exml_XML_SetUnknownEncodingHandler (self_ptr, $on_unknown_encoding, target.item)
+			exml_XML_SetUserData (self_ptr, fixed_address_ptr)
+			exml_XML_SetExternalEntityRefHandlerArg (self_ptr, fixed_address_ptr)
+			exml_XML_SetUnknownEncodingHandler (self_ptr, $on_unknown_encoding, fixed_address_ptr)
 
 			exml_XML_setElementHandler (self_ptr, $on_start_tag_parsed, $on_end_tag_parsed)
 			exml_XML_setCommentHandler (self_ptr, $on_comment_parsed)
@@ -301,7 +300,7 @@ feature {EL_XML_PARSER_OUTPUT_MEDIUM} -- Implementation: routines
 			exml_XML_setProcessingInstructionHandler (self_ptr, $on_processing_instruction_parsed)
 			exml_XML_SetXmlDeclHandler (self_ptr, $on_xml_tag_declaration_parsed)
 		ensure then
-			user_data_set: exml_XML_GetUserData (self_ptr) = target.item
+			user_data_set: exml_XML_GetUserData (self_ptr) = fixed_address_ptr
 		end
 
 	set_last_state (next_state: like last_state)
@@ -374,8 +373,6 @@ feature {NONE} -- Implementation: attributes
 			-- source of the xml document being parsed
 
 	last_state: INTEGER
-
-	codec: EL_EXPAT_CODEC
 
 feature {NONE} -- Expat callbacks
 
@@ -453,33 +450,42 @@ feature {NONE} -- Expat callbacks
 			scanner.on_processing_instruction
 		end
 
-	frozen on_unknown_encoding (name_ptr, encoding_info_struct_ptr: POINTER): INTEGER
-			-- This function should work but doesn't
-			-- As far as I can tell the encoding info struct is filled in correctly
-			-- but the document does not parse for ISO-8859-11. The 'release' callback routine is called.
+	frozen on_unknown_encoding (name_ptr, encoding_info_ptr: POINTER): INTEGER
+			-- For some reason this function is not working correctly
+			-- A document encoded with ISO-8859-15 causes this function to be called
+			-- but the document parsing fails with this error: "unknown encoding ( ln: 1 cl: 31 byte: 31 -> )"
 		local
-			name: STRING
+			name: STRING; encoding_info: MANAGED_POINTER; unicode_table: SPECIAL [CHARACTER_32]
+			codec: EL_ZCODEC; i: INTEGER
 		do
-			create name.make (11)
-			c_decoder.append_from_utf8 (name, name_ptr)
+			create name.make_from_c (name_ptr)
+			name.to_upper
 			check
 				encoding_set: name ~ encoding_name
 			end
-			if encoding_type = Encoding_iso_8859 then
-				if encoding = 15 then
-					create {EL_ISO_8859_15_EXPAT_CODEC} codec.make (encoding_info_struct_ptr)
-					Result := 1
+			create encoding_info.share_from_pointer (exml_encoding_info_map (encoding_info_ptr), exml_XML_encoding_size)
+			if has_codec (Current) then
+				codec := new_codec (Current)
+				unicode_table := codec.unicode_table
+				from i := 0 until i > 255 loop
+					encoding_info.put_natural_32 (unicode_table.item (i).natural_32_code, i)
+					i := i + 1
 				end
+				exml_set_encoding_info_callback_object (encoding_info_ptr, Default_pointer)
+				exml_set_encoding_info_convert_callback (encoding_info_ptr, Default_pointer)
+				exml_set_encoding_info_release_callback (encoding_info_ptr, Default_pointer)
+				Result := XML_status_ok
 			else
+				Result := XML_status_error
 			end
 		end
 
 feature {NONE} -- Disposal
 
-	c_free (self: POINTER)
+	c_free (this: POINTER)
 			--
 		do
-			exml_xml_parserfree (self)
+			exml_xml_parserfree (this)
 		end
 
 feature {NONE} -- States

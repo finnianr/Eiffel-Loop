@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-01 11:50:39 GMT (Monday 1st August 2016)"
-	revision: "1"
+	date: "2016-09-25 11:42:42 GMT (Sunday 25th September 2016)"
+	revision: "2"
 
 class
 	TEST_MUSIC_MANAGER
@@ -15,7 +15,7 @@ class
 inherit
 	RHYTHMBOX_MUSIC_MANAGER
 		redefine
-			make, Database, xml_database_file_path,
+			make, Database, xml_data_dir,
 			update_DJ_playlists, export_music_to_device, export_playlists_to_device,
 
 			new_device, new_substitution_list, new_menu_option_input,
@@ -30,12 +30,12 @@ create
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
 	make (a_config: like config)
-		once
+		do
 			log.enter ("test_make")
 			Precursor (a_config)
-
-			substitute_work_area_variable (xml_database_file_path)
-			substitute_work_area_variable (database_dir_path + "playlists.xml")
+			across << "rhythmdb", "playlists" >> as name loop
+				substitute_work_area_variable (xml_file_path (name.item))
+			end
 			Database.update_index_by_audio_id
 			log.exit
 		end
@@ -45,7 +45,7 @@ feature -- Tasks: Import/Export
 	update_DJ_playlists
 		do
 			Precursor
-			across Database.new_dj_event_playlists as playlist loop
+			across Database.dj_playlists as playlist loop
 				log.put_labeled_string ("Title", playlist.item.title)
 				log.put_new_line
 				across playlist.item as song loop
@@ -111,8 +111,8 @@ feature {NONE} -- Factory
 			substitution: like new_substitution
 		do
 			create substitution
-			substitution.deleted_path := "workarea/rhythmdb/Music/Recent/Francisco Canaro/Francisco Canaro -- Corazon de Oro.01.mp3"
-			substitution.replacement_path := "workarea/rhythmdb/Music/Recent/Francisco Canaro/Francisco Canaro -- Corazòn de Oro.02.mp3"
+			substitution.deleted_path := config.music_dir + "Recent/Francisco Canaro/Francisco Canaro -- Corazon de Oro.01.mp3"
+			substitution.replacement_path := config.music_dir + "Recent/Francisco Canaro/Francisco Canaro -- Corazòn de Oro.02.mp3"
 			create Result.make
 			Result.extend (substitution)
 		end
@@ -126,7 +126,7 @@ feature {NONE} -- User input
 	ask_user_for_file_path (name: ZSTRING)
 		do
 			if config.task.same_string ("replace_cortina_set") then
-				file_path := "workarea/rhythmdb/Music/Recent/March 23/09_-_Fabrizio_De_Andrè_Disamistade.mp3"
+				file_path := config.music_dir + "Recent/March 23/09_-_Fabrizio_De_Andrè_Disamistade.mp3"
 			else
 				create file_path
 			end
@@ -139,29 +139,29 @@ feature {NONE} -- User input
 
 feature {NONE} -- Implementation
 
-	substitute_work_area_variable (xml_file_path: EL_FILE_PATH)
+	substitute_work_area_variable (a_file_path: EL_FILE_PATH)
 			--
 		local
 			xml_file: PLAIN_TEXT_FILE
 			xml_text: STRING
 		do
-			xml_text := File_system.plain_text (xml_file_path)
-			xml_text.replace_substring_all ("$WORKAREA", xml_file_path.parent.to_string.to_utf_8)
+			xml_text := File_system.plain_text (a_file_path)
+			xml_text.replace_substring_all ("$MUSIC", config.music_dir.to_string.to_latin_1)
 
-			create xml_file.make_open_write (xml_file_path)
+			create xml_file.make_open_write (a_file_path)
 			xml_file.put_string (xml_text)
 			xml_file.close
 		end
 
-	xml_database_file_path: EL_FILE_PATH
+	xml_data_dir: EL_DIR_PATH
 		do
-			Result := "workarea/rhythmdb/rhythmdb.xml"
+			Result := config.music_dir.parent
 		end
 
 feature {NONE} -- Constants
 
 	Database: RBOX_TEST_DATABASE
 		once
-			create Result.make (xml_database_file_path)
+			create Result.make (xml_file_path ("rhythmdb"), config.music_dir)
 		end
 end

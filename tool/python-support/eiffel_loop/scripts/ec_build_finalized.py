@@ -51,7 +51,7 @@ else:
 	build_cmd = ['scons']
 
 for cpu_target in target_architectures:
-	call ( build_cmd + ['cpu=' + cpu_target, 'action=finalize', 'project=%s.ecf' % project_name])
+	call (build_cmd + ['cpu=' + cpu_target, 'action=finalize', 'project=%s.ecf' % project_name])
 
 (options, args) = parser.parse_args()
 

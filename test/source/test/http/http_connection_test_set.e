@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 10:14:14 GMT (Wednesday 21st September 2016)"
-	revision: "3"
+	date: "2016-09-28 17:35:17 GMT (Wednesday 28th September 2016)"
+	revision: "4"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -25,6 +25,11 @@ inherit
 		end
 
 	EL_MODULE_WEB
+		undefine
+			default_create
+		end
+
+	EL_MODULE_HTML
 		undefine
 			default_create
 		end
@@ -65,30 +70,55 @@ feature -- Test routines
 
 	test_download_document_and_headers
 		local
-			html, url: ZSTRING
-			headers: like web.last_headers
+			url: ZSTRING; headers: like web.last_headers
 		do
 			log.enter ("test_download_document_and_headers")
-			across << Http, Https >> as protocol loop
-				url := protocol.item + Html_url
-				log.put_labeled_string ("url", url)
-				log.put_new_line
-				web.open (url)
+			across << Http >> as protocol loop -- Https
+				across document_retrieved_table as is_retrieved loop
+					url := protocol.item + Httpbin_url + is_retrieved.key
+					log.put_labeled_string ("url", url)
+					log.put_new_line
+					web.open (url)
 
-				web.read_string_head
-				headers := web.last_headers
-				print_lines
-				assert_valid_headers (headers)
-				assert ("valid content_type", headers.content_type ~ "text/html")
-				assert ("valid encoding_name", headers.encoding_name ~ "utf-8")
+					web.read_string_head
+					headers := web.last_headers
+					print_lines (web)
+					assert_valid_headers (headers)
+					if is_retrieved.key ~ "xml" then
+						assert ("valid content_type", headers.content_type ~ "application/xml")
+					else
+						assert ("valid content_type", headers.content_type ~ "text/html")
+						assert ("valid encoding_name", headers.encoding_name ~ "utf-8")
+					end
+					web.read_string_get
+					assert ("retrieved", is_retrieved.item (web.last_string))
+					assert ("valid content_length", headers.content_length = web.last_string.count)
 
-				web.read_string_get
-				html := web.last_string
-				assert ("retrieved", h1_text (html).same_string ("Herman Melville - Moby-Dick"))
-				assert ("valid content_length", headers.content_length = html.count)
+					web.close
+					log.put_new_line
+				end
+			end
+			log.exit
+		end
 
-				web.close
-				log.put_new_line
+	test_documents_download
+		local
+			url: ZSTRING
+		do
+			log.enter ("test_documents_download")
+			across << Http >> as protocol loop -- Https
+				across document_retrieved_table as is_retrieved loop
+					url := protocol.item + Httpbin_url + is_retrieved.key
+					log.put_labeled_string ("url", url)
+					log.put_new_line
+					web.open (url)
+
+					web.read_string_get
+					assert ("retrieved", is_retrieved.item (web.last_string))
+
+					web.close
+					log.put_new_line
+				end
 			end
 			log.exit
 		end
@@ -98,21 +128,25 @@ feature -- Test routines
 			testing: "covers/{EL_HTTP_CONNECTION}.read_string_head"
 		local
 			headers: like web.last_headers
+			image_path: like new_image_path
 		do
 			log.enter ("test_download_image_and_headers")
-			web.open ("http://httpbin.org/image/png")
-			web.read_string_head
-			print_lines
+			across << "png", "jpeg", "webp", "svg" >> as image loop
+				web.open (Image_url + image.item)
+				web.read_string_head
+				print_lines (web)
 
-			headers := web.last_headers
-			assert_valid_headers (headers)
-			assert ("valid content_type", headers.content_type ~ "image/png")
-			assert ("valid content_length", headers.content_length = 8090)
-			assert ("valid encoding_name", headers.encoding_name.is_empty)
+				image_path := new_image_path (image.item)
+				web.download (image_path)
 
-			web.download (Image_path)
-			assert ("downloaded", 8090 = OS.File_system.file_byte_count (Image_path)) -- headers.content_length
-			web.close
+				headers := web.last_headers
+				assert_valid_headers (headers)
+				assert ("valid content_type", headers.content_type.starts_with ("image/" + image.item))
+				assert ("valid content_length", headers.content_length = OS.File_system.file_byte_count (image_path))
+				assert ("valid encoding_name", headers.encoding_name.is_empty)
+
+				web.close
+			end
 			log.exit
 		end
 
@@ -152,7 +186,7 @@ feature -- Test routines
 				web.open (url)
 				web.set_post_parameters (city_location)
 				web.read_string_post
-				print_lines
+				print_lines (web)
 
 				json_fields := new_json_fields (web.last_string)
 				across city_location as nvp loop
@@ -165,6 +199,51 @@ feature -- Test routines
 			log.exit
 		end
 
+	Xtest_image_headers
+		-- using same once web object for all requests
+		-- NOTE
+		-- This routine produce erratic behaviour with random characters being output to console
+		note
+			testing: "covers/{EL_HTTP_CONNECTION}.read_string_head"
+		do
+			log.enter ("test_image_headers_1")
+			get_image_headers (True)
+			log.exit
+		end
+
+	test_image_headers
+		-- using new web object for each request
+		note
+			testing: "covers/{EL_HTTP_CONNECTION}.read_string_head"
+		do
+			log.enter ("test_image_headers_2")
+			get_image_headers (False)
+			log.exit
+		end
+
+	get_image_headers (use_once_object: BOOLEAN)
+		local
+			l_web: like web
+			headers: like web.last_headers
+		do
+			across << "png", "jpeg", "webp", "svg" >> as image loop
+				if use_once_object then
+					l_web := web
+				else
+					create l_web.make
+				end
+				l_web.open (Image_url + image.item)
+				l_web.read_string_head
+				print_lines (l_web)
+
+				headers := l_web.last_headers
+				assert_valid_headers (headers)
+				assert ("valid content_type", headers.content_type.starts_with ("image/" + image.item))
+
+				l_web.close
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	assert_valid_headers (headers: like web.last_headers)
@@ -174,16 +253,42 @@ feature {NONE} -- Implementation
 			assert ("valid server", headers.server ~ "nginx")
 		end
 
-	h1_text (html: ZSTRING): ZSTRING
+	document_retrieved_table: EL_HASH_TABLE [PREDICATE [like Current, TUPLE [STRING]], STRING]
+			-- table of predicates testing if document was retrieved
 		do
-			Result := html.substring_between_general ("<h1>", "</h1>", 1)
+			create Result.make (<<
+				["html", agent (text: STRING): BOOLEAN do Result := h1_text (text).same_string ("Herman Melville - Moby-Dick") end],
+				["links/10/0", agent (text: STRING): BOOLEAN do Result := title_text (text).same_string ("Links") end],
+				["xml", agent (text: STRING): BOOLEAN do Result := em_text (text).same_string ("WonderWidgets") end]
+			>>)
 		end
 
-	print_lines
+	h1_text (text: ZSTRING): ZSTRING
 		do
-			across web.last_string.split ('%N') as line loop
+			Result := element_text ("h1", text)
+		end
+
+	title_text (text: ZSTRING): ZSTRING
+		do
+			Result := element_text ("title", text)
+		end
+
+	em_text (text: ZSTRING): ZSTRING
+		do
+			Result := element_text ("em", text)
+		end
+
+	element_text (name: STRING; text: ZSTRING): ZSTRING
+		do
+			Result := text.substring_between_general (Html.open_tag (name), Html.closed_tag (name), 1)
+		end
+
+	print_lines (a_web: like web)
+		do
+			across a_web.last_string.split ('%N') as line loop
 				log.put_line (line.item)
 			end
+			log.put_new_line
 		end
 
 feature {NONE} -- Factory
@@ -199,6 +304,12 @@ feature {NONE} -- Factory
 		do
 			create Result.make (0)
 			Result [Folder_name] := << Cookie_path.base.to_latin_1 >>
+		end
+
+	new_image_path (name: STRING): EL_FILE_PATH
+		do
+			Result := Current_work_area_dir + "image"
+			Result.add_extension (name)
 		end
 
 	new_json_fields (json_data: ZSTRING): EL_HTTP_HASH_TABLE
@@ -224,27 +335,24 @@ feature {NONE} -- Constants
 			Result := Current_work_area_dir + (Folder_name + "/cookie.txt")
 		end
 
+	Cookies_url: STRING = "http://httpbin.org/cookies"
+
 	Folder_name: STRING_32
 		once
 			Result := "Gef‰ﬂ" -- vessel
 		end
 
-	Set_cookie_url: STRING = "http://httpbin.org/cookies/set?"
-
-	Cookies_url: STRING = "http://httpbin.org/cookies"
-
 	Html_post_url: STRING = "://httpbin.org/post"
 
-	Html_url: STRING = "://httpbin.org/html"
+	Httpbin_url: STRING = "://httpbin.org/"
 
 	Http: STRING = "http"
 
 	Https: STRING = "https"
 
-	Image_path: EL_FILE_PATH
-		once
-			Result := Current_work_area_dir + "image.png"
-		end
+	Image_url: STRING = "http://httpbin.org/image/"
+
+	Set_cookie_url: STRING = "http://httpbin.org/cookies/set?"
 
 end
 

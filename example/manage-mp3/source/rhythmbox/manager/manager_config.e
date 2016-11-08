@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-02 11:15:15 GMT (Tuesday 2nd August 2016)"
-	revision: "1"
+	date: "2016-09-25 11:06:00 GMT (Sunday 25th September 2016)"
+	revision: "2"
 
 class
 	MANAGER_CONFIG
@@ -57,6 +57,9 @@ feature {NONE} -- Initialization
 			cortina_set.tango_count := 8
 			cortina_set.tangos_per_vals := 4
 
+			music_dir := "$HOME/Music"
+			music_dir.expand
+
 			create error_message.make_empty
 			Precursor
 		end
@@ -81,6 +84,9 @@ feature -- Attributes access
 
 	archive_dir: EL_DIR_PATH
 		-- directory for archived music
+
+	music_dir: EL_DIR_PATH
+		-- root directory of mp3 files
 
 	playlist_export: TUPLE [root, subdirectory_name, m3u_extension: ZSTRING]
 
@@ -145,6 +151,7 @@ feature {NONE} -- Build from XML
 				["@is_dry_run", 								agent do is_dry_run := node.to_boolean end],
 				["@task", 										agent do task := node.to_string.as_string_8 end],
 				["@test_checksum", 							agent do test_checksum := node.to_natural end],
+				["@music_dir", 								agent do music_dir := node.to_expanded_dir_path end],
 
 				["archive-dir/text()",						agent do archive_dir := node.to_expanded_dir_path end],
 

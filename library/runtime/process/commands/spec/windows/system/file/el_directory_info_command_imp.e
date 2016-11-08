@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-19 13:34:02 GMT (Sunday 19th June 2016)"
-	revision: "1"
+	date: "2016-10-04 8:12:38 GMT (Tuesday 4th October 2016)"
+	revision: "2"
 
 class
 	EL_DIRECTORY_INFO_COMMAND_IMP
@@ -26,7 +26,7 @@ inherit
 create
 	make, make_default
 
-feature {EL_DIRECTORY_INFO_COMMAND} -- Implementation
+feature {EL_DIRECTORY_INFO_COMMAND_I} -- Implementation
 
 	do_with_lines (a_lines: like adjusted_lines)
 			--

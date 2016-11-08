@@ -6,24 +6,20 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:26 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-10-03 15:41:13 GMT (Monday 3rd October 2016)"
+	revision: "3"
 
 class EL_EXPAT_API
 
 inherit
-	ANY
-
 	PLATFORM
-		export {NONE} all end
-
-	EL_MEMORY
 		export
 			{NONE} all
-			{ANY} is_attached
 		end
+
+	EL_POINTER_ROUTINES
 
 feature {NONE} -- Creating and destroying parsers
 
@@ -361,21 +357,28 @@ feature {NONE} -- Encoding structure
 --		  void (*release)(void *data);
 --		} XML_Encoding;
 
-	exml_set_encoding_info_callback_object (encoding_info_struct_ptr, callback_object: POINTER)
+	exml_encoding_info_map (struct_ptr: POINTER): POINTER
+		external
+			"C [struct <expat.h>] (XML_Encoding): EIF_POINTER"
+		alias
+			"map"
+		end
+
+	exml_set_encoding_info_callback_object (struct_ptr, callback_object: POINTER)
 		external
 			"C [struct <expat.h>] (XML_Encoding, void*)"
 		alias
 			"data"
 		end
 
-	exml_set_encoding_info_convert_callback (encoding_info_struct_ptr, convert_function: POINTER)
+	exml_set_encoding_info_convert_callback (struct_ptr, convert_function: POINTER)
 		external
 			"C [struct <expat.h>] (XML_Encoding, void*)"
 		alias
 			"convert"
 		end
 
-	exml_set_encoding_info_release_callback (encoding_info_struct_ptr, release_function: POINTER)
+	exml_set_encoding_info_release_callback (struct_ptr, release_function: POINTER)
 		external
 			"C [struct <expat.h>] (XML_Encoding, void*)"
 		alias
@@ -733,6 +736,22 @@ feature {NONE} -- XML_Content_Quant enum
 			"C macro use <expat.h>"
 		alias
 			"XML_CQUANT_PLUS"
+		end
+
+feature -- XML_status
+
+	XML_status_ok: INTEGER
+		external
+			"C macro use <expat.h>"
+		alias
+			"XML_STATUS_OK"
+		end
+
+	XML_status_error: INTEGER
+		external
+			"C macro use <expat.h>"
+		alias
+			"XML_STATUS_ERROR"
 		end
 
 feature -- XML_Error enum

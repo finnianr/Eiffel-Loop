@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:10 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-10-12 7:54:10 GMT (Wednesday 12th October 2016)"
+	revision: "2"
 
 deferred class
 	THUNDERBIRD_MAIL_CONVERTER [WRITER -> HTML_WRITER create make end]
@@ -237,7 +237,7 @@ feature {NONE} -- Implementation
 		do
 			log.enter ("write_html")
 --			File_system.make_directory (output_file_path.parent)
-			if not output_file_path.exists or else last_header.date > output_file_path.modification_time then
+			if not output_file_path.exists or else last_header.date > output_file_path.modification_date_time then
 				lio.put_path_field (file_out_extension, output_file_path)
 				lio.put_new_line
 				lio.put_string_field ("Character set", last_header.charset)

@@ -12,104 +12,18 @@ from os import path
 from glob import glob
 
 from eiffel_loop.xml.xpath import XPATH_CONTEXT
+from subprocess import call
 
-global ascii_environ
-ascii_environ = {}
+global program_files
+
+program_files = 'Program Files'
 
 def platform_spec_build_dir ():
 	return path.join ('spec', os.environ ['ISE_PLATFORM'])
 
-def set_build_environment (project_py):
-	env = project_py.environ
-	MSC_options = project_py.MSC_options
+def x86_path (a_path):
+	return a_path.replace (program_files, 'Program Files (x86)', 1)
 
-	print 'PROJECT ENVIRONMENT\n'
-	env_copy = env.copy ()
-	for var, dir_path in env.items ():
-		del env_copy [var]
-		expanded_path = Template (dir_path).safe_substitute (env_copy)
-		env [var] = path.normpath (path.expandvars (expanded_path))
-		env_copy [var] = dir_path
-		
-	for var, dir_path in env.items ():
-		print var, '=', dir_path
-		os.environ [var] = dir_path
-
-	if sys.platform == 'win32':
-		set_windows_build_environment (MSC_options)
-		
-	os.environ ['ISE_LIBRARY'] = os.environ ['ISE_EIFFEL']
-		
-	for name, value in os.environ.items ():
-		ascii_environ [str (name)] = str (value)
-	ascii_environ ['ascii'] = ''
-	
-def set_windows_build_environment (MSC_options):
-	x86_option = '/x86'
-	x64_option = '/x64'
-	
-	if 'cpu=x86' in sys.argv:
-		if x64_option in MSC_options:
-			i = MSC_options.index (x64_option)
-			MSC_options [i] = x86_option
-		else:
-			MSC_options.append (x86_option) 
-
-	set_msc_environment_cmd = ['set_msc_environment.bat']
-	set_msc_environment_cmd.extend (MSC_options)
-
-	# Retrieve variables set
-	if subprocess.call (set_msc_environment_cmd) == 0:
-		f = open (path.join (os.environ ['TEMP'], 'msc_environment.txt'), 'r')
-		for line in f.readlines ():
-			pos_equal = line.find ('=') 
-			name = line [0:pos_equal]
-			value = line [pos_equal + 1:-1]
-
-			# This is causing a problem on Windows for user maeda
-			name = name.encode ('ascii')
-			value = value.encode ('ascii')
-			#print name, '=', value
-			if name.lower() == 'path':
-				exec_path = value
-				#if exec_path.find (os.environ ['ISE_EIFFEL']) == -1:
-				os.environ ['Path'] = exec_path
-				#for item in exec_path.split (os.pathsep):
-				#	print item
-			else:
-				if not os.environ.has_key (name):
-					os.environ [name] = value
-		f.close ()
-
-		# Switch Python and EiffelStudio paths to x86
-		if os.environ ['TARGET_CPU'] == 'x86':
-			path_list = unexpanded_path_list (['ISE_EIFFEL', 'EIFFEL_LOOP'])
-
-			os.environ ['ISE_PLATFORM'] = 'windows'
-			for name in ['ISE_EIFFEL', 'PYTHON']:
-				program_files_path = os.environ [name]
-				os.environ [name] = program_files_path.replace ('Files', 'Files (x86)', 1)
-
-			os.environ ['Path'] = path.expandvars (';'.join (path_list))
-		
-def unexpanded_path_list (env_variables):
-	result = []
-	for bin_path in os.environ.get ('Path').split (os.pathsep):
-		is_appended = False
-		for var_name in env_variables:
-			env_value = os.environ [var_name]
-			if bin_path.startswith (env_value):
-				bin_path = bin_path.replace (env_value, '$'+var_name, 1)
-				bin_path = bin_path.replace (r'\win64', r'\$ISE_PLATFORM', 1)
-				result.append (bin_path)
-				is_appended = True
-				break
-		if bin_path and not is_appended:
-			result.append (bin_path)
-		
-	return result
-
-		
 def read_project_py ():
 	py_file, file_path, description = imp.find_module ('project', [path.abspath (os.curdir)])
 	if py_file:
@@ -127,7 +41,65 @@ def read_project_py ():
 
 	return result
 
+def x86_environ (environ):
+	result = {}
+	x86_ise_platform = 'windows'
+	ise_library = os.environ ['ISE_LIBRARY']
+
+	path_list = []
+
+	for name in environ:
+		l_dir = environ [name]
+		if (l_dir).find (program_files) > 0:
+			result [name] = x86_path (l_dir)
+
+	for name in ['Path', 'PYTHONPATH']:
+		for line in (os.environ [name]).split (';'):
+			if line.startswith (ise_library):
+				path_list.append (x86_path (line).replace ('win64', x86_ise_platform, 1))
+			else:
+				path_list.append (line)
+		result [name] = (';').join (path_list)
+
+	result ['ISE_LIBRARY'] = x86_path (ise_library)
+	result ['ISE_EIFFEL'] = x86_path (os.environ ['ISE_EIFFEL'])
+	result ['ISE_PLATFORM'] = x86_ise_platform
+
+	return result
+
+def create_gzipped_classic_f_code_tar (ise_platform):
+	create_classic_f_code_tar (ise_platform)
+	tar_path = path.join ('build', ('F_code-%s.tar') % ise_platform)
+	print 'Compressing:', tar_path
+	call (['gzip', tar_path])
+
+def create_classic_f_code_tar (ise_platform):
+	build = 'build'
+	result = path.join (build, ('F_code-%s.tar') % ise_platform)
+
+	exclusions = path.join (build, 'exclude.txt')
+
+	f = open (exclusions, 'w')
+	for ext in ['lib', 'obj', 'exe']:
+		f.write ('*.%s\n' % ext)
+	f.write (r'*\finished')
+	f.close ()
+	f_code_dir = path.join ('EIFGENs', 'classic', 'F_code')
+
+	print	'Creating:', result
+	call (['tar', '-cf', result, '-X', exclusions, '-C', path.join ('build', ise_platform), f_code_dir ])
+	os.remove (exclusions)
+	return result
 	
+def restore_classic_f_code_tar (f_code_tar_path, ise_platform):
+	build_dir = path.join ('build', ise_platform)
+	windows_eifgens = path.join ('EIFGENs', build_dir)
+	if path.exists (windows_eifgens):
+		dir_util.remove_tree (windows_eifgens)
+	
+	print	'Extracting:', f_code_tar_path, ' to', build_dir
+	call (['tar', '-xf', f_code_tar_path, '-C', build_dir])
+
 class TESTS (object):
 
 # Initialization
@@ -169,20 +141,20 @@ class EIFFEL_PROJECT (object):
 # Basic operation
 	def install (self, install_dir, f_code = False):
 		# Install linked version of executable in `install_dir'
-		platform = os.environ ["ISE_PLATFORM"]
+		platform = os.environ ['ISE_PLATFORM']
 		if f_code:
-			exe_path = path.join ("build", platform, "EIFGENs", 'classic', 'F_code', self.exe_name)
+			exe_path = path.join ('build', platform, 'EIFGENs', 'classic', 'F_code', self.exe_name)
 		else:
-			exe_path = path.join ("package", platform, "bin", self.exe_name)
+			exe_path = path.join ('build', platform, 'package', 'bin', self.exe_name)
 
 		exe_dest_path = path.join (install_dir, self.exe_name + '-' + self.version)
 
-		if subprocess.call(['sudo', 'cp', '-T', exe_path, exe_dest_path]) == 0:
+		if subprocess.call (['sudo', 'cp', '-T', exe_path, exe_dest_path]) == 0:
 			print "Copied " + exe_path + " to", install_dir
 		else:
 			print "Copy error"
 
-		if subprocess.call(['sudo', 'ln', '-f', '-s', exe_dest_path, path.join (install_dir, self.exe_name)]) == 0:
+		if subprocess.call (['sudo', 'ln', '-f', '-s', exe_dest_path, path.join (install_dir, self.exe_name)]) == 0:
 			print 'Linked', self.exe_name, '->', exe_dest_path
 		else:
 			print "Link error"

@@ -14,13 +14,12 @@ python -m eiffel_loop.scripts.launch_estudio $*
 '''
 
 # Windows
-launch_estudio_bat = Template ('''@echo off
-python -m eiffel_loop.scripts.launch_estudio %*
+create_f_code_tar_gz_bat = Template ('''@echo off
+python -m eiffel_loop.scripts.ec_create_f_code_tar_gz
 ''')
 
-set_msc_environment_txt = Template ('''@echo off
-call "$setenv_cmd_path" %*
-set > "%TEMP%\msc_environment.txt"
+launch_estudio_bat = Template ('''@echo off
+python -m eiffel_loop.scripts.launch_estudio %*
 ''')
 
 escons_bat = Template ('''@echo off

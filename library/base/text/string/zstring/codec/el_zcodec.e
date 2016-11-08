@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 13:36:29 GMT (Saturday 26th December 2015)"
-	revision: "1"
+	date: "2016-09-29 7:23:13 GMT (Thursday 29th September 2016)"
+	revision: "2"
 
 deferred class
 	EL_ZCODEC
@@ -65,8 +65,8 @@ feature -- Character query
 	is_numeric (code: NATURAL): BOOLEAN
 		deferred
 		end
-		
-feature {EL_SHARED_ZCODEC} -- Access
+
+feature {EL_SHARED_ZCODEC, EL_SHARED_ZCODEC_FACTORY} -- Access
 
 	unicode_table: like new_unicode_table
 		-- map latin to unicode

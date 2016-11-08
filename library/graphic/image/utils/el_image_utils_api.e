@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 13:40:41 GMT (Wednesday 21st September 2016)"
-	revision: "3"
+	date: "2016-10-03 15:54:05 GMT (Monday 3rd October 2016)"
+	revision: "4"
 
 class
 	EL_IMAGE_UTILS_API
@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_IMAGE_UTILS_C_API
-		undefine
-			dispose
-		end
 
 create
 	make

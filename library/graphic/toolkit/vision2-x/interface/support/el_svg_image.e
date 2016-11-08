@@ -1,7 +1,5 @@
 note
-	description: "[
-		Class for converting SVG into different formats
-	]"
+	description: "Class for converting SVG into different formats"
 
 	notes: "[
 		Not 100% reliable on Windows for rendering SVG.
@@ -13,10 +11,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-07-06 19:08:26 GMT (Monday 6th July 2015)"
-	revision: "1"
+	date: "2016-10-04 7:48:49 GMT (Tuesday 4th October 2016)"
+	revision: "2"
 
 class
 	EL_SVG_IMAGE
@@ -127,7 +125,9 @@ feature {NONE} -- Disposal
 	c_free (this: POINTER)
 			--
 		do
-			Gobject.object_unref (self_ptr)
+			if not is_in_final_collect then
+				Gobject.object_unref (self_ptr)
+			end
 		end
 
 feature {NONE} -- C Externals

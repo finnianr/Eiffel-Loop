@@ -4,16 +4,16 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-10-03 15:58:40 GMT (Monday 3rd October 2016)"
+	revision: "2"
 
 class
 	EL_X11_API
 
 inherit
-	EL_MEMORY
+	EL_POINTER_ROUTINES
 
 feature {NONE} -- C Externals
 
@@ -100,41 +100,41 @@ feature {NONE} -- C Externals: Xrandr.h
             --
 		require
 			arg_attached: is_attached (output_info_ptr)
-        external
-            "C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
-        alias
-            "connection"
-        end
+      external
+      	"C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
+      alias
+			"connection"
+      end
 
     frozen XRR_output_info_mm_width (output_info_ptr: POINTER): INTEGER
             --
 		require
 			arg_attached: is_attached (output_info_ptr)
-        external
-            "C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
-        alias
-            "mm_width"
-        end
+      external
+      	"C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
+      alias
+      	"mm_width"
+      end
 
     frozen XRR_output_info_mm_height (output_info_ptr: POINTER): INTEGER
             --
 		require
 			arg_attached: is_attached (output_info_ptr)
-        external
-            "C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
-        alias
-            "mm_height"
-        end
+      external
+      	"C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
+		alias
+			"mm_height"
+		end
 
     frozen XRR_output_info_crtc (output_info_ptr: POINTER): POINTER
             --
 		require
 			arg_attached: is_attached (output_info_ptr)
-        external
-            "C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
-        alias
-            "crtc"
-        end
+      external
+      	"C [struct <X11/extensions/Xrandr.h>] (XRROutputInfo): EIF_INTEGER"
+      alias
+      	"crtc"
+      end
 
 	frozen XRR_free_output_info (output_info_ptr: POINTER)
 			-- void XRRFreeOutputInfo (XRROutputInfo *outputInfo);
@@ -150,11 +150,11 @@ feature {NONE} -- C Externals: Xrandr.h
             --
 		require
 			arg_attached: is_attached (resource_ptr)
-        external
-            "C [struct <X11/extensions/Xrandr.h>] (XRRScreenResources): EIF_INTEGER"
-        alias
-            "noutput"
-        end
+      external
+      	"C [struct <X11/extensions/Xrandr.h>] (XRRScreenResources): EIF_INTEGER"
+      alias
+      	"noutput"
+      end
 
 	frozen XRR_screen_resource_i_th_output (resource_ptr: POINTER; index: INTEGER): INTEGER
 		require

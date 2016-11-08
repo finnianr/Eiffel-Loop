@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-10-08 9:44:33 GMT (Saturday 8th October 2016)"
+	revision: "2"
 
 class
 	EL_PIXMAP
@@ -15,7 +15,7 @@ class
 inherit
 	EV_PIXMAP
 		redefine
-			sub_pixmap
+			sub_pixmap, make_with_pixel_buffer
 		end
 
 	EL_MODULE_SCREEN
@@ -31,7 +31,7 @@ inherit
 create
 	default_create,
 	make_with_size, make_with_pointer_style, make_with_pixel_buffer, make_with_rectangle,
-	make_from_other
+	make_from_other, make_scaled_to_width, make_scaled_to_height
 
 feature {NONE} -- Initialization
 
@@ -43,6 +43,39 @@ feature {NONE} -- Initialization
 	make_from_other (other: like Current)
 		do
 			make_with_pixel_buffer (create {EV_PIXEL_BUFFER}.make_with_pixmap (other))
+		end
+
+	make_scaled_to_width (other: like Current; a_width: INTEGER)
+		local
+			pixels: EL_DRAWABLE_PIXEL_BUFFER; scale_factor: DOUBLE
+		do
+			scale_factor := a_width / other.width
+			create pixels.make_rgb_24_with_size (a_width, (other.height * scale_factor).floor)
+			pixels.lock
+			pixels.draw_scaled_pixel_buffer (0, 0, scale_factor, other)
+			pixels.unlock
+			make_with_pixel_buffer (pixels)
+		end
+
+	make_scaled_to_height (other: like Current; a_height: INTEGER)
+		local
+			pixels: EL_DRAWABLE_PIXEL_BUFFER; scale_factor: DOUBLE
+		do
+			scale_factor := a_height / other.height
+			create pixels.make_rgb_24_with_size ((other.width * scale_factor).floor, a_height)
+			pixels.lock
+			pixels.draw_scaled_pixel_buffer (0, 0, scale_factor, other)
+			pixels.unlock
+			make_with_pixel_buffer (pixels)
+		end
+
+	make_with_pixel_buffer (a_pixel_buffer: EV_PIXEL_BUFFER)
+		do
+			if attached {EL_DRAWABLE_PIXEL_BUFFER} a_pixel_buffer as drawable_buffer then
+				Precursor (drawable_buffer.to_rgb_24_buffer)
+			else
+				Precursor (a_pixel_buffer)
+			end
 		end
 
 feature -- Access

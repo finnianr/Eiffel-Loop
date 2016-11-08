@@ -7,13 +7,12 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
-	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 18:33:30 GMT (Friday 8th July 2016)"
-	revision: "1"
 
-class
-	RBOX_IMPORT_NEW_MP3_APP
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-09-25 8:47:13 GMT (Sunday 25th September 2016)"
+	revision: "2"
+
+class RBOX_IMPORT_NEW_MP3_APP obsolete "Rewrite using music manager task"
 
 inherit
 	RBOX_APPLICATION
@@ -33,7 +32,7 @@ feature -- Basic operations
 		do
 			create_database
 			create new_mp3_list.make
-			across OS.file_list (database.mp3_root_location, "*.mp3") as mp3_path loop
+			across OS.file_list (database.music_dir, "*.mp3") as mp3_path loop
 				if not database.songs_by_location.has (mp3_path.item) then
 					new_mp3_list.extend (mp3_path.item)
 				end
@@ -69,14 +68,14 @@ feature -- Test operations
 			normal_initialize
 
 			song1 := database.new_song
-			song1.set_mp3_path (database.mp3_root_location + "Tango/Carlos Di Sarli/disarli.mp3")
+			song1.set_mp3_path (database.music_dir + "Tango/Carlos Di Sarli/disarli.mp3")
 			song1.set_title ("La Racha")
 			song1.set_genre ("Latin")
 			song1.set_artist ("Carlos Di Sarli")
 			song1.set_album ("Carlos Di Sarli greatest hits")
 
 			song2 := database.new_song
-			song2.set_mp3_path (database.mp3_root_location + "Vals/Edgardo Donato/estrellita.mp3")
+			song2.set_mp3_path (database.music_dir + "Vals/Edgardo Donato/estrellita.mp3")
 			song2.set_title ("Estrellita Mia")
 			song2.set_genre ("Latin")
 			song2.set_artist ("Edgardo Donato with Horacio Lagos, Romeo Gavioli and Lita Morales")

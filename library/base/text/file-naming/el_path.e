@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-06 8:22:54 GMT (Saturday 6th August 2016)"
-	revision: "2"
+	date: "2016-10-03 9:38:12 GMT (Monday 3rd October 2016)"
+	revision: "4"
 
 deferred class
 	EL_PATH
@@ -74,7 +74,7 @@ feature {NONE} -- Initialization
 	make_from_other (other: EL_PATH)
 		do
 			base := other.base.twin
-			parent_path := other.parent_path.twin
+			parent_path := other.parent_path
 			is_absolute := other.is_absolute
 		end
 
@@ -104,7 +104,6 @@ feature -- Initialization
 					end
 				end
 			end
-
 			set_parent_path (norm_path.substring (1, pos_last_separator))
 			base := norm_path.substring (pos_last_separator + 1, norm_path.count)
 		end
@@ -122,6 +121,12 @@ feature -- Access
 		end
 
 	base: ZSTRING
+
+	base_sans_extension: ZSTRING
+		do
+			Result := base.twin
+			prune_extension (Result)
+		end
 
 	count: INTEGER
 		-- Character count
@@ -381,7 +386,7 @@ feature -- Element change
 		local
 			l_parent_set: like Parent_set; l_parent: ZSTRING
 		do
-			l_parent  := a_parent.twin
+			l_parent := a_parent.twin
 			if l_parent.is_empty then
 				parent_path := l_parent
 			else
@@ -435,10 +440,15 @@ feature -- Removal
 
 	remove_extension
 		do
-			base.remove_tail (base.count - base.last_index_of ('.', base.count) + 1 )
+			prune_extension (base)
 		end
 
 feature -- Conversion
+
+	escaped: ZSTRING
+		do
+			Result := File_system.escaped_path (Current)
+		end
 
 	expanded_path: like Current
 		do
@@ -462,7 +472,7 @@ feature -- Conversion
 			parent_is_parent: a_parent.is_parent_of (Current)
 		do
 			Result := new_relative_path
-			Result.parent_path.remove_head (a_parent.parent_path.count + a_parent.base.count + 1)
+			Result.set_parent_path (parent_path.substring (a_parent.count + 2, parent_path.count))
 			Result.set_relative
 		end
 
@@ -612,12 +622,6 @@ feature {EL_PATH} -- Implementation
 			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
 		end
 
-	parent_set: DS_HASH_SET [ZSTRING]
-			--
-		once
-			create Result.make_equal (100)
-		end
-
 	remove_base
 		require
 			has_parent: has_parent
@@ -632,6 +636,11 @@ feature {EL_PATH} -- Implementation
 				base := parent_path.substring (pos_separator + 1, pos_last_separator - 1)
 				set_parent_path (parent_path.substring (1, pos_separator))
 			end
+		end
+
+	prune_extension (a_name: like base)
+		do
+			a_name.remove_tail (a_name.count - a_name.last_index_of ('.', a_name.count) + 1 )
 		end
 
 	new_relative_path: EL_PATH
@@ -674,6 +683,12 @@ feature {NONE} -- Constants
 		end
 		-- Greatest prime lower than 2^23
 		-- so that this magic number shifted to the left does not exceed 2^31.
+
+	Parent_set: DS_HASH_SET [ZSTRING]
+			--
+		once
+			create Result.make_equal (100)
+		end
 
 	Separator: CHARACTER_32
 		once

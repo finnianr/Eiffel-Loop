@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 17:37:55 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2016-10-03 10:13:56 GMT (Monday 3rd October 2016)"
+	revision: "3"
 
 class
 	EL_FILE_PATH
@@ -28,10 +28,15 @@ convert
 
 feature -- Access
 
-	modification_time: DATE_TIME
+	modification_time: INTEGER
+		do
+			Result := File_system.modification_time (Current)
+		end
+
+	modification_date_time: DATE_TIME
 		do
 			if exists then
-				create Result.make_from_epoch (File_system.closed_raw_file (Current).date)
+				create Result.make_from_epoch (modification_time)
 			else
 				create Result.make (0, 0, 0, 0, 0, 0)
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-23 10:47:28 GMT (Tuesday 23rd August 2016)"
-	revision: "2"
+	date: "2016-10-03 8:55:27 GMT (Monday 3rd October 2016)"
+	revision: "3"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -249,10 +249,6 @@ feature {NONE} -- Deferred implementation
 	command_prefix: STRING_32
 			-- For Windows to force unicode output using "cmd /U /C"
 			-- Empty in Unix
-		deferred
-		end
-
-	escaped_path (a_path: EL_PATH): ZSTRING
 		deferred
 		end
 

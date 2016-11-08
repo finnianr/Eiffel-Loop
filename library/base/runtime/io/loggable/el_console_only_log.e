@@ -8,10 +8,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 6:54:18 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2016-10-04 8:12:05 GMT (Tuesday 4th October 2016)"
+	revision: "2"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -205,7 +205,7 @@ feature -- Numeric output
 			log_sink.put_elapsed_time
 		end
 
-feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LOG} -- Element change
+feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LIO} -- Element change
 
 	restore (previous_stack_count: INTEGER)
 			--

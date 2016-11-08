@@ -5,16 +5,16 @@
 #	date: "11 Jan 2010"
 #	revision: "0.1"
 
-import os, platform
-from os import path
+import os
+from os.path import *
 
 def curdir ():
-	result = path.abspath (os.curdir)
+	result = abspath (os.curdir)
 	return result
 
 def curdir_up_to (step):
 	result = curdir ()
 	if step in result.split (os.sep):
-		while path.basename (result) != step:
-			result = path.dirname (result)
+		while basename (result) != step:
+			result = dirname (result)
 	return result

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-26 12:34:27 GMT (Friday 26th August 2016)"
-	revision: "3"
+	date: "2016-11-07 10:07:13 GMT (Monday 7th November 2016)"
+	revision: "5"
 
 class EXPERIMENTS_APP
 
@@ -38,8 +38,8 @@ feature -- Basic operations
 
 	run
 		do
-			lio.enter ("string_to_integer_conversion")
-			string_to_integer_conversion
+			lio.enter ("char_compression")
+			char_compression
 			lio.exit
 		end
 
@@ -95,6 +95,32 @@ feature -- Experiments
 			log.put_boolean (b2_ref.item)
 		end
 
+	char_compression
+		local
+			a_fold: ARRAY [CHARACTER]
+			fold_i_m_1_i: NATURAL; i: INTEGER
+		do
+			io.put_string ("Constant: "); io.put_natural ((('W').natural_32_code |<< 8) | ('W').natural_32_code)
+			a_fold := << 'N', 'W' >>
+			i := 2
+			inspect ((a_fold [i - 1]).natural_32_code |<< 8) | (a_fold [i]).natural_32_code
+				when Dir_n_n then
+				when Dir_n_w then
+				when Dir_w_w then
+
+				-- and so forth
+			else
+			end
+		end
+
+
+	distributed_work_queue
+		local
+			queue: EL_WORK_DISTRIBUTER [like Current]
+		do
+
+		end
+
 	circular_removal
 		local
 			list: TWO_WAY_CIRCULAR [STRING]
@@ -114,6 +140,15 @@ feature -- Experiments
 	container_extension
 		do
 			extend_container (create {ARRAYED_LIST [EL_DIR_PATH]}.make (0))
+		end
+
+	date_validity_check
+		local
+			checker: DATE_VALIDITY_CHECKER; str: STRING
+		do
+			create checker
+			str := "2015-12-50"
+			log.put_labeled_string (str, checker.date_valid (str, "yyyy-[0]mm-[0]dd").out)
 		end
 
 	default_tuple_comparison
@@ -138,6 +173,30 @@ feature -- Experiments
 	escaping_text
 		do
 			log.put_string_field ("&aa&bb&", escaped_text ("&aa&bb&").as_string_8)
+		end
+
+	file_date_setting
+		local
+			file, file_copy: RAW_FILE
+		do
+			create file.make_open_read ("data\01.png")
+			create file_copy.make_open_write ("data\01(copy).png")
+			file.copy_to (file_copy)
+			file.close; file_copy.close
+			file_copy.stamp (1418308263)
+		end
+
+	file_stamp
+		local
+			file: PLAIN_TEXT_FILE
+			date: DATE_TIME
+		do
+			create file.make_open_write ("data\file.txt")
+			file.put_string ("hello"); file.close
+--			file.add_permission ("u", "Write Attributes")
+			create date.make_from_epoch (1418308263)
+			lio.put_labeled_string ("Date", date.out)
+			file.set_date (1418308263)
 		end
 
 	file_position
@@ -189,6 +248,26 @@ feature -- Experiments
 			type_32 := {ARRAYED_LIST [STRING_32]}
 		end
 
+	hash_table_removal
+		local
+			table: HASH_TABLE [STRING, INTEGER]
+		do
+			create table.make (10)
+			across (1 |..| 10) as n loop
+				table [n.item] := n.item.out
+			end
+			-- remove all items except number 1
+			across table.current_keys as n loop
+				if n.item = 5 then
+					table.remove (n.item)
+				end
+			end
+			across table as n loop
+				lio.put_integer (n.key); lio.put_character (':'); lio.put_string (n.item)
+				lio.put_new_line
+			end
+		end
+
 	hexadecimal_to_natural_64
 		do
 			log.put_string (String_8.hexadecimal_to_natural_64 ("0x00000982").out)
@@ -203,6 +282,25 @@ feature -- Experiments
 			temp := dir + "temp"
 			log.put_string_field ("Path", temp.as_windows.to_string)
 		end
+
+	once_order_test (a_first: BOOLEAN)
+		local
+--			a, b: A; c: CHARACTER
+			a: A; b: B; c: CHARACTER
+		do
+--			create a; create {B} b
+			create a; create b
+			if a_first then
+				c := a.character; c := b.character
+			else
+				c := b.character; c := a.character
+			end
+
+			lio.put_string ("a.character: " + a.character.out)
+			lio.put_string (" b.character: " + b.character.out)
+			lio.put_new_line
+		end
+
 
 	my_procedure_test
 		local
@@ -640,5 +738,11 @@ feature {NONE} -- Constants
 		end
 
 	Option_name: STRING = "experiments"
+
+	Dir_n_n: NATURAL = 20046
+
+	Dir_n_w: NATURAL = 20055
+
+	Dir_w_w: NATURAL = 22359
 
 end
