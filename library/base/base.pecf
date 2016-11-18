@@ -65,11 +65,7 @@ system:
 		# GOBO
 		library:
 			name = gobo_base; location = "../gobo-base.ecf"
-
-		library:
-			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
-
-				
+			
 		# CLUSTERS
 		cluster:
 			name = data_structure; location = "data_structure"; recursive = true

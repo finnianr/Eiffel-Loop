@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:33:26 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -23,7 +23,7 @@ feature {NONE} -- Initialization
 	make (a_element: STORABLE_TYPE; a_index: INTEGER)
 			--
 		do
-			make_serializeable
+			make_default
 			element := a_element
 			index := a_index
 			has_element := True

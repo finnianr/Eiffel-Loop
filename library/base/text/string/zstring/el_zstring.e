@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-25 17:10:56 GMT (Monday 25th July 2016)"
 	revision: "1"
@@ -62,6 +62,8 @@ inherit
 		end
 
 	INDEXABLE [CHARACTER_32, INTEGER]
+		rename
+			upper as count
 		undefine
 			copy, is_equal, out
 		redefine

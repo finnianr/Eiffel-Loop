@@ -47,6 +47,7 @@ feature -- Basic operations
 	execute
 		do
 			log.enter ("execute")
+			File_system.make_directory (output_dir)
 			across Editor_factory.alias_names as relative_path loop
 				override (relative_path.item)
 			end
@@ -99,7 +100,7 @@ feature {NONE} -- Constants
 			)
 			-- Vision2 common
 			Result.put (
-				{EV_ENVIRONMENT_HANDLER_EIFFEL_FEATURE_EDITOR}, "vision2/interface/kernel/ev_environment_handler.e"
+				{EV_ENVIRONMENT_I_EIFFEL_FEATURE_EDITOR}, "vision2/implementation/implementation_interface/kernel/ev_environment_i.e"
 			)
 			-- Vision2 mswin
 			Result.put (

@@ -90,9 +90,6 @@ system:
 			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
 
 		# Gobo
-		library: 
-			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
-
 		library:
 			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
 

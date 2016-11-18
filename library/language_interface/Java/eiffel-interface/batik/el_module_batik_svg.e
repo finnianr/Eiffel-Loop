@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -15,19 +15,15 @@ class
 inherit
 	EL_MODULE_JAVA_PACKAGES
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
-
-	EL_MODULE_PATH
+	EL_MODULE_DIRECTORY
 
 feature {NONE} -- Initialization
 
 	open_batik_package (error_action: PROCEDURE [ANY, TUPLE [STRING]])
 		do
 			if Java_packages.is_java_installed then
-				Java_packages.append_jar_locations (<<
-					Directory.joined_path (Execution_environment.Application_installation_dir, "batik-1.7")
-				>>)
-				Java_packages.append_class_locations (<< Execution_environment.Application_installation_dir >>)
+				Java_packages.append_jar_locations (<< Directory.Application_installation.joined_dir_path ("batik-1.7") >>)
+				Java_packages.append_class_locations (<< Directory.Application_installation >>)
 				Java_packages.open (<< "batik-rasterizer" >>)
 				if Java_packages.is_open then
 					is_java_prepared.set_item (True)

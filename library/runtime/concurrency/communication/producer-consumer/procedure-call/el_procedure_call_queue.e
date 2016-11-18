@@ -14,9 +14,6 @@ class
 
 inherit
 	EL_THREAD_PRODUCT_QUEUE	[PROCEDURE [BASE_TYPE, OPEN_ARGS]]
-		rename
-			put as call
-		end
 
 create
 	make

@@ -52,10 +52,7 @@ system:
 					value = unix
 
 		library: 
-			name = "base"; location = "$ISE_LIBRARY/library/base/base.ecf"
-
-		library: 
-			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library:
 			name = gobo_base; location = "gobo-base.ecf"

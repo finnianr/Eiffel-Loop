@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-30 16:31:26 GMT (Tuesday 30th December 2014)"
 	revision: "1"
@@ -22,7 +22,7 @@ inherit
 		undefine
 			off, index_of, occurrences, has, do_all, do_if, there_exists, for_all, is_equal, search, copy,
 			i_th, at, last, first, valid_index, is_inserted, move, start, finish, go_i_th, put_i_th,
-			force, append, prune, prune_all, remove, swap
+			force, append, prune, prune_all, remove, swap, new_cursor
 		end
 
 create

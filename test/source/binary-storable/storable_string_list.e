@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-02-07 12:47:46 GMT (Sunday 7th February 2016)"
 	revision: "1"
@@ -22,7 +22,7 @@ inherit
 			do_all, do_if, there_exists, has, for_all,
 			start, search, finish, at,
 			append, swap, force, copy, prune_all, prune, move,
-			put_i_th, i_th, go_i_th
+			put_i_th, i_th, go_i_th, new_cursor
 		end
 
 	ARRAYED_LIST [STORABLE_STRING]

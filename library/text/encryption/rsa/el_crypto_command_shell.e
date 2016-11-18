@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 10:15:42 GMT (Friday 8th July 2016)"
 	revision: "1"
@@ -145,10 +145,8 @@ feature -- Basic operations
 
 	write_string_signed_with_x509_private_key
 		local
-			private_key: like new_private_key
-			string: ZSTRING; source_code: PLAIN_TEXT_FILE
-			signed_string: SPECIAL [NATURAL_8]
-			variable_name: STRING
+			private_key: like new_private_key; string: ZSTRING; source_code: PLAIN_TEXT_FILE
+			signed_string: SPECIAL [NATURAL_8]; variable_name: STRING
 		do
 			lio.enter ("write_string_signed_with_x509_private_key")
 			private_key := new_private_key
@@ -351,8 +349,7 @@ feature {NONE} -- Factory
 
 	new_private_key: EL_RSA_PRIVATE_KEY
 		local
-			key_file_path: EL_FILE_PATH
-			encrypter: EL_AES_ENCRYPTER
+			key_file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER
 		do
 			from create key_file_path until key_file_path.extension.same_string ("aes") loop
 				key_file_path := new_file_path ("key.text.aes")

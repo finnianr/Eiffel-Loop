@@ -32,13 +32,6 @@ inherit
 			default_create, is_equal, copy
 		end
 
-	KL_IMPORTED_INTEGER_ROUTINES
-		rename
-			Integer_ as Integer
-		undefine
-			default_create, is_equal, copy
-		end
-
 	OCTAL_UTILS
 		export
 			{NONE} all

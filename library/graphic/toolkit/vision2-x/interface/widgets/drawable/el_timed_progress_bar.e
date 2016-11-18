@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-04 10:38:49 GMT (Monday 4th January 2016)"
 	revision: "1"
@@ -62,7 +62,7 @@ feature {NONE} -- Initialization
 		do
 			default_create
 			make_consumer
-			make_event_producer (Current, "Progress bar timer", 100)
+			make_event_producer (Current, 100)
 
 			create colors
 			set_background_color (colors.Color_3d_face)

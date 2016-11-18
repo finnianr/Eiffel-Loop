@@ -29,12 +29,17 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent http_test_set.test_download_document_and_headers)
+			do_file_data_test (agent se_array2_test_set.test_array_read_write)
 		end
 
 feature -- Tests
 
 	audio_command_test_set: AUDIO_COMMAND_TEST_SET
+		do
+			create Result
+		end
+
+	se_array2_test_set: SE_ARRAY2_TEST_SET
 		do
 			create Result
 		end
@@ -97,6 +102,7 @@ feature {NONE} -- Constants
 				[{AUDIO_COMMAND_TEST_SET}, All_routines],
 				[{FTP_TEST_SET}, All_routines],
 				[{HTTP_CONNECTION_TEST_SET}, All_routines]
+--				[{SE_ARRAY2_TEST_SET}, All_routines]
 --				[{EL_WAV_TO_MP3_COMMAND_IMP}, All_routines]
 --				[{EL_GVFS_OS_COMMAND}, All_routines]
 			>>

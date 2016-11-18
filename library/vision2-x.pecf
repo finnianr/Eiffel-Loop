@@ -2,9 +2,9 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-15-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
-	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
 	name = EL_vision2_x 
 	uuid = "229b7510-09aa-11df-87be-876e1b168743" 
 	library_target = EL_vision2_x
@@ -20,11 +20,11 @@ system:
 		root:
 			all_classes = true
 
-		option: 
-			trace = false; debug = false; warning = true; syntax = standard
+		option:
+			warning = true; full_class_checking = false; is_attached_by_default = false
+			void_safety = none; syntax = standard; is_obsolete_routine_type = true
 			assertions:
 				precondition = true; postcondition = true; check = false; invariant = false
-			#precondition = true; postcondition = true; check = true; invariant = true
 
 		# Unix externals
 
@@ -123,22 +123,19 @@ system:
 				platform:
 					value = windows
 
+		# Gobo
 		library:
 			name = gobo_base; location = "gobo-base.ecf"
-
-		library:
-			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
 
 		# Eiffel-Loop
 		library:
 			name = EL_base; location = "base/base.ecf"
-			readonly = false
 
 		library:
 			name = EL_c_api; location = "C-language-interface.ecf"
 
 		library:
-			name = EL_database; location = "database.ecf"
+			name = EL_search; location = "search-engine.ecf"
 
 		library:
 			name = EL_image_utils; location = "image-utils.ecf"

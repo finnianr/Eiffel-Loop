@@ -4,8 +4,8 @@ note
 		%simple pixmap (not drawable, not self-displayable)"
 	legal: "See notice at end of class."
 	status: "See notice at end of class."
-	date: "$Date: 2014-05-20 22:31:22 -0700 (Tue, 20 May 2014) $"
-	revision: "$Revision: 95138 $"
+	date: "$Date: 2015-12-17 05:34:17 -0800 (Thu, 17 Dec 2015) $"
+	revision: "$Revision: 98279 $"
 
 class
 	EV_PIXMAP_IMP
@@ -438,7 +438,7 @@ feature {EV_ANY_I} -- Delegated features
 			attached_interface.implementation.set_pebble (a_pebble)
 		end
 
-	set_pebble_function (a_function: FUNCTION [ANY, TUPLE, detachable ANY])
+	set_pebble_function (a_function: FUNCTION [detachable ANY])
 			-- Set `a_function' to compute `pebble'.
 		do
 			promote_to_widget

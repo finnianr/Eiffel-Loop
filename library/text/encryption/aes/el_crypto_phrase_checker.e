@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 7:05:31 GMT (Wednesday 16th December 2015)"
 	revision: "1"
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 	make_with_phrase (a_phrase: ZSTRING)
 		do
 			salt := generate_uuid.out
-			digest := new_digest (a_phrase.to_utf8)
+			digest := new_digest (a_phrase.to_utf_8)
 		end
 
 	make_from_base64 (a_salt, a_base64_digest: STRING)
@@ -75,7 +75,7 @@ feature -- Status query
 
 	is_valid (a_phrase: ZSTRING): BOOLEAN
 		do
-			Result := digest ~ new_digest (a_phrase.to_utf8)
+			Result := digest ~ new_digest (a_phrase.to_utf_8)
 		end
 
 	is_default_state: BOOLEAN

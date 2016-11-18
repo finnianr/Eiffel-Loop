@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-21 11:21:01 GMT (Tuesday 21st June 2016)"
 	revision: "1"
@@ -19,25 +19,27 @@ inherit
 
 	EL_MODULE_ENVIRONMENT
 
+	EL_MODULE_MACHINE_ID
+
+	EL_MODULE_RSA
+
 create
 	make
 
 feature {NONE} -- Initiliazation
 
-	make (registration_name: STRING; private_key_path: EL_FILE_PATH)
+	make (registration_name: STRING; private_key_path: EL_FILE_PATH; private_key_encrypter: EL_AES_ENCRYPTER)
 			--
 		local
-			key_reader: EL_X509_CERTIFICATE_READER_COMMAND_I
---			private: EL_STORABLE_RSA_PRIVATE_KEY
-			user_cpu_source: STRING
+			private_key: EL_RSA_PRIVATE_KEY; user_machine_md5: EL_MD5_128
 		do
+			private_key := RSA.private_key (private_key_path, private_key_encrypter)
 
-			create private.make_from_file (private_key_path)
+			create user_machine_md5.make_copy (Machine_id.md5)
+			user_machine_md5.sink_string (registration_name)
+			create user_cpu_digest.make_from_bytes (user_machine_md5.digest, 0, 15)
 
-			user_cpu_source := registration_name + " " + Environment.Operating.CPU_model_name
-			create user_cpu_digest.make_from_bytes (Encryption.md5_digest_16 (user_cpu_source), 0, 15)
-
-			signature := private.sign (user_cpu_digest)
+			signature := private_key.sign (user_cpu_digest)
 			create activation_key.make (registration_name, Base_64.encoded_special (signature.as_bytes))
 		end
 

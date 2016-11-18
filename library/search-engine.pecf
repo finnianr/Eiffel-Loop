@@ -5,21 +5,15 @@ system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = EL_database
-	uuid = "229B73E4-09AA-11DF-87BB-93E5E9639079" 
-	library_target = EL_database
+	name = EL_search
+	uuid = "131C239A-ACDD-11E6-B781-137D77BA6302" 
+	library_target = EL_search
 	
 	target:
-		name = EL_database
+		name = EL_search
 		
 		description: 
-			"""
-				1. A simple database based on the Eiffel CHAIN class interface
-				Supports transactions and encryption
-				
-				2. A simple XML database based on VTD-XML xpath and XML parsing library.
-				Supports transactions and encryption
-			"""
+			"Search engine classes"
 		option: 
 			trace = false; debug = false; warning = true; syntax = standard
 
@@ -39,15 +33,9 @@ system:
 		library:
 			name = EL_encryption; location = "encryption.ecf"
 
-		library:
-			name = EL_evolicity; location = "evolicity.ecf"
-
-		library:
-			name = EL_vtd_xml; location = "vtd-xml.ecf"
-
 		# Source code
 		cluster:
-			name = database; location = "persistency/database"; recursive = true; readonly = false
+			name = database; location = "persistency/search-engine"; recursive = true; readonly = false
 			
 
 

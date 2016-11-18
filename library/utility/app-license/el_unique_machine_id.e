@@ -13,51 +13,19 @@ class
 	EL_UNIQUE_MACHINE_ID
 
 inherit
-	EL_MD5_16
-		rename
-			digest as array_value,
-			digest_string as string_value
-		export
-			{NONE} all
-			{ANY} array_value, string_value
-		redefine
-			make
-		end
-
 	KL_PART_COMPARATOR [EL_IP_ADAPTER]
 		export
 			{NONE} all
-		undefine
-			is_equal
 		end
 
 	EL_IP_ADAPTER_CONSTANTS
 		export
 			{NONE} all
-		undefine
-			is_equal
-		end
-
-	EL_MODULE_BASE_64
-		export
-			{NONE} all
-		undefine
-			is_equal
 		end
 
 	EL_MODULE_ENVIRONMENT
-		export
-			{NONE} all
-		undefine
-			is_equal
-		end
 
 	EL_MODULE_OS
-		export
-			{NONE} all
-		undefine
-			is_equal
-		end
 
 create
 	make
@@ -66,17 +34,25 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			Precursor
-			sink_string (OS.Cpu_model_name)
-			sink_array (mac_address)
+			create md5.make
+			md5.sink_string (OS.Cpu_model_name)
+			md5.sink_array (mac_address)
 		end
 
 feature -- Access
 
 	base_64_value: STRING
 		do
-			Result := Base_64.encoded_special (array_value)
+			Result := md5.digest_base_64
 		end
+
+	array_value: like md5.digest
+		do
+			Result := md5.digest
+		end
+
+	md5: EL_MD5_128
+		-- 128 bit MD5 digest
 
 feature {NONE} -- Implementation
 

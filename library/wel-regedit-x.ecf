@@ -21,6 +21,6 @@
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<!--Source code-->
-		<cluster name = "win_registry" location = "persistency/database/win-registry" recursive = "true"/>
+		<cluster name = "win_registry" location = "persistency/win-registry" recursive = "true"/>
 	</target>
 </system>

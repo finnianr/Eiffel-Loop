@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-07 16:34:35 GMT (Thursday 7th July 2016)"
 	revision: "1"
@@ -209,7 +209,7 @@ feature {NONE} -- Implementation
 	extension_edition (edition_node: EL_XPATH_NODE_CONTEXT): like Type_extension_edition
 			--
 		do
-			create Result.make (create {STORABLE_TYPE}.make)
+			create Result.make (create {STORABLE_TYPE}.make_default)
 			prepare_element (Result.element)
 			Result.element.set_from_xpath_node (edition_node.found_node)
 		end
@@ -217,7 +217,7 @@ feature {NONE} -- Implementation
 	replacement_edition (edition_node: EL_XPATH_NODE_CONTEXT): like Type_replacement_edition
 			--
 		do
-			create Result.make (create {STORABLE_TYPE}.make, edition_node.attributes.integer ("index"))
+			create Result.make (create {STORABLE_TYPE}.make_default, edition_node.attributes.integer ("index"))
 			prepare_element (Result.element)
 			Result.element.set_from_xpath_node (edition_node.found_node)
 		end

@@ -21,8 +21,12 @@
 			</condition>
 		</external_object>
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
-		<library name = "gobo_kernel" location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"/>
-		<!--Eiffel-Loop-->
+		<!--
+			library:
+			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
+			
+			Eiffel-Loop
+		-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>

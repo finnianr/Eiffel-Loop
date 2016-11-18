@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-16 11:47:05 GMT (Wednesday 16th March 2016)"
 	revision: "1"
@@ -14,6 +14,11 @@ class
 
 inherit
 	COMPARABLE
+
+	EL_STRING_CONSTANTS
+		undefine
+			is_equal
+		end
 
 create
 	make, make_with_lines
@@ -25,7 +30,7 @@ feature {NONE} -- Initialization
 			create lines.make (5)
 			lines.extend (first_line)
 			update_name
-			found_line := Default_line
+			found_line := Empty_string
 		end
 
 	make_with_lines (a_lines: like lines)
@@ -52,7 +57,7 @@ feature -- Status query
 
 	found: BOOLEAN
 		do
-			Result := found_line /= Default_line
+			Result := found_line /= Empty_string
 		end
 
 feature -- Basic operations
@@ -61,7 +66,7 @@ feature -- Basic operations
 		do
 			lines.find_first (True, agent {ZSTRING}.has_substring (substring))
 			if lines.exhausted then
-				found_line := Default_line
+				found_line := Empty_string
 			else
 				found_line := lines.item
 			end
@@ -118,7 +123,7 @@ feature -- Element change
 			a_lines.do_all (agent lines.extend)
 			lines.indent (1)
 			update_name
-			found_line := Default_line
+			found_line := Empty_string
 			lines.start
 			lines.put_auto_edit_comment_right ("replacement", 3)
 		end
@@ -277,11 +282,6 @@ feature {NONE} -- String Constants
 			Result := "%T%Tend"
 		end
 
-	Default_line: ZSTRING
-		once
-			create Result.make_empty
-		end
-
 	Dot_after: ZSTRING
 		once
 			Result := ".after"
@@ -341,7 +341,7 @@ feature {NONE} -- Constants
 					do
 						$name := a_$name
 					end
-				
+
 			]")
 		end
 

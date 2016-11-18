@@ -25,7 +25,10 @@ system:
 				"/release$"
 				"/obsolete$"
 		option:
-			namespace = "EiffelSoftware.Library.Docking"
+			warning = true; full_class_checking = false; is_attached_by_default = false
+			void_safety = none; syntax = standard; namespace = "EiffelSoftware.Library.Docking"
+			warning:
+				name = syntax; enabled = false
 		setting:
 			name = dotnet_naming_convention; value = true
 		library:

@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -23,6 +23,11 @@ inherit
 			copy, default_create
 		end
 
+	EL_MODULE_VISION_2
+		undefine
+			copy, default_create
+		end
+
 	EL_EVENT_LISTENER
 		undefine
 			copy, default_create
@@ -37,8 +42,8 @@ feature {NONE} -- Initialization
 		do
 			create progress_bar.make_with_value_range (1 |..| range_upper)
 			progress_bar.disable_segmentation
-			
-			label := GUI.label_with_font (label_text, a_font)
+
+			label := Vision_2.new_label_with_font (label_text, a_font)
 
 			default_create
 		end
@@ -49,10 +54,10 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 
-			frame := GUI.vertical_framed_box (0.4, 0.2, "", << label, progress_bar >>)
+			frame := Vision_2.new_vertical_framed_box (0.4, 0.2, "", << label, progress_bar >>)
 			frame.set_style (GUI.Ev_frame_raised)
 
-			extend (GUI.vertical_box (0.15, 0, << frame >>))
+			extend (Vision_2.new_vertical_box (0.15, 0, << frame >>))
 		end
 
 feature {NONE} -- Implementation

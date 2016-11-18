@@ -2,8 +2,8 @@ note
 	description: "Objects that contain all the singletons in Smart Docking library."
 	legal: "See notice at end of class."
 	status: "See notice at end of class."
-	date: "$Date: 2013-08-16 14:54:39 -0700 (Fri, 16 Aug 2013) $"
-	revision: "$Revision: 92882 $"
+	date: "$Date: 2015-12-17 05:34:17 -0800 (Thu, 17 Dec 2015) $"
+	revision: "$Revision: 98279 $"
 
 class
 	SD_SHARED
@@ -65,17 +65,17 @@ feature -- Access
 			not_void: Result /= Void
 		end
 
-	widget_factory: like Type_widget_factory
+					widget_factory: like Type_widget_factory
 			-- AUTO EDITION: replacement
-			-- SD_WIDGET_FACTORY instance.
-		do
-			if attached {like Type_widget_factory} widget_factory_cell.item as l_result then
-				Result := l_result
-			else
-				create Result.make
-				widget_factory_cell.put (Result)
-			end
-		end
+							-- SD_WIDGET_FACTORY instance.
+						do
+							if attached {like Type_widget_factory} widget_factory_cell.item as l_result then
+								Result := l_result
+							else
+								create Result.make
+								widget_factory_cell.put (Result)
+							end
+						end
 	
 	tool_bar_docker_mediator_cell: CELL [detachable SD_TOOL_BAR_DOCKER_MEDIATOR]
 			-- Tool bar docker mediator when user dragging a SD_TOOL_BAR_ZONE.
@@ -160,7 +160,7 @@ feature -- Right click menu items
 			set: notebook_tab_area_menu_items_agent = a_agent
 		end
 
-	notebook_tab_area_menu_items_agent: detachable FUNCTION [ANY, TUPLE [SD_CONTENT], ARRAYED_LIST [EV_MENU_ITEM]]
+	notebook_tab_area_menu_items_agent: detachable FUNCTION [SD_CONTENT, ARRAYED_LIST [EV_MENU_ITEM]]
 			-- Menu items shown at notebook tab area
 			-- Client programmers can customize the menu items here
 			-- Same as `notebook_tab_area_menu_items' but has higer priority than `notebook_tab_area_menu_items'
@@ -185,7 +185,7 @@ feature -- Right click menu items
 			set: title_bar_area_menu_items_agent = a_agent
 		end
 
-	title_bar_area_menu_items_agent: detachable FUNCTION [ANY, TUPLE [SD_CONTENT], ARRAYED_LIST [EV_MENU_ITEM]]
+	title_bar_area_menu_items_agent: detachable FUNCTION [SD_CONTENT, ARRAYED_LIST [EV_MENU_ITEM]]
 			-- Menu items shown at {SD_CONTENT}'s title bar.
 			-- Client programmers can customize the menu items here.	
 			-- Same as `title_bar_area_menu_items' but has higer priority than `title_bar_area_menu_items
@@ -785,31 +785,31 @@ feature {NONE} -- Implementation
 			create Result.put (False)
 		end
 
-	title_bar_area_menu_items_agent_cell: CELL [detachable FUNCTION [ANY, TUPLE [SD_CONTENT], ARRAYED_LIST [EV_MENU_ITEM]]]
+	title_bar_area_menu_items_agent_cell: CELL [detachable FUNCTION [SD_CONTENT, ARRAYED_LIST [EV_MENU_ITEM]]]
 			-- Singleton cell for `title_bar_area_menu_items_agent'
 		once
 			create Result.put (Void)
 		end
 
-	notebook_tab_area_menu_items_agent_cell: CELL [detachable FUNCTION [ANY, TUPLE [SD_CONTENT], ARRAYED_LIST [EV_MENU_ITEM]]]
+	notebook_tab_area_menu_items_agent_cell: CELL [detachable FUNCTION [SD_CONTENT, ARRAYED_LIST [EV_MENU_ITEM]]]
 			-- Singleton cell for `notebook_tab_area_menu_items_agent'
 		once
 			create Result.put (Void)
 		end
 
-	Widget_factory_cell: CELL [SD_WIDGET_FACTORY]
+					Widget_factory_cell: CELL [SD_WIDGET_FACTORY]
 				-- AUTO EDITION: new insertion
-		once ("PROCESS")
-			create Result.put (Void)
-		end
+						once ("PROCESS")
+							create Result.put (Void)
+						end
 	
 feature {NONE} -- Type definitions
 -- AUTO EDITION: new feature group
 
-	Type_widget_factory: SD_WIDGET_FACTORY
+					Type_widget_factory: SD_WIDGET_FACTORY
 				-- AUTO EDITION: new insertion
-		once
-		end
+						once
+						end
 	
 note
 	library:	"SmartDocking: Library of reusable components for Eiffel."
