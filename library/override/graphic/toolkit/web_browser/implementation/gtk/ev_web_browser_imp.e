@@ -1,5 +1,7 @@
 note
-	description: "Vision2 Web browser GTK implementation"
+	description: "[
+			Vision2 Web browser GTK implementation
+									]"
 	date: "$Date: 2013-09-17 04:15:21 -0700 (Tue, 17 Sep 2013) $"
 	revision: "$Revision: 92943 $"
 

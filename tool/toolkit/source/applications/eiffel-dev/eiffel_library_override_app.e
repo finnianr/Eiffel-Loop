@@ -29,14 +29,14 @@ feature {NONE} -- Implementation
 		do
 			create Result
 			Result.ise_eiffel_dir := ""
-			Result.output_dir := ""
+			Result.output_dir := "workarea"
 		end
 
 	argument_specs: ARRAY [like Type_argument_specification]
 		do
 			Result := <<
 				required_existing_path_argument ("ise_eiffel", "Path to EiffelStudio installation"),
-				required_existing_path_argument ("output", "Output directory")
+				required_argument ("output", "Output directory")
 			>>
 		end
 
@@ -44,9 +44,7 @@ feature {NONE} -- Constants
 
 	Option_name: STRING = "library_override"
 
-	Description: STRING = "[
-		Generates override of standard libaries to work with Eiffel-Loop
-	]"
+	Description: STRING = "Generates override of standard libaries to work with Eiffel-Loop"
 
 	Log_filter: ARRAY [like Type_logging_filter]
 			--

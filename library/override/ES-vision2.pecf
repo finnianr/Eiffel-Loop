@@ -276,6 +276,9 @@ system:
 			location = "$ISE_LIBRARY/library/vision2/implementation/implementation_interface"; recursive = true
 			option:
 				namespace = "Vision2.$$Implementation.Interface"
+			file_rule:
+				exclude:
+					"/ev_environment_i\.e"
 		cluster:
 			name = implementation_mswin; location = "$ISE_LIBRARY/library/vision2/implementation/mswin"
 			recursive = true
@@ -309,14 +312,11 @@ system:
 			name = interface; location = "$ISE_LIBRARY/library/vision2/interface"; recursive = true
 			option:
 				namespace = Vision2
-			file_rule:
-				exclude:
-					"/ev_environment_handler\.e"
 		# Eiffel-Loop overrides
 		cluster:
 			name = EL_override; location = "graphic/toolkit/vision2"
 			cluster:
-				name = el_interface; location = "$|interface"; recursive = true
+				name = el_interface; location = "$|implementation/interface"; recursive = true
 			cluster:
 				name = el_implementation_interface; location = "$|implementation/implementation_interface"; recursive = true
 			cluster:

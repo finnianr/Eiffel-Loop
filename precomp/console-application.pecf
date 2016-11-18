@@ -38,13 +38,15 @@ system:
 				platform:
 					value = windows
 
-		library: 
-			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
-
 		library:
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		library: 
 			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
+		
+		# GOBO
+		library:
+			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
+
 
 

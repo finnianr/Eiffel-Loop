@@ -130,6 +130,8 @@ inherit
 		end
 
 	READABLE_INDEXABLE [CHARACTER_32]
+		rename
+			upper as count
 		undefine
 			out, copy, is_equal
 		end
@@ -521,15 +523,6 @@ feature -- Output
 
 feature -- Measurement
 
-	index_set: INTEGER_INTERVAL
-			-- Range of acceptable indexes
-		do
-			create Result.make (1, count)
-		ensure then
-			index_set_not_void: Result /= Void
-			index_set_count: Result.count = count
-		end
-
 	leading_occurrences (uc: CHARACTER_32): INTEGER
 			-- Returns count of continous occurrences of `uc' or white space starting from the begining
 		local
@@ -590,6 +583,8 @@ feature -- Measurement
 		ensure
 			substring_agrees: across substring (1, Result) as uc all character_properties.is_space (uc.item) end
 		end
+
+	Lower: INTEGER = 1
 
 	occurrences (uc: CHARACTER_32): INTEGER
 		local
@@ -1718,16 +1713,16 @@ feature {EL_READABLE_ZSTRING} -- Contract Support
 	is_unencoded_valid: BOOLEAN
 			-- True if `unencoded_area' characters consistent with position and number of `Unencoded_character' in `area'
 		local
-			i, j, lower, upper, l_count, sum_count, array_count: INTEGER
+			i, j, l_lower, l_upper, l_count, sum_count, array_count: INTEGER
 			l_unencoded: like unencoded_area; l_area: like area
 		do
 			l_area := area; l_unencoded := unencoded_area; array_count := l_unencoded.count
 			Result := True
 			if array_count > 0 then
 				from i := 0 until not Result or else  i = array_count loop
-					lower := l_unencoded.item (i).to_integer_32; upper := l_unencoded.item (i + 1).to_integer_32
-					l_count := upper - lower + 1
-					from j := lower until not Result or else j > upper loop
+					l_lower := l_unencoded.item (i).to_integer_32; l_upper := l_unencoded.item (i + 1).to_integer_32
+					l_count := l_upper - l_lower + 1
+					from j := l_lower until not Result or else j > l_upper loop
 						Result := Result and l_area [j - 1] = Unencoded_character
 						j := j + 1
 					end

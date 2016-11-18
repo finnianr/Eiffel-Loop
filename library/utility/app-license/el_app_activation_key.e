@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-01-01 13:49:08 GMT (Thursday 1st January 2015)"
 	revision: "1"
@@ -14,26 +14,23 @@ class
 
 inherit
 	EL_BASE_64_ROUTINES
-		undefine
-			default_create
-		end
 
 	EVOLICITY_SERIALIZEABLE_AS_XML
 		redefine
-			make_from_file, default_create, getter_function_table, Template
+			make_from_file, make_default, getter_function_table, Template
 		end
 
 create
-	make, make_from_file, default_create
+	make, make_from_file, make_default
 
 feature {NONE} -- Initialization
 
-	default_create
-			--
+
+	make_default
 		do
+			Precursor
 			name :=  "Unknown"
 			value := "ekr9Lbnwtut8bL+4ONia/xeNMQpCjvD/EZFZiFVKyLU="
-			make_empty
 		end
 
 	make_from_file (file_path: EL_FILE_PATH)
@@ -50,7 +47,7 @@ feature {NONE} -- Initialization
 	make (a_name, a_value: STRING)
 			--
 		do
-			make_empty
+			make_default
 			name := a_name
 			value := a_value
 		end
@@ -63,24 +60,12 @@ feature -- Access
 
 feature {NONE} -- Evolicity fields
 
-	get_name: STRING
-			--
-		do
-			Result := name
-		end
-
-	get_value: STRING
-			--
-		do
-			Result := value
-		end
-
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
-				["name", agent get_name],
-				["value", agent get_value]
+				["name", agent: STRING do Result := name end],
+				["value", agent: STRING do Result := value end]
 			>>)
 		end
 

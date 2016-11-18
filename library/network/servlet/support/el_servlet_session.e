@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-17 11:27:02 GMT (Thursday 17th December 2015)"
 	revision: "1"
@@ -14,8 +14,6 @@ deferred class
 
 inherit
 	EL_MODULE_LOG
-
-	EL_MODULE_STRING
 
 feature {NONE} -- Initialization
 
@@ -77,7 +75,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	function_table: EVOLICITY_OBJECT_TABLE [like Type_service_procedure]
+	function_table: EL_ZSTRING_HASH_TABLE [like Type_service_procedure]
 
 	request : EL_HTTP_SERVLET_REQUEST
 

@@ -14,7 +14,7 @@ system:
 		
 		description: 
 			"""
-				Selected parts of GOBO modules
+				Selected GOBO classes
 			"""
 		root:
 			all_classes = true
@@ -28,23 +28,33 @@ system:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library: 
-			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		# Source code
 		cluster:
-			name = gobo; location = "$ISE_LIBRARY/contrib/library/gobo/library"
+			name = kernel; location = "$ISE_LIBRARY/contrib/library/gobo/library/kernel/src"; recursive = true
+			file_rule:
+				exclude:
+					"/ge$"
+		cluster:
+			name = structure; location = "$ISE_LIBRARY/contrib/library/gobo/library/structure/src"; recursive = true
+			file_rule:
+				exclude:
+					"/ge$"
+
+		cluster:
+			name = utility; location = "$ISE_LIBRARY/contrib/library/gobo/library/utility/src"
 			cluster:
-				name = uri; location = "$|utility/uri"; recursive = true
+				name = uri; location = "$|uri"; recursive = true
 
 			cluster:
-				name = transcoder; location = "$|utility/transcoder"; recursive = true
+				name = transcoder; location = "$|transcoder"; recursive = true
+
+		cluster:
+			name = string; location = "$ISE_LIBRARY/contrib/library/gobo/library/string/src"
+			cluster:
+				name = support; location = "$|support"
 
 			cluster:
-				name = gobo_structure; location = "$|structure"; recursive = true
-
-			cluster:
-				name = gobo_string_support; location = "$|string/support"
-
-			cluster:
-				name = gobo_formatter; location = "$|string/formatter"; recursive = true
+				name = formatter; location = "$|formatter"; recursive = true
 

@@ -35,9 +35,6 @@ system:
 			name = arbitrary_precision_math; location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
 
 		library:
-			name = gobo_kernel; location = "$ISE_LIBRARY/library/gobo/gobo_kernel.ecf"
-
-		library:
 			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
 
 		# Eiffel-Loop libraries

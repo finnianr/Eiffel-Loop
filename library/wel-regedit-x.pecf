@@ -46,6 +46,6 @@ system:
 
 		# Source code
 		cluster:
-			name = win_registry; location= "persistency/database/win-registry"; recursive = true
+			name = win_registry; location= "persistency/win-registry"; recursive = true
 
 

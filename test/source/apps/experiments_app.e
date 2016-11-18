@@ -720,6 +720,8 @@ feature {NONE} -- Implementation
 
 	storable_string_list: STORABLE_STRING_LIST
 
+	se_array: SE_ARRAY2 [BOOLEAN]
+
 feature {NONE} -- Constants
 
 	Description: STRING = "Experiment with Eiffel code to fix bugs"

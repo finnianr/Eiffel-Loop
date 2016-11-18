@@ -13,7 +13,7 @@ from os import path
 from eiffel_loop.os import environ
 from eiffel_loop import package
 from eiffel_loop.package import ZIP_SOFTWARE_PACKAGE
-from eiffel_loop.package import PYTHON_EXTENSION_PACKAGES_FOR_WINDOWS
+from eiffel_loop.package import LXML_PACKAGE_FOR_WINDOWS
 
 if sys.platform == "win32":
 	import _winreg
@@ -101,11 +101,11 @@ class WINDOWS_INSTALLER (INSTALLER):
 		try:
 			import lxml
 		except (ImportError), e:
-			py_packages = PYTHON_EXTENSION_PACKAGES_FOR_WINDOWS ('lxml')
-			py_packages.download ('Downloads')
+			lxml = LXML_PACKAGE_FOR_WINDOWS ()
+			lxml.download ('Downloads')
 			print "Follow the instructions to install required Python package: lxml"
 			s = raw_input ('Press <return> to continue')
-			if subprocess.call ([path.join ('Downloads', py_packages.package_basename ())]) != 0:
+			if subprocess.call ([path.join ('Downloads', lxml.package_basename ())]) != 0:
 				print "Error installing Python package: lxml"
 
 	def install_batch_scripts (self):

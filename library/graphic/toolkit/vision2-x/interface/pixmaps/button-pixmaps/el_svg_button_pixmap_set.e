@@ -6,7 +6,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-01-14 11:05:22 GMT (Thursday 14th January 2016)"
 	revision: "1"
@@ -165,5 +165,8 @@ feature {NONE} -- Constants
 
 	Clicked_border_width: CHARACTER = '6'
 
-	Clicked_border_color: STRING = "efebe3"
+	Clicked_border_color: ZSTRING
+		once
+			Result := "efebe3"
+		end
 end
