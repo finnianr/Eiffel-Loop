@@ -1,9 +1,29 @@
 # Eiffel-Loop as it was on the XXX 2016
 
 ## BASE library
+
 * Added function {EL_FILE_PATH}.modification_time_stamp
+
 * Moved function `is_attached' from class `EL_MEMORY' to new class `EL_POINTER_ROUTINES'.
+
 * Created new parent for class `EL_MEMORY', `EL_DISPOSEABLE' which inherits `EL_POINTER_ROUTINES'.
+
+### IO output control
+
+* Made output of lio object dependent on absence of command line switch `-silent`
+
+* Made output of EL_MULTI_APPLICATION_ROOT application header information dependent on absence of both command line switches `-silent` and `-no_app_header`
+
+* Added routines to class `EL_COMMAND_LINE_ARGUMENTS`: `has_silent`, `has_no_app_header`.
+
+* Replaced `{EL_COMMAND_OPTIONS}.Console_on` with `Silent`. Added option: `no_app_header`
+
+* Removed routine `{EL_MULTI_APPLICATION_ROOT}.Is_console_app`
+
+## Scons build support
+* New build option `compile_eiffel=no` forces a C only compilation using a previously compiled F_code tar. This tar is an intermediate build file found in the build directory.
+* New build option `MSC_options="..."` allows overriding of default `MSC_options` set in `project.py` (found in same directory as the ECF)
+* Build system now uses ISE_PRECOMP for all projects. Examples ammended accordingly.
 
 ## C-LANGUAGE-INTERFACE library
 

@@ -14,13 +14,9 @@ python -m eiffel_loop.scripts.launch_estudio $*
 '''
 
 # Windows
-create_f_code_tar_gz_bat = Template ('''@echo off
-python -m eiffel_loop.scripts.ec_create_f_code_tar_gz
-''')
-
-launch_estudio_bat = Template ('''@echo off
+launch_estudio_bat = '''@echo off
 python -m eiffel_loop.scripts.launch_estudio %*
-''')
+'''
 
 escons_bat = Template ('''@echo off
 set SCONS_ERRORLEVEL=

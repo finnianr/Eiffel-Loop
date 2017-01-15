@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 9:41:06 GMT (Monday 3rd October 2016)"
-	revision: "1"
+	date: "2017-01-15 15:44:18 GMT (Sunday 15th January 2017)"
+	revision: "2"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -28,6 +28,23 @@ feature {NONE} -- Implementation
 			if Result.has (' ') then
 				Result.quote (2)
 			end
+		end
+
+	modification_time (file_path: EL_FILE_PATH): INTEGER
+		local
+			info: like File_info
+		do
+			info := File_info
+			info.open (file_path.unicode)
+			Result := info.unix_last_write_time
+			info.close
+		end
+
+feature {NONE} -- Constants
+
+	File_info: EL_WIN_FILE_INFO
+		once
+			create Result.make
 		end
 
 end

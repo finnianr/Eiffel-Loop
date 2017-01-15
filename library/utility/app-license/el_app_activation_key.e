@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 13:49:08 GMT (Thursday 1st January 2015)"
-	revision: "1"
+	date: "2016-11-17 13:15:57 GMT (Thursday 17th November 2016)"
+	revision: "2"
 
 class
 	EL_APP_ACTIVATION_KEY

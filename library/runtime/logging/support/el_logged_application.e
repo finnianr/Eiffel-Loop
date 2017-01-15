@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 17:48:24 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-12-14 13:20:07 GMT (Wednesday 14th December 2016)"
+	revision: "2"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -37,8 +37,7 @@ feature {NONE} -- Implementation
 				logging.set_routines_to_log (a_log_filters)
 			else
 				if log_manager.is_console_manager_active then
-					io.put_string ("Thread logging disabled")
-					io.put_new_line
+					lio.put_string ("Thread logging disabled")
 				end
 			end
 

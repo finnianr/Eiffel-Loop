@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-05-15 16:34:23 GMT (Sunday 15th May 2016)"
-	revision: "1"
+	date: "2016-12-14 15:45:17 GMT (Wednesday 14th December 2016)"
+	revision: "2"
 
 deferred class
 	EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_I
@@ -23,6 +23,8 @@ inherit
 		redefine
 			getter_function_table
 		end
+
+	EL_MODULE_LIO
 
 feature {NONE} -- Initialization
 
@@ -41,8 +43,7 @@ feature -- Basic operations
 			set_launch_script_path
 
 			File_system.make_directory (launch_script_path.parent)
-			io.put_string (launch_script_path.to_string)
-			io.put_new_line
+			lio.put_line (launch_script_path.to_string)
 			write_script (launch_script_path)
 			script_file.add_permission ("uog", "x")
 		end

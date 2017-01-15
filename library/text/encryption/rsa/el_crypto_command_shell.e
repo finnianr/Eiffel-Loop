@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:15:42 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-11-17 12:58:53 GMT (Thursday 17th November 2016)"
+	revision: "2"
 
 class
 	EL_CRYPTO_COMMAND_SHELL

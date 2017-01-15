@@ -110,21 +110,7 @@ class WINDOWS_INSTALLER (INSTALLER):
 
 	def install_batch_scripts (self):
 		# Write scripts into Python home
-		key = _winreg.OpenKey (_winreg.HKEY_LOCAL_MACHINE, r'SOFTWARE\Microsoft\Microsoft SDKs\Windows', 0, _winreg.KEY_READ)
-		sdk_path = _winreg.QueryValueEx (key, "CurrentInstallFolder")[0]
-		setenv_cmd_path = path.join (path.normpath (sdk_path), 'Bin\\setenv.cmd')
-		print setenv_cmd_path
-
-		
-		script_templates = {
-			'launch_estudio' : templates.launch_estudio_bat,
-			'create_f_code_tar_gz' : templates.create_f_code_tar_gz_bat
-		}		
-		for name in script_templates:
-			self.write_script_file (
-				path.join (python_home_dir, name + '.bat'), 
-				(script_templates [name]).substitute (setenv_cmd_path = setenv_cmd_path, python_home_dir = python_home_dir)
-			)
+		self.write_script_file (path.join (python_home_dir, 'launch_estudio.bat'), templates.launch_estudio_bat)
 
 	def install_gedit_pecf_support (self):
 		# If gedit installed, install pecf syntax

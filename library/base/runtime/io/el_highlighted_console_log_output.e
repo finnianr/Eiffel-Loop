@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 12:01:15 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-12-14 13:16:02 GMT (Wednesday 14th December 2016)"
+	revision: "2"
 
 class
 	EL_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
@@ -25,7 +25,7 @@ feature {NONE} -- Implementation
 
 	write_string_8 (str: STRING)
 		do
-			io.put_string (str)
+			std_output.put_string (str)
 		end
 
 end

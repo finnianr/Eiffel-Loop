@@ -1,6 +1,8 @@
 note
 	description: "[
-		Override to `EV_FONT_IMP' fixing issue of setting font height in pixels
+		Override to `EV_FONT_IMP' fixing issue of setting font height in pixels.
+		This version is compiled only if ISE_C_COMPILER = msc_vc140. It scales the font
+		height differently if the deployment platform is Windows 10
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-17 9:08:13 GMT (Monday 17th October 2016)"
-	revision: "2"
+	date: "2016-12-12 16:28:16 GMT (Monday 12th December 2016)"
+	revision: "3"
 
 class
 	EL_FONT_IMP

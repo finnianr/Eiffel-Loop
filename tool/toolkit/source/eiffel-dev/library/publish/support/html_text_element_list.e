@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-09 14:54:12 GMT (Tuesday 9th August 2016)"
-	revision: "2"
+	date: "2016-12-04 12:02:56 GMT (Sunday 4th December 2016)"
+	revision: "3"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -142,8 +142,6 @@ feature {NONE} -- Factory
 
 	new_list_item_tag (type: STRING; open: BOOLEAN): STRING
 		-- returns one of: [li], [oli], [/li], [/oli]
-		local
-			l_insert: STRING
 		do
 			create Result.make (6)
 			Result.append (once "[li]")

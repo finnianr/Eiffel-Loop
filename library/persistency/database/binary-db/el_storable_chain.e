@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-25 17:41:58 GMT (Monday 25th July 2016)"
-	revision: "1"
+	date: "2017-01-06 12:14:30 GMT (Friday 6th January 2017)"
+	revision: "2"
 
 deferred class
 	EL_STORABLE_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -29,6 +29,8 @@ inherit
 		end
 
 	EL_ENCRYPTABLE
+
+	EL_STORABLE_HANDLER
 
 feature {NONE} -- Initialization
 
@@ -252,7 +254,7 @@ feature {EL_CHAIN_EDITIONS_FILE} -- Implementation
 		local
 			i, l_count: INTEGER
 		do
-			a_file.read_real 	-- Version
+			a_file.read_natural 	-- Version
 			a_file.read_integer	-- Record count
 			l_count := a_file.last_integer
 			from until i = l_count or a_file.end_of_file loop

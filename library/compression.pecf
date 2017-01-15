@@ -29,14 +29,8 @@ system:
 		root:
 			all_classes = true
 				
-		external_include: 
+		external_include:
 			location = "$(ISE_LIBRARY)/C_library/zlib"
-
-		external_object:
-			location = "$(ISE_LIBRARY)/library/vision2/spec/$ISE_C_COMPILER/$ISE_PLATFORM/lib/zlib.lib"
-			condition:
-				platform:
-					value = windows
 
 		external_object:
 			location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
@@ -46,6 +40,12 @@ system:
 
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = c_library_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
+			condition:
+				platform:
+					value = windows
 
 		# Eiffel Loop
 

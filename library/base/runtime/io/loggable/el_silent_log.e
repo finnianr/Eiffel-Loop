@@ -4,31 +4,16 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 6:52:43 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2016-12-14 12:23:13 GMT (Wednesday 14th December 2016)"
+	revision: "2"
 
 class
 	EL_SILENT_LOG
 
 inherit
 	EL_LOGGABLE
-
-	EL_MODULE_LOG_MANAGER
-		export
-			{NONE} all
-		end
-
-	EL_MODULE_LOGGING
-		export
-			{NONE} all
-		end
-
-	EL_MODULE_EIFFEL
-		export
-			{NONE} all
-		end
 
 feature -- Status
 

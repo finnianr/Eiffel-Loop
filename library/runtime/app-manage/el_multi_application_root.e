@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 15:58:01 GMT (Monday 3rd October 2016)"
-	revision: "2"
+	date: "2016-12-14 13:32:12 GMT (Wednesday 14th December 2016)"
+	revision: "3"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO] -- Generic to make sure scons generated BUILD_INFO is compiled from project source
@@ -35,6 +35,11 @@ inherit
 
 	EL_MODULE_LOGGING
 
+	EL_MODULE_LIO
+		rename
+			Lio as Later_lio
+		end
+
 	EL_MODULE_BUILD_INFO
 
 	EL_SHARED_DIRECTORY
@@ -46,22 +51,14 @@ feature {NONE} -- Initialization
 
 	make
 			--
-		local
-			output_dir: EL_DIR_PATH
-			output_dir_steps, temp_dir_steps: EL_PATH_STEPS
 		do
-			redirected_output := File_system.closed_none_plain_text
 			application_list := new_application_list
-
-			output_dir := Redirected_file_path.parent
-			if Is_console then
+			if not Args.has_silent then
 				-- Force console creation. Needed to set `{EL_EXECUTION_ENVIRONMENT_I}.last_codepage'
 				io.put_character ({ASCII}.back_space.to_character_8)
 
 --				Environment.Execution.set_utf_8_console_output
 					-- Only has effect in Windows command console
-			else
-				set_redirected_output (output_dir)
 			end
 			-- Must be called before current_working_directory changes
 			if Environment.Execution.Executable_path.is_file then
@@ -75,28 +72,16 @@ feature {NONE} -- Initialization
 						install
 					end
 				else
-					io.put_string (Error_empty_package_bin)
+					lio.put_string (Error_empty_package_bin)
 				end
 			else
 				launch
 			end
-			if Is_console then
 --				Environment.Execution.restore_last_code_page
-					-- FOR WINDOWS
-					-- If the original code page is not restored after changing to 65001 (utf-8)
-					-- this could effect subsequent programs that run in the same shell.
-					-- Python for example might give a "LookupError: unknown encoding: cp65001" error.
-			else
-				redirected_output.close
-				redirected_output.delete
-
-				temp_dir_steps := Environment.Operating.Temp_directory_path
-				from output_dir_steps := output_dir until output_dir_steps ~ temp_dir_steps loop
-					File_system.delete_if_empty (output_dir_steps)
-					output_dir_steps.finish
-					output_dir_steps.remove
-				end
-			end
+--				FOR WINDOWS
+--				If the original code page is not restored after changing to 65001 (utf-8)
+--				this could effect subsequent programs that run in the same shell.
+--				Python for example might give a "LookupError: unknown encoding: cp65001" error.
 		end
 
 feature -- Access
@@ -110,7 +95,9 @@ feature -- Basic operations
 		do
 			application_list.find_first (Args.option_name (1), agent {EL_SUB_APPLICATION}.new_option_name)
 			if application_list.after then
-				io_put_menu
+				if not Args.has_silent then
+					io_put_menu
+				end
 				application_list.go_i_th (user_selection)
 			end
 			if not application_list.off then
@@ -123,8 +110,8 @@ feature -- Basic operations
 					application_list.item.make
 				end
 
-				io.put_new_line
-				io.put_new_line
+				lio.put_new_line
+				lio.put_new_line
 
 				application_list.wipe_out
 				-- Causes a crash on some multi-threaded applications
@@ -144,7 +131,7 @@ feature -- Basic operations
 				destination_dir := Directory.Desktop.joined_dir_path (Build_info.installation_sub_directory)
 			end
 
-			io.put_string (Installing_template #$ [Args.command_name, Package_dir, destination_dir])
+			lio.put_string (Installing_template #$ [Args.command_name, Package_dir, destination_dir])
 			File_system.make_directory (destination_dir)
 
 			find_directories_cmd := Command.new_find_directories (Package_dir)
@@ -154,8 +141,7 @@ feature -- Basic operations
 				copy_directory (source_dir.item, destination_dir)
 			end
 			install_menus
-			io.put_string ("DONE")
-			io.put_new_line
+			lio.put_line ("DONE")
 		end
 
 	install_menus
@@ -198,76 +184,45 @@ feature {NONE} -- Implementation
 			Result.compare_objects
 		end
 
-	set_redirected_output (output_dir: EL_DIR_PATH)
-		local
-			output_file_path: EL_FILE_PATH
-			i: INTEGER
-		do
-			File_system.make_directory (output_dir)
-			output_file_path := Redirected_file_path
-			from until not output_file_path.exists loop
-				output_file_path := Redirected_file_path.with_new_extension (i.out.as_string_32 + ".txt")
-				i := i + 1
-			end
-			create redirected_output.make_open_write (output_file_path)
-			io.set_file_default (redirected_output)
-		end
-
 	copy_directory (source_dir: EL_DIR_PATH; destination_dir: EL_DIR_PATH)
 		do
-			io.put_string (source_dir.to_string); io.put_new_line
-			io.put_string (destination_dir.to_string); io.put_new_line
+			lio.put_line (source_dir.to_string)
+			lio.put_line (destination_dir.to_string)
 			OS.copy_tree (source_dir, destination_dir)
 		end
 
 	io_put_menu
 			--
 		do
-			io.put_new_line
+			lio.put_new_line
 			across application_list as application loop
-				io.put_integer (application.cursor_index)
-				io.put_string (". Command option: -")
-				io.put_string (application.item.option_name.as_string_8)
-				io.put_new_line
-				io.put_new_line
-				io.put_string (String_8.spaces (Tab_width, 1))
-				io.put_string ("DESCRIPTION: ")
-				io.put_new_line
+				lio.put_integer (application.cursor_index)
+				lio.put_string (". Command option: -")
+				lio.put_line (application.item.option_name.as_string_8)
+
+				lio.put_new_line
+				lio.put_string (String_8.spaces (Tab_width, 1))
+				lio.put_line ("DESCRIPTION: ")
 				line_count := 0
 				across application.item.description.split ('%N') as line loop
 					line_count := line_count + 1
-					io.put_string (String_8.spaces (Tab_width, 2))
-					io.put_string (line.item)
-					io.put_new_line
+					lio.put_string (String_8.spaces (Tab_width, 2))
+					lio.put_line (line.item)
 				end
-				io.put_new_line
+				lio.put_new_line
 			end
 		end
 
 	user_selection: INTEGER
 			-- Ask user to select
 		do
-			io.put_string ("Select program by number: ")
-			io.read_line
-			if io.last_string.is_integer then
-				Result := io.last_string.to_integer
+			if not Args.has_silent then
+				io.put_string ("Select program by number: ")
+				io.read_line
+				if io.last_string.is_integer then
+					Result := io.last_string.to_integer
+				end
 			end
-		end
-
-	Redirected_file_path: EL_FILE_PATH
-		local
-			name: ZSTRING
-			l_location: EL_DIR_PATH
-		once
-			if Args.argument_count >= 1 then
-				name := Args.item (1)
-				name.remove_head (1)
-			else
-				name := "Eiffel-app"
-			end
-			l_location := Environment.Operating.Temp_directory_path.joined_dir_path (Build_info.installation_sub_directory)
-			Result := l_location + name
-			Result.add_extension ("txt")
 		end
 
 	application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
@@ -279,13 +234,11 @@ feature {NONE} -- Implementation: attributes
 
 	line_count: INTEGER
 
-	redirected_output: PLAIN_TEXT_FILE
-
 feature {NONE} -- Constants
 
 	Error_empty_package_bin: STRING = "[
 		ERROR: No executable found in "package/$PLATFORM_NAME/bin" directory.
-
+		
 	]"
 
 	Installing_template: ZSTRING
@@ -304,10 +257,10 @@ feature {NONE} -- Constants
 			create Result.make_filled (Operating_environment.directory_separator, 2)
 		end
 
-	is_console: BOOLEAN
-			-- Is this a console application
+	Lio: EL_LOGGABLE
+			-- This is a temporary lio until the logging is initialized in `EL_SUB_APPLICATION'
 		once
-			Result := True
+			Result := new_lio
 		end
 
 	Tab_width: INTEGER = 3

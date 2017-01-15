@@ -1,9 +1,9 @@
 pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 system:
-	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-13-0"
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-15-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance"
-	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-13-0 http://www.eiffel.com/developers/xml/configuration-1-13-0.xsd"
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-13-0.xsd"
 	name = vision2; uuid = "FF177272-9E24-4282-941E-60889FC503EB"
 	library_target = vision2
 	target:
@@ -93,16 +93,6 @@ system:
 					value = windows
 				dotnet:
 					value = true
-		external_object:
-			location = "$(ISE_LIBRARY)\library\vision2\spec\$ISE_C_COMPILER\$ISE_PLATFORM\lib\libpng.lib"
-			condition:
-				platform:
-					value = windows
-		external_object:
-			location = "$(ISE_LIBRARY)\library\vision2\spec\$ISE_C_COMPILER\$ISE_PLATFORM\lib\zlib.lib"
-			condition:
-				platform:
-					value = windows
 		external_linker_flag:
 			value = "`$(ISE_LIBRARY)/library/vision2/implementation/gtk/Clib/vision2-gtk-config --threads --object`"
 			condition:
@@ -185,6 +175,16 @@ system:
 					name = vision_implementation; value = gtk34
 		library:
 			name = base; location = "$ISE_LIBRARY\library\base\base.ecf"
+		library:
+			name = c_library_libpng; location = "$ISE_LIBRARY/C_library/libpng/clibs_libpng.ecf"
+			condition:
+				platform:
+					value = windows
+		library:
+			name = c_library_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
+			condition:
+				platform:
+					value = windows
 		library:
 			name = cocoa; location = "$ISE_LIBRARY\library\cocoa\cocoa.ecf"; readonly = false
 			condition:

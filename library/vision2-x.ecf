@@ -4,7 +4,7 @@
 	<target name = "EL_vision2_x">
 		<description>Extensions for Vision2 GUI library. (http://www.eiffel-loop.com)</description>
 		<root all_classes = "true"/>
-		<option warning = "true" full_class_checking = "false" is_attached_by_default = "false" void_safety = "none" syntax = "standard">
+		<option warning = "true" full_class_checking = "false" is_attached_by_default = "false" void_safety = "none" syntax = "standard" is_obsolete_routine_type = "true">
 			<assertions precondition = "true" postcondition = "true" check = "false" invariant = "false"/>
 		</option>
 		<!--
@@ -36,7 +36,7 @@
 				<platform value = "unix"/>
 			</condition>
 		</external_object>
-		<external_object location = "-L$(EIFFEL_LOOP)/C_library/gtk-init/spec/$(ISE_PLATFORM) -lgtkinit">
+		<external_object location = "$(EIFFEL_LOOP)/C_library/gtk-init/spec/$(ISE_PLATFORM)/libgtkinit.a">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
@@ -103,21 +103,25 @@
 			</condition>
 		</library>
 		<!--Source code-->
-		<cluster name = "vision2x" location = "graphic/toolkit/vision2-x" recursive = "true">
-			<file_rule>
-				<exclude>/windows$</exclude>
-				<exclude>/mswin$</exclude>
-				<condition>
-					<platform value = "unix"/>
-				</condition>
-			</file_rule>
-			<file_rule>
-				<exclude>/unix$</exclude>
-				<exclude>/gtk$</exclude>
-				<condition>
-					<platform value = "windows"/>
-				</condition>
-			</file_rule>
+		<cluster name = "vision2x" location = "graphic/toolkit/vision2-x">
+			<cluster name = "interface" location = "$|interface" recursive = "true"/>
+			<cluster name = "module" location = "$|module" recursive = "true"/>
+			<cluster name = "implementation" location = "$|implementation" recursive = "true">
+				<file_rule>
+					<exclude>/windows$</exclude>
+					<exclude>/mswin$</exclude>
+					<condition>
+						<platform value = "unix"/>
+					</condition>
+				</file_rule>
+				<file_rule>
+					<exclude>/unix$</exclude>
+					<exclude>/gtk$</exclude>
+					<condition>
+						<platform value = "windows"/>
+					</condition>
+				</file_rule>
+			</cluster>
 		</cluster>
 	</target>
 </system>

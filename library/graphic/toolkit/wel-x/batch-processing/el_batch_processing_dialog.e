@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-30 17:46:54 GMT (Wednesday 30th March 2016)"
-	revision: "1"
+	date: "2016-11-23 16:50:17 GMT (Wednesday 23rd November 2016)"
+	revision: "2"
 
 deferred class
 	EL_BATCH_PROCESSING_DIALOG [G]
@@ -162,8 +162,8 @@ feature {NONE} -- Behaviours
 
 				files_to_process := 0
 				files_processed := 0
-				directory_content_processor.set_input_dir (Directory.directory_name (input_dir_edit.text))
-				directory_content_processor.set_output_dir (Directory.directory_name (output_dir_edit.text))
+				directory_content_processor.set_input_dir (input_dir_edit.text)
+				directory_content_processor.set_output_dir (output_dir_edit.text)
 
 				timer.start
 				directory_content_processor.do_all (agent queue_file_for_processing, "*.wav")
@@ -287,7 +287,7 @@ feature {NONE} -- GUI components
 		once
 			create Result.make
 			Result.set_title ("Select the input directory")
-			Result.set_starting_folder (current_working_directory)
+			Result.set_starting_folder (Directory.current_working)
 		ensure
 			result_not_void: Result /= Void
 		end
@@ -296,7 +296,7 @@ feature {NONE} -- GUI components
 		once
 			create Result.make
 			Result.set_title ("Select the ouput directory")
-			Result.set_starting_folder (current_working_directory)
+			Result.set_starting_folder (Directory.current_working)
 		ensure
 			result_not_void: Result /= Void
 		end
@@ -382,7 +382,7 @@ feature {NONE} -- Implementation
 
 	queue_file_for_processing (
 		input_file_path: EL_FILE_PATH; output_dir: EL_DIR_PATH
-		input_file_name, input_file_extension: STRING
+		input_file_name, input_file_extension: ZSTRING
 	)
 			--
 		do

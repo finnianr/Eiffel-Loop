@@ -6,10 +6,6 @@ set batch_path=%~p0
 %batch_drive%
 cd %batch_path%
 
-set build_stamp=		# Build %date% %time%
-echo %build_stamp% >> toolkit.pecf
-el_toolkit -pyxis_to_xml -in toolkit.pecf
-
 scons action=finalize project=toolkit.ecf
-copy /Y package\win64\bin\el_toolkit.exe "C:\Program Files\Eiffel-Loop\bin"
+copy /Y build\win64\package\bin\el_toolkit.exe "C:\Program Files\Eiffel-Loop\bin"
 pause

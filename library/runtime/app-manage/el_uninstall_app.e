@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 11:30:57 GMT (Monday 3rd October 2016)"
-	revision: "2"
+	date: "2016-12-14 13:09:54 GMT (Wednesday 14th December 2016)"
+	revision: "3"
 
 class
 	EL_UNINSTALL_APP
@@ -41,12 +41,11 @@ feature -- Basic operations
 		local
 			dir_path: EL_DIR_PATH
 		do
-			io.put_string (confirmation_prompt_template.substituted_tuple ([Installer.menu_name]).to_utf_8)
+			lio.put_string (confirmation_prompt_template.substituted_tuple ([Installer.menu_name]).to_utf_8)
 
 			if User_input.entered_letter (yes.to_latin_1 [1]) then
-				io.put_new_line
-				io.put_string (Commence_message.to_utf_8)
-				io.put_new_line
+				lio.put_new_line
+				lio.put_line (Commence_message.to_utf_8)
 
 				across sub_applications as application loop
 					if application.item.is_installable then
@@ -117,7 +116,6 @@ feature {NONE} -- Constants
 			else
 				Result := Precursor
 			end
-			Result.set_command_line_options ("-" + {EL_COMMAND_OPTIONS}.Console_on)
 		end
 
 	Log_filter: ARRAY [like Type_logging_filter]

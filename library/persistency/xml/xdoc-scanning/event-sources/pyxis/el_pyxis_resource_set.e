@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-05 5:05:00 GMT (Tuesday 5th July 2016)"
-	revision: "1"
+	date: "2016-11-17 11:59:36 GMT (Thursday 17th November 2016)"
+	revision: "2"
 
 class
 	EL_PYXIS_RESOURCE_SET

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 22:33:21 GMT (Friday 18th December 2015)"
-	revision: "1"
+	date: "2016-12-20 17:41:02 GMT (Tuesday 20th December 2016)"
+	revision: "2"
 
 class
 	EL_SOFTWARE_VERSION
@@ -64,7 +64,7 @@ feature -- Access
 			Result := list.joined ('.')
 		end
 
-feature -- Measurement
+feature -- Access
 
 	build: NATURAL
 			--

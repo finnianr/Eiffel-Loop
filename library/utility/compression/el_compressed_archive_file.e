@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 7:52:01 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2017-01-07 11:57:24 GMT (Saturday 7th January 2017)"
+	revision: "2"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -19,7 +19,7 @@ inherit
 		export
 			{NONE} all
 			{ANY} close, last_string, name, start, end_of_file, position,
-				is_closed, is_open_read, is_open_append
+				is_closed, is_open_read, is_open_write
 		redefine
 			make_with_name, after, off
 		end
@@ -62,7 +62,7 @@ feature -- Element change
 
 	append_file (a_file_path: EL_FILE_PATH; expected_compression_ratio: DOUBLE; level: INTEGER)
 		require
-			open_append: is_open_append
+			open_append: is_open_write
 		local
 			file_data: MANAGED_POINTER; compressed_data, utf8_path: STRING
 		do

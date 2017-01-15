@@ -1,9 +1,9 @@
 pyxis-doc:
-	version = 1.0; encoding = ISO-8859-1
+	version = 1.0; encoding = "ISO-8859-1"
 system:
-	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-5-0"
+	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-15-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance"
-	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-5-0 http://www.eiffel.com/developers/xml/configuration-1-5-0.xsd"
+	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-5-0.xsd"
 	name = vision2_extension; uuid = "72EB29A8-4A3D-4B17-B2F6-365F388D2282"
 	library_target = vision2_extension
 	target:
@@ -19,8 +19,10 @@ system:
 		file_rule:
 			exclude:
 				"/\.svn"
+
 		option:
-			namespace = "EiffelSoftware.Library"
+			warning = true; full_class_checking = false; is_attached_by_default = false
+			void_safety = none; syntax = standard; namespace = "EiffelSoftware.Library.Vision2_extension"
 		setting:
 			name = dotnet_naming_convention; value = true
 		library:

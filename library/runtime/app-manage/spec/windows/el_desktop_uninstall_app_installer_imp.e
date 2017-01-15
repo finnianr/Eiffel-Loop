@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-20 12:27:02 GMT (Thursday 20th October 2016)"
-	revision: "2"
+	date: "2017-01-14 13:24:21 GMT (Saturday 14th January 2017)"
+	revision: "3"
 
 class
 	EL_DESKTOP_UNINSTALL_APP_INSTALLER_IMP
@@ -101,11 +101,14 @@ feature {NONE} -- Implementation
 	estimated_size: INTEGER
 			-- estimated size of install in KiB
 		local
-			dir_info_cmd: like Command.new_directory_info
+			list: like File_system.recursive_files; byte_count: INTEGER
 		do
-			dir_info_cmd := Command.new_directory_info (Directory.Application_installation)
-			dir_info_cmd.execute
-			Result := (dir_info_cmd.size / 1024.0).rounded
+			list := File_system.recursive_files (Directory.Application_installation)
+			from list.start until list.after loop
+				byte_count := byte_count + File_system.file_byte_count (list.item)
+				list.forth
+			end
+			Result := (byte_count / 1024.0).rounded
 		end
 
 	display_name: ZSTRING

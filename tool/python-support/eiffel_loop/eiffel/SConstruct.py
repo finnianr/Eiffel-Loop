@@ -14,25 +14,31 @@ from eiffel_loop.scons import eiffel
 
 from eiffel_loop.eiffel.ecf import EIFFEL_CONFIG_FILE
 from eiffel_loop.eiffel.ecf import FREEZE_BUILD
-from eiffel_loop.eiffel.ecf import FINALIZE_BUILD
-from eiffel_loop.eiffel.ecf import RECOMPILED_X64_FINALIZE_BUILD
+from eiffel_loop.eiffel.ecf import C_CODE_TAR_BUILD
+from eiffel_loop.eiffel.ecf import FINALIZED_BUILD
 
 from SCons.Script import *
 
 # SCRIPT START
 arguments = Variables()
 arguments.Add (EnumVariable('cpu', 'Set target cpu for compiler', 'x64', allowed_values=('x64', 'x86')))
+
 arguments.Add (
 	EnumVariable('action', 'Set build action', 'finalize',
 		allowed_values=(
-			'freeze', 'finalize', 'finalize_and_test', 'finalize_and_install',
-			'install_resources',
-			'make_installers'
+			Split ("freeze finalize finalize_and_test finalize_and_install install_resources make_installers")
 		)
 	)
 )
+arguments.Add (BoolVariable ('compile_eiffel', 'Compile Eiffel source (no implies C compile only)', 'yes'))
 arguments.Add (BoolVariable ('install', 'Set to \'yes\' to install finalized release', 'no'))
-arguments.Add (PathVariable ('project', 'Path to Eiffel configuration file', 'default.ecf'))		
+arguments.Add (PathVariable ('project', 'Path to Eiffel configuration file', 'default.ecf'))
+
+#arguments.Add (
+#	ListVariable (
+#		'MSC_options', 'Visual Studio setenv.cmd options', '', Split ("/Debug /Release /x86 /x64 /ia64 /vista /xp /2003 /2008 /win7")
+#	)
+#)
 
 env = Environment (variables = arguments)
 
@@ -44,13 +50,17 @@ if env.GetOption ('help'):
 else:
 	is_windows_platform = sys.platform == 'win32'
 	project_py = project.read_project_py ()
-	
-	cpu_option = env.get ('cpu')
-	project_py.MSC_options.append ('/' + cpu_option)
-	ecf_path = env.get ('project')
-	action = env.get ('action') 
 
-	project_py.update_os_environ (cpu_option == 'x86')
+#	MSC_options = env.get ('MSC_options').data
+#	if MSC_options:
+#		project_py.MSC_options = MSC_options
+#		print 'MSC_options:', project_py.MSC_options
+	
+	ecf_path = env.get ('project')
+	action = env.get ('action')
+	compile_eiffel = env.get ('compile_eiffel')
+
+	project_py.set_build_environment (env.get ('cpu'))
 
 	env.Append (ENV = os.environ, ISE_PLATFORM = os.environ ['ISE_PLATFORM'])
 	if 'ISE_C_COMPILER' in os.environ:
@@ -58,33 +68,44 @@ else:
 
 	config = EIFFEL_CONFIG_FILE (ecf_path, True)
 
+	project_files = [ecf_path, 'project.py']
+
 	if action == 'install_resources':
 		build = FREEZE_BUILD (config, project_py)
 		build.post_compilation ()
 	else:
 		if action in ['finalize', 'make_installers']:
-			build = FINALIZE_BUILD (config, project_py)
-			if is_windows_platform and '/x86' in project_py.MSC_options:
-				print 'Found:', build.win64_target ()
-				if path.exists (build.win64_target ()):
-					build = RECOMPILED_X64_FINALIZE_BUILD (config, project_py)
+			tar_build = C_CODE_TAR_BUILD (config, project_py)
+			build = FINALIZED_BUILD (config, project_py)
+	
+			if compile_eiffel:
+				env.Append (EIFFEL_BUILD = tar_build)
+				env.Append (BUILDERS = {'eiffel_compile' : Builder (action = eiffel.compile_eiffel)})
+				f_code = env.eiffel_compile (tar_build.target (), project_files)
+			else:
+				f_code = None
+				
 		else:
 			build = FREEZE_BUILD (config, project_py)
+			f_code = None
 
-		env.Append (EIFFEL_BUILD = build)
-		env.Append (BUILDERS = {'eiffel_compile' : Builder (action = eiffel.compile_executable)})
-		executable = env.eiffel_compile (build.target (), build.ecf_path)
+		env.Append (C_BUILD = build)
+		env.Append (BUILDERS = {'c_compile' : Builder (action = eiffel.compile_C_code)})
 
-		if build.pecf_path:
-			env.Append (BUILDERS = {'PECF_converter' : Builder (action = eiffel.write_ecf_from_pecf)})
-			ecf = env.PECF_converter (build.ecf_path, build.pecf_path)
+		if f_code:
+			executable = env.c_compile (build.target (), tar_build.target ())
+		else:
+			executable = env.c_compile (build.target (), project_files)
 
 		if build.precompile_path:
 			env.Append (BUILDERS = {'precomp_copier' : Builder (action = eiffel.copy_precompile)})
 			precompile_name = path.basename (build.precompile_path)
 			precompile_dir = path.dirname (path.dirname (build.precompile_path))
 			precomp_ecf = env.precomp_copier (build.precompile_path, path.join (precompile_dir, precompile_name))
-			Depends (executable, build.precompile_path)
+			if f_code:
+				Depends (tar_build.target (), build.precompile_path)
+			else:
+				Depends (executable, build.precompile_path)
 
 		eiffel.check_C_libraries (env, build)
 		if len (build.SConscripts) > 0:
@@ -103,5 +124,9 @@ else:
 
 		Depends (executable, lib_dependencies)
 
-		env.NoClean ([executable, precomp_ecf])
+		productions = [executable, precomp_ecf]
+		if f_code:
+			productions.append (tar_build.target ())
+
+		env.NoClean (productions)
 

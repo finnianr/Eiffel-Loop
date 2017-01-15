@@ -1,26 +1,30 @@
 note
 	description: "Summary description for {EL_UUID_GENERATOR}."
 
+	
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-29 12:19:01 GMT (Tuesday 29th March 2016)"
-	revision: "1"
+	date: "2017-01-06 12:32:49 GMT (Friday 6th January 2017)"
+	revision: "2"
 
 class
-	EL_UUID_GENERATOR
+	EL_UUID_FACTORY
 
 inherit
 	UUID_GENERATOR
+		rename
+			generate_uuid as new_uuid
 		redefine
-			generate_uuid
+			new_uuid
 		end
 
 feature -- Access
 
-	generate_uuid: EL_UUID
+	new_uuid: EL_UUID
 		local
 			u: UUID
 		do

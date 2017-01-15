@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {PYXIS_TRANSLATION_CHECK}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2016-11-11 9:51:51 GMT (Friday 11th November 2016)"
+	revision: "1"
 
 class
 	PYXIS_TRANSLATION_MANAGER

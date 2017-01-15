@@ -7,10 +7,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 9:55:07 GMT (Friday 1st July 2016)"
-	revision: "1"
+	date: "2016-12-14 13:13:41 GMT (Wednesday 14th December 2016)"
+	revision: "2"
 
 class
 	EL_DESKTOP_APPLICATION_INSTALLER_IMP
@@ -28,6 +28,8 @@ inherit
 	EL_MODULE_BUILD_INFO
 
 	EL_MODULE_OS
+
+	EL_MODULE_LIO
 
 create
 	make
@@ -122,8 +124,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			if not file_path.exists then
-				io.put_string ("Creating entry: " + file_path.to_string)
-				io.put_new_line
+				lio.put_line ("Creating entry: " + file_path.to_string)
 				File_system.make_directory (file_path.parent)
 				entry.serialize_to_file (file_path)
 			end
@@ -133,8 +134,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			if file_path.exists then
-				io.put_string ("Deleting entry: " + file_path.to_string)
-				io.put_new_line
+				lio.put_line ("Deleting entry: " + file_path.to_string)
 				OS.delete_file (file_path)
 			end
 		end

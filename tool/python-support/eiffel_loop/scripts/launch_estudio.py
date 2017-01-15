@@ -19,23 +19,15 @@ def convert_pyxis_to_xml (pecf_path):
 
 project_py = project.read_project_py ()
 
-MSC_options = project_py.MSC_options
-cpu_option = 'x64'
-
-if not '/x64' in MSC_options:
-	MSC_options.append ('/x64')
+target_cpu = 'x64'
 
 for arg in sys.argv [1:]:
 	if arg.startswith ('cpu='):
-		cpu_option = arg.split ('=')[-1]
-		if cpu_option in ['x86', 'x64']:
-			MSC_options.append ('/' + cpu_option)
-		else:
-			raise Exception('Invalid argument', arg)
+		target_cpu = arg.split ('=')[-1]
 	else:
 		project_path = arg
 
-project_py.update_os_environ (cpu_option == 'x86')
+project_py.set_build_environment (target_cpu)
 
 pecf_path = None
 parts = path.splitext (project_path)

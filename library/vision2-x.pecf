@@ -59,7 +59,7 @@ system:
 					value = unix
 
 		external_object:
-			location = "-L$(EIFFEL_LOOP)/C_library/gtk-init/spec/$(ISE_PLATFORM) -lgtkinit"
+			location = "$(EIFFEL_LOOP)/C_library/gtk-init/spec/$(ISE_PLATFORM)/libgtkinit.a"
 			condition:
 				platform:
 					value = unix
@@ -163,19 +163,26 @@ system:
 
 		# Source code
 		cluster:
-			name = vision2x; location = "graphic/toolkit/vision2-x"; recursive = true
+			name = vision2x; location = "graphic/toolkit/vision2-x"
+			cluster:
+				name = interface; location = "$|interface"; recursive = true
+			cluster:
+				name = module; location = "$|module"; recursive = true
+			cluster:
+				name = implementation; location = "$|implementation"; recursive = true
+				file_rule:
+					exclude:
+						"/windows$"
+						"/mswin$"
+					condition:
+						platform:
+							value = unix
+				file_rule:
+					exclude:
+						"/unix$"
+						"/gtk$"
+					condition:
+						platform:
+							value = windows
 
-			file_rule:
-				exclude:
-					"/windows$"
-					"/mswin$"
-				condition:
-					platform:
-						value = unix
-			file_rule:
-				exclude:
-					"/unix$"
-					"/gtk$"
-				condition:
-					platform:
-						value = windows
+

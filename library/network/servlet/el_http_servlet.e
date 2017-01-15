@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-30 11:44:56 GMT (Saturday 30th January 2016)"
-	revision: "1"
+	date: "2017-01-01 15:41:55 GMT (Sunday 1st January 2017)"
+	revision: "2"
 
 deferred class
 	EL_HTTP_SERVLET
@@ -52,7 +52,12 @@ feature -- Basic operations
 			log.enter_no_header (once "serve_fast_cgi")
 			response := new_response (fast_cgi_request); request := new_request (fast_cgi_request, response)
 			serve (request, response)
-			if last_modified /= Default_date then
+			if is_caching_disabled then
+				response.set_header (once "Cache-Control", once "no-cache, no-store, must-revalidate"); -- HTTP 1.1.
+				response.set_header (once "Pragma", once "no-cache"); -- HTTP 1.0.
+				response.set_header (once "Expires", once "0"); -- Proxies.
+
+			elseif last_modified /= Default_date then
 				response.set_header (once "Last-Modified", formatted_date (last_modified))
 			end
 			response.flush_buffer
@@ -74,6 +79,13 @@ feature -- Basic operations
 		rescue
 			log_service_error
 			log.exit_no_trailer
+		end
+
+feature -- Status query
+
+	is_caching_disabled: BOOLEAN
+		-- stop browser from caching this page
+		do
 		end
 
 feature {NONE} -- Factory

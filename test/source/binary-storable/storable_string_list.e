@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-02-07 12:47:46 GMT (Sunday 7th February 2016)"
-	revision: "1"
+	date: "2016-11-18 14:30:44 GMT (Friday 18th November 2016)"
+	revision: "2"
 
 class
 	STORABLE_STRING_LIST
