@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:23:56 GMT (Saturday 26th December 2015)"
-	revision: "1"
+	date: "2016-11-18 19:17:11 GMT (Friday 18th November 2016)"
+	revision: "2"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -253,13 +253,13 @@ feature {NONE} -- Factory
 	new_navigation_links_box (current_page_link_count: INTEGER): EL_HORIZONTAL_BOX
 			--
 		local
-			lower, upper, i: INTEGER
+			l_lower, upper, i: INTEGER
 			previous_page_link, next_page_link, page_link: EL_HYPERLINK_AREA
 		do
 			create Result.make (0, 0.3)
 			Result.set_background_color (background_color)
-			lower := ((page - 1) // 10) * 10 + 1
-			upper := (lower + 9).min (page_count)
+			l_lower := ((page - 1) // 10) * 10 + 1
+			upper := (l_lower + 9).min (page_count)
 
 			if page > 1 then
 				create previous_page_link.make_with_styles (
@@ -270,7 +270,7 @@ feature {NONE} -- Factory
 			end
 
 			if result_set.count > links_per_page then
-				from i := lower until i > upper loop
+				from i := l_lower until i > upper loop
 					create page_link.make_with_styles (styled (i.out), font, fixed_font, agent goto_page (i), background_color)
 					page_link.set_link_text_color (link_text_color)
 					Result.extend_unexpanded (page_link)
@@ -304,12 +304,11 @@ feature {NONE} -- Implementation: Routines
 	page_results: ARRAY [EL_VERTICAL_BOX]
 		local
 			result_link: EL_HYPERLINK_AREA; result_link_box: EL_VERTICAL_BOX
-			result_item: G
-			i, lower: INTEGER
+			result_item: G; i, l_lower: INTEGER
 		do
-			lower := (page - 1) * links_per_page + 1
-			create Result.make (lower, result_set.count.min (lower + links_per_page - 1))
-			from i := lower until i > Result.upper loop
+			l_lower := (page - 1) * links_per_page + 1
+			create Result.make (l_lower, result_set.count.min (l_lower + links_per_page - 1))
+			from i := l_lower until i > Result.upper loop
 				result_item := result_set.i_th (i)
 				create result_link.make_with_styles (
 					result_item.text, font, fixed_font, agent call_selected_action (result_set, i, result_item), background_color

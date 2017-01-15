@@ -16,6 +16,7 @@ from eiffel_loop import osprocess
 from eiffel_loop.distutils import dir_util, file_util
 from eiffel_loop.xml.xpath import XPATH_CONTEXT
 from eiffel_loop.eiffel import project
+from eiffel_loop.tar import ARCHIVE
 
 from subprocess import call
 
@@ -166,6 +167,7 @@ class FREEZE_BUILD (object):
 			self.ecf_path = ecf_path_parts [0] + '.ecf'
 
 		self.version = project_py.version
+		self.build_number = project_py.build
 
 		self.ise_platform = os.environ ['ISE_PLATFORM']
 		
@@ -226,6 +228,16 @@ class FREEZE_BUILD (object):
 	def build_type (self):
 		return 'W_code'
 
+	def code_dir (self):
+		# Example: build/win64/EIFGENs/classic/F_code
+
+		result = os.sep.join (self.code_dir_steps ())
+		return result
+
+	def code_dir_steps (self):
+		result = ['build', self.ise_platform, 'EIFGENs', self.system_type, self.build_type ()]
+		return result
+
 	def target (self):
 		# Build target as for example:
 		# 'build/win64/EIFGENs/classic/F_code/myching.exe'
@@ -233,26 +245,34 @@ class FREEZE_BUILD (object):
 		return result
 
 	def target_steps (self):
-		result = ['build', self.ise_platform, 'EIFGENs', self.system_type, self.build_type (), self.exe_name]
-		return result
-
-	def win64_target (self):
-		steps = self.target_steps ()
-		steps [1] = 'win64'
-		result = os.sep.join (steps)
+		result = self.code_dir_steps ()
+		result.append (self.exe_name)
 		return result
 
 	def exe_path (self):
 		return self.target ()
 
-	def code_dir_path (self):
-		return path.dirname (self.target ())
+	def f_code_tar_steps (self):
+		if is_unix:
+			name = 'unix'
+		else:
+			name = 'windows'
+		result = ['build', 'F_code-%s.tar' % name]
+		return result
+
+	def f_code_tar_unix_path (self):
+		result = '/'.join (self.f_code_tar_steps ())
+		return result
+
+	def f_code_tar_path (self):
+		result = os.sep.join (self.f_code_tar_steps ())
+		return result
 	
 	def project_path (self):
 		return path.join ('build', self.ise_platform)
 
 	def compilation_options (self):
-		return ['-freeze']
+		return ['-freeze', '-c_compile']
 
 	def resources_destination (self):
 		self.write_io ('resources_destination freeze\n')
@@ -270,19 +290,20 @@ class FREEZE_BUILD (object):
 			
 		return result
 
-	def archive_target (self):
-		return path.join ('build', os_platform.system () + '-F_code.tar.gz')
-	
 # Status query
 	
 
 # Basic operations	
 	def pre_compilation (self):
 		self.__write_class_build_info ()
+		# Make build/win64, etc
+		project_path = os.sep.join (self.code_dir_steps ()[0:1])
+		if not path.exists (project_path):
+			dir_util.mkpath (project_path)
 	
 	def compile (self):
 		# Will automatically do precompile if needed
-		cmd = ['ec', '-batch', '-c_compile'] + self.compilation_options () + ['-config', self.ecf_path, '-project_path', self.project_path ()]
+		cmd = ['ec', '-batch'] + self.compilation_options () + ['-config', self.ecf_path, '-project_path', self.project_path ()]
 		self.write_io ('cmd = %s\n' % cmd)
 			
 		ret_code = call (cmd)
@@ -292,7 +313,7 @@ class FREEZE_BUILD (object):
 
 	def install_resources (self, destination_dir):
 		print 'Installing resources in:', destination_dir
-		copy_tree, copy_file, remove_tree, mkpath = self.__file_command_set (destination_dir)
+		copy_tree, copy_file, remove_tree, mkpath = self._file_command_set (destination_dir)
 
 		if not path.exists (destination_dir):
 			mkpath (destination_dir)
@@ -300,8 +321,7 @@ class FREEZE_BUILD (object):
 		if path.exists (resource_root_dir):
 			excluded_dirs = ["workarea"]
 			resource_list = [
-				path.join (resource_root_dir, name) 
-					for name in os.listdir (resource_root_dir ) if not name in excluded_dirs
+				path.join (resource_root_dir, name) for name in os.listdir (resource_root_dir ) if not name in excluded_dirs
 			]
 			for resource_path in resource_list:
 				basename = path.basename (resource_path)
@@ -316,13 +336,14 @@ class FREEZE_BUILD (object):
 
 	def install_executables (self, destination_dir):
 		print 'Installing executables in:', destination_dir
-		copy_tree, copy_file, remove_tree, mkpath = self.__file_command_set (destination_dir)
+		copy_tree, copy_file, remove_tree, mkpath = self._file_command_set (destination_dir)
 
 		bin_dir = path.join (destination_dir, 'bin')
-		mkpath (bin_dir)
+		if not path.exists (bin_dir):
+			mkpath (bin_dir)
 		
 		# Copy executable including possible Windows 7 manifest file
-		for exe_path in glob (path.join (self.code_dir_path (), self.exe_name + '*')):
+		for exe_path in glob (path.join (self.code_dir (), self.exe_name + '*')):
 			copy_file (exe_path, bin_dir)
 
 		self.write_io ('Copying shared object libraries\n')
@@ -337,19 +358,17 @@ class FREEZE_BUILD (object):
 			f.write (launch_script_template % (install_bin_dir, self.exe_name))
 			f.close
 
+	def write_io (self, str):
+		sys.stdout.write (str)
+
 # Implementation
 
-	def __file_command_set (self, destination_dir):
-		# return appropriate file commands for required permissions in destination_dir
+	def _file_command_set (self, destination_dir):
+		self.write_io ("using root copy permissions\n")
+		result = (dir_util.sudo_copy_tree, file_util.sudo_copy_file, dir_util.sudo_remove_tree, dir_util.sudo_mkpath)
 	
-		if path.basename (destination_dir) == self.ise_platform:
-			result = (dir_util.copy_tree, file_util.copy_file, dir_util.remove_tree, dir_util.mkpath)
-
-		else: # Admin permission required
-			result = (dir_util.sudo_copy_tree, file_util.sudo_copy_file, dir_util.sudo_remove_tree, dir_util.sudo_mkpath)
-			
 		return result
-	
+
 	def __shared_object_libraries (self):
 		result = []
 		for ecf in self.ecf.libraries:
@@ -362,32 +381,24 @@ class FREEZE_BUILD (object):
 
 		return result
 
-	def write_io (self, str):
-		sys.stdout.write (str)
-
 	def __write_class_build_info (self):
 		self.write_io ('__write_class_build_info\n')
 		file_path = path.join (path.normpath (self.dir_build_info), 'build_info.e')
-
-		build_no = 1
-		if path.exists (file_path):
-			f = open (file_path, 'r')
-			for line in f.readlines ():
-				if line.startswith ('\tBuild_number'):
-					build_no = int (line.split ()[-1:][0]) + 1
-					break
-			f.close ()
-		
+	
 		f = open (file_path, 'w')
 		f.write (
 			build_info_class_template.substitute (
-				version = "%02d_%02d_%02d" % self.version, 
-				build_no = build_no,
+				version = "%02d_%02d_%02d" % self.version,
+				build_number = self.build_number,
 				# Assumes unix separator
 				installation_sub_directory = self.installation_sub_directory
 			)
 		)
-		f.close
+		f.close ()
+		# Write build/version.txt
+		f = open (path.join ('build', 'version.txt'), 'w')
+		f.write ("%s.%s.%s" % self.version)
+		f.close ()
 
 	def __SConscript_path (self, lib):
 		#print "__SConscript_path (%s)" % lib
@@ -409,52 +420,95 @@ class FREEZE_BUILD (object):
 
 # end FREEZE_BUILD
 
-class FINALIZE_BUILD (FREEZE_BUILD):
+class C_CODE_TAR_BUILD (FREEZE_BUILD):
+# Generates cross-platform Finalized_code.tar
 
 # Access
 	def build_type (self):
 		return 'F_code'
 
+	def target_steps (self):
+		result = self.f_code_tar_steps ()
+		return result
+
 	def compilation_options (self):
 		return ['-finalize']
-
-	def resources_destination (self):
-		return path.join ('build', self.ise_platform, 'package')
 
 # Status query
 
 # Basic operations
+	def compile (self):
+		super (C_CODE_TAR_BUILD, self).compile ()
+		tar_path = self.f_code_tar_path ()
+		if path.exists (tar_path):
+			os.remove (tar_path)
+		self.write_io ('Archiving to: %s\n' % tar_path)
+
+		tar = ARCHIVE (self.f_code_tar_unix_path ())
+		tar.chdir = '/'.join (self.code_dir_steps ()[0:-1])
+		tar.append ('F_code')
+
+		code_dir = self.code_dir ()
+		dir_util.remove_tree (code_dir)
+		dir_util.mkpath (code_dir) # Leave an empty F_code directory otherwise EiffelStudio complains
+		
+# end C_CODE_TAR_BUILD
+
+class FINALIZED_BUILD (FREEZE_BUILD):
+# extracts Finalized_code.tar and compiles to executable, and then deletes `F_code'
+
+# Access
+	def build_type (self):
+		return 'F_code'
+
+	def resources_destination (self):
+		return path.join ('build', self.ise_platform, 'package')
+
+	def target_steps (self):
+		result = self.resources_destination ().split (os.sep) + ['bin', self.exe_name]
+		return result
+
+# Basic operations
+	def pre_compilation (self):
+		pass
+
+	def compile (self):
+		code_dir = self.code_dir ()
+		classic_dir = path.dirname (code_dir)
+		if path.exists (classic_dir):
+			if path.exists (code_dir):
+				dir_util.remove_tree (code_dir)
+		else:
+			dir_util.mkpath (classic_dir)
+
+		tar_path = self.f_code_tar_unix_path ()
+		tar = ARCHIVE (tar_path)
+		tar.chdir = '/'.join (self.code_dir_steps ()[0:-1])
+		self.write_io ('Extracting: %s\n' % tar_path)
+		tar.extract ()
+
+		curdir = path.abspath (os.curdir)
+		os.chdir (self.code_dir ())
+		ret_code = osprocess.call (['finish_freezing'])
+		os.chdir (curdir)
+
 	def post_compilation (self):
 		destination = self.resources_destination ()
 		self.install_resources (destination)
 		self.install_executables (destination)
-		
-# end FINALIZE_BUILD
 
-class RECOMPILED_X64_FINALIZE_BUILD (FINALIZE_BUILD):
-# Recyles an existing win64 F_code target for x86 build
-
-# Basic operations
-	def compile (self):
-		self.__copy_win64_F_code ()
-
-		curdir = path.abspath (os.curdir)
-		os.chdir (self.code_dir_path ())
-		ret_code = osprocess.call (['finish_freezing'])
-		os.chdir (curdir)
+		code_dir = self.code_dir ()
+		dir_util.remove_tree (code_dir)
+		dir_util.mkpath (code_dir)
 
 # Implementation
 
-	def __copy_win64_F_code (self):
-		f_code_tar_path = project.create_classic_f_code_tar ('win64')
+	def _file_command_set (self, destination_dir):
+		self.write_io ("using normal copy permissions\n")
+		result = (dir_util.copy_tree, file_util.copy_file, dir_util.remove_tree, dir_util.mkpath)
+		return result
 
-		file_util.copy_file (r'build\win64\myching.rc', r'build\windows')
-
-		project.restore_classic_f_code_tar (f_code_tar_path, 'windows')
-
-		os.remove (f_code_tar_path)
-
-# end RECOMPILED_X64_FINALIZE_BUILD
+# end FINALIZED_BUILD
 
 class FINALIZE_AND_TEST_BUILD (FREEZE_BUILD): # Obsolete July 2012
 
@@ -501,7 +555,7 @@ feature -- Constants
 
 	Version_number: NATURAL = ${version}
 
-	Build_number: NATURAL = ${build_no}
+	Build_number: NATURAL = ${build_number}
 
 	Installation_sub_directory: EL_DIR_PATH
 		once

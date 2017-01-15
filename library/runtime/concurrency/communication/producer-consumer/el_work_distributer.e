@@ -54,8 +54,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-07 12:13:23 GMT (Monday 7th November 2016)"
-	revision: "1"
+	date: "2016-11-07 14:51:59 GMT (Monday 7th November 2016)"
+	revision: "2"
 
 class
 	EL_WORK_DISTRIBUTER [BASE_TYPE]

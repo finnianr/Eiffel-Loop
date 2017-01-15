@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 12:08:35 GMT (Wednesday 28th September 2016)"
-	revision: "3"
+	date: "2016-12-14 13:15:00 GMT (Wednesday 14th December 2016)"
+	revision: "4"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -177,7 +177,8 @@ feature {NONE} -- Implementation
 				lio.put_labeled_string ("Target checksum", old_checksum.out)
 				lio.put_labeled_string (" Actual sum", new_checksum.out)
 				lio.put_new_line
-				lio.put_string ("<RETURN> to continue")
+
+				io.put_string ("<RETURN> to continue")
 				io.read_line
 			end
 			Checksum_list.extend (new_checksum)

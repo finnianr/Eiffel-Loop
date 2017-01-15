@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 10:11:13 GMT (Monday 3rd October 2016)"
-	revision: "3"
+	date: "2017-01-15 14:44:48 GMT (Sunday 15th January 2017)"
+	revision: "4"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -30,12 +30,6 @@ feature -- Access
 			create Result.make_with_name ("None.txt")
 		end
 
-	closed_raw_file (a_file_path: EL_FILE_PATH): RAW_FILE
-			--
-		do
-			create Result.make_with_name (a_file_path)
-		end
-
 	escaped_path (path: EL_PATH): ZSTRING
 		deferred
 		end
@@ -56,8 +50,7 @@ feature -- Access
 		end
 
 	modification_time (file_path: EL_FILE_PATH): INTEGER
-		do
-			Result := closed_raw_file (file_path).date
+		deferred
 		end
 
 	recursive_files (a_dir_path: EL_DIR_PATH): like Directory.recursive_files
@@ -74,11 +67,8 @@ feature -- Access
 
 	file_byte_count (a_file_path: EL_FILE_PATH): INTEGER
 			--
-		local
-			l_file: RAW_FILE
 		do
-			create l_file.make_with_name (a_file_path)
-			Result := l_file.count
+			Result := closed_raw_file (a_file_path).count
 		end
 
 	line_one (a_file_path: EL_FILE_PATH): STRING
@@ -171,27 +161,28 @@ feature -- Basic operations
 			--
 		require
 			file_exists: a_file_path.exists
-		local
-			l_file: RAW_FILE
 		do
-			create l_file.make_with_name (a_file_path)
-			l_file.delete
+			closed_raw_file (a_file_path).delete
 		end
 
 	rename_file (a_file_path, new_file_path: EL_FILE_PATH)
 			-- change name of file to new_name. If preserve_extension is true, the original extension is preserved
 		require
 			file_exists: a_file_path.exists
-		local
-			l_file: RAW_FILE
 		do
-			create l_file.make_with_name (a_file_path)
-			l_file.rename_file (new_file_path)
+			closed_raw_file (a_file_path).rename_file (new_file_path)
 		end
 
 	set_modification_time (file_path: EL_FILE_PATH; date_time: INTEGER)
 		do
 			closed_raw_file (file_path).set_date (date_time)
+		ensure
+			modification_time_set: modification_time (file_path) = date_time
+		end
+
+	set_time_stamp (file_path: EL_FILE_PATH; date_time: INTEGER)
+		do
+			closed_raw_file (file_path).stamp (date_time)
 		ensure
 			modification_time_set: modification_time (file_path) = date_time
 		end
@@ -251,7 +242,23 @@ feature -- Status query
 			l_file.close
 		end
 
+	file_exists (a_file_path: EL_FILE_PATH): BOOLEAN
+		do
+			Result := closed_raw_file (a_file_path).exists
+		end
+
 feature {NONE} -- Implementation
+
+	closed_raw_file (a_file_path: EL_FILE_PATH): RAW_FILE
+			--
+		do
+			if attached internal_raw_file then
+				internal_raw_file.make_with_name (a_file_path)
+			else
+				create internal_raw_file.make_with_name (a_file_path)
+			end
+			Result := internal_raw_file
+		end
 
 	notify_progress (file: FILE)
 		do
@@ -259,5 +266,9 @@ feature {NONE} -- Implementation
 				l_file.notify
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	internal_raw_file: RAW_FILE
 
 end

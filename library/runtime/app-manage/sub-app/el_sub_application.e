@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 14:14:51 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-12-14 13:11:29 GMT (Wednesday 14th December 2016)"
+	revision: "2"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -48,7 +48,9 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 
 			l_log_filters := log_filter_array
 			init_logging (l_log_filters, Log_output_directory)
-			io_put_header (l_log_filters)
+			if not (Args.has_no_app_header or Args.has_silent) then
+				io_put_header (l_log_filters)
+			end
 			lio.put_new_line
 
 			log.enter ("make")
@@ -69,7 +71,7 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 				run
 				if Ask_user_to_quit then
 					lio.put_new_line
-					lio.put_string ("<RETURN TO QUIT>")
+					io.put_string ("<RETURN TO QUIT>")
 					io.read_character
 				end
 			end

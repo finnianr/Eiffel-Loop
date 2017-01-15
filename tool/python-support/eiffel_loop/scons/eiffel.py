@@ -19,10 +19,15 @@ def copy_precompile (target, source, env):
 	# Copy precompile into precomp/$ISE_PLATFORM
 	file_util.copy_file (str (source [0]), str (target [0]))
 
-def compile_executable (target, source, env):
+def compile_eiffel (target, source, env):
+	build = env ['EIFFEL_BUILD']
+	build.pre_compilation ()
+	build.compile ()
+
+def compile_C_code (target, source, env):
 	install = env.get ('install') and env.get ('action') == 'finalize'
 
-	build = env ['EIFFEL_BUILD']
+	build = env ['C_BUILD']
 	package_exe_path = path.join ('package', 'bin', build.exe_name)		
 
 	if install and path.exists (package_exe_path):

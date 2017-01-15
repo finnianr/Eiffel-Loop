@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-06 12:05:48 GMT (Monday 6th June 2016)"
-	revision: "1"
+	date: "2016-12-14 12:29:51 GMT (Wednesday 14th December 2016)"
+	revision: "2"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -124,9 +124,9 @@ feature {NONE} -- Implementation
 					off
 				loop
 					read_line
-					io.put_string (last_string)
+					std_output.put_string (last_string)
 					if not off then
-						io.put_new_line
+						std_output.put_new_line
 					end
 				end
 				close; open_append
@@ -139,7 +139,7 @@ feature {NONE} -- Implementation
 		do
 			put_file_string (str.to_utf_8)
 			if is_directed_to_console.item then
-				io.put_string (str.to_utf_8)
+				std_output.put_string (str.to_utf_8)
 			end
 		end
 
@@ -148,7 +148,7 @@ feature {NONE} -- Implementation
 			if not Escape_sequences.has (str_8) then
 				put_file_string (str_8)
 				if is_directed_to_console.item then
-					io.put_string (str_8)
+					std_output.put_string (str_8)
 				end
 			end
 		end

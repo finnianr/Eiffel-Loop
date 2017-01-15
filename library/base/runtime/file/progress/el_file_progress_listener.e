@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-12 12:35:36 GMT (Wednesday 12th October 2016)"
-	revision: "2"
+	date: "2017-01-03 13:32:12 GMT (Tuesday 3rd January 2017)"
+	revision: "3"
 
 class
 	EL_FILE_PROGRESS_LISTENER
 
 inherit
 	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_LIO
 
 create
 	make, make_estimated
@@ -35,6 +37,11 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	display: EL_FILE_PROGRESS_DISPLAY
+
+	byte_count: INTEGER
+		-- bytes read/written
+
+	estimated_byte_count: INTEGER
 
 feature -- Element change
 
@@ -78,6 +85,10 @@ feature -- Basic operations
 		do
 			display.set_progress (1.0)
 			display.on_finish
+			if is_lio_enabled then
+				lio.put_integer_field (display.generator + " byte_count", byte_count)
+				lio.put_new_line
+			end
 			reset
 		end
 
@@ -95,12 +106,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	byte_count: INTEGER
-		-- bytes read/written
-
 	bytes_per_tick: INTEGER
-
-	estimated_byte_count: INTEGER
 
 	final_tick_count: INTEGER
 

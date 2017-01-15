@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-12-11 13:11:59 GMT (Sunday 11th December 2016)"
+	revision: "2"
 
 class
 	PYXIS_TO_XML_CONVERTER
@@ -16,6 +16,8 @@ inherit
 	EL_COMMAND
 
 	EL_MODULE_LOG
+
+	EL_MODULE_FILE_SYSTEM
 
 create
 	make, default_create
@@ -37,6 +39,8 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 				else
 					output_path := source_path.without_extension
 				end
+			else
+				File_system.make_directory (a_output_path.parent)
 			end
 
 		end

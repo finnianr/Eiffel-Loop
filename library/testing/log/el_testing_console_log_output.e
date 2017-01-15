@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 14:35:12 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2016-12-14 13:10:32 GMT (Wednesday 14th December 2016)"
+	revision: "2"
 
 class
 	EL_TESTING_CONSOLE_LOG_OUTPUT
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 			utf_8: STRING
 		do
 			utf_8 := str.to_utf_8
-			io.put_string (utf_8)
+			std_output.put_string (utf_8)
 			crc_32.add_string_8 (utf_8)
 		end
 
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 			-- Write str8 filtering color high lighting control sequences
 		do
 			if not Escape_sequences.has (str) then
-				io.put_string (str)
+				std_output.put_string (str)
 				crc_32.add_string_8 (str)
 			end
 		end

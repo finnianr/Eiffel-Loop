@@ -2,9 +2,9 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 1, 27)
+version = (1, 1, 27); build = 366
 
-installation_sub_directory = 'Eiffel-Loop/utils'
+installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])

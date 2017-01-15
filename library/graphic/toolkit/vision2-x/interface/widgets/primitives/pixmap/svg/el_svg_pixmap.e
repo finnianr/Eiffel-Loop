@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-11 9:53:33 GMT (Monday 11th July 2016)"
-	revision: "1"
+	date: "2017-01-03 13:11:57 GMT (Tuesday 3rd January 2017)"
+	revision: "2"
 
 class
 	EL_SVG_PIXMAP
@@ -305,7 +305,6 @@ feature {EL_SVG_PIXMAP} -- Implementation
 --			log.enter_no_header ("update_pixmap")
 			if a_svg_path.exists and then not png_output_path.exists then
 				l_svg_xml := svg_xml (a_svg_path)
-				progress_listener.on_notify (l_svg_xml.count)
 
 				png_dir := png_output_path.parent
 				File_system.make_directory (png_dir)
@@ -318,7 +317,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 					png_image_file.render_svg_of_height (a_svg_path, l_svg_xml, dimension, background_color.rgb_32_bit)
 				end
 				png_image_file.close
-				progress_listener.on_notify (png_image_file.count)
+				progress_listener.on_notify (l_svg_xml.count)
 			end
 			if png_output_path.exists then
 				set_with_named_path (pixmap_path)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-17 11:27:02 GMT (Thursday 17th December 2015)"
-	revision: "1"
+	date: "2016-11-17 16:20:36 GMT (Thursday 17th November 2016)"
+	revision: "2"
 
 deferred class
 	EL_SERVLET_SESSION [G -> EL_SERVLET_CONFIG]

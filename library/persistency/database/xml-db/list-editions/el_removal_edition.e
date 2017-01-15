@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:26 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-11-17 12:17:02 GMT (Thursday 17th November 2016)"
+	revision: "2"
 
 class
 	EL_REMOVAL_EDITION [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT]

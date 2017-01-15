@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-03-31 15:50:34 GMT (Tuesday 31st March 2015)"
-	revision: "1"
+	date: "2016-11-17 12:22:25 GMT (Thursday 17th November 2016)"
+	revision: "2"
 
 deferred class
 	EL_PAYPAL_OPTION_SUB_PARAMETER_LIST

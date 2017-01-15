@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2016-11-17 13:30:53 GMT (Thursday 17th November 2016)"
+	revision: "2"
 
 class
 	EL_AUDIO_WAVE_HEADER

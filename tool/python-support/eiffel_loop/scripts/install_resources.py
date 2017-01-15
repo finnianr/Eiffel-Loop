@@ -23,7 +23,7 @@ env.Append (ENV = os.environ)
 env.Append (ISE_PLATFORM = os.environ ['ISE_PLATFORM'])
 
 project_py = project.read_project_py ()
-project_py.update_os_environ (env.get ('cpu') == 'x86')
+project_py.set_build_environment (env.get ('cpu'))
 
 ecf_path = env.get ('project')
 config = EIFFEL_CONFIG_FILE (ecf_path, True)

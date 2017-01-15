@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 7:04:27 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2016-12-14 11:11:00 GMT (Wednesday 14th December 2016)"
+	revision: "2"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -168,6 +168,16 @@ feature -- Status query
 		do
 			unicode_name := name.to_unicode
 			Result := index_of_word_option (unicode_name) > 0 and then (index_of_word_option (unicode_name) + 1) <= argument_count
+		end
+
+	has_silent: BOOLEAN
+		do
+			Result := word_option_exists ({EL_COMMAND_OPTIONS}.Silent)
+		end
+
+	has_no_app_header: BOOLEAN
+		do
+			Result := word_option_exists ({EL_COMMAND_OPTIONS}.No_app_header)
 		end
 
 	word_option_exists (word_option: ZSTRING): BOOLEAN

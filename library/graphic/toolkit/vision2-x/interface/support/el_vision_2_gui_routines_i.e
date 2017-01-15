@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-15 10:53:59 GMT (Saturday 15th October 2016)"
-	revision: "2"
+	date: "2016-11-18 19:09:26 GMT (Friday 18th November 2016)"
+	revision: "3"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -294,7 +294,7 @@ feature -- Measurement
 			i, count, width: INTEGER
 			l_str: READABLE_STRING_GENERAL
 		do
-			count := strings.index_set.upper
+			count := strings.upper
 			from i := 1 until i > count loop
 				l_str := strings [i]
 				if attached {ZSTRING} l_str as l_astr then

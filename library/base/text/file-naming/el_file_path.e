@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 10:13:56 GMT (Monday 3rd October 2016)"
-	revision: "3"
+	date: "2017-01-14 13:10:06 GMT (Saturday 14th January 2017)"
+	revision: "4"
 
 class
 	EL_FILE_PATH
@@ -46,7 +46,7 @@ feature -- Status report
 
 	exists: BOOLEAN
 		do
-			Result := File_system.closed_raw_file (Current).exists
+			Result := File_system.file_exists (Current)
 		end
 
 	Is_directory: BOOLEAN = False

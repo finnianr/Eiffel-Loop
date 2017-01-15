@@ -13,10 +13,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 8:17:09 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2016-12-14 12:24:28 GMT (Wednesday 14th December 2016)"
+	revision: "2"
 
 class
 	EL_MODULE_LIO
@@ -25,6 +25,8 @@ inherit
 	EL_MODULE
 
 	EL_MODULE_CONSOLE
+
+	EL_MODULE_ARGS
 
 feature -- Access
 
@@ -46,6 +48,10 @@ feature {NONE} -- Implementation
 
 	new_lio: EL_LOGGABLE
 		do
-			create {EL_CONSOLE_ONLY_LOG} Result.make
+			if Args.has_silent then
+				create {EL_SILENT_LOG} Result
+			else
+				create {EL_CONSOLE_ONLY_LOG} Result.make
+			end
 		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-04 8:12:38 GMT (Tuesday 4th October 2016)"
-	revision: "2"
+	date: "2017-01-14 12:34:47 GMT (Saturday 14th January 2017)"
+	revision: "3"
 
 class
 	EL_DIRECTORY_INFO_COMMAND_IMP
@@ -60,6 +60,5 @@ feature {NONE} -- Constants
 		once
 			Result := "Total Files Listed:"
 		end
-
 
 end

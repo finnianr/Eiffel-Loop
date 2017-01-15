@@ -46,16 +46,32 @@ def set_environ_from_directory (a_dir):
 		if path.isdir (file_path):
 			environ [library_environ_name (name)] = file_path
 
-def update_os_environ (is_x86_target):
-	print "Updated environment",
-	os.environ.update (C_dev.compiler_environ (MSC_options))
-	os.environ.update (environ)
+def set_build_environment (target_cpu):
+	# set C build environment for `target_cpu'
+	cpu_options = ['x86', 'x64']
+	if not target_cpu in cpu_options:
+		raise Exception ('Invalid argument: set_build_environment (target_cpu)', target_cpu)
+		exit (1)
 
-	if sys.platform == 'win32' and is_x86_target:
-		print "with x86 environment"
-		os.environ.update (project.x86_environ (environ))
+	print "Setting %s build environment" % target_cpu
+	if sys.platform == 'win32':
+		# Adjust setenv.cmd arguments `MSC_options'
+		for opt in cpu_options:
+			setenv_option = '/' + opt
+			if setenv_option in MSC_options:
+				MSC_options.remove (setenv_option)
+				break
+
+		MSC_options.insert (0, '/' + target_cpu)
+
+		os.environ.update (C_dev.msvc_compiler_environ (MSC_options, os.environ ['ISE_C_COMPILER'] == 'msc_v140'))
+		if target_cpu == 'x86':
+			os.environ.update (project.x86_environ (environ))
+		else:
+			os.environ.update (environ)
+
 	else:
-		print ''
+		os.environ.update (environ)
 
 	for name in sorted (environ):
 		print name + " =", os.environ [name]
@@ -90,14 +106,9 @@ set_environ ('EXPAT',				'$EIFFEL_LOOP/contrib/C/Expat')
 set_environ ('VTD_XML_INCLUDE',	'$EIFFEL_LOOP/contrib/C/VTD-XML.2.7/include')
 set_environ ('EIFFEL_LOOP_C',		'$EIFFEL_LOOP/C_library')
 
-MSC_options = ['/x64', '/xp', '/Release']
+MSC_options = ['/x64', '/win7', '/Release']
 
-if sys.platform == 'win32':
-	if not 'MSDKBIN' in os.environ:
-		print 'ERROR: environment variable MSDKBIN not defined'
-		print 'This defines the location of the Visual Studio command "setenv" or "vcvarsall"'
-		sys.exit (1)
-else:
+if not sys.platform == 'win32':
 	environ ['LANG'] = 'C'
 
 
