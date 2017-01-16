@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-15 14:44:48 GMT (Sunday 15th January 2017)"
-	revision: "4"
+	date: "2017-01-16 12:52:37 GMT (Monday 16th January 2017)"
+	revision: "5"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -50,7 +50,8 @@ feature -- Access
 		end
 
 	modification_time (file_path: EL_FILE_PATH): INTEGER
-		deferred
+		do
+			Result := closed_raw_file (file_path).date
 		end
 
 	recursive_files (a_dir_path: EL_DIR_PATH): like Directory.recursive_files
@@ -174,8 +175,8 @@ feature -- Basic operations
 		end
 
 	set_modification_time (file_path: EL_FILE_PATH; date_time: INTEGER)
-		do
-			closed_raw_file (file_path).set_date (date_time)
+			-- set modification time with date_time as secs since Unix epoch
+		deferred
 		ensure
 			modification_time_set: modification_time (file_path) = date_time
 		end

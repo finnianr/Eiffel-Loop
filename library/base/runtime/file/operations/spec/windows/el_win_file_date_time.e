@@ -1,6 +1,6 @@
 note
 	description: "[
-		Converts a Windows FILETIME structure to Unix date stamp
+		Represents Windows file time as the number of 100-nanosecond intervals from 1 Jan 1601
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-15 15:27:13 GMT (Sunday 15th January 2017)"
-	revision: "1"
+	date: "2017-01-16 10:52:51 GMT (Monday 16th January 2017)"
+	revision: "2"
 
 class
 	EL_WIN_FILE_DATE_TIME
@@ -40,19 +40,45 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	since_unix_epoch: INTEGER
+	unix_value: INTEGER
 			-- number of seconds since Unix Epoch
 		local
-			l_100_nano: NATURAL_64
+			nanosec_100: NATURAL_64
 		do
-			-- Convert number of 100-nanosecond intervals since Unix Epoch
-			-- https://msdn.microsoft.com/en-us/library/windows/desktop/ms724284(v=vs.85).aspx
-
-			l_100_nano := c_filetime_high_word (item) |<< 32 | c_filetime_low_word (item)
-			Result := (l_100_nano // Ten_micro_seconds_per_second - Secs_to_unix_epoch).to_integer_32
-			if l_100_nano \\ Ten_micro_seconds_per_second > Half_of_ten_micro_seconds_per_second then
+			nanosec_100 := value
+			Result := (nanosec_100 // Ten_micro_seconds_per_second - Secs_to_unix_epoch).to_integer_32
+			if nanosec_100 \\ Ten_micro_seconds_per_second > Half_of_ten_micro_seconds_per_second then
 				Result := Result + 1
 			end
+		end
+
+	value: NATURAL_64
+			-- number of 100 nanosecond intervals since 1 Jan 1601
+			-- https://msdn.microsoft.com/en-us/library/windows/desktop/ms724284(v=vs.85).aspx
+		do
+			Result := c_filetime_high_word (item) |<< 32 | c_filetime_low_word (item)
+		end
+
+feature -- Element change
+
+	set_unix_value (a_unix_value: like unix_value)
+		local
+			seconds_count: NATURAL_64
+		do
+			if a_unix_value < 0 then
+				seconds_count := Secs_to_unix_epoch - a_unix_value.to_natural_64
+			else
+				seconds_count := Secs_to_unix_epoch + a_unix_value.to_natural_64
+			end
+			set_value (seconds_count * Ten_micro_seconds_per_second)
+		ensure
+			value_set: unix_value = a_unix_value
+		end
+
+	set_value (a_value: like value)
+		do
+			c_set_filetime_low_word (item, a_value.to_natural_32)
+			c_set_filetime_high_word (item, (a_value |>> 32).to_natural_32)
 		end
 
 feature {NONE} -- Constants
@@ -63,4 +89,6 @@ feature {NONE} -- Constants
 
 	Secs_to_unix_epoch: NATURAL_64 =	11_644_473_600
 		-- since 1 Jan 1601
+
+	Hi_word_mask: NATURAL_64 = 0xFFFFFFFF
 end

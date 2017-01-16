@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-15 13:42:20 GMT (Sunday 15th January 2017)"
-	revision: "1"
+	date: "2017-01-16 12:17:51 GMT (Monday 16th January 2017)"
+	revision: "2"
 
 class
 	EL_WIN_FILE_INFO_C_API
@@ -21,7 +21,7 @@ feature {NONE} -- C externals
 			"INVALID_HANDLE_VALUE"
 		end
 
-	frozen c_open_file (name: POINTER): NATURAL
+	frozen c_open_file_read (name: POINTER): NATURAL
 			-- HANDLE WINAPI CreateFile(
 			-- 	_In_     LPCTSTR               lpFileName,
 			-- 	_In_     DWORD                 dwDesiredAccess,
@@ -37,7 +37,24 @@ feature {NONE} -- C externals
 			"return (EIF_NATURAL_32) CreateFile ($name, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)"
 		end
 
-	c_get_file_time (handle: NATURAL_32; creation_time_ptr, last_access_time_ptr, last_write_time_ptr: POINTER): BOOLEAN
+	frozen c_open_file_write (name: POINTER): NATURAL
+			-- HANDLE WINAPI CreateFile(
+			-- 	_In_     LPCTSTR               lpFileName,
+			-- 	_In_     DWORD                 dwDesiredAccess,
+			-- 	_In_     DWORD                 dwShareMode,
+			-- 	_In_opt_ LPSECURITY_ATTRIBUTES lpSecurityAttributes,
+			-- 	_In_     DWORD                 dwCreationDisposition,
+			-- 	_In_     DWORD                 dwFlagsAndAttributes,
+			-- 	_In_opt_ HANDLE                hTemplateFile
+			-- );
+		external
+			"C inline use <Windows.h>"
+		alias
+			"return (EIF_NATURAL_32) CreateFile ($name, GENERIC_WRITE, NULL, NULL, OPEN_EXISTING, 0, NULL)"
+		end
+
+	frozen c_get_file_time (handle: NATURAL_32; creation_time_ptr, last_access_time_ptr, last_write_time_ptr: POINTER): BOOLEAN
+			-- time pointers can be NULL if the application does not require this information.
 			-- BOOL WINAPI GetFileTime (
 			--		_In_      HANDLE     hFile,
 			--		_Out_opt_ LPFILETIME lpCreationTime,
@@ -56,6 +73,20 @@ feature {NONE} -- C externals
 			"C (HANDLE): EIF_BOOLEAN | <Windows.h>"
 		alias
 			"CloseHandle"
+		end
+
+	frozen c_set_file_time (handle: NATURAL_32; creation_time_ptr, last_access_time_ptr, last_write_time_ptr: POINTER): BOOLEAN
+			-- time pointers can be NULL if the application does not need to set this information.
+			-- BOOL WINAPI SetFileTime(
+			--		_In_           HANDLE   hFile,
+			--		_In_opt_ const FILETIME *lpCreationTime,
+			--		_In_opt_ const FILETIME *lpLastAccessTime,
+			--		_In_opt_ const FILETIME *lpLastWriteTime
+			-- )
+  		external
+			"C signature (HANDLE, LPFILETIME, LPFILETIME, LPFILETIME): EIF_BOOLEAN use <Windows.h>"
+		alias
+			"SetFileTime"
 		end
 
 feature {NONE} -- FILETIME C externals
@@ -80,4 +111,19 @@ feature {NONE} -- FILETIME C externals
 		alias
 			"dwHighDateTime"
 		end
+
+	frozen c_set_filetime_low_word (item_ptr: POINTER; value: NATURAL_32)
+		external
+			"C [struct <Windows.h>] (FILETIME, DWORD)"
+		alias
+			"dwLowDateTime"
+		end
+
+	frozen c_set_filetime_high_word (item_ptr: POINTER; value: NATURAL_32)
+		external
+			"C [struct <Windows.h>] (FILETIME, DWORD)"
+		alias
+			"dwHighDateTime"
+		end
+
 end
