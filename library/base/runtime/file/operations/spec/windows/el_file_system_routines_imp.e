@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-15 15:44:18 GMT (Sunday 15th January 2017)"
-	revision: "2"
+	date: "2017-01-16 12:41:42 GMT (Monday 16th January 2017)"
+	revision: "3"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -30,13 +30,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	modification_time (file_path: EL_FILE_PATH): INTEGER
+	set_modification_time (file_path: EL_FILE_PATH; date_time: INTEGER)
+			-- set modification time with date_time as secs since Unix epoch
 		local
 			info: like File_info
 		do
 			info := File_info
-			info.open (file_path.unicode)
-			Result := info.unix_last_write_time
+			info.open_write (file_path.unicode)
+			info.set_unix_last_write_time (date_time)
 			info.close
 		end
 
