@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 14:41:03 GMT (Friday 1st July 2016)"
-	revision: "1"
+	date: "2017-01-28 12:07:43 GMT (Saturday 28th January 2017)"
+	revision: "2"
 
 class
 	EL_CENTERED_VERTICAL_BOX
@@ -32,11 +32,6 @@ inherit
 		undefine
 			default_create, is_equal, copy
 		end
-
---	EL_MODULE_LOG
---		undefine
---			default_create, is_equal, copy
---		end
 
 create
 	make, default_create

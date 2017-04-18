@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 23:24:40 GMT (Friday 18th December 2015)"
-	revision: "1"
+	date: "2017-04-12 16:49:43 GMT (Wednesday 12th April 2017)"
+	revision: "2"
 
 class
 	EL_STRING_32_ROUTINES
@@ -27,6 +27,7 @@ feature -- Conversion
 				i := i + 1
 			end
 		end
+
 feature -- Transformation
 
 	prune_all_leading (str: STRING_32; c: CHARACTER_32)

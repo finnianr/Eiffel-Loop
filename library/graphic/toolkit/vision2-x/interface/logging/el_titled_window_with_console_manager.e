@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-07-09 7:45:31 GMT (Thursday 9th July 2015)"
-	revision: "1"
+	date: "2017-01-28 12:00:52 GMT (Saturday 28th January 2017)"
+	revision: "2"
 
 deferred class
 	EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER
@@ -30,13 +30,17 @@ inherit
 			copy, default_create
 		end
 
+	EL_MODULE_VISION_2
+		undefine
+			copy, default_create
+		end
+
 feature {NONE} -- Initialization
 
 	initialize
 			--
 		local
-			window_box: EL_VERTICAL_BOX
-			tool_bar_frame: EV_FRAME
+			window_box: EL_VERTICAL_BOX; tool_bar_frame: EV_FRAME
 		do
 			Precursor
 
@@ -48,6 +52,8 @@ feature {NONE} -- Initialization
 			tool_bar.set_border_width (Toolbar_border_width)
 			tool_bar.set_padding (Toolbar_padding_width)
 
+			create component_box
+			window_box.extend (component_box)
 			if has_toolbar then
 				create tool_bar_frame
 				tool_bar_frame.set_style ({EV_FRAME_CONSTANTS}.Ev_frame_raised)
@@ -57,15 +63,10 @@ feature {NONE} -- Initialization
 						create {EL_CONSOLE_MANAGER_TOOLBAR}.make (keyboard_shortcuts, console_accelerator_keys_enabled)
 					)
 				end
-				upper_bar.extend (tool_bar_frame)
-				upper_bar.set_border_width (Screen.horizontal_pixels (window_border_cms))
+				window_extend (Vision_2.new_vertical_box (window_border_cms, 0, << tool_bar_frame, window_box >>))
+			else
+				window_extend (window_box)
 			end
-
-			create component_box
-			window_box.extend (component_box)
-
-			window_extend (window_box)
-
 		end
 
 feature -- Element change
@@ -87,7 +88,7 @@ feature -- Status query
 	has_console_manager: BOOLEAN
 			--
 		do
-			Result := has_toolbar and then logging.is_active or log_manager.is_console_manager_active
+			Result := has_toolbar and then logging.is_active or Log_manager.is_console_manager_active
 		end
 
 	has_toolbar: BOOLEAN

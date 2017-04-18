@@ -1,5 +1,5 @@
 pyxis-doc:
-	version = 1.0; encoding = ISO-8859-1
+	version = 1.0; encoding = "ISO-8859-1"
 system:
 	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-10-0"
 	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance"
@@ -25,11 +25,6 @@ system:
 			condition:
 				platform:
 					value = windows
-		external_include:
-			location = "$(ISE_LIBRARY)/library/cURL/spec/include"
-			condition:
-				platform:
-					excluded_value = windows
 		external_object:
 			location = "$(ISE_LIBRARY)/library/cURL/spec/$(ISE_PLATFORM)/lib/eiffel_curl.o"
 			condition:

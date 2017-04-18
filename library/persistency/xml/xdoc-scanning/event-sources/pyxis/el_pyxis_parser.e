@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:43:56 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-04-03 15:02:10 GMT (Monday 3rd April 2017)"
+	revision: "2"
 
 class
 	EL_PYXIS_PARSER
@@ -230,9 +230,8 @@ feature {NONE} -- Parse events
 	on_declaration
 			--
 		local
+			attribute_node: EL_XML_ATTRIBUTE_NODE; attribute_name: STRING_32
 			i: INTEGER
-			attribute_node: EL_XML_ATTRIBUTE_NODE
-			attribute_name: STRING_32
 		do
 			from i := 1  until i > attribute_list.count loop
 				attribute_node := attribute_list [i]

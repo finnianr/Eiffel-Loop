@@ -32,6 +32,18 @@
 		<!--Source code-->
 		<cluster name = "http" location = "network/protocol/http" recursive = "true">
 			<option namespace = "Eiffel-Loop.http"/>
+			<file_rule>
+				<exclude>/windows$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
 		</cluster>
 		<cluster name = "http_util" location = "../contrib/Eiffel/etar/src/util"/>
 	</target>

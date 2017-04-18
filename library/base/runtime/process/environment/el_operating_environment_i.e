@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 9:11:07 GMT (Friday 1st July 2016)"
-	revision: "1"
+	date: "2017-02-10 13:07:23 GMT (Friday 10th February 2017)"
+	revision: "2"
 
 deferred class
 	EL_OPERATING_ENVIRONMENT_I
@@ -43,6 +43,11 @@ feature -- Access
 
 	temp_directory_name: ZSTRING
 		deferred
+		end
+
+	user_name: ZSTRING
+		do
+			Result := Directory.user_profile.base
 		end
 
 feature -- Constants

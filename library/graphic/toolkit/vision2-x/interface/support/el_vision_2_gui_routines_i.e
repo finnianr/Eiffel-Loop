@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-18 19:09:26 GMT (Friday 18th November 2016)"
-	revision: "3"
+	date: "2017-01-28 15:55:42 GMT (Saturday 28th January 2017)"
+	revision: "4"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -51,6 +51,7 @@ feature {NONE} -- Initialization
 			create environment
 			text_field_font := (create {EV_TEXT_FIELD}).font
 			create timer_list.make (3)
+			busy_widget := Default_busy_widget
 		end
 
 feature -- Access
@@ -68,19 +69,21 @@ feature -- Access
 
 	environment: EV_ENVIRONMENT
 
-	window_parent (widget: EV_WIDGET): EV_WINDOW
-		local
-			l_parent: EV_CONTAINER
-			depth: INTEGER
+	widget_window (widget: EV_WIDGET): EV_WINDOW
 		do
-			from l_parent := widget.parent until attached {EV_WINDOW} l_parent or else depth > 50 loop
-				l_parent := l_parent.parent
-				depth := depth + 1
-			end
-			if attached {EV_WINDOW} l_parent as window then
+			if attached {EV_WINDOW} widget as window then
 				Result := window
 			else
-				create Result
+				Result := widget_window (widget.parent)
+			end
+		end
+
+	widget_container (widget: EV_WIDGET): EV_CONTAINER
+		do
+			if attached {EV_CONTAINER} widget as container then
+				Result := container
+			else
+				Result := widget_container (widget.parent)
 			end
 		end
 
@@ -228,55 +231,96 @@ feature -- Basic operations
 
 feature -- Mouse pointer setting
 
-	restore_standard_pointer (widget: EV_WIDGET; seconds_delay: INTEGER)
+	restore_standard_pointer
 		do
-			do_later (agent (window_parent (widget)).set_pointer_style (Standard_cursor), seconds_delay * 1000)
+			if busy_widget /= Default_busy_widget then
+				busy_widget.set_pointer_style (Standard_cursor)
+				busy_widget := Default_busy_widget
+			end
 		end
 
-	set_busy_pointer_left (widget: EV_WIDGET)
+	set_busy_pointer_for_action (action: PROCEDURE [ANY, TUPLE]; widget: EV_WIDGET; position: INTEGER)
 		do
-			set_busy_pointer (widget, 0, widget.height // 2)
+			set_busy_pointer (widget, position)
+			do_once_on_idle (action)
+			do_once_on_idle (agent restore_standard_pointer)
 		end
 
-	set_busy_pointer_right (widget: EV_WIDGET)
+	set_busy_pointer_for_action_at (action: PROCEDURE [ANY, TUPLE]; widget: EV_WIDGET; position_x_cms, position_y_cms: REAL)
 		do
-			set_busy_pointer (widget, widget.width, widget.height // 2)
+			set_busy_pointer_at (widget, position_x_cms, position_y_cms)
+			do_once_on_idle (action)
+			do_once_on_idle (agent restore_standard_pointer)
 		end
 
-	set_busy_pointer_top (widget: EV_WIDGET)
+	set_busy_pointer_for_duration (widget: EV_WIDGET; position, duration_seconds: INTEGER)
 		do
-			set_busy_pointer (widget, widget.width // 2, 0)
+			set_busy_pointer (widget, position)
+			do_later (agent restore_standard_pointer, duration_seconds * 1000)
 		end
 
-	set_busy_pointer_bottom (widget: EV_WIDGET)
+	set_busy_pointer (widget: EV_WIDGET; position: INTEGER)
+		require
+			valid_position: valid_relative_position (position)
 		do
-			set_busy_pointer (widget, widget.width // 2, widget.height)
+			inspect position
+				when To_left then
+					set_busy_pointer_at_position (widget, 0, widget.height // 2)
+				when To_right then
+					set_busy_pointer_at_position (widget, widget.width, widget.height // 2)
+				when To_top then
+					set_busy_pointer_at_position (widget, widget.width // 2, 0)
+				when To_bottom then
+					set_busy_pointer_at_position (widget, widget.width // 2, widget.height)
+				when To_center then
+					set_busy_pointer_at_position (widget, widget.width // 2, widget.height // 2)
+			else
+				set_busy_pointer (widget, To_center)
+			end
 		end
 
-	set_busy_pointer_center (widget: EV_WIDGET)
+	set_busy_pointer_at (widget: EV_WIDGET; position_x_cms, position_y_cms: REAL)
 		do
-			set_busy_pointer (widget, widget.width // 2, widget.height // 2)
+			set_busy_pointer_at_position (
+				widget, Screen_properties.horizontal_pixels (position_x_cms), Screen_properties.vertical_pixels (position_y_cms)
+			)
 		end
 
-	set_busy_pointer (widget: EV_WIDGET; position_x, position_y: INTEGER)
+	set_busy_pointer_at_position (widget: EV_WIDGET; position_x, position_y: INTEGER)
 		local
-			offset_x, offset_y: INTEGER
+			x, y: INTEGER
 		do
-			if position_x = 0 then
-				offset_x := Busy_cursor.x_hotspot - Busy_cursor.width
+			x := position_x; y := position_y
+			if x = 0 then
+				x := Busy_cursor.x_hotspot - Busy_cursor.width
 			else
-				offset_x := Busy_cursor.x_hotspot
+				x := x + Busy_cursor.x_hotspot
 			end
-			if position_y = 0 then
-				offset_y := Busy_cursor.y_hotspot - Busy_cursor.height
+			if y = 0 then
+				y := Busy_cursor.y_hotspot - Busy_cursor.height
 			else
-				offset_y := Busy_cursor.y_hotspot
+				y := y + Busy_cursor.y_hotspot
 			end
-			Screen.set_pointer_position (widget.screen_x + position_x + offset_x, widget.screen_y + position_y + offset_y)
-			window_parent (widget).set_pointer_style (Busy_cursor)
-			if {PLATFORM}.is_windows then
-				application.process_events
-			end
+			Screen.set_pointer_position (widget.screen_x + x, widget.screen_y  + y)
+			busy_widget := widget_container (widget)
+			busy_widget.set_pointer_style (Busy_cursor)
+		end
+
+feature -- Relative positions
+
+	To_left: INTEGER = 1
+
+	To_right: INTEGER = 2
+
+	To_top: INTEGER = 3
+
+	To_bottom: INTEGER = 4
+
+	To_center: INTEGER = 5
+
+	valid_relative_position (position: INTEGER): BOOLEAN
+		do
+			Result := position >= 1 and position <= 5
 		end
 
 feature -- Contract support
@@ -353,8 +397,8 @@ feature -- Conversion
 			-- RGB color code as HTML color code
 		do
 			Result := rgb_code.to_hex_string
+			Result.put ('#', 2)
 			Result.remove_head (1)
-			Result.put ('#', 1)
 		end
 
 	html_code_to_rgb_code (html_code: STRING): INTEGER
@@ -383,5 +427,14 @@ feature {NONE} -- Implementation
 		end
 
 	timer_list: ARRAYED_LIST [EV_TIMEOUT]
+
+	busy_widget: EV_WIDGET
+
+feature {NONE} -- Constants
+
+	Default_busy_widget: EV_WIDGET
+		once
+			create {EV_CELL} Result
+		end
 
 end

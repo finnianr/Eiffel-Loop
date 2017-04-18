@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 9:25:21 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2017-04-18 10:16:32 GMT (Tuesday 18th April 2017)"
+	revision: "2"
 
 class
 	EL_VTD_XPATH_QUERY
@@ -24,8 +24,6 @@ inherit
 
 	EL_VTD_XML_API
 
-	EL_VTD_SHARED_NATIVE_XPATH
-
 create
 	make, make_xpath, make_xpath_for_namespace
 
@@ -37,14 +35,14 @@ feature {NONE} -- Initialization
 			context := a_context
 		end
 
-	make_xpath (a_context: EL_XPATH_NODE_CONTEXT; a_xpath: STRING_32)
+	make_xpath (a_context: EL_XPATH_NODE_CONTEXT; a_xpath: READABLE_STRING_GENERAL)
 			--
 		do
 			make (a_context)
 			set_xpath (a_xpath)
 		end
 
-	make_xpath_for_namespace (a_context: EL_XPATH_NODE_CONTEXT; a_xpath: STRING_32; namespace: STRING)
+	make_xpath_for_namespace (a_context: EL_XPATH_NODE_CONTEXT; a_xpath: READABLE_STRING_GENERAL; namespace: STRING)
 			--
 		do
 			make (a_context)
@@ -53,15 +51,15 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_xpath (a_xpath: STRING_32)
+	set_xpath (a_xpath: READABLE_STRING_GENERAL)
 			--
 		do
 			dispose
-			xpath := a_xpath
-			make_from_pointer (c_create_xpath_query (native_xpath (a_xpath).base_address))
+			create {EL_VTD_NATIVE_XPATH_IMP} xpath.make (a_xpath)
+			make_from_pointer (c_create_xpath_query (xpath.base_address))
 		end
 
-	set_xpath_for_namespace (a_xpath: STRING_32; namespace: STRING)
+	set_xpath_for_namespace (a_xpath: READABLE_STRING_GENERAL; namespace: STRING)
 			--
 		require
 			not_namespace_empty: not namespace.is_empty
@@ -69,7 +67,7 @@ feature -- Element change
 			c_ns_prefix, c_ns_url: EL_C_WIDE_CHARACTER_STRING
 		do
 			dispose
-			xpath := a_xpath
+			create {EL_VTD_NATIVE_XPATH_IMP} xpath.make (a_xpath)
 			C_namespaces.search (namespace)
 			if C_namespaces.found then
 				c_ns_prefix := C_namespaces.found_item [1]
@@ -80,15 +78,11 @@ feature -- Element change
 				C_namespaces.extend (<< c_ns_prefix, c_ns_url >>, namespace)
 			end
 			make_from_pointer (
-				c_create_xpath_query_for_namespace (
-					native_xpath (a_xpath).base_address, c_ns_prefix.base_address, c_ns_url.base_address
-				)
+				c_create_xpath_query_for_namespace (xpath.base_address, c_ns_prefix.base_address, c_ns_url.base_address)
 			)
 		end
 
-feature -- Acces
-
-	xpath: STRING_32
+feature -- Access
 
 	evaluate_boolean: BOOLEAN
 			--
@@ -116,15 +110,6 @@ feature -- Acces
 
 feature -- Basic operations
 
-	start
-			--
-		do
-			nodeset_index := c_xpath_query_start (context.self_ptr, self_ptr)
-			if after then
-				c_evx_reset_xpath_query (self_ptr)
-			end
-		end
-
 	forth
 			--
 		do
@@ -134,18 +119,27 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Status query
-
-	is_xpath_set: BOOLEAN
+	start
 			--
 		do
-			Result := is_attached (self_ptr)
+			nodeset_index := c_xpath_query_start (context.self_ptr, self_ptr)
+			if after then
+				c_evx_reset_xpath_query (self_ptr)
+			end
 		end
+
+feature -- Status query
 
 	after: BOOLEAN
 			--
 		do
 			Result := nodeset_index = -1
+		end
+
+	is_xpath_set: BOOLEAN
+			--
+		do
+			Result := is_attached (self_ptr)
 		end
 
 feature {NONE} -- Implementation
@@ -156,10 +150,14 @@ feature {NONE} -- Implementation
 			create Result.make_equal (11)
 		end
 
+feature {NONE} -- Internal attributes
+
 	context: EL_XPATH_NODE_CONTEXT
 
 	nodeset_index: INTEGER
 
    is_memory_owned: BOOLEAN = true
+
+	xpath: EL_VTD_NATIVE_XPATH_I
 
 end

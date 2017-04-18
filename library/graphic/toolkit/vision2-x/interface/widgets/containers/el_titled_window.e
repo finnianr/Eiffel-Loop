@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 20:18:30 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-01-24 17:21:06 GMT (Tuesday 24th January 2017)"
+	revision: "2"
 
 class
 	EL_TITLED_WINDOW
@@ -104,7 +104,7 @@ feature {EL_VISION2_USER_INTERFACE} -- Event handlers
 			--
 		do
 			log.enter ("on_close_request")
-			log_manager.redirect_main_thread_to_console
+			Log_manager.redirect_main_thread_to_console
 			Thread_manager.stop_all
 			if Thread_manager.all_threads_stopped then
 				close_application

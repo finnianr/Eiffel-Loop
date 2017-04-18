@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-14 13:32:12 GMT (Wednesday 14th December 2016)"
-	revision: "3"
+	date: "2017-01-21 10:57:06 GMT (Saturday 21st January 2017)"
+	revision: "4"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO] -- Generic to make sure scons generated BUILD_INFO is compiled from project source
@@ -47,6 +47,8 @@ inherit
 			Directory as Shared_directory
 		end
 
+	THREAD_CONTROL
+
 feature {NONE} -- Initialization
 
 	make
@@ -55,6 +57,7 @@ feature {NONE} -- Initialization
 			application_list := new_application_list
 			if not Args.has_silent then
 				-- Force console creation. Needed to set `{EL_EXECUTION_ENVIRONMENT_I}.last_codepage'
+
 				io.put_character ({ASCII}.back_space.to_character_8)
 
 --				Environment.Execution.set_utf_8_console_output
@@ -247,7 +250,7 @@ feature {NONE} -- Constants
 				Installing: #
 				Source: #
 				Destination: #
-
+				
 			]"
 		end
 

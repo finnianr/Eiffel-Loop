@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-14 13:20:07 GMT (Wednesday 14th December 2016)"
-	revision: "2"
+	date: "2017-01-24 17:16:57 GMT (Tuesday 24th January 2017)"
+	revision: "3"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -31,18 +31,17 @@ feature {NONE} -- Implementation
 	init_logging (a_log_filters: like log_filter_array; output_directory: EL_DIR_PATH)
 			--
 		do
-			log_manager.set_output_directory (output_directory)
-			log_manager.initialize
+			Log_manager.set_output_directory (output_directory)
+			Log_manager.initialize
+
 			if logging.is_active then
 				logging.set_routines_to_log (a_log_filters)
 			else
-				if log_manager.is_console_manager_active then
+				if Log_manager.is_console_manager_active then
 					lio.put_string ("Thread logging disabled")
 				end
 			end
-
-			log_manager.add_thread (new_identified_main_thread)
-
+			Log_manager.add_thread (new_identified_main_thread)
 			is_logging_initialized := true
 		end
 

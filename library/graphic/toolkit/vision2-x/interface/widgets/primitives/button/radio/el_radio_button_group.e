@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 7:34:35 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2017-01-28 12:00:27 GMT (Saturday 28th January 2017)"
+	revision: "2"
 
 deferred class
 	EL_RADIO_BUTTON_GROUP [G]
@@ -44,7 +44,7 @@ feature -- Access
 
 	vertical_box (a_border_cms, a_padding_cms: REAL): EL_VERTICAL_BOX
 		do
-			Result := Vision_2.new_vertical_box (a_border_cms, a_padding_cms, buttons.to_array)
+			create Result.make_unexpanded (a_border_cms, a_padding_cms, buttons.to_array)
 			set_selected
 		end
 

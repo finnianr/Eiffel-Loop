@@ -4,13 +4,13 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 17:03:47 GMT (Sunday 20th December 2015)"
-	revision: "1"
+	date: "2017-04-16 8:57:31 GMT (Sunday 16th April 2017)"
+	revision: "2"
 
 class
-	EL_SERVLET_CONFIG
+	EL_SERVLET_SERVICE_CONFIG
 
 inherit
 	GOA_SERVLET_CONFIG
@@ -74,7 +74,7 @@ feature {NONE} -- Build from XML
 			--
 		do
 			create Result.make (<<
-				["@port", agent do server_port := node.to_integer end],
+				["@port", agent do server_port := node end],
 				["document-root/text()", agent do set_document_root_dir (node.to_string) end],
 				["phrase", agent do set_next_context (phrase) end]
 			>>)

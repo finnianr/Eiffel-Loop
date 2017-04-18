@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 14:17:35 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-01-19 7:50:13 GMT (Thursday 19th January 2017)"
+	revision: "2"
 
 class
 	EL_GLOBAL_LOGGING
@@ -19,7 +19,7 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-	EL_MODULE_LOG_MANAGER
+--	EL_MODULE_LOG_MANAGER
 
 	EL_MODULE_LOG
 

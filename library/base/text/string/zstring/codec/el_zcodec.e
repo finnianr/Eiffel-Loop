@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-29 7:23:13 GMT (Thursday 29th September 2016)"
-	revision: "2"
+	date: "2017-04-18 8:54:07 GMT (Tuesday 18th April 2017)"
+	revision: "3"
 
 deferred class
 	EL_ZCODEC
@@ -73,35 +73,35 @@ feature {EL_SHARED_ZCODEC, EL_SHARED_ZCODEC_FACTORY} -- Access
 
 feature -- Basic operations
 
-	decode (a_count: INTEGER; latin_chars_in: SPECIAL [CHARACTER]; unicode_chars_out: SPECIAL [CHARACTER_32])
+	decode (a_count: INTEGER; latin_in: SPECIAL [CHARACTER]; unicode_out: SPECIAL [CHARACTER_32]; out_offset: INTEGER)
 			-- Replace Ctrl characters used as place holders for foreign characters with original unicode characters.
 			-- If 'a_decode' is true encode output as unicode
 			-- Result is count of unencodeable Unicode characters
 		require
-			enough_latin_chars_in: latin_chars_in.count > a_count
-			unicode_chars_out_big_enough: unicode_chars_out.count > a_count
+			enough_latin_characters: latin_in.count > a_count
+			unicode_out_big_enough: unicode_out.count > a_count + out_offset
 		local
 			i, code: INTEGER; c: CHARACTER; l_unicodes: like unicode_table
 		do
 			l_unicodes := unicode_table
 			from i := 0 until i = a_count loop
-				c := latin_chars_in [i]; code := c.code
+				c := latin_in [i]; code := c.code
 				if c /= Unencoded_character then
-					unicode_chars_out [i] := l_unicodes [code]
+					unicode_out [i + out_offset] := l_unicodes [code]
 				end
 				i := i + 1
 			end
 		end
 
 	encode (
-		unicode_in: READABLE_STRING_GENERAL; latin_chars_out: SPECIAL [CHARACTER]; out_offset: INTEGER;
+		unicode_in: READABLE_STRING_GENERAL; latin_out: SPECIAL [CHARACTER]; out_offset: INTEGER;
 		unencoded_characters: EL_EXTENDABLE_UNENCODED_CHARACTERS
 	)
 			-- encode unicode characters as latin
 			-- Set unencodeable characters as the Substitute character (26) and record location in unencoded_intervals
 		require
-			latin_chars_out_big_enough: latin_chars_out.count >= unicode_in.count
-			valid_offset_and_count: unicode_in.count > 0 implies latin_chars_out.valid_index (unicode_in.count + out_offset - 1)
+			latin_out_big_enough: latin_out.count >= unicode_in.count
+			valid_offset_and_count: unicode_in.count > 0 implies latin_out.valid_index (unicode_in.count + out_offset - 1)
 		local
 			i, count, unicode: INTEGER; uc: CHARACTER_32; c: CHARACTER; l_unicodes: like unicode_table
 		do
@@ -109,14 +109,14 @@ feature -- Basic operations
 			from i := 1 until i > count loop
 				uc := unicode_in [i]; unicode := uc.code
 				if unicode <= 255 and then l_unicodes [unicode] = uc then
-					latin_chars_out [i + out_offset - 1] := uc.to_character_8
+					latin_out [i + out_offset - 1] := uc.to_character_8
 				else
 					c := latin_character (uc, unicode)
 					if c.code = 0 then
-						latin_chars_out [i + out_offset - 1] := Unencoded_character
+						latin_out [i + out_offset - 1] := Unencoded_character
 						unencoded_characters.extend (unicode.to_natural_32, i + out_offset)
 					else
-						latin_chars_out [i + out_offset - 1] := c
+						latin_out [i + out_offset - 1] := c
 					end
 				end
 				i := i + 1

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-14 12:31:37 GMT (Wednesday 14th December 2016)"
-	revision: "2"
+	date: "2017-01-19 8:02:38 GMT (Thursday 19th January 2017)"
+	revision: "3"
 
 class
 	EL_CONSOLE_AND_FILE_LOG
@@ -93,12 +93,10 @@ feature -- Output
 	put_configuration_info (a_log_filters: ARRAY [EL_LOG_FILTER])
 			-- Log logging configuration information
 		local
-			l_out: EL_FILE_AND_CONSOLE_LOG_OUTPUT
-			filter: EL_LOG_FILTER
-			title, routine_name, class_name: STRING
-			i, j: INTEGER
+			filter: EL_LOG_FILTER; l_out: like current_thread_log_file
+			title, routine_name, class_name: STRING; i, j: INTEGER
 		do
-			l_out := log_manager.current_thread_log_file
+			l_out := current_thread_log_file
 
 			title := "ROUTINES LOGGED (All threads)"
 

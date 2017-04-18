@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-28 10:58:59 GMT (Tuesday 28th June 2016)"
-	revision: "1"
+	date: "2017-04-03 9:05:56 GMT (Monday 3rd April 2017)"
+	revision: "2"
 
 class
 	EL_XML_NODE
@@ -22,6 +22,13 @@ inherit
 
 create
 	default_create
+
+convert
+	to_boolean: {BOOLEAN},
+	to_integer: {INTEGER}, to_integer_64: {INTEGER_64},
+	to_natural: {NATURAL}, to_natural_64: {NATURAL_64},
+	to_string_8: {STRING}, to_string_32: {STRING_32}, to_string: {ZSTRING}
+
 
 feature {NONE} -- Initialization
 
@@ -99,6 +106,14 @@ feature -- Conversion
 			valid_node: is_natural
 		do
 			Result := to_string.to_natural
+		end
+
+	to_natural_64: NATURAL_64
+			--
+		require
+			valid_node: is_natural_64
+		do
+			Result := to_string.to_natural_64
 		end
 
 	to_integer_64: INTEGER_64
@@ -276,6 +291,12 @@ feature -- Status query
 		end
 
 	is_natural: BOOLEAN
+			--
+		do
+			Result := to_string.is_natural
+		end
+
+	is_natural_64: BOOLEAN
 			--
 		do
 			Result := to_string.is_natural

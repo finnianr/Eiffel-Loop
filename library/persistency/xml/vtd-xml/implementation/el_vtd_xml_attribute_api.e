@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:26 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2017-04-18 10:24:31 GMT (Tuesday 18th April 2017)"
+	revision: "2"
 
 class
 	EL_VTD_XML_ATTRIBUTE_API
@@ -22,7 +22,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	c_node_context_attribute_string (name: STRING_32): POINTER
+	c_node_context_attribute_string (name: READABLE_STRING_GENERAL): POINTER
 			--
 		do
 			Result := c_evx_node_context_attribute_string (
@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 			)
 		end
 
-	c_node_context_attribute_raw_string (name: STRING_32): POINTER
+	c_node_context_attribute_raw_string (name: READABLE_STRING_GENERAL): POINTER
 			--
 		do
 			Result := c_evx_node_context_attribute_raw_string (
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 			)
 		end
 
-	c_node_context_attribute_integer (name: STRING_32): INTEGER
+	c_node_context_attribute_integer (name: READABLE_STRING_GENERAL): INTEGER
 			--
 		do
 			Result := c_evx_node_context_attribute_integer (
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 			)
 		end
 
-	c_node_context_attribute_integer_64 (name: STRING_32): INTEGER_64
+	c_node_context_attribute_integer_64 (name: READABLE_STRING_GENERAL): INTEGER_64
 			--
 		do
 			Result := c_evx_node_context_attribute_integer_64 (
@@ -54,7 +54,7 @@ feature {NONE} -- Implementation
 			)
 		end
 
-	c_node_context_attribute_real (name: STRING_32): REAL
+	c_node_context_attribute_real (name: READABLE_STRING_GENERAL): REAL
 			--
 		do
 			Result := c_evx_node_context_attribute_real (
@@ -62,7 +62,7 @@ feature {NONE} -- Implementation
 			)
 		end
 
-	c_node_context_attribute_double (name: STRING_32): DOUBLE
+	c_node_context_attribute_double (name: READABLE_STRING_GENERAL): DOUBLE
 			--
 		do
 			Result := c_evx_node_context_attribute_double (

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-01 11:54:38 GMT (Monday 1st August 2016)"
-	revision: "1"
+	date: "2017-01-24 18:25:51 GMT (Tuesday 24th January 2017)"
+	revision: "2"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -94,7 +94,7 @@ feature {NONE} -- Build from XML
 			--
 		do
 			Result := Precursor
-			fill_with_field_setters (Result, Integer_type, Fields_not_stored)
+			Result.merge (building_actions_for_type ({INTEGER}, Fields_not_stored, Hyphen))
 		end
 
 feature -- Constants

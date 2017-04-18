@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-06-01 11:46:30 GMT (Monday 1st June 2015)"
-	revision: "1"
+	date: "2017-04-18 10:31:00 GMT (Tuesday 18th April 2017)"
+	revision: "2"
 
 class
 	EL_XPATH_NODE_CONTEXT_LIST_ITERATION_CURSOR
@@ -36,7 +36,7 @@ feature -- Access
 
 	cursor_index: INTEGER
 
-	xpath: STRING_32
+	xpath: READABLE_STRING_GENERAL
 
 feature -- Status report	
 

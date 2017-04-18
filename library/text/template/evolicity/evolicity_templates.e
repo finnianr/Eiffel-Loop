@@ -7,15 +7,13 @@ note
 		It also bows to an established tradition of naming Eiffel orientated projects starting with the letter 'E'.
 	]"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 10:13:42 GMT (Monday 3rd October 2016)"
-	revision: "2"
+	date: "2017-01-19 8:04:11 GMT (Thursday 19th January 2017)"
+	revision: "3"
 
 class
 	EVOLICITY_TEMPLATES

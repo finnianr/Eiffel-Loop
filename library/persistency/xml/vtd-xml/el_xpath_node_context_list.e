@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:51:45 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-04-18 10:30:36 GMT (Tuesday 18th April 2017)"
+	revision: "2"
 
 class
 	EL_XPATH_NODE_CONTEXT_LIST
@@ -30,7 +30,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_parent_context: like parent_context; a_xpath: STRING_32)
+	make (a_parent_context: like parent_context; a_xpath: READABLE_STRING_GENERAL)
 			--
 		do
 			parent_context := a_parent_context
@@ -44,7 +44,7 @@ feature -- Access
 
 	index: INTEGER
 
-	xpath: STRING_32
+	xpath: READABLE_STRING_GENERAL
 
 	new_cursor: EL_XPATH_NODE_CONTEXT_LIST_ITERATION_CURSOR
 			--

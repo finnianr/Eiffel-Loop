@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 9:25:42 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-01-19 8:02:50 GMT (Thursday 19th January 2017)"
+	revision: "2"
 
 class
 	EL_CONSOLE_AND_FILE_ROUTINE_LOG
@@ -21,6 +21,9 @@ inherit
 		end
 
 	EL_MODULE_LOG_MANAGER
+		rename
+			current_thread_log_file as output
+		end
 
 create
 	make
@@ -75,11 +78,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
-
-	output: EL_FILE_AND_CONSOLE_LOG_OUTPUT
-		do
-			Result := Log_manager.current_thread_log_file
-		end
 
 	out_put_enter_heading (arg_objects: ARRAY [ANY] )
 			--

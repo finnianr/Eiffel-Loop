@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 10:57:17 GMT (Monday 3rd October 2016)"
-	revision: "3"
+	date: "2017-04-17 13:33:01 GMT (Monday 17th April 2017)"
+	revision: "4"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -30,6 +30,8 @@ inherit
 		end
 
 	EL_MODULE_DIRECTORY
+
+	EL_MODULE_STRING_32
 
 feature {EL_MODULE_EXECUTION_ENVIRONMENT} -- Initialization
 
@@ -133,6 +135,11 @@ feature -- Basic operations
 		do
 			directory_stack.put (current_working_path)
 			change_working_path (a_dir)
+		end
+
+	open_url (url: READABLE_STRING_GENERAL)
+		 -- open the URL in the default system browser
+		deferred
 		end
 
 feature -- Status report
@@ -274,6 +281,11 @@ feature -- Constants
 	Directory_stack: ARRAYED_STACK [EL_DIR_PATH]
 		once
 			create Result.make (1)
+		end
+
+	Executable_and_user_name: ZSTRING
+		once
+			Result := executable_name + "-" + Operating.user_name
 		end
 
 	Nanosecs_per_millisec: INTEGER_64 = 1000000

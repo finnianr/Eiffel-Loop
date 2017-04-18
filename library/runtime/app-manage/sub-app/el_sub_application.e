@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-14 13:11:29 GMT (Wednesday 14th December 2016)"
-	revision: "2"
+	date: "2017-01-24 17:17:41 GMT (Tuesday 24th January 2017)"
+	revision: "3"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -37,21 +37,33 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 			--
 		local
 			log_stack_pos: INTEGER; l_log_filters: like log_filter_array
+			boolean: BOOLEAN_REF
 		do
 			create options_help.make
 			Exceptions.catch (Exceptions.Signal_exception)
 
 			-- Add logging menu option. The actual is_active status is tested in `EL_GLOBAL_LOGGING'
+			create boolean
 			set_boolean_from_command_opt (
-				create {BOOLEAN_REF}, {EL_LOG_COMMAND_OPTIONS}.Logging, "Activate application logging to console"
+				boolean, {EL_LOG_COMMAND_OPTIONS}.Logging, "Activate application logging to console"
+			)
+			set_boolean_from_command_opt (
+				boolean, {EL_LOG_COMMAND_OPTIONS}.Keep_logs, "Do not delete log file on program exit"
+			)
+			set_boolean_from_command_opt (
+				boolean, {EL_LOG_COMMAND_OPTIONS}.No_highlighting, "Turn off color highlighting for console output"
 			)
 
 			l_log_filters := log_filter_array
+
 			init_logging (l_log_filters, Log_output_directory)
+
 			if not (Args.has_no_app_header or Args.has_silent) then
 				io_put_header (l_log_filters)
+				if not Logging.is_active then
+					lio.put_new_line; lio.put_new_line
+				end
 			end
-			lio.put_new_line
 
 			log.enter ("make")
 			log_stack_pos := log.call_stack_count;
@@ -61,6 +73,7 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 					File_system.make_directory (dir.item)
 				end
 			end
+
 			initialize
 			if command_line_help_option_exists then
 				print_command_option_help
@@ -76,8 +89,8 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 				end
 			end
 			log.exit
-			log_manager.close_logs
-			log_manager.delete_logs
+			Log_manager.close_logs
+			Log_manager.delete_logs
 
 		rescue
 			log.restore (log_stack_pos)
@@ -355,7 +368,6 @@ feature {NONE} -- Implementation
 			log.exit_no_trailer
 
 			log.put_configuration_info (a_log_filters)
-			lio.put_new_line
 		end
 
 	indent (n: INTEGER): STRING
@@ -397,13 +409,8 @@ feature {EL_APPLICATION_INSTALLER_I} -- Constants
 		end
 
 	Log_output_directory: EL_DIR_PATH
-		local
-			l_steps: EL_PATH_STEPS
 		once
-			l_steps := Directory.user_data
-			l_steps.extend (create {ZSTRING}.make_from_unicode (option_name))
-			l_steps.extend ("logs")
-			Result := l_steps
+			Result := Directory.user_data.joined_dir_steps (<< option_name.to_string_8, "logs" >>)
 		end
 
 	Input_path_option_name: STRING

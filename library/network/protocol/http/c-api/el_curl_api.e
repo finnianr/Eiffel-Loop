@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-04 7:49:40 GMT (Tuesday 4th October 2016)"
-	revision: "3"
+	date: "2017-04-07 15:00:44 GMT (Friday 7th April 2017)"
+	revision: "4"
 
 class
 	EL_CURL_API
@@ -49,6 +49,8 @@ feature {NONE} -- Initialization
 			end
 			call ("curl_global_init", agent c_global_init (?, {CURL_GLOBAL_CONSTANTS}.curl_global_all))
 			curl_global_cleanup_ptr := api_pointer ("curl_global_cleanup")
+			curl_slist_append_ptr := api_pointer ("curl_slist_append")
+			curl_slist_free_all_ptr := api_pointer ("curl_slist_free_all")
 		ensure then
 			curl_global_cleanup_ptr_attached: is_attached (curl_global_cleanup_ptr)
 		end
@@ -118,6 +120,21 @@ feature -- Basic operations
 			c_cleanup (api.cleanup, a_curl_handle)
 		end
 
+feature -- List operations
+
+	extend_string_list (list_ptr: POINTER; str: STRING): POINTER
+		local
+			c_str: ANY
+		do
+			c_str := str.to_c
+			Result := c_slist_append (curl_slist_append_ptr, list_ptr, $c_str)
+		end
+
+	free_string_list (list_ptr: POINTER)
+		do
+			c_slist_free_all (curl_slist_free_all_ptr, list_ptr)
+		end
+
 feature -- Element change
 
 	setopt_form (a_curl_handle: POINTER; a_opt: INTEGER; a_form: CURL_FORM)
@@ -162,6 +179,10 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	curl_global_cleanup_ptr: POINTER
+
+	curl_slist_append_ptr: POINTER
+
+	curl_slist_free_all_ptr: POINTER
 
 feature {NONE} -- Constants
 

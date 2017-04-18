@@ -6,10 +6,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-08-30 9:52:18 GMT (Sunday 30th August 2015)"
-	revision: "1"
+	date: "2017-01-26 11:56:54 GMT (Thursday 26th January 2017)"
+	revision: "2"
 
 class
 	EL_TAB_BOOK [B -> {EL_BOX} create make end]
@@ -25,7 +25,7 @@ inherit
 			{EL_TAB} first, extend_item
 --			{EL_STOCK_COLORS_IMP} implementation
 		redefine
-			wipe_out
+			wipe_out, initialize
 		end
 
 	EL_TAB_SHORTCUTS
@@ -39,9 +39,15 @@ inherit
 		end
 
 create
-	make
+	make, default_create
 
 feature {NONE} -- Initialization
+
+	initialize
+		do
+			Precursor
+			create tabs.make (5)
+		end
 
 	make (a_window: EV_WINDOW; a_border_cms, a_padding_cms: REAL)
 			--
@@ -49,7 +55,6 @@ feature {NONE} -- Initialization
 			border_cms := a_border_cms
 			padding_cms := a_padding_cms
 			default_create
-			create tabs.make (5)
 			init_keyboard_shortcuts (a_window)
 			set_background_color (GUI.color_3d_face)
 			selection_actions.extend (agent
@@ -76,7 +81,6 @@ feature -- Access
 		do
 			Result := tabs.last
 		end
-
 
 feature -- Measurement
 

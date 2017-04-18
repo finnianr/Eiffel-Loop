@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 14:21:28 GMT (Friday 18th December 2015)"
-	revision: "1"
+	date: "2017-01-24 10:24:25 GMT (Tuesday 24th January 2017)"
+	revision: "2"
 
 class
 	EL_STRING_CONSTANTS
@@ -39,5 +39,7 @@ feature {NONE} -- Constants
 		end
 
 invariant
-	always_empty: Empty_string.is_empty and Empty_string_8.is_empty and Empty_string_8.is_empty
+	string_always_empty: Empty_string.is_empty
+	string_8_always_empty: Empty_string_8.is_empty
+	string_32_always_empty: Empty_string_32.is_empty
 end

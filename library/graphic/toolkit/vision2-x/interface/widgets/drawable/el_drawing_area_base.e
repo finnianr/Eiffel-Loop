@@ -4,18 +4,26 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2017-04-12 16:50:52 GMT (Wednesday 12th April 2017)"
+	revision: "2"
 
 deferred class
 	EL_DRAWING_AREA_BASE
 
 inherit
 	EV_DRAWING_AREA
+		redefine
+			draw_text_top_left, draw_text
+		end
 
 	EL_DRAWABLE
+		undefine
+			default_create, copy
+		end
+
+	EL_MODULE_STRING_32
 		undefine
 			default_create, copy
 		end
@@ -42,6 +50,18 @@ feature -- Basic operations
 		do
 			expose_actions.block
 			resize_actions.extend (agent on_resize)
+		end
+
+	draw_text (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
+			-- Draw `a_text' with left of baseline at (`x', `y') using `font'.
+		do
+			Precursor (x, y, String_32.general_to_unicode (a_text))
+		end
+
+	draw_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
+			-- Draw `a_text' with top left corner at (`x', `y') using `font'.
+		do
+			Precursor (x, y, String_32.general_to_unicode (a_text))
 		end
 
 	simulate_pointer_motion

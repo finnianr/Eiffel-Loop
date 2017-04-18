@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 15:27:19 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2017-04-17 13:30:08 GMT (Monday 17th April 2017)"
+	revision: "2"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -55,6 +55,14 @@ feature {NONE} -- Implementation
 			code_page_set: call_suceeded
 		end
 
+	open_url (url: READABLE_STRING_GENERAL)
+		local
+			l_url: NATIVE_STRING; succeeded: BOOLEAN
+		do
+			create l_url.make (String_32.general_to_unicode (url))
+			succeeded := c_open_url (l_url.item) > 32
+		end
+
 feature {NONE} -- Constants
 
 	executable_file_extensions: LIST [ZSTRING]
@@ -95,4 +103,22 @@ feature {NONE} -- C Externals
 			"GetConsoleOutputCP"
 		end
 
+	c_open_url (url: POINTER): INTEGER
+			--	HINSTANCE ShellExecute(
+			--		_In_opt_ HWND    hwnd,
+			--		_In_opt_ LPCTSTR lpOperation,
+			--		_In_     LPCTSTR lpFile,
+			--		_In_opt_ LPCTSTR lpParameters,
+			--		_In_opt_ LPCTSTR lpDirectory,
+			--		_In_     INT     nShowCmd
+			--	);
+
+			-- If the function succeeds, it returns a value greater than 32. If the function fails,
+			-- it returns an error value that indicates the cause of the failure.
+
+		external
+			"C inline use <Shellapi.h>"
+		alias
+			"(ShellExecute (NULL, NULL, (LPCTSTR)$url, NULL, NULL, SW_SHOWNORMAL))"
+		end
 end

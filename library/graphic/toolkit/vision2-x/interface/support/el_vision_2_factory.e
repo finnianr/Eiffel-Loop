@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-02 13:33:16 GMT (Sunday 2nd October 2016)"
-	revision: "2"
+	date: "2017-01-29 13:32:19 GMT (Sunday 29th January 2017)"
+	revision: "3"
 
 class
 	EL_VISION_2_FACTORY
@@ -91,8 +91,7 @@ feature -- Factory
 	new_horizontal_box (a_border_cms, a_padding_cms: REAL; a_widgets: ARRAY [EV_WIDGET]): EL_HORIZONTAL_BOX
 			--
 		do
- 			create Result.make (a_border_cms, a_padding_cms)
- 			Result.append_unexpanded (a_widgets)
+ 			create Result.make_unexpanded (a_border_cms, a_padding_cms, a_widgets)
 		end
 
 	new_menu_entry (a_text: ZSTRING; an_action: PROCEDURE [ANY, TUPLE]): EV_MENU_ITEM
@@ -132,8 +131,7 @@ feature -- Factory
 	new_vertical_box (a_border_cms, a_padding_cms: REAL; a_widgets: ARRAY [EV_WIDGET]): EL_VERTICAL_BOX
 			--
 		do
- 			create Result.make (a_border_cms, a_padding_cms)
- 			Result.append_unexpanded (a_widgets)
+ 			create Result.make_unexpanded (a_border_cms, a_padding_cms, a_widgets)
 		end
 
 	new_vertical_centered_box (a_border_cms, a_padding_cms: REAL; a_widgets: ARRAY [EV_WIDGET]): EL_VERTICAL_BOX

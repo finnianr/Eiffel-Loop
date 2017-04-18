@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 12:40:05 GMT (Monday 28th December 2015)"
-	revision: "1"
+	date: "2017-01-25 9:43:50 GMT (Wednesday 25th January 2017)"
+	revision: "2"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -20,7 +20,7 @@ inherit
 			make_default
 		end
 
-	EL_REFLECTION
+	EL_PERSISTENCE_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -132,30 +132,46 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	fill_with_field_setters (action_table: like Type_building_actions; type: INTEGER; except_fields: ARRAY [STRING])
+	building_actions_for_type (type: TYPE [ANY]; except_fields: ARRAY [STRING]; word_separator: CHARACTER ): like Type_building_actions
 		local
-			object: REFLECTED_REFERENCE_OBJECT; excluded_indices: like new_field_set
+			object: like current_object; excluded_indices: like new_field_indices_set
+			field_names: like current_field_names
 			i, field_count: INTEGER; text_xpath: STRING
-			is_string_type: BOOLEAN
 		do
-			object := Once_current_object; current_object.set_object (Current)
-			field_count := current_object.field_count
-			excluded_indices := Excluded_fields_indices_by_type.item ({like Current}, agent new_field_set (except_fields))
-			is_string_type := String_types.has (type)
+			create Result.make_equal (11)
+			object := current_object; field_count := object.field_count
+			excluded_indices := Excluded_fields_by_type.item ({like Current}, agent new_field_indices_set (except_fields))
+			field_names := current_field_names (word_separator)
+
 			from i := 1 until i > field_count loop
-				if not excluded_indices.has (i) then
-					text_xpath := adapted_field_name (object, i) + once "/text()"
-					if is_string_type and then object.field_static_type (i) = type then
-						if type = String_z_type then
-							action_table [text_xpath] := agent set_string_field_from_node (i)
-						elseif type = String_8_type then
-							action_table [text_xpath] := agent set_string_8_field_from_node (i)
-						elseif type = String_32_type then
-							action_table [text_xpath] := agent set_string_32_field_from_node (i)
+				excluded_indices.binary_search (i)
+				if not excluded_indices.found then
+					text_xpath := field_names [i] + once "/text()"
+					if type.is_expanded then
+						inspect object.field_type (i)
+							when Boolean_type then
+								Result [text_xpath] := agent set_boolean_field (i)
+							when Integer_type then
+								Result [text_xpath] := agent set_integer_field (i)
+							when Integer_64_type then
+								Result [text_xpath] := agent set_integer_64_field (i)
+							when Natural_32_type then
+								Result [text_xpath] := agent set_natural_32_field (i)
+							when Natural_64_type then
+								Result [text_xpath] := agent set_natural_64_field (i)
+							when Real_32_type then
+								Result [text_xpath] := agent set_real_32_field (i)
+							when Real_64_type then
+								Result [text_xpath] := agent set_real_64_field (i)
+						else
 						end
-					elseif object.field_type (i) = type then
-						if type = Integer_type then
-							action_table [text_xpath] := agent set_integer_field_from_node (i)
+					elseif object.field_static_type (i) = type.type_id then
+						if type ~ {ZSTRING} then
+							Result [text_xpath] := agent set_string_field (i)
+						elseif type ~ {STRING} then
+							Result [text_xpath] := agent set_string_8_field (i)
+						elseif type ~ {STRING_32} then
+							Result [text_xpath] := agent set_string_32_field (i)
 						end
 					end
 				end
@@ -163,24 +179,59 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_integer_field_from_node (i: INTEGER)
+	set_boolean_field (i: INTEGER)
+		do
+			current_object.set_boolean_field (i, node.to_boolean)
+		end
+
+	set_double_field (i: INTEGER)
+		do
+			current_object.set_double_field (i, node.to_double)
+		end
+
+	set_integer_field (i: INTEGER)
 		do
 			current_object.set_integer_32_field (i, node.to_integer)
 		end
 
-	set_string_field_from_node (i: INTEGER)
+	set_integer_64_field (i: INTEGER)
+		do
+			current_object.set_integer_64_field (i, node.to_integer_64)
+		end
+
+	set_real_32_field (i: INTEGER)
+		do
+			current_object.set_real_field (i, node.to_real)
+		end
+
+	set_real_64_field (i: INTEGER)
+		do
+			current_object.set_real_64_field (i, node.to_double)
+		end
+
+	set_string_field (i: INTEGER)
 		do
 			current_object.set_reference_field (i, node.to_string)
 		end
 
-	set_string_8_field_from_node (i: INTEGER)
+	set_string_8_field (i: INTEGER)
 		do
 			current_object.set_reference_field (i, node.to_string_8)
 		end
 
-	set_string_32_field_from_node (i: INTEGER)
+	set_string_32_field (i: INTEGER)
 		do
 			current_object.set_reference_field (i, node.to_string_32)
+		end
+
+	set_natural_32_field (i: INTEGER)
+		do
+			current_object.set_natural_32_field (i, node.to_natural)
+		end
+
+	set_natural_64_field (i: INTEGER)
+		do
+			current_object.set_natural_64_field (i, node.to_natural_64)
 		end
 
 	xpaths_ending_with_attribute_value_predicate (xpath_step_list: like XPath_parser.step_list): ARRAYED_LIST [STRING]
@@ -223,11 +274,6 @@ feature {NONE} -- Anchored type declarations
 		end
 
 feature {NONE} -- Constants
-
-	Excluded_fields_indices_by_type: EL_TYPE_TABLE [EL_HASH_SET [INTEGER]]
-		once
-			create Result.make_equal (17)
-		end
 
 	Building_actions_by_type: EL_TYPE_TABLE [HASH_TABLE [PROCEDURE [EL_EIF_OBJ_BUILDER_CONTEXT, TUPLE], STRING_32]]
 			--

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-16 10:52:51 GMT (Monday 16th January 2017)"
-	revision: "2"
+	date: "2017-01-16 17:36:51 GMT (Monday 16th January 2017)"
+	revision: "3"
 
 class
 	EL_WIN_FILE_DATE_TIME
@@ -90,5 +90,4 @@ feature {NONE} -- Constants
 	Secs_to_unix_epoch: NATURAL_64 =	11_644_473_600
 		-- since 1 Jan 1601
 
-	Hi_word_mask: NATURAL_64 = 0xFFFFFFFF
 end

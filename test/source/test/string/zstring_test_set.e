@@ -1,13 +1,17 @@
 ﻿note
 	description: "Tests for class EL_ZSTRING"
 
+	notes: "[
+		Don't forget to also run the test with the latin-15 codec. See `on_prepare'
+	]"
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-04 10:03:57 GMT (Friday 4th November 2016)"
-	revision: "2"
+	date: "2017-04-18 9:20:16 GMT (Tuesday 18th April 2017)"
+	revision: "3"
 
 class
 	ZSTRING_TEST_SET
@@ -43,6 +47,7 @@ feature {NONE} -- Events
 	on_prepare
 		do
 			set_system_codec (create {EL_ISO_8859_1_ZCODEC}.make)
+--			set_system_codec (create {EL_ISO_8859_15_ZCODEC}.make)
 		end
 
 feature -- Conversion tests
@@ -119,6 +124,23 @@ feature -- Element change tests
 	test_append
 		do
 			test_concatenation ("append")
+		end
+
+	test_append_to_string_32
+		local
+			str_32: STRING_32; word: ZSTRING
+		do
+			across Text_lines as line_32 loop
+				create str_32.make (0)
+				across line_32.item.split (' ') as word_32 loop
+					word := word_32.item
+					if word_32.cursor_index > 1 then
+						str_32.append_character (' ')
+					end
+					word.append_to_string_32 (str_32)
+				end
+				assert ("same string", str_32 ~ line_32.item)
+			end
 		end
 
 	test_append_unicode

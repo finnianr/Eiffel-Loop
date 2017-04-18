@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-11 13:11:59 GMT (Sunday 11th December 2016)"
-	revision: "2"
+	date: "2017-01-19 10:26:13 GMT (Thursday 19th January 2017)"
+	revision: "3"
 
 class
 	PYXIS_TO_XML_CONVERTER
@@ -54,12 +54,18 @@ feature -- Basic operations
 			encoding: EL_PYXIS_ENCODING
 		do
 			log.enter ("run")
-			lio.put_path_field ("Converting", source_path)
-			lio.put_new_line
 
 			create encoding.make_from_file (source_path)
 
+			lio.put_path_field ("Converting " + encoding.encoding_name, source_path)
+			lio.put_new_line
+
 			create in_file.make_open_read (source_path)
+
+			if output_path.exists then
+				File_system.remove_file (output_path)
+			end
+
 			create out_file.make_open_write (output_path)
 			out_file.enable_bom
 			out_file.set_encoding_from_other (encoding)

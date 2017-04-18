@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-04 8:33:13 GMT (Thursday 4th August 2016)"
-	revision: "2"
+	date: "2017-01-30 18:22:09 GMT (Monday 30th January 2017)"
+	revision: "3"
 
 deferred class
 	HTML_WRITER
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 			make_default
 			date_stamp := a_date_stamp
 			create last_attribute_name.make_empty
-			set_file_path (output_path)
+			file_path := output_path
 			set_source_text (a_source_text)
 			set_utf_encoding (8)
 		end

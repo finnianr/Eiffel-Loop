@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-16 12:52:37 GMT (Monday 16th January 2017)"
-	revision: "5"
+	date: "2017-01-17 12:25:09 GMT (Tuesday 17th January 2017)"
+	revision: "6"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -34,26 +34,6 @@ feature -- Access
 		deferred
 		end
 
-	file_checksum (a_file_path: EL_FILE_PATH): NATURAL
-		local
-			crc: like crc_generator
-		do
-			crc := crc_generator
-			crc.add_file (a_file_path)
-			Result := crc.checksum
-		end
-
-	file_megabyte_count (a_file_path: EL_FILE_PATH): DOUBLE
-			--
-		do
-			Result := file_byte_count (a_file_path) / 1000000
-		end
-
-	modification_time (file_path: EL_FILE_PATH): INTEGER
-		do
-			Result := closed_raw_file (file_path).date
-		end
-
 	recursive_files (a_dir_path: EL_DIR_PATH): like Directory.recursive_files
 			--
 		do
@@ -64,12 +44,6 @@ feature -- Access
 			--
 		do
 			Result := named_directory (a_dir_path).recursive_files_with_extension (extension)
-		end
-
-	file_byte_count (a_file_path: EL_FILE_PATH): INTEGER
-			--
-		do
-			Result := closed_raw_file (a_file_path).count
 		end
 
 	line_one (a_file_path: EL_FILE_PATH): STRING
@@ -124,6 +98,56 @@ feature -- Access
 			l_file.close
 		end
 
+feature -- Measurement
+
+	file_access_time (file_path: EL_FILE_PATH): INTEGER
+		do
+			Result := closed_raw_file (file_path).access_date
+		end
+
+	file_byte_count (a_file_path: EL_FILE_PATH): INTEGER
+			--
+		do
+			Result := closed_raw_file (a_file_path).count
+		end
+
+	file_megabyte_count (a_file_path: EL_FILE_PATH): DOUBLE
+			--
+		do
+			Result := file_byte_count (a_file_path) / 1000000
+		end
+
+	file_checksum (a_file_path: EL_FILE_PATH): NATURAL
+		local
+			crc: like crc_generator
+		do
+			crc := crc_generator
+			crc.add_file (a_file_path)
+			Result := crc.checksum
+		end
+
+	file_modification_time (file_path: EL_FILE_PATH): INTEGER
+		do
+			Result := closed_raw_file (file_path).date
+		end
+
+feature -- File property change
+
+	set_file_modification_time (file_path: EL_FILE_PATH; date_time: INTEGER)
+			-- set modification time with date_time as secs since Unix epoch
+		deferred
+		ensure
+			modification_time_set: file_modification_time (file_path) = date_time
+		end
+
+	set_file_stamp (file_path: EL_FILE_PATH; date_time: INTEGER)
+			-- Stamp file with `time' (for both access and modification).
+		deferred
+		ensure
+			file_access_time_set: file_access_time (file_path) = date_time
+			modification_time_set: file_modification_time (file_path) = date_time
+		end
+
 feature -- Basic operations
 
 	copy_file_contents (source_file: FILE; destination_path: EL_FILE_PATH)
@@ -172,20 +196,6 @@ feature -- Basic operations
 			file_exists: a_file_path.exists
 		do
 			closed_raw_file (a_file_path).rename_file (new_file_path)
-		end
-
-	set_modification_time (file_path: EL_FILE_PATH; date_time: INTEGER)
-			-- set modification time with date_time as secs since Unix epoch
-		deferred
-		ensure
-			modification_time_set: modification_time (file_path) = date_time
-		end
-
-	set_time_stamp (file_path: EL_FILE_PATH; date_time: INTEGER)
-		do
-			closed_raw_file (file_path).stamp (date_time)
-		ensure
-			modification_time_set: modification_time (file_path) = date_time
 		end
 
 	delete_if_empty (dir_path: EL_DIR_PATH)

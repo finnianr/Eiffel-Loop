@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 6:06:45 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2017-04-03 12:02:33 GMT (Monday 3rd April 2017)"
+	revision: "2"
 
 class
 	EL_TRANSLATION_TABLE
@@ -130,8 +130,8 @@ feature {NONE} -- Build from XML
 			--
 		do
 			create Result.make (<<
-				["item/@id",				 agent do last_id := node.to_string.twin end],
-				[translation_text_xpath, agent do put (node.to_string, last_id) end]
+				["item/@id",				 agent do last_id := node end],
+				[translation_text_xpath, agent do put (node, last_id) end]
 			>>)
 		end
 

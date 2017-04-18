@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-03 5:51:11 GMT (Sunday 3rd July 2016)"
-	revision: "1"
+	date: "2017-01-24 17:20:47 GMT (Tuesday 24th January 2017)"
+	revision: "2"
 
 class
 	EL_CONSOLE_MANAGER_TOOLBAR
@@ -53,9 +53,7 @@ feature {NONE} -- Initialization
  	make (keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS; accelerator_keys_enabled: BOOLEAN)
  			--
  		local
- 			label: EV_LABEL
- 			label_text: STRING
- 			thread_list_box: EL_VERTICAL_BOX
+ 			label: EV_LABEL; label_text: STRING; thread_list_box: EL_VERTICAL_BOX
  		do
  			make_console_manager
 			make_default_box
@@ -84,7 +82,7 @@ feature {NONE} -- Initialization
 
  			extend_unexpanded (label)
 
- 			extend_unexpanded (thread_list_box)
+ 			extend (thread_list_box)
 
 			launch_thread_registration_consumer
  		end

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-13 16:23:03 GMT (Monday 13th June 2016)"
-	revision: "1"
+	date: "2017-04-18 8:54:22 GMT (Tuesday 18th April 2017)"
+	revision: "2"
 
 class
 	EL_ENCODED_LINE_READER  [F -> FILE]
@@ -51,7 +51,7 @@ feature -- Element change
 
 			else
 				create buffer.make_filled ('%U', raw_line.count)
-				codec.decode (raw_line.count, raw_line.area, buffer.area)
+				codec.decode (raw_line.count, raw_line.area, buffer.area, 0)
 				create line.make_from_unicode (buffer)
 			end
 		end

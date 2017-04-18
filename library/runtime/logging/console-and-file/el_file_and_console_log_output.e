@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-14 12:29:51 GMT (Wednesday 14th December 2016)"
-	revision: "2"
+	date: "2017-01-19 10:08:25 GMT (Thursday 19th January 2017)"
+	revision: "3"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -36,6 +36,11 @@ inherit
 			{EL_LOG_MANAGER} close, name, delete, wipe_out, open_write, flush_file, path
 		end
 
+	EL_SINGLE_THREAD_ACCESS
+		rename
+			mutex as write_mutex
+		end
+
 create
 	make
 
@@ -44,12 +49,12 @@ feature -- Initialization
 	make (log_path: EL_FILE_PATH; a_thread_name: STRING; a_index: INTEGER)
 			-- Create file object with `fn' as file name.
 		do
+			make_default
 			make_output
 			index := a_index
 			make_open_write (log_path)
 
 			thread_name := a_thread_name
-			create write_mutex.make
 			create new_line_prompt.make_from_string ("%N " + index.out + "> ")
 			is_directed_to_console := index = 1
 		end
@@ -79,11 +84,9 @@ feature -- Basic operations
 	stop_console
 			-- Stop out put to console
 		do
-			write_mutex.lock
---			synchronized
+			restrict_access
 				is_directed_to_console := false
---			end
-			write_mutex.unlock
+			end_restriction
 		end
 
 	redirect_to_console
@@ -105,8 +108,7 @@ feature {NONE} -- Implementation
 	write_log_to_console (write_entire_log: BOOLEAN)
 			--
 		do
-			write_mutex.lock
---			synchronized
+			restrict_access
 				Environment.Execution.system (Environment.Operating.clear_screen_command)
 
 				-- 1st time
@@ -131,8 +133,7 @@ feature {NONE} -- Implementation
 				end
 				close; open_append
 				is_directed_to_console := true
---			end
-			write_mutex.unlock
+			end_restriction
 		end
 
 	write_string (str: ZSTRING)
@@ -152,7 +153,5 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
-
-	write_mutex: MUTEX
 
 end

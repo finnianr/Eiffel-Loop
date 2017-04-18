@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-29 10:27:02 GMT (Friday 29th July 2016)"
-	revision: "1"
+	date: "2017-03-10 10:35:36 GMT (Friday 10th March 2017)"
+	revision: "2"
 
 deferred class
 	EL_INPUT_WIDGET [G]
@@ -70,10 +70,15 @@ feature {NONE} -- Implementation
 			linear_values: LINEAR [G]
 			tuple: like Type_widget_initialization_tuple
 			tuples: ARRAY [like Type_widget_initialization_tuple]
+			index: INTEGER
 		do
 			create tuple
 			create tuples.make_filled (tuple, 1, values.count)
 			linear_values := values.linear_representation
+			-- Save cursor position
+			if not linear_values.off then
+				index := linear_values.index
+			end
 			from linear_values.start until linear_values.after loop
 				create tuple
 				tuple.value := linear_values.item
@@ -81,6 +86,10 @@ feature {NONE} -- Implementation
 				tuple.is_current_value := tuple.value ~ initial_value
 				tuples [linear_values.index] := tuple
 				linear_values.forth
+			end
+			-- Restore cursor position
+			if index > 0 and then attached {CHAIN [G]} values as values_chain then
+				values_chain.go_i_th (index)
 			end
 			if is_sorted then
 				sort_tuples (tuples)

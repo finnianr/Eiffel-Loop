@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-03 8:17:44 GMT (Sunday 3rd July 2016)"
-	revision: "1"
+	date: "2017-01-18 17:21:37 GMT (Wednesday 18th January 2017)"
+	revision: "2"
 
 class
 	EL_LOGGED_REGULAR_INTERVAL_EVENT_PRODUCER
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 
 	on_start
 		do
-			Log_manager.add_thread (Current)
+			Log_manager.call (agent {EL_LOG_MANAGER}.add_thread (Current))
 		end
 
 feature {NONE} -- Internal attributes

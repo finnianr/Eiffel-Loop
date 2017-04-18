@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 9:18:39 GMT (Monday 28th December 2015)"
-	revision: "1"
+	date: "2017-01-25 9:34:46 GMT (Wednesday 25th January 2017)"
+	revision: "2"
 
 class
 	EL_REFLECTION
@@ -19,41 +19,28 @@ inherit
 
 feature {NONE} -- Implementation
 
-	adapted_field_name (object: REFLECTED_REFERENCE_OBJECT; i: INTEGER): STRING
-		do
-			Result := object.field_name (i)
-			if Underscore_substitute /= '_' then
-				String_8.replace_character (Result, '_', Underscore_substitute)
-			end
-		end
-
 	current_object: like Once_current_object
 		do
 			Result := Once_current_object; Result.set_object (Current)
 		end
 
-	new_field_set (field_names: ARRAY [STRING]): EL_HASH_SET [INTEGER]
+	new_field_indices_set (field_names: ARRAY [STRING]): SORTABLE_ARRAY [INTEGER]
 		local
-			object: REFLECTED_REFERENCE_OBJECT
-			i, field_count: INTEGER
+			object: like current_object
+			i, j, field_count: INTEGER
 		do
-			object := Once_current_object; current_object.set_object (Current)
-			field_count := current_object.field_count
-			create Result.make_equal (field_count - field_names.count)
+			object := current_object; field_count := object.field_count
+
+			create Result.make_filled (0,1, field_count - field_names.count)
 			field_names.compare_objects
 			from i := 1 until i > field_count loop
 				if field_names.has (object.field_name (i)) then
-					Result.put (i)
+					j := j + 1
+					Result [j] := i
 				end
 				i := i + 1
 			end
+			Result.sort
 		end
 
-feature {NONE} -- Constants
-
-	Underscore_substitute: CHARACTER
-			-- replacement for underscore in adapted field names
-		once
-			Result := '_'
-		end
 end

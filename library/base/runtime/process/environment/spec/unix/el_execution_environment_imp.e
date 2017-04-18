@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 15:26:24 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2017-04-17 13:30:38 GMT (Monday 17th April 2017)"
+	revision: "2"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -33,6 +33,11 @@ feature {NONE} -- Implementation
 	console_code_page: NATURAL
 			-- For windows. Returns 0 in Unix
 		do
+		end
+
+	open_url (url: READABLE_STRING_GENERAL)
+		do
+			system ("xdg-open " + String_32.general_to_unicode (url))
 		end
 
 	set_console_code_page (code_page_id: NATURAL)

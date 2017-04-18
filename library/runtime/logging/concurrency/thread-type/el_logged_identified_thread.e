@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 19:11:08 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-01-24 17:18:37 GMT (Tuesday 24th January 2017)"
+	revision: "2"
 
 deferred class
 	EL_LOGGED_IDENTIFIED_THREAD

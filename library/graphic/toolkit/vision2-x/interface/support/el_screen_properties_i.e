@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-09 16:52:56 GMT (Sunday 9th October 2016)"
-	revision: "2"
+	date: "2017-01-28 15:15:09 GMT (Saturday 28th January 2017)"
+	revision: "3"
 
 deferred class
 	EL_SCREEN_PROPERTIES_I
@@ -111,13 +111,13 @@ feature -- Element change
 feature -- Conversion
 
 	horizontal_pixels (cms: REAL): INTEGER
-			--
+			-- centimeters to horizontal pixels
 		do
 			Result := (horizontal_resolution * cms).rounded
 		end
 
 	vertical_pixels (cms: REAL): INTEGER
-			--
+			-- centimeters to vertical pixels
 		do
 			Result := (vertical_resolution * cms).rounded
 		end
