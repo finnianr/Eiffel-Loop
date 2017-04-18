@@ -27,6 +27,8 @@
 
 [doc/Release-1.4.3.md](doc/Release-1.4.3.md)
 
+[doc/Release-1.4.4.md](doc/Release-1.4.4.md)
+
 ## LIBRARY CONTENTS
 For a short description of each module see [doc/Contents.md](doc/Contents.md) or [www.eiffel-loop.com](http://www.eiffel-loop.com).
 
