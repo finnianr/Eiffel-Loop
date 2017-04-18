@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 18:59:35 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-04-14 16:14:37 GMT (Friday 14th April 2017)"
+	revision: "2"
 
 class
 	EL_PAYPAL_COMMAND_SHELL
@@ -17,6 +17,8 @@ inherit
 		redefine
 			run_command_loop
 		end
+
+	EL_MODULE_DIRECTORY
 
 create
 	default_create
@@ -37,7 +39,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 				pass_phrase.validate
 			end
 			create credentials.make (credentials_path, pass_phrase.new_aes_encrypter (128))
-			create paypal.make ("WJA4MQCSCZHXJ", credentials, 95.0, True)
+			create paypal.make (Cert_authority_info_path, credentials, 95.0, True)
 			paypal.set_notify_url ("http://sandbox.myching.software/IPN/listener")
 			paypal.open
 			currency_code := Hungarian_code
@@ -164,7 +166,7 @@ feature {NONE} -- Implementation
 			Result.set_item_product_code ("1.en." + currency_code)
 		end
 
-	paypal: EL_PAYPAL_CONNECTION
+	paypal: EL_PAYPAL_NVP_API_CONNECTION
 
 	currency_code: STRING
 
@@ -173,5 +175,10 @@ feature {NONE} -- Constants
 	Euro_code: STRING = "EUR"
 
 	Hungarian_code: STRING = "HUF"
+
+	Cert_authority_info_path: EL_FILE_PATH
+		once
+			Result := Directory.Home + "Documents/Certificates/cacert.pem"
+		end
 
 end

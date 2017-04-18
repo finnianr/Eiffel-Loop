@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-18 14:20:42 GMT (Friday 18th November 2016)"
-	revision: "4"
+	date: "2017-04-18 9:47:32 GMT (Tuesday 18th April 2017)"
+	revision: "6"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -864,7 +864,7 @@ feature -- Conversion
 				Result := to_latin_1
 			else
 				str_32 := empty_once_string_32
-				append_decoded (str_32)
+				append_to_string_32 (str_32)
 				create Result.make_filled ('%U', count)
 				l_unencoded := extendible_unencoded
 				a_codec.encode (str_32, Result.area, 0, l_unencoded)
@@ -1127,7 +1127,7 @@ feature -- Conversion
 			-- UCS-4
 		do
 			create Result.make (count)
-			append_decoded (Result)
+			append_to_string_32 (Result)
 		end
 
 	to_utf_8: STRING
@@ -1135,8 +1135,7 @@ feature -- Conversion
 			l_unicode: like empty_once_string_32
 		do
 			l_unicode := empty_once_string_32
-			l_unicode.grow (count)
-			append_decoded (l_unicode)
+			append_to_string_32 (l_unicode)
 			create Result.make (count)
 			UTF.string_32_into_utf_8_string_8 (l_unicode, Result)
 		end
@@ -1761,6 +1760,47 @@ feature {EL_READABLE_ZSTRING, EL_ZSTRING_VIEW} -- Access
 			fill_expanded (Result)
 		end
 
+feature -- Basic operation
+
+	append_to_general (output: STRING_GENERAL)
+		do
+			if attached {EL_ZSTRING} output as str_z then
+				append_to (str_z)
+
+			elseif attached {STRING_32} output as str_32 then
+				append_to_string_32 (str_32)
+				
+			elseif attached {STRING_8} output as str_8 then
+				append_to_string_8 (str_8)
+			end
+		end
+
+	append_to (output: like Current)
+		do
+			output.append (Current)
+		end
+
+	append_to_string_8 (output: STRING_8)
+		local
+			str_32: STRING_32
+		do
+			str_32 := empty_once_string_32
+			append_to_string_32 (str_32)
+			output.append_string_general (str_32)
+		end
+
+	append_to_string_32 (output: STRING_32)
+		local
+			old_count: INTEGER
+		do
+			old_count := output.count
+			output.grow (old_count + count)
+			output.set_count (old_count + count)
+			output.area [old_count + count] := '%U'
+			codec.decode (count, area, output.area, old_count)
+			write_unencoded (output, old_count)
+		end
+
 feature {NONE} -- Implementation
 
 	adapted_general (a_general: READABLE_STRING_GENERAL; argument_number: INTEGER): like Current
@@ -1774,16 +1814,6 @@ feature {NONE} -- Implementation
 				Result := new_string (a_general.count)
 				Result.append_string_general (a_general)
 			end
-		end
-
-	append_decoded (output: STRING_32)
-		require
-			big_enough: output.capacity >= count
-		do
-			output.set_count (count)
-			output.area [count] := '%U'
-			codec.decode (count, area, output.area)
-			write_unencoded (output)
 		end
 
 	area_i_th_z_code (a_area: like area; i: INTEGER): NATURAL

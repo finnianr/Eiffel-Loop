@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-16 12:52:01 GMT (Monday 16th January 2017)"
-	revision: "3"
+	date: "2017-01-17 12:24:25 GMT (Tuesday 17th January 2017)"
+	revision: "4"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -28,9 +28,15 @@ feature {NONE} -- Implementation
 			Result.escape (Path_escaper)
 		end
 
-	set_modification_time (file_path: EL_FILE_PATH; date_time: INTEGER)
+	set_file_modification_time (file_path: EL_FILE_PATH; date_time: INTEGER)
 		do
 			closed_raw_file (file_path).set_date (date_time)
+		end
+
+	set_file_stamp (file_path: EL_FILE_PATH; date_time: INTEGER)
+			-- Stamp file with `time' (for both access and modification).
+		do
+			closed_raw_file (file_path).stamp (date_time)
 		end
 
 feature {NONE} -- Constants

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-19 6:35:19 GMT (Tuesday 19th July 2016)"
-	revision: "1"
+	date: "2017-01-19 11:35:49 GMT (Thursday 19th January 2017)"
+	revision: "2"
 
 class
 	PYXIS_TO_XML_APP
@@ -15,13 +15,17 @@ class
 inherit
 	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [PYXIS_TO_XML_CONVERTER]
 		redefine
-			Option_name, ask_user_to_quit
+			Option_name
 		end
 
 create
 	make
 
 feature -- Testing
+
+--	normal_run
+--		do
+--		end
 
 	test_run
 			--
@@ -85,12 +89,6 @@ feature {NONE} -- Implementation
 				required_existing_path_argument ("in", "Input file path"),
 				optional_argument ("out", "Output file path")
 			>>
-		end
-
-	ask_user_to_quit: BOOLEAN
-			--
-		do
-			Result := Args.word_option_exists ("remain")
 		end
 
 feature {NONE} -- Constants

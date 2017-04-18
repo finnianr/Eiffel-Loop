@@ -15,13 +15,13 @@ def new_path (a_path):
 
 include_path = [
 	new_path ('$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include'),
-	new_path ('$ISE_EIFFEL/library/cURL/spec/include'),
 	new_path ('$EIFFEL_LOOP/C_library/include')
 ]
 
 is_windows = platform.system () == "Windows"
 
 if is_windows:
+	include_path.append (new_path ('$ISE_EIFFEL/library/cURL/spec/include'))
 	compiler_flags = ['-Ox', '-Zi', '-MT', '-w', '-nologo', '-DEIF_THREADS', '-DEIF_WINDOWS']
 	
 else:

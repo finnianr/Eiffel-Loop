@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-24 11:28:28 GMT (Saturday 24th September 2016)"
-	revision: "2"
+	date: "2017-01-24 15:45:38 GMT (Tuesday 24th January 2017)"
+	revision: "3"
 
 class
 	EL_DYNAMIC_MODULE_POINTERS
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 		-- since Eiffel identifiers are case insensitive, C API identifiers with upper case characters must be
 		-- listed by overriding the function `function_names_with_upper'
 		local
-			object: REFLECTED_REFERENCE_OBJECT
+			object: like current_object
 			i, field_count: INTEGER; name: STRING; function: POINTER
 			names_with_upper: EL_HASH_TABLE [STRING, STRING]
 		do
@@ -65,8 +65,7 @@ feature {NONE} -- Initialization
 			across function_names_with_upper as upper_name loop
 				names_with_upper [upper_name.item.as_lower] := upper_name.item
 			end
-			object := Once_current_object; current_object.set_object (Current)
-			field_count := current_object.field_count
+			object := current_object; field_count := object.field_count
 			from i := 1 until i > field_count loop
 				if object.field_type (i) = Pointer_type then
 					name := object.field_name (i)

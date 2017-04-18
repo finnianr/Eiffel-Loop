@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2017-01-29 17:41:44 GMT (Sunday 29th January 2017)"
+	revision: "2"
 
 deferred class
 	EL_BOX
@@ -21,6 +21,12 @@ inherit
 		end
 
 feature {NONE} -- Initialization
+
+	make_unexpanded (a_border_cms, a_padding_cms: REAL; widgets: ARRAY [EV_WIDGET])
+		do
+			make (a_border_cms, a_padding_cms)
+			append_unexpanded (widgets)
+		end
 
 	make (a_border_cms, a_padding_cms: REAL)
 		do
@@ -70,7 +76,7 @@ feature -- Element change
  			upper := a_widgets.upper
 			from i := a_widgets.lower until i > upper loop
 				extend (a_widgets [i])
-				if not attached {EL_EXPANDED_CELL} a_widgets [i] as cell then
+				if not attached {EL_EXPANDABLE} a_widgets [i] then
 					disable_item_expand (a_widgets [i])
 				end
 				i := i + 1
@@ -87,19 +93,17 @@ feature -- Status setting
 
 	set_all_expansions (flag_array: ARRAY [BOOLEAN] )
 			--
-		require
-			same_count: count = flag_array.count
 		local
-			i: INTEGER
+			l_cursor: like cursor
 		do
-			from i := 1 until i > flag_array.count loop
-				if flag_array [i] then
-					enable_item_expand (i_th (i))
-				else
-					disable_item_expand (i_th (i))
+			l_cursor := cursor
+			from start until after loop
+				if flag_array.valid_index (index) then
+					set_item_expansion (flag_array [index])
 				end
-				i := i + 1
+				forth
 			end
+			go_to (l_cursor)
 		end
 
 	expand_all
@@ -110,6 +114,17 @@ feature -- Status setting
 			from i := 1 until i > count loop
 				enable_item_expand (i_th (i))
 				i := i + 1
+			end
+		end
+
+	set_item_expansion (is_expanded: BOOLEAN)
+		require
+			item_selected: not off
+		do
+			if is_expanded then
+				enable_item_expand (item)
+			else
+				disable_item_expand (item)
 			end
 		end
 

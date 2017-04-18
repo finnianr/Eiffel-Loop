@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-28 11:57:35 GMT (Sunday 28th August 2016)"
-	revision: "2"
+	date: "2017-01-24 17:12:23 GMT (Tuesday 24th January 2017)"
+	revision: "3"
 
 class
 	EL_LOG_MANAGER
@@ -258,7 +258,7 @@ feature -- Removal
 			end
 		end
 
-feature {EL_CONSOLE_MANAGER, EL_LOGGABLE} -- Access
+feature {EL_CONSOLE_MANAGER, EL_LOGGABLE, EL_MODULE_LOG_MANAGER} -- Access
 
 	console_thread_index: INTEGER
 		--	 Index number of thread currently directed to console

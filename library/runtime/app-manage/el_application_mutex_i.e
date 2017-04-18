@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-05-15 13:53:45 GMT (Sunday 15th May 2016)"
-	revision: "1"
+	date: "2017-02-10 13:22:03 GMT (Friday 10th February 2017)"
+	revision: "2"
 
 deferred class
 	EL_APPLICATION_MUTEX_I
@@ -24,14 +24,14 @@ feature {NONE} -- Implementation
 	make
 		do
 			make_default
-			try_lock (Execution_environment.Executable_name)
+			try_lock (Execution_environment.Executable_and_user_name)
 		end
 
 	make_for_application_mode (option_name: STRING)
 			-- Create mutex for application  in mode specified by option_name
 		do
 			make_default
-			try_lock (Execution_environment.Executable_name + "." + option_name)
+			try_lock (Execution_environment.Executable_and_user_name + "." + option_name)
 		end
 
 feature -- Status change

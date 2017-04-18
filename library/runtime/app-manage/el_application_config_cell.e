@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {EL_APPLICATION_CONFIG_CELL}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 12:07:36 GMT (Wednesday 28th September 2016)"
-	revision: "2"
+	date: "2017-01-22 14:48:41 GMT (Sunday 22nd January 2017)"
+	revision: "3"
 
 class
 	EL_APPLICATION_CONFIG_CELL [G -> {EL_FILE_PERSISTENT} create make_from_file end]
@@ -32,11 +30,6 @@ create
 
 feature {NONE} -- Initialization
 
-	make_from_option_name (a_option_name: STRING)
-		do
-			Application_sub_option.share (a_option_name)
-		end
-
 	make (a_file_name: like file_name)
 		do
 			file_name := a_file_name
@@ -58,12 +51,17 @@ feature {NONE} -- Initialization
 			end
 		end
 
-feature {NONE} -- Implementation
+	make_from_option_name (a_option_name: STRING)
+		do
+			Application_sub_option.share (a_option_name)
+		end
+
+feature -- Access
 
 	config_file_path: EL_FILE_PATH
 			--
 		require
-			configuration_directory_exists: (Directory.User_configuration.exists)
+			configuration_directory_exists: configuration_directory_exists
 		local
 			l_dir_path: EL_DIR_PATH
 		do
@@ -75,9 +73,23 @@ feature {NONE} -- Implementation
 			Result := l_dir_path + file_name
 		end
 
-feature -- Access
-
 	file_name: ZSTRING
+
+feature -- Status query
+
+	configuration_directory_exists: BOOLEAN
+		do
+			Result := Directory.User_configuration.exists
+		end
+
+feature -- Element change
+
+	update
+		require
+			config_file_path_exits: config_file_path.exists
+		do
+			make (file_name)
+		end
 
 feature {NONE} -- Constants
 

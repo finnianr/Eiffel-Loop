@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-25 11:06:00 GMT (Sunday 25th September 2016)"
-	revision: "2"
+	date: "2017-01-24 10:22:18 GMT (Tuesday 24th January 2017)"
+	revision: "3"
 
 class
 	MANAGER_CONFIG
@@ -189,10 +189,6 @@ feature {NONE} -- Constants
 	Default_playlists_subdirectory_name: ZSTRING
 		once
 			Result := "playlists"
-		end
-	Empty_string: ZSTRING
-		once
-			create Result.make_empty
 		end
 
 	Root_node_name: STRING = "music-collection"

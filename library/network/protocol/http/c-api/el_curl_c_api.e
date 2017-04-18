@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 16:46:49 GMT (Monday 3rd October 2016)"
-	revision: "2"
+	date: "2017-04-06 15:07:35 GMT (Thursday 6th April 2017)"
+	revision: "3"
 
 class
 	EL_CURL_C_API
@@ -140,4 +140,32 @@ feature {NONE} -- C externals
 			]"
 		end
 
+	c_slist_append (function: POINTER; a_list_ptr: POINTER; a_string: POINTER): POINTER
+			-- Declared as curl_slist_append ().
+		require
+			function_attached: is_attached (function)
+		external
+			"C inline use <curl/curl.h>"
+		alias
+			"[
+			{
+				return (FUNCTION_CAST(void *, (struct curl_slist *, const char *)) $function)
+											((struct curl_slist *)$a_list_ptr, 
+											(const char *)$a_string);
+			}
+			]"
+		end
+
+	c_slist_free_all (function: POINTER; a_list_ptr: POINTER)
+			-- Declared as void curl_slist_free_all(struct curl_slist * list)
+		require
+			function_attached: is_attached (function)
+		external
+			"C inline use <curl/curl.h>"
+		alias
+			"[
+				(FUNCTION_CAST(void *, (struct curl_slist *)) $function)
+											((struct curl_slist *)$a_list_ptr);
+			]"
+		end
 end

@@ -28,6 +28,9 @@ system:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library:
+			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
+
+		library:
 			name = vision2; location="override/ES-vision2.ecf"
 			condition:
 				custom:

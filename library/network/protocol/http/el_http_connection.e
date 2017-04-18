@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-13 11:49:31 GMT (Thursday 13th October 2016)"
-	revision: "5"
+	date: "2017-04-14 12:25:34 GMT (Friday 14th April 2017)"
+	revision: "6"
 
 class
 	EL_HTTP_CONNECTION
@@ -31,6 +31,11 @@ inherit
 		export
 			{NONE} all
 			{ANY} is_valid_http_command
+		end
+
+	EL_CURL_SSL_CONSTANTS
+		export
+			{NONE} all
 		end
 
 	EL_CURL_INFO_CONSTANTS
@@ -68,7 +73,6 @@ inherit
 
 create
 	make
---	, make_with_cookie
 
 feature {NONE} -- Initialization
 
@@ -77,6 +81,8 @@ feature {NONE} -- Initialization
 			disable_cookies
 			create last_string.make_empty
 			create http_response.make_empty
+			create headers.make_equal (0)
+			create post_data.make_empty (0)
 		end
 
 feature -- Access
@@ -118,6 +124,11 @@ feature -- Access
 				create Result.make_empty
 			end
 		end
+
+	http_version: DOUBLE
+
+	headers: EL_CURL_HEADER_TABLE
+		-- request headers to send
 
 	last_headers: EL_HTTP_HEADERS
 		do
@@ -170,6 +181,7 @@ feature -- Basic operations
 			-- write any cookies if `cookie_store_path' is set and closes connection
 		do
 			url := Empty_string
+			headers.wipe_out; post_data.set_count (0)
 			dispose
 
 			-- Workaround for a weird bug where a second call to read_string would hang
@@ -266,7 +278,13 @@ feature -- Element change
 	reset
 		do
 			last_string.wipe_out
+			post_data.set_count (0)
 			error_code := 0
+		end
+
+	set_certificate_authority_info (cacert_path: EL_FILE_PATH)
+		do
+			set_curl_string_option (CURLOPT_cainfo, cacert_path)
 		end
 
 	set_cookie_paths (a_cookie_path: like cookie_store_path)
@@ -302,18 +320,36 @@ feature -- Element change
 			cookie_store_path := a_cookie_store_path
 		end
 
-	set_post_parameters (parameters: EL_HTTP_HASH_TABLE)
+	set_http_version (version: DOUBLE)
+		require
+			valid_version: (<< 0.0, 1.0, 1.1 >>).has (version)
+		local
+			option: INTEGER
 		do
-			set_post_raw_parameters_string (parameters.url_query_string)
+			http_version := version
+			inspect (version * 10).floor
+				when 1_0 then
+					option := curl_http_version_1_0
+				when 1_1 then
+					option := curl_http_version_1_1
+			else
+				option := curl_http_version_none
+				http_version := version.zero
+			end
+			set_curl_integer_option (CURLOPT_http_version, option)
 		end
 
-	set_post_raw_parameters_string (raw_string_8: STRING)
+	set_post_parameters (parameters: EL_HTTP_HASH_TABLE)
+		do
+			set_post_data (parameters.url_query_string)
+		end
+
+	set_post_data (raw_string_8: STRING)
 		-- You must make sure that the data is formatted the way you want the server to receive it.
 		-- libcurl will not convert or encode it for you in any way. For example, the web server may
 		-- assume that this data is url-encoded.
 		do
-			set_curl_string_8_option (CURLOPT_postfields, raw_string_8)
-			set_curl_integer_option (CURLOPT_postfieldsize, raw_string_8.count)
+			post_data.set_string (raw_string_8)
 		end
 
 	set_ssl_certificate_verification (flag: BOOLEAN)
@@ -329,6 +365,50 @@ feature -- Element change
      		-- subjectAltName) fields, libcurl will refuse to connect.
 		do
 			set_curl_boolean_option (CURLOPT_ssl_verifyhost, flag)
+		end
+
+	set_ssl_version (version: INTEGER)
+			-- 0 is default
+		require
+			valid_version: (<< 0, 2, 3 >>).has (version)
+		local
+			option: INTEGER
+		do
+			inspect version
+				when 2 then
+					option := curl_sslversion_sslv2
+				when 3 then
+					option := curl_sslversion_sslv3
+			else
+				option := curl_sslversion_default
+			end
+			set_curl_integer_option (CURLOPT_sslversion, option)
+		end
+
+	set_ssl_tls_version (version: DOUBLE)
+		require
+			valid_unix_version: {PLATFORM}.is_unix implies (<< version.zero, 1.0, 1.1, 1.2 >>).has (version)
+			valid_windows_version: {PLATFORM}.is_windows implies version.zero ~ version
+		local
+			option: INTEGER
+		do
+			inspect (version * 10).floor
+				--
+				when 1_0 then
+					option := curl_sslversion_TLSv1_0
+				when 1_1 then
+					option := curl_sslversion_TLSv1_1
+				when 1_2 then
+					option := curl_sslversion_TLSv1_2
+			else
+				option := curl_sslversion_TLSv1
+			end
+			set_curl_integer_option (CURLOPT_sslversion, option)
+		end
+
+	set_ssl_tls_version_1_x
+		do
+			set_curl_integer_option (CURLOPT_sslversion, curl_sslversion_TLSv1)
 		end
 
 	set_timeout (millisecs: INTEGER)
@@ -444,9 +524,18 @@ feature {NONE} -- Experimental
 feature {EL_HTTP_COMMAND} -- Implementation
 
 	do_transfer
-		-- do data transfer to/from host
+			-- do data transfer to/from host
+		local
+			string_list: POINTER
 		do
+			string_list := headers.to_curl_string_list
+			if is_attached (string_list) then
+				set_curl_option_with_data (CURLOPT_httpheader, string_list)
+			end
 			error_code := Curl.perform (self_ptr)
+			if is_attached (string_list) then
+				curl.free_string_list (string_list)
+			end
 			if has_error and then is_lio_enabled then
 				lio.put_integer_field ("CURL error code", error_code)
 				lio.put_new_line
@@ -468,6 +557,10 @@ feature {NONE} -- Implementation
 				create {EL_HEADER_DOWNLOAD_HTTP_COMMAND} download_cmd.make
 			else
 				create {EL_STRING_DOWNLOAD_HTTP_COMMAND} download_cmd.make
+				if a_http_command = CURLOPT_post and then post_data.count > 0 then
+					set_curl_option_with_data (CURLOPT_postfields, post_data.item)
+					set_curl_integer_option (CURLOPT_postfieldsize, post_data.count)
+				end
 			end
 			set_http_command (a_http_command)
 			set_cookies
@@ -494,9 +587,9 @@ feature {NONE} -- Implementation
 			Curl.setopt_integer (self_ptr, a_option, flag.to_integer)
 		end
 
-	set_curl_integer_option (a_option: INTEGER; value: INTEGER)
+	set_curl_integer_option (a_option: INTEGER; option: INTEGER)
 		do
-			Curl.setopt_integer (self_ptr, a_option, value)
+			Curl.setopt_integer (self_ptr, a_option, option)
 		end
 
 	set_curl_string_32_option (a_option: INTEGER; string: STRING_32)
@@ -530,6 +623,8 @@ feature {NONE} -- Implementation attributes
 		-- POST, HEAD (NOBODY) or GET
 
 	http_response: CURL_STRING
+
+	post_data: C_STRING
 
 feature {NONE} -- Constants
 

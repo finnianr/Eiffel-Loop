@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 8:55:27 GMT (Monday 3rd October 2016)"
-	revision: "3"
+	date: "2017-02-10 13:21:25 GMT (Friday 10th February 2017)"
+	revision: "4"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -231,7 +231,7 @@ feature {NONE} -- Factory
 			-- Tempory file in temporary area set by env label "TEMP"
 		do
 			Result := Directory.temporary.joined_file_steps (<<
-				Execution_environment.executable_name, new_temporary_base_name (a_extension)
+				Execution_environment.Executable_and_user_name, new_temporary_base_name (a_extension)
 			>>)
 		end
 

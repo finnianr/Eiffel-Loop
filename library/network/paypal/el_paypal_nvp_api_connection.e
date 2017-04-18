@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-19 17:45:22 GMT (Monday 19th September 2016)"
-	revision: "2"
+	date: "2017-04-14 16:23:04 GMT (Friday 14th April 2017)"
+	revision: "3"
 
 class
-	EL_PAYPAL_CONNECTION
+	EL_PAYPAL_NVP_API_CONNECTION
 
 inherit
-	EL_HTTP_CONNECTION
+	EL_PAYPAL_HTTP_CONNECTION
 		rename
-			make as make_connection,
+			make as make_http_connection,
 			open as open_url
 		export
 			{NONE} open_url
@@ -28,25 +28,26 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_account_id: like account_id; a_credentials: like credentials; a_api_version: REAL; a_is_sandbox: like is_sandbox)
+	make (
+		a_cert_authority_info_path: EL_FILE_PATH; a_credentials: like credentials
+		a_api_version: REAL; a_is_sandbox: like is_sandbox
+	)
 		local
 			version: ZSTRING
 		do
-			account_id := a_account_id; credentials := a_credentials
+			credentials := a_credentials
 			create api_version.make (Variable.version, a_api_version.out)
 			is_sandbox := a_is_sandbox
 			version := api_version.value
 			if not version.has ('.') then
 				version.append_string_general (".0")
 			end
-			make_connection
+			make_http_connection (a_cert_authority_info_path)
 			create response_values.make_equal (3)
 			create notify_url.make_empty
 		end
 
 feature -- Access
-
-	account_id: STRING
 
 	notify_url: STRING
 		-- The URL to which PayPal posts information about the payment,

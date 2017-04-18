@@ -7,5 +7,5 @@ set batch_path=%~p0
 cd %batch_path%
 
 scons action=finalize project=toolkit.ecf
-copy /Y build\win64\package\bin\el_toolkit.exe "C:\Program Files\Eiffel-Loop\bin"
+copy build\win64\package\bin\el_toolkit.exe "C:\Program Files\Eiffel-Loop\bin"
 pause

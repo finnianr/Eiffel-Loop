@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 7:42:30 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2017-01-23 9:17:16 GMT (Monday 23rd January 2017)"
+	revision: "2"
 
 class
 	EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX
@@ -36,12 +36,10 @@ feature {NONE} -- Initialization
 	make (
 		a_border_cms, a_padding_cms: REAL; a_window: EV_WINDOW
 		label_text, tooltip_text, color_selection_text: ZSTRING
-		RGB_color_code: INTEGER; set_color_action: PROCEDURE [ANY, TUPLE [EL_COLOR]]
+		RGB_color_code: INTEGER; set_color: PROCEDURE [ANY, TUPLE [EL_COLOR]]
 	)
 		local
-			code_field: EV_TEXT_FIELD
 			html_color_code, longest_html_color_code: STRING
-			color_button: EL_COLOR_BUTTON
 			l_label_text: ZSTRING
 		do
 			make_box (a_border_cms, a_padding_cms)
@@ -58,34 +56,70 @@ feature {NONE} -- Initialization
 			l_label_text.append_character (' ')
 			l_label_text.append (label_text.as_lower)
 			create color_button.make (
-				a_window, l_label_text.to_unicode, code_field.height, RGB_color_code,
-				agent on_color_select (?, code_field, set_color_action)
+				a_window, l_label_text.to_unicode, code_field.height, RGB_color_code, agent on_color_select (?, set_color)
 			)
-			code_field.focus_out_actions.extend (agent set_color_on_focus_out (code_field, color_button, set_color_action))
+			code_field.focus_out_actions.extend (agent set_color_on_focus_out (set_color))
+			code_field.change_actions.extend (agent on_code_field_change (set_color))
 			append_unexpanded (<< code_field, color_button >>)
 		end
 
 feature {NONE} -- Event handling
 
-	on_color_select (RGB_color_code: INTEGER; code_field: EV_TEXT_FIELD; set_color_action: PROCEDURE [ANY, TUPLE [EV_COLOR]])
+	on_code_field_change (set_color: PROCEDURE [ANY, TUPLE [EL_COLOR]])
+		local
+			text: STRING_32; valid: BOOLEAN
+			color: EL_COLOR
 		do
-			code_field.set_text (GUI.rgb_code_to_html_code (RGB_color_code))
-			set_color_action.call ([Vision_2.new_color (RGB_color_code)])
+			text := code_field.text
+			if text.count = 7 then
+				valid := True
+				across text as char until not valid loop
+					if char.cursor_index = 1  then
+						valid := char.item = '#'
+					else
+						inspect char.item.code
+							when 48 .. 57, 65 .. 70, 97 .. 102 then
+						else
+							valid := False
+						end
+					end
+				end
+				if valid then
+					create color.make_with_html (text)
+					color_button.set_color (color.rgb_24_bit)
+					set_color (color)
+				end
+			end
+		end
+
+	on_color_select (RGB_color_code: INTEGER; set_color: PROCEDURE [ANY, TUPLE [EL_COLOR]])
+		local
+			color: EL_COLOR
+		do
+			create color.make_with_rgb_24_bit (RGB_color_code)
+			code_field.change_actions.block
+			code_field.set_text (color.html_color)
+			code_field.change_actions.resume
+			set_color (color)
 		end
 
 feature {NONE} -- Implementation
 
-	set_color_on_focus_out (
-		html_code_field: EV_TEXT_FIELD; color_button: EL_COLOR_BUTTON
-		set_color_action: PROCEDURE [ANY, TUPLE [EV_COLOR]]
-	)
+	set_color_on_focus_out (set_color_action: PROCEDURE [ANY, TUPLE [EV_COLOR]])
 		local
-			l_color: EL_COLOR
+			color: EL_COLOR
 		do
-			l_color:= Vision_2.new_color (GUI.html_code_to_rgb_code (html_code_field.text))
-			if color_button.color /~ l_color then
-				color_button.set_color (l_color.rgb_24_bit)
-				set_color_action.call ([l_color])
+			create color.make_with_html (code_field.text)
+			if color_button.color /~ color then
+				color_button.set_color (color.rgb_24_bit)
+				set_color_action.call ([color])
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	code_field: EV_TEXT_FIELD
+
+	color_button: EL_COLOR_BUTTON
+
 end

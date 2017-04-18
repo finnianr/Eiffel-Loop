@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-01 15:41:55 GMT (Sunday 1st January 2017)"
-	revision: "2"
+	date: "2017-04-16 8:57:31 GMT (Sunday 16th April 2017)"
+	revision: "3"
 
 deferred class
 	EL_HTTP_SERVLET
@@ -121,7 +121,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	servlet_config: EL_SERVLET_CONFIG
+	servlet_config: EL_SERVLET_SERVICE_CONFIG
 
 feature {NONE} -- Constants
 

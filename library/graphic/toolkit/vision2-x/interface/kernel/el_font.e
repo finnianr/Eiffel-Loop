@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-12 16:31:20 GMT (Monday 12th December 2016)"
-	revision: "3"
+	date: "2017-04-12 16:53:26 GMT (Wednesday 12th April 2017)"
+	revision: "4"
 
 class
 	EL_FONT
@@ -15,10 +15,15 @@ class
 inherit
 	EV_FONT
 		redefine
-			implementation, create_implementation
+			implementation, create_implementation, string_width
 		end
 
 	EL_MODULE_SCREEN
+		undefine
+			copy , default_create, is_equal
+		end
+
+	EL_MODULE_STRING_32
 		undefine
 			copy , default_create, is_equal
 		end
@@ -54,6 +59,11 @@ feature -- Measurement
 	string_width_cms (str: ZSTRING): REAL
 		do
 			Result := string_width (str) / Screen.horizontal_resolution
+		end
+
+	string_width (a_string: READABLE_STRING_GENERAL): INTEGER
+		do
+			Result := Precursor (String_32.general_to_unicode (a_string))
 		end
 
 feature -- Element change

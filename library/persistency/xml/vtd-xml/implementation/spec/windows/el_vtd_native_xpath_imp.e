@@ -1,18 +1,22 @@
 note
-	description: "Summary description for {EL_VTD_NATIVE_XPATH}."
+	description: "Windows implementation of native xpath argument to vtd-xml"
+
+	
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:26 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2017-04-18 11:00:14 GMT (Tuesday 18th April 2017)"
+	revision: "2"
 
 class
-	EL_VTD_NATIVE_XPATH
+	EL_VTD_NATIVE_XPATH_IMP
 
 inherit
+	EL_VTD_NATIVE_XPATH_I
+
 	TO_SPECIAL [NATURAL_16] -- Size of wchar_t on MSVC
 		export
 			{NONE} area
@@ -21,17 +25,9 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make
-		do
-			create area.make_empty (0)
-			share_area ("")
-		end
-
 feature -- Element change
 
-	share_area (a_xpath: STRING_32)
+	share_area (a_xpath: READABLE_STRING_GENERAL)
 		local
 			l_area: like area; xpath_area: SPECIAL [CHARACTER_32]
 			i, count: INTEGER

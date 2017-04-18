@@ -1,13 +1,15 @@
 note
-	description: "Access file time information using Windows system call GetFileTime"
+	description: "[
+		Get or set file time information using Windows system call `GetFileTime' and `SetFileTime'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-16 12:36:55 GMT (Monday 16th January 2017)"
-	revision: "2"
+	date: "2017-01-16 13:15:56 GMT (Monday 16th January 2017)"
+	revision: "3"
 
 class
 	EL_WIN_FILE_INFO

@@ -6,25 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-10 8:55:58 GMT (Wednesday 10th August 2016)"
-	revision: "2"
+	date: "2017-02-09 13:01:41 GMT (Thursday 9th February 2017)"
+	revision: "3"
 
 class
 	EL_GVFS_OS_COMMAND
 
 inherit
-	EL_OS_COMMAND
-		undefine
-			do_command, make_default, new_command_string
+	EL_CAPTURED_OS_COMMAND
 		redefine
-			on_error
-		end
-
-	EL_CAPTURED_OS_COMMAND_I
-		undefine
-			template_name, new_temporary_base_name, temporary_error_file_path
-		redefine
-			make_default, on_error
+			make_default, on_error, do_with_lines
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -38,7 +29,7 @@ inherit
 	EL_MODULE_COLON_FIELD
 
 create
-	make, make_with_name
+	make
 
 feature {NONE} -- Initialization
 
@@ -80,9 +71,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	do_with_lines (lines: like adjusted_lines)
+	do_with_lines (a_lines: like adjusted_lines)
 		do
-			parse_lines (initial_state, lines)
+			parse_lines (initial_state, a_lines)
 		end
 
 	is_file_not_found (message: ZSTRING): BOOLEAN

@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-20 10:22:31 GMT (Tuesday 20th September 2016)"
-	revision: "1"
+	date: "2017-04-17 12:48:49 GMT (Monday 17th April 2017)"
+	revision: "2"
 
 class
 	EL_CURL_OPTION_CONSTANTS
+
+inherit
+	EL_CURL_PLATFORM_OPTION_CONSTANTS
 
 feature -- Version
 
@@ -899,38 +902,6 @@ feature -- SSL and Security
 			"CURLOPT_SSLVERSION"
 		end
 
-	curl_sslversion_default: INTEGER
-			-- Declared as CURL_SSLVERSION_DEFAULT
-		external
-			"C [macro <curl/curl.h>]: EIF_INTEGER"
-		alias
-			"CURL_SSLVERSION_DEFAULT"
-		end
-
-	curl_sslversion_tlsv1: INTEGER
-			-- Declared as CURL_SSLVERSION_TLSv1
-		external
-			"C [macro <curl/curl.h>]: EIF_INTEGER"
-		alias
-			"CURL_SSLVERSION_TLSv1"
-		end
-
-	curl_sslversion_sslv2: INTEGER
-			-- Declared as CURL_SSLVERSION_SSLv2
-		external
-			"C [macro <curl/curl.h>]: EIF_INTEGER"
-		alias
-			"CURL_SSLVERSION_SSLv2"
-		end
-
-	curl_sslversion_sslv3: INTEGER
-			-- Declared as CURL_SSLVERSION_SSLv3
-		external
-			"C [macro <curl/curl.h>]: EIF_INTEGER"
-		alias
-			"CURL_SSLVERSION_SSLv3"
-		end
-
 	CURLOPT_ssl_verifypeer: INTEGER
 			-- Declared as CURLOPT_SSL_VERIFYPEER.
 		external
@@ -1142,27 +1113,7 @@ feature -- Status report
 					CURLOPT_ssh_public_keyfile,
 					CURLOPT_ssh_private_keyfile,
 					CURLOPT_headerdata,
-					CURLOPT_headerfunction,
-
-					curlauth_none,
-					curlauth_basic,
-					curlauth_digest,
-					curlauth_any,
-					curlauth_anysafe,
-
-					curl_ipresolve_whatever,
-					curl_ipresolve_v4,
-					curl_ipresolve_v6,
-
-					curl_sslversion_default,
-					curl_sslversion_tlsv1,
-					curl_sslversion_sslv2,
-					curl_sslversion_sslv3,
-
-					curlusessl_none,
-					curlusessl_try,
-					curlusessl_control,
-					curlusessl_all
+					CURLOPT_headerfunction
 				>>
 		end
 

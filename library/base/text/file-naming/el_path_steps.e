@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-06 8:37:21 GMT (Saturday 6th August 2016)"
-	revision: "2"
+	date: "2017-04-16 11:22:01 GMT (Sunday 16th April 2017)"
+	revision: "3"
 
 class
 	EL_PATH_STEPS
@@ -78,8 +78,8 @@ feature {NONE} -- Initialization
 		do
 			make_with_count (a_steps.count)
 			from i := 1 until i > a_steps.count loop
-				if attached {ZSTRING} a_steps [i] as l_step then
-					extend (l_step)
+				if attached {ZSTRING} a_steps [i] as zstr then
+					extend (zstr)
 				else
 					extend (create {ZSTRING}.make_from_unicode (a_steps [i]))
 				end

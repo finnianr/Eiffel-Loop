@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-14 13:10:06 GMT (Saturday 14th January 2017)"
-	revision: "4"
+	date: "2017-01-17 12:20:16 GMT (Tuesday 17th January 2017)"
+	revision: "5"
 
 class
 	EL_FILE_PATH
@@ -30,7 +30,7 @@ feature -- Access
 
 	modification_time: INTEGER
 		do
-			Result := File_system.modification_time (Current)
+			Result := File_system.file_modification_time (Current)
 		end
 
 	modification_date_time: DATE_TIME

@@ -8,10 +8,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-06-01 12:20:21 GMT (Monday 1st June 2015)"
-	revision: "1"
+	date: "2017-01-30 18:01:44 GMT (Monday 30th January 2017)"
+	revision: "2"
 
 class
 	EL_PROCEDURE
@@ -20,6 +20,11 @@ inherit
 	PROCEDURE [ANY, TUPLE]
 		export
 			{NONE} all
+		end
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
+		undefine
+			is_equal, copy
 		end
 
 create
@@ -33,7 +38,11 @@ feature -- Initialization
 	make (other: PROCEDURE [ANY, TUPLE])
 			--
 		do
-			encaps_rout_disp := other.encaps_rout_disp
+			if other.encaps_rout_disp = Default_pointer then
+				routine_id := other.routine_id
+			else
+				encaps_rout_disp := other.encaps_rout_disp
+			end
 		end
 
 feature -- Comparison
@@ -41,7 +50,11 @@ feature -- Comparison
 	same_procedure (other: PROCEDURE [ANY, TUPLE]): BOOLEAN
 			--
 		do
-			Result := encaps_rout_disp = other.encaps_rout_disp
+			if encaps_rout_disp = Default_pointer then
+				Result := routine_id = other.routine_id
+			else
+				Result := encaps_rout_disp = other.encaps_rout_disp
+			end
 		end
 
 end

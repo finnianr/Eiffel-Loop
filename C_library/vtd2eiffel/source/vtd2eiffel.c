@@ -91,7 +91,7 @@ static int evx_xpath_query (Exception_handlers_t *p_handlers, EIF_POINTER a_node
 	int result = 0;
 	Try {
 		if (is_start) AP_bind (xpath_query, node_context);
-		result = evalXPath(xpath_query);
+		result = evalXPath (xpath_query);
 	}
 	Catch (e) {
 		// manual garbage collection here

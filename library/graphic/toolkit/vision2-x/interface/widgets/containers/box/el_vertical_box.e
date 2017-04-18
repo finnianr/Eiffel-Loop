@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2017-01-28 11:51:24 GMT (Saturday 28th January 2017)"
+	revision: "2"
 
 class
 	EL_VERTICAL_BOX
@@ -26,7 +26,7 @@ inherit
 		end
 
 create
-	default_create, make
+	default_create, make, make_unexpanded
 
 feature {NONE} -- Implementation
 

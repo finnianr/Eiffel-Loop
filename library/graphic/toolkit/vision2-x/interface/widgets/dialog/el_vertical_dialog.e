@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 7:49:34 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2017-01-29 17:54:04 GMT (Sunday 29th January 2017)"
+	revision: "2"
 
 deferred class
 	EL_VERTICAL_DIALOG
@@ -17,9 +17,10 @@ inherit
 		rename
 			set_position as set_absolute_position,
 			set_x_position as set_absolute_x_position,
-			set_y_position as set_absolute_y_position
+			set_y_position as set_absolute_y_position,
+			title as internal_title
 		redefine
-			show_modal_to_window
+			set_title, show_modal_to_window
 		end
 
 	EL_WINDOW
@@ -62,18 +63,23 @@ inherit
 feature {NONE} -- Initialization
 
 	make_dialog_with_button_texts (
-		a_title: ZSTRING
+		a_title: like title
 		a_button_text, a_cancel_button_text: like button_text; a_default_button_action: like default_button_action
 	)
 		do
 			button_text := a_button_text; cancel_button_text := a_cancel_button_text
-
+			default_button_action := a_default_button_action
 			default_create
-			set_title (a_title.to_unicode); default_button_action := a_default_button_action
-			disable_user_resize
+
+			-- both of these lines are necessary as workaround Windows bug of over-extended border on bottom
+			-- https://www2.eiffel.com/support/report_detail/19319
+			disable_user_resize; disable_border
+
+			set_title (a_title)
 			set_icon_pixmap (Application_icon_pixmap)
 			create dialog.make_with_container (Current, agent new_dialog_box)
 			set_buttons
+
 			show_actions.extend (agent on_show)
 		end
 
@@ -84,6 +90,8 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	title: ZSTRING
 
 	title_label: EL_LABEL_PIXMAP
 
@@ -131,6 +139,12 @@ feature -- Status query
 		end
 
 feature -- Element change
+
+	set_title (a_title: ZSTRING)
+		do
+			title := a_title
+			Precursor (a_title.to_unicode)
+		end
 
 	set_title_font (a_title_font : like Default_title_font)
 		do
@@ -187,42 +201,41 @@ feature {NONE} -- Factory
 			default_button := new_button (button_text)
 			cancel_button := new_button (cancel_button_text)
 
-			Result := Vision_2.new_vertical_box (Dialog_border_width_cms, 0, << title_label >>)
-			Result.set_background_color (border_color)
+			create Result.make_unexpanded (Dialog_border_width_cms, 0, << title_label >>)
 			Result.extend (new_border_box)
+			Result.set_background_color (border_color)
 		end
 
 	new_border_box: EL_VERTICAL_BOX
 		local
-			inner_border_cms: REAL
-			l_buttons: like dialog_buttons
-			outer_box: EL_BOX; button_box: EL_HORIZONTAL_BOX
+			button_box: like new_button_box; inner_border_cms: REAL
 		do
 			inner_border_cms := Border_inner_width_cms - 0.05
-			l_buttons := dialog_buttons
-			outer_box := new_outer_box
-			add_components (outer_box)
-			Result := Vision_2.new_vertical_box (inner_border_cms, inner_border_cms, << outer_box >>)
-			if not l_buttons.is_empty then
-				create button_box.make (0, 0.4)
-				button_box.append_unexpanded (l_buttons)
+			create Result.make_unexpanded (inner_border_cms, inner_border_cms, << new_outer_box >>)
+			button_box := new_button_box
+			if not button_box.is_empty then
 				right_align_buttons (button_box)
 				Result.extend_unexpanded (button_box)
 				if button_box_color /= Default_background_color then
 					button_box.set_background_color (button_box_color)
 				end
 			end
-
 			if content_area_color /= Default_background_color then
 				propagate_content_area_color (Result)
 			end
+			Result.set_background_color (content_area_color)
+		end
+
+	new_button_box: EL_HORIZONTAL_BOX
+		do
+			create Result.make_unexpanded (0, 0.4, dialog_buttons)
 		end
 
 	new_title_label: like title_label
 		do
 			create Result.make_with_text_and_font (title, Default_title_font)
 			Result.set_minimum_width (
-				Default_title_font.string_width (title) + Screen.horizontal_pixels (Border_inner_width_cms)
+				Default_title_font.string_width (internal_title) + Screen.horizontal_pixels (Border_inner_width_cms)
 			)
 			if Title_background_pixmap.width * Title_background_pixmap.height > 1 then
 				Result.set_tile_pixmap (Title_background_pixmap)
@@ -238,10 +251,10 @@ feature {NONE} -- Factory
 
 	new_outer_box: EL_BOX
 		do
-			create {EL_VERTICAL_BOX} Result.make (0, Box_separation_cms)
+			create {EL_VERTICAL_BOX} Result.make_unexpanded (0, Box_separation_cms, new_box_section_list.to_array)
 		end
 
-	new_inner_box (widgets: ARRAY [EV_WIDGET]): EL_BOX
+	new_section_box (widgets: ARRAY [EV_WIDGET]; section_index: INTEGER): EL_BOX
 		do
 			Result := Vision_2.new_horizontal_box (0, Widget_separation_cms, widgets)
 		end
@@ -253,18 +266,16 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	add_components (box: EL_BOX)
+	new_box_section_list: ARRAYED_LIST [EL_BOX]
 		local
-			l_components: like components
-			i: INTEGER
+			array: like components; i: INTEGER
 		do
-			create l_components.make_from_array (components)
-			create component_boxes.make (l_components.count)
-			from i := 1 until  i > l_components.count loop
-				component_boxes.extend (new_inner_box (l_components [i]))
+			array := components
+			create Result.make (array.count)
+			from i := 1 until i > array.count loop
+				Result.extend (new_section_box (array [i], i))
 				i := i + 1
 			end
-			box.append_unexpanded (component_boxes.to_array)
 		end
 
 	dialog_buttons: ARRAY [EV_WIDGET]

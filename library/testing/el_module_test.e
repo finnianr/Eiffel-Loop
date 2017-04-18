@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 13:07:04 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-01-19 9:05:22 GMT (Thursday 19th January 2017)"
+	revision: "2"
 
 class
 	EL_MODULE_TEST
@@ -37,7 +37,11 @@ feature {NONE} -- Factory
 
 	new_lio: EL_LOGGABLE
 		do
-			create {EL_TESTING_CONSOLE_ONLY_LOG} Result.make (Test.Crc_32)
+			if logging.is_active then
+				Result := Once_log
+			else
+				create {EL_TESTING_CONSOLE_ONLY_LOG} Result.make (Test.Crc_32)
+			end
 		end
 
 	new_log_manager: EL_LOG_MANAGER

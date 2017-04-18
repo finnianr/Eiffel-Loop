@@ -1,16 +1,16 @@
 note
-	description: "Servlet service that runs in a background worker thread"
+	description: "Servlet service that runs in a thread separate to the main thread"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-19 17:44:31 GMT (Monday 19th September 2016)"
-	revision: "2"
+	date: "2017-04-15 10:12:31 GMT (Saturday 15th April 2017)"
+	revision: "3"
 
 deferred class
-	EL_BACKGROUND_FAST_CGI_SERVLET_SERVICE
+	EL_SEPARATE_FAST_CGI_SERVLET_SERVICE
 
 inherit
 	EL_FAST_CGI_SERVLET_SERVICE

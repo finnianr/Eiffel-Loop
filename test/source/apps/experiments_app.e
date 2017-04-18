@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-08 12:04:58 GMT (Tuesday 8th November 2016)"
-	revision: "6"
+	date: "2017-04-18 11:34:59 GMT (Tuesday 18th April 2017)"
+	revision: "7"
 
 class EXPERIMENTS_APP
 
@@ -38,8 +38,8 @@ feature -- Basic operations
 
 	run
 		do
-			lio.enter ("char_compression")
-			char_compression
+			lio.enter ("assign_tuple_string")
+			assign_tuple_string
 			lio.exit
 		end
 
@@ -49,6 +49,14 @@ feature -- Experiments
 		do
 			lio.put_line (Mime_type_template)
 			lio.put_line (Text_charset_template)
+		end
+
+	assign_tuple_string
+		local
+			tuple: TUPLE [str: READABLE_STRING_GENERAL]
+		do
+			tuple := ["a"]
+			tuple.str := {STRING_32} "b" -- Fails in version 16.05.9.8969 with catcall error. Reported as a bug
 		end
 
 	audio_info_parsing
@@ -113,6 +121,21 @@ feature -- Experiments
 			end
 		end
 
+	circular_list_iteration
+		local
+			list: ARRAYED_CIRCULAR [INTEGER]
+		do
+			create list.make (3)
+			across 1 |..| 3 as n loop
+				list.extend (n.item)
+			end
+			list.do_all (agent (n: INTEGER)
+				do
+					log.put_integer (n)
+					log.put_new_line
+				end
+			)
+		end
 
 	distributed_work_queue
 		local
@@ -268,6 +291,31 @@ feature -- Experiments
 			end
 		end
 
+	hash_table_reference_lookup
+		local
+			table: HASH_TABLE [INTEGER, STRING]
+			one, two, three, four, five: STRING
+			numbers: ARRAY [STRING]
+		do
+			one := "one"; two := "two"; three := "three"; four := "four"; five := "five"
+			numbers := << one, two, three, four, five >>
+			create table.make (5)
+			across numbers as n loop
+				table [n.item] := n.cursor_index
+			end
+			across numbers as n loop
+				log.put_integer_field (n.item, table [n.item])
+				log.put_new_line
+			end
+			across numbers as n loop
+				n.item.wipe_out
+			end
+			across numbers as n loop
+				log.put_integer_field (n.item, table [n.item])
+				log.put_new_line
+			end
+		end
+
 	hexadecimal_to_natural_64
 		do
 			log.put_string (String_8.hexadecimal_to_natural_64 ("0x00000982").out)
@@ -317,6 +365,23 @@ feature -- Experiments
 			n := ((10).to_integer_64 |<< 32) | -10
 			log.put_integer_field ("low", n.to_integer_32) -- yes you can
 			log.put_integer_field (" hi", (n |>> 32).to_integer_32) -- yes you can
+		end
+
+	open_function_target
+		local
+			duration: FUNCTION [AUDIO_EVENT, TUPLE [AUDIO_EVENT], REAL]
+			event: AUDIO_EVENT
+		do
+			duration := agent {AUDIO_EVENT}.duration
+			log.put_string ("duration.is_target_closed: ")
+			log.put_boolean (duration.is_target_closed)
+			log.put_new_line
+			log.put_integer_field ("duration.open_count", duration.open_count)
+			log.put_new_line
+			create event.make (1, 3)
+			duration.set_operands ([event])
+			duration.apply
+			log.put_double_field ("duration.last_result", duration.item ([event]))
 		end
 
 	pointer_width

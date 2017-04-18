@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-01 11:58:18 GMT (Monday 1st August 2016)"
-	revision: "1"
+	date: "2017-01-24 18:25:50 GMT (Tuesday 24th January 2017)"
+	revision: "2"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -17,14 +17,14 @@ inherit
 		rename
 			make_default as make
 		redefine
-			make, Underscore_substitute, set_string_field_from_node, on_context_exit
+			make, set_string_field, on_context_exit
 		end
 
 	EVOLICITY_SERIALIZEABLE
 		rename
 			make_default as make
 		redefine
-			make, getter_function_table, Template, Underscore_substitute
+			make, getter_function_table, Template
 		end
 
 	EL_MODULE_XML
@@ -112,16 +112,14 @@ feature -- Element change
 		do
 			media_type := a_media_type
 		end
-	
+
 feature {NONE} -- Build from XML
 
 	building_action_table: like Type_building_actions
 			--
 		do
-			create Result.make (<<
-				["location/text()", 	agent do set_location_from_uri (Url.decoded_path (node.to_string_8)) end]
-			>>)
-			fill_with_field_setters (Result, String_z_type, Fields_not_stored)
+			Result := building_actions_for_type ({ZSTRING}, Fields_not_stored, Hyphen)
+			Result ["location/text()"] := agent do set_location_from_uri (Url.decoded_path (node.to_string_8)) end
 		end
 
 	on_context_exit
@@ -133,7 +131,7 @@ feature {NONE} -- Build from XML
 			end
 		end
 
-	set_string_field_from_node (i: INTEGER)
+	set_string_field (i: INTEGER)
 		local
 			value: ZSTRING
 		do
@@ -146,14 +144,19 @@ feature {NONE} -- Build from XML
 
 feature {NONE} -- Evolicity fields
 
-	get_non_empty_string_fields: like string_field_table_with_condition
+	get_non_empty_string_fields: EL_STRING_FIELD_VALUE_TABLE [ZSTRING]
 		do
-			Result := string_field_table_with_condition (Fields_not_stored, Xml_128_plus_escaper, True)
+			create Result.make (11)
+			Result.set_escaper (Xml_128_plus_escaper)
+			Result.set_condition (agent (str: ZSTRING): BOOLEAN do Result := not str.is_empty end)
+			fill_field_table (Result, Fields_not_stored, '-')
 		end
 
-	get_non_zero_integer_fields: like field_table_with_condition
+	get_non_zero_integer_fields: EL_INTEGER_FIELD_VALUE_TABLE
 		do
-			Result := field_table_with_condition (Integer_type, Fields_not_stored, True)
+			create Result.make (11)
+			Result.set_condition (agent (v: INTEGER): BOOLEAN do Result := v /= v.zero end)
+			fill_field_table (Result, Fields_not_stored, '-')
 		end
 
 	getter_function_table: like getter_functions
@@ -196,7 +199,7 @@ feature {NONE} -- Constants
 			]"
 		end
 
-	Underscore_substitute: CHARACTER
+	Hyphen: CHARACTER
 			-- Eiffel field names adapted for Rbox XML
 		once
 			Result := '-'

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-11 8:56:38 GMT (Friday 11th November 2016)"
-	revision: "3"
+	date: "2017-01-19 11:54:39 GMT (Thursday 19th January 2017)"
+	revision: "4"
 
 class
 	APPLICATION_ROOT
@@ -24,7 +24,7 @@ feature {NONE} -- Implementation
 			--
 		once
 			Result := <<
-				{AUTOTEST_DEVELOPMENT_APP},
+--				{AUTOTEST_DEVELOPMENT_APP},
 
 				{CODEC_GENERATOR_APP},
 				{CRYPTO_APP},

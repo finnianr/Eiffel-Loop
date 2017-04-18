@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 9:19:18 GMT (Monday 3rd October 2016)"
-	revision: "2"
+	date: "2017-01-24 13:53:12 GMT (Tuesday 24th January 2017)"
+	revision: "3"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -20,9 +20,7 @@ inherit
 			context_item, put_variable, put_integer
 		end
 
-	EL_REFLECTION
-
-	EL_STRING_CONSTANTS
+	EL_PERSISTENCE_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -161,76 +159,6 @@ feature {NONE} -- Implementation
 			Result := a_item
 		end
 
-	field_table (field_type: INTEGER; except_fields: ARRAY [STRING]): HASH_TABLE [ANY, STRING]
-		do
-			Result := field_table_with_condition (field_type, except_fields, False)
-		end
-
-	field_table_with_condition (field_type: INTEGER; except_fields: ARRAY [STRING]; non_zero: BOOLEAN): like field_table
-		local
-			object: REFLECTED_REFERENCE_OBJECT
-			i, field_count, value: INTEGER
-			adapted_field_names: like new_adapted_field_names; excluded_indices: like new_field_set
-		do
-			object := Once_current_object; current_object.set_object (Current)
-			field_count := current_object.field_count
-			adapted_field_names := Adapted_field_names_by_type.item ({like Current}, agent new_adapted_field_names)
-			excluded_indices := Excluded_fields_by_type.item ({like Current}, agent new_field_set (except_fields))
-			create Result.make_equal (field_count - except_fields.count)
-			from i := 1 until i > field_count loop
-				if not excluded_indices.has (i) then
-					if object.field_type (i) = Integer_type then
-						value := object.integer_32_field (i)
-						if non_zero implies value > 0 then
-							Result.extend (value.to_reference, adapted_field_names [i])
-						end
-					end
-				end
-				i := i + 1
-			end
-		end
-
-	string_field_table (
-		except_fields: ARRAY [STRING]; escaper: EL_CHARACTER_ESCAPER [ZSTRING]
-	): HASH_TABLE [ZSTRING, STRING]
-		do
-			Result := string_field_table_with_condition (except_fields, escaper, False)
-		end
-
-	string_field_table_with_condition (
-		except_fields: ARRAY [STRING]; escaper: EL_CHARACTER_ESCAPER [ZSTRING];  non_empty: BOOLEAN
-	): like string_field_table
-		local
-			object: REFLECTED_REFERENCE_OBJECT
-			i, field_count: INTEGER; value: ZSTRING
-			adapted_field_names: like new_adapted_field_names; excluded_indices: like new_field_set
-			is_escaped: BOOLEAN
-		do
-			object := Once_current_object; current_object.set_object (Current)
-			field_count := current_object.field_count
-			adapted_field_names := Adapted_field_names_by_type.item ({like Current}, agent new_adapted_field_names)
-			excluded_indices := Excluded_fields_by_type.item ({like Current}, agent new_field_set (except_fields))
-			is_escaped := escaper.generating_type /~ {EL_DO_NOTHING_CHARACTER_ESCAPER [ZSTRING]}
-			create Result.make_equal (field_count - except_fields.count)
-			from i := 1 until i > field_count loop
-				if not excluded_indices.has (i) then
-					if object.field_static_type (i) = String_z_type then
-						if attached {ZSTRING} object.reference_field (i) as z_str then
-							if is_escaped then
-								value := z_str.escaped (escaper)
-							else
-								value := z_str
-							end
-							if non_empty implies not value.is_empty then
-								Result.extend (value, adapted_field_names [i])
-							end
-						end
-					end
-				end
-				i := i + 1
-			end
-		end
-
 feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 
 	new_getter_functions: like getter_functions
@@ -238,19 +166,6 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 		do
 			Result := getter_function_table
 			Result.compare_objects
-		end
-
-	new_adapted_field_names: ARRAY [STRING]
-		local
-			object: REFLECTED_REFERENCE_OBJECT; i, field_count: INTEGER
-		do
-			object := Once_current_object; current_object.set_object (Current)
-			field_count := object.field_count
-			create Result.make_filled (Empty_string_8, 1, field_count)
-			from i := 1 until i > field_count loop
-				Result [i] := adapted_field_name (object, i)
-				i := i + 1
-			end
 		end
 
 	getter_function_table: like getter_functions
@@ -262,24 +177,14 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Excluded_fields_by_type: EL_TYPE_TABLE [EL_HASH_SET [INTEGER]]
+	Default_string_condition: PREDICATE [ANY, TUPLE [ZSTRING]]
 		once
-			create Result.make_equal (17)
+			Result := agent (str: ZSTRING): BOOLEAN do  end
 		end
 
 	Getter_functions_by_type: EL_TYPE_TABLE [EVOLICITY_OBJECT_TABLE [FUNCTION [EVOLICITY_EIFFEL_CONTEXT, TUPLE, ANY]]]
 		once
 			create Result.make_equal (19)
-		end
-
-	Adapted_field_names_by_type: EL_TYPE_TABLE [ARRAY [STRING]]
-		once
-			create Result.make_equal (19)
-		end
-
-	Hyphenated_names: HASH_TABLE [STRING, STRING]
-		once
-			create Result.make_equal (17)
 		end
 
 end

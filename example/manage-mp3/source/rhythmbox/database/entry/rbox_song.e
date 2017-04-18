@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-26 9:55:58 GMT (Monday 26th September 2016)"
-	revision: "2"
+	date: "2017-01-24 18:25:51 GMT (Tuesday 24th January 2017)"
+	revision: "3"
 
 class
 	RBOX_SONG
@@ -98,8 +98,6 @@ feature -- Rhythmbox XML fields
 
 	first_seen: INTEGER
 
-	gain: DOUBLE
-
 	last_played: INTEGER
 
 	mb_artistid: ZSTRING
@@ -110,13 +108,15 @@ feature -- Rhythmbox XML fields
 
 	mb_artistsortname: ZSTRING
 
-	peak: DOUBLE
-
 	play_count: INTEGER
 
 	track_number: INTEGER
 
 	rating: INTEGER
+
+	replaygain_track_gain: DOUBLE
+
+	replaygain_track_peak: DOUBLE
 
 feature -- Artist
 
@@ -427,7 +427,7 @@ feature -- Element change
 
 	update_file_info
 		do
-			mtime := File_system.closed_raw_file (mp3_path).date
+			mtime := File_system.file_modification_time (mp3_path)
 			file_size := File_system.file_byte_count (mp3_path)
 		end
 
@@ -560,13 +560,10 @@ feature {NONE} -- Build from XML
 	building_action_table: like Type_building_actions
 			--
 		do
-			create Result.make (<<
-				["replaygain-track-gain/text()",	agent do gain := node.to_double end],
-				["replaygain-track-peak/text()",	agent do peak := node.to_double end],
-				["hidden/text()", 					agent do is_hidden := node.to_integer = 1 end],
-				["mb-trackid/text()", 				agent set_audio_id_from_node]
-			>>)
-			Result.merge (Precursor)
+			Result := Precursor
+			Result.merge (building_actions_for_type ({DOUBLE}, Fields_not_stored, Hyphen))
+			Result ["hidden/text()"] := agent do is_hidden := node.to_integer = 1 end
+			Result ["mb-trackid/text()"] := agent set_audio_id_from_node
 		end
 
 feature {NONE} -- Evolicity reflection
@@ -586,8 +583,8 @@ feature {NONE} -- Evolicity reflection
 				["mb_trackid",						agent music_brainz_track_id],
 				["duration_time", 				agent formatted_duration_time],
 
-				["gain", 							agent: DOUBLE_REF do Result := gain.to_reference end],
-				["peak", 							agent: DOUBLE_REF do Result := peak.to_reference end],
+				["replaygain_track_gain", 		agent: DOUBLE_REF do Result := replaygain_track_gain.to_reference end],
+				["replaygain_track_peak", 		agent: DOUBLE_REF do Result := replaygain_track_peak.to_reference end],
 
 				["last_checksum", 				agent: NATURAL_32_REF do Result := last_checksum.to_reference end],
 				["recording_year", 				agent: INTEGER_REF do Result := recording_year.to_reference end],
@@ -640,9 +637,9 @@ feature -- Constants
 			<$field.key>$field.item</$field.key>
 		#end
 			<location>$location_uri</location>
-			#if not ($gain = 0.0) then
-			<replaygain-track-gain>$gain</replaygain-track-gain>
-			<replaygain-track-peak>$peak</replaygain-track-peak>
+			#if not ($replaygain_track_gain = 0.0) then
+			<replaygain-track-gain>$replaygain_track_gain</replaygain-track-gain>
+			<replaygain-track-peak>$replaygain_track_peak</replaygain-track-peak>
 			#end
 			<mb-trackid>$mb_trackid</mb-trackid>
 		#across $non_zero_integer_fields as $field loop

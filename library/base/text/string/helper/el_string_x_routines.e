@@ -4,10 +4,10 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 17:07:53 GMT (Saturday 26th December 2015)"
-	revision: "1"
+	date: "2017-04-12 16:50:51 GMT (Wednesday 12th April 2017)"
+	revision: "2"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -42,6 +42,17 @@ feature -- Measurement
 					Result := strings.item (i).count
 				end
 				i := i + 1
+			end
+		end
+
+feature -- Conversion
+
+	general_to_unicode (s: READABLE_STRING_GENERAL): STRING_32
+		do
+			if attached {ZSTRING} s as zstr then
+				Result := zstr.to_unicode
+			else
+				Result := s.to_string_32
 			end
 		end
 

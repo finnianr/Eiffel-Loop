@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 19:55:03 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-04-16 21:12:06 GMT (Sunday 16th April 2017)"
+	revision: "2"
 
 deferred class
 	EL_FAST_CGI_SERVLET_SERVICE
@@ -18,7 +18,7 @@ inherit
 			make as make_servlet_app,
 			log as goa_log,
 			request as fast_cgi_request,
-			Execution_environment as goa_execution_environment,
+			Execution_environment as Goa_execution_environment,
 			register_servlets as set_servlets,
 			field_exception as received_termination_signal
 		redefine
@@ -209,7 +209,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation: attributes
 
-	config: EL_SERVLET_CONFIG
+	config: EL_SERVLET_SERVICE_CONFIG
 			-- Configuration for servlets
 
 	fast_cgi_request: EL_FAST_CGI_REQUEST
