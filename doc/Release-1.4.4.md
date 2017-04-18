@@ -14,6 +14,8 @@
 
 * added 4 new procedures to class `EL_ZSTRING`: `append_to`, `append_to_general`, `append_to_string_32`, `append_to_string_8`.
 
+* Added new class `EL_PERSISTENCE_ROUTINES` with some special class reflection routines that are very useful for implementing class `EVOLICITY_SERIALIZEABLE` in the Evolicity library. For an example see routines `get_non_zero_integer_fields` and `get_non_empty_string_fields` from class [RBOX_IRADIO_ENTRY](http://www.eiffel-loop.com/example/manage-mp3/source/class-index.html#RBOX_IRADIO_ENTRY) from the `manage-mp3` project. These demonstrate the idea of creating lists of attribute vales for a particular type and using an `PREDICATE` agent as a filter. These value lists can then be easily referenced from an Evolicity template substitution script.
+
 ### IO output control
 
 * Made output of lio object dependent on absence of command line switch `-silent`
