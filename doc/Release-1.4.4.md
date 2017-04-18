@@ -2,7 +2,7 @@
 
 ## BASE library
 
-* Added function {EL_FILE_PATH}.modification_time_stamp
+* Added function `{EL_FILE_PATH}.modification_time_stamp`
 
 * Moved function `is_attached` from class `EL_MEMORY` to new class `EL_POINTER_ROUTINES`.
 
@@ -10,7 +10,7 @@
 
 * Fixed function `{EL_PROCEDURE}.same_procedure` for ES version 16.05
 
-* Changed EL_LOG_MANAGER to work without inheriting `EL_SINGLE_THREAD_ACCESS` by enclosing shared instance in `EL_MUTEX_REFERENCE`
+* Changed `EL_LOG_MANAGER` to work without inheriting `EL_SINGLE_THREAD_ACCESS` by enclosing shared instance in `EL_MUTEX_REFERENCE`
 
 * added 4 new procedures to class `EL_ZSTRING`: `append_to`, `append_to_general`, `append_to_string_32`, `append_to_string_8`.
 
@@ -69,4 +69,4 @@
 
 ## VISION-2-X library
 
-# Merged Windows and Unix implementation of `{EL_TEXT_RECTANGLE_IMP}.draw_rotated_on_buffer` and removed class `EL_TEXT_RECTANGLE_IMP`. Renamed `EL_TEXT_RECTANGLE_I` as `EL_TEXT_RECTANGLE`.
+* Merged Windows and Unix implementation of `{EL_TEXT_RECTANGLE_IMP}.draw_rotated_on_buffer` and removed class `EL_TEXT_RECTANGLE_IMP`. Renamed `EL_TEXT_RECTANGLE_I` as `EL_TEXT_RECTANGLE`.
