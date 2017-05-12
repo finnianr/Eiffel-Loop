@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_LOGGED_REGULAR_INTERVAL_EVENT_PRODUCER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-18 17:21:37 GMT (Wednesday 18th January 2017)"
-	revision: "2"
+	date: "2017-04-19 9:35:51 GMT (Wednesday 19th April 2017)"
+	revision: "3"
 
 class
 	EL_LOGGED_REGULAR_INTERVAL_EVENT_PRODUCER
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 
 	on_start
 		do
-			Log_manager.call (agent {EL_LOG_MANAGER}.add_thread (Current))
+			Log_manager.add_thread (Current)
 		end
 
 feature {NONE} -- Internal attributes

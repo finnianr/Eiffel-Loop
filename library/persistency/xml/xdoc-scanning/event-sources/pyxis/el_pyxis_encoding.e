@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_PYXIS_ENCODING_READER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-18 15:14:34 GMT (Wednesday 18th January 2017)"
-	revision: "2"
+	date: "2017-04-26 11:56:39 GMT (Wednesday 26th April 2017)"
+	revision: "3"
 
 class
 	EL_PYXIS_ENCODING
@@ -45,7 +45,7 @@ feature {NONE} -- State handlers
 				line.right_adjust
 				create parts.make_with_separator (line, '"', False)
 				set_encoding_from_name (parts [parts.count - 1])
-				state := agent final
+				state := final
 			end
 		end
 

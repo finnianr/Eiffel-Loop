@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_EXECUTION_ENVIRONMENT_I}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-17 13:33:01 GMT (Monday 17th April 2017)"
-	revision: "4"
+	date: "2017-04-28 7:13:02 GMT (Friday 28th April 2017)"
+	revision: "5"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -44,6 +44,10 @@ feature {EL_MODULE_EXECUTION_ENVIRONMENT} -- Initialization
 		end
 
 feature -- Access
+
+	architecture_bits: INTEGER
+		deferred
+		end
 
 	command_directory_path: EL_DIR_PATH
 			-- Directory containing this application's executable command
@@ -137,7 +141,7 @@ feature -- Basic operations
 			change_working_path (a_dir)
 		end
 
-	open_url (url: READABLE_STRING_GENERAL)
+	open_url (url: EL_FILE_URI_PATH)
 		 -- open the URL in the default system browser
 		deferred
 		end

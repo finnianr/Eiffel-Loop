@@ -2,74 +2,114 @@ note
 	description: "Summary description for {EL_URI_PATH}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-26 11:47:20 GMT (Friday 26th August 2016)"
-	revision: "2"
+	date: "2017-04-21 16:18:31 GMT (Friday 21st April 2017)"
+	revision: "3"
 
 deferred class
 	EL_URI_PATH
 
 inherit
 	EL_PATH
+		export
+			{ANY} Forward_slash
 		redefine
 			default_create, make, make_from_other, to_string, Type_parent, hash_code,
-			is_uri, is_path_absolute, is_equal, is_less, Separator
+			is_uri, is_equal, is_less, is_path_absolute, Separator
+		end
+
+	EL_URI_ROUTINES
+		rename
+			Protocol as Protocol_name,
+			is_uri as is_uri_string
+		export
+			{NONE} all
+			{ANY} is_uri_of_type, is_uri_string, Protocol_name, uri_path
+		undefine
+			default_create, out, is_equal, copy
 		end
 
 feature {NONE} -- Initialization
 
 	default_create
 		do
-			Precursor
+			Precursor {EL_PATH}
 			domain := Empty_path
 			protocol := Empty_path
 		end
 
 feature -- Initialization
 
-	make (a_path: ZSTRING)
+	make (a_uri: ZSTRING)
 		require else
-			is_absolute: a_path.has_substring (Protocol_sign)
-					implies a_path.index_of ('/', a_path.substring_index (Protocol_sign, 1) + 3) > 0
-
-			is_absolute_file: a_path.starts_with (File_protocol_sign)
-					implies (a_path.count > File_protocol_sign.count
-					and then a_path.unicode_item (File_protocol_sign.count) = Unix_separator)
-
-			implicit_path_is_absolute: not a_path.has_substring (Protocol_sign)
-					implies (a_path.count > 1 and then a_path.unicode_item (1) = Unix_separator)
+			is_uri: is_uri_string (a_uri)
+			is_absolute: is_uri_absolute (a_uri)
 		local
-			pos_protocol_sign, pos_first_slash: INTEGER
-			l_domain, l_protocol: ZSTRING
+			l_uri_path: like uri_path; pos_separator: INTEGER
 		do
-			pos_protocol_sign := a_path.substring_index (Protocol_sign, 1)
-			if pos_protocol_sign > 0 then
-				pos_first_slash := a_path.index_of ('/', pos_protocol_sign + 3)
-				l_protocol := a_path.substring (1, pos_protocol_sign - 1)
-				l_domain := a_path.substring (pos_protocol_sign + 3, pos_first_slash - 1)
-				Precursor (a_path.substring (pos_first_slash, a_path.count))
+			protocol := uri_protocol (a_uri)
+			l_uri_path := uri_path (a_uri)
+			if protocol ~ Protocol_name.file then
+				create domain.make_empty
+				Precursor (l_uri_path)
 			else
-				l_domain := Empty_path
-				l_protocol := once "file"
-				Precursor (a_path)
+				pos_separator := l_uri_path.index_of (Separator, 1)
+				domain := l_uri_path.substring (1, pos_separator - 1)
+				Precursor (l_uri_path.substring (pos_separator, l_uri_path.count))
 			end
-			protocol := l_protocol
-			domain := l_domain
 		ensure then
 			is_absolute: is_absolute
 		end
 
+	make_file (a_path: ZSTRING)
+			-- make with implicit `file' protocol
+		require
+			is_absolute: a_path.starts_with (Forward_slash)
+		do
+			make (Protocol_name.file + Protocol_sign + a_path)
+		end
+
+	make_from_file_path (a_path: EL_PATH)
+			-- make from file or directory path
+		require
+			absolute: a_path.is_absolute
+		do
+			if attached {EL_URI_PATH} a_path as l_uri_path then
+				make_from_other (l_uri_path)
+			elseif {PLATFORM}.is_windows then
+				make_file (Forward_slash + a_path.as_unix.to_string)
+			else
+				make_file (a_path.to_string)
+			end
+		end
+
 	make_from_other (other: EL_URI_PATH)
 		do
-			Precursor (other)
+			Precursor {EL_PATH} (other)
 			domain := other.domain.twin
 			protocol := other.protocol.twin
 		end
 
+	make_protocol (a_protocol: ZSTRING; a_path: EL_PATH)
+		require
+			path_absolute_for_file_protocol: a_protocol ~ Protocol_name.file implies a_path.is_absolute
+			path_relative_for_other_protocols:
+				(a_protocol /~ Protocol_name.file and not attached {EL_URI_PATH} a_path) implies not a_path.is_absolute
+		do
+			if attached {EL_URI_PATH} a_path as l_uri_path then
+				make_from_other (l_uri_path)
+				set_protocol (a_protocol)
+			else
+				make (a_protocol + Protocol_sign + a_path.to_string)
+			end
+		end
+
 feature -- Access
+
+	domain: ZSTRING
 
 	hash_code: INTEGER
 			-- Hash code value
@@ -81,9 +121,14 @@ feature -- Access
 			end
 		end
 
-	domain: ZSTRING
-
 	protocol: ZSTRING
+
+feature -- Element change
+
+	set_protocol (a_protocol: like protocol)
+		do
+			protocol := a_protocol
+		end
 
 feature -- Status query
 
@@ -100,7 +145,10 @@ feature -- Conversion
 	 	do
 	 		l_path := Precursor
 	 		create Result.make (protocol.count + 3 + domain.count + l_path.count)
-	 		Result.append (protocol + Protocol_sign + domain + l_path)
+	 		Result.append (protocol)
+	 		Result.append (Protocol_sign)
+	 		Result.append (domain)
+	 		Result.append (l_path)
 	 	end
 
 	 to_encoded_utf_8: EL_URL_STRING
@@ -114,7 +162,7 @@ feature -- Comparison
 	is_equal (other: like Current): BOOLEAN
 			--
 		do
-			Result := Precursor (other) and then protocol ~ other.protocol and then domain ~ other.domain
+			Result := Precursor {EL_PATH} (other) and then protocol ~ other.protocol and then domain ~ other.domain
 		end
 
 	is_less alias "<" (other: like Current): BOOLEAN
@@ -133,9 +181,18 @@ feature -- Comparison
 
 feature -- Contract Support
 
+	is_uri_absolute (a_uri: ZSTRING): BOOLEAN
+		do
+			if uri_protocol (a_uri) ~ Protocol_name.file then
+				Result := uri_path (a_uri).starts_with (Forward_slash)
+			else
+				Result := uri_path (a_uri).has (Forward_slash [1])
+			end
+		end
+
 	is_path_absolute (a_path: ZSTRING): BOOLEAN
 		do
-			Result := not a_path.is_empty and then a_path [1] = Separator
+			Result := a_path.starts_with (Forward_slash)
 		end
 
 feature {NONE} -- Type definitions
@@ -151,13 +208,4 @@ feature -- Constants
 			Result := Unix_separator
 		end
 
-	Protocol_sign: ZSTRING
-		once
-			Result := "://"
-		end
-
-	File_protocol_sign: ZSTRING
-		once
-			Result := "file://"
-		end
 end

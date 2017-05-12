@@ -5,20 +5,20 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-27 8:07:46 GMT (Tuesday 27th September 2016)"
-	revision: "2"
+	date: "2017-05-11 12:00:13 GMT (Thursday 11th May 2017)"
+	revision: "3"
 
 class
-	EL_HEADER_DOWNLOAD_HTTP_COMMAND
+	EL_HTTP_HEAD_COMMAND
 
 inherit
-	EL_STRING_DOWNLOAD_HTTP_COMMAND
+	EL_HTTP_STRING_COMMAND
 		redefine
-			callback_curl_option, callback_curl_data_option
+			prepare
 		end
 
 create
@@ -26,14 +26,11 @@ create
 
 feature {NONE} -- Implementation
 
-	callback_curl_option: INTEGER
+	prepare (connection: EL_HTTP_CONNECTION)
 		do
-			Result := CURLOPT_headerfunction
-		end
-
-	callback_curl_data_option: INTEGER
-		do
-			Result := CURLOPT_headerdata
+			connection.set_write_function (curl_on_data_transfer, pointer_to_c_callbacks_struct)
+			connection.set_curl_boolean_option (CURLOPT_header, True)
+			connection.set_nobody (True)
 		end
 
 end

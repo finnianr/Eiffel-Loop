@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_ARRAYED_LIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-18 14:03:26 GMT (Friday 18th November 2016)"
-	revision: "2"
+	date: "2017-04-27 12:47:40 GMT (Thursday 27th April 2017)"
+	revision: "3"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -35,6 +35,25 @@ feature {NONE} -- Initialization
 	make_empty
 		do
 			make (0)
+		end
+
+feature -- Access
+
+	groups (key: FUNCTION [ANY, TUPLE [G], ZSTRING]): EL_ZSTRING_HASH_TABLE [like Current]
+			-- returns table of item lists grouped by result of `key' function
+		local
+			l_key: ZSTRING
+		do
+			create Result.make_equal ((count // 10).max (10))
+			from start until after loop
+				l_key := key (item)
+				Result.search (l_key)
+				if not Result.found then
+					Result.put (create {like Current}.make_empty, l_key)
+				end
+				Result.found_item.extend (item)
+				forth
+			end
 		end
 
 feature {NONE} -- Implementation

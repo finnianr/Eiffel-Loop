@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_XPATH_PARTS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-18 11:31:02 GMT (Tuesday 18th April 2017)"
-	revision: "1"
+	date: "2017-04-18 17:04:54 GMT (Tuesday 18th April 2017)"
+	revision: "2"
 
 class
 	EL_XPATH_PARTS
@@ -17,7 +17,6 @@ inherit
 		redefine
 			default_create
 		end
-
 
 create
 	default_create

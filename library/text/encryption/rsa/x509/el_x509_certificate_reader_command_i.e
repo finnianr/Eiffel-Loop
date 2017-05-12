@@ -31,12 +31,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-21 11:31:41 GMT (Tuesday 21st June 2016)"
-	revision: "1"
+	date: "2017-04-26 11:55:47 GMT (Wednesday 26th April 2017)"
+	revision: "2"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -99,7 +99,7 @@ feature {NONE} -- State handlers
 			if line.starts_with (Field_exponent) then
 				create public_key.make_from_hex_byte_sequence (hex_byte_sequence)
 				hex_byte_sequence.wipe_out
-				state := agent final
+				state := final
 			else
 				hex_byte_sequence.append (line.to_string_8)
 			end

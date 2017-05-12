@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_SCROLLABLE_SEARCH_RESULTS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-18 19:17:11 GMT (Friday 18th November 2016)"
-	revision: "2"
+	date: "2017-04-27 12:07:22 GMT (Thursday 27th April 2017)"
+	revision: "3"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -19,6 +19,17 @@ inherit
 			is_empty as is_box_empty
 		redefine
 			on_key_end, on_key_home
+		end
+
+	EL_DATE_FORMATS
+		rename
+			short_canonical as date_short_canonical,
+			canonical as date_canonical
+		export
+			{NONE} all
+			{ANY} Date_formats
+		undefine
+			is_equal, copy, default_create
 		end
 
 	EL_MODULE_SCREEN
@@ -63,37 +74,65 @@ feature {NONE} -- Initialization
 			comparator := Default_comparator
 			details_indent := Default_details_indent
 			disabled_page_link := Default_disabled_page_link
+			set_default_date_format
 		end
 
 feature -- Access
-
-	link_text_color: EV_COLOR
 
 	default_comparator: like comparator
 		do
 			Result := Current
 		end
 
-	page: INTEGER
-		-- current page of results
+	fixed_font: EV_FONT
 
 	font: EV_FONT
 
-	fixed_font: EV_FONT
+	link_text_color: EV_COLOR
+
+	page: INTEGER
+		-- current page of results
 
 feature -- Measurement
-
-	links_per_page: INTEGER
 
 	details_indent: INTEGER
 		-- left margin for details
 
+	links_per_page: INTEGER
+
 feature -- Element change
 
-	set_links_per_page (a_links_per_page: INTEGER)
-			--
+	set_comparator (a_comparator: like comparator)
+			-- set sort order
 		do
-			links_per_page := a_links_per_page
+			comparator := a_comparator
+		end
+
+	set_default_date_format
+		do
+			set_date_format (Dd_mmm_yyyy)
+		end
+
+	set_date_format (a_date_format: like date_format)
+		require
+			valid_format: not a_date_format.is_empty implies Date_formats.has (a_date_format)
+		do
+			date_format := a_date_format
+		end
+
+	set_details_indent (a_details_indent: like details_indent)
+		do
+			details_indent := a_details_indent
+		end
+
+	set_fixed_font (a_fixed_font: EV_FONT)
+		do
+			fixed_font := a_fixed_font
+		end
+
+	set_font (a_font: EV_FONT)
+		do
+			font := a_font
 		end
 
 	set_link_text_color (a_link_text_color: like link_text_color)
@@ -102,9 +141,10 @@ feature -- Element change
 			link_text_color := a_link_text_color
 		end
 
-	set_search_words (a_search_words: like search_words)
+	set_links_per_page (a_links_per_page: INTEGER)
+			--
 		do
-			search_words := a_search_words
+			links_per_page := a_links_per_page
 		end
 
 	set_result_set (a_result_set: like result_set)
@@ -137,25 +177,9 @@ feature -- Element change
 			goto_page (1)
 		end
 
-	set_comparator (a_comparator: like comparator)
-			-- set sort order
+	set_search_words (a_search_words: like search_words)
 		do
-			comparator := a_comparator
-		end
-
-	set_font (a_font: EV_FONT)
-		do
-			font := a_font
-		end
-
-	set_fixed_font (a_fixed_font: EV_FONT)
-		do
-			fixed_font := a_fixed_font
-		end
-
-	set_details_indent (a_details_indent: like details_indent)
-		do
-			details_indent := a_details_indent
+			search_words := a_search_words
 		end
 
 feature -- Basic operations
@@ -181,13 +205,6 @@ feature -- Basic operations
 			set_focus
 		end
 
-	position_pointer_on_first_line
-		do
-			GUI.screen.set_pointer_position (
-				screen_x + Screen.horizontal_pixels (3), screen_y + Screen.vertical_pixels (1)
-			)
-		end
-
 	position_pointer_near_disabled_link
 		do
 			GUI.screen.set_pointer_position (
@@ -195,30 +212,37 @@ feature -- Basic operations
 			)
 		end
 
-feature -- Status query
-
-	reverse_sorting_enabled: BOOLEAN
-
-	is_empty: BOOLEAN
+	position_pointer_on_first_line
 		do
-			Result := result_set.is_empty
+			GUI.screen.set_pointer_position (
+				screen_x + Screen.horizontal_pixels (3), screen_y + Screen.vertical_pixels (1)
+			)
 		end
+
+feature -- Status query
 
 	has_page_links: BOOLEAN
 		do
 			Result := result_set.count > links_per_page
 		end
 
-feature -- Status setting
-
-	enable_reverse_sort
+	is_empty: BOOLEAN
 		do
-			reverse_sorting_enabled := True
+			Result := result_set.is_empty
 		end
+
+	reverse_sorting_enabled: BOOLEAN
+
+feature -- Status setting
 
 	disable_reverse_sort
 		do
 			reverse_sorting_enabled := False
+		end
+
+	enable_reverse_sort
+		do
+			reverse_sorting_enabled := True
 		end
 
 	set_busy_pointer
@@ -234,12 +258,6 @@ feature -- Status setting
 
 feature {NONE} -- Event handling
 
-	on_key_home
-		do
-			Precursor
-			GUI.do_once_on_idle (agent position_pointer_on_first_line)
-		end
-
 	on_key_end
 		do
 			Precursor
@@ -248,7 +266,18 @@ feature {NONE} -- Event handling
 			end
 		end
 
+	on_key_home
+		do
+			Precursor
+			GUI.do_once_on_idle (agent position_pointer_on_first_line)
+		end
+
 feature {NONE} -- Factory
+
+	new_formatted_date (date: DATE): EL_STYLED_ZSTRING
+		do
+			Result := English_date_text.formatted (date, date_format)
+		end
 
 	new_navigation_links_box (current_page_link_count: INTEGER): EL_HORIZONTAL_BOX
 			--
@@ -293,13 +322,30 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_result_detail_labels (word_match_extracts: ARRAYED_LIST [EL_MIXED_STYLE_STRING_LIST]): EL_MIXED_STYLE_FIXED_LABELS
+	new_result_detail_labels (result_item: G): EL_MIXED_STYLE_FIXED_LABELS
 			--
+		local
+			word_match_extracts: like result_set.item.word_match_extracts
+			date_line: EL_MIXED_STYLE_STRING_LIST
 		do
+			word_match_extracts := result_item.word_match_extracts (search_words)
+			if attached {EL_DATEABLE} result_item as l_item and then not date_format.is_empty then
+				if word_match_extracts.is_empty then
+					create date_line.make (1); date_line.extend (new_formatted_date (l_item.date))
+					word_match_extracts.extend (date_line)
+				else
+					word_match_extracts.first.put_front (new_formatted_date (l_item.date))
+				end
+			end
 			create Result.make_with_styles (word_match_extracts, details_indent, font, fixed_font, background_color)
 		end
 
 feature {NONE} -- Implementation: Routines
+
+	less_than (u, v: G): BOOLEAN
+			-- do nothing comparator
+		do
+		end
 
 	page_results: ARRAY [EL_VERTICAL_BOX]
 		local
@@ -317,15 +363,10 @@ feature {NONE} -- Implementation: Routines
 				create result_link_box
 				result_link_box.set_background_color (background_color)
 				result_link_box.extend_unexpanded (result_link)
-				result_link_box.extend_unexpanded (new_result_detail_labels (result_set.i_th (i).word_match_extracts (search_words)))
+				result_link_box.extend_unexpanded (new_result_detail_labels (result_item))
 				Result [i] := result_link_box
 				i := i + 1
 			end
-		end
-
-	less_than (u, v: G): BOOLEAN
-			-- do nothing comparator
-		do
 		end
 
 	styled (a_string: EL_STYLED_ZSTRING): EL_MIXED_STYLE_STRING_LIST
@@ -342,37 +383,40 @@ feature {NONE} -- Hyperlink actions
 			result_selected_action.call ([a_result_set, a_index, result_item])
 		end
 
-	goto_previous_page
-			--
-		do
-			goto_page (page - 1)
-		end
-
 	goto_next_page
 			--
 		do
 			goto_page (page + 1)
 		end
 
+	goto_previous_page
+			--
+		do
+			goto_page (page - 1)
+		end
+
 feature {NONE} -- Implementation: attributes
-
-	result_set: DYNAMIC_CHAIN [G]
-
-	result_selected_action: PROCEDURE [ANY, TUPLE [CHAIN [G], INTEGER, G]]
-
-	page_count: INTEGER
-
-	search_words: ARRAYED_LIST [EL_TOKENIZED_STRING]
 
 	comparator: PART_COMPARATOR [G]
 
+	date_format: STRING
+
 	disabled_page_link: EL_HYPERLINK_AREA
+
+	page_count: INTEGER
+
+	result_selected_action: PROCEDURE [ANY, TUPLE [CHAIN [G], INTEGER, G]]
+
+	result_set: DYNAMIC_CHAIN [G]
+
+	search_words: ARRAYED_LIST [EL_TOKENIZED_STRING]
 
 feature {NONE} -- Constants
 
-	Default_disabled_page_link: EL_HYPERLINK_AREA
+	Default_border_cms: REAL
+			--
 		once
-			create Result.make_default
+			Result := 0.5
 		end
 
 	Default_details_indent: INTEGER
@@ -380,10 +424,9 @@ feature {NONE} -- Constants
 			Result := 0
 		end
 
-	Default_border_cms: REAL
-			--
+	Default_disabled_page_link: EL_HYPERLINK_AREA
 		once
-			Result := 0.5
+			create Result.make_default
 		end
 
 	Default_padding_cms: REAL
@@ -392,14 +435,19 @@ feature {NONE} -- Constants
 			Result := 0.5
 		end
 
-	Link_text_previous: ZSTRING
+	English_date_text: EL_ENGLISH_DATE_TEXT
 		once
-			Result := "Previous"
+			create Result.make
 		end
 
 	Link_text_next: ZSTRING
 		once
 			Result := "Next"
+		end
+
+	Link_text_previous: ZSTRING
+		once
+			Result := "Previous"
 		end
 
 end

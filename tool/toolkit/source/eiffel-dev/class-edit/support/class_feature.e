@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_CLASS_FEATURE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-18 12:16:05 GMT (Friday 18th November 2016)"
-	revision: "2"
+	date: "2017-04-21 12:06:05 GMT (Friday 21st April 2017)"
+	revision: "3"
 
 class
 	CLASS_FEATURE
@@ -341,7 +341,7 @@ feature {NONE} -- Constants
 					do
 						$name := a_$name
 					end
-
+				
 			]")
 		end
 

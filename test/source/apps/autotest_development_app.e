@@ -2,12 +2,12 @@ note
 	description: "Aid to development of AutoTest classes"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-18 8:47:09 GMT (Tuesday 18th April 2017)"
-	revision: "6"
+	date: "2017-05-11 12:20:19 GMT (Thursday 11th May 2017)"
+	revision: "7"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -29,7 +29,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent se_array2_test_set.test_array_read_write)
+			do_file_data_test (agent http_test_set.test_download_image_and_headers)
 		end
 
 feature -- Tests
@@ -85,6 +85,11 @@ feature -- Tests
 		end
 
 	zstring_test_set: ZSTRING_TEST_SET
+		do
+			create Result
+		end
+
+	uri_path_test_set: EL_URI_PATH_TEST_SET
 		do
 			create Result
 		end

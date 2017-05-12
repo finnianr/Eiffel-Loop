@@ -2,12 +2,12 @@ note
 	description: "Summary description for {RBOX_IRADIO_ENTRY}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-24 18:25:50 GMT (Tuesday 24th January 2017)"
-	revision: "2"
+	date: "2017-04-21 12:26:44 GMT (Friday 21st April 2017)"
+	revision: "3"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -81,15 +81,14 @@ feature -- Access
 
 	location: EL_FILE_PATH
 
-	location_uri: ZSTRING
+	location_uri: EL_FILE_URI_PATH
 		do
-			Result := Url.uri (Protocol, location)
+			create Result.make_protocol (Protocol, location)
 		end
 
 	url_encoded_location_uri: ZSTRING
 		do
-			Result := Url.uri (Protocol, location)
-			Result := Url.escape_custom (location_uri.to_utf_8, Unescaped_location_characters, False)
+			Result := Url.encoded_uri_custom (location_uri , Unescaped_location_characters, False)
 		end
 
 feature -- Element change

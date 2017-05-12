@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_SEND_MAIL_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 9:20:57 GMT (Monday 3rd October 2016)"
-	revision: "4"
+	date: "2017-04-26 11:52:58 GMT (Wednesday 26th April 2017)"
+	revision: "5"
 
 deferred class
 	EL_SEND_MAIL_COMMAND_I
@@ -63,7 +63,7 @@ feature {NONE} -- Line states
 		do
 			if line.has_substring (Connecting_to_local) then
 				has_error := True
-				state := agent final
+				state := final
 
 				-- If it's connecting to local, it's because it failed to send
 
@@ -78,7 +78,7 @@ feature {NONE} -- Line states
 				--	Closing connection to [127.0.0.1]
 
 			elseif line.has_substring (Message_accepted) then
-				state := agent final
+				state := final
 			end
 		end
 

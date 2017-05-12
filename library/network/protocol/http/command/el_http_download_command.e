@@ -2,15 +2,15 @@ note
 	description: "Performs a http download using the connection `connection'"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 9:42:05 GMT (Wednesday 21st September 2016)"
-	revision: "1"
+	date: "2017-05-11 11:53:58 GMT (Thursday 11th May 2017)"
+	revision: "2"
 
 deferred class
-	EL_DOWNLOAD_HTTP_COMMAND
+	EL_HTTP_DOWNLOAD_COMMAND
 
 inherit
 	EL_HTTP_COMMAND
@@ -34,13 +34,11 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-feature {NONE} -- C externals
-
-	callback_address: POINTER
-		external
-			"C [macro <el_curl.h>]: POINTER"
-		alias
-			"curl_on_data_transfer"
+	prepare (connection: EL_HTTP_CONNECTION)
+		do
+			connection.set_write_function (curl_on_data_transfer, pointer_to_c_callbacks_struct)
+			connection.set_curl_boolean_option (CURLOPT_header, False)
+			connection.set_cookies
 		end
 
 feature {NONE} -- Constants

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_FILE_URI_PATH}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 7:07:37 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2017-04-22 8:10:04 GMT (Saturday 22nd April 2017)"
+	revision: "2"
 
 class
 	EL_FILE_URI_PATH
@@ -15,14 +15,19 @@ class
 inherit
 	EL_FILE_PATH
 		undefine
-			default_create, make_from_other, is_equal, is_less, make, is_uri, is_path_absolute,
+			default_create, make, make_from_other,
+			is_equal, is_less, is_path_absolute, is_uri,
 			to_string, Type_parent, hash_code, Separator
 		end
 
 	EL_URI_PATH
+		redefine
+			make_from_file_path
+		end
 
 create
-	default_create, make, make_from_unicode, make_from_latin_1, make_from_path, make_from_file_path
+	default_create, make, make_file, make_protocol,
+	make_from_unicode, make_from_latin_1, make_from_path, make_from_file_path
 
 convert
 	make ({ZSTRING}),
@@ -36,13 +41,7 @@ convert
 feature {NONE} -- Initialization
 
 	make_from_file_path (a_path: EL_FILE_PATH)
-		require
-			absolute: a_path.is_absolute
 		do
-			if {PLATFORM}.is_windows then
-				make (Forward_slash + a_path.as_unix.to_string)
-			else
-				make (a_path.to_string)
-			end
+			Precursor (a_path)
 		end
 end

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_HYPERLINK_MENU}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:22:50 GMT (Saturday 26th December 2015)"
-	revision: "1"
+	date: "2017-04-22 18:56:45 GMT (Saturday 22nd April 2017)"
+	revision: "2"
 
 deferred class
 	EL_HYPERLINK_MENU [G -> EL_NAMEABLE]
@@ -37,8 +37,9 @@ feature {NONE} -- Initialization
 			font := a_font
 			create links.make (20)
 			from item_list.start until item_list.after loop
-				create link.make (item_list.item.name, agent on_select (item_list.index), font, GUI.color_dialog)
+				create link.make (item_list.item.name, agent on_select (item_list.item), font, GUI.color_dialog)
 				link.set_link_text_color (a_link_text_color)
+--				link.set_tooltip (a_tooltip: READABLE_STRING_GENERAL)
 				links.extend (link)
 				item_list.forth
 			end
@@ -70,8 +71,6 @@ feature {NONE} -- Events
 
 feature {NONE} -- Implementation
 
-	keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS
-
 	components: ARRAY [ARRAY [EV_WIDGET]]
 			--
 		do
@@ -83,18 +82,21 @@ feature {NONE} -- Implementation
 			create Result.make_empty
 		end
 
-	on_select (a_index: INTEGER)
+	on_select (list_item: G)
 		do
-			item_list.go_i_th (a_index)
-			select_action.call ([item_list.item])
+			select_action.call ([list_item])
 			on_cancel
 		end
 
-	item_list: LIST [G]
-
-	select_action: PROCEDURE [ANY, TUPLE [G]]
+feature {NONE} -- Internal attributes
 
 	font: EV_FONT
+
+	item_list: LIST [G]
+
+	keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS
+
+	select_action: PROCEDURE [ANY, TUPLE [G]]
 
 	links: ARRAYED_LIST [EV_WIDGET]
 

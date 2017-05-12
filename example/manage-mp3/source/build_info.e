@@ -4,11 +4,11 @@ note
 	notes: "GENERATED FILE. Do not edit"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-18 8:43:09 GMT (Tuesday 18th October 2016)"
+	date: "2017-05-03 17:58:07 GMT (Wednesday 3rd May 2017)"
 	revision: "1"
 
 class
@@ -21,7 +21,7 @@ feature -- Constants
 
 	Version_number: NATURAL = 01_04_00
 
-	Build_number: NATURAL = 357
+	Build_number: NATURAL = 358
 
 	Installation_sub_directory: EL_DIR_PATH
 		once

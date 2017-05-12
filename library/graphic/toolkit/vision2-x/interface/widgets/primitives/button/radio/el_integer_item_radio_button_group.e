@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_INTEGER_ITEM_RADIO_BUTTON_GROUP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-29 10:27:27 GMT (Friday 29th July 2016)"
-	revision: "1"
+	date: "2017-04-19 11:49:23 GMT (Wednesday 19th April 2017)"
+	revision: "2"
 
 class
 	EL_INTEGER_ITEM_RADIO_BUTTON_GROUP
@@ -50,10 +50,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	numeric_sort_order: KL_AGENT_COMPARATOR [like Type_widget_initialization_tuple]
+	numeric_sort_order: KL_AGENT_COMPARATOR [like WIDGET_INITIALIZATION_TUPLE]
 		do
 			create Result.make (
-				agent (a, b: like Type_widget_initialization_tuple): BOOLEAN
+				agent (a, b: like WIDGET_INITIALIZATION_TUPLE): BOOLEAN
 					do
 						Result := a.value < b.value
 					end

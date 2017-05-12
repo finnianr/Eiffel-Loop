@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_URL_ROUTINES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-18 23:34:25 GMT (Friday 18th December 2015)"
-	revision: "1"
+	date: "2017-04-21 12:21:58 GMT (Friday 21st April 2017)"
+	revision: "2"
 
 class
 	EL_URL_ROUTINES
@@ -15,19 +15,19 @@ class
 inherit
 	UT_URL_ENCODING
 
+	EL_URI_ROUTINES
+
 feature -- Conversion
 
-	encoded_uri (a_protocol: ZSTRING; a_path: EL_FILE_PATH; leave_reserved_unescaped: BOOLEAN): STRING
+	encoded_uri (a_uri: EL_URI_PATH; leave_reserved_unescaped: BOOLEAN): STRING
 			--
 		do
-			Result := encoded_path (uri (a_protocol, a_path), leave_reserved_unescaped)
+			Result := encoded_path (a_uri.to_string.to_utf_8, leave_reserved_unescaped)
 		end
 
-	encoded_uri_custom (
-		a_protocol: STRING; a_path: EL_FILE_PATH; unescaped_chars: DS_SET [CHARACTER]; escape_space_as_plus: BOOLEAN
-	): STRING
+	encoded_uri_custom (a_uri: EL_URI_PATH; unescaped_chars: DS_SET [CHARACTER]; escape_space_as_plus: BOOLEAN): STRING
 		do
-			Result := escape_custom (uri (a_protocol, a_path).to_utf_8, unescaped_chars, escape_space_as_plus)
+			Result := escape_custom (a_uri.to_string.to_utf_8, unescaped_chars, escape_space_as_plus)
 		end
 
 	encoded (str: ZSTRING): STRING
@@ -58,7 +58,7 @@ feature -- Conversion
 		require
 			is_valid_uri: is_uri (a_uri)
 		do
-			Result := a_uri.substring (a_uri.substring_index (Domain_path_separator, 1) + 3, a_uri.count)
+			Result := a_uri.substring (a_uri.substring_index (Protocol_sign, 1) + 3, a_uri.count)
 		end
 
 	decoded_path (escaped_utf8_path: STRING): ZSTRING
@@ -69,28 +69,6 @@ feature -- Conversion
 			l_escaped_path := escaped_utf8_path.twin
 			l_escaped_path.replace_substring_all ("+", Url_encoded_plus_sign)
 			create Result.make_from_utf_8 (unescape_string (l_escaped_path))
-		end
-
-	uri (a_protocol: STRING; a_path: EL_FILE_PATH): ZSTRING
-		do
-			create Result.make_from_latin_1 (a_protocol)
-			Result.append_string_general (Domain_path_separator)
-			Result.append (a_path.to_string)
-		end
-
-feature -- Status query
-
-	is_uri (a_uri: ZSTRING): BOOLEAN
-			--
-		local
-			components: LIST [ZSTRING]
-		do
-			components := a_uri.split (':')
-			if components.count >= 2 and then components.i_th (2).starts_with (Double_forward_slash) and then
-				across components.i_th (1).to_unicode as char all char.item.is_alpha end
-			then
-				Result := true
-			end
 		end
 
 feature {NONE} -- Implementation
@@ -107,16 +85,6 @@ feature {NONE} -- Implementation
 			unescape_set.append_string_general (Rfc_mark_characters)
 			unescape_set.append_string_general (Rfc_reserved_characters)
 			Result := new_character_set (unescape_set)
-		end
-
-	Domain_path_separator: ZSTRING
-		once
-			Result := "://"
-		end
-
-	Double_forward_slash: ZSTRING
-		once
-			Result := "//"
 		end
 
 	Url_encoded_plus_sign: STRING

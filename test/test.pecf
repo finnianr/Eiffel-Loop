@@ -89,6 +89,9 @@ system:
 		library:
 			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
 
+		variable:
+			name = eapml_limb_type; value = natural_32
+
 		# Gobo
 		library:
 			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"

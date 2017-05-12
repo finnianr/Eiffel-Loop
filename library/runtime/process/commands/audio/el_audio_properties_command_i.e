@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_CPU_INFO_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-22 17:31:14 GMT (Wednesday 22nd June 2016)"
-	revision: "1"
+	date: "2017-04-26 11:57:09 GMT (Wednesday 26th April 2017)"
+	revision: "2"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I
@@ -116,7 +116,7 @@ feature {NONE} -- Line states
 						end
 					end
 				end
-				state := agent final
+				state := final
 			end
 		end
 

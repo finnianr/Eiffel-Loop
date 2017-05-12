@@ -2,12 +2,12 @@ note
 	description: "Class EL_ZSTRING (AKA ZSTRING) is a memory efficient alternative to using STRING_32"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-18 14:20:12 GMT (Friday 18th November 2016)"
-	revision: "2"
+	date: "2017-04-23 6:38:01 GMT (Sunday 23rd April 2017)"
+	revision: "3"
 
 class
 	EL_ZSTRING
@@ -17,6 +17,7 @@ inherit
 		export
 			{ANY}
 --			Element change
+			append_all, append_all_general,
 			append_boolean, append_character, append_double,
 			append_integer_8, append_integer, append_integer_16, append_integer_64,
 			append_natural_8, append_natural_16, append_natural_32, append_natural_64, append_real,
