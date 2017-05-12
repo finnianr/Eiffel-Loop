@@ -6,7 +6,7 @@
 
 * Changed `EL_URI_PATH` to use `EL_URI_ROUTINES`. Added routine `make_file` for initialisation from implicit paths.
 
-* New cross-platform procedure `{EL_EXECUTION_ENVIRONMENT_I}.open_url` (accessible via EL_MODULE_EXECUTION)
+* New cross-platform procedure `{EL_EXECUTION_ENVIRONMENT_I}.open_url` (accessible via `EL_MODULE_EXECUTION`)
 
 * Added two new routines to class `EL_ZSTRING`: `append_all` and 'append_all_general'. These allow appending any container implementing INDEXABLE. This method of concatenation is more efficient than repeated appending calls, as sufficient area size is allocated before any appending takes place.
 
@@ -34,7 +34,7 @@
 
 ## HTTP library
 
-* Added class EL_WEB_ARCHIVE_HTTP_CONNECTION to find archived URL in the Wayback Machine using `wayback_url`
+* Added class `EL_WEB_ARCHIVE_HTTP_CONNECTION` to find archived URL in the Wayback Machine using `wayback_url`
 
 * Fixed a problem with routine `{EL_HTTP_CONNECTION}.read_string_head` where the body of the document was being fetched in addition to the headers.
 
@@ -59,5 +59,3 @@
 * Changed `new_wrapped_text_rectangle (a_text: ZSTRING): EL_TEXT_RECTANGLE` in class `{EL_WORD_WRAPPABLE}` to allow for the possibility that `a_text` might contain new lines. Made a related changed to function `{EL_VISION_2_GUI_ROUTINES_I}.is_word_wrappable`
 
 * Added routine `make_default` to `EL_LABEL`.
-
-
