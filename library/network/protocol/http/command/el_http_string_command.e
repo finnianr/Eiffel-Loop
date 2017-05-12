@@ -1,22 +1,19 @@
 note
-	description: "[
-		Performs a http download using the connection `connection' and stores
-		the data in the string `string'. Windows style newlines ("%R%N") are converted to Unix style.
-	]"
+	description: "Summary description for {EL_HTTP_STRING_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 7:52:42 GMT (Wednesday 28th September 2016)"
-	revision: "2"
+	date: "2017-05-11 11:58:46 GMT (Thursday 11th May 2017)"
+	revision: "1"
 
 class
-	EL_STRING_DOWNLOAD_HTTP_COMMAND
+	EL_HTTP_STRING_COMMAND
 
 inherit
-	EL_DOWNLOAD_HTTP_COMMAND
+	EL_HTTP_DOWNLOAD_COMMAND
 		redefine
 			make, reset, execute
 		end

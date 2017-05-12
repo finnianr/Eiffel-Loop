@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_DIR_URI_PATH}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-06 8:20:48 GMT (Saturday 6th August 2016)"
-	revision: "2"
+	date: "2017-04-21 16:15:38 GMT (Friday 21st April 2017)"
+	revision: "3"
 
 class
 	EL_DIR_URI_PATH
@@ -15,19 +15,25 @@ class
 inherit
 	EL_DIR_PATH
 		undefine
-			default_create, make_from_other, is_equal, is_less, make, is_uri, is_path_absolute,
+			default_create, make, make_from_other,
+			is_equal, is_less, is_path_absolute, is_uri,
 			to_string, Type_parent, hash_code, Separator
 		redefine
 			Type_file_path
 		end
 
 	EL_URI_PATH
+		rename
+			make_from_file_path as make_from_dir_path
 		undefine
 			has_step
+		redefine
+			make_from_dir_path
 		end
 
 create
-	default_create, make, make_from_unicode, make_from_latin_1, make_from_path, make_from_dir_path
+	default_create, make, make_file, make_protocol,
+	make_from_unicode, make_from_latin_1, make_from_path, make_from_dir_path
 
 convert
 	make ({ZSTRING}),
@@ -41,14 +47,8 @@ convert
 feature {NONE} -- Initialization
 
 	make_from_dir_path (a_path: EL_DIR_PATH)
-		require
-			absolute: a_path.is_absolute
 		do
-			if {PLATFORM}.is_windows then
-				make (Forward_slash + a_path.as_unix.to_string)
-			else
-				make (a_path.to_string)
-			end
+			Precursor (a_path)
 		end
 
 feature {NONE} -- Type definitions

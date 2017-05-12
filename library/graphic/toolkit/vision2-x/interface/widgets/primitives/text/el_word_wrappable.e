@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_WORD_WRAPPABLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-02 13:33:49 GMT (Sunday 2nd October 2016)"
-	revision: "2"
+	date: "2017-04-30 10:29:51 GMT (Sunday 30th April 2017)"
+	revision: "3"
 
 deferred class
 	EL_WORD_WRAPPABLE
@@ -45,7 +45,9 @@ feature {NONE} -- Implementation
 			end
 			Result.set_font (font)
 			Result.copy_alignment (Current)
-			Result.append_words (a_text)
+			across a_text.split ('%N') as line loop
+				Result.append_words (line.item)
+			end
 		end
 
 	wrapped_lines (a_text: ZSTRING): EL_ZSTRING_LIST

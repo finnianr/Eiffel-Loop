@@ -6,12 +6,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-30 18:01:44 GMT (Monday 30th January 2017)"
-	revision: "2"
+	date: "2017-04-28 14:15:43 GMT (Friday 28th April 2017)"
+	revision: "3"
 
 class
 	EL_PROCEDURE
@@ -20,6 +20,7 @@ inherit
 	PROCEDURE [ANY, TUPLE]
 		export
 			{NONE} all
+			{ANY} closed_operands
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
@@ -35,7 +36,7 @@ convert
 
 feature -- Initialization
 
-	make (other: PROCEDURE [ANY, TUPLE])
+	make, set_from_other (other: PROCEDURE [ANY, TUPLE])
 			--
 		do
 			if other.encaps_rout_disp = Default_pointer then
@@ -43,6 +44,7 @@ feature -- Initialization
 			else
 				encaps_rout_disp := other.encaps_rout_disp
 			end
+			closed_operands := other.closed_operands
 		end
 
 feature -- Comparison

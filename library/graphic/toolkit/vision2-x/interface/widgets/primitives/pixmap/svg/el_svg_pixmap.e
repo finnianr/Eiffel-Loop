@@ -2,12 +2,12 @@ note
 	description: "Class for rendering SVG as a pixmap"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-03 13:11:57 GMT (Tuesday 3rd January 2017)"
-	revision: "2"
+	date: "2017-05-03 14:14:56 GMT (Wednesday 3rd May 2017)"
+	revision: "3"
 
 class
 	EL_SVG_PIXMAP
@@ -88,35 +88,7 @@ feature {NONE} -- Initialization
 			is_made := update_pixmap_on_initialization
 		end
 
-	make_with_height (a_svg_path: like svg_path; a_height: INTEGER; a_background_color: EL_COLOR)
-			--
-		do
-			make_with_path_and_height (a_svg_path, a_height, a_background_color)
-		end
-
-	make_with_height_cms (a_svg_path: like svg_path; a_height_cms: REAL; a_background_color: EL_COLOR)
-			--
-		do
-			make_with_path_and_height (
-				a_svg_path, Screen.vertical_pixels (a_height_cms), a_background_color
-			)
-		end
-
-	make_with_width (a_svg_path: like svg_path; a_width: INTEGER; a_background_color: EL_COLOR)
-			--
-		do
-			make_with_path_and_width (a_svg_path, a_width, a_background_color)
-		end
-
-	make_with_width_cms (a_svg_path: like svg_path; a_width_cms: REAL; a_background_color: EL_COLOR)
-			--
-		do
-			make_with_path_and_width (
-				a_svg_path, Screen.horizontal_pixels (a_width_cms), a_background_color
-			)
-		end
-
-	make_with_path_and_width (a_svg_path: like svg_path;  a_width: INTEGER; a_background_color: EL_COLOR)
+	make_with_path_and_width (a_svg_path: like svg_path; a_width: INTEGER; a_background_color: EL_COLOR)
 			--
 		do
 			default_create
@@ -176,6 +148,36 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_with_path_and_height (a_svg_path, a_height, Transparent_color)
+		end
+
+feature {EL_FACTORY_CLIENT} -- Initialization
+
+	make_with_height (a_svg_path: like svg_path; a_height: INTEGER; a_background_color: EL_COLOR)
+			--
+		do
+			make_with_path_and_height (a_svg_path, a_height, a_background_color)
+		end
+
+	make_with_height_cms (a_svg_path: like svg_path; a_height_cms: REAL; a_background_color: EL_COLOR)
+			--
+		do
+			make_with_path_and_height (
+				a_svg_path, Screen.vertical_pixels (a_height_cms), a_background_color
+			)
+		end
+
+	make_with_width (a_svg_path: like svg_path; a_width: INTEGER; a_background_color: EL_COLOR)
+			--
+		do
+			make_with_path_and_width (a_svg_path, a_width, a_background_color)
+		end
+
+	make_with_width_cms (a_svg_path: like svg_path; a_width_cms: REAL; a_background_color: EL_COLOR)
+			--
+		do
+			make_with_path_and_width (
+				a_svg_path, Screen.horizontal_pixels (a_width_cms), a_background_color
+			)
 		end
 
 feature -- Access
@@ -246,36 +248,38 @@ feature {EL_SVG_PIXMAP} -- Implementation
 
 	set_pixmap_path_from_svg
 		do
-			png_output_path := png_output_dir.joined_dir_path (unique_rendering_name) + svg_path.base
-			png_output_path.replace_extension (Extension_png)
+			png_output_path := png_output_dir + unique_png_path
 			pixmap_path := png_output_path.to_path
 		end
 
-	unique_rendering_name: ZSTRING
-			-- name that is unique for combinded rendering variables
+	unique_png_path: EL_FILE_PATH
+			-- name that is unique for combined rendering variables
 		local
-			hex_string: ZSTRING
+			hex_string, base: ZSTRING
 		do
-			Result := empty_once_string
+			base := empty_once_string
+			create Result.make (base)
 			across rendering_variables as modifier loop
 				if modifier.cursor_index > 1 then
-					Result.append_character ('.')
+					base.append_character ('.')
 				end
-				Result.append_string_general (modifier.item.code)
+				base.append_string_general (modifier.item.code)
 				hex_string := modifier.item.value.to_hex_string
 				hex_string.prune_all_leading ('0')
 				if hex_string.is_empty then
-					Result.append_character ('0')
+					base.append_character ('0')
 				else
-					Result.append (hex_string)
+					base.append (hex_string)
 				end
 			end
+			create Result.make (base)
+			Result.append_step (svg_path.base)
+			Result.replace_extension (Extension_png)
 		end
 
 	png_output_dir: EL_DIR_PATH
 		local
 			base_path, pixmap_base_path: EL_DIR_PATH
-			relative_dir: EL_PATH_STEPS
 		do
 			base_path := Directory.Application_installation
 			if base_path.is_parent_of (svg_path) then
@@ -284,8 +288,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 				base_path := svg_path.parent
 				pixmap_base_path := base_path
 			end
-			relative_dir := svg_path.relative_path (base_path).parent
-			Result := pixmap_base_path.joined_dir_path (relative_dir)
+			Result := pixmap_base_path.joined_dir_path (svg_path.relative_path (base_path).parent)
 		end
 
 	update_pixmap_if_made
@@ -300,7 +303,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			--
 		local
 			png_dir: EL_DIR_PATH; png_image_file: EL_PNG_IMAGE_FILE
-			l_svg_xml: like svg_xml
+			l_svg_xml: like svg_xml; svg_uri: EL_FILE_URI_PATH
 		do
 --			log.enter_no_header ("update_pixmap")
 			if a_svg_path.exists and then not png_output_path.exists then
@@ -310,11 +313,12 @@ feature {EL_SVG_PIXMAP} -- Implementation
 				File_system.make_directory (png_dir)
 --				log_or_io.put_string_field ("Writing", png_output_path.to_string)
 --				log_or_io.put_new_line
+				svg_uri := a_svg_path
 				create png_image_file.make_open_write (png_output_path)
 				if is_width_scaled then
-					png_image_file.render_svg_of_width (a_svg_path, l_svg_xml, dimension, background_color.rgb_32_bit)
+					png_image_file.render_svg_of_width (svg_uri, l_svg_xml, dimension, background_color.rgb_32_bit)
 				else
-					png_image_file.render_svg_of_height (a_svg_path, l_svg_xml, dimension, background_color.rgb_32_bit)
+					png_image_file.render_svg_of_height (svg_uri, l_svg_xml, dimension, background_color.rgb_32_bit)
 				end
 				png_image_file.close
 				progress_listener.on_notify (l_svg_xml.count)
@@ -389,7 +393,10 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Extension_png: STRING = "png"
+	Extension_png: ZSTRING
+		once
+			Result := "png"
+		end
 
 	Initial_c: STRING = "c"
 

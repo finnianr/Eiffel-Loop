@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_WEL_WINDOWS_VERSION}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-20 12:27:17 GMT (Thursday 20th October 2016)"
-	revision: "1"
+	date: "2017-04-28 7:15:58 GMT (Friday 28th April 2017)"
+	revision: "2"
 
 class
 	EL_WEL_WINDOWS_VERSION
@@ -21,6 +21,15 @@ inherit
 	EL_MODULE_REG_KEY
 
 	EL_MODULE_WIN_REGISTRY
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
+
+feature -- Access
+
+	is_windows_7_or_later: BOOLEAN
+		do
+			Result := major_version >= 6 and then minor_version >= 1
+		end
 
 feature {NONE} -- Implementation
 

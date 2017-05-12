@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_SEND_MAIL_COMMAND_IMPL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-14 8:49:55 GMT (Wednesday 14th September 2016)"
-	revision: "3"
+	date: "2017-04-22 12:26:43 GMT (Saturday 22nd April 2017)"
+	revision: "4"
 
 class
 	EL_SEND_MAIL_COMMAND_IMP
@@ -28,9 +28,9 @@ create
 
 feature -- Access
 
-	Template: STRING = "sendmail -v -f $from_address $to_address < $email_path"
+	Template: STRING = "sendmail -v $from_address $to_address < $email_path"
 
 -- sendmail -v $to_address < $email_path | grep -P "^... RCPT To|^... 55[0-9]" >> $log_path
--- sendmail -O DeliveryMode=background $to_address < $email_path
+-- sendmail -O DeliveryMode=background $from_address $to_address < $email_path
 
 end

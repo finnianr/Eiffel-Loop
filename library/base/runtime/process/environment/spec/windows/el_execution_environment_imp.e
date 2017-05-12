@@ -2,12 +2,12 @@ note
 	description: "Windows implementation of `EL_EXECUTION_ENVIRONMENT_I' interface"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-17 13:30:08 GMT (Monday 17th April 2017)"
-	revision: "2"
+	date: "2017-04-28 7:12:37 GMT (Friday 28th April 2017)"
+	revision: "3"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -30,12 +30,26 @@ inherit
 
 	EL_OS_IMPLEMENTATION
 
+	EL_ENVIRONMENT_CONSTANTS
+		export
+			{NONE} all
+		end
+
 create
 	make
 
 feature {NONE} -- Implementation
 
-	call_suceeded: BOOLEAN
+	architecture_bits: INTEGER
+		once
+			Result := 64
+			if attached {STRING_32} execution.item (Processor_architecture) as str
+				and then str.ends_with_general (once "86")
+				and then not attached execution.item (Processor_architecture_WOW6432)
+			then
+				Result := 32
+			end
+		end
 
 	console_code_page: NATURAL
 		do
@@ -55,13 +69,17 @@ feature {NONE} -- Implementation
 			code_page_set: call_suceeded
 		end
 
-	open_url (url: READABLE_STRING_GENERAL)
+	open_url (url: EL_FILE_URI_PATH)
 		local
 			l_url: NATIVE_STRING; succeeded: BOOLEAN
 		do
-			create l_url.make (String_32.general_to_unicode (url))
+			create l_url.make (url.unicode)
 			succeeded := c_open_url (l_url.item) > 32
 		end
+
+feature {NONE} -- Internal attributes
+
+	call_suceeded: BOOLEAN
 
 feature {NONE} -- Constants
 

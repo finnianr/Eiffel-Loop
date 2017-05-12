@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_XML_HTTP_CONNECTION}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 9:41:17 GMT (Wednesday 28th September 2016)"
-	revision: "3"
+	date: "2017-05-11 12:26:57 GMT (Thursday 11th May 2017)"
+	revision: "4"
 
 class
 	EL_XML_HTTP_CONNECTION
@@ -19,7 +19,7 @@ inherit
 			read_string_get as read_xml_get,
 			read_string_post as read_xml_post
 		redefine
-			read_string
+			do_command
 		end
 
 create
@@ -64,10 +64,10 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Implementation
 
-	read_string (a_http_command: like http_command)
+	do_command (command: EL_HTTP_STRING_COMMAND)
 		do
-			Precursor (a_http_command)
-			if a_http_command /= CURLOPT_nobody then
+			Precursor (command)
+			if not attached {EL_HTTP_HEAD_COMMAND} command then
 				if has_error or else has_some_http_error or else not last_string.starts_with ("<?xml") then
 					on_not_xml_read
 				else

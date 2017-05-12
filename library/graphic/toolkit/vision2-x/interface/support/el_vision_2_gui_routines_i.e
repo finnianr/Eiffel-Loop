@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_VISION_2_GUI_ROUTINES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-28 15:55:42 GMT (Saturday 28th January 2017)"
-	revision: "4"
+	date: "2017-05-01 7:48:54 GMT (Monday 1st May 2017)"
+	revision: "5"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -327,7 +327,9 @@ feature -- Contract support
 
 	is_word_wrappable (a_text: ZSTRING; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
 		do
-			Result := across a_text.split (' ') as word all a_font.string_width (word.item) < a_width end
+			Result := across a_text.split ('%N') as line all
+				across line.item.split (' ') as word all a_font.string_width (word.item) < a_width end
+			end
 		end
 
 feature -- Measurement
@@ -335,11 +337,11 @@ feature -- Measurement
 	widest_width (strings: INDEXABLE [READABLE_STRING_GENERAL, INTEGER]; font: EV_FONT): INTEGER
 			-- widest string width for font
 		local
-			i, count, width: INTEGER
+			i, upper, width: INTEGER
 			l_str: READABLE_STRING_GENERAL
 		do
-			count := strings.upper
-			from i := 1 until i > count loop
+			upper := strings.upper
+			from i := strings.lower until i > upper loop
 				l_str := strings [i]
 				if attached {ZSTRING} l_str as l_astr then
 					l_str := l_astr.to_unicode

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {RADIO_OPTIONS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-28 12:00:27 GMT (Saturday 28th January 2017)"
-	revision: "2"
+	date: "2017-04-19 15:14:21 GMT (Wednesday 19th April 2017)"
+	revision: "3"
 
 deferred class
 	EL_RADIO_BUTTON_GROUP [G]
@@ -60,6 +60,7 @@ feature -- Access
 		end
 
 	buttons: ARRAYED_LIST [EV_RADIO_BUTTON]
+		-- NOTE: don't forget to call `set_selected' after adding `buttons' to container
 
 feature -- Status change
 

@@ -26,6 +26,7 @@ extern "C" {
 #endif
 
 size_t curl_on_data_transfer (void *ptr, size_t size, size_t nmemb, Eiffel_integer_function_t *callback);
+size_t curl_on_do_nothing_transfer (void *ptr, size_t size, size_t nmemb, void *userdata);
  
 #ifdef __cplusplus
 }

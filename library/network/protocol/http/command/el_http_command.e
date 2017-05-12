@@ -2,12 +2,12 @@ note
 	description: "Performs a data transfer using the http connection `connection'"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-29 15:54:03 GMT (Thursday 29th September 2016)"
-	revision: "3"
+	date: "2017-05-11 11:48:59 GMT (Thursday 11th May 2017)"
+	revision: "4"
 
 deferred class
 	EL_HTTP_COMMAND
@@ -43,25 +43,14 @@ feature -- Basic operations
 		do
 			reset
 			callback := new_callback
-			connection.set_curl_option_with_data (callback_curl_option, callback_address)
-			connection.set_curl_option_with_data (callback_curl_data_option, pointer_to_c_callbacks_struct)
+			prepare (connection)
 			connection.do_transfer
 			callback.release
 		end
 
 feature {NONE} -- Implementation
 
-	callback_curl_option: INTEGER
-		do
-			Result := CURLOPT_writefunction
-		end
-
-	callback_curl_data_option: INTEGER
-		do
-			Result := CURLOPT_writedata
-		end
-
-	callback_address: POINTER
+	prepare (connection: EL_HTTP_CONNECTION)
 		deferred
 		end
 
@@ -73,5 +62,21 @@ feature {NONE} -- Internal attributes
 
 	listener: EL_FILE_PROGRESS_LISTENER
 		-- progress listener
+
+feature {NONE} -- C externals
+
+	curl_on_data_transfer: POINTER
+		external
+			"C [macro <el_curl.h>]: POINTER"
+		alias
+			"curl_on_data_transfer"
+		end
+
+	curl_on_do_nothing_transfer: POINTER
+		external
+			"C [macro <el_curl.h>]: POINTER"
+		alias
+			"curl_on_do_nothing_transfer"
+		end
 
 end

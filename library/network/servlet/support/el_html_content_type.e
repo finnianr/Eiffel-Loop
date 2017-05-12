@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_HTML_PROPERTIES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-30 13:30:05 GMT (Saturday 30th January 2016)"
-	revision: "1"
+	date: "2017-04-26 11:55:47 GMT (Wednesday 26th April 2017)"
+	revision: "2"
 
 class
 	EL_HTML_CONTENT_TYPE
@@ -48,7 +48,7 @@ feature {NONE} -- State handlers
 			if line.starts_with (Meta_tag) and then line.has_substring (Content_equals) then
 				type := line.split ('"').i_th (4).as_string_8
 				set_encoding_from_name (type.substring (type.index_of ('=', 1) + 1, type.count))
-				state := agent final
+				state := final
 			end
 		end
 

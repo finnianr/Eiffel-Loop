@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_HTTP_HEADERS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-12 17:14:54 GMT (Wednesday 12th October 2016)"
-	revision: "2"
+	date: "2017-05-09 10:09:54 GMT (Tuesday 9th May 2017)"
+	revision: "3"
 
 class
 	EL_HTTP_HEADERS
@@ -138,7 +138,10 @@ feature {NONE} -- Line states
 			if setter_table.found then
 				setter_table.found_item (nvp.value)
 			else
-				extend (nvp.value, nvp.name)
+				put (nvp.value, nvp.name)
+				if not inserted then
+					item (nvp.name).append_string ("; " + nvp.value)
+				end
 			end
 		end
 

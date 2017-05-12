@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_EV_LABEL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:23:04 GMT (Saturday 26th December 2015)"
-	revision: "1"
+	date: "2017-04-30 12:40:39 GMT (Sunday 30th April 2017)"
+	revision: "2"
 
 class
 	EL_LABEL
@@ -17,7 +17,8 @@ inherit
 		rename
 			set_text as set_text_general
 		redefine
-			initialize, align_text_top, align_text_vertical_center, align_text_bottom
+			make_with_text, initialize,
+			align_text_top, align_text_vertical_center, align_text_bottom
 		end
 
 	EL_WORD_WRAPPABLE
@@ -30,29 +31,20 @@ inherit
 			align_text_top, align_text_vertical_center, align_text_bottom
 		end
 
+	EL_MODULE_STRING_32
+		undefine
+			is_equal, copy, default_create
+		end
+
+	EL_MODULE_SCREEN
+		undefine
+			is_equal, copy, default_create
+		end
+
 create
 	default_create, make_with_text, make_wrapped, make_wrapped_to_width
 
 feature {NONE} -- Initialization
-
-	make_wrapped (a_text: ZSTRING)
-			--
-		require
-			a_text_not_void: a_text /= Void
-		do
-			default_create
-			set_text_wrapped (a_text)
-		end
-
-	make_wrapped_to_width (a_text: ZSTRING; a_font: EV_FONT; a_width: INTEGER)
-		do
-			default_create
-			set_minimum_width (a_width)
-			set_font (a_font)
-			unwrapped_text := a_text
-			is_wrapped := True
-			wrap_text
-		end
 
 	initialize
 		do
@@ -63,11 +55,54 @@ feature {NONE} -- Initialization
 			resize_actions.block
 		end
 
+	make_default
+		do
+			default_create
+		end
+
+	make_with_text (a_text: READABLE_STRING_GENERAL)
+		do
+			if a_text.is_empty then
+				make_default
+			else
+				Precursor (String_32.general_to_unicode (a_text))
+			end
+		end
+
+	make_wrapped (a_text: ZSTRING)
+			--
+		require
+			a_text_not_void: a_text /= Void
+		do
+			make_default
+			set_text_wrapped (a_text)
+		end
+
+	make_wrapped_to_width (a_text: ZSTRING; a_font: EV_FONT; a_width: INTEGER)
+		do
+			make_default
+			set_minimum_width (a_width)
+			set_font (a_font)
+			unwrapped_text := a_text
+			is_wrapped := True
+			wrap_text
+		end
+
 feature -- Access
 
 	unwrapped_text: ZSTRING
 
+feature -- Status query
+
+	is_wrapped: BOOLEAN
+
 feature -- Element change
+
+	set_text (a_text: ZSTRING)
+		do
+			is_wrapped := False
+			set_text_general (a_text.to_unicode)
+		end
 
 	set_text_wrapped (a_text: ZSTRING)
 		-- wraps during component resizing
@@ -86,6 +121,11 @@ feature -- Element change
 			wrap_text
 		end
 
+	set_text_wrapped_to_width_cms (a_text: ZSTRING; a_width_cms: REAL)
+		do
+			set_text_wrapped_to_width (a_text, Screen.horizontal_pixels (a_width_cms))
+		end
+
 	set_transient_text (a_text: ZSTRING; timeout_secs: REAL)
 		do
 			set_text (a_text)
@@ -94,13 +134,14 @@ feature -- Element change
 			timer.actions.extend_kamikaze (agent set_foreground_color (GUI.default_foreground_color))
 		end
 
-	set_text (a_text: ZSTRING)
-		do
-			is_wrapped := False
-			set_text_general (a_text.to_unicode)
-		end
-
 feature -- Status setting
+
+	align_text_bottom
+			-- Display `text' vertically aligned at the bottom.
+		do
+			Precursor {EL_WORD_WRAPPABLE}
+			Precursor {EV_LABEL}
+		end
 
 	align_text_top
 			-- Display `text' vertically aligned at the top.
@@ -116,13 +157,6 @@ feature -- Status setting
 			Precursor {EV_LABEL}
 		end
 
-	align_text_bottom
-			-- Display `text' vertically aligned at the bottom.
-		do
-			Precursor {EL_WORD_WRAPPABLE}
-			Precursor {EV_LABEL}
-		end
-
 feature {NONE} -- Implementation
 
 	on_resize (a_x, a_y, a_width, a_height: INTEGER)
@@ -133,6 +167,14 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Implementation
+
+	adjusted_width: INTEGER
+			-- Needed due to layout bug where right most character is obscured
+		do
+			Result := width - font.string_width (once "a") // 3
+		end
+
+	timer: EV_TIMEOUT
 
 	wrap_text
 		local
@@ -157,15 +199,5 @@ feature {NONE} -- Implementation
 				GUI.do_once_on_idle (agent wrap_text)
 			end
 		end
-
-	adjusted_width: INTEGER
-			-- Needed due to layout bug where right most character is obscured
-		do
-			Result := width - font.string_width (once "a") // 3
-		end
-
-	is_wrapped: BOOLEAN
-
-	timer: EV_TIMEOUT
 
 end

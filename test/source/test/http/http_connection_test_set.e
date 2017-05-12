@@ -6,12 +6,12 @@ note
 	testing: "type/manual"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 17:35:17 GMT (Wednesday 28th September 2016)"
-	revision: "4"
+	date: "2017-05-11 12:18:01 GMT (Thursday 11th May 2017)"
+	revision: "5"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -199,49 +199,26 @@ feature -- Test routines
 			log.exit
 		end
 
-	Xtest_image_headers
-		-- using same once web object for all requests
-		-- NOTE
-		-- This routine produce erratic behaviour with random characters being output to console
-		note
-			testing: "covers/{EL_HTTP_CONNECTION}.read_string_head"
-		do
-			log.enter ("test_image_headers_1")
-			get_image_headers (True)
-			log.exit
-		end
-
 	test_image_headers
 		-- using new web object for each request
 		note
 			testing: "covers/{EL_HTTP_CONNECTION}.read_string_head"
-		do
-			log.enter ("test_image_headers_2")
-			get_image_headers (False)
-			log.exit
-		end
-
-	get_image_headers (use_once_object: BOOLEAN)
 		local
-			l_web: like web
 			headers: like web.last_headers
 		do
+			log.enter ("test_image_headers")
 			across << "png", "jpeg", "webp", "svg" >> as image loop
-				if use_once_object then
-					l_web := web
-				else
-					create l_web.make
-				end
-				l_web.open (Image_url + image.item)
-				l_web.read_string_head
-				print_lines (l_web)
+				web.open (Image_url + image.item)
+				web.read_string_head
+				print_lines (web)
 
-				headers := l_web.last_headers
+				headers := web.last_headers
 				assert_valid_headers (headers)
 				assert ("valid content_type", headers.content_type.starts_with ("image/" + image.item))
 
-				l_web.close
+				web.close
 			end
+			log.exit
 		end
 
 feature {NONE} -- Implementation
@@ -250,7 +227,7 @@ feature {NONE} -- Implementation
 		do
 			assert ("valid date_stamp", headers.date_stamp.date ~ create {DATE}.make_now)
 			assert ("valid response_code", headers.response_code = 200)
-			assert ("valid server", headers.server ~ "nginx")
+			assert ("valid server", headers.server.starts_with ("gunicorn"))
 		end
 
 	document_retrieved_table: EL_HASH_TABLE [PREDICATE [like Current, TUPLE [STRING]], STRING]

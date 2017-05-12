@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_DOCKED_TAB_BOOK}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-08-30 12:25:12 GMT (Sunday 30th August 2015)"
-	revision: "1"
+	date: "2017-05-02 15:12:58 GMT (Tuesday 2nd May 2017)"
+	revision: "2"
 
 class
 	EL_DOCKED_TAB_BOOK
@@ -23,6 +23,7 @@ inherit
 			count as widget_count
 		export
 			{NONE} all
+			{ANY} border_width
 		end
 
 	EL_TAB_SHORTCUTS
@@ -49,9 +50,9 @@ feature -- Initialization
 			l_names := Tab_book_common.interface_names
 		end
 
-	make (a_main_window: like main_window)
+	make (a_main_window: like window)
 		do
-			main_window := a_main_window
+			window := a_main_window
 			init_singletons
 			default_create
 			init_keyboard_shortcuts (a_main_window)
@@ -237,7 +238,7 @@ feature {NONE} -- Implementation
 			Result := manager.query.inner_container_main
 		end
 
-	main_window: EV_WINDOW
+	window: EV_WINDOW
 
 	manager: SD_DOCKING_MANAGER
 

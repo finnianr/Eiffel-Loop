@@ -16,4 +16,8 @@ size_t curl_on_data_transfer (void *ptr, size_t size, size_t nmemb, Eiffel_integ
 	return result;
 }
 
+size_t curl_on_do_nothing_transfer (void *ptr, size_t size, size_t nmemb, void *userdata)
+{
+	return size * nmemb;
+}
 

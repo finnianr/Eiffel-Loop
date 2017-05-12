@@ -6,12 +6,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-26 9:06:32 GMT (Tuesday 26th July 2016)"
-	revision: "1"
+	date: "2017-04-26 11:56:39 GMT (Wednesday 26th April 2017)"
+	revision: "2"
 
 class
 	EL_HTML_META_DIGEST_PARSER
@@ -38,7 +38,7 @@ feature {NONE} -- Line states: find meta checksum
 		do
 			if line.has_substring (Digest_value) then
 				meta_crc_digest := line.substring_between (Content_assignment, Meta_close, 1).to_natural
-				state := agent final
+				state := final
 			end
 		end
 

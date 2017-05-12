@@ -7,12 +7,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-14 12:25:34 GMT (Friday 14th April 2017)"
-	revision: "6"
+	date: "2017-05-11 12:15:38 GMT (Thursday 11th May 2017)"
+	revision: "7"
 
 class
 	EL_HTTP_CONNECTION
@@ -194,12 +194,10 @@ feature -- Basic operations
 	download (file_path: EL_FILE_PATH)
 			-- save document downloaded using the HTTP GET command
 		local
-			download_cmd: EL_SAVE_DOWNLOAD_HTTP_COMMAND
+			download_cmd: EL_SAVED_HTTP_GET_COMMAND
 		do
-			create {EL_SAVE_DOWNLOAD_HTTP_COMMAND} download_cmd.make
-			set_http_command (CURLOPT_httpget)
-			set_cookies
-			download_cmd.execute (Current, file_path)
+			create download_cmd.make (file_path)
+			download_cmd.execute (Current)
 		end
 
 	open (a_url: like url)
@@ -210,6 +208,7 @@ feature -- Basic operations
 			reset
 			make_from_pointer (Curl.new_pointer)
 			set_url (a_url)
+			set_curl_boolean_option (CURLOPT_verbose, False)
 		ensure
 			opened: is_open
 		end
@@ -217,19 +216,19 @@ feature -- Basic operations
 	read_string_get
 		-- read document string using the HTTP GET command
 		do
-			read_string (CURLOPT_httpget)
+			do_command (create {EL_HTTP_GET_COMMAND}.make)
 		end
 
 	read_string_head
 		-- read document headers string using the HTTP HEAD command
 		do
-			read_string (CURLOPT_nobody)
+			do_command (create {EL_HTTP_HEAD_COMMAND}.make)
 		end
 
 	read_string_post
 		-- read document string using the HTTP POST command
 		do
-			read_string (CURLOPT_post)
+			do_command (create {EL_HTTP_POST_COMMAND}.make)
 		end
 
 feature -- Status setting
@@ -542,34 +541,20 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			end
 		end
 
-	set_curl_option_with_data (a_option: INTEGER; a_data_ptr: POINTER)
+	enable_post_method
 		do
-			Curl.setopt_void_star (self_ptr, a_option, a_data_ptr)
+			set_curl_boolean_option (CURLOPT_httpget, False)
+			set_curl_boolean_option (CURLOPT_post, True)
+			if post_data.count > 0 then
+				set_curl_option_with_data (CURLOPT_postfields, post_data.item)
+				set_curl_integer_option (CURLOPT_postfieldsize, post_data.count)
+			end
 		end
 
-feature {NONE} -- Implementation
-
-	read_string (a_http_command: like http_command)
-		local
-			download_cmd: EL_STRING_DOWNLOAD_HTTP_COMMAND
+	enable_get_method
 		do
-			if a_http_command = CURLOPT_nobody then
-				create {EL_HEADER_DOWNLOAD_HTTP_COMMAND} download_cmd.make
-			else
-				create {EL_STRING_DOWNLOAD_HTTP_COMMAND} download_cmd.make
-				if a_http_command = CURLOPT_post and then post_data.count > 0 then
-					set_curl_option_with_data (CURLOPT_postfields, post_data.item)
-					set_curl_integer_option (CURLOPT_postfieldsize, post_data.count)
-				end
-			end
-			set_http_command (a_http_command)
-			set_cookies
-			download_cmd.execute (Current)
-			if has_error then
-				last_string.wipe_out
-			else
-				last_string.share (download_cmd.string)
-			end
+			set_curl_boolean_option (CURLOPT_httpget, True)
+			set_curl_boolean_option (CURLOPT_post, False)
 		end
 
 	set_cookies
@@ -587,9 +572,43 @@ feature {NONE} -- Implementation
 			Curl.setopt_integer (self_ptr, a_option, flag.to_integer)
 		end
 
+	set_header_function (callback, user_data: POINTER)
+		do
+			set_curl_option_with_data (CURLOPT_headerfunction, callback)
+			set_curl_option_with_data (CURLOPT_headerdata, user_data)
+		end
+
+	set_nobody (flag: BOOLEAN)
+		do
+			set_curl_boolean_option (CURLOPT_nobody, flag)
+		end
+
+	set_write_function (callback, user_data: POINTER)
+		do
+			set_curl_option_with_data (CURLOPT_writefunction, callback)
+			set_curl_option_with_data (CURLOPT_writedata, user_data)
+		end
+
+feature {NONE} -- Implementation
+
+	do_command (command: EL_HTTP_STRING_COMMAND)
+		do
+			command.execute (Current)
+			if has_error then
+				last_string.wipe_out
+			else
+				last_string.share (command.string)
+			end
+		end
+
 	set_curl_integer_option (a_option: INTEGER; option: INTEGER)
 		do
 			Curl.setopt_integer (self_ptr, a_option, option)
+		end
+
+	set_curl_option_with_data (a_option: INTEGER; a_data_ptr: POINTER)
+		do
+			Curl.setopt_void_star (self_ptr, a_option, a_data_ptr)
 		end
 
 	set_curl_string_32_option (a_option: INTEGER; string: STRING_32)
@@ -607,20 +626,7 @@ feature {NONE} -- Implementation
 			Curl.setopt_string (self_ptr, a_option, string.to_utf_8)
 		end
 
-	set_http_command (a_http_command: like http_command)
-		require
-			valid_command: is_valid_http_command (a_http_command)
-		do
-			if http_command /= a_http_command then
-				set_curl_boolean_option (a_http_command, True)
-				http_command := a_http_command
-			end
-		end
-
 feature {NONE} -- Implementation attributes
-
-	http_command: INTEGER
-		-- POST, HEAD (NOBODY) or GET
 
 	http_response: CURL_STRING
 

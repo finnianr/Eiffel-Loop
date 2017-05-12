@@ -8,15 +8,13 @@ note
 
 	notes: "See end of page"
 
-	
-
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-02 12:55:58 GMT (Tuesday 2nd August 2016)"
-	revision: "2"
+	date: "2017-05-02 12:25:17 GMT (Tuesday 2nd May 2017)"
+	revision: "3"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -217,10 +215,7 @@ feature {NONE} -- Implementation
 				if Template_names.found then
 					Result := template_names.found_item
 				else
-					create Result
-					Result.set_base (generator)
-					Result.base.prepend_character ('{')
-					Result.base.append_string_general (once "}.template")
+					Result := Template_name_template #$ [generator]
 					template_names.extend (Result, generator)
 				end
 			else
@@ -252,6 +247,11 @@ feature {NONE} -- Constants
 			--
 		once
 			Result := {ASCII}.Tabulation.to_natural_32
+		end
+
+	Template_name_template: ZSTRING
+		once
+			Result := "{%S}.template"
 		end
 
 	Template_names: HASH_TABLE [EL_FILE_PATH, STRING]

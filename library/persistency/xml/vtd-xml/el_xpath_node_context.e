@@ -2,12 +2,12 @@ note
 	description: "A Xpath queryable XML node"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-18 10:31:23 GMT (Tuesday 18th April 2017)"
-	revision: "3"
+	date: "2017-04-19 9:24:34 GMT (Wednesday 19th April 2017)"
+	revision: "4"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -39,18 +39,14 @@ inherit
 
 	EL_VTD_CONSTANTS
 
+	EL_XPATH_FIELD_SETTERS
+
 	EL_MODULE_LIO
 
 create
 	make_from_other
 
 feature {NONE} -- Initaliazation
-
-	make_from_other (other: EL_XPATH_NODE_CONTEXT)
-			--
-		do
-			make (c_create_context_copy (other.self_ptr), other)
-		end
 
 	make (a_context: POINTER; parent: EL_XPATH_NODE_CONTEXT)
 			--
@@ -67,34 +63,20 @@ feature {NONE} -- Initaliazation
 			create xpath_query.make (Current)
 		end
 
+	make_from_other (other: EL_XPATH_NODE_CONTEXT)
+			--
+		do
+			make (c_create_context_copy (other.self_ptr), other)
+		end
+
 feature -- Access
 
-	name: STRING
-			--
-		do
-			Result := wide_string (c_node_context_name (self_ptr))
-		end
-
 	attributes: EL_ELEMENT_ATTRIBUTE_TABLE
-
-	found_node: EL_XPATH_NODE_CONTEXT
-			--
-		require
-			node_found: node_found
-		do
-			Result := actual_found_node
-		end
 
 	context_list (a_xpath: READABLE_STRING_GENERAL): EL_XPATH_NODE_CONTEXT_LIST
 			--
 		do
 			create Result.make (Current, a_xpath)
-		end
-
-	double_at_xpath (a_xpath: READABLE_STRING_GENERAL): DOUBLE
-			--
-		do
-			Result := new_query (a_xpath).evaluate_number
 		end
 
 	date_at_xpath (a_xpath: READABLE_STRING_GENERAL): DATE
@@ -105,10 +87,18 @@ feature -- Access
 			create Result.make_by_days (integer_at_xpath (a_xpath))
 		end
 
-	integer_at_xpath (a_xpath: READABLE_STRING_GENERAL): INTEGER
+	double_at_xpath (a_xpath: READABLE_STRING_GENERAL): DOUBLE
 			--
 		do
-			Result := new_query (a_xpath).evaluate_number.rounded
+			Result := new_query (a_xpath).evaluate_number
+		end
+
+	found_node: EL_XPATH_NODE_CONTEXT
+			--
+		require
+			node_found: node_found
+		do
+			Result := actual_found_node
 		end
 
 	integer_64_at_xpath (a_xpath: READABLE_STRING_GENERAL): INTEGER_64
@@ -117,10 +107,16 @@ feature -- Access
 			Result := new_query (a_xpath).evaluate_number.rounded_real_64.truncated_to_integer_64
 		end
 
-	natural_at_xpath (a_xpath: READABLE_STRING_GENERAL): NATURAL
+	integer_at_xpath (a_xpath: READABLE_STRING_GENERAL): INTEGER
 			--
 		do
-			Result := new_query (a_xpath).evaluate_number.rounded_real_64.truncated_to_integer_64.to_natural_32
+			Result := new_query (a_xpath).evaluate_number.rounded
+		end
+
+	name: STRING
+			--
+		do
+			Result := wide_string (c_node_context_name (self_ptr))
 		end
 
 	natural_64_at_xpath (a_xpath: READABLE_STRING_GENERAL): NATURAL_64
@@ -129,22 +125,28 @@ feature -- Access
 			Result := new_query (a_xpath).evaluate_number.rounded_real_64.truncated_to_integer_64.to_natural_64
 		end
 
+	natural_at_xpath (a_xpath: READABLE_STRING_GENERAL): NATURAL
+			--
+		do
+			Result := new_query (a_xpath).evaluate_number.rounded_real_64.truncated_to_integer_64.to_natural_32
+		end
+
 	real_at_xpath (a_xpath: READABLE_STRING_GENERAL): REAL
 			--
 		do
 			Result := new_query (a_xpath).evaluate_number.truncated_to_real
 		end
 
-	string_at_xpath (a_xpath: READABLE_STRING_GENERAL): ZSTRING
-			--
-		do
-			Result := new_query (a_xpath).evaluate_string
-		end
-
 	string_32_at_xpath (a_xpath: READABLE_STRING_GENERAL): STRING_32
 			--
 		do
 			Result := new_query (a_xpath).evaluate_string_32
+		end
+
+	string_at_xpath (a_xpath: READABLE_STRING_GENERAL): ZSTRING
+			--
+		do
+			Result := new_query (a_xpath).evaluate_string
 		end
 
 feature -- Element change
@@ -166,22 +168,42 @@ feature -- Basic operations
 			actual_found_node.do_query (a_xpath)
 		end
 
+feature -- External field setters
+
 	set_boolean (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [BOOLEAN]])
-			-- call `set_value' with boolean value at `a_xpath'
+			-- call `set_value' with BOOLEAN value at `a_xpath'
 		do
 			Setter_boolean.set_from_node (Current, a_xpath, set_value)
 		end
 
+	set_double (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [DOUBLE]])
+			-- call `set_value' with DOUBLE value at `a_xpath'
+		do
+			Setter_double.set_from_node (Current, a_xpath, set_value)
+		end
+
 	set_integer (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [INTEGER]])
-			-- call `set_value' with integer value at `a_xpath'
+			-- call `set_value' with INTEGER value at `a_xpath'
 		do
 			Setter_integer.set_from_node (Current, a_xpath, set_value)
 		end
 
+	set_integer_64 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [INTEGER_64]])
+			-- call `set_value' with INTEGER_64 value at `a_xpath'
+		do
+			Setter_integer_64.set_from_node (Current, a_xpath, set_value)
+		end
+
 	set_natural (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [NATURAL]])
-			-- call `set_value' with natural value at `a_xpath'
+			-- call `set_value' with NATURAL value at `a_xpath'
 		do
 			Setter_natural.set_from_node (Current, a_xpath, set_value)
+		end
+
+	set_natural_64 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [NATURAL_64]])
+			-- call `set_value' with NATURAL_64 value at `a_xpath'
+		do
+			Setter_natural_64.set_from_node (Current, a_xpath, set_value)
 		end
 
 	set_node_values (a_xpath: READABLE_STRING_GENERAL; set_values: PROCEDURE [ANY, TUPLE [EL_XPATH_NODE_CONTEXT]])
@@ -193,31 +215,31 @@ feature -- Basic operations
 			end
 		end
 
+	set_real (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [REAL]])
+			-- call `set_value' with REAL value at `a_xpath'
+		do
+			Setter_real.set_from_node (Current, a_xpath, set_value)
+		end
+
 	set_string (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [ZSTRING]])
-			-- call `set_value' with string_8 value at `a_xpath'
+			-- call `set_value' with ZSTRING value at `a_xpath'
 		do
 			Setter_string.set_from_node (Current, a_xpath, set_value)
 		end
 
-	set_string_8 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [STRING]])
-			-- call `set_value' with string_8 value at `a_xpath'
-		do
-			Setter_string_8.set_from_node (Current, a_xpath, set_value)
-		end
-
 	set_string_32 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [STRING_32]])
-			-- call `set_value' with string_32 value at `a_xpath'
+			-- call `set_value' with STRING_32 value at `a_xpath'
 		do
 			Setter_string_32.set_from_node (Current, a_xpath, set_value)
 		end
 
-feature -- Status query
-
-	node_found: BOOLEAN
-			--
+	set_string_8 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [STRING]])
+			-- call `set_value' with STRING_8 value at `a_xpath'
 		do
-			Result := actual_found_node.match_found
+			Setter_string_8.set_from_node (Current, a_xpath, set_value)
 		end
+
+feature -- Status query
 
 	has (xpath: STRING): BOOLEAN
 			--
@@ -247,6 +269,12 @@ feature -- Status query
 			Result := new_query (a_xpath).evaluate_boolean
 		end
 
+	node_found: BOOLEAN
+			--
+		do
+			Result := actual_found_node.match_found
+		end
+
 feature -- Element values
 
 	boolean_value: BOOLEAN
@@ -259,14 +287,6 @@ feature -- Element values
 			end
 		end
 
-	double_value: DOUBLE
-			-- element content as a DOUBLE
-		require
-			value_is_double: normalized_string_value.is_double
-		do
-			Result := c_node_context_double (self_ptr)
-		end
-
 	date_value: DATE
 			-- element content as a DOUBLE
 		require
@@ -275,12 +295,12 @@ feature -- Element values
 			create Result.make_by_days (integer_value)
 		end
 
-	integer_value: INTEGER
-			-- element content as an INTEGER
+	double_value: DOUBLE
+			-- element content as a DOUBLE
 		require
-			value_is_integer: normalized_string_value.is_integer
+			value_is_double: normalized_string_value.is_double
 		do
-			Result := c_node_context_integer (self_ptr)
+			Result := c_node_context_double (self_ptr)
 		end
 
 	integer_64_value: INTEGER_64
@@ -291,7 +311,31 @@ feature -- Element values
 			Result := c_node_context_integer_64 (self_ptr)
 		end
 
-	normalized_string_value: ZSTRING
+	integer_value: INTEGER
+			-- element content as an INTEGER
+		require
+			value_is_integer: normalized_string_value.is_integer
+		do
+			Result := c_node_context_integer (self_ptr)
+		end
+
+	natural_64_value: NATURAL_64
+			-- element content as a NATURAL_64
+		require
+			value_is_natural_64: normalized_string_value.is_natural_64
+		do
+			Result := normalized_string_value.to_natural_64
+		end
+
+	natural_value: NATURAL
+			-- element content as a NATURAL
+		require
+			value_is_natural: normalized_string_value.is_natural
+		do
+			Result := normalized_string_value.to_natural
+		end
+
+	normalized_string_32_value: STRING_32
 			-- The leading and trailing white space characters will be stripped.
 			-- The entity and character references will be resolved
 			-- Multiple whitespaces char will be collapsed into one
@@ -307,20 +351,12 @@ feature -- Element values
 			Result := wide_string (c_node_context_normalized_string (self_ptr))
 		end
 
-	normalized_string_32_value: STRING_32
+	normalized_string_value: ZSTRING
 			-- The leading and trailing white space characters will be stripped.
 			-- The entity and character references will be resolved
 			-- Multiple whitespaces char will be collapsed into one
 		do
 			Result := wide_string (c_node_context_normalized_string (self_ptr))
-		end
-
-	raw_string_value: ZSTRING
-			-- element content as string with entities and char references not expanded
-			-- built-in entity and char references not resolved
-			-- entities and char references not expanded
-		do
-			Result := wide_string (c_node_context_raw_string (self_ptr))
 		end
 
 	raw_string_32_value: STRING_32
@@ -331,7 +367,23 @@ feature -- Element values
 			Result := wide_string (c_node_context_raw_string (self_ptr))
 		end
 
-	string_value: ZSTRING
+	raw_string_value: ZSTRING
+			-- element content as string with entities and char references not expanded
+			-- built-in entity and char references not resolved
+			-- entities and char references not expanded
+		do
+			Result := wide_string (c_node_context_raw_string (self_ptr))
+		end
+
+	real_value: REAL
+			-- element content as a REAL
+		require
+			value_is_real: normalized_string_value.is_real
+		do
+			Result := c_node_context_real (self_ptr)
+		end
+
+	string_32_value: STRING_32
 			-- The entity and character references will be resolved
 		do
 			Result := wide_string (c_node_context_string (self_ptr))
@@ -343,38 +395,26 @@ feature -- Element values
 			Result := wide_string (c_node_context_string (self_ptr))
 		end
 
-	string_32_value: STRING_32
+	string_value: ZSTRING
 			-- The entity and character references will be resolved
 		do
 			Result := wide_string (c_node_context_string (self_ptr))
 		end
 
-	natural_value: NATURAL
-			-- element content as a NATURAL
-		require
-			value_is_natural: normalized_string_value.is_natural
-		do
-			Result := normalized_string_value.to_natural
-		end
-
-	natural_64_value: NATURAL_64
-			-- element content as a NATURAL_64
-		require
-			value_is_natural_64: normalized_string_value.is_natural_64
-		do
-			Result := normalized_string_value.to_natural_64
-		end
-
-	real_value: REAL
-			-- element content as a REAL
-		require
-			value_is_real: normalized_string_value.is_real
-		do
-			Result := c_node_context_real (self_ptr)
-		end
-
 feature {EL_XPATH_NODE_CONTEXT, EL_XPATH_NODE_CONTEXT_LIST, EL_XPATH_NODE_CONTEXT_LIST_ITERATION_CURSOR}
 	-- Implementation: query iteration
+
+	match_found: BOOLEAN
+			--
+		do
+			Result := not xpath_query.after
+		end
+
+	query_forth
+			--
+		do
+			xpath_query.forth
+		end
 
 	query_start, do_query (a_xpath: READABLE_STRING_GENERAL)
 			--
@@ -388,37 +428,9 @@ feature {EL_XPATH_NODE_CONTEXT, EL_XPATH_NODE_CONTEXT_LIST, EL_XPATH_NODE_CONTEX
 			xpath_query.start
 		end
 
-	query_forth
-			--
-		do
-			xpath_query.forth
-		end
-
-	match_found: BOOLEAN
-			--
-		do
-			Result := not xpath_query.after
-		end
-
 	xpath_query: EL_VTD_XPATH_QUERY
 
 feature {EL_XPATH_NODE_CONTEXT} -- Implementation
-
-	new_query (a_xpath: READABLE_STRING_GENERAL): EL_VTD_XPATH_QUERY
-			--
-		do
-			if is_namespace_set then
-				create Result.make_xpath_for_namespace (Current, a_xpath, namespace)
-			else
-				create Result.make_xpath (Current, a_xpath)
-			end
-		end
-
-	reset
-			--
-		do
-			c_evx_set_node_context (self_ptr, parent_context_image.area.base_address)
-		end
 
 	context_image: EL_VTD_CONTEXT_IMAGE
 			-- Update context image from context
@@ -436,50 +448,30 @@ feature {EL_XPATH_NODE_CONTEXT} -- Implementation
 			c_evx_read_node_context (self_ptr, actual_context_image.area.base_address )
 		end
 
-	actual_found_node: EL_XPATH_NODE_CONTEXT
+	new_query (a_xpath: READABLE_STRING_GENERAL): EL_VTD_XPATH_QUERY
+			--
+		do
+			if is_namespace_set then
+				create Result.make_xpath_for_namespace (Current, a_xpath, namespace)
+			else
+				create Result.make_xpath (Current, a_xpath)
+			end
+		end
 
-	parent_context_image, actual_context_image: EL_VTD_CONTEXT_IMAGE
+	reset
+			--
+		do
+			c_evx_set_node_context (self_ptr, parent_context_image.area.base_address)
+		end
+
+feature {EL_XPATH_NODE_CONTEXT} -- Internal attributes
+
+	actual_found_node: EL_XPATH_NODE_CONTEXT
 
 	namespace: STRING
 
    is_memory_owned: BOOLEAN = true
 
-feature {NONE} -- Constants
-
-	Empty_context_image: EL_VTD_CONTEXT_IMAGE
-			--
-		once
-			create Result.make (1, 0)
-		end
-
-	Setter_boolean: EL_XPATH_BOOLEAN_SETTER
-		once
-			create Result
-		end
-
-	Setter_integer: EL_XPATH_INTEGER_SETTER
-		once
-			create Result
-		end
-
-	Setter_natural: EL_XPATH_NATURAL_SETTER
-		once
-			create Result
-		end
-
-	Setter_string: EL_XPATH_ZSTRING_SETTER
-		once
-			create Result
-		end
-
-	Setter_string_8: EL_XPATH_STRING_8_SETTER
-		once
-			create Result
-		end
-
-	Setter_string_32: EL_XPATH_STRING_32_SETTER
-		once
-			create Result
-		end
+	parent_context_image, actual_context_image: EL_VTD_CONTEXT_IMAGE
 
 end

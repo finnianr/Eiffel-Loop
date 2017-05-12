@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_CURL_OPTION_CONSTANTS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-17 12:48:49 GMT (Monday 17th April 2017)"
-	revision: "2"
+	date: "2017-05-09 11:18:17 GMT (Tuesday 9th May 2017)"
+	revision: "3"
 
 class
 	EL_CURL_OPTION_CONSTANTS
@@ -1010,7 +1010,7 @@ feature -- Status report
 
 	is_valid_http_command (v: INTEGER): BOOLEAN
 		do
-			Result := (<< CURLOPT_nobody, CURLOPT_httpget, CURLOPT_post >>).has (v)
+			Result := (<< CURLOPT_header, CURLOPT_httpget, CURLOPT_post >>).has (v)
 		end
 
 	all_options: ARRAY [INTEGER]

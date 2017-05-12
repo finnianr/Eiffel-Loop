@@ -2,12 +2,12 @@ note
 	description: "Eiffel tinkering and minor experiments"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-18 11:34:59 GMT (Tuesday 18th April 2017)"
-	revision: "7"
+	date: "2017-05-11 9:38:06 GMT (Thursday 11th May 2017)"
+	revision: "8"
 
 class EXPERIMENTS_APP
 

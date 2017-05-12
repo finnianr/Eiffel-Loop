@@ -7,12 +7,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-10 9:33:35 GMT (Wednesday 10th August 2016)"
-	revision: "2"
+	date: "2017-04-26 11:56:39 GMT (Wednesday 26th April 2017)"
+	revision: "3"
 
 class
 	EIFFEL_NOTE_EDITOR
@@ -114,7 +114,7 @@ feature {NONE} -- Line states
 				standard_fields [field_name] := Colon_field.value (line)
 
 			elseif is_class_definition_start (line) then
-				state := agent final
+				state := final
 			else
 				output_lines.extend (line)
 			end

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_PATH}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 9:38:12 GMT (Monday 3rd October 2016)"
-	revision: "4"
+	date: "2017-05-09 16:53:09 GMT (Tuesday 9th May 2017)"
+	revision: "5"
 
 deferred class
 	EL_PATH
@@ -18,12 +18,12 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
-	EL_MODULE_DIRECTORY
+	COMPARABLE
 		undefine
 			is_equal, default_create, out, copy
 		end
 
-	COMPARABLE
+	EL_MODULE_DIRECTORY
 		undefine
 			is_equal, default_create, out, copy
 		end
@@ -50,6 +50,16 @@ inherit
 	DEBUG_OUTPUT
 		rename
 			debug_output as as_string_32
+		undefine
+			is_equal, default_create, out, copy
+		end
+
+	EL_STRING_CONSTANTS
+		undefine
+			is_equal, default_create, out, copy
+		end
+
+	EL_SHARED_ONCE_STRINGS
 		undefine
 			is_equal, default_create, out, copy
 		end
@@ -83,11 +93,8 @@ feature -- Initialization
 	make, set_path (a_path: ZSTRING)
 			--
 		local
-			pos_last_separator: INTEGER
-			norm_path: ZSTRING
+			pos_last_separator: INTEGER norm_path: ZSTRING
 		do
-			default_create
-
 			-- Normalize path
 			if not is_uri and then {PLATFORM}.is_windows and then not a_path.has (Separator) then
 				norm_path := a_path.twin
@@ -99,7 +106,7 @@ feature -- Initialization
 			if not norm_path.is_empty then
 				pos_last_separator := norm_path.last_index_of (Separator, norm_path.count)
 				if pos_last_separator = 0 then
-					if {PLATFORM}.is_windows then
+					if not is_uri and then {PLATFORM}.is_windows then
 						pos_last_separator := norm_path.last_index_of (':', norm_path.count)
 					end
 				end
@@ -207,7 +214,9 @@ feature -- Access
 			else
 				number := base.substring (interval.lower, interval.upper)
 				number.prune_all_leading ('0')
-				if number.is_integer then
+				if number.is_empty then
+					Result := 0
+				elseif number.is_integer then
 					Result := number.to_integer
 				else
 					Result := -1
@@ -333,6 +342,23 @@ feature -- Element change
 			append (a_dir_path)
 		end
 
+	append_step (a_step: ZSTRING)
+		require
+			is_step: not a_step.has (Separator)
+		local
+			l_parent_path: like parent_path
+		do
+			create l_parent_path.make (parent_path.count + base.count + 1)
+			l_parent_path.append (parent_path)
+			if not base.is_empty then
+				l_parent_path.append (base)
+				l_parent_path.append_character (Separator)
+			end
+			set_parent_path (l_parent_path)
+			base.wipe_out
+			base.append (a_step)
+		end
+
 	add_extension (a_extension: ZSTRING)
 		local
 			l_base: ZSTRING
@@ -345,14 +371,14 @@ feature -- Element change
 	change_to_unix
 		do
 			if {PLATFORM}.is_windows then
-				parent_path.replace_character (Windows_separator, Unix_separator)
+				replace_separator (Windows_separator, Unix_separator)
 			end
 		end
 
 	change_to_windows
 		do
 			if not {PLATFORM}.is_windows then
-				parent_path.replace_character (Unix_separator, Windows_separator)
+				replace_separator (Unix_separator, Windows_separator)
 			end
 		end
 
@@ -386,11 +412,12 @@ feature -- Element change
 		local
 			l_parent_set: like Parent_set; l_parent: ZSTRING
 		do
-			l_parent := a_parent.twin
-			if l_parent.is_empty then
-				parent_path := l_parent
+			if a_parent.is_empty then
+				parent_path := Empty_string
 			else
-				if l_parent [l_parent.count] /= Separator then
+				l_parent := empty_once_string
+				l_parent.append (a_parent)
+				if a_parent [a_parent.count] /= Separator then
 					l_parent.append_character (Separator)
 				end
 				l_parent_set := Parent_set
@@ -398,11 +425,11 @@ feature -- Element change
 				if l_parent_set.found then
 					parent_path := l_parent_set.found_item
 				else
-					l_parent_set.force_new (l_parent)
-					parent_path := l_parent
+					parent_path := l_parent.twin
+					l_parent_set.force_new (parent_path)
 				end
 			end
-			is_absolute := is_path_absolute (l_parent)
+			is_absolute := is_path_absolute (parent_path)
 		end
 
 	set_version_number (number: like version_number)
@@ -638,6 +665,15 @@ feature {EL_PATH} -- Implementation
 			end
 		end
 
+	replace_separator (separator_old, separator_new: CHARACTER_32)
+		local
+			l_path: like parent_path
+		do
+			l_path := parent_path.twin
+			l_path.replace_character (separator_old, separator_new)
+			set_parent_path (l_path)
+		end
+
 	prune_extension (a_name: like base)
 		do
 			a_name.remove_tail (a_name.count - a_name.last_index_of ('.', a_name.count) + 1 )
@@ -658,6 +694,11 @@ feature {NONE} -- Type definitions
 		end
 
 feature -- Constants
+
+	Separator: CHARACTER_32
+		once
+			Result := Operating_environment.Directory_separator
+		end
 
 	Unix_separator: CHARACTER_32 = '/'
 
@@ -690,11 +731,6 @@ feature {NONE} -- Constants
 			create Result.make_equal (100)
 		end
 
-	Separator: CHARACTER_32
-		once
-			Result := Operating_environment.Directory_separator
-		end
-
 	Variable_cwd: ZSTRING
 		once
 			Result := "$CWD"
@@ -706,4 +742,6 @@ feature {NONE} -- Constants
 			Result.zero_fill
 		end
 
+invariant
+	parent_set_has_parent_path: not parent_path.is_empty implies Parent_set.has (parent_path)
 end

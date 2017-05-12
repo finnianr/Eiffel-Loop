@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_GVFS_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-02-09 13:01:41 GMT (Thursday 9th February 2017)"
-	revision: "3"
+	date: "2017-04-26 11:57:10 GMT (Wednesday 26th April 2017)"
+	revision: "4"
 
 class
 	EL_GVFS_OS_COMMAND
@@ -43,7 +43,7 @@ feature {NONE} -- Line states
 
 	find_line (line: ZSTRING)
 		do
-			state := agent final
+			state := final
 		end
 
 feature {NONE} -- Event handling

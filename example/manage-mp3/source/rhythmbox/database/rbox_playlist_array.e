@@ -2,12 +2,12 @@ note
 	description: "Summary description for {RBOX_PLAYLIST_ARRAY}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 17:27:18 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2017-04-26 11:57:10 GMT (Wednesday 26th April 2017)"
+	revision: "2"
 
 class
 	RBOX_PLAYLIST_ARRAY
@@ -143,7 +143,7 @@ feature {NONE} -- State line procedures
 
 			elseif l_line.starts_with (Final_closing_tag) then
 				append_to_xml (line)
-				state := agent final
+				state := final
 			else
 				append_to_xml (line)
 			end

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_READABLE_ZSTRING}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-18 9:47:32 GMT (Tuesday 18th April 2017)"
-	revision: "6"
+	date: "2017-04-23 6:29:22 GMT (Sunday 23rd April 2017)"
+	revision: "7"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -311,6 +311,33 @@ feature -- Access
 			unencoded_area := other.unencoded_area
 		end
 
+	split_intervals (delimiter: EL_READABLE_ZSTRING): EL_SEQUENTIAL_INTERVALS
+			-- substring intervals of `Current' split with `delimiter'
+		local
+			intervals: like substring_intervals
+			last_interval: INTEGER_64; l_last_upper: INTEGER
+		do
+			intervals := substring_intervals (delimiter)
+			if intervals.is_empty then
+				create Result.make (1)
+				Result.extend (1, count)
+			else
+				create Result.make (intervals.count + 1)
+				last_interval := Result.new_item (1, 0)
+				from intervals.start until intervals.after loop
+					Result.item_extend (intervals.between (last_interval))
+					last_interval := intervals.item
+					intervals.forth
+				end
+				l_last_upper := intervals.last_upper
+				if l_last_upper < count then
+					Result.extend (l_last_upper + 1, count)
+				else
+					Result.extend (1, 0)
+				end
+			end
+		end
+
 	substring_between (start_string, end_string: EL_READABLE_ZSTRING; start_index: INTEGER): like Current
 			-- Returns string between substrings start_string and end_string from start_index.
 			-- if end_string is empty or not found, returns the tail string starting from the character
@@ -368,11 +395,6 @@ feature -- Access
 			Result := substring_index (adapted_general (other, 1), start_index)
 		end
 
-	substring_index_list (str: EL_READABLE_ZSTRING): like internal_substring_index_list
-		do
-			Result := internal_substring_index_list (str).twin
-		end
-
 	substring_index_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
 		do
 			inspect respective_encoding (other)
@@ -390,6 +412,11 @@ feature -- Access
 			Result := substring_index_in_bounds (adapted_general (other, 1), start_pos, end_pos)
 		end
 
+	substring_index_list (str: EL_READABLE_ZSTRING): like internal_substring_index_list
+		do
+			Result := internal_substring_index_list (str).twin
+		end
+
 	substring_intervals (other: EL_READABLE_ZSTRING): EL_SEQUENTIAL_INTERVALS
 		local
 			l_index_list: like internal_substring_index_list
@@ -402,33 +429,6 @@ feature -- Access
 				index := l_index_list.item
 				Result.extend (index, index + l_count  - 1)
 				l_index_list.forth
-			end
-		end
-
-	split_intervals (delimiter: EL_READABLE_ZSTRING): EL_SEQUENTIAL_INTERVALS
-			-- substring intervals of `Current' split with `delimiter'
-		local
-			intervals: like substring_intervals
-			last_interval: INTEGER_64; l_last_upper: INTEGER
-		do
-			intervals := substring_intervals (delimiter)
-			if intervals.is_empty then
-				create Result.make (1)
-				Result.extend (1, count)
-			else
-				create Result.make (intervals.count + 1)
-				last_interval := Result.new_item (1, 0)
-				from intervals.start until intervals.after loop
-					Result.item_extend (intervals.between (last_interval))
-					last_interval := intervals.item
-					intervals.forth
-				end
-				l_last_upper := intervals.last_upper
-				if l_last_upper < count then
-					Result.extend (l_last_upper + 1, count)
-				else
-					Result.extend (1, 0)
-				end
 			end
 		end
 
@@ -523,6 +523,8 @@ feature -- Output
 
 feature -- Measurement
 
+	Lower: INTEGER = 1
+
 	leading_occurrences (uc: CHARACTER_32): INTEGER
 			-- Returns count of continous occurrences of `uc' or white space starting from the begining
 		local
@@ -583,8 +585,6 @@ feature -- Measurement
 		ensure
 			substring_agrees: across substring (1, Result) as uc all character_properties.is_space (uc.item) end
 		end
-
-	Lower: INTEGER = 1
 
 	occurrences (uc: CHARACTER_32): INTEGER
 		local
@@ -1034,17 +1034,11 @@ feature -- Conversion
 			end
 		end
 
-	substring_split (delimiter: EL_READABLE_ZSTRING): ARRAYED_LIST [like Current]
-			-- split string on substring delimiter
-		local
-			intervals: like split_intervals
+	stripped: like Current
 		do
-			intervals := split_intervals (delimiter)
-			create Result.make (intervals.count)
-			from intervals.start until intervals.after loop
-				Result.extend (substring (intervals.item_lower, intervals.item_upper))
-				intervals.forth
-			end
+			Result := twin
+			Result.left_adjust
+			Result.right_adjust
 		end
 
 	substituted_tuple alias "#$" (inserts: TUPLE): like Current
@@ -1075,11 +1069,17 @@ feature -- Conversion
 			Result.append_substring (Current, previous_marker_pos + 1, count)
 		end
 
-	stripped: like Current
+	substring_split (delimiter: EL_READABLE_ZSTRING): ARRAYED_LIST [like Current]
+			-- split string on substring delimiter
+		local
+			intervals: like split_intervals
 		do
-			Result := twin
-			Result.left_adjust
-			Result.right_adjust
+			intervals := split_intervals (delimiter)
+			create Result.make (intervals.count)
+			from intervals.start until intervals.after loop
+				Result.extend (substring (intervals.item_lower, intervals.item_upper))
+				intervals.forth
+			end
 		end
 
 	to_latin_string_8: STRING
@@ -1087,6 +1087,13 @@ feature -- Conversion
 		do
 			create Result.make_filled (Unencoded_character, count)
 			Result.area.copy_data (area, 0, 0, count)
+		end
+
+	to_string_32, to_unicode, as_string_32: STRING_32
+			-- UCS-4
+		do
+			create Result.make (count)
+			append_to_string_32 (Result)
 		end
 
 	to_string_8, to_latin_1, as_string_8: STRING
@@ -1111,6 +1118,16 @@ feature -- Conversion
 			end
 		end
 
+	to_utf_8: STRING
+		local
+			l_unicode: like empty_once_string_32
+		do
+			l_unicode := empty_once_string_32
+			append_to_string_32 (l_unicode)
+			create Result.make (count)
+			UTF.string_32_into_utf_8_string_8 (l_unicode, Result)
+		end
+
 	translated (old_characters, new_characters: EL_READABLE_ZSTRING): like Current
 		do
 			Result := twin
@@ -1121,23 +1138,6 @@ feature -- Conversion
 		do
 			Result := twin
 			Result.translate_general (old_characters, new_characters)
-		end
-
-	to_string_32, to_unicode, as_string_32: STRING_32
-			-- UCS-4
-		do
-			create Result.make (count)
-			append_to_string_32 (Result)
-		end
-
-	to_utf_8: STRING
-		local
-			l_unicode: like empty_once_string_32
-		do
-			l_unicode := empty_once_string_32
-			append_to_string_32 (l_unicode)
-			create Result.make (count)
-			UTF.string_32_into_utf_8_string_8 (l_unicode, Result)
 		end
 
 	unescaped (escape_table: EL_ESCAPE_TABLE): like Current
@@ -1352,6 +1352,36 @@ feature {EL_READABLE_ZSTRING} -- Removal
 
 feature {EL_READABLE_ZSTRING} -- Element change
 
+	append_all (strings: INDEXABLE [like Current, INTEGER])
+		local
+			sum_count, i: INTEGER
+		do
+			from i := strings.lower until i > strings.upper loop
+				sum_count := sum_count + strings.item (i).count
+				i := i + 1
+			end
+			grow (count + sum_count)
+			from i := strings.lower until i > strings.upper loop
+				append (strings [i])
+				i := i + 1
+			end
+		end
+
+	append_all_general (strings: INDEXABLE [READABLE_STRING_GENERAL, INTEGER])
+		local
+			sum_count, i: INTEGER
+		do
+			from i := strings.lower until i > strings.upper loop
+				sum_count := sum_count + strings.item (i).count
+				i := i + 1
+			end
+			grow (count + sum_count)
+			from i := strings.lower until i > strings.upper loop
+				append_string_general (strings [i])
+				i := i + 1
+			end
+		end
+
 	append_boolean (b: BOOLEAN)
 		do
 			current_string.append_boolean (b)
@@ -1372,11 +1402,6 @@ feature {EL_READABLE_ZSTRING} -- Element change
 			current_string.append_integer (n)
 		end
 
-	append_integer_8 (n: INTEGER_8)
-		do
-			current_string.append_integer_8 (n)
-		end
-
 	append_integer_16 (n: INTEGER_16)
 		do
 			current_string.append_integer_16 (n)
@@ -1387,9 +1412,9 @@ feature {EL_READABLE_ZSTRING} -- Element change
 			current_string.append_integer_64 (n)
 		end
 
-	append_natural_8 (n: NATURAL_8)
+	append_integer_8 (n: INTEGER_8)
 		do
-			current_string.append_natural_8 (n)
+			current_string.append_integer_8 (n)
 		end
 
 	append_natural_16 (n: NATURAL_16)
@@ -1405,6 +1430,11 @@ feature {EL_READABLE_ZSTRING} -- Element change
 	append_natural_64 (n: NATURAL_64)
 		do
 			current_string.append_natural_64 (n)
+		end
+
+	append_natural_8 (n: NATURAL_8)
+		do
+			current_string.append_natural_8 (n)
 		end
 
 	append_real (n: REAL)
@@ -1648,11 +1678,6 @@ feature {EL_READABLE_ZSTRING} -- Element change
 			translate_deleting_null_characters (old_characters, new_characters, False)
 		end
 
-	translate_general (old_characters, new_characters: READABLE_STRING_GENERAL)
-		do
-			translate (adapted_general (old_characters, 1), adapted_general (new_characters, 2))
-		end
-
 	translate_deleting_null_characters (old_characters, new_characters: EL_READABLE_ZSTRING; delete_null: BOOLEAN)
 		require
 			each_old_has_new: old_characters.count = new_characters.count
@@ -1661,6 +1686,11 @@ feature {EL_READABLE_ZSTRING} -- Element change
 			valid_unencoded: is_unencoded_valid
 			unchanged_count: not delete_null implies count = old count
 			changed_count: delete_null implies count = old (count - deleted_count (old_characters, new_characters))
+		end
+
+	translate_general (old_characters, new_characters: READABLE_STRING_GENERAL)
+		do
+			translate (adapted_general (old_characters, 1), adapted_general (new_characters, 2))
 		end
 
 feature {EL_READABLE_ZSTRING} -- Removal
@@ -1709,6 +1739,18 @@ feature {EL_READABLE_ZSTRING} -- Duplication
 
 feature {EL_READABLE_ZSTRING} -- Contract Support
 
+	deleted_count (old_characters, new_characters: EL_READABLE_ZSTRING): INTEGER
+		local
+			i: INTEGER
+		do
+			across to_unicode as uc loop
+				i := old_characters.index_of (uc.item, 1)
+				if i > 0 and then new_characters.z_code (i) = 0 then
+					Result := Result + 1
+				end
+			end
+		end
+
 	is_unencoded_valid: BOOLEAN
 			-- True if `unencoded_area' characters consistent with position and number of `Unencoded_character' in `area'
 		local
@@ -1732,18 +1774,6 @@ feature {EL_READABLE_ZSTRING} -- Contract Support
 			end
 		end
 
-	deleted_count (old_characters, new_characters: EL_READABLE_ZSTRING): INTEGER
-		local
-			i: INTEGER
-		do
-			across to_unicode as uc loop
-				i := old_characters.index_of (uc.item, 1)
-				if i > 0 and then new_characters.z_code (i) = 0 then
-					Result := Result + 1
-				end
-			end
-		end
-
 feature {EL_READABLE_ZSTRING, EL_ZSTRING_VIEW} -- Access
 
 	as_expanded: STRING_32
@@ -1762,6 +1792,11 @@ feature {EL_READABLE_ZSTRING, EL_ZSTRING_VIEW} -- Access
 
 feature -- Basic operation
 
+	append_to (output: like Current)
+		do
+			output.append (Current)
+		end
+
 	append_to_general (output: STRING_GENERAL)
 		do
 			if attached {EL_ZSTRING} output as str_z then
@@ -1769,24 +1804,10 @@ feature -- Basic operation
 
 			elseif attached {STRING_32} output as str_32 then
 				append_to_string_32 (str_32)
-				
+
 			elseif attached {STRING_8} output as str_8 then
 				append_to_string_8 (str_8)
 			end
-		end
-
-	append_to (output: like Current)
-		do
-			output.append (Current)
-		end
-
-	append_to_string_8 (output: STRING_8)
-		local
-			str_32: STRING_32
-		do
-			str_32 := empty_once_string_32
-			append_to_string_32 (str_32)
-			output.append_string_general (str_32)
 		end
 
 	append_to_string_32 (output: STRING_32)
@@ -1799,6 +1820,15 @@ feature -- Basic operation
 			output.area [old_count + count] := '%U'
 			codec.decode (count, area, output.area, old_count)
 			write_unencoded (output, old_count)
+		end
+
+	append_to_string_8 (output: STRING_8)
+		local
+			str_32: STRING_32
+		do
+			str_32 := empty_once_string_32
+			append_to_string_32 (str_32)
+			output.append_string_general (str_32)
 		end
 
 feature {NONE} -- Implementation
@@ -1828,15 +1858,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	encoded_character (uc: CHARACTER_32): CHARACTER
-		do
-			if uc.natural_32_code <= Tilde_code then
-				Result := uc.to_character_8
-			else
-				Result := codec.encoded_character (uc.natural_32_code)
-			end
-		end
-
 	encode (a_unicode: READABLE_STRING_GENERAL; area_offset: INTEGER)
 		require
 			valid_area_offset: a_unicode.count > 0 implies area.valid_index (a_unicode.count + area_offset - 1)
@@ -1852,6 +1873,15 @@ feature {NONE} -- Implementation
 				when Only_other then
 					unencoded_area := l_unencoded.area_copy
 			else
+			end
+		end
+
+	encoded_character (uc: CHARACTER_32): CHARACTER
+		do
+			if uc.natural_32_code <= Tilde_code then
+				Result := uc.to_character_8
+			else
+				Result := codec.encoded_character (uc.natural_32_code)
 			end
 		end
 

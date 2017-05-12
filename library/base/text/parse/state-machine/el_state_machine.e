@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_STATE_MACHINE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-20 5:56:55 GMT (Wednesday 20th July 2016)"
-	revision: "1"
+	date: "2017-04-26 12:03:38 GMT (Wednesday 26th April 2017)"
+	revision: "2"
 
 class
 	EL_STATE_MACHINE [G]
@@ -16,7 +16,8 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			state := agent final
+			final := agent (v: G) do end
+			state := final
 			create tuple
 		end
 
@@ -25,15 +26,10 @@ feature -- Basic operations
 	traverse (initial: like state; sequence: LINEAR [G])
 			--
 		local
-			final_state: EL_PROCEDURE
+			l_final: like final
 		do
-			create final_state.make (agent final)
-
-			from
-				item_number := 0; sequence.start; state := initial
-			until
-				sequence.after or final_state.same_procedure (state)
-			loop
+			item_number := 0; l_final := final
+			from sequence.start; state := initial until sequence.after or state = l_final loop
 				item_number := item_number + 1
 				call (sequence.item)
 				sequence.forth
@@ -41,8 +37,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
-
-	item_number: INTEGER
 
 	call (item: G)
 		-- call state procedure with item
@@ -52,10 +46,11 @@ feature {NONE} -- Implementation
 			state.apply
 		end
 
-	frozen final (item: G)
-			--
-		do
-		end
+feature {NONE} -- Internal attributes
+
+	final: like state
+
+	item_number: INTEGER
 
 	state: PROCEDURE [like Current, TUPLE [G]]
 

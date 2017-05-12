@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_VTD_NATIVE_XPATH_I}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-18 10:56:16 GMT (Tuesday 18th April 2017)"
-	revision: "1"
+	date: "2017-04-21 15:37:39 GMT (Friday 21st April 2017)"
+	revision: "2"
 
 deferred class
 	EL_VTD_NATIVE_XPATH_I
