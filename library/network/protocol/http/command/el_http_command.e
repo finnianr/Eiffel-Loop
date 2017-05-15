@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-11 11:48:59 GMT (Thursday 11th May 2017)"
-	revision: "4"
+	date: "2017-05-12 10:25:05 GMT (Friday 12th May 2017)"
+	revision: "5"
 
 deferred class
 	EL_HTTP_COMMAND
 
 inherit
 	EL_C_CALLABLE
-		redefine
-			make
+		rename
+			make as make_callable
 		end
 
 	EL_CURL_OPTION_CONSTANTS
@@ -29,28 +29,29 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_connection: like connection)
 		do
-			Precursor
+			make_callable
+			connection := a_connection
 			listener := progress_listener
 		end
 
 feature -- Basic operations
 
-	execute (connection: EL_HTTP_CONNECTION)
+	execute
 		local
 			callback: like new_callback
 		do
 			reset
 			callback := new_callback
-			prepare (connection)
+			prepare
 			connection.do_transfer
 			callback.release
 		end
 
 feature {NONE} -- Implementation
 
-	prepare (connection: EL_HTTP_CONNECTION)
+	prepare
 		deferred
 		end
 
@@ -59,6 +60,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
+
+	connection: EL_HTTP_CONNECTION
 
 	listener: EL_FILE_PROGRESS_LISTENER
 		-- progress listener

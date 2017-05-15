@@ -2,20 +2,18 @@ note
 	description: "Summary description for {PYXIS_TO_XML_PARSER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:44:32 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-12 14:23:10 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
 	EL_XML_TEXT_GENERATOR
 
 inherit
 	EL_XML_DOCUMENT_SCANNER
-		rename
-			make_xml_text_source as make
 		export
 			{NONE} all
 		redefine
@@ -32,7 +30,7 @@ inherit
 	EL_MODULE_UTF
 
 create
-	make, make_binary_source, make_delimited_source
+	make
 
 feature {NONE} -- Initialization
 

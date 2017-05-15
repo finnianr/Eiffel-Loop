@@ -2,12 +2,12 @@ note
 	description: "Class for parsing XML documents and matching sets of xpaths"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-27 10:42:15 GMT (Saturday 27th August 2016)"
-	revision: "2"
+	date: "2017-05-14 10:28:17 GMT (Sunday 14th May 2017)"
+	revision: "3"
 
 class
 	EL_XPATH_MATCH_SCAN_SOURCE
@@ -15,45 +15,27 @@ class
 inherit
 	EL_XML_NODE_SCAN_SOURCE
 		rename
-			make_xml_text_source as make,
 			seed_object as target_object,
 			set_seed_object as set_target_object
 		redefine
-			make, make_pyxis_source, target_object, set_target_object
+			make_default, target_object, set_target_object
 		end
 
 	EL_MODULE_LIO
 
 create
-	make, make_pyxis_source
+	make
 
 feature {NONE}  -- Initialisation
 
-	make
+	make_default
 			--
 		do
 			Precursor
-			initialize
-		end
-
-	make_pyxis_source
-			--
-		do
-			Precursor
-			initialize
-		end
-
-	initialize
-			--
-		do
 			create xpath_step_lookup
-
 			create last_node_xpath.make (xpath_step_lookup)
-
 			create node_START_procedure_lookup.make (23)
-
 			create node_END_procedure_lookup.make (23)
-
 			create node_START_wildcard_xpath_search_term_list.make
 			create node_END_wildcard_xpath_search_term_list.make
 		end
@@ -70,7 +52,34 @@ feature -- Element change
 
 feature {NONE} -- Parsing events
 
-	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
+	on_comment
+			--
+		do
+			on_content
+		end
+
+	on_content
+			--
+		do
+			last_node_xpath.append_step (last_node.xpath_name)
+			call_any_matching_procedures (node_START_procedure_lookup, node_START_wildcard_xpath_search_term_list)
+			last_node_xpath.remove
+		end
+
+	on_end_document
+			--
+		do
+			reset
+		end
+
+	on_end_tag
+			--
+		do
+			call_any_matching_procedures (node_END_procedure_lookup, node_END_wildcard_xpath_search_term_list)
+			last_node_xpath.remove
+		end
+
+	on_processing_instruction
 			--
 		do
 		end
@@ -78,12 +87,6 @@ feature {NONE} -- Parsing events
 	on_start_document
 			--
 		do
-		end
-
-	on_end_document
-			--
-		do
-			initialize
 		end
 
 	on_start_tag
@@ -108,78 +111,42 @@ feature {NONE} -- Parsing events
 			end
 		end
 
-	on_end_tag
-			--
-		do
-			call_any_matching_procedures (node_END_procedure_lookup, node_END_wildcard_xpath_search_term_list)
-			last_node_xpath.remove
-		end
-
-	on_content
-			--
-		do
-			last_node_xpath.append_step (last_node.xpath_name)
-			call_any_matching_procedures (node_START_procedure_lookup, node_START_wildcard_xpath_search_term_list)
-			last_node_xpath.remove
-		end
-
-	on_comment
-			--
-		do
-			on_content
-		end
-
-	on_processing_instruction
+	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
 			--
 		do
 		end
 
 feature {NONE} -- Implementation
 
-	target_object: EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
+	reset
+		do
+			xpath_step_lookup.wipe_out
+			last_node_xpath.wipe_out
+			node_START_procedure_lookup.wipe_out
+			node_END_procedure_lookup.wipe_out
+			node_START_wildcard_xpath_search_term_list.wipe_out
+			node_END_wildcard_xpath_search_term_list.wipe_out
+		end
 
-	last_node_xpath: EL_TOKENIZED_XPATH
+feature {NONE} -- Internal attributes
 
 	last_node_id: INTEGER_16
 
-	node_START_procedure_lookup: HASH_TABLE [PROCEDURE [ANY, TUPLE], EL_TOKENIZED_XPATH]
+	last_node_xpath: EL_TOKENIZED_XPATH
 
 	node_END_procedure_lookup: like node_START_procedure_lookup
 
+	node_END_wildcard_xpath_search_term_list: like node_START_wildcard_xpath_search_term_list
+
+	node_START_procedure_lookup: HASH_TABLE [PROCEDURE [ANY, TUPLE], EL_TOKENIZED_XPATH]
+
 	node_START_wildcard_xpath_search_term_list: LINKED_LIST [EL_TOKENIZED_XPATH]
 
-	node_END_wildcard_xpath_search_term_list: like node_START_wildcard_xpath_search_term_list
+	target_object: EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS [EL_PARSE_EVENT_SOURCE]
 
 	xpath_step_lookup: EL_XPATH_TOKEN_TABLE
 
 feature {NONE} -- Xpath matching operations
-
-	call_any_matching_procedures (
-		procedure_lookup: like node_START_procedure_lookup;
-		wildcard_search_term_list: like node_START_wildcard_xpath_search_term_list
-	)
-			--
-		do
-			debug ("EL_XPATH_MATCH_SCAN_SOURCE")
-				lio.put_string_field ("Xpath current node ", last_node_xpath.out)
-				lio.put_new_line
-			end
-			-- first try and match full path
-			procedure_lookup.search (last_node_xpath)
-			if procedure_lookup.found then
-
-				procedure_lookup.found_item.call ([])
-			end
-			from wildcard_search_term_list.start until wildcard_search_term_list.off loop
-				if last_node_xpath.matches_wildcard (wildcard_search_term_list.item) then
-					procedure_lookup.search (wildcard_search_term_list.item)
-					if procedure_lookup.found then
-						procedure_lookup.found_item.call ([])
-					end
-				end
-				wildcard_search_term_list.forth
-			end
-		end
 
 	add_node_action_to_procedure_lookup (
 		node_procedure_lookup: like node_START_procedure_lookup;
@@ -209,6 +176,33 @@ feature {NONE} -- Xpath matching operations
 				lio.put_string_field ("Tokenized xpath", xpath.out)
 				lio.put_new_line
 				lio.put_new_line
+			end
+		end
+
+	call_any_matching_procedures (
+		procedure_lookup: like node_START_procedure_lookup;
+		wildcard_search_term_list: like node_START_wildcard_xpath_search_term_list
+	)
+			--
+		do
+			debug ("EL_XPATH_MATCH_SCAN_SOURCE")
+				lio.put_string_field ("Xpath current node ", last_node_xpath.out)
+				lio.put_new_line
+			end
+			-- first try and match full path
+			procedure_lookup.search (last_node_xpath)
+			if procedure_lookup.found then
+
+				procedure_lookup.found_item.call ([])
+			end
+			from wildcard_search_term_list.start until wildcard_search_term_list.off loop
+				if last_node_xpath.matches_wildcard (wildcard_search_term_list.item) then
+					procedure_lookup.search (wildcard_search_term_list.item)
+					if procedure_lookup.found then
+						procedure_lookup.found_item.call ([])
+					end
+				end
+				wildcard_search_term_list.forth
 			end
 		end
 

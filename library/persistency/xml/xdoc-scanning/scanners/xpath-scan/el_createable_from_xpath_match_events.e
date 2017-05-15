@@ -2,20 +2,20 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 14:29:37 GMT (Thursday 1st January 2015)"
-	revision: "1"
+	date: "2017-05-14 11:51:49 GMT (Sunday 14th May 2017)"
+	revision: "2"
 
 deferred class
-	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
+	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS [EVENT_SOURCE -> EL_PARSE_EVENT_SOURCE]
 
 inherit
-	EL_CREATEABLE_FROM_XML
+	EL_CREATEABLE_FROM_NODE_SCAN
 		rename
-			node_source as Node_match_source
+			node_source as node_match_source
 		end
 
 feature -- Access
@@ -49,13 +49,14 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	last_node: EL_XML_NODE
-
-	Node_match_source: EL_XPATH_MATCH_SCAN_SOURCE
-			--
-		once
-			create Result.make
+	new_node_source: EL_XPATH_MATCH_SCAN_SOURCE
+		do
+			create Result.make ({EVENT_SOURCE})
 		end
+
+feature {NONE} -- Internal attributes
+
+	last_node: EL_XML_NODE
 
 feature {NONE} -- Anchored type declaration
 
@@ -65,8 +66,9 @@ feature {NONE} -- Anchored type declaration
 
 feature {NONE} -- Constants
 
-	on_open: BOOLEAN = true
-
 	on_close: BOOLEAN = false
 
+	on_open: BOOLEAN = true
+
 end -- class EL_XML_EVENT_PROCESSOR
+

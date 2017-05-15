@@ -2,20 +2,19 @@ note
 	description: "Eiffel object model"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 16:08:35 GMT (Thursday 24th December 2015)"
-	revision: "1"
+	date: "2017-05-14 13:37:22 GMT (Sunday 14th May 2017)"
+	revision: "2"
 
 class
-	EL_XML_TO_EIFFEL_OBJECT_BUILDER
+	EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
 
 inherit
 	EL_XML_NODE_SCAN_SOURCE
 		rename
-			make_xml_text_source as make,
 			seed_object as target,
 			set_seed_object as set_target
 		redefine
@@ -23,7 +22,7 @@ inherit
 		end
 
 create
-	make, make_pyxis_source, make_delimited_source
+	make
 
 feature {NONE}  -- Initialisation
 
@@ -148,9 +147,9 @@ feature {NONE} -- Implementation
 			context_stack.item.remove_xpath_step
 		end
 
-	context_stack:  ARRAYED_STACK [EL_EIF_OBJ_XPATH_CONTEXT]
+	context_stack: ARRAYED_STACK [EL_EIF_OBJ_XPATH_CONTEXT]
 
-	target: EL_BUILDABLE_FROM_XML
-		-- target object to build from XML
+	target: EL_BUILDABLE_FROM_NODE_SCAN
+		-- target object to build from XML node scan
 
-end -- class EL_XML_TO_EIFFEL_OBJECT_BUILDER
+end

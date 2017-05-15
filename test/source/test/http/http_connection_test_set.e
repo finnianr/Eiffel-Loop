@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-11 12:18:01 GMT (Thursday 11th May 2017)"
-	revision: "5"
+	date: "2017-05-12 10:37:02 GMT (Friday 12th May 2017)"
+	revision: "6"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -227,7 +227,7 @@ feature {NONE} -- Implementation
 		do
 			assert ("valid date_stamp", headers.date_stamp.date ~ create {DATE}.make_now)
 			assert ("valid response_code", headers.response_code = 200)
-			assert ("valid server", headers.server.starts_with ("gunicorn"))
+			assert ("valid server", is_server_name (headers.server))
 		end
 
 	document_retrieved_table: EL_HASH_TABLE [PREDICATE [like Current, TUPLE [STRING]], STRING]
@@ -243,6 +243,14 @@ feature {NONE} -- Implementation
 	h1_text (text: ZSTRING): ZSTRING
 		do
 			Result := element_text ("h1", text)
+		end
+
+	is_server_name (text: STRING): BOOLEAN
+		local
+			parts: LIST [STRING]
+		do
+			parts := text.split ('/')
+			Result := parts.count = 2 and then across parts.last.split ('.') as n all n.item.is_natural end
 		end
 
 	title_text (text: ZSTRING): ZSTRING

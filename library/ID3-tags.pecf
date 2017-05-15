@@ -6,11 +6,8 @@ pyxis-doc:
 # cosmetics, trinkets or jewellery. 
 
 system:
-	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
-	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
-	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = EL_id3_tags 
-	uuid = "229b4fae-09aa-11df-8771-e7444f3b4d30" 
+	configuration_ns = "1-8-0"
+	name = EL_id3_tags; uuid = "229b4fae-09aa-11df-8771-e7444f3b4d30" 
 	library_target = EL_id3_tags
 	
 	target:

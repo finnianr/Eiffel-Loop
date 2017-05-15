@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 16:08:14 GMT (Thursday 24th December 2015)"
-	revision: "1"
+	date: "2017-05-14 11:52:04 GMT (Sunday 14th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_XML_NODE_SCAN_SOURCE
@@ -43,6 +43,6 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	seed_object: EL_CREATEABLE_FROM_XML
+	seed_object: EL_CREATEABLE_FROM_NODE_SCAN
 
 end

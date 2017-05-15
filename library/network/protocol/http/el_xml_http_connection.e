@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-11 12:26:57 GMT (Thursday 11th May 2017)"
-	revision: "4"
+	date: "2017-05-12 9:42:47 GMT (Friday 12th May 2017)"
+	revision: "5"
 
 class
 	EL_XML_HTTP_CONNECTION
@@ -64,10 +64,10 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Implementation
 
-	do_command (command: EL_HTTP_STRING_COMMAND)
+	do_command (command: EL_STRING_DOWNLOAD_HTTP_COMMAND)
 		do
 			Precursor (command)
-			if not attached {EL_HTTP_HEAD_COMMAND} command then
+			if not attached {EL_HEAD_HTTP_COMMAND} command then
 				if has_error or else has_some_http_error or else not last_string.starts_with ("<?xml") then
 					on_not_xml_read
 				else

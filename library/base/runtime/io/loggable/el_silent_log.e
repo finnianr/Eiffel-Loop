@@ -2,12 +2,12 @@ note
 	description: "Silent 'do nothing' log"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-14 12:23:13 GMT (Wednesday 14th December 2016)"
-	revision: "2"
+	date: "2017-05-15 9:48:53 GMT (Monday 15th May 2017)"
+	revision: "3"
 
 class
 	EL_SILENT_LOG
@@ -23,7 +23,7 @@ feature -- Status
 		do
 		end
 
-feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LOG} -- Element change
+feature {EL_CONSOLE_ONLY_LOG} -- Element change
 
 	restore (previous_stack_count: INTEGER)
 			--

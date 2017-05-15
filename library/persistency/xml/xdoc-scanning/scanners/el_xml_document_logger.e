@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_XML_DOCUMENT_LOGGER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 20:13:13 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-12 12:02:52 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
 	EL_XML_DOCUMENT_LOGGER
@@ -26,7 +26,7 @@ inherit
 	EL_MODULE_LIO
 
 create
-	make_pyxis_source
+	make
 
 feature {NONE} -- Initialization
 

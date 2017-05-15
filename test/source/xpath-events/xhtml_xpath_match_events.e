@@ -12,18 +12,18 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 18:45:34 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2017-05-14 10:24:21 GMT (Sunday 14th May 2017)"
+	revision: "2"
 
 class
 	XHTML_XPATH_MATCH_EVENTS
 
 inherit
-	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
+	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS [EL_EXPAT_XML_PARSER]
 
 	EL_MODULE_LOG
 

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {TEST_RHYTHMBOX_MUSIC_MANAGER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-25 11:42:42 GMT (Sunday 25th September 2016)"
-	revision: "2"
+	date: "2017-05-14 12:57:58 GMT (Sunday 14th May 2017)"
+	revision: "3"
 
 class
 	TEST_MUSIC_MANAGER
@@ -147,7 +147,6 @@ feature {NONE} -- Implementation
 		do
 			xml_text := File_system.plain_text (a_file_path)
 			xml_text.replace_substring_all ("$MUSIC", config.music_dir.to_string.to_latin_1)
-
 			create xml_file.make_open_write (a_file_path)
 			xml_file.put_string (xml_text)
 			xml_file.close

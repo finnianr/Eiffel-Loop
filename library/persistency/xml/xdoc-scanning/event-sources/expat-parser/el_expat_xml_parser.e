@@ -10,18 +10,18 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-04 8:13:42 GMT (Tuesday 4th October 2016)"
-	revision: "3"
+	date: "2017-05-12 15:00:31 GMT (Friday 12th May 2017)"
+	revision: "4"
 
 class
 	EL_EXPAT_XML_PARSER
 
 inherit
-	EL_XML_PARSE_EVENT_SOURCE
+	EL_PARSE_EVENT_SOURCE
 		redefine
 			make, has_error, log_error
 		end
@@ -64,16 +64,9 @@ inherit
 		end
 
 create
-	make, make_delimited
+	make
 
 feature {NONE}  -- Initialisation
-
-	make_delimited (a_scanner: like scanner)
-			--
-		do
-			make (a_scanner)
-			is_stream_delimited := True
-		end
 
 	make (a_scanner: like scanner)
 			--
@@ -130,14 +123,6 @@ feature -- Basic operations
 			callback.release
 		end
 
-feature -- Element change
-
-	set_stream_delimited (flag: BOOLEAN)
-			--
-		do
-			is_stream_delimited := flag
-		end
-
 feature -- Status report
 
 	is_incremental: BOOLEAN = true
@@ -150,9 +135,6 @@ feature -- Status report
 	is_memory_owned: BOOLEAN = true
 
 	is_new_parser: BOOLEAN
-
-	is_stream_delimited: BOOLEAN
-		-- is end of stream delimited by Ctrl-z character
 
 	has_error: BOOLEAN
 		do
@@ -200,32 +182,17 @@ feature -- Error reporting
 			a_log.put_new_line
 		end
 
-feature {EL_XML_PARSER_OUTPUT_MEDIUM} -- Implementation: routines
+feature {EL_XML_PARSER_OUTPUT_MEDIUM} -- Implementation
 
 	parse_incremental_from_stream (a_stream: IO_MEDIUM)
 			-- Parse partial XML document from input stream.
 			-- After the last part of the data has been fed into the parser,
 			-- call `finish_incremental' to get any pending error messages.
-		local
-			delimiter_found: BOOLEAN
-			l_string: STRING
 		do
 			create {EL_XML_DEFAULT_URI_SOURCE} source.make (a_stream.name)
-			if is_stream_delimited then
-				from scanner.on_start_document until not is_correct or delimiter_found loop
-					a_stream.read_stream (read_block_size)
-					l_string := a_stream.last_string
-					if l_string.item (l_string.count) = End_of_stream_delimiter then
-						delimiter_found := True
-						l_string.remove_tail (1)
-					end
-					parse_string_and_set_error (l_string, False)
-				end
-			else
-				from scanner.on_start_document until not (is_correct and a_stream.readable) loop
-					a_stream.read_stream (read_block_size)
-					parse_string_and_set_error (a_stream.last_string, False)
-				end
+			from scanner.on_start_document until not (is_correct and a_stream.readable) loop
+				a_stream.read_stream (read_block_size)
+				parse_string_and_set_error (a_stream.last_string, False)
 			end
 		end
 
@@ -517,12 +484,6 @@ feature {NONE} -- Constants
 			-- expat library version (e.g. "expat_1.95.5").
 		once
 			create Result.make_from_c (exml_xml_expatversion)
-		end
-
-	End_of_stream_delimiter: CHARACTER
-			--
-		once
-			Result := {ASCII}.Ctrl_z.to_character_8
 		end
 
 end

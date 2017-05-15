@@ -2,12 +2,12 @@ note
 	description: "Summary description for {PYXIS_TO_XML_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-19 11:35:49 GMT (Thursday 19th January 2017)"
-	revision: "2"
+	date: "2017-05-12 17:14:51 GMT (Friday 12th May 2017)"
+	revision: "3"
 
 class
 	PYXIS_TO_XML_APP
@@ -30,14 +30,14 @@ feature -- Testing
 	test_run
 			--
 		do
-			Test.do_all_files_test ("pyxis/localization", "*.pyx", agent test_pyxis_to_xml, 1307182839)
+--			Test.do_all_files_test ("pyxis/localization", "*.pyx", agent test_pyxis_to_xml, 2102789230)
 --			Test.do_all_files_test ("pyxis", "*", agent test_pyxis_to_xml, 2885827006)
 
 --			Test.do_file_test ("pyxis/translations.xml.pyx", agent test_pyxis_to_xml_from_string_medium, 1044910295)
 
 --			Test.do_file_test ("pyxis/translations.xml.pyx", agent test_pyxis_parser, 1282092045)
 
---			Test.do_file_test ("pyxis/eiffel-loop.pecf", agent test_pyxis_to_xml, 3829952929)
+			Test.do_file_test ("pyxis/eiffel-loop.pecf", agent test_pyxis_to_xml, 1939476645)
 
 --			Test.do_file_test ("pyxis/configuration.xsd.pyx", agent test_pyxis_to_xml, 638220420)
 
@@ -63,7 +63,7 @@ feature -- Testing
 		do
 			log.enter_with_args ("test_pyxis_parser", << file_path.to_string >>)
 			create pyxis_file.make_open_read (file_path)
-			create document_logger.make_pyxis_source
+			create document_logger.make ({EL_PYXIS_PARSER})
 			document_logger.scan_from_stream (pyxis_file)
 			pyxis_file.close
 			log.exit

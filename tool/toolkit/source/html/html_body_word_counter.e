@@ -2,12 +2,12 @@ note
 	description: "Summary description for {HTML_BODY_WORD_COUNTER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 8:08:30 GMT (Friday 1st July 2016)"
-	revision: "1"
+	date: "2017-05-12 11:23:43 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
 	HTML_BODY_WORD_COUNTER
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 			log.enter_with_args ("count_words", << body_path.to_string.to_utf_8 >>)
 			create xhtml.make (OS.File_system.plain_text (body_path))
 			create counter
-			create node_event_generator.make (counter)
+			create node_event_generator.make_with_handler (counter)
 			node_event_generator.scan (xhtml.source)
 			log.put_integer_field ("Words", counter.count)
 

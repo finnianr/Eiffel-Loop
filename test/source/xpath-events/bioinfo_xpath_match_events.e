@@ -2,18 +2,18 @@ note
 	description: "Summary description for {BIOINFO_XPATH_MATCH_EVENT_PROCESSOR}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:39:37 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-14 10:23:59 GMT (Sunday 14th May 2017)"
+	revision: "2"
 
 class
 	BIOINFO_XPATH_MATCH_EVENTS
 
 inherit
-	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
+	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS [EL_EXPAT_XML_PARSER]
 
 	EL_MODULE_LOG
 

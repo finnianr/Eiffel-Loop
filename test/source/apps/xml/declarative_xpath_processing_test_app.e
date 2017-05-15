@@ -2,12 +2,12 @@ note
 	description: "Summary description for {DECLARATIVE_XPATH_PROCESSING_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 11:21:44 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-12 12:34:30 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
 	DECLARATIVE_XPATH_PROCESSING_TEST_APP
@@ -26,8 +26,8 @@ feature -- Basic operations
 	test_run
 			--
 		do
---			Test.do_file_test ("XML/creatable/linguistic-analysis.smil", agent test_smil, 291495884)
---			Test.do_file_test ("vtd-xml/bioinfo.xml", agent test_bioinfo, 3962792973)
+			Test.do_file_test ("XML/creatable/linguistic-analysis.smil", agent test_smil, 1080262066)
+			Test.do_file_test ("vtd-xml/bioinfo.xml", agent test_bioinfo, 1876270734)
 --			Test.do_file_test ("XML/Hexagrams.xhtml", agent test_xhtml, 780707548)-- Doesn't work
 --			Test.do_file_test ("XML/Hexagrams.utf8.xhtml", agent test_xhtml, 780707548)
 		end

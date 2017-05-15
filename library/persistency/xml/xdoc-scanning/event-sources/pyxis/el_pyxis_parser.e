@@ -2,18 +2,18 @@ note
 	description: "Summary description for {EL_PYXIS_PARSER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-03 15:02:10 GMT (Monday 3rd April 2017)"
-	revision: "2"
+	date: "2017-05-12 15:00:31 GMT (Friday 12th May 2017)"
+	revision: "3"
 
 class
 	EL_PYXIS_PARSER
 
 inherit
-	EL_XML_PARSE_EVENT_SOURCE
+	EL_PARSE_EVENT_SOURCE
 		redefine
 			make
 		end

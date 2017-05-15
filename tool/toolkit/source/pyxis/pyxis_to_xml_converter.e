@@ -2,12 +2,12 @@ note
 	description: "Summary description for {PYXIS_TO_XML_CONVERTER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-19 10:26:13 GMT (Thursday 19th January 2017)"
-	revision: "3"
+	date: "2017-05-12 12:56:22 GMT (Friday 12th May 2017)"
+	revision: "4"
 
 class
 	PYXIS_TO_XML_CONVERTER
@@ -30,11 +30,9 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 		do
 			source_path  := a_source_path
 			output_path := a_output_path
-			create xml_generator.make
-
 			if output_path.is_empty then
 				extension := source_path.extension
-				if extension.same_string ("pecf") then
+				if extension ~ Pecf then
 					output_path := source_path.with_new_extension ("ecf")
 				else
 					output_path := source_path.without_extension
@@ -42,7 +40,11 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 			else
 				File_system.make_directory (a_output_path.parent)
 			end
-
+			if extension ~ Pecf then
+				create {ECF_XML_GENERATOR} xml_generator.make
+			else
+				create xml_generator.make
+			end
 		end
 
 feature -- Basic operations
@@ -78,10 +80,16 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	source_path: EL_FILE_PATH
-
 	output_path: EL_FILE_PATH
+
+	source_path: EL_FILE_PATH
 
 	xml_generator: EL_PYXIS_XML_TEXT_GENERATOR
 
+feature {NONE} -- Constants
+
+	Pecf: ZSTRING
+		once
+			Result := "pecf"
+		end
 end

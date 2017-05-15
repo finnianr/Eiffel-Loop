@@ -2,12 +2,12 @@ note
 	description: "Summary description for {DATABASE_EXPORT_CONFIG}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-24 10:22:18 GMT (Tuesday 24th January 2017)"
-	revision: "3"
+	date: "2017-05-14 13:30:37 GMT (Sunday 14th May 2017)"
+	revision: "4"
 
 class
 	MANAGER_CONFIG
@@ -94,8 +94,6 @@ feature -- Attributes access
 
 	task: STRING
 
-	test_checksum: NATURAL
-
 	volume: TUPLE [name, type: ZSTRING; destination_dir: EL_DIR_PATH; is_windows_format: BOOLEAN; id3_version: REAL]
 
 feature -- Basic operations
@@ -150,7 +148,6 @@ feature {NONE} -- Build from XML
 			create Result.make (<<
 				["@is_dry_run", 								agent do is_dry_run := node.to_boolean end],
 				["@task", 										agent do task := node.to_string.as_string_8 end],
-				["@test_checksum", 							agent do test_checksum := node.to_natural end],
 				["@music_dir", 								agent do music_dir := node.to_expanded_dir_path end],
 
 				["archive-dir/text()",						agent do archive_dir := node.to_expanded_dir_path end],

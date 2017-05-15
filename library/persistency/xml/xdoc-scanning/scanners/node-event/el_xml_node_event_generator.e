@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 13:16:18 GMT (Thursday 24th December 2015)"
-	revision: "1"
+	date: "2017-05-12 11:57:13 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
 	EL_XML_NODE_EVENT_GENERATOR
@@ -19,14 +19,14 @@ inherit
 		end
 
 create
-	make
+	make_with_handler
 
 feature -- Element change
 
-	make (a_handler: like handler)
+	make_with_handler (a_handler: like handler)
 		do
 			handler := a_handler
-			make_xml_text_source
+			make ({EL_EXPAT_XML_PARSER})
 		end
 
 feature {NONE} -- Parsing events

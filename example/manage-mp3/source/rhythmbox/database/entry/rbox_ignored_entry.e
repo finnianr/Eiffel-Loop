@@ -2,12 +2,12 @@ note
 	description: "Summary description for {RBOX_IGNORED_FILE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-24 18:25:51 GMT (Tuesday 24th January 2017)"
-	revision: "2"
+	date: "2017-05-14 12:40:19 GMT (Sunday 14th May 2017)"
+	revision: "3"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -99,7 +99,7 @@ feature {NONE} -- Build from XML
 
 feature -- Constants
 
-	Protocol: STRING
+	Protocol: ZSTRING
 		once
 			Result := "file"
 		end

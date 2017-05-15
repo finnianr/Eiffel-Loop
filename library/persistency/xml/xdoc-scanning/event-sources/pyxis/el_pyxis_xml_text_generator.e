@@ -5,27 +5,34 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 18:48:40 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2017-05-12 12:04:09 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
 	EL_PYXIS_XML_TEXT_GENERATOR
 
 inherit
 	EL_XML_TEXT_GENERATOR
+
 		rename
-			make as make_xml_source,
-			make_pyxis_source as make
+			make as make_generator
 		redefine
 			xml_escaper
 		end
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			make_generator ({EL_PYXIS_PARSER})
+		end
 
 feature {NONE} -- Constants
 

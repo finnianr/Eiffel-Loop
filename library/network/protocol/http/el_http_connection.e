@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-11 12:15:38 GMT (Thursday 11th May 2017)"
-	revision: "7"
+	date: "2017-05-12 9:55:18 GMT (Friday 12th May 2017)"
+	revision: "8"
 
 class
 	EL_HTTP_CONNECTION
@@ -193,11 +193,8 @@ feature -- Basic operations
 
 	download (file_path: EL_FILE_PATH)
 			-- save document downloaded using the HTTP GET command
-		local
-			download_cmd: EL_SAVED_HTTP_GET_COMMAND
 		do
-			create download_cmd.make (file_path)
-			download_cmd.execute (Current)
+			do_command (create {EL_FILE_DOWNLOAD_HTTP_COMMAND}.make (Current, file_path))
 		end
 
 	open (a_url: like url)
@@ -216,19 +213,19 @@ feature -- Basic operations
 	read_string_get
 		-- read document string using the HTTP GET command
 		do
-			do_command (create {EL_HTTP_GET_COMMAND}.make)
+			do_command (create {EL_GET_HTTP_COMMAND}.make (Current))
 		end
 
 	read_string_head
 		-- read document headers string using the HTTP HEAD command
 		do
-			do_command (create {EL_HTTP_HEAD_COMMAND}.make)
+			do_command (create {EL_HEAD_HTTP_COMMAND}.make (Current))
 		end
 
 	read_string_post
 		-- read document string using the HTTP POST command
 		do
-			do_command (create {EL_HTTP_POST_COMMAND}.make)
+			do_command (create {EL_POST_HTTP_COMMAND}.make (Current))
 		end
 
 feature -- Status setting
@@ -591,13 +588,15 @@ feature {EL_HTTP_COMMAND} -- Implementation
 
 feature {NONE} -- Implementation
 
-	do_command (command: EL_HTTP_STRING_COMMAND)
+	do_command (command: EL_DOWNLOAD_HTTP_COMMAND)
 		do
-			command.execute (Current)
-			if has_error then
-				last_string.wipe_out
-			else
-				last_string.share (command.string)
+			command.execute
+			if attached {EL_STRING_DOWNLOAD_HTTP_COMMAND} command as string_download then
+				if has_error then
+					last_string.wipe_out
+				else
+					last_string.share (string_download.string)
+				end
 			end
 		end
 

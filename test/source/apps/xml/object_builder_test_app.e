@@ -2,12 +2,12 @@ note
 	description: "Test conversion of SMIL and XHTML documents to Eiffel and serialization back to XML."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-29 9:40:35 GMT (Thursday 29th September 2016)"
-	revision: "2"
+	date: "2017-05-14 11:34:25 GMT (Sunday 14th May 2017)"
+	revision: "3"
 
 class
 	OBJECT_BUILDER_TEST_APP
@@ -27,7 +27,7 @@ feature {NONE} -- Initiliazation
 			--
 		do
 			Precursor
-			create smart_builder.make
+			smart_builder := new_smart_builder
 		end
 
 feature -- Basic operations
@@ -43,27 +43,6 @@ feature -- Basic operations
 		end
 
 feature -- Tests
-
-	smart_build_file (file_path: EL_FILE_PATH)
-			--
-		do
-			log.enter_with_args ("smart_build_file", << file_path >>)
-			smart_builder.build_from_file (file_path)
-
-			if attached {EL_BUILDABLE_XML_FILE_PERSISTENT} smart_builder.target as storable then
-				storable.set_output_path (file_path)
-				storable.store
-			end
-			log.exit
-		end
-
-	read_and_save (file_path: EL_FILE_PATH; constructed_object: EVOLICITY_SERIALIZEABLE_AS_XML)
-			--
-		do
-			log.enter_with_args ("read_and_save", << file_path.to_string >>)
-			constructed_object.save_as_xml (file_path)
-			log.exit
-		end
 
 	build_and_serialize_file (file_path: EL_FILE_PATH)
 			--
@@ -95,17 +74,37 @@ feature -- Tests
 			log.exit
 		end
 
-	smart_builder: EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER
+	read_and_save (file_path: EL_FILE_PATH; constructed_object: EVOLICITY_SERIALIZEABLE_AS_XML)
+			--
+		do
+			log.enter_with_args ("read_and_save", << file_path.to_string >>)
+			constructed_object.save_as_xml (file_path)
+			log.exit
+		end
 
---	createable: EL_BUILDABLE_FROM_XML_2 [EL_OBJECT_BUILDING_XML_NODE_VISITOR]
+	smart_build_file (file_path: EL_FILE_PATH)
+			--
+		do
+			log.enter_with_args ("smart_build_file", << file_path >>)
+			smart_builder.build_from_file (file_path)
+
+			if attached {EL_FILE_PERSISTENT_BUILDABLE_FROM_XML} smart_builder.target as storable then
+				storable.set_output_path (file_path)
+				storable.store
+			end
+			log.exit
+		end
+
+	new_smart_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN [EL_PARSE_EVENT_SOURCE]
+		do
+			create {EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER} Result.make
+		end
+
+feature {NONE} -- Internal attributes
+
+	smart_builder: like new_smart_builder
 
 feature {NONE} -- Constants
-
-	Option_name: STRING
-			--
-		once
-			Result := "object_builder"
-		end
 
 	Description: STRING
 		once
@@ -127,6 +126,12 @@ feature {NONE} -- Constants
 				[{WEB_FORM_LINE_BREAK}, All_routines],
 				[{MATRIX_CALCULATOR}, "find_column_sum, find_column_average, set_calculation_procedure, add_row, -add_row_col"]
 			>>
+		end
+
+	Option_name: STRING
+			--
+		once
+			Result := "object_builder"
 		end
 
 end

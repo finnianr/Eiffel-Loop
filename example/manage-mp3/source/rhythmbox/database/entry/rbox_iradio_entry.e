@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-21 12:26:44 GMT (Friday 21st April 2017)"
-	revision: "3"
+	date: "2017-05-14 12:41:06 GMT (Sunday 14th May 2017)"
+	revision: "4"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -179,7 +179,7 @@ feature {NONE} -- Constants
 			Result := << "album_artists_prefix", "encoding" >>
 		end
 
-	Protocol: STRING
+	Protocol: ZSTRING
 		once
 			Result := "http"
 		end
