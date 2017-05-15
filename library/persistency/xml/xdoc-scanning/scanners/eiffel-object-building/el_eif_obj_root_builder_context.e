@@ -2,12 +2,12 @@ note
 	description: ""
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-23 11:05:00 GMT (Wednesday 23rd December 2015)"
-	revision: "1"
+	date: "2017-05-14 11:56:43 GMT (Sunday 14th May 2017)"
+	revision: "2"
 
 class
 	EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
@@ -56,7 +56,7 @@ feature -- Element change
 
 feature -- Access
 
-	target: EL_BUILDABLE_FROM_XML
+	target: EL_BUILDABLE_FROM_NODE_SCAN
 		-- Target object to build from XML
 
 feature {NONE} -- Implementation

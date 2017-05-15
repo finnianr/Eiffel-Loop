@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 6:51:59 GMT (Monday 20th June 2016)"
-	revision: "1"
+	date: "2017-05-12 18:43:14 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
 	APPLICATION_ROOT
@@ -36,7 +36,6 @@ feature {NONE} -- Implementation
 				{EVOLICITY_TEST_APP},
 
 				{DECLARATIVE_XPATH_PROCESSING_TEST_APP},
-
 
 				{RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP},
 

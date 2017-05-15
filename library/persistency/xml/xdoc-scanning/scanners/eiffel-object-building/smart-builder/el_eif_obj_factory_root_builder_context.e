@@ -11,12 +11,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 16:13:35 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2017-05-14 22:38:18 GMT (Sunday 14th May 2017)"
+	revision: "2"
 
 class
 	EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT
@@ -57,16 +57,16 @@ feature {NONE} -- Implementation
 			class_type: STRING
 		do
 			class_type := node.to_string
-			String_8.remove_bookends (class_type, "{}")
+			String_8.remove_bookends (class_type, once "{}")
 
-			target := Factory.instance_from_class_name (class_type, agent {EL_BUILDABLE_FROM_XML}.make_default)
+			target := Factory.instance_from_class_name (class_type, agent {EL_BUILDABLE_FROM_NODE_SCAN}.make_default)
 			building_actions.extend (agent set_top_level_context, target.root_node_name)
 			extend_building_actions_from_root_PI_actions
 		end
 
 feature {NONE} -- Implementation
 
-	Factory: EL_OBJECT_FACTORY [EL_BUILDABLE_FROM_XML]
+	Factory: EL_OBJECT_FACTORY [EL_BUILDABLE_FROM_NODE_SCAN]
 			--
 		once
 			create Result

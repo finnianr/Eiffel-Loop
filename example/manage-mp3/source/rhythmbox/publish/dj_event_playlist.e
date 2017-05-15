@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 12:04:49 GMT (Wednesday 28th September 2016)"
-	revision: "2"
+	date: "2017-05-14 12:12:32 GMT (Sunday 14th May 2017)"
+	revision: "3"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -27,7 +27,7 @@ inherit
 			copy, is_equal
 		end
 
-	EL_BUILDABLE_PYXIS_FILE_PERSISTENT
+	EL_FILE_PERSISTENT_BUILDABLE_FROM_PYXIS
 		rename
 			make_from_file as make_from_pyxis_file
 		undefine

@@ -2,11 +2,8 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
-	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
-	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd"
-	name = EL_eros
-	uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" 
+	configuration_ns = "1-8-0"
+	name = EL_eros; uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" 
 	library_target = EL_eros
 	
 	target:

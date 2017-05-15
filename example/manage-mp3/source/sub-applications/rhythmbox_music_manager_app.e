@@ -24,12 +24,12 @@
 	instructions: "See end of page"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-08 10:25:27 GMT (Monday 8th August 2016)"
-	revision: "2"
+	date: "2017-05-14 13:11:15 GMT (Sunday 14th May 2017)"
+	revision: "3"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -41,8 +41,6 @@ inherit
 		redefine
 			Option_name, set_reference_operand, skip_normal_initialize, initialize
 		end
-
-	TASK_CONSTANTS
 
 create
 	make
@@ -57,16 +55,11 @@ feature {NONE} -- Initialization
 
 feature -- Testing
 
-	test_music_manager (data_path: EL_DIR_PATH; config: MANAGER_CONFIG)
+	test_music_manager (data_path: EL_DIR_PATH; config: TEST_MANAGER_CONFIG)
 			--
 		do
 			log.enter ("test_music_manager")
-			if config.task ~ Task_import_videos then
-				create {TEST_VIDEO_IMPORT_MUSIC_MANAGER} music_manager_command.make (config)
-			else
-				create {TEST_MUSIC_MANAGER} music_manager_command.make (config)
-			end
-			music_manager_command.execute
+			config.new_music_manager.execute
 			log.exit
 		end
 
@@ -75,7 +68,7 @@ feature -- Testing
 		do
 			if not has_invalid_argument then
 				Test.set_excluded_file_extensions (<< "mp3", "jpeg" >>)
-				if attached {MANAGER_CONFIG} operands.reference_item (1) as config then
+				if attached {TEST_MANAGER_CONFIG} operands.reference_item (1) as config then
 					Test.do_file_tree_test ("rhythmdb", agent test_music_manager (?, config), config.test_checksum)
 				end
 			end
@@ -109,7 +102,7 @@ feature {NONE} -- Implementation
 				if Args.has_value (arg_spec.word_option) then
 					l_file_path := Args.file_path (arg_spec.word_option)
 					if l_file_path.exists then
-						operands.put_reference (create {MANAGER_CONFIG}.make_from_file (l_file_path), a_index)
+						operands.put_reference (new_manager_config (l_file_path), a_index)
 					else
 						set_path_argument_error (arg_spec.word_option, English_file, l_file_path)
 					end
@@ -118,6 +111,15 @@ feature {NONE} -- Implementation
 				end
 			else
 				Precursor (a_index, arg_spec, argument_ref)
+			end
+		end
+
+	new_manager_config (file_path: EL_FILE_PATH): MANAGER_CONFIG
+		do
+			if Is_test_mode then
+				create {TEST_MANAGER_CONFIG} Result.make_from_file (file_path)
+			else
+				create Result.make_from_file (file_path)
 			end
 		end
 

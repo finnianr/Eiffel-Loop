@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-11 11:53:58 GMT (Thursday 11th May 2017)"
-	revision: "2"
+	date: "2017-05-12 9:49:19 GMT (Friday 12th May 2017)"
+	revision: "3"
 
 deferred class
-	EL_HTTP_DOWNLOAD_COMMAND
+	EL_DOWNLOAD_HTTP_COMMAND
 
 inherit
 	EL_HTTP_COMMAND
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	prepare (connection: EL_HTTP_CONNECTION)
+	prepare
 		do
 			connection.set_write_function (curl_on_data_transfer, pointer_to_c_callbacks_struct)
 			connection.set_curl_boolean_option (CURLOPT_header, False)

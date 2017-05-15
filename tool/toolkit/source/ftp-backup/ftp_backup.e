@@ -2,12 +2,12 @@ note
 	description: "Summary description for {FTP_BACKUP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-17 11:07:09 GMT (Monday 17th October 2016)"
-	revision: "2"
+	date: "2017-05-12 12:04:41 GMT (Friday 12th May 2017)"
+	revision: "3"
 
 class
 	FTP_BACKUP

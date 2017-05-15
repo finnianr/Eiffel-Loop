@@ -1,19 +1,21 @@
 note
 	description: "Summary description for {XML_PARSE_EVENT_STREAM_CLIENT}."
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:46:42 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-12 15:00:31 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
 	EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE
 
 inherit
-	EL_XML_PARSE_EVENT_SOURCE
+	EL_PARSE_EVENT_SOURCE
 		redefine
 			make
 		end

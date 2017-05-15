@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-11 11:58:46 GMT (Thursday 11th May 2017)"
-	revision: "1"
+	date: "2017-05-12 9:51:04 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
-	EL_HTTP_STRING_COMMAND
+	EL_STRING_DOWNLOAD_HTTP_COMMAND
 
 inherit
-	EL_HTTP_DOWNLOAD_COMMAND
+	EL_DOWNLOAD_HTTP_COMMAND
 		redefine
 			make, reset, execute
 		end
@@ -23,9 +23,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_connection: like connection)
 		do
-			Precursor
+			Precursor (a_connection)
 			create string.make_empty
 		end
 
@@ -35,9 +35,9 @@ feature -- Access
 
 feature -- Basic operations
 
-	execute (connection: EL_HTTP_CONNECTION)
+	execute
 		do
-			Precursor (connection)
+			Precursor
 			string.right_adjust
 			if string.has ('%R') then
 				string.replace_substring_all (once "%R%N", once "%N")

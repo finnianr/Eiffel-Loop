@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_EXPAT_XML_PARSER_INPUT_MEDIUM}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-29 15:54:41 GMT (Thursday 29th September 2016)"
-	revision: "3"
+	date: "2017-05-12 11:13:24 GMT (Friday 12th May 2017)"
+	revision: "4"
 
 class
 	EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
@@ -34,7 +34,7 @@ inherit
 		end
 
 create
-	make, make_delimited
+	make
 
 feature {NONE}  -- Initialisation
 

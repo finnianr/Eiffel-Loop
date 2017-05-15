@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_PYXIS_XML_ROUTINES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 16:09:59 GMT (Monday 28th December 2015)"
-	revision: "1"
+	date: "2017-05-12 12:05:28 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
 	EL_PYXIS_XML_ROUTINES

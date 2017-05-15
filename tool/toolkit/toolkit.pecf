@@ -9,11 +9,8 @@ pyxis-doc:
 # cosmetics, trinkets or jewellery. 
 
 system:
-	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
-	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
-	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	uuid = "7B1312E8-019E-4B01-B160-744B3B2E1915"
-	name = el_toolkit
+	configuration_ns = "1-8-0"
+	name = el_toolkit; uuid = "7B1312E8-019E-4B01-B160-744B3B2E1915"
 	
 	# "Swiss army knife" toolkit containing a suite of command line tools for Eiffel development
 	target: 

@@ -2,18 +2,18 @@ note
 	description: "Summary description for {SMIL_XPATH_MATCH_EVENT_PROCESSOR}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 14:00:50 GMT (Thursday 1st January 2015)"
-	revision: "1"
+	date: "2017-05-14 10:24:20 GMT (Sunday 14th May 2017)"
+	revision: "2"
 
 class
 	SMIL_XPATH_MATCH_EVENTS
 
 inherit
-	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
+	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS [EL_EXPAT_XML_PARSER]
 		rename
 			make_default as do_nothing
 		end

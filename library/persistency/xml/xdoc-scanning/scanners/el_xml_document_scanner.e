@@ -1,13 +1,31 @@
 note
-	description: "Summary description for {EL_XML_DOCUMENT_SCANNER}."
+	description: "[
+		Scans sequentially the XML node visiting events originating from `event_source'.
+		
+		The event source can be any of the following types:
+		
+		**1.** `EL_EXPAT_XML_PARSER:' Expat XML parser
+		
+		**2.** `EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM:' Expat XML parser of XML serializeable objects conforming to
+		`EVOLICITY_SERIALIZEABLE_AS_XML'.
+		
+		**3.** `EL_EXPAT_XML_WITH_CTRL_Z_PARSER:' Expat XML parser with input stream end delimited
+		by Ctrl-Z character. Useful for parsing network streams.
+		
+		**4.** `EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE:' a binary encoded XML event source.
+		
+		**5.** `EL_PYXIS_PARSER:' event from a Pyxis format parser. Pyxis is a direct analog of XML that is
+		easier to read and edit thus making it more suitable for configuration files.
+
+	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:44:12 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-14 12:36:18 GMT (Sunday 14th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_XML_DOCUMENT_SCANNER
@@ -17,34 +35,14 @@ inherit
 
 	EL_XML_NODE_CLIENT
 
+	EL_FACTORY_CLIENT
+
 feature {NONE}  -- Initialisation
 
-	make_xml_text_source
-			--
+	make (event_type: TYPE [EL_PARSE_EVENT_SOURCE])
 		do
 			make_default
-			set_plain_text_source
-		end
-
-	make_pyxis_source
-			--
-		do
-			make_default
-			set_pyxis_text_source
-		end
-
-	make_delimited_source
-			--
-		do
-			make_default
-			set_plain_text_end_delimited_source
-		end
-
-	make_binary_source
-			--
-		do
-			make_default
-			set_binary_node_source
+			set_event_source (event_type)
 		end
 
 	make_default
@@ -60,94 +58,36 @@ feature -- Access
 	encoding: INTEGER
 			--
 		do
-			Result := parse_event_source.encoding
-		end
-
-	encoding_type: STRING
-			--
-		do
-			Result := parse_event_source.encoding_type
+			Result := event_source.encoding
 		end
 
 	encoding_name: STRING
 			--
 		do
-			Result := parse_event_source.encoding_name
+			Result := event_source.encoding_name
+		end
+
+	encoding_type: STRING
+			--
+		do
+			Result := event_source.encoding_type
 		end
 
 	xml_version: REAL
 			--
 		do
-			Result := parse_event_source.xml_version
-		end
-
-feature -- Status report
-
-	is_binary_event_source: BOOLEAN
-			--
-		do
-			if attached {EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE} parse_event_source as source then
-				Result := True
-			end
-		end
-
-	is_plain_text_event_source: BOOLEAN
-			--
-		do
-			if attached {EL_EXPAT_XML_PARSER} parse_event_source as source then
-				Result := not source.is_stream_delimited
-			end
-		end
-
-	is_pyxis_text_event_source: BOOLEAN
-			--
-		do
-			Result := attached {EL_PYXIS_PARSER} parse_event_source
-		end
-
-	is_plain_text_end_delimited_event_source: BOOLEAN
-			--
-		do
-			if attached {EL_EXPAT_XML_PARSER} parse_event_source as source then
-				Result := source.is_stream_delimited
-			end
+			Result := event_source.xml_version
 		end
 
 feature -- Element change
 
-	set_binary_node_source
+	set_event_source (event_type: TYPE [EL_PARSE_EVENT_SOURCE])
 			--
 		do
-			if not attached {EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE} parse_event_source then
-				set_parse_event_source (create {EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE}.make (Current))
+			if not attached event_source or else event_source.generating_type ~ event_type then
+				event_source := Factory.instance_from_type (event_type, agent {EL_PARSE_EVENT_SOURCE}.make (Current))
 			end
-		end
-
-	set_plain_text_source
-			--
-		do
-			if not attached {EL_EXPAT_XML_PARSER} parse_event_source then
-				set_parse_event_source (create {EL_EXPAT_XML_PARSER}.make (Current))
-			end
-		end
-
-	set_pyxis_text_source
-			--
-		do
-			if not attached {EL_PYXIS_PARSER} parse_event_source then
-				set_parse_event_source (create {EL_PYXIS_PARSER}.make (Current))
-			end
-		end
-
-	set_plain_text_end_delimited_source
-			--
-		do
-			set_plain_text_source
-			if attached {EL_EXPAT_XML_PARSER} parse_event_source as parser then
-				if not parser.is_stream_delimited then
-					parser.set_stream_delimited (True)
-				end
-			end
+			attribute_list := event_source.attribute_list
 		end
 
 feature -- Basic operations
@@ -155,41 +95,21 @@ feature -- Basic operations
 	scan (a_string: STRING)
 			--
 		do
-			parse_event_source.parse_from_string (a_string)
+			event_source.parse_from_string (a_string)
 		end
 
 	scan_from_stream (a_stream: IO_MEDIUM)
 			--
 		do
-			parse_event_source.parse_from_stream (a_stream)
-			if parse_event_source.has_error then
-				parse_event_source.log_error (lio)
+			event_source.parse_from_stream (a_stream)
+			if event_source.has_error then
+				event_source.log_error (lio)
 			end
 		end
 
-feature {EL_XML_PARSE_EVENT_SOURCE} -- Parsing events
+feature {EL_PARSE_EVENT_SOURCE} -- Parsing events
 
-	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
-			--
-		deferred
-		end
-
-	on_start_document
-			--
-		deferred
-		end
-
-	on_end_document
-			--
-		deferred
-		end
-
-	on_start_tag
-			--
-		deferred
-		end
-
-	on_end_tag
+	on_comment
 			--
 		deferred
 		end
@@ -199,7 +119,12 @@ feature {EL_XML_PARSE_EVENT_SOURCE} -- Parsing events
 		deferred
 		end
 
-	on_comment
+	on_end_document
+			--
+		deferred
+		end
+
+	on_end_tag
 			--
 		deferred
 		end
@@ -209,25 +134,39 @@ feature {EL_XML_PARSE_EVENT_SOURCE} -- Parsing events
 		deferred
 		end
 
-feature {NONE} -- Implementation
-
-	set_parse_event_source (a_parse_event_source: like parse_event_source)
+	on_start_document
 			--
-		do
-			parse_event_source := a_parse_event_source
-			attribute_list := parse_event_source.attribute_list
+		deferred
 		end
 
-feature {EL_XML_PARSE_EVENT_SOURCE} -- Implementation: attributes
+	on_start_tag
+			--
+		deferred
+		end
+
+	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
+			--
+		deferred
+		end
+
+feature {EL_PARSE_EVENT_SOURCE, EL_CREATEABLE_FROM_NODE_SCAN} -- Access
+
+	event_source: EL_PARSE_EVENT_SOURCE
 
 	last_node: EL_XML_NODE
+
+feature {NONE} -- Implementation: attributes
+
+	attribute_list: EL_XML_ATTRIBUTE_LIST
 
 	last_node_name: STRING_32
 
 	last_node_text: STRING_32
 
-	attribute_list: EL_XML_ATTRIBUTE_LIST
+feature {NONE} -- Constants
 
-	parse_event_source: EL_XML_PARSE_EVENT_SOURCE
-
+	Factory: EL_OBJECT_FACTORY [EL_PARSE_EVENT_SOURCE]
+		once
+			create Result
+		end
 end

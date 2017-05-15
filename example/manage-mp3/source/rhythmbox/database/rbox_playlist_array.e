@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-26 11:57:10 GMT (Wednesday 26th April 2017)"
-	revision: "2"
+	date: "2017-05-14 11:36:05 GMT (Sunday 14th May 2017)"
+	revision: "3"
 
 class
 	RBOX_PLAYLIST_ARRAY
@@ -18,7 +18,7 @@ inherit
 			make as make_array
 		end
 
-	EL_BUILDABLE_XML_FILE_PERSISTENT
+	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
 		undefine
 			is_equal, copy
 		redefine

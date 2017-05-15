@@ -12,18 +12,18 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 12:02:18 GMT (Wednesday 28th September 2016)"
-	revision: "3"
+	date: "2017-05-14 11:36:05 GMT (Sunday 14th May 2017)"
+	revision: "4"
 
 class
 	RBOX_DATABASE
 
 inherit
-	EL_BUILDABLE_XML_FILE_PERSISTENT
+	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
 		rename
 			output_path as xml_database_path,
 			set_output_path as set_xml_database_path,

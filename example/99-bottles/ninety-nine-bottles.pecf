@@ -1,11 +1,8 @@
 pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 system:
-	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
-	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
-	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = ninety_nine_bottles
-	uuid = "ABC0FAFC-91B1-473D-B203-9C90AA9CAE95"
+	configuration_ns = "1-8-0"
+	name = ninety_nine_bottles; uuid = "ABC0FAFC-91B1-473D-B203-9C90AA9CAE95"
 	target:
 		name = classic
 		root:

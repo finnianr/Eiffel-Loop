@@ -2,22 +2,20 @@ note
 	description: "Summary description for {PARSE_EVENT_CODER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:46:52 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-12 14:36:04 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
 	EL_XML_PARSE_EVENT_GENERATOR
 
 inherit
 	EL_XML_DOCUMENT_SCANNER
-		export
-			{NONE} set_binary_node_source
 		redefine
-			set_plain_text_source, set_plain_text_end_delimited_source, parse_event_source
+			event_source
 		end
 
 	EL_XML_PARSE_EVENT_STREAM
@@ -32,34 +30,16 @@ feature {NONE} -- Implementation
 	make_with_output (output_stream: like event_stream)
 			--
 		do
-			make_xml_text_source
+			make ({like event_source})
 			create name_index_table.make (Name_index_table_size)
 			name_index_table.compare_objects
 			event_stream := output_stream
-		end
-
-feature -- Element change
-
-	set_plain_text_source
-			--
-		do
-			create parse_event_source.make (Current)
-			set_parse_event_source (parse_event_source)
-		end
-
-	set_plain_text_end_delimited_source
-			--
-		do
-			create parse_event_source.make_delimited (Current)
-			set_parse_event_source (parse_event_source)
 		end
 
 feature -- Basic operations
 
 	send_file (file_path: EL_FILE_PATH)
 			--
-		require
-			is_event_source_type_plain_text: is_plain_text_event_source
 		local
 			xml_file: PLAIN_TEXT_FILE
 		do
@@ -88,7 +68,7 @@ feature -- Basic operations
 			--
 		do
 			lio.enter_with_args ("send_object", << object.generator >>)
-			parse_event_source.parse_from_serializable_object (object)
+			event_source.parse_from_serializable_object (object)
 			lio.exit
 		end
 
@@ -213,6 +193,6 @@ feature {NONE} -- Implementation: attributes
 
 	name_index_table: HASH_TABLE [INTEGER, STRING]
 
-	parse_event_source: EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
+	event_source: EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
 
 end

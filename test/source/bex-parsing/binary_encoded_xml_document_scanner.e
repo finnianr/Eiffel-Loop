@@ -2,24 +2,22 @@ note
 	description: "Summary description for {COMPRESSED_XML_DOCUMENT_SCANNER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:46:09 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-12 15:00:30 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
 	BINARY_ENCODED_XML_DOCUMENT_SCANNER
 
 inherit
 	EL_XML_DOCUMENT_SCANNER
-		rename
-			make_xml_text_source as make
 		undefine
 			new_lio
 		redefine
-			make, on_xml_tag_declaration, on_start_document, on_end_document,
+			make_default, on_xml_tag_declaration, on_start_document, on_end_document,
 			on_start_tag, on_end_tag, on_content, on_comment, on_processing_instruction
 		end
 
@@ -30,7 +28,7 @@ create
 
 feature {NONE}  -- Initialisation
 
-	make
+	make_default
 			--
 		do
 			Precursor
@@ -106,7 +104,7 @@ feature {NONE} -- Parsing events
 
 feature {NONE} -- Implementation
 
-	create_parse_event_source: EL_XML_PARSE_EVENT_SOURCE
+	create_parse_event_source: EL_PARSE_EVENT_SOURCE
 			--
 		do
 			create {EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE} Result.make (Current)

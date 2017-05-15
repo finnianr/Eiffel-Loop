@@ -14,11 +14,8 @@ pyxis-doc:
 # This project contains a parser for the Pyxis format and a Pyxis to XML convertion utility
 
 system:
-	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0"
-	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
-	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" 
-	name = EL_eros
-	uuid = "229B79CA-09AA-11DF-87CA-871F44C15657"
+	configuration_ns = "1-8-0"
+	name = EL_eros; uuid = "229B79CA-09AA-11DF-87CA-871F44C15657"
 	
 	# classic means C code as an intermediate language
 	target: 

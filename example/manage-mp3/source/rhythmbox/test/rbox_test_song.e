@@ -2,12 +2,12 @@ note
 	description: "Summary description for {RBOX_TEST_SONG}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-15 13:04:46 GMT (Tuesday 15th December 2015)"
-	revision: "1"
+	date: "2017-05-14 12:50:03 GMT (Sunday 14th May 2017)"
+	revision: "2"
 
 class
 	RBOX_TEST_SONG

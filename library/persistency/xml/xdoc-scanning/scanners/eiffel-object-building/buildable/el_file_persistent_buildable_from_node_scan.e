@@ -1,21 +1,21 @@
 note
-	description: "Summary description for {EL_XML_STORABLE}."
+	description: "Summary description for {EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-28 9:13:03 GMT (Monday 28th December 2015)"
+	date: "2017-05-14 13:36:35 GMT (Sunday 14th May 2017)"
 	revision: "1"
 
 deferred class
-	EL_BUILDABLE_XML_FILE_PERSISTENT
+	EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN [EVENT_SOURCE -> EL_PARSE_EVENT_SOURCE]
 
 inherit
-	EL_BUILDABLE_FROM_XML
+	EL_BUILDABLE_FROM_NODE_SCAN
 		redefine
-			make_default, make_from_file, make_from_binary_stream, make_from_binary_file
+			make_default, make_from_file
 		end
 
 	EVOLICITY_SERIALIZEABLE_AS_XML
@@ -41,7 +41,7 @@ feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
 			-- NOT THIS:
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML}
 --			make_empty
-			Precursor {EL_BUILDABLE_FROM_XML}
+			Precursor {EL_BUILDABLE_FROM_NODE_SCAN}
 		end
 
 	make_from_file (a_file_path: like output_path)
@@ -50,23 +50,16 @@ feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML} (a_file_path)
 			if a_file_path.exists then
 				build_from_file (a_file_path)
-				set_encoding_from_name (Builder.encoding_name)
+				set_encoding_from_name (node_source.encoding_name)
 			end
 		end
 
-	make_from_binary_file (a_file_path: like output_path)
-			--
-		do
-			if attached {like output_path} a_file_path.without_extension as a_output_file_path then
-				make_from_file (a_output_file_path)
-			end
-		end
+feature {NONE} -- Factory
 
-	make_from_binary_stream (a_stream: IO_MEDIUM)
+	new_node_source: EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
 			--
 		do
-			make_default
-			Precursor (a_stream)
+			create Result.make ({EVENT_SOURCE})
 		end
 
 end

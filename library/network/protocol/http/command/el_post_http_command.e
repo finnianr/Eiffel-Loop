@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-11 12:14:28 GMT (Thursday 11th May 2017)"
-	revision: "1"
+	date: "2017-05-12 9:51:23 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 class
-	EL_HTTP_POST_COMMAND
+	EL_POST_HTTP_COMMAND
 
 inherit
-	EL_HTTP_STRING_COMMAND
+	EL_STRING_DOWNLOAD_HTTP_COMMAND
 		redefine
 			prepare
 		end
@@ -23,10 +23,10 @@ create
 
 feature {NONE} -- Implementation
 
-	prepare (connection: EL_HTTP_CONNECTION)
+	prepare
 		do
 			connection.enable_post_method
-			Precursor (connection)
+			Precursor
 		end
 
 end

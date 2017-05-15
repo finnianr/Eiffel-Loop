@@ -2,13 +2,16 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 1, 29); build = 370
+version = (1, 1, 30); build = 373
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
 
+
+# 1.1.30
+# Added expansion of `configuration_ns' in pecf to ecf conversion
 
 # 1.1.28
 # Changes to logging and removal of AUTOTEST_APP

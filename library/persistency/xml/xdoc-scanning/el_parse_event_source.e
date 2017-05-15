@@ -2,22 +2,22 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 9:03:39 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-12 15:00:30 GMT (Friday 12th May 2017)"
+	revision: "2"
 
 deferred class
-	EL_XML_PARSE_EVENT_SOURCE
+	EL_PARSE_EVENT_SOURCE
 
 inherit
 	EL_ENCODEABLE_AS_TEXT
 
 	EL_XML_NODE_CLIENT
 
-feature {NONE} -- Initialisation
+feature {EL_FACTORY_CLIENT} -- Initialisation
 
 	make (a_scanner: like scanner)
 			--

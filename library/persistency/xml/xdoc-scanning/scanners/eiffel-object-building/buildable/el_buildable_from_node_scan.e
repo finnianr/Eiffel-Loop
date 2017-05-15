@@ -1,24 +1,23 @@
 note
-	description: "Summary description for {EL_BUILDABLE_FROM_XML_NODE_TREE}."
+	description: "Summary description for {EL_BUILDABLE_FROM_NODE_SCAN}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-25 11:19:55 GMT (Friday 25th December 2015)"
+	date: "2017-05-14 13:38:32 GMT (Sunday 14th May 2017)"
 	revision: "1"
 
 deferred class
-	EL_BUILDABLE_FROM_XML_2 [G -> EL_OBJECT_BUILDING_XML_NODE_VISITOR create make end]
+	EL_BUILDABLE_FROM_NODE_SCAN
 
 inherit
-	EL_XML_NODE_TREE_PROCESSOR [G]
-		redefine
-			make_default
-		end
+	EL_CREATEABLE_FROM_NODE_SCAN
 
 	EL_EIF_OBJ_BUILDER_CONTEXT
+		export
+			{EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER} set_node
 		redefine
 			make_default, new_building_actions
 		end
@@ -28,9 +27,8 @@ feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
 	make_default
 			--
 		do
-			Precursor {EL_XML_NODE_TREE_PROCESSOR}
-			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
-			PI_building_actions := PI_building_actions_table.item ({like Current}, agent new_pi_building_actions)
+			Precursor
+			PI_building_actions := PI_building_actions_by_type.item ({like Current}, agent new_pi_building_actions)
 			create xml_name_space.make_empty
 		end
 
@@ -46,7 +44,7 @@ feature {NONE} -- Element change
 			xml_name_space := node.to_string_8
 		end
 
-feature {NONE} -- Factory
+feature {EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER, EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Factory
 
 	new_building_actions: like building_actions
 			--
@@ -69,12 +67,7 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_root_builder_context: EL_EIF_OBJ_ROOT_BUILDER_CONTEXT_2
-		do
-			create Result.make (root_node_name, Current)
-		end
-
-feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT_2, EL_OBJECT_BUILDING_XML_NODE_VISITOR} -- Access
+feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER} -- Implementation
 
 	PI_building_action_table: like Type_building_actions
 		-- building actions assigned to top level processing instructions
@@ -83,32 +76,39 @@ feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT_2, EL_OBJECT_BUILDING_XML_NODE_VISITOR}
 			create Result
 		end
 
-	PI_building_actions: like building_actions
-
-	root_builder_context: like new_root_builder_context
+	root_builder_context: EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
 			--
 		do
-			Result := Root_builder_context_table.item ({like Current}, agent new_root_builder_context)
+			Root_builder_context_table.search (root_node_name)
+			if Root_builder_context_table.found then
+				Result := Root_builder_context_table.found_item
+			else
+				create Result.make (root_node_name, Current)
+				Root_builder_context_table.extend (Result, root_node_name)
+			end
 		end
-
-feature {NONE} -- Implementation
 
 	root_node_name: STRING
 			--
 		deferred
 		end
 
+feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Internal attributes
+
+	PI_building_actions: like building_actions
+
 feature {NONE} -- Constants
 
-	PI_building_actions_table: EL_TYPE_TABLE [HASH_TABLE [PROCEDURE [EL_EIF_OBJ_BUILDER_CONTEXT, TUPLE], STRING_32]]
+	PI_building_actions_by_type: EL_TYPE_TABLE [HASH_TABLE [PROCEDURE [EL_EIF_OBJ_BUILDER_CONTEXT, TUPLE], STRING_32]]
+			--
 		once
 			create Result.make_equal (11)
 		end
 
-	Root_builder_context_table: EL_TYPE_TABLE [EL_EIF_OBJ_ROOT_BUILDER_CONTEXT_2]
+	Root_builder_context_table: HASH_TABLE [EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, STRING]
 			--
 		once
-			create Result.make_equal (11)
+			create Result.make (11)
 		end
 
 end

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_HTML_TEXT_2}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 14:42:43 GMT (Friday 1st July 2016)"
-	revision: "1"
+	date: "2017-05-14 11:36:34 GMT (Sunday 14th May 2017)"
+	revision: "2"
 
 class
 	EL_HTML_TEXT
@@ -15,7 +15,7 @@ class
 inherit
 	EL_RICH_TEXT
 
-	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
+	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS [EL_EXPAT_XML_PARSER]
 		rename
 			build_from_file as set_text_from_xhtml_path
 		undefine
