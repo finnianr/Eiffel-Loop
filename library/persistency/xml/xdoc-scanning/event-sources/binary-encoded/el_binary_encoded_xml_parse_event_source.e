@@ -1,8 +1,6 @@
 note
 	description: "Summary description for {XML_PARSE_EVENT_STREAM_CLIENT}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"

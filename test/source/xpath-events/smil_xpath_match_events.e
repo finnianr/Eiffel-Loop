@@ -54,7 +54,7 @@ feature {NONE} -- XPath match event handlers
 
 feature {NONE} -- Implementation
 
-	xpath_match_events: ARRAY [like Type_agent_mapping]
+	xpath_match_events: ARRAY [EL_XPATH_TO_AGENT_MAP]
 			--
 		do
 			Result := <<

@@ -245,7 +245,7 @@ publish-repository:
 				"""
 				"""
 		tree:
-			name = "XML and Pyxis Document Scanning and Object Building (eXpat)"; dir = "library/persistency/xml/xdoc-scanning"
+			name = "Xpath orientated XML node scanners and Eiffel object builders"; dir = "library/persistency/xml/xdoc-scanning"
 			ecf = "xdoc-scanning.ecf"
 			description:
 				"xdoc-scanning.emd"

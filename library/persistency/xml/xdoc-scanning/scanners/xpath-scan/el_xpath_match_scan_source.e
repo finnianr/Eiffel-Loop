@@ -47,7 +47,7 @@ feature -- Element change
 		do
 			Precursor (a_target_object)
 			target_object.set_last_node (last_node)
-			fill_xpath_action_table (target_object.agent_map_array)
+			fill_xpath_action_table (target_object.xpath_match_events)
 		end
 
 feature {NONE} -- Parsing events
