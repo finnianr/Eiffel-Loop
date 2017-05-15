@@ -1,8 +1,33 @@
-Classes for scanning XML and [https://room.eiffel.com/node/527 Pyxis] documents using a common interface.
-Pyxis is a more readable XML equivalent that resembles Python code.
+A library implementing various kinds of XML document node scanners fed by 5 different types of XML node parse event generators. These 5 types, all descendants of class `EL_PARSE_EVENT_SOURCE', are as follows:
 
-This interface also includes a way of building Eiffel objects from element contexts defined by relative Xpaths.
-Although this is only a very partial implementation of Xpath, it is still very useful.
+**1.** `EL_EXPAT_XML_PARSER:' An Eiffel binding to the [http://expat.sourceforge.net/ eXpat XML parser]
 
-The XML implementation is based on a modified GOBO wrapper for the [http://expat.sourceforge.net/ eXpat XML parser]
-(written in C). The Pyxis implementation is pure Eiffel.
+**2.** `EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM:' [http://expat.sourceforge.net/ eXpat XML parser] of XML serializeable objects conforming to
+`EVOLICITY_SERIALIZEABLE_AS_XML'.
+
+**3.** `EL_EXPAT_XML_WITH_CTRL_Z_PARSER:' [http://expat.sourceforge.net/ eXpat XML parser] with input stream end delimited
+by Ctrl-Z character. Useful for parsing network streams.
+
+**4.** `EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE:' a binary encoded XML event source. Useful for reducing the size of large documents.
+
+**5.** `EL_PYXIS_PARSER:' event from a [https://www.eiffel.org/node/143 Pyxis format] parser. Pyxis is a direct analog of XML that is
+easier to read and edit making it suitable for configuration files.
+
+
+The following are the various kinds of scanners which can process the output from these event sources.
+
+**Eiffel Object Building Scanners**
+
+The classes [./library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/buildable/el_buildable_from_xml.html `EL_BUILDABLE_FROM_XML'] and [./library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/buildable/el_buildable_from_pyxis.html `EL_BUILDABLE_FROM_PYXIS'] can be used to implement a sophisticated Eiffel object building scheme based on the idea of mapping builder agents to xpaths relative to particular element contexts. Only a small subset of the xpath standard is used. The framework has the following features:
+
+* Map particular XML element contexts to Eiffel classes and then map xpaths that are relative to these elements, to attribute assigning agents.
+* Supports xpath mapping based on attribute value predicates, i.e. Expressions of the form **AAA/BBB[@x='y']** may be used to map building agents.
+* Supports recursive data models.
+
+**General Xpath to Eiffel agent mapper**
+
+The class [./library/persistency/xml/xdoc-scanning/scanners/xpath-scan/el_createable_from_xpath_match_events.html `EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS'] implements a method for scanning a document and triggering various Eiffel agents according to a table of xpath to agent mappings.
+
+**Eiffel Aware Document Scanner**
+
+The class [./library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/smart-builder/el_smart_buildable_from_node_scan.html `EL_SMART_BUILDABLE_FROM_NODE_SCAN'] is an XML parser that reacts to a special XML processing instruction, telling it to build an Eiffel object of a particular type.

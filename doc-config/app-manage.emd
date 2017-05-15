@@ -25,6 +25,7 @@ conversion according to type.
 * Create menu driven command line shells.
 
 **Installer Features**
+
 * Define system menu entries and desktop shortcuts for both Windows and the Linux XDG desktop entry standard.
 * Define application sub menus
 * Define application menu launchers
@@ -34,5 +35,6 @@ conversion according to type.
 * Uninstall application resources and program files
 
 **Resource Management**
+
 The library provides a system of managing application resources like graphics, help files etc.
 

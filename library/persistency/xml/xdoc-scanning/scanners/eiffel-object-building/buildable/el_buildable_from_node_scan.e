@@ -1,5 +1,17 @@
 note
-	description: "Summary description for {EL_BUILDABLE_FROM_NODE_SCAN}."
+	description: "[
+		Top level abstraction for building nested Eiffel objects by matching relative xpaths to an XML
+		parse event source defined by `new_node_source'. The xpaths are mapped to agents by implementing the function
+		`building_action_table' found in class `EL_EIF_OBJ_BUILDER_CONTEXT'. Typically the agents assign a class attribute
+		value by calling a value function of the `last_node' object. But the agent might also change the Eiffel object
+		context by calling the procedure `set_next_context'. The new context is mapped to some element in the document
+		and all xpaths in the new current context are relative to this element. Returning to the parent context happens
+		automatically when all the nodes in the current element have been visited. The top level context is defined by
+		implementing the attribute `root_node_name' which defines the root element name.
+		
+		The most useful descendants of this class are `EL_BUILDABLE_FROM_XML' and `EL_BUILDABLE_FROM_PYXIS'. The latter
+		implements a parser for Pyxis, an XML analog with a Python inspired syntax.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

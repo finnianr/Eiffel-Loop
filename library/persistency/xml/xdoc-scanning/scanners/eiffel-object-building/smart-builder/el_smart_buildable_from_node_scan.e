@@ -1,5 +1,12 @@
 note
-	description: "Summary description for {EL_SMART_BUILDABLE_FROM_NODE_SCAN}."
+	description: "[
+		XML parser that reacts to a special processing instructions before the root element of the form:
+		
+			<?create {MY_CLASS}?>
+			
+		`MY_CLASS' represents an implementation of the deferred class `EL_BUILDABLE_FROM_XML' and it knows how
+		to build itself from this type of document. The built object is accessible via the attribute `target'.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

@@ -223,12 +223,39 @@ This library adds a layer of abstraction to the Windows registry classes found t
 
 ## Eiffel CHAIN-based XML Database
 
-## XML and Pyxis Document Scanning and Object Building (eXpat)
-Classes for scanning XML and [Pyxis](https://room.eiffel.com/node/527) documents using a common interface. Pyxis is a more readable XML equivalent that resembles Python code.
+## Xpath orientated XML node scanners and Eiffel object builders
+A library implementing various kinds of XML document node scanners fed by 5 different types of XML node parse event generators. These 5 types, all descendants of class `EL_PARSE_EVENT_SOURCE`, are as follows:
 
-This interface also includes a way of building Eiffel objects from element contexts defined by relative Xpaths. Although this is only a very partial implementation of Xpath, it is still very useful.
+**1.** `EL_EXPAT_XML_PARSER:` An Eiffel binding to the [eXpat XML parser](http://expat.sourceforge.net/)
 
-The XML implementation is based on a modified GOBO wrapper for the [eXpat XML parser](http://expat.sourceforge.net/) (written in C). The Pyxis implementation is pure Eiffel.
+**2.** `EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM:` [eXpat XML parser](http://expat.sourceforge.net/) of XML serializeable objects conforming to `EVOLICITY_SERIALIZEABLE_AS_XML`.
+
+**3.** `EL_EXPAT_XML_WITH_CTRL_Z_PARSER:` [eXpat XML parser](http://expat.sourceforge.net/) with input stream end delimited by Ctrl-Z character. Useful for parsing network streams.
+
+**4.** `EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE:` a binary encoded XML event source. Useful for reducing the size of large documents.
+
+**5.** `EL_PYXIS_PARSER:` event from a [Pyxis format](https://www.eiffel.org/node/143) parser. Pyxis is a direct analog of XML that is easier to read and edit making it suitable for configuration files.
+
+
+
+The following are the various kinds of scanners which can process the output from these event sources.
+
+**Eiffel Object Building Scanners**
+
+The classes [`EL_BUILDABLE_FROM_XML`](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/buildable/el_buildable_from_xml.html) and [`EL_BUILDABLE_FROM_PYXIS`](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/buildable/el_buildable_from_pyxis.html) can be used to implement a sophisticated Eiffel object building scheme based on the idea of mapping builder agents to xpaths relative to particular element contexts. Only a small subset of the xpath standard is used. The framework has the following features:
+
+
+* Map particular XML element contexts to Eiffel classes and then map xpaths that are relative to these elements, to attribute assigning agents.
+* Supports xpath mapping based on attribute value predicates, i.e. Expressions of the form **AAA/BBB[@x='y']** may be used to map building agents.
+* Supports recursive data models.
+
+**General Xpath to Eiffel agent mapper**
+
+The class [`EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS`](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/scanners/xpath-scan/el_createable_from_xpath_match_events.html) implements a method for scanning a document and triggering various Eiffel agents according to a table of xpath to agent mappings.
+
+**Eiffel Aware Document Scanner**
+
+The class [`EL_SMART_BUILDABLE_FROM_NODE_SCAN`](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/smart-builder/el_smart_buildable_from_node_scan.html) is an XML parser that reacts to a special XML processing instruction, telling it to build an Eiffel object of a particular type.
 
 
 ## XML Document Scanning and Object Building (VTD-XML)
@@ -264,6 +291,8 @@ The following features exist for creating command line applications:
 * Create menu driven command line shells.
 
 **Installer Features**
+
+
 * Define system menu entries and desktop shortcuts for both Windows and the Linux XDG desktop entry standard.
 * Define application sub menus
 * Define application menu launchers
@@ -272,7 +301,9 @@ The following features exist for creating command line applications:
 * Install application resources and program files
 * Uninstall application resources and program files
 
-**Resource Management** The library provides a system of managing application resources like graphics, help files etc.
+**Resource Management**
+
+The library provides a system of managing application resources like graphics, help files etc.
 
 
 

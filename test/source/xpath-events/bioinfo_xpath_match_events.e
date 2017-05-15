@@ -1,5 +1,9 @@
 note
-	description: "Summary description for {BIOINFO_XPATH_MATCH_EVENT_PROCESSOR}."
+	description: "[
+		Class that scans the example XML document 
+		[https://github.com/finnianr/Eiffel-Loop/blob/master/projects.data/vtd-xml/bioinfo.xml bioinfo.xml],
+		outputting node values defined by the xpath to agent mapping `xpath_match_events'.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -107,7 +111,7 @@ feature {NONE} -- XPath match event handlers
 
 feature {NONE} -- Implementation
 
-	xpath_match_events: ARRAY [like Type_agent_mapping]
+	xpath_match_events: ARRAY [EL_XPATH_TO_AGENT_MAP]
 			--
 		do
 			Result := <<

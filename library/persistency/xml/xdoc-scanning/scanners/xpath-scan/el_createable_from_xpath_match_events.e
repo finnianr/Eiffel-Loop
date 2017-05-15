@@ -1,5 +1,38 @@
 note
-	description: "Objects that ..."
+	description: "[
+		Object that scans an XML node event source, matching visited nodes against a user defined set of xpaths.
+		Matching nodes trigger a call to an agent defined in the mapping function `xpath_match_events'. The agent can
+		process the visited node by accessing the `last_node' attribute. Although only a tiny subset of the xpath
+		standard is implemented, it is still quite useful as this rudimentary XHTML renderer,
+		[http://www.eiffel-loop.com/library/graphic/toolkit/html-viewer/el_html_text.html EL_HTML_TEXT], illustrates.
+		
+		The following xpath to agent map is from the example class
+		[http://www.eiffel-loop.com/test/source/xpath-events/bioinfo_xpath_match_events.html BIOINFO_XPATH_MATCH_EVENTS].
+		The first mapping argument `on_open' or `on_close' applies only to element nodes and specifies whether to call 
+		the agent when the element open tag or closing tag is encountered.
+	
+			xpath_match_events: ARRAY [EL_XPATH_TO_AGENT_MAP]
+					--
+				do
+					Result := <<
+						-- Fixed paths
+						[on_open, "/bix/package/env/text()", agent on_package_env],
+						[on_open, "/bix/package/command/action/text()", agent on_command_action],
+						[on_open, "/bix/package/command/parlist/par/value/@type", agent on_parameter_list_value_type],
+						[on_open, "/bix/package/command/parlist/par/value/text()", agent on_parameter_list_value],
+
+						[on_close, "/bix", agent log_results], -- matches only when closing tag encountered
+
+						-- Wildcard paths
+						[on_open, "//par/value/*", agent on_parameter_data_value_field],
+						[on_open, "//label/text()", agent on_label],
+						[on_open, "//label", agent increment (label_count)],
+						[on_open, "//par/id", agent increment (par_id_count)],
+
+						[on_open, "//par/id/text()", agent on_par_id]
+					>>
+				end
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -18,28 +51,12 @@ inherit
 			node_source as node_match_source
 		end
 
-feature -- Access
+feature {EL_XPATH_MATCH_SCAN_SOURCE} -- Implementation
 
-	agent_map_array: ARRAY [EL_XPATH_TO_AGENT_MAP]
-			--
-		local
-			l_xpath_match_events: like xpath_match_events
-			i: INTEGER
+	new_node_source: EL_XPATH_MATCH_SCAN_SOURCE
 		do
-			l_xpath_match_events := xpath_match_events
-			create Result.make (1, l_xpath_match_events.count)
-			from i := 1 until i > l_xpath_match_events.count loop
-				Result [i] := create {EL_XPATH_TO_AGENT_MAP}.make_from_tuple (l_xpath_match_events [i])
-				i := i + 1
-			end
+			create Result.make ({EVENT_SOURCE})
 		end
-
-	xpath_match_events: ARRAY [like Type_agent_mapping]
-			--
-		deferred
-		end
-
-feature -- Element change
 
 	set_last_node (node: EL_XML_NODE)
 			--
@@ -47,22 +64,14 @@ feature -- Element change
 			last_node := node
 		end
 
-feature {NONE} -- Implementation
-
-	new_node_source: EL_XPATH_MATCH_SCAN_SOURCE
-		do
-			create Result.make ({EVENT_SOURCE})
+	xpath_match_events: ARRAY [EL_XPATH_TO_AGENT_MAP]
+			--
+		deferred
 		end
 
 feature {NONE} -- Internal attributes
 
 	last_node: EL_XML_NODE
-
-feature {NONE} -- Anchored type declaration
-
-	Type_agent_mapping: TUPLE [BOOLEAN, STRING, PROCEDURE [ANY, TUPLE]]
-		once
-		end
 
 feature {NONE} -- Constants
 
@@ -70,5 +79,5 @@ feature {NONE} -- Constants
 
 	on_open: BOOLEAN = true
 
-end -- class EL_XML_EVENT_PROCESSOR
+end
 

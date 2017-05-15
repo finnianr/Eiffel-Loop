@@ -32,11 +32,6 @@ inherit
 			default_create, copy
 		end
 
---	EL_MODULE_LOG
---		undefine
---			default_create, copy
---		end
-
 	EL_MODULE_FILE_SYSTEM
 		undefine
 			default_create, copy
@@ -219,10 +214,10 @@ feature {NONE} -- Xpath event handlers
 
 feature {NONE} -- Implementation
 
-	xpath_match_events: ARRAY [like Type_agent_mapping]
+	xpath_match_events: ARRAY [EL_XPATH_TO_AGENT_MAP]
 			--
 		local
-			l_result: ARRAYED_LIST [like Type_agent_mapping]
+			l_result: ARRAYED_LIST [EL_XPATH_TO_AGENT_MAP]
 		do
 			create l_result.make_from_array (<<
 				[on_open, "//p",  				agent on_paragraph],
