@@ -1,52 +1,28 @@
 note
 	description: "[
-		Object to distribute work of evaulating routines over a maximum number of threads
+		Object to distribute work of evaulating routines over a maximum number of threads.
+		
+		It can be used directly, or by using one of it's two descendants `EL_FUNCTION_DISTRIBUTER'
+		and `EL_PROCEDURE_DISTRIBUTER'.
+		
+		**Known issues**
+		If you don't give sufficient work to the threads, the `do_final' call may hang.
 	]"
 	instructions: "[
-		The folowing steps apply to example code below:
+		Use the class in the following way:
 		
-		**1.** Declare an instance of `EL_WORK_DISTRIBUTER' with the base type of the routine target
-			distributer: EL_WORK_DISTRIBUTER [like Current]
+		**1.** Declare an instance of `EL_WORK_DISTRIBUTER'
 			
 		**2.** Repeatedly call `wait_apply' with the routines you want to execute in parallel.
 			distributer.wait_apply (agent my_routine)
 			
-		**3.** Call the `fill' routine at any time with a list to receive routines that have
+		**3.** Call the `collect' routine at any time with a list to receive routines that have
 		already been applied (executed)
 		
-		**4.** Finally call the `do_final' routine to wait for any remaining routines to finish executing and
-		then wipe out all the threads. Applied routines that have not already been received can be accessed via
-		the attribute `final_applied'
+		**4.** Call the `do_final' routine to wait for any remaining routines to finish executing and
+		then wipe out all the threads. 
 		
-		**Example code**
-		
-		In the example the routine `do_calc' can be either a function or a procedure, it doesn't matter.
-		
-			distribute_work
-				local
-					distributer: EL_WORK_DISTRIBUTER
-					applied: ARRAYED_LIST [PROCEDURE [ANY, TUPLE]]
-					i: INTEGER
-				do
-					create distributer.make (3) -- share work using a maximum of 3 threads
-					create applied.make (10)
-					
-					from i := 1 until i > count loop
-						-- call do_calc with a hypothetical argument
-						distributer.wait_apply (agent do_calc (i))
-						
-						-- Optional calls to process already applied routines
-						-- distributer.fill (applied)
-						-- process_calc_result (applied)
-						-- applied.wipe_out
-						
-						i := i + 1
-					end
-
-					distributer.do_final
-			
-					process_calc_result (distributer.final_applied)
-				end
+		**5.** Collect any remaining results with a call to `collect_final'
 	]"
 
 	author: "Finnian Reilly"
