@@ -6,6 +6,7 @@ note
 		and `EL_PROCEDURE_DISTRIBUTER'.
 		
 		**Known issues**
+		
 		If you don't give sufficient work to the threads, the `do_final' call may hang.
 	]"
 	instructions: "[
