@@ -5,6 +5,7 @@ note
 		[http://www.eiffel-loop.com/test/source/apps/test_work_distributer_app.html `TEST_WORK_DISTRIBUTER_APP']
 
 		**Known issues**
+		
 		If you don't give sufficient work to the threads, the `do_final' call may hang.
 	]"
 
