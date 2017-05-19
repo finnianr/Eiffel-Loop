@@ -24,8 +24,8 @@ note
 		
 			distribute_work
 				local
-					distributer: EL_WORK_DISTRIBUTER [like Current]
-					applied: ARRAYED_LIST [PROCEDURE [like Current, TUPLE]]
+					distributer: EL_WORK_DISTRIBUTER
+					applied: ARRAYED_LIST [PROCEDURE [ANY, TUPLE]]
 					i: INTEGER
 				do
 					create distributer.make (3) -- share work using a maximum of 3 threads
@@ -50,20 +50,25 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-07 14:51:59 GMT (Monday 7th November 2016)"
-	revision: "2"
+	date: "2017-05-19 6:25:32 GMT (Friday 19th May 2017)"
+	revision: "3"
 
 class
-	EL_WORK_DISTRIBUTER [BASE_TYPE]
+	EL_WORK_DISTRIBUTER
 
 inherit
 	EL_SINGLE_THREAD_ACCESS
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_LIO
+
+create
+	make
 
 feature {NONE} -- Initialization
 
@@ -73,12 +78,26 @@ feature {NONE} -- Initialization
 			create pool.make (maximum_thread_count)
 			create applied.make (20); create final_applied.make (0)
 			create can_apply.make; create can_assign.make
+			create thread_attributes.make
 		end
 
-feature {NONE} -- Access
+feature -- Access
 
-	final_applied: like applied
-		-- contains applied routines after a call to `do_final'
+	maximum_busy_count: INTEGER
+
+feature -- Status change
+
+	set_turbo
+		-- set thread priority to maximum
+		do
+			thread_attributes.set_priority (thread_attributes.max_priority)
+		end
+
+	set_normal
+		-- set thread priority to maximum
+		do
+			thread_attributes.set_priority (thread_attributes.default_priority)
+		end
 
 feature -- Basic operations
 
@@ -86,8 +105,17 @@ feature -- Basic operations
 		-- wakeup all dormant threads and then wait until all have finished executing,
 		-- before wiping out the thread pool. Make the applied routines available in `final_applied'
 		do
+			restrict_access
+				if attached unassigned_routine then
+					-- BLOCKING call
+					can_assign.wait (mutex) -- restriction temporarily ended while waiting
+				end
+--				lio.put_integer_field ("do_final busy_count", busy_count)
+--				lio.put_new_line
+			end_restriction
+
 			pool.do_all (agent {like pool.item}.stop)
-			can_apply.broadcast
+			can_assign.broadcast
 			pool.do_all (agent {like pool.item}.join)
 			pool.wipe_out
 			final_applied := applied.twin
@@ -114,36 +142,43 @@ feature -- Basic operations
 			else
 				-- ASYNCHRONOUS execution
 				restrict_access
-					if not pool.full and then pool.count = busy_count then
-						create thread.make (Current)
-						pool.extend (thread)
-					end
 					if attached unassigned_routine then
 						-- BLOCKING call
 						can_assign.wait (mutex) -- restriction temporarily ended while waiting
 					end
 					unassigned_routine := a_routine
-					if attached thread as new_thread then
-						new_thread.launch
-					else
-						can_apply.signal
+					if pool.count = busy_count and then not pool.full then
+						create thread.make (Current)
+						pool.extend (thread)
 					end
 				end_restriction
+
+				if attached thread as new_thread then
+					new_thread.launch_with_attributes (thread_attributes)
+				else
+					can_apply.signal
+				end
 			end
 		end
 
-feature -- Element change
-
-	fill (a_applied: LIST [like unassigned_routine])
+	collect (list: LIST [like unassigned_routine])
 		-- fill the `a_applied' argument with already applied routines and wipe out `applied'
 		-- does nothing if `applied' is empty
 		do
 			restrict_access
 				if not applied.is_empty then
-					applied.do_all (agent a_applied.extend)
+					applied.do_all (agent list.extend)
 					applied.wipe_out
 				end
 			end_restriction
+		end
+
+	collect_final (list: LIST [like unassigned_routine])
+		-- fill the `a_applied' argument with already applied routines and wipe out `applied'
+		-- does nothing if `applied' is empty
+		do
+			final_applied.do_all (agent list.extend)
+			final_applied.wipe_out
 		end
 
 feature {EL_WORK_DISTRIBUTION_THREAD} -- Worker thread operations
@@ -160,7 +195,7 @@ feature {EL_WORK_DISTRIBUTION_THREAD} -- Worker thread operations
 					l_routine := routine
 					unassigned_routine := Void
 					busy_count := busy_count + 1
-					can_assign.signal
+					maximum_busy_count := maximum_busy_count.max (busy_count)
 				else
 					-- BLOCKING call
 					can_apply.wait (mutex) -- restriction temporarily ended while waiting
@@ -169,6 +204,7 @@ feature {EL_WORK_DISTRIBUTION_THREAD} -- Worker thread operations
 			end_restriction
 
 			if attached l_routine as routine then
+				can_assign.signal
 				routine.apply
 				restrict_access
 					busy_count := busy_count - 1
@@ -182,7 +218,7 @@ feature {NONE} -- Implementation
 	busy_count: INTEGER
 		-- count of threads in `pool' that are busy executing a routine
 
-	unassigned_routine: detachable ROUTINE [BASE_TYPE, TUPLE]
+	unassigned_routine: detachable ROUTINE [ANY, TUPLE]
 		-- routine that is not yet assigned to any thread for execution
 
 feature {NONE} -- Internal attributes
@@ -196,7 +232,12 @@ feature {NONE} -- Internal attributes
 	can_assign: CONDITION_VARIABLE
 		-- wait condition for `unassigned_routine' to become detached
 
-	pool: ARRAYED_LIST [EL_WORK_DISTRIBUTION_THREAD [BASE_TYPE]]
+	final_applied: like applied
+		-- contains applied routines after a call to `do_final'
+
+	pool: ARRAYED_LIST [EL_WORK_DISTRIBUTION_THREAD]
 		-- pool of worker threads
+
+	thread_attributes: THREAD_ATTRIBUTES
 
 end

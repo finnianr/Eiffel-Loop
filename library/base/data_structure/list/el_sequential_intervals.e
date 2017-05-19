@@ -8,12 +8,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-21 14:44:18 GMT (Thursday 21st January 2016)"
-	revision: "1"
+	date: "2017-05-17 15:41:47 GMT (Wednesday 17th May 2017)"
+	revision: "2"
 
 class
 	EL_SEQUENTIAL_INTERVALS
@@ -134,14 +134,14 @@ feature -- Status query
 
 	has_overlapping (interval: INTEGER_64): BOOLEAN
 		local
-			pos: CURSOR
+			l_index: INTEGER
 		do
-			pos := cursor
+			l_index := index
 			from start until Result or else after loop
 				Result := item_has (lower_integer (interval.item)) or else item_has (upper_integer (interval.item))
 				forth
 			end
-			go_to (pos)
+			index := l_index
 		end
 
 	item_has (n: INTEGER): BOOLEAN

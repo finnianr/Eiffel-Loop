@@ -2,23 +2,27 @@ note
 	description: "Summary description for {EL_PATH_STEPS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-16 11:22:01 GMT (Sunday 16th April 2017)"
-	revision: "3"
+	date: "2017-05-17 18:13:22 GMT (Wednesday 17th May 2017)"
+	revision: "4"
 
 class
 	EL_PATH_STEPS
 
 inherit
-	EL_ARRAYED_LIST [ZSTRING]
+	EL_ZSTRING_LIST
 		rename
 			make as make_list,
-			make_from_array as make_list_from_array
+			make_from_array as make_from_zstring_array,
+			joined as joined_list,
+			extend as extend_path
+		export
+			{NONE} extend_path
 		redefine
-			extend, remove, append, replace, default_create
+			remove, append, replace, default_create, wipe_out
 		end
 
 	HASHABLE
@@ -41,24 +45,26 @@ inherit
 			is_equal, copy, default_create
 		end
 
+	EL_ZSTRING_ROUTINES
+		export
+			{NONE} as_zstring
+		undefine
+			is_equal, copy, default_create
+		end
+
 	STRING_HANDLER
 		undefine
 			is_equal, copy, default_create
 		end
 
 create
-	default_create, make_with_count, make, make_from_latin_1, make_from_unicode,
-	make_from_array, make_from_unicode_array, make_from_latin_1_array,
-	make_from_directory_path, make_from_file_path
+	default_create, make_with_count, make,
+	make_from_array, make_from_directory_path, make_from_file_path
 
 convert
-	make_from_array ({ARRAY [ZSTRING]}),
-	make_from_latin_1_array ({ARRAY [STRING]}),
-	make_from_unicode_array ({ARRAY [STRING_32]}),
+	make_from_array ({ARRAY [ZSTRING], ARRAY [STRING], ARRAY [STRING_32]}),
 
-	make_from_latin_1 ({STRING}),
-	make_from_unicode ({STRING_32}),
-	make ({ZSTRING}),
+	make ({STRING_32, STRING, ZSTRING}),
 
 	as_file_path: {EL_FILE_PATH}, as_directory_path: {EL_DIR_PATH}, unicode: {READABLE_STRING_GENERAL}
 
@@ -71,18 +77,14 @@ feature {NONE} -- Initialization
 			compare_objects
 		end
 
-	make_from_array, make_from_unicode_array, make_from_latin_1_array (a_steps: ARRAY [READABLE_STRING_GENERAL])
+	make_from_array (a_steps: INDEXABLE [READABLE_STRING_GENERAL, INTEGER])
 			-- Create list from array `steps'.
 		local
 			i: INTEGER
 		do
-			make_with_count (a_steps.count)
-			from i := 1 until i > a_steps.count loop
-				if attached {ZSTRING} a_steps [i] as zstr then
-					extend (zstr)
-				else
-					extend (create {ZSTRING}.make_from_unicode (a_steps [i]))
-				end
+			make_with_count (a_steps.upper - a_steps.lower + 1)
+			from i := a_steps.lower until i > a_steps.upper loop
+				extend (a_steps [i])
 				i := i + 1
 			end
 		end
@@ -102,28 +104,17 @@ feature {NONE} -- Initialization
 
 feature -- Initialization
 
-	make, set_from_string, make_from_unicode, make_from_latin_1 (a_path: READABLE_STRING_GENERAL)
+	make, set_from_string (a_path: READABLE_STRING_GENERAL)
 
 		local
-			separator: like item.item
-			l_separator_count: INTEGER
-			l_path: ZSTRING
+			separator: CHARACTER_32
 		do
-			if attached {ZSTRING} a_path as el_string then
-				l_path := el_string
-			else
-				create l_path.make_from_unicode (a_path)
-			end
 			separator:= Operating_environment.directory_separator
-			l_separator_count := l_path.occurrences (separator)
-			if l_separator_count = 0 then
+			if not a_path.has (separator) then
 				-- Uses unix separators as default fall back.
 				separator := '/'
-				l_separator_count := l_path.occurrences (separator)
 			end
-			make_with_count (l_separator_count + 1)
-			append (l_path.split (separator))
-				-- a_path.string required so we don't have steps of type FILE_NAME
+			make_with_separator (as_zstring (a_path), separator, False)
 		end
 
 feature -- Access
@@ -162,6 +153,7 @@ feature -- Element change
 			steps: like to_array; environ_path: EL_DIR_PATH
 			variable_name: ZSTRING
 		do
+			internal_hash_code := 0
 			steps := to_array.twin
 			wipe_out
 			across steps as step loop
@@ -171,20 +163,20 @@ feature -- Element change
 					if environ_path.is_empty then
 						extend (step.item)
 					else
-						environ_path.steps.do_all (agent extend)
+						environ_path.steps.do_all (agent extend_path)
 					end
 				else
-					extend (step.item)
+					extend_path (step.item)
 				end
 			end
 		end
 
-	extend (step: like item)
+	extend (step: READABLE_STRING_GENERAL)
 			-- Add `step' to end.
 			-- Do not move cursor.
 		do
 			internal_hash_code := 0
-			Precursor (step)
+			extend_path (as_zstring (step))
 		end
 
 	is_variable_name (a_step: ZSTRING): BOOLEAN
@@ -315,28 +307,8 @@ feature -- Conversion
 
 	to_string: like item
 			--
-		local
-			current_index, l_capacity: INTEGER
-			separator: like item.item
 		do
-			current_index := index
-			separator := Operating_environment.Directory_separator
-			from start until after loop
-				if index > 1 then
-					l_capacity := l_capacity + 1
-				end
-				l_capacity := l_capacity + item.count
-				forth
-			end
-			create Result.make (l_capacity)
-			from start until after loop
-				if index > 1 then
-					Result.append_character (separator)
-				end
-				Result.append (item)
-				forth
-			end
-			index := current_index
+			Result := joined_list (Operating_environment.Directory_separator)
 		end
 
 	unicode: STRING_32
@@ -355,6 +327,12 @@ feature -- Removal
 				finish; remove
 				i := i + 1
 			end
+		end
+
+	wipe_out
+		do
+			internal_hash_code := 0
+			Precursor
 		end
 
 feature {NONE} -- Implementation

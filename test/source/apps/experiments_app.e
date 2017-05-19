@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 14:59:34 GMT (Friday 12th May 2017)"
-	revision: "9"
+	date: "2017-05-18 10:40:33 GMT (Thursday 18th May 2017)"
+	revision: "10"
 
 class EXPERIMENTS_APP
 
@@ -135,13 +135,6 @@ feature -- Experiments
 					log.put_new_line
 				end
 			)
-		end
-
-	distributed_work_queue
-		local
-			queue: EL_WORK_DISTRIBUTER [like Current]
-		do
-
 		end
 
 	circular_removal

@@ -4,7 +4,7 @@
 	<target name = "EL_base">
 		<description>Library of reusable components for Eiffel. (http://www.eiffel-loop.com)</description>
 		<root all_classes = "true"/>
-		<option namespace = "Eiffel-Loop.Library" trace = "false" debug = "false" warning = "true" syntax = "standard">
+		<option namespace = "Eiffel-Loop.Library" trace = "false" debug = "false" warning = "true" syntax = "standard" full_class_checking = "false">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
 		</option>
 		<mapping old_name = "ZSTRING" new_name = "EL_ZSTRING"/>
