@@ -16,7 +16,7 @@ feature -- Basic operations
 
 	integral (f: FUNCTION [ANY, TUPLE [DOUBLE], DOUBLE]; lower, upper: DOUBLE; delta_count: INTEGER): DOUBLE
 		-- aproximate integral sum for function `f' within `lower' and `upper' bounds
-		-- calculated with unit resolution `resolution'
+		-- calculated with resolution `delta_count'
 		require
 			valid_bounds: lower < upper
 			valid_resolution: delta_count >= 100
@@ -35,15 +35,12 @@ feature -- Basic operations
 	split_bounds (lower, upper: DOUBLE; count: INTEGER): ARRAYED_LIST [TUPLE [lower_bound, upper_bound: DOUBLE]]
 			-- bounds split into `count' sub-bounds
 		local
-			l_lower, l_upper, x_distance, full_x_distance: DOUBLE; i: INTEGER
+			full_x_distance: DOUBLE; i: INTEGER
 		do
 			create Result.make (count)
 			full_x_distance := upper - lower
-			x_distance := full_x_distance / count
-			from l_lower := lower; i := 1 until i > count loop
-				Result.extend (
-					[lower + full_x_distance * (i - 1) / count, upper - full_x_distance * (count - i) / count]
-				)
+			from i := 1 until i > count loop
+				Result.extend ([lower + full_x_distance * (i - 1) / count, upper - full_x_distance * (count - i) / count])
 				i := i + 1
 			end
 		end
