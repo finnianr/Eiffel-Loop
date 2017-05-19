@@ -12,6 +12,10 @@
 
 * Optimised `EL_MATCH_ALL_IN_LIST_TP' and related classes, to save and restore the cursor position using index rather than cursor, as the latter requires object creation.
 
+## THREAD library
+
+* Added two descendants of class `EL_WORK_DISTRIBUTER`, namely `EL_FUNCTION_DISTRIBUTER` and `EL_PROCEDURE_DISTRIBUTER`. These classes make it easier to work with distributed execution of routines.
+
 ## XDOC-SCANNING library
 
 * Simplified class `EL_XML_DOCUMENT_SCANNER' and it's descendants and clients by reducing number of creation routines to just one: `make (event_type: TYPE [EL_XML_PARSE_EVENT_SOURCE])`. Similarly reduced number of routines setting the `event_source` type.
@@ -23,3 +27,7 @@
 ## TOOLKIT utility
 
 * Changed class `PYXIS_TO_XML_CONVERTER` to add a namespace shorthand for Pyxis Eiffel Configuration files.
+
+## TEST project
+
+* Added class `TEST_WORK_DISTRIBUTER_APP` to test the working of classes `EL_FUNCTION_DISTRIBUTER` and `EL_PROCEDURE_DISTRIBUTER`
