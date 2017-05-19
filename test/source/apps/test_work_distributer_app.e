@@ -141,9 +141,9 @@ feature {NONE} -- Implementation
 	distributed_integral_2 (f: FUNCTION [ANY, TUPLE [DOUBLE], DOUBLE]; lower, upper: DOUBLE): DOUBLE
 		-- using `EL_PROCEDURE_DISTRIBUTER'
 		local
-			distributer: EL_PROCEDURE_DISTRIBUTER [SINE_WAVE_INTEGRAL]
-			result_count: INTEGER; result_list: ARRAYED_LIST [SINE_WAVE_INTEGRAL]
-			l_integral: SINE_WAVE_INTEGRAL
+			distributer: EL_PROCEDURE_DISTRIBUTER [INTEGRAL_MATH]
+			result_count: INTEGER; result_list: ARRAYED_LIST [INTEGRAL_MATH]
+			l_integral: INTEGRAL_MATH
 		do
 			create distributer.make (thread_count)
 			if turbo_mode.item then
@@ -173,8 +173,8 @@ feature {NONE} -- Implementation
 			end
 
 			-- Add results of all sub-bounds
-			across result_list as sine_wave loop
-				Result := Result + sine_wave.item.integral
+			across result_list as value loop
+				Result := Result + value.item.integral
 			end
 		end
 
