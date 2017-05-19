@@ -3,6 +3,11 @@ note
 		Example program to demonstrate use of `EL_FUNCTION_DISTRIBUTER' and `EL_PROCEDURE_DISTRIBUTER'
 		for distributing the work of executing agent routines over a maximum number of threads.
 	]"
+	instructions: "[
+		 Example of command to the run the finalized build
+		
+			. run_test.sh -work_distributer -logging -term_count 20 -task_count 64 -delta_count 4000000 -thread_count 8 
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
