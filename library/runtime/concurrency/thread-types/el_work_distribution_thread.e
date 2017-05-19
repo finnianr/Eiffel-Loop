@@ -27,6 +27,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			distributer := a_distributer
+			create mutex.make
 		end
 
 feature -- Basic operations
@@ -34,10 +35,12 @@ feature -- Basic operations
 	loop_action
 			--
 		do
-			distributer.wait_to_apply
+			distributer.wait_to_apply (mutex)
 		end
 
 feature {NONE} -- Internal attributes
 
 	distributer: EL_WORK_DISTRIBUTER
+
+	mutex: MUTEX
 end

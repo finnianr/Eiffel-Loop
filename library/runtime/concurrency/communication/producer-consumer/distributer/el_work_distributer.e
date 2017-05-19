@@ -61,6 +61,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	maximum_busy_count: INTEGER
+		-- for debugging purposes
 
 feature -- Status change
 
@@ -160,7 +161,7 @@ feature -- Basic operations
 
 feature {EL_WORK_DISTRIBUTION_THREAD} -- Worker thread operations
 
-	wait_to_apply
+	wait_to_apply (worker_mutex: MUTEX)
 		-- if `unassigned_routine' is attached then apply it using current calling thread
 		-- or else wait for `unassigned_routine' to become attached
 		local
@@ -173,10 +174,6 @@ feature {EL_WORK_DISTRIBUTION_THREAD} -- Worker thread operations
 					unassigned_routine := Void
 					busy_count := busy_count + 1
 					maximum_busy_count := maximum_busy_count.max (busy_count)
-				else
-					-- BLOCKING call
-					can_apply.wait (mutex) -- restriction temporarily ended while waiting
-					-- `wait_to_apply' will now be called again due to continuous thread loop
 				end
 			end_restriction
 
@@ -187,6 +184,12 @@ feature {EL_WORK_DISTRIBUTION_THREAD} -- Worker thread operations
 					busy_count := busy_count - 1
 					applied.extend (routine)
 				end_restriction
+			else
+				worker_mutex.lock
+					-- BLOCKING call
+					can_apply.wait (worker_mutex) -- restriction temporarily ended while waiting
+					-- `wait_to_apply' will now be called again due to continuous thread loop
+				worker_mutex.unlock
 			end
 		end
 
