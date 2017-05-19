@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_ZSTRING_LIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-04 19:08:12 GMT (Friday 4th March 2016)"
-	revision: "1"
+	date: "2017-05-17 15:41:03 GMT (Wednesday 17th May 2017)"
+	revision: "2"
 
 class
 	EL_ZSTRING_LIST
@@ -29,16 +29,15 @@ feature -- Element change
 	expand_tabs (space_count: INTEGER)
 			-- Expand tab characters as `space_count' spaces
 		local
-			l_cursor: like cursor
-			tab, spaces: ZSTRING
+			l_index: INTEGER; tab, spaces: ZSTRING
 		do
-			l_cursor := cursor
+			l_index := index
 			tab := tab_string (1); create spaces.make_filled (' ', space_count)
 			from start until after loop
 				item.replace_substring_all (tab, spaces)
 				forth
 			end
-			go_to (l_cursor)
+			index := l_index
 		end
 
 feature {NONE} -- Implementation

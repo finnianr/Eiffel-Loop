@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-8-0"
+	configuration_ns = "1-15-0"
 	name = gobo_base; uuid = "229b7312-09aa-11df-87b9-977f5d50d15d" 
 	library_target = gobo_base
 	
@@ -17,7 +17,8 @@ system:
 			all_classes = true
 
 		option:
-			namespace = "GOBO.Library"; trace = false; debug = false; warning = true; syntax = standard
+			namespace = "GOBO.Library.Base"; syntax = standard; is_attached_by_default = false; void_safety = none
+			is_obsolete_routine_type = true; trace = false; debug = false; warning = true
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
@@ -28,6 +29,7 @@ system:
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		# Source code
+		# Temporarily changed $ISE_LIBRARY/contrib/library/gobo to GOBO
 		cluster:
 			name = kernel; location = "$ISE_LIBRARY/contrib/library/gobo/library/kernel/src"; recursive = true
 			file_rule:

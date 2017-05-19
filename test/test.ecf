@@ -19,7 +19,7 @@
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<option syntax = "standard">
+		<option syntax = "standard" is_attached_by_default = "false" void_safety = "none">
 			<assertions precondition = "true" postcondition = "true" check = "true"/>
 		</option>
 		<setting name = "address_expression" value = "false"/>

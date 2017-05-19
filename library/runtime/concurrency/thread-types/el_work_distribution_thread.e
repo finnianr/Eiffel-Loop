@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 9:02:31 GMT (Friday 12th May 2017)"
-	revision: "3"
+	date: "2017-05-18 10:39:58 GMT (Thursday 18th May 2017)"
+	revision: "4"
 
 class
-	EL_WORK_DISTRIBUTION_THREAD [BASE_TYPE]
+	EL_WORK_DISTRIBUTION_THREAD
 
 inherit
 	EL_CONTINUOUS_ACTION_THREAD
@@ -39,5 +39,5 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	distributer: EL_WORK_DISTRIBUTER [BASE_TYPE]
+	distributer: EL_WORK_DISTRIBUTER
 end

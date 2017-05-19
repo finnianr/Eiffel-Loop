@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_MATCH_ALL_IN_LIST_TP2}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 14:27:26 GMT (Sunday 20th December 2015)"
-	revision: "1"
+	date: "2017-05-17 15:43:37 GMT (Wednesday 17th May 2017)"
+	revision: "2"
 
 class
 	EL_MATCH_ALL_IN_LIST_TP
@@ -55,8 +55,7 @@ feature {NONE} -- Initialization
 	make_from_other (other: EL_MATCH_ALL_IN_LIST_TP)
 			--
 		do
-			make_default
-			fill (other)
+			make_from_array (other.to_array)
 		end
 
 feature -- Access
@@ -68,15 +67,15 @@ feature -- Access
 
 	name_list: SPECIAL [STRING]
 		local
-			p: CURSOR
+			l_index: INTEGER
 		do
 			create Result.make_empty (pattern_count)
-			p := cursor
+			l_index := index
 			from start until after loop
 				Result.extend (sub_pattern_description)
 				forth
 			end
-			go_to (p)
+			index := l_index
 		end
 
 	sub_pattern_description: STRING
@@ -101,16 +100,16 @@ feature -- Status query
 
 	has_action: BOOLEAN
 		local
-			p: CURSOR
+			l_index: INTEGER
 		do
 			Result := Precursor
 			if not Result then
-				p := cursor
+				l_index := index
 				from start until after or else Result loop
 					Result := sub_pattern.has_action
 					forth
 				end
-				go_to (p)
+				index := l_index
 			end
 		end
 
@@ -160,15 +159,15 @@ feature {NONE} -- Duplication
 
 	copy (other: like Current)
 		local
-			pos: CURSOR
+			l_index: INTEGER
 		do
 			Precursor {ARRAYED_LIST} (other)
-			pos := cursor
+			l_index := index
 			from start until after loop
 				replace (other.i_th (index).twin)
 				forth
 			end
-			go_to (pos)
+			index := l_index
 		end
 
 feature {NONE} -- Implementation

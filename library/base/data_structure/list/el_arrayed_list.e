@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-27 12:47:40 GMT (Thursday 27th April 2017)"
-	revision: "3"
+	date: "2017-05-17 15:15:15 GMT (Wednesday 17th May 2017)"
+	revision: "4"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -39,20 +39,18 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	groups (key: FUNCTION [ANY, TUPLE [G], ZSTRING]): EL_ZSTRING_HASH_TABLE [like Current]
-			-- returns table of item lists grouped by result of `key' function
+	duplicate_array (n: INTEGER): ARRAY [G]
+			-- Copy of sub-list beginning at current position
+			-- and having min (`n', `count' - `index' + 1) items.
 		local
-			l_key: ZSTRING
+			end_pos: INTEGER
 		do
-			create Result.make_equal ((count // 10).max (10))
-			from start until after loop
-				l_key := key (item)
-				Result.search (l_key)
-				if not Result.found then
-					Result.put (create {like Current}.make_empty, l_key)
-				end
-				Result.found_item.extend (item)
-				forth
+			if after then
+				create Result.make_empty
+			else
+				end_pos := count.min (index + n - 1)
+				create Result.make_filled (item, 1, end_pos - index + 1)
+				Result.area.copy_data (area_v2, index - 1, 0, end_pos - index + 1)
 			end
 		end
 

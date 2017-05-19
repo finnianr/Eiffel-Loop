@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 18:43:14 GMT (Friday 12th May 2017)"
-	revision: "2"
+	date: "2017-05-18 9:45:04 GMT (Thursday 18th May 2017)"
+	revision: "3"
 
 class
 	APPLICATION_ROOT
@@ -53,6 +53,7 @@ feature {NONE} -- Implementation
 				{TEST_SIMPLE_CLIENT},
 				{TEST_SIMPLE_SERVER},
 				{TEST_VTD_XML_APP},
+				{TEST_WORK_DISTRIBUTER_APP},
 
 				-- Benchmarks
 				{BENCHMARK_APP},

@@ -317,6 +317,7 @@
 			<keyword>hidden</keyword>
 			<keyword>invariant</keyword>
 			<keyword>is_attached_by_default</keyword>
+			<keyword>is_obsolete_routine_type</keyword>
 			<keyword>is_void_safe</keyword>
 			<keyword>library_target</keyword>
 			<keyword>location</keyword>

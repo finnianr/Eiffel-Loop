@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_IDENTIFIED_THREAD}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-07 14:38:04 GMT (Monday 7th November 2016)"
-	revision: "2"
+	date: "2017-05-18 18:43:52 GMT (Thursday 18th May 2017)"
+	revision: "3"
 
 deferred class
 	EL_IDENTIFIED_THREAD
@@ -51,14 +51,6 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	thread_id: POINTER
-			--
-		do
-			Result := thread.thread_id
-		end
-
-feature -- Access
-
 	name: ZSTRING
 		do
 			if attached internal_name as l_name then
@@ -66,6 +58,19 @@ feature -- Access
 			else
 				Result := Precursor
 			end
+		end
+
+	thread_id: POINTER
+			--
+		do
+			Result := thread.thread_id
+		end
+
+feature -- Status query
+
+	is_terminated: BOOLEAN
+		do
+			Result := thread.terminated
 		end
 
 feature -- Element change
@@ -89,8 +94,18 @@ feature -- Basic operations
 			set_stopped
 		end
 
+	join
+		do
+			thread.join
+		end
+
 	launch
 			--
+		do
+			launch_with_attributes (create {THREAD_ATTRIBUTES}.make)
+		end
+
+	launch_with_attributes (attribs: THREAD_ATTRIBUTES)
 		do
 			if not thread.is_launchable then
 				check
@@ -98,7 +113,7 @@ feature -- Basic operations
 				end
 				create thread.make (agent execute_thread)
 			end
-			thread.launch
+			thread.launch_with_attributes (attribs)
 		end
 
 	sleep (millisecs: INTEGER)
@@ -128,15 +143,10 @@ feature -- Basic operations
 
 		end
 
-	join
-		do
-			thread.join
-		end
-
 feature {NONE} -- Internal attributes
 
-	thread: WORKER_THREAD
-
 	internal_name: detachable like name
+
+	thread: WORKER_THREAD
 
 end

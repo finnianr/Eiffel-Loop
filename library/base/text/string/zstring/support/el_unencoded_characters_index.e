@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-30 17:49:39 GMT (Wednesday 30th March 2016)"
-	revision: "1"
+	date: "2017-05-17 15:42:38 GMT (Wednesday 17th May 2017)"
+	revision: "2"
 
 class
 	EL_UNENCODED_CHARACTERS_INDEX
@@ -115,17 +115,16 @@ feature -- Status query
 
 	valid_index (i: INTEGER): BOOLEAN
 		local
-			l_cursor: like cursor
-			l_area_index: like area_index
+			l_index: INTEGER; l_area_index: like area_index
 		do
-			l_cursor := cursor; l_area_index := area_index
+			l_index := index; l_area_index := area_index
 			from start until Result or after loop
 				if item_lower <= i and then i <= item_upper then
 					Result := True
 				end
 				forth
 			end
-			go_to (l_cursor)
+			index := l_index
 			area_index := l_area_index
 		end
 
