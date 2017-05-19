@@ -1,5 +1,8 @@
 note
-	description: "Summary description for {WORK_DISTRIBUTER_TEST_APP}."
+	description: "[
+		Example program to demonstrate use of `EL_FUNCTION_DISTRIBUTER' and `EL_PROCEDURE_DISTRIBUTER'
+		for distributing the work of executing agent routines over a maximum number of threads.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
