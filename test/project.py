@@ -2,11 +2,11 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-set_environ ('LD_LIBRARY_PATH', "$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_PLATFORM")
-
 version = (1, 0, 4); build = 223
 
 installation_sub_directory = 'Eiffel-Loop/test'
+
+set_environ ('LD_LIBRARY_PATH', "$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_PLATFORM")
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test', '-logging'])
