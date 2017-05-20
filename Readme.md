@@ -11,9 +11,11 @@
 
 ## RELEASE NOTES 
 
-[doc/Release-1.4.6.md (next)](doc/Release-1.4.6.md)
+[doc/Release-1.4.7.md (future)](doc/Release-1.4.7.md)
 
-[doc/Release-1.4.5.md (current)](doc/Release-1.4.5.md)
+[doc/Release-1.4.6.md (current)](doc/Release-1.4.6.md)
+
+[doc/Release-1.4.5.md](doc/Release-1.4.5.md)
 
 [doc/Release-1.4.4.md](doc/Release-1.4.4.md)
 
@@ -79,6 +81,7 @@ The script achieves the following things.
 ## BUILDING THE EXAMPLES
 
 ### Finalized Build
+
 Open a terminal console and change to the project directory. Use this command to do a finalized build.
 
     scons project=[PROJECT NAME] action=finalize
@@ -104,19 +107,60 @@ After the build completes use the following command to open the project in Eiffe
 As with the [scons](http://www.scons.org/) command, you can use either the [.ecf](https://dev.eiffel.com/Configuration) or [.pecf](http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting) project  file. The launch_estudio command sets up the correct  environment for the project.
 
 ### Toolkit Program
+
 #### Requirements -ftp_backup option
+
 The following command line utilities must be in your path:
 
 	tar, gpg, gzip
 
 ### Manage MP3 Example
+
 A selection of command line tools for use with the [Rhythmbox](http://en.wikipedia.org/wiki/Rhythmbox) audio player.
 Requirements `-create_cortina_set` option
 The following command line utilities must be in your path:
 
 	avconv, lame, sox
 
+## ENVIRONMENT VARIABLES MANAGEMENT
+
+Eiffel-Loop has an interesting approach to managing the environment variables for any project using a Python script. The script automatically creates an environment and is called either when opening a project in EiffelStudio using the `launch_estudio` command or when building a project with the *Eiffel-Loop* [scons](http://www.scons.org/) based build system.
+
+The script assumes that there is a directory named `library` in your Eiffel development directory that is used to keep all your third party Eiffel libraries including *Eiffel-Loop*. It then creates environment variables based on the directory names in `library`, but ignoring any version numbers. So for example if finds a directory `eposix-3.2.1` it will add an evironment variable EPOSIX. The names are uppercased and any hyphens are substituted with an underscore so `Eiffel-Loop` becomes EIFFEL_LOOP.
+
+In addition it adds valid values for these variables: `JDK_HOME, PYTHON_HOME, PYTHON_LIB_NAME` as well as the following *Eiffel-Loop* variables:
+
+```
+EXPAT = $EIFFEL_LOOP/contrib/C/Expat
+VTD_XML_INCLUDE = $EIFFEL_LOOP/contrib/C/VTD-XML.2.7/include
+
+```
+### Overriding the Defaults
+However you can override the defaults or add your own environment variables by creating a `project.py` file in your project directory and calling the procedure `set_environ`. Infact you need this file anyway to use the build system or the `launch_estudio` command. Here is an example that sets the `LD_LIBRARY_PATH` variable. You can use any valid Python 2.7 code in the `project.py` file.
+
+```python
+# EiffelStudio project environment
+
+from eiffel_loop.eiffel.dev_environ import *
+
+version = (1, 0, 4); build = 223
+
+installation_sub_directory = 'Eiffel-Loop/test'
+
+set_environ ('LD_LIBRARY_PATH', "$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_PLATFORM")
+
+```
+### Under the Hood
+To understand how the default environment is constructed, read the source text of the following Python modules found in: `Eiffel-Loop/tool/python-support`:
+
+    eiffel_loop.eiffel.project
+    eiffel_loop.os.environ
+    eiffel_loop.project
+
+If you make any modifications you can activate them by running the Eiffel-Loop setup script again, or adding `Eiffel-Loop/tool/python-support` to the PYTHONPATH variable.
+
 ## USING THE EIFFEL LOOP SCONS BUILD SYSTEM
+
 ### Python eiffel_loop package
 
 During setup, a Python package called eiffel_loop is installed. This contains extensions to scons for building Eiffel systems.The source code can be found in:
@@ -143,6 +187,7 @@ Each project can have two equivalent Eiffel configuration files. One is in the s
     el_toolkit -ecf_to_pecf -library_tree [DIRECTORY PATH]
 
 #### File: project.py
+
 This file is a Python script and is used to override default values for various environment variables and compile options for the [scons](http://www.scons.org/) build.
 The following variables can be set.
 * **major_version:** set major version number. This variable will appear in the Eiffel `BUILD_INFO` class.
@@ -152,31 +197,13 @@ The following variables can be set.
 * **MSC_options**: This sequence object contains options for the Microsoft C compiler.  See section *Microsoft C options*.
 
 #### File: SConstruct
+
 This is a file that the [scons](http://www.scons.org/) builder looks for in order to build a project. For Eiffel projects it contains the single line:
 
     import eiffel_loop.eiffel.SConstruct
 
-### Build Environment
-
-By editing the *project.py* file in each project directory, you can add extra environment variables to the default environment using the dictionary object *'environ'*. For example:
-
-    environ ['EIFFEL_LOOP'] = path.join (path.dirname (path.abspath (os.curdir)), 'Eiffel-Loop')
-    environ ['EPOSIX'] = '$EIF_LIBRARY/eposix-3.2.1'
-    environ ['GOANNA'] = '$EIF_LIBRARY/goanna'
-    environ ['LOG4E'] = '$EIF_LIBRARY/log4e'
-
-Note that Unix style variable expansion is supported with the '$' symbol. Since it is a Python script you can use any Python code you want in this file.
-
-To understand how the environment is constructed, read the source text of the following Python modules:
-
-    eiffel_loop.eiffel.project
-    eiffel_loop.os.environ
-    eiffel_loop.project
-
-(Found in: `Eiffel-Loop/tool/python-support`)
-
-If you make any modifications you can activate them by running the Setup Procedure again.
 #### Microsoft C options
+
 To configure the Microsoft C compiler environment, edit the `MSC_options` variable in the `project.py`. Essentially these are arguments for the SetEnv.cmd command line tool.
 
 By default `MSC_options` has the following values.
@@ -207,13 +234,17 @@ To do cross compilation you must have a 64bit and a 32 bit version of EiffelStud
 If you wish to use the eiffel2python library, you need to have both the 64 bit and 32 bit version of Python installed.
 
 ## EXAMPLE APPLICATIONS
+
 ### Invoking Sub-applications
+
 To simplify development, Eiffel-Loop has the concept of a multi-mode "Swiss Army Knife" application. Each individual sub-application inherits from class `EL_SUB_APPLICATION`, and the command line option is found by looking at the value implemented of attribute 'option_name'. When calling the application, this option name should be specified on the command line immediately after the executable command name.
 
     <command> -<option-name> [-logging]
 
 Should the need arise for a more compact executable, it should be technically possible to designate each sub-application as the root class for an Eiffel project. Are alternatively just comment out the other sub-applications in the root manifest.
+
 ### Class APPLICATION_ROOT
+
 Each project has a class `APPLICATION_ROOT` which inherits from `EL_MULTI_APPLICATION_ROOT`, and contains a manifest of all available sub-applications.
 ```` eiffel
 class
