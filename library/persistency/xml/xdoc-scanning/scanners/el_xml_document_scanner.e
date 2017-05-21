@@ -39,10 +39,10 @@ inherit
 
 feature {NONE}  -- Initialisation
 
-	make (event_type: TYPE [EL_PARSE_EVENT_SOURCE])
+	make (type: TYPE [EL_PARSE_EVENT_SOURCE])
 		do
 			make_default
-			set_event_source (event_type)
+			set_parser_type (type)
 		end
 
 	make_default
@@ -81,11 +81,11 @@ feature -- Access
 
 feature -- Element change
 
-	set_event_source (event_type: TYPE [EL_PARSE_EVENT_SOURCE])
+	set_parser_type (type: TYPE [EL_PARSE_EVENT_SOURCE])
 			--
 		do
-			if not attached event_source or else event_source.generating_type ~ event_type then
-				event_source := Factory.instance_from_type (event_type, agent {EL_PARSE_EVENT_SOURCE}.make (Current))
+			if not attached event_source or else event_source.generating_type ~ type then
+				event_source := Factory.instance_from_type (type, agent {EL_PARSE_EVENT_SOURCE}.make (Current))
 			end
 			attribute_list := event_source.attribute_list
 		end

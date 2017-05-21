@@ -22,7 +22,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-26 18:06:38 GMT (Saturday 26th December 2015)"
 	revision: "1"
@@ -41,7 +41,7 @@ inherit
 			make_default, make_row, make_column
 		end
 
-	EL_BUILDABLE_XML_FILE_PERSISTENT
+	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
 		rename
 			put_real as put_real_variable
 		undefine
@@ -55,7 +55,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor {VECTOR_COMPLEX_DOUBLE}
-			Precursor {EL_BUILDABLE_XML_FILE_PERSISTENT}
+			Precursor {EL_FILE_PERSISTENT_BUILDABLE_FROM_XML}
 		end
 
 	make_row (nb_rows: INTEGER)
@@ -70,6 +70,16 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			Precursor (nb_columns)
+		end
+
+	make_from_binary_stream (a_stream: IO_MEDIUM)
+			--
+		require
+			open_stream: a_stream.is_open_read
+		do
+			make_default
+			set_parser_type ({EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE})
+			build_from_stream (a_stream)
 		end
 
 feature -- Access

@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-03-11 17:28:25 GMT (Wednesday 11th March 2015)"
 	revision: "1"
@@ -13,7 +13,7 @@ class
 	EL_EROS_PROCEDURE_STATUS
 
 inherit
-	EL_BUILDABLE_XML_FILE_PERSISTENT
+	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
 		rename
 			make_default as make
 		redefine

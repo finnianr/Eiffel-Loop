@@ -67,9 +67,9 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	new_smart_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN [EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE]
+	new_smart_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN
 		do
-			create Result.make
+			create Result.make ({EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE})
 		end
 
 feature {NONE} -- Internal attributes

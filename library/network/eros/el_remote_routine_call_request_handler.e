@@ -9,7 +9,7 @@ note
 
 	notes: "See end of page"
 
-	
+
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -32,11 +32,13 @@ inherit
 
 	EL_REMOTE_XML_OBJECT_EXCHANGER
 		rename
-			object_builder as Request_builder,
+			object_builder as request_builder,
 			make as make_remote_object_exchanger,
 			set_outbound_transmission_type as set_pending_outbound_transmission_type
 		undefine
 			default_create
+		redefine
+			request_builder
 		end
 
 	EL_REMOTE_CALL_ERRORS
@@ -78,7 +80,7 @@ feature {NONE} -- Initialization
 			create target_table.make (17)
 			create listener
 			create error_result.make
-			new_outbound_transmission_type := outbound_transmission_type
+			new_outbound_transmission_type := transmission_type.outbound
 		end
 
 feature -- Element change
@@ -89,10 +91,10 @@ feature -- Element change
 			listener := a_listener
 		end
 
-	set_outbound_transmission_type (transmission_type: INTEGER)
+	set_outbound_transmission_type (type: INTEGER)
 			--
 		do
-			new_outbound_transmission_type := transmission_type
+			new_outbound_transmission_type := type
 		end
 
 	initialize (client_socket: EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET)
@@ -124,13 +126,13 @@ feature -- Basic operations
 				if not client_socket.is_readable then
 					set_stopping
 				else
-					Request_builder.build_from_stream (client_socket)
+					request_builder.build_from_stream (client_socket)
 					listener.received_bytes (client_socket.bytes_received)
 				end
 
-				if Request_builder.has_error then
+				if request_builder.has_error then
 					set_error (Error_syntax_error_in_routine_call)
-					set_error_detail (Request_builder.call_request_source_text.as_string_8)
+					set_error_detail (request_builder.call_request_source_text.as_string_8)
 				end
 
 				if not has_error then
@@ -146,7 +148,7 @@ feature -- Basic operations
 				send_object (result_object, client_socket)
 
 				-- if outbound_transmission_type has changed as the result of remote call
-				if new_outbound_transmission_type /= outbound_transmission_type then
+				if new_outbound_transmission_type /= transmission_type.outbound then
 					set_pending_outbound_transmission_type (new_outbound_transmission_type)
 				end
 
@@ -169,29 +171,29 @@ feature {NONE} -- Implementation
 			target: EL_REMOTELY_ACCESSIBLE
 		do
 			log.enter ("call_routine")
-			target_table.search (Request_builder.class_name)
+			target_table.search (request_builder.class_name)
 			if target_table.found then
 				target := target_table.found_item
 			else
 				if attached {EL_REMOTELY_ACCESSIBLE}
 					Factory.instance_from_class_name (
-						Request_builder.class_name, agent {EL_REMOTELY_ACCESSIBLE}.do_nothing
+						request_builder.class_name, agent {EL_REMOTELY_ACCESSIBLE}.do_nothing
 					) as new_target
 				then
 					target := new_target
-					target_table.extend (target, Request_builder.class_name)
+					target_table.extend (target, request_builder.class_name)
 				else
 					set_error (Error_class_name_not_found)
-					set_error_detail (Request_builder.class_name)
+					set_error_detail (request_builder.class_name)
 				end
 			end
 
 			if not has_error then
 				target.set_routine_with_arguments (
-					Request_builder.routine_name, Request_builder.call_argument, Request_builder.argument_list
+					request_builder.routine_name, request_builder.call_argument, request_builder.argument_list
 				)
 				if not target.has_error then
-					log.put_line (Request_builder.call_request_source_text.as_string_8)
+					log.put_line (request_builder.call_request_source_text.as_string_8)
 					log.put_new_line
 					if target.is_procedure_set then
 						target.call_procedure
@@ -236,14 +238,10 @@ feature {NONE} -- EROS implementation
 			>>
 		end
 
-feature {NONE} -- Constants
 
-	Request_builder: EL_ROUTINE_CALL_REQUEST_XML_TO_EIFFEL_BUILDER
-			--
-		once
-			create Result.make
-			Result.set_plain_text_end_delimited_source
-		end
+feature {NONE} -- Internal attributes
+
+	request_builder: EL_ROUTINE_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN;
 
 note
 	notes: "[

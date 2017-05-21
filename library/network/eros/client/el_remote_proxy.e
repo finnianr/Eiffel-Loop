@@ -15,21 +15,24 @@ class
 inherit
 	EL_REMOTE_XML_OBJECT_EXCHANGER
 		rename
-			object_builder as Result_builder,
-			make as make_remote_object_exchanger
+			make as make_exchanger,
+			object_builder as result_builder
 		end
 
 	EL_MODULE_LOG
 
-feature -- Element change
+create
+	make
 
-	set_net_socket (a_net_socket: like net_socket)
+feature {NONE} -- Initialization
+
+	make (client: EL_EROS_CLIENT_CONNECTION)
 			--
 		do
-			net_socket := a_net_socket
-			make_remote_object_exchanger
+			make_exchanger
+			net_socket := client.net_socket
 			set_parse_event_generator_medium (net_socket)
-			is_net_socket_set := True
+			client.proxy_list.extend (Current)
 		end
 
 feature -- Status query
@@ -42,8 +45,6 @@ feature -- Status query
 
 	last_procedure_call_ok: BOOLEAN
 
-	is_net_socket_set: BOOLEAN
-
 feature -- Access
 
 	error_code: INTEGER
@@ -52,8 +53,6 @@ feature {NONE} -- Implementation
 
 	call (routine_name: STRING; argument_tuple: TUPLE)
 			--
-		require
-			net_socket_set: is_net_socket_set
 		local
 			request: like Call_request
 		do
@@ -68,8 +67,8 @@ feature {NONE} -- Implementation
 
 			send_object (request, net_socket)
 
-			Result_builder.build_from_stream (net_socket)
-			result_object := Result_builder.target
+			result_builder.build_from_stream (net_socket)
+			result_object := result_builder.target
 
 			if attached {EL_EROS_ERROR_RESULT} result_object as error then
 				error_code := error.id
@@ -95,9 +94,9 @@ feature {NONE} -- Implementation
 
 	net_socket: EL_NETWORK_STREAM_SOCKET
 
-	result_string: STRING
+	result_object: EL_BUILDABLE_FROM_NODE_SCAN
 
-	result_object: EL_BUILDABLE_FROM_XML
+	result_string: STRING
 
 feature {NONE} -- Constants
 
@@ -105,13 +104,6 @@ feature {NONE} -- Constants
 			--
 		once
 			create Result.make
-		end
-
-	Result_builder: EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER
-			--
-		once
-			create Result.make
-			Result.set_plain_text_end_delimited_source
 		end
 
 end

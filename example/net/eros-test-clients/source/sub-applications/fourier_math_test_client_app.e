@@ -34,11 +34,10 @@ feature {NONE} -- Initiliazation
 		local
 			time: TIME
 		do
-			create signal_math
-			create fast_fourier_transform
-
 			create connection.make (8001, "localhost")
-			connection.link (<< signal_math, fast_fourier_transform >>)
+
+			create signal_math.make (connection)
+			create fast_fourier_transform.make (connection)
 
 			Args.set_boolean_from_word_option ("binary", agent set_binary_transmission)
 

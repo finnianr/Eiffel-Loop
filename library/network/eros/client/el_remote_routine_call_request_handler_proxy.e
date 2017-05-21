@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -21,8 +21,10 @@ inherit
 			set_inbound_transmission_type as set_proxy_inbound_transmission_type
 		export
 			{NONE} all
-			{ANY} set_net_socket
 		end
+
+create
+	make
 
 feature -- Basic operations
 
@@ -38,19 +40,19 @@ feature -- Basic operations
 
 feature -- Status setting
 
-	set_inbound_transmission_type (transmission_type: INTEGER)
+	set_inbound_transmission_type (type: INTEGER)
 			--
 		do
 			log.enter (R_set_inbound_transmission_type)
-			call (R_set_inbound_transmission_type, [transmission_type])
+			call (R_set_inbound_transmission_type, [type])
 			log.exit
 		end
 
-	set_outbound_transmission_type (transmission_type: INTEGER)
+	set_outbound_transmission_type (type: INTEGER)
 			--
 		do
 			log.enter (R_set_outbound_transmission_type)
-			call (R_set_outbound_transmission_type, [transmission_type])
+			call (R_set_outbound_transmission_type, [type])
 			log.exit
 		end
 
