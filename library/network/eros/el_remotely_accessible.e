@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-24 12:35:09 GMT (Thursday 24th December 2015)"
 	revision: "1"
@@ -38,7 +38,7 @@ feature -- Access
 feature -- Element change
 
 	set_routine_with_arguments (
-		routine_name: STRING; deserialized_object: EL_BUILDABLE_FROM_XML; argument_list: ARRAYED_LIST [STRING]
+		routine_name: STRING; deserialized_object: EL_BUILDABLE_FROM_NODE_SCAN; argument_list: ARRAYED_LIST [STRING]
 	)
 			-- set either requested_procedure or requested_function
 		local
@@ -128,7 +128,7 @@ feature -- Status query
 feature {NONE} -- Implementation
 
 	set_routine_tuple (
-		argument_tuple: TUPLE; deserialized_object: EL_BUILDABLE_FROM_XML; argument_list: ARRAYED_LIST [STRING]
+		argument_tuple: TUPLE; deserialized_object: EL_BUILDABLE_FROM_NODE_SCAN; argument_list: ARRAYED_LIST [STRING]
 	)
 			--
 		local
@@ -177,7 +177,7 @@ feature {NONE} -- Implementation
 		end
 
 	set_tuple_deserialized_object (
-		argument_tuple: TUPLE; index: INTEGER; argument: STRING; argument_object: EL_BUILDABLE_FROM_XML
+		argument_tuple: TUPLE; index: INTEGER; argument: STRING; argument_object: EL_BUILDABLE_FROM_NODE_SCAN
 	)
 			--
 		require
@@ -200,11 +200,9 @@ feature {NONE} -- Implementation
 		do
 			if argument.is_boolean and then argument_tuple.is_boolean_item (index) then
 				argument_tuple.put_boolean (argument.to_boolean, index)
-
 			else
 				set_error (Error_argument_type_mismatch)
 				set_error_detail ("expecting a boolean argument")
-
 			end
 		end
 

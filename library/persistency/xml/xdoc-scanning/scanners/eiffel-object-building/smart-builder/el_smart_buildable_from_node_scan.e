@@ -17,7 +17,7 @@ note
 	revision: "2"
 
 class
-	EL_SMART_BUILDABLE_FROM_NODE_SCAN [EVENT_SOURCE -> EL_PARSE_EVENT_SOURCE]
+	EL_SMART_BUILDABLE_FROM_NODE_SCAN
 
 inherit
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -30,9 +30,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_parser_type: like parser_type)
 			--
 		do
+			parser_type := a_parser_type
 			make_default
 			create root_builder_context.make (Root_node_name, Current)
 			target := Current
@@ -81,13 +82,14 @@ feature {NONE} -- Factory
 	new_node_source: EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
 			--
 		do
-			create Result.make ({EVENT_SOURCE})
+			create Result.make (parser_type)
 		end
 
 feature {NONE} -- Internal attributes
 
-	root_builder_context: EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT
+	parser_type: TYPE [EL_PARSE_EVENT_SOURCE]
 
+	root_builder_context: EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT
 
 feature {NONE} -- Constants
 

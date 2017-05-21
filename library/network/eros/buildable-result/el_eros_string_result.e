@@ -1,7 +1,7 @@
 note
 	description: "Summary description for {EL_EROS_STRING_RESULT}."
 
-	
+
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -15,7 +15,7 @@ class
 	EL_EROS_STRING_RESULT
 
 inherit
-	EL_BUILDABLE_XML_FILE_PERSISTENT
+	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
 		rename
 			make_default as make
 		redefine

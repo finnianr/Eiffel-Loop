@@ -17,9 +17,19 @@ class
 	EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER
 
 inherit
-	EL_SMART_BUILDABLE_FROM_NODE_SCAN [EL_EXPAT_XML_PARSER]
+	EL_SMART_BUILDABLE_FROM_NODE_SCAN
+		rename
+			make as make_buildable
+		end
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			make_buildable ({EL_EXPAT_XML_PARSER})
+		end
 
 end

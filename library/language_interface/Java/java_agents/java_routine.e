@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-09 6:20:45 GMT (Saturday 9th July 2016)"
 	revision: "1"
@@ -18,6 +18,9 @@ inherit
 	EL_MEMORY
 
 	EL_MODULE_LIO
+		rename
+			Args as Command_args
+		end
 
 	EL_MODULE_EIFFEL
 

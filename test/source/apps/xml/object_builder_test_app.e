@@ -95,7 +95,7 @@ feature -- Tests
 			log.exit
 		end
 
-	new_smart_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN [EL_PARSE_EVENT_SOURCE]
+	new_smart_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN
 		do
 			create {EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER} Result.make
 		end

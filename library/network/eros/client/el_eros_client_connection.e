@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -23,12 +23,11 @@ feature {NONE} -- Initialization
 	make (port_number: INTEGER; host_name: STRING)
 			--
 		do
-			create proxy_objects.make (10)
+			create proxy_list.make (10)
 			create net_socket.make_client_by_port (port_number, host_name)
 			net_socket.connect
 
-			create remote_routine_call_request_handler
-			link (<< remote_routine_call_request_handler >>)
+			create remote_routine_call_request_handler.make (Current)
 		end
 
 feature -- Status setting
@@ -37,28 +36,14 @@ feature -- Status setting
 			--
 		do
 			remote_routine_call_request_handler.set_inbound_transmission_type (transmission_type)
-			proxy_objects.do_all (agent {EL_REMOTE_PROXY}.set_outbound_transmission_type (transmission_type))
+			proxy_list.do_all (agent {EL_REMOTE_PROXY}.set_outbound_transmission_type (transmission_type))
 		end
 
 	set_inbound_transmission_type (transmission_type: INTEGER)
 			--
 		do
 			remote_routine_call_request_handler.set_outbound_transmission_type (transmission_type)
-			proxy_objects.do_all (agent {EL_REMOTE_PROXY}.set_inbound_transmission_type (transmission_type))
-		end
-
-feature -- Element change
-
-	link (proxy_object_array: ARRAY [EL_REMOTE_PROXY])
-			-- link proxy objects to server network connection
-		do
-			proxy_object_array.do_all (
-				agent (remote_proxy: EL_REMOTE_PROXY)
-					do
-						proxy_objects.extend (remote_proxy)
-						remote_proxy.set_net_socket (net_socket)
-					end
-			)
+			proxy_list.do_all (agent {EL_REMOTE_PROXY}.set_inbound_transmission_type (transmission_type))
 		end
 
 feature -- Basic operations
@@ -70,9 +55,11 @@ feature -- Basic operations
 			net_socket.close
 		end
 
-feature {NONE} -- Implementation
+feature {EL_REMOTE_PROXY} -- Access
 
-	proxy_objects: ARRAYED_LIST [EL_REMOTE_PROXY]
+	proxy_list: ARRAYED_LIST [EL_REMOTE_PROXY]
+
+feature {EL_REMOTE_PROXY} -- Implementation
 
 	remote_routine_call_request_handler: EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY
 		-- This is actually the object that processes remote requests.

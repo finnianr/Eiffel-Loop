@@ -88,6 +88,14 @@ feature -- Basic operations
 			Node_source.apply_from_string (Current, a_string)
 		end
 
+feature -- Element change
+
+	set_parser_type (type: TYPE [EL_PARSE_EVENT_SOURCE])
+			--
+		do
+			Node_source.set_parser_type (type)
+		end
+
 feature {NONE} -- Implementation
 
 	new_node_source: EL_XML_NODE_SCAN_SOURCE
