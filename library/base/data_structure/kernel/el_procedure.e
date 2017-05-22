@@ -17,7 +17,7 @@ class
 	EL_PROCEDURE
 
 inherit
-	PROCEDURE [ANY, TUPLE]
+	PROCEDURE
 		export
 			{NONE} all
 			{ANY} closed_operands
@@ -32,11 +32,11 @@ create
 	make, default_create
 
 convert
-	make ({PROCEDURE [ANY, TUPLE]})
+	make ({PROCEDURE})
 
 feature -- Initialization
 
-	make, set_from_other (other: PROCEDURE [ANY, TUPLE])
+	make, set_from_other (other: PROCEDURE)
 			--
 		do
 			if other.encaps_rout_disp = Default_pointer then
@@ -49,7 +49,7 @@ feature -- Initialization
 
 feature -- Comparison
 
-	same_procedure (other: PROCEDURE [ANY, TUPLE]): BOOLEAN
+	same_procedure (other: PROCEDURE): BOOLEAN
 			--
 		do
 			if encaps_rout_disp = Default_pointer then

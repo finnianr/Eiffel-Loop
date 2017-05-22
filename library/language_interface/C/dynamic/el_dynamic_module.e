@@ -123,7 +123,7 @@ feature {EL_DYNAMIC_MODULE_POINTERS} -- Access
 
 feature {NONE} -- Implementation
 
-	call (function_name: STRING; c_function: PROCEDURE [like Current, TUPLE [POINTER]])
+	call (function_name: STRING; c_function: PROCEDURE [POINTER])
 			-- call API function specified by fully qualified name `function_name' (including
 			-- any common name prefix)
 		local

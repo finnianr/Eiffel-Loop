@@ -120,13 +120,13 @@ feature -- Access
 			--
 		require else
 			valid_function_args:
-				attached {FUNCTION [like Current, TUPLE, ANY]} function_item (key) as function
+				attached {FUNCTION [ANY]} function_item (key) as function
 					implies function.open_count = function_args.count
 		local
 			i: INTEGER; operands: TUPLE; template: ZSTRING
 		do
 			Result := function_item (key)
-			if attached {FUNCTION [like Current, TUPLE, ANY]} Result as getter_action then
+			if attached {FUNCTION [ANY]} Result as getter_action then
 				getter_action.set_target (Current)
 				if getter_action.open_count = 0 then
 					getter_action.apply
@@ -173,16 +173,16 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 		deferred
 		end
 
-	getter_functions: EVOLICITY_OBJECT_TABLE [FUNCTION [EVOLICITY_EIFFEL_CONTEXT, TUPLE, ANY]]
+	getter_functions: EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]
 
 feature {NONE} -- Constants
 
-	Default_string_condition: PREDICATE [ANY, TUPLE [ZSTRING]]
+	Default_string_condition: PREDICATE [ZSTRING]
 		once
 			Result := agent (str: ZSTRING): BOOLEAN do  end
 		end
 
-	Getter_functions_by_type: EL_TYPE_TABLE [EVOLICITY_OBJECT_TABLE [FUNCTION [EVOLICITY_EIFFEL_CONTEXT, TUPLE, ANY]]]
+	Getter_functions_by_type: EL_TYPE_TABLE [EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]]
 		once
 			create Result.make_equal (19)
 		end

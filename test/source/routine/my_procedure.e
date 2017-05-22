@@ -13,7 +13,7 @@ class
 	MY_PROCEDURE [BASE_TYPE -> detachable ANY, OPEN_ARGS -> detachable TUPLE create default_create end]
 
 inherit
-	PROCEDURE [BASE_TYPE, OPEN_ARGS]
+	PROCEDURE [OPEN_ARGS]
 		export
 			{ANY} open_operand_type
 		end

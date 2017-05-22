@@ -1,7 +1,7 @@
 note
 	description: "Windows application installer"
 
-	
+
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -22,12 +22,9 @@ inherit
 			{NONE} all
 		end
 
-	EL_FILE_ROUTINES
-		export
-			{NONE} all
-		end
+	EL_MODULE_FILE_SYSTEM
 
-	EL_LOGGING
+	EL_MODULE_LOG
 
 feature {NONE} -- Initialization
 
@@ -43,10 +40,10 @@ feature -- Access
 
 feature -- Element change
 
-	 set_application_home (an_application_home: STRING)
+	 set_application_home (an_application_home: like application_home)
 			--
 		do
-			create application_home.make_from_string (an_application_home)
+			application_home := an_application_home
 		end
 
 	set_desktop_shortcut (a_desktop_shortcut: like has_desktop_shortcut)
@@ -80,21 +77,23 @@ feature -- Basic operations
 			target_path: EL_FILE_PATH
 		do
 			log.enter ("install")
-			create_directory (path_steps (application_home))
-			create_directory (path_steps (program_menu_path))
+			File_system.make_directory (application_home)
+			File_system.make_directory (program_menu_path)
 
-			File_source_directories.linear_representation.do_all (agent place_files_in_destination)
-			target_path := file_path (application_home, Launch_command_relative_path)
+			across File_source_directories as path loop
+				place_files_in_destination (path.item)
+			end
+			target_path := application_home + Launch_command_relative_path
 
 			shell_link.load (File_link_path)
 			shell_link.set_target_path (target_path)
 			if not Launch_command_arguments.is_empty then
 				shell_link.set_command_arguments (Launch_command_arguments)
 			end
-			shell_link.set_working_directory (directory_path_containing_file (target_path))
+			shell_link.set_working_directory (target_path.parent)
 			shell_link.set_icon_location (Shell_link_icon_path, 1)
 
-			program_file_link_path := file_path (program_menu_path, Launch_shortcut_name)
+			program_file_link_path := program_menu_path + Launch_shortcut_name
 			program_file_link_path.add_extension ("lnk")
 
 			shell_link.save (program_file_link_path)
@@ -106,32 +105,30 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	place_files_in_destination (directory: STRING)
+	place_files_in_destination (directory: ZSTRING)
 			--
 		local
-			l_command: STRING
+			l_command: EL_OS_COMMAND
 			source_path, destination_path: EL_DIR_PATH
-			source_drive, destination_drive: CHARACTER
+			source_drive, destination_drive: CHARACTER_32
 		do
 			log.enter_with_args ("place_files_in_destination", << directory >>)
-			create source_path.make_from_string (Install_files_root)
-			source_path.extend (directory)
-			create destination_path.make_from_string (application_home)
+			create source_path.make (install_files_root)
+			source_path.append_step (directory)
+			create destination_path.make (application_home)
 
-			source_drive := source_path @ 1
-			destination_drive := application_home @ 1
+			source_drive := source_path.first_step [1]
+			destination_drive := application_home.first_step [1]
 
 			if source_drive = destination_drive then
-				create l_command.make_from_string (Move_directory_os_command_template)
+				l_command := (Move_directory_command)
 			else
-				create l_command.make_from_string (Copy_directory_os_command_template)
-				destination_path.extend (directory)
+				l_command := (Copy_directory_command)
+				destination_path.append_step (directory)
 			end
-			l_command.replace_substring_all ("$source", source_path)
-			l_command.replace_substring_all ("$application_home", destination_path)
-			log.put_string (l_command)
-			log.put_new_line
-			system (l_command)
+			l_command.put_directory_path ("source", source_path)
+			l_command.put_directory_path ("application_home", destination_path)
+			l_command.execute
 			log.exit
 		end
 
@@ -143,9 +140,11 @@ feature {NONE} -- Implementation
 
 	File_link_path: EL_FILE_PATH
 			-- relative to installation root
+		local
+			l_dir: EL_DIR_PATH
 		do
-			create Result.make_from_string (install_files_root)
-			Result.extend (File_link_relative_path)
+			l_dir := install_files_root
+			Result := l_dir + File_link_relative_path
 		end
 
 feature -- Constants
@@ -168,9 +167,9 @@ feature -- Constants
 	Desktop_link_path: EL_FILE_PATH
 			--
 		once
-			create Result.make_from_string (get ("USERPROFILE"))
-			Result.extend ("Desktop")
-			Result.extend (Launch_shortcut_name)
+			create Result.make (item ("USERPROFILE"))
+			Result.append_step ("Desktop")
+			Result.append_step (Launch_shortcut_name)
 			Result.add_extension ("lnk")
 		end
 
@@ -200,17 +199,23 @@ feature -- Constants
 		deferred
 		end
 
-	Shell_link_icon_path: STRING
+	Shell_link_icon_path: EL_FILE_PATH
 			--
 		once
-			Result := file_path (application_home, Executable_relative_path)
+			Result := application_home + Executable_relative_path
 		end
 
-feature -- OS command templates
+feature {NONE} -- OS commands
 
-	Copy_directory_OS_command_template: STRING = "xcopy /I /S /Y %"$source%" %"$application_home%""
+	Copy_directory_command: EL_OS_COMMAND
+		once
+			create Result.make ("xcopy /I /S /Y %"$source%" %"$application_home%"")
+		end
 
-	Move_directory_OS_command_template: STRING = "move /Y %"$source%" %"$application_home%""
+	Move_directory_command: EL_OS_COMMAND
+		once
+			create Result.make ("move /Y %"$source%" %"$application_home%"")
+		end
 
 feature -- Window  constants
 
@@ -229,7 +234,7 @@ feature -- Window  constants
 		deferred
 		end
 
-	Application_icons: EL_APPLICATION_ICONS
+	Application_icons: EL_APPLICATION_ICON
 			--
 		once
 			create Result

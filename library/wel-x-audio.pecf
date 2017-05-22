@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-8-0"
+	configuration_ns = "1-16-0"
 	name = EL_wel_x_audio; uuid = "229b6df4-09aa-11df-87ac-abdb0fd497e6" 
 	library_target = EL_wel_x_audio
 	
@@ -16,8 +16,9 @@ system:
 		root:
 			all_classes = true
 
-		option: 
-			trace = false; debug = false; warning = true; syntax = standard
+		option:
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug = false; warning = true
 
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
@@ -41,13 +42,19 @@ system:
 		library:
 			name = EL_base; location = "base/base.ecf"
 
+		library:
+			name = EL_thread; location = "thread.ecf"
+
+		library:
+			name = EL_logging; location = "logging.ecf"
+
+		library:
+			name = EL_wav_audio; location = "wav-audio.ecf"
+			readonly = false
+
 		# Source code
 		cluster:
 			name = audio; location = "multimedia/audio"
-			cluster:
-				name = file; location = "$|file/wav"
-			cluster:
-				name = sample; location = "$|sample"
 			cluster:
 				name = memory; location = "$|memory"
 			cluster:

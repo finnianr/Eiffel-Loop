@@ -40,6 +40,6 @@ feature {NONE} -- Implementation
 
 	operands: TUPLE [G]
 
-	predicate: PREDICATE [ANY, TUPLE [G]]
+	predicate: PREDICATE [G]
 
 end

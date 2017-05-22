@@ -45,7 +45,7 @@ feature -- Access
 			create Result.make_empty (0)
 		end
 
-	Default_action: PROCEDURE [ANY, TUPLE [EL_STRING_VIEW]]
+	Default_action: PROCEDURE [EL_STRING_VIEW]
 		once
 			Result := agent on_match
 		end
@@ -270,7 +270,7 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Empty_actions: SPECIAL [PROCEDURE [ANY, TUPLE [EL_STRING_VIEW]]]
+	Empty_actions: SPECIAL [PROCEDURE [EL_STRING_VIEW]]
 			--This is also accessible through {EL_TEXTUAL_PATTERN_FACTORY}.default_match_action
 		once
 			create Result.make_empty (0)

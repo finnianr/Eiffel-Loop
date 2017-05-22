@@ -43,7 +43,7 @@ feature {NONE} -- Internal attributes
 
 	delta_count: INTEGER_32
 
-	f: FUNCTION [ANY, TUPLE [DOUBLE], DOUBLE]
+	f: FUNCTION [DOUBLE, DOUBLE]
 
 	lower, upper: DOUBLE
 

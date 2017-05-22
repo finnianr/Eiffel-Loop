@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-8-0"
+	configuration_ns = "1-16-0"
 	name = EL_vtd_xm; uuid = "229b77d6-09aa-11df-87c5-b77da3e246d9" 
 	library_target = EL_vtd_xml
 	
@@ -18,7 +18,9 @@ system:
 			all_classes = true
 
 		option:
-			namespace = "Eiffel-Loop.Library.VTD-XML"; trace = false; debug = false; warning = true; syntax = standard
+			namespace = "Eiffel-Loop.Library.VTD-XML"
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug = false; warning = true; syntax = standard
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 

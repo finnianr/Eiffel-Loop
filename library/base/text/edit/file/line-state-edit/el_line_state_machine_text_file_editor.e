@@ -63,7 +63,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	initial_state: PROCEDURE [like Current, TUPLE [ZSTRING]]
+	initial_state: PROCEDURE [ZSTRING]
 			-- initial line state procedure to use for `put_editions' (called from `edit')
 		deferred
 		end

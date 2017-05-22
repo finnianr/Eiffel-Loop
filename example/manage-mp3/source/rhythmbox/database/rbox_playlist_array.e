@@ -101,7 +101,7 @@ feature {NONE} -- Build from XML
 			set_next_context (last)
 		end
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			-- Nodes relative to root element: rhythmdb-playlists
 		do
 			create Result.make (<<

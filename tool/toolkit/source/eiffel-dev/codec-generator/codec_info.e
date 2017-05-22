@@ -250,7 +250,7 @@ feature {NONE} -- Match actions
 
 feature {NONE} -- Implementation
 
-	character_set (filter: PREDICATE [LATIN_CHARACTER, TUPLE]): ARRAYED_LIST [INTEGER_INTERVAL]
+	character_set (filter: PREDICATE): ARRAYED_LIST [INTEGER_INTERVAL]
 		local
 			i: INTEGER
 			interval: INTEGER_INTERVAL

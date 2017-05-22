@@ -314,7 +314,7 @@ feature -- Quoted patterns
 
 feature {NONE} -- Constants
 
-	Default_action: PROCEDURE [ANY, TUPLE [EL_STRING_VIEW]]
+	Default_action: PROCEDURE [EL_STRING_VIEW]
 		local
 			l_pattern: EL_LITERAL_CHAR_TP
 		once

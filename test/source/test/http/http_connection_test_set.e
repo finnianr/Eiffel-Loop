@@ -230,7 +230,7 @@ feature {NONE} -- Implementation
 			assert ("valid server", is_server_name (headers.server))
 		end
 
-	document_retrieved_table: EL_HASH_TABLE [PREDICATE [like Current, TUPLE [STRING]], STRING]
+	document_retrieved_table: EL_HASH_TABLE [PREDICATE [STRING], STRING]
 			-- table of predicates testing if document was retrieved
 		do
 			create Result.make (<<

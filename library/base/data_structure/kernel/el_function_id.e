@@ -13,7 +13,7 @@ class
 	EL_FUNCTION_ID
 
 inherit
-	FUNCTION [ANY, TUPLE, ANY]
+	FUNCTION [ANY]
 		export
 			{NONE} all
 			{EL_FUNCTION_ID} encaps_rout_disp
@@ -26,7 +26,7 @@ create
 
 feature -- Initialization
 
-	make (other: FUNCTION [ANY, TUPLE, ANY])
+	make (other: FUNCTION [ANY])
 			--
 		do
 			encaps_rout_disp := other.encaps_rout_disp

@@ -60,7 +60,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	unassigned_routine: detachable PROCEDURE [ANY, TUPLE]
+	unassigned_routine: detachable PROCEDURE
 		-- routine that is not yet assigned to any thread for execution
 
 end

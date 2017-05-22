@@ -404,7 +404,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	do_performance_test (routines: STRING_32; a_input_format: STRING; procedure: PROCEDURE [STRING_BENCHMARK, TUPLE])
+	do_performance_test (routines: STRING_32; a_input_format: STRING; procedure: PROCEDURE)
 		require
 			valid_input_format: across input_arguments (a_input_format) as c all c.item.is_alpha implies c.item.is_upper end
 		local

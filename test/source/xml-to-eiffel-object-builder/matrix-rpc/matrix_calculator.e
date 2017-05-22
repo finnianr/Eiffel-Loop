@@ -28,7 +28,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 10:40:25 GMT (Friday 8th July 2016)"
 	revision: "1"
@@ -121,7 +121,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	calculation_procedure: PROCEDURE [like Current, TUPLE]
+	calculation_procedure: PROCEDURE
 
 	row_sum: ARRAY [REAL]
 
@@ -170,7 +170,7 @@ feature {NONE} -- Building from XML
 --			calculation_procedure.apply
 		end
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			-- Relative to root node: matrix
 		do
 			create Result.make (<<
@@ -181,7 +181,7 @@ feature {NONE} -- Building from XML
 			>>)
 		end
 
-	PI_building_action_table: like Type_building_actions
+	PI_building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
 			create Result.make (<<
@@ -193,7 +193,7 @@ feature {NONE} -- Building from XML
 
 feature {NONE} -- Constants
 
-	Procedures: EL_HASH_TABLE [PROCEDURE [MATRIX_CALCULATOR, TUPLE], STRING]
+	Procedures: EL_HASH_TABLE [PROCEDURE, STRING]
 			--
 		once
 			create Result.make (<<

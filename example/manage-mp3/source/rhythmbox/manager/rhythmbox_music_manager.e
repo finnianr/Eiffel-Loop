@@ -629,7 +629,7 @@ feature {NONE} -- Implementation
 
 	for_all_songs (
 		condition: EL_QUERY_CONDITION [RBOX_SONG]
-		do_with_song_id3: PROCEDURE [like Database, TUPLE [RBOX_SONG, EL_FILE_PATH, EL_ID3_INFO]]
+		do_with_song_id3: PROCEDURE [RBOX_SONG, EL_FILE_PATH, EL_ID3_INFO]
 	)
 			--
 		local
@@ -643,7 +643,7 @@ feature {NONE} -- Implementation
 
 	for_all_songs_id3_info (
 		condition: EL_QUERY_CONDITION [RBOX_SONG]
-		do_id3_edit: PROCEDURE [ID3_EDITS, TUPLE [EL_ID3_INFO, EL_FILE_PATH]]
+		do_id3_edit: PROCEDURE [EL_ID3_INFO, EL_FILE_PATH]
 	)
 			--
 		local
@@ -669,7 +669,7 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	task_table: EL_HASH_TABLE [PROCEDURE [RHYTHMBOX_MUSIC_MANAGER, TUPLE], like config.task]
+	task_table: EL_HASH_TABLE [PROCEDURE, like config.task]
 		do
 			create Result.make (<<
 				[Task_add_album_art, 							agent add_album_art],

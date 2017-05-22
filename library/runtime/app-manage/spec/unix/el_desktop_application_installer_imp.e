@@ -106,9 +106,7 @@ feature {NONE} -- Implementation
 		end
 
 	for_each_entry_path_step (
-		entries: like desktop_entry_path
-		action: PROCEDURE [like Current, TUPLE [entry: EL_XDG_DESKTOP_MENU_ITEM; file_path: EL_FILE_PATH]]
-
+		entries: like desktop_entry_path; action: PROCEDURE [TUPLE [entry: EL_XDG_DESKTOP_MENU_ITEM; file_path: EL_FILE_PATH]]
 	)
 			--
 		do

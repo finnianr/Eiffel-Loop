@@ -138,8 +138,8 @@ feature {NONE} -- Status setting
 feature -- Basic operations
 
 	delete_content_with_action (
-			action: detachable PROCEDURE [ANY, TUPLE [LIST [READABLE_STRING_GENERAL]]]
-			is_cancel_requested: detachable FUNCTION [ANY, TUPLE, BOOLEAN]
+			action: detachable PROCEDURE [LIST [READABLE_STRING_GENERAL]]
+			is_cancel_requested: detachable FUNCTION [BOOLEAN]
 			file_number: INTEGER)
 			-- Delete all files located in current directory and its
 			-- subdirectories.

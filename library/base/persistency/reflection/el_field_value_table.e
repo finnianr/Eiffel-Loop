@@ -72,5 +72,5 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	condition: PREDICATE [ANY, TUPLE [G]]
+	condition: PREDICATE [G]
 end

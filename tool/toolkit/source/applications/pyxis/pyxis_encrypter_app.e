@@ -114,7 +114,7 @@ feature {NONE} -- Implementation
 			Result.output_path := ""
 		end
 
-	make_action: PROCEDURE [like pyxis_encrypter, like default_operands]
+	make_action: PROCEDURE [like default_operands]
 		do
 			Result := agent pyxis_encrypter.make (?, ?, aes_encrypter)
 		end

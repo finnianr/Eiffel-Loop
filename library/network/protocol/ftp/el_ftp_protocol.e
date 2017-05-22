@@ -350,7 +350,7 @@ feature {NONE} -- Implementation
 		end
 
 	set_login_detail (
-		prompt: ZSTRING; setter: PROCEDURE [EL_FTP_PROTOCOL, TUPLE]; get_detail_action: FUNCTION [FTP_URL, TUPLE, STRING]
+		prompt: ZSTRING; setter: PROCEDURE; get_detail_action: FUNCTION [STRING]
 	)
 		local
 			detail: ZSTRING

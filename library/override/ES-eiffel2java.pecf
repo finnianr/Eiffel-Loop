@@ -68,4 +68,5 @@ system:
 					"/shared_jni_environment\.e$"
 					"/java_vm\.e$"
 					"/java_args\.e$"
+					"/java_object_array\.e$"
 

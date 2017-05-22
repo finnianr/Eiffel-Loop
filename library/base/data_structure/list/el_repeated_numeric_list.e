@@ -175,7 +175,7 @@ feature -- Cursor movement
 
 feature -- Iteration
 
-	repeated_numerics_do_all (action: PROCEDURE [ANY, TUPLE [EL_REPEATED_NUMERIC [G]]])
+	repeated_numerics_do_all (action: PROCEDURE [EL_REPEATED_NUMERIC [G]])
 			--
 		do
 			compact_list.do_all (action)

@@ -36,7 +36,7 @@ feature -- Basic operations
 	apply_building_action_for_xpath
 			-- Apply building action if xpath has one assigned
 		local
-			build_action: PROCEDURE [like Current, TUPLE]
+			build_action: PROCEDURE
 		do
 			building_actions.search (xpath)
 			if building_actions.found then
@@ -84,11 +84,11 @@ feature -- Element change
 
 feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Implementation
 
-	building_actions: HASH_TABLE [PROCEDURE [EL_EIF_OBJ_BUILDER_CONTEXT, TUPLE], STRING_32]
+	building_actions: HASH_TABLE [PROCEDURE, STRING_32]
 
 feature {NONE} -- Implementation
 
-	add_builder_actions_for_xpaths_containing_attribute_value_predicates (a_building_actions: like Type_building_actions)
+	add_builder_actions_for_xpaths_containing_attribute_value_predicates (a_building_actions: EL_PROCEDURE_TABLE)
 			--
 		local
 			xpath_array: ARRAY [STRING]
@@ -110,7 +110,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			--
 		deferred
 		end
@@ -132,7 +132,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	building_actions_for_type (type: TYPE [ANY]; except_fields: ARRAY [STRING]; word_separator: CHARACTER ): like Type_building_actions
+	building_actions_for_type (type: TYPE [ANY]; except_fields: ARRAY [STRING]; word_separator: CHARACTER ): EL_PROCEDURE_TABLE
 		local
 			object: like current_object; excluded_indices: like new_field_indices_set
 			field_names: like current_field_names
@@ -264,18 +264,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Anchored type declarations
-
-	Type_building_actions: EL_HASH_TABLE [PROCEDURE [EL_EIF_OBJ_BUILDER_CONTEXT, TUPLE], STRING]
-			--
-		require
-			not_to_be_called: False
-		once
-		end
-
 feature {NONE} -- Constants
 
-	Building_actions_by_type: EL_TYPE_TABLE [HASH_TABLE [PROCEDURE [EL_EIF_OBJ_BUILDER_CONTEXT, TUPLE], STRING_32]]
+	Building_actions_by_type: EL_TYPE_TABLE [HASH_TABLE [PROCEDURE, STRING_32]]
 			--
 		once
 			create Result.make_equal (17)

@@ -181,7 +181,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	is_path_included: PREDICATE [ANY, TUPLE [ZSTRING]]
+	is_path_included: PREDICATE [ZSTRING]
 
 	not_path_included: BOOLEAN
 

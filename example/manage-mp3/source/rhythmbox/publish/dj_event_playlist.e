@@ -213,7 +213,7 @@ feature {NONE} -- Building from XML
 
 	Root_node_name: STRING = "DJ-event"
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 		do
 			create Result.make (<<
 				["@title", 				agent do title := node.to_string end],

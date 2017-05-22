@@ -158,7 +158,7 @@ feature {NONE} -- Build from Pyxis
 			dir_path := repository.root_dir.joined_dir_path (node.to_string)
 		end
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 		do
 			Result := Precursor
 			Result.append_tuples (<<

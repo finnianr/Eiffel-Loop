@@ -196,7 +196,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Build from Pyxis
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 		do
 			create Result.make (<<
 				["@url", 		agent do ftp.make_write (create {FTP_URL}.make (node.to_string_8)) end],

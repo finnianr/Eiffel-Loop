@@ -4,9 +4,13 @@
 
 ## BASE library
 
+* Added class `EL_PROCEDURE_TABLE`
+
 ## XDOC-SCANNING library
 
 * Added procedure `set_parser_type` to `EL_CREATEABLE_FROM_NODE_SCAN`
+
+* Replaced anchored type definition `Type_building_actions` with class definition `EL_PROCEDURE_TABLE`.
 
 * Changed `EL_SMART_BUILDABLE_FROM_NODE_SCAN` from being generic class to accepting a make routine argument of `TYPE [EL_PARSE_EVENT_SOURCE]`.
 

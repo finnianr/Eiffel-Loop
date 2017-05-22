@@ -65,7 +65,7 @@ feature {NONE} -- Initialization
 
 feature -- Factory
 
-	instance_from_alias (type_alias: ZSTRING; constructor: PROCEDURE [G, TUPLE]): G
+	instance_from_alias (type_alias: ZSTRING; constructor: PROCEDURE): G
 			--
 		require
 			has_type: has_type (type_alias)
@@ -74,7 +74,7 @@ feature -- Factory
 			constructor.call ([Result])
 		end
 
-	instance_from_class_name (class_name: STRING; constructor: PROCEDURE [G, TUPLE]): G
+	instance_from_class_name (class_name: STRING; constructor: PROCEDURE): G
 			--
 		require
 			valid_type: valid_type (class_name)
@@ -85,7 +85,7 @@ feature -- Factory
 			end
 		end
 
-	instance_from_type (type: TYPE [G]; constructor: PROCEDURE [G, TUPLE]): G
+	instance_from_type (type: TYPE [G]; constructor: PROCEDURE): G
 			--
 		do
 			Result := instance_from_dynamic_type (type.type_id, constructor)
@@ -154,7 +154,7 @@ feature -- Contract support
 
 feature {EL_FACTORY_CLIENT} -- Implementation
 
-	instance_from_dynamic_type (type_id: INTEGER; constructor: PROCEDURE [G, TUPLE]): G
+	instance_from_dynamic_type (type_id: INTEGER; constructor: PROCEDURE): G
 			--
 		do
 			if type_id >= 0 and then attached {G} Eiffel.new_instance_of (type_id) as instance then

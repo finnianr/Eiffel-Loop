@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Initialization
 	
-	make (an_action: PROCEDURE [ANY, TUPLE])
+	make (an_action: PROCEDURE)
 			-- 
 		do
 			action := an_action
@@ -36,6 +36,6 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	action: PROCEDURE [ANY, TUPLE]
+	action: PROCEDURE
 
 end

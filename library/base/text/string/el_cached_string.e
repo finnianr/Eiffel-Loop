@@ -64,6 +64,6 @@ feature {NONE} -- Implementation
 
 	last_item: like item
 
-	fn_new_item: FUNCTION [ANY, TUPLE, STR]
+	fn_new_item: FUNCTION [STR]
 
 end

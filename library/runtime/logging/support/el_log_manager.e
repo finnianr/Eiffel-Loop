@@ -287,7 +287,7 @@ feature {EL_CONSOLE_MANAGER, EL_LOGGABLE, EL_MODULE_LOG_MANAGER} -- Access
 			end_restriction
 		end
 
-	thread_registration_consumer: EL_TUPLE_CONSUMER_MAIN_THREAD [EL_CONSOLE_MANAGER, TUPLE [EL_IDENTIFIED_THREAD_I]]
+	thread_registration_consumer: EL_TUPLE_CONSUMER_MAIN_THREAD [TUPLE [EL_IDENTIFIED_THREAD_I]]
 
 feature {NONE} -- Factory
 

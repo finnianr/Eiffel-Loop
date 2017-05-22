@@ -44,6 +44,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	feature_edit_actions: EL_ZSTRING_HASH_TABLE [PROCEDURE [like Current, TUPLE [CLASS_FEATURE]]]
+	feature_edit_actions: EL_ZSTRING_HASH_TABLE [PROCEDURE [CLASS_FEATURE]]
 
 end

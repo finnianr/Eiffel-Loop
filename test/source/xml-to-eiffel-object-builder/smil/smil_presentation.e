@@ -1,7 +1,7 @@
 note
 	description: "Objects that ..."
 
-	
+
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -101,7 +101,7 @@ feature {NONE} -- Build from XML
 			log.exit
 		end
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			-- Nodes relative to root element: smil
 		do
 			create Result.make (<<
@@ -118,7 +118,7 @@ feature {NONE} -- Build from XML
 			>>)
 		end
 
-	PI_building_action_table: like Type_building_actions
+	PI_building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
 			create Result.make (<<

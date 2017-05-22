@@ -234,7 +234,7 @@ feature {NONE} -- Implementation
 		end
 
 	creation_action_table: EL_HASH_TABLE [
-		FUNCTION [EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE], TUPLE [EL_XPATH_NODE_CONTEXT], like Type_edition],
+		FUNCTION [EL_XPATH_NODE_CONTEXT, like Type_edition],
 		STRING
 	]
 			--

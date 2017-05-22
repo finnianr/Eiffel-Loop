@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-02 13:23:09 GMT (Wednesday 2nd March 2016)"
 	revision: "1"
@@ -78,7 +78,7 @@ feature {NONE} -- Build from XML
 			log.exit
 		end
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			-- Relative to nodes /html/body/select
 		do
 			create Result.make (<<

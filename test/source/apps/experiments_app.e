@@ -362,7 +362,7 @@ feature -- Experiments
 
 	open_function_target
 		local
-			duration: FUNCTION [AUDIO_EVENT, TUPLE [AUDIO_EVENT], REAL]
+			duration: FUNCTION [AUDIO_EVENT, REAL]
 			event: AUDIO_EVENT
 		do
 			duration := agent {AUDIO_EVENT}.duration
@@ -416,7 +416,7 @@ feature -- Experiments
 
 	procedure_call
 		local
-			procedure: PROCEDURE [like Current, TUPLE]
+			procedure: PROCEDURE
 		do
 			procedure := agent log_integer (?, "n")
 			procedure (2)
@@ -425,7 +425,7 @@ feature -- Experiments
 	procedure_pointer
 		local
 			pointer: PROCEDURE_POINTER
-			proc_random_sequence: PROCEDURE [like Current, TUPLE]
+			proc_random_sequence: PROCEDURE
 		do
 			proc_random_sequence := agent random_sequence
 			create pointer.make (proc_random_sequence, $random_sequence)
@@ -641,7 +641,7 @@ feature -- Experiments
 
 	twinning_procedures
 		local
-			action, action_2: PROCEDURE [ANY, TUPLE [STRING]]
+			action, action_2: PROCEDURE [STRING]
 		do
 			action := agent hello_routine
 			action_2 := action.twin

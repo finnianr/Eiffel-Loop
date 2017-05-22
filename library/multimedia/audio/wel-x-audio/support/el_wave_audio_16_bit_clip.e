@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -61,12 +61,12 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	save (fn: STRING)
+	save (path: EL_FILE_PATH)
 			--
 		local
 			file_out: EL_WAVE_FILE
 		do
-			create file_out.make_open_write (fn, format.num_channels, format.bits_per_sample, format.samples_per_sec)
+			create file_out.make_open_write (path, format.num_channels, format.bits_per_sample, format.samples_per_sec)
 			file_out.header.set_sample_count (sample_count)
 			file_out.close
 		end
@@ -178,7 +178,7 @@ feature {NONE} -- C externals: setters
 			"dwBufferLength"
 		end
 
-	c_set_loop_control_counter (p: POINTER; counter: INTEGER)
+	c_set_loop_control_counter (p: POINTER; a_counter: INTEGER)
 			--
 		external
 			"C [struct <mmsystem.h>] (WAVEHDR, DWORD)"

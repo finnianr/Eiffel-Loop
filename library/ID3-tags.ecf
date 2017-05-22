@@ -7,10 +7,10 @@
 	cosmetics, trinkets or jewellery.
 	
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" name = "EL_id3_tags" uuid = "229b4fae-09aa-11df-8771-e7444f3b4d30" library_target = "EL_id3_tags">
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_id3_tags" uuid = "229b4fae-09aa-11df-8771-e7444f3b4d30" library_target = "EL_id3_tags">
 	<target name = "EL_id3_tags">
 		<description>ID3 tagging library. (http://www.eiffel-loop.com)</description>
-		<option trace = "false" debug = "false" warning = "true" syntax = "standard">
+		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
 		<root all_classes = "true"/>

@@ -52,7 +52,7 @@ feature {NONE} -- Internal attributes
 
 	item_number: INTEGER
 
-	state: PROCEDURE [like Current, TUPLE [G]]
+	state: PROCEDURE [G]
 
 	tuple: TUPLE [G]
 

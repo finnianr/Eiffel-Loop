@@ -33,7 +33,7 @@ feature {NONE} -- Evolicity reflection
 
 feature {NONE} -- Building from XML
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
 			create Result

@@ -61,6 +61,6 @@ feature {NONE} -- Implementation
 
 	timer: EL_TIMED_COUNT_PRODUCER
 
-	procedure: PROCEDURE [BASE_TYPE, OPEN_ARGS]
+	procedure: PROCEDURE [OPEN_ARGS]
 
 end

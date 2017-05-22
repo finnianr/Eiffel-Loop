@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -22,7 +22,7 @@ inherit
 			on_resumption as on_start_play,
 			do_action as cycle_play_buffers
 		redefine
-			on_exit, on_finished_play, on_start_play, stop_play, Is_visible_in_console
+			on_exit, on_finished_play, on_start_play, stop_play, on_start
 		end
 
 	EL_AUDIO_PLAYER_CONSTANTS
@@ -31,6 +31,11 @@ inherit
 		end
 
 	EL_MODULE_LOG
+		undefine
+			default_create, is_equal, copy
+		end
+
+	EL_MODULE_LOG_MANAGER
 		undefine
 			default_create, is_equal, copy
 		end
@@ -45,9 +50,7 @@ feature {NONE} -- Initialization
 		do
 			default_create
 			create play_buffer.make
-			create source_producer.make (
-				create {EL_AUDIO_SOURCE_PRODUCER [SAMPLE_TYPE]}.make
-			)
+			create source_producer.make (create {EL_AUDIO_SOURCE_PRODUCER [SAMPLE_TYPE]}.make)
 			set_event_listener (create {EL_AUDIO_PLAYER_DO_NOTHING_EVENT_LISTENER})
 			create channel_volume_settings.make (<< 50, 50 >>)
 		end
@@ -153,7 +156,7 @@ feature -- Status query
 
 	is_last_buffer_played: BOOLEAN
 
-feature {NONE} -- Implementation: routines
+feature {NONE} -- Event handlers
 
 	on_exit
 			--
@@ -161,6 +164,11 @@ feature {NONE} -- Implementation: routines
 			log.enter ("on_exit")
 			source_producer.exit
 			log.exit
+		end
+
+	on_start
+		do
+			Log_manager.add_thread (Current)
 		end
 
 	on_start_play
@@ -212,6 +220,8 @@ feature {NONE} -- Implementation: routines
 			event_listener.on_finished
 		end
 
+feature {NONE} -- Implemenation
+
 	cycle_play_buffers
 			--
 		do
@@ -257,7 +267,7 @@ feature {NONE} -- Implementation: routines
 			until
 				is_play_stopped or else audio_device.buffers_played_count > buffers_played_count
 			loop
-				sleep_millisecs (wait_millisecs)
+				sleep (wait_millisecs)
 				wait_millisecs := 4
 				count := count + 1
 			end
@@ -355,7 +365,7 @@ feature {NONE} -- Implementation: components
 
 feature {NONE} -- Implementation: variables
 
-	channel_volume_settings: EL_SYNCHRONIZED_REF [ARRAY [INTEGER]]
+	channel_volume_settings: EL_MUTEX_REFERENCE [ARRAY [INTEGER]]
 
 	source_header: EL_AUDIO_WAVE_HEADER
 
@@ -372,9 +382,5 @@ feature {NONE} -- Implementation: variables
 	last_event_time: REAL
 		-- Time when last buffer played event generated measured as secs of play
 
-
-feature {NONE} -- Constants
-
-	Is_visible_in_console: BOOLEAN = true
 
 end

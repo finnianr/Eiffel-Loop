@@ -19,7 +19,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	open_batik_package (error_action: PROCEDURE [ANY, TUPLE [STRING]])
+	open_batik_package (error_action: PROCEDURE [STRING])
 		do
 			if Java_packages.is_java_installed then
 				Java_packages.append_jar_locations (<< Directory.Application_installation.joined_dir_path ("batik-1.7") >>)

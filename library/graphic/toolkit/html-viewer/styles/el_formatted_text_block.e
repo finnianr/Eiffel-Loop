@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 7:35:27 GMT (Friday 24th June 2016)"
 	revision: "1"
@@ -176,7 +176,9 @@ feature -- Disable styles
 
 feature {NONE} -- Implementation
 
-	change_text_style (change: PROCEDURE [EV_CHARACTER_FORMAT, TUPLE])
+	change_text_style (change: PROCEDURE)
+		require
+			valid_change: attached {EV_CHARACTER_FORMAT} change.target
 		do
 			change.set_target (change.target.twin)
 			change.apply

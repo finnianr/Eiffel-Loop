@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-22 16:33:27 GMT (Monday 22nd December 2014)"
 	revision: "1"
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (default_directory: STRING; a_window: EV_WINDOW)
+	make (default_directory: EL_DIR_PATH; a_window: EV_WINDOW)
 			--
 		do
 			default_create

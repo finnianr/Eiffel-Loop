@@ -56,7 +56,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	find_next_function_value (value: ANY; value_function: FUNCTION [G, TUPLE, ANY])
+	find_next_function_value (value: ANY; value_function: FUNCTION [ANY])
 			-- Find next item where function returns a value matching 'a_value'
 		local
 			l_area: like area_v2; l_tuple: TUPLE [like item]

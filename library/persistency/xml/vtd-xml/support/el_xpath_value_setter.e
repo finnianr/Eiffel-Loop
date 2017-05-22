@@ -17,7 +17,7 @@ deferred class
 
 feature -- Basic operations
 
-	set_from_node (node: EL_XPATH_NODE_CONTEXT; a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [G]])
+	set_from_node (node: EL_XPATH_NODE_CONTEXT; a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [G])
 		local
 			parts: like xpath_parts
 		do
@@ -38,7 +38,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	try_set_attribute (node: EL_XPATH_NODE_CONTEXT; parts: like xpath_parts; set_value: PROCEDURE [ANY, TUPLE [G]])
+	try_set_attribute (node: EL_XPATH_NODE_CONTEXT; parts: like xpath_parts; set_value: PROCEDURE [G])
 		do
 			if node.attributes.has (parts.attribute_name) then
 				set_value (attribute_value (node.attributes, parts.attribute_name))

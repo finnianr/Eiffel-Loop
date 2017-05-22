@@ -42,6 +42,7 @@
 				<exclude>/shared_jni_environment\.e$</exclude>
 				<exclude>/java_vm\.e$</exclude>
 				<exclude>/java_args\.e$</exclude>
+				<exclude>/java_object_array\.e$</exclude>
 			</file_rule>
 		</cluster>
 	</target>

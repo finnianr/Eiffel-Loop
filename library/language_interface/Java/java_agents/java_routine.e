@@ -26,7 +26,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (method_name: STRING; mapped_routine: ROUTINE [BASE_TYPE, TUPLE])
+	make (method_name: STRING; mapped_routine: ROUTINE)
 			--
 		do
 			create java_args.make (mapped_routine.open_count)
@@ -63,7 +63,7 @@ feature -- Status report
 
 feature {NONE} -- Implementation
 
-	set_method_id (method_name: STRING; mapped_routine: ROUTINE [BASE_TYPE, TUPLE])
+	set_method_id (method_name: STRING; mapped_routine: ROUTINE)
 			--
 		do
 			if attached {BASE_TYPE} mapped_routine.target as target then

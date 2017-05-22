@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-8-0"
+	configuration_ns = "1-16-0"
 	name = EL_testing; uuid = "229B6BF6-09AA-11DF-87A7-175ABB67064B" 
 	library_target = EL_testing
 	
@@ -18,7 +18,9 @@ system:
 			all_classes = true
 
 		option:
-			namespace = "Eiffel-Loop.Library.Testing"; trace = false; debug=false; warning=true; syntax = standard
+			namespace = "Eiffel-Loop.Library.Testing"
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug=false; warning=true
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 

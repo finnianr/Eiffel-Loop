@@ -83,7 +83,7 @@ feature {NONE} -- Implementation
 
 feature {EL_TEXT_PATTERN, EL_TEXT_PATTERN_FACTORY} -- Implementation attributes
 
-	new_recursive: FUNCTION [ANY, TUPLE, EL_TEXT_PATTERN]
+	new_recursive: FUNCTION [EL_TEXT_PATTERN]
 
 	recursive: EL_TEXT_PATTERN
 

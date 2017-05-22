@@ -53,17 +53,17 @@ feature -- Access
 
 	index: INTEGER
 
-	subset_include (is_member: PREDICATE [ANY, TUPLE [G]]): like Current
+	subset_include (is_member: PREDICATE [G]): like Current
 		do
 			Result := subset (is_member, False)
 		end
 
-	subset_exclude (is_member: PREDICATE [ANY, TUPLE [G]]): like Current
+	subset_exclude (is_member: PREDICATE [G]): like Current
 		do
 			Result := subset (is_member, True)
 		end
 
-	subset (is_member: PREDICATE [ANY, TUPLE [G]]; inverse: BOOLEAN): like Current
+	subset (is_member: PREDICATE [G]; inverse: BOOLEAN): like Current
 		do
 			if object_comparison then
 				create Result.make_equal (count // 2)

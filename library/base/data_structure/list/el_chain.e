@@ -21,7 +21,7 @@ inherit
 
 feature -- Access
 
-	search_results (value: ANY; value_function: FUNCTION [G, TUPLE, ANY]): ARRAYED_LIST [G]
+	search_results (value: ANY; value_function: FUNCTION [ANY]): ARRAYED_LIST [G]
 		require
 			valid_open_count: value_function.open_count = 1
 			valid_value_function: not is_empty implies value_function.empty_operands.valid_type_for_index (first, 1)
@@ -37,7 +37,7 @@ feature -- Access
 			go_to (position)
 		end
 
-	string_list (string_function: FUNCTION [G, TUPLE, ZSTRING]): EL_ZSTRING_LIST
+	string_list (string_function: FUNCTION [ZSTRING]): EL_ZSTRING_LIST
 			-- collected results of call to string function on all items
 		require
 			valid_open_count: string_function.open_count = 1
@@ -71,7 +71,7 @@ feature -- Access
 			go_to (position)
 		end
 
-	index_for_value (value: ANY; value_function: FUNCTION [G, TUPLE, ANY]): INTEGER
+	index_for_value (value: ANY; value_function: FUNCTION [ANY]): INTEGER
 			-- index of item with function returning result equal to value, 0 if not found
 		local
 			position: CURSOR

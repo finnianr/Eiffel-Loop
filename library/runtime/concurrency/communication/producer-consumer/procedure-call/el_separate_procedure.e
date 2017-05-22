@@ -4,13 +4,13 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
 	revision: "1"
 
 class
-	EL_SEPARATE_PROCEDURE [BASE_TYPE, OPEN_ARGS -> TUPLE create default_create end]
+	EL_SEPARATE_PROCEDURE [OPEN_ARGS -> TUPLE create default_create end]
 
 inherit
 	EL_SHARED_THREAD_MANAGER
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 			call_queue.attach_consumer (consumer)
 		end
 
-	make (procedure: PROCEDURE [BASE_TYPE, OPEN_ARGS])
+	make (procedure: PROCEDURE [OPEN_ARGS])
 			--
 		do
 			default_create
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_action (procedure: PROCEDURE [BASE_TYPE, OPEN_ARGS])
+	set_action (procedure: PROCEDURE [OPEN_ARGS])
 			--
 		do
 			consumer.set_action (procedure)
@@ -63,7 +63,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	consumer: EL_TUPLE_CONSUMER_THREAD [BASE_TYPE, OPEN_ARGS]
+	consumer: EL_TUPLE_CONSUMER_THREAD [OPEN_ARGS]
 
 	call_queue: EL_THREAD_PRODUCT_QUEUE [OPEN_ARGS]
 

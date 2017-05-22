@@ -23,7 +23,7 @@ create
 
 feature -- Initialization
 
-	make (other: PROCEDURE [ANY, TUPLE]; procedure_address: POINTER)
+	make (other: PROCEDURE; procedure_address: POINTER)
 			--
 		do
 			make_procedure (other)

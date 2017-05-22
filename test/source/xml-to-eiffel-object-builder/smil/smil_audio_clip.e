@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 12:39:14 GMT (Wednesday 16th December 2015)"
 	revision: "1"
@@ -79,7 +79,7 @@ feature {NONE} -- Build from XML
 			log.exit
 		end
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			-- Relative to nodes /smil/body/seq/audio
 		do
 			create Result.make (<<

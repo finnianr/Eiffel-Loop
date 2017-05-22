@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -40,14 +40,14 @@ inherit
 			num_channels as num_sample_source_channels
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make_open_read, make_open_write
 
 feature {NONE} -- Initialization
 
-	make_open_write (file_name: STRING; a_num_channels, a_sample_bytes, a_samples_per_sec : INTEGER)
+	make_open_write (file_name: EL_FILE_PATH; a_num_channels, a_sample_bytes, a_samples_per_sec : INTEGER)
 			--
 		do
 			file_make_open_write (file_name)
@@ -92,7 +92,7 @@ feature -- Basic operations
 			process_sample_count, i, channel: INTEGER
 			unit_relative_pos: REAL
 		do
-			log.enter ("process_at_sample_rate")
+			lio.enter ("process_at_sample_rate")
 			process_sample_count := (duration * sample_rate).rounded.min (sample_block_count)
 
 			do_all_channels (agent {EL_AUDIO_SAMPLE_PROCESSOR}.set_sample_count (sample_block_count))
@@ -115,7 +115,7 @@ feature -- Basic operations
 			end
 			do_all_channels (agent {EL_AUDIO_SAMPLE_PROCESSOR}.on_finish)
 			close
-			log.exit
+			lio.exit
 		end
 
 	process_all
@@ -125,7 +125,7 @@ feature -- Basic operations
 		local
 			channel, i: INTEGER
 		do
-			log.enter ("process_all")
+			lio.enter ("process_all")
 
 			do_all_channels (agent {EL_AUDIO_SAMPLE_PROCESSOR}.set_sample_count (sample_block_count))
 			do_all_channels (agent {EL_AUDIO_SAMPLE_PROCESSOR}.set_samples_per_sec (samples_per_sec))
@@ -143,7 +143,7 @@ feature -- Basic operations
 			end
 			do_all_channels (agent {EL_AUDIO_SAMPLE_PROCESSOR}.on_finish)
 			close
-			log.exit
+			lio.exit
 		end
 
 	close
@@ -412,7 +412,7 @@ feature -- Element change
 			i, channel: INTEGER
 			l_sample_block: ARRAY [REAL]
 		do
-			log.enter ("write_normalised_real_samples")
+			lio.enter ("write_normalised_real_samples")
 			create l_sample_block.make (1, real_sample_files.count)
 			open_append
 			from i := 1 until i > sample_block_count loop
@@ -425,9 +425,9 @@ feature -- Element change
 				i := i + 1
 			end
 			close
-			log.put_integer_field ("sample_block_count", sample_block_count)
-			log.put_new_line
-			log.exit
+			lio.put_integer_field ("sample_block_count", sample_block_count)
+			lio.put_new_line
+			lio.exit
 		end
 
 	put_other_file (other: EL_WAVE_FILE)
@@ -457,11 +457,11 @@ feature -- Element change
 		require
 			is_open_read_write: is_open_write
 		do
-			log.enter ("write_header")
+			lio.enter ("write_header")
 			start
 			header.set_sample_count (sample_block_count)
 			header.write_to_file (Current)
-			log.exit
+			lio.exit
 		end
 
 feature {EL_WAVE_FILE} -- Implementation

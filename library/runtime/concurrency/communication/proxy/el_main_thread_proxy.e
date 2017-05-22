@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	call (procedure: PROCEDURE [ANY, TUPLE])
+	call (procedure: PROCEDURE)
 			-- Asynchronously call procedure
 		do
 			main_thread_event_request_queue.put_action (procedure)

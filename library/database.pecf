@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-8-0"
+	configuration_ns = "1-16-0"
 	name = EL_database; uuid = "229B73E4-09AA-11DF-87BB-93E5E9639079" 
 	library_target = EL_database
 	
@@ -18,7 +18,8 @@ system:
 				Supports transactions and encryption
 			"""
 		option: 
-			trace = false; debug = false; warning = true; syntax = standard
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug = false; warning = true
 
 		root:
 			all_classes = true
