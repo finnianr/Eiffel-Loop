@@ -29,7 +29,7 @@ feature -- Access
 			create Result.make (conditions)
 		end
 
-	predicate (a_predicate: PREDICATE [ANY, TUPLE [G]]): EL_PREDICATE_QUERY_CONDITION [G]
+	predicate (a_predicate: PREDICATE [G]): EL_PREDICATE_QUERY_CONDITION [G]
 		do
 			create Result.make (a_predicate)
 		end

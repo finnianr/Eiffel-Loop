@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 			create Result.make_from_pointer (cpp_item)
 		end
 
-	function_create_iterator: FUNCTION [ANY, TUPLE, POINTER]
+	function_create_iterator: FUNCTION [POINTER]
 		-- Current instance owns the resulting iterator and is responsible
 		-- for deleting it
 

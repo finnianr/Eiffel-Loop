@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 10:00:12 GMT (Sunday 3rd July 2016)"
 	revision: "1"
@@ -13,7 +13,7 @@ deferred class
 	EL_BATCH_FILE_PROCESSING_THREAD
 
 inherit
-	EL_TUPLE_CONSUMER_THREAD [EL_BATCH_FILE_PROCESSING_THREAD, TUPLE [EL_FILE_PATH, EL_DIR_PATH, STRING, STRING]]
+	EL_TUPLE_CONSUMER_THREAD [TUPLE [EL_FILE_PATH, EL_DIR_PATH, STRING, STRING]]
 		rename
 			make as make_consumer
 		redefine

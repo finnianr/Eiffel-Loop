@@ -25,7 +25,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like command, like default_operands]
+	make_action: PROCEDURE [like default_operands]
 		do
 			Result := agent command.make_shell
 		end

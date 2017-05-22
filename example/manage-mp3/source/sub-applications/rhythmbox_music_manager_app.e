@@ -89,7 +89,7 @@ feature {NONE} -- Implementation
 			Result.config := create {MANAGER_CONFIG}.make
 		end
 
-	make_action: PROCEDURE [like music_manager_command, like default_operands]
+	make_action: PROCEDURE [like default_operands]
 		do
 			Result := agent music_manager_command.make
 		end

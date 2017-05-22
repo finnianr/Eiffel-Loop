@@ -24,12 +24,12 @@ feature -- Status query
 
 feature -- Basic operations
 
-	find_first (value: ANY; value_function: FUNCTION [G, TUPLE, ANY])
+	find_first (value: ANY; value_function: FUNCTION [ANY])
 		do
 			start; find_next_function_value (value, value_function)
 		end
 
-	find_next (value: ANY; value_function: FUNCTION [G, TUPLE, ANY])
+	find_next (value: ANY; value_function: FUNCTION [ANY])
 		do
 			forth
 			if not after then
@@ -39,7 +39,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	find_next_function_value (value: ANY; value_function: FUNCTION [G, TUPLE, ANY])
+	find_next_function_value (value: ANY; value_function: FUNCTION [ANY])
 			-- Find next item where function returns a value matching 'a_value'
 		require
 			valid_open_count: value_function.open_count = 1

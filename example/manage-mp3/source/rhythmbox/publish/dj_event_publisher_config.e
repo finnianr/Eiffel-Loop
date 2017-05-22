@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-08-01 10:07:34 GMT (Monday 1st August 2016)"
 	revision: "1"
@@ -59,7 +59,7 @@ feature -- Status query
 
 feature {NONE} -- Build from XML
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 		do
 			create Result.make (<<
 				["@www_dir", 							agent do www_dir := node.to_expanded_dir_path end],

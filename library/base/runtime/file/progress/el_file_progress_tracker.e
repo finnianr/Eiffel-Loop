@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	track_progress (a_listener: EL_FILE_PROGRESS_LISTENER; a_action, a_finish_action: PROCEDURE [ANY, TUPLE])
+	track_progress (a_listener: EL_FILE_PROGRESS_LISTENER; a_action, a_finish_action: PROCEDURE)
 		do
 			Progress_listener_cell.put (a_listener)
 			a_action.apply

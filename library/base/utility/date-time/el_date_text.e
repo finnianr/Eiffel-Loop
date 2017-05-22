@@ -161,7 +161,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_text_functions: EL_HASH_TABLE [FUNCTION [EL_DATE_TEXT, TUPLE [DATE], ZSTRING], STRING]
+	new_text_functions: EL_HASH_TABLE [FUNCTION [DATE, ZSTRING], STRING]
 		do
 			create Result.make (<<
 				["long_day_name", 				agent long_day_name],

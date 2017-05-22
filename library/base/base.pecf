@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-8-0"
+	configuration_ns = "1-16-0"
 	name = EL_base; uuid = "229b789e-09aa-11df-87c7-1bf8afd2bbad" 
 	library_target = EL_base
 	
@@ -17,8 +17,8 @@ system:
 			all_classes = true
 
 		option:
-			namespace = "Eiffel-Loop.Library"; trace = false; debug=false; warning=true; syntax = standard
-			full_class_checking = false
+			namespace = "Eiffel-Loop.Library"; trace = false; debug=false; warning=true
+			syntax = standard; full_class_checking = false; void_safety = none
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = false
 
@@ -96,6 +96,8 @@ system:
 		# Source code
 		cluster:
 			name = utility; location = "utility"; recursive = true
+
+
 
 
 

@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -14,9 +14,6 @@ class
 
 inherit
 	EL_INTERRUPTABLE_THREAD
-		rename
-			make as make_thread
-		end
 
 	EL_MODULE_LOG
 
@@ -32,10 +29,8 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			make_thread
-			create buffer_list.make (
-				create {LINKED_LIST [EL_AUDIO_WAVE_BUFFER]}.make
-			)
+			make_default
+			create buffer_list.make (new_pointer_list)
 			create source.make (Void)
 			create timer.make
 		end
@@ -165,11 +160,18 @@ feature -- Element change
 
 feature {EL_AUDIO_SOURCE_PRODUCER_I} -- Access
 
-	buffer_list: EL_SYNCHRONIZED_REF [LINKED_LIST [MANAGED_POINTER]]
+	buffer_list: EL_MUTEX_REFERENCE [like new_pointer_list]
 
 feature {NONE} -- Implementation
 
-	source: EL_SYNCHRONIZED_REF [EL_AUDIO_SAMPLE_SOURCE [SAMPLE_TYPE]]
+	new_pointer_list: LINKED_LIST [MANAGED_POINTER]
+		do
+			create Result.make
+		end
+
+feature {NONE} -- Internal attributes
+
+	source: EL_MUTEX_REFERENCE [EL_AUDIO_SAMPLE_SOURCE [SAMPLE_TYPE]]
 
 	source_under_production_rate: INTEGER
 			-- Rate at which production lags behind play rate in samples per sec

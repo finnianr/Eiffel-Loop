@@ -33,7 +33,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	test_reading (new_table: FUNCTION [like Current, TUPLE [STRING, EL_FILE_PATH], EL_TRANSLATION_TABLE])
+	test_reading (new_table: FUNCTION [STRING, EL_FILE_PATH, EL_TRANSLATION_TABLE])
 		local
 			pyxis_file_path: EL_FILE_PATH; table: EL_TRANSLATION_TABLE
 			crc_32: EL_CYCLIC_REDUNDANCY_CHECK_32

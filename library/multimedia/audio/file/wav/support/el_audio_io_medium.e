@@ -33,7 +33,7 @@ feature -- Basic operations
 		deferred
 		end
 
-	do_all_channels (action: PROCEDURE [EL_AUDIO_SAMPLE_PROCESSOR, TUPLE [EL_AUDIO_SAMPLE_PROCESSOR]])
+	do_all_channels (action: PROCEDURE [EL_AUDIO_SAMPLE_PROCESSOR])
 			--
 		local
 			i: INTEGER

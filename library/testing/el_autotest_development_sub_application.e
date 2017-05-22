@@ -20,7 +20,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	do_file_data_test (test: PROCEDURE [EQA_TEST_SET, TUPLE])
+	do_file_data_test (test: PROCEDURE)
 		do
 			test.apply
 			if attached {EL_FILE_DATA_TEST_SET} test.target as data_test then

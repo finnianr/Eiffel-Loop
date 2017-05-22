@@ -198,7 +198,7 @@ feature {NONE} -- Implementation
 	busy_count: INTEGER
 		-- count of threads in `pool' that are busy executing a routine
 
-	unassigned_routine: detachable ROUTINE [ANY, TUPLE]
+	unassigned_routine: detachable ROUTINE
 		-- routine that is not yet assigned to any thread for execution
 
 feature {NONE} -- Internal attributes

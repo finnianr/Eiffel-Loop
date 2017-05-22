@@ -43,7 +43,7 @@ feature -- Element change
 			-- set either requested_procedure or requested_function
 		local
 			argument_tuple: TUPLE
-			requested_routine: ROUTINE [like Current, TUPLE]
+			requested_routine: ROUTINE
 		do
 			log.enter ("set_routine_with_arguments")
 			set_error (0)
@@ -294,9 +294,9 @@ feature {NONE} -- Implementation: attributes
 
 	string_result: EL_EROS_STRING_RESULT
 
-	requested_procedure: PROCEDURE [like Current, TUPLE]
+	requested_procedure: PROCEDURE
 
-	requested_function: FUNCTION [like Current, TUPLE, ANY]
+	requested_function: FUNCTION [ANY]
 
 	procedure_table: EL_HASH_TABLE [like requested_procedure, STRING]
 

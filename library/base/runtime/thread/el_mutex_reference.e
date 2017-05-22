@@ -56,7 +56,7 @@ feature -- Access
 
 feature -- Basic operations
 
-	call (action: PROCEDURE [ANY, TUPLE [a_item: like item]])
+	call (action: PROCEDURE [TUPLE [a_item: like item]])
 		do
 			lock
 			action.call ([item])

@@ -30,7 +30,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_open_action: PROCEDURE [ANY, TUPLE])
+	make (a_open_action: PROCEDURE)
 		local
 			l_button: SD_TOOL_BAR_BUTTON
 			list: ARRAYED_SET [SD_TOOL_BAR_ITEM]

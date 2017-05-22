@@ -80,7 +80,7 @@ feature -- Test operations
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like ftp_command, like default_operands]
+	make_action: PROCEDURE [like default_operands]
 		do
 			Result := agent ftp_command.make
 		end

@@ -90,7 +90,7 @@ feature -- Rhythmbox XML fields
 
 feature {NONE} -- Build from XML
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
 			Result := Precursor

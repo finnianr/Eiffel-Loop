@@ -14,7 +14,7 @@ class
 
 feature -- Basic operations
 
-	integral (f: FUNCTION [ANY, TUPLE [DOUBLE], DOUBLE]; lower, upper: DOUBLE; delta_count: INTEGER): DOUBLE
+	integral (f: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE; delta_count: INTEGER): DOUBLE
 		-- aproximate integral sum for function `f' within `lower' and `upper' bounds
 		-- calculated with resolution `delta_count'
 		require

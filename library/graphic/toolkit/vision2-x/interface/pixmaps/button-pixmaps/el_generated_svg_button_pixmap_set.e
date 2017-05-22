@@ -141,7 +141,7 @@ feature {NONE} -- Implementation
 
 			create generated_svg_relative_path_steps.make_with_count (icon_path_steps.count + 1)
 			generated_svg_relative_path_steps.extend (Image_path.Step_icons)
-			icon_path_steps.do_all (agent generated_svg_relative_path_steps.extend)
+			generated_svg_relative_path_steps.append (icon_path_steps)
 			generated_svg_image_dir := Directory.User_configuration.joined_dir_steps (
 				generated_svg_relative_path_steps
 			)

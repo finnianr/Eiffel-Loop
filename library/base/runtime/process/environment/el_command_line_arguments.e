@@ -99,7 +99,7 @@ feature -- Access
 feature -- Basic operations
 
 	set_string_from_word_option (
-		word_option: ZSTRING; set_string: PROCEDURE [ANY, TUPLE [ZSTRING]]; default_value: ZSTRING
+		word_option: ZSTRING; set_string: PROCEDURE [ZSTRING]; default_value: ZSTRING
 	)
 			--
 		do
@@ -111,7 +111,7 @@ feature -- Basic operations
 		end
 
 	set_real_from_word_option (
-		word_option: ZSTRING; set_real: PROCEDURE [ANY, TUPLE [REAL]]; default_value: REAL
+		word_option: ZSTRING; set_real: PROCEDURE [REAL]; default_value: REAL
 	)
 			--
 		local
@@ -128,7 +128,7 @@ feature -- Basic operations
 		end
 
 	set_integer_from_word_option (
-		word_option: ZSTRING; set_integer: PROCEDURE [ANY, TUPLE [INTEGER]]; default_value: INTEGER
+		word_option: ZSTRING; set_integer: PROCEDURE [INTEGER]; default_value: INTEGER
 	)
 			--
 		local
@@ -145,7 +145,7 @@ feature -- Basic operations
 		end
 
 	set_boolean_from_word_option (
-		word_option: ZSTRING; set_boolean: PROCEDURE [ANY, TUPLE]
+		word_option: ZSTRING; set_boolean: PROCEDURE
 	)
 			--
 		do

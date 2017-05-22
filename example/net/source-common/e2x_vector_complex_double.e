@@ -139,7 +139,7 @@ feature {NONE} -- Building from XML
 		deferred
 		end
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
 			create Result.make (<<

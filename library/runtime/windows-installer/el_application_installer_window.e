@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -28,27 +28,18 @@ inherit
 			copy, default_create
 		end
 
-	EL_FILE_ROUTINES
+	EL_MODULE_EXECUTION_ENVIRONMENT
 		undefine
 			copy , default_create
 		end
 
-	EXECUTION_ENVIRONMENT
-		rename
-			put as put_env_label
-		export
-			{NONE} all
-		undefine
-			copy , default_create
-		end
-
-	EL_LOGGING
+	EL_MODULE_LOG
 		undefine
 			copy , default_create
 		end
 
 create
-	default_create
+	make
 
 feature {NONE} -- Initialization
 
@@ -60,7 +51,6 @@ feature {NONE} -- Initialization
    			-- additional setup tasks.
 		do
 			Precursor
-			add_console_manager_toolbar
 			set_close_request_actions
 
 			create installer.make
@@ -89,7 +79,7 @@ feature {NONE} -- Create UI
 			v_box.extend (install_dir_selector)
 
 			create menu_shortcut_dir_selector.make (
-				file_path (program_menu_directory_path, installer.Default_menu_folder_name), Current
+				program_menu_directory_path.joined_dir_path (installer.Default_menu_folder_name), Current
 			)
 			v_box.extend (label ("Select menu shortcut location"))
 			v_box.extend (menu_shortcut_dir_selector)
@@ -183,14 +173,10 @@ feature {NONE} -- Implementation
 	program_menu_directory_path: EL_DIR_PATH
 			--
 		local
-			l_path_steps: LIST [STRING]
+			user_dir: EL_DIR_PATH
 		once
-			create Result.make_from_string (get ("USERPROFILE"))
-			l_path_steps := path_steps (Result)
-			l_path_steps.finish
-			l_path_steps.remove
-			Result := directory_path_from_steps (l_path_steps)
-			Result.extend_from_array (<< "All Users", "Start Menu",  "Programs" >>)
+			user_dir := Execution_environment.variable_dir_path ("USERPROFILE").parent
+			Result := user_dir.joined_dir_path ("All Users/Start Menu/Programs")
 		end
 
 	installer: INSTALLER_TYPE

@@ -68,7 +68,7 @@ feature -- Element change
 feature -- Basic operations
 
 	do_all (
-		file_processing_action: PROCEDURE [ANY, TUPLE [EL_FILE_PATH, EL_DIR_PATH, ZSTRING, ZSTRING]]
+		file_processing_action: PROCEDURE [EL_FILE_PATH, EL_DIR_PATH, ZSTRING, ZSTRING]
 		wild_card: STRING
 	)
 			-- Apply file processing action to every file from input dir

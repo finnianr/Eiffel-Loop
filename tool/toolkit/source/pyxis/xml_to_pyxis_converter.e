@@ -254,7 +254,7 @@ feature {NONE} -- Node events
 
 feature {NONE} -- Implementation
 
-	node_actions_table: EL_HASH_TABLE [PROCEDURE [like Current, TUPLE [ZSTRING]], INTEGER]
+	node_actions_table: EL_HASH_TABLE [PROCEDURE [ZSTRING], INTEGER]
 		do
 			create Result.make (<<
 				[Token_starting_tag, agent on_starting_tag],
@@ -354,7 +354,7 @@ feature {NONE} -- Internal attributes
 
 	node_actions: like node_actions_table
 
-	next_node_action: PROCEDURE [like Current, TUPLE [INTEGER, INTEGER, ZSTRING]]
+	next_node_action: PROCEDURE [INTEGER, INTEGER, ZSTRING]
 
 	attributes: EL_ZSTRING_HASH_TABLE [ZSTRING]
 

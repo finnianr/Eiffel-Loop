@@ -138,7 +138,7 @@ feature {NONE} -- Internal attributes
 
 	node_END_wildcard_xpath_search_term_list: like node_START_wildcard_xpath_search_term_list
 
-	node_START_procedure_lookup: HASH_TABLE [PROCEDURE [ANY, TUPLE], EL_TOKENIZED_XPATH]
+	node_START_procedure_lookup: HASH_TABLE [PROCEDURE, EL_TOKENIZED_XPATH]
 
 	node_START_wildcard_xpath_search_term_list: LINKED_LIST [EL_TOKENIZED_XPATH]
 

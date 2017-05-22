@@ -475,7 +475,7 @@ feature {EL_APPLICATION_INSTALLER_I} -- Constants
 			Result := "integer"
 		end
 
-	For_user_directories: ARRAY [FUNCTION [EL_STANDARD_DIRECTORY_I, TUPLE [ZSTRING], EL_DIR_PATH]]
+	For_user_directories: ARRAY [FUNCTION [ZSTRING, EL_DIR_PATH]]
 		once
 			Result := << agent Directory.data_dir_for_user, agent Directory.configuration_dir_for_user >>
 		end

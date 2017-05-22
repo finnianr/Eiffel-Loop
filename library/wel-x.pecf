@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-8-0"
+	configuration_ns = "1-16-0"
 	name = EL_wel_x; uuid = "229b72ae-09aa-11df-87b8-0312bf157bc0" 
 	library_target = EL_wel_x
 	
@@ -16,8 +16,9 @@ system:
 		root:
 			all_classes = true
 
-		option: 
-			trace = false; debug = false; warning = true; syntax = standard
+		option:
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug = false; warning = true
 
 		external_object:
 			location = "UxTheme.lib"

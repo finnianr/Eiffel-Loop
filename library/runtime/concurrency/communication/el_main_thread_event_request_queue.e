@@ -24,7 +24,7 @@ inherit
 
 feature -- Element change
 
-	put_action (action: PROCEDURE [ANY, TUPLE])
+	put_action (action: PROCEDURE)
 			-- Queue request to call action from main (GUI) thread
 			-- but we can't assume OS will return them in the same order
 		do

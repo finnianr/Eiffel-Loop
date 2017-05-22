@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	editions_table: EL_ZSTRING_HASH_TABLE [PROCEDURE [ID3_EDITS, TUPLE [EL_ID3_INFO, EL_FILE_PATH]]]
+	editions_table: EL_ZSTRING_HASH_TABLE [PROCEDURE [EL_ID3_INFO, EL_FILE_PATH]]
 
 	edition_name: ZSTRING
 

@@ -34,7 +34,7 @@ feature -- Comparison
 
 	arrays_equal_by_comparison (
 		array_1, array_2: ARRAY [DOUBLE]
-		comparison: FUNCTION [EL_DOUBLE_COMPARISON, TUPLE [DOUBLE, DOUBLE], BOOLEAN]
+		comparison: FUNCTION [DOUBLE, DOUBLE, BOOLEAN]
 	): BOOLEAN
 			--
 		local

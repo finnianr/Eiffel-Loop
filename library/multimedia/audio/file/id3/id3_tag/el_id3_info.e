@@ -629,7 +629,7 @@ feature {NONE} -- Element change
 			a_field.set_string (a_text)
 		end
 
- 	set_field_of_type (setter_action: PROCEDURE [EL_ID3_FRAME, TUPLE]; name: STRING; value: ZSTRING; a_encoding: INTEGER)
+ 	set_field_of_type (setter_action: PROCEDURE; name: STRING; value: ZSTRING; a_encoding: INTEGER)
 			--
 		local
 			field: EL_ID3_FRAME
@@ -832,7 +832,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	field_of_type (getter_action: FUNCTION [EL_ID3_FRAME, TUPLE, ZSTRING]; id: STRING): ZSTRING
+	field_of_type (getter_action: FUNCTION [ZSTRING]; id: STRING): ZSTRING
 				--
 		do
 			basic_fields.search (id)

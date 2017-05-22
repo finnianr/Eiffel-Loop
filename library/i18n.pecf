@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-8-0"
+	configuration_ns = "1-16-0"
 	name = EL_i18n; uuid = "229b7376-09aa-11df-87ba-5b96f04f3b6d" 
 	library_target = EL_i18n
 	
@@ -13,8 +13,9 @@ system:
 			"""
 				Localization classes
 			"""
-		option: 
-			trace = false; debug = false; warning = true; syntax = standard
+		option:
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug = false; warning = true
 
 		root:
 			all_classes = true

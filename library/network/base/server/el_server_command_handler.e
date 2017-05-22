@@ -38,7 +38,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	command_table: EL_HASH_TABLE [PROCEDURE [like Current, TUPLE], STRING]
+	command_table: EL_HASH_TABLE [PROCEDURE, STRING]
 
 	new_command_table: like command_table
 		deferred

@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (key: FUNCTION [ANY, TUPLE [G], K]; list: INDEXABLE [G, INTEGER])
+	make (key: FUNCTION [G, K]; list: INDEXABLE [G, INTEGER])
 		-- Group items `list' into groups defined by `key' function
 		local
 			i: INTEGER; l_key: K

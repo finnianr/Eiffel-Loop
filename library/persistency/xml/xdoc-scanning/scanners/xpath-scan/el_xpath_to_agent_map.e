@@ -16,7 +16,7 @@ create
 	make, make_from_tuple
 
 convert
-	make_from_tuple ({TUPLE [BOOLEAN, STRING, PROCEDURE [ANY, TUPLE]]})
+	make_from_tuple ({TUPLE [BOOLEAN, STRING, PROCEDURE]})
 
 feature {NONE} -- Initialization
 
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			if attached {STRING} tuple.reference_item (2) as a_xpath
-				and then attached {PROCEDURE [ANY, TUPLE]} tuple.reference_item (3) as a_action
+				and then attached {PROCEDURE} tuple.reference_item (3) as a_action
 			then
 				make (tuple.boolean_item (1), a_xpath, a_action)
 			end
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	action: PROCEDURE [ANY, TUPLE]
+	action: PROCEDURE
 
 	xpath: STRING
 

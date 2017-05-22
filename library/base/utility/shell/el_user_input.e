@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	set_real_from_line (prompt: STRING; value_setter: PROCEDURE [ANY, TUPLE [REAL]])
+	set_real_from_line (prompt: STRING; value_setter: PROCEDURE [REAL])
 			--
 		local
 			real_string: ZSTRING

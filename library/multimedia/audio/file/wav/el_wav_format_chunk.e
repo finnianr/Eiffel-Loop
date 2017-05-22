@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -28,7 +28,7 @@ inherit
 			Size_of_chunk_id as Size_of_id
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	PLATFORM
 
@@ -109,11 +109,10 @@ feature -- Element change
 			--
 		do
 			if natural_16_bytes * integers.count + count > buffer_size then
-				log.enter ("write_integer_16_array")
-				log.put_line ("Format chunk not big enough")
-				log.put_integer_field ("data_size", data_size)
-				log.put_new_line
-				log.exit
+				lio.put_line ("write_integer_16_array")
+				lio.put_line ("Format chunk not big enough")
+				lio.put_integer_field ("data_size", data_size)
+				lio.put_new_line
 			else
 				integers.do_all (agent write_integer_16)
 			end

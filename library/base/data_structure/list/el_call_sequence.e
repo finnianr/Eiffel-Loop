@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (n: INTEGER; a_call_action: PROCEDURE [ANY, CALL_ARGS])
+	make (n: INTEGER; a_call_action: PROCEDURE [CALL_ARGS])
 			-- 
 		do
 			make_array (n)
@@ -43,6 +43,6 @@ feature -- Basic operations
 		
 feature {NONE} -- Implementation
 
-	call_action: PROCEDURE [ANY, CALL_ARGS]
+	call_action: PROCEDURE [CALL_ARGS]
 
 end

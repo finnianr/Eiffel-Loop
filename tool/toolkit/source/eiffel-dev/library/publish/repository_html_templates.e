@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-26 8:48:31 GMT (Tuesday 26th July 2016)"
 	revision: "1"
@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Build from Pyxis
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 		do
 			create Result.make (<<
 				["@main",						agent set_path_from_node (main)],

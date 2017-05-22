@@ -28,7 +28,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (wrapper_routine: ROUTINE [BASE_TYPE, TUPLE])
+	make (wrapper_routine: ROUTINE)
 			--
 		do
 			make_routine ("<init>", wrapper_routine)

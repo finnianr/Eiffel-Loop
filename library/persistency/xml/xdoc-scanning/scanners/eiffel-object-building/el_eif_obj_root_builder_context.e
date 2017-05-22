@@ -82,14 +82,14 @@ feature {NONE} -- Implementation
 			set_next_context (target)
 		end
 
-	call_process_instruction_action (pi_action: PROCEDURE [EL_EIF_OBJ_BUILDER_CONTEXT, TUPLE])
+	call_process_instruction_action (pi_action: PROCEDURE)
 			--
 		do
 			pi_action.set_target (target)
 			pi_action.call ([node.to_string])
 		end
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
 			create Result

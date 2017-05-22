@@ -183,7 +183,7 @@ feature {NONE} -- Factory
 			edition_can_revert_latter_to_former: is_edition_valid (Result, latter, former)
 		end
 
-	new_edition_procedures: ARRAY [PROCEDURE [EL_STRING_EDITION_HISTORY [STRING_GENERAL], TUPLE]]
+	new_edition_procedures: ARRAY [PROCEDURE]
 		do
 			create Result.make_filled (agent do_nothing, 1, Edition_upper)
 

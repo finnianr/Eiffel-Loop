@@ -229,7 +229,7 @@ feature {NONE} -- Build from Pyxis
 			set_next_context (templates)
 		end
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 		do
 			create Result.make (<<
 				["@name", 							agent do name := node.to_string end],

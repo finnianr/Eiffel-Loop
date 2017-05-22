@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-11 6:57:15 GMT (Monday 11th July 2016)"
 	revision: "1"
@@ -86,9 +86,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_login_detail (
-		prompt: ZSTRING; setter: PROCEDURE [EL_FTP_PROTOCOL_2, TUPLE]; get_detail_action: FUNCTION [FTP_URL, TUPLE, STRING]
-	)
+	set_login_detail (prompt: ZSTRING; setter: PROCEDURE; get_detail_action: FUNCTION [STRING])
 		local
 			detail: ZSTRING
 		do

@@ -14,7 +14,7 @@ pyxis-doc:
 # This project contains a parser for the Pyxis format and a Pyxis to XML convertion utility
 
 system:
-	configuration_ns = "1-8-0"
+	configuration_ns = "1-16-0"
 	name = el_animation; uuid="229b7a2e-09aa-11df-87cb-6f5c8d784696"
 	
 	# classic means C code as an intermediate language
@@ -24,8 +24,9 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 
-		option: 
-			trace = false; debug = false; warning = true; syntax = standard
+		option:
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug = false; warning = true
 
 			assertions:
 				precondition = true; postcondition = true; check = false; invariant = false

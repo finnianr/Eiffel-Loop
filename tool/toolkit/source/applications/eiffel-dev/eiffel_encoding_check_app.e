@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 			Result.source_manifest_path := ""
 		end
 
-	make_action: PROCEDURE [like command, like default_operands]
+	make_action: PROCEDURE [like default_operands]
 		do
 			Result := agent command.make
 		end

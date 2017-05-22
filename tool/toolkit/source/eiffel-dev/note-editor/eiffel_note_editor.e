@@ -150,7 +150,7 @@ feature {NONE} -- Implementation
 			]
 		end
 
-	initial_state: PROCEDURE [like Current, TUPLE [ZSTRING]]
+	initial_state: PROCEDURE [ZSTRING]
 		do
 			Result := agent find_class_definition
 		end

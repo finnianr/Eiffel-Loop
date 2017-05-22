@@ -225,7 +225,7 @@ feature {NONE} -- Implementation
 			action.apply
 		end
 
-	make_action: PROCEDURE [EL_COMMAND, TUPLE]
+	make_action: PROCEDURE
 		deferred
 		end
 

@@ -19,7 +19,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	set_fields_of_type (type: TYPE [ANY]; word_separator: CHARACTER; new_object: FUNCTION [ANY, TUPLE [STRING], ANY])
+	set_fields_of_type (type: TYPE [ANY]; word_separator: CHARACTER; new_object: FUNCTION [STRING, ANY])
 		require
 			reference_type: not type.is_expanded
 			type_same_as_function_result_type: new_object.generating_type.generic_parameter_type (2) ~ type

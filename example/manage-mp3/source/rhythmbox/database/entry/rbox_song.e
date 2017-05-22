@@ -557,7 +557,7 @@ feature {NONE} -- Build from XML
 			end
 		end
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
 			Result := Precursor

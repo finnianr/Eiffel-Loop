@@ -194,7 +194,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	do_with_encrypted_file (action: PROCEDURE [like Current, TUPLE [EL_ENCRYPTED_FILE_LINE_SOURCE]])
+	do_with_encrypted_file (action: PROCEDURE [EL_ENCRYPTED_FILE_LINE_SOURCE])
 		local
 			input_path: EL_FILE_PATH
 		do

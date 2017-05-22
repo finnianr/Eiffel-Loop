@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	command_table: EL_ZSTRING_HASH_TABLE [PROCEDURE [ANY, TUPLE]]
+	command_table: EL_ZSTRING_HASH_TABLE [PROCEDURE]
 
 	menu: EL_COMMAND_MENU
 

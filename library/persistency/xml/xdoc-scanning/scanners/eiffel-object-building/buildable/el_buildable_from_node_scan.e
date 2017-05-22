@@ -81,7 +81,7 @@ feature {EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER, EL_EIF_OBJ_ROOT_BUILDER_CONT
 
 feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER} -- Implementation
 
-	PI_building_action_table: like Type_building_actions
+	PI_building_action_table: EL_PROCEDURE_TABLE
 		-- building actions assigned to top level processing instructions
 		-- i.e. the same level as the root element
 		do
@@ -111,7 +111,7 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	PI_building_actions_by_type: EL_TYPE_TABLE [HASH_TABLE [PROCEDURE [EL_EIF_OBJ_BUILDER_CONTEXT, TUPLE], STRING_32]]
+	PI_building_actions_by_type: EL_TYPE_TABLE [HASH_TABLE [PROCEDURE, STRING_32]]
 			--
 		once
 			create Result.make_equal (11)

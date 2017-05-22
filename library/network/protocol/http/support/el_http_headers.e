@@ -147,7 +147,7 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	new_setter_table: EL_HASH_TABLE [PROCEDURE [like Current, TUPLE [STRING]], STRING]
+	new_setter_table: EL_HASH_TABLE [PROCEDURE [STRING], STRING]
 		do
 			create Result.make (<<
 				["Server",			agent set_server],

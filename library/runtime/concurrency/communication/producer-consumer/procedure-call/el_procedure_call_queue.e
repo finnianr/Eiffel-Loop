@@ -10,10 +10,10 @@ note
 	revision: "3"
 
 class
-	EL_PROCEDURE_CALL_QUEUE [BASE_TYPE, OPEN_ARGS -> TUPLE create default_create end]
+	EL_PROCEDURE_CALL_QUEUE [OPEN_ARGS -> TUPLE create default_create end]
 
 inherit
-	EL_THREAD_PRODUCT_QUEUE	[PROCEDURE [BASE_TYPE, OPEN_ARGS]]
+	EL_THREAD_PRODUCT_QUEUE	[PROCEDURE [OPEN_ARGS]]
 
 create
 	make

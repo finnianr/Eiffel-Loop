@@ -4,16 +4,16 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
 	revision: "1"
 
 deferred class
-	EL_PROCEDURE_CALL_CONSUMER [BASE_TYPE, OPEN_ARGS -> TUPLE create default_create end]
+	EL_PROCEDURE_CALL_CONSUMER [OPEN_ARGS -> TUPLE create default_create end]
 
 inherit
-	EL_CONSUMER [PROCEDURE [BASE_TYPE, OPEN_ARGS]]
+	EL_CONSUMER [PROCEDURE [OPEN_ARGS]]
 		rename
 			consume_product as call_procedure,
 			product as procedure

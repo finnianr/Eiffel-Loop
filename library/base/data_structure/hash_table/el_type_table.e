@@ -23,7 +23,7 @@ create
 
 feature -- Access
 
-	item (type: like key_for_iteration; new_item: FUNCTION [ANY, TUPLE, like cached_item]): like cached_item
+	item (type: like key_for_iteration; new_item: FUNCTION [like cached_item]): like cached_item
 			-- Returns a `new_item' or else the `cached_item' for the `type'
 		do
 			search (type)

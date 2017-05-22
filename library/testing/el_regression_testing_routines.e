@@ -78,7 +78,7 @@ feature -- Basic operations
 			end
 		end
 
-	do_file_test (a_input_file_path: EL_FILE_PATH; test_proc: like Type_test_procedure; valid_test_checksum: NATURAL)
+	do_file_test (a_input_file_path: EL_FILE_PATH; test_proc: like TEST_PROCEDURE; valid_test_checksum: NATURAL)
 			-- Perform test that operates on a single file
 		local
 			input_file_path: EL_FILE_PATH
@@ -94,7 +94,7 @@ feature -- Basic operations
 			do_test (Work_area_dir, Empty_pattern, test_proc, valid_test_checksum)
 		end
 
-	do_file_tree_test (a_input_dir_path: EL_DIR_PATH; test_proc: like Type_test_procedure; valid_test_checksum: NATURAL)
+	do_file_tree_test (a_input_dir_path: EL_DIR_PATH; test_proc: like TEST_PROCEDURE; valid_test_checksum: NATURAL)
 			-- Perform test that operates on a file tree
 		do
 			lio.put_path_field ("Testing with", a_input_dir_path)
@@ -103,7 +103,7 @@ feature -- Basic operations
 
 	do_all_files_test (
 		a_input_dir_path: EL_DIR_PATH; file_name_pattern: STRING
-		test_proc: like Type_test_procedure; valid_test_checksum: NATURAL
+		test_proc: like TEST_PROCEDURE; valid_test_checksum: NATURAL
 
 	)
 			-- Perform test that operates on set of files
@@ -116,7 +116,7 @@ feature {NONE} -- Implementation
 
 	do_directory_test (
 		a_input_dir_path: EL_DIR_PATH; file_name_pattern: ZSTRING
-		test_proc: like Type_test_procedure; valid_test_checksum: NATURAL
+		test_proc: like TEST_PROCEDURE; valid_test_checksum: NATURAL
 	)
 			-- Perform test that operates on a directory search
 		local
@@ -141,7 +141,7 @@ feature {NONE} -- Implementation
 
 	do_test (
 		input_dir_path: EL_DIR_PATH; file_name_pattern: ZSTRING
-		test_proc: like Type_test_procedure; old_checksum: NATURAL
+		test_proc: like TEST_PROCEDURE; old_checksum: NATURAL
 	)
 			--
 		local
@@ -254,7 +254,7 @@ feature -- Constants
 
 feature {NONE} -- Type definitions
 
-	Type_test_procedure: PROCEDURE [ANY, TUPLE [EL_PATH]]
+	TEST_PROCEDURE: PROCEDURE [EL_PATH]
 		once
 		end
 

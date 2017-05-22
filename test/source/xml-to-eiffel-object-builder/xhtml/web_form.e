@@ -101,7 +101,7 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Implementation
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			-- Nodes relative to root element: html
 		do
 			create Result.make (<<

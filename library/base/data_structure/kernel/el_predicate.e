@@ -13,7 +13,7 @@ class
 	EL_PREDICATE
 
 inherit
-	PREDICATE [ANY, TUPLE]
+	PREDICATE
 		export
 			{NONE} all
 		end
@@ -23,7 +23,7 @@ create
 
 feature -- Initialization
 
-	make (other: PREDICATE [ANY, TUPLE])
+	make (other: PREDICATE)
 			--
 		do
 			encaps_rout_disp := other.encaps_rout_disp
@@ -31,7 +31,7 @@ feature -- Initialization
 
 feature -- Comparison
 
-	same_predicate (other: PREDICATE [ANY, TUPLE]): BOOLEAN
+	same_predicate (other: PREDICATE): BOOLEAN
 			--
 		do
 			Result := encaps_rout_disp = other.encaps_rout_disp

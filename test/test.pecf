@@ -14,7 +14,7 @@ pyxis-doc:
 # This project contains a parser for the Pyxis format and a Pyxis to XML convertion utility
 
 system:
-	configuration_ns = "1-8-0"
+	configuration_ns = "1-16-0"
 	name = el_test; uuid="A325754F-7BEB-44B6-937C-CC7EBDDA764F"
 	
 	# classic means C code as an intermediate language
@@ -25,7 +25,7 @@ system:
 			class = APPLICATION_ROOT; feature = make
 
 		option:
-			syntax = standard; is_attached_by_default = false; void_safety = none
+			syntax = standard; full_class_checking = false; void_safety = none
 			assertions:
 				precondition = true; postcondition = true; check = true
 

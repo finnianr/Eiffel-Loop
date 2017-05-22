@@ -14,7 +14,7 @@ pyxis-doc:
 # This project contains a parser for the Pyxis format and a Pyxis to XML convertion utility
 
 system:
-	configuration_ns = "1-8-0"
+	configuration_ns = "1-16-0"
 	name = el_rhythmbox; uuid = "9631ecc8-09a7-11df-89ca-002215bdb9f4"
 	
 	# classic means C code as an intermediate language
@@ -25,7 +25,8 @@ system:
 			class = APPLICATION_ROOT; feature = make
 
 		option:
-			trace = false; debug = false; warning = true; syntax = standard
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug = false; warning = true
 			debug:
 				name = pyxis; enabled = false
 

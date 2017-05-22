@@ -77,7 +77,7 @@ feature {NONE} -- Initialization
 			compare_objects
 		end
 
-	make_from_array (a_steps: INDEXABLE [READABLE_STRING_GENERAL, INTEGER])
+	make_from_array, make_from_strings (a_steps: INDEXABLE [READABLE_STRING_GENERAL, INTEGER])
 			-- Create list from array `steps'.
 		local
 			i: INTEGER
@@ -301,8 +301,7 @@ feature -- Conversion
 		require
 			valid_indices: (1 <= index_from) and (index_from <= index_to) and (index_to <= count)
 		do
-			create Result.make_with_count (index_to - index_from + 1)
-			Result.append (subchain (index_from, index_to))
+			create Result.make_from_array (to_array.subarray (index_from, index_to))
 		end
 
 	to_string: like item

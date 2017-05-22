@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	average_execution (action: ROUTINE [ANY, TUPLE]): DOUBLE
+	average_execution (action: ROUTINE): DOUBLE
 		local
 			timer: EL_EXECUTION_TIMER; i: INTEGER
 		do
@@ -96,7 +96,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Type definitions
 
-	Type_actions: EL_HASH_TABLE [ROUTINE [ANY, TUPLE], STRING]
+	Type_actions: EL_HASH_TABLE [ROUTINE, STRING]
 		require
 			never_called: False
 		once

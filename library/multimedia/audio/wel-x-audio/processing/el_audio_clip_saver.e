@@ -9,7 +9,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -24,7 +24,7 @@ inherit
 			consume_product as save_clip,
 			product as audio_clip
 		redefine
-			Is_visible_in_console
+			on_start
 		end
 
 	EL_AUDIO_CLIP_SAVER_CONSTANTS
@@ -37,12 +37,17 @@ inherit
 			default_create, is_equal, copy
 		end
 
+	EL_MODULE_LOG_MANAGER
+		undefine
+			default_create, is_equal, copy
+		end
+
 	EL_MODULE_FILE_SYSTEM
 		undefine
 			default_create, is_equal, copy
 		end
 
-	EL_MODULE_PATH
+	EL_MODULE_DIRECTORY
 		undefine
 			default_create, is_equal, copy
 		end
@@ -59,7 +64,12 @@ feature {NONE} -- Initialization
 			noise_threshold := rms_energy
 			create audio_file_processing_queue.make
 			log.put_new_line
-			File_system.delete (Previous_samples_wildcard)
+
+			across Temporary_directory.files_with_extension ("wav") as wav_path loop
+				if wav_path.item.base.starts_with (Clip_base_name) then
+					File_system.remove_file (wav_path.item)
+				end
+			end
 			create sample_count
 		end
 
@@ -70,11 +80,7 @@ feature -- Access
 	samples_recorded_count: INTEGER
 			--
 		do
-			sample_count.lock
---			synchronized
-				Result := sample_count.item
---			end
-			sample_count.unlock
+			Result := sample_count.value
 		end
 
 feature -- Element change
@@ -90,11 +96,7 @@ feature -- Element change
 	reset_sample_count
 			--
 		do
-			sample_count.lock
---			synchronized
-				sample_count.item.set_item (0)
---			end
-			sample_count.unlock
+			sample_count.set_value (0)
 		end
 
 	set_signal_threshold (rms_energy: REAL)
@@ -103,18 +105,12 @@ feature -- Element change
 			noise_threshold := rms_energy
 		end
 
-feature -- Status query
-
-	Is_visible_in_console: BOOLEAN = True
-			-- is logging output visible in console
-
 feature {NONE} -- Implementation
 
 	save_clip
 			--
 		local
-			clip_name: STRING
-			audio_rms_energy: REAL
+			clip_name: ZSTRING; audio_rms_energy: REAL
 		do
  			audio_rms_energy := audio_clip.rms_energy
 
@@ -122,18 +118,14 @@ feature {NONE} -- Implementation
 				sound_level_listener.set_signal_level (audio_rms_energy)
 			end
 
-			sample_count.lock
---			synchronized
-				sample_count.item.set_item (sample_count.item.item + audio_clip.sample_count)
---			end
-			sample_count.unlock
+			sample_count.add (audio_clip.sample_count)
 
 			if audio_rms_energy > noise_threshold then
 				log.enter ("save_clip")
 				clip_count := clip_count + 1
 				clip_name := unique_clip_name (clip_count)
 
-				audio_clip.save (File.joined_path (Path.temp_directory_path, clip_name))
+				audio_clip.save (Directory.temporary + clip_name)
 
 				log.put_string_field ("File name", clip_name)
 				log.put_new_line
@@ -145,36 +137,41 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	unique_clip_name (n: INTEGER): STRING
+	on_start
+		do
+			Log_manager.add_thread (Current)
+		end
+
+	unique_clip_name (n: INTEGER): ZSTRING
 			--
 		local
 			n_string: STRING
 		do
-			create Result.make_from_string (Clip_base_name)
+			Result := Clip_base_name.twin
 
 			n_string := (n + Clip_no_base).out
 			n_string.remove_head (1)
 
-			Result.append ("-")
-			Result.append (n_string)
-			Result.append (".wav")
+			Result.append_all_general (<< "-", n_string, ".wav" >>)
 
 		end
+
+feature {NONE} -- Internal attributes
 
 	clip_count: INTEGER
 
 	sound_level_listener: EL_SIGNAL_LEVEL_LISTENER
 
-	sample_count: EL_SYNCHRONIZED [INTEGER_REF]
+	sample_count: EL_MUTEX_NUMERIC [INTEGER]
 
 	noise_threshold: REAL
 
 feature -- Constants
 
-	Previous_samples_wildcard: EL_FILE_PATH
+	Temporary_directory: EL_DIRECTORY
 			--
-		once ("PROCESS")
-			Result := File.joined_path (Path.temp_directory_path, Clip_base_name + "*.wav" )
+		once
+			create Result.make (Directory.temporary)
 		end
 
 end

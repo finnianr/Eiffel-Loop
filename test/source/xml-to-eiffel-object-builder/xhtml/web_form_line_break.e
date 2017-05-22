@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-24 14:49:11 GMT (Thursday 24th December 2015)"
 	revision: "1"
@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Implementation
 
-	building_action_table: like Type_building_actions
+	building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
 			create Result

@@ -50,7 +50,7 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like tree_processor, like default_operands]
+	make_action: PROCEDURE [like default_operands]
 		do
 			Result := agent tree_processor.make
 		end

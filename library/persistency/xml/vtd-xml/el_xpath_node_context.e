@@ -170,43 +170,43 @@ feature -- Basic operations
 
 feature -- External field setters
 
-	set_boolean (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [BOOLEAN]])
+	set_boolean (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [BOOLEAN])
 			-- call `set_value' with BOOLEAN value at `a_xpath'
 		do
 			Setter_boolean.set_from_node (Current, a_xpath, set_value)
 		end
 
-	set_double (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [DOUBLE]])
+	set_double (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [DOUBLE])
 			-- call `set_value' with DOUBLE value at `a_xpath'
 		do
 			Setter_double.set_from_node (Current, a_xpath, set_value)
 		end
 
-	set_integer (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [INTEGER]])
+	set_integer (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [INTEGER])
 			-- call `set_value' with INTEGER value at `a_xpath'
 		do
 			Setter_integer.set_from_node (Current, a_xpath, set_value)
 		end
 
-	set_integer_64 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [INTEGER_64]])
+	set_integer_64 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [INTEGER_64])
 			-- call `set_value' with INTEGER_64 value at `a_xpath'
 		do
 			Setter_integer_64.set_from_node (Current, a_xpath, set_value)
 		end
 
-	set_natural (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [NATURAL]])
+	set_natural (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [NATURAL])
 			-- call `set_value' with NATURAL value at `a_xpath'
 		do
 			Setter_natural.set_from_node (Current, a_xpath, set_value)
 		end
 
-	set_natural_64 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [NATURAL_64]])
+	set_natural_64 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [NATURAL_64])
 			-- call `set_value' with NATURAL_64 value at `a_xpath'
 		do
 			Setter_natural_64.set_from_node (Current, a_xpath, set_value)
 		end
 
-	set_node_values (a_xpath: READABLE_STRING_GENERAL; set_values: PROCEDURE [ANY, TUPLE [EL_XPATH_NODE_CONTEXT]])
+	set_node_values (a_xpath: READABLE_STRING_GENERAL; set_values: PROCEDURE [EL_XPATH_NODE_CONTEXT])
 			-- call `set_values' with node at `a_xpath' if found
 		do
 			find_node (a_xpath)
@@ -215,25 +215,25 @@ feature -- External field setters
 			end
 		end
 
-	set_real (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [REAL]])
+	set_real (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [REAL])
 			-- call `set_value' with REAL value at `a_xpath'
 		do
 			Setter_real.set_from_node (Current, a_xpath, set_value)
 		end
 
-	set_string (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [ZSTRING]])
+	set_string (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ZSTRING])
 			-- call `set_value' with ZSTRING value at `a_xpath'
 		do
 			Setter_string.set_from_node (Current, a_xpath, set_value)
 		end
 
-	set_string_32 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [STRING_32]])
+	set_string_32 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [STRING_32])
 			-- call `set_value' with STRING_32 value at `a_xpath'
 		do
 			Setter_string_32.set_from_node (Current, a_xpath, set_value)
 		end
 
-	set_string_8 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [ANY, TUPLE [STRING]])
+	set_string_8 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [STRING])
 			-- call `set_value' with STRING_8 value at `a_xpath'
 		do
 			Setter_string_8.set_from_node (Current, a_xpath, set_value)

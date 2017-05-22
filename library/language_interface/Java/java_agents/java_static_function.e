@@ -43,7 +43,7 @@ feature -- Status Report
 
 feature {NONE} -- Implementation
 
-	set_method_id (method_name: STRING; mapped_routine: ROUTINE [BASE_TYPE, TUPLE])
+	set_method_id (method_name: STRING; mapped_routine: ROUTINE)
 			--
 		do
 			if attached {BASE_TYPE} mapped_routine.target as target then

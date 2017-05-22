@@ -93,7 +93,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	do_calculation (a_description: STRING; calculation: FUNCTION [ANY, TUPLE, DOUBLE])
+	do_calculation (a_description: STRING; calculation: FUNCTION [DOUBLE])
 		do
 			log.put_labeled_string ("Method", a_description)
 			log.put_new_line
@@ -106,7 +106,7 @@ feature {NONE} -- Implementation
 			log.put_new_line
 		end
 
-	distributed_integral_1 (f: FUNCTION [ANY, TUPLE [DOUBLE], DOUBLE]; lower, upper: DOUBLE): DOUBLE
+	distributed_integral_1 (f: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE): DOUBLE
 		-- using `EL_FUNCTION_DISTRIBUTER'
 		local
 			distributer: EL_FUNCTION_DISTRIBUTER [DOUBLE]
@@ -146,7 +146,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	distributed_integral_2 (f: FUNCTION [ANY, TUPLE [DOUBLE], DOUBLE]; lower, upper: DOUBLE): DOUBLE
+	distributed_integral_2 (f: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE): DOUBLE
 		-- using `EL_PROCEDURE_DISTRIBUTER'
 		local
 			distributer: EL_PROCEDURE_DISTRIBUTER [INTEGRAL_MATH]

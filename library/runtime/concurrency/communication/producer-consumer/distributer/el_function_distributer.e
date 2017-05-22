@@ -56,6 +56,6 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	unassigned_routine: detachable FUNCTION [ANY, TUPLE, G]
+	unassigned_routine: detachable FUNCTION [G]
 		-- routine that is not yet assigned to any thread for execution
 end

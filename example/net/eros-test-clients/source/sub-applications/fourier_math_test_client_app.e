@@ -223,10 +223,10 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{FOURIER_MATH_TEST_CLIENT_APP}, "*"],
-				[{FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY}, "*"],
-				[{SIGNAL_MATH_PROXY}, "*"],
-				[{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY}, "*"]
+				[{FOURIER_MATH_TEST_CLIENT_APP}, All_routines],
+				[{FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY}, All_routines],
+				[{SIGNAL_MATH_PROXY}, All_routines],
+				[{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY}, All_routines]
 			>>
 		end
 
