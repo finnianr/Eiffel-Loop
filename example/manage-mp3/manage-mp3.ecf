@@ -53,7 +53,7 @@
 			use_application_options = true
 			
 		-->
-		<library name = "EL_database" readonly = "false" location = "$EIFFEL_LOOP/library/database.ecf"/>
+		<library name = "EL_chain_db" readonly = "false" location = "$EIFFEL_LOOP/library/chain-db.ecf"/>
 		<library name = "EL_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/encryption.ecf"/>
 		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>

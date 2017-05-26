@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-18 10:40:33 GMT (Thursday 18th May 2017)"
-	revision: "10"
+	date: "2017-05-25 14:43:43 GMT (Thursday 25th May 2017)"
+	revision: "11"
 
 class EXPERIMENTS_APP
 
@@ -319,7 +319,7 @@ feature -- Experiments
 		local
 			dir: EL_DIR_PATH; temp: EL_FILE_PATH
 		do
-			create dir.make_from_latin_1 ("E:/")
+			dir := "E:/"
 			temp := dir + "temp"
 			log.put_string_field ("Path", temp.as_windows.to_string)
 		end

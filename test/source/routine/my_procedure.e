@@ -2,12 +2,12 @@ note
 	description: "Summary description for {MY_PROCEDURE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-14 9:39:00 GMT (Sunday 14th August 2016)"
-	revision: "1"
+	date: "2017-05-21 20:21:04 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	MY_PROCEDURE [BASE_TYPE -> detachable ANY, OPEN_ARGS -> detachable TUPLE create default_create end]

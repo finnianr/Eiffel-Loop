@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-23 6:29:22 GMT (Sunday 23rd April 2017)"
-	revision: "7"
+	date: "2017-05-25 10:53:44 GMT (Thursday 25th May 2017)"
+	revision: "8"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -193,7 +193,7 @@ feature {NONE} -- Initialization
 
 	make_from_latin_1_c (latin_1_ptr: POINTER)
 		do
-			make_from_latin_1 (create {STRING}.make_from_c (latin_1_ptr))
+			make_from_general (create {STRING}.make_from_c (latin_1_ptr))
 		end
 
 	make_from_other (other: EL_ZSTRING)
@@ -212,10 +212,14 @@ feature {NONE} -- Initialization
 			make_unencoded
 		end
 
-	make_from_unicode, make_from_latin_1 (a_unicode: READABLE_STRING_GENERAL)
+	make_from_general (s: READABLE_STRING_GENERAL)
 		do
-			make_filled ('%U', a_unicode.count)
-			encode (a_unicode, 0)
+			if attached {EL_ZSTRING} s as other then
+				make_from_other (other)
+			else
+				make_filled ('%U', s.count)
+				encode (s, 0)
+			end
 		end
 
 	make_from_utf_8 (utf_8: READABLE_STRING_8)
@@ -224,7 +228,7 @@ feature {NONE} -- Initialization
 		do
 			l_unicode := empty_once_string_32
 			UTF.utf_8_string_8_into_string_32 (utf_8, l_unicode)
-			make_from_unicode (l_unicode)
+			make_from_general (l_unicode)
 		end
 
 --	make_from_string_view (view: EL_STRING_VIEW)
@@ -498,7 +502,7 @@ feature -- Constants
 
 	Substitution_marker: EL_ZSTRING
 		once
-			create Result.make_from_latin_1 ("%S")
+			Result := "%S"
 		end
 
 feature -- Output

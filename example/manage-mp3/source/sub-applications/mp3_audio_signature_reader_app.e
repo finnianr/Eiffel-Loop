@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {AUDIO_UUID_READER_APP}."
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-09-11 17:12:51 GMT (Friday 11th September 2015)"
-	revision: "1"
+	date: "2017-05-22 8:58:37 GMT (Monday 22nd May 2017)"
+	revision: "2"
 
 class
 	MP3_AUDIO_SIGNATURE_READER_APP

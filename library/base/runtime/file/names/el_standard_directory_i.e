@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-03 11:39:32 GMT (Wednesday 3rd August 2016)"
-	revision: "2"
+	date: "2017-05-25 10:43:07 GMT (Thursday 25th May 2017)"
+	revision: "3"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -39,7 +39,7 @@ feature -- Factory
 
 	new_path (a_path: READABLE_STRING_GENERAL): EL_DIR_PATH
 		do
-			create Result.make_from_unicode (a_path.as_string_32)
+			create Result.make_from_general (a_path.as_string_32)
 		end
 
 feature -- Access

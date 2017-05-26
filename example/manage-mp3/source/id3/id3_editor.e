@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {ID3_READER}."
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:34:12 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-22 8:58:37 GMT (Monday 22nd May 2017)"
+	revision: "2"
 
 class
 	ID3_EDITOR

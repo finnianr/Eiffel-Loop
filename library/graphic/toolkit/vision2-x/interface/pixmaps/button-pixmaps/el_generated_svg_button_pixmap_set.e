@@ -2,12 +2,12 @@ note
 	description: "Generates clicked and hightlighted button from normal.svg"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-17 16:11:16 GMT (Thursday 17th November 2016)"
-	revision: "2"
+	date: "2017-05-22 8:14:09 GMT (Monday 22nd May 2017)"
+	revision: "3"
 
 class
 	EL_GENERATED_SVG_BUTTON_PIXMAP_SET

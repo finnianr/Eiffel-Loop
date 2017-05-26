@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {EL_TEXT_VIEW}."
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-21 8:37:36 GMT (Monday 21st December 2015)"
-	revision: "1"
+	date: "2017-05-25 10:34:56 GMT (Thursday 25th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_STRING_VIEW
@@ -61,7 +63,7 @@ feature -- Access
 
 	to_string: EL_ZSTRING
 		do
-			create Result.make_from_unicode (to_string_general)
+			create Result.make_from_general (to_string_general)
 		end
 
 	to_string_32: STRING_32

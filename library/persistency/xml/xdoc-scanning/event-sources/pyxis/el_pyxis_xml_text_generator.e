@@ -9,15 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 12:04:09 GMT (Friday 12th May 2017)"
-	revision: "2"
+	date: "2017-05-24 11:33:00 GMT (Wednesday 24th May 2017)"
+	revision: "3"
 
 class
 	EL_PYXIS_XML_TEXT_GENERATOR
 
 inherit
 	EL_XML_TEXT_GENERATOR
-
 		rename
 			make as make_generator
 		redefine

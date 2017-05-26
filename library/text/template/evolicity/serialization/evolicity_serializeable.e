@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-02 12:25:17 GMT (Tuesday 2nd May 2017)"
-	revision: "3"
+	date: "2017-05-25 10:34:54 GMT (Thursday 25th May 2017)"
+	revision: "4"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -188,7 +188,7 @@ feature {NONE} -- Implementation
 			if attached {ZSTRING} l_template as str_z then
 				Result := str_z.twin
 			else
-				create Result.make_from_unicode (l_template)
+				create Result.make_from_general (l_template)
 			end
 			if not Result.is_empty then
 				from until Result.z_code (tab_count + 1) /= Tabulation_code loop

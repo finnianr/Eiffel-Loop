@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-24 13:53:12 GMT (Tuesday 24th January 2017)"
-	revision: "3"
+	date: "2017-05-25 10:34:55 GMT (Thursday 25th May 2017)"
+	revision: "4"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -54,7 +54,7 @@ feature -- Element change
 		local
 			l_string: ZSTRING
 		do
-			create l_string.make_from_unicode (a_string)
+			create l_string.make_from_general (a_string)
 			put_string (variable_name, l_string.quoted (count))
 		end
 
@@ -91,7 +91,7 @@ feature -- Element change
 					if attached {ZSTRING} general_string as el_astring then
 						variable_name := el_astring
 					else
-						create variable_name.make_from_unicode (general_string)
+						create variable_name.make_from_general (general_string)
 					end
 					if tuple.item.is_double_item (2) then
 						put_double (variable_name, tuple.item.real_64_item (2))
@@ -120,8 +120,7 @@ feature -- Access
 			--
 		require else
 			valid_function_args:
-				attached {FUNCTION [ANY]} function_item (key) as function
-					implies function.open_count = function_args.count
+				attached {FUNCTION [ANY]} function_item (key) as function implies function.open_count = function_args.count
 		local
 			i: INTEGER; operands: TUPLE; template: ZSTRING
 		do

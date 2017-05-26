@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-03 17:58:07 GMT (Wednesday 3rd May 2017)"
-	revision: "1"
+	date: "2017-05-25 14:37:22 GMT (Thursday 25th May 2017)"
+	revision: "2"
 
 class
 	BUILD_INFO
@@ -25,7 +25,7 @@ feature -- Constants
 
 	Installation_sub_directory: EL_DIR_PATH
 		once
-			create Result.make_from_unicode ("Eiffel-Loop/manage-mp3")
+			Result := "Eiffel-Loop/manage-mp3"
 		end
 
 end

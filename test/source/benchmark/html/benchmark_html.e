@@ -2,12 +2,12 @@ note
 	description: "Summary description for {BENCHMARK_HTML}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-17 13:41:08 GMT (Thursday 17th March 2016)"
-	revision: "1"
+	date: "2017-05-25 14:43:23 GMT (Thursday 25th May 2017)"
+	revision: "2"
 
 class
 	BENCHMARK_HTML
@@ -52,7 +52,7 @@ feature {NONE} -- Implemenation
 			across Hexagram.string_arrays as array loop
 				html_row.wipe_out
 				across array.item as l_string loop
-					create data_string.make_from_unicode (l_string.item)
+					create data_string.make_from_general (l_string.item)
 					html_row.append (Html.table_data (data_string))
 				end
 				Result.extend (html_row.twin)

@@ -3,7 +3,13 @@ note
 
 	notes: "GENERATED FILE. Do not edit"
 
-	author: "Python module: eiffel_loop.eiffel.ecf.py"
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-05-26 9:05:09 GMT (Friday 26th May 2017)"
+	revision: "1"
 
 class
 	BUILD_INFO
@@ -13,13 +19,13 @@ inherit
 
 feature -- Constants
 
-	Version_number: NATURAL = 01_01_30
+	Version_number: NATURAL = 01_01_31
 
-	Build_number: NATURAL = 374
+	Build_number: NATURAL = 381
 
 	Installation_sub_directory: EL_DIR_PATH
 		once
-			create Result.make_from_unicode ("Eiffel-Loop/toolkit")
+			Result := "Eiffel-Loop/toolkit"
 		end
 
 end

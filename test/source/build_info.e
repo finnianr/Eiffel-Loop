@@ -3,7 +3,13 @@ note
 
 	notes: "GENERATED FILE. Do not edit"
 
-	author: "Python module: eiffel_loop.eiffel.ecf.py"
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-05-25 14:43:00 GMT (Thursday 25th May 2017)"
+	revision: "1"
 
 class
 	BUILD_INFO
@@ -19,7 +25,7 @@ feature -- Constants
 
 	Installation_sub_directory: EL_DIR_PATH
 		once
-			create Result.make_from_unicode ("Eiffel-Loop/test")
+			Result := "Eiffel-Loop/test"
 		end
 
 end

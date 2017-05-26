@@ -2,12 +2,12 @@ note
 	description: "Eiffel repository source tree"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-09 11:23:05 GMT (Tuesday 9th August 2016)"
-	revision: "2"
+	date: "2017-05-21 20:00:10 GMT (Sunday 21st May 2017)"
+	revision: "3"
 
 class
 	REPOSITORY_SOURCE_TREE

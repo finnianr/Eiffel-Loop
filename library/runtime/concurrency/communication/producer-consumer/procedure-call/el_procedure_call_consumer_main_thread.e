@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-04-25 10:01:57 GMT (Saturday 25th April 2015)"
-	revision: "1"
+	date: "2017-05-21 17:35:00 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD [OPEN_ARGS -> TUPLE create default_create end]

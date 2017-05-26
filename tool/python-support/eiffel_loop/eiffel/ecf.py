@@ -50,7 +50,7 @@ else:
 class EIFFEL_CONFIG_FILE (object):
 
 # Initialization
-	def __init__ (self, ecf_path, top_level = False):
+	def __init__ (self, ecf_path, ecf_table = dict ()):
 		self.location = ecf_path
 		ecf_ctx = XPATH_CONTEXT (ecf_path, 'ec')
 		self.uuid = ecf_ctx.attribute ("/ec:system/@uuid")
@@ -59,8 +59,14 @@ class EIFFEL_CONFIG_FILE (object):
 		self.libraries_table = {self.uuid : self}
 
 		self.precompile_path = None
+		top_level = len (ecf_table) == 0
 		if top_level:
 			self.__set_top_level_properties (ecf_ctx)
+			print "\nLibraries:",
+
+		print path.basename (ecf_path), ',',
+
+		ecf_table [ecf_path] = self
 
 		self.external_libs = self.__external_libs (ecf_ctx)
 		self.c_shared_objects = self.__external_shared_objects (ecf_ctx)
@@ -72,17 +78,25 @@ class EIFFEL_CONFIG_FILE (object):
 			location = expanded_path (attrib)
 			#print 'location:', location
 			if not path.isabs (location):
-				location = path.join (path.dirname (ecf_path),  location)
-			# Recurse ecf file
-			ecf = EIFFEL_CONFIG_FILE (location)
+				location = path.normpath (path.join (path.dirname (ecf_path), location))
+
+			# prevent infinite recursion for circular references
+			if ecf_table.has_key (location):
+				ecf = ecf_table [location]
+			else:
+				# Recurse ecf file
+				ecf = EIFFEL_CONFIG_FILE (location, ecf_table)
+
 			self.libraries_table [ecf.uuid] = ecf
 			for uuid in ecf.libraries_table:
 				self.libraries_table [uuid] = ecf.libraries_table [uuid]
-
 		if top_level:
 			self.libraries = []
 			for uuid in self.libraries_table:
 				self.libraries.append (self.libraries_table [uuid])
+			print ''
+			print ''
+
 		
 # Implementation
 
@@ -559,7 +573,7 @@ feature -- Constants
 
 	Installation_sub_directory: EL_DIR_PATH
 		once
-			create Result.make_from_unicode ("${installation_sub_directory}")
+			Result := "${installation_sub_directory}"
 		end
 
 end''')

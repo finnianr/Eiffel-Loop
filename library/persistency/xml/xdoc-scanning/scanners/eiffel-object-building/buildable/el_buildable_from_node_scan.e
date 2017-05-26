@@ -18,17 +18,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-15 12:02:32 GMT (Monday 15th May 2017)"
-	revision: "2"
+	date: "2017-05-25 16:52:41 GMT (Thursday 25th May 2017)"
+	revision: "3"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
 
 inherit
 	EL_CREATEABLE_FROM_NODE_SCAN
+		export
+			{NONE} all
+			{ANY} build_from_stream, build_from_string, build_from_lines, build_from_file,
+					set_parser_type, generator
+		end
 
 	EL_EIF_OBJ_BUILDER_CONTEXT
 		export
+			{NONE} all
 			{EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER} set_node
 		redefine
 			make_default, new_building_actions

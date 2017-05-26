@@ -2,12 +2,12 @@ note
 	description: "Summary description for {BIOINFO_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-07 11:15:29 GMT (Wednesday 7th January 2015)"
-	revision: "1"
+	date: "2017-05-21 20:16:49 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	BIOINFO_COMMAND

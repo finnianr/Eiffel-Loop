@@ -5,6 +5,7 @@
 * LIBRARY CONTENTS
 * INSTALLATION
 * BUILDING THE EXAMPLES
+* ENVIRONMENT VARIABLES MANAGEMENT
 * USING THE EIFFEL LOOP SCONS BUILD SYSTEM
 * EXAMPLE APPLICATIONS
 * SOURCE TREE DESCRIPTIONS
@@ -59,11 +60,11 @@ For a short description of each module see [doc/Contents.md](doc/Contents.md) or
 
 Unzip the Eiffel-Loop archive to a development directory and then open a terminal window. Change to the Eiffel-Loop home directory and run the setup script. For Unix the command is:
 
-    . setup.sh
+   . setup.sh
 
 And for Windows:
 
-    setup
+   setup
 
 Note that for Windows 7/Vista you should open the terminal console with administrator permissions.
 
@@ -75,8 +76,8 @@ The script achieves the following things.
 4. Builds the Eiffel toolkit program el_toolkit, which amongst other things, can convert [Pyxis](http://www.eiffelroom.com/node/527) files to XML and vice-versa.
 5. If the [gedit](http://projects.gnome.org/gedit/) text editor is installed, syntax highlighting support for [Pyxis](http://www.eiffelroom.com/node/527) Eiffel Configuration files and generic [Pyxis](http://www.eiffelroom.com/node/527) files is installed.
 6. A bonus for Windows:
-    * [gedit](http://projects.gnome.org/gedit/) is associated with [.pecf](http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting) files
-    * The [Pyxis](http://www.eiffelroom.com/node/527) converter program is associated with [.pecf](http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting) files and accessible from an entry in the right-click context menu, `Convert to ECF`.
+   * [gedit](http://projects.gnome.org/gedit/) is associated with [.pecf](http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting) files
+   * The [Pyxis](http://www.eiffelroom.com/node/527) converter program is associated with [.pecf](http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting) files and accessible from an entry in the right-click context menu, `Convert to ECF`.
 
 ## BUILDING THE EXAMPLES
 
@@ -84,25 +85,25 @@ The script achieves the following things.
 
 Open a terminal console and change to the project directory. Use this command to do a finalized build.
 
-    scons project=[PROJECT NAME] action=finalize
+   scons project=[PROJECT NAME] action=finalize
 
 Note that you can refer to the Eiffel project file using either the [.ecf](https://dev.eiffel.com/Configuration) or pecf file extension. In the case of a pecf file, it is first converted to [.ecf](https://dev.eiffel.com/Configuration) format as part of the build.
 #### Build Output
 The output from the build can be found in this directory under the project directory:
 
-    package/$ISE_PLATFORM/bin
+   package/$ISE_PLATFORM/bin
 
 ### Browsing in EiffelStudio
 
 Before the examples can be opened in EiffelStudio, it is first necessary to build any C or Java dependencies using a [scons](http://www.scons.org/) build. To do this, open a terminal console and change to the project directory. Use this command to build a `W_code` project for use in EiffelStudio.
 
-    scons project=[PROJECT NAME] action=freeze
+   scons project=[PROJECT NAME] action=freeze
 
 Note that you can refer to the Eiffel project file using either the [.ecf](https://dev.eiffel.com/Configuration) or [.pecf](http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting) file extension. In the case of a [.pecf](http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting) file, it is first converted to [.ecf](https://dev.eiffel.com/Configuration) format as part of the build.
 
 After the build completes use the following command to open the project in EiffelStudio.
 
-    launch_estudio [PROJECT NAME]
+   launch_estudio [PROJECT NAME]
 
 As with the [scons](http://www.scons.org/) command, you can use either the [.ecf](https://dev.eiffel.com/Configuration) or [.pecf](http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting) project  file. The launch_estudio command sets up the correct  environment for the project.
 
@@ -112,7 +113,7 @@ As with the [scons](http://www.scons.org/) command, you can use either the [.ecf
 
 The following command line utilities must be in your path:
 
-	tar, gpg, gzip
+   tar, gpg, gzip
 
 ### Manage MP3 Example
 
@@ -120,13 +121,28 @@ A selection of command line tools for use with the [Rhythmbox](http://en.wikiped
 Requirements `-create_cortina_set` option
 The following command line utilities must be in your path:
 
-	avconv, lame, sox
+   avconv, lame, sox
 
 ## ENVIRONMENT VARIABLES MANAGEMENT
 
-Eiffel-Loop has an interesting approach to managing the environment variables for any project using a Python script. The script automatically creates an environment and is called either when opening a project in EiffelStudio using the `launch_estudio` command or when building a project with the *Eiffel-Loop* [scons](http://www.scons.org/) based build system.
+Eiffel-Loop has a system for automatically setting environment variables for a project, either when you open it in EiffelStudio using the `launch_estudio` command, or when building it on the command line using the *Eiffel-Loop* [scons](http://www.scons.org/) based build system.
 
-The script assumes that there is a directory named `library` in your Eiffel development directory that is used to keep all your third party Eiffel libraries including *Eiffel-Loop*. It then creates environment variables based on the directory names in `library`, but ignoring any version numbers. So for example if finds a directory `eposix-3.2.1` it will add an evironment variable EPOSIX. The names are uppercased and any hyphens are substituted with an underscore so `Eiffel-Loop` becomes EIFFEL_LOOP.
+The environment manager assumes that your Eiffel development directory has a structure like the following:
+
+```
+|-- Eiffel
+|   |-- library
+|   |   |-- Eiffel-Loop
+|   |   |-- eGMP
+|   |   |-- eposix-3.2.1
+|   |   |-- log4e
+|   |   `-- and so forth..
+|   |-- project-1
+|   |-- project-2
+|   |-- project-3
+|   |-- and so forth..
+```
+The development root is either a directory path that ends with the step name `Eiffel`, or else is a path defined by an environment variable `EIFFEL`. The manager assumes that there is a directory named `library` in your Eiffel root directory containing all third party Eiffel libraries. It then creates environment variables based on the directory names in `library`, but ignoring any version numbers. So for example if it finds a directory `eposix-3.2.1` it will add an evironment path variable `EPOSIX`. The names are uppercased and any hyphens are substituted with an underscore so `Eiffel-Loop` becomes `EIFFEL_LOOP`.
 
 In addition it adds valid values for these variables: `JDK_HOME, PYTHON_HOME, PYTHON_LIB_NAME` as well as the following *Eiffel-Loop* variables:
 
@@ -153,9 +169,9 @@ set_environ ('LD_LIBRARY_PATH', "$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_P
 ### Under the Hood
 To understand how the default environment is constructed, read the source text of the following Python modules found in: `Eiffel-Loop/tool/python-support`:
 
-    eiffel_loop.eiffel.project
-    eiffel_loop.os.environ
-    eiffel_loop.project
+   eiffel_loop.eiffel.project
+   eiffel_loop.os.environ
+   eiffel_loop.project
 
 If you make any modifications you can activate them by running the Eiffel-Loop setup script again, or adding `Eiffel-Loop/tool/python-support` to the PYTHONPATH variable.
 
@@ -165,7 +181,7 @@ If you make any modifications you can activate them by running the Eiffel-Loop s
 
 During setup, a Python package called eiffel_loop is installed. This contains extensions to scons for building Eiffel systems.The source code can be found in:
 
-    Eiffel-Loop/tool/python-support
+   Eiffel-Loop/tool/python-support
 
 Features of this build system are as follows:
 
@@ -180,11 +196,11 @@ Features of this build system are as follows:
 
 Each project can have two equivalent Eiffel configuration files. One is in the standard [ECF](https://dev.eiffel.com/Configuration) XML format. The other is in the more readable [Pyxis](http://www.eiffelroom.com/node/527) format and has the extension [.pecf](http://www.eiffelroom.com/node/654#Gedit_Syntax_Highlighting). Either file can be used to build the project or open it in EiffelStudio. Use the following commands to convert from one to the other:
 
-    el_toolkit -xml_to_pyxis -in [CONFIGURATION FILE]
+   el_toolkit -xml_to_pyxis -in [CONFIGURATION FILE]
 
-    el_toolkit -pyxis_to_xml -in [CONFIGURATION FILE]
+   el_toolkit -pyxis_to_xml -in [CONFIGURATION FILE]
 
-    el_toolkit -ecf_to_pecf -library_tree [DIRECTORY PATH]
+   el_toolkit -ecf_to_pecf -library_tree [DIRECTORY PATH]
 
 #### File: project.py
 
@@ -200,7 +216,7 @@ The following variables can be set.
 
 This is a file that the [scons](http://www.scons.org/) builder looks for in order to build a project. For Eiffel projects it contains the single line:
 
-    import eiffel_loop.eiffel.SConstruct
+   import eiffel_loop.eiffel.SConstruct
 
 #### Microsoft C options
 
@@ -208,28 +224,28 @@ To configure the Microsoft C compiler environment, edit the `MSC_options` variab
 
 By default `MSC_options` has the following values.
 
-    MSC_options = ['/x64', '/xp' '/Release']
+   MSC_options = ['/x64', '/xp' '/Release']
 
 Note: if you set the cpu architecture option to be `/x86`, the 32bit version of EiffelStudio will be launched to compile the project. However if all you want to do is change the cpu architecture, it is better to do it with the `cpu=` command option for [scons](http://www.scons.org/) or launch_estudio. For example:
 
-    scons cpu=x86 project=[PROJECT NAME] action=finalize
+   scons cpu=x86 project=[PROJECT NAME] action=finalize
 
 More about this in the Cross Compilation section.
 ### Cross Compilation
 The eiffel_loop [scons](http://www.scons.org/) builder supports cross compilation. This feature is fully operational on Windows and partially completed under Unix. When doing finalized builds, an intermediate target is built under the build directory:
 
-    build/F_code.tar.gz
+   build/F_code.tar.gz
 
 This is a platform neutral archive of the generated C code under `EIFGENS/classic/F_code`. From this the final target is built in the `package/$ISE_PLATFORM/bin` directory. In Windows you can build a 64 bit binary of your application and then build a 32 bit version without having to do an Eiffel compilation. The 32 bit version is built with the command:
 
-    scons cpu=x86 project=[PROJECT NAME] action=finalize
+   scons cpu=x86 project=[PROJECT NAME] action=finalize
 
 #### Requirements
 
 To do cross compilation you must have a 64bit and a 32 bit version of EiffelStudio installed under these directories respectively.
 
-    C:\Program files
-    C:\Program files x86
+   C:\Program files
+   C:\Program files x86
 
 If you wish to use the eiffel2python library, you need to have both the 64 bit and 32 bit version of Python installed.
 
@@ -239,7 +255,7 @@ If you wish to use the eiffel2python library, you need to have both the 64 bit a
 
 To simplify development, Eiffel-Loop has the concept of a multi-mode "Swiss Army Knife" application. Each individual sub-application inherits from class `EL_SUB_APPLICATION`, and the command line option is found by looking at the value implemented of attribute 'option_name'. When calling the application, this option name should be specified on the command line immediately after the executable command name.
 
-    <command> -<option-name> [-logging]
+   <command> -<option-name> [-logging]
 
 Should the need arise for a more compact executable, it should be technically possible to designate each sub-application as the root class for an Eiffel project. Are alternatively just comment out the other sub-applications in the root manifest.
 
@@ -248,20 +264,20 @@ Should the need arise for a more compact executable, it should be technically po
 Each project has a class `APPLICATION_ROOT` which inherits from `EL_MULTI_APPLICATION_ROOT`, and contains a manifest of all available sub-applications.
 ```` eiffel
 class
-	APPLICATION_ROOT
+   APPLICATION_ROOT
 inherit
-	EL_MULTI_APPLICATION_ROOT [BUILD_INFO]
+   EL_MULTI_APPLICATION_ROOT [BUILD_INFO]
 create
-	make
+   make
 feature {NONE} -- Implementation
-	Application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
-		once
-			Result := <<
-				{MY_FIRST_APP},
-				{MY_SECOND_APP},
-				..
-			>>
-		end
+   Application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
+     once
+       Result := <<
+         {MY_FIRST_APP},
+         {MY_SECOND_APP},
+         ..
+       >>
+     end
 end
 ````
 ### Logging

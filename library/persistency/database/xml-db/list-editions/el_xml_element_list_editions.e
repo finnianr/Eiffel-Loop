@@ -2,12 +2,12 @@ note
 	description: ""
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-17 11:09:36 GMT (Thursday 17th November 2016)"
-	revision: "2"
+	date: "2017-05-21 20:07:36 GMT (Sunday 21st May 2017)"
+	revision: "3"
 
 class
 	EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make_default end]

@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-24 18:25:51 GMT (Tuesday 24th January 2017)"
-	revision: "3"
+	date: "2017-05-22 7:56:54 GMT (Monday 22nd May 2017)"
+	revision: "4"
 
 class
 	RBOX_SONG

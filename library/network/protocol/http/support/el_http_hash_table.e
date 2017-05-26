@@ -2,12 +2,12 @@ note
 	description: "HTTP name value pair table"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-26 12:13:01 GMT (Friday 26th August 2016)"
-	revision: "2"
+	date: "2017-05-25 10:34:54 GMT (Thursday 25th May 2017)"
+	revision: "3"
 
 class
 	EL_HTTP_HASH_TABLE
@@ -69,7 +69,7 @@ feature -- Element change
 
 	set_string_general (key: ZSTRING; uc_value: READABLE_STRING_GENERAL)
 		do
-			set_string (key, create {ZSTRING}.make_from_unicode (uc_value))
+			set_string (key, create {ZSTRING}.make_from_general (uc_value))
 		end
 
 	set_string (key, value: ZSTRING)

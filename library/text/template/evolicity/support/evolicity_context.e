@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 11:17:04 GMT (Wednesday 28th September 2016)"
-	revision: "2"
+	date: "2017-05-23 9:54:33 GMT (Tuesday 23rd May 2017)"
+	revision: "3"
 
 deferred class
 	EVOLICITY_CONTEXT
@@ -100,12 +100,6 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 
 	is_valid_type (object: ANY): BOOLEAN
 			-- object conforms to one of following types
-
-			-- * EVOLICITY_CONTEXT
-			-- * STRING
-			-- * SEQUENCE [EVOLICITY_CONTEXT]
-			-- * SEQUENCE [ANY]
-			-- * REAL_REF
 		do
 			if attached {EVOLICITY_CONTEXT} object as ctx or
 			else attached {ZSTRING} object as zstring or

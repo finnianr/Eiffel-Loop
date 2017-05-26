@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-28 7:13:02 GMT (Friday 28th April 2017)"
-	revision: "5"
+	date: "2017-05-25 10:43:06 GMT (Thursday 25th May 2017)"
+	revision: "6"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -73,7 +73,7 @@ feature -- Access
 		local
 			l_command_path: EL_FILE_PATH
 		do
-			create l_command_path.make_from_unicode (Args.command_name)
+			create l_command_path.make_from_general (Args.command_name)
 			Result := l_command_path.base
 		end
 
@@ -262,7 +262,7 @@ feature {NONE} -- Implementation
 
 	new_executable_path: EL_FILE_PATH
 		do
-			create Result.make_from_unicode (Args.command_name)
+			create Result.make_from_general (Args.command_name)
 --			if not current_working_directory.is_parent_of (Result) then
 --				Result := current_working_directory + Result
 --			end

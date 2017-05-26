@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {EL_MARKUP_ROUTINES}."
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 9:28:58 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2017-05-25 10:34:55 GMT (Thursday 25th May 2017)"
+	revision: "2"
 
 class
 	EL_MARKUP_ROUTINES
@@ -17,19 +19,19 @@ feature -- Mark up
 	open_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- open tag markup
 		do
-			create Result.make_from_unicode (once "<" + name + once ">")
+			create Result.make_from_general (once "<" + name + once ">")
 		end
 
 	closed_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- closed tag markup
 		do
-			create Result.make_from_unicode (once "</" + name + once ">")
+			create Result.make_from_general (once "</" + name + once ">")
 		end
 
 	empty_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- empty tag markup
 		do
-			create Result.make_from_unicode (once "<" + name + once "/>")
+			create Result.make_from_general (once "<" + name + once "/>")
 		end
 
 	tag (name: READABLE_STRING_GENERAL): TUPLE [open, closed: ZSTRING]

@@ -3,13 +3,15 @@ note
 		Queue to notify an event listener from main application thread
 	]"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-02 10:58:53 GMT (Saturday 2nd July 2016)"
-	revision: "1"
+	date: "2017-05-21 17:33:56 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 deferred class
 	EL_MAIN_THREAD_EVENT_REQUEST_QUEUE

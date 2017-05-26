@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_STRING_HASH_TABLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-19 8:05:11 GMT (Monday 19th September 2016)"
-	revision: "2"
+	date: "2017-05-25 10:34:56 GMT (Thursday 25th May 2017)"
+	revision: "3"
 
 class
 	EL_ZSTRING_HASH_TABLE [G]
@@ -90,7 +90,7 @@ feature {NONE} -- Implementation
 				if attached {ZSTRING} tuple_item.key as astring_key then
 					key := astring_key
 				else
-					create key.make_from_unicode (tuple_item.key)
+					create key.make_from_general (tuple_item.key)
 				end
 				Result [i] := [key, tuple_item.value]
 				i := i + 1

@@ -1,0 +1,51 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	configuration_ns = "1-16-0"
+	name = EL_xml_database; uuid = "371177CA-4083-11E7-B25C-A7C77F448613" 
+	library_target = EL_xml_database
+	
+	target:
+		name = EL_xml_database
+		
+		description: 
+			"""
+				A simple XML database based on VTD-XML xpath and XML parsing library.
+				Supports transactions and encryption
+				
+				NOTE:
+				This library is no longer maintained as database.ecf is a better alternative.
+			"""
+		option: 
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug = false; warning = true
+
+		root:
+			all_classes = true
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		# Eiffel Loop
+		library:
+			name = EL_base; location = "base/base.ecf"
+
+		library:
+			name = EL_encryption; location = "encryption.ecf"
+
+		library:
+			name = EL_evolicity; location = "evolicity.ecf"
+
+		library:
+			name = EL_vtd_xml; location = "vtd-xml.ecf"
+
+		# Source code
+		cluster:
+			name = database; location = "persistency/database/xml-db"; recursive = true; readonly = false
+			
+
+

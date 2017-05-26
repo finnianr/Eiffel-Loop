@@ -9,15 +9,13 @@ note
 
 	notes: "See end of page"
 
-
-
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-02 12:55:29 GMT (Tuesday 2nd August 2016)"
-	revision: "2"
+	date: "2017-05-21 13:00:55 GMT (Sunday 21st May 2017)"
+	revision: "3"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER

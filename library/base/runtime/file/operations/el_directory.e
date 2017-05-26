@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {EL_DIRECTORY}."
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 19:55:03 GMT (Thursday 23rd June 2016)"
-	revision: "1"
+	date: "2017-05-21 17:14:12 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	EL_DIRECTORY

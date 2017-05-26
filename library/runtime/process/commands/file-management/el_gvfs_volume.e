@@ -2,12 +2,12 @@ note
 	description: "Gnome Virtual Filesystem volume"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 8:42:54 GMT (Friday 1st July 2016)"
-	revision: "1"
+	date: "2017-05-25 14:37:38 GMT (Thursday 25th May 2017)"
+	revision: "2"
 
 class
 	EL_GVFS_VOLUME
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			make_default
 			name := a_name; is_windows_format := a_is_windows_format
 			if a_name ~ Current_directory then
-				create {EL_DIR_PATH} uri_root.make_from_latin_1 (".")
+				create {EL_DIR_PATH} uri_root.make_from_general (".")
 			elseif a_name ~ Home_directory then
 				create {EL_DIR_URI_PATH} uri_root.make_from_path (Directory.home)
 			else

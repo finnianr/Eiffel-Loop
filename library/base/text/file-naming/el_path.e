@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-09 16:53:09 GMT (Tuesday 9th May 2017)"
-	revision: "5"
+	date: "2017-05-25 10:43:07 GMT (Thursday 25th May 2017)"
+	revision: "6"
 
 deferred class
 	EL_PATH
@@ -64,6 +64,11 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
+	EL_ZSTRING_ROUTINES
+		undefine
+			is_equal, default_create, out, copy
+		end
+
 feature {NONE} -- Initialization
 
 	default_create
@@ -71,14 +76,14 @@ feature {NONE} -- Initialization
 			parent_path := Empty_path; base := Empty_path
 		end
 
-	make_from_unicode, make_from_latin_1 (a_unicode_path: READABLE_STRING_GENERAL)
+	make_from_general (a_path: READABLE_STRING_GENERAL)
 		do
-			make (create {ZSTRING}.make_from_unicode (a_unicode_path))
+			make (as_zstring (a_path))
 		end
 
 	make_from_path (a_path: PATH)
 		do
-			make_from_unicode (a_path.name)
+			make_from_general (a_path.name)
 		end
 
 	make_from_other (other: EL_PATH)

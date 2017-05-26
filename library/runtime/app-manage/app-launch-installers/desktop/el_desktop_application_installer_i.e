@@ -1,13 +1,15 @@
 note
 	description: "Install application with a desktop menu"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-05-15 17:25:26 GMT (Sunday 15th May 2016)"
-	revision: "1"
+	date: "2017-05-25 10:34:54 GMT (Thursday 25th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_DESKTOP_APPLICATION_INSTALLER_I
@@ -88,7 +90,7 @@ feature {NONE} -- Implementation
 	command_args_template: ZSTRING
 			--
 		do
-			create Result.make_from_unicode (new_command_args_template)
+			create Result.make_from_general (new_command_args_template)
 			Result.left_adjust
 			Result.prune ('%T')
 			Result.replace_character ('%N', ' ')

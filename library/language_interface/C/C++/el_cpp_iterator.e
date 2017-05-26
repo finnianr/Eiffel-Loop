@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_CPP_ITERATOR}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-24 13:00:20 GMT (Saturday 24th September 2016)"
-	revision: "3"
+	date: "2017-05-21 17:42:49 GMT (Sunday 21st May 2017)"
+	revision: "4"
 
 deferred class
 	EL_CPP_ITERATOR [G -> EL_CPP_OBJECT create make_from_pointer end]

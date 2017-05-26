@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-15 13:16:23 GMT (Monday 15th May 2017)"
-	revision: "2"
+	date: "2017-05-25 16:51:43 GMT (Thursday 25th May 2017)"
+	revision: "3"
 
 class
 	EL_SMART_BUILDABLE_FROM_NODE_SCAN

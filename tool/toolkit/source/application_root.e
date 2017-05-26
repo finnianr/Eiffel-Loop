@@ -2,12 +2,12 @@ note
 	description: ""
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-19 11:54:39 GMT (Thursday 19th January 2017)"
-	revision: "4"
+	date: "2017-05-26 11:45:54 GMT (Friday 26th May 2017)"
+	revision: "5"
 
 class
 	APPLICATION_ROOT
@@ -45,21 +45,22 @@ feature {NONE} -- Implementation
 
 				{EIFFEL_UPGRADE_DEFAULT_POINTER_SYNTAX_APP},
 				{EIFFEL_UPGRADE_LOG_FILTERS_APP},
-				{EIFFEL_REPOSITORY_PUBLISHER_APP},
+				{EIFFEL_REPOSITORY_PUBLISHER_APP},-- uses ftp (depends eposix)
 
 				{EIFFEL_SOURCE_FILE_NAME_NORMALIZER_APP},
 				{EIFFEL_SOURCE_LOG_LINE_REMOVER_APP},
 				{EIFFEL_SOURCE_TREE_CLASS_RENAME_APP},
 
-				{FTP_BACKUP_APP},
+				{FTP_BACKUP_APP}, -- uses ftp (depends eposix)
 				{HTML_BODY_WORD_COUNTER_APP},
 				{JOBSERVE_SEARCH_APP},
 
 				{PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP},
-				{PYXIS_COMPILER_APP},
 				{PYXIS_ENCRYPTER_APP},
 				{PYXIS_TO_XML_APP},
+				{PYXIS_TREE_TO_XML_COMPILER_APP},
 				{PYXIS_TRANSLATION_MANAGER_APP},
+				{PYXIS_TRANSLATION_TREE_COMPILER_APP},
 
 				{THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP},
 				{THUNDERBIRD_WWW_EXPORTER_APP},

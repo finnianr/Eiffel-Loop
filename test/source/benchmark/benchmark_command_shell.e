@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_BENCHMARK_COMMAND_SHELL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:39:22 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-25 14:46:17 GMT (Thursday 25th May 2017)"
+	revision: "2"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -213,7 +213,7 @@ feature {NONE} -- Implementation
 
 	new_adapted (general: READABLE_STRING_GENERAL): ZSTRING
 		do
-			create Result.make_from_unicode (general)
+			create Result.make_from_general (general)
 		end
 
 feature {NONE} -- Factory

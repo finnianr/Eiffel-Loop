@@ -1,13 +1,15 @@
 note
 	description: "Top level object representing an XML document"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-21 18:43:14 GMT (Thursday 21st July 2016)"
-	revision: "1"
+	date: "2017-05-25 10:34:55 GMT (Thursday 25th May 2017)"
+	revision: "2"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
@@ -64,7 +66,7 @@ feature {NONE} -- Initaliazation
 			if parse_failed then
 				parse_namespace_declarations (default_xml)
 				document_xml := default_xml
-				create error_message.make_from_unicode (last_exception.description)
+				create error_message.make_from_general (last_exception.description)
 			else
 				parse_namespace_declarations (a_xml)
 				document_xml := a_xml

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-14 12:12:32 GMT (Sunday 14th May 2017)"
-	revision: "3"
+	date: "2017-05-22 7:55:36 GMT (Monday 22nd May 2017)"
+	revision: "4"
 
 class
 	DJ_EVENT_PLAYLIST

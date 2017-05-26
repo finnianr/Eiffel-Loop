@@ -4,7 +4,7 @@
 	<target name = "EL_vtd_xml">
 		<description>Eiffel interface VTD-XML xpath and XML parsing library. (http://www.eiffel-loop.com)</description>
 		<root all_classes = "true"/>
-		<option namespace = "Eiffel-Loop.Library.VTD-XML" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true" syntax = "standard">
+		<option namespace = "Eiffel-Loop.Library.VTD-XML" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
 		<external_include location = "$(EIFFEL_LOOP_C)/include">

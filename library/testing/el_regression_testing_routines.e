@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-14 13:15:00 GMT (Wednesday 14th December 2016)"
-	revision: "4"
+	date: "2017-05-21 19:56:40 GMT (Sunday 21st May 2017)"
+	revision: "5"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES

@@ -3,15 +3,13 @@ note
 
 	notes: "GENERATED FILE. Do not edit"
 
-	
-
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-25 14:30:12 GMT (Monday 25th April 2016)"
-	revision: "1"
+	date: "2017-05-25 14:47:33 GMT (Thursday 25th May 2017)"
+	revision: "2"
 
 class
 	BUILD_INFO
@@ -27,7 +25,7 @@ feature -- Constants
 
 	Installation_sub_directory: EL_DIR_PATH
 		once
-			create Result.make_from_unicode ("Eiffel-Loop/EROS")
+			Result := "Eiffel-Loop/EROS"
 		end
 
 end

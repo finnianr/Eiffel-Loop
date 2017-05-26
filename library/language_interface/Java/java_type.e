@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 6:24:04 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2017-05-21 14:20:57 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 deferred class
 	JAVA_TYPE

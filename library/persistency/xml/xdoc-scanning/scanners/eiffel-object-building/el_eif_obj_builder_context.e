@@ -2,12 +2,12 @@ note
 	description: "Eiffel object model Xpath context"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-25 9:43:50 GMT (Wednesday 25th January 2017)"
-	revision: "2"
+	date: "2017-05-21 17:53:50 GMT (Sunday 21st May 2017)"
+	revision: "3"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT

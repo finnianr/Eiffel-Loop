@@ -2,12 +2,12 @@ note
 	description: "Summary description for {PARAMETER_LIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 13:58:45 GMT (Thursday 1st January 2015)"
-	revision: "1"
+	date: "2017-05-21 20:18:00 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	PARAMETER_LIST

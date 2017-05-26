@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-03 6:35:52 GMT (Sunday 3rd July 2016)"
-	revision: "1"
+	date: "2017-05-21 17:31:05 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	EL_PROCEDURE_CALL_CONSUMER_THREAD [OPEN_ARGS -> TUPLE create default_create end]

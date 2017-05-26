@@ -43,7 +43,7 @@ if not path.exists (eifgen_path):
 	dir_util.mkpath (eifgen_path)
 
 #s = raw_input ("Return")
-#print project.ascii_environ
+#pri	nt project.ascii_environ
 
 print 'PATH', os.environ ['PATH']
 cmd = ['estudio', '-project_path', eifgen_path, '-config', project_path]

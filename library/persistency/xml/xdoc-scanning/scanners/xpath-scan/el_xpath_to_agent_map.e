@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-15 10:22:49 GMT (Monday 15th May 2017)"
-	revision: "2"
+	date: "2017-05-21 17:47:18 GMT (Sunday 21st May 2017)"
+	revision: "3"
 
 class
 	EL_XPATH_TO_AGENT_MAP

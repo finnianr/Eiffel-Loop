@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_FIELD_TABLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-24 13:44:38 GMT (Tuesday 24th January 2017)"
-	revision: "1"
+	date: "2017-05-21 17:19:56 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 deferred class
 	EL_FIELD_VALUE_TABLE [G]

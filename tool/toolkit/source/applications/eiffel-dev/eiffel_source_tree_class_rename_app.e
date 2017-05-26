@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EIFFEL_SOURCE_TREE_CLASS_RENAME_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-04 10:38:16 GMT (Thursday 4th August 2016)"
-	revision: "2"
+	date: "2017-05-21 19:59:25 GMT (Sunday 21st May 2017)"
+	revision: "3"
 
 class
 	EIFFEL_SOURCE_TREE_CLASS_RENAME_APP

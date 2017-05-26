@@ -6,12 +6,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-04 8:12:05 GMT (Tuesday 4th October 2016)"
-	revision: "2"
+	date: "2017-05-25 10:34:56 GMT (Thursday 25th May 2017)"
+	revision: "3"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -138,7 +138,7 @@ feature -- Output
 		local
 			l_name: ZSTRING; empty_label: BOOLEAN
 		do
-			create l_name.make_from_unicode (label)
+			create l_name.make_from_general (label)
 			if l_name.is_empty then
 				empty_label := True
 			else
