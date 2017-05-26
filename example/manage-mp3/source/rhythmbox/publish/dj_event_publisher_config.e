@@ -2,12 +2,12 @@ note
 	description: "Summary description for {DJ_EVENT_PUBLISHER_CONFIG}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-01 10:07:34 GMT (Monday 1st August 2016)"
-	revision: "1"
+	date: "2017-05-22 7:55:20 GMT (Monday 22nd May 2017)"
+	revision: "2"
 
 class
 	DJ_EVENT_PUBLISHER_CONFIG

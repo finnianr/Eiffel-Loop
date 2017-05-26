@@ -2,12 +2,12 @@ note
 	description: "Summary description for {FOURIER_MATH_TEST_CLIENT_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-06 8:35:28 GMT (Saturday 6th August 2016)"
-	revision: "2"
+	date: "2017-05-22 9:07:23 GMT (Monday 22nd May 2017)"
+	revision: "3"
 
 class
 	FOURIER_MATH_TEST_CLIENT_APP

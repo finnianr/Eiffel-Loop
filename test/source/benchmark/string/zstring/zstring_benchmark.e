@@ -2,12 +2,12 @@ note
 	description: "Benchmark using pure Latin encodable string data"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-17 9:37:16 GMT (Thursday 17th March 2016)"
-	revision: "1"
+	date: "2017-05-25 14:46:04 GMT (Thursday 25th May 2017)"
+	revision: "2"
 
 class
 	ZSTRING_BENCHMARK
@@ -134,7 +134,7 @@ feature {NONE} -- Factory
 
 	new_string (unicode: STRING_GENERAL): ZSTRING
 		do
-			create Result.make_from_unicode (unicode)
+			create Result.make_from_general (unicode)
 		end
 
 feature {NONE} -- Internal attributes

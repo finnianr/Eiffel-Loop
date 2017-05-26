@@ -6,13 +6,15 @@ note
 		Any time a thread is forced to wait for a lock it is reported to the thread's log.
 	]"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-27 10:13:27 GMT (Wednesday 27th July 2016)"
-	revision: "1"
+	date: "2017-05-21 17:19:27 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	EL_MUTEX_REFERENCE [G]

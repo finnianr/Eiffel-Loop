@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-14 12:36:18 GMT (Sunday 14th May 2017)"
-	revision: "2"
+	date: "2017-05-24 11:32:04 GMT (Wednesday 24th May 2017)"
+	revision: "3"
 
 deferred class
 	EL_XML_DOCUMENT_SCANNER
@@ -104,6 +104,23 @@ feature -- Basic operations
 			event_source.parse_from_stream (a_stream)
 			if event_source.has_error then
 				event_source.log_error (lio)
+			end
+		end
+
+	scan_from_lines (lines: LINEAR [ZSTRING])
+			--
+		local
+			l_lines: EL_ZSTRING_LIST
+		do
+			if attached {EL_PYXIS_PARSER} event_source as pyxis_source then
+				pyxis_source.parse_from_lines (lines)
+				if pyxis_source.has_error then
+					pyxis_source.log_error (lio)
+				end
+			else
+				create l_lines.make_empty
+				lines.do_all (agent l_lines.extend)
+				scan (l_lines.joined_lines.to_utf_8)
 			end
 		end
 

@@ -8,13 +8,15 @@ note
 		If `-out' is not specified, it outputs the file as `<input-name>.aes'
 	]"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-23 11:24:57 GMT (Saturday 23rd July 2016)"
-	revision: "1"
+	date: "2017-05-21 19:59:25 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	PYXIS_ENCRYPTER_APP

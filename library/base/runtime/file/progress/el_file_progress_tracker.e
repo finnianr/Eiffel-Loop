@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_FILE_PROGRESS_TRACKER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-17 9:54:18 GMT (Monday 17th October 2016)"
-	revision: "1"
+	date: "2017-05-21 17:19:27 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	EL_FILE_PROGRESS_TRACKER

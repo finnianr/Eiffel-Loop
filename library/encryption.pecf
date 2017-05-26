@@ -43,9 +43,6 @@ system:
 		library:
 			name = EL_evolicity; location = "evolicity.ecf"
 
-		library:
-			name = EL_i18n; location = "i18n.ecf"
-
 		cluster:
 			name = encryption; location = "text/encryption/aes"; recursive = true
 

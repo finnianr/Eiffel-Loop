@@ -118,6 +118,10 @@ system:
 			readonly = false
 
 		library:
+			name = EL_chain_db; readonly = false
+			location = "$EIFFEL_LOOP/library/chain-db.ecf"
+
+		library:
 			name = EL_compression; location = "$EIFFEL_LOOP/library/compression.ecf"
 			readonly = false
 
@@ -128,10 +132,6 @@ system:
 		library:
 			name = EL_encryption; location = "$EIFFEL_LOOP/library/encryption.ecf"
 			readonly = false
-
-		library:
-			name = EL_database; readonly = false
-			location = "$EIFFEL_LOOP/library/database.ecf"
 
 		library:
 			name = EL_ftp; readonly = false

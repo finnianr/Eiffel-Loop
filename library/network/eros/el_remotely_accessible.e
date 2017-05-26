@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_REMOTELY_ACCESSIBLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 12:35:09 GMT (Thursday 24th December 2015)"
-	revision: "1"
+	date: "2017-05-22 8:30:07 GMT (Monday 22nd May 2017)"
+	revision: "2"
 
 deferred class
 	EL_REMOTELY_ACCESSIBLE

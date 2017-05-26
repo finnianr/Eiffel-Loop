@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-03 10:00:12 GMT (Sunday 3rd July 2016)"
-	revision: "1"
+	date: "2017-05-21 18:14:33 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 deferred class
 	EL_BATCH_FILE_PROCESSING_THREAD

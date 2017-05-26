@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_SERVLET_CONFIG}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-16 8:57:31 GMT (Sunday 16th April 2017)"
-	revision: "2"
+	date: "2017-05-22 8:04:28 GMT (Monday 22nd May 2017)"
+	revision: "3"
 
 class
 	EL_SERVLET_SERVICE_CONFIG

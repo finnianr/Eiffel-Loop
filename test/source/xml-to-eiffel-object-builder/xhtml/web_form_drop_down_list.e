@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-02 13:23:09 GMT (Wednesday 2nd March 2016)"
-	revision: "1"
+	date: "2017-05-21 20:17:52 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	WEB_FORM_DROP_DOWN_LIST

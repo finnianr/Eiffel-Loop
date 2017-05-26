@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-24 17:17:41 GMT (Tuesday 24th January 2017)"
-	revision: "3"
+	date: "2017-05-25 12:19:33 GMT (Thursday 25th May 2017)"
+	revision: "4"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -119,7 +119,7 @@ feature -- Access
 
 	new_option_name: ZSTRING
 		do
-			create Result.make_from_unicode (option_name)
+			create Result.make_from_general (option_name)
 		end
 
 	description: STRING
@@ -339,6 +339,11 @@ feature {NONE} -- Element change
 
 feature {NONE} -- Implementation
 
+	call (object: ANY)
+			-- For initializing once routines
+		do
+		end
+
 	on_operating_system_signal
 			--
 		do
@@ -373,11 +378,6 @@ feature {NONE} -- Implementation
 	indent (n: INTEGER): STRING
 		do
 			create Result.make_filled (' ', n)
-		end
-
-	call (object: ANY)
-			-- For initialzing once routines
-		do
 		end
 
 	options_help: LINKED_LIST [TUPLE [name, description, default_value: STRING]]

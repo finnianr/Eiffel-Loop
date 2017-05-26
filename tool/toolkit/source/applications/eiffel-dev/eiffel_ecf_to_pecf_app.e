@@ -4,12 +4,12 @@ note
 	
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-03 9:57:04 GMT (Wednesday 3rd August 2016)"
-	revision: "2"
+	date: "2017-05-21 19:59:25 GMT (Sunday 21st May 2017)"
+	revision: "3"
 
 class
 	EIFFEL_ECF_TO_PECF_APP

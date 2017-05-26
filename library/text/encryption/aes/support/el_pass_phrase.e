@@ -1,13 +1,17 @@
 note
-	description: "Class for entering and validating pass phrases"
+	description: "[
+		Localizeable class for entering and validating pass phrases
+		
+		See file: `localizaion/el_pass_phrase.pyx'
+	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-25 17:22:08 GMT (Monday 25th July 2016)"
-	revision: "1"
+	date: "2017-05-25 11:53:32 GMT (Thursday 25th May 2017)"
+	revision: "2"
 
 class
 	EL_PASS_PHRASE
@@ -24,6 +28,8 @@ inherit
 		redefine
 			make_default
 		end
+
+	EL_MODULE_DEFERRED_LOCALE
 
 	EL_MODULE_USER_INPUT
 
@@ -59,7 +65,7 @@ feature -- Access
 
 	password_strength: ZSTRING
 		do
-			Result := English_password_strengths [security_score]
+			Result := Locale * English_password_strengths [security_score]
 		end
 
 	salt_base_64: STRING
@@ -123,13 +129,13 @@ feature -- Element change
 			done: BOOLEAN
 		do
 			from  until done loop
-				string := User_input.line (English_user_prompt)
+				string := User_input.line (User_prompt)
 				lio.put_new_line
 				if is_salt_set then
 					if is_valid then
 						done := True
 					else
-						lio.put_line (English_invalid_pass_phrase)
+						lio.put_line (Invalid_pass_phrase)
 					end
 				else
 					validate
@@ -262,14 +268,14 @@ feature {NONE} -- Constants
 			create Result.make_filled (0, 24)
 		end
 
-	English_invalid_pass_phrase: ZSTRING
+	Invalid_pass_phrase: ZSTRING
 		once
-			Result := "Pass phrase is invalid"
+			Result := Locale * "Pass phrase is invalid"
 		end
 
-	English_user_prompt: ZSTRING
+	User_prompt: ZSTRING
 		once
-			Result := "Enter pass phrase"
+			Result := Locale * "Enter pass phrase"
 		end
 
 	English_password_strengths: ARRAY [STRING]
@@ -295,7 +301,8 @@ feature {NONE} -- Constants
 
 	Security_description_template: ZSTRING
 		once
-			Result := "Passphrase strength %S (%S)"
+			Locale.set_next_translation ("Passphrase strength %S (%S)")
+			Result := Locale * "{security-description-template}"
 		end
 
 end

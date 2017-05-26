@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_WORD_SEARCHABLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-05 11:43:19 GMT (Tuesday 5th January 2016)"
-	revision: "1"
+	date: "2017-05-25 10:32:39 GMT (Thursday 25th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -225,7 +225,7 @@ feature {NONE} -- Constants
 	Ellipsis: EL_STYLED_ZSTRING
 			--
 		once
-			create Result.make_from_latin_1 ("..")
+			Result := ".."
 		end
 
 end

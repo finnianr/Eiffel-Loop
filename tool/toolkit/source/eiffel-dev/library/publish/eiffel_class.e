@@ -3,15 +3,13 @@ note
 		Class to render github like markdown found in the description note field of Eiffel classes.
 	]"
 
-	
-
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 12:05:26 GMT (Wednesday 28th September 2016)"
-	revision: "2"
+	date: "2017-05-25 12:12:06 GMT (Thursday 25th May 2017)"
+	revision: "3"
 
 class
 	EIFFEL_CLASS
@@ -254,7 +252,7 @@ feature {NONE} -- Factory
 				raw_source.remove_head (UTF.Utf_8_bom_to_string_8.count)
 				create Result.make_from_utf_8 (raw_source)
 			else
-				create Result.make_from_latin_1 (raw_source)
+				Result := raw_source
 			end
 		end
 

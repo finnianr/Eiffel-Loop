@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-14 11:34:25 GMT (Sunday 14th May 2017)"
-	revision: "3"
+	date: "2017-05-23 9:27:47 GMT (Tuesday 23rd May 2017)"
+	revision: "4"
 
 class
 	OBJECT_BUILDER_TEST_APP
@@ -37,9 +37,9 @@ feature -- Basic operations
 		do
 			-- Jan 2016
 			Test.do_file_test ("XML/creatable/linguistic-analysis.smil", agent build_and_serialize_file, 2045875329)
---			Test.do_all_files_test ("XML/creatable", "*", agent build_and_serialize_file, 1904300788)
---			Test.do_file_test ("XML/creatable/download-page.xhtml", agent build_and_serialize_file, 993979377)
---			Test.do_all_files_test ("XML/creatable", "*", agent smart_build_file, 3416517139)
+			Test.do_all_files_test ("XML/creatable", "*", agent build_and_serialize_file, 1550922869)
+			Test.do_file_test ("XML/creatable/download-page.xhtml", agent build_and_serialize_file, 3986893289)
+			Test.do_all_files_test ("XML/creatable", "*", agent smart_build_file, 2575137007)
 		end
 
 feature -- Tests

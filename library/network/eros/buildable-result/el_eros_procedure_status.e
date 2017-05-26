@@ -2,12 +2,12 @@ note
 	description: "Procedure execution acknowlegement"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-03-11 17:28:25 GMT (Wednesday 11th March 2015)"
-	revision: "1"
+	date: "2017-05-22 8:28:32 GMT (Monday 22nd May 2017)"
+	revision: "2"
 
 class
 	EL_EROS_PROCEDURE_STATUS

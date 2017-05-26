@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-17 18:13:22 GMT (Wednesday 17th May 2017)"
-	revision: "4"
+	date: "2017-05-25 11:14:17 GMT (Thursday 25th May 2017)"
+	revision: "5"
 
 class
 	EL_PATH_STEPS
@@ -47,7 +47,7 @@ inherit
 
 	EL_ZSTRING_ROUTINES
 		export
-			{NONE} as_zstring
+			{NONE} all
 		undefine
 			is_equal, copy, default_create
 		end

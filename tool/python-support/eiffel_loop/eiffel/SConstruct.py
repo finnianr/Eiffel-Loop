@@ -66,7 +66,7 @@ else:
 	if 'ISE_C_COMPILER' in os.environ:
 		env.Append (ISE_C_COMPILER = os.environ ['ISE_C_COMPILER'])
 
-	config = EIFFEL_CONFIG_FILE (ecf_path, True)
+	config = EIFFEL_CONFIG_FILE (ecf_path)
 
 	project_files = [ecf_path, 'project.py']
 

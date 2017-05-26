@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 15:00:31 GMT (Friday 12th May 2017)"
-	revision: "3"
+	date: "2017-05-23 16:02:05 GMT (Tuesday 23rd May 2017)"
+	revision: "4"
 
 class
 	EL_PYXIS_PARSER
@@ -43,6 +43,7 @@ feature {NONE} -- Initialization
 			create comment_string.make_empty
 			create attribute_parser.make
 			create attribute_list.make
+			create encodeable_line_source.make_utf_8
 			previous_state := agent find_pyxis_doc
 			create element_stack.make (10)
 			set_encoding (Encoding_ISO_8859, 1)
@@ -61,14 +62,7 @@ feature -- Basic operations
 			elseif attached {PLAIN_TEXT_FILE} a_stream as text_file then
 				create {EL_FILE_LINE_SOURCE} line_source.make_from_file (text_file)
 			end
-
-			if attached {EL_ENCODEABLE_AS_TEXT} line_source as encodeable then
-				encodeable_line_source := encodeable
-			end
-			do_with_lines (agent find_pyxis_doc, line_source)
-			call ("doc-end:")
-
-			scanner.on_end_document
+			parse_from_lines (line_source)
 		end
 
 	parse_from_string (a_string: STRING)
@@ -82,6 +76,16 @@ feature -- Basic operations
 				create {EL_ZSTRING_IO_MEDIUM} stream.make_open_read_from_text (a_string)
 			end
 			parse_from_stream (stream)
+		end
+
+	parse_from_lines (line_source: LINEAR [ZSTRING])
+		do
+			if attached {EL_ENCODEABLE_AS_TEXT} line_source as encodeable then
+				encodeable_line_source := encodeable
+			end
+			do_with_lines (agent find_pyxis_doc, line_source)
+			call ("doc-end:")
+			scanner.on_end_document
 		end
 
 feature {NONE} -- Line states

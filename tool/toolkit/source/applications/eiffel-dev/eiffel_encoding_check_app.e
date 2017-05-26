@@ -1,13 +1,15 @@
 note
 	description: "Checks for UTF-8 files that could be encoded as Latin-1"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-19 8:50:11 GMT (Tuesday 19th July 2016)"
-	revision: "1"
+	date: "2017-05-21 19:59:25 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	EIFFEL_ENCODING_CHECK_APP

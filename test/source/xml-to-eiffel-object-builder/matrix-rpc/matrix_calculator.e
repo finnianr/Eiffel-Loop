@@ -26,12 +26,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:40:25 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-23 9:26:19 GMT (Tuesday 23rd May 2017)"
+	revision: "2"
 
 class
 	MATRIX_CALCULATOR

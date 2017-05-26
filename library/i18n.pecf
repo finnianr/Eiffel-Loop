@@ -37,6 +37,10 @@ system:
 			name = EL_base; location = "base/base.ecf"
 
 		library:
+			name = EL_chain_db; location = "chain-db.ecf"
+			readonly = false
+
+		library:
 			name = EL_thread; location = "thread.ecf"
 
 		library:

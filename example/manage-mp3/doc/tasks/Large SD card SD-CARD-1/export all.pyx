@@ -7,7 +7,7 @@ music-collection:
 	task = export_music_to_device; is_dry_run = False
 
 	volume:
-		name = "EIFFEL-L1_1"; destination = "Music"; id3_version = 2.4
+		name = "SD-CARD-1"; destination = "Music"; id3_version = 2.4
 	playlist:
 		root = "/"; subdirectory_name = "playlists"
 	

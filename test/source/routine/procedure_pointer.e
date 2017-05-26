@@ -2,12 +2,12 @@ note
 	description: "Find out if C routine pointer is linked to ROUTINE attribute"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-11 14:25:18 GMT (Thursday 11th August 2016)"
-	revision: "1"
+	date: "2017-05-21 20:21:04 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	PROCEDURE_POINTER

@@ -26,7 +26,7 @@ project_py = project.read_project_py ()
 project_py.set_build_environment (env.get ('cpu'))
 
 ecf_path = env.get ('project')
-config = EIFFEL_CONFIG_FILE (ecf_path, True)
+config = EIFFEL_CONFIG_FILE (ecf_path)
 
 build = FREEZE_BUILD (config, project_py)
 build.install_resources (build.resources_destination ())

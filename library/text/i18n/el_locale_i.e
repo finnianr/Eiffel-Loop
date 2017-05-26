@@ -2,17 +2,22 @@
 	description: "Summary description for {EL_LOCALE_ROUTINES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-08 17:17:18 GMT (Thursday 8th September 2016)"
-	revision: "3"
+	date: "2017-05-25 14:29:08 GMT (Thursday 25th May 2017)"
+	revision: "4"
 
 deferred class
 	EL_LOCALE_I
 
 inherit
+	EL_DEFERRED_LOCALE_I
+		redefine
+			translation, translation_array
+		end
+
 	EL_SINGLE_THREAD_ACCESS
 
 	EL_MODULE_DIRECTORY
@@ -25,21 +30,21 @@ feature {NONE} -- Initialization
 
  	make (a_language: STRING; a_default_language: like default_language)
 		local
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT
+			items_list: EL_TRANSLATION_ITEMS_LIST
 		do
 			make_default
 			restrict_access
 				default_language := a_default_language
 				create date_text.make
-				create root_node.make_from_file (XML_dir + "localization.xml")
-
-				set_all_languages (root_node)
-				if internal_all_languages.has (a_language) then
+				create locale_table.make (Localization_dir)
+				if locale_table.has (a_language) then
 					language := a_language
 				else
 					language := default_language
 				end
-				create translations.make_from_root_node (language, root_node)
+				create items_list.make_from_file (locale_table [language])
+				items_list.retrieve
+				translations := items_list.to_table (language)
 			end_restriction
 		end
 
@@ -47,11 +52,11 @@ feature -- Access
 
 	date_text: EL_LOCALE_DATE_TEXT
 
-	translation alias "*" (general_key: READABLE_STRING_GENERAL): ZSTRING
+	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
 			-- translation for source code string in current user language
 		do
 			restrict_access
-				Result := translated_string (translations, key (general_key))
+				Result := Precursor (key)
 			end_restriction
 		end
 
@@ -93,19 +98,11 @@ feature -- Access
   			Result := translation (template_key).substituted_tuple (inserts)
   		end
 
-	translation_array (general_keys: INDEXABLE [READABLE_STRING_GENERAL, INTEGER]): ARRAY [ZSTRING]
+	translation_array (keys: INDEXABLE [READABLE_STRING_GENERAL, INTEGER]): ARRAY [ZSTRING]
 			--
-		local
-			i, upper, lower: INTEGER
 		do
 			restrict_access -- synchronized
-				lower := general_keys.index_set.lower
-				upper := general_keys.index_set.upper
-				create Result.make (1, general_keys.index_set.count)
-				from i := lower until i > upper loop
-					Result [i - lower + 1] := translated_string (translations, key (general_keys [i]))
-					i := i + 1
-				end
+				Result := Precursor (keys)
 			end_restriction
 		end
 
@@ -126,7 +123,7 @@ feature -- Access
 	all_languages: ARRAYED_LIST [STRING]
 		do
 			restrict_access -- synchronized
-				Result := internal_all_languages.twin
+				create Result.make_from_array (locale_table.current_keys)
 			end_restriction
 		end
 
@@ -137,39 +134,29 @@ feature -- Access
 
 feature -- Status report
 
-	has_key (general_key: READABLE_STRING_GENERAL): BOOLEAN
+	has_key (key: READABLE_STRING_GENERAL): BOOLEAN
 			-- translation for source code string in current user language
 		do
 			restrict_access
-				Result := translations.has (key (general_key))
+				Result := translations.has_general (key)
 			end_restriction
 		end
 
 	has_translation (a_language: STRING): BOOLEAN
 		do
 			restrict_access -- synchronized
-				Result := internal_all_languages.has (a_language)
+				Result := locale_table.has (a_language)
 			end_restriction
 		end
 
-	is_valid_quantity_key (general_key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
+	is_valid_quantity_key (key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
 		do
 			restrict_access
-				Result := translations.has (quantity_key (general_key, quantity))
+				Result := translations.has (quantity_key (key, quantity))
 			end_restriction
 		end
 
 feature {NONE} -- Implementation
-
-	key (general_key: READABLE_STRING_GENERAL): ZSTRING
-		do
-			if attached {ZSTRING} general_key as z_key then
-				Result := z_key
-			else
-				Result := empty_once_string
-				Result.append_string_general (general_key)
-			end
-		end
 
 	quantity_key (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
 			-- complete partial_key by appending .zero .singular OR .plural
@@ -191,26 +178,19 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_all_languages (root_node: EL_XPATH_ROOT_NODE_CONTEXT)
-			--
-		local
-			list: EL_XPATH_NODE_CONTEXT_LIST
+	set_next_translation (text: READABLE_STRING_GENERAL)
+		-- not used
 		do
-			list := root_node.context_list ("item[1]/translation")
-			create internal_all_languages.make (list.count)
-			internal_all_languages.compare_objects
-			across list as l_translation loop
-				internal_all_languages.extend (l_translation.node.attributes.string_8 ("lang"))
-			end
 		end
 
-	translated_string (table: like translations; a_key: ZSTRING): ZSTRING
+	translated_string (table: like translations; a_key: READABLE_STRING_GENERAL): ZSTRING
 		do
-			table.search (a_key)
+			table.search_general (a_key)
 			if table.found then
 				Result := table.found_item
 			else
-				Result := a_key + "*"
+				create Result.make_from_general (a_key)
+				Result.append_character ('*')
 			end
 		end
 
@@ -221,11 +201,12 @@ feature {NONE} -- Implementation
 
 	translations: EL_TRANSLATION_TABLE
 
-	internal_all_languages: like all_languages
+	locale_table: EL_LOCALE_TABLE
+	 	-- Table of all locale data file paths
 
 feature {NONE} -- Constants
 
-	XML_dir: EL_DIR_PATH
+	Localization_dir: EL_DIR_PATH
 			--
 		once
 			Result := Directory.Application_installation

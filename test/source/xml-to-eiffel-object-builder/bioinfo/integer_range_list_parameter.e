@@ -2,12 +2,12 @@ note
 	description: "Summary description for {INTEGER_RANGE_LIST_PARAMETER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 9:16:20 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2017-05-21 20:19:10 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	INTEGER_RANGE_LIST_PARAMETER

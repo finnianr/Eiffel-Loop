@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-14 11:11:00 GMT (Wednesday 14th December 2016)"
-	revision: "2"
+	date: "2017-05-25 10:34:56 GMT (Thursday 25th May 2017)"
+	revision: "3"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -47,7 +47,7 @@ feature -- Access
 		require
 			item_exists: 1 <= i and i <= argument_count
 		do
-			create Result.make_from_unicode (argument (i))
+			create Result.make_from_general (argument (i))
 		end
 
 	directory_path (name: ZSTRING): EL_DIR_PATH

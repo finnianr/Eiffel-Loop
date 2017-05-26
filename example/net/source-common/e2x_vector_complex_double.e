@@ -20,12 +20,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 18:06:38 GMT (Saturday 26th December 2015)"
-	revision: "1"
+	date: "2017-05-22 9:00:12 GMT (Monday 22nd May 2017)"
+	revision: "2"
 
 deferred class
 	E2X_VECTOR_COMPLEX_DOUBLE

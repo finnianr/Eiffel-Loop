@@ -1,13 +1,15 @@
 note
 	description: "Caches objects associated with a type"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-25 11:03:22 GMT (Friday 25th December 2015)"
-	revision: "1"
+	date: "2017-05-21 17:16:37 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	EL_TYPE_TABLE [G]

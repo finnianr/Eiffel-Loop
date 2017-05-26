@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_DATE_ROUTINES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-10 8:21:26 GMT (Wednesday 10th August 2016)"
-	revision: "3"
+	date: "2017-05-21 17:17:07 GMT (Sunday 21st May 2017)"
+	revision: "4"
 
 deferred class
 	EL_DATE_TEXT

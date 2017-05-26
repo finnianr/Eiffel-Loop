@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {EL_FILTER_PREDICATES}."
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-30 19:20:34 GMT (Tuesday 30th December 2014)"
-	revision: "1"
+	date: "2017-05-21 17:16:37 GMT (Sunday 21st May 2017)"
+	revision: "2"
 
 class
 	EL_QUERY_CONDITION_FACTORY [G]

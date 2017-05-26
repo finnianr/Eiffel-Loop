@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-14 13:41:12 GMT (Sunday 14th May 2017)"
-	revision: "2"
+	date: "2017-05-24 11:37:38 GMT (Wednesday 24th May 2017)"
+	revision: "3"
 
 deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
@@ -86,6 +86,12 @@ feature -- Basic operations
 			--
 		do
 			Node_source.apply_from_string (Current, a_string)
+		end
+
+	build_from_lines (lines: LINEAR [ZSTRING])
+			--
+		do
+			Node_source.apply_from_lines (Current, lines)
 		end
 
 feature -- Element change

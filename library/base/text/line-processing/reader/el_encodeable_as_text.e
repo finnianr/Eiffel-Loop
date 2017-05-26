@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_ENCODEABLE_AS_TEXT}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-19 8:20:40 GMT (Tuesday 19th July 2016)"
-	revision: "1"
+	date: "2017-05-23 15:59:24 GMT (Tuesday 23rd May 2017)"
+	revision: "2"
 
 class
 	EL_ENCODEABLE_AS_TEXT

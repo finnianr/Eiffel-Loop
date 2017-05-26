@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_ROUTINE_LOG}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-15 8:29:05 GMT (Saturday 15th October 2016)"
-	revision: "2"
+	date: "2017-05-25 10:34:53 GMT (Thursday 25th May 2017)"
+	revision: "3"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -202,7 +202,7 @@ feature -- Output
 			l_field_value: ZSTRING; l_lines: EL_ZSTRING_LIST; l_lines_2: LIST [ZSTRING]
 		do
 			l_out := output
-			create l_field_value.make_from_unicode (field_value)
+			create l_field_value.make_from_general (field_value)
 			create l_lines.make (l_field_value.occurrences ('%N') + 2)
 
 			count_trailing_characters := 30
@@ -351,7 +351,7 @@ feature {NONE} -- Implementation
 			if attached {ZSTRING} template as zstr then
 				l_template := zstr
 			else
-				create l_template.make_from_unicode (template)
+				create l_template.make_from_general (template)
 			end
 			Result := l_template #$ inserts
 		end

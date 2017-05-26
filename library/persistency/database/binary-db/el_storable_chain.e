@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-06 12:14:30 GMT (Friday 6th January 2017)"
-	revision: "2"
+	date: "2017-05-24 9:52:02 GMT (Wednesday 24th May 2017)"
+	revision: "3"
 
 deferred class
 	EL_STORABLE_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -46,7 +46,6 @@ feature {NONE} -- Initialization
 				make_default_encryptable
 			end
 			make_persistent_file (a_file_path)
-			make_chain_implementation (0)
 			reader_writer := new_reader_writer
 
 			if file_path.exists then
@@ -63,6 +62,7 @@ feature {NONE} -- Initialization
 
 				make_chain_implementation (stored_count)
 			else
+				make_chain_implementation (0)
 				create l_file.make_open_write (file_path)
 				put_header (l_file)
 				stored_byte_count := l_file.position

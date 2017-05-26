@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-14 11:16:31 GMT (Sunday 14th May 2017)"
-	revision: "2"
+	date: "2017-05-21 12:55:24 GMT (Sunday 21st May 2017)"
+	revision: "3"
 
 class
 	BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP
