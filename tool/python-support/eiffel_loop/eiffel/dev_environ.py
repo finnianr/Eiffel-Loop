@@ -95,17 +95,22 @@ cur_dir = path.curdir ()
 
 if var_eiffel in os.environ:
 	library_dir = path.join (os.environ [var_eiffel], library_basename)
-	if not path.exists (library_dir):
-		if eiffel_basename in cur_dir.split (os.sep):
-			eiffel_dir = path.curdir_up_to (eiffel_basename)
-			library_dir = path.join (eiffel_dir, library_basename)
-		else:
-			eiffel_dir = None
+else:
+	library_dir = None
 
-if not path.exists (library_dir):
+if not library_dir or not path.exists (library_dir):
+	if eiffel_basename in cur_dir.split (os.sep):
+		eiffel_dir = path.curdir_up_to (eiffel_basename)
+		library_dir = path.join (eiffel_dir, library_basename)
+	else:
+		eiffel_dir = None
+		library_dir = None
+	
+
+if not library_dir or not path.exists (library_dir):
 	print 'ERROR: cannot find "library" directory'
 	print '\t"$EIFFEL/library" does not exist'
-	if eiffel_dir:
+	if library_dir and eiffel_dir:
 		print '\t and "%s" does not exist' % library_dir
 	sys.exit (1)
 
