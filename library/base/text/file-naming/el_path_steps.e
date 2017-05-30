@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 11:14:17 GMT (Thursday 25th May 2017)"
-	revision: "5"
+	date: "2017-05-27 12:49:14 GMT (Saturday 27th May 2017)"
+	revision: "6"
 
 class
 	EL_PATH_STEPS
@@ -192,13 +192,6 @@ feature -- Element change
 			end
 		end
 
-	remove
-			-- Remove current item.
-		do
-			internal_hash_code := 0
-			Precursor
-		end
-
 	replace (step: like first)
 			-- Replace current item by `step'.
 		do
@@ -317,15 +310,11 @@ feature -- Conversion
 
 feature -- Removal
 
-	remove_tail (n: INTEGER)
-			--
-		local
-			i: INTEGER
+	remove
+			-- Remove current item.
 		do
-			from i := 1 until i > n or is_empty loop
-				finish; remove
-				i := i + 1
-			end
+			internal_hash_code := 0
+			Precursor
 		end
 
 	wipe_out
@@ -334,7 +323,7 @@ feature -- Removal
 			Precursor
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Internal attributes
 
 	internal_hash_code: INTEGER
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 18:09:27 GMT (Sunday 21st May 2017)"
-	revision: "3"
+	date: "2017-05-28 17:26:30 GMT (Sunday 28th May 2017)"
+	revision: "4"
 
 class
 	EL_DIRECTORY_CONTENT_PROCESSOR
@@ -96,9 +96,7 @@ feature -- Basic operations
 				create output_file_unqualified_name.make_from_string (output_file_dir_path_steps.last)
 				dot_pos := output_file_unqualified_name.last_index_of ('.', output_file_unqualified_name.count)
 				if dot_pos > 0 then
-					output_file_extension := output_file_unqualified_name.substring (
-						dot_pos + 1, output_file_unqualified_name.count
-					)
+					output_file_extension := output_file_unqualified_name.substring_end (dot_pos + 1)
 					output_file_unqualified_name.remove_tail (output_file_extension.count + 1)
 				else
 					output_file_extension := ""

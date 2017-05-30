@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 10:38:24 GMT (Friday 12th May 2017)"
-	revision: "8"
+	date: "2017-05-27 10:26:05 GMT (Saturday 27th May 2017)"
+	revision: "9"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -29,17 +29,12 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent http_test_set.test_download_image_and_headers)
+			do_file_data_test (agent path_test_set.test_relative_path)
 		end
 
 feature -- Tests
 
 	audio_command_test_set: AUDIO_COMMAND_TEST_SET
-		do
-			create Result
-		end
-
-	se_array2_test_set: SE_ARRAY2_TEST_SET
 		do
 			create Result
 		end
@@ -54,7 +49,22 @@ feature -- Tests
 			create Result
 		end
 
+	http_test_set: HTTP_CONNECTION_TEST_SET
+		do
+			create Result
+		end
+
 	os_command_test_set: OS_COMMAND_TEST_SET
+		do
+			create Result
+		end
+
+	path_test_set: EL_PATH_TEST_SET
+		do
+			create Result
+		end
+
+	se_array2_test_set: SE_ARRAY2_TEST_SET
 		do
 			create Result
 		end
@@ -79,17 +89,12 @@ feature -- Tests
 			create Result
 		end
 
-	http_test_set: HTTP_CONNECTION_TEST_SET
+	uri_path_test_set: EL_URI_PATH_TEST_SET
 		do
 			create Result
 		end
 
 	zstring_test_set: ZSTRING_TEST_SET
-		do
-			create Result
-		end
-
-	uri_path_test_set: EL_URI_PATH_TEST_SET
 		do
 			create Result
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:53:44 GMT (Thursday 25th May 2017)"
-	revision: "8"
+	date: "2017-05-28 17:03:46 GMT (Sunday 28th May 2017)"
+	revision: "9"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -1177,6 +1177,18 @@ feature -- Duplication
 			end
 		ensure then
 			unencoded_valid: Result.is_unencoded_valid
+		end
+
+	substring_end (start_index: INTEGER): like Current
+		-- substring from `start_index' to `count'
+		do
+			Result := substring (start_index, count)
+		end
+
+	substring_start (end_index: INTEGER): like Current
+		-- substring from 1 to `end_index'
+		do
+			Result := substring (1, end_index)
 		end
 
 feature -- Comparison

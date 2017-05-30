@@ -36,7 +36,7 @@ system:
 
 		# Source code
 		cluster:
-			name = database; location = "persistency/database/binary-db"; recursive = true; readonly = false
+			name = database; location = "persistency/database/chain-db"; recursive = true; readonly = false
 			
 
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:43:06 GMT (Thursday 25th May 2017)"
-	revision: "6"
+	date: "2017-05-27 12:36:38 GMT (Saturday 27th May 2017)"
+	revision: "7"
 
 class
 	EL_FILE_PATH
@@ -25,11 +25,6 @@ convert
 
 feature -- Access
 
-	modification_time: INTEGER
-		do
-			Result := File_system.file_modification_time (Current)
-		end
-
 	modification_date_time: DATE_TIME
 		do
 			if exists then
@@ -39,14 +34,19 @@ feature -- Access
 			end
 		end
 
+	modification_time: INTEGER
+		do
+			Result := File_system.file_modification_time (Current)
+		end
+
 feature -- Status report
+
+	Is_directory: BOOLEAN = False
 
 	exists: BOOLEAN
 		do
 			Result := File_system.file_exists (Current)
 		end
-
-	Is_directory: BOOLEAN = False
 
 feature {NONE} -- Implementation
 

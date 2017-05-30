@@ -2,12 +2,12 @@ note
 	description: "Summary description for {VCF_CONTACT_SPLITTER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:10 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-28 17:05:05 GMT (Sunday 28th May 2017)"
+	revision: "2"
 
 class
 	VCF_CONTACT_SPLITTER
@@ -95,7 +95,7 @@ feature {NONE} -- State handlers
 				record_lines.replace (Name_template #$ [first_name, last_name])
 
 			elseif a_line.starts_with (Field.x_irmc_luid) then
-				record_id := a_line.substring (a_line.index_of (':', 1) + 1, a_line.count)
+				record_id := a_line.substring_end (a_line.index_of (':', 1) + 1)
 			end
 		end
 

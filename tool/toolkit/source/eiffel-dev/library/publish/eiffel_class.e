@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 12:12:06 GMT (Thursday 25th May 2017)"
-	revision: "3"
+	date: "2017-05-28 18:34:59 GMT (Sunday 28th May 2017)"
+	revision: "4"
 
 class
 	EIFFEL_CLASS
@@ -89,7 +89,7 @@ feature {NONE} -- Initialization
 			l_crc.add_string_8 (raw_source)
 			crc_digest := l_crc.checksum
 			code_text := new_code_text (raw_source)
-			create notes.make (a_relative_html_path.parent, a_repository.note_fields)
+			create notes.make (relative_source_path.parent, a_repository.note_fields)
 			make_meta_digest (html_path)
 		end
 
@@ -111,7 +111,7 @@ feature -- Access
 
 	class_text: ZSTRING
 		do
-			Result := XML.escaped (code_text.substring (class_begin_index + 1, code_text.count))
+			Result := XML.escaped (code_text.substring_end (class_begin_index + 1))
 		end
 
 	notes_text: ZSTRING
@@ -216,12 +216,12 @@ feature {NONE} -- Implementation
 
 	index_dir: ZSTRING
 		do
-			Result := Directory.relative_parent (relative_html_path.steps.count - 1)
+			Result := Directory.relative_parent (relative_html_path.step_count - 1)
 		end
 
 	top_dir: EL_DIR_PATH
 		do
-			Result := Directory.relative_parent (relative_source_path.steps.count - 1)
+			Result := Directory.relative_parent (relative_source_path.step_count - 1)
 		end
 
 	further_information_fields: EL_ZSTRING_LIST
@@ -299,6 +299,11 @@ feature {NONE} -- Constants
 			across Class_declaration_keywords as keyword loop
 				Result.extend (New_line_string + keyword.item)
 			end
+		end
+
+	Relative_root: EL_DIR_PATH
+		once
+			create Result
 		end
 
 	Library: ZSTRING

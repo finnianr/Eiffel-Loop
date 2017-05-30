@@ -9,15 +9,13 @@ note
 
 	instructions: "See bottom of page"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 19:59:25 GMT (Sunday 21st May 2017)"
-	revision: "3"
+	date: "2017-05-29 23:20:42 GMT (Monday 29th May 2017)"
+	revision: "4"
 
 class
 	EIFFEL_FEATURE_EDITOR_APP
@@ -59,7 +57,7 @@ feature {NONE} -- Implementation
 			Result.source_path := ""
 		end
 
-	argument_specs: ARRAY [like Type_argument_specification]
+	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				required_existing_path_argument ("source", "Source file path")
@@ -90,7 +88,7 @@ note
 		becomes:
 			feature -- Element change
 	
-		A list of title codes is defined in class [../../eiffel-dev/class-edit/support/feature_constants.html FEATURE_CONSTANTS].
+		A list of title codes is defined in class [./tool/toolkit/source/eiffel-dev/class-edit/support/feature_constants.html FEATURE_CONSTANTS].
 			
 		**2.** Similar to 1 but for unexported feature blocks as for example:
 			@f {ia

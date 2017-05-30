@@ -2,12 +2,12 @@ note
 	description: "Summary description for {HTML_PARAGRAPH_LIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-04 12:02:56 GMT (Sunday 4th December 2016)"
-	revision: "3"
+	date: "2017-05-28 17:21:32 GMT (Sunday 28th May 2017)"
+	revision: "4"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -75,7 +75,7 @@ feature {NONE} -- Line states Eiffel
 				state := agent parse_lines
 				parse_lines (line)
 			else
-				lines.extend (line.substring (2, line.count))
+				lines.extend (line.substring_end (2))
 			end
 		end
 
@@ -93,7 +93,7 @@ feature {NONE} -- Line states Eiffel
 				if not lines.is_empty then
 					lines.extend (new_list_item_tag (element_type, False))
 				end
-				lines.extend (new_list_item_tag (element_type, True) + line.substring (list_prefix_count (line) + 1, line.count))
+				lines.extend (new_list_item_tag (element_type, True) + line.substring_end (list_prefix_count (line) + 1))
 
 			elseif line.is_empty then
 				add_element
@@ -172,7 +172,7 @@ feature {NONE} -- Implementation
 							from pos_space := line.count + 1 until pos_space < Maximum_code_width loop
 								pos_space := line.last_index_of (' ', pos_space - 1)
 							end
-							line := line.substring (pos_space, line.count)
+							line := line.substring_end (pos_space)
 							lines.item.remove_tail (line.count)
 							lines.put_right (new_filler (Maximum_code_width - line.count) + line)
 							lines.forth

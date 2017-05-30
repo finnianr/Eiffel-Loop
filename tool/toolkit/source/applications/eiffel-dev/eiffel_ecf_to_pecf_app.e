@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {ECF_TO_PECF_APP}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 19:59:25 GMT (Sunday 21st May 2017)"
-	revision: "3"
+	date: "2017-05-29 23:20:46 GMT (Monday 29th May 2017)"
+	revision: "4"
 
 class
 	EIFFEL_ECF_TO_PECF_APP
@@ -62,7 +60,7 @@ feature {NONE} -- Implementation
 			Result.processor := create {XML_TO_PYXIS_CONVERTER}
 		end
 
-	argument_specs: ARRAY [like Type_argument_specification]
+	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				required_existing_path_argument ("library_tree", "Path to Eiffel library/projects directory tree")

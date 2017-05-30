@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-24 11:37:38 GMT (Wednesday 24th May 2017)"
-	revision: "3"
+	date: "2017-05-27 10:39:40 GMT (Saturday 27th May 2017)"
+	revision: "4"
 
 deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
@@ -63,7 +63,7 @@ feature -- Basic operations
 		local
 			stream: IO_MEDIUM
 		do
-			if Node_source.event_source ~ {EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE} then
+			if Node_source.event_source.generating_type ~ {EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE} then
 				create {RAW_FILE} stream.make_open_read (a_file_path)
 			else
 				create {PLAIN_TEXT_FILE} stream.make_open_read (a_file_path)

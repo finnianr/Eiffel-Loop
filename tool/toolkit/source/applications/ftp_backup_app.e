@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {FTP_BACKUP_APP}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 19:59:25 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-05-29 23:20:29 GMT (Monday 29th May 2017)"
+	revision: "3"
 
 class
 	FTP_BACKUP_APP
@@ -35,7 +33,7 @@ feature {NONE} -- Initialization
 			Console.show ({EL_FTP_PROTOCOL})
 			Precursor
 		end
-		
+
 feature -- Test operations
 
 	test_run
@@ -94,7 +92,7 @@ feature {NONE} -- Implementation
 			Result.ask_user_to_upload := False
 		end
 
-	argument_specs: ARRAY [like Type_argument_specification]
+	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				required_existing_path_argument ("scripts", "List of files to backup (Must be the last parameter)"),

@@ -2,6 +2,12 @@
 
 (Version 1.4.7 has not yet been released)
 
+## APP-MANAGE library
+
+* Refactored class `EL_COMMAND_LINE_SUB_APPLICATION` to use attribute `specs: ARRAYED_LIST [TUPLE [word_option, help_description: ZSTRING; is_required, path_exists: BOOLEAN]]`
+
+* Replaced anchor type `like Type_argument_specification` with `like spec.item` in class `EL_COMMAND_LINE_SUB_APPLICATION`.
+
 ## BASE library
 
 * Added class `EL_PROCEDURE_TABLE`
@@ -9,6 +15,47 @@
 * Merged `make_from_unicode` and `make_from_latin_1` into `make_from_general` in class `EL_READABLE_ZSTRING`. This allows for possibility that argument is of type `EL_ZSTRING`. Affects classes: `EL_STYLED_ZSTRING` `EL_ZSTRING` and `EL_MONOSPACED_STYLED_ZSTRING`.
 
 * Merged `make_from_unicode` and `make_from_latin_1` into `make_from_general` in class `EL_PATH`
+
+* Added class `EL_DEFERRED_LOCALE_I' with global instance accessible via `EL_MODULE_DEFERRED_LOCALE'. These classes allow strings in module descendants to be optionally localized in an application by including `EL_MODULE_LOCALE' from the `i18n' library.
+
+* Moved `remove_tail` and `remove_head` from `EL_PATH_STEPS` to `EL_ARRAYED_LIST`.
+
+* Added routine `relative_steps_to (other: like Current): EL_PATH_STEPS` to class `EL_PATH`
+
+* Added routines `substring_end' and `substring_start' to `ZSTRING'
+
+* Fixed -help option for `EL_SUB_APPLICATION' to provide help for missing standard options.
+
+## DATABASE library
+
+* The XML database in this library has been split off into a separate project `xml-database.ecf`. The original project has been renamed to `chain-db.ecf`.
+
+## ENCRYPTION library
+
+* Removed `EL_LOCALE_PASS_PHRASE` and the library `i18n.ecf` it depends on to prevent a dependency cycle.
+
+* Changed class `EL_PASS_PHRASE` to used the deferred localization scheme via class `EL_MODULE_DEFERRED_LOCALE`
+
+## I18N library
+
+* Changed the stored locale data format from XML to binary. Each locale is now saved in a separate file `locale.x` where x is a 2 letter country code. See section `TOOLKIT tool` for new option to generate the data files.
+
+## TOOLKIT tool
+* Added new sub-application option `el_toolkit -compile_translations` to compile translation data files in binary format from Pyxis source. See class [./tool/toolkit/source/applications/pyxis/pyxis_translation_tree_compiler_app.e PYXIS_TRANSLATION_TREE_COMPILER_APP].
+
+## WIN-INSTALLER library
+
+* Maintenance to achieve library compilation
+
+## WEL-X-AUDIO library
+
+* Maintenance to achieve library compilation
+
+## WAV-AUDIO library
+
+* Renamed from audio-file.ecf
+
+* Maintenance to achieve library compilation
 
 ## XDOC-SCANNING library
 
@@ -26,30 +73,6 @@
 
 * Added routine: `{EL_XML_DOCUMENT_SCANNER}.scan_from_lines`
 
-## DATABASE library
-
-* The XML database in this library has been split off into a separate project `xml-database.ecf`. The original project has been renamed to `chain-db.ecf`.
-
-## ENCRYPTION library
-
-* Removed `EL_LOCALE_PASS_PHRASE` and the library `i18n.ecf` it depends on to prevent a dependency cycle.
-
-* Changed class `EL_PASS_PHRASE` to used the deferred localization scheme via class `EL_MODULE_DEFERRED_LOCALE`
-
-## WIN-INSTALLER library
-
-* Maintenance to achieve library compilation
-
-## WEL-X-AUDIO library
-
-* Maintenance to achieve library compilation
-
-## WAV-AUDIO library
-
-* Renamed from audio-file.ecf
-
-* Maintenance to achieve library compilation
-
 ## EROS-TEST-CLIENTS example
 
 * Modified classes to use `{EL_CREATEABLE_FROM_NODE_SCAN}.set_parser_type`
@@ -64,6 +87,6 @@
 
 ## scons build system
 
-* Fixed `eifel_loop.eiffe.ecf.EIFFEL_CONFIG` so that multiple references to the same ECF file are parsed only once.
+* Fixed `eiffel_loop.eiffel.ecf.EIFFEL_CONFIG` so that multiple references to the same ECF file are parsed only once.
 
 

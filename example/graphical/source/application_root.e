@@ -2,12 +2,12 @@ note
 	description: ""
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-04 18:49:49 GMT (Friday 4th March 2016)"
-	revision: "1"
+	date: "2017-05-29 12:54:32 GMT (Monday 29th May 2017)"
+	revision: "2"
 
 class
 	APPLICATION_ROOT
@@ -24,7 +24,6 @@ feature {NONE} -- Implementation
 			--
 		once
 			Result := <<
-				{CONSOLE_LOGGING_QUANTUM_BALL_ANIMATION_APP},
 				{QUANTUM_BALL_ANIMATION_APP},
 				{POST_CARD_VIEWER_APP},
 				{PANGO_CAIRO_TEST_APP}

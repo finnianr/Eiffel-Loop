@@ -18,12 +18,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:10 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-28 17:06:24 GMT (Sunday 28th May 2017)"
+	revision: "2"
 
 class
 	THUNDERBIRD_MAIL_TO_HTML_BODY_CONVERTER
@@ -185,7 +185,7 @@ feature {NONE} -- Implementation
 		do
 			if line.starts_with (H2_tag) then
 				pos_right_bracket := line.index_of ('>', 1)
-				heading_text := line.substring (pos_right_bracket + 1,  line.index_of ('<', 2) - 1)
+				heading_text := line.substring (pos_right_bracket + 1, line.index_of ('<', 2) - 1)
 				html_lines.extend (Html.book_mark_anchor_markup (heading_text, Empty_string))
 
 				h2_list.extend (heading_text)

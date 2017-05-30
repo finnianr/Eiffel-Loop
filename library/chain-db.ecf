@@ -14,6 +14,6 @@ Supports transactions and encryption
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<!--Source code-->
-		<cluster name = "database" location = "persistency/database/binary-db" recursive = "true" readonly = "false"/>
+		<cluster name = "database" location = "persistency/database/chain-db" recursive = "true" readonly = "false"/>
 	</target>
 </system>

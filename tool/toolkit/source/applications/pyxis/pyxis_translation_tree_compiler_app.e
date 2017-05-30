@@ -1,7 +1,12 @@
 note
 	description: "[
-		Compiles tree of Pyxis translation files into multiple locale files.
-		Does nothing if source files are all older than locale files.
+		Sub app to compile tree of Pyxis translation files into multiple locale files named `locale.x'
+		where `x' is a 2 letter country code. Does nothing if source files are all older
+		than locale files. See class `EL_LOCALE_I'
+		
+		Syntax:
+		
+			el_toolkit -compile_translations -source <source tree dir> -output <output dir>
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-24 13:05:41 GMT (Wednesday 24th May 2017)"
-	revision: "1"
+	date: "2017-05-29 23:19:47 GMT (Monday 29th May 2017)"
+	revision: "2"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP
@@ -93,7 +98,7 @@ feature {NONE} -- Implementation
 			Result.output_dir := ""
 		end
 
-	argument_specs: ARRAY [like Type_argument_specification]
+	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				required_existing_path_argument ("source", "Source tree directory"),

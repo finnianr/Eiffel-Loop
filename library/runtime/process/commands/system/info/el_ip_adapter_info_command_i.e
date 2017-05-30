@@ -49,12 +49,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 16:02:15 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2017-05-28 17:25:40 GMT (Sunday 28th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_IP_ADAPTER_INFO_COMMAND_I
@@ -145,7 +145,7 @@ feature {NONE} -- Implementation
 
 	field_value (line: ZSTRING): ZSTRING
 		do
-			Result := line.substring (line.index_of (':', 1) + 2, line.count)
+			Result := line.substring_end (line.index_of (':', 1) + 2)
 			Result.prune_all_trailing ('-')
 			Result.left_adjust
 			Result.right_adjust

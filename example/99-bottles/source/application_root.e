@@ -5,7 +5,7 @@ note
 		
 		1. [http://www.99-bottles-of-beer.net/language-eiffel:-analysis,-design-and-programming-2256.html Submission 12 May 2009]
 		2. [http://www.99-bottles-of-beer.net/language-eiffel-2259.html Submission 12th June 2009]
-		3. [./short_ver/lyrics_99_bottles_of_beer.html Submission 9 August 2016]
+		3. [./example/99-bottles/source/short_ver/lyrics_99_bottles_of_beer.html Submission 9 August 2016]
 	]"
 
 	author: "Finnian Reilly"

@@ -28,8 +28,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 8:58:37 GMT (Monday 22nd May 2017)"
-	revision: "4"
+	date: "2017-05-30 5:06:52 GMT (Tuesday 30th May 2017)"
+	revision: "5"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -39,7 +39,7 @@ inherit
 		rename
 			command as music_manager_command
 		redefine
-			Option_name, set_reference_operand, skip_normal_initialize, initialize
+			Option_name, skip_normal_initialize, initialize
 		end
 
 create
@@ -76,7 +76,7 @@ feature -- Testing
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [like Type_argument_specification]
+	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				required_existing_path_argument (Arg_config, "Task configuration file")
@@ -84,43 +84,22 @@ feature {NONE} -- Implementation
 		end
 
 	default_operands: TUPLE [config: MANAGER_CONFIG]
+		local
+			config: MANAGER_CONFIG
 		do
 			create Result
-			Result.config := create {MANAGER_CONFIG}.make
+			if Is_test_mode then
+				create {TEST_MANAGER_CONFIG} config.make
+			else
+				create config.make
+			end
+			Result.config := config
+			specs.i_th (1).set_build_from_file (agent config.build_from_file)
 		end
 
 	make_action: PROCEDURE [like default_operands]
 		do
 			Result := agent music_manager_command.make
-		end
-
-	set_reference_operand (a_index: INTEGER; arg_spec: like Type_argument_specification; argument_ref: ANY)
-		local
-			l_file_path: EL_FILE_PATH
-		do
-			if attached {MANAGER_CONFIG} argument_ref as config then
-				if Args.has_value (arg_spec.word_option) then
-					l_file_path := Args.file_path (arg_spec.word_option)
-					if l_file_path.exists then
-						operands.put_reference (new_manager_config (l_file_path), a_index)
-					else
-						set_path_argument_error (arg_spec.word_option, English_file, l_file_path)
-					end
-				elseif arg_spec.is_required then
-					set_required_argument_error (arg_spec.word_option)
-				end
-			else
-				Precursor (a_index, arg_spec, argument_ref)
-			end
-		end
-
-	new_manager_config (file_path: EL_FILE_PATH): MANAGER_CONFIG
-		do
-			if Is_test_mode then
-				create {TEST_MANAGER_CONFIG} Result.make_from_file (file_path)
-			else
-				create Result.make_from_file (file_path)
-			end
 		end
 
 	skip_normal_initialize: BOOLEAN

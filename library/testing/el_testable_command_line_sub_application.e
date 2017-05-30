@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_TESTABLE_UNIVERSAL_SUB_APPLICATTION}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-04 10:28:39 GMT (Thursday 4th August 2016)"
-	revision: "2"
+	date: "2017-05-30 5:02:19 GMT (Tuesday 30th May 2017)"
+	revision: "3"
 
 deferred class
 	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND create default_create end]
@@ -26,6 +26,7 @@ feature {NONE} -- Initiliazation
 			--
 		do
 			create command
+			create specs.make_from_array (argument_specs)
 			set_operands
 			if Is_test_mode then
 				Console.show ({EL_REGRESSION_TESTING_ROUTINES})

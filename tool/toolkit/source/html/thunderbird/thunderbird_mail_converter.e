@@ -2,12 +2,12 @@ note
 	description: "Summary description for {THUNDERBIRD_MAIL_CONVERTER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-12 7:54:10 GMT (Wednesday 12th October 2016)"
-	revision: "2"
+	date: "2017-05-28 17:07:32 GMT (Sunday 28th May 2017)"
+	revision: "3"
 
 deferred class
 	THUNDERBIRD_MAIL_CONVERTER [WRITER -> HTML_WRITER create make end]
@@ -98,7 +98,7 @@ feature {NONE} -- State handlers
 				else
 					pos_colon := line.substring_index (Field_delimiter, 1)
 					if pos_colon > 0 then
-						field_table.put (line.substring (pos_colon + 2, line.count), line.substring (1, pos_colon - 1))
+						field_table.put (line.substring_end (pos_colon + 2), line.substring (1, pos_colon - 1))
 					end
 				end
 			end
@@ -202,7 +202,7 @@ feature {NONE} -- Implementation
 		do
 			value := field_table [Field.content_type]
 			pos_charset := value.substring_index (Charset_assignment, 1)
-			last_header.charset := value.substring (pos_charset + Charset_assignment.count, value.count)
+			last_header.charset := value.substring_end (pos_charset + Charset_assignment.count)
 			check
 				is_latin_15: last_latin_set_index = 15
 			end

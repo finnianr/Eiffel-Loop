@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 17:13:11 GMT (Friday 12th May 2017)"
-	revision: "1"
+	date: "2017-05-28 17:18:54 GMT (Sunday 28th May 2017)"
+	revision: "2"
 
 class
 	PYXIS_ECF_PARSER
@@ -36,7 +36,7 @@ feature {NONE} -- Implementation
 				if str.starts_with (Configuration_ns) then
 					semi_colon_pos := str.index_of (';', 1)
 					if semi_colon_pos > 0 then
-						attributes := str.substring (semi_colon_pos + 1, str.count)
+						attributes := str.substring_end (semi_colon_pos + 1)
 						attributes.left_adjust
 						str := str.substring (1, semi_colon_pos - 1)
 					else

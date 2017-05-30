@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EIFFEL_NOTE_EDITOR_TEST_SET}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-10 9:21:06 GMT (Wednesday 10th August 2016)"
-	revision: "2"
+	date: "2017-05-28 6:52:36 GMT (Sunday 28th May 2017)"
+	revision: "3"
 
 class
 	EIFFEL_NOTE_EDITOR_TEST_SET
@@ -127,7 +127,7 @@ feature {NONE} -- Line states
 				if attached {INTEGER_REF} Colon_field.integer (line) as l_revision then
 					revision.set_item (l_revision)
 				end
-				state := agent final
+				state := final
 			end
 		end
 

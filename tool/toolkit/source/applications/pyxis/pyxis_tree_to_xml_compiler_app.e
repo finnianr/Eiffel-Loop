@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-23 16:03:42 GMT (Tuesday 23rd May 2017)"
-	revision: "2"
+	date: "2017-05-29 23:20:14 GMT (Monday 29th May 2017)"
+	revision: "3"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_APP
@@ -57,7 +57,7 @@ feature {NONE} -- Implementation
 			Result.output_path := ""
 		end
 
-	argument_specs: ARRAY [like Type_argument_specification]
+	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				required_existing_path_argument ("source", "Source tree directory"),

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EXTRACT_TAG_INFO_SYSTEM_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-19 11:20:32 GMT (Sunday 19th June 2016)"
-	revision: "1"
+	date: "2017-05-29 15:17:22 GMT (Monday 29th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_EXTRACT_MP3_INFO_COMMAND_I
@@ -55,7 +55,7 @@ feature {NONE} -- Implementation
 				pos_field_delimiter := lines.item.substring_index (Field_delimiter, 1)
 				if pos_field_delimiter > 0 then
 					field_name := lines.item.substring (1, pos_field_delimiter - 1)
-					field_value := lines.item.substring (pos_field_delimiter + Field_delimiter.count, lines.item.count)
+					field_value := lines.item.substring_end (pos_field_delimiter + Field_delimiter.count)
 					fields [field_name] := field_value
 					if T_or_U_set.has (field_value.item (field_value.count)) then
 						last_character_is_T_or_U_count := last_character_is_T_or_U_count + 1

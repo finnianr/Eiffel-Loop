@@ -88,21 +88,27 @@ environ = {
 	'PYTHON_LIB_NAME'	  			: environ.python_dir_name ()
 }
 
+var_eiffel = 'EIFFEL'
 eiffel_basename = 'Eiffel'
+library_basename = 'library'
 cur_dir = path.curdir ()
 
-if not eiffel_basename in cur_dir.split (os.sep):
-	var_eiffel = 'EIFFEL'
-	if var_eiffel in os.environ:
-		eiffel_basename = path.basename (os.environ [var_eiffel])
+if var_eiffel in os.environ:
+	library_dir = path.join (os.environ [var_eiffel], library_basename)
+	if not path.exists (library_dir):
+		if eiffel_basename in cur_dir.split (os.sep):
+			eiffel_dir = path.curdir_up_to (eiffel_basename)
+			library_dir = path.join (eiffel_dir, library_basename)
+		else:
+			eiffel_dir = None
 
-if not eiffel_basename in cur_dir.split (os.sep):
-	print 'ERROR: "project.py" must be under an Eiffel development directory:'
-	print '\t"/home/<user>/bla/bla/Eiffel" or "$EIFFEL"'
+if not path.exists (library_dir):
+	print 'ERROR: cannot find "library" directory'
+	print '\t"$EIFFEL/library" does not exist'
+	if eiffel_dir:
+		print '\t and "%s" does not exist' % library_dir
 	sys.exit (1)
 
-eiffel_dir = path.curdir_up_to (eiffel_basename)
-library_dir = path.join (eiffel_dir, 'library')
 
 if not path.exists (library_dir):
 	print 'ERROR: "%s" does not have an Eiffel "library" directory' % eiffel_dir

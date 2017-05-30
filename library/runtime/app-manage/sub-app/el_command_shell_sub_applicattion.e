@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_COMMAND_SHELL_SUB_APPLICATTION}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-05-22 17:19:49 GMT (Friday 22nd May 2015)"
-	revision: "1"
+	date: "2017-05-29 23:19:44 GMT (Monday 29th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_COMMAND_SHELL_SUB_APPLICATTION [C -> EL_COMMAND_SHELL_COMMAND create default_create end]
@@ -22,7 +22,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	argument_specs: ARRAY [like Type_argument_specification]
+	argument_specs: ARRAY [like specs.item]
 		do
 			create Result.make_empty
 		end

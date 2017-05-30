@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EIFFEL_REPOSITORY_SOURCE_TREE_PAGE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-23 15:24:24 GMT (Friday 23rd September 2016)"
-	revision: "2"
+	date: "2017-05-28 13:59:39 GMT (Sunday 28th May 2017)"
+	revision: "3"
 
 class
 	REPOSITORY_SOURCE_TREE_PAGE
@@ -188,14 +188,14 @@ feature {NONE} -- Implementation
 
 	description_elements: EIFFEL_NOTE_HTML_TEXT_ELEMENT_LIST
 		do
-			create Result.make (source_tree.description_lines, top_dir)
+			create Result.make (source_tree.description_lines, relative_file_path.parent)
 		end
 
 	description_checksum: NATURAL
 
 	step_count: INTEGER
 		do
-			Result := relative_path.steps.count
+			Result := relative_path.step_count
 		end
 
 	new_sort_category: ZSTRING

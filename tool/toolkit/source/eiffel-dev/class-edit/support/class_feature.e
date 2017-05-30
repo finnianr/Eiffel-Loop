@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-21 12:06:05 GMT (Friday 21st April 2017)"
-	revision: "3"
+	date: "2017-05-28 17:31:39 GMT (Sunday 28th May 2017)"
+	revision: "4"
 
 class
 	CLASS_FEATURE
@@ -82,7 +82,7 @@ feature -- Element change
 		do
 			line := lines.first
 			if line.starts_with (Setter_shorthand) then
-				put_attribute_setter_lines (line.substring (Setter_shorthand.count + 2, line.count))
+				put_attribute_setter_lines (line.substring_end (Setter_shorthand.count + 2))
 
 			elseif line.has_substring (Insertion_symbol) then
 				create variable_name_list.make (3)
@@ -113,7 +113,7 @@ feature -- Element change
 				end
 			end
 			if from_shorthand_found then
-				replace_line (expanded_from_loop (line.substring (pos_at_from + From_shorthand.count + 1, line.count)), tab_count)
+				replace_line (expanded_from_loop (line.substring_end (pos_at_from + From_shorthand.count + 1)), tab_count)
 			end
 		end
 
@@ -341,7 +341,7 @@ feature {NONE} -- Constants
 					do
 						$name := a_$name
 					end
-				
+
 			]")
 		end
 

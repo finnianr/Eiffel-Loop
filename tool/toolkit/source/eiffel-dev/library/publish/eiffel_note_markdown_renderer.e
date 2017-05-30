@@ -2,12 +2,12 @@ note
 	description: "Markdown renderer with support for relative Eiffel class links"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-23 10:40:43 GMT (Saturday 23rd July 2016)"
-	revision: "1"
+	date: "2017-05-28 17:48:22 GMT (Sunday 28th May 2017)"
+	revision: "2"
 
 class
 	EIFFEL_NOTE_MARKDOWN_RENDERER
@@ -25,47 +25,33 @@ feature {NONE} -- Initialization
 
 	default_create
 		do
-			relative_class_dir := "."
+			relative_page_dir := "."
 		end
 
 feature -- Access
 
-	set_relative_class_dir (a_relative_class_dir: like relative_class_dir)
+	set_relative_page_dir (a_relative_page_dir: like relative_page_dir)
 		do
-			relative_class_dir := a_relative_class_dir
+			relative_page_dir := a_relative_page_dir
 		end
 
 feature {NONE} -- Implementation
 
-	new_expanded_link (address, text: ZSTRING): ZSTRING
+	new_expanded_link (path, text: ZSTRING): ZSTRING
 		local
-			address_steps: EL_PATH_STEPS; step_count, i: INTEGER; l_address: ZSTRING
-
+			l_path: ZSTRING; html_path: EL_FILE_PATH
 		do
-			step_count := relative_class_dir.step_count
-			if address.starts_with (Http) then
-				l_address := address
-
-			elseif address.starts_with (Current_dir_forward_slash) and then step_count > 0 then
-				l_address := address.twin
-				l_address.replace_substring (relative_class_dir.to_string, 1, 1)
-
-			elseif step_count > 0 then
-				-- Adjust the relative address path if the current page is an index page in a parent directory of
-				-- the html class source.
-				address_steps := address
-				from i := 1 until i > step_count loop
-					address_steps.start; address_steps.remove
-					i := i + 1
+			l_path := path
+			if path.starts_with (Current_dir_forward_slash) then
+				if path.occurrences ('/') > 1 then
+					html_path := path.substring_end (Current_dir_forward_slash.count + 1)
+					l_path := html_path.relative_steps (relative_page_dir).to_string
 				end
-				l_address := address_steps.to_string
-			else
-				l_address := address
 			end
-			Result := Precursor (l_address, text)
+			Result := Precursor (l_path, text)
 		end
 
-	relative_class_dir: EL_DIR_PATH
+	relative_page_dir: EL_DIR_PATH
 		-- class page relative to index page directory tree
 
 feature {NONE} -- Constants
@@ -75,11 +61,11 @@ feature {NONE} -- Constants
 			Result := "./"
 		end
 
-	Highlight_markup: ARRAYED_LIST [TUPLE [delimiter_start, delimiter_end, markup_open, markup_close: ZSTRING]]
+	Highlight_markup: ARRAYED_LIST [MARKUP_SUBSTITUTION]
 		once
 			Result := Precursor
 			Result.extend (
-				new_markup_substitution (Http_parent_relative_link_start, Right_square_bracket, Empty_string, Empty_string)
+				new_substitution (Http_parent_relative_link_start, Right_square_bracket, Empty_string, Empty_string)
 			)
 		end
 

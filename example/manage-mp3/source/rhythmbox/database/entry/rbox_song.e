@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 7:56:54 GMT (Monday 22nd May 2017)"
-	revision: "4"
+	date: "2017-05-29 15:14:53 GMT (Monday 29th May 2017)"
+	revision: "5"
 
 class
 	RBOX_SONG
@@ -279,7 +279,7 @@ feature -- Status query
 			l_actual_path := mp3_path.relative_path (music_dir).without_extension
 			l_normalized_path := normalized_path_steps.as_file_path
 			if l_actual_path.starts_with (l_normalized_path) then
-				l_extension := l_actual_path.substring (l_normalized_path.count + 1, l_actual_path.count) -- .00
+				l_extension := l_actual_path.substring_end (l_normalized_path.count + 1) -- .00
 				Result := l_extension.count = 3 and then l_extension.substring (2, 3).is_integer
 			end
 		end
@@ -321,7 +321,7 @@ feature -- Element change
 			pos_colon := a_album_artists.index_of (':', 1)
 			if pos_colon > 0 then
 				album_artists_prefix := a_album_artists.substring (1, pos_colon - 1)
-				text := a_album_artists.substring (pos_colon + 1, a_album_artists.count)
+				text := a_album_artists.substring_end (pos_colon + 1)
 				text.left_adjust
 			else
 				text := a_album_artists

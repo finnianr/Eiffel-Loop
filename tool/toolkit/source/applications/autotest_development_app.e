@@ -2,12 +2,12 @@ note
 	description: "Convenience class to develop AutoTest classes"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-23 8:48:16 GMT (Friday 23rd September 2016)"
-	revision: "5"
+	date: "2017-05-28 7:50:47 GMT (Sunday 28th May 2017)"
+	revision: "6"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -28,7 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent publisher_test_set.test_publisher)
+--			do_file_data_test (agent publisher_test_set.test_publisher)
+			do_file_data_test (agent publisher_test_set.test_regression (4208086553))
 --			do_file_data_test (agent note_editor_test_set.test_editor_with_new_class)
 		end
 

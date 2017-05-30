@@ -1,13 +1,24 @@
 ﻿note
-	description: "Summary description for {EL_LOCALE_ROUTINES}."
+	description: "[
+		Object accessible via `EL_MODULE_LOCALE' that returns translated strings using the syntax:
+		
+			Locale * "<text>"
+			
+		The translation files are named `locale.x' where `x' is a 2 letter country code, with
+		expected location defined by `Localization_dir', By default this is set to 
+		`Directory.Application_installation' accessible via `EL_MODULE_DIRECTORY'.
+		
+		The locale data files are compiled from Pyxis format using the `el_toolkit -compile_translations'
+		sub-application option.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 14:29:08 GMT (Thursday 25th May 2017)"
-	revision: "4"
+	date: "2017-05-27 5:29:18 GMT (Saturday 27th May 2017)"
+	revision: "5"
 
 deferred class
 	EL_LOCALE_I

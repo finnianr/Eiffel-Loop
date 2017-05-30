@@ -5,21 +5,24 @@ note
 		is called to intialize it.
 	]"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 18:23:18 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-05-30 5:10:51 GMT (Tuesday 30th May 2017)"
+	revision: "3"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND create default_create end]
 
 inherit
 	EL_SUB_APPLICATION
+		export
+			{EL_COMMAND_ARGUMENT} English_integer, English_file, English_directory,
+				set_argument_type_error, set_missing_argument_error, set_path_argument_error,
+				set_required_argument_error
+		end
 
 	EL_MODULE_EIFFEL
 
@@ -33,6 +36,7 @@ feature {NONE} -- Initiliazation
 			--
 		do
 			create command
+			create specs.make_from_array (argument_specs)
 			set_operands
 			if not has_invalid_argument then
 				make_command
@@ -50,173 +54,60 @@ feature -- Basic operations
 feature {NONE} -- Argument setting
 
 	set_operands
+		require
+			valid_specs_count: specs.count <= default_operands.count
 		local
-			i: INTEGER; arg_spec: like Type_argument_specification
-			l_argument_specs: like argument_specs
+			i: INTEGER
 		do
-			operands := default_operands; l_argument_specs := argument_specs
-			from i := 1 until i > operands.count loop
-				arg_spec := l_argument_specs [i]
+			operands := default_operands
+			from specs.start until specs.after loop
+				i := specs.index
 				if operands.is_reference_item (i) then
-					set_reference_operand (i, arg_spec, operands.reference_item (i))
+					specs.item.set_reference_operand (i)
 
 				elseif operands.is_integer_32_item (i) then
-					set_integer_operand (i, arg_spec)
+					specs.item.set_integer_operand (i)
 
 				elseif operands.is_boolean_item (i) then
-					set_boolean_operand (i, arg_spec)
+					specs.item.set_boolean_operand (i)
 
 				end
-				i := i + 1
+				specs.forth
 			end
-		end
-
-	set_reference_operand (a_index: INTEGER; arg_spec: like Type_argument_specification; argument_ref: ANY)
-		do
-			if attached {READABLE_STRING_GENERAL} argument_ref as string_ref then
-				set_string_operand (a_index, string_ref, arg_spec)
-
-			elseif attached {EL_ZSTRING_LIST} argument_ref as string_list then
-				set_string_list_operand (a_index, arg_spec, string_list)
-
-			elseif attached {EL_FILE_PATH} argument_ref as file_path then
-				set_path_operand (a_index, arg_spec, file_path, English_file)
-
-			elseif attached {EL_DIR_PATH} argument_ref as directory_path then
-				set_path_operand (a_index, arg_spec, directory_path, English_directory)
-
-			elseif attached {ARRAYED_LIST [EL_FILE_PATH]} argument_ref as file_path_list then
-				set_file_list_operand (a_index, arg_spec, file_path_list)
-
-			elseif attached {EL_ZSTRING_HASH_TABLE [ZSTRING]} argument_ref as table then
-				set_table_operands (a_index, table)
-			end
-		end
-
-	set_path_operand (a_index: INTEGER; arg_spec: like Type_argument_specification; a_path: EL_PATH; a_path_type: STRING)
-		do
-			if Args.has_value (arg_spec.word_option) then
-				a_path.set_path (Args.value (arg_spec.word_option))
-			end
-			if arg_spec.is_required and a_path.is_empty then
-				set_required_argument_error (arg_spec.word_option)
-
-			elseif arg_spec.path_exists then
-				if a_path.exists then
-					operands.put_reference (a_path, a_index)
-				else
-					set_path_argument_error (arg_spec.word_option, a_path_type, a_path)
-				end
-			else
-				operands.put_reference (a_path, a_index)
-			end
-		end
-
-	set_file_list_operand (
-		a_index: INTEGER; arg_spec: like Type_argument_specification; arg_file_list: ARRAYED_LIST [EL_FILE_PATH]
-	)
-		local
-			index_first_arg: INTEGER
-		do
-			index_first_arg := Args.index_of_word_option (arg_spec.word_option) + 1
-			if (2 |..| Args.argument_count).has (index_first_arg) then
-				Args.remaining_file_paths (index_first_arg).do_all (agent arg_file_list.extend)
-				if arg_file_list.is_empty then
-					set_missing_argument_error (arg_spec.word_option)
-				else
-					across arg_file_list as l_file_path loop
-						if not l_file_path.item.exists then
-							set_path_argument_error (arg_spec.word_option, English_file, l_file_path.item)
-						end
-					end
-				end
-
-			elseif arg_spec.is_required then
-				set_required_argument_error (arg_spec.word_option)
-			end
-			operands.put_reference (arg_file_list, a_index)
-		end
-
-	set_string_operand (a_index: INTEGER; default_arg: READABLE_STRING_GENERAL; arg_spec: like Type_argument_specification)
-		local
-			string: READABLE_STRING_GENERAL; arg: ZSTRING
-		do
-			if Args.has_value (arg_spec.word_option) then
-				arg := Args.value (arg_spec.word_option)
-				if attached {ZSTRING} default_arg then
-					string := arg
-				elseif attached {STRING_8} default_arg then
-					string := arg.to_string_8
-				elseif attached {STRING_32} default_arg then
-					string := arg.to_string_32
-				end
-				operands.put_reference (string, a_index)
-			elseif arg_spec.is_required then
-				set_missing_argument_error (arg_spec.word_option)
-			end
-		end
-
-	set_string_list_operand (
-		a_index: INTEGER; arg_spec: like Type_argument_specification; arg_string_list: EL_ZSTRING_LIST
-	)
-		do
-			if Args.has_value (arg_spec.word_option) then
-				across Args.value (arg_spec.word_option).split (',') as l_string loop
-					l_string.item.left_adjust
-					arg_string_list.extend (l_string.item)
-				end
-				operands.put_reference (arg_string_list, a_index)
-			elseif arg_spec.is_required then
-				set_missing_argument_error (arg_spec.word_option)
-			end
-		end
-
-	set_integer_operand (a_index: INTEGER; arg_spec: like Type_argument_specification)
-		do
-			if Args.has_integer (arg_spec.word_option) then
-				operands.put_integer (Args.integer (arg_spec.word_option), a_index)
-
-			elseif Args.has_value (arg_spec.word_option) then
-				set_argument_type_error (arg_spec.word_option, English_integer)
-
-			elseif arg_spec.is_required then
-				set_missing_argument_error (arg_spec.word_option)
-			end
-		end
-
-	set_boolean_operand (a_index: INTEGER; arg_spec: like Type_argument_specification)
-		do
-			operands.put_boolean (Args.word_option_exists (arg_spec.word_option), a_index)
-		end
-
-	set_table_operands (a_index: INTEGER; args_table: EL_ZSTRING_HASH_TABLE [ZSTRING])
-		do
-			across args_table as table loop
-				if Args.has_value (table.key) then
-					args_table [table.key] := Args.value (table.key)
-				end
-			end
-			operands.put_reference (args_table, a_index)
 		end
 
 feature {NONE} -- Conversion
 
-	required_existing_path_argument (a_word_option, help_description: ZSTRING): like Type_argument_specification
+	optional_argument (word_option, help_description: ZSTRING): like specs.item
 		do
-			Result := [a_word_option, help_description, True, True]
+			create Result.make (Current, word_option, help_description)
 		end
 
-	required_argument (a_word_option, help_description: ZSTRING): like Type_argument_specification
+	required_argument (word_option, help_description: ZSTRING): like specs.item
 		do
-			Result := [a_word_option, help_description, True, False]
+			create {EL_REQUIRED_COMMAND_ARGUMENT} Result.make (Current, word_option, help_description)
 		end
 
-	optional_argument (a_word_option, help_description: ZSTRING): like Type_argument_specification
+	required_existing_path_argument (word_option, help_description: ZSTRING): like specs.item
 		do
-			Result := [a_word_option, help_description, False, False]
+			create {EL_EXISTING_PATH_COMMAND_ARGUMENT} Result.make (Current, word_option, help_description)
 		end
 
 feature {NONE} -- Implementation
+
+	argument_specs: ARRAY [like specs.item]
+			-- argument specifications
+		deferred
+		end
+
+	default_operands: TUPLE
+			-- default arguments for make action
+		deferred
+		end
+
+	make_action: PROCEDURE
+		deferred
+		end
 
 	make_command
 		local
@@ -227,35 +118,13 @@ feature {NONE} -- Implementation
 			action.apply
 		end
 
-	make_action: PROCEDURE
-		deferred
-		end
-
-	default_operands: TUPLE
-			-- default arguments for make action
-		deferred
-		end
-
-	argument_specs: ARRAY [like Type_argument_specification]
-			-- argument specifications
-		deferred
-		ensure
-			valid_count: Result.count <= default_operands.count
-		end
+feature {EL_COMMAND_ARGUMENT} -- Internal attributes
 
 	command: C
 
 	operands: TUPLE
 		-- make procedure operands
 
-feature {NONE} -- Type definitions
-
-	Type_argument_specification: TUPLE [
-		word_option, help_description: ZSTRING; is_required, path_exists: BOOLEAN
-	]
-		require
-			never_called: False
-		once
-		end
+	specs: ARRAYED_LIST [EL_COMMAND_ARGUMENT]
 
 end

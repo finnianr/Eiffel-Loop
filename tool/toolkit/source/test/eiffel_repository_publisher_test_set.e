@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EIFFEL_REPOSITORY_PUBLISHER_TEST_SET}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-12 7:54:32 GMT (Wednesday 12th October 2016)"
-	revision: "2"
+	date: "2017-05-28 11:33:36 GMT (Sunday 28th May 2017)"
+	revision: "3"
 
 class
 	EIFFEL_REPOSITORY_PUBLISHER_TEST_SET
@@ -30,32 +30,31 @@ feature -- Tests
 	test_publisher
 		local
 			publisher: EIFFEL_REPOSITORY_PUBLISHER
-			html_file_path: EL_FILE_PATH; source_tree: REPOSITORY_SOURCE_TREE
-			checksum: NATURAL; n: INTEGER
+			n: INTEGER
 		do
 			log.enter ("test_publisher")
-			create publisher.make (Work_area_dir + "doc-config/config.pyx", "1.4.0")
-			publisher.set_output_dir (Doc_dir)
-			publisher.ftp_sync.ftp.set_default_state -- Turn off ftp
-			publisher.tree_list.wipe_out
-			across Sources as src loop
-				create source_tree.make_with_name (publisher, src.key, Eiffel_loop_dir.joined_dir_path (src.item.source_dir))
-				if not src.item.description.is_empty then
-					source_tree.set_description_lines (src.item.description)
-				end
-				publisher.tree_list.extend (source_tree)
-			end
+			publisher := new_publisher
+			execute (publisher)
 
-			publisher.execute
-			across publisher.tree_list as tree loop
-				across tree.item.path_list as path loop
-					html_file_path := Doc_dir + path.item.relative_path (publisher.root_dir).with_new_extension ("html")
-					assert ("html exists", html_file_path.exists)
-				end
+			execute_second (publisher, file_modification_checksum)
+			n := User_input.integer ("Return to finish")
+			log.exit
+		end
+
+	test_regression (checksum: NATURAL)
+		local
+			n: INTEGER; actual_checksum: NATURAL
+		do
+			log.enter ("test_regression")
+			execute (new_publisher)
+			actual_checksum := file_content_checksum
+			if checksum = actual_checksum then
+				log.put_labeled_string ("Test", "OK")
+			else
+				log.put_labeled_string ("checksum", checksum.out)
+				log.put_labeled_string (" actual_checksum", actual_checksum.out)
 			end
-			checksum := file_modification_checksum
-			publisher.execute
-			assert ("no file was modified", checksum = file_modification_checksum)
+			log.put_new_line
 			n := User_input.integer ("Return to finish")
 			log.exit
 		end
@@ -73,6 +72,53 @@ feature {NONE} -- Events
 
 feature {NONE} -- Implementation
 
+	execute_second (publisher: EIFFEL_REPOSITORY_PUBLISHER; checksum: NATURAL)
+		do
+			log.put_labeled_string ("checksum", checksum.out)
+			log.put_new_line
+			publisher.execute
+			assert ("no file was modified", checksum = file_modification_checksum)
+		end
+
+	execute (publisher: EIFFEL_REPOSITORY_PUBLISHER)
+		local
+			html_file_path: EL_FILE_PATH; source_tree: REPOSITORY_SOURCE_TREE
+		do
+			publisher.set_output_dir (Doc_dir)
+			publisher.ftp_sync.ftp.set_default_state -- Turn off ftp
+			publisher.tree_list.wipe_out
+			across Sources as src loop
+				create source_tree.make_with_name (publisher, src.key, Eiffel_loop_dir.joined_dir_path (src.item.source_dir))
+				if not src.item.description.is_empty then
+					source_tree.set_description_lines (src.item.description)
+				end
+				publisher.tree_list.extend (source_tree)
+			end
+			publisher.execute
+			across publisher.tree_list as tree loop
+				across tree.item.path_list as path loop
+					html_file_path := Doc_dir + path.item.relative_path (publisher.root_dir).with_new_extension ("html")
+					assert ("html exists", html_file_path.exists)
+				end
+			end
+		end
+
+	new_publisher: EIFFEL_REPOSITORY_PUBLISHER
+		do
+			create Result.make (Work_area_dir + "doc-config/config.pyx", "1.4.0")
+		end
+
+	file_content_checksum: NATURAL
+		local
+			crc: EL_CYCLIC_REDUNDANCY_CHECK_32
+		do
+			create crc
+			across OS.file_list (Doc_dir, "*.html") as html loop
+				crc.add_file (html.item)
+			end
+			Result := crc.checksum
+		end
+
 	file_modification_checksum: NATURAL
 		local
 			crc: EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -84,6 +130,7 @@ feature {NONE} -- Implementation
 				crc.add_integer (modification_time.date.ordered_compact_date)
 				crc.add_integer (modification_time.time.compact_time)
 			end
+			Result := crc.checksum
 		end
 
 feature {NONE} -- Constants
