@@ -5,7 +5,7 @@
 #	date: "21 Dec 2012"
 #	revision: "0.1"
 
-sudo apt-get install python2.7-dev python-lxml scons libxrandr-dev
+sudo apt-get install python2.7-dev python-lxml scons libxrandr-dev librsvg2-dev
 # Required for example/manage-mp3 
 sudo apt-get install siggen libav-tools sox lame
 if [ $? == "0" ]

@@ -1,13 +1,16 @@
 note
-	description: "Summary description for {EL_DEFAULT_LOCALE_I}."
+	description: "[
+		Locale that defines the language used for translations keys via the
+		country code id `key_language'.
+	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:14:54 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2017-05-27 4:57:38 GMT (Saturday 27th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_DEFAULT_LOCALE_I

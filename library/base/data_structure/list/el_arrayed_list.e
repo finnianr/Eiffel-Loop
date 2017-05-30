@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 17:16:37 GMT (Sunday 21st May 2017)"
-	revision: "5"
+	date: "2017-05-27 12:49:13 GMT (Saturday 27th May 2017)"
+	revision: "6"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -54,6 +54,20 @@ feature -- Access
 			end
 		end
 
+feature -- Removal
+
+	remove_head (n: INTEGER)
+			--
+		do
+			remove_end (n, agent start)
+		end
+
+	remove_tail (n: INTEGER)
+			--
+		do
+			remove_end (n, agent finish)
+		end
+
 feature {NONE} -- Implementation
 
 	find_next_function_value (value: ANY; value_function: FUNCTION [ANY])
@@ -75,6 +89,16 @@ feature {NONE} -- Implementation
 			index := i + 1
 		end
 
+	remove_end (n: INTEGER; go_to_end: PROCEDURE)
+			--
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > n or is_empty loop
+				go_to_end.apply; remove
+				i := i + 1
+			end
+		end
 feature -- Element change
 
 	append_array (array: ARRAY [G])

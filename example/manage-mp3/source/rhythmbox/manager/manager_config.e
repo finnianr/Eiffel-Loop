@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 7:55:29 GMT (Monday 22nd May 2017)"
-	revision: "5"
+	date: "2017-05-30 4:33:33 GMT (Tuesday 30th May 2017)"
+	revision: "6"
 
 class
 	MANAGER_CONFIG
@@ -16,6 +16,8 @@ inherit
 	EL_BUILDABLE_FROM_PYXIS
 		rename
 			make_default as make
+		export
+			{RHYTHMBOX_MUSIC_MANAGER_APP} build_from_file
 		redefine
 			make, building_action_table
 		end

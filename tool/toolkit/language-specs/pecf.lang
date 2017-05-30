@@ -349,6 +349,7 @@
 			<keyword>trademark</keyword>
 			<keyword>type</keyword>
 			<keyword>use_application_options</keyword>
+			<keyword>use</keyword>
 			<keyword>uuid</keyword>
 			<keyword>value</keyword>
 			<keyword>version</keyword>
@@ -374,6 +375,7 @@
 			<keyword>class</keyword>
 			<keyword>class_option</keyword>
 			<keyword>cluster</keyword>
+			<keyword>capability</keyword>
 			<keyword>concurrency</keyword>
 			<keyword>condition</keyword>
 			<keyword>custom</keyword>

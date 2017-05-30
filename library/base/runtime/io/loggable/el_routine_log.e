@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:34:53 GMT (Thursday 25th May 2017)"
-	revision: "3"
+	date: "2017-05-28 17:23:38 GMT (Sunday 28th May 2017)"
+	revision: "4"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -221,9 +221,7 @@ feature -- Output
 				l_lines.append (l_field_value.substring (1, max_length - count_trailing_characters).split ('%N'))
 				l_lines.last.append_string (Ellipsis_dots)
 
-				l_lines_2 := l_field_value.substring (
-					l_field_value.count - count_trailing_characters + 1, l_field_value.count
-				).lines
+				l_lines_2 := l_field_value.substring_end (l_field_value.count - count_trailing_characters + 1).lines
 
 				l_lines_2.first.prepend_string (Ellipsis_dots)
 				l_lines.append (l_lines_2)

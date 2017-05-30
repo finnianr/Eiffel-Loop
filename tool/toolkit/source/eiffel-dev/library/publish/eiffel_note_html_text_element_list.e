@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EIFFEL_NOTE_HTML_TEXT_ELEMENT_LIST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-22 16:38:54 GMT (Friday 22nd July 2016)"
-	revision: "1"
+	date: "2017-05-28 13:59:07 GMT (Sunday 28th May 2017)"
+	revision: "2"
 
 class
 	EIFFEL_NOTE_HTML_TEXT_ELEMENT_LIST
@@ -25,9 +25,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (markdown_lines: EL_ZSTRING_LIST; a_relative_class_dir: like relative_class_dir)
+	make (markdown_lines: EL_ZSTRING_LIST; a_relative_page_dir: like relative_page_dir)
 		do
-			relative_class_dir := a_relative_class_dir
+			relative_page_dir := a_relative_page_dir
 			make_list (markdown_lines)
 		end
 
@@ -36,13 +36,13 @@ feature {NONE} -- Implementation
 	html_description: ZSTRING
 			-- escaped description with html formatting
 		do
-			Markdown.set_relative_class_dir (relative_class_dir)
+			Markdown.set_relative_page_dir (relative_page_dir)
 			Result := Markdown.as_html (lines.joined_lines)
 		end
 
 feature {NONE} -- Internal attributes
 
-	relative_class_dir: EL_DIR_PATH
+	relative_page_dir: EL_DIR_PATH
 		-- class page directory relative to index page directory tree
 
 feature {NONE} -- Constants

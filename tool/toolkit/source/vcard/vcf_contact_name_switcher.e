@@ -2,12 +2,12 @@ note
 	description: "Switch order of first and secondname in contacts file"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-11 9:27:01 GMT (Saturday 11th June 2016)"
-	revision: "1"
+	date: "2017-05-28 17:05:27 GMT (Sunday 28th May 2017)"
+	revision: "2"
 
 class
 	VCF_CONTACT_NAME_SWITCHER
@@ -62,7 +62,7 @@ feature {NONE} -- State handlers
 			if across << Name_field, Name_field_utf_8 >> as field some line.starts_with (field.item) end then
 				field_name := line.substring (1, line.index_of (':', 1))
 				names.wipe_out
-				names.append_split (line.substring (field_name.count + 1, line.count), ';', false)
+				names.append_split (line.substring_end (field_name.count + 1), ';', false)
 				-- Swap
 				name := names [1]; names [1] := names [2]; names [2] := name
 				vcf_out.put_string_z (field_name)

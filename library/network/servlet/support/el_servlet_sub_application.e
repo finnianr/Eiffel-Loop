@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_SERVLET_SUB_APPLICATION}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 19:06:36 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-05-29 23:24:52 GMT (Monday 29th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_SERVLET_SUB_APPLICATION [S -> EL_FAST_CGI_SERVLET_SERVICE create default_create end]
@@ -22,7 +22,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [like Type_argument_specification]
+	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				optional_argument ("config_dir", "Location of configuration file"),

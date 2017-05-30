@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 12:19:33 GMT (Thursday 25th May 2017)"
-	revision: "4"
+	date: "2017-05-28 14:51:59 GMT (Sunday 28th May 2017)"
+	revision: "5"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -44,16 +44,9 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 
 			-- Add logging menu option. The actual is_active status is tested in `EL_GLOBAL_LOGGING'
 			create boolean
-			set_boolean_from_command_opt (
-				boolean, {EL_LOG_COMMAND_OPTIONS}.Logging, "Activate application logging to console"
-			)
-			set_boolean_from_command_opt (
-				boolean, {EL_LOG_COMMAND_OPTIONS}.Keep_logs, "Do not delete log file on program exit"
-			)
-			set_boolean_from_command_opt (
-				boolean, {EL_LOG_COMMAND_OPTIONS}.No_highlighting, "Turn off color highlighting for console output"
-			)
-
+			across standard_options as option loop
+				set_boolean_from_command_opt (boolean, option.key, option.item)
+			end
 			l_log_filters := log_filter_array
 
 			init_logging (l_log_filters, Log_output_directory)
@@ -378,6 +371,19 @@ feature {NONE} -- Implementation
 	indent (n: INTEGER): STRING
 		do
 			create Result.make_filled (' ', n)
+		end
+
+	standard_options: EL_HASH_TABLE [STRING, STRING]
+		-- Standard command line options
+		do
+			create Result.make (<<
+				[{EL_LOG_COMMAND_OPTIONS}.Logging, 				"Activate application logging to console"],
+				[{EL_LOG_COMMAND_OPTIONS}.Keep_logs, 			"Do not delete log file on program exit"],
+				[{EL_LOG_COMMAND_OPTIONS}.No_highlighting, 	"Turn off color highlighting for console output"],
+				[{EL_LOG_COMMAND_OPTIONS}.No_app_header, 		"Suppress output of application information"],
+				[{EL_LOG_COMMAND_OPTIONS}.silent, 				"Suppress all output to console"],
+				[{EL_LOG_COMMAND_OPTIONS}.Ask_user_to_quit, 	"Prompt user to quit before exiting application"]
+			>>)
 		end
 
 	options_help: LINKED_LIST [TUPLE [name, description, default_value: STRING]]

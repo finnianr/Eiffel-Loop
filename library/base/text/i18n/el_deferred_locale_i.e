@@ -1,10 +1,14 @@
 note
 	description: "[
-		Object available via `{EL_MODULE_DEFERRED_LOCALE}.locale' that deferrs localization implementation
-		until the function `{EL_MODULE_DEFERRED_LOCALE}.new_locale' is over-ridden to return `EL_LOCAL_I'.
-		See class `EL_MODULE_LOCALE' in library `i18n.ecf'. The intention is to prevent circular library dependencies.
+		Object available via `{EL_MODULE_DEFERRED_LOCALE}.Locale' that allows strings in descendants of
+		EL_MODULE_DEFERRED_LOCALE to be optionally localized at an application level by including class
+		`EL_MODULE_LOCALE' from the `i18n.ecf' library. By default `translation' returns the key as a `ZSTRING'
 		
-		By default `translation' returns the key as a `ZSTRING'
+		Localized strings are referred to using the shorthand syntax:
+		
+			Locale * "<text>"		
+		
+		Originally this class was introduced to prevent circular library dependencies.
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 12:29:05 GMT (Thursday 25th May 2017)"
-	revision: "1"
+	date: "2017-05-27 5:48:53 GMT (Saturday 27th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -31,6 +35,8 @@ inherit
 feature -- Access
 
 	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
+			-- by default returns `key' as a `ZSTRING' unless localization is enabled at an
+			-- application level
 		do
 			Result := translated_string (translations, key)
 		end

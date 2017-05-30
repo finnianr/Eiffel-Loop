@@ -6,15 +6,13 @@ note
 		Usage: `el_toolkit -crypto'
 	]"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 19:59:25 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-05-28 16:40:00 GMT (Sunday 28th May 2017)"
+	revision: "3"
 
 class
 	CRYPTO_APP

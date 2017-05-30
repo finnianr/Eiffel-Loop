@@ -2,7 +2,7 @@ note
 	description: "[
 		Localizeable class for entering and validating pass phrases
 		
-		See file: `localizaion/el_pass_phrase.pyx'
+		See file: `localization/el_pass_phrase.pyx'
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 11:53:32 GMT (Thursday 25th May 2017)"
-	revision: "2"
+	date: "2017-05-27 4:47:53 GMT (Saturday 27th May 2017)"
+	revision: "3"
 
 class
 	EL_PASS_PHRASE

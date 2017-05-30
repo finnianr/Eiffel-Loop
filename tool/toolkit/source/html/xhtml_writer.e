@@ -2,12 +2,12 @@ note
 	description: "Summary description for {XHTML_WRITER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 14:27:25 GMT (Sunday 20th December 2015)"
-	revision: "1"
+	date: "2017-05-28 17:04:29 GMT (Sunday 28th May 2017)"
+	revision: "2"
 
 class
 	XHTML_WRITER
@@ -66,7 +66,7 @@ feature {NONE} -- Implementation
 			Result := Precursor (match_text)
 			Result.insert_character ('/', Result.count - 1)
 		ensure then
-			tag_is_empty_element: Result.substring (Result.count - 1, Result.count).same_string ("/>")
+			tag_is_empty_element: Result.substring_end (Result.count - 1).same_string ("/>")
 		end
 
 feature {NONE} -- Constants

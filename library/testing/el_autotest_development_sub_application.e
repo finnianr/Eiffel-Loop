@@ -1,15 +1,13 @@
 note
 	description: "Sub application for calling a particular AutoTest test"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 19:55:55 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-05-28 6:53:48 GMT (Sunday 28th May 2017)"
+	revision: "3"
 
 deferred class
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION

@@ -15,7 +15,7 @@ system:
 				Supports transactions and encryption
 				
 				NOTE:
-				This library is no longer maintained as database.ecf is a better alternative.
+				This library is no longer maintained as chain-db.ecf is a better alternative.
 			"""
 		option: 
 			syntax = standard; full_class_checking = false; void_safety = none

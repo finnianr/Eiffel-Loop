@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_CPU_INFO_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-19 11:20:32 GMT (Sunday 19th June 2016)"
-	revision: "1"
+	date: "2017-05-28 17:27:31 GMT (Sunday 28th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_CPU_INFO_COMMAND_I
@@ -47,7 +47,7 @@ feature {NONE} -- Implementation
 			lines.compare_objects
 			lines.find_first (True, agent {ZSTRING}.starts_with (Text_model_name))
 			if not lines.after then
-				model_name := lines.item.substring (lines.item.index_of (':', 1) + 2, lines.item.count).to_latin_1
+				model_name := lines.item.substring_end (lines.item.index_of (':', 1) + 2)
 			end
 		ensure then
 			model_name_not_empty: not model_name.is_empty

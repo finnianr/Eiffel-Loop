@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:43:07 GMT (Thursday 25th May 2017)"
-	revision: "6"
+	date: "2017-05-28 17:53:44 GMT (Sunday 28th May 2017)"
+	revision: "7"
 
 deferred class
 	EL_PATH
@@ -117,7 +117,7 @@ feature -- Initialization
 				end
 			end
 			set_parent_path (norm_path.substring (1, pos_last_separator))
-			base := norm_path.substring (pos_last_separator + 1, norm_path.count)
+			base := norm_path.substring_end (pos_last_separator + 1)
 		end
 
 feature -- Access
@@ -126,7 +126,7 @@ feature -- Access
 			--
 		do
 			if base.has ('.') then
-				Result := base.substring (base.last_index_of ('.', base.count) + 1, base.count)
+				Result := base.substring_end (base.last_index_of ('.', base.count) + 1)
 			else
 				create Result.make_empty
 			end
@@ -200,9 +200,26 @@ feature -- Access
 			end
 		end
 
-	has_version_number: BOOLEAN
+	relative_steps (dir_path: EL_DIR_PATH): EL_PATH_STEPS
+		-- path steps of `Current' relative to directory `dir_path' using parent notation `..'
+		local
+			l_steps, dir_steps: EL_PATH_STEPS
 		do
-			Result := version_number >= 0
+			create Result.make_with_count (step_count.max (dir_path.step_count))
+			if dir_path.is_empty then
+				Result := steps
+			elseif parent ~ dir_path then
+				Result.extend (Single_dot)
+				Result.extend (base)
+			else
+				l_steps := steps
+				from dir_steps := dir_path.steps until l_steps.starts_with (dir_steps) loop
+					dir_steps.remove_last
+					Result.extend (Double_dot)
+				end
+				l_steps.remove_head (dir_steps.count)
+				Result.append (l_steps)
+			end
 		end
 
 	version_number: INTEGER
@@ -234,7 +251,7 @@ feature -- Access
 			intervals: like base.substring_intervals
 			found: BOOLEAN
 		do
-			intervals := base.split_intervals (Dot_separator)
+			intervals := base.split_intervals (Single_dot)
 			from intervals.finish until found or else intervals.before loop
 				if base.substring (intervals.item_lower, intervals.item_upper).is_natural then
 					found := True
@@ -265,6 +282,11 @@ feature -- Status Query
 			else
 				Result := not parent_path.is_empty and then parent_path [parent_count] = Separator
 			end
+		end
+
+	has_version_number: BOOLEAN
+		do
+			Result := version_number >= 0
 		end
 
 	is_absolute: BOOLEAN
@@ -504,7 +526,7 @@ feature -- Conversion
 			parent_is_parent: a_parent.is_parent_of (Current)
 		do
 			Result := new_relative_path
-			Result.set_parent_path (parent_path.substring (a_parent.count + 2, parent_path.count))
+			Result.set_parent_path (parent_path.substring_end (a_parent.count + 2))
 			Result.set_relative
 		end
 
@@ -711,9 +733,14 @@ feature -- Constants
 
 feature {NONE} -- Constants
 
-	Dot_separator: ZSTRING
+	Single_dot: ZSTRING
 		once
 			Result := "."
+		end
+
+	Double_dot: ZSTRING
+		once
+			Result := ".."
 		end
 
 	Magic_number: INTEGER = 8388593

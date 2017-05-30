@@ -2,12 +2,12 @@ note
 	description: "Translates Eiffel-View publisher markdown to Github markdown"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-09 13:12:15 GMT (Tuesday 9th August 2016)"
-	revision: "1"
+	date: "2017-05-28 17:19:26 GMT (Sunday 28th May 2017)"
+	revision: "2"
 
 class
 	MARKDOWN_TRANSLATER
@@ -79,7 +79,7 @@ feature {NONE} -- Line states
 		do
 			output.last.append (New_line_string)
 			if line.starts_with (Tab_string) then
-				output.last.append (line.substring (2, line.count))
+				output.last.append (line.substring_end (2))
 			else
 				output.last.append (Code_block_delimiter)
 				output.extend (new_string)

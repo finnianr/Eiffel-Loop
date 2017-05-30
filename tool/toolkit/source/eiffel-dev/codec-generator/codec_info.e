@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {CODEC_INFO}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 19:59:25 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-05-28 17:30:14 GMT (Sunday 28th May 2017)"
+	revision: "3"
 
 class
 	CODEC_INFO
@@ -89,7 +87,7 @@ feature -- Access
 
 	codec_id: INTEGER
 		do
-			Result := codec_name.substring (codec_name.last_index_of ('_', codec_name.count) + 1, codec_name.count).to_integer
+			Result := codec_name.substring_end (codec_name.last_index_of ('_', codec_name.count) + 1).to_integer
 		end
 
 	codec_name: ZSTRING

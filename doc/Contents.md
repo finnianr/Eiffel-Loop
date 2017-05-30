@@ -190,7 +190,7 @@ Implements "in-memory" database tables based on an interface defined by the kern
 1. Monolithic tables which can only be saved to disk as a whole and any new items which have not been saved will be lost.
 2. Transactional tables where the effects of the table item operations: *extend, replace or delete*,  are immediately committed to disk in an editions table file. When the editions file gets too large, the editions are consolidated into the main table file.
 
-Monolithic tables are implemented by class: [`EL_STORABLE_CHAIN`](http://www.eiffel-loop.com/library/persistency/database/binary-db/el_storable_chain.html) which takes a generic paramter of type [`EL_STORABLE`](http://www.eiffel-loop.com/library/base/utility/memory/el_storable.html).
+Monolithic tables are implemented by class: [`EL_STORABLE_CHAIN`](http://www.eiffel-loop.com/library/persistency/database/chain-db/el_storable_chain.html) which takes a generic paramter of type [`EL_STORABLE`](http://www.eiffel-loop.com/library/base/utility/memory/el_storable.html).
 
 This class defines the basic database *CRUD* concept of **C**reate, **R**ead, **U**pdate and **D**elete:
 
@@ -202,7 +202,7 @@ This class defines the basic database *CRUD* concept of **C**reate, **R**ead, **
 
 **Delete:** is implemented by the `{EL_STORABLE}.delete` procedure.
 
-Transactional tables are implemented using the [`EL_RECOVERABLE_STORABLE_CHAIN`](http://www.eiffel-loop.com/library/persistency/database/binary-db/el_recoverable_storable_chain.html) class which inherits [`EL_STORABLE_CHAIN`](http://www.eiffel-loop.com/library/persistency/database/binary-db/el_storable_chain.html). It is called 'recoverable' because if the power suddenly goes off on your PC, the table is fully recoverable from the editions file. 
+Transactional tables are implemented using the [`EL_RECOVERABLE_STORABLE_CHAIN`](http://www.eiffel-loop.com/library/persistency/database/chain-db/el_recoverable_storable_chain.html) class which inherits [`EL_STORABLE_CHAIN`](http://www.eiffel-loop.com/library/persistency/database/chain-db/el_storable_chain.html). It is called 'recoverable' because if the power suddenly goes off on your PC, the table is fully recoverable from the editions file. 
 
 **ENCRYPTION**
 
@@ -212,7 +212,7 @@ AES encryption is supported for both monolithic and transactional tables.
 
 Some experimental relational capabilities have been added in a private project but these classes have not yet found their way into Eiffel-Loop.
 
-**EXAMPLES** Unfortunately the only examples are in a private commercial project. But if there is enough popular demand, the author will open source some of them.
+**EXAMPLES** For an example of `EL_STORABLE_CHAIN` see class [`EL_TRANSLATION_ITEMS_LIST`](http://www.eiffel-loop.com/library/text/i18n/support/el_translation_items_list.html) found in the `i18n.ecf` localization library. Unfortunately the only examples for `EL_RECOVERABLE_STORABLE_CHAIN` are in a closed commercial project, but the usage is pretty similar.
 
 
 ## Search Engine Classes

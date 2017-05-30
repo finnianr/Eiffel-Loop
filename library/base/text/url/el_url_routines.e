@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-21 12:21:58 GMT (Friday 21st April 2017)"
-	revision: "2"
+	date: "2017-05-28 17:22:14 GMT (Sunday 28th May 2017)"
+	revision: "3"
 
 class
 	EL_URL_ROUTINES
@@ -58,7 +58,7 @@ feature -- Conversion
 		require
 			is_valid_uri: is_uri (a_uri)
 		do
-			Result := a_uri.substring (a_uri.substring_index (Protocol_sign, 1) + 3, a_uri.count)
+			Result := a_uri.substring_end (a_uri.substring_index (Protocol_sign, 1) + 3)
 		end
 
 	decoded_path (escaped_utf8_path: STRING): ZSTRING

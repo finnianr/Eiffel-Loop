@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_STREAM_SOCKET}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-17 18:53:15 GMT (Thursday 17th December 2015)"
-	revision: "1"
+	date: "2017-05-26 13:16:37 GMT (Friday 26th May 2017)"
+	revision: "2"
 
 deferred class
 	EL_STREAM_SOCKET
@@ -38,7 +38,7 @@ feature -- Input
 			delimiter_code := End_of_string_delimiter.natural_32_code
 			packet := Packet_buffer
 			packet.set_count (Default_packet_size)
-			String_buffer.clear_all
+			String_buffer.wipe_out
 			from until transmission_complete loop
 				count := c_read_stream (descriptor, packet.capacity, packet.base_address)
 				if count > 0 then
@@ -65,7 +65,7 @@ feature -- Input
 			count: INTEGER
 		do
 			create packet.make (nb_char)
-			String_buffer.clear_all
+			String_buffer.wipe_out
 			count := c_read_stream (descriptor, packet.capacity, packet.base_address)
 			if count > 0 then
 				packet.set_count (count)
@@ -81,7 +81,7 @@ feature -- Output
 			-- put string with end delimited by ctrl-z code (DEC 26)
 			-- Use 'read_string' to read it.
 		do
-			String_buffer.clear_all
+			String_buffer.wipe_out
 			String_buffer.append (string)
 			c_put_stream (descriptor, String_buffer.area.base_address, String_buffer.count)
 			put_end_of_string_delimiter

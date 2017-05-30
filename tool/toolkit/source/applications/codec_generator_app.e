@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {CODEC_GENERATER_APP}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 19:59:25 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-05-29 23:20:53 GMT (Monday 29th May 2017)"
+	revision: "3"
 
 class
 	CODEC_GENERATOR_APP
@@ -57,7 +55,7 @@ feature {NONE} -- Implementation
 			Result.template_path := ""
 		end
 
-	argument_specs: ARRAY [like Type_argument_specification]
+	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				required_argument ("c_source", "C source code path"),

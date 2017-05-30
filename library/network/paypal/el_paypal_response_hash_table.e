@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {EL_PAYPAL_RESPONSE_TABLE}."
 
-	
-
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-26 10:09:04 GMT (Friday 26th August 2016)"
-	revision: "2"
+	date: "2017-05-29 15:20:10 GMT (Monday 29th May 2017)"
+	revision: "3"
 
 class
 	EL_PAYPAL_RESPONSE_HASH_TABLE
@@ -75,7 +73,7 @@ feature -- Access
 			item_str := item (name)
 			pos_equal := item_str.index_of ('=', 1)
 			if pos_equal > 0 then
-				Result := [item_str.substring (1, pos_equal - 1), item_str.substring (pos_equal + 1, item_str.count)]
+				Result := [item_str.substring (1, pos_equal - 1), item_str.substring_end (pos_equal + 1)]
 			else
 				Result := [Empty_string, Empty_string]
 			end

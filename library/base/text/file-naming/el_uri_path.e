@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-21 16:18:31 GMT (Friday 21st April 2017)"
-	revision: "3"
+	date: "2017-05-28 17:22:49 GMT (Sunday 28th May 2017)"
+	revision: "4"
 
 deferred class
 	EL_URI_PATH
@@ -58,7 +58,7 @@ feature -- Initialization
 			else
 				pos_separator := l_uri_path.index_of (Separator, 1)
 				domain := l_uri_path.substring (1, pos_separator - 1)
-				Precursor (l_uri_path.substring (pos_separator, l_uri_path.count))
+				Precursor (l_uri_path.substring_end (pos_separator))
 			end
 		ensure then
 			is_absolute: is_absolute

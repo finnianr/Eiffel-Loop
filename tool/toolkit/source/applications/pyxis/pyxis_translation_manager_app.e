@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 19:59:25 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-05-29 23:20:10 GMT (Monday 29th May 2017)"
+	revision: "3"
 
 class
 	PYXIS_TRANSLATION_MANAGER_APP
@@ -62,7 +62,7 @@ feature {NONE} -- Implementation
 			Result.edit := ""
 		end
 
-	argument_specs: ARRAY [like Type_argument_specification]
+	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				required_existing_path_argument ("source", "Source tree directory"),

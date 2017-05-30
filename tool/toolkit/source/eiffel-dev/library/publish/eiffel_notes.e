@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EIFFEL_NOTES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-10 8:46:11 GMT (Wednesday 10th August 2016)"
-	revision: "3"
+	date: "2017-05-28 17:29:13 GMT (Sunday 28th May 2017)"
+	revision: "4"
 
 class
 	EIFFEL_NOTES
@@ -55,7 +55,7 @@ feature -- Access
 		do
 			create Result.make (fields.count)
 			across fields as l_field loop
-				create element_list.make (l_field.item, Empty_dir)
+				create element_list.make (l_field.item, relative_class_dir)
 				create context.make
 				context.put_variable (element_list, Var_element_list)
 				context.put_variable (new_title (l_field.key), Var_title)
@@ -118,7 +118,7 @@ feature {NONE} -- Line states
 		do
 			pos_quote := line.index_of ('"', 1)
 			if pos_quote > 0 then
-				text := line.substring (pos_quote + 1, line.count)
+				text := line.substring_end (pos_quote + 1)
 				inspect text [text.count]
 					when '"' then
 						text.remove_tail (1)
@@ -190,7 +190,7 @@ feature {NONE} -- Line states
 		do
 			pos_percent := line.index_of ('%%', 1)
 			if pos_percent > 0 then
-				text_part := line.substring (pos_percent + 1, line.count)
+				text_part := line.substring_end (pos_percent + 1)
 				inspect text_part [text_part.count]
 					when '"' then
 						text_part.remove_tail (1)

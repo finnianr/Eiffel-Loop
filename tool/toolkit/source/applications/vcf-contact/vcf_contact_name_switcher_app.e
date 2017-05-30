@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {VCF_CONTACT_NAME_SWITCHER_APP}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 19:59:25 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-05-29 23:19:55 GMT (Monday 29th May 2017)"
+	revision: "3"
 
 class
 	VCF_CONTACT_NAME_SWITCHER_APP
@@ -52,7 +50,7 @@ feature {NONE} -- Implementation
 			Result.vcf_path := ""
 		end
 
-	argument_specs: ARRAY [like Type_argument_specification]
+	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				required_existing_path_argument ("in", "Path to vcf contacts file")

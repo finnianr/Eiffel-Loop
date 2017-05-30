@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 7:56:23 GMT (Monday 22nd May 2017)"
-	revision: "2"
+	date: "2017-05-30 4:39:33 GMT (Tuesday 30th May 2017)"
+	revision: "3"
 
 class
 	TEST_MANAGER_CONFIG
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make_from_file
+	make, make_from_file
 
 feature -- Access
 

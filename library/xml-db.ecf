@@ -5,6 +5,9 @@
 		<description>
 A simple XML database based on VTD-XML xpath and XML parsing library.
 Supports transactions and encryption
+
+NOTE:
+This library is no longer maintained as database.ecf is a better alternative.
 		</description>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true"/>
 		<root all_classes = "true"/>

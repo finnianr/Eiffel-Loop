@@ -7,15 +7,13 @@ note
 			<genre>/<artist>/<title>.<id>.mp3
 	]"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 8:58:37 GMT (Monday 22nd May 2017)"
-	revision: "2"
+	date: "2017-05-29 23:22:07 GMT (Monday 29th May 2017)"
+	revision: "3"
 
 class
 	TANGO_MP3_FILE_COLLATOR_APP
@@ -58,7 +56,7 @@ feature {NONE} -- Implementation
 			Result.is_dry_run := False
 		end
 
-	argument_specs: ARRAY [like Type_argument_specification]
+	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				required_existing_path_argument ("directory", "MP3 location"),
