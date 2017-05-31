@@ -21,7 +21,7 @@ inherit
 		export
 			{EL_COMMAND_ARGUMENT} English_integer, English_file, English_directory,
 				set_argument_type_error, set_missing_argument_error, set_path_argument_error,
-				set_required_argument_error
+				set_required_argument_error, set_invalid_argument_error
 		end
 
 	EL_MODULE_EIFFEL
