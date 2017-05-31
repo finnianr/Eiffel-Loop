@@ -20,12 +20,18 @@ def convert_pyxis_to_xml (pecf_path):
 project_py = project.read_project_py ()
 
 target_cpu = 'x64'
+project_path = None
 
 for arg in sys.argv [1:]:
 	if arg.startswith ('cpu='):
 		target_cpu = arg.split ('=')[-1]
 	else:
 		project_path = arg
+
+if not project_path:
+	print "USAGE: launch_estudio [cpu=(x86|x64)] <project name>.(pecf|ecf)"
+	print "\tby default: cpu=x64"
+	sys.exit (1)
 
 project_py.set_build_environment (target_cpu)
 

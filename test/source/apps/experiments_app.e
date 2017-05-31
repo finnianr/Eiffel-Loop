@@ -37,7 +37,10 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	run
+		local
+			n: INTEGER
 		do
+			n := 1 |<< 1 | 1
 			lio.enter ("assign_tuple_string")
 			assign_tuple_string
 			lio.exit

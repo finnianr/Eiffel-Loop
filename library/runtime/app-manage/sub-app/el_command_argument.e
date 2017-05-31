@@ -24,6 +24,7 @@ feature {NONE} -- Initialization
 		do
 			app := a_app; word_option := a_word_option; help_description := a_help_description
 			build_from_file := agent build
+			create validation.make_equal (0)
 		end
 
 feature -- Access
@@ -31,6 +32,8 @@ feature -- Access
 	help_description: ZSTRING
 
 	word_option: ZSTRING
+
+	validation: HASH_TABLE [PREDICATE, STRING]
 
 feature -- Status query
 
@@ -180,6 +183,7 @@ feature -- Basic operations
 	set_string_operand (i: INTEGER; default_arg: READABLE_STRING_GENERAL)
 		local
 			string: READABLE_STRING_GENERAL; arg: ZSTRING
+			found: BOOLEAN
 		do
 			if Args.has_value (word_option) then
 				arg := Args.value (word_option)
@@ -189,6 +193,11 @@ feature -- Basic operations
 					string := arg.to_string_8
 				elseif attached {STRING_32} default_arg then
 					string := arg.to_string_32
+				end
+				across validation as is_valid until app.has_invalid_argument loop
+					if is_valid.item.valid_operands ([string]) and then not is_valid.item (string) then
+						app.set_invalid_argument_error (word_option, is_valid.key)
+					end
 				end
 				app.operands.put_reference (string, i)
 			elseif is_required then

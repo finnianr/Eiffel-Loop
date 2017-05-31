@@ -319,6 +319,12 @@ feature {NONE} -- Element change
 			has_invalid_argument := True
 		end
 
+	set_invalid_argument_error (a_word_option: STRING; a_message: ZSTRING)
+		do
+			put_log_message (Template_invalid_argument_error, [a_word_option, a_message])
+			has_invalid_argument := True
+		end
+
 	put_command_failed_error
 		do
 			lio.put_new_line
@@ -327,7 +333,9 @@ feature {NONE} -- Element change
 
 	put_log_message (a_template: ZSTRING; a_inserts: TUPLE)
 		do
-			lio.put_line (a_template #$ a_inserts)
+			across a_template.substituted_tuple (a_inserts).lines as line loop
+				lio.put_line (line.item)
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -429,6 +437,14 @@ feature {EL_APPLICATION_INSTALLER_I} -- Constants
 		once
 			Result := "[
 				A required argument "-#" is not specified.
+			]"
+		end
+
+	Template_invalid_argument_error: ZSTRING
+		once
+			Result := "[
+				ERROR: Invalid value for "-#"
+				#
 			]"
 		end
 
