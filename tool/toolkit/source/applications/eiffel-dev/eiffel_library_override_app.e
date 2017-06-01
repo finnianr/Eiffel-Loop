@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-29 23:19:36 GMT (Monday 29th May 2017)"
-	revision: "5"
+	date: "2017-05-31 20:28:13 GMT (Wednesday 31st May 2017)"
+	revision: "6"
 
 class
 	EIFFEL_LIBRARY_OVERRIDE_APP
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				required_existing_path_argument ("ise_eiffel", "Path to EiffelStudio installation"),
+				valid_required_argument ("ise_eiffel", "Path to EiffelStudio installation", << file_must_exist >>),
 				required_argument ("output", "Output directory")
 			>>
 		end

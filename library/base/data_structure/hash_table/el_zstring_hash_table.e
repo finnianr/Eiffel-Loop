@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:34:56 GMT (Thursday 25th May 2017)"
-	revision: "3"
+	date: "2017-05-31 20:09:33 GMT (Wednesday 31st May 2017)"
+	revision: "4"
 
 class
 	EL_ZSTRING_HASH_TABLE [G]
@@ -27,7 +27,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (array: like Type_general_keys)
+	make (array: like GENERAL_KEYS)
 			--
 		do
 			make_table (augmented_latin_keys (array))
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 feature -- Element change
 
 
-	append_tuples (array: like Type_general_keys)
+	append_tuples (array: like GENERAL_KEYS)
 		do
 			append_tuples_table (augmented_latin_keys (array))
 		end
@@ -78,10 +78,10 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	augmented_latin_keys (array: like Type_general_keys): ARRAY [TUPLE [ZSTRING, G]]
+	augmented_latin_keys (array: like GENERAL_KEYS): ARRAY [TUPLE [ZSTRING, G]]
 			-- Convert to keys to type ZSTRING
 		local
-			tuple_item: like Type_general_keys.item
+			tuple_item: like GENERAL_KEYS.item
 			i: INTEGER; key: ZSTRING
 		do
 			create Result.make (1, array.count)
@@ -101,7 +101,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Type definitions
 
-	Type_general_keys: ARRAY [TUPLE [key: READABLE_STRING_GENERAL; value: G]]
+	GENERAL_KEYS: ARRAY [TUPLE [key: READABLE_STRING_GENERAL; value: G]]
 		do
 		end
 

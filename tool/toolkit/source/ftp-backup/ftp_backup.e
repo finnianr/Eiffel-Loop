@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 12:04:41 GMT (Friday 12th May 2017)"
-	revision: "3"
+	date: "2017-05-31 19:57:53 GMT (Wednesday 31st May 2017)"
+	revision: "4"
 
 class
 	FTP_BACKUP
@@ -194,7 +194,7 @@ feature {NONE} -- Implementation: attributes
 
 	script_file_path: EL_FILE_PATH
 
-	script_file_path_list: ARRAYED_LIST [EL_FILE_PATH]
+	script_file_path_list: EL_FILE_PATH_LIST
 
 	total_kilo_bytes: INTEGER
 

@@ -8,6 +8,8 @@
 
 * Replaced anchor type `like Type_argument_specification` with `like spec.item` in class `EL_COMMAND_LINE_SUB_APPLICATION`.
 
+* Added argument construction routines `valid_optional_argument` and `valid_required_argument` for use in defining `argument_specs` array. These arguments accept a list of argument validation `PREDICATE` functions mapped to description string. If any predicate returns `False` the program exits and returns a message indicating an invalid argument.
+
 ## BASE library
 
 * Added class `EL_PROCEDURE_TABLE`
@@ -25,6 +27,8 @@
 * Added routines `substring_end' and `substring_start' to `ZSTRING'
 
 * Fixed -help option for `EL_SUB_APPLICATION' to provide help for missing standard options.
+
+* Added abstraction `EL_BUILDABLE_FROM_FILE`
 
 ## DATABASE library
 

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-29 23:19:28 GMT (Monday 29th May 2017)"
-	revision: "3"
+	date: "2017-05-31 20:26:21 GMT (Wednesday 31st May 2017)"
+	revision: "4"
 
 class
 	EIFFEL_REPOSITORY_PUBLISHER_APP
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				required_existing_path_argument ("config", "Path to publisher configuration file"),
+				valid_required_argument ("config", "Path to publisher configuration file", << file_must_exist >>),
 				required_argument ("version", "Repository version number")
 			>>
 		end

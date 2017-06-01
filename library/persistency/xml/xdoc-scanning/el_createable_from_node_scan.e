@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-27 10:39:40 GMT (Saturday 27th May 2017)"
-	revision: "4"
+	date: "2017-06-01 9:15:33 GMT (Thursday 1st June 2017)"
+	revision: "5"
 
 deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
@@ -21,6 +21,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_BUILDABLE_FROM_FILE
 
 feature {NONE} -- Initialization
 
@@ -58,8 +60,6 @@ feature -- Basic operations
 
 	build_from_file (a_file_path: EL_FILE_PATH)
 			--
-		require
-			path_exists: a_file_path.exists
 		local
 			stream: IO_MEDIUM
 		do

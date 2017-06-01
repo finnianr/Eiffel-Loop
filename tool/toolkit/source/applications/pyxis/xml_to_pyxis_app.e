@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-29 23:19:51 GMT (Monday 29th May 2017)"
-	revision: "3"
+	date: "2017-05-31 20:29:43 GMT (Wednesday 31st May 2017)"
+	revision: "4"
 
 class
 	XML_TO_PYXIS_APP
@@ -72,7 +72,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				required_existing_path_argument ("in", "Path to XML source file")
+				valid_required_argument ("in", "Path to XML source file", << file_must_exist >>)
 			>>
 		end
 

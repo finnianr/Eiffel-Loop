@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-29 23:19:32 GMT (Monday 29th May 2017)"
-	revision: "4"
+	date: "2017-05-31 20:27:38 GMT (Wednesday 31st May 2017)"
+	revision: "5"
 
 class
 	EIFFEL_NOTE_EDITOR_APP
@@ -37,8 +37,8 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				required_existing_path_argument ("sources", "Path to sources manifest file"),
-				required_existing_path_argument ("license", "Path to license notes file")
+				valid_required_argument ("sources", "Path to sources manifest file", << file_must_exist >>),
+				valid_required_argument ("license", "Path to license notes file", << file_must_exist >>)
 			>>
 		end
 

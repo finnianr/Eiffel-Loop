@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-29 23:19:47 GMT (Monday 29th May 2017)"
-	revision: "2"
+	date: "2017-05-31 20:30:23 GMT (Wednesday 31st May 2017)"
+	revision: "3"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP
@@ -101,7 +101,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				required_existing_path_argument ("source", "Source tree directory"),
+				valid_required_argument ("source", "Source tree directory", << directory_must_exist >>),
 				required_argument ("output", "Output directory path")
 			>>
 		end
