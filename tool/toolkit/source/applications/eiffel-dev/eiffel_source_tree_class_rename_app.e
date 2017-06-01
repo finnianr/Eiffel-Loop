@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-29 23:20:33 GMT (Monday 29th May 2017)"
-	revision: "4"
+	date: "2017-05-31 20:31:31 GMT (Wednesday 31st May 2017)"
+	revision: "5"
 
 class
 	EIFFEL_SOURCE_TREE_CLASS_RENAME_APP
@@ -64,7 +64,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				required_existing_path_argument ("sources", "Path to sources manifest file"),
+				valid_required_argument ("sources", "Path to sources manifest file", << file_must_exist >>),
 				optional_argument ("old", "Old class name"),
 				optional_argument ("new", "New class name")
 			>>

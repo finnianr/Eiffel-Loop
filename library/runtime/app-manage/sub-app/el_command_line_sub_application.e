@@ -10,19 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-30 5:10:51 GMT (Tuesday 30th May 2017)"
-	revision: "3"
+	date: "2017-05-31 20:42:55 GMT (Wednesday 31st May 2017)"
+	revision: "4"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND create default_create end]
 
 inherit
 	EL_SUB_APPLICATION
-		export
-			{EL_COMMAND_ARGUMENT} English_integer, English_file, English_directory,
-				set_argument_type_error, set_missing_argument_error, set_path_argument_error,
-				set_required_argument_error, set_invalid_argument_error
-		end
 
 	EL_MODULE_EIFFEL
 
@@ -36,7 +31,6 @@ feature {NONE} -- Initiliazation
 			--
 		do
 			create command
-			create specs.make_from_array (argument_specs)
 			set_operands
 			if not has_invalid_argument then
 				make_command
@@ -54,29 +48,13 @@ feature -- Basic operations
 feature {NONE} -- Argument setting
 
 	set_operands
-		require
-			valid_specs_count: specs.count <= default_operands.count
-		local
-			i: INTEGER
 		do
 			operands := default_operands
-			from specs.start until specs.after loop
-				i := specs.index
-				if operands.is_reference_item (i) then
-					specs.item.set_reference_operand (i)
-
-				elseif operands.is_integer_32_item (i) then
-					specs.item.set_integer_operand (i)
-
-				elseif operands.is_boolean_item (i) then
-					specs.item.set_boolean_operand (i)
-
-				end
-				specs.forth
-			end
+			create specs.make_from_array (argument_specs)
+			specs.do_all_with_index (agent {EL_COMMAND_ARGUMENT}.set_operand)
 		end
 
-feature {NONE} -- Conversion
+feature {NONE} -- Factory
 
 	optional_argument (word_option, help_description: ZSTRING): like specs.item
 		do
@@ -85,12 +63,41 @@ feature {NONE} -- Conversion
 
 	required_argument (word_option, help_description: ZSTRING): like specs.item
 		do
-			create {EL_REQUIRED_COMMAND_ARGUMENT} Result.make (Current, word_option, help_description)
+			create Result.make (Current, word_option, help_description)
+			Result.set_required
 		end
 
-	required_existing_path_argument (word_option, help_description: ZSTRING): like specs.item
+	valid_optional_argument (
+		word_option, help_description: ZSTRING; validations: ARRAY [like always_valid]
+	): like specs.item
 		do
-			create {EL_EXISTING_PATH_COMMAND_ARGUMENT} Result.make (Current, word_option, help_description)
+			create Result.make (Current, word_option, help_description)
+			Result.validation.append_tuples (validations)
+		end
+
+	valid_required_argument (
+		word_option, help_description: ZSTRING; validations: ARRAY [like always_valid]
+	): like specs.item
+		do
+			Result := required_argument (word_option, help_description)
+			Result.validation.append_tuples (validations)
+		end
+
+feature {NONE} -- Validations
+
+	always_valid: TUPLE [key: READABLE_STRING_GENERAL; value: PREDICATE]
+		do
+			Result := ["Always true", agent: BOOLEAN do Result := True end]
+		end
+
+	file_must_exist: like always_valid
+		do
+			Result := ["The file must exist", agent {EL_FILE_PATH}.exists]
+		end
+
+	directory_must_exist: like always_valid
+		do
+			Result := ["The directory must exist", agent {EL_DIR_PATH}.exists]
 		end
 
 feature {NONE} -- Implementation
@@ -98,6 +105,8 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [like specs.item]
 			-- argument specifications
 		deferred
+		ensure
+			valid_specs_count: Result.count <= default_operands.count
 		end
 
 	default_operands: TUPLE
@@ -118,7 +127,7 @@ feature {NONE} -- Implementation
 			action.apply
 		end
 
-feature {EL_COMMAND_ARGUMENT} -- Internal attributes
+feature {EL_COMMAND_ARGUMENT, EL_MAKE_OPERAND_SETTER} -- Internal attributes
 
 	command: C
 

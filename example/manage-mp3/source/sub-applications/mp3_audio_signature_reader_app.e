@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-29 23:22:02 GMT (Monday 29th May 2017)"
-	revision: "3"
+	date: "2017-06-01 6:27:34 GMT (Thursday 1st June 2017)"
+	revision: "4"
 
 class
 	MP3_AUDIO_SIGNATURE_READER_APP
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				required_existing_path_argument ("music", "Location of music files"),
+				valid_required_argument ("music", "Location of music files", << directory_must_exist >>),
 				optional_argument ("clean_up", "Remove duplicates with same name")
 			>>
 		end

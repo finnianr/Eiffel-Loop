@@ -2,12 +2,12 @@ note
 	description: "File path list from OS command"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-04 12:27:47 GMT (Monday 4th July 2016)"
-	revision: "1"
+	date: "2017-05-31 19:58:30 GMT (Wednesday 31st May 2017)"
+	revision: "2"
 
 class
 	EL_FILE_PATH_LIST
@@ -27,7 +27,7 @@ inherit
 		end
 
 create
-	make, make_empty, make_with_count
+	make, make_empty, make_with_count, make_from_array
 
 feature {NONE} -- Initialization
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-29 23:20:29 GMT (Monday 29th May 2017)"
-	revision: "3"
+	date: "2017-05-31 20:28:34 GMT (Wednesday 31st May 2017)"
+	revision: "4"
 
 class
 	FTP_BACKUP_APP
@@ -72,7 +72,7 @@ feature -- Test operations
 
 	test_backup (data_path: EL_DIR_PATH; backup_name: STRING): FTP_BACKUP
 		local
-			file_list: ARRAYED_LIST [EL_FILE_PATH]
+			file_list: EL_FILE_PATH_LIST
 		do
 			create file_list.make_from_array (<< Directory.Working.joined_dir_path (data_path) + backup_name >>)
 			create Result.make (file_list, False)
@@ -85,17 +85,19 @@ feature {NONE} -- Implementation
 			Result := agent ftp_command.make
 		end
 
-	default_operands: TUPLE [script_file_path_list: ARRAYED_LIST [EL_FILE_PATH]; ask_user_to_upload: BOOLEAN]
+	default_operands: TUPLE [script_file_path_list: EL_FILE_PATH_LIST; ask_user_to_upload: BOOLEAN]
 		do
 			create Result
-			Result.script_file_path_list := create {ARRAYED_LIST [EL_FILE_PATH]}.make (0)
+			Result.script_file_path_list := create {EL_FILE_PATH_LIST}.make_with_count (0)
 			Result.ask_user_to_upload := False
 		end
 
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				required_existing_path_argument ("scripts", "List of files to backup (Must be the last parameter)"),
+				valid_required_argument (
+					"scripts", "List of files to backup (Must be the last parameter)", << file_must_exist >>
+				),
 				optional_argument ("upload", "Upload the archive after creation")
 			>>
 		end

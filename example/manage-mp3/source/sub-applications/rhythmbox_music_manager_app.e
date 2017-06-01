@@ -28,8 +28,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-30 5:06:52 GMT (Tuesday 30th May 2017)"
-	revision: "5"
+	date: "2017-06-01 9:16:29 GMT (Thursday 1st June 2017)"
+	revision: "6"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -79,7 +79,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				required_existing_path_argument (Arg_config, "Task configuration file")
+				valid_required_argument (Arg_config, "Task configuration file",  << file_must_exist >>)
 			>>
 		end
 
@@ -94,7 +94,6 @@ feature {NONE} -- Implementation
 				create config.make
 			end
 			Result.config := config
-			specs.i_th (1).set_build_from_file (agent config.build_from_file)
 		end
 
 	make_action: PROCEDURE [like default_operands]

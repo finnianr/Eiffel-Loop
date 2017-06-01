@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 14:43:43 GMT (Thursday 25th May 2017)"
-	revision: "11"
+	date: "2017-06-01 6:54:00 GMT (Thursday 1st June 2017)"
+	revision: "12"
 
 class EXPERIMENTS_APP
 
@@ -38,11 +38,9 @@ feature -- Basic operations
 
 	run
 		local
-			n: INTEGER
 		do
-			n := 1 |<< 1 | 1
-			lio.enter ("assign_tuple_string")
-			assign_tuple_string
+			lio.enter ("generic_type_check")
+			generic_type_check
 			lio.exit
 		end
 
@@ -265,6 +263,15 @@ feature -- Experiments
 		do
 			type_8 := {ARRAYED_LIST [STRING]}
 			type_32 := {ARRAYED_LIST [STRING_32]}
+		end
+
+	generic_type_check
+		local
+			list: LIST [STRING_GENERAL]
+			type: TYPE [ANY]
+		do
+			create {EL_ZSTRING_LIST} list.make (0)
+			type := list.generating_type.generic_parameter_type (1)
 		end
 
 	hash_table_removal

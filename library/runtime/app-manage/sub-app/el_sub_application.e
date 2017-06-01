@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-28 14:51:59 GMT (Sunday 28th May 2017)"
-	revision: "5"
+	date: "2017-05-31 20:53:25 GMT (Wednesday 31st May 2017)"
+	revision: "6"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -204,7 +204,7 @@ feature -- Status query
 			Result := Args.word_option_exists ({EL_COMMAND_OPTIONS}.Help)
 		end
 
-feature {NONE} -- Element change
+feature -- Element change
 
 	set_app_configuration_option_name (a_name: STRING)
 			-- set once attribute 'Application_sub_option' in class EL_APPLICATION_CONFIG_CELL
@@ -295,7 +295,7 @@ feature {NONE} -- Element change
 			options_help.extend ([a_word_option, a_description, default_value])
 		end
 
-	set_path_argument_error (a_word_option, path_type: STRING; a_path: EL_PATH)
+	set_path_argument_error (a_word_option: STRING; path_type: ZSTRING; a_path: EL_PATH)
 		do
 			put_log_message (Template_path_error, [path_type, a_word_option, path_type, a_path.to_string])
 			has_invalid_argument := True
@@ -415,6 +415,28 @@ feature {NONE} -- Factory routines
 			create {EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_IMP} Result.make (menu_path)
 		end
 
+feature -- Constants
+
+	English_directory: ZSTRING
+		once
+			Result := "directory"
+		end
+
+	English_file: ZSTRING
+		once
+			Result := "file"
+		end
+
+	English_real_number: ZSTRING
+		once
+			Result := "real number"
+		end
+
+	English_integer: ZSTRING
+		once
+			Result := "integer"
+		end
+
 feature {EL_APPLICATION_INSTALLER_I} -- Constants
 
 	Default_installer: EL_DO_NOTHING_INSTALLER
@@ -475,26 +497,6 @@ feature {EL_APPLICATION_INSTALLER_I} -- Constants
 			Result := "[
 				Command "#" failed!
 			]"
-		end
-
-	English_directory: STRING
-		once
-			Result := "directory"
-		end
-
-	English_file: STRING
-		once
-			Result := "file"
-		end
-
-	English_real_number: STRING
-		once
-			Result := "real number"
-		end
-
-	English_integer: STRING
-		once
-			Result := "integer"
 		end
 
 	For_user_directories: ARRAY [FUNCTION [ZSTRING, EL_DIR_PATH]]
