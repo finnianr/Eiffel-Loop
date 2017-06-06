@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-09 8:45:13 GMT (Saturday 9th July 2016)"
 	revision: "1"
@@ -53,7 +53,9 @@ feature -- Status query
 	is_test_mode: BOOLEAN
 			--
 		once
-			Result := Args.value (new_option_name).is_equal ("test")
+			if Args.word_option_exists (new_option_name) then
+				Result := Args.value (new_option_name).is_equal ("test")
+			end
 		end
 
 feature {NONE} -- Implementation

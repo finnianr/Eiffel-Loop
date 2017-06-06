@@ -19,12 +19,18 @@ from eiffel_loop.eiffel.project import increment_build_number
 
 # Word around for bug "LookupError: unknown encoding: cp65001"
 if platform.system () == "Windows":
+	platform_name = "windows"
 	codecs.register (lambda name: codecs.lookup ('utf-8') if name == 'cp65001' else None)
+else:
+	platform_name = "unix"
 
-usage = "usage: python create_installer [--x86]"
+usage = "usage: python create_installer [--x86] [--install] [--no_build]"
 parser = OptionParser(usage=usage)
 parser.add_option (
 	"-x", "--x86", action="store_true", dest="build_x86", default=False, help="Build a 32 bit version in addition to 64 bit"
+)
+parser.add_option (
+	"-n", "--no_build", action="store_true", dest="no_build", default=False, help="Build without incrementing build number"
 )
 parser.add_option (
 	"-i", "--install", action="store", dest="install_dir", default=None, help="Installation location"
@@ -39,9 +45,17 @@ if options.build_x86:
 # Find project ECF file
 ecf_name = glob ("*.ecf")[0]
 project_name = path.splitext (ecf_name)[0]
+f_code_tar = path.join ('build', 'F_code-%s.tar') % platform_name
 
 # Update project.py build_number for `build_info.e'
-increment_build_number ()
+if options.no_build:
+	os.remove (f_code_tar)
+else:
+	increment_build_number ()
+	# remove if corrupted (size is less than 1 mb)
+	if os.path.getsize(f_code_tar) < 1000000:
+		os.remove (f_code_tar)
+
 
 # Build for each architecture
 if platform.system () == "Windows":
