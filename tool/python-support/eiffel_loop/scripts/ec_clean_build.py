@@ -19,13 +19,19 @@ if project_ecf:
 	# Build for each architecture
 	if platform.system () == "Windows":
 		build_cmd = ['python', path.join (os.path.dirname (os.path.realpath (sys.executable)), 'scons.py')]
+		platform_name	= 'windows'
 	else:
+		platform_name	= 'unix'
 		build_cmd = ['scons']
 
 	eifgen_steps = ['build', os.environ ['ISE_PLATFORM'], 'EIFGENs']
 	eifgen_path = os.sep.join (eifgen_steps)
 	if path.exists (eifgen_path):
 		dir_util.remove_tree (eifgen_path)
+
+	f_code_tar = path.join ('build', 'F_code-%s.tar') % platform_name
+	if path.exists (f_code_tar):
+		os.remove (f_code_tar)
 
 	call (build_cmd + ['action=freeze', 'project=' + project_ecf])
 else:
