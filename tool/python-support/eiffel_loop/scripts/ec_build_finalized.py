@@ -46,15 +46,19 @@ if options.build_x86:
 ecf_name = glob ("*.ecf")[0]
 project_name = path.splitext (ecf_name)[0]
 f_code_tar = path.join ('build', 'F_code-%s.tar') % platform_name
+if not path.exists (f_code_tar):
+	f_code_tar = None
 
 # Update project.py build_number for `build_info.e'
 if options.no_build:
-	os.remove (f_code_tar)
+	if f_code_tar:
+		os.remove (f_code_tar)
 else:
 	increment_build_number ()
 	# remove if corrupted (size is less than 1 mb)
-	if os.path.getsize(f_code_tar) < 1000000:
-		os.remove (f_code_tar)
+	if f_code_tar:
+		if os.path.getsize(f_code_tar) < 1000000:
+			os.remove (f_code_tar)
 
 
 # Build for each architecture
