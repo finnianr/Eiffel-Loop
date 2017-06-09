@@ -10,14 +10,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-31 20:42:55 GMT (Wednesday 31st May 2017)"
-	revision: "4"
+	date: "2017-06-09 11:42:49 GMT (Friday 9th June 2017)"
+	revision: "5"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND create default_create end]
 
 inherit
 	EL_SUB_APPLICATION
+		export
+			{EL_COMMAND_ARGUMENT} new_argument_error
+		end
 
 	EL_MODULE_EIFFEL
 
@@ -32,7 +35,7 @@ feature {NONE} -- Initiliazation
 		do
 			create command
 			set_operands
-			if not has_invalid_argument then
+			if not has_argument_errors then
 				make_command
 			end
 		end

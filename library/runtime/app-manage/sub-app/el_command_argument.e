@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-01 9:24:18 GMT (Thursday 1st June 2017)"
-	revision: "2"
+	date: "2017-06-09 15:58:12 GMT (Friday 9th June 2017)"
+	revision: "3"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -34,7 +34,12 @@ feature -- Access
 
 	validation: EL_ZSTRING_HASH_TABLE [PREDICATE]
 
-	word_option: ZSTRING
+	word_option: READABLE_STRING_GENERAL
+
+	new_error: EL_COMMAND_ARGUMENT_ERROR
+		do
+			Result := app.new_argument_error (word_option)
+		end
 
 feature -- Status query
 
@@ -60,6 +65,7 @@ feature -- Basic operations
 		do
 			index := a_index
 			operand := app.operands.item (index)
+			app.options_help.extend (word_option, help_description, operand)
 			operand_type := operand.generating_type
 			Setter_types.search (operand_type)
 			if Setter_types.found then

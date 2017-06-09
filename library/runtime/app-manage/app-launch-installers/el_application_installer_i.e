@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_APPLICATION_INSTALLER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-20 10:55:58 GMT (Monday 20th June 2016)"
-	revision: "1"
+	date: "2017-06-09 15:38:44 GMT (Friday 9th June 2017)"
+	revision: "2"
 
 deferred class
 	EL_APPLICATION_INSTALLER_I

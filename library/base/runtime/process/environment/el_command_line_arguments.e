@@ -1,19 +1,24 @@
 note
-	description: "Objects that ..."
+	description: "Object to query command line arguments. Accessible via `EL_MODULE_ARGS'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:34:56 GMT (Thursday 25th May 2017)"
-	revision: "3"
+	date: "2017-06-09 9:53:23 GMT (Friday 9th June 2017)"
+	revision: "4"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
 
 inherit
 	ARGUMENTS_32
+		redefine
+			index_of_word_option, index_of_beginning_with_word_option, separate_word_option_value
+		end
+
+	EL_MODULE_STRING_32
 
 feature -- Access
 
@@ -50,21 +55,21 @@ feature -- Access
 			create Result.make_from_general (argument (i))
 		end
 
-	directory_path (name: ZSTRING): EL_DIR_PATH
+	directory_path (name: READABLE_STRING_GENERAL): EL_DIR_PATH
 		require
 			has_value: has_value (name)
 		do
 			Result := value (name)
 		end
 
-	file_path (name: ZSTRING): EL_FILE_PATH
+	file_path (name: READABLE_STRING_GENERAL): EL_FILE_PATH
 		require
 			has_value: has_value (name)
 		do
 			Result := value (name)
 		end
 
-	integer (name: ZSTRING): INTEGER
+	integer (name: READABLE_STRING_GENERAL): INTEGER
 		require
 			integer_value_exists: has_integer (name)
 		do
@@ -81,14 +86,14 @@ feature -- Access
 			end
 		end
 
-	value (name: ZSTRING): ZSTRING
+	value (name: READABLE_STRING_GENERAL): ZSTRING
 			-- string value of name value pair arguments
 		require
 			has_value: has_value (name)
 		local
 			index: INTEGER
 		do
-			index := index_of_word_option (name.to_unicode) + 1
+			index := index_of_word_option (name) + 1
 			if index >= 2 and index <= argument_count then
 				Result := item (index)
 			else
@@ -99,26 +104,24 @@ feature -- Access
 feature -- Basic operations
 
 	set_string_from_word_option (
-		word_option: ZSTRING; set_string: PROCEDURE [ZSTRING]; default_value: ZSTRING
+		word_option: READABLE_STRING_GENERAL; set_string: PROCEDURE [ZSTRING]; default_value: ZSTRING
 	)
 			--
 		do
 			if has_value (word_option) then
-				set_string (item (index_of_word_option (word_option.to_unicode) + 1))
+				set_string (item (index_of_word_option (word_option) + 1))
 			else
 				set_string (default_value)
 			end
 		end
 
-	set_real_from_word_option (
-		word_option: ZSTRING; set_real: PROCEDURE [REAL]; default_value: REAL
-	)
+	set_real_from_word_option (word_option: READABLE_STRING_GENERAL; set_real: PROCEDURE [REAL]; default_value: REAL)
 			--
 		local
 			real_string: ZSTRING
 		do
 			if has_value (word_option) then
-				real_string := item (index_of_word_option (word_option.to_unicode) + 1)
+				real_string := item (index_of_word_option (word_option) + 1)
 				if real_string.is_real then
 					set_real (real_string.to_real)
 				end
@@ -128,7 +131,7 @@ feature -- Basic operations
 		end
 
 	set_integer_from_word_option (
-		word_option: ZSTRING; set_integer: PROCEDURE [INTEGER]; default_value: INTEGER
+		word_option: READABLE_STRING_GENERAL; set_integer: PROCEDURE [INTEGER]; default_value: INTEGER
 	)
 			--
 		local
@@ -144,9 +147,7 @@ feature -- Basic operations
 			end
 		end
 
-	set_boolean_from_word_option (
-		word_option: ZSTRING; set_boolean: PROCEDURE
-	)
+	set_boolean_from_word_option (word_option: READABLE_STRING_GENERAL; set_boolean: PROCEDURE)
 			--
 		do
 			if word_option_exists (word_option) then
@@ -156,18 +157,16 @@ feature -- Basic operations
 
 feature -- Status query
 
-	has_integer (name: ZSTRING): BOOLEAN
+	has_integer (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := has_value (name) and then value (name).is_integer
 		end
 
-	has_value (name: ZSTRING): BOOLEAN
+	has_value (name: READABLE_STRING_GENERAL): BOOLEAN
 			--
-		local
-			unicode_name: READABLE_STRING_GENERAL
 		do
-			unicode_name := name.to_unicode
-			Result := index_of_word_option (unicode_name) > 0 and then (index_of_word_option (unicode_name) + 1) <= argument_count
+--			Result := index_of_word_option (name) > 0 and then (index_of_word_option (name) + 1) <= argument_count
+			Result := index_of_beginning_with_word_option (name) > 0
 		end
 
 	has_silent: BOOLEAN
@@ -180,16 +179,36 @@ feature -- Status query
 			Result := word_option_exists ({EL_COMMAND_OPTIONS}.No_app_header)
 		end
 
-	word_option_exists (word_option: ZSTRING): BOOLEAN
+	word_option_exists (word_option: READABLE_STRING_GENERAL): BOOLEAN
 			--
 		do
-			Result := index_of_word_option (word_option.to_unicode) > 0
+			Result := index_of_word_option (word_option) > 0
 		end
 
 	character_option_exists (character_option: CHARACTER_32): BOOLEAN
 			--
 		do
 			Result := index_of_character_option (character_option) > 0
+		end
+
+feature -- ZSTRING conversion
+
+	index_of_word_option (opt: READABLE_STRING_GENERAL): INTEGER
+		 -- Converts ZSTRING objects
+		do
+			Result := Precursor (opt.to_string_32)
+		end
+
+	index_of_beginning_with_word_option (opt: READABLE_STRING_GENERAL): INTEGER
+		 -- Converts ZSTRING objects
+		do
+			Result := Precursor (opt.to_string_32)
+		end
+
+	separate_word_option_value (opt: READABLE_STRING_GENERAL): IMMUTABLE_STRING_32
+		 -- Converts ZSTRING objects
+		do
+			Result := Precursor (opt.to_string_32)
 		end
 
 end
