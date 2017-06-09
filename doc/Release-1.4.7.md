@@ -10,6 +10,18 @@
 
 * Added argument construction routines `valid_optional_argument` and `valid_required_argument` for use in defining `argument_specs` array. These arguments accept a list of argument validation `PREDICATE` functions mapped to description string. If any predicate returns `False` the program exits and returns a message indicating an invalid argument.
 
+* Sub-apps based on `EL_COMMAND_LINE_SUB_APPLICATION` can now print help with `-help` option.
+
+* Changed type of all string arguments to query functions in `EL_COMMAND_LINE_ARGUMENTS` to type `READABLE_STRING_GENERAL`.
+
+* Changed argument of {EL_APPLICATION_CONFIG_CELL}.make_from_option_name
+
+* Changed many routines in `EL_SUB_APPLICATION' to accept string arguments of type `READABLE_STRING_GENERAL`
+
+* Renamed `{EL_SUB_APPLICATION}.has_invalid_argument` to `has_argument_errors`
+
+* Added possibility to report a list of argument errors rather than just one.
+
 ## BASE library
 
 * Added class `EL_PROCEDURE_TABLE`
@@ -29,6 +41,8 @@
 * Fixed -help option for `EL_SUB_APPLICATION' to provide help for missing standard options.
 
 * Added abstraction `EL_BUILDABLE_FROM_FILE`
+
+* Made routine EL_STRING_X_ROUTINES.general_to_unicode obsolete
 
 ## DATABASE library
 

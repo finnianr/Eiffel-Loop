@@ -1,0 +1,97 @@
+note
+	description: "Summary description for {EL_COMMAND_ARGUMENT_ERROR}."
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-06-09 11:39:47 GMT (Friday 9th June 2017)"
+	revision: "1"
+
+class
+	EL_COMMAND_ARGUMENT_ERROR
+
+inherit
+	EL_STRING_CONSTANTS
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make (a_word_option: like word_option)
+		do
+			make_default
+			word_option := a_word_option
+		end
+
+	make_default
+		do
+			word_option := Empty_string
+			create lines.make_empty
+		end
+
+feature -- Access
+
+	lines: EL_ZSTRING_LIST
+
+	word_option: READABLE_STRING_GENERAL
+
+feature -- Element change
+
+	set_lines (a_string: ZSTRING)
+		do
+			create lines.make_with_lines (a_string)
+		end
+
+	set_invalid_argument (a_message: ZSTRING)
+		do
+			set_lines (Template.invalid_argument #$ [word_option, a_message])
+		end
+
+	set_missing_argument
+		do
+			set_lines (Template.missing_argument #$ [word_option])
+		end
+
+	set_path_error (path_type: ZSTRING; a_path: EL_PATH)
+		do
+			set_lines (Template.path_error #$ [path_type, word_option, path_type, a_path])
+		end
+
+	set_required_error
+		do
+			set_lines (Template.required_argument #$ [word_option])
+		end
+
+	set_type_error (type: TYPE [ANY])
+		do
+			set_lines (Template.type_error #$ [word_option, type.name])
+		end
+
+feature {NONE} -- Constants
+
+	Template: TUPLE [invalid_argument, missing_argument, path_error, required_argument, type_error: ZSTRING]
+		once
+			create Result
+			Result.missing_argument:= "[
+				The word option "-#" is not followed by an argument.
+			]"
+			Result.invalid_argument := "[
+				ERROR: Invalid value for "-#"
+				#
+			]"
+			Result.path_error := "[
+				ERROR in # argument: "-#"
+				The #: "#" does not exist.
+			]"
+			Result.required_argument := "[
+				A required argument "-#" is not specified.
+			]"
+			Result.type_error := "[
+				ERROR: option "-#" is not followed by a #
+			]"
+		end
+
+end

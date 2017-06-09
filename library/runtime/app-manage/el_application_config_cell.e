@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_APPLICATION_CONFIG_CELL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-22 14:48:41 GMT (Sunday 22nd January 2017)"
-	revision: "3"
+	date: "2017-06-09 9:57:48 GMT (Friday 9th June 2017)"
+	revision: "4"
 
 class
 	EL_APPLICATION_CONFIG_CELL [G -> {EL_FILE_PERSISTENT} create make_from_file end]
@@ -51,9 +51,10 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from_option_name (a_option_name: STRING)
+	make_from_option_name (a_option_name: READABLE_STRING_GENERAL)
 		do
-			Application_sub_option.share (a_option_name)
+			Application_sub_option.wipe_out
+			Application_sub_option.append_string_general (a_option_name)
 		end
 
 feature -- Access
@@ -93,7 +94,7 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Application_sub_option: STRING
+	Application_sub_option: ZSTRING
 		once ("process")
 			create Result.make_empty
 		end

@@ -2,12 +2,12 @@ note
 	description: "Application that can be regression tested"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 8:45:13 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2017-06-01 14:37:09 GMT (Thursday 1st June 2017)"
+	revision: "2"
 
 deferred class
 	EL_REGRESSION_TESTING_APPLICATION

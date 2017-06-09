@@ -28,8 +28,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-01 9:16:29 GMT (Thursday 1st June 2017)"
-	revision: "6"
+	date: "2017-06-09 16:16:19 GMT (Friday 9th June 2017)"
+	revision: "7"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -66,7 +66,7 @@ feature -- Testing
 	test_run
 			--
 		do
-			if not has_invalid_argument then
+			if not has_argument_errors then
 				Test.set_excluded_file_extensions (<< "mp3", "jpeg" >>)
 				if attached {TEST_MANAGER_CONFIG} operands.reference_item (1) as config then
 					Test.do_file_tree_test ("rhythmdb", agent test_music_manager (?, config), config.test_checksum)

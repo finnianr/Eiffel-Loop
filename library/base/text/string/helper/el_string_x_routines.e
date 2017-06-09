@@ -2,12 +2,12 @@
 	description: "Summary description for {EL_STRING_X_ROUTINES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-12 16:50:51 GMT (Wednesday 12th April 2017)"
-	revision: "2"
+	date: "2017-06-09 16:19:22 GMT (Friday 9th June 2017)"
+	revision: "3"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -34,10 +34,10 @@ feature -- Measurement
 	maximum_count (strings: INDEXABLE [READABLE_STRING_GENERAL, INTEGER]): INTEGER
 			--
 		local
-			i, count: INTEGER
+			i, upper: INTEGER
 		do
-			count := strings.index_set.upper
-			from i := 1 until i > count loop
+			upper := strings.upper
+			from i := strings.lower until i > upper loop
 				if strings.item (i).count > Result then
 					Result := strings.item (i).count
 				end
@@ -48,12 +48,10 @@ feature -- Measurement
 feature -- Conversion
 
 	general_to_unicode (s: READABLE_STRING_GENERAL): STRING_32
+		obsolete
+			"Just call `to_string_32'. It works with ZSTRING's too"
 		do
-			if attached {ZSTRING} s as zstr then
-				Result := zstr.to_unicode
-			else
-				Result := s.to_string_32
-			end
+			Result := s.to_string_32
 		end
 
 feature -- Transformation

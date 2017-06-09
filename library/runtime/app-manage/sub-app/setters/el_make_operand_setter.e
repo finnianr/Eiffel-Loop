@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-01 9:33:07 GMT (Thursday 1st June 2017)"
-	revision: "1"
+	date: "2017-06-09 11:46:54 GMT (Friday 9th June 2017)"
+	revision: "2"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -44,14 +44,16 @@ feature -- Basic operations
 				create string_value.make_empty
 			end
 			if argument.is_required and string_value.is_empty then
-				app.set_missing_argument_error (argument.word_option)
+				app.argument_errors.extend (argument.new_error)
+				app.argument_errors.last.set_missing_argument
 
 			elseif not string_value.is_empty then
 				across new_list (string_value) as str loop
 					if is_convertible (str.item) then
 						try_put_value (value (str.item), i)
 					else
-						app.set_argument_type_error (argument.word_option, ({like value}).name)
+						app.argument_errors.extend (argument.new_error)
+						app.argument_errors.last.set_type_error ({like value})
 					end
 				end
 			end
@@ -67,7 +69,7 @@ feature {NONE} -- Implementation
 	try_put_value (a_value: like value; i: INTEGER)
 		do
 			validate (a_value)
-			if not app.has_invalid_argument then
+			if not app.has_argument_errors then
 				if is_list and then attached {CHAIN [like value]} app.operands.item (i) as list then
 					list.extend (a_value)
 				else
@@ -92,7 +94,8 @@ feature {NONE} -- Implementation
 
 	set_error (a_value: like value; valid_description: ZSTRING)
 		do
-			app.set_invalid_argument_error (argument.word_option, valid_description)
+			app.argument_errors.extend (argument.new_error)
+			app.argument_errors.last.set_invalid_argument (valid_description)
 		end
 
 	value (str: ZSTRING): G
@@ -101,7 +104,7 @@ feature {NONE} -- Implementation
 
 	validate (a_value: like value)
 		do
-			across argument.validation as is_valid until app.has_invalid_argument loop
+			across argument.validation as is_valid loop
 				if is_valid.item.valid_operands ([a_value]) and then not is_valid.item (a_value) then
 					set_error (a_value, is_valid.key)
 				end
