@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make, make_definite, make_fine, make_by_date_time, make_by_date, make_from_other
+	make_zero, make, make_definite, make_fine, make_by_date_time, make_by_date, make_from_other
 
 convert
 	make_from_other ({DATE_TIME_DURATION})
@@ -29,6 +29,19 @@ feature {NONE} -- Initialization
 	make_from_other (other: DATE_TIME_DURATION)
 		do
 			make_by_date_time (other.date, other.time)
+		end
+
+	make_zero
+		do
+			make_definite (0, 0, 0, 0)
+			date.set_origin_date (create {DATE}.make (1600, 1, 1))
+		end
+
+feature -- Access
+
+	days_count: INTEGER
+		do
+			Result := day
 		end
 
 feature -- Conversion
@@ -54,7 +67,7 @@ feature -- Conversion
 			Result.append_integer_64 (seconds_count // 60)
 			Result.append (" mins ")
 			Result.append_integer_64 (seconds_count \\ 60)
-			Result.append (" secs ")
+			Result.append (" secs")
 		end
 
 feature {NONE} -- Implementation
@@ -62,13 +75,13 @@ feature {NONE} -- Implementation
 	part_list: ARRAYED_LIST [TUPLE [units: STRING; n: INTEGER]]
 		do
 			create Result.make_from_array (<<
-				["days", date.days_count],
+				["days", days_count],
 				["hrs", hour],
 				["mins", minute],
 				["secs", second],
 				["ms", (time.fractional_second * 1000.0).rounded]
 			>>)
-			from Result.start until Result.after or else Result.item.n > 0 loop
+			from Result.start until Result.count = 2 or else Result.item.n > 0 loop
 				Result.remove
 			end
 		end

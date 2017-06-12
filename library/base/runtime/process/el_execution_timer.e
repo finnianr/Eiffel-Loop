@@ -38,19 +38,25 @@ feature -- Access
 		end
 
 	elapsed_time: EL_DATE_TIME_DURATION
+		local
+			was_timing: BOOLEAN
 		do
 			if is_timing then
-				stop; resume
+				stop; was_timing := True
 			end
 			if duration_list.is_empty then
-				create Result.make_definite (0, 0, 0, 0)
+				create Result.make_zero
 			else
-				Result := duration_list.first
-			end
-			across duration_list as duration loop
-				if duration.cursor_index > 1 then
-					Result := Result + duration.item
+				across duration_list as duration loop
+					if duration.cursor_index = 1 then
+						Result := duration.item
+					else
+						Result := Result + duration.item
+					end
 				end
+			end
+			if was_timing then
+				resume
 			end
 		end
 
