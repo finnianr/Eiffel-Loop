@@ -44,6 +44,12 @@
 
 * Made routine EL_STRING_X_ROUTINES.general_to_unicode obsolete
 
+* New class `EL_DATE_TIME_DURATION` inheriting `DATE_TIME_DURATION` with some string conversion routines. 
+
+* Rewrite of class `EL_EXECUTION_TIMER` to take account of the date as well as time. Also made it possible to accumulate unlimited number of durations from multiple `stop` and `resume` commands.
+
+* Changed `log.put_elapsed_time` to exclude leading duration components that equate to zero.
+
 ## DATABASE library
 
 * The XML database in this library has been split off into a separate project `xml-database.ecf`. The original project has been renamed to `chain-db.ecf`.

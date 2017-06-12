@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 19:56:40 GMT (Sunday 21st May 2017)"
-	revision: "5"
+	date: "2017-06-12 12:26:53 GMT (Monday 12th June 2017)"
+	revision: "6"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -168,7 +168,7 @@ feature {NONE} -- Implementation
 			new_checksum := Crc_32.checksum
 			last_test_succeeded := new_checksum = old_checksum
 
-			lio.put_labeled_string ("Executed", timer.out); lio.put_new_line
+			lio.put_labeled_string ("Executed", timer.elapsed_time.out); lio.put_new_line
 			if last_test_succeeded then
 				lio.put_line ("TEST IS OK ")
 
