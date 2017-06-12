@@ -161,13 +161,30 @@ feature -- Experiments
 
 	date_time_duration
 		local
-			before, now: DATE_TIME
-			elapsed: EL_DATE_TIME_DURATION
+			this_year, last_year, now: DATE_TIME; elapsed: EL_DATE_TIME_DURATION
+			timer: EL_EXECUTION_TIMER
 		do
-			create before.make (2017, 6, 11, 23, 10, 10)
+			create this_year.make (2017, 6, 11, 23, 10, 10)
+			create last_year.make (2016, 6, 11, 23, 10, 10)
+
+			log.put_integer_field ("Year days", this_year.relative_duration (last_year).date.day)
+			log.put_new_line
+
 			create now.make_now
-			elapsed := now.relative_duration (before)
+			elapsed := now.relative_duration (this_year)
 			log.put_labeled_string ("TIME", elapsed.out)
+			log.put_new_line
+
+			create timer.make
+			log.put_labeled_string ("TIME", timer.elapsed_time.out)
+			log.put_new_line
+			timer.start
+			execution.sleep (500)
+			timer.stop
+			timer.resume
+			execution.sleep (500)
+			timer.stop
+			log.put_labeled_string ("TIME", timer.elapsed_time.out)
 		end
 
 	date_validity_check
