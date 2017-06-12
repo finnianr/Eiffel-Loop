@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			create time_list.make (2)
+			create time_list.make (1)
 			create duration_list.make (2)
 		end
 
@@ -57,10 +57,10 @@ feature -- Access
 feature --Element change
 
 	resume
+		require
+			not_is_timing: not is_timing
 		do
-			time_list.wipe_out
 			time_list.extend (new_time_now)
-			is_timing := True
 		end
 
 	start
@@ -72,16 +72,21 @@ feature --Element change
 
 	stop, update
 			-- Update stop time to now
+		require
+			is_timing: is_timing
 		do
-			if not time_list.is_empty then
+			if is_timing then
 				duration_list.extend (new_time_now.relative_duration (time_list.last))
+				time_list.wipe_out
 			end
-			is_timing := False
 		end
 
 feature -- Status query
 
 	is_timing: BOOLEAN
+		do
+			Result := not time_list.is_empty
+		end
 
 feature {NONE} -- Implementation
 
