@@ -1,19 +1,21 @@
 note
-	description: "Summary description for {EL_COMMAND_ARGUMENT_ERROR}."
+	description: "Object containing description of an error in a command line argument"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-09 11:39:47 GMT (Friday 9th June 2017)"
-	revision: "1"
+	date: "2017-06-09 17:32:22 GMT (Friday 9th June 2017)"
+	revision: "2"
 
 class
 	EL_COMMAND_ARGUMENT_ERROR
 
 inherit
 	EL_STRING_CONSTANTS
+
+	EL_MODULE_LIO
 
 create
 	make
@@ -29,25 +31,35 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			word_option := Empty_string
-			create lines.make_empty
+			create description.make_empty
 		end
 
 feature -- Access
 
-	lines: EL_ZSTRING_LIST
+	description: EL_ZSTRING_LIST
 
 	word_option: READABLE_STRING_GENERAL
 
-feature -- Element change
+feature -- Basic operations
 
-	set_lines (a_string: ZSTRING)
+	print_to_lio
 		do
-			create lines.make_with_lines (a_string)
+			lio.put_new_line
+			across description as line loop
+				lio.put_line (line.item)
+			end
 		end
+
+feature -- Element change
 
 	set_invalid_argument (a_message: ZSTRING)
 		do
 			set_lines (Template.invalid_argument #$ [word_option, a_message])
+		end
+
+	set_lines (a_string: ZSTRING)
+		do
+			create description.make_with_lines (a_string)
 		end
 
 	set_missing_argument

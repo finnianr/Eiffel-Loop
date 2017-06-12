@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-01 6:54:00 GMT (Thursday 1st June 2017)"
-	revision: "12"
+	date: "2017-06-12 12:31:36 GMT (Monday 12th June 2017)"
+	revision: "13"
 
 class EXPERIMENTS_APP
 
@@ -39,8 +39,8 @@ feature -- Basic operations
 	run
 		local
 		do
-			lio.enter ("generic_type_check")
-			generic_type_check
+			lio.enter ("date_time_duration")
+			date_time_duration
 			lio.exit
 		end
 
@@ -157,6 +157,17 @@ feature -- Experiments
 	container_extension
 		do
 			extend_container (create {ARRAYED_LIST [EL_DIR_PATH]}.make (0))
+		end
+
+	date_time_duration
+		local
+			before, now: DATE_TIME
+			elapsed: EL_DATE_TIME_DURATION
+		do
+			create before.make (2017, 6, 11, 23, 10, 10)
+			create now.make_now
+			elapsed := now.relative_duration (before)
+			log.put_labeled_string ("TIME", elapsed.out)
 		end
 
 	date_validity_check

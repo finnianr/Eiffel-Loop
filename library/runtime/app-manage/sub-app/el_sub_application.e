@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-09 15:40:42 GMT (Friday 9th June 2017)"
-	revision: "7"
+	date: "2017-06-09 17:33:35 GMT (Friday 9th June 2017)"
+	revision: "8"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -80,12 +80,7 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 				options_help.print_to_lio
 
 			elseif has_argument_errors then
-				across argument_errors as error loop
-					lio.put_new_line
-					across error.item.lines as line loop
-						lio.put_line (line.item)
-					end
-				end
+				argument_errors.do_all (agent {like argument_errors.item}.print_to_lio)
 			else
 				run
 				if Ask_user_to_quit then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-28 17:23:38 GMT (Sunday 28th May 2017)"
-	revision: "4"
+	date: "2017-06-12 13:03:33 GMT (Monday 12th June 2017)"
+	revision: "5"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -43,16 +43,11 @@ feature -- Element change
 		end
 
 	set_timer
-			-- Set routine timer to now
-		local
-			l_out: like output
+			-- Set routine Timer to now
 		do
-			l_out := output
-			l_out.put_string (once "TIME: 00:00:00")
-			l_out.put_new_line
-			l_out.flush
-			create timer.make
-			timer.start
+			put_labeled_string (once "TIME", once "0 secs 0 ms")
+			put_new_line
+			Timer.start
 		end
 
 feature -- Input
@@ -114,16 +109,10 @@ feature -- Output
 
 	put_elapsed_time
 			-- Log time elapsed since set_timer called
-		local
-			l_out: like output
 		do
-			l_out := output
-
-			timer.stop
-			l_out.put_label (once "TIME")
-			l_out.put_string (timer.out)
-			l_out.put_new_line
-			l_out.flush
+			Timer.stop
+			put_labeled_string (once "TIME", Timer.elapsed_time.out)
+			put_new_line
 		end
 
 	put_labeled_string (label, str: READABLE_STRING_GENERAL)
@@ -354,12 +343,15 @@ feature {NONE} -- Implementation
 			Result := l_template #$ inserts
 		end
 
-	timer: EL_EXECUTION_TIMER
-
 feature {NONE} -- Constants
 
 	Ellipsis_dots: ZSTRING
 		once
 			Result := ".."
+		end
+
+	Timer: EL_EXECUTION_TIMER
+		once ("OBJECT")
+			create Result.make
 		end
 end
