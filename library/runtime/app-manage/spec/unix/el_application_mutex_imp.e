@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 8:48:40 GMT (Friday 24th June 2016)"
 	revision: "1"
@@ -40,7 +40,7 @@ feature -- Status change
 		do
 			locked_file_path := "/tmp/" + name
 			locked_file_path.add_extension ("lock")
-			create native_path.make (locked_file_path.unicode)
+			create native_path.make (locked_file_path)
 
 			locked_file_descriptor := c_create_write_only (native_path.managed_data.item)
 			if locked_file_descriptor /= -1 then

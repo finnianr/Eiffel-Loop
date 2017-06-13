@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-06-27 18:13:48 GMT (Saturday 27th June 2015)"
 	revision: "1"
@@ -17,7 +17,7 @@ feature {NONE} -- Implementation
 	named_directory (path: EL_DIR_PATH): EL_DIRECTORY
 		do
 			Result := Directory
-			Result.make_with_name (path.unicode)
+			Result.make_with_name (path.as_string_32)
 		end
 
 feature {NONE} -- Constants

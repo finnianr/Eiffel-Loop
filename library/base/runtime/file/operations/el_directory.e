@@ -1,7 +1,7 @@
 note
 	description: "Summary description for {EL_DIRECTORY}."
 
-	
+
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -363,7 +363,7 @@ feature {EL_DIRECTORY} -- Implementation
 			end
 			if not l_directories.is_empty then
 				from l_directories.start until l_directories.after loop
-					set_path (l_directories.item.unicode)
+					set_path (l_directories.item.as_string_32)
 					read_recursive_entries (list, type, extension)
 					l_directories.forth
 				end

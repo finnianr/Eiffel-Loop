@@ -21,7 +21,7 @@ create
 convert
 	make ({ZSTRING}), make_from_general ({STRING_32, STRING}), make_from_path ({PATH}),
 
- 	to_string: {EL_ZSTRING}, unicode: {READABLE_STRING_GENERAL}, steps: {EL_PATH_STEPS}, to_path: {PATH}
+ 	to_string: {EL_ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL}, steps: {EL_PATH_STEPS}, to_path: {PATH}
 
 feature -- Access
 

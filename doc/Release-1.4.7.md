@@ -50,6 +50,8 @@
 
 * Changed `log.put_elapsed_time` to exclude leading duration components that equate to zero.
 
+* Removed `unicode` function alias from `EL_PATH`. Changed conversion rule for all descendants of `EL_PATH` to convert to `READABLE_STRING_GENERAL` and `STRING_32` using `as_string_32`.
+
 ## DATABASE library
 
 * The XML database in this library has been split off into a separate project `xml-database.ecf`. The original project has been renamed to `chain-db.ecf`.
