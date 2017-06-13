@@ -1,7 +1,7 @@
 note
 	description: "Summary description for {EL_FTP_PROTOCOL}."
 
-	
+
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -372,7 +372,7 @@ feature {NONE} -- Implementation
 			transfer_file: RAW_FILE; packet: PACKET; bytes_read: INTEGER
 		do
 			create packet.make (Default_packet_size)
-			create transfer_file.make_open_read (a_file_path.unicode)
+			create transfer_file.make_open_read (a_file_path)
 
 			from until transfer_file.after loop
 				transfer_file.read_to_managed_pointer (packet.data, 0, packet.count)

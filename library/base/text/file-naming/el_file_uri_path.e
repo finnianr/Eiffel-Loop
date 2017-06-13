@@ -35,7 +35,7 @@ convert
 	make_from_path ({PATH}),
 	make_from_file_path ({EL_FILE_PATH}),
 
- 	to_string: {ZSTRING}, unicode: {READABLE_STRING_GENERAL}, steps: {EL_PATH_STEPS}, to_path: {PATH}
+ 	to_string: {ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL}, steps: {EL_PATH_STEPS}, to_path: {PATH}
 
 feature {NONE} -- Initialization
 

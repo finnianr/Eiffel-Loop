@@ -219,7 +219,7 @@ feature {NONE} -- Factory
 			system_cmd_32, error_file_path: STRING_32
 		do
 			system_cmd_32 := a_system_command
-			error_file_path := temporary_error_file_path.unicode
+			error_file_path := temporary_error_file_path.as_string_32
 			create Result.make (
 				command_prefix.count +  system_cmd_32.count +  Error_redirection_operator.count +  error_file_path.count
 			)

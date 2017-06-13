@@ -540,7 +540,7 @@ feature -- Conversion
 
 	to_path: PATH
 		do
-			create Result.make_from_string (unicode)
+			create Result.make_from_string (as_string_32)
 		end
 
 	out: STRING
@@ -573,9 +573,9 @@ feature -- Conversion
 			Result.translate (originals, substitutions)
 		end
 
-	unicode, as_string_32: STRING_32
+	as_string_32: STRING_32
 		do
-			Result := to_string.to_unicode
+			Result := to_string.to_string_32
 		end
 
 	without_extension: like Current

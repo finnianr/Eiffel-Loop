@@ -25,7 +25,7 @@ feature {NONE} -- Factory
 			l_output_file_path: STRING_32
 		do
 			Result := Precursor (a_system_command)
-			l_output_file_path := temporary_output_file_path.unicode
+			l_output_file_path := temporary_output_file_path
 			Result.grow (Result.count + Output_redirection_operator.count + l_output_file_path.count)
 			Result.append (Output_redirection_operator); Result.append (l_output_file_path)
 		end

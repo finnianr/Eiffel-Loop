@@ -65,19 +65,39 @@ feature -- Access
 
 feature -- Status change
 
-	set_turbo
-		-- set thread priority to maximum
-		do
-			thread_attributes.set_priority (thread_attributes.max_priority)
-		end
-
 	set_normal
 		-- set thread priority to maximum
 		do
 			thread_attributes.set_priority (thread_attributes.default_priority)
 		end
 
+	set_turbo
+		-- set thread priority to maximum
+		do
+			thread_attributes.set_priority (thread_attributes.max_priority)
+		end
+
 feature -- Basic operations
+
+	collect (list: LIST [like unassigned_routine])
+		-- fill the `a_applied' argument with already applied routines and wipe out `applied'
+		-- does nothing if `applied' is empty
+		do
+			restrict_access
+				if not applied.is_empty then
+					applied.do_all (agent list.extend)
+					applied.wipe_out
+				end
+			end_restriction
+		end
+
+	collect_final (list: LIST [like unassigned_routine])
+		-- fill the `a_applied' argument with already applied routines and wipe out `applied'
+		-- does nothing if `applied' is empty
+		do
+			final_applied.do_all (agent list.extend)
+			final_applied.wipe_out
+		end
 
 	do_final
 		-- wakeup all dormant threads and then wait until all have finished executing,
@@ -126,37 +146,17 @@ feature -- Basic operations
 					end
 					unassigned_routine := a_routine
 					if pool.count = busy_count and then not pool.full then
-						create thread.make (Current)
+						thread := new_thread
 						pool.extend (thread)
 					end
 				end_restriction
 
-				if attached thread as new_thread then
-					new_thread.launch_with_attributes (thread_attributes)
+				if attached thread as l_thread then
+					l_thread.launch_with_attributes (thread_attributes)
 				else
 					can_apply.signal
 				end
 			end
-		end
-
-	collect (list: LIST [like unassigned_routine])
-		-- fill the `a_applied' argument with already applied routines and wipe out `applied'
-		-- does nothing if `applied' is empty
-		do
-			restrict_access
-				if not applied.is_empty then
-					applied.do_all (agent list.extend)
-					applied.wipe_out
-				end
-			end_restriction
-		end
-
-	collect_final (list: LIST [like unassigned_routine])
-		-- fill the `a_applied' argument with already applied routines and wipe out `applied'
-		-- does nothing if `applied' is empty
-		do
-			final_applied.do_all (agent list.extend)
-			final_applied.wipe_out
 		end
 
 feature {EL_WORK_DISTRIBUTION_THREAD} -- Worker thread operations
@@ -195,6 +195,13 @@ feature {EL_WORK_DISTRIBUTION_THREAD} -- Worker thread operations
 
 feature {NONE} -- Implementation
 
+	new_thread: EL_WORK_DISTRIBUTION_THREAD
+		do
+			create Result.make (Current)
+		end
+
+feature {NONE} -- Internal attributes
+
 	busy_count: INTEGER
 		-- count of threads in `pool' that are busy executing a routine
 
@@ -215,7 +222,7 @@ feature {NONE} -- Internal attributes
 	final_applied: like applied
 		-- contains applied routines after a call to `do_final'
 
-	pool: ARRAYED_LIST [EL_WORK_DISTRIBUTION_THREAD]
+	pool: ARRAYED_LIST [like new_thread]
 		-- pool of worker threads
 
 	thread_attributes: THREAD_ATTRIBUTES
