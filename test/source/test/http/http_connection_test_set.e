@@ -34,6 +34,11 @@ inherit
 			default_create
 		end
 
+	EL_EIFFEL_LOOP_TEST_CONSTANTS
+		undefine
+			default_create
+		end
+
 feature -- Test routines
 
 	test_cookies

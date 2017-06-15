@@ -13,7 +13,7 @@ class
 	EYED3_TAG_TEST_APP
 
 inherit
-	TEST_APPLICATION
+	REGRESSION_TESTING_SUB_APPLICATION
 		redefine
 			Option_name, initialize
 		end

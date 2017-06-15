@@ -13,29 +13,29 @@ class
 	EIFFEL_CODE_HIGHLIGHTING_TEST_APP
 
 inherit
-	EL_SUB_APPLICATION
-		undefine
-			new_lio, new_log_manager
+	REGRESSION_TESTING_SUB_APPLICATION
 		redefine
 			Option_name
 		end
-
-	EL_MODULE_TEST
 
 create
 	make
 
 feature -- Basic operations
 
-	initialize
+	normal_initialize
 			--
 		do
 		end
 
-	run
+	test_run
 			--
 	 	do
 			Test.do_all_files_test ("sample-source/kernel", "*.e", agent test_code_highlighting, 2427639648)
+	 	end
+
+	 normal_run
+	 	do
 	 	end
 
 feature -- Tests
@@ -56,9 +56,6 @@ feature -- Tests
 			html_file.close
 			log.exit
 		end
-
-feature {NONE} -- Implementation
-
 
 feature {NONE} -- Constants
 

@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-10 7:30:31 GMT (Sunday 10th July 2016)"
 	revision: "1"
@@ -18,12 +18,12 @@ inherit
 			new_file_tree as new_empty_file_tree
 		end
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_COMMAND
 		undefine
 			default_create
 		end
 
-	EL_MODULE_COMMAND
+	EL_EIFFEL_LOOP_TEST_CONSTANTS
 		undefine
 			default_create
 		end

@@ -1,7 +1,7 @@
 note
 	description: "Test using a set of files generated in workarea directory"
 
-	
+
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -38,11 +38,6 @@ inherit
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-		undefine
-			default_create
-		end
-
-	EL_TEST_CONSTANTS
 		undefine
 			default_create
 		end
@@ -110,6 +105,10 @@ feature {NONE} -- Implementation
 			across file_set as path loop
 				Result := Result + OS.File_system.file_byte_count (path.item)
 			end
+		end
+
+	work_area_dir: EL_DIR_PATH
+		deferred
 		end
 
 feature {NONE} -- Internal attributes

@@ -4,7 +4,7 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-10 12:02:48 GMT (Sunday 10th July 2016)"
 	revision: "1"
@@ -16,6 +16,11 @@ inherit
 	EL_FILE_DATA_TEST_SET
 		redefine
 			new_file_tree
+		end
+
+	EL_EIFFEL_LOOP_TEST_CONSTANTS
+		undefine
+			default_create
 		end
 
 feature {NONE} -- Implementation

@@ -13,12 +13,7 @@ deferred class
 	PATH_OPERATING_SUB_APP [P -> EL_PATH create make_from_general end]
 
 inherit
-	EL_SUB_APPLICATION
-		undefine
-			new_lio, new_log_manager
-		end
-
-	EL_REGRESSION_TESTING_APPLICATION
+	REGRESSION_TESTING_SUB_APPLICATION
 
 feature {NONE} -- Initialization
 

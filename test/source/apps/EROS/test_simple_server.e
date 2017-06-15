@@ -13,7 +13,7 @@ class
 	TEST_SIMPLE_SERVER
 
 inherit
-	TEST_APPLICATION
+	REGRESSION_TESTING_SUB_APPLICATION
 		redefine
 			option_name, initialize
 		end
