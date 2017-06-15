@@ -66,6 +66,14 @@
 
 * Changed the stored locale data format from XML to binary. Each locale is now saved in a separate file `locale.x` where x is a 2 letter country code. See section `TOOLKIT tool` for new option to generate the data files.
 
+## TESTING library
+
+* `work_area_dir` is now a supplied argument to make routine in class `EL_REGRESSION_TESTING_ROUTINES` and `{EL_MODULE_TEST}.work_area_dir` is now a deferred feature.
+
+* `{EL_REGRESSION_TESTING_APPLICATION}.is_test_mode` now depends on existence of command line switch '-test'
+
+* Renamed `EL_TEST_CONSTANTS` as `EL_EIFFEL_LOOP_TEST_CONSTANTS` and removed dependencies on this class in regression testing.
+
 ## TOOLKIT tool
 * Added new sub-application option `el_toolkit -compile_translations` to compile translation data files in binary format from Pyxis source. See class [./tool/toolkit/source/applications/pyxis/pyxis_translation_tree_compiler_app.e PYXIS_TRANSLATION_TREE_COMPILER_APP].
 

@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-08 20:03:14 GMT (Friday 8th July 2016)"
 	revision: "1"
@@ -13,14 +13,10 @@ class
 	JOBSERVE_SEARCH_APP
 
 inherit
-	EL_SUB_APPLICATION
-		undefine
-			new_lio, new_log_manager
+	REGRESSION_TESTING_SUB_APPLICATION
 		redefine
 			option_name
 		end
-
-	EL_REGRESSION_TESTING_APPLICATION
 
 	EL_MODULE_FILE_SYSTEM
 

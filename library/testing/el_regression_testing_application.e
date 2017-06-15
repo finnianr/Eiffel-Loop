@@ -19,9 +19,9 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_MODULE_OS
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_TEST_CONSTANTS
+	EL_MODULE_OS
 
 feature {NONE} -- Initialization
 
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			if is_test_mode and then Directory.current_working /~ test_data_dir then
-				Execution.change_working_path (test_data_dir.to_path)
+				Execution.change_working_path (test_data_dir)
 			end
 			if not skip_normal_initialize then
 				normal_initialize
@@ -53,9 +53,7 @@ feature -- Status query
 	is_test_mode: BOOLEAN
 			--
 		once
-			if Args.word_option_exists (new_option_name) then
-				Result := Args.value (new_option_name).is_equal ("test")
-			end
+			Result := Args.word_option_exists ("test")
 		end
 
 feature {NONE} -- Implementation
@@ -83,6 +81,11 @@ feature {NONE} -- Implementation
 	test_initialize
 			--
 		do
+		end
+
+	test_data_dir: EL_DIR_PATH
+			--
+		deferred
 		end
 
 	test_run

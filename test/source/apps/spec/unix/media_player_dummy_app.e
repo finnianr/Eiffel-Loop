@@ -15,7 +15,7 @@ class
 	MEDIA_PLAYER_DUMMY_APP
 
 inherit
-	TEST_APPLICATION
+	REGRESSION_TESTING_SUB_APPLICATION
 		redefine
 			Option_name
 		end

@@ -13,7 +13,7 @@ class
 	EVOLICITY_TEST_APP
 
 inherit
-	TEST_APPLICATION
+	REGRESSION_TESTING_SUB_APPLICATION
 		redefine
 			option_name
 		end

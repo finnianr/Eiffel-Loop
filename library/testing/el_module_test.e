@@ -9,7 +9,7 @@ note
 	date: "2017-01-19 9:05:22 GMT (Thursday 19th January 2017)"
 	revision: "2"
 
-class
+deferred class
 	EL_MODULE_TEST
 
 inherit
@@ -30,7 +30,7 @@ feature -- Access
 	Test: EL_REGRESSION_TESTING_ROUTINES
 			--
 		once
-			create Result.make
+			create Result.make (work_area_dir)
 		end
 
 feature {NONE} -- Factory
@@ -47,6 +47,12 @@ feature {NONE} -- Factory
 	new_log_manager: EL_LOG_MANAGER
 		do
 			create {EL_TESTING_LOG_MANAGER} Result.make (Test.Crc_32)
+		end
+
+feature {NONE} -- Implementation
+
+	work_area_dir: EL_DIR_PATH
+		deferred
 		end
 
 end

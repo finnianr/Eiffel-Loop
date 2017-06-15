@@ -26,8 +26,6 @@ inherit
 
 	EL_MODULE_URL
 
-	EL_TEST_CONSTANTS
-
 	EL_STRING_CONSTANTS
 		rename
 			Empty_string as Empty_pattern
@@ -38,9 +36,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_work_area_dir: like work_area_dir)
 			--
 		do
+			work_area_dir := a_work_area_dir
 			create binary_file_extensions.make (1, 0)
 			create excluded_file_extensions.make (1, 0)
 		end
@@ -68,17 +67,18 @@ feature -- Element change
 
 feature -- Basic operations
 
-	print_checksum_list
-			--
+	do_all_files_test (
+		a_input_dir_path: EL_DIR_PATH; file_name_pattern: STRING
+		test_proc: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL
+
+	)
+			-- Perform test that operates on set of files
 		do
-			from checksum_list.start until checksum_list.after loop
-				log.put_labeled_string (checksum_list.index.out + ". checksum", checksum_list.item.out)
-				log.put_new_line
-				checksum_list.forth
-			end
+			lio.put_path_field ("Testing with", a_input_dir_path); lio.put_string_field (" pattern", file_name_pattern)
+			do_directory_test (a_input_dir_path, file_name_pattern, test_proc, valid_test_checksum)
 		end
 
-	do_file_test (a_input_file_path: EL_FILE_PATH; test_proc: like TEST_PROCEDURE; valid_test_checksum: NATURAL)
+	do_file_test (a_input_file_path: EL_FILE_PATH; test_proc: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL)
 			-- Perform test that operates on a single file
 		local
 			input_file_path: EL_FILE_PATH
@@ -94,29 +94,60 @@ feature -- Basic operations
 			do_test (Work_area_dir, Empty_pattern, test_proc, valid_test_checksum)
 		end
 
-	do_file_tree_test (a_input_dir_path: EL_DIR_PATH; test_proc: like TEST_PROCEDURE; valid_test_checksum: NATURAL)
+	do_file_tree_test (a_input_dir_path: EL_DIR_PATH; test_proc: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL)
 			-- Perform test that operates on a file tree
 		do
 			lio.put_path_field ("Testing with", a_input_dir_path)
 			do_directory_test (a_input_dir_path, Empty_pattern, test_proc, valid_test_checksum)
 		end
 
-	do_all_files_test (
-		a_input_dir_path: EL_DIR_PATH; file_name_pattern: STRING
-		test_proc: like TEST_PROCEDURE; valid_test_checksum: NATURAL
-
-	)
-			-- Perform test that operates on set of files
+	print_checksum_list
+			--
 		do
-			lio.put_path_field ("Testing with", a_input_dir_path); lio.put_string_field (" pattern", file_name_pattern)
-			do_directory_test (a_input_dir_path, file_name_pattern, test_proc, valid_test_checksum)
+			from checksum_list.start until checksum_list.after loop
+				log.put_labeled_string (checksum_list.index.out + ". checksum", checksum_list.item.out)
+				log.put_new_line
+				checksum_list.forth
+			end
 		end
 
 feature {NONE} -- Implementation
 
+	check_file_output (input_dir_path: EL_DIR_PATH)
+			--
+		local
+			file_list: EL_FILE_PATH_LIST
+			line_list: EL_FILE_LINE_SOURCE
+		do
+			create file_list.make (input_dir_path, "*")
+			from file_list.start until file_list.after loop
+				if across excluded_file_extensions as excluded_ext all file_list.path.extension /~ excluded_ext.item  end then
+					if across binary_file_extensions as ext some file_list.path.extension ~ ext.item end then
+						Crc_32.add_file (file_list.path)
+					else
+						create line_list.make (file_list.path)
+						from line_list.start until line_list.after loop
+							line_list.item.replace_substring_general_all (Encoded_home_directory, once "")
+							Crc_32.add_string (line_list.item)
+							line_list.forth
+						end
+					end
+				end
+				file_list.forth
+			end
+		end
+
+	create_work_area
+			--
+		do
+			if not Work_area_dir.exists then
+				File_system.make_directory (Work_area_dir)
+			end
+		end
+
 	do_directory_test (
 		a_input_dir_path: EL_DIR_PATH; file_name_pattern: ZSTRING
-		test_proc: like TEST_PROCEDURE; valid_test_checksum: NATURAL
+		test_proc: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL
 	)
 			-- Perform test that operates on a directory search
 		local
@@ -141,7 +172,7 @@ feature {NONE} -- Implementation
 
 	do_test (
 		input_dir_path: EL_DIR_PATH; file_name_pattern: ZSTRING
-		test_proc: like TEST_PROCEDURE; old_checksum: NATURAL
+		test_proc: PROCEDURE [EL_PATH]; old_checksum: NATURAL
 	)
 			--
 		local
@@ -187,14 +218,6 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	create_work_area
-			--
-		do
-			if not Work_area_dir.exists then
-				File_system.make_directory (Work_area_dir)
-			end
-		end
-
 	normalized_directory_path (a_unix_path: ZSTRING): EL_DIR_PATH
 			-- normalize unix path for current platform
 		local
@@ -204,29 +227,9 @@ feature {NONE} -- Implementation
 			Result := l_steps.as_directory_path
 		end
 
-	check_file_output (input_dir_path: EL_DIR_PATH)
-			--
-		local
-			file_list: EL_FILE_PATH_LIST
-			line_list: EL_FILE_LINE_SOURCE
-		do
-			create file_list.make (input_dir_path, "*")
-			from file_list.start until file_list.after loop
-				if across excluded_file_extensions as excluded_ext all file_list.path.extension /~ excluded_ext.item  end then
-					if across binary_file_extensions as ext some file_list.path.extension ~ ext.item end then
-						Crc_32.add_file (file_list.path)
-					else
-						create line_list.make (file_list.path)
-						from line_list.start until line_list.after loop
-							line_list.item.replace_substring_general_all (Encoded_home_directory, once "")
-							Crc_32.add_string (line_list.item)
-							line_list.forth
-						end
-					end
-				end
-				file_list.forth
-			end
-		end
+	work_area_dir: EL_DIR_PATH
+
+feature {NONE} -- Internal attributes
 
 	binary_file_extensions: ARRAY [ZSTRING]
 
@@ -234,10 +237,10 @@ feature {NONE} -- Implementation
 
 feature -- Constants
 
-	Encoded_home_directory: STRING
+	Checksum_list: ARRAYED_LIST [NATURAL]
 			--
 		once
-			Result := Url.encoded_path (Directory.home.to_string, True)
+			create Result.make (10)
 		end
 
 	Crc_32: EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -246,16 +249,10 @@ feature -- Constants
 			create Result
 		end
 
-	Checksum_list: ARRAYED_LIST [NATURAL]
+	Encoded_home_directory: STRING
 			--
 		once
-			create Result.make (10)
-		end
-
-feature {NONE} -- Type definitions
-
-	TEST_PROCEDURE: PROCEDURE [EL_PATH]
-		once
+			Result := Url.encoded_path (Directory.home.to_string, True)
 		end
 
 end

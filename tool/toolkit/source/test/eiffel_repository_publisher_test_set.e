@@ -25,6 +25,11 @@ inherit
 			default_create
 		end
 
+	EL_EIFFEL_LOOP_TEST_CONSTANTS
+		undefine
+			default_create
+		end
+
 feature -- Tests
 
 	test_publisher
