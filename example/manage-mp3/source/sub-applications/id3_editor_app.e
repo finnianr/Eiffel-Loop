@@ -18,6 +18,8 @@ inherit
 			Option_name, Ask_user_to_quit
 		end
 
+	RHYTHMBOX_CONSTANTS
+
 feature -- Testing
 
 	test_run

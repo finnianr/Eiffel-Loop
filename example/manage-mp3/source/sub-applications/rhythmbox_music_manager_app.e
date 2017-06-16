@@ -42,6 +42,8 @@ inherit
 			Option_name, skip_normal_initialize, initialize
 		end
 
+	RHYTHMBOX_CONSTANTS
+
 create
 	make
 
