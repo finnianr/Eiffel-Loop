@@ -84,7 +84,7 @@ feature -- Basic operations
 			input_file_path: EL_FILE_PATH
 		do
 			lio.put_path_field ("Testing with", a_input_file_path)
-			create_work_area
+			reset_work_area
 			input_file_path := a_input_file_path
 			OS.copy_file (input_file_path, Work_area_dir)
 
@@ -137,10 +137,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	create_work_area
-			--
+	reset_work_area
+			-- create an empty work area
 		do
-			if not Work_area_dir.exists then
+			if Work_area_dir.exists then
+				OS.delete_tree (Work_area_dir)
+				reset_work_area
+			else
 				File_system.make_directory (Work_area_dir)
 			end
 		end
@@ -153,7 +156,7 @@ feature {NONE} -- Implementation
 		local
 			input_dir_path: EL_DIR_PATH
 		do
-			create_work_area
+			reset_work_area
 			input_dir_path := Work_area_dir.joined_dir_path (a_input_dir_path.base)
 			if a_input_dir_path.exists then
 				OS.copy_tree (a_input_dir_path, Work_area_dir)
@@ -182,6 +185,7 @@ feature {NONE} -- Implementation
 			create timer.make
 			Crc_32.reset
 
+			timer.start
 			if file_name_pattern = Empty_pattern then
 				is_executing := True; test_proc.apply; is_executing := False
 			else
@@ -213,8 +217,7 @@ feature {NONE} -- Implementation
 				io.read_line
 			end
 			Checksum_list.extend (new_checksum)
-			OS.delete_tree (Work_area_dir)
-			create_work_area
+			reset_work_area
 			lio.put_new_line
 		end
 
@@ -227,13 +230,13 @@ feature {NONE} -- Implementation
 			Result := l_steps.as_directory_path
 		end
 
-	work_area_dir: EL_DIR_PATH
-
 feature {NONE} -- Internal attributes
 
 	binary_file_extensions: ARRAY [ZSTRING]
 
 	excluded_file_extensions: ARRAY [ZSTRING]
+
+	work_area_dir: EL_DIR_PATH
 
 feature -- Constants
 

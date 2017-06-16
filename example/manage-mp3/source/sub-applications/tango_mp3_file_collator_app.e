@@ -24,6 +24,8 @@ inherit
 			Option_name
 		end
 
+	RHYTHMBOX_CONSTANTS
+
 feature -- Testing
 
 	test_run
