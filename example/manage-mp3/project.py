@@ -2,12 +2,16 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 4, 0); build = 358
+version = (1, 4, 1); build = 361
 
 installation_sub_directory = 'Eiffel-Loop/manage-mp3'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_rhythmbox_read_write', '-logging'])
+
+# 1.4.0
+# Added new Gvfs_file_not_found_errors: "The specified location is not mounted"
+# Fixed TEST_STORAGE_DEVICE.set_volume and checksum for rhythmdb-tasks/export_music_to_device.pyx
 
 # 1.4.0
 # 25 Sep 2016

@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-23 14:19:46 GMT (Thursday 23rd June 2016)"
 	revision: "1"
@@ -13,7 +13,7 @@ class
 	DETECT_RHYTHMBOX_COMMAND
 
 inherit
-	EL_OS_COMMAND
+	EL_CAPTURED_OS_COMMAND
 		rename
 			make as make_command
 		end

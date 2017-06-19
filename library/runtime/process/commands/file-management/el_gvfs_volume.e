@@ -20,16 +20,16 @@ create
 
 feature {NONE} -- Initialization
 
-	make_default
-		do
-			create name.make_empty
-			uri_root := Default_uri_root
-		end
-
 	make (a_uri_root: like uri_root; a_is_windows_format: BOOLEAN)
 		do
 			make_default
 			uri_root := a_uri_root; is_windows_format := a_is_windows_format
+		end
+
+	make_default
+		do
+			create name.make_empty
+			uri_root := Default_uri_root
 		end
 
 	make_with_volume (a_name: like name; a_is_windows_format: BOOLEAN)
@@ -45,13 +45,11 @@ feature {NONE} -- Initialization
 			end
 		end
 
-feature -- Access attributes
+feature -- Access
 
 	name: ZSTRING
 
 	uri_root: EL_DIR_PATH
-
-	cmd: EL_GVFS_OS_COMMAND
 
 feature -- File operations
 
@@ -210,6 +208,11 @@ feature -- Element change
 			end
 		end
 
+	set_uri_root (a_uri_root: like uri_root)
+		do
+			uri_root := a_uri_root
+		end
+	
 feature -- Status change
 
 	enable_path_translation
@@ -279,6 +282,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Standard commands
 
+	Copy_command: EL_GVFS_OS_COMMAND
+		once
+			create Result.make ("gvfs-copy $source_path $destination_path")
+		end
+
 	Make_directory_command: EL_GVFS_OS_COMMAND
 		once
 			create Result.make ("gvfs-mkdir $uri")
@@ -292,11 +300,6 @@ feature {NONE} -- Standard commands
 	Remove_command: EL_GVFS_REMOVE_FILE_COMMAND
 		once
 			create Result.make
-		end
-
-	Copy_command: EL_GVFS_OS_COMMAND
-		once
-			create Result.make ("gvfs-copy $source_path $destination_path")
 		end
 
 feature {NONE} -- Special commands
@@ -323,11 +326,6 @@ feature {NONE} -- Special commands
 
 feature {NONE} -- Constants
 
-	Star_dot: ZSTRING
-		once
-			Result := "*."
-		end
-
 	Current_directory: ZSTRING
 		once
 			Result := "."
@@ -346,6 +344,11 @@ feature {NONE} -- Constants
 	Root_dir: ZSTRING
 		once
 			Result := "/"
+		end
+
+	Star_dot: ZSTRING
+		once
+			Result := "*."
 		end
 
 	Var_destination_path: ZSTRING

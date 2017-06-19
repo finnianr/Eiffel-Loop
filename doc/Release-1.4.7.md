@@ -66,6 +66,10 @@
 
 * Changed the stored locale data format from XML to binary. Each locale is now saved in a separate file `locale.x` where x is a 2 letter country code. See section `TOOLKIT tool` for new option to generate the data files.
 
+## OS-COMMAND library
+
+* Fixed `{EL_GVFS_VOLUME}.file_exists` by adding string "The specified location is not mounted" to `Gvfs_file_not_found_errors` array
+
 ## TESTING library
 
 * `work_area_dir` is now a supplied argument to make routine in class `EL_REGRESSION_TESTING_ROUTINES` and `{EL_MODULE_TEST}.work_area_dir` is now a deferred feature.
@@ -123,4 +127,7 @@
 
 * Fixed `eiffel_loop.eiffel.ecf.EIFFEL_CONFIG` so that multiple references to the same ECF file are parsed only once.
 
+## MANAGE-MP3 example
+* Fixed file exists query for STORAGE_DEVICE
 
+* Fixed `TEST_STORAGE_DEVICE.set_volume` and checksum for `rhythmdb-tasks/export_music_to_device.pyx`

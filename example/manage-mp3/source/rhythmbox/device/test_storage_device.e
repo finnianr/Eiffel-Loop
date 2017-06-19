@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-10-04 13:38:42 GMT (Sunday 4th October 2015)"
 	revision: "1"
@@ -25,8 +25,8 @@ feature -- Element change
 
 	set_volume (a_volume: like volume)
 		do
-			a_volume.extend_uri_root ("./workarea/rhythmdb/TABLET")
-			File_system.make_directory (a_volume.uri_root)
+			a_volume.set_uri_root (".")
+			a_volume.extend_uri_root ("workarea/rhythmdb/TABLET")
 			Precursor (a_volume)
 		end
 

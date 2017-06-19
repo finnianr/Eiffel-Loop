@@ -92,9 +92,10 @@ feature {NONE} -- Constants
 			-- Possible "file not found" errors from gfvs commands
 		once
 			Result := <<
-				"File does not exist", 			-- Applies to MTP devices (gvfs-rm)
-				"File not found", 				-- Applies to MTP devices
-				"No such file or directory"   -- Applies to FUSE file systems
+				"File does not exist",							-- Applies to MTP devices (gvfs-rm)
+				"File not found", 								-- Applies to MTP devices
+				"The specified location is not mounted",	-- Applies to MTP devices
+				"No such file or directory"					-- Applies to FUSE file systems
 			>>
 		end
 
