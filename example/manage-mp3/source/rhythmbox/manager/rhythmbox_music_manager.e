@@ -250,7 +250,6 @@ feature -- Tasks: Import/Export
 			device: like new_device
 		do
 			log.enter ("export_music_to_device")
-			lio.set_timer
 			device := new_device
 			if device.volume.is_valid then
 				if config.selected_genres.is_empty then
@@ -269,7 +268,6 @@ feature -- Tasks: Import/Export
 			else
 				notify_invalid_volume
 			end
-			lio.put_elapsed_time
 			log.exit
 		end
 

@@ -7,5 +7,5 @@ music-collection:
 	volume:
 		name = "32 GB Volume"; destination = "Music"; id3_version = 2.3; type = "Samsung Tablet"
 	playlist:
-		root = "/storage/extSdCard"; subdirectory_name = "playlists"
+		root = "/mnt/sdcard"; subdirectory_name = "playlists"
 
