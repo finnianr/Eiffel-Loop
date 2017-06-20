@@ -1,10 +1,8 @@
 note
 	description: "Summary description for {EL_LIBID3_FIELD_ITERATOR}."
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-08-24 15:29:32 GMT (Wednesday 24th August 2016)"
 	revision: "2"
@@ -38,18 +36,18 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Externals
 
-    cpp_delete (self: POINTER)
-            --
-        external
-            "C++ [delete ID3_Frame::Iterator %"id3/tag.h%"] ()"
-        end
+	cpp_delete (self: POINTER)
+			--
+		external
+			"C++ [delete ID3_Frame::Iterator %"id3/tag.h%"] ()"
+		end
 
-    cpp_iterator_next (iterator: POINTER): POINTER
-            --
-        external
-            "C++ [ID3_Frame::Iterator %"id3/tag.h%"]: EIF_POINTER ()"
-        alias
-        	"GetNext"
-        end
+	cpp_iterator_next (iterator: POINTER): POINTER
+			--
+		external
+			"C++ [ID3_Frame::Iterator %"id3/tag.h%"]: EIF_POINTER ()"
+		alias
+			"GetNext"
+		end
 
 end
