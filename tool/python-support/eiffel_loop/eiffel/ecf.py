@@ -311,7 +311,7 @@ class FREEZE_BUILD (object):
 	def pre_compilation (self):
 		self.__write_class_build_info ()
 		# Make build/win64, etc
-		project_path = os.sep.join (self.code_dir_steps ()[0:1])
+		project_path = os.sep.join (self.code_dir_steps ()[:2])
 		if not path.exists (project_path):
 			dir_util.mkpath (project_path)
 	

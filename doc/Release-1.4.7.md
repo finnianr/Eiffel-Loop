@@ -127,7 +127,10 @@
 
 * Fixed `eiffel_loop.eiffel.ecf.EIFFEL_CONFIG` so that multiple references to the same ECF file are parsed only once.
 
+* Fixed error in creating `build/$ISE_PLATFORM` directory during finalized build
+
 ## MANAGE-MP3 example
 * Fixed file exists query for STORAGE_DEVICE
 
 * Fixed `TEST_STORAGE_DEVICE.set_volume` and checksum for `rhythmdb-tasks/export_music_to_device.pyx`
+
