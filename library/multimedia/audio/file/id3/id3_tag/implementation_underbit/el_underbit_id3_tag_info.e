@@ -5,11 +5,9 @@ note
 		Writes ID3 version 2.4
 		Unable to read version number
 	]"
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-01 14:03:38 GMT (Friday 1st July 2016)"
 	revision: "1"
@@ -35,13 +33,13 @@ inherit
 		end
 
 create
-    make
+	make
 
 feature -- Initialization
 
-    make
-		    --
-      do
+	make
+			--
+		do
 			default_create
 		end
 
@@ -112,7 +110,7 @@ feature -- Element change
 		end
 
 	link (a_mp3_path: like mp3_path)
-		-- link file without reading tags
+			-- link file without reading tags
 		do
 			mp3_path := a_mp3_path
 		end
@@ -147,20 +145,22 @@ feature {NONE} -- Factory
 			create Result.make_from_pointer (frame_ptr)
 			if Result.code ~ Tag.Unique_file_id then
 				create {EL_UNDERBIT_ID3_UNIQUE_FILE_ID} Result.make_from_pointer (frame_ptr)
-
 			elseif Result.code ~ Tag.Album_picture then
 				create {EL_ALBUM_PICTURE_UNDERBIT_ID3_FRAME} Result.make_from_pointer (frame_ptr)
-
 			end
 		end
 
 	new_frame_list: ARRAYED_LIST [EL_UNDERBIT_ID3_FRAME]
 		local
-   		i, count: INTEGER
+			i, count: INTEGER
 		do
 			count := frame_count
 			create Result.make (count)
-			from i := 1 until i > count loop
+			from
+				i := 1
+			until
+				i > count
+			loop
 				Result.extend (new_frame (i))
 				i := i + 1
 			end
@@ -168,8 +168,8 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-   frame_count: INTEGER
- 		--
+	frame_count: INTEGER
+			--
 		do
 			Result := c_frame_count (frames_ptr)
 		end
@@ -183,8 +183,8 @@ feature {NONE} -- Implementation
 			is_attached: c_call_status = 0
 		end
 
-    file_c_pointer (file_mode: INTEGER): POINTER
-		    --
+	file_c_pointer (file_mode: INTEGER): POINTER
+			--
 		require
 			valid_mode: file_mode = File_mode_read_and_write or file_mode = File_mode_read_only
 		local
@@ -198,46 +198,46 @@ feature {NONE} -- Implementation
 
 	is_memory_owned: BOOLEAN = True
 
- 	frames_ptr: POINTER
+	frames_ptr: POINTER
 
 	c_call_status: INTEGER
 
 feature {NONE} -- C Externals: file
 
-    c_id3_file_open (file_name_ptr: POINTER; a_file_mode: INTEGER): POINTER
-		    -- struct id3_file *id3_file_open(char const *, enum id3_file_mode);
+	c_id3_file_open (file_name_ptr: POINTER; a_file_mode: INTEGER): POINTER
+			-- struct id3_file *id3_file_open(char const *, enum id3_file_mode);
 		external
 			"C (char const *, enum id3_file_mode): EIF_POINTER | %"id3tag.h%""
 		alias
 			"id3_file_open"
 		end
 
-    c_id3_file_close (a_file_ptr: POINTER)
-		    -- int id3_file_close(struct id3_file *);
+	c_id3_file_close (a_file_ptr: POINTER)
+			-- int id3_file_close(struct id3_file *);
 		require else
 			pointer_not_null: is_attached (a_file_ptr)
 		external
-		    "C (struct id3_file *) | %"id3tag.h%""
+			"C (struct id3_file *) | %"id3tag.h%""
 		alias
 			"id3_file_close"
 		end
 
-    c_id3_file_update (a_file_ptr: POINTER): INTEGER
-		    -- int id3_file_update(struct id3_file *)
-		require
-    		pointer_not_null: is_attached (a_file_ptr)
-		external
-		    "C (struct id3_file *): EIF_INTEGER | %"id3tag.h%""
-		alias
-    	"id3_file_update"
-		end
-
-    c_id3_file_tag (a_file_ptr: POINTER): POINTER
-		    -- struct id3_tag *id3_file_tag(struct id3_file const *);
+	c_id3_file_update (a_file_ptr: POINTER): INTEGER
+			-- int id3_file_update(struct id3_file *)
 		require
 			pointer_not_null: is_attached (a_file_ptr)
 		external
-		    "C (struct id3_file const *): EIF_POINTER | %"id3tag.h%""
+			"C (struct id3_file *): EIF_INTEGER | %"id3tag.h%""
+		alias
+			"id3_file_update"
+		end
+
+	c_id3_file_tag (a_file_ptr: POINTER): POINTER
+			-- struct id3_tag *id3_file_tag(struct id3_file const *);
+		require
+			pointer_not_null: is_attached (a_file_ptr)
+		external
+			"C (struct id3_file const *): EIF_POINTER | %"id3tag.h%""
 		alias
 			"id3_file_tag"
 		end
@@ -245,144 +245,143 @@ feature {NONE} -- C Externals: file
 feature {NONE} -- C Externals: tag
 
 	c_id3_tag_addref (tag_ptr: POINTER)
-		    -- void id3_tag_addref(struct id3_tag *tag)
+			-- void id3_tag_addref(struct id3_tag *tag)
 		require
 			pointer_not_null: is_attached (tag_ptr)
 		external
-		    "C (struct id3_tag const *) | %"id3tag.h%""
+			"C (struct id3_tag const *) | %"id3tag.h%""
 		alias
 			"id3_tag_addref"
 		end
 
-     c_id3_tag_delref (tag_ptr: POINTER)
-		    -- void id3_tag_delref(struct id3_tag *tag)
+	c_id3_tag_delref (tag_ptr: POINTER)
+			-- void id3_tag_delref(struct id3_tag *tag)
 		require
 			pointer_not_null: is_attached (tag_ptr)
 		external
-		   "C (struct id3_tag const *) | %"id3tag.h%""
+			"C (struct id3_tag const *) | %"id3tag.h%""
 		alias
 			"id3_tag_delref"
 		end
 
-    c_id3_tag_delete (tag_ptr: POINTER)
-		    -- void id3_tag_delete(struct id3_tag *);
+	c_id3_tag_delete (tag_ptr: POINTER)
+			-- void id3_tag_delete(struct id3_tag *);
 		require
-    		pointer_not_null: is_attached (tag_ptr)
+			pointer_not_null: is_attached (tag_ptr)
 		external
-		    "C (struct id3_tag *)| %"id3tag.h%""
+			"C (struct id3_tag *)| %"id3tag.h%""
 		alias
 			"id3_tag_delete"
 		end
 
-    c_id3_tag_clear_frames (tag_ptr: POINTER)
-		    -- void id3_tag_clearframes(struct id3_tag *);
+	c_id3_tag_clear_frames (tag_ptr: POINTER)
+			-- void id3_tag_clearframes(struct id3_tag *);
 		require
 			pointer_not_null: is_attached (tag_ptr)
 		external
-		    "C (struct id3_tag *)| %"id3tag.h%""
+			"C (struct id3_tag *)| %"id3tag.h%""
 		alias
 			"id3_tag_clearframes"
 		end
 
-
-    c_id3_tag_findframe (tag_ptr, frame_id: POINTER; c: INTEGER): POINTER
-		    --struct id3_frame *id3_tag_findframe(struct id3_tag const *, char const *, unsigned int);
-      require
+	c_id3_tag_findframe (tag_ptr, frame_id: POINTER; c: INTEGER): POINTER
+			--struct id3_frame *id3_tag_findframe(struct id3_tag const *, char const *, unsigned int);
+		require
 			pointer_not_null: is_attached (tag_ptr)
-      external
-		    "C (struct id3_tag const *, char const *, unsigned int): EIF_POINTER | %"id3tag.h%""
+		external
+			"C (struct id3_tag const *, char const *, unsigned int): EIF_POINTER | %"id3tag.h%""
 		alias
 			"id3_tag_findframe"
 		end
 
-    c_id3_tag_attachframe (tag_ptr, frame_ptr: POINTER): INTEGER
-		    -- int id3_tag_attachframe(struct id3_tag *, struct id3_frame *);
-      require
-    		pointer_not_null: is_attached (tag_ptr) and is_attached (frame_ptr)
-      external
-		    "C (struct id3_tag const *, struct id3_frame *): EIF_INTEGER | %"id3tag.h%""
+	c_id3_tag_attachframe (tag_ptr, frame_ptr: POINTER): INTEGER
+			-- int id3_tag_attachframe(struct id3_tag *, struct id3_frame *);
+		require
+			pointer_not_null: is_attached (tag_ptr) and is_attached (frame_ptr)
+		external
+			"C (struct id3_tag const *, struct id3_frame *): EIF_INTEGER | %"id3tag.h%""
 		alias
-    		"id3_tag_attachframe"
+			"id3_tag_attachframe"
 		end
 
-    c_id3_tag_detachframe (tag_ptr, frame_ptr: POINTER): INTEGER
-		    -- int id3_tag_detachframe(struct id3_tag *, struct id3_frame *);
+	c_id3_tag_detachframe (tag_ptr, frame_ptr: POINTER): INTEGER
+			-- int id3_tag_detachframe(struct id3_tag *, struct id3_frame *);
 		require
-		pointer_not_null: is_attached (tag_ptr) and is_attached (frame_ptr)
+			pointer_not_null: is_attached (tag_ptr) and is_attached (frame_ptr)
 		external
-		    "C (struct id3_tag const *, struct id3_frame *): EIF_INTEGER | %"id3tag.h%""
+			"C (struct id3_tag const *, struct id3_frame *): EIF_INTEGER | %"id3tag.h%""
 		alias
-    	"id3_tag_detachframe"
+			"id3_tag_detachframe"
 		end
 
-    c_id3_tag_version (tag_ptr: POINTER): INTEGER
-		    -- unsigned int id3_tag_version(struct id3_tag const *)
+	c_id3_tag_version (tag_ptr: POINTER): INTEGER
+			-- unsigned int id3_tag_version(struct id3_tag const *)
 		require
-    		pointer_not_null: is_attached (tag_ptr)
+			pointer_not_null: is_attached (tag_ptr)
 		external
-		    "C (struct id3_tag const *): EIF_INTEGER | %"id3tag.h%""
+			"C (struct id3_tag const *): EIF_INTEGER | %"id3tag.h%""
 		alias
-    	"id3_tag_version"
+			"id3_tag_version"
 		end
 
-    c_id3_set_tag_version (tag_ptr: POINTER; ver: INTEGER)
-		    -- unsigned int id3_tag_version(struct id3_tag const *)
+	c_id3_set_tag_version (tag_ptr: POINTER; ver: INTEGER)
+			-- unsigned int id3_tag_version(struct id3_tag const *)
 		require
-    		pointer_not_null: is_attached (tag_ptr)
+			pointer_not_null: is_attached (tag_ptr)
 		external
-		    "C [struct %"id3tag.h%"] (struct id3_tag, unsigned int)"
+			"C [struct %"id3tag.h%"] (struct id3_tag, unsigned int)"
 		alias
-    		"version"
+			"version"
 		end
 
-     c_frame_count (tag_ptr: POINTER): INTEGER
-		    -- Access field y of struct pointed by `p'.
+	c_frame_count (tag_ptr: POINTER): INTEGER
+			-- Access field y of struct pointed by `p'.
 		require
-    		pointer_not_null: is_attached (tag_ptr)
+			pointer_not_null: is_attached (tag_ptr)
 		external
-		    "C [struct %"id3tag.h%"] (struct id3_tag): EIF_INTEGER"
+			"C [struct %"id3tag.h%"] (struct id3_tag): EIF_INTEGER"
 		alias
-		    "nframes"
+			"nframes"
 		end
 
-     c_frame (tag_ptr: POINTER; i: INTEGER): POINTER
-		    -- Access field y of struct pointed by `p'.
+	c_frame (tag_ptr: POINTER; i: INTEGER): POINTER
+			-- Access field y of struct pointed by `p'.
 		require
-    		pointer_not_null: is_attached (tag_ptr)
+			pointer_not_null: is_attached (tag_ptr)
 		external
-		    "C inline use %"id3tag.h%""
+			"C inline use %"id3tag.h%""
 		alias
-		    "((struct id3_tag*)$tag_ptr)->frames[$i]"
+			"((struct id3_tag*)$tag_ptr)->frames[$i]"
 		end
 
-    c_id3_tag_options (tag_ptr: POINTER; mask, values: INTEGER): INTEGER
-		    -- int id3_tag_options(struct id3_tag *, int, int)
+	c_id3_tag_options (tag_ptr: POINTER; mask, values: INTEGER): INTEGER
+			-- int id3_tag_options(struct id3_tag *, int, int)
 		require
-    		pointer_not_null: is_attached (tag_ptr)
+			pointer_not_null: is_attached (tag_ptr)
 		external
-		    "C (struct id3_tag const *, int, int): EIF_INTEGER | %"id3tag.h%""
+			"C (struct id3_tag const *, int, int): EIF_INTEGER | %"id3tag.h%""
 		alias
-    		"id3_tag_options"
+			"id3_tag_options"
 		end
 
-     c_id3_tag_version_major (a_version: INTEGER): INTEGER
-		    -- Access field y of struct pointed by `p'.
+	c_id3_tag_version_major (a_version: INTEGER): INTEGER
+			-- Access field y of struct pointed by `p'.
 		require
-    	version_not_zero: a_version > 0
+			version_not_zero: a_version > 0
 		external
-		    "C [macro %"id3tag.h%"] (unsigned int): EIF_INTEGER"
+			"C [macro %"id3tag.h%"] (unsigned int): EIF_INTEGER"
 		alias
-		    "ID3_TAG_VERSION_MAJOR"
+			"ID3_TAG_VERSION_MAJOR"
 		end
 
-     c_id3_tag_version_minor (a_version: INTEGER): INTEGER
-		    -- Access field y of struct pointed by `p'.
+	c_id3_tag_version_minor (a_version: INTEGER): INTEGER
+			-- Access field y of struct pointed by `p'.
 		require
-    		version_not_zero: a_version > 0
+			version_not_zero: a_version > 0
 		external
-		    "C [macro %"id3tag.h%"] (unsigned int): EIF_INTEGER"
+			"C [macro %"id3tag.h%"] (unsigned int): EIF_INTEGER"
 		alias
-		    "ID3_TAG_VERSION_MINOR"
+			"ID3_TAG_VERSION_MINOR"
 		end
 
 end

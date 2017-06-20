@@ -1,10 +1,8 @@
 note
 	description: "Summary description for {EL_UNDERBIT_C_API}."
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -22,26 +20,26 @@ inherit
 feature {NONE} -- Frames
 
 	c_id3_frame_field (frame_ptr: POINTER; index: INTEGER): POINTER
-		-- union id3_field *id3_frame_field(struct id3_frame const *, unsigned int);
+			-- union id3_field *id3_frame_field(struct id3_frame const *, unsigned int);
 		require
 			argument_attached: is_attached (frame_ptr)
 		external
 			"C (struct id3_frame const *, unsigned int): EIF_POINTER | %"id3tag.h%""
 		alias
-				"id3_frame_field"
+			"id3_frame_field"
 		end
 
-    c_id3_frame_new (id_ptr: POINTER): POINTER
+	c_id3_frame_new (id_ptr: POINTER): POINTER
 			-- struct id3_frame *id3_frame_new(char const *);
 		require
 			argument_attached: is_attached (id_ptr)
 		external
 			"C (char const *): EIF_POINTER | %"id3tag.h%""
 		alias
-				"id3_frame_new"
+			"id3_frame_new"
 		end
 
-     c_id3_frame_addref (frame_ptr: POINTER)
+	c_id3_frame_addref (frame_ptr: POINTER)
 			-- void id3_frame_addref(struct id3_frame *frame)
 		require
 			argument_attached: is_attached (frame_ptr)
@@ -51,17 +49,17 @@ feature {NONE} -- Frames
 			"id3_frame_addref"
 		end
 
-     c_id3_frame_delref (frame_ptr: POINTER)
+	c_id3_frame_delref (frame_ptr: POINTER)
 			-- void id3_frame_delref(struct id3_frame *frame)
 		require
 			argument_attached: is_attached (frame_ptr)
-      external
+		external
 			"C (struct id3_frame const *) | %"id3tag.h%""
 		alias
 			"id3_frame_delref"
-      end
+		end
 
-    c_id3_frame_delete (frame_ptr: POINTER)
+	c_id3_frame_delete (frame_ptr: POINTER)
 			-- void id3_frame_delete(struct id3_frame *frame)
 		require
 			argument_attached: is_attached (frame_ptr)
@@ -71,7 +69,7 @@ feature {NONE} -- Frames
 			"id3_frame_delete"
 		end
 
-     c_id3_frame_id (frame_ptr: POINTER): POINTER
+	c_id3_frame_id (frame_ptr: POINTER): POINTER
 			-- Access field y of struct pointed by `p'.
 		require
 			argument_attached: is_attached (frame_ptr)
@@ -81,7 +79,7 @@ feature {NONE} -- Frames
 			"id"
 		end
 
-     c_id3_frame_nfields (frame_ptr: POINTER): INTEGER
+	c_id3_frame_nfields (frame_ptr: POINTER): INTEGER
 			-- Access field y of struct pointed by `p'.
 		require
 			argument_attached: is_attached (frame_ptr)
@@ -154,7 +152,7 @@ feature {NONE} -- Field getters
 			"id3_field_getbinarydata"
 		end
 
-     c_id3_field_getint (field_ptr: POINTER): INTEGER
+	c_id3_field_getint (field_ptr: POINTER): INTEGER
 			-- signed long id3_field_getint(union id3_field const *);
 		require
 			argument_attached: is_attached (field_ptr)
@@ -164,7 +162,7 @@ feature {NONE} -- Field getters
 			"id3_field_getint"
 		end
 
-     c_id3_field_gettextencoding (field_ptr: POINTER): INTEGER
+	c_id3_field_gettextencoding (field_ptr: POINTER): INTEGER
 			-- enum id3_field_textencoding id3_field_gettextencoding(union id3_field const *);
 		require
 			argument_attached: is_attached (field_ptr)
@@ -174,7 +172,7 @@ feature {NONE} -- Field getters
 			"id3_field_gettextencoding"
 		end
 
-     c_id3_field_type (field_ptr: POINTER): INTEGER
+	c_id3_field_type (field_ptr: POINTER): INTEGER
 			-- enum id3_field_type id3_field_type(union id3_field const *);
 		require
 			argument_attached: is_attached (field_ptr)
@@ -184,7 +182,7 @@ feature {NONE} -- Field getters
 			"id3_field_type"
 		end
 
-     c_id3_field_getnstrings (field_ptr: POINTER): INTEGER
+	c_id3_field_getnstrings (field_ptr: POINTER): INTEGER
 			-- unsigned int id3_field_getnstrings(union id3_field const *field)
 		require
 			argument_attached: is_attached (field_ptr)
