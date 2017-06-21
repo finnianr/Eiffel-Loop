@@ -64,7 +64,7 @@ def set_build_environment (target_cpu):
 
 		MSC_options.insert (0, '/' + target_cpu)
 
-		os.environ.update (C_dev.msvc_compiler_environ (MSC_options, os.environ ['ISE_C_COMPILER'] == 'msc_v140'))
+		os.environ.update (C_dev.msvc_compiler_environ (MSC_options, os.environ ['ISE_C_COMPILER'] == 'msc_vc140'))
 		if target_cpu == 'x86':
 			os.environ.update (project.x86_environ (environ))
 		else:
