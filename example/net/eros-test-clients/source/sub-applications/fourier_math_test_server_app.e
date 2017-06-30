@@ -6,12 +6,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 9:30:12 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2017-06-29 14:21:55 GMT (Thursday 29th June 2017)"
+	revision: "2"
 
 class
 	FOURIER_MATH_TEST_SERVER_APP
@@ -67,7 +67,7 @@ feature {NONE} -- Constants
 			Result.set_command_line_options ("-logging")
 		end
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

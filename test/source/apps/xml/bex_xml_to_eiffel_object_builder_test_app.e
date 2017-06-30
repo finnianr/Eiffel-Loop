@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 12:55:24 GMT (Sunday 21st May 2017)"
-	revision: "3"
+	date: "2017-06-29 12:27:14 GMT (Thursday 29th June 2017)"
+	revision: "4"
 
 class
 	BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP
@@ -15,10 +15,8 @@ class
 inherit
 	OBJECT_BUILDER_TEST_APP
 		redefine
-			Option_name, Description, Log_filter, run, initialize, new_smart_builder
+			Option_name, Description, log_filter_list, run, initialize, new_smart_builder
 		end
-
-	EL_MODULE_TEST
 
 create
 	make
@@ -80,18 +78,12 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Auto test remote builder concept"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	log_filter_list: ARRAYED_LIST [EL_LOG_FILTER]
 			--
-		local
-			extras: ARRAYED_LIST [like Type_logging_filter]
 		do
-			create extras.make_from_array (<<
-				[{BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP}, All_routines],
-				[{BINARY_ENCODED_XML_DOCUMENT_SCANNER}, "on_start_tag, on_end_tag, on_content"]
-
-			>>)
-			extras.append (create {ARRAYED_LIST [like Type_logging_filter]}.make_from_array (Precursor))
-			Result := extras.to_array
+			Result := Precursor
+			Result.extend (new_log_filter ({BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP}, All_routines))
+			Result.extend (new_log_filter ({BINARY_ENCODED_XML_DOCUMENT_SCANNER}, "on_start_tag, on_end_tag, on_content"))
 		end
 
 	Option_name: STRING = "bex_x2e_and_e2x"

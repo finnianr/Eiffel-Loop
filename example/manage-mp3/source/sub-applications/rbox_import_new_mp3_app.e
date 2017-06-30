@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-25 8:47:13 GMT (Sunday 25th September 2016)"
-	revision: "2"
+	date: "2017-06-29 11:39:10 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class RBOX_IMPORT_NEW_MP3_APP obsolete "Rewrite using music manager task"
 
@@ -103,7 +103,7 @@ feature {NONE} -- Constants
 
 	Ask_user_to_quit: BOOLEAN = True
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

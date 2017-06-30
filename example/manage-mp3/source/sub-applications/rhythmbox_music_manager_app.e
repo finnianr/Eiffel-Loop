@@ -28,14 +28,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-09 16:16:19 GMT (Friday 9th June 2017)"
-	revision: "7"
+	date: "2017-06-29 11:39:27 GMT (Thursday 29th June 2017)"
+	revision: "9"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
 
 inherit
-	EL_TESTABLE_COMMAND_LINE_SUB_APPLICATION [RHYTHMBOX_MUSIC_MANAGER]
+	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [RHYTHMBOX_MUSIC_MANAGER]
 		rename
 			command as music_manager_command
 		redefine
@@ -117,7 +117,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Manage Rhythmbox Music Collection"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
@@ -324,7 +324,7 @@ note
 		`**task = publish_dj_events**'
 
 		Publish all DJ event playlists saved with the ''update_dj_events'' task to a website using a
-		[../../../../library/text/template/evolicity/class-index.html Evolicity] HTML template.
+		[./library/text/template/evolicity/class-index.html Evolicity] HTML template.
 
 		The event playlists can be edited to change the title, venue, DJ name and milonga start time.
 		Any songs that were not played during the milonga can be ommitted from publication by placing

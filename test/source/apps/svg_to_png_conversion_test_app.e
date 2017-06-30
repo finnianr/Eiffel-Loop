@@ -2,18 +2,18 @@ note
 	description: "Summary description for {TEST_IMAGE_MAGICK_CONVERT_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 11:22:03 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-06-29 12:27:58 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class
 	SVG_TO_PNG_CONVERSION_TEST_APP
 
 inherit
-	REGRESSION_TESTING_SUB_APPLICATION
+	REGRESSION_TESTABLE_SUB_APPLICATION
 		redefine
 			Option_name, initialize
 		end
@@ -95,7 +95,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Test SVG to PNG conversion"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

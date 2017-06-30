@@ -6,16 +6,16 @@ note
 
 	instructions: "[
 		Use this class by making a call to the `new_callback' function in a descendant of 
-		class [./el_c_callable.html EL_C_CALLABLE].
+		class [$source EL_C_CALLABLE].
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 16:39:20 GMT (Monday 3rd October 2016)"
-	revision: "2"
+	date: "2017-06-21 17:23:24 GMT (Wednesday 21st June 2017)"
+	revision: "3"
 
 class
 	EL_CALLBACK_FIXER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-09 17:33:35 GMT (Friday 9th June 2017)"
-	revision: "8"
+	date: "2017-06-29 9:47:49 GMT (Thursday 29th June 2017)"
+	revision: "9"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -43,7 +43,7 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 	make
 			--
 		local
-			log_stack_pos: INTEGER; l_log_filters: like log_filter_array
+			log_stack_pos: INTEGER; l_log_filters: like log_filter_list
 			boolean: BOOLEAN_REF
 		do
 			create options_help.make (11)
@@ -55,7 +55,7 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 			across standard_options as option loop
 				set_boolean_from_command_opt (boolean, option.key, option.item)
 			end
-			l_log_filters := log_filter_array
+			l_log_filters := log_filter_list
 
 			init_logging (l_log_filters, Log_output_directory)
 
@@ -289,7 +289,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	io_put_header (a_log_filters: like log_filter_array)
+	io_put_header (a_log_filters: like log_filter_list)
 		local
 			build_version, test: STRING
 		do

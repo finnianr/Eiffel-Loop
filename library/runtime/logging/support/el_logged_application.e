@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-24 17:16:57 GMT (Tuesday 24th January 2017)"
-	revision: "3"
+	date: "2017-06-29 14:37:31 GMT (Thursday 29th June 2017)"
+	revision: "4"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -28,7 +28,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	init_logging (a_log_filters: like log_filter_array; output_directory: EL_DIR_PATH)
+	init_logging (a_log_filters: like log_filter_list; output_directory: EL_DIR_PATH)
 			--
 		do
 			Log_manager.set_output_directory (output_directory)
@@ -45,19 +45,20 @@ feature {NONE} -- Implementation
 			is_logging_initialized := true
 		end
 
-	log_filter_array: ARRAY [EL_LOG_FILTER]
+	log_filter_list: ARRAYED_LIST [EL_LOG_FILTER]
 			--
 		local
-			l_log_filter: like log_filter
+			filters: like log_filter
 		do
-			l_log_filter := log_filter
-			create Result.make (1, l_log_filter.count)
-			across l_log_filter as l_tuple loop
-				Result [l_tuple.cursor_index] := create {EL_LOG_FILTER}.make (l_tuple.item.class_type, l_tuple.item.routines)
+			filters := log_filter
+			create Result.make (filters.count)
+			Result.compare_objects
+			across filters as tuple loop
+				Result.extend (new_log_filter (tuple.item.class_type, tuple.item.routines))
 			end
 		end
 
-	log_filter: ARRAY [like Type_logging_filter]
+	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		deferred
 		end
@@ -67,10 +68,16 @@ feature {NONE} -- Implementation
 			create Result.make ("Main")
 		end
 
+	new_log_filter (class_type: TYPE [EL_MODULE_LOG]; a_routines: STRING): EL_LOG_FILTER
+		do
+			create Result.make (class_type, a_routines)
+		end
+
 feature {NONE} -- Type definitions
 
-	Type_logging_filter: TUPLE [class_type: TYPE [EL_MODULE_LOG]; routines: STRING]
+	CLASS_ROUTINES: TUPLE [class_type: TYPE [EL_MODULE_LOG]; routines: STRING]
 		once
+			Result := [{like Current}, ""]
 		end
 
 feature {NONE} -- Constants

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_SHARED_DIRECTORY}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-06-27 18:13:48 GMT (Saturday 27th June 2015)"
-	revision: "1"
+	date: "2017-06-13 15:12:36 GMT (Tuesday 13th June 2017)"
+	revision: "2"
 
 class
 	EL_SHARED_DIRECTORY

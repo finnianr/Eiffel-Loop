@@ -2,12 +2,12 @@ note
 	description: "Summary description for {TEST_WINDOW}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-21 14:21:57 GMT (Wednesday 21st September 2016)"
-	revision: "2"
+	date: "2017-06-29 14:18:34 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -175,7 +175,7 @@ feature {NONE} -- Implementation
 		do
 			create Result
 			Result.set_with_named_file (
-				Execution.variable_dir_path ("ISE_EIFFEL").joined_file_path ("library/vision2/tests/graphics/Lenna.png").unicode
+				Execution.variable_dir_path ("ISE_EIFFEL").joined_file_path ("library/vision2/tests/graphics/Lenna.png")
 			)
 		end
 

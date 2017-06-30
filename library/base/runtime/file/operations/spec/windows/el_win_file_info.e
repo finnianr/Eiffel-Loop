@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-16 13:15:56 GMT (Monday 16th January 2017)"
-	revision: "3"
+	date: "2017-06-23 10:28:52 GMT (Friday 23rd June 2017)"
+	revision: "4"
 
 class
 	EL_WIN_FILE_INFO
@@ -85,8 +85,6 @@ feature -- Element change
 feature -- Status change
 
 	open_read (file_path: READABLE_STRING_GENERAL)
-		local
-			success: BOOLEAN
 		do
 			if is_open then
 				close
@@ -101,8 +99,6 @@ feature -- Status change
 		end
 
 	open_write (file_path: READABLE_STRING_GENERAL)
-		local
-			success: BOOLEAN
 		do
 			if is_open then
 				close

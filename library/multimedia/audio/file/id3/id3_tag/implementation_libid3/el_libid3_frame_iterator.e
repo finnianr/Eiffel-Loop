@@ -1,11 +1,13 @@
 note
 	description: "Summary description for {EL_LIBID3_FRAME_ITERATOR}."
+
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-24 15:29:37 GMT (Wednesday 24th August 2016)"
-	revision: "2"
+	date: "2017-06-20 11:07:30 GMT (Tuesday 20th June 2017)"
+	revision: "3"
 
 class
 	EL_LIBID3_FRAME_ITERATOR

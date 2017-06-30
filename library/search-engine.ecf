@@ -11,6 +11,6 @@
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<!--Source code-->
-		<cluster name = "database" location = "persistency/search-engine" recursive = "true" readonly = "false"/>
+		<cluster name = "search" location = "persistency/search-engine" recursive = "true" readonly = "false"/>
 	</target>
 </system>

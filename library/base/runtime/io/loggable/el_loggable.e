@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_LOGGABLE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 6:52:25 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2017-06-29 8:48:56 GMT (Thursday 29th June 2017)"
+	revision: "2"
 
 deferred class
 	EL_LOGGABLE
@@ -81,7 +81,7 @@ feature -- Output
 		deferred
 		end
 
-	put_configuration_info (a_log_filters: ARRAY [EL_LOG_FILTER])
+	put_configuration_info (log_filters: ARRAYED_LIST [EL_LOG_FILTER])
 		deferred
 		end
 

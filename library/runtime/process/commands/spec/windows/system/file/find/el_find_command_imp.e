@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_FIND_COMMAND_IMP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-04 8:13:41 GMT (Tuesday 4th October 2016)"
-	revision: "2"
+	date: "2017-06-22 14:29:56 GMT (Thursday 22nd June 2017)"
+	revision: "3"
 
 deferred class
 	EL_FIND_COMMAND_IMP
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 			line_position, dir_path_occurrences, depth: INTEGER; line: ZSTRING
 		do
 			create Result.make (20)
-			dir_path_occurrences := dir_path.unicode.occurrences ('\')
+			dir_path_occurrences := dir_path.step_count - 1
 			if not dir_path.is_absolute then
 				line_position := Directory.working.to_string.count + 2
 			end

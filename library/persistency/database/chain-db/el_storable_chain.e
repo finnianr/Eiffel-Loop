@@ -1,7 +1,7 @@
 note
 	description: "[
-		Chain of storable items which can be saved to and read from a file. Items must implement the deferred class
-		[../../../../library/base/utility/memory/el_storable.html EL_STORABLE].
+		Chain of storable items which can be saved to and read from a file. Items must implement the deferred
+		class [$source EL_STORABLE].
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-24 9:52:02 GMT (Wednesday 24th May 2017)"
-	revision: "3"
+	date: "2017-06-21 17:28:05 GMT (Wednesday 21st June 2017)"
+	revision: "4"
 
 deferred class
 	EL_STORABLE_CHAIN  [G -> EL_STORABLE create make_default end]

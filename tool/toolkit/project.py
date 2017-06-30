@@ -2,12 +2,18 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 1, 31); build = 381
+version = (1, 2, 0); build = 385
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.0
+# Moved all Eiffel development related sub-apps to separate project
+
+# 1.1.32
+# Added ability to $source variable for class html source links
 
 # 1.1.31
 # Added new tool PYXIS_TRANSLATION_TREE_COMPILER_APP

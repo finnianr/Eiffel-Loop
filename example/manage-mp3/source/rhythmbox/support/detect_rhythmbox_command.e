@@ -2,12 +2,12 @@ note
 	description: "Summary description for {DETECT_RHYTHMBOX_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 14:19:46 GMT (Thursday 23rd June 2016)"
-	revision: "1"
+	date: "2017-06-18 10:43:18 GMT (Sunday 18th June 2017)"
+	revision: "2"
 
 class
 	DETECT_RHYTHMBOX_COMMAND

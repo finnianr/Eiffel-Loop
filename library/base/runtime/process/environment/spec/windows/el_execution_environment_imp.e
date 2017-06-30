@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-28 7:12:37 GMT (Friday 28th April 2017)"
-	revision: "3"
+	date: "2017-06-22 14:28:08 GMT (Thursday 22nd June 2017)"
+	revision: "4"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -73,7 +73,7 @@ feature {NONE} -- Implementation
 		local
 			l_url: NATIVE_STRING; succeeded: BOOLEAN
 		do
-			create l_url.make (url.unicode)
+			create l_url.make (url)
 			succeeded := c_open_url (l_url.item) > 32
 		end
 

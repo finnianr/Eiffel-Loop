@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_UNINSTALL_DUMMY_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-14 13:09:54 GMT (Wednesday 14th December 2016)"
-	revision: "3"
+	date: "2017-06-29 10:01:27 GMT (Thursday 29th June 2017)"
+	revision: "4"
 
 class
 	EL_UNINSTALL_APP
@@ -118,7 +118,7 @@ feature {NONE} -- Constants
 			end
 		end
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

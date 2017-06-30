@@ -33,7 +33,7 @@ system:
 
 		# Source code
 		cluster:
-			name = database; location = "persistency/search-engine"; recursive = true; readonly = false
+			name = search; location = "persistency/search-engine"; recursive = true; readonly = false
 			
 
 

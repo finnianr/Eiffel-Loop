@@ -2,12 +2,12 @@
 	description: "Summary description for {HELP_PAGES_FILE_COMMAND_TEST_SET}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-10 12:02:48 GMT (Sunday 10th July 2016)"
-	revision: "1"
+	date: "2017-06-14 10:27:09 GMT (Wednesday 14th June 2017)"
+	revision: "2"
 
 deferred class
 	HELP_PAGES_TEST_SET

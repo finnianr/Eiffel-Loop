@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-23 16:50:17 GMT (Wednesday 23rd November 2016)"
-	revision: "2"
+	date: "2017-06-23 10:32:33 GMT (Friday 23rd June 2017)"
+	revision: "3"
 
 deferred class
 	EL_BATCH_PROCESSING_DIALOG [G]
@@ -218,10 +218,7 @@ feature {NONE} -- Behaviours
 			else
 				msg_title := "BATCH COMPLETED"
 			end
-			msg_box.information_message_box (
-				Current, "Processing time: " + timer.elapsed_mins_and_secs_string, msg_title
-			)
-
+			msg_box.information_message_box (Current, "Processing time: " + timer.elapsed_time.out_mins_and_secs, msg_title)
 		end
 
 	on_cancel_processing

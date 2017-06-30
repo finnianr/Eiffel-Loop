@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 13:57:14 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-06-29 14:21:58 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class
 	BEXT_SERVER_TEST_APP
@@ -56,7 +56,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Test server for BEXT (Binary Encoded XML Transfer) (Ctrl-c to shutdown)"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

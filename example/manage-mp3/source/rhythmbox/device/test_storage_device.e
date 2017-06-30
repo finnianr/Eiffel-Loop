@@ -2,12 +2,12 @@ note
 	description: "Summary description for {TEST_USB_DEVICE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-10-04 13:38:42 GMT (Sunday 4th October 2015)"
-	revision: "1"
+	date: "2017-06-18 12:35:24 GMT (Sunday 18th June 2017)"
+	revision: "2"
 
 class
 	TEST_STORAGE_DEVICE

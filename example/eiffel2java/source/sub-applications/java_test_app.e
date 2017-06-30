@@ -2,18 +2,18 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-09 7:36:52 GMT (Saturday 9th July 2016)"
-	revision: "1"
+	date: "2017-06-29 14:12:04 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class
 	JAVA_TEST_APP
 
 inherit
-	REGRESSION_TESTING_SUB_APPLICATION
+	REGRESSION_TESTABLE_SUB_APPLICATION
 
 	SHARED_JNI_ENVIRONMENT
 
@@ -196,9 +196,7 @@ feature {NONE} -- Implementation
 			-- Test that java objects are release with Eiffel garbage collection
 		local
 			j2e_test: J_J2E_TEST_TARGET
-			num_8255:J_INT
-			hello_msg: J_STRING
-			linked_list: J_LINKED_LIST
+			num_8255:J_INT; hello_msg: J_STRING; linked_list: J_LINKED_LIST
 			obj_ref_1, obj_ref_2: J_OBJECT
 		do
 			log.enter ("garbage_disposal_tests")
@@ -222,13 +220,12 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Basic Java access tests"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
 				[{JAVA_TEST_APP}, All_routines],
 				[{J_J2E_TEST_TARGET}, All_routines]
-
 			>>
 		end
 

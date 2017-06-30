@@ -37,6 +37,10 @@ system:
 			
 		# C externals (Windows)
 
+
+		library:
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
 		# Classes
 		cluster:
 			name = EL_bit_utils; location = "runtime/cpu-reg-ops"

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 9:07:23 GMT (Monday 22nd May 2017)"
-	revision: "3"
+	date: "2017-06-29 14:21:50 GMT (Thursday 29th June 2017)"
+	revision: "4"
 
 class
 	FOURIER_MATH_TEST_CLIENT_APP
@@ -219,7 +219,7 @@ feature {NONE} -- Constants
 			Result.set_terminal_position (200, 400)
 		end
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

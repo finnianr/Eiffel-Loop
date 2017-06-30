@@ -2,12 +2,12 @@ note
 	description: "Summary description for {ZSTRING_BENCHMARK_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 10:40:45 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-06-29 10:42:25 GMT (Thursday 29th June 2017)"
+	revision: "2"
 
 class
 	ZSTRING_BENCHMARK_APP
@@ -109,7 +109,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Benchmark ZSTRING in relation to STRING_32"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

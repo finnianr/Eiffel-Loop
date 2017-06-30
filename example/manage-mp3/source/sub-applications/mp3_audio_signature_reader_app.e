@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-01 6:27:34 GMT (Thursday 1st June 2017)"
-	revision: "4"
+	date: "2017-06-29 11:39:16 GMT (Thursday 29th June 2017)"
+	revision: "5"
 
 class
 	MP3_AUDIO_SIGNATURE_READER_APP
@@ -49,7 +49,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Read MP3 audio signatures"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

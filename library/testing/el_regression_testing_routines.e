@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-12 12:26:53 GMT (Monday 12th June 2017)"
-	revision: "6"
+	date: "2017-06-26 8:26:17 GMT (Monday 26th June 2017)"
+	revision: "7"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -36,10 +36,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_work_area_dir: like work_area_dir)
+	make (a_work_area_dir, a_test_data_dir: like work_area_dir)
 			--
 		do
-			work_area_dir := a_work_area_dir
+			work_area_dir := a_work_area_dir; test_data_dir := a_test_data_dir
 			create binary_file_extensions.make (1, 0)
 			create excluded_file_extensions.make (1, 0)
 		end
@@ -68,37 +68,29 @@ feature -- Element change
 feature -- Basic operations
 
 	do_all_files_test (
-		a_input_dir_path: EL_DIR_PATH; file_name_pattern: STRING
-		test_proc: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL
-
+		relative_dir: EL_DIR_PATH; file_name_pattern: STRING; test: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL
 	)
 			-- Perform test that operates on set of files
 		do
-			lio.put_path_field ("Testing with", a_input_dir_path); lio.put_string_field (" pattern", file_name_pattern)
-			do_directory_test (a_input_dir_path, file_name_pattern, test_proc, valid_test_checksum)
+			lio.put_path_field ("Testing with", relative_dir); lio.put_string_field (" pattern", file_name_pattern)
+			do_directory_test (relative_dir, file_name_pattern, test, valid_test_checksum)
 		end
 
-	do_file_test (a_input_file_path: EL_FILE_PATH; test_proc: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL)
+	do_file_test (relative_path: EL_FILE_PATH; test: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL)
 			-- Perform test that operates on a single file
-		local
-			input_file_path: EL_FILE_PATH
 		do
-			lio.put_path_field ("Testing with", a_input_file_path)
+			lio.put_path_field ("Testing with", relative_path)
 			reset_work_area
-			input_file_path := a_input_file_path
-			OS.copy_file (input_file_path, Work_area_dir)
-
-			input_file_path := Work_area_dir + input_file_path.base
-
-			test_proc.set_operands ([input_file_path])
-			do_test (Work_area_dir, Empty_pattern, test_proc, valid_test_checksum)
+			OS.copy_file (test_data_dir + relative_path, work_area_dir)
+			test.set_operands ([work_area_dir + relative_path.base])
+			do_test (work_area_dir, Empty_pattern, test, valid_test_checksum)
 		end
 
-	do_file_tree_test (a_input_dir_path: EL_DIR_PATH; test_proc: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL)
+	do_file_tree_test (relative_dir: EL_DIR_PATH; test: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL)
 			-- Perform test that operates on a file tree
 		do
-			lio.put_path_field ("Testing with", a_input_dir_path)
-			do_directory_test (a_input_dir_path, Empty_pattern, test_proc, valid_test_checksum)
+			lio.put_path_field ("Testing with", relative_dir)
+			do_directory_test (relative_dir, Empty_pattern, test, valid_test_checksum)
 		end
 
 	print_checksum_list
@@ -116,8 +108,7 @@ feature {NONE} -- Implementation
 	check_file_output (input_dir_path: EL_DIR_PATH)
 			--
 		local
-			file_list: EL_FILE_PATH_LIST
-			line_list: EL_FILE_LINE_SOURCE
+			file_list: EL_FILE_PATH_LIST; line_list: EL_FILE_LINE_SOURCE
 		do
 			create file_list.make (input_dir_path, "*")
 			from file_list.start until file_list.after loop
@@ -140,59 +131,53 @@ feature {NONE} -- Implementation
 	reset_work_area
 			-- create an empty work area
 		do
-			if Work_area_dir.exists then
-				OS.delete_tree (Work_area_dir)
+			if work_area_dir.exists then
+				OS.delete_tree (work_area_dir)
 				reset_work_area
 			else
-				File_system.make_directory (Work_area_dir)
+				File_system.make_directory (work_area_dir)
 			end
 		end
 
 	do_directory_test (
-		a_input_dir_path: EL_DIR_PATH; file_name_pattern: ZSTRING
-		test_proc: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL
+		relative_dir: EL_DIR_PATH; file_name_pattern: ZSTRING; test: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL
 	)
 			-- Perform test that operates on a directory search
 		local
 			input_dir_path: EL_DIR_PATH
 		do
 			reset_work_area
-			input_dir_path := Work_area_dir.joined_dir_path (a_input_dir_path.base)
-			if a_input_dir_path.exists then
-				OS.copy_tree (a_input_dir_path, Work_area_dir)
-			else
-				File_system.make_directory (input_dir_path)
-			end
+			input_dir_path := work_area_dir.joined_dir_path (relative_dir.base)
+			File_system.make_directory (input_dir_path)
+
+			OS.copy_tree (test_data_dir.joined_dir_path (relative_dir), work_area_dir)
 			check
 				is_directory: input_dir_path.is_directory
 			end
-
-			if file_name_pattern = Empty_pattern then
-				test_proc.set_operands ([input_dir_path])
+			if file_name_pattern.is_empty then
+				test.set_operands ([input_dir_path])
 			end
-			do_test (input_dir_path, file_name_pattern, test_proc, valid_test_checksum)
+			do_test (input_dir_path, file_name_pattern, test, valid_test_checksum)
 		end
 
 	do_test (
-		input_dir_path: EL_DIR_PATH; file_name_pattern: ZSTRING
-		test_proc: PROCEDURE [EL_PATH]; old_checksum: NATURAL
+		input_dir_path: EL_DIR_PATH; file_name_pattern: ZSTRING; test: PROCEDURE [EL_PATH]; old_checksum: NATURAL
 	)
 			--
 		local
-			search_results: ARRAYED_LIST [EL_FILE_PATH]
-			timer: EL_EXECUTION_TIMER; new_checksum: NATURAL
+			search_results: like OS.file_list; timer: EL_EXECUTION_TIMER; new_checksum: NATURAL
 		do
 			create timer.make
 			Crc_32.reset
 
 			timer.start
-			if file_name_pattern = Empty_pattern then
-				is_executing := True; test_proc.apply; is_executing := False
+			if file_name_pattern.is_empty then
+				is_executing := True; test.apply; is_executing := False
 			else
 				search_results := OS.file_list (input_dir_path, file_name_pattern)
 				from search_results.start until search_results.after loop
-					test_proc.set_operands ([search_results.item])
-					is_executing := True; test_proc.apply; is_executing := False
+					test.set_operands ([search_results.item])
+					is_executing := True; test.apply; is_executing := False
 					search_results.forth
 				end
 			end
@@ -237,6 +222,8 @@ feature {NONE} -- Internal attributes
 	excluded_file_extensions: ARRAY [ZSTRING]
 
 	work_area_dir: EL_DIR_PATH
+
+	test_data_dir: EL_DIR_PATH
 
 feature -- Constants
 

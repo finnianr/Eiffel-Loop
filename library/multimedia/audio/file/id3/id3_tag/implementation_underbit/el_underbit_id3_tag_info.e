@@ -5,12 +5,14 @@ note
 		Writes ID3 version 2.4
 		Unable to read version number
 	]"
+
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 14:03:38 GMT (Friday 1st July 2016)"
-	revision: "1"
+	date: "2017-06-20 11:03:45 GMT (Tuesday 20th June 2017)"
+	revision: "2"
 
 class
 	EL_UNDERBIT_ID3_TAG_INFO

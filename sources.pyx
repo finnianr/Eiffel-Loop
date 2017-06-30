@@ -11,5 +11,6 @@ manifest:
 		"$EIFFEL_LOOP/example/net/eros-test-clients/source"
 		"$EIFFEL_LOOP/example/net/source-common"
 		"$EIFFEL_LOOP/test/source"
+		"$EIFFEL_LOOP/tool/eiffel/source"
 		"$EIFFEL_LOOP/tool/toolkit/source"
 

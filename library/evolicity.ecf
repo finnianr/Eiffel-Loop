@@ -11,12 +11,7 @@
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
-		<!--
-			library:
-			name = EL_thread; location = "thread.ecf"
-			
-			Source code
-		-->
+		<!--Source code-->
 		<cluster name = "evolicity" location = "text/template/evolicity" recursive = "true"/>
 	</target>
 </system>

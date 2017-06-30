@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-12 12:31:36 GMT (Monday 12th June 2017)"
-	revision: "13"
+	date: "2017-06-29 10:42:14 GMT (Thursday 29th June 2017)"
+	revision: "15"
 
 class EXPERIMENTS_APP
 
@@ -822,7 +822,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Experiment with Eiffel code to fix bugs"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

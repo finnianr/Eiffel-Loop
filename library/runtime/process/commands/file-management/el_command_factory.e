@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_COMMAND_FACTORY}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-24 11:40:33 GMT (Wednesday 24th August 2016)"
-	revision: "2"
+	date: "2017-06-29 7:56:57 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class
 	EL_COMMAND_FACTORY
@@ -24,6 +24,12 @@ feature -- Informational
 	new_cpu_info: EL_CPU_INFO_COMMAND_I
 		do
 			create {EL_CPU_INFO_COMMAND_IMP} Result.make
+			-- make calls execute
+		end
+
+	new_jpeg_info (file_path: EL_FILE_PATH): EL_JPEG_FILE_INFO_COMMAND_I
+		do
+			create {EL_JPEG_FILE_INFO_COMMAND_IMP} Result.make (file_path)
 			-- make calls execute
 		end
 

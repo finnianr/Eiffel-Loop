@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_GLOBAL_LOGGING}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-19 7:50:13 GMT (Thursday 19th January 2017)"
-	revision: "2"
+	date: "2017-06-29 8:41:55 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class
 	EL_GLOBAL_LOGGING
@@ -64,20 +64,15 @@ feature -- Element change
 			end_restriction
 		end
 
-	set_routines_to_log (a_log_filters: ARRAY [EL_LOG_FILTER])
+	set_routines_to_log (log_filters: ARRAYED_LIST [EL_LOG_FILTER])
 			-- Set class routines to log for all threads
 
 			-- Each array item is list of routines to log headed by the class name.
 			-- Use '*' as a wildcard to log all routines for a class
 			-- Disable logging for individual routines by prepending '-'
-		local
-			i: INTEGER
 		do
 			restrict_access
-			from i := a_log_filters.lower until i > a_log_filters.upper loop
-				set_routine_filter_for_class (a_log_filters [i])
-				i := i + 1
-			end
+			log_filters.do_all (agent set_routine_filter_for_class)
 			end_restriction
 		end
 

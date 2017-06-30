@@ -1,6 +1,6 @@
 note
 	description: "[
-		Minimal console only log accessed by the `lio' object in class [./el_module_lio.html EL_MODULE_LIO]
+		Minimal console only log accessed by the `lio' object in class [$source EL_MODULE_LIO]
 		It is effectively just an extension of the standard `io' object. It can be optionally integrated with
 		the Eiffel-Loop logging system.
 	]"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:34:56 GMT (Thursday 25th May 2017)"
-	revision: "3"
+	date: "2017-06-29 8:49:54 GMT (Thursday 29th June 2017)"
+	revision: "5"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -70,7 +70,7 @@ feature -- Output
 		do
 		end
 
-	put_configuration_info (a_log_filters: ARRAY [EL_LOG_FILTER])
+	put_configuration_info (log_filters: ARRAYED_LIST [EL_LOG_FILTER])
 		do
 		end
 

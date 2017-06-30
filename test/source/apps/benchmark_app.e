@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-29 23:25:13 GMT (Monday 29th May 2017)"
-	revision: "3"
+	date: "2017-06-29 10:46:59 GMT (Thursday 29th June 2017)"
+	revision: "4"
 
 class
 	BENCHMARK_APP
 
 inherit
-	EL_COMMAND_SHELL_SUB_APPLICATTION [BENCHMARK_COMMAND_SHELL]
+	EL_COMMAND_SHELL_SUB_APPLICATION [BENCHMARK_COMMAND_SHELL]
 		redefine
 			Option_name, default_operands, argument_specs
 		end
@@ -44,7 +44,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Menu driven benchmark tests"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

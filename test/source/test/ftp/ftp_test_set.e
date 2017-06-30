@@ -2,12 +2,12 @@ note
 	description: "Summary description for {FTP_TEST_SET}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-17 12:58:35 GMT (Monday 17th October 2016)"
-	revision: "2"
+	date: "2017-06-14 10:27:03 GMT (Wednesday 14th June 2017)"
+	revision: "3"
 
 class
 	FTP_TEST_SET

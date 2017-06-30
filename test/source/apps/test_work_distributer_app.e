@@ -6,7 +6,7 @@ note
 	instructions: "[
 		 Example of command to the run the finalized build
 		
-			. run_test.sh -work_distributer -logging -term_count 20 -task_count 64 -delta_count 4000000 -thread_count 8 
+			. run_test.sh -work_distributer -logging -term_count 20 -task_count 64 -delta_count 4000000 -thread_count 8
 	]"
 
 	author: "Finnian Reilly"
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 20:21:04 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-06-29 10:42:28 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class
 	TEST_WORK_DISTRIBUTER_APP
@@ -218,7 +218,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Test distributed calculation of integrals"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

@@ -2,12 +2,12 @@ note
 	description: "OS command with captured output"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-23 10:48:00 GMT (Tuesday 23rd August 2016)"
-	revision: "2"
+	date: "2017-06-13 15:13:24 GMT (Tuesday 13th June 2017)"
+	revision: "3"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_I

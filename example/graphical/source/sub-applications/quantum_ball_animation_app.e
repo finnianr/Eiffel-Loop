@@ -6,12 +6,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 14:44:22 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2017-06-29 14:18:09 GMT (Thursday 29th June 2017)"
+	revision: "2"
 
 class
 	QUANTUM_BALL_ANIMATION_APP
@@ -94,7 +94,7 @@ feature {NONE} -- Constants
 			)
 		end
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

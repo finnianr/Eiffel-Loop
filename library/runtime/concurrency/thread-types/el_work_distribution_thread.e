@@ -1,7 +1,6 @@
 note
 	description: "[
-		thread to apply routines distributed by class
-		[../communication/producer-consumer/el_work_distributer.html EL_WORK_DISTRIBUTER]
+		thread to apply routines distributed by class [$source EL_WORK_DISTRIBUTER]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-19 15:42:41 GMT (Friday 19th May 2017)"
-	revision: "5"
+	date: "2017-06-21 17:28:38 GMT (Wednesday 21st June 2017)"
+	revision: "6"
 
 class
 	EL_WORK_DISTRIBUTION_THREAD
