@@ -34,7 +34,7 @@
 		<setting name = "line_generation" value = "false"/>
 		<setting name = "concurrency" value = "thread"/>
 		<variable name = "eapml_limb_type" value = "natural_32"/>
-		<precompile name = "precompile" location = "$EIFFEL_LOOP/precomp/$ISE_PLATFORM/console-application.ecf"/>
+		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
 		<!--
 			LIBRARIES
 			

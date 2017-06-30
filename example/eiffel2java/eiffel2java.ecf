@@ -15,11 +15,11 @@
 	This project contains a parser for the Pyxis format and a Pyxis to XML convertion utility
 	
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-8-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" name = "eiffel2java" uuid = "20FD9834-3FC9-4349-AD78-73ABA2C735D4">
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "eiffel2java" uuid = "20FD9834-3FC9-4349-AD78-73ABA2C735D4">
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<option trace = "false" debug = "false" warning = "true" syntax = "standard">
+		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<debug name = "jni" enabled = "true"/>
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
@@ -33,7 +33,7 @@
 		<setting name = "inlining" value = "false"/>
 		<setting name = "line_generation" value = "false"/>
 		<setting name = "concurrency" value = "thread"/>
-		<precompile name = "precompile" location = "$EIFFEL_LOOP/precomp/$ISE_PLATFORM/console-application.ecf"/>
+		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
 		<variable name = "link_object" value = "false"/>
 		<!--Invokes scons script to download Java rasterizer jar files-->
 		<external_object location = "$(EIFFEL_LOOP)/contrib/Java/batik-1.7/batik-rasterizer.jar">
