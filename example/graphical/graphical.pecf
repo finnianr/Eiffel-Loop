@@ -89,7 +89,7 @@ system:
 			name = concurrency; value = thread
 
 		precompile:
-			name = precompile; location = "$EIFFEL_LOOP/precomp/$ISE_PLATFORM/GUI-application.ecf"
+			name = precompile; location = "$ISE_PRECOMP/EL/GUI-application.ecf"
 
 		library:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
