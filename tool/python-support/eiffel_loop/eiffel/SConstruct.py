@@ -114,7 +114,7 @@ else:
 
 		Depends (executable, lib_dependencies)
 
-		productions = [executable, precomp_ecf]
+		productions = [executable]
 		if f_code:
 			productions.append (tar_build.target ())
 
