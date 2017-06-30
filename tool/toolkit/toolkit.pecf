@@ -52,6 +52,9 @@ system:
 		setting:
 			name = inlining; value = false
 
+		#setting:
+		#	name = inlining_size; value = 3
+
 		setting:
 			name = line_generation; value = false
 

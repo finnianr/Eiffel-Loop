@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_WEL_REGISTRY_ROUTINES}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-10 10:02:41 GMT (Monday 10th October 2016)"
-	revision: "2"
+	date: "2017-06-22 15:04:17 GMT (Thursday 22nd June 2017)"
+	revision: "3"
 
 class
 	EL_WINDOWS_REGISTRY_ROUTINES
@@ -105,7 +105,7 @@ feature -- Element change
 
 	set_value (key_path: EL_DIR_PATH; name: ZSTRING; value: WEL_REGISTRY_KEY_VALUE)
 		do
-			registry.save_key_value (key_path.unicode, name.to_unicode, value)
+			registry.save_key_value (key_path, name.to_unicode, value)
 		end
 
 feature -- Removal
@@ -116,9 +116,9 @@ feature -- Removal
 			l_registry: like registry
 		do
 			l_registry := registry
-			node_ptr := l_registry.open_key_with_access (key_path.unicode, {WEL_REGISTRY_ACCESS_MODE}.Key_set_value)
+			node_ptr := l_registry.open_key_with_access (key_path, {WEL_REGISTRY_ACCESS_MODE}.Key_set_value)
 			if is_attached (node_ptr) then
-				l_registry.delete_value (node_ptr, value_name.to_unicode)
+				l_registry.delete_value (node_ptr, value_name)
 			end
 		end
 
@@ -128,9 +128,9 @@ feature -- Removal
 			l_registry: like registry
 		do
 			l_registry := registry
-			node_ptr := l_registry.open_key_with_access (parent_path.unicode, {WEL_REGISTRY_ACCESS_MODE}.Key_set_value)
+			node_ptr := l_registry.open_key_with_access (parent_path, {WEL_REGISTRY_ACCESS_MODE}.Key_set_value)
 			if is_attached (node_ptr) then
-				l_registry.delete_key (node_ptr, key_name.to_unicode)
+				l_registry.delete_key (node_ptr, key_name)
 			end
 		end
 
@@ -140,7 +140,7 @@ feature -- Status query
 		local
 			node_ptr: POINTER
 		do
-			node_ptr := registry.open_key_with_access (parent_path.unicode, {WEL_REGISTRY_ACCESS_MODE}.Key_read)
+			node_ptr := registry.open_key_with_access (parent_path, {WEL_REGISTRY_ACCESS_MODE}.Key_read)
 			Result := is_attached (node_ptr)
 		end
 
@@ -148,7 +148,7 @@ feature {NONE} -- Implementation
 
 	key_value (key_path: EL_DIR_PATH; key_name: ZSTRING): detachable WEL_REGISTRY_KEY_VALUE
 		do
-			Result := registry.open_key_value (key_path.unicode, key_name.to_unicode)
+			Result := registry.open_key_value (key_path, key_name)
 		end
 
 	registry: WEL_REGISTRY

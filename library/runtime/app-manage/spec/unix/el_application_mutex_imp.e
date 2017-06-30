@@ -2,12 +2,12 @@ note
 	description: "Unix implementation of EL_APPLICATION_MUTEX_I interface"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 8:48:40 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2017-06-13 15:40:38 GMT (Tuesday 13th June 2017)"
+	revision: "2"
 
 class
 	EL_APPLICATION_MUTEX_IMP

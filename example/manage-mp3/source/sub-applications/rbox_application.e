@@ -2,22 +2,17 @@ note
 	description: "Summary description for {RBOX_APPLICATION}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-25 8:48:31 GMT (Sunday 25th September 2016)"
-	revision: "3"
+	date: "2017-06-29 11:38:15 GMT (Thursday 29th June 2017)"
+	revision: "4"
 
 deferred class	RBOX_APPLICATION obsolete "Rewrite descendants using music manager task"
 
 inherit
-	EL_SUB_APPLICATION
-		undefine
-			new_lio, new_log_manager
-		end
-
-	EL_REGRESSION_TESTING_APPLICATION
+	EL_REGRESSION_TESTABLE_SUB_APPLICATION
 
 	EL_MODULE_AUDIO_COMMAND
 

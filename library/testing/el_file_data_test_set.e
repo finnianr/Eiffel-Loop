@@ -1,15 +1,13 @@
 note
 	description: "Test using a set of files generated in workarea directory"
 
-
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:34:56 GMT (Thursday 25th May 2017)"
-	revision: "2"
+	date: "2017-06-29 12:14:35 GMT (Thursday 29th June 2017)"
+	revision: "4"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -107,10 +105,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	work_area_dir: EL_DIR_PATH
-		deferred
-		end
-
 feature {NONE} -- Internal attributes
 
 	file_checksums: EL_HASH_TABLE [NATURAL, EL_FILE_PATH]
@@ -150,4 +144,10 @@ feature {NONE} -- Constants
 		once
 			Result := Directory.current_working.joined_dir_path (Work_area_dir)
 		end
+
+	Work_area_dir: EL_DIR_PATH
+		once
+			Result := "workarea"
+		end
+
 end

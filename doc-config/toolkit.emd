@@ -1,20 +1,20 @@
-A "Swiss-army knife" of useful Eiffel command line development tools. The most useful ones are listed here with command line switchs:
+A "Swiss-army knife" of useful command line tools. Some of the most useful ones are listed here with command line options:
 
-[./tool/toolkit/source/applications/eiffel-dev/eiffel_repository_publisher_app.html `EIFFEL_REPOSITORY_PUBLISHER_APP']
+`-crypto': [$source `CRYPTO_APP']
 
-`-publish_repository': publishes an Eiffel code repository as a website with module descriptions.
+Menu driven shell of useful cryptographic operations.
 
-[./tool/toolkit/source/applications/eiffel-dev/eiffel_note_editor_app.html `EIFFEL_NOTE_EDITOR_APP']
+`-pyxis_to_xml': [$source `PYXIS_TO_XML_APP']
 
-`-edit_notes': Add default values to note fields using a source tree manifest.
+Converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf'). The attribute `configuration_ns' can be used as convenient shorthand for the ECF schema configuration information.
 
-[./tool/toolkit/source/applications/eiffel-dev/eiffel_feature_editor_app.html `EIFFEL_FEATURE_EDITOR_APP']
+`-export_www': [$source `THUNDERBIRD_WWW_EXPORTER_APP']
 
-`-feature_edit': expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
+Exports emails from selected Thunderbird email folders as HTML bodies (extension: `body'). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
 
-[./tool/toolkit/source/applications/crypto_app.html `CRYPTO_APP']
+`-compile_translations': [$source `PYXIS_TRANSLATION_TREE_COMPILER_APP']
 
-`-crypto': menu driven shell of useful cryptographic operations.
+Compiles tree of Pyxis translation files into multiple locale files named `locale.x' where `x' is a 2 letter country code. Does nothing if source files are all older than locale files. See class [$source `EL_LOCALE_I'].
 
 **Download**
 

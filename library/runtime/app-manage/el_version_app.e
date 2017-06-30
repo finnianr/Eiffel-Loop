@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_VERSION_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-22 10:58:02 GMT (Friday 22nd April 2016)"
-	revision: "1"
+	date: "2017-06-29 9:43:13 GMT (Thursday 29th June 2017)"
+	revision: "2"
 
 class
 	EL_VERSION_APP
@@ -58,7 +58,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Write application version information to a file"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

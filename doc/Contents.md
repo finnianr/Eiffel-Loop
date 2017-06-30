@@ -49,7 +49,7 @@ el_rhythmbox -manager -config <task-configuration>.pyx
 
 **Manual**
 
-For details on how to use, read the [source documentation notes](http://www.eiffel-loop.com/example/manage-mp3/source/sub-applications/rhythmbox_music_manager_app.html).
+For details on how to use, read the source documentation notes in class [$source RHYTHMBOX_MUSIC_MANAGER_APP].
 
 **Download**
 
@@ -60,24 +60,44 @@ Warning: **Use at your own risk.** It is recommended that you have a backup of y
 
 ## Vision-2 Extensions Demo
 
-## Development Toolkit Program
+## Eiffel Development Utility
 A "Swiss-army knife" of useful Eiffel command line development tools. The most useful ones are listed here with command line switchs:
 
-[`EIFFEL_REPOSITORY_PUBLISHER_APP`](http://www.eiffel-loop.com/tool/toolkit/source/applications/eiffel-dev/eiffel_repository_publisher_app.html)
+`-publish_repository`: [$source `EIFFEL_REPOSITORY_PUBLISHER_APP`]
 
-`-publish_repository`: publishes an Eiffel code repository as a website with module descriptions.
+Publishes an Eiffel code repository as a website with module descriptions.
 
-[`EIFFEL_NOTE_EDITOR_APP`](http://www.eiffel-loop.com/tool/toolkit/source/applications/eiffel-dev/eiffel_note_editor_app.html)
+`-edit_notes`: [$source `EIFFEL_NOTE_EDITOR_APP`]
 
-`-edit_notes`: Add default values to note fields using a source tree manifest.
+Add default values to note fields using a source tree manifest.
 
-[`EIFFEL_FEATURE_EDITOR_APP`](http://www.eiffel-loop.com/tool/toolkit/source/applications/eiffel-dev/eiffel_feature_editor_app.html)
+`-feature_edit`: [$source `EIFFEL_FEATURE_EDITOR_APP`]
 
-`-feature_edit`: expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
+Expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
 
-[`CRYPTO_APP`](http://www.eiffel-loop.com/tool/toolkit/source/applications/crypto_app.html)
+**Download**
 
-`-crypto`: menu driven shell of useful cryptographic operations.
+Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
+
+
+## Utilities Toolkit
+A "Swiss-army knife" of useful command line tools. Some of the most useful ones are listed here with command line options:
+
+`-crypto`: [$source `CRYPTO_APP`]
+
+Menu driven shell of useful cryptographic operations.
+
+`-pyxis_to_xml`: [$source `PYXIS_TO_XML_APP`]
+
+Converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf`). The attribute `configuration_ns` can be used as convenient shorthand for the ECF schema configuration information.
+
+`-export_www`: [$source `THUNDERBIRD_WWW_EXPORTER_APP`]
+
+Exports emails from selected Thunderbird email folders as HTML bodies (extension: `body`). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
+
+`-compile_translations`: [$source `PYXIS_TRANSLATION_TREE_COMPILER_APP`]
+
+Compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [$source `EL_LOCALE_I`].
 
 **Download**
 
@@ -110,10 +130,10 @@ Provides many extensions to the Eiffel Software [Vision-2 cross-platform GUI lib
 **Features**
 
 
-* Advanced pixel buffer rendering with transparencies and anti-aliasing using the [Cairo](https://cairographics.org/) and [Pangocairo](http://www.pango.org/) 2D graphics library. See class [`EL_DRAWABLE_PIXEL_BUFFER`](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/pixmap/el_drawable_pixel_buffer.html)
-* Drop-down combo boxes linked to data containers conforming to [`FINITE`](https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/storage/finite_flat.html)` [G]` and initialized with a value of type *G*, and a selection change agent of type `PROCEDURE [ANY, TUPLE [G]]`. See class [`EL_DROP_DOWN_BOX`](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_drop_down_box.html)
-* Drop-down combo boxes with localized display strings. See class [`EL_LOCALE_STRING_DROP_DOWN_BOX`](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_locale_string_drop_down_box.html)
-* Drop down combo box for months of year specified as integers and displayed with English names and a localized variant [`EL_LOCALE_MONTH_DROP_DOWN_BOX`](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_locale_month_drop_down_box.html)
+* Advanced pixel buffer rendering with transparencies and anti-aliasing using the [Cairo](https://cairographics.org/) and [Pangocairo](http://www.pango.org/) 2D graphics library. See class [$source `EL_DRAWABLE_PIXEL_BUFFER`]
+* Drop-down combo boxes linked to data containers conforming to [`FINITE`](https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/storage/finite_flat.html)` [G]` and initialized with a value of type *G*, and a selection change agent of type `PROCEDURE [ANY, TUPLE [G]]`. See class [$source `EL_DROP_DOWN_BOX`]
+* Drop-down combo boxes with localized display strings. See class [$source `EL_LOCALE_STRING_DROP_DOWN_BOX`]
+* Drop down combo box for months of year specified as integers and displayed with English names and a localized variant [$source `EL_LOCALE_MONTH_DROP_DOWN_BOX`]
 
 These features are only the tip of the ice-berg.
 
@@ -130,7 +150,7 @@ A high-level framework for wrapping Java classes that adds a useful layer of abs
 * Automates composition of JNI call signature strings.
 * Automates cleanup of Java objects.
 
-The framework is based on the concept of a Java agent that is similar to an Eiffel agent. You will find classes: [`JAVA_FUNCTION`](http://www.eiffel-loop.com/library/language_interface/Java/java_agents/java_static_function.html) and  [`JAVA_PROCEDURE`](http://www.eiffel-loop.com/library/language_interface/Java/java_agents/java_procedure.html) that inherit [`JAVA_ROUTINE`](http://www.eiffel-loop.com/library/language_interface/Java/java_agents/java_routine.html). These agent classes automatically generate correct JNI call signatures. The library allows the creation of recursively wrapped classes where the arguments and return types to wrapped routines are themselves wrapped classes.
+The framework is based on the concept of a Java agent that is similar to an Eiffel agent. You will find classes: [$source `JAVA_FUNCTION`] and  [$source `JAVA_PROCEDURE`] that inherit [$source `JAVA_ROUTINE`]. These agent classes automatically generate correct JNI call signatures. The library allows the creation of recursively wrapped classes where the arguments and return types to wrapped routines are themselves wrapped classes.
 
 [See here](http://www.eiffel-loop.com/example/eiffel2java/source/class-index.html) for an example of it's use.
 
@@ -190,7 +210,7 @@ Implements "in-memory" database tables based on an interface defined by the kern
 1. Monolithic tables which can only be saved to disk as a whole and any new items which have not been saved will be lost.
 2. Transactional tables where the effects of the table item operations: *extend, replace or delete*,  are immediately committed to disk in an editions table file. When the editions file gets too large, the editions are consolidated into the main table file.
 
-Monolithic tables are implemented by class: [`EL_STORABLE_CHAIN`](http://www.eiffel-loop.com/library/persistency/database/chain-db/el_storable_chain.html) which takes a generic paramter of type [`EL_STORABLE`](http://www.eiffel-loop.com/library/base/utility/memory/el_storable.html).
+Monolithic tables are implemented by class: [$source `EL_STORABLE_CHAIN`] which takes a generic paramter of type [$source `EL_STORABLE`].
 
 This class defines the basic database *CRUD* concept of **C**reate, **R**ead, **U**pdate and **D**elete:
 
@@ -202,7 +222,7 @@ This class defines the basic database *CRUD* concept of **C**reate, **R**ead, **
 
 **Delete:** is implemented by the `{EL_STORABLE}.delete` procedure.
 
-Transactional tables are implemented using the [`EL_RECOVERABLE_STORABLE_CHAIN`](http://www.eiffel-loop.com/library/persistency/database/chain-db/el_recoverable_storable_chain.html) class which inherits [`EL_STORABLE_CHAIN`](http://www.eiffel-loop.com/library/persistency/database/chain-db/el_storable_chain.html). It is called 'recoverable' because if the power suddenly goes off on your PC, the table is fully recoverable from the editions file. 
+Transactional tables are implemented using the [$source `EL_RECOVERABLE_STORABLE_CHAIN`] class which inherits [$source `EL_STORABLE_CHAIN`]. It is called 'recoverable' because if the power suddenly goes off on your PC, the table is fully recoverable from the editions file. 
 
 **ENCRYPTION**
 
@@ -212,29 +232,29 @@ AES encryption is supported for both monolithic and transactional tables.
 
 Some experimental relational capabilities have been added in a private project but these classes have not yet found their way into Eiffel-Loop.
 
-**EXAMPLES** For an example of `EL_STORABLE_CHAIN` see class [`EL_TRANSLATION_ITEMS_LIST`](http://www.eiffel-loop.com/library/text/i18n/support/el_translation_items_list.html) found in the `i18n.ecf` localization library. Unfortunately the only examples for `EL_RECOVERABLE_STORABLE_CHAIN` are in a closed commercial project, but the usage is pretty similar.
+**EXAMPLES** For an example of `EL_STORABLE_CHAIN` see class [$source `EL_TRANSLATION_ITEMS_LIST`] found in the `i18n.ecf` localization library. Unfortunately the only examples for `EL_RECOVERABLE_STORABLE_CHAIN` are in a closed commercial project, but the usage is pretty similar.
 
 
 ## Search Engine Classes
-
+Classes for parsing search terms and searching a list conforming to `CHAIN [EL_WORD_SEARCHABLE]`. The search uses case-insensivitive word tokenization. Facility to create custom search times. Terms can be combined using basic boolean operators.
 ## Windows Registry Access
 This library adds a layer of abstraction to the Windows registry classes found the in the [Eiffel Windows Library WEL](https://www.eiffel.org/resources/libraries/wel). This abstraction layer makes it much easier and more intuitive to search, read and edit Windows registry  keys and data. See [this article](https://room.eiffel.com/article/windows_registry_access_made_easy) on Eiffel room.
 
 
-## Eiffel CHAIN-based XML Database
-
+## Eiffel LIST-orientated XML Database
+A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption. Any list conforming to `LIST [EL_STORABLE_XML_ELEMENT]` can be turned into a database. This library has now been superceded by `chain-db.ecf` which is more sophisticated and uses a binary format.
 ## Xpath orientated XML node scanners and Eiffel object builders
-A library implementing various kinds of XML document node scanners fed by 5 different types of XML node parse event generators. These 5 types, all descendants of class `EL_PARSE_EVENT_SOURCE`, are as follows:
+A library implementing various kinds of XML document node scanners fed by 5 different types of XML node parse event generators. These 5 types, all descendants of class [$source `EL_PARSE_EVENT_SOURCE`], are as follows:
 
-**1.** `EL_EXPAT_XML_PARSER:` An Eiffel binding to the [eXpat XML parser](http://expat.sourceforge.net/)
+**1.** [$source `EL_EXPAT_XML_PARSER`]: An Eiffel binding to the [eXpat XML parser](http://expat.sourceforge.net/)
 
-**2.** `EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM:` [eXpat XML parser](http://expat.sourceforge.net/) of XML serializeable objects conforming to `EVOLICITY_SERIALIZEABLE_AS_XML`.
+**2.** [$source `EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM`]: [eXpat XML parser](http://expat.sourceforge.net/) of XML serializeable objects conforming to `EVOLICITY_SERIALIZEABLE_AS_XML`.
 
-**3.** `EL_EXPAT_XML_WITH_CTRL_Z_PARSER:` [eXpat XML parser](http://expat.sourceforge.net/) with input stream end delimited by Ctrl-Z character. Useful for parsing network streams.
+**3.** [$source `EL_EXPAT_XML_WITH_CTRL_Z_PARSER`]: [eXpat XML parser](http://expat.sourceforge.net/) with input stream end delimited by Ctrl-Z character. Useful for parsing network streams.
 
-**4.** `EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE:` a binary encoded XML event source. Useful for reducing the size of large documents.
+**4.** [$source `EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE`]: a binary encoded XML event source. Useful for reducing the size of large documents.
 
-**5.** `EL_PYXIS_PARSER:` event from a [Pyxis format](https://www.eiffel.org/node/143) parser. Pyxis is a direct analog of XML that is easier to read and edit making it suitable for configuration files.
+**5.** [$source `EL_PYXIS_PARSER`] event from a [Pyxis format](https://www.eiffel.org/node/143) parser. Pyxis is a direct analog of XML that is easier to read and edit making it suitable for configuration files.
 
 
 
@@ -242,7 +262,7 @@ The following are the various kinds of scanners which can process the output fro
 
 **Eiffel Object Building Scanners**
 
-The classes [`EL_BUILDABLE_FROM_XML`](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/buildable/el_buildable_from_xml.html) and [`EL_BUILDABLE_FROM_PYXIS`](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/buildable/el_buildable_from_pyxis.html) can be used to implement a sophisticated Eiffel object building scheme based on the idea of mapping builder agents to xpaths relative to particular element contexts. Only a small subset of the xpath standard is used. The framework has the following features:
+The classes [$source `EL_BUILDABLE_FROM_XML`] and [$source `EL_BUILDABLE_FROM_PYXIS`] can be used to implement a sophisticated Eiffel object building scheme based on the idea of mapping builder agents to xpaths relative to particular element contexts. Only a small subset of the xpath standard is used. The framework has the following features:
 
 
 * Map particular XML element contexts to Eiffel classes and then map xpaths that are relative to these elements, to attribute assigning agents.
@@ -251,11 +271,11 @@ The classes [`EL_BUILDABLE_FROM_XML`](http://www.eiffel-loop.com/library/persist
 
 **General Xpath to Eiffel agent mapper**
 
-The class [`EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS`](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/scanners/xpath-scan/el_createable_from_xpath_match_events.html) implements a method for scanning a document and triggering various Eiffel agents according to a table of xpath to agent mappings.
+The class [$source `EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS`] implements a method for scanning a document and triggering various Eiffel agents according to a table of xpath to agent mappings.
 
 **Eiffel Aware Document Scanner**
 
-The class [`EL_SMART_BUILDABLE_FROM_NODE_SCAN`](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/smart-builder/el_smart_buildable_from_node_scan.html) is an XML parser that reacts to a special XML processing instruction, telling it to build an Eiffel object of a particular type.
+The class [$source `EL_SMART_BUILDABLE_FROM_NODE_SCAN`] is an XML parser that reacts to a special XML processing instruction, telling it to build an Eiffel object of a particular type.
 
 
 ## XML Document Scanning and Object Building (VTD-XML)
@@ -319,9 +339,9 @@ The library provides a system of managing application resources like graphics, h
 ## AES Encryption Extensions
 Extensions to Colin LeMahieu's [AES encryption library](https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel). Includes a class for reading and writing encrypted files using [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) cipher [block chains](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
 ## RSA Public-key Encryption Extensions
-Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability to read key-pairs conforming to the [X509 PKCS1 standard](https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates). The top level class to access these facilities is [`EL_MODULE_X509_COMMAND`](http://www.eiffel-loop.com/library/text/encryption/rsa/x509/el_module_x509_command.html).
+Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability to read key-pairs conforming to the [X509 PKCS1 standard](https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates). The top level class to access these facilities is [$source `EL_MODULE_X509_COMMAND`].
 
-The private key reader however uses a non-standard encryption scheme. It assumes the file is encrypted using the Eiffel-Loop utility contained in `el_toolkit`. See class [`CRYPTO_APP`](http://www.eiffel-loop.com/tool/toolkit/source/applications/crypto_app.html) for details.
+The private key reader however uses a non-standard encryption scheme. It assumes the file is encrypted using the Eiffel-Loop utility contained in `el_toolkit`. See class [$source `CRYPTO_APP`] for details.
 
 
 
@@ -341,13 +361,13 @@ The text of this web page was generated by the [Eiffel-view repository publisher
 3. [doc-config/directory-tree-content.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/directory-tree-content.html.evol)
 4. [doc-config/eiffel-source-code.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/eiffel-source-code.html.evol)
 
-To make an Eiffel class serializable with *Evolicity* you inherit from class [`EVOLICITY_SERIALIZEABLE`](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable.html). Read the class notes for details on how to use. You can also access the substitution engine directly from the shared instance in class [`EL_MODULE_EVOLICITY_TEMPLATES`](http://www.eiffel-loop.com/library/text/template/evolicity/el_module_evolicity_templates.html)
+To make an Eiffel class serializable with *Evolicity* you inherit from class [$source `EVOLICITY_SERIALIZEABLE`]. Read the class notes for details on how to use. You can also access the substitution engine directly from the shared instance in class [$source `EL_MODULE_EVOLICITY_TEMPLATES`]
 
 **Features**
 
 
 * Templates are compiled to an intermediate byte code stored in `.evc` files. This saves time consuming lexing operations on large templates.
-* Has a class [`EVOLICITY_CACHEABLE_SERIALIZEABLE`](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_cacheable_serializeable.html) for caching the substituted output. Useful for generating pages on a web-server.
+* Has a class [$source `EVOLICITY_CACHEABLE_SERIALIZEABLE`] for caching the substituted output. Useful for generating pages on a web-server.
 
 
 

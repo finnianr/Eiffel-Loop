@@ -2,12 +2,12 @@ note
 	description: "Windows implementation of class `EL_FILE_SYSTEM_ROUTINES_I'"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-17 12:26:17 GMT (Tuesday 17th January 2017)"
-	revision: "4"
+	date: "2017-06-22 14:27:54 GMT (Thursday 22nd June 2017)"
+	revision: "5"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -36,7 +36,7 @@ feature {NONE} -- Implementation
 			info: like File_info
 		do
 			info := File_info
-			info.open_write (file_path.unicode)
+			info.open_write (file_path)
 			info.set_unix_last_access_time (date_time)
 			info.set_unix_last_write_time (date_time)
 			info.close
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 			info: like File_info
 		do
 			info := File_info
-			info.open_write (file_path.unicode)
+			info.open_write (file_path)
 			info.set_unix_last_write_time (date_time)
 			info.close
 		end

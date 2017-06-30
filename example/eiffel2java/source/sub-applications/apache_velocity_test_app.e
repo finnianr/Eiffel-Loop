@@ -1,21 +1,19 @@
 note
 	description: "Demo of accessing Java Velocity package"
 
-	
-
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 12:04:16 GMT (Wednesday 28th September 2016)"
-	revision: "2"
+	date: "2017-06-29 14:09:28 GMT (Thursday 29th June 2017)"
+	revision: "4"
 
 class
 	APACHE_VELOCITY_TEST_APP
 
 inherit
-	REGRESSION_TESTING_SUB_APPLICATION
+	REGRESSION_TESTABLE_SUB_APPLICATION
 
 create
 	make
@@ -136,7 +134,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Create and XML manifest of Eiffel base library"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

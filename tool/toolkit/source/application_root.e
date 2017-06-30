@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-28 6:52:17 GMT (Sunday 28th May 2017)"
-	revision: "6"
+	date: "2017-06-26 10:50:59 GMT (Monday 26th June 2017)"
+	revision: "7"
 
 class
 	APPLICATION_ROOT
@@ -24,32 +24,9 @@ feature {NONE} -- Implementation
 			--
 		once
 			Result := <<
-				{AUTOTEST_DEVELOPMENT_APP},
+				{ABSENT_PHOTO_DATE_APP},
 
-				{CODEC_GENERATOR_APP},
 				{CRYPTO_APP},
-
-				{EIFFEL_CLASS_PREFIX_REMOVAL_APP},
-
-				{EIFFEL_CODE_HIGHLIGHTING_TEST_APP},
-				{EIFFEL_CODEBASE_STATISTICS_APP},
-
-				{EIFFEL_ECF_TO_PECF_APP},
-				{EIFFEL_ENCODING_CHECK_APP},
-
-				{EIFFEL_FEATURE_EDITOR_APP},
-				{EIFFEL_FIND_AND_REPLACE_APP},
-
-				{EIFFEL_LIBRARY_OVERRIDE_APP},
-				{EIFFEL_NOTE_EDITOR_APP},
-
-				{EIFFEL_UPGRADE_DEFAULT_POINTER_SYNTAX_APP},
-				{EIFFEL_UPGRADE_LOG_FILTERS_APP},
-				{EIFFEL_REPOSITORY_PUBLISHER_APP},-- uses ftp (depends eposix)
-
-				{EIFFEL_SOURCE_FILE_NAME_NORMALIZER_APP},
-				{EIFFEL_SOURCE_LOG_LINE_REMOVER_APP},
-				{EIFFEL_SOURCE_TREE_CLASS_RENAME_APP},
 
 				{FTP_BACKUP_APP}, -- uses ftp (depends eposix)
 				{HTML_BODY_WORD_COUNTER_APP},

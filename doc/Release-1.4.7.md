@@ -52,6 +52,10 @@
 
 * Removed `unicode` function alias from `EL_PATH`. Changed conversion rule for all descendants of `EL_PATH` to convert to `READABLE_STRING_GENERAL` and `STRING_32` using `as_string_32`.
 
+## BIT-UTILS library
+
+Added a library primarily for using a hardware specific POPCNT instruction to count the number of bits in a NATURAL type.
+
 ## DATABASE library
 
 * The XML database in this library has been split off into a separate project `xml-database.ecf`. The original project has been renamed to `chain-db.ecf`.
@@ -78,8 +82,16 @@
 
 * Renamed `EL_TEST_CONSTANTS` as `EL_EIFFEL_LOOP_TEST_CONSTANTS` and removed dependencies on this class in regression testing.
 
+## EIFFEL tool
+
+Created a new "swiss-army knife" tool for Eiffel development related functions previously found in the tool `tool/toolkit`. The new project is `tool/eiffel.ecf` and the executable is named `el_eiffel`.
+
+* Added feature to Eiffel repository publisher so that the HTML source path for a hyperlink to an Eiffel class is automatically inserted by using the markup `[$source MY_CLASS]'. Here the `source' variable is automatically expanded with the source path relative to the current page.
+
 ## TOOLKIT tool
 * Added new sub-application option `el_toolkit -compile_translations` to compile translation data files in binary format from Pyxis source. See class [./tool/toolkit/source/applications/pyxis/pyxis_translation_tree_compiler_app.e PYXIS_TRANSLATION_TREE_COMPILER_APP].
+
+* Moved all the Eiffel development related sub-applications into a new project `tool/eiffel.ecf`.
 
 ## WIN-INSTALLER library
 
@@ -128,6 +140,8 @@
 * Fixed `eiffel_loop.eiffel.ecf.EIFFEL_CONFIG` so that multiple references to the same ECF file are parsed only once.
 
 * Fixed error in creating `build/$ISE_PLATFORM` directory during finalized build
+
+* Fixed problem detecting location of include and lib directories for Visual Studio Express installation.
 
 ## MANAGE-MP3 example
 * Fixed file exists query for STORAGE_DEVICE

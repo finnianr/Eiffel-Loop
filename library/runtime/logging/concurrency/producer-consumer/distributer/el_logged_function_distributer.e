@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {EL_LOGGED_FUNCTION_DISTRIBUTER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-06-13 9:00:37 GMT (Tuesday 13th June 2017)"
+	revision: "1"
 
 class
 	EL_LOGGED_FUNCTION_DISTRIBUTER [G]

@@ -2,21 +2,23 @@ note
 	description: "Summary description for {ENCRYPTION_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 11:22:21 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-06-29 12:27:58 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class
 	ENCRYPTION_TEST_APP
 
 inherit
-	REGRESSION_TESTING_SUB_APPLICATION
+	REGRESSION_TESTABLE_SUB_APPLICATION
 		redefine
 			Option_name
 		end
+
+	EL_MODULE_OS
 
 create
 	make
@@ -40,8 +42,7 @@ feature {NONE} -- Implementation
 	test_file_encryption (file_path: EL_FILE_PATH)
 			--
 		local
-			lines: EL_FILE_LINE_SOURCE
-			encrypted_lines: LINKED_LIST [STRING]
+			lines: EL_FILE_LINE_SOURCE; encrypted_lines: LINKED_LIST [STRING]
 		do
 			log.enter_with_args ("test_file_encryption", << file_path.base >>)
 			create encrypter.make_256 ("hanami")
@@ -70,7 +71,6 @@ feature {NONE} -- Implementation
 				log.put_line (encrypter.decrypted_base64 (encrypted_lines.item))
 				encrypted_lines.forth
 			end
-
 			log.exit
 		end
 
@@ -84,7 +84,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Auto test AES encryption to base 64."
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

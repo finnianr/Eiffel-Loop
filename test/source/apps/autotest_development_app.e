@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-27 10:26:05 GMT (Saturday 27th May 2017)"
-	revision: "9"
+	date: "2017-06-29 10:42:36 GMT (Thursday 29th June 2017)"
+	revision: "10"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -101,7 +101,7 @@ feature -- Tests
 
 feature {NONE} -- Constants
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

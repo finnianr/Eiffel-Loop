@@ -16,26 +16,36 @@ if sys.platform == "win32":
 	import _winreg
 
 def microsoft_sdk_path ():
-	# Better not to rely no MSDKBIN environ var
+	# Better not to rely on MSDKBIN environ var
 	key = _winreg.OpenKey (_winreg.HKEY_LOCAL_MACHINE, r'SOFTWARE\Microsoft\Microsoft SDKs\Windows', 0, _winreg.KEY_READ)
 	result = _winreg.QueryValueEx (key, "CurrentInstallFolder")[0]
 	return result
 
 def microsoft_visual_studio_path ():
-	# Better not to rely no MSDKBIN environ var
+	# Better not to rely on MSDKBIN environ var
+	MS_key_path = r'SOFTWARE\WOW6432Node\Microsoft'
+	key_template = MS_key_path + r'\VSWinExpress'
+
+	if _winreg.OpenKey (_winreg.HKEY_LOCAL_MACHINE, key_template, 0, _winreg.KEY_READ):
+		key_template = key_template + r'\%s.0'
+	else:
+		key_template = MS_key_path + r'\VisualStudio\%s.0'
+
 	key = None;	version = 16
 	while not key:
 		try:
-			key_path = r'SOFTWARE\WOW6432Node\Microsoft\VisualStudio\%s.0' % version
+			key_path = key_template % version
 			key = _winreg.OpenKey (_winreg.HKEY_LOCAL_MACHINE, key_path, 0, _winreg.KEY_READ)
 		except WindowsError:
 			version = version - 1
 			if version < 8:
-				print "Cannot find Visual Studio InstallDir in registry SOFTWARE\WOW6432Node\Microsoft\VisualStudio"
+				print "Cannot find Visual Studio 'InstallDir' with template: " + key_template
 				exit (1)
 
 	ide_dir = (_winreg.QueryValueEx (key, "InstallDir")[0]).rstrip ('\\')
-	result = path.dirname (path.dirname (ide_dir)) + '\\VC'
+	while not path.exists (path.join (ide_dir, 'VC')):
+		ide_dir = path.dirname (ide_dir)
+	result = path.join (ide_dir, 'VC')
 	return result
 
 def msvc_compiler_environ (MSC_options, use_vc14_0):

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 20:07:36 GMT (Sunday 21st May 2017)"
-	revision: "3"
+	date: "2017-06-23 13:06:34 GMT (Friday 23rd June 2017)"
+	revision: "4"
 
 class
 	EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make_default end]
@@ -70,7 +70,7 @@ feature -- Element change
 	set_storage_file_path (a_storage_file_path: like storage_file_path)
 		do
 			storage_file_path := a_storage_file_path
-			storage_file.rename_file (storage_file_path.unicode)
+			storage_file.rename_file (storage_file_path)
 		end
 
 feature -- Basic operations
@@ -140,10 +140,8 @@ feature {NONE} -- Implementation
 	set_editions_text
 			-- Set editions text ommitting any possibley corrupted editions
 		local
-			editions_file: PLAIN_TEXT_FILE
-			line, edition: STRING
-			corruption_found: BOOLEAN
-			editions_checksum_node: EL_XPATH_ROOT_NODE_CONTEXT
+			editions_file: PLAIN_TEXT_FILE; editions_checksum_node: EL_XPATH_ROOT_NODE_CONTEXT
+			line, edition: STRING corruption_found: BOOLEAN
 		do
 			create editions_file.make_open_read (storage_file_path)
 			create edition.make_empty
@@ -233,10 +231,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	creation_action_table: EL_HASH_TABLE [
-		FUNCTION [EL_XPATH_NODE_CONTEXT, like Type_edition],
-		STRING
-	]
+	creation_action_table: EL_HASH_TABLE [FUNCTION [EL_XPATH_NODE_CONTEXT, like Type_edition], STRING]
 			--
 		do
 			create Result.make (<<

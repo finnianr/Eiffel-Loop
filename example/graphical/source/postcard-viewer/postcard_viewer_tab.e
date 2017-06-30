@@ -2,12 +2,12 @@ note
 	description: "Summary description for {POSTCARD_BOX}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 8:19:28 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2017-06-29 14:18:24 GMT (Thursday 29th June 2017)"
+	revision: "2"
 
 class
 	POSTCARD_VIEWER_TAB
@@ -93,7 +93,7 @@ feature {NONE} -- Factory
 			across << "jpg", "png" >> as format loop
 				across l_dir.files_with_extension (format.item) as image_path loop
 					create postcard
-					postcard.set_with_named_file (image_path.item.unicode)
+					postcard.set_with_named_file (image_path.item)
 					postcard.scale_to_width_cms (20)
 					Result.extend_unexpanded (
 						Vision_2.new_horizontal_box (0, 0, <<
@@ -116,7 +116,7 @@ feature {NONE} -- Implementation
 			icon_path := Execution.variable_dir_path ("ISE_EIFFEL").joined_file_steps (
 				<< "examples", "vision2", "edraw", "toolbar", "picture.png" >>
 			)
-			Result.set_with_named_file (icon_path.unicode)
+			Result.set_with_named_file (icon_path)
 		end
 
 end

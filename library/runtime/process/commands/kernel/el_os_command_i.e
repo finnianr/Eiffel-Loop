@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_OS_COMMAND_I}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-02-10 13:21:25 GMT (Friday 10th February 2017)"
-	revision: "4"
+	date: "2017-06-13 15:13:13 GMT (Tuesday 13th June 2017)"
+	revision: "5"
 
 deferred class
 	EL_OS_COMMAND_I

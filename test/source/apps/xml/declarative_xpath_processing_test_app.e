@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 12:34:30 GMT (Friday 12th May 2017)"
-	revision: "2"
+	date: "2017-06-29 12:27:58 GMT (Thursday 29th June 2017)"
+	revision: "4"
 
 class
 	DECLARATIVE_XPATH_PROCESSING_TEST_APP
 
 inherit
-	REGRESSION_TESTING_SUB_APPLICATION
+	REGRESSION_TESTABLE_SUB_APPLICATION
 		redefine
 			Option_name
 		end
@@ -73,7 +73,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Test declarative xpath processing of XML document"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

@@ -1,7 +1,7 @@
 note
 	description: "[
 		2016 revised version of short application to generate lyrics for the song "99 Bottles of Beer"
-		See: [http://www.99-bottles-of-beer.net http://www.99-bottles-of-beer.net]
+		See: [http://www.99-bottles-of-beer.net]
 	]"
 	author: ""
 	date: "$Date$"

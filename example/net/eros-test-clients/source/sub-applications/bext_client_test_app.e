@@ -2,12 +2,12 @@ note
 	description: "Summary description for {BEXT_CLIENT_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-06 8:36:05 GMT (Saturday 6th August 2016)"
-	revision: "2"
+	date: "2017-06-29 14:21:50 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class
 	BEXT_CLIENT_TEST_APP
@@ -70,7 +70,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Test client for BEXT (Binary Encoded XML Transfer)"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

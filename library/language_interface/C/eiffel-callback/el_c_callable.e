@@ -1,7 +1,7 @@
 note
 	description: "[
 		Ancestor for classes that are intended to handle callbacks from a C language routine. 
-		See also: [./el_c_to_eiffel_callback_struct.html EL_C_TO_EIFFEL_CALLBACK_STRUCT]
+		See also: [$source `EL_C_TO_EIFFEL_CALLBACK_STRUCT']
 	]"
 	instructions: "[
 		To enable the descendant object item for callbacks, assign the result of the function 
@@ -23,12 +23,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 16:34:32 GMT (Monday 3rd October 2016)"
-	revision: "3"
+	date: "2017-06-28 7:32:56 GMT (Wednesday 28th June 2017)"
+	revision: "5"
 
 deferred class
 	EL_C_CALLABLE

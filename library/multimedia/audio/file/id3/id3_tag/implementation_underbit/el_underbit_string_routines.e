@@ -1,11 +1,13 @@
 note
 	description: "Summary description for {EL_UNDERBIT_STRING_ROUTINES}."
+
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:36 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2017-06-20 11:04:08 GMT (Tuesday 20th June 2017)"
+	revision: "2"
 
 class
 	EL_UNDERBIT_STRING_ROUTINES

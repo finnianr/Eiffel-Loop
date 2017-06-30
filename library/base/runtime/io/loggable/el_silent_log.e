@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-17 12:00:57 GMT (Wednesday 17th May 2017)"
-	revision: "3"
+	date: "2017-06-29 8:49:34 GMT (Thursday 29th June 2017)"
+	revision: "4"
 
 class
 	EL_SILENT_LOG
@@ -81,7 +81,7 @@ feature -- Output
 		do
 		end
 
-	put_configuration_info (a_log_filters: ARRAY [EL_LOG_FILTER])
+	put_configuration_info (log_filters: ARRAYED_LIST [EL_LOG_FILTER])
 		do
 		end
 

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_FTP_PROTOCOL}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-11 6:51:30 GMT (Monday 11th July 2016)"
-	revision: "1"
+	date: "2017-06-23 13:41:11 GMT (Friday 23rd June 2017)"
+	revision: "2"
 
 class
 	EL_FTP_PROTOCOL_2
@@ -260,7 +260,7 @@ feature {NONE} -- Implementation
 			create format_mb.make (4, 1)
 			template := "[%S mb of %S mb]%R"
 			create packet.make (Default_packet_size)
-			create transfer_file.make_open_read (a_file_path.unicode)
+			create transfer_file.make_open_read (a_file_path)
 			total_mb := transfer_file.count / 1000000
 			total_mb_string := format_mb.formatted (total_mb); total_mb_string.left_adjust
 

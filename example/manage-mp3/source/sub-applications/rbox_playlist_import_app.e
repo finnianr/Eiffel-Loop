@@ -2,12 +2,12 @@ note
 	description: "Summary description for {RBOX_PLAYLIST_IMPORT_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-25 8:47:52 GMT (Sunday 25th September 2016)"
-	revision: "2"
+	date: "2017-06-29 11:39:00 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class RBOX_PLAYLIST_IMPORT_APP obsolete "Rewrite using music manager task"
 
@@ -79,7 +79,7 @@ feature {NONE} -- Constants
 			--
 	Description: STRING = "Import playlists from directory"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

@@ -2,18 +2,18 @@ note
 	description: "Summary description for {CLASS_TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 11:22:37 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-06-29 14:51:55 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class
 	CLASS_TEST_APP
 
 inherit
-	REGRESSION_TESTING_SUB_APPLICATION
+	REGRESSION_TESTABLE_SUB_APPLICATION
 		redefine
 			Option_name
 		end
@@ -27,7 +27,10 @@ feature -- Basic operations
 
 	test_run
 			--
+		local
+			filter: LOG_FILTER
 		do
+			create filter.make_from_tuple ([{SMIL_AUDIO_SEQUENCE}, All_routines])
 
 --			file_path_array.do_all (agent path_splitting)
 --			create_directory (string_split_by_directory_separator ("/home/finnian/Documents/one"))
@@ -256,7 +259,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Manual tests"
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

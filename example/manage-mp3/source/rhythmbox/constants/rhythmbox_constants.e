@@ -2,12 +2,12 @@ note
 	description: "Summary description for {RBOX_CONSTANTS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-01 12:30:30 GMT (Monday 1st August 2016)"
-	revision: "1"
+	date: "2017-06-29 12:22:21 GMT (Thursday 29th June 2017)"
+	revision: "3"
 
 class
 	RHYTHMBOX_CONSTANTS
@@ -144,15 +144,4 @@ feature {NONE} -- Constants
 			Result := "rhythmdb-sync.xml"
 		end
 
-	Test_data_dir: EL_DIR_PATH
-			--
-		once
-			Result := "test-data"
-		end
-
-	Work_area_dir: EL_DIR_PATH
-			--
-		once
-			create Result.make ("workarea")
-		end
 end

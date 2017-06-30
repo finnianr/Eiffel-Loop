@@ -97,16 +97,6 @@ else:
 		else:
 			executable = env.c_compile (build.target (), project_files)
 
-		if build.precompile_path:
-			env.Append (BUILDERS = {'precomp_copier' : Builder (action = eiffel.copy_precompile)})
-			precompile_name = path.basename (build.precompile_path)
-			precompile_dir = path.dirname (path.dirname (build.precompile_path))
-			precomp_ecf = env.precomp_copier (build.precompile_path, path.join (precompile_dir, precompile_name))
-			if f_code:
-				Depends (tar_build.target (), build.precompile_path)
-			else:
-				Depends (executable, build.precompile_path)
-
 		eiffel.check_C_libraries (env, build)
 		if len (build.SConscripts) > 0:
 			print "\nDepends on External libraries:"

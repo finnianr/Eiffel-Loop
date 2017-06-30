@@ -2,12 +2,12 @@ note
 	description: "Summary description for {TEST_APP}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-03 8:40:56 GMT (Sunday 3rd July 2016)"
-	revision: "1"
+	date: "2017-06-29 14:18:03 GMT (Thursday 29th June 2017)"
+	revision: "2"
 
 class
 	PANGO_CAIRO_TEST_APP
@@ -46,7 +46,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Tests pangocairo drawing in EL_DRAWABLE_PIXEL_BUFFER "
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-12 13:03:33 GMT (Monday 12th June 2017)"
-	revision: "5"
+	date: "2017-06-29 8:49:44 GMT (Thursday 29th June 2017)"
+	revision: "6"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -103,7 +103,7 @@ feature -- Output
 			l_out.flush
 		end
 
-	put_configuration_info (a_log_filters: ARRAY [EL_LOG_FILTER])
+	put_configuration_info (log_filters: ARRAYED_LIST [EL_LOG_FILTER])
 		do
 		end
 

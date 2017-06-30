@@ -1,17 +1,16 @@
 note
 	description: "[
 		Chain of storable items which are recoverable from an editions files should the power go off
-		on the computer. Items must implement the deferred class 
-		[../../../../library/base/utility/memory/el_storable.html EL_STORABLE].
+		on the computer. Items must implement the deferred class [$source EL_STORABLE].
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-25 17:45:03 GMT (Monday 25th July 2016)"
-	revision: "1"
+	date: "2017-06-21 17:20:56 GMT (Wednesday 21st June 2017)"
+	revision: "2"
 
 deferred class
 	EL_RECOVERABLE_STORABLE_CHAIN [G -> EL_STORABLE create make_default end]

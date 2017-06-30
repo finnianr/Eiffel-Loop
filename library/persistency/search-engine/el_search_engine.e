@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_SEARCH_ENGINE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-06 13:00:34 GMT (Friday 6th January 2017)"
-	revision: "2"
+	date: "2017-06-23 12:43:32 GMT (Friday 23rd June 2017)"
+	revision: "3"
 
 class
 	EL_SEARCH_ENGINE [G -> EL_WORD_SEARCHABLE]
@@ -83,6 +83,6 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	list: LIST [G]
+	list: CHAIN [G]
 
 end

@@ -66,9 +66,13 @@ publish-repository:
 			description:
 				"""
 				"""
-		# Tool
+		# Tools
 		tree:
-			name = "Development Toolkit Program"; dir = "tool/toolkit/source"
+			name = "Eiffel Development Utility"; dir = "tool/eiffel/source"
+			description:
+				"eiffel.emd"
+		tree:
+			name = "Utilities Toolkit"; dir = "tool/toolkit/source"
 			description:
 				"toolkit.emd"
 		# Test
@@ -228,10 +232,13 @@ publish-repository:
 			description:
 				"chain-db.emd"
 		tree:
-			name = "Search Engine Classes"; dir = "library/persistency/database/search-engine"
-			ecf = "database.ecf"
+			name = "Search Engine Classes"; dir = "library/persistency/search-engine"
+			ecf = "search-engine.ecf"
 			description:
 				"""
+					Classes for parsing search terms and searching a list conforming to `CHAIN [EL_WORD_SEARCHABLE]'.
+					The search uses case-insensivitive word tokenization. Facility to create custom search times.
+					Terms can be combined using basic boolean operators.
 				"""
 		tree:
 			name = "Windows Registry Access"; dir = "library/persistency/database/win-registry"
@@ -239,10 +246,13 @@ publish-repository:
 			description:
 				"win-registry.emd"
 		tree:
-			name = "Eiffel CHAIN-based XML Database"; dir = "library/persistency/database/xml-db"
-			ecf = "database.ecf"
+			name = "Eiffel LIST-orientated XML Database"; dir = "library/persistency/database/xml-db"
+			ecf = "xml-db.ecf"
 			description:
 				"""
+					A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption.
+					Any list conforming to `LIST [EL_STORABLE_XML_ELEMENT]' can be turned into a database.
+					This library has now been superceded by `chain-db.ecf' which is more sophisticated and uses a binary format.
 				"""
 		tree:
 			name = "Xpath orientated XML node scanners and Eiffel object builders"; dir = "library/persistency/xml/xdoc-scanning"

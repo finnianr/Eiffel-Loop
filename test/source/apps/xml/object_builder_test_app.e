@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-23 9:27:47 GMT (Tuesday 23rd May 2017)"
-	revision: "4"
+	date: "2017-06-29 12:27:58 GMT (Thursday 29th June 2017)"
+	revision: "6"
 
 class
 	OBJECT_BUILDER_TEST_APP
 
 inherit
-	REGRESSION_TESTING_SUB_APPLICATION
+	REGRESSION_TESTABLE_SUB_APPLICATION
 		redefine
 			Option_name, initialize
 		end
@@ -111,7 +111,7 @@ feature {NONE} -- Constants
 			Result := "Auto test conversion of SMIL and XHTML documents to Eiffel and serialization back to XML"
 		end
 
-	Log_filter: ARRAY [like Type_logging_filter]
+	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<

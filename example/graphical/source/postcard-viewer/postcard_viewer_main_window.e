@@ -2,12 +2,12 @@ note
 	description: "Summary description for {POSTCARD_VIEWER_MAIN_WINDOW}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:32:12 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2017-06-29 14:18:42 GMT (Thursday 29th June 2017)"
+	revision: "2"
 
 class
 	POSTCARD_VIEWER_MAIN_WINDOW
@@ -70,7 +70,7 @@ feature {NONE} -- Events
 		local
 			viewer: POSTCARD_VIEWER_TAB
 		do
-			create viewer.make (address_bar.location.unicode)
+			create viewer.make (address_bar.location)
 			tab_book.extend (viewer)
 
 --			if attached {SD_TAB_ZONE} docking_manager.zones.zones.first as zone then

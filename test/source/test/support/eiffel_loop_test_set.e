@@ -2,12 +2,12 @@ note
 	description: "Test set using files in $EIFFEL_LOOP/projects.data"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-28 8:48:20 GMT (Tuesday 28th June 2016)"
-	revision: "1"
+	date: "2017-06-14 10:25:39 GMT (Wednesday 14th June 2017)"
+	revision: "2"
 
 class
 	EIFFEL_LOOP_TEST_SET

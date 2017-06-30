@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-19 8:02:38 GMT (Thursday 19th January 2017)"
-	revision: "3"
+	date: "2017-06-29 9:45:05 GMT (Thursday 29th June 2017)"
+	revision: "4"
 
 class
 	EL_CONSOLE_AND_FILE_LOG
@@ -90,11 +90,11 @@ feature -- Status
 
 feature -- Output
 
-	put_configuration_info (a_log_filters: ARRAY [EL_LOG_FILTER])
+	put_configuration_info (log_filters: ARRAYED_LIST [EL_LOG_FILTER])
 			-- Log logging configuration information
 		local
 			filter: EL_LOG_FILTER; l_out: like current_thread_log_file
-			title, routine_name, class_name: STRING; i, j: INTEGER
+			title, routine_name, class_name: STRING; i: INTEGER
 		do
 			l_out := current_thread_log_file
 
@@ -106,8 +106,8 @@ feature -- Output
 			l_out.put_new_line
 			l_out.tab_right
 
-			from i := 1 until i > a_log_filters.count loop
-				filter := a_log_filters [i]
+			from log_filters.start until log_filters.after loop
+				filter := log_filters.item
 				class_name := filter.class_type.name
 				if filter.class_type.type_id /= - 1 then
 					l_out.put_new_line
@@ -117,8 +117,8 @@ feature -- Output
 
 					l_out.tab_right; l_out.put_new_line
 
-					from j := 1 until j > filter.routines.count loop
-						routine_name := filter.routines [j]
+					from i := 1 until i > filter.routines.count loop
+						routine_name := filter.routines [i]
 						if routine_name.item (1) = '*' then
 							l_out.put_string ("(All routines)")
 
@@ -129,10 +129,10 @@ feature -- Output
 						else
 							l_out.put_string (routine_name)
 						end
-						if j < filter.routines.count then
+						if i < filter.routines.count then
 							l_out.put_new_line
 						end
-						j := j + 1
+						i := i + 1
 					end
 					l_out.tab_left
 				else
@@ -140,10 +140,10 @@ feature -- Output
 					l_out.put_classname (class_name)
 					l_out.put_new_line
 				end
-				if i < a_log_filters.count then
+				if log_filters.index < log_filters.count then
 					l_out.put_new_line
 				end
-				i := i + 1
+				log_filters.forth
 			end
 			l_out.tab_left; l_out.put_new_line; l_out.put_separator
 
