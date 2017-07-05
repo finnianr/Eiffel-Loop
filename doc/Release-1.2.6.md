@@ -1,4 +1,4 @@
-Eiffel-Loop as it was on the 17th August 2015
+Eiffel-Loop (1.2.6) released 17th August 2015
 
 * Renamed classes in heirarchy named `EL_FORMATTED`. The new names are as follows.
 

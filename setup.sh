@@ -6,8 +6,8 @@
 #	revision: "0.1"
 
 sudo apt-get install python2.7-dev python-lxml scons libxrandr-dev librsvg2-dev
-# Required for example/manage-mp3 
-sudo apt-get install siggen libav-tools sox lame
+# Required for example/manage-mp3 and toolkit
+sudo apt-get install siggen libav-tools sox lame exiv2
 if [ $? == "0" ]
 then
 	if [ ! -d ~/bin ]

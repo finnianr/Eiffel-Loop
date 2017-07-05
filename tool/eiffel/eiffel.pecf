@@ -48,10 +48,10 @@ system:
 			name = exception_trace; value = false
 
 		setting:
-			name = inlining; value = false
+			name = inlining; value = true
 
-		#setting:
-		#	name = inlining_size; value = 3
+		setting:
+			name = inlining_size; value = 3
 
 		setting:
 			name = line_generation; value = false

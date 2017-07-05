@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_DOUBLE_PATH_OPERAND_COMMAND_I}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 9:21:41 GMT (Monday 3rd October 2016)"
-	revision: "2"
+	date: "2017-07-01 11:00:49 GMT (Saturday 1st July 2017)"
+	revision: "3"
 
 deferred class
 	EL_DOUBLE_PATH_OPERAND_COMMAND_I

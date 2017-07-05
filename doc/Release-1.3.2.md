@@ -1,4 +1,5 @@
-Eiffel-Loop as it was on the 17th March 2016
+# Eiffel-Loop (1.3.2) released 17th March 2016
+
 FEATURES AND IMPROVEMENTS
 
 * Production ready `ZSTRING` class

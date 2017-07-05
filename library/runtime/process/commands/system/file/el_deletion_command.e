@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_DELETE_TREE_COMMAND_I}."
+	description: "Summary description for {EL_DELETION_COMMAND_I}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -10,17 +10,12 @@ note
 	revision: "3"
 
 deferred class
-	EL_DELETE_TREE_COMMAND_I
-
-inherit
-	EL_DIR_PATH_OPERAND_COMMAND_I
-		rename
-			dir_path as target_path,
-			set_dir_path as set_target_path
-		undefine
-			Var_name_path
-		end
-
 	EL_DELETION_COMMAND
 
+feature {NONE} -- Constants
+
+	Var_name_path: ZSTRING
+		once
+			Result := "target_path"
+		end
 end

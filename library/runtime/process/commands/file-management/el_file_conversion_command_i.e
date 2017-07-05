@@ -1,13 +1,15 @@
 note
 	description: "Command that converts files from one type to anothers"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 16:04:33 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2017-07-01 10:59:28 GMT (Saturday 1st July 2017)"
+	revision: "2"
 
 deferred class
 	EL_FILE_CONVERSION_COMMAND_I

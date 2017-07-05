@@ -1,0 +1,1 @@
+Exif.Photo.DateTimeOriginal                  Ascii      20  2008:07:06 11:45:14

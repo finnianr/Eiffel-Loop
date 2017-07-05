@@ -28,7 +28,37 @@ def ise_version ():
 	result = path.basename (path.expandvars ('$ISE_EIFFEL')).split ('_')[1]
 	return result
 
-class INSTALLER: # Common: Unix and Windows
+def gedit_home_dir ():
+	software_dir = 'SOFTWARE'
+	result = None
+
+	# Check for gedit 3.2 (win64)
+	gedit_path = path.join (software_dir, r'GNOME\gedit Text Editor (64 bit)')	
+	try:
+		key = _winreg.OpenKey (_winreg.HKEY_CURRENT_USER, gedit_path, 0, _winreg.KEY_READ)
+		result = _winreg.QueryValueEx (key, "InstallPath")[0]
+
+	except (WindowsError), err:
+		pass
+	
+	if not result:
+		# Check for gedit 2.3 (win32)
+		if platform.architecture ()[0] == '64bit':
+			gedit_path = path.join (software_dir, 'Wow6432Node')
+		else:
+			gedit_path = software_dir
+		gedit_path = path.join (gedit_path, r'Microsoft\Windows\CurrentVersion\Uninstall\gedit_is1')
+
+		try:
+			key = _winreg.OpenKey (_winreg.HKEY_LOCAL_MACHINE, gedit_path, 0, _winreg.KEY_READ)
+			result = _winreg.QueryValueEx (key, "InstallLocation")[0]
+
+		except (WindowsError), err:
+			pass
+
+	return result
+
+class INSTALLER (object): # Common: Unix and Windows
 	def build_toolkit (self):
 		
 		os.chdir (path.join (eiffel_loop_home_dir, path.normpath ('tool/toolkit')))
@@ -77,7 +107,6 @@ class INSTALLER: # Common: Unix and Windows
 				print 'Copying', path.join (precomp, ecf), '->', el_precomp
 				file_util.copy_file (path.join (precomp, ecf), el_precomp)
 
-
 class WINDOWS_INSTALLER (INSTALLER):
 
 	def __init__ (self):
@@ -106,33 +135,34 @@ class WINDOWS_INSTALLER (INSTALLER):
 		print 'to your \'Path\' environment variable.'
 
 	def install_scons (self):
-		os.chdir (eiffel_loop_home_dir)
 		if not environ.command_exists (['scons', '-v'], shell = True):
-			scons_package = ZIP_SOFTWARE_PACKAGE ('http://freefr.dl.sourceforge.net/project/scons/scons/2.2.0/scons-2.2.0.zip')
+			scons_package = ZIP_SOFTWARE_PACKAGE ('http://www.eiffel-loop.com/download/scons-2.2.0.zip')
 			scons_package.extract_all (package.download_dir)
 
 			scons_name = path.basename (scons_package.url)
+			package_dir = path.join (package.download_dir, path.splitext (scons_name)[0])
 
-			os.chdir (path.splitext (scons_name)[0])
+			os.chdir (package_dir)
+
 			install_scons_cmd = ['python', 'setup.py', 'install', '--standard-lib']
 			print install_scons_cmd
 			if subprocess.call (install_scons_cmd) == 0:
 				file_util.copy_file (path.join (python_home_dir, r'Scripts\scons.py'), python_home_dir)
-				dir_util.remove_tree (scons_name [0])
+				os.chdir (package.download_dir) # change to parent to prevent a permission problem when removing
+				dir_util.remove_tree (package_dir)
 			else:
 				print 'ERROR: scons installation failed'
 
 	def install_lxml (self):
-		# Install python-lxml for xpath support
-		os.chdir (eiffel_loop_home_dir)
 		try:
 			import lxml
 		except (ImportError), e:
+			# Install python-lxml for xpath support
 			lxml = LXML_PACKAGE_FOR_WINDOWS ()
-			lxml.download ('Downloads')
+			install_path = lxml.download (package.download_dir)
 			print "Follow the instructions to install required Python package: lxml"
-			s = raw_input ('Press <return> to continue')
-			if subprocess.call ([path.join ('Downloads', lxml.package_basename ())]) != 0:
+			s = raw_input ('Press <return> to download and install')
+			if subprocess.call ([install_path]) != 0:
 				print "Error installing Python package: lxml"
 
 	def install_batch_scripts (self):
@@ -142,60 +172,64 @@ class WINDOWS_INSTALLER (INSTALLER):
 	def install_gedit_pecf_support (self):
 		# If gedit installed, install pecf syntax
 		os.chdir (path.join (eiffel_loop_home_dir, r'tool\toolkit'))
+
+		edit_cmd = None
 	
-		gedit_path = 'SOFTWARE'
-		gedit_exe_path = None
-		if platform.architecture ()[0] == '64bit':
-			gedit_path = path.join (gedit_path, 'Wow6432Node')
-		try:
-			gedit_path = path.join (gedit_path, r'Microsoft\Windows\CurrentVersion\Uninstall\gedit_is1')
-			key = _winreg.OpenKey (_winreg.HKEY_LOCAL_MACHINE, gedit_path, 0, _winreg.KEY_READ)
-			gedit_home = _winreg.QueryValueEx (key, "InstallLocation")[0]
-			gedit_exe_path = path.join (gedit_home, r'bin\gedit.exe')
+		gedit_dir = gedit_home_dir ()
+		if gedit_dir:
+			print gedit_dir
+			for gtk_ver in range (2, 4):
+				specs_dir = path.join (gedit_dir, r'share\gtksourceview-%s.0\language-specs' % gtk_ver)
+				if path.exists (specs_dir):
+					dir_util.copy_tree ('language-specs', specs_dir)
+			gedit_exe_path = path.join (gedit_dir, r'bin\gedit.exe')
+			if path.exists (gedit_exe_path):
+				edit_cmd = '"%s"  "%%1"' % gedit_exe_path
+		else:
+			print 'It is recommended to install the gedit Text editor for editing .pecf files.'
+			print 'Download and install from https://wiki.gnome.org/Apps/Gedit.'
+			print "Then run 'setup.bat' again."
+			r = raw_input ("Press <return> to continue")
 
-			dir_util.copy_tree ('language-specs', path.join (gedit_home, r'share\gtksourceview-2.0\language-specs'))
+		py_icon_path = path.join (python_home_dir, 'DLLs', 'py.ico')
+		estudio_logo_path = r'"%ISE_EIFFEL%\contrib\examples\web\ewf\upload_image\htdocs\favicon.ico"'
 
-		except (WindowsError), err:
-				print 'gedit not installed'
-	
-		if gedit_exe_path:
-			py_icon_path = path.join (python_home_dir, 'DLLs', 'py.ico')
-			estudio_logo_path = r'"%ISE_EIFFEL%\contrib\examples\web\ewf\upload_image\htdocs\favicon.ico"'
+		conversion_cmd = 'cmd /C el_toolkit -pyxis_to_xml -ask_user_to_quit -in "%1"'
+		open_with_estudio_cmd = '"%s" "%%1"' % path.join (python_home_dir, "launch_estudio.bat")
 
-			conversion_cmd = 'cmd /C el_toolkit -pyxis_to_xml -remain -in "%1"'
-			edit_cmd = '"%s"  "%%1"' % gedit_exe_path
-			open_with_estudio_cmd = '"%s" "%%1"' % path.join (python_home_dir, "launch_estudio.bat")
-			open_with_gedit_cmd = edit_cmd
+		pecf_extension_cmds = {'open' : open_with_estudio_cmd, 'Convert To ECF' : conversion_cmd }
+		pyx_extension_cmds = {'Convert To XML' : conversion_cmd }
+		if edit_cmd:
+			pecf_extension_cmds ['edit'] = edit_cmd
+			pyx_extension_cmds ['open'] = edit_cmd
+			pyx_extension_cmds ['edit'] = edit_cmd
 
-			pecf_extension_cmds = { 'edit' : edit_cmd, 'open' : open_with_estudio_cmd, 'Convert To ECF' : conversion_cmd }
-			pyx_extension_cmds = { 'edit' : edit_cmd, 'open' : open_with_gedit_cmd, 'Convert To XML' : conversion_cmd }
+		mime_types = [
+			('.pecf', 'Pyxis.ECF.File', 'Pyxis Eiffel Configuration File', estudio_logo_path, pecf_extension_cmds),
+			('.pyx', 'Pyxis.File', 'Pyxis Data File', py_icon_path, pyx_extension_cmds)
+		]
+		for extension_name, pyxis_key_name, description, icon_path, extension_cmds in mime_types:
+			key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, extension_name, 0, _winreg.KEY_ALL_ACCESS)
+			_winreg.SetValue (key, '', _winreg.REG_SZ, pyxis_key_name)
 
-			mime_types = [
-				('.pecf', 'Pyxis.ECF.File', 'Pyxis Eiffel Configuration File', estudio_logo_path, pecf_extension_cmds),
-				('.pyx', 'Pyxis.File', 'Pyxis Data File', py_icon_path, pyx_extension_cmds)
-			]
-			for extension_name, pyxis_key_name, description, icon_path, extension_cmds in mime_types:
-				key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, extension_name, 0, _winreg.KEY_ALL_ACCESS)
-				_winreg.SetValue (key, '', _winreg.REG_SZ, pyxis_key_name)
+			pyxis_shell_path = path.join (pyxis_key_name, 'shell')
+			for command_name, command in extension_cmds.iteritems():
+				command_path = path.join (pyxis_shell_path, command_name, 'command')
+				print 'Setting:', command_path, 'to', command
+				key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, command_path, 0, _winreg.KEY_ALL_ACCESS)
+				_winreg.SetValue (key, '', _winreg.REG_SZ, command)
 
-				pyxis_shell_path = path.join (pyxis_key_name, 'shell')
-				for command_name, command in extension_cmds.iteritems():
-					command_path = path.join (pyxis_shell_path, command_name, 'command')
-					print 'Setting:', command_path, 'to', command
-					key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, command_path, 0, _winreg.KEY_ALL_ACCESS)
-					_winreg.SetValue (key, '', _winreg.REG_SZ, command)
+			key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, pyxis_key_name, 0, _winreg.KEY_ALL_ACCESS)
+			_winreg.SetValue (key, '', _winreg.REG_SZ, description)
 
-				key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, pyxis_key_name, 0, _winreg.KEY_ALL_ACCESS)
-				_winreg.SetValue (key, '', _winreg.REG_SZ, description)
-
-				key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, path.join (pyxis_key_name, 'DefaultIcon'), 0, _winreg.KEY_ALL_ACCESS)
-				_winreg.SetValue (key, '', _winreg.REG_SZ, icon_path)
+			key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, path.join (pyxis_key_name, 'DefaultIcon'), 0, _winreg.KEY_ALL_ACCESS)
+			_winreg.SetValue (key, '', _winreg.REG_SZ, icon_path)
 
 	def install_precompiles (self, ise_platform):
-		super (INSTALLER, self).install_precompiles (ise_platform)
+		super (WINDOWS_INSTALLER, self).install_precompiles (ise_platform)
 		if ise_platform == 'win64':
-			if path.exists (project.x86_path (environ ['ISE_EIFFEL'])):
-				super (INSTALLER, self).install_precompiles ('windows')
+			if path.exists (project.x86_path (os.environ ['ISE_EIFFEL'])):
+				super (WINDOWS_INSTALLER, self).install_precompiles ('windows')
 
 	def precompile_template (self):
 		result = r"~\Documents\Eiffel User Files\%s\precomp\spec\%s"
@@ -229,14 +263,18 @@ class UNIX_INSTALLER (INSTALLER):
 	def install_gedit_pecf_support (self):
 		os.chdir (path.join (eiffel_loop_home_dir, 'tool/toolkit'))
 
+		# Install language specs for both gedit 2.3 and gedit 3.2
+		language_specs_dir = 'language-specs'
 		user_share_dir = path.expanduser ('~/.local/share')
-		for lang_dir, steps in [('mime/packages', 2), ('gtksourceview-2.0/language-specs', 1)]:
-			if steps == 1:
-				source = path.split (lang_dir)[1]
-			else:
-				source = lang_dir
-			for copied_path in dir_util.copy_tree (source, path.join (user_share_dir, lang_dir)):
-				print copied_path
+		for version in range (2, 4): # 2 to 3
+			gtksourceview_dir = path.join (user_share_dir, 'gtksourceview-%s.0' % version, language_specs_dir)
+			if path.exists (gtksourceview_dir):
+				for copied_path in dir_util.copy_tree (language_specs_dir, gtksourceview_dir):
+					print copied_path
+
+		mime_packages_dir = 'mime/packages'
+		for copied_path in dir_util.copy_tree (mime_packages_dir, path.join (user_share_dir, mime_packages_dir)):
+			print copied_path
 
 		update_cmd = ['update-mime-database', path.join (user_share_dir, 'mime')]
 		print 'Calling:', update_cmd,
@@ -259,5 +297,7 @@ else:
 	else:
 		installer = UNIX_INSTALLER ()
 		
-	installer.install ()
+	#installer.install ()
+	installer.install_gedit_pecf_support ()
+
 

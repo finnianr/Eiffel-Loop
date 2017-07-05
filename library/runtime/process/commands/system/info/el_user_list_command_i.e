@@ -5,25 +5,24 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 16:03:35 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2017-07-01 10:33:03 GMT (Saturday 1st July 2017)"
+	revision: "2"
 
 deferred class
 	EL_USER_LIST_COMMAND_I
 
 inherit
-	EL_SINGLE_PATH_OPERAND_COMMAND_I
+	EL_DIR_PATH_OPERAND_COMMAND_I
 		rename
-			path as users_path,
+			dir_path as users_dir,
+			set_dir_path as set_users_dir,
 			make as make_with_path
 		undefine
 			do_command, make_default, new_command_string
-		redefine
-			users_path
 		end
 
 	EL_CAPTURED_OS_COMMAND_I
@@ -44,15 +43,12 @@ feature {NONE} -- Initialization
 		do
 			create list.make (3)
 			list.compare_objects
-			create users_path
 			Precursor {EL_CAPTURED_OS_COMMAND_I}
 		end
 
 feature -- Access
 
 	list: EL_ZSTRING_LIST
-
-	users_path: EL_DIR_PATH
 
 feature {NONE} -- Implementation
 

@@ -1,4 +1,4 @@
-# Eiffel-Loop as it was on the 10th August 2016
+# Eiffel-Loop (1.4.2) released 10th August 2016
 
 ## VISION-2-X library
 Changed EL_DROP_DOWN_BOX to be initialised by any finite container instead of an indexable container.

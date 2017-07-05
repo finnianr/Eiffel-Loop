@@ -35,24 +35,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-26 11:55:47 GMT (Wednesday 26th April 2017)"
-	revision: "2"
+	date: "2017-07-01 10:27:16 GMT (Saturday 1st July 2017)"
+	revision: "3"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
 
 inherit
-	EL_SINGLE_PATH_OPERAND_COMMAND_I
+	EL_FILE_PATH_OPERAND_COMMAND_I
 		rename
-			path as crt_file_path,
-			set_path as set_crt_file_path
+			file_path as crt_file_path,
+			set_file_path as set_crt_file_path
 		export
 			{NONE} all
 			{ANY} execute
 		undefine
 			do_command, new_command_string
 		redefine
-			make_default, Var_name_path, crt_file_path
+			make_default, Var_name_path
 		end
 
 	EL_CAPTURED_OS_COMMAND_I
@@ -76,12 +76,10 @@ feature {NONE} -- Initialization
 			make_machine
 			create public_key.make (0xFFFFFF)
 			create hex_byte_sequence.make_empty
-			Precursor {EL_SINGLE_PATH_OPERAND_COMMAND_I}
+			Precursor {EL_FILE_PATH_OPERAND_COMMAND_I}
 		end
 
 feature -- Access
-
-	crt_file_path: EL_FILE_PATH
 
 	public_key: EL_RSA_PUBLIC_KEY
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-13 15:13:13 GMT (Tuesday 13th June 2017)"
-	revision: "5"
+	date: "2017-07-01 13:00:15 GMT (Saturday 1st July 2017)"
+	revision: "6"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -177,11 +177,10 @@ feature {NONE} -- Implementation
 			File_system.make_directory (error_path.parent)
 
 			Execution_environment.system (command_string)
-			has_error := Execution_environment.return_code /= 0
+			set_has_error (Execution_environment.return_code)
 			if not working_directory.is_empty then
 				Execution_environment.pop_current_working
 			end
-
 			if has_error then
 				create errors.make (5)
 				new_output_lines (error_path).do_all (agent errors.extend)
@@ -210,6 +209,11 @@ feature {NONE} -- Implementation
 	temporary_error_file_path: EL_FILE_PATH
 		do
 			Result := Temporary_error_path_by_type.item ({like Current}, agent new_temporary_file_path ("err"))
+		end
+
+	set_has_error (return_code: INTEGER)
+		do
+			has_error := return_code /= 0
 		end
 
 feature {NONE} -- Factory

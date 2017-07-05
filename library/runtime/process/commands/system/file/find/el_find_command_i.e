@@ -1,28 +1,23 @@
 note
 	description: "Summary description for {EL_FIND_COMMAND_I}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 18:09:27 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-07-01 10:40:03 GMT (Saturday 1st July 2017)"
+	revision: "3"
 
 deferred class
 	EL_FIND_COMMAND_I
 
 inherit
-	EL_SINGLE_PATH_OPERAND_COMMAND_I
-		rename
-			path as dir_path
+	EL_DIR_PATH_OPERAND_COMMAND_I
 		undefine
 			do_command, new_command_string, reset
 		redefine
-			getter_function_table, make_default,
-			dir_path
+			getter_function_table, make_default
 		end
 
 	EL_CAPTURED_OS_COMMAND_I
@@ -41,12 +36,10 @@ feature {NONE} -- Initialization
 			follow_symbolic_links := True
 			set_limitless_max_depth
 			create name_pattern.make_empty
-			Precursor {EL_SINGLE_PATH_OPERAND_COMMAND_I}
+			Precursor {EL_DIR_PATH_OPERAND_COMMAND_I}
 		end
 
 feature -- Access
-
-	dir_path: EL_DIR_PATH
 
 	max_depth: INTEGER
 		-- See: man find on Unix

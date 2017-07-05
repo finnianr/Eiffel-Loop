@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-26 10:50:59 GMT (Monday 26th June 2017)"
-	revision: "7"
+	date: "2017-07-01 14:52:54 GMT (Saturday 1st July 2017)"
+	revision: "8"
 
 class
 	APPLICATION_ROOT
@@ -24,7 +24,7 @@ feature {NONE} -- Implementation
 			--
 		once
 			Result := <<
-				{ABSENT_PHOTO_DATE_APP},
+				{UNDATED_PHOTOS_APP},
 
 				{CRYPTO_APP},
 

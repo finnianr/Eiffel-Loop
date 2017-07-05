@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {EL_COPY_COMMAND_I}."
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-17 16:01:59 GMT (Friday 17th June 2016)"
-	revision: "1"
+	date: "2017-07-01 10:29:09 GMT (Saturday 1st July 2017)"
+	revision: "2"
 
 deferred class
 	EL_FILE_RELOCATION_COMMAND_I
