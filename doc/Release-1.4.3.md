@@ -1,4 +1,4 @@
-# Eiffel-Loop as it was on the 24th September 2016
+# Eiffel-Loop (1.4.3) released 24th September 2016
 
 ## BASE library
 * Added class `EL_COLON_FIELD_ROUTINES` accessible through class `EL_MODULE_COLON_FIELD`. Used to parse colon delimited fields in file line.

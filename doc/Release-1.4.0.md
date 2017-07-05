@@ -1,4 +1,5 @@
-# Eiffel-Loop as it was on the 12th July 2016
+# Eiffel-Loop (1.4.0) released 12th July 2016
+
 For this release a major effort has been made to make Eiffel-Loop more modular with fewer inter-dependencies between libraries. In particular, most modules no longer depend on the logging module, but only the class `EL_MODULE_LIO` which is merely an alternative to `io` output.
 
 ## STRUCTURAL CHANGES

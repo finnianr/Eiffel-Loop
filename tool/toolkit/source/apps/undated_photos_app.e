@@ -1,19 +1,21 @@
 note
-	description: "Summary description for {ABSENT_PHOTO_DATE_APP}."
+	description: "[
+		Lists JPEG photos that lack the EXIF field Exif.Photo.DateTimeOriginal
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:06:24 GMT (Thursday 29th June 2017)"
-	revision: "2"
+	date: "2017-07-01 14:56:38 GMT (Saturday 1st July 2017)"
+	revision: "3"
 
 class
-	ABSENT_PHOTO_DATE_APP
+	UNDATED_PHOTOS_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [ABSENT_PHOTO_DATE]
+	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [UNDATED_PHOTOS]
 		redefine
 			Option_name, normal_initialize, Test_data_dir
 		end
@@ -26,14 +28,16 @@ feature -- Testing
 	test_run
 			--
 		do
+			Console.show_all (<< {UNDATED_PHOTOS}, {EL_JPEG_FILE_INFO_COMMAND_IMP} >>)
+
 			Test.set_binary_file_extensions (<< "jpg" >>)
-			Test.do_file_tree_test ("images", agent test_scan, 4017141382)
+			Test.do_file_tree_test ("images", agent test_scan, 2831509537)
 		end
 
 	test_scan (source_tree_path: EL_DIR_PATH)
 			--
 		do
-			create command.make (source_tree_path, source_tree_path.parent + "absent-dates.txt")
+			create command.make (source_tree_path, source_tree_path.parent + default_operands.output_path)
 			command.execute
 		end
 
@@ -41,7 +45,7 @@ feature {NONE} -- Implementation
 
 	normal_initialize
 		do
-			Console.show ({ABSENT_PHOTO_DATE})
+			Console.show ({UNDATED_PHOTOS})
 			Precursor
 		end
 
@@ -54,7 +58,7 @@ feature {NONE} -- Implementation
 		do
 			create Result
 			Result.jpeg_tree_dir := "."
-			Result.output_path := ""
+			Result.output_path := "undated-photos.txt"
 		end
 
 	argument_specs: ARRAY [like specs.item]
@@ -67,7 +71,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Option_name: STRING = "absent_photo"
+	Option_name: STRING = "undated_photos"
 
 	Description: STRING = "[
 		Make list of jpeg photos lacking a "Date time taken" EXIF info
@@ -77,8 +81,8 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{ABSENT_PHOTO_DATE_APP}, All_routines],
-				[{ABSENT_PHOTO_DATE}, All_routines]
+				[{UNDATED_PHOTOS_APP}, All_routines],
+				[{UNDATED_PHOTOS}, All_routines]
 			>>
 		end
 

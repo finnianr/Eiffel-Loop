@@ -1,10 +1,8 @@
-# Eiffel-Loop as it was on the (to be decided)
-
-(Version 1.4.7 has not yet been released)
+# Eiffel-Loop (1.4.7) released 5th July 2017
 
 ## APP-MANAGE library
 
-* Refactored class `EL_COMMAND_LINE_SUB_APPLICATION` to use attribute `specs: ARRAYED_LIST [TUPLE [word_option, help_description: ZSTRING; is_required, path_exists: BOOLEAN]]`
+* Refactored class `EL_COMMAND_LINE_SUB_APPLICATION` to use attribute `specs: ARRAYED_LIST [EL_COMMAND_ARGUMENT]` which is initialized from the developer defined function `argument_specs: ARRAY [like specs.item]`.
 
 * Replaced anchor type `like Type_argument_specification` with `like spec.item` in class `EL_COMMAND_LINE_SUB_APPLICATION`.
 
@@ -14,9 +12,9 @@
 
 * Changed type of all string arguments to query functions in `EL_COMMAND_LINE_ARGUMENTS` to type `READABLE_STRING_GENERAL`.
 
-* Changed argument of {EL_APPLICATION_CONFIG_CELL}.make_from_option_name
+* Changed argument of `{EL_APPLICATION_CONFIG_CELL}.make_from_option_name`
 
-* Changed many routines in `EL_SUB_APPLICATION' to accept string arguments of type `READABLE_STRING_GENERAL`
+* Changed many routines in `EL_SUB_APPLICATION` to accept string arguments of type `READABLE_STRING_GENERAL`
 
 * Renamed `{EL_SUB_APPLICATION}.has_invalid_argument` to `has_argument_errors`
 
@@ -30,19 +28,19 @@
 
 * Merged `make_from_unicode` and `make_from_latin_1` into `make_from_general` in class `EL_PATH`
 
-* Added class `EL_DEFERRED_LOCALE_I' with global instance accessible via `EL_MODULE_DEFERRED_LOCALE'. These classes allow strings in module descendants to be optionally localized in an application by including `EL_MODULE_LOCALE' from the `i18n' library.
+* Added class `EL_DEFERRED_LOCALE_I` with global instance accessible via `EL_MODULE_DEFERRED_LOCALE`. These classes allow strings in module descendants to be optionally localized in an application by including `EL_MODULE_LOCALE` from the `i18n` library.
 
 * Moved `remove_tail` and `remove_head` from `EL_PATH_STEPS` to `EL_ARRAYED_LIST`.
 
 * Added routine `relative_steps_to (other: like Current): EL_PATH_STEPS` to class `EL_PATH`
 
-* Added routines `substring_end' and `substring_start' to `ZSTRING'
+* Added routines `substring_end` and `substring_start` to `ZSTRING`.
 
-* Fixed -help option for `EL_SUB_APPLICATION' to provide help for missing standard options.
+* Fixed -help option for `EL_SUB_APPLICATION` to provide help for missing standard options.
 
 * Added abstraction `EL_BUILDABLE_FROM_FILE`
 
-* Made routine EL_STRING_X_ROUTINES.general_to_unicode obsolete
+* Made routine `EL_STRING_X_ROUTINES.general_to_unicode` obsolete
 
 * New class `EL_DATE_TIME_DURATION` inheriting `DATE_TIME_DURATION` with some string conversion routines. 
 
@@ -54,7 +52,7 @@
 
 ## BIT-UTILS library
 
-Added a library primarily for using a hardware specific POPCNT instruction to count the number of bits in a NATURAL type.
+Added a library primarily for using a hardware specific POPCNT instruction to count the number of bits in a `NATURAL` type.
 
 ## DATABASE library
 
@@ -74,11 +72,15 @@ Added a library primarily for using a hardware specific POPCNT instruction to co
 
 * Fixed `{EL_GVFS_VOLUME}.file_exists` by adding string "The specified location is not mounted" to `Gvfs_file_not_found_errors` array
 
+* Introduced two new classes `EL_FILE_PATH_OPERAND_COMMAND_I` and `EL_DIR_PATH_OPERAND_COMMAND_I` inheriting from `EL_SINGLE_PATH_OPERAND_COMMAND_I`.
+
 ## TESTING library
 
-* `work_area_dir` is now a supplied argument to make routine in class `EL_REGRESSION_TESTING_ROUTINES` and `{EL_MODULE_TEST}.work_area_dir` is now a deferred feature.
+* `EL_MODULE_TEST` now provides a default value for `work_area_dir` and `test_data_dir` of `workarea` and `test-data` respectively.
 
-* `{EL_REGRESSION_TESTING_APPLICATION}.is_test_mode` now depends on existence of command line switch '-test'
+* `{EL_REGRESSION_TESTABLE_SUB_APPLICATION}.is_test_mode` now depends on existence of command line switch `-test`
+
+* By default `{EL_REGRESSION_TESTABLE_SUB_APPLICATION}.Test` now makes a copy of directory `test-data` in directory `workarea` (relative to the current directory). It is possible to over-ride these to point somewhere else.
 
 * Renamed `EL_TEST_CONSTANTS` as `EL_EIFFEL_LOOP_TEST_CONSTANTS` and removed dependencies on this class in regression testing.
 
@@ -86,10 +88,10 @@ Added a library primarily for using a hardware specific POPCNT instruction to co
 
 Created a new "swiss-army knife" tool for Eiffel development related functions previously found in the tool `tool/toolkit`. The new project is `tool/eiffel.ecf` and the executable is named `el_eiffel`.
 
-* Added feature to Eiffel repository publisher so that the HTML source path for a hyperlink to an Eiffel class is automatically inserted by using the markup `[$source MY_CLASS]'. Here the `source' variable is automatically expanded with the source path relative to the current page.
+* Added feature to Eiffel repository publisher so that the HTML source path for a hyperlink to an Eiffel class is automatically inserted by using the markup `[$source MY_CLASS]`. Here the `$source` variable is automatically expanded with the source path relative to the current page.
 
 ## TOOLKIT tool
-* Added new sub-application option `el_toolkit -compile_translations` to compile translation data files in binary format from Pyxis source. See class [./tool/toolkit/source/applications/pyxis/pyxis_translation_tree_compiler_app.e PYXIS_TRANSLATION_TREE_COMPILER_APP].
+* Added new sub-application option `el_toolkit -compile_translations` to compile translation data files in binary format from Pyxis source. See class [PYXIS_TRANSLATION_TREE_COMPILER_APP](https://github.com/finnianr/Eiffel-Loop/blob/master/tool/toolkit/source/apps/pyxis/pyxis_translation_tree_compiler_app.e).
 
 * Moved all the Eiffel development related sub-applications into a new project `tool/eiffel.ecf`.
 
@@ -115,7 +117,7 @@ Created a new "swiss-army knife" tool for Eiffel development related functions p
 
 * Changed `EL_SMART_BUILDABLE_FROM_NODE_SCAN` from being generic class to accepting a make routine argument of `TYPE [EL_PARSE_EVENT_SOURCE]`.
 
-* Added deferred class EL_PYXIS_TREE_COMPILER
+* Added deferred class `EL_PYXIS_TREE_COMPILER`
 
 * Added routine: `{EL_CREATEABLE_FROM_NODE_SCAN}.build_from_lines`
 
@@ -142,6 +144,16 @@ Created a new "swiss-army knife" tool for Eiffel development related functions p
 * Fixed error in creating `build/$ISE_PLATFORM` directory during finalized build
 
 * Fixed problem detecting location of include and lib directories for Visual Studio Express installation.
+
+* Fixed an error caused by looking for a precompile ECF in the wrong directory.
+
+## EIFFEL-LOOP setup script
+
+* The precompile ECF's used by all example and tool projects are now installed in `$ISE_PRECOMP/EL` by the setup script for both the win64 and win32 version of EiffelStudio.
+
+* Fixed installation of Python packages scons-2.2.0 and lxml on Windows.
+
+* Added Pyxis syntax highlighting support for both the 2.3 and 3.2 versions of gedit. (Extensions: `.pecf`; `.pyx`)
 
 ## MANAGE-MP3 example
 * Fixed file exists query for STORAGE_DEVICE

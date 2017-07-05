@@ -2,12 +2,12 @@ note
 	description: "OS operations based on command line utilities"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 9:14:07 GMT (Friday 1st July 2016)"
-	revision: "1"
+	date: "2017-07-01 10:40:30 GMT (Saturday 1st July 2017)"
+	revision: "2"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -67,7 +67,7 @@ feature -- OS commands
 
 	directory_list (a_dir_path: EL_DIR_PATH): like Find_directories_cmd.path_list
 		do
-			Find_directories_cmd.set_path (a_dir_path)
+			Find_directories_cmd.set_dir_path (a_dir_path)
 			Find_directories_cmd.execute
 			Result := Find_directories_cmd.path_list.twin
 		end
@@ -75,7 +75,7 @@ feature -- OS commands
 	file_list (a_dir_path: EL_DIR_PATH; a_file_pattern: ZSTRING): EL_ARRAYED_LIST [EL_FILE_PATH]
 			--
 		do
-			Find_files_cmd.set_path (a_dir_path)
+			Find_files_cmd.set_dir_path (a_dir_path)
 			Find_files_cmd.set_file_pattern (a_file_pattern)
 			Find_files_cmd.execute
 			Result := Find_files_cmd.path_list.twin

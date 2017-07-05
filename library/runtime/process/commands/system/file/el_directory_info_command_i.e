@@ -2,30 +2,32 @@ note
 	description: "Command to find file count and directory file content size"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-19 13:27:56 GMT (Sunday 19th June 2016)"
-	revision: "1"
+	date: "2017-07-01 10:49:26 GMT (Saturday 1st July 2017)"
+	revision: "2"
 
 deferred class
 	EL_DIRECTORY_INFO_COMMAND_I
 
 inherit
-	EL_SINGLE_PATH_OPERAND_COMMAND_I
+	EL_DIR_PATH_OPERAND_COMMAND_I
 		rename
-			path as target_path,
-			set_path as set_target_path
+			dir_path as target_path,
+			set_dir_path as set_target_path
 		undefine
-			make_default, do_command, new_command_string
+			do_command, new_command_string
 		redefine
-			make, target_path, var_name_path, reset
+			make, var_name_path, reset
 		end
 
 	EL_CAPTURED_OS_COMMAND_I
+		undefine
+			make_default
 		redefine
-			make_default, reset
+			reset
 		end
 
 feature {NONE} -- Initialization
@@ -37,20 +39,11 @@ feature {NONE} -- Initialization
 			execute
 		end
 
-	make_default
-			--
-		do
-			create target_path
-			Precursor {EL_CAPTURED_OS_COMMAND_I}
-		end
-
 feature -- Access
 
 	file_count: INTEGER
 
 	size: INTEGER
-
-	target_path: EL_DIR_PATH
 
 feature {NONE} -- Evolicity reflection
 

@@ -122,22 +122,23 @@ class DEBIAN_SOFTWARE_PACKAGE (SOFTWARE_PACKAGE):
 class LXML_PACKAGE_FOR_WINDOWS:
 
 	def __init__ (self):
-		self.url_template = "http://www.eiffel-loop.com/download/libxml2-python-2.7.8.%s-py2.7.exe"
-
-	def installer_url (self):
 		# returns package appropriate for architecture
 		names = {'64bit' : 'win-amd64', '32bit' : 'win32'}
-		result = self.url_template % names.get (platform.architecture()[0])
-		
-		return result
+		self.package_basename = 'libxml2-python-2.7.8.%s-py2.7.exe' % names.get (platform.architecture()[0])
 
 	def download (self, download_dir):
-		dir_util.mkpath (download_dir)
-		url = self.installer_url ()
-		print 'Downloading:', url
+		result = path.join (download_dir, self.package_basename)
+		if path.exists (result):
+			print 'Found install', self.package_basename
+		else:
+			dir_util.mkpath (download_dir)
+			url = "http://www.eiffel-loop.com/download/" + self.package_basename
+			print 'Downloading:', url
 	
-		web = FancyURLopener ()
-		web.retrieve (url, path.join (download_dir, path.basename (url)), display_progress)
+			web = FancyURLopener ()
+			web.retrieve (url, result, display_progress)
+
+		return result
 
 def display_progress (a, b ,c): 
     # ',' at the end of the line is important!

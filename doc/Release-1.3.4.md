@@ -1,4 +1,4 @@
-Eiffel-Loop as it was on the 25th June 2016
+Eiffel-Loop (1.3.4) released 25th June 2016
 
 FEATURES AND IMPROVEMENTS
 

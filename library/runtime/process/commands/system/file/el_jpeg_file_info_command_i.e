@@ -6,69 +6,76 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 8:06:32 GMT (Thursday 29th June 2017)"
-	revision: "1"
+	date: "2017-07-01 13:05:49 GMT (Saturday 1st July 2017)"
+	revision: "2"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I
 
 inherit
-	EL_SINGLE_PATH_OPERAND_COMMAND_I
-		rename
-			path as file_path,
-			set_path as set_file_path
+	EL_FILE_PATH_OPERAND_COMMAND_I
 		export
 			{NONE} all
 		undefine
 			do_command, new_command_string
 		redefine
-			make, make_default, file_path
+			set_file_path, make_default, set_has_error
 		end
 
 	EL_CAPTURED_OS_COMMAND_I
 		undefine
-			make_default
+			make_default, set_has_error
 		end
 
 feature {NONE} -- Initialization
 
-	make (a_file_path: like file_path)
-			--
-		do
-			Precursor (a_file_path)
-			execute
-		end
-
 	make_default
 		do
 			date_time := Default_date_time
-			Precursor {EL_SINGLE_PATH_OPERAND_COMMAND_I}
+			Precursor {EL_FILE_PATH_OPERAND_COMMAND_I}
 		end
 
 feature -- Access
 
 	date_time: DATE_TIME
 
-	file_path: EL_FILE_PATH
-
 feature -- Status query
 
-	had_date_time: BOOLEAN
+	has_date_time: BOOLEAN
 		do
 			Result := date_time /= Default_date_time
+		end
+
+feature -- Element change
+
+	set_file_path (a_file_path: like file_path)
+			--
+		do
+			Precursor (a_file_path)
+			date_time := Default_date_time
+			execute
 		end
 
 feature {NONE} -- Implementation
 
 	do_with_lines (lines: like adjusted_lines)
 			--
+		local
+			tail: ZSTRING
 		do
-			if not has_error and then not lines.is_empty then
+			if not lines.is_empty then
 				lines.start
-				if lines.item.occurrences (':') = 4 then
-					create date_time.make_from_string (lines.item, Format_string)
+				tail := lines.item.tail (19)
+				if tail.occurrences (':') = 4 then
+					create date_time.make_from_string (tail, Format_string)
 				end
 			end
+		end
+
+	set_has_error (return_code: INTEGER)
+		-- exiv2 has a non-standard way of indicating an error
+		do
+			has_error := File_system.file_byte_count (temporary_error_file_path) > 0
 		end
 
 feature {NONE} -- Constants

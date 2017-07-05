@@ -1,6 +1,7 @@
 # Eiffel-Loop Library
 
 ## Contents
+
 * RELEASE NOTES
 * LIBRARY CONTENTS
 * INSTALLATION
@@ -12,9 +13,11 @@
 
 ## RELEASE NOTES 
 
-[doc/Release-1.4.7.md (future)](doc/Release-1.4.7.md)
+[doc/Release-1.4.8.md (future)](doc/Release-1.4.8.md)
 
-[doc/Release-1.4.6.md (current)](doc/Release-1.4.6.md)
+[doc/Release-1.4.7.md (current)](doc/Release-1.4.7.md)
+
+[doc/Release-1.4.6.md](doc/Release-1.4.6.md)
 
 [doc/Release-1.4.5.md](doc/Release-1.4.5.md)
 

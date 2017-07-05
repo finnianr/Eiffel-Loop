@@ -63,15 +63,15 @@ Warning: **Use at your own risk.** It is recommended that you have a backup of y
 ## Eiffel Development Utility
 A "Swiss-army knife" of useful Eiffel command line development tools. The most useful ones are listed here with command line switchs:
 
-`-publish_repository`: [$source `EIFFEL_REPOSITORY_PUBLISHER_APP`]
+`-publish_repository`: [$source `REPOSITORY_PUBLISHER_APP`]
 
 Publishes an Eiffel code repository as a website with module descriptions.
 
-`-edit_notes`: [$source `EIFFEL_NOTE_EDITOR_APP`]
+`-edit_notes`: [$source `NOTE_EDITOR_APP`]
 
 Add default values to note fields using a source tree manifest.
 
-`-feature_edit`: [$source `EIFFEL_FEATURE_EDITOR_APP`]
+`-feature_edit`: [$source `FEATURE_EDITOR_APP`]
 
 Expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
 

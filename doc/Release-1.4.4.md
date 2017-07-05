@@ -1,4 +1,4 @@
-# Eiffel-Loop as it was on the 18th of April 2017
+# Eiffel-Loop (1.4.4) released 18th of April 2017
 
 ## BASE library
 
