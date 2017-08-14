@@ -315,7 +315,7 @@ feature -- Access
 			unencoded_area := other.unencoded_area
 		end
 
-	split_intervals (delimiter: EL_READABLE_ZSTRING): EL_SEQUENTIAL_INTERVALS
+	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_SEQUENTIAL_INTERVALS
 			-- substring intervals of `Current' split with `delimiter'
 		local
 			intervals: like substring_intervals
@@ -416,19 +416,19 @@ feature -- Access
 			Result := substring_index_in_bounds (adapted_general (other, 1), start_pos, end_pos)
 		end
 
-	substring_index_list (str: EL_READABLE_ZSTRING): like internal_substring_index_list
+	substring_index_list (delimiter: EL_READABLE_ZSTRING): like internal_substring_index_list
 		do
-			Result := internal_substring_index_list (str).twin
+			Result := internal_substring_index_list (adapted_general (delimiter, 1)).twin
 		end
 
-	substring_intervals (other: EL_READABLE_ZSTRING): EL_SEQUENTIAL_INTERVALS
+	substring_intervals (str: READABLE_STRING_GENERAL): EL_SEQUENTIAL_INTERVALS
 		local
 			l_index_list: like internal_substring_index_list
 			l_count, index: INTEGER
 		do
-			l_index_list := internal_substring_index_list (other)
+			l_index_list := internal_substring_index_list (adapted_general (str, 1))
 			create Result.make (l_index_list.count)
-			l_count := other.count
+			l_count := str.count
 			from l_index_list.start until l_index_list.after loop
 				index := l_index_list.item
 				Result.extend (index, index + l_count  - 1)

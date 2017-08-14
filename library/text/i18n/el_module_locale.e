@@ -1,5 +1,9 @@
 note
-	description: "Summary description for {EL_LOCALIZEABLE}."
+	description: "[
+		Localization implementation via once routine `Locale'. By calling the once routine `Locale'
+		in the application before the once routine `{EL_MODULE_DEFERRED_LOCALE}.Locale',	
+		any library classes that have deferred localization will now use `Locale'.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -15,7 +19,7 @@ class
 inherit
 	EL_MODULE_DEFERRED_LOCALE
 		rename
-			Locale as deferred_locale
+			Locale as Deferred_locale
 		redefine
 			new_locale
 		end

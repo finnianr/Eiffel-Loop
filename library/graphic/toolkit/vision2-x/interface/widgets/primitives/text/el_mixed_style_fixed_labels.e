@@ -6,7 +6,7 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -42,7 +42,8 @@ feature {NONE} -- Initialization
 	)
 			--
 		local
-			max_width, l_width, l_count, i, l_y: INTEGER
+			max_width, l_width, l_y: INTEGER
+			list: LINEAR [EL_MIXED_STYLE_TEXT_LIST]
 		do
 			styled_text_lines := a_styled_text_lines; left_margin := a_left_margin
 			make_mixed_font (a_font, a_fixed_font)
@@ -51,26 +52,26 @@ feature {NONE} -- Initialization
 			set_background_color (a_background_color)
 
 			-- Calculate maximum width
-			l_count := a_styled_text_lines.index_set.upper
-			from i := a_styled_text_lines.index_set.lower until i > l_count loop
-				l_width := mixed_style_width (styled_text_lines [i])
+			list := a_styled_text_lines.linear_representation
+			from list.start until list.after loop
+				l_width := mixed_style_width (list.item)
 				if l_width > max_width then
 					max_width := l_width
 				end
-				i := i + 1
+				list.forth
 			end
-			set_minimum_size (max_width, bold_font.line_height * styled_text_lines.index_set.count)
+			set_minimum_size (max_width, bold_font.line_height * styled_text_lines.count)
 
-			from i := a_styled_text_lines.index_set.lower until i > l_count loop
-				put_mixed_style_text_top_left (left_margin, l_y, a_styled_text_lines [i])
+			from list.start until list.after loop
+				put_mixed_style_text_top_left (left_margin, l_y, list.item)
 				l_y := l_y + bold_font.line_height
-				i := i + 1
+				list.forth
 			end
 		end
 
 feature -- Access
 
-	styled_text_lines: INDEXABLE [EL_MIXED_STYLE_STRING_LIST, INTEGER]
+	styled_text_lines: FINITE [EL_MIXED_STYLE_TEXT_LIST]
 
 	font: EV_FONT
 

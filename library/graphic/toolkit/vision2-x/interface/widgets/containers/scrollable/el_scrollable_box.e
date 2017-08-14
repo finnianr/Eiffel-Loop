@@ -266,8 +266,8 @@ feature {NONE} -- Implementation
 		end
 
 	set_widget_actions_recursively (
-		a_widget: EV_WIDGET; action_sequence_function: FUNCTION [ANY, TUPLE, EV_ACTION_SEQUENCE [TUPLE]]
-		action: PROCEDURE [ANY, TUPLE]
+		a_widget: EV_WIDGET; action_sequence_function: FUNCTION [EV_ACTION_SEQUENCE [TUPLE]]
+		action: PROCEDURE
 	)
 		local
 			l_child_widgets: LINEAR [EV_WIDGET]

@@ -53,15 +53,8 @@ feature -- Factory
 
 	new_label (a_text: READABLE_STRING_GENERAL): EV_LABEL
 			--
-		local
-			l_text: READABLE_STRING_GENERAL
 		do
-			if attached {ZSTRING} a_text as astring then
-				l_text := astring.to_unicode
-			else
-				l_text := a_text
-			end
-			create Result.make_with_text (l_text)
+			create Result.make_with_text (a_text.to_string_32)
 			Result.align_text_left
 		end
 
@@ -94,7 +87,7 @@ feature -- Factory
  			create Result.make_unexpanded (a_border_cms, a_padding_cms, a_widgets)
 		end
 
-	new_menu_entry (a_text: ZSTRING; an_action: PROCEDURE [ANY, TUPLE]): EV_MENU_ITEM
+	new_menu_entry (a_text: ZSTRING; an_action: PROCEDURE): EV_MENU_ITEM
 		local
 			l_text: ZSTRING
 		do

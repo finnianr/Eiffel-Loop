@@ -63,7 +63,7 @@ feature -- Measurement
 
 	string_width (a_string: READABLE_STRING_GENERAL): INTEGER
 		do
-			Result := Precursor (String_32.general_to_unicode (a_string))
+			Result := Precursor (a_string.to_string_32)
 		end
 
 feature -- Element change

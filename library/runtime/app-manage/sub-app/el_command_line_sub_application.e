@@ -28,7 +28,7 @@ inherit
 
 	EL_MODULE_OS
 
-feature {NONE} -- Initiliazation
+feature {NONE} -- Initialization
 
 	initialize
 			--
@@ -95,12 +95,22 @@ feature {NONE} -- Validations
 
 	file_must_exist: like always_valid
 		do
-			Result := ["The file must exist", agent {EL_FILE_PATH}.exists]
+			Result := [
+				"The file must exist", agent (path: EL_FILE_PATH): BOOLEAN
+				do
+					Result := not path.is_empty implies path.exists
+				end
+			]
 		end
 
 	directory_must_exist: like always_valid
 		do
-			Result := ["The directory must exist", agent {EL_DIR_PATH}.exists]
+			Result := [
+				"The directory must exist", agent (path: EL_DIR_PATH): BOOLEAN
+				do
+					Result := not path.is_empty implies path.exists
+				end
+			]
 		end
 
 feature {NONE} -- Implementation

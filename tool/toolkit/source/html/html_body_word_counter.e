@@ -13,30 +13,19 @@ class
 	HTML_BODY_WORD_COUNTER
 
 inherit
-	EL_COMMAND
+	EL_FILE_TREE_COMMAND
+		rename
+			do_with_file as count_words
+		export
+			{EL_SUB_APPLICATION} make
+		undefine
+			new_lio
+		end
 
 	EL_MODULE_LOG
 
-	EL_MODULE_OS
-
 create
 	default_create, make
-
-feature {EL_SUB_APPLICATION} -- Initialization
-
-	make (a_html_body_dir: like html_body_dir)
-		do
-			html_body_dir := a_html_body_dir
-		end
-
-feature -- Basic operations
-
-	execute
-		do
-			log.enter ("execute")
-			OS.file_list (html_body_dir, "*.body").do_all (agent count_words)
-			log.exit
-		end
 
 feature {NONE} -- Implementation
 
@@ -46,7 +35,7 @@ feature {NONE} -- Implementation
 			node_event_generator: EL_XML_NODE_EVENT_GENERATOR; counter: EL_XHTML_WORD_COUNTER
 		do
 			log.enter_with_args ("count_words", << body_path.to_string.to_utf_8 >>)
-			create xhtml.make (OS.File_system.plain_text (body_path))
+			create xhtml.make (File_system.plain_text (body_path))
 			create counter
 			create node_event_generator.make_with_handler (counter)
 			node_event_generator.scan (xhtml.source)
@@ -58,5 +47,8 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	html_body_dir: EL_DIR_PATH
+feature {NONE} -- Constants
+
+	Default_extension: STRING = "body"
+
 end

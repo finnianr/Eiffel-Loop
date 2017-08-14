@@ -21,7 +21,7 @@ inherit
 			append_boolean, append_character, append_double,
 			append_integer_8, append_integer, append_integer_16, append_integer_64,
 			append_natural_8, append_natural_16, append_natural_32, append_natural_64, append_real,
-			append_unicode, append_string, append, append_string_general, append_tuple_item,
+			append_unicode, append_string, append, append_string_general, append_substring, append_tuple_item,
 			extend, enclose, fill_character,
 			precede, prepend_character, put_unicode, quote,
 			translate, translate_general,
@@ -109,9 +109,38 @@ feature -- Access
 			Result.append_string_general (s)
 		end
 
+feature -- Basic operations
+
+	do_with_splits (delimiter: READABLE_STRING_GENERAL; action: PROCEDURE [like Current])
+		-- apply `action' for all delimited substrings
+		local
+			split_list: EL_SPLIT_ZSTRING_LIST
+		do
+			create split_list.make (Current, delimiter)
+			split_list.do_all (action)
+		end
+		
 feature -- Status query
 
 	Changeable_comparison_criterion: BOOLEAN = False
+
+	for_all_split (delimiter: READABLE_STRING_GENERAL; predicate: PREDICATE [like Current]): BOOLEAN
+		-- `True' if all split substrings match `predicate'
+		local
+			split_list: EL_SPLIT_ZSTRING_LIST
+		do
+			create split_list.make (Current, delimiter)
+			Result := split_list.for_all (predicate)
+		end
+
+	there_exists_split (delimiter: READABLE_STRING_GENERAL; predicate: PREDICATE [like Current]): BOOLEAN
+		-- `True' if one split substring matches `predicate'
+		local
+			split_list: EL_SPLIT_ZSTRING_LIST
+		do
+			create split_list.make (Current, delimiter)
+			Result := split_list.there_exists (predicate)
+		end
 
 feature -- Element change
 
@@ -223,6 +252,27 @@ feature -- Element change
 			end
 		end
 
+	replace_character (uc_old, uc_new: CHARACTER_32)
+		local
+			code_old, code_new: NATURAL; c_i, c_old, c_new: CHARACTER; i, l_count: INTEGER; l_area: like area
+		do
+			code_old := uc_old.natural_32_code; code_new := uc_new.natural_32_code
+			c_old := encoded_character (uc_old); c_new := encoded_character (uc_new)
+			l_area := area; l_count := count
+			from i := 0 until i = l_count loop
+				c_i := l_area [i]
+				if c_i = c_old and then (c_i = Unencoded_character implies code_old = unencoded_code (i + 1)) then
+					l_area [i] := c_new
+					if c_new = Unencoded_character then
+						put_unencoded_code (code_new, i + 1)
+					elseif c_i = Unencoded_character then
+						remove_unencoded (i + 1, False)
+					end
+				end
+				i := i + 1
+			end
+		end
+
 	replace_delimited_substring (left, right, new: EL_READABLE_ZSTRING; include_delimiter: BOOLEAN; start_index: INTEGER)
 			-- Searching from start_index, replaces text delimited by left and right with 'new'
 			-- Text replaced includeds delimiter if 'include_delimiter' is true
@@ -253,27 +303,6 @@ feature -- Element change
 			)
 		end
 
-	replace_character (uc_old, uc_new: CHARACTER_32)
-		local
-			code_old, code_new: NATURAL; c_i, c_old, c_new: CHARACTER; i, l_count: INTEGER; l_area: like area
-		do
-			code_old := uc_old.natural_32_code; code_new := uc_new.natural_32_code
-			c_old := encoded_character (uc_old); c_new := encoded_character (uc_new)
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				c_i := l_area [i]
-				if c_i = c_old and then (c_i = Unencoded_character implies code_old = unencoded_code (i + 1)) then
-					l_area [i] := c_new
-					if c_new = Unencoded_character then
-						put_unencoded_code (code_new, i + 1)
-					elseif c_i = Unencoded_character then
-						remove_unencoded (i + 1, False)
-					end
-				end
-				i := i + 1
-			end
-		end
-
 	replace_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		do
 			internal_replace_substring (s, start_index, end_index)
@@ -295,11 +324,6 @@ feature -- Element change
 			new_count: count = old count + old s.count - end_index + start_index - 1
 			replaced: elks_checking implies (Current ~ (old (substring (1, start_index - 1) + s + substring (end_index + 1, count))))
 			valid_unencoded: is_unencoded_valid
-		end
-
-	replace_substring_general (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
-		do
-			replace_substring (adapted_general (s, 1), start_index, end_index)
 		end
 
 	replace_substring_all (original, new: EL_READABLE_ZSTRING)
@@ -344,6 +368,11 @@ feature -- Element change
 					end
 				end
 			end
+		end
+
+	replace_substring_general (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
+		do
+			replace_substring (adapted_general (s, 1), start_index, end_index)
 		end
 
 	replace_substring_general_all (original, new: READABLE_STRING_GENERAL)
@@ -495,6 +524,18 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
+	empty_escape_table: like Once_escape_table
+		do
+			Result := Once_escape_table
+			Result.wipe_out
+		end
+
+	new_string (n: INTEGER): like Current
+			-- New instance of current with space for at least `n' characters.
+		do
+			create Result.make (n)
+		end
+
 	once_padding (uc: CHARACTER_32; a_count: INTEGER): like empty_once_string
 		local
 			i, difference: INTEGER; pad_code: NATURAL
@@ -506,18 +547,6 @@ feature {NONE} -- Implementation
 				Result.append_z_code (pad_code)
 				i := i + 1
 			end
-		end
-
-	empty_escape_table: like Once_escape_table
-		do
-			Result := Once_escape_table
-			Result.wipe_out
-		end
-
-	new_string (n: INTEGER): like Current
-			-- New instance of current with space for at least `n' characters.
-		do
-			create Result.make (n)
 		end
 
 feature {NONE} -- Constants

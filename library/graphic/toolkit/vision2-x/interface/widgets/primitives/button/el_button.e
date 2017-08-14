@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			pointer_button_release_actions.extend (agent on_pointer_button_release)
 		end
 
-	make_with_pixmap_and_action (a_pixmap: EV_PIXMAP; an_action: PROCEDURE [ANY, TUPLE])
+	make_with_pixmap_and_action (a_pixmap: EV_PIXMAP; an_action: PROCEDURE)
 			--
 		do
 			make

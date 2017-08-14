@@ -19,6 +19,8 @@ inherit
 
 	EL_MODULE_GUI
 
+	EL_STRING_CONSTANTS
+
 feature {NONE} -- Implementation
 
 	new_text_rectangle (a_text: ZSTRING): EL_TEXT_RECTANGLE
@@ -45,9 +47,7 @@ feature {NONE} -- Implementation
 			end
 			Result.set_font (font)
 			Result.copy_alignment (Current)
-			across a_text.split ('%N') as line loop
-				Result.append_words (line.item)
-			end
+			a_text.do_with_splits (New_line_string, agent Result.append_words)
 		end
 
 	wrapped_lines (a_text: ZSTRING): EL_ZSTRING_LIST

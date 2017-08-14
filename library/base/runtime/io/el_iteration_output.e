@@ -23,7 +23,7 @@ feature {NONE} -- Implementation
 
 	print_progress (iteration_count: NATURAL_32)
 		do
-			if iteration_count \\ iterations_per_dot = 0 then
+			if not is_print_progress_disabled and then iteration_count \\ iterations_per_dot = 0 then
 				dot_count := dot_count + 1
 				lio.put_character ('.')
 				if dot_count \\ 100 = 0 then
@@ -40,5 +40,7 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	dot_count: NATURAL_32
+
+	is_print_progress_disabled: BOOLEAN
 
 end

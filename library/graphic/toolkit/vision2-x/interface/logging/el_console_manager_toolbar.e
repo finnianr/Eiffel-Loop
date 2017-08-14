@@ -104,7 +104,7 @@ feature {NONE} -- GUI component creation
 		end
 
 	create_tool_bar_button (
-		pixmap: EV_PIXMAP; tooltip: STRING; select_action: PROCEDURE [EL_CONSOLE_MANAGER_TOOLBAR, TUPLE]
+		pixmap: EV_PIXMAP; tooltip: STRING; select_action: PROCEDURE
 	): EV_TOOL_BAR_BUTTON
 			--
 		do

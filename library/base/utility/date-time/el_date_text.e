@@ -60,7 +60,6 @@ feature -- Access
 			Result := date.year.out
 		end
 
-
 feature -- Day of week
 
 	long_day_name (date: DATE): ZSTRING
@@ -101,7 +100,7 @@ feature -- Day of month
 					Result.append (ordinal_indicator (3))
 
 			else
-				Result.append (Default_ordinal_indicator)
+				Result.append (default_ordinal_indicator)
 
 			end
 		end
@@ -142,7 +141,7 @@ feature -- Month of year
 
 feature {NONE} -- Implementation
 
-	Default_ordinal_indicator: ZSTRING
+	default_ordinal_indicator: ZSTRING
 			--	
 		deferred
 		end

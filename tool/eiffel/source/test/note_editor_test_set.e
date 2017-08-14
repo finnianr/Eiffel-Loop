@@ -30,7 +30,12 @@ inherit
 			default_create
 		end
 
-	EIFFEL_CONSTANTS
+	NOTE_CONSTANTS
+		undefine
+			default_create
+		end
+
+	EL_EIFFEL_KEYWORDS
 		undefine
 			default_create
 		end

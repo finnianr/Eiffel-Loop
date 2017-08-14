@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-08-01 11:02:19 GMT (Monday 1st August 2016)"
 	revision: "1"
@@ -31,7 +31,7 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
 feature {NONE} -- Factory
 
-	new_song_info_input (duration_time: TIME_DURATION; title, lead_artist: ZSTRING):  like Type_song_info
+	new_song_info_input (duration_time: TIME_DURATION; title, lead_artist: ZSTRING):  like SONG_INFO
 		local
 			song: RBOX_SONG
 		do

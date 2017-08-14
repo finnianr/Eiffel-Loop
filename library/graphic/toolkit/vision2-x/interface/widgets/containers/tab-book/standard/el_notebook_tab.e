@@ -49,7 +49,7 @@ feature -- Element change
 
 	set_name (name: like name_shown)
 		do
-			set_text (name_shown (name))
+			set_text (name_shown (name).to_string_32)
 		end
 
 feature -- Basic operations

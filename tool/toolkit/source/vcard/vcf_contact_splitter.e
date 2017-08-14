@@ -65,10 +65,8 @@ feature {NONE} -- State handlers
 
 	find_end_record (a_line: ZSTRING)
 		local
-			output_path: EL_FILE_PATH
-			file: PLAIN_TEXT_FILE
-			parts: LIST [ZSTRING]
-			first_name, last_name: ZSTRING
+			output_path: EL_FILE_PATH; file: PLAIN_TEXT_FILE
+			parts: LIST [ZSTRING]; first_name, last_name: ZSTRING
 		do
 			record_lines.extend (a_line)
 			if a_line.starts_with (Field.end_) then

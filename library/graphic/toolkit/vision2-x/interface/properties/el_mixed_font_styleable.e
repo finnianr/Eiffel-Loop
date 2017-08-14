@@ -4,7 +4,7 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-26 11:23:48 GMT (Saturday 26th December 2015)"
 	revision: "1"
@@ -16,6 +16,8 @@ inherit
 	EL_MIXED_FONT_STYLEABLE_I
 
 	EL_MODULE_GUI
+
+	EL_STRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -33,54 +35,56 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	regular_font: EV_FONT
-
 	bold_font: EV_FONT
-
-	monospaced_font: EV_FONT
 
 	monospaced_bold_font: EV_FONT
 
-feature -- Measurement
+	monospaced_font: EV_FONT
 
-	mixed_style_width (a_mixed_text: INDEXABLE [EL_STYLED_ZSTRING, INTEGER]): INTEGER
-		local
-			i, l_upper, l_space_width: INTEGER
-		do
-			l_upper := a_mixed_text.index_set.upper
-			l_space_width := space_width
-			from i := a_mixed_text.index_set.lower until i > l_upper loop
-				Result :=  Result + a_mixed_text.item (i).width (Current)
-				if i < l_upper then
-					Result := Result + l_space_width
-				end
-				i := i + 1
-			end
-		end
+	regular_font: EV_FONT
+
+feature -- Measurement
 
 	bold_width (text: READABLE_STRING_GENERAL): INTEGER
 		do
-			Result := bold_font.string_width (text)
+			Result := GUI.string_width (text, bold_font)
+		end
+
+	mixed_style_width (a_mixed_text: FINITE [EL_STYLED_TEXT]): INTEGER
+		local
+			count, l_space_width: INTEGER;
+			text_list: LINEAR [EL_STYLED_TEXT]
+		do
+			count := a_mixed_text.count; l_space_width := space_width
+			text_list := a_mixed_text.linear_representation
+
+			from text_list.start until text_list.after loop
+				Result :=  Result + text_list.item.width (Current)
+				if text_list.index < count then
+					Result := Result + l_space_width
+				end
+				text_list.forth
+			end
 		end
 
 	monospaced_bold_width (text: READABLE_STRING_GENERAL): INTEGER
 		do
-			Result := monospaced_bold_font.string_width (text)
-		end
-
-	regular_width (text: READABLE_STRING_GENERAL): INTEGER
-		do
-			Result := regular_font.string_width (text)
+			Result := GUI.string_width (text, monospaced_bold_font)
 		end
 
 	monospaced_width (text: READABLE_STRING_GENERAL): INTEGER
 		do
-			Result := monospaced_font.string_width (text)
+			Result := GUI.string_width (text, monospaced_font)
+		end
+
+	regular_width (text: READABLE_STRING_GENERAL): INTEGER
+		do
+			Result := GUI.string_width (text, regular_font)
 		end
 
 	space_width: INTEGER
 		do
-			Result := regular_font.string_width (" ")
+			Result := regular_font.string_width (Space_string_8)
 		end
 
 feature -- Element change
@@ -90,9 +94,9 @@ feature -- Element change
 			set_font (bold_font)
 		end
 
-	set_regular
-		do
-			set_font (regular_font)
+	set_font (a_font: EV_FONT)
+			--
+		deferred
 		end
 
 	set_monospaced
@@ -105,30 +109,30 @@ feature -- Element change
 			set_font (monospaced_bold_font)
 		end
 
-	set_font (a_font: EV_FONT)
-			--
-		deferred
+	set_regular
+		do
+			set_font (regular_font)
 		end
 
 feature -- Drawing operations
 
-	draw_mixed_style_text_top_left (x, y: INTEGER; a_mixed_text: INDEXABLE [EL_STYLED_ZSTRING, INTEGER])
+	draw_mixed_style_text_top_left (x, y: INTEGER; a_mixed_text: FINITE [EL_STYLED_TEXT])
 		local
-			l_x, i, l_upper, l_space_width: INTEGER
-			i_th_text: EL_STYLED_ZSTRING
+			l_x, i, count, l_space_width: INTEGER
+			i_th_text: EL_STYLED_TEXT; text_list: LINEAR [EL_STYLED_TEXT]
 		do
-			l_space_width := space_width
-			l_upper := a_mixed_text.index_set.upper
-			l_x := x
-			from i := a_mixed_text.index_set.lower until i > l_upper loop
-				i_th_text := a_mixed_text [i]
+			l_space_width := space_width;  l_x := x
+			text_list := a_mixed_text.linear_representation; count := a_mixed_text.count
+
+			from text_list.start until text_list.after loop
+				i_th_text := text_list.item
 				i_th_text.change_font (Current)
-				draw_text_top_left (l_x, y, i_th_text.to_unicode)
+				draw_text_top_left (l_x, y, i_th_text.as_string_32)
 				l_x := l_x + i_th_text.width (Current)
-				if i < l_upper then
+				if text_list.index < count then
 					l_x := l_x + l_space_width
 				end
-				i := i + 1
+				text_list.forth
 			end
 		end
 

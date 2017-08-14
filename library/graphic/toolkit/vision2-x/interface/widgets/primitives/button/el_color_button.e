@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-26 11:19:05 GMT (Saturday 26th December 2015)"
 	revision: "1"
@@ -31,7 +31,8 @@ create
 feature {NONE} -- Initialization
 
 	make (
-		a_window: EV_WINDOW; a_title_text: like title_text; a_height, rgb_code: INTEGER; a_set_color_action: like set_color_action
+		a_window: EV_WINDOW; a_title_text: like title_text; a_height, rgb_code: INTEGER
+		a_set_color_action: like set_color_action
 	)
 		do
 			default_create
@@ -67,7 +68,7 @@ feature -- Element change
 				local
 					dialog: EV_COLOR_DIALOG
 				do
-					create dialog.make_with_title (title_text.to_unicode)
+					create dialog.make_with_title (title_text.to_string_32)
 					dialog.set_color (color)
 					dialog.show_modal_to_window (window)
 					if dialog.color.rgb_24_bit /= color.rgb_24_bit then
@@ -88,9 +89,9 @@ feature {NONE} -- Implementation
 
 	window: EV_WINDOW
 
-	title_text: ZSTRING
+	title_text: READABLE_STRING_GENERAL
 
-	set_color_action: PROCEDURE [ANY, TUPLE [INTEGER]]
+	set_color_action: PROCEDURE [INTEGER]
 
 	is_color_initialized: BOOLEAN
 

@@ -96,7 +96,7 @@ feature {NONE} -- Internal attributes
 
 	keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS
 
-	select_action: PROCEDURE [ANY, TUPLE [G]]
+	select_action: PROCEDURE [G]
 
 	links: ARRAYED_LIST [EV_WIDGET]
 

@@ -24,6 +24,7 @@ feature {NONE} -- Initialization
 		do
 			create translations.make_equal (0)
 			create next_translation.make_empty
+			create date_text.make
 		end
 
 feature {NONE} -- Implementation
@@ -54,4 +55,5 @@ feature {NONE} -- Internal attributes
 
 	translations: EL_ZSTRING_HASH_TABLE [ZSTRING]
 
+	date_text: EL_ENGLISH_DATE_TEXT
 end

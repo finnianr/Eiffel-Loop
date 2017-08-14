@@ -1,0 +1,107 @@
+note
+	description: "[
+		Duplication of `EV_DIALOG_CONSTANTS' constants and renamed for the locale verification program
+		`EL_CHECK_LOCALE_STRINGS_APP'
+	]"
+	author: ""
+	date: "$Date$"
+	revision: "$Revision$"
+
+class
+	EL_DIALOG_CONSTANTS
+
+feature -- Button Texts
+
+	Eng_ok: STRING
+			-- Text displayed on "ok" buttons.
+		do
+			Result := "OK"
+		end
+
+	Eng_open: STRING
+			-- Text displayed on "open" buttons.
+		do
+			Result := "Open"
+		end
+
+	Eng_save: STRING
+			-- Text displayed on "save" buttons.
+		do
+			Result := "Save"
+		end
+
+	Eng_print: STRING
+			-- Text displayed on "print" buttons.
+		do
+			Result := "Print"
+		end
+
+	Eng_cancel: STRING
+			-- Text displayed on "cancel" buttons.
+		do
+			Result := "Cancel"
+		end
+
+	Eng_yes: STRING
+			-- Text displayed on "yes" buttons.
+		do
+			Result := "Yes"
+		end
+
+	Eng_no: STRING
+			-- Text displayed on "no" buttons.
+		do
+			Result := "No"
+		end
+
+	Eng_abort: STRING
+			-- Text displayed on "abort" buttons.
+		do
+			Result := "Abort"
+		end
+
+	Eng_retry: STRING
+			-- Text displayed on "retry" buttons.
+		do
+			Result := "Retry"
+		end
+
+	Eng_ignore: STRING
+			-- Text displayed on "ignore" buttons.
+		do
+			Result := "Ignore"
+		end
+
+feature -- Titles
+
+	Eng_warning_dialog_title: STRING
+			-- Title of EV_WARNING_DIALOG.
+		do
+			Result := "Warning"
+		end
+
+	Eng_question_dialog_title: STRING
+			-- Title of EV_QUESTION_DIALOG.
+		do
+			Result := "Question"
+		end
+
+	Eng_information_dialog_title: STRING
+			-- Title of EV_INFORMATION_DIALOG.
+		do
+			Result := "Information"
+		end
+
+	Eng_error_dialog_title: STRING
+			-- Title of EV_ERROR_DIALOG.
+		do
+			Result := "Error"
+		end
+
+	Eng_confirmation_dialog_title: STRING
+			-- Title of EV_CONFIRMATION_DIALOG.
+		do
+			Result := "Confirmation"
+		end
+
+end

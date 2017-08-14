@@ -1,8 +1,6 @@
 note
 	description: "Export HTML under www sub-directory"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
@@ -50,9 +48,6 @@ feature -- Basic operations
 			end
 			log.exit
 		end
-
-feature {NONE} -- Implementation
-
 
 feature {NONE} -- Constants
 

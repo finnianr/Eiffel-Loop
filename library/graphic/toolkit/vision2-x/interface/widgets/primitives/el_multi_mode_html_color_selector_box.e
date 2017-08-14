@@ -28,6 +28,11 @@ inherit
 			is_equal, default_create, copy
 		end
 
+	EL_STRING_CONSTANTS
+		undefine
+			is_equal, default_create, copy
+		end
+
 create
 	make
 
@@ -35,12 +40,11 @@ feature {NONE} -- Initialization
 
 	make (
 		a_border_cms, a_padding_cms: REAL; a_window: EV_WINDOW
-		label_text, tooltip_text, color_selection_text: ZSTRING
-		RGB_color_code: INTEGER; set_color: PROCEDURE [ANY, TUPLE [EL_COLOR]]
+		label_text, tooltip_text, color_selection_text: READABLE_STRING_GENERAL
+		RGB_color_code: INTEGER; set_color: PROCEDURE [EL_COLOR]
 	)
 		local
 			html_color_code, longest_html_color_code: STRING
-			l_label_text: ZSTRING
 		do
 			make_box (a_border_cms, a_padding_cms)
 			html_color_code := GUI.rgb_code_to_html_code (RGB_color_code)
@@ -50,13 +54,12 @@ feature {NONE} -- Initialization
 			code_field.set_minimum_width_in_characters (longest_html_color_code.count)
 			code_field.set_text (html_color_code)
 			if not tooltip_text.is_empty then
-				code_field.set_tooltip (tooltip_text.to_unicode)
+				code_field.set_tooltip (tooltip_text.to_string_32)
 			end
-			create l_label_text.make_from_other (color_selection_text)
-			l_label_text.append_character (' ')
-			l_label_text.append (label_text.as_lower)
 			create color_button.make (
-				a_window, l_label_text.to_unicode, code_field.height, RGB_color_code, agent on_color_select (?, set_color)
+				a_window, color_selection_text.to_string_32 + Space_string_32 + label_text.to_string_32.as_lower,
+				code_field.height, RGB_color_code,
+				agent on_color_select (?, set_color)
 			)
 			code_field.focus_out_actions.extend (agent set_color_on_focus_out (set_color))
 			code_field.change_actions.extend (agent on_code_field_change (set_color))
@@ -65,7 +68,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Event handling
 
-	on_code_field_change (set_color: PROCEDURE [ANY, TUPLE [EL_COLOR]])
+	on_code_field_change (set_color: PROCEDURE [EL_COLOR])
 		local
 			text: STRING_32; valid: BOOLEAN
 			color: EL_COLOR
@@ -92,7 +95,7 @@ feature {NONE} -- Event handling
 			end
 		end
 
-	on_color_select (RGB_color_code: INTEGER; set_color: PROCEDURE [ANY, TUPLE [EL_COLOR]])
+	on_color_select (RGB_color_code: INTEGER; set_color: PROCEDURE [EL_COLOR])
 		local
 			color: EL_COLOR
 		do
@@ -105,7 +108,7 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Implementation
 
-	set_color_on_focus_out (set_color_action: PROCEDURE [ANY, TUPLE [EV_COLOR]])
+	set_color_on_focus_out (set_color_action: PROCEDURE [EV_COLOR])
 		local
 			color: EL_COLOR
 		do

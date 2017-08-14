@@ -117,6 +117,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	new_item: FUNCTION [ANY, TUPLE, W]
+	new_item: FUNCTION [W]
 
 end

@@ -15,16 +15,17 @@ class
 	UNDATED_PHOTOS
 
 inherit
-	EL_COMMAND
-
-	EL_MODULE_LOG
-
-	EL_MODULE_OS
-
-	EL_ITERATION_OUTPUT
+	EL_FILE_TREE_COMMAND
+		rename
+			make as make_command,
+			tree_dir as jpeg_tree_dir
 		undefine
 			new_lio
+		redefine
+			execute, extension_list
 		end
+
+	EL_MODULE_LOG
 
 create
 	make, default_create
@@ -33,7 +34,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_jpeg_tree_dir: like jpeg_tree_dir; output_file_path: EL_FILE_PATH)
 		do
-			jpeg_tree_dir := a_jpeg_tree_dir
+			make_command (a_jpeg_tree_dir)
 			create output.make_with_path (output_file_path)
 			create {EL_JPEG_FILE_INFO_COMMAND_IMP} jpeg_info.make_default
 		end
@@ -41,39 +42,39 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 feature -- Basic operations
 
 	execute
-		local
-			i: NATURAL
 		do
 			log.enter ("execute")
 			output.open_write
-			across << "*.jpeg", "*.jpg" >> as wildcard loop
-				across OS.file_list (jpeg_tree_dir, wildcard.item) as path loop
-					jpeg_info.set_file_path (path.item)
-					if not jpeg_info.has_date_time then
-						output.put_string_32 (path.item)
-						output.put_new_line
-					end
-					print_progress (i)
-					i := i + 1
-				end
-			end
+			Precursor
 			output.close
 			log.exit
+		end
+
+feature {NONE} -- Implementation
+
+	extension_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
+		do
+			Result := Precursor
+			Result.extend ("jpg")
+		end
+
+	do_with_file (file_path: EL_FILE_PATH)
+		do
+			jpeg_info.set_file_path (file_path)
+			if not jpeg_info.has_date_time then
+				output.put_string_32 (file_path)
+				output.put_new_line
+			end
 		end
 
 feature {NONE} -- Internal attributes
 
 	jpeg_info: EL_JPEG_FILE_INFO_COMMAND_I
 
-	jpeg_tree_dir: EL_DIR_PATH
-
 	output: EL_PLAIN_TEXT_FILE
 
 feature {NONE} -- Constants
 
-	Iterations_per_dot: NATURAL_32
-		once
-			Result := 60
-		end
+	Default_extension: STRING = "jpeg"
 
 end

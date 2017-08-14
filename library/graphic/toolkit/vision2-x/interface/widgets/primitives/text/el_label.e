@@ -31,12 +31,12 @@ inherit
 			align_text_top, align_text_vertical_center, align_text_bottom
 		end
 
-	EL_MODULE_STRING_32
+	EL_MODULE_SCREEN
 		undefine
 			is_equal, copy, default_create
 		end
 
-	EL_MODULE_SCREEN
+	EL_MODULE_STRING_32
 		undefine
 			is_equal, copy, default_create
 		end
@@ -65,7 +65,7 @@ feature {NONE} -- Initialization
 			if a_text.is_empty then
 				make_default
 			else
-				Precursor (String_32.general_to_unicode (a_text))
+				Precursor (a_text.to_string_32)
 			end
 		end
 
@@ -98,10 +98,10 @@ feature -- Status query
 
 feature -- Element change
 
-	set_text (a_text: ZSTRING)
+	set_text (a_text: READABLE_STRING_GENERAL)
 		do
 			is_wrapped := False
-			set_text_general (a_text.to_unicode)
+			set_text_general (a_text.to_string_32)
 		end
 
 	set_text_wrapped (a_text: ZSTRING)
@@ -193,7 +193,7 @@ feature {NONE} -- Implementation
 					end
 				end
 --				resize_actions.block
-				set_text_general (l_wrapped_lines.joined_lines.to_unicode)
+				set_text_general (String_32.joined (l_wrapped_lines))
 --				resize_actions.resume
 			else
 				GUI.do_once_on_idle (agent wrap_text)

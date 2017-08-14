@@ -18,8 +18,7 @@ system:
 			all_classes = true
 
 		option:
-			syntax = standard; full_class_checking = false; void_safety = none
-			warning = true; is_obsolete_routine_type = true
+			warning = true; syntax = standard; full_class_checking = false; void_safety = none
 			assertions:
 				precondition = true; postcondition = true; check = false; invariant = false
 
@@ -136,9 +135,6 @@ system:
 
 		library:
 			name = EL_image_utils; location = "image-utils.ecf"
-
-		library:
-			name = EL_i18n; location = "i18n.ecf"
 
 		library:
 			name = EL_logging; location = "logging.ecf"

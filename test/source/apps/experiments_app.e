@@ -39,8 +39,8 @@ feature -- Basic operations
 	run
 		local
 		do
-			lio.enter ("date_time_duration")
-			date_time_duration
+			lio.enter ("finite_iteration")
+			finite_iteration
 			lio.exit
 		end
 
@@ -231,6 +231,17 @@ feature -- Experiments
 			file_copy.stamp (1418308263)
 		end
 
+	file_position
+		local
+			file: PLAIN_TEXT_FILE
+		do
+			create file.make_open_write ("test.txt")
+			file.put_string ("one two three")
+			lio.put_integer_field ("file.position", file.position)
+			file.close
+			file.delete
+		end
+
 	file_stamp
 		local
 			file: PLAIN_TEXT_FILE
@@ -242,17 +253,6 @@ feature -- Experiments
 			create date.make_from_epoch (1418308263)
 			lio.put_labeled_string ("Date", date.out)
 			file.set_date (1418308263)
-		end
-
-	file_position
-		local
-			file: PLAIN_TEXT_FILE
-		do
-			create file.make_open_write ("test.txt")
-			file.put_string ("one two three")
-			lio.put_integer_field ("file.position", file.position)
-			file.close
-			file.delete
 		end
 
 	find_directories
@@ -285,12 +285,21 @@ feature -- Experiments
 			)
 		end
 
-	generic_types
+	finite_iteration
 		local
-			type_8, type_32: TYPE [LIST [READABLE_STRING_GENERAL]]
+			part_array: ARRAY [INTEGER]
+			finite: FINITE [INTEGER]; list: LINEAR [INTEGER]
 		do
-			type_8 := {ARRAYED_LIST [STRING]}
-			type_32 := {ARRAYED_LIST [STRING_32]}
+			create part_array.make_filled (0, 3, 4)
+			part_array [3] := 3
+			part_array [4] := 4
+			finite := part_array
+			list := finite.linear_representation
+			from list.start until list.after loop
+				log.put_integer_field (list.index.out, list.item)
+				log.put_new_line
+				list.forth
+			end
 		end
 
 	generic_type_check
@@ -302,24 +311,12 @@ feature -- Experiments
 			type := list.generating_type.generic_parameter_type (1)
 		end
 
-	hash_table_removal
+	generic_types
 		local
-			table: HASH_TABLE [STRING, INTEGER]
+			type_8, type_32: TYPE [LIST [READABLE_STRING_GENERAL]]
 		do
-			create table.make (10)
-			across (1 |..| 10) as n loop
-				table [n.item] := n.item.out
-			end
-			-- remove all items except number 1
-			across table.current_keys as n loop
-				if n.item = 5 then
-					table.remove (n.item)
-				end
-			end
-			across table as n loop
-				lio.put_integer (n.key); lio.put_character (':'); lio.put_string (n.item)
-				lio.put_new_line
-			end
+			type_8 := {ARRAYED_LIST [STRING]}
+			type_32 := {ARRAYED_LIST [STRING_32]}
 		end
 
 	hash_table_reference_lookup
@@ -347,6 +344,26 @@ feature -- Experiments
 			end
 		end
 
+	hash_table_removal
+		local
+			table: HASH_TABLE [STRING, INTEGER]
+		do
+			create table.make (10)
+			across (1 |..| 10) as n loop
+				table [n.item] := n.item.out
+			end
+			-- remove all items except number 1
+			across table.current_keys as n loop
+				if n.item = 5 then
+					table.remove (n.item)
+				end
+			end
+			across table as n loop
+				lio.put_integer (n.key); lio.put_character (':'); lio.put_string (n.item)
+				lio.put_new_line
+			end
+		end
+
 	hexadecimal_to_natural_64
 		do
 			log.put_string (String_8.hexadecimal_to_natural_64 ("0x00000982").out)
@@ -360,6 +377,23 @@ feature -- Experiments
 			dir := "E:/"
 			temp := dir + "temp"
 			log.put_string_field ("Path", temp.as_windows.to_string)
+		end
+
+	my_procedure_test
+		local
+			my_procedure: MY_PROCEDURE [like Current, TUPLE]
+		do
+--			create my_procedure.adapt (agent my_procedure_test)
+		end
+
+	negative_integer_32_in_integer_64
+			-- is it possible to store 2 negative INTEGER_32's in one INTEGER_64
+		local
+			n: INTEGER_64
+		do
+			n := ((10).to_integer_64 |<< 32) | -10
+			log.put_integer_field ("low", n.to_integer_32) -- yes you can
+			log.put_integer_field (" hi", (n |>> 32).to_integer_32) -- yes you can
 		end
 
 	once_order_test (a_first: BOOLEAN)
@@ -380,23 +414,6 @@ feature -- Experiments
 			lio.put_new_line
 		end
 
-
-	my_procedure_test
-		local
-			my_procedure: MY_PROCEDURE [like Current, TUPLE]
-		do
---			create my_procedure.adapt (agent my_procedure_test)
-		end
-
-	negative_integer_32_in_integer_64
-			-- is it possible to store 2 negative INTEGER_32's in one INTEGER_64
-		local
-			n: INTEGER_64
-		do
-			n := ((10).to_integer_64 |<< 32) | -10
-			log.put_integer_field ("low", n.to_integer_32) -- yes you can
-			log.put_integer_field (" hi", (n |>> 32).to_integer_32) -- yes you can
-		end
 
 	open_function_target
 		local
@@ -814,13 +831,19 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	storable_string_list: STORABLE_STRING_LIST
-
 	se_array: SE_ARRAY2 [BOOLEAN]
+
+	storable_string_list: STORABLE_STRING_LIST
 
 feature {NONE} -- Constants
 
 	Description: STRING = "Experiment with Eiffel code to fix bugs"
+
+	Dir_n_n: NATURAL = 20046
+
+	Dir_n_w: NATURAL = 20055
+
+	Dir_w_w: NATURAL = 22359
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
@@ -836,11 +859,5 @@ feature {NONE} -- Constants
 		end
 
 	Option_name: STRING = "experiments"
-
-	Dir_n_n: NATURAL = 20046
-
-	Dir_n_w: NATURAL = 20055
-
-	Dir_w_w: NATURAL = 22359
 
 end

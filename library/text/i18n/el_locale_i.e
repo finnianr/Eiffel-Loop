@@ -37,31 +37,34 @@ inherit
 
 	EL_SHARED_ONCE_STRINGS
 
+	EL_SHARED_LOCALE_TABLE
+
+	EL_LOCALE_CONSTANTS
+
 feature {NONE} -- Initialization
 
  	make (a_language: STRING; a_default_language: like default_language)
-		local
-			items_list: EL_TRANSLATION_ITEMS_LIST
 		do
 			make_default
 			restrict_access
 				default_language := a_default_language
-				create date_text.make
-				create locale_table.make (Localization_dir)
-				if locale_table.has (a_language) then
+				if Locale_table.has (a_language) then
 					language := a_language
 				else
 					language := default_language
 				end
-				create items_list.make_from_file (locale_table [language])
-				items_list.retrieve
-				translations := items_list.to_table (language)
+				translations := new_translation_table (language)
+				if language ~ "en" then
+					create {EL_ENGLISH_DATE_TEXT} date_text.make
+				else
+					create {EL_LOCALE_DATE_TEXT} date_text.make (Current)
+				end
 			end_restriction
 		end
 
 feature -- Access
 
-	date_text: EL_LOCALE_DATE_TEXT
+	date_text: EL_DATE_TEXT
 
 	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
 			-- translation for source code string in current user language
@@ -134,7 +137,7 @@ feature -- Access
 	all_languages: ARRAYED_LIST [STRING]
 		do
 			restrict_access -- synchronized
-				create Result.make_from_array (locale_table.current_keys)
+				create Result.make_from_array (Locale_table.current_keys)
 			end_restriction
 		end
 
@@ -156,7 +159,7 @@ feature -- Status report
 	has_translation (a_language: STRING): BOOLEAN
 		do
 			restrict_access -- synchronized
-				Result := locale_table.has (a_language)
+				Result := Locale_table.has (a_language)
 			end_restriction
 		end
 
@@ -211,33 +214,5 @@ feature {NONE} -- Implementation
 		end
 
 	translations: EL_TRANSLATION_TABLE
-
-	locale_table: EL_LOCALE_TABLE
-	 	-- Table of all locale data file paths
-
-feature {NONE} -- Constants
-
-	Localization_dir: EL_DIR_PATH
-			--
-		once
-			Result := Directory.Application_installation
-		end
-
-	Variable_quantity: STRING = "QUANTITY"
-
-	Dot_singular: ZSTRING
-		once
-			Result := ".singular"
-		end
-
-	Dot_plural: ZSTRING
-		once
-			Result := ".plural"
-		end
-
-	Dot_zero: ZSTRING
-		once
-			Result := ".zero"
-		end
 
 end

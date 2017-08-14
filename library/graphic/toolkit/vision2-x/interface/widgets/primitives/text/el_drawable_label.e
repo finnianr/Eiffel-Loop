@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-24 8:07:12 GMT (Friday 24th June 2016)"
 	revision: "1"
@@ -17,11 +17,15 @@ inherit
 
 	EL_WORD_WRAPPABLE
 
+	EL_SHARED_ONCE_STRINGS
+
+	EL_STRING_CONSTANTS
+
 feature {NONE} -- Initialization
 
 	make_default
 		do
-			make_with_text_and_font ("", create {like font})
+			make_with_text_and_font (Empty_string_8, create {like font})
 		end
 
 	make_with_text_and_font (a_text: like text; a_font: like font)
@@ -41,7 +45,7 @@ feature -- Access
 
 	pixmap: EV_PIXMAP
 
-	text: ZSTRING
+	text: READABLE_STRING_GENERAL
 
 feature -- Status query
 
@@ -91,12 +95,16 @@ feature {NONE} -- Implementation
 
 	on_redraw (a_x, a_y, a_width, a_height: INTEGER)
 			--
+		local
+			l_text: ZSTRING
 		do
 			clear; draw_background
+			l_text := empty_once_string
+			l_text.append_string_general (text)
 			if is_word_wrapped then
-				new_wrapped_text_rectangle (text).draw (Current)
+				new_wrapped_text_rectangle (l_text).draw (Current)
 			else
-				new_text_rectangle (text).draw (Current)
+				new_text_rectangle (l_text).draw (Current)
 			end
 		end
 

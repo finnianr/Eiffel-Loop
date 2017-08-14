@@ -458,7 +458,7 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_song_info_input (duration_time: TIME_DURATION; default_title, lead_artist: ZSTRING): like Type_song_info
+	new_song_info_input (duration_time: TIME_DURATION; default_title, lead_artist: ZSTRING): like SONG_INFO
 		local
 			zero: DOUBLE
 		do
@@ -517,40 +517,40 @@ feature {NONE} -- Factory
 		local
 			video_properties: like Audio_command.new_audio_properties
 			video_to_mp3_command: like Audio_command.new_video_to_mp3
-			genre_path, artist_path: EL_DIR_PATH; song_info: like Type_song_info
+			genre_path, artist_path: EL_DIR_PATH; l_song_info: like SONG_INFO
 			duration_time: TIME_DURATION
 		do
 			artist_path := video_path.parent; genre_path := artist_path.parent
 			video_properties := Audio_command.new_audio_properties (video_path)
-			song_info := new_song_info_input (video_properties.duration, video_path.base_sans_extension, artist_path.base)
+			l_song_info := new_song_info_input (video_properties.duration, video_path.base_sans_extension, artist_path.base)
 			Result := database.new_song
-			Result.set_title (song_info.title)
+			Result.set_title (l_song_info.title)
 			Result.set_artist (artist_path.base)
 			Result.set_genre (genre_path.base)
-			if song_info.recording_year > 0 then
-				Result.set_recording_year (song_info.recording_year)
+			if l_song_info.recording_year > 0 then
+				Result.set_recording_year (l_song_info.recording_year)
 			end
-			if Database.silence_intervals.valid_index (song_info.beats_per_minute) then
-				Result.set_beats_per_minute (song_info.beats_per_minute)
+			if Database.silence_intervals.valid_index (l_song_info.beats_per_minute) then
+				Result.set_beats_per_minute (l_song_info.beats_per_minute)
 			end
-			Result.set_album (song_info.album_name)
-			Result.set_album_artists_list (song_info.album_artists)
+			Result.set_album (l_song_info.album_name)
+			Result.set_album_artists_list (l_song_info.album_artists)
 			Result.set_mp3_path (Result.unique_normalized_mp3_path)
 
 			video_to_mp3_command := Audio_command.new_video_to_mp3 (video_path, Result.mp3_path)
 
-			if song_info.time_from.seconds > 0
-				or song_info.time_to.fine_seconds /~ video_properties.duration.fine_seconds_count
+			if l_song_info.time_from.seconds > 0
+				or l_song_info.time_to.fine_seconds /~ video_properties.duration.fine_seconds_count
 			then
-				video_to_mp3_command.set_offset_time (song_info.time_from)
-				duration_time := song_info.time_to.relative_duration (song_info.time_from)
+				video_to_mp3_command.set_offset_time (l_song_info.time_from)
+				duration_time := l_song_info.time_to.relative_duration (l_song_info.time_from)
 				-- duration has extra 0.001 secs added to prevent rounding error below the required duration
 				duration_time.fine_second_add (0.001)
 				video_to_mp3_command.set_duration (duration_time)
 				Result.set_duration (duration_time.fine_seconds_count.rounded)
 			end
-			if song_info.beats_per_minute > 0 then
-				Result.set_beats_per_minute (song_info.beats_per_minute)
+			if l_song_info.beats_per_minute > 0 then
+				Result.set_beats_per_minute (l_song_info.beats_per_minute)
 			end
 			-- Increase bitrate by 64 for AAC -> MP3 conversion
 			video_to_mp3_command.set_bit_rate (video_properties.standard_bit_rate + 64)
@@ -710,7 +710,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Type definitions
 
-	Type_song_info: TUPLE [time_from, time_to: TIME; title, album_artists, album_name: ZSTRING; recording_year, beats_per_minute: INTEGER]
+	SONG_INFO: TUPLE [time_from, time_to: TIME; title, album_artists, album_name: ZSTRING; recording_year, beats_per_minute: INTEGER]
 		require
 			never_called: False
 		once

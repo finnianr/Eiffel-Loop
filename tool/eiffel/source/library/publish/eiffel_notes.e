@@ -18,7 +18,7 @@ inherit
 			make as make_machine
 		end
 
-	EIFFEL_CONSTANTS
+	EL_EIFFEL_KEYWORDS
 
 	EL_MODULE_COLON_FIELD
 
