@@ -12,6 +12,9 @@ note
 deferred class
 	EL_TAB_CONTENT [W -> {EV_WINDOW}]
 
+inherit
+	EL_MODULE_DEFERRED_LOCALE
+
 feature {EL_FIXED_TAB_BOOK} -- Initialization
 
 	initialize
@@ -34,12 +37,13 @@ feature -- Access
 		deferred
 		end
 
-	display_name: READABLE_STRING_GENERAL
+	display_name: ZSTRING
 		do
-			Result := name
+			Result := Locale * eng_name
 		end
 
-	name: READABLE_STRING_GENERAL
+	eng_name: READABLE_STRING_GENERAL
+		-- English name
 		deferred
 		end
 

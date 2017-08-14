@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 system:
-	configuration_ns = "1-8-0"
+	configuration_ns = "1-16-0"
 	name = EL_servlet; uuid = "229b4c52-09aa-11df-876c-87080fdd2d54" 
 	library_target = EL_servlet
 	
@@ -18,7 +18,8 @@ system:
 			all_classes = true
 
 		option:
-			trace = false; debug=false; warning=true; syntax = standard
+			trace = false; debug = false; warning = true
+			syntax = standard; full_class_checking = false; void_safety = none
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 

@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {RADIO_OPTIONS}."
+	description: "Radio button implementation of widget abstraction EL_INPUT_WIDGET [G]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

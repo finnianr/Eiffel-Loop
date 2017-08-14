@@ -28,10 +28,10 @@ feature -- Testing
 	test_run
 			--
 		do
-			Console.show_all (<< {UNDATED_PHOTOS}, {EL_JPEG_FILE_INFO_COMMAND_IMP} >>)
+			Console.show ({UNDATED_PHOTOS})
 
 			Test.set_binary_file_extensions (<< "jpg" >>)
-			Test.do_file_tree_test ("images", agent test_scan, 2831509537)
+			Test.do_file_tree_test ("images", agent test_scan, 2439913648)
 		end
 
 	test_scan (source_tree_path: EL_DIR_PATH)

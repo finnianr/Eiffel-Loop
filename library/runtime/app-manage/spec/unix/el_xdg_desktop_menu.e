@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-22 16:20:19 GMT (Friday 22nd April 2016)"
 	revision: "1"
@@ -15,7 +15,7 @@ class
 inherit
 	EVOLICITY_SERIALIZEABLE
 		redefine
-			getter_function_table, Template
+			getter_function_table
 		end
 
 	EL_MODULE_LOG

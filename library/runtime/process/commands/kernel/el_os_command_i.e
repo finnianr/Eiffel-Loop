@@ -30,6 +30,8 @@ inherit
 
 	EL_MODULE_LIO
 
+	EL_STRING_CONSTANTS
+
 feature {NONE} -- Initialization
 
 	make_default
@@ -120,8 +122,8 @@ feature {NONE} -- Implementation
 	display (lines: LIST [ZSTRING])
 			-- display word wrapped command
 		local
-			current_working_directory, printable_line, name, prompt, blank_prompt, word: ZSTRING
-			max_width: INTEGER
+			current_working_directory, printable_line, name, prompt, blank_prompt: ZSTRING
+			max_width: INTEGER; words: EL_SEQUENTIAL_INTERVALS
 		do
 			current_working_directory := Directory.current_working
 			name := generator
@@ -141,22 +143,23 @@ feature {NONE} -- Implementation
 			across lines as line loop
 				line.item.replace_substring_all (current_working_directory, Variable_cwd)
 				line.item.left_adjust
-				across line.item.split (' ') as l_word loop
-					word := l_word.item
-					if not word.is_empty then
+				words := line.item.split_intervals (Space_string)
+				from words.start until words.after loop
+					if words.item_count > 0 then
 						if not printable_line.is_empty then
 							printable_line.append_character (' ')
 						end
-						printable_line.append (word)
+						printable_line.append_substring (line.item, words.item_lower, words.item_upper)
 						if printable_line.count > max_width then
-							printable_line.remove_tail (word.count)
+							printable_line.remove_tail (words.item_count)
 							lio.put_labeled_string (prompt, printable_line)
 							lio.put_new_line
 							printable_line.wipe_out
-							printable_line.append (word)
+							printable_line.append_substring (line.item, words.item_lower, words.item_upper)
 							prompt := blank_prompt
 						end
 					end
+					words.forth
 				end
 			end
 			lio.put_labeled_string (prompt, printable_line)
@@ -200,6 +203,11 @@ feature {NONE} -- Implementation
 			has_error := False
 		end
 
+	set_has_error (return_code: INTEGER)
+		do
+			has_error := return_code /= 0
+		end
+
 	system_command: ZSTRING
 		do
 			Result := Precursor
@@ -209,11 +217,6 @@ feature {NONE} -- Implementation
 	temporary_error_file_path: EL_FILE_PATH
 		do
 			Result := Temporary_error_path_by_type.item ({like Current}, agent new_temporary_file_path ("err"))
-		end
-
-	set_has_error (return_code: INTEGER)
-		do
-			has_error := return_code /= 0
 		end
 
 feature {NONE} -- Factory
@@ -231,14 +234,6 @@ feature {NONE} -- Factory
 			Result.append (Error_redirection_operator); Result.append (error_file_path)
 		end
 
-	new_temporary_file_path (a_extension: STRING): EL_FILE_PATH
-			-- Tempory file in temporary area set by env label "TEMP"
-		do
-			Result := Directory.temporary.joined_file_steps (<<
-				Execution_environment.Executable_and_user_name, new_temporary_base_name (a_extension)
-			>>)
-		end
-
 	new_temporary_base_name (a_extension: STRING): ZSTRING
 		do
 			Result := generator
@@ -246,6 +241,14 @@ feature {NONE} -- Factory
 			Result.prepend_character ('{'); Result.append_character ('}')
 			Result.append_character ('.')
 			Result.append_string_general (a_extension)
+		end
+
+	new_temporary_file_path (a_extension: STRING): EL_FILE_PATH
+			-- Tempory file in temporary area set by env label "TEMP"
+		do
+			Result := Directory.temporary.joined_file_steps (<<
+				Execution_environment.Executable_and_user_name, new_temporary_base_name (a_extension)
+			>>)
 		end
 
 feature {NONE} -- Deferred implementation

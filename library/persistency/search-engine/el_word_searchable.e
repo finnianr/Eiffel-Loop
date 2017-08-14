@@ -12,6 +12,9 @@ note
 deferred class
 	EL_WORD_SEARCHABLE
 
+inherit
+	EL_STRING_CONSTANTS
+
 feature {NONE} -- Initialization
 
 	make (a_word_table: like word_table)
@@ -142,7 +145,7 @@ feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 			end
 		end
 
-	keywords_in_bold (keyword_tokens, searchable_tokens: EL_TOKENIZED_STRING): EL_MIXED_STYLE_STRING_LIST
+	keywords_in_bold (keyword_tokens, searchable_tokens: EL_TOKENIZED_STRING): EL_MIXED_STYLE_TEXT_LIST
 			--
 		local
 			pos_match, start_index, end_index: INTEGER
@@ -152,7 +155,7 @@ feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 			start_index := (pos_match - Keyword_quote_leeway).max (1)
 			end_index := (pos_match + keyword_tokens.count - 1 + Keyword_quote_leeway).min (searchable_tokens.count)
 			if start_index > 1 then
-				Result.extend (Ellipsis)
+				Result.extend (Styled_ellipsis)
 			end
 			if start_index < pos_match then
 				Result.extend (
@@ -167,20 +170,20 @@ feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 				)
 			end
 			if end_index < searchable_tokens.count then
-				Result.extend (Ellipsis)
+				Result.extend (Styled_ellipsis)
 			end
 		end
 
-	styled (str: ZSTRING): EL_STYLED_ZSTRING
+	styled (str: ZSTRING): EL_STYLED_TEXT
 			--
 		do
-			create Result.make_from_other (str)
+			Result := str
 		end
 
-	fixed_styled (str: ZSTRING): EL_MONOSPACED_STYLED_ZSTRING
+	fixed_styled (str: ZSTRING): EL_MONOSPACED_STYLED_TEXT
 			--
 		do
-			create Result.make_from_other (str)
+			Result := str
 		end
 
 	searchable_paragraphs_with_words: ARRAYED_LIST [ZSTRING]
@@ -222,10 +225,10 @@ feature {NONE} -- Constants
 			Result := "<*>"
 		end
 
-	Ellipsis: EL_STYLED_ZSTRING
+	Styled_ellipsis: EL_STYLED_TEXT
 			--
 		once
-			Result := ".."
+			Result := Ellipsis_string_8
 		end
 
 end

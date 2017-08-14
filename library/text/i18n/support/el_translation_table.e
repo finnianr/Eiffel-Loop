@@ -50,6 +50,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			create last_id.make_empty
+			create duplicates.make_empty
 			make_equal (60)
 			Precursor
 		end
@@ -114,6 +115,20 @@ feature -- Cursor movement
 			search (to_zstring (key))
 		end
 
+feature -- Basic operations
+
+	print_duplicates
+		do
+			if not duplicates.is_empty then
+				across duplicates as id loop
+					lio.put_string_field ("id", id.item)
+					lio.put_string (" DUPLICATE")
+					lio.put_new_line
+				end
+				lio.put_new_line
+			end
+		end
+
 feature -- Contract Support
 
 	document_has_translation (a_language: STRING; root_node: EL_XPATH_ROOT_NODE_CONTEXT): BOOLEAN
@@ -122,16 +137,6 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
-
-	to_zstring (key: READABLE_STRING_GENERAL): ZSTRING
-		do
-			if attached {ZSTRING} key as z_key then
-				Result := z_key
-			else
-				Result := empty_once_string
-				Result.append_string_general (key)
-			end
-		end
 
 	put (a_translation, translation_id: ZSTRING)
 		local
@@ -149,10 +154,23 @@ feature {NONE} -- Implementation
 			end
 			put_table (translation, translation_id)
 			if conflict then
-				lio.put_string_field ("Duplicate id", translation_id)
-				lio.put_new_line
+				duplicates.extend (translation_id)
 			end
 		end
+
+	to_zstring (key: READABLE_STRING_GENERAL): ZSTRING
+		do
+			if attached {ZSTRING} key as z_key then
+				Result := z_key
+			else
+				Result := empty_once_string
+				Result.append_string_general (key)
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	duplicates: EL_ZSTRING_LIST
 
 feature {NONE} -- Build from XML
 

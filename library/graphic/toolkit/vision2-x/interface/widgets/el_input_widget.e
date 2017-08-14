@@ -1,5 +1,8 @@
 note
-	description: "Summary description for {EL_USER_INPUT_LIST}."
+	description: "[
+		Abstractions for mapping a data object conforming to FINITE [G] to a selectable widget,
+		a combo box for example.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -105,7 +108,7 @@ feature {NONE} -- Implementation
 			sorter.sort (tuples)
 		end
 
-	value_change_action: PROCEDURE [ANY, TUPLE [G]]
+	value_change_action: PROCEDURE [G]
 
 feature {NONE} -- Type definitions
 

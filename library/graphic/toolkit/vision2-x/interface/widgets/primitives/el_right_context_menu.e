@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
 	revision: "1"
@@ -15,7 +15,7 @@ class
 inherit
 	EV_MENU
 
-	EL_MODULE_LOCALE
+	EL_MODULE_DEFERRED_LOCALE
 		undefine
 			 copy, default_create, is_equal
 		end
@@ -52,6 +52,6 @@ feature {NONE} -- Implementation
 
 	item_list: LIST [G]
 
-	select_action: PROCEDURE [ANY, TUPLE [G]]
+	select_action: PROCEDURE [G]
 
 end

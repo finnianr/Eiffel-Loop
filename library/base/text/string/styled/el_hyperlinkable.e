@@ -14,7 +14,7 @@ deferred class
 
 feature -- Access
 
-	text: EL_MIXED_STYLE_STRING_LIST
+	text: EL_MIXED_STYLE_TEXT_LIST
 			--
 		deferred
 		end

@@ -185,7 +185,7 @@ feature {NONE} -- Implementation
 
 	drawing_area: EL_DRAWING_AREA_BASE
 
-	button_press_action: PROCEDURE [ANY, TUPLE]
+	button_press_action: PROCEDURE
 
 	state_image: EL_DRAWABLE_PIXEL_BUFFER
 

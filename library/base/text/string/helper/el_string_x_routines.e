@@ -74,6 +74,26 @@ feature -- Transformation
 			Result.append_code (right.natural_32_code)
 		end
 
+	joined (lines: FINITE [READABLE_STRING_GENERAL]): S
+		local
+			l_lines: LINEAR [READABLE_STRING_GENERAL]
+			count: INTEGER
+		do
+			l_lines := lines.linear_representation
+			from l_lines.start until l_lines.after loop
+				count := count + l_lines.item.count
+				l_lines.forth
+			end
+			create Result.make (count + lines.count - 1)
+			from l_lines.start until l_lines.after loop
+				Result.append (l_lines.item.to_string_32)
+				if l_lines.index < lines.count then
+					Result.append_code (('%N').natural_32_code)
+				end
+				l_lines.forth
+			end
+		end
+
 	leading_delimited (text, delimiter: S; include_delimiter: BOOLEAN): S
 			--
 		local
@@ -256,6 +276,12 @@ feature -- Transformation
 
 feature -- Status query
 
+	has_double_quotes (s: READABLE_STRING_GENERAL): BOOLEAN
+			--
+		do
+			Result := has_enclosing (s, once "%"%"")
+		end
+
 	has_enclosing (s, ends: READABLE_STRING_GENERAL): BOOLEAN
 			--
 		require
@@ -263,12 +289,6 @@ feature -- Status query
 		do
 			Result := s.count >= 2
 				and then s.item (1) = ends.item (1) and then s.item (s.count) = ends.item (2)
-		end
-
-	has_double_quotes (s: READABLE_STRING_GENERAL): BOOLEAN
-			--
-		do
-			Result := has_enclosing (s, once "%"%"")
 		end
 
 	has_single_quotes (s: READABLE_STRING_GENERAL): BOOLEAN
@@ -360,11 +380,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	String_8: KL_STRING_ROUTINES
-		once
-			create Result
-		end
-
 	Code_a_lower: NATURAL
 		once
 			Result := ('a').natural_32_code
@@ -378,6 +393,11 @@ feature {NONE} -- Constants
 	Code_zero: NATURAL
 		once
 			Result := ('0').natural_32_code
+		end
+
+	String_8: KL_STRING_ROUTINES
+		once
+			create Result
 		end
 
 end

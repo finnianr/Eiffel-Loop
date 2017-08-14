@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-26 11:22:33 GMT (Saturday 26th December 2015)"
 	revision: "1"
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			make ("", agent do_nothing, create {EV_FONT}, create {EV_COLOR})
 		end
 
-	make (a_text: ZSTRING; a_action: PROCEDURE [ANY, TUPLE]; a_font: EV_FONT; a_background_color: EV_COLOR)
+	make (a_text: READABLE_STRING_GENERAL; a_action: PROCEDURE; a_font: EV_FONT; a_background_color: EV_COLOR)
 		do
 			create styled_text.make (1)
 			styled_text.extend (a_text)
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 
 	make_with_styles (
 		a_styled_text: like styled_text; a_font, a_fixed_font: EV_FONT
-		a_action: PROCEDURE [ANY, TUPLE]; a_background_color: EV_COLOR
+		a_action: PROCEDURE; a_background_color: EV_COLOR
 	)
 			--
 		do
@@ -55,8 +55,7 @@ feature {NONE} -- Initialization
 			default_create
 
 			set_background_color (a_background_color)
-			link_text_color := GUI.Blue
-			disabled_link_text_color := GUI.Black
+			link_text_color := GUI.Blue; disabled_link_text_color := GUI.Black
 
 			create text_rect.make (
 				0, 0, mixed_style_width (styled_text), bold_font.line_height + bold_font.line_height // 8
@@ -85,7 +84,7 @@ feature -- Access
 
 	disabled_link_text_color: EV_COLOR
 
-	styled_text: EL_MIXED_STYLE_STRING_LIST
+	styled_text: EL_MIXED_STYLE_TEXT_LIST
 		-- link text
 
 feature -- Element change
@@ -173,13 +172,13 @@ feature {NONE} -- Event handling
 			draw_mixed_style_text_top_left (text_rect.x, 0, styled_text)
 
 			if is_underlined or is_selected then
-				l_leading_spaces_width := leading_spaces_width (styled_text.first)
+				l_leading_spaces_width := styled_text.first.leading_spaces_width (Current)
 				-- We don't want to underline any leading spaces on a right justified fixed width text
 				draw_segment (
 					text_rect.x + l_leading_spaces_width,
 					height - line_width,
 					text_rect.x + text_rect.width, 			-- x2
-					height - line_width						-- y2
+					height - line_width							-- y2
 				)
 			end
 		end
@@ -213,19 +212,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	leading_spaces_width (a_text: EL_STYLED_ZSTRING): INTEGER
-		local
-			l_text: EL_STYLED_ZSTRING
-			l_count: INTEGER
-		do
-			l_text := a_text.twin
-			from until l_count + 1 > l_text.count or else l_text.item (l_count + 1) /= ' ' loop
-				l_count := l_count + 1
-			end
-			l_text.remove_tail (l_text.count - l_count)
-			Result := l_text.width (Current)
-		end
-
 	has_pointer: BOOLEAN
 		do
 			Result := text_rect.has (pointer_position)
@@ -233,6 +219,6 @@ feature {NONE} -- Implementation
 
 	text_rect: EV_RECTANGLE
 
-	action: PROCEDURE [ANY, TUPLE]
+	action: PROCEDURE
 
 end

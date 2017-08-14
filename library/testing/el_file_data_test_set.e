@@ -1,5 +1,8 @@
 note
-	description: "Test using a set of files generated in workarea directory"
+	description: "[
+		Test using a set of text files generated in workarea directory.
+		The file data is a unique natural number.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

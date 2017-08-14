@@ -42,6 +42,11 @@ inherit
 			default_create
 		end
 
+	EL_STRING_CONSTANTS
+		undefine
+			default_create
+		end
+
 feature {NONE} -- Events
 
 	on_prepare
@@ -70,17 +75,17 @@ feature -- Conversion tests
 		note
 			testing: "covers/{ZSTRING}.substring, covers/{ZSTRING}.split, covers/{ZSTRING}.index_of"
 		local
-			proverb: ZSTRING; words: LIST [ZSTRING]; words_32: LIST [STRING_32]
+			proverb: ZSTRING; word_list: LIST [ZSTRING]; words_32: LIST [STRING_32]
 		do
 			proverb := Text_russian_and_english
 			across << 'ь', (' ').to_character_32 >> as c loop
-				words := proverb.split (c.item)
+				word_list := proverb.split (c.item)
 				words_32 := Text_russian_and_english.split (c.item)
-				assert ("same word count", words.count = words_32.count)
-				if words.count = words_32.count then
-					from words.start; words_32.start until words.after loop
-						assert ("test_split OK", words.item.to_unicode ~ words_32.item)
-						words.forth; words_32.forth
+				assert ("same word count", word_list.count = words_32.count)
+				if word_list.count = words_32.count then
+					from word_list.start; words_32.start until word_list.after loop
+						assert ("test_split OK", word_list.item.to_unicode ~ words_32.item)
+						word_list.forth; words_32.forth
 					end
 				end
 			end
@@ -564,6 +569,19 @@ feature -- Status query tests
 			end
 		end
 
+	test_for_all_split
+		note
+			testing: "covers/{ZSTRING}.for_all_split"
+		local
+			line: ZSTRING; word_list: EL_ZSTRING_LIST
+		do
+			across Text_lines as line_32 loop
+				line := line_32.item
+				word_list := line
+				assert ("word is in word_list", line.for_all_split (Space_string, agent word_list.has))
+			end
+		end
+
 	test_has
 		note
 			testing: "covers/{ZSTRING}.has"
@@ -620,6 +638,21 @@ feature -- Status query tests
 					assert ("starts_with OK", str.starts_with (word) = str_32.starts_with (word_32))
 					str_32.remove_head (word_32.count); str.remove_head (word.count)
 					assert ("remove_head OK", str.to_unicode ~ str_32)
+				end
+			end
+		end
+
+	test_there_exists_split
+		note
+			testing: "covers/{ZSTRING}.there_exists_split"
+		local
+			line: ZSTRING; word_list: EL_ZSTRING_LIST
+		do
+			across Text_lines as line_32 loop
+				line := line_32.item
+				word_list := line
+				across word_list as word loop
+					assert ("word is in word_list", line.there_exists_split (Space_string, agent (word.item).is_equal))
 				end
 			end
 		end

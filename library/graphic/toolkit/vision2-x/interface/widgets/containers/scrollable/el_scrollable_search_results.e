@@ -1,5 +1,8 @@
 note
-	description: "Summary description for {EL_SCROLLABLE_SEARCH_RESULTS}."
+	description: "[
+		List of scrollable search result hyperlinks for data list conforming to `DYNAMIC_CHAIN [G]'.
+		The results are displayed in pages with `links_per_page' defining the number of result hyperlinks per page.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -28,6 +31,11 @@ inherit
 		export
 			{NONE} all
 			{ANY} Date_formats
+		undefine
+			is_equal, copy, default_create
+		end
+
+	EL_MODULE_DEFERRED_LOCALE
 		undefine
 			is_equal, copy, default_create
 		end
@@ -274,9 +282,9 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Factory
 
-	new_formatted_date (date: DATE): EL_STYLED_ZSTRING
+	new_formatted_date (date: DATE): EL_STYLED_TEXT
 		do
-			Result := English_date_text.formatted (date, date_format)
+			Result := Locale.date_text.formatted (date, date_format)
 		end
 
 	new_navigation_links_box (current_page_link_count: INTEGER): EL_HORIZONTAL_BOX
@@ -326,7 +334,7 @@ feature {NONE} -- Factory
 			--
 		local
 			word_match_extracts: like result_set.item.word_match_extracts
-			date_line: EL_MIXED_STYLE_STRING_LIST
+			date_line: EL_MIXED_STYLE_TEXT_LIST
 		do
 			word_match_extracts := result_item.word_match_extracts (search_words)
 			if attached {EL_DATEABLE} result_item as l_item and then not date_format.is_empty then
@@ -353,7 +361,7 @@ feature {NONE} -- Implementation: Routines
 			result_item: G; i, l_lower: INTEGER
 		do
 			l_lower := (page - 1) * links_per_page + 1
-			create Result.make (l_lower, result_set.count.min (l_lower + links_per_page - 1))
+			create Result.make_filled (create {EL_VERTICAL_BOX}, l_lower, result_set.count.min (l_lower + links_per_page - 1))
 			from i := l_lower until i > Result.upper loop
 				result_item := result_set.i_th (i)
 				create result_link.make_with_styles (
@@ -369,7 +377,7 @@ feature {NONE} -- Implementation: Routines
 			end
 		end
 
-	styled (a_string: EL_STYLED_ZSTRING): EL_MIXED_STYLE_STRING_LIST
+	styled (a_string: EL_STYLED_TEXT): EL_MIXED_STYLE_TEXT_LIST
 		do
 			create Result.make (1)
 			Result.extend (a_string)
@@ -405,7 +413,7 @@ feature {NONE} -- Implementation: attributes
 
 	page_count: INTEGER
 
-	result_selected_action: PROCEDURE [ANY, TUPLE [CHAIN [G], INTEGER, G]]
+	result_selected_action: PROCEDURE [CHAIN [G], INTEGER, G]
 
 	result_set: DYNAMIC_CHAIN [G]
 
@@ -435,19 +443,14 @@ feature {NONE} -- Constants
 			Result := 0.5
 		end
 
-	English_date_text: EL_ENGLISH_DATE_TEXT
-		once
-			create Result.make
-		end
-
 	Link_text_next: ZSTRING
 		once
-			Result := "Next"
+			Result := Locale * "Next"
 		end
 
 	Link_text_previous: ZSTRING
 		once
-			Result := "Previous"
+			Result := Locale * "Previous"
 		end
 
 end

@@ -63,6 +63,6 @@ feature {NONE} -- Implementation
 
 	container: EV_DYNAMIC_LIST [EV_CONTAINABLE]
 
-	factory_function: FUNCTION [ANY, TUPLE, W]
+	factory_function: FUNCTION [W]
 
 end

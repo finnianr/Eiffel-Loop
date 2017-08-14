@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 			focus_out_actions.extend (agent set_pixmap_normal)
 		end
 
-	make_with_action (a_pixmap_set: EL_SVG_BUTTON_PIXMAP_SET; a_action: PROCEDURE [ANY, TUPLE])
+	make_with_action (a_pixmap_set: EL_SVG_BUTTON_PIXMAP_SET; a_action: PROCEDURE)
 			--
 		do
 			make (a_pixmap_set)

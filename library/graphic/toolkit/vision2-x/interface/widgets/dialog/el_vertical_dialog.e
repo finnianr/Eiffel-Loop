@@ -38,6 +38,11 @@ inherit
 			default_create, copy
 		end
 
+	EL_MODULE_DEFERRED_LOCALE
+		undefine
+			default_create, copy
+		end
+
 	EL_MODULE_SCREEN
 		undefine
 			default_create, copy
@@ -63,8 +68,8 @@ inherit
 feature {NONE} -- Initialization
 
 	make_dialog_with_button_texts (
-		a_title: like title
-		a_button_text, a_cancel_button_text: like button_text; a_default_button_action: like default_button_action
+		a_title: like title; a_button_text, a_cancel_button_text: ZSTRING
+		a_default_button_action: like default_button_action
 	)
 		do
 			button_text := a_button_text; cancel_button_text := a_cancel_button_text
@@ -86,7 +91,10 @@ feature {NONE} -- Initialization
 	make_dialog (a_title: ZSTRING; a_default_button_action: like default_button_action)
 			-- build dialog with components
 		do
-			make_dialog_with_button_texts (a_title, Default_button_text, Default_cancel_button_text, a_default_button_action)
+			make_dialog_with_button_texts (
+				a_title, Locale * Eng_default_button_text, Locale * Eng_cancel_button_text,
+				a_default_button_action
+			)
 		end
 
 feature -- Access
@@ -114,10 +122,10 @@ feature -- Access
 			end
 		end
 
-	button_text: READABLE_STRING_GENERAL
+	button_text: ZSTRING
 		-- default button text
 
-	cancel_button_text: READABLE_STRING_GENERAL
+	cancel_button_text: ZSTRING
 
 feature -- Status query
 
@@ -259,9 +267,9 @@ feature {NONE} -- Factory
 			Result := Vision_2.new_horizontal_box (0, Widget_separation_cms, widgets)
 		end
 
-	new_button (a_text: READABLE_STRING_GENERAL): EV_BUTTON
+	new_button (a_text: ZSTRING): EV_BUTTON
 		do
-			create Result.make_with_text (a_text)
+			create Result.make_with_text (a_text.to_string_32)
 		end
 
 feature {NONE} -- Implementation
@@ -345,18 +353,18 @@ feature {NONE} -- Implementation: attributes
 
 	drag: EL_WINDOW_DRAG
 
-	default_button_action: PROCEDURE [ANY, TUPLE]
+	default_button_action: PROCEDURE
 
 	dialog: EL_MANAGED_WIDGET [like new_dialog_box]
 
 feature -- Constants
 
-	Default_button_text: STRING
+	Eng_default_button_text: ZSTRING
 		once
 			Result := "OK"
 		end
 
-	Default_cancel_button_text: STRING
+	Eng_cancel_button_text: ZSTRING
 		once
 			Result := "Cancel"
 		end

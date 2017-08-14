@@ -48,31 +48,31 @@ feature -- Access
 
 feature -- Element change
 
-	add_unmodified_key_action (key_code: INTEGER; action: PROCEDURE [ANY, TUPLE])
+	add_unmodified_key_action (key_code: INTEGER; action: PROCEDURE)
 			--
 		do
 			add_key_action (key_code, action, Modifier_none)
 		end
 
-	add_ctrl_shift_key_action (key_code: INTEGER; action: PROCEDURE [ANY, TUPLE])
+	add_ctrl_shift_key_action (key_code: INTEGER; action: PROCEDURE)
 			--
 		do
 			add_key_action (key_code, action, Modifier_ctrl | Modifier_shift)
 		end
 
-	add_ctrl_key_action (key_code: INTEGER; action: PROCEDURE [ANY, TUPLE])
+	add_ctrl_key_action (key_code: INTEGER; action: PROCEDURE)
 			--
 		do
 			add_key_action (key_code, action, Modifier_ctrl)
 		end
 
-	add_alt_key_action (key_code: INTEGER; action: PROCEDURE [ANY, TUPLE])
+	add_alt_key_action (key_code: INTEGER; action: PROCEDURE)
 			--
 		do
 			add_key_action (key_code, action, Modifier_alt)
 		end
 
-	add_key_action (key_code: INTEGER; action: PROCEDURE [ANY, TUPLE]; modifier_keys: NATURAL)
+	add_key_action (key_code: INTEGER; action: PROCEDURE; modifier_keys: NATURAL)
 			--
 		local
 			accelerator: EV_ACCELERATOR

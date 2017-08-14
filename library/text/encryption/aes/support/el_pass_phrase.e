@@ -65,7 +65,7 @@ feature -- Access
 
 	password_strength: ZSTRING
 		do
-			Result := Locale * English_password_strengths [security_score]
+			Result := Locale * Eng_password_strengths [security_score]
 		end
 
 	salt_base_64: STRING
@@ -117,7 +117,7 @@ feature -- Access
 				end
 				i := i + 1
 			end
-			Result := Result.min (English_password_strengths.count)
+			Result := Result.min (Eng_password_strengths.count)
 		end
 
 	string: ZSTRING
@@ -278,7 +278,7 @@ feature {NONE} -- Constants
 			Result := Locale * "Enter pass phrase"
 		end
 
-	English_password_strengths: ARRAY [STRING]
+	Eng_password_strengths: ARRAY [STRING]
 			--
 		once
 			create Result.make (1, 9)

@@ -34,6 +34,10 @@ inherit
 
 feature -- Access
 
+	date_text: EL_DATE_TEXT
+		deferred
+		end
+
 	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
 			-- by default returns `key' as a `ZSTRING' unless localization is enabled at an
 			-- application level
@@ -54,7 +58,7 @@ feature -- Access
 			end
 		end
 
-feature {EL_MODULE_DEFERRED_LOCALE} -- Element change
+feature {EL_MODULE_DEFERRED_LOCALE, EL_DATE_TEXT} -- Element change
 
 	set_next_translation (text: READABLE_STRING_GENERAL)
 		-- set text to return on next call to `translation' with key enclosed with curly braces "{}"

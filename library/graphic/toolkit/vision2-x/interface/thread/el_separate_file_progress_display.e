@@ -55,7 +55,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	call (an_action: PROCEDURE [ANY, TUPLE])
+	call (an_action: PROCEDURE)
 		do
 			GUI.do_once_on_idle (an_action)
 		end

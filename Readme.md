@@ -13,9 +13,11 @@
 
 ## RELEASE NOTES 
 
-[doc/Release-1.4.8.md (future)](doc/Release-1.4.8.md)
+[doc/Release-1.4.9.md (future)](doc/Release-1.4.9.md)
 
-[doc/Release-1.4.7.md (current)](doc/Release-1.4.7.md)
+[doc/Release-1.4.8.md (current)](doc/Release-1.4.8.md)
+
+[doc/Release-1.4.7.md](doc/Release-1.4.7.md)
 
 [doc/Release-1.4.6.md](doc/Release-1.4.6.md)
 

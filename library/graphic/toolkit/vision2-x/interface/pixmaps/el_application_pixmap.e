@@ -123,7 +123,7 @@ feature -- SVG
 
 feature {NONE} -- Factory
 
-	new_svg_pixmap (make_pixmap: PROCEDURE [EL_SVG_PIXMAP, TUPLE]): EL_SVG_PIXMAP
+	new_svg_pixmap (make_pixmap: PROCEDURE): EL_SVG_PIXMAP
 		do
 			Procedure.set_from_other (make_pixmap)
 			if attached {like image_path} Procedure.closed_operands.reference_item (1) as l_image_path then

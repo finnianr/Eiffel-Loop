@@ -68,7 +68,7 @@ inherit
 			is_equal
 		end
 
-	EIFFEL_CONSTANTS
+	EL_EIFFEL_KEYWORDS
 		undefine
 			is_equal
 		end

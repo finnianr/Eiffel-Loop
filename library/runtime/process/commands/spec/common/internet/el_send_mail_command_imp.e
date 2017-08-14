@@ -28,7 +28,7 @@ create
 
 feature -- Access
 
-	Template: STRING = "sendmail -v $from_address $to_address < $email_path"
+	Template: STRING = "sendmail -v -fname $from_address $to_address < $email_path"
 
 -- sendmail -v $to_address < $email_path | grep -P "^... RCPT To|^... 55[0-9]" >> $log_path
 -- sendmail -O DeliveryMode=background $from_address $to_address < $email_path

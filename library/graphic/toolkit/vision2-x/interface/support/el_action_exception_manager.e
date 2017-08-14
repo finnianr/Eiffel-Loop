@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-26 11:18:45 GMT (Saturday 26th December 2015)"
 	revision: "1"
@@ -14,6 +14,8 @@ class
 
 inherit
 	EXCEPTION_MANAGER
+
+	EL_MODULE_DEFERRED_LOCALE
 
 create
 	make
@@ -43,12 +45,10 @@ feature -- Status change
 
 feature -- Basic operations
 
-	try (a_action: PROCEDURE [ANY, TUPLE])
+	try (a_action: PROCEDURE)
 		local
+			condition_found: BOOLEAN; title, message: ZSTRING; position_widget: EV_WIDGET
 			error_dialog: D
-			condition_found: BOOLEAN
-			title, message: ZSTRING
-			position_widget: EV_WIDGET
 		do
 			if error_occurred then
 				title := Default_title; message := Default_message
@@ -100,12 +100,13 @@ feature {NONE} -- Constants
 
 	Default_title: ZSTRING
 		once
-			Result := "ERROR"
+			Result := Locale * "Error"
 		end
 
 	Default_message: ZSTRING
 		once
-			Result := "Something bad happened that prevented this operation!"
+			Locale.set_next_translation ("Something bad happened that prevented this operation!")
+			Result := Locale * "{something bad happened}"
 		end
 
 end

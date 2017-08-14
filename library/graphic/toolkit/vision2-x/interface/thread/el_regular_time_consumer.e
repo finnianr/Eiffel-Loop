@@ -33,7 +33,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_with_interval_and_action (an_interval: INTEGER; a_consumption_action: PROCEDURE [ANY, TUPLE [P]])
+	make_with_interval_and_action (an_interval: INTEGER; a_consumption_action: PROCEDURE [P])
 			-- Create with `an_interval' in milliseconds.
 		do
 			make_with_interval (an_interval)
@@ -56,6 +56,6 @@ feature {NONE} -- Implementation
 			consumption_action.call ([product])
 		end
 
-	consumption_action: PROCEDURE [ANY, TUPLE [P]]
+	consumption_action: PROCEDURE [P]
 
 end

@@ -1,7 +1,7 @@
 note
 	description: "Splits Eiffel source lines into feature groups and individual feature lines"
 
-	
+
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -15,18 +15,14 @@ class
 	SOURCE_MODEL
 
 inherit
-	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
 		rename
 			make as make_machine
-		redefine
-			call
 		end
 
 	EL_MODULE_LOG
 
 	FEATURE_CONSTANTS
-
-	EIFFEL_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -40,7 +36,6 @@ feature {NONE} -- Initialization
 			create class_header.make (20)
 			create class_footer.make (1)
 			create feature_groups.make (8)
-			create code_line.make_empty
 			found_group := Default_group
 
 			create input_lines.make_latin (1, source_path)
@@ -102,7 +97,7 @@ feature {NONE} -- State handlers
 
 	find_class_declaration (line: ZSTRING)
 		do
-			if Class_declaration_keywords.there_exists (agent code_line_starts_with) then
+			if code_line_is_class_declaration then
 				state := agent find_first_feature_block
 				find_first_feature_block (line)
 			else
@@ -126,7 +121,7 @@ feature {NONE} -- State handlers
 
 	find_first_feature_block (line: ZSTRING)
 		do
-			if code_line_starts_with (Keyword_feature) then
+			if code_line_starts_with (0, Keyword_feature) then
 				feature_groups.extend (create {CLASS_FEATURE_GROUP}.make (line))
 				state := agent find_first_feature
 			else
@@ -137,11 +132,11 @@ feature {NONE} -- State handlers
 	find_next_feature (line: ZSTRING)
 			-- find next feature in feature group
 		do
-			if tab_count = 0 and then Footer_start_keywords.has (code_line) then
+			if code_line_starts_with_one_of (0, Footer_start_keywords) then
 				fill_class_footer (line)
 				state := agent fill_class_footer
 
-			elseif code_line_starts_with (Keyword_feature) then
+			elseif code_line_starts_with (0, Keyword_feature) then
 				feature_groups.extend (create {CLASS_FEATURE_GROUP}.make (line))
 				state := agent find_first_feature
 
@@ -166,52 +161,6 @@ feature {NONE} -- State handlers
 
 feature {NONE} -- Implementation
 
-	call (line: ZSTRING)
-		local
-			trim_line: ZSTRING
-		do
-			trim_line := line.twin
-			trim_line.prune_all_leading ('%T')
-			tab_count := line.count - trim_line.count
-			if trim_line.count > 0 then
-				trim_line.right_adjust
-			end
-			code_line := trim_line
-			Precursor (line)
-		end
-
-	code_line_is_feature_declaration: BOOLEAN
-			-- True if code line begins declaration of attribute or routine
-		local
-			first_character: CHARACTER_32
-		do
-			if not code_line.is_empty then
-				first_character := code_line [1]
-				Result := tab_count = 1 and then (first_character.is_alpha or else first_character = '@')
-			end
-		end
-
-	code_line_is_verbatim_string_end: BOOLEAN
-		do
-			Result := across Close_verbatim_string_markers as marker some code_line.ends_with (marker.item) end
-		end
-
-	code_line_is_verbatim_string_start: BOOLEAN
-		do
-			Result := across Open_verbatim_string_markers as marker some code_line.ends_with (marker.item) end
-		end
-
-	code_line_starts_with (keyword: ZSTRING): BOOLEAN
-		local
-			l_line: like code_line
-		do
-			if tab_count = 0 then
-				l_line := code_line
-				Result := l_line.starts_with (keyword)
-								and then (l_line.count > keyword.count implies l_line.unicode_item (keyword.count + 1).is_space)
-			end
-		end
-
 	last_feature_extend (line: ZSTRING; is_new: BOOLEAN)
 		do
 			if is_new then
@@ -229,41 +178,22 @@ feature {NONE} -- Implementation attributes
 
 	class_notes: SOURCE_LINES
 
-	code_line: ZSTRING
-
 	encoding: STRING
 
 	feature_groups: EL_ARRAYED_LIST [CLASS_FEATURE_GROUP]
 
 	source_path: EL_FILE_PATH
 
-	tab_count: INTEGER
-
 feature {NONE} -- Constants
-
-	Close_verbatim_string_markers: ARRAY [ZSTRING]
-		once
-			Result := << "]%"", "}%"" >>
-		end
 
 	Default_group: CLASS_FEATURE_GROUP
 		once
 			create Result.make ("")
 		end
 
-	Footer_start_keywords: EL_ZSTRING_LIST
-		once
-			create Result.make_from_array (<< Keyword_invariant, Keyword_end, Keyword_note >>)
-		end
-
 	Feature_header_export: EL_ZSTRING
 		once
 			Result := "feature {%S} -- "
-		end
-
-	Open_verbatim_string_markers: ARRAY [ZSTRING]
-		once
-			Result := << "%"[", "%"{" >>
 		end
 
 end

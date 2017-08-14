@@ -10,6 +10,7 @@ music-collection:
 		root = "/storage/sdcard1"; subdirectory_name = "playlists"
 	
 	selected-genres:
+		"Blues"
 		"Dance"
 		"Classical (Bells)"
 		"Classical (Choir)"

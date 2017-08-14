@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-20 16:30:56 GMT (Sunday 20th December 2015)"
 	revision: "1"
@@ -60,7 +60,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	end_request_action: PROCEDURE [ANY, TUPLE]
+	end_request_action: PROCEDURE
 		-- action called on successful write of servlet response
 
 end

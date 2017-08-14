@@ -32,7 +32,7 @@ feature {NONE} -- Implementation
 				"BootRec.exe.text", "bootrec_error_msg.text", "Bootrec.exe-tool.text"
 			>>
 			Result [Help_pages_bcd_dir] := <<
-				{STRING_32} "bcd-setup.3.txt", {STRING_32}"bcd-setup.2.txt", {STRING_32}"bcdedit_import_error.txt",
+				{STRING_32} "bcd-setup.3.txt", {STRING_32} "bcd-setup.2.txt", {STRING_32} "bcdedit_import_error.txt",
 				{STRING_32} "bcd-setup-€.txt"
 			>>
 			Result [{STRING_32} "Help-pages/Windows™"] := <<

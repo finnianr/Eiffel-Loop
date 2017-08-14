@@ -3,6 +3,7 @@ note
 		Container for wrapping text into a rectangular area before rendering it with a drawing command
 		
 		**Supports**
+		
 			* Multiple simultaneous font sizes
 			* Word wrapping
 			* Squeezing of text into available space by adjusting the font size
@@ -48,15 +49,15 @@ inherit
 			out
 		end
 
+	EL_STRING_CONSTANTS
+		undefine
+			out
+		end
+
 create
 	make_cms, make, make_from_rectangle
 
 feature {NONE} -- Initialization
-
-	make_from_rectangle (r: EL_RECTANGLE)
-		do
-			make (r.x, r.y, r.width, r.height)
-		end
 
 	make (a_x, a_y, a_width, a_height: INTEGER)
 		do
@@ -64,6 +65,11 @@ feature {NONE} -- Initialization
 			create font
 			create internal_lines.make (2)
 			align_text_left; align_text_top
+		end
+
+	make_from_rectangle (r: EL_RECTANGLE)
+		do
+			make (r.x, r.y, r.width, r.height)
 		end
 
 feature -- Access
@@ -90,16 +96,10 @@ feature -- Status query
 
 	line_fits (line: ZSTRING): BOOLEAN
 		do
-			Result := font.string_width (line.to_unicode) <= width
+			Result := GUI.string_width (line, font) <= width
 		end
 
 feature -- Status setting
-
-	enable_squeezing
-		-- enable squeezing of text into available space by reducing font size
-		do
-			is_text_squeezable := True
-		end
 
 	disable_squeezing
 		-- disable text squeezing
@@ -107,11 +107,24 @@ feature -- Status setting
 			is_text_squeezable := False
 		end
 
+	enable_squeezing
+		-- enable squeezing of text into available space by reducing font size
+		do
+			is_text_squeezable := True
+		end
+
 feature -- Element change
 
-	set_font (a_font: like font)
+	add_separation (a_separation_cms: REAL)
+		local
+			separator: like Type_line
 		do
-			font := a_font.twin
+			separator := create_line ("")
+			separator.rectangle.set_height (Screen.vertical_pixels (a_separation_cms))
+			if not internal_lines.is_empty then
+				separator.rectangle.set_y (internal_lines.last.rectangle.bottom + 1)
+			end
+			internal_lines.extend (separator)
 		end
 
 	append_line (a_line: ZSTRING)
@@ -124,26 +137,19 @@ feature -- Element change
 			end
 		end
 
-	append_words (words: EL_ZSTRING_LIST)
+	append_words (line: ZSTRING)
 			-- append words wrapping them if they do not fit in one line
 		do
 			if is_text_squeezable then
-				squeeze_flow_text (words)
+				squeeze_flow_text (line)
 			else
-				flow_text (words)
+				flow_text (line)
 			end
 		end
 
-	add_separation (a_separation_cms: REAL)
-		local
-			separator: like Type_line
+	set_font (a_font: like font)
 		do
-			separator := create_line ("")
-			separator.rectangle.set_height (Screen.vertical_pixels (a_separation_cms))
-			if not internal_lines.is_empty then
-				separator.rectangle.set_y (internal_lines.last.rectangle.bottom + 1)
-			end
-			internal_lines.extend (separator)
+			font := a_font.twin
 		end
 
 feature -- Basic operations
@@ -166,15 +172,6 @@ feature -- Basic operations
 			canvas.draw_rectangle (x, y, width, height)
 		end
 
-	draw_rotated_border_on_buffer (buffer: EL_DRAWABLE_PIXEL_BUFFER; a_angle: DOUBLE)
-		do
-			buffer.save
-			buffer.translate (x, y)
-			buffer.rotate (a_angle)
-			buffer.draw_rectangle (0, 0, width, height)
-			buffer.restore
-		end
-
 	draw_rotated_border (canvas: EL_DRAWABLE; a_angle: DOUBLE)
 		local
 			rect: EL_ROTATABLE_RECTANGLE
@@ -182,6 +179,15 @@ feature -- Basic operations
 			create rect.make_rotated (width, height, a_angle)
 			rect.move (x, y)
 			rect.draw (canvas)
+		end
+
+	draw_rotated_border_on_buffer (buffer: EL_DRAWABLE_PIXEL_BUFFER; a_angle: DOUBLE)
+		do
+			buffer.save
+			buffer.translate (x, y)
+			buffer.rotate (a_angle)
+			buffer.draw_rectangle (0, 0, width, height)
+			buffer.restore
 		end
 
 	draw_rotated_on_buffer (buffer: EL_DRAWABLE_PIXEL_BUFFER; a_angle: DOUBLE)
@@ -256,7 +262,94 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	squeeze_flow_text (words: EL_ZSTRING_LIST)
+	available_height: INTEGER
+		do
+			Result := height
+			across internal_lines as line loop
+				Result := Result - line.item.rectangle.height
+			end
+			Result := Result.max (0)
+		end
+
+	create_line (a_text: ZSTRING): like Type_line
+		local
+			rect: EL_RECTANGLE
+		do
+			create Result
+			Result.text := a_text
+			Result.font := font.twin
+			Result.alignment := alignment_code
+			create rect.make (x, y, width, font.line_height)
+			if not internal_lines.is_empty then
+				rect.set_y (internal_lines.last.rectangle.bottom + 1)
+			end
+			Result.rectangle := rect
+		end
+
+	extend_lines (a_line: ZSTRING)
+		do
+			internal_lines.extend (create_line (a_line))
+		end
+
+	flow_text (line: ZSTRING)
+		do
+			word_wrapped_lines (line).do_all (agent extend_lines)
+		end
+
+	hypenate_word (words: EL_SEQUENTIAL_INTERVALS; line, line_out: ZSTRING)
+		local
+			old_count, word_lower: INTEGER; outside_bounds: BOOLEAN
+		do
+			if words.item_count >= 4 then
+				old_count := line_out.count
+				-- check if part of word will fit
+				if not line_out.is_empty then
+					line_out.append_character (' ')
+				end
+				line_out.append_substring (line, words.item_lower, words.item_lower + 1)
+				line_out.append_character ('-')
+
+				if line_fits (line_out) then
+					from word_lower := words.item_lower + 2 until word_lower > words.item_upper or outside_bounds loop
+						line_out.insert_character (line [word_lower], line_out.count)
+						if line_fits (line_out) then
+							word_lower := word_lower + 1
+						else
+							outside_bounds := True
+							line_out.remove_substring (line_out.count - 1, line_out.count - 1) -- Undo insertion
+						end
+					end
+					words.replace (word_lower, words.item_upper)
+					if words.item_count = 1
+						or else words.item_count = 2
+							and then line.is_alpha_item (word_lower) and then Comma_or_dot.has (line [word_lower + 1])
+					then
+						line_out.remove_tail (1)
+						line_out.append_substring (line, word_lower, words.item_upper)
+						words.replace (words.item_upper + 1, words.item_upper) -- set to zero
+					end
+				else
+					line_out.keep_head (old_count)
+				end
+			end
+		end
+
+	internal_lines: EL_ARRAYED_LIST [like Type_line]
+
+	line_text_group: EV_MODEL_GROUP
+		local
+			r: EL_RECTANGLE; line: like Type_line
+		do
+			create Result.make_with_position (x, y)
+			from internal_lines.start until internal_lines.after loop
+				line := internal_lines.item
+				r := aligned_rectangle (line)
+				Result.extend (create {EV_MODEL_DOT}.make_with_position (r.x, r.y))
+				internal_lines.forth
+			end
+		end
+
+	squeeze_flow_text (line: ZSTRING)
 			-- append words, decreasing font size until text fits
 		local
 			appended: BOOLEAN; old_font: like font
@@ -264,11 +357,11 @@ feature {NONE} -- Implementation
 		do
 			old_font := font.twin
 			from  until font.height < 4 or appended loop
-				wrapped_lines := word_wrapped_lines (words)
+				wrapped_lines := word_wrapped_lines (line)
 				if GUI.widest_width (wrapped_lines, font) <= width
 					and then wrapped_lines.count * font.line_height <= available_height
 				then
-					flow_text (words)
+					flow_text (line)
 					appended := True
 				else
 					font.set_height (font.height - 1)
@@ -295,150 +388,45 @@ feature {NONE} -- Implementation
 			font := old_font
 		end
 
-	flow_text (words: EL_ZSTRING_LIST)
-		do
-			word_wrapped_lines (words).do_all (agent extend_lines)
-		end
-
-	extend_lines (a_line: ZSTRING)
-		do
-			internal_lines.extend (create_line (a_line))
-		end
-
-	create_line (a_text: ZSTRING): like Type_line
+	word_wrapped_lines (line: ZSTRING): EL_ZSTRING_LIST
 		local
-			rect: EL_RECTANGLE
+			line_out: ZSTRING; old_count: INTEGER; words: EL_SEQUENTIAL_INTERVALS
 		do
-			create Result
-			Result.text := a_text
-			Result.font := font.twin
-			Result.alignment := alignment_code
-			create rect.make (x, y, width, font.line_height)
-			if not internal_lines.is_empty then
-				rect.set_y (internal_lines.last.rectangle.bottom + 1)
-			end
-			Result.rectangle := rect
-		end
+			create Result.make (0); create line_out.make_empty
 
-	word_wrapped_lines (words: EL_ZSTRING_LIST): EL_ZSTRING_LIST
-		local
-			line, word: ZSTRING; stack: like new_word_stack
-			old_count: INTEGER
-		do
-			create Result.make (0)
-			create line.make_empty
-			from stack := new_word_stack (words) until stack.is_empty loop
-				word := stack.item
-				old_count := line.count
-				if not line.is_empty then
-					line.append_character (' ')
+			words := line.split_intervals (Space_string)
+			from words.start until words.after loop
+				old_count := line_out.count
+				if not line_out.is_empty then
+					line_out.append_character (' ')
 				end
-				line.append (word)
-				if line_fits (line) then
-					stack.remove
+				line_out.append_substring (line, words.item_lower, words.item_upper)
+				if line_fits (line_out) then
+					words.forth
 				else
 					if is_hyphenated then
-						line.keep_head (old_count)
-						hypenate_word (word, line)
-						if word.is_empty then
+						line_out.keep_head (old_count)
+						hypenate_word (words, line, line_out)
+						if words.item_count = 0 then
 							-- word might be empty if it ended with a comma and had one alpha character
-							stack.remove
+							words.forth
 						end
 					else
-						if line ~ word then
-							-- Allow a line consisting of a single word even thought it's too wide
-							stack.remove
+						if line_out.same_characters (line, words.item_lower, words.item_upper, 1) then
+							-- Allow a line consisting of a single word even though it's too wide
+							words.forth
 						else
-							line.keep_head (old_count)
+							line_out.keep_head (old_count)
 						end
 					end
-					Result.extend (line.twin)
-					line.wipe_out
+					Result.extend (line_out.twin)
+					line_out.wipe_out
 				end
 			end
-			if not line.is_empty then
-				Result.extend (line)
+			if not line_out.is_empty then
+				Result.extend (line_out)
 			end
 		end
-
-	hypenate_word (word, line: ZSTRING)
-		local
-			old_count: INTEGER
-		do
-			if word.count >= 4 then
-				old_count := line.count
-				-- check if part of word will fit
-				if not line.is_empty then
-					line.append_character (' ')
-				end
-				line.append (word.substring (1, 2))
-				line.append_character ('-')
-
-				if line_fits (line) then
-					word.remove_head (2)
-					from until not line_fits (line) loop
-						line.remove_tail (1)
-						line.append_character (word [1])
-						line.append_character ('-')
-						word.remove_head (1)
-					end
-					word.prepend_character (line [line.count - 1])
-					line.remove_tail (2)
-					line.append_character ('-')
-					if word.count = 1
-						or else word.count = 2 and then word.is_alpha_item (1) and then (word [2] = ',' or word [2] = '.')
-					then
-						line.remove_tail (1)
-						line.append (word)
-						word.wipe_out
-					end
-				else
-					line.keep_head (old_count)
-				end
-			end
-		end
-
-	new_word_stack (words: EL_ZSTRING_LIST): ARRAYED_STACK [ZSTRING]
-		do
-			create Result.make (words.count)
-			from words.finish until words.before loop
-				if is_hyphenated then
-					Result.extend (words.item.twin)
-				else
-					Result.extend (words.item)
-				end
-				words.back
-			end
-		end
-
-	hypenated_words (words: EL_ZSTRING_LIST): EL_ZSTRING_LIST
-		do
-			create Result.make (words.count)
-		end
-
-	line_text_group: EV_MODEL_GROUP
-		local
-			r: EL_RECTANGLE; line: like Type_line
-		do
-			create Result.make_with_position (x, y)
-			from internal_lines.start until internal_lines.after loop
-				line := internal_lines.item
-				r := aligned_rectangle (line)
-				Result.extend (create {EV_MODEL_DOT}.make_with_position (r.x, r.y))
-				internal_lines.forth
-			end
-		end
-
-	available_height: INTEGER
-		do
-			Result := height
-			across internal_lines as line loop
-				Result := Result - line.item.rectangle.height
-			end
-			Result := Result.max (0)
-		end
-
-	internal_lines: EL_ARRAYED_LIST [like Type_line]
 
 feature {NONE} -- Type definitions
 
@@ -446,4 +434,10 @@ feature {NONE} -- Type definitions
 		once
 		end
 
+feature {NONE} -- Constants
+
+	Comma_or_dot: ZSTRING
+		once
+			Result := ",."
+		end
 end

@@ -55,13 +55,13 @@ feature -- Basic operations
 	draw_text (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
 			-- Draw `a_text' with left of baseline at (`x', `y') using `font'.
 		do
-			Precursor (x, y, String_32.general_to_unicode (a_text))
+			Precursor (x, y, a_text.to_string_32)
 		end
 
 	draw_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
 			-- Draw `a_text' with top left corner at (`x', `y') using `font'.
 		do
-			Precursor (x, y, String_32.general_to_unicode (a_text))
+			Precursor (x, y, a_text.to_string_32)
 		end
 
 	simulate_pointer_motion

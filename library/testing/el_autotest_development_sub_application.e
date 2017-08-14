@@ -25,6 +25,8 @@ feature {NONE} -- Implementation
 			test.apply
 			if attached {EL_FILE_DATA_TEST_SET} test.target as data_test then
 				data_test.clean (False)
+			elseif attached {EL_TEST_DATA_TEST_SET} test.target as test_data then
+				test_data.clean (False)
 			end
 		end
 
