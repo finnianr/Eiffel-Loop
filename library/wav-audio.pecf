@@ -34,6 +34,9 @@ system:
 			condition:
 				platform:
 					value = windows
+
+		external_include:
+			location = "$(ISE_LIBRARY)/C_library/zlib"
 					
 		external_object:
 			location = "$(EIFFEL_LOOP)/C_library/audio/spec/$(ISE_PLATFORM)/el_audio.lib"
@@ -48,12 +51,6 @@ system:
 					value = windows
 
 		external_object:
-			location="$(ISE_LIBRARY)/library/vision2/spec/$ISE_C_COMPILER/$ISE_PLATFORM/lib/zlib.lib"
-			condition:
-				platform:
-					value = windows
-
-		external_object:
 			location = "-L$(ISE_LIBRARY)/C_library/zlib -lz"
 			condition:
 				platform:
@@ -61,6 +58,12 @@ system:
 
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = c_library_zlib; location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf"
+			condition:
+				platform:
+					value = windows
 
 		# Eiffel Loop
 		library:

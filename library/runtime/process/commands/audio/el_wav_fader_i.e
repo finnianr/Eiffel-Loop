@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-23 8:24:20 GMT (Thursday 23rd June 2016)"
 	revision: "1"
@@ -62,7 +62,8 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			Result := Precursor
+			Result.append_tuples (<<
 				["fade_in",				 agent: REAL_REF do Result := fade_in.to_reference end],
 				["duration", 			 agent: REAL_REF do Result := duration.to_reference end],
 				["fade_out", 			 agent: REAL_REF do Result := fade_out.to_reference end]

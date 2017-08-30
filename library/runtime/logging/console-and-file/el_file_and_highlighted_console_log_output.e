@@ -14,22 +14,20 @@ class
 
 inherit
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
-		redefine
-			write_string_8
+		undefine
+			set_text_blue, set_text_brown, set_text_dark_gray, set_text_default, set_text_light_blue,
+			set_text_light_cyan, set_text_light_green, set_text_purple, set_text_red,
+			flush_string_8
+		end
+
+	EL_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
+		rename
+			make as make_output
+		undefine
+			flush, write_console
 		end
 
 create
 	make
 
-feature {NONE} -- Implementation
-
-	write_string_8 (str: STRING)
-		do
-			if not Escape_sequences.has (str) then
-				put_file_string (str)
-			end
-			if is_directed_to_console.item then
-				std_output.put_string (str)
-			end
-		end
 end

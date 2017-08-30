@@ -31,6 +31,7 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
 	make (tree_dir: EL_DIR_PATH)
 		do
+			make_shell
 			file_list := OS.file_list (tree_dir, "*.pyx")
 		end
 
@@ -104,7 +105,8 @@ feature {NONE} -- Factory
 	new_command_table: like command_table
 		do
 			create Result.make (<<
-				["Add check attribute", 								agent add_check_attribute]
+				["Add check attribute", 	agent add_check_attribute],
+				["Find unchecked items",	agent find_unchecked]
 			>>)
 		end
 

@@ -12,16 +12,16 @@ X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
 Subject: 2-Jahres-Abonnement
-Content-Type: text/html; charset=ISO-8859-15
+Content-Type: text/html; charset=windows-1252
 Content-Transfer-Encoding: 8bit
 
 <html>
   <head>
-    <meta content="text/html; charset=ISO-8859-15"
+    <meta content="text/html; charset=WINDOWS-1252"
       http-equiv="Content-Type">
   </head>
   <body bgcolor="#FFFFCC" text="#000000">
     <p><span id="result_box" class="short_text" lang="de"><span
-          class="hps">2 Jahren:</span> <span class="hps">8,00 â¬</span></span></p>
+          class="hps">2 Jahren:</span> <span class="hps">8,00 </span></span></p>
   </body>
 </html>

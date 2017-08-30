@@ -1,8 +1,6 @@
 note
 	description: "Summary description for {THUNDERBIRD_ACCOUNT}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
@@ -57,10 +55,9 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	create_converter (mails_path: EL_FILE_PATH): THUNDERBIRD_MAIL_CONVERTER [HTML_WRITER]
+	export_dir_path (mails_path: EL_FILE_PATH): EL_DIR_PATH
 		local
 			relative_path_steps: EL_PATH_STEPS
-			output_dir: EL_DIR_PATH
 		do
 			relative_path_steps := mails_path.steps
 			relative_path_steps.start
@@ -81,24 +78,24 @@ feature {NONE} -- Implementation
 				relative_path_steps.finish
 				relative_path_steps.remove
 			end
-			output_dir := export_path.joined_dir_steps (relative_path_steps)
-			File_system.make_directory (output_dir)
+			Result := export_path.joined_dir_steps (relative_path_steps)
+		end
+
+	new_exporter (output_dir: EL_DIR_PATH): THUNDERBIRD_FOLDER_EXPORTER [HTML_WRITER]
+		do
 			if is_xhtml then
-				create {THUNDERBIRD_MAIL_TO_XHTML_CONVERTER} Result.make (output_dir)
+				create {THUNDERBIRD_EXPORT_AS_XHTML} Result.make (output_dir)
 			else
-				create {THUNDERBIRD_MAIL_TO_HTML_BODY_CONVERTER} Result.make (output_dir)
+				create {THUNDERBIRD_EXPORT_AS_HTML_BODY} Result.make (output_dir)
 			end
 		end
 
 	export_mails (mails_path: EL_FILE_PATH)
-		local
-			converter: like create_converter
 		do
 			log.enter_with_args ("export_mails", << mails_path >>)
-			converter := create_converter (mails_path)
 			lio.put_path_field ("Exporting", mails_path)
 			lio.put_new_line
-			converter.convert_mails (mails_path)
+			new_exporter (export_dir_path (mails_path)).export_mails (mails_path)
 			log.exit
 		end
 

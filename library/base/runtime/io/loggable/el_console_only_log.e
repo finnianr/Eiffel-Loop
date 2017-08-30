@@ -145,9 +145,9 @@ feature -- Output
 				l_name.append_character (' ')
 			end
 			if attached {EL_FILE_PATH} a_path then
-				l_name.append (English_word_file)
+				l_name.append (Eng_word_file)
 			else
-				l_name.append (English_word_directory)
+				l_name.append (Eng_word_directory)
 			end
 			if empty_label then
 				l_name.to_proper_case
@@ -238,12 +238,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	English_word_file: ZSTRING
+	Eng_word_file: ZSTRING
 		once
 			Result := "file"
 		end
 
-	English_word_directory: ZSTRING
+	Eng_word_directory: ZSTRING
 		once
 			Result := "directory"
 		end

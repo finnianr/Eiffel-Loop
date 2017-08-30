@@ -178,14 +178,14 @@ feature {NONE} -- Implementation
 
 	wrap_text
 		local
-			l_wrapped_lines: like wrapped_lines
+			wrapped: like wrapped_lines
 		do
 			if GUI.is_word_wrappable (unwrapped_text, font, adjusted_width) then
-				l_wrapped_lines := wrapped_lines (unwrapped_text)
+				wrapped := wrapped_lines (unwrapped_text)
 
 				-- Align with top edge if more than one line
 				if vertical_alignment_code = Alignment_center then
-					if l_wrapped_lines.count > 1 then
+					if wrapped.count > 1 then
 						align_text_top
 						vertical_alignment_code := Alignment_center
 					else
@@ -193,7 +193,7 @@ feature {NONE} -- Implementation
 					end
 				end
 --				resize_actions.block
-				set_text_general (String_32.joined (l_wrapped_lines))
+				set_text_general (wrapped.joined_lines.to_string_32)
 --				resize_actions.resume
 			else
 				GUI.do_once_on_idle (agent wrap_text)

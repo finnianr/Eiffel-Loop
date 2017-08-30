@@ -28,6 +28,8 @@ feature {NONE} -- Implementation
 
 				{CODEC_GENERATOR_APP},
 
+				{CHECK_LOCALE_STRINGS_APP},
+
 				{CLASS_PREFIX_REMOVAL_APP},
 
 				{CODE_HIGHLIGHTING_TEST_APP},

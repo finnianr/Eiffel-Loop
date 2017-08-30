@@ -51,7 +51,6 @@ feature {NONE} -- Initialization
 
 	make (a_window: like window)
 			--
-
 		do
 			window := a_window
 			default_create

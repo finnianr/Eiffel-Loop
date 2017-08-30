@@ -15,10 +15,10 @@ class
 inherit
 	EL_CONFIRMATION_DIALOG
 		rename
-			ev_cancel as English_discard,
-			ev_ok as English_save
+			ev_cancel as Eng_discard,
+			ev_ok as Eng_save
 		redefine
-			English_save, English_discard
+			Eng_save, Eng_discard
 		end
 
 create
@@ -26,13 +26,13 @@ create
 
 feature -- Access
 
-	English_save: STRING
+	Eng_save: STRING
 			--
 		once
 			Result := "Save"
 		end
 
-	English_discard: STRING
+	Eng_discard: STRING
 			--
 		once
 			Result := "Discard"

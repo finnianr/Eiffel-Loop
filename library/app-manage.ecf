@@ -23,7 +23,6 @@
 			</condition>
 		</library>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
-		<library name = "EL_i18n" location = "i18n.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_wel_regedit_x" location = "wel-regedit-x.ecf">

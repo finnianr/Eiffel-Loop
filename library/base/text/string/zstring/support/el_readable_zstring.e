@@ -337,7 +337,7 @@ feature -- Access
 				if l_last_upper < count then
 					Result.extend (l_last_upper + 1, count)
 				else
-					Result.extend (1, 0)
+					Result.extend (count + 1, count)
 				end
 			end
 		end

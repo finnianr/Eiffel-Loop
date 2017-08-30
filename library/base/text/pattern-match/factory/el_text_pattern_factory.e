@@ -1,7 +1,7 @@
 note
 	description: "Summary description for {EL_TEXT_PATTERN_FACTORY}."
 
-	
+
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -43,6 +43,12 @@ feature -- Recursive patterns
 			--
 		do
 			create Result.make (array_of_alternatives)
+		end
+
+	one_of_case_literal (text: READABLE_STRING_GENERAL): EL_FIRST_MATCH_IN_LIST_TP
+			--
+		do
+			create Result.make (<< string_literal (text.as_lower), string_literal (text.as_upper) >>)
 		end
 
 	one_of_characters (alternatives: ARRAY [EL_SINGLE_CHAR_TEXT_PATTERN]): EL_FIRST_MATCHING_CHAR_IN_LIST_TP

@@ -6,7 +6,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-04-06 16:28:52 GMT (Wednesday 6th April 2016)"
 	revision: "1"
@@ -20,7 +20,7 @@ inherit
 			put_bom, put_string_z, put_string_32, put_string_8, put_latin_1
 		end
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_CONSOLE_ENCODEABLE
 
 create
 	make, make_with_name, make_with_path,
@@ -37,40 +37,24 @@ feature -- Output
 
 	put_string_z (str: ZSTRING)
 		do
-			put_readable_string (str.to_unicode)
+			put_string_general (str.to_string_32)
 		end
 
 	put_string_32 (str_32: STRING_32)
 		do
-			put_readable_string (str_32)
+			put_string_general (str_32)
 		end
 
 	put_string_8, put_latin_1 (str: STRING)
 		do
-			put_readable_string (str)
+			put_string_general (str)
 		end
 
 feature {NONE} -- Implementation
 
-	put_readable_string (str: READABLE_STRING_GENERAL)
+	put_string_general (str: READABLE_STRING_GENERAL)
 		do
-			UTF_32_encoding.convert_to (Default_code_page, str)
-			if UTF_32_encoding.last_conversion_successful then
-				put_encoded_string_8 (Utf_32_encoding.last_converted_string_8)
-			end
-		end
-
-feature {NONE} -- Constants
-
-	Default_code_page: ENCODING
-			-- Default Windows console code page at application start
-		once
-			create Result.make (Execution_environment.last_code_page.out)
-		end
-
-	UTF_32_encoding: ENCODING
-		once
-			create Result.make ({CODE_PAGE_CONSTANTS}.Utf32)
+			put_encoded_string_8 (console_encoded (str))
 		end
 
 end

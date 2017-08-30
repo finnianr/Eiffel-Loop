@@ -31,4 +31,14 @@ feature {NONE} -- Constants
 			Result := << Dot_zero, Dot_singular, Dot_plural >>
 		end
 
+	Unknown_key_template: ZSTRING
+		once
+			Result := "+%S+"
+		end
+
+	Unknown_quantity_key_template: ZSTRING
+		once
+			Result := "+%S: %S+"
+		end
+
 end

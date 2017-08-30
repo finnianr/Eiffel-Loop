@@ -35,6 +35,11 @@ feature {NONE} -- Implementation
 			create next_translation.make_from_general (text)
 		end
 
+	translation_keys: ARRAY [ZSTRING]
+		do
+			create Result.make_empty
+		end
+
 	translated_string (table: like translations; key: READABLE_STRING_GENERAL): ZSTRING
 		do
 			if is_curly_brace_enclosed (key) then

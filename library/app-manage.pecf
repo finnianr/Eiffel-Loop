@@ -52,9 +52,6 @@ system:
 			name = EL_evolicity; location = "evolicity.ecf"
 
 		library:
-			name = EL_i18n; location = "i18n.ecf"
-
-		library:
 			name = EL_logging; location = "logging.ecf"
 
 		library:

@@ -10,6 +10,11 @@ class
 inherit
 	EQA_TEST_SET
 
+	EL_STRING_CONSTANTS
+		undefine
+			default_create
+		end
+
 feature -- Tests
 
 	test_item_count
@@ -17,9 +22,11 @@ feature -- Tests
 			str: ZSTRING; has_item_count_zero: BOOLEAN
 			list: EL_SEQUENTIAL_INTERVALS
 		do
-			str := "A B  C"
-			list := str.split_intervals (" ")
+			str := "A B C "
+			list := str.split_intervals (Space_string)
 			assert ("count is 4", list.count = 4)
+			list.finish
+			assert ("last item is empty", str.substring (list.item_lower, list.item_upper).is_empty)
 			from list.start until has_item_count_zero or list.after loop
 				if list.item_count = 0 then
 					has_item_count_zero := True

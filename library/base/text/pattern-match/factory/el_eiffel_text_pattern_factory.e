@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-04 10:14:40 GMT (Friday 4th March 2016)"
 	revision: "1"
@@ -139,6 +139,14 @@ feature {NONE} -- Eiffel text patterns
 			--
 		do
 			Result := all_of (<< letter, zero_or_more (identifier_character) >>)
+		end
+
+	qualified_identifier: like all_of
+			--
+		do
+			Result := all_of (<<
+				identifier, zero_or_more (all_of (<< character_literal ('.'), identifier >>))
+			>>)
 		end
 
 feature {NONE} -- Numeric constants

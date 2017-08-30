@@ -204,7 +204,7 @@ feature {NONE} -- Factory
 	new_dialog_box: EL_VERTICAL_BOX
 		do
 			title_label := new_title_label
-			create drag.make (Current, title_label, Grab_hand_pixmap)
+			create drag.make (Current, title_label)
 
 			default_button := new_button (button_text)
 			cancel_button := new_button (cancel_button_text)
@@ -378,16 +378,6 @@ feature -- Constants
 	Title_background_pixmap: EV_PIXMAP
 		once
 			create Result.make_with_size (1, 1)
-		end
-
-	Grab_hand_pixmap: EL_SVG_PIXMAP
-		once
-			Result := Icon.svg_of_width_cms (Grab_hand_svg_path_steps, 0.7, GUI.color_dialog)
-		end
-
-	Grab_hand_svg_path_steps: STRING
-		once
-			Result := "cursor/hand.svg"
 		end
 
 	frozen Default_background_color: EL_COLOR

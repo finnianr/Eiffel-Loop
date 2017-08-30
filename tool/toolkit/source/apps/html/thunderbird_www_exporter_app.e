@@ -74,7 +74,7 @@ feature {NONE} -- Constants
 			Result := <<
 				[{THUNDERBIRD_WWW_EXPORTER_APP}, All_routines],
 				[{THUNDERBIRD_WWW_EXPORTER}, All_routines],
-				[{THUNDERBIRD_MAIL_TO_HTML_BODY_CONVERTER}, All_routines]
+				[{THUNDERBIRD_EXPORT_AS_HTML_BODY}, All_routines]
 			>>
 		end
 

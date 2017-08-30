@@ -1,8 +1,6 @@
 note
 	description: "Summary description for {RBOX_CORTINA_SONG}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"

@@ -117,7 +117,7 @@ feature -- Element change
 
 	add_separation (a_separation_cms: REAL)
 		local
-			separator: like Type_line
+			separator: like STYLED_TEXT
 		do
 			separator := create_line ("")
 			separator.rectangle.set_height (Screen.vertical_pixels (a_separation_cms))
@@ -192,7 +192,7 @@ feature -- Basic operations
 
 	draw_rotated_on_buffer (buffer: EL_DRAWABLE_PIXEL_BUFFER; a_angle: DOUBLE)
 		local
-			rect: EL_RECTANGLE; line: like Type_line
+			rect: EL_RECTANGLE; line: like STYLED_TEXT
 		do
 			buffer.save
 			buffer.translate (x, y)
@@ -213,7 +213,7 @@ feature -- Basic operations
 	draw_rotated_top_left (canvas: EL_DRAWABLE; a_angle: DOUBLE)
 		local
 			text_group: like line_text_group
-			line: like Type_line
+			line: like STYLED_TEXT
 		do
 			text_group := line_text_group
 			text_group.rotate_around (a_angle, x, y)
@@ -235,7 +235,7 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
-	aligned_rectangle (line: like Type_line): EL_RECTANGLE
+	aligned_rectangle (line: like STYLED_TEXT): EL_RECTANGLE
 		require
 			valid_alignment: (<< Left_alignment, Center_alignment, Right_alignment >>).has (line.alignment)
 		local
@@ -271,7 +271,7 @@ feature {NONE} -- Implementation
 			Result := Result.max (0)
 		end
 
-	create_line (a_text: ZSTRING): like Type_line
+	create_line (a_text: ZSTRING): like STYLED_TEXT
 		local
 			rect: EL_RECTANGLE
 		do
@@ -334,11 +334,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	internal_lines: EL_ARRAYED_LIST [like Type_line]
-
 	line_text_group: EV_MODEL_GROUP
 		local
-			r: EL_RECTANGLE; line: like Type_line
+			r: EL_RECTANGLE; line: like STYLED_TEXT
 		do
 			create Result.make_with_position (x, y)
 			from internal_lines.start until internal_lines.after loop
@@ -428,13 +426,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Type definitions
+feature {NONE} -- Internal attributes
 
-	Type_line: TUPLE [text: ZSTRING; font: EV_FONT; rectangle: EL_RECTANGLE; alignment: INTEGER]
-		once
-		end
+	internal_lines: EL_ARRAYED_LIST [like STYLED_TEXT]
 
 feature {NONE} -- Constants
+
+	STYLED_TEXT: TUPLE [text: ZSTRING; font: EV_FONT; rectangle: EL_RECTANGLE; alignment: INTEGER]
+		once
+			create Result
+		end
 
 	Comma_or_dot: ZSTRING
 		once

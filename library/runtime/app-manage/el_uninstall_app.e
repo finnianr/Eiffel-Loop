@@ -24,6 +24,8 @@ inherit
 
 	EL_MODULE_USER_INPUT
 
+	EL_MODULE_DEFERRED_LOCALE
+
 create
 	make_installer
 
@@ -41,11 +43,11 @@ feature -- Basic operations
 		local
 			dir_path: EL_DIR_PATH
 		do
-			lio.put_string (confirmation_prompt_template.substituted_tuple ([Installer.menu_name]).to_utf_8)
+			lio.put_string (Confirmation_prompt_template #$ [Installer.menu_name, Uninstall_warning])
 
 			if User_input.entered_letter (yes.to_latin_1 [1]) then
 				lio.put_new_line
-				lio.put_line (Commence_message.to_utf_8)
+				lio.put_line (Commence_message)
 
 				across sub_applications as application loop
 					if application.item.is_installable then
@@ -88,22 +90,37 @@ feature {NONE} -- Constants
 
 	Commence_message: ZSTRING
 		once
-			Result := "Uninstalling:"
+			Result := Locale * "Uninstalling:"
 		end
 
 	Confirmation_prompt_template: ZSTRING
 		once
-			Result := "Uninstall application %"%S%". Are you sure? (y/n)"
+			Locale.set_next_translation ("[
+				Uninstall # application.
+				
+				#
+				
+				If you are sure press 'y' and <return>:
+			]")
+			Result := Locale * "{uninstall-confirmation}"
+		ensure
+			has_two_substitution_markers: Result.occurrences ('%S') = 2
+		end
+
+	Uninstall_warning: ZSTRING
+		once
+			Locale.set_next_translation ("THIS ACTION WILL PERMANENTLY DELETE ALL YOUR DATA.")
+			Result := Locale * "{uninstall-warning}"
 		end
 
 	Description: STRING
 		once
-			Result := "Uninstall application"
+			Result := Locale * "Uninstall application"
 		end
 
 	Yes: ZSTRING
 		once
-			Result := "yes"
+			Result := Locale * "yes"
 		end
 
 	Installer: EL_APPLICATION_INSTALLER_I
@@ -122,7 +139,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{EL_UNINSTALL_APP}, "*"]
+				[{like Current}, All_routines]
 			>>
 		end
 

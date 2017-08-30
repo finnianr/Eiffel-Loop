@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_output
 		redefine
-			write_string, write_string_8, flush
+			write_console, flush
 		end
 
 	PLAIN_TEXT_FILE
@@ -41,6 +41,8 @@ inherit
 			mutex as write_mutex
 		end
 
+	EL_MODULE_UTF
+
 create
 	make
 
@@ -61,11 +63,11 @@ feature -- Initialization
 
 feature -- Access
 
-	thread_name: STRING
+	index: INTEGER
 
 	is_directed_to_console: BOOLEAN
 
-	index: INTEGER
+	thread_name: STRING
 
 feature -- Basic operations
 
@@ -79,14 +81,6 @@ feature -- Basic operations
 --				end
 				write_mutex.unlock
 			end
-		end
-
-	stop_console
-			-- Stop out put to console
-		do
-			restrict_access
-				is_directed_to_console := false
-			end_restriction
 		end
 
 	redirect_to_console
@@ -103,7 +97,33 @@ feature -- Basic operations
 			write_log_to_console (true)
 		end
 
+	stop_console
+			-- Stop out put to console
+		do
+			restrict_access
+				is_directed_to_console := false
+			end_restriction
+		end
+
 feature {NONE} -- Implementation
+
+	write_console (str: READABLE_STRING_GENERAL)
+		local
+			l_utf_8: STRING
+		do
+			l_utf_8 := utf_8_buffer; l_utf_8.wipe_out
+
+			UTF.utf_32_string_into_utf_8_string_8 (str, l_utf_8)
+			put_file_string (l_utf_8)
+
+			if is_directed_to_console.item then
+				if Is_console_utf_8_encoded then
+					std_output.put_string (l_utf_8)
+				else
+					Precursor (str)
+				end
+			end
+		end
 
 	write_log_to_console (write_entire_log: BOOLEAN)
 			--
@@ -136,22 +156,11 @@ feature {NONE} -- Implementation
 			end_restriction
 		end
 
-	write_string (str: ZSTRING)
-		do
-			put_file_string (str.to_utf_8)
-			if is_directed_to_console.item then
-				std_output.put_string (str.to_utf_8)
-			end
-		end
+feature {NONE} -- Constants
 
-	write_string_8 (str_8: STRING)
-		do
-			if not Escape_sequences.has (str_8) then
-				put_file_string (str_8)
-				if is_directed_to_console.item then
-					std_output.put_string (str_8)
-				end
-			end
+	Utf_8_buffer: STRING
+		once
+			create Result.make_empty
 		end
 
 end

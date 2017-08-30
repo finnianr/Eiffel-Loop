@@ -137,7 +137,7 @@ feature -- Element change
 			set_variable (variable_name, quoted_value)
 		end
 
-	set_variables_from_array (variable_name_and_value_array: ARRAY [like Type_name_value_pair])
+	set_variables_from_array (variable_name_and_value_array: ARRAY [like NAME_VALUE_PAIR])
 			--
 		require
 			valid_variables: is_strict implies across variable_name_and_value_array as tuple all has_variable (tuple.item.name) end
@@ -182,10 +182,11 @@ feature -- Element change
 			parse
 		end
 
-feature -- Type definitions
+feature -- Tuple definition
 
-	Type_name_value_pair: TUPLE [name: READABLE_STRING_GENERAL; value: ANY]
+	NAME_VALUE_PAIR: TUPLE [name: READABLE_STRING_GENERAL; value: ANY]
 		once
+			create Result
 		end
 
 feature {NONE} -- Implementation: parsing actions

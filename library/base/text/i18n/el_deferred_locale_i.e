@@ -28,8 +28,6 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_ONCE_STRINGS
-
 	EL_STRING_CONSTANTS
 
 feature -- Access
@@ -56,6 +54,10 @@ feature -- Access
 				Result [i - lower + 1] := translated_string (translations, keys [i])
 				i := i + 1
 			end
+		end
+
+	translation_keys: ARRAY [ZSTRING]
+		deferred
 		end
 
 feature {EL_MODULE_DEFERRED_LOCALE, EL_DATE_TEXT} -- Element change

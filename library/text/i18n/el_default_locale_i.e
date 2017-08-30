@@ -33,7 +33,7 @@ feature -- Access
 
 	in (a_language: STRING): EL_LOCALE_I
 		-- translation in another available language
-		require
+		require else
 			language_has_translation: has_translation (a_language)
 		do
 			if a_language ~ Key_language then

@@ -33,7 +33,7 @@ feature -- Basic operations
 
 	execute
 		local
-			converter: THUNDERBIRD_MAIL_TO_HTML_BODY_CONVERTER; file_path: EL_FILE_PATH
+			exporter: THUNDERBIRD_EXPORT_AS_HTML_BODY; file_path: EL_FILE_PATH
 			output_dir: EL_DIR_PATH
 		do
 			log.enter ("execute")
@@ -42,9 +42,8 @@ feature -- Basic operations
 				log.put_path_field ("Content", file_path)
 				log.put_new_line
 				output_dir := export_path.joined_dir_path (file_path.base)
-				File_system.make_directory (output_dir)
-				create converter.make (output_dir)
-				converter.convert_mails (file_path)
+				create exporter.make (output_dir)
+				exporter.export_mails (file_path)
 			end
 			log.exit
 		end

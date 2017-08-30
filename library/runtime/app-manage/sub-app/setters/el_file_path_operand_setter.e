@@ -19,7 +19,7 @@ feature {NONE} -- Implementation
 
 	type_name: ZSTRING
 		do
-			Result := app.English_file
+			Result := app.Eng_file
 		end
 
 	value (str: ZSTRING): EL_FILE_PATH

@@ -2,12 +2,16 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 0); build = 389
+version = (1, 2, 1); build = 395
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.1
+# Fixed THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP to handle windows-xxxx encodings and delete files which do not match the subject.
+# Added class `SUBJECT_LINE_DECODER' to hand UTF-8 and any latin or windows encoding.
 
 # 1.2.0
 # Moved all Eiffel development related sub-apps to separate project

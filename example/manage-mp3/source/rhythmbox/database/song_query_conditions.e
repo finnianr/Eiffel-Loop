@@ -45,10 +45,10 @@ feature {NONE} -- Conditions
 			create Result.make (database)
 		end
 
-	song_in_playlist (name: ZSTRING; database: RBOX_DATABASE): SONG_IN_PLAYLIST_QUERY_CONDITION
-		do
-			create Result.make_with_name (name, database)
-		end
+--	song_in_playlist (name: ZSTRING; database: RBOX_DATABASE): SONG_IN_PLAYLIST_QUERY_CONDITION
+--		do
+--			create Result.make_with_name (name, database)
+--		end
 
 	song_is_cortina: like predicate
 		do

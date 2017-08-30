@@ -49,6 +49,9 @@ system:
 			name = base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
 
 		library:
+			name = encoding; location = "$ISE_EIFFEL/library/encoding/encoding.ecf"
+
+		library:
 			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
 
 		library:

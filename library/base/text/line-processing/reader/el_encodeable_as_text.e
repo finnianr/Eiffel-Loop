@@ -137,20 +137,17 @@ feature -- Constants
 
 	Encoding_ISO_8859: STRING = "ISO-8859"
 
-	Encoding_windows: STRING = "Windows"
+	Encoding_windows: STRING = "WINDOWS"
 
 	Encoding_UTF: STRING = "UTF"
 
-	Encoding_unknown_type: STRING
-		once
-			Result := "Unknown"
-		end
+	Encoding_unknown_type: STRING = "Unknown"
 
 	Valid_encodings: HASH_TABLE [SET [INTEGER], STRING]
 		local
 			utf_encodings: ARRAYED_SET [INTEGER]
 		once
-			create Result.make (3)
+			create Result.make_equal (3)
 			create utf_encodings.make (3)
 			across << 8, 16, 32 >> as bytes loop utf_encodings.put (bytes.item)  end
 			Result [Encoding_UTF] := utf_encodings

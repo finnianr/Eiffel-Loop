@@ -7,7 +7,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-19 15:25:23 GMT (Tuesday 19th July 2016)"
 	revision: "1"
@@ -148,8 +148,10 @@ feature -- Element change
 	set_encoding (a_type: like encoding_type; a_encoding: like encoding)
 			--
 		do
-			Precursor (a_type, a_encoding)
-			set_decoder
+			if a_type /= encoding_type or else a_encoding /= encoding then
+				Precursor (a_type, a_encoding)
+				set_decoder
+			end
 		end
 
 feature -- Status setting

@@ -99,8 +99,7 @@ feature {NONE} -- Implementation
 			l_text: ZSTRING
 		do
 			clear; draw_background
-			l_text := empty_once_string
-			l_text.append_string_general (text)
+			create l_text.make_from_general (text)
 			if is_word_wrapped then
 				new_wrapped_text_rectangle (l_text).draw (Current)
 			else

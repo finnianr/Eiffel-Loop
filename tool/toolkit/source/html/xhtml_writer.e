@@ -48,15 +48,36 @@ feature {NONE} -- Patterns
 	charset_pattern: like all_of
 		do
 			Result := all_of (<<
-				string_literal ("charset=ISO-8859-"), digit #occurs (1 |..| 2), string_literal ("%">")
+				string_literal ("charset="),
+				one_of (<< iso_charset, windows_charset >>),
+				character_literal ('"')
 			>>) |to| agent on_character_set
+		end
+
+	iso_charset: like all_of
+		do
+			Result := all_of (<<
+				one_of_case_literal ("iso-8859"), hyphen, digit #occurs (1 |..| 2)
+			>>)
+		end
+
+	windows_charset: like all_of
+		do
+			Result := all_of (<<
+				one_of_case_literal ("windows"), hyphen, digit #occurs (4 |..| 4)
+			>>)
+		end
+
+	hyphen: like character_literal
+		do
+			Result := character_literal ('-')
 		end
 
 feature {NONE} -- Event handling
 
 	on_character_set (text: EL_STRING_VIEW)
 		do
-			put_string ("charset=UTF-8%"/>")
+			put_string ("charset=UTF-8%"")
 		end
 
 feature {NONE} -- Implementation

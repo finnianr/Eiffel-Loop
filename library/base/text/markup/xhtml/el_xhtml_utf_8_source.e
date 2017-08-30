@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-10-27 17:23:41 GMT (Tuesday 27th October 2015)"
 	revision: "1"
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 		do
 			header := XML.header (1.0, "UTF-8").to_string_8
 			root_open := XML.open_tag (Root_name); root_closed := XML.closed_tag (Root_name)
-			body := clone (a_body)
+			body := a_body.twin
 			across << header, root_open, root_closed, body  >> as string loop
 				count := count + string.item.count + 1
 			end

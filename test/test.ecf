@@ -40,6 +40,7 @@
 			</option>
 		</library>
 		<library name = "base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
+		<library name = "encoding" location = "$ISE_EIFFEL/library/encoding/encoding.ecf"/>
 		<library name = "thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>

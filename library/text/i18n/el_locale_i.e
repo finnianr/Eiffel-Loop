@@ -35,8 +35,6 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_SHARED_ONCE_STRINGS
-
 	EL_SHARED_LOCALE_TABLE
 
 	EL_LOCALE_CONSTANTS
@@ -64,7 +62,60 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	all_languages: ARRAYED_LIST [STRING]
+		do
+			restrict_access -- synchronized
+				create Result.make_from_array (Locale_table.current_keys)
+			end_restriction
+		end
+
 	date_text: EL_DATE_TEXT
+
+	default_language: STRING
+
+	language: STRING
+		-- selected language code with translation, defaults to English if no
+		-- translation available
+		-- Possible values: en, de, fr..
+
+	quantity_translation (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
+			-- translation with adjustments according to value of quanity
+			-- keys have
+		require
+			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
+		local
+			substitutions: ARRAY [like translation_template.NAME_VALUE_PAIR]
+		do
+			create substitutions.make_empty
+			Result := quantity_translation_extra (partial_key, quantity, substitutions)
+		end
+
+	quantity_translation_extra (
+		partial_key: READABLE_STRING_GENERAL; quantity: INTEGER
+		substitutions: ARRAY [like translation_template.NAME_VALUE_PAIR]
+	): ZSTRING
+			-- translation with adjustments according to value of `quantity'
+		require
+			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
+		local
+			template: like translation_template
+		do
+			restrict_access
+				template := translation_template (translations, partial_key, quantity)
+			end_restriction
+
+			template.disable_strict
+			template.set_variables_from_array (substitutions)
+			if template.has_variable (Variable_quantity) then
+				template.set_variable (Variable_quantity, quantity)
+			end
+			Result := template.substituted
+		end
+
+  	substituted (template_key: READABLE_STRING_GENERAL; inserts: TUPLE): ZSTRING
+  		do
+  			Result := translation (template_key).substituted_tuple (inserts)
+  		end
 
 	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
 			-- translation for source code string in current user language
@@ -73,44 +124,6 @@ feature -- Access
 				Result := Precursor (key)
 			end_restriction
 		end
-
-	quantity_translation (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
-			-- translation with adjustments according to value of quanity
-			-- keys have
-		require
-			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
-		local
-			substitutions: ARRAY [like translation_template.Type_name_value_pair]
-		do
-			create substitutions.make_empty
-			Result := quantity_translation_extra (partial_key, quantity, substitutions)
-		end
-
-	quantity_translation_extra (
-		partial_key: READABLE_STRING_GENERAL; quantity: INTEGER
-		substitutions: ARRAY [like translation_template.Type_name_value_pair]
-	): ZSTRING
-			-- translation with adjustments according to value of quanity
-		require
-			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
-		local
-			template: like translation_template
-		do
-			restrict_access
-				template := translation_template (quantity_key (partial_key, quantity))
-				template.disable_strict
-				template.set_variables_from_array (substitutions)
-				if template.has_variable (Variable_quantity) then
-					template.set_variable (Variable_quantity, quantity)
-				end
-				Result := template.substituted
-			end_restriction
-		end
-
-  	substituted (template_key: READABLE_STRING_GENERAL; inserts: TUPLE): ZSTRING
-  		do
-  			Result := translation (template_key).substituted_tuple (inserts)
-  		end
 
 	translation_array (keys: INDEXABLE [READABLE_STRING_GENERAL, INTEGER]): ARRAY [ZSTRING]
 			--
@@ -124,20 +137,6 @@ feature -- Access
 		do
 			restrict_access -- synchronized
 				Result := translations.current_keys
-			end_restriction
-		end
-
-	default_language: STRING
-
-	language: STRING
-		-- selected language code with translation, defaults to English if no
-		-- translation available
-		-- Possible values: en, de, fr..
-
-	all_languages: ARRAYED_LIST [STRING]
-		do
-			restrict_access -- synchronized
-				create Result.make_from_array (Locale_table.current_keys)
 			end_restriction
 		end
 
@@ -166,31 +165,11 @@ feature -- Status report
 	is_valid_quantity_key (key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
 		do
 			restrict_access
-				Result := translations.has (quantity_key (key, quantity))
+				Result := translations.has_general_quantity_key (key, quantity)
 			end_restriction
 		end
 
 feature {NONE} -- Implementation
-
-	quantity_key (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
-			-- complete partial_key by appending .zero .singular OR .plural
-		do
-			Result := empty_once_string
-			Result.append_string_general (partial_key)
-			if quantity = 1 then
-				Result.append_string (Dot_singular)
-			else
-				if quantity = 0 then
-					Result.append_string (Dot_zero)
-					if not translations.has (Result) then
-						Result.remove_tail (Dot_zero.count)
-						Result.append_string (Dot_plural)
-					end
-				else
-					Result.append_string (Dot_plural)
-				end
-			end
-		end
 
 	set_next_translation (text: READABLE_STRING_GENERAL)
 		-- not used
@@ -203,15 +182,23 @@ feature {NONE} -- Implementation
 			if table.found then
 				Result := table.found_item
 			else
-				create Result.make_from_general (a_key)
-				Result.append_character ('*')
+				Result := Unknown_key_template #$ [a_key]
 			end
 		end
 
-	translation_template (a_key: ZSTRING): EL_SUBSTITUTION_TEMPLATE [ZSTRING]
+	translation_template (
+		table: like translations; partial_key: READABLE_STRING_GENERAL; quantity: INTEGER
+	): EL_SUBSTITUTION_TEMPLATE [ZSTRING]
 		do
-			Result := translated_string (translations, a_key)
+			table.search_quantity_general (partial_key, quantity)
+			if table.found then
+				Result := table.found_item
+			else
+				Result := Unknown_quantity_key_template #$ [partial_key, quantity]
+			end
 		end
+
+feature {NONE} -- Internal attributes
 
 	translations: EL_TRANSLATION_TABLE
 

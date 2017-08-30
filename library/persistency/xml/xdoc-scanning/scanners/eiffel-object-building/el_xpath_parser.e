@@ -40,7 +40,7 @@ inherit
 			parse, make
 		end
 
-	EL_XML_TEXT_PATTERN_FACTORY
+	EL_XML_ZTEXT_PATTERN_FACTORY
 
 create
 	make

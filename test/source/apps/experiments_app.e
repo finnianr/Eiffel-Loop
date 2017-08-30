@@ -39,8 +39,8 @@ feature -- Basic operations
 	run
 		local
 		do
-			lio.enter ("finite_iteration")
-			finite_iteration
+			lio.enter ("find_console_encoding")
+			find_console_encoding
 			lio.exit
 		end
 
@@ -253,6 +253,19 @@ feature -- Experiments
 			create date.make_from_epoch (1418308263)
 			lio.put_labeled_string ("Date", date.out)
 			file.set_date (1418308263)
+		end
+
+	find_console_encoding
+		local
+			system: SYSTEM_ENCODINGS
+			message: STRING_32
+		do
+			create system
+			lio.put_string (system.console_encoding.code_page)
+			lio.put_new_line
+			message := "Euro sign: "
+			message.append_code (0x20AC)
+			lio.put_line (message)
 		end
 
 	find_directories

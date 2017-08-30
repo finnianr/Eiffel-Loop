@@ -17,24 +17,17 @@ inherit
 		rename
 			make as make_output
 		undefine
-			write_string
-		redefine
-			write_string_8
+			write_console
 		end
 
 	EL_TESTING_CONSOLE_LOG_OUTPUT
-		redefine
-			write_string_8
+		undefine
+			set_text_blue, set_text_brown, set_text_dark_gray, set_text_default, set_text_light_blue,
+			set_text_light_cyan, set_text_light_green, set_text_purple, set_text_red,
+			flush_string_8
 		end
 
 create
 	make
 
-feature {NONE} -- Implementation
-
-	write_string_8 (str: STRING)
-		do
-			std_output.put_string (str)
-			crc_32.add_string_8 (str)
-		end
 end

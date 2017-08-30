@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_TIME
 
-	EL_XML_TEXT_PATTERN_FACTORY
+	EL_XML_ZTEXT_PATTERN_FACTORY
 
 feature {NONE} -- Initialization
 

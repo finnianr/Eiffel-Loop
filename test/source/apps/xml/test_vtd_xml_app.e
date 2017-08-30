@@ -45,8 +45,8 @@ feature -- Basic operations
 		do
 			log.enter ("test_run")
 --			Test.do_file_test ("XML/Jobs-spreadsheet.fods", agent read_jobs_spreadsheet, 2295406679) Has a bug
-			Test.do_file_test ("vtd-xml/bioinfo.xml", agent query_bioinfo, 2727120726)
-			Test.do_file_test ("vtd-xml/aircraft_power_price.svg", agent query_svg, 1713865708)
+			Test.do_file_test ("vtd-xml/bioinfo.xml", agent query_bioinfo, 2349762920)
+			Test.do_file_test ("vtd-xml/aircraft_power_price.svg", agent query_svg, 2735359820)
 			Test.do_file_test ("vtd-xml/CD-catalog.xml", agent query_cd_catalog, 3937389230)
 			Test.do_all_files_test ("vtd-xml", "request-matrix*.xml", agent query_processing_instruction, 3772593145)
 			Test.do_file_tree_test ("pi-taylor-series", agent pi_taylor_series, 103269780)

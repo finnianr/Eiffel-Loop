@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_output
 		redefine
-			write_string, write_string_8
+			write_console
 		end
 
 create
@@ -33,22 +33,13 @@ feature -- Initialization
 
 feature {NONE} -- Implementation
 
-	write_string (str: ZSTRING)
+	write_console (str: READABLE_STRING_GENERAL)
 		local
-			utf_8: STRING
+			l_encoded: STRING
 		do
-			utf_8 := str.to_utf_8
-			std_output.put_string (utf_8)
-			crc_32.add_string_8 (utf_8)
-		end
-
-	write_string_8 (str: STRING)
-			-- Write str8 filtering color high lighting control sequences
-		do
-			if not Escape_sequences.has (str) then
-				std_output.put_string (str)
-				crc_32.add_string_8 (str)
-			end
+			l_encoded := console_encoded (str)
+			std_output.put_string (l_encoded)
+			crc_32.add_string_8 (l_encoded)
 		end
 
 feature {NONE} -- Internal attributes

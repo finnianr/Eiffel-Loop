@@ -19,7 +19,7 @@ feature {NONE} -- Implementation
 
 	type_name: ZSTRING
 		do
-			Result := app.English_directory
+			Result := app.Eng_directory
 		end
 
 	value (str: ZSTRING): EL_DIR_PATH

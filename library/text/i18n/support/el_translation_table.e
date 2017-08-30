@@ -31,7 +31,7 @@ inherit
 			is_equal, copy, default_create
 		end
 
-	EL_SHARED_ONCE_STRINGS
+	EL_LOCALE_CONSTANTS
 		undefine
 			is_equal, copy, default_create
 		end
@@ -51,6 +51,7 @@ feature {NONE} -- Initialization
 		do
 			create last_id.make_empty
 			create duplicates.make_empty
+			create internal_zstring_key.make_empty
 			make_equal (60)
 			Precursor
 		end
@@ -105,14 +106,26 @@ feature -- Status query
 
 	has_general (key: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := has (to_zstring (key))
+			Result := has (zstring_key (key))
+		end
+
+	has_general_quantity_key (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
+		-- True if key to match `quantity' is present
+		do
+			Result := has (quantity_key (partial_key, quantity))
 		end
 
 feature -- Cursor movement
 
 	search_general (key: READABLE_STRING_GENERAL)
 		do
-			search (to_zstring (key))
+			search (zstring_key (key))
+		end
+
+	search_quantity_general (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER)
+		-- search for key to match `quantity' is present
+		do
+			search (quantity_key (partial_key, quantity))
 		end
 
 feature -- Basic operations
@@ -158,12 +171,34 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	to_zstring (key: READABLE_STRING_GENERAL): ZSTRING
+	quantity_key (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
+			-- complete partial_key by appending .zero .singular OR .plural
+		do
+			Result := internal_zstring_key
+			Result.wipe_out
+			Result.append_string_general (partial_key)
+			if quantity = 1 then
+				Result.append_string (Dot_singular)
+			else
+				if quantity = 0 then
+					Result.append_string (Dot_zero)
+					if not has (Result) then
+						Result.remove_tail (Dot_zero.count)
+						Result.append_string (Dot_plural)
+					end
+				else
+					Result.append_string (Dot_plural)
+				end
+			end
+		end
+
+	zstring_key (key: READABLE_STRING_GENERAL): ZSTRING
 		do
 			if attached {ZSTRING} key as z_key then
 				Result := z_key
 			else
-				Result := empty_once_string
+				Result := internal_zstring_key
+				Result.wipe_out
 				Result.append_string_general (key)
 			end
 		end
@@ -171,6 +206,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	duplicates: EL_ZSTRING_LIST
+
+	internal_zstring_key: ZSTRING
 
 feature {NONE} -- Build from XML
 

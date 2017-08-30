@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				valid_required_argument ("source", "Source tree directory", << directory_must_exist >>)
+				valid_required_argument ("source", "Localization directory tree path", << directory_must_exist >>)
 			>>
 		end
 

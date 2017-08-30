@@ -216,13 +216,15 @@ feature {NONE} -- Implementation
 		end
 
 	put_attribute_setter_lines (variable_name: ZSTRING)
+		local
+			setter_lines: EL_ZSTRING_LIST
 		do
 			Atttribute_setter_template.set_variable (once "name", variable_name)
 			lines.wipe_out
-			across Atttribute_setter_template.substituted.split ('%N') as line loop
-				line.item.prepend_character ('%T')
-				lines.extend (line.item)
-			end
+			create setter_lines.make_with_lines (Atttribute_setter_template.substituted)
+			setter_lines.indent (1)
+			lines.append (setter_lines)
+
 			name.wipe_out
 			name.append_string_general ("set_")
 			name.append (variable_name)
@@ -341,7 +343,7 @@ feature {NONE} -- Constants
 					do
 						$name := a_$name
 					end
-
+				
 			]")
 		end
 

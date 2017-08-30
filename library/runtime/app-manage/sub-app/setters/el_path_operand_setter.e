@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 		do
 			if valid_description.has_substring ("must exist") then
 				app.argument_errors.extend (argument.new_error)
-				app.argument_errors.last.set_path_error (app.English_directory, a_value)
+				app.argument_errors.last.set_path_error (app.Eng_directory, a_value)
 			else
 				Precursor (a_value, valid_description)
 			end

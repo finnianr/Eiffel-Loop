@@ -238,14 +238,14 @@ feature -- Element change
 					a_dir_path.set_path (l_argument)
 					if not a_dir_path.exists then
 						argument_errors.extend (argument_error)
-						argument_errors.last.set_path_error (English_directory, a_dir_path)
+						argument_errors.last.set_path_error (Eng_directory, a_dir_path)
 					end
 
 				elseif attached {EL_FILE_PATH} a_attribute as a_file_path then
 					a_file_path.set_path (l_argument)
 					if not a_file_path.exists then
 						argument_errors.extend (argument_error)
-						argument_errors.last.set_path_error (English_file, a_file_path)
+						argument_errors.last.set_path_error (Eng_file, a_file_path)
 					end
 
 				elseif attached {REAL_REF} a_attribute as a_real_value then
@@ -359,12 +359,12 @@ feature {NONE} -- Factory routines
 
 feature -- Constants
 
-	English_directory: ZSTRING
+	Eng_directory: ZSTRING
 		once
 			Result := "directory"
 		end
 
-	English_file: ZSTRING
+	Eng_file: ZSTRING
 		once
 			Result := "file"
 		end

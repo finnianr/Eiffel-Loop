@@ -26,35 +26,44 @@ feature -- Test
 	test_run
 			--
 		do
-			Test.do_file_tree_test (".thunderbird", agent test_xhtml_export, 4261842426)
---			Test.do_file_tree_test (".thunderbird", agent test_html_body_export, 2247727507)
---			Test.do_file_tree_test (".thunderbird", agent test_small_html_body_export, 3426906612)
+--			Test.do_file_tree_test (".thunderbird", agent test_xhtml_export ("pop.myching.co", ?), 2477712861)
+--			Test.do_file_tree_test (".thunderbird", agent test_xhtml_export ("small.myching.co", ?), 4123295270)
+			Test.do_file_tree_test (".thunderbird", agent test_html_body_export ("pop.myching.co", ?), 4222929584)
+--			Test.do_file_tree_test (".thunderbird", agent test_html_body_export ("small.myching.co", ?), 4015841579)
 		end
 
-	test_xhtml_export (a_dir_path: EL_DIR_PATH)
+	test_xhtml_export (account: ZSTRING; a_dir_path: EL_DIR_PATH)
 			--
 		do
 			create command.make (
-				"pop.myching.co", a_dir_path.joined_dir_path ("export"), a_dir_path.parent, True, Empty_inluded_sbd_dirs
+				account, a_dir_path.joined_dir_path ("export"), a_dir_path.parent, True, Empty_inluded_sbd_dirs
 			)
 			normal_run
 		end
 
-	test_html_body_export (a_dir_path: EL_DIR_PATH)
+	test_html_body_export (account: ZSTRING; a_dir_path: EL_DIR_PATH)
 			--
+		local
+			en_file_path: EL_FILE_PATH; en_text, subject_line: STRING; en_out: PLAIN_TEXT_FILE
+			pos_subject: INTEGER
 		do
 			create command.make (
-				"pop.myching.co", a_dir_path.joined_dir_path ("export"), a_dir_path.parent, False, Empty_inluded_sbd_dirs
+				account, a_dir_path.joined_dir_path ("export"), a_dir_path.parent, False, Empty_inluded_sbd_dirs
 			)
 			normal_run
-		end
 
-	test_small_html_body_export (a_dir_path: EL_DIR_PATH)
-			--
-		do
-			create command.make (
-				"small.myching.co", a_dir_path.joined_dir_path ("export"), a_dir_path.parent, False, Empty_inluded_sbd_dirs
-			)
+			-- Change name of "Home" to "Home Page"
+			en_file_path := a_dir_path + "21h18lg7.default/Mail/pop.myching.co/Product Tour.sbd/en"
+			en_text := File_system.plain_text (en_file_path)
+			subject_line := "Subject: Home"
+			pos_subject := en_text.substring_index (subject_line, 1)
+			if pos_subject > 0 then
+				en_text.replace_substring (subject_line + " Page", pos_subject, pos_subject + subject_line.count - 1)
+			end
+			create en_out.make_open_write (en_file_path)
+			en_out.put_string (en_text)
+			en_out.close
+
 			normal_run
 		end
 
@@ -105,8 +114,8 @@ feature {NONE} -- Constants
 			Result := <<
 				[{THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP}, All_routines],
 				[{THUNDERBIRD_LOCALIZED_HTML_EXPORTER}, All_routines],
-				[{THUNDERBIRD_MAIL_TO_XHTML_CONVERTER}, All_routines],
-				[{THUNDERBIRD_MAIL_TO_HTML_BODY_CONVERTER}, All_routines]
+				[{THUNDERBIRD_EXPORT_AS_XHTML}, All_routines],
+				[{THUNDERBIRD_EXPORT_AS_HTML_BODY}, All_routines]
 
 			>>
 		end

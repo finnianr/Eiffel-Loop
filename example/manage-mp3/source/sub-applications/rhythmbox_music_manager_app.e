@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 
 	initialize
 		do
-			Console.show ({EL_VIDEO_TO_MP3_COMMAND_IMP})
+--			Console.show_all (<< {EL_VIDEO_TO_MP3_COMMAND_IMP}, {EL_WAV_FADER_IMP}, {EL_WAV_TO_MP3_COMMAND_IMP} >>)
 			Precursor
 		end
 
@@ -132,6 +132,7 @@ feature {NONE} -- Constants
 				[{STORAGE_DEVICE}, All_routines],
 				[{NOKIA_PHONE_DEVICE}, All_routines],
 				[{SAMSUNG_TABLET_DEVICE}, All_routines]
+
 			>>
 		end
 
