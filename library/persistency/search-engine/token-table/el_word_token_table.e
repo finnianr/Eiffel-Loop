@@ -1,13 +1,16 @@
 note
-	description: "Summary description for {WORD_TOKEN_TABLE}."
+	description: "[
+		A table of unique words used to create tokenized strings or word-lists consisting of a series
+		of keys into the word table.
+	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 8:06:31 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2017-09-24 13:14:29 GMT (Sunday 24th September 2017)"
+	revision: "2"
 
 class
 	EL_WORD_TOKEN_TABLE

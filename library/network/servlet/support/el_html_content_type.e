@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-26 11:55:47 GMT (Wednesday 26th April 2017)"
-	revision: "2"
+	date: "2017-09-03 12:01:43 GMT (Sunday 3rd September 2017)"
+	revision: "3"
 
 class
 	EL_HTML_CONTENT_TYPE
 
 inherit
 	EL_HTTP_CONTENT_TYPE
+		rename
+			make_default as make_default_encoding
+		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename

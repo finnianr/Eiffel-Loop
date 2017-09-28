@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {OPERATOR_OR_SEARCH_TERM}."
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-13 10:17:23 GMT (Wednesday 13th January 2016)"
-	revision: "1"
+	date: "2017-09-24 13:16:37 GMT (Sunday 24th September 2017)"
+	revision: "2"
 
 class
 	EL_OPERATOR_OR_SEARCH_TERM
@@ -29,7 +31,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	positive_match (target: like Type_target): BOOLEAN
+	positive_match (target: like WORD_SEARCHABLE): BOOLEAN
 			--
 		do
 			Result := left_operand.matches (target) or else right_operand.matches (target)

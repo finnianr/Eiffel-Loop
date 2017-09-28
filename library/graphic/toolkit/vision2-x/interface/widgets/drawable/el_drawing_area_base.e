@@ -2,12 +2,12 @@ note
 	description: "Base class for drawable objects"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-12 16:50:52 GMT (Wednesday 12th April 2017)"
-	revision: "2"
+	date: "2017-08-13 7:46:43 GMT (Sunday 13th August 2017)"
+	revision: "3"
 
 deferred class
 	EL_DRAWING_AREA_BASE

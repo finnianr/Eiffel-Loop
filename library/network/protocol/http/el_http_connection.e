@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 9:55:18 GMT (Friday 12th May 2017)"
-	revision: "8"
+	date: "2017-09-04 11:01:45 GMT (Monday 4th September 2017)"
+	revision: "9"
 
 class
 	EL_HTTP_CONNECTION
@@ -83,6 +83,7 @@ feature {NONE} -- Initialization
 			create http_response.make_empty
 			create headers.make_equal (0)
 			create post_data.make_empty (0)
+			create user_agent.make_empty
 		end
 
 feature -- Access
@@ -138,6 +139,8 @@ feature -- Access
 	last_string: STRING
 
 	url: ZSTRING
+
+	user_agent: STRING
 
 feature -- Status query
 
@@ -206,6 +209,9 @@ feature -- Basic operations
 			make_from_pointer (Curl.new_pointer)
 			set_url (a_url)
 			set_curl_boolean_option (CURLOPT_verbose, False)
+			if not user_agent.is_empty then
+				set_curl_string_8_option (CURLOPT_useragent, user_agent)
+			end
 		ensure
 			opened: is_open
 		end
@@ -454,9 +460,12 @@ feature -- Element change
 			set_url (l_url)
 		end
 
-	set_user_agent (user_agent: STRING)
+	set_user_agent (a_user_agent: STRING)
 		do
-			set_curl_string_8_option (CURLOPT_useragent, user_agent)
+			user_agent := a_user_agent
+			if is_open then
+				set_curl_string_8_option (CURLOPT_useragent, a_user_agent)
+			end
 		end
 
 feature {NONE} -- Disposal

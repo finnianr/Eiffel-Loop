@@ -8,9 +8,14 @@ note
 		`translated_variables_tables' can be merged with `getter_function_table' in an Evolicity 
 		context.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-08-29 11:42:14 GMT (Tuesday 29th August 2017)"
+	revision: "1"
 
 deferred class
 	EVOLICITY_LOCALIZED_VARIABLES

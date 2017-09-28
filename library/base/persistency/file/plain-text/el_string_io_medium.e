@@ -2,12 +2,12 @@ note
 	description: "Text buffer medium"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-10 13:40:24 GMT (Sunday 10th April 2016)"
-	revision: "1"
+	date: "2017-09-03 9:49:21 GMT (Sunday 3rd September 2017)"
+	revision: "2"
 
 deferred class
 	EL_STRING_IO_MEDIUM
@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 			create object_ptr
 			object_ptr.set_item ($Current)
 			make_with_name (object_ptr.out)
-			set_default_encoding
+			make_default
 		end
 
 	make_open_read_from_text (a_text: like text)
@@ -224,13 +224,6 @@ feature -- Status setting
 		do
 			text.set_count (0)
 			mode := Write_file
-		end
-
-feature -- Element change
-
-	set_default_encoding
-		do
-			set_utf_encoding (8)
 		end
 
 feature -- Input

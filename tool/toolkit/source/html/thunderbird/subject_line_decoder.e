@@ -8,9 +8,14 @@
 			
 			"=?UTF-8?Q?3.Journaleintr=c3=a4ge_bearbeiten?=" -> "Journaleinträge bearbeiten"
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-09-03 11:46:25 GMT (Sunday 3rd September 2017)"
+	revision: "1"
 
 class
 	SUBJECT_LINE_DECODER
@@ -34,6 +39,8 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_latin_1
+			set_codec
+			encoding_change_actions.extend (agent set_codec)
 			create line.make_empty
 		end
 
@@ -46,10 +53,9 @@ feature -- Element change
 
 feature -- Access
 
-	decoded: ZSTRING
+	decoded_line: ZSTRING
 		local
-			parts: EL_ZSTRING_LIST; codec: like new_codec
-			latin: STRING; unicode: STRING_32
+			parts: EL_ZSTRING_LIST; latin: STRING
 		do
 			if line.starts_with (Encoded_begin) and then line.ends_with (Encoded_end) then
 				create parts.make_with_separator (line.substring (3, line.count - 2), '?', False)
@@ -68,10 +74,7 @@ feature -- Access
 				if is_utf_8_encoded then
 					create Result.make_from_utf_8 (latin)
 				else
-					codec := new_codec (Current)
-					create unicode.make_filled (' ', latin.count)
-					codec.decode (latin.count, latin.area, unicode.area, 0)
-					Result := unicode
+					create Result.make_from_general (codec.as_unicode (latin))
 				end
 			else
 				Result := line
@@ -79,6 +82,11 @@ feature -- Access
 		end
 
 feature {NONE} -- Implementation
+
+	set_codec
+		do
+			codec := new_codec (Current)
+		end
 
 	unescaped (str: ZSTRING): STRING
 		do
@@ -101,6 +109,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	line: ZSTRING
+
+	codec: like new_codec
 
 feature {NONE} -- Constants
 

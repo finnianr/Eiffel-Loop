@@ -5,24 +5,28 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-05 8:32:44 GMT (Friday 5th August 2016)"
-	revision: "1"
+	date: "2017-09-03 10:59:49 GMT (Sunday 3rd September 2017)"
+	revision: "2"
 
 deferred class
 	EL_TEXT_EDITOR
 
 inherit
 	EL_ENCODEABLE_AS_TEXT
+		redefine
+			make_default
+		end
 
 feature {NONE} -- Initialization
 
 	make_default
 			--
 		do
+			Precursor
 			output := Default_output
 		end
 

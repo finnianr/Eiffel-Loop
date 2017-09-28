@@ -11,12 +11,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-02 13:32:55 GMT (Sunday 2nd October 2016)"
-	revision: "2"
+	date: "2017-08-14 18:41:35 GMT (Monday 14th August 2017)"
+	revision: "3"
 
 class
 	EL_TEXT_RECTANGLE

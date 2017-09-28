@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 11:23:43 GMT (Friday 12th May 2017)"
-	revision: "2"
+	date: "2017-07-25 12:36:34 GMT (Tuesday 25th July 2017)"
+	revision: "3"
 
 class
 	HTML_BODY_WORD_COUNTER

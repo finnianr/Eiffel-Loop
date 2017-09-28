@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {SHARED_REUSABLE_STRINGS}."
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 10:20:28 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2017-08-13 8:21:36 GMT (Sunday 13th August 2017)"
+	revision: "2"
 
 class
 	EL_SHARED_ONCE_STRINGS

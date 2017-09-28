@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 15:24:37 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2017-09-03 9:47:20 GMT (Sunday 3rd September 2017)"
+	revision: "2"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -38,13 +38,13 @@ feature {NONE} -- Initialization
 			-- Create file object with `fn' as file name.
 		do
 			Precursor (fn)
-			set_utf_encoding (8)
+			make_default
 		end
 
 	make_with_path (a_path: PATH)
 		do
 			Precursor (a_path)
-			set_utf_encoding (8)
+			make_default
 		end
 
 end

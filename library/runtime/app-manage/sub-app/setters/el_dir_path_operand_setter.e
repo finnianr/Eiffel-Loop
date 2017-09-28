@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-01 5:29:03 GMT (Thursday 1st June 2017)"
-	revision: "1"
+	date: "2017-08-15 14:54:32 GMT (Tuesday 15th August 2017)"
+	revision: "2"
 
 class
 	EL_DIR_PATH_OPERAND_SETTER

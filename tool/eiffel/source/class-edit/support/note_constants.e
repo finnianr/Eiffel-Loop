@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EIFFEL_CONSTANTS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-07 9:56:35 GMT (Sunday 7th August 2016)"
-	revision: "2"
+	date: "2017-07-28 17:34:41 GMT (Friday 28th July 2017)"
+	revision: "3"
 
 class
 	NOTE_CONSTANTS

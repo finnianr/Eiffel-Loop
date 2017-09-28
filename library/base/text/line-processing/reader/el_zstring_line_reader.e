@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_ZSTRING_LINE_READER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 15:36:19 GMT (Monday 18th January 2016)"
-	revision: "1"
+	date: "2017-09-03 13:08:19 GMT (Sunday 3rd September 2017)"
+	revision: "2"
 
 class
 	EL_ZSTRING_LINE_READER
@@ -15,20 +15,20 @@ class
 inherit
 	EL_LINE_READER [EL_ZSTRING_IO_MEDIUM]
 		redefine
-			set_line_from_file
+			append_next_line
 		end
 
 feature -- Element change
 
-	set_line_from_file (source: EL_ZSTRING_IO_MEDIUM)
+	append_next_line (line: ZSTRING; file: EL_ZSTRING_IO_MEDIUM)
 		do
-			source.read_line
-			line := source.last_string
+			file.read_line
+			line.append (file.last_string)
 		end
 
 feature {NONE} -- Implementation
 
-	set_line (raw_line: STRING)
+	append_to_line (line: ZSTRING; raw_line: STRING)
 		do
 		end
 end

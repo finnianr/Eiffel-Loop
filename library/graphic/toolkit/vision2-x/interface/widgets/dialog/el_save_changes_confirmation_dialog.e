@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_LOCALE_SAVE_CHANGES_DIALOG}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2017-08-15 14:53:18 GMT (Tuesday 15th August 2017)"
+	revision: "2"
 
 class
 	EL_SAVE_CHANGES_CONFIRMATION_DIALOG

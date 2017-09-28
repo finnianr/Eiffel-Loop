@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 11:13:24 GMT (Friday 12th May 2017)"
-	revision: "4"
+	date: "2017-09-04 9:45:11 GMT (Monday 4th September 2017)"
+	revision: "5"
 
 class
 	EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
@@ -30,7 +30,7 @@ inherit
 		rename
 			codec as output_codec
 		undefine
-			set_encoding
+			make_default
 		end
 
 create

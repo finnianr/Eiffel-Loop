@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_SOFTWARE_VERSION}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-20 17:41:02 GMT (Tuesday 20th December 2016)"
-	revision: "2"
+	date: "2017-09-04 10:02:14 GMT (Monday 4th September 2017)"
+	revision: "3"
 
 class
 	EL_SOFTWARE_VERSION

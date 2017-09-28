@@ -2,12 +2,12 @@ note
 	description: "Encoded text medium"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-04 8:05:56 GMT (Thursday 4th August 2016)"
-	revision: "2"
+	date: "2017-09-03 11:46:25 GMT (Sunday 3rd September 2017)"
+	revision: "3"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_ENCODEABLE_AS_TEXT
 		redefine
-			set_encoding
+			make_default
 		end
 
 	EL_SHARED_ZCODEC_FACTORY
@@ -25,6 +25,15 @@ inherit
 	EL_MODULE_UTF
 
 	EL_SHARED_ONCE_STRINGS
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			Precursor
+			set_codec
+			encoding_change_actions.extend (agent set_codec)
+		end
 
 feature -- Access
 
@@ -44,18 +53,12 @@ feature -- Output
 			end
 		end
 
-	put_lines (lines: CHAIN [READABLE_STRING_GENERAL])
-		do
-			if position = 0 then
-				put_bom
-			end
-			from lines.start until lines.after loop
-				if lines.index > 1 then
-					put_new_line
-				end
-				put_string (lines.item)
-				lines.forth
-			end
+	put_character (c: CHARACTER)
+		deferred
+		end
+
+	put_encoded_string_8 (str: STRING)
+		deferred
 		end
 
 	put_indented_lines (indent: STRING; lines: LINEAR [READABLE_STRING_GENERAL])
@@ -72,23 +75,29 @@ feature -- Output
 			end
 		end
 
-	put_character (c: CHARACTER)
-		deferred
-		end
-
-	put_encoded_string_8 (str: STRING)
-		deferred
-		end
-
 	put_integer (n: INTEGER)
 		deferred
 		end
 
-	put_new_line
-		deferred
+	put_lines (lines: LINEAR [READABLE_STRING_GENERAL])
+		do
+			if position = 0 then
+				put_bom
+			end
+			from lines.start until lines.after loop
+				if lines.index > 1 then
+					put_new_line
+				end
+				put_string (lines.item)
+				lines.forth
+			end
 		end
 
 	put_natural (n: NATURAL)
+		deferred
+		end
+
+	put_new_line
 		deferred
 		end
 
@@ -100,23 +109,6 @@ feature -- Output
 				put_string_8 (str_8)
 			elseif attached {STRING_32} str as str_32 then
 				put_string_32 (str_32)
-			end
-		end
-
-	put_string_8, put_latin_1 (str: STRING)
-		local
-			utf_8: STRING
-		do
-			-- Assume STRING types are either latin-1 or utf-8
-			if encoding_type = Encoding_iso_8859 and encoding = 1 then
-				put_encoded_string_8 (str)
-			elseif encoding_type = Encoding_utf and encoding = 8 then
-				utf_8 := empty_once_string_8
-				UTF.utf_32_string_into_utf_8_string_8 (str, utf_8)
-				put_encoded_string_8 (utf_8)
-			else
-				-- Some other latin encoding
-				put_string_32 (str)
 			end
 		end
 
@@ -137,6 +129,23 @@ feature -- Output
 			put_encoded_string_8 (encoded_string)
 		end
 
+	put_string_8, put_latin_1 (str: STRING)
+		local
+			utf_8: STRING
+		do
+			-- Assume STRING types are either latin-1 or utf-8
+			if encoding_type = Encoding_iso_8859 and encoding = 1 then
+				put_encoded_string_8 (str)
+			elseif encoding_type = Encoding_utf and encoding = 8 then
+				utf_8 := empty_once_string_8
+				UTF.utf_32_string_into_utf_8_string_8 (str, utf_8)
+				put_encoded_string_8 (utf_8)
+			else
+				-- Some other latin encoding
+				put_string_32 (str)
+			end
+		end
+
 	put_string_z (str: ZSTRING)
 		require
 			valid_encoding: str.has_mixed_encoding implies encoding_type = Encoding_utf and encoding = 8
@@ -154,18 +163,13 @@ feature -- Output
 
 feature -- Element change
 
-	set_encoding (a_type: like encoding_type a_encoding: like encoding)
+	set_codec
 			--
 		do
-			Precursor (a_type, a_encoding)
-			if encoding_type = Encoding_ISO_8859 then
-				codec := new_iso_8859_codec (encoding)
-
-			elseif encoding_type = Encoding_windows then
-				codec := new_windows_codec (encoding)
-
-			elseif encoding_type = Encoding_utf then
+			if encoding_type = Encoding_utf then
 				create {EL_ISO_8859_1_ZCODEC} codec.make
+			else
+				codec := new_codec (Current)
 			end
 		end
 
@@ -176,17 +180,25 @@ feature -- Element change
 
 feature -- Status change
 
-	enable_bom
-		do
-			is_bom_enabled := True
-		end
-
 	disable_bom
 		do
 			is_bom_enabled := False
 		end
 
+	enable_bom
+		do
+			is_bom_enabled := True
+		end
+
 feature -- Status query
+
+	is_bom_enabled: BOOLEAN
+		-- True if UTF-8 byte-order-mark writing is enabled
+
+	is_bom_writeable: BOOLEAN
+		do
+			Result := is_bom_enabled and then (encoding_type = Encoding_utf and encoding = 8)
+		end
 
 	is_open_write: BOOLEAN
 		deferred
@@ -196,25 +208,17 @@ feature -- Status query
 		deferred
 		end
 
-	is_bom_writeable: BOOLEAN
-		do
-			Result := is_bom_enabled and then (encoding_type = Encoding_utf and encoding = 8)
-		end
-
-	is_bom_enabled: BOOLEAN
-		-- True if UTF-8 byte-order-mark writing is enabled
-
 feature -- Basic operations
 
 	close
 		deferred
 		end
 
-	open_write
+	open_read
 		deferred
 		end
 
-	open_read
+	open_write
 		deferred
 		end
 

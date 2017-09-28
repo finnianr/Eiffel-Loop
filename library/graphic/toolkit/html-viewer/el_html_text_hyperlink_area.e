@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:33:27 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2017-08-31 10:04:08 GMT (Thursday 31st August 2017)"
+	revision: "2"
 
 class
 	EL_HTML_TEXT_HYPERLINK_AREA
@@ -26,8 +26,7 @@ create
 feature {NONE} -- Initialization
 
 	make_with_styles (
-		a_styled_text: like styled_text; a_font, a_fixed_font: EV_FONT
-		a_action: PROCEDURE [ANY, TUPLE]; a_background_color: EV_COLOR
+		a_styled_text: like styled_text; a_font, a_fixed_font: EV_FONT; a_action: PROCEDURE; a_background_color: EV_COLOR
 	)
 			--
 		do

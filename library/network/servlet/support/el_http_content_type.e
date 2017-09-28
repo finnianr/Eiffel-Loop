@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_HTTP_CONTENT_TYPE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-30 13:29:49 GMT (Saturday 30th January 2016)"
-	revision: "1"
+	date: "2017-09-03 11:58:09 GMT (Sunday 3rd September 2017)"
+	revision: "2"
 
 class
 	EL_HTTP_CONTENT_TYPE
@@ -15,8 +15,8 @@ class
 inherit
 	EL_ENCODEABLE_AS_TEXT
 		rename
-			make_utf_8 as make_encodeable_utf_8,
-			make_latin_1 as make_encodeable_latin_1
+			make_utf_8 as make_utf_8_encodeable,
+			make_latin_1 as make_latin_1_encodeable
 		redefine
 			out
 		end
@@ -28,13 +28,13 @@ feature {NONE} -- Initialization
 
 	make_utf_8 (a_type: STRING)
 		do
-			make_encodeable_utf_8
+			make_utf_8_encodeable
 			type := a_type
 		end
 
 	make_latin_1 (a_type: STRING)
 		do
-			make_encodeable_latin_1
+			make_latin_1_encodeable
 			type := a_type
 		end
 feature -- Access

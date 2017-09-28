@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-09 11:42:49 GMT (Friday 9th June 2017)"
-	revision: "5"
+	date: "2017-08-06 11:27:22 GMT (Sunday 6th August 2017)"
+	revision: "6"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND create default_create end]

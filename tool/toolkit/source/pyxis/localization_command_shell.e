@@ -2,12 +2,12 @@ note
 	description: "Summary description for {PYXIS_TRANSLATION_CHECK}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-11 9:51:51 GMT (Friday 11th November 2016)"
-	revision: "1"
+	date: "2017-08-21 11:57:57 GMT (Monday 21st August 2017)"
+	revision: "2"
 
 class
 	LOCALIZATION_COMMAND_SHELL

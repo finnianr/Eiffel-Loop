@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:34:54 GMT (Thursday 25th May 2017)"
-	revision: "4"
+	date: "2017-09-03 11:04:27 GMT (Sunday 3rd September 2017)"
+	revision: "5"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -26,6 +26,9 @@ inherit
 		end
 
 	EL_ENCODEABLE_AS_TEXT
+		redefine
+			make_default
+		end
 
 	EL_MODULE_EVOLICITY_TEMPLATES
 
@@ -38,10 +41,10 @@ feature {NONE} -- Initialization
 		require else
 			template_attached: attached template
 		do
-			Precursor
+			Precursor {EL_ENCODEABLE_AS_TEXT}
+			Precursor {EVOLICITY_EIFFEL_CONTEXT}
 			output_path := Empty_file_path
 			template_path := Empty_file_path
-			set_default_encoding
 			if has_string_template then
 				Evolicity_templates.put (template_name, stripped_template)
 			end
@@ -97,11 +100,6 @@ feature -- Conversion
 		end
 
 feature -- Element change
-
-	set_default_encoding
-		do
-			set_utf_encoding (8)
-		end
 
 	set_output_path (a_output_path: like output_path)
 		do

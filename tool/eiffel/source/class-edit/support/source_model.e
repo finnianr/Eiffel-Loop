@@ -1,15 +1,13 @@
 note
 	description: "Splits Eiffel source lines into feature groups and individual feature lines"
 
-
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:36:05 GMT (Thursday 29th June 2017)"
-	revision: "2"
+	date: "2017-08-01 9:36:35 GMT (Tuesday 1st August 2017)"
+	revision: "3"
 
 class
 	SOURCE_MODEL

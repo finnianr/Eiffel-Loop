@@ -2,12 +2,12 @@ note
 	description: "Localized date text"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-21 12:08:45 GMT (Sunday 21st August 2016)"
-	revision: "2"
+	date: "2017-08-04 14:50:48 GMT (Friday 4th August 2017)"
+	revision: "3"
 
 class
 	EL_LOCALE_DATE_TEXT

@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-04-06 16:28:52 GMT (Wednesday 6th April 2016)"
-	revision: "1"
+	date: "2017-08-18 13:03:59 GMT (Friday 18th August 2017)"
+	revision: "2"
 
 class
 	EL_BATCH_SCRIPT_FILE

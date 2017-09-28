@@ -1,22 +1,24 @@
 note
 	description: "[
-		Object to manage a containable widget in a container. The `update' routine causes the container
+		Object to manage a widget in a container. The `update' routine causes the container
 		widget to be replaced with a new widget created by the function `new_item'
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-03-10 11:00:28 GMT (Friday 10th March 2017)"
-	revision: "2"
+	date: "2017-09-28 10:24:57 GMT (Thursday 28th September 2017)"
+	revision: "3"
 
 class
 	EL_MANAGED_WIDGET [W -> EV_WIDGET create default_create end]
 
 inherit
-	ANY
+	EL_EVENT_LISTENER
+		rename
+			notify as update
 		redefine
 			default_create
 		end

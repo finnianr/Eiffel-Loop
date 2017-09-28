@@ -2,12 +2,12 @@ note
 	description: "Summary description for {TEST_VIDEO_IMPORT_MUSIC_MANAGER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-01 11:02:19 GMT (Monday 1st August 2016)"
-	revision: "1"
+	date: "2017-07-17 20:34:59 GMT (Monday 17th July 2017)"
+	revision: "2"
 
 class
 	TEST_VIDEO_IMPORT_MUSIC_MANAGER

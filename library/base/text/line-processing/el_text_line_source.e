@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_STRING_MEDIUM_LINE_SOURCE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-18 15:59:25 GMT (Monday 18th January 2016)"
-	revision: "1"
+	date: "2017-09-03 13:06:25 GMT (Sunday 3rd September 2017)"
+	revision: "2"
 
 class
 	EL_TEXT_LINE_SOURCE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_LINE_SOURCE [EL_STRING_IO_MEDIUM]
 		redefine
-			make_default, make, set_decoder
+			make_default, make, new_reader
 		end
 
 create
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 	make (a_source: EL_STRING_IO_MEDIUM)
 		do
 			Precursor (a_source)
-			set_decoder
+			reader := new_reader
 		end
 
 	make_from_string (a_string: ZSTRING)
@@ -48,12 +48,12 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	set_decoder
+	new_reader: like reader
 		do
 			if attached {EL_ZSTRING_IO_MEDIUM} source then
-				create {EL_ZSTRING_LINE_READER} decoder
+				create {EL_ZSTRING_LINE_READER} Result
 			else
-				Precursor
+				Result := Precursor
 			end
 		end
 

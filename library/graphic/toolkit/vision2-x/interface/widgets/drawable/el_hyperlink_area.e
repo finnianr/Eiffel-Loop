@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_HYPERLINK_AREA}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:22:33 GMT (Saturday 26th December 2015)"
-	revision: "1"
+	date: "2017-08-10 8:26:01 GMT (Thursday 10th August 2017)"
+	revision: "2"
 
 class
 	EL_HYPERLINK_AREA

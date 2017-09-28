@@ -1,8 +1,13 @@
 note
 	description: "String recycling pool"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-08-18 9:35:22 GMT (Friday 18th August 2017)"
+	revision: "1"
 
 class
 	EL_STRING_POOL [S -> STRING_GENERAL create make_empty end]

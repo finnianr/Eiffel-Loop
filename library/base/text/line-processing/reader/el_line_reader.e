@@ -2,52 +2,35 @@ note
 	description: "Summary description for {EL_LINE_READER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 7:09:05 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2017-09-03 13:21:29 GMT (Sunday 3rd September 2017)"
+	revision: "2"
 
 deferred class
 	EL_LINE_READER [F -> FILE]
 
-inherit
-	ANY
-		redefine
-			default_create
-		end
-
-	EL_MODULE_UTF
-		undefine
-			default_create
-		end
-
-feature {NONE} -- Initialization
-
-	default_create
-		do
-			create line.make_empty
-		end
-
 feature -- Element change
 
-	set_line_from_file (source: F)
+	append_next_line (line: ZSTRING; file: F)
 		require
-			source_open: source.is_open_read
-			line_available: not source.after
+			source_open: file.is_open_read
+			line_available: not file.after
 		do
-			source.read_line
-			set_line (source.last_string)
+			file.read_line
+			append_to_line (line, file.last_string)
 			line.prune_all_trailing ('%R')
 		end
 
-	set_line (raw_line: STRING)
+feature {NONE} -- Implementation
+
+	append_to_line (line: ZSTRING; raw_line: STRING)
+		require
+			empty_line: line.is_empty
 		deferred
 		end
 
-feature -- Access
-
-	line: ZSTRING
 
 end

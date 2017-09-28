@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 16:18:58 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2017-08-18 12:44:15 GMT (Friday 18th August 2017)"
+	revision: "2"
 
 class
 	MEDIA_PLAYER_DUMMY_APP

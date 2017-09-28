@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 12:09:01 GMT (Thursday 25th May 2017)"
-	revision: "3"
+	date: "2017-08-06 9:49:28 GMT (Sunday 6th August 2017)"
+	revision: "4"
 
 class
 	EL_MODULE_LOCALE

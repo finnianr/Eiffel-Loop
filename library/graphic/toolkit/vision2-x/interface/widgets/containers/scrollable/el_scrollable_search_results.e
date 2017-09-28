@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-27 12:07:22 GMT (Thursday 27th April 2017)"
-	revision: "3"
+	date: "2017-09-01 13:33:01 GMT (Friday 1st September 2017)"
+	revision: "4"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -158,7 +158,7 @@ feature -- Element change
 	set_result_set (a_result_set: like result_set)
 			--
 		local
-			sorter: QUICK_SORTER [G]
+			quick: QUICK_SORTER [G]
 		do
 			if comparator = default_comparator then
 				if reverse_sorting_enabled then
@@ -173,11 +173,11 @@ feature -- Element change
 			else
 				create {ARRAYED_LIST [G]} result_set.make (a_result_set.count)
 				result_set.append (a_result_set)
-				create sorter.make (comparator)
+				create quick.make (comparator)
 				if reverse_sorting_enabled then
-					sorter.reverse_sort (result_set)
+					quick.reverse_sort (result_set)
 				else
-					sorter.sort (result_set)
+					quick.sort (result_set)
 				end
 			end
 			page_count := (result_set.count / links_per_page).ceiling

@@ -2,12 +2,12 @@ note
 	description: "Box with linked HTML color text box and color dialog button"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-23 9:17:16 GMT (Monday 23rd January 2017)"
-	revision: "2"
+	date: "2017-08-12 12:12:58 GMT (Saturday 12th August 2017)"
+	revision: "3"
 
 class
 	EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX

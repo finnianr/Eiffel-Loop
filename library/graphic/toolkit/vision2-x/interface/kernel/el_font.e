@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_FONT}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-12 16:53:26 GMT (Wednesday 12th April 2017)"
-	revision: "4"
+	date: "2017-08-13 7:46:05 GMT (Sunday 13th August 2017)"
+	revision: "5"
 
 class
 	EL_FONT

@@ -2,12 +2,15 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 1); build = 395
+version = (1, 2, 2); build = 397
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.2
+# created class SUBJECT_LIST to manage exported email subjects in THUNDERBIRD_FOLDER_EXPORTER
 
 # 1.2.1
 # Fixed THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP to handle windows-xxxx encodings and delete files which do not match the subject.

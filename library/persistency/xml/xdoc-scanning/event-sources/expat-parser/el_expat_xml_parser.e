@@ -1,7 +1,5 @@
 note
-	description: "[
-		Wrapper for eXpat XML parser.
-	]"
+	description: "Wrapper for eXpat XML parser."
 
 	notes: "[
 		One pitfall that novice expat users are likely to fall into is that although expat may accept input
@@ -14,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 15:00:31 GMT (Friday 12th May 2017)"
-	revision: "4"
+	date: "2017-09-04 9:52:14 GMT (Monday 4th September 2017)"
+	revision: "5"
 
 class
 	EL_EXPAT_XML_PARSER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:08:57 GMT (Thursday 29th June 2017)"
-	revision: "5"
+	date: "2017-09-01 17:58:14 GMT (Friday 1st September 2017)"
+	revision: "6"
 
 class
 	THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP
@@ -28,7 +28,7 @@ feature -- Test
 		do
 --			Test.do_file_tree_test (".thunderbird", agent test_xhtml_export ("pop.myching.co", ?), 2477712861)
 --			Test.do_file_tree_test (".thunderbird", agent test_xhtml_export ("small.myching.co", ?), 4123295270)
-			Test.do_file_tree_test (".thunderbird", agent test_html_body_export ("pop.myching.co", ?), 4222929584)
+			Test.do_file_tree_test (".thunderbird", agent test_html_body_export ("pop.myching.co", ?), 2383008038)
 --			Test.do_file_tree_test (".thunderbird", agent test_html_body_export ("small.myching.co", ?), 4015841579)
 		end
 

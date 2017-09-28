@@ -1,19 +1,24 @@
 note
-	description: "Summary description for {EL_MANAGED_CONTAINABLE}."
+	description: "[
+		Object to manage a containable widget in a container. The `update' routine causes the container
+		widget to be replaced with a new widget created by the function `new_item'
+	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-03-10 11:00:10 GMT (Friday 10th March 2017)"
-	revision: "2"
+	date: "2017-09-28 10:25:53 GMT (Thursday 28th September 2017)"
+	revision: "3"
 
 class
 	EL_MANAGED_CONTAINABLE [W -> EV_CONTAINABLE create default_create end]
 
 inherit
-	ANY
+	EL_EVENT_LISTENER
+		rename
+			notify as update
 		redefine
 			default_create
 		end
@@ -25,14 +30,14 @@ feature {NONE} -- Initialization
 
 	default_create
 		do
-			make_with_container (create {EV_HORIZONTAL_BOX}, agent create_default_item)
+			make_with_container (create {EV_HORIZONTAL_BOX}, agent new_default_item)
 		end
 
-	make_with_container (a_container: like container; a_factory_function: like factory_function)
+	make_with_container (a_container: like container; a_new_item: like new_item)
 		do
-			container := a_container; factory_function := a_factory_function
-			factory_function.apply
-			item := factory_function.last_result
+			container := a_container; new_item := a_new_item
+			new_item.apply
+			item := new_item.last_result
 			container.extend (item)
 		end
 
@@ -44,9 +49,9 @@ feature -- Element change
 			container.start
 			container.search (item)
 			if not container.exhausted then
-				factory_function.apply
-				container.replace (factory_function.last_result)
-				item := factory_function.last_result
+				new_item.apply
+				container.replace (new_item.last_result)
+				item := new_item.last_result
 			end
 		end
 
@@ -56,13 +61,13 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	create_default_item: W
+	new_default_item: W
 		do
 			create Result
 		end
 
 	container: EV_DYNAMIC_LIST [EV_CONTAINABLE]
 
-	factory_function: FUNCTION [W]
+	new_item: FUNCTION [W]
 
 end

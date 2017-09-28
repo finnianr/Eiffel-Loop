@@ -2,12 +2,12 @@ note
 	description: "Summary description for {RBOX_CORTINA_SONG}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-26 9:54:57 GMT (Monday 26th September 2016)"
-	revision: "2"
+	date: "2017-08-18 20:27:08 GMT (Friday 18th August 2017)"
+	revision: "3"
 
 class
 	RBOX_CORTINA_SONG

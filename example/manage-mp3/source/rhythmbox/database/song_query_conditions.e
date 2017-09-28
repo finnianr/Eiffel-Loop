@@ -2,12 +2,12 @@ note
 	description: "Summary description for {RBOX_QUERY_CONDITIONS}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-06 8:28:48 GMT (Saturday 6th August 2016)"
-	revision: "2"
+	date: "2017-08-28 8:02:32 GMT (Monday 28th August 2017)"
+	revision: "3"
 
 class
 	SONG_QUERY_CONDITIONS

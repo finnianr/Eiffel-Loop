@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 9:43:13 GMT (Thursday 29th June 2017)"
-	revision: "2"
+	date: "2017-09-11 11:46:17 GMT (Monday 11th September 2017)"
+	revision: "3"
 
 class
 	EL_VERSION_APP
@@ -40,7 +40,9 @@ feature -- Basic operations
 		local
 			version_out: PLAIN_TEXT_FILE
 		do
-			if not file_path.is_empty then
+			if file_path.is_empty then
+				io.put_string (Build_info.version.string)
+			else
 				File_system.make_directory (file_path.parent)
 				create version_out.make_open_write (file_path)
 				version_out.put_string (Build_info.version.string)

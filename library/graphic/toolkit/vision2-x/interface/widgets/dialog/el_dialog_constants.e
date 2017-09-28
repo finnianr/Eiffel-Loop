@@ -3,9 +3,14 @@ note
 		Duplication of `EV_DIALOG_CONSTANTS' constants and renamed for the locale verification program
 		`EL_CHECK_LOCALE_STRINGS_APP'
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-08-12 10:41:52 GMT (Saturday 12th August 2017)"
+	revision: "1"
 
 class
 	EL_DIALOG_CONSTANTS

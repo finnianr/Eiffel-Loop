@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-28 17:06:24 GMT (Sunday 28th May 2017)"
-	revision: "2"
+	date: "2017-09-01 12:58:08 GMT (Friday 1st September 2017)"
+	revision: "3"
 
 class
 	THUNDERBIRD_EXPORT_AS_HTML_BODY
@@ -53,44 +53,11 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	export_mails (mails_path: EL_FILE_PATH)
-		local
-			order_file: EL_PLAIN_TEXT_FILE; order_lines: EL_ZSTRING_LIST
-			order_file_path, new_order_file_path: EL_FILE_PATH
-			crc, new_crc: EL_CYCLIC_REDUNDANCY_CHECK_32
 		do
-			subject_order.wipe_out
+			subject_list.wipe_out
 			Precursor (mails_path)
-			if not subject_order.is_empty then
-				create crc; create new_crc
-				create order_lines.make (subject_order.count)
-				across 1 |..| subject_order.count as index loop
-					subject_order.search (index.item)
-					if subject_order.found then
-						order_lines.extend (subject_order.found_item)
-					end
-				end
-				order_file_path := output_dir + "order.txt"
-				new_order_file_path := order_file_path.with_new_extension ("new.txt")
-				create order_file.make_open_write (new_order_file_path)
-				order_file.enable_bom
-				order_file.put_lines (order_lines)
-				order_file.close
-
-				-- Replace old with new if checksums differ
-				if order_file_path.exists then
-					crc.add_file (order_file_path)
-				end
-				new_crc.add_file (new_order_file_path)
-				if crc.checksum = new_crc.checksum then
-					OS.File_system.remove_file (new_order_file_path)
-				else
-					lio.put_path_field ("Created new", order_file_path)
-					lio.put_new_line
-					if order_file_path.exists then
-						OS.File_system.remove_file (order_file_path)
-					end
-					OS.File_system.rename_file (new_order_file_path, order_file_path)
-				end
+			if not subject_list.is_empty then
+				subject_list.save_if_different (output_dir + "order.txt")
 			end
 		end
 

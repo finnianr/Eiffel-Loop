@@ -3,9 +3,14 @@ note
 		An application for verifying localization translation identifiers against various kinds of source texts
 		See [$source CHECK_LOCALE_STRINGS_COMMAND] for details.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-08-29 14:14:14 GMT (Tuesday 29th August 2017)"
+	revision: "1"
 
 class
 	CHECK_LOCALE_STRINGS_APP

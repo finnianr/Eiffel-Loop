@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_FAST_CGI_REQUEST}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-20 16:30:56 GMT (Sunday 20th December 2015)"
-	revision: "1"
+	date: "2017-08-06 10:13:22 GMT (Sunday 6th August 2017)"
+	revision: "2"
 
 class
 	EL_FAST_CGI_REQUEST

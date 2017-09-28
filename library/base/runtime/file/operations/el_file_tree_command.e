@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {EL_FILE_TREE_COMMAND}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-08-06 11:17:00 GMT (Sunday 6th August 2017)"
+	revision: "1"
 
 deferred class
 	EL_FILE_TREE_COMMAND

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {HTML_WRITER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-30 18:22:09 GMT (Monday 30th January 2017)"
-	revision: "3"
+	date: "2017-08-25 14:10:58 GMT (Friday 25th August 2017)"
+	revision: "4"
 
 deferred class
 	HTML_WRITER

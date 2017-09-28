@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-14 10:27:09 GMT (Wednesday 14th June 2017)"
-	revision: "2"
+	date: "2017-09-01 11:18:10 GMT (Friday 1st September 2017)"
+	revision: "3"
 
 deferred class
 	HELP_PAGES_TEST_SET
@@ -25,7 +25,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	new_file_tree: HASH_TABLE [ARRAY [READABLE_STRING_GENERAL], EL_DIR_PATH]
+	new_file_tree: like new_empty_file_tree
 		do
 			create Result.make (0)
 			Result [{STRING_32} "Help-pages/Windows™/boot"] := <<

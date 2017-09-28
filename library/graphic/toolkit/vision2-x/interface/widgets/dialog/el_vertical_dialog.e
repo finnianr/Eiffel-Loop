@@ -2,12 +2,12 @@ note
 	description: "Summary description for {DIALOG}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-29 17:54:04 GMT (Sunday 29th January 2017)"
-	revision: "2"
+	date: "2017-08-15 11:13:41 GMT (Tuesday 15th August 2017)"
+	revision: "3"
 
 deferred class
 	EL_VERTICAL_DIALOG

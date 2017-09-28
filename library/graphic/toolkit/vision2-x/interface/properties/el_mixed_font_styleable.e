@@ -2,12 +2,12 @@
 	description: "Routines for label components with mixed font styles"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-26 11:23:48 GMT (Saturday 26th December 2015)"
-	revision: "1"
+	date: "2017-08-13 7:42:16 GMT (Sunday 13th August 2017)"
+	revision: "2"
 
 deferred class
 	EL_MIXED_FONT_STYLEABLE

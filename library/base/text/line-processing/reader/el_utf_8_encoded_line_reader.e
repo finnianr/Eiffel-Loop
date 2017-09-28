@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_UTF_8_LINE_READER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-11-04 9:48:44 GMT (Wednesday 4th November 2015)"
-	revision: "1"
+	date: "2017-09-03 13:20:32 GMT (Sunday 3rd September 2017)"
+	revision: "2"
 
 class
 	EL_UTF_8_ENCODED_LINE_READER [F -> FILE]
@@ -15,14 +15,24 @@ class
 inherit
 	EL_LINE_READER [F]
 
-create
-	default_create
+	EL_MODULE_UTF
 
-feature -- Element change
+feature {NONE} -- Implementation
 
-	set_line (raw_line: STRING)
+	append_to_line (line: ZSTRING; raw_line: STRING)
+		local
+			buffer: like Unicode_buffer
 		do
-			create line.make_from_utf_8 (raw_line)
+			buffer := Unicode_buffer
+			buffer.wipe_out
+			UTF.utf_8_string_8_into_string_32 (raw_line, buffer)
+			line.append_string_general (buffer)
 		end
 
+feature {NONE} -- Constants
+
+	Unicode_buffer: STRING_32
+		once
+			create Result.make_empty
+		end
 end

@@ -2,12 +2,12 @@ note
 	description: "Extends `EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT' for regression testing"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 13:41:13 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2017-08-18 17:37:52 GMT (Friday 18th August 2017)"
+	revision: "2"
 
 class
 	EL_TESTING_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT

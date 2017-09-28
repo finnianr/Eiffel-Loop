@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-19 15:25:23 GMT (Tuesday 19th July 2016)"
-	revision: "1"
+	date: "2017-09-03 13:14:00 GMT (Sunday 3rd September 2017)"
+	revision: "2"
 
 deferred class
 	EL_LINE_SOURCE [F -> FILE]
@@ -22,20 +22,22 @@ inherit
 
 	EL_ENCODEABLE_AS_TEXT
 		redefine
-			set_encoding
+			make_default
 		end
 
-	EL_SHARED_ZCODEC_FACTORY
-
 	EL_MODULE_UTF
+
+	EL_SHARED_ZCODEC_FACTORY
 
 feature {NONE} -- Initialization
 
 	make_default
 			--
 		do
+			Precursor
+			reader := new_reader
+			encoding_change_actions.extend (agent do reader := new_reader end)
 			create item.make_empty
-			set_utf_encoding (8)
 		end
 
 	make (a_source: F)
@@ -96,6 +98,9 @@ feature -- Status query
 			Result := source.is_empty
 		end
 
+	is_shared_item: BOOLEAN
+		-- True if only one instance of `item' created
+
 	is_source_external: BOOLEAN
 		-- True if source is managed externally to object
 
@@ -137,21 +142,15 @@ feature -- Cursor movement
 					source.close
 				end
 			else
-				item := next_line (source)
+				if is_shared_item then
+					item.wipe_out
+				else
+					create item.make_empty
+				end
+				reader.append_next_line (item, source)
 				count := count + 1
 			end
 			index := index + 1
-		end
-
-feature -- Element change
-
-	set_encoding (a_type: like encoding_type; a_encoding: like encoding)
-			--
-		do
-			if a_type /= encoding_type or else a_encoding /= encoding then
-				Precursor (a_type, a_encoding)
-				set_decoder
-			end
 		end
 
 feature -- Status setting
@@ -162,6 +161,11 @@ feature -- Status setting
 			if source.is_open_read then
 				source.close
 			end
+		end
+
+	enable_shared_item
+		do
+			is_shared_item := True
 		end
 
 	open_at_start
@@ -203,29 +207,16 @@ feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
 			end
 		end
 
-	next_line (a_source: F): ZSTRING
+	new_reader: like reader
 		do
-			decoder.set_line_from_file (a_source)
-			Result := decoder.line
-		end
-
-	set_decoder
-		do
-			if encoding_type = Encoding_ISO_8859 then
-				create {EL_ENCODED_LINE_READER [F]} decoder.make (new_iso_8859_codec (encoding))
-
-			elseif encoding_type = Encoding_windows then
-				create {EL_ENCODED_LINE_READER [F]} decoder.make (new_windows_codec (encoding))
-
-			elseif encoding_type = Encoding_utf then
-				if encoding = 8 then
-					create {EL_UTF_8_ENCODED_LINE_READER [F]} decoder
-
-				end
+			if is_utf_8_encoded then
+				create {EL_UTF_8_ENCODED_LINE_READER [F]} Result
+			else
+				create {EL_ENCODED_LINE_READER [F]} Result.make (new_codec (Current))
 			end
 		end
 
-	decoder: EL_LINE_READER [F]
+	reader: EL_LINE_READER [F]
 
 	source: F
 

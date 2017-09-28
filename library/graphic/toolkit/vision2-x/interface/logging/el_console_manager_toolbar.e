@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-24 17:20:47 GMT (Tuesday 24th January 2017)"
-	revision: "2"
+	date: "2017-08-06 10:00:33 GMT (Sunday 6th August 2017)"
+	revision: "3"
 
 class
 	EL_CONSOLE_MANAGER_TOOLBAR

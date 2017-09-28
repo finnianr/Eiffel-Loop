@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 15:00:30 GMT (Friday 12th May 2017)"
-	revision: "2"
+	date: "2017-09-03 11:53:58 GMT (Sunday 3rd September 2017)"
+	revision: "3"
 
 deferred class
 	EL_PARSE_EVENT_SOURCE
@@ -22,12 +22,12 @@ feature {EL_FACTORY_CLIENT} -- Initialisation
 	make (a_scanner: like scanner)
 			--
 		do
+			make_default
 			scanner := a_scanner
 
 			last_node := scanner.last_node
 			last_node_name := last_node.name
 			last_node_text := last_node.raw_content
-			set_default_encoding
 		end
 
 feature -- Access
@@ -54,13 +54,6 @@ feature -- Basic operations
 
 	log_error (a_log: EL_LOGGABLE)
 		do
-		end
-
-feature -- Element change
-
-	set_default_encoding
-		do
-			set_utf_encoding (8)
 		end
 
 feature {EL_XML_DOCUMENT_SCANNER} -- Implementation: attributes

@@ -1,13 +1,18 @@
 note
-	description: "Summary description for {EL_TOKENIZED_STRING}."
+	description: "[
+		A tokenized string which forms the basis of a fast full text search engine.
+		The initializing string argument is decomposed into a series of lowercased words ignoring punctuation.
+		The resulting word-list is represented as a series of token id's which are keys into a table of unique words.
+		Each token is of type `CHARACTER_32'
+	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-19 11:19:50 GMT (Saturday 19th December 2015)"
-	revision: "1"
+	date: "2017-09-24 10:49:19 GMT (Sunday 24th September 2017)"
+	revision: "2"
 
 class
 	EL_TOKENIZED_STRING
@@ -164,7 +169,7 @@ feature -- Status query
 	incomplete_word_table: BOOLEAN
 		-- True if table has some missing values
 
-feature -- Status query
+feature -- Status setting
 
 	clear_incomplete_word_table
 		do

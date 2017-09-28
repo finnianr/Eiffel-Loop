@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_VISION_2_FACTORY}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-29 13:32:19 GMT (Sunday 29th January 2017)"
-	revision: "3"
+	date: "2017-08-12 11:00:11 GMT (Saturday 12th August 2017)"
+	revision: "4"
 
 class
 	EL_VISION_2_FACTORY

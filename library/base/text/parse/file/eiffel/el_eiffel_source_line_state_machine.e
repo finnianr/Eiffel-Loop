@@ -1,8 +1,13 @@
 note
 	description: "A class for creating line-orientated parsers of Eiffel source code"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-08-01 12:11:15 GMT (Tuesday 1st August 2017)"
+	revision: "1"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE

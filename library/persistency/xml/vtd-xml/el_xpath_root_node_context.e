@@ -1,15 +1,13 @@
 note
 	description: "Top level object representing an XML document"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:34:55 GMT (Thursday 25th May 2017)"
-	revision: "2"
+	date: "2017-09-03 11:55:09 GMT (Sunday 3rd September 2017)"
+	revision: "3"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
@@ -62,6 +60,7 @@ feature {NONE} -- Initaliazation
 			l_context_pointer: POINTER
 			l_encoding_type: EL_C_STRING_8
 		do
+			make_default
 			create found_instruction.make_empty; create namespace.make_empty
 			if parse_failed then
 				parse_namespace_declarations (default_xml)

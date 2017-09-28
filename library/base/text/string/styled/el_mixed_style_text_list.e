@@ -3,13 +3,15 @@ note
 		list of strings that should be rendered with either a regular, bold or fixed font
 	]"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-16 7:26:35 GMT (Wednesday 16th December 2015)"
-	revision: "1"
+	date: "2017-08-09 19:36:33 GMT (Wednesday 9th August 2017)"
+	revision: "2"
 
 class
 	EL_MIXED_STYLE_TEXT_LIST

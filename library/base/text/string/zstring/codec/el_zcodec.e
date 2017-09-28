@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_CODEC_2}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-18 8:54:07 GMT (Tuesday 18th April 2017)"
-	revision: "3"
+	date: "2017-09-03 10:51:01 GMT (Sunday 3rd September 2017)"
+	revision: "4"
 
 deferred class
 	EL_ZCODEC
@@ -142,6 +142,23 @@ feature -- Basic operations
 		end
 
 feature -- Conversion
+
+	as_unicode (encoded: STRING): READABLE_STRING_GENERAL
+		-- returns `encoded' string as unicode
+		-- (if you are keeping a reference make sure to twin the result)
+		local
+			buffer: like Unicode_buffer
+		do
+			if id = 1 then
+				Result := encoded
+			else
+				buffer := Unicode_buffer
+				buffer.grow (encoded.count)
+				buffer.set_count (encoded.count)
+				decode (encoded.count, encoded.area, buffer.area, 0)
+				Result := buffer
+			end
+		end
 
 	as_unicode_character (c: CHARACTER): CHARACTER_32
 		do
@@ -279,6 +296,11 @@ feature {NONE} -- Internal attributes
 	latin_characters: SPECIAL [CHARACTER]
 
 feature {NONE} -- Constants
+
+	Unicode_buffer: STRING_32
+		once
+			create Result.make_empty
+		end
 
 	Unencoded_character: CHARACTER = '%/026/'
 

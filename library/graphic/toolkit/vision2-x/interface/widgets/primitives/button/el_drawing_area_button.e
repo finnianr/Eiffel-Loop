@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {EL_DRAWING_AREA_BUTTON}."
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 7:33:14 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2017-08-06 10:00:33 GMT (Sunday 6th August 2017)"
+	revision: "2"
 
 class
 	EL_DRAWING_AREA_BUTTON

@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-07 21:23:18 GMT (Thursday 7th July 2016)"
-	revision: "1"
+	date: "2017-08-29 10:39:50 GMT (Tuesday 29th August 2017)"
+	revision: "2"
 
 class
 	EL_ENGLISH_DEFAULT_LOCALE_IMP

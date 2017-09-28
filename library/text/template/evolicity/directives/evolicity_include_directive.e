@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EVOLICITY_INCLUDE_DIRECTIVE}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-26 8:33:45 GMT (Tuesday 26th July 2016)"
-	revision: "1"
+	date: "2017-09-01 12:12:52 GMT (Friday 1st September 2017)"
+	revision: "2"
 
 class
 	EVOLICITY_INCLUDE_DIRECTIVE

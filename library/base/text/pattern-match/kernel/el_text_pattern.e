@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {EL_TEXT_PATTERN}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 17:17:26 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-09-09 19:40:48 GMT (Saturday 9th September 2017)"
+	revision: "3"
 
 deferred class
 	EL_TEXT_PATTERN

@@ -5,9 +5,14 @@ note
 		This is a more efficient way to process split strings as it doesn't create a new string
 		instance for each split part.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-08-14 12:05:40 GMT (Monday 14th August 2017)"
+	revision: "1"
 
 class
 	EL_SPLIT_ZSTRING_LIST

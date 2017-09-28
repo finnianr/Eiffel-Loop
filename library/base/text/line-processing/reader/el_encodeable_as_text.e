@@ -6,24 +6,32 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-23 15:59:24 GMT (Tuesday 23rd May 2017)"
-	revision: "2"
+	date: "2017-09-03 12:17:47 GMT (Sunday 3rd September 2017)"
+	revision: "3"
 
 class
 	EL_ENCODEABLE_AS_TEXT
 
 create
-	make_utf_8, make_latin_1
+	make_default, make_utf_8, make_latin_1
 
 feature {NONE} -- Initialization
 
+	make_default
+		do
+			create encoding_change_actions
+			set_default_encoding
+		end
+
 	make_utf_8
 		do
+			create encoding_change_actions
 			set_utf_encoding (8)
 		end
 
 	make_latin_1
 		do
+			create encoding_change_actions
 			set_iso_8859_encoding (1)
 		end
 
@@ -46,6 +54,8 @@ feature -- Access
 				Result.append_integer (encoding)
 			end
 		end
+
+	encoding_change_actions: ACTION_SEQUENCE
 
 feature -- Status query
 
@@ -81,6 +91,11 @@ feature -- Status query
 
 feature -- Element change
 
+	set_default_encoding
+		do
+			set_utf_encoding (8)
+		end
+
 	set_encoding_from_other (other: EL_ENCODEABLE_AS_TEXT)
 		do
 			set_encoding (other.encoding_type, other.encoding)
@@ -101,17 +116,25 @@ feature -- Element change
 			set_encoding (Encoding_windows, a_encoding)
 		end
 
-	set_encoding (a_type: like encoding_type; a_encoding: like encoding)
+	frozen set_encoding (a_type: like encoding_type; a_encoding: like encoding)
 			--
 		require
 			valid_encoding: is_valid_encoding (a_type, a_encoding)
+		local
+			previous_type: STRING; previous_encoding: INTEGER
 		do
+			previous_type := encoding_type; previous_encoding := encoding
 			if Valid_encodings.current_keys.has (a_type) then
 				encoding_type := a_type
 			else
 				encoding_type := Encoding_types [a_type.as_upper]
 			end
 			encoding := a_encoding
+			if previous_type /= encoding_type or previous_encoding /= a_encoding then
+				if not encoding_change_actions.is_empty then
+					encoding_change_actions.call ([])
+				end
+			end
 		ensure
 			encoding_type_set: Valid_encodings.current_keys.has (encoding_type)
 		end

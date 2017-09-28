@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-04 8:44:02 GMT (Thursday 4th August 2016)"
-	revision: "2"
+	date: "2017-09-03 11:56:41 GMT (Sunday 3rd September 2017)"
+	revision: "3"
 
 deferred class
 	EL_FILE_PARSER
@@ -22,6 +22,9 @@ inherit
 		end
 
 	EL_ENCODEABLE_AS_TEXT
+		redefine
+			make_default
+		end
 
 	EL_MODULE_ASCII
 		export
@@ -35,16 +38,11 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_encodable
-		do
-			make_utf_8
-		end
-
 	make_default
 			--
 		do
-			Precursor
-			make_encodable
+			Precursor {EL_ENCODEABLE_AS_TEXT}
+			Precursor {EL_PARSER}
 			source_file_path := Default_file_path
 		end
 

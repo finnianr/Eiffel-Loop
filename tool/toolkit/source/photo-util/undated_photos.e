@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-01 15:26:56 GMT (Saturday 1st July 2017)"
-	revision: "3"
+	date: "2017-07-25 12:36:47 GMT (Tuesday 25th July 2017)"
+	revision: "4"
 
 class
 	UNDATED_PHOTOS

@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_WAV_FADER}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 8:24:20 GMT (Thursday 23rd June 2016)"
-	revision: "1"
+	date: "2017-08-18 20:37:28 GMT (Friday 18th August 2017)"
+	revision: "2"
 
 deferred class
 	EL_WAV_FADER_I

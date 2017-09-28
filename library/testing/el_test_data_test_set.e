@@ -2,9 +2,14 @@ note
 	description: "[
 		Test using a set of files copied from `test-data' directory
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-07-23 11:33:30 GMT (Sunday 23rd July 2017)"
+	revision: "1"
 
 deferred class
 	EL_TEST_DATA_TEST_SET

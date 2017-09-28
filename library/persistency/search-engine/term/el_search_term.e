@@ -2,19 +2,21 @@ note
 	description: "Summary description for {SEARCH_TERM}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-13 10:19:35 GMT (Wednesday 13th January 2016)"
-	revision: "1"
+	date: "2017-09-24 13:18:11 GMT (Sunday 24th September 2017)"
+	revision: "2"
 
 deferred class
 	EL_SEARCH_TERM
 
 feature -- Status query
 
-	matches (target: like Type_target): BOOLEAN
+	is_negative: BOOLEAN
+
+	matches (target: like WORD_SEARCHABLE): BOOLEAN
 			--
 		do
 			if is_negative then
@@ -23,8 +25,6 @@ feature -- Status query
 				Result := positive_match (target)
 			end
 		end
-
-	is_negative: BOOLEAN
 
 feature -- Element change
 
@@ -36,13 +36,17 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	positive_match (target: like Type_target): BOOLEAN
+	positive_match (target: like WORD_SEARCHABLE): BOOLEAN
 			--
 		deferred
 		end
 
-	Type_target: EL_WORD_SEARCHABLE
+feature {NONE} -- Type definitions
+
+	WORD_SEARCHABLE: EL_WORD_SEARCHABLE
 			--
+		require
+			never_called: False
 		do
 		end
 end

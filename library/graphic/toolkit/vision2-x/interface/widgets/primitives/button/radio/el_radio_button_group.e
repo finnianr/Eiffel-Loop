@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-19 15:14:21 GMT (Wednesday 19th April 2017)"
-	revision: "3"
+	date: "2017-07-23 11:18:12 GMT (Sunday 23rd July 2017)"
+	revision: "4"
 
 deferred class
 	EL_RADIO_BUTTON_GROUP [G]

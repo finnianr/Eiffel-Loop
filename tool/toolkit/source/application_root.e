@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-01 14:52:54 GMT (Saturday 1st July 2017)"
-	revision: "8"
+	date: "2017-09-03 16:25:06 GMT (Sunday 3rd September 2017)"
+	revision: "9"
 
 class
 	APPLICATION_ROOT
@@ -25,11 +25,12 @@ feature {NONE} -- Implementation
 		once
 			Result := <<
 				{AUTOTEST_DEVELOPMENT_APP},
-				
+
 				{UNDATED_PHOTOS_APP},
 
 				{CRYPTO_APP},
 
+				{FILTER_INVALID_UTF_8_APP},
 				{FTP_BACKUP_APP}, -- uses ftp (depends eposix)
 				{HTML_BODY_WORD_COUNTER_APP},
 				{JOBSERVE_SEARCH_APP},

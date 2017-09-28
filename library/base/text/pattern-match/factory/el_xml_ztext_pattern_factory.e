@@ -1,13 +1,15 @@
 note
 	description: "Summary description for {EL_XML_TEXT_PATTERN_FACTORY}."
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
 	
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-11 12:22:23 GMT (Monday 11th January 2016)"
-	revision: "1"
+	date: "2017-08-25 14:10:58 GMT (Friday 25th August 2017)"
+	revision: "2"
 
 class
 	EL_XML_ZTEXT_PATTERN_FACTORY

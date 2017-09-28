@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_MP3_CLIP_SAVER_COMMAND}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 7:40:42 GMT (Thursday 23rd June 2016)"
-	revision: "1"
+	date: "2017-08-19 7:49:08 GMT (Saturday 19th August 2017)"
+	revision: "2"
 
 deferred class
 	EL_VIDEO_TO_MP3_COMMAND_I

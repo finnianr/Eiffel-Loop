@@ -2,12 +2,12 @@ note
 	description: "Export HTML under www sub-directory"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 12:09:03 GMT (Wednesday 28th September 2016)"
-	revision: "2"
+	date: "2017-08-26 9:32:13 GMT (Saturday 26th August 2017)"
+	revision: "3"
 
 class
 	THUNDERBIRD_WWW_EXPORTER

@@ -2,12 +2,12 @@ note
 	description: "An information dialog with optional deferred localization"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-05 16:29:48 GMT (Thursday 5th January 2017)"
-	revision: "2"
+	date: "2017-08-04 12:44:59 GMT (Friday 4th August 2017)"
+	revision: "3"
 
 class
 	EL_INFORMATION_DIALOG

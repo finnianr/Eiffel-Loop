@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 9:42:47 GMT (Friday 12th May 2017)"
-	revision: "5"
+	date: "2017-09-04 10:55:07 GMT (Monday 4th September 2017)"
+	revision: "6"
 
 class
 	EL_XML_HTTP_CONNECTION
@@ -23,7 +23,7 @@ inherit
 		end
 
 create
-	make, make_with_default
+	make
 
 feature {NONE} -- Initialization
 

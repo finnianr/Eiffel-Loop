@@ -2,12 +2,12 @@ note
 	description: "Summary description for {EL_CUSTOM_SEARCH_TERM}."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-11 14:34:35 GMT (Thursday 11th December 2014)"
-	revision: "1"
+	date: "2017-09-24 13:18:06 GMT (Sunday 24th September 2017)"
+	revision: "2"
 
 deferred class
 	EL_CUSTOM_SEARCH_TERM  [G -> EL_WORD_SEARCHABLE]
@@ -15,12 +15,12 @@ deferred class
 inherit
 	EL_SEARCH_TERM
 		redefine
-			Type_target
+			WORD_SEARCHABLE
 		end
 
 feature {NONE} -- Implementation
 
-	Type_target: G
+	WORD_SEARCHABLE: G
 			--
 		do
 		end

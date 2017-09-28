@@ -2,12 +2,12 @@ note
 	description: "Sub-menu of an application menu `EL_MENU'"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-08-29 12:06:37 GMT (Saturday 29th August 2015)"
-	revision: "1"
+	date: "2017-08-06 9:51:27 GMT (Sunday 6th August 2017)"
+	revision: "2"
 
 deferred class
 	EL_SUB_MENU

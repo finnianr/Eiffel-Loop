@@ -4,6 +4,14 @@ note
 		These localized names are referenced in class [$source EL_MENU]
 	]"
 
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-08-08 12:50:39 GMT (Tuesday 8th August 2017)"
+	revision: "1"
+
 class
 	EL_KEY_CONSTANTS
 

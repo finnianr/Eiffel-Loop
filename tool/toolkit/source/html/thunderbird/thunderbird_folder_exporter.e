@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-28 17:07:32 GMT (Sunday 28th May 2017)"
-	revision: "3"
+	date: "2017-09-01 17:50:34 GMT (Friday 1st September 2017)"
+	revision: "4"
 
 deferred class
 	THUNDERBIRD_FOLDER_EXPORTER [WRITER -> HTML_WRITER create make end]
@@ -41,10 +41,7 @@ feature {NONE} -- Initialization
 			create field_table.make_equal (11)
 			create html_lines.make (50)
 			create last_header
-			create subject_order.make (5)
-			subject_order.compare_objects
-			create subject_decoder.make
-			create subject_set.make_equal (10)
+			create subject_list.make (5)
 			create output_file_path
 		end
 
@@ -65,7 +62,7 @@ feature -- Basic operations
 			create l_dir.make (output_dir)
 			across related_file_extensions as extension loop
 				across l_dir.files_with_extension (extension.item) as file_path loop
-					if not subject_set.has (file_path.item.base_sans_extension) then
+					if not subject_list.has (file_path.item.base_sans_extension) then
 						lio.put_path_field ("Removing", file_path.item)
 						lio.put_new_line
 						OS.File_system.remove_file (file_path.item)
@@ -175,26 +172,11 @@ feature {NONE} -- Implementation
 		end
 
 	set_header_subject
-		local
-			subject, index, value: ZSTRING
-			pos_dot: INTEGER
 		do
-			value := field_table [Field.subject]
-			subject_decoder.set_line (value)
-			subject := subject_decoder.decoded
-			pos_dot := subject.index_of ('.', 1)
-			if pos_dot > 0 then
-				index := subject.substring (1,  pos_dot - 1)
-				if index.is_integer then
-					subject.remove_head (pos_dot)
-					subject_order.put (subject, index.to_integer)
-				end
-			end
-			last_header.subject := subject
-			output_file_path := output_dir + subject
+			subject_list.extend (field_table [Field.subject])
+			last_header.subject := subject_list.last.line
+			output_file_path := output_dir + last_header.subject
 			output_file_path.add_extension (file_out_extension)
-
-			subject_set.put (subject)
 		end
 
 	write_html
@@ -224,21 +206,17 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	subject_set: EL_HASH_SET [ZSTRING]
-
 	html_lines: EL_ZSTRING_LIST
 
 	last_header: TUPLE [date: DATE_TIME; subject: ZSTRING]
 
 	line_source: EL_FILE_LINE_SOURCE
 
-	subject_decoder: SUBJECT_LINE_DECODER
-
 	output_dir: EL_DIR_PATH
 
 	output_file_path: EL_FILE_PATH
 
-	subject_order: HASH_TABLE [ZSTRING, INTEGER]
+	subject_list: SUBJECT_LIST
 
 	indented_line: ZSTRING
 
