@@ -44,6 +44,10 @@
 
 * Updated class `EL_MANAGED_WIDGET_LIST` to conform to `ARRAYED_LIST [EL_MANAGED_WIDGET [EV_WIDGET]]`
 
+## THREAD library
+
+* Reimplemented `EL_WORK_DISTRIBUTER` and `EL_WORK_DISTRIBUTION_THREAD` to use a semaphore representing the number of available threads.
+
 ## TEST program
 
 * Fixed path for `zlib.lib' for all dependencies in Windows implementation.

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 10:42:28 GMT (Thursday 29th June 2017)"
-	revision: "3"
+	date: "2017-10-03 13:27:27 GMT (Tuesday 3rd October 2017)"
+	revision: "4"
 
 class
 	TEST_WORK_DISTRIBUTER_APP
@@ -223,9 +223,6 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{TEST_WORK_DISTRIBUTER_APP}, All_routines]
---				[{EL_TEST_ROUTINES}, All_routines],
---				[{EL_SPREAD_SHEET}, All_routines],
---				[{EL_SPREAD_SHEET_TABLE}, All_routines]
 			>>
 		end
 

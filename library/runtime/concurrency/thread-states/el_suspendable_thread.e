@@ -2,12 +2,12 @@ note
 	description: "Objects that ..."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-04-23 10:24:40 GMT (Thursday 23rd April 2015)"
-	revision: "1"
+	date: "2017-10-02 16:59:00 GMT (Monday 2nd October 2017)"
+	revision: "2"
 
 deferred class
 	EL_SUSPENDABLE_THREAD
@@ -24,8 +24,8 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor
-			create blocked_thread.make
-			create blocked_thread_mutex.make
+			create can_resume.make
+			create can_resume_mutex.make
 		end
 
 feature -- Basic operations
@@ -33,16 +33,17 @@ feature -- Basic operations
 	resume
 			-- unblock thread
 		do
-			blocked_thread.signal
+			can_resume.signal
 		end
 
 	suspend
 			-- block thread and wait for signal to resume
 		do
 			set_state (State_suspended)
-			blocked_thread_mutex.lock
-			blocked_thread.wait (blocked_thread_mutex)
-			blocked_thread_mutex.unlock
+			can_resume_mutex.lock
+			on_suspension
+			can_resume.wait (can_resume_mutex)
+			can_resume_mutex.unlock
 		end
 
 feature -- Status query
@@ -60,13 +61,17 @@ feature {NONE} -- Constants
 		deferred
 		end
 
+feature {NONE} -- Event handling
+
+	on_suspension
+		-- called just before suspension on condition variable `can_resume'
+		do
+		end
+
 feature {NONE} -- Implementation
 
-	blocked_thread: CONDITION_VARIABLE
+	can_resume: CONDITION_VARIABLE
 
-	blocked_thread_mutex: MUTEX
-
-invariant
-	blocked_thread_not_void: blocked_thread /= Void
+	can_resume_mutex: MUTEX
 
 end

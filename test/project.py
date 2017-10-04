@@ -2,7 +2,7 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 4); build = 223
+version = (1, 0, 5); build = 270
 
 installation_sub_directory = 'Eiffel-Loop/test'
 
@@ -16,6 +16,8 @@ tests.append (['-test_recursive_x2e_and_e2x', '-logging'])
 tests.append (['-test_evolicity', '-logging'])
 tests.append (['-test_declarative_xpath', '-logging'])
 
+# 1.0.5
+# Reimplemented EL_WORK_DISTRIBUTION_THREAD to use semaphores
 
 # 1.0.4
 # Changed ZSTRING argument adapation to NOT use appending to once string

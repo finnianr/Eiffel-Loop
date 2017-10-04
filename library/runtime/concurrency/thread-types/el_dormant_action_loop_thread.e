@@ -2,12 +2,12 @@ note
 	description: "Thread that remains dormant until signalled to resume action loop"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-04-23 10:36:21 GMT (Thursday 23rd April 2015)"
-	revision: "1"
+	date: "2017-10-02 9:58:07 GMT (Monday 2nd October 2017)"
+	revision: "2"
 
 deferred class
 	EL_DORMANT_ACTION_LOOP_THREAD
@@ -69,12 +69,9 @@ feature {NONE} -- Implementation
 	wait_to_resume_action_loop
 			--
 		do
-			if is_suspending then
-				on_suspension
-			end
 			suspend_thread
 			Previous_call_is_blocking_thread
--- THREAD WAITING
+--			THREAD WAITING
 
 			if not is_stopping then
 				on_resumption
@@ -86,11 +83,6 @@ feature {NONE} -- Implementation
 		end
 
 	on_resumption
-			--
-		do
-		end
-
-	on_suspension
 			--
 		do
 		end

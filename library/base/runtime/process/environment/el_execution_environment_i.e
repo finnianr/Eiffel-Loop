@@ -292,7 +292,7 @@ feature -- Constants
 			Result := executable_name + "-" + Operating.user_name
 		end
 
-	Nanosecs_per_millisec: INTEGER_64 = 1000000
+	Nanosecs_per_millisec: INTEGER_64 = 1000_000
 
 	W_code: ZSTRING
 		once

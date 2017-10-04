@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-13 9:00:48 GMT (Tuesday 13th June 2017)"
-	revision: "1"
+	date: "2017-10-03 13:27:42 GMT (Tuesday 3rd October 2017)"
+	revision: "2"
 
 class
 	EL_LOGGED_PROCEDURE_DISTRIBUTER [G]
@@ -15,17 +15,15 @@ class
 inherit
 	EL_PROCEDURE_DISTRIBUTER [G]
 		redefine
-			new_thread
+			threads
 		end
 
 create
 	make
 
-feature {NONE} -- Implementation
+feature {NONE} -- Internal attributes
 
-	new_thread: EL_LOGGED_WORK_DISTRIBUTION_THREAD
-		do
-			create Result.make (Current)
-		end
+	threads: EL_ARRAYED_LIST [EL_LOGGED_WORK_DISTRIBUTION_THREAD]
+		-- threads of worker threads
 
 end

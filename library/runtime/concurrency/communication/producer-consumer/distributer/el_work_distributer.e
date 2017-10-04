@@ -1,13 +1,9 @@
 note
 	description: "[
 		Object to distribute work of evaulating routines over a maximum number of threads.
-		
+
 		It can be used directly, or by using one of it's two descendants `EL_FUNCTION_DISTRIBUTER'
 		and `EL_PROCEDURE_DISTRIBUTER'.
-		
-		**Known issues**
-		
-		If you don't give sufficient work to the threads, the `do_final' call may hang.
 	]"
 	instructions: "[
 		Use the class in the following way:
@@ -31,18 +27,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-13 8:55:03 GMT (Tuesday 13th June 2017)"
-	revision: "6"
+	date: "2017-10-03 13:25:46 GMT (Tuesday 3rd October 2017)"
+	revision: "1"
 
 class
-	EL_WORK_DISTRIBUTER
+	EL_WORK_DISTRIBUTER [R -> ROUTINE]
 
 inherit
-	EL_SINGLE_THREAD_ACCESS
+	EL_THREAD_ACCESS
+
+	EL_MODULE_LIO
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-
---	EL_MODULE_LIO
 
 create
 	make
@@ -51,11 +47,14 @@ feature {NONE} -- Initialization
 
 	make (maximum_thread_count: INTEGER)
 		do
-			make_default
-			create pool.make (maximum_thread_count)
-			create applied.make (20); create final_applied.make (0)
-			create can_apply.make; create can_assign.make
+			create available_count.make (maximum_thread_count)
+			create thread_available.make
+			create threads.make (maximum_thread_count)
+			create applied.make (new_routine_list (20))
+			create final_applied.make (0)
 			create thread_attributes.make
+
+			create mutex.make
 		end
 
 feature -- Access
@@ -79,152 +78,137 @@ feature -- Status change
 
 feature -- Basic operations
 
-	collect (list: LIST [like unassigned_routine])
-		-- fill the `a_applied' argument with already applied routines and wipe out `applied'
+	collect (list: LIST [R])
+		-- fill the `list' argument with already applied routines and wipe out `applied'
 		-- does nothing if `applied' is empty
+		local
+			l_applied: like applied.item
 		do
-			restrict_access
-				if not applied.is_empty then
-					applied.do_all (agent list.extend)
-					applied.wipe_out
+			restrict_access (applied)
+				l_applied := applied.item
+				if not l_applied.is_empty then
+					l_applied.do_all (agent list.extend)
+					l_applied.wipe_out
 				end
-			end_restriction
+			end_restriction (applied)
 		end
 
-	collect_final (list: LIST [like unassigned_routine])
-		-- fill the `a_applied' argument with already applied routines and wipe out `applied'
-		-- does nothing if `applied' is empty
+	collect_final (list: LIST [R])
+		-- fill the `list' argument with already applied routines and wipe out `final_applied'
+		-- does nothing if `final_applied' is empty
 		do
 			final_applied.do_all (agent list.extend)
 			final_applied.wipe_out
 		end
 
 	do_final
-		-- wakeup all dormant threads and then wait until all have finished executing,
-		-- before wiping out the thread pool. Make the applied routines available in `final_applied'
+		-- wait until all threads are available before stopping all threads.
+		-- Wipeout the thread pool and make the applied routines available in `final_applied'
 		do
-			restrict_access
-				if attached unassigned_routine then
-					-- BLOCKING call
-					can_assign.wait (mutex) -- restriction temporarily ended while waiting
-				end
---				lio.put_integer_field ("do_final busy_count", busy_count)
---				lio.put_new_line
-			end_restriction
-
-			pool.do_all (agent {like pool.item}.stop)
-			can_assign.broadcast
-			pool.do_all (agent {like pool.item}.join)
-			pool.wipe_out
-			final_applied := applied.twin
-			applied.wipe_out
+			if threads.for_all (agent {like threads.item}.is_suspended) then
+				collect (final_applied)
+				threads.do_all (agent {like threads.item}.wait_to_stop)
+				threads.wipe_out
+			else
+				wait_until_available
+				do_final
+			end
 		end
 
-	wait_apply (a_routine: like unassigned_routine)
-		-- SYNCHRONOUS execution if `pool.capacity' = 1
-		-- call apply on `a_routine' and add it to `applied' list
+	wait_apply (routine: R)
+		-- SYNCHRONOUS execution if `threads.capacity' = 0
+		-- call apply on `routine' and add it to `applied' list
 
-		-- ASYNCHRONOUS execution if `pool.capacity' > 1
-		-- assign `a_routine' to an available thread for execution (`apply' called) waiting if necessary for one
-		-- to become available. If there is no dormant thread available and the `pool' is not yet full,
+		-- ASYNCHRONOUS execution if `pool.capacity' >= 1
+		-- assign `routine' to an available thread for execution, waiting if necessary for one
+		-- to become available. If there is no suspended thread available and the `threads' pool is not yet full,
 		-- then add a new thread and launch it.
 		require
-			routine_has_no_open_arguments: a_routine.open_count = 0
-		local
-			thread: like pool.item
+			routine_has_no_open_arguments: routine.open_count = 0
 		do
-			if pool.capacity = 1 then
+			if threads.capacity = 0 then
 				-- SYNCHRONOUS execution
-				a_routine.apply
-				applied.extend (a_routine)
-			else
-				-- ASYNCHRONOUS execution
-				restrict_access
-					if attached unassigned_routine then
-						-- BLOCKING call
-						can_assign.wait (mutex) -- restriction temporarily ended while waiting
-					end
-					unassigned_routine := a_routine
-					if pool.count = busy_count and then not pool.full then
-						thread := new_thread
-						pool.extend (thread)
-					end
-				end_restriction
-
-				if attached thread as l_thread then
-					l_thread.launch_with_attributes (thread_attributes)
-				else
-					can_apply.signal
-				end
-			end
-		end
-
-feature {EL_WORK_DISTRIBUTION_THREAD} -- Worker thread operations
-
-	wait_to_apply (worker_mutex: MUTEX)
-		-- if `unassigned_routine' is attached then apply it using current calling thread
-		-- or else wait for `unassigned_routine' to become attached
-		local
-			l_routine: like unassigned_routine
-		do
-			restrict_access
-				if attached unassigned_routine as routine then
-					-- found a routine to apply
-					l_routine := routine
-					unassigned_routine := Void
-					busy_count := busy_count + 1
-					maximum_busy_count := maximum_busy_count.max (busy_count)
-				end
-			end_restriction
-
-			if attached l_routine as routine then
-				can_assign.signal
 				routine.apply
-				restrict_access
-					busy_count := busy_count - 1
-					applied.extend (routine)
-				end_restriction
+				restrict_access (applied)
+					applied.item.extend (routine)
+				end_restriction (applied)
 			else
-				worker_mutex.lock
-					-- BLOCKING call
-					can_apply.wait (worker_mutex) -- restriction temporarily ended while waiting
-					-- `wait_to_apply' will now be called again due to continuous thread loop
-				worker_mutex.unlock
+				available_count.wait -- Wait for at least one thread to become available
+				wait_half_millisec -- Wait 0.5 millisecs for thread to go into suspension
+
+				-- Assign `routine' to a thread
+				threads.find_first (True, agent {like threads.item}.is_suspended)
+				if threads.exhausted then
+					threads.extend (create {like threads.item}.make (Current, routine))
+					threads.last.launch_with_attributes (thread_attributes)
+					maximum_busy_count := maximum_busy_count.max (threads.count)
+				else
+					threads.item.set_routine (routine)
+					threads.item.resume
+				end
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {EL_WORK_DISTRIBUTION_THREAD} -- Implementation
 
-	new_thread: EL_WORK_DISTRIBUTION_THREAD
+	on_thread_available
 		do
-			create Result.make (Current)
+			available_count.post
+			thread_available.signal
+			-- requires 0.5 millisec for calling thread to go into suspension
+		end
+
+	extend_applied (routine: R)
+		-- apply next routine in queue
+
+		do
+			if attached {R} routine as r then
+				restrict_access (applied)
+					applied.item.extend (r)
+				end_restriction (applied)
+			end
+		end
+
+	wait_until_available
+			-- Wait until a thread becomes available
+		do
+			mutex.lock
+				thread_available.wait (mutex)
+			mutex.unlock
+			wait_half_millisec -- Wait 0.5 millisecs for thread to go into suspension
+		end
+
+	wait_half_millisec
+		do
+			Execution_environment.sleep_nanosecs (500_000)
+		end
+
+feature {NONE} -- Factory
+
+	new_routine_list (n: INTEGER): ARRAYED_LIST [R]
+		do
+			create Result.make (n)
 		end
 
 feature {NONE} -- Internal attributes
 
-	busy_count: INTEGER
-		-- count of threads in `pool' that are busy executing a routine
-
-	unassigned_routine: detachable ROUTINE
-		-- routine that is not yet assigned to any thread for execution
-
-feature {NONE} -- Internal attributes
-
-	applied: ARRAYED_LIST [like unassigned_routine]
+	applied: EL_MUTEX_REFERENCE [like new_routine_list]
 		-- list of routines that have been applied since last call to `fill'
 
-	can_apply: CONDITION_VARIABLE
-		-- wait condition for `unassigned_routine' to become attached
+	available_count: SEMAPHORE
 
-	can_assign: CONDITION_VARIABLE
-		-- wait condition for `unassigned_routine' to become detached
-
-	final_applied: like applied
+	final_applied: like new_routine_list
 		-- contains applied routines after a call to `do_final'
 
-	pool: ARRAYED_LIST [like new_thread]
+	mutex: MUTEX
+		-- mutex for condition variables
+
+	threads: EL_ARRAYED_LIST [EL_WORK_DISTRIBUTION_THREAD]
 		-- pool of worker threads
 
 	thread_attributes: THREAD_ATTRIBUTES
+
+	thread_available: CONDITION_VARIABLE
+		-- `true' if at least one thread is in a suspended state
 
 end

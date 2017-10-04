@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-21 17:22:30 GMT (Wednesday 21st June 2017)"
-	revision: "3"
+	date: "2017-10-03 9:57:33 GMT (Tuesday 3rd October 2017)"
+	revision: "4"
 
 class
 	EL_MUTEX_REFERENCE [G]
@@ -55,10 +55,10 @@ feature -- Access
 
 feature -- Basic operations
 
-	call (action: PROCEDURE [TUPLE [a_item: like item]])
+	call (action: PROCEDURE [G])
 		do
 			lock
-			action.call ([item])
+			action (item)
 			unlock
 		end
 
