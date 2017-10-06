@@ -45,7 +45,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	move (functions: like new_routine_list; result_list: LIST [G])
+	move (functions: like applied; result_list: LIST [G])
 		do
 			from functions.start until functions.after loop
 				result_list.extend (functions.item.last_result)

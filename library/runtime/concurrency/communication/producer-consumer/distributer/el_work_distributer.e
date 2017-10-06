@@ -171,16 +171,9 @@ feature {EL_WORK_DISTRIBUTION_THREAD} -- Event handling
 			thread_available.signal
 		end
 
-feature {NONE} -- Implementation
-
-	new_routine_list (n: INTEGER): ARRAYED_LIST [R]
-		do
-			create Result.make (n)
-		end
-
 feature {NONE} -- Thread shared attributes
 
-	applied: like new_routine_list
+	applied: ARRAYED_LIST [R]
 		-- list of routines that have been applied since last call to `fill'
 
 	available: ARRAYED_STACK [INTEGER]
@@ -191,12 +184,12 @@ feature {NONE} -- Thread shared attributes
 
 feature {NONE} -- Internal attributes
 
-	final_applied: like new_routine_list
+	final_applied: like applied
 		-- contains applied routines after a call to `do_final'
 
 	thread_attributes: THREAD_ATTRIBUTES
 
-	threads: EL_ARRAYED_LIST [EL_WORK_DISTRIBUTION_THREAD]
+	threads: ARRAYED_LIST [EL_WORK_DISTRIBUTION_THREAD]
 		-- pool of worker threads
 
 end

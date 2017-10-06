@@ -45,7 +45,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	move (procedures: like new_routine_list; result_list: LIST [G])
+	move (procedures: like applied; result_list: LIST [G])
 		do
 			from procedures.start until procedures.after loop
 				if attached {G} procedures.item.target as target then
