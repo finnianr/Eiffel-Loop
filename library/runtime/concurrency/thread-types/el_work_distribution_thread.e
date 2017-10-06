@@ -56,9 +56,6 @@ feature -- Basic operations
 		do
 			routine.apply
 			suspend
-			if not is_stopping then
-				set_active
-			end
 		end
 
 	stop
