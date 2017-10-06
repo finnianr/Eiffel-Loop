@@ -10,22 +10,15 @@ note
 	revision: "2"
 
 deferred class
-	EL_SUSPENDABLE_THREAD
-
-inherit
-	EL_STATEFUL
-		redefine
-			make_default
-		end
+	EL_SUSPENDABLE
 
 feature {NONE} -- Initialization
 
 	make_default
 			--
 		do
-			Precursor
 			create can_resume.make
-			create can_resume_mutex.make
+			create mutex.make
 		end
 
 feature -- Basic operations
@@ -39,11 +32,12 @@ feature -- Basic operations
 	suspend
 			-- block thread and wait for signal to resume
 		do
-			set_state (State_suspended)
-			can_resume_mutex.lock
+			mutex.lock
+			internal_is_suspended := True
 			on_suspension
-			can_resume.wait (can_resume_mutex)
-			can_resume_mutex.unlock
+			can_resume.wait (mutex)
+			internal_is_suspended := False
+			mutex.unlock
 		end
 
 feature -- Status query
@@ -51,27 +45,24 @@ feature -- Status query
 	is_suspended: BOOLEAN
 			--
 		do
-			Result := state = State_suspended
-		end
-
-feature {NONE} -- Constants
-
-	State_suspended: INTEGER
-			--
-		deferred
+			mutex.lock
+				Result := internal_is_suspended
+			mutex.unlock
 		end
 
 feature {NONE} -- Event handling
 
 	on_suspension
-		-- called just before suspension on condition variable `can_resume'
+			--
 		do
 		end
 
 feature {NONE} -- Implementation
 
+	internal_is_suspended: BOOLEAN
+
 	can_resume: CONDITION_VARIABLE
 
-	can_resume_mutex: MUTEX
+	mutex: MUTEX
 
 end

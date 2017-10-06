@@ -6,7 +6,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 11:45:38 GMT (Sunday 3rd July 2016)"
 	revision: "1"
@@ -23,7 +23,7 @@ inherit
 			make_default, product_queue, on_stopping, stop
 		end
 
-	EL_SUSPENDABLE_THREAD
+	EL_SUSPENDABLE
 		undefine
 			is_equal, copy
 		redefine
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor {EL_SUSPENDABLE_THREAD}
+			Precursor {EL_SUSPENDABLE}
 			Precursor {EL_CONSUMER_THREAD}
 		end
 
@@ -57,23 +57,18 @@ feature -- Basic operations
 		do
 			state_previous := state
 			set_state (State_stopping)
-			inspect state_previous
-				when State_waiting then
-					prompt
-					previous_call_is_thread_signal
+			if is_suspended then
+				resume
+				previous_call_is_thread_signal
 -- THREAD SIGNAL
-
-				when State_suspended then
-					resume
-					previous_call_is_thread_signal
+			elseif state_previous = State_waiting then
+				prompt
+				previous_call_is_thread_signal
 -- THREAD SIGNAL
-				else
-
 			end
-			product_queue.all_consumers.do_all (
-				agent (consumer: CONSUMER_TYPE) do consumer.stop end
-			)
-
+			across product_queue.all_consumers as consumer loop
+				consumer.item.stop
+			end
 		end
 
 feature {NONE} -- Implementation

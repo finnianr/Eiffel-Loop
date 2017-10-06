@@ -53,6 +53,18 @@ feature -- Access
 			Result := actual_item
 		end
 
+	locked: like actual_item
+		-- convenience function to define a locked scope as follows:
+
+		-- 	if attached my_object.locked as l_my_object then
+		-- 		..
+		-- 		my_object.unlock
+		-- 	end
+		do
+			lock
+			Result := actual_item
+		end
+
 feature -- Basic operations
 
 	call (action: PROCEDURE [G])

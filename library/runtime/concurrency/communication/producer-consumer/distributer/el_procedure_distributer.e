@@ -30,31 +30,28 @@ feature -- Basic operations
 
 	collect (result_list: LIST [G])
 		--  collect the list of procedure targets of type G from `applied' procedure list
-		local
-			l_applied: like applied.item
 		do
-			restrict_access (applied)
-				l_applied := applied.item
-				if not l_applied.is_empty then
-					from l_applied.start until l_applied.after loop
-						if attached {G} l_applied.item.target as target then
-							result_list.extend (target)
-						end
-						l_applied.remove
-					end
-				end
-			end_restriction (applied)
+			restrict_access
+				move (applied, result_list)
+			end_restriction
 		end
 
 	collect_final (result_list: LIST [G])
 		--  collect the final list of procedure targets of type G from `applied' procedure list
 		-- (following call to `do_final')
 		do
-			from final_applied.start until final_applied.after loop
-				if attached {G} final_applied.item.target as target then
+			move (final_applied, result_list)
+		end
+
+feature {NONE} -- Implementation
+
+	move (procedures: like new_routine_list; result_list: LIST [G])
+		do
+			from procedures.start until procedures.after loop
+				if attached {G} procedures.item.target as target then
 					result_list.extend (target)
 				end
-				final_applied.remove
+				procedures.remove
 			end
 		end
 

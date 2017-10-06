@@ -37,6 +37,11 @@ feature {NONE} -- Basic operations
 			mutex.unlock
 		end
 
+	wait_until (condition: CONDITION_VARIABLE)
+		do
+			condition.wait (mutex)
+		end
+
 feature {NONE} -- Implementation
 
 	mutex: MUTEX

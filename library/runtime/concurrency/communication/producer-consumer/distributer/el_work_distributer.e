@@ -34,7 +34,7 @@ class
 	EL_WORK_DISTRIBUTER [R -> ROUTINE]
 
 inherit
-	EL_THREAD_ACCESS
+	EL_SINGLE_THREAD_ACCESS
 
 	EL_MODULE_LIO
 
@@ -47,20 +47,22 @@ feature {NONE} -- Initialization
 
 	make (maximum_thread_count: INTEGER)
 		do
-			create available_count.make (maximum_thread_count)
+			make_default
+			create available.make (maximum_thread_count)
 			create thread_available.make
 			create threads.make (maximum_thread_count)
-			create applied.make (new_routine_list (20))
+			create applied.make (20)
 			create final_applied.make (0)
 			create thread_attributes.make
-
-			create mutex.make
 		end
 
 feature -- Access
 
-	maximum_busy_count: INTEGER
-		-- for debugging purposes
+	launched_count: INTEGER
+		-- number of threads launched
+		do
+			Result := threads.count
+		end
 
 feature -- Status change
 
@@ -81,16 +83,13 @@ feature -- Basic operations
 	collect (list: LIST [R])
 		-- fill the `list' argument with already applied routines and wipe out `applied'
 		-- does nothing if `applied' is empty
-		local
-			l_applied: like applied.item
 		do
-			restrict_access (applied)
-				l_applied := applied.item
-				if not l_applied.is_empty then
-					l_applied.do_all (agent list.extend)
-					l_applied.wipe_out
+			restrict_access
+				if not applied.is_empty then
+					applied.do_all (agent list.extend)
+					applied.wipe_out
 				end
-			end_restriction (applied)
+			end_restriction
 		end
 
 	collect_final (list: LIST [R])
@@ -102,17 +101,19 @@ feature -- Basic operations
 		end
 
 	do_final
-		-- wait until all threads are available before stopping all threads.
+		-- wait until all threads are available before stopping and joining all threads.
 		-- Wipeout the thread pool and make the applied routines available in `final_applied'
 		do
-			if threads.for_all (agent {like threads.item}.is_suspended) then
-				collect (final_applied)
-				threads.do_all (agent {like threads.item}.wait_to_stop)
-				threads.wipe_out
-			else
-				wait_until_available
-				do_final
-			end
+			restrict_access
+				from until available.count = threads.count loop
+					wait_until (thread_available)
+				end
+			end_restriction
+			wait_until_resumeable
+			threads.do_all (agent {like threads.item}.wait_to_stop)
+			threads.wipe_out
+
+			collect (final_applied)
 		end
 
 	wait_apply (routine: R)
@@ -125,90 +126,88 @@ feature -- Basic operations
 		-- then add a new thread and launch it.
 		require
 			routine_has_no_open_arguments: routine.open_count = 0
+		local
+			thread: like threads.item; index: INTEGER
 		do
 			if threads.capacity = 0 then
 				-- SYNCHRONOUS execution
 				routine.apply
-				restrict_access (applied)
-					applied.item.extend (routine)
-				end_restriction (applied)
+				restrict_access
+					applied.extend (routine)
+				end_restriction
 			else
-				available_count.wait -- Wait for at least one thread to become available
-				wait_half_millisec -- Wait 0.5 millisecs for thread to go into suspension
-
-				-- Assign `routine' to a thread
-				threads.find_first (True, agent {like threads.item}.is_suspended)
-				if threads.exhausted then
-					threads.extend (create {like threads.item}.make (Current, routine))
-					threads.last.launch_with_attributes (thread_attributes)
-					maximum_busy_count := maximum_busy_count.max (threads.count)
+				restrict_access
+					if available.is_empty then
+						if threads.full then
+							wait_until (thread_available)
+							index := available.item
+							available.remove
+						end
+					else
+						index := available.item
+						available.remove
+					end
+				end_restriction
+				if index = 0 then
+					-- launch a new worker thread
+					create thread.make (Current, routine, threads.count + 1)
+					thread.launch_with_attributes (thread_attributes)
+					threads.extend (thread)
 				else
-					threads.item.set_routine (routine)
-					threads.item.resume
+					thread := threads [index]
+					thread.set_routine (routine)
+					wait_until_resumeable
+					thread.resume
 				end
 			end
 		end
 
-feature {EL_WORK_DISTRIBUTION_THREAD} -- Implementation
+feature {EL_WORK_DISTRIBUTION_THREAD} -- Event handling
 
-	on_thread_available
+	on_applied (thread: like threads.item)
 		do
-			available_count.post
+			restrict_access
+				if attached {R} thread.routine as r then
+					applied.extend (r)
+				end
+				available.put (thread.index)
+			end_restriction
 			thread_available.signal
-			-- requires 0.5 millisec for calling thread to go into suspension
 		end
 
-	extend_applied (routine: R)
-		-- apply next routine in queue
-
-		do
-			if attached {R} routine as r then
-				restrict_access (applied)
-					applied.item.extend (r)
-				end_restriction (applied)
-			end
-		end
-
-	wait_until_available
-			-- Wait until a thread becomes available
-		do
-			mutex.lock
-				thread_available.wait (mutex)
-			mutex.unlock
-			wait_half_millisec -- Wait 0.5 millisecs for thread to go into suspension
-		end
-
-	wait_half_millisec
-		do
-			Execution_environment.sleep_nanosecs (500_000)
-		end
-
-feature {NONE} -- Factory
+feature {NONE} -- Implementation
 
 	new_routine_list (n: INTEGER): ARRAYED_LIST [R]
 		do
 			create Result.make (n)
 		end
 
-feature {NONE} -- Internal attributes
+	wait_until_resumeable
+		 -- Wait until thread becomes resumeable
+		 -- (It takes a little time between when `is_suspended' becomes true and the thread enters a wait condition)
+		do
+			Execution_environment.sleep (0.01)
+		end
 
-	applied: EL_MUTEX_REFERENCE [like new_routine_list]
+feature {NONE} -- Thread shared attributes
+
+	applied: like new_routine_list
 		-- list of routines that have been applied since last call to `fill'
 
-	available_count: SEMAPHORE
+	available: ARRAYED_STACK [INTEGER]
+		-- indices of available suspended threads
+
+	thread_available: CONDITION_VARIABLE
+		-- `true' if at least one thread is in a suspended state
+
+feature {NONE} -- Internal attributes
 
 	final_applied: like new_routine_list
 		-- contains applied routines after a call to `do_final'
 
-	mutex: MUTEX
-		-- mutex for condition variables
+	thread_attributes: THREAD_ATTRIBUTES
 
 	threads: EL_ARRAYED_LIST [EL_WORK_DISTRIBUTION_THREAD]
 		-- pool of worker threads
-
-	thread_attributes: THREAD_ATTRIBUTES
-
-	thread_available: CONDITION_VARIABLE
-		-- `true' if at least one thread is in a suspended state
 
 end

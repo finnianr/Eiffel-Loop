@@ -46,7 +46,13 @@
 
 ## THREAD library
 
-* Reimplemented `EL_WORK_DISTRIBUTER` and `EL_WORK_DISTRIBUTION_THREAD` to use a semaphore representing the number of available threads.
+* Reimplemented `EL_WORK_DISTRIBUTER` and `EL_WORK_DISTRIBUTION_THREAD` to use a mutex protected list of available thread indices.
+
+* Added routine `wait_until` to `EL_SINGLE_THREAD_ACCESS`
+
+* Added routine `locked` to `EL_MUTEX_REFERENCE`
+
+* Renamed `EL_SUSPENDABLE_THREAD` to `EL_SUSPENDABLE` and removed inheritance from `EL_STATEFUL`. 
 
 ## TEST program
 

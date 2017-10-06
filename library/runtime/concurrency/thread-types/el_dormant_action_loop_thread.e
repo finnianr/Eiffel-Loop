@@ -20,7 +20,7 @@ inherit
 			stop, make_default
 		end
 
-	EL_SUSPENDABLE_THREAD
+	EL_SUSPENDABLE
 		rename
 			suspend as suspend_thread
 		undefine
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			Precursor {EL_SUSPENDABLE_THREAD}
+			Precursor {EL_SUSPENDABLE}
 			Precursor {EL_CONTINUOUS_ACTION_THREAD}
 			set_stopped
 		end

@@ -51,6 +51,7 @@ feature {NONE} -- Initiliazation
 			count_arguments [Variable.term_count] := (4).to_reference
 			count_arguments [Variable.thread_count] := (4).to_reference
 			count_arguments [Variable.task_count] := (4).to_reference
+			count_arguments [Variable.repetition_count] := (1).to_reference
 
 			across count_arguments as argument loop
 				set_attribute_from_command_opt (argument.item, argument.key, "Value of " + argument.key)
@@ -74,20 +75,25 @@ feature {NONE} -- Initiliazation
 feature -- Basic operations
 
 	run
+		local
+			i: INTEGER
 		do
 			log.enter ("run")
 			do_calculation (
 				"single thread integral",
 				agent: DOUBLE do Result := integral (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi, delta_count) end
 			)
-			do_calculation (
-				"distributed integral using class EL_FUNCTION_DISTRIBUTER",
-				agent: DOUBLE do Result := distributed_integral_1 (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
-			)
-			do_calculation (
-				"distributed integral using class EL_PROCEDURE_DISTRIBUTER",
-				agent: DOUBLE do Result := distributed_integral_2 (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
-			)
+			from i := 1 until i > repetition_count loop
+				do_calculation (
+					"distributed integral using class EL_FUNCTION_DISTRIBUTER",
+					agent: DOUBLE do Result := distributed_integral_1 (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
+				)
+				do_calculation (
+					"distributed integral using class EL_PROCEDURE_DISTRIBUTER",
+					agent: DOUBLE do Result := distributed_integral_2 (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
+				)
+				i := i + 1
+			end
 			log.exit
 		end
 
@@ -131,7 +137,7 @@ feature {NONE} -- Implementation
 			distributer.do_final
 			distributer.collect_final (result_list)
 
-			log.put_integer_field ("distributer.maximum_busy_count", distributer.maximum_busy_count)
+			log.put_integer_field ("distributer.launched_count", distributer.launched_count)
 			log.put_new_line
 
 			if not result_list.full then
@@ -171,7 +177,7 @@ feature {NONE} -- Implementation
 			distributer.do_final
 			distributer.collect_final (result_list)
 
-			log.put_integer_field ("distributer.maximum_busy_count", distributer.maximum_busy_count)
+			log.put_integer_field ("distributer.launched_count", distributer.launched_count)
 			log.put_new_line
 
 			if not result_list.full then
@@ -206,6 +212,11 @@ feature {NONE} -- Implementation
 			Result := count_arguments [Variable.thread_count]
 		end
 
+	repetition_count: INTEGER
+		do
+			Result := count_arguments [Variable.repetition_count]
+		end
+
 feature {NONE} -- Internal attributes
 
 	count_arguments: HASH_TABLE [INTEGER_REF, STRING]
@@ -226,9 +237,9 @@ feature {NONE} -- Constants
 			>>
 		end
 
-	Variable: TUPLE [delta_count, term_count, task_count, thread_count: STRING]
+	Variable: TUPLE [delta_count, term_count, task_count, thread_count, repetition_count: STRING]
 		once
-			Result := ["delta_count", "term_count", "task_count", "thread_count"]
+			Result := ["delta_count", "term_count", "task_count", "thread_count", "repetition_count"]
 		end
 
 	Option_name: STRING = "work_distributer"

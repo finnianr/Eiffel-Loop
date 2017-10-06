@@ -121,10 +121,10 @@ feature -- Access
 
 feature -- Basic operations
 
-	sleep (millisecs: INTEGER)
+	sleep (millisecs: DOUBLE)
 			--
 		do
-			sleep_nanosecs (millisecs * Nanosecs_per_millisec)
+			sleep_nanosecs ((millisecs * Nanosecs_per_millisec).truncated_to_integer_64)
 		end
 
 	pop_current_working

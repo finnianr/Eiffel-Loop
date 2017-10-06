@@ -1,7 +1,6 @@
 note
 	description: "[
-		Thread that applies the `routine' set by the `distributer' and then waits
-		for a `resume' prompt to do another one.
+		Thread that applies the set `routine' and then waits for a `resume' prompt to do another one.
 	]"
 
 	author: "Finnian Reilly"
@@ -21,7 +20,7 @@ inherit
 			make_default, stop
 		end
 
-	EL_SUSPENDABLE_THREAD
+	EL_SUSPENDABLE
 		redefine
 			make_default, on_suspension
 		end
@@ -31,17 +30,24 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_distributer: like distributer; a_routine: like routine)
+	make (a_distributer: like distributer; a_routine: like routine; a_index: like index)
 		do
 			make_default
-			distributer := a_distributer; routine := a_routine
+			distributer := a_distributer; routine := a_routine; index := a_index
 		end
 
 	make_default
 		do
-			Precursor {EL_SUSPENDABLE_THREAD}
+			Precursor {EL_SUSPENDABLE}
 			Precursor {EL_CONTINUOUS_ACTION_THREAD}
 		end
+
+feature -- Access
+
+	index: INTEGER
+		-- index of current thread in list: {EL_WORK_DISTRIBUTER}.threads
+
+	routine: ROUTINE
 
 feature -- Basic operations
 
@@ -49,7 +55,6 @@ feature -- Basic operations
 			--
 		do
 			routine.apply
-			distributer.extend_applied (routine)
 			suspend
 			if not is_stopping then
 				set_active
@@ -57,12 +62,9 @@ feature -- Basic operations
 		end
 
 	stop
-		local
-			l_state: INTEGER
 		do
-			l_state := state
 			Precursor
-			if l_state = State_suspended then
+			if is_suspended then
 				resume
 			end
 		end
@@ -78,13 +80,11 @@ feature {NONE} -- Event handling
 
 	on_suspension
 		do
-			distributer.on_thread_available
+			distributer.on_applied (Current)
 		end
 
 feature {NONE} -- Internal attributes
 
 	distributer: EL_WORK_DISTRIBUTER [ROUTINE]
-
-	routine: ROUTINE
 
 end

@@ -30,28 +30,26 @@ feature -- Basic operations
 
 	collect (result_list: LIST [G])
 		--  collect the list of function results of type G from `applied' function list
-		local
-			l_applied: like applied.item
 		do
-			restrict_access (applied)
-				l_applied := applied.item
-				if not l_applied.is_empty then
-					from l_applied.start until l_applied.after loop
-						result_list.extend (l_applied.item.last_result)
-						l_applied.remove
-					end
-				end
-			end_restriction (applied)
+			restrict_access
+				move (applied, result_list)
+			end_restriction
 		end
 
 	collect_final (result_list: LIST [G])
 		--  collect the final list of function results of type G from `applied' function list
 		-- (following call to `do_final')
 		do
-			from final_applied.start until final_applied.after loop
-				result_list.extend (final_applied.item.last_result)
-				final_applied.remove
-			end
+			move (final_applied, result_list)
 		end
 
+feature {NONE} -- Implementation
+
+	move (functions: like new_routine_list; result_list: LIST [G])
+		do
+			from functions.start until functions.after loop
+				result_list.extend (functions.item.last_result)
+				functions.remove
+			end
+		end
 end

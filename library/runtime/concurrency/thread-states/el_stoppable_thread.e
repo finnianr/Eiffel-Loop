@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-07-03 6:12:50 GMT (Sunday 3rd July 2016)"
 	revision: "1"
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor
-			set_stopped
+			set_state (State_stopped)
 		end
 
 feature -- Status change
