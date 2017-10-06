@@ -33,10 +33,10 @@ feature -- Basic operations
 			-- block thread and wait for signal to resume
 		do
 			mutex.lock
-			internal_is_suspended := True
-			on_suspension
+				internal_is_suspended := True
+				on_suspension
 			can_resume.wait (mutex)
-			internal_is_suspended := False
+				internal_is_suspended := False
 			mutex.unlock
 		end
 

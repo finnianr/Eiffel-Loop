@@ -132,9 +132,7 @@ feature -- Basic operations
 			if threads.capacity = 0 then
 				-- SYNCHRONOUS execution
 				routine.apply
-				restrict_access
-					applied.extend (routine)
-				end_restriction
+				applied.extend (routine)
 			else
 				restrict_access
 					if available.is_empty then
