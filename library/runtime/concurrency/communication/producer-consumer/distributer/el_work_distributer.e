@@ -109,7 +109,6 @@ feature -- Basic operations
 					wait_until (thread_available)
 				end
 			end_restriction
-			wait_until_resumeable
 			threads.do_all (agent {like threads.item}.wait_to_stop)
 			threads.wipe_out
 
@@ -154,7 +153,6 @@ feature -- Basic operations
 				else
 					thread := threads [index]
 					thread.set_routine (routine)
-					wait_until_resumeable
 					thread.resume
 				end
 			end
@@ -178,13 +176,6 @@ feature {NONE} -- Implementation
 	new_routine_list (n: INTEGER): ARRAYED_LIST [R]
 		do
 			create Result.make (n)
-		end
-
-	wait_until_resumeable
-		 -- Wait until thread becomes resumeable
-		 -- (It takes a little time between when `is_suspended' becomes true and the thread enters a wait condition)
-		do
-			Execution_environment.sleep (0.01)
 		end
 
 feature {NONE} -- Thread shared attributes

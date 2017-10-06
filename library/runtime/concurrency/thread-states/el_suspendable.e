@@ -26,6 +26,7 @@ feature -- Basic operations
 	resume
 			-- unblock thread
 		do
+			mutex.lock; mutex.unlock -- ensure thread is in wait condition before signaling
 			can_resume.signal
 		end
 

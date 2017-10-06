@@ -79,6 +79,9 @@ feature -- Basic operations
 			i: INTEGER
 		do
 			log.enter ("run")
+
+--			test_time_toggle_lock
+
 			do_calculation (
 				"single thread integral",
 				agent: DOUBLE do Result := integral (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi, delta_count) end
@@ -98,6 +101,24 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	test_time_toggle_lock
+		local
+			m: MUTEX; i: INTEGER
+			timer: EL_EXECUTION_TIMER
+		do
+			log.enter ("test_time_toggle_lock")
+			create m.make
+			create timer.make
+			timer.start
+			from i := 1 until i > 10000 loop
+				m.lock; m.unlock
+				i := i + 1
+			end
+			timer.stop
+			log.put_double_field ("Time per toggle", timer.elapsed_time.fine_seconds_count / 10000)
+			log.exit
+		end
 
 	do_calculation (a_description: STRING; calculation: FUNCTION [DOUBLE])
 		do
