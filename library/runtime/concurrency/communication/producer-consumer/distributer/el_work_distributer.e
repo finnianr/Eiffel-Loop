@@ -109,10 +109,11 @@ feature -- Basic operations
 					wait_until (thread_available)
 				end
 			end_restriction
+			collect (final_applied)
+
 			threads.do_all (agent {like threads.item}.wait_to_stop)
 			threads.wipe_out
-
-			collect (final_applied)
+			available.wipe_out
 		end
 
 	wait_apply (routine: R)
@@ -134,13 +135,12 @@ feature -- Basic operations
 				applied.extend (routine)
 			else
 				restrict_access
-					if available.is_empty then
-						if threads.full then
-							wait_until (thread_available)
-							index := available.item
-							available.remove
-						end
-					else
+					if not available.is_empty then
+						index := available.item
+						available.remove
+
+					elseif threads.full then
+						wait_until (thread_available)
 						index := available.item
 						available.remove
 					end

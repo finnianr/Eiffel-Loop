@@ -23,7 +23,7 @@ class
 inherit
 	EL_SUB_APPLICATION
 		redefine
-			Option_name, initialize
+			Option_name, initialize, on_operating_system_signal
 		end
 
 	EL_DOUBLE_MATH
@@ -59,10 +59,15 @@ feature {NONE} -- Initiliazation
 				log.put_new_line
 			end
 
+			create procedure_distributer.make (thread_count)
+			create function_distributer.make (thread_count)
+
 			create turbo_mode
 			set_boolean_from_command_opt (turbo_mode, "turbo", "Use maximum priority threads")
 			if turbo_mode.item then
 				priority := "maximum"
+				function_distributer.set_turbo
+				procedure_distributer.set_turbo
 			else
 				priority := "normal"
 			end
@@ -80,8 +85,6 @@ feature -- Basic operations
 		do
 			log.enter ("run")
 
---			test_time_toggle_lock
-
 			do_calculation (
 				"single thread integral",
 				agent: DOUBLE do Result := integral (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi, delta_count) end
@@ -89,11 +92,11 @@ feature -- Basic operations
 			from i := 1 until i > repetition_count loop
 				do_calculation (
 					"distributed integral using class EL_FUNCTION_DISTRIBUTER",
-					agent: DOUBLE do Result := distributed_integral_1 (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
+					agent: DOUBLE do Result := test_function_distribution (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
 				)
 				do_calculation (
 					"distributed integral using class EL_PROCEDURE_DISTRIBUTER",
-					agent: DOUBLE do Result := distributed_integral_2 (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
+					agent: DOUBLE do Result := test_procedure_distribution (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
 				)
 				i := i + 1
 			end
@@ -101,24 +104,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
-
-	test_time_toggle_lock
-		local
-			m: MUTEX; i: INTEGER
-			timer: EL_EXECUTION_TIMER
-		do
-			log.enter ("test_time_toggle_lock")
-			create m.make
-			create timer.make
-			timer.start
-			from i := 1 until i > 10000 loop
-				m.lock; m.unlock
-				i := i + 1
-			end
-			timer.stop
-			log.put_double_field ("Time per toggle", timer.elapsed_time.fine_seconds_count / 10000)
-			log.exit
-		end
 
 	do_calculation (a_description: STRING; calculation: FUNCTION [DOUBLE])
 		do
@@ -133,39 +118,35 @@ feature {NONE} -- Implementation
 			log.put_new_line
 		end
 
-	distributed_integral_1 (f: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE): DOUBLE
+	on_operating_system_signal
+		-- on user cancelled (Ctrl-C)
+		do
+			procedure_distributer.do_final
+			function_distributer.do_final
+		end
+
+	test_function_distribution (f: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE): DOUBLE
 		-- using `EL_FUNCTION_DISTRIBUTER'
 		local
-			distributer: EL_FUNCTION_DISTRIBUTER [DOUBLE]
 			result_count: INTEGER; result_list: ARRAYED_LIST [DOUBLE]
 		do
-			create distributer.make (thread_count)
-			if turbo_mode.item then
-				distributer.set_turbo
-			end
 			create result_list.make (task_count)
 
 			-- Splitting bounds into sub-bounds
 			across split_bounds (lower, upper, task_count) as bound loop
-				distributer.wait_apply (
+				function_distributer.wait_apply (
 					agent integral (f, bound.item.lower_bound, bound.item.upper_bound, (delta_count / task_count).rounded)
 				)
 
 				-- collect results
-				distributer.collect (result_list)
+				function_distributer.collect (result_list)
 			end
 			log.put_line ("Waiting to complete ..")
-			distributer.do_final
-			distributer.collect_final (result_list)
+			function_distributer.do_final
+			function_distributer.collect_final (result_list)
 
-			log.put_integer_field ("distributer.launched_count", distributer.launched_count)
-			log.put_new_line
-
-			if not result_list.full then
-				log.put_line ("ERROR: missing result")
-				log.put_integer_field ("result_list.count", result_list.count); log.put_integer_field (" task_count", task_count)
-				log.put_new_line
-			end
+			put_launched_count (function_distributer)
+			check_result_count (result_list)
 
 			-- Add results of all sub-bounds
 			across result_list as function loop
@@ -173,43 +154,47 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	distributed_integral_2 (f: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE): DOUBLE
+	test_procedure_distribution (f: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE): DOUBLE
 		-- using `EL_PROCEDURE_DISTRIBUTER'
 		local
-			distributer: EL_PROCEDURE_DISTRIBUTER [INTEGRAL_MATH]
 			result_count: INTEGER; result_list: ARRAYED_LIST [INTEGRAL_MATH]
 			l_integral: INTEGRAL_MATH
 		do
-			create distributer.make (thread_count)
-			if turbo_mode.item then
-				distributer.set_turbo
-			end
 			create result_list.make (task_count)
 
 			-- Splitting bounds into sub-bounds
 			across split_bounds (lower, upper, task_count) as bound loop
 				create l_integral.make (f, bound.item.lower_bound, bound.item.upper_bound, (delta_count / task_count).rounded)
-				distributer.wait_apply (agent l_integral.calculate)
+				procedure_distributer.wait_apply (agent l_integral.calculate)
 
 				-- collect results
-				distributer.collect (result_list)
+				procedure_distributer.collect (result_list)
 			end
 			log.put_line ("Waiting to complete ..")
-			distributer.do_final
-			distributer.collect_final (result_list)
+			procedure_distributer.do_final
+			procedure_distributer.collect_final (result_list)
 
-			log.put_integer_field ("distributer.launched_count", distributer.launched_count)
-			log.put_new_line
-
-			if not result_list.full then
-				log.put_line ("ERROR: missing result")
-				log.put_integer_field ("result_list.count", result_list.count); log.put_integer_field (" task_count", task_count)
-				log.put_new_line
-			end
+			put_launched_count (procedure_distributer)
+			check_result_count (result_list)
 
 			-- Add results of all sub-bounds
 			across result_list as value loop
 				Result := Result + value.item.integral
+			end
+		end
+
+	put_launched_count (distributer: EL_WORK_DISTRIBUTER [ROUTINE])
+		do
+			log.put_integer_field ("distributer.launched_count", distributer.launched_count)
+			log.put_new_line
+		end
+
+	check_result_count (result_list: LIST [ANY])
+		do
+			if not result_list.full then
+				log.put_line ("ERROR: missing result")
+				log.put_integer_field ("result_list.count", result_list.count); log.put_integer_field (" task_count", task_count)
+				log.put_new_line
 			end
 		end
 
@@ -242,7 +227,11 @@ feature {NONE} -- Internal attributes
 
 	count_arguments: HASH_TABLE [INTEGER_REF, STRING]
 
+	function_distributer: EL_FUNCTION_DISTRIBUTER [DOUBLE]
+
 	turbo_mode: BOOLEAN_REF
+
+	procedure_distributer: EL_PROCEDURE_DISTRIBUTER [INTEGRAL_MATH]
 
 	wave: SINE_WAVE
 
