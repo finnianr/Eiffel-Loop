@@ -2,8 +2,8 @@ note
 	description: "[
 		Object to distribute work of evaulating routines over a maximum number of threads.
 
-		It can be used directly, or by using one of it's two descendants `EL_FUNCTION_DISTRIBUTER'
-		and `EL_PROCEDURE_DISTRIBUTER'.
+		It can be used directly, or by using one of it's two descendants `[$source EL_FUNCTION_DISTRIBUTER]'
+		and `[$source EL_PROCEDURE_DISTRIBUTER]'.
 	]"
 	instructions: "[
 		Use the class in the following way:
@@ -36,8 +36,6 @@ class
 inherit
 	EL_SINGLE_THREAD_ACCESS
 
-	EL_MODULE_LIO
-
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
@@ -66,13 +64,13 @@ feature -- Access
 
 feature -- Status change
 
-	set_normal
+	set_normal_priority
 		-- set thread priority to maximum
 		do
 			thread_attributes.set_priority (thread_attributes.default_priority)
 		end
 
-	set_turbo
+	set_max_priority
 		-- set thread priority to maximum
 		do
 			thread_attributes.set_priority (thread_attributes.max_priority)

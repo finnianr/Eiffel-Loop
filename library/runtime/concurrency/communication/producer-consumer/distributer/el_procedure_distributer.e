@@ -1,8 +1,8 @@
 note
 	description: "[
-		Descendant of `EL_WORK_DISTRIBUTER' specialized for procedures.
+		Descendant of `[$source EL_WORK_DISTRIBUTER]' specialized for procedures.
 		`G' is the target type of the procedures you wish to execute. For an example on how to use see
-		[http://www.eiffel-loop.com/test/source/apps/test_work_distributer_app.html `TEST_WORK_DISTRIBUTER_APP']
+		[$source `TEST_WORK_DISTRIBUTER_APP']
 	]"
 
 	author: "Finnian Reilly"

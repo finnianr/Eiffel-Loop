@@ -67,7 +67,7 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 			end
 
 			log.enter ("make")
-			log_stack_pos := log.call_stack_count;
+			log_stack_pos := log.call_stack_count
 
 			across User_data_directories as dir loop
 				if not dir.item.exists then

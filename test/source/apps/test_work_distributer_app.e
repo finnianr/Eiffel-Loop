@@ -1,6 +1,6 @@
 note
 	description: "[
-		Example program to demonstrate use of `EL_FUNCTION_DISTRIBUTER' and `EL_PROCEDURE_DISTRIBUTER'
+		Example program to demonstrate use of `[$source EL_FUNCTION_DISTRIBUTER]' and `[$source EL_PROCEDURE_DISTRIBUTER]'
 		for distributing the work of executing agent routines over a maximum number of threads.
 	]"
 	instructions: "[
@@ -23,7 +23,7 @@ class
 inherit
 	EL_SUB_APPLICATION
 		redefine
-			Option_name, initialize, on_operating_system_signal
+			Option_name, initialize
 		end
 
 	EL_DOUBLE_MATH
@@ -59,15 +59,14 @@ feature {NONE} -- Initiliazation
 				log.put_new_line
 			end
 
-			create procedure_distributer.make (thread_count)
-			create function_distributer.make (thread_count)
+			create max_priority_mode
+			set_boolean_from_command_opt (max_priority_mode, "max_priority", "Use maximum priority threads")
 
-			create turbo_mode
-			set_boolean_from_command_opt (turbo_mode, "turbo", "Use maximum priority threads")
-			if turbo_mode.item then
+			create function_integral.make (delta_count, task_count, thread_count, max_priority_mode.item)
+			create procedure_integral.make (delta_count, task_count, thread_count, max_priority_mode.item)
+
+			if max_priority_mode.item then
 				priority := "maximum"
-				function_distributer.set_turbo
-				procedure_distributer.set_turbo
 			else
 				priority := "normal"
 			end
@@ -89,14 +88,17 @@ feature -- Basic operations
 				"single thread integral",
 				agent: DOUBLE do Result := integral (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi, delta_count) end
 			)
-			from i := 1 until i > repetition_count loop
+			from i := 1 until i > repetition_count or is_canceled loop
 				do_calculation (
 					"distributed integral using class EL_FUNCTION_DISTRIBUTER",
-					agent: DOUBLE do Result := test_function_distribution (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
+					agent: DOUBLE do Result := function_integral.integral_sum (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
 				)
+				i := i + 1
+			end
+			from i := 1 until i > repetition_count or is_canceled loop
 				do_calculation (
 					"distributed integral using class EL_PROCEDURE_DISTRIBUTER",
-					agent: DOUBLE do Result := test_procedure_distribution (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
+					agent: DOUBLE do Result := procedure_integral.integral_sum (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
 				)
 				i := i + 1
 			end
@@ -112,90 +114,17 @@ feature {NONE} -- Implementation
 			log.set_timer
 			log.put_line ("calculating integral (complex_sine_wave, 0, 2 * Pi)")
 			calculation.apply
-			log.put_double_field ("integral", calculation.last_result)
-			log.put_new_line
-			log.put_elapsed_time
-			log.put_new_line
-		end
-
-	on_operating_system_signal
-		-- on user cancelled (Ctrl-C)
-		do
-			procedure_distributer.do_final
-			function_distributer.do_final
-		end
-
-	test_function_distribution (f: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE): DOUBLE
-		-- using `EL_FUNCTION_DISTRIBUTER'
-		local
-			result_count: INTEGER; result_list: ARRAYED_LIST [DOUBLE]
-		do
-			create result_list.make (task_count)
-
-			-- Splitting bounds into sub-bounds
-			across split_bounds (lower, upper, task_count) as bound loop
-				function_distributer.wait_apply (
-					agent integral (f, bound.item.lower_bound, bound.item.upper_bound, (delta_count / task_count).rounded)
-				)
-
-				-- collect results
-				function_distributer.collect (result_list)
-			end
-			log.put_line ("Waiting to complete ..")
-			function_distributer.do_final
-			function_distributer.collect_final (result_list)
-
-			put_launched_count (function_distributer)
-			check_result_count (result_list)
-
-			-- Add results of all sub-bounds
-			across result_list as function loop
-				Result := Result + function.item
-			end
-		end
-
-	test_procedure_distribution (f: FUNCTION [DOUBLE, DOUBLE]; lower, upper: DOUBLE): DOUBLE
-		-- using `EL_PROCEDURE_DISTRIBUTER'
-		local
-			result_count: INTEGER; result_list: ARRAYED_LIST [INTEGRAL_MATH]
-			l_integral: INTEGRAL_MATH
-		do
-			create result_list.make (task_count)
-
-			-- Splitting bounds into sub-bounds
-			across split_bounds (lower, upper, task_count) as bound loop
-				create l_integral.make (f, bound.item.lower_bound, bound.item.upper_bound, (delta_count / task_count).rounded)
-				procedure_distributer.wait_apply (agent l_integral.calculate)
-
-				-- collect results
-				procedure_distributer.collect (result_list)
-			end
-			log.put_line ("Waiting to complete ..")
-			procedure_distributer.do_final
-			procedure_distributer.collect_final (result_list)
-
-			put_launched_count (procedure_distributer)
-			check_result_count (result_list)
-
-			-- Add results of all sub-bounds
-			across result_list as value loop
-				Result := Result + value.item.integral
-			end
-		end
-
-	put_launched_count (distributer: EL_WORK_DISTRIBUTER [ROUTINE])
-		do
-			log.put_integer_field ("distributer.launched_count", distributer.launched_count)
-			log.put_new_line
-		end
-
-	check_result_count (result_list: LIST [ANY])
-		do
-			if not result_list.full then
-				log.put_line ("ERROR: missing result")
-				log.put_integer_field ("result_list.count", result_list.count); log.put_integer_field (" task_count", task_count)
+			if not is_canceled then
+				log.put_double_field ("integral", calculation.last_result)
+				log.put_new_line
+				log.put_elapsed_time
 				log.put_new_line
 			end
+		end
+
+	is_canceled: BOOLEAN
+		do
+			Result := function_integral.is_canceled or procedure_integral.is_canceled
 		end
 
 	delta_count: INTEGER
@@ -227,11 +156,11 @@ feature {NONE} -- Internal attributes
 
 	count_arguments: HASH_TABLE [INTEGER_REF, STRING]
 
-	function_distributer: EL_FUNCTION_DISTRIBUTER [DOUBLE]
+	max_priority_mode: BOOLEAN_REF
 
-	turbo_mode: BOOLEAN_REF
+	procedure_integral: PROCEDURE_INTEGRAL
 
-	procedure_distributer: EL_PROCEDURE_DISTRIBUTER [INTEGRAL_MATH]
+	function_integral: FUNCTION_INTEGRAL
 
 	wave: SINE_WAVE
 
@@ -243,7 +172,9 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{TEST_WORK_DISTRIBUTER_APP}, All_routines]
+				[{TEST_WORK_DISTRIBUTER_APP}, All_routines],
+				[{PROCEDURE_INTEGRAL}, All_routines],
+				[{FUNCTION_INTEGRAL}, All_routines]
 			>>
 		end
 
