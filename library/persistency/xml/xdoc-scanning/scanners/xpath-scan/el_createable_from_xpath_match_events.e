@@ -10,7 +10,7 @@ note
 		[http://www.eiffel-loop.com/test/source/xpath-events/bioinfo_xpath_match_events.html BIOINFO_XPATH_MATCH_EVENTS].
 		The first mapping argument `on_open' or `on_close' applies only to element nodes and specifies whether to call 
 		the agent when the element open tag or closing tag is encountered.
-	
+
 			xpath_match_events: ARRAY [EL_XPATH_TO_AGENT_MAP]
 					--
 				do
@@ -39,8 +39,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-15 11:23:27 GMT (Monday 15th May 2017)"
-	revision: "3"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "4"
 
 deferred class
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS [EVENT_SOURCE -> EL_PARSE_EVENT_SOURCE]

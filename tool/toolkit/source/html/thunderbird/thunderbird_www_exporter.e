@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-26 9:32:13 GMT (Saturday 26th August 2017)"
-	revision: "3"
+	date: "2017-10-16 10:32:34 GMT (Monday 16th October 2017)"
+	revision: "4"
 
 class
 	THUNDERBIRD_WWW_EXPORTER
@@ -27,7 +27,7 @@ inherit
 	EL_MODULE_OS
 
 create
-	default_create, make
+	make
 
 feature -- Basic operations
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:39:16 GMT (Thursday 29th June 2017)"
-	revision: "5"
+	date: "2017-10-15 11:36:03 GMT (Sunday 15th October 2017)"
+	revision: "6"
 
 class
 	MP3_AUDIO_SIGNATURE_READER_APP
@@ -23,24 +23,17 @@ create
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [music_path: EL_DIR_PATH; clean_up: BOOLEAN]
-		do
-			create Result
-			Result.music_path := ""
-			Result.clean_up := False
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				valid_required_argument ("music", "Location of music files", << directory_must_exist >>),
 				optional_argument ("clean_up", "Remove duplicates with same name")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", False)
 		end
 
 feature {NONE} -- Constants

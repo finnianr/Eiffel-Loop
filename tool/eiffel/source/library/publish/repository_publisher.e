@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:29:20 GMT (Thursday 29th June 2017)"
-	revision: "4"
+	date: "2017-10-16 10:18:45 GMT (Monday 16th October 2017)"
+	revision: "7"
 
 class
 	REPOSITORY_PUBLISHER
@@ -33,13 +33,13 @@ inherit
 	EL_MODULE_OS
 
 create
-	make, default_create
+	make
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH; a_version: STRING)
+	make (a_file_path: EL_FILE_PATH; a_version: STRING; a_thread_count: INTEGER)
 		do
-			file_path := a_file_path; version := a_version
+			file_path := a_file_path; version := a_version; thread_count := a_thread_count
 			make_from_file (a_file_path)
 		ensure then
 			has_name: not name.is_empty
@@ -96,6 +96,8 @@ feature -- Access
 
 	web_address: ZSTRING
 
+	thread_count: INTEGER
+
 feature -- Basic operations
 
 	execute
@@ -104,6 +106,8 @@ feature -- Basic operations
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
 			console_display: EL_CONSOLE_FILE_PROGRESS_DISPLAY; listener: like progress_listener
 		do
+			lio.put_integer_field ("Thread count", thread_count)
+			lio.put_new_line
 			create sync_list.make (100)
 			ftp_sync.set_root_dir (output_dir)
 

@@ -6,17 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:35:41 GMT (Thursday 29th June 2017)"
-	revision: "4"
+	date: "2017-10-13 10:04:44 GMT (Friday 13th October 2017)"
+	revision: "6"
 
 class
 	REPOSITORY_SOURCE_TREE
 
 inherit
 	SOURCE_TREE
+		rename
+			make as make_tree
 		redefine
 			getter_function_table, building_action_table, make_default,
-			on_context_exit
+			on_context_exit,  Xpath_dir_path
 		end
 
 	EL_MODULE_LOG
@@ -32,8 +34,9 @@ feature {NONE} -- Initialization
 	make (a_repository: like repository)
 			--
 		do
-			make_default
+			make_tree (a_repository.root_dir)
 			repository := a_repository
+			create distributer.make (repository.thread_count)
 		end
 
 	make_default
@@ -41,13 +44,14 @@ feature {NONE} -- Initialization
 			create directory_list.make_empty
 			create description_lines.make_empty
 			create ecf_name.make_empty
+			create class_tuple_list.make (0)
 			Precursor
 		end
 
 	make_with_name (a_repository: like repository; a_name: like name; a_dir_path: like dir_path)
 		do
 			make (a_repository)
-			name := a_name; dir_path := a_dir_path
+			name := a_name; dir_path := a_repository.root_dir.joined_dir_path (a_dir_path)
 		end
 
 feature -- Access
@@ -67,39 +71,55 @@ feature -- Element change
 
 feature -- Basic operations
 
+	extend_source_directory (is_final: BOOLEAN)
+		local
+			tuple: like new_tuple_item
+		do
+			class_tuple_list.wipe_out
+			if is_final then
+				distributer.do_final
+				distributer.collect_final (class_tuple_list)
+			else
+				distributer.collect (class_tuple_list)
+			end
+			across class_tuple_list as t loop
+				tuple := t.item
+				if not attached {LIBRARY_CLASS} tuple.eiffel_class then
+					repository.example_classes.extend (tuple.eiffel_class)
+				end
+				tuple.source_directory.class_list.extend (tuple.eiffel_class)
+			end
+		end
+
 	read_source_files
 		local
-			parent_dir: EL_DIR_PATH; source_directory: SOURCE_DIRECTORY
-			class_list: like directory_list.item.class_list; relative_html_path: EL_FILE_PATH
-			eiffel_class: EIFFEL_CLASS
+			parent_dir: EL_DIR_PATH; source_directory: SOURCE_DIRECTORY; source_path: EL_FILE_PATH
+			class_list: like directory_list.item.class_list; list: like sorted_path_list
 		do
 			lio.put_path_field ("Eiffel", dir_path)
 			lio.put_new_line
 			create parent_dir
 			directory_list.wipe_out
-			across sorted_path_list as path loop
-				if path.item.parent /~ parent_dir then
+			list := sorted_path_list
+			from list.start until list.after loop
+				source_path := list.path
+				if source_path.parent /~ parent_dir then
 					create class_list.make (10)
 					create source_directory.make (dir_path, class_list, directory_list.count + 1)
 					directory_list.extend (source_directory)
-					parent_dir := path.item.parent
+					parent_dir := source_path.parent
 				end
 				lio.put_character ('.')
-				if path.cursor_index \\ 80 = 0 or else path.cursor_index = path_list.count then
+				if list.index \\ 80 = 0 or list.islast then
 					lio.put_new_line
 				end
-				relative_html_path := path.item.relative_path (dir_path).with_new_extension ("html")
-				if path.item.relative_path (repository.root_dir).first_step ~ Library then
-					create {LIBRARY_CLASS} eiffel_class.make (path.item, relative_html_path, repository)
-				else
-					create eiffel_class.make (path.item, relative_html_path, repository)
-					repository.example_classes.extend (eiffel_class)
-				end
-				source_directory.class_list.extend (eiffel_class)
+				distributer.wait_apply (agent new_tuple_item (source_directory, source_path))
+				extend_source_directory (list.islast)
+				list.forth
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Factory
 
 	new_description_lines (file_path: EL_FILE_PATH): like description_lines
 		local
@@ -109,6 +129,26 @@ feature {NONE} -- Implementation
 			create file_lines.make (file_path)
 			file_lines.do_all (agent Result.extend)
 		end
+
+	new_tuple_item (source_directory: SOURCE_DIRECTORY; source_path: EL_FILE_PATH): like class_tuple_list.item
+		local
+			l_class: EIFFEL_CLASS; relative_html_path: EL_FILE_PATH
+		do
+			relative_html_path := source_path.relative_path (dir_path).with_new_extension ("html")
+			if source_path.relative_path (repository.root_dir).first_step ~ Library then
+				create {LIBRARY_CLASS} l_class.make (source_path, relative_html_path, repository)
+			else
+				create l_class.make (source_path, relative_html_path, repository)
+			end
+			Result := [l_class, source_directory]
+		end
+
+feature {NONE} -- Implementation
+
+	class_tuple_list: ARRAYED_LIST [TUPLE [eiffel_class: EIFFEL_CLASS; source_directory: SOURCE_DIRECTORY]]
+
+	distributer: EL_FUNCTION_DISTRIBUTER [like class_tuple_list.item]
+		-- multi-threaded work distributer
 
 	repository: REPOSITORY_PUBLISHER
 
@@ -126,6 +166,15 @@ feature {NONE} -- Evolicity fields
 		end
 
 feature {NONE} -- Build from Pyxis
+
+	building_action_table: EL_PROCEDURE_TABLE
+		do
+			Result := Precursor
+			Result.append_tuples (<<
+				["@ecf",						agent do ecf_name := node.to_string end],
+				["description/text()",	agent set_description_from_node]
+			>>)
+		end
 
 	on_context_exit
 		local
@@ -153,27 +202,7 @@ feature {NONE} -- Build from Pyxis
 			end
 		end
 
-	set_dir_path_from_node
-		do
-			dir_path := repository.root_dir.joined_dir_path (node.to_string)
-		end
-
-	building_action_table: EL_PROCEDURE_TABLE
-		do
-			Result := Precursor
-			Result.append_tuples (<<
-				["@dir",						agent set_dir_path_from_node],
-				["@ecf",						agent do ecf_name := node.to_string end],
-				["description/text()",	agent set_description_from_node]
-			>>)
-		end
-
 feature {NONE} -- Constants
-
-	Translater: MARKDOWN_TRANSLATER
-		once
-			create Result.make (repository.web_address)
-		end
 
 	Dot_emd_extension: ZSTRING
 		once
@@ -185,4 +214,13 @@ feature {NONE} -- Constants
 			Result := "library"
 		end
 
+	Translater: MARKDOWN_TRANSLATER
+		once
+			create Result.make (repository.web_address)
+		end
+
+	Xpath_dir_path: STRING
+		once
+			Result := "@dir"
+		end
 end

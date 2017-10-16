@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:08:30 GMT (Thursday 29th June 2017)"
-	revision: "6"
+	date: "2017-10-15 11:53:39 GMT (Sunday 15th October 2017)"
+	revision: "7"
 
 class
 	FTP_BACKUP_APP
@@ -80,18 +80,6 @@ feature -- Test operations
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent ftp_command.make
-		end
-
-	default_operands: TUPLE [script_file_path_list: EL_FILE_PATH_LIST; ask_user_to_upload: BOOLEAN]
-		do
-			create Result
-			Result.script_file_path_list := create {EL_FILE_PATH_LIST}.make_with_count (0)
-			Result.ask_user_to_upload := False
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
@@ -100,6 +88,11 @@ feature {NONE} -- Implementation
 				),
 				optional_argument ("upload", "Upload the archive after creation")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like ftp_command}.make (create {EL_FILE_PATH_LIST}.make_with_count (0), False)
 		end
 
 	ftp_command: FTP_BACKUP

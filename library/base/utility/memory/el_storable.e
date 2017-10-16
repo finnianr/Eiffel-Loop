@@ -2,7 +2,6 @@ note
 	description: "[
 		Object that can read and write itself to a memory buffer of type `EL_MEMORY_READER_WRITER'.
 	]"
-
 	instructions: "See end of page"
 
 	author: "Finnian Reilly"
@@ -10,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-06 12:14:21 GMT (Friday 6th January 2017)"
-	revision: "3"
+	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
+	revision: "4"
 
 deferred class
 	EL_STORABLE

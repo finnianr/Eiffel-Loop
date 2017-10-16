@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-06-15 12:20:18 GMT (Wednesday 15th June 2016)"
 	revision: "1"

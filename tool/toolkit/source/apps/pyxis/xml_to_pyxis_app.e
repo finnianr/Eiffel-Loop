@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:07:19 GMT (Thursday 29th June 2017)"
-	revision: "6"
+	date: "2017-10-15 11:59:07 GMT (Sunday 15th October 2017)"
+	revision: "7"
 
 class
 	XML_TO_PYXIS_APP
@@ -23,6 +23,8 @@ inherit
 		end
 
 	EL_EIFFEL_LOOP_TEST_CONSTANTS
+
+	EL_MODULE_OS
 
 create
 	make
@@ -62,22 +64,16 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent converter.make
-		end
-
-	default_operands: TUPLE [source_path: EL_FILE_PATH]
-		do
-			create Result
-			Result.source_path := ""
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				valid_required_argument ("in", "Path to XML source file", << file_must_exist >>)
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like converter}.make ("")
 		end
 
 feature {NONE} -- Constants

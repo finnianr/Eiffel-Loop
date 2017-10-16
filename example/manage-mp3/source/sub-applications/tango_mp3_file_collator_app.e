@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:39:20 GMT (Thursday 29th June 2017)"
-	revision: "6"
+	date: "2017-10-15 11:38:48 GMT (Sunday 15th October 2017)"
+	revision: "7"
 
 class
 	TANGO_MP3_FILE_COLLATOR_APP
@@ -46,24 +46,17 @@ feature -- Testing
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [dir_path: EL_DIR_PATH; is_dry_run: BOOLEAN]
-		do
-			create Result
-			Result.dir_path := ""
-			Result.is_dry_run := False
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				valid_required_argument ("directory", "MP3 location", << directory_must_exist >>),
 				optional_argument ("dry_run", "Show output without moving any files")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", False)
 		end
 
 feature {NONE} -- Constants

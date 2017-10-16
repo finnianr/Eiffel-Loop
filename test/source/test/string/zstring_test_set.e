@@ -1,6 +1,5 @@
 ﻿note
 	description: "Tests for class EL_ZSTRING"
-
 	notes: "[
 		Don't forget to also run the test with the latin-15 codec. See `on_prepare'
 	]"
@@ -10,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-13 8:04:47 GMT (Sunday 13th August 2017)"
-	revision: "4"
+	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
+	revision: "5"
 
 class
 	ZSTRING_TEST_SET

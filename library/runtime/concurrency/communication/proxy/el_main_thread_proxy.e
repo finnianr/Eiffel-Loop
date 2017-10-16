@@ -3,15 +3,13 @@ note
 		Proxy object to (asynchronously) call procedures of BASE_TYPE from an external thread (non GUI thread)
 	]"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 17:27:06 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "3"
 
 class
 	EL_MAIN_THREAD_PROXY [G]

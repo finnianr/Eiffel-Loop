@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:28:42 GMT (Thursday 29th June 2017)"
-	revision: "7"
+	date: "2017-10-15 11:26:09 GMT (Sunday 15th October 2017)"
+	revision: "8"
 
 class
 	LIBRARY_OVERRIDE_APP
@@ -20,16 +20,9 @@ inherit
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
+	default_make: PROCEDURE
 		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [ise_eiffel_dir, output_dir: EL_DIR_PATH]
-		do
-			create Result
-			Result.ise_eiffel_dir := ""
-			Result.output_dir := "workarea"
+			Result := agent {like command}.make ("", "workarea")
 		end
 
 	argument_specs: ARRAY [like specs.item]

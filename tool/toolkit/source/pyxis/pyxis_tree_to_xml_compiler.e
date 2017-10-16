@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-23 15:24:02 GMT (Tuesday 23rd May 2017)"
-	revision: "4"
+	date: "2017-10-16 10:32:48 GMT (Monday 16th October 2017)"
+	revision: "5"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER
@@ -21,7 +21,7 @@ inherit
 		end
 
 create
-	make, default_create
+	make
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 

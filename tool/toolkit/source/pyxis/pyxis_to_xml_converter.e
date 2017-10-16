@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 12:56:22 GMT (Friday 12th May 2017)"
-	revision: "4"
+	date: "2017-10-16 10:33:03 GMT (Monday 16th October 2017)"
+	revision: "5"
 
 class
 	PYXIS_TO_XML_CONVERTER
@@ -20,7 +20,7 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 create
-	make, default_create
+	make
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 

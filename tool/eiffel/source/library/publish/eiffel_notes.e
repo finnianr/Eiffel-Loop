@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-28 17:32:17 GMT (Friday 28th July 2017)"
-	revision: "6"
+	date: "2017-10-12 11:05:16 GMT (Thursday 12th October 2017)"
+	revision: "7"
 
 class
 	EIFFEL_NOTES
@@ -23,7 +23,6 @@ inherit
 	EL_MODULE_COLON_FIELD
 
 	EL_MODULE_XML
-
 
 create
 	make

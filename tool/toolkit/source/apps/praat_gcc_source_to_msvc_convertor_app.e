@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 9:43:16 GMT (Thursday 29th June 2017)"
-	revision: "2"
+	date: "2017-10-15 11:40:33 GMT (Sunday 15th October 2017)"
+	revision: "3"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP
@@ -22,24 +22,19 @@ inherit
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [input_dir, output_dir: EL_DIR_PATH]
-		do
-			create Result
-			Result.input_dir := ""
-			Result.output_dir := Execution_environment.variable_dir_path ("EIFFEL_LOOP").joined_dir_path ("C_library/Praat-MSVC")
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				valid_required_argument ("source_tree", "Praat C source tree", << directory_must_exist >>),
 				optional_argument ("output_dir", "Output directory for MS VC compatible code")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make (
+				"", Execution_environment.variable_dir_path ("EIFFEL_LOOP").joined_dir_path ("C_library/Praat-MSVC")
+			)
 		end
 
 feature {NONE} -- Constants

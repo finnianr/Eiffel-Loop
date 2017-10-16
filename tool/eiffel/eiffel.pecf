@@ -119,6 +119,10 @@ system:
 			location = "$EIFFEL_LOOP/library/testing.ecf"
 
 		library:
+			name = EL_thread; readonly = false
+			location = "$EIFFEL_LOOP/library/thread.ecf"
+
+		library:
 			name = EL_vtd_xml; readonly = false
 			location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
 

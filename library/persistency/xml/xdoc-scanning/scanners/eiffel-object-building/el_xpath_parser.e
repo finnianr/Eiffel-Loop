@@ -20,15 +20,13 @@ note
 			AAA/BBB[2]/@name
 	]"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-25 14:10:58 GMT (Friday 25th August 2017)"
-	revision: "2"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "3"
 
 class
 	EL_XPATH_PARSER

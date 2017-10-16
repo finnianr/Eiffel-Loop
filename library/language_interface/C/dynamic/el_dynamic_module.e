@@ -2,7 +2,6 @@ note
 	description: "[
 		Defines interface to dynamically load C API.
 	]"
-
 	instructions: "[
 		If all the API names have a common prefix, then set `name_prefix' to be this prefix.
 		For each API name define an attribute of type `POINTER' and named as `pointer_<api_name>'
@@ -56,8 +55,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 17:42:49 GMT (Sunday 21st May 2017)"
-	revision: "6"
+	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
+	revision: "7"
 
 deferred class
 	EL_DYNAMIC_MODULE [G -> EL_DYNAMIC_MODULE_POINTERS create make end]

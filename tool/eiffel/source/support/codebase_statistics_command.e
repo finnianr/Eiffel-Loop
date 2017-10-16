@@ -1,23 +1,23 @@
 note
 	description: "Count actual code words in Eiffel source trees"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:34:17 GMT (Thursday 29th June 2017)"
-	revision: "2"
+	date: "2017-10-15 15:40:08 GMT (Sunday 15th October 2017)"
+	revision: "4"
 
 class
 	CODEBASE_STATISTICS_COMMAND
 
 inherit
 	SOURCE_MANIFEST_COMMAND
+		rename
+			make as make_command
 		redefine
-			make, make_default, execute
+			make_default, execute
 		end
 
 	EVOLICITY_EIFFEL_CONTEXT
@@ -44,10 +44,11 @@ feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
 		end
 
-	make (source_manifest_path: EL_FILE_PATH)
+	make (source_manifest_path: EL_FILE_PATH; environ_variable: EL_DIR_PATH_ENVIRON_VARIABLE)
 		do
 			make_default
-			Precursor (source_manifest_path)
+			environ_variable.apply
+			make_command (source_manifest_path)
 		end
 
 feature -- Access
@@ -66,8 +67,6 @@ feature -- Access
 feature -- Basic operations
 
 	execute
-		local
-
 		do
 			log.enter ("execute")
 			Precursor

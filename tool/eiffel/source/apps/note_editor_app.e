@@ -8,31 +8,37 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:27:30 GMT (Thursday 29th June 2017)"
-	revision: "6"
+	date: "2017-10-15 11:28:58 GMT (Sunday 15th October 2017)"
+	revision: "8"
 
 class
 	NOTE_EDITOR_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [NOTE_EDITOR_COMMAND]
+	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [NOTE_EDITOR_COMMAND]
 		redefine
 			Option_name, Installer
 		end
 
+feature -- Basic operations
+
+	test_run
+			--
+		do
+			Test.set_excluded_file_extensions (<< "e" >>)
+			Test.do_file_tree_test ("latin1-sources", agent test_edit, 3319767416)
+		end
+
+feature -- Test
+
+	test_edit (dir_path: EL_DIR_PATH)
+			--
+		do
+			create command.make (dir_path + "note-test-manifest.pyx", License_notes_path)
+			normal_run
+		end
+
 feature {NONE} -- Implementation
-
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [source_manifest_path, license_notes_path: EL_FILE_PATH]
-		do
-			create Result
-			Result.source_manifest_path := ""
-			Result.license_notes_path := ""
-		end
 
 	argument_specs: ARRAY [like specs.item]
 		do
@@ -40,6 +46,11 @@ feature {NONE} -- Implementation
 				valid_required_argument ("sources", "Path to sources manifest file", << file_must_exist >>),
 				valid_required_argument ("license", "Path to license notes file", << file_must_exist >>)
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", "")
 		end
 
 feature {NONE} -- Constants
@@ -63,8 +74,15 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{NOTE_EDITOR_APP}, All_routines],
-				[{NOTE_EDITOR_COMMAND}, All_routines]
+				[{NOTE_EDITOR_COMMAND}, All_routines],
+				[{NOTE_EDITOR}, All_routines]
 			>>
+		end
+
+	License_notes_path: EL_FILE_PATH
+		once
+			Result := "$EIFFEL_LOOP/license.pyx"
+			Result.expand
 		end
 
 end

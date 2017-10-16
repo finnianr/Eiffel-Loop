@@ -6,25 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-26 10:52:14 GMT (Monday 26th June 2017)"
-	revision: "3"
+	date: "2017-10-16 10:37:07 GMT (Monday 16th October 2017)"
+	revision: "5"
 
 deferred class
-	EL_COMMAND_SHELL_SUB_APPLICATION [C -> EL_COMMAND_SHELL_COMMAND create default_create end]
+	EL_COMMAND_SHELL_SUB_APPLICATION [C -> EL_COMMAND_SHELL_COMMAND]
 
 inherit
 	EL_COMMAND_LINE_SUB_APPLICATION [C]
 
 feature {NONE} -- Implementation
 
-	default_operands: TUPLE
-		do
-			create Result
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			create Result.make_empty
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {EL_COMMAND_SHELL_COMMAND}.make_shell
 		end
 
 end

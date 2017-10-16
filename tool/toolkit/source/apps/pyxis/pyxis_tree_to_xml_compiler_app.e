@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:08:53 GMT (Thursday 29th June 2017)"
-	revision: "6"
+	date: "2017-10-15 11:51:33 GMT (Sunday 15th October 2017)"
+	revision: "7"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_APP
@@ -39,30 +39,23 @@ feature -- Testing
 
 feature {NONE} -- Implementation
 
-	normal_initialize
-		do
-			Console.show ({PYXIS_TREE_TO_XML_COMPILER})
-			Precursor
-		end
-
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [source_path: EL_DIR_PATH; output_path: EL_FILE_PATH]
-		do
-			create Result
-			Result.source_path := ""
-			Result.output_path := ""
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				valid_required_argument ("source", "Source tree directory", << directory_must_exist >>),
 				required_argument ("output", "Output file path")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", "")
+		end
+
+	normal_initialize
+		do
+			Console.show ({PYXIS_TREE_TO_XML_COMPILER})
+			Precursor
 		end
 
 feature {NONE} -- Constants

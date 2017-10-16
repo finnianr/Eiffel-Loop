@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-09 17:32:22 GMT (Friday 9th June 2017)"
-	revision: "2"
+	date: "2017-10-16 9:52:56 GMT (Monday 16th October 2017)"
+	revision: "3"
 
 class
 	EL_COMMAND_ARGUMENT_ERROR
@@ -77,9 +77,9 @@ feature -- Element change
 			set_lines (Template.required_argument #$ [word_option])
 		end
 
-	set_type_error (type: TYPE [ANY])
+	set_type_error (type_name: ZSTRING)
 		do
-			set_lines (Template.type_error #$ [word_option, type.name])
+			set_lines (Template.type_error #$ [word_option, type_name])
 		end
 
 feature {NONE} -- Constants

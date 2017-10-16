@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-29 14:14:14 GMT (Tuesday 29th August 2017)"
-	revision: "1"
+	date: "2017-10-15 11:27:32 GMT (Sunday 15th October 2017)"
+	revision: "2"
 
 class
 	CHECK_LOCALE_STRINGS_APP
@@ -26,24 +26,17 @@ create
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [config_path: EL_FILE_PATH; language: STRING]
-		do
-			create Result
-			Result.config_path := ""
-			Result.language := "en"
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				valid_required_argument ("config", "Configuration file path", << file_must_exist >>),
 				optional_argument ("language", "Language code to check")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", "en")
 		end
 
 feature {NONE} -- Constants

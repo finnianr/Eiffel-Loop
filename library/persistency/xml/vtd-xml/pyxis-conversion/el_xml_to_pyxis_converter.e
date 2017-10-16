@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-26 9:24:22 GMT (Monday 26th June 2017)"
-	revision: "4"
+	date: "2017-10-16 10:28:04 GMT (Monday 16th October 2017)"
+	revision: "5"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -23,12 +23,18 @@ inherit
 	EL_MODULE_LIO
 
 create
-	make, default_create
+	make, make_default
 
 feature {NONE} -- Initiliazation
 
 	make (a_source_path: like source_path)
 			--
+		do
+			make_default
+			set_source_path (a_source_path)
+		end
+
+	make_default
 		do
 			create text_matcher.make
 			create attributes
@@ -39,9 +45,7 @@ feature {NONE} -- Initiliazation
 			next_node_action := agent put_pyxis_doc
 			node_actions := node_actions_table
 
-			source_path := a_source_path
-
-			set_source_path (a_source_path)
+			create source_path
 		end
 
 feature -- Element change

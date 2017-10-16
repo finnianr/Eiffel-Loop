@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-26 8:26:17 GMT (Monday 26th June 2017)"
-	revision: "7"
+	date: "2017-10-12 12:20:20 GMT (Thursday 12th October 2017)"
+	revision: "8"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -23,8 +23,6 @@ inherit
 	EL_MODULE_LOG
 
 	EL_MODULE_OS
-
-	EL_MODULE_URL
 
 	EL_STRING_CONSTANTS
 		rename
@@ -58,11 +56,13 @@ feature -- Element change
 			-- set binary files to exclude from file normalization before checksum
 		do
 			binary_file_extensions := a_binary_file_extensions
+			binary_file_extensions.compare_objects
 		end
 
 	set_excluded_file_extensions (a_excluded_file_extensions: like excluded_file_extensions)
 		do
 			excluded_file_extensions := a_excluded_file_extensions
+			excluded_file_extensions.compare_objects
 		end
 
 feature -- Basic operations
@@ -108,19 +108,21 @@ feature {NONE} -- Implementation
 	check_file_output (input_dir_path: EL_DIR_PATH)
 			--
 		local
-			file_list: EL_FILE_PATH_LIST; line_list: EL_FILE_LINE_SOURCE
+			file_list: EL_FILE_PATH_LIST; lines: EL_FILE_LINE_SOURCE
+			extension: ZSTRING
 		do
 			create file_list.make (input_dir_path, "*")
 			from file_list.start until file_list.after loop
-				if across excluded_file_extensions as excluded_ext all file_list.path.extension /~ excluded_ext.item  end then
-					if across binary_file_extensions as ext some file_list.path.extension ~ ext.item end then
+				extension := file_list.path.extension
+				if not excluded_file_extensions.has (extension) then
+					if binary_file_extensions.has (extension) then
 						Crc_32.add_file (file_list.path)
 					else
-						create line_list.make (file_list.path)
-						from line_list.start until line_list.after loop
-							line_list.item.replace_substring_general_all (Encoded_home_directory, once "")
-							Crc_32.add_string (line_list.item)
-							line_list.forth
+						create lines.make (file_list.path)
+						from lines.start until lines.after loop
+							lines.item.replace_substring_all (Current_working_dir, Empty_pattern)
+							Crc_32.add_string (lines.item)
+							lines.forth
 						end
 					end
 				end
@@ -239,10 +241,9 @@ feature -- Constants
 			create Result
 		end
 
-	Encoded_home_directory: STRING
-			--
+	Current_working_dir: ZSTRING
 		once
-			Result := Url.encoded_path (Directory.home.to_string, True)
+			Result := Directory.current_working
 		end
 
 end

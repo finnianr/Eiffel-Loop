@@ -2,13 +2,12 @@
 	description: "[
 		Tests for classes EL_ASTRING and EL_FILE_LINE_SOURCE
 	]"
-
 	testing: "type/manual"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-16 18:58:57 GMT (Wednesday 16th December 2015)"
 	revision: "1"

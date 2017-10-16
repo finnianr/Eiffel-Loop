@@ -6,14 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-28 17:34:41 GMT (Friday 28th July 2017)"
-	revision: "3"
+	date: "2017-10-12 16:34:44 GMT (Thursday 12th October 2017)"
+	revision: "4"
 
 class
 	NOTE_CONSTANTS
 
 feature {NONE} -- Eiffel note constants
-
 
 	Date_time_code: DATE_TIME_CODE_STRING
 		once
@@ -22,11 +21,25 @@ feature {NONE} -- Eiffel note constants
 
 	Date_time_format: STRING = "yyyy-[0]mm-[0]dd hh:[0]mi:[0]ss"
 
-	Field: TUPLE [author, copyright, contact, license, date, revision: STRING]
+	Field: TUPLE [description, author, copyright, contact, license, date, revision: STRING]
 		-- in the order in which they should appear
 		do
 			create Result
-			Result := ["author", "copyright", "contact", "license", "date", "revision"]
+			Result := ["description", "author", "copyright", "contact", "license", "date", "revision"]
+		end
+
+	Author_fields: ARRAY [STRING]
+		-- Group starting with author
+		once
+			Result := << Field.author, Field.copyright, Field.contact >>
+			Result.compare_objects
+		end
+
+	License_fields: ARRAY [STRING]
+		-- Group starting with license
+		once
+			Result := << Field.license, Field.date, Field.revision >>
+			Result.compare_objects
 		end
 
 	Field_names: EL_STRING_8_LIST
@@ -34,6 +47,16 @@ feature {NONE} -- Eiffel note constants
 		once
 			create Result.make_from_tuple (Field)
 			Result.compare_objects
+		end
+
+	Verbatim_string_end: ZSTRING
+		once
+			Result := "]%""
+		end
+
+	Verbatim_string_start: ZSTRING
+		once
+			Result := "%"["
 		end
 
 end

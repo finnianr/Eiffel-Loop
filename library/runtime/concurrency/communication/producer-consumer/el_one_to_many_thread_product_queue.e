@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-03 11:55:20 GMT (Sunday 3rd July 2016)"
-	revision: "1"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 class
 	EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]

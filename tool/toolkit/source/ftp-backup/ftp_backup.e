@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-31 19:57:53 GMT (Wednesday 31st May 2017)"
-	revision: "4"
+	date: "2017-10-16 10:33:37 GMT (Monday 16th October 2017)"
+	revision: "5"
 
 class
 	FTP_BACKUP
@@ -28,7 +28,7 @@ inherit
 	EL_MODULE_USER_INPUT
 
 create
-	make, default_create
+	make
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 

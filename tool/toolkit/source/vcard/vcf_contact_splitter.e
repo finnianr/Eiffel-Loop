@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-13 12:35:57 GMT (Sunday 13th August 2017)"
-	revision: "3"
+	date: "2017-10-16 10:32:16 GMT (Monday 16th October 2017)"
+	revision: "4"
 
 class
 	VCF_CONTACT_SPLITTER
@@ -24,7 +24,7 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 create
-	default_create, make
+	make
 
 feature {EL_SUB_APPLICATION} -- Initialization
 

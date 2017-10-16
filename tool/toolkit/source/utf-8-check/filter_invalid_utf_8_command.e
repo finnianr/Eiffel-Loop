@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-03 16:32:09 GMT (Sunday 3rd September 2017)"
-	revision: "1"
+	date: "2017-10-16 10:33:42 GMT (Monday 16th October 2017)"
+	revision: "2"
 
 class
 	FILTER_INVALID_UTF_8_COMMAND
@@ -20,7 +20,7 @@ inherit
 	EL_MODULE_UTF
 
 create
-	make, default_create
+	make
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 9:43:26 GMT (Thursday 29th June 2017)"
-	revision: "5"
+	date: "2017-10-15 12:31:42 GMT (Sunday 15th October 2017)"
+	revision: "6"
 
 class
 	CRYPTO_APP
@@ -21,13 +21,6 @@ inherit
 	EL_COMMAND_SHELL_SUB_APPLICATION [EL_CRYPTO_COMMAND_SHELL]
 		redefine
 			Option_name
-		end
-
-feature {NONE} -- Implementation
-
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make_shell
 		end
 
 feature {NONE} -- Constants

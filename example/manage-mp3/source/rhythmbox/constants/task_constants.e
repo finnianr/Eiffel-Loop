@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-02 11:08:03 GMT (Tuesday 2nd August 2016)"
-	revision: "1"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 class
 	TASK_CONSTANTS

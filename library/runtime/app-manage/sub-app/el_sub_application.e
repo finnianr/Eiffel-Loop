@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-15 14:54:27 GMT (Tuesday 15th August 2017)"
-	revision: "10"
+	date: "2017-10-16 9:57:47 GMT (Monday 16th October 2017)"
+	revision: "12"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -253,7 +253,7 @@ feature -- Element change
 						a_real_value.set_item (l_argument.to_real)
 					else
 						argument_errors.extend (argument_error)
-						argument_errors.last.set_type_error ({REAL})
+						argument_errors.last.set_type_error ("real number")
 					end
 
 				elseif attached {INTEGER_REF} a_attribute as a_integer_value then
@@ -261,7 +261,7 @@ feature -- Element change
 						a_integer_value.set_item (l_argument.to_integer)
 					else
 						argument_errors.extend (argument_error)
-						argument_errors.last.set_type_error ({INTEGER})
+						argument_errors.last.set_type_error ("integer")
 					end
 				elseif attached {BOOLEAN_REF} a_attribute as a_boolean_value then
 					a_boolean_value.set_item (Args.word_option_exists (a_word_option))

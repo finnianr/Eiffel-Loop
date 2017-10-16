@@ -6,7 +6,6 @@ note
 		Communication with the client is via either partial binary XML or plaintext XML. This mode is settable in either 
 		direction by `set_inbound_transmission_type', set_outbound_transmission_type.
 	]"
-
 	notes: "See end of page"
 
 	author: "Finnian Reilly"
@@ -14,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-21 17:26:13 GMT (Wednesday 21st June 2017)"
-	revision: "5"
+	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
+	revision: "6"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER

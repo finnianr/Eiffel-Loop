@@ -1,6 +1,5 @@
 note
 	description: "Undoable text facility"
-
 	notes: "[
 		There were problems to make this work in Windows requiring overriding of on_en_change
 		in WEL implementation to suppress default Ctrl-z action by emptying Windows undo buffer
@@ -11,10 +10,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2014-12-20 13:44:27 GMT (Saturday 20th December 2014)"
-	revision: "1"
+	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 deferred class
 	EL_UNDOABLE_TEXT

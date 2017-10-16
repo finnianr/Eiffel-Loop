@@ -5,7 +5,6 @@ note
 		objects. The template can be an either an external file or hard coded in the class by implementing the
 		function `template: READABLE_STRING_GENERAL'.
 	]"
-
 	notes: "See end of page"
 
 	author: "Finnian Reilly"
@@ -13,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-03 11:04:27 GMT (Sunday 3rd September 2017)"
-	revision: "5"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "6"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE

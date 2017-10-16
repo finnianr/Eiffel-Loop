@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-27 9:33:07 GMT (Tuesday 27th June 2017)"
-	revision: "1"
+	date: "2017-10-16 10:33:17 GMT (Monday 16th October 2017)"
+	revision: "2"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -30,7 +30,7 @@ inherit
 	EL_MODULE_LOG
 
 create
-	make, default_create
+	make
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:16:49 GMT (Thursday 29th June 2017)"
-	revision: "6"
+	date: "2017-10-15 15:40:38 GMT (Sunday 15th October 2017)"
+	revision: "8"
 
 class
 	CODEBASE_STATISTICS_APP
@@ -23,6 +23,13 @@ inherit
 
 feature -- Testing
 
+	test_note_edit (a_sources_path: EL_DIR_PATH)
+			--
+		do
+			create command.make (a_sources_path + "manifest.pyx", create {EL_DIR_PATH_ENVIRON_VARIABLE})
+			normal_run
+		end
+
 	test_run
 			--
 		do
@@ -30,36 +37,22 @@ feature -- Testing
 			Test.do_file_tree_test ("utf8-sources", agent test_note_edit, 191337464)
 		end
 
-	test_note_edit (a_sources_path: EL_DIR_PATH)
-			--
-		do
-			create command.make (a_sources_path + "manifest.pyx")
-			normal_run
-		end
-
 feature {NONE} -- Implementation
-
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [source_manifest_path: EL_FILE_PATH]
-		do
-			create Result
-			Result.source_manifest_path := ""
-		end
 
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				valid_required_argument ("sources", "Path to sources manifest file", << file_must_exist >>)
+				valid_required_argument ("sources", "Path to sources manifest file", << file_must_exist >>),
+				optional_argument ("define", "Define an environment variable: name=<value>")
 			>>
 		end
 
-feature {NONE} -- Constants
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", create {EL_DIR_PATH_ENVIRON_VARIABLE})
+		end
 
-	Option_name: STRING = "codebase_stats"
+feature {NONE} -- Constants
 
 	Description: STRING = "[
 		Count lines of eiffel code for combined source trees defined by a source tree manifest. 
@@ -74,5 +67,7 @@ feature {NONE} -- Constants
 				[{CODEBASE_STATISTICS_COMMAND}, All_routines]
 			>>
 		end
+
+	Option_name: STRING = "codebase_stats"
 
 end

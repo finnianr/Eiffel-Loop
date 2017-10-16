@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-21 11:57:57 GMT (Monday 21st August 2017)"
-	revision: "2"
+	date: "2017-10-16 10:33:24 GMT (Monday 16th October 2017)"
+	revision: "3"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -25,7 +25,7 @@ inherit
 	EL_MODULE_USER_INPUT
 
 create
-	make, default_create
+	make
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 

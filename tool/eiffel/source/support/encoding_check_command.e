@@ -1,15 +1,13 @@
 note
 	description: "Checks for UTF-8 files that could be encoded as Latin-1"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:34:17 GMT (Thursday 29th June 2017)"
-	revision: "2"
+	date: "2017-10-16 10:19:52 GMT (Monday 16th October 2017)"
+	revision: "4"
 
 class
 	ENCODING_CHECK_COMMAND
@@ -24,7 +22,7 @@ inherit
 	EL_MODULE_DIRECTORY
 
 create
-	make, default_create
+	make
 
 feature -- Basic operations
 

@@ -10,7 +10,6 @@
 		The `-manager' switch is needed to select a sub application from the main application.
 		See class `APPLICATION_ROOT'.
 	]"
-
 	warning: "[
 		Use this application at your own risk and note the following points:
 		
@@ -20,7 +19,6 @@
 		
 		The developer does not assume any responsibility for loss of music data or a corrupted Rhythmbox database.
 	]"
-
 	instructions: "See end of page"
 
 	author: "Finnian Reilly"
@@ -28,8 +26,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-20 11:12:49 GMT (Sunday 20th August 2017)"
-	revision: "10"
+	date: "2017-10-15 11:38:23 GMT (Sunday 15th October 2017)"
+	revision: "12"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -85,22 +83,13 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_operands: TUPLE [config: MANAGER_CONFIG]
-		local
-			config: MANAGER_CONFIG
+	default_make: PROCEDURE
 		do
-			create Result
 			if Is_test_mode then
-				create {TEST_MANAGER_CONFIG} config.make
+				Result := agent {like music_manager_command}.make (create {TEST_MANAGER_CONFIG}.make)
 			else
-				create config.make
+				Result := agent {like music_manager_command}.make (create {MANAGER_CONFIG}.make)
 			end
-			Result.config := config
-		end
-
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent music_manager_command.make
 		end
 
 	skip_normal_initialize: BOOLEAN

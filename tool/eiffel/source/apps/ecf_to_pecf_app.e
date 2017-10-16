@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:12:25 GMT (Thursday 29th June 2017)"
-	revision: "6"
+	date: "2017-10-16 10:28:28 GMT (Monday 16th October 2017)"
+	revision: "8"
 
 class
 	ECF_TO_PECF_APP
@@ -17,7 +17,7 @@ inherit
 		rename
 			command as tree_processor
 		redefine
-			Option_name, tree_processor, normal_run
+			Option_name, normal_run
 		end
 
 create
@@ -42,23 +42,11 @@ feature -- Test
 	test_xml_to_pyxis (a_dir_path: EL_DIR_PATH)
 			--
 		do
-			create tree_processor.make (a_dir_path, create {XML_TO_PYXIS_CONVERTER})
+			create tree_processor.make (a_dir_path, create {XML_TO_PYXIS_CONVERTER}.make_default)
 			normal_run
 		end
 
 feature {NONE} -- Implementation
-
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent tree_processor.make
-		end
-
-	default_operands: TUPLE [dir_path: EL_DIR_PATH; processor: EL_FILE_PROCESSING_COMMAND]
-		do
-			create Result
-			Result.dir_path := ""
-			Result.processor := create {XML_TO_PYXIS_CONVERTER}
-		end
 
 	argument_specs: ARRAY [like specs.item]
 		do
@@ -69,7 +57,10 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	tree_processor: EL_DIRECTORY_TREE_FILE_PROCESSOR
+	default_make: PROCEDURE
+		do
+			Result := agent {like tree_processor}.make ("", create {XML_TO_PYXIS_CONVERTER}.make_default)
+		end
 
 feature {NONE} -- Constants
 

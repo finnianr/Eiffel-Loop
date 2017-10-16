@@ -1,6 +1,5 @@
 note
 	description: "Retrieves data using the HTTP command GET, POST and HEAD"
-
 	notes: "[
 		See class [http://eiffel-loop.com/test/source/test/http/http_connection_test_set.html HTTP_CONNECTION_TEST_SET]
 		for examples on how to use.
@@ -11,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-04 11:01:45 GMT (Monday 4th September 2017)"
-	revision: "9"
+	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
+	revision: "10"
 
 class
 	EL_HTTP_CONNECTION

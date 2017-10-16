@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {LIBRARY_EIFFEL_CLASS}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:35:41 GMT (Thursday 29th June 2017)"
-	revision: "2"
+	date: "2017-10-10 9:17:38 GMT (Tuesday 10th October 2017)"
+	revision: "3"
 
 class
 	LIBRARY_CLASS

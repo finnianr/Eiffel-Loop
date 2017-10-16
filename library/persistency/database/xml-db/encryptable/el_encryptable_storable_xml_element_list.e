@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-24 17:42:44 GMT (Thursday 24th December 2015)"
-	revision: "1"
+	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 deferred class
 	EL_ENCRYPTABLE_STORABLE_XML_ELEMENT_LIST [STORABLE_TYPE -> EL_ENCRYPTABLE_STORABLE_XML_ELEMENT create make_default end]

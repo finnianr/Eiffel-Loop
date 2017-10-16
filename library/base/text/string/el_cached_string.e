@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {EL_CACHED_STRING}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 17:17:26 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
+	revision: "3"
 
 class
 	EL_CACHED_STRING [STR -> READABLE_STRING_GENERAL create make_empty end]

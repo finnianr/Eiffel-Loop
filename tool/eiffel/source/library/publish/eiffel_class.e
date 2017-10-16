@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-28 17:32:55 GMT (Friday 28th July 2017)"
-	revision: "6"
+	date: "2017-10-10 10:32:50 GMT (Tuesday 10th October 2017)"
+	revision: "7"
 
 class
 	EIFFEL_CLASS
@@ -73,6 +73,13 @@ inherit
 			is_equal
 		end
 
+	EL_SINGLE_THREAD_ACCESS
+		undefine
+			is_equal
+		redefine
+			make_default
+		end
+
 create
 	make
 
@@ -96,7 +103,9 @@ feature {NONE} -- Initialization
 			code_text := new_code_text (raw_source)
 			create notes.make (relative_source_path.parent, a_repository.note_fields)
 			make_meta_digest (html_path)
-			Class_source_table.put (relative_source_path.with_new_extension (Html), name)
+			restrict_access
+				Class_source_table.put (relative_source_path.with_new_extension (Html), name)
+			end_restriction
 		end
 
 	make_default
@@ -105,7 +114,8 @@ feature {NONE} -- Initialization
 			create name.make_empty
 			create class_index_top_dir
 			make_machine
-			Precursor
+			Precursor {EL_SINGLE_THREAD_ACCESS}
+			Precursor {EVOLICITY_SERIALIZEABLE}
 		end
 
 feature -- Access

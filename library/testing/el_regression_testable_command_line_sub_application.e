@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 10:16:08 GMT (Thursday 29th June 2017)"
-	revision: "7"
+	date: "2017-10-16 10:17:20 GMT (Monday 16th October 2017)"
+	revision: "8"
 
 deferred class
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND create default_create end]
+	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
 
 inherit
 	EL_COMMAND_LINE_SUB_APPLICATION [C]

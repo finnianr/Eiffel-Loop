@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 8:41:55 GMT (Thursday 29th June 2017)"
-	revision: "3"
+	date: "2017-10-14 12:51:25 GMT (Saturday 14th October 2017)"
+	revision: "4"
 
 class
 	EL_GLOBAL_LOGGING
@@ -15,11 +15,7 @@ class
 inherit
 	EL_SINGLE_THREAD_ACCESS
 
-	EL_MODULE_ARGS
-
 	EL_MODULE_EIFFEL
-
---	EL_MODULE_LOG_MANAGER
 
 	EL_MODULE_LOG
 

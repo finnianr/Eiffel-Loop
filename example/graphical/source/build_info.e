@@ -1,6 +1,5 @@
 note
 	description: "Build specification"
-
 	notes: "GENERATED FILE. Do not edit"
 
 	author: "Finnian Reilly"
@@ -8,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-30 16:20:39 GMT (Friday 30th June 2017)"
-	revision: "1"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 class
 	BUILD_INFO

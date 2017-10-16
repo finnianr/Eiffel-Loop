@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:29:20 GMT (Thursday 29th June 2017)"
-	revision: "4"
+	date: "2017-10-15 14:50:45 GMT (Sunday 15th October 2017)"
+	revision: "7"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 			publisher.ftp_sync.ftp.set_default_state -- Turn off ftp
 			publisher.tree_list.wipe_out
 			across Sources as src loop
-				create source_tree.make_with_name (publisher, src.key, Eiffel_loop_dir.joined_dir_path (src.item.source_dir))
+				create source_tree.make_with_name (publisher, src.key, src.item.source_dir)
 				if not src.item.description.is_empty then
 					source_tree.set_description_lines (src.item.description)
 				end
@@ -110,7 +110,7 @@ feature {NONE} -- Implementation
 
 	new_publisher: REPOSITORY_PUBLISHER
 		do
-			create Result.make (Work_area_dir + "doc-config/config.pyx", "1.4.0")
+			create Result.make (Work_area_dir + "doc-config/config.pyx", "1.4.0", 0)
 		end
 
 	file_content_checksum: NATURAL

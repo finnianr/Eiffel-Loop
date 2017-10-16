@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-25 12:36:34 GMT (Tuesday 25th July 2017)"
-	revision: "3"
+	date: "2017-10-16 10:33:30 GMT (Monday 16th October 2017)"
+	revision: "4"
 
 class
 	HTML_BODY_WORD_COUNTER
@@ -25,7 +25,7 @@ inherit
 	EL_MODULE_LOG
 
 create
-	default_create, make
+	make
 
 feature {NONE} -- Implementation
 

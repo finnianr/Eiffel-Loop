@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:12:21 GMT (Thursday 29th June 2017)"
-	revision: "4"
+	date: "2017-10-15 11:31:22 GMT (Sunday 15th October 2017)"
+	revision: "5"
 
 class
 	CODEC_GENERATOR_APP
@@ -43,24 +43,17 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [source_path, template_path: EL_FILE_PATH]
-		do
-			create Result
-			Result.source_path := ""
-			Result.template_path := ""
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				required_argument ("c_source", "C source code path"),
 				required_argument ("template", "Eiffel codec template")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", "")
 		end
 
 feature {NONE} -- Constants

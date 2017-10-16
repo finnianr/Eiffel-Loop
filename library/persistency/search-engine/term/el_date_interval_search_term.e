@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {DATE_INTERVAL_SEARCH_TERM}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-24 13:16:38 GMT (Sunday 24th September 2017)"
-	revision: "2"
+	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
+	revision: "3"
 
 class
 	EL_DATE_INTERVAL_SEARCH_TERM [G -> {EL_WORD_SEARCHABLE, EL_DATEABLE}]

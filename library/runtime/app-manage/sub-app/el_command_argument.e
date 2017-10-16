@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-09 15:58:12 GMT (Friday 9th June 2017)"
-	revision: "3"
+	date: "2017-10-16 8:42:34 GMT (Monday 16th October 2017)"
+	revision: "6"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -110,20 +110,31 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Setter_types: HASH_TABLE [TYPE [EL_MAKE_OPERAND_SETTER [ANY]], TYPE [ANY]]
+	Setter_types: EL_HASH_TABLE [TYPE [EL_MAKE_OPERAND_SETTER [ANY]], TYPE [ANY]]
 		once
-			create Result.make_equal (7)
-			Result [{BOOLEAN}] := {EL_BOOLEAN_OPERAND_SETTER}
-			Result [{INTEGER}] := {EL_INTEGER_OPERAND_SETTER}
+			create Result.make (<<
+				[{BOOLEAN},									{EL_BOOLEAN_OPERAND_SETTER}],
 
-			Result [{ZSTRING}] := {EL_ZSTRING_OPERAND_SETTER}
-			Result [{STRING_8}] := {EL_STRING_8_OPERAND_SETTER}
-			Result [{STRING_32}] := {EL_STRING_32_OPERAND_SETTER}
+				[{INTEGER},									{EL_INTEGER_OPERAND_SETTER}],
+				[{INTEGER_64},								{EL_INTEGER_64_OPERAND_SETTER}],
+				[{NATURAL},									{EL_NATURAL_OPERAND_SETTER}],
+				[{NATURAL_64},								{EL_NATURAL_64_OPERAND_SETTER}],
+				[{REAL},										{EL_REAL_OPERAND_SETTER}],
+				[{DOUBLE},									{EL_DOUBLE_OPERAND_SETTER}],
 
-			Result [{EL_FILE_PATH}] := {EL_FILE_PATH_OPERAND_SETTER}
-			Result [{EL_DIR_PATH}] := {EL_DIR_PATH_OPERAND_SETTER}
+				[{ZSTRING},									{EL_ZSTRING_OPERAND_SETTER}],
+				[{STRING_8},								{EL_STRING_8_OPERAND_SETTER}],
+				[{STRING_32},								{EL_STRING_32_OPERAND_SETTER}],
 
-			Result [{EL_ZSTRING_HASH_TABLE [ZSTRING]}] := {EL_ZSTRING_TABLE_OPERAND_SETTER}
+				[{EL_FILE_PATH},							{EL_FILE_PATH_OPERAND_SETTER}],
+				[{EL_DIR_PATH},							{EL_DIR_PATH_OPERAND_SETTER}],
+
+				[{EL_ZSTRING_HASH_TABLE [ZSTRING]}, {EL_ZSTRING_TABLE_OPERAND_SETTER}],
+
+				[{EL_ENVIRON_VARIABLE},					{EL_ENVIRON_VARIABLE_OPERAND_SETTER [EL_ENVIRON_VARIABLE]}],
+				[{EL_DIR_PATH_ENVIRON_VARIABLE},		{EL_ENVIRON_VARIABLE_OPERAND_SETTER [EL_DIR_PATH_ENVIRON_VARIABLE]}],
+				[{EL_FILE_PATH_ENVIRON_VARIABLE},	{EL_ENVIRON_VARIABLE_OPERAND_SETTER [EL_FILE_PATH_ENVIRON_VARIABLE]}]
+			>>)
 		end
 
 end

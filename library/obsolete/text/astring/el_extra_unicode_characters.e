@@ -7,7 +7,7 @@
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-02-24 11:42:38 GMT (Tuesday 24th February 2015)"
 	revision: "1"

@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_DIR_PATH_OPERAND_SETTER}."
+	description: "Sets a `EL_DIR_PATH' operand in `make' routine argument tuple"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-15 14:54:32 GMT (Tuesday 15th August 2017)"
-	revision: "2"
+	date: "2017-10-14 12:00:07 GMT (Saturday 14th October 2017)"
+	revision: "3"
 
 class
 	EL_DIR_PATH_OPERAND_SETTER

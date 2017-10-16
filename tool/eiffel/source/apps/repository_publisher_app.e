@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:29:20 GMT (Thursday 29th June 2017)"
-	revision: "5"
+	date: "2017-10-15 14:50:33 GMT (Sunday 15th October 2017)"
+	revision: "7"
 
 class
 	REPOSITORY_PUBLISHER_APP
@@ -28,24 +28,18 @@ inherit
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [config_path: EL_FILE_PATH; version: STRING]
-		do
-			create Result
-			Result.config_path := ""
-			Result.version := ""
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				valid_required_argument ("config", "Path to publisher configuration file", << file_must_exist >>),
-				required_argument ("version", "Repository version number")
+				required_argument ("version", "Repository version number"),
+				optional_argument ("threads", "Number of threads to use for reading files")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", "", 0)
 		end
 
 feature {NONE} -- Constants

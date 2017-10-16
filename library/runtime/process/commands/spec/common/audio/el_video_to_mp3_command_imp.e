@@ -3,7 +3,6 @@ note
 		Implementation of `EL_VIDEO_TO_MP3_COMMAND_I' interface
 		Does AAC -> MP3 audio conversion
 	]"
-
 	notes: "[
 		Before 2015-10-21 was using piped command:
 		
@@ -16,10 +15,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-23 8:36:45 GMT (Thursday 23rd June 2016)"
-	revision: "1"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 class
 	EL_VIDEO_TO_MP3_COMMAND_IMP

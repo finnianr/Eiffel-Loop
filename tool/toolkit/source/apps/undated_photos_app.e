@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-25 12:27:16 GMT (Tuesday 25th July 2017)"
-	revision: "4"
+	date: "2017-10-15 12:01:23 GMT (Sunday 15th October 2017)"
+	revision: "5"
 
 class
 	UNDATED_PHOTOS_APP
@@ -37,29 +37,11 @@ feature -- Testing
 	test_scan (source_tree_path: EL_DIR_PATH)
 			--
 		do
-			create command.make (source_tree_path, source_tree_path.parent + default_operands.output_path)
+			create command.make (source_tree_path, source_tree_path.parent + "undated-photos.txt")
 			command.execute
 		end
 
 feature {NONE} -- Implementation
-
-	normal_initialize
-		do
-			Console.show ({UNDATED_PHOTOS})
-			Precursor
-		end
-
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [jpeg_tree_dir: EL_DIR_PATH; output_path: EL_FILE_PATH]
-		do
-			create Result
-			Result.jpeg_tree_dir := "."
-			Result.output_path := "undated-photos.txt"
-		end
 
 	argument_specs: ARRAY [like specs.item]
 		do
@@ -67,6 +49,17 @@ feature {NONE} -- Implementation
 				valid_required_argument ("source", "Source tree directory", << directory_must_exist >>),
 				required_argument ("output", "Output directory path")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make (".", "undated-photos.txt")
+		end
+
+	normal_initialize
+		do
+			Console.show ({UNDATED_PHOTOS})
+			Precursor
 		end
 
 feature {NONE} -- Constants

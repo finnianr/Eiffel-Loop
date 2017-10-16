@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-26 9:29:16 GMT (Saturday 26th August 2017)"
-	revision: "6"
+	date: "2017-10-15 11:42:31 GMT (Sunday 15th October 2017)"
+	revision: "7"
 
 class
 	THUNDERBIRD_WWW_EXPORTER_APP
@@ -38,21 +38,6 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [
-		account_name: ZSTRING; export_path, thunderbird_home_dir: EL_DIR_PATH
-	]
-		do
-			create Result
-			Result.account_name := "pop.eiffel-loop.com"
-			Result.export_path := ""
-			Result.thunderbird_home_dir := Directory.Home
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
@@ -60,6 +45,11 @@ feature {NONE} -- Implementation
 				required_argument ("output", "Output directory path"),
 				optional_argument ("thunderbird_home", "Location of .thunderbird")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("pop.eiffel-loop.com", "", Directory.Home)
 		end
 
 feature {NONE} -- Constants

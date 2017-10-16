@@ -3,7 +3,6 @@ note
 		Fixes an Eiffel object in memory so that it can be the target of callbacks from a
 		C routine. The garbage collector is prevented from moving it during collect cycles.
 	]"
-
 	instructions: "[
 		Use this class by making a call to the `new_callback' function in a descendant of class
 		[$source EL_C_CALLABLE].
@@ -14,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-21 17:24:31 GMT (Wednesday 21st June 2017)"
-	revision: "3"
+	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
+	revision: "4"
 
 deferred class
 	EL_CALLBACK_FIXER_I

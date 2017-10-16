@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_EIFFEL_SOURCE_MANIFEST_CLASS_RENAMER}."
+	description: "Summary description for {CLASS_RENAMER_COMMAND}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:34:36 GMT (Thursday 29th June 2017)"
-	revision: "4"
+	date: "2017-10-16 10:30:10 GMT (Monday 16th October 2017)"
+	revision: "5"
 
 class
 	CLASS_RENAMER_COMMAND
@@ -23,7 +23,7 @@ inherit
 	EL_MODULE_USER_INPUT
 
 create
-	make, default_create
+	make
 
 feature {EL_SUB_APPLICATION} -- Initialization
 

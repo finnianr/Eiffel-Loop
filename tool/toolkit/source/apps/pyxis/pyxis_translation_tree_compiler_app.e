@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:08:47 GMT (Thursday 29th June 2017)"
-	revision: "5"
+	date: "2017-10-15 11:46:28 GMT (Sunday 15th October 2017)"
+	revision: "6"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP
@@ -80,30 +80,23 @@ feature -- Testing
 
 feature {NONE} -- Implementation
 
-	normal_initialize
-		do
-			Console.show ({PYXIS_TRANSLATION_TREE_COMPILER})
-			Precursor
-		end
-
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [source_tree_dir, output_dir: EL_DIR_PATH]
-		do
-			create Result
-			Result.source_tree_dir := ""
-			Result.output_dir := ""
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				valid_required_argument ("source", "Source tree directory", << directory_must_exist >>),
 				required_argument ("output", "Output directory path")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", "")
+		end
+
+	normal_initialize
+		do
+			Console.show ({PYXIS_TRANSLATION_TREE_COMPILER})
+			Precursor
 		end
 
 feature {NONE} -- Constants

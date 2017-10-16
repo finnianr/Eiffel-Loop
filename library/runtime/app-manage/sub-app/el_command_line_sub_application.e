@@ -1,8 +1,9 @@
 note
 	description: "[
-		An object that maps command line arguments to an Eiffel make procedure for a target object (command).
-		The 'command' object is automically created and the make procedure specified by 'make_action'
-		is called to intialize it.
+		An object that maps command line arguments to the arguments for an Eiffel make procedure for a
+		target object conforming to `[$source EL_COMMAND]'. The `run' procedure simply executes the command.
+		The `command' object is automatically created and the make procedure specified by `default_make'
+		is applied to intialize it.
 	]"
 
 	author: "Finnian Reilly"
@@ -10,11 +11,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-06 11:27:22 GMT (Sunday 6th August 2017)"
-	revision: "6"
+	date: "2017-10-16 10:16:53 GMT (Monday 16th October 2017)"
+	revision: "9"
 
 deferred class
-	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND create default_create end]
+	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
 
 inherit
 	EL_SUB_APPLICATION
@@ -22,21 +23,20 @@ inherit
 			{EL_COMMAND_ARGUMENT} new_argument_error
 		end
 
-	EL_MODULE_EIFFEL
-
 	EL_COMMAND_CLIENT
-
-	EL_MODULE_OS
 
 feature {NONE} -- Initialization
 
 	initialize
 			--
+		local
+			l_default_make: PROCEDURE; procedure: EL_PROCEDURE
 		do
-			create command
-			set_operands
+			l_default_make := default_make
+			create procedure.make (l_default_make)
+			set_operands  (procedure.closed_operands)
 			if not has_argument_errors then
-				make_command
+				command := factory.instance_from_type ({C}, l_default_make)
 			end
 		end
 
@@ -50,14 +50,14 @@ feature -- Basic operations
 
 feature {NONE} -- Argument setting
 
-	set_operands
+	set_operands (a_operands: like operands)
 		do
-			operands := default_operands
+			operands := a_operands
 			create specs.make_from_array (argument_specs)
 			specs.do_all_with_index (agent {EL_COMMAND_ARGUMENT}.set_operand)
 		end
 
-feature {NONE} -- Factory
+feature {NONE} -- Implementation
 
 	optional_argument (word_option, help_description: ZSTRING): like specs.item
 		do
@@ -119,25 +119,19 @@ feature {NONE} -- Implementation
 			-- argument specifications
 		deferred
 		ensure
-			valid_specs_count: Result.count <= default_operands.count
+			valid_specs_count: Result.count <= operands.count
 		end
 
-	default_operands: TUPLE
-			-- default arguments for make action
+	default_make: PROCEDURE
+		-- make procedure with open target and default operands
 		deferred
+		ensure
+			closed_except_for_target: Result.open_count = 1 and not Result.is_target_closed
 		end
 
-	make_action: PROCEDURE
-		deferred
-		end
-
-	make_command
-		local
-			action: like make_action
+	factory: EL_OBJECT_FACTORY [C]
 		do
-			action := make_action
-			action.set_operands (operands)
-			action.apply
+			create Result
 		end
 
 feature {EL_COMMAND_ARGUMENT, EL_MAKE_OPERAND_SETTER} -- Internal attributes

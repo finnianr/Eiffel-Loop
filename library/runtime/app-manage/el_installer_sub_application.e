@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-06-28 13:30:35 GMT (Sunday 28th June 2015)"
-	revision: "1"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 deferred class
 	EL_INSTALLER_SUB_APPLICATION

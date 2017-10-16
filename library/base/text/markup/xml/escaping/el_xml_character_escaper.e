@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-12-14 15:21:26 GMT (Monday 14th December 2015)"
-	revision: "1"
+	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 class
 	EL_XML_CHARACTER_ESCAPER [S -> STRING_GENERAL create make end]

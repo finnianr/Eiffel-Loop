@@ -1,6 +1,5 @@
 note
 	description: "Expat API and associated classes modified to only have ISE base dependency"
-
 	library: "Gobo Eiffel XML Library"
 
 	author: "Finnian Reilly"
@@ -8,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 15:41:13 GMT (Monday 3rd October 2016)"
-	revision: "3"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "4"
 
 class EL_EXPAT_API
 

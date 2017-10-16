@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sets the command operands for the generic `command` in class `EL_COMMAND_LINE_SUB_APPLICATION`
+		Sets the command operands for the generic `command` in class `[$source EL_COMMAND_LINE_SUB_APPLICATION]`
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-09 11:46:54 GMT (Friday 9th June 2017)"
-	revision: "2"
+	date: "2017-10-16 10:12:35 GMT (Monday 16th October 2017)"
+	revision: "5"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_ARGS
 
 	EL_STRING_CONSTANTS
+
+	EL_MODULE_STRING_8
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
@@ -53,7 +55,7 @@ feature -- Basic operations
 						try_put_value (value (str.item), i)
 					else
 						app.argument_errors.extend (argument.new_error)
-						app.argument_errors.last.set_type_error ({like value})
+						app.argument_errors.last.set_type_error (type_description)
 					end
 				end
 			end
@@ -79,9 +81,15 @@ feature {NONE} -- Implementation
 		end
 
 	new_list (string_value: ZSTRING): EL_ZSTRING_LIST
+		local
+			separator: CHARACTER_32
 		do
 			if is_list then
-				create Result.make_with_separator (string_value, ',', True)
+				separator := ';'
+				if not string_value.has (separator) then
+					separator := ','
+				end
+				create Result.make_with_separator (string_value, separator, True)
 			else
 				create Result.make_from_array (<< string_value >>)
 			end
@@ -108,6 +116,29 @@ feature {NONE} -- Implementation
 				if is_valid.item.valid_operands ([a_value]) and then not is_valid.item (a_value) then
 					set_error (a_value, is_valid.key)
 				end
+			end
+		end
+
+	value_description: ZSTRING
+		local
+			type: TYPE [like value]
+			name: STRING
+		do
+			type := {like value}
+			name := type.name.as_lower
+			if name.starts_with ("el_") then
+				name.remove_head (3)
+			end
+			String_8.replace_character (name, '_', ' ')
+			Result := name
+		end
+
+	type_description: ZSTRING
+		do
+			Result := value_description
+			if is_list then
+				Result.prepend_string_general ("a list of ")
+				Result.append_character ('s')
 			end
 		end
 

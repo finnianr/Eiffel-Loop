@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:34:36 GMT (Thursday 29th June 2017)"
-	revision: "3"
+	date: "2017-10-16 10:30:03 GMT (Monday 16th October 2017)"
+	revision: "4"
 
 class
 	NOTE_EDITOR_COMMAND
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make, default_create
+	make
 
 feature {EL_SUB_APPLICATION} -- Initialization
 

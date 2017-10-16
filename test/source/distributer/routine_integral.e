@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {ROUTINE_DISTRIBUTION_TEST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-10-08 12:22:14 GMT (Sunday 8th October 2017)"
+	revision: "1"
 
 deferred class
 	ROUTINE_INTEGRAL [G]

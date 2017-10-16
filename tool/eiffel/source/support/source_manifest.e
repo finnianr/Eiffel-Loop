@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:34:55 GMT (Thursday 29th June 2017)"
-	revision: "3"
+	date: "2017-10-11 13:42:05 GMT (Wednesday 11th October 2017)"
+	revision: "4"
 
 class
 	SOURCE_MANIFEST
@@ -15,7 +15,7 @@ class
 inherit
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
-			make_default, building_action_table
+			make_default, make_from_file, building_action_table
 		end
 
 	EL_MODULE_LOG
@@ -32,6 +32,12 @@ feature {NONE} -- Initialization
 		do
 			create locations.make (10)
 			Precursor
+		end
+
+	make_from_file (a_file_path: EL_FILE_PATH)
+		do
+			parent_dir := a_file_path.parent
+			Precursor (a_file_path)
 		end
 
 feature -- Access
@@ -54,6 +60,8 @@ feature -- Access
 			end
 		end
 
+	locations: EL_ARRAYED_LIST [SOURCE_TREE]
+
 	sorted_file_list: like file_list
 		do
 			Result := file_list
@@ -65,16 +73,7 @@ feature -- Access
 			create Result.make_sorted (locations)
 		end
 
-	locations: EL_ARRAYED_LIST [SOURCE_TREE]
-
 feature {NONE} -- Build from Pyxis
-
-	extend_locations
-			--
-		do
-			locations.extend (create {SOURCE_TREE}.make_default)
-			set_next_context (locations.last)
-		end
 
 	building_action_table: EL_PROCEDURE_TABLE
 			-- Nodes relative to root element: bix
@@ -83,6 +82,19 @@ feature {NONE} -- Build from Pyxis
 				["location", agent extend_locations]
 			>>)
 		end
+
+	extend_locations
+			--
+		do
+			locations.extend (create {SOURCE_TREE}.make (parent_dir))
+			set_next_context (locations.last)
+		end
+
+feature {NONE} -- Internal attributes
+
+	parent_dir: EL_DIR_PATH
+
+feature {NONE} -- Constants
 
 	Root_node_name: STRING = "manifest"
 

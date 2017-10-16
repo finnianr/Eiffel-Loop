@@ -1,6 +1,5 @@
 note
 	description: "Benchmark using pure Latin encodable string data"
-
 	notes: "[
 		Abandoned work on this benchmark after discovering major bug in {UC_UTF8_STRING}.replace_substring_all
 		See: TEST_UC_UTF8_STRING
@@ -9,10 +8,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-17 12:59:04 GMT (Thursday 17th March 2016)"
-	revision: "1"
+	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 class
 	UC_UTF8_STRING_BENCHMARK

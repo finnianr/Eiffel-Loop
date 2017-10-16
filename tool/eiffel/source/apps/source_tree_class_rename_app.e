@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:20:26 GMT (Thursday 29th June 2017)"
-	revision: "6"
+	date: "2017-10-15 11:29:45 GMT (Sunday 15th October 2017)"
+	revision: "7"
 
 class
 	SOURCE_TREE_CLASS_RENAME_APP
@@ -48,19 +48,6 @@ feature -- Testing
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [source_manifest_path: EL_FILE_PATH; old_class_name, new_class_name: STRING]
-		do
-			create Result
-			Result.source_manifest_path := ""
-			Result.old_class_name := ""
-			Result.new_class_name := ""
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
@@ -68,6 +55,11 @@ feature {NONE} -- Implementation
 				optional_argument ("old", "Old class name"),
 				optional_argument ("new", "New class name")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", "", "")
 		end
 
 feature {NONE} -- Constants

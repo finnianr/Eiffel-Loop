@@ -1,13 +1,14 @@
 note
 	description: "[
-		
 		8-bit PCM data contained in WAV files is usually stored as
 		unsigned numbers, whereas the LM4549 codec (and most 16-bit WAV files) work with signed
-		quantities. Attempting to play unsigned samples directly will produce a horribly distorted
+		quantities.
+	]"
+	notes: "[
+		Attempting to play unsigned samples directly will produce a horribly distorted
 		waveform. Thus, when playing unsigned sample data, an offset which corresponds to the mid-point 
 		value must be deducted from each sample value. For 8-bit unsigned values, this offset is 0x7F
-		
-		NOTES: not tested but should work
+		not tested but should work
 	]"
 
 	author: "Finnian Reilly"

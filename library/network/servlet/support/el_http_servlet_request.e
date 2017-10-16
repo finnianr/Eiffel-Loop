@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {EL_HTTP_SERVLET_REQUEST}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-26 10:09:04 GMT (Friday 26th August 2016)"
-	revision: "2"
+	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
+	revision: "3"
 
 class
 	EL_HTTP_SERVLET_REQUEST

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-01-02 10:18:24 GMT (Saturday 2nd January 2016)"
-	revision: "1"
+	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 deferred class
 	EL_STORABLE_CHAIN_EDITIONS [G -> EL_STORABLE create make_default end]

@@ -1,15 +1,13 @@
 note
 	description: "HTML page for Eiffel repository"
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:29:20 GMT (Thursday 29th June 2017)"
-	revision: "2"
+	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
+	revision: "3"
 
 deferred class
 	REPOSITORY_HTML_PAGE

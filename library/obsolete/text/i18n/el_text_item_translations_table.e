@@ -3,7 +3,7 @@ note
 		Translation table for text item serializeable as XML
 		
 		EG.
-	
+
 			<item id="Delete current database">
 				<translation lang="en">$id</translation>
 				<translation lang="de">Löschen aktuellen Datenbank</translation>
@@ -13,7 +13,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-04 17:44:43 GMT (Friday 4th March 2016)"
 	revision: "1"

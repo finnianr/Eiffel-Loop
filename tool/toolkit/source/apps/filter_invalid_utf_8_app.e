@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-03 16:27:35 GMT (Sunday 3rd September 2017)"
-	revision: "1"
+	date: "2017-10-15 11:39:39 GMT (Sunday 15th October 2017)"
+	revision: "2"
 
 class
 	FILTER_INVALID_UTF_8_APP
@@ -23,22 +23,16 @@ create
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [source_path: EL_FILE_PATH]
-		do
-			create Result
-			Result.source_path := ""
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				valid_required_argument ("in", "Input file path", << file_must_exist >>)
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("")
 		end
 
 feature {NONE} -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 18:17:55 GMT (Sunday 21st May 2017)"
-	revision: "3"
+	date: "2017-10-16 10:41:25 GMT (Monday 16th October 2017)"
+	revision: "4"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -33,7 +33,7 @@ inherit
 	EL_STRING_CONSTANTS
 
 create
-	default_create
+	make_shell
 
 feature -- Basic operations
 

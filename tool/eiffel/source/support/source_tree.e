@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:34:55 GMT (Thursday 29th June 2017)"
-	revision: "3"
+	date: "2017-10-13 9:51:50 GMT (Friday 13th October 2017)"
+	revision: "5"
 
 class
 	SOURCE_TREE
@@ -30,9 +30,15 @@ inherit
 	COMPARABLE
 
 create
-	make_default
+	make
 
 feature {NONE} -- Initialization
+
+	make (a_dir_path: like dir_path)
+		do
+			make_default
+			dir_path := a_dir_path
+		end
 
 	make_default
 			--
@@ -45,9 +51,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	name: ZSTRING
-
 	dir_path: EL_DIR_PATH
+
+	name: ZSTRING
 
 	path_list: EL_FILE_PATH_LIST
 		do
@@ -81,11 +87,30 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Build from Pyxis
 
+	set_dir_path_from_node
+		local
+			l_path: EL_DIR_PATH
+		do
+			l_path := node.to_expanded_dir_path
+			if l_path.is_absolute then
+				dir_path := l_path
+			else
+				dir_path := dir_path.joined_dir_path (l_path)
+			end
+		end
+
 	building_action_table: EL_PROCEDURE_TABLE
 		do
 			create Result.make (<<
 				["@name", agent do name := node.to_string end],
-				["text()", agent do dir_path := node.to_expanded_dir_path end]
+				[Xpath_dir_path, agent set_dir_path_from_node]
 			>>)
+		end
+
+feature {NONE} -- Constants
+
+	Xpath_dir_path: STRING
+		once
+			Result := "text()"
 		end
 end

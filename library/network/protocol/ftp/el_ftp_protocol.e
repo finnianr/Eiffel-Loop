@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-13 15:15:02 GMT (Tuesday 13th June 2017)"
-	revision: "3"
+	date: "2017-10-10 10:56:00 GMT (Tuesday 10th October 2017)"
+	revision: "4"
 
 class
 	EL_FTP_PROTOCOL
@@ -201,7 +201,6 @@ feature -- Basic operations
 			initiate_transfer
 			if transfer_initiated then
 				transfer_file_data (item.source_path)
-				progress_listener.on_notify (File_system.file_byte_count (item.source_path))
 				transfer_initiated := false
 			else
 				lio.put_line ("Could not initiate transfer")
@@ -380,6 +379,7 @@ feature {NONE} -- Implementation
 						packet.data.resize (bytes_read)
 					end
 					data_socket.write (packet)
+					progress_listener.on_notify (packet.count)
 				end
 			end
 			data_socket.close

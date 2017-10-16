@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-14 16:14:37 GMT (Friday 14th April 2017)"
-	revision: "2"
+	date: "2017-10-16 10:43:12 GMT (Monday 16th October 2017)"
+	revision: "3"
 
 class
 	EL_PAYPAL_COMMAND_SHELL
@@ -21,7 +21,7 @@ inherit
 	EL_MODULE_DIRECTORY
 
 create
-	default_create
+	make
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 

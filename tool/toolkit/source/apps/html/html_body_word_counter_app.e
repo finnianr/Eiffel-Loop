@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:07:36 GMT (Thursday 29th June 2017)"
-	revision: "5"
+	date: "2017-10-15 11:52:19 GMT (Sunday 15th October 2017)"
+	revision: "6"
 
 class
 	HTML_BODY_WORD_COUNTER_APP
@@ -42,22 +42,16 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [path: EL_DIR_PATH]
-		do
-			create Result
-			Result.path := Directory.Current_working
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				required_argument ("path", "Directory path")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make (Directory.Current_working)
 		end
 
 feature {NONE} -- Constants

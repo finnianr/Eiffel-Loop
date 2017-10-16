@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-04-25 10:06:13 GMT (Saturday 25th April 2015)"
-	revision: "1"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 class
 	EL_TIMED_PROCEDURE_MAIN_THREAD [BASE_TYPE, OPEN_ARGS -> TUPLE create default_create end]

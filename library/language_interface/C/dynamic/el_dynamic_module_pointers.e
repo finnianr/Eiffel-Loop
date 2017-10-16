@@ -4,7 +4,6 @@ note
 		This class automates the process of assigning shared object (DLL) API function pointers to
 		pointer attributes.
 	]"
-
 	instructions: "[
 		To use this class, define a descendant and define a pointer attribute for each API function.
 		The attibute must be named to match the API name with any common prefix stripped from the beginning.
@@ -33,8 +32,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-24 15:45:38 GMT (Tuesday 24th January 2017)"
-	revision: "3"
+	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
+	revision: "4"
 
 class
 	EL_DYNAMIC_MODULE_POINTERS

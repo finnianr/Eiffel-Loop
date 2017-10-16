@@ -1,6 +1,5 @@
 note
 	description: "Windows implementation of `EL_DESKTOP_APPLICATION_INSTALLER_I' interface"
-
 	notes: "[
 		In Windows 2000, Windows XP, and Windows Server 2003, the folder is located in %userprofile%\Start Menu for individual users, 
 		or %allusersprofile%\Start Menu for all users collectively.
@@ -15,10 +14,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-06-24 10:59:57 GMT (Friday 24th June 2016)"
-	revision: "1"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 class
 	EL_DESKTOP_APPLICATION_INSTALLER_IMP

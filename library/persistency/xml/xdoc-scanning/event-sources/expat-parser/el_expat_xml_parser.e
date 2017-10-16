@@ -1,6 +1,5 @@
 note
 	description: "Wrapper for eXpat XML parser."
-
 	notes: "[
 		One pitfall that novice expat users are likely to fall into is that although expat may accept input
 		in various encodings, the strings that it passes to the handlers are always encoded in UTF-8.
@@ -12,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-04 9:52:14 GMT (Monday 4th September 2017)"
-	revision: "5"
+	date: "2017-10-12 9:20:28 GMT (Thursday 12th October 2017)"
+	revision: "6"
 
 class
 	EL_EXPAT_XML_PARSER

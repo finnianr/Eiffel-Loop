@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-01 17:58:14 GMT (Friday 1st September 2017)"
-	revision: "6"
+	date: "2017-10-15 11:45:03 GMT (Sunday 15th October 2017)"
+	revision: "7"
 
 class
 	THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP
@@ -69,23 +69,6 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [
-		account_name: ZSTRING; export_path, thunderbird_home_dir: EL_DIR_PATH
-		is_xhtml: BOOLEAN; included_folders: EL_ZSTRING_LIST
-	]
-		do
-			create Result
-			Result.account_name := ""
-			Result.export_path := ""
-			Result.thunderbird_home_dir := Directory.Home
-			Result.included_folders := create {EL_ZSTRING_LIST}.make (7)
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
@@ -95,6 +78,11 @@ feature {NONE} -- Implementation
 				optional_argument ("as_xhtml", "Export as xhtml"),
 				optional_argument ("folders", "Folders to include")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", "", Directory.Home, False, create {EL_ZSTRING_LIST}.make (7))
 		end
 
 feature {NONE} -- Constants

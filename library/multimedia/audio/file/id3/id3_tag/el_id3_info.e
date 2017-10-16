@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {EL_ID3_TAG}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 7:54:02 GMT (Monday 22nd May 2017)"
-	revision: "2"
+	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
+	revision: "3"
 
 class
 	EL_ID3_INFO

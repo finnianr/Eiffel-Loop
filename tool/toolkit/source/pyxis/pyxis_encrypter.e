@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-23 11:18:18 GMT (Saturday 23rd July 2016)"
-	revision: "1"
+	date: "2017-10-16 10:33:09 GMT (Monday 16th October 2017)"
+	revision: "3"
 
 class
 	PYXIS_ENCRYPTER
@@ -18,7 +18,7 @@ inherit
 	EL_MODULE_LOG
 
 create
-	make, default_create
+	make
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 

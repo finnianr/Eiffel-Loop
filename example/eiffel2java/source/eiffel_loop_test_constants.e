@@ -1,15 +1,13 @@
 note
 	description: "Summary description for {EL_TEST_CONSTANTS}."
 
-	
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-14 8:17:08 GMT (Wednesday 14th June 2017)"
-	revision: "2"
+	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
+	revision: "3"
 
 class
 	EIFFEL_LOOP_TEST_CONSTANTS

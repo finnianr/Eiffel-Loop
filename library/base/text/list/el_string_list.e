@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-04 12:28:22 GMT (Monday 4th July 2016)"
-	revision: "1"
+	date: "2017-10-11 12:43:53 GMT (Wednesday 11th October 2017)"
+	revision: "2"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -33,7 +33,7 @@ inherit
 		export
 			{NONE} array_subchain
 		redefine
-			make_empty, make_from_array
+			make, make_from_array
 		end
 
 create
@@ -44,9 +44,9 @@ convert
 
 feature {NONE} -- Initialization
 
-	make_empty
+	make (n: INTEGER)
 		do
-			Precursor; compare_objects
+			Precursor (n); compare_objects
 		end
 
 	make_from_array (array: ARRAY [S])

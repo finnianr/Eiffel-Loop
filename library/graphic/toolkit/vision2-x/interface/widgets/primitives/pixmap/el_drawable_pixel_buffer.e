@@ -3,7 +3,6 @@ note
 		Pixel buffer drawing using the [https://cairographics.org/ Cairo] and [http://www.pango.org/ Pangocairo]
 		graphics libraries.
 	]"
-
 	instructions: "[
 		When using 24 rgb format, make sure to lock pixmap before doing drawing operations
 		and unlocking before calling to_pixmap.
@@ -22,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-08 9:20:16 GMT (Saturday 8th October 2016)"
-	revision: "2"
+	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
+	revision: "3"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER

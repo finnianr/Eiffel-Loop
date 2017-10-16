@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2015-01-01 14:17:57 GMT (Thursday 1st January 2015)"
-	revision: "1"
+	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 deferred class
 	EL_XML_ELEMENT_EDITION [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT]

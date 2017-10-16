@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:08:38 GMT (Thursday 29th June 2017)"
-	revision: "8"
+	date: "2017-10-15 11:48:46 GMT (Sunday 15th October 2017)"
+	revision: "9"
 
 class
 	PYXIS_TO_XML_APP
@@ -71,24 +71,17 @@ feature -- Testing
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [source_path, output_path: EL_FILE_PATH]
-		do
-			create Result
-			Result.source_path := ""
-			Result.output_path := ""
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				valid_required_argument ("in", "Input file path", << file_must_exist >>),
 				optional_argument ("out", "Output file path")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", "")
 		end
 
 feature {NONE} -- Constants

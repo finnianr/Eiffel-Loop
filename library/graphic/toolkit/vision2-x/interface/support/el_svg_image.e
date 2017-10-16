@@ -1,6 +1,5 @@
 note
 	description: "Class for converting SVG into different formats"
-
 	notes: "[
 		Not 100% reliable on Windows for rendering SVG.
 		For some reason the installed finalized version of My Ching would crash during graphic
@@ -13,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-04 7:48:49 GMT (Tuesday 4th October 2016)"
-	revision: "2"
+	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
+	revision: "3"
 
 class
 	EL_SVG_IMAGE

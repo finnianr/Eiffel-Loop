@@ -2,15 +2,32 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-15"
 
 manifest:
+	# examples
 	location:
-		"$EIFFEL_LOOP/library"
-		"$EIFFEL_LOOP/example/eiffel2java/source"
-		"$EIFFEL_LOOP/example/graphical/source"
-		"$EIFFEL_LOOP/example/manage-mp3/source"
-		"$EIFFEL_LOOP/example/net/eros-server/source"
-		"$EIFFEL_LOOP/example/net/eros-test-clients/source"
-		"$EIFFEL_LOOP/example/net/source-common"
-		"$EIFFEL_LOOP/test/source"
-		"$EIFFEL_LOOP/tool/eiffel/source"
-		"$EIFFEL_LOOP/tool/toolkit/source"
+		"example/eiffel2java/source"
+		"example/graphical/source"
+		"example/manage-mp3/source"
+		"example/net/eros-server/source"
+		"example/net/eros-test-clients/source"
+		"example/net/source-common"
+		"test/source"
+
+	# tools
+	location:
+		"tool/eiffel/source"
+		"tool/toolkit/source"
+
+	# libraries
+	location:
+		"library/base"
+		"library/build"
+		"library/graphic"
+		"library/language_interface"
+		"library/multimedia"
+		"library/network"
+		"library/persistency"
+		"library/runtime"
+		"library/testing"
+		"library/text"
+		"library/utility"
 

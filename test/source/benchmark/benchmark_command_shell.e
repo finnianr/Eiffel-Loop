@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 14:46:17 GMT (Thursday 25th May 2017)"
-	revision: "2"
+	date: "2017-10-16 10:37:25 GMT (Monday 16th October 2017)"
+	revision: "3"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	default_create, make
+	make
 
 feature -- Benchmarks
 

@@ -4,10 +4,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-01 9:24:43 GMT (Friday 1st July 2016)"
-	revision: "1"
+	date: "2017-10-16 10:35:49 GMT (Monday 16th October 2017)"
+	revision: "3"
 
 class
 	MP3_AUDIO_SIGNATURE_READER
@@ -19,7 +19,7 @@ inherit
 	EL_MODULE_OS
 
 create
-	default_create, make
+	make
 
 feature {EL_SUB_APPLICATION} -- Initialization
 

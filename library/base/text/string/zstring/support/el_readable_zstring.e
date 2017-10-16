@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-18 20:52:02 GMT (Friday 18th August 2017)"
-	revision: "10"
+	date: "2017-10-11 12:59:13 GMT (Wednesday 11th October 2017)"
+	revision: "11"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -836,7 +836,7 @@ feature -- Status query
 			Result := True
 		end
 
-	starts_with (str: EL_READABLE_ZSTRING): BOOLEAN
+	starts_with (str: like Current): BOOLEAN
 		do
 			Result := internal_starts_with (str)
 			if Result and then str.has_mixed_encoding then

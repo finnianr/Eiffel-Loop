@@ -1,6 +1,5 @@
 note
 	description: "SSL constants implemented in libcurl Unix but not in Windows"
-		
 	notes: "[
 		Windows is fixed on libcurl version 7.17.0 whereas Unix is based on the OS distribution libcurl version.
 		
@@ -12,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-12 12:26:28 GMT (Wednesday 12th April 2017)"
-	revision: "1"
+	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 class
 	EL_CURL_PLATFORM_SSL_CONSTANTS

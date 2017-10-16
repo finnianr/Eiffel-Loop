@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:08:34 GMT (Thursday 29th June 2017)"
-	revision: "6"
+	date: "2017-10-15 11:50:58 GMT (Sunday 15th October 2017)"
+	revision: "7"
 
 class
 	PYXIS_ENCRYPTER_APP
@@ -107,16 +107,9 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_operands: TUPLE [source_path, output_path: EL_FILE_PATH]
+	default_make: PROCEDURE
 		do
-			create Result
-			Result.source_path := ""
-			Result.output_path := ""
-		end
-
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent pyxis_encrypter.make (?, ?, aes_encrypter)
+			Result := agent {like pyxis_encrypter}.make ("", "", aes_encrypter)
 		end
 
 feature {NONE} -- Internal attributes

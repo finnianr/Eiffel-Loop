@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-21 11:10:34 GMT (Monday 21st August 2017)"
-	revision: "7"
+	date: "2017-10-15 11:39:58 GMT (Sunday 15th October 2017)"
+	revision: "8"
 
 class
 	LOCALIZATION_COMMAND_SHELL_APP
@@ -37,22 +37,16 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [source_path: EL_DIR_PATH]
-		do
-			create Result
-			Result.source_path := ""
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				valid_required_argument ("source", "Localization directory tree path", << directory_must_exist >>)
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("")
 		end
 
 feature {NONE} -- Constants

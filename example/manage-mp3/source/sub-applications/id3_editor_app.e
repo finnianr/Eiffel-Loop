@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:39:23 GMT (Thursday 29th June 2017)"
-	revision: "6"
+	date: "2017-10-15 11:39:04 GMT (Sunday 15th October 2017)"
+	revision: "7"
 
 class
 	ID3_EDITOR_APP
@@ -50,24 +50,17 @@ feature -- Testing
 
 feature {NONE} -- Implementation
 
-	make_action: PROCEDURE [like default_operands]
-		do
-			Result := agent command.make
-		end
-
-	default_operands: TUPLE [a_media_dir: EL_DIR_PATH; edition_name: ZSTRING]
-		do
-			create Result
-			Result.a_media_dir := ""
-			Result.edition_name := "default"
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
 				valid_required_argument ("mp3_dir", "Path to root directory of MP3 files",  << directory_must_exist >>),
 				required_argument ("task", "Edition task name")
 			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make ("", "default")
 		end
 
 feature {NONE} -- Constants

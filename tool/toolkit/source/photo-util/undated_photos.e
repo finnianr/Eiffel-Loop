@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-25 12:36:47 GMT (Tuesday 25th July 2017)"
-	revision: "4"
+	date: "2017-10-16 10:32:28 GMT (Monday 16th October 2017)"
+	revision: "5"
 
 class
 	UNDATED_PHOTOS
@@ -28,7 +28,7 @@ inherit
 	EL_MODULE_LOG
 
 create
-	make, default_create
+	make
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 

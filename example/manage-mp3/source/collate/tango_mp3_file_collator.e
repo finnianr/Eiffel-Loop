@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 11:56:47 GMT (Wednesday 28th September 2016)"
-	revision: "2"
+	date: "2017-10-16 10:35:35 GMT (Monday 16th October 2017)"
+	revision: "3"
 
 class
 	TANGO_MP3_FILE_COLLATOR
@@ -24,7 +24,7 @@ inherit
 	EL_MODULE_USER_INPUT
 
 create
-	make, default_create
+	make
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 

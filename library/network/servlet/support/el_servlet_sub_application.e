@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-29 23:24:52 GMT (Monday 29th May 2017)"
-	revision: "2"
+	date: "2017-10-16 10:43:58 GMT (Monday 16th October 2017)"
+	revision: "4"
 
 deferred class
-	EL_SERVLET_SUB_APPLICATION [S -> EL_FAST_CGI_SERVLET_SERVICE create default_create end]
+	EL_SERVLET_SUB_APPLICATION [S -> EL_FAST_CGI_SERVLET_SERVICE]
 
 inherit
 	EL_COMMAND_LINE_SUB_APPLICATION [S]
@@ -30,11 +30,9 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_operands: TUPLE [config_dir: EL_DIR_PATH; config_name: ZSTRING]
+	default_make: PROCEDURE
 		do
-			create Result
-			Result.config_dir := Directory.user_configuration.joined_dir_path (new_option_name)
-			Result.config_name := "config"
+			Result := agent {EL_FAST_CGI_SERVLET_SERVICE}.make (Default_config_dir, Default_config_name)
 		end
 
 	on_operating_system_signal
@@ -44,6 +42,16 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Default_config_dir: EL_DIR_PATH
+		once
+			Result := Directory.user_configuration.joined_dir_path (new_option_name)
+		end
+
+	Default_config_name: ZSTRING
+		once
+			Result := "config"
+		end
 
 	Serve_fast_cgi: STRING = "serve_fast_cgi"
 end

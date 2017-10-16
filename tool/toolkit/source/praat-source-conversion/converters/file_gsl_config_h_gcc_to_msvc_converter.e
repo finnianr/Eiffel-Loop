@@ -8,7 +8,7 @@ note
 			#else
 				#undef HAVE_ISNAN
 			#endif
-	
+
 		WITH:
 			/* Define if you have the isnan function.  */
 			#if defined (_MSC_VER) // MS Visual C++
@@ -23,10 +23,10 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-03-04 14:09:56 GMT (Friday 4th March 2016)"
-	revision: "1"
+	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
+	revision: "2"
 
 class
 	FILE_GSL_CONFIG_H_GCC_TO_MSVC_CONVERTER

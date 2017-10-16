@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-17 20:36:09 GMT (Monday 17th July 2017)"
-	revision: "6"
+	date: "2017-10-16 10:35:42 GMT (Monday 16th October 2017)"
+	revision: "7"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER
@@ -34,7 +34,7 @@ inherit
 	TASK_CONSTANTS
 
 create
-	make, default_create
+	make
 
 feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
 
