@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-13 17:58:13 GMT (Sunday 13th August 2017)"
-	revision: "5"
+	date: "2017-10-26 9:12:18 GMT (Thursday 26th October 2017)"
+	revision: "6"
 
 class
 	EL_ZSTRING
@@ -21,7 +21,7 @@ inherit
 			append_boolean, append_character, append_double,
 			append_integer_8, append_integer, append_integer_16, append_integer_64,
 			append_natural_8, append_natural_16, append_natural_32, append_natural_64, append_real,
-			append_unicode, append_string, append, append_string_general, append_substring, append_tuple_item,
+			append_unicode, append_string, append, append_string_general, append_substring, append_tuple_item, append_utf_8,
 			extend, enclose, fill_character,
 			precede, prepend_character, put_unicode, quote,
 			translate, translate_general,
@@ -119,7 +119,7 @@ feature -- Basic operations
 			create split_list.make (Current, delimiter)
 			split_list.do_all (action)
 		end
-		
+
 feature -- Status query
 
 	Changeable_comparison_criterion: BOOLEAN = False

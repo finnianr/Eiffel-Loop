@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-14 12:57:58 GMT (Sunday 14th May 2017)"
-	revision: "3"
+	date: "2017-10-18 10:51:52 GMT (Wednesday 18th October 2017)"
+	revision: "4"
 
 class
 	TEST_MUSIC_MANAGER
@@ -27,7 +27,7 @@ inherit
 create
 	make
 
-feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
+feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_config: like config)
 		do

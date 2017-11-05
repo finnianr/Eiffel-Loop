@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:34:54 GMT (Thursday 25th May 2017)"
-	revision: "3"
+	date: "2017-10-25 13:24:30 GMT (Wednesday 25th October 2017)"
+	revision: "4"
 
 class
 	EL_HTTP_HASH_TABLE
@@ -26,9 +26,14 @@ inherit
 		end
 
 create
-	make_equal, make_from_url_query
+	make_equal, make_from_url_query, make_default
 
 feature {NONE} -- Initialization
+
+	make_default
+		do
+			make_equal (0)
+		end
 
 	make_from_url_query (query: STRING)
 		local

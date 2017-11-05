@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-16 10:18:45 GMT (Monday 16th October 2017)"
-	revision: "7"
+	date: "2017-10-18 10:52:28 GMT (Wednesday 18th October 2017)"
+	revision: "8"
 
 class
 	REPOSITORY_PUBLISHER
@@ -35,7 +35,7 @@ inherit
 create
 	make
 
-feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
+feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_file_path: EL_FILE_PATH; a_version: STRING; a_thread_count: INTEGER)
 		do

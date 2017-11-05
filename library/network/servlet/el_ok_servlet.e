@@ -1,17 +1,13 @@
 note
-	description: "[
-		Servlet that returns `OK' as a response. Useful for closing down a background servlet by
-		first calling `{EL_FAST_CGI_SERVLET_SERVICE}.set_end_application' and then invoking this 
-		servlet using CURL.
-	]"
+	description: "Servlet that returns `OK' as a response."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-10-30 12:44:10 GMT (Monday 30th October 2017)"
+	revision: "3"
 
 class
 	EL_OK_SERVLET

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-16 10:28:11 GMT (Monday 16th October 2017)"
-	revision: "2"
+	date: "2017-10-18 10:52:34 GMT (Wednesday 18th October 2017)"
+	revision: "3"
 
 class
 	XML_TO_PYXIS_CONVERTER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_XML_TO_PYXIS_CONVERTER
 		export
-			{EL_COMMAND_LINE_SUB_APPLICATION} make
+			{EL_COMMAND_CLIENT} make
 		undefine
 			new_lio
 		redefine

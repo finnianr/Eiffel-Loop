@@ -6,20 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-16 8:57:31 GMT (Sunday 16th April 2017)"
-	revision: "3"
+	date: "2017-11-03 10:06:16 GMT (Friday 3rd November 2017)"
+	revision: "4"
 
 deferred class
-	EL_HTTP_SERVLET
+	FCGI_HTTP_SERVLET
 
 inherit
-	GOA_HTTP_SERVLET
-		export
-			{ANY} generator
-		redefine
-			servlet_config
-		end
-
 	EL_MODULE_LOG
 		export
 			{NONE} all
@@ -32,7 +25,6 @@ feature {NONE} -- Initialization
 	make (a_servlet_config: like servlet_config)
 		do
 			servlet_config := a_servlet_config
-			servlet_info := ""
 		end
 
 feature -- Access
@@ -42,15 +34,34 @@ feature -- Access
 			Result := Default_date
 		end
 
+	servlet_info: STRING
+			-- Information about the servlet, such as, author, version and copyright.
+		do
+			Result := generator
+		end
+
 feature -- Basic operations
 
-	serve_fast_cgi (fast_cgi_request: EL_FAST_CGI_REQUEST)
+	log_write_error (the_response: FCGI_SERVLET_RESPONSE)
+			-- Called if there was a problem sending response to the client
+			-- May be redefined by descendents
+		do
+			-- Nothing by default
+		end
+
+	log_service_error
+			-- Called if service routine generates an exception; may be redefined by descendents
+		do
+			-- Nothing by default
+		end
+
+	serve_fast_cgi (fcgi_request: FCGI_REQUEST)
 		local
 			request: like new_request; response: like new_response
 			message: STRING
 		do
 			log.enter_no_header (once "serve_fast_cgi")
-			response := new_response (fast_cgi_request); request := new_request (fast_cgi_request, response)
+			response := new_response (fcgi_request); request := new_request (response)
 			serve (request, response)
 			if is_caching_disabled then
 				response.set_header (once "Cache-Control", once "no-cache, no-store, must-revalidate"); -- HTTP 1.1.
@@ -71,7 +82,7 @@ feature -- Basic operations
 				log.put_integer_field (message, response.content_length)
 				log.put_new_line
 
-				fast_cgi_request.set_end_request_action (agent on_serve_done (request))
+				fcgi_request.set_end_request_listener (request)
 			else
 				log_write_error (response)
 			end
@@ -90,20 +101,20 @@ feature -- Status query
 
 feature {NONE} -- Factory
 
-	new_request (fast_cgi_request: EL_FAST_CGI_REQUEST; response: like new_response): EL_HTTP_SERVLET_REQUEST
+	new_request (response: like new_response): FCGI_SERVLET_REQUEST
 		do
-			create Result.make (fast_cgi_request, response)
+			create Result.make (Current, response)
 		end
 
-	new_response (fast_cgi_request: EL_FAST_CGI_REQUEST): EL_HTTP_SERVLET_RESPONSE
+	new_response (fcgi_request: FCGI_REQUEST): FCGI_SERVLET_RESPONSE
 		do
-			create Result.make (fast_cgi_request)
+			create Result.make (fcgi_request)
 		end
 
-feature {NONE} -- Event handling
+feature {FCGI_SERVLET_REQUEST} -- Event handling
 
 	on_serve_done (request: like new_request)
-			-- called on successful write of servlet response. See {EL_FAST_CGI_REQUEST}.end_request
+			-- called on successful write of servlet response. See {FCGI_REQUEST}.end_request
 		do
 		end
 

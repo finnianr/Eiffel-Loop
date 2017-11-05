@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
-	revision: "3"
+	date: "2017-10-18 10:52:47 GMT (Wednesday 18th October 2017)"
+	revision: "4"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_LOG
 
-feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
+feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make_default
 		do

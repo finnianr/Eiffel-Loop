@@ -6,18 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 8:04:28 GMT (Monday 22nd May 2017)"
-	revision: "3"
+	date: "2017-10-30 20:12:19 GMT (Monday 30th October 2017)"
+	revision: "4"
 
 class
 	EL_SERVLET_SERVICE_CONFIG
 
 inherit
-	GOA_SERVLET_CONFIG
-		rename
-			document_root as document_root_utf8
-		end
-
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
 			make_default, make_from_file, building_action_table
@@ -36,7 +31,6 @@ feature {NONE} -- Initialization
 			--
 		do
 			create document_root_dir
-			create document_root_utf8.make_empty
 			create error_messages.make_empty
 			server_port := Default_port
 			phrase := new_pass_phrase
@@ -60,6 +54,9 @@ feature -- Access
 	error_messages: EL_ZSTRING_LIST
 
 	phrase: like new_pass_phrase
+
+	server_port: INTEGER
+			-- Port server is listening on
 
 feature -- Status query
 
@@ -87,7 +84,6 @@ feature {NONE} -- Implementation
 	set_document_root_dir (a_document_root_dir: like document_root_dir)
 		do
 			document_root_dir := a_document_root_dir
-			document_root_utf8 := document_root_dir.to_string.to_utf_8
 		end
 
 	new_pass_phrase: EL_BUILDABLE_PASS_PHRASE

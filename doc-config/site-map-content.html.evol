@@ -11,7 +11,7 @@
 	Total size: <b>$stats.mega_bytes mb</b>.
 </p>
 <p><b>Contact:</b> please address questions and comments to <em id="code">finnian <i>at</i> eiffel <i>hyphen</i> loop <i>dot</i> com</em></p>
-<p><b>Published:</b> This website was published using the <a target="_blank" href="./tool/toolkit/source/applications/eiffel-dev/eiffel_repository_publisher_app.html">Eiffel-View repository publisher</a></p>
+<p><b>Published:</b> This website was published using the <a target="_blank" href="./tool/eiffel/source/apps/repository_publisher_app.html">Eiffel-View repository publisher</a></p>
 <p><small>* Code words include keywords, identifier words and quoted strings, but exclude comments and indexing notes.</small></p>
 
 #across $category_list as $category loop

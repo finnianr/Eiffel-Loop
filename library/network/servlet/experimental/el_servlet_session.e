@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-17 16:20:36 GMT (Thursday 17th November 2016)"
-	revision: "2"
+	date: "2017-10-30 12:42:25 GMT (Monday 30th October 2017)"
+	revision: "3"
 
 deferred class
-	EL_SERVLET_SESSION [G -> EL_SERVLET_CONFIG]
+	EL_SERVLET_SESSION [G -> EL_SERVLET_SERVICE_CONFIG]
 
 inherit
 	EL_MODULE_LOG
+
+	EL_HTTP_CONTENT_TYPE_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -38,19 +40,20 @@ feature -- Basic operations
 			function: STRING
 		do
 			request := a_request; response := a_response
-			function := a_request.parameter (Parameter_function_name)
-			if function.is_empty then
-				http_result := "No function parameter found"
-			else
+			a_request.parameters.search (Parameter_function_name)
+			if a_request.parameters.found then
+				function := a_request.parameters.found_item
 				function_table.search (function)
 				if function_table.found then
 					function_table.found_item.apply
 				else
-					http_result := String.template ("No function %"%S%" found.") #$ [function]
+					http_result := No_function_found_template #$ [function]
 				end
+			else
+				http_result := "No function parameter found"
 			end
 			response.set_content_length (http_result.count)
-			response.send (http_result)
+			response.set_content (http_result, Content_plain_latin_1)
 			http_result.wipe_out
 			request := Default_request
 			response := Default_response
@@ -58,7 +61,7 @@ feature -- Basic operations
 
 feature -- Access
 
-	http_result: STRING
+	http_result: ZSTRING
 
 feature {NONE} -- Implementation
 
@@ -77,9 +80,9 @@ feature {NONE} -- Implementation
 
 	function_table: EL_ZSTRING_HASH_TABLE [like Type_service_procedure]
 
-	request : EL_HTTP_SERVLET_REQUEST
+	request : FCGI_SERVLET_REQUEST
 
-	response : EL_HTTP_SERVLET_RESPONSE
+	response : FCGI_SERVLET_RESPONSE
 
 	config: G
 
@@ -87,14 +90,24 @@ feature {NONE} -- Constants
 
 	Parameter_function_name: STRING = "fn"
 
-	Default_request: EL_HTTP_SERVLET_REQUEST
+	Default_request: FCGI_SERVLET_REQUEST
 		once
-			create Result
+			create Result.make (Default_internal_request, Default_response)
 		end
 
-	Default_response: EL_HTTP_SERVLET_RESPONSE
+	Default_internal_request: FCGI_REQUEST
 		once
-			create Result
+			create Result.make
+		end
+
+	Default_response: FCGI_SERVLET_RESPONSE
+		once
+			create Result.make (Default_internal_request)
+		end
+
+	No_function_found_template: ZSTRING
+		once
+			Result := "No function %"%S%" found."
 		end
 
 end

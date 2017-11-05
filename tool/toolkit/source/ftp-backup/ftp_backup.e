@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-16 10:33:37 GMT (Monday 16th October 2017)"
-	revision: "5"
+	date: "2017-10-18 10:53:00 GMT (Wednesday 18th October 2017)"
+	revision: "6"
 
 class
 	FTP_BACKUP
@@ -30,7 +30,7 @@ inherit
 create
 	make
 
-feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
+feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_script_file_path_list: like script_file_path_list; a_ask_user_to_upload: BOOLEAN)
 		do

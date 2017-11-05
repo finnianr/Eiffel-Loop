@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-17 16:16:29 GMT (Thursday 17th November 2016)"
-	revision: "2"
+	date: "2017-10-30 12:42:12 GMT (Monday 30th October 2017)"
+	revision: "3"
 
 deferred class
 	EL_DIVERGENT_HTTP_SERVLET
@@ -39,26 +39,26 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	serve (request: EL_HTTP_SERVLET_REQUEST; response: EL_HTTP_SERVLET_RESPONSE)
+	serve (request: like new_request; response: like new_response)
 		do
 			service_procedures.search (request.dir_path.base)
 			if service_procedures.found then
 				service_procedures.found_item.call ([request, response])
 			else
-				log_or_io.put_string_field (Message_invalid_path, request.dir_path.to_string)
-				log_or_io.put_new_line
-				response.send_utf8_plain (Message_invalid_path)
+				lio.put_string_field (Message_invalid_path, request.dir_path.to_string)
+				lio.put_new_line
+				response.set_content (Message_invalid_path, Content_plain_utf_8)
 			end
 		end
 
-	serve_nothing (request: EL_HTTP_SERVLET_REQUEST; response: EL_HTTP_SERVLET_RESPONSE)
+	serve_nothing (request: like new_request; response: like new_response)
 			-- Useful for closing down a servlet thread by requesting this response from the main thread
 			-- using CURL. Add this agent to service_procedures_table.
 		do
-			response.send_ok
+			response.set_content_ok
 		end
 
-	service_procedures: EL_ZSTRING_HASH_TABLE [PROCEDURE [like Current, TUPLE [EL_HTTP_SERVLET_REQUEST, EL_HTTP_SERVLET_RESPONSE]]]
+	service_procedures: EL_ZSTRING_HASH_TABLE [PROCEDURE [FCGI_SERVLET_REQUEST, FCGI_SERVLET_RESPONSE]]
 
 	service_procedures_table: like service_procedures
 		deferred

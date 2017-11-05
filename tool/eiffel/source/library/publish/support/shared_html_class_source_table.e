@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-21 16:53:37 GMT (Wednesday 21st June 2017)"
-	revision: "1"
+	date: "2017-10-18 11:19:16 GMT (Wednesday 18th October 2017)"
+	revision: "2"
 
 class
 	SHARED_HTML_CLASS_SOURCE_TABLE
@@ -15,7 +15,7 @@ class
 feature {NONE} -- Implementation
 
 	Class_source_table: EL_ZSTRING_HASH_TABLE [EL_FILE_PATH]
-		once
+		once ("PROCESS")
 			create Result.make_equal (100)
 		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-11 12:59:13 GMT (Wednesday 11th October 2017)"
-	revision: "11"
+	date: "2017-10-26 9:20:58 GMT (Thursday 26th October 2017)"
+	revision: "12"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -223,12 +223,8 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_utf_8 (utf_8: READABLE_STRING_8)
-		local
-			l_unicode: STRING_32
 		do
-			l_unicode := empty_once_string_32
-			UTF.utf_8_string_8_into_string_32 (utf_8, l_unicode)
-			make_from_general (l_unicode)
+			make_from_general (utf_8_to_unicode (utf_8))
 		end
 
 --	make_from_string_view (view: EL_STRING_VIEW)
@@ -1585,6 +1581,11 @@ feature {EL_READABLE_ZSTRING} -- Element change
 			stable_before: elks_checking implies substring (1, count - 1) ~ (old twin)
 		end
 
+	append_utf_8 (utf_8: READABLE_STRING_8)
+		do
+			append_string_general (utf_8_to_unicode (utf_8))
+		end
+
 	enclose (left, right: CHARACTER_32)
 		do
 			grow (count + 2); prepend_character (left); append_character (right)
@@ -2099,6 +2100,21 @@ feature {NONE} -- Implementation
 				end
 				Result := Result + l_count
 				i := i + 1
+			end
+		end
+
+	utf_8_to_unicode (utf_8: READABLE_STRING_8): READABLE_STRING_GENERAL
+		local
+			l_unicode: STRING_32
+		do
+			if attached {STRING} utf_8 as str
+				and then UTF.utf_8_to_string_32_count (str.area, 0, str.count - 1) = str.count
+			then
+				Result := str
+			else
+				l_unicode := empty_once_string_32
+				UTF.utf_8_string_8_into_string_32 (utf_8, l_unicode)
+				Result := l_unicode
 			end
 		end
 

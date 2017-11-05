@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-29 11:42:14 GMT (Tuesday 29th August 2017)"
-	revision: "1"
+	date: "2017-11-04 11:21:46 GMT (Saturday 4th November 2017)"
+	revision: "2"
 
 deferred class
 	EVOLICITY_LOCALIZED_VARIABLES
@@ -27,7 +27,7 @@ inherit
 
 feature {NONE} -- Evolicity fields
 
-	translated_variables_tables: EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]
+	translated_variables_table: EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]
 		-- table of variables which have a localization translation of the form "{$<variable-name>}"
 		do
 			create Result.make_equal (Variable_translation_keys.count)

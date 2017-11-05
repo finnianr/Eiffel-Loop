@@ -26,13 +26,11 @@ system:
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
-		library: 
-			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
-		
 		library:
-			name = goanna; location = "$GOANNA/library/goanna.ecf"
-			readonly = false
-
+			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
+			renaming:
+				old_name = EMAIL; new_name = NET_EMAIL
+		
 		library:
 			name = log4e; location = "$LOG4E/library/log4e.ecf"
 			readonly = false
@@ -69,4 +67,5 @@ system:
 		# Source code
 		cluster:
 			name = servlet; location = "network/servlet"; recursive = true
+
 

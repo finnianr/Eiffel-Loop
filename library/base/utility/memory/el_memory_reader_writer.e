@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-10-25 17:31:05 GMT (Wednesday 25th October 2017)"
+	revision: "3"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -90,19 +90,35 @@ feature -- Access
 			end
 		end
 
+	read_to_natural_8_array (array: ARRAY [NATURAL_8])
+		do
+			check_buffer (array.count)
+			buffer.read_into_special_natural_8 (array.area, count, 0, array.count)
+			count := count + array.count
+		end
+
+	read_to_string_8 (str: STRING)
+		do
+			check_buffer (str.count)
+			buffer.read_into_special_character_8 (str.area, count, 0, str.count)
+			count := count + str.count
+		end
+
+feature -- Measurement
+
 	size_of_string (str: ZSTRING): INTEGER
 		do
 			Result := {PLATFORM}.Integer_32_bytes + str.count + str.unencoded_count * {PLATFORM}.Natural_32_bytes
 		end
 
-	size_of_string_8 (str: STRING_8): INTEGER
-		do
-			Result := {PLATFORM}.Integer_32_bytes + str.count
-		end
-
 	size_of_string_32 (str: STRING_32): INTEGER
 		do
 			Result := {PLATFORM}.Integer_32_bytes + str.count * {PLATFORM}.Natural_32_bytes
+		end
+
+	size_of_string_8 (str: STRING_8): INTEGER
+		do
+			Result := {PLATFORM}.Integer_32_bytes + str.count
 		end
 
 feature -- Status query
@@ -119,14 +135,22 @@ feature -- Element change
 			count := 0
 		end
 
-	set_default_data_version
+	write_from (input: IO_MEDIUM; nb_bytes: INTEGER)
+		-- fill buffer with `nb_bytes' from `input' medium
 		do
-			data_version := 0
+			check_buffer (nb_bytes)
+			input.read_to_managed_pointer (buffer, count, nb_bytes)
+			count := count + nb_bytes
 		end
 
 	set_data_version (a_data_version: like data_version)
 		do
 			data_version := a_data_version
+		end
+
+	set_default_data_version
+		do
+			data_version := 0
 		end
 
 	write_date (a_date: DATE)
@@ -142,6 +166,18 @@ feature -- Element change
 			check_buffer (l_data_size)
 			l_pos := count
 			buffer.put_array (a_data, l_pos)
+			l_pos := l_pos + l_data_size
+			count := l_pos
+		end
+
+	write_sub_special (array: SPECIAL [CHARACTER_8]; source_index, n: INTEGER)
+		local
+			l_pos, l_data_size: INTEGER
+		do
+			l_data_size := {PLATFORM}.Character_8_bytes * n
+			check_buffer (l_data_size)
+			l_pos := count
+			buffer.put_special_character_8 (array, source_index, l_pos, n)
 			l_pos := l_pos + l_data_size
 			count := l_pos
 		end
@@ -184,6 +220,17 @@ feature -- Element change
 				write_compressed_natural_32 (a_string.code (i))
 				i := i + 1
 			end
+		end
+
+feature -- Basic operations
+
+	write_to (output: IO_MEDIUM)
+		do
+			output.put_managed_pointer (buffer, 0, count)
+		end
+
+	read_natural_8_array (array: ARRAY [NATURAL_8])
+		do
 		end
 
 feature {EL_STORABLE} -- Element change

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-11-01 11:14:40 GMT (Wednesday 1st November 2017)"
+	revision: "3"
 
 class
 	EL_AES_ENCRYPTER
@@ -210,7 +210,8 @@ feature -- Decryption
 
 	decrypted_managed (managed: MANAGED_POINTER; count: INTEGER): SPECIAL [NATURAL_8]
 		require
-			is_16_byte_blocks: managed.count \\ Block_size = 0
+			managed_big_enough: count <= managed.count
+			count_multiple_of_block_size: count \\ Block_size = 0
 		local
 			cipher_data: EL_BYTE_ARRAY
 		do
@@ -221,7 +222,7 @@ feature -- Decryption
 	padded_decrypted (cipher_data: EL_BYTE_ARRAY): EL_PADDED_BYTE_ARRAY
 			--
 		require
-			is_16_byte_blocks: cipher_data.count \\ Block_size = 0
+			count_multiple_of_block_size: cipher_data.count \\ Block_size = 0
 		local
 			i, block_count, offset: INTEGER
 			block_out, block_in: like Out_block

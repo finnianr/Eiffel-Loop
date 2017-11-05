@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-20 10:19:55 GMT (Sunday 20th August 2017)"
-	revision: "3"
+	date: "2017-10-31 14:29:49 GMT (Tuesday 31st October 2017)"
+	revision: "4"
 
 class
 	EL_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 	flush_string_8 (str_8: STRING_8)
 		do
 			if is_escape_sequence (str_8) then
-				std_output.put_string (str_8)
+				write_escape_sequence (str_8)
 			else
 				write_console (str_8)
 			end
@@ -87,6 +87,11 @@ feature {NONE} -- Implementation
 	set_text_red
 		do
 			buffer.extend (once "%/027/[1;31m")
+		end
+
+	write_escape_sequence (seq: STRING_8)
+		do
+			std_output.put_string (seq)
 		end
 
 feature {NONE} -- Constants

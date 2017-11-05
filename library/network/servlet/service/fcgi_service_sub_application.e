@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-16 10:43:58 GMT (Monday 16th October 2017)"
-	revision: "4"
+	date: "2017-10-30 20:03:50 GMT (Monday 30th October 2017)"
+	revision: "5"
 
 deferred class
-	EL_SERVLET_SUB_APPLICATION [S -> EL_FAST_CGI_SERVLET_SERVICE]
+	FCGI_SERVICE_SUB_APPLICATION [S -> FCGI_SERVLET_SERVICE]
 
 inherit
 	EL_COMMAND_LINE_SUB_APPLICATION [S]
@@ -32,7 +32,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE
 		do
-			Result := agent {EL_FAST_CGI_SERVLET_SERVICE}.make (Default_config_dir, Default_config_name)
+			Result := agent {FCGI_SERVLET_SERVICE}.make (Default_config_dir, Default_config_name)
 		end
 
 	on_operating_system_signal

@@ -1,9 +1,19 @@
 note
 	description: "[
-		An object that maps command line arguments to the arguments for an Eiffel make procedure for a
-		target object conforming to `[$source EL_COMMAND]'. The `run' procedure simply executes the command.
-		The `command' object is automatically created and the make procedure specified by `default_make'
-		is applied to intialize it.
+		Maps command line arguments to the arguments of the make procedure of the `command' object
+		conforming to `[$source EL_COMMAND]'. If no mapping errors occur during the initilization,
+		the `run' procedure is called and executes the command.
+
+		More client examples can be found in class `[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]'.
+	]"
+	notes: "[
+		Implementing `argument_specs' specifies command option names, a description that becomes part
+		of the help text, and validation procedures and associated descriptions.
+
+		Implementing `default_make' provides default arguments for initializing the command, which can
+		then be overridden by the command line options specified in `argument_specs'.
+		
+		The `command.make' routine must be exported to class `EL_COMMAND_CLIENT'
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-16 10:16:53 GMT (Monday 16th October 2017)"
-	revision: "9"
+	date: "2017-10-18 11:47:36 GMT (Wednesday 18th October 2017)"
+	revision: "10"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]

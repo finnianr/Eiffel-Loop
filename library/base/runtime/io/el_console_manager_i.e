@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-10-31 13:34:42 GMT (Tuesday 31st October 2017)"
+	revision: "3"
 
 deferred class
 	EL_CONSOLE_MANAGER_I
@@ -23,6 +23,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			create visible_types.make (20)
+			no_highlighting_word_option_exists := Args.word_option_exists ({EL_LOG_COMMAND_OPTIONS}.no_highlighting)
 		end
 
 feature -- Status change
@@ -75,6 +76,9 @@ feature -- Status query
 		end
 
 feature {NONE} -- Internal attributes
+
+	no_highlighting_word_option_exists: BOOLEAN
+		-- `True' if `no_highlighting' word option exists
 
 	visible_types: EL_HASH_SET [TYPE [EL_MODULE_LIO]]
 end

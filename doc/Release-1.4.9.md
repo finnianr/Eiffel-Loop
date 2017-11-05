@@ -24,6 +24,8 @@
 
 * Created new class `EL_ENVIRON_VARIABLE` for defining environment arguments.
 
+* Added routine `append_utf_8` to `EL_ZSTRING`
+
 ### Console Output
 
 * Changed `lio` output object in `EL_MODULE_LIO` to automatically encode strings to match the console encoding setting. For EiffelStudio on Unix in work-bench mode, it will assume UTF-8 as a default if `LANG` is not set explicitly.
@@ -33,6 +35,12 @@
 * Optimised output of `STRING_8` and `STRING_32` strings
 
 * Added new class `EL_CONSOLE_ENCODEABLE` for encoding strings to match console encoding setting.
+
+## ENCRYPTION library
+
+* Renamed preconditions `is_16_byte_blocks` as `count_multiple_of_block_size`
+
+* Fixed `count_multiple_of_block_size` precondition for routine `{EL_AES_ENCRYPTER}.encrypted_managed`
 
 ## EVOLICITY library
 
@@ -45,6 +53,16 @@
 ## HTTP library
 
 * Updated `EL_HTTP_CONNECTION` to have `user_agent' attribute. `open` now sets the user agent if it is not empty.
+
+## LOGGING library
+
+* Fixed bug where color escape sequences were being written to console by a logging thread that was not directed to the console.
+
+## SERVLET library
+
+* The dependency on the Goanna library for Fast CGI is now removed except for one trivial class found in `contrib/Eiffel/Goanna`.
+
+* Implemented Fast-CGI protocol more efficiently than the Goanna library, with far fewer request generated objects for garbage collection. This implementation is based on the ISE network classes.
 
 ## IMAGE-UTILS library
 

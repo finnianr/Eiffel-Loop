@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-05 9:27:30 GMT (Wednesday 5th October 2016)"
-	revision: "2"
+	date: "2017-11-01 10:00:54 GMT (Wednesday 1st November 2017)"
+	revision: "3"
 
 class
 	EL_ENCRYPTABLE_STORED_WORD_TOKEN_TABLE
@@ -48,12 +48,12 @@ feature -- Status setting
 		do
 			lio.enter ("open_write")
 			Precursor
-			if lio.current_routine_is_active and then not words.is_empty then
-				from words.go_i_th (words.count - 5) until words.after loop
-					lio.put_string_field (words.index.out, words.item); lio.put_new_line
-					words.forth
-				end
-			end
+--			if lio.current_routine_is_active and then not words.is_empty then
+--				from words.go_i_th (words.count - 5) until words.after loop
+--					lio.put_string_field (words.index.out, words.item); lio.put_new_line
+--					words.forth
+--				end
+--			end
 			lio.exit
 		end
 

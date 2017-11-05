@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-18 13:21:19 GMT (Friday 18th August 2017)"
-	revision: "16"
+	date: "2017-10-30 10:50:09 GMT (Monday 30th October 2017)"
+	revision: "17"
 
 class EXPERIMENTS_APP
 
@@ -39,8 +39,8 @@ feature -- Basic operations
 	run
 		local
 		do
-			lio.enter ("find_console_encoding")
-			find_console_encoding
+			lio.enter ("date_time_format")
+			date_time_format
 			lio.exit
 		end
 
@@ -185,6 +185,19 @@ feature -- Experiments
 			execution.sleep (500)
 			timer.stop
 			log.put_labeled_string ("TIME", timer.elapsed_time.out)
+		end
+
+	date_time_format
+		local
+			now: DATE_TIME; const: DATE_CONSTANTS
+			day_text: ZSTRING
+		do
+			create const
+			create now.make_now
+			day_text := const.days_text.item (now.date.day_of_the_week)
+			day_text.to_proper_case
+			lio.put_labeled_string ("Time", day_text + now.formatted_out (", yyyy-[0]mm-[0]dd hh:[0]mi:[0]ss") + " GMT")
+			lio.put_new_line
 		end
 
 	date_validity_check

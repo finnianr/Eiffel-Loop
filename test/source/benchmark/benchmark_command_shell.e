@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-16 10:37:25 GMT (Monday 16th October 2017)"
-	revision: "3"
+	date: "2017-10-18 10:52:13 GMT (Wednesday 18th October 2017)"
+	revision: "4"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -15,7 +15,7 @@ class
 inherit
 	EL_BENCHMARK_COMMAND_SHELL
 		export
-			{EL_COMMAND_LINE_SUB_APPLICATION} make
+			{EL_COMMAND_CLIENT} make
 		end
 
 create

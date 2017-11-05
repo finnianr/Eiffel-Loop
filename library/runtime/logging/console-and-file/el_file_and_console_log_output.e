@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-18 12:30:53 GMT (Friday 18th August 2017)"
-	revision: "4"
+	date: "2017-10-31 14:27:02 GMT (Tuesday 31st October 2017)"
+	revision: "5"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -116,12 +116,19 @@ feature {NONE} -- Implementation
 			UTF.utf_32_string_into_utf_8_string_8 (str, l_utf_8)
 			put_file_string (l_utf_8)
 
-			if is_directed_to_console.item then
+			if is_directed_to_console then
 				if Is_console_utf_8_encoded then
 					std_output.put_string (l_utf_8)
 				else
 					Precursor (str)
 				end
+			end
+		end
+
+	write_escape_sequence (seq: STRING_8)
+		do
+			if is_directed_to_console then
+				std_output.put_string (seq)
 			end
 		end
 

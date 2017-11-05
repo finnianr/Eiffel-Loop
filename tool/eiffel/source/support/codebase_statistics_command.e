@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 15:40:08 GMT (Sunday 15th October 2017)"
-	revision: "4"
+	date: "2017-10-18 10:52:41 GMT (Wednesday 18th October 2017)"
+	revision: "5"
 
 class
 	CODEBASE_STATISTICS_COMMAND
@@ -35,7 +35,7 @@ inherit
 create
 	make, make_default, default_create
 
-feature {EL_COMMAND_LINE_SUB_APPLICATION} -- Initialization
+feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make_default
 		do

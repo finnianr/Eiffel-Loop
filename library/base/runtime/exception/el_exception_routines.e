@@ -6,11 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-10-28 16:07:36 GMT (Saturday 28th October 2017)"
+	revision: "3"
 
 class
 	EL_EXCEPTION_ROUTINES
+
+feature -- Status query
+
+	is_termination_signal (exception: EXCEPTION): BOOLEAN
+			-- True if exception `signal_code' is Unix interrupt (Ctrl-C) or terminate signal
+		do
+			if attached {OPERATING_SYSTEM_SIGNAL_FAILURE} exception as os then
+				Result := os.signal_code = Unix.Sigint or os.signal_code = Unix.Sigterm
+			end
+		end
 
 feature -- Basic operations
 
@@ -48,4 +58,10 @@ feature {NONE} -- Constants
 		once
 			Result := "Error in routine: {%S}.%S"
 		end
+
+	Unix: UNIX_SIGNALS
+		once
+			create Result
+		end
+
 end
