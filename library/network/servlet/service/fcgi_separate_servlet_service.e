@@ -1,7 +1,5 @@
 note
-	description: "[
-		A `FCGI_SERVLET_SERVICE' service operating in a separate thread.
-	]"
+	description: "A `FCGI_SERVLET_SERVICE' service operating in a separate thread."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

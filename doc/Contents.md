@@ -202,7 +202,7 @@ An Eiffel interface to the [PayPal Payments Standard Button Manager NVP HTTP API
 ## Hypertext Transfer Protocol (HTTP)
 Classes for interacting with a HTTP server. Supports the following HTTP commands: HEAD, POST, GET.
 ## HTTP Servlet Services
-Classes for creating single and multi-threaded HTTP servlet services that extend the [Goanna servlet library](http://goanna.sourceforge.net/).
+An implementation of the [Fast-CGI protocol](http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html) for creating single and multi-threaded HTTP servlet services.
 ## Eiffel CHAIN Orientated Binary Database
 Implements "in-memory" database tables based on an interface defined by the kernel Eiffel class [`CHAIN`](https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/list/chain_chart.html). There are two table types:
 

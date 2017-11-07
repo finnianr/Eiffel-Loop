@@ -221,8 +221,8 @@ publish-repository:
 			ecf = "servlet.ecf"
 			description:
 				"""
-					Classes for creating single and multi-threaded HTTP servlet services that extend the
-					[http://goanna.sourceforge.net/ Goanna servlet library].
+					An implementation of the [http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html Fast-CGI protocol]
+					for creating single and multi-threaded HTTP servlet services.
 				"""
 
 		# Library (Persistency)

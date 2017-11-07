@@ -52,8 +52,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			config := new_config (config_dir + (config_name + ".pyx"))
 			create request.make
 			create socket.make
+			create servlets
 			state := agent do_nothing
-			initialise_logger
+			initialize_logger
 			server_backlog := 10
 		end
 
@@ -65,12 +66,17 @@ feature -- Basic operations
 			if config.is_valid then
 				-- Call initialize here rather than in make so that a background thread will have it's own template copies
 				-- stored in once per thread instance of EVOLICITY_TEMPLATES
-				initialize
+				initialize_servlets
 				lio.put_integer_field ("Listening on port", port_number)
 				lio.put_new_line
 
-				run
+				do_transitions
+				if retries > Max_retries then
+					error (Servlet_app_log_category, "Application ended because retries > Max_retries")
+				end
+
 				request.close; socket.close
+				Log_hierarchy.close_all
 				on_shutdown
 			else
 				across config.error_messages as message loop
@@ -96,6 +102,28 @@ feature -- Status query
 
 feature {NONE} -- States
 
+	accepting_connection
+		do
+			socket.accept
+			if attached {like socket} socket.accepted as connection_socket then
+				-- accept new connection (blocking)
+				state := agent reading_request (connection_socket)
+			else
+				state := agent opening_port
+			end
+		end
+
+	finishing_request
+			-- Finish the current request from the HTTP server. The
+			-- current request was started by the most recent call to
+			-- 'accept'.
+		do
+			request.end_request
+			-- Successfully finished responding to request so we can reset `retries' to zero
+			retries := 0
+			state := agent accepting_connection
+		end
+
 	opening_port
 			-- Set up port to listen for requests from the web server
 		do
@@ -113,46 +141,6 @@ feature {NONE} -- States
 			state := agent accepting_connection
 			retries := retries + 1
 			unable_to_listen := False
-		end
-
-	accepting_connection
-		do
-			socket.accept
-			if attached {like socket} socket.accepted as connection_socket then
-				-- accept new connection (blocking)
-				state := agent reading_request (connection_socket)
-			else
-				state := agent opening_port
-			end
-		end
-
-	reading_request (a_socket: like socket)
-			-- Wait for a request to be received; Returns true if request was successfully read
-		do
-			request.set_socket (a_socket)
-			request.read
-			if request.read_ok then
-				if request.is_end_service then
-					state := final
-				else
-					state := agent processing_request
-				end
-			else
-				a_socket.close
-				error (Servlet_app_log_category, "{FCGI_SERVLET_SERVICE}.reading_request failed")
-				state := agent accepting_connection
-			end
-		end
-
-	finishing_request
-			-- Finish the current request from the HTTP server. The
-			-- current request was started by the most recent call to
-			-- 'accept'.
-		do
-			request.end_request
-			-- Successfully finished responding to request so we can reset `retries' to zero
-			retries := 0
-			state := agent accepting_connection
 		end
 
 	processing_request
@@ -173,16 +161,64 @@ feature {NONE} -- States
 					info (Servlet_app_log_category, Service_info_template #$ [servlet_path, servlets.found_item.servlet_info])
 					servlets.found_item.serve_fast_cgi (request)
 				else
-					handle_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (request))
+					on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (request))
 				end
 			end
 			state := agent finishing_request
+		end
+
+	reading_request (a_socket: like socket)
+			-- Wait for a request to be received; Returns true if request was successfully read
+		do
+			request.set_socket (a_socket)
+			request.read
+			if request.read_ok then
+				if request.is_end_service then
+					state := final
+				else
+					state := agent processing_request
+				end
+			else
+				a_socket.close
+				error (Servlet_app_log_category, "{FCGI_SERVLET_SERVICE}.reading_request failed")
+				state := agent accepting_connection
+			end
+		end
+
+feature {NONE} -- Event handling
+
+	on_shutdown
+		do
+		end
+
+	on_missing_servlet (resp: FCGI_SERVLET_RESPONSE)
+			-- Send error page indicating missing servlet
+		do
+			resp.send_error (Http_status.not_found)
 		end
 
 feature {NONE} -- Implementation
 
 	call (object: ANY)
 		do
+		end
+
+	do_transitions
+		-- iterate over state transitions
+		do
+			from state := agent opening_port until retries > Max_retries or state = Final loop
+				state.apply
+			end
+		rescue
+			if Exception.is_termination_signal (last_exception) then
+				error (Servlet_app_log_category, "Received termination signal. Exiting..")
+			else
+				error (
+					Servlet_app_log_category,
+					"Uncaught exception, code: " + last_exception.out + ", retry not requested, so exiting..."
+				)
+				write_exception_trace
+			end
 		end
 
 	error (logger: STRING; message: ANY)
@@ -197,14 +233,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	handle_missing_servlet (resp: FCGI_SERVLET_RESPONSE)
-			-- Send error page indicating missing servlet
-		require
-			resp_exists: resp /= Void
-		do
-			resp.send_error (Http_status.not_found)
-		end
-
 	info (logger: STRING; message: ANY)
 		do
 			if Log_hierarchy.is_enabled_for (Info_p) then
@@ -217,8 +245,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-
-	initialise_logger
+	initialize_logger
 			-- Set logger appenders
 		local
 			appender: L4E_APPENDER; layout: L4E_LAYOUT; output_path: EL_FILE_PATH
@@ -230,9 +257,10 @@ feature {NONE} -- Implementation
 			log_hierarchy.logger (Servlet_app_log_category).add_appender (appender)
 		end
 
-	initialize
+	initialize_servlets
+		-- initialize servlets
 		do
-			set_servlets
+			servlets := servlet_table
 		end
 
 	log_message (message: READABLE_STRING_GENERAL)
@@ -253,45 +281,14 @@ feature {NONE} -- Implementation
 			create Result.make_from_file (file_path)
 		end
 
-	on_shutdown
-		do
-			Log_hierarchy.close_all
-		end
-
 	port_number: INTEGER
 		-- The port to listen on.
 		do
 			Result := config.server_port
 		end
 
-	run
-		do
-			from state := agent opening_port until retries > Max_retries or state = Final loop
-				state.apply
-			end
-			if retries > Max_retries then
-				error (Servlet_app_log_category, "Application ended because retries > Max_retries")
-			end
-		rescue
-			if Exception.is_termination_signal (last_exception) then
-				error (Servlet_app_log_category, "Received termination signal. Exiting..")
-			else
-				error (
-					Servlet_app_log_category,
-					"Uncaught exception, code: " + last_exception.out + ", retry not requested, so exiting..."
-				)
-				write_exception_trace
-			end
-		end
-
 	servlet_table: like servlets
 		deferred
-		end
-
-	set_servlets
-			-- assign servlets
-		do
-			servlets := servlet_table
 		end
 
 	write_exception_trace
@@ -311,29 +308,29 @@ feature {NONE} -- Implementation: attributes
 	config: EL_SERVLET_SERVICE_CONFIG
 			-- Configuration for servlets
 
-	retries: INTEGER
-		-- The number of times run has retried or called opening_port
-
 	request: FCGI_REQUEST
 
-	socket: EL_NETWORK_STREAM_SOCKET
-		-- server socket
+	retries: INTEGER
+		-- The number of times run has retried or called opening_port
 
 	server_backlog: INTEGER
 		-- The number of requests that can remain outstanding.
 
 	servlets: EL_ZSTRING_HASH_TABLE [FCGI_HTTP_SERVLET]
 
+	socket: EL_NETWORK_STREAM_SOCKET
+		-- server socket
+
 	state: PROCEDURE
 
 feature {NONE} -- String constants
+
+	Fcgi_web_server_addrs: STRING = "FCGI_WEB_SERVER_ADDRS"
 
 	Final: PROCEDURE
 		once
 			Result := agent do_nothing
 		end
-
-	Fcgi_web_server_addrs: STRING = "FCGI_WEB_SERVER_ADDRS"
 
 	Service_info_template: ZSTRING
 		once

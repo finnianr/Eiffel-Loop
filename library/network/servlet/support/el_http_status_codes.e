@@ -1,5 +1,7 @@
 note
-	description: "Summary description for {EL_HTTP_STATUS_CODES}."
+	description: "[
+		HTTP status codes. See: [https://en.wikipedia.org/wiki/List_of_HTTP_status_codes]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

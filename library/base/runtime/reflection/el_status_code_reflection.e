@@ -15,8 +15,6 @@ deferred class
 inherit
 	EL_REFLECTION
 
-	EL_MODULE_STRING_8
-
 feature {NONE} -- Initialization
 
 	make
