@@ -10,7 +10,7 @@ note
 	revision: "2"
 
 class
-	EL_SHARED_PAYPAL_VARIABLES
+	PP_SHARED_PAYPAL_VARIABLES
 
 feature {NONE} -- Constants
 

@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_PAYPAL_OPTION_SELECT_VARIABLE_LIST}."
+	description: "Summary description for {PP_OPTION_SELECT_VARIABLE_LIST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,10 +10,10 @@ note
 	revision: "2"
 
 class
-	EL_PAYPAL_OPTION_SELECT_SUB_PARAMETER_LIST
+	PP_OPTION_SELECT_SUB_PARAMETER_LIST
 
 inherit
-	EL_PAYPAL_PARAMETER_LIST
+	PP_PARAMETER_LIST
 
 create
 	make

@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_PAYPAL_SEQUENTIAL_VARIABLE_NAME}."
+	description: "Summary description for {PP_SEQUENTIAL_VARIABLE_NAME}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,7 +10,7 @@ note
 	revision: "2"
 
 deferred class
-	EL_PAYPAL_VARIABLE_NAME_SEQUENCE
+	PP_VARIABLE_NAME_SEQUENCE
 
 feature {NONE} -- Implementation
 

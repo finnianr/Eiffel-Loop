@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_PAYPAL_DATE_TIME_PARAMETER}."
+	description: "Summary description for {PP_DATE_TIME_PARAMETER}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,7 +10,7 @@ note
 	revision: "2"
 
 class
-	EL_PAYPAL_DATE_TIME_PARAMETER
+	PP_DATE_TIME_PARAMETER
 
 inherit
 	EL_HTTP_NAME_VALUE_PARAMETER

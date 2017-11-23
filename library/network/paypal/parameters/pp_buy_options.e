@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_PAYPAL_BUY_OPTIONS}."
+	description: "Summary description for {PP_BUY_OPTIONS}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,7 +10,7 @@ note
 	revision: "2"
 
 class
-	EL_PAYPAL_BUY_OPTIONS
+	PP_BUY_OPTIONS
 
 inherit
 	EL_HTTP_PARAMETER_LIST [EL_HTTP_PARAMETER]
@@ -78,9 +78,9 @@ feature {NONE} -- Implementation
 			Result [7] := id.out [1]
 		end
 
-	price_parameters: EL_PAYPAL_OPTION_PRICE_PARAMETER_LIST
+	price_parameters: PP_OPTION_PRICE_PARAMETER_LIST
 
-	select_parameters: EL_PAYPAL_OPTION_SELECT_SUB_PARAMETER_LIST
+	select_parameters: PP_OPTION_SELECT_SUB_PARAMETER_LIST
 
 feature {NONE} -- Constants
 

@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_PAYPAL_NUMBERED_SUB_PARAMETER_LIST}."
+	description: "Summary description for {PP_NUMBERED_SUB_PARAMETER_LIST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,17 +10,17 @@ note
 	revision: "2"
 
 deferred class
-	EL_PAYPAL_NUMBERED_SUB_PARAMETER_LIST
+	PP_NUMBERED_SUB_PARAMETER_LIST
 
 inherit
-	EL_PAYPAL_SUB_PARAMETER_LIST
+	PP_SUB_PARAMETER_LIST
 		rename
 			make as make_sub_parameter_list
 		undefine
 			new_name
 		end
 
-	EL_PAYPAL_NUMBERED_VARIABLE_NAME_SEQUENCE
+	PP_NUMBERED_VARIABLE_NAME_SEQUENCE
 		undefine
 			is_equal, copy
 		redefine

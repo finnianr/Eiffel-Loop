@@ -10,7 +10,7 @@ note
 	revision: "3"
 
 class
-	EL_PAYPAL_COMMAND_SHELL
+	PP_COMMAND_SHELL
 
 inherit
 	EL_COMMAND_SHELL_COMMAND
@@ -27,7 +27,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (credentials_path: EL_FILE_PATH; phrase: ZSTRING)
 		local
-			credentials: EL_PAYPAL_CREDENTIALS
+			credentials: PP_CREDENTIALS
 			pass_phrase: EL_PASS_PHRASE
 		do
 			make_shell
@@ -138,7 +138,7 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	new_buy_options (price_factor: REAL): EL_PAYPAL_BUY_OPTIONS
+	new_buy_options (price_factor: REAL): PP_BUY_OPTIONS
 		do
 			create Result.make (0, "Duration", currency_code)
 			Result.extend ("1 year", (290 * price_factor).rounded)
@@ -158,7 +158,7 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
-	new_single_license_button: EL_PAYPAL_BUTTON_SUB_PARAMETER_LIST
+	new_single_license_button: PP_BUTTON_SUB_PARAMETER_LIST
 		do
 			create Result.make
 			Result.set_currency_code (currency_code)
@@ -166,7 +166,7 @@ feature {NONE} -- Implementation
 			Result.set_item_product_code ("1.en." + currency_code)
 		end
 
-	paypal: EL_PAYPAL_NVP_API_CONNECTION
+	paypal: PP_NVP_API_CONNECTION
 
 	currency_code: STRING
 

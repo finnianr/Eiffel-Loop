@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_PAYPAL_PARAMETER_LIST}."
+	description: "Summary description for {PP_PARAMETER_LIST}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,7 +10,7 @@ note
 	revision: "2"
 
 deferred class
-	EL_PAYPAL_PARAMETER_LIST
+	PP_PARAMETER_LIST
 
 inherit
 	EL_HTTP_PARAMETER_LIST [EL_HTTP_NAME_VALUE_PARAMETER]
@@ -19,7 +19,7 @@ inherit
 			extend as extend_list
 		end
 
-	EL_PAYPAL_NUMBERED_VARIABLE_NAME_SEQUENCE
+	PP_NUMBERED_VARIABLE_NAME_SEQUENCE
 		undefine
 			copy, is_equal
 		redefine

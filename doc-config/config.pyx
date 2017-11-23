@@ -191,8 +191,8 @@ publish-repository:
 			ecf = "amazon-instant-access.ecf"
 			description:
 				"""
-					An Eiffel interface to the [https://s3-us-west-2.amazonaws.com/dtg-docs/index.html PayPal Amazon Instant Access API.
-					This API enables third party vendors to fullfill orders for digital goods on the Amazon store.
+					An Eiffel interface to the [https://s3-us-west-2.amazonaws.com/dtg-docs/index.html Amazon Instant Access API].
+					This API enables third party vendors to fulfil orders for digital goods on the Amazon store.
 					(WORK IN PROGRESS)
 				"""
 		tree:

@@ -10,7 +10,7 @@ note
 	revision: "2"
 
 class
-	EL_PAYPAL_TRANSACTION
+	PP_TRANSACTION
 
 inherit
 	EL_REFLECTIVELY_SETTABLE [ZSTRING]

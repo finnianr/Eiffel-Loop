@@ -20,7 +20,7 @@ note
 	revision: "2"
 
 class
-	EL_PAYPAL_CREDENTIALS
+	PP_CREDENTIALS
 
 inherit
 	EL_HTTP_NAME_VALUE_PARAMETER_LIST

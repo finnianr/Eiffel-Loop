@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_PAYPAL_HTTP_CONNECTION}."
+	description: "Summary description for {PP_HTTP_CONNECTION}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,7 +10,7 @@ note
 	revision: "1"
 
 class
-	EL_PAYPAL_HTTP_CONNECTION
+	PP_HTTP_CONNECTION
 
 inherit
 	EL_HTTP_CONNECTION
