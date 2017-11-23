@@ -14,19 +14,30 @@ class
 
 inherit
 	STRING
+		redefine
+			make_empty
+		end
 
 	EL_STORABLE
 		rename
-			make_default as make_empty,
-			read_version as read_default_version
+			read_version as read_default_version,
+			make_default as make_empty
 		undefine
 			copy, is_equal, out
 		redefine
-			read_default, write
+			write, read_default, make_empty
 		end
 
 create
 	make_empty
+
+feature {NONE} -- Initialization
+
+	make_empty
+		do
+			Precursor {EL_STORABLE}
+			Precursor {STRING}
+		end
 
 feature {NONE} -- Implementation
 
@@ -47,4 +58,7 @@ feature {NONE} -- Contract Support
 		do
 			create Result.make_empty
 		end
+
+	Field_hash_checksum: NATURAL = 0
+
 end

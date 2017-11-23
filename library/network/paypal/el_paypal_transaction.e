@@ -6,14 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-23 9:37:35 GMT (Tuesday 23rd August 2016)"
-	revision: "1"
+	date: "2017-11-10 14:28:37 GMT (Friday 10th November 2017)"
+	revision: "2"
 
 class
 	EL_PAYPAL_TRANSACTION
 
 inherit
-	EL_TABLE_LINKED
+	EL_REFLECTIVELY_SETTABLE [ZSTRING]
+	 rename
+		name_adaptation as standard_eiffel,
+	 	make_from_zkey_table as make
+	 end
 
 create
 	make

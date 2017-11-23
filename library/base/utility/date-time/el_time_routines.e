@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 			create unix_origin.make_from_epoch (0)
 		end
 
-feature -- Access
+feature -- Status query
 
 	is_valid (time_str: STRING): BOOLEAN
 		local
@@ -49,6 +49,8 @@ feature -- Access
 				Result := mins.is_integer and secs.is_real
 			end
 		end
+
+feature -- Access
 
 	unix_date_time (a_date_time: DATE_TIME): INTEGER
 		do

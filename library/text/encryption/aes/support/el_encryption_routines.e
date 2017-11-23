@@ -26,17 +26,6 @@ feature -- Conversion
 			Result := encrypter.decrypted_base64 (cipher)
 		end
 
-	md5_digest_16 (string: STRING): ARRAY [NATURAL_8]
-			--
-		local
-			md5: MD5
-		do
-			md5 := MD5_generator; md5.reset
-			create Result.make (1, 16)
-			md5.sink_string (string)
-			md5.do_final (Result.area, 0)
-		end
-
 	plain_pyxis (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER): STRING
 		do
 			Result := plain_text_from_line (a_file_path, a_encrypter, 3)
@@ -45,17 +34,6 @@ feature -- Conversion
 	plain_text (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER): STRING
 		do
 			Result := plain_text_from_line (a_file_path, a_encrypter, 0)
-		end
-
-	sha256_digest_32 (string: STRING): ARRAY [NATURAL_8]
-			--
-		local
-			sha256: SHA256
-		do
-			create sha256.make
-			create Result.make (1, 32)
-			sha256.sink_string (string)
-			sha256.do_final (Result.area, 0)
 		end
 
 feature -- Factory
@@ -95,10 +73,4 @@ feature {NONE} -- Implementation
 			file.close
 		end
 
-feature {NONE} -- Constants
-
-	MD5_generator: MD5
-		once
-			create Result.make
-		end
 end

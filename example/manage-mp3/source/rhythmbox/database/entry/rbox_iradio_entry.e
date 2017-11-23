@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 7:55:51 GMT (Monday 22nd May 2017)"
-	revision: "5"
+	date: "2017-11-09 18:43:57 GMT (Thursday 9th November 2017)"
+	revision: "6"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -17,14 +17,14 @@ inherit
 		rename
 			make_default as make
 		redefine
-			make, set_string_field, on_context_exit
+			make, set_string_field, on_context_exit, Except_fields, Field_name_separator
 		end
 
 	EVOLICITY_SERIALIZEABLE
 		rename
 			make_default as make
 		redefine
-			make, getter_function_table, Template
+			make, getter_function_table, Template, Except_fields, Field_name_separator
 		end
 
 	EL_MODULE_XML
@@ -117,7 +117,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
-			Result := building_actions_for_type ({ZSTRING}, Fields_not_stored, Hyphen)
+			Result := building_actions_for_type ({ZSTRING})
 			Result ["location/text()"] := agent do set_location_from_uri (Url.decoded_path (node.to_string_8)) end
 		end
 
@@ -148,14 +148,14 @@ feature {NONE} -- Evolicity fields
 			create Result.make (11)
 			Result.set_escaper (Xml_128_plus_escaper)
 			Result.set_condition (agent (str: ZSTRING): BOOLEAN do Result := not str.is_empty end)
-			fill_field_table (Result, Fields_not_stored, '-')
+			fill_field_table (Result)
 		end
 
 	get_non_zero_integer_fields: EL_INTEGER_FIELD_VALUE_TABLE
 		do
 			create Result.make (11)
 			Result.set_condition (agent (v: INTEGER): BOOLEAN do Result := v /= v.zero end)
-			fill_field_table (Result, Fields_not_stored, '-')
+			fill_field_table (Result)
 		end
 
 	getter_function_table: like getter_functions
@@ -172,12 +172,6 @@ feature {NONE} -- Evolicity fields
 		end
 
 feature {NONE} -- Constants
-
-	Fields_not_stored: ARRAY [STRING]
-			-- Object attributes that are not stored in Rhythmbox database
-		once
-			Result := << "album_artists_prefix", "encoding" >>
-		end
 
 	Protocol: ZSTRING
 		once
@@ -198,14 +192,20 @@ feature {NONE} -- Constants
 			]"
 		end
 
-	Hyphen: CHARACTER
-			-- Eiffel field names adapted for Rbox XML
-		once
-			Result := '-'
-		end
-
 	Unknown_string: ZSTRING
 		once
 			Result := "Unknown"
 		end
+
+	Field_name_separator: CHARACTER
+		once
+			Result := '-'
+		end
+
+	Except_fields: ZSTRING
+			-- Object attributes that are not stored in Rhythmbox database
+		once
+			Result := "album_artists_prefix, encoding"
+		end
+
 end

@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 16:52:41 GMT (Thursday 25th May 2017)"
-	revision: "3"
+	date: "2017-11-10 9:54:22 GMT (Friday 10th November 2017)"
+	revision: "4"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -46,7 +46,7 @@ feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
 			--
 		do
 			Precursor
-			PI_building_actions := PI_building_actions_by_type.item ({like Current}, agent new_pi_building_actions)
+			PI_building_actions := PI_building_actions_by_type.item (Current)
 			create xml_name_space.make_empty
 		end
 
@@ -62,7 +62,7 @@ feature {NONE} -- Element change
 			xml_name_space := node.to_string_8
 		end
 
-feature {EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER, EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Factory
+feature {EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER, EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, EL_BUILDABLE_FROM_NODE_SCAN} -- Factory
 
 	new_building_actions: like building_actions
 			--
@@ -117,10 +117,10 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	PI_building_actions_by_type: EL_TYPE_TABLE [HASH_TABLE [PROCEDURE, STRING_32]]
+	PI_building_actions_by_type: EL_FUNCTION_RESULT_TABLE [EL_BUILDABLE_FROM_NODE_SCAN, HASH_TABLE [PROCEDURE, STRING_32]]
 			--
 		once
-			create Result.make_equal (11)
+			create Result.make (11, agent {EL_BUILDABLE_FROM_NODE_SCAN}.new_pi_building_actions)
 		end
 
 	Root_builder_context_table: HASH_TABLE [EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, STRING]

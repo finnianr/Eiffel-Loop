@@ -19,4 +19,5 @@ inherit
 		undefine
 			is_equal
 		end
+		
 end

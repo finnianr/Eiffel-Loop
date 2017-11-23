@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-14 18:47:08 GMT (Monday 14th August 2017)"
-	revision: "2"
+	date: "2017-11-08 11:08:51 GMT (Wednesday 8th November 2017)"
+	revision: "3"
 
 deferred class
 	EL_FIXED_TAB_BOOK [W -> {EV_WINDOW}]
@@ -73,7 +73,7 @@ feature -- Access
 
 	content_of_type (type: like content_types.item): like content_list.item
 		local
-			found: BOOLEAN; i: INTEGER
+			i: INTEGER
 		do
 			from i := 1 until attached Result or i > content_types.count loop
 				if type ~ content_types [i] then

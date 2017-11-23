@@ -15,6 +15,8 @@ deferred class
 inherit
 	EL_CHAIN [S]
 
+	EL_JOINED_STRINGS [S]
+
 feature {NONE} -- Initialization
 
 	make_empty
@@ -159,35 +161,6 @@ feature -- Resizing
 
 feature -- Access
 
-	as_string_32_list: ARRAYED_LIST [STRING_32]
-		local
-			l_cursor: like cursor
-		do
-			l_cursor := cursor
-			create Result.make (count)
-			from start until after loop
-				Result.extend (item.as_string_32)
-				forth
-			end
-			go_to (l_cursor)
-		end
-
-	comma_separated: like item
-		local
-			l_cursor: like cursor
-		do
-			l_cursor := cursor
-			create Result.make (character_count + (count - 1).max (0) * 2)
-			from start until after loop
-				if index > 1 then
-					Result.append (once ", ")
-				end
-				Result.append (item)
-				forth
-			end
-			go_to (l_cursor)
-		end
-
 	item_indent: INTEGER
 		local
 			i: INTEGER; done: BOOLEAN
@@ -202,98 +175,6 @@ feature -- Access
 			end
 		end
 
-	joined (a_separator: CHARACTER_32): like item
-		do
-			Result := joined_with (a_separator, False)
-		end
-
-	joined_character_count: INTEGER
-			--
-		do
-			Result := character_count + (count - 1)
-		end
-
-	joined_lines: like item
-			-- joined with new line characters
-		do
-			Result := joined_with ('%N', False)
-		end
-
-	joined_propercase_words: like item
-			-- joined with new line characters
-		do
-			Result := joined_with (' ', True)
-		end
-
-	joined_strings: like item
-			-- join strings with no separator (null separator)
-		do
-			Result := joined_with ('%U', False)
-		end
-
-	joined_with (a_separator: CHARACTER_32; proper_case_words: BOOLEAN): like item
-			-- Null character joins without separation
-		local
-			l_cursor: like cursor
-		do
-			l_cursor := cursor
-			if a_separator = '%U' then
-				create Result.make (character_count)
-			else
-				create Result.make (character_count + (count - 1).max (0))
-			end
-			from start until after loop
-				if index > 1 and a_separator /= '%U' then
-					Result.append_code (a_separator.natural_32_code)
-				end
-				if proper_case_words then
-					Result.append (proper_cased (item))
-				else
-					Result.append (item)
-				end
-				forth
-			end
-			go_to (l_cursor)
-		end
-
-	joined_with_string (a_separator: like item): like item
-			-- Null character joins without separation
-		local
-			l_cursor: like cursor
-		do
-			l_cursor := cursor
-			create Result.make (character_count + (count - 1) * a_separator.count)
-			from start until after loop
-				if index > 1 then
-					Result.append (a_separator)
-				end
-				Result.append (item)
-				forth
-			end
-			go_to (l_cursor)
-		end
-
-	joined_words: like item
-			-- joined with new line characters
-		do
-			Result := joined_with (' ', False)
-		end
-
-feature -- Measurement
-
-	character_count: INTEGER
-			--
-		local
-			l_cursor: like cursor
-		do
-			l_cursor := cursor
-			from start until after loop
-				Result := Result + item.count
-				forth
-			end
-			go_to (l_cursor)
-		end
-
 feature -- Status query
 
 	is_indented: BOOLEAN
@@ -304,12 +185,6 @@ feature -- Status query
 		 end
 
 feature {NONE} -- Implementation
-
-	proper_cased (word: like item): like item
-		do
-			Result := word.as_lower
-			Result.put_code (word.item (1).as_upper.natural_32_code, 1)
-		end
 
 	tab_string (a_count: INTEGER): READABLE_STRING_GENERAL
 		do

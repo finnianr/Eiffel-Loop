@@ -59,7 +59,7 @@ inherit
 			is_equal, copy
 		end
 
-	EL_MODULE_ENCRYPTION
+	EL_MODULE_DIGEST
 		undefine
 			is_equal, copy
 		end
@@ -185,7 +185,7 @@ feature -- Element change
 	set_name (a_name: like name)
 		do
 			name := a_name
-			create id.make_from_array (Encryption.md5_digest_16 (a_name.to_utf_8))
+			create id.make_from_array (Digest.md5 (a_name.to_utf_8))
 		end
 
 feature {NONE} -- Implementation

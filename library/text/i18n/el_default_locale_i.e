@@ -19,6 +19,8 @@ inherit
 	EL_LOCALE_I
 		rename
 			make as make_with_language
+		redefine
+			in
 		end
 
 feature {NONE} -- Initialization

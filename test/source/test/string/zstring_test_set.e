@@ -596,6 +596,23 @@ feature -- Status query tests
 			end
 		end
 
+	test_is_canonically_spaced
+		note
+			testing: "covers/{ZSTRING}.is_canonically_spaced"
+		local
+			str: ZSTRING
+		do
+			str := " one two "
+			assert ("is_canonically_spaced", str.is_canonically_spaced)
+			str [5] := '%T'
+			assert ("not is_canonically_spaced", not str.is_canonically_spaced)
+			assert ("is_canonically_spaced", str.as_canonically_spaced.is_canonically_spaced)
+			str [5] := ' '
+			str.insert_character (' ', 5)
+			assert ("not is_canonically_spaced", not str.is_canonically_spaced)
+			assert ("is_canonically_spaced", str.as_canonically_spaced.is_canonically_spaced)
+		end
+
 	test_sort
 		note
 			testing: "covers/{ZSTRING}.is_less, covers/{ZSTRING}.str_strict_compare"

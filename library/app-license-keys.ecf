@@ -10,7 +10,8 @@
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "arbitrary_precision_math" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
-		<library name = "gobo_base" location = "$EIFFEL_LOOP/library/gobo-base.ecf"/>
+		<!--Overrides-->
+		<library name = "gobo_base" location = "gobo-base.ecf"/>
 		<!--
 			Eiffel-Loop libraries
 			
@@ -18,9 +19,9 @@
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
-		<library name = "EL_network" readonly = "false" location = "$EIFFEL_LOOP/library/network.ecf"/>
+		<library name = "EL_network" readonly = "false" location = "network.ecf"/>
 		<library name = "EL_os_command" readonly = "false" location = "os-command.ecf"/>
-		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf"/>
+		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
 		<library name = "EL_public_key_encryption" location = "public-key-encryption.ecf"/>
 		<!--Source code-->
 		<cluster name = "app_license" location = "utility/app-license" recursive = "true"/>

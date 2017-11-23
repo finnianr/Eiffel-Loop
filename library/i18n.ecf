@@ -16,8 +16,8 @@
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_chain_db" location = "chain-db.ecf" readonly = "false"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
-		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf"/>
-		<library name = "EL_xdoc_scanning" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"/>
+		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
+		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf"/>
 		<!--Source code-->
 		<cluster name = "EL_i18n" location = "text/i18n" recursive = "true">
 			<file_rule>

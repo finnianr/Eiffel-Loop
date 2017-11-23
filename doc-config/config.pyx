@@ -185,6 +185,16 @@ publish-repository:
 			name = "Adobe Flash interface for Laabhair"; dir = "library/network/flash"
 			description:
 				"flash.emd"
+
+		tree:
+			name = "Amazon Instant Access API"; dir = "library/network/amazon"
+			ecf = "amazon-instant-access.ecf"
+			description:
+				"""
+					An Eiffel interface to the [https://s3-us-west-2.amazonaws.com/dtg-docs/index.html PayPal Amazon Instant Access API.
+					This API enables third party vendors to fullfill orders for digital goods on the Amazon store.
+					(WORK IN PROGRESS)
+				"""
 		tree:
 			name = "Eiffel Remote Object Server (EROS)"; dir = "library/network/eros"
 			ecf = "eros.ecf"
@@ -305,7 +315,7 @@ publish-repository:
 
 		# Library (Text)
 		tree:
-			name = "AES Encryption Extensions"; dir = "library/text/encryption/aes"; ecf = "encryption.ecf"
+			name = "AES Encryption Extensions"; dir = "library/text/encryption"; ecf = "encryption.ecf"
 			description:
 				"""
 					Extensions to Colin LeMahieu's
@@ -315,7 +325,7 @@ publish-repository:
 					cipher [https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation block chains].
 				"""
 		tree:
-			name = "RSA Public-key Encryption Extensions"; dir = "library/text/encryption/rsa"
+			name = "RSA Public-key Encryption Extensions"; dir = "library/text/rsa-encryption"
 			ecf = "public-key-encryption.ecf"
 			description:
 				"rsa.emd"
@@ -344,6 +354,12 @@ publish-repository:
 			name = "ZLib Compression"; dir = "library/utility/compression"
 			description:
 				"""
+				"""
+		tree:
+			name = "Currency Exchange"; dir = "library/utility/currency"
+			description:
+				"""
+					Currency Exchange based on European Central bank Rates
 				"""
 		# Library (Override)
 		tree:

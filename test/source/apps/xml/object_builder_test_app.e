@@ -37,9 +37,9 @@ feature -- Basic operations
 		do
 			-- Jan 2016
 			Test.do_file_test ("XML/creatable/linguistic-analysis.smil", agent build_and_serialize_file, 1808379658)
---			Test.do_all_files_test ("XML/creatable", "*", agent build_and_serialize_file, 1550922869)
---			Test.do_file_test ("XML/creatable/download-page.xhtml", agent build_and_serialize_file, 3986893289)
---			Test.do_all_files_test ("XML/creatable", "*", agent smart_build_file, 2575137007)
+			Test.do_all_files_test ("XML/creatable", "*", agent build_and_serialize_file, 908662685)
+			Test.do_file_test ("XML/creatable/download-page.xhtml", agent build_and_serialize_file, 519114799)
+			Test.do_all_files_test ("XML/creatable", "*", agent smart_build_file, 562742021)
 		end
 
 feature -- Tests

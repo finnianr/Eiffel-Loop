@@ -36,6 +36,10 @@ feature -- Access
 		deferred
 		end
 
+	in (a_language: STRING): EL_DEFERRED_LOCALE_I
+		deferred
+		end
+
 	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
 			-- by default returns `key' as a `ZSTRING' unless localization is enabled at an
 			-- application level

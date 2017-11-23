@@ -63,19 +63,21 @@ feature -- Access
 		do
 			l_count := read_integer_32
 			create Result.make (l_count)
-			l_area := Result.area
-			extendible_unencoded := Result.extendible_unencoded
-			from i := 0 until i = l_count loop
-				c := read_character_8
-				l_area [i] := c
-				if c = Unencoded_character then
-					extendible_unencoded.extend (read_natural_32, i + 1)
+			if l_count <= buffer.count - count then
+				l_area := Result.area
+				extendible_unencoded := Result.extendible_unencoded
+				from i := 0 until i = l_count loop
+					c := read_character_8
+					l_area [i] := c
+					if c = Unencoded_character then
+						extendible_unencoded.extend (read_natural_32, i + 1)
+					end
+					i := i + 1
 				end
-				i := i + 1
+				l_area [i] := c
+				Result.set_count (l_count)
+				Result.set_unencoded_area (extendible_unencoded.area_copy)
 			end
-			l_area [i] := c
-			Result.set_count (l_count)
-			Result.set_unencoded_area (extendible_unencoded.area_copy)
 		end
 
 	read_string_32: STRING_32
@@ -84,9 +86,11 @@ feature -- Access
 		do
 			l_count := read_integer_32
 			create Result.make (l_count)
-			from i := 1 until i > l_count loop
-				Result.append_code (read_compressed_natural_32)
-				i := i + 1
+			if l_count <= buffer.count - count then
+				from i := 1 until i > l_count loop
+					Result.append_code (read_compressed_natural_32)
+					i := i + 1
+				end
 			end
 		end
 
@@ -102,6 +106,12 @@ feature -- Access
 			check_buffer (str.count)
 			buffer.read_into_special_character_8 (str.area, count, 0, str.count)
 			count := count + str.count
+		end
+
+	inspect_buffer: STRING
+		do
+			create Result.make_filled (' ', 40)
+			Result.area.base_address.memory_copy (buffer.item, Result.count.min (buffer.count))
 		end
 
 feature -- Measurement

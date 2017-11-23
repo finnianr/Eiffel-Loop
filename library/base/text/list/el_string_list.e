@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_STRING_LIST}."
+	description: "List of strings conforming to `STRING_GENERAL'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

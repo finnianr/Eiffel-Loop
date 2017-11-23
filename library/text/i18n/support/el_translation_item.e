@@ -33,16 +33,14 @@ feature {NONE} -- Initialization
 			key := a_key; text := a_text
 		end
 
-	make_default
-		do
-			key := Empty_string
-			text := Empty_string
-		end
-
 feature -- Access
 
 	key: ZSTRING
 
 	text: ZSTRING
+
+feature {NONE} -- Constants
+
+	Field_hash_checksum: NATURAL = 0
 
 end

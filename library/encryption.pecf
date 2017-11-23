@@ -36,6 +36,12 @@ system:
 		library:
 			name = encryption_base; location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"
 
+		variable:
+			name = eapml_limb_type; value = natural_32
+
+		library:
+			name = arbitrary_precision_math; location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
+
 		# Eiffel-Loop
 		library:
 			name = EL_base; location = "base/base.ecf"
@@ -44,5 +50,5 @@ system:
 			name = EL_evolicity; location = "evolicity.ecf"
 
 		cluster:
-			name = encryption; location = "text/encryption/aes"; recursive = true
+			name = encryption; location = "text/encryption"; recursive = true
 

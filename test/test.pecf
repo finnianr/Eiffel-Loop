@@ -89,8 +89,15 @@ system:
 		library:
 			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
 
+		# Encryption
 		variable:
 			name = eapml_limb_type; value = natural_32
+
+		library:
+			name = arbitrary_precision_math; location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
+
+		library:
+			name = encryption_base; location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"
 
 		# Gobo
 		library:
@@ -98,6 +105,10 @@ system:
 
 
 		# Eiffel Loop libraries
+		library:
+			name = EL_amazon; location = "$EIFFEL_LOOP/library/amazon-instant-access.ecf"
+			readonly = false
+
 		library:
 			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
 			readonly = false
@@ -163,6 +174,10 @@ system:
 		library:
 			name = EL_os_command; readonly = false
 			location = "$EIFFEL_LOOP/library/os-command.ecf"
+
+		library:
+			name = EL_servlet; location = "$EIFFEL_LOOP/library/servlet.ecf"
+			readonly = false
 
 		library:
 			name = EL_testing; readonly = false

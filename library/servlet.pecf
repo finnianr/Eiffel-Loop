@@ -46,7 +46,7 @@ system:
 			name = EL_app_manage; location = "app-manage.ecf"
 
 		library:
-			name = EL_encryption; location = "$EIFFEL_LOOP/library/encryption.ecf"
+			name = EL_encryption; location = "encryption.ecf"
 			readonly = false
 
 		library:

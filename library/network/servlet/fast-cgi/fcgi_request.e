@@ -24,6 +24,7 @@ feature {NONE} -- Initialization
 		do
 			create socket.make
 			create parameters.make
+			create relative_path_info.make_empty
 			end_request_listener := Default_event_listener
 		end
 
@@ -34,12 +35,15 @@ feature -- Access
 	parameters: FCGI_REQUEST_PARAMETERS
 		-- parameters passed to this request.
 
-	path_info: ZSTRING
-		do
-			Result := parameters.path_info
-		end
+	relative_path_info: ZSTRING
+		-- path info without the leading '/' character
 
 	request_id: NATURAL_16
+
+	request_method: ZSTRING
+		do
+			Result := parameters.request_method
+		end
 
 	role: NATURAL_16
 
@@ -66,6 +70,11 @@ feature -- Status query
 
 	is_end_service: BOOLEAN
 		-- `True' if type is request to end service
+
+	is_head_request: BOOLEAN
+		do
+			Result := parameters.is_head_request
+		end
 
 feature -- Element change
 
@@ -108,7 +117,8 @@ feature -- Basic operations
 	read
 			-- Read a complete request including its begin request, params and stdin records.
 		do
-			parameters.reset
+			parameters.wipe_out
+
 			from request_read := False until not read_ok or request_read loop
 				Header.read (Current)
 			end
@@ -155,16 +165,18 @@ feature {FCGI_RECORD} -- Record events
 
 	on_parameter (record: FCGI_PARAMETER_RECORD)
 		do
-			parameters.set_field (record.name, record.value)
+			parameters.set_field (record.name, record.value.twin)
 		end
 
 	on_parameter_last
 		do
+			relative_path_info.wipe_out
+			relative_path_info.append_substring (parameters.path_info, 2, parameters.path_info.count)
 		end
 
 	on_stdin_request (record: FCGI_STRING_CONTENT_RECORD)
 		do
-			parameters.append_raw_stdin_content (record.content)
+			parameters.content.append (record.content)
 		end
 
 	on_stdin_request_last
@@ -194,4 +206,5 @@ feature {FCGI_RECORD} -- Constants
 		end
 
 	Packet_size: INTEGER = 65535
+
 end

@@ -10,7 +10,7 @@ note
 	revision: "2"
 
 class
-	EL_SPLIT_STRING_LIST
+	EL_PATTERN_SPLIT_STRING_LIST
 
 inherit
 	EL_SOURCE_TEXT_PROCESSOR

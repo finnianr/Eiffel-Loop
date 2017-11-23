@@ -18,7 +18,7 @@
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
 		<!--Source code-->
-		<cluster name = "RSA_public_key" location = "text/encryption/rsa" recursive = "true">
+		<cluster name = "RSA_public_key" location = "text/rsa-encryption" recursive = "true">
 			<file_rule>
 				<exclude>/windows$</exclude>
 				<condition>

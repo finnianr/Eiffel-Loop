@@ -54,7 +54,7 @@ system:
 
 		# Source code
 		cluster:
-			name = RSA_public_key; location = "text/encryption/rsa"; recursive = true
+			name = RSA_public_key; location = "text/rsa-encryption"; recursive = true
 			file_rule:
 				exclude:
 					"/windows$"

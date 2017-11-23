@@ -382,6 +382,8 @@ The principle developer of Eiffel-loop has developed a sophisticated license man
 
 ## ZLib Compression
 
+## Currency Exchange
+Currency Exchange based on European Central bank Rates
 ## Override of ES GUI Toolkits
 
 ## Override of ES Eiffel to Java Interface

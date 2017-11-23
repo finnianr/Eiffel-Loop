@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:34:55 GMT (Thursday 25th May 2017)"
-	revision: "4"
+	date: "2017-11-10 9:53:12 GMT (Friday 10th November 2017)"
+	revision: "5"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			getter_functions := Getter_functions_by_type.item ({like Current}, agent new_getter_functions)
+			getter_functions := Getter_functions_by_type.item (Current)
 		end
 
 feature -- Element change
@@ -158,7 +158,7 @@ feature {NONE} -- Implementation
 			Result := a_item
 		end
 
-feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
+feature {EVOLICITY_EIFFEL_CONTEXT} -- Factory
 
 	new_getter_functions: like getter_functions
 			--
@@ -166,6 +166,8 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 			Result := getter_function_table
 			Result.compare_objects
 		end
+
+feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 
 	getter_function_table: like getter_functions
 			--
@@ -181,9 +183,11 @@ feature {NONE} -- Constants
 			Result := agent (str: ZSTRING): BOOLEAN do  end
 		end
 
-	Getter_functions_by_type: EL_TYPE_TABLE [EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]]
+	Getter_functions_by_type: EL_FUNCTION_RESULT_TABLE [
+		EVOLICITY_EIFFEL_CONTEXT, EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]
+	]
 		once
-			create Result.make_equal (19)
+			create Result.make (19, agent {EVOLICITY_EIFFEL_CONTEXT}.new_getter_functions)
 		end
 
 end

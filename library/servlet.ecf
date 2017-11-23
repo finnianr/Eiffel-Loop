@@ -16,7 +16,7 @@
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_app_manage" location = "app-manage.ecf"/>
-		<library name = "EL_encryption" location = "$EIFFEL_LOOP/library/encryption.ecf" readonly = "false"/>
+		<library name = "EL_encryption" location = "encryption.ecf" readonly = "false"/>
 		<library name = "EL_http" location = "http.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
 		<library name = "EL_net_base" location = "network.ecf"/>

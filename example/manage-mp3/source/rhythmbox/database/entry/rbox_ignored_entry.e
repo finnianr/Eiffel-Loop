@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 7:56:31 GMT (Monday 22nd May 2017)"
-	revision: "4"
+	date: "2017-11-09 18:44:04 GMT (Thursday 9th November 2017)"
+	revision: "5"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -94,7 +94,7 @@ feature {NONE} -- Build from XML
 			--
 		do
 			Result := Precursor
-			Result.merge (building_actions_for_type ({INTEGER}, Fields_not_stored, Hyphen))
+			Result.merge (building_actions_for_type ({INTEGER}))
 		end
 
 feature -- Constants

@@ -10,101 +10,90 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-31 16:32:18 GMT (Tuesday 31st October 2017)"
-	revision: "1"
+	date: "2017-11-10 10:32:39 GMT (Friday 10th November 2017)"
+	revision: "2"
 
 class
 	FCGI_REQUEST_PARAMETERS
 
+inherit
+	EL_REFLECTIVELY_SETTABLE [ZSTRING]
+		rename
+			make_default as make,
+			name_adaptation as from_upper_snake_case
+		redefine
+			make, set_field, Except_fields
+		end
+
 create
-	make
+	make, make_from_table
 
 feature {NONE} -- Initialization
 
 	make
 		do
-			create current_object.make (Current)
-			create path_info.make_empty
-			create raw_stdin_content.make (0)
-			reset
+			Precursor
+			create headers.make
+			create content.make_empty
 		end
 
 feature -- Element change
 
-	append_raw_stdin_content (str: STRING)
+	set_content (a_content: like content)
 		do
-			raw_stdin_content.append (str)
+			content := a_content
 		end
 
-	reset
-		local
-			i, field_count: INTEGER; object: like current_object
-			omitted: like Ommitted_indices
+	wipe_out
 		do
-			path_info.wipe_out
-			raw_stdin_content.wipe_out
-
-			omitted := Ommitted_indices
-			object := current_object
-			field_count := object.field_count
-			from i := 1 until i > field_count loop
-				if not omitted.has (i) then
-					object.set_reference_field (i, Default_value)
-				end
-				i := i + 1
-			end
-			content_length := -1
-		end
-
-	set_content_length (value: ZSTRING)
-		do
-			if value.is_integer then
-				content_length := value.to_integer
-			end
-		end
-
-	set_field (name: STRING; value: ZSTRING)
-		do
-			if attached {PROCEDURE} Setter_routines [name] as set then
-				set.set_target (Current)
-				set (value)
-			else
-				Field_indices.search (name)
-				if Field_indices.found then
-					current_object.set_reference_field (Field_indices.found_item, value.twin)
-				end
-			end
-		end
-
-	set_path_info (value: ZSTRING)
-		do
-			path_info.append (value)
-			path_info.prune_all_leading ('/')
+			set_default_values
+			headers.wipe_out
+			content.wipe_out
 		end
 
 feature -- Access
 
-	content_length: INTEGER
+	content: STRING
+		-- raw stdin content (excluded field)
 
-	http_parameters: EL_HTTP_HASH_TABLE
-		-- If the request is a GET then the parameters are stored in the query
-		-- string. Otherwise, the parameters are in the stdin data.
+	full_request_url: ZSTRING
 		do
-			if request_method ~ Method_get then
+			Result := Request_url_template #$ [protocol, host_name, server_port, request_uri]
+		end
+
+	headers: FCGI_HTTP_HEADERS
+
+	host_name: ZSTRING
+		do
+			create Result.make_empty
+			across << headers.x_forwarded_host, headers.host, server_name >> as name until not Result.is_empty loop
+				if not name.item.is_empty then
+					Result := name.item
+				end
+			end
+		end
+
+	method_parameters: EL_HTTP_HASH_TABLE
+		-- non-duplicate http parameters from either the GET-data (URI query string)
+		-- or POST-data (`raw_stdin_content')
+		do
+			if is_get_request then
 				create Result.make_from_url_query (query_string)
-			elseif request_method ~ Method_post and content_length > 0 then
-				create Result.make_from_url_query (raw_stdin_content)
+			elseif is_post_request and headers.content_length > 0 then
+				create Result.make_from_url_query (content)
 			else
 				create Result.make_default
 			end
 		end
 
-	is_head_request: BOOLEAN
+	protocol: STRING
 		do
-			Result := Method_head ~ request_method
+			Result := server_protocol.substring (1, server_protocol.index_of ('/', 1) - 1)
+			Result.to_lower
+			if https ~ once "on" then
+				Result.append_character ('s')
+			end
 		end
-
-	raw_stdin_content: STRING
 
 	remote_address_32: NATURAL
 		local
@@ -117,39 +106,42 @@ feature -- Access
 			end
 		end
 
-feature -- FCGI parameters
+feature -- Status query
+
+	is_get_request: BOOLEAN
+		do
+			Result := Method_get ~ request_method
+		end
+
+	is_head_request: BOOLEAN
+		do
+			Result := Method_head ~ request_method
+		end
+
+	is_post_request: BOOLEAN
+		do
+			Result := Method_post ~ request_method
+		end
+
+feature -- Numeric parameters
+
+	remote_port: INTEGER
+
+	server_port: INTEGER
+
+feature -- STRING_8 parameters
+
+	https: STRING
+
+	server_protocol: STRING
+
+feature -- ZSTRING parameters
 
 	auth_type: ZSTRING
-
-	content_type: ZSTRING
 
 	document_root: ZSTRING
 
 	gateway_interface: ZSTRING
-
-	http_accept: ZSTRING
-
-	http_accept_encoding: ZSTRING
-
-	http_accept_language: ZSTRING
-
-	http_cache_control: ZSTRING
-
-	http_connection: ZSTRING
-
-	http_cookie: ZSTRING
-
-	http_from: ZSTRING
-
-	http_host: ZSTRING
-
-	http_referer: ZSTRING
-
-	http_upgrade_insecure_requests: ZSTRING
-
-	http_user_agent: ZSTRING
-
-	https: ZSTRING
 
 	path: ZSTRING
 
@@ -163,8 +155,6 @@ feature -- FCGI parameters
 		-- remote address formatted as x.x.x.x where 0 <= x and x <= 255
 
 	remote_ident: ZSTRING
-
-	remote_port: ZSTRING
 
 	remote_user: ZSTRING
 
@@ -182,13 +172,28 @@ feature -- FCGI parameters
 
 	server_name: ZSTRING
 
-	server_port: ZSTRING
-
-	server_protocol: ZSTRING
-
 	server_signature: ZSTRING
 
 	server_software: ZSTRING
+
+feature -- Element change
+
+	set_field (name: STRING; value: ZSTRING)
+		local
+			prefixes: like Header_prefixes
+		do
+			prefixes := Header_prefixes
+			prefixes.find_first (True, agent name.starts_with)
+			if prefixes.found then
+				if prefixes.index = 2 then
+					-- remove HTTP_
+					name.remove_head (prefixes.item.count)
+				end
+				headers.set_field (name, value)
+			else
+				Precursor (name, value)
+			end
+		end
 
 feature {NONE} -- Implementation
 
@@ -197,10 +202,6 @@ feature {NONE} -- Implementation
 			n.set_item (n.item |<< 8 | byte_string.to_natural_32)
 		end
 
-feature {NONE} -- Internal attributes
-
-	current_object: REFLECTED_REFERENCE_OBJECT
-
 feature {NONE} -- Constants
 
 	Dot: ZSTRING
@@ -208,30 +209,14 @@ feature {NONE} -- Constants
 			Result := "."
 		end
 
-	Default_value: ZSTRING
+	Except_fields: ZSTRING
 		once
-			create Result.make_empty
+			Result := Precursor + ", content"
 		end
 
-	Field_indices: HASH_TABLE [INTEGER, STRING]
-		local
-			i, field_count: INTEGER; object: like current_object
+	Header_prefixes: EL_ARRAYED_LIST [STRING]
 		once
-			object := current_object
-			field_count := object.field_count
-			create Result.make (field_count)
-			from i := 1 until i > field_count loop
-				if not Ommitted_indices.has (i) then
-					Result.extend (i, object.field_name (i))
-				end
-				i := i + 1
-			end
-		end
-
-	Internal_fields: ARRAY [STRING]
-		once
-			Result := << "current_object", "raw_stdin_content" >>
-			Result.compare_objects
+			create Result.make_from_array (<< "CONTENT_", "HTTP_" >>)
 		end
 
 	Method_get: ZSTRING
@@ -239,39 +224,19 @@ feature {NONE} -- Constants
 			Result := "GET"
 		end
 
-	Method_post: ZSTRING
-		once
-			Result := "POST"
-		end
-
 	Method_head: ZSTRING
 		once
 			Result := "HEAD"
 		end
 
-	Ommitted_indices: ARRAYED_LIST [INTEGER]
-		local
-			i, field_count: INTEGER; object: like current_object
-			field_name: STRING
+	Method_post: ZSTRING
 		once
-			object := current_object
-			field_count := object.field_count
-			create Result.make (10)
-			from i := 1 until i > field_count loop
-				field_name := object.field_name (i)
-				if Setter_routines.has_key (field_name) or else Internal_fields.has (field_name) then
-					Result.extend (i)
-				end
-				i := i + 1
-			end
+			Result := "POST"
 		end
 
-	Setter_routines: EL_PROCEDURE_TABLE
+	Request_url_template: ZSTRING
 		once
-			create Result.make (<<
-				["content_length", agent set_content_length],
-				["path_info", agent set_path_info]
-			>>)
+			Result := "%S://%S:%S%S"
 		end
 
 end

@@ -174,7 +174,7 @@ feature {NONE} -- Implementation
 	set_header_subject
 		do
 			subject_list.extend (field_table [Field.subject])
-			last_header.subject := subject_list.last.line
+			last_header.subject := subject_list.last_line
 			output_file_path := output_dir + last_header.subject
 			output_file_path.add_extension (file_out_extension)
 		end

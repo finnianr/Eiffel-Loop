@@ -46,6 +46,8 @@ inherit
 		end
 
 	EL_ZSTRING_ROUTINES
+		rename
+			Tab_string as Tab_zstring
 		export
 			{NONE} all
 		undefine

@@ -69,7 +69,7 @@ feature -- Status query
 
 	is_head_request: BOOLEAN
 		do
-			Result := internal_request.parameters.is_head_request
+			Result := internal_request.is_head_request
 		end
 
 	write_ok: BOOLEAN

@@ -56,7 +56,7 @@ system:
 			name = EL_base; location = "base/base.ecf"
 
 		library:
-			name = EL_c_api; location = "$EIFFEL_LOOP/library/C-language-interface.ecf"
+			name = EL_c_api; location = "C-language-interface.ecf"
 
 		library:
 			name = EL_logging; location = "logging.ecf"

@@ -13,7 +13,7 @@ class
 	EL_OK_SERVLET
 
 inherit
-	EL_HTTP_SERVLET
+	FCGI_HTTP_SERVLET
 
 create
 	make

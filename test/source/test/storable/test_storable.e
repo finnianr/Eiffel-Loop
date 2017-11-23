@@ -17,18 +17,11 @@ inherit
 		rename
 			read_version as read_default_version
 		redefine
-			is_equal, read_default, write
+			is_equal
 		end
 
 create
 	make_default
-
-feature {NONE} -- Initialization
-
-	make_default
-		do
-			set_values ("")
-		end
 
 feature -- Access
 
@@ -40,13 +33,6 @@ feature -- Access
 
 feature -- Element change
 
-	read_default (a_reader: EL_MEMORY_READER_WRITER)
-		do
-			string := a_reader.read_string
-			string_32 := a_reader.read_string_32
-			string_utf_8 := a_reader.read_string_8
-		end
-		
 	set_values (str: STRING_32)
 		do
 			string_32 := str
@@ -54,14 +40,6 @@ feature -- Element change
 			string_utf_8 := string.to_utf_8
 		end
 
-feature -- Basic operations
-
-	write (a_writer: EL_MEMORY_READER_WRITER)
-		do
-			a_writer.write_string (string)
-			a_writer.write_string_32 (string_32)
-			a_writer.write_string_8 (string_utf_8)
-		end
 feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
@@ -69,5 +47,9 @@ feature -- Comparison
 			Result := string ~ other.string and then string_32 ~ other.string_32
 							and then string_utf_8 ~ other.string_utf_8
 		end
+
+feature {NONE} -- Constants
+
+	Field_hash_checksum: NATURAL = 524719777
 
 end

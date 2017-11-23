@@ -18,17 +18,15 @@ inherit
 create
 	make_default
 
-feature {NONE} -- Initialization
-
-	make_default
-		do
-		end
-
 feature {NONE} -- Implementation
 
 	read_version (a_reader: EL_MEMORY_READER_WRITER; version: NATURAL)
 			-- Read version compatible with software version
 		do
 		end
+
+feature {NONE} -- Constants
+
+	Field_hash_checksum: NATURAL = 0
 
 end

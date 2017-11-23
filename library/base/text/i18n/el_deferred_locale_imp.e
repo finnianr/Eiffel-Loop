@@ -27,6 +27,11 @@ feature {NONE} -- Initialization
 			create date_text.make
 		end
 
+	in (a_language: STRING): EL_DEFERRED_LOCALE_I
+		do
+			Result := Current
+		end
+
 feature {NONE} -- Implementation
 
 	set_next_translation (text: READABLE_STRING_GENERAL)

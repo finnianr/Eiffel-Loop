@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-13 8:52:59 GMT (Sunday 13th August 2017)"
-	revision: "7"
+	date: "2017-11-10 9:56:04 GMT (Friday 10th November 2017)"
+	revision: "8"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -216,10 +216,10 @@ feature {NONE} -- Implementation
 
 	temporary_error_file_path: EL_FILE_PATH
 		do
-			Result := Temporary_error_path_by_type.item ({like Current}, agent new_temporary_file_path ("err"))
+			Result := Temporary_error_path_by_type.item (Current)
 		end
 
-feature {NONE} -- Factory
+feature {EL_OS_COMMAND_I} -- Factory
 
 	new_command_string (a_system_command: like system_command): STRING_32
 		local
@@ -310,9 +310,9 @@ feature {NONE} -- Constants
 			Result := "%T%N"
 		end
 
-	Temporary_error_path_by_type: EL_TYPE_TABLE [EL_FILE_PATH]
+	Temporary_error_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_OS_COMMAND_I, EL_FILE_PATH]
 		once
-			create Result.make_equal (17)
+			create Result.make (17, agent {EL_OS_COMMAND_I}.new_temporary_file_path ("err"))
 		end
 
 	Variable_cwd: ZSTRING

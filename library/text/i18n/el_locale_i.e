@@ -84,7 +84,7 @@ feature -- Access
 		require
 			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
 		local
-			substitutions: ARRAY [like translation_template.NAME_VALUE_PAIR]
+			substitutions: like translation_template.NAME_VALUE_PAIR_ARRAY
 		do
 			create substitutions.make_empty
 			Result := quantity_translation_extra (partial_key, quantity, substitutions)
@@ -92,7 +92,7 @@ feature -- Access
 
 	quantity_translation_extra (
 		partial_key: READABLE_STRING_GENERAL; quantity: INTEGER
-		substitutions: ARRAY [like translation_template.NAME_VALUE_PAIR]
+		substitutions: like translation_template.NAME_VALUE_PAIR_ARRAY
 	): ZSTRING
 			-- translation with adjustments according to value of `quantity'
 		require
@@ -170,6 +170,11 @@ feature -- Status report
 		end
 
 feature {NONE} -- Implementation
+
+	in (a_language: STRING): EL_LOCALE_I
+		do
+			Result := Current
+		end
 
 	set_next_translation (text: READABLE_STRING_GENERAL)
 		-- not used

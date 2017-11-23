@@ -18,9 +18,7 @@ inherit
 			default_create, out
 		end
 
-	EL_MODULE_ENCRYPTION
-		rename
-			Encryption as Mod_encryption
+	EL_MODULE_DIGEST
 		undefine
 			default_create, out
 		end
@@ -42,7 +40,7 @@ feature {NONE} -- Initialization
 		local
 			size_bytes: INTEGER
 		do
-			key_data := Mod_encryption.sha256_digest_32 (pass_phrase.to_utf_8)
+			key_data := Digest.sha_256 (pass_phrase.to_utf_8)
 
 			size_bytes := key_size_bits // 8
 			if size_bytes < key_data.count then

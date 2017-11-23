@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-13 15:13:24 GMT (Tuesday 13th June 2017)"
-	revision: "3"
+	date: "2017-11-10 9:54:57 GMT (Friday 10th November 2017)"
+	revision: "4"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_I
@@ -60,7 +60,7 @@ feature {NONE} -- Implementation
 
 	temporary_output_file_path: EL_FILE_PATH
 		do
-			Result := Temporary_output_path_by_type.item ({like Current}, agent new_temporary_file_path ("txt"))
+			Result := Temporary_output_path_by_type.item (Current)
 		end
 
 feature {NONE} -- Constants
@@ -70,8 +70,8 @@ feature {NONE} -- Constants
 			Result := " > "
 		end
 
-	Temporary_output_path_by_type: EL_TYPE_TABLE [EL_FILE_PATH]
+	Temporary_output_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_CAPTURED_OS_COMMAND_I, EL_FILE_PATH]
 		once
-			create Result.make_equal (17)
+			create Result.make (17, agent {EL_CAPTURED_OS_COMMAND_I}.new_temporary_file_path ("txt"))
 		end
 end

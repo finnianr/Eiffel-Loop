@@ -780,6 +780,51 @@ feature -- Status query
 			end
 		end
 
+	is_canonically_spaced: BOOLEAN
+		-- `True' if the longest substring of whitespace consists of one space character
+		local
+			c_i: CHARACTER; i, l_count, space_count: INTEGER; l_area: like area
+			is_space, is_space_state: BOOLEAN
+		do
+			l_area := area; l_count := count
+			Result := True
+			from i := 0 until not Result or else i = l_count loop
+				c_i := l_area [i]
+				if c_i = Unencoded_character then
+					is_space := unencoded_item (i).is_space
+				else
+					is_space := c_i.is_space
+				end
+				if is_space then
+					space_count := space_count + 1
+					if c_i /= ' ' or else space_count = 2 then
+						Result := False
+					end
+				end
+				if is_space_state then
+					if not is_space then
+						is_space_state := False
+					end
+				elseif is_space then
+					is_space_state := True
+					space_count := 0
+				end
+				i := i + 1
+			end
+		end
+
+	is_left_adjustable: BOOLEAN
+		-- True if `left_adjust' will change the `count'
+		do
+			Result := not is_empty and then is_space_item (1)
+		end
+
+	is_right_adjustable: BOOLEAN
+		-- True if `right_adjust' will change the `count'
+		do
+			Result := not is_empty and then is_space_item (count)
+		end
+
 	is_space_item (i: INTEGER): BOOLEAN
 		require
 			valid_index: valid_index (i)
@@ -852,6 +897,12 @@ feature -- Status query
 		end
 
 feature -- Conversion
+
+	as_canonically_spaced: like Current
+		do
+			Result := twin
+			Result.to_canonically_spaced
+		end
 
 	as_encoded_8 (a_codec: EL_ZCODEC): STRING
 		local
@@ -1080,6 +1131,44 @@ feature -- Conversion
 				Result.extend (substring (intervals.item_lower, intervals.item_upper))
 				intervals.forth
 			end
+		end
+
+	to_canonically_spaced
+		-- adjust so that `is_canonically_spaced' becomes true
+		local
+			c_i: CHARACTER; i, l_count: INTEGER; l_area: like area
+			is_space, is_space_state: BOOLEAN
+			z_code_array: ARRAYED_LIST [NATURAL]; l_z_code: NATURAL
+		do
+			if not is_canonically_spaced then
+				create z_code_array.make (0)
+				l_area := area; l_count := count
+				from i := 0 until i = l_count loop
+					c_i := l_area [i]
+					if c_i = Unencoded_character then
+						is_space := unencoded_item (i).is_space
+						l_z_code := unencoded_z_code (i)
+					else
+						is_space := c_i.is_space
+						l_z_code := c_i.natural_32_code
+					end
+					if is_space_state then
+						if not is_space then
+							is_space_state := False
+						end
+					elseif is_space then
+						is_space_state := True
+						z_code_array.extend (32)
+					else
+						z_code_array.extend (l_z_code)
+					end
+					i := i + 1
+				end
+				make (z_code_array.count)
+				z_code_array.do_all (agent append_z_code)
+			end
+		ensure
+			canonically_spaced: is_canonically_spaced
 		end
 
 	to_latin_string_8: STRING
@@ -1586,6 +1675,10 @@ feature {EL_READABLE_ZSTRING} -- Element change
 			append_string_general (utf_8_to_unicode (utf_8))
 		end
 
+	append_z_code (c: like z_code)
+		deferred
+		end
+
 	enclose (left, right: CHARACTER_32)
 		do
 			grow (count + 2); prepend_character (left); append_character (right)
@@ -1715,20 +1808,24 @@ feature {EL_READABLE_ZSTRING} -- Removal
 	left_adjust
 			-- Remove leading whitespace.
 		do
-			if has_mixed_encoding then
-				remove_head (leading_white_space)
-			else
-				internal_left_adjust
+			if is_left_adjustable then
+				if has_mixed_encoding then
+					remove_head (leading_white_space)
+				else
+					internal_left_adjust
+				end
 			end
 		end
 
 	right_adjust
 			-- Remove trailing whitespace.
 		do
-			if has_mixed_encoding then
-				remove_tail (trailing_white_space)
-			else
-				internal_right_adjust
+			if is_right_adjustable then
+				if has_mixed_encoding then
+					remove_tail (trailing_white_space)
+				else
+					internal_right_adjust
+				end
 			end
 		end
 
@@ -1928,15 +2025,17 @@ feature {NONE} -- Implementation
 		do
 			l_count := count; str_count := str.count
 			Result := Once_substring_indices; Result.wipe_out
-			from index := 1 until index = 0 or else index > l_count - str_count + 1 loop
-				if str_count = 1 then
-					index := index_of_z_code (str.z_code (1), index)
-				else
-					index := substring_index (str, index)
-				end
-				if index > 0 then
-					Result.extend (index)
-					index := index + str_count
+			if not str.is_empty then
+				from index := 1 until index = 0 or else index > l_count - str_count + 1 loop
+					if str_count = 1 then
+						index := index_of_z_code (str.z_code (1), index)
+					else
+						index := substring_index (str, index)
+					end
+					if index > 0 then
+						Result.extend (index)
+						index := index + str_count
+					end
 				end
 			end
 		end

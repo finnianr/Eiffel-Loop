@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-05 12:55:55 GMT (Sunday 5th November 2017)"
-	revision: "3"
+	date: "2017-11-07 11:15:13 GMT (Tuesday 7th November 2017)"
+	revision: "4"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -148,7 +148,7 @@ feature {NONE} -- States
 		local
 			servlet_path: ZSTRING; found: BOOLEAN
 		do
-			servlet_path := request.path_info
+			servlet_path := request.relative_path_info
 			if servlet_path.is_empty then
 				error (Servlet_app_log_category, "No path specified in HTTP header")
 			else

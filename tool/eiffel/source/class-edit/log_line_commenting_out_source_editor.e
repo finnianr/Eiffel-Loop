@@ -101,8 +101,8 @@ feature {NONE} -- Parsing actions
 
 feature {NONE} -- Implementation
 
-	string_tokenizer_by_new_line: EL_SPLIT_STRING_LIST
+	string_tokenizer_by_new_line: EL_PATTERN_SPLIT_STRING_LIST
 
-	string_tokenizer_by_eiffel_comment_marker: EL_SPLIT_STRING_LIST
+	string_tokenizer_by_eiffel_comment_marker: EL_PATTERN_SPLIT_STRING_LIST
 
 end

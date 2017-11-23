@@ -16,6 +16,8 @@ inherit
 	EL_STORABLE
 		rename
 			read_version as read_default_version
+		redefine
+			make_default
 		end
 
 create
@@ -25,6 +27,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
+			Precursor
 			create audio_id.make_default
 			create file_path
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 10:42:36 GMT (Thursday 29th June 2017)"
-	revision: "10"
+	date: "2017-11-10 12:33:25 GMT (Friday 10th November 2017)"
+	revision: "11"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -29,12 +29,22 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent path_test_set.test_relative_path)
+			do_file_data_test (agent amazon_instant_access_test_set.test_sign_and_verify)
 		end
 
 feature -- Tests
 
 	audio_command_test_set: AUDIO_COMMAND_TEST_SET
+		do
+			create Result
+		end
+
+	amazon_instant_access_test_set: AMAZON_INSTANT_ACCESS_TEST_SET
+		do
+			create Result
+		end
+
+	digest_test_set: DIGEST_ROUTINES_TEST_SET
 		do
 			create Result
 		end
@@ -75,6 +85,11 @@ feature -- Tests
 		end
 
 	string_32_routines_test_set: STRING_32_ROUTINES_TEST_SET
+		do
+			create Result
+		end
+
+	substitution_template_test_set: SUBSTITUTION_TEMPLATE_TEST_SET
 		do
 			create Result
 		end

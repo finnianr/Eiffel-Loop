@@ -13,13 +13,17 @@ class
 	SUBJECT_LIST
 
 inherit
-	EL_ARRAYED_LIST [TUPLE [index: INTEGER; line: ZSTRING]]
+	EL_SORTABLE_ARRAYED_MAP_LIST [INTEGER, ZSTRING]
 		rename
 			extend as extend_list,
-			has as has_item
+			has as has_item,
+			item_value as line_item,
+			last_value as last_line,
+			first_value as first_line,
+			value_list as line_list
 		export
 			{NONE} all
-			{ANY} last, wipe_out, is_empty
+			{ANY} last, wipe_out, is_empty, last_line
 		redefine
 			make
 		end
@@ -49,13 +53,10 @@ feature -- Basic operations
 
 	save_if_different (file_path: EL_FILE_PATH)
 		local
-			sorted_lines: EL_ZSTRING_LIST; file_out: EL_PLAIN_TEXT_FILE
+			sorted_lines: LIST [ZSTRING]; file_out: EL_PLAIN_TEXT_FILE
 		do
 			sort
-			create sorted_lines.make (count)
-			across Current as subject loop
-				sorted_lines.extend (subject.item.line)
-			end
+			sorted_lines := line_list
 			if not Crc_32.same_as_utf_8_file (sorted_lines, file_path) then
 				create file_out.make_open_write (file_path)
 				file_out.enable_bom
@@ -85,7 +86,7 @@ feature -- Element change
 					number := order_number.to_integer
 				end
 			end
-			extend_list ([number, line])
+			extend_list (number, line)
 			line_set.put (line)
 		end
 
@@ -94,27 +95,6 @@ feature -- Status query
 	has (line: ZSTRING): BOOLEAN
 		do
 			Result := line_set.has (line)
-		end
-
-feature {NONE} -- Implementation: Routines
-
-	less_than (u, v: like item): BOOLEAN
-			-- do nothing comparator
-		do
-			Result := u.index < v.index
-		end
-
-	new_index_comparator: AGENT_EQUALITY_TESTER [like item]
-		do
-			create Result.make (agent less_than)
-		end
-
-	sort
-		local
-			quick: QUICK_SORTER [like item]
-		do
-			create quick.make (new_index_comparator)
-			quick.sort (Current)
 		end
 
 feature {NONE} -- Internal attributes

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-29 15:14:53 GMT (Monday 29th May 2017)"
-	revision: "5"
+	date: "2017-11-09 18:44:12 GMT (Thursday 9th November 2017)"
+	revision: "6"
 
 class
 	RBOX_SONG
@@ -561,7 +561,7 @@ feature {NONE} -- Build from XML
 			--
 		do
 			Result := Precursor
-			Result.merge (building_actions_for_type ({DOUBLE}, Fields_not_stored, Hyphen))
+			Result.merge (building_actions_for_type ({DOUBLE}))
 			Result ["hidden/text()"] := agent do is_hidden := node.to_integer = 1 end
 			Result ["mb-trackid/text()"] := agent set_audio_id_from_node
 		end

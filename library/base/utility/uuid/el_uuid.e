@@ -24,36 +24,18 @@ inherit
 		undefine
 			out
 		redefine
-			read_default, write
+			adjust_field_order
 		end
 
 create
 	make_default, make, make_from_string, make_from_array
 
-feature {NONE} -- Initialization
+feature {NONE} -- Implementation
 
-	make_default
+	adjust_field_order (fields: ARRAY [INTEGER])
+		-- change order to: data_1, data_2 etc
 		do
-		end
-
-feature -- Element change
-
-	read_default (a_reader: EL_MEMORY_READER_WRITER)
-		do
-			make (
-				a_reader.read_natural_32,
-				a_reader.read_natural_16, a_reader.read_natural_16, a_reader.read_natural_16,
-				a_reader.read_natural_64
-			)
-		end
-
-feature -- Basic operations
-
-	write (a_writer: EL_MEMORY_READER_WRITER)
-		do
-			a_writer.write_natural_32 (data_1)
-			a_writer.write_natural_16 (data_2); a_writer.write_natural_16 (data_3); a_writer.write_natural_16 (data_4)
-			a_writer.write_natural_64 (data_5)
+			do_swaps (fields, << [1, 4], [2, 4], [3, 4] >>)
 		end
 
 feature -- Constants
@@ -62,5 +44,7 @@ feature -- Constants
 		once
 			Result := (32 + 16 * 3 + 64) // 8
 		end
+
+	Field_hash_checksum: NATURAL = 3515774772
 
 end

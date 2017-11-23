@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-11-10 15:11:50 GMT (Friday 10th November 2017)"
+	revision: "3"
 
 class
 	EL_REFLECTOR_CONSTANTS
@@ -19,6 +19,21 @@ inherit
 		end
 
 feature {NONE} -- Constants
+
+	Makeable_from_zstring_type: INTEGER
+		once
+			Result := ({EL_MAKEABLE_FROM_ZSTRING}).type_id
+		end
+
+	Makeable_from_string_8_type: INTEGER
+		once
+			Result := ({EL_MAKEABLE_FROM_STRING_8}).type_id
+		end
+
+	Makeable_from_string_32_type: INTEGER
+		once
+			Result := ({EL_MAKEABLE_FROM_STRING_32}).type_id
+		end
 
 	String_8_type: INTEGER
 		once
@@ -40,8 +55,4 @@ feature {NONE} -- Constants
 			Result := << String_8_type, String_32_type, String_z_type >>
 		end
 
-	Once_current_object: REFLECTED_REFERENCE_OBJECT
-		once
-			create Result.make (Current)
-		end
 end

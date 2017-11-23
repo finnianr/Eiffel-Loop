@@ -32,8 +32,9 @@ system:
 		library:
 			name = arbitrary_precision_math; location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
 
+		# Overrides
 		library:
-			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
+			name = gobo_base; location = "gobo-base.ecf"
 
 		# Eiffel-Loop libraries
 
@@ -48,14 +49,14 @@ system:
 
 		library:
 			name = EL_network; readonly = false
-			location="$EIFFEL_LOOP/library/network.ecf"
+			location="network.ecf"
 
 		library:
 			name = EL_os_command; readonly = false
 			location = "os-command.ecf"
 
 		library:
-			name = EL_vtd_xml; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
+			name = EL_vtd_xml; location = "vtd-xml.ecf"
 
 		library:
 			name = EL_public_key_encryption

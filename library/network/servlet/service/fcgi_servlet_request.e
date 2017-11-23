@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-03 10:06:47 GMT (Friday 3rd November 2017)"
-	revision: "1"
+	date: "2017-11-09 19:48:56 GMT (Thursday 9th November 2017)"
+	revision: "2"
 
 class
 	FCGI_SERVLET_REQUEST
@@ -29,38 +29,43 @@ feature {NONE} -- Initialisation
 		do
 			servlet := a_servlet; internal_response := a_response
 			internal_request := a_response.internal_request
-
-			headers := internal_request.parameters
-
-			-- This does not allow duplicate parameters, original parameters does.
-			parameters := headers.http_parameters
+			headers := parameters.headers
 		end
 
 feature -- Access
 
 	dir_path: EL_DIR_PATH
 		do
-			Result := path_info
+			Result := relative_path_info
 		end
 
-	headers: like internal_request.parameters
+	headers: FCGI_HTTP_HEADERS
 
-	parameters: EL_HTTP_HASH_TABLE
-		-- non-duplicate http parameters
-
-	path_info: ZSTRING
+	parameters: like internal_request.parameters
 		do
-			Result := internal_request.path_info
+			Result := internal_request.parameters
+		end
+
+	method_parameters: EL_HTTP_HASH_TABLE
+		-- non-duplicate http parameters from either the GET-data (URI query string)
+		-- or POST-data (`raw_stdin_content')
+		do
+			Result := parameters.method_parameters
+		end
+
+	relative_path_info: ZSTRING
+		do
+			Result := internal_request.relative_path_info
 		end
 
 	remote_address: ZSTRING
 		do
-			Result := headers.remote_addr
+			Result := parameters.remote_addr
 		end
 
 	remote_address_32: NATURAL
 		do
-			Result := headers.remote_address_32
+			Result := parameters.remote_address_32
 		end
 
 	servlet_path: STRING
@@ -68,7 +73,7 @@ feature -- Access
 			-- either the servlet name or a path to the servlet, but does not include
 			-- any extra path information or a query string.
 		do
-			Result := headers.script_name
+			Result := parameters.script_name
 		end
 
 	value_integer (name: ZSTRING): INTEGER
@@ -83,12 +88,12 @@ feature -- Access
 
 	value_string (name: ZSTRING): ZSTRING
 		local
-			l_parameters: like parameters
+			table: like method_parameters
 		do
-			l_parameters := parameters
-			l_parameters.search (name)
-			if l_parameters.found then
-				Result := l_parameters.found_item
+			table := method_parameters
+			table.search (name)
+			if table.found then
+				Result := table.found_item
 			else
 				create Result.make_empty
 			end
@@ -96,7 +101,7 @@ feature -- Access
 
 	value_string_8 (name: ZSTRING): STRING
 		do
-			Result := value_string (name).as_string_8
+			Result := value_string (name)
 		end
 
 feature -- Status query
@@ -104,7 +109,7 @@ feature -- Status query
 	has_parameter (name: ZSTRING): BOOLEAN
 			-- Does this request have a parameter named 'name'?
 		do
-			Result := parameters.has (name)
+			Result := method_parameters.has (name)
 		end
 
 feature -- Measurement

@@ -44,10 +44,38 @@ feature -- Access
 			across template.variables as variable loop
 				text_functions.search (variable.item.to_string_8)
 				if text_functions.found then
-					template.set_variable (variable.item, text_functions.found_item.item ([date]))
+					template.set_variable (variable.item, text_functions.found_item (date))
 				end
 			end
 			Result := template.substituted
+		end
+
+	from_iso8601_formatted (iso8601_string: STRING): DATE_TIME
+		require
+			correct_length: iso8601_string.count = Format_iso8601_count
+			has_upper_T_delimiter: iso8601_string [9] = 'T'
+			ends_with_upper_z: iso8601_string [Format_iso8601_count] = 'Z'
+		local
+			l_iso8601_string: STRING
+		do
+			create l_iso8601_string.make (Format_iso8601_count - 2)
+			l_iso8601_string.append_substring (iso8601_string, 1, 8)
+			l_iso8601_string.append_substring (iso8601_string, 10, Format_iso8601_count - 1)
+			create Result.make_from_string (l_iso8601_string, Format_iso8601)
+		ensure
+			reversible: iso8601_formatted (Result) ~ iso8601_string
+		end
+
+	iso8601_formatted (time: DATE_TIME): STRING
+		-- format as "yyyy[0]mm[0]Tdd[0]hh[0]mi[0]ssZ"
+		do
+			create Result.make (Format_iso8601_count)
+			Result.append (time.formatted_out (Format_iso8601))
+			Result.insert_character ('T', 9)
+			Result.append_character ('Z')
+		ensure
+			-- Ignoring fine seconds
+			reversible: from_iso8601_formatted (Result).relative_duration (time).seconds_count = 0
 		end
 
 	short_year (date: DATE): ZSTRING
@@ -59,6 +87,10 @@ feature -- Access
 		do
 			Result := date.year.out
 		end
+
+feature -- Constant
+
+	Format_iso8601_count: INTEGER = 16
 
 feature -- Day of week
 
@@ -213,5 +245,9 @@ feature {NONE} -- Internal attributes
 	format_templates: HASH_TABLE [EL_SUBSTITUTION_TEMPLATE [ZSTRING], STRING]
 
 	text_functions: like new_text_functions
+
+feature {NONE} -- Constants
+
+	Format_iso8601: STRING = "yyyy[0]mm[0]dd[0]hh[0]mi[0]ss"
 
 end

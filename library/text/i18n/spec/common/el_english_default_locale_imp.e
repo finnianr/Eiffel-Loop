@@ -21,6 +21,8 @@ inherit
 	EL_LOCALE_IMP
 		rename
 			make as make_with_language
+		undefine
+			in
 		end
 
 create

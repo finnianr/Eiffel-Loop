@@ -12,10 +12,16 @@ note
 class
 	EL_ZSTRING_ROUTINES
 
+inherit
+	EL_SHARED_ONCE_STRINGS
+
+	EL_STRING_CONSTANTS
+
 feature {EL_MODULE_ZSTRING} -- Conversion
 
 	as_zstring (str: READABLE_STRING_GENERAL): ZSTRING
 		do
 			create Result.make_from_general (str)
 		end
+
 end

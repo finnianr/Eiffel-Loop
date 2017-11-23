@@ -27,6 +27,7 @@ feature -- Basic operations
 			file: RAW_FILE
 		do
 			create object_1.make_default
+			object_1.print_field_info
 			object_1.set_values  ({STRING_32} "Trademark ™")
 			create reader_writer.make
 
@@ -47,6 +48,6 @@ feature {NONE} -- Constants
 
 	File_path: EL_FILE_PATH
 		once
-			Result := "stored.dat"
+			Result := "workarea/stored.dat"
 		end
 end

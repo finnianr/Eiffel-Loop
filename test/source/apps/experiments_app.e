@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-30 10:50:09 GMT (Monday 30th October 2017)"
-	revision: "17"
+	date: "2017-11-10 13:34:00 GMT (Friday 10th November 2017)"
+	revision: "18"
 
 class EXPERIMENTS_APP
 
@@ -39,12 +39,30 @@ feature -- Basic operations
 	run
 		local
 		do
-			lio.enter ("date_time_format")
-			date_time_format
+			lio.enter ("type_default_create")
+			type_default_create
 			lio.exit
 		end
 
 feature -- Experiments
+
+	agent_polymorphism
+		local
+			append: PROCEDURE [READABLE_STRING_GENERAL]
+			general: STRING_GENERAL
+			str_8: STRING_8; str_32: STRING_32
+		do
+			create str_8.make_empty; create str_32.make_empty
+			general := str_8
+			append := agent general.append
+			append ("abc")
+			lio.put_string_field ("str_8", str_8)
+			lio.put_new_line
+			append.set_target (str_32)
+			append ("abc")
+			lio.put_string_field ("str_32", str_32)
+			lio.put_new_line
+		end
 
 	alternative_once_naming
 		do
@@ -70,27 +88,6 @@ feature -- Experiments
 				log.put_string_field (part.cursor_index.out, part.item)
 				log.put_new_line
 			end
-		end
-
-	automatic_object_initialization
-		local
-			country: COUNTRY; table: EL_ZSTRING_HASH_TABLE [ZSTRING]
-		do
-			create table.make (<<
-				["code", new ("IE")],
-				["literacy_rate", new ("0.9")],
-				["population", new ("6500000")],
-				["name", new ("Ireland")]
-			>>)
-			create country.make (table)
-			log.put_labeled_string ("Country", country.name)
-			log.put_new_line
-			log.put_labeled_string ("Country code", country.code)
-			log.put_new_line
-			log.put_real_field ("literacy_rate", country.literacy_rate)
-			log.put_new_line
-			log.put_integer_field ("population", country.population)
-			log.put_new_line
 		end
 
 	boolean_ref
@@ -216,6 +213,13 @@ feature -- Experiments
 			else
 				log.put_string ("is_reference_comparison")
 			end
+		end
+
+	type_default_create
+		local
+			key_pair: AIA_CREDENTIAL
+		do
+			key_pair := ({AIA_CREDENTIAL}).default
 		end
 
 	equality_question
@@ -730,6 +734,20 @@ feature -- Experiments
 			action_2.apply
 		end
 
+	type_id_comparison
+		local
+			list: ARRAYED_LIST [STRING]
+			list_integer: ARRAYED_LIST [INTEGER]
+		do
+			create list.make (0)
+			create list_integer.make (0)
+			log.put_integer_field ("type_id", ({ARRAYED_LIST [STRING]}).type_id)
+			log.put_integer_field (" dynamic_type", Eiffel.dynamic_type (list))
+			log.put_integer_field (" dynamic_type list_integer", Eiffel.dynamic_type (list_integer))
+			log.put_new_line
+			log.put_integer_field ("({EL_MAKEABLE_FROM_ZSTRING}).type_id", ({EL_MAKEABLE_FROM_ZSTRING}).type_id)
+		end
+
 	type_conforming_test
 		local
 			escaper: EL_DO_NOTHING_CHARACTER_ESCAPER [STRING]
@@ -830,11 +848,6 @@ feature {NONE} -- Implementation
 		do
 			log.put_integer_field (str, n)
 			log.put_new_line
-		end
-
-	new (str: STRING): ZSTRING
-		do
-			Result := str
 		end
 
 	pi: DOUBLE

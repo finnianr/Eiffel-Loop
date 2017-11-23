@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-11-09 19:49:24 GMT (Thursday 9th November 2017)"
+	revision: "3"
 
 class
 	EL_HTTP_PARAMETER_LIST [P -> EL_HTTP_PARAMETER]
@@ -39,7 +39,7 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
-	extend_table (table: EL_HTTP_HASH_TABLE)
+	extend_table (table: like to_table)
 		do
 			from start until after loop
 				item.extend (table)
