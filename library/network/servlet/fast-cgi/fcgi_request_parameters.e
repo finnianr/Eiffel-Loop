@@ -213,7 +213,7 @@ feature {NONE} -- Constants
 			Result := "."
 		end
 
-	Except_fields: ZSTRING
+	Except_fields: STRING
 		once
 			Result := Precursor + ", content"
 		end

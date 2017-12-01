@@ -192,7 +192,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Except_fields: ZSTRING
+	Except_fields: STRING
 		once
 			Result := Precursor + ", custom_table"
 		end

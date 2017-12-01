@@ -202,7 +202,7 @@ feature {NONE} -- Constants
 			Result := '-'
 		end
 
-	Except_fields: ZSTRING
+	Except_fields: STRING
 			-- Object attributes that are not stored in Rhythmbox database
 		once
 			Result := "album_artists_prefix, encoding"

@@ -315,7 +315,7 @@ feature {NONE} -- Constants
 			Result.merge (Default_string_values)
 		end
 
-	Except_fields: ZSTRING
+	Except_fields: STRING
 		once
 			Result := "field_index_table, string_type_id"
 		end

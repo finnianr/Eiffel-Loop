@@ -601,7 +601,7 @@ feature {EL_STORABLE} -- Factory
 
 feature {NONE} -- Constants
 
-	Except_fields: ZSTRING
+	Except_fields: STRING
 		once
 			Result := Precursor + ", is_deleted"
 		end

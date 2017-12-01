@@ -108,7 +108,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Except_fields: ZSTRING
+	Except_fields: STRING
 		-- list of comma-separated fields to be excluded
 		once
 			create Result.make_empty
