@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-11-26 13:33:05 GMT (Sunday 26th November 2017)"
+	revision: "3"
 
 deferred class
 	EL_STRING_GENERAL_CHAIN [S -> STRING_GENERAL create make, make_empty end]
@@ -67,16 +67,16 @@ feature -- Element change
 		require
 			valid_tab_count: tab_count >= 0
 		local
-			l_cursor: like cursor; l_tab_string: like tab_string
+			l_tab_string: like tab_string
 		do
 			if tab_count > 0 then
-				l_cursor := cursor
+				push_cursor
 				l_tab_string := tab_string (tab_count)
 				from start until after loop
 					item.prepend (l_tab_string)
 					forth
 				end
-				go_to (l_cursor)
+				pop_cursor
 			end
 		ensure
 			indented: tab_count > 0 implies is_indented
@@ -94,49 +94,43 @@ feature -- Element change
 		end
 
 	left_adjust
-		local
-			l_cursor: like cursor
 		do
-			l_cursor := cursor
+			push_cursor
 			from start until after loop
 				item.left_adjust
 				forth
 			end
-			go_to (l_cursor)
+			pop_cursor
 		end
 
 	right_adjust
-		local
-			l_cursor: like cursor
 		do
-			l_cursor := cursor
+			push_cursor
 			from start until after loop
 				item.right_adjust
 				forth
 			end
-			go_to (l_cursor)
+			pop_cursor
 		end
 
 	unindent
 			-- remove one tab character from each line
 		require
 			is_indented: is_indented
-		local
-			l_cursor: like cursor
 		do
-			l_cursor := cursor
+			push_cursor
 			from start until after loop
 				item.keep_tail (item.count - 1)
 				forth
 			end
-			go_to (l_cursor)
+			pop_cursor
 		end
 
 	wrap (line_width: INTEGER)
 		local
-			l_cursor: like cursor; previous_item: S
+			previous_item: S
 		do
-			l_cursor := cursor
+			push_cursor
 			if not is_empty then
 				from start; forth until after loop
 					previous_item := i_th (index - 1)
@@ -149,7 +143,7 @@ feature -- Element change
 					end
 				end
 			end
-			go_to (l_cursor)
+			pop_cursor
 		end
 
 feature -- Resizing

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 15:07:05 GMT (Friday 10th November 2017)"
-	revision: "1"
+	date: "2017-11-13 10:33:31 GMT (Monday 13th November 2017)"
+	revision: "2"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STRINGS [S -> STRING_GENERAL create make_empty end]

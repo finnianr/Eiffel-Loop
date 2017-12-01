@@ -1,8 +1,13 @@
 note
 	description: "Summary description for {FCGI_HTTP_HEADERS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-11-27 12:15:56 GMT (Monday 27th November 2017)"
+	revision: "1"
 
 class
 	FCGI_HTTP_HEADERS
@@ -10,10 +15,9 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE [ZSTRING]
 		rename
-			make_default as make,
-			name_adaptation as from_upper_snake_case
+			make_default as make
 		redefine
-			set_field, make, Except_fields
+			set_field, make, Except_fields, name_adaptation
 		end
 
 	EL_STRING_CONSTANTS
@@ -37,8 +41,12 @@ feature -- Element change
 		end
 
 	set_custom (name: STRING; value: ZSTRING)
+		local
+			kebab_name: STRING
 		do
-			custom_table [from_kebab_case (name).twin] := value
+			create kebab_name.make (name.count)
+			from_kebab_case (name, kebab_name)
+			custom_table [kebab_name] := value
 		end
 
 	wipe_out
@@ -56,34 +64,32 @@ feature -- Access
 		local
 			object: like current_object; value: ZSTRING
 			table: like field_index_table
-			name_adaptation: FUNCTION [STRING, STRING]
 		do
-			if kebab_names then
-				name_adaptation := agent to_kebab_case
-			else
-				name_adaptation := agent standard_eiffel
-			end
 			object := current_object; table := field_index_table
 			create Result.make (custom_table.count + 7)
 			from table.start until table.after loop
 				value := field_item_from_index (table.item_for_iteration)
 				if not value.is_empty then
-					Result [name_adaptation (table.key_for_iteration)] := value
+					Result [as_table_key (table.key_for_iteration, kebab_names)] := value
 				end
 				table.forth
 			end
 			from custom_table.start until custom_table.after loop
 				value := custom_table.item_for_iteration
 				if not value.is_empty then
-					Result [name_adaptation (custom_table.key_for_iteration)] := value
+					Result [as_table_key (custom_table.key_for_iteration, kebab_names)] := value
 				end
 				custom_table.forth
 			end
 		end
 
 	custom (name: STRING): ZSTRING
+		local
+			kebab_name: STRING
 		do
-			custom_table.search (from_kebab_case (name))
+			create kebab_name.make (name.count)
+			from_kebab_case (name, kebab_name)
+			custom_table.search (kebab_name)
 			if custom_table.found then
 				Result := custom_table.found_item
 			else
@@ -96,7 +102,7 @@ feature -- Access
 		local
 			name: STRING; object: like current_object
 		do
-			name := Once_name; name.wipe_out; object := current_object
+			name := String_pool.new_string; object := current_object
 
 			create Result.make (name_list.count)
 			from name_list.start until name_list.after loop
@@ -116,6 +122,7 @@ feature -- Access
 				end
 				name_list.forth
 			end
+			String_pool.recycle (name)
 		end
 
 feature -- Access attributes
@@ -158,8 +165,24 @@ feature -- Element change
 		do
 			Precursor (name, value)
 			if not field_index_table.found then
-				custom_table.extend (value, from_upper_snake_case (name))
+				custom_table.extend (value, name.as_lower)
 			end
+		end
+
+feature {NONE} -- Implementation
+
+	as_table_key (name: STRING; kebab_names: BOOLEAN): STRING
+		do
+			if kebab_names then
+				Result := to_kebab_case (name)
+			else
+				Result := name
+			end
+		end
+
+	name_adaptation: like Standard_eiffel
+		do
+			Result := agent from_upper_snake_case
 		end
 
 feature {NONE} -- Internal attributes

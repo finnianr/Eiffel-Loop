@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 15:59:01 GMT (Friday 10th November 2017)"
-	revision: "1"
+	date: "2017-11-27 12:15:24 GMT (Monday 27th November 2017)"
+	revision: "2"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE [S -> STRING_GENERAL create make_empty end]
@@ -25,11 +25,11 @@ inherit
 			Except_fields
 		end
 
+	EL_ATTRIBUTE_NAME_ROUTINES
+
 	STRING_HANDLER
 
 	EL_MODULE_EIFFEL
-
-	EL_MODULE_STRING_8
 
 feature {NONE} -- Initialization
 
@@ -64,12 +64,12 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	field_item (name: STRING): S
+	field_item (name: READABLE_STRING_GENERAL): S
 		local
 			table: like field_index_table
 		do
 			table := field_index_table
-			table.search (name_adaptation (name))
+			table.search (name)
 			if table.found then
 				Result := field_item_from_index (table.found_item)
 			else
@@ -118,12 +118,12 @@ feature -- Element change
 			end
 		end
 
-	set_field (name: STRING; value: S)
+	set_field (name: READABLE_STRING_GENERAL; value: S)
 		local
 			table: like field_index_table
 		do
 			table := field_index_table
-			table.search (name_adaptation (name))
+			table.search (name)
 			if table.found then
 				set_object_field (current_object, table.found_item, value)
 			end
@@ -143,91 +143,16 @@ feature -- Element change
 			end
 		end
 
-feature {NONE} -- Name adaptation
-
-	from_camel_case (name: STRING): STRING
-		-- Eg. "fromCamelCase"
-		local
-			i, count, state: INTEGER; area: SPECIAL [CHARACTER]; c: CHARACTER
-		do
-			Result := Once_name; Result.wipe_out
-			count := name.count; area := name.area
-
-			if count > 0 then
-				c := area.item (0)
-				if c.is_digit then
-					state := State_numeric
-				elseif c.is_upper then
-					state := State_upper
-				else
-					state := State_lower
-				end
-			end
-			from i := 0 until i = count loop
-				c := area.item (i)
-				if state = State_numeric and not c.is_digit then
-					if c.is_lower then
-						state := State_lower
-					else
-						state := State_upper
-					end
-					Result.append_character ('_')
-
-				elseif state = State_lower and then c.is_upper or c.is_digit then
-					state := State_upper; Result.append_character ('_')
-
-				elseif state = State_upper and then c.is_lower or c.is_digit then
-					state := State_lower
-				end
-				Result.append_character (c.as_lower)
-				i := i + 1
-			end
-		end
-
-	from_kebab_case (name: STRING): STRING
-		-- Eg. "from-kebab-case"
-		do
-			Result := Once_name; Result.wipe_out
-			Result.append (name)
-			String_8.replace_character (Result, '-', '_')
-		end
-
-	from_lower_snake_case, standard_eiffel (name: STRING): STRING
-		-- standard Eiffel naming convention
-		do
-			Result := name -- (unconverted)
-		end
-
-	from_upper_snake_case (name: STRING): STRING
-		-- Eg. "FROM_UPPER_SNAKE_CASE"
-		do
-			Result := Once_name; Result.wipe_out
-			Result.append (name)
-			Result.to_lower
-		end
-
-	name_adaptation (name: STRING): STRING
-		-- rename this in descendant class as one of the 4 external naming conventions
-		-- `from_lower_snakecase' or `standard_eiffel' means the external name already follows the Eiffel convention
-		deferred
-		end
-
-	to_kebab_case (name: STRING): STRING
-		do
-			Result := name.twin
-			String_8.replace_character (Result, '_', '-')
-		end
-
 feature {EL_REFLECTIVELY_SETTABLE} -- Factory
 
-	new_field_index_table: HASH_TABLE [INTEGER, STRING]
+	new_field_index_table: EL_FIELD_INDEX_TABLE
 		local
 			object: like current_object; i, field_count: INTEGER
 			excluded_indices: like new_field_indices_set
 		do
 			object := current_object; field_count := object.field_count
 			excluded_indices := Excluded_fields_by_type.item (Current)
-			create Result.make (field_count - excluded_indices.count)
+			create Result.make (field_count - excluded_indices.count, name_adaptation)
 			from i := 1 until i > field_count loop
 				excluded_indices.binary_search (i)
 				if not excluded_indices.found then
@@ -251,7 +176,7 @@ feature {NONE} -- Implementation
 	field_item_from_index (index: INTEGER): S
 		local
 			object: like current_object
-			field_type: INTEGER; value: like Once_value; reference_value: ANY
+			field_type: INTEGER; value: STRING; reference_value: ANY
 		do
 			object := current_object
 			field_type := object.field_type (index)
@@ -266,7 +191,7 @@ feature {NONE} -- Implementation
 					create Result.make_empty
 				end
 			else
-				value := Once_value; value.wipe_out
+				value := String_pool.new_string
 				inspect field_type
 					when Integer_32_type then
 						value.append_integer (object.integer_32_field (index))
@@ -292,7 +217,16 @@ feature {NONE} -- Implementation
 				end
 				create Result.make_empty
 				Result.append (value)
+				String_pool.recycle (value)
 			end
+		end
+
+	name_adaptation: like Standard_eiffel
+		-- redefine this in descendant class as one of the 4 external naming conventions
+		-- defined in `EL_ATTRIBUTE_NAME_ROUTINES'
+		--  `Standard_eiffel' means the external name already follows the Eiffel convention
+		do
+			Result := Standard_eiffel
 		end
 
 	set_object_field (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER; value: S)
@@ -375,13 +309,10 @@ feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Default_values_by_type: EL_HASH_TABLE [ANY, INTEGER]
+	Default_values_by_type: HASH_TABLE [ANY, INTEGER]
 		once
-			create Result.make (<<
-				[String_z_type, create {ZSTRING}.make_empty],
-				[String_8_type, create {STRING}.make_empty],
-				[String_32_type, create {STRING_32}.make_empty]
-			>>)
+			create Result.make (5)
+			Result.merge (Default_string_values)
 		end
 
 	Except_fields: ZSTRING
@@ -390,26 +321,15 @@ feature {NONE} -- Constants
 		end
 
 	Field_index_table_by_type: EL_FUNCTION_RESULT_TABLE [
-		EL_REFLECTIVELY_SETTABLE [STRING_GENERAL], HASH_TABLE [INTEGER, STRING]
+		EL_REFLECTIVELY_SETTABLE [STRING_GENERAL], EL_FIELD_INDEX_TABLE
 	]
 		once
 			create Result.make (11, agent {EL_REFLECTIVELY_SETTABLE [STRING_GENERAL]}.new_field_index_table)
 		end
 
-	Once_name: STRING
+	String_pool: EL_STRING_POOL [STRING]
 		once
-			create Result.make_empty
+			create Result.make (3)
 		end
-
-	Once_value: STRING
-		once
-			create Result.make_empty
-		end
-
-	State_lower: INTEGER = 2
-
-	State_numeric: INTEGER = 3
-
-	State_upper: INTEGER = 1
 
 end

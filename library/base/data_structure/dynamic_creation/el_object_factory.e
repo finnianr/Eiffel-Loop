@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "3"
+	date: "2017-11-27 13:09:14 GMT (Monday 27th November 2017)"
+	revision: "4"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -65,30 +65,30 @@ feature {NONE} -- Initialization
 
 feature -- Factory
 
-	instance_from_alias (type_alias: ZSTRING; constructor: PROCEDURE): G
+	instance_from_alias (type_alias: ZSTRING; initialize: PROCEDURE): G
 			--
 		require
 			has_type: has_type (type_alias)
 		do
 			Result := raw_instance_from_alias (type_alias)
-			constructor.call ([Result])
+			initialize (Result)
 		end
 
-	instance_from_class_name (class_name: STRING; constructor: PROCEDURE): G
+	instance_from_class_name (class_name: STRING; initialize: PROCEDURE): G
 			--
 		require
 			valid_type: valid_type (class_name)
 		do
-			Result := instance_from_dynamic_type (Eiffel.dynamic_type_from_string (class_name), constructor)
+			Result := instance_from_dynamic_type (Eiffel.dynamic_type_from_string (class_name), initialize)
 			if not attached Result then
 				Exception.raise_panic ("Class %S is not compiled into system", [class_name])
 			end
 		end
 
-	instance_from_type (type: TYPE [G]; constructor: PROCEDURE): G
+	instance_from_type (type: TYPE [G]; initialize: PROCEDURE): G
 			--
 		do
-			Result := instance_from_dynamic_type (type.type_id, constructor)
+			Result := instance_from_dynamic_type (type.type_id, initialize)
 			if not attached Result then
 				Exception.raise_panic ("Failed to create instance of class: %S", [type.name])
 			end
@@ -100,8 +100,10 @@ feature -- Factory
 			has_type: has_type (type_alias)
 		do
 			types_indexed_by_name.search (type_alias)
-			if types_indexed_by_name.found and then attached {G} Eiffel.new_instance_of (types_indexed_by_name.found_item.type_id) as l_result then
-				Result := l_result
+			if types_indexed_by_name.found
+				and then attached {G} Eiffel.new_instance_of (types_indexed_by_name.found_item.type_id) as instance
+			then
+				Result := instance
 			else
 				Exception.raise_panic ("Could not instantiate class with alias: %"%S%"", [type_alias])
 			end
@@ -154,11 +156,11 @@ feature -- Contract support
 
 feature {EL_FACTORY_CLIENT} -- Implementation
 
-	instance_from_dynamic_type (type_id: INTEGER; constructor: PROCEDURE): G
+	instance_from_dynamic_type (type_id: INTEGER; initialize: PROCEDURE): G
 			--
 		do
 			if type_id >= 0 and then attached {G} Eiffel.new_instance_of (type_id) as instance then
-				constructor.call ([instance])
+				initialize (instance)
 				Result := instance
 			end
 		end

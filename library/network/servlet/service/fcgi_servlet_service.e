@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-07 11:15:13 GMT (Tuesday 7th November 2017)"
-	revision: "4"
+	date: "2017-11-30 11:43:41 GMT (Thursday 30th November 2017)"
+	revision: "5"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -77,6 +77,7 @@ feature -- Basic operations
 
 				request.close; socket.close
 				Log_hierarchy.close_all
+				servlet_table.linear_representation.do_all (agent {FCGI_HTTP_SERVLET}.on_shutdown)
 				on_shutdown
 			else
 				across config.error_messages as message loop

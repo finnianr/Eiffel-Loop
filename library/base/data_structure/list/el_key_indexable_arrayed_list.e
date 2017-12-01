@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-11-24 14:18:02 GMT (Friday 24th November 2017)"
+	revision: "3"
 
 deferred class
 	EL_KEY_INDEXABLE_ARRAYED_LIST [G -> EL_KEY_IDENTIFIABLE_STORABLE]
@@ -28,23 +28,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	default_item: G
-		deferred
-		end
-
 	index_by_key: HASH_TABLE [INTEGER, NATURAL]
-
-	indexed_item (key: NATURAL): like item
-		local
-			l_index: INTEGER
-		do
-			l_index := index_by_key [key]
-			if l_index > 0 then
-				Result := i_th (l_index)
-			else
-				Result := default_item
-			end
-		end
 
 feature -- Element change
 
@@ -67,6 +51,21 @@ feature -- Element change
 				index_by_key.remove (old_item_key)
 			else
 				index_by_key.force (index, a_item.key)
+			end
+		end
+
+feature -- Basic operations
+
+	search_by_key (key: NATURAL)
+		local
+			table: like index_by_key
+		do
+			table := index_by_key
+			table.search (key)
+			if table.found then
+				index := table.found_item
+			else
+				index := 0
 			end
 		end
 

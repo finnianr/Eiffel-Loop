@@ -1,8 +1,13 @@
 note
 	description: "Exchange rate table for a `base_currency' based on Euro exchange rates table"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-11-30 11:20:57 GMT (Thursday 30th November 2017)"
+	revision: "1"
 
 deferred class
 	EL_EXCHANGE_RATE_TABLE
@@ -24,6 +29,11 @@ inherit
 			copy, is_equal
 		end
 
+	EL_MODULE_DIRECTORY
+		undefine
+			copy, is_equal
+		end
+
 feature {NONE} -- Initialization
 
 	make (a_date: like date; a_significant_digits: like significant_digits)
@@ -34,6 +44,20 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	cached_dates: EL_SORTABLE_ARRAYED_LIST [DATE]
+		-- dates of disk cached rates sorted in reverse chronological order
+		local
+			dir: EL_DIRECTORY; date_string: STRING
+		do
+			create Result.make (5)
+			create dir.make (Rates_dir)
+			across dir.files_with_extension (XML_extension) as file_path loop
+				date_string := file_path.item.base_sans_extension
+				Result.extend (create {DATE}.make_from_string (date_string, Date_format))
+			end
+			Result.reverse_sort
+		end
 
 	base_currency: STRING
 		deferred
@@ -81,6 +105,20 @@ feature {NONE} -- Implementation
 	new_euro_table: EL_EURO_EXCHANGE_RATE_TABLE
 		do
 			create Result.make (date, significant_digits)
+		end
+
+feature {NONE} -- Constants
+
+	Date_format: STRING = "yyyy-[0]mm-[0]dd"
+
+	Rates_dir: EL_DIR_PATH
+		once
+			Result := Directory.user_configuration.joined_dir_path ("ECB-euro-exchange-rates")
+		end
+
+	XML_extension: ZSTRING
+		once
+			Result := "xml"
 		end
 
 end

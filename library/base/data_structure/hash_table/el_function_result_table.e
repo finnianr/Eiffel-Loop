@@ -3,9 +3,14 @@ note
 		Object for caching the result of a call to function `new_item' for each
 		generating type of the generic parameter `TARGET'.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-11-13 13:51:32 GMT (Monday 13th November 2017)"
+	revision: "1"
 
 class
 	EL_FUNCTION_RESULT_TABLE [TARGET, R]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-03 10:06:16 GMT (Friday 3rd November 2017)"
-	revision: "4"
+	date: "2017-11-30 11:42:24 GMT (Thursday 30th November 2017)"
+	revision: "5"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -111,10 +111,15 @@ feature {NONE} -- Factory
 			create Result.make (fcgi_request)
 		end
 
-feature {FCGI_SERVLET_REQUEST} -- Event handling
+feature {FCGI_SERVLET_REQUEST, FCGI_SERVLET_SERVICE} -- Event handling
 
 	on_serve_done (request: like new_request)
 			-- called on successful write of servlet response. See {FCGI_REQUEST}.end_request
+		do
+		end
+
+	on_shutdown
+		-- called when service is shutting down
 		do
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-24 12:34:06 GMT (Wednesday 24th May 2017)"
-	revision: "1"
+	date: "2017-11-29 7:46:19 GMT (Wednesday 29th November 2017)"
+	revision: "2"
 
 class
 	EL_TRANSLATION_ITEM
@@ -41,6 +41,6 @@ feature -- Access
 
 feature {NONE} -- Constants
 
-	Field_hash_checksum: NATURAL = 0
+	Field_hash_checksum: NATURAL = 2733220845
 
 end

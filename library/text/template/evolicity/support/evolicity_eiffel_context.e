@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 9:53:12 GMT (Friday 10th November 2017)"
-	revision: "5"
+	date: "2017-11-13 13:52:10 GMT (Monday 13th November 2017)"
+	revision: "6"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT

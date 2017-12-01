@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-17 11:54:31 GMT (Thursday 17th November 2016)"
-	revision: "2"
+	date: "2017-11-15 19:50:10 GMT (Wednesday 15th November 2017)"
+	revision: "3"
 
 class
 	EL_CRYPTO_PHRASE_CHECKER

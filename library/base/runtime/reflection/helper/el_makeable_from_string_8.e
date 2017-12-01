@@ -6,15 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 13:32:35 GMT (Friday 10th November 2017)"
-	revision: "1"
+	date: "2017-11-26 10:30:24 GMT (Sunday 26th November 2017)"
+	revision: "2"
 
 deferred class
-	EL_MAKEABLE_FROM_ZSTRING
+	EL_MAKEABLE_FROM_STRING_8
 
 feature -- Initialization
 
-	make (string: ZSTRING)
+	make_default
+		deferred
+		end
+
+	make (string: STRING_8)
 		deferred
 		end
 end

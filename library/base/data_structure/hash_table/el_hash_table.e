@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-17 12:22:21 GMT (Wednesday 17th May 2017)"
-	revision: "2"
+	date: "2017-11-30 20:08:26 GMT (Thursday 30th November 2017)"
+	revision: "3"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -50,6 +50,12 @@ feature -- Element change
 				force_tuple (array [i])
 				i := i + 1
 			end
+		end
+
+	plus alias "+" (a_tuple: TUPLE [K, G]): like Current
+		do
+			force_tuple (a_tuple)
+			Result := Current
 		end
 
 feature {NONE} -- Implementation

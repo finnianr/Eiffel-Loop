@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 12:33:25 GMT (Friday 10th November 2017)"
-	revision: "11"
+	date: "2017-11-28 11:33:34 GMT (Tuesday 28th November 2017)"
+	revision: "12"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -29,7 +29,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent amazon_instant_access_test_set.test_sign_and_verify)
+			do_file_data_test (agent amazon_instant_access_test_set.test_get_user_id)
 		end
 
 feature -- Tests
@@ -40,6 +40,11 @@ feature -- Tests
 		end
 
 	amazon_instant_access_test_set: AMAZON_INSTANT_ACCESS_TEST_SET
+		do
+			create Result
+		end
+
+	date_text_test_set: DATE_TEXT_TEST_SET
 		do
 			create Result
 		end

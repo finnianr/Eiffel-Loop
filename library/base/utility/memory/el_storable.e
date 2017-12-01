@@ -9,16 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 9:57:59 GMT (Friday 10th November 2017)"
-	revision: "5"
+	date: "2017-11-29 9:24:51 GMT (Wednesday 29th November 2017)"
+	revision: "6"
 
 deferred class
 	EL_STORABLE
 
 inherit
 	EL_REFLECTIVELY_SETTABLE [ZSTRING]
-		rename
-			name_adaptation as standard_eiffel
 		export
 			{EL_MEMORY_READER_WRITER} make_default, generating_type
 		redefine
@@ -87,37 +85,6 @@ feature -- Basic operations
 			print_filtered_field_data (Print_field_data_exclusions)
 		end
 
-	print_filtered_field_data (exclusions: ARRAY [INTEGER])
-		local
-			object: REFLECTED_REFERENCE_OBJECT; i, field_count, line_length, length: INTEGER
-			storable_fields: ARRAY [INTEGER]
-			name: STRING; value: ZSTRING
-		do
-			object := new_current_object (Current)
-			storable_fields := Once_storable_fields.item (Current)
-			field_count := storable_fields.count
-
-			from i := 1 until i > field_count loop
-				if not exclusions.has (i) then
-					name := object.field_name (storable_fields [i])
-					value := field_item_from_index (storable_fields [i])
-					length := name.count + value.count + 2
-					if line_length > 0 then
-						lio.put_string (", ")
-						if line_length + length > Info_line_length then
-							lio.put_new_line
-							line_length := 0
-						end
-					end
-					lio.put_labeled_string (name, value)
-					line_length := line_length + length
-				end
-				i := i + 1
-			end
-			lio.put_new_line
-			recycle (object)
-		end
-
 	print_field_info
 		local
 			object: REFLECTED_REFERENCE_OBJECT; i, field_count, line_length, length: INTEGER
@@ -150,11 +117,38 @@ feature -- Basic operations
 			recycle (object)
 		end
 
-feature {EL_STORABLE} -- Implementation
-
-	adjust_field_order (fields: ARRAY [INTEGER])
+	print_filtered_field_data (exclusions: ARRAY [INTEGER])
+		local
+			object: REFLECTED_REFERENCE_OBJECT; i, field_count, line_length, length: INTEGER
+			storable_fields: ARRAY [INTEGER]
+			name: STRING; value: ZSTRING
 		do
+			object := new_current_object (Current)
+			storable_fields := Once_storable_fields.item (Current)
+			field_count := storable_fields.count
+
+			from i := 1 until i > field_count loop
+				if not exclusions.has (i) then
+					name := object.field_name (storable_fields [i])
+					value := field_item_from_index (storable_fields [i])
+					length := name.count + value.count + 2
+					if line_length > 0 then
+						lio.put_string (", ")
+						if line_length + length > Info_line_length then
+							lio.put_new_line
+							line_length := 0
+						end
+					end
+					lio.put_labeled_string (name, value)
+					line_length := line_length + length
+				end
+				i := i + 1
+			end
+			lio.put_new_line
+			recycle (object)
 		end
+
+feature -- Element change
 
 	read_default (a_reader: EL_MEMORY_READER_WRITER)
 			-- Read default (current) version of data
@@ -172,15 +166,10 @@ feature {EL_STORABLE} -- Implementation
 			recycle (object)
 		end
 
-	read_default_version (a_reader: EL_MEMORY_READER_WRITER; version: NATURAL)
-			-- Read version compatible with default version
-		do
-			read_default (a_reader)
-		end
+feature {EL_STORABLE} -- Implementation
 
-	read_version (a_reader: EL_MEMORY_READER_WRITER; version: NATURAL)
-			-- Read version compatible with software version
-		deferred
+	adjust_field_order (fields: ARRAY [INTEGER])
+		do
 		end
 
 	do_swaps (fields: ARRAY [INTEGER]; tuple_list: ARRAY [TUPLE [i, j: INTEGER]])
@@ -190,6 +179,17 @@ feature {EL_STORABLE} -- Implementation
 		do
 			swap_fields := agent swap (fields, ?, ?)
 			tuple_list.do_all (agent swap_fields.call)
+		end
+
+	read_default_version (a_reader: EL_MEMORY_READER_WRITER; version: NATURAL)
+			-- Read version compatible with default version
+		do
+			read_default (a_reader)
+		end
+
+	read_version (a_reader: EL_MEMORY_READER_WRITER; version: NATURAL)
+			-- Read version compatible with software version
+		deferred
 		end
 
 	swap (fields: ARRAY [INTEGER]; i, j: INTEGER)
@@ -209,7 +209,7 @@ feature -- Comparison
 			object, other_object: REFLECTED_REFERENCE_OBJECT
 			storable_fields: ARRAY [INTEGER]; i, field_count: INTEGER
 		do
-			object := new_current_object (Current); other_object := new_current_object (Current)
+			object := new_current_object (Current); other_object := new_current_object (other)
 			storable_fields := Once_storable_fields.item (Current)
 			field_count := storable_fields.count
 			Result := True
@@ -217,7 +217,7 @@ feature -- Comparison
 				Result := Result and equal_fields (object, other_object, storable_fields [i])
 				i := i + 1
 			end
-			recycle (object)
+			recycle (object); recycle (other_object)
 		end
 
 feature {NONE} -- Contract Support
@@ -601,19 +601,14 @@ feature {EL_STORABLE} -- Factory
 
 feature {NONE} -- Constants
 
-	Print_field_data_exclusions: ARRAY [INTEGER]
-		do
-			create Result.make_empty
-		end
-
 	Except_fields: ZSTRING
 		once
 			Result := Precursor + ", is_deleted"
 		end
 
-	Once_storable_fields: EL_FUNCTION_RESULT_TABLE [EL_STORABLE, ARRAY [INTEGER]]
+	Info_line_length: INTEGER
 		once
-			create Result.make (11, agent {EL_STORABLE}.new_storable_fields)
+			Result := 100
 		end
 
 	Object_pool: ARRAYED_STACK [REFLECTED_REFERENCE_OBJECT]
@@ -621,9 +616,14 @@ feature {NONE} -- Constants
 			create Result.make (3)
 		end
 
-	Info_line_length: INTEGER
+	Once_storable_fields: EL_FUNCTION_RESULT_TABLE [EL_STORABLE, ARRAY [INTEGER]]
 		once
-			Result := 100
+			create Result.make (11, agent {EL_STORABLE}.new_storable_fields)
+		end
+
+	Print_field_data_exclusions: ARRAY [INTEGER]
+		do
+			create Result.make_empty
 		end
 
 note

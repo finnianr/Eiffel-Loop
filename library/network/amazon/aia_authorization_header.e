@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 16:02:27 GMT (Friday 10th November 2017)"
-	revision: "1"
+	date: "2017-11-27 10:37:13 GMT (Monday 27th November 2017)"
+	revision: "2"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -15,10 +15,9 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE [STRING]
 		rename
-			make_default as make,
-			name_adaptation as from_camel_case
+			make_default as make
 		redefine
-			Default_values_by_type, is_equal
+			is_equal, Default_values_by_type, name_adaptation
 		end
 
 	EL_SHARED_ONCE_STRINGS
@@ -83,17 +82,6 @@ feature -- Access
 
 	algorithm: STRING
 
-	credential: AIA_CREDENTIAL_ID
-
-	signature: STRING
-
-	signed_headers: STRING
-
-	signed_headers_list: EL_SPLIT_ZSTRING_LIST
-		do
-			create Result.make (signed_headers, Semicolon)
-		end
-
 	as_string: STRING
 		local
 			template: like Signed_string_template
@@ -103,6 +91,17 @@ feature -- Access
 			template.set_variables_from_object (Current)
 			template.set_variables_from_object (credential)
 			Result := template.substituted
+		end
+
+	credential: AIA_CREDENTIAL_ID
+
+	signature: STRING
+
+	signed_headers: STRING
+
+	signed_headers_list: EL_SPLIT_ZSTRING_LIST
+		do
+			create Result.make (signed_headers, Semicolon)
 		end
 
 feature -- Comparison
@@ -115,6 +114,13 @@ feature -- Comparison
 				and signed_headers ~ other.signed_headers
 		end
 
+feature {NONE} -- Implementation
+
+	name_adaptation: like Standard_eiffel
+		do
+			Result := agent from_camel_case
+		end
+
 feature {NONE} -- Constants
 
 	Algorithm_equals: STRING = "algorithm="
@@ -124,13 +130,11 @@ feature {NONE} -- Constants
 			Result := "DTA1-HMAC-SHA256"
 		end
 
-	Default_values_by_type: EL_HASH_TABLE [ANY, INTEGER]
+	Default_values_by_type: HASH_TABLE [ANY, INTEGER]
 		once
 			Result := Precursor
 			Result [({AIA_CREDENTIAL_ID}).type_id] := create {AIA_CREDENTIAL_ID}.make_default
 		end
-
-feature {NONE} -- Constants
 
 	Semicolon: ZSTRING
 		once

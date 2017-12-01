@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-14 18:46:20 GMT (Monday 14th August 2017)"
-	revision: "3"
+	date: "2017-11-19 9:41:08 GMT (Sunday 19th November 2017)"
+	revision: "4"
 
 class
 	EL_SUBSTITUTION_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]

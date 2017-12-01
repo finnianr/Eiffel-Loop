@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-31 20:09:33 GMT (Wednesday 31st May 2017)"
-	revision: "4"
+	date: "2017-11-30 20:10:01 GMT (Thursday 30th November 2017)"
+	revision: "5"
 
 class
 	EL_ZSTRING_HASH_TABLE [G]
@@ -34,7 +34,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Element change
-
 
 	append_tuples (array: like GENERAL_KEYS)
 		do

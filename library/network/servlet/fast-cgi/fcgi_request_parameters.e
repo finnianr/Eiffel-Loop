@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 10:32:39 GMT (Friday 10th November 2017)"
-	revision: "2"
+	date: "2017-11-27 10:39:17 GMT (Monday 27th November 2017)"
+	revision: "3"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -19,10 +19,9 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE [ZSTRING]
 		rename
-			make_default as make,
-			name_adaptation as from_upper_snake_case
+			make_default as make
 		redefine
-			make, set_field, Except_fields
+			make, set_field, Except_fields, name_adaptation
 		end
 
 create
@@ -200,6 +199,11 @@ feature {NONE} -- Implementation
 	append_byte (byte_string: ZSTRING; n: NATURAL_32_REF)
 		do
 			n.set_item (n.item |<< 8 | byte_string.to_natural_32)
+		end
+
+	name_adaptation: like Standard_eiffel
+		do
+			Result := agent from_upper_snake_case
 		end
 
 feature {NONE} -- Constants

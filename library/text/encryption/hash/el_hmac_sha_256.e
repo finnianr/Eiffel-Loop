@@ -1,8 +1,13 @@
 note
 	description: "A fix for the `reset' bug"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-11-19 18:19:05 GMT (Sunday 19th November 2017)"
+	revision: "1"
 
 class
 	EL_HMAC_SHA_256

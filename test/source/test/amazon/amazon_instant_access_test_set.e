@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 15:34:07 GMT (Friday 10th November 2017)"
-	revision: "1"
+	date: "2017-11-27 15:51:21 GMT (Monday 27th November 2017)"
+	revision: "2"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -20,7 +20,28 @@ inherit
 			default_create
 		end
 
-feature -- Tests
+feature -- Account Linking
+
+	test_get_user_id
+		local
+			operation: AIA_OPERATION; get_user_id_request: AIA_GET_USER_ID_REQUEST
+			content: STRING
+		do
+			content := "[
+				{
+					"operation":  "GetUserId",
+					"infoField1": "nobody@amazon.com",
+					"infoField2": "amazon",
+					"infoField3": "nobody"
+				}
+			]"
+			create operation.make (content)
+			if operation.name.same_string ("get_user_id") then
+				create get_user_id_request.make (operation.json_list)
+			end
+		end
+
+feature -- Authorization
 
 	test_parse_header_1
 		note
@@ -108,5 +129,10 @@ feature {NONE} -- Constants
 	Signed_headers: EL_SPLIT_ZSTRING_LIST
 		once
 			create Result.make ("Content-Type;X-Amz-Date;X-Amz-Dta-Version;X-AMZ-REQUEST-ID", ";")
+		end
+
+	Manager: AIA_REQUEST_MANAGER
+		once
+			create Result
 		end
 end

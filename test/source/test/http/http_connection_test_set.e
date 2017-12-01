@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
-	revision: "9"
+	date: "2017-11-28 11:09:15 GMT (Tuesday 28th November 2017)"
+	revision: "10"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -72,6 +72,28 @@ feature -- Test routines
 			log.exit
 		end
 
+	test_documents_download
+		local
+			url: ZSTRING
+		do
+			log.enter ("test_documents_download")
+			across << Http >> as protocol loop -- Https
+				across document_retrieved_table as is_retrieved loop
+					url := protocol.item + Httpbin_url + is_retrieved.key
+					log.put_labeled_string ("url", url)
+					log.put_new_line
+					web.open (url)
+
+					web.read_string_get
+					assert ("retrieved", is_retrieved.item (web.last_string))
+
+					web.close
+					log.put_new_line
+				end
+			end
+			log.exit
+		end
+
 	test_download_document_and_headers
 		local
 			url: ZSTRING; headers: like web.last_headers
@@ -97,28 +119,6 @@ feature -- Test routines
 					web.read_string_get
 					assert ("retrieved", is_retrieved.item (web.last_string))
 					assert ("valid content_length", headers.content_length = web.last_string.count)
-
-					web.close
-					log.put_new_line
-				end
-			end
-			log.exit
-		end
-
-	test_documents_download
-		local
-			url: ZSTRING
-		do
-			log.enter ("test_documents_download")
-			across << Http >> as protocol loop -- Https
-				across document_retrieved_table as is_retrieved loop
-					url := protocol.item + Httpbin_url + is_retrieved.key
-					log.put_labeled_string ("url", url)
-					log.put_new_line
-					web.open (url)
-
-					web.read_string_get
-					assert ("retrieved", is_retrieved.item (web.last_string))
 
 					web.close
 					log.put_new_line
@@ -244,6 +244,16 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
+	element_text (name: STRING; text: ZSTRING): ZSTRING
+		do
+			Result := text.substring_between_general (Html.open_tag (name), Html.closed_tag (name), 1)
+		end
+
+	em_text (text: ZSTRING): ZSTRING
+		do
+			Result := element_text ("em", text)
+		end
+
 	h1_text (text: ZSTRING): ZSTRING
 		do
 			Result := element_text ("h1", text)
@@ -257,27 +267,17 @@ feature {NONE} -- Implementation
 			Result := parts.count = 2 and then across parts.last.split ('.') as n all n.item.is_natural end
 		end
 
-	title_text (text: ZSTRING): ZSTRING
-		do
-			Result := element_text ("title", text)
-		end
-
-	em_text (text: ZSTRING): ZSTRING
-		do
-			Result := element_text ("em", text)
-		end
-
-	element_text (name: STRING; text: ZSTRING): ZSTRING
-		do
-			Result := text.substring_between_general (Html.open_tag (name), Html.closed_tag (name), 1)
-		end
-
 	print_lines (a_web: like web)
 		do
 			across a_web.last_string.split ('%N') as line loop
 				log.put_line (line.item)
 			end
 			log.put_new_line
+		end
+
+	title_text (text: ZSTRING): ZSTRING
+		do
+			Result := element_text ("title", text)
 		end
 
 feature {NONE} -- Factory
@@ -301,19 +301,26 @@ feature {NONE} -- Factory
 			Result.add_extension (name)
 		end
 
-	new_json_fields (json_data: ZSTRING): EL_HTTP_HASH_TABLE
+	new_json_fields (json_data: STRING): EL_HTTP_HASH_TABLE
 		local
-			lines: EL_ZSTRING_LIST; nvp: EL_JSON_NAME_VALUE_PAIR
+			lines: EL_STRING_8_LIST
+			pair_list: EL_JSON_NAME_VALUE_LIST
 		do
 			create lines.make_with_lines (json_data)
-			create Result.make_equal (lines.count)
-			create nvp.make_empty
-			across lines as line loop
-				if not across "{}" as bracket some line.item.has (bracket.item) end then
-					line.item.left_adjust
-					nvp.set_from_string (line.item)
-					Result.set_string (nvp.name, nvp.value)
+			from lines.start until lines.after loop
+				if lines.index > 1 and then lines.index < lines.count and then not lines.item.has_substring ("%": %"") then
+					lines.remove
+				else
+					log.put_line (lines.item)
+					lines.forth
 				end
+			end
+
+			create pair_list.make (lines.joined_lines)
+			create Result.make_equal (pair_list.count)
+			from pair_list.start until pair_list.after loop
+				Result.set_string (pair_list.name_item, pair_list.value_item)
+				pair_list.forth
 			end
 		end
 
@@ -333,9 +340,9 @@ feature {NONE} -- Constants
 
 	Html_post_url: STRING = "://httpbin.org/post"
 
-	Httpbin_url: STRING = "://httpbin.org/"
-
 	Http: STRING = "http"
+
+	Httpbin_url: STRING = "://httpbin.org/"
 
 	Https: STRING = "https"
 

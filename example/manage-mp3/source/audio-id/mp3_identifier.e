@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-11-27 16:43:04 GMT (Monday 27th November 2017)"
+	revision: "3"
 
 class
 	MP3_IDENTIFIER
@@ -25,13 +25,6 @@ create
 
 feature {NONE} -- Initialization
 
-	make_default
-		do
-			Precursor
-			create audio_id.make_default
-			create file_path
-		end
-
 	make (a_file_path: like file_path)
 		local
 			header: EL_ID3_HEADER; mp3_file: RAW_FILE
@@ -46,13 +39,34 @@ feature {NONE} -- Initialization
 			mp3_file.close
 		end
 
-feature -- Access
+	make_default
+		do
+			Precursor
+			create audio_id.make_default
+			create file_path
+		end
 
-	file_path: EL_FILE_PATH
+feature -- Access
 
 	audio_id: EL_UUID
 
+	file_path: EL_FILE_PATH
+
 feature {NONE} -- Implementation
+
+	is_padding (n: NATURAL): BOOLEAN
+			-- True if all hexadecimal digits are the same
+		local
+			first, hex_digit: NATURAL; i: INTEGER
+		do
+			first := n & 0xF
+			hex_digit := first
+			from i := 1 until hex_digit /= first or i > 7 loop
+				hex_digit := n.bit_shift_right (i * 4) & 0xF
+				i := i + 1
+			end
+			Result := i = 8 and then hex_digit = first
+		end
 
 	new_signature (mp3_file: RAW_FILE; header: EL_ID3_HEADER): ARRAY [NATURAL_8]
 		local
@@ -74,18 +88,7 @@ feature {NONE} -- Implementation
 			md5.do_final (Result.area, 0)
 		end
 
-	is_padding (n: NATURAL): BOOLEAN
-			-- True if all hexadecimal digits are the same
-		local
-			first, hex_digit: NATURAL; i: INTEGER
-		do
-			first := n & 0xF
-			hex_digit := first
-			from i := 1 until hex_digit /= first or i > 7 loop
-				hex_digit := n.bit_shift_right (i * 4) & 0xF
-				i := i + 1
-			end
-			Result := i = 8 and then hex_digit = first
-		end
+feature {NONE} -- Constants
 
+	Field_hash_checksum: NATURAL = 0
 end

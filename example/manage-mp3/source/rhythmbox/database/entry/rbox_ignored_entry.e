@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-09 18:44:04 GMT (Thursday 9th November 2017)"
-	revision: "5"
+	date: "2017-11-11 22:08:50 GMT (Saturday 11th November 2017)"
+	revision: "6"
 
 class
 	RBOX_IGNORED_ENTRY

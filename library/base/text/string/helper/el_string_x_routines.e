@@ -6,13 +6,15 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-12 13:08:33 GMT (Saturday 12th August 2017)"
-	revision: "4"
+	date: "2017-11-27 18:57:23 GMT (Monday 27th November 2017)"
+	revision: "5"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
 
 inherit
+	EL_HEXADECIMAL_ROUTINES [S]
+
 	STRING_HANDLER
 
 feature -- Search operations
@@ -20,7 +22,7 @@ feature -- Search operations
 	search_interval_at_nth (text, search_string: S; n: INTEGER): INTEGER_INTERVAL
 			--
 		local
-			l_occurrences: EL_OCCURRENCE_SUBSTRINGS [S]
+			l_occurrences: EL_OCCURRENCE_INTERVALS [S]
 		do
 			create l_occurrences.make (text, search_string)
 			from l_occurrences.start until l_occurrences.after or l_occurrences.index > n loop
@@ -59,10 +61,10 @@ feature -- Transformation
 	delimited_list (text, delimiter: S): LIST [S]
 			-- string delimited list
 		local
-			intervals: EL_DELIMITED_SUBSTRING_INTERVALS [S]
+			splits: EL_SPLIT_STRING_LIST [S]
 		do
-			create intervals.make (text, delimiter)
-			Result := intervals.substrings
+			create splits.make (text, delimiter)
+			Result := splits.as_string_list
 		end
 
 	enclosed (str: READABLE_STRING_GENERAL; left, right: CHARACTER_32): S
@@ -97,7 +99,7 @@ feature -- Transformation
 	leading_delimited (text, delimiter: S; include_delimiter: BOOLEAN): S
 			--
 		local
-			l_occurrences: EL_OCCURRENCE_SUBSTRINGS [S]
+			l_occurrences: EL_OCCURRENCE_INTERVALS [S]
 		do
 			create l_occurrences.make (text, delimiter)
 			l_occurrences.start
@@ -307,42 +309,12 @@ feature -- Status query
 			Result := not str.is_empty
 		end
 
-feature -- Hexadecimal conversion
-
-	hexadecimal_to_integer (str: S): INTEGER
-			--
-		local
-			str_lower: STRING; x_pos: INTEGER
-		do
-			str_lower := str.as_string_8
-			str_lower.to_lower
-			x_pos := str_lower.index_of ('x', 1)
-			Result := String_8.hexadecimal_to_integer (str_lower.substring (x_pos + 1, str_lower.count))
-		end
-
-	hexadecimal_to_natural_64 (str: S): NATURAL_64
-			--
-		local
-			l_str: S; i: INTEGER; place_value: NATURAL_64
-		do
-			l_str := str.twin
-			if l_str.count > 2 and then l_str.code (2) = ('x').natural_32_code then
-				l_str.put_code (Code_zero, 2)
-			end
-			prune_all_leading (l_str, '0')
-			from i := 1 until i > l_str.count loop
-				place_value := hex_digit_to_decimal (l_str.code (i)).to_natural_64
-				Result := Result | place_value.bit_shift_left ((l_str.count - i) * 4)
-				i := i + 1
-			end
-		end
-
 feature -- Measurement
 
 	occurrences (text, search_string: S): INTEGER
 			--
 		local
-			l_occurrences: EL_OCCURRENCE_SUBSTRINGS [S]
+			l_occurrences: EL_OCCURRENCE_INTERVALS [S]
 		do
 			create l_occurrences.make (text, search_string)
 			from l_occurrences.start until l_occurrences.after loop
@@ -360,44 +332,6 @@ feature -- Measurement
 					end
 				end
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	hex_digit_to_decimal (code: NATURAL): NATURAL
-		do
-			if code >= Code_a_lower then
-				Result := code - Code_a_lower + 10
-
-			elseif code >= Code_a_upper then
-				Result := code - Code_a_upper + 10
-
-			elseif code >= Code_zero then
-				Result := code - Code_zero
-
-			end
-		end
-
-feature {NONE} -- Constants
-
-	Code_a_lower: NATURAL
-		once
-			Result := ('a').natural_32_code
-		end
-
-	Code_a_upper: NATURAL
-		once
-			Result := ('A').natural_32_code
-		end
-
-	Code_zero: NATURAL
-		once
-			Result := ('0').natural_32_code
-		end
-
-	String_8: KL_STRING_ROUTINES
-		once
-			create Result
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 13:34:00 GMT (Friday 10th November 2017)"
-	revision: "18"
+	date: "2017-11-27 17:12:07 GMT (Monday 27th November 2017)"
+	revision: "19"
 
 class EXPERIMENTS_APP
 
@@ -39,8 +39,8 @@ feature -- Basic operations
 	run
 		local
 		do
-			lio.enter ("type_default_create")
-			type_default_create
+			lio.enter ("set_tuple_values")
+			set_tuple_values
 			lio.exit
 		end
 
@@ -396,7 +396,7 @@ feature -- Experiments
 
 	hexadecimal_to_natural_64
 		do
-			log.put_string (String_8.hexadecimal_to_natural_64 ("0x00000982").out)
+			log.put_string (String_8.hexadecimal_to_natural_64 ("0x00000A987").out)
 			log.put_new_line
 		end
 
@@ -612,13 +612,14 @@ feature -- Experiments
 
 	set_tuple_values
 		local
-			internal: INTERNAL; color: TUPLE [margins, background: STRING]
+			color: TUPLE [foreground, background: STRING_GENERAL]
 		do
-			create internal
 			create color
-			color.margins := "blue"
-			color.background := "red"
-			log.put_integer_field ("First field", internal.field_count (color))
+			color.foreground := "blue"
+			color.put_reference ("red", 2)
+			log.put_labeled_string ("color.foreground", color.foreground)
+			log.put_new_line
+			log.put_labeled_string ("color.background", color.background)
 			log.put_new_line
 		end
 

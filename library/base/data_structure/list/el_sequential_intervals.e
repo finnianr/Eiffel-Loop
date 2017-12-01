@@ -12,14 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-17 15:41:47 GMT (Wednesday 17th May 2017)"
-	revision: "2"
+	date: "2017-11-26 13:38:31 GMT (Sunday 26th November 2017)"
+	revision: "3"
 
 class
 	EL_SEQUENTIAL_INTERVALS
 
 inherit
-	ARRAYED_LIST [INTEGER_64]
+	EL_ARRAYED_LIST [INTEGER_64]
 		rename
 			extend as item_extend,
 			replace as item_replace
@@ -171,14 +171,14 @@ feature -- Element change
 
 	cut_after (n: INTEGER)
 		local
-			found: BOOLEAN
+			l_found: BOOLEAN
 		do
-			from finish until found or before loop
+			from finish until l_found or before loop
 				if n < item_lower then
 					remove; back
 				elseif item_has (n) then
 					replace (item_lower, n)
-					found := True
+					l_found := True
 				else
 					back
 				end
@@ -187,14 +187,14 @@ feature -- Element change
 
 	cut_before (n: INTEGER)
 		local
-			found: BOOLEAN
+			l_found: BOOLEAN
 		do
-			from start until found or after loop
+			from start until l_found or after loop
 				if n > item_upper then
 					remove
 				elseif item_has (n) then
 					replace (n, item_upper)
-					found := True
+					l_found := True
 				else
 					forth
 				end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-27 12:49:13 GMT (Saturday 27th May 2017)"
-	revision: "6"
+	date: "2017-11-27 12:42:11 GMT (Monday 27th November 2017)"
+	revision: "7"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -21,11 +21,11 @@ inherit
 			i_th, at, last, first, valid_index, is_inserted, move, start, finish, go_i_th, put_i_th,
 			force, append, prune, prune_all, remove, swap, new_cursor
 		redefine
-			find_next_function_value
+			find_next_function_value, push_cursor, pop_cursor
 		end
 
 create
-	make, make_filled, make_from_array, make_empty
+	make, make_filled, make_from_array, make_empty, make_from_sub_list
 
 convert
 	make_from_array ({ARRAY [G]})
@@ -35,6 +35,24 @@ feature {NONE} -- Initialization
 	make_empty
 		do
 			make (0)
+		end
+
+	make_from_sub_list (list: EL_ARRAYED_LIST [G]; start_index, end_index: INTEGER)
+		require
+			valid_start_index: list.valid_index (start_index)
+			valid_end_index: list.valid_index (end_index)
+		local
+			i: INTEGER
+		do
+			if end_index < start_index then
+				make (0)
+			else
+				make (end_index - start_index + 1)
+				from i := start_index until i > end_index loop
+					extend (list [i])
+					i := i + 1
+				end
+			end
 		end
 
 feature -- Access
@@ -54,6 +72,11 @@ feature -- Access
 			end
 		end
 
+	sub_list (start_index, end_index: INTEGER): like Current
+		do
+			create Result.make_from_sub_list (Current, start_index, end_index)
+		end
+
 feature -- Removal
 
 	remove_head (n: INTEGER)
@@ -66,6 +89,21 @@ feature -- Removal
 			--
 		do
 			remove_end (n, agent finish)
+		end
+
+feature -- Cursor movement
+
+	pop_cursor
+		-- restore cursor position from stack
+		do
+			index := Index_stack.item
+			Index_stack.remove
+		end
+
+	push_cursor
+		-- push cursor position on to stack
+		do
+			Index_stack.put (index)
 		end
 
 feature {NONE} -- Implementation
@@ -105,6 +143,13 @@ feature -- Element change
 		do
 			grow (count + array.count)
 			array.do_all (agent extend)
+		end
+
+feature {NONE} -- Constants
+
+	Index_stack: ARRAYED_STACK [INTEGER]
+		once
+			create Result.make (5)
 		end
 
 end

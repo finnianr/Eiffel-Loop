@@ -1,10 +1,15 @@
 note
-	description: "Summary description for {SHARED_PAYPAL_CONNECTION}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Summary description for {PP_PAYPAL_CONNECTION}."
 
-class
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-11-30 14:49:32 GMT (Thursday 30th November 2017)"
+	revision: "1"
+
+deferred class
 	PP_SHARED_CONNECTION
 
 inherit
@@ -22,8 +27,7 @@ feature {NONE} -- Implementation
 
 	new_paypal_connection: like paypal
 			-- Circular reference to be overridden
-		do
-			Result := paypal
+		deferred
 		end
 
 end

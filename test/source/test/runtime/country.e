@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 15:08:05 GMT (Friday 10th November 2017)"
-	revision: "3"
+	date: "2017-11-27 10:40:11 GMT (Monday 27th November 2017)"
+	revision: "4"
 
 class
 	COUNTRY
@@ -15,7 +15,6 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE [ZSTRING]
 		rename
-			name_adaptation as from_lower_snake_case,
 			make_from_zkey_table as make
 		end
 

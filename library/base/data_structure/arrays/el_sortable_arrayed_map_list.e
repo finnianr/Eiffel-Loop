@@ -1,8 +1,13 @@
 note
 	description: "Arrayed list of key-value pair tuples that can be sorted by key of type `K'"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-11-16 14:27:47 GMT (Thursday 16th November 2017)"
+	revision: "1"
 
 class
 	EL_SORTABLE_ARRAYED_MAP_LIST [K -> {HASHABLE, COMPARABLE}, G]

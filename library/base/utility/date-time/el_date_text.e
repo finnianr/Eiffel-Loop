@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-04 14:03:00 GMT (Friday 4th August 2017)"
-	revision: "5"
+	date: "2017-11-23 16:09:33 GMT (Thursday 23rd November 2017)"
+	revision: "6"
 
 deferred class
 	EL_DATE_TEXT
@@ -27,6 +27,18 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	canonical_iso8601_formatted (time: DATE_TIME): STRING
+		-- format as "yyyy[0]mm[0]Tdd[0]hh[0]mi[0]ssZ"
+		do
+			create Result.make (Format_iso8601_count.canonical)
+			Result.append (time.formatted_out (Format_iso8601.canonical))
+			Result [11] := 'T'
+			Result.append_character ('Z')
+		ensure
+			-- Ignoring fine seconds
+			reversible: from_canonical_iso8601_formatted (Result).relative_duration (time).seconds_count = 0
+		end
 
 	formatted (date: DATE; format: STRING): ZSTRING
 		require
@@ -52,25 +64,43 @@ feature -- Access
 
 	from_iso8601_formatted (iso8601_string: STRING): DATE_TIME
 		require
-			correct_length: iso8601_string.count = Format_iso8601_count
+			correct_length: iso8601_string.count = Format_iso8601_count.short
 			has_upper_T_delimiter: iso8601_string [9] = 'T'
-			ends_with_upper_z: iso8601_string [Format_iso8601_count] = 'Z'
+			ends_with_upper_z: iso8601_string [Format_iso8601_count.short] = 'Z'
 		local
 			l_iso8601_string: STRING
 		do
-			create l_iso8601_string.make (Format_iso8601_count - 2)
+			create l_iso8601_string.make (Format_iso8601_count.short - 2)
 			l_iso8601_string.append_substring (iso8601_string, 1, 8)
-			l_iso8601_string.append_substring (iso8601_string, 10, Format_iso8601_count - 1)
-			create Result.make_from_string (l_iso8601_string, Format_iso8601)
+			l_iso8601_string.append_substring (iso8601_string, 10, Format_iso8601_count.short - 1)
+			create Result.make_from_string (l_iso8601_string, Format_iso8601.short)
 		ensure
 			reversible: iso8601_formatted (Result) ~ iso8601_string
 		end
 
+	from_canonical_iso8601_formatted (iso8601_string: STRING): DATE_TIME
+		require
+			correct_length: iso8601_string.count = Format_iso8601_count.canonical
+			has_upper_T_delimiter: iso8601_string [11] = 'T'
+			ends_with_upper_z: iso8601_string [Format_iso8601_count.canonical] = 'Z'
+		local
+			l_iso8601_string: STRING
+		do
+			create l_iso8601_string.make (Format_iso8601_count.canonical - 2)
+			l_iso8601_string.append_substring (iso8601_string, 1, 10)
+			l_iso8601_string.append_character (' ')
+			l_iso8601_string.append_substring (iso8601_string, 12, Format_iso8601_count.canonical - 1)
+			create Result.make_from_string (l_iso8601_string, Format_iso8601.canonical)
+		ensure
+			reversible: canonical_iso8601_formatted (Result) ~ iso8601_string
+		end
+
+
 	iso8601_formatted (time: DATE_TIME): STRING
 		-- format as "yyyy[0]mm[0]Tdd[0]hh[0]mi[0]ssZ"
 		do
-			create Result.make (Format_iso8601_count)
-			Result.append (time.formatted_out (Format_iso8601))
+			create Result.make (Format_iso8601_count.short)
+			Result.append (time.formatted_out (Format_iso8601.short))
 			Result.insert_character ('T', 9)
 			Result.append_character ('Z')
 		ensure
@@ -90,7 +120,10 @@ feature -- Access
 
 feature -- Constant
 
-	Format_iso8601_count: INTEGER = 16
+	Format_iso8601_count: TUPLE [short, canonical: INTEGER]
+		once
+			Result := [16, 20]
+		end
 
 feature -- Day of week
 
@@ -248,6 +281,9 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Format_iso8601: STRING = "yyyy[0]mm[0]dd[0]hh[0]mi[0]ss"
+	Format_iso8601: TUPLE [short, canonical: STRING]
+		once
+			Result := ["yyyy[0]mm[0]dd[0]hh[0]mi[0]ss", "yyyy-[0]mm-[0]dd [0]hh:[0]mi:[0]ss"]
+		end
 
 end

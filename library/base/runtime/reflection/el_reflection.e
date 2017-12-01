@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 9:52:03 GMT (Friday 10th November 2017)"
-	revision: "3"
+	date: "2017-11-26 13:52:08 GMT (Sunday 26th November 2017)"
+	revision: "4"
 
 class
 	EL_REFLECTION
@@ -26,7 +26,7 @@ feature {EL_REFLECTION} -- Factory
 
 	new_field_indices_set (field_names: ZSTRING): SORTABLE_ARRAY [INTEGER]
 		local
-			object: like current_object; field_list: EL_SPLIT_ZSTRING_LIST
+			object: like current_object; field_list: EL_SPLIT_STRING_LIST [STRING]
 			i, j, field_count: INTEGER
 		do
 			object := current_object; field_count := object.field_count
@@ -35,7 +35,7 @@ feature {EL_REFLECTION} -- Factory
 
 			create Result.make_filled (0, 1, field_list.count)
 			from i := 1 until i > field_count loop
-				if field_list.has_general (object.field_name (i)) then
+				if field_list.has (object.field_name (i)) then
 					j := j + 1
 					Result [j] := i
 				end
@@ -62,37 +62,37 @@ feature {NONE} -- Implementation
 					Result := equal_reference_fields (object, other_object, index)
 
 				when Boolean_type then
-					Result := object.boolean_field (index) = other_object.boolean_field (index)	 		-- BOOLEAN
+					Result := object.boolean_field (index) = other_object.boolean_field (index)
 
 				when Integer_8_type then
-					Result := object.integer_8_field (index) = other_object.integer_8_field (index) 	-- INTEGER_8
+					Result := object.integer_8_field (index) = other_object.integer_8_field (index)
 
 				when Integer_16_type then
-					Result := object.integer_16_field (index) = other_object.integer_16_field (index) -- INTEGER_16
+					Result := object.integer_16_field (index) = other_object.integer_16_field (index)
 
 				when Integer_32_type then
-					Result := object.integer_32_field (index) = other_object.integer_32_field (index) -- INTEGER_32
+					Result := object.integer_32_field (index) = other_object.integer_32_field (index)
 
 				when Integer_64_type then
-					Result := object.integer_64_field (index) = other_object.integer_64_field (index) -- INTEGER_64
+					Result := object.integer_64_field (index) = other_object.integer_64_field (index)
 
 				when Real_32_type then
-					Result := object.real_32_field (index) = other_object.real_32_field (index)			-- REAL_32
+					Result := object.real_32_field (index) = other_object.real_32_field (index)
 
 				when Real_64_type then
-					Result := object.real_64_field (index) = other_object.real_64_field (index)			-- REAL_64
+					Result := object.real_64_field (index) = other_object.real_64_field (index)
 
 				when Natural_8_type then
-					Result := object.natural_8_field (index) = other_object.natural_8_field (index)	-- NATURAL_8
+					Result := object.natural_8_field (index) = other_object.natural_8_field (index)
 
 				when Natural_16_type then
-					Result := object.natural_16_field (index) = other_object.natural_16_field (index)	-- NATURAL_16
+					Result := object.natural_16_field (index) = other_object.natural_16_field (index)
 
 				when Natural_32_type then
-					Result := object.natural_32_field (index)  = other_object.natural_32_field (index)-- NATURAL_32
+					Result := object.natural_32_field (index)  = other_object.natural_32_field (index)
 
 				when Natural_64_type then
-					Result := object.natural_64_field (index) = other_object.natural_64_field (index) -- NATURAL_64
+					Result := object.natural_64_field (index) = other_object.natural_64_field (index)
 			else
 			end
 		end

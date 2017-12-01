@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-11-23 16:12:07 GMT (Thursday 23rd November 2017)"
+	revision: "3"
 
 class
 	PP_DATE_TIME_PARAMETER
@@ -19,6 +19,8 @@ inherit
 			value as date_value
 		end
 
+	EL_MODULE_DATE
+
 create
 	make
 
@@ -26,12 +28,7 @@ feature {NONE} -- Initialization
 
 	make (a_name: like name; date_time: DATE_TIME)
 		do
-			make_parameter (a_name, date_time.formatted_out (Date_format))
-			date_value [11] := 'T'
-			date_value.append_character ('Z')
+			make_parameter (a_name, Date.canonical_iso8601_formatted (date_time))
 		end
 
-feature {NONE} -- Constants
-
-	Date_format: STRING = "yyyy-[0]mm-[0]dd [0]hh:[0]mi:[0]ss";
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-11 12:43:53 GMT (Wednesday 11th October 2017)"
-	revision: "2"
+	date: "2017-11-26 13:40:56 GMT (Sunday 26th November 2017)"
+	revision: "3"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -24,7 +24,8 @@ inherit
 			start, finish, move, go_i_th, remove, find_next_function_value,
 			is_inserted, has, there_exists, isfirst, islast, off, valid_index,
 			do_all, for_all, do_if, search,
-			force, put_i_th, append, swap, make_from_array
+			force, put_i_th, append, swap, make_from_array,
+			pop_cursor, push_cursor
 		end
 
 	EL_SORTABLE_ARRAYED_LIST [S]

@@ -1,8 +1,13 @@
 note
 	description: "Abstraction for joining strings using `CHAIN' routines"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2017-11-27 19:10:44 GMT (Monday 27th November 2017)"
+	revision: "1"
 
 deferred class
 	EL_JOINED_STRINGS [S -> STRING_GENERAL create make end]
@@ -10,23 +15,31 @@ deferred class
 feature -- Access
 
 	as_string_32_list: ARRAYED_LIST [STRING_32]
-		local
-			l_cursor: like cursor
 		do
-			l_cursor := cursor
+			push_cursor
 			create Result.make (count)
 			from start until after loop
 				Result.extend (item.as_string_32)
 				forth
 			end
-			go_to (l_cursor)
+			pop_cursor
+		end
+
+	as_string_list: EL_ARRAYED_LIST [S]
+			-- string delimited list
+		do
+			push_cursor
+			create Result.make (count)
+			from start until after loop
+				Result.extend (item.twin)
+				forth
+			end
+			pop_cursor
 		end
 
 	comma_separated: like item
-		local
-			l_cursor: like cursor
 		do
-			l_cursor := cursor
+			push_cursor
 			create Result.make (character_count + (count - 1).max (0) * 2)
 			from start until after loop
 				if index > 1 then
@@ -35,7 +48,7 @@ feature -- Access
 				Result.append (item)
 				forth
 			end
-			go_to (l_cursor)
+			pop_cursor
 		end
 
 	joined (a_separator: CHARACTER_32): like item
@@ -61,35 +74,10 @@ feature -- Access
 			Result := joined_with ('%U', False)
 		end
 
-	joined_with_string (a_separator: like item): like item
-			-- Null character joins without separation
-		local
-			l_cursor: like cursor
-		do
-			l_cursor := cursor
-			create Result.make (character_count + (count - 1) * a_separator.count)
-			from start until after loop
-				if index > 1 then
-					Result.append (a_separator)
-				end
-				Result.append (item)
-				forth
-			end
-			go_to (l_cursor)
-		end
-
-	joined_words: like item
-			-- joined with space character
-		do
-			Result := joined_with (' ', False)
-		end
-
 	joined_with (a_separator: CHARACTER_32; proper_case_words: BOOLEAN): like item
 			-- Null character joins without separation
-		local
-			l_cursor: like cursor
 		do
-			l_cursor := cursor
+			push_cursor
 			if a_separator = '%U' then
 				create Result.make (character_count)
 			else
@@ -106,22 +94,41 @@ feature -- Access
 				end
 				forth
 			end
-			go_to (l_cursor)
+			pop_cursor
+		end
+
+	joined_with_string (a_separator: like item): like item
+			-- Null character joins without separation
+		do
+			push_cursor
+			create Result.make (character_count + (count - 1) * a_separator.count)
+			from start until after loop
+				if index > 1 then
+					Result.append (a_separator)
+				end
+				Result.append (item)
+				forth
+			end
+			pop_cursor
+		end
+
+	joined_words: like item
+			-- joined with space character
+		do
+			Result := joined_with (' ', False)
 		end
 
 feature -- Measurement
 
 	character_count: INTEGER
 			--
-		local
-			l_cursor: like cursor
 		do
-			l_cursor := cursor
+			push_cursor
 			from start until after loop
 				Result := Result + item.count
 				forth
 			end
-			go_to (l_cursor)
+			pop_cursor
 		end
 
 	joined_character_count: INTEGER
@@ -140,16 +147,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	cursor: CURSOR
-			-- Current cursor position
-		deferred
-		end
-
 	forth
-		deferred
-		end
-
-	go_to (a_cursor: CURSOR)
 		deferred
 		end
 
@@ -161,10 +159,18 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	pop_cursor
+		deferred
+		end
+
 	proper_cased (word: like item): like item
 		do
 			Result := word.as_lower
 			Result.put_code (word.item (1).as_upper.natural_32_code, 1)
+		end
+
+	push_cursor
+		deferred
 		end
 
 	start
