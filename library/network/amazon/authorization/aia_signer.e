@@ -1,13 +1,13 @@
 note
-	description: "Stateless class for signing and verifying Amazon Instant Access HTTP requests"
+	description: "Signs Instant Access HTTP requests using credentials issued by Amazon"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-23 10:46:57 GMT (Thursday 23rd November 2017)"
-	revision: "1"
+	date: "2017-12-07 9:57:55 GMT (Thursday 7th December 2017)"
+	revision: "2"
 
 class
 	AIA_SIGNER
@@ -59,7 +59,7 @@ feature {NONE} -- Implementation
 			create Result.make_signed (Current, canonical_request)
 		end
 
-	headers_list: EL_SPLIT_ZSTRING_LIST
+	headers_list: EL_SPLIT_STRING_LIST [STRING]
 		do
 			Result := Empty_header_list
 		end
@@ -74,7 +74,7 @@ feature {NONE} -- Constants
 
 	Date_format_short: STRING = "yyyy[0]mm[0]dd"
 
-	Empty_header_list: EL_SPLIT_ZSTRING_LIST
+	Empty_header_list: EL_SPLIT_STRING_LIST [STRING]
 		once
 			create Result.make_empty
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-16 5:03:28 GMT (Thursday 16th November 2017)"
-	revision: "7"
+	date: "2017-12-02 8:14:56 GMT (Saturday 2nd December 2017)"
+	revision: "8"
 
 class
 	EL_PATH_STEPS
@@ -278,7 +278,7 @@ feature -- Conversion
 			result.expand_variables
 		end
 
-	joined alias "+" (other: like Current): like Current
+	joined (other: like Current): like Current
 		do
 			create Result.make_with_count (count + other.count)
 			Result.append (Current)

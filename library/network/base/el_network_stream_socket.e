@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-29 11:33:46 GMT (Sunday 29th October 2017)"
-	revision: "3"
+	date: "2017-12-04 11:03:37 GMT (Monday 4th December 2017)"
+	revision: "4"
 
 class
 	EL_NETWORK_STREAM_SOCKET
@@ -79,7 +79,7 @@ feature {NONE} -- Implementation
 				end
 			end
 		rescue
-			if Mod_exception.is_termination_signal (exception_manager.last_exception) then
+			if Mod_exception.received_termination_signal then
 				exception_manager.last_exception.raise
 			elseif not assertion_violation then
 				retried := True

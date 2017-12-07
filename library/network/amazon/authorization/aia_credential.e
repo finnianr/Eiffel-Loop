@@ -1,37 +1,37 @@
 note
-	description: "Summary description for {AIA_CREDENTIAL_KEY_PAIR}."
+	description: "Credential for authenticating requests"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-23 10:25:13 GMT (Thursday 23rd November 2017)"
-	revision: "1"
+	date: "2017-12-07 9:54:49 GMT (Thursday 7th December 2017)"
+	revision: "2"
 
 class
 	AIA_CREDENTIAL
 
 inherit
+	EL_STORABLE
+		rename
+			read_version as read_default_version
+		end
+
 	EL_STRING_CONSTANTS
-		redefine
-			default_create
+		undefine
+			is_equal
 		end
 
 create
-	make, default_create
+	make, make_default
 
 feature {NONE} -- Initialization
 
 	make (a_secret: like secret; a_public: like public)
 		do
+			make_default
 			secret := a_secret; public := a_public
-		end
-
-	default_create
-		do
-			secret := Empty_string_8
-			public := Empty_string_8
 		end
 
 feature -- Access
@@ -48,4 +48,9 @@ feature -- Access
 			hmac.sink_string (short_date); hmac.finish
 			Result := hmac.hmac
 		end
+
+feature {NONE} -- Constants
+
+	Field_hash_checksum: NATURAL = 3881643624
+
 end

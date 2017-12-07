@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-29 19:03:09 GMT (Wednesday 29th November 2017)"
-	revision: "1"
+	date: "2017-12-06 18:11:24 GMT (Wednesday 6th December 2017)"
+	revision: "2"
 
 class
 	EL_DAILY_EXCHANGE_RATES [RATES -> EL_EXCHANGE_RATE_TABLE create make end]
@@ -54,7 +54,7 @@ feature {NONE} -- Implementation
 			if attached previous then
 				previous := today
 			end
-			create today.make (date_today, Significant_digits)
+			create today.make (date_today.twin, Significant_digits)
 			if not attached previous then
 				set_previous
 			end

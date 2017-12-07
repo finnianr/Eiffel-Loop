@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-23 14:48:17 GMT (Thursday 23rd November 2017)"
-	revision: "5"
+	date: "2017-12-02 11:00:36 GMT (Saturday 2nd December 2017)"
+	revision: "6"
 
 class
 	PP_RESPONSE_HASH_TABLE
 
 inherit
 	EL_HTTP_HASH_TABLE
+		export
+			{NONE} force, put, extend
 		redefine
-			item, make_equal
+			item, put
 		end
 
 	PP_SHARED_PAYPAL_VARIABLES
@@ -36,23 +38,7 @@ inherit
 create
 	make_equal, make_from_url_query
 
-feature {NONE} -- Initialization
-
-	make_equal (n: INTEGER)
-		do
-			Precursor (n)
-			key_set := Once_key_set
-		end
-
 feature -- Access
-
-	item (name: ZSTRING): ZSTRING
-		do
-			Result := Precursor (name)
-			if Result.has_quotes (2) then
-				Result.remove_quotes
-			end
-		end
 
 	i_th_item (name_prefix: ZSTRING; i: INTEGER): ZSTRING
 		local
@@ -62,6 +48,14 @@ feature -- Access
 			name.append (name_prefix)
 			name.append_z_code (Zero.natural_32_code + i.to_natural_32)
 			Result := item (name)
+		end
+
+	item (name: ZSTRING): ZSTRING
+		do
+			Result := Precursor (name)
+			if Result.has_quotes (2) then
+				Result.remove_quotes
+			end
 		end
 
 	name_value_pair (name: ZSTRING): TUPLE [name, value: ZSTRING]
@@ -79,9 +73,17 @@ feature -- Access
 			end
 		end
 
+feature -- Element change
+
+	put (value, key: ZSTRING)
+		do
+			Key_set.put (key)
+			Precursor (value, Key_set.found_item)
+		end
+
 feature {NONE} -- Constants
 
-	Once_key_set: EL_HASH_SET [ZSTRING]
+	Key_set: EL_HASH_SET [ZSTRING]
 		local
 			i: INTEGER
 		once

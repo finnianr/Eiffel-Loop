@@ -9,14 +9,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-28 11:45:04 GMT (Tuesday 28th November 2017)"
-	revision: "1"
+	date: "2017-12-02 13:50:13 GMT (Saturday 2nd December 2017)"
+	revision: "2"
 
 class
 	EL_JSON_NAME_VALUE_LIST
 
 inherit
 	LINEAR [TUPLE [name, value: ZSTRING]]
+		redefine
+			off
+		end
 
 	EL_JSON_ROUTINES
 		undefine
@@ -102,6 +105,12 @@ feature -- Status query
 	is_empty: BOOLEAN
 		do
 			Result := count = 0
+		end
+
+	off: BOOLEAN
+			-- Is there no current item?
+		do
+			Result := (index = 0) or (index = count + 1)
 		end
 
 feature {NONE} -- Implementation

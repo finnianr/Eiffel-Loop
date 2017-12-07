@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-01 10:40:03 GMT (Saturday 1st July 2017)"
-	revision: "3"
+	date: "2017-12-02 9:21:19 GMT (Saturday 2nd December 2017)"
+	revision: "4"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -121,15 +121,13 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor
-			Result.append_tuples (<<
-				["name_pattern", 				agent: ZSTRING do Result := name_pattern end],
-				["follow_symbolic_links", 	agent: BOOLEAN_REF do Result := follow_symbolic_links.to_reference end],
-				["limitless_max_depth",		agent: BOOLEAN_REF do Result := limitless_max_depth.to_reference end],
-				["max_depth", 					agent: INTEGER_REF do Result := max_depth.to_reference end],
-				["min_depth", 					agent: INTEGER_REF do Result := min_depth.to_reference end],
+			Result := Precursor +
+				["name_pattern", 				agent: ZSTRING do Result := name_pattern end] +
+				["follow_symbolic_links", 	agent: BOOLEAN_REF do Result := follow_symbolic_links.to_reference end] +
+				["limitless_max_depth",		agent: BOOLEAN_REF do Result := limitless_max_depth.to_reference end] +
+				["max_depth", 					agent: INTEGER_REF do Result := max_depth.to_reference end] +
+				["min_depth", 					agent: INTEGER_REF do Result := min_depth.to_reference end] +
 				["type",							agent: STRING do Result := type end]
-			>>)
 		end
 
 feature {NONE} -- Implementation

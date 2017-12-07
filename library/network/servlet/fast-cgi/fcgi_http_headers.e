@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-27 12:15:56 GMT (Monday 27th November 2017)"
-	revision: "1"
+	date: "2017-12-06 14:54:05 GMT (Wednesday 6th December 2017)"
+	revision: "2"
 
 class
 	FCGI_HTTP_HEADERS
@@ -17,10 +17,13 @@ inherit
 		rename
 			make_default as make
 		redefine
-			set_field, make, Except_fields, name_adaptation
+			set_field, make, Except_fields, import_name
 		end
 
 	EL_STRING_CONSTANTS
+		undefine
+			is_equal
+		end
 
 create
 	make
@@ -31,29 +34,6 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create custom_table.make (3)
-		end
-
-feature -- Element change
-
-	set_authorization (a_authorization: like authorization)
-		do
-			authorization := a_authorization
-		end
-
-	set_custom (name: STRING; value: ZSTRING)
-		local
-			kebab_name: STRING
-		do
-			create kebab_name.make (name.count)
-			from_kebab_case (name, kebab_name)
-			custom_table [kebab_name] := value
-		end
-
-	wipe_out
-		do
-			set_default_values
-			custom_table.wipe_out
-			content_length := -1
 		end
 
 feature -- Access
@@ -97,7 +77,7 @@ feature -- Access
 			end
 		end
 
-	selected (name_list: EL_SPLIT_ZSTRING_LIST): HASH_TABLE [ZSTRING, STRING]
+	selected (name_list: EL_SPLIT_STRING_LIST [STRING]): HASH_TABLE [ZSTRING, STRING]
 		-- returns table of field values for keys present in `name_list'
 		local
 			name: STRING; object: like current_object
@@ -107,9 +87,7 @@ feature -- Access
 			create Result.make (name_list.count)
 			from name_list.start until name_list.after loop
 				name.wipe_out
-				name_list.item.append_to_string_8 (name)
-				String_8.replace_character (name, '-', '_')
-				name.to_lower
+				from_kebab_case (name_list.item, name)
 
 				field_index_table.search (name)
 				if field_index_table.found then
@@ -161,7 +139,57 @@ feature -- Access attributes
 
 feature -- Element change
 
+	set_accept (a_accept: like accept)
+		do
+			accept := a_accept
+		end
+
+	set_accept_encoding (a_accept_encoding: like accept_encoding)
+		do
+			accept_encoding := a_accept_encoding
+		end
+
+	set_accept_language (a_accept_language: like accept_language)
+		do
+			accept_language := a_accept_language
+		end
+
+	set_authorization (a_authorization: like authorization)
+		do
+			authorization := a_authorization
+		end
+
+	set_cache_control (a_cache_control: like cache_control)
+		do
+			cache_control := a_cache_control
+		end
+
+	set_connection (a_connection: like connection)
+		do
+			connection := a_connection
+		end
+
+	set_content_type (a_content_type: like content_type)
+		do
+			content_type := a_content_type
+		end
+
+	set_cookie (a_cookie: like cookie)
+		do
+			cookie := a_cookie
+		end
+
+	set_custom (name: STRING; value: ZSTRING)
+		local
+			kebab_name: STRING
+		do
+			create kebab_name.make (name.count)
+			from_kebab_case (name, kebab_name)
+			custom_table [kebab_name] := value
+		end
+
 	set_field (name: STRING; value: ZSTRING)
+		-- set field with name
 		do
 			Precursor (name, value)
 			if not field_index_table.found then
@@ -169,18 +197,51 @@ feature -- Element change
 			end
 		end
 
+	set_from (a_from: like from_)
+		do
+			from_ := a_from
+		end
+
+	set_host (a_host: like host)
+		do
+			host := a_host
+		end
+
+	set_referer (a_referer: like referer)
+		do
+			referer := a_referer
+		end
+
+	set_upgrade_insecure_requests (a_upgrade_insecure_requests: like upgrade_insecure_requests)
+		do
+			upgrade_insecure_requests := a_upgrade_insecure_requests
+		end
+
+	set_user_agent (a_user_agent: like user_agent)
+		do
+			user_agent := a_user_agent
+		end
+
+	wipe_out
+		do
+			set_default_values
+			custom_table.wipe_out
+			content_length := -1
+		end
+
 feature {NONE} -- Implementation
 
 	as_table_key (name: STRING; kebab_names: BOOLEAN): STRING
 		do
 			if kebab_names then
-				Result := to_kebab_case (name)
+				create Result.make (name.count)
+				to_kebab_case (name, Result)
 			else
 				Result := name
 			end
 		end
 
-	name_adaptation: like Standard_eiffel
+	import_name: like Default_import_name
 		do
 			Result := agent from_upper_snake_case
 		end

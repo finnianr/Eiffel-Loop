@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:30:26 GMT (Thursday 29th June 2017)"
-	revision: "4"
+	date: "2017-12-02 10:25:45 GMT (Saturday 2nd December 2017)"
+	revision: "5"
 
 class
 	REPOSITORY_SOURCE_TREE_PAGE
@@ -211,19 +211,17 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor
-			Result.append_tuples (<<
-				["home_description_elements",	agent home_description_elements],
-				["description_elements",		agent description_elements],
+			Result := Precursor +
+				["home_description_elements",	agent home_description_elements] +
+				["description_elements",		agent description_elements] +
 
-				["category_title",	 			agent: ZSTRING do Result := category_title end],
-				["ecf_name",			 			agent: ZSTRING do Result := source_tree.ecf_name end],
-				["directory_list", 				agent: ITERABLE [SOURCE_DIRECTORY] do Result := source_tree.directory_list end],
-				["has_ecf_name",					agent: BOOLEAN_REF do Result := has_ecf_name.to_reference end],
-				["has_sub_directory", 			agent: BOOLEAN_REF do Result := has_sub_directory.to_reference end],
-				["relative_path",					agent: ZSTRING do Result := relative_path end],
+				["category_title",	 			agent: ZSTRING do Result := category_title end] +
+				["ecf_name",			 			agent: ZSTRING do Result := source_tree.ecf_name end] +
+				["directory_list", 				agent: ITERABLE [SOURCE_DIRECTORY] do Result := source_tree.directory_list end] +
+				["has_ecf_name",					agent: BOOLEAN_REF do Result := has_ecf_name.to_reference end] +
+				["has_sub_directory", 			agent: BOOLEAN_REF do Result := has_sub_directory.to_reference end] +
+				["relative_path",					agent: ZSTRING do Result := relative_path end] +
 				["crc_digest",						agent: NATURAL_32_REF do Result := description_checksum.to_reference end]
-			>>)
 		end
 
 feature {NONE} -- Internal attributes

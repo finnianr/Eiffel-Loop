@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-11 22:20:21 GMT (Saturday 11th November 2017)"
-	revision: "7"
+	date: "2017-12-02 10:13:22 GMT (Saturday 2nd December 2017)"
+	revision: "8"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -205,7 +205,7 @@ feature {NONE} -- Constants
 	Except_fields: STRING
 			-- Object attributes that are not stored in Rhythmbox database
 		once
-			Result := "album_artists_prefix, encoding"
+			Result := "encoding"
 		end
 
 end

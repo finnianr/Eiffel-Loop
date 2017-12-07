@@ -6,20 +6,76 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-28 16:07:36 GMT (Saturday 28th October 2017)"
-	revision: "3"
+	date: "2017-12-05 11:41:06 GMT (Tuesday 5th December 2017)"
+	revision: "4"
 
 class
 	EL_EXCEPTION_ROUTINES
 
+inherit
+	EXCEPTION_MANAGER_FACTORY
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			manager := Exception_manager
+		end
+
+feature -- Access
+
+	last_out: STRING
+		do
+			if attached {EXCEPTION} last_exception as last then
+				Result := last.out
+			else
+				create Result.make_empty
+			end
+		end
+
+	last_signal_code: INTEGER
+		-- Result >= 0 if `last_exception' was a signal failure
+		do
+			if attached {OPERATING_SYSTEM_SIGNAL_FAILURE} last_exception as os then
+				Result := os.signal_code
+			else
+				Result := Result.one.opposite
+			end
+		end
+
+	last_trace: STRING_32
+		do
+			if attached {EXCEPTION} last_exception as last then
+				Result := last.trace
+			else
+				create Result.make_empty
+			end
+		end
+
+	last_exception: EXCEPTION
+		do
+			Result := manager.last_exception
+		end
+
+	manager: like exception_manager
+
 feature -- Status query
 
-	is_termination_signal (exception: EXCEPTION): BOOLEAN
-			-- True if exception `signal_code' is Unix interrupt (Ctrl-C) or terminate signal
+	received_broken_pipe_signal: BOOLEAN
 		do
-			if attached {OPERATING_SYSTEM_SIGNAL_FAILURE} exception as os then
-				Result := os.signal_code = Unix.Sigint or os.signal_code = Unix.Sigterm
+			if attached {ROUTINE_FAILURE} last_exception as routine
+				and then attached {IO_FAILURE} routine.original as exception
+			then
+				Result := exception.message.same_string ("Broken pipe")
 			end
+		end
+
+	received_termination_signal: BOOLEAN
+		do
+			Result := Termination_signals.has (last_signal_code)
 		end
 
 feature -- Basic operations
@@ -57,6 +113,11 @@ feature {NONE} -- Constants
 	Template_error_in_routine: ZSTRING
 		once
 			Result := "Error in routine: {%S}.%S"
+		end
+
+	Termination_signals: ARRAY [INTEGER]
+		once
+			Result := << Unix.Sigint, Unix.Sigterm >>
 		end
 
 	Unix: UNIX_SIGNALS

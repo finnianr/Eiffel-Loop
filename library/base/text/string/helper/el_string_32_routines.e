@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-12 16:49:43 GMT (Wednesday 12th April 2017)"
-	revision: "2"
+	date: "2017-12-02 11:37:11 GMT (Saturday 2nd December 2017)"
+	revision: "3"
 
 class
 	EL_STRING_32_ROUTINES
@@ -24,6 +24,22 @@ feature -- Conversion
 			create Result.make_filled (0, 1, s.count)
 			from i := 1 until i > s.count loop
 				Result [i] := s.code (i).to_natural_8
+				i := i + 1
+			end
+		end
+
+feature -- Measurement
+
+	latin_1_count (s: STRING_32): INTEGER
+		-- count of latin-1 characters
+		local
+			i, count: INTEGER; area: SPECIAL [CHARACTER_32]
+		do
+			area := s.area; count := s.count
+			from i := 0 until i = count loop
+				if area.item (i).natural_32_code <= 0xFF then
+					Result := Result + 1
+				end
 				i := i + 1
 			end
 		end

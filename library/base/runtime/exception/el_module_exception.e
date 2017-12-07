@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-12-05 11:27:22 GMT (Tuesday 5th December 2017)"
+	revision: "3"
 
 class
 	EL_MODULE_EXCEPTION
@@ -19,6 +19,6 @@ feature {NONE} -- Constants
 
 	Exception: EL_EXCEPTION_ROUTINES
 		once
-			create Result
+			create Result.make
 		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-26 13:52:08 GMT (Sunday 26th November 2017)"
-	revision: "4"
+	date: "2017-12-06 12:41:18 GMT (Wednesday 6th December 2017)"
+	revision: "5"
 
 class
 	EL_REFLECTION
@@ -24,7 +24,7 @@ feature {EL_REFLECTION} -- Factory
 			Result := new_field_indices_set (Except_fields)
 		end
 
-	new_field_indices_set (field_names: ZSTRING): SORTABLE_ARRAY [INTEGER]
+	new_field_indices_set (field_names: STRING): SORTABLE_ARRAY [INTEGER]
 		local
 			object: like current_object; field_list: EL_SPLIT_STRING_LIST [STRING]
 			i, j, field_count: INTEGER
@@ -106,12 +106,34 @@ feature {NONE} -- Implementation
 			Result := object.reference_field (index).is_equal (other_object.reference_field (index))
 		end
 
+	new_current_object (instance: ANY): REFLECTED_REFERENCE_OBJECT
+		local
+			pool: like Object_pool
+		do
+			pool := Object_pool
+			if pool.is_empty then
+				create Result.make (instance)
+			else
+				Result := pool.item
+				Result.set_object (instance)
+				pool.remove
+			end
+		end
+
+	recycle (object: like new_current_object)
+		do
+			object.set_object (0)
+			Object_pool.put (object)
+		end
+
 feature {NONE} -- Constants
 
 	Except_fields: STRING
 		-- list of comma-separated fields to be excluded
 		once
 			create Result.make_empty
+		ensure
+			no_leading_comma: not Result.is_empty implies not (Result [1] = ',')
 		end
 
 	Excluded_fields_by_type: EL_FUNCTION_RESULT_TABLE [EL_REFLECTION, SORTABLE_ARRAY [INTEGER]]
@@ -124,4 +146,13 @@ feature {NONE} -- Constants
 			create Result.make (Current)
 		end
 
+	Object_pool: ARRAYED_STACK [REFLECTED_REFERENCE_OBJECT]
+		once
+			create Result.make (3)
+		end
+
+	String_pool: EL_STRING_POOL [STRING]
+		once
+			create Result.make (3)
+		end
 end

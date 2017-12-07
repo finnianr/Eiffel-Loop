@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-27 18:57:23 GMT (Monday 27th November 2017)"
-	revision: "5"
+	date: "2017-12-02 11:17:23 GMT (Saturday 2nd December 2017)"
+	revision: "6"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -45,6 +45,11 @@ feature -- Measurement
 				end
 				i := i + 1
 			end
+		end
+
+	latin_1_count (s: READABLE_STRING_GENERAL): INTEGER
+		-- count of latin-1 characters
+		deferred
 		end
 
 feature -- Conversion

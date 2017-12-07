@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {AIA_CANONICAL_REQUEST}."
+	description: "Request formatted in a standard (canonical) form for hashing"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-17 12:37:41 GMT (Friday 17th November 2017)"
-	revision: "1"
+	date: "2017-12-07 9:53:09 GMT (Thursday 7th December 2017)"
+	revision: "2"
 
 class
 	AIA_CANONICAL_REQUEST
@@ -35,7 +35,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (request: FCGI_REQUEST_PARAMETERS; headers_list: EL_SPLIT_ZSTRING_LIST)
+	make (request: FCGI_REQUEST_PARAMETERS; headers_list: EL_SPLIT_STRING_LIST [STRING])
 		local
 			header_key_list: EL_STRING_8_LIST; l_digest, value: ZSTRING
 			headers: HASH_TABLE [ZSTRING, STRING]

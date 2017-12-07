@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-26 13:34:33 GMT (Sunday 26th November 2017)"
-	revision: "4"
+	date: "2017-12-02 8:18:10 GMT (Saturday 2nd December 2017)"
+	revision: "5"
 
 deferred class EL_CHAIN [G]
 
@@ -76,6 +76,14 @@ feature -- Access
 				i := i + 1
 			end
 			pop_cursor
+		end
+
+feature -- Element change
+
+	extended alias "+" (v: like item): like Current
+		do
+			extend (v)
+			Result := Current
 		end
 
 feature -- Removal

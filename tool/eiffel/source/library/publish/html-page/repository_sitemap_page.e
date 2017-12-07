@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:32:25 GMT (Thursday 29th June 2017)"
-	revision: "3"
+	date: "2017-12-02 10:24:23 GMT (Saturday 2nd December 2017)"
+	revision: "4"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -66,11 +66,8 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor
-			Result.append_tuples (<<
-				["category_list",	agent: like category_list do Result := category_list end],
-				["stats", 			agent: like stats_cmd do Result := stats_cmd end]
-			>>)
+			Result := Precursor + 	["category_list",	agent: like category_list do Result := category_list end] +
+											["stats", 			agent: like stats_cmd do Result := stats_cmd end]
 		end
 
 feature {NONE} -- Implementation

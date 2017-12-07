@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-28 11:33:34 GMT (Tuesday 28th November 2017)"
-	revision: "12"
+	date: "2017-12-06 13:59:01 GMT (Wednesday 6th December 2017)"
+	revision: "13"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -29,7 +29,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent amazon_instant_access_test_set.test_get_user_id)
+			do_file_data_test (agent substitution_template_test_set.test_object_field_substitution)
 		end
 
 feature -- Tests
@@ -75,6 +75,11 @@ feature -- Tests
 		end
 
 	path_test_set: EL_PATH_TEST_SET
+		do
+			create Result
+		end
+
+	reflectively_json_settable_test_set: REFLECTIVELY_JSON_SETTABLE_TEST_SET
 		do
 			create Result
 		end

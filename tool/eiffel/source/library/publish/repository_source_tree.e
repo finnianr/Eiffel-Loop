@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-13 10:04:44 GMT (Friday 13th October 2017)"
-	revision: "6"
+	date: "2017-12-02 10:25:02 GMT (Saturday 2nd December 2017)"
+	revision: "7"
 
 class
 	REPOSITORY_SOURCE_TREE
@@ -157,23 +157,18 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor
-			Result.append_tuples (<<
-				["directory_list",		agent: like directory_list do Result := directory_list end],
-				["has_description",		agent: BOOLEAN_REF do Result := (not description_lines.is_empty).to_reference end],
+			Result := Precursor +
+				["directory_list",		agent: like directory_list do Result := directory_list end] +
+				["has_description",		agent: BOOLEAN_REF do Result := (not description_lines.is_empty).to_reference end] +
 				["github_description",	agent: ZSTRING do Result := Translater.to_github_markdown (description_lines) end]
-			>>)
 		end
 
 feature {NONE} -- Build from Pyxis
 
 	building_action_table: EL_PROCEDURE_TABLE
 		do
-			Result := Precursor
-			Result.append_tuples (<<
-				["@ecf",						agent do ecf_name := node.to_string end],
-				["description/text()",	agent set_description_from_node]
-			>>)
+			Result := Precursor + 	["@ecf",						agent do ecf_name := node.to_string end] +
+											["description/text()",	agent set_description_from_node]
 		end
 
 	on_context_exit

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-27 10:39:17 GMT (Monday 27th November 2017)"
-	revision: "3"
+	date: "2017-12-06 14:49:50 GMT (Wednesday 6th December 2017)"
+	revision: "4"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -21,7 +21,7 @@ inherit
 		rename
 			make_default as make
 		redefine
-			make, set_field, Except_fields, name_adaptation
+			make, set_field, Except_fields, import_name
 		end
 
 create
@@ -38,11 +38,106 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
+	set_auth_type (a_auth_type: like auth_type)
+		do
+			auth_type := a_auth_type
+		end
+
 	set_content (a_content: like content)
 		do
 			content := a_content
 		end
 
+	set_document_root (a_document_root: like document_root)
+		do
+			document_root := a_document_root
+		end
+
+	set_gateway_interface (a_gateway_interface: like gateway_interface)
+		do
+			gateway_interface := a_gateway_interface
+		end
+
+	set_path (a_path: like path)
+		do
+			path := a_path
+		end
+
+	set_path_info (a_path_info: like path_info)
+		do
+			path_info := a_path_info
+		end
+
+	set_path_translated (a_path_translated: like path_translated)
+		do
+			path_translated := a_path_translated
+		end
+
+	set_query_string (a_query_string: like query_string)
+		do
+			query_string := a_query_string
+		end
+
+	set_remote_ident (a_remote_ident: like remote_ident)
+		do
+			remote_ident := a_remote_ident
+		end
+
+	set_request_method (a_request_method: like request_method)
+		do
+			request_method := a_request_method
+		end
+
+	set_request_uri (a_request_uri: like request_uri)
+		do
+			request_uri := a_request_uri
+		end
+
+	set_script_filename (a_script_filename: like script_filename)
+		do
+			script_filename := a_script_filename
+		end
+
+	set_script_name (a_script_name: like script_name)
+		do
+			script_name := a_script_name
+		end
+
+	set_script_url (a_script_url: like script_url)
+		do
+			script_url := a_script_url
+		end
+
+	set_server_addr (a_server_addr: like server_addr)
+		do
+			server_addr := a_server_addr
+		end
+
+	set_server_name (a_server_name: like server_name)
+		do
+			server_name := a_server_name
+		end
+
+	set_server_port (a_server_port: like server_port)
+		do
+			server_port := a_server_port
+		end
+
+	set_server_protocol (a_server_protocol: like server_protocol)
+		do
+			server_protocol := a_server_protocol
+		end
+
+	set_server_signature (a_server_signature: like server_signature)
+		do
+			server_signature := a_server_signature
+		end
+
+	set_server_software (a_server_software: like server_software)
+		do
+			server_software := a_server_software
+		end
+	
 	wipe_out
 		do
 			set_default_values
@@ -96,12 +191,15 @@ feature -- Access
 
 	remote_address_32: NATURAL
 		local
-			l_result: NATURAL_32_REF
+			parts: EL_SPLIT_STRING_LIST [STRING]; l_result: NATURAL_32_REF
 		do
-			if remote_addr.occurrences ('.') = 3 then
+			create parts.make (remote_addr, Dot)
+			if parts.count = 4 then
 				create l_result
-				remote_addr.do_with_splits (Dot, agent append_byte (?, l_result))
+				parts.do_all (agent append_byte (?, l_result))
 				Result := l_result.item
+			elseif remote_addr ~ once "::1" then
+				Result := 0x7F_00_00_01
 			end
 		end
 
@@ -132,6 +230,9 @@ feature -- STRING_8 parameters
 
 	https: STRING
 
+	remote_addr: STRING
+		-- remote address formatted as x.x.x.x where 0 <= x and x <= 255
+
 	server_protocol: STRING
 
 feature -- ZSTRING parameters
@@ -149,9 +250,6 @@ feature -- ZSTRING parameters
 	path_translated: ZSTRING
 
 	query_string: ZSTRING
-
-	remote_addr: ZSTRING
-		-- remote address formatted as x.x.x.x where 0 <= x and x <= 255
 
 	remote_ident: ZSTRING
 
@@ -196,22 +294,19 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	append_byte (byte_string: ZSTRING; n: NATURAL_32_REF)
+	append_byte (byte_string: STRING; n: NATURAL_32_REF)
 		do
 			n.set_item (n.item |<< 8 | byte_string.to_natural_32)
 		end
 
-	name_adaptation: like Standard_eiffel
+	import_name: like Default_import_name
 		do
 			Result := agent from_upper_snake_case
 		end
 
 feature {NONE} -- Constants
 
-	Dot: ZSTRING
-		once
-			Result := "."
-		end
+	Dot: STRING = "."
 
 	Except_fields: STRING
 		once

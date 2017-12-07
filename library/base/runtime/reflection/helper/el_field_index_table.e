@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-27 10:35:40 GMT (Monday 27th November 2017)"
-	revision: "1"
+	date: "2017-12-05 17:15:49 GMT (Tuesday 5th December 2017)"
+	revision: "2"
 
 class
 	EL_FIELD_INDEX_TABLE
@@ -19,9 +19,11 @@ inherit
 			make as make_table
 		end
 
-	EL_ATTRIBUTE_NAME_ROUTINES
+	EL_ATTRIBUTE_NAME_TRANSLATEABLE
 		undefine
 			is_equal, copy
+		redefine
+			import_name
 		end
 
 create
@@ -29,11 +31,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (n: INTEGER; a_adapt_name: like adapt_name)
+	make (n: INTEGER; a_import_name: like import_name)
 		do
 			make_table (n)
-			adapt_name := a_adapt_name
-			adapt_tuple := [create {STRING}.make_empty, create {STRING}.make_empty]
+			import_name := a_import_name
+			name_argument := [create {STRING}.make_empty, create {STRING}.make_empty]
 		end
 
 feature -- Basic operations
@@ -42,25 +44,25 @@ feature -- Basic operations
 		local
 			field_name: STRING
 		do
-			field_name := adapt_tuple.name_in
+			field_name := name_argument.name_in
 			field_name.wipe_out
 			if attached {ZSTRING} name as z_name then
 				z_name.append_to_string_8 (field_name)
 			else
 				field_name.append (name.to_string_8)
 			end
-			if adapt_name /= Standard_eiffel then
-				adapt_tuple.name_out.wipe_out
-				adapt_name.call (adapt_tuple)
-				field_name := adapt_tuple.name_out
+			if import_name /= Default_import_name then
+				name_argument.name_out.wipe_out
+				import_name.call (name_argument)
+				field_name := name_argument.name_out
 			end
 			search_field (field_name)
 		end
 
 feature {NONE} -- Internal attributes
 
-	adapt_name: PROCEDURE [STRING, STRING]
+	import_name: PROCEDURE [STRING, STRING]
 
-	adapt_tuple: TUPLE [name_in, name_out: STRING]
+	name_argument: TUPLE [name_in, name_out: STRING]
 
 end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-05 17:29:43 GMT (Sunday 5th November 2017)"
-	revision: "2"
+	date: "2017-12-04 14:45:06 GMT (Monday 4th December 2017)"
+	revision: "3"
 
 class
 	EL_HTTP_STATUS_CODES
@@ -17,7 +17,7 @@ class
 inherit
 	EL_STATUS_CODE_REFLECTION [NATURAL_16]
 		redefine
-			Upper_case_words
+			upper_case_english_words, initialize, export_name
 		end
 
 create
@@ -224,14 +224,14 @@ feature -- 5xx codes
 
 feature {NONE} -- Implementation
 
-	field_value (object: like current_object; i: INTEGER): NATURAL_16
+	export_name: like Default_import_name
 		do
-			Result := object.natural_16_field (i)
+			Result := agent to_english
 		end
 
 feature {NONE} -- Constants
 
-	Upper_case_words: ARRAY [ZSTRING]
+	upper_case_english_words: ARRAY [STRING]
 		once
 			Result := << "http", "uri", "ok" >>
 			Result.compare_objects

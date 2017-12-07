@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-30 20:08:26 GMT (Thursday 30th November 2017)"
-	revision: "3"
+	date: "2017-12-02 11:08:02 GMT (Saturday 2nd December 2017)"
+	revision: "4"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -25,46 +25,39 @@ create
 
 feature {NONE} -- Initialization
 
-	make (array: ARRAY [TUPLE [K, G]])
-			--
-		do
-			make_equal (array.count)
-			append_tuples (array)
-		end
-
 	default_create
 			--
 		do
 			make_equal (3)
 		end
 
+	make (array: ARRAY [like as_map_list.item])
+			--
+		do
+			make_equal (array.count)
+			append_tuples (array)
+		end
+
 feature -- Element change
 
-	append_tuples (array: ARRAY [TUPLE [K, G]])
+	append_tuples (array: ARRAY [like as_map_list.item])
 			--
 		local
-			i: INTEGER
+			i: INTEGER; map: like as_map_list.item
 		do
 			accommodate (count + array.count)
 			from i := 1 until i > array.count loop
-				force_tuple (array [i])
+				map := array [i]
+				force (map.value, map.key)
 				i := i + 1
 			end
 		end
 
-	plus alias "+" (a_tuple: TUPLE [K, G]): like Current
-		do
-			force_tuple (a_tuple)
-			Result := Current
-		end
+feature -- Constants
 
-feature {NONE} -- Implementation
-
-	force_tuple (a_tuple: TUPLE [K, G])
+	as_map_list: EL_ARRAYED_MAP_LIST [K, G]
 		do
-			if attached {K} a_tuple.item (1) as key and then attached {G} a_tuple.item (2) as item_ref then
-				force (item_ref, key)
-			end
-		end
+	 		create Result.make_from_table (Current)
+	 	end
 
 end

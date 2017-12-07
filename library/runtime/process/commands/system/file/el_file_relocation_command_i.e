@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "3"
+	date: "2017-12-02 9:20:43 GMT (Saturday 2nd December 2017)"
+	revision: "4"
 
 deferred class
 	EL_FILE_RELOCATION_COMMAND_I
@@ -54,11 +54,9 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := precursor
-			Result.append_tuples (<<
-				["is_timestamp_preserved", agent: BOOLEAN_REF do Result := is_timestamp_preserved.to_reference end],
+			Result := Precursor +
+				["is_timestamp_preserved", agent: BOOLEAN_REF do Result := is_timestamp_preserved.to_reference end] +
 				["is_recursive", agent: BOOLEAN_REF do Result := is_recursive.to_reference end]
-			>>)
 		end
 
 end

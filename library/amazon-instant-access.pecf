@@ -36,9 +36,16 @@ system:
 		library:
 			name = encryption_base; location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"
 
+		library:
+			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
+
 		# Eiffel Loop
 		library:
 			name = EL_base; location = "base/base.ecf"
+
+		library:
+			name = EL_chain_db; readonly = false
+			location = "chain-db.ecf"
 
 		library:
 			name = EL_encryption; location = "encryption.ecf"
@@ -46,6 +53,10 @@ system:
 		library:
 			name = EL_servlet; location = "servlet.ecf"
 			readonly = false
+
+		library:
+			name = EL_testing; readonly = false
+			location = "testing.ecf"
 
 		# Source code
 		cluster:

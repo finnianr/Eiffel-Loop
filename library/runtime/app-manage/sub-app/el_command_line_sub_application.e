@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-18 11:47:36 GMT (Wednesday 18th October 2017)"
-	revision: "10"
+	date: "2017-12-02 9:16:36 GMT (Saturday 2nd December 2017)"
+	revision: "11"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -85,7 +85,7 @@ feature {NONE} -- Implementation
 	): like specs.item
 		do
 			create Result.make (Current, word_option, help_description)
-			Result.validation.append_tuples (validations)
+			Result.validation.merge_array (validations)
 		end
 
 	valid_required_argument (
@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 	): like specs.item
 		do
 			Result := required_argument (word_option, help_description)
-			Result.validation.append_tuples (validations)
+			Result.validation.merge_array (validations)
 		end
 
 feature {NONE} -- Validations

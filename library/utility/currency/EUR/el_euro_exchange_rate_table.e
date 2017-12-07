@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-29 18:41:45 GMT (Wednesday 29th November 2017)"
-	revision: "1"
+	date: "2017-12-03 10:28:06 GMT (Sunday 3rd December 2017)"
+	revision: "2"
 
 class
 	EL_EURO_EXCHANGE_RATE_TABLE
@@ -52,38 +52,48 @@ feature {NONE} -- Implementation
 	fill
 		local
 			web: EL_HTTP_CONNECTION; file_path: EL_FILE_PATH; xml: STRING
-			l_date: DATE; root_node: EL_XPATH_ROOT_NODE_CONTEXT
-			xml_file: PLAIN_TEXT_FILE
+			root_node: EL_XPATH_ROOT_NODE_CONTEXT; xml_file: PLAIN_TEXT_FILE
+			cached: like cached_dates
 		do
 			File_system.make_directory (Rates_dir)
+			file_path := rates_file_path (date)
 			create xml.make_empty
-			from l_date := date.twin until xml.has_substring ("</Cube>") loop
-				file_path := rates_file_path (l_date)
-				if file_path.exists then
-					lio.put_path_field ("Reading", file_path)
-					xml := File_system.plain_text (file_path)
-				else
-					lio.put_labeled_string ("Reading", Ecb_daily_rate_url)
-					create web.make
-					web.open (ECB_daily_rate_url)
-					web.set_timeout_seconds (3)
-					web.read_string_get
-					if not web.has_error then
-						xml := web.last_string
-						create xml_file.make_open_write (file_path)
-						xml_file.put_string (xml)
-						xml_file.close
-					end
-					web.close
-				end
-				lio.put_new_line
-				l_date.day_back
+			cached := cached_dates
+			if cached.has (date) then
+				xml := read_xml (file_path)
 			end
-			create root_node.make_from_string (xml)
-			across root_node.context_list ("//Cube[boolean(@currency)]") as rate loop
-				extend (rate.node.attributes.real (Name_rate), rate.node.attributes.string_32 (Name_currency))
+			if not xml.has_substring (Closing_tag) then
+				lio.put_labeled_string ("Reading", Ecb_daily_rate_url)
+				lio.put_new_line
+				create web.make
+				web.open (ECB_daily_rate_url)
+				web.set_timeout_seconds (3)
+				web.read_string_get
+				if not web.has_error then
+					xml := web.last_string
+					create xml_file.make_open_write (file_path)
+					xml_file.put_string (xml)
+					xml_file.close
+				end
+				web.close
+			end
+			if not xml.has_substring (Closing_tag) then
+				xml := read_xml (rates_file_path (cached.first))
+			end
+			if xml.has_substring (Closing_tag) then
+				create root_node.make_from_string (xml)
+				across root_node.context_list ("//Cube[boolean(@currency)]") as rate loop
+					extend (rate.node.attributes.real (Name_rate), rate.node.attributes.string_32 (Name_currency))
+				end
 			end
 			clean_up_files
+		end
+
+	read_xml (file_path: EL_FILE_PATH): STRING
+		do
+			lio.put_path_field ("Reading", file_path)
+			lio.put_new_line
+			Result := File_system.plain_text (file_path)
 		end
 
 	rates_file_path (a_date: DATE): EL_FILE_PATH
@@ -93,6 +103,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Closing_tag: STRING = "</Cube>"
 
 	Base_currency: STRING = "EUR"
 

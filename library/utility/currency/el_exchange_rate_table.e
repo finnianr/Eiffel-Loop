@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-30 11:20:57 GMT (Thursday 30th November 2017)"
-	revision: "1"
+	date: "2017-12-03 10:04:29 GMT (Sunday 3rd December 2017)"
+	revision: "2"
 
 deferred class
 	EL_EXCHANGE_RATE_TABLE
@@ -57,6 +57,7 @@ feature -- Access
 				Result.extend (create {DATE}.make_from_string (date_string, Date_format))
 			end
 			Result.reverse_sort
+			Result.compare_objects
 		end
 
 	base_currency: STRING

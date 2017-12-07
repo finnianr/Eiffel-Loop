@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-01 11:00:49 GMT (Saturday 1st July 2017)"
-	revision: "3"
+	date: "2017-12-02 9:20:22 GMT (Saturday 2nd December 2017)"
+	revision: "4"
 
 deferred class
 	EL_DOUBLE_PATH_OPERAND_COMMAND_I
@@ -66,11 +66,9 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := precursor
-			Result.append_tuples (<<
-				[var_name_path_2, 		agent: ZSTRING do Result := destination_path.escaped end],
+			Result := Precursor +
+				[var_name_path_2, 		agent: ZSTRING do Result := destination_path.escaped end] +
 				["is_file_destination", agent: BOOLEAN_REF do Result := is_file_destination.to_reference end]
-			>>)
 		end
 
 end

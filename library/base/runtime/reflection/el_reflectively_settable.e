@@ -1,11 +1,16 @@
 note
 	description: "Object with fields settable from `ZSTRING' values using Eiffel reflection"
 	notes: "[
-		Override `Default_values_by_type' to provide default values for attributes conforming to
-		`EL_MAKEABLE_FROM_ZSTRING' or `EL_MAKEABLE_FROM_STRING_(8/32)'
+		Override `new_default_values' to provide default values for attributes conforming to
+		`EL_MAKEABLE_FROM_ZSTRING' or `EL_MAKEABLE_FROM_STRING_<X>', but make sure to include
+		the Precursor values.
 		
 		It is permitted to have a trailing underscore to prevent clashes with Eiffel keywords.
 		The field is settable with `set_field' by a name string that does not have a trailing underscore.
+		
+		To adapt foreign names that do not follow the Eiffel snake-case convention redefine `import_name'
+		to return a routine in `EL_ATTRIBUTE_NAME_ROUTINES' prefixed with `from_'. To export Eiffel names
+		redefine `export_name' to return a routine in `EL_ATTRIBUTE_NAME_ROUTINES' prefixed with `to_'.
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-27 12:15:24 GMT (Monday 27th November 2017)"
-	revision: "2"
+	date: "2017-12-06 12:44:08 GMT (Wednesday 6th December 2017)"
+	revision: "3"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE [S -> STRING_GENERAL create make_empty end]
@@ -22,14 +27,23 @@ deferred class
 inherit
 	EL_REFLECTION
 		redefine
-			Except_fields
+			Except_fields, is_equal
 		end
 
-	EL_ATTRIBUTE_NAME_ROUTINES
+	EL_ATTRIBUTE_NAME_TRANSLATEABLE
+		undefine
+			is_equal
+		end
 
 	STRING_HANDLER
+		undefine
+			is_equal
+		end
 
 	EL_MODULE_EIFFEL
+		undefine
+			is_equal
+		end
 
 feature {NONE} -- Initialization
 
@@ -82,9 +96,9 @@ feature -- Element change
 	set_default_values
 		local
 			object: like current_object; i: INTEGER
-			default_values: like Default_values_by_type
+			default_values: HASH_TABLE [ANY, INTEGER]
 		do
-			object := current_object; default_values := Default_values_by_type
+			object := new_current_object (Current); default_values := Default_value_table_by_type.item (Current)
 			across field_index_table as index loop
 				i := index.item
 				inspect object.field_type (i)
@@ -116,6 +130,7 @@ feature -- Element change
 				else
 				end
 			end
+			recycle (object)
 		end
 
 	set_field (name: READABLE_STRING_GENERAL; value: S)
@@ -143,16 +158,50 @@ feature -- Element change
 			end
 		end
 
+feature -- Comparison
+
+	is_equal (other: like Current): BOOLEAN
+		local
+			object, other_object: REFLECTED_REFERENCE_OBJECT
+			table: like field_index_table
+		do
+			object := new_current_object (Current); other_object := new_current_object (other)
+			table := field_index_table
+			Result := True
+			from table.start until not Result or table.after loop
+				Result := equal_fields (object, other_object, table.item_for_iteration)
+				table.forth
+			end
+			recycle (object); recycle (other_object)
+		end
+
 feature {EL_REFLECTIVELY_SETTABLE} -- Factory
+
+	new_default_values: EL_ARRAYED_LIST [ANY]
+		do
+			create Result.make_from_array (Default_string_values)
+		end
+
+	new_default_values_by_type: HASH_TABLE [ANY, INTEGER]
+		local
+			values: like new_default_values
+		do
+			values := new_default_values
+			create Result.make (values.count)
+			from values.start until values.after loop
+				Result [Eiffel.dynamic_type (values.item)] := values.item
+				values.forth
+			end
+		end
 
 	new_field_index_table: EL_FIELD_INDEX_TABLE
 		local
 			object: like current_object; i, field_count: INTEGER
 			excluded_indices: like new_field_indices_set
 		do
-			object := current_object; field_count := object.field_count
+			object := new_current_object (Current); field_count := object.field_count
 			excluded_indices := Excluded_fields_by_type.item (Current)
-			create Result.make (field_count - excluded_indices.count, name_adaptation)
+			create Result.make (field_count - excluded_indices.count, import_name)
 			from i := 1 until i > field_count loop
 				excluded_indices.binary_search (i)
 				if not excluded_indices.found then
@@ -160,6 +209,7 @@ feature {EL_REFLECTIVELY_SETTABLE} -- Factory
 				end
 				i := i + 1
 			end
+			recycle (object)
 		end
 
 feature {NONE} -- Implementation
@@ -178,7 +228,7 @@ feature {NONE} -- Implementation
 			object: like current_object
 			field_type: INTEGER; value: STRING; reference_value: ANY
 		do
-			object := current_object
+			object := new_current_object (Current)
 			field_type := object.field_type (index)
 			if field_type = Reference_type then
 				reference_value := object.reference_field (index)
@@ -219,14 +269,7 @@ feature {NONE} -- Implementation
 				Result.append (value)
 				String_pool.recycle (value)
 			end
-		end
-
-	name_adaptation: like Standard_eiffel
-		-- redefine this in descendant class as one of the 4 external naming conventions
-		-- defined in `EL_ATTRIBUTE_NAME_ROUTINES'
-		--  `Standard_eiffel' means the external name already follows the Eiffel convention
-		do
-			Result := Standard_eiffel
+			recycle (object)
 		end
 
 	set_object_field (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER; value: S)
@@ -261,7 +304,7 @@ feature {NONE} -- Implementation
 
 	set_object_reference_field (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER; value: S)
 		local
-			l_type_id: INTEGER; default_values: like Default_values_by_type
+			l_type_id: INTEGER; default_values: HASH_TABLE [ANY, INTEGER]
 			new_field: ANY
 		do
 			l_type_id := object.field_static_type (index)
@@ -276,7 +319,7 @@ feature {NONE} -- Implementation
 
 			else
 				-- Check if the object is makeable from a string
-				default_values := Default_values_by_type
+				default_values := Default_value_table_by_type.item (Current)
 				default_values.search (l_type_id)
 				if default_values.found then
 					-- We have to use twinning because calling `make' on an instance created
@@ -309,10 +352,11 @@ feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Default_values_by_type: HASH_TABLE [ANY, INTEGER]
+	Default_value_table_by_type: EL_FUNCTION_RESULT_TABLE [
+		EL_REFLECTIVELY_SETTABLE [STRING_GENERAL], HASH_TABLE [ANY, INTEGER]
+	]
 		once
-			create Result.make (5)
-			Result.merge (Default_string_values)
+			create Result.make (11, agent {EL_REFLECTIVELY_SETTABLE [STRING_GENERAL]}.new_default_values_by_type)
 		end
 
 	Except_fields: STRING
@@ -327,9 +371,5 @@ feature {NONE} -- Constants
 			create Result.make (11, agent {EL_REFLECTIVELY_SETTABLE [STRING_GENERAL]}.new_field_index_table)
 		end
 
-	String_pool: EL_STRING_POOL [STRING]
-		once
-			create Result.make (3)
-		end
 
 end

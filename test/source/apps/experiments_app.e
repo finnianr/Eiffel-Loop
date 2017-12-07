@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-27 17:12:07 GMT (Monday 27th November 2017)"
-	revision: "19"
+	date: "2017-12-06 9:32:09 GMT (Wednesday 6th December 2017)"
+	revision: "20"
 
 class EXPERIMENTS_APP
 
@@ -39,12 +39,22 @@ feature -- Basic operations
 	run
 		local
 		do
-			lio.enter ("set_tuple_values")
-			set_tuple_values
+			lio.enter ("abstract_increment")
+			abstract_increment
 			lio.exit
 		end
 
 feature -- Experiments
+
+	abstract_increment
+		local
+			n: INTEGER_16; number: NUMERIC
+		do
+			n := 1
+			number := n
+			number := number + number.one
+			log.put_labeled_string ("number", number.out)
+		end
 
 	agent_polymorphism
 		local
@@ -372,6 +382,13 @@ feature -- Experiments
 				log.put_integer_field (n.item, table [n.item])
 				log.put_new_line
 			end
+		end
+
+	hash_table_plus
+		local
+			table: EL_STRING_HASH_TABLE [INTEGER, STRING]
+		do
+			table := table + ["one", 1]
 		end
 
 	hash_table_removal

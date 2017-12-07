@@ -1,24 +1,21 @@
 note
-	description: "ID for `AIA_CREDENTIAL_KEY_PAIR'"
+	description: "ID for `AIA_CREDENTIAL'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-17 12:14:02 GMT (Friday 17th November 2017)"
-	revision: "2"
+	date: "2017-12-07 9:55:21 GMT (Thursday 7th December 2017)"
+	revision: "3"
 
 class
 	AIA_CREDENTIAL_ID
 
 inherit
-	EL_MAKEABLE_FROM_STRING_8
-		redefine
-			is_equal
-		end
+	EL_REFLECTIVELY_SETTABLE_STRINGS [STRING]
 
-	EL_STRING_CONSTANTS
+	EL_MAKEABLE_FROM_STRING_8
 		undefine
 			is_equal
 		end
@@ -29,21 +26,17 @@ create
 feature {NONE} -- Initialization
 
 	make (string: STRING)
-		local
-			parts: LIST [STRING]
 		do
-			parts := string.split ('/')
-			if parts.count = 2 then
-				key := parts.first; date := parts.last
-			else
-				make_default
+			make_default
+			across string.split ('/') as part loop
+				inspect part.cursor_index
+					when 1 then
+						key := part.item
+					when 2 then
+						date := part.item
+				else
+				end
 			end
-		end
-
-	make_default
-		do
-			key := Empty_string_8
-			date := Empty_string_8
 		end
 
 feature -- Access
@@ -62,13 +55,6 @@ feature -- Element change
 	set_key (a_key: like key)
 		do
 			key := a_key
-		end
-
-feature -- Comparison
-
-	is_equal (other: like Current): BOOLEAN
-		do
-			Result := date ~ other.date and key ~ other.key
 		end
 
 end

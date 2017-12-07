@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-12-02 9:33:10 GMT (Saturday 2nd December 2017)"
+	revision: "3"
 
 deferred class
 	EL_WAV_GENERATION_COMMAND_I
@@ -100,14 +100,12 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor
-			Result.append_tuples (<<
-				["cycles_per_sec", 		agent: REAL_REF do Result := cycles_per_sec.to_reference end],
-				["frequency_lower",		agent: INTEGER_REF do Result := frequency_lower.to_reference end],
-				["frequency_upper",		agent: INTEGER_REF do Result := frequency_upper.to_reference end],
-				["duration", 				agent: INTEGER_REF do Result := duration.to_reference end],
+			Result := Precursor +
+				["cycles_per_sec", 		agent: REAL_REF do Result := cycles_per_sec.to_reference end] +
+				["frequency_lower",		agent: INTEGER_REF do Result := frequency_lower.to_reference end] +
+				["frequency_upper",		agent: INTEGER_REF do Result := frequency_upper.to_reference end] +
+				["duration", 				agent: INTEGER_REF do Result := duration.to_reference end] +
 				["minimum_sample_rate",	agent: INTEGER_REF do Result := minimum_sample_rate.to_reference end]
-			>>)
 		end
 
 feature {NONE} -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-10 12:14:11 GMT (Friday 10th November 2017)"
-	revision: "1"
+	date: "2017-12-06 13:57:38 GMT (Wednesday 6th December 2017)"
+	revision: "2"
 
 class
 	REFLECTION_TEST_SET
@@ -46,15 +46,13 @@ feature -- Tests
 				["code", Value_ie],
 				["LiteracyRate", Value_literacy_rate],
 				["population", Value_population],
-				["name", Value_name],
-				["data1", Value_data_1]
+				["name", Value_name]
 			>>)
 			create country.make (table)
 			assert ("same name", country.name ~ Value_name)
 			assert ("same code", country.code  ~ Value_ie.to_string_8)
 			assert ("same literacy_rate", country.literacy_rate ~ Value_literacy_rate.to_real)
 			assert ("same population", country.population ~ Value_population.to_integer)
-			assert ("same data_1", country.data_1 ~ Value_data_1.to_natural_32)
 		end
 
 feature {NONE} -- Implementation

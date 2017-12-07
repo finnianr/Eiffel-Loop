@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-11 22:10:21 GMT (Saturday 11th November 2017)"
-	revision: "7"
+	date: "2017-12-02 10:13:14 GMT (Saturday 2nd December 2017)"
+	revision: "8"
 
 class
 	RBOX_SONG
@@ -21,7 +21,8 @@ inherit
 			location as mp3_path,
 			set_location as set_mp3_path
 		redefine
-			make_entry, building_action_table, getter_function_table, Template, on_context_exit
+			make_entry, building_action_table, getter_function_table, on_context_exit,
+			Except_fields, Template
 		end
 
 	MEDIA_ITEM
@@ -562,8 +563,8 @@ feature {NONE} -- Build from XML
 		do
 			Result := Precursor
 			Result.merge (building_actions_for_type ({DOUBLE}))
-			Result ["hidden/text()"] := agent do is_hidden := node.to_integer = 1 end
-			Result ["mb-trackid/text()"] := agent set_audio_id_from_node
+			Result := Result + 	["hidden/text()", agent do is_hidden := node.to_integer = 1 end] +
+										["mb-trackid/text()", agent set_audio_id_from_node]
 		end
 
 feature {NONE} -- Evolicity reflection
@@ -571,28 +572,26 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor
-			Result.append_tuples (<<
-				["audio_id", 						agent: STRING do Result := audio_id.out end],
+			Result := Precursor +
+				["audio_id", 						agent: STRING do Result := audio_id.out end] +
 
-				["artists", 						agent: ZSTRING do Result := Xml.escaped (artists_list.comma_separated) end],
-				["lead_artist", 					agent: ZSTRING do Result := Xml.escaped (lead_artist) end],
-				["album_artists", 				agent: ZSTRING do Result := Xml.escaped (album_artist) end],
-				["artist_list", 					agent: ITERABLE [ZSTRING] do Result := artists_list end],
+				["artists", 						agent: ZSTRING do Result := Xml.escaped (artists_list.comma_separated) end] +
+				["lead_artist", 					agent: ZSTRING do Result := Xml.escaped (lead_artist) end] +
+				["album_artists", 				agent: ZSTRING do Result := Xml.escaped (album_artist) end] +
+				["artist_list", 					agent: ITERABLE [ZSTRING] do Result := artists_list end] +
 
-				["mb_trackid",						agent music_brainz_track_id],
-				["duration_time", 				agent formatted_duration_time],
+				["mb_trackid",						agent music_brainz_track_id] +
+				["duration_time", 				agent formatted_duration_time] +
 
-				["replaygain_track_gain", 		agent: DOUBLE_REF do Result := replaygain_track_gain.to_reference end],
-				["replaygain_track_peak", 		agent: DOUBLE_REF do Result := replaygain_track_peak.to_reference end],
+				["replaygain_track_gain", 		agent: DOUBLE_REF do Result := replaygain_track_gain.to_reference end] +
+				["replaygain_track_peak", 		agent: DOUBLE_REF do Result := replaygain_track_peak.to_reference end] +
 
-				["last_checksum", 				agent: NATURAL_32_REF do Result := last_checksum.to_reference end],
-				["recording_year", 				agent: INTEGER_REF do Result := recording_year.to_reference end],
+				["last_checksum", 				agent: NATURAL_32_REF do Result := last_checksum.to_reference end] +
+				["recording_year", 				agent: INTEGER_REF do Result := recording_year.to_reference end] +
 
-				["is_hidden", 						agent: BOOLEAN_REF do Result := is_hidden.to_reference end],
-				["is_cortina",						agent: BOOLEAN_REF do Result := is_cortina.to_reference end],
+				["is_hidden", 						agent: BOOLEAN_REF do Result := is_hidden.to_reference end] +
+				["is_cortina",						agent: BOOLEAN_REF do Result := is_cortina.to_reference end] +
 				["has_other_artists",			agent: BOOLEAN_REF do Result := has_other_artists.to_reference end]
-			>>)
 		end
 
 feature -- Constants
@@ -619,6 +618,12 @@ feature -- Constants
 	Default_audio_id: EL_UUID
 		once
 			create Result.make_default
+		end
+
+	Except_fields: STRING
+			-- Object attributes that are not stored in Rhythmbox database
+		once
+			Result := Precursor + ", album_artists_prefix"
 		end
 
 	Problem_file_name_characters: ZSTRING

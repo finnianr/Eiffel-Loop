@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-12-02 9:33:37 GMT (Saturday 2nd December 2017)"
+	revision: "3"
 
 deferred class
 	EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_I
@@ -73,12 +73,10 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor {EL_FILE_CONVERSION_COMMAND_I}
-			Result.append_tuples (<<
-				["log_level",			 agent: STRING do Result := log_level end],
-				["offset", 				 agent: INTEGER_REF do Result := offset.to_reference end],
+			Result := Precursor {EL_FILE_CONVERSION_COMMAND_I} +
+				["log_level",			 agent: STRING do Result := log_level end] +
+				["offset", 				 agent: INTEGER_REF do Result := offset.to_reference end] +
 				["duration", 			 agent: INTEGER_REF do Result := duration.to_reference end]
-			>>)
 			Result.merge (Precursor {EL_AVCONV_OS_COMMAND_I})
 		end
 

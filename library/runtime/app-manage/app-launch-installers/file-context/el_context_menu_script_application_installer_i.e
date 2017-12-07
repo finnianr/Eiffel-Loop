@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-30 20:09:49 GMT (Thursday 30th November 2017)"
-	revision: "3"
+	date: "2017-12-02 9:19:39 GMT (Saturday 2nd December 2017)"
+	revision: "4"
 
 deferred class
 	EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_I
@@ -91,11 +91,9 @@ feature {NONE} -- Evolicity implementation
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor
-			Result.append_tuples (<<
-			 	["has_path_argument", 		 agent: BOOLEAN_REF do Result := (not input_path_option_name.is_empty).to_reference end],
+			Result := Precursor +
+			 	["has_path_argument", 		 agent: BOOLEAN_REF do Result := (not input_path_option_name.is_empty).to_reference end] +
 				["input_path_option_name",	 agent: STRING do Result := input_path_option_name end]
-			>>)
 		end
 
 end

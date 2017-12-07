@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-28 10:36:07 GMT (Tuesday 28th November 2017)"
-	revision: "1"
+	date: "2017-12-02 13:41:06 GMT (Saturday 2nd December 2017)"
+	revision: "2"
 
 class
 	EL_JSON_ROUTINES
@@ -16,6 +16,8 @@ inherit
 	EL_SHARED_ONCE_STRINGS
 
 	EL_MODULE_STRING_8
+
+	EL_MODULE_STRING_32
 
 feature {NONE} -- Implementation
 
@@ -42,6 +44,38 @@ feature {NONE} -- Implementation
 				end
 			else
 				Result := string
+			end
+		end
+
+	encoded (string: READABLE_STRING_GENERAL): STRING
+		local
+			unicode: STRING_32; latin_1_count: INTEGER; code: NATURAL_16
+			i, count: INTEGER; area: SPECIAL [CHARACTER_32]
+			encoding: STRING
+		do
+			if attached {STRING} string as str_8 then
+				Result := str_8
+			else
+				unicode := string.to_string_32
+				latin_1_count := String_32.latin_1_count (unicode)
+				if latin_1_count = string.count then
+					Result := string.to_string_8
+				else
+					create Result.make (latin_1_count + (unicode.count - latin_1_count) * 6)
+					area := unicode.area; count := unicode.count
+					from i := 0 until i = count loop
+						code := area.item (i).natural_32_code.as_natural_16
+						if code <= 0xFF then
+							Result.append_code (code)
+						else
+							Result.append (once "\u")
+							encoding := code.to_hex_string
+							encoding.to_lower
+							Result.append (encoding)
+						end
+						i := i + 1
+					end
+				end
 			end
 		end
 

@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {AIA_VERIFIER}."
+	description: "Verifies Instant Access request as authentic"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-23 10:41:08 GMT (Thursday 23rd November 2017)"
-	revision: "1"
+	date: "2017-12-07 9:57:11 GMT (Thursday 7th December 2017)"
+	revision: "2"
 
 class
 	AIA_VERIFIER
@@ -61,7 +61,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	headers_list: EL_SPLIT_ZSTRING_LIST
+	headers_list: EL_SPLIT_STRING_LIST [STRING]
 		do
 			Result := actual_authorization_header.signed_headers_list
 		end
@@ -74,7 +74,7 @@ feature {NONE} -- Constants
 
 	Default_credential: AIA_CREDENTIAL
 		once
-			create Result
+			create Result.make_default
 		end
 
 	Time_tolerance_in_secs: INTEGER_64

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-10 9:17:38 GMT (Tuesday 10th October 2017)"
-	revision: "3"
+	date: "2017-12-02 10:25:15 GMT (Saturday 2nd December 2017)"
+	revision: "4"
 
 class
 	LIBRARY_CLASS
@@ -71,10 +71,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor
-			Result.append_tuples (<<
-				["client_examples", agent: like client_examples do Result := client_examples end]
-			>>)
+			Result := Precursor + ["client_examples", agent: like client_examples do Result := client_examples end]
 		end
 
 feature {NONE} -- Constants

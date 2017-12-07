@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-16 18:28:03 GMT (Wednesday 16th August 2017)"
-	revision: "4"
+	date: "2017-12-02 9:14:22 GMT (Saturday 2nd December 2017)"
+	revision: "5"
 
 class
 	EL_TRANSLATION_TABLE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ZSTRING_HASH_TABLE [ZSTRING]
 		rename
-			make as make_from_array,
+			make as make_from_map_array,
 			put as put_table
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-29 9:24:51 GMT (Wednesday 29th November 2017)"
-	revision: "6"
+	date: "2017-12-02 14:08:19 GMT (Saturday 2nd December 2017)"
+	revision: "7"
 
 deferred class
 	EL_STORABLE
@@ -207,14 +207,13 @@ feature -- Comparison
 	is_equal (other: like Current): BOOLEAN
 		local
 			object, other_object: REFLECTED_REFERENCE_OBJECT
-			storable_fields: ARRAY [INTEGER]; i, field_count: INTEGER
+			i, count: INTEGER; area: SPECIAL [INTEGER]; fields: ARRAY [INTEGER]
 		do
 			object := new_current_object (Current); other_object := new_current_object (other)
-			storable_fields := Once_storable_fields.item (Current)
-			field_count := storable_fields.count
-			Result := True
-			from i := 1 until i > field_count or else not Result loop
-				Result := Result and equal_fields (object, other_object, storable_fields [i])
+			fields := Once_storable_fields.item (Current)
+			count := fields.count; area := fields.area
+			from Result := True; i := 0 until not Result or i = count loop
+				Result := equal_fields (object, other_object, area [i])
 				i := i + 1
 			end
 			recycle (object); recycle (other_object)
@@ -548,26 +547,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	recycle (object: like new_current_object)
-		do
-			Object_pool.put (object)
-		end
-
 feature {EL_STORABLE} -- Factory
-
-	new_current_object (instance: ANY): REFLECTED_REFERENCE_OBJECT
-		local
-			pool: like Object_pool
-		do
-			pool := Object_pool
-			if pool.is_empty then
-				create Result.make (instance)
-			else
-				Result := pool.item
-				Result.set_object (instance)
-				pool.remove
-			end
-		end
 
 	new_storable_fields: ARRAY [INTEGER]
 			-- field indices of storable fields
@@ -609,11 +589,6 @@ feature {NONE} -- Constants
 	Info_line_length: INTEGER
 		once
 			Result := 100
-		end
-
-	Object_pool: ARRAYED_STACK [REFLECTED_REFERENCE_OBJECT]
-		once
-			create Result.make (3)
 		end
 
 	Once_storable_fields: EL_FUNCTION_RESULT_TABLE [EL_STORABLE, ARRAY [INTEGER]]

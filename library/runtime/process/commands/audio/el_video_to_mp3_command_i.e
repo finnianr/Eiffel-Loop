@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-19 7:49:08 GMT (Saturday 19th August 2017)"
-	revision: "2"
+	date: "2017-12-02 9:34:04 GMT (Saturday 2nd December 2017)"
+	revision: "3"
 
 deferred class
 	EL_VIDEO_TO_MP3_COMMAND_I
@@ -99,14 +99,13 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor {EL_FILE_CONVERSION_COMMAND_I}
-			Result.append_tuples (<<
-				["bit_rate", 				agent bit_rate],
-				["duration", 				agent formatted_duration],
-				["has_duration",			agent: BOOLEAN_REF do Result := has_duration.to_reference end],
-				["has_offset_time",		agent: BOOLEAN_REF do Result := has_offset_time.to_reference end],
+			Result := Precursor {EL_FILE_CONVERSION_COMMAND_I} +
+				["bit_rate", 				agent bit_rate] +
+				["duration", 				agent formatted_duration] +
+				["has_duration",			agent: BOOLEAN_REF do Result := has_duration.to_reference end] +
+				["has_offset_time",		agent: BOOLEAN_REF do Result := has_offset_time.to_reference end] +
 				["offset_time", 			agent: STRING do Result := offset_time.formatted_out (Duration_format) end]
-			>>)
+				
 			Result.merge (Precursor {EL_AVCONV_OS_COMMAND_I})
 		end
 

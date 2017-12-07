@@ -18,21 +18,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-30 11:43:41 GMT (Thursday 30th November 2017)"
-	revision: "5"
+	date: "2017-12-05 11:12:29 GMT (Tuesday 5th December 2017)"
+	revision: "6"
 
 deferred class
 	FCGI_SERVLET_SERVICE
 
 inherit
 	L4E_PRIORITY_CONSTANTS
-
-	EXCEPTION_MANAGER
-		export
-			{NONE} all
-		end
-
-	EL_MODULE_EXCEPTION
 
 	EL_MODULE_HTTP_STATUS
 
@@ -41,6 +34,8 @@ inherit
 	EL_MODULE_LOG_MANAGER
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_EXCEPTION
 
 	EL_COMMAND
 
@@ -149,23 +144,32 @@ feature {NONE} -- States
 		local
 			servlet_path: ZSTRING; found: BOOLEAN
 		do
-			servlet_path := request.relative_path_info
-			if servlet_path.is_empty then
-				error (Servlet_app_log_category, "No path specified in HTTP header")
+			if request.is_closed then
+				state := agent accepting_connection
 			else
-				across << servlet_path, Default_servlet_key >> as path until found loop
-					servlet_path := path.item
-					servlets.search (servlet_path)
-					found := servlets.found
-				end
-				if found then
-					info (Servlet_app_log_category, Service_info_template #$ [servlet_path, servlets.found_item.servlet_info])
-					servlets.found_item.serve_fast_cgi (request)
+				servlet_path := request.relative_path_info
+				if servlet_path.is_empty then
+					error (Servlet_app_log_category, "No path specified in HTTP header")
 				else
-					on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (request))
+					across << servlet_path, Default_servlet_key >> as path until found loop
+						servlet_path := path.item
+						servlets.search (servlet_path)
+						found := servlets.found
+					end
+					if found then
+						info (Servlet_app_log_category, Service_info_template #$ [servlet_path, servlets.found_item.servlet_info])
+						servlets.found_item.serve_fast_cgi (request)
+					else
+						on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (request))
+					end
 				end
+				state := agent finishing_request
 			end
-			state := agent finishing_request
+		rescue
+			if Exception.received_broken_pipe_signal then
+				request.close
+				retry
+			end
 		end
 
 	reading_request (a_socket: like socket)
@@ -211,12 +215,12 @@ feature {NONE} -- Implementation
 				state.apply
 			end
 		rescue
-			if Exception.is_termination_signal (last_exception) then
+			if Exception.received_termination_signal then
 				error (Servlet_app_log_category, "Received termination signal. Exiting..")
 			else
 				error (
 					Servlet_app_log_category,
-					"Uncaught exception, code: " + last_exception.out + ", retry not requested, so exiting..."
+					"Uncaught exception, code: " + Exception.last_out + ", retry not requested, so exiting..."
 				)
 				write_exception_trace
 			end
@@ -298,9 +302,7 @@ feature {NONE} -- Implementation
 		do
 			trace_path := generator + "-exception.01.txt"
 			create trace_file.make_open_write (trace_path.next_version_path)
-			if attached {EXCEPTION} last_exception as last then
-				trace_file.put_string_32 (last.trace)
-			end
+			trace_file.put_string_32 (Exception.last_trace)
 			trace_file.close
 		end
 

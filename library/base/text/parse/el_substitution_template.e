@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-19 9:41:08 GMT (Sunday 19th November 2017)"
-	revision: "4"
+	date: "2017-12-06 14:14:46 GMT (Wednesday 6th December 2017)"
+	revision: "5"
 
 class
 	EL_SUBSTITUTION_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -186,15 +186,15 @@ feature -- Element change
 			i, field_count: INTEGER; name: ZSTRING
 		do
 			name := Once_name
-			meta_object := Once_current_object
-			meta_object.set_object (object)
+			meta_object := new_current_object (object)
 			field_count := meta_object.field_count
 			if attached {EL_REFLECTIVELY_SETTABLE [S]} object as l_object then
 				across l_object.field_index_table as field loop
 					name.wipe_out
 					name.append_string_general (field.key)
+					i := field.item
 					if has_variable (name) then
-						set_variable (name, meta_object.reference_field (field.item))
+						set_variable (name, meta_object.field (i))
 					end
 				end
 			else
@@ -207,6 +207,7 @@ feature -- Element change
 					i := i + 1
 				end
 			end
+			recycle (meta_object)
 		end
 
 	reset

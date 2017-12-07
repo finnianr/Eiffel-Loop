@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-27 10:37:13 GMT (Monday 27th November 2017)"
-	revision: "2"
+	date: "2017-12-06 10:21:14 GMT (Wednesday 6th December 2017)"
+	revision: "3"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -17,7 +17,7 @@ inherit
 		rename
 			make_default as make
 		redefine
-			is_equal, Default_values_by_type, name_adaptation
+			new_default_values, import_name
 		end
 
 	EL_SHARED_ONCE_STRINGS
@@ -42,17 +42,16 @@ feature {NONE} -- Initialization
 
 	make_from_string (str: STRING)
 		local
-			modified: STRING; fields: EL_STRING_8_LIST
+			modified: STRING; fields: EL_SPLIT_STRING_LIST [STRING]
 		do
 			make
 			modified := empty_once_string_8
 			-- Tweak `str' to make it splittable as series of assignments
 			modified.append (Algorithm_equals); modified.append (str)
 			modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))
-			create fields.make_with_separator (modified, ',', True)
-			across fields as assignment loop
-				set_field_from_nvp (assignment.item, once "=")
-			end
+			create fields.make (modified, once ",")
+			fields.enable_left_adjust
+			fields.do_all (agent set_field_from_nvp (?, once "="))
 		end
 
 	make_signed (signer: AIA_SIGNER; canonical_request: AIA_CANONICAL_REQUEST)
@@ -99,26 +98,21 @@ feature -- Access
 
 	signed_headers: STRING
 
-	signed_headers_list: EL_SPLIT_ZSTRING_LIST
+	signed_headers_list: EL_SPLIT_STRING_LIST [STRING]
 		do
 			create Result.make (signed_headers, Semicolon)
 		end
 
-feature -- Comparison
-
-	is_equal (other: like Current): BOOLEAN
-		do
-			Result := algorithm ~ other.algorithm
-				and credential ~ other.credential
-				and signature ~ other.signature
-				and signed_headers ~ other.signed_headers
-		end
-
 feature {NONE} -- Implementation
 
-	name_adaptation: like Standard_eiffel
+	import_name: like Default_import_name
 		do
 			Result := agent from_camel_case
+		end
+
+	new_default_values: EL_ARRAYED_LIST [ANY]
+		do
+			Result := Precursor + create {AIA_CREDENTIAL_ID}.make_default
 		end
 
 feature {NONE} -- Constants
@@ -128,12 +122,6 @@ feature {NONE} -- Constants
 	Default_algorithm: STRING_8
 		once
 			Result := "DTA1-HMAC-SHA256"
-		end
-
-	Default_values_by_type: HASH_TABLE [ANY, INTEGER]
-		once
-			Result := Precursor
-			Result [({AIA_CREDENTIAL_ID}).type_id] := create {AIA_CREDENTIAL_ID}.make_default
 		end
 
 	Semicolon: ZSTRING

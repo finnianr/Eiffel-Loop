@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-21 9:08:49 GMT (Tuesday 21st November 2017)"
-	revision: "2"
+	date: "2017-12-05 10:37:23 GMT (Tuesday 5th December 2017)"
+	revision: "3"
 
 class
 	FCGI_REQUEST
 
 inherit
 	FCGI_CONSTANTS
+
+	EL_MODULE_EXCEPTION
 
 create
 	make
@@ -74,6 +76,11 @@ feature -- Status query
 	is_head_request: BOOLEAN
 		do
 			Result := parameters.is_head_request
+		end
+
+	is_closed: BOOLEAN
+		do
+			Result := socket.is_closed
 		end
 
 feature -- Element change

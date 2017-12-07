@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-18 20:37:28 GMT (Friday 18th August 2017)"
-	revision: "2"
+	date: "2017-12-02 9:34:51 GMT (Saturday 2nd December 2017)"
+	revision: "3"
 
 deferred class
 	EL_WAV_FADER_I
@@ -62,12 +62,10 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor
-			Result.append_tuples (<<
-				["fade_in",				 agent: REAL_REF do Result := fade_in.to_reference end],
-				["duration", 			 agent: REAL_REF do Result := duration.to_reference end],
+			Result := Precursor +
+				["fade_in",				 agent: REAL_REF do Result := fade_in.to_reference end] +
+				["duration", 			 agent: REAL_REF do Result := duration.to_reference end] +
 				["fade_out", 			 agent: REAL_REF do Result := fade_out.to_reference end]
-			>>)
 		end
 
 end

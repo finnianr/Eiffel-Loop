@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-12-02 11:18:09 GMT (Saturday 2nd December 2017)"
+	revision: "3"
 
 class
 	EL_STRING_8_ROUTINES
@@ -26,6 +26,14 @@ feature -- Conversion
 				Result [i] := s.code (i).to_natural_8
 				i := i + 1
 			end
+		end
+
+feature -- Measurement
+
+	latin_1_count (s: READABLE_STRING_GENERAL): INTEGER
+		-- count of latin-1 characters
+		do
+			Result := s.count
 		end
 
 feature -- Transformation
