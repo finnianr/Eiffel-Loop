@@ -1,13 +1,24 @@
 note
 	description: "Object that reads and writes Fast-CGI messages from the web server"
+	notes: "[
+		Abort handling in `on_header' is based on this
+		[https://github.com/cherokee/webserver/blob/master/qa/fcgi.py QA example client] from Cherokee,
+		but there is a question as to whether it conforms to the
+		[https://fast-cgi.github.io/spec#54-fcgi_abort_request Fast-CGI specification for aborts].
+
+		Ideally we should find a better example, but in any case the
+		[https://github.com/cherokee/webserver/blob/master/cherokee/handler_fcgi.c Fast-CGI handler]
+		of our preferered webserver Cherokee, does not even implement aborts as there is no reference
+		to `FCGI_ABORT_REQUEST' defined in `fastcgi.h'. This is also the case for Apache.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-05 10:37:23 GMT (Tuesday 5th December 2017)"
-	revision: "3"
+	date: "2017-12-08 15:23:47 GMT (Friday 8th December 2017)"
+	revision: "4"
 
 class
 	FCGI_REQUEST
@@ -70,6 +81,9 @@ feature -- Status query
 			Result := not socket.was_error
 		end
 
+	is_aborted: BOOLEAN
+		-- `True' if request was aborted
+
 	is_end_service: BOOLEAN
 		-- `True' if type is request to end service
 
@@ -124,6 +138,7 @@ feature -- Basic operations
 	read
 			-- Read a complete request including its begin request, params and stdin records.
 		do
+			is_aborted := False; is_end_service := False
 			parameters.wipe_out
 
 			from request_read := False until not read_ok or request_read loop
@@ -165,6 +180,11 @@ feature {FCGI_RECORD} -- Record events
 			if a_header.is_end_service then
 				socket.put_string ("ok")
 				request_read := True; is_end_service := True
+
+			elseif a_header.is_aborted then
+				request_read := True; is_aborted := True
+				socket.close
+
 			else
 				a_header.type_record.read (Current)
 			end

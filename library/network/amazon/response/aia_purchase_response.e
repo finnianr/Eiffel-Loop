@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-07 10:10:59 GMT (Thursday 7th December 2017)"
-	revision: "1"
+	date: "2017-12-18 6:21:06 GMT (Monday 18th December 2017)"
+	revision: "2"
 
 class
 	AIA_PURCHASE_RESPONSE
@@ -29,10 +29,10 @@ feature -- Constants
 	Valid_responses: ARRAY [NATURAL_8]
 		once
 			Result := <<
-				Response_code.ok,
-				Response_code.fail_user_not_eligible,
-				Response_code.fail_user_invalid,
-				Response_code.fail_other
+				response_enum.ok,
+				response_enum.fail_user_not_eligible,
+				response_enum.fail_user_invalid,
+				response_enum.fail_other
 			>>
 		end
 end

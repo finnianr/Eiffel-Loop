@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 13:27:50 GMT (Saturday 2nd December 2017)"
-	revision: "1"
+	date: "2017-12-28 16:25:28 GMT (Thursday 28th December 2017)"
+	revision: "2"
 
 class
 	JSON_CURRENCY
 
 inherit
-	EL_REFLECTIVELY_JSON_SETTABLE
+	EL_REFLECTIVELY_SETTABLE
+		rename
+			field_included as is_any_field
+		end
+
+	EL_SETTABLE_FROM_JSON_STRING
 
 create
 	make_from_json, make

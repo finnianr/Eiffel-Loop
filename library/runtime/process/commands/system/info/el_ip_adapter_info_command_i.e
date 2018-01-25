@@ -53,8 +53,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-28 17:25:40 GMT (Sunday 28th May 2017)"
-	revision: "2"
+	date: "2017-12-11 8:35:30 GMT (Monday 11th December 2017)"
+	revision: "3"
 
 deferred class
 	EL_IP_ADAPTER_INFO_COMMAND_I
@@ -72,6 +72,8 @@ inherit
 			make as make_machine,
 			do_with_lines as parse_lines
 		end
+
+	EL_MODULE_STRING_8
 
 feature {NONE} -- Initialization
 

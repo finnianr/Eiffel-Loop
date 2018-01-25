@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-27 19:10:44 GMT (Monday 27th November 2017)"
-	revision: "1"
+	date: "2017-12-11 10:09:22 GMT (Monday 11th December 2017)"
+	revision: "2"
 
 deferred class
 	EL_JOINED_STRINGS [S -> STRING_GENERAL create make end]
@@ -125,7 +125,7 @@ feature -- Measurement
 		do
 			push_cursor
 			from start until after loop
-				Result := Result + item.count
+				Result := Result + item_count
 				forth
 			end
 			pop_cursor
@@ -156,6 +156,10 @@ feature {NONE} -- Implementation
 		end
 
 	item: S
+		deferred
+		end
+
+	item_count: INTEGER
 		deferred
 		end
 

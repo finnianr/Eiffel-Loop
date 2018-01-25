@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-05 10:06:49 GMT (Tuesday 5th December 2017)"
-	revision: "2"
+	date: "2018-01-19 15:15:37 GMT (Friday 19th January 2018)"
+	revision: "4"
 
 class
 	FCGI_HEADER_RECORD
@@ -85,6 +85,12 @@ feature -- Status query
 			Result := type = Fcgi_end_service
 		end
 
+	is_aborted: BOOLEAN
+		-- `True' if type is signal to abort request
+		do
+			Result := type = Fcgi_abort_request
+		end
+
 feature {NONE} -- Implementation
 
 	on_data_read (request: FCGI_REQUEST)
@@ -101,7 +107,7 @@ feature {NONE} -- Implementation
 			padding_length := memory.read_natural_8
 			reserved := memory.read_natural_8
 		ensure then
-			same_request_id: request_id.as_integer_32 = 1
+			same_request_id: request_id = Fcgi_default_request_id
 		end
 
 	write_memory (memory: FCGI_MEMORY_READER_WRITER)

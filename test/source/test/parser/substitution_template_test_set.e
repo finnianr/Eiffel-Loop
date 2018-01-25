@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-16 10:43:43 GMT (Thursday 16th November 2017)"
-	revision: "1"
+	date: "2017-12-19 13:26:31 GMT (Tuesday 19th December 2017)"
+	revision: "2"
 
 class
 	SUBSTITUTION_TEMPLATE_TEST_SET
@@ -19,7 +19,7 @@ feature -- Tests
 
 	test_string_substitution
 		local
-			template: EL_SUBSTITUTION_TEMPLATE [STRING]
+			template: EL_STRING_8_TEMPLATE
 		do
 			create template.make (Template_string)
 			template.set_variables_from_array (<<
@@ -30,7 +30,7 @@ feature -- Tests
 
 	test_zstring_substitution
 		local
-			template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
+			template: EL_ZSTRING_TEMPLATE
 		do
 			create template.make (Template_string)
 			template.set_variables_from_array (<<
@@ -41,7 +41,7 @@ feature -- Tests
 
 	test_object_field_substitution
 		local
-			ireland: COUNTRY; template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
+			ireland: COUNTRY; template: EL_ZSTRING_TEMPLATE
 		do
 			create ireland.make_default
 			ireland.set_name ("Ireland")

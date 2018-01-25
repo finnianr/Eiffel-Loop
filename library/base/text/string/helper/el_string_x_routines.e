@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 11:17:23 GMT (Saturday 2nd December 2017)"
-	revision: "6"
+	date: "2017-12-15 9:29:43 GMT (Friday 15th December 2017)"
+	revision: "7"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -70,6 +70,13 @@ feature -- Transformation
 		do
 			create splits.make (text, delimiter)
 			Result := splits.as_string_list
+		end
+
+	first_to_upper (str: STRING_GENERAL)
+		do
+			if not str.is_empty then
+				str.put_code (str.item (1).as_upper.natural_32_code, 1)
+			end
 		end
 
 	enclosed (str: READABLE_STRING_GENERAL; left, right: CHARACTER_32): S

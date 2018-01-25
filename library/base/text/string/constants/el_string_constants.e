@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-13 8:57:31 GMT (Sunday 13th August 2017)"
-	revision: "3"
+	date: "2017-12-22 18:46:58 GMT (Friday 22nd December 2017)"
+	revision: "4"
 
 class
 	EL_STRING_CONSTANTS
@@ -48,6 +48,11 @@ feature {NONE} -- STRING_8
 	New_line_string_8: STRING = "%N"
 
 	Space_string_8: STRING = " "
+
+	frozen String_8_pool: EL_STRING_POOL [STRING]
+		once
+			create Result.make (3)
+		end
 
 	Tab_string_8: STRING = "%T"
 

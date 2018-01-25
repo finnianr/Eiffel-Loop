@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-07 10:20:19 GMT (Thursday 7th December 2017)"
-	revision: "3"
+	date: "2017-12-18 16:57:31 GMT (Monday 18th December 2017)"
+	revision: "5"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -25,6 +25,11 @@ inherit
 			default_create
 		end
 
+	EL_MODULE_EIFFEL
+		undefine
+			default_create
+		end
+
 	AIA_SHARED_CREDENTIAL_LIST
 		undefine
 			default_create
@@ -37,7 +42,12 @@ inherit
 			default_create
 		end
 
-	AIA_SHARED_CODES
+	AIA_SHARED_ENUMERATIONS
+		undefine
+			default_create
+		end
+
+	AIA_SHARED_REFLECTION_MANAGER
 		undefine
 			default_create
 		end
@@ -46,7 +56,7 @@ feature -- Account Linking
 
 	test_response_code
 		do
-			assert ("same message", Response_code.message (Response_code.fail_other) ~ "FAIL_OTHER")
+			assert ("same message", response_enum.name (response_enum.fail_other) ~ "FAIL_OTHER")
 		end
 
 	test_get_user_id
@@ -243,20 +253,20 @@ feature {NONE} -- Request handlers
 
 	get_user_id_1234 (request: AIA_GET_USER_ID_REQUEST): AIA_GET_USER_ID_RESPONSE
 		do
-			create Result.make (Response_code.ok)
+			create Result.make (response_enum.ok)
 			Result.set_user_id ("1234")
 		end
 
 	purchase_with_ineligible_user (request: AIA_PURCHASE_REQUEST): AIA_PURCHASE_RESPONSE
 		do
 			check_purchase_fields (request)
-			create Result.make (Response_code.fail_user_not_eligible)
+			create Result.make (response_enum.fail_user_not_eligible)
 		end
 
 	revoke_with_invalid_purchase_token (request: AIA_REVOKE_REQUEST): AIA_REVOKE_RESPONSE
 		do
 			check_purchase_fields (request)
-			create Result.make (Response_code.fail_invalid_purchase_token)
+			create Result.make (response_enum.fail_invalid_purchase_token)
 		end
 
 feature {NONE} -- Implementation
@@ -304,6 +314,7 @@ feature {NONE} -- Events
 	on_prepare
 			-- Called after all initializations in `default_create'.
 		do
+			Initialize_reflection
 			Precursor
 			Credential_list.extend (Credential)
 		end

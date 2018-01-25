@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-23 14:46:02 GMT (Thursday 23rd November 2017)"
-	revision: "3"
+	date: "2017-12-18 5:51:51 GMT (Monday 18th December 2017)"
+	revision: "5"
 
 class
 	PP_BUTTON_SUB_PARAMETER_LIST
@@ -15,24 +15,27 @@ class
 inherit
 	PP_SUB_PARAMETER_LIST
 
+	EL_SHARED_CURRENCY_CODES
+		undefine
+			is_equal, copy
+		end
+
 create
 	make
 
 feature -- Element change
 
-	currency_code: STRING
+	currency_code: NATURAL_8
 		do
 			find_first (Var_currency_code, agent {EL_HTTP_NAME_VALUE_PARAMETER}.name)
-			if exhausted then
-				create Result.make_empty
-			else
-				Result := item.value.to_string_8
+			if found then
+				Result := Currency.value (item.value)
 			end
 		end
 
-	set_currency_code (code: STRING)
+	set_currency_code (code: NATURAL_8)
 		do
-			extend (Var_currency_code, code)
+			extend (Var_currency_code, Currency.name (code))
 		end
 
 	set_item_name (name: ZSTRING)
@@ -40,7 +43,7 @@ feature -- Element change
 			extend (Var_item_name, name)
 		end
 
-	set_item_product_code (code: ZSTRING)
+	set_item_number (code: ZSTRING)
 		do
 			extend (Var_item_number, code)
 		end
@@ -66,5 +69,4 @@ feature {NONE} -- Constants
 		once
 			Result := "item_number"
 		end
-
 end

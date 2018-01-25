@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-18 20:27:08 GMT (Friday 18th August 2017)"
-	revision: "3"
+	date: "2017-12-28 15:25:37 GMT (Thursday 28th December 2017)"
+	revision: "4"
 
 class
 	RBOX_CORTINA_SONG
@@ -21,10 +21,14 @@ inherit
 	RHYTHMBOX_CONSTANTS
 		export
 			{NONE} all
+		undefine
+			is_equal
 		end
 
 	EL_MODULE_AUDIO_COMMAND
-
+		undefine
+			is_equal
+		end
 create
 	make
 

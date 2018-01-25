@@ -8,17 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-07 10:09:16 GMT (Thursday 7th December 2017)"
-	revision: "1"
+	date: "2017-12-28 16:26:00 GMT (Thursday 28th December 2017)"
+	revision: "3"
 
 class
 	AIA_PURCHASE_REQUEST
 
 inherit
 	AIA_REQUEST
-		redefine
-			new_default_values
-		end
 
 create
 	make
@@ -37,12 +34,7 @@ feature {NONE} -- Implementation
 
 	default_response: AIA_PURCHASE_RESPONSE
 		do
-			create Result.make (Response_code.ok)
-		end
-
-	new_default_values: EL_ARRAYED_LIST [ANY]
-		do
-			Result := Precursor + create {AIA_PURCHASE_REASON}.make_default
+			create Result.make (response_enum.ok)
 		end
 
 end

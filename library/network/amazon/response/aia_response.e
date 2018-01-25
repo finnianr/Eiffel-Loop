@@ -6,22 +6,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-06 14:39:27 GMT (Wednesday 6th December 2017)"
-	revision: "1"
+	date: "2017-12-28 16:25:49 GMT (Thursday 28th December 2017)"
+	revision: "4"
 
 class
 	AIA_RESPONSE
 
 inherit
-	EL_REFLECTIVELY_JSON_SETTABLE
+	EL_REFLECTIVELY_SETTABLE
+		rename
+			field_included as is_any_field
 		export
 			{NONE} all
-			{ANY} as_json
 		redefine
 			export_name
 		end
 
-	AIA_SHARED_CODES
+	EL_SETTABLE_FROM_JSON_STRING
+		export
+			{NONE} all
+			{ANY} as_json
+		end
+
+	AIA_SHARED_ENUMERATIONS
 		undefine
 			is_equal
 		end
@@ -45,7 +52,7 @@ feature -- Constants
 
 	Valid_responses: ARRAY [NATURAL_8]
 		once
-			Result := << Response_code.ok >>
+			Result := << response_enum.ok >>
 		end
 
 feature -- Element change
@@ -54,14 +61,14 @@ feature -- Element change
 		require
 			valid_code: Valid_responses.has (code)
 		do
-			response := Response_code.message (code)
+			response := response_enum.name (code)
 		end
 
 feature {NONE} -- Implementation
 
-	export_name: like Default_import_name
+	export_name: like Naming.Default_export
 		do
-			Result := agent to_camel_case
+			Result := agent Naming.to_camel_case
 		end
 
 end

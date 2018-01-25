@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-14 13:36:35 GMT (Sunday 14th May 2017)"
-	revision: "1"
+	date: "2017-12-11 8:20:21 GMT (Monday 11th December 2017)"
+	revision: "2"
 
 deferred class
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN [EVENT_SOURCE -> EL_PARSE_EVENT_SOURCE]

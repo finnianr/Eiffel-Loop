@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-06 13:57:14 GMT (Wednesday 6th December 2017)"
-	revision: "5"
+	date: "2017-12-28 16:25:03 GMT (Thursday 28th December 2017)"
+	revision: "8"
 
 class
 	COUNTRY
 
 inherit
-	EL_REFLECTIVELY_SETTABLE [ZSTRING]
+	EL_REFLECTIVELY_SETTABLE
+		rename
+			field_included as is_any_field
+		end
+
+	EL_SETTABLE_FROM_ZSTRING
 		rename
 			make_from_zkey_table as make
 		end

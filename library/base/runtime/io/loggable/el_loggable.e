@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 8:48:56 GMT (Thursday 29th June 2017)"
-	revision: "2"
+	date: "2017-12-17 11:09:19 GMT (Sunday 17th December 2017)"
+	revision: "3"
 
 deferred class
 	EL_LOGGABLE
@@ -44,6 +44,18 @@ feature -- Query
 			-- push routine on to call stack
 		do
 			Result := traced_routine_call_stack.count
+		end
+
+feature -- Status change
+
+	tab_left
+			--
+		deferred
+		end
+
+	tab_right
+			--
+		deferred
 		end
 
 feature -- Output

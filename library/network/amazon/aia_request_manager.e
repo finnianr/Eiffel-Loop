@@ -1,13 +1,16 @@
 note
-	description: "Summary description for {AIA_ACCOUNT_LINKING_CONTROLLER}."
+	description: "[
+		Object that selects the appropriate request object for each Amazon Instant Access request
+		and then returns a vendor response.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-05 16:45:40 GMT (Tuesday 5th December 2017)"
-	revision: "2"
+	date: "2017-12-19 14:15:31 GMT (Tuesday 19th December 2017)"
+	revision: "4"
 
 class
 	AIA_REQUEST_MANAGER
@@ -19,7 +22,9 @@ inherit
 
 	AIA_SHARED_CREDENTIAL_LIST
 
-	AIA_SHARED_CODES
+	AIA_SHARED_ENUMERATIONS
+
+	AIA_SHARED_REFLECTION_MANAGER
 
 create
 	make
@@ -28,6 +33,8 @@ feature {NONE} -- Initialization
 
 	make
 		do
+			initialize_reflection
+
 			create error_message.make_empty
 			create get_user_id.make
 			create purchase.make
@@ -53,8 +60,7 @@ feature -- Basic operations
 
 	response (fcgi_request: FCGI_REQUEST_PARAMETERS): AIA_RESPONSE
 		local
-			operation: AIA_OPERATION; request: AIA_REQUEST
-			verifier: AIA_VERIFIER
+			operation: AIA_OPERATION; request: AIA_REQUEST; verifier: AIA_VERIFIER
 		do
 			create verifier.make (fcgi_request, Credential_list)
 			if verifier.is_verified then
@@ -93,6 +99,6 @@ feature {NONE} -- Constants
 
 	Fail_reponse: AIA_RESPONSE
 		once
-			create Result.make (Response_code.fail_other)
+			create Result.make (response_enum.fail_other)
 		end
 end

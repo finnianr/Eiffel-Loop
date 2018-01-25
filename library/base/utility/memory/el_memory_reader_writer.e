@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-20 14:53:14 GMT (Monday 20th November 2017)"
-	revision: "4"
+	date: "2017-12-20 18:14:23 GMT (Wednesday 20th December 2017)"
+	revision: "6"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -18,6 +18,16 @@ inherit
 			{EL_STORABLE} buffer
 		redefine
 			make_with_buffer, read_string_32, write_string_32, check_buffer
+		end
+
+	EL_READABLE
+		export
+			{NONE} all
+		end
+
+	EL_WRITEABLE
+		export
+			{NONE} all
 		end
 
 	STRING_HANDLER
@@ -50,9 +60,23 @@ feature -- Access
 	data_version: NATURAL
 		-- Version number of data if different from the default ({REAL}.zero)
 
+	inspect_buffer: STRING
+		do
+			create Result.make_filled (' ', 40)
+			Result.area.base_address.memory_copy (buffer.item, Result.count.min (buffer.count))
+		end
+
 	read_date: DATE
 		do
 			create Result.make_by_ordered_compact_date (read_integer_32)
+		end
+
+	read_date_time: DATE_TIME
+		local
+			l_date: DATE
+		do
+			l_date := read_date
+			create Result.make_by_date_time (l_date, read_time)
 		end
 
 	read_string: ZSTRING
@@ -94,6 +118,11 @@ feature -- Access
 			end
 		end
 
+	read_time: TIME
+		do
+			create Result.make_by_compact_time (read_integer_32)
+		end
+
 	read_to_natural_8_array (array: ARRAY [NATURAL_8])
 		do
 			check_buffer (array.count)
@@ -106,12 +135,6 @@ feature -- Access
 			check_buffer (str.count)
 			buffer.read_into_special_character_8 (str.area, count, 0, str.count)
 			count := count + str.count
-		end
-
-	inspect_buffer: STRING
-		do
-			create Result.make_filled (' ', 40)
-			Result.area.base_address.memory_copy (buffer.item, Result.count.min (buffer.count))
 		end
 
 feature -- Measurement
@@ -145,14 +168,6 @@ feature -- Element change
 			count := 0
 		end
 
-	write_from (input: IO_MEDIUM; nb_bytes: INTEGER)
-		-- fill buffer with `nb_bytes' from `input' medium
-		do
-			check_buffer (nb_bytes)
-			input.read_to_managed_pointer (buffer, count, nb_bytes)
-			count := count + nb_bytes
-		end
-
 	set_data_version (a_data_version: like data_version)
 		do
 			data_version := a_data_version
@@ -168,6 +183,20 @@ feature -- Element change
 			write_integer_32 (a_date.ordered_compact_date)
 		end
 
+	write_date_time (date_time: DATE_TIME)
+		do
+			write_date (date_time.date)
+			write_time (date_time.time)
+		end
+
+	write_from (input: IO_MEDIUM; nb_bytes: INTEGER)
+		-- fill buffer with `nb_bytes' from `input' medium
+		do
+			check_buffer (nb_bytes)
+			input.read_to_managed_pointer (buffer, count, nb_bytes)
+			count := count + nb_bytes
+		end
+
 	write_natural_8_array (a_data: ARRAY [NATURAL_8])
 		local
 			l_pos, l_data_size: INTEGER
@@ -176,18 +205,6 @@ feature -- Element change
 			check_buffer (l_data_size)
 			l_pos := count
 			buffer.put_array (a_data, l_pos)
-			l_pos := l_pos + l_data_size
-			count := l_pos
-		end
-
-	write_sub_special (array: SPECIAL [CHARACTER_8]; source_index, n: INTEGER)
-		local
-			l_pos, l_data_size: INTEGER
-		do
-			l_data_size := {PLATFORM}.Character_8_bytes * n
-			check_buffer (l_data_size)
-			l_pos := count
-			buffer.put_special_character_8 (array, source_index, l_pos, n)
 			l_pos := l_pos + l_data_size
 			count := l_pos
 		end
@@ -201,7 +218,7 @@ feature -- Element change
 			end
 		end
 
-	write_string (a_string: ZSTRING)
+	write_string (a_string: EL_READABLE_ZSTRING)
 		local
 			i, l_count: INTEGER; l_area: like read_string.area
 			interval_index: like read_string.unencoded_interval_index
@@ -220,7 +237,7 @@ feature -- Element change
 			end
 		end
 
-	write_string_32 (a_string: STRING_32)
+	write_string_32 (a_string: READABLE_STRING_32)
 		local
 			i, l_count: INTEGER
 		do
@@ -232,15 +249,32 @@ feature -- Element change
 			end
 		end
 
+	write_sub_special (array: SPECIAL [CHARACTER_8]; source_index, n: INTEGER)
+		local
+			l_pos, l_data_size: INTEGER
+		do
+			l_data_size := {PLATFORM}.Character_8_bytes * n
+			check_buffer (l_data_size)
+			l_pos := count
+			buffer.put_special_character_8 (array, source_index, l_pos, n)
+			l_pos := l_pos + l_data_size
+			count := l_pos
+		end
+
+	write_time (time: TIME)
+		do
+			write_integer_32 (time.compact_time)
+		end
+
 feature -- Basic operations
+
+	read_natural_8_array (array: ARRAY [NATURAL_8])
+		do
+		end
 
 	write_to (output: IO_MEDIUM)
 		do
 			output.put_managed_pointer (buffer, 0, count)
-		end
-
-	read_natural_8_array (array: ARRAY [NATURAL_8])
-		do
 		end
 
 feature {EL_STORABLE} -- Element change

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-01-15 10:30:49 GMT (Monday 15th January 2018)"
+	revision: "4"
 
 class
 	EL_SVG_TEMPLATE_PIXMAP
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 			Precursor
 			create color_table.make_equal (3)
 			create variables.make_equal (3)
-			create template
+			create template.make_default
 		end
 
 	make_with_path_and_height (a_svg_template_path: like svg_template_path; a_height: INTEGER; a_background_color: EL_COLOR)
@@ -145,7 +145,7 @@ feature {NONE} -- Internal attributes
 
 	color_table: HASH_TABLE [INTEGER, STRING]
 
-	template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
+	template: EL_ZSTRING_TEMPLATE
 
 	variables: EL_ZSTRING_HASH_TABLE [ANY]
 

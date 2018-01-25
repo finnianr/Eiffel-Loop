@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-18 11:40:32 GMT (Saturday 18th November 2017)"
-	revision: "1"
+	date: "2017-12-13 14:07:09 GMT (Wednesday 13th December 2017)"
+	revision: "2"
 
 class
 	EL_USD_EXCHANGE_RATE_TABLE
@@ -20,6 +20,9 @@ create
 
 feature {NONE} -- Constants
 
-	Base_currency: STRING = "USD"
+	Base_currency: NATURAL_8
+		once
+			Result := Currency.USD
+		end
 
 end

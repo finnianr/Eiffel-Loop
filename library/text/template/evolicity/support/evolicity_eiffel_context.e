@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-13 13:52:10 GMT (Monday 13th November 2017)"
-	revision: "6"
+	date: "2017-12-11 8:21:48 GMT (Monday 11th December 2017)"
+	revision: "7"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -20,12 +20,9 @@ inherit
 			context_item, put_variable, put_integer
 		end
 
-	EL_PERSISTENCE_ROUTINES
-
 feature {NONE} -- Initialization
 
 	make_default
-			--
 		do
 			getter_functions := Getter_functions_by_type.item (Current)
 		end

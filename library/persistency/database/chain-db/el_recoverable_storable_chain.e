@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-21 17:20:56 GMT (Wednesday 21st June 2017)"
-	revision: "2"
+	date: "2017-12-24 12:32:45 GMT (Sunday 24th December 2017)"
+	revision: "4"
 
 deferred class
 	EL_RECOVERABLE_STORABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -28,13 +28,27 @@ inherit
 			make as make_editions
 		end
 
+	EL_MODULE_NAMING
+
+	EL_MODULE_DIRECTORY
+
 feature {NONE} -- Initialization
+
+	make_from_default_encrypted_file (a_encrypter: EL_AES_ENCRYPTER)
+		do
+			make_from_encrypted_file (new_file_path, a_encrypter)
+		end
 
 	make_from_encrypted_file (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
 			--
 		do
 			encrypter := a_encrypter
 			make_from_file (a_file_path)
+		end
+
+	make_from_default_file
+		do
+			make_from_file (new_file_path)
 		end
 
 	make_from_file (a_file_path: EL_FILE_PATH)
@@ -48,6 +62,11 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	status: INTEGER_8
+
+	name: STRING
+		do
+			Result := Naming.crop_as_upper_snake_case (generator, 0, Suffix_count)
+		end
 
 feature -- Element change
 
@@ -100,13 +119,38 @@ feature -- Removal
 			make_from_file (file_path)
 		end
 
+feature {NONE} -- Implementation
+
+	new_file_path: EL_FILE_PATH
+		local
+			file_name: STRING; l_name: like name
+		do
+			l_name := name
+			create file_name.make (l_name.count)
+			Naming.to_kebab_lower_case (l_name, file_name)
+			Result := Directory.User_data + file_name
+			Result.add_extension (Default_file_extension)
+		end
+
 feature {NONE} -- Constants
+
+	Closed_editions: INTEGER_8 = 3
+
+	Closed_no_editions: INTEGER_8 = 4
 
 	Closed_safe_store: INTEGER_8 = 1
 
 	Closed_safe_store_failed: INTEGER_8 = 2
 
-	Closed_editions: INTEGER_8 = 3
+	Default_file_extension: ZSTRING
+		once
+			Result := "dat"
+		end
 
-	Closed_no_editions: INTEGER_8 = 4
+	Suffix_count: INTEGER
+		-- Class name suffix count
+		once
+			Result := 0
+		end
+
 end

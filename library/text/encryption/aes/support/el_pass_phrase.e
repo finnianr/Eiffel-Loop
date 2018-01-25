@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-12 10:43:00 GMT (Saturday 12th August 2017)"
-	revision: "4"
+	date: "2017-12-11 8:40:56 GMT (Monday 11th December 2017)"
+	revision: "5"
 
 class
 	EL_PASS_PHRASE
@@ -34,6 +34,8 @@ inherit
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_LIO
+
+	EL_MODULE_STRING_8
 
 create
 	make, make_default

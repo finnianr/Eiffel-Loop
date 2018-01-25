@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-26 13:33:05 GMT (Sunday 26th November 2017)"
-	revision: "3"
+	date: "2017-12-11 16:30:13 GMT (Monday 11th December 2017)"
+	revision: "4"
 
 deferred class
 	EL_STRING_GENERAL_CHAIN [S -> STRING_GENERAL create make, make_empty end]
@@ -167,6 +167,11 @@ feature -- Access
 				end
 				i := i + 1
 			end
+		end
+
+	item_count: INTEGER
+		do
+			Result := item.count
 		end
 
 feature -- Status query

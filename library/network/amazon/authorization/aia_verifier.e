@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-07 9:57:11 GMT (Thursday 7th December 2017)"
-	revision: "2"
+	date: "2017-12-16 12:21:03 GMT (Saturday 16th December 2017)"
+	revision: "3"
 
 class
 	AIA_VERIFIER
@@ -52,7 +52,7 @@ feature -- Status query
 			request_time: DATE_TIME
 		do
 			if not iso8601_time.is_empty then
-				request_time := Date.from_iso8601_formatted (iso8601_time)
+				request_time := Date.from_ISO_8601_formatted (iso8601_time)
 				if request_time.relative_duration (time_now).seconds_count.abs < Time_tolerance_in_secs then
 					Result := authorization_header ~ actual_authorization_header
 				end

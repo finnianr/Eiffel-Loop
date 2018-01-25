@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-18 11:49:39 GMT (Saturday 18th November 2017)"
-	revision: "1"
+	date: "2017-12-13 14:06:49 GMT (Wednesday 13th December 2017)"
+	revision: "2"
 
 class
 	EL_GBP_EXCHANGE_RATE_TABLE
@@ -20,6 +20,9 @@ create
 
 feature {NONE} -- Constants
 
-	Base_currency: STRING = "GBP"
+	Base_currency: NATURAL_8
+		once
+			Result := Currency.GBP
+		end
 
 end

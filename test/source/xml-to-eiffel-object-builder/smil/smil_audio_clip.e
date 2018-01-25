@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-19 7:47:24 GMT (Saturday 19th August 2017)"
-	revision: "3"
+	date: "2017-12-09 11:02:44 GMT (Saturday 9th December 2017)"
+	revision: "4"
 
 class
 	SMIL_AUDIO_CLIP

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-24 13:29:07 GMT (Tuesday 24th January 2017)"
-	revision: "1"
+	date: "2017-12-10 15:32:45 GMT (Sunday 10th December 2017)"
+	revision: "2"
 
 class
 	EL_INTEGER_FIELD_VALUE_TABLE
@@ -23,9 +23,9 @@ create
 
 feature {NONE} -- Implementation
 
-	set_value (key: STRING; object: REFLECTED_REFERENCE_OBJECT; field_index: INTEGER)
+	set_value (key: STRING; value: INTEGER)
 		do
-			set_conditional_value (key, object.integer_32_field (field_index))
+			set_conditional_value (key, value)
 		end
 
 end

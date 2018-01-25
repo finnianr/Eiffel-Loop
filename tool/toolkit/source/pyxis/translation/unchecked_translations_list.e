@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-22 13:55:54 GMT (Saturday 22nd July 2017)"
-	revision: "1"
+	date: "2017-12-11 17:33:53 GMT (Monday 11th December 2017)"
+	revision: "2"
 
 class
 	UNCHECKED_TRANSLATIONS_LIST
@@ -20,8 +20,6 @@ inherit
 		end
 
 	EL_BUILDABLE_FROM_PYXIS
-		rename
-			Tab_string as Tab_as_string
 		undefine
 			is_equal, copy, default_create
 		redefine

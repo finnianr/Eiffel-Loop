@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-19 8:32:54 GMT (Monday 19th September 2016)"
-	revision: "1"
+	date: "2017-12-23 10:15:41 GMT (Saturday 23rd December 2017)"
+	revision: "2"
 
 class
 	EL_COMMAND_MENU
@@ -38,13 +38,15 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_options: like options)
+	make (a_name: like name; a_options: like options)
 		do
-			options := a_options
+			name := a_name; options := a_options
 			max_column_widths := new_max_column_widths
 		end
 
 feature -- Access
+
+	name: ZSTRING
 
 	option_key (n: INTEGER): ZSTRING
 		require
@@ -66,7 +68,8 @@ feature -- Basic operations
 		local
 			row, column, index: INTEGER
 		do
-			lio.put_line ("SELECT MENU OPTION")
+			lio.put_labeled_string ("MENU", name)
+			lio.put_new_line
 			from row := 0 until row > options.count.min (9) loop
 				from column := 1 until column > (full_column_count + 1) loop
 					index := (column - 1) * 10 + row + 1

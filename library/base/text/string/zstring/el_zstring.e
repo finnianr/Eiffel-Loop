@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-26 9:12:18 GMT (Thursday 26th October 2017)"
-	revision: "6"
+	date: "2017-12-19 12:43:37 GMT (Tuesday 19th December 2017)"
+	revision: "7"
 
 class
 	EL_ZSTRING
@@ -18,7 +18,7 @@ inherit
 			{ANY}
 --			Element change
 			append_all, append_all_general,
-			append_boolean, append_character, append_double,
+			append_boolean, append_character, append_character_8, append_double,
 			append_integer_8, append_integer, append_integer_16, append_integer_64,
 			append_natural_8, append_natural_16, append_natural_32, append_natural_64, append_real,
 			append_unicode, append_string, append, append_string_general, append_substring, append_tuple_item, append_utf_8,
@@ -30,6 +30,30 @@ inherit
 			unescape,
 --			Removal
 			keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust
+		end
+
+	EL_WRITEABLE
+		rename
+			write_character_8 as append_character_8,
+			write_character_32 as append_character,
+			write_integer_8 as append_integer_8,
+			write_integer_16 as append_integer_16,
+			write_integer_32 as append_integer,
+			write_integer_64 as append_integer_64,
+			write_natural_8 as append_natural_8,
+			write_natural_16 as append_natural_16,
+			write_natural_32 as append_natural_32,
+			write_natural_64 as append_natural_64,
+			write_real_32 as append_real,
+			write_real_64 as append_double,
+			write_string as append_string,
+			write_string_8 as append_string_8,
+			write_string_32 as append_string_32,
+			write_string_general as append_string_general,
+			write_boolean as append_boolean,
+			write_pointer as append_pointer
+		undefine
+			copy, is_equal, out, append_string_general
 		end
 
 	STRING_GENERAL
@@ -523,6 +547,21 @@ feature -- Removal
 		end
 
 feature {NONE} -- Implementation
+
+	append_string_8 (str: READABLE_STRING_8)
+		do
+			append_string_general (str)
+		end
+
+	append_string_32 (str: READABLE_STRING_32)
+		do
+			append_string_general (str)
+		end
+
+	append_pointer (ptr: POINTER)
+		do
+			append_string_general (ptr.out)
+		end
 
 	empty_escape_table: like Once_escape_table
 		do

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 10:13:14 GMT (Saturday 2nd December 2017)"
-	revision: "8"
+	date: "2017-12-28 15:25:15 GMT (Thursday 28th December 2017)"
+	revision: "12"
 
 class
 	RBOX_SONG
@@ -30,11 +30,24 @@ inherit
 			id as audio_id,
 			relative_path as mp3_relative_path,
 			checksum as last_checksum
+		undefine
+			is_equal
 		end
 
 	EL_MODULE_OS
+		undefine
+			is_equal
+		end
 
 	EL_MODULE_TAG
+		undefine
+			is_equal
+		end
+
+	EL_STRING_CONSTANTS
+		undefine
+			is_equal
+		end
 
 create
 	make
@@ -50,25 +63,14 @@ feature {NONE} -- Initialization
 
 	make_entry
 		do
+			Precursor
 			audio_id := Default_audio_id
 			create mp3_path
 			create last_copied_mp3_path
-			artist := Empty_string
-			album := Empty_string
-			album_artist := Empty_string
-			comment := Empty_string
-			composer := Empty_string
-
-			mb_artistid := Empty_string
-			mb_albumid := Empty_string
-			mb_albumartistid := Empty_string
-			mb_artistsortname := Empty_string
-
 			create mp3_path
 			create album_artists_list.make_empty
 			create album_artists_prefix.make_empty
 			set_first_seen_time (Time.Unix_origin)
-			Precursor
 		end
 
 feature -- Rhythmbox XML fields
@@ -562,7 +564,7 @@ feature {NONE} -- Build from XML
 			--
 		do
 			Result := Precursor
-			Result.merge (building_actions_for_type ({DOUBLE}))
+			Result.merge (building_actions_for_type ({DOUBLE}, Text_element_node))
 			Result := Result + 	["hidden/text()", agent do is_hidden := node.to_integer = 1 end] +
 										["mb-trackid/text()", agent set_audio_id_from_node]
 		end

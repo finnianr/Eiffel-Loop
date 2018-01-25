@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-28 11:09:15 GMT (Tuesday 28th November 2017)"
-	revision: "10"
+	date: "2017-12-16 21:22:44 GMT (Saturday 16th December 2017)"
+	revision: "11"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -167,7 +167,7 @@ feature -- Test routines
 			table_1.set_string_general ("code", "+/xPVBTmoka3ZBeARZ8uKA==")
 			query_string := table_1.url_query_string
 			log.put_line (query_string)
-			create table_2.make_from_url_query (query_string)
+			create table_2.make (query_string)
 			across table_2 as variable loop
 				table_1.search (variable.key)
 				assert ("has variable", table_1.found)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 17:17:06 GMT (Sunday 21st May 2017)"
-	revision: "3"
+	date: "2017-12-25 10:38:46 GMT (Monday 25th December 2017)"
+	revision: "4"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 
 	make (a_number_of_runs: like number_of_runs)
 		do
-			make_shell
+			make_shell ("BENCHMARK")
 			number_of_runs := a_number_of_runs
 		end
 

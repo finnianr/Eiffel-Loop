@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-03 10:04:29 GMT (Sunday 3rd December 2017)"
-	revision: "2"
+	date: "2017-12-13 12:44:32 GMT (Wednesday 13th December 2017)"
+	revision: "3"
 
 deferred class
 	EL_EXCHANGE_RATE_TABLE
 
 inherit
-	HASH_TABLE [REAL, STRING]
+	HASH_TABLE [REAL, NATURAL_8]
 		rename
 			make as make_table,
 			fill as fill_from
@@ -30,6 +30,11 @@ inherit
 		end
 
 	EL_MODULE_DIRECTORY
+		undefine
+			copy, is_equal
+		end
+
+	EL_SHARED_CURRENCY_CODES
 		undefine
 			copy, is_equal
 		end
@@ -60,16 +65,16 @@ feature -- Access
 			Result.compare_objects
 		end
 
-	base_currency: STRING
+	base_currency: NATURAL_8
 		deferred
 		end
 
-	conversion_price_x100 (base_price_x100: INTEGER; currency_code: STRING): INTEGER
+	conversion_price_x100 (base_price_x100: INTEGER; a_currency_code: NATURAL_8): INTEGER
 		do
-			if currency_code ~ base_currency then
+			if a_currency_code ~ base_currency then
 				Result := base_price_x100
 			else
-				search (currency_code)
+				search (a_currency_code)
 				if found then
 					Result := (base_price_x100 * found_item).rounded
 					if significant_digits > 0 then
@@ -93,7 +98,7 @@ feature {NONE} -- Implementation
 			euro_table := new_euro_table
 			if euro_table.has (base_currency) then
 				base_euro_value := euro_table.euro_unit_value (base_currency)
-				extend (base_euro_value, "EUR")
+				extend (base_euro_value, Currency.EUR)
 				from euro_table.start until euro_table.after loop
 					if euro_table.key_for_iteration /~ base_currency then
 						extend (euro_table.item_for_iteration * base_euro_value, euro_table.key_for_iteration)

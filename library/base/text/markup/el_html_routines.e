@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-12-19 13:22:44 GMT (Tuesday 19th December 2017)"
+	revision: "3"
 
 class
 	EL_HTML_ROUTINES
@@ -197,7 +197,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Bookmark_template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
+	Bookmark_template: EL_ZSTRING_TEMPLATE
 		once
 			create Result.make ("<a id=%"$id%">$text</a>")
 		end
@@ -213,14 +213,14 @@ feature {NONE} -- Constants
 			end
 		end
 
-	Hyperlink_template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
+	Hyperlink_template: EL_ZSTRING_TEMPLATE
 		once
 			create Result.make ("[
 				<a href="$url" title="$title">$text</a>
 			]")
 		end
 
-	Image_template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
+	Image_template: EL_ZSTRING_TEMPLATE
 		once
 			create Result.make ("[
 				<img src="$url" alt="$description">

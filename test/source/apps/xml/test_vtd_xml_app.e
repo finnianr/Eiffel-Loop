@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-18 11:30:16 GMT (Friday 18th August 2017)"
-	revision: "4"
+	date: "2017-12-19 13:24:31 GMT (Tuesday 19th December 2017)"
+	revision: "5"
 
 class
 	TEST_VTD_XML_APP
@@ -393,7 +393,7 @@ feature {NONE} -- Constants
 		<pi-series>
 	]"
 
-	Term_xml_template: EL_SUBSTITUTION_TEMPLATE [STRING]
+	Term_xml_template: EL_STRING_8_TEMPLATE
 		once
 			Result := "[
 				<term>

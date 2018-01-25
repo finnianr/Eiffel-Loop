@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-07 9:54:49 GMT (Thursday 7th December 2017)"
-	revision: "2"
+	date: "2018-01-21 12:40:06 GMT (Sunday 21st January 2018)"
+	revision: "4"
 
 class
 	AIA_CREDENTIAL
 
 inherit
-	EL_STORABLE
+	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
 			read_version as read_default_version
 		end
@@ -51,6 +51,6 @@ feature -- Access
 
 feature {NONE} -- Constants
 
-	Field_hash_checksum: NATURAL = 3881643624
+	Field_hash: NATURAL = 3883744999
 
 end

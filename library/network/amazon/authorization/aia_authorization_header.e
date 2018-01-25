@@ -6,18 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-06 10:21:14 GMT (Wednesday 6th December 2017)"
-	revision: "3"
+	date: "2017-12-28 16:24:39 GMT (Thursday 28th December 2017)"
+	revision: "6"
 
 class
 	AIA_AUTHORIZATION_HEADER
 
 inherit
-	EL_REFLECTIVELY_SETTABLE [STRING]
+	EL_REFLECTIVELY_SETTABLE
 		rename
+			field_included as is_any_field,
 			make_default as make
 		redefine
-			new_default_values, import_name
+			import_name
+		end
+
+	EL_SETTABLE_FROM_STRING_8
+		rename
+			make_default as make
 		end
 
 	EL_SHARED_ONCE_STRINGS
@@ -51,7 +57,7 @@ feature {NONE} -- Initialization
 			modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))
 			create fields.make (modified, once ",")
 			fields.enable_left_adjust
-			fields.do_all (agent set_field_from_nvp (?, once "="))
+			fields.do_all (agent set_field_from_nvp (?, '='))
 		end
 
 	make_signed (signer: AIA_SIGNER; canonical_request: AIA_CANONICAL_REQUEST)
@@ -70,7 +76,7 @@ feature {NONE} -- Initialization
 			>>)
 
 			create hmac.make (signer.credential.daily_secret (signer.short_date))
-			hmac.sink_string (string_to_sign.joined_lines)
+			hmac.sink_joined_strings_8 (string_to_sign, '%N')
 			hmac.finish
 			signature := hmac.digest.to_hex_string
 			credential.set_key (signer.credential.public)
@@ -105,14 +111,9 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	import_name: like Default_import_name
+	import_name: like Naming.Default_import
 		do
-			Result := agent from_camel_case
-		end
-
-	new_default_values: EL_ARRAYED_LIST [ANY]
-		do
-			Result := Precursor + create {AIA_CREDENTIAL_ID}.make_default
+			Result := agent Naming.from_camel_case
 		end
 
 feature {NONE} -- Constants
@@ -129,7 +130,7 @@ feature {NONE} -- Constants
 			Result := ";"
 		end
 
-	Signed_string_template: EL_SUBSTITUTION_TEMPLATE [STRING]
+	Signed_string_template: EL_STRING_8_TEMPLATE
 		once
 			create Result.make ("$algorithm SignedHeaders=$signed_headers, Credential=$key/$date, Signature=$signature")
 		end

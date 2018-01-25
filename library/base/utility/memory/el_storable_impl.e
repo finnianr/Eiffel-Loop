@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-20 12:12:22 GMT (Monday 20th November 2017)"
-	revision: "3"
+	date: "2018-01-20 10:01:07 GMT (Saturday 20th January 2018)"
+	revision: "5"
 
 class
 	EL_STORABLE_IMPL
 
 inherit
-	EL_STORABLE
+	EL_REFLECTIVELY_SETTABLE_STORABLE
 
 create
 	make_default
@@ -27,6 +27,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Field_hash_checksum: NATURAL = 0
+	field_hash: NATURAL = 0
 
 end

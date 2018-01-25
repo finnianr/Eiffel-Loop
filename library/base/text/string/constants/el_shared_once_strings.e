@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "3"
+	date: "2017-12-15 17:35:18 GMT (Friday 15th December 2017)"
+	revision: "4"
 
 class
 	EL_SHARED_ONCE_STRINGS
@@ -30,6 +30,43 @@ feature {NONE} -- Implementation
 		do
 			Result := Once_string_32
 			Result.wipe_out
+		end
+
+	once_copy (str: ZSTRING): ZSTRING
+		do
+			Result := empty_once_string
+			Result.append (str)
+		end
+
+	once_copy_8 (str_8: STRING): STRING
+		do
+			Result := empty_once_string_8
+			Result.append (str_8)
+		end
+
+	once_copy_32 (str_32: STRING): STRING
+		do
+			Result := empty_once_string_32
+			Result.append (str_32)
+		end
+
+	once_substring (str: ZSTRING; start_index, end_index: INTEGER): ZSTRING
+		do
+			Result := empty_once_string
+			Result.append_substring (str, start_index, end_index)
+		end
+
+	once_substring_8 (str_8: STRING; start_index, end_index: INTEGER): STRING
+		do
+			Result := empty_once_string_8
+			Result.append_substring (str_8, start_index, end_index)
+		end
+
+	once_substring_32 (str_32: STRING; start_index, end_index: INTEGER): STRING
+		do
+			Result := empty_once_string_32
+			Result.wipe_out
+			Result.append_substring (str_32, start_index, end_index)
 		end
 
 feature {NONE} -- Constants

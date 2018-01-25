@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-31 14:27:02 GMT (Tuesday 31st October 2017)"
-	revision: "5"
+	date: "2018-01-23 17:42:19 GMT (Tuesday 23rd January 2018)"
+	revision: "6"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -40,8 +40,6 @@ inherit
 		rename
 			mutex as write_mutex
 		end
-
-	EL_MODULE_UTF
 
 create
 	make
@@ -111,9 +109,7 @@ feature {NONE} -- Implementation
 		local
 			l_utf_8: STRING
 		do
-			l_utf_8 := utf_8_buffer; l_utf_8.wipe_out
-
-			UTF.utf_32_string_into_utf_8_string_8 (str, l_utf_8)
+			l_utf_8 := as_utf_8 (str)
 			put_file_string (l_utf_8)
 
 			if is_directed_to_console then
@@ -161,13 +157,6 @@ feature {NONE} -- Implementation
 				close; open_append
 				is_directed_to_console := true
 			end_restriction
-		end
-
-feature {NONE} -- Constants
-
-	Utf_8_buffer: STRING
-		once
-			create Result.make_empty
 		end
 
 end

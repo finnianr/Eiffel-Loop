@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-06 13:59:01 GMT (Wednesday 6th December 2017)"
-	revision: "13"
+	date: "2018-01-15 11:56:27 GMT (Monday 15th January 2018)"
+	revision: "17"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -29,7 +29,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent substitution_template_test_set.test_object_field_substitution)
+			do_file_data_test (agent storable_test_set.test_storable)
 		end
 
 feature -- Tests
@@ -45,6 +45,11 @@ feature -- Tests
 		end
 
 	date_text_test_set: DATE_TEXT_TEST_SET
+		do
+			create Result
+		end
+
+	comma_separated_import_test_set: COMMA_SEPARATED_IMPORT_TEST_SET
 		do
 			create Result
 		end
@@ -75,6 +80,11 @@ feature -- Tests
 		end
 
 	path_test_set: EL_PATH_TEST_SET
+		do
+			create Result
+		end
+
+	reflection_test_set: REFLECTION_TEST_SET
 		do
 			create Result
 		end

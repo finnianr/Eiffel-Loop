@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 8:49:34 GMT (Thursday 29th June 2017)"
-	revision: "4"
+	date: "2017-12-17 11:09:59 GMT (Sunday 17th December 2017)"
+	revision: "5"
 
 class
 	EL_SILENT_LOG
@@ -43,6 +43,18 @@ feature {EL_CONSOLE_ONLY_LOG} -- Element change
 feature -- Input
 
 	pause_for_enter_key
+		do
+		end
+
+feature -- Status change
+
+	tab_left
+			--
+		do
+		end
+
+	tab_right
+			--
 		do
 		end
 

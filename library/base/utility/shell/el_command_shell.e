@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 8:25:38 GMT (Saturday 2nd December 2017)"
-	revision: "4"
+	date: "2017-12-23 10:16:11 GMT (Saturday 23rd December 2017)"
+	revision: "5"
 
 deferred class
 	EL_COMMAND_SHELL
@@ -19,7 +19,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_shell
+	make_shell (name: ZSTRING)
 		local
 			table: like new_command_table
 		do
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 			across table as command loop
 				command_table [command.key] := command.item
 			end
-			create menu.make (command_table.current_keys)
+			create menu.make (name, command_table.current_keys)
 		end
 
 feature -- Basic operations

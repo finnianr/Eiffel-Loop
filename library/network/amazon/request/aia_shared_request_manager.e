@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-05 12:57:14 GMT (Tuesday 5th December 2017)"
-	revision: "1"
+	date: "2017-12-18 16:56:26 GMT (Monday 18th December 2017)"
+	revision: "2"
 
 class
 	AIA_SHARED_REQUEST_MANAGER
@@ -18,4 +18,5 @@ feature -- Access
 		once
 			create Result.make
 		end
+
 end

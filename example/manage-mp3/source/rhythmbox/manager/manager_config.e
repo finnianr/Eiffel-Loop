@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-30 4:33:33 GMT (Tuesday 30th May 2017)"
-	revision: "6"
+	date: "2017-12-11 8:35:14 GMT (Monday 11th December 2017)"
+	revision: "7"
 
 class
 	MANAGER_CONFIG
@@ -19,12 +19,14 @@ inherit
 		export
 			{RHYTHMBOX_MUSIC_MANAGER_APP} build_from_file
 		redefine
-			make, building_action_table
+			building_action_table, make
 		end
 
 	EL_MODULE_DIRECTORY
 
 	TASK_CONSTANTS
+
+	EL_STRING_CONSTANTS
 
 create
 	make, make_from_file

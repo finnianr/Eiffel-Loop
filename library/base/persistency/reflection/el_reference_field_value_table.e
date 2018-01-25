@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-24 13:32:53 GMT (Tuesday 24th January 2017)"
-	revision: "1"
+	date: "2017-12-10 15:33:31 GMT (Sunday 10th December 2017)"
+	revision: "2"
 
 class
 	EL_REFERENCE_FIELD_VALUE_TABLE [G]
@@ -18,11 +18,11 @@ inherit
 create
 	make
 
-feature {EL_PERSISTENCE_ROUTINES} -- Access
+feature {EL_REFLECTIVELY_SETTABLE} -- Access
 
-	set_value (key: STRING; object: REFLECTED_REFERENCE_OBJECT; field_index: INTEGER)
+	set_value (key: STRING; a_value: ANY)
 		do
-			if attached {G} object.reference_field (field_index) as value then
+			if attached {G} a_value as value then
 				set_conditional_value (key, value)
 			end
 		end

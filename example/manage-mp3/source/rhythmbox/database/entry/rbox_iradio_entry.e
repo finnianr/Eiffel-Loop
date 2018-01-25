@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 10:13:22 GMT (Saturday 2nd December 2017)"
-	revision: "8"
+	date: "2018-01-17 18:43:27 GMT (Wednesday 17th January 2018)"
+	revision: "12"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -16,26 +16,60 @@ inherit
 	EL_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			make_default as make
+		undefine
+			is_equal
 		redefine
-			make, set_string_field, on_context_exit, Except_fields, Field_name_separator
+			make, on_context_exit
 		end
 
 	EVOLICITY_SERIALIZEABLE
 		rename
 			make_default as make
+		undefine
+			is_equal
 		redefine
-			make, getter_function_table, Template, Except_fields, Field_name_separator
+			make, getter_function_table, Template
+		end
+
+	EL_REFLECTIVELY_SETTABLE
+		rename
+			make_default as make,
+			field_included as is_string_or_expanded_field
+		redefine
+			make, Except_fields, export_name
+		end
+
+	EL_SETTABLE_FROM_XML_NODE
+		undefine
+			is_equal
+		redefine
+			set_field_from_node
 		end
 
 	EL_MODULE_XML
+		undefine
+			is_equal
+		end
 
 	EL_MODULE_LOG
+		undefine
+			is_equal
+		end
 
 	RHYTHMBOX_CONSTANTS
+		undefine
+			is_equal
+		end
 
 	EL_XML_ESCAPING_CONSTANTS
+		undefine
+			is_equal
+		end
 
 	HASHABLE
+		undefine
+			is_equal
+		end
 
 create
 	make
@@ -45,7 +79,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			title := Empty_string; genre := Empty_string; media_type := Empty_string
+			Precursor {EL_REFLECTIVELY_SETTABLE}
 			create location
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 			Precursor {EVOLICITY_SERIALIZEABLE}
@@ -117,8 +151,13 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
-			Result := building_actions_for_type ({ZSTRING})
+			Result := building_actions_for_type ({ZSTRING}, Text_element_node)
 			Result ["location/text()"] := agent do set_location_from_uri (Url.decoded_path (node.to_string_8)) end
+		end
+
+	export_name: like Naming.default_export
+		do
+			Result := agent Naming.to_kebab_case
 		end
 
 	on_context_exit
@@ -130,15 +169,16 @@ feature {NONE} -- Build from XML
 			end
 		end
 
-	set_string_field (i: INTEGER)
-		local
-			value: ZSTRING
+	set_field_from_node (field: EL_REFLECTED_FIELD)
 		do
-			value := node.to_string
-			if value ~ Unknown_string then
-				value := Unknown_string
+			if field.type_id = String_z_type
+				and then attached {ZSTRING} field.value (Current) as value
+				and then value ~ Unknown_string
+			then
+				field.set (Current, Unknown_string)
+			else
+				field.set_from_readable (Current, node)
 			end
-			current_object.set_reference_field (i, value)
 		end
 
 feature {NONE} -- Evolicity fields
@@ -148,14 +188,14 @@ feature {NONE} -- Evolicity fields
 			create Result.make (11)
 			Result.set_escaper (Xml_128_plus_escaper)
 			Result.set_condition (agent (str: ZSTRING): BOOLEAN do Result := not str.is_empty end)
-			fill_field_table (Result)
+			fill_field_value_table (Result)
 		end
 
 	get_non_zero_integer_fields: EL_INTEGER_FIELD_VALUE_TABLE
 		do
 			create Result.make (11)
 			Result.set_condition (agent (v: INTEGER): BOOLEAN do Result := v /= v.zero end)
-			fill_field_table (Result)
+			fill_field_value_table (Result)
 		end
 
 	getter_function_table: like getter_functions
@@ -172,6 +212,12 @@ feature {NONE} -- Evolicity fields
 		end
 
 feature {NONE} -- Constants
+
+	Except_fields: STRING
+			-- Object attributes that are not stored in Rhythmbox database
+		once
+			Result := Precursor + ", encoding, encoding_type, xpath"
+		end
 
 	Protocol: ZSTRING
 		once
@@ -195,17 +241,6 @@ feature {NONE} -- Constants
 	Unknown_string: ZSTRING
 		once
 			Result := "Unknown"
-		end
-
-	Field_name_separator: CHARACTER
-		once
-			Result := '-'
-		end
-
-	Except_fields: STRING
-			-- Object attributes that are not stored in Rhythmbox database
-		once
-			Result := "encoding"
 		end
 
 end

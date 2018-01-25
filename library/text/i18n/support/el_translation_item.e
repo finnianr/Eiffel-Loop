@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-29 7:46:19 GMT (Wednesday 29th November 2017)"
-	revision: "2"
+	date: "2018-01-22 9:56:14 GMT (Monday 22nd January 2018)"
+	revision: "4"
 
 class
 	EL_TRANSLATION_ITEM
 
 inherit
-	EL_STORABLE
+	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
 			read_version as read_default_version
 		end
@@ -41,6 +41,6 @@ feature -- Access
 
 feature {NONE} -- Constants
 
-	Field_hash_checksum: NATURAL = 2733220845
+	field_hash: NATURAL = 83750057
 
 end

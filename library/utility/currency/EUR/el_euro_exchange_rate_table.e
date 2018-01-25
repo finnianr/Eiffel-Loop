@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-03 10:28:06 GMT (Sunday 3rd December 2017)"
-	revision: "2"
+	date: "2017-12-18 5:50:31 GMT (Monday 18th December 2017)"
+	revision: "4"
 
 class
 	EL_EURO_EXCHANGE_RATE_TABLE
@@ -28,10 +28,10 @@ create
 
 feature -- Access
 
-	euro_unit_value (currency_code: STRING): REAL
+	euro_unit_value (a_currency_code: NATURAL_8): REAL
 		-- value of 1 unit of currency in euros
 		do
-			search (currency_code)
+			search (a_currency_code)
 			if found then
 				Result := 1 / found_item
 			end
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 		local
 			web: EL_HTTP_CONNECTION; file_path: EL_FILE_PATH; xml: STRING
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT; xml_file: PLAIN_TEXT_FILE
-			cached: like cached_dates
+			cached: like cached_dates; code: NATURAL_8
 		do
 			File_system.make_directory (Rates_dir)
 			file_path := rates_file_path (date)
@@ -83,7 +83,10 @@ feature {NONE} -- Implementation
 			if xml.has_substring (Closing_tag) then
 				create root_node.make_from_string (xml)
 				across root_node.context_list ("//Cube[boolean(@currency)]") as rate loop
-					extend (rate.node.attributes.real (Name_rate), rate.node.attributes.string_32 (Name_currency))
+					code := Currency.value (rate.node.attributes.string_8 (Name_currency))
+					if code > 0 then
+						extend (rate.node.attributes.real (Name_rate), code)
+					end
 				end
 			end
 			clean_up_files
@@ -106,7 +109,10 @@ feature {NONE} -- Constants
 
 	Closing_tag: STRING = "</Cube>"
 
-	Base_currency: STRING = "EUR"
+	Base_currency: NATURAL_8
+		once
+			Result := Currency.EUR
+		end
 
 	ECB_daily_rate_url: ZSTRING
 		once

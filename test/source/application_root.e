@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-11 22:38:39 GMT (Saturday 11th November 2017)"
-	revision: "5"
+	date: "2017-12-28 9:46:55 GMT (Thursday 28th December 2017)"
+	revision: "8"
 
 class
 	APPLICATION_ROOT
@@ -28,7 +28,6 @@ feature {NONE} -- Implementation
 				{MEDIA_PLAYER_DUMMY_APP},
 
 				{BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP},
-				{CHARACTER_STATE_MACHINE_TEST_APP},
 				{COMPRESSION_TEST_APP},
 
 				{EXPERIMENTS_APP},
@@ -62,7 +61,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	notes: TUPLE [DONE_LIST, TO_DO_LIST]
+	notes: TUPLE [DONE_LIST, TO_DO_LIST, EL_REFLECTED_STRING_32, EL_STRING_32_TEMPLATE, EL_SETTABLE_FROM_STRING_32]
 		do
 		end
 

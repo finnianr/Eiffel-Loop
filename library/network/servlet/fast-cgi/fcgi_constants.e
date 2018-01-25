@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-29 9:47:28 GMT (Sunday 29th October 2017)"
-	revision: "1"
+	date: "2018-01-19 15:14:57 GMT (Friday 19th January 2018)"
+	revision: "2"
 
 class
 	FCGI_CONSTANTS
@@ -41,8 +41,7 @@ feature {NONE} -- Constants
 	Fcgi_unknown_type: INTEGER = 11
 	Fcgi_max_type: INTEGER = 11
 
-
-	Fcgi_null_request_id: INTEGER = 0
+	Fcgi_default_request_id: NATURAL_16 = 1
 
 	Fcgi_keep_conn:INTEGER = 1
 

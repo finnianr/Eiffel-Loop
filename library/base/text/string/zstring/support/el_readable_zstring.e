@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-17 13:33:26 GMT (Friday 17th November 2017)"
-	revision: "13"
+	date: "2017-12-20 19:09:17 GMT (Wednesday 20th December 2017)"
+	revision: "14"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -226,11 +226,6 @@ feature {NONE} -- Initialization
 		do
 			make_from_general (utf_8_to_unicode (utf_8))
 		end
-
---	make_from_string_view (view: EL_STRING_VIEW)
---		do
---			make_from_other (view.to_string)
---		end
 
 	make_shared (other: like Current)
 		do
@@ -1489,6 +1484,11 @@ feature {EL_READABLE_ZSTRING} -- Element change
 		end
 
 	append_character, extend (uc: CHARACTER_32)
+		do
+			append_unicode (uc.natural_32_code)
+		end
+
+	append_character_8 (uc: CHARACTER_8)
 		do
 			append_unicode (uc.natural_32_code)
 		end

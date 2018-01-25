@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-18 10:40:52 GMT (Saturday 18th November 2017)"
-	revision: "7"
+	date: "2017-12-19 13:24:17 GMT (Tuesday 19th December 2017)"
+	revision: "8"
 
 deferred class
 	EL_LOCALE_I
@@ -193,7 +193,7 @@ feature {NONE} -- Implementation
 
 	translation_template (
 		table: like translations; partial_key: READABLE_STRING_GENERAL; quantity: INTEGER
-	): EL_SUBSTITUTION_TEMPLATE [ZSTRING]
+	): EL_ZSTRING_TEMPLATE
 		do
 			table.search_quantity_general (partial_key, quantity)
 			if table.found then

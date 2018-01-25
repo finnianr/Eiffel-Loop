@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-05 11:12:29 GMT (Tuesday 5th December 2017)"
-	revision: "6"
+	date: "2018-01-21 12:29:01 GMT (Sunday 21st January 2018)"
+	revision: "8"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -114,10 +114,17 @@ feature {NONE} -- States
 			-- current request was started by the most recent call to
 			-- 'accept'.
 		do
-			request.end_request
-			-- Successfully finished responding to request so we can reset `retries' to zero
-			retries := 0
+			if not request.is_closed then
+				request.end_request
+				-- Successfully finished responding to request so we can reset `retries' to zero
+				retries := 0
+			end
 			state := agent accepting_connection
+		rescue
+			if Exception.received_broken_pipe_signal then
+				request.close
+				retry
+			end
 		end
 
 	opening_port
@@ -177,7 +184,10 @@ feature {NONE} -- States
 		do
 			request.set_socket (a_socket)
 			request.read
-			if request.read_ok then
+			if request.is_aborted then
+				state := agent accepting_connection
+
+			elseif request.read_ok then
 				if request.is_end_service then
 					state := final
 				else

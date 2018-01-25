@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-12 10:06:09 GMT (Sunday 12th November 2017)"
-	revision: "2"
+	date: "2017-12-18 5:51:51 GMT (Monday 18th December 2017)"
+	revision: "3"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -58,7 +58,7 @@ feature -- Access
 	status_message: STRING
 		-- The status message. Void if none.
 		do
-			Result := Http_status.code_name (status)
+			Result := Http_status.name (status)
 		end
 
 feature -- Status query
@@ -114,7 +114,7 @@ feature -- Element change
 			-- status code. The server generally creates the response to
 			-- look like a normal server error page.
 		do
-			write_error (sc, Http_status.code_name (sc))
+			write_error (sc, Http_status.name (sc))
 		end
 
 	set_content (text: READABLE_STRING_GENERAL; a_type: EL_HTTP_CONTENT_TYPE)
@@ -271,7 +271,7 @@ feature {FCGI_SERVLET_REQUEST} -- Implementation
 		local
 			html, code_name: STRING
 		do
-			code_name := Http_status.code_name (sc)
+			code_name := Http_status.name (sc)
 			html := Error_page_template #$ [code_name, code_name, msg]
 			set_status (sc)
 			set_content_type ("text/html")

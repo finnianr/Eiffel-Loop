@@ -6,22 +6,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-20 14:00:31 GMT (Monday 20th November 2017)"
-	revision: "3"
+	date: "2018-01-21 13:10:15 GMT (Sunday 21st January 2018)"
+	revision: "5"
 
 class
 	TEST_STORABLE
 
 inherit
-	EL_STORABLE
+	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
 			read_version as read_default_version
 		redefine
-			is_equal
+			make_default
 		end
 
 create
 	make_default
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			Precursor
+			create uuid.make (1, 2, 3, 4, 5)
+		end
 
 feature -- Access
 
@@ -30,6 +38,8 @@ feature -- Access
 	string_32: STRING_32
 
 	string_utf_8: STRING
+
+	uuid: EL_UUID
 
 feature -- Element change
 
@@ -40,16 +50,8 @@ feature -- Element change
 			string_utf_8 := string.to_utf_8
 		end
 
-feature -- Comparison
-
-	is_equal (other: like Current): BOOLEAN
-		do
-			Result := string ~ other.string and then string_32 ~ other.string_32
-							and then string_utf_8 ~ other.string_utf_8
-		end
-
 feature {NONE} -- Constants
 
-	Field_hash_checksum: NATURAL = 524719777
+	Field_hash: NATURAL = 3304235613
 
 end

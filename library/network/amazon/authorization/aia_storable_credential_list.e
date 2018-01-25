@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-06 13:30:06 GMT (Wednesday 6th December 2017)"
-	revision: "1"
+	date: "2017-12-25 10:38:15 GMT (Monday 25th December 2017)"
+	revision: "2"
 
 class
 	AIA_STORABLE_CREDENTIAL_LIST
@@ -29,7 +29,7 @@ inherit
 			remove, extend, replace
 		end
 
-	EL_STORABLE_ARRAYED_LIST [AIA_CREDENTIAL]
+	EL_STORABLE_LIST [AIA_CREDENTIAL]
 		rename
 			make as make_chain_implementation,
 			remove as chain_remove,

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-23 14:46:00 GMT (Thursday 23rd November 2017)"
-	revision: "3"
+	date: "2017-12-21 11:19:50 GMT (Thursday 21st December 2017)"
+	revision: "5"
 
 deferred class
 	PP_SUB_PARAMETER_LIST
@@ -33,26 +33,12 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	value_extend (value: ZSTRING)
-		do
-			extend (Var_value, value)
-		end
-
 	extend (name, value: ZSTRING)
 		local
-			name_value_assignment: ZSTRING
+			nvp: EL_NAME_VALUE_PAIR [ZSTRING]
 		do
-			create name_value_assignment.make (name.count + value.count + 1)
-			name_value_assignment.append (name)
-			name_value_assignment.append_character ('=')
-			name_value_assignment.append (value)
-			extend_list (create {like item}.make (new_name, name_value_assignment))
+			create nvp.make_pair (name, value)
+			extend_list (create {like item}.make (new_name, nvp.as_assignment))
 		end
 
-feature {NONE} -- Constants
-
-	Var_value: ZSTRING
-		once
-			Result := "value"
-		end
 end

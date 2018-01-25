@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-18 12:21:52 GMT (Friday 18th August 2017)"
-	revision: "4"
+	date: "2018-01-23 17:24:50 GMT (Tuesday 23rd January 2018)"
+	revision: "5"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
 
 inherit
 	EL_MODULE_ENVIRONMENT
+
+	EL_MODULE_UTF
 
 	EL_CONSOLE_ENCODEABLE
 
@@ -255,6 +257,12 @@ feature -- Change text output color
 
 feature {NONE} -- Implementation
 
+	as_utf_8 (str: READABLE_STRING_GENERAL): STRING
+		do
+			Result := utf_8_buffer; Result.wipe_out
+			UTF.utf_32_string_into_utf_8_string_8 (str, Result)
+		end
+
 	flush_string_general (str: READABLE_STRING_GENERAL)
 		do
 			if attached {STRING_32} str as str_32 then
@@ -289,7 +297,7 @@ feature {NONE} -- Internal attributes
 
 	tab_repeat_count: INTEGER
 
-feature -- Constants
+feature {NONE} -- Constants
 
 	Line_separator: STRING
 		once
@@ -300,4 +308,8 @@ feature -- Constants
 
 	Tail_character_count : INTEGER = 1500
 
+	Utf_8_buffer: STRING
+		once
+			create Result.make_empty
+		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-17 16:32:45 GMT (Thursday 17th November 2016)"
-	revision: "3"
+	date: "2017-12-25 10:46:17 GMT (Monday 25th December 2017)"
+	revision: "4"
 
 class
 	EL_UNIQUE_MACHINE_ID
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			create md5.make
-			md5.sink_string (OS.Cpu_model_name)
+			md5.sink_string_8 (OS.Cpu_model_name)
 			md5.sink_array (mac_address)
 		end
 

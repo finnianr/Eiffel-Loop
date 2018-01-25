@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-18 10:12:31 GMT (Saturday 18th November 2017)"
-	revision: "1"
+	date: "2017-12-14 9:40:00 GMT (Thursday 14th December 2017)"
+	revision: "2"
 
 deferred class
 	EL_CURRENCY_LOCALE
@@ -15,7 +15,10 @@ deferred class
 inherit
 	EL_MODULE_DEFERRED_LOCALE
 
-	EL_CURRENCY_CONSTANTS
+	EL_SHARED_CURRENCY_CODES
+		rename
+			Currency as Currency_code
+		end
 
 feature {NONE} -- Initialization
 
@@ -45,18 +48,18 @@ feature -- Access
 		deferred
 		end
 
-	default_currency_code: STRING
+	default_currency_code: NATURAL_8
 		deferred
 		end
 
 feature -- Element change
 
-	set_currency (currency_code: STRING)
+	set_currency (code: NATURAL_8)
 		local
 			list: like currency_list
 		do
 			list := currency_list
-			list.find_first (currency_code, agent {EL_CURRENCY}.code)
+			list.find_first (code, agent {EL_CURRENCY}.code)
 			if list.exhausted then
 				set_currency (default_currency_code)
 			else
@@ -66,15 +69,24 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
+	Except_currency_codes: ARRAY [NATURAL_8]
+		once
+			create Result.make_empty
+		end
+
 	Locale_currency_list_table: HASH_TABLE [EL_SORTABLE_ARRAYED_LIST [EL_CURRENCY], STRING]
 		local
 			list: like Locale_currency_list_table.item
+			code_list: like Currency_code.list
 		once
 			create Result.make_equal (Supported_languages.count)
+			code_list := Currency_code.list
 			across Supported_languages as lang loop
-				create list.make (currency_codes.count)
-				across currency_codes as code loop
-					list.extend (create {EL_CURRENCY}.make (lang.item, code.item, not Unit_currencies.has (code.item)))
+				create list.make (code_list.count)
+				across code_list as code loop
+					if not Except_currency_codes.has (code.item) then
+						list.extend (create {EL_CURRENCY}.make (lang.item, code.item, not Currency_code.unit.has (code.item)))
+					end
 				end
 				list.sort
 				Result [lang.item] := list
@@ -84,12 +96,6 @@ feature {NONE} -- Constants
 	Supported_languages: ARRAY [STRING]
 		once
 			Result := << "en", "de" >>
-		end
-
-	Unit_currencies: ARRAY [STRING]
-		once
-			Result := << "HUF", "JPY" >>
-			Result.compare_objects
 		end
 
 end

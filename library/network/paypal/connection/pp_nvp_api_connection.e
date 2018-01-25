@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {PP_CONNECTION}."
+	description: "Paypal NVP API connection accessible via `PP_SHARED_CONNECTION'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-23 14:48:11 GMT (Thursday 23rd November 2017)"
-	revision: "4"
+	date: "2017-12-18 15:43:14 GMT (Monday 18th December 2017)"
+	revision: "6"
 
 class
 	PP_NVP_API_CONNECTION
@@ -19,9 +19,12 @@ inherit
 			open as open_url
 		export
 			{NONE} open_url
+			{PP_BUTTON_METHOD} last_string, set_post_parameters, read_string_post, has_error, reset
 		end
 
-	PP_SHARED_PAYPAL_VARIABLES
+	PP_SHARED_PARAMETER_ENUM
+
+	PP_SHARED_REFLECTION_MANAGER
 
 create
 	make
@@ -35,16 +38,26 @@ feature {NONE} -- Initialization
 		local
 			version: ZSTRING
 		do
+			initialize_reflection
 			credentials := a_credentials
-			create api_version.make (Variable.version, a_api_version.out)
+			create api_version.make (Parameter.version, a_api_version.out)
 			is_sandbox := a_is_sandbox
 			version := api_version.value
 			if not version.has ('.') then
 				version.append_string_general (".0")
 			end
 			make_http_connection (a_cert_authority_info_path)
-			create response_values.make_equal (3)
 			create notify_url.make_empty
+			create button_status_delete.make (Parameter.button_status, "DELETE")
+			create button_sub_type_products.make (Parameter.button_sub_type, "PRODUCTS")
+			create buy_now_button_type.make (Parameter.button_type, "BUYNOW")
+			create hosted_button_code.make (Parameter.button_code, "HOSTED")
+
+			create button_search.make
+			create create_button.make
+			create get_button_details_method.make
+			create manage_button_status.make
+			create update_button.make
 		end
 
 feature -- Access
@@ -52,8 +65,6 @@ feature -- Access
 	notify_url: STRING
 		-- The URL to which PayPal posts information about the payment,
 		-- in the form of Instant Payment Notification messages.
-
-	response_values: PP_RESPONSE_HASH_TABLE
 
 feature -- Element change
 
@@ -64,77 +75,47 @@ feature -- Element change
 
 feature -- Button management
 
-	button_id_list: ARRAYED_LIST [ZSTRING]
+	button_search_results: PP_BUTTON_SEARCH_RESULTS
 			-- list all buttons since year 2000
 		local
-			variable_names: EL_ARRAYED_LIST [ZSTRING]; button_id_variable_names: ARRAYED_LIST [ZSTRING]
 			start_date, end_date: PP_DATE_TIME_PARAMETER
 		do
-			create start_date.make (Parameter.start_date, create {DATE_TIME}.make (2000, 1, 1, 0, 0, 0))
-			create end_date.make (Parameter.end_date, create {DATE_TIME}.make_now_utc)
-
-			call_method (Method.button_search, << start_date, end_date >>)
-
-			if last_call_succeeded then
-				create variable_names.make_from_array (response_values.current_keys)
-				button_id_variable_names := variable_names.search_results (True, agent {ZSTRING}.starts_with (Button_id_name_prefix))
-				create Result.make (button_id_variable_names.count)
-				across button_id_variable_names as name loop
-					Result.extend (response_values.item (name.item))
-				end
-			else
-				create Result.make (0)
-			end
+			create start_date.make_start (Jan_1st_2000)
+			create end_date.make_end (create {DATE_TIME}.make_now_utc)
+			Result := button_search.query_result (Current, << start_date, end_date >>)
 		end
 
 	create_buy_now_button (
 		locale_code: STRING; button_params: PP_BUTTON_SUB_PARAMETER_LIST; buy_options: PP_BUY_OPTIONS
-	)
+	): PP_BUTTON_QUERY_RESULTS
 		do
-			call_method (Method.create_button, <<
-				new_button_locale (locale_code),
-				Parameter.hosted_button_code, Parameter.buy_now_button_type, button_params, buy_options
+			Result := create_button.call (Current, <<
+				new_button_locale (locale_code), hosted_button_code, buy_now_button_type, button_params, buy_options
 			>>)
 		end
 
-	delete_button (id: ZSTRING)
+	delete_button (id: ZSTRING): PP_HTTP_RESPONSE
 		do
-			call_method (Method.manage_button_status, << new_hosted_button_id_param (id), Parameter.button_status_delete >>)
+			Result := manage_button_status.call (Current, << new_hosted_button_id_param (id), button_status_delete >>)
 		end
 
-	get_button_details (id: ZSTRING)
+	get_button_details (id: ZSTRING): PP_BUTTON_DETAILS_QUERY_RESULTS
 		do
-			call_method (Method.get_button_details, << new_hosted_button_id_param (id) >>)
+		 	Result := get_button_details_method.query_result (Current, << new_hosted_button_id_param (id) >>)
 		end
 
 	update_buy_now_button (
-		locale_code: STRING; id: ZSTRING
-		button_params: PP_BUTTON_SUB_PARAMETER_LIST; buy_options: PP_BUY_OPTIONS
-	)
+		locale_code: STRING; id: ZSTRING; button_params: PP_BUTTON_SUB_PARAMETER_LIST; buy_options: PP_BUY_OPTIONS
+	): PP_BUTTON_QUERY_RESULTS
 		do
-			call_method (
-				Method.update_button,
-				<< new_button_locale (locale_code), new_hosted_button_id_param (id),
-					Parameter.hosted_button_code, Parameter.buy_now_button_type, Parameter.button_sub_type_products,
-					button_params, buy_options >>
-			)
+			Result := update_button.call (Current, <<
+				new_button_locale (locale_code), new_hosted_button_id_param (id),
+				hosted_button_code, buy_now_button_type, button_sub_type_products,
+				button_params, buy_options
+			>>)
 		end
 
 feature -- Basic operations
-
-	log_response_values
-		do
-			if has_error then
-				lio.put_line ("HTTP read failed")
-			else
-				if is_lio_enabled then
-					across response_values as value loop
-						lio.put_labeled_string (value.key, value.item)
-						lio.put_new_line
-					end
-				end
-			end
-		end
 
 	open
 		do
@@ -148,8 +129,7 @@ feature -- Status query
 
 	last_call_succeeded: BOOLEAN
 		do
-			Result := not has_error and then response_values.item (Variable.acknowledge).starts_with (Success)
-			-- "SuccessWithWarning" is a possible ACK response
+			Result := not has_error
 		end
 
 feature {NONE} -- Factory
@@ -159,19 +139,9 @@ feature {NONE} -- Factory
 			create Result.make (locale_code)
 		end
 
-	new_hosted_button_id_param (id: ZSTRING): EL_HTTP_NAME_VALUE_PARAMETER
+	new_hosted_button_id_param (id: ZSTRING): PP_NAME_VALUE_PARAMETER
 		do
-			create Result.make (Variable.hosted_button_id, id)
-		end
-
-	new_method (name: ZSTRING): EL_HTTP_NAME_VALUE_PARAMETER
-		do
-			create Result.make (Parameter.Method, name)
-		end
-
-	new_parameter (name, value: ZSTRING): EL_HTTP_NAME_VALUE_PARAMETER
-		do
-			create Result.make (name, value)
+			create Result.make (Parameter.hosted_button_id, id)
 		end
 
 feature {NONE} -- Implementation
@@ -184,79 +154,37 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	call_method (method_parameter: EL_HTTP_NAME_VALUE_PARAMETER; a_parameters: ARRAY [EL_HTTP_PARAMETER])
-		local
-			parameter_list: EL_HTTP_PARAMETER_LIST [EL_HTTP_PARAMETER]
-			value_table: EL_HTTP_HASH_TABLE
-		do
-			reset
-			if is_lio_enabled then
-				lio.put_labeled_substitution ("call_method", "(%S, %S)", [method_parameter.name, method_parameter.value])
-				lio.put_new_line
-			end
-			create parameter_list.make_from_array (<< credentials, api_version, method_parameter >>)
-			parameter_list.append_array (a_parameters)
+feature {PP_BUTTON_METHOD} -- Parameters
 
-			value_table := parameter_list.to_table
+	api_version: PP_NAME_VALUE_PARAMETER
 
-			if is_lio_enabled then
-				across value_table as value loop
-					lio.put_labeled_string (value.key, value.item)
-					lio.put_new_line
-				end
-			end
-			set_post_parameters (value_table); read_string_post
-			if has_error then
-				response_values.wipe_out
-			else
-				create response_values.make_from_url_query (last_string)
-			end
-		end
+	button_status_delete: PP_NAME_VALUE_PARAMETER
 
-feature {NONE} -- Internal attributes
+	button_sub_type_products: PP_NAME_VALUE_PARAMETER
 
-	api_version: EL_HTTP_NAME_VALUE_PARAMETER
+	buy_now_button_type: PP_NAME_VALUE_PARAMETER
 
 	credentials: PP_CREDENTIALS
 
+	hosted_button_code: PP_NAME_VALUE_PARAMETER
+
+feature {NONE} -- Methods
+
+	button_search: PP_BUTTON_SEARCH_METHOD
+
+	create_button: PP_CREATE_BUTTON_METHOD
+
+	get_button_details_method: PP_GET_BUTTON_DETAILS_METHOD
+
+	manage_button_status: PP_MANAGE_BUTTON_STATUS_METHOD
+
+	update_button: PP_UPDATE_BUTTON_METHOD
+
 feature {NONE} -- Constants
 
-	Button_id_name_prefix: ZSTRING
+	Jan_1st_2000: DATE_TIME
 		once
-			Result := "L_HOSTEDBUTTONID"
-		end
-
-	Method: TUPLE [
-		button_search, create_button, manage_button_status, get_button_details, update_button: EL_HTTP_NAME_VALUE_PARAMETER
-	]
-		  -- API methods
-		once
-			Result := [
-				new_method ("BMButtonSearch"), new_method ("BMCreateButton"), new_method ("BMManageButtonStatus"),
-				new_method ("BMGetButtonDetails"), new_method ("BMUpdateButton")
-			]
-		end
-
-	Parameter: TUPLE [
-		end_date, method, start_date: ZSTRING
-		button_status_delete, button_sub_type_products, buy_now_button_type, hosted_button_code: EL_HTTP_NAME_VALUE_PARAMETER
-	]
-			-- API parameters
-		once
-			create Result
-			Result.end_date := "ENDDATE"
-			Result.start_date := "STARTDATE"
-			Result.method := "METHOD"
-
-			Result.button_status_delete := new_parameter (Variable.button_status, "DELETE")
-			Result.button_sub_type_products := new_parameter (Variable.button_sub_type, "PRODUCTS")
-			Result.buy_now_button_type := new_parameter (Variable.button_type, "BUYNOW")
-			Result.hosted_button_code := new_parameter (Variable.button_code, "HOSTED")
-		end
-
-	Success: ZSTRING
-		once
-			Result := "Success"
+			create Result.make (2000, 1, 1, 0, 0, 0)
 		end
 
 end

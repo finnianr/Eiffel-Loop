@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 8:49:44 GMT (Thursday 29th June 2017)"
-	revision: "6"
+	date: "2017-12-17 11:11:28 GMT (Sunday 17th December 2017)"
+	revision: "7"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -48,6 +48,20 @@ feature -- Element change
 			put_labeled_string (once "TIME", once "0 secs 0 ms")
 			put_new_line
 			Timer.start
+		end
+
+feature -- Status change
+
+	tab_left
+			--
+		do
+			output.tab_left
+		end
+
+	tab_right
+			--
+		do
+			output.tab_right
 		end
 
 feature -- Input

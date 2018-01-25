@@ -6,19 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-07 10:15:50 GMT (Thursday 7th December 2017)"
-	revision: "1"
+	date: "2017-12-18 6:21:46 GMT (Monday 18th December 2017)"
+	revision: "2"
 
 class
 	AIA_PURCHASE_REASON
 
 inherit
-	EL_STATUS_CODE_VALUE [NATURAL_8]
+	EL_ENUMERATION_VALUE [NATURAL_8]
 		rename
-			code_definition as Reason_code
+			enumeration as Reason_enum
 		end
 
-	AIA_SHARED_CODES
+	AIA_SHARED_ENUMERATIONS
 		undefine
 			is_equal
 		end

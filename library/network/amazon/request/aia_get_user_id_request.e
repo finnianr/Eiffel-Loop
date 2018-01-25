@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-07 10:07:01 GMT (Thursday 7th December 2017)"
-	revision: "2"
+	date: "2017-12-18 6:21:06 GMT (Monday 18th December 2017)"
+	revision: "3"
 
 class
 	AIA_GET_USER_ID_REQUEST
@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 
 	default_response: AIA_GET_USER_ID_RESPONSE
 		do
-			create Result.make (Response_code.ok)
+			create Result.make (response_enum.ok)
 		end
 
 feature {NONE} -- Constants

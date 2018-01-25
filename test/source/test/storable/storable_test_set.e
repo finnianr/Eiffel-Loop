@@ -6,28 +6,47 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-20 14:44:51 GMT (Monday 20th November 2017)"
-	revision: "3"
+	date: "2018-01-24 11:55:07 GMT (Wednesday 24th January 2018)"
+	revision: "5"
 
 class
 	STORABLE_TEST_SET
 
 inherit
 	EQA_TEST_SET
+		redefine
+			on_prepare
+		end
+
+	EL_MODULE_LIO
+		undefine
+			default_create
+		end
+
+	EL_SHARED_REFLECTION_MANAGER
+		undefine
+			default_create
+		end
+
+feature {NONE} -- Initialization
+
+	initialize_reflection
+		once
+			Reflection_manager.register_types (<< {EL_UUID} >>)
+		end
 
 feature -- Basic operations
 
 	test_storable
 		note
-			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string",
-						"covers/{EL_MEMORY_READER_WRITER}.write_string"
+			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string", "covers/{EL_MEMORY_READER_WRITER}.write_string"
 		local
 			object_1, object_2: TEST_STORABLE
 			reader_writer: EL_FILE_READER_WRITER [TEST_STORABLE]
 			file: RAW_FILE
 		do
 			create object_1.make_default
-			object_1.print_field_info
+			object_1.print_fields (lio)
 			object_1.set_values  ({STRING_32} "Trademark ™")
 			create reader_writer.make
 
@@ -42,6 +61,17 @@ feature -- Basic operations
 			assert ("read OK", object_1 ~ object_2)
 
 			file.delete
+		end
+
+	test_uuid
+		do
+		end
+
+feature {NONE} -- Implementation
+
+	on_prepare
+		do
+			Initialize_reflection
 		end
 
 feature {NONE} -- Constants

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-19 14:56:38 GMT (Sunday 19th November 2017)"
-	revision: "5"
+	date: "2017-12-17 10:11:40 GMT (Sunday 17th December 2017)"
+	revision: "7"
 
 deferred class
 	EL_STORABLE_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -110,6 +110,18 @@ feature -- Access
 		end
 
 feature -- Basic operations
+
+	print_meta_data (lio: EL_LOGGABLE)
+		local
+			l_item: G
+		do
+			if is_empty then
+				create l_item.make_default
+			else
+				l_item := first
+			end
+			l_item.print_meta_data (lio)
+		end
 
 	retrieve
 		local

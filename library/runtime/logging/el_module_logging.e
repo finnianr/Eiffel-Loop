@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2017-12-28 10:45:56 GMT (Thursday 28th December 2017)"
+	revision: "3"
 
-class
+deferred class
 	EL_MODULE_LOGGING
 
 inherit
 	EL_MODULE
+		undefine
+			is_equal
+		end
 
 feature -- Access
 

@@ -6,19 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-20 13:19:55 GMT (Monday 20th November 2017)"
-	revision: "3"
+	date: "2018-01-21 10:15:02 GMT (Sunday 21st January 2018)"
+	revision: "7"
 
 class
 	EL_UUID
 
 inherit
 	UUID
+		rename
+			make_from_string as make_from_string_general
 		undefine
 			is_equal
 		end
 
-	EL_STORABLE
+	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
 			read_version as read_default_version
 		undefine
@@ -27,15 +29,34 @@ inherit
 			adjust_field_order
 		end
 
+	EL_MAKEABLE_FROM_STRING_8
+		rename
+			make as make_from_string
+		undefine
+			out, is_equal
+		end
+
 create
-	make_default, make, make_from_string, make_from_array
+	make_default, make, make_from_string_general, make_from_string, make_from_array
 
 feature {NONE} -- Implementation
 
-	adjust_field_order (fields: ARRAY [INTEGER])
+	make_from_string (str: STRING)
+		do
+			make_from_string_general (str)
+		end
+
+	adjust_field_order (fields: EL_REFLECTED_FIELD_ARRAY)
 		-- change order to: data_1, data_2 etc
 		do
-			do_swaps (fields, << [1, 4], [2, 4], [3, 4] >>)
+			fields.reorder (<< [4, -3] >>)
+		end
+
+feature -- Access
+
+	to_string: STRING
+		do
+			Result := out
 		end
 
 feature -- Constants
@@ -45,6 +66,6 @@ feature -- Constants
 			Result := (32 + 16 * 3 + 64) // 8
 		end
 
-	Field_hash_checksum: NATURAL = 3515774772
+	field_hash: NATURAL = 201719989
 
 end

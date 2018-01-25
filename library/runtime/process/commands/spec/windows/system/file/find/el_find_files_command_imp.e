@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 10:33:49 GMT (Monday 3rd October 2016)"
-	revision: "2"
+	date: "2018-01-25 12:02:36 GMT (Thursday 25th January 2018)"
+	revision: "3"
 
 class
 	EL_FIND_FILES_COMMAND_IMP
@@ -39,9 +39,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			Result := Precursor {EL_FIND_FILES_COMMAND_I}
-			Result.append_tuples (<<
-				["file_pattern_path", agent: ZSTRING do Result := (dir_path + name_pattern).escaped end]
-			>>)
+				+ ["file_pattern_path", agent: ZSTRING do Result := (dir_path + name_pattern).escaped end]
 		end
 
 feature {NONE} -- Constants

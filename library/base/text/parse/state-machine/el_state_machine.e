@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 17:17:26 GMT (Sunday 21st May 2017)"
-	revision: "3"
+	date: "2017-12-14 13:39:28 GMT (Thursday 14th December 2017)"
+	revision: "4"
 
 class
 	EL_STATE_MACHINE [G]
@@ -36,12 +36,25 @@ feature -- Basic operations
 			end
 		end
 
+	traverse_indexable (initial: like state; indexable: READABLE_INDEXABLE [G])
+		local
+			l_final: like final; i, upper: INTEGER
+		do
+			item_number := 0; l_final := final
+			upper := indexable.upper
+			from i := indexable.lower; state := initial until i > upper or state = l_final loop
+				item_number := item_number + 1
+				call (indexable [i])
+				i := i + 1
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	call (item: G)
 		-- call state procedure with item
 		do
-			tuple.put_reference (item, 1)
+			tuple.put (item, 1)
 			state.set_operands (tuple)
 			state.apply
 		end

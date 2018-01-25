@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-11 22:08:50 GMT (Saturday 11th November 2017)"
-	revision: "6"
+	date: "2017-12-28 15:24:52 GMT (Thursday 28th December 2017)"
+	revision: "9"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -19,8 +19,14 @@ inherit
 		end
 
 	EL_MODULE_FILE_SYSTEM
+		undefine
+			is_equal
+		end
 
 	EL_MODULE_TIME
+		undefine
+			is_equal
+		end
 
 create
 	make
@@ -30,8 +36,8 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			set_last_seen_time (Time.Unix_origin)
 			Precursor
+			set_last_seen_time (Time.Unix_origin)
 		end
 
 feature -- Access
@@ -94,7 +100,7 @@ feature {NONE} -- Build from XML
 			--
 		do
 			Result := Precursor
-			Result.merge (building_actions_for_type ({INTEGER}))
+			Result.merge (building_actions_for_type ({INTEGER}, Text_element_node))
 		end
 
 feature -- Constants

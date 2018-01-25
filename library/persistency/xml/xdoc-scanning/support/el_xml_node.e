@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-03 9:05:56 GMT (Monday 3rd April 2017)"
-	revision: "2"
+	date: "2017-12-19 12:06:51 GMT (Tuesday 19th December 2017)"
+	revision: "4"
 
 class
 	EL_XML_NODE
@@ -16,6 +16,29 @@ inherit
 	EL_MODULE_UTF
 		export
 			{NONE} all
+		undefine
+			default_create
+		end
+
+	EL_READABLE
+		rename
+			read_character_8 as to_character_8,
+			read_character_32 as to_character_32,
+			read_integer_8 as to_integer_8,
+			read_integer_16 as to_integer_16,
+			read_integer_32 as to_integer,
+			read_integer_64 as to_integer_64,
+			read_natural_8 as to_natural_8,
+			read_natural_16 as to_natural_16,
+			read_natural_32 as to_natural,
+			read_natural_64 as to_natural_64,
+			read_real_32 as to_real,
+			read_real_64 as to_double,
+			read_string as to_string,
+			read_string_8 as to_string_8,
+			read_string_32 as to_string_32,
+			read_boolean as to_boolean,
+			read_pointer as to_pointer
 		undefine
 			default_create
 		end
@@ -74,10 +97,24 @@ feature -- Conversion
 
 	to_boolean: BOOLEAN
 			--
-		require
+		require else
 			valid_node: is_boolean
 		do
-			Result := to_string.to_boolean
+			Result := to_string_32.to_boolean
+		end
+
+	to_character_8: CHARACTER
+		do
+			if not is_empty then
+				Result := to_string_32.item (1).to_character_8
+			end
+		end
+
+	to_character_32: CHARACTER_32
+		do
+			if not is_empty then
+				Result := to_string_32.item (1)
+			end
 		end
 
 	to_expanded_dir_path: EL_DIR_PATH
@@ -94,50 +131,82 @@ feature -- Conversion
 
 	to_integer: INTEGER
 			--
-		require
+		require else
 			valid_node: is_integer
 		do
-			Result := to_string.to_integer
+			Result := to_string_32.to_integer
+		end
+
+	to_integer_8: INTEGER_8
+			--
+		require else
+			valid_node: is_integer
+		do
+			Result := to_string_32.to_integer_8
+		end
+
+	to_integer_16: INTEGER_16
+			--
+		require else
+			valid_node: is_integer
+		do
+			Result := to_string_32.to_integer_16
+		end
+
+	to_natural_8: NATURAL_8
+			--
+		require else
+			valid_node: is_natural
+		do
+			Result := to_string_32.to_natural_8
+		end
+
+	to_natural_16: NATURAL_16
+			--
+		require else
+			valid_node: is_natural
+		do
+			Result := to_string_32.to_natural_16
 		end
 
 	to_natural: NATURAL
 			--
-		require
+		require else
 			valid_node: is_natural
 		do
-			Result := to_string.to_natural
+			Result := to_string_32.to_natural
 		end
 
 	to_natural_64: NATURAL_64
 			--
-		require
+		require else
 			valid_node: is_natural_64
 		do
-			Result := to_string.to_natural_64
+			Result := to_string_32.to_natural_64
 		end
 
 	to_integer_64: INTEGER_64
 			--
-		require
+		require else
 			valid_node: is_integer_64
 		do
-			Result := to_string.to_integer_64
+			Result := to_string_32.to_integer_64
 		end
 
 	to_real: REAL
 			--
-		require
+		require else
 			valid_node: is_real
 		do
-			Result := to_string.to_real
+			Result := to_string_32.to_real
 		end
 
 	to_double: DOUBLE
 			--
-		require
+		require else
 			valid_node: is_double
 		do
-			Result := to_string.to_double
+			Result := to_string_32.to_double
 		end
 
 feature -- Extended Latin
@@ -348,6 +417,11 @@ feature {EL_XML_NODE_CLIENT, EL_XML_NODE} -- Implementation
 
 	raw_content: STRING_32
 		-- Unadjusted text content of node
+
+	to_pointer: POINTER
+		-- Unused
+		do
+		end
 
 feature  {NONE} -- Implementation
 

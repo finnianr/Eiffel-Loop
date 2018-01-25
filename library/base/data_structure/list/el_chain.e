@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 8:18:10 GMT (Saturday 2nd December 2017)"
-	revision: "5"
+	date: "2017-12-14 12:07:04 GMT (Thursday 14th December 2017)"
+	revision: "6"
 
 deferred class EL_CHAIN [G]
 
@@ -20,6 +20,19 @@ inherit
 		end
 
 feature -- Access
+
+	count_of (has_property: PREDICATE [ANY]): INTEGER
+		-- count of items where `has_property (item)'
+		do
+			push_cursor
+			from start until after loop
+				if has_property (item) then
+					Result := Result + 1
+				end
+				forth
+			end
+			pop_cursor
+		end
 
 	index_for_value (value: ANY; value_function: FUNCTION [ANY]): INTEGER
 			-- index of item with function returning result equal to value, 0 if not found

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-27 16:43:04 GMT (Monday 27th November 2017)"
-	revision: "3"
+	date: "2018-01-23 12:49:36 GMT (Tuesday 23rd January 2018)"
+	revision: "5"
 
 class
 	MP3_IDENTIFIER
 
 inherit
-	EL_STORABLE
+	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
 			read_version as read_default_version
 		redefine
@@ -90,5 +90,5 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Field_hash_checksum: NATURAL = 0
+	Field_hash: NATURAL = 0
 end

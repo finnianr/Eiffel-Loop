@@ -6,18 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-06 14:54:05 GMT (Wednesday 6th December 2017)"
-	revision: "2"
+	date: "2017-12-28 16:15:28 GMT (Thursday 28th December 2017)"
+	revision: "6"
 
 class
 	FCGI_HTTP_HEADERS
 
 inherit
-	EL_REFLECTIVELY_SETTABLE [ZSTRING]
+	EL_REFLECTIVELY_SETTABLE
+		rename
+			make_default as make,
+			field_included as is_any_field
+		redefine
+			make, Except_fields, import_name
+		end
+
+	EL_SETTABLE_FROM_ZSTRING
 		rename
 			make_default as make
 		redefine
-			set_field, make, Except_fields, import_name
+			set_field
 		end
 
 	EL_STRING_CONSTANTS
@@ -42,13 +50,12 @@ feature -- Access
 		-- table of all non-empty headers with name-keys adjusted to use hyphen word separator
 		-- if `kebab_names' is true
 		local
-			object: like current_object; value: ZSTRING
-			table: like field_index_table
+			table: like field_table; value: ZSTRING
 		do
-			object := current_object; table := field_index_table
+			table := field_table
 			create Result.make (custom_table.count + 7)
 			from table.start until table.after loop
-				value := field_item_from_index (table.item_for_iteration)
+				value := field_string (table.item_for_iteration)
 				if not value.is_empty then
 					Result [as_table_key (table.key_for_iteration, kebab_names)] := value
 				end
@@ -68,7 +75,7 @@ feature -- Access
 			kebab_name: STRING
 		do
 			create kebab_name.make (name.count)
-			from_kebab_case (name, kebab_name)
+			Naming.from_kebab_case (name, kebab_name)
 			custom_table.search (kebab_name)
 			if custom_table.found then
 				Result := custom_table.found_item
@@ -80,18 +87,17 @@ feature -- Access
 	selected (name_list: EL_SPLIT_STRING_LIST [STRING]): HASH_TABLE [ZSTRING, STRING]
 		-- returns table of field values for keys present in `name_list'
 		local
-			name: STRING; object: like current_object
+			name: STRING
 		do
-			name := String_pool.new_string; object := current_object
-
+			name := String_8_pool.new_string
 			create Result.make (name_list.count)
 			from name_list.start until name_list.after loop
 				name.wipe_out
-				from_kebab_case (name_list.item, name)
+				Naming.from_kebab_case (name_list.item, name)
 
-				field_index_table.search (name)
-				if field_index_table.found then
-					Result.extend (field_item_from_index (field_index_table.found_item), name_list.item.twin)
+				field_table.search (name)
+				if field_table.found then
+					Result.extend (field_string (field_table.found_item), name_list.item.twin)
 				else
 					custom_table.search (name)
 					if custom_table.found then
@@ -100,7 +106,7 @@ feature -- Access
 				end
 				name_list.forth
 			end
-			String_pool.recycle (name)
+			String_8_pool.recycle (name)
 		end
 
 feature -- Access attributes
@@ -169,6 +175,11 @@ feature -- Element change
 			connection := a_connection
 		end
 
+	set_content_length (a_content_length: like content_length)
+		do
+			content_length := a_content_length
+		end
+
 	set_content_type (a_content_type: like content_type)
 		do
 			content_type := a_content_type
@@ -184,7 +195,7 @@ feature -- Element change
 			kebab_name: STRING
 		do
 			create kebab_name.make (name.count)
-			from_kebab_case (name, kebab_name)
+			Naming.from_kebab_case (name, kebab_name)
 			custom_table [kebab_name] := value
 		end
 
@@ -192,7 +203,7 @@ feature -- Element change
 		-- set field with name
 		do
 			Precursor (name, value)
-			if not field_index_table.found then
+			if not field_table.found then
 				custom_table.extend (value, name.as_lower)
 			end
 		end
@@ -235,15 +246,15 @@ feature {NONE} -- Implementation
 		do
 			if kebab_names then
 				create Result.make (name.count)
-				to_kebab_case (name, Result)
+				Naming.to_kebab_case (name, Result)
 			else
 				Result := name
 			end
 		end
 
-	import_name: like Default_import_name
+	import_name: like Naming.Default_import
 		do
-			Result := agent from_upper_snake_case
+			Result := agent Naming.from_upper_snake_case
 		end
 
 feature {NONE} -- Internal attributes

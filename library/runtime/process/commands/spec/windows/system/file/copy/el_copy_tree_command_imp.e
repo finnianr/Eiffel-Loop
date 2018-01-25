@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 10:33:50 GMT (Monday 3rd October 2016)"
-	revision: "2"
+	date: "2018-01-25 12:01:58 GMT (Thursday 25th January 2018)"
+	revision: "3"
 
 class
 	EL_COPY_TREE_COMMAND_IMP
@@ -35,10 +35,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor {EL_COPY_TREE_COMMAND_I}
-			Result.append_tuples (<<
-				["xcopy_destination_path", 		agent xcopy_destination_path]
-			>>)
+			Result := Precursor {EL_COPY_TREE_COMMAND_I} + ["xcopy_destination_path", agent xcopy_destination_path]
 		end
 
 feature {NONE} -- Implementation

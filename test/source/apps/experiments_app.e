@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-06 9:32:09 GMT (Wednesday 6th December 2017)"
-	revision: "20"
+	date: "2018-01-23 16:52:16 GMT (Tuesday 23rd January 2018)"
+	revision: "24"
 
 class EXPERIMENTS_APP
 
@@ -25,6 +25,14 @@ inherit
 
 	EL_MODULE_EIFFEL
 
+	SYSTEM_ENCODINGS
+		rename
+			Utf32 as Unicode,
+			Utf8 as Utf_8
+		export
+			{NONE} all
+		end
+
 create
 	make
 
@@ -37,10 +45,9 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	run
-		local
 		do
-			lio.enter ("abstract_increment")
-			abstract_increment
+			lio.enter ("encode_string_for_console")
+			encode_string_for_console
 			lio.exit
 		end
 
@@ -161,6 +168,24 @@ feature -- Experiments
 			log.put_new_line
 		end
 
+	compare_tuple_types
+		local
+			t1: TUPLE [x, y: INTEGER]
+			t2: TUPLE [STRING, INTEGER]
+			t3: TUPLE [INTEGER]
+			t4: TUPLE [STRING]
+			t5: TUPLE [x1, y1: INTEGER]
+		do
+			create t1; t2 := ["", 1]; create t3; create t4; create t5
+
+
+			across << t1, t2, t3, t4, t5, [1, 2] >> as tuple loop
+				log.put_integer_field (tuple.item.generator, tuple.item.generating_type.type_id)
+				log.put_new_line
+			end
+			-- t1 and t5 are same type
+		end
+
 	container_extension
 		do
 			extend_container (create {ARRAYED_LIST [EL_DIR_PATH]}.make (0))
@@ -230,6 +255,18 @@ feature -- Experiments
 			key_pair: AIA_CREDENTIAL
 		do
 			key_pair := ({AIA_CREDENTIAL}).default
+		end
+
+	encode_string_for_console
+		local
+			str: STRING_32; str_2: STRING
+		do
+			str := {STRING_32} "Dún Búinne"
+			Unicode.convert_to (Console_encoding, str)
+			if Unicode.last_conversion_successful then
+				str_2 := Unicode.last_converted_string_8
+				io.put_string (str_2)
+			end
 		end
 
 	equality_question
@@ -426,11 +463,14 @@ feature -- Experiments
 			log.put_string_field ("Path", temp.as_windows.to_string)
 		end
 
-	my_procedure_test
+	make_date
 		local
-			my_procedure: MY_PROCEDURE [like Current, TUPLE]
+			date_1, date_2, date_3: DATE_TIME; date_iso: EL_SHORT_ISO_8601_DATE_TIME
 		do
---			create my_procedure.adapt (agent my_procedure_test)
+			create date_1.make_from_string ("20171216113300", "yyyy[0]mm[0]dd[0]hh[0]mi[0]ss")
+			create date_2.make_from_string ("2017-12-16 11:33:00", "yyyy-[0]mm-[0]dd [0]hh:[0]mi:[0]ss") -- Fails
+			create date_iso.make ("20171216T113300Z")
+			create date_3.make_from_string ("19:35:01 Apr 09, 2016", "[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy")
 		end
 
 	negative_integer_32_in_integer_64
@@ -524,17 +564,6 @@ feature -- Experiments
 			procedure (2)
 		end
 
-	procedure_pointer
-		local
-			pointer: PROCEDURE_POINTER
-			proc_random_sequence: PROCEDURE
-		do
-			proc_random_sequence := agent random_sequence
-			create pointer.make (proc_random_sequence, $random_sequence)
-			proc_random_sequence.apply
-			create pointer.make (proc_random_sequence, $random_sequence)
-		end
-
 	put_execution_environment_variables
 		do
 			Execution_environment.put ("sausage", "SSL_PW")
@@ -566,6 +595,14 @@ feature -- Experiments
 			log.put_new_line
 			log.put_integer_field ("even", even)
 			log.put_new_line
+		end
+
+	real_rounding
+		local
+			r: REAL
+		do
+			r := ("795").to_real
+			log.put_integer_field ("(r * 100).rounded", (r * 100).rounded)
 		end
 
 	remove_from_list
@@ -614,14 +651,6 @@ feature -- Experiments
 			end
 		end
 
-	routine_compile
-			-- compilation test
-		local
-			proc: PROCEDURE_2 [like Current, TUPLE]; func: FUNCTION_2 [like Current, TUPLE, INTEGER]
-			pred: PREDICATE_2 [like Current, TUPLE]
-		do
-		end
-
 	self_deletion_from_batch
 		do
 			Execution_environment.launch ("cmd /C D:\Development\Eiffel\Eiffel-Loop\test\uninstall.bat")
@@ -661,7 +690,7 @@ feature -- Experiments
 
 	substitution
 		local
-			template: EL_SUBSTITUTION_TEMPLATE [STRING]
+			template: EL_STRING_8_TEMPLATE
 		do
 			create template.make ("from $var := 1 until $var > 10 loop")
 			template.set_variable ("var", "i")
@@ -671,7 +700,7 @@ feature -- Experiments
 	substitution_template
 			--
 		local
-			l_template: EL_SUBSTITUTION_TEMPLATE [STRING]
+			l_template: EL_STRING_8_TEMPLATE
 		do
 			create l_template.make ("x=$x, y=$y")
 			l_template.set_variable ("x", "100")
@@ -752,6 +781,15 @@ feature -- Experiments
 			action_2.apply
 		end
 
+	tuple_creation_from_type
+		local
+			type: TYPE [TUPLE]
+		do
+			type := {TUPLE [INTEGER, STRING]}
+			lio.put_integer_field ("generic_parameter_count", type.generic_parameter_count)
+			lio.put_labeled_string (" generic_parameter_type [1]", type.generic_parameter_type (1).name)
+		end
+
 	type_id_comparison
 		local
 			list: ARRAYED_LIST [STRING]
@@ -763,7 +801,9 @@ feature -- Experiments
 			log.put_integer_field (" dynamic_type", Eiffel.dynamic_type (list))
 			log.put_integer_field (" dynamic_type list_integer", Eiffel.dynamic_type (list_integer))
 			log.put_new_line
-			log.put_integer_field ("({EL_MAKEABLE_FROM_ZSTRING}).type_id", ({EL_MAKEABLE_FROM_ZSTRING}).type_id)
+			log.put_integer_field ("({EL_MAKEABLE_FROM_STRING [ZSTRING]}).type_id", ({EL_MAKEABLE_FROM_ZSTRING}).type_id)
+			log.put_new_line
+			log.put_integer_field ("({EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}).type_id", ({EL_MAKEABLE_FROM_STRING}).type_id)
 		end
 
 	type_conforming_test
@@ -774,6 +814,10 @@ feature -- Experiments
 			create escaper
 			is_do_nothing_escaper := {EL_DO_NOTHING_CHARACTER_ESCAPER [STRING_GENERAL]} < escaper.generating_type
 			log.put_labeled_string ("Is do nothing escaper", is_do_nothing_escaper.out)
+			log.put_new_line
+			log.put_labeled_string (
+				"field_conforms_to", Eiffel.field_conforms_to (({ZSTRING}).type_id, ({STRING_GENERAL}).type_id).out
+			)
 		end
 
 	url_string

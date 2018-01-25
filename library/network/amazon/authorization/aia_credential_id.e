@@ -6,14 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-07 9:55:21 GMT (Thursday 7th December 2017)"
-	revision: "3"
+	date: "2017-12-28 16:24:47 GMT (Thursday 28th December 2017)"
+	revision: "7"
 
 class
 	AIA_CREDENTIAL_ID
 
 inherit
-	EL_REFLECTIVELY_SETTABLE_STRINGS [STRING]
+	EL_REFLECTIVELY_SETTABLE
+		rename
+			field_included as is_any_field
+		end
+
+	EL_SETTABLE_FROM_STRING_8
+		rename
+			new_string as new_empty_string
+		end
 
 	EL_MAKEABLE_FROM_STRING_8
 		undefine
@@ -37,6 +45,14 @@ feature {NONE} -- Initialization
 				else
 				end
 			end
+		end
+
+	to_string: STRING
+		local
+			pair: EL_NAME_VALUE_PAIR [STRING]
+		do
+			create pair.make_pair (key, date )
+			Result := pair.joined ('/')
 		end
 
 feature -- Access

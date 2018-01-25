@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-18 8:55:22 GMT (Saturday 18th November 2017)"
-	revision: "3"
+	date: "2017-12-13 12:13:17 GMT (Wednesday 13th December 2017)"
+	revision: "4"
 
 class
 	FCGI_SERVLET_REQUEST
@@ -79,6 +79,11 @@ feature -- Access
 	value_integer (name: ZSTRING): INTEGER
 		do
 			Result := value_string (name).to_integer_32
+		end
+
+	value_natural_8 (name: ZSTRING): NATURAL_8
+		do
+			Result := value_string (name).to_natural_8
 		end
 
 	value_natural (name: ZSTRING): NATURAL

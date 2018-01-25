@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-16 10:07:25 GMT (Thursday 16th November 2017)"
-	revision: "3"
+	date: "2017-12-11 8:26:25 GMT (Monday 11th December 2017)"
+	revision: "4"
 
 class
 	RBOX_PLAYLIST
@@ -94,6 +94,22 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	checksum: NATURAL_32
+			-- Media item attribute
+		local
+			crc: like crc_generator
+		do
+			crc := crc_generator
+			from start until after loop
+				crc.add_string (song.mp3_relative_path.to_string)
+				if song.has_silence_specified then
+					crc.add_integer (song.beats_per_minute)
+				end
+				forth
+			end
+			Result := crc.checksum
+		end
+
 	file_size_mb: DOUBLE
 			-- Sum of size of m3u line (mega bytes) For example:
 
@@ -114,29 +130,6 @@ feature -- Access
 			Result := bytes / 1000000
 		end
 
-	checksum: NATURAL_32
-			-- Media item attribute
-		local
-			crc: like crc_generator
-		do
-			crc := crc_generator
-			from start until after loop
-				crc.add_string (song.mp3_relative_path.to_string)
-				if song.has_silence_specified then
-					crc.add_integer (song.beats_per_minute)
-				end
-				forth
-			end
-			Result := crc.checksum
-		end
-
-	relative_m3u_path: EL_FILE_PATH
-			-- Media item attribute
-		do
-			Result := Playlists_dir + name
-			Result.add_extension (M3U_extension)
-		end
-
 	m3u_list: ARRAYED_LIST [RBOX_SONG]
 		 -- song list with extra silence when required by songs with not enough silence
 		do
@@ -154,9 +147,12 @@ feature -- Access
 
 	name: ZSTRING
 
-feature -- Status query
-
-	alternate_found: BOOLEAN
+	relative_m3u_path: EL_FILE_PATH
+			-- Media item attribute
+		do
+			Result := Playlists_dir + name
+			Result.add_extension (M3U_extension)
+		end
 
 feature -- Element change
 
@@ -188,7 +184,7 @@ feature -- Element change
 			create id.make_from_array (Digest.md5 (a_name.to_utf_8))
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Internal attributes
 
 	index_by_audio_id: HASH_TABLE [RBOX_SONG, EL_UUID]
 
@@ -229,13 +225,13 @@ feature {NONE} -- Evolicity reflection
 
 feature {NONE} -- Constants
 
+	M3U_extension: ZSTRING
+		once
+			Result := "m3u"
+		end
 	Playlists_dir: EL_DIR_PATH
 		once
 			Result := "playlists"
 		end
 
-	M3U_extension: ZSTRING
-		once
-			Result := "m3u"
-		end
 end

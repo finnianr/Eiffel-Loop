@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-13 8:56:52 GMT (Sunday 13th August 2017)"
-	revision: "3"
+	date: "2017-12-09 9:45:27 GMT (Saturday 9th December 2017)"
+	revision: "4"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -20,8 +20,14 @@ feature {NONE} -- Initialization
 	make (a_word_table: like word_table)
 			--
 		do
-			create searchable_words.make_empty
+			make_default
 			set_word_table (a_word_table)
+		end
+
+	make_default
+		do
+			create searchable_words.make_empty
+			create word_table.make (0)
 		end
 
 feature -- Element change

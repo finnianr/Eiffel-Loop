@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-15 14:52:41 GMT (Tuesday 15th August 2017)"
-	revision: "6"
+	date: "2017-12-17 11:13:19 GMT (Sunday 17th December 2017)"
+	revision: "7"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -43,6 +43,20 @@ feature -- Input
 
 	pause_for_enter_key
 		do
+		end
+
+feature -- Status change
+
+	tab_left
+			--
+		do
+			log_sink.tab_left
+		end
+
+	tab_right
+			--
+		do
+			log_sink.tab_right
 		end
 
 feature -- Output

@@ -10,18 +10,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-06 14:49:50 GMT (Wednesday 6th December 2017)"
-	revision: "4"
+	date: "2017-12-28 16:13:36 GMT (Thursday 28th December 2017)"
+	revision: "7"
 
 class
 	FCGI_REQUEST_PARAMETERS
 
 inherit
-	EL_REFLECTIVELY_SETTABLE [ZSTRING]
+	EL_REFLECTIVELY_SETTABLE
+		rename
+			make_default as make,
+			field_included as is_any_field
+		redefine
+			make, Except_fields, import_name
+		end
+
+	EL_SETTABLE_FROM_ZSTRING
 		rename
 			make_default as make
 		redefine
-			make, set_field, Except_fields, import_name
+			set_field
 		end
 
 create
@@ -46,6 +54,7 @@ feature -- Element change
 	set_content (a_content: like content)
 		do
 			content := a_content
+			headers.set_content_length (content.count)
 		end
 
 	set_document_root (a_document_root: like document_root)
@@ -137,7 +146,7 @@ feature -- Element change
 		do
 			server_software := a_server_software
 		end
-	
+
 	wipe_out
 		do
 			set_default_values
@@ -172,9 +181,9 @@ feature -- Access
 		-- or POST-data (`raw_stdin_content')
 		do
 			if is_get_request then
-				create Result.make_from_url_query (query_string)
+				create Result.make (query_string)
 			elseif is_post_request and headers.content_length > 0 then
-				create Result.make_from_url_query (content)
+				create Result.make (content)
 			else
 				create Result.make_default
 			end
@@ -299,9 +308,9 @@ feature {NONE} -- Implementation
 			n.set_item (n.item |<< 8 | byte_string.to_natural_32)
 		end
 
-	import_name: like Default_import_name
+	import_name: like Naming.Default_import
 		do
-			Result := agent from_upper_snake_case
+			Result := agent Naming.from_upper_snake_case
 		end
 
 feature {NONE} -- Constants
@@ -310,7 +319,7 @@ feature {NONE} -- Constants
 
 	Except_fields: STRING
 		once
-			Result := Precursor + ", content"
+			Result := Precursor + ", content, headers"
 		end
 
 	Header_prefixes: EL_ARRAYED_LIST [STRING]

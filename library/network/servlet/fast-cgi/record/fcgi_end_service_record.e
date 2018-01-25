@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-31 11:04:04 GMT (Tuesday 31st October 2017)"
-	revision: "1"
+	date: "2018-01-19 15:15:04 GMT (Friday 19th January 2018)"
+	revision: "2"
 
 class
 	FCGI_END_SERVICE_RECORD
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			version := 1
-			request_id := Fcgi_null_request_id.to_natural_16
+			request_id := Fcgi_default_request_id
 			type := Fcgi_end_service.to_natural_8
 			byte_count := Fcgi_header_len
 		end

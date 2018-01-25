@@ -6,29 +6,40 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-23 16:12:07 GMT (Thursday 23rd November 2017)"
-	revision: "3"
+	date: "2017-12-18 5:44:24 GMT (Monday 18th December 2017)"
+	revision: "5"
 
 class
 	PP_DATE_TIME_PARAMETER
 
 inherit
-	EL_HTTP_NAME_VALUE_PARAMETER
+	PP_NAME_VALUE_PARAMETER
 		rename
-			make as make_parameter,
 			value as date_value
 		end
 
 	EL_MODULE_DATE
 
+	PP_SHARED_PARAMETER_ENUM
+
 create
-	make
+	make_start, make_end
 
 feature {NONE} -- Initialization
 
-	make (a_name: like name; date_time: DATE_TIME)
+	make_start (date_time: DATE_TIME)
 		do
-			make_parameter (a_name, Date.canonical_iso8601_formatted (date_time))
+			make_with_code (Parameter.start_date, date_time)
+		end
+
+	make_end (date_time: DATE_TIME)
+		do
+			make_with_code (Parameter.end_date, date_time)
+		end
+
+	make_with_code (a_code: NATURAL_8; date_time: DATE_TIME)
+		do
+			make (a_code, Date.iso_8601_formatted (date_time, True))
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-14 18:57:15 GMT (Monday 14th August 2017)"
-	revision: "6"
+	date: "2017-12-19 18:09:06 GMT (Tuesday 19th December 2017)"
+	revision: "7"
 
 class
 	CLASS_FEATURE
@@ -336,7 +336,7 @@ feature {NONE} -- Constants
 			Result := << ('(').natural_32_code, (' ').natural_32_code, (';').natural_32_code >>
 		end
 
-	Atttribute_setter_template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
+	Atttribute_setter_template: EL_ZSTRING_TEMPLATE
 		once
 			create Result.make ("[
 				set_$name (a_$name: like $name)
@@ -347,7 +347,7 @@ feature {NONE} -- Constants
 			]")
 		end
 
-	Loop_template: EL_SUBSTITUTION_TEMPLATE [ZSTRING]
+	Loop_template: EL_ZSTRING_TEMPLATE
 		once
 			create Result.make ("[
 				from $initial until $expression loop

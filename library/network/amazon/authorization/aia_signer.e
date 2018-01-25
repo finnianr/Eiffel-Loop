@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-07 9:57:55 GMT (Thursday 7th December 2017)"
-	revision: "2"
+	date: "2017-12-16 12:20:44 GMT (Saturday 16th December 2017)"
+	revision: "3"
 
 class
 	AIA_SIGNER
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 		do
 			create time_now.make_now_utc
 			short_date := time_now.formatted_out (Date_format_short)
-			iso8601_time := Date.iso8601_formatted (time_now)
+			iso8601_time := Date.ISO_8601_formatted (time_now, False)
 		end
 
 feature -- Access

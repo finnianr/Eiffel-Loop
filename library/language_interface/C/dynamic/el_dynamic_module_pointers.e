@@ -32,16 +32,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "4"
+	date: "2017-12-28 10:10:48 GMT (Thursday 28th December 2017)"
+	revision: "6"
 
 class
 	EL_DYNAMIC_MODULE_POINTERS
 
 inherit
-	EL_REFLECTION
+	EL_REFLECTIVELY_SETTABLE
+		redefine
+			field_included
+		end
 
 	EL_MODULE_EXCEPTION
+		undefine
+			is_equal
+		end
 
 create
 	make
@@ -56,38 +62,40 @@ feature {NONE} -- Initialization
 		-- since Eiffel identifiers are case insensitive, C API identifiers with upper case characters must be
 		-- listed by overriding the function `function_names_with_upper'
 		local
-			object: like current_object
-			i, field_count: INTEGER; name: STRING; function: POINTER
-			names_with_upper: EL_HASH_TABLE [STRING, STRING]
+			table: like field_table; names_with_upper: EL_HASH_TABLE [STRING, STRING]
+			name: STRING; function: POINTER
 		do
+			make_default
 			create names_with_upper.make_equal (11)
 			across function_names_with_upper as upper_name loop
 				names_with_upper [upper_name.item.as_lower] := upper_name.item
 			end
-			object := current_object; field_count := object.field_count
-			from i := 1 until i > field_count loop
-				if object.field_type (i) = Pointer_type then
-					name := object.field_name (i)
-					name.prune_all_trailing ('_') -- Remove underscore used to distinguish function name from Eiffel reserved words
-					names_with_upper.search (name)
-					if names_with_upper.found then
-						name := names_with_upper.found_item
-					end
-					function := module.function_pointer (name)
-					if function = Default_pointer then
-						Exception.raise_developer (
-							"API initialization error. No such C routine %"%S%S%" in class %S",
-							[module.name_prefix, name, generator]
-						)
-					else
-						object.set_pointer_field (i, function)
-					end
+			table := field_table
+			from table.start until table.after loop
+				name := table.key_for_iteration
+				names_with_upper.search (name)
+				if names_with_upper.found then
+					name := names_with_upper.found_item
 				end
-				i := i + 1
+				function := module.function_pointer (name)
+				if function = Default_pointer then
+					Exception.raise_developer (
+						"API initialization error. No such C routine %"%S%S%" in class %S",
+						[module.name_prefix, name, generator]
+					)
+				elseif attached {EL_REFLECTED_POINTER} table.item_for_iteration as pointer_field then
+					pointer_field.set (Current, function)
+				end
+				table.forth
 			end
 		end
 
 feature {NONE} -- Implementation
+
+	field_included (object: like current_object; i: INTEGER): BOOLEAN
+		do
+			Result := object.field_type (i) = Pointer_type
+		end
 
 	function_names_with_upper: ARRAY [STRING]
 		-- List any C API names that contain uppercase characters in descendant

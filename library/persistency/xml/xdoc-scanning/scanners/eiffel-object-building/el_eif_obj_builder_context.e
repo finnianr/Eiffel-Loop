@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-13 12:55:01 GMT (Monday 13th November 2017)"
-	revision: "5"
+	date: "2017-12-11 8:19:37 GMT (Monday 11th December 2017)"
+	revision: "6"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -20,14 +20,12 @@ inherit
 			make_default
 		end
 
-	EL_PERSISTENCE_ROUTINES
-
 feature {NONE} -- Initialization
 
 	make_default
 			--
 		do
-			Precursor
+			Precursor {EL_EIF_OBJ_XPATH_CONTEXT}
 			building_actions := Building_actions_by_type.item (Current)
 		end
 
@@ -132,108 +130,6 @@ feature {NONE} -- Implementation
 	building_action_table: EL_PROCEDURE_TABLE
 			--
 		deferred
-		end
-
-	building_actions_for_type (type: TYPE [ANY]): EL_PROCEDURE_TABLE
-		local
-			object: like current_object; excluded_indices: like new_field_indices_set
-			field_names: like new_field_names
-			i, field_count: INTEGER; text_xpath: STRING
-		do
-			create Result.make_equal (11)
-			object := current_object; field_count := object.field_count
-			excluded_indices := Excluded_fields_by_type.item (Current)
-			field_names := Adapted_field_names_by_type.item (Current)
-
-			from i := 1 until i > field_count loop
-				excluded_indices.binary_search (i)
-				if not excluded_indices.found then
-					text_xpath := field_names [i] + once "/text()"
-					if type.is_expanded then
-						inspect object.field_type (i)
-							when Boolean_type then
-								Result [text_xpath] := agent set_boolean_field (i)
-							when Integer_type then
-								Result [text_xpath] := agent set_integer_field (i)
-							when Integer_64_type then
-								Result [text_xpath] := agent set_integer_64_field (i)
-							when Natural_32_type then
-								Result [text_xpath] := agent set_natural_32_field (i)
-							when Natural_64_type then
-								Result [text_xpath] := agent set_natural_64_field (i)
-							when Real_32_type then
-								Result [text_xpath] := agent set_real_32_field (i)
-							when Real_64_type then
-								Result [text_xpath] := agent set_real_64_field (i)
-						else
-						end
-					elseif object.field_static_type (i) = type.type_id then
-						if type.type_id = String_z_type then
-							Result [text_xpath] := agent set_string_field (i)
-						elseif type.type_id = String_8_type then
-							Result [text_xpath] := agent set_string_8_field (i)
-						elseif type.type_id = String_32_type then
-							Result [text_xpath] := agent set_string_32_field (i)
-						end
-					end
-				end
-				i := i + 1
-			end
-		end
-
-	set_boolean_field (i: INTEGER)
-		do
-			current_object.set_boolean_field (i, node.to_boolean)
-		end
-
-	set_double_field (i: INTEGER)
-		do
-			current_object.set_double_field (i, node.to_double)
-		end
-
-	set_integer_field (i: INTEGER)
-		do
-			current_object.set_integer_32_field (i, node.to_integer)
-		end
-
-	set_integer_64_field (i: INTEGER)
-		do
-			current_object.set_integer_64_field (i, node.to_integer_64)
-		end
-
-	set_real_32_field (i: INTEGER)
-		do
-			current_object.set_real_field (i, node.to_real)
-		end
-
-	set_real_64_field (i: INTEGER)
-		do
-			current_object.set_real_64_field (i, node.to_double)
-		end
-
-	set_string_field (i: INTEGER)
-		do
-			current_object.set_reference_field (i, node.to_string)
-		end
-
-	set_string_8_field (i: INTEGER)
-		do
-			current_object.set_reference_field (i, node.to_string_8)
-		end
-
-	set_string_32_field (i: INTEGER)
-		do
-			current_object.set_reference_field (i, node.to_string_32)
-		end
-
-	set_natural_32_field (i: INTEGER)
-		do
-			current_object.set_natural_32_field (i, node.to_natural)
-		end
-
-	set_natural_64_field (i: INTEGER)
-		do
-			current_object.set_natural_64_field (i, node.to_natural_64)
 		end
 
 	xpaths_ending_with_attribute_value_predicate (xpath_step_list: like XPath_parser.step_list): ARRAYED_LIST [STRING]

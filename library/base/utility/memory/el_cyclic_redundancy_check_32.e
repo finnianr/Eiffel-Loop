@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-01-20 9:39:57 GMT (Saturday 20th January 2018)"
+	revision: "3"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
 
 inherit
+
+
 	EL_MODULE_FILE_SYSTEM
 
 	STRING_HANDLER
@@ -90,29 +92,23 @@ feature {NONE} -- Implementation
 
 	add_array (array_ptr: POINTER; count, item_bytes: INTEGER)
 		local
-			data: like internal_data; i: INTEGER; c, index: NATURAL
+			data: like Internal_data; i: INTEGER; c, index: NATURAL
 		do
-			data := internal_data
+			data := Internal_data
 			data.set_from_pointer (array_ptr, count * item_bytes)
 			c := checksum.bit_not
 			from i := 0 until i = data.count loop
 				index := c.bit_xor (data.read_natural_8 (i)) & 0xFF + 1
-				c := crc_table.item (index.to_integer_32).bit_xor (c |>> 8)
+				c := CRC_table.item (index.to_integer_32).bit_xor (c |>> 8)
 				i := i + 1
 			end
 			checksum := c.bit_not
 			data.set_from_pointer (Default_pointer, 0)
 		end
 
-	internal_data: MANAGED_POINTER
-			--
-		once
-			create Result.share_from_pointer (Default_pointer, 0)
-		end
-
 feature -- Constants
 
-	crc_table: ARRAY [NATURAL]
+	CRC_table: ARRAY [NATURAL]
  			--
 	 	local
 	 		n, i: INTEGER
@@ -133,5 +129,11 @@ feature -- Constants
 	 			n := n + 1
 	 		end
 	 	end
+
+	Internal_data: MANAGED_POINTER
+			--
+		once
+			create Result.share_from_pointer (Default_pointer, 0)
+		end
 
 end

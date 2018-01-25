@@ -6,13 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-01-22 12:52:06 GMT (Monday 22nd January 2018)"
+	revision: "3"
 
 deferred class
 	EL_MAKEABLE
 
-feature {NONE} -- Initialization
+feature {EL_REFLECTION_MANAGER} -- Initialization
 
 	make
 		deferred

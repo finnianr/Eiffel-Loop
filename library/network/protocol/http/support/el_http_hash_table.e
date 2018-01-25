@@ -6,16 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-09 19:48:20 GMT (Thursday 9th November 2017)"
-	revision: "5"
+	date: "2017-12-16 17:50:18 GMT (Saturday 16th December 2017)"
+	revision: "6"
 
 class
 	EL_HTTP_HASH_TABLE
 
 inherit
+	EL_HTTP_TABLE
+		rename
+			make_count as make_equal
+		undefine
+			is_equal, copy, default_create
+		end
+
 	EL_ZSTRING_HASH_TABLE [ZSTRING]
 		rename
-			item as table_item
+			item as table_item,
+			make as make_table
 		export
 			{NONE} table_item
 		end
@@ -26,32 +34,13 @@ inherit
 		end
 
 create
-	make_equal, make_from_url_query, make_default
+	make_equal, make, make_default
 
 feature {NONE} -- Initialization
 
 	make_default
 		do
 			make_equal (0)
-		end
-
-	make_from_url_query (query: STRING)
-		local
-			list: EL_STRING_LIST [STRING]; name_value_pair: STRING
-			name, value: like url_string; pos_equals: INTEGER
-		do
-			create list.make_with_separator (query, '&', False)
-			make_equal (list.count)
-			create name.make_empty; create value.make_empty
-			across list as pair loop
-				name_value_pair := pair.item
-				pos_equals := name_value_pair.index_of ('=', 1)
-				if pos_equals > 1 then
-					name.set_encoded (name_value_pair, 1, pos_equals - 1)
-					value.set_encoded (name_value_pair, pos_equals + 1, name_value_pair.count)
-					put (value.to_string, name.to_string)
-				end
-			end
 		end
 
 feature -- Access
@@ -72,14 +61,19 @@ feature -- Element change
 			set_string_general (key, value.out)
 		end
 
+	set_string (key, value: ZSTRING)
+		do
+			force (value, key)
+		end
+
 	set_string_general (key: ZSTRING; uc_value: READABLE_STRING_GENERAL)
 		do
 			set_string (key, create {ZSTRING}.make_from_general (uc_value))
 		end
 
-	set_string (key, value: ZSTRING)
+	set_name_value (name, value: ZSTRING)
 		do
-			force (value, key)
+			put (value, name)
 		end
 
 feature -- Conversion
@@ -105,13 +99,6 @@ feature -- Conversion
 				str.set_from_string (item_for_iteration); Result.append (str)
 				forth
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Url_string: EL_URL_QUERY_STRING
-		once
-			create Result.make_empty
 		end
 
 end

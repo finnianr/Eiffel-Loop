@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 17:19:56 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2017-12-11 8:14:05 GMT (Monday 11th December 2017)"
+	revision: "3"
 
 deferred class
 	EL_FIELD_VALUE_TABLE [G]
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 			condition := default_condition
 		end
 
-feature {EL_PERSISTENCE_ROUTINES} -- Access
+feature {EL_REFLECTIVE} -- Access
 
 	value_type: TYPE [G]
 
@@ -53,7 +53,7 @@ feature -- Element change
 			condition := a_condition
 		end
 
-feature {EL_PERSISTENCE_ROUTINES} -- Element change
+feature {EL_REFLECTIVE} -- Element change
 
 	set_conditional_value (key: STRING; new: like item)
 		do
@@ -62,7 +62,7 @@ feature {EL_PERSISTENCE_ROUTINES} -- Element change
 			end
 		end
 
-	set_value (key: STRING; object: REFLECTED_REFERENCE_OBJECT; field_index: INTEGER)
+	set_value (key: STRING; value: ANY)
 		deferred
 		end
 

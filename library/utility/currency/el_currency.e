@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-18 10:07:46 GMT (Saturday 18th November 2017)"
-	revision: "1"
+	date: "2017-12-18 5:51:50 GMT (Monday 18th December 2017)"
+	revision: "4"
 
 class
 	EL_CURRENCY
@@ -30,6 +30,11 @@ inherit
 			is_equal
 		end
 
+	EL_SHARED_CURRENCY_CODES
+		undefine
+			is_equal
+		end
+
 	INTEGER_MATH
 		export
 			{NONE} all
@@ -40,21 +45,24 @@ inherit
 create
 	make
 
-feature {CURRENCY_LOCALE} -- Initialization
+feature {EL_CURRENCY_LOCALE} -- Initialization
 
-	make (a_language: like language; a_code: ZSTRING; a_has_decimal: like has_decimal)
+	make (a_language: like language; a_code: like code; a_has_decimal: like has_decimal)
 		do
-			language := a_language; has_decimal := a_has_decimal
-			name_key := a_code.enclosed ('{', '}'); separator := [',', '.']
-			set_format_and_symbol (Locale.in (a_language) * Format_key #$ [a_code])
+			language := a_language; code := a_code; has_decimal := a_has_decimal
+			separator := [',', '.']
+			set_format_and_symbol (Locale.in (a_language) * Format_key #$ [code_name])
 			make_default
 		end
 
 feature -- Access
 
-	code: STRING
+	code: NATURAL_8
+
+	code_name: STRING
+		-- EUR, USD etc
 		do
-			Result := name_key.substring (2, 4).to_latin_1
+			Result := Currency.name (code)
 		end
 
 	formatted (amount_x100: INTEGER): ZSTRING
@@ -96,7 +104,7 @@ feature -- Access
 
 	name: ZSTRING
 		do
-			Result := Locale.in (language) * name_key
+			Result := Locale.in (language) * (Name_key_template #$ [code_name])
 		end
 
 	separator: TUPLE [threes, decimal: CHARACTER]
@@ -144,10 +152,6 @@ feature -- Comparison
 			Result := name < other.name
 		end
 
-feature {NONE} -- Implementation
-
-	name_key: ZSTRING
-
 feature {NONE} -- Evolicity
 
 	Template: STRING = ""
@@ -156,13 +160,18 @@ feature {NONE} -- Evolicity
 			--
 		do
 			create Result.make (<<
-				["code", agent: STRING do Result := code end],
+				["code", agent: STRING do Result := code_name end],
 				["name", agent: ZSTRING do Result := name end],
 				["symbol", agent: ZSTRING do Result := symbol end]
 			>>)
 		end
 
 feature {NONE} -- Constants
+
+	Name_key_template: ZSTRING
+		once
+			Result := "{%S}"
+		end
 
 	Format_key: ZSTRING
 		once
