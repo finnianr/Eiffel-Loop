@@ -17,7 +17,7 @@ inherit
 
 	STRING_HANDLER
 
-feature -- Search operations
+feature -- Basic operations
 
 	search_interval_at_nth (text, search_string: S; n: INTEGER): INTEGER_INTERVAL
 			--
@@ -31,7 +31,49 @@ feature -- Search operations
 			Result := l_occurrences.item_interval
 		end
 
+	write_utf_8 (s: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
+		local
+			i: INTEGER; is_zstring: BOOLEAN; code: NATURAL
+		do
+			is_zstring := attached {ZSTRING} s
+			from i := 1 until i > s.count loop
+				if is_zstring then
+					code := s.item (i).natural_32_code
+				else
+					code := s.code (i)
+				end
+				if code <= 0x7F then
+						-- 0xxxxxxx
+					writeable.write_character_8 (code.to_character_8)
+
+				elseif code <= 0x7FF then
+						-- 110xxxxx 10xxxxxx
+					writeable.write_character_8 (((code |>> 6) | 0xC0).to_character_8)
+					writeable.write_character_8 (((code & 0x3F) | 0x80).to_character_8)
+					
+				elseif code <= 0xFFFF then
+						-- 1110xxxx 10xxxxxx 10xxxxxx
+					writeable.write_character_8 (((code |>> 12) | 0xE0).to_character_8)
+					writeable.write_character_8 ((((code |>> 6) & 0x3F) | 0x80).to_character_8)
+					writeable.write_character_8 (((code & 0x3F) | 0x80).to_character_8)
+				else
+						-- code <= 1FFFFF - there are no higher code points
+						-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+					writeable.write_character_8 (((code |>> 18) | 0xF0).to_character_8)
+					writeable.write_character_8 ((((code |>> 12) & 0x3F) | 0x80).to_character_8)
+					writeable.write_character_8 ((((code |>> 6) & 0x3F) | 0x80).to_character_8)
+					writeable.write_character_8 (((code & 0x3F) | 0x80).to_character_8)
+				end
+				i := i + 1
+			end
+		end
+
 feature -- Measurement
+
+	latin_1_count (s: READABLE_STRING_GENERAL): INTEGER
+		-- count of latin-1 characters
+		deferred
+		end
 
 	maximum_count (strings: INDEXABLE [READABLE_STRING_GENERAL, INTEGER]): INTEGER
 			--
@@ -45,11 +87,6 @@ feature -- Measurement
 				end
 				i := i + 1
 			end
-		end
-
-	latin_1_count (s: READABLE_STRING_GENERAL): INTEGER
-		-- count of latin-1 characters
-		deferred
 		end
 
 feature -- Conversion
@@ -72,13 +109,6 @@ feature -- Transformation
 			Result := splits.as_string_list
 		end
 
-	first_to_upper (str: STRING_GENERAL)
-		do
-			if not str.is_empty then
-				str.put_code (str.item (1).as_upper.natural_32_code, 1)
-			end
-		end
-
 	enclosed (str: READABLE_STRING_GENERAL; left, right: CHARACTER_32): S
 			--
 		do
@@ -86,6 +116,13 @@ feature -- Transformation
 			Result.append_code (left.natural_32_code)
 			Result.append (str)
 			Result.append_code (right.natural_32_code)
+		end
+
+	first_to_upper (str: STRING_GENERAL)
+		do
+			if not str.is_empty then
+				str.put_code (str.item (1).as_upper.natural_32_code, 1)
+			end
 		end
 
 	joined (lines: FINITE [READABLE_STRING_GENERAL]): S

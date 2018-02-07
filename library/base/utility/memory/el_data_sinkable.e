@@ -37,6 +37,12 @@ inherit
 			write_pointer as sink_pointer
 		end
 
+	EL_SHARED_ONCE_STRINGS
+
+	EL_STRING_CONSTANTS
+
+	EL_MODULE_STRING_32
+
 feature -- General sinks
 
 	sink_special (in: SPECIAL [NATURAL_8]; in_lower: INTEGER_32; in_upper: INTEGER_32)
@@ -151,35 +157,13 @@ feature -- Character sinks
 
 feature -- String sinks
 
-	sink_joined_strings (list: CHAIN [ZSTRING]; delimiter: CHARACTER_32)
+	sink_joined_strings (list: CHAIN [READABLE_STRING_GENERAL]; delimiter: CHARACTER_32)
 		do
 			from list.start until list.after loop
 				if list.index > 1 then
 					sink_character_32 (delimiter)
 				end
-				sink_string (list.item)
-				list.forth
-			end
-		end
-
-	sink_joined_strings_32 (list: CHAIN [STRING_32]; delimiter: CHARACTER_32)
-		do
-			from list.start until list.after loop
-				if list.index > 1 then
-					sink_character_32 (delimiter)
-				end
-				sink_string_32 (list.item)
-				list.forth
-			end
-		end
-
-	sink_joined_strings_8 (list: CHAIN [STRING]; delimiter: CHARACTER)
-		do
-			from list.start until list.after loop
-				if list.index > 1 then
-					sink_character_8 (delimiter)
-				end
-				sink_string_8 (list.item)
+				sink_string_general (list.item)
 				list.forth
 			end
 		end
@@ -215,6 +199,38 @@ feature -- String sinks
 
 	sink_string_8 (in: STRING)
 		deferred
+		end
+
+feature -- String sinks as UTF-8
+
+	sink_joined_strings_as_utf_8 (list: CHAIN [READABLE_STRING_GENERAL]; c: CHARACTER_32)
+		-- sink `list' of strings joined with character `c' and encoded as UTF-8
+		local
+			c_string: STRING_32; code: NATURAL
+		do
+			code := c.natural_32_code
+			if code <= 0x7F then
+				c_string := Empty_string_32
+			else
+				create c_string.make_filled (c, 1)
+			end
+			from list.start until list.after loop
+				if list.index > 1 then
+					if code <= 0x7F then
+						sink_character_8 (code.to_character_8)
+					else
+						sink_string_general_as_utf_8 (c_string)
+					end
+				end
+				sink_string_general_as_utf_8 (list.item)
+				list.forth
+			end
+		end
+
+	sink_string_general_as_utf_8 (in: READABLE_STRING_GENERAL)
+		-- sink string encoded as UTF-8
+		do
+			String_32.write_utf_8 (in, Current)
 		end
 
 feature {NONE} -- Constants

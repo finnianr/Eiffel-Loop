@@ -93,7 +93,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	on_data_read (request: FCGI_REQUEST)
+	on_data_read (request: FCGI_REQUEST_BROKER)
 		do
 			request.on_header (Current)
 		end

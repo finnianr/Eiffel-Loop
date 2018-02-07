@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	notes: TUPLE [DONE_LIST, TO_DO_LIST, EL_REFLECTED_STRING_32, EL_STRING_32_TEMPLATE, EL_SETTABLE_FROM_STRING_32]
+	notes: TUPLE [DONE_LIST, TO_DO_LIST]
 		do
 		end
 

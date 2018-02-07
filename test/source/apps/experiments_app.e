@@ -45,9 +45,9 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	run
+		local
 		do
-			lio.enter ("encode_string_for_console")
-			encode_string_for_console
+			lio.enter ("run")
 			lio.exit
 		end
 

@@ -28,7 +28,7 @@ feature {NONE} -- Initialisation
 			-- the request information contained in 'fcgi_request'
 		do
 			servlet := a_servlet; internal_response := a_response
-			internal_request := a_response.internal_request
+			broker := a_response.broker
 			headers := parameters.headers
 		end
 
@@ -41,9 +41,9 @@ feature -- Access
 
 	headers: FCGI_HTTP_HEADERS
 
-	parameters: like internal_request.parameters
+	parameters: like broker.parameters
 		do
-			Result := internal_request.parameters
+			Result := broker.parameters
 		end
 
 	method_parameters: EL_HTTP_HASH_TABLE
@@ -55,7 +55,7 @@ feature -- Access
 
 	relative_path_info: ZSTRING
 		do
-			Result := internal_request.relative_path_info
+			Result := broker.relative_path_info
 		end
 
 	remote_address: ZSTRING
@@ -135,7 +135,7 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Internal attributes
 
-	internal_request: FCGI_REQUEST
+	broker: FCGI_REQUEST_BROKER
 		-- Internal request information and stream functionality.
 
 	internal_response: FCGI_SERVLET_RESPONSE

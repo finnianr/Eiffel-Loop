@@ -50,9 +50,9 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	on_data_read (request: FCGI_REQUEST)
+	on_data_read (broker: FCGI_REQUEST_BROKER)
 		do
-			request.on_begin_request (Current)
+			broker.on_begin_request (Current)
 		end
 
 	read_memory (memory: FCGI_MEMORY_READER_WRITER)

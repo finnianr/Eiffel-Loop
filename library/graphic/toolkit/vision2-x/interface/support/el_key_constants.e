@@ -18,6 +18,11 @@ class
 inherit
 	EL_MODULE_DEFERRED_LOCALE
 
+	EV_KEY_CONSTANTS
+		rename
+			Key_strings as Key_strings_32
+		end
+
 feature -- Access
 
 	Key_strings: ARRAY [ZSTRING]

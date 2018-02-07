@@ -42,6 +42,8 @@
 
 * Fixed `count_multiple_of_block_size` precondition for routine `{EL_AES_ENCRYPTER}.encrypted_managed`
 
+* Renamed `EL_PASS_PHRASE` as `EL_AES_CREDENTIAL` and `EL_BUILDABLE_PASS_PHRASE` as `EL_BUILDABLE_AES_CREDENTIAL`
+
 ## EVOLICITY library
 
 * Added helper class `EVOLICITY_LOCALIZED_VARIABLES' to translate variable text-values which have a localisation translation id of the form "{$<variable-name>}".
@@ -58,11 +60,17 @@
 
 * Fixed bug where color escape sequences were being written to console by a logging thread that was not directed to the console.
 
+## OS-COMMAND library
+
+* Fixed `{EL_OS_COMMAND_I}.new_temporary_file_path` to produce unique file names for the same command.
+
+* Optimised number of objects created when calling `{EL_OS_COMMAND_I}.new_temporary_file_path`
+
 ## SERVLET library
 
-* The dependency on the Goanna library for Fast CGI is now removed except for one trivial class found in `contrib/Eiffel/Goanna`.
+* Removed dependency on the Goanna library for FastCGI services.
 
-* Implemented Fast-CGI protocol more efficiently than the Goanna library, with far fewer request generated objects for garbage collection. This implementation is based on the ISE network classes.
+* Created a better designed and more efficient Fast-CGI service to replace the previously used one from the Goanna library. It has far fewer request generated objects for garbage collection, and uses the ISE network classes instead of the ones in Eposix.
 
 ## IMAGE-UTILS library
 

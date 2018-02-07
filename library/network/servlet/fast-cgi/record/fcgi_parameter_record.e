@@ -70,14 +70,14 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	on_data_read (request: FCGI_REQUEST)
+	on_data_read (broker: FCGI_REQUEST_BROKER)
 		do
-			request.on_parameter (Current)
+			broker.on_parameter (Current)
 		end
 
-	on_last_read (request: FCGI_REQUEST)
+	on_last_read (broker: FCGI_REQUEST_BROKER)
 		do
-			request.on_parameter_last
+			broker.on_parameter_last
 		end
 
 end

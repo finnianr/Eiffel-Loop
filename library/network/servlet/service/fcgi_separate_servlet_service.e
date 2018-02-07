@@ -63,7 +63,7 @@ feature -- Basic operations
 			else
 				-- is in `accepting_connection' state so send a request to end the service
 				from until response_ok loop
-					create client_socket.make_client_by_port (port_number, "localhost")
+					create client_socket.make_client_by_port (config.server_port, "localhost")
 					client_socket.connect
 					End_service.write (client_socket)
 					if not client_socket.was_error then

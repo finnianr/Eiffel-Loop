@@ -120,7 +120,7 @@ feature -- Basic operations
 				key_file_path := new_file_path ("private X509")
 			end
 			pass_phrase := new_pass_phrase
-			key_reader := X509_command.new_key_reader (key_file_path, pass_phrase.string)
+			key_reader := X509_command.new_key_reader (key_file_path, pass_phrase.phrase)
 			key_reader.execute
 
 			export_file_path := key_file_path.twin
@@ -224,7 +224,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	log_pass_phrase_info (pass_phrase: EL_PASS_PHRASE)
+	log_pass_phrase_info (pass_phrase: EL_AES_CREDENTIAL)
 		do
 			lio.put_labeled_string ("Salt", pass_phrase.salt_base_64)
 			lio.put_new_line
@@ -326,7 +326,7 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_encrypter (pass_phrase: EL_PASS_PHRASE): EL_AES_ENCRYPTER
+	new_encrypter (pass_phrase: EL_AES_CREDENTIAL): EL_AES_ENCRYPTER
 		do
 			Result := pass_phrase.new_aes_encrypter (User_input.natural_from_values ("AES encryption bit count", AES_types))
 			lio.put_new_line
@@ -341,7 +341,7 @@ feature {NONE} -- Factory
 			lio.put_new_line
 		end
 
-	new_pass_phrase: EL_PASS_PHRASE
+	new_pass_phrase: EL_AES_CREDENTIAL
 		do
 			create Result.make_default
 			Result.ask_user

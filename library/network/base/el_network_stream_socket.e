@@ -28,6 +28,11 @@ inherit
 		end
 
 	EL_STREAM_SOCKET
+		undefine
+			exists, is_valid_peer_address, is_valid_family, address_type,
+			set_blocking, set_non_blocking
+		end
+
 
 create
 	make, make_client_by_port, make_server_by_port

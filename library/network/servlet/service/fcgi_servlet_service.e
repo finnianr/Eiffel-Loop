@@ -41,11 +41,55 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
+	initialize_listening
+			-- Set up port to listen for requests from the web server
+		local
+			retry_count: INTEGER
+			socket_file: RAW_FILE
+		do
+			unable_to_listen := True
+			retry_count := retry_count + 1
+
+			create socket.make_server_by_port (config.server_port)
+			socket.listen (server_backlog)
+			socket.set_blocking
+
+--			Potentially this can be used to poll for application ending but has some problems
+--			srv_socket.set_accept_timeout (500)
+			unable_to_listen := False
+		rescue
+			if not socket.is_closed then
+				socket.close
+			end
+			if retry_count <= Max_initialization_retry_count then
+				Execution_environment.sleep (1000) -- Wait a second
+				retry
+			end
+		end
+
+	initialize_logger
+			-- Set logger appenders
+		local
+			appender: L4E_APPENDER; layout: L4E_LAYOUT; output_path: EL_FILE_PATH
+		do
+			output_path := Log_manager.output_directory_path + ("log" + config.server_port.out + ".txt")
+			create {L4E_FILE_APPENDER} appender.make (output_path.to_string.to_string_8, True)
+			create {L4E_PATTERN_LAYOUT} layout.make ("@d [@-6p] @c - @m%N")
+			appender.set_layout (layout)
+			log_hierarchy.logger (Servlet_app_log_category).add_appender (appender)
+		end
+
+	initialize_servlets
+		-- initialize servlets
+		do
+			servlets := servlet_table
+		end
+
 	make (config_dir: EL_DIR_PATH; config_name: ZSTRING)
 		do
 			Servlet_app_log_category.wipe_out
 			config := new_config (config_dir + (config_name + ".pyx"))
-			create request.make
+			create broker.make
 			create socket.make
 			create servlets
 			state := agent do_nothing
@@ -62,18 +106,22 @@ feature -- Basic operations
 				-- Call initialize here rather than in make so that a background thread will have it's own template copies
 				-- stored in once per thread instance of EVOLICITY_TEMPLATES
 				initialize_servlets
-				lio.put_integer_field ("Listening on port", port_number)
+				lio.put_integer_field ("Listening on port", config.server_port)
 				lio.put_new_line
 
-				do_transitions
-				if retries > Max_retries then
-					error (Servlet_app_log_category, "Application ended because retries > Max_retries")
-				end
+				initialize_listening
 
-				request.close; socket.close
-				Log_hierarchy.close_all
-				servlet_table.linear_representation.do_all (agent {FCGI_HTTP_SERVLET}.on_shutdown)
-				on_shutdown
+				if unable_to_listen then
+					error (Servlet_app_log_category, "Application unable to listen")
+				else
+					do_transitions
+
+					broker.close
+					Log_hierarchy.close_all
+					servlet_table.linear_representation.do_all (agent {FCGI_HTTP_SERVLET}.on_shutdown)
+					on_shutdown
+				end
+				socket.close
 			else
 				across config.error_messages as message loop
 					lio.put_labeled_string ("Error " + message.cursor_index.out, message.item)
@@ -101,11 +149,9 @@ feature {NONE} -- States
 	accepting_connection
 		do
 			socket.accept
-			if attached {like socket} socket.accepted as connection_socket then
+			if attached {EL_STREAM_SOCKET} socket.accepted as connection_socket then
 				-- accept new connection (blocking)
 				state := agent reading_request (connection_socket)
-			else
-				state := agent opening_port
 			end
 		end
 
@@ -114,36 +160,8 @@ feature {NONE} -- States
 			-- current request was started by the most recent call to
 			-- 'accept'.
 		do
-			if not request.is_closed then
-				request.end_request
-				-- Successfully finished responding to request so we can reset `retries' to zero
-				retries := 0
-			end
+			broker.end_request
 			state := agent accepting_connection
-		rescue
-			if Exception.received_broken_pipe_signal then
-				request.close
-				retry
-			end
-		end
-
-	opening_port
-			-- Set up port to listen for requests from the web server
-		do
-			unable_to_listen := False
-			if not socket.is_closed then
-				socket.close
-			end
-			unable_to_listen := True
-			create socket.make_server_by_port (port_number)
-			socket.listen (server_backlog)
-			socket.set_blocking
---			Potentially this can be used to poll for application ending but has some problems
---			srv_socket.set_accept_timeout (500)
-
-			state := agent accepting_connection
-			retries := retries + 1
-			unable_to_listen := False
 		end
 
 	processing_request
@@ -151,44 +169,35 @@ feature {NONE} -- States
 		local
 			servlet_path: ZSTRING; found: BOOLEAN
 		do
-			if request.is_closed then
-				state := agent accepting_connection
+			servlet_path := broker.relative_path_info
+			if servlet_path.is_empty then
+				error (Servlet_app_log_category, "No path specified in HTTP header")
 			else
-				servlet_path := request.relative_path_info
-				if servlet_path.is_empty then
-					error (Servlet_app_log_category, "No path specified in HTTP header")
-				else
-					across << servlet_path, Default_servlet_key >> as path until found loop
-						servlet_path := path.item
-						servlets.search (servlet_path)
-						found := servlets.found
-					end
-					if found then
-						info (Servlet_app_log_category, Service_info_template #$ [servlet_path, servlets.found_item.servlet_info])
-						servlets.found_item.serve_fast_cgi (request)
-					else
-						on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (request))
-					end
+				across << servlet_path, Default_servlet_key >> as path until found loop
+					servlet_path := path.item
+					servlets.search (servlet_path)
+					found := servlets.found
 				end
-				state := agent finishing_request
+				if found then
+					info (Servlet_app_log_category, Service_info_template #$ [servlet_path, servlets.found_item.servlet_info])
+					servlets.found_item.serve_fast_cgi (broker)
+				else
+					on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (broker))
+				end
 			end
-		rescue
-			if Exception.received_broken_pipe_signal then
-				request.close
-				retry
-			end
+			state := agent finishing_request
 		end
 
-	reading_request (a_socket: like socket)
+	reading_request (a_socket: EL_STREAM_SOCKET)
 			-- Wait for a request to be received; Returns true if request was successfully read
 		do
-			request.set_socket (a_socket)
-			request.read
-			if request.is_aborted then
+			broker.set_socket (a_socket)
+			broker.read
+			if broker.is_aborted then
 				state := agent accepting_connection
 
-			elseif request.read_ok then
-				if request.is_end_service then
+			elseif broker.read_ok then
+				if broker.is_end_service then
 					state := final
 				else
 					state := agent processing_request
@@ -221,11 +230,16 @@ feature {NONE} -- Implementation
 	do_transitions
 		-- iterate over state transitions
 		do
-			from state := agent opening_port until retries > Max_retries or state = Final loop
+			from state := agent accepting_connection until state = Final loop
 				state.apply
 			end
 		rescue
-			if Exception.received_termination_signal then
+			if Exception.received_broken_pipe_signal then
+				broker.close
+				error (Servlet_app_log_category, "Broken pipe exception")
+				retry
+
+			elseif Exception.received_termination_signal then
 				error (Servlet_app_log_category, "Received termination signal. Exiting..")
 			else
 				error (
@@ -260,31 +274,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	initialize_logger
-			-- Set logger appenders
-		local
-			appender: L4E_APPENDER; layout: L4E_LAYOUT; output_path: EL_FILE_PATH
-		do
-			output_path := Log_manager.output_directory_path + ("log" + port_number.out + ".txt")
-			create {L4E_FILE_APPENDER} appender.make (output_path.to_string.to_string_8, True)
-			create {L4E_PATTERN_LAYOUT} layout.make ("@d [@-6p] @c - @m%N")
-			appender.set_layout (layout)
-			log_hierarchy.logger (Servlet_app_log_category).add_appender (appender)
-		end
-
-	initialize_servlets
-		-- initialize servlets
-		do
-			servlets := servlet_table
-		end
-
 	log_message (message: READABLE_STRING_GENERAL)
 		local
 			pos_colon: INTEGER
 		do
 			pos_colon := message.index_of (':', 1)
 			if pos_colon > 0 then
-				lio.put_labeled_string (message.substring (1, pos_colon - 1), message.substring (pos_colon + 2, message.count))
+				lio.put_labeled_string (
+					message.substring (1, pos_colon - 1), message.substring (pos_colon + 2, message.count)
+				)
 				lio.put_new_line
 			else
 				lio.put_line (message)
@@ -294,12 +292,6 @@ feature {NONE} -- Implementation
 	new_config (file_path: EL_FILE_PATH): like config
 		do
 			create Result.make_from_file (file_path)
-		end
-
-	port_number: INTEGER
-		-- The port to listen on.
-		do
-			Result := config.server_port
 		end
 
 	servlet_table: like servlets
@@ -321,10 +313,8 @@ feature {NONE} -- Implementation: attributes
 	config: EL_SERVLET_SERVICE_CONFIG
 			-- Configuration for servlets
 
-	request: FCGI_REQUEST
-
-	retries: INTEGER
-		-- The number of times run has retried or called opening_port
+	broker: FCGI_REQUEST_BROKER
+		-- broker to read and write request messages from the web server
 
 	server_backlog: INTEGER
 		-- The number of requests that can remain outstanding.
@@ -365,7 +355,7 @@ feature {NONE} -- Constants
 			create Result.make (Info_p)
 		end
 
-	Max_retries: INTEGER
+	Max_initialization_retry_count: INTEGER
 		-- The maximum number of times application will retry
 		once
 			Result := 3

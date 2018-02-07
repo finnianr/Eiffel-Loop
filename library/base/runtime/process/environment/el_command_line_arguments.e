@@ -165,7 +165,6 @@ feature -- Status query
 	has_value (name: READABLE_STRING_GENERAL): BOOLEAN
 			--
 		do
---			Result := index_of_word_option (name) > 0 and then (index_of_word_option (name) + 1) <= argument_count
 			Result := index_of_beginning_with_word_option (name) > 0
 		end
 

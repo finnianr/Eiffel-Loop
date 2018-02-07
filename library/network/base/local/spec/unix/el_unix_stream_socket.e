@@ -18,11 +18,24 @@ inherit
 			put_string as put_encoded_string_8
 		undefine
 			read_stream, readstream
+		redefine
+			make
 		end
 
 	EL_STREAM_SOCKET
+		undefine
+			address_type, cleanup, name
+		end
 
 create
-	make_client, make_server
+	make, make_client, make_server
+
+feature -- Initialization
+
+	make
+		do
+			Precursor
+			make_latin_1
+		end
 
 end

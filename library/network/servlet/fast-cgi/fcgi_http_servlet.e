@@ -55,13 +55,13 @@ feature -- Basic operations
 			-- Nothing by default
 		end
 
-	serve_fast_cgi (fcgi_request: FCGI_REQUEST)
+	serve_fast_cgi (broker: FCGI_REQUEST_BROKER)
 		local
 			request: like new_request; response: like new_response
 			message: STRING
 		do
 			log.enter_no_header (once "serve_fast_cgi")
-			response := new_response (fcgi_request); request := new_request (response)
+			response := new_response (broker); request := new_request (response)
 			serve (request, response)
 			if is_caching_disabled then
 				response.set_header (once "Cache-Control", once "no-cache, no-store, must-revalidate"); -- HTTP 1.1.
@@ -82,7 +82,7 @@ feature -- Basic operations
 				log.put_integer_field (message, response.content_length)
 				log.put_new_line
 
-				fcgi_request.set_end_request_listener (request)
+				broker.set_end_request_listener (request)
 			else
 				log_write_error (response)
 			end
@@ -106,9 +106,9 @@ feature {NONE} -- Factory
 			create Result.make (Current, response)
 		end
 
-	new_response (fcgi_request: FCGI_REQUEST): FCGI_SERVLET_RESPONSE
+	new_response (broker: FCGI_REQUEST_BROKER): FCGI_SERVLET_RESPONSE
 		do
-			create Result.make (fcgi_request)
+			create Result.make (broker)
 		end
 
 feature {FCGI_SERVLET_REQUEST, FCGI_SERVLET_SERVICE} -- Event handling

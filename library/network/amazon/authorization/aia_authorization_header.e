@@ -63,12 +63,11 @@ feature {NONE} -- Initialization
 	make_signed (signer: AIA_SIGNER; canonical_request: AIA_CANONICAL_REQUEST)
 		-- make signed header
 		local
-			hmac: EL_HMAC_SHA_256; string_to_sign, header_list: EL_STRING_LIST [STRING]
+			hmac: EL_HMAC_SHA_256; string_to_sign: EL_STRING_LIST [STRING]
 		do
 			make
 			algorithm := Default_algorithm
-			create header_list.make_from_array (canonical_request.sorted_header_list.key_list.to_array)
-			signed_headers := header_list.joined (Semicolon [1])
+			signed_headers := canonical_request.sorted_header_names.joined (Semicolon)
 
 			create string_to_sign.make_from_array (<<
 				algorithm, signer.iso8601_time, Empty_string_8,
@@ -76,7 +75,7 @@ feature {NONE} -- Initialization
 			>>)
 
 			create hmac.make (signer.credential.daily_secret (signer.short_date))
-			hmac.sink_joined_strings_8 (string_to_sign, '%N')
+			hmac.sink_joined_strings (string_to_sign, '%N')
 			hmac.finish
 			signature := hmac.digest.to_hex_string
 			credential.set_key (signer.credential.public)
@@ -106,7 +105,7 @@ feature -- Access
 
 	signed_headers_list: EL_SPLIT_STRING_LIST [STRING]
 		do
-			create Result.make (signed_headers, Semicolon)
+			create Result.make (signed_headers, Semicolon_string)
 		end
 
 feature {NONE} -- Implementation
@@ -125,9 +124,11 @@ feature {NONE} -- Constants
 			Result := "DTA1-HMAC-SHA256"
 		end
 
-	Semicolon: ZSTRING
+	Semicolon: CHARACTER_32 = ';'
+
+	Semicolon_string: ZSTRING
 		once
-			Result := ";"
+			create Result.make_filled (Semicolon, 1)
 		end
 
 	Signed_string_template: EL_STRING_8_TEMPLATE

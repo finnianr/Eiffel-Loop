@@ -17,6 +17,13 @@ inherit
 
 feature -- Status query
 
+	is_latin1_alpha (c: CHARACTER): BOOLEAN
+			--
+		do
+			Result := is_latin1_lower (c) or else is_latin1_upper (c) or else c.code.to_natural_32 = Sharp_s
+						or else c.code.to_natural_32 = Y_dieresis
+		end
+
 	is_latin1_lower (c: CHARACTER): BOOLEAN
 			--
 		local
@@ -59,13 +66,6 @@ feature -- Status query
 				else
 				end
 			end
-		end
-
-	is_latin1_alpha (c: CHARACTER): BOOLEAN
-			--
-		do
-			Result := is_latin1_lower (c) or else is_latin1_upper (c) or else c.code.to_natural_32 = Sharp_s
-						or else c.code.to_natural_32 = Y_dieresis
 		end
 
 feature -- Conversion
@@ -127,6 +127,5 @@ feature -- Conversion
 				Result := c
 			end
 		end
-
 
 end

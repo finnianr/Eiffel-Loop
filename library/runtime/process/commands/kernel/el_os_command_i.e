@@ -22,8 +22,6 @@ inherit
 			make_default, system_command
 		end
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
-
 	EL_MODULE_ENVIRONMENT
 
 	EL_MODULE_DIRECTORY
@@ -49,7 +47,7 @@ feature -- Access
 	executable_search_path: ZSTRING
 			--
 		do
-			Result := Execution_environment.executable_search_path
+			Result := Environment.execution.executable_search_path
 		end
 
 	working_directory: EL_DIR_PATH
@@ -108,13 +106,13 @@ feature -- Change OS environment
 	extend_executable_search_path (path: STRING)
 			--
 		do
-			Execution_environment.extend_executable_search_path (path)
+			Environment.execution.extend_executable_search_path (path)
 		end
 
 	set_executable_search_path (env_path: STRING)
 			--
 		do
-			Execution_environment.set_executable_search_path (env_path)
+			Environment.execution.set_executable_search_path (env_path)
 		end
 
 feature {NONE} -- Implementation
@@ -172,17 +170,17 @@ feature {NONE} -- Implementation
 			command_string: like new_command_string; error_path: EL_FILE_PATH
 		do
 			if not working_directory.is_empty then
-				Execution_environment.push_current_working (working_directory)
+				Environment.execution.push_current_working (working_directory)
 			end
 			command_string := new_command_string (a_system_command)
 
 			error_path := temporary_error_file_path
 			File_system.make_directory (error_path.parent)
 
-			Execution_environment.system (command_string)
-			set_has_error (Execution_environment.return_code)
+			Environment.execution.system (command_string)
+			set_has_error (Environment.execution.return_code)
 			if not working_directory.is_empty then
-				Execution_environment.pop_current_working
+				Environment.execution.pop_current_working
 			end
 			if has_error then
 				create errors.make (5)
@@ -234,21 +232,22 @@ feature {EL_OS_COMMAND_I} -- Factory
 			Result.append (Error_redirection_operator); Result.append (error_file_path)
 		end
 
-	new_temporary_base_name (a_extension: STRING): ZSTRING
+	new_temporary_file_path (a_extension: STRING): EL_FILE_PATH
+		-- uniquely numbered temporary file in temporary area set by env label "TEMP"
 		do
-			Result := generator
-			Result.grow (Result.count + 6)
-			Result.prepend_character ('{'); Result.append_character ('}')
-			Result.append_character ('.')
-			Result.append_string_general (a_extension)
+			Result := Temporary_path_format #$ [
+				Environment.Operating.temp_directory_name, Environment.execution.Executable_and_user_name,
+				new_temporary_name, a_extension
+			]
+			from until not Result.exists loop
+				Result.set_version_number (Result.version_number + 1)
+			end
 		end
 
-	new_temporary_file_path (a_extension: STRING): EL_FILE_PATH
-			-- Tempory file in temporary area set by env label "TEMP"
+	new_temporary_name: ZSTRING
 		do
-			Result := Directory.temporary.joined_file_steps (<<
-				Execution_environment.Executable_and_user_name, new_temporary_base_name (a_extension)
-			>>)
+			Result := generator
+			Result.enclose ('{', '}')
 		end
 
 feature {NONE} -- Deferred implementation
@@ -313,6 +312,11 @@ feature {NONE} -- Constants
 	Temporary_error_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_OS_COMMAND_I, EL_FILE_PATH]
 		once
 			create Result.make (17, agent {EL_OS_COMMAND_I}.new_temporary_file_path ("err"))
+		end
+
+	Temporary_path_format: ZSTRING
+		once
+			Result := "%S/%S/%S.00.%S"
 		end
 
 	Variable_cwd: ZSTRING

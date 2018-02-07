@@ -17,33 +17,33 @@ inherit
 
 feature -- Basic operations
 
-	read (request: FCGI_REQUEST)
+	read (broker: FCGI_REQUEST_BROKER)
 		local
 			memory: like Memory_reader_writer
 		do
-			set_padding_and_byte_count (request.Header)
+			set_padding_and_byte_count (broker.Header)
 			memory := Memory_reader_writer
 			memory.set_for_writing
 			memory.reset_count
-			memory.write_from (request.socket, byte_count + padding_count)
-			if request.read_ok then
-				if is_last (request.Header) then
-					on_last_read (request)
+			memory.write_from (broker.socket, byte_count + padding_count)
+			if broker.read_ok then
+				if is_last (broker.Header) then
+					on_last_read (broker)
 				else
 					memory.set_for_reading
 					memory.reset_count
 					read_memory (memory)
-					on_data_read (request)
+					on_data_read (broker)
 				end
 			end
 		end
 
-	write (request: FCGI_REQUEST)
+	write (broker: FCGI_REQUEST_BROKER)
 		local
 			memory: like Memory_reader_writer
 			i: INTEGER
 		do
-			set_padding_and_byte_count (request.Header)
+			set_padding_and_byte_count (broker.Header)
 			memory := Memory_reader_writer
 
 			memory.set_for_writing
@@ -53,7 +53,7 @@ feature -- Basic operations
 				memory.write_character_8 (' ')
 				i := i + 1
 			end
-			memory.write_to (request.socket)
+			memory.write_to (broker.socket)
 		end
 
 feature -- Access
@@ -70,11 +70,11 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	on_data_read (request: FCGI_REQUEST)
+	on_data_read (broker: FCGI_REQUEST_BROKER)
 		deferred
 		end
 
-	on_last_read (request: FCGI_REQUEST)
+	on_last_read (broker: FCGI_REQUEST_BROKER)
 		do
 		end
 

@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_HTTP_TABLE}."
+	description: "Abstraction to set name value pairs decoded from URL query string"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -22,12 +22,13 @@ feature {NONE} -- Initialization
 		deferred
 		end
 
-	make (query: STRING)
+	make (url_query: STRING)
+		-- call `set_name_value' for each decoded name-value pair found in `url_query' string
 		local
 			list: EL_SPLIT_STRING_LIST [STRING]; name_value_pair: STRING
 			name, value: like url_string; pos_equals: INTEGER
 		do
-			create list.make (query, Ampersand)
+			create list.make (url_query, Ampersand)
 			make_count (list.count)
 			create name.make_empty; create value.make_empty
 			from list.start until list.after loop

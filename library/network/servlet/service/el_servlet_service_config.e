@@ -1,5 +1,22 @@
 note
-	description: "Summary description for {EL_SERVLET_CONFIG}."
+	description: "Servlet service configuration parsed from Pyxis format"
+
+	notes: "[
+		A minimal configuration looks like this:
+		
+			pyxis-doc:
+				version = 1.0; encoding = "UTF-8"
+
+			config:
+				port = 8001
+
+				document-root:
+					"/home/john/www"
+					
+		It can easily be extended to include other information.
+		
+		The attribute `server_socket_path' is for future use with Unix sockets.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -32,8 +49,7 @@ feature {NONE} -- Initialization
 		do
 			create document_root_dir
 			create error_messages.make_empty
-			server_port := Default_port
-			phrase := new_pass_phrase
+			create server_socket_path
 			Precursor
 		end
 
@@ -41,6 +57,9 @@ feature {NONE} -- Initialization
 		do
 			if a_file_path.exists then
 				Precursor (a_file_path)
+				if not server_socket_path.is_empty and then not server_socket_path.parent.exists then
+					error_messages.extend ("Invalid socket path: " + server_socket_path.to_string)
+				end
 			else
 				error_messages.extend ("Invalid path: ")
 				error_messages.last.append (a_file_path.to_string)
@@ -53,10 +72,11 @@ feature -- Access
 
 	error_messages: EL_ZSTRING_LIST
 
-	phrase: like new_pass_phrase
-
 	server_port: INTEGER
-			-- Port server is listening on
+		-- Port server is listening on
+
+	server_socket_path: EL_FILE_PATH
+		-- Unix socket path to listen on (for future use)
 
 feature -- Status query
 
@@ -72,8 +92,8 @@ feature {NONE} -- Build from XML
 		do
 			create Result.make (<<
 				["@port", agent do server_port := node end],
-				["document-root/text()", agent do set_document_root_dir (node.to_string) end],
-				["phrase", agent do set_next_context (phrase) end]
+				["@socket_path", agent do server_socket_path := node.to_expanded_file_path end],
+				["document-root/text()", agent do set_document_root_dir (node.to_string) end]
 			>>)
 		end
 
@@ -85,14 +105,5 @@ feature {NONE} -- Implementation
 		do
 			document_root_dir := a_document_root_dir
 		end
-
-	new_pass_phrase: EL_BUILDABLE_PASS_PHRASE
-		do
-			create Result.make_default
-		end
-
-feature {NONE} -- Constants
-
-	Default_port: INTEGER = 8000
 
 end

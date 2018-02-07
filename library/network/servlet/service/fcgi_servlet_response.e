@@ -26,13 +26,13 @@ create
 
 feature {NONE}-- Initialization
 
-	make (fcgi_request: FCGI_REQUEST)
+	make (a_broker: FCGI_REQUEST_BROKER)
 			-- Build a new Fast CGI response object that provides access to
-			-- 'fcgi_request' information.
+			-- 'broker' information.
 			-- Initialise the response information to allow a successful (Sc_ok) response
 			-- to be sent immediately.
 		do
-			internal_request := fcgi_request
+			broker := a_broker
 			create cookies.make (5)
 			create headers.make (5)
 			create content_buffer.make_empty
@@ -46,7 +46,7 @@ feature -- Access
 	socket_error: STRING
 			-- A string describing the socket error which occurred
 		do
-			Result := internal_request.socket_error
+			Result := broker.socket_error
 		end
 
 	content_length: INTEGER
@@ -69,7 +69,7 @@ feature -- Status query
 
 	is_head_request: BOOLEAN
 		do
-			Result := internal_request.is_head_request
+			Result := broker.is_head_request
 		end
 
 	write_ok: BOOLEAN
@@ -259,9 +259,9 @@ feature {FCGI_SERVLET_REQUEST} -- Implementation
 			-- Write 'data' to the output stream for this response
 		do
 			if write_ok then
-				internal_request.write_stdout (data)
+				broker.write_stdout (data)
 			end
-			write_ok := internal_request.write_ok
+			write_ok := broker.write_ok
 		end
 
 	write_error (sc: like status; msg: STRING)
@@ -296,8 +296,8 @@ feature {FCGI_SERVLET_REQUEST} -- Implementation
 			is_committed: is_committed
 		end
 
-	internal_request: FCGI_REQUEST
-		-- Internal request information and stream functionality.
+	broker: FCGI_REQUEST_BROKER
+		-- broker to read and write request messages from the web server
 
 feature {NONE} -- Internal attributes
 
@@ -316,7 +316,6 @@ feature {NONE} -- Internal attributes
 
 	initial_buffer_size: INTEGER
 		-- Size of buffer to create.
-
 
 feature {NONE} -- Constants
 

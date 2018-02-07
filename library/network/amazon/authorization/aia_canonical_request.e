@@ -77,26 +77,22 @@ feature -- Access
 
 	sha_256_digest: EL_DIGEST_ARRAY
 		local
-			sha: SHA256; latin_1: STRING
+			sha: EL_SHA_256
 		do
 			create sha.make
-			create latin_1.make_empty
-			from start until after loop
-				if index > 1 then
-					sha.sink_character ('%N')
-				end
-				if not item.is_empty then
-					latin_1.wipe_out
-					item.append_to_string_8 (latin_1)
-					sha.sink_string (latin_1)
-				end
-				forth
-			end
-			create Result.make (1, 32)
-			sha.do_final (Result.area, 0)
+			-- Signer.java converts strings to `DEFAULT_ENCODING' which is UTF-8
+			-- md.update(text.getBytes(DEFAULT_ENCODING));
+
+			sha.sink_joined_strings_as_utf_8 (Current, '%N')
+			create Result.make_final_sha_256 (sha)
 		end
 
 	sorted_header_list: EL_SORTABLE_ARRAYED_MAP_LIST [STRING, ZSTRING]
+
+	sorted_header_names: EL_STRING_LIST [STRING]
+		do
+			create Result.make_from_array (sorted_header_list.key_list.to_array)
+		end
 
 feature {NONE} -- Implementation
 

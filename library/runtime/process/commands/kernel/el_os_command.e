@@ -15,12 +15,12 @@ class
 inherit
 	EL_OS_COMMAND_I
 		redefine
-			template_name, new_temporary_base_name, temporary_error_file_path
+			template_name, new_temporary_name, temporary_error_file_path
 		end
 
 	EL_OS_COMMAND_IMP
 		redefine
-			template_name, new_temporary_base_name, temporary_error_file_path
+			template_name, new_temporary_name, temporary_error_file_path
 		end
 
 create
@@ -69,12 +69,9 @@ feature {NONE} -- Implementation
 
 	template_name: EL_FILE_PATH
 
-	new_temporary_base_name (a_extension: STRING): ZSTRING
+	new_temporary_name: ZSTRING
 		do
-			create Result.make (template_name.base.count + a_extension.count + 1)
-			Result.append (template_name.base)
-			Result.append_character ('.')
-			Result.append_string_general (a_extension)
+			Result := template_name.base
 		end
 
 	temporary_error_file_path: EL_FILE_PATH

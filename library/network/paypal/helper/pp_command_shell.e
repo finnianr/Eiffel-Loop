@@ -30,14 +30,14 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	make (credentials_path: EL_FILE_PATH; phrase: ZSTRING; notify_url: STRING)
 		local
 			credentials: PP_CREDENTIALS
-			pass_phrase: EL_PASS_PHRASE
+			pass_phrase: EL_AES_CREDENTIAL
 		do
 			make_shell ("Paypal Buttons")
 			create pass_phrase.make_default
 			if phrase.is_empty then
 				pass_phrase.ask_user
 			else
-				pass_phrase.set_string (phrase)
+				pass_phrase.set_phrase (phrase)
 				pass_phrase.validate
 			end
 			create credentials.make (credentials_path, pass_phrase.new_aes_encrypter (128))

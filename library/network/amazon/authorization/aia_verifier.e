@@ -27,7 +27,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_request: like request; credential_list: EL_ARRAYED_LIST [AIA_CREDENTIAL])
+	make (a_request: like request; credential_list: EL_CHAIN [AIA_CREDENTIAL])
 		local
 			authorization: ZSTRING
 		do

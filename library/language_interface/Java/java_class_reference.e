@@ -72,7 +72,7 @@ feature -- Access to static attributes
 			--
 		do
 			create Result.make_from_string (qualified_class_name)
-			Result.replace_substring_all (".","/")
+			Result.replace_substring_all (".", "/")
 		end
 
 end

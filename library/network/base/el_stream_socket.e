@@ -13,16 +13,39 @@ deferred class
 	EL_STREAM_SOCKET
 
 inherit
-	IO_MEDIUM
+	STREAM_SOCKET
 		rename
-			handle as descriptor,
-			handle_available as descriptor_available,
 			put_string as put_encoded_string_8
+		redefine
+			read_stream, readstream
 		end
 
 	EL_OUTPUT_MEDIUM
 
+	STRING_HANDLER
+
 feature -- Input
+
+	read_stream, readstream (nb_char: INTEGER)
+			-- Read a string of at most `nb_char' characters.
+			-- Make result available in `last_string'.
+		require else
+			socket_exists: exists;
+			opened_for_read: is_open_read
+		local
+			count: INTEGER; l_area: SPECIAL [CHARACTER]
+		do
+			last_string.grow (nb_char)
+			l_area := last_string.area
+			count := c_read_stream (descriptor, nb_char, l_area.base_address)
+			if count > 0 then
+				last_string.set_count (count)
+				bytes_read := count
+			else
+				bytes_read := 0
+				last_string.wipe_out
+			end
+		end
 
 	read_string
 			-- read string with end delimited by ctrl-z code (DEC 26)
@@ -54,27 +77,6 @@ feature -- Input
 			last_string := String_buffer.string
 		end
 
-	read_stream, readstream (nb_char: INTEGER)
-			-- Read a string of at most `nb_char' characters.
-			-- Make result available in `last_string'.
-		require else
-			socket_exists: exists;
-			opened_for_read: is_open_read
-		local
-			packet: like Packet_buffer
-			count: INTEGER
-		do
-			create packet.make (nb_char)
-			String_buffer.wipe_out
-			count := c_read_stream (descriptor, packet.capacity, packet.base_address)
-			if count > 0 then
-				packet.set_count (count)
-				packet.fill_string (String_buffer)
-			end
-			bytes_read := count
-			last_string := String_buffer.string
-		end
-
 feature -- Output
 
 	put_delimited_string (string: STRING)
@@ -93,20 +95,6 @@ feature -- Output
 			put_character (End_of_string_delimiter)
 		end
 
-feature {NONE} -- Implementation
-
-	c_put_stream (fd: INTEGER; s: POINTER; length: INTEGER)
-			-- External routine to write stream pointed by `s' of
-			-- length `length' to socket `fd'
-		deferred
-		end
-
-	c_read_stream (fd: INTEGER; l: INTEGER; buf: POINTER): INTEGER
-			-- External routine to read a `l' number of characters
-			-- into packet `buf' from socket `fd'
-		deferred
-		end
-
 feature {NONE} -- Unimplemented
 
 	open_read
@@ -123,10 +111,12 @@ feature {NONE} -- Unimplemented
 
 feature {NONE} -- Constants
 
-	String_buffer: STRING
+	Default_packet_size: INTEGER = 512
+
+	End_of_string_delimiter: CHARACTER
 			--
 		once
-			create Result.make (1024)
+			Result := {ASCII}.Ctrl_z.to_character_8
 		end
 
 	Packet_buffer: EL_C_STRING_8
@@ -135,12 +125,10 @@ feature {NONE} -- Constants
 			create Result.make (Default_packet_size)
 		end
 
-	End_of_string_delimiter: CHARACTER
+	String_buffer: STRING
 			--
 		once
-			Result := {ASCII}.Ctrl_z.to_character_8
+			create Result.make (1024)
 		end
-
-	Default_packet_size: INTEGER = 512
 
 end

@@ -20,7 +20,7 @@ inherit
 
 	EL_CAPTURED_OS_COMMAND_I
 		undefine
-			template_name, new_temporary_base_name, temporary_error_file_path
+			template_name, new_temporary_name, temporary_error_file_path
 		redefine
 			make_default
 		end

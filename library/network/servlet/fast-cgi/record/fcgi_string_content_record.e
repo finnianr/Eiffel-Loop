@@ -68,14 +68,14 @@ feature {NONE} -- Implementation
 			Result := header.content_length = 0
 		end
 
-	on_data_read (request: FCGI_REQUEST)
+	on_data_read (broker: FCGI_REQUEST_BROKER)
 		do
-			request.on_stdin_request (Current)
+			broker.on_stdin_request (Current)
 		end
 
-	on_last_read (request: FCGI_REQUEST)
+	on_last_read (broker: FCGI_REQUEST_BROKER)
 		do
-			request.on_stdin_request_last
+			broker.on_stdin_request_last
 		end
 
 	read_memory (memory: FCGI_MEMORY_READER_WRITER)

@@ -41,7 +41,7 @@ feature {NONE} -- Constants
 
 	Has_avconv: BOOLEAN
 		once
-			Result := Execution_environment.executable_search_list.has_executable (Avconv_command)
+			Result := Environment.execution.executable_search_list.has_executable (Avconv_command)
 		end
 
 	AVCONV_command: ZSTRING

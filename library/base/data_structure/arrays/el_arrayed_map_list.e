@@ -109,6 +109,7 @@ feature {NONE} -- Implementation
 		do
 			list.extend (joined (a_item.key, a_item.value))
 		end
+		
 	extend_string_8_list (list: like as_string_8_list; joined: FUNCTION [K, G, STRING_8]; a_item: like item)
 		do
 			list.extend (joined (a_item.key, a_item.value))

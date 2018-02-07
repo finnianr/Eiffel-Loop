@@ -1945,6 +1945,15 @@ feature -- Basic operation
 			output.append_string_general (str_32)
 		end
 
+	append_to_utf_8 (utf_8_output: STRING_8)
+		local
+			str_32: STRING_32
+		do
+			str_32 := empty_once_string_32
+			append_to_string_32 (str_32)
+			UTF.string_32_into_utf_8_string_8 (str_32, utf_8_output)
+		end
+
 feature {NONE} -- Implementation
 
 	adapted_general (a_general: READABLE_STRING_GENERAL; argument_number: INTEGER): like Current
