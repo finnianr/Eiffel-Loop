@@ -19,7 +19,7 @@ inherit
 		undefine
 			read_stream, readstream
 		redefine
-			make
+			make_socket, create_from_descriptor
 		end
 
 	EL_STREAM_SOCKET
@@ -32,10 +32,51 @@ create
 
 feature -- Initialization
 
-	make
+	create_from_descriptor (fd: INTEGER)
 		do
+			is_blocking := True
+			Precursor (fd)
+		end
+
+	make_socket
+		do
+			make_default
 			Precursor
-			make_latin_1
+		end
+
+feature -- Access
+
+	description: STRING
+		do
+			Result := "UNIX socket " + address.path
+		end
+
+feature -- Basic operations
+
+	add_permission (who, what: STRING)
+			-- Add read, write, execute or setuid permission
+			-- for `who' ('u', 'g' or 'o') to `what'.
+		do
+			Chmod_command.put_string (Var_path, address.path)
+			Chmod_command.put_string (Var_permission, who + what)
+			Chmod_command.execute
+		end
+
+feature {NONE} -- Constants
+
+	Chmod_command: EL_OS_COMMAND
+		once
+			create Result.make ("chmod $permission $path")
+		end
+
+	Var_path: ZSTRING
+		once
+			Result := "path"
+		end
+
+	Var_permission: ZSTRING
+		once
+			Result := "permission"
 		end
 
 end

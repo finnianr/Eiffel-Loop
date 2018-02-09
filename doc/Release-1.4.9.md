@@ -26,6 +26,18 @@
 
 * Added routine `append_utf_8` to `EL_ZSTRING`
 
+### Reflection Classes
+
+Created a set of reflection classes that offering a number of facilites:
+
+* Automatic object initialisation for basic types including strings, and types conforming to `EL_MAKEABLE_FROM_STRING'.
+
+* Object field attribute setting from name value string pairs, with the facility to adapt foreign naming conventions: camelCase, kebab-case, etc.
+
+* Object field attribute string value querying from name strings, with the facility to adapt foreign naming conventions: camelCase, kebab-case, etc.
+
+
+
 ### Console Output
 
 * Changed `lio` output object in `EL_MODULE_LIO` to automatically encode strings to match the console encoding setting. For EiffelStudio on Unix in work-bench mode, it will assume UTF-8 as a default if `LANG` is not set explicitly.
@@ -56,9 +68,19 @@
 
 * Updated `EL_HTTP_CONNECTION` to have `user_agent' attribute. `open` now sets the user agent if it is not empty.
 
+## IMAGE-UTILS library
+
+* Fixed missing C include for file "c_eiffel_to_c.h".
+
 ## LOGGING library
 
 * Fixed bug where color escape sequences were being written to console by a logging thread that was not directed to the console.
+
+## NETWORK library
+
+* Changed EL_NETWORK_STREAM_SOCKET to redefine `make_empty` instead of `make`
+
+* Created class `EL_UNIX_STREAM_SOCKET` inheriting `EL_STREAM_SOCKET`.
 
 ## OS-COMMAND library
 
@@ -72,13 +94,7 @@
 
 * Created a better designed and more efficient Fast-CGI service to replace the previously used one from the Goanna library. It has far fewer request generated objects for garbage collection, and uses the ISE network classes instead of the ones in Eposix.
 
-## IMAGE-UTILS library
-
-* Fixed missing C include for file "c_eiffel_to_c.h".
-
-## VISION2-X library
-
-* Updated class `EL_MANAGED_WIDGET_LIST` to conform to `ARRAYED_LIST [EL_MANAGED_WIDGET [EV_WIDGET]]`
+* Fixed orderly shutdown with Ctrl-C
 
 ## THREAD library
 
@@ -89,6 +105,14 @@
 * Added routine `locked` to `EL_MUTEX_REFERENCE`
 
 * Renamed `EL_SUSPENDABLE_THREAD` to `EL_SUSPENDABLE` and removed inheritance from `EL_STATEFUL`. 
+
+## VISION2-X library
+
+* Updated class `EL_MANAGED_WIDGET_LIST` to conform to `ARRAYED_LIST [EL_MANAGED_WIDGET [EV_WIDGET]]`
+
+## XDOX-SCANNING library
+
+* Added a class `EL_SETTABLE_FROM_XML_NODE` than can be used in conjunction with `EL_REFLECTIVELY_SETTABLE' to build Eiffel objects from XML documents that have element names corresponding to field attributes. The XML names may use a different word joining convention. See class `RBOX_IRADIO_ENTRY` and it's descendants from the example project `manage-mp3.ecf`.
 
 ## EIFFEL program
 

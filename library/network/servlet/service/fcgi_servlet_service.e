@@ -1,17 +1,10 @@
 note
 	description: "[
-		Fast-CGI service on a `port_number' that services HTTP requests forwarded by a web server
-		from a table of servlets. The servlets are mapped to uri paths that are relative to the
-		service path defined in the web server configuration. For example:
-		
-			/servlet/one
-			/servlet/two
-			/servlet/three
-			
-		The service path is "/servet" and the relative paths are "one", "two" and "three"
-		
-		The servlet service is configured by a file in Pyxis format.
+		Fast-CGI service that services HTTP requests forwarded by a web server from a table of servlets.
+		The service is configured from a Pyxis format configuration file and listens either on a port number
+		or a Unix socket for request from the web server.
 	]"
+	notes: "See end of page"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -29,6 +22,8 @@ inherit
 
 	EL_MODULE_HTTP_STATUS
 
+	EL_MODULE_FILE_SYSTEM
+
 	EL_MODULE_LOG
 
 	EL_MODULE_LOG_MANAGER
@@ -45,14 +40,16 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			-- Set up port to listen for requests from the web server
 		local
 			retry_count: INTEGER
-			socket_file: RAW_FILE
 		do
 			unable_to_listen := True
 			retry_count := retry_count + 1
 
-			create socket.make_server_by_port (config.server_port)
+			socket := config.new_socket
 			socket.listen (server_backlog)
 			socket.set_blocking
+
+			lio.put_labeled_string ("Listening on", socket.description)
+			lio.put_new_line
 
 --			Potentially this can be used to poll for application ending but has some problems
 --			srv_socket.set_accept_timeout (500)
@@ -90,7 +87,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			Servlet_app_log_category.wipe_out
 			config := new_config (config_dir + (config_name + ".pyx"))
 			create broker.make
-			create socket.make
+			create {EL_NETWORK_STREAM_SOCKET} socket.make
 			create servlets
 			state := agent do_nothing
 			initialize_logger
@@ -103,25 +100,24 @@ feature -- Basic operations
 		do
 			log.enter ("execute")
 			if config.is_valid then
-				-- Call initialize here rather than in make so that a background thread will have it's own template copies
-				-- stored in once per thread instance of EVOLICITY_TEMPLATES
-				initialize_servlets
-				lio.put_integer_field ("Listening on port", config.server_port)
-				lio.put_new_line
-
-				initialize_listening
+				-- Call initialize here rather than in `make' so that a background thread will have it's
+				-- own template copies stored in once per thread instance of EVOLICITY_TEMPLATES
+				initialize_servlets; initialize_listening
 
 				if unable_to_listen then
-					error (Servlet_app_log_category, "Application unable to listen")
+					log_servlet_error ("Application unable to listen")
 				else
 					do_transitions
 
 					broker.close
 					Log_hierarchy.close_all
-					servlet_table.linear_representation.do_all (agent {FCGI_HTTP_SERVLET}.on_shutdown)
+					servlets.linear_representation.do_all (agent {FCGI_HTTP_SERVLET}.on_shutdown)
 					on_shutdown
 				end
 				socket.close
+				if attached {EL_UNIX_STREAM_SOCKET} socket then
+					File_system.remove_file (config.server_socket_path)
+				end
 			else
 				across config.error_messages as message loop
 					lio.put_labeled_string ("Error " + message.cursor_index.out, message.item)
@@ -136,7 +132,7 @@ feature -- Status change
 	stop_service: BOOLEAN
 			-- stop running the service
 		do
-			state := final
+			state := Final
 		end
 
 feature -- Status query
@@ -171,7 +167,7 @@ feature {NONE} -- States
 		do
 			servlet_path := broker.relative_path_info
 			if servlet_path.is_empty then
-				error (Servlet_app_log_category, "No path specified in HTTP header")
+				log_servlet_error ("No path specified in HTTP header")
 			else
 				across << servlet_path, Default_servlet_key >> as path until found loop
 					servlet_path := path.item
@@ -179,7 +175,7 @@ feature {NONE} -- States
 					found := servlets.found
 				end
 				if found then
-					info (Servlet_app_log_category, Service_info_template #$ [servlet_path, servlets.found_item.servlet_info])
+					log_servlet_info (Service_info_template #$ [servlet_path, servlets.found_item.servlet_info])
 					servlets.found_item.serve_fast_cgi (broker)
 				else
 					on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (broker))
@@ -198,27 +194,27 @@ feature {NONE} -- States
 
 			elseif broker.read_ok then
 				if broker.is_end_service then
-					state := final
+					state := Final
 				else
 					state := agent processing_request
 				end
 			else
 				a_socket.close
-				error (Servlet_app_log_category, "{FCGI_SERVLET_SERVICE}.reading_request failed")
+				log_servlet_error ("{FCGI_SERVLET_SERVICE}.reading_request failed")
 				state := agent accepting_connection
 			end
 		end
 
 feature {NONE} -- Event handling
 
-	on_shutdown
-		do
-		end
-
 	on_missing_servlet (resp: FCGI_SERVLET_RESPONSE)
 			-- Send error page indicating missing servlet
 		do
 			resp.send_error (Http_status.not_found)
+		end
+
+	on_shutdown
+		do
 		end
 
 feature {NONE} -- Implementation
@@ -230,27 +226,28 @@ feature {NONE} -- Implementation
 	do_transitions
 		-- iterate over state transitions
 		do
-			from state := agent accepting_connection until state = Final loop
-				state.apply
+			if state /= Final then
+				from state := agent accepting_connection until state = Final loop
+					state.apply
+				end
 			end
 		rescue
 			if Exception.received_broken_pipe_signal then
 				broker.close
-				error (Servlet_app_log_category, "Broken pipe exception")
+				log_servlet_error ("Broken pipe exception")
 				retry
 
 			elseif Exception.received_termination_signal then
-				error (Servlet_app_log_category, "Received termination signal. Exiting..")
+				log_servlet_error (" Ctrl-C detected, shutting down ..")
+				state := Final
+				retry
 			else
-				error (
-					Servlet_app_log_category,
-					"Uncaught exception, code: " + Exception.last_out + ", retry not requested, so exiting..."
-				)
-				write_exception_trace
+				log_servlet_error ("Exiting after unrescueable exception: " + Exception.last_out)
+				Exception.write_last_trace (Current)
 			end
 		end
 
-	error (logger: STRING; message: ANY)
+	log_error (logger: STRING; message: ANY)
 		do
 			if Log_hierarchy.is_enabled_for (Error_p) then
 				Log_hierarchy.logger (logger).error (message)
@@ -262,7 +259,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	info (logger: STRING; message: ANY)
+	log_info (logger: STRING; message: ANY)
 		do
 			if Log_hierarchy.is_enabled_for (Info_p) then
 				Log_hierarchy.logger (logger).info (message)
@@ -276,17 +273,26 @@ feature {NONE} -- Implementation
 
 	log_message (message: READABLE_STRING_GENERAL)
 		local
-			pos_colon: INTEGER
+			pos_colon: INTEGER; label: READABLE_STRING_GENERAL
 		do
 			pos_colon := message.index_of (':', 1)
 			if pos_colon > 0 then
-				lio.put_labeled_string (
-					message.substring (1, pos_colon - 1), message.substring (pos_colon + 2, message.count)
-				)
+				label := message.substring (1, pos_colon - 1)
+				lio.put_labeled_string (label, message.substring (pos_colon + 2, message.count))
 				lio.put_new_line
 			else
 				lio.put_line (message)
 			end
+		end
+
+	log_servlet_error (message: ANY)
+		do
+			log_error (Servlet_app_log_category, message)
+		end
+
+	log_servlet_info (message: ANY)
+		do
+			log_info (Servlet_app_log_category, message)
 		end
 
 	new_config (file_path: EL_FILE_PATH): like config
@@ -298,30 +304,20 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	write_exception_trace
-		local
-			trace_path: EL_FILE_PATH; trace_file: EL_PLAIN_TEXT_FILE
-		do
-			trace_path := generator + "-exception.01.txt"
-			create trace_file.make_open_write (trace_path.next_version_path)
-			trace_file.put_string_32 (Exception.last_trace)
-			trace_file.close
-		end
-
 feature {NONE} -- Implementation: attributes
-
-	config: EL_SERVLET_SERVICE_CONFIG
-			-- Configuration for servlets
 
 	broker: FCGI_REQUEST_BROKER
 		-- broker to read and write request messages from the web server
+
+	config: EL_SERVLET_SERVICE_CONFIG
+			-- Configuration for servlets
 
 	server_backlog: INTEGER
 		-- The number of requests that can remain outstanding.
 
 	servlets: EL_ZSTRING_HASH_TABLE [FCGI_HTTP_SERVLET]
 
-	socket: EL_NETWORK_STREAM_SOCKET
+	socket: EL_STREAM_SOCKET
 		-- server socket
 
 	state: PROCEDURE
@@ -369,5 +365,37 @@ feature {NONE} -- Constants
 			create Result.make_with_separator (Execution_environment.item (Fcgi_web_server_addrs), ';', True)
 			Result.right_adjust
 		end
+
+note
+	notes: "[
+		**Origins**
+
+		This FastCGI implementation evolved from the one found in the Goanna library as a radical
+		refactoring and redesign. There is almost nothing left of the old Goanna implementation except
+		perhaps for the use of the L4E logging system. It uses EiffelNet sockets in preference to Eposix.
+
+		**Servlet Mapping**
+
+		The servlets are mapped to uri paths that are relative to the service path defined in the
+		web server configuration. For example:
+
+			/servlet/one
+			/servlet/two
+			/servlet/three
+
+		The service path is "/servet" and the relative paths are "one", "two" and "three"
+
+		The servlet service is configured by a file in Pyxis format.
+
+		**Logging**
+
+		Logging uses both the Eiffel-Loop system and the L4E system which it inherits from the Goanna
+		predecessor to this library.
+
+		**Testing**
+		
+		This and related classes have been tested in production with the
+		[http://cherokee-project.com/ Cherokee Webserver]
+	]"
 
 end

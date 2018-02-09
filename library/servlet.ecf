@@ -20,6 +20,7 @@
 		<library name = "EL_http" location = "http.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
 		<library name = "EL_net_base" location = "network.ecf"/>
+		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf" readonly = "false"/>
 		<!--Source code-->

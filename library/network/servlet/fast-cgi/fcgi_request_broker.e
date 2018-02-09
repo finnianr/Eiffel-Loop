@@ -181,7 +181,7 @@ feature {FCGI_RECORD} -- Record events
 	on_header (a_header: FCGI_HEADER_RECORD)
 		do
 			if a_header.is_end_service then
-				socket.put_string ("ok")
+				socket.put_encoded_string_8 ("ok")
 				request_read := True; is_end_service := True
 
 			elseif a_header.is_aborted then

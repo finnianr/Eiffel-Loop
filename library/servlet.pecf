@@ -59,6 +59,9 @@ system:
 			name = EL_net_base; location = "network.ecf"
 
 		library:
+			name = EL_os_command; location = "os-command.ecf"
+
+		library:
 			name = EL_thread; location = "thread.ecf"
 
 		library:

@@ -39,6 +39,8 @@ inherit
 
 	EL_MODULE_ARGS
 
+	EL_MODULE_FILE_SYSTEM
+
 create
 	make_default, make_from_file
 
@@ -64,6 +66,9 @@ feature {NONE} -- Initialization
 				error_messages.extend ("Invalid path: ")
 				error_messages.last.append (a_file_path.to_string)
 			end
+		ensure then
+			valid_socket_parameter:
+				server_port = 0 implies (not server_socket_path.is_empty and then server_socket_path.parent.exists)
 		end
 
 feature -- Access
@@ -83,6 +88,33 @@ feature -- Status query
 	is_valid: BOOLEAN
 		do
 			Result := error_messages.is_empty
+		end
+
+feature -- Factory
+
+	new_client_socket: EL_STREAM_SOCKET
+		do
+			if server_port > 0 then
+				create {EL_NETWORK_STREAM_SOCKET} Result.make_client_by_port (server_port, "localhost")
+			else
+				create {EL_UNIX_STREAM_SOCKET} Result.make_client (server_socket_path.to_string)
+			end
+		end
+
+	new_socket: EL_STREAM_SOCKET
+		local
+			unix_sock: EL_UNIX_STREAM_SOCKET
+		do
+			if server_port > 0 then
+				create {EL_NETWORK_STREAM_SOCKET} Result.make_server_by_port (server_port)
+			else
+				if server_socket_path.exists then
+					File_system.remove_file (server_socket_path)
+				end
+				create unix_sock.make_server (server_socket_path.to_string)
+				unix_sock.add_permission ("g", "+w")
+				Result := unix_sock
+			end
 		end
 
 feature {NONE} -- Build from XML

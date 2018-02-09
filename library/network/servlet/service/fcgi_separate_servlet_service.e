@@ -54,7 +54,7 @@ feature -- Basic operations
 
 	stop
 		local
-			client_socket: EL_NETWORK_STREAM_SOCKET; response_ok: BOOLEAN
+			client_socket: EL_STREAM_SOCKET; response_ok: BOOLEAN
 		do
 			if accepting_mutex.try_lock then
 				-- is currently processing a request
@@ -63,7 +63,7 @@ feature -- Basic operations
 			else
 				-- is in `accepting_connection' state so send a request to end the service
 				from until response_ok loop
-					create client_socket.make_client_by_port (config.server_port, "localhost")
+					client_socket := config.new_client_socket
 					client_socket.connect
 					End_service.write (client_socket)
 					if not client_socket.was_error then

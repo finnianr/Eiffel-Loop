@@ -108,6 +108,16 @@ feature -- Basic operations
 			raise_developer (Template_error_in_routine, [object.generator, routine_name])
 		end
 
+	write_last_trace (object: ANY)
+		local
+			trace_path: EL_FILE_PATH; trace_file: EL_PLAIN_TEXT_FILE
+		do
+			trace_path := object.generator + "-exception.01.txt"
+			create trace_file.make_open_write (trace_path.next_version_path)
+			trace_file.put_string_32 (last_trace)
+			trace_file.close
+		end
+
 feature {NONE} -- Constants
 
 	Template_error_in_routine: ZSTRING

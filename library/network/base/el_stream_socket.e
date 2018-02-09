@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_STREAM_SOCKET}."
+	description: "Encodeable stream with ability to read Ctrl-Z end delimited strings"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -23,6 +23,12 @@ inherit
 	EL_OUTPUT_MEDIUM
 
 	STRING_HANDLER
+
+feature -- Access
+
+	description: STRING
+		deferred
+		end
 
 feature -- Input
 

@@ -19,7 +19,7 @@ inherit
 		undefine
 			read_stream, readstream
 		redefine
-			make, do_accept
+			make_empty, do_accept
 		end
 
 	EL_MODULE_EXCEPTION
@@ -33,16 +33,29 @@ inherit
 			set_blocking, set_non_blocking
 		end
 
-
 create
 	make, make_client_by_port, make_server_by_port
 
 feature -- Initialization
 
-	make
+	make_empty
 		do
 			Precursor
-			make_latin_1
+			make_default
+		end
+
+feature -- Access
+
+	description: STRING
+		local
+			l_name: STRING
+		do
+			if address.host_address.raw_address.for_all (agent is_zero) then
+				l_name := "localhost:" + port.out
+			else
+				l_name := address.host_address.host_name + ":" + port.out
+			end
+			Result := "TCP socket " + l_name
 		end
 
 feature -- Status query
@@ -53,6 +66,11 @@ feature -- Status query
 			if attached {like Current} accepted as client then
 				Result := true
 			end
+		end
+
+	is_zero (n: NATURAL_8): BOOLEAN
+		do
+			Result := n = n.zero
 		end
 
 feature {NONE} -- Implementation

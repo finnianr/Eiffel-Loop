@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	write (socket: EL_NETWORK_STREAM_SOCKET)
+	write (socket: EL_STREAM_SOCKET)
 		local
 			memory: like Memory_reader_writer
 		do

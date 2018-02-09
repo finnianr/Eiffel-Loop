@@ -63,19 +63,19 @@ feature {NONE} -- Initialization
 	make_signed (signer: AIA_SIGNER; canonical_request: AIA_CANONICAL_REQUEST)
 		-- make signed header
 		local
-			hmac: EL_HMAC_SHA_256; string_to_sign: EL_STRING_LIST [STRING]
+			hmac: EL_HMAC_SHA_256; string_list: EL_STRING_LIST [STRING]
 		do
 			make
 			algorithm := Default_algorithm
 			signed_headers := canonical_request.sorted_header_names.joined (Semicolon)
 
-			create string_to_sign.make_from_array (<<
+			create string_list.make_from_array (<<
 				algorithm, signer.iso8601_time, Empty_string_8,
 				canonical_request.sha_256_digest.to_hex_string
 			>>)
 
 			create hmac.make (signer.credential.daily_secret (signer.short_date))
-			hmac.sink_joined_strings (string_to_sign, '%N')
+			hmac.sink_joined_strings (string_list, '%N')
 			hmac.finish
 			signature := hmac.digest.to_hex_string
 			credential.set_key (signer.credential.public)
