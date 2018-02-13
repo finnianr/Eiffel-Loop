@@ -24,7 +24,11 @@
 
 * Created new class `EL_ENVIRON_VARIABLE` for defining environment arguments.
 
-* Added routine `append_utf_8` to `EL_ZSTRING`
+### Class EL_ZSTRING
+
+* Added routines: `append_utf_8` and `append_to_utf_8`
+
+* Added routine `to_canonically_spaced` and `as_canonically_spaced`
 
 ### Reflection Classes
 

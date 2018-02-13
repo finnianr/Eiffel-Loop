@@ -129,6 +129,10 @@ system:
 			location = "$EIFFEL_LOOP/library/logging.ecf"
 
 		library:
+			name = EL_network; readonly = false
+			location = "$EIFFEL_LOOP/library/network.ecf"
+
+		library:
 			name = EL_public_key_encryption; readonly = false
 			location = "$EIFFEL_LOOP/library/public-key-encryption.ecf"
 

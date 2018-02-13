@@ -1136,8 +1136,8 @@ feature -- Conversion
 			z_code_array: ARRAYED_LIST [NATURAL]; l_z_code: NATURAL
 		do
 			if not is_canonically_spaced then
-				create z_code_array.make (0)
 				l_area := area; l_count := count
+				create z_code_array.make (l_count)
 				from i := 0 until i = l_count loop
 					c_i := l_area [i]
 					if c_i = Unencoded_character then
@@ -1150,6 +1150,7 @@ feature -- Conversion
 					if is_space_state then
 						if not is_space then
 							is_space_state := False
+							z_code_array.extend (l_z_code)
 						end
 					elseif is_space then
 						is_space_state := True

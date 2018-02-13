@@ -2,12 +2,18 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 2); build = 397
+version = (1, 2, 4); build = 403
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.4
+# Added conversion progress tracking to YOUTUBE_HD_DOWNLOAD_APP
+
+# 1.2.3
+# Added application YOUTUBE_HD_DOWNLOAD_APP
 
 # 1.2.2
 # created class SUBJECT_LIST to manage exported email subjects in THUNDERBIRD_FOLDER_EXPORTER

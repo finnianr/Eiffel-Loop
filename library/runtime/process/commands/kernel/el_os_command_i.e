@@ -73,9 +73,20 @@ feature -- Status query
 	has_error: BOOLEAN
 		-- True if the command returned an error code on exit
 
+	is_forked: BOOLEAN
+		-- `true' if command executes asynchronously in another system process
+
 	is_valid_platform: BOOLEAN
 		do
 			Result := True
+		end
+
+feature -- Status change
+
+	set_forking_mode (forked: BOOLEAN)
+		-- when `forked' is `True', execution happens in another process
+		do
+			is_forked := forked
 		end
 
 feature -- Basic operations
@@ -169,25 +180,31 @@ feature {NONE} -- Implementation
 		local
 			command_string: like new_command_string; error_path: EL_FILE_PATH
 		do
-			if not working_directory.is_empty then
-				Environment.execution.push_current_working (working_directory)
-			end
-			command_string := new_command_string (a_system_command)
+			if is_forked then
+				Environment.execution.launch (a_system_command.to_string_32)
+			else
+				if not working_directory.is_empty then
+					Environment.execution.push_current_working (working_directory)
+				end
 
-			error_path := temporary_error_file_path
-			File_system.make_directory (error_path.parent)
+				command_string := new_command_string (a_system_command)
 
-			Environment.execution.system (command_string)
-			set_has_error (Environment.execution.return_code)
-			if not working_directory.is_empty then
-				Environment.execution.pop_current_working
+				error_path := temporary_error_file_path
+				File_system.make_directory (error_path.parent)
+
+				Environment.execution.system (command_string)
+
+				set_has_error (Environment.execution.return_code)
+				if not working_directory.is_empty then
+					Environment.execution.pop_current_working
+				end
+				if has_error then
+					create errors.make (5)
+					new_output_lines (error_path).do_all (agent errors.extend)
+					on_error
+				end
+				File_system.remove_file (error_path)
 			end
-			if has_error then
-				create errors.make (5)
-				new_output_lines (error_path).do_all (agent errors.extend)
-				on_error
-			end
-			File_system.remove_file (error_path)
 		end
 
 	on_error

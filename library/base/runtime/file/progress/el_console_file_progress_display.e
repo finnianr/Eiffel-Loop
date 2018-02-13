@@ -48,10 +48,11 @@ feature {NONE} -- Event handling
 
 feature -- Basic operations
 
-	set_progress (proportion: DOUBLE)
+	set_progress (a_proportion: DOUBLE)
 		local
-			count: INTEGER; c: CHARACTER
+			count: INTEGER; c: CHARACTER; proportion: DOUBLE
 		do
+			proportion := a_proportion.min (a_proportion.one)
 			count := (Space_count * proportion).rounded
 			from until index > count loop
 				if index > 0 then

@@ -48,7 +48,8 @@ feature {NONE} -- Implementation
 				{VCF_CONTACT_SPLITTER_APP},
 				{VCF_CONTACT_NAME_SWITCHER_APP},
 
-				{XML_TO_PYXIS_APP}
+				{XML_TO_PYXIS_APP},
+				{YOUTUBE_HD_DOWNLOAD_APP}
 			>>
 		end
 
