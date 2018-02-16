@@ -18,7 +18,8 @@ class
 inherit
 	PLAIN_TEXT_FILE
 		rename
-			put_string as put_encoded_string_8
+			put_string as put_raw_string_8,
+			put_character as put_raw_character
 		redefine
 			make_with_name, make_with_path
 		end

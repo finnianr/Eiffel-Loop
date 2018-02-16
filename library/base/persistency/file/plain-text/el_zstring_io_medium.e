@@ -15,7 +15,7 @@ class
 inherit
 	EL_STRING_IO_MEDIUM
 		redefine
-			text, put_string, put_string_z, put_string_8, put_string_32, put_encoded_string_8
+			text, put_string, put_string_z, put_string_8, put_string_32, put_raw_string_8, put_character_32
 		end
 
 create
@@ -35,18 +35,47 @@ feature -- Resizing
 			text.grow (new_size)
 		end
 
-feature -- Output
+feature -- Character output
 
-	put_character, putchar (c: CHARACTER)
-			--
+	put_character_32 (c: CHARACTER_32)
 		do
-			text.append_character (c)
+			text.append_unicode (c.natural_32_code)
 		end
 
-	put_encoded_string_8 (str: STRING)
+	put_raw_character (c: CHARACTER)
+			--
+		do
+			text.append_unicode (c.natural_32_code)
+		end
+
+feature -- String output
+
+	put_raw_string_8 (utf_8: STRING)
+		do
+			text.append_utf_8 (utf_8)
+		end
+
+	put_string (str: READABLE_STRING_GENERAL)
 		do
 			text.append_string_general (str)
 		end
+
+	put_string_32 (str_32: STRING_32)
+		do
+			text.append_string_general (str_32)
+		end
+
+	put_string_8 (str_8: STRING)
+		do
+			text.append_string_general (str_8)
+		end
+
+	put_string_z (str: ZSTRING)
+		do
+			text.append_string (str)
+		end
+
+feature -- Numeric output
 
 	put_real, putreal (r: REAL)
 			--
@@ -110,26 +139,6 @@ feature -- Output
 			--
 		do
 			text.append_natural_64 (n)
-		end
-
-	put_string (str: READABLE_STRING_GENERAL)
-		do
-			text.append_string_general (str)
-		end
-
-	put_string_32 (str_32: STRING_32)
-		do
-			text.append_string_general (str_32)
-		end
-
-	put_string_8 (str_8: STRING)
-		do
-			text.append_string_general (str_8)
-		end
-
-	put_string_z (str: ZSTRING)
-		do
-			text.append_string (str)
 		end
 
 feature {NONE} -- Implementation

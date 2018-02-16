@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-15 9:29:43 GMT (Friday 15th December 2017)"
-	revision: "7"
+	date: "2018-01-29 10:40:18 GMT (Monday 29th January 2018)"
+	revision: "8"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -16,6 +16,8 @@ inherit
 	EL_HEXADECIMAL_ROUTINES [S]
 
 	STRING_HANDLER
+
+	EL_MODULE_CHARACTER
 
 feature -- Basic operations
 
@@ -33,37 +35,10 @@ feature -- Basic operations
 
 	write_utf_8 (s: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
 		local
-			i: INTEGER; is_zstring: BOOLEAN; code: NATURAL
+			i: INTEGER
 		do
-			is_zstring := attached {ZSTRING} s
 			from i := 1 until i > s.count loop
-				if is_zstring then
-					code := s.item (i).natural_32_code
-				else
-					code := s.code (i)
-				end
-				if code <= 0x7F then
-						-- 0xxxxxxx
-					writeable.write_character_8 (code.to_character_8)
-
-				elseif code <= 0x7FF then
-						-- 110xxxxx 10xxxxxx
-					writeable.write_character_8 (((code |>> 6) | 0xC0).to_character_8)
-					writeable.write_character_8 (((code & 0x3F) | 0x80).to_character_8)
-					
-				elseif code <= 0xFFFF then
-						-- 1110xxxx 10xxxxxx 10xxxxxx
-					writeable.write_character_8 (((code |>> 12) | 0xE0).to_character_8)
-					writeable.write_character_8 ((((code |>> 6) & 0x3F) | 0x80).to_character_8)
-					writeable.write_character_8 (((code & 0x3F) | 0x80).to_character_8)
-				else
-						-- code <= 1FFFFF - there are no higher code points
-						-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-					writeable.write_character_8 (((code |>> 18) | 0xF0).to_character_8)
-					writeable.write_character_8 ((((code |>> 12) & 0x3F) | 0x80).to_character_8)
-					writeable.write_character_8 ((((code |>> 6) & 0x3F) | 0x80).to_character_8)
-					writeable.write_character_8 (((code & 0x3F) | 0x80).to_character_8)
-				end
+				Character.write_utf_8 (s [i], writeable)
 				i := i + 1
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-01-28 10:38:52 GMT (Sunday 28th January 2018)"
+	revision: "3"
 
 class
 	JAVA_CLASS_REFERENCE

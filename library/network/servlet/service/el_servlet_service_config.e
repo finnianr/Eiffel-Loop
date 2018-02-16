@@ -1,6 +1,5 @@
 note
 	description: "Servlet service configuration parsed from Pyxis format"
-
 	notes: "[
 		A minimal configuration looks like this:
 		
@@ -23,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-30 20:12:19 GMT (Monday 30th October 2017)"
-	revision: "4"
+	date: "2018-02-08 14:55:36 GMT (Thursday 8th February 2018)"
+	revision: "5"
 
 class
 	EL_SERVLET_SERVICE_CONFIG
@@ -108,10 +107,7 @@ feature -- Factory
 			if server_port > 0 then
 				create {EL_NETWORK_STREAM_SOCKET} Result.make_server_by_port (server_port)
 			else
-				if server_socket_path.exists then
-					File_system.remove_file (server_socket_path)
-				end
-				create unix_sock.make_server (server_socket_path.to_string)
+				create unix_sock.make_server (server_socket_path)
 				unix_sock.add_permission ("g", "+w")
 				Result := unix_sock
 			end

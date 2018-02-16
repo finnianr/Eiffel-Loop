@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-08 15:23:47 GMT (Friday 8th December 2017)"
-	revision: "4"
+	date: "2018-02-07 15:22:17 GMT (Wednesday 7th February 2018)"
+	revision: "5"
 
 class
 	FCGI_REQUEST_BROKER
@@ -181,7 +181,7 @@ feature {FCGI_RECORD} -- Record events
 	on_header (a_header: FCGI_HEADER_RECORD)
 		do
 			if a_header.is_end_service then
-				socket.put_encoded_string_8 ("ok")
+				socket.put_raw_string_8 ("ok")
 				request_read := True; is_end_service := True
 
 			elseif a_header.is_aborted then

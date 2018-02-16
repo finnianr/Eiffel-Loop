@@ -23,7 +23,8 @@ inherit
 	EL_XML_PARSER_OUTPUT_MEDIUM
 		rename
 			make as make_output,
-			put_string as put_encoded_string_8
+			put_character as put_raw_character,
+			put_string as put_raw_string_8
 		end
 
 	EL_OUTPUT_MEDIUM

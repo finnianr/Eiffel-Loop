@@ -43,7 +43,7 @@ feature -- Basic operations
 			file_out.set_encoding_from_other (Current)
 			across as_text.lines as line loop
 				file_out.put_string_z (line.item)
-				file_out.put_character ('%R')
+				file_out.put_raw_character ('%R')
 				file_out.put_new_line
 			end
 			file_out.close

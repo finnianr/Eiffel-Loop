@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_UTF
 
-	EL_SHARED_ZCODEC_FACTORY
+	EL_ZCODEC_FACTORY
 
 feature {NONE} -- Initialization
 

@@ -53,7 +53,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_ZCODEC_FACTORY
+	EL_ZCODEC_FACTORY
 
 	EL_MODULE_C_DECODER
 		export

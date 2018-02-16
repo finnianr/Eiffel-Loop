@@ -799,7 +799,7 @@ feature {NONE} -- `count_greater_than_zero_flags' values
 
 	Only_other: INTEGER = 1
 
-feature {EL_SHARED_ZCODEC_FACTORY} -- Constants
+feature {EL_ZCODEC} -- Constants
 
 	Once_extendible_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS
 		once

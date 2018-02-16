@@ -13,18 +13,40 @@ deferred class
 	EL_OUTPUT_MEDIUM
 
 inherit
+	EL_WRITEABLE
+		rename
+			write_character_8 as put_raw_character, -- Allows UTF-8 conversion
+			write_character_32 as put_character_32,
+			write_integer_8 as put_integer_8,
+			write_integer_16 as put_integer_16,
+			write_integer_32 as put_integer_32,
+			write_integer_64 as put_integer_64,
+			write_natural_8 as put_natural_8,
+			write_natural_16 as put_natural_16,
+			write_natural_32 as put_natural_32,
+			write_natural_64 as put_natural_64,
+			write_real_32 as put_real,
+			write_real_64 as put_double,
+			write_string as put_string_z,
+			write_string_8 as put_string_8,
+			write_string_32 as put_string_32,
+			write_string_general as put_string_general,
+			write_boolean as put_boolean,
+			write_pointer as put_pointer
+		end
+
 	EL_ENCODEABLE_AS_TEXT
 		redefine
 			make_default
 		end
 
-	EL_SHARED_ZCODEC_FACTORY
-
-	STRING_HANDLER
+	EL_ZCODEC_FACTORY
 
 	EL_MODULE_UTF
 
-	EL_SHARED_ONCE_STRINGS
+	EL_MODULE_CHARACTER
+
+	EL_MODULE_STRING_32
 
 feature {NONE} -- Initialization
 
@@ -43,22 +65,45 @@ feature -- Access
 
 feature -- Output
 
+	put_character (c: CHARACTER)
+		do
+			if encoding_type = Encoding_iso_8859 and encoding = 1 then
+				put_raw_character (c)
+			elseif encoding_type = Encoding_utf and encoding = 8 then
+				Character.write_utf_8 (c, Current)
+			else
+				put_raw_character (codec.encoded_character (c.natural_32_code))
+			end
+		end
+
+	put_character_32 (c: CHARACTER_32)
+		do
+			if encoding_type = Encoding_utf and encoding = 8 then
+				Character.write_utf_8 (c, Current)
+			else
+				put_raw_character (codec.encoded_character (c.natural_32_code))
+			end
+		end
+
+	put_pointer (p: POINTER)
+		do
+			put_raw_string_8 (p.out)
+		end
+
+	put_raw_character (c: CHARACTER)
+		deferred
+		end
+
+feature -- String output
+
 	put_bom
 			-- put utf-8 byte order mark for UTF-8 encoding
 		require
 			start_of_file: position = 0
 		do
 			if is_bom_writeable then
-				put_encoded_string_8 (UTF.Utf_8_bom_to_string_8)
+				put_raw_string_8 (UTF.Utf_8_bom_to_string_8)
 			end
-		end
-
-	put_character (c: CHARACTER)
-		deferred
-		end
-
-	put_encoded_string_8 (str: STRING)
-		deferred
 		end
 
 	put_indented_lines (indent: STRING; lines: LINEAR [READABLE_STRING_GENERAL])
@@ -69,14 +114,10 @@ feature -- Output
 				put_bom
 			end
 			from lines.start until lines.after loop
-				put_encoded_string_8 (indent); put_string (lines.item)
+				put_raw_string_8 (indent); put_string (lines.item)
 				put_new_line
 				lines.forth
 			end
-		end
-
-	put_integer (n: INTEGER)
-		deferred
 		end
 
 	put_lines (lines: LINEAR [READABLE_STRING_GENERAL])
@@ -93,11 +134,12 @@ feature -- Output
 			end
 		end
 
-	put_natural (n: NATURAL)
+	put_new_line
 		deferred
 		end
 
-	put_new_line
+	put_raw_string_8 (str: STRING)
+		-- put encoded string
 		deferred
 		end
 
@@ -113,33 +155,21 @@ feature -- Output
 		end
 
 	put_string_32 (str_32: STRING_32)
-		local
-			encoded_string: STRING; extendible_unencoded: like Once_extendible_unencoded
 		do
-			encoded_string := empty_once_string_8
 			if encoding_type = Encoding_utf and encoding = 8 then
-				UTF.utf_32_string_into_utf_8_string_8 (str_32, encoded_string)
+				String_32.write_utf_8 (str_32, Current)
 			else
-				extendible_unencoded := Once_extendible_unencoded
-				extendible_unencoded.wipe_out
-				encoded_string.grow (str_32.count)
-				encoded_string.set_count (str_32.count)
-				codec.encode (str_32, encoded_string.area, 0, extendible_unencoded)
+				codec.write_encoded (str_32, Current)
 			end
-			put_encoded_string_8 (encoded_string)
 		end
 
 	put_string_8, put_latin_1 (str: STRING)
-		local
-			utf_8: STRING
 		do
 			-- Assume STRING types are either latin-1 or utf-8
 			if encoding_type = Encoding_iso_8859 and encoding = 1 then
-				put_encoded_string_8 (str)
+				put_raw_string_8 (str)
 			elseif encoding_type = Encoding_utf and encoding = 8 then
-				utf_8 := empty_once_string_8
-				UTF.utf_32_string_into_utf_8_string_8 (str, utf_8)
-				put_encoded_string_8 (utf_8)
+				String_32.write_utf_8 (str, Current)
 			else
 				-- Some other latin encoding
 				put_string_32 (str)
@@ -147,14 +177,14 @@ feature -- Output
 		end
 
 	put_string_z (str: ZSTRING)
-		require
+		require else
 			valid_encoding: str.has_mixed_encoding implies encoding_type = Encoding_utf and encoding = 8
 		do
 			if encoding_type = Encoding_utf then
-				put_encoded_string_8 (str.to_utf_8)
+				put_raw_string_8 (str.to_utf_8)
 			else
 				if str.encoded_with (codec) then
-					put_encoded_string_8 (str.to_latin_string_8)
+					put_raw_string_8 (str.to_latin_string_8)
 				else
 					put_string_32 (str.to_unicode)
 				end

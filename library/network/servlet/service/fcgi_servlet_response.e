@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 5:51:51 GMT (Monday 18th December 2017)"
-	revision: "3"
+	date: "2018-02-05 10:56:13 GMT (Monday 5th February 2018)"
+	revision: "4"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_HTTP_CONTENT_TYPE_CONSTANTS
 
-	EL_SHARED_ZCODEC_FACTORY
+	EL_ZCODEC_FACTORY
 
 	EL_MODULE_UTF
 

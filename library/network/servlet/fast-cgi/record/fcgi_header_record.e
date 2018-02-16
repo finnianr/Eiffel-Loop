@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-19 15:15:37 GMT (Friday 19th January 2018)"
-	revision: "4"
+	date: "2018-02-05 10:43:51 GMT (Monday 5th February 2018)"
+	revision: "5"
 
 class
 	FCGI_HEADER_RECORD

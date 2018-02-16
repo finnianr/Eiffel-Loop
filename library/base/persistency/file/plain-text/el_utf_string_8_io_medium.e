@@ -17,7 +17,7 @@ inherit
 		rename
 			last_string_8 as last_string
 		redefine
-			text, put_encoded_string_8
+			text, put_raw_string_8
 		end
 
 create
@@ -37,13 +37,14 @@ feature -- Resizing
 
 feature -- Output
 
-	put_character, putchar (c: CHARACTER)
+	put_raw_character (c: CHARACTER)
 			--
 		do
 			text.append_character (c)
 		end
 
-	put_encoded_string_8 (utf_8: STRING)
+	put_raw_string_8 (utf_8: STRING)
+		-- put encoded string
 		do
 			text.append (utf_8)
 		end
@@ -124,4 +125,6 @@ feature {NONE} -- Implementation
 			create Result.make (a_count)
 		end
 
+invariant
+	utf_8_encoded: is_utf_8_encoded
 end

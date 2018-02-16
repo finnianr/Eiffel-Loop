@@ -49,7 +49,9 @@ feature {NONE} -- Implementation
 	adjust_field_order (fields: EL_REFLECTED_FIELD_ARRAY)
 		-- change order to: data_1, data_2 etc
 		do
-			fields.reorder (<< [4, -3] >>)
+			fields.reorder (<<
+				[4, -3] -- `date_1' left 3
+			>>)
 		end
 
 feature -- Access

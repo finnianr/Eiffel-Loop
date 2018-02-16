@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-02-08 14:29:13 GMT (Thursday 8th February 2018)"
+	revision: "3"
 
 class
 	EL_UNIX_STREAM_SOCKET
@@ -15,7 +15,9 @@ class
 inherit
 	UNIX_STREAM_SOCKET
 		rename
-			put_string as put_encoded_string_8
+			put_string as put_raw_string_8,
+			put_character as put_raw_character,
+			make_server as make_named_server
 		undefine
 			read_stream, readstream
 		redefine
@@ -27,8 +29,20 @@ inherit
 			address_type, cleanup, name
 		end
 
+	EL_MODULE_FILE_SYSTEM
+
 create
 	make, make_client, make_server
+
+feature {NONE} -- Initialization
+
+	make_server (path: EL_FILE_PATH)
+		do
+			if path.exists then
+				File_system.remove_file (path)
+			end
+			make_named_server (path.to_string)
+		end
 
 feature -- Initialization
 

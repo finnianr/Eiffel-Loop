@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-28 12:32:16 GMT (Thursday 28th December 2017)"
-	revision: "1"
+	date: "2018-01-29 11:00:29 GMT (Monday 29th January 2018)"
+	revision: "2"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -17,7 +17,7 @@ inherit
 
 	EL_WRITEABLE
 		rename
-			write_character_8 as sink_character_8,
+			write_character_8 as sink_raw_character_8, -- Allows UTF-8 conversion
 			write_character_32 as sink_character_32,
 			write_integer_8 as sink_integer_8,
 			write_integer_16 as sink_integer_16,
@@ -43,11 +43,27 @@ inherit
 
 	EL_MODULE_STRING_32
 
-feature -- General sinks
+	EL_MODULE_CHARACTER
 
-	sink_special (in: SPECIAL [NATURAL_8]; in_lower: INTEGER_32; in_upper: INTEGER_32)
-		deferred
+feature -- Status query
+
+	utf_8_mode_enabled: BOOLEAN
+		-- when `True' then strings and characters arguments are encoded as UTF-8
+		-- and sunk via `sink_raw_character_8'
+
+feature -- Status change
+
+	disable_utf_8_mode
+		do
+			utf_8_mode_enabled := False
 		end
+
+	enable_utf_8_mode
+		do
+			utf_8_mode_enabled := True
+		end
+
+feature -- General sinks
 
 	sink_boolean (in: BOOLEAN)
 		do
@@ -59,12 +75,11 @@ feature -- General sinks
 			sink_integer_32 (in.to_integer_32)
 		end
 
-feature -- Integer sinks
-
-	sink_integer_8 (in: INTEGER_8)
-		do
-			sink_character_8 (in.to_character_8)
+	sink_special (in: SPECIAL [NATURAL_8]; in_lower: INTEGER_32; in_upper: INTEGER_32)
+		deferred
 		end
+
+feature -- Integer sinks
 
 	sink_integer_16 (in: INTEGER_16)
 		do
@@ -83,12 +98,12 @@ feature -- Integer sinks
 			sink_natural_32 (in.to_natural_32)
 		end
 
-feature -- Natural sinks
-
-	sink_natural_8 (in: NATURAL_8)
+	sink_integer_8 (in: INTEGER_8)
 		do
 			sink_character_8 (in.to_character_8)
 		end
+
+feature -- Natural sinks
 
 	sink_natural_16 (in: NATURAL_16)
 		do
@@ -104,6 +119,11 @@ feature -- Natural sinks
 		do
 			sink_natural_32 ((in |>> 32).to_natural_32)
 			sink_natural_32 (in.to_natural_32)
+		end
+
+	sink_natural_8 (in: NATURAL_8)
+		do
+			sink_character_8 (in.to_character_8)
 		end
 
 feature -- Real sinks
@@ -146,13 +166,27 @@ feature -- Array sinks
 
 feature -- Character sinks
 
-	sink_character_8 (in: CHARACTER_8)
-		deferred
-		end
-
 	sink_character_32 (in: CHARACTER_32)
 		do
-			sink_natural_32 (in.natural_32_code)
+			if utf_8_mode_enabled then
+				Character.write_utf_8 (in, Current)
+			else
+				sink_natural_32 (in.natural_32_code)
+			end
+		end
+
+	sink_character_8 (in: CHARACTER_8)
+		do
+			if utf_8_mode_enabled then
+				sink_character_32 (in)
+			else
+				sink_raw_character_8 (in)
+			end
+		end
+
+	sink_raw_character_8 (in: CHARACTER_8)
+		-- sink unencoded character
+		deferred
 		end
 
 feature -- String sinks
@@ -173,16 +207,20 @@ feature -- String sinks
 			l_area: SPECIAL [NATURAL]; i, count: INTEGER
 			l_area_8: SPECIAL [CHARACTER]
 		do
-			l_area_8 := in.area; count := in.count
-			from i := 0 until i = count loop
-				sink_character_8 (l_area_8.item (i))
-				i := i + 1
-			end
-			-- Unencoded
-			l_area := in.unencoded_area; count := l_area.count
-			from i := 0 until i = count loop
-				sink_natural_32 (l_area.item (i))
-				i := i + 1
+			if utf_8_mode_enabled then
+				String_32.write_utf_8 (in, Current)
+			else
+				l_area_8 := in.area; count := in.count
+				from i := 0 until i = count loop
+					sink_character_8 (l_area_8.item (i))
+					i := i + 1
+				end
+				-- Unencoded
+				l_area := in.unencoded_area; count := l_area.count
+				from i := 0 until i = count loop
+					sink_natural_32 (l_area.item (i))
+					i := i + 1
+				end
 			end
 		end
 
@@ -198,39 +236,16 @@ feature -- String sinks
 		end
 
 	sink_string_8 (in: STRING)
-		deferred
-		end
-
-feature -- String sinks as UTF-8
-
-	sink_joined_strings_as_utf_8 (list: CHAIN [READABLE_STRING_GENERAL]; c: CHARACTER_32)
-		-- sink `list' of strings joined with character `c' and encoded as UTF-8
-		local
-			c_string: STRING_32; code: NATURAL
 		do
-			code := c.natural_32_code
-			if code <= 0x7F then
-				c_string := Empty_string_32
+			if utf_8_mode_enabled then
+				String_32.write_utf_8 (in, Current)
 			else
-				create c_string.make_filled (c, 1)
-			end
-			from list.start until list.after loop
-				if list.index > 1 then
-					if code <= 0x7F then
-						sink_character_8 (code.to_character_8)
-					else
-						sink_string_general_as_utf_8 (c_string)
-					end
-				end
-				sink_string_general_as_utf_8 (list.item)
-				list.forth
+				sink_raw_string_8 (in)
 			end
 		end
 
-	sink_string_general_as_utf_8 (in: READABLE_STRING_GENERAL)
-		-- sink string encoded as UTF-8
-		do
-			String_32.write_utf_8 (in, Current)
+	sink_raw_string_8 (in: STRING)
+		deferred
 		end
 
 feature {NONE} -- Constants

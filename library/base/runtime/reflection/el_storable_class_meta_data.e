@@ -27,8 +27,14 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_enclosing_object)
 			a_enclosing_object.adjust_field_order (field_array)
-		ensure then
-			field_structure_unchanged: field_array.field_hash = a_enclosing_object.field_hash
+		end
+
+feature -- Status query
+
+	same_data_structure (a_field_hash: NATURAL): BOOLEAN
+		-- `True' if order, type and names of fields are unchanged
+		do
+			Result := field_array.field_hash = a_field_hash
 		end
 
 feature {NONE} -- Implementation

@@ -17,6 +17,8 @@ inherit
 
 	STRING_HANDLER
 
+	EL_SHARED_ONCE_STRINGS
+
 feature {NONE} -- Initialization
 
 	make
@@ -45,20 +47,16 @@ feature -- Access
 
 feature -- Character query
 
+	is_alpha (code: NATURAL): BOOLEAN
+		deferred
+		end
+
 	is_alphanumeric (code: NATURAL): BOOLEAN
 		do
 			Result := is_numeric (code) or else is_alpha (code)
 		end
 
-	is_upper (code: NATURAL): BOOLEAN
-		deferred
-		end
-
 	is_lower (code: NATURAL): BOOLEAN
-		deferred
-		end
-
-	is_alpha (code: NATURAL): BOOLEAN
 		deferred
 		end
 
@@ -66,7 +64,11 @@ feature -- Character query
 		deferred
 		end
 
-feature {EL_SHARED_ZCODEC, EL_SHARED_ZCODEC_FACTORY} -- Access
+	is_upper (code: NATURAL): BOOLEAN
+		deferred
+		end
+
+feature {EL_SHARED_ZCODEC, EL_ZCODEC_FACTORY} -- Access
 
 	unicode_table: like new_unicode_table
 		-- map latin to unicode
@@ -139,6 +141,26 @@ feature -- Basic operations
 			-- with their lower version when available.
 		do
 			change_case (characters, start_index, end_index, True, unencoded_characters)
+		end
+
+	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
+		local
+			latin_out: STRING; extendible_unencoded: like Once_extendible_unencoded
+			l_area: SPECIAL [CHARACTER]; i: INTEGER
+		do
+			extendible_unencoded := Once_extendible_unencoded
+			extendible_unencoded.wipe_out
+
+			latin_out := empty_once_string_8
+			latin_out.grow (unicode_in.count)
+			latin_out.set_count (unicode_in.count)
+			encode (unicode_in, latin_out.area, 0, extendible_unencoded)
+
+			l_area := latin_out.area
+			from i := 0 until i = l_area.count loop
+				writeable.write_character_8 (l_area [i])
+				i := i + 1
+			end
 		end
 
 feature -- Conversion
@@ -214,16 +236,16 @@ feature -- Conversion
 
 feature {EL_ZSTRING} -- Implementation
 
-	as_upper (code: NATURAL): NATURAL
-		deferred
-		ensure then
-			reversible: code /= Result implies code = as_lower (Result)
-		end
-
 	as_lower (code: NATURAL): NATURAL
 		deferred
 		ensure then
 			reversible: code /= Result implies code = as_upper (Result)
+		end
+
+	as_upper (code: NATURAL): NATURAL
+		deferred
+		ensure then
+			reversible: code /= Result implies code = as_lower (Result)
 		end
 
 	change_case (
@@ -257,11 +279,6 @@ feature {EL_ZSTRING} -- Implementation
 			end
 		end
 
-	new_unicode_table: SPECIAL [CHARACTER_32]
-			-- map latin to unicode
-		deferred
-		end
-
 	initialize_latin_sets
 		deferred
 		end
@@ -272,6 +289,11 @@ feature {EL_ZSTRING} -- Implementation
 			across array as c loop
 				Result.extend (c.item.to_character_8)
 			end
+		end
+
+	new_unicode_table: SPECIAL [CHARACTER_32]
+			-- map latin to unicode
+		deferred
 		end
 
 	single_byte_unicode_chars: SPECIAL [CHARACTER_32]
@@ -297,11 +319,19 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
+	Once_extendible_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS
+		local
+			unencoded: EL_UNENCODED_CHARACTERS
+		once
+			create unencoded.make
+			Result := unencoded.Once_extendible_unencoded
+		end
+
+	Unencoded_character: CHARACTER = '%/026/'
+
 	Unicode_buffer: STRING_32
 		once
 			create Result.make_empty
 		end
-
-	Unencoded_character: CHARACTER = '%/026/'
 
 end

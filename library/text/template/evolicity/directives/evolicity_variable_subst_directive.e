@@ -45,10 +45,10 @@ feature -- Basic operations
 					put_double_value (output, double_ref.out)
 
 				elseif attached {INTEGER_REF} value as integer_ref then
-					output.put_integer (integer_ref.item)
+					output.put_integer_32 (integer_ref.item)
 
 				elseif attached {NATURAL_32_REF} value as natural_ref then
-					output.put_natural (natural_ref.item)
+					output.put_natural_32 (natural_ref.item)
 
 				else
 					output.put_string (value.out)

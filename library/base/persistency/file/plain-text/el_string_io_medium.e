@@ -20,13 +20,15 @@ inherit
 			last_string as last_string_8,
 			make as make_with_name_8,
 			make_open_write as make_file_open_write,
-			put_string as put_encoded_string_8
+			put_string as put_encoded_string_8,
+			put_character as put_raw_character,
+			putchar as put_raw_character
 
 		export
 			{NONE} all
 			{ANY} is_closed, file_readable, extendible, twin, is_open_read
 		undefine
-			put_character, putchar,
+			put_raw_character,
 			put_integer, putint, put_integer_8, put_integer_16, put_integer_32, put_integer_64,
 			put_natural, put_natural_8, put_natural_16, put_natural_32, put_natural_64,
 			put_real, putreal, put_double, putdouble,

@@ -135,7 +135,11 @@ feature -- Element change
 			if offset /= 0 then
 				l_item := item
 				remove
-				go_i_th (index + offset - 1)
+				if offset < 0 then
+					go_i_th (index + offset - 1)
+				else
+					go_i_th (index + offset)
+				end
 				put_right (l_item)
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-04 11:03:37 GMT (Monday 4th December 2017)"
-	revision: "4"
+	date: "2018-02-08 12:25:45 GMT (Thursday 8th February 2018)"
+	revision: "5"
 
 class
 	EL_NETWORK_STREAM_SOCKET
@@ -15,7 +15,8 @@ class
 inherit
 	NETWORK_STREAM_SOCKET
 		rename
-			put_string as put_encoded_string_8
+			put_string as put_raw_string_8,
+			put_character as put_raw_character
 		undefine
 			read_stream, readstream
 		redefine

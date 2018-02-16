@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-26 13:16:37 GMT (Friday 26th May 2017)"
-	revision: "2"
+	date: "2018-02-08 12:03:51 GMT (Thursday 8th February 2018)"
+	revision: "3"
 
 deferred class
 	EL_STREAM_SOCKET
@@ -15,7 +15,8 @@ deferred class
 inherit
 	STREAM_SOCKET
 		rename
-			put_string as put_encoded_string_8
+			put_string as put_raw_string_8,
+			put_character as put_raw_character
 		redefine
 			read_stream, readstream
 		end
@@ -98,7 +99,7 @@ feature -- Output
 	put_end_of_string_delimiter
 			-- put end of string delimiter
 		do
-			put_character (End_of_string_delimiter)
+			put_raw_character (End_of_string_delimiter)
 		end
 
 feature {NONE} -- Unimplemented

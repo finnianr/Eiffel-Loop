@@ -78,11 +78,11 @@ feature {NONE} -- State handlers
 
 	put_full_name (line: ZSTRING; field_name: ZSTRING)
 		do
-			vcf_out.put_character ('F')
+			vcf_out.put_raw_character ('F')
 			vcf_out.put_string_z (field_name)
 			vcf_out.put_string_z (names [2])
 			if field_name ~ Name_field then
-				vcf_out.put_character (' ')
+				vcf_out.put_raw_character (' ')
 			else
 				vcf_out.put_string ("=20")
 			end

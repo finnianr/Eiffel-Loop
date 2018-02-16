@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-07 9:53:09 GMT (Thursday 7th December 2017)"
-	revision: "2"
+	date: "2018-02-01 9:48:39 GMT (Thursday 1st February 2018)"
+	revision: "3"
 
 class
 	AIA_CANONICAL_REQUEST
@@ -82,8 +82,9 @@ feature -- Access
 			create sha.make
 			-- Signer.java converts strings to `DEFAULT_ENCODING' which is UTF-8
 			-- md.update(text.getBytes(DEFAULT_ENCODING));
+			sha.enable_utf_8_mode
 
-			sha.sink_joined_strings_as_utf_8 (Current, '%N')
+			sha.sink_joined_strings (Current, '%N')
 			create Result.make_final_sha_256 (sha)
 		end
 

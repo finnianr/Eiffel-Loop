@@ -15,8 +15,8 @@ class
 inherit
 	MD5
 		rename
-			sink_string as sink_string_8,
-			sink_character as sink_character_8
+			sink_string as sink_raw_string_8,
+			sink_character as sink_raw_character_8
 		redefine
 			reset
 		end

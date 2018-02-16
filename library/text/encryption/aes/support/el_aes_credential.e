@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-11 8:40:56 GMT (Monday 11th December 2017)"
-	revision: "5"
+	date: "2018-02-07 11:42:23 GMT (Wednesday 7th February 2018)"
+	revision: "6"
 
 class
 	EL_AES_CREDENTIAL
@@ -147,6 +147,13 @@ feature -- Element change
 			end
 		end
 
+	set_from_other (other: EL_AES_CREDENTIAL)
+		do
+			phrase := other.phrase
+			salt := other.salt
+			digest := other.digest
+		end
+
 	set_phrase (a_phrase: like phrase)
 		do
 			phrase := a_phrase
@@ -247,7 +254,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_AES_CREDENTIAL} -- Internal attributes
 
 	salt: SPECIAL [NATURAL_8]
 

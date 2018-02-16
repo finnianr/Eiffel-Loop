@@ -63,7 +63,12 @@ inherit
 			is_equal
 		end
 
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+	EL_MODULE_LIO
+		undefine
+			is_equal
+		end
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
 		undefine
 			is_equal
 		end
@@ -163,8 +168,25 @@ feature {NONE} -- Implementation
 		end
 
 	new_meta_data: EL_STORABLE_CLASS_META_DATA
+		local
+			exception: POSTCONDITION_VIOLATION; field_structure_error: STRING
 		do
 			create Result.make (Current)
+			if not Result.same_data_structure (field_hash) then
+				field_structure_error := "ERROR: Field structure has changed"
+				lio.put_new_line
+				lio.put_labeled_string ("class " + generator, field_structure_error)
+				lio.put_new_line
+				print_field_meta_data (lio, Result.field_array)
+				lio.put_new_line
+				if not Execution_environment.is_work_bench_mode then
+					create exception
+					exception.set_description (field_structure_error)
+					exception.raise
+				end
+			end
+		ensure then
+			same_data_structure: Result.same_data_structure (field_hash)
 		end
 
 	read_field (field: EL_REFLECTED_FIELD; a_reader: EL_MEMORY_READER_WRITER)

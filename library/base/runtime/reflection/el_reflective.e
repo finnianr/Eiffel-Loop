@@ -49,17 +49,11 @@ feature -- Basic operations
 		end
 
 	print_meta_data (lio: EL_LOGGABLE)
-		local
-			i: INTEGER; array: ARRAY [EL_REFLECTED_FIELD]
 		do
-			array := Meta_data_by_type.item (Current).field_array
 			lio.put_labeled_string ("class", generator)
 			lio.tab_right
 			lio.put_new_line
-			from i := array.lower until i > array.upper loop
-				array.item (i).print_meta_data (Current, lio, i, i = array.upper)
-				i := i + 1
-			end
+			print_field_meta_data (lio, Meta_data_by_type.item (Current).field_array)
 			lio.tab_left
 			lio.put_new_line
 			lio.put_line ("end")
@@ -116,7 +110,7 @@ feature {EL_REFLECTIVE} -- Factory
 			create Result.make (current_object, field_names)
 		end
 
-	new_meta_data: EL_CLASS_META_DATA --like Meta_data_by_type.item
+	new_meta_data: EL_CLASS_META_DATA
 		do
 			create Result.make (Current)
 		end
@@ -186,6 +180,16 @@ feature {NONE} -- Implementation
 	current_reflective: like Current
 		do
 			Result := Current
+		end
+
+	print_field_meta_data (lio: EL_LOGGABLE; array: ARRAY [EL_REFLECTED_FIELD])
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > array.upper loop
+				array.item (i).print_meta_data (Current, lio, i, i = array.upper)
+				i := i + 1
+			end
 		end
 
 	recycle (object: like new_current_object)

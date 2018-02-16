@@ -4,9 +4,14 @@ note
 		
 		See [$source YOUTUBE_HD_DOWNLOAD_APP] for more information.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-02-13 9:59:24 GMT (Tuesday 13th February 2018)"
+	revision: "1"
 
 class
 	YOUTUBE_HD_DOWNLOAD_COMMAND
@@ -158,10 +163,7 @@ feature {NONE} -- Implementation
 			command.put_path (Var_socket_path, Socket_path)
 			command.put_string (Var_title, title)
 
-			if Socket_path.exists then
-				File_system.remove_file (Socket_path)
-			end
-			create socket.make_server (Socket_path.to_string)
+			create socket.make_server (Socket_path)
 			socket.listen (1)
 			socket.set_blocking
 
@@ -174,7 +176,7 @@ feature {NONE} -- Implementation
 				create progress_display.make
 				from until ffmpeg_socket.was_error loop
 					ffmpeg_socket.read_line
-					if not ffmpeg_socket.was_error then
+					if ffmpeg_socket.was_error then
 						line := ffmpeg_socket.last_string
 						pos_out_time := line.substring_index (Out_time_field, 1)
 						if pos_out_time > 0 then
