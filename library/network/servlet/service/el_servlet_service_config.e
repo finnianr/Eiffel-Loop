@@ -34,6 +34,8 @@ inherit
 			make_default, make_from_file, building_action_table
 		end
 
+	FCGI_SOCKET_FACTORY
+
 	EL_MODULE_LOG
 
 	EL_MODULE_ARGS
@@ -80,37 +82,13 @@ feature -- Access
 		-- Port server is listening on
 
 	server_socket_path: EL_FILE_PATH
-		-- Unix socket path to listen on (for future use)
+		-- Unix socket path to listen on
 
 feature -- Status query
 
 	is_valid: BOOLEAN
 		do
 			Result := error_messages.is_empty
-		end
-
-feature -- Factory
-
-	new_client_socket: EL_STREAM_SOCKET
-		do
-			if server_port > 0 then
-				create {EL_NETWORK_STREAM_SOCKET} Result.make_client_by_port (server_port, "localhost")
-			else
-				create {EL_UNIX_STREAM_SOCKET} Result.make_client (server_socket_path.to_string)
-			end
-		end
-
-	new_socket: EL_STREAM_SOCKET
-		local
-			unix_sock: EL_UNIX_STREAM_SOCKET
-		do
-			if server_port > 0 then
-				create {EL_NETWORK_STREAM_SOCKET} Result.make_server_by_port (server_port)
-			else
-				create unix_sock.make_server (server_socket_path)
-				unix_sock.add_permission ("g", "+w")
-				Result := unix_sock
-			end
 		end
 
 feature {NONE} -- Build from XML

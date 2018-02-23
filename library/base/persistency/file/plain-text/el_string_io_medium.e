@@ -20,15 +20,15 @@ inherit
 			last_string as last_string_8,
 			make as make_with_name_8,
 			make_open_write as make_file_open_write,
-			put_string as put_encoded_string_8,
-			put_character as put_raw_character,
-			putchar as put_raw_character
+			put_string as put_raw_string_8,
+			put_character as put_raw_character_8,
+			putchar as put_raw_character_8
 
 		export
 			{NONE} all
-			{ANY} is_closed, file_readable, extendible, twin, is_open_read
+			{ANY} is_closed, file_readable, extendible, twin, is_open_read, wipe_out, prunable
 		undefine
-			put_raw_character,
+			put_raw_character_8,
 			put_integer, putint, put_integer_8, put_integer_16, put_integer_32, put_integer_64,
 			put_natural, put_natural_8, put_natural_16, put_natural_32, put_natural_64,
 			put_real, putreal, put_double, putdouble,
@@ -40,7 +40,7 @@ inherit
 			readline, read_line, read_stream, readstream,
 			forth, finish, start, off, after, go,
 			close, open_read, open_write, open_append, open_read_write, create_read_write, open_read_append,
-			is_empty, end_of_file, exists, is_executable, readable, is_writable
+			is_empty, end_of_file, exists, is_executable, readable, is_writable, wipe_out
 		end
 
 	EL_OUTPUT_MEDIUM
@@ -275,6 +275,16 @@ feature -- Resizing
 	grow (new_size: INTEGER)
 			--
 		deferred
+		end
+
+feature -- Removal
+
+	wipe_out
+		do
+			if attached {BAG [ANY]} text as bag then
+				bag.wipe_out
+			end
+			position := 0
 		end
 
 feature {NONE} -- Implementation

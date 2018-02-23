@@ -1,5 +1,8 @@
 note
-	description: "Storable object with a lookup key of type `NATURAL'"
+	description: "[
+		Storable object with a primary key of type `NATURAL'. Values for the primary key will be
+		automatically assigned via the class [$source EL_PRIMARY_KEY_INDEXABLE]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

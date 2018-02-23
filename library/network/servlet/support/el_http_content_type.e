@@ -17,8 +17,8 @@ inherit
 		rename
 			make_utf_8 as make_utf_8_encodeable,
 			make_latin_1 as make_latin_1_encodeable
-		redefine
-			out
+		export
+			{NONE} out
 		end
 
 create
@@ -26,22 +26,27 @@ create
 
 feature {NONE} -- Initialization
 
-	make_utf_8 (a_type: STRING)
-		do
-			make_utf_8_encodeable
-			type := a_type
-		end
-
 	make_latin_1 (a_type: STRING)
 		do
 			make_latin_1_encodeable
-			type := a_type
+			type := a_type; specification := new_specification
 		end
+
+	make_utf_8 (a_type: STRING)
+		do
+			make_utf_8_encodeable
+			type := a_type; specification := new_specification
+		end
+
 feature -- Access
+
+	specification: STRING
 
 	type: STRING
 
-	out: STRING
+feature {NONE} -- Implementation
+
+	new_specification: STRING
 		do
 			Result := Mime_type_template #$ [type, encoding_name]
 		end

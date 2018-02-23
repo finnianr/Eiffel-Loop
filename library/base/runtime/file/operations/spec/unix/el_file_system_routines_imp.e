@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of class `EL_FILE_SYSTEM_ROUTINES_I'"
+	description: "Unix implementation of class [$source EL_FILE_SYSTEM_ROUTINES_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

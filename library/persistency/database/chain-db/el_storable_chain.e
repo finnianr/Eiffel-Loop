@@ -1,7 +1,25 @@
 note
 	description: "[
-		Chain of storable items which can be saved to and read from a file. Items must implement the deferred
-		class [$source EL_STORABLE].
+		Chain of storable items which can be saved to and read from a file. The chain has the following
+		features:
+		* Support for AES encryption
+		* Ability to mark items for deletion without actually having to remove them immediately. This allows
+		implementations like class [$source EL_REFLECTIVELY_STORABLE_LIST] to support field indexing.
+		* Ability to store software version information which is available to the item implementing
+		[$source EL_STORABLE].
+		* Ability to check that a
+
+	]"
+	notes: "[
+		Items must implement either the
+		class [$source EL_STORABLE] or [$source EL_REFLECTIVELY_SETTABLE_STORABLE].
+
+		The descendant class [$source EL_RECOVERABLE_STORABLE_CHAIN] can be used to implement a proper
+		indexed transactional database when used in conjunction with class [$source EL_REFLECTIVELY_STORABLE_LIST].
+		
+		The routine `safe_store' stores the complete chain in a temporary file and then does a quick check
+		on the integrity of the save by checking all the item headers. Only then is the stored file substituted
+		for the previously stored file.
 	]"
 
 	author: "Finnian Reilly"
@@ -180,7 +198,7 @@ feature -- Element change
 feature -- Removal
 
 	delete
-			-- mark item for deletion on next store_as operation
+			-- mark item as deleted so it will not be saved during the next `store_as' operation
 		do
 			item.delete
 			deleted_count := deleted_count + 1

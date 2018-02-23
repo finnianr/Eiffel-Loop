@@ -35,10 +35,11 @@ feature -- Basic operations
 
 	write_utf_8 (s: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
 		local
-			i: INTEGER
+			i: INTEGER; routines: like Character
 		do
+			routines := Character
 			from i := 1 until i > s.count loop
-				Character.write_utf_8 (s [i], writeable)
+				routines.write_utf_8 (s [i], writeable)
 				i := i + 1
 			end
 		end

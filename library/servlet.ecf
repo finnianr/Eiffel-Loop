@@ -24,6 +24,19 @@
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf" readonly = "false"/>
 		<!--Source code-->
-		<cluster name = "servlet" location = "network/servlet" recursive = "true"/>
+		<cluster name = "servlet" location = "network/servlet" recursive = "true">
+			<file_rule>
+				<exclude>/windows$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
+		</cluster>
 	</target>
 </system>

@@ -14,6 +14,30 @@ class
 
 feature {NONE} -- Implementation
 
+	class_name (text: ZSTRING): ZSTRING
+		local
+			done, alpha_found: BOOLEAN
+		do
+			if text.item (1).is_alpha then
+				Result := text
+			else
+				create Result.make (text.count - 2)
+				across text as c until done loop
+					if alpha_found then
+						inspect c.item
+							when '_', 'A' .. 'Z' then
+								Result.append_character (c.item)
+						else
+							done := True
+						end
+					elseif c.item.is_alpha then
+						alpha_found := True
+						Result.append_character (c.item)
+					end
+				end
+			end
+		end
+
 	Class_source_table: EL_ZSTRING_HASH_TABLE [EL_FILE_PATH]
 		once ("PROCESS")
 			create Result.make_equal (100)

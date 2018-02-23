@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create {EL_UNIX_STREAM_SOCKET} socket.make
+			create {EL_NETWORK_STREAM_SOCKET} socket.make
 			create parameters.make
 			create relative_path_info.make_empty
 			end_request_listener := Default_event_listener

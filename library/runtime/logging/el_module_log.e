@@ -1,16 +1,16 @@
 note
 	description: "[
-		Access to the Eiffel-Loop log output routines defined by class `EL_LOGGABLE'
+		Access to the Eiffel-Loop log output routines defined by class [$source EL_LOGGABLE]
 		
 		**Notes**
-		If inheriting this module in a class which already inherits `EL_MODULE_LIO' then undefine
-		these factory functions from `EL_MODULE_LIO'
+		If inheriting this module in a class which already inherits [$source EL_MODULE_LIO] then undefine
+		these factory functions from [$source EL_MODULE_LIO]
 
 			undefine
 				new_lio, new_log_manager
 			end
 			
-		This is because `EL_MODULE_LOG' redefines the lio `object' to be loggable.
+		This is because [$source EL_MODULE_LIO] redefines the lio `object' to be loggable.
 	]"
 
 	author: "Finnian Reilly"

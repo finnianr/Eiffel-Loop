@@ -1,5 +1,5 @@
 note
-	description: ""
+	description: "Application root class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -46,7 +46,8 @@ feature {NONE} -- Implementation
 
 				{UPGRADE_DEFAULT_POINTER_SYNTAX_APP},
 				{UPGRADE_LOG_FILTERS_APP},
-				{REPOSITORY_PUBLISHER_APP},-- uses ftp (depends eposix)
+				{REPOSITORY_PUBLISHER_APP},
+				{REPOSITORY_NOTE_LINK_CHECKER_APP},
 
 				{SOURCE_FILE_NAME_NORMALIZER_APP},
 				{SOURCE_LOG_LINE_REMOVER_APP},
@@ -55,8 +56,12 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	notes: TUPLE [PROJECT_NOTES, DONE_LIST, TO_DO_LIST]
+	tuple: TUPLE
 		do
 		end
-
+note
+	ideas: "[
+		use lftp to sync with ftp account
+		See https://www.linux.com/blog/using-lftp-synchronize-folders-ftp-account
+	]"
 end

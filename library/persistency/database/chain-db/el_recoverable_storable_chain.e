@@ -1,8 +1,18 @@
 note
 	description: "[
-		Chain of storable items which are recoverable from an editions files should the power go off
-		on the computer. Items must implement the deferred class [$source EL_STORABLE].
+		This class combines the functionality of classes [$source EL_STORABLE_CHAIN] and
+		[$source EL_STORABLE_CHAIN_EDITIONS]. The former class can store and load the complete state of
+		all chain items, while the latter immediately stores any of the following
+		chain editions: `extend', `replace', `remove', `delete'.
+
+		When doing a file retrieval, the last complete state is loaded from `file_path' and then
+		all the recent editions are loaded and applied from a separate file: `editions_file_path'.
+		The routine `safe_store' stores the complete chain in a temporary file and then does a quick check
+		on the integrity of the save by checking all the item headers. Only then is the stored file substituted
+		for the previously stored file.
 	]"
+
+	instructions: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -152,5 +162,23 @@ feature {NONE} -- Constants
 		once
 			Result := 0
 		end
+
+note
+	instructions: "[
+		Items must implement the deferred class [$source EL_STORABLE].
+
+		To implement the class you can use any Eiffel container which conforms to
+		[https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html CHAIN],
+		however it is recommended to use the class [$source EL_REFLECTIVELY_STORABLE_LIST] as is offers
+		the following functionality:
+
+		* Ability to do complex queries in Eiffel with logial conjunctions using the features of
+		[$source EL_QUERYABLE_CHAIN] and [$source EL_QUERY_CONDITION_FACTORY]
+
+		* Ability to store objects using class reflection with safe-guards for the integrity of the
+		stores in the form of cyclical reduancy checks on the
+
+		* Ability to export to CSV using class reflective naming
+	]"
 
 end

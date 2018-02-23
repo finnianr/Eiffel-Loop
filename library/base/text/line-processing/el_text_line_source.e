@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 
 	make_from_utf_8 (a_utf_8_string: STRING)
 		do
-			make (create {EL_UTF_STRING_8_IO_MEDIUM}.make_open_read_from_text (a_utf_8_string))
+			make (create {EL_STRING_8_IO_MEDIUM}.make_open_read_from_text (a_utf_8_string))
 		end
 
 feature {NONE} -- Implementation

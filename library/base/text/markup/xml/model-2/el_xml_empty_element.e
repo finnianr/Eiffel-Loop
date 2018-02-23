@@ -63,7 +63,7 @@ feature -- Basic operations
 
 	write (medium: EL_OUTPUT_MEDIUM)
 		do
-			medium.put_string_z (open)
+			medium.put_string (open)
 			medium.put_new_line
 		end
 

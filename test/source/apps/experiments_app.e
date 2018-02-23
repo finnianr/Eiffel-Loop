@@ -45,9 +45,9 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	run
-		local
 		do
-			lio.enter ("run")
+			lio.enter ("encode_string_for_console")
+			encode_string_for_console
 			lio.exit
 		end
 
@@ -261,6 +261,9 @@ feature -- Experiments
 		local
 			str: STRING_32; str_2: STRING
 		do
+			across << System_encoding, Console_encoding, Utf_8, Iso_8859_1 >> as encoding loop
+				log.put_line (encoding.item.code_page)
+			end
 			str := {STRING_32} "Dún Búinne"
 			Unicode.convert_to (Console_encoding, str)
 			if Unicode.last_conversion_successful then

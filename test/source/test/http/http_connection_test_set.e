@@ -1,6 +1,6 @@
 note
 	description: "[
-		Eiffel tests for class `EL_HTTP_COMMAND' that can be executed with testing tool.
+		Eiffel tests for class [$source EL_HTTP_COMMAND] that can be executed with testing tool.
 	]"
 	testing: "type/manual"
 

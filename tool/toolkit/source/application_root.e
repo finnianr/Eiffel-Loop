@@ -53,8 +53,9 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	notes: TUPLE [PROJECT_NOTES, DONE_LIST, TO_DO_LIST]
-		do
-		end
+note
+	ideas: "[]"
+
+	to_do: "[]"
 
 end

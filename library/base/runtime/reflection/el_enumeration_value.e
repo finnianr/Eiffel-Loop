@@ -1,11 +1,11 @@
 note
 	description: "[
 		Wrapper object for enumeration value defined by a class inheriting from
-		`[$source EL_ENUMERATION]'. An instance of an implemention class can
-		 be initialized by a name string either matching the enumeration name or imported
-		 from a foreign naming convention.
+		[$source EL_ENUMERATION]. An instance of an implemention class can
+		be initialized by a name string either matching the enumeration name or imported
+		from a foreign naming convention.
 		 
-		 It is especially useful as a field attribute in a class inheriting `EL_REFLECTIVE'.
+		It is especially useful as a field attribute in a class inheriting [$source EL_REFLECTIVE].
 	]"
 
 	author: "Finnian Reilly"

@@ -16,12 +16,12 @@ inherit
 	UNIX_STREAM_SOCKET
 		rename
 			put_string as put_raw_string_8,
-			put_character as put_raw_character,
+			put_character as put_raw_character_8,
 			make_server as make_named_server
 		undefine
 			read_stream, readstream
 		redefine
-			make_socket, create_from_descriptor
+			make_socket, create_from_descriptor, close_socket
 		end
 
 	EL_STREAM_SOCKET
@@ -38,9 +38,9 @@ feature {NONE} -- Initialization
 
 	make_server (path: EL_FILE_PATH)
 		do
-			if path.exists then
-				File_system.remove_file (path)
-			end
+			socket_path := path
+			is_server := True
+			delete_file
 			make_named_server (path.to_string)
 		end
 
@@ -65,6 +65,12 @@ feature -- Access
 			Result := "UNIX socket " + address.path
 		end
 
+	socket_path: EL_FILE_PATH
+
+feature -- Status query
+
+	is_server: BOOLEAN
+
 feature -- Basic operations
 
 	add_permission (who, what: STRING)
@@ -74,6 +80,23 @@ feature -- Basic operations
 			Chmod_command.put_string (Var_path, address.path)
 			Chmod_command.put_string (Var_permission, who + what)
 			Chmod_command.execute
+		end
+
+	close_socket
+		do
+			Precursor
+			if is_server then
+				delete_file
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	delete_file
+		do
+			if socket_path.exists then
+				File_system.remove_file (socket_path)
+			end
 		end
 
 feature {NONE} -- Constants

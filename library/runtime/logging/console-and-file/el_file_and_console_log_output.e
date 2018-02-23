@@ -159,4 +159,7 @@ feature {NONE} -- Implementation
 			end_restriction
 		end
 
+feature {NONE} -- Internal attributes
+
+	file_out: EL_PLAIN_TEXT_FILE
 end

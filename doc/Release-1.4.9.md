@@ -6,17 +6,19 @@
 
 * Added classes `EL_DIR_PATH_ENVIRON_VARIABLE` and `EL_FILE_PATH_ENVIRON_VARIABLE`
 
-* Routines `default_operands' and `make_action' from class `EL_COMMAND_LINE_SUB_APPLICATION`, are now conflated into one routine `default_make'.
+* Routines `default_operands` and `make_action` from class `EL_COMMAND_LINE_SUB_APPLICATION`, are now conflated into one routine `default_make`.
+
+* Added new abstractions: `EL_WRITEABLE` and `EL_READABLE` and changed a number of existing classes to use them. See Eiffel user group article: [The missing abstractions: READABLE and WRITEABLE](https://groups.google.com/forum/#!topic/eiffel-users/7LrzqAZ4WzA)
 
 ## BASE library
 
+* Added the routines `push_cursor` and `pop_cursor` to class `EL_CHAIN` to make the saving and restoring of the cursor position both more efficient and more convenient. This is especially true for the implementation in class `EL_ARRAYED_LIST` as no `CURSOR` objects are created.
+
+* Added the routine `shift_i_th` to `EL_ARRAYED_LIST` allowing you to shift the position of items in either direction by an `offset` argument.
+
 * Added generic container class `EL_STRING_POOL` which serves as a pool of recyclable strings.
 
-* Fixed case of encoding name constants in `EL_ENCODEABLE_AS_TEXT`.
-
 * Added class `EL_CRC_32_ROUTINES` accessible via `EL_MODULE_CRC_32` with routines for finding and comparing cyclical redundancy check-sums of string lists.
-
-* Added `encoding_change_actions: ACTION_SEQUENCE` to class `EL_ENCODEABLE_AS_TEXT` (triggered by call to `set_encoding`).  Set inherit status of `set_encoding` to frozen.
 
 * Added routine `enable_shared_item` to class `EL_LINE_SOURCE` to cause only one instance of `EL_LINE_SOURCE.item` to be ever created during iteration.
 
@@ -24,23 +26,47 @@
 
 * Created new class `EL_ENVIRON_VARIABLE` for defining environment arguments.
 
+### Class EL_ENCODEABLE_AS_TEXT
+
+* Redesigned this class for greater efficiency by storing both encoding type and encoding id in one INTEGER attribute: `internal_encoding`.
+
+* To solve a particular problem added `encoding_change_actions: ACTION_SEQUENCE` to class `EL_ENCODEABLE_AS_TEXT` (triggered by call to `set_encoding`).  Set inherit status of `set_encoding` to frozen.
+
+### Class EL_OUTPUT_MEDIUM
+
+* Refactored to inherit `EL_WRITEABLE`
+
+* To be consistent in Eiffel-Loop naming conventions, renamed `put_string` to `put_string_general` and `put_string_z` as `put_string`.
+
+* Optimised string encoding conversion by removing the need to create temporary strings
+
+* Simplified code with the introduction of codec class `EL_UTF_8_ZCODEC`
+
+### Class EL_ZCODEC (and related)
+
+* Refactored to inherit `EL_ENCODEABLE_AS_TEXT` initialised from class `generator`
+
+* Added new descendant `EL_UTF_8_ZCODEC`
+
+* Simplified class `EL_ZCODEC_FACTORY` (renamed from `EL_SHARED_ZCODEC_FACTORY`) by merging Windows and Latin routines.
+
 ### Class EL_ZSTRING
 
 * Added routines: `append_utf_8` and `append_to_utf_8`
 
 * Added routine `to_canonically_spaced` and `as_canonically_spaced`
 
+* Added routine `write_latin` to write `area` sequence as raw characters to `writeable`
+
 ### Reflection Classes
 
-Created a set of reflection classes that offering a number of facilites:
+Created a set of reflection classes that can be directly inherited by class to obtain the following benefits:
 
-* Automatic object initialisation for basic types including strings, and types conforming to `EL_MAKEABLE_FROM_STRING'.
+* Automatic object initialisation for basic types including strings, and types conforming to `EL_MAKEABLE_FROM_STRING`.
 
 * Object field attribute setting from name value string pairs, with the facility to adapt foreign naming conventions: camelCase, kebab-case, etc.
 
 * Object field attribute string value querying from name strings, with the facility to adapt foreign naming conventions: camelCase, kebab-case, etc.
-
-
 
 ### Console Output
 
@@ -52,6 +78,67 @@ Created a set of reflection classes that offering a number of facilites:
 
 * Added new class `EL_CONSOLE_ENCODEABLE` for encoding strings to match console encoding setting.
 
+## BASE library (data_structure)
+
+### New class EL_ARRAYED_MAP_LIST
+Added a new container class with about a dozen features defined as:
+```eiffel
+class
+   EL_ARRAYED_MAP_LIST [K -> HASHABLE, G]
+
+inherit
+   EL_ARRAYED_LIST [TUPLE [key: K; value: G]]
+      rename
+         extend as map_extend
+      end
+
+create
+   make, make_filled, make_from_array, make_empty, make_from_table
+```
+There is also a sortable descendant defined as:
+```eiffel
+EL_SORTABLE_ARRAYED_MAP_LIST [K -> {HASHABLE, COMPARABLE}, G]
+```
+See class [AIA_CANONICAL_REQUEST](http://www.eiffel-loop.com/library/network/amazon/authorization/aia_canonical_request.html) for an example.
+
+### Class EL_STRING_HASH_TABLE
+
+Added a `+` aliased routine that allows table extension using a syntax illustrated by this code example:
+```eiffel
+getter_function_table: EL_STRING_HASH_TABLE
+      --
+   do
+      Result := Precursor +
+         ["audio_id", agent: STRING do Result := audio_id.out end] +
+         ["artists", agent: ZSTRING do Result := Xml.escaped (artists_list.comma_separated) end]
+   end
+```
+
+### New class EL_STORABLE_LIST
+This class is very useful when used in conjunction with the [Chain-DB database library](http://www.eiffel-loop.com/library/persistency/database/chain-db/class-index.html). It allows you to make auto-indexing data records by over-riding the function `new_index_by: TUPLE`. Here is an example:
+```eiffel
+
+deferred class
+   CUSTOMER_LIST
+
+inherit
+   EL_REFLECTIVELY_STORABLE_LIST [CUSTOMER]
+
+feature {NONE} -- Factory
+
+   new_index_by: TUPLE [email: like new_index_by_string]
+      do
+         Result := [new_index_by_string (agent {CUSTOMER}.email)]
+      end
+```
+Because the function returns a `TUPLE` you can define an arbitrary number of field indexes. The function `new_index_by_string` returns a type `EL_STORABLE_LIST_INDEX` which is basically a hash table. Instances of this class allow you move the cursor in the parent table by searching for a field key of a storable object.
+
+There is also an auxiliary class [`EL_KEY_INDEXABLE`](http://www.eiffel-loop.com/library/base/data_structure/list/el_key_indexable.html) which when also inherited by the list provides an auto-indexing primary key if the list class parameter conforms to `EL_KEY_IDENTIFIABLE_STORABLE`. This primary-key index is accessible as `index_by_key` and conforms to `EL_STORABLE_LIST_INDEX`. The generation of primary keys is also handled by this class.
+
+The above example shows a descendant class `EL_REFLECTIVELY_STORABLE_LIST` which allows you to reflectively export to CSV files provided that the list parameter conforms to `EL_REFLECTIVELY_SETTABLE_STORABLE`.
+
+### New class
+
 ## ENCRYPTION library
 
 * Renamed preconditions `is_16_byte_blocks` as `count_multiple_of_block_size`
@@ -62,7 +149,7 @@ Created a set of reflection classes that offering a number of facilites:
 
 ## EVOLICITY library
 
-* Added helper class `EVOLICITY_LOCALIZED_VARIABLES' to translate variable text-values which have a localisation translation id of the form "{$<variable-name>}".
+* Added helper class `EVOLICITY_LOCALIZED_VARIABLES` to translate variable text-values which have a localisation translation id of the form "{$<variable-name>}".
 
 ## HTML-VIEWER library
 
@@ -70,7 +157,7 @@ Created a set of reflection classes that offering a number of facilites:
 
 ## HTTP library
 
-* Updated `EL_HTTP_CONNECTION` to have `user_agent' attribute. `open` now sets the user agent if it is not empty.
+* Updated `EL_HTTP_CONNECTION` to have `user_agent` attribute. `open` now sets the user agent if it is not empty.
 
 ## IMAGE-UTILS library
 
@@ -82,7 +169,7 @@ Created a set of reflection classes that offering a number of facilites:
 
 ## NETWORK library
 
-* Changed EL_NETWORK_STREAM_SOCKET to redefine `make_empty` instead of `make`
+* Changed `EL_NETWORK_STREAM_SOCKET` to redefine `make_empty` instead of `make`
 
 * Created class `EL_UNIX_STREAM_SOCKET` inheriting `EL_STREAM_SOCKET`.
 
@@ -116,15 +203,16 @@ Created a set of reflection classes that offering a number of facilites:
 
 ## XDOX-SCANNING library
 
-* Added a class `EL_SETTABLE_FROM_XML_NODE` than can be used in conjunction with `EL_REFLECTIVELY_SETTABLE' to build Eiffel objects from XML documents that have element names corresponding to field attributes. The XML names may use a different word joining convention. See class `RBOX_IRADIO_ENTRY` and it's descendants from the example project `manage-mp3.ecf`.
+* Added a class `EL_SETTABLE_FROM_XML_NODE` than can be used in conjunction with `EL_REFLECTIVELY_SETTABLE` to build Eiffel objects from XML documents that have element names corresponding to field attributes. The XML names may use a different word joining convention. See class `RBOX_IRADIO_ENTRY` and it's descendants from the example project `manage-mp3.ecf`.
 
 ## EIFFEL program
 
 * Updated Eiffel note editor to group note fields into three separated by a new line
 
+* Added a new tool to `el_toolkit` for downloading youtube UHD videos. See news group [article](https://groups.google.com/forum/#!topic/eiffel-users/DZHqE7EO3Ww)
+
 ## TEST program
 
-* Fixed path for `zlib.lib' for all dependencies in Windows implementation.
-
+* Fixed path for `zlib.lib` for all dependencies in Windows implementation.
 
 

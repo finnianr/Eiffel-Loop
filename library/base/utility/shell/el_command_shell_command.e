@@ -1,5 +1,5 @@
 note
-	description: "`EL_COMMAND_SHELL' that plugs into `EL_COMMAND_SHELL_SUB_APPLICATTION'"
+	description: "[$source EL_COMMAND_SHELL] that plugs into [$source EL_COMMAND_SHELL_SUB_APPLICATION]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

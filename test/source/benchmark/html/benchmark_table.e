@@ -26,16 +26,16 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (encoding_id: INTEGER; a_benchmark: like benchmark)
+	make (a_encoding_id: INTEGER; a_benchmark: like benchmark)
 		require
 			valid_zstring_benchmark: attached {ZSTRING_BENCHMARK} a_benchmark.zstring
 			valid_string_32_benchmark: attached {STRING_32_BENCHMARK} a_benchmark.string_32
 		do
 			make_default
 			if attached {MIXED_ENCODING_ZSTRING_BENCHMARK} a_benchmark.zstring then
-				title := Title_mixed #$ [encoding_id]
+				title := Title_mixed #$ [a_encoding_id]
 			else
-				title := Title_latin #$ [encoding_id]
+				title := Title_latin #$ [a_encoding_id]
 			end
 			benchmark := a_benchmark
 			set_data_rows

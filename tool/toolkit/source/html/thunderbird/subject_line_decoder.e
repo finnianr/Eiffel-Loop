@@ -23,7 +23,7 @@ class
 inherit
 	EL_ENCODEABLE_AS_TEXT
 
-	EL_SHARED_ZCODEC_FACTORY
+	EL_ZCODEC_FACTORY
 
 	EL_MODULE_BASE_64
 
@@ -71,7 +71,7 @@ feature -- Access
 				else
 					latin := unescaped (parts.last)
 				end
-				if is_utf_8_encoded then
+				if is_utf_encoding (8) then
 					create Result.make_from_utf_8 (latin)
 				else
 					create Result.make_from_general (codec.as_unicode (latin))

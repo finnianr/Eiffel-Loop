@@ -1,7 +1,9 @@
 note
 	description: "[
-		Duplication of `EV_DIALOG_CONSTANTS' constants and renamed for the locale verification program
-		`EL_CHECK_LOCALE_STRINGS_APP'
+		Duplication of
+		[https://www.eiffel.org/files/doc/static/16.05/libraries/vision2/ev_dialog_constants_chart.html EV_DIALOG_CONSTANTS]
+		constants and renamed for the locale verification program
+		[$source EL_CHECK_LOCALE_STRINGS_APP]
 	]"
 
 	author: "Finnian Reilly"

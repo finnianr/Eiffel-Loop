@@ -3,9 +3,9 @@ Provides many extensions to the Eiffel Software [https://www.eiffel.org/doc/solu
 **Features**
 
 * Advanced pixel buffer rendering with transparencies and anti-aliasing using the [https://cairographics.org/ Cairo] and [http://www.pango.org/ Pangocairo] 2D graphics library.
-See class [$source `EL_DRAWABLE_PIXEL_BUFFER']
-* Drop-down combo boxes linked to data containers conforming to [https://archive.eiffel.com/doc/online/eiffel50/intro/studio/index-09A/base/structures/storage/finite_flat.html `FINITE']` [G]' and initialized with a value of type ''G'', and a selection change agent of type `PROCEDURE [ANY, TUPLE [G]]'. See class [$source `EL_DROP_DOWN_BOX']
-* Drop-down combo boxes with localized display strings. See class [$source `EL_LOCALE_STRING_DROP_DOWN_BOX']
-* Drop down combo box for months of year specified as integers and displayed with English names and a localized variant [$source `EL_LOCALE_MONTH_DROP_DOWN_BOX']
+See class [$source EL_DRAWABLE_PIXEL_BUFFER]
+* Drop-down combo boxes linked to data containers conforming to `FINITE [G]' and initialized with a value of type ''G'', and a selection change agent of type `PROCEDURE [ANY, TUPLE [G]]'. See class [$source EL_DROP_DOWN_BOX]
+* Drop-down combo boxes with localized display strings. See class [$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
+* Drop down combo box for months of year specified as integers and displayed with English names and a localized variant [$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
 
 These features are only the tip of the ice-berg.

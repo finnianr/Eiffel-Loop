@@ -365,14 +365,15 @@ feature -- Element change
 	update_index_by_audio_id
 		do
 			songs_by_audio_id.wipe_out
-			songs.do_query (not song_is_hidden)
-			across songs.last_query_items as song loop
-				songs_by_audio_id.search (song.item.audio_id)
-				if not songs_by_audio_id.found then
-					songs_by_audio_id.extend (song.item, song.item.audio_id)
-				else
-					check
-						audio_ids_are_unique: False
+			across songs as song loop
+				if not song.item.is_hidden then
+					songs_by_audio_id.search (song.item.audio_id)
+					if not songs_by_audio_id.found then
+						songs_by_audio_id.extend (song.item, song.item.audio_id)
+					else
+						check
+							audio_ids_are_unique: False
+						end
 					end
 				end
 			end
@@ -412,25 +413,22 @@ feature -- Element change
 feature -- Basic operations
 
 	import_m3u_playlist (m3u_playlist: M3U_PLAYLIST_READER)
+		local
+			song_path: EL_FILE_PATH
 		do
 			lio.put_string_field ("Importing playlist", m3u_playlist.name)
 			lio.put_new_line
 			playlists.extend (new_playlist (m3u_playlist.name))
-			m3u_playlist.do_all (
-				agent (path_steps: EL_PATH_STEPS)
-					local
-						song_path: EL_FILE_PATH
-					do
-						song_path := music_dir.joined_file_steps (path_steps)
-						if has_song (song_path) then
-							playlists.last.add_song_from_path (song_path)
-							lio.put_path_field ("Imported", song_path)
-						else
-							lio.put_path_field ("Not found", song_path)
-						end
-						lio.put_new_line
-					end
-			)
+			across m3u_playlist as path_steps loop
+				song_path := music_dir + path_steps.item
+				if has_song (song_path) then
+					playlists.last.add_song_from_path (song_path)
+					lio.put_path_field ("Imported", song_path)
+				else
+					lio.put_path_field ("Not found", song_path)
+				end
+				lio.put_new_line
+			end
 			lio.put_new_line
 		end
 

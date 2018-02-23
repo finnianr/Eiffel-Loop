@@ -13,7 +13,7 @@ class
 	EL_ISO_8859_6_ZCODEC
 
 inherit
-	EL_ISO_8859_ZCODEC
+	EL_ZCODEC
 
 create
 	make
@@ -23,7 +23,6 @@ feature {NONE} -- Initialization
 	initialize_latin_sets
 		do
 			latin_set_1 := latin_set_from_array (<<
-				193, -- 'ء'
 				194, -- 'آ'
 				195, -- 'أ'
 				196, -- 'ؤ'
@@ -72,10 +71,6 @@ feature {NONE} -- Initialization
 				242  -- 'ْ'
 			>>)
 		end
-
-feature -- Access
-
-	id: INTEGER = 6
 
 feature -- Conversion
 
@@ -163,7 +158,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 97..122, 181, 192, 219..223, 243..246, 248..255 then
 					Result := True
 			else
@@ -172,7 +167,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 97..122, 251..254 then
 					Result := True
 
@@ -186,7 +181,7 @@ feature -- Character query
 
 	is_numeric (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 48..57 then
 					Result := True
 			else
@@ -195,7 +190,7 @@ feature -- Character query
 
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 219..222 then
 					Result := True
 			else
@@ -208,57 +203,57 @@ feature {NONE} -- Implementation
 			-- Unicode value indexed by ISO_8859_6 character values
 		do
 			Result := single_byte_unicode_chars
-			Result [0xA0] := ' ' -- 
-			Result [0xA4] := '¤' -- 
-			Result [0xAC] := '،' -- 
-			Result [0xAD] := '­' -- 
-			Result [0xBB] := '؛' -- 
-			Result [0xBF] := '؟' -- 
-			Result [0xC1] := 'ء' -- 
-			Result [0xC2] := 'آ' -- 
-			Result [0xC3] := 'أ' -- 
-			Result [0xC4] := 'ؤ' -- 
-			Result [0xC5] := 'إ' -- 
-			Result [0xC6] := 'ئ' -- 
-			Result [0xC7] := 'ا' -- 
-			Result [0xC8] := 'ب' -- 
-			Result [0xC9] := 'ة' -- 
-			Result [0xCA] := 'ت' -- 
-			Result [0xCB] := 'ث' -- 
-			Result [0xCC] := 'ج' -- 
-			Result [0xCD] := 'ح' -- 
-			Result [0xCE] := 'خ' -- 
-			Result [0xCF] := 'د' -- 
-			Result [0xD0] := 'ذ' -- 
-			Result [0xD1] := 'ر' -- 
-			Result [0xD2] := 'ز' -- 
-			Result [0xD3] := 'س' -- 
-			Result [0xD4] := 'ش' -- 
-			Result [0xD5] := 'ص' -- 
-			Result [0xD6] := 'ض' -- 
-			Result [0xD7] := 'ط' -- 
-			Result [0xD8] := 'ظ' -- 
-			Result [0xD9] := 'ع' -- 
-			Result [0xDA] := 'غ' -- 
-			Result [0xE0] := 'ـ' -- 
-			Result [0xE1] := 'ف' -- 
-			Result [0xE2] := 'ق' -- 
-			Result [0xE3] := 'ك' -- 
-			Result [0xE4] := 'ل' -- 
-			Result [0xE5] := 'م' -- 
-			Result [0xE6] := 'ن' -- 
-			Result [0xE7] := 'ه' -- 
-			Result [0xE8] := 'و' -- 
-			Result [0xE9] := 'ى' -- 
-			Result [0xEA] := 'ي' -- 
-			Result [0xEB] := 'ً' -- 
-			Result [0xEC] := 'ٌ' -- 
-			Result [0xED] := 'ٍ' -- 
-			Result [0xEE] := 'َ' -- 
-			Result [0xEF] := 'ُ' -- 
-			Result [0xF0] := 'ِ' -- 
-			Result [0xF1] := 'ّ' -- 
-			Result [0xF2] := 'ْ' -- 
+			Result [0xA0] := ' ' --
+			Result [0xA4] := '¤' --
+			Result [0xAC] := '،' --
+			Result [0xAD] := '­' --
+			Result [0xBB] := '؛' --
+			Result [0xBF] := '؟' --
+			Result [0xC1] := 'ء' --
+			Result [0xC2] := 'آ' --
+			Result [0xC3] := 'أ' --
+			Result [0xC4] := 'ؤ' --
+			Result [0xC5] := 'إ' --
+			Result [0xC6] := 'ئ' --
+			Result [0xC7] := 'ا' --
+			Result [0xC8] := 'ب' --
+			Result [0xC9] := 'ة' --
+			Result [0xCA] := 'ت' --
+			Result [0xCB] := 'ث' --
+			Result [0xCC] := 'ج' --
+			Result [0xCD] := 'ح' --
+			Result [0xCE] := 'خ' --
+			Result [0xCF] := 'د' --
+			Result [0xD0] := 'ذ' --
+			Result [0xD1] := 'ر' --
+			Result [0xD2] := 'ز' --
+			Result [0xD3] := 'س' --
+			Result [0xD4] := 'ش' --
+			Result [0xD5] := 'ص' --
+			Result [0xD6] := 'ض' --
+			Result [0xD7] := 'ط' --
+			Result [0xD8] := 'ظ' --
+			Result [0xD9] := 'ع' --
+			Result [0xDA] := 'غ' --
+			Result [0xE0] := 'ـ' --
+			Result [0xE1] := 'ف' --
+			Result [0xE2] := 'ق' --
+			Result [0xE3] := 'ك' --
+			Result [0xE4] := 'ل' --
+			Result [0xE5] := 'م' --
+			Result [0xE6] := 'ن' --
+			Result [0xE7] := 'ه' --
+			Result [0xE8] := 'و' --
+			Result [0xE9] := 'ى' --
+			Result [0xEA] := 'ي' --
+			Result [0xEB] := 'ً' --
+			Result [0xEC] := 'ٌ' --
+			Result [0xED] := 'ٍ' --
+			Result [0xEE] := 'َ' --
+			Result [0xEF] := 'ُ' --
+			Result [0xF0] := 'ِ' --
+			Result [0xF1] := 'ّ' --
+			Result [0xF2] := 'ْ' --
 		end
 
 	latin_set_1: SPECIAL [CHARACTER]

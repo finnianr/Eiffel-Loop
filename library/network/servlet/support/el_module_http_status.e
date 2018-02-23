@@ -1,5 +1,5 @@
 note
-	description: "Access to a shared instance of `EL_HTTP_STATUS_CODES'"
+	description: "Access to a shared instance of [$source EL_HTTP_STATUS_CODES]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

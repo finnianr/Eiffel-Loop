@@ -33,7 +33,7 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			make_machine
 			vcf_path := a_vcf_path
 			create vcf_out.make_with_name (vcf_path.with_new_extension ("2.vcf"))
-			vcf_out.set_latin_1_encoding
+			vcf_out.set_latin_encoding (1)
 
 			create names.make (5)
 		end
@@ -65,31 +65,31 @@ feature {NONE} -- State handlers
 				names.append_split (line.substring_end (field_name.count + 1), ';', false)
 				-- Swap
 				name := names [1]; names [1] := names [2]; names [2] := name
-				vcf_out.put_string_z (field_name)
-				vcf_out.put_string_z (names.joined_with (';', false))
+				vcf_out.put_string (field_name)
+				vcf_out.put_string (names.joined_with (';', false))
 
 				state := agent put_full_name (?, field_name)
 
 			elseif not line.is_empty then
-				vcf_out.put_string_z (line)
+				vcf_out.put_string (line)
 			end
 			vcf_out.put_new_line
 		end
 
 	put_full_name (line: ZSTRING; field_name: ZSTRING)
 		do
-			vcf_out.put_raw_character ('F')
-			vcf_out.put_string_z (field_name)
-			vcf_out.put_string_z (names [2])
+			vcf_out.put_raw_character_8 ('F')
+			vcf_out.put_string (field_name)
+			vcf_out.put_string (names [2])
 			if field_name ~ Name_field then
-				vcf_out.put_raw_character (' ')
+				vcf_out.put_raw_character_8 (' ')
 			else
-				vcf_out.put_string ("=20")
+				vcf_out.put_string_8 ("=20")
 			end
-			vcf_out.put_string_z (names [1])
+			vcf_out.put_string (names [1])
 			vcf_out.put_new_line
 			if not line.starts_with (Id_fn_upper) then
-				vcf_out.put_string_z (line)
+				vcf_out.put_string (line)
 				vcf_out.put_new_line
 			end
 			state := agent find_name

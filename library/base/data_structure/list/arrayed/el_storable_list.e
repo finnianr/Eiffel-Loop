@@ -1,5 +1,18 @@
 note
-	description: "Summary description for {EL_STORABLE_LIST}."
+	description: "[
+		Provides the following features when used in conjunction with the classes [$source EL_STORABLE_CHAIN] or
+		[$source EL_RECOVERABLE_STORABLE_CHAIN] from the
+		[./library/persistency/database/chain-db/class-index.html Chain-DB library]:
+		
+		* An Eiffel orientated data query language via the features of [$source EL_QUERYABLE_CHAIN]. The
+		class [$source EL_QUERYABLE_ARRAYED_LIST] has links to some examples in the
+		[./library/example/manage-mp3/source/class-index.html mp3-manager] project.
+		
+		* Automatically maintained field indexes accessible via the tuple attribute `index_by'
+		
+		* Automatic maintenance of a primary key index when used in conjunction with class [$source EL_PRIMARY_KEY_INDEXABLE]
+	]"
+	instructions: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -13,7 +26,7 @@ class
 	EL_STORABLE_LIST [G -> EL_STORABLE create make_default end]
 
 inherit
-	EL_ARRAYED_LIST [G]
+	EL_QUERYABLE_ARRAYED_LIST [G]
 		redefine
 			make, extend, replace, wipe_out
 		end
@@ -38,7 +51,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_index_by_key (table_list: BAG [like index_tables.item])
-			-- Implement this by inheriting class `EL_KEY_INDEXABLE' and undefining
+			-- Implement this by inheriting class `EL_PRIMARY_KEY_INDEXABLE' and undefining
 			-- this routine
 		do
 		end
@@ -127,7 +140,7 @@ feature {NONE} -- Event handler
 feature {NONE} -- Implementation
 
 	assign_key (identifiable: EL_STORABLE)
-			-- Implement this by inheriting class `EL_KEY_INDEXABLE' and undefining
+			-- Implement this by inheriting class `EL_PRIMARY_KEY_INDEXABLE' and undefining
 			-- this routine
 		do
 		end
@@ -136,5 +149,35 @@ feature {NONE} -- Implementation
 		do
 			Result := Current
 		end
+
+note
+	instructions: "[
+		To create field indexes for a list, inherit from [$source EL_STORABLE_LIST] or
+		[$source EL_REFLECTIVELY_STORABLE_LIST] and redefine the function `new_index_by' with
+		any number of index members as in this example:
+
+			deferred class
+				CUSTOMER_LIST
+
+			inherit
+				EL_REFLECTIVELY_STORABLE_LIST [CUSTOMER]
+					undefine
+						assign_key, make_index_by_key
+					redefine
+						new_index_by
+					end
+
+				KEY_INDEXABLE [CUSTOMER]
+					undefine
+						is_equal, copy
+					end
+
+			feature {NONE} -- Factory
+
+				new_index_by: TUPLE [email: like new_index_by_string]
+					do
+						Result := [new_index_by_string (agent {CUSTOMER}.email)]
+					end
+	]"
 
 end

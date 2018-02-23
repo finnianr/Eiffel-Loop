@@ -13,7 +13,7 @@ class
 	EL_ISO_8859_15_ZCODEC
 
 inherit
-	EL_ISO_8859_ZCODEC
+	EL_ZCODEC
 
 create
 	make
@@ -35,10 +35,6 @@ feature {NONE} -- Initialization
 				189  -- 'œ'
 			>>)
 		end
-
-feature -- Access
-
-	id: INTEGER = 15
 
 feature -- Conversion
 
@@ -115,7 +111,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 97..122, 166, 168, 180..181, 184, 188..190, 192..214, 216..246, 248..255 then
 					Result := True
 			else
@@ -124,7 +120,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 97..122, 224..246, 248..254, 168, 184, 189, 255 then
 					Result := True
 
@@ -138,7 +134,7 @@ feature -- Character query
 
 	is_numeric (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 48..57 then
 					Result := True
 			else
@@ -147,7 +143,7 @@ feature -- Character query
 
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 192..214, 216..222, 166, 180, 188, 190 then
 					Result := True
 			else
@@ -160,14 +156,14 @@ feature {NONE} -- Implementation
 			-- Unicode value indexed by ISO_8859_15 character values
 		do
 			Result := single_byte_unicode_chars
-			Result [0xA4] := '€' -- 
-			Result [0xA6] := 'Š' -- 
-			Result [0xA8] := 'š' -- 
-			Result [0xB4] := 'Ž' -- 
-			Result [0xB8] := 'ž' -- 
-			Result [0xBC] := 'Œ' -- 
-			Result [0xBD] := 'œ' -- 
-			Result [0xBE] := 'Ÿ' -- 
+			Result [0xA4] := '€' --
+			Result [0xA6] := 'Š' --
+			Result [0xA8] := 'š' --
+			Result [0xB4] := 'Ž' --
+			Result [0xB8] := 'ž' --
+			Result [0xBC] := 'Œ' --
+			Result [0xBD] := 'œ' --
+			Result [0xBE] := 'Ÿ' --
 		end
 
 	latin_set_1: SPECIAL [CHARACTER]

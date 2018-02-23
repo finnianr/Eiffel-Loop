@@ -1,5 +1,5 @@
 note
-	description: "Sets an' operand conforming to  `EL_PATH in `make' routine argument tuple"
+	description: "Sets an' operand conforming to  [$source EL_PATH] in `make' routine argument tuple"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

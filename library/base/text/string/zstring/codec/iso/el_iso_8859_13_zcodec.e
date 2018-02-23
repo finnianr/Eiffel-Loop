@@ -13,7 +13,7 @@ class
 	EL_ISO_8859_13_ZCODEC
 
 inherit
-	EL_ISO_8859_ZCODEC
+	EL_ZCODEC
 
 create
 	make
@@ -112,10 +112,6 @@ feature {NONE} -- Initialization
 				238  -- 'ī'
 			>>)
 		end
-
-feature -- Access
-
-	id: INTEGER = 13
 
 feature -- Conversion
 
@@ -218,7 +214,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 97..122, 168, 170, 175, 181, 184, 186, 191..214, 216..246, 248..254 then
 					Result := True
 			else
@@ -227,7 +223,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 97..122, 224..246, 248..254, 184, 186, 191 then
 					Result := True
 
@@ -241,7 +237,7 @@ feature -- Character query
 
 	is_numeric (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 48..57 then
 					Result := True
 			else
@@ -250,7 +246,7 @@ feature -- Character query
 
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 192..214, 216..222, 168, 170, 175 then
 					Result := True
 			else
@@ -263,37 +259,37 @@ feature {NONE} -- Implementation
 			-- Unicode value indexed by ISO_8859_13 character values
 		do
 			Result := single_byte_unicode_chars
-			Result [0xA0] := ' ' -- 
-			Result [0xA1] := '”' -- 
-			Result [0xA2] := '¢' -- 
-			Result [0xA3] := '£' -- 
-			Result [0xA4] := '¤' -- 
-			Result [0xA5] := '„' -- 
-			Result [0xA6] := '¦' -- 
-			Result [0xA7] := '§' -- 
-			Result [0xA8] := 'Ø' -- 
-			Result [0xA9] := '©' -- 
-			Result [0xAA] := 'Ŗ' -- 
-			Result [0xAB] := '«' -- 
-			Result [0xAC] := '¬' -- 
-			Result [0xAD] := '­' -- 
-			Result [0xAE] := '®' -- 
-			Result [0xAF] := 'Æ' -- 
-			Result [0xB0] := '°' -- 
-			Result [0xB1] := '±' -- 
-			Result [0xB2] := '²' -- 
-			Result [0xB3] := '³' -- 
-			Result [0xB4] := '“' -- 
-			Result [0xB5] := 'µ' -- 
-			Result [0xB6] := '¶' -- 
-			Result [0xB7] := '·' -- 
-			Result [0xB8] := 'ø' -- 
-			Result [0xB9] := '¹' -- 
+			Result [0xA0] := ' ' --
+			Result [0xA1] := '”' --
+			Result [0xA2] := '¢' --
+			Result [0xA3] := '£' --
+			Result [0xA4] := '¤' --
+			Result [0xA5] := '„' --
+			Result [0xA6] := '¦' --
+			Result [0xA7] := '§' --
+			Result [0xA8] := 'Ø' --
+			Result [0xA9] := '©' --
+			Result [0xAA] := 'Ŗ' --
+			Result [0xAB] := '«' --
+			Result [0xAC] := '¬' --
+			Result [0xAD] := '­' --
+			Result [0xAE] := '®' --
+			Result [0xAF] := 'Æ' --
+			Result [0xB0] := '°' --
+			Result [0xB1] := '±' --
+			Result [0xB2] := '²' --
+			Result [0xB3] := '³' --
+			Result [0xB4] := '“' --
+			Result [0xB5] := 'µ' --
+			Result [0xB6] := '¶' --
+			Result [0xB7] := '·' --
+			Result [0xB8] := 'ø' --
+			Result [0xB9] := '¹' --
 			Result [0xBA] := 'ŗ' -- LATIN SMALL LETTER R WITH CEDILLA
-			Result [0xBB] := '»' -- 
-			Result [0xBC] := '¼' -- 
-			Result [0xBD] := '½' -- 
-			Result [0xBE] := '¾' -- 
+			Result [0xBB] := '»' --
+			Result [0xBC] := '¼' --
+			Result [0xBD] := '½' --
+			Result [0xBE] := '¾' --
 			Result [0xBF] := 'æ' -- LATIN SMALL LETTER AE
 			Result [0xC0] := 'Ą' -- LATIN CAPITAL LETTER A WITH OGONEK
 			Result [0xC1] := 'Į' -- LATIN CAPITAL LETTER I WITH OGONEK
@@ -318,7 +314,7 @@ feature {NONE} -- Implementation
 			Result [0xD4] := 'Ō' -- LATIN CAPITAL LETTER O WITH MACRON
 			Result [0xD5] := 'Õ' -- LATIN CAPITAL LETTER O WITH TILDE
 			Result [0xD6] := 'Ö' -- LATIN CAPITAL LETTER O WITH DIAERESIS
-			Result [0xD7] := '×' -- 
+			Result [0xD7] := '×' --
 			Result [0xD8] := 'Ų' -- LATIN CAPITAL LETTER U WITH OGONEK
 			Result [0xD9] := 'Ł' -- LATIN CAPITAL LETTER L WITH STROKE
 			Result [0xDA] := 'Ś' -- LATIN CAPITAL LETTER S WITH ACUTE
@@ -350,7 +346,7 @@ feature {NONE} -- Implementation
 			Result [0xF4] := 'ō' -- LATIN SMALL LETTER O WITH MACRON
 			Result [0xF5] := 'õ' -- LATIN SMALL LETTER O WITH TILDE
 			Result [0xF6] := 'ö' -- LATIN SMALL LETTER O WITH DIAERESIS
-			Result [0xF7] := '÷' -- 
+			Result [0xF7] := '÷' --
 			Result [0xF8] := 'ų' -- LATIN SMALL LETTER U WITH OGONEK
 			Result [0xF9] := 'ł' -- LATIN SMALL LETTER L WITH STROKE
 			Result [0xFA] := 'ś' -- LATIN SMALL LETTER S WITH ACUTE
@@ -358,7 +354,7 @@ feature {NONE} -- Implementation
 			Result [0xFC] := 'ü' -- LATIN SMALL LETTER U WITH DIAERESIS
 			Result [0xFD] := 'ż' -- LATIN SMALL LETTER Z WITH DOT ABOVE
 			Result [0xFE] := 'ž' -- LATIN SMALL LETTER Z WITH CARON
-			Result [0xFF] := '’' -- 
+			Result [0xFF] := '’' --
 		end
 
 	latin_set_1: SPECIAL [CHARACTER]

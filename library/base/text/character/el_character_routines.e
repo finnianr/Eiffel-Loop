@@ -137,25 +137,25 @@ feature -- Basic operations
 			code := character.natural_32_code
 			if code <= 0x7F then
 					-- 0xxxxxxx
-				writeable.write_character_8 (code.to_character_8)
+				writeable.write_raw_character_8 (code.to_character_8)
 
 			elseif code <= 0x7FF then
 					-- 110xxxxx 10xxxxxx
-				writeable.write_character_8 (((code |>> 6) | 0xC0).to_character_8)
-				writeable.write_character_8 (((code & 0x3F) | 0x80).to_character_8)
+				writeable.write_raw_character_8 (((code |>> 6) | 0xC0).to_character_8)
+				writeable.write_raw_character_8 (((code & 0x3F) | 0x80).to_character_8)
 
 			elseif code <= 0xFFFF then
 					-- 1110xxxx 10xxxxxx 10xxxxxx
-				writeable.write_character_8 (((code |>> 12) | 0xE0).to_character_8)
-				writeable.write_character_8 ((((code |>> 6) & 0x3F) | 0x80).to_character_8)
-				writeable.write_character_8 (((code & 0x3F) | 0x80).to_character_8)
+				writeable.write_raw_character_8 (((code |>> 12) | 0xE0).to_character_8)
+				writeable.write_raw_character_8 ((((code |>> 6) & 0x3F) | 0x80).to_character_8)
+				writeable.write_raw_character_8 (((code & 0x3F) | 0x80).to_character_8)
 			else
 					-- code <= 1FFFFF - there are no higher code points
 					-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-				writeable.write_character_8 (((code |>> 18) | 0xF0).to_character_8)
-				writeable.write_character_8 ((((code |>> 12) & 0x3F) | 0x80).to_character_8)
-				writeable.write_character_8 ((((code |>> 6) & 0x3F) | 0x80).to_character_8)
-				writeable.write_character_8 (((code & 0x3F) | 0x80).to_character_8)
+				writeable.write_raw_character_8 (((code |>> 18) | 0xF0).to_character_8)
+				writeable.write_raw_character_8 ((((code |>> 12) & 0x3F) | 0x80).to_character_8)
+				writeable.write_raw_character_8 ((((code |>> 6) & 0x3F) | 0x80).to_character_8)
+				writeable.write_raw_character_8 (((code & 0x3F) | 0x80).to_character_8)
 			end
 		end
 end

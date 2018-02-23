@@ -26,9 +26,9 @@ create
 
 feature -- Element change
 
-	set_utf_encoding (a_encoding: like encoding)
+	set_utf_encoding (id: INTEGER)
 		do
-			Precursor (a_encoding)
+			Precursor (id)
 			enable_bom
 		end
 

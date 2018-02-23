@@ -1,5 +1,5 @@
 note
-	description: "Sets a `EL_DIR_PATH' operand in `make' routine argument tuple"
+	description: "Sets a [$source EL_DIR_PATH] operand in `make' routine argument tuple"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of `EL_JPEG_FILE_INFO_COMMAND_I'"
+	description: "Unix implementation of [$source EL_JPEG_FILE_INFO_COMMAND_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

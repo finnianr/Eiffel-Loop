@@ -1,7 +1,7 @@
 note
 	description: "[
-		Used in conjunction with `[$source EL_REFLECTIVELY_SETTABLE]' to reflectively set fields
-		from name-value pairs, where value conforms to `EL_ZSTRING' aka `ZSTRING'
+		Used in conjunction with [$source EL_REFLECTIVELY_SETTABLE] to reflectively set fields
+		from name-value pairs, where value conforms to [$source EL_ZSTRING] aka `ZSTRING'
 	]"
 
 	author: "Finnian Reilly"

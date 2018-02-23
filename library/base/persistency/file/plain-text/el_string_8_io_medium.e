@@ -1,5 +1,5 @@
 note
-	description: "Text buffer medium encoded as UTF-8"
+	description: "STRING_8 buffer medium with UTF-8 encoding by default"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,7 +10,7 @@ note
 	revision: "2"
 
 class
-	EL_UTF_STRING_8_IO_MEDIUM
+	EL_STRING_8_IO_MEDIUM
 
 inherit
 	EL_STRING_IO_MEDIUM
@@ -37,7 +37,7 @@ feature -- Resizing
 
 feature -- Output
 
-	put_raw_character (c: CHARACTER)
+	put_raw_character_8 (c: CHARACTER)
 			--
 		do
 			text.append_character (c)
@@ -126,5 +126,5 @@ feature {NONE} -- Implementation
 		end
 
 invariant
-	utf_8_encoded: is_utf_8_encoded
+	utf_8_encoded: is_utf_encoding (8)
 end

@@ -186,6 +186,12 @@ feature -- Status report
 
 feature -- Basic operations
 
+	check_class_references
+		do
+			fill_notes
+			notes.check_class_references (source_path.base)
+		end
+
 	fill_notes
 		do
 			notes.fill (source_path)

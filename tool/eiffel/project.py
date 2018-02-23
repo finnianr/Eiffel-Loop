@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 6); build = 29
+version = (1, 0, 7); build = 35
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.7
+# Added source link class name checks to repository publisher
 
 # 1.0.6
 # Created way to define environ vars for CODEBASE_STATISTICS_APP

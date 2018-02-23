@@ -1,4 +1,5 @@
 **Introduction**
+
 This library accomplishes two goals:
 
 1. Manage a collection of small (and possibility related) "mini-applications" as a single Eiffel
@@ -11,16 +12,15 @@ Creating a new project application in Eiffel is expensive both in terms of time 
 project directory structure, and in terms of diskspace. If all you want to do is create a small utility
 to do some relatively minor task, it makes sense to include it with a other such utilities in a single
 application. But you need some framework to manage all these sub-applications. In this package, the two
-classes [./library/runtime/app-manage/el_multi_application_root.html `EL_MULTI_APPLICATION_ROOT'] and
-[./library/runtime/app-manage/sub-app/el_sub_application.html `EL_SUB_APPLICATION'] provide this capability.
+classes [$source EL_MULTI_APPLICATION_ROOT] and [$source EL_SUB_APPLICATION] provide this capability.
 
 **Command line sub-applications**
 
 The following features exist for creating command line applications:
 
-* The class [./library/runtime/app-manage/sub-app/el_command_line_sub_application.html `EL_COMMAND_LINE_SUB_APPLICATION']
-provides a smart way of mapping command line arguments to the arguments of a creation procedure with automatic string
-conversion according to type.
+* The class [$source EL_COMMAND_LINE_SUB_APPLICATION]
+provides a smart way of mapping command line arguments to the arguments of a creation procedure with
+automatic string conversion according to type.
 * Built-in help system with usage help.
 * Create menu driven command line shells.
 

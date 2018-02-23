@@ -13,36 +13,66 @@ deferred class
 	EL_ZCODEC
 
 inherit
+	EL_ENCODEABLE_AS_TEXT
+		rename
+			encoding_id as id,
+			encoding_name as name,
+			encoding_type as type,
+			is_latin_encoded as is_latin,
+			is_windows_encoded as is_windows,
+			is_utf_encoded as is_utf
+		redefine
+			set_default_encoding
+		end
+
 	EL_MODULE_UTF
 
 	STRING_HANDLER
 
 	EL_SHARED_ONCE_STRINGS
 
-feature {NONE} -- Initialization
+feature {EL_FACTORY_CLIENT} -- Initialization
 
 	make
 		do
+			make_default
 			create latin_characters.make_filled ('%U', 1)
 			unicode_table := new_unicode_table
 			initialize_latin_sets
 		end
 
-feature -- Access
-
-	id: INTEGER
-		deferred
-		end
-
-	name: STRING
+	set_default_encoding
+		-- derive encoding from generator class name
+		local
+			l_name: EL_SPLIT_STRING_LIST [STRING]
 		do
-			create Result.make_from_string (type)
-			Result.append_character ('-')
-			Result.append_integer (id)
-		end
-
-	type: STRING
-		deferred
+			create l_name.make (generator, once "_")
+			from l_name.start until l_name.after loop
+				inspect l_name.index
+					when 2 then
+						if l_name.item ~ Name_iso then
+							internal_encoding := Type_latin
+						elseif l_name.item ~ Name_windows then
+							internal_encoding := Type_windows
+						elseif l_name.item ~ Name_utf then
+							internal_encoding := Type_utf
+						end
+					when 3 then
+						if is_windows then
+							set_encoding (Type_windows, l_name.item.to_integer)
+						elseif is_utf then
+							set_encoding (Type_utf, l_name.item.to_integer)
+						end
+					when 4 then
+						if is_latin then
+							set_encoding (Type_latin, l_name.item.to_integer)
+						end
+				else
+				end
+				l_name.forth
+			end
+		ensure then
+			valid_encoding: is_valid_encoding (type, id)
 		end
 
 feature -- Character query
@@ -146,32 +176,38 @@ feature -- Basic operations
 	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
 		local
 			latin_out: STRING; extendible_unencoded: like Once_extendible_unencoded
-			l_area: SPECIAL [CHARACTER]; i: INTEGER
+			l_area: SPECIAL [CHARACTER]; i, count: INTEGER
 		do
+			count := unicode_in.count
 			extendible_unencoded := Once_extendible_unencoded
 			extendible_unencoded.wipe_out
 
 			latin_out := empty_once_string_8
-			latin_out.grow (unicode_in.count)
-			latin_out.set_count (unicode_in.count)
+			latin_out.grow (count)
+			latin_out.set_count (count)
 			encode (unicode_in, latin_out.area, 0, extendible_unencoded)
 
 			l_area := latin_out.area
-			from i := 0 until i = l_area.count loop
-				writeable.write_character_8 (l_area [i])
+			from i := 0 until i = count loop
+				writeable.write_raw_character_8 (l_area [i])
 				i := i + 1
 			end
+		end
+
+	write_encoded_character (uc: CHARACTER_32; writeable: EL_WRITEABLE)
+		do
+			writeable.write_raw_character_8 (encoded_character (uc.natural_32_code))
 		end
 
 feature -- Conversion
 
 	as_unicode (encoded: STRING): READABLE_STRING_GENERAL
-		-- returns `encoded' string as unicode
+		-- returns `encoded' string as unicode assuming the encoding matches `Current' codec
 		-- (if you are keeping a reference make sure to twin the result)
 		local
 			buffer: like Unicode_buffer
 		do
-			if id = 1 then
+			if is_latin_encoding (1) then
 				Result := encoded
 			else
 				buffer := Unicode_buffer

@@ -1,5 +1,5 @@
 note
-	description: "Extends `EL_LOG_MANAGER' for regression testing"
+	description: "Extends [$source EL_LOG_MANAGER] for regression testing"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

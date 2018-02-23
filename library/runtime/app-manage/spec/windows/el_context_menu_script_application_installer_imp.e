@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of `EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_I' interface"
+	description: "Windows implementation of [$source EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_I] interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

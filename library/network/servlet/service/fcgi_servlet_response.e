@@ -15,11 +15,11 @@ class
 inherit
 	EL_HTTP_CONTENT_TYPE_CONSTANTS
 
-	EL_ZCODEC_FACTORY
-
-	EL_MODULE_UTF
-
 	EL_MODULE_HTTP_STATUS
+
+	EL_STRING_CONSTANTS
+
+	SINGLE_MATH
 
 create
 	make
@@ -34,8 +34,8 @@ feature {NONE}-- Initialization
 		do
 			broker := a_broker
 			create cookies.make (5)
-			create headers.make (5)
-			create content_buffer.make_empty
+			create header_list.make (5)
+			create content_buffer.make (0)
 			initial_buffer_size := Default_buffer_size
 			reset
 			write_ok := True
@@ -43,14 +43,14 @@ feature {NONE}-- Initialization
 
 feature -- Access
 
+	content_length: INTEGER
+		-- The length of the content that will be sent with this response.
+
 	socket_error: STRING
 			-- A string describing the socket error which occurred
 		do
 			Result := broker.socket_error
 		end
-
-	content_length: INTEGER
-		-- The length of the content that will be sent with this response.
 
 	status: NATURAL_16
 		-- The result status that will be send with this response.
@@ -85,7 +85,7 @@ feature -- Basic operations
 				is_committed := True
 			end
 			if not is_head_request and not content_buffer.is_empty then
-				write (content_buffer)
+				write (content_buffer.text)
 			end
 		end
 
@@ -97,9 +97,9 @@ feature -- Element change
 		do
 			content_buffer.wipe_out
 			cookies.wipe_out
-			headers.wipe_out
-			set_content_length (0)
-			set_content_type ("text/html")
+			header_list.wipe_out
+			content_length := 0
+			set_content_type (Content_plain_latin_1)
 			set_status (Http_status.ok)
 			is_committed := False
 		end
@@ -117,41 +117,26 @@ feature -- Element change
 			write_error (sc, Http_status.name (sc))
 		end
 
-	set_content (text: READABLE_STRING_GENERAL; a_type: EL_HTTP_CONTENT_TYPE)
+	set_content (text: READABLE_STRING_GENERAL; type: EL_HTTP_CONTENT_TYPE)
 		require
 			valid_mixed_encoding: attached {ZSTRING} text as z_text implies
-												(not a_type.is_utf_8_encoded implies z_text.has_mixed_encoding)
-		local
-			str: STRING
+												(not type.is_utf_encoding (8) implies z_text.has_mixed_encoding)
 		do
-			set_content_type (a_type.out)
-			if attached {ZSTRING} text as z_text then
-				if a_type.is_utf_8_encoded then
-					str := z_text.to_utf_8
-				else
-					str := z_text.as_encoded_8 (new_codec (a_type))
-				end
-			elseif attached {STRING} text as text_8 then
-				str := text_8
-
-			elseif attached {STRING_32} text as text_32 then
-				if a_type.is_utf_8_encoded then
-					str := UTF.string_32_to_utf_8_string_8 (text_32)
-				else
-					str := text_32.as_string_8
-				end
-			else
-				create str.make_empty
-			end
+			set_content_type (type)
 			content_buffer.wipe_out
-			content_buffer.append (str)
+			content_buffer.put_string_general (text)
 		end
 
 	set_content_length (length: INTEGER)
 			-- Set the length of the content body in the response.
+		local
+			header: STRING
 		do
 			content_length := length
-			set_header ("Content-Length", length.out)
+			create header.make (Header_content_length.count + log10 (length).rounded.min (1))
+			header.append (Header_content_length)
+			header.append_integer (length)
+			header_list.extend (header)
 		end
 
 	set_content_ok
@@ -159,17 +144,22 @@ feature -- Element change
 			set_content (once "OK", Content_plain_latin_1)
 		end
 
-	set_content_type (type: STRING)
-			-- Set hte content type of the response being sent to the client.
+	set_content_type (type: EL_HTTP_CONTENT_TYPE)
+			-- set content type of the response being sent to the client.
 			-- The content type may include the type of character encoding used, for
-			-- example, 'text/html; charset=ISO-885904'
+			-- example, 'text/html; charset=ISO-8859-15'
 
 		do
-			if type.substring_index ("charset", 1) = 0 then
-				set_header ("Content-Type", type + latin1)
-			else
-				set_header ("Content-Type", type)
-			end
+			set_header (once "Content-Type", type.specification)
+			content_buffer.set_encoding_from_other (type)
+		end
+
+	set_content_utf_8 (utf_8_text: STRING)
+		-- set `content_buffer' with pre-encoded `utf_8_text'
+		do
+			set_content_type (Content_html_utf_8)
+			content_buffer.wipe_out
+			content_buffer.put_raw_string_8 (utf_8_text)
 		end
 
 	set_header (name, value: STRING)
@@ -177,11 +167,21 @@ feature -- Element change
 			-- header already exists, the new value overwrites the previous
 			-- one.
 		local
-			new_values: like headers.item
+			list: like header_list; found: BOOLEAN
+			header: STRING
 		do
-			create new_values.make (3)
-			new_values.extend (value)
-			headers [name] := new_values
+			list := header_list
+			from list.start until found or list.after loop
+				header := list.item
+				if header.starts_with (name) and then header [name.count + 1] = ':' then
+					list.replace (new_header (name, value))
+					found := True
+				end
+				list.forth
+			end
+			if not found then
+				list.extend (new_header (name, value))
+			end
 		end
 
 	set_status (a_status: like status)
@@ -198,41 +198,19 @@ feature {FCGI_SERVLET_REQUEST} -- Implementation
 	add_header (name, value: STRING)
 			-- Adds a response header with the given naem and value. This
 			-- method allows response headers to have multiple values.
-		local
-			new_values: like headers.item
 		do
-			headers.search (name)
-			if headers.found then
-				headers.found_item.extend (value)
-			else
-				create new_values.make (3)
-				new_values.extend (value)
-				headers [name] := new_values
-			end
+			header_list.extend (new_header (name, value))
 		end
 
-	build_headers: STRING
-			-- Build string representation of headers suitable for sending as a response.			
-		local
-			header_values: like headers.item
-			name: STRING
+	broker: FCGI_REQUEST_BROKER
+		-- broker to read and write request messages from the web server
+
+	new_header (name, value: STRING): STRING
 		do
-			create Result.make (200)
-			across headers as header loop
-				from
-					name := header.key
-					header_values := header.item
-					header_values.start
-				until
-					header_values.off
-				loop
-					Result.append_string (name)
-					Result.append_string (": ")
-					Result.append_string (header_values.item_for_iteration)
-					Result.append_string ("%R%N")
-					header_values.forth
-				end
-			end
+			create Result.make (2 + name.count + value.count)
+			Result.append (name)
+			Result.append (once ": ")
+			Result.append (value)
 		end
 
 	set_cookie_headers
@@ -274,7 +252,7 @@ feature {FCGI_SERVLET_REQUEST} -- Implementation
 			code_name := Http_status.name (sc)
 			html := Error_page_template #$ [code_name, code_name, msg]
 			set_status (sc)
-			set_content_type ("text/html")
+			set_content_type (Content_plain_latin_1)
 			set_content_length (html.count)
 			write_headers
 			write (html)
@@ -289,39 +267,37 @@ feature {FCGI_SERVLET_REQUEST} -- Implementation
 			-- the FastCGI protocol does it for us.
 			set_default_headers
 			set_cookie_headers
-			write (build_headers)
-			write ("%R%N")
+
+			header_list.sort
+			header_list.extend (Empty_string_8)
+			header_list.extend (Empty_string_8)
+			write (header_list.joined_with_string (once "%R%N"))
+
 			is_committed := True
 		ensure
 			is_committed: is_committed
 		end
-
-	broker: FCGI_REQUEST_BROKER
-		-- broker to read and write request messages from the web server
 
 feature {NONE} -- Internal attributes
 
 	Default_buffer_size: INTEGER = 4096
 		-- Default size of output buffer
 
-	content_buffer: STRING
+	content_buffer: EL_STRING_8_IO_MEDIUM
 		-- Buffer for writing output for response. Not used when error or redirect
 		-- pages are sent. Created on demand
 
 	cookies: ARRAYED_LIST [EL_HTTP_COOKIE]
 		-- The cookies that will be sent with this response.
 
-	headers: HASH_TABLE [ARRAYED_LIST [STRING], STRING]
-		-- The headers that will be sent with this response.
+	header_list: EL_STRING_8_LIST
 
 	initial_buffer_size: INTEGER
 		-- Size of buffer to create.
 
 feature {NONE} -- Constants
 
-	Expired_date: STRING = "Tue, 01-Jan-1970 00:00:00 GMT"
-
-	Latin1: STRING = "; charset=ISO-8859-1"
+	Header_content_length: STRING = "Content-Length: "
 
 	Error_page_template: ZSTRING
 		once
@@ -337,5 +313,7 @@ feature {NONE} -- Constants
 				</html>
 			]"
 		end
+
+	Expired_date: STRING = "Tue, 01-Jan-1970 00:00:00 GMT"
 
 end

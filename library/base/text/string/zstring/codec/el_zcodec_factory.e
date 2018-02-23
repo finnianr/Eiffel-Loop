@@ -19,59 +19,36 @@ feature {NONE} -- Factory
 
 	new_codec (encodeable: EL_ENCODEABLE_AS_TEXT): EL_ZCODEC
 		require
-			not_utf_encoded: not encodeable.is_utf_encoded
+			has_codec: has_codec (encodeable)
 		do
-			if encodeable.is_windows_encoded then
-				Result := new_windows_codec (encodeable.encoding)
-			elseif encodeable.is_latin_encoded then
-				Result := new_iso_8859_codec (encodeable.encoding)
+			if encodeable.is_utf_encoding (8) then
+				create {EL_UTF_8_ZCODEC} Result.make
+				
+			elseif encodeable.is_windows_encoded or encodeable.is_latin_encoded then
+				Result := Codec_factory.instance_from_type (Codec_table [encodeable.encoding_id], agent {EL_ZCODEC}.make)
 			else
-				Result := new_iso_8859_codec (1)
+				create {EL_ISO_8859_1_ZCODEC} Result.make
 			end
 		end
 
-	new_iso_8859_codec (id: INTEGER): EL_ISO_8859_ZCODEC
-		require
-			valid_id: is_valid_iso_8859_encoding (id)
-		do
-			Result := ISO_8859_factory.instance_from_type (ISO_8859_codec [id], agent {EL_ISO_8859_ZCODEC}.make)
-		end
-
-	new_windows_codec (id: INTEGER): EL_WINDOWS_ZCODEC
-		require
-			valid_id: is_valid_windows_encoding (id)
-		do
-			Result := Windows_factory.instance_from_type (Windows_codec [id], agent {EL_WINDOWS_ZCODEC}.make)
-		end
-
-feature {NONE}
+feature {NONE} -- Status query
 
 	has_codec (encodeable: EL_ENCODEABLE_AS_TEXT): BOOLEAN
-		require
-			not_utf_encoded: not encodeable.is_utf_encoded
 		do
-			if encodeable.is_windows_encoded then
-				Result := is_valid_windows_encoding (encodeable.encoding)
-			elseif encodeable.is_latin_encoded then
-				Result := is_valid_iso_8859_encoding (encodeable.encoding)
+			if encodeable.is_windows_encoded or encodeable.is_latin_encoded then
+				Result := Codec_table.has_key (encodeable.encoding_id)
+
+			elseif encodeable.is_utf_encoded then
+				Result := encodeable.encoding_id = 8
 			end
-		end
-
-	is_valid_iso_8859_encoding (id: INTEGER): BOOLEAN
-		do
-			Result := (1 |..| 15).has (id) and then id /= 12
-		end
-
-	is_valid_windows_encoding (id: INTEGER): BOOLEAN
-		do
-			Result := (1250 |..| 1258).has (id)
 		end
 
 feature {NONE} -- Constants
 
-	ISO_8859_codec: ARRAY [TYPE [EL_ISO_8859_ZCODEC]]
+	Codec_table: HASH_TABLE [TYPE [EL_ZCODEC], INTEGER]
 		once
-			create Result.make_filled ({EL_ISO_8859_1_ZCODEC}, 1, 15)
+			create Result.make (30)
+			Result [1] := {EL_ISO_8859_1_ZCODEC}
 			Result [2] := {EL_ISO_8859_2_ZCODEC}
 			Result [3] := {EL_ISO_8859_3_ZCODEC}
 			Result [4] := {EL_ISO_8859_4_ZCODEC}
@@ -82,20 +59,14 @@ feature {NONE} -- Constants
 			Result [9] := {EL_ISO_8859_9_ZCODEC}
 			Result [10] := {EL_ISO_8859_10_ZCODEC}
 			Result [11] := {EL_ISO_8859_11_ZCODEC}
--- 		1SO-8859-12 is missing from C-source code
+
+-- 		1SO-8859-12 is not available as it was missing from the original C-source code
+--			used to generate codecs
+
 			Result [13] := {EL_ISO_8859_13_ZCODEC}
 			Result [14] := {EL_ISO_8859_14_ZCODEC}
 			Result [15] := {EL_ISO_8859_15_ZCODEC}
-		end
 
-	ISO_8859_factory: EL_OBJECT_FACTORY [EL_ISO_8859_ZCODEC]
-		once
-			create Result
-		end
-
-	Windows_codec: ARRAY [TYPE [EL_WINDOWS_ZCODEC]]
-		once
-			create Result.make_filled ({EL_WINDOWS_1250_ZCODEC}, 1250, 1258)
 			Result [1251] := {EL_WINDOWS_1251_ZCODEC}
 			Result [1252] := {EL_WINDOWS_1252_ZCODEC}
 			Result [1253] := {EL_WINDOWS_1253_ZCODEC}
@@ -106,7 +77,7 @@ feature {NONE} -- Constants
 			Result [1258] := {EL_WINDOWS_1258_ZCODEC}
 		end
 
-	Windows_factory: EL_OBJECT_FACTORY [EL_WINDOWS_ZCODEC]
+	Codec_factory: EL_OBJECT_FACTORY [EL_ZCODEC]
 		once
 			create Result
 		end

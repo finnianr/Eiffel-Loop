@@ -114,7 +114,7 @@ feature {NONE} -- Line states
 				if line_number > 1 then
 					file_out.put_new_line
 				end
-				file_out.put_string_z (line)
+				file_out.put_string (line)
 			end
 		end
 

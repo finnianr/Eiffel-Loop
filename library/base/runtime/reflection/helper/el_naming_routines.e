@@ -3,7 +3,7 @@ note
 		Object with attribute names that are translateable TO and FROM another naming convention
 		There are also routines to derive a name from the class generator name.
 		
-		Accessible from shared object `Naming' in class `EL_MODULE_NAMING'
+		Accessible from shared object `Naming' in class [$source EL_MODULE_NAMING]
 	]"
 
 	author: "Finnian Reilly"

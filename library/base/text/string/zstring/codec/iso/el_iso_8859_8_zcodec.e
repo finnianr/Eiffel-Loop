@@ -13,7 +13,7 @@ class
 	EL_ISO_8859_8_ZCODEC
 
 inherit
-	EL_ISO_8859_ZCODEC
+	EL_ZCODEC
 
 create
 	make
@@ -52,10 +52,6 @@ feature {NONE} -- Initialization
 				250  -- 'ת'
 			>>)
 		end
-
-feature -- Access
-
-	id: INTEGER = 8
 
 feature -- Conversion
 

@@ -1,7 +1,7 @@
 note
 	description: "[
-		Text view for pure latin encoded text of type `EL_ZSTRING'
-		Use `EL_MIXED_ENCODING_ZSTRING_TEXT_VIEW' for text with mixed encodings of Latin and Unicode
+		Text view for pure latin encoded text of type [$source EL_ZSTRING]
+		Use [$source EL_MIXED_ENCODING_ZSTRING_VIEW] for text with mixed encodings of Latin and Unicode
 	]"
 
 	author: "Finnian Reilly"

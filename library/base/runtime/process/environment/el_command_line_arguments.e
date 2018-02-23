@@ -1,5 +1,5 @@
 note
-	description: "Object to query command line arguments. Accessible via `EL_MODULE_ARGS'"
+	description: "Object to query command line arguments. Accessible via [$source EL_MODULE_ARGS]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

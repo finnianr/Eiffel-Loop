@@ -1,5 +1,9 @@
 note
-	description: "Summary description for {EL_STORABLE_ARRAYED_LIST}."
+	description: "[
+		Adds ability to do reflective CSV exports to list of type [$source EL_STORABLE_LIST]
+		By 'reflective' is meant that the exported CSV field names match the fields name of the
+		class implementing [$source EL_REFLECTIVELY_SETTABLE_STORABLE].
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -37,7 +41,7 @@ feature {NONE} -- Implementation
 			if is_utf_8 then
 				file.set_utf_encoding (8)
 			else
-				file.set_latin_1_encoding
+				file.set_latin_encoding (1)
 			end
 			from start until after loop
 				if not item.is_deleted then
@@ -45,13 +49,12 @@ feature {NONE} -- Implementation
 						file.put_string_8 (item.field_name_list.joined (','))
 						file.put_new_line
 					end
-					file.put_string_z (item.comma_separated_values)
+					file.put_string (item.comma_separated_values)
 					file.put_new_line
 				end
 				forth
 			end
 			file.close
 		end
-
 
 end

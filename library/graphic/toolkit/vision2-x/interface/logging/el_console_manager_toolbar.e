@@ -1,5 +1,12 @@
 note
-	description: "Objects that ..."
+	description: "[
+		Toolbar for switching the console logged output to a different thread.
+		
+		**Features**
+		
+		* Thread contexts are selectable from a dialog drop down list
+		* Thread selection history navigation buttons with browser style ALT left/right arrow keyboard shortcuts
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

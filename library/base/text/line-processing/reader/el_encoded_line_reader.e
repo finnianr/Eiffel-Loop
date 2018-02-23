@@ -19,28 +19,25 @@ inherit
 
 	EL_SHARED_ONCE_STRINGS
 
+	EL_ZCODEC_FACTORY
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_codec: like codec)
+	make (line_source: EL_ENCODEABLE_AS_TEXT)
 		do
-			codec := a_codec
+			codec := new_codec (line_source)
 		end
 
 feature {NONE} -- Implementation
 
 	append_to_line (line: ZSTRING; raw_line: STRING)
-		local
-			count: INTEGER
 		do
-			if Once_string.encoded_with (codec) then
-				-- Already the same as default ZSTRING encoding
-				count := raw_line.count
-				line.grow (count)
-				line.area.copy_data (raw_line.area, 0, 0, count)
-				line.set_count (count)
+			if line.encoded_with (codec) then
+				raw_line.prune_all ('%/026/') -- Reserved by `EL_ZSTRING' as Unicode placeholder
+				line.append_raw_string_8 (raw_line)
 			else
 				line.append_string_general (codec.as_unicode (raw_line))
 			end

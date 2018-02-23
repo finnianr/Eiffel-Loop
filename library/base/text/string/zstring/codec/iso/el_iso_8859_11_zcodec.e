@@ -13,7 +13,7 @@ class
 	EL_ISO_8859_11_ZCODEC
 
 inherit
-	EL_ISO_8859_ZCODEC
+	EL_ZCODEC
 
 create
 	make
@@ -115,10 +115,6 @@ feature {NONE} -- Initialization
 			>>)
 		end
 
-feature -- Access
-
-	id: INTEGER = 11
-
 feature -- Conversion
 
 	as_upper (code: NATURAL): NATURAL
@@ -175,7 +171,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 97..122, 219..222, 252..255 then
 					Result := True
 			else
@@ -184,7 +180,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 97..122, 252..254 then
 					Result := True
 
@@ -198,7 +194,7 @@ feature -- Character query
 
 	is_numeric (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 48..57, 240..249 then
 					Result := True
 			else
@@ -207,7 +203,7 @@ feature -- Character query
 
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 220..222 then
 					Result := True
 			else

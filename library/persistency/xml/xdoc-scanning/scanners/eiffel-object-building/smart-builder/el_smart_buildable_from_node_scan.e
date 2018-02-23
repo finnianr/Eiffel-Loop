@@ -4,7 +4,7 @@ note
 		
 			<?create {MY_CLASS}?>
 			
-		`MY_CLASS' represents an implementation of the deferred class `EL_BUILDABLE_FROM_XML' and it knows how
+		`MY_CLASS' represents an implementation of the deferred class [$source EL_BUILDABLE_FROM_XML] and it knows how
 		to build itself from this type of document. The built object is accessible via the attribute `target'.
 	]"
 

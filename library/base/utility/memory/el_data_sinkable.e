@@ -17,7 +17,10 @@ inherit
 
 	EL_WRITEABLE
 		rename
-			write_character_8 as sink_raw_character_8, -- Allows UTF-8 conversion
+			write_raw_character_8 as sink_raw_character_8, -- Allows UTF-8 conversion
+			write_raw_string_8 as sink_raw_string_8,
+
+			write_character_8 as sink_character_8,
 			write_character_32 as sink_character_32,
 			write_integer_8 as sink_integer_8,
 			write_integer_16 as sink_integer_16,
@@ -184,11 +187,6 @@ feature -- Character sinks
 			end
 		end
 
-	sink_raw_character_8 (in: CHARACTER_8)
-		-- sink unencoded character
-		deferred
-		end
-
 feature -- String sinks
 
 	sink_joined_strings (list: CHAIN [READABLE_STRING_GENERAL]; delimiter: CHARACTER_32)
@@ -242,10 +240,6 @@ feature -- String sinks
 			else
 				sink_raw_string_8 (in)
 			end
-		end
-
-	sink_raw_string_8 (in: STRING)
-		deferred
 		end
 
 feature {NONE} -- Constants

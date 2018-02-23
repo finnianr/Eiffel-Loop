@@ -151,8 +151,8 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
-			Result := building_actions_for_type ({ZSTRING}, Text_element_node)
-			Result ["location/text()"] := agent do set_location_from_uri (Url.decoded_path (node.to_string_8)) end
+			Result := building_actions_for_type ({ZSTRING}, Text_element_node) +
+				["location/text()", agent do set_location_from_uri (Url.decoded_path (node.to_string_8)) end]
 		end
 
 	export_name: like Naming.default_export

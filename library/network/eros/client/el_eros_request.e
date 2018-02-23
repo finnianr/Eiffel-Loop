@@ -50,8 +50,7 @@ feature -- Element change
 		require
 			proxy_class_correctly_named: proxy_object.generator.ends_with (Proxy_class_name_suffix)
 		local
-			l_template: EL_SUBSTITUTION_TEMPLATE [STRING]
-			class_name: STRING
+			l_template: EL_STRING_8_TEMPLATE; class_name: STRING
 		do
 			class_name := proxy_object.generator
 			class_name.remove_tail (Proxy_class_name_suffix.count)  -- Removes '_PROXY' characters
@@ -141,13 +140,13 @@ feature -- Constants
 			create Result.make
 		end
 
-	Expression_template: EL_SUBSTITUTION_TEMPLATE [STRING]
+	Expression_template: EL_STRING_8_TEMPLATE
 			--
 		once
 			create Result.make (Call_template + " ($argument_list)")
 		end
 
-	Empty_arguments_expression_template: EL_SUBSTITUTION_TEMPLATE [STRING]
+	Empty_arguments_expression_template: EL_STRING_8_TEMPLATE
 			--
 		once
 			create Result.make (Call_template)

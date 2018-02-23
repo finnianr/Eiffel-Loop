@@ -1,5 +1,5 @@
 note
-	description: "Test for similar type of class `EL_PAYPAL_TRANSACTION'"
+	description: "Test for similar type of class [$source EL_PAYPAL_TRANSACTION]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

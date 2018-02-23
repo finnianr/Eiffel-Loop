@@ -1,5 +1,5 @@
 note
-	description: "Test [$source `EL_SUBSTITUTION_TEMPLATE']"
+	description: "Test [$source EL_SUBSTITUTION_TEMPLATE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

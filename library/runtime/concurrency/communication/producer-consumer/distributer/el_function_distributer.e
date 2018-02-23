@@ -1,8 +1,8 @@
 note
 	description: "[
-		Descendant of `[$source EL_WORK_DISTRIBUTER]' specialized for functions.
+		Descendant of [$source EL_WORK_DISTRIBUTER] specialized for functions.
 		`G' is the return type of functions you wish to execute. For an example on how to use see class
-		[$source `TEST_WORK_DISTRIBUTER_APP']
+		[$source TEST_WORK_DISTRIBUTER_APP]
 	]"
 
 	author: "Finnian Reilly"

@@ -74,7 +74,7 @@ feature {NONE} -- Implementation
 	put_string (str: READABLE_STRING_GENERAL)
 			-- Write `s' at current position.
 		do
-			output.put_string (str)
+			output.put_string_general (str)
 		end
 
 feature {NONE} -- Internal attributes

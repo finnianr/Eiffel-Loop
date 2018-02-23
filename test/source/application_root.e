@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	notes: TUPLE [DONE_LIST, TO_DO_LIST]
+	notes: TUPLE [DONE_LIST, TO_DO_LIST, EL_ENCODEABLE_AS_TEXT_2]
 		do
 		end
 

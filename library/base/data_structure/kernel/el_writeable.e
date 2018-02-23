@@ -60,6 +60,11 @@ feature -- Real
 
 feature -- String
 
+	write_raw_string_8 (value: READABLE_STRING_8)
+		-- write encoded string (usually UTF-8)
+		deferred
+		end
+
 	write_string_8 (value: READABLE_STRING_8)
 		deferred
 		end
@@ -92,6 +97,12 @@ feature -- Access
 		end
 
 	write_pointer (value: POINTER)
+		deferred
+		end
+
+
+	write_raw_character_8 (value: CHARACTER)
+		-- write an encoding character
 		deferred
 		end
 

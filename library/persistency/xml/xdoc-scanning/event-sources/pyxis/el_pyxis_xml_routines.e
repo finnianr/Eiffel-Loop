@@ -51,7 +51,7 @@ feature -- Access
 
 	to_utf_8_xml (a_pyxis_file_path: EL_FILE_PATH): STRING
 		local
-			xml_out: EL_UTF_STRING_8_IO_MEDIUM
+			xml_out: EL_STRING_8_IO_MEDIUM
 		do
 			create xml_out.make_open_write (File_system.file_byte_count (a_pyxis_file_path))
 			convert_to_xml (a_pyxis_file_path, xml_out)

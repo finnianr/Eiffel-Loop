@@ -1,6 +1,6 @@
 note
 	description: "[
-		Object that can read and write itself to a memory buffer of type `EL_MEMORY_READER_WRITER'.
+		Object that can read and write itself to a memory buffer of type [$source EL_MEMORY_READER_WRITER].
 	]"
 
 	author: "Finnian Reilly"
@@ -27,7 +27,7 @@ feature -- Status query
 feature {EL_STORABLE_HANDLER} -- Status change
 
 	delete
-			-- mark item as deleted
+			-- mark item as being deleted
 		do
 			is_deleted := True
 		end

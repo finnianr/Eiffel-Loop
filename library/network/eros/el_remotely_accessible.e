@@ -332,7 +332,7 @@ feature {NONE} -- Anchored type declarations
 
 feature {NONE} -- Constants
 
-	Type_mismatch_error_template: EL_SUBSTITUTION_TEMPLATE [STRING]
+	Type_mismatch_error_template: EL_STRING_8_TEMPLATE
 			--
 		once
 			create Result.make ("is a $actual_type, should be: $expected_type")

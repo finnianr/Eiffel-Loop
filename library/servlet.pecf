@@ -70,5 +70,17 @@ system:
 		# Source code
 		cluster:
 			name = servlet; location = "network/servlet"; recursive = true
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
 
 

@@ -26,6 +26,9 @@ inherit
 		end
 
 	EL_WRITEABLE
+		rename
+			write_raw_character_8 as write_character_8,
+			write_raw_string_8 as write_string_8
 		export
 			{NONE} all
 		end

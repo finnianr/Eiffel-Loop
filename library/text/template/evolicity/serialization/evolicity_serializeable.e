@@ -1,6 +1,6 @@
 note
 	description: "[
-		Classes which inherit from `EVOLICITY_SERIALIZEABLE' can be serialized as text files using an Evolicity
+		Classes which inherit from [$source EVOLICITY_SERIALIZEABLE] can be serialized as text files using an Evolicity
 		template. A template contains a mixture of literal text and Evolicity code that outputs data from Eiffel
 		objects. The template can be an either an external file or hard coded in the class by implementing the
 		function `template: READABLE_STRING_GENERAL'.
@@ -289,7 +289,8 @@ note
 
 		**2.** Evolicity Context
 
-		A type conforming to `EVOLICITY_CONTEXT' or `EVOLICITY_CONTEXT_IMP' or `EVOLICITY_SERIALIZEABLE'. In the
+		A type conforming to [$source EVOLICITY_CONTEXT] or [$source EVOLICITY_CONTEXT_IMP]
+		or [$source EVOLICITY_SERIALIZEABLE]. In the
 		client template page, you use the standard feature call dot notation to select which object within
 		the context you want to substitute into the template.
 		
@@ -307,10 +308,10 @@ note
 		
 		**STANDARD VARIABLES**
 		
-		Contexts which inherit `EVOLICITY_SERIALIZEABLE' have a number of built-in standard variables. These are:
+		Contexts which inherit [$source EVOLICITY_SERIALIZEABLE] have a number of built-in standard variables. These are:
 		
 		* **encoding_name:** the output encoding for the current template. For example: `UTF-8'
-		* **template_name:** the name of the current template. Internally this is of type `EL_FILE_PATH'.
+		* **template_name:** the name of the current template. Internally this is of type [$source EL_FILE_PATH].
 		* **current:** the current context of the template
 
 		**SYNTAX REFERENCE**
@@ -375,15 +376,15 @@ note
 			1. First way
 			#evaluate ({<CLASS-NAME>}.template, $<variable-name>)
 
-		Here `<CLASS-NAME>' must be some type which conforms to type `EVOLICITY_SERIALIZEABLE' and therefore has a template.
-		The variable in the second argument is some Eiffel data accessible as an Evolicity variable which is referenced
-		by the nested template.
+		Here `<CLASS-NAME>' must be some type which conforms to type [$source EVOLICITY_SERIALIZEABLE]
+		and therefore has a template. The variable in the second argument is some Eiffel data accessible
+		as an Evolicity variable which is referenced by the nested template.
 
 			2. Second way
 			#evaluate ($<variable-name>.template_name, $<variable-name>)
 
-		Here the first argument is a reference to an object that conforms to type `EVOLICITY_SERIALIZEABLE' and
-		therefore has a template name which be referenced with the implicit variable name `template_name'.
+		Here the first argument is a reference to an object that conforms to type [$source EVOLICITY_SERIALIZEABLE']
+		and therefore has a template name which be referenced with the implicit variable name `template_name'.
 
 			3. Third way
 			#evaluate ($<template-variable-name>, $<variable-name>)

@@ -1,5 +1,5 @@
 note
-	description: "Reads legacy `EL_ASTRING' type"
+	description: "Reads obsolete `EL_ASTRING' data"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

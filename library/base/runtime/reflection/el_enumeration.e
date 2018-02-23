@@ -2,7 +2,7 @@ note
 	description: "[
 		Object for mapping names to code numbers with bi-directional lookups, i.e.
 		obtain the code from a name and the name from a code. The generic parameter 
-		can be any `NUMERIC' type.
+		can be any [https://www.eiffel.org/files/doc/static/18.01/libraries/base/numeric_chart.html NUMERIC] type.
 	]"
 	instructions: "[
 		Typically you would make a shared instance of an implementation class inheriting

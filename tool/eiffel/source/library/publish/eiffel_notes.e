@@ -22,7 +22,13 @@ inherit
 
 	EL_MODULE_COLON_FIELD
 
+	EL_MODULE_LIO
+
+	EL_MODULE_USER_INPUT
+
 	EL_MODULE_XML
+
+	SHARED_HTML_CLASS_SOURCE_TABLE
 
 create
 	make
@@ -87,14 +93,14 @@ feature -- Status query
 			end
 		end
 
-	has_other_field_titles: BOOLEAN
-		do
-			Result := across fields as l_field some l_field.key /~ Field_description end
-		end
-
 	has_fields: BOOLEAN
 		do
 			Result := not fields.is_empty
+		end
+
+	has_other_field_titles: BOOLEAN
+		do
+			Result := across fields as l_field some l_field.key /~ Field_description end
 		end
 
 feature -- Basic operations
@@ -106,6 +112,15 @@ feature -- Basic operations
 				if fields.item (key.item).is_empty then
 					fields.remove (key.item)
 				end
+			end
+		end
+
+	check_class_references (base_name: ZSTRING)
+		-- check class references in note fields
+		do
+			from fields.start until fields.after loop
+				fields.item_for_iteration.do_all (agent check_links_for_line (?, base_name))
+				fields.forth
 			end
 		end
 
@@ -207,6 +222,30 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
+	check_links_for_line (line, base_name: ZSTRING)
+		do
+			line.do_with_splits (Left_square_bracket, agent check_link_candidate (?, base_name))
+		end
+
+	check_link_candidate (str, base_name: ZSTRING)
+		local
+			pos_close: INTEGER; name: ZSTRING
+		do
+			if str.starts_with (Source_variable) then
+				pos_close := str.index_of (']', Source_variable.count)
+				if pos_close > 0 then
+					name := class_name (str.substring (Source_variable.count + 1, pos_close - 1))
+					if not Class_source_table.has_key (name) then
+						lio.put_path_field ("Note source link in", relative_class_dir + base_name)
+						lio.put_new_line
+						lio.put_labeled_string ("Cannot find class", name)
+						lio.put_new_line
+						lio.put_new_line
+					end
+				end
+			end
+		end
+
 	new_title (name: ZSTRING): ZSTRING
 		do
 			Result := name.as_proper_case; Result.replace_character ('_', ' ')
@@ -238,6 +277,11 @@ feature {NONE} -- Constants
 			Result := "description"
 		end
 
+	Left_square_bracket: ZSTRING
+		once
+			Result := "["
+		end
+
 	Manifest_string_end: ZSTRING
 		once
 			Result := "]%""
@@ -252,6 +296,11 @@ feature {NONE} -- Constants
 		once
 			Result := Class_declaration_keywords.twin
 			Result.extend ("end")
+		end
+
+	Source_variable: ZSTRING
+		once
+			Result := "$source "
 		end
 
 	Standard_descriptions: ARRAY [ZSTRING]

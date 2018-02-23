@@ -25,10 +25,6 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_UTF
-
-	EL_ZCODEC_FACTORY
-
 feature {NONE} -- Initialization
 
 	make_default
@@ -95,7 +91,7 @@ feature -- Status query
 	is_empty: BOOLEAN
 			-- Is there no element?
 		do
-			Result := source.is_empty
+			Result := attached source implies source.is_empty
 		end
 
 	is_shared_item: BOOLEAN
@@ -197,7 +193,7 @@ feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
 			open_at_start
 			if source.count >= 3 then
 				source.read_stream (3)
-				has_utf_8_bom := source.last_string ~ UTF.Utf_8_bom_to_string_8
+				has_utf_8_bom := source.last_string ~ {UTF_CONVERTER}.Utf_8_bom_to_string_8
 				if has_utf_8_bom then
 					set_utf_encoding (8)
 				end
@@ -209,11 +205,7 @@ feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
 
 	new_reader: like reader
 		do
-			if is_utf_8_encoded then
-				create {EL_UTF_8_ENCODED_LINE_READER [F]} Result
-			else
-				create {EL_ENCODED_LINE_READER [F]} Result.make (new_codec (Current))
-			end
+			create {EL_ENCODED_LINE_READER [F]} Result.make (Current)
 		end
 
 	reader: EL_LINE_READER [F]

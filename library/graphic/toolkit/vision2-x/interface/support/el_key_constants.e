@@ -1,6 +1,8 @@
 note
 	description: "[
-		Copy of `Key_strings' from class `EV_KEY_CONSTANTS' for use in sub-application: `EL_CHECK_LOCALE_STRINGS_APP'.
+		Copy of `Key_strings' from class
+		[https://www.eiffel.org/files/doc/static/17.01/libraries/vision2/ev_key_constants_chart.html EV_KEY_CONSTANTS]
+		for use in sub-application: [$source EL_CHECK_LOCALE_STRINGS_APP].
 		These localized names are referenced in class [$source EL_MENU]
 	]"
 

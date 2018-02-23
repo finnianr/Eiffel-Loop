@@ -2,17 +2,13 @@ note
 	description: "[
 		Object to distribute work of evaulating routines over a maximum number of threads.
 		
-		It can be used directly, or by using one of it's two descendants `EL_FUNCTION_DISTRIBUTER'
-		and `EL_PROCEDURE_DISTRIBUTER'.
-		
-		**Known issues**
-		
-		If you don't give sufficient work to the threads, the `do_final' call may hang.
+		It can be used directly, or by using one of it's two descendants [$source EL_FUNCTION_DISTRIBUTER]
+		and [$source EL_PROCEDURE_DISTRIBUTER].
 	]"
 	instructions: "[
 		Use the class in the following way:
 		
-		**1.** Declare an instance of `EL_WORK_DISTRIBUTER'
+		**1.** Declare an instance of [$source EL_WORK_DISTRIBUTER]
 			
 		**2.** Repeatedly call `wait_apply' with the routines you want to execute in parallel.
 			distributer.wait_apply (agent my_routine)

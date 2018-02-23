@@ -13,7 +13,7 @@ class
 	EL_ISO_8859_3_ZCODEC
 
 inherit
-	EL_ISO_8859_ZCODEC
+	EL_ZCODEC
 
 create
 	make
@@ -69,10 +69,6 @@ feature {NONE} -- Initialization
 				188  -- 'ĵ'
 			>>)
 		end
-
-feature -- Access
-
-	id: INTEGER = 3
 
 feature -- Conversion
 
@@ -149,7 +145,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 97..122, 161, 166, 169..172, 175, 177, 181..182, 185..188, 191..214, 216..246, 248..254 then
 					Result := True
 			else
@@ -158,7 +154,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 97..122, 224..246, 248..254, 177, 182, 186..188, 191, 185 then
 					Result := True
 
@@ -172,7 +168,7 @@ feature -- Character query
 
 	is_numeric (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 48..57 then
 					Result := True
 			else
@@ -181,7 +177,7 @@ feature -- Character query
 
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 192..214, 216..222, 161, 166, 170..172, 175, 169 then
 					Result := True
 			else
@@ -282,7 +278,7 @@ feature {NONE} -- Implementation
 			Result [0xFC] := 'ü' -- LATIN SMALL LETTER U WITH DIAERESIS
 			Result [0xFD] := 'ŭ' -- LATIN SMALL LETTER U WITH BREVE
 			Result [0xFE] := 'ŝ' -- LATIN SMALL LETTER S WITH CIRCUMFLEX
-			Result [0xFF] := '˙' -- 
+			Result [0xFF] := '˙' --
 		end
 
 	latin_set_1: SPECIAL [CHARACTER]

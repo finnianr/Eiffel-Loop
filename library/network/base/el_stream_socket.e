@@ -16,7 +16,7 @@ inherit
 	STREAM_SOCKET
 		rename
 			put_string as put_raw_string_8,
-			put_character as put_raw_character
+			put_character as put_raw_character_8
 		redefine
 			read_stream, readstream
 		end
@@ -99,7 +99,7 @@ feature -- Output
 	put_end_of_string_delimiter
 			-- put end of string delimiter
 		do
-			put_raw_character (End_of_string_delimiter)
+			put_raw_character_8 (End_of_string_delimiter)
 		end
 
 feature {NONE} -- Unimplemented

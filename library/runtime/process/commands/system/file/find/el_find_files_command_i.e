@@ -1,5 +1,5 @@
 note
-	description: "Cross platform interface to `EL_FIND_FILES_COMMAND_IMP'"
+	description: "Cross platform interface to [$source EL_FIND_FILES_COMMAND_IMP]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

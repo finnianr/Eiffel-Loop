@@ -1,12 +1,12 @@
 ﻿note
 	description: "[
-		Object accessible via `EL_MODULE_LOCALE' that returns translated strings using the syntax:
+		Object accessible via [$source EL_MODULE_LOCALE] that returns translated strings using the syntax:
 		
 			Locale * "<text>"
 			
 		The translation files are named `locale.x' where `x' is a 2 letter country code, with
 		expected location defined by `Localization_dir', By default this is set to 
-		`Directory.Application_installation' accessible via `EL_MODULE_DIRECTORY'.
+		`Directory.Application_installation' accessible via [$source EL_MODULE_DIRECTORY].
 		
 		The locale data files are compiled from Pyxis format using the `el_toolkit -compile_translations'
 		sub-application option.

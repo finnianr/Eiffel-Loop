@@ -1,5 +1,5 @@
 note
-	description: "Sub-menu of an application menu `EL_MENU'"
+	description: "Sub-menu of an application menu [$source EL_MENU]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

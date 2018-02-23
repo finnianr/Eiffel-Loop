@@ -225,8 +225,7 @@ feature {NONE} -- Implementation
 	to_ucs4 (str: ZSTRING): EL_C_DATA
 			--
 		local
-			l_area: SPECIAL [CHARACTER_8]
-			l_area_16: SPECIAL [NATURAL_16]
+			l_area: SPECIAL [CHARACTER_8]; l_area_16: SPECIAL [NATURAL_16]
 		do
 			if encoding = Encoding_ISO_8859_1 then
 				l_area := str.to_latin_1.area

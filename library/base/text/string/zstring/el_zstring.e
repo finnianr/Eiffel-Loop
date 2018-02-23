@@ -34,6 +34,7 @@ inherit
 
 	EL_WRITEABLE
 		rename
+			write_raw_character_8 as append_raw_character_8,
 			write_character_8 as append_character_8,
 			write_character_32 as append_character,
 			write_integer_8 as append_integer_8,
@@ -44,6 +45,7 @@ inherit
 			write_natural_16 as append_natural_16,
 			write_natural_32 as append_natural_32,
 			write_natural_64 as append_natural_64,
+			write_raw_string_8 as append_raw_string_8,
 			write_real_32 as append_real,
 			write_real_64 as append_double,
 			write_string as append_string,
@@ -167,6 +169,19 @@ feature -- Status query
 		end
 
 feature -- Element change
+
+	append_raw_string_8 (str: STRING_8)
+			-- append string with same encoding as `codec'
+		require else
+			must_not_have_reserved_substitute_character: not str.has ('%/026/')
+		local
+			old_count: INTEGER
+		do
+			old_count := count
+			grow (old_count + str.count)
+			set_count (old_count + str.count)
+			area.copy_data (str.area, 0, old_count, str.count)
+		end
 
 	append_substring_general (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
 		do
@@ -547,6 +562,10 @@ feature -- Removal
 		end
 
 feature {NONE} -- Implementation
+
+	append_raw_character_8 (value: CHARACTER)
+		do
+		end
 
 	append_string_8 (str: READABLE_STRING_8)
 		do

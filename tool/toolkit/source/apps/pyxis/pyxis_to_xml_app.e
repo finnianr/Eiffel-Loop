@@ -30,17 +30,12 @@ feature -- Testing
 	test_run
 			--
 		do
---			Test.do_all_files_test ("pyxis/localization", "*.pyx", agent test_pyxis_to_xml, 2102789230)
---			Test.do_all_files_test ("pyxis", "*", agent test_pyxis_to_xml, 2885827006)
+--			Test.do_all_files_test ("pyxis/localization", "*.pyx", agent test_pyxis_to_xml, 2456797719)
+			Test.do_all_files_test ("pyxis", "*", agent test_pyxis_to_xml, 3520740179)
 
---			Test.do_file_test ("pyxis/translations.xml.pyx", agent test_pyxis_to_xml_from_string_medium, 1044910295)
-
---			Test.do_file_test ("pyxis/translations.xml.pyx", agent test_pyxis_parser, 1282092045)
-
-			Test.do_file_test ("pyxis/eiffel-loop.pecf", agent test_pyxis_to_xml, 1939476645)
+--			Test.do_file_test ("pyxis/eiffel-loop.pecf", agent test_pyxis_to_xml, 1178369469)
 
 --			Test.do_file_test ("pyxis/configuration.xsd.pyx", agent test_pyxis_to_xml, 638220420)
-
 
 --			Test.do_file_test ("pyxis/eiffel-loop.2.pecf", agent test_pyxis_parser, 1282092045)
 

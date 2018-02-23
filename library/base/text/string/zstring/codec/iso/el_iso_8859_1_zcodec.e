@@ -13,7 +13,7 @@ class
 	EL_ISO_8859_1_ZCODEC
 
 inherit
-	EL_ISO_8859_ZCODEC
+	EL_ZCODEC
 		rename
 			single_byte_unicode_chars as new_unicode_table
 		end
@@ -26,10 +26,6 @@ feature {NONE} -- Initialization
 	initialize_latin_sets
 		do
 		end
-
-feature -- Access
-
-	id: INTEGER = 1
 
 feature -- Conversion
 

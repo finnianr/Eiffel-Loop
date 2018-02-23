@@ -260,7 +260,7 @@ feature {NONE} -- Implementation
 		do
 			create out_file.make_open_write (encrypted_lines.file_path.without_extension)
 			across encrypted_lines as line loop
-				out_file.put_string_z (line.item)
+				out_file.put_string (line.item)
 				out_file.put_new_line
 			end
 			out_file.close

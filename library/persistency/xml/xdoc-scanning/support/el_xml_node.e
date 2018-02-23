@@ -248,19 +248,19 @@ feature -- Extended Latin
 
 feature -- Strings: UTF-8 encoded
 
-	to_raw_utf8: STRING
+	to_raw_utf_8: STRING
 			--
 		do
 			Result := UTF.string_32_to_utf_8_string_8 (raw_content)
 		end
 
-	to_utf8: STRING
+	to_utf_8: STRING
 			--
 		do
 			Result := UTF.string_32_to_utf_8_string_8 (to_string_32)
 		end
 
-	to_normalized_case_utf8: STRING
+	to_normalized_case_utf_8: STRING
 			--
 		do
 			Result := UTF.string_32_to_utf_8_string_8 (to_normalized_case_string_32)

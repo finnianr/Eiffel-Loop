@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of `EL_OS_ROUTINES_I' interface"
+	description: "Unix implementation of [$source EL_OS_ROUTINES_I] interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

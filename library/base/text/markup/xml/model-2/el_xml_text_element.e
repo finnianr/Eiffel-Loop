@@ -43,9 +43,9 @@ feature -- Basic operations
 
 	write (medium: EL_OUTPUT_MEDIUM)
 		do
-			medium.put_string_z (open)
-			medium.put_string_z (text)
-			medium.put_string_z (closed)
+			medium.put_string (open)
+			medium.put_string (text)
+			medium.put_string (closed)
 			medium.put_new_line
 		end
 

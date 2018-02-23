@@ -40,7 +40,7 @@ feature -- Basic operations
 			socket.connect
 			across << "greeting hello", "one 1", "two 2", "quit" >> as word loop
 				log.put_line (word.item)
-				socket.put_string (word.item)
+				socket.put_string_8 (word.item)
 				socket.put_new_line
 			end
 			socket.close

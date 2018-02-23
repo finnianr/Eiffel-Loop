@@ -7,8 +7,8 @@ note
 		The field is settable with `set_field' by a name string that does not have a trailing underscore.
 
 		To adapt foreign names that do not follow the Eiffel snake-case convention redefine `import_name'
-		to return a routine in `EL_ATTRIBUTE_NAME_ROUTINES' prefixed with `from_'. To export Eiffel names
-		redefine `export_name' to return a routine in `EL_ATTRIBUTE_NAME_ROUTINES' prefixed with `to_'.
+		to return a routine in [$source EL_NAMING_ROUTINES] (accessible as `Naming.from_*'). To export Eiffel names
+		redefine `export_name' to return a routine in [$source EL_NAMING_ROUTINES] (accessible as `Naming.to_*').
 	]"
 
 	author: "Finnian Reilly"

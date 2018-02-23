@@ -13,7 +13,7 @@ class
 	EL_ISO_8859_2_ZCODEC
 
 inherit
-	EL_ISO_8859_ZCODEC
+	EL_ZCODEC
 
 create
 	make
@@ -106,10 +106,6 @@ feature {NONE} -- Initialization
 			>>)
 		end
 
-feature -- Access
-
-	id: INTEGER = 2
-
 feature -- Conversion
 
 	as_upper (code: NATURAL): NATURAL
@@ -192,7 +188,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 97..122, 161, 163, 165..166, 169..172, 174..175, 177, 179, 181..182, 185..188, 190..214, 216..246, 248..254 then
 					Result := True
 			else
@@ -201,7 +197,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 97..122, 224..246, 248..254, 177, 179, 181..182, 185..188, 190..191 then
 					Result := True
 
@@ -215,7 +211,7 @@ feature -- Character query
 
 	is_numeric (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 48..57 then
 					Result := True
 			else
@@ -224,7 +220,7 @@ feature -- Character query
 
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 192..214, 216..222, 161, 163, 165..166, 169..172, 174..175 then
 					Result := True
 			else
@@ -237,9 +233,9 @@ feature {NONE} -- Implementation
 			-- Unicode value indexed by ISO_8859_2 character values
 		do
 			Result := single_byte_unicode_chars
-			Result [0xA0] := ' ' -- NO-BREAK SPACE 
+			Result [0xA0] := ' ' -- NO-BREAK SPACE
 			Result [0xA1] := 'Ą' -- LATIN CAPITAL LETTER A WITH OGONEK
-			Result [0xA2] := '˘' -- BREVE 
+			Result [0xA2] := '˘' -- BREVE
 			Result [0xA3] := 'Ł' -- LATIN CAPITAL LETTER L WITH STROKE
 			Result [0xA4] := '¤' -- CURRENCY SIGN
 			Result [0xA5] := 'Ľ' -- LATIN CAPITAL LETTER L WITH CARON

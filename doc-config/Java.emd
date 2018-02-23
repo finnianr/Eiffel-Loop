@@ -8,9 +8,9 @@ interface to the JNI ([https://en.wikipedia.org/wiki/Java_Native_Interface Java 
 * Automates cleanup of Java objects.
 
 The framework is based on the concept of a Java agent that is similar to an Eiffel agent. You will find classes:
-[$source `JAVA_FUNCTION'] and 
-[$source `JAVA_PROCEDURE'] that inherit
-[$source `JAVA_ROUTINE'].
+[$source JAVA_FUNCTION] and 
+[$source JAVA_PROCEDURE] that inherit
+[$source JAVA_ROUTINE].
 These agent classes automatically generate correct JNI call signatures. The library allows the creation
 of recursively wrapped classes where the arguments and return types to wrapped routines are themselves
 wrapped classes.

@@ -34,7 +34,7 @@ feature -- Basic operations
 	execute (context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
 		do
-			output.put_string_z (text)
+			output.put_string (text)
 		end
 
 end

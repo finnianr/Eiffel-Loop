@@ -4,17 +4,17 @@ note
 		
 		The event source can be any of the following types:
 		
-		**1.** `EL_EXPAT_XML_PARSER:' Expat XML parser
+		**1.** [$source EL_EXPAT_XML_PARSER]: Expat XML parser
 		
-		**2.** `EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM:' Expat XML parser of XML serializeable objects conforming to
-		`EVOLICITY_SERIALIZEABLE_AS_XML'.
+		**2.** [$source EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM]: Expat XML parser of XML serializeable objects conforming to
+		[$source EVOLICITY_SERIALIZEABLE_AS_XML].
 		
-		**3.** `EL_EXPAT_XML_WITH_CTRL_Z_PARSER:' Expat XML parser with input stream end delimited
+		**3.** [$source EL_EXPAT_XML_WITH_CTRL_Z_PARSER]: Expat XML parser with input stream end delimited
 		by Ctrl-Z character. Useful for parsing network streams.
 		
-		**4.** `EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE:' a binary encoded XML event source.
+		**4.** [$source EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE]: a binary encoded XML event source.
 		
-		**5.** `EL_PYXIS_PARSER:' event from a Pyxis format parser. Pyxis is a direct analog of XML that is
+		**5.** [$source EL_PYXIS_PARSER]: event from a Pyxis format parser. Pyxis is a direct analog of XML that is
 		easier to read and edit thus making it more suitable for configuration files.
 
 	]"
@@ -55,10 +55,10 @@ feature {NONE}  -- Initialisation
 
 feature -- Access
 
-	encoding: INTEGER
+	encoding_id: INTEGER
 			--
 		do
-			Result := event_source.encoding
+			Result := event_source.encoding_id
 		end
 
 	encoding_name: STRING
@@ -67,7 +67,7 @@ feature -- Access
 			Result := event_source.encoding_name
 		end
 
-	encoding_type: STRING
+	encoding_type: INTEGER
 			--
 		do
 			Result := event_source.encoding_type

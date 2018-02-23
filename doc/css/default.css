@@ -1,3 +1,5 @@
+@import 'common.css';
+
 html {
 	background: url('../images/background.png');
 }
@@ -53,15 +55,6 @@ div#text p {
 	margin-right: 10px;
 	margin-bottom: -5px;
 }
-em#code {
-	font-family: "Bitstream Vera Sans Mono", monospace;
-	font-size: 0.9em;
-	padding-left: 3px;
-	padding-right: 3px;
-	font-style: normal;
-	background-color: #F0F0F0;
-	border: outset #FFFFFF 1px;
-}
 
 div#footer {
 	background-color: white;
@@ -75,9 +68,6 @@ div#footer p {
 	text-align: center;
 }
 
-a:visited {
-	color: #5882FA;
-}
 blockquote, p, h1, h2, h3, h4 {
 	margin-left: 20px;
 }

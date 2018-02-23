@@ -16,7 +16,7 @@ inherit
 	NETWORK_STREAM_SOCKET
 		rename
 			put_string as put_raw_string_8,
-			put_character as put_raw_character
+			put_character as put_raw_character_8
 		undefine
 			read_stream, readstream
 		redefine

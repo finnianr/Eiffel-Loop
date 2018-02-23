@@ -1,10 +1,7 @@
 note
 	description: "[
-		Use this to register types conforming to `EL_MAKEABLE_FROM_STRING' for use as fields in
-		classes conforming to `EL_REFLECTIVE'. The once index should be "PROCESS".
-	]"
-	notes: "[
-		Make sure to call
+		Use this to register types conforming to [$source EL_MAKEABLE_FROM_STRING] for use as fields in
+		classes conforming to [$source EL_REFLECTIVE]. The once index should be "PROCESS".
 	]"
 
 	author: "Finnian Reilly"

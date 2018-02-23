@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_UNIQUE_ARRAYED_LIST}."
+	description: "List of unique hashable items"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -13,7 +13,7 @@ class
 	EL_UNIQUE_ARRAYED_LIST [G -> HASHABLE]
 
 inherit
-	ARRAYED_LIST [G]
+	EL_ARRAYED_LIST [G]
 		export
 			{NONE} all
 			{ANY} count, Extendible
@@ -33,13 +33,20 @@ feature {NONE} -- Initialization
 			create table.make (n)
 		end
 
+feature -- Status query
+
+	inserted: BOOLEAN
+		do
+			Result := table.inserted
+		end
+
 feature -- Element change
 
 	extend (v: like item)
 			--
 		do
 			table.put (count + 1, v)
-			if not table.inserted then
+			if table.inserted then
 				Precursor (v)
 			end
 		end

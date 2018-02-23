@@ -143,22 +143,22 @@ feature {NONE} -- Parsing events
 		do
 			has_multiple_lines := last_node_text.has (New_line_character)
 			put_last_tag (True)
-			output.put_string (tab_indent (output_stack.count))
-			output.put_string ("<!--")
+			output.put_raw_string_8 (tab_indent (output_stack.count))
+			output.put_raw_string_8 ("<!--")
 			if has_multiple_lines then
 				output.put_new_line
 				line_list := new_line_list (last_node_text)
 				from line_list.start until line_list.after loop
-					output.put_string (tab_indent (output_stack.count + 1))
+					output.put_raw_string_8 (tab_indent (output_stack.count + 1))
 					output.put_string (line_list.item.escaped (xml_escaper))
 					output.put_new_line
 					line_list.forth
 				end
-				output.put_string (tab_indent (output_stack.count))
+				output.put_raw_string_8 (tab_indent (output_stack.count))
 			else
 				put_last_node_text
 			end
-			output.put_string ("-->")
+			output.put_raw_string_8 ("-->")
 			output.put_new_line
 			last_state := State_comment
 		end

@@ -33,10 +33,10 @@ feature -- Basic operations
 		do
 			if attached {ANY} context.referenced_item (variable_path) as value then
 				if attached {READABLE_STRING_GENERAL} value as string_value then
-					output.put_string (string_value)
+					output.put_string_general (string_value)
 
 				elseif attached {EL_PATH} value as path_value then
-					output.put_string_z (path_value.to_string) -- Escaping is useful for OS commands
+					output.put_string (path_value.to_string) -- Escaping is useful for OS commands
 
 				elseif attached {REAL_REF} value as real_ref then
 					put_double_value (output, real_ref.out)
@@ -51,7 +51,7 @@ feature -- Basic operations
 					output.put_natural_32 (natural_ref.item)
 
 				else
-					output.put_string (value.out)
+					output.put_string_8 (value.out)
 				end
 			else
 				output.put_string (Variable_template #$ [variable_path.joined ('.')])
@@ -69,7 +69,7 @@ feature {NONE} -- Implementation
 			if pos_comma > 0 then
 				value [pos_comma] := '.'
 			end
-			output.put_string (value)
+			output.put_string_8 (value)
 		end
 
 	variable_path: EVOLICITY_VARIABLE_REFERENCE

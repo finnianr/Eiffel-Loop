@@ -1,5 +1,5 @@
 note
-	description: "Extends `EL_FILE_AND_CONSOLE_LOG_OUTPUT' for regression testing"
+	description: "Extends [$source EL_FILE_AND_CONSOLE_LOG_OUTPUT] for regression testing"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

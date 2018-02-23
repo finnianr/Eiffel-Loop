@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_CPU_INFO_COMMAND}."
+	description: "Unix only command to obtain CPU model name"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

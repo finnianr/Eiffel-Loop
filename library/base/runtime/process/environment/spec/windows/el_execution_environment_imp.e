@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of `EL_EXECUTION_ENVIRONMENT_I' interface"
+	description: "Windows implementation of [$source EL_EXECUTION_ENVIRONMENT_I] interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

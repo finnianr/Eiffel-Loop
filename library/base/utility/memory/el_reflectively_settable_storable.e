@@ -1,36 +1,9 @@
 note
 	description: "[
-		Object that can read and write itself to a memory buffer of type `EL_MEMORY_READER_WRITER'.
+		Object that can read and write itself to a memory buffer of type [$source EL_MEMORY_READER_WRITER].
 		Field reading, writing and object comparison is handled using class reflection.
 	]"
-	notes: "[
-		There is support for automatic serialization fo the following types of field:
-		
-		*1.* All basic types and string references
-		
-		*2.* All references conforming to `EL_STORABLE'
-		
-		*3.* TUPLE with type members that are either basic types or string references
-		
-		Override the once string Except_fields to list any fields which should not be stored.
-		
-			Except_fields: STRING
-				once
-					Result := Precursor + ", foo_bar"
-				end
-				
-		*Initialization*
-		
-		Routine `make_default' automatically initializes attribute fields as follows:
-		
-		*1.* String references are automatically initialized to a shared empty string.
-		
-		*2.* TUPLE references are initialized with a new tuple of the appropriate type.
-		Any string tuple members are initialized to a shared empty string.
-		
-		*3.* Any type that is registered in the reflection manager implementation of
-		`initialize_reflection'. See class `[$source EL_SHARED_REFLECTION_MANAGER]'
-	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -221,6 +194,36 @@ feature {NONE} -- Constants
 		once
 			Result := Precursor + ", is_deleted"
 		end
+
+note
+	notes: "[
+		There is support for automatic serialization fo the following types of field:
+
+		**1.** All basic types and string references
+
+		**2.** All references conforming to [$source EL_STORABLE]
+
+		**3.** TUPLE with type members that are either basic types or string references
+
+		Override the once string Except_fields to list any fields which should not be stored.
+
+			Except_fields: STRING
+				once
+					Result := Precursor + ", foo_bar"
+				end
+
+		**Initialization**
+
+		Routine `make_default' automatically initializes attribute fields as follows:
+
+		**1.** String references are automatically initialized to a shared empty string.
+
+		**2.** TUPLE references are initialized with a new tuple of the appropriate type.
+		Any string tuple members are initialized to a shared empty string.
+
+		**3.** Any type that is registered in the reflection manager implementation of
+		`initialize_reflection'. See class [$source EL_SHARED_REFLECTION_MANAGER]
+	]"
 
 end
 

@@ -516,6 +516,18 @@ feature -- Output
 			end
 		end
 
+	write_latin (writeable: EL_WRITEABLE)
+		-- write `area' sequence as raw characters to `writeable'
+		local
+			i, l_count: INTEGER; l_area: like area
+		do
+			l_area := area; l_count := count
+			from i := 0 until i = l_count loop
+				writeable.write_raw_character_8 (l_area [i])
+				i := i + 1
+			end
+		end
+
 feature -- Measurement
 
 	Lower: INTEGER = 1
@@ -904,9 +916,9 @@ feature -- Conversion
 			l_unencoded: like extendible_unencoded
 			str_32: STRING_32
 		do
-			if a_codec.id = codec.id then
+			if codec.same_encoding (a_codec) then
 				Result := to_latin_string_8
-			elseif a_codec.id = 1 then
+			elseif a_codec.is_latin_encoding (1) then
 				Result := to_latin_1
 			else
 				str_32 := empty_once_string_32
@@ -1187,7 +1199,7 @@ feature -- Conversion
 			i, l_count: INTEGER; c: CHARACTER
 			l_area: like area; l_result_area: like to_latin_1.area
 		do
-			if Codec.id = 1 then -- latin1
+			if Codec.is_latin_encoding (1) then
 				Result := to_latin_string_8
 			else
 				l_count := count

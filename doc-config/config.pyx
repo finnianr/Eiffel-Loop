@@ -294,23 +294,26 @@ publish-repository:
 			name = "Eiffel Thread Extensions"; dir = "library/runtime/concurrency"
 			description:
 				"""
+					A collection of about 70 classes that extend the classic EiffelThread library.
 				"""
 		tree:
 			name = "Multi-threaded Logging"; dir = "library/runtime/logging"
+			ecf = "logging.ecf"
 			description:
-				"""
-				"""
+				"logging.emd"
 		tree:
 			name = "OS Command Wrapping"; dir = "library/runtime/process/commands"
+			ecf = "os-command.ecf"
 			description:
-				"""
-				"""
+				"os-command.emd"
 
 		# Library (Testing)
 		tree:
 			name = "Development Testing Classes"; dir = "library/testing"
+			ecf = "testing.ecf"
 			description:
 				"""
+					Classes for doing regression tests based on CRC checksum comparisons of logging output and output files.
 				"""
 
 		# Library (Text)
@@ -331,8 +334,11 @@ publish-repository:
 				"rsa.emd"
 		tree:
 			name = "Internationalization"; dir = "library/text/i18n"
+			ecf = "i18n.ecf"
 			description:
 				"""
+					An internationalization library with support for translations rendered in Pyxis format.
+					There are a number of tools in `el_toolkit' to support the use of this library.
 				"""
 		tree:
 			name = "Evolicity Text Substitution Engine"; dir = "library/text/template/evolicity"
@@ -342,21 +348,21 @@ publish-repository:
 
 		# Library (Utility)
 		tree:
-			name = "Application License Management"; dir = "library/utility/app-license"; ecf = "app-license-keys.ecf"
+			name = "Application License Management"; dir = "library/utility/app-license"
+			ecf = "app-license-keys.ecf"
 			description:
 				"app-license.emd"
 		tree:
-			name = "Performance Benchmarking and Command Shell"; dir = "library/utility/various"
-			description:
-				"""
-				"""
-		tree:
 			name = "ZLib Compression"; dir = "library/utility/compression"
+			ecf = "compression.ecf"
 			description:
 				"""
+					A Eiffel interface to the [https://www.zlib.net/ zlib C library].
+					The main class is [$source EL_COMPRESSED_ARCHIVE_FILE] with a few helper classes.
 				"""
 		tree:
 			name = "Currency Exchange"; dir = "library/utility/currency"
+			ecf = "currency.ecf"
 			description:
 				"""
 					Currency Exchange based on European Central bank Rates

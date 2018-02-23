@@ -16,7 +16,7 @@ inherit
 	EL_NETWORK_STREAM_SOCKET
 		redefine
 			read_string, read_stream, read_natural_16,
-			put_string, put_delimited_string, put_character, put_natural_16
+			put_raw_string_8, put_delimited_string, put_raw_character_8, put_natural_16
 		end
 
 create
@@ -70,7 +70,7 @@ feature -- Output
 			bytes_sent := bytes_sent + string.count
 		end
 
-	put_character (c: CHARACTER)
+	put_raw_character_8 (c: CHARACTER)
 			-- Write `c' to medium.
 		do
 			Precursor (c)
@@ -84,7 +84,7 @@ feature -- Output
 			bytes_sent := bytes_sent + 2
 		end
 
-	put_string (string: STRING)
+	put_raw_string_8 (string: STRING)
 			-- Write string `s' to socket.
 		do
 			Precursor (string)

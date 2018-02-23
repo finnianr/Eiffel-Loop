@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 			create encodeable_line_source.make_utf_8
 			previous_state := agent find_pyxis_doc
 			create element_stack.make (10)
-			set_encoding (Encoding_ISO_8859, 1)
+			set_encoding (Type_latin, 1)
 		end
 
 feature -- Basic operations
@@ -71,7 +71,7 @@ feature -- Basic operations
 			stream: IO_MEDIUM
 		do
 			if pyxis_encoding (a_string) ~ once "UTF-8" then
-				create {EL_UTF_STRING_8_IO_MEDIUM} stream.make_open_read_from_text (a_string)
+				create {EL_STRING_8_IO_MEDIUM} stream.make_open_read_from_text (a_string)
 			else
 				create {EL_ZSTRING_IO_MEDIUM} stream.make_open_read_from_text (a_string)
 			end

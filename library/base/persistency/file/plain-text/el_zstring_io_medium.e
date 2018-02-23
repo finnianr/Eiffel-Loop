@@ -15,7 +15,7 @@ class
 inherit
 	EL_STRING_IO_MEDIUM
 		redefine
-			text, put_string, put_string_z, put_string_8, put_string_32, put_raw_string_8, put_character_32
+			text, put_string_general, put_string, put_string_8, put_string_32, put_raw_string_8, put_character_32
 		end
 
 create
@@ -42,7 +42,7 @@ feature -- Character output
 			text.append_unicode (c.natural_32_code)
 		end
 
-	put_raw_character (c: CHARACTER)
+	put_raw_character_8 (c: CHARACTER)
 			--
 		do
 			text.append_unicode (c.natural_32_code)
@@ -55,7 +55,7 @@ feature -- String output
 			text.append_utf_8 (utf_8)
 		end
 
-	put_string (str: READABLE_STRING_GENERAL)
+	put_string_general (str: READABLE_STRING_GENERAL)
 		do
 			text.append_string_general (str)
 		end
@@ -70,7 +70,7 @@ feature -- String output
 			text.append_string_general (str_8)
 		end
 
-	put_string_z (str: ZSTRING)
+	put_string (str: ZSTRING)
 		do
 			text.append_string (str)
 		end

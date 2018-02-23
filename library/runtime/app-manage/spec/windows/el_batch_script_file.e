@@ -17,7 +17,7 @@ class
 inherit
 	EL_PLAIN_TEXT_FILE
 		redefine
-			put_bom, put_string_z, put_string_32, put_string_8, put_latin_1
+			put_bom, put_string_general, put_string, put_string_32, put_string_8, put_latin_1
 		end
 
 	EL_CONSOLE_ENCODEABLE
@@ -35,7 +35,7 @@ feature -- Output
 			-- Do nothing because putting a BOM in a Windows batch script prevents execution by cmd.exe
 		end
 
-	put_string_z (str: ZSTRING)
+	put_string (str: ZSTRING)
 		do
 			put_string_general (str.to_string_32)
 		end

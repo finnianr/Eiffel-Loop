@@ -1,7 +1,7 @@
 note
 	description: "[
 		Establishes English as the key language to use for translation lookups
-		Override this in `EL_MODULE_LOCALE' for other languages
+		Override this in [$source EL_MODULE_LOCALE] for other languages
 	]"
 
 	author: "Finnian Reilly"

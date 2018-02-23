@@ -57,8 +57,7 @@ feature {NONE} -- Initaliazation
 	make_from_string (a_xml: STRING)
 			--
 		local
-			l_context_pointer: POINTER
-			l_encoding_type: EL_C_STRING_8
+			l_context_pointer: POINTER; l_encoding_name: STRING
 		do
 			make_default
 			create found_instruction.make_empty; create namespace.make_empty
@@ -76,8 +75,10 @@ feature {NONE} -- Initaliazation
 
 			if is_attached (l_context_pointer) then
 				make (l_context_pointer, Current)
-				create l_encoding_type.make_shared (c_node_context_encoding_type (l_context_pointer))
-				set_encoding (l_encoding_type.as_string_8, c_node_context_encoding (l_context_pointer))
+				create l_encoding_name.make_from_c (c_node_context_encoding_type (l_context_pointer))
+				l_encoding_name.append_character ('-')
+				l_encoding_name.append_integer (c_node_context_encoding (l_context_pointer))
+				set_encoding_from_name (l_encoding_name)
 			end
 		rescue
 			parse_failed := True

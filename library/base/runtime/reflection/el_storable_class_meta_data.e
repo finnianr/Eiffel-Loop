@@ -1,5 +1,5 @@
 note
-	description: "Reflective meta data for classes that inherit `EL_REFLECTIVELY_SETTABLE_STORABLE'"
+	description: "Reflective meta data for classes that inherit [$source EL_REFLECTIVELY_SETTABLE_STORABLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

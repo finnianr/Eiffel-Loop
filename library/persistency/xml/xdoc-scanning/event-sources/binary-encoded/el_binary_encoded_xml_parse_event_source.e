@@ -33,7 +33,7 @@ feature {NONE}  -- Initialisation
 			Precursor (a_scanner)
 			create attribute_list.make
 			create name_index_array.make (Name_index_table_size)
-			set_encoding (scanner.encoding_type, scanner.encoding)
+			set_encoding (scanner.encoding_type, scanner.encoding_id)
 		end
 
 feature -- Basic operations

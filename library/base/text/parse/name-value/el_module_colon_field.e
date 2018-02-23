@@ -11,6 +11,7 @@ note
 
 class
 	EL_MODULE_COLON_FIELD
+	
 inherit
 	EL_MODULE
 

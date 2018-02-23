@@ -69,22 +69,24 @@ feature -- Access
 		end
 
 	joined_strings: like item
-			-- join strings with no separator (null separator)
+			-- join strings with no separator
 		do
-			Result := joined_with ('%U', False)
+			push_cursor
+			create Result.make (character_count)
+			from start until after loop
+				Result.append (item)
+				forth
+			end
+			pop_cursor
 		end
 
 	joined_with (a_separator: CHARACTER_32; proper_case_words: BOOLEAN): like item
 			-- Null character joins without separation
 		do
 			push_cursor
-			if a_separator = '%U' then
-				create Result.make (character_count)
-			else
-				create Result.make (character_count + (count - 1).max (0))
-			end
+			create Result.make (character_count + (count - 1).max (0))
 			from start until after loop
-				if index > 1 and a_separator /= '%U' then
+				if index > 1 then
 					Result.append_code (a_separator.natural_32_code)
 				end
 				if proper_case_words then
@@ -144,6 +146,10 @@ feature {NONE} -- Implementation
 		end
 
 	count: INTEGER
+		deferred
+		end
+
+	do_all (action: PROCEDURE [S])
 		deferred
 		end
 

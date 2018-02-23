@@ -1,7 +1,7 @@
 note
 	description: "[
 		Ancestor for classes that are intended to handle callbacks from a C language routine. 
-		See also: [$source `EL_C_TO_EIFFEL_CALLBACK_STRUCT']
+		See also: [$source EL_C_TO_EIFFEL_CALLBACK_STRUCT]
 	]"
 	instructions: "[
 		To enable the descendant object item for callbacks, assign the result of the function 

@@ -9,14 +9,11 @@ note
 	date: "2017-12-28 10:45:56 GMT (Thursday 28th December 2017)"
 	revision: "3"
 
-deferred class
+class
 	EL_MODULE_LOGGING
 
 inherit
 	EL_MODULE
-		undefine
-			is_equal
-		end
 
 feature -- Access
 

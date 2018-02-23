@@ -40,14 +40,14 @@ feature -- Basic operations
 
 	write (medium: EL_OUTPUT_MEDIUM)
 		do
-			medium.put_string_z (open)
+			medium.put_string (open)
 			if not list.is_empty then
 				medium.put_new_line
 				across list.index_set as index loop
 					list.item (index.item).write (medium)
 				end
 			end
-			medium.put_string_z (closed)
+			medium.put_string (closed)
 			medium.put_new_line
 		end
 

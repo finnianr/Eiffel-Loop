@@ -115,9 +115,6 @@ feature -- Basic operations
 					on_shutdown
 				end
 				socket.close
-				if attached {EL_UNIX_STREAM_SOCKET} socket then
-					File_system.remove_file (config.server_socket_path)
-				end
 			else
 				across config.error_messages as message loop
 					lio.put_labeled_string ("Error " + message.cursor_index.out, message.item)

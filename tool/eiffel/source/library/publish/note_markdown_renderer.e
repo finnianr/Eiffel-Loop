@@ -44,9 +44,9 @@ feature {NONE} -- Implementation
 
 	new_expanded_link (path, text: ZSTRING): ZSTRING
 		local
-			l_path: ZSTRING; html_path: EL_FILE_PATH
+			l_path, template: ZSTRING; html_path: EL_FILE_PATH
 		do
-			l_path := path
+			l_path := path; template := A_href_template
 			if path.starts_with (Current_dir_forward_slash) and then path.occurrences ('/') > 1 then
 				html_path := path.substring_end (Current_dir_forward_slash.count + 1)
 				l_path := html_path.relative_steps (relative_page_dir).to_string
@@ -56,39 +56,24 @@ feature {NONE} -- Implementation
 				if Class_source_table.found then
 					html_path := Class_source_table.found_item
 					l_path := html_path.relative_steps (relative_page_dir).to_string
+					template := Class_source_name_href_template
 				end
 			end
-			Result := Precursor (l_path, text)
-		end
-
-	class_name (text: ZSTRING): ZSTRING
-		local
-			done, alpha_found: BOOLEAN
-		do
-			if text.item (1).is_alpha then
-				Result := text
-			else
-				create Result.make (text.count - 2)
-				across text as c until done loop
-					if alpha_found then
-						inspect c.item
-							when '_', 'A' .. 'Z' then
-								Result.append_character (c.item)
-						else
-							done := True
-						end
-					elseif c.item.is_alpha then
-						alpha_found := True
-						Result.append_character (c.item)
-					end
-				end
-			end
+			Result := template #$ [l_path, text]
 		end
 
 	relative_page_dir: EL_DIR_PATH
 		-- class page relative to index page directory tree
 
 feature {NONE} -- Constants
+
+	Class_source_name_href_template: ZSTRING
+			-- contains to '%S' markers
+		once
+			Result := "[
+				<a href="#" id="source" target="_blank">#</a>
+			]"
+		end
 
 	Current_dir_forward_slash: ZSTRING
 		once

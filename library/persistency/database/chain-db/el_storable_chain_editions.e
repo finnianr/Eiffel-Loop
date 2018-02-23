@@ -1,5 +1,14 @@
 note
-	description: "Summary description for {EL_BINARY_STORABLE_EDITIONS_CHAIN}."
+	description: "[
+		Stores any of the following chain editions in an editions file:
+		
+		1. `extend'
+		2. `replace'
+		3. `delete'
+		
+		The editions file path is derived from the deferred `file_path' name by changing the
+		extension to `editions.dat'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -89,6 +98,8 @@ feature -- Status query
 feature -- Removal
 
 	remove
+		obsolete
+			"Better to use `delete' as `remove' will interfere with the proper working of field indexing tables"
 			--
 		do
 			if editions_file.is_open_write then

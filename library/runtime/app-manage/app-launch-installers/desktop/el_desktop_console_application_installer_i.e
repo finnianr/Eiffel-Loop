@@ -67,13 +67,11 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor
-			Result.append_tuples (<<
-				["term_pos_x", agent: INTEGER do Result := terminal_pos_x.to_reference end],
-				["term_pos_y", agent: INTEGER do Result := terminal_pos_y.to_reference end],
-				["term_width", agent: INTEGER do Result := terminal_width.to_reference end],
-				["term_height", agent: INTEGER do Result := terminal_height.to_reference end]
-			>>)
+				Result := Precursor +
+					["term_pos_x", agent: INTEGER_REF do Result := terminal_pos_x.to_reference end] +
+					["term_pos_y", agent: INTEGER_REF do Result := terminal_pos_y.to_reference end] +
+					["term_width", agent: INTEGER_REF do Result := terminal_width.to_reference end] +
+					["term_height", agent: INTEGER_REF do Result := terminal_height.to_reference end]
 		end
 
 feature -- Constants

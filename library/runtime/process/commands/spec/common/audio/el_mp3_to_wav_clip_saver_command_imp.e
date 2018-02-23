@@ -1,5 +1,5 @@
 note
-	description: "Implementation of `EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_I' interface"
+	description: "Implementation of [$source EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_I] interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

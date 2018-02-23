@@ -4,7 +4,7 @@ note
 		conforming to `[$source EL_COMMAND]'. If no mapping errors occur during the initilization,
 		the `run' procedure is called and executes the command.
 
-		More client examples can be found in class `[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]'.
+		More client examples can be found in class [$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION].
 	]"
 	notes: "[
 		Implementing `argument_specs' specifies command option names, a description that becomes part
@@ -13,7 +13,7 @@ note
 		Implementing `default_make' provides default arguments for initializing the command, which can
 		then be overridden by the command line options specified in `argument_specs'.
 		
-		The `command.make' routine must be exported to class `EL_COMMAND_CLIENT'
+		The `command.make' routine must be exported to class [$source EL_COMMAND_CLIENT]
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Audio sample source for processing with `EL_AUDIO_SAMPLE_PROCESSOR'"
+	description: "Audio sample source for processing with [$source EL_AUDIO_SAMPLE_PROCESSOR]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

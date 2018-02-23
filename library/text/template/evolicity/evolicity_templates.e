@@ -1,6 +1,6 @@
 note
 	description: "[
-		Top level class for Evolicity accessible though `EL_MODULE_EVOLICITY_TEMPLATES'
+		Top level class for Evolicity accessible though [$source EL_MODULE_EVOLICITY_TEMPLATES]
 
 		The templating substitution language was named `Evolicity' as a portmanteau of "Evolve" and "Felicity" 
 		which is also a partial anagram of "Velocity" the Apache project which inspired it. 
@@ -175,7 +175,7 @@ feature -- Basic operations
 	merged_utf_8 (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): STRING
 			--
 		local
-			utf8_text_medium: EL_UTF_STRING_8_IO_MEDIUM
+			utf8_text_medium: EL_STRING_8_IO_MEDIUM
 		do
 			create utf8_text_medium.make_open_write (1024)
 			merge (a_name, context, utf8_text_medium)

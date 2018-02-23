@@ -13,7 +13,7 @@ class
 	EL_WINDOWS_1254_ZCODEC
 
 inherit
-	EL_WINDOWS_ZCODEC
+	EL_ZCODEC
 
 create
 	make
@@ -64,10 +64,6 @@ feature {NONE} -- Initialization
 				155  -- '›'
 			>>)
 		end
-
-feature -- Access
-
-	id: INTEGER = 1254
 
 feature -- Conversion
 
@@ -167,7 +163,7 @@ feature -- Character query
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 97..122, 131, 138, 140, 154, 156, 159, 181, 192..214, 216..246, 248..255 then
 					Result := True
 			else
@@ -176,7 +172,7 @@ feature -- Character query
 
 	is_lower (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 97..122, 224..246, 248..252, 254, 154, 156, 253, 255 then
 					Result := True
 
@@ -190,7 +186,7 @@ feature -- Character query
 
 	is_numeric (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 48..57 then
 					Result := True
 			else
@@ -199,7 +195,7 @@ feature -- Character query
 
 	is_upper (code: NATURAL): BOOLEAN
 		do
-			inspect code 
+			inspect code
 				when 65..90, 192..214, 216..220, 222, 138, 140, 159, 221 then
 					Result := True
 			else
