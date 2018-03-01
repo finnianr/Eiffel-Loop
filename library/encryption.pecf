@@ -49,6 +49,9 @@ system:
 		library:
 			name = EL_evolicity; location = "evolicity.ecf"
 
+		library:
+			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"; readonly = false
+
 		cluster:
 			name = encryption; location = "text/encryption"; recursive = true
 

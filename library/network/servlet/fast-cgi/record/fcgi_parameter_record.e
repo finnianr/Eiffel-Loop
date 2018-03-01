@@ -1,6 +1,6 @@
 note
 	description: "[
-		FCGI_PARAMS is a stream record type used in sending name-value pairs from the Web server
+		`FCGI_PARAMS' is a stream record type used in sending name-value pairs from the Web server
 		to the application. The name-value pairs are sent down the stream one after the other,
 		in no specified order.
 		

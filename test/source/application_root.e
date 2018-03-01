@@ -46,8 +46,6 @@ feature {NONE} -- Implementation
 				-- Manual tests
 				{CLASS_TEST_APP},
 
-				{EYED3_TAG_TEST_APP},
-
 				{AUTOTEST_DEVELOPMENT_APP},
 				{TEST_SIMPLE_CLIENT},
 				{TEST_SIMPLE_SERVER},

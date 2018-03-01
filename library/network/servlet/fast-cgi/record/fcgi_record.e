@@ -19,13 +19,14 @@ feature -- Basic operations
 
 	read (broker: FCGI_REQUEST_BROKER)
 		local
-			memory: like Memory_reader_writer
+			memory: like Memory_reader_writer; i, n: INTEGER
 		do
 			set_padding_and_byte_count (broker.Header)
 			memory := Memory_reader_writer
 			memory.set_for_writing
 			memory.reset_count
-			memory.write_from (broker.socket, byte_count + padding_count)
+			memory.write_bytes_from_medium (broker.socket, byte_count + padding_count)
+
 			if broker.read_ok then
 				if is_last (broker.Header) then
 					on_last_read (broker)
@@ -33,6 +34,10 @@ feature -- Basic operations
 					memory.set_for_reading
 					memory.reset_count
 					read_memory (memory)
+					memory.skip (reserved_count)
+					check
+						valid_count: Memory_reader_writer.count = byte_count
+					end
 					on_data_read (broker)
 				end
 			end
@@ -40,8 +45,7 @@ feature -- Basic operations
 
 	write (broker: FCGI_REQUEST_BROKER)
 		local
-			memory: like Memory_reader_writer
-			i: INTEGER
+			memory: like Memory_reader_writer; i: INTEGER
 		do
 			set_padding_and_byte_count (broker.Header)
 			memory := Memory_reader_writer
@@ -49,11 +53,15 @@ feature -- Basic operations
 			memory.set_for_writing
 			memory.reset_count
 			write_memory (memory)
+			memory.write_bytes (0, reserved_count)
+			check
+				valid_count: memory.count = byte_count
+			end
 			from i := 1 until i > padding_count loop
 				memory.write_character_8 (' ')
 				i := i + 1
 			end
-			memory.write_to (broker.socket)
+			memory.write_to_medium (broker.socket)
 		end
 
 feature -- Access
@@ -61,6 +69,10 @@ feature -- Access
 	byte_count: INTEGER
 
 	padding_count: INTEGER
+
+	reserved_count: INTEGER
+		deferred
+		end
 
 feature {NONE} -- Implementation
 
@@ -83,8 +95,6 @@ feature {NONE} -- Implementation
 			readable: memory.is_for_reading
 			is_reset: memory.count = 0
 		deferred
-		ensure
-			valid_count: memory.count = byte_count
 		end
 
 	set_padding_and_byte_count (header: FCGI_HEADER_RECORD)
@@ -98,8 +108,6 @@ feature {NONE} -- Implementation
 			readable: memory.is_ready_for_writing
 			is_reset: memory.count = 0
 		deferred
-		ensure
-			valid_count: memory.count = byte_count
 		end
 
 feature {NONE} -- Constants

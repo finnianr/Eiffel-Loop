@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_CODEC_2}."
+	description: "Base class for Latin, Windows and UTF-8 codecs"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

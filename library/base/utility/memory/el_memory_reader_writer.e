@@ -14,8 +14,6 @@ class
 
 inherit
 	SED_MEMORY_READER_WRITER
-		export
-			{EL_STORABLE} buffer
 		redefine
 			make_with_buffer, read_string_32, write_string_32, check_buffer
 		end
@@ -63,11 +61,75 @@ feature -- Access
 	data_version: NATURAL
 		-- Version number of data if different from the default ({REAL}.zero)
 
-	inspect_buffer: STRING
+	debug_out: STRING
+		-- internal buffer as string
 		do
-			create Result.make_filled (' ', 40)
-			Result.area.base_address.memory_copy (buffer.item, Result.count.min (buffer.count))
+			create Result.make_filled (' ', count)
+			Result.area.base_address.memory_copy (buffer.item, count)
 		end
+
+feature -- Measurement
+
+	size_of_string (str: ZSTRING): INTEGER
+		do
+			Result := {PLATFORM}.Integer_32_bytes + str.count + str.unencoded_count * {PLATFORM}.Natural_32_bytes
+		end
+
+	size_of_string_32 (str: STRING_32): INTEGER
+		do
+			Result := {PLATFORM}.Integer_32_bytes + str.count * {PLATFORM}.Natural_32_bytes
+		end
+
+	size_of_string_8 (str: STRING_8): INTEGER
+		do
+			Result := {PLATFORM}.Integer_32_bytes + str.count
+		end
+
+feature -- Status query
+
+	is_default_data_version: BOOLEAN
+		do
+			Result := data_version = 0
+		end
+
+feature -- Element change
+
+	reset_count
+		do
+			count := 0
+		end
+
+	set_data_version (a_data_version: like data_version)
+		do
+			data_version := a_data_version
+		end
+
+	set_default_data_version
+		do
+			data_version := 0
+		end
+
+	skip (n: INTEGER)
+		-- skip `n' bytes
+		do
+			check_buffer (n)
+			count := count + n
+		end
+
+feature -- Basic operations
+
+	write_to_medium (output: IO_MEDIUM)
+		-- Write `buffer' to `output'
+		do
+			output.put_managed_pointer (buffer, 0, count)
+		end
+
+	write_to_sink (sink: EL_MEMORY_SINK)
+		do
+			sink.put_managed_pointer (buffer, 0, count)
+		end
+
+feature -- Read operations
 
 	read_date: DATE
 		do
@@ -84,9 +146,8 @@ feature -- Access
 
 	read_string: ZSTRING
 		local
-			i, l_count: INTEGER; l_area: like read_string.area
+			i, l_count: INTEGER; l_area: like read_string.area; c: CHARACTER
 			extendible_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS
-			c: CHARACTER
 		do
 			l_count := read_integer_32
 			create Result.make (l_count)
@@ -140,46 +201,7 @@ feature -- Access
 			count := count + str.count
 		end
 
-feature -- Measurement
-
-	size_of_string (str: ZSTRING): INTEGER
-		do
-			Result := {PLATFORM}.Integer_32_bytes + str.count + str.unencoded_count * {PLATFORM}.Natural_32_bytes
-		end
-
-	size_of_string_32 (str: STRING_32): INTEGER
-		do
-			Result := {PLATFORM}.Integer_32_bytes + str.count * {PLATFORM}.Natural_32_bytes
-		end
-
-	size_of_string_8 (str: STRING_8): INTEGER
-		do
-			Result := {PLATFORM}.Integer_32_bytes + str.count
-		end
-
-feature -- Status query
-
-	is_default_data_version: BOOLEAN
-		do
-			Result := data_version = 0
-		end
-
-feature -- Element change
-
-	reset_count
-		do
-			count := 0
-		end
-
-	set_data_version (a_data_version: like data_version)
-		do
-			data_version := a_data_version
-		end
-
-	set_default_data_version
-		do
-			data_version := 0
-		end
+feature -- Write operations
 
 	write_date (a_date: DATE)
 		do
@@ -192,12 +214,33 @@ feature -- Element change
 			write_time (date_time.time)
 		end
 
-	write_from (input: IO_MEDIUM; nb_bytes: INTEGER)
-		-- fill buffer with `nb_bytes' from `input' medium
+	write_bytes (value: NATURAL_8; n: INTEGER)
+		local
+			l_pos, i: INTEGER
 		do
-			check_buffer (nb_bytes)
-			input.read_to_managed_pointer (buffer, count, nb_bytes)
-			count := count + nb_bytes
+			check_buffer (n)
+			l_pos := count
+			from i := 1 until i > n loop
+				buffer.put_natural_8 (value, l_pos)
+				l_pos := l_pos + 1
+				i := i + 1
+			end
+			count := l_pos
+		end
+
+	write_bytes_from_medium (input: IO_MEDIUM; nb: INTEGER)
+		-- append buffer with `nb' bytes from `input' medium
+		do
+			check_buffer (nb)
+			input.read_to_managed_pointer (buffer, count, nb)
+			count := count + nb
+		end
+
+	write_bytes_from_memory (source: EL_MEMORY_SOURCE; nb: INTEGER)
+		do
+			check_buffer (nb)
+			source.read_to_managed_pointer (buffer, count, nb)
+			count := count + nb
 		end
 
 	write_natural_8_array (a_data: ARRAY [NATURAL_8])
@@ -267,17 +310,6 @@ feature -- Element change
 	write_time (time: TIME)
 		do
 			write_integer_32 (time.compact_time)
-		end
-
-feature -- Basic operations
-
-	read_natural_8_array (array: ARRAY [NATURAL_8])
-		do
-		end
-
-	write_to (output: IO_MEDIUM)
-		do
-			output.put_managed_pointer (buffer, 0, count)
 		end
 
 feature {EL_STORABLE} -- Element change

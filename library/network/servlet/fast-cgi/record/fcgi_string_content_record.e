@@ -1,10 +1,10 @@
 note
 	description: "[
-		FCGI_STDIN is a stream record type used in sending arbitrary data from the Web server
-		to the application. FCGI_DATA is a second stream record type used to send additional
+		`FCGI_STDIN' is a stream record type used in sending arbitrary data from the Web server
+		to the application. `FCGI_DATA' is a second stream record type used to send additional
 		data to the application.
 
-		FCGI_STDOUT and FCGI_STDERR are stream record types for sending arbitrary data and error
+		`FCGI_STDOUT' and `FCGI_STDERR' are stream record types for sending arbitrary data and error
 		data respectively from the application to the Web server.
 
 		See: [https://fast-cgi.github.io/spec#53-byte-streams-fcgi_stdin-fcgi_data-fcgi_stdout-fcgi_stderr]
@@ -54,7 +54,7 @@ feature -- Element change
 
 	set_content (a_content: like content; a_offset: INTEGER)
 		require
-			valid_offset: 0 <= a_offset and a_offset <= a_content.count
+			valid_offset: a_content.count > 0 implies 1 <= a_offset and a_offset <= a_content.count
 		do
 			content := a_content; offset := a_offset
 		end
@@ -107,5 +107,9 @@ feature {NONE} -- Internal attributes
 
 	offset: INTEGER
 		-- content offset
+
+feature {NONE} -- Constants
+
+	Reserved_count: INTEGER = 0
 
 end

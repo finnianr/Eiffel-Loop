@@ -71,7 +71,7 @@ feature -- Basic operations
 			elseif last_modified /= Default_date then
 				response.set_header (once "Last-Modified", formatted_date (last_modified))
 			end
-			response.flush_buffer
+			response.send
 
 			if response.write_ok then
 				if response.is_head_request then
@@ -137,7 +137,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	servlet_config: EL_SERVLET_SERVICE_CONFIG
+	servlet_config: FCGI_SERVICE_CONFIG
 
 feature {NONE} -- Constants
 

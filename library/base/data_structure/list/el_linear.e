@@ -22,14 +22,14 @@ feature -- Status query
 			Result := not exhausted
 		end
 
-feature -- Basic operations
+feature -- Cursor movement
 
-	find_first (value: ANY; value_function: FUNCTION [ANY])
+	find_first (value: ANY; value_function: FUNCTION [G, ANY])
 		do
 			start; find_next_function_value (value, value_function)
 		end
 
-	find_next (value: ANY; value_function: FUNCTION [ANY])
+	find_next (value: ANY; value_function: FUNCTION [G, ANY])
 		do
 			forth
 			if not after then
@@ -39,20 +39,17 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	find_next_function_value (value: ANY; value_function: FUNCTION [ANY])
+	find_next_function_value (value: ANY; value_function: FUNCTION [G, ANY])
 			-- Find next item where function returns a value matching 'a_value'
 		require
-			valid_open_count: value_function.open_count = 1
-			valid_value_function: not off implies value_function.empty_operands.valid_type_for_index (item, 1)
 			function_result_same_type: not off implies value.same_type (value_function.item ([item]))
 		local
-			l_tuple: TUPLE [like item] -- Save on garbage collection for long lists
-			match_found: BOOLEAN
+			match_found: BOOLEAN; item_arg: TUPLE [G]
 		do
-			create l_tuple
+			create item_arg
 			from until match_found or after loop
-				l_tuple.put (item, 1)
-				if value ~ value_function.item (l_tuple) then
+				item_arg.put (item, 1)
+				if value ~ value_function.item (item_arg) then
 					match_found := True
 				else
 					forth

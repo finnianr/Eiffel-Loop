@@ -54,6 +54,12 @@ feature -- Access
 			Result := item.value
 		end
 
+	key_list: EL_ARRAYED_LIST [K]
+		do
+			create Result.make (count)
+			do_all (agent extend_key_list (Result, ?))
+		end
+
 	last_key: K
 		do
 			Result := last.key
@@ -70,12 +76,23 @@ feature -- Access
 			do_all (agent extend_value_list (Result, ?))
 		end
 
-	key_list: EL_ARRAYED_LIST [K]
-		do
-			create Result.make (count)
-			do_all (agent extend_key_list (Result, ?))
-		end
+feature -- Cursor movement
 
+	key_search (key: K)
+		local
+			l_area: like area_v2; i, nb: INTEGER; match_found: BOOLEAN
+		do
+			l_area := area_v2
+			from nb := count - 1; i := index - 1 until i > nb or match_found loop
+				if key ~ l_area.item (i).key then
+					match_found := True
+				else
+					i := i + 1
+				end
+			end
+			index := i + 1
+		end
+		
 feature -- Element change
 
 	extend (key: K; value: G)
@@ -105,11 +122,16 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
+	extend_key_list (list: like key_list; a_item: like item)
+		do
+			list.extend (a_item.key)
+		end
+
 	extend_string_32_list (list: like as_string_32_list; joined: FUNCTION [K, G, STRING_32]; a_item: like item)
 		do
 			list.extend (joined (a_item.key, a_item.value))
 		end
-		
+
 	extend_string_8_list (list: like as_string_8_list; joined: FUNCTION [K, G, STRING_8]; a_item: like item)
 		do
 			list.extend (joined (a_item.key, a_item.value))
@@ -123,11 +145,6 @@ feature {NONE} -- Implementation
 	extend_value_list (list: like value_list; a_item: like item)
 		do
 			list.extend (a_item.value)
-		end
-
-	extend_key_list (list: like key_list; a_item: like item)
-		do
-			list.extend (a_item.key)
 		end
 
 end

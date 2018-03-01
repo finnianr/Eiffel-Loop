@@ -1,5 +1,9 @@
 note
-	description: "Summary description for {FCGI_END_SERVICE_RECORD}."
+	description: "[
+		The application sends a `FCGI_END_REQUEST' record to terminate a request,
+		either because the application has processed the request or because
+		the application has rejected the request.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -43,6 +47,6 @@ feature -- Basic operations
 			memory.set_for_writing
 			memory.reset_count
 			write_memory (memory)
-			memory.write_to (socket)
+			memory.write_to_medium (socket)
 		end
 end

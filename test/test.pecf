@@ -140,10 +140,6 @@ system:
 			readonly = false
 
 		library:
-			name = EL_eyeD3; location = "$EIFFEL_LOOP/library/eyeD3.ecf"
-			readonly = false
-
-		library:
 			name = EL_encryption; location = "$EIFFEL_LOOP/library/encryption.ecf"
 			readonly = false
 

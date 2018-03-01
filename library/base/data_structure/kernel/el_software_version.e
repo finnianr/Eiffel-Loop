@@ -35,13 +35,15 @@ feature -- Element change
 		require
 			valid_format: a_version.occurrences ('.') = 2
 		local
-			number, scalar: NATURAL
+			number, scalar: NATURAL; digits: EL_SPLIT_STRING_LIST [STRING]
 		do
 			compact_version := 0; scalar := 1_00_00
-			across a_version.split ('.') as str loop
-				number := str.item.to_natural_32
+			create digits.make (a_version, once ".")
+			from digits.start until digits.after loop
+				number := digits.item.to_natural_32
 				compact_version := number * scalar + compact_version
 				scalar := scalar // 100
+				digits.forth
 			end
 		end
 

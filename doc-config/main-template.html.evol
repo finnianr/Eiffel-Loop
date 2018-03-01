@@ -2,17 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<meta name="Author" content="Finnian Reilly"/>
-		<meta name="Audience" content="all"/>
-		<meta name="Content-Language" content="english">
+		<meta name="author" content="Finnian Reilly"/>
+		<meta name="audience" content="all"/>
+		<meta name="content-language" content="english"/>
 	#if $is_site_map_page then
-		<meta name="Description" content="Collection of more than 1700 classes for the Eiffel language including libraries, example programs and development tools."/>
+		<meta name="description" content="Collection of more than 2100 classes for the Eiffel language including libraries, example programs and development tools."/>
 	#else
-		<meta name="Description" content="Source code for Eiffel $category: $name"/>
+		<meta name="description" content="Source code for Eiffel $category: $name"/>
 		<meta name="digest" content="$crc_digest"/>
 	#end
-		<meta name="Keywords" content="Eiffel language, Eiffel library, Eiffel programming, Eiffel developer, Eiffel coder, Eiffel code, Eiffel source code, Eiffel source, Eiffel open source"/>
-		<meta name="ROBOTS" content="Index, FOLLOW">
+		<meta name="keywords" content="Eiffel-Loop, eiffel loop, Eiffel language, Eiffel library, Eiffel programming, Eiffel developer, Eiffel coder, Eiffel code, Eiffel source code, Eiffel source, Eiffel open source"/>
+		<meta name="robots" content="Index, FOLLOW"/>
 
 		<title>$title</title>
 		<style type="text/css">
@@ -24,7 +24,9 @@
 	<body>
 	<a name="top"></a>
 	<div id="centered">
-		<a href="$top_dir/index.html" title="Eiffel-Loop Home"><img src="$top_dir/images/banner-logo.png"></a>
+		<a href="$top_dir/index.html" title="Eiffel-Loop Home">
+			<img src="$top_dir/images/banner-logo.png" alt="Banner showing base of Eiffel tower"/>
+		</a>
 		<div id="download">
 			<p><a href="$github_url" target="_blank">Github</a></p>
 			<p>Download version $version: <a href="$github_url/archive/${version}.zip">Windows</a> 
@@ -33,10 +35,10 @@
 		</div>
 		<div id="text">
 #evaluate ($content_template, $current)
-		<br>
+		<br/>
 		</div>
 		<div id="footer">
-			<a href="#top" title="Scroll to top of page"><img src="$top_dir/images/top.png"></a>
+			<a href="#top" title="Scroll to top of page"><img src="$top_dir/images/top.png" alt="Top of "/></a>
 			<p>Copyright &copy; 2016 Finnian Reilly</p>
 		</div>
 	</div>

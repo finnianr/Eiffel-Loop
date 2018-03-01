@@ -21,7 +21,7 @@ inherit
 
 feature -- Access
 
-	count_of (has_property: PREDICATE [ANY]): INTEGER
+	count_of (has_property: PREDICATE [G]): INTEGER
 		-- count of items where `has_property (item)'
 		do
 			push_cursor
@@ -34,7 +34,7 @@ feature -- Access
 			pop_cursor
 		end
 
-	index_for_value (value: ANY; value_function: FUNCTION [ANY]): INTEGER
+	index_for_value (value: ANY; value_function: FUNCTION [G, ANY]): INTEGER
 			-- index of item with function returning result equal to value, 0 if not found
 		do
 			push_cursor
@@ -45,7 +45,7 @@ feature -- Access
 			pop_cursor
 		end
 
-	search_results (value: ANY; value_function: FUNCTION [ANY]): ARRAYED_LIST [G]
+	search_results (value: ANY; value_function: FUNCTION [G, ANY]): ARRAYED_LIST [G]
 		require
 			valid_open_count: value_function.open_count = 1
 			valid_value_function: not is_empty implies value_function.empty_operands.valid_type_for_index (first, 1)

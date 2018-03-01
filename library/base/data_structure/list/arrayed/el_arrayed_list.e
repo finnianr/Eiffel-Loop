@@ -146,18 +146,17 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	find_next_function_value (value: ANY; value_function: FUNCTION [ANY])
+	find_next_function_value (value: ANY; value_function: FUNCTION [G, ANY])
 			-- Find next item where function returns a value matching 'a_value'
 		local
-			l_area: like area_v2; l_tuple: TUPLE [like item]
-			i, nb: INTEGER; l_found: BOOLEAN
+			l_area: like area_v2; i, nb: INTEGER; match_found: BOOLEAN
+			item_arg: TUPLE [G]
 		do
-			l_area := area_v2
-			create l_tuple
-			from nb := count - 1; i := index - 1 until i > nb or l_found loop
-				l_tuple.put (l_area [i], 1)
-				if value ~ value_function.item (l_tuple) then
-					l_found := True
+			l_area := area_v2; create item_arg
+			from nb := count - 1; i := index - 1 until i > nb or match_found loop
+				item_arg.put (l_area [i], 1)
+				if value ~ value_function.item (item_arg) then
+					match_found := True
 				else
 					i := i + 1
 				end

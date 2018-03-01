@@ -1,5 +1,11 @@
 note
-	description: "Class EL_ZSTRING (AKA ZSTRING) is a memory efficient alternative to using STRING_32"
+	description: "[
+		Usually referenced with the alias 'ZSTRING', this string is a memory efficient alternative to using `STRING_32'.
+		When an application mainly uses characters from the ISO-8859-15 character set, the memory saving can be as much as 70%,
+		while the execution efficiency is roughly the same as for `STRING_8'. For short strings the saving is much less:
+		about 50%. ISO-8859-15 covers most Western european languages.
+	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -613,4 +619,41 @@ feature {NONE} -- Constants
 		once
 			create Result.make (5)
 		end
+note
+
+	notes: "[
+		**FEATURES**
+		
+		`ZSTRING' has many useful routines not found in `STRING_32'. Probably the most useful is Python style templates 
+		using the `#$' as an alias for `substituted_tuple', and place holders indicated by `%S', which by coincidence is
+		both an Eiffel escape sequence and a Python one (Python is actually `%s').
+		
+		**ARTICLES**
+		
+		There is a detailed article about this class here: [https://www.eiffel.org/blog/finnianr/introducing_class_zstring]
+
+		**CAVEAT**
+
+		There is a caveat attached to using `ZSTRING' which is that if your application uses very many characters outside of
+		the ISO-8859-15 character-set, the execution efficiency does down substantially.
+		See [./benchmarks/zstring.html these benchmarks]
+
+		This is something to consider if your application is going to be used in for example: Russia or Japan.
+		If the user locale is for a language that is supported by a ISO-8859-x what you can do is over-ride
+		`{[$source EL_SHARED_ZCODEC]}.Default_codec', and initialize it immediately after application launch.
+		This will force `ZSTRING' to switch to a more optimal character-set for the user-locale.
+
+		The execution performance will be worst for Asian characters.
+
+		A planned solution is to make a swappable alternative implementation that works equally well with Asian character sets
+		and non-Western European sets. The version used can be set by changing an ECF variable or perhaps the build target.
+
+		There two ways to go about achieving an efficient implementation for Asian character sets:
+
+		1. Change the implementation to inherit from `STRING_32'. This will be the fastest and easiest to implement.
+		2. Change the area array to type: `SPECIAL [NATURAL_16]' and then the same basic algorithm can be applied to Asian characters.
+		The problem is `NATURAL_16' is not a character and there is no `CHARACTER_16', so it will entail a lot of changes. The upside is
+		that there will still be a substantial memory saving.
+	]"
+
 end

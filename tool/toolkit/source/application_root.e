@@ -1,5 +1,5 @@
 note
-	description: ""
+	description: "Root class of sub-applications"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

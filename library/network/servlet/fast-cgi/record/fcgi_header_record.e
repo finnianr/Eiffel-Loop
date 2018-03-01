@@ -31,9 +31,6 @@ class
 inherit
 	FCGI_RECORD
 
-create
-	default_create
-
 feature -- Element change
 
 	set_fields (a_version: NATURAL_8; a_request_id: NATURAL_16; a_type, a_content_length, a_padding_length: INTEGER)
@@ -57,6 +54,15 @@ feature -- Access
 
 	content_length: NATURAL_16
 
+	stdin_content_record: FCGI_STRING_CONTENT_RECORD
+		do
+			if attached {FCGI_STRING_CONTENT_RECORD} Record_type_array [Fcgi_stdout] as record then
+				Result := record
+			else
+				create Result
+			end
+		end
+
 	padding_length: NATURAL_8
 
 	request_id: NATURAL_16
@@ -70,9 +76,13 @@ feature -- Access
 
 	version: NATURAL_8
 
-	reserved: NATURAL_8
-
 feature -- Status query
+
+	is_aborted: BOOLEAN
+		-- `True' if type is signal to abort request
+		do
+			Result := type = Fcgi_abort_request
+		end
 
 	is_empty: BOOLEAN
 		do
@@ -83,12 +93,6 @@ feature -- Status query
 		-- `True' if type is request to end service
 		do
 			Result := type = Fcgi_end_service
-		end
-
-	is_aborted: BOOLEAN
-		-- `True' if type is signal to abort request
-		do
-			Result := type = Fcgi_abort_request
 		end
 
 feature {NONE} -- Implementation
@@ -105,7 +109,6 @@ feature {NONE} -- Implementation
 			request_id := memory.read_natural_16
 			content_length := memory.read_natural_16
 			padding_length := memory.read_natural_8
-			reserved := memory.read_natural_8
 		ensure then
 			same_request_id: request_id = Fcgi_default_request_id
 		end
@@ -117,24 +120,25 @@ feature {NONE} -- Implementation
 			 memory.write_natural_16 (request_id)
 			 memory.write_natural_16 (content_length)
 			 memory.write_natural_8 (padding_length)
-			 memory.write_natural_8 (reserved)
 		end
 
 feature {NONE} -- Constants
 
 	Record_type_array: ARRAY [FCGI_RECORD]
 		local
-			string_content: FCGI_STRING_CONTENT_RECORD
+			content: FCGI_STRING_CONTENT_RECORD
 		once
-			create Result.make_filled (Current, 1, Fcgi_stdout)
-			create string_content
+			create content
+			create Result.make_filled (content, 1, Fcgi_stdout)
 			Result [Fcgi_params] := create {FCGI_PARAMETER_RECORD}
-
 			Result [Fcgi_begin_request] := create {FCGI_BEGIN_REQUEST_RECORD}
 			Result [Fcgi_end_request] := create {FCGI_END_REQUEST_RECORD}
-
-			Result [Fcgi_stdin] := string_content
-			Result [Fcgi_stdout] := string_content
+			Result [Fcgi_stdin] := content
+			Result [Fcgi_stdout] := content
 		end
+
+feature {NONE} -- Constants
+
+	Reserved_count: INTEGER = 1
 
 end

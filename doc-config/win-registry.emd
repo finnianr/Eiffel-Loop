@@ -1,2 +1,2 @@
-This library adds a layer of abstraction to the Windows registry classes found the in the [https://www.eiffel.org/resources/libraries/wel Eiffel Windows Library WEL]. This abstraction layer makes it much easier and more intuitive to search, read and edit Windows registry 
+This library adds a layer of abstraction to the Windows registry classes found the in the [https://www.eiffel.org/resources/libraries/wel Eiffel Windows Library WEL]. This abstraction layer makes it easier and more intuitive to search, read and edit Windows registry 
 keys and data. See [https://room.eiffel.com/article/windows_registry_access_made_easy this article] on Eiffel room.

@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_READABLE_ZSTRING}."
+	description: "Read only form of class [$source EL_ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

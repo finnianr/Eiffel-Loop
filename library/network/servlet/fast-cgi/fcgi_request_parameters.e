@@ -32,6 +32,11 @@ inherit
 			set_field
 		end
 
+	EL_STRING_CONSTANTS
+		undefine
+			is_equal
+		end
+
 create
 	make, make_from_table
 
@@ -212,6 +217,19 @@ feature -- Access
 			end
 		end
 
+	server_software_version: NATURAL
+		local
+			parts: EL_SPLIT_ZSTRING_LIST; scalar: NATURAL
+		do
+			scalar := 1_000_000
+			create parts.make (server_software.substring_between (Forward_slash, Space_string, 1), Dot)
+			from parts.start until parts.after loop
+				Result := Result + scalar * parts.item.to_natural
+				scalar := scalar // 1000
+				parts.forth
+			end
+		end
+
 feature -- Status query
 
 	is_get_request: BOOLEAN
@@ -243,6 +261,8 @@ feature -- STRING_8 parameters
 		-- remote address formatted as x.x.x.x where 0 <= x and x <= 255
 
 	server_protocol: STRING
+
+	server_signature: STRING
 
 feature -- ZSTRING parameters
 
@@ -278,8 +298,6 @@ feature -- ZSTRING parameters
 
 	server_name: ZSTRING
 
-	server_signature: ZSTRING
-
 	server_software: ZSTRING
 
 feature -- Element change
@@ -289,7 +307,7 @@ feature -- Element change
 			prefixes: like Header_prefixes
 		do
 			prefixes := Header_prefixes
-			prefixes.find_first (True, agent name.starts_with)
+			prefixes.find_first (True, agent starts_with (name, ?))
 			if prefixes.found then
 				if prefixes.index = 2 then
 					-- remove HTTP_
@@ -313,6 +331,11 @@ feature {NONE} -- Implementation
 			Result := agent Naming.from_upper_snake_case
 		end
 
+	starts_with (name, a_prefix: STRING): BOOLEAN
+		do
+			Result := name.starts_with (a_prefix)
+		end
+
 feature {NONE} -- Constants
 
 	Dot: STRING = "."
@@ -320,6 +343,11 @@ feature {NONE} -- Constants
 	Except_fields: STRING
 		once
 			Result := Precursor + ", content, headers"
+		end
+
+	Forward_slash: ZSTRING
+		once
+			Result := "/"
 		end
 
 	Header_prefixes: EL_ARRAYED_LIST [STRING]

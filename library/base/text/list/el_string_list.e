@@ -77,6 +77,15 @@ feature -- Access
 			end
 		end
 
+feature -- Element change
+
+	set_first_and_last (a_first, a_last: S)
+		do
+			if not is_empty then
+				put_i_th (a_first, 1); put_i_th (a_last, count)
+			end
+		end
+
 feature -- Removal
 
 	prune_all_empty

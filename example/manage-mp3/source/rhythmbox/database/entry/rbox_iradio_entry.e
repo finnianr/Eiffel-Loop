@@ -216,7 +216,7 @@ feature {NONE} -- Constants
 	Except_fields: STRING
 			-- Object attributes that are not stored in Rhythmbox database
 		once
-			Result := Precursor + ", encoding, encoding_type, xpath"
+			Result := Precursor + ", internal_encoding, xpath"
 		end
 
 	Protocol: ZSTRING

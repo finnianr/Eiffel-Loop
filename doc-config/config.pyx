@@ -251,7 +251,7 @@ publish-repository:
 					Terms can be combined using basic boolean operators.
 				"""
 		tree:
-			name = "Windows Registry Access"; dir = "library/persistency/database/win-registry"
+			name = "Windows Registry Access"; dir = "library/persistency/win-registry"
 			ecf = "wel-regedit-x.ecf"
 			description:
 				"win-registry.emd"

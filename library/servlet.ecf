@@ -11,8 +11,10 @@
 		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf">
 			<renaming old_name = "EMAIL" new_name = "NET_EMAIL"/>
 		</library>
-		<library name = "log4e" location = "$LOG4E/library/log4e.ecf" readonly = "false"/>
 		<library name = "time" location = "$ISE_EIFFEL/library/time/time.ecf"/>
+		<!--Other-->
+		<library name = "log4e" location = "$LOG4E/library/log4e.ecf" readonly = "false"/>
+		<library name = "eposix" location = "$EPOSIX/eposix.ecf" readonly = "true"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_app_manage" location = "app-manage.ecf"/>

@@ -101,8 +101,10 @@ feature -- String output
 				put_bom
 			end
 			from lines.start until lines.after loop
+				if lines.index > 1 then
+					put_new_line
+				end
 				put_raw_string_8 (indent); put_string_general (lines.item)
-				put_new_line
 				lines.forth
 			end
 		end
@@ -152,14 +154,6 @@ feature -- String output
 			end
 		end
 
-feature -- Element change
-
-	set_codec
-			--
-		do
-			codec := new_codec (Current)
-		end
-
 feature -- Status change
 
 	disable_bom
@@ -202,6 +196,14 @@ feature -- Basic operations
 
 	open_write
 		deferred
+		end
+
+feature {NONE} -- Implementation
+
+	set_codec
+			--
+		do
+			codec := new_codec (Current)
 		end
 
 feature {NONE} -- Internal attributes

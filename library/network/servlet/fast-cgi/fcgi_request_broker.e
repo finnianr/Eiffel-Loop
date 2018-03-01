@@ -31,6 +31,8 @@ inherit
 
 	EL_MODULE_EXCEPTION
 
+	EL_STRING_CONSTANTS
+
 create
 	make
 
@@ -41,6 +43,7 @@ feature {NONE} -- Initialization
 			create {EL_NETWORK_STREAM_SOCKET} socket.make
 			create parameters.make
 			create relative_path_info.make_empty
+			stdin_content_record := Header.stdin_content_record
 			end_request_listener := Default_event_listener
 		end
 
@@ -78,14 +81,13 @@ feature -- Status query
 	failed: BOOLEAN
 		-- Did this request fail?
 
-	read_ok, write_ok: BOOLEAN
-		-- `True' if the last socket read or write operation successful?
-		do
-			Result := not socket.was_error
-		end
-
 	is_aborted: BOOLEAN
 		-- `True' if request was aborted
+
+	is_closed: BOOLEAN
+		do
+			Result := socket.is_closed
+		end
 
 	is_end_service: BOOLEAN
 		-- `True' if type is request to end service
@@ -95,9 +97,10 @@ feature -- Status query
 			Result := parameters.is_head_request
 		end
 
-	is_closed: BOOLEAN
+	read_ok, write_ok: BOOLEAN
+		-- `True' if the last socket read or write operation successful?
 		do
-			Result := socket.is_closed
+			Result := not socket.was_error
 		end
 
 feature -- Element change
@@ -126,8 +129,7 @@ feature -- Basic operations
 			written_ok: BOOLEAN
 		do
 			if not socket.is_closed then
-				Header.set_fields (version, request_id, Fcgi_end_request, Fcgi_end_req_body_len, 0)
-				Header.write (Current)
+				write_header (Fcgi_end_request, Fcgi_end_req_body_len)
 				Header.type_record.write (Current)
 				written_ok := write_ok
 				socket.close
@@ -156,17 +158,17 @@ feature -- Basic operations
 			-- split into chunks `Packet_size' bytes or less.
 			from offset := 1 until offset > str.count or not write_ok loop
 				bytes_to_send := Packet_size.min (str.count - (offset - 1))
-				Header.set_fields (version, request_id, Fcgi_stdout, bytes_to_send, 0)
-				Header.write (Current)
-				if write_ok and then attached {FCGI_STRING_CONTENT_RECORD} Header.type_record as record then
-					record.set_content (str, offset)
-					record.write (Current)
-				end
+				write_stdout_content (str, offset, bytes_to_send)
 				offset := offset + Packet_size
 			end
-			if write_ok then
-				Header.set_fields (version, request_id, Fcgi_stdout, 0, 0)
-				Header.write (Current)
+			-- Compensate for a bug in Cherokee where the connection closes early for HEAD requests
+			if is_head_request and then parameters.server_software.starts_with (Cherokee)
+				and then parameters.server_software_version <= 1_002_103
+			then
+				socket.close
+			end
+			if write_ok and then socket.is_open_write then
+				write_stdout_content (Empty_string_8, 1, 0)
 			end
 		end
 
@@ -214,6 +216,23 @@ feature {FCGI_RECORD} -- Record events
 			request_read := True
 		end
 
+feature {NONE} -- Implementation
+
+	write_stdout_content (str: STRING; offset, bytes_to_send: INTEGER)
+		do
+			write_header (Fcgi_stdout, bytes_to_send)
+			if write_ok then
+				stdin_content_record.set_content (str, offset)
+				stdin_content_record.write (Current)
+			end
+		end
+
+	write_header (record_type, bytes_to_send: INTEGER)
+		do
+			Header.set_fields (version, request_id, record_type, bytes_to_send, 0)
+			Header.write (Current)
+		end
+
 feature {FCGI_RECORD} -- Internal attributes
 
 	end_request_listener: EL_EVENT_LISTENER
@@ -223,7 +242,14 @@ feature {FCGI_RECORD} -- Internal attributes
 
 	socket: EL_STREAM_SOCKET
 
+	stdin_content_record: FCGI_STRING_CONTENT_RECORD
+
 feature {FCGI_RECORD} -- Constants
+
+	Cherokee: ZSTRING
+		once
+			Result := "Cherokee"
+		end
 
 	Default_event_listener: EL_DEFAULT_EVENT_LISTENER
 		once

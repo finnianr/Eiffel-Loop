@@ -131,7 +131,7 @@ Provides many extensions to the Eiffel Software [Vision-2 cross-platform GUI lib
 
 
 * Advanced pixel buffer rendering with transparencies and anti-aliasing using the [Cairo](https://cairographics.org/) and [Pangocairo](http://www.pango.org/) 2D graphics library. See class [$source EL_DRAWABLE_PIXEL_BUFFER]
-* Drop-down combo boxes linked to data containers conforming to `FINITE [G]` and initialized with a value of type *G*, and a selection change agent of type `PROCEDURE [ANY, TUPLE [G]]`. See class [$source EL_DROP_DOWN_BOX]
+* Drop-down combo boxes linked to data containers conforming to `FINITE [G]` and initialized with a value of type *G*, and a selection change agent of type `PROCEDURE [G]`. See class [$source EL_DROP_DOWN_BOX]
 * Drop-down combo boxes with localized display strings. See class [$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
 * Drop down combo box for months of year specified as integers and displayed with English names and a localized variant [$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
 
@@ -259,7 +259,7 @@ Conditions can be combined using the logical operators: `and`, `or` and `not`. Q
 ## Search Engine Classes
 Classes for parsing search terms and searching a list conforming to `CHAIN [EL_WORD_SEARCHABLE]`. The search uses case-insensivitive word tokenization. Facility to create custom search times. Terms can be combined using basic boolean operators.
 ## Windows Registry Access
-This library adds a layer of abstraction to the Windows registry classes found the in the [Eiffel Windows Library WEL](https://www.eiffel.org/resources/libraries/wel). This abstraction layer makes it much easier and more intuitive to search, read and edit Windows registry  keys and data. See [this article](https://room.eiffel.com/article/windows_registry_access_made_easy) on Eiffel room.
+This library adds a layer of abstraction to the Windows registry classes found the in the [Eiffel Windows Library WEL](https://www.eiffel.org/resources/libraries/wel). This abstraction layer makes it easier and more intuitive to search, read and edit Windows registry  keys and data. See [this article](https://room.eiffel.com/article/windows_registry_access_made_easy) on Eiffel room.
 
 
 ## Eiffel LIST-orientated XML Database
@@ -574,7 +574,7 @@ put_<lowercase type name>_field
 ````
 is used to output the following types prefixed with a field label: `STRING, INTEGER, INTEGER_INTERVAL, REAL and DOUBLE`.
 
-The procedure `put_string_field_to_max_length` is used to output a multi-line block of text in abbreviated form. The beginning and last 30 characters of the string is output up to a maximum number of characters (or 1/3 of the maximum length, whichever is smaller). If the text contains more than one line, tab indents are inserted to left align the text to the correct logging indent. The boolean function current_routine_is_active can be tested in order to conditionally execute a block of code if the current routine is unfiltered by any routine filter.
+The procedure `put_string_field_to_max_length` is used to output a multi-line block of text in abbreviated form. The beginning and last 30 characters of the string is output up to a maximum number of characters (or 1/3 of the maximum length, whichever is smaller). If the text contains more than one line, tab indents are inserted to left align the text to the correct logging indent. The boolean function `current_routine_is_active` can be tested in order to conditionally execute a block of code if the current routine is unfiltered by any routine filter.
 
 **Always on logging**
 
@@ -627,7 +627,7 @@ Aproximately 100 classes for creating cross platform wrappers of OS commands wit
 * Designed for cross platform use, with special features for post-capture processing of output lines so they are consistent across platforms. See classes [$source EL_FIND_DIRECTORIES_COMMAND_I] and [$source EL_FIND_FILES_COMMAND_I] as an example. Here the Unix `find` command and the Windows `dir` command are made to appear exactly the same for specific tasks.
 
 
-* Support for making "convenience wrappers" without any need to create a new class. These are [$source EL_OS_COMMAND]  [$source EL_CAPTURED_OS_COMMAND].
+* Support for making "convenience wrappers" without any need to create a new class. These are classes: [$source EL_OS_COMMAND] and [$source EL_CAPTURED_OS_COMMAND].
 
 
 * Has factory class [$source EL_OS_ROUTINES_IMP] (accessible via [$source EL_MODULE_OS]) which contains factory functions for common OS system commands.

@@ -63,9 +63,8 @@ feature -- Access
 
 feature -- Status query
 
-	is_committed: BOOLEAN
-			-- Has the response been committed? A committed response has already
-			-- had its status code and headers written.
+	is_sent: BOOLEAN
+			-- `True' when response has already had it's status code and headers written.
 
 	is_head_request: BOOLEAN
 		do
@@ -77,16 +76,36 @@ feature -- Status query
 
 feature -- Basic operations
 
-	flush_buffer
+	send
+		-- send response headers and content
 		do
-			if not is_committed then
+			if not is_sent then
 				set_content_length (content_buffer.count)
-				write_headers
-				is_committed := True
+				-- NOTE: There is no need to send the HTTP status line because
+				-- the FastCGI protocol does it for us.
+				if status = Http_status.ok then
+					set_default_headers; set_cookie_headers
+				end
+				if is_head_request then
+					write (sorted_headers)
+				else
+					write (sorted_headers + content_buffer.text)
+				end
+				is_sent := True
 			end
-			if not is_head_request and not content_buffer.is_empty then
-				write (content_buffer.text)
-			end
+		end
+
+	send_error (sc: like status; message: STRING)
+			-- Send an error response to the client using the specified
+			-- status code and descriptive message. The server generally
+			-- creates the response to look like a normal server error page.
+		local
+			code_name: STRING
+		do
+			code_name := Http_status.name (sc)
+			set_content (Error_page_template #$ [code_name, code_name, message], Content_plain_latin_1)
+			set_status (sc)
+			send
 		end
 
 feature -- Element change
@@ -101,7 +120,7 @@ feature -- Element change
 			content_length := 0
 			set_content_type (Content_plain_latin_1)
 			set_status (Http_status.ok)
-			is_committed := False
+			is_sent := False
 		end
 
 	send_cookie (name, value: STRING)
@@ -109,18 +128,10 @@ feature -- Element change
 			cookies.extend (create {EL_HTTP_COOKIE}.make (name, value))
 		end
 
-	send_error (sc: like status)
-			-- Send an error response to the client using the specified
-			-- status code. The server generally creates the response to
-			-- look like a normal server error page.
-		do
-			write_error (sc, Http_status.name (sc))
-		end
-
 	set_content (text: READABLE_STRING_GENERAL; type: EL_HTTP_CONTENT_TYPE)
 		require
 			valid_mixed_encoding: attached {ZSTRING} text as z_text implies
-												(not type.is_utf_encoding (8) implies z_text.has_mixed_encoding)
+												(not type.is_utf_encoding (8) implies not z_text.has_mixed_encoding)
 		do
 			set_content_type (type)
 			content_buffer.wipe_out
@@ -129,14 +140,9 @@ feature -- Element change
 
 	set_content_length (length: INTEGER)
 			-- Set the length of the content body in the response.
-		local
-			header: STRING
 		do
 			content_length := length
-			create header.make (Header_content_length.count + log10 (length).rounded.min (1))
-			header.append (Header_content_length)
-			header.append_integer (length)
-			header_list.extend (header)
+			set_header (once "Content-Length", length.out)
 		end
 
 	set_content_ok
@@ -166,21 +172,13 @@ feature -- Element change
 			-- Set a response header with the given name and value. If the
 			-- header already exists, the new value overwrites the previous
 			-- one.
-		local
-			list: like header_list; found: BOOLEAN
-			header: STRING
 		do
-			list := header_list
-			from list.start until found or list.after loop
-				header := list.item
-				if header.starts_with (name) and then header [name.count + 1] = ':' then
-					list.replace (new_header (name, value))
-					found := True
-				end
-				list.forth
-			end
-			if not found then
-				list.extend (new_header (name, value))
+			header_list.start
+			header_list.key_search (name)
+			if header_list.found then
+				header_list.replace (name, value)
+			else
+				header_list.extend (name, value)
 			end
 		end
 
@@ -193,24 +191,13 @@ feature -- Element change
 			status := a_status
 		end
 
-feature {FCGI_SERVLET_REQUEST} -- Implementation
+feature {NONE} -- Implementation
 
 	add_header (name, value: STRING)
 			-- Adds a response header with the given naem and value. This
 			-- method allows response headers to have multiple values.
 		do
-			header_list.extend (new_header (name, value))
-		end
-
-	broker: FCGI_REQUEST_BROKER
-		-- broker to read and write request messages from the web server
-
-	new_header (name, value: STRING): STRING
-		do
-			create Result.make (2 + name.count + value.count)
-			Result.append (name)
-			Result.append (once ": ")
-			Result.append (value)
+			header_list.extend (name, value)
 		end
 
 	set_cookie_headers
@@ -220,11 +207,11 @@ feature {FCGI_SERVLET_REQUEST} -- Implementation
 		do
 			if not cookies.is_empty then
 				across cookies as cookie loop
-					add_header ("Set-Cookie", cookie.item.header_string)
+					add_header (once "Set-Cookie", cookie.item.header_string)
 				end
 				-- add cache control headers for cookie management
-				add_header ("Cache-control", "no-cache=%"Set-Cookie%"")
-				set_header ("Expires", Expired_date)
+				add_header (once "Cache-control", once "no-cache=%"Set-Cookie%"")
+				set_header (once "Expires", Expired_date)
 			end
 		end
 
@@ -233,50 +220,34 @@ feature {FCGI_SERVLET_REQUEST} -- Implementation
 		do
 		end
 
-	write (data: STRING)
+	sorted_headers: EL_STRING_8_LIST
+			-- sorted and formatted response headers
+		local
+			header: like header_list
+		do
+			header := header_list
+			header.sort
+			create Result.make (header.count * 4 + 1)
+			from header.start until header.after loop
+				Result := Result + header.item.key + once ": " + header.item.value + Carriage_return_new_line
+				header.forth
+			end
+			Result.extend (Carriage_return_new_line)
+		end
+
+	write (list: EL_STRING_8_LIST)
 			-- Write 'data' to the output stream for this response
 		do
 			if write_ok then
-				broker.write_stdout (data)
+				broker.write_stdout (list.joined_strings)
 			end
 			write_ok := broker.write_ok
 		end
 
-	write_error (sc: like status; msg: STRING)
-			-- Send an error response to the client using the specified
-			-- status code and descriptive message. The server generally
-			-- creates the response to look like a normal server error page.
-		local
-			html, code_name: STRING
-		do
-			code_name := Http_status.name (sc)
-			html := Error_page_template #$ [code_name, code_name, msg]
-			set_status (sc)
-			set_content_type (Content_plain_latin_1)
-			set_content_length (html.count)
-			write_headers
-			write (html)
-		end
+feature {FCGI_SERVLET_REQUEST} -- Internal attributes
 
-	write_headers
-			-- Write the response headers to the output stream.
-		require
-			not_committed: not is_committed
-		do
-			-- NOTE: There is no need to send the HTTP status line because
-			-- the FastCGI protocol does it for us.
-			set_default_headers
-			set_cookie_headers
-
-			header_list.sort
-			header_list.extend (Empty_string_8)
-			header_list.extend (Empty_string_8)
-			write (header_list.joined_with_string (once "%R%N"))
-
-			is_committed := True
-		ensure
-			is_committed: is_committed
-		end
+	broker: FCGI_REQUEST_BROKER
+		-- broker to read and write request messages from the web server
 
 feature {NONE} -- Internal attributes
 
@@ -290,14 +261,14 @@ feature {NONE} -- Internal attributes
 	cookies: ARRAYED_LIST [EL_HTTP_COOKIE]
 		-- The cookies that will be sent with this response.
 
-	header_list: EL_STRING_8_LIST
+	header_list: EL_SORTABLE_ARRAYED_MAP_LIST [STRING, STRING]
 
 	initial_buffer_size: INTEGER
 		-- Size of buffer to create.
 
 feature {NONE} -- Constants
 
-	Header_content_length: STRING = "Content-Length: "
+	Carriage_return_new_line: STRING = "%R%N"
 
 	Error_page_template: ZSTRING
 		once

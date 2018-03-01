@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 		<meta name="digest" content="$crc_digest"/>
-		<meta name="Description" content="Source code for class $name"/>
+		<meta name="description" content="Source code for class $name"/>
 
 		<title>$source_path</title>
 
-		<link href="$top_dir/css/prism.css" rel="stylesheet" />
+		<link href="$top_dir/css/prism.css" rel="stylesheet"/>
 
 		#include ($favicon_markup_path)
 	</head>
@@ -22,7 +22,7 @@
 			#if $example.cursor_index > 1 then
 				;&nbsp;
 			#end
-			<a href="$top_dir/$example.item.relative_dir/${example.item.name_as_lower}.html">$example.item.name</a>
+			<a href="$top_dir/$example.item.relative_dir/${example.item.name_as_lower}.html" id="source">$example.item.name</a>
 		#end
 		</p>
 	#end

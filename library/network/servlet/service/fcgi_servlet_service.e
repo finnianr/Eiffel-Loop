@@ -36,6 +36,29 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
+	make (config_dir: EL_DIR_PATH; config_name: ZSTRING)
+		do
+			make_with_config (new_config (config_dir + (config_name + ".pyx")))
+		end
+
+	make_port (a_port: INTEGER)
+		do
+			make_with_config (create {like config}.make ("", a_port))
+		end
+
+	make_with_config (a_config: like config)
+		do
+			config := a_config
+			create broker.make
+			create {EL_NETWORK_STREAM_SOCKET} socket.make
+			create servlets
+			state := agent do_nothing
+			initialize_logger
+			server_backlog := 10
+		end
+
+feature {NONE}
+
 	initialize_listening
 			-- Set up port to listen for requests from the web server
 		local
@@ -80,18 +103,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		-- initialize servlets
 		do
 			servlets := servlet_table
-		end
-
-	make (config_dir: EL_DIR_PATH; config_name: ZSTRING)
-		do
-			Servlet_app_log_category.wipe_out
-			config := new_config (config_dir + (config_name + ".pyx"))
-			create broker.make
-			create {EL_NETWORK_STREAM_SOCKET} socket.make
-			create servlets
-			state := agent do_nothing
-			initialize_logger
-			server_backlog := 10
 		end
 
 feature -- Basic operations
@@ -157,26 +168,18 @@ feature {NONE} -- States
 			state := agent accepting_connection
 		end
 
-	processing_request
+	processing_request (table: like servlets)
 			-- Redefined process request to have type of response and request object defined in servlet
-		local
-			servlet_path: ZSTRING; found: BOOLEAN
 		do
-			servlet_path := broker.relative_path_info
-			if servlet_path.is_empty then
-				log_servlet_error ("No path specified in HTTP header")
+			table.search (broker.relative_path_info)
+			if not table.found then
+				table.search (Default_servlet_key)
+			end
+			if table.found then
+				log_servlet_info (Service_info_template #$ [broker.relative_path_info, table.found_item.servlet_info])
+				table.found_item.serve_fast_cgi (broker)
 			else
-				across << servlet_path, Default_servlet_key >> as path until found loop
-					servlet_path := path.item
-					servlets.search (servlet_path)
-					found := servlets.found
-				end
-				if found then
-					log_servlet_info (Service_info_template #$ [servlet_path, servlets.found_item.servlet_info])
-					servlets.found_item.serve_fast_cgi (broker)
-				else
-					on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (broker))
-				end
+				on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (broker))
 			end
 			state := agent finishing_request
 		end
@@ -193,7 +196,7 @@ feature {NONE} -- States
 				if broker.is_end_service then
 					state := Final
 				else
-					state := agent processing_request
+					state := agent processing_request (servlets)
 				end
 			else
 				a_socket.close
@@ -207,7 +210,7 @@ feature {NONE} -- Event handling
 	on_missing_servlet (resp: FCGI_SERVLET_RESPONSE)
 			-- Send error page indicating missing servlet
 		do
-			resp.send_error (Http_status.not_found)
+			resp.send_error (Http_status.not_found, "Missing servlet")
 		end
 
 	on_shutdown
@@ -306,7 +309,7 @@ feature {NONE} -- Implementation: attributes
 	broker: FCGI_REQUEST_BROKER
 		-- broker to read and write request messages from the web server
 
-	config: EL_SERVLET_SERVICE_CONFIG
+	config: FCGI_SERVICE_CONFIG
 			-- Configuration for servlets
 
 	server_backlog: INTEGER

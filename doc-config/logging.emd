@@ -173,7 +173,7 @@ The procedure form:
 
 is used to output the following types prefixed with a field label: `STRING, INTEGER, INTEGER_INTERVAL, REAL and DOUBLE'.
 
-The procedure `put_string_field_to_max_length' is used to output a multi-line block of text in abbreviated form. The beginning and last 30 characters of the string is output up to a maximum number of characters (or 1/3 of the maximum length, whichever is smaller). If the text contains more than one line, tab indents are inserted to left align the text to the correct logging indent. The boolean function current_routine_is_active can be tested in order to conditionally execute a block of code if the current routine is unfiltered by any routine filter.
+The procedure `put_string_field_to_max_length' is used to output a multi-line block of text in abbreviated form. The beginning and last 30 characters of the string is output up to a maximum number of characters (or 1/3 of the maximum length, whichever is smaller). If the text contains more than one line, tab indents are inserted to left align the text to the correct logging indent. The boolean function `current_routine_is_active' can be tested in order to conditionally execute a block of code if the current routine is unfiltered by any routine filter.
 
 **Always on logging**
 

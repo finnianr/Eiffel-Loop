@@ -1,7 +1,7 @@
 note
 	description: "[
-		The Web server sends a FCGI_BEGIN_REQUEST record to start a request.
-		The contentData component of a FCGI_BEGIN_REQUEST record has the form:
+		The Web server sends a `FCGI_BEGIN_REQUEST' record to start a request.
+		The contentData component of a `FCGI_BEGIN_REQUEST' record has the form:
 
 			typedef struct {
 				unsigned char roleB1;
@@ -26,25 +26,10 @@ class
 
 inherit
 	FCGI_RECORD
-		redefine
-			default_create
-		end
-
-create
-	default_create
-
-feature {NONE} -- Initialization
-
-	default_create
-		do
-			create reserved.make_filled (0, 1, 5)
-		end
 
 feature -- Access
 
 	flags: NATURAL_8
-
-	reserved: ARRAY [NATURAL_8]
 
 	role: NATURAL_16
 
@@ -59,15 +44,17 @@ feature {NONE} -- Implementation
 		do
 			role := memory.read_natural_16
 			flags := memory.read_natural_8
-			memory.read_to_natural_8_array (reserved)
 		end
 
 	write_memory (memory: FCGI_MEMORY_READER_WRITER)
 		do
 			 memory.write_natural_16 (role)
 			 memory.write_natural_8 (flags)
-			 memory.write_natural_8_array (reserved)
 		end
 
+
+feature {NONE} -- Constants
+
+	Reserved_count: INTEGER = 5
 
 end

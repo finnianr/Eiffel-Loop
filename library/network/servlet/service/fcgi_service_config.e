@@ -26,7 +26,7 @@ note
 	revision: "5"
 
 class
-	EL_SERVLET_SERVICE_CONFIG
+	FCGI_SERVICE_CONFIG
 
 inherit
 	EL_BUILDABLE_FROM_PYXIS
@@ -43,9 +43,16 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 create
-	make_default, make_from_file
+	make, make_default, make_from_file
 
 feature {NONE} -- Initialization
+
+	make (a_server_socket_path: like server_socket_path; a_server_port: like server_port)
+		-- make with either a UNIX socket path or a TCP port
+		do
+			make_default
+			server_socket_path := a_server_socket_path; server_port := a_server_port
+		end
 
 	make_default
 			--
@@ -93,6 +100,8 @@ feature -- Status query
 
 feature {NONE} -- Build from XML
 
+	Root_node_name: STRING = "config"
+
 	building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
@@ -102,8 +111,6 @@ feature {NONE} -- Build from XML
 				["document-root/text()", agent do set_document_root_dir (node.to_string) end]
 			>>)
 		end
-
-	Root_node_name: STRING = "config"
 
 feature {NONE} -- Implementation
 

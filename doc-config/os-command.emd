@@ -10,7 +10,7 @@ Aproximately 100 classes for creating cross platform wrappers of OS commands wit
 
 * Designed for cross platform use, with special features for post-capture processing of output lines so they are consistent across platforms. See classes [$source EL_FIND_DIRECTORIES_COMMAND_I] and [$source EL_FIND_FILES_COMMAND_I] as an example. Here the Unix `find' command and the Windows `dir' command are made to appear exactly the same for specific tasks.
 
-* Support for making "convenience wrappers" without any need to create a new class. These are [$source EL_OS_COMMAND]  [$source EL_CAPTURED_OS_COMMAND].
+* Support for making "convenience wrappers" without any need to create a new class. These are classes: [$source EL_OS_COMMAND] and [$source EL_CAPTURED_OS_COMMAND].
 
 * Has factory class [$source EL_OS_ROUTINES_IMP] (accessible via [$source EL_MODULE_OS]) which contains factory functions for common OS system commands.
 

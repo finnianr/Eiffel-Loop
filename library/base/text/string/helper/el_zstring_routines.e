@@ -1,5 +1,5 @@
 note
-	description: "Convenience routines for ZSTRING"
+	description: "Convenience routines for [$source EL_ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
