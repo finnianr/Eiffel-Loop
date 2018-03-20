@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-26 10:08:15 GMT (Tuesday 26th December 2017)"
-	revision: "2"
+	date: "2018-02-20 11:47:33 GMT (Tuesday 20th February 2018)"
+	revision: "3"
 
 class
 	EL_STORABLE_LIST_INDEX [G -> EL_STORABLE create make_default end, K -> detachable HASHABLE]

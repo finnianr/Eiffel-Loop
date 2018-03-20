@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 11:42:31 GMT (Sunday 15th October 2017)"
-	revision: "7"
+	date: "2018-03-14 10:01:34 GMT (Wednesday 14th March 2018)"
+	revision: "8"
 
 class
 	THUNDERBIRD_WWW_EXPORTER_APP
@@ -64,7 +64,7 @@ feature {NONE} -- Constants
 			Result := <<
 				[{THUNDERBIRD_WWW_EXPORTER_APP}, All_routines],
 				[{THUNDERBIRD_WWW_EXPORTER}, All_routines],
-				[{THUNDERBIRD_EXPORT_AS_HTML_BODY}, All_routines]
+				[{THUNDERBIRD_EXPORT_AS_XHTML_BODY}, All_routines]
 			>>
 		end
 

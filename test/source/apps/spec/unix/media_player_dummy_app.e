@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:27:58 GMT (Thursday 29th June 2017)"
-	revision: "3"
+	date: "2018-02-21 17:34:52 GMT (Wednesday 21st February 2018)"
+	revision: "4"
 
 class
 	MEDIA_PLAYER_DUMMY_APP

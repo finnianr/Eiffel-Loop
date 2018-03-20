@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-09 14:12:14 GMT (Friday 9th February 2018)"
-	revision: "9"
+	date: "2018-03-02 13:08:29 GMT (Friday 2nd March 2018)"
+	revision: "10"
 
 class
 	APPLICATION_ROOT
@@ -59,7 +59,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	notes: TUPLE [DONE_LIST, TO_DO_LIST, EL_ENCODEABLE_AS_TEXT_2]
+	notes: TUPLE [DONE_LIST, TO_DO_LIST]
 		do
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-03-04 12:55:33 GMT (Sunday 4th March 2018)"
+	revision: "3"
 
 frozen class
 	EL_ZSTRING_SEARCHER
@@ -27,7 +27,7 @@ feature -- Access
 
 feature -- Search
 
-	fuzzy_index (a_string: like string_type; a_pattern: READABLE_STRING_GENERAL; start_pos, end_pos, fuzzy: INTEGER): INTEGER
+	fuzzy_index (a_string: like String_type; a_pattern: READABLE_STRING_GENERAL; start_pos, end_pos, fuzzy: INTEGER): INTEGER
 			-- Position of first occurrence of `a_pattern' at or after `start_pos' in
 			-- `a_string' with 0..`fuzzy' mismatches between `a_string' and `a_pattern'.
 			-- 0 if there are no fuzzy matches.
@@ -110,7 +110,9 @@ feature -- Search
 			end
 		end
 
-	substring_index_with_deltas (a_string: like string_type; a_pattern: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER): INTEGER
+	substring_index_with_deltas (
+		a_string: like String_type; a_pattern: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER
+	): INTEGER
 			-- Position of first occurrence of `a_pattern' at or after `start_pos' in `a_string'.
 			-- 0 if there are no matches.
 		local
@@ -172,7 +174,7 @@ feature -- Search
 
 feature {NONE} -- Implementation
 
-	z_code (a_string_area: SPECIAL [CHARACTER]; i: INTEGER; a_string: like string_type): NATURAL
+	z_code (a_string_area: SPECIAL [CHARACTER]; i: INTEGER; a_string: like String_type): NATURAL
 			-- code which can be latin or unicode depending on presence of unencoded characters
 		local
 			c: CHARACTER
@@ -188,7 +190,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	String_type: EL_READABLE_ZSTRING
-			-- <Precursor>
 		require else
 			never_called: False
 		once

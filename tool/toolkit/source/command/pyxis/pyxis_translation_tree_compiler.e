@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-11 17:34:40 GMT (Monday 11th December 2017)"
-	revision: "4"
+	date: "2018-02-22 11:27:02 GMT (Thursday 22nd February 2018)"
+	revision: "5"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER

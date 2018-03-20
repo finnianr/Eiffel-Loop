@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-03 9:49:21 GMT (Sunday 3rd September 2017)"
-	revision: "2"
+	date: "2018-03-01 23:46:38 GMT (Thursday 1st March 2018)"
+	revision: "3"
 
 deferred class
 	EL_STRING_IO_MEDIUM
@@ -47,6 +47,8 @@ inherit
 		redefine
 			put_bom
 		end
+
+	EL_STRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -289,11 +291,11 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
+	new_string (a_count: INTEGER): like text
+		deferred
+		end
 	set_last_string (a_string: like last_string)
 		deferred
 		end
 
-	new_string (a_count: INTEGER): like text
-		deferred
-		end
 end

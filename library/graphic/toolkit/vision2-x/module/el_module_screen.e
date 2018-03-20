@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-03-12 7:44:38 GMT (Monday 12th March 2018)"
+	revision: "3"
 
 class
 	EL_MODULE_SCREEN
@@ -17,10 +17,10 @@ inherit
 
 feature -- Access
 
-	Screen: EL_SCREEN_PROPERTIES_I
+	Screen: EL_SCREEN
 			--
 		once ("PROCESS")
-			create {EL_SCREEN_PROPERTIES_IMP} Result.make
+			create Result.make
 		end
 
 end

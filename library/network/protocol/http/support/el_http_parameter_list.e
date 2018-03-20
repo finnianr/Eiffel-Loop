@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-09 19:49:24 GMT (Thursday 9th November 2017)"
-	revision: "3"
+	date: "2018-03-02 12:25:22 GMT (Friday 2nd March 2018)"
+	revision: "4"
 
 class
 	EL_HTTP_PARAMETER_LIST [P -> EL_HTTP_PARAMETER]
@@ -31,7 +31,7 @@ convert
 
 feature -- Conversion
 
-	to_table: EL_HTTP_HASH_TABLE
+	to_table: EL_URL_QUERY_HASH_TABLE
 		do
 			create Result.make_equal (count)
 			extend_table (Result)

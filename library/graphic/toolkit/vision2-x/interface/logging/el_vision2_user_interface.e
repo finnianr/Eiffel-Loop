@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-13 9:16:16 GMT (Thursday 13th October 2016)"
-	revision: "2"
+	date: "2018-03-12 20:30:20 GMT (Monday 12th March 2018)"
+	revision: "3"
 
 class
 	EL_VISION2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end]
@@ -18,7 +18,7 @@ class
 inherit
 	EV_APPLICATION
 		redefine
-			create_implementation, create_interface_objects
+			create_implementation, create_interface_objects, initialize
 		end
 
 	EL_MODULE_LOG
@@ -36,7 +36,17 @@ inherit
 			copy, default_create
 		end
 
+	EL_SHARED_USEABLE_SCREEN
+		undefine
+			copy, default_create
+		end
+
 	EV_BUILDER
+
+	EL_MODULE_SCREEN
+		undefine
+			copy, default_create
+		end
 
 create
 	make, make_maximized
@@ -78,6 +88,17 @@ feature {NONE} -- Initialization
 			log.exit
 		end
 
+	initialize
+			--
+		local
+			display_size: EL_ADJUSTED_DISPLAY_SIZE
+		do
+			Precursor
+			create display_size.make
+			display_size.read
+			Screen.set_dimensions (display_size.width_cms, display_size.height_cms)
+		end
+
 feature -- Access
 
 	main_window: W
@@ -110,12 +131,10 @@ feature {NONE} -- Implementation
 		end
 
 	create_interface_objects
-		local
-			screen_properties: EL_SCREEN_PROPERTIES_IMP
 		do
-			-- This has to be called before any GUI code to intialize a once function that
-			-- calls some GTK C code. This code is effectively a mini GTK app.
-			create screen_properties.make_special
+			-- For Unix systems this has to be called before any Vision2 GUI code
+			-- It calls code that is effectively a mini GTK app to determine the useable screen space
+			call (Useable_screen)
 		end
 
 	prepare_to_show

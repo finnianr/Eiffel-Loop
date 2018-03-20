@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-29 10:40:18 GMT (Monday 29th January 2018)"
-	revision: "8"
+	date: "2018-03-08 10:56:09 GMT (Thursday 8th March 2018)"
+	revision: "9"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -101,7 +101,12 @@ feature -- Transformation
 			end
 		end
 
-	joined (lines: FINITE [READABLE_STRING_GENERAL]): S
+	joined_lines (lines: FINITE [READABLE_STRING_GENERAL]): S
+		do
+			Result := joined_with (lines, once "%N")
+		end
+
+	joined_with (lines: FINITE [READABLE_STRING_GENERAL]; delimiter: READABLE_STRING_GENERAL): S
 		local
 			l_lines: LINEAR [READABLE_STRING_GENERAL]
 			count: INTEGER
@@ -111,12 +116,12 @@ feature -- Transformation
 				count := count + l_lines.item.count
 				l_lines.forth
 			end
-			create Result.make (count + lines.count - 1)
+			create Result.make (count + (lines.count - 1) * delimiter.count)
 			from l_lines.start until l_lines.after loop
-				Result.append (l_lines.item.to_string_32)
-				if l_lines.index < lines.count then
-					Result.append_code (('%N').natural_32_code)
+				if l_lines.index > 1 then
+					Result.append (delimiter)
 				end
+				Result.append (l_lines.item.to_string_32)
 				l_lines.forth
 			end
 		end

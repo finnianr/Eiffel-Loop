@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-03 13:09:52 GMT (Sunday 3rd September 2017)"
-	revision: "4"
+	date: "2018-03-03 12:34:09 GMT (Saturday 3rd March 2018)"
+	revision: "5"
 
 class
 	EL_ENCODED_LINE_READER  [F -> FILE]
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 				raw_line.prune_all ('%/026/') -- Reserved by `EL_ZSTRING' as Unicode placeholder
 				line.append_raw_string_8 (raw_line)
 			else
-				line.append_string_general (codec.as_unicode (raw_line))
+				line.append_string_general (codec.as_unicode (raw_line, False))
 			end
 		end
 

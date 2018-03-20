@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-03-12 8:07:52 GMT (Monday 12th March 2018)"
+	revision: "3"
 
 deferred class
 	EL_SCREEN_I
@@ -19,6 +19,19 @@ inherit
 		end
 
 feature -- Access
+
+	height_mm: INTEGER
+		deferred
+		end
+
+	width_mm: INTEGER
+		deferred
+		end
+
+	useable_area: EV_RECTANGLE
+			-- useable area not obscured by taskbar
+		deferred
+		end
 
 	widget_pixel_color (a_widget: EV_WIDGET_IMP; a_x, a_y: INTEGER): EV_COLOR
 		require

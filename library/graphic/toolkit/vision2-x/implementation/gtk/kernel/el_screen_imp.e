@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-03-12 16:09:14 GMT (Monday 12th March 2018)"
+	revision: "3"
 
 class
 	EL_SCREEN_IMP
@@ -27,10 +27,18 @@ inherit
 			interface
 		end
 
+	EL_SHARED_USEABLE_SCREEN
+
 create
 	make
 
 feature -- Access
+
+	useable_area: EV_RECTANGLE
+			-- useable area not obscured by taskbar
+		do
+			Result := Useable_screen.area
+		end
 
 	widget_pixel_color (a_widget: EV_WIDGET_IMP; a_x, a_y: INTEGER): EV_COLOR
 			--
@@ -55,8 +63,30 @@ feature -- Access
 			Result := l_result
 		end
 
+feature -- Measurement
+
+	height_mm: INTEGER
+		do
+			Result := X11_display.height_mm
+		end
+
+	width_mm: INTEGER
+		do
+			Result := X11_display.width_mm
+		end
+
 feature {EV_ANY, EV_ANY_I} -- Implementation
 
 	interface: detachable EL_SCREEN note option: stable attribute end;
+
+feature {NONE} -- Constants
+
+	X11_display: EL_X11_DISPLAY_OUTPUT_INFO
+		local
+			resources: EL_X11_SCREEN_RESOURCES_CURRENT
+		once
+			create resources.make
+			Result := resources.connected_output_info
+		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-07 15:00:44 GMT (Friday 7th April 2017)"
-	revision: "4"
+	date: "2018-03-03 12:17:20 GMT (Saturday 3rd March 2018)"
+	revision: "5"
 
 class
 	EL_CURL_API
@@ -156,8 +156,11 @@ feature -- Element change
 		end
 
 	setopt_string (a_curl_handle: POINTER; a_opt: INTEGER; a_string: STRING)
+		local
+			l_area: SPECIAL [CHARACTER]
 		do
-			setopt_void_star (a_curl_handle, a_opt, a_string.area.base_address)
+			l_area := a_string.area
+			setopt_void_star (a_curl_handle, a_opt, l_area.base_address)
 		end
 
 	setopt_void_star (a_curl_handle: POINTER; a_opt: INTEGER; a_data: POINTER)

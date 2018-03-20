@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-08 12:37:04 GMT (Sunday 8th October 2017)"
-	revision: "2"
+	date: "2018-02-21 17:24:05 GMT (Wednesday 21st February 2018)"
+	revision: "3"
 
 class
 	EL_WORK_DISTRIBUTER [R -> ROUTINE]

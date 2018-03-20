@@ -1,0 +1,90 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	configuration_ns = "1-16-0"
+	name = EL_http_client; uuid = "229b52e2-09aa-11df-8776-57ee66e3341a" 
+	library_target = EL_http_client
+	
+	target:
+		name = EL_http_client
+		
+		description: 
+			"""
+				Http client connection using the C Curl library.
+				See: http://www.eiffel-loop.com/library/network/protocol/http/class-index.html
+			"""
+
+		root:
+			all_classes = true
+
+		option:
+			namespace = "Eiffel-Loop.Library.http"
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug = false; warning = true
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		# C interface
+		external_include: 
+			location = "$(EIFFEL_LOOP_C)/cURL/source"
+
+		external_object:
+			location = "-L$(EIFFEL_LOOP_C)/cURL/spec/$(ISE_PLATFORM) -lelcurl"
+			condition:
+				platform:
+					value = unix
+
+		external_object:
+			location = "$(EIFFEL_LOOP_C)/cURL/spec/$(ISE_PLATFORM)/elcurl.lib"
+			condition:
+				platform:
+					value = windows
+
+		# Include libraries
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library: 
+			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
+
+		library:
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		library:
+			name = url_client; location = "override/ES-cURL.ecf"
+
+		# Eiffel Loop
+		library:
+			name = EL_base; location = "base/base.ecf"
+
+		library:
+			name = EL_c_api; location = "C-language-interface.ecf"; readonly = false
+
+		library:
+			name = EL_thread; location = "thread.ecf"
+
+		library:
+			name = EL_vtd_xml; location = "vtd-xml.ecf"; readonly = false
+
+		# Source code
+		cluster:
+			name = http; location = "network/protocol/http"; recursive = true
+			option:
+				namespace = "Eiffel-Loop.http"
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
+
+		cluster:
+			name = http_util; location = "../contrib/Eiffel/etar/src/util"
+

@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-08 16:21:15 GMT (Saturday 8th October 2016)"
-	revision: "2"
+	date: "2018-03-12 20:30:20 GMT (Monday 12th March 2018)"
+	revision: "3"
 
 class
 	EL_SCREEN
 
 inherit
 	EV_SCREEN
+		rename
+			vertical_resolution as vertical_dpi,
+			horizontal_resolution as horizontal_dpi
 		export
 			{NONE} pixel_color_relative_to -- Doesn't work on Windows
 		redefine
@@ -21,9 +24,28 @@ inherit
 		end
 
 create
-	default_create
+	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			default_create
+			set_dimensions ((width_mm / 10).truncated_to_real, (height_mm / 10).truncated_to_real)
+		end
 
 feature -- Access
+
+	resolution: STRING
+		do
+			Result := width.out + "x" + height.out
+		end
+
+	useable_area: EV_RECTANGLE
+			-- useable area not obscured by taskbar
+		do
+			Result := implementation.useable_area
+		end
 
 	widget_pixel_color (a_widget: EV_WIDGET; a_x, a_y: INTEGER): EV_COLOR
 		do
@@ -35,6 +57,53 @@ feature -- Access
 --		ensure
 --			same_color: pixel_color_relative_to (a_widget, a_x, a_y) ~ Result
 			-- (May 2013) Ok on Linux Mint, failed on Windows 7
+		end
+
+feature -- Measurement
+
+	height_mm: INTEGER
+		do
+			Result := implementation.height_mm
+		end
+
+	height_cms: REAL
+		-- screen height in centimeters
+
+	width_cms: REAL
+		-- screen width in centimeters
+
+
+	width_mm: INTEGER
+		do
+			Result := implementation.width_mm
+		end
+
+	vertical_resolution: REAL
+		-- Pixels per centimeter
+
+	horizontal_resolution: REAL
+		-- Pixels per centimeter
+
+feature -- Element change
+
+	set_dimensions (a_width_cms, a_height_cms: REAL)
+		do
+			horizontal_resolution := width / a_width_cms; vertical_resolution := height / a_height_cms
+			width_cms := a_width_cms; height_cms := a_height_cms
+		end
+
+feature -- Conversion
+
+	horizontal_pixels (cms: REAL): INTEGER
+			-- centimeters to horizontal pixels
+		do
+			Result := (horizontal_resolution * cms).rounded
+		end
+
+	vertical_pixels (cms: REAL): INTEGER
+			-- centimeters to vertical pixels
+		do
+			Result := (vertical_resolution * cms).rounded
 		end
 
 feature {EV_ANY, EV_ANY_I} -- Implementation

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 5:44:24 GMT (Monday 18th December 2017)"
-	revision: "2"
+	date: "2018-03-02 12:24:59 GMT (Friday 2nd March 2018)"
+	revision: "3"
 
 class
 	PP_HTTP_RESPONSE
 
 inherit
-	EL_HTTP_TABLE
+	EL_URL_QUERY_TABLE
 		rename
 			set_name_value as set_field_value
 		undefine

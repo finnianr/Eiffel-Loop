@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-09 19:49:37 GMT (Thursday 9th November 2017)"
-	revision: "11"
+	date: "2018-03-03 12:29:22 GMT (Saturday 3rd March 2018)"
+	revision: "12"
 
 class
 	EL_HTTP_CONNECTION
@@ -64,11 +64,11 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_UTF
-
 	EL_STRING_CONSTANTS
 
 	EL_SHARED_CURL_API
+
+	EL_SHARED_UTF_8_ZCODEC
 
 create
 	make
@@ -340,7 +340,7 @@ feature -- Element change
 			set_curl_integer_option (CURLOPT_http_version, option)
 		end
 
-	set_post_parameters (parameters: EL_HTTP_HASH_TABLE)
+	set_post_parameters (parameters: EL_URL_QUERY_HASH_TABLE)
 		do
 			set_post_data (parameters.url_query_string)
 		end
@@ -620,7 +620,7 @@ feature {NONE} -- Implementation
 
 	set_curl_string_32_option (a_option: INTEGER; string: STRING_32)
 		do
-			Curl.setopt_string (self_ptr, a_option, UTF.string_32_to_utf_8_string_8 (string))
+			Curl.setopt_string (self_ptr, a_option, Utf_8_codec.as_utf_8 (string, False))
 		end
 
 	set_curl_string_8_option (a_option: INTEGER; string: STRING)

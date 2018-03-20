@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-19 11:42:34 GMT (Friday 19th January 2018)"
-	revision: "8"
+	date: "2018-03-02 12:24:59 GMT (Friday 2nd March 2018)"
+	revision: "9"
 
 class
 	PP_TRANSACTION
 
 inherit
-	EL_HTTP_TABLE
+	EL_URL_QUERY_TABLE
 		undefine
 			is_equal
 		end

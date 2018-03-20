@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 17:09:55 GMT (Thursday 12th October 2017)"
-	revision: "1"
+	date: "2018-03-03 13:57:45 GMT (Saturday 3rd March 2018)"
+	revision: "2"
 
 class
 	CLASS_NOTES
@@ -174,8 +174,6 @@ feature {NONE} -- Line states
 feature {NONE} -- Implementation
 
 	extend_field_list (name_group: ARRAY [STRING]; list: EL_ZSTRING_LIST)
-		local
-			value: ZSTRING
 		do
 			across name_group as name loop
 				fields.find (name.item)

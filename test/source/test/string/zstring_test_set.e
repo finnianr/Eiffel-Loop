@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-16 6:29:53 GMT (Thursday 16th November 2017)"
-	revision: "6"
+	date: "2018-03-03 12:29:22 GMT (Saturday 3rd March 2018)"
+	revision: "7"
 
 class
 	ZSTRING_TEST_SET
@@ -36,7 +36,7 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_UTF
+	EL_SHARED_UTF_8_ZCODEC
 		undefine
 			default_create
 		end
@@ -473,7 +473,7 @@ feature -- Element change tests
 			across Text_words as word loop
 				str_32 := word.item; str := str_32
 				str_utf_8 := str.to_utf_8
-				assert ("to_utf_8 OK", str_utf_8 ~ UTF.string_32_to_utf_8_string_8 (str_32))
+				assert ("to_utf_8 OK", str_utf_8 ~ Utf_8_codec.as_utf_8 (str_32, False))
 				create str_2.make_from_utf_8 (str_utf_8)
 				assert ("make_from_utf_8 OK", str_2.to_unicode ~ str_32)
 			end

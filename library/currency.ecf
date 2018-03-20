@@ -11,7 +11,7 @@
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
-		<library name = "EL_http" location = "http.ecf"/>
+		<library name = "EL_http_client" location = "http-client.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
 		<!--Source code-->

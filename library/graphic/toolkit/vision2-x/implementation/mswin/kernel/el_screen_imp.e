@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-08 15:40:21 GMT (Saturday 8th October 2016)"
-	revision: "2"
+	date: "2018-03-12 10:12:27 GMT (Monday 12th March 2018)"
+	revision: "3"
 
 class
 	EL_SCREEN_IMP
@@ -27,10 +27,51 @@ inherit
 			interface
 		end
 
+	EL_MODULE_WINDOWS_VERSION
+
+	EL_WINDOWS_SYSTEM_METRICS_API
+
 create
 	make
 
-feature -- Access
+feature {NONE} -- Measurement
+
+	border_padding: INTEGER
+		do
+		end
+
+	height_mm: INTEGER
+		do
+			if Windows_version.is_10_or_later then
+				Result := get_device_caps (dc.item, Vertical_size)
+			else
+				Result := Monitor_info.height_mm
+			end
+		end
+
+	width_mm: INTEGER
+		do
+			if Windows_version.is_10_or_later then
+				Result := get_device_caps (dc.item, Horizontal_size)
+			else
+				Result := Monitor_info.width_mm
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	useable_area: EV_RECTANGLE
+			-- useable area not obscured by taskbar
+		local
+			l_rect: WEL_RECT
+		do
+			create l_rect.make (0, 0, 0, 0)
+			if c_get_useable_window_area (l_rect.item) then
+				create Result.make (l_rect.x, l_rect.y, l_rect.width, l_rect.height)
+			else
+				create Result
+			end
+		end
 
 	widget_pixel_color (a_widget: EV_WIDGET_IMP; a_x, a_y: INTEGER): EV_COLOR
 			-- From stackoverflow
@@ -47,17 +88,19 @@ feature -- Access
 				0, 0, 1, 1, dc, a_widget.screen_x +  a_x, a_widget.screen_y + a_y,
 				{WEL_RASTER_OPERATIONS_CONSTANTS}.Srccopy
 			)
-
 			c := mem_dc.pixel_color (0, 0)
 			Result.set_rgb_with_8_bit (c.red, c.green, c.blue)
 		end
 
-	border_padding: INTEGER
-		do
-		end
 
 feature {EV_ANY, EV_ANY_I} -- Implementation
 
 	interface: detachable EL_SCREEN note option: stable attribute end;
 
+feature {NONE} -- Constants
+
+	Monitor_info: EL_WEL_DISPLAY_MONITOR_INFO
+		once
+			create Result.make
+		end
 end

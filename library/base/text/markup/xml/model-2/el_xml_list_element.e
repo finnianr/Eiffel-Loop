@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-02-17 14:46:09 GMT (Saturday 17th February 2018)"
+	revision: "3"
 
 class
 	EL_XML_LIST_ELEMENT

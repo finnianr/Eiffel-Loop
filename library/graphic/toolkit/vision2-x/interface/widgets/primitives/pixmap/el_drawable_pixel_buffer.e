@@ -117,7 +117,7 @@ feature -- Status query
 			Result := implementation.is_rgb_24_bit
 		end
 
-	is_is_alpha_rgb_32_bit: BOOLEAN
+	is_alpha_rgb_32_bit: BOOLEAN
 		do
 			Result := implementation.is_alpha_rgb_32_bit
 		end
@@ -316,14 +316,14 @@ feature -- Status change
 
 	lock
 		require else
-			not_alpha_32_format: not is_is_alpha_rgb_32_bit
+			not_alpha_32_format: not is_alpha_rgb_32_bit
 		do
 			implementation.lock
 		end
 
 	unlock
 		require else
-			not_alpha_32_format: not is_is_alpha_rgb_32_bit
+			not_alpha_32_format: not is_alpha_rgb_32_bit
 		do
 			implementation.unlock
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-13 15:13:07 GMT (Tuesday 13th June 2017)"
-	revision: "8"
+	date: "2018-03-08 16:43:05 GMT (Thursday 8th March 2018)"
+	revision: "9"
 
 deferred class
 	EL_PATH
@@ -101,7 +101,7 @@ feature -- Initialization
 			pos_last_separator: INTEGER norm_path: ZSTRING
 		do
 			-- Normalize path
-			if not is_uri and then {PLATFORM}.is_windows and then not a_path.has (Separator) then
+			if not is_uri and then {PLATFORM}.is_windows and then a_path.has (Unix_separator) then
 				norm_path := a_path.twin
 				norm_path.replace_character (Unix_separator, Separator)
 			else

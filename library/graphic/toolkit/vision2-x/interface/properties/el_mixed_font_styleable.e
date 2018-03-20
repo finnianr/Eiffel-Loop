@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-13 7:42:16 GMT (Sunday 13th August 2017)"
-	revision: "2"
+	date: "2018-03-12 7:17:09 GMT (Monday 12th March 2018)"
+	revision: "3"
 
 deferred class
 	EL_MIXED_FONT_STYLEABLE
@@ -118,7 +118,7 @@ feature -- Drawing operations
 
 	draw_mixed_style_text_top_left (x, y: INTEGER; a_mixed_text: FINITE [EL_STYLED_TEXT])
 		local
-			l_x, i, count, l_space_width: INTEGER
+			l_x, count, l_space_width: INTEGER
 			i_th_text: EL_STYLED_TEXT; text_list: LINEAR [EL_STYLED_TEXT]
 		do
 			l_space_width := space_width;  l_x := x

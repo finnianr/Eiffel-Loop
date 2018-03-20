@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-22 12:04:38 GMT (Monday 22nd January 2018)"
-	revision: "8"
+	date: "2018-02-21 17:04:13 GMT (Wednesday 21st February 2018)"
+	revision: "9"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-27 11:19:36 GMT (Saturday 27th January 2018)"
-	revision: "2"
+	date: "2018-02-21 17:12:20 GMT (Wednesday 21st February 2018)"
+	revision: "3"
 
 class
 	EL_KEY_CONSTANTS

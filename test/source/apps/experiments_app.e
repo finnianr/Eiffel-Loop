@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-28 12:14:24 GMT (Sunday 28th January 2018)"
-	revision: "25"
+	date: "2018-03-03 9:35:56 GMT (Saturday 3rd March 2018)"
+	revision: "26"
 
 class EXPERIMENTS_APP
 
@@ -45,7 +45,10 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	run
+		local
+			c: CHARACTER
 		do
+			c := '%/65/'
 			lio.enter ("encode_string_for_console")
 			encode_string_for_console
 			lio.exit

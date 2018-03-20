@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-24 11:32:04 GMT (Wednesday 24th May 2017)"
-	revision: "3"
+	date: "2018-02-21 17:19:59 GMT (Wednesday 21st February 2018)"
+	revision: "4"
 
 deferred class
 	EL_XML_DOCUMENT_SCANNER

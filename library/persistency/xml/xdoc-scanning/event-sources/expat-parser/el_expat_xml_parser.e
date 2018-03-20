@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 9:20:28 GMT (Thursday 12th October 2017)"
-	revision: "6"
+	date: "2018-02-16 15:04:12 GMT (Friday 16th February 2018)"
+	revision: "7"
 
 class
 	EL_EXPAT_XML_PARSER

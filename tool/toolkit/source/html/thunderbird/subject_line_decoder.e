@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-03 11:46:25 GMT (Sunday 3rd September 2017)"
-	revision: "1"
+	date: "2018-03-03 13:56:05 GMT (Saturday 3rd March 2018)"
+	revision: "2"
 
 class
 	SUBJECT_LINE_DECODER
@@ -71,11 +71,7 @@ feature -- Access
 				else
 					latin := unescaped (parts.last)
 				end
-				if is_utf_encoding (8) then
-					create Result.make_from_utf_8 (latin)
-				else
-					create Result.make_from_general (codec.as_unicode (latin))
-				end
+				create Result.make_from_general (codec.as_unicode (latin, False))
 			else
 				Result := line
 			end

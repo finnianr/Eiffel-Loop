@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-14 13:58:38 GMT (Tuesday 14th November 2017)"
-	revision: "5"
+	date: "2018-03-14 14:20:07 GMT (Wednesday 14th March 2018)"
+	revision: "6"
 
 deferred class
 	THUNDERBIRD_FOLDER_EXPORTER [WRITER -> HTML_WRITER create make end]
@@ -28,6 +28,9 @@ inherit
 	EL_MODULE_OS
 	EL_MODULE_XML
 	EL_MODULE_LOG
+	EL_MODULE_DIRECTORY
+
+	EL_SHARED_ONCE_STRINGS
 
 
 feature {NONE} -- Initialization
@@ -74,15 +77,6 @@ feature -- Basic operations
 
 feature {NONE} -- State handlers
 
-	find_first_field (line: ZSTRING)
-		do
-			if line.starts_with (First_field) then
-				field_table.wipe_out
-				state := agent collect_fields
-				collect_fields (line)
-			end
-		end
-
 	collect_fields (line: ZSTRING)
 		local
 			pos_colon: INTEGER
@@ -106,9 +100,10 @@ feature {NONE} -- State handlers
 	find_end_tag (line: ZSTRING)
 			--
 		do
-			if line.starts_with (end_tag) then
+			if line.starts_with (end_tag_name) then
 				extend_html (line)
 				if not html_lines.is_empty then
+					close_tags (<< "img", "meta" >>)
 					write_html
 				end
 				state := agent find_first_field
@@ -118,11 +113,36 @@ feature {NONE} -- State handlers
 			end
 		end
 
+	find_first_field (line: ZSTRING)
+		do
+			if line.starts_with (First_field) then
+				field_table.wipe_out
+				state := agent collect_fields
+				collect_fields (line)
+			end
+		end
+
 	on_html_tag (tag_value: ZSTRING)
 		deferred
 		end
 
 feature {NONE} -- Implementation
+
+	as_xml (html: ZSTRING): ZSTRING
+		local
+			part: EL_SPLIT_ZSTRING_LIST; buffer: ZSTRING
+		do
+			create part.make (html, Html_break_tag)
+			buffer := empty_once_string
+			from part.start until part.after loop
+				if part.index > 1 then
+					buffer.append (Break_tag)
+				end
+				substitute_html_entities (part.item, buffer)
+				part.forth
+			end
+			Result := buffer.twin
+		end
 
 	call (line: ZSTRING)
 		do
@@ -131,13 +151,53 @@ feature {NONE} -- Implementation
 			Precursor (line)
 		end
 
-	end_tag: ZSTRING
+	close_tags (names: ARRAY [STRING])
+		local
+			tag: ZSTRING; line: like html_lines; pos_tag, from_index, pos_bracket: INTEGER
+			found: BOOLEAN
+		do
+			across names as name loop
+				create tag.make (name.item.count + 1)
+				tag.append_character ('<')
+				tag.append_string_general (name.item)
+				line := html_lines
+				from_index := 1
+				from line.start until line.after loop
+					if found then
+						pos_bracket := line.item.index_of ('>', from_index)
+						if pos_bracket > 0 then
+							line.item.insert_character ('/', pos_bracket)
+							from_index := pos_bracket + 2
+							found := false
+						else
+							from_index := 1
+							line.forth
+						end
+					else
+						if from_index < line.item.count then
+							pos_tag := line.item.substring_index (tag, from_index)
+						else
+							pos_tag := 0
+						end
+						if pos_tag > 0 then
+							found := True
+							from_index := pos_tag
+						else
+							from_index := 1
+							line.forth
+						end
+					end
+				end
+			end
+		end
+
+	end_tag_name: ZSTRING
 		deferred
 		end
 
 	extend_html (line: ZSTRING)
 		do
-			html_lines.extend (line)
+			html_lines.extend (as_xml (line))
 		end
 
 	file_out_extension: ZSTRING
@@ -151,6 +211,15 @@ feature {NONE} -- Implementation
 			at_least_one: Result.count >= 1
 		end
 
+	set_header_charset
+		local
+			pos_charset: INTEGER; value: ZSTRING
+		do
+			value := field_table [Field.content_type]
+			pos_charset := value.substring_index (Charset_assignment, 1)
+			line_source.set_encoding_from_name (value.substring_end (pos_charset + Charset_assignment.count))
+		end
+
 	set_header_date
 		local
 			date_steps: EL_ZSTRING_LIST
@@ -162,15 +231,6 @@ feature {NONE} -- Implementation
 			last_header.date := l_date
 		end
 
-	set_header_charset
-		local
-			pos_charset: INTEGER; value: ZSTRING
-		do
-			value := field_table [Field.content_type]
-			pos_charset := value.substring_index (Charset_assignment, 1)
-			line_source.set_encoding_from_name (value.substring_end (pos_charset + Charset_assignment.count))
-		end
-
 	set_header_subject
 		do
 			subject_list.extend (field_table [Field.subject])
@@ -179,12 +239,44 @@ feature {NONE} -- Implementation
 			output_file_path.add_extension (file_out_extension)
 		end
 
+	substitute_html_entities (html, buffer: ZSTRING)
+		local
+			parts: EL_SPLIT_ZSTRING_LIST; semi_colon_pos: INTEGER
+			part, entity_name: ZSTRING
+		do
+			create parts.make (html, Ampersand)
+			if parts.count = 1 then
+				buffer.append (html)
+			else
+				parts.start
+				buffer.append (parts.item.twin)
+				parts.forth
+				from until parts.after loop
+					part := parts.item
+					semi_colon_pos := part.index_of (';', 1)
+					if semi_colon_pos > 0 then
+						entity_name := part.substring (1, semi_colon_pos - 1)
+						Entity_numbers.search (entity_name)
+						if Entity_numbers.found then
+							buffer.append (XML.entity (Entity_numbers.found_item))
+							buffer.append (part.substring_end (semi_colon_pos + 1))
+						else
+							buffer.append (part)
+						end
+					else
+						buffer.append (part)
+					end
+					parts.forth
+				end
+			end
+		end
+
 	write_html
 		local
 			writer: WRITER; source_text: ZSTRING
 		do
 			log.enter ("write_html")
---			File_system.make_directory (output_file_path.parent)
+			OS.File_system.make_directory (output_file_path.parent)
 			if not output_file_path.exists or else last_header.date > output_file_path.modification_date_time then
 				lio.put_path_field (file_out_extension, output_file_path)
 				lio.put_new_line
@@ -206,7 +298,13 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
+	field_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
+
 	html_lines: EL_ZSTRING_LIST
+
+	indented_line: ZSTRING
+
+	is_html_updated: BOOLEAN
 
 	last_header: TUPLE [date: DATE_TIME; subject: ZSTRING]
 
@@ -218,13 +316,23 @@ feature {NONE} -- Internal attributes
 
 	subject_list: SUBJECT_LIST
 
-	indented_line: ZSTRING
-
-	is_html_updated: BOOLEAN
-
-	field_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
-
 feature {NONE} -- Constants
+
+	Ampersand: ZSTRING
+		once
+			Result := "&"
+		end
+
+	Break_tag: ZSTRING
+		-- <br/>
+		once
+			Result := XML.empty_tag ("br")
+		end
+
+	Charset_assignment: ZSTRING
+		once
+			Result := "charset="
+		end
 
 	Field: TUPLE [content_type, date, subject: ZSTRING]
 		once
@@ -232,21 +340,6 @@ feature {NONE} -- Constants
 			Result.content_type := "Content-Type"
 			Result.date := "Date"
 			Result.subject := "Subject"
-		end
-
-	Html_open: ZSTRING
-		once
-			Result := XML.open_tag ("html")
-		end
-
-	Break_tag: ZSTRING
-		once
-			Result := XML.open_tag ("br")
-		end
-
-	Charset_assignment: ZSTRING
-		once
-			Result := "charset="
 		end
 
 	Field_delimiter: ZSTRING
@@ -257,6 +350,17 @@ feature {NONE} -- Constants
 	First_field: ZSTRING
 		once
 			Result := "X-Mozilla-Status:"
+		end
+
+	Html_break_tag: ZSTRING
+		-- <br>
+		once
+			Result := XML.open_tag ("br")
+		end
+
+	Html_open: ZSTRING
+		once
+			Result := XML.open_tag ("html")
 		end
 
 end

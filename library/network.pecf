@@ -67,6 +67,9 @@ system:
 		library:
 			name = EL_thread; location = "thread.ecf"
 
+		library:
+			name = time; location = "$ISE_EIFFEL/library/time/time.ecf"
+
 		# Source code
 		cluster:
 			name = EL_net_base; location = "network/base"; recursive = true

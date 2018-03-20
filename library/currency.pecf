@@ -32,7 +32,7 @@ system:
 			name = EL_base; location = "base/base.ecf"
 
 		library:
-			name = EL_http; location = "http.ecf"
+			name = EL_http_client; location = "http-client.ecf"
 
 		library:
 			name = EL_evolicity; location = "evolicity.ecf"

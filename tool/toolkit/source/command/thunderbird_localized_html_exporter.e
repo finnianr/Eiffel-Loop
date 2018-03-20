@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {THUNDERBIRD_ACCOUNT}."
+	description: "Export Thunderbird HTML as XHTML for selected folders"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-16 10:32:41 GMT (Monday 16th October 2017)"
-	revision: "4"
+	date: "2018-03-14 10:01:34 GMT (Wednesday 14th March 2018)"
+	revision: "5"
 
 class
 	THUNDERBIRD_LOCALIZED_HTML_EXPORTER
@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 			if is_xhtml then
 				create {THUNDERBIRD_EXPORT_AS_XHTML} Result.make (output_dir)
 			else
-				create {THUNDERBIRD_EXPORT_AS_HTML_BODY} Result.make (output_dir)
+				create {THUNDERBIRD_EXPORT_AS_XHTML_BODY} Result.make (output_dir)
 			end
 		end
 

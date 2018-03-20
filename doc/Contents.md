@@ -197,13 +197,13 @@ When including the ECF `eros.ecf` in your project it is necessary to define a cu
 
 
 
-## File Transfer Protocol (FTP)
+## FTP Client Services
 Classes for uploading files to a server and managing server directory structure.
 ## PayPal Payments Standard Button Manager API
 An Eiffel interface to the [PayPal Payments Standard Button Manager NVP HTTP API](https://developer.paypal.com/docs/classic/button-manager/integration-guide/).
-## Hypertext Transfer Protocol (HTTP)
-Classes for interacting with a HTTP server. Supports the following HTTP commands: HEAD, POST, GET.
-## HTTP Servlet Services
+## HTTP Client Services
+Classes for remotely interacting with a HTTP server. Supports the HTTP commands: POST, GET and HEAD.
+## Fast CGI Servlets
 An implementation of the [Fast-CGI protocol](http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html) for creating single and multi-threaded HTTP servlet services.
 ## Eiffel CHAIN Orientated Binary Database
 The *Chain-DB* library enables the development of container objects conforming to the base class [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) that have many of the properties of relational database tables. Some of the most important enabling classes for *Chain-DB* are to be found in the cluster [Eiffel-Loop/base/data_structure](http://www.eiffel-loop.com/library/base/data_structure/class-index.html).

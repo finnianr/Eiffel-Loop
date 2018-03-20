@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 12:54:31 GMT (Sunday 21st May 2017)"
-	revision: "3"
+	date: "2018-02-21 17:19:00 GMT (Wednesday 21st February 2018)"
+	revision: "4"
 
 class
 	EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER

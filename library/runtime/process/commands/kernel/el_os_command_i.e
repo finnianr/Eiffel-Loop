@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-13 9:27:12 GMT (Tuesday 13th February 2018)"
-	revision: "10"
+	date: "2018-03-02 15:43:42 GMT (Friday 2nd March 2018)"
+	revision: "11"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -203,7 +203,9 @@ feature {NONE} -- Implementation
 					new_output_lines (error_path).do_all (agent errors.extend)
 					on_error
 				end
-				File_system.remove_file (error_path)
+				if error_path.exists then
+					File_system.remove_file (error_path)
+				end
 			end
 		end
 

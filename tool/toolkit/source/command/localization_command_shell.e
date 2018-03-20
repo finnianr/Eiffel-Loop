@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-15 10:32:59 GMT (Monday 15th January 2018)"
-	revision: "5"
+	date: "2018-02-22 11:26:50 GMT (Thursday 22nd February 2018)"
+	revision: "6"
 
 class
 	LOCALIZATION_COMMAND_SHELL

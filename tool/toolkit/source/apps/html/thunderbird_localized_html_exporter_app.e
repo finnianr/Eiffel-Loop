@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EXPORT_THUNDERBIRD_HTML_APP}."
+	description: "Export folders of Thunderbird HTML as XHTML bodies and recreating the folder structure"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 11:45:03 GMT (Sunday 15th October 2017)"
-	revision: "7"
+	date: "2018-03-14 14:38:18 GMT (Wednesday 14th March 2018)"
+	revision: "8"
 
 class
 	THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP
@@ -103,8 +103,7 @@ feature {NONE} -- Constants
 				[{THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP}, All_routines],
 				[{THUNDERBIRD_LOCALIZED_HTML_EXPORTER}, All_routines],
 				[{THUNDERBIRD_EXPORT_AS_XHTML}, All_routines],
-				[{THUNDERBIRD_EXPORT_AS_HTML_BODY}, All_routines]
-
+				[{THUNDERBIRD_EXPORT_AS_XHTML_BODY}, All_routines]
 			>>
 		end
 

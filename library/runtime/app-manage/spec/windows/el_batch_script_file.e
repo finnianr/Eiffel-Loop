@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-18 13:03:59 GMT (Friday 18th August 2017)"
-	revision: "2"
+	date: "2018-03-06 14:31:54 GMT (Tuesday 6th March 2018)"
+	revision: "3"
 
 class
 	EL_BATCH_SCRIPT_FILE
@@ -17,7 +17,7 @@ class
 inherit
 	EL_PLAIN_TEXT_FILE
 		redefine
-			put_bom, put_string_general, put_string, put_string_32, put_string_8, put_latin_1
+			put_bom, put_string, put_string_32, put_string_8, put_latin_1
 		end
 
 	EL_CONSOLE_ENCODEABLE
@@ -37,24 +37,24 @@ feature -- Output
 
 	put_string (str: ZSTRING)
 		do
-			put_string_general (str.to_string_32)
+			put_string_32 (str)
 		end
 
 	put_string_32 (str_32: STRING_32)
 		do
-			put_string_general (str_32)
+			put_console_encoded (str_32)
 		end
 
 	put_string_8, put_latin_1 (str: STRING)
 		do
-			put_string_general (str)
+			put_console_encoded (str)
 		end
 
 feature {NONE} -- Implementation
 
-	put_string_general (str: READABLE_STRING_GENERAL)
+	put_console_encoded (str: READABLE_STRING_GENERAL)
 		do
-			put_encoded_string_8 (console_encoded (str))
+			put_raw_string_8 (console_encoded (str))
 		end
 
 end

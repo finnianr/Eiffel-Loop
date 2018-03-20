@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-03 10:51:01 GMT (Sunday 3rd September 2017)"
-	revision: "4"
+	date: "2018-03-03 12:33:24 GMT (Saturday 3rd March 2018)"
+	revision: "5"
 
 deferred class
 	EL_ZCODEC
@@ -201,9 +201,9 @@ feature -- Basic operations
 
 feature -- Conversion
 
-	as_unicode (encoded: STRING): READABLE_STRING_GENERAL
+	as_unicode (encoded: STRING; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
 		-- returns `encoded' string as unicode assuming the encoding matches `Current' codec
-		-- (if you are keeping a reference make sure to twin the result)
+		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
 		local
 			buffer: like Unicode_buffer
 		do
@@ -215,6 +215,9 @@ feature -- Conversion
 				buffer.set_count (encoded.count)
 				decode (encoded.count, encoded.area, buffer.area, 0)
 				Result := buffer
+			end
+			if keeping_ref then
+				Result := Result.twin
 			end
 		end
 

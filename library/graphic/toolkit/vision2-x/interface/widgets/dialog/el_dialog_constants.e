@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-12 10:41:52 GMT (Saturday 12th August 2017)"
-	revision: "1"
+	date: "2018-02-21 17:13:41 GMT (Wednesday 21st February 2018)"
+	revision: "2"
 
 class
 	EL_DIALOG_CONSTANTS

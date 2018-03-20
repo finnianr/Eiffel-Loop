@@ -1,6 +1,5 @@
 note
 	description: "Creates class overrides of standard libraries for Eiffel-loop"
-
 	other_overrides: "[
 		vision2/implementation/gtk/ev_gtk_externals.e (Addition of missing externals)
 		
@@ -19,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-07-08 7:22:11 GMT (Friday 8th July 2016)"
-	revision: "1"
+	date: "2018-02-22 11:34:57 GMT (Thursday 22nd February 2018)"
+	revision: "2"
 
 class
 	LIBRARY_OVERRIDE_GENERATOR

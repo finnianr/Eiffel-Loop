@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-25 14:10:58 GMT (Friday 25th August 2017)"
-	revision: "4"
+	date: "2018-03-14 14:38:29 GMT (Wednesday 14th March 2018)"
+	revision: "5"
 
 deferred class
 	HTML_WRITER
@@ -38,17 +38,26 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Patterns
 
-	trailing_line_break: like all_of
+	anchor_element_tag: like element_tag
 		do
+			Result := element_tag ("a", << "id", "href", "name", "target", "title" >>)
+		end
+
+	element_tag (name: STRING; attribute_list: ARRAY [ZSTRING]): like all_of
+		local
+			element_open: STRING
+		do
+			element_open := "<" + name
+			attribute_list.compare_objects
 			Result := all_of (<<
-				all_of (<<
-					string_literal ("<br>"), end_of_line_character, maybe_non_breaking_white_space
-				>>)  |to| agent delete,
-
-				all_of (<<
-					string_literal ("</"), c_identifier, character_literal ('>')
-
-				>>) |to| agent on_unmatched_text
+				string_literal (element_open) |to| agent on_unmatched_text,
+				repeat_p1_until_p2 (
+					all_of (<<
+						white_space,
+						xml_attribute (agent on_attribute_name, agent on_attribute_value (?, attribute_list))
+					>>),
+					one_of (<< character_literal ('>'), string_literal ("/>") >>) |to| agent on_unmatched_text
+				)
 			>>)
 		end
 
@@ -68,6 +77,11 @@ feature {NONE} -- Patterns
 			>>) |to| agent delete
 		end
 
+	image_element_tag: like element_tag
+		do
+			Result := element_tag ("img", << "alt", "src", "title", "onclick", "class" >>)
+		end
+
 	preformat_end_tag: like all_of
 		do
 			Result := all_of (<<
@@ -76,47 +90,21 @@ feature {NONE} -- Patterns
 			>>)
 		end
 
-	anchor_element_tag: like element_tag
+	trailing_line_break: like all_of
 		do
-			Result := element_tag ("a", << "id", "href", "name", "target", "title" >>)
-		end
-
-	image_element_tag: like element_tag
-		do
-			Result := element_tag ("img", << "alt", "src", "title", "onclick", "class" >>)
-		end
-
-	element_tag (name: STRING; attribute_list: ARRAY [ZSTRING]): like all_of
-		local
-			element_open: STRING
-		do
-			element_open := "<" + name
-			attribute_list.compare_objects
 			Result := all_of (<<
-				string_literal (element_open),
-				repeat_p1_until_p2 (
-					all_of (<<
-						white_space,
-						xml_attribute (agent on_attribute_name, agent on_attribute_value (?, attribute_list))
-					>>),
-					character_literal ('>')
-				)
+				all_of (<<
+					string_literal ("<br>"), end_of_line_character, maybe_non_breaking_white_space
+				>>)  |to| agent delete,
+
+				all_of (<<
+					string_literal ("</"), c_identifier, character_literal ('>')
+
+				>>) |to| agent on_unmatched_text
 			>>)
-			Result.set_action_first (agent on_tag_begin (?, element_open))
-			Result.set_action_last (agent on_tag_end)
 		end
 
 feature {NONE} -- Event handling
-
-	on_tag_begin (match_text: EL_STRING_VIEW; element_open: STRING)
-		do
-			put_string (element_open)
-		end
-
-	on_tag_end (match_text: EL_STRING_VIEW)
-		do
-			put_string (">")
-		end
 
 	on_attribute_name (match_text: EL_STRING_VIEW)
 		do
@@ -143,6 +131,13 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Implementation
 
+	close
+			--
+		do
+			Precursor
+			output.set_date (Time.unix_date_time (date_stamp))
+		end
+
 	normalized_attribute_value (value: ZSTRING)
 		do
 		end
@@ -152,25 +147,7 @@ feature {NONE} -- Implementation
 			put_string (Attribute_template #$ [last_attribute_name, value.translated (New_line_string, Space_string)])
 		end
 
-	image_tag_text (match_text: EL_STRING_VIEW): ZSTRING
-		local
-			pos_height_attribute: INTEGER
-		do
-			Result := match_text
-			Result.replace_substring_all (Http_localhost_path, Empty_string)
-			pos_height_attribute := Result.substring_index (Attribute_height, 1)
-			if pos_height_attribute > 0 then
-				Result.keep_head (pos_height_attribute - 2)
-				Result.append_character ('>')
-			end
-		end
-
-	close
-			--
-		do
-			Precursor
-			output.set_date (Time.unix_date_time (date_stamp))
-		end
+feature {NONE} -- Internal attributes
 
 	date_stamp: DATE_TIME
 

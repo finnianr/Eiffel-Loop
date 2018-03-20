@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-11 11:33:57 GMT (Sunday 11th February 2018)"
-	revision: "15"
+	date: "2018-03-08 11:22:59 GMT (Thursday 8th March 2018)"
+	revision: "16"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -115,6 +115,7 @@ inherit
 			sum_count as unencoded_count,
 			to_lower as unencoded_to_lower,
 			to_upper as unencoded_to_upper,
+			utf_8_byte_count as unencoded_utf_8_byte_count,
 			write as write_unencoded,
 			z_code as unencoded_z_code
 		export
@@ -143,14 +144,12 @@ inherit
 			is_equal, copy, out
 		end
 
-	EL_SHARED_ONCE_STRINGS
-		export
-			{NONE} all
+	EL_SHARED_UTF_8_ZCODEC
 		undefine
 			is_equal, copy, out
 		end
 
-	EL_MODULE_UTF
+	EL_SHARED_ONCE_STRINGS
 		export
 			{NONE} all
 		undefine
@@ -205,13 +204,6 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Initialization
 
-	make_from_string (s: STRING)
-			-- initialize with string that has the same encoding as codec
-		do
-			Precursor (s)
-			make_unencoded
-		end
-
 	make_from_general (s: READABLE_STRING_GENERAL)
 		do
 			if attached {EL_ZSTRING} s as other then
@@ -222,9 +214,18 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from_utf_8 (utf_8: READABLE_STRING_8)
+	make_from_string (s: STRING)
+			-- initialize with string that has the same encoding as codec
 		do
-			make_from_general (utf_8_to_unicode (utf_8))
+			Precursor (s)
+			make_unencoded
+		end
+
+	make_from_utf_8 (a_utf_8: READABLE_STRING_8)
+		do
+			if attached {STRING} a_utf_8 as utf_8 then
+				make_from_general (Utf_8_codec.as_unicode (utf_8, False))
+			end
 		end
 
 	make_shared (other: like Current)
@@ -286,6 +287,38 @@ feature -- Access
 	item alias "[]", at alias "@" (i: INTEGER): CHARACTER_32
 			-- Character at position `i'
 		deferred
+		end
+
+	joined (a_list: FINITE [like Current]): ZSTRING
+		-- `a_list' joined with `Current' as delimiter
+		local
+			list: LINEAR [like Current]
+		do
+			list := a_list.linear_representation
+			create Result.make (sum_count (list) + (lines.count - 1) * count)
+			from list.start until list.after loop
+				if list.index > 1 then
+					Result.append (Current)
+				end
+				Result.append_string_general (list.item)
+				list.forth
+			end
+		end
+
+	joined_general (a_list: FINITE [READABLE_STRING_GENERAL]): ZSTRING
+		-- `a_list' joined with `Current' as delimiter
+		local
+			list: LINEAR [READABLE_STRING_GENERAL]
+		do
+			list := a_list.linear_representation
+			create Result.make (sum_count (list) + (lines.count - 1) * count)
+			from list.start until list.after loop
+				if list.index > 1 then
+					Result.append (Current)
+				end
+				Result.append_string_general (list.item)
+				list.forth
+			end
 		end
 
 	last_index_of (uc: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
@@ -595,7 +628,7 @@ feature -- Measurement
 
 	occurrences (uc: CHARACTER_32): INTEGER
 		local
-			c: CHARACTER
+			c: like area.item
 		do
 			c := encoded_character (uc)
 			if c = Unencoded_character then
@@ -684,6 +717,24 @@ feature -- Measurement
 			end
 		ensure
 			substring_agrees: across substring (count - Result + 1, count) as uc all character_properties.is_space (uc.item) end
+		end
+
+	utf_8_byte_count: INTEGER
+		local
+			i, l_count: INTEGER; l_area: like area; unencoded_found: BOOLEAN
+		do
+			l_count := count; l_area := area
+			from i := 0 until i = l_count loop
+				if l_area [i] = Unencoded_character then
+					unencoded_found := True
+				else
+					Result := Result + 1
+				end
+				i := i + 1
+			end
+			if unencoded_found then
+				Result := Result + unencoded_utf_8_byte_count
+			end
 		end
 
 feature -- Status query
@@ -1216,13 +1267,9 @@ feature -- Conversion
 		end
 
 	to_utf_8: STRING
-		local
-			l_unicode: like empty_once_string_32
 		do
-			l_unicode := empty_once_string_32
-			append_to_string_32 (l_unicode)
 			create Result.make (count)
-			UTF.string_32_into_utf_8_string_8 (l_unicode, Result)
+			append_to_utf_8 (Result)
 		end
 
 	translated (old_characters, new_characters: EL_READABLE_ZSTRING): like Current
@@ -1461,33 +1508,27 @@ feature {EL_READABLE_ZSTRING} -- Removal
 
 feature {EL_READABLE_ZSTRING} -- Element change
 
-	append_all (strings: INDEXABLE [like Current, INTEGER])
+	append_all (a_list: FINITE [like Current])
 		local
-			sum_count, i: INTEGER
+			list: LINEAR [like Current]
 		do
-			from i := strings.lower until i > strings.upper loop
-				sum_count := sum_count + strings.item (i).count
-				i := i + 1
-			end
-			grow (count + sum_count)
-			from i := strings.lower until i > strings.upper loop
-				append (strings [i])
-				i := i + 1
+			list := a_list.linear_representation
+			grow (count + sum_count (list))
+			from list.start until list.after loop
+				append (list.item)
+				list.forth
 			end
 		end
 
-	append_all_general (strings: INDEXABLE [READABLE_STRING_GENERAL, INTEGER])
+	append_all_general (a_list: INDEXABLE [READABLE_STRING_GENERAL, INTEGER])
 		local
-			sum_count, i: INTEGER
+			list: LINEAR [READABLE_STRING_GENERAL]
 		do
-			from i := strings.lower until i > strings.upper loop
-				sum_count := sum_count + strings.item (i).count
-				i := i + 1
-			end
-			grow (count + sum_count)
-			from i := strings.lower until i > strings.upper loop
-				append_string_general (strings [i])
-				i := i + 1
+			list := a_list.linear_representation
+			grow (count + sum_count (list))
+			from list.start until list.after loop
+				append_string_general (list.item)
+				list.forth
 			end
 		end
 
@@ -1683,9 +1724,11 @@ feature {EL_READABLE_ZSTRING} -- Element change
 			stable_before: elks_checking implies substring (1, count - 1) ~ (old twin)
 		end
 
-	append_utf_8 (utf_8: READABLE_STRING_8)
+	append_utf_8 (a_utf_8: READABLE_STRING_8)
 		do
-			append_string_general (utf_8_to_unicode (utf_8))
+			if attached {STRING} a_utf_8 as utf_8 then
+				append_string_general (Utf_8_codec.as_unicode (utf_8, False))
+			end
 		end
 
 	append_z_code (c: like z_code)
@@ -1881,7 +1924,7 @@ feature {EL_READABLE_ZSTRING} -- Contract Support
 	is_unencoded_valid: BOOLEAN
 			-- True if `unencoded_area' characters consistent with position and number of `Unencoded_character' in `area'
 		local
-			i, j, l_lower, l_upper, l_count, sum_count, array_count: INTEGER
+			i, j, l_lower, l_upper, l_count, l_sum_count, array_count: INTEGER
 			l_unencoded: like unencoded_area; l_area: like area
 		do
 			l_area := area; l_unencoded := unencoded_area; array_count := l_unencoded.count
@@ -1894,10 +1937,10 @@ feature {EL_READABLE_ZSTRING} -- Contract Support
 						Result := Result and l_area [j - 1] = Unencoded_character
 						j := j + 1
 					end
-					sum_count := sum_count + l_count
+					l_sum_count := l_sum_count + l_count
 					i := i + l_count + 2
 				end
-				Result := Result and internal_occurrences (Unencoded_character) = sum_count
+				Result := Result and internal_occurrences (Unencoded_character) = l_sum_count
 			end
 		end
 
@@ -1958,13 +2001,9 @@ feature -- Basic operation
 			output.append_string_general (str_32)
 		end
 
-	append_to_utf_8 (utf_8_output: STRING_8)
-		local
-			str_32: STRING_32
+	append_to_utf_8 (utf_8_out: STRING_8)
 		do
-			str_32 := empty_once_string_32
-			append_to_string_32 (str_32)
-			UTF.string_32_into_utf_8_string_8 (str_32, utf_8_output)
+			Utf_8_codec.write_string_to_utf_8 (Current, utf_8_out)
 		end
 
 feature {NONE} -- Implementation
@@ -2163,6 +2202,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	sum_count (list: LINEAR [READABLE_STRING_GENERAL]): INTEGER
+		do
+			from list.start until list.after loop
+				Result := Result + list.item.count
+				list.forth
+			end
+		end
+
 	to_lower_area (a: like area; start_index, end_index: INTEGER)
 			-- Replace all characters in `a' between `start_index' and `end_index'
 			-- with their lower version when available.
@@ -2221,21 +2268,6 @@ feature {NONE} -- Implementation
 				end
 				Result := Result + l_count
 				i := i + 1
-			end
-		end
-
-	utf_8_to_unicode (utf_8: READABLE_STRING_8): READABLE_STRING_GENERAL
-		local
-			l_unicode: STRING_32
-		do
-			if attached {STRING} utf_8 as str
-				and then UTF.utf_8_to_string_32_count (str.area, 0, str.count - 1) = str.count
-			then
-				Result := str
-			else
-				l_unicode := empty_once_string_32
-				UTF.utf_8_string_8_into_string_32 (utf_8, l_unicode)
-				Result := l_unicode
 			end
 		end
 

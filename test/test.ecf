@@ -71,12 +71,12 @@
 		<library name = "EL_encryption" location = "$EIFFEL_LOOP/library/encryption.ecf" readonly = "false"/>
 		<library name = "EL_ftp" readonly = "false" location = "$EIFFEL_LOOP/library/ftp.ecf"/>
 		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
-		<library name = "EL_http" readonly = "false" location = "$EIFFEL_LOOP/library/http.ecf"/>
+		<library name = "EL_http_client" readonly = "false" location = "$EIFFEL_LOOP/library/http-client.ecf"/>
 		<library name = "EL_i18n" readonly = "false" location = "$EIFFEL_LOOP/library/i18n.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
 		<library name = "EL_network" readonly = "false" location = "$EIFFEL_LOOP/library/network.ecf"/>
 		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
-		<library name = "EL_servlet" location = "$EIFFEL_LOOP/library/servlet.ecf" readonly = "false"/>
+		<library name = "EL_fast_cgi" location = "$EIFFEL_LOOP/library/fast-cgi.ecf" readonly = "false"/>
 		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
 		<library name = "EL_thread" readonly = "false" location = "$EIFFEL_LOOP/library/thread.ecf"/>
 		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>

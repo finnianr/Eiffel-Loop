@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-13 12:55:59 GMT (Monday 13th November 2017)"
-	revision: "5"
+	date: "2018-03-08 16:45:27 GMT (Thursday 8th March 2018)"
+	revision: "6"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_I
@@ -22,12 +22,12 @@ feature {NONE} -- Factory
 
 	new_command_string (a_system_command: like system_command): STRING_32
 		local
-			l_output_file_path: STRING_32
+			temp_path: STRING_32
 		do
 			Result := Precursor (a_system_command)
-			l_output_file_path := temporary_output_file_path
-			Result.grow (Result.count + Output_redirection_operator.count + l_output_file_path.count)
-			Result.append (Output_redirection_operator); Result.append (l_output_file_path)
+			temp_path := temporary_output_file_path
+			Result.grow (Result.count + Output_redirection_operator.count + temp_path.count)
+			Result.append (Output_redirection_operator); Result.append (temp_path)
 		end
 
 feature {NONE} -- Implementation
@@ -40,12 +40,16 @@ feature {NONE} -- Implementation
 
 	do_command (a_system_command: ZSTRING)
 			--
+		local
+			l_output_path: like output_file_path
 		do
+			l_output_path := output_file_path
+			File_system.make_directory (output_file_path.parent)
 			Precursor (a_system_command)
 			if not has_error then
-				do_with_lines (adjusted_lines (new_output_lines (output_file_path)))
+				do_with_lines (adjusted_lines (new_output_lines (l_output_path)))
 			end
-			File_system.remove_file (temporary_output_file_path)
+			File_system.remove_file (l_output_path)
 		end
 
 	do_with_lines (lines: like adjusted_lines)

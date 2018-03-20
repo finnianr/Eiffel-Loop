@@ -38,7 +38,7 @@ system:
 			name = EL_encryption; location = "encryption.ecf"
 
 		library:
-			name = EL_http; location = "http.ecf"
+			name = EL_http_client; location = "http-client.ecf"
 
 		# Source code
 		cluster:

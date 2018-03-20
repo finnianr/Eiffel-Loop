@@ -201,12 +201,11 @@ publish-repository:
 			description:
 				"eros.emd"
 		tree:
-			name = "File Transfer Protocol (FTP)"; dir = "library/network/protocol/ftp"
+			name = "FTP Client Services"; dir = "library/network/protocol/ftp"
 			ecf = "ftp.ecf"
 			description:
 				"""
-					Classes for uploading files to a server and managing server directory
-					structure.
+					Classes for uploading files to a server and managing server directory structure.
 				"""
 		tree:
 			name = "PayPal Payments Standard Button Manager API"; dir = "library/network/paypal"
@@ -218,17 +217,16 @@ publish-repository:
 				"""
 
 		tree:
-			name = "Hypertext Transfer Protocol (HTTP)"; dir = "library/network/protocol/http"
-			ecf = "http.ecf"
+			name = "HTTP Client Services"; dir = "library/network/protocol/http"
+			ecf = "http-client.ecf"
 			description:
 				"""
-					Classes for interacting with a HTTP server. Supports the following HTTP commands:
-					HEAD, POST, GET.
+					Classes for remotely interacting with a HTTP server. Supports the HTTP commands: POST, GET and HEAD.
 				"""
 
 		tree:
-			name = "HTTP Servlet Services"; dir = "library/network/servlet"
-			ecf = "servlet.ecf"
+			name = "Fast CGI Servlets"; dir = "library/network/fast-cgi"
+			ecf = "fast-cgi.ecf"
 			description:
 				"""
 					An implementation of the [http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html Fast-CGI protocol]

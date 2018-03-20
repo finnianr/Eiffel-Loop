@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-12-12 16:28:16 GMT (Monday 12th December 2016)"
-	revision: "3"
+	date: "2018-03-12 7:45:32 GMT (Monday 12th March 2018)"
+	revision: "4"
 
 class
 	EL_FONT_IMP
@@ -29,9 +29,11 @@ inherit
 			interface, height, set_height
 		end
 
---	EL_MODULE_LOG
+	EL_MODULE_LOG
 
-	EL_MODULE_WINDOWS
+	EL_MODULE_WINDOWS_VERSION
+
+	EL_MODULE_SCREEN
 
 create
 	make
@@ -43,11 +45,7 @@ feature -- Access
 		local
 			height_proportion: DOUBLE
 		do
-			if Windows.major_version >= 10 then
-				height_proportion := wel_font.height / (Screen.height * Pixels_to_points_factor)
-			else
-				height_proportion := wel_font.height / (Fantasy_screen_height_pixels * GTK_scale)
-			end
+			height_proportion := wel_font.height / (Screen.height * Pixels_to_points_factor)
 			Result := (Screen.height * height_proportion).rounded
 		end
 
@@ -71,23 +69,8 @@ feature {NONE} -- Implementation
 		local
 			height_proportion: DOUBLE
 		do
---			log.enter_with_args ("pixels_to_logical_pixels_y", << a_height >>)
 			height_proportion := a_height / Screen.height
-
---			log.put_double_field ("height_proportion", height_proportion)
---			log.put_double_field (" Screen height", Screen.height)
---			log.put_double_field (" in cms", Screen.height_cms)
-
-			if Windows.major_version >= 10 then
-				Result := (Screen.height * height_proportion * Pixels_to_points_factor).rounded
-			else
-				Result := (Fantasy_screen_height_pixels * height_proportion * GTK_scale).rounded
---				log.put_double_field ("fantasy_screen_height_pixels", fantasy_screen_height_pixels)
---				log.put_new_line
-			end
-
---			log.put_integer_field ("Result", Result)
---			log.exit
+			Result := (Screen.height * height_proportion * Pixels_to_points_factor).rounded
 		end
 
 feature {NONE} -- Internal attributes
@@ -96,32 +79,6 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Fantasy_screen_height_pixels: DOUBLE
-		local
-			dc: WEL_SCREEN_DC; dots_per_cm, fantasy_screen_height_cms: DOUBLE; dpi: INTEGER
-		once
-			create dc; dc.get
-			dpi := get_device_caps (dc.item, logical_pixels_y)
---			log.put_integer_field (" dpi", dpi)
---			log.put_new_line
-			dots_per_cm := dpi * 96 / (dpi * 2.54) -- Scale to 96 DPI in metric units
-			fantasy_screen_height_cms := get_device_caps (dc.item, Vertical_size) / 10
---			log.put_double_field ("fantasy_screen_height_cms", fantasy_screen_height_cms)
---			log.put_new_line
---			log.put_double_field (" dots_per_cm", dots_per_cm)
---			log.put_new_line
-			dc.release
-			Result := fantasy_screen_height_cms * dots_per_cm
-		end
-
 	Pixels_to_points_factor: DOUBLE = 1.212
-
-	GTK_scale: DOUBLE
-			-- Rendering 4.5 cm Verdana font
-			-- 	On GTK 		'A' is 40 mm high
-			-- 	On Windows	'A' is 44 mm high
-		once
-			Result := 40 / 44
-		end
 
 end

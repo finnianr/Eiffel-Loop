@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-01 13:02:36 GMT (Saturday 1st July 2017)"
-	revision: "2"
+	date: "2018-02-21 17:29:40 GMT (Wednesday 21st February 2018)"
+	revision: "3"
 
 class
 	EL_JPEG_FILE_INFO_COMMAND_IMP

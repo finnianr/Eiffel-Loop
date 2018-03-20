@@ -13,7 +13,7 @@
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_currency" location = "currency.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
-		<library name = "EL_http" location = "http.ecf"/>
+		<library name = "EL_http_client" location = "http-client.ecf"/>
 		<!--Source code-->
 		<cluster name = "paypal" location = "network/paypal" recursive = "true"/>
 	</target>

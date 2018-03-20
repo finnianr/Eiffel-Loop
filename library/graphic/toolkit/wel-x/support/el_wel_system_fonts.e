@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-20 12:27:17 GMT (Thursday 20th October 2016)"
-	revision: "4"
+	date: "2018-03-11 12:46:54 GMT (Sunday 11th March 2018)"
+	revision: "5"
 
 class
 	EL_WEL_SYSTEM_FONTS
@@ -33,7 +33,7 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_MODULE_WINDOWS
+	EL_MODULE_WINDOWS_VERSION
 
 create
 	default_create

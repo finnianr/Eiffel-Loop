@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-26 10:06:07 GMT (Tuesday 26th December 2017)"
-	revision: "6"
+	date: "2018-02-20 15:35:55 GMT (Tuesday 20th February 2018)"
+	revision: "7"
 
 class
 	EL_REFLECTIVELY_STORABLE_LIST [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]

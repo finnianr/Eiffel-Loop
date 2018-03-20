@@ -152,8 +152,8 @@ system:
 			location = "$EIFFEL_LOOP/library/evolicity.ecf"
 
 		library:
-			name = EL_http; readonly = false
-			location = "$EIFFEL_LOOP/library/http.ecf"
+			name = EL_http_client; readonly = false
+			location = "$EIFFEL_LOOP/library/http-client.ecf"
 
 		library:
 			name = EL_i18n; readonly = false
@@ -172,7 +172,7 @@ system:
 			location = "$EIFFEL_LOOP/library/os-command.ecf"
 
 		library:
-			name = EL_servlet; location = "$EIFFEL_LOOP/library/servlet.ecf"
+			name = EL_fast_cgi; location = "$EIFFEL_LOOP/library/fast-cgi.ecf"
 			readonly = false
 
 		library:

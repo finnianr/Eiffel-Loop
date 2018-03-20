@@ -2,12 +2,15 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 4); build = 403
+version = (1, 2, 5); build = 407
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.5
+# Changed THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP to export XHTML
 
 # 1.2.4
 # Added conversion progress tracking to YOUTUBE_HD_DOWNLOAD_APP

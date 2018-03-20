@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -15,14 +15,14 @@
 		<meta name="robots" content="Index, FOLLOW"/>
 
 		<title>$title</title>
-		<style type="text/css">
+		<style>
 			@import "$top_dir/css/default.css";
 		</style>
 
 		#include ($favicon_markup_path)
 	</head>
 	<body>
-	<a name="top"></a>
+	<a id="top"></a>
 	<div id="centered">
 		<a href="$top_dir/index.html" title="Eiffel-Loop Home">
 			<img src="$top_dir/images/banner-logo.png" alt="Banner showing base of Eiffel tower"/>

@@ -11,7 +11,6 @@ note
 		on the integrity of the save by checking all the item headers. Only then is the stored file substituted
 		for the previously stored file.
 	]"
-
 	instructions: "See end of class"
 
 	author: "Finnian Reilly"
@@ -19,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-24 12:32:45 GMT (Sunday 24th December 2017)"
-	revision: "4"
+	date: "2018-02-22 12:39:13 GMT (Thursday 22nd February 2018)"
+	revision: "5"
 
 deferred class
 	EL_RECOVERABLE_STORABLE_CHAIN [G -> EL_STORABLE create make_default end]

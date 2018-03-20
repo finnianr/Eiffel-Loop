@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-19 13:24:17 GMT (Tuesday 19th December 2017)"
-	revision: "8"
+	date: "2018-02-21 17:31:28 GMT (Wednesday 21st February 2018)"
+	revision: "9"
 
 deferred class
 	EL_LOCALE_I

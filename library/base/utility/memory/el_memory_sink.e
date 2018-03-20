@@ -1,8 +1,13 @@
 note
 	description: "Abstraction for memory data sink"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-02-27 10:32:36 GMT (Tuesday 27th February 2018)"
+	revision: "1"
 
 deferred class
 	EL_MEMORY_SINK

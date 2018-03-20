@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_SOFTWARE_MICROSOFT_REG_KEYS}."
+	description: "Sub-key of registry key HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-20 12:21:10 GMT (Thursday 20th October 2016)"
-	revision: "1"
+	date: "2018-03-07 12:10:21 GMT (Wednesday 7th March 2018)"
+	revision: "2"
 
 class
 	EL_SOFTWARE_MICROSOFT_REG_KEYS

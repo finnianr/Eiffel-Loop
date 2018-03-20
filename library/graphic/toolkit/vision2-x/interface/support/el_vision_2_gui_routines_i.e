@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-13 13:30:54 GMT (Sunday 13th August 2017)"
-	revision: "6"
+	date: "2018-03-12 7:48:31 GMT (Monday 12th March 2018)"
+	revision: "7"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -27,21 +27,11 @@ inherit
 
 	EV_FONT_CONSTANTS
 
-	EL_MODULE_DISPLAY_SCREEN
-		rename
-			Display_screen as Screen
-		export
-			{ANY} Screen
-		end
-
 	EL_MODULE_LOG
 
 	EL_MODULE_STRING_8
 
 	EL_MODULE_SCREEN
-		rename
-			Screen as Screen_properties
-		end
 
 	EL_SHARED_ONCE_STRINGS
 
@@ -265,7 +255,7 @@ feature -- Mouse pointer setting
 	set_busy_pointer_at (widget: EV_WIDGET; position_x_cms, position_y_cms: REAL)
 		do
 			set_busy_pointer_at_position (
-				widget, Screen_properties.horizontal_pixels (position_x_cms), Screen_properties.vertical_pixels (position_y_cms)
+				widget, Screen.horizontal_pixels (position_x_cms), Screen.vertical_pixels (position_y_cms)
 			)
 		end
 

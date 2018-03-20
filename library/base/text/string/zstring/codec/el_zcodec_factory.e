@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-29 7:33:05 GMT (Thursday 29th September 2016)"
-	revision: "2"
+	date: "2018-03-03 10:40:15 GMT (Saturday 3rd March 2018)"
+	revision: "3"
 
 class
 	EL_ZCODEC_FACTORY
@@ -15,20 +15,37 @@ class
 inherit
 	EL_FACTORY_CLIENT
 
+	EL_SHARED_UTF_8_ZCODEC
+
 feature {NONE} -- Factory
 
 	new_codec (encodeable: EL_ENCODEABLE_AS_TEXT): EL_ZCODEC
+		-- cached codec
 		require
 			has_codec: has_codec (encodeable)
+		local
+			table: like Codec_table
 		do
 			if encodeable.is_utf_encoding (8) then
-				create {EL_UTF_8_ZCODEC} Result.make
-				
+				Result := Utf_8_codec
+
 			elseif encodeable.is_windows_encoded or encodeable.is_latin_encoded then
-				Result := Codec_factory.instance_from_type (Codec_table [encodeable.encoding_id], agent {EL_ZCODEC}.make)
+				table := Codec_table
+				table.search (encodeable.encoding_id)
+				if table.found then
+					Result := table.found_item
+				else
+					Result := new_codec_by_id (encodeable.encoding_id)
+					table.extend (Result, encodeable.encoding_id)
+				end
 			else
 				create {EL_ISO_8859_1_ZCODEC} Result.make
 			end
+		end
+
+	new_codec_by_id (id: INTEGER): EL_ZCODEC
+		do
+			Result := Codec_factory.instance_from_type (Codec_types [id], agent {EL_ZCODEC}.make)
 		end
 
 feature {NONE} -- Status query
@@ -36,7 +53,7 @@ feature {NONE} -- Status query
 	has_codec (encodeable: EL_ENCODEABLE_AS_TEXT): BOOLEAN
 		do
 			if encodeable.is_windows_encoded or encodeable.is_latin_encoded then
-				Result := Codec_table.has_key (encodeable.encoding_id)
+				Result := Codec_types.has_key (encodeable.encoding_id)
 
 			elseif encodeable.is_utf_encoded then
 				Result := encodeable.encoding_id = 8
@@ -45,7 +62,12 @@ feature {NONE} -- Status query
 
 feature {NONE} -- Constants
 
-	Codec_table: HASH_TABLE [TYPE [EL_ZCODEC], INTEGER]
+	Codec_table: HASH_TABLE [EL_ZCODEC, INTEGER]
+		once
+			create Result.make (30)
+		end
+
+	Codec_types: HASH_TABLE [TYPE [EL_ZCODEC], INTEGER]
 		once
 			create Result.make (30)
 			Result [1] := {EL_ISO_8859_1_ZCODEC}

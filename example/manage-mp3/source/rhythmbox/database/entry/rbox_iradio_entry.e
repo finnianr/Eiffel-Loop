@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-17 18:43:27 GMT (Wednesday 17th January 2018)"
-	revision: "12"
+	date: "2018-02-24 12:40:33 GMT (Saturday 24th February 2018)"
+	revision: "13"
 
 class
 	RBOX_IRADIO_ENTRY

@@ -1,64 +1,38 @@
 note
-	description: "Summary description for {EL_WEL_DISPLAY_MONITOR_INFO}."
+	description: "Reads primary monitor information from registry EDID entry"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-10 9:03:52 GMT (Monday 10th October 2016)"
-	revision: "3"
+	date: "2018-03-12 10:11:30 GMT (Monday 12th March 2018)"
+	revision: "4"
 
 class
 	EL_WEL_DISPLAY_MONITOR_INFO
 
 inherit
-	EL_WEL_DISPLAY_SIZE_INFO
-		redefine
-			default_create
-		end
-
 	EL_ALLOCATED_C_OBJECT
-		undefine
-			default_create
-		end
 
 	EL_WEL_DISPLAY_MONITOR_API
-		undefine
-			default_create
-		end
 
 	EL_MODULE_DIRECTORY
-		undefine
-			default_create
-		end
 
 	EL_MODULE_LIO
-		undefine
-			default_create
-		end
 
 	EL_MODULE_WIN_REGISTRY
-		undefine
-			default_create
-		end
 
 	EL_MODULE_REG_KEY
-		undefine
-			default_create
-		end
 
 	EL_WEL_CONVERSION
-		undefine
-			default_create
-		end
 
 create
-	default_create
+	make
 
 feature {NONE} -- Initialization
 
-	default_create
+	make
 			--
 		local
 			monitor: POINTER
@@ -86,8 +60,8 @@ feature {NONE} -- Initialization
 				is_valid := False
 			end
 			if is_lio_enabled then
-				lio.put_double_field ("width cms", width_centimeters)
-				lio.put_double_field (" height cms", height_centimeters)
+				lio.put_integer_field ("width mm", width_mm)
+				lio.put_integer_field (" height mm", height_mm)
 				lio.put_new_line
 			end
 		end
@@ -119,6 +93,12 @@ feature -- Access
 	EDID: MANAGED_POINTER
 		-- Extended display identification data
 		-- See: http://en.wikipedia.org/wiki/Extended_display_identification_data
+
+feature -- Measurement
+
+	width_mm: INTEGER
+
+	height_mm: INTEGER
 
 feature -- Status query
 
@@ -185,8 +165,7 @@ feature {NONE} -- Implementation
 		require
 			model_agrees_with_model_in_EDID: model ~ EDID_model
 		do
-			width_centimeters := EDID.read_natural_8 (21)
-			height_centimeters := EDID.read_natural_8 (22)
+			width_mm := read_size_mm (1); height_mm := read_size_mm (2)
 		end
 
 	EDID_model: ZSTRING
@@ -212,6 +191,13 @@ feature {NONE} -- Implementation
 				lio.put_string_field ("EDID_model", Result)
 				lio.put_new_line
 			end
+		end
+
+feature {NONE} -- Implementation		
+
+	read_size_mm (pos: INTEGER): INTEGER
+		do
+			Result := EDID.read_natural_8 (20 + pos).to_integer_32 * 10
 		end
 
 feature {NONE} -- Constants

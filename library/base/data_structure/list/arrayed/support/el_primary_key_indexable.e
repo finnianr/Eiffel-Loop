@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-26 9:37:54 GMT (Tuesday 26th December 2017)"
-	revision: "2"
+	date: "2018-02-22 15:27:39 GMT (Thursday 22nd February 2018)"
+	revision: "3"
 
 deferred class
 	EL_PRIMARY_KEY_INDEXABLE [G -> EL_KEY_IDENTIFIABLE_STORABLE create make_default end]

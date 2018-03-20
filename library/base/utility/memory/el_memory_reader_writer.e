@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-20 18:14:23 GMT (Wednesday 20th December 2017)"
-	revision: "6"
+	date: "2018-03-03 9:16:37 GMT (Saturday 3rd March 2018)"
+	revision: "7"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -194,11 +194,13 @@ feature -- Read operations
 			count := count + array.count
 		end
 
-	read_to_string_8 (str: STRING)
+	read_to_string_8 (str: STRING; n: INTEGER)
+		-- set the contents of `str' with `n' characters
 		do
-			check_buffer (str.count)
-			buffer.read_into_special_character_8 (str.area, count, 0, str.count)
-			count := count + str.count
+			str.grow (n); str.set_count (n)
+			check_buffer (n)
+			buffer.read_into_special_character_8 (str.area, count, 0, n)
+			count := count + n
 		end
 
 feature -- Write operations

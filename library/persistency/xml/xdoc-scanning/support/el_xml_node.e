@@ -6,20 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-19 12:06:51 GMT (Tuesday 19th December 2017)"
-	revision: "4"
+	date: "2018-03-03 12:28:35 GMT (Saturday 3rd March 2018)"
+	revision: "5"
 
 class
 	EL_XML_NODE
 
 inherit
-	EL_MODULE_UTF
-		export
-			{NONE} all
-		undefine
-			default_create
-		end
-
 	EL_READABLE
 		rename
 			read_character_8 as to_character_8,
@@ -39,6 +32,11 @@ inherit
 			read_string_32 as to_string_32,
 			read_boolean as to_boolean,
 			read_pointer as to_pointer
+		redefine
+			default_create
+		end
+
+	EL_SHARED_UTF_8_ZCODEC
 		undefine
 			default_create
 		end
@@ -251,19 +249,19 @@ feature -- Strings: UTF-8 encoded
 	to_raw_utf_8: STRING
 			--
 		do
-			Result := UTF.string_32_to_utf_8_string_8 (raw_content)
+			Result := Utf_8_codec.as_utf_8 (raw_content, True)
 		end
 
 	to_utf_8: STRING
 			--
 		do
-			Result := UTF.string_32_to_utf_8_string_8 (to_string_32)
+			Result := Utf_8_codec.as_utf_8 (to_string_32, True)
 		end
 
 	to_normalized_case_utf_8: STRING
 			--
 		do
-			Result := UTF.string_32_to_utf_8_string_8 (to_normalized_case_string_32)
+			Result := Utf_8_codec.as_utf_8 (to_normalized_case_string_32, True)
 		end
 
 feature -- Strings: UTF-32 encoded

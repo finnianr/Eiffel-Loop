@@ -23,5 +23,10 @@ Content-Transfer-Encoding: 8bit
   <body bgcolor="#FFFFCC" text="#000000">
     <p>6 months: ¤3.00<br>
     </p>
+	<p>
+		<img src="picture.jpg"><br>
+		<img src="picture-2.jpg"
+		title= "Paypal button">
+	</p>
   </body>
 </html>

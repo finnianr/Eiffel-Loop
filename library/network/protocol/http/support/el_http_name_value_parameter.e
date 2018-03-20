@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-09 19:48:48 GMT (Thursday 9th November 2017)"
-	revision: "3"
+	date: "2018-03-02 12:25:22 GMT (Friday 2nd March 2018)"
+	revision: "4"
 
 class
 	EL_HTTP_NAME_VALUE_PARAMETER
@@ -36,7 +36,7 @@ feature -- Access
 
 feature {EL_HTTP_PARAMETER} -- Implementation
 
-	extend_table (table: EL_HTTP_HASH_TABLE)
+	extend_table (table: EL_URL_QUERY_HASH_TABLE)
 		do
 			table.set_string (name, value)
 		end

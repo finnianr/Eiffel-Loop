@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-25 14:14:40 GMT (Friday 25th August 2017)"
-	revision: "3"
+	date: "2018-03-14 11:58:06 GMT (Wednesday 14th March 2018)"
+	revision: "4"
 
 class
 	XHTML_WRITER
@@ -15,7 +15,7 @@ class
 inherit
 	HTML_WRITER
 		redefine
-			make, image_tag_text
+			make
 		end
 
 create
@@ -38,7 +38,6 @@ feature {NONE} -- Patterns
 				charset_pattern,
 				trailing_line_break,
 				empty_tag_set,
-				string_literal ("<br>") |to| agent replace (?, XML_line_break),
 				preformat_end_tag,
 				anchor_element_tag,
 				image_element_tag
@@ -78,23 +77,6 @@ feature {NONE} -- Event handling
 	on_character_set (text: EL_STRING_VIEW)
 		do
 			put_string ("charset=UTF-8%"")
-		end
-
-feature {NONE} -- Implementation
-
-	image_tag_text (match_text: EL_STRING_VIEW): ZSTRING
-		do
-			Result := Precursor (match_text)
-			Result.insert_character ('/', Result.count - 1)
-		ensure then
-			tag_is_empty_element: Result.substring_end (Result.count - 1).same_string ("/>")
-		end
-
-feature {NONE} -- Constants
-
-	XML_line_break: ZSTRING
-		once
-			Result := "<br/>"
 		end
 
 end

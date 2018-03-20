@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-16 21:22:44 GMT (Saturday 16th December 2017)"
-	revision: "11"
+	date: "2018-03-02 13:09:38 GMT (Friday 2nd March 2018)"
+	revision: "12"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -42,7 +42,7 @@ feature -- Test routines
 
 	test_cookies
 		local
-			city_location, json_fields: EL_HTTP_HASH_TABLE
+			city_location, json_fields: EL_URL_QUERY_HASH_TABLE
 			url: ZSTRING; cookies: EL_HTTP_COOKIES
 		do
 			log.enter ("test_cookies")
@@ -156,9 +156,9 @@ feature -- Test routines
 
 	test_http_hash_table
 		note
-			testing: "covers/{EL_URL_QUERY_STRING}.to_string", "covers/{EL_HTTP_HASH_TABLE}.make_from_url_query"
+			testing: "covers/{EL_URL_QUERY_STRING}.to_string", "covers/{EL_URL_QUERY_HASH_TABLE}.make_from_url_query"
 		local
-			table_1, table_2: EL_HTTP_HASH_TABLE
+			table_1, table_2: EL_URL_QUERY_HASH_TABLE
 			query_string: STRING
 		do
 			log.enter ("test_table")
@@ -178,7 +178,7 @@ feature -- Test routines
 
 	test_http_post
 		local
-			city_location, json_fields: EL_HTTP_HASH_TABLE
+			city_location, json_fields: EL_URL_QUERY_HASH_TABLE
 			url: ZSTRING
 		do
 			log.enter ("test_http_post")
@@ -282,7 +282,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Factory
 
-	new_city_location: EL_HTTP_HASH_TABLE
+	new_city_location: EL_URL_QUERY_HASH_TABLE
 		do
 			create Result.make_equal (2)
 			Result.set_string ("city", "Köln")
@@ -301,7 +301,7 @@ feature {NONE} -- Factory
 			Result.add_extension (name)
 		end
 
-	new_json_fields (json_data: STRING): EL_HTTP_HASH_TABLE
+	new_json_fields (json_data: STRING): EL_URL_QUERY_HASH_TABLE
 		local
 			lines: EL_STRING_8_LIST
 			pair_list: EL_JSON_NAME_VALUE_LIST

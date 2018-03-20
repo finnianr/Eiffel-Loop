@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-07 11:42:23 GMT (Wednesday 7th February 2018)"
-	revision: "6"
+	date: "2018-02-14 10:47:15 GMT (Wednesday 14th February 2018)"
+	revision: "7"
 
 class
 	EL_AES_CREDENTIAL

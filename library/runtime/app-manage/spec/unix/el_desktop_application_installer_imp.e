@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 18:24:09 GMT (Sunday 21st May 2017)"
-	revision: "3"
+	date: "2018-02-21 17:20:34 GMT (Wednesday 21st February 2018)"
+	revision: "4"
 
 class
 	EL_DESKTOP_APPLICATION_INSTALLER_IMP
