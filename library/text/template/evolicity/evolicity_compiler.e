@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "3"
+	date: "2018-03-23 20:11:32 GMT (Friday 23rd March 2018)"
+	revision: "4"
 
 class
 	EVOLICITY_COMPILER
@@ -41,6 +41,7 @@ feature {NONE} -- Initialization
 			make_default
 			create modification_time.make (0, 0, 0, 0, 0, 0)
 			reset_directives
+			internal_encoding := 0 -- indicates a text source by default
 		end
 
 feature -- Access
@@ -49,7 +50,7 @@ feature -- Access
 		do
 			reset_directives
 			compile
-			create Result.make (compound_directive.to_array, modification_time, has_file_source)
+			create Result.make (compound_directive.to_array, modification_time, Current)
 			Result.set_minimum_buffer_length ((source_view.full_count * 1.5).floor)
 		end
 
@@ -58,9 +59,10 @@ feature -- Access
 feature -- Element change
 
  	set_source_text_from_file (file_path: EL_FILE_PATH)
+ 		require else
+ 			valid_encoding_set: is_valid_encoding (encoding_type, encoding_id)
 		do
 			modification_time := file_path.modification_date_time
-			has_file_source := True
 			Precursor (file_path)
 		end
 
@@ -88,10 +90,6 @@ feature -- Element change
 				end
 			end
 		end
-
-feature {NONE} -- Status query
-
-	has_file_source: BOOLEAN
 
 feature {NONE} -- Directives
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-22 11:34:11 GMT (Thursday 22nd February 2018)"
-	revision: "5"
+	date: "2018-03-23 20:46:31 GMT (Friday 23rd March 2018)"
+	revision: "6"
 
 class
 	CODEC_GENERATOR
@@ -33,8 +33,7 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			make_machine
 			source_path := a_source_path.steps.expanded_path.as_file_path
 			template_path := a_template_path
-			Evolicity_templates.set_encoding_utf_8
-			Evolicity_templates.put_from_file (template_path)
+			Evolicity_templates.put_from_file (template_path, Utf_8_encoding)
 			create codec_list.make (20)
 		end
 
@@ -111,5 +110,10 @@ feature {NONE} -- Constants
 	Chars_ready_equals_true: ZSTRING
 		once
 			Result := "_chars_ready = TRUE;"
+		end
+
+	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
+		once
+			create Result.make_utf_8
 		end
 end

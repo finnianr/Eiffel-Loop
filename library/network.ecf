@@ -31,6 +31,7 @@
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "time" location = "$ISE_EIFFEL/library/time/time.ecf"/>
 		<!--Source code-->
+		<cluster name = "http_util" location = "../contrib/Eiffel/etar/src/util"/>
 		<cluster name = "EL_net_base" location = "network/base" recursive = "true">
 			<option namespace = "Eiffel-Loop-net"/>
 			<file_rule>

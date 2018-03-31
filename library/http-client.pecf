@@ -62,6 +62,9 @@ system:
 			name = EL_c_api; location = "C-language-interface.ecf"; readonly = false
 
 		library:
+			name = EL_network; location = "network.ecf"
+
+		library:
 			name = EL_thread; location = "thread.ecf"
 
 		library:
@@ -84,7 +87,4 @@ system:
 				condition:
 					platform:
 						value = windows
-
-		cluster:
-			name = http_util; location = "../contrib/Eiffel/etar/src/util"
 

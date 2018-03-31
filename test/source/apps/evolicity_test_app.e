@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:27:58 GMT (Thursday 29th June 2017)"
-	revision: "3"
+	date: "2018-03-24 9:54:29 GMT (Saturday 24th March 2018)"
+	revision: "4"
 
 class
 	EVOLICITY_TEST_APP
@@ -42,7 +42,7 @@ feature -- Test
 		do
 			log.enter ("write_substituted_template")
 			create root_context.make
-			Evolicity_templates.put_from_file (template_path)
+			Evolicity_templates.put_file (template_path, Utf_8_encoding)
 
 			initialize_root_context
 			create html_file.make_open_write (template_path.with_new_extension ("html"))
@@ -58,7 +58,7 @@ feature -- Test
 		do
 			log.enter ("test_if_then")
 			create vars.make
-			Evolicity_templates.put_from_file (template_path.to_string)
+			Evolicity_templates.put_file (template_path, Utf_8_encoding)
 			var_x := "x"; var_y := "y"
 
 			vars.put_integer (var_x, 2)
@@ -130,6 +130,11 @@ feature {NONE} -- Constants
 				[{EVOLICITY_TEST_APP}, All_routines],
 				[{EL_REGRESSION_TESTING_ROUTINES}, All_routines]
 			>>
+		end
+
+	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
+		once
+			create Result.make_utf_8
 		end
 
 end

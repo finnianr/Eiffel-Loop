@@ -1,13 +1,16 @@
 note
-	description: "Summary description for {EL_MODULE_SVG_ROUTINES}."
+	description: "[
+		Miscellaneous graphical routines related to Cairo and librsv library.
+		Accessible via class [$source EL_SHARED_IMAGE_UTILS_API]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 15:54:05 GMT (Monday 3rd October 2016)"
-	revision: "4"
+	date: "2018-03-20 10:42:13 GMT (Tuesday 20th March 2018)"
+	revision: "5"
 
 class
 	EL_IMAGE_UTILS_API

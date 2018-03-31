@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-22 11:29:12 GMT (Thursday 22nd February 2018)"
-	revision: "2"
+	date: "2018-03-22 10:59:38 GMT (Thursday 22nd March 2018)"
+	revision: "3"
 
 class
 	YOUTUBE_HD_DOWNLOAD_COMMAND
@@ -58,6 +58,9 @@ feature -- Basic operations
 				lio.put_new_line
 			end
 			title := User_input.line ("Enter a title")
+			lio.put_new_line
+			lio.put_string ("Prefer 60 fps? (y/n): ")
+			prefer_60_fps := User_input.entered_letter ('y')
 			lio.put_new_line
 
 			base_name := title.as_lower
@@ -107,7 +110,9 @@ feature {NONE} -- Implementation
 						Result.audio := stream
 					elseif stream.is_video then
 						if stream.resolution_x > max_resolution
-							or else (stream.resolution_x = max_resolution and stream.extension ~ MP4_extension)
+							or else (stream.resolution_x = max_resolution
+								and (stream.extension ~ MP4_extension or else prefer_60_fps and stream.frames_per_sec = 60)
+							)
 						then
 							max_resolution := stream.resolution_x
 							Result.video := stream
@@ -211,6 +216,8 @@ feature {NONE} -- Internal attributes
 	title: ZSTRING
 
 	url: ZSTRING
+
+	prefer_60_fps: BOOLEAN
 
 feature {NONE} -- OS commands
 

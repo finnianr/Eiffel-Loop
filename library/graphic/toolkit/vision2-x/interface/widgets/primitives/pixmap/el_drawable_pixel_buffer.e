@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "3"
+	date: "2018-03-20 10:17:38 GMT (Tuesday 20th March 2018)"
+	revision: "4"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -87,6 +87,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_with_path (a_png_file_path: EL_FILE_PATH)
+		-- make from a PNG file
 		do
 			default_create
 			implementation.set_with_path (a_png_file_path)

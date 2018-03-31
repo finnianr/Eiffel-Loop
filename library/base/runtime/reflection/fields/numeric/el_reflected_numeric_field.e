@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-17 18:27:50 GMT (Wednesday 17th January 2018)"
-	revision: "3"
+	date: "2018-03-31 13:52:23 GMT (Saturday 31st March 2018)"
+	revision: "4"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -19,17 +19,17 @@ feature -- Access
 
 	to_string (a_object: EL_REFLECTIVELY_SETTABLE): STRING
 		local
-			n: N; l_value: like value
+			n: N; v: like value
 			str: STRING
 		do
-			l_value := value (a_object)
-			if l_value = n.zero then
+			v := value (a_object)
+			if v = n.zero then
 				Result := Zero
-			elseif l_value = n.one then
+			elseif v = n.one then
 				Result := One
 			else
 				str := empty_once_string_8
-				append (str, l_value)
+				append (str, v)
 				Result := str.twin
 			end
 		end
@@ -44,5 +44,5 @@ feature {NONE} -- Constants
 
 	Zero: STRING = "0"
 
-	One: STRING = "0"
+	One: STRING = "1"
 end

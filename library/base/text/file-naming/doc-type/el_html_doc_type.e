@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 11:44:45 GMT (Friday 2nd March 2018)"
-	revision: "5"
+	date: "2018-03-23 17:40:32 GMT (Friday 23rd March 2018)"
+	revision: "6"
 
 class
 	EL_HTML_DOC_TYPE
@@ -28,30 +28,50 @@ inherit
 		end
 
 create
-	make, make_default
+	make, make_from_file
 
 feature {NONE} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH)
+	make_from_file (a_file_path: EL_FILE_PATH)
 		do
-			make_default
-			do_once_with_file_lines (agent find_charset, create {EL_FILE_LINE_SOURCE}.make (a_file_path))
+			make
+			set_from_file (a_file_path)
 		end
 
-	make_default
+	make
 		do
 			make_utf_8 ("html")
 			make_machine
 		end
 
+feature -- Element change
+
+	set_from_file (a_file_path: EL_FILE_PATH)
+		do
+			do_once_with_file_lines (agent find_charset, create {EL_FILE_LINE_SOURCE}.make (a_file_path))
+		end
+
 feature {NONE} -- State handlers
 
 	find_charset (line: ZSTRING)
+		local
+			i: INTEGER; encoding: ZSTRING
 		do
-			if line.starts_with (Meta_tag) and then line.has_substring (Content_equals) then
-				type := line.split ('"').i_th (4).as_string_8
-				set_encoding_from_name (type.substring (type.index_of ('=', 1) + 1, type.count))
-				state := final
+			if line.has_substring (Meta_tag) then
+				-- Parse
+				--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+				-- OR
+				--    <meta charset="UTF-8"/>
+				i := line.substring_index (Charset_attrib, 1)
+				if i > 0 then
+					i := i + Charset_attrib.count
+					if line [i] = '"' then
+						i := i + 1
+					end
+					encoding := line.substring (i, line.index_of ('"', i) - 1)
+					set_encoding_from_name (encoding)
+					state := final
+				end
 			end
 		end
 
@@ -66,9 +86,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Content_equals: ZSTRING
+	Charset_attrib: ZSTRING
 		once
-			Result := "content="
+			Result := "charset="
 		end
 
 	Meta_tag: ZSTRING

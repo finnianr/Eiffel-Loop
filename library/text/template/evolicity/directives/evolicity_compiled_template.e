@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-03-23 18:44:07 GMT (Friday 23rd March 2018)"
+	revision: "3"
 
 class
 	EVOLICITY_COMPILED_TEMPLATE
@@ -23,26 +23,24 @@ create
 
 feature {NONE} -- Initialization
 
-	make (directives: ARRAY [EVOLICITY_DIRECTIVE]; a_modification_time: like modification_time; a_has_file_source: BOOLEAN)
+	make (directives: ARRAY [EVOLICITY_DIRECTIVE]; a_modification_time: like modification_time; a_encoding: like encoding)
 		do
 			make_from_array (directives)
 			modification_time := a_modification_time
-			has_file_source := a_has_file_source
+			encoding := a_encoding
 		end
 
 feature -- Access
 
 	modification_time: DATE_TIME
 
+	encoding: EL_ENCODEABLE_AS_TEXT
+
 feature -- Status query
 
 	has_file_source: BOOLEAN
-
-feature -- Status query
-
-	set_has_file_source
 		do
-			has_file_source := True
+			Result := encoding.encoding_type.to_boolean
 		end
 
 feature -- Element change

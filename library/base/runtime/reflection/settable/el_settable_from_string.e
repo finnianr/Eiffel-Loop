@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-17 17:47:07 GMT (Wednesday 17th January 2018)"
-	revision: "7"
+	date: "2018-03-29 11:05:18 GMT (Thursday 29th March 2018)"
+	revision: "8"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -23,30 +23,21 @@ inherit
 
 feature {NONE} -- Initialization
 
+	make_default
+		deferred
+		end
+
 	make_from_table (field_values: HASH_TABLE [like new_string, STRING])
 		do
 			make_default
-			across field_values as value loop
-				set_field (value.key, value.item)
-			end
+			set_from_table (field_values)
 		end
 
 	make_from_zkey_table (field_values: HASH_TABLE [like new_string, ZSTRING])
-		-- make from table with keys of type `like new_string'
-		local
-			name: STRING
+		-- make from table with keys of type `ZSTRING'
 		do
 			make_default
-			create name.make_empty
-			across field_values as value loop
-				name.wipe_out
-				value.key.append_to_string_8 (name)
-				set_field (name, value.item)
-			end
-		end
-
-	make_default
-		deferred
+			set_from_zkey_table (field_values)
 		end
 
 feature -- Access
@@ -89,6 +80,28 @@ feature -- Element change
 			set_field (pair.name, pair.value)
 		end
 
+	set_from_table (field_values: HASH_TABLE [like new_string, STRING])
+		do
+			from field_values.start until field_values.after loop
+				set_field (field_values.key_for_iteration, field_values.item_for_iteration)
+				field_values.forth
+			end
+		end
+
+	set_from_zkey_table (field_values: HASH_TABLE [like new_string, ZSTRING])
+		-- set from table with keys of type `ZSTRING'
+		local
+			name: STRING
+		do
+			create name.make (20)
+			from field_values.start until field_values.after loop
+				name.wipe_out
+				field_values.key_for_iteration.append_to_string_8 (name)
+				set_field (name, field_values.item_for_iteration)
+				field_values.forth
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	current_reflective: EL_REFLECTIVE
@@ -99,15 +112,15 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	field_table: EL_REFLECTED_FIELD_TABLE
+		deferred
+		end
+
 	name_value_pair: EL_NAME_VALUE_PAIR [STRING_GENERAL]
 		deferred
 		end
 
 	new_string: STRING_GENERAL
-		deferred
-		end
-
-	field_table: EL_REFLECTED_FIELD_TABLE
 		deferred
 		end
 

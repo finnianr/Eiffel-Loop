@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-03-24 9:54:29 GMT (Saturday 24th March 2018)"
+	revision: "3"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -63,7 +63,8 @@ feature -- Basic operations
 				end
 				new_context.prepare
 				if not Evolicity_templates.has (template_path) and then template_path.exists then
-					Evolicity_templates.put_from_file (template_path)
+					-- Assume template encoding is same as output encoding
+					Evolicity_templates.put_file (template_path, output)
 				end
 				if Evolicity_templates.is_nested_output_indented then
 					output.put_indented_lines (tabs, Evolicity_templates.merged (template_path, new_context).lines)

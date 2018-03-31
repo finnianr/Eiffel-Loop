@@ -30,6 +30,7 @@ See: http://www.eiffel-loop.com/library/network/protocol/http/class-index.html
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf" readonly = "false"/>
+		<library name = "EL_network" location = "network.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf" readonly = "false"/>
 		<!--Source code-->
@@ -48,6 +49,5 @@ See: http://www.eiffel-loop.com/library/network/protocol/http/class-index.html
 				</condition>
 			</file_rule>
 		</cluster>
-		<cluster name = "http_util" location = "../contrib/Eiffel/etar/src/util"/>
 	</target>
 </system>

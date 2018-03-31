@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:34:38 GMT (Wednesday 21st February 2018)"
-	revision: "8"
+	date: "2018-03-24 9:54:29 GMT (Saturday 24th March 2018)"
+	revision: "9"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 			output_path := Empty_file_path
 			template_path := Empty_file_path
 			if has_string_template then
-				Evolicity_templates.put (template_name, stripped_template)
+				Evolicity_templates.put_source (template_name, stripped_template)
 			end
 		end
 
@@ -60,13 +60,13 @@ feature {NONE} -- Initialization
 			output_path_exists: file_must_exist implies output_path.exists
 		end
 
-	make_from_template (a_template_path: like output_path)
+	make_from_template (a_template_path: EL_FILE_PATH)
 			--
 		do
 			make_from_template_and_output (a_template_path, Empty_file_path)
 		end
 
-	make_from_template_and_output (a_template_path, a_output_path: like output_path)
+	make_from_template_and_output (a_template_path, a_output_path: EL_FILE_PATH)
 			--
 		require
 			template_exists: not a_template_path.is_empty implies a_template_path.exists
@@ -74,7 +74,7 @@ feature {NONE} -- Initialization
 			make_default
 			output_path := a_output_path; template_path := a_template_path
 			if not template_path.is_empty then
-				Evolicity_templates.put_from_file (template_path)
+				Evolicity_templates.put_file (template_path, Utf_8_encoding)
 			end
 		end
 
@@ -87,14 +87,12 @@ feature -- Conversion
 	as_text: ZSTRING
 			--
 		do
-			Evolicity_templates.set_text_encoding (Current)
 			Result := Evolicity_templates.merged (template_name, Current)
 		end
 
 	as_utf_8_text: STRING
 			--
 		do
-			Evolicity_templates.set_encoding_utf_8
 			Result := Evolicity_templates.merged_utf_8 (template_name, Current)
 		end
 
@@ -116,14 +114,12 @@ feature -- Basic operations
 	serialize_to_file (file_path: like output_path)
 			--
 		do
-			Evolicity_templates.set_text_encoding (Current)
 			Evolicity_templates.merge_to_file (template_name, Current, new_open_write_file (file_path))
 		end
 
 	serialize_to_stream (stream_out: EL_OUTPUT_MEDIUM)
 			--
 		do
-			Evolicity_templates.set_text_encoding (Current)
 			Evolicity_templates.merge (template_name, Current, stream_out)
 		end
 
@@ -263,6 +259,11 @@ feature {NONE} -- Constants
 			Result.encoding_name := "encoding_name"
 			Result.template_name := "template_name"
 			Result.current_object := "current"
+		end
+
+	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
+		once
+			create Result.make_utf_8
 		end
 
 note

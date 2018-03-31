@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-03-31 14:10:49 GMT (Saturday 31st March 2018)"
+	revision: "3"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -71,7 +71,7 @@ feature -- Basic operations
 	verify_base64 (message: INTEGER_X; base64_signature: STRING): BOOLEAN
 			--
 		do
-			Result := verify (message, Rsa.integer_x_from_base64 (base64_signature))
+			Result := verify (message, Rsa.integer_x_from_base_64 (base64_signature))
 		end
 
 	encrypt_base64 (base64_message: STRING): INTEGER_X
@@ -79,7 +79,7 @@ feature -- Basic operations
 		local
 			message: INTEGER_X
 		do
-			message := Rsa.integer_x_from_base64 (base64_message)
+			message := Rsa.integer_x_from_base_64 (base64_message)
 			Result := encrypt (message)
 		end
 

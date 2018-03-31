@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-12 15:06:17 GMT (Monday 12th February 2018)"
-	revision: "1"
+	date: "2018-03-22 11:12:55 GMT (Thursday 22nd March 2018)"
+	revision: "2"
 
 class
 	YOUTUBE_STREAM_INFO
@@ -45,6 +45,9 @@ feature {NONE} -- Initialization
 					else
 						if parts.item ~ Video then
 							type := Video
+						elseif parts.item.ends_with (FPS) then
+							parts.item.remove_tail (FPS.count)
+							frames_per_sec := parts.item.to_integer
 						end
 					end
 					parts.forth
@@ -67,6 +70,8 @@ feature -- Access
 	description: ZSTRING
 
 	extension: ZSTRING
+
+	frames_per_sec: INTEGER
 
 	last_output_path: EL_FILE_PATH
 
@@ -98,6 +103,11 @@ feature {NONE} -- Constants
 	Video: ZSTRING
 		once
 			Result := "video"
+		end
+
+	FPS: ZSTRING
+		once
+			Result := "fps,"
 		end
 
 end

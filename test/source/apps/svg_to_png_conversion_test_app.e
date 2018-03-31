@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:27:58 GMT (Thursday 29th June 2017)"
-	revision: "3"
+	date: "2018-03-24 9:54:29 GMT (Saturday 24th March 2018)"
+	revision: "4"
 
 class
 	SVG_TO_PNG_CONVERSION_TEST_APP
@@ -48,7 +48,7 @@ feature -- Tests
 			svg_background_path: EL_FILE_PATH; svg_file: EL_PLAIN_TEXT_FILE
 		do
 			log.enter ("test_conversion")
-			Evolicity_templates.put_from_file (svg_path)
+			Evolicity_templates.put_file (svg_path, Utf_8_encoding)
 			create svg_file.make_open_write (svg_path)
 			Evolicity_templates.merge_to_file (svg_path, environment_variables, svg_file)
 			svg_file.close
@@ -101,6 +101,11 @@ feature {NONE} -- Constants
 			Result := <<
 				[{SVG_TO_PNG_CONVERSION_TEST_APP}, All_routines]
 			>>
+		end
+
+	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
+		once
+			create Result.make_utf_8
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 10:57:44 GMT (Friday 2nd March 2018)"
-	revision: "2"
+	date: "2018-03-30 13:17:36 GMT (Friday 30th March 2018)"
+	revision: "3"
 
 class
 	EL_HTTP_COOKIE
@@ -16,6 +16,8 @@ inherit
 	EL_STRING_CONSTANTS
 
 	EL_SHARED_ONCE_STRINGS
+
+	EL_SHARED_UTF_8_ZCODEC
 
 	DATE_CONSTANTS
 		export
@@ -27,12 +29,15 @@ create
 
 feature -- Initialization
 
-	make (a_name, a_value: STRING)
+	make (a_name: STRING; a_value: READABLE_STRING_GENERAL)
 			-- Create a new cookie with 'a_name' and 'a_value'
 		require
 			name_not_reserved_word: not is_reserved_cookie_word (a_name)
 		do
-			name := a_name; value := a_value
+			name := a_name
+			create value.make (a_value.count)
+			Utf_8_codec.write_string_general_to_utf_8 (a_value, value)
+
 			domain := Empty_string_8
 			path := Empty_string_8
 			comment := Empty_string_8

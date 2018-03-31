@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 18:11:03 GMT (Saturday 3rd March 2018)"
-	revision: "10"
+	date: "2018-03-30 17:00:19 GMT (Friday 30th March 2018)"
+	revision: "11"
 
 deferred class
 	FCGI_SERVLET_SERVICE

@@ -1,0 +1,65 @@
+note
+	description: "[
+		Object that is reflectively settable from http cookies and also reflectively convertable
+		to a list of cookies.
+	]"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-03-31 12:42:25 GMT (Saturday 31st March 2018)"
+	revision: "1"
+
+class
+	EL_COOKIE_SETTABLE
+
+inherit
+	EL_REFLECTIVELY_SETTABLE
+		rename
+			field_included as is_any_field
+		end
+
+	EL_SETTABLE_FROM_ZSTRING
+
+feature {NONE} -- Initialization
+
+	make (cookies: EL_HTTP_COOKIES)
+		do
+			make_default
+			set_from_table (cookies)
+		end
+
+	make_from_file (cookie_path: EL_FILE_PATH)
+		do
+			make_default
+			if cookie_path.exists then
+				set_from_table (create {EL_HTTP_COOKIES}.make_from_file (cookie_path))
+			end
+		end
+
+feature -- Element change
+
+	set_from_cookies (cookies: EL_HTTP_COOKIES)
+		do
+			set_default_values
+			set_from_table (cookies)
+		end
+
+feature -- Conversion
+
+	cookie_list: EL_ARRAYED_LIST [EL_HTTP_COOKIE]
+		local
+			table: like field_table; cookie: EL_HTTP_COOKIE
+		do
+			table := field_table
+			create Result.make (table.count)
+			from table.start until table.after loop
+				create cookie.make (table.key_for_iteration, table.item_for_iteration.to_string (Current))
+				Result.extend (cookie)
+				table.forth
+			end
+		end
+
+end

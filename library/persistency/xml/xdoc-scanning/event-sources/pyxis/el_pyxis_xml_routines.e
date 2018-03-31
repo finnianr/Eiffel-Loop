@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-19 12:26:43 GMT (Monday 19th February 2018)"
-	revision: "3"
+	date: "2018-03-23 20:28:44 GMT (Friday 23rd March 2018)"
+	revision: "4"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -57,6 +57,11 @@ feature -- Access
 			convert_to_xml (a_pyxis_file_path, xml_out)
 			xml_out.close
 			Result := xml_out.text
+		end
+
+	encoding (file_path: EL_FILE_PATH): EL_PYXIS_ENCODING
+		do
+			create Result.make_from_file (file_path)
 		end
 
 end

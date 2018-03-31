@@ -40,6 +40,9 @@ system:
 		library:
 			name = EL_http_client; location = "http-client.ecf"
 
+		library:
+			name = EL_network; location = "network.ecf"
+
 		# Source code
 		cluster:
 			name = paypal; location = "network/paypal"; recursive = true

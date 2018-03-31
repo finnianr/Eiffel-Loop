@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 12:39:54 GMT (Saturday 3rd March 2018)"
-	revision: "5"
+	date: "2018-03-31 13:58:51 GMT (Saturday 31st March 2018)"
+	revision: "6"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -139,9 +139,19 @@ feature -- Element change
 			is_sent := False
 		end
 
+	send_as_cookies (object: EL_COOKIE_SETTABLE)
+		do
+			send_cookies (object.cookie_list)
+		end
+
 	send_cookie (name, value: STRING)
 		do
 			cookies.extend (create {EL_HTTP_COOKIE}.make (name, value))
+		end
+
+	send_cookies (list: FINITE [EL_HTTP_COOKIE])
+		do
+			list.linear_representation.do_all (agent cookies.extend)
 		end
 
 	set_content (text: READABLE_STRING_GENERAL; type: EL_DOC_TYPE)

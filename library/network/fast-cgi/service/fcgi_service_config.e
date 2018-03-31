@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-01 9:40:41 GMT (Thursday 1st March 2018)"
-	revision: "6"
+	date: "2018-03-30 16:11:44 GMT (Friday 30th March 2018)"
+	revision: "7"
 
 class
 	FCGI_SERVICE_CONFIG
@@ -35,12 +35,6 @@ inherit
 		end
 
 	FCGI_SOCKET_FACTORY
-
-	EL_MODULE_LOG
-
-	EL_MODULE_ARGS
-
-	EL_MODULE_FILE_SYSTEM
 
 create
 	make, make_default, make_from_file

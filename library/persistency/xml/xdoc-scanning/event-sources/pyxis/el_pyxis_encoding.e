@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-26 11:56:39 GMT (Wednesday 26th April 2017)"
-	revision: "3"
+	date: "2018-03-23 20:26:14 GMT (Friday 23rd March 2018)"
+	revision: "4"
 
 class
 	EL_PYXIS_ENCODING
@@ -39,12 +39,11 @@ feature {NONE} -- State handlers
 
 	find_encoding (line: ZSTRING)
 		local
-			parts: EL_ZSTRING_LIST
+			start_index: INTEGER
 		do
-			if line.has_substring (Attribute_encoding) then
-				line.right_adjust
-				create parts.make_with_separator (line, '"', False)
-				set_encoding_from_name (parts [parts.count - 1])
+			start_index := line.substring_index (Attribute_encoding, 1)
+			if start_index.to_boolean then
+				set_encoding_from_name (line.substring_between (Double_quote, Double_quote, start_index + Attribute_encoding.count))
 				state := final
 			end
 		end
@@ -56,5 +55,9 @@ feature {NONE} -- Constants
 			Result := "encoding"
 		end
 
+	Double_quote: ZSTRING
+		once
+			Result := "%""
+		end
 
 end

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:32:20 GMT (Wednesday 21st February 2018)"
-	revision: "6"
+	date: "2018-03-24 9:54:57 GMT (Saturday 24th March 2018)"
+	revision: "7"
 
 class
 	EVOLICITY_TEMPLATES
@@ -22,6 +22,8 @@ inherit
 	EL_THREAD_ACCESS
 
 	EL_MODULE_EXCEPTION
+
+	EL_STRING_CONSTANTS
 
 create
 	make
@@ -33,35 +35,9 @@ feature {NONE} -- Initialization
 		do
 			create stack_table.make_equal (19)
 			set_nice_indentation
-			create text_encoding.make_utf_8
-		end
-
-feature -- Access
-
-	text_encoding: EL_ENCODEABLE_AS_TEXT
-
-feature -- Element change
-
-	set_text_encoding (a_text_encoding: like text_encoding)
-		do
-			text_encoding := a_text_encoding
-		end
-
-	set_encoding_utf_8
-		do
-			create text_encoding.make_utf_8
-		end
-
-	set_encoding_latin_1
-		do
-			create text_encoding.make_latin_1
 		end
 
 feature -- Status query
-
-	is_nested_output_indented: BOOLEAN
-		-- is the indenting feature that nicely indents nested XML, active?
-		-- Active by default.
 
 	has (a_name: EL_FILE_PATH): BOOLEAN
 		local
@@ -72,6 +48,10 @@ feature -- Status query
 				Result := compiler_table.has (a_name)
 			end_restriction (Compilers)
 		end
+
+	is_nested_output_indented: BOOLEAN
+		-- is the indenting feature that nicely indents nested XML, active?
+		-- Active by default.
 
 feature -- Status change
 
@@ -90,53 +70,32 @@ feature -- Status change
 
 feature -- Element change
 
-	put_from_file (file_path: EL_FILE_PATH)
-			--
-		require
-			file_exists: file_path.exists
-		do
-			put (file_path, Default_source)
-		end
-
-	put (a_name: EL_FILE_PATH; template_source: ZSTRING)
-			-- compile template and add to global template table
-			-- or recompile if file template has been modified
-		local
-			compiler: EVOLICITY_COMPILER
-			is_file_template: BOOLEAN; compiler_table: like Compilers.item
- 		do
-			is_file_template := template_source = Default_source
-			restrict_access (Compilers)
-				compiler_table := Compilers.item
-				compiler_table.search (a_name)
-				if not compiler_table.found
-					or else is_file_template and then a_name.modification_date_time > compiler_table.found_item.modification_time
-				then
-					create compiler.make
-					if is_file_template then
-						compiler.set_encoding_from_other (text_encoding)
-						compiler.set_source_text_from_file (a_name)
-					else
-			 			compiler.set_source_text (template_source)
-					end
-					compiler.parse
-					if compiler.parse_succeeded then
-						compiler_table [a_name] := compiler
---						log.put_string_field ("Parsed template", a_name.to_string)
---						log.put_new_line
-					else
-						Exception.raise_developer ("Evolicity compilation failed %S", [a_name])
-					end
-				end
-			end_restriction (Compilers)
-		end
-
 	clear_all
 			-- Clear all parsed templates
 		do
 			restrict_access (Compilers)
 				Compilers.item.wipe_out
 			end_restriction (Compilers)
+		end
+
+	put_source (a_name: EL_FILE_PATH; template_source: READABLE_STRING_GENERAL)
+		local
+			source: ZSTRING
+		do
+			if attached {ZSTRING} template_source as zstring then
+				source := zstring
+			else
+				create source.make_from_general (template_source)
+			end
+			put (a_name, source, Default_encoding)
+		end
+
+	put_file (file_path: EL_FILE_PATH; encoding: EL_ENCODEABLE_AS_TEXT)
+			--
+		require
+			file_exists: file_path.exists
+		do
+			put (file_path, Empty_string, encoding)
 		end
 
 feature -- Removal
@@ -150,38 +109,6 @@ feature -- Removal
 		end
 
 feature -- Basic operations
-
-	merge_to_file (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT; text_file: EL_PLAIN_TEXT_FILE)
-			--
-		require
-			writeable: text_file.is_open_write
-		do
-			merge (a_name, context, text_file)
-			text_file.close
-		end
-
-	merged (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): ZSTRING
-			--
-		local
-			text_medium: EL_ZSTRING_IO_MEDIUM
-		do
-			create text_medium.make_open_write (1024)
-			text_medium.set_encoding_from_other (text_encoding)
-			merge (a_name, context, text_medium)
-			text_medium.close
-			Result := text_medium.text
-		end
-
-	merged_utf_8 (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): STRING
-			--
-		local
-			utf8_text_medium: EL_STRING_8_IO_MEDIUM
-		do
-			create utf8_text_medium.make_open_write (1024)
-			merge (a_name, context, utf8_text_medium)
-			utf8_text_medium.close
-			Result := utf8_text_medium.text
-		end
 
 	merge (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
@@ -223,7 +150,7 @@ feature -- Basic operations
 				if template.has_file_source and then a_name.modification_date_time > template.modification_time then
 					-- File was modified
 					stack_table.remove (a_name)
-					put_from_file (a_name)
+					put_file (a_name, template.encoding)
 					-- Try again
 					merge (a_name, context, output)
 				else
@@ -237,7 +164,77 @@ feature -- Basic operations
 			end
 		end
 
+	merge_to_file (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT; text_file: EL_PLAIN_TEXT_FILE)
+			--
+		require
+			writeable: text_file.is_open_write
+		do
+			merge (a_name, context, text_file)
+			text_file.close
+		end
+
+	merged (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): ZSTRING
+			--
+		local
+			text_medium: EL_ZSTRING_IO_MEDIUM
+		do
+			create text_medium.make_open_write (1024)
+			merge (a_name, context, text_medium)
+			text_medium.close
+			Result := text_medium.text
+		end
+
+	merged_utf_8 (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): STRING
+			--
+		local
+			utf8_text_medium: EL_STRING_8_IO_MEDIUM
+		do
+			create utf8_text_medium.make_open_write (1024)
+			merge (a_name, context, utf8_text_medium)
+			utf8_text_medium.close
+			Result := utf8_text_medium.text
+		end
+
 feature {NONE} -- Implementation
+
+	put (key_path: EL_FILE_PATH; template_source: ZSTRING; file_encoding: EL_ENCODEABLE_AS_TEXT)
+			-- if `file_encoding /= Default_encoding' then compile template stored in
+			-- file path `key_path' and add to global template table
+			-- or recompile existing template if file modified date is newer
+
+			-- if `file_encoding = Default_encoding' then compile `template_source' and store
+			-- with key `key_path'
+		local
+			compiler: EVOLICITY_COMPILER; compiler_table: like Compilers.item
+			is_file_path: BOOLEAN
+ 		do
+ 			is_file_path := file_encoding /= Default_encoding
+			restrict_access (Compilers)
+				compiler_table := Compilers.item
+				compiler_table.search (key_path)
+				if not compiler_table.found
+					or else is_file_path and then key_path.modification_date_time > compiler_table.found_item.modification_time
+				then
+					create compiler.make
+					if is_file_path then
+						compiler.set_encoding_from_other (file_encoding)
+						compiler.set_source_text_from_file (key_path)
+					else
+						compiler.set_source_text (template_source)
+					end
+					compiler.parse
+					if compiler.parse_succeeded then
+						compiler_table [key_path] := compiler
+--						log.put_string_field ("Parsed template", key_path.to_string)
+--						log.put_new_line
+					else
+						Exception.raise_developer ("Evolicity compilation failed %S", [key_path])
+					end
+				end
+			end_restriction (Compilers)
+		end
+
+feature {NONE} -- Internal attributes
 
 	stack_table: EVOLICITY_TEMPLATE_STACK_TABLE
 		-- stacks of compiled templates
@@ -251,9 +248,9 @@ feature {NONE} -- Global attributes
 			create Result.make (create {like Compilers.item}.make (11))
 		end
 
-	Default_source: ZSTRING
+	Default_encoding: EL_ENCODEABLE_AS_TEXT
 		once ("PROCESS")
-			create Result.make_empty
+			create Result.make_utf_8
 		end
 
 end

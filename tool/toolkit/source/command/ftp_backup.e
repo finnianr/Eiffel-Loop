@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-22 11:28:09 GMT (Thursday 22nd February 2018)"
-	revision: "7"
+	date: "2018-03-24 10:05:21 GMT (Saturday 24th March 2018)"
+	revision: "8"
 
 class
 	FTP_BACKUP
@@ -26,6 +26,8 @@ inherit
 	EL_MODULE_LOG
 
 	EL_MODULE_USER_INPUT
+
+	EL_MODULE_PYXIS
 
 create
 	make
@@ -168,7 +170,7 @@ feature -- Element change
 			pyxis_medium, xml_out_medium: EL_ZSTRING_IO_MEDIUM
 		do
 			create pyxis_medium.make_open_write (1024)
-			Evolicity_templates.put_from_file (file_path)
+			Evolicity_templates.put_file (file_path, Pyxis.encoding (file_path))
 			Evolicity_templates.merge (file_path, environment_variables, pyxis_medium)
 
 			create xml_out_medium.make_open_write (pyxis_medium.text.count)
