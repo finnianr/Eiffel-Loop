@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-12 7:48:31 GMT (Monday 12th March 2018)"
-	revision: "7"
+	date: "2018-04-03 14:20:45 GMT (Tuesday 3rd April 2018)"
+	revision: "8"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -29,7 +29,7 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_MODULE_STRING_8
+	EL_MODULE_HEXADECIMAL
 
 	EL_MODULE_SCREEN
 
@@ -368,7 +368,7 @@ feature -- Conversion
 			starts_with_hash: html_code.item (1) = '#'
 			has_six_digits: html_code.count = 7
 		do
-			Result := String_8.hexadecimal_to_integer (html_code.substring (2, 7))
+			Result := Hexadecimal.to_integer (html_code.substring (2, 7))
 		end
 
 	rgb_code_to_html_code (rgb_code: INTEGER): STRING

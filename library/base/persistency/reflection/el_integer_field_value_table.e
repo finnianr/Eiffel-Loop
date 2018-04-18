@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_INTEGER_FIELD_VALUE_TABLE}."
+	description: "Implementation of [$source EL_FIELD_VALUE_TABLE] for the `INTEGER' type"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-10 15:32:45 GMT (Sunday 10th December 2017)"
-	revision: "2"
+	date: "2018-04-04 12:09:17 GMT (Wednesday 4th April 2018)"
+	revision: "3"
 
 class
 	EL_INTEGER_FIELD_VALUE_TABLE

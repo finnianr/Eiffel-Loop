@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 7:55:36 GMT (Monday 22nd May 2017)"
-	revision: "4"
+	date: "2018-04-03 14:18:35 GMT (Tuesday 3rd April 2018)"
+	revision: "5"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -179,7 +179,7 @@ feature {NONE} -- Evolicity fields
 
 	get_path_list: EL_ARRAYED_LIST [ZSTRING]
 		local
-			escaper: EL_PYTHON_STRING_ESCAPER [ZSTRING]
+			escaper: EL_PYTHON_ZSTRING_ESCAPER
 		do
 			create escaper.make (2)
 			create Result.make (count)

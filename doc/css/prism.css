@@ -182,4 +182,7 @@ pre[class*="language-"] {
 .token.entity {
 	cursor: help;
 }
+.token.class-name {
+    color: blue; /* or whatever shade of blue you want */
+}
 

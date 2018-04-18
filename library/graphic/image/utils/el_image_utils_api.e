@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-20 10:42:13 GMT (Tuesday 20th March 2018)"
-	revision: "5"
+	date: "2018-04-01 14:30:21 GMT (Sunday 1st April 2018)"
+	revision: "6"
 
 class
 	EL_IMAGE_UTILS_API
@@ -58,7 +58,7 @@ feature -- Factory
 
 	new_svg_image_data (svg_uri: EL_FILE_URI_PATH; svg_utf_8_xml: STRING): MANAGED_POINTER
 		local
-			encoded_uri: EL_URL_STRING
+			encoded_uri: EL_URL_STRING_8
 			base_uri, xml: POINTER
 		do
 			encoded_uri := svg_uri.to_encoded_utf_8

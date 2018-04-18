@@ -1,5 +1,21 @@
 note
-	description: "Summary description for {EL_RSA_PRIVATE_KEY}."
+	description: "[
+		RSA private key with attributes reflectively settable from PKCS1 standard names
+		
+			RSAPrivateKey ::= SEQUENCE {
+			    version           Version,
+			    modulus           INTEGER,
+			    publicExponent    INTEGER,
+			    privateExponent   INTEGER,
+			    prime1            INTEGER,
+			    prime2            INTEGER,
+			    exponent1         INTEGER,
+			    exponent2         INTEGER,
+			    coefficient       INTEGER,
+			    otherPrimeInfos   OtherPrimeInfos OPTIONAL
+			}
+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -14,55 +30,57 @@ class
 
 inherit
 	RSA_PRIVATE_KEY
+		rename
+			n as modulus,
+			p as prime_1,
+			q as prime_2,
+			d as private_exponent,
+			e as public_exponent
+		end
 
-	EL_RSA_KEY
-
-	EL_MODULE_BASE_64
+	EL_REFLECTIVE_RSA_KEY
 
 create
-	make, make_from_primes, make_from_pkcs1
+	make, make_default, make_from_primes, make_from_map_list, make_from_pkcs1, make_from_pkcs1_file
 
 feature {NONE} -- Initialization
 
-	make_from_primes (a_p, a_q: INTEGER_X)
+	make_from_primes (a_prime_1, a_prime_2: INTEGER_X)
 		do
-			make (a_p, a_q, a_p * a_q, Default_exponent)
+			make (a_prime_1, a_prime_2, a_prime_1 * a_prime_2, Default_exponent)
 		end
 
-	make_from_pkcs1 (pkcs1_values: HASH_TABLE [INTEGER_X, STRING])
+	make_default
 		do
-			n := pkcs1_values [Var_modulus]
-			p := pkcs1_values [Var_prime1]
-			q := pkcs1_values [Var_prime2]
-			d := pkcs1_values [Var_private_exponent]
-			e := pkcs1_values [Var_public_exponent]
+			make_from_primes (17, 19)
+		end
+
+	make_from_pkcs1_file (pkcs1_file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
+		local
+			line_source: EL_ENCRYPTED_FILE_LINE_SOURCE
+		do
+			create line_source.make (pkcs1_file_path, encrypter)
+			make_from_pkcs1 (line_source)
+			line_source.close
+		end
+
+	make_from_pkcs1 (lines: LINEAR [ZSTRING])
+		do
+			make_from_map_list (RSA.pkcs1_map_list (lines))
 		end
 
 feature -- Access
 
-	p_base_64: STRING
+	prime_1_base_64: STRING
 			--
 		do
-			Result := Base_64.encoded_special (p.as_bytes)
+			Result := Base_64.encoded_special (prime_1.as_bytes)
 		end
 
-	q_base_64: STRING
+	prime_2_base_64: STRING
 			--
 		do
-			Result := Base_64.encoded_special (q.as_bytes)
-		end
-
-feature -- Basic operations
-
-	put_log
-		do
-			log.enter ("put_log")
-			put_number (Var_modulus, n, True)
-			put_number (Var_prime1, p, True)
-			put_number (Var_prime2, q, True)
-			put_number (Var_private_exponent, d, False)
-			put_number (Var_public_exponent, e, False)
-			log.exit
+			Result := Base_64.encoded_special (prime_2.as_bytes)
 		end
 
 end

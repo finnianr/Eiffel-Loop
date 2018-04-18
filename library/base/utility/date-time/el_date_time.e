@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-24 12:38:28 GMT (Wednesday 24th January 2018)"
-	revision: "3"
+	date: "2018-04-10 11:50:16 GMT (Tuesday 10th April 2018)"
+	revision: "4"
 
 class
 	EL_DATE_TIME
@@ -47,9 +47,16 @@ create
 	make_from_string_with_code,
 	make_from_string_with_base,
 	make_from_string_default_with_base,
-	make_from_zone_and_format
+	make_from_zone_and_format,
+	make_utc_from_zone_and_format
 
 feature -- Initialization
+
+	make_utc_from_zone_and_format (s, a_zone, a_format: STRING; offset, hour_adjust: INTEGER)
+		do
+			make_from_zone_and_format (s, a_zone, a_format, offset)
+			hour_add (hour_adjust)
+		end
 
 	make_from_zone_and_format (s, a_zone, a_format: STRING; offset: INTEGER)
 		local

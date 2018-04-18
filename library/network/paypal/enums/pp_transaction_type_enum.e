@@ -4,7 +4,9 @@ note
 		Typically, your back-end or administrative processes will perform specific actions based on the kind
 		of IPN message received. You can use the txn_type variable in the message to trigger the kind of processing
 		you want to perform.
-		See: [https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/?mark=txn_type#ipn-transaction-types]
+		See:
+		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/?mark=txn_type#ipn-transaction-types
+		IPN transaction types]
 	]"
 
 	author: "Finnian Reilly"

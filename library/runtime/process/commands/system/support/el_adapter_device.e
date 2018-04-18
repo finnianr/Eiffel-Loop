@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-02 13:10:03 GMT (Monday 2nd April 2018)"
+	revision: "3"
 
 class
 	EL_ADAPTER_DEVICE
 
 inherit
-	EL_MODULE_STRING_8
+	EL_MODULE_HEXADECIMAL
 
 create
 	make
@@ -56,7 +56,7 @@ feature {NONE} -- Factory
 			create byte_list.make_with_separator (address_string, ':', False)
 			create Result.make_filled (0, 1, byte_list.count)
 			across byte_list as byte loop
-				Result [byte.cursor_index] := String_8.hexadecimal_to_integer (byte.item.as_string_8).to_natural_8
+				Result [byte.cursor_index] := Hexadecimal.to_integer (byte.item.as_string_8).to_natural_8
 			end
 		end
 end

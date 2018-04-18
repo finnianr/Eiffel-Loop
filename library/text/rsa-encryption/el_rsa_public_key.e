@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_RSA_PUBLIC_KEY}."
+	description: "Reflectively createable RSA public key"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -22,17 +22,23 @@ inherit
 
 	EL_MODULE_RSA
 
-	EL_RSA_KEY
+	EL_REFLECTIVE_RSA_KEY
 
 create
-	make, make_from_array, make_from_base_64, make_from_hex_byte_sequence, make_from_manifest
+	make, make_from_array, make_from_base_64, make_from_hex_byte_sequence, make_from_manifest,
+	make_from_map_list
 
 feature {NONE} -- Initialization
 
-	make_from_hex_byte_sequence (hex_byte_sequence: STRING)
+	make_default
+		do
+			make (2)
+		end
+
+	make_from_hex_byte_sequence (sequence: STRING)
 			-- used to intialize from X509 cert
 		do
-			make (RSA.integer_x_from_hex_byte_sequence (hex_byte_sequence))
+			make (RSA.integer_x_from_hex_sequence (sequence))
 		end
 
 	make_from_base_64 (base_64_string: STRING)
@@ -68,13 +74,13 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	verify_base64 (message: INTEGER_X; base64_signature: STRING): BOOLEAN
+	verify_base_64 (message: INTEGER_X; base64_signature: STRING): BOOLEAN
 			--
 		do
 			Result := verify (message, Rsa.integer_x_from_base_64 (base64_signature))
 		end
 
-	encrypt_base64 (base64_message: STRING): INTEGER_X
+	encrypt_base_64 (base64_message: STRING): INTEGER_X
 			--
 		local
 			message: INTEGER_X
@@ -83,9 +89,4 @@ feature -- Basic operations
 			Result := encrypt (message)
 		end
 
-	put_log
-		do
-			put_number (Var_modulus, modulus, True)
-			put_number (Var_public_exponent, exponent, False)
-		end
 end

@@ -22,6 +22,8 @@ inherit
 
 	EL_STRING_CONSTANTS
 
+	EL_REFLECTION_HANDLER
+
 create
 	make
 
@@ -52,6 +54,21 @@ feature -- Basic operations
 			add_value
 		end
 
+	set_object (object: EL_REFLECTIVE)
+		local
+			table: EL_REFLECTED_FIELD_TABLE
+			field: like fields
+		do
+			table := object.field_table; field := fields
+			from field.start until field.after loop
+				table.search (field.item.name)
+				if table.found then
+					table.found_item.set_from_string (object, field.item.value)
+				end
+				field.forth
+			end
+		end
+
 feature -- Element change
 
 	reset_count
@@ -60,23 +77,6 @@ feature -- Element change
 		end
 
 feature {NONE} -- State handlers
-
-	do_check_escaped_quote (character: CHARACTER)
-			-- check if last character was escape quote
-		do
-			inspect character
-				when Comma then
-					add_value
-					state := find_comma
-
-				when Double_quote then
-					field_string.append_character (character)
-					state := find_end_quote
-
-			else -- last quote was end quote
-				state := find_comma
-			end
-		end
 
 	check_back_slash (state_previous: like find_comma; character: CHARACTER)
 		local
@@ -101,6 +101,23 @@ feature {NONE} -- State handlers
 					field_string.append_character (character)
 					state := state_previous
 				end
+			end
+		end
+
+	do_check_escaped_quote (character: CHARACTER)
+			-- check if last character was escape quote
+		do
+			inspect character
+				when Comma then
+					add_value
+					state := find_comma
+
+				when Double_quote then
+					field_string.append_character (character)
+					state := find_end_quote
+
+			else -- last quote was end quote
+				state := find_comma
 			end
 		end
 
@@ -172,22 +189,22 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
+	check_escaped_quote: PROCEDURE [CHARACTER]
+
 	column: INTEGER
 
-	check_escaped_quote: PROCEDURE [CHARACTER]
+	field_string: STRING
 
 	find_comma: PROCEDURE [CHARACTER]
 
 	find_end_quote: PROCEDURE [CHARACTER]
 
-	field_string: STRING
-
 feature {NONE} -- Constants
 
 	Back_slash: CHARACTER = '\'
 
-	Double_quote: CHARACTER = '"'
-
 	Comma: CHARACTER = ','
+
+	Double_quote: CHARACTER = '"'
 
 end

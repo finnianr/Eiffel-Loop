@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-17 17:47:00 GMT (Wednesday 17th January 2018)"
-	revision: "5"
+	date: "2018-04-12 17:35:48 GMT (Thursday 12th April 2018)"
+	revision: "6"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -43,11 +43,9 @@ feature {NONE} -- Implementation
 			valid_node_type: (<< Attribute_node, Text_element_node >>).has (node_type)
 		local
 			meta_data: like meta_data_by_type.item; table: EL_REFLECTED_FIELD_TABLE
-			field_list: LIST [EL_REFLECTED_FIELD]; export_names: ARRAY [STRING]
-			text_xpath: STRING_8
+			field_list: LIST [EL_REFLECTED_FIELD]; text_xpath: STRING_8
 		do
 			meta_data := meta_data_by_type.item (current_reflective)
-			export_names := meta_data.exported_names
 			table := meta_data.field_table
 			table.query_by_type (type)
 			field_list := table.last_query
@@ -55,9 +53,9 @@ feature {NONE} -- Implementation
 			from field_list.start until field_list.after loop
 				inspect node_type
 					when Attribute_node then
-						text_xpath := once "@" + export_names [field_list.item.index]
+						text_xpath := once "@" + field_list.item.export_name
 				else
-					text_xpath := export_names [field_list.item.index] + once "/text()"
+					text_xpath := field_list.item.export_name + once "/text()"
 				end
 				Result [text_xpath] := agent set_field_from_node (field_list.item)
 				field_list.forth

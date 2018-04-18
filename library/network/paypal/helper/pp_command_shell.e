@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-07 11:42:31 GMT (Wednesday 7th February 2018)"
-	revision: "8"
+	date: "2018-04-13 16:54:41 GMT (Friday 13th April 2018)"
+	revision: "9"
 
 class
 	PP_COMMAND_SHELL
@@ -27,20 +27,12 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (credentials_path: EL_FILE_PATH; phrase: ZSTRING; notify_url: STRING)
+	make (credentials_path: EL_FILE_PATH; notify_url: STRING; encrypter: EL_AES_ENCRYPTER)
 		local
 			credentials: PP_CREDENTIALS
-			pass_phrase: EL_AES_CREDENTIAL
 		do
 			make_shell ("Paypal Buttons")
-			create pass_phrase.make_default
-			if phrase.is_empty then
-				pass_phrase.ask_user
-			else
-				pass_phrase.set_phrase (phrase)
-				pass_phrase.validate
-			end
-			create credentials.make (credentials_path, pass_phrase.new_aes_encrypter (128))
+			create credentials.make (credentials_path, encrypter)
 			create paypal.make (Cert_authority_info_path, credentials, 95.0, True)
 			paypal.set_notify_url (notify_url)
 			paypal.open
@@ -54,7 +46,7 @@ feature -- Basic operations
 			response: PP_BUTTON_QUERY_RESULTS
 		do
 			lio.put_line ("create_button")
-			response := paypal.create_buy_now_button ("en_US", new_single_license_button, new_buy_options (1.0))
+			response := paypal.create_buy_now_button ("en_US", new_single_license.to_parameter_list, new_buy_options (1.0))
 			response.print_values
 			lio.put_new_line
 		end
@@ -141,7 +133,7 @@ feature -- Basic operations
 		do
 			lio.put_line ("update_button")
 			response := paypal.update_buy_now_button (
-				"en_US", new_button_id, new_single_license_button, new_buy_options (1.1)
+				"en_US", new_button_id, new_single_license.to_parameter_list, new_buy_options (1.1)
 			)
 			response.print_values
 			lio.put_new_line
@@ -175,10 +167,10 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
-	new_single_license_button: PP_BUTTON_SUB_PARAMETER_LIST
+	new_single_license: PP_PRODUCT_INFO
 		do
 			create Result.make
-			Result.set_currency_code (currency_code)
+			Result.currency_code.set_value (currency_code)
 			Result.set_item_name ("Single PC subscription pack")
 			Result.set_item_number ("1.en." + Currency.name (currency_code))
 		end

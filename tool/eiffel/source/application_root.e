@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-22 11:41:37 GMT (Thursday 22nd February 2018)"
-	revision: "9"
+	date: "2018-04-11 11:18:50 GMT (Wednesday 11th April 2018)"
+	revision: "10"
 
 class
 	APPLICATION_ROOT
@@ -44,6 +44,7 @@ feature {NONE} -- Implementation
 				{LIBRARY_OVERRIDE_APP},
 				{NOTE_EDITOR_APP},
 
+				{UNDEFINE_PATTERN_COUNTER_APP},
 				{UPGRADE_DEFAULT_POINTER_SYNTAX_APP},
 				{UPGRADE_LOG_FILTERS_APP},
 				{REPOSITORY_PUBLISHER_APP},

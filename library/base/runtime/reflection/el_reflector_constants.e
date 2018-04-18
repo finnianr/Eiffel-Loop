@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_REFLECTOR_CONSTANTS}."
+	description: "Type constants for object reflection"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {FCGI_SERVLET_REQUEST}."
+	description: "Fast-CGI servlet request"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 12:25:22 GMT (Friday 2nd March 2018)"
-	revision: "6"
+	date: "2018-04-10 10:48:50 GMT (Tuesday 10th April 2018)"
+	revision: "7"
 
 class
 	FCGI_SERVLET_REQUEST

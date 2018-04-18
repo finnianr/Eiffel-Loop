@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {PP_BUTTON_QUERY_RESULTS}."
+	description: "Results of a NVP button API query"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-17 15:25:35 GMT (Sunday 17th December 2017)"
-	revision: "2"
+	date: "2018-04-13 13:26:58 GMT (Friday 13th April 2018)"
+	revision: "3"
 
 class
 	PP_BUTTON_QUERY_RESULTS

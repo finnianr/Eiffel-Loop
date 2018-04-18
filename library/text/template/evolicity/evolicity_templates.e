@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-24 9:54:57 GMT (Saturday 24th March 2018)"
-	revision: "7"
+	date: "2018-04-10 14:54:03 GMT (Tuesday 10th April 2018)"
+	revision: "8"
 
 class
 	EVOLICITY_TEMPLATES
@@ -90,7 +90,7 @@ feature -- Element change
 			put (a_name, source, Default_encoding)
 		end
 
-	put_file (file_path: EL_FILE_PATH; encoding: EL_ENCODEABLE_AS_TEXT)
+	put_file (file_path: EL_FILE_PATH; encoding: EL_ENCODING_BASE)
 			--
 		require
 			file_exists: file_path.exists
@@ -197,7 +197,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	put (key_path: EL_FILE_PATH; template_source: ZSTRING; file_encoding: EL_ENCODEABLE_AS_TEXT)
+	put (key_path: EL_FILE_PATH; template_source: ZSTRING; file_encoding: EL_ENCODING_BASE)
 			-- if `file_encoding /= Default_encoding' then compile template stored in
 			-- file path `key_path' and add to global template table
 			-- or recompile existing template if file modified date is newer

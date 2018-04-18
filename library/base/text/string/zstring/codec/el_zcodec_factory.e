@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 10:40:15 GMT (Saturday 3rd March 2018)"
-	revision: "3"
+	date: "2018-04-10 15:09:08 GMT (Tuesday 10th April 2018)"
+	revision: "4"
 
 class
 	EL_ZCODEC_FACTORY
@@ -19,24 +19,24 @@ inherit
 
 feature {NONE} -- Factory
 
-	new_codec (encodeable: EL_ENCODEABLE_AS_TEXT): EL_ZCODEC
+	new_codec (encoding: EL_ENCODING_BASE): EL_ZCODEC
 		-- cached codec
 		require
-			has_codec: has_codec (encodeable)
+			has_codec: has_codec (encoding)
 		local
 			table: like Codec_table
 		do
-			if encodeable.is_utf_encoding (8) then
+			if encoding.is_utf_id (8) then
 				Result := Utf_8_codec
 
-			elseif encodeable.is_windows_encoded or encodeable.is_latin_encoded then
+			elseif encoding.is_type_windows or encoding.is_type_latin then
 				table := Codec_table
-				table.search (encodeable.encoding_id)
+				table.search (encoding.id)
 				if table.found then
 					Result := table.found_item
 				else
-					Result := new_codec_by_id (encodeable.encoding_id)
-					table.extend (Result, encodeable.encoding_id)
+					Result := new_codec_by_id (encoding.id)
+					table.extend (Result, encoding.id)
 				end
 			else
 				create {EL_ISO_8859_1_ZCODEC} Result.make
@@ -50,13 +50,13 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Status query
 
-	has_codec (encodeable: EL_ENCODEABLE_AS_TEXT): BOOLEAN
+	has_codec (encoding: EL_ENCODING_BASE): BOOLEAN
 		do
-			if encodeable.is_windows_encoded or encodeable.is_latin_encoded then
-				Result := Codec_types.has_key (encodeable.encoding_id)
+			if encoding.is_type_windows or encoding.is_type_latin then
+				Result := Codec_types.has_key (encoding.id)
 
-			elseif encodeable.is_utf_encoded then
-				Result := encodeable.encoding_id = 8
+			elseif encoding.is_type_utf then
+				Result := encoding.id = 8
 			end
 		end
 

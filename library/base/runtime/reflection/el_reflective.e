@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 14:18:06 GMT (Wednesday 21st February 2018)"
-	revision: "11"
+	date: "2018-04-12 17:37:50 GMT (Thursday 12th April 2018)"
+	revision: "12"
 
 deferred class
 	EL_REFLECTIVE
@@ -31,21 +31,33 @@ feature -- Access
 
 	field_name_list: EL_STRING_LIST [STRING]
 		do
-			Result := Meta_data_by_type.item (Current).field_array.name_list
+			Result := meta_data.field_array.name_list
+		end
+
+feature {EL_REFLECTION_HANDLER} -- Access
+
+	field_table: EL_REFLECTED_FIELD_TABLE
+		do
+			Result := meta_data.field_table
+		end
+
+	meta_data: like Meta_data_by_type.item
+		do
+			Result := Meta_data_by_type.item (Current)
 		end
 
 feature -- Comparison
 
 	all_fields_equal (other: like Current): BOOLEAN
 		do
-			Result := Meta_data_by_type.item (Current).all_fields_equal (Current, other)
+			Result := meta_data.all_fields_equal (Current, other)
 		end
 
 feature -- Basic operations
 
 	print_fields (lio: EL_LOGGABLE)
 		do
-			Meta_data_by_type.item (Current).print_fields (Current, lio)
+			meta_data.print_fields (Current, lio)
 		end
 
 	print_meta_data (lio: EL_LOGGABLE)
@@ -53,7 +65,7 @@ feature -- Basic operations
 			lio.put_labeled_string ("class", generator)
 			lio.tab_right
 			lio.put_new_line
-			print_field_meta_data (lio, Meta_data_by_type.item (Current).field_array)
+			print_field_meta_data (lio, meta_data.field_array)
 			lio.tab_left
 			lio.put_new_line
 			lio.put_line ("end")
@@ -68,10 +80,10 @@ feature -- Element change
 			except_indices: EL_FIELD_INDICES_SET
 			table, table_other: EL_REFLECTED_FIELD_TABLE
 			field, other_field: EL_REFLECTED_FIELD
-			meta_data: like Meta_data_by_type.item
+			l_meta_data: like Meta_data_by_type.item
 		do
-			meta_data := Meta_data_by_type.item (Current)
-			table := meta_data.field_table
+			l_meta_data := meta_data
+			table := l_meta_data.field_table
 			except_indices := other.new_field_indices_set (other_except_list)
 			table_other := Meta_data_by_type.item (other).field_table
 			from table_other.start until table_other.after loop
@@ -90,20 +102,6 @@ feature -- Element change
 		end
 
 feature {EL_REFLECTIVE} -- Factory
-
-	new_current_object (instance: ANY): REFLECTED_REFERENCE_OBJECT
-		local
-			pool: like Object_pool
-		do
-			pool := Object_pool
-			if pool.is_empty then
-				create Result.make (instance)
-			else
-				Result := pool.item
-				Result.set_object (instance)
-				pool.remove
-			end
-		end
 
 	new_field_indices_set (field_names: STRING): EL_FIELD_INDICES_SET
 		do
@@ -125,16 +123,15 @@ feature {NONE} -- Implementation
 	fill_field_value_table (value_table: EL_FIELD_VALUE_TABLE [ANY])
 		-- fill
 		local
-			meta_data: like Meta_data_by_type.item; table: EL_REFLECTED_FIELD_TABLE
-			export_names: ARRAY [STRING]; query_results: LIST [EL_REFLECTED_FIELD]
+			l_meta_data: like Meta_data_by_type.item; table: EL_REFLECTED_FIELD_TABLE
+			query_results: LIST [EL_REFLECTED_FIELD]
 		do
-			meta_data := Meta_data_by_type.item (Current)
-			export_names := meta_data.exported_names
-			table := meta_data.field_table
+			l_meta_data := meta_data
+			table := l_meta_data.field_table
 			table.query_by_type (value_table.value_type)
 			query_results := table.last_query
 			from query_results.start until query_results.after loop
-				value_table.set_value (export_names [query_results.item.index], query_results.item.value (Current))
+				value_table.set_value (query_results.item.export_name, query_results.item.value (Current))
 				query_results.forth
 			end
 		end
@@ -192,29 +189,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	recycle (object: like new_current_object)
-		do
-			object.set_object (0)
-			Object_pool.put (object)
-		end
-
 	set_reference_fields (type: TYPE [ANY]; new_object: FUNCTION [STRING, ANY])
 		-- set reference fields of `type' with `new_object' taking a exported name
 		require
 			reference_type: not type.is_expanded
 			type_same_as_function_result_type: new_object.generating_type.generic_parameter_type (2) ~ type
 		local
-			table: EL_REFLECTED_FIELD_TABLE; export_names: ARRAY [STRING]
-			meta_data: like Meta_data_by_type.item
+			table: EL_REFLECTED_FIELD_TABLE; l_meta_data: like meta_data
 		do
-			meta_data := Meta_data_by_type.item (Current)
-			export_names := meta_data.exported_names
-			table := meta_data.field_table
+			l_meta_data := meta_data
+			table := l_meta_data.field_table
 			from table.start until table.after loop
 				if attached {EL_REFLECTED_REFERENCE} table.item_for_iteration as ref_field
 					and then ref_field.type_id = type.type_id
 				then
-					ref_field.set (Current, new_object (export_names [ref_field.index]))
+					ref_field.set (Current, new_object (ref_field.export_name))
 				end
 				table.forth
 			end
@@ -242,11 +231,6 @@ feature {EL_CLASS_META_DATA} -- Constants
 	Meta_data_by_type: EL_FUNCTION_RESULT_TABLE [EL_REFLECTIVE, EL_CLASS_META_DATA]
 		once
 			create Result.make (11, agent {EL_REFLECTIVE}.new_meta_data)
-		end
-
-	frozen Object_pool: ARRAYED_STACK [REFLECTED_REFERENCE_OBJECT]
-		once
-			create Result.make (3)
 		end
 
 	frozen Once_current_object: REFLECTED_REFERENCE_OBJECT

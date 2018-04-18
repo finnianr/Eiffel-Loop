@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-16 19:14:00 GMT (Saturday 16th December 2017)"
-	revision: "4"
+	date: "2018-04-13 12:10:49 GMT (Friday 13th April 2018)"
+	revision: "5"
 
 class
 	PP_BUY_OPTIONS
@@ -42,9 +42,7 @@ feature {NONE} -- Initialization
 
 			create select_parameters.make (id)
 			create price_parameters.make (id)
-			make_from_array (<<
-				create {EL_HTTP_NAME_VALUE_PARAMETER}.make (parameter_name, name), select_parameters, price_parameters
-			>>)
+			make_list (<< new_name_parameter (name), select_parameters, price_parameters >>)
 		end
 
 	make_default
@@ -68,6 +66,13 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
+	new_name_parameter (name: ZSTRING): EL_HTTP_NAME_VALUE_PARAMETER
+		do
+			create Result.make (Name_template #$ [id], name)
+		end
+
+	price_parameters: PP_OPTION_PRICE_PARAMETER_LIST
+
 	price_string (price_x100: INTEGER): ZSTRING
 		local
 			l_price_x100: INTEGER
@@ -84,15 +89,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
-
-	parameter_name: ZSTRING
-		do
-			Result := "OPTION?NAME"
-			Result [7] := id.out [1]
-		end
-
-	price_parameters: PP_OPTION_PRICE_PARAMETER_LIST
-
 	select_parameters: PP_OPTION_SELECT_SUB_PARAMETER_LIST
+
+feature {NONE} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "OPTION%SNAME"
+		end
 
 end

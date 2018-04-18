@@ -1,19 +1,23 @@
 note
-	description: "Summary description for {EL_HTTP_PARAMETER_LIST}."
+	description: "HTTP parameter list"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 12:25:22 GMT (Friday 2nd March 2018)"
-	revision: "4"
+	date: "2018-04-13 13:29:02 GMT (Friday 13th April 2018)"
+	revision: "5"
 
 class
 	EL_HTTP_PARAMETER_LIST [P -> EL_HTTP_PARAMETER]
 
 inherit
 	EL_ARRAYED_LIST [P]
+		rename
+			make as make_size,
+			make_from_array as make
+		end
 
 	EL_HTTP_PARAMETER
 		rename
@@ -23,11 +27,10 @@ inherit
 		end
 
 create
-	make, make_from_array
+	make_size, make
 
 convert
-	make_from_array ({ARRAY [P]})
-
+	make ({ARRAY [P]})
 
 feature -- Conversion
 

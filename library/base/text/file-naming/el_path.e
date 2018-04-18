@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-08 16:43:05 GMT (Thursday 8th March 2018)"
-	revision: "9"
+	date: "2018-04-05 10:58:05 GMT (Thursday 5th April 2018)"
+	revision: "10"
 
 deferred class
 	EL_PATH
@@ -81,16 +81,16 @@ feature {NONE} -- Initialization
 			make (as_zstring (a_path))
 		end
 
-	make_from_path (a_path: PATH)
-		do
-			make_from_general (a_path.name)
-		end
-
 	make_from_other (other: EL_PATH)
 		do
 			base := other.base.twin
 			parent_path := other.parent_path
 			is_absolute := other.is_absolute
+		end
+
+	make_from_path (a_path: PATH)
+		do
+			make_from_general (a_path.name)
 		end
 
 feature -- Initialization
@@ -122,16 +122,6 @@ feature -- Initialization
 
 feature -- Access
 
-	extension: ZSTRING
-			--
-		do
-			if base.has ('.') then
-				Result := base.substring_end (base.last_index_of ('.', base.count) + 1)
-			else
-				create Result.make_empty
-			end
-		end
-
 	base: ZSTRING
 
 	base_sans_extension: ZSTRING
@@ -140,16 +130,19 @@ feature -- Access
 			prune_extension (Result)
 		end
 
-	count: INTEGER
-		-- Character count
+	expanded_path: like Current
 		do
-			Result := parent_path.count + base.count
+			Result := twin
+			Result.expand
 		end
 
-	step_count: INTEGER
+	extension: ZSTRING
+			--
 		do
-			if not is_empty then
-				Result := parent_path.occurrences (Separator) + 1
+			if base.has ('.') then
+				Result := base.substring_end (base.last_index_of ('.', base.count) + 1)
+			else
+				create Result.make_empty
 			end
 		end
 
@@ -174,10 +167,15 @@ feature -- Access
 			end
 		end
 
-	steps: EL_PATH_STEPS
-			--
+	next_version_path: like Current
+			-- Next non existing path with version number before extension
+		require
+			has_version_number: has_version_number
 		do
-			create Result.make (to_string)
+			Result := twin
+			from until not Result.exists loop
+				Result.set_version_number (Result.version_number + 1)
+			end
 		end
 
 	parent: like Type_parent
@@ -190,35 +188,77 @@ feature -- Access
 			end
 		end
 
-	hash_code: INTEGER
-			-- Hash code value
+	relative_path (a_parent: EL_DIR_PATH): like new_relative_path
+		require
+			parent_is_parent: a_parent.is_parent_of (Current)
 		do
-			Result := internal_hash_code
-			if Result = 0 then
-				Result := combined_hash_code (<< parent_path, base >>)
-				internal_hash_code := Result
+			Result := new_relative_path
+			if not a_parent.is_empty then
+				Result.set_parent_path (parent_path.substring_end (a_parent.count + 2))
+			end
+			Result.set_relative
+		end
+
+	universal_relative_path (dir_path: EL_DIR_PATH): like Current
+		-- path steps of `Current' relative to directory `dir_path' using parent notation `..'
+		-- if `dir_path' is not a parent of `Current'
+		local
+			back_step_count: INTEGER; common_path: EL_DIR_PATH
+		do
+			if dir_path.is_empty then
+				Result := Current
+			else
+				from common_path := dir_path until common_path.is_parent_of (Current) loop
+					common_path := common_path.parent
+					back_step_count := back_step_count + 1
+				end
+				Result := relative_path (common_path)
+				if back_step_count > 0 then
+					Result.set_parent_path (Back_dir_step.multiplied (back_step_count) + Result.parent_path)
+				end
 			end
 		end
 
-	relative_steps (dir_path: EL_DIR_PATH): EL_PATH_STEPS
-		-- path steps of `Current' relative to directory `dir_path' using parent notation `..'
-		local
-			l_steps, dir_steps: EL_PATH_STEPS
+	to_path: PATH
 		do
-			create Result.make_with_count (step_count.max (dir_path.step_count))
-			if dir_path.is_empty then
-				Result := steps
-			elseif parent ~ dir_path then
-				Result.extend (Single_dot)
-				Result.extend (base)
-			else
-				l_steps := steps
-				from dir_steps := dir_path.steps until l_steps.starts_with (dir_steps) loop
-					dir_steps.remove_last
-					Result.extend (Double_dot)
+			create Result.make_from_string (as_string_32)
+		end
+
+	to_unix, as_unix: like Current
+		do
+			Result := twin
+			Result.change_to_unix
+		end
+
+	to_windows, as_windows: like Current
+		do
+			Result := twin
+			Result.change_to_windows
+		end
+
+	translated (originals, substitutions: ZSTRING): like Current
+		do
+			Result := twin
+			Result.translate (originals, substitutions)
+		end
+
+	version_interval: INTEGER_INTERVAL
+		local
+			intervals: like base.substring_intervals
+			found: BOOLEAN
+		do
+			intervals := base.split_intervals (Single_dot)
+			from intervals.finish until found or else intervals.before loop
+				if base.substring (intervals.item_lower, intervals.item_upper).is_natural then
+					found := True
+				else
+					intervals.back
 				end
-				l_steps.remove_head (dir_steps.count)
-				Result.append (l_steps)
+			end
+			if found then
+				Result := intervals.item_interval
+			else
+				Result := 1 |..| 0
 			end
 		end
 
@@ -246,23 +286,40 @@ feature -- Access
 			end
 		end
 
-	version_interval: INTEGER_INTERVAL
-		local
-			intervals: like base.substring_intervals
-			found: BOOLEAN
+	with_new_extension (a_new_ext: ZSTRING): like Current
 		do
-			intervals := base.split_intervals (Single_dot)
-			from intervals.finish until found or else intervals.before loop
-				if base.substring (intervals.item_lower, intervals.item_upper).is_natural then
-					found := True
-				else
-					intervals.back
-				end
+			Result := twin
+			Result.replace_extension (a_new_ext)
+		end
+
+	without_extension: like Current
+		do
+			Result := twin
+			Result.remove_extension
+		end
+
+feature -- Measurement
+
+	count: INTEGER
+		-- Character count
+		do
+			Result := parent_path.count + base.count
+		end
+
+	hash_code: INTEGER
+			-- Hash code value
+		do
+			Result := internal_hash_code
+			if Result = 0 then
+				Result := combined_hash_code (<< parent_path, base >>)
+				internal_hash_code := Result
 			end
-			if found then
-				Result := intervals.item_interval
-			else
-				Result := 1 |..| 0
+		end
+
+	step_count: INTEGER
+		do
+			if not is_empty then
+				Result := parent_path.occurrences (Separator) + 1
 			end
 		end
 
@@ -284,6 +341,20 @@ feature -- Status Query
 			end
 		end
 
+	has_step (step: ZSTRING): BOOLEAN
+			-- true if path has directory step
+		local
+			pos_left_separator, pos_right_separator: INTEGER
+		do
+			pos_left_separator := parent_path.substring_index (step, 1) - 1
+			pos_right_separator := pos_left_separator + step.count + 1
+			if 0 <= pos_left_separator and pos_right_separator <= parent_path.count then
+				if parent_path [pos_right_separator] = Separator then
+					Result := pos_left_separator > 0 implies parent_path [pos_left_separator] = Separator
+				end
+			end
+		end
+
 	has_version_number: BOOLEAN
 		do
 			Result := version_number >= 0
@@ -295,6 +366,11 @@ feature -- Status Query
 		deferred
 		end
 
+	is_empty: BOOLEAN
+		do
+			Result := parent_path.is_empty and base.is_empty
+		end
+
 	is_file: BOOLEAN
 		do
 			Result := not is_directory
@@ -302,11 +378,6 @@ feature -- Status Query
 
 	is_uri: BOOLEAN
 		do
-		end
-
-	is_empty: BOOLEAN
-		do
-			Result := parent_path.is_empty and base.is_empty
 		end
 
 	is_valid_on_ntfs: BOOLEAN
@@ -326,20 +397,6 @@ feature -- Status Query
 			Result := not found
 		end
 
-	has_step (step: ZSTRING): BOOLEAN
-			-- true if path has directory step
-		local
-			pos_left_separator, pos_right_separator: INTEGER
-		do
-			pos_left_separator := parent_path.substring_index (step, 1) - 1
-			pos_right_separator := pos_left_separator + step.count + 1
-			if 0 <= pos_left_separator and pos_right_separator <= parent_path.count then
-				if parent_path [pos_right_separator] = Separator then
-					Result := pos_left_separator > 0 implies parent_path [pos_left_separator] = Separator
-				end
-			end
-		end
-
 	out_abbreviated: BOOLEAN
 		-- is the current directory in 'out string' abbreviated to $CWD
 
@@ -357,16 +414,25 @@ feature -- Status change
 
 feature -- Element change
 
-	append_file_path (a_file_path: EL_FILE_PATH)
-		require
-			current_not_a_file: not is_file
+	add_extension (a_extension: ZSTRING)
+		local
+			l_base: ZSTRING
 		do
-			append (a_file_path)
+			create l_base.make (base.count + a_extension.count + 1)
+			l_base.append (base); l_base.append_character ('.'); l_base.append (a_extension)
+			base := l_base
 		end
 
 	append_dir_path (a_dir_path: EL_DIR_PATH)
 		do
 			append (a_dir_path)
+		end
+
+	append_file_path (a_file_path: EL_FILE_PATH)
+		require
+			current_not_a_file: not is_file
+		do
+			append (a_file_path)
 		end
 
 	append_step (a_step: ZSTRING)
@@ -384,15 +450,6 @@ feature -- Element change
 			set_parent_path (l_parent_path)
 			base.wipe_out
 			base.append (a_step)
-		end
-
-	add_extension (a_extension: ZSTRING)
-		local
-			l_base: ZSTRING
-		do
-			create l_base.make (base.count + a_extension.count + 1)
-			l_base.append (base); l_base.append_character ('.'); l_base.append (a_extension)
-			base := l_base
 		end
 
 	change_to_unix
@@ -435,6 +492,11 @@ feature -- Element change
 			add_extension (a_replacement)
 		end
 
+	set_base (a_base: like base)
+		do
+			base := a_base
+		end
+
 	set_parent_path (a_parent: ZSTRING)
 		local
 			l_parent_set: like Parent_set; l_parent: ZSTRING
@@ -472,11 +534,6 @@ feature -- Element change
 			base.replace_substring_general (l_integer.formatted (number), interval.lower, interval.upper)
 		end
 
-	set_base (a_base: like base)
-		do
-			base := a_base
-		end
-
 	share (other: like Current)
 		do
 			base := other.base
@@ -499,48 +556,14 @@ feature -- Removal
 
 feature -- Conversion
 
+	as_string_32: STRING_32
+		do
+			Result := to_string.to_string_32
+		end
+
 	escaped: ZSTRING
 		do
 			Result := File_system.escaped_path (Current)
-		end
-
-	expanded_path: like Current
-		do
-			Result := twin
-			Result.expand
-		end
-
-	next_version_path: like Current
-			-- Next non existing path with version number before extension
-		require
-			has_version_number: has_version_number
-		do
-			Result := twin
-			from until not Result.exists loop
-				Result.set_version_number (Result.version_number + 1)
-			end
-		end
-
-	relative_path (a_parent: EL_DIR_PATH): like new_relative_path
-		require
-			parent_is_parent: a_parent.is_parent_of (Current)
-		do
-			Result := new_relative_path
-			Result.set_parent_path (parent_path.substring_end (a_parent.count + 2))
-			Result.set_relative
-		end
-
-	to_string: ZSTRING
-			--
-		do
-			create Result.make (parent_path.count + base.count)
-			Result.append (parent_path)
-			Result.append (base)
-		end
-
-	to_path: PATH
-		do
-			create Result.make_from_string (as_string_32)
 		end
 
 	out: STRING
@@ -555,39 +578,18 @@ feature -- Conversion
 			Result := l_out
 		end
 
-	to_unix, as_unix: like Current
+	steps: EL_PATH_STEPS
+			--
 		do
-			Result := twin
-			Result.change_to_unix
+			create Result.make (to_string)
 		end
 
-	to_windows, as_windows: like Current
+	to_string: ZSTRING
+			--
 		do
-			Result := twin
-			Result.change_to_windows
-		end
-
-	translated (originals, substitutions: ZSTRING): like Current
-		do
-			Result := twin
-			Result.translate (originals, substitutions)
-		end
-
-	as_string_32: STRING_32
-		do
-			Result := to_string.to_string_32
-		end
-
-	without_extension: like Current
-		do
-			Result := twin
-			Result.remove_extension
-		end
-
-	with_new_extension (a_new_ext: ZSTRING): like Current
-		do
-			Result := twin
-			Result.replace_extension (a_new_ext)
+			create Result.make (parent_path.count + base.count)
+			Result.append (parent_path)
+			Result.append (base)
 		end
 
 feature -- Comparison
@@ -668,12 +670,23 @@ feature {EL_PATH} -- Implementation
 			end
 		end
 
+	internal_hash_code: INTEGER
+
 	is_potenially_expandable (a_path: ZSTRING): BOOLEAN
 		local
 			pos_dollor: INTEGER
 		do
 			pos_dollor := a_path.index_of ('$', 1)
 			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
+		end
+
+	new_relative_path: EL_PATH
+		deferred
+		end
+
+	prune_extension (a_name: like base)
+		do
+			a_name.remove_tail (a_name.count - a_name.last_index_of ('.', a_name.count) + 1 )
 		end
 
 	remove_base
@@ -701,17 +714,6 @@ feature {EL_PATH} -- Implementation
 			set_parent_path (l_path)
 		end
 
-	prune_extension (a_name: like base)
-		do
-			a_name.remove_tail (a_name.count - a_name.last_index_of ('.', a_name.count) + 1 )
-		end
-
-	new_relative_path: EL_PATH
-		deferred
-		end
-
-	internal_hash_code: INTEGER
-
 feature {NONE} -- Type definitions
 
 	Type_parent: EL_DIR_PATH
@@ -733,21 +735,9 @@ feature -- Constants
 
 feature {NONE} -- Constants
 
-	Single_dot: ZSTRING
+	Back_dir_step: ZSTRING
 		once
-			Result := "."
-		end
-
-	Double_dot: ZSTRING
-		once
-			Result := ".."
-		end
-
-	Magic_number: INTEGER = 8388593
-
-	Forward_slash: ZSTRING
-		once
-			Result := "/"
+			Result := "../"
 		end
 
 	Empty_path: ZSTRING
@@ -757,21 +747,33 @@ feature {NONE} -- Constants
 		-- Greatest prime lower than 2^23
 		-- so that this magic number shifted to the left does not exceed 2^31.
 
-	Parent_set: DS_HASH_SET [ZSTRING]
-			--
+	Forward_slash: ZSTRING
 		once
-			create Result.make_equal (100)
-		end
-
-	Variable_cwd: ZSTRING
-		once
-			Result := "$CWD"
+			Result := "/"
 		end
 
 	Integer: FORMAT_INTEGER
 		once
 			create Result.make (2)
 			Result.zero_fill
+		end
+
+	Magic_number: INTEGER = 8388593
+
+	Parent_set: DS_HASH_SET [ZSTRING]
+			--
+		once
+			create Result.make_equal (100)
+		end
+
+	Single_dot: ZSTRING
+		once
+			Result := "."
+		end
+
+	Variable_cwd: ZSTRING
+		once
+			Result := "$CWD"
 		end
 
 invariant

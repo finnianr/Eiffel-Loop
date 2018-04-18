@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 12:29:22 GMT (Saturday 3rd March 2018)"
-	revision: "7"
+	date: "2018-04-08 12:53:16 GMT (Sunday 8th April 2018)"
+	revision: "9"
 
 class
 	ZSTRING_TEST_SET
@@ -50,8 +50,7 @@ feature {NONE} -- Events
 
 	on_prepare
 		do
-			set_system_codec (create {EL_ISO_8859_1_ZCODEC}.make)
---			set_system_codec (create {EL_ISO_8859_15_ZCODEC}.make)
+--			set_system_codec (create {EL_ISO_8859_1_ZCODEC}.make)
 		end
 
 feature -- Conversion tests
@@ -239,7 +238,7 @@ feature -- Element change tests
 
 	test_xml_escape
 		local
-			xml_escaper: EL_XML_CHARACTER_ESCAPER [ZSTRING]; xml_escaper_32: EL_XML_CHARACTER_ESCAPER [STRING_32]
+			xml_escaper: EL_XML_ZSTRING_ESCAPER; xml_escaper_32: EL_XML_STRING_32_ESCAPER
 		do
 			create xml_escaper.make; create xml_escaper_32.make
 			escape_test ("XML basic", xml_escaper, xml_escaper_32)
@@ -250,9 +249,9 @@ feature -- Element change tests
 
 	test_bash_escape
 		local
-			bash_escaper: EL_ZSTRING_BASH_PATH_CHARACTER_ESCAPER; bash_escaper_32: EL_BASH_PATH_CHARACTER_ESCAPER [STRING_32]
+			bash_escaper: EL_BASH_PATH_ZSTRING_ESCAPER; bash_escaper_32: EL_BASH_PATH_STRING_32_ESCAPER
 		do
-			create bash_escaper; create bash_escaper_32
+			create bash_escaper.make; create bash_escaper_32.make
 			escape_test ("BASH", bash_escaper, bash_escaper_32)
 		end
 
@@ -516,7 +515,7 @@ feature -- Element change tests
 			testing:	"covers/{ZSTRING}.unescape"
 		local
 			str: ZSTRING; str_32: STRING_32
-			escape_table: EL_ESCAPE_TABLE; escape_table_32: like new_escape_table
+			escape_table: EL_ZSTRING_UNESCAPER; escape_table_32: like new_escape_table
 			escape_character: CHARACTER_32
 		do
 			across << ('\').to_character_32, 'л' >> as l_escape_character loop
@@ -841,7 +840,7 @@ feature {NONE} -- Implementation
 			assert ("to_lower OK", upper.as_lower.to_unicode ~ lower_32)
 		end
 
-	escape_test (name: STRING; escaper: EL_CHARACTER_ESCAPER [ZSTRING]; escaper_32: EL_CHARACTER_ESCAPER [STRING_32])
+	escape_test (name: STRING; escaper: EL_ZSTRING_ESCAPER; escaper_32: EL_STRING_32_ESCAPER)
 		local
 			str_32: STRING_32; str: ZSTRING
 		do
@@ -849,7 +848,7 @@ feature {NONE} -- Implementation
 				str_32 := string.item.twin
 				String_32.replace_character (str_32, '+', '&')
 				str := str_32
-				assert (name + " escape OK", escaper.escaped (str).to_unicode ~ escaper_32.escaped (str_32))
+				assert (name + " escape OK", escaper.escaped (str, False).to_unicode ~ escaper_32.escaped (str_32, False))
 			end
 		end
 

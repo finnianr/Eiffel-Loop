@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-22 16:51:58 GMT (Monday 22nd January 2018)"
-	revision: "3"
+	date: "2018-04-10 13:15:43 GMT (Tuesday 10th April 2018)"
+	revision: "4"
 
 class
 	PP_DATE_TIME
@@ -33,6 +33,11 @@ inherit
 			make
 		end
 
+	EL_STRING_CONSTANTS
+		undefine
+			is_equal, copy, out
+		end
+
 create
 	make, make_now
 
@@ -40,13 +45,28 @@ feature {EL_DATE_TEXT} -- Initialization
 
 	make (s: STRING)
 		-- use either GMT format or PDT
+		local
+			spaces: EL_OCCURRENCE_INTERVALS [STRING]; l_zone: STRING
 		do
-			if s.has_substring (Zone.PST) and s.occurrences (',') = 1 then
-				make_from_pst (s)
-			elseif s.has_substring (Zone.GMT) and s.occurrences (' ') = 6 then
-				make_from_gmt (s)
+			create spaces.make (s, Space_string_8)
+			inspect spaces.count
+				when 4 then
+					l_zone := s.substring (spaces.last_upper + 1, spaces.last_upper + 3)
+				when 6 then
+					spaces.go_i_th (5)
+					l_zone := s.substring (spaces.item_upper + 1, spaces.item_upper + 3)
 			else
-				Precursor (s)
+				l_zone := Empty_string_8
+			end
+			UTC_adjust.search (l_zone)
+			if UTC_adjust.found then
+				if l_zone ~ Zone_gmt then
+					make_from_gmt (s)
+				else
+					make_from_zone (s, l_zone)
+				end
+			else
+				make_now
 			end
 		end
 
@@ -54,28 +74,33 @@ feature {EL_DATE_TEXT} -- Initialization
 		-- make from example: "Wed Dec 20 2017 09:10:46 GMT+0000 (GMT)"
 		require
 			has_6_spaces: s.occurrences (' ') = 6
-			gmt_zone: s.has_substring (Zone.GMT)
+			gmt_zone: s.has_substring (Zone_gmt)
 			has_2_colons: s.occurrences (':') = 2
 		do
-			make_from_zone_and_format (s, Zone.GMT, Format.date_time, 5)
+			make_from_zone_and_format (s, Zone_gmt, Format.date_time, 5)
+			-- 5 means ignore "Wed "
 		end
 
-	make_from_pst (s: STRING)
+	make_from_zone (s, a_zone: STRING)
 		-- make from example "19:35:01 Apr 09, 2016 PST+1"
 		require
 			has_3_spaces: s.occurrences (' ') = 4
 			has_1_comma: s.occurrences (',') = 1
 			has_2_colons: s.occurrences (':') = 2
 		do
-			make_from_zone_and_format (s, Zone.PST, Format.time_date, 1)
-			hour_add (8)
+			make_utc_from_zone_and_format (s, a_zone, Format.time_date, 1, UTC_adjust [a_zone])
 		end
 
 feature -- Constants
 
-	Zone: TUPLE [PST, GMT: STRING]
+	Zone_gmt: STRING = "GMT"
+
+	UTC_adjust: EL_HASH_TABLE [INTEGER, STRING]
+		-- Zone adjustments to UTC
 		once
-			Result := ["PST", "GMT"]
+			create Result.make (<<
+				[Zone_gmt, 0], ["PDT", 7], ["PST", 8]
+			>>)
 		end
 
 feature {NONE} -- Constants

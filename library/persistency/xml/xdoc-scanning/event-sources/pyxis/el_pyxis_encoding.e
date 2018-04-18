@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-23 20:26:14 GMT (Friday 23rd March 2018)"
-	revision: "4"
+	date: "2018-04-10 14:55:48 GMT (Tuesday 10th April 2018)"
+	revision: "5"
 
 class
 	EL_PYXIS_ENCODING
@@ -18,7 +18,7 @@ inherit
 			make as make_machine
 		end
 
-	EL_ENCODEABLE_AS_TEXT
+	EL_ENCODING
 
 create
 	make_from_file
@@ -43,7 +43,7 @@ feature {NONE} -- State handlers
 		do
 			start_index := line.substring_index (Attribute_encoding, 1)
 			if start_index.to_boolean then
-				set_encoding_from_name (line.substring_between (Double_quote, Double_quote, start_index + Attribute_encoding.count))
+				set_from_name (line.substring_between (Double_quote, Double_quote, start_index + Attribute_encoding.count))
 				state := final
 			end
 		end

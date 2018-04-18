@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-03 14:30:11 GMT (Tuesday 3rd April 2018)"
+	revision: "3"
 
 class
 	UC_UTF8_STRING_BENCHMARK
@@ -136,6 +136,6 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	xml_escaper: EL_XML_CHARACTER_ESCAPER [UC_UTF8_STRING]
+	xml_escaper: XML_UC_UTF8_STRING_ESCAPER
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-28 6:44:55 GMT (Sunday 28th May 2017)"
-	revision: "2"
+	date: "2018-04-05 11:02:42 GMT (Thursday 5th April 2018)"
+	revision: "3"
 
 class
 	EL_PATH_TEST_SET
@@ -25,29 +25,34 @@ inherit
 			default_create
 		end
 
+	EL_MODULE_OS
+		undefine
+			default_create
+		end
+
 feature -- Tests
 
-	test_relative_path
+	test_universal_relative_path
 		local
-			find: like Command.new_find_files
-			path_1, path_2: EL_FILE_PATH
-			relative_steps: EL_PATH_STEPS
+			path_1, relative_path: EL_FILE_PATH; path_2: EL_DIR_PATH
 		do
-			find := Command.new_find_files (Eiffel_dir, "*.e")
-			find.execute
-			across find.path_list.twin as p1 loop
+			log.enter ("test_universal_relative_path")
+			across OS.file_list (Eiffel_dir, "*.e") as p1 loop
 				path_1 := p1.item.relative_path (Eiffel_dir)
 				log.put_path_field ("class", path_1)
 				log.put_new_line
-				across find.path_list as p2 loop
-					path_2 := p2.item.relative_path (Eiffel_dir)
-					relative_steps := path_2.relative_steps (path_1.parent)
+				across OS.directory_list (Eiffel_dir) as p2 loop
+					if Eiffel_dir.is_parent_of (p2.item) then
+						path_2 := p2.item.relative_path (Eiffel_dir)
+						relative_path := path_1.universal_relative_path (path_2)
 
-					Execution_environment.push_current_working (p1.item.parent)
-					assert ("Path exists", relative_steps.as_file_path.exists)
-					Execution_environment.pop_current_working
+						Execution_environment.push_current_working (p2.item)
+						assert ("Path exists", relative_path.exists)
+						Execution_environment.pop_current_working
+					end
 				end
 			end
+			log.exit
 		end
 
 	test_parent_of
@@ -78,7 +83,8 @@ feature {NONE} -- Constants
 
 	Eiffel_dir: EL_DIR_PATH
 		once
-			Result := "Eiffel"
+			Result := "$EIFFEL_LOOP/tool/eiffel/test-data"
+			Result.expand
 		end
 
 end

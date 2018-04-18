@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-04 14:24:19 GMT (Sunday 4th March 2018)"
-	revision: "1"
+	date: "2018-04-07 15:06:26 GMT (Saturday 7th April 2018)"
+	revision: "2"
 
 class
 	EL_UTF_8_ZCODEC
@@ -20,7 +20,7 @@ inherit
 			as_unicode, write_encoded, write_encoded_character
 		end
 
-	UTF_CONVERTER
+	EL_UTF_CONVERTER
 		rename
 			utf_32_string_into_utf_8_string_8 as write_string_general_to_utf_8
 		export

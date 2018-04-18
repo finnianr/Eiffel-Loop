@@ -18,8 +18,6 @@ inherit
 			make
 		end
 
-	EL_MODULE_LOG
-
 create
 	make
 
@@ -30,10 +28,8 @@ feature {NONE} -- Initialization
 		local
 			seeder: EL_RANDOM_SEED_INTEGER_X
 		do
-			log.enter_with_args ("make", << bits >>)
 			create seeder
 			Precursor (bits)
-			log.exit
 		end
 
 end

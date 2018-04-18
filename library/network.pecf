@@ -72,9 +72,6 @@ system:
 
 		# Source code
 		cluster:
-			name = http_util; location = "../contrib/Eiffel/etar/src/util"
-
-		cluster:
 			name = EL_net_base; location = "network/base"; recursive = true
 			option:
 				namespace = "Eiffel-Loop-net"

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-28 17:30:14 GMT (Sunday 28th May 2017)"
-	revision: "3"
+	date: "2018-04-03 14:25:31 GMT (Tuesday 3rd April 2018)"
+	revision: "4"
 
 class
 	CODEC_INFO
@@ -29,7 +29,7 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_MODULE_STRING_8
+	EL_MODULE_HEXADECIMAL
 
 create
 	make
@@ -222,18 +222,18 @@ feature {NONE} -- Pattern definitions
 
 feature {NONE} -- Match actions
 
-	on_latin_code (hexadecimal: EL_STRING_VIEW)
+	on_latin_code (a_hexadecimal: EL_STRING_VIEW)
 			--
 		do
-			last_latin_code := String_8.hexadecimal_to_integer (hexadecimal.to_string_8)
+			last_latin_code := Hexadecimal.to_integer (a_hexadecimal)
 			latin_characters.extend (create {LATIN_CHARACTER}.make (last_latin_code.to_natural_32))
 			latin_table [last_latin_code] := latin_characters.last
 		end
 
-	on_unicode (hexadecimal: EL_STRING_VIEW)
+	on_unicode (a_hexadecimal: EL_STRING_VIEW)
 			--
 		do
-			latin_table.item (last_latin_code).set_unicode (String_8.hexadecimal_to_integer (hexadecimal).to_natural_32)
+			latin_table.item (last_latin_code).set_unicode (Hexadecimal.to_natural_32 (a_hexadecimal))
 		end
 
 	on_comment (a_comment: EL_STRING_VIEW)

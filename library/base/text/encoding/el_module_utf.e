@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-07 14:49:47 GMT (Saturday 7th April 2018)"
+	revision: "3"
 
 class
 	EL_MODULE_UTF
 
 feature -- Access
 
-	UTF: UTF_CONVERTER
+	UTF: EL_UTF_CONVERTER
 
 end

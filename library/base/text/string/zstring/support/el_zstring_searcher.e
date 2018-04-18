@@ -6,24 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-04 12:55:33 GMT (Sunday 4th March 2018)"
-	revision: "3"
+	date: "2018-04-06 11:23:06 GMT (Friday 6th April 2018)"
+	revision: "4"
 
 frozen class
 	EL_ZSTRING_SEARCHER
 
 inherit
 	STRING_SEARCHER
+		rename
+			max_code_point_value as max_code_point_integer
+		redefine
+			internal_initialize_deltas
+		end
 
 	STRING_HANDLER
 
 create
 	make
-
-feature -- Access
-
-	max_code_point_value: INTEGER = 2_000
-			-- We optimize the search for the first 2000 code points of Unicode (i.e. using 8KB of memory).
 
 feature -- Search
 
@@ -88,9 +88,9 @@ feature -- Search
 										j > fuzzy
 									loop
 										l_char_code := z_code (l_area, i + l_pattern_count - j - 1, a_string)
-										if l_char_code.to_integer_32 > max_code_point_value then
+										if l_char_code > Max_code_point_value then
 												-- No optimization for a characters above
-												-- `max_code_point_value'.
+												-- `Max_code_point_value'.
 											l_min_offset := 1
 											j := fuzzy + 1 -- Jump out of loop
 										else
@@ -158,7 +158,7 @@ feature -- Search
 							-- Pattern was not found, shift to next location
 						if i + l_pattern_count <= end_pos then
 							l_char_code := z_code (l_area, i + l_pattern_count - 1, a_string)
-							if l_char_code.to_integer_32 > max_code_point_value then
+							if l_char_code > Max_code_point_value then
 									-- Character is too big, we revert to a slow comparison
 								i := i + 1
 							else
@@ -173,6 +173,32 @@ feature -- Search
 		end
 
 feature {NONE} -- Implementation
+
+	internal_initialize_deltas (a_pattern: READABLE_STRING_GENERAL; a_pattern_count: INTEGER; a_deltas: like deltas)
+			-- Initialize `a_deltas' with `a_pattern'.
+			-- Optimized for the top `max_code_point_value' characters only.
+		local
+			i: INTEGER; l_char_code: NATURAL
+		do
+				-- Initialize the delta table (one more than pattern count).
+			a_deltas.fill_with (a_pattern_count + 1, 0, Max_code_point_integer)
+
+				-- Now for each character within the pattern, fill in shifting necessary
+				-- to bring the pattern to the character. The rightmost value is kept, as
+				-- we scan the pattern from left to right (ie. if there is two 'a', only the
+				-- delta associated with the second --rightmost-- will be kept).
+			from
+				i := 0
+			until
+				i = a_pattern_count
+			loop
+				l_char_code := a_pattern.code (i + 1)
+				if l_char_code <= max_code_point_value then
+					a_deltas.put (a_pattern_count - i, l_char_code.to_integer_32)
+				end
+				i := i + 1
+			end
+		end
 
 	z_code (a_string_area: SPECIAL [CHARACTER]; i: INTEGER; a_string: like String_type): NATURAL
 			-- code which can be latin or unicode depending on presence of unencoded characters
@@ -196,5 +222,18 @@ feature {NONE} -- Constants
 		end
 
 	Unencoded_character: CHARACTER = '%/026/'
+
+	Max_code_point_value: NATURAL = 2_000
+		-- We optimize the search for the first 2000 code points of Unicode (i.e. using 8KB of memory).
+
+		-- We need the NATURAL value because of the z_code `Sign_bit', which means we cannot
+		-- compare with an integer. This conditional will not branch correctly:
+
+		--    if l_char_code <= max_code_point_integer then
+
+	Max_code_point_integer: INTEGER = 2000
+		-- We optimize the search for the first 2000 code points of Unicode (i.e. using 8KB of memory).
+
+		-- Ideally we want this to be type NATURAL but we are stuck with how it's defined in STRING_SEARCHER
 
 end

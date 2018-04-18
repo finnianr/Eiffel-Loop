@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 13:50:13 GMT (Saturday 2nd December 2017)"
-	revision: "2"
+	date: "2018-04-07 16:02:09 GMT (Saturday 7th April 2018)"
+	revision: "3"
 
 class
 	EL_JSON_NAME_VALUE_LIST
@@ -21,19 +21,19 @@ inherit
 			off
 		end
 
-	EL_JSON_ROUTINES
-		undefine
-			is_equal, copy, out
-		end
-
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_string: STRING)
+	make (utf_8: STRING)
+		local
+			l_string: ZSTRING
 		do
-			create split_list.make (a_string, Quotation_mark)
+			create name_8.make (20)
+			create l_string.make_from_utf_8 (utf_8)
+			l_string.replace_substring_all (Escaped_quotation_mark, Utf_16_quotation_mark)
+			create split_list.make (l_string, Quotation_mark)
 			count := (split_list.count - 1) // 4
 		ensure
 			exactly_divisable: (split_list.count - 1) \\ 4 = 0
@@ -52,30 +52,23 @@ feature -- Iteration items
 			Result := [name_item, value_item]
 		end
 
+	name_item_8: STRING
+		do
+			Result := name_8
+			name_8.wipe_out
+			name_item.append_to_string_8 (name_8)
+		end
+
 	name_item: ZSTRING
 		do
 			split_list.go_i_th (list_index)
-			Result := decoded (split_list.item)
-		end
-
-	name_item_8: STRING
-		-- `twin' this if keeping a copy
-		do
-			split_list.go_i_th (list_index)
-			Result := split_list.item
+			create Result.make_unescaped (Unescaper, split_list.item)
 		end
 
 	value_item: ZSTRING
 		do
 			split_list.go_i_th (list_index + 2)
-			Result := decoded (split_list.item)
-		end
-
-	value_item_8: STRING
-		-- `twin' this if keeping a copy
-		do
-			split_list.go_i_th (list_index + 2)
-			Result := split_list.item
+			create Result.make_unescaped (Unescaper, split_list.item)
 		end
 
 feature -- Cursor movement
@@ -122,6 +115,30 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	split_list: EL_SPLIT_STRING_LIST [STRING]
+	split_list: EL_SPLIT_ZSTRING_LIST
+
+	name_8: STRING
+
+feature {NONE} -- Constants
+
+	Escaped_quotation_mark: ZSTRING
+		once
+			Result := "\%""
+		end
+
+	Utf_16_quotation_mark: ZSTRING
+		once
+			Result := "\u0022"
+		end
+
+	Quotation_mark: ZSTRING
+		once
+			Result := "%""
+		end
+
+	Unescaper: EL_JSON_UNESCAPER
+		once
+			create Result.make
+		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 10:25:02 GMT (Saturday 2nd December 2017)"
-	revision: "7"
+	date: "2018-04-05 13:06:22 GMT (Thursday 5th April 2018)"
+	revision: "8"
 
 class
 	REPOSITORY_SOURCE_TREE
@@ -105,7 +105,7 @@ feature -- Basic operations
 				source_path := list.path
 				if source_path.parent /~ parent_dir then
 					create class_list.make (10)
-					create source_directory.make (dir_path, class_list, directory_list.count + 1)
+					create source_directory.make (dir_path.relative_path (repository.root_dir), class_list, directory_list.count + 1)
 					directory_list.extend (source_directory)
 					parent_dir := source_path.parent
 				end

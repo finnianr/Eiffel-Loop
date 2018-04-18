@@ -1,7 +1,8 @@
 note
 	description: "[
-		Payment status codes. See Payment information variables in IPN integration guide:
-		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#id091EB04C0HS]
+		Payment status codes. See
+		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#id091EB04C0HS
+		Payment information variables] in IPN integration guide.
 	]"
 
 	author: "Finnian Reilly"

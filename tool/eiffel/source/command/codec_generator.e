@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-23 20:46:31 GMT (Friday 23rd March 2018)"
-	revision: "6"
+	date: "2018-04-03 14:23:39 GMT (Tuesday 3rd April 2018)"
+	revision: "7"
 
 class
 	CODEC_GENERATOR
@@ -33,7 +33,7 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			make_machine
 			source_path := a_source_path.steps.expanded_path.as_file_path
 			template_path := a_template_path
-			Evolicity_templates.put_from_file (template_path, Utf_8_encoding)
+			Evolicity_templates.put_file (template_path, Utf_8_encoding)
 			create codec_list.make (20)
 		end
 

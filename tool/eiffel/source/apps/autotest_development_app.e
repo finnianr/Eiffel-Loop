@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-13 9:24:36 GMT (Friday 13th October 2017)"
-	revision: "8"
+	date: "2018-04-11 15:18:14 GMT (Wednesday 11th April 2018)"
+	revision: "10"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -28,19 +28,25 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent publisher_test_set.test_publisher)
---			do_file_data_test (agent publisher_test_set.test_regression (1774969085))
---			do_file_data_test (agent note_editor_test_set.test_editor_with_new_class)
+--			do_file_data_test (agent publisher.test_publisher)
+			do_file_data_test (agent publisher.test_regression (155518232))
+--			do_file_data_test (agent undefine_pattern_counter.test_command)
+--			do_file_data_test (agent note_editor.test_editor_with_new_class)
 		end
 
 feature {NONE} -- Test
 
-	publisher_test_set: REPOSITORY_PUBLISHER_TEST_SET
+	publisher: REPOSITORY_PUBLISHER_TEST_SET
 		do
 			create Result
 		end
 
-	note_editor_test_set: NOTE_EDITOR_TEST_SET
+	note_editor: NOTE_EDITOR_TEST_SET
+		do
+			create Result
+		end
+
+	undefine_pattern_counter: UNDEFINE_PATTERN_COUNTER_TEST_SET
 		do
 			create Result
 		end
@@ -55,7 +61,9 @@ feature {NONE} -- Constants
 				[{REPOSITORY_SOURCE_TREE}, All_routines],
 				[{REPOSITORY_SOURCE_TREE_PAGE}, All_routines],
 				[{NOTE_EDITOR_TEST_SET}, All_routines],
-				[{REPOSITORY_PUBLISHER_TEST_SET}, All_routines]
+				[{REPOSITORY_PUBLISHER_TEST_SET}, All_routines],
+				[{UNDEFINE_PATTERN_COUNTER_TEST_SET}, All_routines],
+				[{TEST_UNDEFINE_PATTERN_COUNTER_COMMAND}, All_routines]
 			>>
 		end
 

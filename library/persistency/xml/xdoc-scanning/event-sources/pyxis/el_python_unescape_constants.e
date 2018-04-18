@@ -6,46 +6,42 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-09 13:37:51 GMT (Monday 9th April 2018)"
+	revision: "4"
 
 class
 	EL_PYTHON_UNESCAPE_CONSTANTS
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Escape_character: CHARACTER_32 = '\'
-
-	Double_quote_escape_table_32: HASH_TABLE [CHARACTER_32, CHARACTER_32]
-		once
-			create Result.make (4)
-			Result.merge (Basic_escape_tuples)
-			Result ['"'] := '"'
-		end
-
-	Single_quote_escape_table_32: HASH_TABLE [CHARACTER_32, CHARACTER_32]
-		once
-			create Result.make (4)
-			Result.merge (Basic_escape_tuples)
-			Result ['%''] := '%''
-		end
-
-	Basic_escape_tuples: HASH_TABLE [CHARACTER_32, CHARACTER_32]
-		once
+	new_escape_table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
+		do
 			create Result.make (3)
 			Result [Escape_character] := Escape_character
 			Result ['n'] := '%N'
 			Result ['t'] := '%T'
 		end
 
-	Double_quote_escape_table: EL_ESCAPE_TABLE
-		do
-			create Result.make (Escape_character, Double_quote_escape_table_32)
+feature {NONE} -- Constants
+
+	Escape_character: CHARACTER_32 = '\'
+
+	Single_quote_unescaper: EL_ZSTRING_UNESCAPER
+		local
+			table: like new_escape_table
+		once
+			table := new_escape_table
+			table ['%''] := '%''
+			create Result.make (Escape_character, table)
 		end
 
-	Single_quote_escape_table: EL_ESCAPE_TABLE
-		do
-			create Result.make (Escape_character, Single_quote_escape_table_32)
+	Double_quote_unescaper: EL_ZSTRING_UNESCAPER
+		local
+			table: like new_escape_table
+		once
+			table := new_escape_table
+			table ['"'] := '"'
+			create Result.make (Escape_character, table)
 		end
 
 end

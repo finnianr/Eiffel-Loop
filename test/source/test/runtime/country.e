@@ -1,5 +1,5 @@
 note
-	description: "Test for similar type of class [$source EL_PAYPAL_TRANSACTION]"
+	description: "Test for reflective classes [$source EL_REFLECTIVELY_SETTABLE] and [$source EL_SETTABLE_FROM_ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"

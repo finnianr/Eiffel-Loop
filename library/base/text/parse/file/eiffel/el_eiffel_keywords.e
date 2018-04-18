@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_EIFFEL_KEYWORDS}."
+	description: "Common Eiffel keywords and keyword lists"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-31 16:20:56 GMT (Monday 31st July 2017)"
-	revision: "1"
+	date: "2018-04-11 14:39:53 GMT (Wednesday 11th April 2018)"
+	revision: "3"
 
 class
 	EL_EIFFEL_KEYWORDS
@@ -34,6 +34,11 @@ feature {NONE} -- Keywords
 			Result := "end"
 		end
 
+	Keyword_expanded: ZSTRING
+		once
+			Result := "expanded"
+		end
+
 	Keyword_feature: ZSTRING
 		once
 			Result := "feature"
@@ -54,6 +59,11 @@ feature {NONE} -- Keywords
 			Result := "indexing"
 		end
 
+	Keyword_inherit: ZSTRING
+		once
+			Result := "inherit"
+		end
+
 	Keyword_note: ZSTRING
 		once
 			Result := "note"
@@ -62,6 +72,21 @@ feature {NONE} -- Keywords
 	Keyword_once: EL_ZSTRING
 		once
 			Result := "once"
+		end
+
+	Keyword_undefine: EL_ZSTRING
+		once
+			Result := "undefine"
+		end
+
+	Keyword_redefine: EL_ZSTRING
+		once
+			Result := "redefine"
+		end
+
+	Keyword_rename: EL_ZSTRING
+		once
+			Result := "rename"
 		end
 
 feature {NONE} -- Keyword lists
@@ -78,7 +103,7 @@ feature {NONE} -- Keyword lists
 
 	Class_declaration_keywords: EL_ZSTRING_LIST
 		once
-			Result := << Keyword_frozen, Keyword_deferred, Keyword_class >>
+			Result := << Keyword_expanded, Keyword_frozen, Keyword_deferred, Keyword_class >>
 		end
 
 	Routine_start_keywords: EL_ZSTRING_LIST

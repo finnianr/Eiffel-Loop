@@ -2,11 +2,17 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 7); build = 35
+version = (1, 0, 9); build = 40
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.9
+# Added UNDEFINE_PATTERN_COUNTER_APP
+
+# 1.0.8
+# Fixed relative links in class description for source directory listing
 
 # 1.0.7
 # Added source link class name checks to repository publisher

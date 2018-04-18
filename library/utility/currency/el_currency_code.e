@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_CURRENCY_CODE_NAME}."
+	description: "Reflectively settable currency code"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 5:58:35 GMT (Monday 18th December 2017)"
-	revision: "2"
+	date: "2018-04-13 16:48:12 GMT (Friday 13th April 2018)"
+	revision: "3"
 
 class
 	EL_CURRENCY_CODE

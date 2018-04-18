@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-09 13:35:34 GMT (Monday 9th April 2018)"
+	revision: "3"
 
 class
 	EL_PYXIS_ATTRIBUTE_PARSER
@@ -101,9 +101,9 @@ feature {NONE} -- Title parsing actions
 		do
 			last_attribute.value := matched_text.to_string
 			if is_double_quote then
-				last_attribute.value.unescape (Double_quote_escape_table)
+				last_attribute.value.unescape (Double_quote_unescaper)
 			else
-				last_attribute.value.unescape (Single_quote_escape_table)
+				last_attribute.value.unescape (Single_quote_unescaper)
 			end
 		end
 

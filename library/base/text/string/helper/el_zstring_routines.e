@@ -6,18 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-28 13:40:29 GMT (Wednesday 28th February 2018)"
-	revision: "4"
+	date: "2018-04-02 13:14:09 GMT (Monday 2nd April 2018)"
+	revision: "5"
 
 class
 	EL_ZSTRING_ROUTINES
 
 inherit
-	EL_HEXADECIMAL_ROUTINES [ZSTRING]
-		export
-			{NONE} all
-		end
-
 	EL_SHARED_ONCE_STRINGS
 
 	EL_STRING_CONSTANTS

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-07 11:10:27 GMT (Saturday 7th April 2018)"
+	revision: "3"
 
 class
 	EL_EXTENDABLE_UNENCODED_CHARACTERS
@@ -44,6 +44,11 @@ feature -- Access
 		end
 
 feature -- Element change
+
+	extend_z_code (a_z_code: NATURAL; index: INTEGER)
+		do
+			extend (z_code_to_unicode (a_z_code), index)
+		end
 
 	extend (a_code: NATURAL; index: INTEGER)
 		local

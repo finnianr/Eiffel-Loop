@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-08 11:22:59 GMT (Thursday 8th March 2018)"
-	revision: "16"
+	date: "2018-04-10 15:00:38 GMT (Tuesday 10th April 2018)"
+	revision: "19"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -195,11 +195,45 @@ feature {NONE} -- Initialization
 			make_from_general (create {STRING}.make_from_c (latin_1_ptr))
 		end
 
-	make_from_other (other: EL_ZSTRING)
+	make_from_other (other: EL_READABLE_ZSTRING)
 		do
 			area := other.area.twin
 			count := other.count
 			make_unencoded_from_other (other)
+		end
+
+	make_unescaped (unescaper: EL_ZSTRING_UNESCAPER; other: EL_READABLE_ZSTRING)
+		local
+			other_count, i, n, sequence_count: INTEGER; z_code_i, escape_code: NATURAL
+			l_area, other_area: like area; l_unencoded: like extendible_unencoded
+		do
+			other_count := other.count; other_area := other.area
+			l_unencoded := extendible_unencoded; escape_code := unescaper.escape_code
+
+			make (other_count)
+			l_area := area
+			from i := 0 until i = other_count loop
+				z_code_i := other.area_i_th_z_code (other_area, i)
+				if z_code_i = escape_code then
+					sequence_count := unescaper.sequence_count (other, i + 2)
+					if sequence_count.to_boolean then
+						z_code_i := unescaper.unescaped_z_code (other, i + 2, sequence_count)
+					end
+				else
+					sequence_count := 0
+				end
+				if z_code_i > 0xFF then
+					l_area [n] := Unencoded_character
+					l_unencoded.extend_z_code (z_code_i, n + 1)
+				else
+					l_area [n] := z_code_i.to_character_8
+				end
+				i := i + sequence_count + 1
+				n := n + 1
+			end
+			set_count (n)
+			set_from_extendible_unencoded (l_unencoded)
+			trim
 		end
 
 feature {NONE} -- Initialization
@@ -331,6 +365,12 @@ feature -- Access
 			else
 				Result := internal_last_index_of (c, start_index_from_end)
 			end
+		end
+
+	multiplied (n: INTEGER): like Current
+		do
+			Result := twin
+			Result.multiply (n)
 		end
 
 	share (other: like Current)
@@ -891,7 +931,8 @@ feature -- Status query
 		do
 			c := area [i - 1]
 			if c = Unencoded_character then
-				Result := unencoded_item (i).is_space
+				-- Because of a compiler bug we need `is_space_32'
+				Result := is_space_32 (unencoded_item (i))
 			else
 				Result := c.is_space
 			end
@@ -967,9 +1008,9 @@ feature -- Conversion
 			l_unencoded: like extendible_unencoded
 			str_32: STRING_32
 		do
-			if codec.same_encoding (a_codec) then
+			if codec.same_as (a_codec) then
 				Result := to_latin_string_8
-			elseif a_codec.is_latin_encoding (1) then
+			elseif a_codec.is_latin_id (1) then
 				Result := to_latin_1
 			else
 				str_32 := empty_once_string_32
@@ -1008,9 +1049,9 @@ feature -- Conversion
 			Result.enclose (left, right)
 		end
 
-	escaped (escaper: EL_CHARACTER_ESCAPER [EL_ZSTRING]): like Current
+	escaped (escaper: EL_ZSTRING_ESCAPER): like Current
 		do
-			Result := escaper.escaped (Current)
+			Result := escaper.escaped (Current, True)
 		end
 
 	linear_representation: LIST [CHARACTER_32]
@@ -1250,7 +1291,7 @@ feature -- Conversion
 			i, l_count: INTEGER; c: CHARACTER
 			l_area: like area; l_result_area: like to_latin_1.area
 		do
-			if Codec.is_latin_encoding (1) then
+			if Codec.is_latin_id (1) then
 				Result := to_latin_string_8
 			else
 				l_count := count
@@ -1284,10 +1325,9 @@ feature -- Conversion
 			Result.translate_general (old_characters, new_characters)
 		end
 
-	unescaped (escape_table: EL_ESCAPE_TABLE): like Current
+	unescaped (unescaper: EL_ZSTRING_UNESCAPER): like Current
 		do
-			Result := twin
-			Result.unescape (escape_table)
+			create {ZSTRING} Result.make_unescaped (unescaper, Current)
 		end
 
 feature -- Duplication
@@ -1465,45 +1505,9 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			removed: elks_checking implies Current ~ (old substring (1, count - n.min (count)))
 		end
 
-	unescape (escape_table: EL_ESCAPE_TABLE)
-		local
-			l_count, i, n: INTEGER; found: BOOLEAN
-			z_code_i, next_z_code_i, escape_code, unescaped_code: NATURAL
-			l_area: like area; l_new_unencoded: like extendible_unencoded
+	unescape (unescaper: EL_ZSTRING_UNESCAPER)
 		do
-			l_new_unencoded := extendible_unencoded; escape_code := escape_table.escape_code
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				z_code_i := area_i_th_z_code (l_area, i)
-				if z_code_i = escape_code and then i + 1 <= count then
-					next_z_code_i := area_i_th_z_code (l_area, i + 1)
-					escape_table.search (next_z_code_i)
-					found := escape_table.found
-					if found then
-						unescaped_code := escape_table.found_item
-						if unescaped_code <= 0xFF then
-							l_area [n] := unescaped_code.to_character_8
-						else
-							l_new_unencoded.extend (z_code_to_unicode (unescaped_code), n + 1)
-						end
-					end
-				else
-					found := False
-				end
-				if found then
-					i := i + 2
-				else
-					if z_code_i > 0xFF then
-						l_new_unencoded.extend (z_code_to_unicode (z_code_i), n + 1)
-					else
-						l_area [n] := z_code_i.to_character_8
-					end
-					i := i + 1
-				end
-				n := n + 1
-			end
-			set_count (n)
-			set_from_extendible_unencoded (l_new_unencoded)
+			make_from_other (unescaped (unescaper))
 		end
 
 feature {EL_READABLE_ZSTRING} -- Element change
@@ -1751,6 +1755,22 @@ feature {EL_READABLE_ZSTRING} -- Element change
 			end
 		end
 
+	multiply (n: INTEGER)
+			-- Duplicate a string within itself
+			-- ("hello").multiply(3) => "hellohellohello"
+		require
+			meaningful_multiplier: n >= 1
+		local
+			i, old_count: INTEGER
+		do
+			old_count := count
+			grow (n * count)
+			from i := n until i = 1 loop
+				append_substring (Current, 1, old_count)
+				i := i - 1
+			end
+		end
+
 	precede, prepend_character (uc: CHARACTER_32)
 		local
 			c: CHARACTER
@@ -1946,6 +1966,18 @@ feature {EL_READABLE_ZSTRING} -- Contract Support
 
 feature {EL_READABLE_ZSTRING, EL_ZSTRING_VIEW} -- Access
 
+	area_i_th_z_code (a_area: like area; i: INTEGER): NATURAL
+		local
+			c_i: CHARACTER
+		do
+			c_i := a_area [i]
+			if c_i = Unencoded_character then
+				Result := unencoded_z_code (i + 1)
+			else
+				Result := c_i.natural_32_code
+			end
+		end
+
 	as_expanded: STRING_32
 			-- Current expanded as `z_code' sequence
 		do
@@ -2021,18 +2053,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	area_i_th_z_code (a_area: like area; i: INTEGER): NATURAL
-		local
-			c_i: CHARACTER
-		do
-			c_i := a_area [i]
-			if c_i = Unencoded_character then
-				Result := unencoded_z_code (i + 1)
-			else
-				Result := c_i.natural_32_code
-			end
-		end
-
 	encode (a_unicode: READABLE_STRING_GENERAL; area_offset: INTEGER)
 		require
 			valid_area_offset: a_unicode.count > 0 implies area.valid_index (a_unicode.count + area_offset - 1)
@@ -2078,6 +2098,11 @@ feature {NONE} -- Implementation
 				end
 				i := i + 1
 			end
+		end
+
+	is_space_32 (uc: CHARACTER_32): BOOLEAN
+		do
+			Result := uc.is_space
 		end
 
 	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
@@ -2271,13 +2296,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	unicode_to_z_code (uc: CHARACTER_32): NATURAL
-			-- First byte is reserved for latin encoding. All single byte unicode characters are shifted into the
-			-- private use range 0xE000..0xF8FF. See https://en.wikipedia.org/wiki/Private_Use_Areas
-		do
-			Result := Codec.as_z_code (uc)
-		end
-
 feature {NONE} -- Constants
 
 	Once_expanded_strings: SPECIAL [STRING_32]
@@ -2301,11 +2319,5 @@ feature {NONE} -- Constants
 	Tilde_code: NATURAL = 0x7E
 		-- Point at which different Latin and Window character sets start to diverge
 		-- (Apart from some control characters)
-
-	Unencoded_character: CHARACTER = '%/026/'
-		-- The substitute character SUB
-		-- A substitute character (SUB) is a control character that is used in the place of a character that is
-		-- recognized to be invalid or in error or that cannot be represented on a given device.
-		-- See https://en.wikipedia.org/wiki/Substitute_character
 
 end

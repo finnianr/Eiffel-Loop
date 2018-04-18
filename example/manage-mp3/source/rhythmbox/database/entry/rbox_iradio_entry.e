@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-24 12:40:33 GMT (Saturday 24th February 2018)"
-	revision: "13"
+	date: "2018-04-04 11:50:42 GMT (Wednesday 4th April 2018)"
+	revision: "14"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -183,10 +183,9 @@ feature {NONE} -- Build from XML
 
 feature {NONE} -- Evolicity fields
 
-	get_non_empty_string_fields: EL_STRING_FIELD_VALUE_TABLE [ZSTRING]
+	get_non_empty_string_fields: EL_ESCAPED_ZSTRING_FIELD_VALUE_TABLE
 		do
-			create Result.make (11)
-			Result.set_escaper (Xml_128_plus_escaper)
+			create Result.make (11, Xml_128_plus_escaper)
 			Result.set_condition (agent (str: ZSTRING): BOOLEAN do Result := not str.is_empty end)
 			fill_field_value_table (Result)
 		end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-10 10:05:36 GMT (Tuesday 10th April 2018)"
+	revision: "3"
 
 class
 	STRING_32_ROUTINES_TEST_SET
@@ -30,8 +30,8 @@ feature -- Conversion tests
 	test_delimited_list
 		note
 			testing: "covers/{EL_STRING_32_ROUTINES}.delimited_list",
-						"covers/{EL_DELIMITED_SUBSTRING_INTERVALS}.make",
-						"covers/{EL_OCCURRENCE_SUBSTRING_LIST}.make"
+						"covers/{EL_SPLIT_STRING_LIST}.make",
+						"covers/{EL_OCCURRENCE_INTERVALS}.make"
 		local
 			str, delimiter, str_2, l_substring: STRING_32
 		do

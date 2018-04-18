@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-28 12:51:39 GMT (Wednesday 28th February 2018)"
-	revision: "8"
+	date: "2018-04-08 12:51:45 GMT (Sunday 8th April 2018)"
+	revision: "11"
 
 class
 	EL_ZSTRING
@@ -28,7 +28,7 @@ inherit
 			append_integer_8, append_integer, append_integer_16, append_integer_64,
 			append_natural_8, append_natural_16, append_natural_32, append_natural_64, append_real,
 			append_unicode, append_string, append, append_string_general, append_substring, append_tuple_item, append_utf_8,
-			extend, enclose, fill_character,
+			extend, enclose, fill_character, multiply,
 			precede, prepend_character, put_unicode, quote,
 			translate, translate_general,
 --			Conversion
@@ -112,7 +112,7 @@ inherit
 
 create
 	make, make_empty, make_from_string, make_from_general, make_from_utf_8, make_shared,
-	make_from_other, make_filled, make_from_latin_1_c
+	make_from_other, make_filled, make_from_latin_1_c, make_unescaped
 
 convert
 	make_from_general ({STRING_32, STRING}),
@@ -194,9 +194,9 @@ feature -- Element change
 			append_substring (adapted_general (s, 1), start_index, end_index)
 		end
 
-	escape (escaper: EL_CHARACTER_ESCAPER [EL_ZSTRING])
+	escape (escaper: EL_ZSTRING_ESCAPER)
 		do
-			make_from_other (escaper.escaped (Current))
+			make_from_other (escaper.escaped (Current, False))
 		end
 
 	insert_character (uc: CHARACTER_32; i: INTEGER)
@@ -462,7 +462,7 @@ feature -- Element change
 				end
 				if delete_null implies new_z_code > 0 then
 					if new_z_code > 0xFF then
-						l_new_unencoded.extend (z_code_to_unicode (new_z_code), j + 1)
+						l_new_unencoded.extend_z_code (new_z_code, j + 1)
 						l_area.put (Unencoded_character, j)
 					else
 						l_area.put (new_z_code.to_character_8, j)
@@ -604,7 +604,7 @@ feature {NONE} -- Implementation
 		local
 			i, difference: INTEGER; pad_code: NATURAL
 		do
-			pad_code := unicode_to_z_code (uc)
+			pad_code := Codec.as_z_code (uc)
 			Result := empty_once_string
 			difference := a_count - count
 			from i := 1 until i > difference loop

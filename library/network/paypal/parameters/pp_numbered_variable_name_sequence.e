@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {PP_NUMBERED_VARIABLE_NAME}."
+	description: "Numbered variable name sequence"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-16 16:13:40 GMT (Saturday 16th December 2017)"
-	revision: "4"
+	date: "2018-04-13 11:01:47 GMT (Friday 13th April 2018)"
+	revision: "5"
 
 deferred class
 	PP_NUMBERED_VARIABLE_NAME_SEQUENCE
@@ -15,7 +15,7 @@ deferred class
 inherit
 	PP_VARIABLE_NAME_SEQUENCE
 		redefine
-			new_name
+			inserts
 		end
 
 feature {NONE} -- Initialization
@@ -29,21 +29,9 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	new_name: ZSTRING
-		local
-			pos_qmark: INTEGER
+	inserts: TUPLE
 		do
-			Result := Precursor
-			pos_qmark := Result.index_of ('?', 1)
-			if pos_qmark > 0 then
-				Result [pos_qmark] := number.out [1]
-			end
-		end
-
-	name_prefix: ZSTRING
-		deferred
-		ensure then
-			valid_name: Result.has ('?')
+			Result := [number, count]
 		end
 
 	number: INTEGER

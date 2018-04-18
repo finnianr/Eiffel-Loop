@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-15 11:56:27 GMT (Monday 15th January 2018)"
-	revision: "17"
+	date: "2018-04-09 14:43:13 GMT (Monday 9th April 2018)"
+	revision: "19"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
 
 inherit
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
+		rename
+			Zstring as Mod_zstring
+		end
 
 create
 	make
@@ -29,107 +32,117 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent storable_test_set.test_storable)
+			do_file_data_test (agent comma_separated_import.test_import_export)
 		end
 
-feature -- Tests
+feature -- Test sets
 
-	audio_command_test_set: AUDIO_COMMAND_TEST_SET
+	audio_command: AUDIO_COMMAND_TEST_SET
 		do
 			create Result
 		end
 
-	amazon_instant_access_test_set: AMAZON_INSTANT_ACCESS_TEST_SET
+	amazon_instant_access: AMAZON_INSTANT_ACCESS_TEST_SET
 		do
 			create Result
 		end
 
-	date_text_test_set: DATE_TEXT_TEST_SET
+	date_text: DATE_TEXT_TEST_SET
 		do
 			create Result
 		end
 
-	comma_separated_import_test_set: COMMA_SEPARATED_IMPORT_TEST_SET
+	comma_separated_import: COMMA_SEPARATED_IMPORT_TEST_SET
 		do
 			create Result
 		end
 
-	digest_test_set: DIGEST_ROUTINES_TEST_SET
+	digest: DIGEST_ROUTINES_TEST_SET
 		do
 			create Result
 		end
 
-	file_command_test_set: FILE_COMMAND_TEST_SET
+	file_command: FILE_COMMAND_TEST_SET
 		do
 			create Result
 		end
 
-	ftp_test_set: FTP_TEST_SET
+	ftp: FTP_TEST_SET
 		do
 			create Result
 		end
 
-	http_test_set: HTTP_CONNECTION_TEST_SET
+	http: HTTP_CONNECTION_TEST_SET
 		do
 			create Result
 		end
 
-	os_command_test_set: OS_COMMAND_TEST_SET
+	json_name_value_list: JSON_NAME_VALUE_LIST_TEST_SET
 		do
 			create Result
 		end
 
-	path_test_set: EL_PATH_TEST_SET
+	os_command: OS_COMMAND_TEST_SET
 		do
 			create Result
 		end
 
-	reflection_test_set: REFLECTION_TEST_SET
+	path: EL_PATH_TEST_SET
 		do
 			create Result
 		end
 
-	reflectively_json_settable_test_set: REFLECTIVELY_JSON_SETTABLE_TEST_SET
+	reflection: REFLECTION_TEST_SET
 		do
 			create Result
 		end
 
-	se_array2_test_set: SE_ARRAY2_TEST_SET
+	reflectively_json_settable: REFLECTIVELY_JSON_SETTABLE_TEST_SET
 		do
 			create Result
 		end
 
-	storable_test_set: STORABLE_TEST_SET
+	se_array2: SE_ARRAY2_TEST_SET
 		do
 			create Result
 		end
 
-	string_32_routines_test_set: STRING_32_ROUTINES_TEST_SET
+	storable: STORABLE_TEST_SET
 		do
 			create Result
 		end
 
-	substitution_template_test_set: SUBSTITUTION_TEMPLATE_TEST_SET
+	string_32_routines: STRING_32_ROUTINES_TEST_SET
 		do
 			create Result
 		end
 
-	text_parser_test_set: TEXT_PARSER_TEST_SET
+	substitution_template: SUBSTITUTION_TEMPLATE_TEST_SET
 		do
 			create Result
 		end
 
-	translation_table_test_set: TRANSLATION_TABLE_TEST_SET
+	text_parser: TEXT_PARSER_TEST_SET
 		do
 			create Result
 		end
 
-	uri_path_test_set: EL_URI_PATH_TEST_SET
+	translation_table: TRANSLATION_TABLE_TEST_SET
 		do
 			create Result
 		end
 
-	zstring_test_set: ZSTRING_TEST_SET
+	dir_uri_path: DIR_URI_PATH_TEST_SET
+		do
+			create Result
+		end
+
+	uri_encoding: URI_ENCODING_TEST_SET
+		do
+			create Result
+		end
+
+	zstring: ZSTRING_TEST_SET
 		do
 			create Result
 		end
@@ -146,10 +159,9 @@ feature {NONE} -- Constants
 				[{OS_COMMAND_TEST_SET}, All_routines],
 				[{AUDIO_COMMAND_TEST_SET}, All_routines],
 				[{FTP_TEST_SET}, All_routines],
-				[{HTTP_CONNECTION_TEST_SET}, All_routines]
---				[{SE_ARRAY2_TEST_SET}, All_routines]
---				[{EL_WAV_TO_MP3_COMMAND_IMP}, All_routines]
---				[{EL_GVFS_OS_COMMAND}, All_routines]
+				[{HTTP_CONNECTION_TEST_SET}, All_routines],
+				[{EL_PATH_TEST_SET}, All_routines],
+				[{COMMA_SEPARATED_IMPORT_TEST_SET}, All_routines]
 			>>
 		end
 

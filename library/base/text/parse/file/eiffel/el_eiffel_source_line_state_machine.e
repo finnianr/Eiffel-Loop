@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-01 12:11:15 GMT (Tuesday 1st August 2017)"
-	revision: "1"
+	date: "2018-04-11 13:16:52 GMT (Wednesday 11th April 2018)"
+	revision: "2"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -19,6 +19,11 @@ inherit
 		end
 
 	EL_EIFFEL_KEYWORDS
+
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
+		rename
+			comment_prefix as pattern_comment_prefix
+		end
 
 feature {NONE} -- Initialization
 
@@ -48,6 +53,11 @@ feature {NONE} -- Implementation
 			Result := code_line_starts_with_one_of (0, Class_declaration_keywords)
 		end
 
+	code_line_is_class_name: BOOLEAN
+		do
+			Result := code_line.matches (Class_name)
+		end
+
 	code_line_is_feature_declaration: BOOLEAN
 			-- True if code line begins declaration of attribute or routine
 		local
@@ -57,6 +67,11 @@ feature {NONE} -- Implementation
 				first_character := code_line [1]
 				Result := tab_count = 1 and then (first_character.is_alpha or else first_character = '@')
 			end
+		end
+
+	code_line_is_type_identifier: BOOLEAN
+		do
+			Result := code_line.matches (type)
 		end
 
 	code_line_is_verbatim_string_end: BOOLEAN

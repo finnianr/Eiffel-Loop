@@ -6,20 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 11:37:11 GMT (Friday 2nd March 2018)"
-	revision: "4"
+	date: "2018-04-10 14:49:35 GMT (Tuesday 10th April 2018)"
+	revision: "5"
 
 class
 	EL_DOC_TYPE
-
-inherit
-	EL_ENCODEABLE_AS_TEXT
-		rename
-			make_utf_8 as make_utf_8_encodeable,
-			make_latin_1 as make_latin_1_encodeable
-		export
-			{NONE} out
-		end
 
 create
 	make_utf_8, make_latin_1
@@ -28,13 +19,13 @@ feature {NONE} -- Initialization
 
 	make_latin_1 (a_type: STRING)
 		do
-			make_latin_1_encodeable
+			create encoding.make_latin_1
 			type := a_type; specification := new_specification
 		end
 
 	make_utf_8 (a_type: STRING)
 		do
-			make_utf_8_encodeable
+			create encoding.make_utf_8
 			type := a_type; specification := new_specification
 		end
 
@@ -44,11 +35,13 @@ feature -- Access
 
 	type: STRING
 
+	encoding: EL_ENCODING
+
 feature {NONE} -- Implementation
 
 	new_specification: STRING
 		do
-			Result := Mime_type_template #$ [type, encoding_name]
+			Result := Mime_type_template #$ [type, encoding.name]
 		end
 
 feature {NONE} -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-08 12:54:57 GMT (Sunday 8th April 2018)"
+	revision: "4"
 
 class
 	STRING_32_BENCHMARK
@@ -103,7 +103,7 @@ feature {NONE} -- Implementation
 
 	xml_escaped (target: STRING_32): STRING_32
 		do
-			Result := xml_escaper.escaped (target)
+			Result := xml_escaper.escaped (target, True)
 		end
 
 feature {NONE} -- Factory
@@ -120,5 +120,5 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	xml_escaper: EL_XML_CHARACTER_ESCAPER [STRING_32]
+	xml_escaper: EL_XML_STRING_32_ESCAPER
 end

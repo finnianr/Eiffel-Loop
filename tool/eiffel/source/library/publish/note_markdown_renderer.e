@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 15:03:58 GMT (Wednesday 21st February 2018)"
-	revision: "4"
+	date: "2018-04-05 11:03:43 GMT (Thursday 5th April 2018)"
+	revision: "5"
 
 class
 	NOTE_MARKDOWN_RENDERER
@@ -49,13 +49,13 @@ feature {NONE} -- Implementation
 			l_path := path; template := A_href_template
 			if path.starts_with (Current_dir_forward_slash) and then path.occurrences ('/') > 1 then
 				html_path := path.substring_end (Current_dir_forward_slash.count + 1)
-				l_path := html_path.relative_steps (relative_page_dir).to_string
+				l_path := html_path.universal_relative_path (relative_page_dir)
 
 			elseif path ~ Source_variable and then not text.is_empty then
 				Class_source_table.search (class_name (text))
 				if Class_source_table.found then
 					html_path := Class_source_table.found_item
-					l_path := html_path.relative_steps (relative_page_dir).to_string
+					l_path := html_path.universal_relative_path (relative_page_dir)
 					template := Class_source_name_href_template
 				end
 			end

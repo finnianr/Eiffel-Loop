@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-04 14:43:28 GMT (Wednesday 4th April 2018)"
+	revision: "3"
 
 class
 	EL_WHITE_SPACE_Z_CHAR_TP
@@ -19,7 +19,9 @@ inherit
 		end
 
 	EL_SHARED_ZCODEC
-	
+
+	EL_ZCODE_CONVERSION
+
 create
 	make
 
@@ -30,7 +32,7 @@ feature {NONE} -- Implementation
 			if z_code <= 0xFF then
 				Result := z_code.to_character_8.is_space
 			else
-				Result := Precursor (z_code_to_unicode (z_code))
+				Result := z_code_to_unicode (z_code).to_character_32.is_space
 			end
 		end
 end

@@ -21,7 +21,7 @@ deferred class
 inherit
 	EL_REFLECTIVE
 		redefine
-			Except_fields, is_equal
+			Except_fields, is_equal, field_table
 		end
 
 feature {NONE} -- Initialization
@@ -38,42 +38,33 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	comma_separated_names: STRING
+		--
+		do
+			Result := field_name_list.joined (',')
+		end
+
 	comma_separated_values: ZSTRING
 		--
 		local
-			table: like field_table; value: READABLE_STRING_GENERAL
-			zvalue: ZSTRING; escaped: like Escaped_csv_characters
+			table: like field_table; list: EL_ZSTRING_LIST; csv: like CSV_escaper
+			value: ZSTRING
 		do
-			table := field_table
-			create Result.make (table.count * 5)
-			create zvalue.make_empty
+			table := field_table; csv := CSV_escaper
+			create list.make (table.count)
+			create value.make_empty
 			from table.start until table.after loop
-				if not Result.is_empty then
-					Result.append_character (',')
-				end
-				value := table.item_for_iteration.to_string (Current)
-				if value.has (',') then
-					zvalue.wipe_out; zvalue.append_string_general (value)
-					if zvalue.has ('"') then
-						-- Escape any quotes
-						zvalue.replace_substring_general_all (once "%"", once "%"%"")
-					end
-					zvalue.quote (2)
-					Result.append (zvalue)
-				else
-					Result.append_string_general (value)
-				end
+				value.wipe_out
+				value.append_string_general (table.item_for_iteration.to_string (Current))
+				list.extend (csv.escaped (value, True))
 				table.forth
 			end
-			-- Escape '%N', '%R', '\' with \n, \r, \\ respectively
-			escaped := Escaped_csv_characters
-			from escaped.start until escaped.after loop
-				if Result.has_z_code (escaped.item_key.z_code (1)) then
-					Result.replace_substring_all (escaped.item_key, escaped.item_value)
-				end
-				escaped.forth
-			end
+			Result := list.joined (',')
 		end
+
+feature {EL_REFLECTION_HANDLER} -- Access
+
+	field_table: EL_REFLECTED_FIELD_TABLE
 
 feature -- Element change
 
@@ -102,24 +93,17 @@ feature {NONE} -- Implementation
 			Result := True
 		end
 
-feature {EL_REFLECTION_HANDLER} -- Internal attributes
-
-	field_table: EL_REFLECTED_FIELD_TABLE
-
 feature {NONE} -- Constants
-
-	Escaped_csv_characters: EL_ARRAYED_MAP_LIST [ZSTRING, ZSTRING]
-		once
-			create Result.make (2)
-			Result.extend ("\", "\\")
-			Result.extend ("%R", "\r")
-			Result.extend ("%N", "\n")
-		end
 
 	Except_fields: STRING
 			-- list of comma-separated fields to be excluded
 		once
 			Result := "field_table"
+		end
+
+	CSV_escaper: EL_COMMA_SEPARATED_VALUE_ESCAPER
+		once
+			create Result.make
 		end
 
 end

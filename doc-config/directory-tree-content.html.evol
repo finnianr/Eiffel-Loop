@@ -30,7 +30,7 @@
 <h3>Classes</h3>
 	#end
 	#across $directory.item.class_list as $class loop
-<h4><a href="$class.item.html_path" name="$class.item.name" target="_blank">$class.item.name</a></h4>
+<h4><a href="$class.item.html_path" name="$class.item.name" id="source" target="_blank">$class.item.name</a></h4>
 		#across $class.item.description_elements as $element loop
 			<$element.item.tag_name>$element.item.text</$element.item.tag_name>
 		#end

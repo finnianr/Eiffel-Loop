@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {PP_BUTTON_METHOD}."
+	description: "Parameters for a NVP API button method call"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 12:25:22 GMT (Friday 2nd March 2018)"
-	revision: "3"
+	date: "2018-04-13 13:28:01 GMT (Friday 13th April 2018)"
+	revision: "4"
 
 class
 	PP_BUTTON_METHOD [R -> PP_HTTP_RESPONSE create make_default, make end]
@@ -47,7 +47,7 @@ feature -- Basic operations
 				lio.put_labeled_substitution ("call", "(%S, %S)", [name, value])
 				lio.put_new_line
 			end
-			create parameter_list.make_from_array (<< connection.credentials, connection.api_version, Current >>)
+			create parameter_list.make (<< connection.credentials.http_parameters, connection.api_version, Current >> )
 			parameter_list.append_array (arguments)
 
 			value_table := parameter_list.to_table

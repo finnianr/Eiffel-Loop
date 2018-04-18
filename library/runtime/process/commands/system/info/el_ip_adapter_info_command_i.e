@@ -53,8 +53,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-11 8:35:30 GMT (Monday 11th December 2017)"
-	revision: "3"
+	date: "2018-04-02 13:11:28 GMT (Monday 2nd April 2018)"
+	revision: "4"
 
 deferred class
 	EL_IP_ADAPTER_INFO_COMMAND_I
@@ -73,7 +73,7 @@ inherit
 			do_with_lines as parse_lines
 		end
 
-	EL_MODULE_STRING_8
+	EL_MODULE_HEXADECIMAL
 
 feature {NONE} -- Initialization
 
@@ -160,7 +160,7 @@ feature {NONE} -- Implementation
 			create byte_list.make_with_separator (field_value (line), ':', False)
 			create Result.make_filled (0, 1, byte_list.count)
 			across byte_list as byte loop
-				Result [byte.cursor_index] := String_8.hexadecimal_to_integer (byte.item).to_natural_8
+				Result [byte.cursor_index] := Hexadecimal.to_integer (byte.item).to_natural_8
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 14:50:45 GMT (Sunday 15th October 2017)"
-	revision: "7"
+	date: "2018-04-06 14:33:52 GMT (Friday 6th April 2018)"
+	revision: "8"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -144,15 +144,14 @@ feature {NONE} -- Constants
 		once
 			create Result.make_equal (7)
 			Result ["Eiffel object reflection"] := ["library/base/runtime/reflection", "[
-				See class [$source EL_REFLECTION]
+				See class [$source EL_REFLECTIVE]
 			]"]
-
+			Result ["Eiffel persistency reflection"] := ["library/base/persistency/reflection", "[
+				See class [$source EL_FIELD_VALUE_TABLE]
+			]"]
 			Result ["Eiffel Remote Object Server (EROS)"] := ["library/network/eros", ""]
 
-			Result ["Basic Networking Classes"] := ["library/network/base", "[
-				* Basic client-server classes
-				* Class to find network MAC address
-			]"]
+			Result ["Networking Classes"] := ["library/network/paypal", "Class for network communication"]
 
 			Result ["Vision 2 override"] := ["library/override/graphic/toolkit/vision2", ""]
 			Result ["C callbacks"] := ["library/language_interface/C/eiffel-callback", ""]
@@ -165,8 +164,6 @@ feature {NONE} -- Constants
 				
 				**ECF:** ninety-nine-bottles.ecf
 			]"]
-
-			Result ["Eiffel Development Tools"] := ["tool/toolkit/source/applications/eiffel-dev", ""]
 			Result ["SMIL class test"] := ["test/source/xml-to-eiffel-object-builder/smil", ""]
 		end
 

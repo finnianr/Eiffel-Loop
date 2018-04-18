@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:01:05 GMT (Wednesday 21st February 2018)"
-	revision: "5"
+	date: "2018-04-03 13:07:14 GMT (Tuesday 3rd April 2018)"
+	revision: "6"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -41,8 +41,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Path_escaper: EL_ZSTRING_BASH_PATH_CHARACTER_ESCAPER
+	Path_escaper: EL_BASH_PATH_ZSTRING_ESCAPER
 		once
-			create Result
+			create Result.make
 		end
 end

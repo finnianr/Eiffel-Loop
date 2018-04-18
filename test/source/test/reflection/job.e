@@ -31,6 +31,8 @@ feature -- Access
 
 	contact: ZSTRING
 
+	description: ZSTRING
+
 	job_reference: STRING
 
 	location: ZSTRING

@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 13:56:05 GMT (Saturday 3rd March 2018)"
-	revision: "2"
+	date: "2018-04-03 14:27:17 GMT (Tuesday 3rd April 2018)"
+	revision: "3"
 
 class
 	SUBJECT_LINE_DECODER
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_BASE_64
 
-	EL_MODULE_STRING_8
+	EL_MODULE_HEXADECIMAL
 
 	STRING_HANDLER
 
@@ -90,7 +90,7 @@ feature {NONE} -- Implementation
 			from until str.is_empty loop
 				inspect str [1]
 					when '=' then
-						Result.append_code (String_8.hexadecimal_to_integer (str.substring (2, 3)).to_natural_32)
+						Result.append_code (hexadecimal.substring_to_natural_32 (str, 2, 3))
 						str.remove_head (3)
 					when '_' then
 						Result.append_character (' ')

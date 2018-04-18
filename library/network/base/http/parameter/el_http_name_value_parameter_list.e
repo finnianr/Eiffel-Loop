@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_HTTP_PARAMETER_LIST}."
+	description: "Parameter list that is createable from an object implementing [$source EL_REFLECTIVE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-13 13:31:58 GMT (Friday 13th April 2018)"
+	revision: "3"
 
 class
 	EL_HTTP_NAME_VALUE_PARAMETER_LIST
@@ -15,25 +15,28 @@ class
 inherit
 	EL_HTTP_PARAMETER_LIST [EL_HTTP_NAME_VALUE_PARAMETER]
 
-feature -- Element change
+	EL_REFLECTION_HANDLER
+		undefine
+			is_equal, copy
+		end
 
-	extend_from_file (lines: EL_FILE_LINE_SOURCE)
-			-- Append from line source of name value pairs
-			-- <name>: <value>
-			-- # symbol indicates comment line
+create
+	make_size, make_from_object
+
+feature {NONE} -- Initialization
+
+	make_from_object (object: EL_REFLECTIVE)
 		local
-			pos_colon: INTEGER; l_line, value: ZSTRING
+			field_array: EL_REFLECTED_FIELD_ARRAY; l_item: like item
+			value: ZSTRING; i: INTEGER
 		do
-			across lines as line loop
-				l_line := line.item
-				if l_line.count > 1 and then l_line [1] /= '#' then
-					pos_colon := l_line.index_of (':', 1)
-					if pos_colon > 1 then
-						value := l_line.substring (pos_colon + 1, l_line.count)
-						value.left_adjust
-						extend (create {like item}.make (l_line.substring (1, pos_colon - 1), value))
-					end
-				end
+			field_array := object.meta_data.field_array
+			make_size (field_array.count)
+			from i := 1 until i > field_array.count loop
+				create value.make_from_general (field_array.item (i).to_string (object))
+				create l_item.make (field_array.item (i).export_name, value)
+				extend (l_item)
+				i := i + 1
 			end
 		end
 

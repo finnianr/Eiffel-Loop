@@ -6,9 +6,9 @@ This website contains sample programs for over 1500 languages and variations, al
 ## Eiffel remote object test server (EROS)
 Example program demonstrating the use of the EROS library. EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver. It uses an XML remote procedure call protocol.
 ## EROS test clients
-Example program demonstrating how a client can call a server created with the EROS library. EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver. It uses an XML remote procedure call protocol.
+Example program demonstrating how a client can call a server created with the EROS library. EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver. It uses an Eiffel orientated XML remote procedure call protocol.
 ## Eiffel to Java
-Demonstration program for the Eiffel-Loop Java interface library. This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
+Demo for the Eiffel-Loop Java interface library. This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
 ## Rhythmbox MP3 Collection Manager
 This is a full-blown MP3 collection manager that is designed to work in conjunction with the [Rhythmbox media player](https://wiki.gnome.org/Apps/Rhythmbox) and has a number of features of particular interest to Tango DJs.
 
@@ -158,7 +158,7 @@ The framework is based on the concept of a Java agent that is similar to an Eiff
 ## Matlab
 **Status:** No longer maintained
 
-[Matlab](http://uk.mathworks.com/products/matlab/) is a popular math orientated scripting language. This interface was developed with Matlab Version 6.5, VC++ 8.0 Express Edition and Windows XP SP2.
+An Eiffel interface to [Matlab](http://uk.mathworks.com/products/matlab/), a popular math orientated scripting language. This interface was developed with Matlab Version 6.5, VC++ 8.0 Express Edition and Windows XP SP2 and successfully used in a number of linguistic research projects.
 ## Praat-script
 **Status:** No longer maintained
 
@@ -170,9 +170,12 @@ Developed with VC++ 8.0 Express Edition, Windows XP SP2, Praat source code versi
 
 
 ## Python
-
+Some extensions to Daniel Rodríguez's [PEPE library for Eiffel](https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE). This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags in an MP3 file: [$source EL_EYED3_TAG].
 ## Basic Networking Classes
-Extensions for ISE network sockets and a class for obtaining the MAC address of network devices on both Windows and Linux.
+* Extensions for ISE network sockets.
+* Class to obtain the MAC address of network devices on both Windows and Linux.
+* Classes for managing HTTP cookies, query parameters, headers and status codes.
+
 ## Adobe Flash interface for Laabhair
 **Status:** No longer maintained
 
@@ -180,7 +183,7 @@ Eiffel interface to [Flash ActionScript objects](https://github.com/finnianr/Eif
 
 Developed on Windows XP SP2 with Flash Professional 8 IDE, EiffelStudio 6.1,  VC++ 8.0 Express Edition.
 
-Laabhair was developed at the [Digital Media Centre at the Dublin Institute of Technology](http://dmc.dit.ie/)
+Laabhair was developed at the [Digital Media Centre at the Dublin Institute of Technology](https://arrow.dit.ie/dmc/)
 
 
 

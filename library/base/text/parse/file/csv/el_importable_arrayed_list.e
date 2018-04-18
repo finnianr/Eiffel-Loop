@@ -14,7 +14,7 @@ note
 	revision: "5"
 
 class
-	EL_IMPORTABLE_ARRAYED_LIST [G -> EL_SETTABLE_FROM_STRING create make_default end]
+	EL_IMPORTABLE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
 
 inherit
 	EL_ARRAYED_LIST [G]
@@ -39,8 +39,8 @@ feature {NONE} -- Implementation
 	import (file_path: EL_FILE_PATH; is_utf_8: BOOLEAN)
 			--
 		local
-			file: PLAIN_TEXT_FILE; line: STRING; new_item: G
-			parser: EL_COMMA_SEPARATED_LINE_PARSER; sum_line_count, first_line_count: INTEGER
+			file: PLAIN_TEXT_FILE; line: STRING; new_item: G; parser: EL_COMMA_SEPARATED_LINE_PARSER
+			sum_line_count, first_line_count: INTEGER
 			average_line_count: DOUBLE
 		do
 			if is_utf_8 then
@@ -55,15 +55,13 @@ feature {NONE} -- Implementation
 				line.right_adjust
 				if not line.is_empty then
 					parser.parse (line)
-					if Parser.count > 1 then
+					if parser.count > 1 then
 						create new_item.make_default
-						across parser.fields as field loop
-							new_item.set_field (field.item.name, field.item.value)
-						end
+						parser.set_object (new_item)
 						sum_line_count := sum_line_count + line.count
 						extend (new_item)
-						if full and Parser.count > 5 then
-							average_line_count := sum_line_count / (Parser.count - 1)
+						if full and parser.count > 5 then
+							average_line_count := sum_line_count / (parser.count - 1)
 							grow (((file.count - first_line_count) / average_line_count).rounded)
 						end
 					else

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 5:59:21 GMT (Monday 18th December 2017)"
-	revision: "2"
+	date: "2018-04-13 13:08:10 GMT (Friday 13th April 2018)"
+	revision: "3"
 
 class
 	PP_BUTTON_DETAILS_QUERY_RESULTS
@@ -59,14 +59,6 @@ feature -- Access
 	button_country: STRING
 
 	button_image: STRING
-
-	button_info: PP_BUTTON_SUB_PARAMETER_LIST
-		do
-			create Result.make
-			Result.set_currency_code (detail.currency_code.value)
-			Result.set_item_name (detail.item_name)
-			Result.set_item_number (detail.item_number)
-		end
 
 	button_language: STRING
 

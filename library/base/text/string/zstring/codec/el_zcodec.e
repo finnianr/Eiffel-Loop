@@ -6,21 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 12:33:24 GMT (Saturday 3rd March 2018)"
-	revision: "5"
+	date: "2018-04-10 14:59:43 GMT (Tuesday 10th April 2018)"
+	revision: "7"
 
 deferred class
 	EL_ZCODEC
 
 inherit
-	EL_ENCODEABLE_AS_TEXT
+	EL_ENCODING_BASE
 		rename
-			encoding_id as id,
-			encoding_name as name,
-			encoding_type as type,
-			is_latin_encoded as is_latin,
-			is_windows_encoded as is_windows,
-			is_utf_encoded as is_utf
+			set_default as set_default_encoding,
+			is_valid as is_valid_encoding
 		redefine
 			set_default_encoding
 		end
@@ -30,6 +26,11 @@ inherit
 	STRING_HANDLER
 
 	EL_SHARED_ONCE_STRINGS
+
+	EL_ZCODE_CONVERSION
+		rename
+			z_code_to_unicode as multi_byte_z_code_to_unicode
+		end
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
@@ -58,13 +59,13 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 							internal_encoding := Type_utf
 						end
 					when 3 then
-						if is_windows then
+						if is_type_windows then
 							set_encoding (Type_windows, l_name.item.to_integer)
-						elseif is_utf then
+						elseif is_type_utf then
 							set_encoding (Type_utf, l_name.item.to_integer)
 						end
 					when 4 then
-						if is_latin then
+						if is_type_latin then
 							set_encoding (Type_latin, l_name.item.to_integer)
 						end
 				else
@@ -207,7 +208,7 @@ feature -- Conversion
 		local
 			buffer: like Unicode_buffer
 		do
-			if is_latin_encoding (1) then
+			if is_latin_id (1) then
 				Result := encoded
 			else
 				buffer := Unicode_buffer
@@ -228,8 +229,8 @@ feature -- Conversion
 
 	as_z_code (uc: CHARACTER_32): NATURAL
 			-- Returns hybrid code of latin and unicode
-			-- Single byte codes are reserved for latin encoding. Unicode characters below 0xFF
-			-- are shifted into the private use range 0xE000 .. 0xF8FF
+			-- Single byte codes are reserved for latin encoding.
+			-- Unicode characters below 0xFF are shifted into the private use range: 0xE000 .. 0xF8FF
 			-- See https://en.wikipedia.org/wiki/Private_Use_Areas
 		local
 			c: CHARACTER; unicode: NATURAL
@@ -240,10 +241,7 @@ feature -- Conversion
 			else
 				c := latin_character (uc, unicode.to_integer_32)
 				if c.code = 0 then
-					Result := unicode
-					if Result <= 0xFF then
-						Result := Result + 0xE000
-					end
+					Result := unicode_to_z_code (unicode)
 				else
 					Result := c.natural_32_code
 				end
@@ -271,6 +269,15 @@ feature -- Conversion
 		deferred
 		ensure
 			valid_latin: Result /= '%U' implies unicode_table [Result.code] = uc
+		end
+
+	z_code_as_unicode (z_code: NATURAL): NATURAL
+		do
+			if z_code > 0xFF then
+				Result := multi_byte_z_code_to_unicode (z_code)
+			else
+				Result := unicode_table.item (z_code.to_integer_32).natural_32_code
+			end
 		end
 
 feature {EL_ZSTRING} -- Implementation
@@ -365,8 +372,6 @@ feature {NONE} -- Constants
 			create unencoded.make
 			Result := unencoded.Once_extendible_unencoded
 		end
-
-	Unencoded_character: CHARACTER = '%/026/'
 
 	Unicode_buffer: STRING_32
 		once

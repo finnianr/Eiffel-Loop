@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-07 18:19:00 GMT (Saturday 7th April 2018)"
+	revision: "3"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -303,7 +303,7 @@ feature -- Resizing
 		do
 			n := count
 			if n < capacity then
-				area := area.aliased_resized_area (n)
+				area := area.aliased_resized_area (n + 1)
 			end
 		ensure then
 			same_string: same_string (old twin)

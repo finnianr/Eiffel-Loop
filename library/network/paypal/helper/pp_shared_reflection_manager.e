@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-24 13:12:41 GMT (Wednesday 24th January 2018)"
-	revision: "3"
+	date: "2018-04-10 14:43:59 GMT (Tuesday 10th April 2018)"
+	revision: "4"
 
 class
 	PP_SHARED_REFLECTION_MANAGER
@@ -23,7 +23,8 @@ feature {NONE} -- Initialization
 	Initialize_reflection
 		once
 			Reflection_manager.register_types (<<
-				{EL_CURRENCY_CODE},
+				{EL_CURRENCY_CODE}, {EL_ENCODING},
+
 				{PP_PAYMENT_PENDING_REASON},
 				{PP_PAYMENT_STATUS},
 				{PP_TRANSACTION_TYPE},

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-19 12:26:43 GMT (Monday 19th February 2018)"
-	revision: "5"
+	date: "2018-04-10 15:14:10 GMT (Tuesday 10th April 2018)"
+	revision: "6"
 
 class
 	EL_PYXIS_PARSER
@@ -43,7 +43,6 @@ feature {NONE} -- Initialization
 			create comment_string.make_empty
 			create attribute_parser.make
 			create attribute_list.make
-			create encodeable_line_source.make_utf_8
 			previous_state := agent find_pyxis_doc
 			create element_stack.make (10)
 			set_encoding (Type_latin, 1)
@@ -80,9 +79,6 @@ feature -- Basic operations
 
 	parse_from_lines (line_source: LINEAR [ZSTRING])
 		do
-			if attached {EL_ENCODEABLE_AS_TEXT} line_source as encodeable then
-				encodeable_line_source := encodeable
-			end
 			do_with_lines (agent find_pyxis_doc, line_source)
 			call ("doc-end:")
 			scanner.on_end_document
@@ -245,7 +241,6 @@ feature {NONE} -- Parse events
 
 				elseif attribute_name.same_string ("encoding") then
 					set_encoding_from_name (attribute_node.to_string.to_latin_1)
-					encodeable_line_source.set_encoding_from_other (Current)
 				end
 				i := i + 1
 			end
@@ -309,11 +304,11 @@ feature {NONE} -- Parse events
 			inspect content_type
 				when Content_double_quoted_string then
 					line.remove_quotes
-					set_last_node_text (line.unescaped (Double_quote_escape_table))
+					set_last_node_text (line.unescaped (Double_quote_unescaper))
 
 				when Content_single_quoted_string then
 					line.remove_quotes
-					set_last_node_text (line.unescaped (Single_quote_escape_table))
+					set_last_node_text (line.unescaped (Single_quote_unescaper))
 
 			else
 				set_last_node_text (line)
@@ -393,8 +388,6 @@ feature {NONE} -- Implementation: attributes
 	verbatim_string: ZSTRING
 
 	comment_string: ZSTRING
-
-	encodeable_line_source: EL_ENCODEABLE_AS_TEXT
 
 	attribute_parser: EL_PYXIS_ATTRIBUTE_PARSER
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-15 21:12:49 GMT (Friday 15th December 2017)"
-	revision: "3"
+	date: "2018-04-07 14:02:58 GMT (Saturday 7th April 2018)"
+	revision: "4"
 
 class
 	AIA_OPERATION
@@ -27,8 +27,8 @@ feature {NONE} -- Initialization
 		do
 			create json_list.make (string)
 			json_list.start
-			create name.make (json_list.value_item_8.count)
-			Naming.from_camel_case (json_list.value_item_8, name)
+			create name.make (json_list.value_item.count)
+			Naming.from_camel_case (json_list.value_item, name)
 			json_list.forth
 		end
 

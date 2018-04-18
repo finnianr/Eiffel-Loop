@@ -356,7 +356,7 @@ feature {NONE} -- Factory
 			end
 			-- Upgraded to 256 April 2015
 			create encrypter.make_256 (User_input.line ("Private key password"))
-			Result := RSA.private_key (key_file_path, encrypter)
+			create Result.make_from_pkcs1_file (key_file_path, encrypter)
 		end
 
 feature {NONE} -- Constants

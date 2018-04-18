@@ -1,6 +1,6 @@
 note
 	description: "[
-		Used in conjunction with `[$source EL_REFLECTIVELY_SETTABLE]' to reflectively set fields
+		Used in conjunction with [$source EL_REFLECTIVELY_SETTABLE] to reflectively set fields
 		from name-value pairs, where value conforms to `READABLE_STRING_GENERAL'
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-29 11:05:18 GMT (Thursday 29th March 2018)"
-	revision: "8"
+	date: "2018-04-12 17:59:02 GMT (Thursday 12th April 2018)"
+	revision: "10"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -38,6 +38,12 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			set_from_zkey_table (field_values)
+		end
+
+	make_from_map_list (map_list: EL_ARRAYED_MAP_LIST [STRING, like new_string])
+		do
+			make_default
+			set_from_map_list (map_list)
 		end
 
 feature -- Access
@@ -78,6 +84,29 @@ feature -- Element change
 			pair := Name_value_pair
 			pair.set_from_string (nvp, delimiter)
 			set_field (pair.name, pair.value)
+		end
+
+	set_from_lines (lines: LINEAR [like new_string]; delimiter: CHARACTER_32; is_comment: PREDICATE [like new_string])
+			-- set fields from `lines' formatted as `<name>: <value>'
+			-- but ignoring lines where `is_comment (lines.item)' is True
+		local
+			line: like new_string
+		do
+			from lines.start until lines.after loop
+				line := lines.item
+				if not is_comment (line) and then line.has (delimiter) then
+					set_field_from_nvp (line, delimiter)
+				end
+				lines.forth
+			end
+		end
+
+	set_from_map_list (map_list: EL_ARRAYED_MAP_LIST [STRING, like new_string])
+		do
+			from map_list.start until map_list.after loop
+				set_field (map_list.item_key, map_list.item_value)
+				map_list.forth
+			end
 		end
 
 	set_from_table (field_values: HASH_TABLE [like new_string, STRING])

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 13:09:38 GMT (Friday 2nd March 2018)"
-	revision: "12"
+	date: "2018-04-10 10:12:47 GMT (Tuesday 10th April 2018)"
+	revision: "14"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -43,7 +43,7 @@ feature -- Test routines
 	test_cookies
 		local
 			city_location, json_fields: EL_URL_QUERY_HASH_TABLE
-			url: ZSTRING; cookies: EL_HTTP_COOKIES
+			url: ZSTRING; cookies: EL_HTTP_COOKIE_TABLE
 		do
 			log.enter ("test_cookies")
 			city_location := new_city_location
@@ -156,7 +156,7 @@ feature -- Test routines
 
 	test_http_hash_table
 		note
-			testing: "covers/{EL_URL_QUERY_STRING}.to_string", "covers/{EL_URL_QUERY_HASH_TABLE}.make_from_url_query"
+			testing: "covers/{EL_URL_QUERY_STRING_8}.to_string","covers/{EL_URL_QUERY_HASH_TABLE}.make_from_url_query"
 		local
 			table_1, table_2: EL_URL_QUERY_HASH_TABLE
 			query_string: STRING

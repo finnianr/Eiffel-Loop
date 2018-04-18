@@ -10,11 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 10:28:21 GMT (Saturday 3rd March 2018)"
-	revision: "3"
+	date: "2018-04-04 14:02:25 GMT (Wednesday 4th April 2018)"
+	revision: "4"
 
 class
 	EL_UNENCODED_CHARACTERS
+
+inherit
+	EL_ZCODE_CONVERSION
 
 create
 	make, make_from_other
@@ -173,12 +176,7 @@ feature -- Access
 
 	z_code (index: INTEGER): NATURAL
 		do
-			Result := code (index)
-			if Result <= 0xFF then
-				-- Shift into Unicode private use area 0xE000..0xF8FF
-				-- See: See https://en.wikipedia.org/wiki/Private_Use_Areas
-				Result := Result + 0xE000
-			end
+			Result := unicode_to_z_code (code (index))
 		end
 
 feature -- Measurement

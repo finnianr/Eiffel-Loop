@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-28 10:27:45 GMT (Thursday 28th December 2017)"
-	revision: "5"
+	date: "2018-04-08 16:51:40 GMT (Sunday 8th April 2018)"
+	revision: "6"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -18,7 +18,12 @@ deferred class
 inherit
 	EL_SETTABLE_FROM_ZSTRING
 
-	EL_JSON_ROUTINES
+	EL_STRING_CONSTANTS
+		undefine
+			is_equal
+		end
+
+	EL_SHARED_ONCE_STRINGS
 		undefine
 			is_equal
 		end
@@ -38,32 +43,31 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	as_json: STRING
+	as_json: ZSTRING
 		local
 			table: like field_table; is_first: BOOLEAN
-			exported: like Export_tuple
+			exported: like Export_tuple; field: TUPLE [name: STRING; value: ZSTRING]
 		do
-			Result := empty_once_string_8
+			create field
+			Result := empty_once_string
 			exported := Export_tuple
 			table := field_table
-			Result.append (once "{%N")
+			Result.append_string_general (once "{%N")
 			from is_first := True; table.start until table.after loop
 				if is_first then
 					is_first := False
 				else
-					Result.append (once ",%N")
+					Result.append_string_general (once ",%N")
 				end
 				exported.name_out.wipe_out
 				exported.name_in := table.key_for_iteration
 				export_name.call (exported)
-				Result.append (once "%T%"")
-				Result.append (exported.name_out)
-				Result.append (once "%": %"")
-				Result.append (encoded (field_string (table.item_for_iteration)))
-				Result.append_character ('"')
+				field.name := exported.name_out
+				field.value := Escaper.escaped (field_string (table.item_for_iteration), False)
+				Result.append (Field_template #$ field)
 				table.forth
 			end
-			Result.append (once "%N}")
+			Result.append_string_general (once "%N}")
 			Result := Result.twin
 		end
 
@@ -94,6 +98,24 @@ feature {NONE} -- Constants
 	Export_tuple: TUPLE [name_in, name_out: STRING]
 		once
 			Result := ["", ""]
+		end
+
+	Escaper: EL_JSON_VALUE_ESCAPER
+		once
+			create Result.make
+		end
+
+	Field_separator: ZSTRING
+		once
+			Result := ",%N"
+		end
+
+	Field_template: ZSTRING
+		once
+			Result := "[
+				"#": "#"
+			]"
+			Result.prepend_character ('%T')
 		end
 
 end

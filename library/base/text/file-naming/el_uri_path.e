@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-28 17:22:49 GMT (Sunday 28th May 2017)"
-	revision: "4"
+	date: "2018-04-01 14:30:21 GMT (Sunday 1st April 2018)"
+	revision: "5"
 
 deferred class
 	EL_URI_PATH
@@ -17,7 +17,7 @@ inherit
 		export
 			{ANY} Forward_slash
 		redefine
-			default_create, make, make_from_other, to_string, Type_parent, hash_code,
+			default_create, count, make, make_from_other, to_string, Type_parent, hash_code,
 			is_uri, is_equal, is_less, is_path_absolute, Separator
 		end
 
@@ -28,6 +28,11 @@ inherit
 		export
 			{NONE} all
 			{ANY} is_uri_of_type, is_uri_string, Protocol_name, uri_path
+		undefine
+			default_create, out, is_equal, copy
+		end
+
+	EL_MODULE_UTF
 		undefine
 			default_create, out, is_equal, copy
 		end
@@ -109,6 +114,12 @@ feature -- Initialization
 
 feature -- Access
 
+	count: INTEGER
+		-- Character count
+		do
+			Result := Precursor + protocol.count + Protocol_sign.count
+		end
+
 	domain: ZSTRING
 
 	hash_code: INTEGER
@@ -151,10 +162,13 @@ feature -- Conversion
 	 		Result.append (l_path)
 	 	end
 
-	 to_encoded_utf_8: EL_URL_STRING
+	 to_encoded_utf_8: EL_URL_STRING_8
+	 	local
+	 		string: ZSTRING
 	 	do
-	 		create Result.make_empty
-	 		Result.append_utf_8 (to_string.to_utf_8)
+	 		string := to_string
+	 		create Result.make (UTF.utf_8_bytes_count (string, 1, string.count))
+	 		Result.append_general (string)
 	 	end
 
 feature -- Comparison
@@ -181,6 +195,11 @@ feature -- Comparison
 
 feature -- Contract Support
 
+	is_path_absolute (a_path: ZSTRING): BOOLEAN
+		do
+			Result := a_path.starts_with (Forward_slash)
+		end
+
 	is_uri_absolute (a_uri: ZSTRING): BOOLEAN
 		do
 			if uri_protocol (a_uri) ~ Protocol_name.file then
@@ -188,11 +207,6 @@ feature -- Contract Support
 			else
 				Result := uri_path (a_uri).has (Forward_slash [1])
 			end
-		end
-
-	is_path_absolute (a_path: ZSTRING): BOOLEAN
-		do
-			Result := a_path.starts_with (Forward_slash)
 		end
 
 feature {NONE} -- Type definitions
@@ -206,6 +220,13 @@ feature -- Constants
 	Separator: CHARACTER_32
 		once
 			Result := Unix_separator
+		end
+
+feature {NONE} -- Constants
+
+	Separator_string: ZSTRING
+		once
+			Result := "/"
 		end
 
 end

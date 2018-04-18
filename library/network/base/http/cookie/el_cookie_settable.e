@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-31 12:42:25 GMT (Saturday 31st March 2018)"
-	revision: "1"
+	date: "2018-04-01 9:45:15 GMT (Sunday 1st April 2018)"
+	revision: "2"
 
 class
 	EL_COOKIE_SETTABLE
@@ -25,7 +25,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (cookies: EL_HTTP_COOKIES)
+	make (cookies: EL_HTTP_COOKIE_TABLE)
 		do
 			make_default
 			set_from_table (cookies)
@@ -35,13 +35,13 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			if cookie_path.exists then
-				set_from_table (create {EL_HTTP_COOKIES}.make_from_file (cookie_path))
+				set_from_table (create {EL_HTTP_COOKIE_TABLE}.make_from_file (cookie_path))
 			end
 		end
 
 feature -- Element change
 
-	set_from_cookies (cookies: EL_HTTP_COOKIES)
+	set_from_cookies (cookies: EL_HTTP_COOKIE_TABLE)
 		do
 			set_default_values
 			set_from_table (cookies)

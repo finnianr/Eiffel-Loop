@@ -1,13 +1,22 @@
 note
-	description: "Summary description for {PP_BUTTON_VARIABLE_LIST}."
+	description: "[
+		List of button variables for requests
+		[https://developer.paypal.com/docs/classic/api/button-manager/BMCreateButton_API_Operation_NVP/
+		BMCreateButton]
+		and
+		[https://developer.paypal.com/docs/classic/api/button-manager/BMUpdateButton_API_Operation_NVP/
+		BMUpdateButton]
+		
+		Createable from instance of [$source PP_PRODUCT_INFO] using `make_from_object'.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 5:51:51 GMT (Monday 18th December 2017)"
-	revision: "5"
+	date: "2018-04-13 13:23:05 GMT (Friday 13th April 2018)"
+	revision: "6"
 
 class
 	PP_BUTTON_SUB_PARAMETER_LIST
@@ -15,58 +24,14 @@ class
 inherit
 	PP_SUB_PARAMETER_LIST
 
-	EL_SHARED_CURRENCY_CODES
-		undefine
-			is_equal, copy
-		end
-
 create
-	make
-
-feature -- Element change
-
-	currency_code: NATURAL_8
-		do
-			find_first (Var_currency_code, agent {EL_HTTP_NAME_VALUE_PARAMETER}.name)
-			if found then
-				Result := Currency.value (item.value)
-			end
-		end
-
-	set_currency_code (code: NATURAL_8)
-		do
-			extend (Var_currency_code, Currency.name (code))
-		end
-
-	set_item_name (name: ZSTRING)
-		do
-			extend (Var_item_name, name)
-		end
-
-	set_item_number (code: ZSTRING)
-		do
-			extend (Var_item_number, code)
-		end
+	make, make_from_object
 
 feature {NONE} -- Constants
 
-	Name_prefix: ZSTRING
+	Name_template: ZSTRING
 		once
-			Result := "L_BUTTONVAR"
+			Result := "L_BUTTONVAR%S"
 		end
 
-	Var_currency_code: ZSTRING
-		once
-			Result := "currency_code"
-		end
-
-	Var_item_name: ZSTRING
-		once
-			Result := "item_name"
-		end
-
-	Var_item_number: ZSTRING
-		once
-			Result := "item_number"
-		end
 end

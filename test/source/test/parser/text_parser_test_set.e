@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-10 10:11:17 GMT (Tuesday 10th April 2018)"
+	revision: "3"
 
 class
 	TEXT_PARSER_TEST_SET
@@ -61,8 +61,6 @@ feature -- Tests
 		end
 
 	test_match_p1_while_not_p2
-		note
-			testing: "covers/{EL_MATCH_P1_WHILE_NOT_P2_MATCH_TP}.match_count"
 		local
 			list: ARRAYED_LIST [STRING]; boolean: BOOLEAN; start_index, end_index: INTEGER_32
 			assignment: like eiffel_string_assignment; view: EL_STRING_8_VIEW
@@ -133,7 +131,7 @@ feature -- Tests
 
 	test_pyxis_parser
 		note
-			testing: "covers/{EL_PYXIS_ATTRIBUTE_PARSER_2}.parse"
+			testing: "covers/{EL_PYXIS_ATTRIBUTE_PARSER}.parse"
 		local
 			parser: EL_PYXIS_ATTRIBUTE_PARSER
 			table: like Attribute_table; name, value: EL_ZSTRING
@@ -187,7 +185,7 @@ feature -- Tests
 
 	test_xpath_parser
 		note
-			testing: "covers/{EL_MATCH_P1_WHILE_NOT_P2_MATCH_TP}.match"
+			testing: "covers/{EL_XPATH_PARSER}.parse"
 		local
 			parser: EL_XPATH_PARSER; steps: LIST [STRING]; parsed_step: EL_PARSED_XPATH_STEP
 			index_of_at, index_of_equal: INTEGER

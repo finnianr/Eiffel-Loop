@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_REFLECTED_FIELD}."
+	description: "Manages attribute field for a class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-22 16:49:19 GMT (Monday 22nd January 2018)"
-	revision: "5"
+	date: "2018-04-12 17:34:55 GMT (Thursday 12th April 2018)"
+	revision: "6"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -31,21 +31,23 @@ feature {EL_CLASS_META_DATA} -- Initialization
 	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: STRING)
 		do
 			make_reflected (a_object)
-			index := a_index; name := a_name
+			index := a_index; name := a_name; export_name := a_name
 			type := field_type (index)
 			type_id := field_static_type (index)
 		end
 
 feature -- Access
 
-	index: INTEGER
-
-	name: STRING
-
 	class_name: STRING
 		do
 			Result := Eiffel.type_of_type (type_id).name
 		end
+
+	export_name: STRING
+
+	index: INTEGER
+
+	name: STRING
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		deferred
@@ -94,11 +96,11 @@ feature -- Basic operations
 		do
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
+	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)
 		deferred
 		end
 
-	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)
+	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		deferred
 		end
 
@@ -117,6 +119,11 @@ feature -- Basic operations
 		end
 
 feature -- Element change
+
+	set_export_name (a_export_name: like export_name)
+		do
+			export_name := a_export_name
+		end
 
 	set_index (a_index: like index)
 		do

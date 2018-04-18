@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 11:54:41 GMT (Wednesday 21st February 2018)"
-	revision: "8"
+	date: "2018-04-05 12:27:22 GMT (Thursday 5th April 2018)"
+	revision: "9"
 
 class
 	EIFFEL_CLASS
@@ -21,61 +21,64 @@ inherit
 		undefine
 			is_equal
 		redefine
-			make_default, serialize
+			make_default, serialize, copy
 		end
 
 	EL_HTML_META_DIGEST_PARSER
 		rename
 			make as make_meta_digest
 		undefine
-			is_equal
+			is_equal, copy
 		end
 
 	COMPARABLE
+		undefine
+			copy
+		end
 
 	EL_MODULE_DIRECTORY
 		undefine
-			is_equal
+			is_equal, copy
 		end
 
 	EL_MODULE_LOG
 		undefine
-			is_equal
+			is_equal, copy
 		end
 
 	EL_MODULE_UTF
 		undefine
-			is_equal
+			is_equal, copy
 		end
 
 	EL_MODULE_XML
 		undefine
-			is_equal
+			is_equal, copy
 		end
 
 	EL_STRING_CONSTANTS
 		undefine
-			is_equal
+			is_equal, copy
 		end
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 		undefine
-			is_equal
+			is_equal, copy
 		end
 
 	SHARED_HTML_CLASS_SOURCE_TABLE
 		undefine
-			is_equal
+			is_equal, copy
 		end
 
 	EL_EIFFEL_KEYWORDS
 		undefine
-			is_equal
+			is_equal, copy
 		end
 
 	EL_SINGLE_THREAD_ACCESS
 		undefine
-			is_equal
+			is_equal, copy
 		redefine
 			make_default
 		end
@@ -228,6 +231,12 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	copy (other: like Current)
+		do
+			standard_copy (other)
+			notes := other.notes.twin
+		end
 
 	class_begin_index: INTEGER
 		do

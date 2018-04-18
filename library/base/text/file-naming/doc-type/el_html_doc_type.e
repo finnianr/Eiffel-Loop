@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-23 17:40:32 GMT (Friday 23rd March 2018)"
-	revision: "6"
+	date: "2018-04-10 14:50:44 GMT (Tuesday 10th April 2018)"
+	revision: "7"
 
 class
 	EL_HTML_DOC_TYPE
 
 inherit
 	EL_DOC_TYPE
-		rename
-			make_default as make_default_encoding
-		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
@@ -55,7 +52,7 @@ feature {NONE} -- State handlers
 
 	find_charset (line: ZSTRING)
 		local
-			i: INTEGER; encoding: ZSTRING
+			i: INTEGER
 		do
 			if line.has_substring (Meta_tag) then
 				-- Parse
@@ -68,8 +65,7 @@ feature {NONE} -- State handlers
 					if line [i] = '"' then
 						i := i + 1
 					end
-					encoding := line.substring (i, line.index_of ('"', i) - 1)
-					set_encoding_from_name (encoding)
+					encoding.set_from_name (line.substring (i, line.index_of ('"', i) - 1))
 					state := final
 				end
 			end

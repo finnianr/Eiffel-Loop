@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 12:01:01 GMT (Wednesday 21st February 2018)"
-	revision: "8"
+	date: "2018-04-05 12:03:41 GMT (Thursday 5th April 2018)"
+	revision: "9"
 
 class
 	EIFFEL_NOTES
@@ -105,6 +105,15 @@ feature -- Status query
 
 feature -- Basic operations
 
+	check_class_references (base_name: ZSTRING)
+		-- check class references in note fields
+		do
+			from fields.start until fields.after loop
+				fields.item_for_iteration.do_all (agent check_links_for_line (?, base_name))
+				fields.forth
+			end
+		end
+
 	fill (source_path: EL_FILE_PATH)
 		do
 			do_once_with_file_lines (agent find_note_section, create {EL_FILE_LINE_SOURCE}.make_latin (1, source_path))
@@ -115,15 +124,13 @@ feature -- Basic operations
 			end
 		end
 
-	check_class_references (base_name: ZSTRING)
-		-- check class references in note fields
-		do
-			from fields.start until fields.after loop
-				fields.item_for_iteration.do_all (agent check_links_for_line (?, base_name))
-				fields.forth
-			end
-		end
+feature -- Element change
 
+	set_relative_class_dir (a_relative_class_dir: like relative_class_dir)
+		do
+			relative_class_dir := a_relative_class_dir
+		end
+	
 feature {NONE} -- Line states
 
 	find_field_text_start (line, field_name: ZSTRING; lines: EL_ZSTRING_LIST)
@@ -222,11 +229,6 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	check_links_for_line (line, base_name: ZSTRING)
-		do
-			line.do_with_splits (Left_square_bracket, agent check_link_candidate (?, base_name))
-		end
-
 	check_link_candidate (str, base_name: ZSTRING)
 		local
 			pos_close: INTEGER; name: ZSTRING
@@ -244,6 +246,11 @@ feature {NONE} -- Implementation
 					end
 				end
 			end
+		end
+
+	check_links_for_line (line, base_name: ZSTRING)
+		do
+			line.do_with_splits (Left_square_bracket, agent check_link_candidate (?, base_name))
 		end
 
 	new_title (name: ZSTRING): ZSTRING

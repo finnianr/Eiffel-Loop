@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-09 20:49:34 GMT (Saturday 9th December 2017)"
-	revision: "6"
+	date: "2018-04-07 11:19:41 GMT (Saturday 7th April 2018)"
+	revision: "8"
 
 class
 	EL_TRANSLATION_TABLE
@@ -237,7 +237,7 @@ feature {NONE} -- Constants
 			Result := "$id"
 		end
 
-	Substitution_mark_unescaper: EL_ESCAPE_TABLE
+	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
 		local
 			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
 		once

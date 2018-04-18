@@ -1,7 +1,8 @@
 note
 	description: "[
-		Payment transaction information. See Payment information variables in IPN integration guide:
-		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#id091EB04C0HS]
+		Reflectively settable Payment transaction information. See
+		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#id091EB04C0HS
+		Payment information variables] in IPN integration guide.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 12:24:59 GMT (Friday 2nd March 2018)"
-	revision: "9"
+	date: "2018-04-10 16:28:16 GMT (Tuesday 10th April 2018)"
+	revision: "10"
 
 class
 	PP_TRANSACTION
@@ -96,6 +97,9 @@ feature -- Metadata
 
 	verify_sign: STRING
 
+	charset: EL_ENCODING
+		-- IPN character set (set in Paypal merchant business profile)
+
 feature -- Money
 
 	amount_x100: INTEGER
@@ -151,8 +155,7 @@ feature {NONE} -- Implementation
 	set_name_value (key, a_value: ZSTRING)
 		do
 			if key.starts_with (Address_prefix) then
-				key.remove_head (Address_prefix.count)
-				address.set_field (key, a_value)
+				address.set_field (key.substring_end (Address_prefix.count + 1), a_value)
 			else
 				set_field (key, a_value)
 			end

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:04:58 GMT (Wednesday 21st February 2018)"
-	revision: "6"
+	date: "2018-04-13 15:36:44 GMT (Friday 13th April 2018)"
+	revision: "7"
 
 deferred class
 	EL_ENUMERATION_VALUE [N -> {NUMERIC, HASHABLE}]
@@ -47,11 +47,27 @@ feature -- Access
 
 	value: N
 
+feature -- Element change
+
+	set_value (a_value: like value)
+		require
+			valid_valud: is_valid_value (a_value)
+		do
+			value := a_value
+		end
+
 feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
 		do
 			Result := value = other.value
+		end
+
+feature -- Contract Support
+
+	is_valid_value (a_value: like value): BOOLEAN
+		do
+			Result := enumeration.is_valid_value (a_value)
 		end
 
 feature {NONE} -- Implementation

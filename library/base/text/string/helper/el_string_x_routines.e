@@ -6,15 +6,13 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-08 10:56:09 GMT (Thursday 8th March 2018)"
-	revision: "9"
+	date: "2018-04-02 13:29:25 GMT (Monday 2nd April 2018)"
+	revision: "10"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
 
 inherit
-	EL_HEXADECIMAL_ROUTINES [S]
-
 	STRING_HANDLER
 
 	EL_MODULE_CHARACTER

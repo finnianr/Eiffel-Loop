@@ -1,13 +1,13 @@
 note
-	description: "Access to a shared instance of [$source EL_HTTP_STATUS_CODES]"
+	description: "Access to a shared instance of [$source EL_HTTP_STATUS_ENUM]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 10:55:49 GMT (Friday 2nd March 2018)"
-	revision: "4"
+	date: "2018-04-04 15:45:27 GMT (Wednesday 4th April 2018)"
+	revision: "5"
 
 class
 	EL_MODULE_HTTP_STATUS

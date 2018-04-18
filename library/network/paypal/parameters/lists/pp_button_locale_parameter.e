@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {PP_LOCALE_PARAMETER}."
+	description: "Button locale parameters as for example: `en_US, de_DE'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 5:44:24 GMT (Monday 18th December 2017)"
-	revision: "5"
+	date: "2018-04-13 13:30:29 GMT (Friday 13th April 2018)"
+	revision: "6"
 
 class
 	PP_BUTTON_LOCALE_PARAMETER
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 		local
 			var: NATURAL_8
 		do
-			make_list (2)
+			make_size (2)
 			across locale_code.split ('_') as code loop
 				if code.cursor_index = 1 then
 					var := Parameter.button_language

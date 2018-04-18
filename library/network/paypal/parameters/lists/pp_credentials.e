@@ -16,17 +16,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-16 19:12:17 GMT (Saturday 16th December 2017)"
-	revision: "4"
+	date: "2018-04-12 17:53:42 GMT (Thursday 12th April 2018)"
+	revision: "5"
 
 class
 	PP_CREDENTIALS
 
 inherit
-	EL_HTTP_NAME_VALUE_PARAMETER_LIST
+	EL_REFLECTIVELY_SETTABLE
 		rename
-			make as make_list
+			field_included as is_string_or_expanded_field
+		redefine
+			import_name, export_name
 		end
+
+	EL_SETTABLE_FROM_ZSTRING
 
 create
 	make
@@ -34,37 +38,43 @@ create
 feature {NONE} -- Initialization
 
 	make (credentials_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
+		local
+			lines: EL_ENCRYPTED_FILE_LINE_SOURCE
 		do
-			make_list (3)
-			-- Assumes AES 128 bit chain block encryption
-			extend_from_file (create {EL_ENCRYPTED_FILE_LINE_SOURCE}.make (credentials_path, encrypter))
+			make_default
+			create lines.make (credentials_path, encrypter)
+			set_from_lines (lines, ':', agent is_comment)
+			lines.close
+			create http_parameters.make_from_object (Current)
 		ensure
-			valid_entries: across << Var_user, Var_password, Var_signature >> as name all has_parameter (name.item) end
+			no_empty_field: not (<< user, pwd, signature >>).there_exists (agent {EL_ZSTRING}.is_empty)
 		end
 
-feature -- Contract Support
+feature -- Access
 
-	has_parameter (name: ZSTRING): BOOLEAN
+	http_parameters: EL_HTTP_NAME_VALUE_PARAMETER_LIST
+
+	pwd: ZSTRING
+
+	signature: ZSTRING
+
+	user: ZSTRING
+
+feature {NONE} -- Implementation
+
+	export_name: like Naming.default_export
 		do
-			find_first (name, agent {like item}.name)
-			Result := not exhausted
+			Result := agent Naming.to_upper_snake_case
 		end
 
-feature {NONE} -- Constants
-
-	Var_password: ZSTRING
-		once
-			Result := "PWD"
+	import_name: like Naming.default_export
+		do
+			Result := agent Naming.from_upper_snake_case
 		end
 
-	Var_signature: ZSTRING
-		once
-			Result := "SIGNATURE"
-		end
-
-	Var_user: ZSTRING
-		once
-			Result := "USER"
+	is_comment (str: ZSTRING): BOOLEAN
+		do
+			Result := not str.is_empty and then str [1] = '#'
 		end
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-24 11:33:00 GMT (Wednesday 24th May 2017)"
-	revision: "3"
+	date: "2018-04-03 14:05:38 GMT (Tuesday 3rd April 2018)"
+	revision: "4"
 
 class
 	EL_PYXIS_XML_TEXT_GENERATOR
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Constants
 
-	xml_escaper: EL_XML_CHARACTER_ESCAPER [ZSTRING]
+	Xml_escaper: EL_XML_ZSTRING_ESCAPER
 		once
 			create Result.make
 			Result.extend ('%T')

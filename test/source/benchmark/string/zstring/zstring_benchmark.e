@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 14:46:04 GMT (Thursday 25th May 2017)"
-	revision: "2"
+	date: "2018-04-09 13:45:33 GMT (Monday 9th April 2018)"
+	revision: "4"
 
 class
 	ZSTRING_BENCHMARK
@@ -92,9 +92,11 @@ feature {NONE} -- Implementation
 		end
 
 	set_escape_character (a_escape_character: like escape_character)
+		local
+			code: NATURAL
 		do
 			Precursor (a_escape_character)
-			Escape_table.set_escape_character (a_escape_character)
+			Unescaper.set_escape_character (a_escape_character)
 		end
 
 	starts_with (target, beginning: like new_string): BOOLEAN
@@ -117,12 +119,12 @@ feature {NONE} -- Implementation
 
 	unescape (target: like new_string)
 		do
-			target.unescape (Escape_table)
+			target.unescape (Unescaper)
 		end
 
 	xml_escaped (target: ZSTRING): ZSTRING
 		do
-			Result := xml_escaper.escaped (target)
+			Result := xml_escaper.escaped (target, True)
 		end
 
 feature {NONE} -- Factory
@@ -139,7 +141,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	xml_escaper: EL_XML_CHARACTER_ESCAPER [ZSTRING]
+	xml_escaper: EL_XML_ZSTRING_ESCAPER
 
 feature {NONE} -- Constants
 
@@ -148,7 +150,7 @@ feature {NONE} -- Constants
 			create Result.make_empty (0)
 		end
 
-	Escape_table: EL_ESCAPE_TABLE
+	Unescaper: EL_ZSTRING_UNESCAPER
 		once
 			create Result.make (Back_slash, C_escape_table)
 		end

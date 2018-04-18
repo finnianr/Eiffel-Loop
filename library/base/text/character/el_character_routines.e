@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-16 17:20:52 GMT (Friday 16th February 2018)"
-	revision: "4"
+	date: "2018-04-01 12:06:15 GMT (Sunday 1st April 2018)"
+	revision: "5"
 
 class
 	EL_CHARACTER_ROUTINES
@@ -130,32 +130,20 @@ feature -- Conversion
 
 feature -- Basic operations
 
-	write_utf_8 (character: CHARACTER_32; writeable: EL_WRITEABLE)
+	write_utf_8 (uc: CHARACTER_32; writeable: EL_WRITEABLE)
 		local
-			code: NATURAL
+			sequence: like Utf_8_sequence
 		do
-			code := character.natural_32_code
-			if code <= 0x7F then
-					-- 0xxxxxxx
-				writeable.write_raw_character_8 (code.to_character_8)
-
-			elseif code <= 0x7FF then
-					-- 110xxxxx 10xxxxxx
-				writeable.write_raw_character_8 (((code |>> 6) | 0xC0).to_character_8)
-				writeable.write_raw_character_8 (((code & 0x3F) | 0x80).to_character_8)
-
-			elseif code <= 0xFFFF then
-					-- 1110xxxx 10xxxxxx 10xxxxxx
-				writeable.write_raw_character_8 (((code |>> 12) | 0xE0).to_character_8)
-				writeable.write_raw_character_8 ((((code |>> 6) & 0x3F) | 0x80).to_character_8)
-				writeable.write_raw_character_8 (((code & 0x3F) | 0x80).to_character_8)
-			else
-					-- code <= 1FFFFF - there are no higher code points
-					-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-				writeable.write_raw_character_8 (((code |>> 18) | 0xF0).to_character_8)
-				writeable.write_raw_character_8 ((((code |>> 12) & 0x3F) | 0x80).to_character_8)
-				writeable.write_raw_character_8 ((((code |>> 6) & 0x3F) | 0x80).to_character_8)
-				writeable.write_raw_character_8 (((code & 0x3F) | 0x80).to_character_8)
-			end
+			sequence := Utf_8_sequence
+			sequence.set (uc)
+			sequence.write (writeable)
 		end
+
+feature {NONE} -- Constants
+
+	Utf_8_sequence: EL_UTF_8_SEQUENCE
+		once
+			create Result.make
+		end
+
 end

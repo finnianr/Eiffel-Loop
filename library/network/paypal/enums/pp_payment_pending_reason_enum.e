@@ -1,7 +1,8 @@
 note
 	description: "[
-		Reasons for pending payment. See Payment information variables in IPN integration guide:
-		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#id091EB04C0HS]
+		Reasons for pending payment. See
+		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#id091EB04C0HS
+		payment information variables] in IPN integration guide.
 	]"
 
 	author: "Finnian Reilly"

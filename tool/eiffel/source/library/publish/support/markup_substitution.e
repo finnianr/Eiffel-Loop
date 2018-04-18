@@ -49,7 +49,7 @@ feature -- Basic operations
 					pos_close := html.substring_index (delimiter_end, pos_open + delimiter_start.count)
 					if pos_close > 0 then
 						if is_hyperlink then
-							pos_space := html.substring_index (Space_string, pos_open + delimiter_start.count)
+							pos_space := index_of_white_space (html, pos_open + delimiter_start.count, pos_close - 1)
 							if pos_space > 0 and then pos_space < pos_close then
 								link_path := html.substring (pos_open + 1, pos_space - 1)
 								link_text := html.substring (pos_space + 1, pos_close - 1)
@@ -80,6 +80,30 @@ feature -- Access
 	markup_close: ZSTRING
 
 	markup_open: ZSTRING
+
+feature {NONE} -- Implementation
+
+	index_of_white_space (html: ZSTRING; start_index, end_index: INTEGER): INTEGER
+		-- index of white space character just before text
+		-- (allowing links to be spread across 2 lines)
+		local
+			i: INTEGER
+		do
+			from i := start_index until Result > 0 or i > end_index loop
+				if html.is_space_item (i) then
+					Result := i
+				end
+				i := i + 1
+			end
+			if Result > 0 then
+				from Result := 0 until Result > 0 or i > end_index loop
+					if not html.is_space_item (i) then
+						Result := i - 1
+					end
+					i := i + 1
+				end
+			end
+		end
 
 feature {NONE} -- Constants
 

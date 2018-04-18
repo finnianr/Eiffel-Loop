@@ -2,11 +2,13 @@ note
 	description: "[
 		address_status: Whether the customer provided a confirmed address. Value is:
 		
-		*confirmed* - Customer provided a confirmed address.
+		**confirmed** - Customer provided a confirmed address.
 		
-		*unconfirmed* - Customer provided an unconfirmed address.
+		**unconfirmed** - Customer provided an unconfirmed address.
 		
-		See: [https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/?mark=ipn#buyer-information-variables]
+		See:
+		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/?mark=ipn#buyer-information-variables
+		Buyer information variables]
 	]"
 
 	author: "Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Used in conjunction with `[$source EL_REFLECTIVELY_SETTABLE]' to reflectively set fields
+		Used in conjunction with [$source EL_REFLECTIVELY_SETTABLE] to reflectively set fields
 		from name-value pairs, where value conforms to `STRING_8' aka `STRING'.
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-17 18:11:42 GMT (Wednesday 17th January 2018)"
-	revision: "3"
+	date: "2018-04-04 16:03:04 GMT (Wednesday 4th April 2018)"
+	revision: "4"
 
 deferred class
 	EL_SETTABLE_FROM_STRING_8

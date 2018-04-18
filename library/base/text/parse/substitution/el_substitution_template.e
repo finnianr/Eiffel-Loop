@@ -30,14 +30,11 @@ inherit
 
 	EL_MODULE_EXCEPTION
 
-	EL_REFLECTIVE
-		rename
-			field_included as is_any_field
-		end
-
-	EL_REFLECTION_HANDLER
+	EL_SHARED_OBJECT_POOL
 
 	STRING_HANDLER
+
+	EL_REFLECTION_HANDLER
 
 feature {NONE} -- Initialization
 
@@ -175,7 +172,7 @@ feature -- Element change
 	set_variables_from_object (object: ANY)
 		-- set variables in template that match field names of `object'
 		local
-			meta_object: like Once_current_object; table: EL_REFLECTED_FIELD_TABLE
+			meta_object: like new_current_object; table: EL_REFLECTED_FIELD_TABLE
 			i, field_count: INTEGER; name: ZSTRING
 		do
 			name := Once_name

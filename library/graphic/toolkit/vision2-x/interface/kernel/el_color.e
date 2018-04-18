@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-03 14:20:16 GMT (Tuesday 3rd April 2018)"
+	revision: "3"
 
 class
 	EL_COLOR
@@ -18,7 +18,7 @@ inherit
 			rgb_24_bit, set_rgb_with_24_bit
 		end
 
-	EL_MODULE_STRING_8
+	EL_MODULE_HEXADECIMAL
 		undefine
 			default_create, out, is_equal, copy
 		end
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 			valid_color_string: a_html_color.count = 7 and then a_html_color [1] = '#'
 		do
 			default_create
-			set_rgb_with_24_bit (String_8.hexadecimal_to_integer (a_html_color.substring (2, a_html_color.count)))
+			set_rgb_with_24_bit (Hexadecimal.to_integer (a_html_color.substring (2, a_html_color.count)))
 		end
 
 	make_with_rgb_24_bit (a_24_bit_rgb: INTEGER)

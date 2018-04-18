@@ -47,6 +47,18 @@ feature -- Access
 			Result := value (a_object).out
 		end
 
+	value (a_object: EL_REFLECTIVE): like default_value
+		do
+			enclosing_object := a_object
+			if attached {like default_value} reference_field (index) as l_value then
+				Result := l_value
+			elseif attached default_value then
+				Result := default_value.twin
+			else
+				Result := new_default_value
+			end
+		end
+
 feature -- Status query
 
 	Is_expanded: BOOLEAN = False
@@ -116,18 +128,6 @@ feature {NONE} -- Implementation
 	twin_default_value: BOOLEAN
 		 do
 		 end
-
-	value (a_object: EL_REFLECTIVE): like default_value
-		do
-			enclosing_object := a_object
-			if attached {like default_value} reference_field (index) as l_value then
-				Result := l_value
-			elseif attached default_value then
-				Result := default_value.twin
-			else
-				Result := new_default_value
-			end
-		end
 
 feature {NONE} -- Internal attributes
 

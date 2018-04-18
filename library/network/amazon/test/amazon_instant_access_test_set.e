@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 16:57:31 GMT (Monday 18th December 2017)"
-	revision: "5"
+	date: "2018-04-09 13:57:14 GMT (Monday 9th April 2018)"
+	revision: "6"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -209,7 +209,7 @@ feature -- Purchase
 			Request_manager.purchase.set_new_response (agent purchase_with_ineligible_user)
 			if attached {AIA_PURCHASE_RESPONSE} Request_manager.response (request) as l_response then
 				assert ("no error", not Request_manager.has_error)
-				assert ("expected response", l_response.as_json ~ json_response)
+				assert ("expected response", l_response.as_json.to_latin_1 ~ json_response)
 			else
 				assert ("returned AIA_PURCHASE_RESPONSE", False)
 			end
@@ -243,7 +243,7 @@ feature -- Purchase
 			Request_manager.revoke_purchase.set_new_response (agent revoke_with_invalid_purchase_token)
 			if attached {AIA_REVOKE_RESPONSE} Request_manager.response (request) as l_response then
 				assert ("no error", not Request_manager.has_error)
-				assert ("expected response", l_response.as_json ~ json_response)
+				assert ("expected response", l_response.as_json.to_latin_1 ~ json_response)
 			else
 				assert ("returned AIA_REVOKE_RESPONSE", False)
 			end
@@ -295,7 +295,7 @@ feature {NONE} -- Implementation
 			Request_manager.get_user_id.set_new_response (agent get_user_id_1234)
 			if attached {AIA_GET_USER_ID_RESPONSE} Request_manager.response (request) as user_id_response then
 				assert ("no error", not Request_manager.has_error)
-				assert ("expected response", user_id_response.as_json ~ json_response)
+				assert ("expected response", user_id_response.as_json.to_latin_1 ~ json_response)
 			else
 				assert ("returned AIA_GET_USER_ID_RESPONSE", False)
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 12:27:00 GMT (Friday 2nd March 2018)"
-	revision: "7"
+	date: "2018-04-01 14:40:38 GMT (Sunday 1st April 2018)"
+	revision: "8"
 
 class
 	EL_URL_QUERY_HASH_TABLE
@@ -82,9 +82,9 @@ feature -- Conversion
 			-- utf-8 URL encoded name value pairs
 		local
 			sum_count: INTEGER
-			str: like url_string
+			str: like Once_url_string
 		do
-			str := url_string
+			str := Once_url_string
 			from start until after loop
 				sum_count := key_for_iteration.count + item_for_iteration.count + 2
 				forth

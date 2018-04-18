@@ -47,14 +47,14 @@ publish-repository:
 			description:
 				"""
 					Example program demonstrating how a client can call a server created with the EROS library.
-					EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver. It uses an XML remote 
-					procedure call protocol.
+					EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver. It uses an Eiffel orientated
+					XML remote procedure call protocol.
 				"""
 		tree:
 			name = "Eiffel to Java"; dir = "example/eiffel2java/source"; ecf = "eiffel2java.ecf"
 			description:
 				"""
-					Demonstration program for the Eiffel-Loop Java interface library. This library provides
+					Demo for the Eiffel-Loop Java interface library. This library provides
 					a useful layer of abstraction over the Eiffel Software JNI interface.
 				"""
 		tree:
@@ -158,9 +158,9 @@ publish-repository:
 				"""
 					**Status:** No longer maintained
 
-					[http://uk.mathworks.com/products/matlab/ Matlab] is a popular math orientated scripting
+					An Eiffel interface to [http://uk.mathworks.com/products/matlab/ Matlab], a popular math orientated scripting
 					language. This interface was developed with Matlab Version 6.5, VC++ 8.0 Express Edition and
-					Windows XP SP2.
+					Windows XP SP2 and successfully used in a number of linguistic research projects.
 				"""
 		tree:
 			name = "Praat-script"; dir = "library/language_interface/Praat-script"
@@ -170,6 +170,10 @@ publish-repository:
 			name = "Python"; dir = "library/language_interface/Python"
 			description:
 				"""
+					Some extensions to Daniel Rodríguez's
+					[https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE PEPE library for Eiffel].
+					This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags
+					in an MP3 file: [$source EL_EYED3_TAG].
 				"""
 
 		# Library (Network)
@@ -178,8 +182,9 @@ publish-repository:
 			ecf = "network.ecf"
 			description:
 				"""
-					Extensions for ISE network sockets and a class for obtaining the
-					MAC address of network devices on both Windows and Linux.
+					* Extensions for ISE network sockets.
+					* Class to obtain the MAC address of network devices on both Windows and Linux.
+					* Classes for managing HTTP cookies, query parameters, headers and status codes.
 				"""
 		tree:
 			name = "Adobe Flash interface for Laabhair"; dir = "library/network/flash"

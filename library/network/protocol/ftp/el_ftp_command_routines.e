@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-03 13:07:10 GMT (Tuesday 3rd April 2018)"
+	revision: "3"
 
 class
 	EL_FTP_COMMAND_ROUTINES
@@ -80,8 +80,8 @@ feature {NONE} -- Constants
 			Result := "RMD %S"
 		end
 
-	Path_escaper: EL_ZSTRING_BASH_PATH_CHARACTER_ESCAPER
+	Path_escaper: EL_BASH_PATH_ZSTRING_ESCAPER
 		once
-			create Result
+			create Result.make
 		end
 end

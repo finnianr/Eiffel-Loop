@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 9:35:56 GMT (Saturday 3rd March 2018)"
-	revision: "26"
+	date: "2018-04-06 11:45:16 GMT (Friday 6th April 2018)"
+	revision: "28"
 
 class EXPERIMENTS_APP
 
@@ -18,6 +18,8 @@ inherit
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_HEXADECIMAL
 
 	EL_MODULE_STRING_8
 
@@ -33,6 +35,8 @@ inherit
 			{NONE} all
 		end
 
+	EL_ZCODE_CONVERSION
+
 create
 	make
 
@@ -45,10 +49,7 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	run
-		local
-			c: CHARACTER
 		do
-			c := '%/65/'
 			lio.enter ("encode_string_for_console")
 			encode_string_for_console
 			lio.exit
@@ -456,7 +457,7 @@ feature -- Experiments
 
 	hexadecimal_to_natural_64
 		do
-			log.put_string (String_8.hexadecimal_to_natural_64 ("0x00000A987").out)
+			log.put_string (Hexadecimal.to_natural_64 ("0x00000A987").out)
 			log.put_new_line
 		end
 
@@ -812,26 +813,12 @@ feature -- Experiments
 			log.put_integer_field ("({EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}).type_id", ({EL_MAKEABLE_FROM_STRING}).type_id)
 		end
 
-	type_conforming_test
-		local
-			escaper: EL_DO_NOTHING_CHARACTER_ESCAPER [STRING]
-			is_do_nothing_escaper: BOOLEAN
-		do
-			create escaper
-			is_do_nothing_escaper := {EL_DO_NOTHING_CHARACTER_ESCAPER [STRING_GENERAL]} < escaper.generating_type
-			log.put_labeled_string ("Is do nothing escaper", is_do_nothing_escaper.out)
-			log.put_new_line
-			log.put_labeled_string (
-				"field_conforms_to", Eiffel.field_conforms_to (({ZSTRING}).type_id, ({STRING_GENERAL}).type_id).out
-			)
-		end
-
 	url_string
 		local
-			str: EL_URL_STRING
+			str: EL_URL_STRING_8
 		do
 			create str.make_empty
-			str.append_utf_8 ("freilly8@gmail.com")
+			str.append_general ("freilly8@gmail.com")
 		end
 
 feature {NONE} -- Implementation

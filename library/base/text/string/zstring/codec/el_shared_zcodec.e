@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-28 13:31:15 GMT (Wednesday 28th February 2018)"
-	revision: "3"
+	date: "2018-04-04 13:18:19 GMT (Wednesday 4th April 2018)"
+	revision: "4"
 
 class
 	EL_SHARED_ZCODEC
@@ -18,19 +18,6 @@ inherit
 			item as system_codec,
 			set_item as set_system_codec,
 			cell as Codec_cell
-		end
-
-feature {NONE} -- Implementation
-
-	z_code_to_unicode (a_z_code: NATURAL): NATURAL
-		require
-			not_for_single_byte: a_z_code > 0xFF
-		do
-			if 0xE000 <= a_z_code and then a_z_code <= 0xF8FF then
-				Result := a_z_code - 0xE000
-			else
-				Result := a_z_code
-			end
 		end
 
 feature {NONE} -- Constants

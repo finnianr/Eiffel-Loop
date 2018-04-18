@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-22 11:28:26 GMT (Thursday 22nd February 2018)"
-	revision: "7"
+	date: "2018-04-11 12:41:07 GMT (Wednesday 11th April 2018)"
+	revision: "8"
 
 class
 	PYXIS_TO_XML_CONVERTER
@@ -59,7 +59,7 @@ feature -- Basic operations
 
 			create encoding.make_from_file (source_path)
 
-			lio.put_path_field ("Converting " + encoding.encoding_name, source_path)
+			lio.put_path_field ("Converting " + encoding.name, source_path)
 			lio.put_new_line
 
 			create in_file.make_open_read (source_path)

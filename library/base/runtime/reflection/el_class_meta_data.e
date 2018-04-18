@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-24 12:50:24 GMT (Wednesday 24th January 2018)"
-	revision: "3"
+	date: "2018-04-12 17:34:37 GMT (Thursday 12th April 2018)"
+	revision: "4"
 
 class
 	EL_CLASS_META_DATA
@@ -41,14 +41,12 @@ feature {NONE} -- Initialization
 			hidden_fields := new_field_indices_set (a_enclosing_object.Hidden_fields)
 			create field_array.make (new_field_list.to_array)
 			field_table := field_array.to_table (a_enclosing_object)
-			exported_names := new_exported_names
+			set_export_names
 		end
 
 feature -- Access
 
 	excluded_fields: EL_FIELD_INDICES_SET
-
-	exported_names: ARRAY [STRING]
 
 	field_array: EL_REFLECTED_FIELD_ARRAY
 
@@ -105,27 +103,6 @@ feature -- Comparison
 		end
 
 feature {NONE} -- Factory
-
-	new_exported_names: ARRAY [STRING]
-		-- Adapt field name with a different word separator
-		local
-			table: EL_REFLECTED_FIELD_TABLE; l_name: STRING
-			l_export_name: like Naming.default_export
-		do
-			table := field_table
-			l_export_name := enclosing_object.export_name
-			create Result.make_filled (Empty_string_8, 1, field_count)
-			from table.start until table.after loop
-				if Naming.is_default (l_export_name) then
-					l_name := table.key_for_iteration
-				else
-					create l_name.make (table.key_for_iteration.count)
-					l_export_name (table.key_for_iteration, l_name)
-				end
-				Result [table.item_for_iteration.index] := l_name
-				table.forth
-			end
-		end
 
 	new_field_indices_set (field_names: STRING): EL_FIELD_INDICES_SET
 		local
@@ -220,6 +197,26 @@ feature {NONE} -- Implementation
 				else
 					Result := 0
 				end
+			end
+		end
+
+	set_export_names
+		-- Adapt field name with a different word separator
+		local
+			table: EL_REFLECTED_FIELD_TABLE; l_name: STRING
+			l_export_name: like Naming.default_export
+		do
+			table := field_table
+			l_export_name := enclosing_object.export_name
+			from table.start until table.after loop
+				if Naming.is_default (l_export_name) then
+					l_name := table.key_for_iteration
+				else
+					create l_name.make (table.key_for_iteration.count)
+					l_export_name (table.key_for_iteration, l_name)
+					table.item_for_iteration.set_export_name (l_name)
+				end
+				table.forth
 			end
 		end
 

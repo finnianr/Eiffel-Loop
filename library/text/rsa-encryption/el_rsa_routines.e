@@ -15,6 +15,10 @@ class
 inherit
 	EL_BASE_64_ROUTINES
 
+	EL_SHARED_ONCE_STRINGS
+
+	EL_MODULE_HEXADECIMAL
+
 feature -- Conversion
 
 	integer_x_from_base_64_lines (base64_lines: STRING): INTEGER_X
@@ -40,43 +44,83 @@ feature -- Conversion
 			create Result.make_from_bytes (byte_array, byte_array.lower, byte_array.upper)
 		end
 
-	integer_x_from_hex_byte_sequence (hex_byte_sequence: STRING): INTEGER_X
-			-- Convert string of form:
-			-- 		00:d9:61:6e:a7:03:21:2f:70:d2:22:38:d7:99:d4:
-			-- 		bc:6d:55:7f:cc:97:9a:5d:8b:a3:d3:84:d3
+	integer_x_from_hex_sequence (sequence: STRING): INTEGER_X
+			-- Convert `sequence' of form:
 
-			-- this is a special case that indicates a form of encoding, known as "indefinite-length encoding," is being used,
-			-- in which case the end of this ASN.1 value's data is marked by two consecutive zero-value octets.
+			-- 	00:d9:61:6e:a7:03:21:2f:70:d2:22:38:d7:99:d4:..
+			
+			-- to type `INTEGER_X'
 		local
-			hex_string, first_byte: STRING
-			i, colon_pos, first_character_pos, byte_count: INTEGER; c: CHARACTER
+			parts: EL_SPLIT_STRING_LIST [STRING]; hex_string: STRING
 		do
-			colon_pos := hex_byte_sequence.index_of (':', 1)
-			first_byte := hex_byte_sequence.substring (colon_pos - 2, colon_pos - 1)
-			byte_count := hex_byte_sequence.occurrences (':')
-			if first_byte ~ "00" then
-				first_character_pos := colon_pos + 1
-			else
-				first_character_pos := colon_pos - 2
-				byte_count := byte_count + 1
-			end
-			create hex_string.make (byte_count * 2)
-			from i := first_character_pos until i > hex_byte_sequence.count loop
-				c := hex_byte_sequence [i]
-				if c.is_alpha_numeric then
-					hex_string.append_character (c)
+			create parts.make (sequence, once ":")
+			hex_string := empty_once_string_8
+			from parts.start until parts.after loop
+				if not (parts.index = 1 and then parts.item ~ Double_zero) then
+					hex_string.append (parts.item)
 				end
-				i := i + 1
+				parts.forth
 			end
 			create Result.make_from_hex_string (hex_string)
 		end
 
-	private_key (pkcs1_private_key_file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER): EL_RSA_PRIVATE_KEY
+	pkcs1_map_list (lines: LINEAR [ZSTRING]): EL_ARRAYED_MAP_LIST [STRING, STRING]
+		-- convert lines in PKCS1 format to name value pairs. As for example:
+
+		-- 	publicExponent: 65537 (0x10001)
+		-- 	privateExponent:
+		--  		61:32:bd:31:a1:ca:1a:06:9d:20:31:44:b3:08:4d:
+		--   		01:b1:6a:c7:98:72:91:6a:fb:18:08:b2:aa:b7:b8
+
+		-- BECOMES
+
+		-- 	"publicExponent" : "10001"
+		-- 	"privateExponent" : "61:32:bd:31:a1:ca:1a:06:9d:20:31:44:b3:08:4d:01:b1:6a:c7:98:72:91:6a:fb:18:08:b2:aa:b7:b8"
+
 		local
-			reader: EL_PKCS1_RSA_PRIVATE_KEY_READER
+			line, value: ZSTRING; pos_colon, byte_count: INTEGER
+			name: STRING
 		do
-			create reader.make_from_file (pkcs1_private_key_file_path, encrypter)
-			create Result.make_from_pkcs1 (reader.values)
+			create Result.make (8)
+			from lines.start until lines.after loop
+				line := lines.item
+				pos_colon := line.index_of (':', 1)
+				if line.count >= 6 and then line.leading_occurrences (' ') = 4
+					and then Hexadecimal.is_valid_sequence (line, 5, 6)
+				then
+					line.substring_end (5).append_to_string_8 (Result.last_value)
+
+				else
+					name := line.substring (1, pos_colon - 1)
+					if line.has ('(') then
+						value := line.substring_between (Bracket_left, Bracket_right, pos_colon)
+						if value.ends_with_general ("bit") then -- Private-Key: (2048 bit)
+							value.remove_tail (4)
+							byte_count := value.to_integer // 8
+						else
+							value.remove_head (2) -- 0x10001
+							Result.extend (name, value)
+						end
+					else
+						Result.extend (name, create {STRING}.make (byte_count * 3))
+					end
+				end
+				lines.forth
+			end
+		end
+
+feature {NONE} -- Constants
+
+	Double_zero: STRING = "00"
+
+	Bracket_left: ZSTRING
+		once
+			Result := "("
+		end
+
+	Bracket_right: ZSTRING
+		once
+			Result := ")"
 		end
 
 end
