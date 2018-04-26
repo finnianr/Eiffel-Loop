@@ -32,14 +32,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:14:24 GMT (Wednesday 21st February 2018)"
-	revision: "7"
+	date: "2018-04-23 11:40:33 GMT (Monday 23rd April 2018)"
+	revision: "8"
 
 class
 	EL_DYNAMIC_MODULE_POINTERS
 
 inherit
 	EL_REFLECTIVELY_SETTABLE
+		rename
+			export_name as export_default,
+			import_name as import_default
 		redefine
 			field_included
 		end

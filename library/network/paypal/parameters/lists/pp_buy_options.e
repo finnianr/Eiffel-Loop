@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-13 12:10:49 GMT (Friday 13th April 2018)"
-	revision: "5"
+	date: "2018-04-24 9:24:29 GMT (Tuesday 24th April 2018)"
+	revision: "6"
 
 class
 	PP_BUY_OPTIONS
@@ -24,7 +24,7 @@ inherit
 			is_equal, copy
 		end
 
-	EL_SHARED_CURRENCY_CODES
+	EL_SHARED_CURRENCY_ENUM
 		undefine
 			is_equal, copy
 		end

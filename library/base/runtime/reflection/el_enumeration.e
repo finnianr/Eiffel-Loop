@@ -8,10 +8,20 @@ note
 		Typically you would make a shared instance of an implementation class inheriting
 		this class.
 
-		Overriding import_name from `EL_REFLECTIVELY_SETTABLE' allows you to lookup
+		Overriding import_name from [$source EL_REFLECTIVELY_SETTABLE] allows you to lookup
 		a code using a foreign naming convention, camelCase, for example. Overriding
 		export_name allows the name returned by `code_name' to use a foreign convention.
 		Choose a convention from the Naming object.
+	]"
+	notes: "[
+		**TO DO**
+		
+		A problem that needs solving is how to guard against accidental changes in
+		auto-generated code values that are used persistently. One idea is to use a contract
+		comparing a CRC checksum based on an alphabetical ordering to a hard coded value.
+		
+		Also there needs to be a mechanism to allow "late-editions" that will not disturb
+		existing assignments.
 	]"
 
 	author: "Finnian Reilly"
@@ -19,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:04:13 GMT (Wednesday 21st February 2018)"
-	revision: "9"
+	date: "2018-04-24 11:58:42 GMT (Tuesday 24th April 2018)"
+	revision: "11"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -30,7 +40,7 @@ inherit
 		rename
 			make_default as make
 		redefine
-			make, field_included, set_default_values
+			make, field_included, initialize_fields
 		end
 
 	EL_STRING_CONSTANTS
@@ -46,7 +56,7 @@ feature {NONE} -- Initialization
 			Precursor
 			create name_by_value.make (field_table.count)
 			create value_by_name.make_equal (field_table.count)
-			set_default_values
+			initialize_fields
 			across
 				field_table as field
 			loop
@@ -54,7 +64,7 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	set_default_values
+	initialize_fields
 			-- initialize fields with unique value
 		do
 			across
@@ -68,30 +78,23 @@ feature -- Access
 
 	value (a_name: STRING_8): N
 		local
-			l_name: STRING_8
 			table: like value_by_name
 		do
-			l_name := String_8_pool.new_string
 			table := value_by_name
-			import_name (a_name, l_name)
-			table.search (l_name)
+			table.search (import_name (a_name, False))
 			if table.found then
 				Result := table.found_item
 			end
-			String_8_pool.recycle (l_name)
 		end
 
 	name (a_value: N): STRING_8
 		local
-			l_name: STRING_8
 			table: like name_by_value
 		do
 			table := name_by_value
 			table.search (a_value)
 			if table.found then
-				l_name := table.found_item
-				create Result.make (l_name.count)
-				export_name (l_name, Result)
+				Result := export_name (table.found_item, True)
 			else
 				create Result.make_empty
 			end
@@ -143,5 +146,15 @@ feature {NONE} -- Internal attributes
 invariant
 	no_duplicate_values: not has_duplicate_value
 
+note
+	descendants: "[
+			EL_ENUMERATION*
+				[$source EL_CURRENCY_ENUM]
+				[$source PP_PAYMENT_STATUS_ENUM]
+				[$source PP_TRANSACTION_TYPE_ENUM]
+				[$source PP_PAYMENT_PENDING_REASON_ENUM]
+				[$source EL_HTTP_STATUS_ENUM]
+				[$source PP_PARAMETER_ENUM]
+	]"
 end -- class EL_ENUMERATION
 

@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_REFLECTED_REFERENCE
 		undefine
-			set_default
+			initialize_default
 		redefine
 			default_defined
 		end

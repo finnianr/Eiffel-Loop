@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-12 17:53:42 GMT (Thursday 12th April 2018)"
-	revision: "5"
+	date: "2018-04-24 8:41:09 GMT (Tuesday 24th April 2018)"
+	revision: "7"
 
 class
 	PP_CREDENTIALS
@@ -25,9 +25,9 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_string_or_expanded_field
-		redefine
-			import_name, export_name
+			field_included as is_string_or_expanded_field,
+			import_name as from_upper_snake_case,
+			export_name as to_upper_snake_case
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -61,16 +61,6 @@ feature -- Access
 	user: ZSTRING
 
 feature {NONE} -- Implementation
-
-	export_name: like Naming.default_export
-		do
-			Result := agent Naming.to_upper_snake_case
-		end
-
-	import_name: like Naming.default_export
-		do
-			Result := agent Naming.from_upper_snake_case
-		end
 
 	is_comment (str: ZSTRING): BOOLEAN
 		do

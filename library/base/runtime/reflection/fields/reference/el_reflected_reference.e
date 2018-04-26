@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-22 16:49:38 GMT (Monday 22nd January 2018)"
-	revision: "5"
+	date: "2018-04-18 11:48:07 GMT (Wednesday 18th April 2018)"
+	revision: "6"
 
 class
 	EL_REFLECTED_REFERENCE
@@ -15,13 +15,10 @@ class
 inherit
 	EL_REFLECTED_FIELD
 		redefine
-			make, set_default_value, value
+			make, initialize, value, is_initialized
 		end
 
-	EL_SHARED_REFLECTION_MANAGER
-		rename
-			initialize_reflection as initialize_nothing
-		end
+	EL_SHARED_DEFAULT_VALUE_TABLE
 
 	EL_STRING_CONSTANTS
 
@@ -34,9 +31,11 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_object, a_index, a_name)
 			if default_defined then
-				set_default
+				initialize_default
+			elseif Default_value_table.has_key (type_id) then
+				default_value := Default_value_table.found_item
 			else
-				default_value := Reflection_manager.default_value_by_type (type_id)
+				default_value := new_default_value
 			end
 		end
 
@@ -63,7 +62,28 @@ feature -- Status query
 
 	Is_expanded: BOOLEAN = False
 
+	default_defined: BOOLEAN
+		do
+			Result := not Default_value_table.has (type_id) and then field_conforms_to (type_id, Makeable_type)
+		end
+
+	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
+		do
+			enclosing_object := a_object
+			Result := attached reference_field (index)
+		end
+
 feature -- Basic operations
+
+	reset (a_object: EL_REFLECTIVE)
+		local
+			l_value: like value
+		do
+			l_value := value (a_object)
+			if attached {BAG [ANY]} l_value as bag then
+				bag.wipe_out
+			end
+		end
 
 	set (a_object: EL_REFLECTIVE; a_value: ANY)
 		do
@@ -71,14 +91,10 @@ feature -- Basic operations
 			set_reference_field (index, a_value)
 		end
 
-	set_default_value (a_object: EL_REFLECTIVE)
+	initialize (a_object: EL_REFLECTIVE)
 		do
 			if attached default_value then
-				if twin_default_value then
-					set (a_object, default_value.twin)
-				else
-					set (a_object, default_value)
-				end
+				set (a_object, default_value.twin)
 			end
 		end
 
@@ -109,10 +125,6 @@ feature -- Comparison
 
 feature {NONE} -- Implementation
 
-	default_defined: BOOLEAN
-		do
-		end
-
 	new_default_value: like default_value
 		-- uninitialized value
 		do
@@ -121,13 +133,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_default
+	initialize_default
 		do
+			if attached {EL_MAKEABLE} new_default_value as new_value then
+				new_value.make
+				default_value := new_value
+			end
+		ensure
+			default_value_initialized: attached default_value
 		end
-
-	twin_default_value: BOOLEAN
-		 do
-		 end
 
 feature {NONE} -- Internal attributes
 

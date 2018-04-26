@@ -6,16 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-28 10:43:23 GMT (Thursday 28th December 2017)"
-	revision: "3"
+	date: "2018-04-23 12:47:33 GMT (Monday 23rd April 2018)"
+	revision: "4"
 
 class
 	PP_PARAMETER_ENUM
 
 inherit
 	EL_ENUMERATION [NATURAL_8]
+		rename
+			export_name as to_paypal_name,
+			import_name as from_upper_camel_case
 		undefine
-			export_name, import_name
+			import_from_upper_camel_case
 		end
 
 	PP_NAMING_ROUTINES

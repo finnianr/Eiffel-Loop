@@ -1,8 +1,13 @@
 note
 	description: "Escape characters for value in comma separated format"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-04-14 19:09:03 GMT (Saturday 14th April 2018)"
+	revision: "1"
 
 class
 	EL_COMMA_SEPARATED_VALUE_ESCAPER

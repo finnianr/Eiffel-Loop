@@ -14,9 +14,10 @@ class
 
 inherit
 	EL_REFLECTED_READABLE
+		rename
+			default_value as default_tuple
 		redefine
-			make, write, default_defined, default_value,
-			set_default, twin_default_value
+			make, write, default_defined, default_tuple, initialize, initialize_default, reset
 		end
 
 create
@@ -40,6 +41,20 @@ feature {EL_CLASS_META_DATA} -- Initialization
 		end
 
 feature -- Basic operations
+
+	initialize (a_object: EL_REFLECTIVE)
+		do
+			if attached {TUPLE} default_tuple as tuple then
+				set (a_object, tuple.deep_twin)
+			end
+		end
+
+	reset (a_object: EL_REFLECTIVE)
+		local
+			l_value: like value
+		do
+			l_value := value (a_object)
+		end
 
 	read (a_object: EL_REFLECTIVE; reader: EL_MEMORY_READER_WRITER)
 		do
@@ -114,27 +129,27 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_default
+	initialize_default
 		local
-			i: INTEGER_32; l_type: TYPE [ANY]
+			i: INTEGER_32; l_type: TYPE [ANY]; has_reference: BOOLEAN
 			l_types: like member_types
 		do
 			if attached {TUPLE} Eiffel.new_instance_of (type_id) as new_tuple then
-				default_value := new_tuple; l_types := member_types
+				l_types := member_types
 				from i := 1 until i > l_types.count loop
 					l_type := l_types [i]
 					if not l_type.is_expanded then
-						if l_type.type_id = String_z_type then
-							default_value.put_reference (Empty_string, i)
-						elseif l_type.type_id = String_8_type then
-							default_value.put_reference (Empty_string_8, i)
-						elseif l_type.type_id = String_32_type then
-							default_value.put_reference (Empty_string_32, i)
+						if Default_strings.has_key (l_type.type_id) then
+							new_tuple.put_reference (Default_strings.found_item.twin, i)
 						end
-						default_value.compare_objects
+						has_reference := True
 					end
 					i := i + 1
 				end
+				if has_reference then
+					new_tuple.compare_objects
+				end
+				default_tuple := new_tuple
 			end
 		end
 
@@ -195,7 +210,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	default_value: TUPLE
+	default_tuple: TUPLE
 
 	member_types: ARRAY [TYPE [ANY]]
 		-- types of tuple members
@@ -204,6 +219,9 @@ feature {NONE} -- Constants
 
 	Default_defined: BOOLEAN = True
 
-	Twin_default_value: BOOLEAN = True
+	Default_strings: EL_OBJECTS_BY_TYPE
+		once
+			create Result.make_from_array (<< Empty_string, Empty_string_8, Empty_string_32 >>)
+		end
 
 end

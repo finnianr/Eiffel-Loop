@@ -10,16 +10,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 6:31:18 GMT (Monday 18th December 2017)"
-	revision: "2"
+	date: "2018-04-24 8:42:14 GMT (Tuesday 24th April 2018)"
+	revision: "4"
 
 class
 	PP_PAYMENT_STATUS_ENUM
 
 inherit
 	EL_ENUMERATION [NATURAL_8]
-		redefine
-			export_name, import_name
+		rename
+			export_name as to_english,
+			import_name as from_upper_snake_case
 		end
 
 create
@@ -64,16 +65,4 @@ feature -- Access
 	voided: NATURAL_8
 		-- This authorization has been voided.
 
-feature {NONE} -- Implementation
-
-	export_name: like Naming.default_export
-		do
-			Result := agent Naming.to_english (?, ?, Naming.no_words)
-		end
-
-	import_name: like Naming.default_import
-		-- Paypal is propercase with underscores
-		do
-			Result := agent Naming.from_upper_snake_case
-		end
 end

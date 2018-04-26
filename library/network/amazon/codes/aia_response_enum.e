@@ -9,16 +9,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 6:01:30 GMT (Monday 18th December 2017)"
-	revision: "3"
+	date: "2018-04-23 11:58:10 GMT (Monday 23rd April 2018)"
+	revision: "4"
 
 class
 	AIA_RESPONSE_ENUM
 
 inherit
 	EL_ENUMERATION [NATURAL_8]
-		redefine
-			export_name
+		rename
+			export_name as to_upper_snake_case,
+			import_name as import_default
 		end
 
 create
@@ -37,12 +38,5 @@ feature -- Access
 	fail_other: NATURAL_8
 
 	fail_invalid_purchase_token: NATURAL_8
-
-feature {NONE} -- Implementation
-
-	export_name: like Naming.Default_export
-		do
-			Result := agent Naming.to_upper_snake_case
-		end
 
 end

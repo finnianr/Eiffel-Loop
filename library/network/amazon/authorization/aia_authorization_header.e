@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-09 12:59:02 GMT (Friday 9th February 2018)"
-	revision: "7"
+	date: "2018-04-23 11:58:51 GMT (Monday 23rd April 2018)"
+	revision: "8"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -16,9 +16,9 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
+			export_name as to_camel_case,
+			import_name as from_camel_case,
 			make_default as make
-		redefine
-			import_name
 		end
 
 	EL_SETTABLE_FROM_STRING_8
@@ -106,13 +106,6 @@ feature -- Access
 	signed_headers_list: EL_SPLIT_STRING_LIST [STRING]
 		do
 			create Result.make (signed_headers, Semicolon_string)
-		end
-
-feature {NONE} -- Implementation
-
-	import_name: like Naming.Default_import
-		do
-			Result := agent Naming.from_camel_case
 		end
 
 feature {NONE} -- Constants

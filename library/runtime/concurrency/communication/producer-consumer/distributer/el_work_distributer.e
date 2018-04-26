@@ -1,34 +1,22 @@
 note
 	description: "[
 		Object to distribute work of evaulating routines over a maximum number of threads.
-
-		It can be used directly, or by using one of it's two descendants [$source EL_FUNCTION_DISTRIBUTER]
-		and [$source EL_PROCEDURE_DISTRIBUTER].
+		It can be used directly, or with one of it's two descendants.
 	]"
-	instructions: "[
-		Use the class in the following way:
-		
-		**1.** Declare an instance of [$source EL_WORK_DISTRIBUTER]
-			
-		**2.** Repeatedly call `wait_apply' with the routines you want to execute in parallel.
-			distributer.wait_apply (agent my_routine)
-			
-		**3.** Call the `collect' routine at any time with a list to receive routines that have
-		already been applied (executed)
-		
-		**4.** Call the `do_final' routine to wait for any remaining routines to finish executing and
-		then wipe out all the threads. 
-		
-		**5.** Collect any remaining results with a call to `collect_final'
+	descendants: "[
+			EL_WORK_DISTRIBUTER [R -> ROUTINE]
+				[$source EL_FUNCTION_DISTRIBUTER]
+				[$source EL_PROCEDURE_DISTRIBUTER]
 	]"
+	instructions: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:24:05 GMT (Wednesday 21st February 2018)"
-	revision: "3"
+	date: "2018-04-22 14:21:27 GMT (Sunday 22nd April 2018)"
+	revision: "4"
 
 class
 	EL_WORK_DISTRIBUTER [R -> ROUTINE]
@@ -187,7 +175,25 @@ feature {NONE} -- Internal attributes
 
 	thread_attributes: THREAD_ATTRIBUTES
 
-	threads: ARRAYED_LIST [EL_WORK_DISTRIBUTION_THREAD]
+	threads: ARRAYED_LIST [EL_WORK_DISTRIBUTION_THREAD];
 		-- pool of worker threads
+
+note
+	instructions: "[
+		Use the class in the following way:
+
+		**1.** Declare an instance of [$source EL_WORK_DISTRIBUTER]
+
+		**2.** Repeatedly call `wait_apply' with the routines you want to execute in parallel.
+			distributer.wait_apply (agent my_routine)
+
+		**3.** Call the `collect' routine at any time with a list to receive routines that have
+		already been applied (executed)
+
+		**4.** Call the `do_final' routine to wait for any remaining routines to finish executing and
+		then wipe out all the threads.
+
+		**5.** Collect any remaining results with a call to `collect_final'
+	]"
 
 end

@@ -24,8 +24,6 @@ inherit
 
 	PP_SHARED_PARAMETER_ENUM
 
-	PP_SHARED_REFLECTION_MANAGER
-
 create
 	make
 
@@ -38,7 +36,6 @@ feature {NONE} -- Initialization
 		local
 			version: ZSTRING
 		do
-			initialize_reflection
 			credentials := a_credentials
 			create api_version.make (Parameter.version, a_api_version.out)
 			is_sandbox := a_is_sandbox

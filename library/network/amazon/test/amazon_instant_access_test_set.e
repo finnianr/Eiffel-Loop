@@ -47,11 +47,6 @@ inherit
 			default_create
 		end
 
-	AIA_SHARED_REFLECTION_MANAGER
-		undefine
-			default_create
-		end
-
 feature -- Account Linking
 
 	test_response_code
@@ -314,7 +309,6 @@ feature {NONE} -- Events
 	on_prepare
 			-- Called after all initializations in `default_create'.
 		do
-			Initialize_reflection
 			Precursor
 			Credential_list.extend (Credential)
 		end

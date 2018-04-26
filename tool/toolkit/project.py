@@ -2,12 +2,15 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 5); build = 410
+version = (1, 2, 6); build = 411
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.6
+# Fixed missing argument for EL_CRYPTO_COMMAND_SHELL in CRYPTO_APP
 
 # 1.2.5
 # Changed THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP to export XHTML

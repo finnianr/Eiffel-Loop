@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_MAKEABLE}."
+	description: "Object that is initializeable by a call to make"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -12,7 +12,7 @@ note
 deferred class
 	EL_MAKEABLE
 
-feature {EL_REFLECTION_MANAGER} -- Initialization
+feature {EL_REFLECTION_HANDLER} -- Initialization
 
 	make
 		deferred

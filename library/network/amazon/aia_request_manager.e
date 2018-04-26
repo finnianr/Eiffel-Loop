@@ -24,8 +24,6 @@ inherit
 
 	AIA_SHARED_ENUMERATIONS
 
-	AIA_SHARED_REFLECTION_MANAGER
-
 create
 	make
 
@@ -33,8 +31,6 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			initialize_reflection
-
 			create error_message.make_empty
 			create get_user_id.make
 			create purchase.make

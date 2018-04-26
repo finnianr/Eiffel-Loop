@@ -25,8 +25,8 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor
 			create button_list.make (5)
+			Precursor
 		end
 
 feature -- Access

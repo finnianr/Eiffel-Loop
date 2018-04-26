@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-13 12:44:32 GMT (Wednesday 13th December 2017)"
-	revision: "3"
+	date: "2018-04-24 9:24:29 GMT (Tuesday 24th April 2018)"
+	revision: "4"
 
 deferred class
 	EL_EXCHANGE_RATE_TABLE
@@ -34,7 +34,7 @@ inherit
 			copy, is_equal
 		end
 
-	EL_SHARED_CURRENCY_CODES
+	EL_SHARED_CURRENCY_ENUM
 		undefine
 			copy, is_equal
 		end

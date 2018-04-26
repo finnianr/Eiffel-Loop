@@ -19,10 +19,6 @@ feature {NONE} -- Implementation
 
 	new_string (general: READABLE_STRING_GENERAL): ZSTRING
 		do
-			if attached {ZSTRING} general as z_str then
-				Result := z_str
-			else
-				create Result.make_from_general (general)
-			end
+			create Result.make_from_general (general)
 		end
 end

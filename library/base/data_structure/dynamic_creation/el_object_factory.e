@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_OBJECT_FACTORY_2}."
+	description: "Factory for instances of Eiffel classes conforming to parameter G"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-27 13:09:14 GMT (Monday 27th November 2017)"
-	revision: "4"
+	date: "2018-04-22 8:54:20 GMT (Sunday 22nd April 2018)"
+	revision: "5"
 
 class
 	EL_OBJECT_FACTORY [G]

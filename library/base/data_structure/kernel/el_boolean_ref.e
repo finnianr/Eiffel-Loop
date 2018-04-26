@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-03 12:50:18 GMT (Wednesday 3rd January 2018)"
-	revision: "3"
+	date: "2018-04-23 11:35:34 GMT (Monday 23rd April 2018)"
+	revision: "4"
 
 class
 	EL_BOOLEAN_REF
@@ -26,7 +26,9 @@ inherit
 
 	EL_REFLECTIVE
 		rename
-			field_included as is_any_field
+			field_included as is_any_field,
+			export_name as export_default,
+			import_name as import_default
 		undefine
 			out
 		end

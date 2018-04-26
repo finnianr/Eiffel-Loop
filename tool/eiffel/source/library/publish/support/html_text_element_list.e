@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-28 17:21:32 GMT (Sunday 28th May 2017)"
-	revision: "4"
+	date: "2018-04-22 10:09:34 GMT (Sunday 22nd April 2018)"
+	revision: "5"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -153,6 +153,16 @@ feature {NONE} -- Factory
 			end
 		end
 
+	new_html_element: HTML_TEXT_ELEMENT
+		do
+			create Result.make (Markdown.as_html (lines.joined_lines), element_type)
+		end
+
+	new_preformatted_html_element: HTML_TEXT_ELEMENT
+		do
+			create Result.make (XML.escaped (lines.joined_lines), Type_preformatted)
+		end
+
 feature {NONE} -- Implementation
 
 	add_element
@@ -179,22 +189,16 @@ feature {NONE} -- Implementation
 						end
 						lines.forth
 					end
-					extend (create {HTML_TEXT_ELEMENT}.make (XML.escaped (lines.joined_lines), element_type))
+					extend (new_preformatted_html_element)
 
 				else
 					if element_type ~ Type_ordered_list or element_type ~ Type_unordered_list then
 						lines.extend (new_list_item_tag (element_type, False))
 					end
-					extend (create {HTML_TEXT_ELEMENT}.make (html_description, element_type))
+					extend (new_html_element)
 				end
 				lines.wipe_out
 			end
-		end
-
-	html_description: ZSTRING
-			-- escaped description with html formatting
-		do
-			Result := Markdown.as_html (lines.joined_lines)
 		end
 
 feature {NONE} -- Internal attributes

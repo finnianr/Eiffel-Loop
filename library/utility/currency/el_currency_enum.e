@@ -6,16 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 5:37:39 GMT (Monday 18th December 2017)"
-	revision: "2"
+	date: "2018-04-24 8:38:45 GMT (Tuesday 24th April 2018)"
+	revision: "3"
 
 class
 	EL_CURRENCY_ENUM
 
 inherit
 	EL_ENUMERATION [NATURAL_8]
-		redefine
-			export_name, import_name
+		rename
+			export_name as to_upper_snake_case,
+			import_name as from_upper_snake_case
 		end
 
 create
@@ -93,18 +94,6 @@ feature -- Access
 		-- currencies that do no have decimal fractions (according to Paypal at least)
 		do
 			Result := << HUF, JPY, TWD >>
-		end
-
-feature {NONE} -- Implementation
-
-	export_name: like Naming.Default_export
-		do
-			Result := agent Naming.to_upper_snake_case
-		end
-
-	import_name: like Naming.Default_import
-		do
-			Result := agent Naming.from_upper_snake_case
 		end
 
 end

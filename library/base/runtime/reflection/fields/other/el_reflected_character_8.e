@@ -34,6 +34,11 @@ feature -- Access
 
 feature -- Basic operations
 
+	reset (a_object: EL_REFLECTIVE)
+		do
+			set (a_object, '%U')
+		end
+
 	set (a_object: EL_REFLECTIVE; a_value: CHARACTER_8)
 		do
 			enclosing_object := a_object

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 12:25:22 GMT (Friday 2nd March 2018)"
-	revision: "8"
+	date: "2018-04-23 13:25:49 GMT (Monday 23rd April 2018)"
+	revision: "9"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -20,16 +20,18 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			make_default as make,
-			field_included as is_any_field
+			field_included as is_any_field,
+			export_name as export_default,
+			import_name as from_upper_snake_case
 		redefine
-			make, Except_fields, import_name
+			make, Except_fields
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
 		rename
 			make_default as make
 		redefine
-			set_field
+			set_table_field
 		end
 
 	EL_STRING_CONSTANTS
@@ -154,7 +156,7 @@ feature -- Element change
 
 	wipe_out
 		do
-			set_default_values
+			reset_fields
 			headers.wipe_out
 			content.wipe_out
 		end
@@ -300,9 +302,15 @@ feature -- ZSTRING parameters
 
 	server_software: ZSTRING
 
-feature -- Element change
+feature {NONE} -- Implementation
 
-	set_field (name: STRING; value: ZSTRING)
+	append_byte (byte_string: STRING; n: NATURAL_32_REF)
+		do
+			n.set_item (n.item |<< 8 | byte_string.to_natural_32)
+		end
+
+	set_table_field (table: like field_table; name: STRING; value: ZSTRING)
+
 		local
 			prefixes: like Header_prefixes
 		do
@@ -315,20 +323,8 @@ feature -- Element change
 				end
 				headers.set_field (name, value)
 			else
-				Precursor (name, value)
+				Precursor (table, name, value)
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	append_byte (byte_string: STRING; n: NATURAL_32_REF)
-		do
-			n.set_item (n.item |<< 8 | byte_string.to_natural_32)
-		end
-
-	import_name: like Naming.Default_import
-		do
-			Result := agent Naming.from_upper_snake_case
 		end
 
 	starts_with (name, a_prefix: STRING): BOOLEAN

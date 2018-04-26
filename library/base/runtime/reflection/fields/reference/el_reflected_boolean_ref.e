@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTED_REFERENCE
 		redefine
-			default_value, set_from_readable, set_from_string, twin_default_value, write
+			default_value, set_from_readable, set_from_string,  write
 		end
 
 create
@@ -41,9 +41,5 @@ feature -- Element change
 feature {NONE} -- Internal attributes
 
 	default_value: EL_BOOLEAN_REF
-
-feature {NONE} -- Constants
-
-	Twin_default_value: BOOLEAN = True
 
 end

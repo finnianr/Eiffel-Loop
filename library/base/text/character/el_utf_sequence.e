@@ -1,7 +1,9 @@
 note
-	description: "[
-		UTF sequence for single unicode character. See descendants: [$source EL_UTF_8_SEQUENCE] and
-		[$source EL_UTF_16_SEQUENCE]
+	description: "UTF sequence for single unicode character."
+	descendants: "[
+			EL_UTF_SEQUENCE
+				[$source EL_UTF_8_SEQUENCE]
+				[$source EL_UTF_16_SEQUENCE]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-09 12:28:39 GMT (Monday 9th April 2018)"
-	revision: "1"
+	date: "2018-04-22 12:58:06 GMT (Sunday 22nd April 2018)"
+	revision: "2"
 
 class
 	EL_UTF_SEQUENCE

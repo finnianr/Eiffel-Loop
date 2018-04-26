@@ -9,10 +9,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-01 9:45:15 GMT (Sunday 1st April 2018)"
-	revision: "2"
+	date: "2018-04-23 12:11:07 GMT (Monday 23rd April 2018)"
+	revision: "3"
 
-class
+deferred class
 	EL_COOKIE_SETTABLE
 
 inherit
@@ -43,7 +43,7 @@ feature -- Element change
 
 	set_from_cookies (cookies: EL_HTTP_COOKIE_TABLE)
 		do
-			set_default_values
+			reset_fields
 			set_from_table (cookies)
 		end
 

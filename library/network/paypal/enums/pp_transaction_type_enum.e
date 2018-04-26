@@ -14,16 +14,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-20 8:59:55 GMT (Wednesday 20th December 2017)"
-	revision: "1"
+	date: "2018-04-23 12:37:24 GMT (Monday 23rd April 2018)"
+	revision: "3"
 
 class
 	PP_TRANSACTION_TYPE_ENUM
 
 inherit
 	EL_ENUMERATION [NATURAL_8]
-		redefine
-			export_name
+		rename
+			export_name as to_english,
+			import_name as import_default
 		end
 
 create
@@ -128,12 +129,5 @@ feature -- Access
 		-- * A Direct Credit Card (Pro) transaction
 
 		-- * A Buy Now, Donation or Smart Logo for eBay auctions button
-
-feature {NONE} -- Implementation
-
-	export_name: like Naming.default_export
-		do
-			Result := agent Naming.to_english (?, ?, Naming.no_words)
-		end
 
 end

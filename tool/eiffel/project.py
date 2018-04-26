@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 9); build = 40
+version = (1, 0, 10); build = 41
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.10
+# Expand [$source] in preformatted sections
 
 # 1.0.9
 # Added UNDEFINE_PATTERN_COUNTER_APP

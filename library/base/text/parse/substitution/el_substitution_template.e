@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-28 15:57:18 GMT (Thursday 28th December 2017)"
-	revision: "9"
+	date: "2018-04-20 9:07:39 GMT (Friday 20th April 2018)"
+	revision: "10"
 
 deferred class
 	EL_SUBSTITUTION_TEMPLATE
@@ -32,9 +32,9 @@ inherit
 
 	EL_SHARED_OBJECT_POOL
 
-	STRING_HANDLER
-
 	EL_REFLECTION_HANDLER
+
+	STRING_HANDLER
 
 feature {NONE} -- Initialization
 
@@ -176,7 +176,7 @@ feature -- Element change
 			i, field_count: INTEGER; name: ZSTRING
 		do
 			name := Once_name
-			if attached {EL_REFLECTIVELY_SETTABLE} object as reflective then
+			if attached {EL_REFLECTIVE} object as reflective then
 				table := reflective.field_table
 				from table.start until table.after loop
 					name.wipe_out
@@ -309,6 +309,11 @@ feature {NONE} -- Constants
 	Once_name: ZSTRING
 		once
 			create Result.make_empty
+		end
+
+	Meta_data_by_type: HASH_TABLE [EL_CLASS_META_DATA, TYPE [ANY]]
+		once
+			create Result.make_equal (11)
 		end
 
 end

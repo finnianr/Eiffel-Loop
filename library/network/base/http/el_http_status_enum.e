@@ -8,16 +8,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 10:55:29 GMT (Friday 2nd March 2018)"
-	revision: "6"
+	date: "2018-04-23 12:41:36 GMT (Monday 23rd April 2018)"
+	revision: "7"
 
 class
 	EL_HTTP_STATUS_ENUM
 
 inherit
 	EL_ENUMERATION [NATURAL_16]
+		rename
+			export_name as to_english,
+			import_name as import_default
 		redefine
-			set_default_values, export_name
+			initialize_fields, export_to_english
 		end
 
 create
@@ -25,7 +28,7 @@ create
 
 feature {NONE} -- Initialization
 
-	set_default_values
+	initialize_fields
 		do
 			continue := 100
 			switching_protocols := 101
@@ -224,9 +227,9 @@ feature -- 5xx codes
 
 feature {NONE} -- Implementation
 
-	export_name: like Naming.default_export
+	export_to_english (name_in, english_out: STRING)
 		do
-			Result := agent Naming.to_english (?, ?, Upper_case_words)
+			Naming.to_english (name_in, english_out, Upper_case_words)
 		end
 
 feature {NONE} -- Constants

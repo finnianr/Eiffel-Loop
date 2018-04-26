@@ -10,16 +10,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-20 8:10:53 GMT (Wednesday 20th December 2017)"
-	revision: "2"
+	date: "2018-04-23 12:40:33 GMT (Monday 23rd April 2018)"
+	revision: "4"
 
 class
 	PP_PAYMENT_PENDING_REASON_ENUM
 
 inherit
 	EL_ENUMERATION [NATURAL_8]
-		redefine
-			export_name
+		rename
+			export_name as to_english,
+			import_name as import_default
 		end
 
 create
@@ -77,12 +78,5 @@ feature -- Access
 	other: NATURAL_8
 		-- The payment is pending for a reason other than those listed above. For more information,
 		-- contact PayPal Customer Service.
-
-feature {NONE} -- Implementation
-
-	export_name: like Naming.default_export
-		do
-			Result := agent Naming.to_english (?, ?, Naming.no_words)
-		end
 
 end

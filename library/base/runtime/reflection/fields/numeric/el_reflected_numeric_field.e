@@ -34,6 +34,15 @@ feature -- Access
 			end
 		end
 
+feature -- Basic operations
+
+	reset (a_object: EL_REFLECTIVE)
+		local
+			n: N
+		do
+			set (a_object, n.zero)
+		end
+
 feature {NONE} -- Implementation
 
 	append (string: STRING; a_value: like value)

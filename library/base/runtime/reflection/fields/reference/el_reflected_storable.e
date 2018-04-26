@@ -17,7 +17,7 @@ class
 inherit
 	EL_REFLECTED_READABLE
 		redefine
-			 default_value, write, print_meta_data, to_string, set_from_string, twin_default_value
+			 default_value, write, print_meta_data, to_string, set_from_string
 		end
 
 create
@@ -71,9 +71,5 @@ feature -- Basic operations
 feature {NONE} -- Internal attributes
 
 	default_value: EL_STORABLE
-
-feature {NONE} -- Constants
-
-	Twin_default_value: BOOLEAN = True
 
 end

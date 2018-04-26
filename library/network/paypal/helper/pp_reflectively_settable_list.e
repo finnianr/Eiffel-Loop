@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PP_ARRAYED_LIST}."
+	description: "List of objects conforming to [$source PP_REFLECTIVELY_SETTABLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -14,6 +14,13 @@ class
 
 inherit
 	EL_ARRAYED_LIST [G]
+
+	EL_MAKEABLE
+		rename
+			make as make_empty
+		undefine
+			is_equal, copy
+		end
 
 create
 	make

@@ -1,13 +1,16 @@
 note
-	description: "RSA key reflectively createable from PKCS1 standard names"
+	description: "[
+		RSA key reflectively createable from PKCS1 standard names. Base class for [$source EL_RSA_PUBLIC_KEY]
+		and [$source EL_RSA_PRIVATE_KEY].
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-04-23 12:31:35 GMT (Monday 23rd April 2018)"
+	revision: "4"
 
 deferred class
 	EL_REFLECTIVE_RSA_KEY
@@ -15,9 +18,16 @@ deferred class
 inherit
 	EL_REFLECTIVE
 		rename
-			field_included as is_any_field
+			field_included as is_any_field,
+			export_name as export_default,
+			import_name as from_camel_case
 		redefine
-			Import_name, print_fields
+			print_fields
+		end
+
+	EL_SETTABLE_FROM_STRING_8
+		rename
+			make_from_map_list as make_settable_from_map_list
 		end
 
 	EL_MODULE_BASE_64
@@ -30,19 +40,15 @@ feature {NONE} -- Initialization
 		deferred
 		end
 
-	make_from_map_list (map_list: EL_ARRAYED_MAP_LIST [STRING, STRING])
-		local
-			table: like field_table
+	make_from_map_list (map_list: like RSA.pkcs1_map_list)
+		-- make from RSA PKCS1 map list
 		do
-			make_default
-			table := field_table
-			from map_list.start until map_list.after loop
-				table.search (map_list.item_key)
-				if table.found then
-					table.found_item.set (Current, Rsa.integer_x_from_hex_sequence (map_list.item_value))
-				end
-				map_list.forth
-			end
+			make_from_converted_map_list (map_list, agent RSA.integer_x_from_hex_sequence)
+		end
+
+	make_from_pkcs1 (lines: LINEAR [ZSTRING])
+		do
+			make_from_map_list (RSA.pkcs1_map_list (lines))
 		end
 
 feature -- Basic operations
@@ -63,11 +69,6 @@ feature {NONE} -- Implementation
 	Default_exponent: INTEGER_X
 		once
 			create Result.make_from_integer (65537)
-		end
-
-	import_name: like Naming.default_export
-		do
-			Result := agent Naming.from_camel_case
 		end
 
 	put_number (a_lio: EL_LOGGABLE; label: ZSTRING; number: INTEGER_X; indefinite_length: BOOLEAN)

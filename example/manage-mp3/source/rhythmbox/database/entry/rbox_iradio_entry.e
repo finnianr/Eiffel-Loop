@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-04 11:50:42 GMT (Wednesday 4th April 2018)"
-	revision: "14"
+	date: "2018-04-23 12:51:12 GMT (Monday 23rd April 2018)"
+	revision: "15"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -34,9 +34,11 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			make_default as make,
-			field_included as is_string_or_expanded_field
+			field_included as is_string_or_expanded_field,
+			export_name as to_kebab_case,
+			import_name as import_default
 		redefine
-			make, Except_fields, export_name
+			make, Except_fields
 		end
 
 	EL_SETTABLE_FROM_XML_NODE
@@ -153,11 +155,6 @@ feature {NONE} -- Build from XML
 		do
 			Result := building_actions_for_type ({ZSTRING}, Text_element_node) +
 				["location/text()", agent do set_location_from_uri (Url.decoded_path (node.to_string_8)) end]
-		end
-
-	export_name: like Naming.default_export
-		do
-			Result := agent Naming.to_kebab_case
 		end
 
 	on_context_exit

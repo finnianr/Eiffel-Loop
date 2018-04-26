@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-28 16:24:47 GMT (Thursday 28th December 2017)"
-	revision: "7"
+	date: "2018-04-23 11:37:20 GMT (Monday 23rd April 2018)"
+	revision: "8"
 
 class
 	AIA_CREDENTIAL_ID
@@ -15,7 +15,9 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_any_field
+			field_included as is_any_field,
+			export_name as export_default,
+			import_name as import_default
 		end
 
 	EL_SETTABLE_FROM_STRING_8

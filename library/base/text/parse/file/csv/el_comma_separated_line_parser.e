@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-21 19:19:26 GMT (Thursday 21st December 2017)"
-	revision: "4"
+	date: "2018-04-24 10:58:38 GMT (Tuesday 24th April 2018)"
+	revision: "6"
 
 class
 	EL_COMMA_SEPARATED_LINE_PARSER
@@ -61,7 +61,7 @@ feature -- Basic operations
 		do
 			table := object.field_table; field := fields
 			from field.start until field.after loop
-				table.search (field.item.name)
+				table.search (field.item.name, object)
 				if table.found then
 					table.found_item.set_from_string (object, field.item.value)
 				end

@@ -31,8 +31,11 @@ feature -- Access
 feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+		local
+			l_value: like value
 		do
-			set (a_object, string.to_string_32)
+			l_value := value (a_object)
+			l_value.wipe_out; l_value.append_string_general (string)
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
@@ -47,7 +50,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	set_default
+	initialize_default
 		do
 			default_value := Empty_string_32
 		end

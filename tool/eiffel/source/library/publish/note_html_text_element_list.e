@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:30:26 GMT (Thursday 29th June 2017)"
-	revision: "3"
+	date: "2018-04-22 10:17:33 GMT (Sunday 22nd April 2018)"
+	revision: "4"
 
 class
 	NOTE_HTML_TEXT_ELEMENT_LIST
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_list
 		redefine
-			Markdown, html_description
+			Markdown, new_html_element, new_preformatted_html_element
 		end
 
 create
@@ -31,13 +31,19 @@ feature {NONE} -- Initialization
 			make_list (markdown_lines)
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Factory
 
-	html_description: ZSTRING
+	new_html_element: HTML_TEXT_ELEMENT
 			-- escaped description with html formatting
 		do
 			Markdown.set_relative_page_dir (relative_page_dir)
-			Result := Markdown.as_html (lines.joined_lines)
+			Result := Precursor
+		end
+
+	new_preformatted_html_element: HTML_TEXT_ELEMENT
+		do
+			Preformatted_markdown.set_relative_page_dir (relative_page_dir)
+			create Result.make (Preformatted_markdown.as_html (lines.joined_lines), Type_preformatted)
 		end
 
 feature {NONE} -- Internal attributes
@@ -48,6 +54,11 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Markdown: NOTE_MARKDOWN_RENDERER
+		once
+			create Result
+		end
+
+	Preformatted_markdown: PREFORMATTED_NOTE_MARKDOWN_RENDERER
 		once
 			create Result
 		end

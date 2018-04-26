@@ -50,8 +50,8 @@ feature -- Basic operations
 
 	run
 		do
-			lio.enter ("encode_string_for_console")
-			encode_string_for_console
+			lio.enter ("twin_tuple")
+			twin_tuple
 			lio.exit
 		end
 
@@ -776,6 +776,14 @@ feature -- Experiments
 				lio.put_new_line
 				i := i + 1
 			end
+		end
+
+	twin_tuple
+		local
+			t1, t2: TUPLE [name: STRING]
+		do
+			t1 := ["eiffel"]
+			t2 := t1.deep_twin
 		end
 
 	twinning_procedures

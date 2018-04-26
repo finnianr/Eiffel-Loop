@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 5:51:50 GMT (Monday 18th December 2017)"
-	revision: "4"
+	date: "2018-04-24 9:24:29 GMT (Tuesday 24th April 2018)"
+	revision: "5"
 
 class
 	EL_CURRENCY
@@ -30,7 +30,7 @@ inherit
 			is_equal
 		end
 
-	EL_SHARED_CURRENCY_CODES
+	EL_SHARED_CURRENCY_ENUM
 		undefine
 			is_equal
 		end

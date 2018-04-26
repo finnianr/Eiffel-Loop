@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Window for application installer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 13:09:30 GMT (Monday 22nd May 2017)"
-	revision: "2"
+	date: "2018-04-22 13:14:08 GMT (Sunday 22nd April 2018)"
+	revision: "3"
 
 class
 	EL_APPLICATION_INSTALLER_WINDOW [INSTALLER_TYPE -> EL_APPLICATION_INSTALLER create make end]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-17 17:45:04 GMT (Wednesday 17th January 2018)"
-	revision: "5"
+	date: "2018-04-24 12:16:23 GMT (Tuesday 24th April 2018)"
+	revision: "6"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -29,11 +29,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (n: INTEGER; a_import_name: like import_name)
+	make (n: INTEGER)
 		do
 			make_equal (n)
-			import_name := a_import_name
-			name_argument := [create {STRING}.make_empty, create {STRING}.make_empty]
 			create last_query.make (0)
 		end
 
@@ -58,29 +56,28 @@ feature -- Basic operations
 			end
 		end
 
-	search (name: READABLE_STRING_GENERAL)
+	search (a_name: READABLE_STRING_GENERAL; adapter: EL_WORD_SEPARATION_ADAPTER)
 		local
-			field_name: STRING
+			name: STRING
 		do
-			field_name := name_argument.name_in
-			field_name.wipe_out
-			if attached {ZSTRING} name as z_name then
-				z_name.append_to_string_8 (field_name)
+			if attached {STRING} a_name as name_8 then
+				name := name_8
 			else
-				field_name.append (name.to_string_8)
+				name := Name_in; name.wipe_out
+				if attached {ZSTRING} a_name as z_name then
+					z_name.append_to_string_8 (name)
+				else
+					name.append_string_general (a_name)
+				end
 			end
-			if import_name /= Naming.Default_export then
-				name_argument.name_out.wipe_out
-				import_name.call (name_argument)
-				field_name := name_argument.name_out
-			end
-			search_field (field_name)
+			search_field (adapter.import_name (name, False))
 		end
 
 feature {NONE} -- Internal attributes
 
-	import_name: like Naming.Default_import
-
-	name_argument: TUPLE [name_in, name_out: STRING]
+	Name_in: STRING
+		once
+			create Result.make (20)
+		end
 
 end

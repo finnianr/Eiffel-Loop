@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 16:28:16 GMT (Tuesday 10th April 2018)"
-	revision: "10"
+	date: "2018-04-23 12:09:54 GMT (Monday 23rd April 2018)"
+	revision: "12"
 
 class
 	PP_TRANSACTION
@@ -24,9 +24,11 @@ inherit
 
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_any_field
+			field_included as is_any_field,
+			export_name as export_default,
+			import_name as import_default
 		redefine
-			set_default_values
+			make_default, default_values
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -41,10 +43,11 @@ feature {NONE} -- Initialization
 			make_default
 		end
 
-	set_default_values
+	make_default
 		do
-			Precursor
 			create address.make_default
+			create payment_date.make_now
+			Precursor
 		end
 
 feature -- Payer
@@ -151,6 +154,11 @@ feature -- Access
 	invoice: STRING
 
 feature {NONE} -- Implementation
+
+	default_values: ARRAY [ANY]
+		do
+			Result := << create {PP_DATE_TIME}.make_now >>
+		end
 
 	set_name_value (key, a_value: ZSTRING)
 		do

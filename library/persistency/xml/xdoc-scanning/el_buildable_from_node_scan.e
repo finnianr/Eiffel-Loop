@@ -13,14 +13,15 @@ note
 		and [$source EL_BUILDABLE_FROM_PYXIS]. The latter
 		implements a parser for Pyxis, an XML analog with a Python inspired syntax.
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 10:42:45 GMT (Friday 2nd March 2018)"
-	revision: "6"
+	date: "2018-04-22 13:27:18 GMT (Sunday 22nd April 2018)"
+	revision: "7"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -130,4 +131,20 @@ feature {NONE} -- Constants
 			create Result.make (11)
 		end
 
+note
+	descendants: "[
+			EL_BUILDABLE_FROM_NODE_SCAN*
+				[$source EL_SMART_BUILDABLE_FROM_NODE_SCAN]
+					[$source EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER]
+				[$source EL_BUILDABLE_FROM_XML]*
+					[$source BIOINFORMATIC_COMMANDS]
+					[$source MATRIX_CALCULATOR]
+				[$source EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN]*
+					[$source EL_FILE_PERSISTENT_BUILDABLE_FROM_XML]*
+						[$source WEB_FORM]
+						[$source SMIL_PRESENTATION]
+				[$source EL_BUILDABLE_FROM_PYXIS]*
+					[$source EL_TRANSLATION_TABLE]
+
+	]"
 end

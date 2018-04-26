@@ -15,7 +15,8 @@ deferred class
 inherit
 	EL_REFLECTED_REFERENCE
 		redefine
-			default_value, set_from_string, set_from_readable, to_string
+			default_value, default_defined, initialize_default, reset,
+			set_from_string, set_from_readable, to_string
 		end
 
 	EL_REFLECTOR_CONSTANTS
@@ -28,13 +29,10 @@ feature -- Basic operations
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
-		local
-			new_value: like default_value
 		do
-			if attached {like default_value} default_value as l_value then
-				new_value := l_value.twin
-				new_value.make_from_general (string)
-				set (a_object, new_value)
+			enclosing_object := a_object
+			if attached {like default_value} reference_field (index) as l_value then
+				l_value.make_from_general (string)
 			end
 		end
 
@@ -45,10 +43,35 @@ feature -- Access
 			Result := value (a_object).to_string
 		end
 
+feature -- Status query
+
+	default_defined: BOOLEAN
+		do
+			Result := not Default_value_table.has (type_id)
+									and then field_conforms_to (type_id, Makeable_from_string_type)
+		end
+
+feature -- Basic operations
+
+	reset (a_object: EL_REFLECTIVE)
+		do
+			if attached value (a_object) as l_value then
+				l_value.make_default
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	as_string (readable: EL_READABLE): STRING_GENERAL
 		deferred
+		end
+
+	initialize_default
+		do
+			if attached {like default_value} new_default_value as new_value then
+				new_value.make_default
+				default_value := new_value
+			end
 		end
 
 feature {NONE} -- Internal attributes

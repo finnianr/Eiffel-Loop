@@ -14,25 +14,10 @@ class
 
 inherit
 	EQA_TEST_SET
-		redefine
-			on_prepare
-		end
 
 	EL_MODULE_LIO
 		undefine
 			default_create
-		end
-
-	EL_SHARED_REFLECTION_MANAGER
-		undefine
-			default_create
-		end
-
-feature {NONE} -- Initialization
-
-	initialize_reflection
-		once
-			Reflection_manager.register_types (<< {EL_UUID} >>)
 		end
 
 feature -- Basic operations
@@ -65,13 +50,6 @@ feature -- Basic operations
 
 	test_uuid
 		do
-		end
-
-feature {NONE} -- Implementation
-
-	on_prepare
-		do
-			Initialize_reflection
 		end
 
 feature {NONE} -- Constants

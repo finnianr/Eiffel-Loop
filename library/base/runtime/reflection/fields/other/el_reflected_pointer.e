@@ -30,6 +30,11 @@ feature -- Access
 
 feature -- Basic operations
 
+	reset (a_object: EL_REFLECTIVE)
+		do
+			set (a_object, default_pointer)
+		end
+
 	set (a_object: EL_REFLECTIVE; a_value: POINTER)
 		do
 			enclosing_object := a_object

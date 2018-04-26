@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-17 14:40:15 GMT (Saturday 17th February 2018)"
-	revision: "6"
+	date: "2018-04-18 15:21:38 GMT (Wednesday 18th April 2018)"
+	revision: "7"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -164,8 +164,7 @@ feature -- Basic operations
 
 	write_x509_public_key_code_assignment
 		local
-			reader_command: like X509_command.new_certificate_reader
-			variable_name: STRING
+			variable_name: STRING; public_key: EL_RSA_PUBLIC_KEY
 			crt_file_path: EL_FILE_PATH; eiffel_source_name: like new_eiffel_source_name
 			source_code: PLAIN_TEXT_FILE
 		do
@@ -176,10 +175,9 @@ feature -- Basic operations
 			eiffel_source_name := new_eiffel_source_name
 			variable_name := User_input.line ("Variable name").to_string_8
 
-			reader_command := X509_command.new_certificate_reader (crt_file_path)
-			reader_command.execute
 			create source_code.make_open_write (eiffel_source_name)
-			write_public_key_eiffel_code_assignment (source_code, variable_name, reader_command.public_key.modulus.as_bytes)
+			create public_key.make_from_x509_cert (crt_file_path)
+			write_public_key_eiffel_code_assignment (source_code, variable_name, public_key.modulus.as_bytes)
 			source_code.close
 			lio.put_labeled_string ("Created", eiffel_source_name)
 			lio.exit

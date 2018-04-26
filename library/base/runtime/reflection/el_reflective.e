@@ -6,26 +6,43 @@ note
 		It is permitted to have a trailing underscore to prevent clashes with Eiffel keywords.
 		The field is settable with `set_field' by a name string that does not have a trailing underscore.
 
-		To adapt foreign names that do not follow the Eiffel snake-case convention redefine `import_name'
-		to return a routine in [$source EL_NAMING_ROUTINES] (accessible as `Naming.from_*'). To export Eiffel names
-		redefine `export_name' to return a routine in [$source EL_NAMING_ROUTINES] (accessible as `Naming.to_*').
+		To adapt foreign names that do not follow the Eiffel snake_case word separation convention,
+		rename `import_name' in the inheritance clause to one of the predefined routines `from_*'.
+		If no adaptation is need rename it to `import_default'. Rename `export_name' in a similar manner
+		as required. Name exporting routines are named `to_*'.
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-12 17:37:50 GMT (Thursday 12th April 2018)"
-	revision: "12"
+	date: "2018-04-24 10:58:38 GMT (Tuesday 24th April 2018)"
+	revision: "14"
 
 deferred class
 	EL_REFLECTIVE
 
 inherit
-	EL_MODULE_NAMING
+	EL_WORD_SEPARATION_ADAPTER
+		export
+			{NONE} all
+			{EL_REFLECTION_HANDLER} export_name, import_name
+		end
 
 	EL_REFLECTOR_CONSTANTS
+
+feature {NONE} -- Initialization
+
+	initialize_fields
+		-- set fields that have not already been initialized with a value
+		do
+			meta_data.field_array.do_if (
+				agent {EL_REFLECTED_FIELD}.initialize (Current),
+				agent {EL_REFLECTED_FIELD}.is_uninitialized (Current)
+			)
+		end
 
 feature -- Access
 
@@ -73,6 +90,15 @@ feature -- Basic operations
 
 feature -- Element change
 
+	reset_fields
+		-- reset fields in `field_table'
+		-- expanded fields are reset to default values
+		-- fields conforming to `BAG [ANY]' are wiped out (including strings)
+		-- fields conforming to `EL_MAKEABLE_FROM_STRING' are reinitialized
+		do
+			meta_data.field_array.do_all (agent {EL_REFLECTED_FIELD}.reset (Current))
+		end
+
 	set_from_other (other: EL_REFLECTIVE; other_except_list: STRING)
 		-- set fields in `Current' with identical fields from `other' except for
 		-- other fields listed in comma-separated `other_except_list'
@@ -89,7 +115,7 @@ feature -- Element change
 			from table_other.start until table_other.after loop
 				other_field := table_other.item_for_iteration
 				if not except_indices.has (other_field.index) then
-					table.search (other_field.name)
+					table.search (other_field.name, Current)
 					if table.found then
 						field := table.found_item
 						if other_field.type_id = field.type_id then
@@ -152,31 +178,20 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {EL_CLASS_META_DATA, EL_REFLECTED_FIELD_ARRAY} -- Implementation
-
-	export_name: like Naming.default_export
-		-- returns a procedure to export names to a foreign naming convention.
-		--  `Standard_eiffel' means that external names already follow the Eiffel convention
-		do
-			Result := Naming.default_export
-		end
-
-	field_included (object: like current_object; index: INTEGER): BOOLEAN
-		deferred
-		end
-
-	import_name: like Naming.default_export
-		-- returns a procedure to import names using a foreing naming convention to the Eiffel convention.
-		--  `Standard_eiffel' means the external name already follows the Eiffel convention
-		do
-			Result := Naming.default_export
-		end
-
-feature {NONE} -- Implementation
+feature {EL_CLASS_META_DATA} -- Implementation
 
 	current_reflective: like Current
 		do
 			Result := Current
+		end
+
+	default_values: ARRAY [ANY]
+		do
+			create Result.make_empty
+		end
+
+	field_included (object: like current_object; index: INTEGER): BOOLEAN
+		deferred
 		end
 
 	print_field_meta_data (lio: EL_LOGGABLE; array: ARRAY [EL_REFLECTED_FIELD])
@@ -237,5 +252,16 @@ feature {EL_CLASS_META_DATA} -- Constants
 		once
 			create Result.make (Current)
 		end
+
+note
+	descendants: "[
+			EL_REFLECTIVE*
+				[$source EL_BOOLEAN_REF]
+					[$source PP_ADDRESS_STATUS]
+				[$source EL_REFLECTIVE_RSA_KEY]*
+					[$source EL_RSA_PRIVATE_KEY]
+					[$source EL_RSA_PUBLIC_KEY]
+				[$source EL_REFLECTIVELY_SETTABLE]*
+	]"
 
 end

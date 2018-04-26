@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-12 17:34:55 GMT (Thursday 12th April 2018)"
-	revision: "6"
+	date: "2018-04-24 12:00:58 GMT (Tuesday 24th April 2018)"
+	revision: "8"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -26,12 +26,16 @@ inherit
 
 	EL_MODULE_EIFFEL
 
+	EL_REFLECTION_HANDLER
+
 feature {EL_CLASS_META_DATA} -- Initialization
 
 	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: STRING)
 		do
 			make_reflected (a_object)
-			index := a_index; name := a_name; export_name := a_name
+			index := a_index; name := a_name
+			export_name := a_object.export_name (a_name, True)
+
 			type := field_type (index)
 			type_id := field_static_type (index)
 		end
@@ -69,6 +73,16 @@ feature -- Status query
 		deferred
 		end
 
+	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
+		do
+			Result := True
+		end
+
+	is_uninitialized (a_object: EL_REFLECTIVE): BOOLEAN
+		do
+			Result := not is_initialized (a_object)
+		end
+
 feature -- Comparison
 
 	are_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
@@ -88,11 +102,15 @@ feature -- Basic operations
 			end
 		end
 
+	reset (a_object: EL_REFLECTIVE)
+		deferred
+		end
+
 	set (a_object: EL_REFLECTIVE; a_value: like value)
 		deferred
 		end
 
-	set_default_value (a_object: EL_REFLECTIVE)
+	initialize (a_object: EL_REFLECTIVE)
 		do
 		end
 
@@ -119,11 +137,6 @@ feature -- Basic operations
 		end
 
 feature -- Element change
-
-	set_export_name (a_export_name: like export_name)
-		do
-			export_name := a_export_name
-		end
 
 	set_index (a_index: like index)
 		do

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-08 16:51:40 GMT (Sunday 8th April 2018)"
-	revision: "6"
+	date: "2018-04-24 12:00:25 GMT (Tuesday 24th April 2018)"
+	revision: "7"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -33,6 +33,11 @@ inherit
 			is_equal
 		end
 
+	EL_REFLECTION_HANDLER
+		undefine
+			is_equal
+		end
+
 feature {NONE} -- Initialization
 
 	make_from_json (string: STRING)
@@ -46,11 +51,11 @@ feature -- Access
 	as_json: ZSTRING
 		local
 			table: like field_table; is_first: BOOLEAN
-			exported: like Export_tuple; field: TUPLE [name: STRING; value: ZSTRING]
+			field: TUPLE [name: STRING; value: ZSTRING]
 		do
-			create field
+			field := [create {STRING}.make (0), Empty_string]
+
 			Result := empty_once_string
-			exported := Export_tuple
 			table := field_table
 			Result.append_string_general (once "{%N")
 			from is_first := True; table.start until table.after loop
@@ -59,10 +64,7 @@ feature -- Access
 				else
 					Result.append_string_general (once ",%N")
 				end
-				exported.name_out.wipe_out
-				exported.name_in := table.key_for_iteration
-				export_name.call (exported)
-				field.name := exported.name_out
+				field.name := current_reflective.export_name (table.key_for_iteration, False)
 				field.value := Escaper.escaped (field_string (table.item_for_iteration), False)
 				Result.append (Field_template #$ field)
 				table.forth
@@ -79,18 +81,12 @@ feature -- Element change
 		do
 			table := field_table
 			from json_list.start until json_list.after loop
-				table.search (json_list.name_item_8)
+				table.search (json_list.name_item_8, current_reflective)
 				if table.found then
 					table.found_item.set_from_string (current_reflective, json_list.value_item)
 				end
 				json_list.forth
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	export_name: like Naming.default_export
-		deferred
 		end
 
 feature {NONE} -- Constants

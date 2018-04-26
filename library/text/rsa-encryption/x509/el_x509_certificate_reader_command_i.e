@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-01 10:27:16 GMT (Saturday 1st July 2017)"
-	revision: "3"
+	date: "2018-04-18 15:41:25 GMT (Wednesday 18th April 2018)"
+	revision: "4"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -64,8 +64,6 @@ inherit
 		rename
 			make as make_machine,
 			do_with_lines as parse_lines
-		redefine
-			call
 		end
 
 feature {NONE} -- Initialization
@@ -74,56 +72,50 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_machine
-			create public_key.make (0xFFFFFF)
-			create hex_byte_sequence.make_empty
+			create lines.make (20)
 			Precursor {EL_FILE_PATH_OPERAND_COMMAND_I}
 		end
 
 feature -- Access
 
-	public_key: EL_RSA_PUBLIC_KEY
+	lines: EL_ZSTRING_LIST
 
 feature {NONE} -- State handlers
 
-	find_modulus (line: ZSTRING)
+	find_public_key (line: ZSTRING)
 		do
-			if line.starts_with (Field_modulus) then
+			if line.has_substring (Field_public_key) then
+				extend_lines (line)
 				state := agent find_exponent
 			end
 		end
 
 	find_exponent (line: ZSTRING)
 		do
-			if line.starts_with (Field_exponent) then
-				create public_key.make_from_hex_byte_sequence (hex_byte_sequence)
-				hex_byte_sequence.wipe_out
+			extend_lines (line)
+			if line.has_substring (Field_exponent) then
 				state := final
-			else
-				hex_byte_sequence.append (line.to_string_8)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	do_with_lines (lines: like adjusted_lines)
+	extend_lines (line: ZSTRING)
+		do
+			lines.extend (line.substring_end (17))
+		end
+
+	do_with_lines (a_lines: like adjusted_lines)
 			--
 		do
-			parse_lines (agent find_modulus, lines)
+			parse_lines (agent find_public_key, a_lines)
 		end
-
-	call (line: ZSTRING)
-		do
-			line.left_adjust
-			Precursor (line)
-		end
-
-	hex_byte_sequence: STRING
 
 feature {NONE} -- Constants
 
-	Field_modulus: ZSTRING
+	Field_public_key: ZSTRING
 		once
-			Result := "Modulus:"
+			Result := "Public-Key:"
 		end
 
 	Field_exponent: ZSTRING

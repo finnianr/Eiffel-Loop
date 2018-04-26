@@ -22,37 +22,94 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-30 13:01:21 GMT (Friday 30th March 2018)"
-	revision: "3"
+	date: "2018-04-24 13:07:53 GMT (Tuesday 24th April 2018)"
+	revision: "5"
 
 class
 	EL_RSA_PRIVATE_KEY
 
 inherit
-	RSA_PRIVATE_KEY
-		rename
-			n as modulus,
-			p as prime_1,
-			q as prime_2,
-			d as private_exponent,
-			e as public_exponent
-		end
-
 	EL_REFLECTIVE_RSA_KEY
 
+	EL_MODULE_X509_COMMAND
+
+-- Cannot inherit because of invariant: p * q ~ n
+--	RSA_PRIVATE_KEY
+--		rename
+--			n as modulus,
+--			p as prime_1,
+--			q as prime_2,
+--			d as private_exponent,
+--			e as public_exponent
+--		end
+
 create
-	make, make_default, make_from_primes, make_from_map_list, make_from_pkcs1, make_from_pkcs1_file
+	make, make_default, make_from_primes, make_from_map_list,
+	make_from_pkcs1, make_from_pkcs1_file, make_from_pkcs1_cert
 
 feature {NONE} -- Initialization
 
-	make_from_primes (a_prime_1, a_prime_2: INTEGER_X)
+	make (a_prime_1, a_prime_2, a_modulus, a_public_exponent: INTEGER_X)
+		local
+			phi: INTEGER_X
 		do
-			make (a_prime_1, a_prime_2, a_prime_1 * a_prime_2, Default_exponent)
+			prime_1 := a_prime_1
+			prime_2 := a_prime_2
+			modulus := a_modulus
+			public_exponent := a_public_exponent
+			phi := (prime_1 - prime_1.one) * (prime_2 - prime_2.one)
+			private_exponent := public_exponent.inverse_value (phi)
+		ensure
+			is_valid:
 		end
+
+feature -- Access
+
+	modulus: INTEGER_X
+
+	prime_1: INTEGER_X
+
+	prime_2: INTEGER_X
+
+	private_exponent: INTEGER_X
+
+	public_exponent: INTEGER_X
+
+feature -- Contract Support
+
+	is_valid: BOOLEAN
+		do
+			Result := prime_1 * prime_2 ~ modulus
+		end
+
+feature -- Basic operations
+
+	decrypt (cipher: INTEGER_X): INTEGER_X
+		require
+			is_valid: is_valid
+		do
+			result := cipher.powm_value (private_exponent, modulus)
+		end
+
+	sign (message: INTEGER_X): INTEGER_X
+		do
+			result := decrypt (message)
+		end
+
+feature {NONE} -- Initialization
 
 	make_default
 		do
 			make_from_primes (17, 19)
+		end
+
+	make_from_pkcs1_cert (cert_file_path: EL_FILE_PATH; pass_phrase: ZSTRING)
+		local
+			reader: like X509_command.new_key_reader
+		do
+			reader := X509_command.new_key_reader (cert_file_path, pass_phrase)
+			reader.execute
+			make_from_pkcs1 (reader.lines)
 		end
 
 	make_from_pkcs1_file (pkcs1_file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
@@ -64,9 +121,9 @@ feature {NONE} -- Initialization
 			line_source.close
 		end
 
-	make_from_pkcs1 (lines: LINEAR [ZSTRING])
+	make_from_primes (a_prime_1, a_prime_2: INTEGER_X)
 		do
-			make_from_map_list (RSA.pkcs1_map_list (lines))
+			make (a_prime_1, a_prime_2, a_prime_1 * a_prime_2, Default_exponent)
 		end
 
 feature -- Access

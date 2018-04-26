@@ -1,7 +1,7 @@
 note
 	description: "[
-		Used in conjunction with [$source EL_REFLECTIVELY_SETTABLE] to reflectively set fields
-		from name-value pairs, where value conforms to [$source EL_ZSTRING] aka `ZSTRING'
+		Used in conjunction with [$source EL_REFLECTIVE] to reflectively set fields
+		from name-value pairs, where value conforms to [$source EL_ZSTRING] (aka `ZSTRING')
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-12 17:54:08 GMT (Thursday 12th April 2018)"
-	revision: "5"
+	date: "2018-04-19 10:31:16 GMT (Thursday 19th April 2018)"
+	revision: "6"
 
 deferred class
 	EL_SETTABLE_FROM_ZSTRING

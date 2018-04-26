@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-31 14:10:49 GMT (Saturday 31st March 2018)"
-	revision: "3"
+	date: "2018-04-19 9:53:44 GMT (Thursday 19th April 2018)"
+	revision: "4"
 
 class
 	EL_RSA_ROUTINES
@@ -48,7 +48,7 @@ feature -- Conversion
 			-- Convert `sequence' of form:
 
 			-- 	00:d9:61:6e:a7:03:21:2f:70:d2:22:38:d7:99:d4:..
-			
+
 			-- to type `INTEGER_X'
 		local
 			parts: EL_SPLIT_STRING_LIST [STRING]; hex_string: STRING
@@ -84,25 +84,27 @@ feature -- Conversion
 			create Result.make (8)
 			from lines.start until lines.after loop
 				line := lines.item
-				pos_colon := line.index_of (':', 1)
 				if line.count >= 6 and then line.leading_occurrences (' ') = 4
 					and then Hexadecimal.is_valid_sequence (line, 5, 6)
 				then
 					line.substring_end (5).append_to_string_8 (Result.last_value)
 
 				else
-					name := line.substring (1, pos_colon - 1)
-					if line.has ('(') then
-						value := line.substring_between (Bracket_left, Bracket_right, pos_colon)
-						if value.ends_with_general ("bit") then -- Private-Key: (2048 bit)
-							value.remove_tail (4)
-							byte_count := value.to_integer // 8
+					pos_colon := line.index_of (':', 1)
+					if pos_colon > 0 then
+						name := line.substring (1, pos_colon - 1)
+						if line.has ('(') then
+							value := line.substring_between (Bracket_left, Bracket_right, pos_colon)
+							if value.ends_with_general ("bit") then -- Private-Key: (2048 bit)
+								value.remove_tail (4)
+								byte_count := value.to_integer // 8
+							else
+								value.remove_head (2) -- 0x10001
+								Result.extend (name, value)
+							end
 						else
-							value.remove_head (2) -- 0x10001
-							Result.extend (name, value)
+							Result.extend (name, create {STRING}.make (byte_count * 3))
 						end
-					else
-						Result.extend (name, create {STRING}.make (byte_count * 3))
 					end
 				end
 				lines.forth

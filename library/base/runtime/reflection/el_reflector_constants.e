@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-24 12:13:10 GMT (Wednesday 24th January 2018)"
-	revision: "9"
+	date: "2018-04-14 14:04:54 GMT (Saturday 14th April 2018)"
+	revision: "10"
 
 class
 	EL_REFLECTOR_CONSTANTS

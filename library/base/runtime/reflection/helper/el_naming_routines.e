@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:05:54 GMT (Wednesday 21st February 2018)"
-	revision: "5"
+	date: "2018-04-24 11:29:12 GMT (Tuesday 24th April 2018)"
+	revision: "6"
 
 class
 	EL_NAMING_ROUTINES
@@ -27,18 +27,10 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			default_import := agent from_lower_snake_case
 			create no_words.make_empty
 		end
 
 feature -- Access
-
-	default_import: PROCEDURE [STRING, STRING]
-
-	default_export: like default_import
-		do
-			Result := default_import
-		end
 
 	no_words: ARRAY [STRING]
 
@@ -68,34 +60,6 @@ feature -- Class names
 		end
 
 feature -- Import names
-
-	from_upper_camel_case (name_in, name_out: STRING; boundary_hints: ARRAY [STRING])
-		-- Convert from UPPERCASECAMEL using word boundaries hints `boundary_hints'
-		-- For example `<< "sub" >>' is sufficient to convert BUTTONSUBTYPE to
-		-- button_sub_type.
-		local
-			i, count, pos: INTEGER; word: STRING; found: BOOLEAN
-		do
-			count := boundary_hints.count
-			name_out.grow (name_in.count + 3)
-			name_out.append (name_in)
-			name_out.to_lower
-			from i := 1 until found or i > count loop
-				word := boundary_hints [i]
-				pos := name_out.substring_index (word, 1)
-				if pos > 0 then
-					if pos > 1 and then name_out [pos - 1] /= '_' then
-						name_out.insert_character ('_', pos)
-						pos := pos + 1
-					end
-					if pos + word.count < name_out.count then
-						name_out.insert_character ('_', pos + word.count)
-					end
-					found := True
-				end
-				i := i + 1
-			end
-		end
 
 	from_camel_case (name_in, name_out: STRING)
 		-- Eg. "fromCamelCase"
@@ -152,6 +116,34 @@ feature -- Import names
 			empty_name_out: name_out.is_empty
 		do
 			name_out.append (name_in)
+		end
+
+	from_upper_camel_case (name_in, name_out: STRING; boundary_hints: ARRAY [STRING])
+		-- Convert from UPPERCASECAMEL using word boundaries hints `boundary_hints'
+		-- For example `<< "sub" >>' is sufficient to convert BUTTONSUBTYPE to
+		-- button_sub_type.
+		local
+			i, count, pos: INTEGER; word: STRING; found: BOOLEAN
+		do
+			count := boundary_hints.count
+			name_out.grow (name_in.count + 3)
+			name_out.append (name_in)
+			name_out.to_lower
+			from i := 1 until found or i > count loop
+				word := boundary_hints [i]
+				pos := name_out.substring_index (word, 1)
+				if pos > 0 then
+					if pos > 1 and then name_out [pos - 1] /= '_' then
+						name_out.insert_character ('_', pos)
+						pos := pos + 1
+					end
+					if pos + word.count < name_out.count then
+						name_out.insert_character ('_', pos + word.count)
+					end
+					found := True
+				end
+				i := i + 1
+			end
 		end
 
 	from_upper_snake_case (name_in, name_out: STRING)
@@ -216,6 +208,13 @@ feature -- Export names
 			name_out.to_lower
 		end
 
+	to_lower_snake_case (name_in, name_out: STRING)
+		require
+			empty_name_out: name_out.is_empty
+		do
+			name_out.append (name_in)
+		end
+
 	to_upper_camel_case (name_in, name_out: STRING)
 		do
 			to_camel_case (name_in, name_out)
@@ -245,13 +244,6 @@ feature {NONE} -- Implementation
 				word.to_upper
 			end
 			str.append (word)
-		end
-
-feature -- Status query
-
-	is_default (routine: like default_import): BOOLEAN
-		do
-			Result := routine = default_import
 		end
 
 feature {NONE} -- Constants

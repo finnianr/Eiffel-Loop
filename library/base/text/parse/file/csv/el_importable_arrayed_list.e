@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-28 9:46:17 GMT (Thursday 28th December 2017)"
-	revision: "5"
+	date: "2018-04-15 10:47:53 GMT (Sunday 15th April 2018)"
+	revision: "6"
 
 class
 	EL_IMPORTABLE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE create make_default end]

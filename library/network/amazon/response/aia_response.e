@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-28 16:25:49 GMT (Thursday 28th December 2017)"
-	revision: "4"
+	date: "2018-04-23 11:57:15 GMT (Monday 23rd April 2018)"
+	revision: "5"
 
 class
 	AIA_RESPONSE
@@ -15,11 +15,11 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_any_field
+			field_included as is_any_field,
+			export_name as to_camel_case,
+			import_name as import_default
 		export
 			{NONE} all
-		redefine
-			export_name
 		end
 
 	EL_SETTABLE_FROM_JSON_STRING
@@ -62,13 +62,6 @@ feature -- Element change
 			valid_code: Valid_responses.has (code)
 		do
 			response := response_enum.name (code)
-		end
-
-feature {NONE} -- Implementation
-
-	export_name: like Naming.Default_export
-		do
-			Result := agent Naming.to_camel_case
 		end
 
 end

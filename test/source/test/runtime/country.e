@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:35:39 GMT (Wednesday 21st February 2018)"
-	revision: "9"
+	date: "2018-04-23 11:38:16 GMT (Monday 23rd April 2018)"
+	revision: "11"
 
 class
 	COUNTRY
@@ -15,7 +15,9 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_any_field
+			field_included as is_any_field,
+			export_name as export_default,
+			import_name as import_default
 		end
 
 	EL_SETTABLE_FROM_ZSTRING

@@ -1,13 +1,13 @@
 note
-	description: "Payment status code with values defined by `PP_PAYMENT_STATUS_CODE'"
+	description: "Payment status code with values defined by enumeration [$source PP_PAYMENT_STATUS_ENUM]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-21 12:33:36 GMT (Thursday 21st December 2017)"
-	revision: "2"
+	date: "2018-04-24 9:23:09 GMT (Tuesday 24th April 2018)"
+	revision: "3"
 
 class
 	PP_PAYMENT_STATUS

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-31 14:10:49 GMT (Saturday 31st March 2018)"
-	revision: "3"
+	date: "2018-04-18 15:46:46 GMT (Wednesday 18th April 2018)"
+	revision: "4"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -24,9 +24,11 @@ inherit
 
 	EL_REFLECTIVE_RSA_KEY
 
+	EL_MODULE_X509_COMMAND
+
 create
 	make, make_from_array, make_from_base_64, make_from_hex_byte_sequence, make_from_manifest,
-	make_from_map_list
+	make_from_map_list, make_from_pkcs1, make_from_x509_cert
 
 feature {NONE} -- Initialization
 
@@ -54,8 +56,8 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_manifest (a_modulus: ARRAY [INTEGER])
-			-- use to intialize from manifest containing factorized digits multiplied back together
-			-- This form should make it more difficult for pirates to alter the machine code of executable
+		-- use to intialize from manifest containing factorized digits multiplied back together
+		-- This form should make it more difficult for pirates to alter the machine code of executable
 		local
 			l_area: SPECIAL [NATURAL_8]
 		do
@@ -64,6 +66,15 @@ feature {NONE} -- Initialization
 				l_area [n.cursor_index - 1] := n.item.to_natural_8
 			end
 			make (Rsa.integer_x_from_array (l_area))
+		end
+
+	make_from_x509_cert (crt_file_path: EL_FILE_PATH)
+		local
+			reader_cmd: like X509_command.new_certificate_reader
+		do
+			reader_cmd := X509_command.new_certificate_reader (crt_file_path)
+			reader_cmd.execute
+			make_from_pkcs1 (reader_cmd.lines)
 		end
 
 	make (a_modulus: INTEGER_X)

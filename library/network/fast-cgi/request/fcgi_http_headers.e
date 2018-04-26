@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {FCGI_HTTP_HEADERS}."
+	description: "Fast-CGI HTTP headers and custom headers"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-28 16:15:28 GMT (Thursday 28th December 2017)"
-	revision: "6"
+	date: "2018-04-24 10:58:39 GMT (Tuesday 24th April 2018)"
+	revision: "8"
 
 class
 	FCGI_HTTP_HEADERS
@@ -16,16 +16,18 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			make_default as make,
-			field_included as is_any_field
+			field_included as is_any_field,
+			export_name as export_default,
+			import_name as from_upper_snake_case
 		redefine
-			make, Except_fields, import_name
+			make, Except_fields
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
 		rename
 			make_default as make
 		redefine
-			set_field
+			set_table_field
 		end
 
 	EL_STRING_CONSTANTS
@@ -95,7 +97,7 @@ feature -- Access
 				name.wipe_out
 				Naming.from_kebab_case (name_list.item, name)
 
-				field_table.search (name)
+				field_table.search (name, Current)
 				if field_table.found then
 					Result.extend (field_string (field_table.found_item), name_list.item.twin)
 				else
@@ -199,15 +201,6 @@ feature -- Element change
 			custom_table [kebab_name] := value
 		end
 
-	set_field (name: STRING; value: ZSTRING)
-		-- set field with name
-		do
-			Precursor (name, value)
-			if not field_table.found then
-				custom_table.extend (value, name.as_lower)
-			end
-		end
-
 	set_from (a_from: like from_)
 		do
 			from_ := a_from
@@ -235,7 +228,7 @@ feature -- Element change
 
 	wipe_out
 		do
-			set_default_values
+			reset_fields
 			custom_table.wipe_out
 			content_length := -1
 		end
@@ -252,9 +245,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	import_name: like Naming.Default_import
+	set_table_field (table: like field_table; name: STRING; value: ZSTRING)
+		-- set field with name
 		do
-			Result := agent Naming.from_upper_snake_case
+			Precursor (table, name, value)
+			if not table.found then
+				custom_table.extend (value, name.as_lower)
+			end
 		end
 
 feature {NONE} -- Internal attributes

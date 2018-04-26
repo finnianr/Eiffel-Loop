@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-21 10:46:14 GMT (Sunday 21st January 2018)"
-	revision: "1"
+	date: "2018-04-24 10:31:33 GMT (Tuesday 24th April 2018)"
+	revision: "2"
 
 class
 	EL_REFLECTED_FIELD_ARRAY
@@ -59,7 +59,7 @@ feature -- Conversion
 		local
 			i: INTEGER; i_th: like item
 		do
-			create Result.make (count, enclosing_object.import_name)
+			create Result.make (count)
 			from i := 1 until i > count loop
 				i_th := item (i)
 				Result.extend (i_th, i_th.name)

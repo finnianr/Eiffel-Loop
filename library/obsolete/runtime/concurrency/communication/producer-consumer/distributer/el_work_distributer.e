@@ -1,9 +1,12 @@
 note
 	description: "[
 		Object to distribute work of evaulating routines over a maximum number of threads.
-		
-		It can be used directly, or by using one of it's two descendants [$source EL_FUNCTION_DISTRIBUTER]
-		and [$source EL_PROCEDURE_DISTRIBUTER].
+		It can be used directly, or by one of it's descendants.
+	]"
+	descendants: "[
+			EL_WORK_DISTRIBUTER
+				[$source EL_FUNCTION_DISTRIBUTER]
+				[$source EL_PROCEDURE_DISTRIBUTER]
 	]"
 	instructions: "[
 		Use the class in the following way:

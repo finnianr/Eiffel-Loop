@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-17 22:37:23 GMT (Sunday 17th December 2017)"
-	revision: "2"
+	date: "2018-04-24 12:14:45 GMT (Tuesday 24th April 2018)"
+	revision: "3"
 
-class
+deferred class
 	PP_NAMING_ROUTINES
 
 inherit
@@ -17,24 +17,27 @@ inherit
 
 feature {NONE} -- Implementation
 
-	export_name: like Naming.Default_export
-		do
-			Result := agent to_paypal_name
+	empty_name_out: STRING
+		deferred
 		end
 
-	import_name: like Naming.Default_import
-		do
-			Result := agent Naming.from_upper_camel_case (?, ?, Word_boundary_hints)
-		end
-
-	to_paypal_name (name_in, name_out: STRING)
+	to_paypal_name (name_in: STRING; keep_ref: BOOLEAN): STRING
 		-- adjust for idiosyncrasy in Paypal naming
 		do
-			Naming.to_upper_camel_case (name_in, name_out)
+			Result := empty_name_out
+			Naming.to_upper_camel_case (name_in, Result)
 			-- insert underscore for `L_' variables
 			if name_in.starts_with (once "l_") then
-				name_out.insert_character ('_', 2)
+				Result.insert_character ('_', 2)
 			end
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
+	import_from_upper_camel_case (name_in, name_out: STRING)
+		do
+			Naming.from_upper_camel_case (name_in, name_out, Word_boundary_hints)
 		end
 
 feature {NONE} -- Constants

@@ -8,10 +8,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-30 11:20:41 GMT (Friday 30th March 2018)"
-	revision: "1"
+	date: "2018-04-23 12:12:59 GMT (Monday 23rd April 2018)"
+	revision: "2"
 
-class
+deferred class
 	FCGI_SETTABLE_FROM_SERVLET_REQUEST
 
 inherit

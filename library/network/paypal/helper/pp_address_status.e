@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-03 12:40:38 GMT (Wednesday 3rd January 2018)"
-	revision: "2"
+	date: "2018-04-14 8:47:11 GMT (Saturday 14th April 2018)"
+	revision: "3"
 
 class
 	PP_ADDRESS_STATUS

@@ -18,6 +18,7 @@ publish-repository:
 	include-notes:
 		note:
 			"description"
+			"descendants"
 			"instructions"
 			"notes"
 			"warning"
@@ -46,7 +47,9 @@ publish-repository:
 			name = "EROS test clients"; dir = "example/net/eros-test-clients/source"
 			description:
 				"""
-					Example program demonstrating how a client can call a server created with the EROS library.
+					Example program to demonstrate an
+					[./example/net/eros-test-clients/source/sub-applications/fourier_math_test_client_app.html EROS client] calling an
+					[./example/net/eros-server/source/sub-applications/fourier_math_server_app.html EROS server].
 					EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver. It uses an Eiffel orientated
 					XML remote procedure call protocol.
 				"""
@@ -65,6 +68,7 @@ publish-repository:
 			name = "Vision-2 Extensions Demo"; dir = "example/graphical/source"
 			description:
 				"""
+					Test application for selected components from Eiffel-Loop extension libraries for Vision-2 and Docking.
 				"""
 		# Tools
 		tree:

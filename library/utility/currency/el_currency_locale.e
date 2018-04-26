@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-14 9:40:00 GMT (Thursday 14th December 2017)"
-	revision: "2"
+	date: "2018-04-24 9:24:29 GMT (Tuesday 24th April 2018)"
+	revision: "3"
 
 deferred class
 	EL_CURRENCY_LOCALE
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_MODULE_DEFERRED_LOCALE
 
-	EL_SHARED_CURRENCY_CODES
+	EL_SHARED_CURRENCY_ENUM
 		rename
 			Currency as Currency_code
 		end

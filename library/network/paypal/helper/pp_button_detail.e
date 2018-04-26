@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-13 16:54:29 GMT (Friday 13th April 2018)"
-	revision: "3"
+	date: "2018-04-23 12:09:11 GMT (Monday 23rd April 2018)"
+	revision: "5"
 
 class
 	PP_BUTTON_DETAIL
@@ -19,7 +19,9 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			make_default as make,
-			field_included as is_any_field
+			field_included as is_any_field,
+			export_name as export_default,
+			import_name as import_default
 		end
 
 	EL_SETTABLE_FROM_ZSTRING

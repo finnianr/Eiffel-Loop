@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 12:31:42 GMT (Sunday 15th October 2017)"
-	revision: "6"
+	date: "2018-04-19 9:41:00 GMT (Thursday 19th April 2018)"
+	revision: "7"
 
 class
 	CRYPTO_APP

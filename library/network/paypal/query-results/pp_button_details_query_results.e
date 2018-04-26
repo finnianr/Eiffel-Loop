@@ -31,9 +31,9 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor
 			create options_list.make (5)
 			create detail.make
+			Precursor
 		end
 
 feature -- Basic operations

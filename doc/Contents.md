@@ -6,7 +6,7 @@ This website contains sample programs for over 1500 languages and variations, al
 ## Eiffel remote object test server (EROS)
 Example program demonstrating the use of the EROS library. EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver. It uses an XML remote procedure call protocol.
 ## EROS test clients
-Example program demonstrating how a client can call a server created with the EROS library. EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver. It uses an Eiffel orientated XML remote procedure call protocol.
+Example program to demonstrate an [EROS client](http://www.eiffel-loop.com/example/net/eros-test-clients/source/sub-applications/fourier_math_test_client_app.html) calling an [EROS server](http://www.eiffel-loop.com/example/net/eros-server/source/sub-applications/fourier_math_server_app.html). EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver. It uses an Eiffel orientated XML remote procedure call protocol.
 ## Eiffel to Java
 Demo for the Eiffel-Loop Java interface library. This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
 ## Rhythmbox MP3 Collection Manager
@@ -59,7 +59,7 @@ Warning: **Use at your own risk.** It is recommended that you have a backup of y
 
 
 ## Vision-2 Extensions Demo
-
+Test application for selected components from Eiffel-Loop extension libraries for Vision-2 and Docking.
 ## Eiffel Development Utility
 A "Swiss-army knife" of useful Eiffel command line development tools. The most useful ones are listed here with command line switchs:
 

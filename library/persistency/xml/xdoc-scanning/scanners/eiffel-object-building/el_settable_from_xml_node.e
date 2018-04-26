@@ -1,11 +1,16 @@
 note
 	description: "[
 		A helper class for implementing the function `building_action_table' from class
-		`[$source EL_EIF_OBJ_BUILDER_CONTEXT]' by using Eiffel reflection to map xpath's
+		[$source EL_EIF_OBJ_BUILDER_CONTEXT] by using Eiffel reflection to map xpath's
 		 derived from object field names to a setter agent.
 		
-		The implementing class must also inherit class `[$source EL_REFLECTIVE]' either directly
+		The implementing class must also inherit class [$source EL_REFLECTIVE] either directly
 		or from one of it's descendants.
+	]"
+	descendants: "[
+			EL_SETTABLE_FROM_XML_NODE*
+				[$source RBOX_IGNORED_ENTRY]
+					[$source RBOX_SONG]
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-12 17:35:48 GMT (Thursday 12th April 2018)"
-	revision: "6"
+	date: "2018-04-22 13:10:51 GMT (Sunday 22nd April 2018)"
+	revision: "7"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE

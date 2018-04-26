@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-15 20:45:53 GMT (Friday 15th December 2017)"
-	revision: "4"
+	date: "2018-04-24 11:59:39 GMT (Tuesday 24th April 2018)"
+	revision: "5"
 
 class
 	CAMEL_CASE_COUNTRY
@@ -15,7 +15,7 @@ class
 inherit
 	COUNTRY
 		redefine
-			import_name
+			import_default
 		end
 
 create
@@ -23,8 +23,8 @@ create
 
 feature {NONE} -- Implementation
 
-	import_name: like Naming.Default_import
+	import_default (name_in: STRING; keep_ref: BOOLEAN): STRING
 		do
-			Result := agent Naming.from_camel_case
+			Result := from_camel_case (name_in, keep_ref)
 		end
 end
