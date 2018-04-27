@@ -24,20 +24,24 @@ create
 feature -- Access
 
 	new_string: like item
+		-- a new or recycled empty string
 		do
 			if is_empty then
 				create Result.make_empty
 			else
+				-- `recycle' has already wiped out the string
 				Result := item
 				remove
 			end
+		ensure
+			empty: Result.is_empty
 		end
 
 feature -- Element change
 
 	recycle (str: like item)
 		do
-			str.keep_head (0)
+			str.keep_head (0) -- wipe out
 			put (str)
 		end
 end

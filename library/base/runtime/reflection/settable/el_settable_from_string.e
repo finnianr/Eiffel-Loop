@@ -27,6 +27,11 @@ inherit
 			is_equal
 		end
 
+	EL_REFLECTION_HANDLER
+		undefine
+			is_equal
+		end
+
 feature {NONE} -- Initialization
 
 	make_default
@@ -67,8 +72,7 @@ feature -- Access
 			table: like field_table
 		do
 			table := field_table
-			table.search (name, current_reflective)
-			if table.found then
+			if table.has_name (name, current_reflective) then
 				Result := field_string (table.found_item)
 			else
 				Result := new_string
@@ -135,7 +139,7 @@ feature -- Element change
 			create tuple
 			from map_list.start until map_list.after loop
 				tuple.put (map_list.item_value, 1)
-				set_table_reference_field (table, map_list.item_key, converted.item (tuple))
+				set_table_field (table, map_list.item_key, converted.item (tuple))
 				map_list.forth
 			end
 		end
@@ -207,8 +211,7 @@ feature -- Contract Support
 				converted_type := converted.item (tuple).generating_type.type_id
 				Result := True
 				from map_list.start until not Result or map_list.after loop
-					table.search (map_list.item_key, current_reflective)
-					if table.found then
+					if table.has_name (map_list.item_key, current_reflective) then
 						Result := table.found_item.type_id = converted_type
 					end
 					map_list.forth
@@ -230,11 +233,11 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	name_value_pair: EL_NAME_VALUE_PAIR [STRING_GENERAL]
+	meta_data: EL_CLASS_META_DATA
 		deferred
 		end
 
-	meta_data: EL_CLASS_META_DATA
+	name_value_pair: EL_NAME_VALUE_PAIR [STRING_GENERAL]
 		deferred
 		end
 
@@ -244,25 +247,58 @@ feature {NONE} -- Implementation
 
 feature {EL_REFLECTION_HANDLER} -- Implementation
 
-	set_table_field (table: like field_table; name: READABLE_STRING_GENERAL; value: like new_string)
+	set_inner_table_field (table: like field_table; name: READABLE_STRING_GENERAL; pos_dot: INTEGER; value: ANY)
+		local
+			inner_table: EL_REFLECTED_FIELD_TABLE; name_part: STRING
 		do
-			table.search (name, current_reflective)
-			if table.found then
-				table.found_item.set_from_string (current_reflective, value)
+			name_part := Name_part_pool.new_string
+			name_part.append_substring_general (name, 1, pos_dot - 1)
+			if table.has_name (name_part, current_reflective) then
+				if attached {EL_REFLECTIVE} table.found_item.value (current_reflective) as inner_object then
+					name_part.wipe_out
+					name_part.append_substring_general (name, pos_dot + 1, name.count)
+					inner_table := inner_object.field_table
+					if inner_table.has_name (name_part, inner_object) then
+						set_reflected_field (inner_table.found_item, inner_object, value)
+					end
+				end
+			end
+			Name_part_pool.recycle (name_part)
+		end
+
+	set_table_field (table: like field_table; name: READABLE_STRING_GENERAL; value: ANY)
+		local
+			pos_dot: INTEGER
+		do
+			pos_dot := name.index_of ('.', 1)
+			if pos_dot > 0 then
+				set_inner_table_field (table, name, pos_dot, value)
+			else
+				if table.has_name (name, current_reflective) then
+					set_reflected_field (table.found_item, current_reflective, value)
+				end
 			end
 		end
 
-	set_table_reference_field (table: like field_table; name: READABLE_STRING_GENERAL; value: ANY)
+	set_reflected_field (field: EL_REFLECTED_FIELD; object: EL_REFLECTIVE; value: ANY)
 		do
-			table.search (name, current_reflective)
-			if table.found then
-				table.found_item.set (current_reflective, value)
+			if attached {like new_string} value as string then
+				field.set_from_string (object, string)
+			else
+				field.set (object, value)
 			end
 		end
 
 	string_type_id: INTEGER
 		-- type_id of string {S}
 		deferred
+		end
+
+feature {NONE} -- Constants
+
+	Name_part_pool: EL_STRING_POOL [ZSTRING]
+		once
+			create Result.make (2)
 		end
 
 end

@@ -19,6 +19,8 @@ inherit
 
 	EL_SHARED_UTF_8_ZCODEC
 
+	EL_SHARED_ONCE_STRINGS
+
 create
 	make
 
@@ -26,8 +28,9 @@ feature -- Initialization
 
 	make
 		do
-			create buffer.make (80)
-			create string_pool.make (80)
+			create buffer.make (30)
+			create string_pool.make (30)
+			create recycle_buffer.make (30)
 			create new_line_prompt.make_from_string ("%N")
 			std_output := io.Output
 		end
@@ -62,22 +65,14 @@ feature -- Output
 
 	put_boolean (b: BOOLEAN)
 			--
-		local
-			str_32: STRING_32
 		do
-			str_32 := string_pool.new_string
-			str_32.append_boolean (b)
-			buffer.extend (str_32)
+			extended_buffer_last.append_boolean (b)
 		end
 
 	put_character (c: CHARACTER)
 			--
-		local
-			str_32: STRING_32
 		do
-			str_32 := string_pool.new_string
-			str_32.append_character (c)
-			buffer.extend (str_32)
+			extended_buffer_last.append_character (c)
 		end
 
 	put_classname (a_name: STRING)
@@ -91,22 +86,14 @@ feature -- Output
 
 	put_double (d: DOUBLE)
 			--
-		local
-			str_32: STRING_32
 		do
-			str_32 := string_pool.new_string
-			str_32.append_double (d)
-			buffer.extend (str_32)
+			extended_buffer_last.append_double (d)
 		end
 
 	put_integer (i: INTEGER)
 			-- Add a string to the buffer
-		local
-			str_32: STRING_32
 		do
-			str_32 := string_pool.new_string
-			str_32.append_integer (i)
-			buffer.extend (str_32)
+			extended_buffer_last.append_integer (i)
 		end
 
 	put_keyword (keyword: STRING)
@@ -128,13 +115,10 @@ feature -- Output
 
 	put_lines (lines: LIST [ZSTRING])
 			--
-		local
-			str_32: STRING_32
 		do
 			from lines.start until lines.off loop
-				str_32 := string_pool.new_string; lines.item.append_to_string_32 (str_32)
 				set_text_brown
-				buffer.extend (str_32)
+				buffer.extend (lines.item)
 				set_text_default
 				lines.forth
 				if not lines.after then
@@ -170,12 +154,8 @@ feature -- Output
 
 	put_real (r: REAL)
 			--
-		local
-			str_32: STRING_32
 		do
-			str_32 := string_pool.new_string
-			str_32.append_real (r)
-			buffer.extend (str_32)
+			extended_buffer_last.append_real (r)
 		end
 
 	put_separator
@@ -191,30 +171,20 @@ feature -- Output
 
 	put_string_general (s: READABLE_STRING_GENERAL)
 			--
-		local
-			str_32: STRING_32
 		do
-			if attached {STRING_8} s as str_8 then
-				buffer.extend (str_8)
-			else
-				str_32 := string_pool.new_string
-				if attached {ZSTRING} s as str_z then
-					str_z.append_to_string_32 (str_32)
-				else
-					str_32.append_string_general (s)
-				end
-				buffer.extend (str_32)
-			end
+			buffer.extend (s)
 		end
 
 feature -- Basic operations
 
 	flush
 			-- Write contents of buffer to file if it is free (not locked by another thread)
-			-- Return strings of type {EL_ZSTRING} to recyle pool
+			-- Return strings of type {STRING_32} to recyle pool
 		do
 			buffer.do_all (agent flush_string_general)
 			buffer.wipe_out
+			recycle_buffer.do_all (agent string_pool.recycle)
+			recycle_buffer.wipe_out
 		end
 
 feature -- Change text output color
@@ -258,13 +228,19 @@ feature -- Change text output color
 feature {NONE} -- Implementation
 
 	flush_string_general (str: READABLE_STRING_GENERAL)
+		local
+			string_32: STRING_32
 		do
-			if attached {STRING_32} str as str_32 then
-				write_console (str_32)
-				string_pool.recycle (str_32)
+			if attached {ZSTRING} str as str_z then
+				string_32 := empty_once_string_32
+				str_z.append_to_string_32 (string_32)
+				write_console (string_32)
 
 			elseif attached {STRING_8} str as str_8 then
 				flush_string_8 (str_8)
+
+			elseif attached {STRING_32} str as str_32 then
+				write_console (str_32)
 			end
 		end
 
@@ -278,15 +254,25 @@ feature {NONE} -- Implementation
 			std_output.put_string (console_encoded (str))
 		end
 
+	extended_buffer_last: like string_pool.item
+		do
+			Result := string_pool.new_string
+			recycle_buffer.extend (Result)
+			buffer.extend (Result)
+		end
+
 feature {NONE} -- Internal attributes
 
 	buffer: ARRAYED_LIST [READABLE_STRING_GENERAL]
+
+	recycle_buffer: ARRAYED_LIST [like string_pool.item]
+		-- strings for recycling back to pool
 
 	new_line_prompt: STRING
 
 	std_output: PLAIN_TEXT_FILE
 
-	string_pool: EL_STRING_POOL [STRING_32]
+	string_pool: EL_STRING_POOL [STRING]
 		-- recycled strings
 
 	tab_repeat_count: INTEGER

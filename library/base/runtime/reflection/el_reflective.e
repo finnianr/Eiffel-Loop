@@ -115,8 +115,7 @@ feature -- Element change
 			from table_other.start until table_other.after loop
 				other_field := table_other.item_for_iteration
 				if not except_indices.has (other_field.index) then
-					table.search (other_field.name, Current)
-					if table.found then
+					if table.has_name (other_field.name, Current) then
 						field := table.found_item
 						if other_field.type_id = field.type_id then
 							field.set (Current, other_field.value (other))

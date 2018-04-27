@@ -69,30 +69,30 @@ feature -- Element change
 
 	set_from_table (data_import: like data_export)
 		do
-			if data_import.has (Field_boolean) then
-				boolean := data_import.item (Field_boolean).to_boolean
+			if data_import.has_key (Field_boolean) then
+				boolean := data_import.found_item.to_boolean
 			end
-			if data_import.has (Field_double) then
-				double := data_import.item (Field_double).to_double
+			if data_import.has_key (Field_double) then
+				double := data_import.found_item.to_double
 			end
-			if data_import.has (Field_integer) then
-				integer := data_import.item (Field_integer).to_integer
+			if data_import.has_key (Field_integer) then
+				integer := data_import.found_item.to_integer
 			end
-			if data_import.has (Field_natural) then
-				natural := data_import.item (Field_natural).to_natural
+			if data_import.has_key (Field_natural) then
+				natural := data_import.found_item.to_natural
 			end
-			if data_import.has (Field_real) then
-				real := data_import.item (Field_real).to_real_32
+			if data_import.has_key (Field_real) then
+				real := data_import.found_item.to_real_32
 			end
-			if data_import.has (Field_string) then
-				string := data_import.item (Field_string)
+			if data_import.has_key (Field_string) then
+				string := data_import.found_item
 			else
-				string := Default_string
+				create string.make_empty
 			end
-			if data_import.has (Field_string_32) then
-				string_32 := data_import.item (Field_string_32)
+			if data_import.has_key (Field_string_32) then
+				string_32 := data_import.found_item
 			else
-				string_32 := Default_string_32
+				create string_32.make_empty
 			end
 		end
 
@@ -121,11 +121,5 @@ feature {NONE} -- Variables
 	Field_string: STRING = "string"
 
 	Field_string_32: STRING = "string_32"
-
-feature {NONE} -- Constants
-
-	Default_string: STRING = ""
-
-	Default_string_32: STRING_32 = ""
 
 end

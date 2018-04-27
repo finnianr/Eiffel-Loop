@@ -96,9 +96,7 @@ feature -- Access
 			from name_list.start until name_list.after loop
 				name.wipe_out
 				Naming.from_kebab_case (name_list.item, name)
-
-				field_table.search (name, Current)
-				if field_table.found then
+				if field_table.has_name (name, Current) then
 					Result.extend (field_string (field_table.found_item), name_list.item.twin)
 				else
 					custom_table.search (name)

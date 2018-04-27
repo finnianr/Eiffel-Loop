@@ -32,7 +32,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent amazon_instant_access.test_header_selection)
+			do_file_data_test (agent paypal.test_pp_transaction)
 		end
 
 feature -- Test sets
@@ -123,6 +123,11 @@ feature -- Test sets
 		end
 
 	text_parser: TEXT_PARSER_TEST_SET
+		do
+			create Result
+		end
+
+	paypal: PP_TEST_SET
 		do
 			create Result
 		end

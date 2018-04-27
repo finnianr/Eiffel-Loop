@@ -15,11 +15,18 @@ class
 inherit
 	HASH_TABLE [EL_REFLECTED_FIELD, STRING]
 		rename
-			search as search_field,
 			make as make_table
+		export
+			{EL_REFLECTED_FIELD_TABLE} all
+			{ANY} extend, found, found_item, count, start, after, forth, item_for_iteration, key_for_iteration
 		end
 
 	EL_MODULE_NAMING
+		undefine
+			is_equal, copy
+		end
+
+	EL_REFLECTION_HANDLER
 		undefine
 			is_equal, copy
 		end
@@ -56,7 +63,9 @@ feature -- Basic operations
 			end
 		end
 
-	search (a_name: READABLE_STRING_GENERAL; adapter: EL_WORD_SEPARATION_ADAPTER)
+feature -- Status query
+
+	has_name (a_name: READABLE_STRING_GENERAL; adapter: EL_WORD_SEPARATION_ADAPTER): BOOLEAN
 		local
 			name: STRING
 		do
@@ -70,7 +79,7 @@ feature -- Basic operations
 					name.append_string_general (a_name)
 				end
 			end
-			search_field (adapter.import_name (name, False))
+			Result := has_key (adapter.import_name (name, False))
 		end
 
 feature {NONE} -- Internal attributes

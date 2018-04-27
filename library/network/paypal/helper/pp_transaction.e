@@ -163,10 +163,9 @@ feature {NONE} -- Implementation
 	set_name_value (key, a_value: ZSTRING)
 		do
 			if key.starts_with (Address_prefix) then
-				address.set_field (key.substring_end (Address_prefix.count + 1), a_value)
-			else
-				set_field (key, a_value)
+				key [Address_prefix.count] := '.'
 			end
+			set_field (key, a_value)
 		end
 
 feature {NONE} -- Constants

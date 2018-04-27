@@ -81,8 +81,7 @@ feature -- Element change
 		do
 			table := field_table
 			from json_list.start until json_list.after loop
-				table.search (json_list.name_item_8, current_reflective)
-				if table.found then
+				if table.has_name (json_list.name_item_8, current_reflective) then
 					table.found_item.set_from_string (current_reflective, json_list.value_item)
 				end
 				json_list.forth

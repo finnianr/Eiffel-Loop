@@ -43,6 +43,13 @@ feature -- Access
 
 	zip: ZSTRING
 
+feature -- Element change
+
+	set_country (a_country: like country)
+		do
+			country := a_country
+		end
+	
 feature -- Status query
 
 	is_confirmed: BOOLEAN

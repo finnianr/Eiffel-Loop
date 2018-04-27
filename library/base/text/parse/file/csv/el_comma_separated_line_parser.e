@@ -61,8 +61,7 @@ feature -- Basic operations
 		do
 			table := object.field_table; field := fields
 			from field.start until field.after loop
-				table.search (field.item.name, object)
-				if table.found then
+				if table.has_name (field.item.name, object) then
 					table.found_item.set_from_string (object, field.item.value)
 				end
 				field.forth

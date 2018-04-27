@@ -168,12 +168,16 @@ system:
 			location = "$EIFFEL_LOOP/library/network.ecf"
 
 		library:
+			name = EL_fast_cgi; location = "$EIFFEL_LOOP/library/fast-cgi.ecf"
+			readonly = false
+
+		library:
 			name = EL_os_command; readonly = false
 			location = "$EIFFEL_LOOP/library/os-command.ecf"
 
 		library:
-			name = EL_fast_cgi; location = "$EIFFEL_LOOP/library/fast-cgi.ecf"
-			readonly = false
+			name = EL_paypal; readonly = false
+			location = "$EIFFEL_LOOP/library/paypal.ecf"
 
 		library:
 			name = EL_testing; readonly = false
