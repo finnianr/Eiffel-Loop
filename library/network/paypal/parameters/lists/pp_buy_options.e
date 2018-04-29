@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-24 9:24:29 GMT (Tuesday 24th April 2018)"
-	revision: "6"
+	date: "2018-04-28 17:12:08 GMT (Saturday 28th April 2018)"
+	revision: "7"
 
 class
 	PP_BUY_OPTIONS
 
 inherit
-	EL_HTTP_PARAMETER_LIST [EL_HTTP_PARAMETER]
+	EL_HTTP_PARAMETER_LIST
 		rename
 			make as make_list,
 			extend as extend_list

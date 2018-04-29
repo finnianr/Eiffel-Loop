@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-22 11:16:51 GMT (Sunday 22nd April 2018)"
-	revision: "11"
+	date: "2018-04-29 11:56:24 GMT (Sunday 29th April 2018)"
+	revision: "12"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -29,14 +29,20 @@ feature -- Basic operations
 	run
 		do
 --			do_file_data_test (agent publisher.test_publisher)
-			do_file_data_test (agent publisher.test_regression (2681964471))
+--			do_file_data_test (agent publisher.test_regression (2681964471))
 --			do_file_data_test (agent undefine_pattern_counter.test_command)
 --			do_file_data_test (agent note_editor.test_editor_with_new_class)
+			do_file_data_test (agent link_expander.test_regression (1653260098))
 		end
 
 feature {NONE} -- Test
 
 	publisher: REPOSITORY_PUBLISHER_TEST_SET
+		do
+			create Result
+		end
+
+	link_expander: REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
 		do
 			create Result
 		end
@@ -62,6 +68,7 @@ feature {NONE} -- Constants
 				[{REPOSITORY_SOURCE_TREE_PAGE}, All_routines],
 				[{NOTE_EDITOR_TEST_SET}, All_routines],
 				[{REPOSITORY_PUBLISHER_TEST_SET}, All_routines],
+				[{REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET}, All_routines],
 				[{UNDEFINE_PATTERN_COUNTER_TEST_SET}, All_routines],
 				[{TEST_UNDEFINE_PATTERN_COUNTER_COMMAND}, All_routines]
 			>>

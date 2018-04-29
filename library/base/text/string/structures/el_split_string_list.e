@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-28 9:47:33 GMT (Tuesday 28th November 2017)"
-	revision: "3"
+	date: "2018-04-28 10:57:04 GMT (Saturday 28th April 2018)"
+	revision: "4"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -108,6 +108,32 @@ feature -- Access
 		do
 			update_internal_item
 			Result := internal_item
+		end
+
+	first_item: S
+		-- split item
+		do
+			push_cursor
+			start
+			if before then
+				create Result.make_empty
+			else
+				Result := item
+			end
+			pop_cursor
+		end
+
+	last_item: S
+		-- split item
+		do
+			push_cursor
+			finish
+			if after then
+				create Result.make_empty
+			else
+				Result := item
+			end
+			pop_cursor
 		end
 
 feature -- Measurement

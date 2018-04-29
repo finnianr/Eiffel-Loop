@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-23 12:11:07 GMT (Monday 23rd April 2018)"
-	revision: "3"
+	date: "2018-04-26 9:11:47 GMT (Thursday 26th April 2018)"
+	revision: "4"
 
 deferred class
 	EL_COOKIE_SETTABLE

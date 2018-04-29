@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-24 9:24:29 GMT (Tuesday 24th April 2018)"
-	revision: "10"
+	date: "2018-04-28 12:15:55 GMT (Saturday 28th April 2018)"
+	revision: "11"
 
 class
 	PP_COMMAND_SHELL
@@ -59,7 +59,7 @@ feature -- Basic operations
 			across paypal.button_search_results.button_list as button until failed loop
 				lio.put_labeled_string ("Deleting button", button.item.l_hosted_button_id)
 				lio.put_new_line
-				response := paypal.delete_button (button.item.l_hosted_button_id)
+				response := paypal.delete_button (button.item.hosted_button)
 				failed := not response.is_ok
 			end
 			if failed then
@@ -76,7 +76,7 @@ feature -- Basic operations
 			response: PP_HTTP_RESPONSE
 		do
 			lio.put_line ("delete_button")
-			response := paypal.delete_button (new_button_id)
+			response := paypal.delete_button (new_hosted_button)
 			if response.is_ok then
 				lio.put_line ("BUTTON DELETED")
 				response.print_values
@@ -92,7 +92,7 @@ feature -- Basic operations
 			results: PP_BUTTON_DETAILS_QUERY_RESULTS
 		do
 			lio.put_line ("get_button_details")
-			results := paypal.get_button_details (new_button_id)
+			results := paypal.get_button_details (new_hosted_button)
 			if results.is_ok then
 				lio.put_line ("BUTTON DETAILS")
 				results.print_values
@@ -133,7 +133,7 @@ feature -- Basic operations
 		do
 			lio.put_line ("update_button")
 			response := paypal.update_buy_now_button (
-				"en_US", new_button_id, new_single_license.to_parameter_list, new_buy_options (1.1)
+				"en_US", new_hosted_button, new_single_license.to_parameter_list, new_buy_options (1.1)
 			)
 			response.print_values
 			lio.put_new_line
@@ -141,9 +141,9 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_button_id: ZSTRING
+	new_hosted_button: PP_HOSTED_BUTTON
 		do
-			Result := User_input.line ("Enter button code")
+			create Result.make (User_input.line ("Enter button code"))
 			lio.put_new_line
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-24 13:20:50 GMT (Tuesday 24th April 2018)"
-	revision: "1"
+	date: "2018-04-28 11:35:59 GMT (Saturday 28th April 2018)"
+	revision: "2"
 
 deferred class
 	EL_WORD_SEPARATION_ADAPTER
@@ -70,6 +70,15 @@ feature {NONE} -- Name exporting
 		do
 			Result := empty_name_out
 			Naming.to_kebab_lower_case (name_in, Result)
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
+	to_upper_camel_case (name_in: STRING; keep_ref: BOOLEAN): STRING
+		do
+			Result := empty_name_out
+			Naming.to_upper_camel_case (name_in, Result)
 			if keep_ref then
 				Result := Result.twin
 			end

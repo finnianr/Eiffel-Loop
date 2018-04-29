@@ -14,14 +14,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-13 12:08:43 GMT (Friday 13th April 2018)"
-	revision: "4"
+	date: "2018-04-28 17:15:01 GMT (Saturday 28th April 2018)"
+	revision: "5"
 
 deferred class
 	PP_NUMBERED_VARIABLE_PARAMETER_LIST
 
 inherit
-	EL_HTTP_PARAMETER_LIST [EL_HTTP_NAME_VALUE_PARAMETER]
+	EL_HTTP_PARAMETER_LIST
 		rename
 			make as make_list,
 			extend as extend_list
@@ -46,7 +46,7 @@ feature -- Element change
 
 	extend (value: ZSTRING)
 		do
-			extend_list (create {like item}.make (new_name, value))
+			extend_list (create {EL_HTTP_NAME_VALUE_PARAMETER}.make (new_name, value))
 		end
 
 end

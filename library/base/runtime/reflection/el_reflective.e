@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-24 10:58:38 GMT (Tuesday 24th April 2018)"
-	revision: "14"
+	date: "2018-04-28 17:40:01 GMT (Saturday 28th April 2018)"
+	revision: "15"
 
 deferred class
 	EL_REFLECTIVE
@@ -164,6 +164,11 @@ feature {NONE} -- Implementation
 	is_any_field (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER_32): BOOLEAN
 		do
 			Result := True
+		end
+
+	is_date_field (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER_32): BOOLEAN
+		do
+			Result := object.field_conforms_to (object.field_static_type (index), Date_time_type)
 		end
 
 	is_string_or_expanded_field (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER_32): BOOLEAN

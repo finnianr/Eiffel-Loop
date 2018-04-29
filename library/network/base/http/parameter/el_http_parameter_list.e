@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-13 13:29:02 GMT (Friday 13th April 2018)"
-	revision: "5"
+	date: "2018-04-28 19:05:20 GMT (Saturday 28th April 2018)"
+	revision: "6"
 
 class
-	EL_HTTP_PARAMETER_LIST [P -> EL_HTTP_PARAMETER]
+	EL_HTTP_PARAMETER_LIST
 
 inherit
-	EL_ARRAYED_LIST [P]
+	EL_ARRAYED_LIST [EL_HTTP_PARAMETER]
 		rename
 			make as make_size,
 			make_from_array as make
@@ -26,11 +26,24 @@ inherit
 			is_equal, copy
 		end
 
+	EL_REFLECTION_HANDLER
+		undefine
+			is_equal, copy
+		end
+
 create
-	make_size, make
+	make_size, make, make_from_object
 
 convert
-	make ({ARRAY [P]})
+	make ({ARRAY [EL_HTTP_PARAMETER]})
+
+feature {NONE} -- Initialization
+
+	make_from_object (object: EL_REFLECTIVE)
+		do
+			make_size (object.field_table.count)
+			append_object (object)
+		end
 
 feature -- Conversion
 
@@ -38,6 +51,37 @@ feature -- Conversion
 		do
 			create Result.make_equal (count)
 			extend_table (Result)
+		end
+
+feature -- Element change
+
+	append_object (object: EL_REFLECTIVE)
+		local
+			field_array: EL_REFLECTED_FIELD_ARRAY; l_item: EL_HTTP_NAME_VALUE_PARAMETER
+			value: ZSTRING; i: INTEGER
+		do
+			field_array := object.meta_data.field_array
+			grow (field_array.count)
+			from i := 1 until i > field_array.count loop
+				create value.make_from_general (field_array.item (i).to_string (object))
+				create l_item.make (field_array.item (i).export_name, value)
+				extend (l_item)
+				i := i + 1
+			end
+		end
+
+	append_tuple (tuple: TUPLE)
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > tuple.count loop
+				if attached {EL_HTTP_PARAMETER} tuple.reference_item (i) as p then
+					extend (p)
+				elseif attached {EL_CONVERTABLE_TO_HTTP_PARAMETER_LIST} tuple.reference_item (i) as c then
+					extend (c.to_parameter_list)
+				end
+				i := i + 1
+			end
 		end
 
 feature {NONE} -- Implementation

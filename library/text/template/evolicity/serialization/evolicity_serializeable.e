@@ -1,6 +1,6 @@
 note
 	description: "[
-		Classes which inherit from [$source EVOLICITY_SERIALIZEABLE] can be serialized as text files using an Evolicity
+		Objects conforming to this class can be serialized as text files using an Evolicity
 		template. A template contains a mixture of literal text and Evolicity code that outputs data from Eiffel
 		objects. The template can be an either an external file or hard coded in the class by implementing the
 		function `template: READABLE_STRING_GENERAL'.
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-24 9:54:29 GMT (Saturday 24th March 2018)"
-	revision: "9"
+	date: "2018-04-29 8:32:28 GMT (Sunday 29th April 2018)"
+	revision: "10"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE

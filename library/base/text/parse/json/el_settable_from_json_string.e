@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-24 12:00:25 GMT (Tuesday 24th April 2018)"
-	revision: "7"
+	date: "2018-04-27 11:48:18 GMT (Friday 27th April 2018)"
+	revision: "8"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING

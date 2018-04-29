@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 10); build = 41
+version = (1, 0, 11); build = 46
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.11
+# Added REPOSITORY_SOURCE_LINK_EXPANDER_APP
 
 # 1.0.10
 # Expand [$source] in preformatted sections

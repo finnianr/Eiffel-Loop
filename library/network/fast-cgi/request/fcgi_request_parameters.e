@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-23 13:25:49 GMT (Monday 23rd April 2018)"
-	revision: "9"
+	date: "2018-04-28 9:11:42 GMT (Saturday 28th April 2018)"
+	revision: "10"
 
 class
 	FCGI_REQUEST_PARAMETERS

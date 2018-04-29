@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-24 10:58:38 GMT (Tuesday 24th April 2018)"
-	revision: "12"
+	date: "2018-04-28 9:57:47 GMT (Saturday 28th April 2018)"
+	revision: "13"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -247,36 +247,35 @@ feature {NONE} -- Implementation
 
 feature {EL_REFLECTION_HANDLER} -- Implementation
 
-	set_inner_table_field (table: like field_table; name: READABLE_STRING_GENERAL; pos_dot: INTEGER; value: ANY)
+	set_inner_table_field (table: like field_table; name: READABLE_STRING_GENERAL; object: EL_REFLECTIVE; value: ANY)
 		local
-			inner_table: EL_REFLECTED_FIELD_TABLE; name_part: STRING
-		do
-			name_part := Name_part_pool.new_string
-			name_part.append_substring_general (name, 1, pos_dot - 1)
-			if table.has_name (name_part, current_reflective) then
-				if attached {EL_REFLECTIVE} table.found_item.value (current_reflective) as inner_object then
-					name_part.wipe_out
-					name_part.append_substring_general (name, pos_dot + 1, name.count)
-					inner_table := inner_object.field_table
-					if inner_table.has_name (name_part, inner_object) then
-						set_reflected_field (inner_table.found_item, inner_object, value)
-					end
-				end
-			end
-			Name_part_pool.recycle (name_part)
-		end
-
-	set_table_field (table: like field_table; name: READABLE_STRING_GENERAL; value: ANY)
-		local
-			pos_dot: INTEGER
+			name_part: STRING; pos_dot: INTEGER
 		do
 			pos_dot := name.index_of ('.', 1)
 			if pos_dot > 0 then
-				set_inner_table_field (table, name, pos_dot, value)
-			else
-				if table.has_name (name, current_reflective) then
-					set_reflected_field (table.found_item, current_reflective, value)
+				name_part := Name_part_pool.new_string
+				name_part.append_substring_general (name, 1, pos_dot - 1)
+				if table.has_name (name_part, object)
+					and then attached {EL_REFLECTIVE} table.found_item.value (object) as inner_object
+				then
+					name_part.wipe_out
+					name_part.append_substring_general (name, pos_dot + 1, name.count)
+					-- Recurse until no more dots in name
+					set_inner_table_field (inner_object.field_table, name_part, inner_object, value)
 				end
+				Name_part_pool.recycle (name_part)
+
+			elseif table.has_name (name, object) then
+				set_reflected_field (table.found_item, object, value)
+			end
+		end
+
+	set_table_field (table: like field_table; name: READABLE_STRING_GENERAL; value: ANY)
+		do
+			if name.has ('.') then
+				set_inner_table_field (table, name, current_reflective, value)
+			elseif table.has_name (name, current_reflective) then
+				set_reflected_field (table.found_item, current_reflective, value)
 			end
 		end
 

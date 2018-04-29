@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-22 10:06:52 GMT (Friday 22nd December 2017)"
-	revision: "3"
+	date: "2018-04-28 14:41:59 GMT (Saturday 28th April 2018)"
+	revision: "4"
 
 class
 	EL_ISO_8601_DATE_TIME
@@ -24,7 +24,7 @@ inherit
 		end
 
 create
-	make, make_now
+	make, make_now, make_from_other
 
 feature {EL_DATE_TEXT} -- Initialization
 

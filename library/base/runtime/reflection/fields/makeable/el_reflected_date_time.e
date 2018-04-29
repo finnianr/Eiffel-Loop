@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-24 12:36:40 GMT (Wednesday 24th January 2018)"
-	revision: "3"
+	date: "2018-04-28 15:42:08 GMT (Saturday 28th April 2018)"
+	revision: "4"
 
 class
 	EL_REFLECTED_DATE_TIME
@@ -18,7 +18,7 @@ inherit
 			default_value as default_date_time
 		redefine
 			default_date_time, default_defined, write, reset,
-			set_from_readable, set_from_string, initialize_default
+			set_from_readable, set_from_string, initialize_default, to_string
 		end
 
 create
@@ -30,6 +30,20 @@ feature -- Status query
 		do
 			if not Default_value_table.has (type_id) and then date_types.has (type_id) then
 				Result := True
+			end
+		end
+
+feature -- Access
+
+	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
+		local
+			date_time: like value
+		do
+			date_time := value (a_object)
+			if attached {EL_DATE_TIME} date_time as dt then
+				Result := dt.to_string
+			else
+				Result := date_time.out
 			end
 		end
 

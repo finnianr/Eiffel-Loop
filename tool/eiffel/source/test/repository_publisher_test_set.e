@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-14 8:34:17 GMT (Saturday 14th April 2018)"
-	revision: "9"
+	date: "2018-04-29 11:54:18 GMT (Sunday 29th April 2018)"
+	revision: "10"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -34,14 +34,11 @@ feature -- Tests
 
 	test_publisher
 		local
-			publisher: REPOSITORY_PUBLISHER
 			n: INTEGER
 		do
 			log.enter ("test_publisher")
-			publisher := new_publisher
-			execute (publisher)
-
-			execute_second (publisher, file_modification_checksum)
+			execute
+			execute_second (file_modification_checksum)
 			n := User_input.integer ("Return to finish")
 			log.exit
 		end
@@ -51,7 +48,7 @@ feature -- Tests
 			n: INTEGER; actual_checksum: NATURAL
 		do
 			log.enter ("test_regression")
-			execute (new_publisher)
+			execute
 			actual_checksum := file_content_checksum
 			if checksum = actual_checksum then
 				log.put_labeled_string ("Test", "OK")
@@ -73,21 +70,26 @@ feature {NONE} -- Events
 			across << "dummy", "images", "css", "js" >> as name loop
 				OS.copy_tree (Eiffel_loop_dir.joined_dir_steps (<< "doc", name.item >>), Doc_dir)
 			end
+			publisher := new_publisher
 		end
 
 feature {NONE} -- Implementation
 
-	execute_second (publisher: REPOSITORY_PUBLISHER; checksum: NATURAL)
+	check_html_exists
+		local
+			html_file_path: EL_FILE_PATH
 		do
-			log.put_labeled_string ("checksum", checksum.out)
-			log.put_new_line
-			publisher.execute
-			assert ("no file was modified", checksum = file_modification_checksum)
+			across publisher.tree_list as tree loop
+				across tree.item.path_list as path loop
+					html_file_path := Doc_dir + path.item.relative_path (publisher.root_dir).with_new_extension ("html")
+					assert ("html exists", html_file_path.exists)
+				end
+			end
 		end
 
-	execute (publisher: REPOSITORY_PUBLISHER)
+	execute
 		local
-			html_file_path: EL_FILE_PATH; source_tree: REPOSITORY_SOURCE_TREE
+			source_tree: REPOSITORY_SOURCE_TREE
 		do
 			publisher.set_output_dir (Doc_dir)
 			publisher.ftp_sync.ftp.set_default_state -- Turn off ftp
@@ -100,17 +102,15 @@ feature {NONE} -- Implementation
 				publisher.tree_list.extend (source_tree)
 			end
 			publisher.execute
-			across publisher.tree_list as tree loop
-				across tree.item.path_list as path loop
-					html_file_path := Doc_dir + path.item.relative_path (publisher.root_dir).with_new_extension ("html")
-					assert ("html exists", html_file_path.exists)
-				end
-			end
+			check_html_exists
 		end
 
-	new_publisher: REPOSITORY_PUBLISHER
+	execute_second (checksum: NATURAL)
 		do
-			create Result.make (Work_area_dir + "doc-config/config.pyx", "1.4.0", 0)
+			log.put_labeled_string ("checksum", checksum.out)
+			log.put_new_line
+			publisher.execute
+			assert ("no file was modified", checksum = file_modification_checksum)
 		end
 
 	file_content_checksum: NATURAL
@@ -118,10 +118,15 @@ feature {NONE} -- Implementation
 			crc: EL_CYCLIC_REDUNDANCY_CHECK_32
 		do
 			create crc
-			across OS.file_list (Doc_dir, "*.html") as html loop
+			across generated_files as html loop
 				crc.add_file (html.item)
 			end
 			Result := crc.checksum
+		end
+
+	generated_files: like OS.file_list
+		do
+			Result := OS.file_list (Doc_dir, "*.html")
 		end
 
 	file_modification_checksum: NATURAL
@@ -137,6 +142,15 @@ feature {NONE} -- Implementation
 			end
 			Result := crc.checksum
 		end
+
+	new_publisher: REPOSITORY_PUBLISHER
+		do
+			create Result.make (Work_area_dir + "doc-config/config.pyx", "1.4.0", 0)
+		end
+
+feature {NONE} -- Internal attributes
+
+	publisher: like new_publisher
 
 feature {NONE} -- Constants
 

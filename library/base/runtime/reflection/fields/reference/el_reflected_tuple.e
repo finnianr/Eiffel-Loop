@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-21 12:00:51 GMT (Sunday 21st January 2018)"
-	revision: "3"
+	date: "2018-04-26 11:47:11 GMT (Thursday 26th April 2018)"
+	revision: "4"
 
 class
 	EL_REFLECTED_TUPLE

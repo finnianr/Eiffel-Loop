@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-24 11:58:42 GMT (Tuesday 24th April 2018)"
-	revision: "11"
+	date: "2018-04-29 8:21:06 GMT (Sunday 29th April 2018)"
+	revision: "12"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -154,7 +154,7 @@ note
 				[$source PP_TRANSACTION_TYPE_ENUM]
 				[$source PP_PAYMENT_PENDING_REASON_ENUM]
 				[$source EL_HTTP_STATUS_ENUM]
-				[$source PP_PARAMETER_ENUM]
+				[$source PP_L_VARIABLE_ENUM]
 	]"
 end -- class EL_ENUMERATION
 

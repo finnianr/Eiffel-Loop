@@ -6,27 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-23 12:47:56 GMT (Monday 23rd April 2018)"
-	revision: "4"
+	date: "2018-04-28 18:00:06 GMT (Saturday 28th April 2018)"
+	revision: "1"
 
-class
+deferred class
 	PP_REFLECTIVELY_SETTABLE
 
 inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_any_field,
-			export_name as to_paypal_name,
-			import_name as from_upper_camel_case
-		undefine
-			import_from_upper_camel_case
+			field_included as is_paypal_field
 		end
 
-	EL_SETTABLE_FROM_ZSTRING
+feature {NONE} -- Implementation
 
-	PP_NAMING_ROUTINES
-		undefine
-			is_equal
+	is_paypal_field (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER_32): BOOLEAN
+		do
+			Result := is_string_or_expanded_field (object, index) or else is_date_field (object, index)
 		end
 
 end

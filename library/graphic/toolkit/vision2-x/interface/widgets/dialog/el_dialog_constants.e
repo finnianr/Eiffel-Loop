@@ -3,7 +3,7 @@ note
 		Duplication of
 		[https://www.eiffel.org/files/doc/static/16.05/libraries/vision2/ev_dialog_constants_chart.html EV_DIALOG_CONSTANTS]
 		constants and renamed for the locale verification program
-		[$source EL_CHECK_LOCALE_STRINGS_APP]
+		[$source CHECK_LOCALE_STRINGS_APP]
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:13:41 GMT (Wednesday 21st February 2018)"
-	revision: "2"
+	date: "2018-04-29 8:28:44 GMT (Sunday 29th April 2018)"
+	revision: "3"
 
 class
 	EL_DIALOG_CONSTANTS

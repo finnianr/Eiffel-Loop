@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 15:43:14 GMT (Monday 18th December 2017)"
-	revision: "6"
+	date: "2018-04-29 0:16:38 GMT (Sunday 29th April 2018)"
+	revision: "7"
 
 class
 	PP_NVP_API_CONNECTION
@@ -22,7 +22,12 @@ inherit
 			{PP_BUTTON_METHOD} last_string, set_post_parameters, read_string_post, has_error, reset
 		end
 
-	PP_SHARED_PARAMETER_ENUM
+	EL_REFLECTIVE
+		rename
+			field_included as is_button_parameter,
+			export_name as export_default,
+			import_name as import_default
+		end
 
 create
 	make
@@ -33,28 +38,21 @@ feature {NONE} -- Initialization
 		a_cert_authority_info_path: EL_FILE_PATH; a_credentials: like credentials
 		a_api_version: REAL; a_is_sandbox: like is_sandbox
 	)
-		local
-			version: ZSTRING
 		do
 			credentials := a_credentials
-			create api_version.make (Parameter.version, a_api_version.out)
+			create version.make (a_api_version)
 			is_sandbox := a_is_sandbox
-			version := api_version.value
-			if not version.has ('.') then
-				version.append_string_general (".0")
-			end
 			make_http_connection (a_cert_authority_info_path)
 			create notify_url.make_empty
-			create button_status_delete.make (Parameter.button_status, "DELETE")
-			create button_sub_type_products.make (Parameter.button_sub_type, "PRODUCTS")
-			create buy_now_button_type.make (Parameter.button_type, "BUYNOW")
-			create hosted_button_code.make (Parameter.button_code, "HOSTED")
+			create button_search.make (Current)
+			create create_button.make (Current)
+			create get_button_details_method.make (Current)
+			create manage_button_status.make (Current)
+			create update_button.make (Current)
 
-			create button_search.make
-			create create_button.make
-			create get_button_details_method.make
-			create manage_button_status.make
-			create update_button.make
+			across field_table as button loop
+				button.item.set (Current, create {PP_BUTTON_PARAMETER}.make (button.key))
+			end
 		end
 
 feature -- Access
@@ -74,42 +72,36 @@ feature -- Button management
 
 	button_search_results: PP_BUTTON_SEARCH_RESULTS
 			-- list all buttons since year 2000
-		local
-			start_date, end_date: PP_DATE_TIME_PARAMETER
 		do
-			create start_date.make_start (Jan_1st_2000)
-			create end_date.make_end (create {DATE_TIME}.make_now_utc)
-			Result := button_search.query_result (Current, << start_date, end_date >>)
+			Result := button_search.query_result ([create {PP_DATE_TIME_RANGE}.make_to_now (Jan_1st_2000)])
 		end
 
 	create_buy_now_button (
-		locale_code: STRING; button_params: PP_BUTTON_SUB_PARAMETER_LIST; buy_options: PP_BUY_OPTIONS
+		locale: PP_BUTTON_LOCALE; sub_parameter_list: PP_BUTTON_SUB_PARAMETER_LIST; buy_options: PP_BUY_OPTIONS
 	): PP_BUTTON_QUERY_RESULTS
 		do
-			Result := create_button.call (Current, <<
-				new_button_locale (locale_code), hosted_button_code, buy_now_button_type, button_params, buy_options
-			>>)
+			Result := create_button.call ([locale, button_code_hosted, button_type_buynow, sub_parameter_list, buy_options])
 		end
 
-	delete_button (id: ZSTRING): PP_HTTP_RESPONSE
+	delete_button (button: PP_HOSTED_BUTTON): PP_HTTP_RESPONSE
 		do
-			Result := manage_button_status.call (Current, << new_hosted_button_id_param (id), button_status_delete >>)
+			Result := manage_button_status.call ([button, button_status_delete])
 		end
 
-	get_button_details (id: ZSTRING): PP_BUTTON_DETAILS_QUERY_RESULTS
+	get_button_details (button: PP_HOSTED_BUTTON): PP_BUTTON_DETAILS_QUERY_RESULTS
 		do
-		 	Result := get_button_details_method.query_result (Current, << new_hosted_button_id_param (id) >>)
+		 	Result := get_button_details_method.query_result ([button])
 		end
 
 	update_buy_now_button (
-		locale_code: STRING; id: ZSTRING; button_params: PP_BUTTON_SUB_PARAMETER_LIST; buy_options: PP_BUY_OPTIONS
+		locale: PP_BUTTON_LOCALE; button: PP_HOSTED_BUTTON
+		sub_parameter_list: PP_BUTTON_SUB_PARAMETER_LIST; buy_options: PP_BUY_OPTIONS
 	): PP_BUTTON_QUERY_RESULTS
 		do
-			Result := update_button.call (Current, <<
-				new_button_locale (locale_code), new_hosted_button_id_param (id),
-				hosted_button_code, buy_now_button_type, button_sub_type_products,
-				button_params, buy_options
-			>>)
+			Result := update_button.call ([
+				locale, button, button_code_hosted, button_type_buynow, button_sub_type_products,
+				sub_parameter_list, buy_options
+			])
 		end
 
 feature -- Basic operations
@@ -129,18 +121,6 @@ feature -- Status query
 			Result := not has_error
 		end
 
-feature {NONE} -- Factory
-
-	new_button_locale (locale_code: STRING): PP_BUTTON_LOCALE_PARAMETER
-		do
-			create Result.make (locale_code)
-		end
-
-	new_hosted_button_id_param (id: ZSTRING): PP_NAME_VALUE_PARAMETER
-		do
-			create Result.make (Parameter.hosted_button_id, id)
-		end
-
 feature {NONE} -- Implementation
 
 	api_url: ZSTRING
@@ -151,19 +131,24 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {PP_BUTTON_METHOD} -- Parameters
+	is_button_parameter (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER_32): BOOLEAN
+		do
+			Result := object.field_static_type (index) = Button_parameter_type
+		end
 
-	api_version: PP_NAME_VALUE_PARAMETER
+feature {PP_BUTTON_METHOD} -- Paypal parameters
 
-	button_status_delete: PP_NAME_VALUE_PARAMETER
+	button_code_hosted: PP_BUTTON_PARAMETER
 
-	button_sub_type_products: PP_NAME_VALUE_PARAMETER
+	button_status_delete: PP_BUTTON_PARAMETER
 
-	buy_now_button_type: PP_NAME_VALUE_PARAMETER
+	button_sub_type_products: PP_BUTTON_PARAMETER
+
+	button_type_buynow: PP_BUTTON_PARAMETER
 
 	credentials: PP_CREDENTIALS
 
-	hosted_button_code: PP_NAME_VALUE_PARAMETER
+	version: PP_API_VERSION
 
 feature {NONE} -- Methods
 
@@ -178,6 +163,11 @@ feature {NONE} -- Methods
 	update_button: PP_UPDATE_BUTTON_METHOD
 
 feature {NONE} -- Constants
+
+	Button_parameter_type: INTEGER
+		once
+			Result := ({PP_BUTTON_PARAMETER}).type_id
+		end
 
 	Jan_1st_2000: DATE_TIME
 		once

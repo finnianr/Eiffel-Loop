@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-22 12:22:27 GMT (Sunday 22nd April 2018)"
-	revision: "11"
+	date: "2018-04-29 8:20:55 GMT (Sunday 29th April 2018)"
+	revision: "12"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE
@@ -115,7 +115,7 @@ note
 					[$source AIA_REASON_ENUM]
 					[$source EL_CURRENCY_ENUM]
 					[$source EL_HTTP_STATUS_ENUM]
-					[$source PP_PARAMETER_ENUM]
+					[$source PP_L_VARIABLE_ENUM]
 					[$source PP_PAYMENT_PENDING_REASON_ENUM]
 					[$source PP_PAYMENT_STATUS_ENUM]
 					[$source PP_TRANSACTION_TYPE_ENUM]

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-23 11:40:56 GMT (Monday 23rd April 2018)"
-	revision: "14"
+	date: "2018-04-29 8:27:05 GMT (Sunday 29th April 2018)"
+	revision: "15"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -223,8 +223,7 @@ note
 		**2.** TUPLE references are initialized with a new tuple of the appropriate type.
 		Any string tuple members are initialized to a shared empty string.
 
-		**3.** Any type that is registered in the reflection manager implementation of
-		`initialize_reflection'. See class [$source EL_SHARED_REFLECTION_MANAGER]
+		**3.** Any type that is listed in a redefinition of routine `{[$source EL_REFLECTIVE]}.default_values'
 	]"
 
 end

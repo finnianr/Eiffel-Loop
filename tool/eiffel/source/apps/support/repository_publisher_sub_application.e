@@ -1,13 +1,13 @@
 note
-	description: ""
+	description: "Application based on repository publisher"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 12:29:11 GMT (Wednesday 21st February 2018)"
-	revision: "1"
+	date: "2018-04-29 9:59:43 GMT (Sunday 29th April 2018)"
+	revision: "2"
 
 deferred class
 	REPOSITORY_PUBLISHER_SUB_APPLICATION [C -> REPOSITORY_PUBLISHER]
