@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-29 9:46:20 GMT (Sunday 29th April 2018)"
-	revision: "11"
+	date: "2018-04-30 9:27:27 GMT (Monday 30th April 2018)"
+	revision: "12"
 
 class
 	APPLICATION_ROOT
@@ -27,6 +27,7 @@ feature {NONE} -- Implementation
 				{AUTOTEST_DEVELOPMENT_APP},
 
 				{CHECK_LOCALE_STRINGS_APP},
+				{CLASS_DESCENDANTS_APP},
 				{CLASS_PREFIX_REMOVAL_APP},
 				{CODEC_GENERATOR_APP},
 				{CODE_HIGHLIGHTING_TEST_APP},

@@ -90,6 +90,7 @@ publish-repository:
 			name = "Audio Processing Classes"; dir = "library/multimedia/audio"
 			description:
 				"""
+					Class for editing ID3 tags and processing WAV files.
 				"""
 		# Library Base
 		tree:
@@ -118,6 +119,7 @@ publish-repository:
 				old_name = EL_ZSTRING; new_name = ZSTRING
 			description:
 				"""
+					Classes for parsing and processing textual data
 				"""
 		tree:
 			name = "Miscellaneous Utility Classes"; dir = "library/base/utility"

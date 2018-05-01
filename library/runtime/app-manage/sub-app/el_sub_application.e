@@ -1,13 +1,14 @@
 note
-	description: "Objects that ..."
+	description: "Sub-application for a root class conforming to [$source EL_MULTI_APPLICATION_ROOT]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-04 10:53:48 GMT (Monday 4th December 2017)"
-	revision: "13"
+	date: "2018-05-01 9:42:45 GMT (Tuesday 1st May 2018)"
+	revision: "14"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -404,4 +405,89 @@ feature {EL_APPLICATION_INSTALLER_I} -- Constants
 			Result := << Directory.User_data, Directory.User_configuration >>
 		end
 
+note
+	descendants: "[
+		**eiffel.ecf**
+			EL_SUB_APPLICATION*
+				[$source EL_COMMAND_LINE_SUB_APPLICATION]*
+					[$source LIBRARY_OVERRIDE_APP]
+					[$source CHECK_LOCALE_STRINGS_APP]
+					[$source ENCODING_CHECK_APP]
+					[$source UNDEFINE_PATTERN_COUNTER_APP]
+					[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]*
+						[$source CODEC_GENERATOR_APP]
+						[$source CODEBASE_STATISTICS_APP]
+						[$source ECF_TO_PECF_APP]
+						[$source FEATURE_EDITOR_APP]
+						[$source FIND_AND_REPLACE_APP]
+						[$source NOTE_EDITOR_APP]
+						[$source SOURCE_TREE_CLASS_RENAME_APP]
+						[$source SOURCE_TREE_EDIT_COMMAND_LINE_SUB_APP]*
+							[$source UPGRADE_DEFAULT_POINTER_SYNTAX_APP]
+					[$source REPOSITORY_PUBLISHER_SUB_APPLICATION]*
+						[$source REPOSITORY_PUBLISHER_APP]
+						[$source REPOSITORY_SOURCE_LINK_EXPANDER_APP]
+						[$source REPOSITORY_NOTE_LINK_CHECKER_APP]
+					[$source CLASS_DESCENDANTS_APP]
+				[$source EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION]*
+					[$source AUTOTEST_DEVELOPMENT_APP]
+				[$source EL_REGRESSION_TESTABLE_SUB_APPLICATION]*
+					[$source CODE_HIGHLIGHTING_TEST_APP]
+					[$source SOURCE_TREE_EDIT_SUB_APP]*
+						[$source CLASS_PREFIX_REMOVAL_APP]
+						[$source UPGRADE_LOG_FILTERS_APP]
+						[$source SOURCE_FILE_NAME_NORMALIZER_APP]
+						[$source SOURCE_LOG_LINE_REMOVER_APP]
+					[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]*
+				[$source EL_VERSION_APP]
+				[$source EL_INSTALLER_SUB_APPLICATION]*
+				
+		**toolkit.ecf**
+			EL_SUB_APPLICATION*
+				[$source EL_REGRESSION_TESTABLE_SUB_APPLICATION]*
+					[$source JOBSERVE_SEARCH_APP]
+					[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]*
+						[$source UNDATED_PHOTOS_APP]
+						[$source HTML_BODY_WORD_COUNTER_APP]
+						[$source PYXIS_ENCRYPTER_APP]
+						[$source PYXIS_TREE_TO_XML_COMPILER_APP]
+						[$source VCF_CONTACT_SPLITTER_APP]
+						[$source VCF_CONTACT_NAME_SWITCHER_APP]
+						[$source XML_TO_PYXIS_APP]
+						[$source PYXIS_TO_XML_APP]
+						[$source PYXIS_TRANSLATION_TREE_COMPILER_APP]
+						[$source THUNDERBIRD_WWW_EXPORTER_APP]
+						[$source THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP]
+						[$source FTP_BACKUP_APP]
+				[$source EL_VERSION_APP]
+				[$source EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION]*
+					[$source AUTOTEST_DEVELOPMENT_APP]
+				[$source EL_INSTALLER_SUB_APPLICATION]*
+				[$source EL_COMMAND_LINE_SUB_APPLICATION]*
+					[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]*
+					[$source LOCALIZATION_COMMAND_SHELL_APP]
+					[$source PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP]
+					[$source FILTER_INVALID_UTF_8_APP]
+					[$source YOUTUBE_HD_DOWNLOAD_APP]
+					[$source EL_COMMAND_SHELL_SUB_APPLICATION]*
+						[$source CRYPTO_APP]
+						
+		**manage-mp3.ecf**
+			EL_SUB_APPLICATION*
+				[$source EL_VERSION_APP]
+				[$source EL_REGRESSION_TESTABLE_SUB_APPLICATION]*
+					[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]*
+						[$source RHYTHMBOX_MUSIC_MANAGER_APP]
+						[$source ID3_EDITOR_APP]
+						[$source TANGO_MP3_FILE_COLLATOR_APP]
+					[$source RBOX_APPLICATION]*
+						[$source RBOX_IMPORT_NEW_MP3_APP]
+						[$source RBOX_PLAYLIST_IMPORT_APP]
+						[$source RBOX_DATABASE_TRANSFORM_APP]*
+							[$source RBOX_RESTORE_PLAYLISTS_APP]
+				[$source EL_INSTALLER_SUB_APPLICATION]*
+				[$source EL_COMMAND_LINE_SUB_APPLICATION]*
+					[$source MP3_AUDIO_SIGNATURE_READER_APP]
+					[$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION]*
+	]"
 end

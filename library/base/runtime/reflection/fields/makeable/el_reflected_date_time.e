@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-28 15:42:08 GMT (Saturday 28th April 2018)"
-	revision: "4"
+	date: "2018-04-30 10:12:17 GMT (Monday 30th April 2018)"
+	revision: "5"
 
 class
 	EL_REFLECTED_DATE_TIME
@@ -73,8 +73,8 @@ feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			if attached default_date_time then
-				default_date_time.make_from_string_default (string.to_string_8)
+			if attached {DATE_TIME} value (a_object) as date_time then
+				date_time.make_from_string_default (string.to_string_8)
 			end
 		end
 

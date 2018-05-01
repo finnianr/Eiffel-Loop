@@ -107,7 +107,7 @@ Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releas
 ## Development Testing
 
 ## Audio Processing Classes
-
+Class for editing ID3 tags and processing WAV files.
 ## Data Structures
 
 ## Math Classes
@@ -117,7 +117,7 @@ Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releas
 ## Runtime Classes
 
 ## Text Processing Classes
-
+Classes for parsing and processing textual data
 ## Miscellaneous Utility Classes
 
 ## Image Utilities

@@ -1,57 +1,15 @@
-/* http://prismjs.com/download.html?themes=prism&languages=eiffel */
+/* PrismJS 1.14.0
+http://prismjs.com/download.html#themes=prism&languages=eiffel */
 /**
  * prism.js default theme for JavaScript, CSS and HTML
  * Based on dabblet (http://dabblet.com)
  * @author Lea Verou
  */
-@import 'common.css';
 
-body {
-	background-color: white;
-}
-div#notes {
-	background-color: #E0E0E0;
-	margin-left: 2px;
-	padding: 5px;
-}
-div#notes_inner {
-	width: 900px;
-}
-p, li {
-	font-size: 18px;
-}
-p, h2, li {
-	font-family: Verdana, Helvetica, Arial, Geneva, sans-serif;
-}
-p, h2 {
-	margin-left: 15px;
-}
-ol {
-	font-weight: bold;
-}
-li span {
-	font-weight: normal;
-}
+@import 'el-source.css';
 
-div#notes_inner p, div#notes_inner h2 {
-	text-align: left;
-}
-div#notes_inner pre {
-	font-family: "Bitstream Vera Sans Mono", monospace;
-	font-size: 0.9em;
-	margin-left: 15px;
-	padding: 5px;
-	background-color: #F0F0F0;
-	border: outset #FFFFFF 2px;
-}
-p.fixed {
-	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-	color: red;	
-	margin-left: 0px;
-}
-p.black {
-	color: black;	
-}
+/* Modified PrismJS css */
+
 code[class*="language-"],
 pre[class*="language-"] {
 	color: black;
@@ -121,7 +79,7 @@ pre[class*="language-"] {
 }
 
 .token.punctuation {
-	color: Blue;
+	color: purple;
 }
 
 .namespace {
@@ -152,7 +110,7 @@ pre[class*="language-"] {
 .token.url,
 .language-css .token.string,
 .style .token.string {
-	color: red;
+	color: black;
 }
 
 .token.atrule,
@@ -160,9 +118,13 @@ pre[class*="language-"] {
 .token.keyword {
 	color: red;
 }
+.token.keyword {
+	 font-style: italic;
+}
 
-.token.function {
-	color: #DD4A68;
+.token.function,
+.token.class-name {
+	color: blue;
 }
 
 .token.regex,
@@ -181,8 +143,5 @@ pre[class*="language-"] {
 
 .token.entity {
 	cursor: help;
-}
-.token.class-name {
-    color: blue; /* or whatever shade of blue you want */
 }
 

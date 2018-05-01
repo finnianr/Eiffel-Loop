@@ -2,17 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<meta name="author" content="Finnian Reilly"/>
-		<meta name="audience" content="all"/>
-		<meta name="content-language" content="english"/>
+		<meta name="Author" content="Finnian Reilly"/>
+		<meta name="Audience" content="all"/>
+		<meta name="Aontent-language" content="english"/>
 	#if $is_site_map_page then
-		<meta name="description" content="Collection of more than 2100 classes for the Eiffel language including libraries, example programs and development tools."/>
+		<meta name="Description" content="Collection of more than 2200 classes for the Eiffel language including libraries, example programs and development tools."/>
 	#else
-		<meta name="description" content="Source code for Eiffel $category: $name"/>
+		<meta name="Description" content="Source code for Eiffel $category: $name"/>
 		<meta name="digest" content="$crc_digest"/>
 	#end
-		<meta name="keywords" content="Eiffel-Loop, eiffel loop, Eiffel language, Eiffel library, Eiffel programming, Eiffel developer, Eiffel coder, Eiffel code, Eiffel source code, Eiffel source, Eiffel open source"/>
-		<meta name="robots" content="Index, FOLLOW"/>
+		<meta name="Distribution" content="Global"/>
+		<meta name="Generator" content="Eiffel-View repository publisher"/>
+		<meta name="Keywords" content="Eiffel-Loop, eiffel loop, Eiffel language, Eiffel library, Eiffel programming, Eiffel developer, Eiffel coder, Eiffel code, Eiffel source code, Eiffel source, Eiffel open source"/>
+		<meta name="Robots" content="Index, FOLLOW"/>
+
+		<meta name="Page-type" content="Software API documentation"/>
+		<meta name="Publisher" content="Finnian Reilly"/>
 
 		<title>$title</title>
 		<style>

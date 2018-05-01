@@ -1,5 +1,9 @@
 note
-	description: "Export folders of Thunderbird HTML as XHTML bodies and recreating the folder structure"
+	description: "[
+		Export folders of Thunderbird HTML as XHTML bodies and recreating the folder structure.
+		
+		See class [$source THUNDERBIRD_LOCALIZED_HTML_EXPORTER]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

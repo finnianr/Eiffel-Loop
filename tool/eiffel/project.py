@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 11); build = 46
+version = (1, 0, 12); build = 52
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.12
+# Added CLASS_DESCENDANTS_APP and path reflection support
 
 # 1.0.11
 # Added REPOSITORY_SOURCE_LINK_EXPANDER_APP

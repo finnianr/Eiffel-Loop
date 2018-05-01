@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-26 8:06:26 GMT (Thursday 26th April 2018)"
-	revision: "6"
+	date: "2018-04-30 10:24:58 GMT (Monday 30th April 2018)"
+	revision: "7"
 
 class
 	EL_CLASS_META_DATA
@@ -187,6 +187,8 @@ feature {NONE} -- Implementation
 				elseif field_conforms_to (Result, Date_time_type) then
 					Result := Date_time_type
 				-- Check if field conforms to `EL_MAKEABLE_FROM_STRING'
+				elseif field_conforms_to (Result, Path_type) then
+					Result := Path_type
 				elseif field_conforms_to (Result, Makeable_from_string_type) then
 					makeable := Type_id_make_from_string
 					from i := 1 until makeable_from_string or i > makeable.count loop
@@ -222,6 +224,7 @@ feature {NONE} -- Constants
 			create Result.make (<<
 				[Boolean_ref_type, {EL_REFLECTED_BOOLEAN_REF}],
 				[Date_time_type, {EL_REFLECTED_DATE_TIME}],
+				[Path_type, {EL_REFLECTED_PATH}],
 
 				[String_z_type, {EL_REFLECTED_ZSTRING}],
 				[String_8_type, {EL_REFLECTED_STRING_8}],

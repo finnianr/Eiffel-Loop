@@ -1,0 +1,12 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			EL_REFLECTIVE*
+				[$source EL_REFLECTIVELY_SETTABLE]*
+					[$source EL_REFLECTIVELY_SETTABLE_STORABLE]*
+						[$source EL_TRANSLATION_ITEM]
+						[$source EL_STORABLE_IMPL]
+						[$source EL_UUID]
+				[$source EL_BOOLEAN_REF]
+				[$source CLASS_DESCENDANTS_COMMAND]
+	]"

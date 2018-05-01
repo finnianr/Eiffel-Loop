@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-03 13:21:32 GMT (Saturday 3rd February 2018)"
-	revision: "3"
+	date: "2018-05-01 8:40:24 GMT (Tuesday 1st May 2018)"
+	revision: "4"
 
 class
 	EL_OS_COMMAND
@@ -22,6 +22,8 @@ inherit
 		redefine
 			template_name, new_temporary_name, temporary_error_file_path
 		end
+
+	EL_REFLECTION_HANDLER
 
 create
 	make, make_with_name
@@ -43,9 +45,9 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	put_path (variable_name: ZSTRING; a_path: EL_PATH)
+	put_directory_path (variable_name: ZSTRING; a_dir_path: EL_DIR_PATH)
 		do
-			getter_functions [variable_name] := agent escaped_path (a_path)
+			put_path (variable_name, a_dir_path)
 		end
 
 	put_file_path (variable_name: ZSTRING; a_file_path: EL_FILE_PATH)
@@ -53,26 +55,62 @@ feature -- Element change
 			put_path (variable_name, a_file_path)
 		end
 
-	put_directory_path (variable_name: ZSTRING; a_dir_path: EL_DIR_PATH)
+	put_object (object: EL_REFLECTIVE)
+		local
+			table: EL_REFLECTED_FIELD_TABLE; field: EL_REFLECTED_FIELD
 		do
-			put_path (variable_name, a_dir_path)
+			table := object.field_table
+			from table.start until table.after loop
+				field := table.item_for_iteration
+				if variable_in_template (field.name) then
+					if attached {EL_REFLECTED_PATH} field as path_field then
+						put_path (field.name, path_field.value (object))
+					else
+						getter_functions [field.name] := agent get_context_item (field.to_string (object))
+					end
+				end
+				table.forth
+			end
+		end
+
+	put_path (variable_name: ZSTRING; a_path: EL_PATH)
+		do
+			getter_functions [variable_name] := agent escaped_path (a_path)
 		end
 
 feature {NONE} -- Implementation
+
+	variable_in_template (name: STRING): BOOLEAN
+		local
+			name_pos: INTEGER
+		do
+			name_pos := template.substring_index (name, 1)
+			if name_pos > 1 then
+				inspect template [name_pos - 1]
+					when '$' then
+						Result := True
+					when '{' then
+						Result := name_pos > 2
+							and then name_pos + name.count <= template.count
+							and then template [name_pos - 2] = '$'
+							and then template [name_pos + name.count] = '}'
+				else end
+			end
+		end
 
 	escaped_path (a_path: EL_PATH): ZSTRING
 		do
 			Result := a_path.escaped
 		end
 
-	template: READABLE_STRING_GENERAL
-
-	template_name: EL_FILE_PATH
-
 	new_temporary_name: ZSTRING
 		do
 			Result := template_name.base
 		end
+
+	template: READABLE_STRING_GENERAL
+
+	template_name: EL_FILE_PATH
 
 	temporary_error_file_path: EL_FILE_PATH
 		do

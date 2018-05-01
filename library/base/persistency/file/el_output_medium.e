@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 14:07:28 GMT (Tuesday 10th April 2018)"
-	revision: "5"
+	date: "2018-05-01 9:28:38 GMT (Tuesday 1st May 2018)"
+	revision: "6"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -109,11 +109,14 @@ feature -- String output
 			end
 		end
 
-	put_lines (lines: LINEAR [READABLE_STRING_GENERAL])
+	put_lines (a_lines: FINITE [READABLE_STRING_GENERAL])
+		local
+			lines: LINEAR [READABLE_STRING_GENERAL]
 		do
 			if position = 0 then
 				put_bom
 			end
+			lines := a_lines.linear_representation
 			from lines.start until lines.after loop
 				if lines.index > 1 then
 					put_new_line

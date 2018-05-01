@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-14 14:04:54 GMT (Saturday 14th April 2018)"
-	revision: "10"
+	date: "2018-04-30 9:58:29 GMT (Monday 30th April 2018)"
+	revision: "11"
 
 class
 	EL_REFLECTOR_CONSTANTS
@@ -28,6 +28,11 @@ feature {NONE} -- Constants
 	frozen Date_time_type: INTEGER_32
 		once
 			Result := ({EL_DATE_TIME}).type_id
+		end
+
+	frozen Path_type: INTEGER_32
+		once
+			Result := ({EL_PATH}).type_id
 		end
 
 	frozen String_8_type: INTEGER
