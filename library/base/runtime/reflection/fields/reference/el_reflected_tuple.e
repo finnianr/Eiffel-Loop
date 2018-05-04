@@ -13,11 +13,11 @@ class
 	EL_REFLECTED_TUPLE
 
 inherit
-	EL_REFLECTED_READABLE
+	EL_REFLECTED_READABLE [TUPLE]
 		rename
 			default_value as default_tuple
 		redefine
-			make, write, default_defined, default_tuple, initialize, initialize_default, reset
+			make, write, default_defined, initialize, initialize_default, reset
 		end
 
 create
@@ -209,8 +209,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
-
-	default_tuple: TUPLE
 
 	member_types: ARRAY [TYPE [ANY]]
 		-- types of tuple members

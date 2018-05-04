@@ -219,7 +219,7 @@ feature {EL_CLASS_META_DATA} -- Implementation
 			l_meta_data := meta_data
 			table := l_meta_data.field_table
 			from table.start until table.after loop
-				if attached {EL_REFLECTED_REFERENCE} table.item_for_iteration as ref_field
+				if attached {EL_REFLECTED_REFERENCE [ANY]} table.item_for_iteration as ref_field
 					and then ref_field.type_id = type.type_id
 				then
 					ref_field.set (Current, new_object (ref_field.export_name))

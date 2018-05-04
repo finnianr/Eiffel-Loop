@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_REFLECTED_REAL_32}."
+	description: "REAL_32 field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

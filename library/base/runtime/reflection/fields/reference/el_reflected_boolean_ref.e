@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_REFLECTED_BOOLEAN_REF}."
+	description: "Field conforming to [$source EL_BOOLEAN_REF]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -13,15 +13,21 @@ class
 	EL_REFLECTED_BOOLEAN_REF
 
 inherit
-	EL_REFLECTED_REFERENCE
+	EL_REFLECTED_REFERENCE [EL_BOOLEAN_REF]
 		redefine
-			default_value, set_from_readable, set_from_string,  write
+			set_from_integer, set_from_readable, set_from_string,  write
 		end
 
 create
 	make
 
-feature -- Element change
+feature -- Basic operations
+
+	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER_32)
+			-- Internal attributes
+		do
+			value (a_object).set_item (a_value.to_boolean)
+		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; a_value: EL_READABLE)
 		do
@@ -37,9 +43,5 @@ feature -- Element change
 		do
 			writeable.write_boolean (value (a_object).item)
 		end
-
-feature {NONE} -- Internal attributes
-
-	default_value: EL_BOOLEAN_REF
 
 end

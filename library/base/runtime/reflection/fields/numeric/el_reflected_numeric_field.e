@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_REFLECTED_NUMERIC_FIELD}."
+	description: "Field conforming to `NUMERIC'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -19,8 +19,7 @@ feature -- Access
 
 	to_string (a_object: EL_REFLECTIVELY_SETTABLE): STRING
 		local
-			n: N; v: like value
-			str: STRING
+			n, v: like field_value; str: STRING
 		do
 			v := value (a_object)
 			if v = n.zero then
@@ -32,15 +31,6 @@ feature -- Access
 				append (str, v)
 				Result := str.twin
 			end
-		end
-
-feature -- Basic operations
-
-	reset (a_object: EL_REFLECTIVE)
-		local
-			n: N
-		do
-			set (a_object, n.zero)
 		end
 
 feature {NONE} -- Implementation

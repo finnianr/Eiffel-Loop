@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_REFLECTED_EXPANDED_FIELD}."
+	description: "Common expanded fields including BOOLEAN, POINTER and fields conforming to NUMERIC"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -16,6 +16,13 @@ inherit
 	EL_REFLECTED_FIELD
 
 	EL_SHARED_ONCE_STRINGS
+
+feature -- Basic operations
+
+	reset (a_object: EL_REFLECTIVE)
+		do
+			set_from_integer (a_object, 0)
+		end
 
 feature -- Access
 

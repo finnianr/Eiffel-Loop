@@ -35,6 +35,11 @@ feature {NONE} -- Constants
 			Result := ({EL_PATH}).type_id
 		end
 
+	frozen String_general_type: INTEGER
+		once
+			Result := ({STRING_GENERAL}).type_id
+		end
+
 	frozen String_8_type: INTEGER
 		once
 			Result := ({STRING}).type_id
@@ -60,9 +65,9 @@ feature {NONE} -- Constants
 			Result := ({EL_MAKEABLE}).type_id
 		end
 
-	frozen Makeable_from_string_type: INTEGER
+	frozen Makeable_from_string_general_type: INTEGER
 		once
-			Result := ({EL_MAKEABLE_FROM_STRING}).type_id
+			Result := ({EL_MAKEABLE_FROM_STRING_GENERAL}).type_id
 		end
 
 	frozen Storable_type: INTEGER_32

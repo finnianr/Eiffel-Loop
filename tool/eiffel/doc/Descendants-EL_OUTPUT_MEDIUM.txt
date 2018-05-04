@@ -1,0 +1,10 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			EL_OUTPUT_MEDIUM*
+				[$source EL_PLAIN_TEXT_FILE]
+					[$source SOURCE_FILE]
+				[$source EL_STRING_IO_MEDIUM]*
+					[$source EL_STRING_8_IO_MEDIUM]
+					[$source EL_ZSTRING_IO_MEDIUM]
+	]"

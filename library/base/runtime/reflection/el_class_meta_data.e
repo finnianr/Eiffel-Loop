@@ -143,14 +143,13 @@ feature {NONE} -- Factory
 
 	new_reference_field (index: INTEGER; name: STRING): EL_REFLECTED_FIELD
 		local
-			type_table: like Reference_type_table
+			table: like Reference_type_table
 		do
-			type_table := Reference_type_table
-			type_table.search (reference_type_id (index))
-			if type_table.found then
-				Result := new_reflected_field_for_type (type_table.found_item, index, name)
+			table := Reference_type_table
+			if table.has_key (reference_type_id (index)) then
+				Result := new_reflected_field_for_type (table.found_item, index, name)
 			else
-				create {EL_REFLECTED_REFERENCE} Result.make (enclosing_object, index, name)
+				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
 			end
 		end
 
@@ -178,31 +177,16 @@ feature {NONE} -- Implementation
 
 	reference_type_id (index: INTEGER): INTEGER
 		local
-			i: INTEGER; makeable_from_string: BOOLEAN; makeable: like Type_id_make_from_string
+			reference_types: like Base_reference_types; type_id, base_type_id, i: INTEGER
 		do
-			Result := field_static_type (index)
-			if not String_types.has (Result) then
-				if field_conforms_to (Result, Boolean_ref_type) then
-					Result := Boolean_ref_type
-				elseif field_conforms_to (Result, Date_time_type) then
-					Result := Date_time_type
-				-- Check if field conforms to `EL_MAKEABLE_FROM_STRING'
-				elseif field_conforms_to (Result, Path_type) then
-					Result := Path_type
-				elseif field_conforms_to (Result, Makeable_from_string_type) then
-					makeable := Type_id_make_from_string
-					from i := 1 until makeable_from_string or i > makeable.count loop
-						if field_conforms_to (Result, makeable.integer_32_item (i)) then
-							makeable_from_string := True
-							Result := makeable.integer_32_item (i)
-						else
-							i := i + 1
-						end
-					end
-					check makeable: makeable_from_string end
-				else
-					Result := 0
+			type_id := field_static_type (index)
+			reference_types := Base_reference_types
+			from i := 1 until Result > 0 or i > reference_types.count loop
+				base_type_id := reference_types [i]
+				if field_conforms_to (type_id, base_type_id) then
+					Result := base_type_id
 				end
+				i := i + 1
 			end
 		end
 
@@ -214,25 +198,26 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
+	Base_reference_types: ARRAY [INTEGER]
+		once
+			Result := <<
+				String_general_type, Boolean_ref_type, Date_time_type, Path_type, Makeable_from_string_general_type
+			>>
+		end
+
 	Info_line_length: INTEGER
 		once
 			Result := 100
 		end
 
-	Reference_type_table: EL_HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE], INTEGER]
+	Reference_type_table: EL_HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE [ANY]], INTEGER]
 		once
 			create Result.make (<<
-				[Boolean_ref_type, {EL_REFLECTED_BOOLEAN_REF}],
-				[Date_time_type, {EL_REFLECTED_DATE_TIME}],
-				[Path_type, {EL_REFLECTED_PATH}],
-
-				[String_z_type, {EL_REFLECTED_ZSTRING}],
-				[String_8_type, {EL_REFLECTED_STRING_8}],
-				[String_32_type, {EL_REFLECTED_STRING_32}],
-
-				[Type_id_make_from_string.zstring, {EL_REFLECTED_MAKEABLE_FROM_ZSTRING}],
-				[Type_id_make_from_string.string_8, {EL_REFLECTED_MAKEABLE_FROM_STRING_8}],
-				[Type_id_make_from_string.string_32, {EL_REFLECTED_MAKEABLE_FROM_STRING_32}]
+				[Boolean_ref_type,						{EL_REFLECTED_BOOLEAN_REF}],
+				[Date_time_type,							{EL_REFLECTED_DATE_TIME}],
+				[Makeable_from_string_general_type, {EL_REFLECTED_MAKEABLE_FROM_STRING_GENERAL}],
+				[Path_type,									{EL_REFLECTED_PATH}],
+				[String_general_type,					{EL_REFLECTED_STRING_GENERAL}]
 			>>)
 		end
 
@@ -263,13 +248,5 @@ feature {NONE} -- Constants
 				Result [Boolean_type] := {EL_REFLECTED_BOOLEAN}
 				Result [Pointer_type] := {EL_REFLECTED_POINTER}
 			end
-
-	frozen Type_id_make_from_string: TUPLE [zstring, string_8, string_32: INTEGER]
-		once
-			create Result
-			Result.zstring := ({EL_MAKEABLE_FROM_ZSTRING}).type_id
-			Result.string_8 := ({EL_MAKEABLE_FROM_STRING_8}).type_id
-			Result.string_32 := ({EL_MAKEABLE_FROM_STRING_32}).type_id
-		end
 
 end

@@ -10,10 +10,10 @@ note
 	revision: "2"
 
 deferred class
-	EL_REFLECTED_READABLE
+	EL_REFLECTED_READABLE [G]
 
 inherit
-	EL_REFLECTED_REFERENCE
+	EL_REFLECTED_REFERENCE [G]
 
 feature -- Basic operations
 

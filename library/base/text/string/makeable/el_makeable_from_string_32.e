@@ -13,7 +13,7 @@ deferred class
 	EL_MAKEABLE_FROM_STRING_32
 
 inherit
-	EL_MAKEABLE_FROM_STRING
+	EL_MAKEABLE_FROM_STRING_GENERAL
 
 feature {NONE} -- Implementation
 

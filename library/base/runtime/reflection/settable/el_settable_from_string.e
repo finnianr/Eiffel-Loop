@@ -85,6 +85,7 @@ feature -- Access
 		do
 			table := field_table
 			create Result.make_equal (table.count)
+			Result.compare_objects
 			from table.start until table.after loop
 				value := new_string
 				value.append (table.item_for_iteration.to_string (current_reflective))
@@ -99,6 +100,7 @@ feature -- Access
 		do
 			table := field_table
 			create Result.make_equal (table.count)
+			Result.compare_objects
 			from table.start until table.after loop
 				value := new_string
 				value.append (table.item_for_iteration.to_string (current_reflective))

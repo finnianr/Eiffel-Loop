@@ -32,7 +32,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent paypal.test_pp_transaction)
+			do_file_data_test (agent reflective.test_reflection)
 		end
 
 feature -- Test sets
@@ -97,11 +97,6 @@ feature -- Test sets
 			create Result
 		end
 
-	reflectively_json_settable: REFLECTIVELY_JSON_SETTABLE_TEST_SET
-		do
-			create Result
-		end
-
 	se_array2: SE_ARRAY2_TEST_SET
 		do
 			create Result
@@ -128,6 +123,11 @@ feature -- Test sets
 		end
 
 	paypal: PP_TEST_SET
+		do
+			create Result
+		end
+
+	reflective: REFLECTIVE_TEST_SET
 		do
 			create Result
 		end
@@ -166,7 +166,8 @@ feature {NONE} -- Constants
 				[{FTP_TEST_SET}, All_routines],
 				[{HTTP_CONNECTION_TEST_SET}, All_routines],
 				[{EL_PATH_TEST_SET}, All_routines],
-				[{COMMA_SEPARATED_IMPORT_TEST_SET}, All_routines]
+				[{COMMA_SEPARATED_IMPORT_TEST_SET}, All_routines],
+				[{REFLECTIVE_TEST_SET}, All_routines]
 			>>
 		end
 

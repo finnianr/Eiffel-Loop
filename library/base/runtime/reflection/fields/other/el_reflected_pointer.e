@@ -30,11 +30,6 @@ feature -- Access
 
 feature -- Basic operations
 
-	reset (a_object: EL_REFLECTIVE)
-		do
-			set (a_object, default_pointer)
-		end
-
 	set (a_object: EL_REFLECTIVE; a_value: POINTER)
 		do
 			enclosing_object := a_object
@@ -55,6 +50,9 @@ feature {NONE} -- Unimplemented
 
 	set_from_integer (a_object: EL_REFLECTIVELY_SETTABLE; a_value: INTEGER)
 		do
+			if a_value = 0 then
+				set (a_object, default_pointer)
+			end
 		end
 
 	set_from_string (a_object: EL_REFLECTIVELY_SETTABLE; string: READABLE_STRING_GENERAL)

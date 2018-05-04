@@ -1,5 +1,6 @@
 note
 	description: "Encoded text medium"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -211,6 +212,16 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	codec: EL_ZCODEC
+	codec: EL_ZCODEC;
 
+note
+	descendants: "[
+		**eiffel.ecf**
+			EL_OUTPUT_MEDIUM*
+				[$source EL_PLAIN_TEXT_FILE]
+					[$source SOURCE_FILE]
+				[$source EL_STRING_IO_MEDIUM]*
+					[$source EL_STRING_8_IO_MEDIUM]
+					[$source EL_ZSTRING_IO_MEDIUM]
+	]"
 end

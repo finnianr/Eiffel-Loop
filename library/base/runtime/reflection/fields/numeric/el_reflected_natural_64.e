@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_REFLECTED_NATURAL_32}."
+	description: "NATURAL_64 field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

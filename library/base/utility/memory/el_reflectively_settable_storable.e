@@ -167,7 +167,7 @@ feature {NONE} -- Implementation
 	read_field (field: EL_REFLECTED_FIELD; a_reader: EL_MEMORY_READER_WRITER)
 			-- Read operations
 		do
-			if attached {EL_REFLECTED_READABLE} field as readable then
+			if attached {EL_REFLECTED_READABLE [ANY]} field as readable then
 				readable.read (Current, a_reader)
 			else
 				field.set_from_readable (Current, a_reader)

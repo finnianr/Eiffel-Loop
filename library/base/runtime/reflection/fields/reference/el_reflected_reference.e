@@ -1,5 +1,6 @@
 note
 	description: "Reflected reference field"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -10,7 +11,7 @@ note
 	revision: "7"
 
 class
-	EL_REFLECTED_REFERENCE
+	EL_REFLECTED_REFERENCE [G]
 
 inherit
 	EL_REFLECTED_FIELD
@@ -32,8 +33,10 @@ feature {NONE} -- Initialization
 			Precursor (a_object, a_index, a_name)
 			if default_defined then
 				initialize_default
-			elseif Default_value_table.has_key (type_id) then
-				default_value := Default_value_table.found_item
+			elseif Default_value_table.has_key (type_id)
+				and then attached {G} Default_value_table.found_item as l_default
+			then
+				default_value := l_default
 			else
 				default_value := new_default_value
 			end
@@ -64,7 +67,11 @@ feature -- Status query
 
 	default_defined: BOOLEAN
 		do
-			Result := not Default_value_table.has (type_id) and then field_conforms_to (type_id, Makeable_type)
+			if not Default_value_table.has (type_id)
+				and then (Default_types.has (type_id) or else field_conforms_to (type_id, Makeable_type))
+			then
+				Result := True
+			end
 		end
 
 	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
@@ -101,7 +108,7 @@ feature -- Basic operations
 	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER_32)
 			-- Internal attributes
 		do
-			set (a_object, a_value.to_reference)
+			set_from_string (a_object, a_value.out)
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; a_value: EL_READABLE)
@@ -125,19 +132,26 @@ feature -- Comparison
 
 feature {NONE} -- Implementation
 
-	new_default_value: like default_value
+	new_default_value: G
 		-- uninitialized value
 		do
-			if attached {like default_value} Eiffel.new_instance_of (type_id) as new_instance then
+			if attached {G} Eiffel.new_instance_of (type_id) as new_instance then
 				Result := new_instance
 			end
 		end
 
 	initialize_default
+		local
+			types: like Default_types
 		do
-			if attached {EL_MAKEABLE} new_default_value as new_value then
-				new_value.make
-				default_value := new_value
+			types := Default_types
+			if types.has_key (type_id) and then attached {G} types.found_item as l_value then
+				default_value := l_value
+			else
+				default_value := new_default_value
+				if attached {EL_MAKEABLE} default_value as makeable then
+					makeable.make
+				end
 			end
 		ensure
 			default_value_initialized: attached default_value
@@ -145,7 +159,26 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	default_value: detachable ANY
+	default_value: G
 
+feature {NONE} -- Constants
+
+	Default_types: EL_OBJECTS_BY_TYPE
+		once
+			create Result.make (0)
+		end
+
+note
+	descendants: "[
+			EL_REFLECTED_REFERENCE
+				[$source EL_REFLECTED_READABLE]*
+					[$source EL_REFLECTED_STORABLE]
+					[$source EL_REFLECTED_TUPLE]
+					[$source EL_REFLECTED_DATE_TIME]
+				[$source EL_REFLECTED_BOOLEAN_REF]
+				[$source EL_REFLECTED_STRING_GENERAL]
+				[$source EL_REFLECTED_MAKEABLE_FROM_STRING_GENERAL]
+				[$source EL_REFLECTED_PATH]
+	]"
 end
 

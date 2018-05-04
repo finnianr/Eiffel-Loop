@@ -1,5 +1,6 @@
 note
 	description: "Manages attribute field for a class"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -161,4 +162,34 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty
 		end
+
+note
+	descendants: "[
+			EL_REFLECTED_FIELD*
+				[$source EL_REFLECTED_REFERENCE]
+					[$source EL_REFLECTED_READABLE]*
+						[$source EL_REFLECTED_STORABLE]
+						[$source EL_REFLECTED_TUPLE]
+						[$source EL_REFLECTED_DATE_TIME]
+					[$source EL_REFLECTED_BOOLEAN_REF]
+					[$source EL_REFLECTED_STRING_GENERAL]
+					[$source EL_REFLECTED_MAKEABLE_FROM_STRING_GENERAL]
+					[$source EL_REFLECTED_PATH]
+				[$source EL_REFLECTED_EXPANDED_FIELD]*
+					[$source EL_REFLECTED_NUMERIC_FIELD]*
+						[$source EL_REFLECTED_INTEGER_32]
+						[$source EL_REFLECTED_INTEGER_8]
+						[$source EL_REFLECTED_INTEGER_16]
+						[$source EL_REFLECTED_INTEGER_64]
+						[$source EL_REFLECTED_NATURAL_8]
+						[$source EL_REFLECTED_NATURAL_16]
+						[$source EL_REFLECTED_NATURAL_32]
+						[$source EL_REFLECTED_NATURAL_64]
+						[$source EL_REFLECTED_REAL_32]
+						[$source EL_REFLECTED_REAL_64]
+					[$source EL_REFLECTED_CHARACTER_8]
+					[$source EL_REFLECTED_CHARACTER_32]
+					[$source EL_REFLECTED_BOOLEAN]
+					[$source EL_REFLECTED_POINTER]
+	]"
 end

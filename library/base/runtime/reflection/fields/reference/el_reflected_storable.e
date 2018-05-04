@@ -15,9 +15,9 @@ class
 	EL_REFLECTED_STORABLE
 
 inherit
-	EL_REFLECTED_READABLE
+	EL_REFLECTED_READABLE [EL_STORABLE]
 		redefine
-			 default_value, write, print_meta_data, to_string, set_from_string
+			 write, print_meta_data, to_string, set_from_string
 		end
 
 create
@@ -30,7 +30,7 @@ feature -- Access
 			l_value: EL_STORABLE
 		do
 			l_value :=  value (a_object)
-			if attached {EL_MAKEABLE_FROM_STRING} l_value as makeable then
+			if attached {EL_MAKEABLE_FROM_STRING_GENERAL} l_value as makeable then
 				Result := makeable.to_string
 			else
 				Result := l_value.out
@@ -58,7 +58,7 @@ feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			if attached {EL_MAKEABLE_FROM_STRING} value (a_object) as makeable then
+			if attached {EL_MAKEABLE_FROM_STRING_GENERAL} value (a_object) as makeable then
 				makeable.make_from_general (string)
 			end
 		end
@@ -67,9 +67,5 @@ feature -- Basic operations
 		do
 			value (a_object).write (writer)
 		end
-
-feature {NONE} -- Internal attributes
-
-	default_value: EL_STORABLE
 
 end

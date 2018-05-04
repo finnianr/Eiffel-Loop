@@ -13,26 +13,17 @@ class
 	EL_REFLECTED_PATH
 
 inherit
-	EL_REFLECTED_REFERENCE
+	EL_REFLECTED_REFERENCE [EL_PATH]
 		rename
 			default_value as default_path
 		redefine
-			default_path, default_defined, reset, set_from_string, initialize_default, to_string
+			reset, set_from_string, Default_types, to_string
 		end
 
 	EL_ZSTRING_ROUTINES
 
 create
 	make
-
-feature -- Status query
-
-	default_defined: BOOLEAN
-		do
-			if not Default_value_table.has (type_id) and then Path_types.has (type_id) then
-				Result := True
-			end
-		end
 
 feature -- Access
 
@@ -62,25 +53,9 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	initialize_default
-		local
-			types: like Path_types
-		do
-			types := Path_types
-			if types.has_key (type_id) and then attached {EL_PATH} types.found_item as path then
-				default_path := path
-			end
-		end
-
-feature {NONE} -- Internal attributes
-
-	default_path: EL_PATH
-
 feature {NONE} -- Constants
 
-	Path_types: EL_OBJECTS_BY_TYPE
+	Default_types: EL_OBJECTS_BY_TYPE
 		once
 			create Result.make_from_array (<<
 				create {EL_DIR_PATH},
