@@ -57,7 +57,8 @@ feature {NONE} -- Constants
 	Reference_type_table: EL_HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE [ANY]], INTEGER_32]
 		once
 			create Result.make (<<
-				[Tuple_type, {EL_REFLECTED_TUPLE}], [Storable_type, {EL_REFLECTED_STORABLE}]
+				[Tuple_type, {EL_REFLECTED_TUPLE}],
+				[Storable_type, {EL_REFLECTED_STORABLE}]
 			>>)
 			Result.merge (Precursor)
 		end

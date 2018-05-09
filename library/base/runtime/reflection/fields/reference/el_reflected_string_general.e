@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [STRING_GENERAL]
 		redefine
-			Default_types, reset, set_from_readable, set_from_string, to_string, write
+			Default_objects, reset, set_from_readable, set_from_string, to_string, write
 		end
 
 create
@@ -71,7 +71,7 @@ feature -- Basic operations
 
 feature {NONE} -- Constants
 
-	Default_types: EL_OBJECTS_BY_TYPE
+	Default_objects: EL_OBJECTS_BY_TYPE
 		once
 			create Result.make_from_array (<< Empty_string, Empty_string_8, Empty_string_32 >>)
 		end

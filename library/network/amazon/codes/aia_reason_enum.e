@@ -1,5 +1,7 @@
 note
-	description: "Reasons for purchase/purchase revokation. Accessible via `AIA_SHARED_CODES'"
+	description: "[
+		Reasons for purchase/purchase revokation. Accessible via {[$source AIA_SHARED_ENUMERATIONS]}.Reason_enum
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

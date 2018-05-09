@@ -17,7 +17,7 @@ inherit
 		rename
 			default_value as default_date_time
 		redefine
-			write, reset, set_from_readable, set_from_string, Default_types, to_string
+			write, reset, set_from_readable, set_from_string, Default_objects, to_string
 		end
 
 create
@@ -75,7 +75,7 @@ feature -- Basic operations
 
 feature {NONE} -- Constants
 
-	Default_types: EL_OBJECTS_BY_TYPE
+	Default_objects: EL_OBJECTS_BY_TYPE
 		once
 			create Result.make_from_array (<<
 				create {DATE_TIME}.make_now,

@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {EL_REFLECTED_FIELD_ARRAY}."
+	description: "Array of reflected fields for a class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Reflected reference field"
+	description: "Reflected reference field conforming to parameter `G'"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"
@@ -68,7 +68,7 @@ feature -- Status query
 	default_defined: BOOLEAN
 		do
 			if not Default_value_table.has (type_id)
-				and then (Default_types.has (type_id) or else field_conforms_to (type_id, Makeable_type))
+				and then (Default_objects.has (type_id) or else field_conforms_to (type_id, Makeable_type))
 			then
 				Result := True
 			end
@@ -142,9 +142,9 @@ feature {NONE} -- Implementation
 
 	initialize_default
 		local
-			types: like Default_types
+			types: like Default_objects
 		do
-			types := Default_types
+			types := Default_objects
 			if types.has_key (type_id) and then attached {G} types.found_item as l_value then
 				default_value := l_value
 			else
@@ -163,7 +163,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Default_types: EL_OBJECTS_BY_TYPE
+	Default_objects: EL_OBJECTS_BY_TYPE
 		once
 			create Result.make (0)
 		end

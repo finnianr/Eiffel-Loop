@@ -17,7 +17,7 @@ inherit
 		rename
 			default_value as default_path
 		redefine
-			reset, set_from_string, Default_types, to_string
+			reset, set_from_string, Default_objects, to_string
 		end
 
 	EL_ZSTRING_ROUTINES
@@ -55,7 +55,7 @@ feature -- Basic operations
 
 feature {NONE} -- Constants
 
-	Default_types: EL_OBJECTS_BY_TYPE
+	Default_objects: EL_OBJECTS_BY_TYPE
 		once
 			create Result.make_from_array (<<
 				create {EL_DIR_PATH},
