@@ -120,8 +120,7 @@ feature -- Contract support
 			xml: EL_XML_NAMESPACES
 		do
 			create xml.make_from_file (file_name)
-			xml.namespace_urls.search ("office")
-			if xml.namespace_urls.found then
+			if xml.namespace_urls.has_key ("office") then
 				Result := xml.namespace_urls.found_item ~ Office_namespace_url
 			end
 		end

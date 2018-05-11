@@ -36,8 +36,7 @@ feature -- Basic operations
 		local
 			build_action: PROCEDURE
 		do
-			building_actions.search (xpath)
-			if building_actions.found then
+			if building_actions.has_key (xpath) then
 				build_action := building_actions.found_item
 				check -- have all the arguments been specified
 					no_open_arguments: build_action.open_count = 0

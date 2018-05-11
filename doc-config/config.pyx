@@ -203,8 +203,8 @@ publish-repository:
 			description:
 				"""
 					An Eiffel interface to the [https://s3-us-west-2.amazonaws.com/dtg-docs/index.html Amazon Instant Access API].
-					This API enables third party vendors to fulfil orders for digital goods on the Amazon store.
-					(WORK IN PROGRESS)
+					This API enables third party vendors to fulfil orders for digital goods on the Amazon store. It enables One-time
+					purchases but not subscriptions. It passes a basic test suite but has not yet been tested in production.
 				"""
 		tree:
 			name = "Eiffel Remote Object Server (EROS)"; dir = "library/network/eros"

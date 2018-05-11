@@ -67,8 +67,7 @@ feature -- Basic operations
 			operand := app.operands.item (index)
 			app.options_help.extend (word_option, help_description, operand)
 			operand_type := operand.generating_type
-			Setter_types.search (operand_type)
-			if Setter_types.found then
+			if Setter_types.has_key (operand_type) then
 				setter := Factory.instance_from_type (
 					Setter_types.found_item, agent {EL_MAKE_OPERAND_SETTER [ANY]}.make (app, Current)
 				)

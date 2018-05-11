@@ -1,5 +1,7 @@
 note
-	description: "Menu driven console command shell"
+	description: "[
+		Menu driven shell of various cryptographic functions listed in function `new_command_table'.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

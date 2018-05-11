@@ -4,7 +4,7 @@ note
 		
 			HH:MM:SS Mmm DD, YYYY PST
 			
-		Used in `PP_TRANSACTION.payment_date'
+		Used in `{[$source PP_TRANSACTION]}.payment_date'
 	]"
 	notes: "[
 		In the Paypal NVP manual it says `PDT' for the timezone, but this is incorrect.
@@ -58,8 +58,7 @@ feature {EL_DATE_TEXT} -- Initialization
 			else
 				l_zone := Empty_string_8
 			end
-			UTC_adjust.search (l_zone)
-			if UTC_adjust.found then
+			if UTC_adjust.has (l_zone) then
 				if l_zone ~ Zone_gmt then
 					make_from_gmt (s)
 				else

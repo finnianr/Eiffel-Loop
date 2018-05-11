@@ -1,6 +1,11 @@
 note
 	description: "[
-		Fills in default values for note fields for source trees listed in a manifest
+		Command line interface to the [$source NOTE_EDITOR_COMMAND] class
+		which edits the note fields of all classes defined by a source tree manifest argument
+		by filling in default values for license fields listed in supplied `license' argument.
+		If the modification date/time has changed, it fills in the note-fields.
+		If changed, it sets the date note-field to be same as the time stamp and increments the
+		revision number note-field.
 	]"
 
 	author: "Finnian Reilly"

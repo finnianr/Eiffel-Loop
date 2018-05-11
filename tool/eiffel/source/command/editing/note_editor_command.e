@@ -1,5 +1,11 @@
 note
-	description: "Edits notes in sources specified by manifest"
+	description: "[
+		Command to edit the note fields of all classes defined by the source tree manifest argument
+		by filling in default values for license fields list in supplied `license_notes_path' argument.
+		If the modification date/time has changed, it fills in the note-fields.
+		If changed, it sets the date note-field to be same as the time stamp and increments the
+		revision number note-field.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

@@ -113,8 +113,7 @@ feature {NONE} -- Factory
 			cached: like cached_field_indices_set
 		do
 			cached := cached_field_indices_set
-			cached.search (field_names)
-			if cached.found then
+			if cached.has_key (field_names) then
 				Result := cached.found_item
 			else
 				create Result.make (Current, field_names)

@@ -99,8 +99,7 @@ feature -- Factory
 		require
 			has_type: has_type (type_alias)
 		do
-			types_indexed_by_name.search (type_alias)
-			if types_indexed_by_name.found
+			if types_indexed_by_name.has_key (type_alias)
 				and then attached {G} Eiffel.new_instance_of (types_indexed_by_name.found_item.type_id) as instance
 			then
 				Result := instance

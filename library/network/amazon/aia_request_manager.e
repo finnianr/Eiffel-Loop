@@ -61,8 +61,7 @@ feature -- Basic operations
 			create verifier.make (fcgi_request, Credential_list)
 			if verifier.is_verified then
 				create operation.make (fcgi_request.content)
-				request_table.search (operation.name)
-				if request_table.found then
+				if request_table.has_key (operation.name) then
 					request := request_table.found_item
 					request.wipe_out
 					request.set_from_json (operation.json_list)

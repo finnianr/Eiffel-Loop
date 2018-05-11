@@ -134,8 +134,7 @@ feature {NONE} -- Line states
 	read_name_value_pair (line: STRING)
 		do
 			nvp.set_from_string (line, ':')
-			setter_table.search (nvp.name)
-			if setter_table.found then
+			if setter_table.has_key (nvp.name) then
 				setter_table.found_item (nvp.value)
 			else
 				put (nvp.value, nvp.name)

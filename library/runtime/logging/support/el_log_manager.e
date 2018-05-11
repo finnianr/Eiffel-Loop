@@ -109,24 +109,22 @@ feature -- Element change
 		do
 			if logging.is_active then
 				restrict_access
-				log_file_by_object_id_table.search (thread.object_id)
+					if log_file_by_object_id_table.has_key (thread.object_id) then
+						log_file := log_file_by_object_id_table.found_item
+						thread_id_list.put_i_th (thread.thread_id, log_file.index)
 
-				if log_file_by_object_id_table.found then
-					log_file := log_file_by_object_id_table.found_item
-					thread_id_list.put_i_th (thread.thread_id, log_file.index)
+						log_file_by_thread_id_table.force (log_file, thread.thread_id)
+					else
+						thread_id_list.extend (thread.thread_id)
+						if thread_id_list.count = 1 then
+							thread_id_list.start
+						end
+						log_file := new_log_file (thread)
+						log_file_by_thread_id_table [thread.thread_id] := log_file
+						log_file_by_object_id_table [thread.object_id] := log_file
 
-					log_file_by_thread_id_table.force (log_file, thread.thread_id)
-				else
-					thread_id_list.extend (thread.thread_id)
-					if thread_id_list.count = 1 then
-						thread_id_list.start
+						thread_registration_queue.put ([thread])
 					end
-					log_file := new_log_file (thread)
-					log_file_by_thread_id_table [thread.thread_id] := log_file
-					log_file_by_object_id_table [thread.object_id] := log_file
-
-					thread_registration_queue.put ([thread])
-				end
 				end_restriction
 			end
 		end

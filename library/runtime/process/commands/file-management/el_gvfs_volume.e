@@ -200,8 +200,7 @@ feature -- Element change
 		do
 			command := Mount_list_command
 			command.execute
-			command.uri_root_table.search (name)
-			if command.uri_root_table.found then
+			if command.uri_root_table.has_key (name) then
 				uri_root := command.uri_root_table.found_item
 			else
 				uri_root := Default_uri_root
@@ -212,7 +211,7 @@ feature -- Element change
 		do
 			uri_root := a_uri_root
 		end
-	
+
 feature -- Status change
 
 	enable_path_translation

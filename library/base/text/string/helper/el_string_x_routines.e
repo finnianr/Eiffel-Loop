@@ -274,8 +274,7 @@ feature -- Transformation
 		do
 			from pos_escape := str.index_of (escape_character, 1) until pos_escape = 0 loop
 				if pos_escape + 1 <= str.count then
-					escaped_characters.search (str [pos_escape + 1])
-					if escaped_characters.found then
+					if escaped_characters.has_key (str [pos_escape + 1]) then
 						str.put_code (escaped_characters.found_item.natural_32_code, pos_escape + 1)
 						str.remove (pos_escape)
 						start_index := pos_escape + 1

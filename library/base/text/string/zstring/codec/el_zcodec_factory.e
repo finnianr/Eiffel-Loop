@@ -31,8 +31,7 @@ feature {NONE} -- Factory
 
 			elseif encoding.is_type_windows or encoding.is_type_latin then
 				table := Codec_table
-				table.search (encoding.id)
-				if table.found then
+				if table.has_key (encoding.id) then
 					Result := table.found_item
 				else
 					Result := new_codec_by_id (encoding.id)

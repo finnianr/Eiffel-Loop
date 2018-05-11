@@ -76,8 +76,7 @@ feature {NONE} -- Initialization
 			table := field_table
 			from table.start until table.after loop
 				name := table.key_for_iteration
-				names_with_upper.search (name)
-				if names_with_upper.found then
+				if names_with_upper.has_key (name) then
 					name := names_with_upper.found_item
 				end
 				function := module.function_pointer (name)

@@ -48,8 +48,7 @@ feature -- Transformation
 			entities: like predefined_entities; l_name: STRING
 		do
 			entities := predefined_entities
-			entities.search (code)
-			if entities.found then
+			if entities.has_key (code) then
 				Result := entities.found_item
 			else
 				l_name := empty_once_string_8

@@ -1,8 +1,8 @@
 note
 	description: "[
-		Instant Access response codes with corresponding names accessible as `message'.
-		Accessible via {[$source AIA_SHARED_ENUMERATIONS]}.Response_enum
-		See also class [$source AIA_PURCHASE_REASON]
+		Instant Access response codes with corresponding names accessible as `message'. 
+		Accessible via `{[$source AIA_SHARED_ENUMERATIONS]}.Response_enum'. 
+		See also class [$source AIA_PURCHASE_REASON]. 
 	]"
 
 	author: "Finnian Reilly"

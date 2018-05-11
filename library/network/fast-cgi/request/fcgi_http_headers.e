@@ -78,8 +78,7 @@ feature -- Access
 		do
 			create kebab_name.make (name.count)
 			Naming.from_kebab_case (name, kebab_name)
-			custom_table.search (kebab_name)
-			if custom_table.found then
+			if custom_table.has_key (kebab_name) then
 				Result := custom_table.found_item
 			else
 				create Result.make_empty
@@ -99,8 +98,7 @@ feature -- Access
 				if field_table.has_name (name, Current) then
 					Result.extend (field_string (field_table.found_item), name_list.item.twin)
 				else
-					custom_table.search (name)
-					if custom_table.found then
+					if custom_table.has_key (name) then
 						Result.extend (custom_table.found_item, name_list.item.twin)
 					end
 				end

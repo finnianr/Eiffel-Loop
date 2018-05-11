@@ -204,8 +204,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			if template_path.is_empty then
-				Template_names.search (generator)
-				if Template_names.found then
+				if Template_names.has_key (generator) then
 					Result := template_names.found_item
 				else
 					Result := Template_name_template #$ [generator]

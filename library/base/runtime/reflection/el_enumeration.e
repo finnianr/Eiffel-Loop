@@ -81,8 +81,7 @@ feature -- Access
 			table: like value_by_name
 		do
 			table := value_by_name
-			table.search (import_name (a_name, False))
-			if table.found then
+			if table.has_key (import_name (a_name, False)) then
 				Result := table.found_item
 			end
 		end
@@ -92,8 +91,7 @@ feature -- Access
 			table: like name_by_value
 		do
 			table := name_by_value
-			table.search (a_value)
-			if table.found then
+			if table.has_key (a_value) then
 				Result := export_name (table.found_item, True)
 			else
 				create Result.make_empty

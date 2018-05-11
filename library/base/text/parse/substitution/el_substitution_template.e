@@ -134,8 +134,7 @@ feature -- Element change
 			place_holder: like new_string; name: ZSTRING
 		do
 			name := from_general (a_name)
-			place_holder_table.search (name)
-			if place_holder_table.found then
+			if place_holder_table.has_key (name) then
 				place_holder := place_holder_table.found_item
 				wipe_out (place_holder)
 				if attached {READABLE_STRING_GENERAL} value as string_value then

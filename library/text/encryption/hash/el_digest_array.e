@@ -75,8 +75,7 @@ feature {NONE} -- Initialization
 			make (32)
 
 			table := Hmac_sha_256_table
-			table.search (secret_key)
-			if table.found then
+			if table.has_key (secret_key) then
 				hmac := table.found_item
 			else
 				create hmac.make_ascii_key (secret_key)
@@ -135,7 +134,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make_equal (3)
 		end
-		
+
 	Once_md5: EL_MD5_128
 		once
 			create Result.make

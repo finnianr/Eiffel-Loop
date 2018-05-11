@@ -56,8 +56,7 @@ feature -- Basic operations
 
 	search (key: K)
 		do
-			Precursor (key)
-			if found and list.valid_index (found_index) then
+			if has_key (key) and then list.valid_index (found_index) then
 				found_item := list [found_index]
 			else
 				found_item := default_found_item

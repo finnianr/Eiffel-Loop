@@ -1,8 +1,11 @@
 note
 	description: "[
-		Reads name value pairs from file encrypted using EL utility program: el_toolkit -crypto
+		Reads name value pairs from file encrypted using the Eiffel-Loop 
+		`[./tool/toolkit/source/class-index.html el_toolkit -crypto]' command line utility.
+			
+		See sub-application class: [$source CRYPTO_APP]
 		
-		Example:
+		Example file:
 		
 			# This is a comment
 			
@@ -42,12 +45,14 @@ feature {NONE} -- Initialization
 			lines.close
 			http_parameters := to_parameter_list
 		ensure
-			no_empty_field: not (<< user, pwd, signature >>).there_exists (agent {EL_ZSTRING}.is_empty)
+			no_empty_fields: across << user, pwd, signature >> as str all not str.item.is_empty end
 		end
 
 feature -- Access
 
 	http_parameters: like to_parameter_list
+
+feature -- Credentials
 
 	pwd: ZSTRING
 

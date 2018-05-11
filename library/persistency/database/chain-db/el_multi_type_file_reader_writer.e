@@ -43,8 +43,7 @@ feature -- Basic operations
 
 	write (a_writeable: EL_STORABLE; a_file: RAW_FILE)
 		do
-			type_index_table.search (Eiffel.dynamic_type (a_writeable))
-			if type_index_table.found then
+			if type_index_table.has_key (Eiffel.dynamic_type (a_writeable)) then
 				type_index := type_index_table.found_item
 			else
 				type_index := 0

@@ -1,6 +1,11 @@
 note
 	description: "Parent class for instant access requests"
-
+	descendants: "[
+			AIA_REQUEST*
+				[$source AIA_PURCHASE_REQUEST]
+					[$source AIA_REVOKE_REQUEST]
+				[$source AIA_GET_USER_ID_REQUEST]
+	]"
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"

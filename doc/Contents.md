@@ -189,7 +189,7 @@ Laabhair was developed at the [Digital Media Centre at the Dublin Institute of T
 
 
 ## Amazon Instant Access API
-An Eiffel interface to the [Amazon Instant Access API](https://s3-us-west-2.amazonaws.com/dtg-docs/index.html). This API enables third party vendors to fulfil orders for digital goods on the Amazon store. (WORK IN PROGRESS)
+An Eiffel interface to the [Amazon Instant Access API](https://s3-us-west-2.amazonaws.com/dtg-docs/index.html). This API enables third party vendors to fulfil orders for digital goods on the Amazon store. It enables One-time purchases but not subscriptions. It passes a basic test suite but has not yet been tested in production.
 ## Eiffel Remote Object Server (EROS)
 An implementation of an experimental XML orientated remote procedure call protocol.
 

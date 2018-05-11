@@ -155,8 +155,7 @@ feature {NONE} -- Building from XML
 			--
 		do
 			log.enter ("do_calculation")
-			Procedures.search (node.to_string)
-			if Procedures.found then
+			if Procedures.has_key (node.to_string) then
 				Procedures.found_item.set_target (Current)
 				Procedures.found_item.apply
 

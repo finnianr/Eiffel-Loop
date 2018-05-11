@@ -134,8 +134,8 @@ feature {NONE} -- Implementation
 		do
 			names := local_scope_variable_names
 			from i := 1 until i > names.count loop
-				name := names [i]; name_space.search (name)
-				if name_space.found then
+				name := names [i]
+				if name_space.has_key (name) then
 					outer_loop_variables.extend (name_space.found_item, name)
 				end
 				i := i + 1

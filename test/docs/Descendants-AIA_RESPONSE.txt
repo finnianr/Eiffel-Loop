@@ -1,0 +1,8 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			AIA_RESPONSE
+				[$source AIA_GET_USER_ID_RESPONSE]
+				[$source AIA_PURCHASE_RESPONSE]
+					[$source AIA_REVOKE_RESPONSE]
+	]"

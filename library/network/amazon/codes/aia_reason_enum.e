@@ -1,6 +1,6 @@
 note
 	description: "[
-		Reasons for purchase/purchase revokation. Accessible via {[$source AIA_SHARED_ENUMERATIONS]}.Reason_enum
+		Reasons for purchase/purchase revokation. Accessible via `{[$source AIA_SHARED_ENUMERATIONS]}.Reason_enum'.
 	]"
 
 	author: "Finnian Reilly"

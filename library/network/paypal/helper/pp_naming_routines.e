@@ -21,7 +21,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	to_paypal_name (name_in: STRING; keep_ref: BOOLEAN): STRING
+	to_paypal_name (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		-- adjust for idiosyncrasy in Paypal naming
 		do
 			Result := empty_name_out
@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 			if name_in.starts_with (once "l_") then
 				Result.insert_character ('_', 2)
 			end
-			if keep_ref then
+			if keeping_ref then
 				Result := Result.twin
 			end
 		end

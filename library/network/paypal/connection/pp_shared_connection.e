@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {PP_PAYPAL_CONNECTION}."
+	description: "Access to shared instance of [$source PP_NVP_API_CONNECTION]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

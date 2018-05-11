@@ -78,8 +78,7 @@ feature -- Access
 					pos_semicolon := line.index_of (';', pos_ampersand + 1)
 					if pos_semicolon > 0 then
 						entity_name := line.substring (pos_ampersand + 1, pos_semicolon - 1).to_string_8
-						table.search (entity_name)
-						if table.found then
+						if table.has_key (entity_name) then
 							line.put_unicode (table.found_item.natural_32_code, pos_ampersand)
 							line.remove_substring (pos_ampersand + 1, pos_semicolon)
 						else

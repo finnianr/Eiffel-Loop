@@ -1,7 +1,8 @@
 note
 	description: "[
-		Menu driven shell of various cryptographic funtions. These are listed in function
-		{[$source EL_CRYPTO_COMMAND_SHELL]}.new_command_table
+		Command line interface to [$source EL_CRYPTO_COMMAND_SHELL] class.
+		This is a menu driven shell of various cryptographic functions listed in function
+		`{[$source EL_CRYPTO_COMMAND_SHELL]}.new_command_table'
 		
 		Usage: `el_toolkit -crypto'
 	]"

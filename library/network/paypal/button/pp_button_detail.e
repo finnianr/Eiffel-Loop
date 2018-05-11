@@ -1,7 +1,7 @@
 note
 	description: "[
-		Details of Paypal button. Just to confuse matters, Paypal names these fields using lower_snake_case rather
-		than UPPERCAMELCASE.
+		Details of Paypal button. Just to confuse matters, Paypal names these fields using `lower_snake_case' rather
+		than `UPPERCAMELCASE'.
 	]"
 
 	author: "Finnian Reilly"

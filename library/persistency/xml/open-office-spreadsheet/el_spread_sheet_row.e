@@ -67,8 +67,7 @@ feature -- Access
 
 	cell (name: ZSTRING): EL_SPREAD_SHEET_DATA_CELL
 		do
-			columns.search (name)
-			if columns.found then
+			if columns.has_key (name) then
 				Result := i_th (columns.found_item)
 			else
 				create Result.make_empty

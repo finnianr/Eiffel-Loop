@@ -49,8 +49,7 @@ feature -- Access
 			type_id: INTEGER
 		do
 			type_id := Eiffel.dynamic_type (target)
-			search (type_id)
-			if found then
+			if has_key (type_id) then
 				Result := found_item
 			else
 				Result := new_item (target)

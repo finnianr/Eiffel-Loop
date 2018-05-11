@@ -139,8 +139,7 @@ feature {NONE} -- Implementation
 		do
 			l_routine_id := type_id |<< Num_bits_routine_id + a_routine_id
 
-			Routine_table.search (l_routine_id)
-			if Routine_table.found then
+			if Routine_table.has_key (l_routine_id) then
 				Result := Routine_table.found_item
 			else
 				class_name := Eiffel.type_name_of_type (type_id)
@@ -152,8 +151,7 @@ feature {NONE} -- Implementation
 	routine_id (routine_name: STRING): INTEGER
 			-- Unique identifier for routine name
 		do
-			Routine_id_table.search (routine_name)
-			if Routine_id_table.found then
+			if Routine_id_table.has_key (routine_name) then
 				Result := Routine_id_table.found_item
 			else
 				Result := Routine_id_table.count + 1

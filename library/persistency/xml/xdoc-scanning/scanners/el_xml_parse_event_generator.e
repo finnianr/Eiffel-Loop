@@ -169,8 +169,7 @@ feature {NONE} -- Implementation
 		local
 			name_index: INTEGER
 		do
-			name_index_table.search (name)
-			if name_index_table.found then
+			if name_index_table.has_key (name) then
 				name_index := name_index_table.found_item
 				put_parse_event (name_index, existing_name_code)
 			else

@@ -118,8 +118,7 @@ feature -- Basic operations
 			template: EVOLICITY_COMPILED_TEMPLATE; stack: like stack_table.stack
 			found: BOOLEAN; compiler_table: like Compilers.item
 		do
-			stack_table.search (a_name)
-			if stack_table.found then
+			if stack_table.has_key (a_name) then
 				stack := stack_table.found_stack
 			else
 				-- using a stack enables use of recursive templates
@@ -129,8 +128,7 @@ feature -- Basic operations
 			if stack.is_empty then
 				restrict_access (Compilers)
 					compiler_table := Compilers.item
-					compiler_table.search (a_name)
-					if compiler_table.found then
+					if compiler_table.has_key (a_name) then
 						-- Changed 23 Nov 2013
 						-- Before it used to make a deep_twin of an existing compiled template
 						template := compiler_table.found_item.compiled_template
@@ -211,8 +209,7 @@ feature {NONE} -- Implementation
  			is_file_path := file_encoding /= Default_encoding
 			restrict_access (Compilers)
 				compiler_table := Compilers.item
-				compiler_table.search (key_path)
-				if not compiler_table.found
+				if not compiler_table.has_key (key_path)
 					or else is_file_path and then key_path.modification_date_time > compiler_table.found_item.modification_time
 				then
 					create compiler.make

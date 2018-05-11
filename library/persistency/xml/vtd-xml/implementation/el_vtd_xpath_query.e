@@ -68,8 +68,7 @@ feature -- Element change
 		do
 			dispose
 			create {EL_VTD_NATIVE_XPATH_IMP} xpath.make (a_xpath)
-			C_namespaces.search (namespace)
-			if C_namespaces.found then
+			if C_namespaces.has_key (namespace) then
 				c_ns_prefix := C_namespaces.found_item [1]
 				c_ns_url := C_namespaces.found_item [2]
 			else

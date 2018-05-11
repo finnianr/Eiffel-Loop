@@ -1,5 +1,5 @@
 note
-	description: "ID for `AIA_CREDENTIAL'"
+	description: "ID for [$source AIA_CREDENTIAL]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

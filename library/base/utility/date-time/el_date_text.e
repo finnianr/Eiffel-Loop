@@ -34,16 +34,14 @@ feature -- Access
 		local
 			template: like format_templates.item
 		do
-			format_templates.search (format)
-			if format_templates.found then
+			if format_templates.has_key (format) then
 				template := format_templates.found_item
 			else
 				create template.make (format)
 				format_templates [format] := template
 			end
 			across template.variables as variable loop
-				text_functions.search (variable.item.to_string_8)
-				if text_functions.found then
+				if text_functions.has_key (variable.item.to_string_8) then
 					template.set_variable (variable.item, text_functions.found_item (date))
 				end
 			end

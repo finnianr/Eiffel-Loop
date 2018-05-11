@@ -30,8 +30,7 @@ feature -- Basic operations
 	execute (command, a_arguments: STRING)
 		do
 			arguments := a_arguments
-			command_table.search (command)
-			if command_table.found then
+			if command_table.has_key (command) then
 				command_table.found_item.apply
 			end
 		end

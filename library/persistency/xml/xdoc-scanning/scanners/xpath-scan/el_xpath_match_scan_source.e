@@ -190,15 +190,12 @@ feature {NONE} -- Xpath matching operations
 				lio.put_new_line
 			end
 			-- first try and match full path
-			procedure_lookup.search (last_node_xpath)
-			if procedure_lookup.found then
-
+			if procedure_lookup.has_key (last_node_xpath) then
 				procedure_lookup.found_item.call ([])
 			end
 			from wildcard_search_term_list.start until wildcard_search_term_list.off loop
 				if last_node_xpath.matches_wildcard (wildcard_search_term_list.item) then
-					procedure_lookup.search (wildcard_search_term_list.item)
-					if procedure_lookup.found then
+					if procedure_lookup.has_key (wildcard_search_term_list.item) then
 						procedure_lookup.found_item.call ([])
 					end
 				end
