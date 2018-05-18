@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {BENCHMARK_APP}."
+	description: "Test for [$source EL_BENCHMARK_COMMAND_SHELL]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-16 10:38:33 GMT (Monday 16th October 2017)"
-	revision: "6"
+	date: "2018-05-18 9:53:48 GMT (Friday 18th May 2018)"
+	revision: "7"
 
 class
 	BENCHMARK_APP
@@ -29,7 +29,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE
 		do
-			Result := agent {like command}.make (1)
+			Result := agent {like command}.make (500)
 		end
 
 feature {NONE} -- Constants
@@ -42,7 +42,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{BENCHMARK_APP}, "*"]
+				[{BENCHMARK_APP}, All_routines]
 			>>
 		end
 end

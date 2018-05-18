@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-23 10:16:11 GMT (Saturday 23rd December 2017)"
-	revision: "5"
+	date: "2018-05-18 9:33:00 GMT (Friday 18th May 2018)"
+	revision: "6"
 
 deferred class
 	EL_COMMAND_SHELL
@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 		do
 			table := new_command_table
 			create command_table.make_equal (table.count + 1)
-			command_table [Default_zero_option] := agent set_user_exit
+			set_standard_options (command_table)
 			across table as command loop
 				command_table [command.key] := command.item
 			end
@@ -55,6 +55,11 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	set_standard_options (table: like new_command_table)
+		do
+			table [Default_zero_option] := agent set_user_exit
+		end
 
 	new_command_table: like command_table
 		deferred

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-23 12:12:20 GMT (Tuesday 23rd January 2018)"
-	revision: "2"
+	date: "2018-05-10 18:56:47 GMT (Thursday 10th May 2018)"
+	revision: "3"
 
 class
 	EL_FUNCTION_RESULT_TABLE [TARGET, R]

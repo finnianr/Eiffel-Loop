@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-28 9:57:47 GMT (Saturday 28th April 2018)"
-	revision: "13"
+	date: "2018-05-02 10:17:06 GMT (Wednesday 2nd May 2018)"
+	revision: "14"
 
 deferred class
 	EL_SETTABLE_FROM_STRING

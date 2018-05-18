@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-23 9:26:19 GMT (Tuesday 23rd May 2017)"
-	revision: "2"
+	date: "2018-05-10 19:03:25 GMT (Thursday 10th May 2018)"
+	revision: "3"
 
 class
 	MATRIX_CALCULATOR

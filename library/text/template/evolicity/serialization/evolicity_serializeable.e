@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-29 8:32:28 GMT (Sunday 29th April 2018)"
-	revision: "10"
+	date: "2018-05-10 19:18:44 GMT (Thursday 10th May 2018)"
+	revision: "11"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE

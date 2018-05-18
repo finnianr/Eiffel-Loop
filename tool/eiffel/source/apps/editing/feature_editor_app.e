@@ -1,10 +1,11 @@
 note
 	description: "[
-		This application can save a lot of keyboard typing during Eiffel development. It performs 
-		a series shorthand expansions on a single Eiffel class, as well as alphabetically ordering the
-		routines in each feature block. It can be usefully incoporated into EiffelStudio using this external
+		This application can save a lot of unecessary keyboard typing during Eiffel development. It performs 
+		a series of expansions on shorthand expressions present in a single Eiffel class. In addition to performing
+		expansions, it also alphabetically orders the routines in each feature block. It can be usefully incoporated
+		into EiffelStudio using this external.
 		command template:
-			el_toolkit -feature_edit -no_highlighting -source "$file_name"
+			el_eiffel -feature_edit -no_highlighting -source "$file_name"
 	]"
 	instructions: "See bottom of page"
 
@@ -13,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 11:28:19 GMT (Sunday 15th October 2017)"
-	revision: "8"
+	date: "2018-05-17 13:47:53 GMT (Thursday 17th May 2018)"
+	revision: "9"
 
 class
 	FEATURE_EDITOR_APP
@@ -74,6 +75,10 @@ feature {NONE} -- Constants
 
 note
 	instructions: "[
+		To use it, enter some shorthand  in an Eiffel class (described below).
+		Save the source file, and then invoke the `feature_edit'. EiffelStudio
+		automatically reloads the modified class. You can then carry on editing.
+
 		The following is a list expansion rules which the tool recognizes:
 		
 		**1.** Expands feature block headings using two letter abbeviations for titles as for example:

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
-	revision: "3"
+	date: "2018-05-10 19:03:04 GMT (Thursday 10th May 2018)"
+	revision: "4"
 
 deferred class
 	EL_SERVER_COMMAND_HANDLER

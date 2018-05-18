@@ -51,10 +51,10 @@ system:
 			name = exception_trace; value = true
 
 		setting:
-			name = inlining; value = false
+			name = line_generation; value = false
 
 		setting:
-			name = line_generation; value = false
+			name = inlining; value = true
 
 		setting:
 			name = inlining_size; value = 2

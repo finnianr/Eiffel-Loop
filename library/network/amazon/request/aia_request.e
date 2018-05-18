@@ -6,13 +6,14 @@ note
 					[$source AIA_REVOKE_REQUEST]
 				[$source AIA_GET_USER_ID_REQUEST]
 	]"
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-26 9:07:18 GMT (Thursday 26th April 2018)"
-	revision: "7"
+	date: "2018-05-09 15:28:36 GMT (Wednesday 9th May 2018)"
+	revision: "8"
 
 deferred class
 	AIA_REQUEST

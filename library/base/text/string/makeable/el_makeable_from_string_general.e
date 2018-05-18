@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-28 10:07:15 GMT (Saturday 28th April 2018)"
-	revision: "5"
+	date: "2018-05-04 12:40:59 GMT (Friday 4th May 2018)"
+	revision: "6"
 
 deferred class
 	EL_MAKEABLE_FROM_STRING_GENERAL

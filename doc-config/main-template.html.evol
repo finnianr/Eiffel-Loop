@@ -4,11 +4,11 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="Author" content="Finnian Reilly"/>
 		<meta name="Audience" content="all"/>
-		<meta name="Aontent-language" content="english"/>
+		<meta name="Content-language" content="english"/>
 	#if $is_site_map_page then
 		<meta name="Description" content="Collection of more than 2200 classes for the Eiffel language including libraries, example programs and development tools."/>
 	#else
-		<meta name="Description" content="Source code for Eiffel $category: $name"/>
+		<meta name="Description" content="Source code for Eiffel $category_title: $name"/>
 		<meta name="digest" content="$crc_digest"/>
 	#end
 		<meta name="Distribution" content="Global"/>

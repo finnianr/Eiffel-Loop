@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-12 17:56:46 GMT (Monday 12th June 2017)"
-	revision: "2"
+	date: "2018-05-18 8:12:12 GMT (Friday 18th May 2018)"
+	revision: "3"
 
 class
 	EL_DATE_TIME_DURATION
@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 	make_from_other (other: DATE_TIME_DURATION)
 		do
 			make_by_date_time (other.date, other.time)
+			origin_date_time := other.origin_date_time
 		end
 
 	make_zero

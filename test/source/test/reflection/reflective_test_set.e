@@ -1,8 +1,13 @@
 ﻿note
 	description: "Summary description for {REFLECTIVE_TEST_SET}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-05-02 10:49:49 GMT (Wednesday 2nd May 2018)"
+	revision: "1"
 
 class
 	REFLECTIVE_TEST_SET

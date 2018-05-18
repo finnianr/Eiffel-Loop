@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-17 11:09:19 GMT (Sunday 17th December 2017)"
-	revision: "3"
+	date: "2018-05-18 8:50:20 GMT (Friday 18th May 2018)"
+	revision: "4"
 
 deferred class
 	EL_LOGGABLE
@@ -132,7 +132,7 @@ feature -- Output
 		deferred
 		end
 
-	put_labeled_substitution (lable, template: READABLE_STRING_GENERAL; inserts: TUPLE)
+	put_labeled_substitution (label, template: READABLE_STRING_GENERAL; inserts: TUPLE)
 		deferred
 		end
 

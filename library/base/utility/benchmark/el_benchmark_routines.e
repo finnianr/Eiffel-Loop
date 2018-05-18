@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {BENCHMARK_ROUTINES}."
+	description: "Code performance benchmarking routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-05-18 9:47:36 GMT (Friday 18th May 2018)"
+	revision: "3"
 
 class
 	EL_BENCHMARK_ROUTINES
@@ -43,11 +43,31 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	average_execution (action: ROUTINE; application_count: INTEGER): DOUBLE
+		local
+			timer: EL_EXECUTION_TIMER; i: INTEGER
+		do
+			create timer.make
+			timer.start
+			from i := 1 until i > application_count loop
+				action.apply
+				Memory.collect
+				i := i + 1
+			end
+			timer.stop
+			Result := timer.elapsed_time.fine_seconds_count / application_count
+		end
+
 feature {NONE} -- Constants
 
 	Double: FORMAT_DOUBLE
 		once
 			create Result.make (6, 3)
+		end
+
+	Memory: MEMORY
+		once
+			create Result
 		end
 
 end

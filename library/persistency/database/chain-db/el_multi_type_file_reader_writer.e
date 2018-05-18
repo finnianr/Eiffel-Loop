@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-11 9:01:21 GMT (Monday 11th December 2017)"
-	revision: "3"
+	date: "2018-05-10 19:16:29 GMT (Thursday 10th May 2018)"
+	revision: "4"
 
 class
 	EL_MULTI_TYPE_FILE_READER_WRITER [G -> EL_STORABLE create make_default end]

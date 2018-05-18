@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_PROCEDURE_TABLE}."
+	description: "Table of procedures with latin-1 encoded keys"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 9:39:53 GMT (Saturday 2nd December 2017)"
-	revision: "2"
+	date: "2018-05-18 8:20:03 GMT (Friday 18th May 2018)"
+	revision: "3"
 
 class
 	EL_PROCEDURE_TABLE

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-23 11:58:10 GMT (Monday 23rd April 2018)"
-	revision: "4"
+	date: "2018-05-09 15:19:54 GMT (Wednesday 9th May 2018)"
+	revision: "5"
 
 class
 	AIA_RESPONSE_ENUM
