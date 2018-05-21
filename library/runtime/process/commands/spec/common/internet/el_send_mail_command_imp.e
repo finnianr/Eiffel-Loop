@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_SEND_MAIL_COMMAND_IMPL}."
+	description: "Send mail command imp"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-21 16:49:14 GMT (Friday 21st July 2017)"
-	revision: "5"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "6"
 
 class
 	EL_SEND_MAIL_COMMAND_IMP

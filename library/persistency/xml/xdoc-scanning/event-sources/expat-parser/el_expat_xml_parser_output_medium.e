@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_EXPAT_XML_PARSER_INPUT_MEDIUM}."
+	description: "Expat xml parser output medium"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-17 10:54:24 GMT (Saturday 17th February 2018)"
-	revision: "6"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "7"
 
 class
 	EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM

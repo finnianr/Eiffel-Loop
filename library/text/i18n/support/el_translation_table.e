@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_LOCALIZATION_TABLE}."
+	description: "Translation table"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-07 11:19:41 GMT (Saturday 7th April 2018)"
-	revision: "8"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "9"
 
 class
 	EL_TRANSLATION_TABLE

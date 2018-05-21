@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_UNDERBIT_C_API}."
+	description: "Underbit c api"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-20 11:05:36 GMT (Tuesday 20th June 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_UNDERBIT_C_API

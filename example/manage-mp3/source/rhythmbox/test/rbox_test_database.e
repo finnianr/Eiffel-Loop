@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {RBOX_TEST_DATABASE}."
+	description: "Rbox test database"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-25 8:40:22 GMT (Sunday 25th September 2016)"
-	revision: "3"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	RBOX_TEST_DATABASE

@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_DAILY_EXCHANGE_RATES}."
+	description: "Daily exchange rates"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-06 18:11:24 GMT (Wednesday 6th December 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_DAILY_EXCHANGE_RATES [RATES -> EL_EXCHANGE_RATE_TABLE create make end]

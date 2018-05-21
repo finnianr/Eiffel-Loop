@@ -1,13 +1,13 @@
 ﻿note
-	description: "Summary description for {EL_URI_STRING_8_TEST_SET}."
+	description: "Uri encoding test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 9:58:45 GMT (Tuesday 10th April 2018)"
-	revision: "2"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	URI_ENCODING_TEST_SET

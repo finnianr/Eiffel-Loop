@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Directory tree file processor"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-10 7:47:10 GMT (Wednesday 10th August 2016)"
-	revision: "3"
+	date: "2018-05-19 19:05:06 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_DIRECTORY_TREE_FILE_PROCESSOR

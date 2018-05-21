@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EIFFEL_REPOSITORY_PUBLISHER_TEST_SET}."
+	description: "Repository publisher test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-29 11:54:18 GMT (Sunday 29th April 2018)"
-	revision: "10"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "11"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET

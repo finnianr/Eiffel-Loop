@@ -36,60 +36,51 @@ inherit
 
 	EL_INPUT_WIDGET [G]
 		rename
-			default_sort_order as alphabetical_sort_order,
-			initialization_tuples as create_initialization_tuples
+			make as make_unadjusted,
+			make_sorted as make_unadjusted_sorted
 		undefine
 			is_equal, default_create, copy
-		redefine
-			make
 		end
 
 create
-	make, make_unadjusted, make_alphabetical, make_alphabetical_unadjusted
+	default_create, make, make_unadjusted, make_sorted, make_unadjusted_sorted
 
 feature {NONE} -- Initialization
+
+	initialize
+		do
+			Precursor
+			create value_list.make (0)
+		end
 
 	make (a_initial_value: G; a_values: FINITE [G]; a_value_change_action: like value_change_action)
 		do
 			is_width_adjusted := True
-			Precursor (a_initial_value, a_values, a_value_change_action)
+			make_unadjusted (a_initial_value, a_values, a_value_change_action)
 		end
 
-	make_alphabetical (a_initial_value: G; a_values: FINITE [G]; a_value_change_action: like value_change_action)
+	make_sorted (
+		a_initial_value: G; a_values: FINITE [G]; a_value_change_action: like value_change_action; in_ascending_order: BOOLEAN
+	)
 			-- sorted alphabetially
 		do
 			is_width_adjusted := True
-			is_sorted := True
-			make (a_initial_value, a_values, a_value_change_action)
+			make_unadjusted_sorted (a_initial_value, a_values, a_value_change_action, in_ascending_order)
 		end
 
-	make_unadjusted (a_initial_value: G; a_values: FINITE [G]; a_value_change_action: like value_change_action)
-			-- Make drop down box with minimum width unadjusted for longest value
-		do
-			make (a_initial_value, a_values, a_value_change_action)
-		end
-
-	make_alphabetical_unadjusted (a_initial_value: G; a_values: FINITE [G]; a_value_change_action: like value_change_action)
-			-- Make drop down box with minimum width unadjusted for longest value
-			-- and sorted alphabetially
-		do
-			is_sorted := True
-			make (a_initial_value, a_values, a_value_change_action)
-		end
-
-	make_widget (a_initialization_tuples: like create_initialization_tuples)
+	make_widget (a_value_list: like new_value_list)
 			-- make a box with actual values mapped to display values
 		local
 			selected_string: STRING_32
 		do
 			default_create
-			initialization_tuples := a_initialization_tuples
+			value_list := a_value_list
 
 			create selected_string.make_empty
-			across initialization_tuples as tuple loop
-				extend (create {EV_LIST_ITEM}.make_with_text (tuple.item.displayed_value))
-				if tuple.item.is_current_value then
-					selected_string := tuple.item.displayed_value
+			across a_value_list as value loop
+				extend (create {EV_LIST_ITEM}.make_with_text (value.item.as_string_32))
+				if value.item.is_current then
+					selected_string := value.item.as_string_32
 				end
 			end
 			if is_width_adjusted and then not is_empty then
@@ -98,25 +89,14 @@ feature {NONE} -- Initialization
 			if not selected_string.is_empty then
 				set_text (selected_string)
 			end
-			select_actions.extend (
-				agent
-					do
-						value_change_action.call ([selected_value])
-					end
-			)
-		end
-
-	initialize
-		do
-			Precursor
-			create initialization_tuples.make (0)
+			select_actions.extend (agent on_select_value)
 		end
 
 feature -- Access
 
 	selected_value: G
 		do
-			Result := initialization_tuples.i_th (selected_index).value
+			Result := value_list.i_th (selected_index).value
 		end
 
 feature -- Element change
@@ -126,6 +106,13 @@ feature -- Element change
 			set_text (displayed_value (a_value).to_unicode)
 		end
 
+feature {NONE} -- Event handling
+
+	on_select_value
+		do
+			value_change_action.call ([selected_value])
+		end
+
 feature {NONE} -- Implementation
 
 	displayed_value (value: G): ZSTRING
@@ -133,6 +120,6 @@ feature {NONE} -- Implementation
 			Result := value.out
 		end
 
-	initialization_tuples: like create_initialization_tuples
+	value_list: like new_value_list
 
 end

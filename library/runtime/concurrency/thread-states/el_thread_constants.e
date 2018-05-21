@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_THREAD_CONSTANTS}."
+	description: "Thread constants"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-06 10:05:31 GMT (Friday 6th October 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_THREAD_CONSTANTS

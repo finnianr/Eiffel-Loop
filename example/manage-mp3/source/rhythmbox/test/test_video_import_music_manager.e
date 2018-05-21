@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {TEST_VIDEO_IMPORT_MUSIC_MANAGER}."
+	description: "Test video import music manager"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-18 10:51:59 GMT (Wednesday 18th October 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	TEST_VIDEO_IMPORT_MUSIC_MANAGER

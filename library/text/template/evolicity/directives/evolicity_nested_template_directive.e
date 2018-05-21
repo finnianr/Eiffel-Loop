@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EVOLICITY_NESTED_TEMPLATE_DIRECTIVE}."
+	description: "Evolicity nested template directive"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 deferred class
 	EVOLICITY_NESTED_TEMPLATE_DIRECTIVE

@@ -1,13 +1,13 @@
 ﻿note
-	description: "Summary description for {STRING_X_ROUTINES_TEST_SET}."
+	description: "String 32 routines test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 10:05:36 GMT (Tuesday 10th April 2018)"
-	revision: "3"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	STRING_32_ROUTINES_TEST_SET

@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_CENTERED_CELL}."
+	description: "Centered vertical box"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-28 12:07:43 GMT (Saturday 28th January 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_CENTERED_VERTICAL_BOX

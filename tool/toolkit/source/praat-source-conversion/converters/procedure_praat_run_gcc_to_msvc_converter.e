@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Procedure praat run gcc to msvc converter"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-03 19:11:25 GMT (Wednesday 3rd August 2016)"
-	revision: "2"
+	date: "2018-05-19 19:05:03 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	PROCEDURE_PRAAT_RUN_GCC_TO_MSVC_CONVERTER

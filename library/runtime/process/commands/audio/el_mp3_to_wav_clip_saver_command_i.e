@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_MP3_TO_WAV_CLIP_SAVER_COMMAND}."
+	description: "Mp3 to wav clip saver command i"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 9:33:37 GMT (Saturday 2nd December 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 deferred class
 	EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_I

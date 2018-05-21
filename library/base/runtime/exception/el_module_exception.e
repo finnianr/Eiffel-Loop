@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_MODULE_EXCEPTION}."
+	description: "Module exception"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-05 11:27:22 GMT (Tuesday 5th December 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_MODULE_EXCEPTION

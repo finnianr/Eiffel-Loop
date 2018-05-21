@@ -1,13 +1,13 @@
 ﻿note
-	description: "Summary description for {EL_ISO_8859_1_CODEC_2}."
+	description: "Iso 8859 1 zcodec"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-18 12:59:13 GMT (Sunday 18th February 2018)"
-	revision: "3"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_ISO_8859_1_ZCODEC

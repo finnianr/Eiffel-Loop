@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {MP3_FILE_COLLATOR}."
+	description: "Tango mp3 file collator"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-18 10:50:16 GMT (Wednesday 18th October 2017)"
-	revision: "4"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	TANGO_MP3_FILE_COLLATOR

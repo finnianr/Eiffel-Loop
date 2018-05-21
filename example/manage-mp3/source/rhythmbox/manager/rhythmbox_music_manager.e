@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {RHYTHMBOX_MUSIC_MANAGER}."
+	description: "Rhythmbox music manager"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-18 10:51:45 GMT (Wednesday 18th October 2017)"
-	revision: "8"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "9"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER

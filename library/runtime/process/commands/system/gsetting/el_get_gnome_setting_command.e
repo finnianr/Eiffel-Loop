@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_GET_GSETTING_COMMAND}."
+	description: "Get gnome setting command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-02-09 17:10:06 GMT (Thursday 9th February 2017)"
-	revision: "1"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 class
 	EL_GET_GNOME_SETTING_COMMAND

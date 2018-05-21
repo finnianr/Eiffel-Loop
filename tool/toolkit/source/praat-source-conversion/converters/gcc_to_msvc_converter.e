@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Gcc to msvc converter"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-03 13:10:59 GMT (Wednesday 3rd August 2016)"
-	revision: "2"
+	date: "2018-05-19 19:05:03 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	GCC_TO_MSVC_CONVERTER

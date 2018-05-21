@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {RBOX_IGNORED_FILE}."
+	description: "Rbox ignored entry"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-28 15:24:52 GMT (Thursday 28th December 2017)"
-	revision: "9"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "10"
 
 class
 	RBOX_IGNORED_ENTRY

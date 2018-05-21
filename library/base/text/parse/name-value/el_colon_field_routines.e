@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_COLON_FIELD_ROUTINES}."
+	description: "Colon field routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-28 17:28:51 GMT (Sunday 28th May 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_COLON_FIELD_ROUTINES

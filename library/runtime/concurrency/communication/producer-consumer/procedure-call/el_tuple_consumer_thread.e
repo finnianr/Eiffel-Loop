@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Tuple consumer thread"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 17:32:48 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2018-05-19 19:05:06 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_TUPLE_CONSUMER_THREAD [OPEN_ARGS -> TUPLE create default_create end]

@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {ENCRYPTABLE_FILED_WORD_TOKEN_TABLE}."
+	description: "Encryptable stored word token table"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-01 10:00:54 GMT (Wednesday 1st November 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_ENCRYPTABLE_STORED_WORD_TOKEN_TABLE

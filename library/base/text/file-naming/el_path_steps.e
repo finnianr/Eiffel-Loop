@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_PATH_STEPS}."
+	description: "Path steps"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-28 10:46:22 GMT (Wednesday 28th March 2018)"
-	revision: "9"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "10"
 
 class
 	EL_PATH_STEPS

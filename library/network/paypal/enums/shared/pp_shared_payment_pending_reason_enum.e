@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {PP_SHARED_PAYMENT_PENDING_REASON_CODE}."
+	description: "Pp shared payment pending reason enum"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-21 12:35:04 GMT (Thursday 21st December 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	PP_SHARED_PAYMENT_PENDING_REASON_ENUM

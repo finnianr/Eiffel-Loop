@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-16 11:18:20 GMT (Friday 16th February 2018)"
-	revision: "4"
+	date: "2018-05-19 8:43:20 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	AIA_CANONICAL_REQUEST
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 				sorted_header_list.forth
 			end
 
-			sorted_header_list.sort
+			sorted_header_list.sort (True)
 			append (sorted_header_list.as_string_list (agent colon_join))
 			extend (Empty_string) -- the Java SDK adds an empty line after the headers
 
@@ -88,7 +88,7 @@ feature -- Access
 			create Result.make_final_sha_256 (sha)
 		end
 
-	sorted_header_list: EL_SORTABLE_ARRAYED_MAP_LIST [STRING, ZSTRING]
+	sorted_header_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [STRING, ZSTRING]
 
 	sorted_header_names: EL_STRING_LIST [STRING]
 		do

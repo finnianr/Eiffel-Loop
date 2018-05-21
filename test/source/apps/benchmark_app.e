@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-18 9:53:48 GMT (Friday 18th May 2018)"
-	revision: "7"
+	date: "2018-05-19 10:02:59 GMT (Saturday 19th May 2018)"
+	revision: "8"
 
 class
 	BENCHMARK_APP
@@ -15,10 +15,16 @@ class
 inherit
 	EL_COMMAND_SHELL_SUB_APPLICATION [BENCHMARK_COMMAND_SHELL]
 		redefine
-			Option_name, argument_specs, default_make
+			Option_name, argument_specs, default_make, initialize
 		end
 
 feature {NONE} -- Implementation
+
+	initialize
+		do
+			Precursor
+			Console.show ({EL_BENCHMARK_ROUTINE_TABLE})
+		end
 
 	argument_specs: ARRAY [like specs.item]
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-18 9:35:51 GMT (Friday 18th May 2018)"
-	revision: "5"
+	date: "2018-05-19 10:01:56 GMT (Saturday 19th May 2018)"
+	revision: "6"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 	set_standard_options (table: like new_command_table)
 		do
 			Precursor (table)
-			table ["Set number or runs to average"] := agent set_number_of_runs
+			table ["Set number of runs to average"] := agent set_number_of_runs
 		end
 
 	set_number_of_runs
@@ -44,14 +44,14 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	compare (label: STRING; routines: ARRAY [TUPLE [key: READABLE_STRING_GENERAL; value: ROUTINE]])
+	compare (label: STRING; routines: ARRAY [TUPLE [READABLE_STRING_GENERAL, ROUTINE]])
 		local
 			table: EL_BENCHMARK_ROUTINE_TABLE
 		do
 			lio.put_labeled_string ("Benchmark", label)
 			lio.put_new_line
 			create table.make (routines)
-			table.put_comparison (lio, number_of_runs)
+			table.put_comparison (number_of_runs)
 			lio.put_new_line
 		end
 

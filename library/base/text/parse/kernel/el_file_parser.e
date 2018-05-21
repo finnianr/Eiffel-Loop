@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "File parser"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 13:52:01 GMT (Saturday 3rd March 2018)"
-	revision: "4"
+	date: "2018-05-19 19:05:04 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 deferred class
 	EL_FILE_PARSER

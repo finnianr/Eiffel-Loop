@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_VERTICAL_TAB_BOX}."
+	description: "Docked tab"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 deferred class
 	EL_DOCKED_TAB

@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {M3U_PLAYLIST}."
+	description: "M3U playlist reader"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 12:03:47 GMT (Wednesday 28th September 2016)"
-	revision: "2"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	M3U_PLAYLIST_READER

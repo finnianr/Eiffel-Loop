@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {CLASS_RENAMER_COMMAND}."
+	description: "Class renamer command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-29 9:52:38 GMT (Sunday 29th April 2018)"
-	revision: "7"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "8"
 
 class
 	CLASS_RENAMER_COMMAND

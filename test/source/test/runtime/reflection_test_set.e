@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {RELFECTION_TEST_SET}."
+	description: "Reflection test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-21 13:09:09 GMT (Sunday 21st January 2018)"
-	revision: "4"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	REFLECTION_TEST_SET

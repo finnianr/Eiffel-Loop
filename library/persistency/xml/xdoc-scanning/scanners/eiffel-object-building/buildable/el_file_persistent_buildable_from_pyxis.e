@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_BUILDABLE_PYXIS_FILE_PERSISTENT}."
+	description: "File persistent buildable from pyxis"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-14 12:02:22 GMT (Sunday 14th May 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 deferred class
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_PYXIS

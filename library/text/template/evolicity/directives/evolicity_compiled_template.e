@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EVOLICITY_COMPILED_TEMPLATE}."
+	description: "Evolicity compiled template"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 15:04:30 GMT (Tuesday 10th April 2018)"
-	revision: "4"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	EVOLICITY_COMPILED_TEMPLATE

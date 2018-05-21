@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {REGRESSION_TESTING_SUB_APPLICATION}."
+	description: "Regression testable sub application"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 12:27:58 GMT (Thursday 29th June 2017)"
-	revision: "1"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 deferred class
 	REGRESSION_TESTABLE_SUB_APPLICATION

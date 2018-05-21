@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {SUBSCRIPTION_PACK_EMAIL}."
+	description: "Summary description for {SUBSCRIPTION_DELIVERY_EMAIL}"
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"

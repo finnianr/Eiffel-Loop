@@ -1,13 +1,13 @@
 ﻿note
-	description: "Summary description for {STORABLE_TEST_SET}."
+	description: "Storable test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-26 7:55:41 GMT (Thursday 26th April 2018)"
-	revision: "6"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "7"
 
 class
 	STORABLE_TEST_SET

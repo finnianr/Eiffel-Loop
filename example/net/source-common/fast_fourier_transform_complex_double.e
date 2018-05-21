@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}."
+	description: "Fast fourier transform complex double"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-23 11:19:01 GMT (Friday 23rd September 2016)"
-	revision: "2"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE

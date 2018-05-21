@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_BENCHMARK_ROUTINE_TABLE}."
+	description: "A table for doing comparitve performance benchmarking of routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-18 9:39:18 GMT (Friday 18th May 2018)"
-	revision: "1"
+	date: "2018-05-19 10:05:33 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE
@@ -20,49 +20,73 @@ inherit
 			is_equal, copy, default_create
 		end
 
+	EL_MODULE_LIO
+		undefine
+			is_equal, copy, default_create
+		end
+
 create
 	make
 
+feature -- Access
+
+	execution_times (apply_count: INTEGER): EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [STRING, DOUBLE]
+		-- average execution times in ascending order
+		local
+			execution_time: DOUBLE
+		do
+			create Result.make (count)
+			from start until after loop
+				if is_lio_enabled then
+					lio.put_labeled_substitution ("Getting average time", "%S (of %S runs)" , [key_for_iteration, apply_count])
+					lio.put_new_line
+				end
+				execution_time := average_execution (item_for_iteration, apply_count) * 1000
+				Result.extend (key_for_iteration, execution_time)
+				forth
+			end
+			Result.sort (True)
+		end
+
+	max_key_width: INTEGER
+		-- character width of longest key string
+		do
+			from start until after loop
+				if key_for_iteration.count > Result then
+					Result := key_for_iteration.count
+				end
+				forth
+			end
+		end
+
 feature -- Basic operations
 
-	put_comparison (lio: EL_LOGGABLE; application_count: INTEGER)
+	put_comparison (apply_count: INTEGER)
 		local
-			times: HASH_TABLE [DOUBLE, STRING]; fastest, l_padding: STRING
-			fastest_time, execution_time, argument_a: DOUBLE
-			description_width, i: INTEGER
+			times: like execution_times
+			fastest_time, execution_time: DOUBLE; description_width: INTEGER; l_padding: STRING
 		do
-			create times.make_equal (count)
-			from start until after loop
-				lio.put_labeled_substitution ("Getting average time", "%S (of %S runs)" , [key_for_iteration, application_count])
+			times := execution_times (apply_count)
+			description_width := max_key_width
+			fastest_time := times.first_value
+
+			if is_lio_enabled then
 				lio.put_new_line
-				if key_for_iteration.count > description_width then
-					description_width := key_for_iteration.count
-				end
-				execution_time := average_execution (item_for_iteration, application_count)
-				times [key_for_iteration] := execution_time
-				i := i + 1
-				if i = 1 then
-					fastest_time := execution_time
-					fastest := key_for_iteration
-				elseif execution_time < fastest_time then
-					fastest_time := execution_time
-					fastest := key_for_iteration
-				end
-				forth
+				lio.put_line ("Average execution times (in ascending order)")
 			end
-			lio.put_new_line
-			lio.put_line ("Average Execution Times")
-			from start until after loop
-				if key_for_iteration ~ fastest then
-					argument_a := fastest_time
-				else
-					argument_a := times [key_for_iteration]
-				end
-				create l_padding.make_filled (' ', description_width - key_for_iteration.count + 1)
-				lio.put_labeled_string (key_for_iteration + l_padding, comparative_millisecs_string (argument_a, fastest_time))
+			from times.start until times.after loop
+				create l_padding.make_filled (' ', description_width - times.item_key.count + 1)
+				lio.put_labeled_string (times.item_key + l_padding, comparative_string (times.item_value, fastest_time, "millisecs"))
 				lio.put_new_line
-				forth
+				times.forth
 			end
+		end
+
+feature {NONE} -- Constants
+
+	Averaging_template: ZSTRING
+		once
+			Result := "Averaging over %S runs"
 		end
 
 end

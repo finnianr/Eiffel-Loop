@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_WEL_REGISTRY_ROUTINES}."
+	description: "Windows registry routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-22 15:04:17 GMT (Thursday 22nd June 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_WINDOWS_REGISTRY_ROUTINES

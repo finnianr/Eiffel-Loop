@@ -1,13 +1,13 @@
 note
-	description: ""
+	description: "Xml element list editions"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-23 13:06:34 GMT (Friday 23rd June 2017)"
-	revision: "4"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make_default end]

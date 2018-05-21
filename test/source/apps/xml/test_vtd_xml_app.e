@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Test vtd xml app"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-19 13:24:31 GMT (Tuesday 19th December 2017)"
-	revision: "5"
+	date: "2018-05-19 19:05:03 GMT (Saturday 19th May 2018)"
+	revision: "6"
 
 class
 	TEST_VTD_XML_APP

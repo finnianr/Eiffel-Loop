@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_UUID}."
+	description: "Uuid"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-14 13:35:40 GMT (Wednesday 14th February 2018)"
-	revision: "8"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "9"
 
 class
 	EL_UUID

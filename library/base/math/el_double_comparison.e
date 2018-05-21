@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Double comparison"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "3"
+	date: "2018-05-19 19:05:03 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_DOUBLE_COMPARISON

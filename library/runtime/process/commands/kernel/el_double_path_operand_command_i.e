@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_DOUBLE_PATH_OPERAND_COMMAND_I}."
+	description: "Double path operand command i"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 9:20:22 GMT (Saturday 2nd December 2017)"
-	revision: "4"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 deferred class
 	EL_DOUBLE_PATH_OPERAND_COMMAND_I

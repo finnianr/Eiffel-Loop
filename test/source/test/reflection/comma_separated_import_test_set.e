@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {COMMA_SEPARATED_IMPORT_TEST_SET}."
+	description: "Comma separated import test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-15 10:59:10 GMT (Sunday 15th April 2018)"
-	revision: "2"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET

@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {PREFORMATTED_NOTE_MARKDOWN_RENDERER}."
+	description: "Preformatted note markdown renderer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-22 10:14:31 GMT (Sunday 22nd April 2018)"
-	revision: "1"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 class
 	PREFORMATTED_NOTE_MARKDOWN_RENDERER

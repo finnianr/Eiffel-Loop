@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_PANGO_I}."
+	description: "Pango i"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 16:21:51 GMT (Monday 3rd October 2016)"
-	revision: "2"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 deferred class
 	EL_PANGO_I

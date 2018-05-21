@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_MD5_16}."
+	description: "Md5 128"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-16 11:04:18 GMT (Friday 16th February 2018)"
-	revision: "7"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "8"
 
 class
 	EL_MD5_128

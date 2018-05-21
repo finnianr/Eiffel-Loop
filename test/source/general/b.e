@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {B}."
+	description: "B"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-17 15:34:03 GMT (Monday 17th October 2016)"
-	revision: "1"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 class
 	B

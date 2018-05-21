@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {XML_PARSE_EVENT_STREAM_CLIENT}."
+	description: "Binary encoded xml parse event source"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-17 12:55:52 GMT (Saturday 17th February 2018)"
-	revision: "4"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE

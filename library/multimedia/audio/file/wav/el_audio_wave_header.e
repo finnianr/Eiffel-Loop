@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Audio wave header"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-17 13:30:53 GMT (Thursday 17th November 2016)"
-	revision: "2"
+	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_AUDIO_WAVE_HEADER

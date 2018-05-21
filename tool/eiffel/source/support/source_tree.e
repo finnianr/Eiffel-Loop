@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EIFFEL_SOURCE_LOCATION}."
+	description: "Source tree"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-13 9:51:50 GMT (Friday 13th October 2017)"
-	revision: "5"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "6"
 
 class
 	SOURCE_TREE

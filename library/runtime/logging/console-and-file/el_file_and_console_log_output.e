@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "File and console log output"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 17:55:40 GMT (Saturday 3rd March 2018)"
-	revision: "7"
+	date: "2018-05-19 19:05:06 GMT (Saturday 19th May 2018)"
+	revision: "8"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT

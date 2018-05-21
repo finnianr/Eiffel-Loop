@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Zip file listing parser"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 17:18:49 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2018-05-19 19:05:04 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_ZIP_FILE_LISTING_PARSER

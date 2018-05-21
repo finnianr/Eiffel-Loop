@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {SMIL_XPATH_MATCH_EVENT_PROCESSOR}."
+	description: "Smil xpath match events"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-15 10:30:45 GMT (Monday 15th May 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	SMIL_XPATH_MATCH_EVENTS

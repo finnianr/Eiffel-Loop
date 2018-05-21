@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_FILE_TREE_COMMAND}."
+	description: "File tree command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-06 11:17:00 GMT (Sunday 6th August 2017)"
-	revision: "1"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 deferred class
 	EL_FILE_TREE_COMMAND

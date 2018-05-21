@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {RBOX_IRADIO_ENTRY}."
+	description: "Rbox iradio entry"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-23 12:51:12 GMT (Monday 23rd April 2018)"
-	revision: "15"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "16"
 
 class
 	RBOX_IRADIO_ENTRY

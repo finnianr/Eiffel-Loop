@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_EXPANDED_CELL}."
+	description: "Expanded cell"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-27 9:41:19 GMT (Friday 27th January 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_EXPANDED_CELL

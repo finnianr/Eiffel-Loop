@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {INCLUSION_LIST_FILE}."
+	description: "Inclusion list file"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-03 11:39:41 GMT (Wednesday 3rd August 2016)"
-	revision: "2"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	INCLUSION_LIST_FILE

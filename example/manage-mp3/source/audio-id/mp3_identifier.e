@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {MP3_AUDIO_SIGNATURE}."
+	description: "Mp3 identifier"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-23 12:49:36 GMT (Tuesday 23rd January 2018)"
-	revision: "5"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "6"
 
 class
 	MP3_IDENTIFIER

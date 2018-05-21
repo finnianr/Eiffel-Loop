@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_HTTP_SERVLET}."
+	description: "Fcgi http servlet"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 11:40:53 GMT (Friday 2nd March 2018)"
-	revision: "7"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "8"
 
 deferred class
 	FCGI_HTTP_SERVLET

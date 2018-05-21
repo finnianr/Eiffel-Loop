@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_STRING_EDITOR}."
+	description: "String editor"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-05 8:30:13 GMT (Friday 5th August 2016)"
-	revision: "2"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 deferred class
 	EL_STRING_EDITOR

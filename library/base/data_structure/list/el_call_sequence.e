@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Call sequence"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-20 11:44:15 GMT (Tuesday 20th February 2018)"
-	revision: "4"
+	date: "2018-05-19 19:05:03 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	EL_CALL_SEQUENCE [CALL_ARGS -> TUPLE create default_create end]

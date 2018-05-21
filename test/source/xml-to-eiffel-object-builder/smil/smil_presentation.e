@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Smil presentation"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 20:17:34 GMT (Sunday 21st May 2017)"
-	revision: "3"
+	date: "2018-05-19 19:05:03 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	SMIL_PRESENTATION

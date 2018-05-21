@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_THUMBNAIL_RADIO_BUTTON_GROUP}."
+	description: "Thumbnail radio button group"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_THUMBNAIL_RADIO_BUTTON_GROUP
@@ -15,13 +15,14 @@ class
 inherit
 	EL_RADIO_BUTTON_GROUP [ZSTRING]
 		rename
-			make as make_button_group,
-			default_sort_order as alphabetical_sort_order
+			make as make_button_group
 		export
 			{NONE} horizontal_box, vertical_box
 		redefine
 			set_table_items
 		end
+
+	EL_MODULE_GUI
 
 create
 	make

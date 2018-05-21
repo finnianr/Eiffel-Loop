@@ -1,13 +1,13 @@
 ﻿note
-	description: "Summary description for {EL_STRING_X_ROUTINES}."
+	description: "String x routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:23:41 GMT (Thursday 10th May 2018)"
-	revision: "11"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "12"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]

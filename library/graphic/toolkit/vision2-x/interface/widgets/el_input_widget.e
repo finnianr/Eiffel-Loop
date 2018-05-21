@@ -1,8 +1,9 @@
 note
 	description: "[
-		Abstractions for mapping a data object conforming to FINITE [G] to a selectable widget,
-		a combo box for example.
+		Abstractions for mapping a data object conforming to `FINITE [G]' to a selectable widget,
+		a combo box for example. The default sort-order defined by `less_than' is alphabetical `display_value'.
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -16,48 +17,37 @@ deferred class
 	EL_INPUT_WIDGET [G]
 
 inherit
-	EL_MODULE_GUI
-
-	EL_MODULE_SCREEN
+	PART_COMPARATOR [EL_WIDGET_VALUE [G]]
 
 feature {NONE} -- Initialization
 
 	make (initial_value: G; values: FINITE [G]; a_value_change_action: like value_change_action)
 		do
 			value_change_action := a_value_change_action
-			make_widget (initialization_tuples (initial_value, values))
+			make_widget (new_value_list (initial_value, values))
 		end
 
-	make_sorted (initial_value: G; values: FINITE [G]; a_value_change_action: like value_change_action)
+	make_sorted (initial_value: G; values: FINITE [G]; a_value_change_action: like value_change_action; in_ascending_order: BOOLEAN)
+		local
+			quick: QUICK_SORTER [EL_WIDGET_VALUE [G]]
+			list: like new_value_list
 		do
-			is_sorted := True
 			value_change_action := a_value_change_action
-			make_widget (initialization_tuples (initial_value, values))
+			list := new_value_list (initial_value, values)
+			create quick.make (Current)
+			if in_ascending_order then
+				quick.sort (list)
+			else
+				quick.reverse_sort (list)
+			end
+			make_widget (list)
 		end
 
-	make_widget (a_initialization_tuples: like initialization_tuples)
+	make_widget (a_value_list: like new_value_list)
 		deferred
 		end
-
-feature -- Status query
-
-	is_sorted: BOOLEAN
 
 feature {NONE} -- Implementation
-
-	alphabetical_sort_order: KL_AGENT_COMPARATOR [like WIDGET_INITIALIZATION_TUPLE]
-		do
-			create Result.make (
-				agent (a, b: like WIDGET_INITIALIZATION_TUPLE): BOOLEAN
-					do
-						Result := a.displayed_value < b.displayed_value
-					end
-			)
-		end
-
-	default_sort_order: KL_COMPARATOR [like WIDGET_INITIALIZATION_TUPLE]
-		deferred
-		end
 
 	displayed_value (value: G): ZSTRING
 		deferred
@@ -68,53 +58,47 @@ feature {NONE} -- Implementation
 			value_change_action.call ([value])
 		end
 
-	initialization_tuples (initial_value: G; values: FINITE [G]): ARRAYED_LIST [like WIDGET_INITIALIZATION_TUPLE]
-		local
-			linear_values: LINEAR [G]
-			tuple: like WIDGET_INITIALIZATION_TUPLE
-			tuples: ARRAY [like WIDGET_INITIALIZATION_TUPLE]
-			index: INTEGER
+	less_than (a, b: EL_WIDGET_VALUE [G]): BOOLEAN
+		-- sort entries alphabetically by `displayed_value'
 		do
-			create tuple
-			create tuples.make_filled (tuple, 1, values.count)
-			linear_values := values.linear_representation
+			Result := a.as_string < b.as_string
+		end
+
+	new_value_list (initial_value: G; values: FINITE [G]): ARRAYED_LIST [EL_WIDGET_VALUE [G]]
+		local
+			l_values: LINEAR [G]; index: INTEGER
+		do
+			create Result.make (values.count)
+			l_values := values.linear_representation
 			-- Save cursor position
-			if not linear_values.off then
-				index := linear_values.index
+			if not l_values.off then
+				index := l_values.index
 			end
-			from linear_values.start until linear_values.after loop
-				create tuple
-				tuple.value := linear_values.item
-				tuple.displayed_value := displayed_value (tuple.value).to_unicode
-				tuple.is_current_value := tuple.value ~ initial_value
-				tuples [linear_values.index] := tuple
-				linear_values.forth
+			from l_values.start until l_values.after loop
+				Result.extend (create {EL_WIDGET_VALUE [G]}.make (initial_value, l_values.item, displayed_value (l_values.item)))
+				l_values.forth
 			end
 			-- Restore cursor position
 			if index > 0 and then attached {CHAIN [G]} values as values_chain then
 				values_chain.go_i_th (index)
 			end
-			if is_sorted then
-				sort_tuples (tuples)
-			end
-			create Result.make_from_array (tuples)
 		end
 
-	sort_tuples (tuples: ARRAY [like WIDGET_INITIALIZATION_TUPLE])
-		local
-			sorter: DS_ARRAY_QUICK_SORTER [like WIDGET_INITIALIZATION_TUPLE]
-		do
-			create sorter.make (default_sort_order)
-			sorter.sort (tuples)
-		end
+feature {NONE} -- Internal attributes
 
-	value_change_action: PROCEDURE [G]
+	value_change_action: PROCEDURE [G];
 
-feature {NONE} -- Type definitions
-
-	WIDGET_INITIALIZATION_TUPLE: TUPLE [value: G; displayed_value: STRING_32; is_current_value: BOOLEAN]
-		require
-			never_called: false
-		do
-		end
+note
+	descendants: "[
+			EL_INPUT_WIDGET*
+				[$source EL_RADIO_BUTTON_GROUP]*
+					[$source EL_THUMBNAIL_RADIO_BUTTON_GROUP]
+					[$source EL_INTEGER_ITEM_RADIO_BUTTON_GROUP]
+					[$source EL_BOOLEAN_ITEM_RADIO_BUTTON_GROUP]
+					[$source EL_LOCALE_ZSTRING_ITEM_RADIO_BUTTON_GROUP]
+				[$source EL_DROP_DOWN_BOX]
+					[$source EL_ZSTRING_DROP_DOWN_BOX]
+						[$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
+					[$source EL_MONTH_DROP_DOWN_BOX]
+	]"
 end

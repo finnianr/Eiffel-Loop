@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {HTML_PARAGRAPH_LIST}."
+	description: "Html text element list"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-22 10:09:34 GMT (Sunday 22nd April 2018)"
-	revision: "5"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "6"
 
 class
 	HTML_TEXT_ELEMENT_LIST

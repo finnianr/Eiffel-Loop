@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_TEST_SERVLET}."
+	description: "Fcgi ip echo servlet"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 12:36:56 GMT (Friday 2nd March 2018)"
-	revision: "5"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "6"
 
 class
 	FCGI_IP_ECHO_SERVLET

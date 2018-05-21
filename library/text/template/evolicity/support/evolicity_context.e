@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Evolicity context"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-23 9:54:33 GMT (Tuesday 23rd May 2017)"
-	revision: "3"
+	date: "2018-05-19 19:05:06 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 deferred class
 	EVOLICITY_CONTEXT

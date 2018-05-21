@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN}."
+	description: "File persistent buildable from node scan"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-11 8:20:21 GMT (Monday 11th December 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 deferred class
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN [EVENT_SOURCE -> EL_PARSE_EVENT_SOURCE]

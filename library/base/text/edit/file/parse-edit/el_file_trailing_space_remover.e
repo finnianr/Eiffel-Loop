@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "File trailing space remover"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-04 8:32:56 GMT (Thursday 4th August 2016)"
-	revision: "2"
+	date: "2018-05-19 19:05:04 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_FILE_TRAILING_SPACE_REMOVER

@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Audio source producer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 11:34:50 GMT (Monday 22nd May 2017)"
-	revision: "2"
+	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_AUDIO_SOURCE_PRODUCER [SAMPLE_TYPE -> EL_AUDIO_PCM_SAMPLE create make end]

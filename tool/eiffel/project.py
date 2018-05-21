@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 12); build = 52
+version = (1, 0, 13); build = 57
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.13
+# Added default descriptions for NOTE_EDITOR_APP
 
 # 1.0.12
 # Added CLASS_DESCENDANTS_APP and path reflection support

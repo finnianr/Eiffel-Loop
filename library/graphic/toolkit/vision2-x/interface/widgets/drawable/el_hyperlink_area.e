@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_HYPERLINK_AREA}."
+	description: "Hyperlink area"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-10 8:26:01 GMT (Thursday 10th August 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_HYPERLINK_AREA

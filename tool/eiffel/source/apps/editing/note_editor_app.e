@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-11 14:27:40 GMT (Friday 11th May 2018)"
-	revision: "9"
+	date: "2018-05-19 17:15:16 GMT (Saturday 19th May 2018)"
+	revision: "10"
 
 class
 	NOTE_EDITOR_APP
@@ -31,7 +31,7 @@ feature -- Basic operations
 			--
 		do
 			Test.set_excluded_file_extensions (<< "e" >>)
-			Test.do_file_tree_test ("latin1-sources", agent test_edit, 3319767416)
+			Test.do_file_tree_test ("latin1-sources", agent test_edit, 1298954317)
 		end
 
 feature -- Test

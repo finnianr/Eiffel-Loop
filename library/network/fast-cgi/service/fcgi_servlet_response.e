@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {FCGI_SERVLET_RESPONSE}."
+	description: "Fcgi servlet response"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 14:52:53 GMT (Tuesday 10th April 2018)"
-	revision: "7"
+	date: "2018-05-19 8:17:17 GMT (Saturday 19th May 2018)"
+	revision: "8"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -254,7 +254,7 @@ feature {NONE} -- Implementation
 			header: like header_list
 		do
 			header := header_list
-			header.sort
+			header.sort (True)
 			create Result.make (header.count * 4 + 1)
 			from header.start until header.after loop
 				Result := Result + header.item.key + once ": " + header.item.value + Carriage_return_new_line
@@ -284,7 +284,7 @@ feature {NONE} -- Internal attributes
 	cookies: ARRAYED_LIST [EL_HTTP_COOKIE]
 		-- The cookies that will be sent with this response.
 
-	header_list: EL_SORTABLE_ARRAYED_MAP_LIST [STRING, STRING]
+	header_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [STRING, STRING]
 
 feature {NONE} -- Constants
 

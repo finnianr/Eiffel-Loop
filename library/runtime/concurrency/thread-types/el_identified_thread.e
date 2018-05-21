@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_IDENTIFIED_THREAD}."
+	description: "Identified thread"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-18 18:43:52 GMT (Thursday 18th May 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 deferred class
 	EL_IDENTIFIED_THREAD

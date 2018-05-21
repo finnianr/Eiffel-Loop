@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {PP_REFLECTIVELY_SETTABLE}."
+	description: "Pp reflectively settable"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-28 18:00:06 GMT (Saturday 28th April 2018)"
-	revision: "1"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 deferred class
 	PP_REFLECTIVELY_SETTABLE

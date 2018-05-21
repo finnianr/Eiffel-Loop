@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_EIFFEL_PATTERN_FACTORY_2}."
+	description: "Eiffel text pattern factory"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-29 13:36:46 GMT (Tuesday 29th August 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_EIFFEL_TEXT_PATTERN_FACTORY

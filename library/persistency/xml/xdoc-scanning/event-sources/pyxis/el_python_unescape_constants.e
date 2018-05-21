@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_PYTHON_UNESCAPE_CONSTANTS_2}."
+	description: "Python unescape constants"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-09 13:37:51 GMT (Monday 9th April 2018)"
-	revision: "4"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	EL_PYTHON_UNESCAPE_CONSTANTS

@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Directory user select"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 13:08:38 GMT (Monday 22nd May 2017)"
-	revision: "2"
+	date: "2018-05-19 19:05:04 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_DIRECTORY_USER_SELECT

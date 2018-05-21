@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {TEST_UNDEFINE_PATTERN_COUNTER_COMMAND}."
+	description: "Test undefine pattern counter command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-11 15:26:15 GMT (Wednesday 11th April 2018)"
-	revision: "1"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 class
 	TEST_UNDEFINE_PATTERN_COUNTER_COMMAND

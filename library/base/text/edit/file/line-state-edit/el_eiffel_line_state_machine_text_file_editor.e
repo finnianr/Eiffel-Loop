@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_EIFFEL_LINE_STATE_MACHINE_TEXT_FILE_EDITOR}."
+	description: "Eiffel line state machine text file editor"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-06 15:08:32 GMT (Saturday 6th August 2016)"
-	revision: "1"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 deferred class
 	EL_EIFFEL_LINE_STATE_MACHINE_TEXT_FILE_EDITOR

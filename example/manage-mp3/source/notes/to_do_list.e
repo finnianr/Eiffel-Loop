@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {TO_DO_LIST}."
+	description: "To do list"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-24 13:11:54 GMT (Saturday 24th September 2016)"
-	revision: "2"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	TO_DO_LIST

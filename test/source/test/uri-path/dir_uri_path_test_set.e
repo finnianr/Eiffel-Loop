@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {URI_PATH_TEST_SET}."
+	description: "Dir uri path test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-09 14:29:44 GMT (Monday 9th April 2018)"
-	revision: "2"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	DIR_URI_PATH_TEST_SET

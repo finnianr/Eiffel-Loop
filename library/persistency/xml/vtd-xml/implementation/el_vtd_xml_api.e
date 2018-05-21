@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Vtd xml api"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-28 21:05:37 GMT (Wednesday 28th September 2016)"
-	revision: "2"
+	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_VTD_XML_API

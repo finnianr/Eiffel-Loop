@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {LIBID3_TEST_APP}."
+	description: "Id3 editor app"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 11:39:04 GMT (Sunday 15th October 2017)"
-	revision: "7"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "8"
 
 class
 	ID3_EDITOR_APP

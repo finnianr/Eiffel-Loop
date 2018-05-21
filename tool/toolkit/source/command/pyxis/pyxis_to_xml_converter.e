@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {PYXIS_TO_XML_CONVERTER}."
+	description: "Pyxis to xml converter"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-11 12:41:07 GMT (Wednesday 11th April 2018)"
-	revision: "8"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "9"
 
 class
 	PYXIS_TO_XML_CONVERTER

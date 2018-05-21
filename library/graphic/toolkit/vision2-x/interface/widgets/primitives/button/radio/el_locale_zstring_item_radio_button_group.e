@@ -18,7 +18,7 @@ class
 inherit
 	EL_RADIO_BUTTON_GROUP [ZSTRING]
 		rename
-			default_sort_order as alphabetical_sort_order
+			less_than as alphabetical_less_than
 		end
 
 	EL_MODULE_DEFERRED_LOCALE

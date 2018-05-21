@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {TEST_STORABLE}."
+	description: "Test storable"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-21 13:10:15 GMT (Sunday 21st January 2018)"
-	revision: "5"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "6"
 
 class
 	TEST_STORABLE

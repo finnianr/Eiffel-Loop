@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Source log line remover app"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-29 9:51:20 GMT (Sunday 29th April 2018)"
-	revision: "4"
+	date: "2018-05-19 19:05:03 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	SOURCE_LOG_LINE_REMOVER_APP

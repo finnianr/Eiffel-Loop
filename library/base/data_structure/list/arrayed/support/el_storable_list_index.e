@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_STORABLE_LIST_INDEX}."
+	description: "Storable list index"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:06:50 GMT (Thursday 10th May 2018)"
-	revision: "4"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	EL_STORABLE_LIST_INDEX [G -> EL_STORABLE create make_default end, K -> detachable HASHABLE]

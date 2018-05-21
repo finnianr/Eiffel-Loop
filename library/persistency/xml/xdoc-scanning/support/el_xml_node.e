@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Xml node"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 12:28:35 GMT (Saturday 3rd March 2018)"
-	revision: "5"
+	date: "2018-05-19 19:05:06 GMT (Saturday 19th May 2018)"
+	revision: "6"
 
 class
 	EL_XML_NODE

@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Pattern split string list"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-11 22:32:06 GMT (Saturday 11th November 2017)"
-	revision: "3"
+	date: "2018-05-19 19:05:04 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_PATTERN_SPLIT_STRING_LIST

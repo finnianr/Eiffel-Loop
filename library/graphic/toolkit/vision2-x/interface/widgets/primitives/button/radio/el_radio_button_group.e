@@ -17,18 +17,20 @@ inherit
 
 	EL_MODULE_VISION_2
 
+	EL_MODULE_SCREEN
+
 feature {NONE} -- Initialization
 
-	make_widget (a_initialization_tuples: like initialization_tuples)
+	make_widget (value_list: like new_value_list)
 		do
-			create buttons.make (a_initialization_tuples.count)
-			across a_initialization_tuples as tuple loop
+			create buttons.make (value_list.count)
+			across value_list as value loop
 				buttons.extend (
 					create {EV_RADIO_BUTTON}.make_with_text_and_action (
-						tuple.item.displayed_value, agent do_change_action (tuple.item.value)
+						value.item.as_string_32, agent do_change_action (value.item.value)
 					)
 				)
-				if tuple.item.is_current_value then
+				if value.item.is_current then
 					selected_index := buttons.count
 				end
 			end

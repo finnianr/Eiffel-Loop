@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_MENU_CONSOLE_APPLICATION_LAUNCHER}."
+	description: "Desktop console application installer i"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-16 16:38:12 GMT (Friday 16th February 2018)"
-	revision: "3"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 deferred class
 	EL_DESKTOP_CONSOLE_APPLICATION_INSTALLER_I

@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {XML_UC_UTF8_STRING_ESCAPER}."
+	description: "Xml uc utf8 string escaper"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-03 14:32:35 GMT (Tuesday 3rd April 2018)"
-	revision: "1"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 class
 	XML_UC_UTF8_STRING_ESCAPER

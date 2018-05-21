@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_MATCH_ALL_IN_LIST_TP2}."
+	description: "Match all in list tp"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-17 15:43:37 GMT (Wednesday 17th May 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_MATCH_ALL_IN_LIST_TP

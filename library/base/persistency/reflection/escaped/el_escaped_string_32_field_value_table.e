@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 
 	escaped_value (str: STRING_32): STRING_32
 		do
-			Result := escaper.escaped (str)
+			Result := escaper.escaped (str, True)
 		end
 
 feature {NONE} -- Internal attributes

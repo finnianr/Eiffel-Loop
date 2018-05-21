@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_RIGHT_CONTEXT_MENU_2}."
+	description: "Right context menu"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-06 10:00:33 GMT (Sunday 6th August 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_RIGHT_CONTEXT_MENU [G -> EL_NAMEABLE]

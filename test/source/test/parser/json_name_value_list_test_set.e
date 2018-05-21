@@ -1,13 +1,13 @@
 ﻿note
-	description: "Summary description for {JSON_NAME_VALUE_LIST_TEST_SET}."
+	description: "Json name value list test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-09 10:16:34 GMT (Monday 9th April 2018)"
-	revision: "1"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 class
 	JSON_NAME_VALUE_LIST_TEST_SET

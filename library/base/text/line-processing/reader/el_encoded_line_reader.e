@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_ENCODED_LINE_READER}."
+	description: "Encoded line reader"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 12:34:09 GMT (Saturday 3rd March 2018)"
-	revision: "5"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "6"
 
 class
 	EL_ENCODED_LINE_READER  [F -> FILE]

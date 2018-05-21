@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {XHTML_XPATH_MATCH_EVENTS}."
+	description: "Xhtml xpath match events"
 	notes: "[
 		Error processing ISO-8859-15 encoding
 
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
-	revision: "4"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	XHTML_XPATH_MATCH_EVENTS

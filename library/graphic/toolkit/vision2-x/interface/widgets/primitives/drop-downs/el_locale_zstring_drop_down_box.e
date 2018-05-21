@@ -26,7 +26,7 @@ inherit
 		end
 
 create
-	make, make_unadjusted, make_alphabetical, make_alphabetical_unadjusted
+	default_create, make, make_unadjusted, make_sorted, make_unadjusted_sorted
 
 feature {NONE} -- Implementation
 

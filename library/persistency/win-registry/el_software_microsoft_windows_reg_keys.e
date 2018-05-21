@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_SOFTWARE_WINDOWS_REG_KEYS}."
+	description: "Software microsoft windows reg keys"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-20 12:24:06 GMT (Thursday 20th October 2016)"
-	revision: "1"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 class
 	EL_SOFTWARE_MICROSOFT_WINDOWS_REG_KEYS

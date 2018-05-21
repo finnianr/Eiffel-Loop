@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {PP_BUY_OPTIONS}."
+	description: "Pp buy options"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-28 17:12:08 GMT (Saturday 28th April 2018)"
-	revision: "7"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "8"
 
 class
 	PP_BUY_OPTIONS

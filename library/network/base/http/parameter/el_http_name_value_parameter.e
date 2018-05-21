@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_PAYPAL_API_ARGUMENT}."
+	description: "Http name value parameter"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 12:25:22 GMT (Friday 2nd March 2018)"
-	revision: "4"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	EL_HTTP_NAME_VALUE_PARAMETER

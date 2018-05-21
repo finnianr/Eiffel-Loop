@@ -1,0 +1,8 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			EL_ARRAYED_MAP_LIST
+				[$source EL_SORTABLE_ARRAYED_MAP_LIST]*
+					[$source EL_KEY_SORTABLE_ARRAYED_MAP_LIST]
+					[$source EL_VALUE_SORTABLE_ARRAYED_MAP_LIST]
+	]"

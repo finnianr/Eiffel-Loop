@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {HTML_BODY_WORD_COUNT_APP}."
+	description: "Html body word counter app"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 11:52:19 GMT (Sunday 15th October 2017)"
-	revision: "6"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "7"
 
 class
 	HTML_BODY_WORD_COUNTER_APP

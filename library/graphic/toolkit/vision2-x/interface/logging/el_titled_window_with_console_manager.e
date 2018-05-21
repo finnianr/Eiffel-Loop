@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Titled window with console manager"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-28 12:00:52 GMT (Saturday 28th January 2017)"
-	revision: "2"
+	date: "2018-05-19 19:05:04 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 deferred class
 	EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER

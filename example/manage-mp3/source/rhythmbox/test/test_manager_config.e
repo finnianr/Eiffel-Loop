@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {TEST_MANAGER_CONFIG}."
+	description: "Test manager config"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-30 4:39:33 GMT (Tuesday 30th May 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	TEST_MANAGER_CONFIG

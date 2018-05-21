@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_XML_HTTP_CONNECTION}."
+	description: "Xml http connection"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-04 10:55:07 GMT (Monday 4th September 2017)"
-	revision: "6"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "7"
 
 class
 	EL_XML_HTTP_CONNECTION

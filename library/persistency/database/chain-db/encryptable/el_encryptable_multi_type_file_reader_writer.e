@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_ENCRYPTABLE_MULTI_TYPE_FILE_READER_WRITER}."
+	description: "Encryptable multi type file reader writer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-11 8:58:37 GMT (Monday 11th December 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_ENCRYPTABLE_MULTI_TYPE_FILE_READER_WRITER [G -> EL_STORABLE create make_default end]

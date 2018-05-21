@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-18 9:47:36 GMT (Friday 18th May 2018)"
-	revision: "3"
+	date: "2018-05-19 9:12:57 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_BENCHMARK_ROUTINES
@@ -16,8 +16,16 @@ feature {NONE} -- Implementation
 
 	comparative_millisecs_string (a, b: DOUBLE): STRING
 		do
+			Result := comparative_string (a, b, once "ms")
+		end
+
+	comparative_string (a, b: DOUBLE; units: STRING): STRING
+		do
 			if a = b then
-				Result := Double.formatted (a) + " ms"
+				create Result.make (10 + units.count + 1)
+				Result.append (Double.formatted (a))
+				Result.append_character (' ')
+				Result.append (units)
 			else
 				Result := relative_percentage_string (a, b)
 			end
@@ -43,19 +51,19 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	average_execution (action: ROUTINE; application_count: INTEGER): DOUBLE
+	average_execution (action: ROUTINE; apply_count: INTEGER): DOUBLE
 		local
 			timer: EL_EXECUTION_TIMER; i: INTEGER
 		do
 			create timer.make
 			timer.start
-			from i := 1 until i > application_count loop
+			from i := 1 until i > apply_count loop
 				action.apply
-				Memory.collect
+				Memory.full_collect
 				i := i + 1
 			end
 			timer.stop
-			Result := timer.elapsed_time.fine_seconds_count / application_count
+			Result := timer.elapsed_time.fine_seconds_count / apply_count
 		end
 
 feature {NONE} -- Constants

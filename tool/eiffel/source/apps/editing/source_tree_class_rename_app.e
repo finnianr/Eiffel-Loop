@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EIFFEL_SOURCE_TREE_CLASS_RENAME_APP}."
+	description: "Source tree class rename app"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-29 9:51:50 GMT (Sunday 29th April 2018)"
-	revision: "8"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "9"
 
 class
 	SOURCE_TREE_CLASS_RENAME_APP

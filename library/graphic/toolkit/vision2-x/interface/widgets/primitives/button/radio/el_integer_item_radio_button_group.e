@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_INTEGER_ITEM_RADIO_BUTTON_GROUP}."
+	description: "Integer item radio button group displayed in ascending order of `INTEGER' value"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-19 11:49:23 GMT (Wednesday 19th April 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_INTEGER_ITEM_RADIO_BUTTON_GROUP
@@ -15,8 +15,10 @@ class
 inherit
 	EL_RADIO_BUTTON_GROUP [INTEGER]
 		rename
-			default_sort_order as numeric_sort_order,
+			less_than as integer_less_than,
 			make as make_button_group
+		redefine
+			integer_less_than
 		end
 
 create
@@ -50,14 +52,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	numeric_sort_order: KL_AGENT_COMPARATOR [like WIDGET_INITIALIZATION_TUPLE]
+	integer_less_than (a, b: EL_WIDGET_VALUE [INTEGER]): BOOLEAN
 		do
-			create Result.make (
-				agent (a, b: like WIDGET_INITIALIZATION_TUPLE): BOOLEAN
-					do
-						Result := a.value < b.value
-					end
-			)
+			Result := a.value < b.value
 		end
 
 end

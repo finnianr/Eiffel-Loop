@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Evolicity free text directive"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-17 14:40:15 GMT (Saturday 17th February 2018)"
-	revision: "3"
+	date: "2018-05-19 19:05:06 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EVOLICITY_FREE_TEXT_DIRECTIVE

@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_FIELD_INDEX_TABLE}."
+	description: "Reflected field table"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-28 10:41:58 GMT (Saturday 28th April 2018)"
-	revision: "7"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "8"
 
 class
 	EL_REFLECTED_FIELD_TABLE

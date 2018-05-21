@@ -1,23 +1,18 @@
 note
-	description: "Summary description for {EL_UNIQUE_MACHINE_ID}."
+	description: "Unique machine id"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-25 10:46:17 GMT (Monday 25th December 2017)"
-	revision: "4"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	EL_UNIQUE_MACHINE_ID
 
 inherit
-	KL_PART_COMPARATOR [EL_IP_ADAPTER]
-		export
-			{NONE} all
-		end
-
 	EL_IP_ADAPTER_CONSTANTS
 		export
 			{NONE} all
@@ -58,30 +53,14 @@ feature {NONE} -- Implementation
 
 	mac_address: ARRAY [NATURAL_8]
 		local
-			sorter: DS_ARRAY_QUICK_SORTER [EL_IP_ADAPTER]
-			adapter_array: ARRAY [EL_IP_ADAPTER]
+			ordered_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [INTEGER, EL_IP_ADAPTER]
 		do
---			log.enter ("mac_address")
-			create sorter.make (Current)
-			adapter_array := new_adapter_list.to_array
-
---			log_array (adapter_array)
---			log.put_line ("Sorting")
-
-			sorter.sort (adapter_array)
-
---			log_array (adapter_array)
---			log.put_string_field ("Name", adapter_array.item (1).name)
---			log.put_new_line
---			log.put_string_field ("MAC", adapter_array.item (1).address_string)
---			log.put_new_line
-
-			if adapter_array.is_empty then
+			create ordered_list.make_sorted (new_adapter_list, agent order_key, True)
+			if ordered_list.is_empty then
 				create Result.make_filled (0, 1, 6)
 			else
-				Result := adapter_array.item (1).address
+				Result := ordered_list.first.value.address
 			end
---			log.exit
 		end
 
 	new_adapter_list: EL_IP_ADAPTER_LIST_I
@@ -89,19 +68,13 @@ feature {NONE} -- Implementation
 			create {EL_IP_ADAPTER_LIST_IMP} Result.make
 		end
 
-	less_than (u, v: EL_IP_ADAPTER): BOOLEAN
-			-- Is `u' considered less than `v'?
-		do
-			Result := type_order (u.type) < type_order (v.type)
-		end
-
-	type_order (type: INTEGER): INTEGER
+	order_key (adapter: EL_IP_ADAPTER): INTEGER
 		local
 			order_list: like Selection_order
 		do
 			order_list := Selection_order
 			order_list.start
-			order_list.search (type)
+			order_list.search (adapter.type)
 			Result := order_list.index
 		end
 

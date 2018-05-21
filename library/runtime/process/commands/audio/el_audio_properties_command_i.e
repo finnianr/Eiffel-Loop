@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_CPU_INFO_COMMAND}."
+	description: "Audio properties command i"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-26 11:57:09 GMT (Wednesday 26th April 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I

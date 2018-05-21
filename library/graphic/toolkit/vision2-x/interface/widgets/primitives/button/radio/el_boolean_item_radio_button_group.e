@@ -18,7 +18,10 @@ class
 inherit
 	EL_RADIO_BUTTON_GROUP [BOOLEAN]
 		rename
-			make as make_button_group
+			make as make_button_group,
+			less_than as boolean_less_than
+		redefine
+			boolean_less_than
 		end
 
 create
@@ -37,14 +40,9 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	default_sort_order: KL_AGENT_COMPARATOR [like WIDGET_INITIALIZATION_TUPLE]
+	boolean_less_than (a, b: EL_WIDGET_VALUE [BOOLEAN]): BOOLEAN
 		do
-			create Result.make (
-				agent (a, b: like WIDGET_INITIALIZATION_TUPLE): BOOLEAN
-					do
-						Result := a.value.to_integer < b.value.to_integer
-					end
-			)
+			Result := a.value.to_integer < b.value.to_integer
 		end
 
 	displayed_value (value: BOOLEAN): ZSTRING

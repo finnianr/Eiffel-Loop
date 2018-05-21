@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EVOLICITY_TEMPLATE_PARSER}."
+	description: "Evolicity template parser"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-29 13:05:02 GMT (Tuesday 29th August 2017)"
-	revision: "1"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 class
 	EVOLICITY_TEMPLATE_PARSER

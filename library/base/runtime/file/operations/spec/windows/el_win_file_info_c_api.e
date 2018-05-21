@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_WIN_FILE_INFO_C_API}."
+	description: "Win file info c api"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-16 12:17:51 GMT (Monday 16th January 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	EL_WIN_FILE_INFO_C_API

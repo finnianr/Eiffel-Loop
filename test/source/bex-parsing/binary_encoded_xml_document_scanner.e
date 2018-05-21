@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {COMPRESSED_XML_DOCUMENT_SCANNER}."
+	description: "Binary encoded xml document scanner"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 15:00:30 GMT (Friday 12th May 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	BINARY_ENCODED_XML_DOCUMENT_SCANNER

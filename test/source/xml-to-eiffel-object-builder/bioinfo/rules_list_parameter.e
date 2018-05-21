@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {RULES_LIST_PARAMETER}."
+	description: "Rules list parameter"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 20:19:01 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	RULES_LIST_PARAMETER

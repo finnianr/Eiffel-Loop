@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_XPATH_INTEGER_SETTER}."
+	description: "Xpath integer 64 setter"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-18 16:38:53 GMT (Tuesday 18th April 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_XPATH_INTEGER_64_SETTER

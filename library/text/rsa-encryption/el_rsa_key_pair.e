@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {RANDOM_RSA_KEY_PAIR}."
+	description: "Rsa key pair"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-18 13:46:19 GMT (Wednesday 18th April 2018)"
-	revision: "3"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_RSA_KEY_PAIR

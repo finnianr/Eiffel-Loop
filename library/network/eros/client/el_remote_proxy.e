@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_REMOTE_PROXY}."
+	description: "Remote proxy"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 13:47:18 GMT (Sunday 21st May 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_REMOTE_PROXY

@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_MEMORY_READER_WRITER}."
+	description: "Memory reader writer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 9:16:37 GMT (Saturday 3rd March 2018)"
-	revision: "7"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "8"
 
 class
 	EL_MEMORY_READER_WRITER

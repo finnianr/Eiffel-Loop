@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {TEST_IMAGE_MAGICK_CONVERT_APP}."
+	description: "Svg to png conversion test app"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-24 9:54:29 GMT (Saturday 24th March 2018)"
-	revision: "4"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	SVG_TO_PNG_CONVERSION_TEST_APP

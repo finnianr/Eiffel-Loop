@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET}."
+	description: "Repository source link expander test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-29 11:55:57 GMT (Sunday 29th April 2018)"
-	revision: "1"
+	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET

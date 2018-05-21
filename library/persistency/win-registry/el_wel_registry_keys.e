@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_WEL_REGISTRY_CONSTANTS}."
+	description: "Wel registry keys"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-20 12:27:17 GMT (Thursday 20th October 2016)"
-	revision: "1"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "2"
 
 class
 	EL_WEL_REGISTRY_KEYS

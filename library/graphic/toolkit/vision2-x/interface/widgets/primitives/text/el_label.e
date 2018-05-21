@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {EL_EV_LABEL}."
+	description: "Label"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-15 8:36:44 GMT (Tuesday 15th August 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	EL_LABEL

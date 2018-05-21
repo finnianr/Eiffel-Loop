@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "Application root"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-25 8:49:17 GMT (Sunday 25th September 2016)"
-	revision: "2"
+	date: "2018-05-19 19:05:02 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	APPLICATION_ROOT

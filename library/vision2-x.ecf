@@ -82,8 +82,6 @@
 				<platform value = "windows"/>
 			</condition>
 		</library>
-		<!--Gobo-->
-		<library name = "gobo_base" location = "gobo-base.ecf"/>
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>

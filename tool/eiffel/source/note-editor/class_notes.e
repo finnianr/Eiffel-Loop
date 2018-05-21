@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {CLASS_NOTES}."
+	description: "Class notes"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 13:57:45 GMT (Saturday 3rd March 2018)"
-	revision: "2"
+	date: "2018-05-19 19:20:52 GMT (Saturday 19th May 2018)"
+	revision: "5"
 
 class
 	CLASS_NOTES
@@ -38,6 +38,8 @@ feature {NONE} -- Initialization
 	make (class_lines: EL_FILE_LINE_SOURCE; default_values: EL_HASH_TABLE [ZSTRING, STRING])
 		do
 			make_machine
+			class_name := class_lines.file_path.base_sans_extension
+
 			create original_lines.make_empty
 			create fields.make (10)
  			last_time_stamp := class_lines.date
@@ -151,6 +153,11 @@ feature {NONE} -- Line states
 						fields.extend (verbatim_field)
 						state := agent find_verbatim_string_end (?, verbatim_field)
 					else
+						if name ~ Description
+							and then (value.is_empty or Description_defaults.there_exists (agent value.starts_with))
+						then
+							value := default_description
+						end
 						fields.extend (create {NOTE_FIELD}.make (name, value))
 					end
 				end
@@ -172,6 +179,22 @@ feature {NONE} -- Line states
 		end
 
 feature {NONE} -- Implementation
+
+	default_description: ZSTRING
+		local
+			words: EL_ZSTRING_LIST
+		do
+			create words.make_with_separator (class_name, '_', False)
+			words.start
+			if words.item ~ EL then
+				words.remove
+			end
+			words.start
+			if not words.off then
+				words.replace (words.item.as_proper_case)
+			end
+			Result := words.joined_words
+		end
 
 	extend_field_list (name_group: ARRAY [STRING]; list: EL_ZSTRING_LIST)
 		do
@@ -222,7 +245,21 @@ feature {NONE} -- Internal attributes
 
 	fields: NOTE_FIELD_LIST
 
+	class_name: ZSTRING
+
 feature {NONE} -- Constants
+
+	Description: STRING = "description"
+
+	EL: ZSTRING
+		once
+			Result := "el"
+		end
+
+	Description_defaults: ARRAY [ZSTRING]
+		once
+			Result := << "Summary description for", "Objects that" >>
+		end
 
 	Quote: ZSTRING
 		once

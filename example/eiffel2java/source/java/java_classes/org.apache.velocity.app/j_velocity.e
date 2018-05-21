@@ -1,13 +1,13 @@
 note
-	description: "Objects that ..."
+	description: "J velocity"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 14:22:39 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2018-05-19 19:05:02 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 class
 	J_VELOCITY

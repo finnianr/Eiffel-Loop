@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {APPLICATION_MUTEX}."
+	description: "Application mutex i"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-02-10 13:22:03 GMT (Friday 10th February 2017)"
-	revision: "2"
+	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
+	revision: "3"
 
 deferred class
 	EL_APPLICATION_MUTEX_I

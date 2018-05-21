@@ -1,13 +1,13 @@
 note
-	description: "Summary description for {TEST_WINDOW}."
+	description: "Pango cairo test main window"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 14:18:34 GMT (Thursday 29th June 2017)"
-	revision: "3"
+	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
+	revision: "4"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
