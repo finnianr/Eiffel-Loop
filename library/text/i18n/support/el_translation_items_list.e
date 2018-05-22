@@ -15,7 +15,6 @@ class
 inherit
 	EL_STORABLE_CHAIN [EL_TRANSLATION_ITEM]
 		rename
-			append as append_sequence,
 			make_chain_implementation as make_list,
 			software_version as format_version
 		export

@@ -13,7 +13,7 @@ class
 	SUBJECT_LIST
 
 inherit
-	EL_SORTABLE_ARRAYED_MAP_LIST [INTEGER, ZSTRING]
+	EL_KEY_SORTABLE_ARRAYED_MAP_LIST [INTEGER, ZSTRING]
 		rename
 			extend as extend_list,
 			has as has_item,
@@ -55,7 +55,7 @@ feature -- Basic operations
 		local
 			sorted_lines: LIST [ZSTRING]; file_out: EL_PLAIN_TEXT_FILE
 		do
-			sort
+			sort (True)
 			sorted_lines := line_list
 			if not Crc_32.same_as_utf_8_file (sorted_lines, file_path) then
 				create file_out.make_open_write (file_path)

@@ -168,7 +168,7 @@ feature {NONE} -- Constants
 			Result := "location"
 		end
 
-	Escaped_characters: EL_ESCAPE_TABLE
+	Escaped_characters: EL_ZSTRING_UNESCAPER
 		local
 			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
 		once

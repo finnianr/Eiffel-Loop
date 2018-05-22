@@ -35,6 +35,8 @@ deferred class
 
 inherit
 	CHAIN [G]
+		rename
+			append as append_sequence
 		export
 			{ANY} remove
 		undefine

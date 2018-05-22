@@ -14,6 +14,8 @@ class
 
 inherit
 	EL_STRING_GENERAL_CHAIN [S]
+		rename
+			accommodate as grow
 		undefine
 			is_equal, copy, is_inserted, prune_all, readable, prune, new_cursor, first, last,
 			start, finish, move, go_i_th, isfirst, islast, off, remove
@@ -21,6 +23,7 @@ inherit
 
 	LINKED_LIST [S]
 		rename
+			append as append_sequence,
 			make as make_empty
 		end
 

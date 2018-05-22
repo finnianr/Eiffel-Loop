@@ -23,6 +23,8 @@ deferred class
 
 inherit
 	CHAIN [G]
+		rename
+			append as append_sequence
 		undefine
 			is_equal, copy, prune_all, prune, is_inserted, move, go_i_th, new_cursor,
 			isfirst, islast, first, last, start, finish, readable, off, remove

@@ -21,13 +21,14 @@ inherit
 			first, last,
 			do_all, do_if, there_exists, has, for_all,
 			start, search, finish, at,
-			append, swap, force, copy, prune_all, prune, move,
+			append_sequence, swap, force, copy, prune_all, prune, move,
 			put_i_th, i_th, go_i_th, new_cursor
 		end
 
 	ARRAYED_LIST [STORABLE_STRING]
 		rename
-			make as make_chain_implementation
+			make as make_chain_implementation,
+			append as append_sequence
 		end
 
 feature {NONE} -- Implementation
