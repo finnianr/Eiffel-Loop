@@ -14,12 +14,17 @@ class
 
 inherit
 	ARRAYED_LIST [G]
+		rename
+			append as append_sequence
+		end
 
 	EL_CHAIN [G]
+		rename
+			accommodate as resize
 		undefine
 			off, index_of, occurrences, has, do_all, do_if, there_exists, for_all, is_equal, search, copy,
 			i_th, at, last, first, valid_index, is_inserted, move, start, finish, go_i_th, put_i_th,
-			force, append, prune, prune_all, remove, swap, new_cursor
+			force, append_sequence, prune, prune_all, remove, swap, new_cursor
 		redefine
 			find_next_function_value, push_cursor, pop_cursor
 		end
@@ -173,13 +178,6 @@ feature {NONE} -- Implementation
 				go_to_end.apply; remove
 				i := i + 1
 			end
-		end
-feature -- Element change
-
-	append_array (array: ARRAY [G])
-		do
-			grow (count + array.count)
-			array.do_all (agent extend)
 		end
 
 feature {NONE} -- Constants

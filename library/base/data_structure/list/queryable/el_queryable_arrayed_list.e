@@ -19,9 +19,11 @@ inherit
 		end
 
 	EL_QUERYABLE_CHAIN [G]
+		rename
+			accommodate as resize
 		undefine
 			index_of, occurrences, do_all, do_if, for_all, search, copy,
-			force, append, prune, prune_all, remove, swap, new_cursor,
+			force, append_sequence, prune, prune_all, remove, swap, new_cursor,
 			pop_cursor, push_cursor,
 			-- item access
 			i_th, at, last, first,

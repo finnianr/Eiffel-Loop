@@ -20,7 +20,7 @@ inherit
 			joined as joined_list,
 			extend as extend_path
 		export
-			{NONE} extend_path
+			{NONE} extend_path, append_sequence
 		redefine
 			remove, append, replace, default_create, wipe_out
 		end
@@ -143,7 +143,7 @@ feature -- Access
 
 feature -- Element change
 
-	append (steps: SEQUENCE [like item])
+	append (steps: ITERABLE [like item])
 			-- Append a copy of `steps'.
 		do
 			internal_hash_code := 0

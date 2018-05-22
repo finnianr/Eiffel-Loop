@@ -1,5 +1,5 @@
 note
-	description: "Chain"
+	description: "Sequence of items"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -13,6 +13,9 @@ deferred class EL_CHAIN [G]
 
 inherit
 	CHAIN [G]
+		rename
+			append as append_sequence
+		end
 
 	EL_LINEAR [G]
 		undefine
@@ -92,6 +95,22 @@ feature -- Access
 		end
 
 feature -- Element change
+
+	accommodate (new_count: INTEGER)
+		deferred
+		end
+
+	append (items: ITERABLE [G])
+		require
+			finite: attached {FINITE [G]} items
+		do
+			if attached {FINITE [G]} items as finite then
+				accommodate (count + finite.count)
+				across items as it loop
+					extend (it.item)
+				end
+			end
+		end
 
 	extended alias "+" (v: like item): like Current
 		do

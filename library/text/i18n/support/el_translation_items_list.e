@@ -15,6 +15,7 @@ class
 inherit
 	EL_STORABLE_CHAIN [EL_TRANSLATION_ITEM]
 		rename
+			append as append_sequence,
 			make_chain_implementation as make_list,
 			software_version as format_version
 		export
@@ -24,7 +25,7 @@ inherit
 			first, last,
 			do_all, do_if, there_exists, has, for_all,
 			start, search, finish, move,
-			append, swap, force, copy, prune_all, prune, new_cursor,
+			append_sequence, swap, force, copy, prune_all, prune, new_cursor,
 			at, put_i_th, i_th, go_i_th
 		end
 

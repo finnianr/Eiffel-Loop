@@ -15,7 +15,8 @@ class
 inherit
 	EL_STRING_GENERAL_CHAIN [S]
 		rename
-			subchain as array_subchain
+			subchain as array_subchain,
+			accommodate as resize
 		export
 			{NONE} array_subchain
 		undefine
@@ -24,7 +25,7 @@ inherit
 			start, finish, move, go_i_th, remove, find_next_function_value,
 			is_inserted, has, there_exists, isfirst, islast, off, valid_index,
 			do_all, for_all, do_if, search,
-			force, put_i_th, append, swap, make_from_array,
+			force, put_i_th, append_sequence, swap, make_from_array,
 			pop_cursor, push_cursor
 		end
 

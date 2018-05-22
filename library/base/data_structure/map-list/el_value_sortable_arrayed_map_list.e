@@ -21,15 +21,8 @@ create
 feature {NONE} -- Implementation
 
 	make_sorted (list: FINITE [K]; sort_value: FUNCTION [K, G]; in_ascending_order: BOOLEAN)
-		local
-			l_list: LINEAR [K]
 		do
-			make (list.count)
-			l_list := list.linear_representation
-			from l_list.start until l_list.after loop
-				extend (l_list.item, sort_value (l_list.item))
-				l_list.forth
-			end
+			make_from_keys (list, sort_value)
 			sort (in_ascending_order)
 		end
 

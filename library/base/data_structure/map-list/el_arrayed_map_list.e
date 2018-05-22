@@ -25,7 +25,8 @@ inherit
 		end
 
 create
-	make, make_filled, make_from_array, make_empty, make_from_table
+	make, make_filled, make_from_array, make_empty,
+	make_from_table, make_from_keys, make_from_values
 
 feature {NONE} -- Initialization
 
@@ -35,6 +36,30 @@ feature {NONE} -- Initialization
 			from table.start until table.after loop
 				extend (table.key_for_iteration, table.item_for_iteration)
 				table.forth
+			end
+		end
+
+	make_from_keys (container: FINITE [K]; to_value: FUNCTION [K, G])
+		require
+			iterable_container: attached {ITERABLE [G]} container
+		do
+			make (container.count)
+			if attached {ITERABLE [K]} container as list then
+				across list as key loop
+					extend (key.item, to_value (key.item))
+				end
+			end
+		end
+
+	make_from_values (container: FINITE [G]; to_key: FUNCTION [G, K])
+		require
+			iterable_container: attached {ITERABLE [G]} container
+		do
+			make (container.count)
+			if attached {ITERABLE [G]} container as list then
+				across list as value loop
+					extend (to_key (value.item), value.item)
+				end
 			end
 		end
 
