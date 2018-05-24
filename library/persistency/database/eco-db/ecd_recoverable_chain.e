@@ -1,7 +1,7 @@
 note
 	description: "[
-		This class combines the functionality of classes [$source EL_STORABLE_CHAIN] and
-		[$source EL_STORABLE_CHAIN_EDITIONS]. The former class can store and load the complete state of
+		This class combines the functionality of classes [$source ECD_CHAIN] and
+		[$source ECD_CHAIN_EDITIONS]. The former class can store and load the complete state of
 		all chain items, while the latter immediately stores any of the following
 		chain editions: `extend', `replace', `remove', `delete'.
 
@@ -22,17 +22,17 @@ note
 	revision: "5"
 
 deferred class
-	EL_RECOVERABLE_STORABLE_CHAIN [G -> EL_STORABLE create make_default end]
+	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
 
 inherit
-	EL_STORABLE_CHAIN [G]
+	ECD_CHAIN [G]
 		rename
 			delete as chain_delete
 		redefine
 			make_from_file, rename_file, safe_store
 		end
 
-	EL_STORABLE_CHAIN_EDITIONS [G]
+	ECD_CHAIN_EDITIONS [G]
 		rename
 			make as make_editions
 		end
@@ -168,7 +168,7 @@ note
 
 		To implement the class you can use any Eiffel container which conforms to
 		[https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html CHAIN],
-		however it is recommended to use the class [$source EL_REFLECTIVELY_STORABLE_LIST] as is offers
+		however it is recommended to use the class [$source ECD_REFLECTIVE_ARRAYED_LIST] as is offers
 		the following functionality:
 
 		* Ability to do complex queries in Eiffel with logial conjunctions using the features of

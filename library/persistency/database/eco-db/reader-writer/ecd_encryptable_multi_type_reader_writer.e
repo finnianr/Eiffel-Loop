@@ -1,5 +1,5 @@
 note
-	description: "Encryptable multi type file reader writer"
+	description: "Eco-DB encryptable multi type file reader writer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,17 +10,17 @@ note
 	revision: "4"
 
 class
-	EL_ENCRYPTABLE_MULTI_TYPE_FILE_READER_WRITER [G -> EL_STORABLE create make_default end]
+	ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER [G -> EL_STORABLE create make_default end]
 
 inherit
-	EL_MULTI_TYPE_FILE_READER_WRITER [G]
+	ECD_MULTI_TYPE_READER_WRITER [G]
 		rename
 			make as make_multi_type
 		undefine
 			set_data_version, set_buffer_from_writeable, set_readable_from_buffer
 		end
 
-	EL_ENCRYPTABLE_FILE_READER_WRITER [G]
+	ECD_ENCRYPTABLE_READER_WRITER [G]
 		rename
 			make as make_encryptable
 		undefine

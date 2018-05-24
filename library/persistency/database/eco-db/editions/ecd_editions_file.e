@@ -1,5 +1,5 @@
 note
-	description: "Chain editions file"
+	description: "Eco-DB chain editions file"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,7 +10,7 @@ note
 	revision: "4"
 
 class
-	EL_CHAIN_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
+	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
 
 inherit
 	EL_NOTIFYING_RAW_FILE
@@ -80,7 +80,7 @@ feature -- Access
 
 	last_edition_code: CHARACTER
 
-	item_chain: EL_STORABLE_CHAIN [G]
+	item_chain: ECD_CHAIN [G]
 
 feature -- Status report
 
@@ -112,7 +112,7 @@ feature -- Removal
 			close; delete
 		end
 
-feature {EL_STORABLE_CHAIN_EDITIONS} -- Basic operations
+feature {ECD_CHAIN_EDITIONS} -- Basic operations
 
 	apply
 		local
@@ -252,7 +252,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	reader_writer: EL_FILE_READER_WRITER [G]
+	reader_writer: ECD_READER_WRITER [G]
 
 	checksum: NATURAL
 

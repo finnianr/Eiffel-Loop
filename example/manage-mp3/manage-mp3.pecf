@@ -101,8 +101,8 @@ system:
 			# use_application_options = true
 
 		library:
-			name = EL_chain_db; readonly = false
-			location = "$EIFFEL_LOOP/library/chain-db.ecf"
+			name = EL_eco_db; readonly = false
+			location = "$EIFFEL_LOOP/library/Eco-DB.ecf"
 
 		library:
 			name = EL_encryption; readonly = false

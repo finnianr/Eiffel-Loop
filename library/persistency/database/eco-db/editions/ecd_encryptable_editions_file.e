@@ -1,5 +1,5 @@
 note
-	description: "Encryptable chain editions file"
+	description: "Eco-DB encryptable chain editions file"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,10 +10,10 @@ note
 	revision: "4"
 
 class
-	EL_ENCRYPTABLE_CHAIN_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
+	ECD_ENCRYPTABLE_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
 
 inherit
-	EL_CHAIN_EDITIONS_FILE [G]
+	ECD_EDITIONS_FILE [G]
 		redefine
 			put_header, read_header, skip_header, apply, delete
 		end
@@ -29,7 +29,7 @@ feature -- Removal
 			encrypter.reset
 		end
 
-feature {EL_STORABLE_CHAIN_EDITIONS} -- Basic operations
+feature {ECD_CHAIN_EDITIONS} -- Basic operations
 
 	apply
 		do

@@ -1,5 +1,5 @@
 note
-	description: "Storable list index"
+	description: "Eco-DB storable arrayed list index"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -10,7 +10,7 @@ note
 	revision: "5"
 
 class
-	EL_STORABLE_LIST_INDEX [G -> EL_STORABLE create make_default end, K -> detachable HASHABLE]
+	ECD_LIST_INDEX [G -> EL_STORABLE create make_default end, K -> detachable HASHABLE]
 
 inherit
 	HASH_TABLE [INTEGER, K]
@@ -20,7 +20,7 @@ inherit
 			has as has_index
 		export
 			{NONE} all
-			{EL_STORABLE_LIST} wipe_out
+			{ECD_ARRAYED_LIST} wipe_out
 			{ANY} found, found_index, has_key
 		redefine
 			search
@@ -73,11 +73,11 @@ feature -- Basic operations
 			end
 		end
 
-feature {EL_STORABLE_LIST} -- Access
+feature {ECD_ARRAYED_LIST} -- Access
 
-	list: EL_STORABLE_LIST [G]
+	list: ECD_ARRAYED_LIST [G]
 
-feature {EL_STORABLE_LIST} -- Event handlers
+feature {ECD_ARRAYED_LIST} -- Event handlers
 
 	on_delete (a_item: G)
 		do

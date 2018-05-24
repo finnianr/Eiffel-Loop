@@ -1,5 +1,5 @@
 note
-	description: "Encryptable file reader writer"
+	description: "Eco-DB encryptable file reader writer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
@@ -10,10 +10,10 @@ note
 	revision: "4"
 
 class
-	EL_ENCRYPTABLE_FILE_READER_WRITER [G -> EL_STORABLE create make_default end]
+	ECD_ENCRYPTABLE_READER_WRITER [G -> EL_STORABLE create make_default end]
 
 inherit
-	EL_FILE_READER_WRITER [G]
+	ECD_READER_WRITER [G]
 		rename
 			make as make_default
 		redefine
@@ -21,8 +21,6 @@ inherit
 		end
 
 	EL_ENCRYPTABLE
-
-	EL_MODULE_BASE_64
 
 create
 	make
@@ -77,6 +75,6 @@ feature {NONE} -- Implementation
 			count := nb_bytes -- count is encrypted data count
 		end
 
-	plain_text_reader: EL_FILE_READER_WRITER [G]
+	plain_text_reader: ECD_READER_WRITER [G]
 
 end

@@ -246,10 +246,10 @@ publish-repository:
 
 		# Library (Persistency)
 		tree:
-			name = "Eiffel CHAIN Orientated Binary Database"; dir = "library/persistency/database/chain-db"
-			ecf = "chain-db.ecf"
+			name = "Eco-DB (Eiffel CHAIN Orientated Database)"; dir = "library/persistency/database/eco-db"
+			ecf = "Eco-DB.ecf"
 			description:
-				"chain-db.emd"
+				"eco-db.emd"
 		tree:
 			name = "Search Engine Classes"; dir = "library/persistency/search-engine"
 			ecf = "search-engine.ecf"

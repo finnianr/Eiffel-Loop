@@ -208,40 +208,40 @@ An Eiffel interface to the [PayPal Payments Standard Button Manager NVP HTTP API
 Classes for remotely interacting with a HTTP server. Supports the HTTP commands: POST, GET and HEAD.
 ## Fast CGI Servlets
 An implementation of the [Fast-CGI protocol](http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html) for creating single and multi-threaded HTTP servlet services.
-## Eiffel CHAIN Orientated Binary Database
-The *Chain-DB* library enables the development of container objects conforming to the base class [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) that have many of the properties of relational database tables. Some of the most important enabling classes for *Chain-DB* are to be found in the cluster [Eiffel-Loop/base/data_structure](http://www.eiffel-loop.com/library/base/data_structure/class-index.html).
+## Eco-DB (Eiffel CHAIN Orientated Database)
+*Eco-DB* is an acronym for *Eiffel CHAIN Orientated Database*, and enables the development of container objects conforming to the base class [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) that have many of the properties of relational database tables.
 
 **PERSISTENCE**
 
-Of course this is the fundamental property of any database. *Chain-DB* offers 2 kinds of persistence:
+Of course this is the fundamental property of any database. *Eco-DB* offers 2 kinds of persistence:
 
 **1. CHAIN level persistence**
 
 This type of persistence involves storing the entire chain to a file in one operation. This is useful for data that is more or less static, like for example the localization table [$source EL_TRANSLATION_ITEMS_LIST]. 
 
-See class [$source EL_STORABLE_CHAIN].
+See class [$source ECD_CHAIN].
 
 **2. item level persistence**
 
 Item level, or "incremental persistence" is where the effects of any of the basic [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) operations `(extend/replace/delete**)` are recorded as they happen in a separate editions file. When the chain is loaded during object initialization, a chain level store is loaded first, and then the stored editions are applied to bring the chain to it's final state.
 
-See class [$source EL_RECOVERABLE_STORABLE_CHAIN] for more details.
+See class [$source ECD_RECOVERABLE_CHAIN] for more details.
 
 **JOINING TABLES**
 
-Being able to join*** tables via a common field is the essence of a relational database. *Chain-DB* offers a number of features that support the joining of chains.
+Being able to join*** tables via a common field is the essence of a relational database. *Eco-DB* offers a number of features that support the joining of chains.
 
 **1. Field Indexing** 
 
-For large number of chain items, performing joins can be slow without the use of field indices. Writing code to create and maintain fields manually is very time consuming, but fortunately *Chain-DB* offers an easy way to maintain field indices via the implementing class [$source EL_STORABLE_LIST] and it's reflective descendant: [$source EL_REFLECTIVELY_STORABLE_LIST]. See the class documentation for more details.
+For large number of chain items, performing joins can be slow without the use of field indices. Writing code to create and maintain fields manually is very time consuming, but fortunately *Eco-DB* offers an easy way to maintain field indices via the implementing class [$source ECD_ARRAYED_LIST] and it's reflective descendant: [$source ECD_REFLECTIVE_ARRAYED_LIST]. See the class documentation for more details.
 
 **2. Primary Keys**
 
-Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. *Chain-DB* offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxilary class [$source EL_PRIMARY_KEY_INDEXABLE] when used in conjunction with either [$source EL_STORABLE_LIST] or it's reflective descendant: [$source EL_REFLECTIVELY_STORABLE_LIST].
+Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. *Eco-DB* offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxilary class [$source ECD_PRIMARY_KEY_INDEXABLE] when used in conjunction with either [$source ECD_ARRAYED_LIST] or it's reflective descendant: [$source ECD_REFLECTIVE_ARRAYED_LIST].
 
 ** QUERY LANGUAGE **
 
-Of course the Eiffel language itself can be used to query any [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [$source EL_QUERYABLE_CHAIN] and it's helper [$source EL_QUERY_CONDITION_FACTORY]. The implementing class [$source EL_STORABLE_LIST] inherits [$source EL_QUERYABLE_CHAIN].
+Of course the Eiffel language itself can be used to query any [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [$source EL_QUERYABLE_CHAIN] and it's helper [$source EL_QUERY_CONDITION_FACTORY]. The implementing class [$source ECD_ARRAYED_LIST] inherits [$source EL_QUERYABLE_CHAIN].
 
 Conditions can be combined using the logical operators: `and`, `or` and `not`. Queries are not parsed strings but actual Eiffel expressions. Some example of the expressiveness of this query language can be found in the following list of classes from the example project [Eiffel-Loop/example/manage-mp3](http://www.eiffel-loop.com/example/manage-mp3/source/class-index.html):
 
@@ -254,7 +254,7 @@ Conditions can be combined using the logical operators: `and`, `or` and `not`. Q
 
 **Foot Notes**
 
-** `delete` is a routine from [$source EL_STORABLE_CHAIN] and not from `CHAIN`.
+** `delete` is a routine from [$source ECD_CHAIN] and not from `CHAIN`.
 
 *** We are using the term *join* somewhat loosely and mean only that if you have two chains *CHAIN [A]* and *CHAIN [B]*, you can produce a subchain of *CHAIN [B]* where each *B* item has a matching field value with an item from *CHAIN [A]*.
 

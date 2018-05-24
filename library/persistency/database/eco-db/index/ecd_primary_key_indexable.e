@@ -1,17 +1,18 @@
 note
 	description: "[
-		Augments classes [$source EL_STORABLE_LIST] and [$source EL_REFLECTIVELY_STORABLE_LIST]
+		Assigns values to storable items conforming to [$source EL_KEY_IDENTIFIABLE_STORABLE],
+		and augments classes [$source ECD_ARRAYED_LIST] and [$source ECD_REFLECTIVE_ARRAYED_LIST]
 		with a primary key index.
 	]"
 	instructions: "[
-		Inherit this class in parallel with class inheriting [$source EL_STORABLE_LIST] and undefine
+		Inherit this class in parallel with class inheriting [$source ECD_ARRAYED_LIST] and undefine
 		the routine `assign_key' as in this example:
 
 			deferred class
 				CUSTOMER_LIST
 
 			inherit
-				EL_REFLECTIVELY_STORABLE_LIST [CUSTOMER]
+				ECD_REFLECTIVE_ARRAYED_LIST [CUSTOMER]
 					undefine
 						assign_key
 					end
@@ -33,11 +34,11 @@ note
 	revision: "3"
 
 deferred class
-	EL_PRIMARY_KEY_INDEXABLE [G -> EL_KEY_IDENTIFIABLE_STORABLE create make_default end]
+	ECD_PRIMARY_KEY_INDEXABLE [G -> EL_KEY_IDENTIFIABLE_STORABLE create make_default end]
 
 feature {NONE} -- Initialization
 
-	make_index_by_key (index_list: BAG [EL_STORABLE_LIST_INDEX [G, HASHABLE]])
+	make_index_by_key (index_list: BAG [ECD_LIST_INDEX [G, HASHABLE]])
 		do
 			create index_by_key.make (current_list, capacity)
 			index_list.extend (index_by_key)
@@ -45,7 +46,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	index_by_key: EL_STORABLE_KEY_INDEX [G]
+	index_by_key: ECD_KEY_INDEX [G]
 
 	item_by_key (key: NATURAL): G
 		local
@@ -100,7 +101,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	current_list: EL_STORABLE_LIST [G]
+	current_list: ECD_ARRAYED_LIST [G]
 		deferred
 		end
 

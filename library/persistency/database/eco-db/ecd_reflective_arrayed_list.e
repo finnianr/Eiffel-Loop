@@ -1,6 +1,8 @@
 note
 	description: "[
-		Adds ability to do reflective CSV exports to list of type [$source EL_STORABLE_LIST]
+		A list conforming to [$source ECD_ARRAYED_LIST] with items conforming to [$source EL_REFLECTIVELY_SETTABLE_STORABLE].
+	
+		Adds ability to do reflective CSV exports to list of type [$source ECD_ARRAYED_LIST]
 		By 'reflective' is meant that the exported CSV field names match the fields name of the
 		class implementing [$source EL_REFLECTIVELY_SETTABLE_STORABLE].
 	]"
@@ -14,10 +16,10 @@ note
 	revision: "8"
 
 class
-	EL_REFLECTIVELY_STORABLE_LIST [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
+	ECD_REFLECTIVE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
 
 inherit
-	EL_STORABLE_LIST [G]
+	ECD_ARRAYED_LIST [G]
 
 feature -- Basic operations
 

@@ -1,5 +1,5 @@
 note
-	description: "Supporting class for class [$source EL_PRIMARY_KEY_INDEXABLE]"
+	description: "Supporting class for class [$source ECD_PRIMARY_KEY_INDEXABLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -10,10 +10,10 @@ note
 	revision: "3"
 
 class
-	EL_STORABLE_KEY_INDEX [G -> EL_KEY_IDENTIFIABLE_STORABLE create make_default end]
+	ECD_KEY_INDEX [G -> EL_KEY_IDENTIFIABLE_STORABLE create make_default end]
 
 inherit
-	EL_STORABLE_LIST_INDEX [G, NATURAL]
+	ECD_LIST_INDEX [G, NATURAL]
 		rename
 			make as make_index
 		redefine

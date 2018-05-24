@@ -3,16 +3,17 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_chain_db; uuid = "229B73E4-09AA-11DF-87BB-93E5E9639079" 
-	library_target = EL_chain_db
+	name = EL_eco_db; uuid = "229B73E4-09AA-11DF-87BB-93E5E9639079" 
+	library_target = EL_eco_db
 	
 	target:
-		name = EL_chain_db
+		name = EL_eco_db
 		
 		description: 
 			"""
-				A simple database based on the Eiffel CHAIN class interface
-				Supports transactions and encryption
+				Eco-DB is an acronym for Eiffel CHAIN Orientated Database, so called 
+				because individual tables conform to the Eiffel CHAIN base-class.
+				See: http://www.eiffel-loop.com/library/persistency/database/eco-db/class-index.html
 			"""
 		option: 
 			syntax = standard; full_class_checking = false; void_safety = none
@@ -36,7 +37,7 @@ system:
 
 		# Source code
 		cluster:
-			name = database; location = "persistency/database/chain-db"; recursive = true; readonly = false
+			name = db; location = "persistency/database/eco-db"; recursive = true; readonly = false
 			
 
 

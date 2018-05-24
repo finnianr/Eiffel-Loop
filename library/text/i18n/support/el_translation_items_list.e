@@ -13,7 +13,7 @@ class
 	EL_TRANSLATION_ITEMS_LIST
 
 inherit
-	EL_STORABLE_CHAIN [EL_TRANSLATION_ITEM]
+	ECD_CHAIN [EL_TRANSLATION_ITEM]
 		rename
 			make_chain_implementation as make_list,
 			software_version as format_version
