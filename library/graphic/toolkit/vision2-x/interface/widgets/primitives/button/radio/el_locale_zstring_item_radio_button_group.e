@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-06 9:49:42 GMT (Sunday 6th August 2017)"
-	revision: "2"
+	date: "2018-05-20 12:06:06 GMT (Sunday 20th May 2018)"
+	revision: "3"
 
 class
 	EL_LOCALE_ZSTRING_ITEM_RADIO_BUTTON_GROUP

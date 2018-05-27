@@ -64,15 +64,15 @@
 			
 		-->
 		<library name = "EL_c_api" location = "$EIFFEL_LOOP/library/C-language-interface.ecf" readonly = "false"/>
-		<library name = "EL_image_utils" readonly = "false" location = "$EIFFEL_LOOP/library/image-utils.ecf"/>
-		<library name = "EL_id3_tags" location = "$EIFFEL_LOOP/library/ID3-tags.ecf" readonly = "false"/>
-		<library name = "EL_chain_db" readonly = "false" location = "$EIFFEL_LOOP/library/chain-db.ecf"/>
 		<library name = "EL_compression" location = "$EIFFEL_LOOP/library/compression.ecf" readonly = "false"/>
+		<library name = "EL_eco_db" readonly = "false" location = "$EIFFEL_LOOP/library/Eco-DB.ecf"/>
 		<library name = "EL_encryption" location = "$EIFFEL_LOOP/library/encryption.ecf" readonly = "false"/>
 		<library name = "EL_ftp" readonly = "false" location = "$EIFFEL_LOOP/library/ftp.ecf"/>
 		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
 		<library name = "EL_http_client" readonly = "false" location = "$EIFFEL_LOOP/library/http-client.ecf"/>
 		<library name = "EL_i18n" readonly = "false" location = "$EIFFEL_LOOP/library/i18n.ecf"/>
+		<library name = "EL_image_utils" readonly = "false" location = "$EIFFEL_LOOP/library/image-utils.ecf"/>
+		<library name = "EL_id3_tags" location = "$EIFFEL_LOOP/library/ID3-tags.ecf" readonly = "false"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
 		<library name = "EL_network" readonly = "false" location = "$EIFFEL_LOOP/library/network.ecf"/>
 		<library name = "EL_fast_cgi" location = "$EIFFEL_LOOP/library/fast-cgi.ecf" readonly = "false"/>

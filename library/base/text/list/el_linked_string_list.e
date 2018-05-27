@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-05-22 11:06:25 GMT (Tuesday 22nd May 2018)"
+	revision: "4"
 
 class
 	EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]

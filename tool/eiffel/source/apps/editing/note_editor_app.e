@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:15:16 GMT (Saturday 19th May 2018)"
-	revision: "10"
+	date: "2018-05-27 17:43:23 GMT (Sunday 27th May 2018)"
+	revision: "11"
 
 class
 	NOTE_EDITOR_APP
@@ -22,8 +22,10 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [NOTE_EDITOR_COMMAND]
 		redefine
-			Option_name, Installer
+			Option_name
 		end
+
+	EL_INSTALLABLE_SUB_APPLICATION
 
 feature -- Basic operations
 

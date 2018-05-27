@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "12"
+	date: "2018-05-27 15:00:11 GMT (Sunday 27th May 2018)"
+	revision: "13"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -20,7 +20,7 @@ inherit
 
 	EL_CHAIN [G]
 		rename
-			accommodate as resize
+			accommodate as grow
 		undefine
 			off, index_of, occurrences, has, do_all, do_if, there_exists, for_all, is_equal, search, copy,
 			i_th, at, last, first, valid_index, is_inserted, move, start, finish, go_i_th, put_i_th,

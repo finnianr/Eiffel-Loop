@@ -15,7 +15,7 @@
 		<library name = "testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
-		<library name = "EL_chain_db" readonly = "false" location = "chain-db.ecf"/>
+		<library name = "EL_eco_db" readonly = "false" location = "Eco-DB.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<library name = "EL_fast_cgi" location = "fast-cgi.ecf" readonly = "false"/>
 		<library name = "EL_testing" readonly = "false" location = "testing.ecf"/>

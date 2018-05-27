@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "9"
+	date: "2018-05-27 17:45:06 GMT (Sunday 27th May 2018)"
+	revision: "10"
 
 class
 	FTP_BACKUP_APP
@@ -17,8 +17,10 @@ inherit
 		rename
 			command as ftp_command
 		redefine
-			Option_name, Installer, ftp_command, initialize
+			Option_name, ftp_command, initialize
 		end
+
+	EL_INSTALLABLE_SUB_APPLICATION
 
 	EL_MODULE_USER_INPUT
 

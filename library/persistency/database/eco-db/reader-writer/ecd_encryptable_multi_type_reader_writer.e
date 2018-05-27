@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-05-24 11:57:42 GMT (Thursday 24th May 2018)"
+	revision: "5"
 
 class
 	ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER [G -> EL_STORABLE create make_default end]

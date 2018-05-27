@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-05-27 17:43:46 GMT (Sunday 27th May 2018)"
+	revision: "6"
 
 class
 	CLASS_PREFIX_REMOVAL_APP
@@ -15,8 +15,10 @@ class
 inherit
 	SOURCE_TREE_EDIT_SUB_APP
 		redefine
-			Option_name, Installer, normal_initialize, set_defaults
+			Option_name, normal_initialize, set_defaults
 		end
+
+	EL_INSTALLABLE_SUB_APPLICATION
 
 create
 	make

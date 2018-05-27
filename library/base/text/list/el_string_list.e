@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-23 19:13:20 GMT (Friday 23rd February 2018)"
-	revision: "5"
+	date: "2018-05-27 14:59:53 GMT (Sunday 27th May 2018)"
+	revision: "6"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -16,7 +16,7 @@ inherit
 	EL_STRING_GENERAL_CHAIN [S]
 		rename
 			subchain as array_subchain,
-			accommodate as resize
+			accommodate as grow
 		export
 			{NONE} array_subchain
 		undefine

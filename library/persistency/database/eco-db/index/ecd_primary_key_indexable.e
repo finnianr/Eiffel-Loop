@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-22 15:27:39 GMT (Thursday 22nd February 2018)"
-	revision: "3"
+	date: "2018-05-24 11:57:42 GMT (Thursday 24th May 2018)"
+	revision: "4"
 
 deferred class
 	ECD_PRIMARY_KEY_INDEXABLE [G -> EL_KEY_IDENTIFIABLE_STORABLE create make_default end]

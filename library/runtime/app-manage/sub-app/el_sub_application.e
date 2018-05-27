@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-01 9:42:45 GMT (Tuesday 1st May 2018)"
-	revision: "14"
+	date: "2018-05-27 14:30:34 GMT (Sunday 27th May 2018)"
+	revision: "15"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -34,7 +34,7 @@ inherit
 
 	EL_MODULE_ZSTRING
 
-feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
+feature {EL_SUB_APPLICATION_LIST} -- Initiliazation
 
 	initialize
 			--
@@ -112,11 +112,6 @@ feature -- Access
 		deferred
 		end
 
-	installer: EL_APPLICATION_INSTALLER_I
-		do
-			Result := Default_installer
-		end
-
 	new_option_name: ZSTRING
 		do
 			create Result.make_from_general (option_name)
@@ -142,23 +137,9 @@ feature -- Access
 
 feature -- Basic operations
 
-	install
-		do
-			installer.set_description (single_line_description)
-			installer.set_command_option_name (option_name)
-			installer.set_input_path_option_name (Input_path_option_name)
-			installer.install
-		end
-
 	run
 			--
 		deferred
-		end
-
-	uninstall
-			--
-		do
-			installer.uninstall
 		end
 
 feature -- Status query
@@ -179,18 +160,6 @@ feature -- Status query
 	has_argument_errors: BOOLEAN
 		do
 			Result := not argument_errors.is_empty
-		end
-
-	is_installable: BOOLEAN
-		do
-			Result := installer /= Default_installer
-		end
-
-	is_main: BOOLEAN
-			-- True if this the main (or principle) sub application in the whole set
-			-- In Windows this will be the app listed in the Control Panel/Programs List
-		do
-			Result := False
 		end
 
 feature -- Element change
@@ -341,23 +310,6 @@ feature {NONE} -- Factory routines
 			create Result.make (option)
 		end
 
-	new_context_menu_installer (menu_path: ZSTRING): EL_APPLICATION_INSTALLER_I
-		do
-			create {EL_CONTEXT_MENU_SCRIPT_APPLICATION_INSTALLER_IMP} Result.make (menu_path)
-		end
-
-	new_launcher (a_name: ZSTRING; a_icon_path: EL_FILE_PATH): EL_DESKTOP_LAUNCHER
-			--
-		do
-			create Result.make (a_name, "", a_icon_path)
-		end
-
-	new_menu_item (a_name, a_comment: ZSTRING; a_icon_path: EL_FILE_PATH): EL_DESKTOP_MENU_ITEM
-			-- User defined submenu
-		do
-			create Result.make (a_name, a_comment, a_icon_path)
-		end
-
 feature -- Constants
 
 	Eng_directory: ZSTRING
@@ -371,11 +323,6 @@ feature -- Constants
 		end
 
 feature {EL_APPLICATION_INSTALLER_I} -- Constants
-
-	Default_installer: EL_DO_NOTHING_INSTALLER
-		once
-			create Result.make_default
-		end
 
 	For_user_directories: ARRAY [FUNCTION [ZSTRING, EL_DIR_PATH]]
 		once

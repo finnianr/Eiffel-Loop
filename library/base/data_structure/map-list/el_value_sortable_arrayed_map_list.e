@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 8:23:56 GMT (Saturday 19th May 2018)"
-	revision: "1"
+	date: "2018-05-21 14:29:12 GMT (Monday 21st May 2018)"
+	revision: "2"
 
 class
 	EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [K -> HASHABLE, G -> COMPARABLE]

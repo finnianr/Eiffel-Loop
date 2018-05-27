@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-20 11:46:19 GMT (Tuesday 20th February 2018)"
-	revision: "4"
+	date: "2018-05-27 15:00:21 GMT (Sunday 27th May 2018)"
+	revision: "5"
 
 class
 	EL_QUERYABLE_ARRAYED_LIST [G]
@@ -20,7 +20,7 @@ inherit
 
 	EL_QUERYABLE_CHAIN [G]
 		rename
-			accommodate as resize
+			accommodate as grow
 		undefine
 			index_of, occurrences, do_all, do_if, for_all, search, copy,
 			force, append_sequence, prune, prune_all, remove, swap, new_cursor,

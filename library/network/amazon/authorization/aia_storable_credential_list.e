@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-25 10:38:15 GMT (Monday 25th December 2017)"
-	revision: "2"
+	date: "2018-05-27 9:46:20 GMT (Sunday 27th May 2018)"
+	revision: "3"
 
 class
 	AIA_STORABLE_CREDENTIAL_LIST
 
 inherit
-	EL_RECOVERABLE_STORABLE_CHAIN [AIA_CREDENTIAL]
+	ECD_RECOVERABLE_CHAIN [AIA_CREDENTIAL]
 		rename
 			make_from_encrypted_file as make
 		export
@@ -29,7 +29,7 @@ inherit
 			remove, extend, replace
 		end
 
-	EL_STORABLE_LIST [AIA_CREDENTIAL]
+	ECD_ARRAYED_LIST [AIA_CREDENTIAL]
 		rename
 			make as make_chain_implementation,
 			remove as chain_remove,

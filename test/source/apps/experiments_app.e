@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-04 12:43:36 GMT (Friday 4th May 2018)"
-	revision: "30"
+	date: "2018-05-27 15:06:40 GMT (Sunday 27th May 2018)"
+	revision: "31"
 
 class EXPERIMENTS_APP
 
@@ -50,8 +50,8 @@ feature -- Basic operations
 
 	run
 		do
-			lio.enter ("twin_tuple")
-			twin_tuple
+			lio.enter ("type_conformance_test")
+			type_conformance_test
 			lio.exit
 		end
 
@@ -819,6 +819,10 @@ feature -- Experiments
 			log.put_integer_field ("({EL_MAKEABLE_FROM_STRING [ZSTRING]}).type_id", ({EL_MAKEABLE_FROM_ZSTRING}).type_id)
 			log.put_new_line
 			log.put_integer_field ("({EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}).type_id", ({EL_MAKEABLE_FROM_STRING_GENERAL}).type_id)
+		end
+
+	type_conformance_test
+		do
 		end
 
 	url_string

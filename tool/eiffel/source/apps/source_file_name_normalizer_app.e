@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-05-27 17:43:40 GMT (Sunday 27th May 2018)"
+	revision: "5"
 
 class
 	SOURCE_FILE_NAME_NORMALIZER_APP
@@ -15,8 +15,10 @@ class
 inherit
 	SOURCE_TREE_EDIT_SUB_APP
 		redefine
-			Option_name, Installer
+			Option_name
 		end
+
+	EL_INSTALLABLE_SUB_APPLICATION
 
 create
 	make

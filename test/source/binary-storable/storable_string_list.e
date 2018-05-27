@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-05-27 9:46:38 GMT (Sunday 27th May 2018)"
+	revision: "4"
 
 class
 	STORABLE_STRING_LIST
 
 inherit
-	EL_STORABLE_CHAIN [STORABLE_STRING]
+	ECD_CHAIN [STORABLE_STRING]
 		rename
 			on_delete as do_nothing
 		undefine

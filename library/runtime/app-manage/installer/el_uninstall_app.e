@@ -6,17 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-05-27 18:02:58 GMT (Sunday 27th May 2018)"
+	revision: "7"
 
 class
 	EL_UNINSTALL_APP
 
 inherit
-	EL_INSTALLER_SUB_APPLICATION
+	EL_SUB_APPLICATION
 		redefine
-			option_name, installer, is_installable
+			option_name
 		end
+
+	EL_INSTALLABLE_SUB_APPLICATION
 
 	EL_MODULE_ENVIRONMENT
 
@@ -26,8 +28,10 @@ inherit
 
 	EL_MODULE_DEFERRED_LOCALE
 
-create
-	make_installer
+	EL_SHARED_APPLICATION_LIST
+		export
+			{ANY} Application_list
+		end
 
 feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 
@@ -43,16 +47,14 @@ feature -- Basic operations
 		local
 			dir_path: EL_DIR_PATH
 		do
-			lio.put_string (Confirmation_prompt_template #$ [Installer.menu_name, Uninstall_warning])
+			lio.put_string (Confirmation_prompt_template #$ [installer.menu_name, Uninstall_warning])
 
 			if User_input.entered_letter (yes.to_latin_1 [1]) then
 				lio.put_new_line
 				lio.put_line (Commence_message)
 
-				across sub_applications as application loop
-					if application.item.is_installable then
-						application.item.uninstall
-					end
+				across Application_list.installable_list as app loop
+					app.item.uninstall
 				end
 				-- Remove application data and configuration directories for all users
 				across OS.user_list as user loop
@@ -67,10 +69,6 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Status query
-
-	is_installable: BOOLEAN = True
-
 feature {NONE} -- Implementation
 
 	delete_dir_tree (dir_path: EL_DIR_PATH)
@@ -81,7 +79,7 @@ feature {NONE} -- Implementation
 
 	new_installed_file_removal_command: EL_INSTALLED_FILE_REMOVAL_COMMAND_I
 		do
-			create {EL_INSTALLED_FILE_REMOVAL_COMMAND_IMP} Result.make (Installer.menu_name)
+			create {EL_INSTALLED_FILE_REMOVAL_COMMAND_IMP} Result.make (installer.menu_name)
 		end
 
 feature {NONE} -- Constants
@@ -107,6 +105,17 @@ feature {NONE} -- Constants
 			has_two_substitution_markers: Result.occurrences ('%S') = 2
 		end
 
+	Installer: EL_APPLICATION_INSTALLER_I
+		once
+			if Application_list.has_main
+				and then attached {EL_DESKTOP_APPLICATION_INSTALLER_I} Application_list.main.installer as main_app_installer
+			then
+				create {EL_DESKTOP_UNINSTALL_APP_INSTALLER_IMP} Result.make (Current, main_app_installer.launcher)
+			else
+				Result := Default_installer
+			end
+		end
+
 	Uninstall_warning: ZSTRING
 		once
 			Locale.set_next_translation ("THIS ACTION WILL PERMANENTLY DELETE ALL YOUR DATA.")
@@ -121,18 +130,6 @@ feature {NONE} -- Constants
 	Yes: ZSTRING
 		once
 			Result := Locale * "yes"
-		end
-
-	Installer: EL_APPLICATION_INSTALLER_I
-		once
-			from sub_applications.start until sub_applications.after or sub_applications.item.is_main loop
-				sub_applications.forth
-			end
-			if attached {EL_DESKTOP_APPLICATION_INSTALLER_I} sub_applications.item.installer as master_app_installer then
-				create {EL_DESKTOP_UNINSTALL_APP_INSTALLER_IMP} Result.make (Current, master_app_installer.launcher)
-			else
-				Result := Precursor
-			end
 		end
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]

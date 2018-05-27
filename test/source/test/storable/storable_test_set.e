@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "7"
+	date: "2018-05-27 9:46:50 GMT (Sunday 27th May 2018)"
+	revision: "8"
 
 class
 	STORABLE_TEST_SET
@@ -27,7 +27,7 @@ feature -- Basic operations
 			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string", "covers/{EL_MEMORY_READER_WRITER}.write_string"
 		local
 			object_1, object_2: TEST_STORABLE
-			reader_writer: EL_FILE_READER_WRITER [TEST_STORABLE]
+			reader_writer: ECD_READER_WRITER [TEST_STORABLE]
 			file: RAW_FILE
 		do
 			create object_1.make_default

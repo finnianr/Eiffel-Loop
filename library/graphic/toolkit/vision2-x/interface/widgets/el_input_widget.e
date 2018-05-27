@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-06 10:00:33 GMT (Sunday 6th August 2017)"
-	revision: "4"
+	date: "2018-05-21 14:12:06 GMT (Monday 21st May 2018)"
+	revision: "5"
 
 deferred class
 	EL_INPUT_WIDGET [G]

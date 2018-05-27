@@ -1,8 +1,13 @@
 note
 	description: "Initialization value for widgets conforming to [$source EL_INPUT_WIDGET]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-05-20 12:20:29 GMT (Sunday 20th May 2018)"
+	revision: "1"
 
 class
 	EL_WIDGET_VALUE [G]

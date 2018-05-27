@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-04 12:32:52 GMT (Wednesday 4th April 2018)"
-	revision: "2"
+	date: "2018-05-20 12:16:09 GMT (Sunday 20th May 2018)"
+	revision: "3"
 
 class
 	EL_ESCAPED_STRING_8_FIELD_VALUE_TABLE

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-19 12:20:38 GMT (Wednesday 19th April 2017)"
-	revision: "1"
+	date: "2018-05-21 12:12:52 GMT (Monday 21st May 2018)"
+	revision: "2"
 
 class
 	EL_BOOLEAN_ITEM_RADIO_BUTTON_GROUP

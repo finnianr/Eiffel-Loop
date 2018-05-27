@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 14:21:55 GMT (Thursday 29th June 2017)"
-	revision: "2"
+	date: "2018-05-27 18:12:46 GMT (Sunday 27th May 2018)"
+	revision: "3"
 
 class
 	FOURIER_MATH_TEST_SERVER_APP
@@ -19,8 +19,10 @@ class
 inherit
 	EL_SERVER_SUB_APPLICATION
 		redefine
-			option_name, initialize, Installer
+			option_name, initialize
 		end
+
+	EL_INSTALLABLE_SUB_APPLICATION
 
 	APPLICATION_MENUS
 

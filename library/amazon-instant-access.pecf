@@ -44,8 +44,8 @@ system:
 			name = EL_base; location = "base/base.ecf"
 
 		library:
-			name = EL_chain_db; readonly = false
-			location = "chain-db.ecf"
+			name = EL_eco_db; readonly = false
+			location = "Eco-DB.ecf"
 
 		library:
 			name = EL_encryption; location = "encryption.ecf"

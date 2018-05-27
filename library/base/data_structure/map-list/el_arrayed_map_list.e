@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 10:28:01 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-05-21 17:04:46 GMT (Monday 21st May 2018)"
+	revision: "5"
 
 class
 	EL_ARRAYED_MAP_LIST [K -> HASHABLE, G]

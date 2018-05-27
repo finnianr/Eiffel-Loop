@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-05-27 10:48:57 GMT (Sunday 27th May 2018)"
+	revision: "4"
 
 class
 	FOURIER_MATH_SERVER_APP
@@ -15,7 +15,12 @@ class
 inherit
 	EL_REMOTE_ROUTINE_CALL_SERVER_APPLICATION
 		redefine
-			Option_name, Installer
+			Option_name
+		end
+
+	EL_INSTALLABLE_SUB_APPLICATION
+		redefine
+			installer
 		end
 
 	APPLICATION_MENUS
@@ -32,11 +37,6 @@ feature {NONE} -- Remotely callable types
 
 feature {NONE} -- Constants
 
-	Option_name: STRING
-		once
-			Result := "fourier_math"
-		end
-
 	Description: STRING
 		once
 			Result := "EROS server to do fourier transformations on signal waveforms"
@@ -50,8 +50,6 @@ feature {NONE} -- Constants
 			)
 			Result.set_command_line_options ("-max_threads 3")
 		end
-
-	name: STRING = "Fourier Transform Math"
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
@@ -68,5 +66,12 @@ feature {NONE} -- Constants
 				[{EL_SERVER_ACTIVITY_METERS}, "prompt_refresh, refresh"]
 			>>
 		end
+
+	Option_name: STRING
+		once
+			Result := "fourier_math"
+		end
+
+	name: STRING = "Fourier Transform Math"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-05-27 18:12:20 GMT (Sunday 27th May 2018)"
+	revision: "6"
 
 class
 	FOURIER_MATH_TEST_CLIENT_APP
@@ -15,8 +15,10 @@ class
 inherit
 	EL_SUB_APPLICATION
 		redefine
-			Ask_user_to_quit, option_name, Installer
+			Ask_user_to_quit, option_name
 		end
+
+	EL_INSTALLABLE_SUB_APPLICATION
 
 	APPLICATION_MENUS
 

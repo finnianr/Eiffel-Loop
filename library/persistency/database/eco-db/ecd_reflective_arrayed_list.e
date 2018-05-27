@@ -1,7 +1,7 @@
 note
 	description: "[
 		A list conforming to [$source ECD_ARRAYED_LIST] with items conforming to [$source EL_REFLECTIVELY_SETTABLE_STORABLE].
-	
+
 		Adds ability to do reflective CSV exports to list of type [$source ECD_ARRAYED_LIST]
 		By 'reflective' is meant that the exported CSV field names match the fields name of the
 		class implementing [$source EL_REFLECTIVELY_SETTABLE_STORABLE].
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 14:06:30 GMT (Tuesday 10th April 2018)"
-	revision: "8"
+	date: "2018-05-24 11:57:42 GMT (Thursday 24th May 2018)"
+	revision: "9"
 
 class
 	ECD_REFLECTIVE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
