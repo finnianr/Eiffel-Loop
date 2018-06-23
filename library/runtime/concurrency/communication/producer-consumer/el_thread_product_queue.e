@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-06-21 10:07:43 GMT (Thursday 21st June 2018)"
+	revision: "3"
 
 class
 	EL_THREAD_PRODUCT_QUEUE [P]
@@ -15,7 +15,6 @@ class
 inherit
 	ARRAYED_QUEUE [P]
 		rename
-			make as make_queue,
 			item as queue_item,
 			is_empty as is_queue_empty,
 			put as queue_put,
@@ -23,6 +22,8 @@ inherit
 			remove as queue_remove
 		export
 			{NONE} all
+		redefine
+			make
 		end
 
 	EL_SINGLE_THREAD_ACCESS
@@ -35,11 +36,12 @@ create
 
 feature -- Initialization
 
-	make
+	make (n: INTEGER)
 			-- Create linked queue.
 		do
+			Precursor (n)
 			make_default
-			make_queue (50)
+			create {EL_NONE_CONSUMER [P]} consumer.make (Current)
 		end
 
 feature -- Removal

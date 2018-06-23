@@ -12,6 +12,7 @@
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
+		<library name = "EL_app_manage" location = "app-manage.ecf"/>
 		<!--Source code-->
 		<cluster name = "logging" location = "runtime/logging" recursive = "true"/>
 	</target>

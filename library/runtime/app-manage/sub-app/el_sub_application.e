@@ -7,19 +7,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-27 14:30:34 GMT (Sunday 27th May 2018)"
-	revision: "15"
+	date: "2018-06-21 16:36:29 GMT (Thursday 21st June 2018)"
+	revision: "17"
 
 deferred class
 	EL_SUB_APPLICATION
 
 inherit
-	EL_LOGGED_APPLICATION
-		export
-			{NONE} all
-			{ANY} Args
-		end
-
 	EL_MODULE_BUILD_INFO
 
 	EL_MODULE_EXCEPTIONS
@@ -30,9 +24,9 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_IMAGE_PATH
-
 	EL_MODULE_ZSTRING
+
+	EL_MODULE_LIO
 
 feature {EL_SUB_APPLICATION_LIST} -- Initiliazation
 
@@ -41,67 +35,29 @@ feature {EL_SUB_APPLICATION_LIST} -- Initiliazation
 		deferred
 		end
 
+	init_logging
+		do
+			Console.show_all (visible_types)
+		end
+
 	make
 			--
 		local
-			log_stack_pos: INTEGER; l_log_filters: like log_filter_list
 			boolean: BOOLEAN_REF
 		do
 			create options_help.make (11)
 			create argument_errors.make (0)
 			Exceptions.catch (Exceptions.Signal_exception)
 
-			-- Add logging menu option. The actual is_active status is tested in `EL_GLOBAL_LOGGING'
 			create boolean
 			across standard_options as option loop
 				set_boolean_from_command_opt (boolean, option.key, option.item)
 			end
-			l_log_filters := log_filter_list
-
-			init_logging (l_log_filters, Log_output_directory)
-
+			init_logging
 			if not (Args.has_no_app_header or Args.has_silent) then
-				io_put_header (l_log_filters)
-				if not Logging.is_active then
-					lio.put_new_line; lio.put_new_line
-				end
+				io_put_header
 			end
-
-			log.enter ("make")
-			log_stack_pos := log.call_stack_count
-
-			across User_data_directories as dir loop
-				if not dir.item.exists then
-					File_system.make_directory (dir.item)
-				end
-			end
-
-			initialize
-			if command_line_help_option_exists then
-				options_help.print_to_lio
-
-			elseif has_argument_errors then
-				argument_errors.do_all (agent {like argument_errors.item}.print_to_lio)
-			else
-				run
-				if Ask_user_to_quit then
-					lio.put_new_line
-					io.put_string ("<RETURN TO QUIT>")
-					io.read_character
-				end
-			end
-			log.exit
-			Log_manager.close_logs
-			Log_manager.delete_logs
-
-		rescue
-			log.restore (log_stack_pos)
-			if Exceptions.is_signal then
-				on_operating_system_signal
-				Exceptions.no_message_on_failure
-			end
-			log.exit
-			Log_manager.close_logs
+			do_application
 		end
 
 feature -- Access
@@ -112,27 +68,19 @@ feature -- Access
 		deferred
 		end
 
-	new_option_name: ZSTRING
-		do
-			create Result.make_from_general (option_name)
-		end
-
 	option_name: READABLE_STRING_GENERAL
 			-- Command option name
 		do
 			Result := generator.as_lower
-		ensure
---			valid_name: across Result as char all char.item.is_alpha_numeric or char.item.code = {ASCII}.underlined end
 		end
 
 	options_help: EL_SUB_APPLICATION_HELP_LIST
 
-	single_line_description: ZSTRING
-		local
-			lines: EL_ZSTRING_LIST
+	unwrapped_description: ZSTRING
+	 -- description unwrapped as a single line
 		do
-			create lines.make_with_separator (description.to_string_32, '%N', True)
-			Result := lines.joined_lines
+			create Result.make_from_general (description)
+			Result.replace_character ('%N', ' ')
 		end
 
 feature -- Basic operations
@@ -160,6 +108,11 @@ feature -- Status query
 	has_argument_errors: BOOLEAN
 		do
 			Result := not argument_errors.is_empty
+		end
+
+	is_same_option (name: ZSTRING): BOOLEAN
+		do
+			Result := name.same_string (option_name)
 		end
 
 feature -- Element change
@@ -259,11 +212,42 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	io_put_header (a_log_filters: like log_filter_list)
+	do_application
+		do
+			if ctrl_c_pressed then
+				on_operating_system_signal
+			else
+				across User_data_directories as dir loop
+					if not dir.item.exists then
+						File_system.make_directory (dir.item)
+					end
+				end
+				initialize
+				if command_line_help_option_exists then
+					options_help.print_to_lio
+
+				elseif has_argument_errors then
+					argument_errors.do_all (agent {like argument_errors.item}.print_to_lio)
+				else
+					run
+					if Ask_user_to_quit then
+						lio.put_new_line
+						io.put_string ("<RETURN TO QUIT>")
+						io.read_character
+					end
+				end
+			end
+		rescue
+			if Exceptions.is_signal then
+				ctrl_c_pressed := True
+				retry
+			end
+		end
+
+	io_put_header
 		local
 			build_version, test: STRING
 		do
-			log.enter_no_header ("io_put_header")
 			lio.put_new_line
 			test := "test"
 			if Args.argument_count >= 2 and then Args.item (2).same_string (test) then
@@ -279,10 +263,12 @@ feature {NONE} -- Implementation
 			lio.put_labeled_string (" Option", option_name)
 			lio.put_new_line
 			lio.put_string_field ("Description", description)
+			lio.put_new_line_X2
+		end
 
-			log.exit_no_trailer
-
-			log.put_configuration_info (a_log_filters)
+	new_option_name: ZSTRING
+		do
+			create Result.make_from_general (option_name)
 		end
 
 	on_operating_system_signal
@@ -294,14 +280,23 @@ feature {NONE} -- Implementation
 		-- Standard command line options
 		do
 			create Result.make (<<
-				[{EL_LOG_COMMAND_OPTIONS}.Logging, 				"Activate application logging to console"],
-				[{EL_LOG_COMMAND_OPTIONS}.Keep_logs, 			"Do not delete log file on program exit"],
-				[{EL_LOG_COMMAND_OPTIONS}.No_highlighting, 	"Turn off color highlighting for console output"],
-				[{EL_LOG_COMMAND_OPTIONS}.No_app_header, 		"Suppress output of application information"],
-				[{EL_LOG_COMMAND_OPTIONS}.silent, 				"Suppress all output to console"],
-				[{EL_LOG_COMMAND_OPTIONS}.Ask_user_to_quit, 	"Prompt user to quit before exiting application"]
+				[{EL_COMMAND_OPTIONS}.No_highlighting, 	"Turn off color highlighting for console output"],
+				[{EL_COMMAND_OPTIONS}.No_app_header, 		"Suppress output of application information"],
+				[{EL_COMMAND_OPTIONS}.silent, 				"Suppress all output to console"],
+				[{EL_COMMAND_OPTIONS}.Ask_user_to_quit, 	"Prompt user to quit before exiting application"]
 			>>)
 		end
+
+	visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+		-- types with lio output visible in console
+		-- See: {EL_CONSOLE_MANAGER_I}.show_all
+		do
+			create Result.make_empty
+		end
+
+feature {NONE} -- Internal attributes
+
+	ctrl_c_pressed: BOOLEAN
 
 feature {NONE} -- Factory routines
 
@@ -322,22 +317,12 @@ feature -- Constants
 			Result := "file"
 		end
 
-feature {EL_APPLICATION_INSTALLER_I} -- Constants
-
-	For_user_directories: ARRAY [FUNCTION [ZSTRING, EL_DIR_PATH]]
-		once
-			Result := << agent Directory.data_dir_for_user, agent Directory.configuration_dir_for_user >>
-		end
+feature {EL_DESKTOP_ENVIRONMENT_I} -- Constants
 
 	Input_path_option_name: STRING
 			--
 		once
 			Result := "file"
-		end
-
-	Log_output_directory: EL_DIR_PATH
-		once
-			Result := Directory.user_data.joined_dir_steps (<< option_name.to_string_8, "logs" >>)
 		end
 
 	Template_command_error: ZSTRING

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-01 14:30:21 GMT (Sunday 1st April 2018)"
-	revision: "6"
+	date: "2018-06-17 20:00:53 GMT (Sunday 17th June 2018)"
+	revision: "7"
 
 class
 	EL_IMAGE_UTILS_API
@@ -58,15 +58,13 @@ feature -- Factory
 
 	new_svg_image_data (svg_uri: EL_FILE_URI_PATH; svg_utf_8_xml: STRING): MANAGED_POINTER
 		local
-			encoded_uri: EL_URL_STRING_8
-			base_uri, xml: POINTER
+			svg_uri_utf_8: STRING
 		do
-			encoded_uri := svg_uri.to_encoded_utf_8
-			base_uri := encoded_uri.area.base_address
-			xml := svg_utf_8_xml.area.base_address
+			-- URL encoded strings do not work, so use UTF-8
+			svg_uri_utf_8 := svg_uri.to_string.to_utf_8
 			create Result.make (c_sizeof_svg_image_t)
-			c_set_svg_base_uri (Result.item, base_uri)
-			c_set_svg_data (Result.item, xml)
+			c_set_svg_base_uri (Result.item, svg_uri_utf_8.area.base_address)
+			c_set_svg_data (Result.item, svg_utf_8_xml.area.base_address)
 			c_set_svg_data_count (Result.item, svg_utf_8_xml.count.to_natural_32)
 		end
 

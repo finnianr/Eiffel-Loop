@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-11 14:53:13 GMT (Friday 11th May 2018)"
-	revision: "8"
+	date: "2018-06-19 10:43:46 GMT (Tuesday 19th June 2018)"
+	revision: "9"
 
 class
 	CRYPTO_APP
@@ -30,11 +30,4 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Menu driven cryptographic tool"
 
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{CRYPTO_APP}, All_routines]
-			>>
-		end
 end

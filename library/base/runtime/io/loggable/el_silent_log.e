@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-17 11:09:59 GMT (Sunday 17th December 2017)"
-	revision: "5"
+	date: "2018-06-14 11:31:58 GMT (Thursday 14th June 2018)"
+	revision: "6"
 
 class
 	EL_SILENT_LOG
@@ -118,6 +118,10 @@ feature -- Output
 
 	put_new_line
 			--
+		do
+		end
+
+	put_new_line_x2
 		do
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 10:02:59 GMT (Saturday 19th May 2018)"
-	revision: "8"
+	date: "2018-06-19 10:11:21 GMT (Tuesday 19th June 2018)"
+	revision: "9"
 
 class
 	BENCHMARK_APP
@@ -44,11 +44,5 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Menu driven benchmark tests"
 
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{BENCHMARK_APP}, All_routines]
-			>>
-		end
+
 end

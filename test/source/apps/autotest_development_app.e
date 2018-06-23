@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-02 10:50:23 GMT (Wednesday 2nd May 2018)"
-	revision: "23"
+	date: "2018-06-21 10:32:51 GMT (Thursday 21st June 2018)"
+	revision: "24"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -32,7 +32,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent reflective.test_reflection)
+			do_file_data_test (agent file_command.test_dir_tree_delete)
 		end
 
 feature -- Test sets

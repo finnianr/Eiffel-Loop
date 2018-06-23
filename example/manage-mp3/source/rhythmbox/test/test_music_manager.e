@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-06-18 10:27:40 GMT (Monday 18th June 2018)"
+	revision: "6"
 
 class
 	TEST_MUSIC_MANAGER
@@ -33,9 +33,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			log.enter ("test_make")
 			Precursor (a_config)
-			across << "rhythmdb", "playlists" >> as name loop
-				substitute_work_area_variable (xml_file_path (name.item))
-			end
 			Database.update_index_by_audio_id
 			log.exit
 		end
@@ -138,19 +135,6 @@ feature {NONE} -- User input
 		end
 
 feature {NONE} -- Implementation
-
-	substitute_work_area_variable (a_file_path: EL_FILE_PATH)
-			--
-		local
-			xml_file: PLAIN_TEXT_FILE
-			xml_text: STRING
-		do
-			xml_text := File_system.plain_text (a_file_path)
-			xml_text.replace_substring_all ("$MUSIC", config.music_dir.to_string.to_latin_1)
-			create xml_file.make_open_write (a_file_path)
-			xml_file.put_string (xml_text)
-			xml_file.close
-		end
 
 	xml_data_dir: EL_DIR_PATH
 		do

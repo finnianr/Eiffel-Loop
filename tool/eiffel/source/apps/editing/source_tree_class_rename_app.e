@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-27 17:43:49 GMT (Sunday 27th May 2018)"
-	revision: "10"
+	date: "2018-06-19 9:22:34 GMT (Tuesday 19th June 2018)"
+	revision: "12"
 
 class
 	SOURCE_TREE_CLASS_RENAME_APP
@@ -19,6 +19,10 @@ inherit
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
+		rename
+			desktop_menu_path as Default_desktop_menu_path,
+			desktop_launcher as Default_desktop_launcher
+		end
 
 create
 	make
@@ -70,9 +74,9 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Rename classes defined by a source manifest file"
 
-	Installer: EL_APPLICATION_INSTALLER_I
+	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once
-			Result := new_context_menu_installer ("Eiffel Loop/Development/Rename a class")
+			Result := new_context_menu_desktop ("Eiffel Loop/Development/Rename a class")
 		end
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]

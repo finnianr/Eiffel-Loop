@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-16 10:13:46 GMT (Monday 16th October 2017)"
-	revision: "3"
+	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
+	revision: "4"
 
 class
 	EL_ENVIRON_VARIABLE_OPERAND_SETTER [E -> EL_ENVIRON_VARIABLE create make_from_string end]

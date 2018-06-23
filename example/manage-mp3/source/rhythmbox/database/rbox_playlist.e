@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-06-18 12:13:53 GMT (Monday 18th June 2018)"
+	revision: "6"
 
 class
 	RBOX_PLAYLIST
@@ -73,9 +73,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_default
-			index_by_location := a_database.songs_by_location
-			index_by_audio_id := a_database.songs_by_audio_id
-			silence_intervals := a_database.silence_intervals
+			database := a_database
 			set_name (Empty_string)
 		end
 
@@ -184,13 +182,26 @@ feature -- Element change
 			create id.make_from_array (Digest.md5 (a_name.to_utf_8))
 		end
 
-feature {NONE} -- Internal attributes
+feature {NONE} -- Implementation
 
 	index_by_audio_id: HASH_TABLE [RBOX_SONG, EL_UUID]
+		do
+			Result := database.songs_by_audio_id
+		end
 
 	index_by_location: HASH_TABLE [RBOX_SONG, EL_FILE_PATH]
+		do
+			Result := database.songs_by_location
+		end
 
 	silence_intervals: ARRAY [RBOX_SONG]
+		do
+			Result := database.silence_intervals
+		end
+
+feature {NONE} -- Internal attributes
+
+	database: RBOX_DATABASE
 
 feature {NONE} -- Build from XML
 
@@ -200,7 +211,7 @@ feature {NONE} -- Build from XML
 			create Result.make (<<
 				["location/text()", agent
 					do
-						add_song_from_path (Url.remove_protocol_prefix (Url.decoded_path (node.to_string_8)))
+						add_song_from_path (database.decoded_location (node.to_string_8))
 					end
 				],
 				["audio-id/text()", agent

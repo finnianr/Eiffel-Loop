@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
+	revision: "7"
 
 class
 	CODEC_GENERATOR_APP

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-24 13:14:29 GMT (Sunday 24th September 2017)"
-	revision: "2"
+	date: "2018-06-17 10:27:46 GMT (Sunday 17th June 2018)"
+	revision: "3"
 
 class
 	EL_WORD_TOKEN_TABLE
@@ -18,7 +18,7 @@ class
 inherit
 	EL_UNIQUE_CODE_TABLE [ZSTRING]
 		export
-			{ANY} is_empty, count
+			{ANY} is_empty, count, has_key
 		redefine
 			put, make
 		end

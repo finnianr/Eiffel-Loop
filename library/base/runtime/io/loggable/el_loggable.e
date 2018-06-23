@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-06-14 11:31:36 GMT (Thursday 14th June 2018)"
+	revision: "7"
 
 deferred class
 	EL_LOGGABLE
@@ -143,6 +143,10 @@ feature -- Output
 
 	put_new_line
 			--
+		deferred
+		end
+
+	put_new_line_x2
 		deferred
 		end
 

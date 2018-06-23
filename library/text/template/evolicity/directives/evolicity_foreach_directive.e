@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:10:25 GMT (Thursday 10th May 2018)"
-	revision: "3"
+	date: "2018-06-18 9:47:19 GMT (Monday 18th June 2018)"
+	revision: "4"
 
 class
 	EVOLICITY_FOREACH_DIRECTIVE
@@ -155,7 +155,7 @@ feature {NONE} -- Internal attributes
 
 feature -- Constants
 
-	Loop_index_var_name: STRING
+	Loop_index_var_name: ZSTRING
 		once
 			Result := "loop_index"
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-27 15:06:40 GMT (Sunday 27th May 2018)"
-	revision: "31"
+	date: "2018-06-23 8:46:04 GMT (Saturday 23rd June 2018)"
+	revision: "32"
 
 class EXPERIMENTS_APP
 
@@ -25,7 +25,11 @@ inherit
 
 	EL_MODULE_COMMAND
 
+	EL_MODULE_DIRECTORY
+
 	EL_MODULE_EIFFEL
+
+	EL_MODULE_OS
 
 	SYSTEM_ENCODINGS
 		rename
@@ -50,8 +54,8 @@ feature -- Basic operations
 
 	run
 		do
-			lio.enter ("type_conformance_test")
-			type_conformance_test
+			lio.enter ("print_os_user_list")
+			print_os_user_list
 			lio.exit
 		end
 
@@ -64,7 +68,7 @@ feature -- Experiments
 			n := 1
 			number := n
 			number := number + number.one
-			log.put_labeled_string ("number", number.out)
+			lio.put_labeled_string ("number", number.out)
 		end
 
 	agent_polymorphism
@@ -106,8 +110,8 @@ feature -- Experiments
 			s := "Stream #0.0(und): Audio: aac, 44100 Hz, stereo, fltp, 253 kb/s"
 			create parts.make_with_separator (s, ',', True)
 			across parts as part loop
-				log.put_string_field (part.cursor_index.out, part.item)
-				log.put_new_line
+				lio.put_string_field (part.cursor_index.out, part.item)
+				lio.put_new_line
 			end
 		end
 
@@ -118,8 +122,8 @@ feature -- Experiments
 		do
 			b1_ref := b1.to_reference
 			b2_ref := not b1_ref
-			log.put_string ("b2_ref.item: ")
-			log.put_boolean (b2_ref.item)
+			lio.put_string ("b2_ref.item: ")
+			lio.put_boolean (b2_ref.item)
 		end
 
 	char_compression
@@ -150,8 +154,8 @@ feature -- Experiments
 			end
 			list.do_all (agent (n: INTEGER)
 				do
-					log.put_integer (n)
-					log.put_new_line
+					lio.put_integer (n)
+					lio.put_new_line
 				end
 			)
 		end
@@ -168,8 +172,8 @@ feature -- Experiments
 			list.start
 			list.remove
 			list.start
-			log.put_string_field ("first item", list.item)
-			log.put_new_line
+			lio.put_string_field ("first item", list.item)
+			lio.put_new_line
 		end
 
 	compare_tuple_types
@@ -184,8 +188,8 @@ feature -- Experiments
 
 
 			across << t1, t2, t3, t4, t5, [1, 2] >> as tuple loop
-				log.put_integer_field (tuple.item.generator, tuple.item.generating_type.type_id)
-				log.put_new_line
+				lio.put_integer_field (tuple.item.generator, tuple.item.generating_type.type_id)
+				lio.put_new_line
 			end
 			-- t1 and t5 are same type
 		end
@@ -203,24 +207,24 @@ feature -- Experiments
 			create this_year.make (2017, 6, 11, 23, 10, 10)
 			create last_year.make (2016, 6, 11, 23, 10, 10)
 
-			log.put_integer_field ("Year days", this_year.relative_duration (last_year).date.day)
-			log.put_new_line
+			lio.put_integer_field ("Year days", this_year.relative_duration (last_year).date.day)
+			lio.put_new_line
 
 			create now.make_now
 			elapsed := now.relative_duration (this_year)
-			log.put_labeled_string ("TIME", elapsed.out)
-			log.put_new_line
+			lio.put_labeled_string ("TIME", elapsed.out)
+			lio.put_new_line
 
 			create timer.make
-			log.put_labeled_string ("TIME", timer.elapsed_time.out)
-			log.put_new_line
+			lio.put_labeled_string ("TIME", timer.elapsed_time.out)
+			lio.put_new_line
 			timer.start
 			execution.sleep (500)
 			timer.stop
 			timer.resume
 			execution.sleep (500)
 			timer.stop
-			log.put_labeled_string ("TIME", timer.elapsed_time.out)
+			lio.put_labeled_string ("TIME", timer.elapsed_time.out)
 		end
 
 	date_time_format
@@ -242,15 +246,15 @@ feature -- Experiments
 		do
 			create checker
 			str := "2015-12-50"
-			log.put_labeled_string (str, checker.date_valid (str, "yyyy-[0]mm-[0]dd").out)
+			lio.put_labeled_string (str, checker.date_valid (str, "yyyy-[0]mm-[0]dd").out)
 		end
 
 	default_tuple_comparison
 		do
 			if ["one"] ~ ["one"] then
-				log.put_string ("is_object_comparison")
+				lio.put_string ("is_object_comparison")
 			else
-				log.put_string ("is_reference_comparison")
+				lio.put_string ("is_reference_comparison")
 			end
 		end
 
@@ -266,7 +270,7 @@ feature -- Experiments
 			str: STRING_32; str_2: STRING
 		do
 			across << System_encoding, Console_encoding, Utf_8, Iso_8859_1 >> as encoding loop
-				log.put_line (encoding.item.code_page)
+				lio.put_line (encoding.item.code_page)
 			end
 			str := {STRING_32} "Dún Búinne"
 			Unicode.convert_to (Console_encoding, str)
@@ -283,12 +287,12 @@ feature -- Experiments
 		do
 			s1 := "abc"; s2 := "abc"
 			s1_equal_to_s2 := s1 ~ s2
-			log.put_labeled_string ("s1 is equal to s2", s1_equal_to_s2.out)
+			lio.put_labeled_string ("s1 is equal to s2", s1_equal_to_s2.out)
 		end
 
 	escaping_text
 		do
-			log.put_string_field ("&aa&bb&", escaped_text ("&aa&bb&").as_string_8)
+			lio.put_string_field ("&aa&bb&", escaped_text ("&aa&bb&").as_string_8)
 		end
 
 	file_date_setting
@@ -363,8 +367,8 @@ feature -- Experiments
 			queue.extend (3)
 			queue.linear_representation.do_all (
 				agent (n: INTEGER) do
-					log.put_integer (n)
-					log.put_new_line
+					lio.put_integer (n)
+					lio.put_new_line
 				end
 			)
 		end
@@ -380,8 +384,8 @@ feature -- Experiments
 			finite := part_array
 			list := finite.linear_representation
 			from list.start until list.after loop
-				log.put_integer_field (list.index.out, list.item)
-				log.put_new_line
+				lio.put_integer_field (list.index.out, list.item)
+				lio.put_new_line
 				list.forth
 			end
 		end
@@ -416,15 +420,15 @@ feature -- Experiments
 				table [n.item] := n.cursor_index
 			end
 			across numbers as n loop
-				log.put_integer_field (n.item, table [n.item])
-				log.put_new_line
+				lio.put_integer_field (n.item, table [n.item])
+				lio.put_new_line
 			end
 			across numbers as n loop
 				n.item.wipe_out
 			end
 			across numbers as n loop
-				log.put_integer_field (n.item, table [n.item])
-				log.put_new_line
+				lio.put_integer_field (n.item, table [n.item])
+				lio.put_new_line
 			end
 		end
 
@@ -457,8 +461,19 @@ feature -- Experiments
 
 	hexadecimal_to_natural_64
 		do
-			log.put_string (Hexadecimal.to_natural_64 ("0x00000A987").out)
-			log.put_new_line
+			lio.put_string (Hexadecimal.to_natural_64 ("0x00000A987").out)
+			lio.put_new_line
+		end
+
+	launch_remove_files_script
+		local
+			script: EL_FILE_PATH; file: PLAIN_TEXT_FILE
+		do
+--			script := "/tmp/eros removal.sh"
+			script := Directory.temporary + "eros remove files.bat"
+			create file.make_with_name (script)
+			file.add_permission ("uog", "x")
+			Execution_environment.launch ("call " + script.escaped)
 		end
 
 	make_directory_path
@@ -467,7 +482,7 @@ feature -- Experiments
 		do
 			dir := "E:/"
 			temp := dir + "temp"
-			log.put_string_field ("Path", temp.as_windows.to_string)
+			lio.put_string_field ("Path", temp.as_windows.to_string)
 		end
 
 	make_date
@@ -486,8 +501,8 @@ feature -- Experiments
 			n: INTEGER_64
 		do
 			n := ((10).to_integer_64 |<< 32) | -10
-			log.put_integer_field ("low", n.to_integer_32) -- yes you can
-			log.put_integer_field (" hi", (n |>> 32).to_integer_32) -- yes you can
+			lio.put_integer_field ("low", n.to_integer_32) -- yes you can
+			lio.put_integer_field (" hi", (n |>> 32).to_integer_32) -- yes you can
 		end
 
 	once_order_test (a_first: BOOLEAN)
@@ -515,15 +530,28 @@ feature -- Experiments
 			event: AUDIO_EVENT
 		do
 			duration := agent {AUDIO_EVENT}.duration
-			log.put_string ("duration.is_target_closed: ")
-			log.put_boolean (duration.is_target_closed)
-			log.put_new_line
-			log.put_integer_field ("duration.open_count", duration.open_count)
-			log.put_new_line
+			lio.put_string ("duration.is_target_closed: ")
+			lio.put_boolean (duration.is_target_closed)
+			lio.put_new_line
+			lio.put_integer_field ("duration.open_count", duration.open_count)
+			lio.put_new_line
 			create event.make (1, 3)
 			duration.set_operands ([event])
 			duration.apply
-			log.put_double_field ("duration.last_result", duration.item ([event]))
+			lio.put_double_field ("duration.last_result", duration.item ([event]))
+		end
+
+	print_os_user_list
+		local
+			dir_path: EL_DIR_PATH; user_info: like command.new_user_info
+		do
+			user_info := command.new_user_info
+			across << user_info.configuration_dir_list, user_info.data_dir_list >> as dir_list loop
+				across dir_list.item as dir loop
+					lio.put_path_field ("", dir.item)
+					lio.put_new_line
+				end
+			end
 		end
 
 	pointer_width
@@ -531,7 +559,7 @@ feature -- Experiments
 			ptr: POINTER
 		do
 			ptr := $pointer_width
-			log.put_integer_field (ptr.out, ptr.out.count)
+			lio.put_integer_field (ptr.out, ptr.out.count)
 		end
 
 	problem_with_function_returning_real_with_assignment
@@ -540,13 +568,13 @@ feature -- Experiments
 			event: AUDIO_EVENT
 		do
 			create event.make (1.25907 ,1.38513)
-			log.put_string ("Is threshold exceeded: ")
+			lio.put_string ("Is threshold exceeded: ")
 			if event.is_threshold_exceeded (0.12606) then
-				log.put_string ("true")
+				lio.put_string ("true")
 			else
-				log.put_string ("false")
+				lio.put_string ("false")
 			end
-			log.put_new_line
+			lio.put_new_line
 		end
 
 	problem_with_function_returning_result_with_set_item
@@ -559,8 +587,8 @@ feature -- Experiments
 			create event.make (1.25907 ,1.38513)
 			event_list.extend (event)
 
-			log.put_real_field ("event_list.last.duration", event_list.last.duration)
-			log.put_new_line
+			lio.put_real_field ("event_list.last.duration", event_list.last.duration)
+			lio.put_new_line
 		end
 
 	procedure_call
@@ -585,11 +613,11 @@ feature -- Experiments
 			create time.make_now
 			create random.make
 			random.set_seed (time.compact_time)
-			log.put_integer_field ("random.seed", random.seed)
-			log.put_new_line
+			lio.put_integer_field ("random.seed", random.seed)
+			lio.put_new_line
 			from  until random.index > 200 loop
-				log.put_integer_field (random.index.out, random.item)
-				log.put_new_line
+				lio.put_integer_field (random.index.out, random.item)
+				lio.put_new_line
 				if random.item \\ 2 = 0 then
 					even := even + 1
 				else
@@ -597,11 +625,11 @@ feature -- Experiments
 				end
 				random.forth
 			end
-			log.put_new_line
-			log.put_integer_field ("odd", odd)
-			log.put_new_line
-			log.put_integer_field ("even", even)
-			log.put_new_line
+			lio.put_new_line
+			lio.put_integer_field ("odd", odd)
+			lio.put_new_line
+			lio.put_integer_field ("even", even)
+			lio.put_new_line
 		end
 
 	real_rounding
@@ -609,7 +637,7 @@ feature -- Experiments
 			r: REAL
 		do
 			r := ("795").to_real
-			log.put_integer_field ("(r * 100).rounded", (r * 100).rounded)
+			lio.put_integer_field ("(r * 100).rounded", (r * 100).rounded)
 		end
 
 	remove_from_list
@@ -651,10 +679,10 @@ feature -- Experiments
 		do
 			across << "freilly8@gmail.com", "finnian@gmail.com", "finnian-buyer@eiffel-loop.com" >> as address loop
 				email := address.item
-				log.put_string (email)
+				lio.put_string (email)
 				email.replace_delimited_substring_general ("finnian", "@eiffel", "", False, 1)
-				log.put_string (" -> "); log.put_string (email)
-				log.put_new_line
+				lio.put_string (" -> "); lio.put_string (email)
+				lio.put_new_line
 			end
 		end
 
@@ -670,10 +698,10 @@ feature -- Experiments
 			create color
 			color.foreground := "blue"
 			color.put_reference ("red", 2)
-			log.put_labeled_string ("color.foreground", color.foreground)
-			log.put_new_line
-			log.put_labeled_string ("color.background", color.background)
-			log.put_new_line
+			lio.put_labeled_string ("color.foreground", color.foreground)
+			lio.put_new_line
+			lio.put_labeled_string ("color.background", color.background)
+			lio.put_new_line
 		end
 
 	string_to_integer_conversion
@@ -681,8 +709,8 @@ feature -- Experiments
 			str: ZSTRING
 		do
 			str := ""
-			log.put_string ("str.is_integer: ")
-			log.put_boolean (str.is_integer)
+			lio.put_string ("str.is_integer: ")
+			lio.put_boolean (str.is_integer)
 		end
 
 	substitute_template_with_string_8
@@ -690,9 +718,9 @@ feature -- Experiments
 			type: STRING
 		do
 			type := "html"
-			log.put_string_field ("Content", Mime_type_template #$ [type, "UTF-8"])
-			log.put_new_line
-			log.put_string_field ("Content", Mime_type_template #$ [type, "UTF-8"])
+			lio.put_string_field ("Content", Mime_type_template #$ [type, "UTF-8"])
+			lio.put_new_line
+			lio.put_string_field ("Content", Mime_type_template #$ [type, "UTF-8"])
 		end
 
 	substitution
@@ -701,7 +729,7 @@ feature -- Experiments
 		do
 			create template.make ("from $var := 1 until $var > 10 loop")
 			template.set_variable ("var", "i")
-			log.put_line (template.substituted)
+			lio.put_line (template.substituted)
 		end
 
 	substitution_template
@@ -712,7 +740,7 @@ feature -- Experiments
 			create l_template.make ("x=$x, y=$y")
 			l_template.set_variable ("x", "100")
 			l_template.set_variable ("y", "200")
-			log.put_line (l_template.substituted)
+			lio.put_line (l_template.substituted)
 		end
 
 	system_path
@@ -722,9 +750,9 @@ feature -- Experiments
 
 	test_has_repeated_hexadecimal_digit
 		do
-			log.put_boolean (has_repeated_hexadecimal_digit (0xAAAAAAAAAAAAAAAA)); log.put_new_line
-			log.put_boolean (has_repeated_hexadecimal_digit (0x1AAAAAAAAAAAAAAA)); log.put_new_line
-			log.put_boolean (has_repeated_hexadecimal_digit (0xAAAAAAAAAAAAAAA1)); log.put_new_line
+			lio.put_boolean (has_repeated_hexadecimal_digit (0xAAAAAAAAAAAAAAAA)); lio.put_new_line
+			lio.put_boolean (has_repeated_hexadecimal_digit (0x1AAAAAAAAAAAAAAA)); lio.put_new_line
+			lio.put_boolean (has_repeated_hexadecimal_digit (0xAAAAAAAAAAAAAAA1)); lio.put_new_line
 		end
 
 	time_input_formats
@@ -738,14 +766,14 @@ feature -- Experiments
 			if is_valid_time (from_str) and is_valid_time (to_str) then
 				create from_time.make_from_string (from_str, format)
 				create to_time.make_from_string (to_str, format)
-				log.put_labeled_string ("From", from_str); log.put_labeled_string (" to", to_str)
-				log.put_new_line
-				log.put_labeled_string ("From", from_time.out); log.put_labeled_string (" to", to_time.out)
-				log.put_new_line
+				lio.put_labeled_string ("From", from_str); lio.put_labeled_string (" to", to_str)
+				lio.put_new_line
+				lio.put_labeled_string ("From", from_time.out); lio.put_labeled_string (" to", to_time.out)
+				lio.put_new_line
 				duration := to_time.relative_duration (from_time)
-				log.put_double_field ("Fine seconds", duration.fine_seconds_count)
+				lio.put_double_field ("Fine seconds", duration.fine_seconds_count)
 			else
-				log.put_line ("Invalid time format")
+				lio.put_line ("Invalid time format")
 			end
 		end
 
@@ -761,8 +789,8 @@ feature -- Experiments
 			else
 				create time.make (0, 0, 0)
 			end
-			log.put_labeled_string ("Time", time.formatted_out ("hh:[0]mi"))
-			log.put_new_line
+			lio.put_labeled_string ("Time", time.formatted_out ("hh:[0]mi"))
+			lio.put_new_line
 		end
 
 	transient_fields
@@ -812,13 +840,13 @@ feature -- Experiments
 		do
 			create list.make (0)
 			create list_integer.make (0)
-			log.put_integer_field ("type_id", ({ARRAYED_LIST [STRING]}).type_id)
-			log.put_integer_field (" dynamic_type", Eiffel.dynamic_type (list))
-			log.put_integer_field (" dynamic_type list_integer", Eiffel.dynamic_type (list_integer))
-			log.put_new_line
-			log.put_integer_field ("({EL_MAKEABLE_FROM_STRING [ZSTRING]}).type_id", ({EL_MAKEABLE_FROM_ZSTRING}).type_id)
-			log.put_new_line
-			log.put_integer_field ("({EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}).type_id", ({EL_MAKEABLE_FROM_STRING_GENERAL}).type_id)
+			lio.put_integer_field ("type_id", ({ARRAYED_LIST [STRING]}).type_id)
+			lio.put_integer_field (" dynamic_type", Eiffel.dynamic_type (list))
+			lio.put_integer_field (" dynamic_type list_integer", Eiffel.dynamic_type (list_integer))
+			lio.put_new_line
+			lio.put_integer_field ("({EL_MAKEABLE_FROM_STRING [ZSTRING]}).type_id", ({EL_MAKEABLE_FROM_ZSTRING}).type_id)
+			lio.put_new_line
+			lio.put_integer_field ("({EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}).type_id", ({EL_MAKEABLE_FROM_STRING_GENERAL}).type_id)
 		end
 
 	type_conformance_test
@@ -895,8 +923,8 @@ feature {NONE} -- Implementation
 
 	hello_routine (a_arg: STRING)
 		do
-			log.enter_with_args ("hello_routine", << a_arg >>)
-			log.exit
+			lio.enter_with_args ("hello_routine", << a_arg >>)
+			lio.exit
 		end
 
 	is_valid_time (str: STRING): BOOLEAN
@@ -913,8 +941,8 @@ feature {NONE} -- Implementation
 
 	log_integer (n: INTEGER; str: STRING)
 		do
-			log.put_integer_field (str, n)
-			log.put_new_line
+			lio.put_integer_field (str, n)
+			lio.put_new_line
 		end
 
 	pi: DOUBLE
@@ -924,7 +952,7 @@ feature {NONE} -- Implementation
 		local
 			limit, term, four: DOUBLE; divisor: INTEGER
 		do
-			log.enter ("pi")
+			lio.enter ("pi")
 			four := 4.0; limit := 0.5E-5; divisor := 1
 			from term := four until term.abs < limit loop
 				Result := Result + term
@@ -932,9 +960,9 @@ feature {NONE} -- Implementation
 				divisor := divisor + 2
 				term := four / divisor
 			end
-			log.put_integer_field ("divisor", divisor)
-			log.put_new_line
-			log.exit
+			lio.put_integer_field ("divisor", divisor)
+			lio.put_new_line
+			lio.exit
 		end
 
 	se_array: SE_ARRAY2 [BOOLEAN]
@@ -950,14 +978,6 @@ feature {NONE} -- Constants
 	Dir_n_w: NATURAL = 20055
 
 	Dir_w_w: NATURAL = 22359
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{EXPERIMENTS_APP}, All_routines]
-			>>
-		end
 
 	Mime_type_template, Text_charset_template: ZSTRING
 		once

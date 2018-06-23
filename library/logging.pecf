@@ -37,6 +37,9 @@ system:
 		library:
 			name = EL_thread; location = "thread.ecf"
 
+		library:
+			name = EL_app_manage; location = "app-manage.ecf"
+
 		# Source code
 		cluster:
 			name = logging; location = "runtime/logging"; recursive = true

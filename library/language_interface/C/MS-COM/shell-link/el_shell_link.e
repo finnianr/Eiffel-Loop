@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-06-16 16:22:02 GMT (Saturday 16th June 2018)"
+	revision: "5"
 
 class
 	EL_SHELL_LINK
@@ -44,6 +44,25 @@ feature -- Basic operations
 			valid_extension: file_path.extension ~ Extension_lnk
 		do
 			persist_file.save (file_path)
+		end
+
+	save_elevated (file_path: EL_FILE_PATH)
+		-- hack to update the link's byte to indicate that this is an admin shortcut requiring elevated priveleges.
+		local
+			shell_link: RAW_FILE
+		do
+			-- Original C# code
+			-- using (FileStream fs = new FileStream (shortcutPath, FileMode.Open, FileAccess.ReadWrite))
+			-- {
+			--    fs.Seek(21, SeekOrigin.Begin);
+			--    fs.WriteByte(0x22);
+			-- }
+
+			save (file_path)
+			create shell_link.make_open_read_write (file_path)
+			shell_link.go (21)
+			shell_link.put_integer_8 (0x22)
+			shell_link.close
 		end
 
 	load (file_path: EL_FILE_PATH)

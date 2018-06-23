@@ -30,6 +30,9 @@ system:
 		library:
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
+		library:
+			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
+
 		# Eiffel Loop
 		library:
 			name = EL_base; location = "base/base.ecf"

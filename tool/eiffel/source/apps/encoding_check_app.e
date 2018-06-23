@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 11:26:58 GMT (Sunday 15th October 2017)"
-	revision: "6"
+	date: "2018-06-19 11:11:11 GMT (Tuesday 19th June 2018)"
+	revision: "8"
 
 class
 	ENCODING_CHECK_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [ENCODING_CHECK_COMMAND]
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [ENCODING_CHECK_COMMAND]
 		redefine
 			Option_name
 		end

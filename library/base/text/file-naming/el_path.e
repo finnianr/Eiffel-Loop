@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "12"
+	date: "2018-06-17 10:09:05 GMT (Sunday 17th June 2018)"
+	revision: "14"
 
 deferred class
 	EL_PATH
@@ -125,9 +125,15 @@ feature -- Access
 	base: ZSTRING
 
 	base_sans_extension: ZSTRING
+		local
+			index: INTEGER
 		do
-			Result := base.twin
-			prune_extension (Result)
+			index := dot_index
+			if index > 0 then
+				Result := base.substring (1, index - 1)
+			else
+				Result := base
+			end
 		end
 
 	expanded_path: like Current
@@ -138,9 +144,12 @@ feature -- Access
 
 	extension: ZSTRING
 			--
+		local
+			index: INTEGER
 		do
-			if base.has ('.') then
-				Result := base.substring_end (base.last_index_of ('.', base.count) + 1)
+			index := dot_index
+			if index > 0 then
+				Result := base.substring_end (index + 1)
 			else
 				create Result.make_empty
 			end
@@ -306,6 +315,12 @@ feature -- Measurement
 			Result := parent_path.count + base.count
 		end
 
+	dot_index: INTEGER
+		-- index of last dot, 0 if none
+		do
+			Result := base.last_index_of ('.', base.count)
+		end
+
 	hash_code: INTEGER
 			-- Hash code value
 		do
@@ -324,6 +339,22 @@ feature -- Measurement
 		end
 
 feature -- Status Query
+
+	base_matches (name: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if `name' is same string as `base_sans_extension'
+		local
+			end_pos: INTEGER
+		do
+			end_pos := dot_index
+			if end_pos > 0 then
+				end_pos := end_pos - 1
+			else
+				end_pos := base.count
+			end
+			Result := name.same_characters (base, 1, end_pos, 1)
+		ensure
+			valid_result: Result implies base_sans_extension.same_string (name)
+		end
 
 	exists: BOOLEAN
 		deferred
@@ -400,6 +431,7 @@ feature -- Status Query
 	out_abbreviated: BOOLEAN
 		-- is the current directory in 'out string' abbreviated to $CWD
 
+
 feature -- Status change
 
 	enable_out_abbreviation
@@ -414,13 +446,13 @@ feature -- Status change
 
 feature -- Element change
 
-	add_extension (a_extension: ZSTRING)
+	add_extension (a_extension: READABLE_STRING_GENERAL)
 		local
 			l_base: ZSTRING
 		do
-			create l_base.make (base.count + a_extension.count + 1)
-			l_base.append (base); l_base.append_character ('.'); l_base.append (a_extension)
-			base := l_base
+			l_base := base
+			l_base.grow (base.count + a_extension.count + 1)
+			l_base.append_character ('.'); l_base.append_string_general (a_extension)
 		end
 
 	append_dir_path (a_dir_path: EL_DIR_PATH)
@@ -435,7 +467,7 @@ feature -- Element change
 			append (a_file_path)
 		end
 
-	append_step (a_step: ZSTRING)
+	append_step (a_step: READABLE_STRING_GENERAL)
 		require
 			is_step: not a_step.has (Separator)
 		local
@@ -449,7 +481,7 @@ feature -- Element change
 			end
 			set_parent_path (l_parent_path)
 			base.wipe_out
-			base.append (a_step)
+			base.append_string_general (a_step)
 		end
 
 	change_to_unix
@@ -486,10 +518,14 @@ feature -- Element change
 			end
 		end
 
-	replace_extension (a_replacement: ZSTRING)
+	replace_extension (a_replacement: READABLE_STRING_GENERAL)
+		local
+			index: INTEGER
 		do
-			remove_extension
-			add_extension (a_replacement)
+			index := dot_index
+			if index > 0 then
+				base.replace_substring_general (a_replacement, index + 1, base.count)
+			end
 		end
 
 	set_base (a_base: like base)
@@ -550,8 +586,13 @@ feature -- Element change
 feature -- Removal
 
 	remove_extension
+		local
+			index: INTEGER
 		do
-			prune_extension (base)
+			index := dot_index
+			if index > 0 then
+				base.remove_tail (base.count - index + 1)
+			end
 		end
 
 feature -- Conversion
@@ -682,11 +723,6 @@ feature {EL_PATH} -- Implementation
 
 	new_relative_path: EL_PATH
 		deferred
-		end
-
-	prune_extension (a_name: like base)
-		do
-			a_name.remove_tail (a_name.count - a_name.last_index_of ('.', a_name.count) + 1 )
 		end
 
 	remove_base

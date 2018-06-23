@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-06-18 10:12:00 GMT (Monday 18th June 2018)"
+	revision: "5"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -68,6 +68,7 @@ feature -- Basic operations
 				end
 				if Evolicity_templates.is_nested_output_indented then
 					output.put_indented_lines (tabs, Evolicity_templates.merged (template_path, new_context).lines)
+					output.put_new_line -- Needed to prevent something like "</entry> <entry>" on same line
 				else
 					Evolicity_templates.merge (template_path, new_context, output)
 				end

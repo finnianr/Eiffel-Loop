@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-06-18 12:21:31 GMT (Monday 18th June 2018)"
+	revision: "5"
 
 class
 	RBOX_TEST_DATABASE
@@ -15,7 +15,8 @@ class
 inherit
 	RBOX_DATABASE
 		redefine
-			add_song_entry, new_song, extend_with_song
+			add_song_entry, new_cortina, new_song, extend_with_song,
+			decoded_location, encoded_location_uri
 		end
 
 	EL_MODULE_AUDIO_COMMAND
@@ -43,6 +44,30 @@ feature -- Factory
 	new_song: RBOX_TEST_SONG
 		do
 			create Result.make (Current)
+		end
+
+	new_cortina (
+		a_source_song: RBOX_SONG; tanda_type: ZSTRING; a_track_number, a_duration: INTEGER
+	): RBOX_CORTINA_TEST_SONG
+		do
+			create Result.make (Current, a_source_song, tanda_type, a_track_number, a_duration)
+		end
+
+feature {RBOX_IRADIO_ENTRY} -- location codecs
+
+	decoded_location (a_path: STRING): EL_FILE_PATH
+		local
+			path: ZSTRING
+		do
+			path := Precursor (a_path)
+			path.replace_substring_all (Var_music, music_dir.to_string)
+			Result := path
+		end
+
+	encoded_location_uri (uri: EL_FILE_URI_PATH): STRING
+		do
+			Result := Precursor (uri)
+			Result.replace_substring_all (Encoded_music_dir, Var_music.to_latin_1)
 		end
 
 feature {NONE} -- Build from XML
@@ -105,6 +130,20 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Var_music: ZSTRING
+		once
+			Result := "$MUSIC"
+		end
+
+	Encoded_music_dir: STRING
+		local
+			uri: EL_DIR_URI_PATH
+		once
+			uri := music_dir
+			Result := Url.encoded_uri_custom (uri, Unescaped_location_characters, False)
+			Result.remove_head (uri.count - music_dir.count)
+		end
 
 	Test_wav_generator: EL_WAV_GENERATION_COMMAND_I
 		once

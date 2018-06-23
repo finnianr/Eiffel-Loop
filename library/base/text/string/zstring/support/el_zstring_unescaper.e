@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-09 13:46:51 GMT (Monday 9th April 2018)"
-	revision: "4"
+	date: "2018-06-17 11:34:22 GMT (Sunday 17th June 2018)"
+	revision: "5"
 
 class
 	EL_ZSTRING_UNESCAPER
@@ -57,8 +57,8 @@ feature -- Access
 	sequence_count (str: EL_READABLE_ZSTRING; index: INTEGER): INTEGER
 		do
 			if not is_empty and then index <= str.count then
-				search (str.z_code (index))
-				if found then
+				if has_key (str.z_code (index)) then
+					-- `found_item' is referenced in `unescaped_z_code'
 					Result := 1
 				else
 					Result := numeric_sequence_count (str, index)

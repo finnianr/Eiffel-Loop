@@ -1,13 +1,17 @@
 note
 	description: "Svg image utils"
+	notes: "[
+		The Windows C implementation hangs if you try to render a UTF-8 encoded `svg_path' so for this reason
+		using `{[$source EL_PNG_IMAGE_FILE]}.render_svg_of_width' is the recommended alternative.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-06-17 20:44:42 GMT (Sunday 17th June 2018)"
+	revision: "5"
 
 class
 	EL_SVG_IMAGE_UTILS
@@ -32,7 +36,7 @@ feature -- Basic operations
 			svg_path_not_empty: not svg_path.is_empty
 			png_path_not_empty: not png_path.is_empty
 			windows_path_is_ansi: {PLATFORM}.is_windows
-											implies across << svg_path, png_path >> as file_path all  is_ansi_encoded (file_path.item) end
+											implies across << svg_path, png_path >> as file_path all is_ansi_encoded (file_path.item) end
 		do
 			write_png (svg_path, png_path, width, Undefined_dimension, background_color)
 		end
@@ -63,7 +67,11 @@ feature {NONE} -- Implementation
 		local
 			l_svg_path, l_png_path: STRING
 		do
-			l_svg_path := svg_path.to_string; l_png_path := png_path.to_string
+			if {PLATFORM}.is_windows then
+				l_svg_path := svg_path.to_string; l_png_path := png_path.to_string
+			else
+				l_svg_path := svg_path.to_string.to_utf_8; l_png_path := png_path.to_string.to_utf_8
+			end
 			last_write_succeeded := Image_utils.convert_svg_to_png (
 				l_svg_path.area.base_address, l_png_path.area.base_address, width, height, background_color
 			)

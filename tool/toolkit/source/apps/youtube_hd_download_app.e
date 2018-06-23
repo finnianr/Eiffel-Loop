@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-13 11:04:11 GMT (Tuesday 13th February 2018)"
-	revision: "1"
+	date: "2018-06-19 10:42:34 GMT (Tuesday 19th June 2018)"
+	revision: "2"
 
 class
 	YOUTUBE_HD_DOWNLOAD_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [YOUTUBE_HD_DOWNLOAD_COMMAND]
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [YOUTUBE_HD_DOWNLOAD_COMMAND]
 		redefine
 			Option_name
 		end

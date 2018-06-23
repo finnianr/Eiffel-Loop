@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "13"
+	date: "2018-06-19 13:56:30 GMT (Tuesday 19th June 2018)"
+	revision: "14"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -190,7 +190,9 @@ feature {NONE} -- Implementation
 				command_string := new_command_string (a_system_command)
 
 				error_path := temporary_error_file_path
-				File_system.make_directory (error_path.parent)
+				File_system_mutex.lock
+					File_system.make_directory (error_path.parent)
+				File_system_mutex.unlock
 
 				Environment.execution.system (command_string)
 
@@ -203,9 +205,11 @@ feature {NONE} -- Implementation
 					new_output_lines (error_path).do_all (agent errors.extend)
 					on_error
 				end
-				if error_path.exists then
-					File_system.remove_file (error_path)
-				end
+				File_system_mutex.lock
+					if error_path.exists then
+						File_system.remove_file (error_path)
+					end
+				File_system_mutex.unlock
 			end
 		end
 
@@ -258,6 +262,11 @@ feature {EL_OS_COMMAND_I} -- Factory
 				Environment.Operating.temp_directory_name, Environment.execution.Executable_and_user_name,
 				new_temporary_name, a_extension
 			]
+			-- check if directory already exists with root ownership (perhaps created by installer program)
+			-- (Using sudo command does not mean that the user name changes to root)
+			if Result.parent.exists and then not File_system.is_writeable_directory (Result.parent) then
+				Result.set_parent_path (Result.parent.to_string + "-2")
+			end
 			from until not Result.exists loop
 				Result.set_version_number (Result.version_number + 1)
 			end
@@ -298,11 +307,6 @@ feature {NONE} -- Constants
 			Result := "EL_"
 		end
 
-	Empty_list: EL_ZSTRING_LIST
-		once ("PROCESS")
-			create Result.make_empty
-		end
-
 	Error_redirection_operator: STRING_32
 		once
 			Result := " 2> "
@@ -328,11 +332,6 @@ feature {NONE} -- Constants
 			Result := "%T%N"
 		end
 
-	Temporary_error_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_OS_COMMAND_I, EL_FILE_PATH]
-		once
-			create Result.make (17, agent {EL_OS_COMMAND_I}.new_temporary_file_path ("err"))
-		end
-
 	Temporary_path_format: ZSTRING
 		once
 			Result := "%S/%S/%S.00.%S"
@@ -341,6 +340,23 @@ feature {NONE} -- Constants
 	Variable_cwd: ZSTRING
 		once
 			Result := "$CWD"
+		end
+
+feature {NONE} -- Constants
+
+	Empty_list: EL_ZSTRING_LIST
+		once ("PROCESS")
+			create Result.make_empty
+		end
+
+	File_system_mutex: MUTEX
+		once ("PROCESS")
+			create Result.make
+		end
+
+	Temporary_error_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_OS_COMMAND_I, EL_FILE_PATH]
+		once
+			create Result.make (17, agent {EL_OS_COMMAND_I}.new_temporary_file_path ("err"))
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-06-19 8:57:32 GMT (Tuesday 19th June 2018)"
+	revision: "6"
 
 class
 	BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP
@@ -15,7 +15,7 @@ class
 inherit
 	OBJECT_BUILDER_TEST_APP
 		redefine
-			Option_name, Description, log_filter_list, run, initialize, new_smart_builder
+			Option_name, Description, new_log_filter_list, run, initialize, new_smart_builder
 		end
 
 create
@@ -78,7 +78,7 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Auto test remote builder concept"
 
-	log_filter_list: ARRAYED_LIST [EL_LOG_FILTER]
+	new_log_filter_list: ARRAYED_LIST [EL_LOG_FILTER]
 			--
 		do
 			Result := Precursor

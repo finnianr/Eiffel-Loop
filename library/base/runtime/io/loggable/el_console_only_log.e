@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-17 11:13:19 GMT (Sunday 17th December 2017)"
-	revision: "7"
+	date: "2018-06-14 11:29:26 GMT (Thursday 14th June 2018)"
+	revision: "8"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -210,6 +210,13 @@ feature -- Numeric output
 	put_new_line
 			--
 		do
+			log_sink.put_new_line
+		end
+
+	put_new_line_x2
+			--
+		do
+			log_sink.put_new_line
 			log_sink.put_new_line
 		end
 

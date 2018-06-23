@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-06-23 8:40:36 GMT (Saturday 23rd June 2018)"
+	revision: "7"
 
 class
 	EL_COMMAND_FACTORY
@@ -32,9 +32,9 @@ feature -- Informational
 			create {EL_JPEG_FILE_INFO_COMMAND_IMP} Result.make (file_path)
 		end
 
-	new_user_list: EL_USER_LIST_COMMAND_I
+	new_user_info: EL_USERS_INFO_COMMAND_I
 		do
-			create {EL_USER_LIST_COMMAND_IMP} Result.make
+			create {EL_USERS_INFO_COMMAND_IMP} Result.make
 			-- make calls execute
 		end
 

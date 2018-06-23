@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-06-22 11:00:33 GMT (Friday 22nd June 2018)"
+	revision: "5"
 
 class
 	CLASS_TEST_APP
@@ -31,25 +31,6 @@ feature -- Basic operations
 			filter: LOG_FILTER
 		do
 			create filter.make_from_tuple ([{SMIL_AUDIO_SEQUENCE}, All_routines])
-
---			file_path_array.do_all (agent path_splitting)
---			create_directory (string_split_by_directory_separator ("/home/finnian/Documents/one"))
-
---			find_files_command_on_root
-
---			find_files_with_exclusions
-
---			part_sorted_set
---			arrayed_set
---			binary_search_tree_set
-
---			binary_search_tree_subtraction
-
---			GOBO_binary_tree_subtraction_2
-
---			hash_table_replace_key
-
-
 		end
 
 feature -- Tests

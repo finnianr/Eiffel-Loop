@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-06-21 10:29:26 GMT (Thursday 21st June 2018)"
+	revision: "5"
 
 deferred class
 	HELP_PAGES_TEST_SET
@@ -52,14 +52,19 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Help_pages: ZSTRING
+		once
+			Result := "Help-pages"
+		end
+
 	Help_pages_bcd_dir: EL_DIR_PATH
 		once
-			Result := {STRING_32} "Help-pages/Windows™/bcd"
+			Result := Help_pages + {STRING_32} "/Windows™/bcd"
 		end
 
 	Help_pages_mint_dir: EL_DIR_PATH
 		once
-			Result := "Help-pages/Mint"
+			Result := Help_pages + "/Mint"
 		end
 
 	Help_pages_mint_docs_dir: EL_DIR_PATH
@@ -69,7 +74,7 @@ feature {NONE} -- Constants
 
 	Windows_dir: EL_DIR_PATH
 		once
-			Result := {STRING_32} "Help-pages/Windows™"
+			Result := Help_pages + {STRING_32} "/Windows™"
 		end
 
 	Wireless_notes_path: EL_FILE_PATH

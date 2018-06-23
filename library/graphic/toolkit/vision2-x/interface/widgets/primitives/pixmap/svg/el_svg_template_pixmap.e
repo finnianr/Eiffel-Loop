@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-06-17 20:28:44 GMT (Sunday 17th June 2018)"
+	revision: "7"
 
 class
 	EL_SVG_TEMPLATE_PIXMAP
@@ -85,28 +85,33 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			end
 		end
 
-	svg_xml (a_svg_template_path: like svg_template_path): STRING
+	svg_xml (a_svg_template_path: EL_FILE_PATH): STRING
 		local
-			svg_lines: EL_FILE_LINE_SOURCE; line: ZSTRING
+			svg_in: PLAIN_TEXT_FILE; done: BOOLEAN; line: STRING
 		do
-			Result := empty_once_string_8
+			create svg_in.make_open_read (a_svg_template_path)
+			create Result.make (svg_in.count + 100)
 			update_variables
-			create svg_lines.make (svg_template_path)
-			from svg_lines.start until svg_lines.after loop
-				line := svg_lines.item
-				if line.has ('$') then
-					check_for_xlink_uri (a_svg_template_path, line)
-					template.set_template (line)
-					across variables as variable loop
-						if template.has_variable (variable.key) then
-							template.set_variable (variable.key, variable.item)
+			from until done loop
+				svg_in.read_line
+				if svg_in.end_of_file then
+					done := True
+				else
+					line := svg_in.last_string
+					if line.has ('$') then
+						check_for_xlink_uri (a_svg_template_path, line)
+						template.set_template (line)
+						across variables as variable loop
+							if template.has_variable (variable.key) then
+								template.set_variable (variable.key, variable.item)
+							end
 						end
+						Result.append (template.substituted)
+					else
+						Result.append (line)
 					end
-					line := template.substituted
+					Result.append_character ('%N')
 				end
-				Result.append (line.to_utf_8)
-				Result.append_character ('%N')
-				svg_lines.forth
 			end
 		end
 
@@ -127,17 +132,13 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			end
 		end
 
-	check_for_xlink_uri (a_svg_path: EL_FILE_PATH; line: ZSTRING)
+	check_for_xlink_uri (a_svg_path: EL_FILE_PATH; line: STRING)
 		local
-			variable_pos, forward_slash_pos: INTEGER; dir_uri: EL_DIR_URI_PATH
+			dir_uri: EL_DIR_URI_PATH
 		do
-			Var_file_dir_uri.prepend_character ('$')
-			variable_pos := line.substring_index (Var_file_dir_uri, 1)
-			forward_slash_pos := variable_pos + Var_file_dir_uri.count
-			Var_file_dir_uri.remove_head (1)
-			if variable_pos > 0 and then line [forward_slash_pos] = '/' then
+			if line.has_substring (Xlink_uri_placeholder) then
 				dir_uri := a_svg_path.parent
-				set_variable (Var_file_dir_uri, dir_uri.to_string)
+				set_variable (Var_file_dir_uri, dir_uri.to_string.to_utf_8)
 			end
 		end
 
@@ -145,7 +146,7 @@ feature {NONE} -- Internal attributes
 
 	color_table: HASH_TABLE [INTEGER, STRING]
 
-	template: EL_ZSTRING_TEMPLATE
+	template: EL_STRING_8_TEMPLATE
 
 	variables: EL_ZSTRING_HASH_TABLE [ANY]
 
@@ -156,4 +157,9 @@ feature {NONE} -- Constants
 			Result := "file_dir_uri"
 		end
 
+	Xlink_uri_placeholder: STRING
+		once
+			Result := "$/"
+			Result.insert_string (Var_file_dir_uri.to_latin_1, 2)
+		end
 end

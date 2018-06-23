@@ -12,28 +12,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 11:39:58 GMT (Sunday 15th October 2017)"
-	revision: "8"
+	date: "2018-06-19 12:02:51 GMT (Tuesday 19th June 2018)"
+	revision: "9"
 
 class
 	LOCALIZATION_COMMAND_SHELL_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [LOCALIZATION_COMMAND_SHELL]
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [LOCALIZATION_COMMAND_SHELL]
 		redefine
-			Option_name, initialize
+			Option_name, visible_types
 		end
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	initialize
-		do
-			Console.show_all (<< {EL_FTP_PROTOCOL} >>)
-			Precursor
-		end
 
 feature {NONE} -- Implementation
 
@@ -62,6 +54,11 @@ feature {NONE} -- Constants
 				[{LOCALIZATION_COMMAND_SHELL_APP}, All_routines],
 				[{LOCALIZATION_COMMAND_SHELL_TEST_SET}, All_routines]
 			>>
+		end
+
+	Visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+		once
+			Result := << {EL_FTP_PROTOCOL} >>
 		end
 
 end

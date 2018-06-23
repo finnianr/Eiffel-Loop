@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 13:37:36 GMT (Saturday 3rd March 2018)"
-	revision: "4"
+	date: "2018-06-21 10:53:27 GMT (Thursday 21st June 2018)"
+	revision: "5"
 
 deferred class
 	FCGI_SEPARATE_SERVLET_SERVICE
@@ -15,7 +15,7 @@ deferred class
 inherit
 	FCGI_SERVLET_SERVICE
 		redefine
-			make, accepting_connection
+			make_default, accepting_connection
 		end
 
 	EL_COMMAND
@@ -43,9 +43,9 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (config_dir: EL_DIR_PATH; config_name: ZSTRING)
+	make_default
 		do
-			Precursor (config_dir, config_name)
+			Precursor
 			make_access
 			make_thread
 		end

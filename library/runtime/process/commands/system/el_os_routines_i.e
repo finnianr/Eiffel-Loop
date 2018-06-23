@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-01 10:40:30 GMT (Saturday 1st July 2017)"
-	revision: "2"
+	date: "2018-06-23 8:40:43 GMT (Saturday 23rd June 2018)"
+	revision: "3"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -27,7 +27,7 @@ feature -- Access
 
 	user_list: EL_ZSTRING_LIST
 		do
-			Result := Command.new_user_list.list
+			Result := Command.new_user_info.user_list
 		end
 
 feature -- OS commands

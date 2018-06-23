@@ -6,26 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "2"
+	date: "2018-06-19 12:01:53 GMT (Tuesday 19th June 2018)"
+	revision: "3"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
 
 inherit
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
+		redefine
+			visible_types
+		end
 
 create
 	make
 
-feature {NONE} -- Initialization
+feature -- Basic operations
 
 	initialize
 		do
-			Console.show_all (<< {EL_FTP_PROTOCOL} >>)
 		end
-
-feature -- Basic operations
 
 	run
 		do
@@ -47,6 +47,11 @@ feature {NONE} -- Constants
 			Result := <<
 				[{AUTOTEST_DEVELOPMENT_APP}, All_routines]
 			>>
+		end
+
+	Visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+		once
+			Result := << {EL_FTP_PROTOCOL} >>
 		end
 
 end

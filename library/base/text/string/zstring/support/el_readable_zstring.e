@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 15:00:38 GMT (Tuesday 10th April 2018)"
-	revision: "19"
+	date: "2018-06-05 8:04:58 GMT (Tuesday 5th June 2018)"
+	revision: "20"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -1425,6 +1425,8 @@ feature -- Comparison
 		end
 
  	same_characters (other: READABLE_STRING_GENERAL; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+			-- Are characters of `other' within bounds `start_pos' and `end_pos'
+			-- identical to characters of current string starting at index `index_pos'.
 		do
 			if attached {like Current} other as z_other then
 				if has_mixed_encoding or else z_other.has_mixed_encoding then

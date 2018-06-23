@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-27 17:43:40 GMT (Sunday 27th May 2018)"
-	revision: "5"
+	date: "2018-06-19 9:22:34 GMT (Tuesday 19th June 2018)"
+	revision: "7"
 
 class
 	SOURCE_FILE_NAME_NORMALIZER_APP
@@ -19,6 +19,10 @@ inherit
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
+		rename
+			desktop_menu_path as Default_desktop_menu_path,
+			desktop_launcher as Default_desktop_launcher
+		end
 
 create
 	make
@@ -42,9 +46,9 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Normalize class filenames as lowercase classnames within a source directory"
 
-	Installer: EL_APPLICATION_INSTALLER_I
+	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once
-			Result := new_context_menu_installer ("Eiffel Loop/Development/Normalize class filenames")
+			Result := new_context_menu_desktop ("Eiffel Loop/Development/Normalize class filenames")
 		end
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]

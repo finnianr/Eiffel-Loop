@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-06-18 10:47:10 GMT (Monday 18th June 2018)"
+	revision: "4"
 
 class
 	CORTINA_SET
@@ -90,7 +90,7 @@ feature {NONE} -- Implementation
 			end
 			create Result.make (tanda_type_counts [genre])
 			from until Result.full loop
-				create cortina.make (database, source_song, genre, Result.count + 1, clip_duration)
+				cortina := database.new_cortina (source_song, genre, Result.count + 1, clip_duration)
 				lio.put_path_field ("Creating", cortina.mp3_path); lio.put_new_line
 				cortina.write_clip (source_offset_secs, fade_in_duration, fade_out_duration)
 				Result.extend (cortina)

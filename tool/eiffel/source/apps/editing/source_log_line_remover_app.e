@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-27 17:43:32 GMT (Sunday 27th May 2018)"
-	revision: "6"
+	date: "2018-06-19 9:22:34 GMT (Tuesday 19th June 2018)"
+	revision: "8"
 
 class
 	SOURCE_LOG_LINE_REMOVER_APP
@@ -19,6 +19,10 @@ inherit
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
+		rename
+			desktop_menu_path as Default_desktop_menu_path,
+			desktop_launcher as Default_desktop_launcher
+		end
 
 create
 	make
@@ -41,9 +45,9 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Comment out logging lines from Eiffel source code tree"
 
-	Installer: EL_APPLICATION_INSTALLER_I
+	desktop: EL_DESKTOP_ENVIRONMENT_I
 		once
-			Result := new_context_menu_installer ("Eiffel Loop/Development/Comment out logging lines")
+			Result := new_context_menu_desktop ("Eiffel Loop/Development/Comment out logging lines")
 		end
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]

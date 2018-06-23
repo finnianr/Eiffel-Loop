@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-08 16:45:27 GMT (Thursday 8th March 2018)"
-	revision: "6"
+	date: "2018-06-19 13:57:03 GMT (Tuesday 19th June 2018)"
+	revision: "7"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_I
@@ -44,12 +44,16 @@ feature {NONE} -- Implementation
 			l_output_path: like output_file_path
 		do
 			l_output_path := output_file_path
-			File_system.make_directory (output_file_path.parent)
+			File_system_mutex.lock
+				File_system.make_directory (output_file_path.parent)
+			File_system_mutex.unlock
 			Precursor (a_system_command)
 			if not has_error then
 				do_with_lines (adjusted_lines (new_output_lines (l_output_path)))
 			end
-			File_system.remove_file (l_output_path)
+			File_system_mutex.lock
+				File_system.remove_file (l_output_path)
+			File_system_mutex.unlock
 		end
 
 	do_with_lines (lines: like adjusted_lines)

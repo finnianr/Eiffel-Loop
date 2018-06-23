@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-18 10:41:04 GMT (Saturday 18th November 2017)"
-	revision: "4"
+	date: "2018-06-17 10:34:40 GMT (Sunday 17th June 2018)"
+	revision: "5"
 
 deferred class
 	EL_DEFAULT_LOCALE_I
@@ -42,8 +42,7 @@ feature -- Access
 				Result := Current
 			else
 				restrict_access
-					other_locales.search (a_language)
-					if other_locales.found then
+					if other_locales.has_key (a_language) then
 						Result := other_locales.found_item
 					else
 						create {EL_LOCALE_IMP} Result.make (a_language, Key_language)

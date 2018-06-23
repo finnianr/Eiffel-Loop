@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-30 17:00:19 GMT (Friday 30th March 2018)"
-	revision: "11"
+	date: "2018-06-20 17:18:11 GMT (Wednesday 20th June 2018)"
+	revision: "12"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -48,12 +48,17 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make_with_config (a_config: like config)
 		do
+			make_default
 			config := a_config
+			initialize_logger
+		end
+
+	make_default
+		do
 			create broker.make
 			create {EL_NETWORK_STREAM_SOCKET} socket.make
 			create servlets
 			state := agent do_nothing
-			initialize_logger
 			server_backlog := 10
 		end
 

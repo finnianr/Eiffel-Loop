@@ -55,8 +55,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "7"
+	date: "2018-06-17 12:24:33 GMT (Sunday 17th June 2018)"
+	revision: "8"
 
 deferred class
 	EL_DYNAMIC_MODULE [G -> EL_DYNAMIC_MODULE_POINTERS create make end]
@@ -107,7 +107,7 @@ feature {EL_DYNAMIC_MODULE_POINTERS} -- Access
 		local
 			l_name: STRING
 		do
-			l_name := empty_once_string
+			l_name := Name_buffer; l_name.wipe_out
 			if not name_prefix.is_empty then
 				l_name.append (name_prefix)
 			end
@@ -142,4 +142,10 @@ feature {NONE} -- Internal attributes
 
 	api: G
 
+feature {NONE} -- Constants
+
+	Name_buffer: STRING
+		once
+			create Result.make_empty
+		end
 end

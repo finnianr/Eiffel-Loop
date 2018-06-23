@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-06-05 9:00:20 GMT (Tuesday 5th June 2018)"
+	revision: "5"
 
 class
 	CLASS_NAME_EDITOR
@@ -56,14 +56,16 @@ feature {NONE} -- Implementation
 		require
 			class_name_not_empty: not a_class_name.is_empty
 		local
-			class_file_name: ZSTRING
+			current_class_name: ZSTRING
 		do
 			class_name := a_class_name.twin
-			class_file_name := class_name.as_lower + ".e"
-			if file_path.base /~ class_file_name then
-				check attached {FILE} output as output_file then
-					output_file.rename_file (file_path.parent + class_file_name)
-					lio.put_line ("  * * File renamed! * * ")
+			current_class_name := file_path.base_sans_extension.as_upper
+			if current_class_name /~ a_class_name then
+				if attached {FILE} output as output_file then
+					file_path.set_base (a_class_name.as_lower + ".e")
+					output_file.rename_file (file_path)
+					lio.put_new_line
+					lio.put_labeled_substitution ("Renamed", "%S -> %S", [current_class_name, a_class_name])
 				end
 			end
 		end

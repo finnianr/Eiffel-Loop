@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-06-23 8:43:44 GMT (Saturday 23rd June 2018)"
+	revision: "4"
 
 class
 	OS_COMMAND_TEST_SET
@@ -75,10 +75,4 @@ feature -- Tests
 			log.exit
 		end
 
-	test_user_list
-		do
-			log.enter ("test_user_list")
-			assert ("has user profile base", Command.new_user_list.list.has (Directory.user_profile.base))
-			log.exit
-		end
 end

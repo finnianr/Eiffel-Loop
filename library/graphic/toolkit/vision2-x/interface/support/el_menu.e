@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-12 10:53:13 GMT (Saturday 12th August 2017)"
-	revision: "2"
+	date: "2018-06-17 10:32:48 GMT (Sunday 17th June 2018)"
+	revision: "3"
 
 deferred class
 	EL_MENU
@@ -256,8 +256,7 @@ feature {NONE} -- Implementation
 			if not attached {EV_MENU_SEPARATOR} menu_item then
 				adjusted_text := menu_item.text
 				if attached {INTEGER} menu_item.data as id then
-					shortcut_descriptions.search (id)
-					if shortcut_descriptions.found then
+					if shortcut_descriptions.has_key (id) then
 						adjusted_text.append_character ('%T')
 						adjusted_text.append (shortcut_descriptions.found_item)
 					end

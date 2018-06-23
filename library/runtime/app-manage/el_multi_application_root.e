@@ -1,8 +1,11 @@
 note
 	description: "[
 		Selects an application to launch from an array of sub-applications by either user input or command switch.
+		
 		Can also install/uninstall any sub-application conforming to [$source EL_INSTALLABLE_SUB_APPLICATION].
-		(System file context menu or system application launch menu)
+		(System file context menu or system application launch menu) See sub-applications:
+			[$source EL_STANDARD_INSTALLER_APP]
+			[$source EL_STANDARD_UNINSTALL_APP]
 	]"
 
 	author: "Finnian Reilly"
@@ -10,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-27 18:07:29 GMT (Sunday 27th May 2018)"
-	revision: "5"
+	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
+	revision: "6"
 
 deferred class
-	-- Generic to make sure scons generated BUILD_INFO is compiled from project source
+	-- Generic to make sure scons generated `BUILD_INFO' is compiled from project source
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO]
 
 inherit
@@ -43,14 +46,17 @@ feature {NONE} -- Initialization
 			-- Must be called before current_working_directory changes
 			if Environment.Execution.Executable_path.is_file then
 			end
-			Application_list.launch_selected
+			Application_list.launch (Args.option_name (1))
 --				Environment.Execution.restore_last_code_page
 --				FOR WINDOWS
 --				If the original code page is not restored after changing to 65001 (utf-8)
 --				this could effect subsequent programs that run in the same shell.
 --				Python for example might give a "LookupError: unknown encoding: cp65001" error.
-		end
 
+			Application_list.make_empty
+				-- Causes a crash on some multi-threaded applications
+			{MEMORY}.full_collect
+		end
 
 feature {NONE} -- Implementation
 
@@ -62,6 +68,7 @@ feature {NONE} -- Implementation
 	new_application_list: EL_SUB_APPLICATION_LIST
 		do
 			create Result.make (application_types, select_first)
+			Result.extend (create {EL_VERSION_APP})
 		end
 
 	select_first: BOOLEAN

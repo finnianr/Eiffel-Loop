@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 11:01:29 GMT (Thursday 29th June 2017)"
-	revision: "4"
+	date: "2018-06-19 10:20:45 GMT (Tuesday 19th June 2018)"
+	revision: "5"
 
 deferred class
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
 
 inherit
-	EL_SUB_APPLICATION
+	EL_LOGGED_SUB_APPLICATION
 		redefine
-			new_log_manager, new_lio, log_filter_list
+			new_log_manager, new_lio, new_log_filter_list
 		end
 
 	EL_MODULE_TEST
@@ -69,7 +69,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	log_filter_list: ARRAYED_LIST [EL_LOG_FILTER]
+	new_log_filter_list: ARRAYED_LIST [EL_LOG_FILTER]
 		do
 			Result := Precursor
 			if not across Result as filter some filter.item.class_type ~ {EL_REGRESSION_TESTING_ROUTINES} end

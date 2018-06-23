@@ -3,10 +3,30 @@
 Eiffel submission for [www.99-bottles-of-beer.net](http://www.99-bottles-of-beer.net/).
 
 This website contains sample programs for over 1500 languages and variations, all of which print the lyrics of the song "99 Bottles of Beer".
-## Eiffel remote object test server (EROS)
-Example program demonstrating the use of the EROS library. EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver. It uses an XML remote procedure call protocol.
-## EROS test clients
-Example program to demonstrate an [EROS client](http://www.eiffel-loop.com/example/net/eros-test-clients/source/sub-applications/fourier_math_test_client_app.html) calling an [EROS server](http://www.eiffel-loop.com/example/net/eros-server/source/sub-applications/fourier_math_server_app.html). EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver. It uses an Eiffel orientated XML remote procedure call protocol.
+## Eiffel EROS server with client example
+EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver and is an experimental project that implements an Eiffel orientated XML remote procedure call protocol.
+
+The two example projects demonstrate an [EROS client](http://www.eiffel-loop.com/example/net/EROS/test-clients/source/sub-applications/fourier_math_test_client_app.e.html) calling an [EROS server](http://www.eiffel-loop.com/example/net/EROS/server/source/sub-applications/fourier_math_server_app.e.html) using the EROS protocol.
+
+The server program has an optional GUI mode that allows real time monitoring of network service threads with thread logging displayed in the console. Thread context switching is controlled by the graphical interface as shown in [this screenshot](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png). Note that this shot was taken before the introduction of console color-highlighting to Eiffel-Loop.
+
+The network protocol operates in two alternative modes (set by a command switch):
+
+**1. ** plain text XML
+
+**2. ** binary compressed XML
+
+**Build Notes**
+
+When including the `eros.ecf` in your project it is necessary to define a custom variable `eros_server_enabled`. To build a server application set the value to `true`. To build a client application set value to `false`.
+
+
+
+
+
+
+
+
 ## Eiffel to Java
 Demo for the Eiffel-Loop Java interface library. This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
 ## Rhythmbox MP3 Collection Manager
@@ -191,11 +211,25 @@ Laabhair was developed at the [Digital Media Centre at the Dublin Institute of T
 ## Amazon Instant Access API
 An Eiffel interface to the [Amazon Instant Access API](https://s3-us-west-2.amazonaws.com/dtg-docs/index.html). This API enables third party vendors to fulfil orders for digital goods on the Amazon store. It enables One-time purchases but not subscriptions. It passes a basic test suite but has not yet been tested in production.
 ## Eiffel Remote Object Server (EROS)
-An implementation of an experimental XML orientated remote procedure call protocol.
+EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver and is an experimental project that implements an Eiffel orientated XML remote procedure call protocol.
 
-**ECF Instructions**
+The two example projects demonstrate an [EROS client](http://www.eiffel-loop.com/example/net/EROS/test-clients/source/sub-applications/fourier_math_test_client_app.e.html) calling an [EROS server](http://www.eiffel-loop.com/example/net/EROS/server/source/sub-applications/fourier_math_server_app.e.html) using the EROS protocol.
 
-When including the ECF `eros.ecf` in your project it is necessary to define a custom variable `eros_server_enabled`. To build a server application set the value to `true`. To build a client application set value to `false`.
+The server program has an optional GUI mode that allows real time monitoring of network service threads with thread logging displayed in the console. Thread context switching is controlled by the graphical interface as shown in [this screenshot](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png). Note that this shot was taken before the introduction of console color-highlighting to Eiffel-Loop.
+
+The network protocol operates in two alternative modes (set by a command switch):
+
+**1. ** plain text XML
+
+**2. ** binary compressed XML
+
+**Build Notes**
+
+When including the `eros.ecf` in your project it is necessary to define a custom variable `eros_server_enabled`. To build a server application set the value to `true`. To build a client application set value to `false`.
+
+
+
+
 
 
 
@@ -663,7 +697,7 @@ An internationalization library with support for translations rendered in Pyxis 
 ## Evolicity Text Substitution Engine
 **Evolicity** is a text substitution language that was inspired by the [Velocity text substitution language](http://velocity.apache.org/) for Java. *Evolicity* provides a way to merge the data from Eiffel objects into a text template. The template can be either supplied externally or hard-coded into an Eiffel class. The language includes, substitution variables, conditional statements and loops. Substitution variables have a BASH like syntax. Conditionals and loops have an Eiffel like syntax.
 
-The text of this web page was generated by the [Eiffel-view repository publisher](http://www.eiffel-loop.com/tool/eiffel/source/apps/repository_publisher_app.html) using the following combination of *Evolicity* templates:
+The text of this web page was generated by the [Eiffel-view repository publisher](http://www.eiffel-loop.com/tool/eiffel/source/apps/repository_publisher_app.e.html) using the following combination of *Evolicity* templates:
 
 
 1. [doc-config/main-template.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/main-template.html.evol)

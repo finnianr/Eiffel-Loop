@@ -7,9 +7,9 @@ manifest:
 		"example/eiffel2java/source"
 		"example/graphical/source"
 		"example/manage-mp3/source"
-		"example/net/eros-server/source"
-		"example/net/eros-test-clients/source"
-		"example/net/source-common"
+		"example/net/EROS/server/source"
+		"example/net/EROS/test-clients/source"
+		"example/net/EROS/source-common"
 		"test/source"
 
 	# tools

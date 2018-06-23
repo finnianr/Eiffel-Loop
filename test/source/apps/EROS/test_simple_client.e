@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-06-19 9:27:15 GMT (Tuesday 19th June 2018)"
+	revision: "5"
 
 class
 	TEST_SIMPLE_CLIENT
 
 inherit
-	EL_SUB_APPLICATION
+	EL_LOGGED_SUB_APPLICATION
 		redefine
 			Option_name
 		end

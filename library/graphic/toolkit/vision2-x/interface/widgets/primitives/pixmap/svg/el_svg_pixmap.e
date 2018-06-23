@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-03 14:14:56 GMT (Wednesday 3rd May 2017)"
-	revision: "3"
+	date: "2018-06-17 20:28:55 GMT (Sunday 17th June 2018)"
+	revision: "4"
 
 class
 	EL_SVG_PIXMAP
@@ -88,17 +88,40 @@ feature {NONE} -- Initialization
 			is_made := update_pixmap_on_initialization
 		end
 
-	make_with_path_and_width (a_svg_path: like svg_path; a_width: INTEGER; a_background_color: EL_COLOR)
+	make_transparent_with_height (a_svg_path: like svg_path; a_height: INTEGER)
 			--
 		do
-			default_create
-			svg_path := a_svg_path
-			create text_origin
-			is_width_scaled := True
-			set_dimension (a_width)
-			set_background_color (a_background_color)
-			is_made := update_pixmap_on_initialization
-			update_pixmap_if_made
+			make_with_height (a_svg_path, a_height, Transparent_color)
+		end
+
+	make_transparent_with_height_cms (a_svg_path: like svg_path; a_height_cms: REAL)
+			--
+		do
+			make_with_height_cms (a_svg_path, a_height_cms, Transparent_color)
+		end
+
+	make_transparent_with_path_and_height (a_svg_path: like svg_path; a_height: INTEGER)
+			--
+		do
+			make_with_path_and_height (a_svg_path, a_height, Transparent_color)
+		end
+
+	make_transparent_with_path_and_width (a_svg_path: like svg_path; a_width: INTEGER)
+			--
+		do
+			make_with_path_and_width (a_svg_path, a_width, Transparent_color)
+		end
+
+	make_transparent_with_width (a_svg_path: like svg_path; a_width: INTEGER)
+			--
+		do
+			make_with_width (a_svg_path, a_width, Transparent_color)
+		end
+
+	make_transparent_with_width_cms (a_svg_path: like svg_path; a_width_cms: REAL)
+			--
+		do
+			make_with_width_cms (a_svg_path, a_width_cms, Transparent_color)
 		end
 
 	make_with_path_and_height (a_svg_path: like svg_path; a_height: INTEGER; a_background_color: EL_COLOR)
@@ -114,40 +137,17 @@ feature {NONE} -- Initialization
 			update_pixmap_if_made
 		end
 
-	make_transparent_with_height (a_svg_path: like svg_path; a_height: INTEGER)
+	make_with_path_and_width (a_svg_path: like svg_path; a_width: INTEGER; a_background_color: EL_COLOR)
 			--
 		do
-			make_with_height (a_svg_path, a_height, Transparent_color)
-		end
-
-	make_transparent_with_height_cms (a_svg_path: like svg_path; a_height_cms: REAL)
-			--
-		do
-			make_with_height_cms (a_svg_path, a_height_cms, Transparent_color)
-		end
-
-	make_transparent_with_width (a_svg_path: like svg_path; a_width: INTEGER)
-			--
-		do
-			make_with_width (a_svg_path, a_width, Transparent_color)
-		end
-
-	make_transparent_with_width_cms (a_svg_path: like svg_path; a_width_cms: REAL)
-			--
-		do
-			make_with_width_cms (a_svg_path, a_width_cms, Transparent_color)
-		end
-
-	make_transparent_with_path_and_width (a_svg_path: like svg_path; a_width: INTEGER)
-			--
-		do
-			make_with_path_and_width (a_svg_path, a_width, Transparent_color)
-		end
-
-	make_transparent_with_path_and_height (a_svg_path: like svg_path; a_height: INTEGER)
-			--
-		do
-			make_with_path_and_height (a_svg_path, a_height, Transparent_color)
+			default_create
+			svg_path := a_svg_path
+			create text_origin
+			is_width_scaled := True
+			set_dimension (a_width)
+			set_background_color (a_background_color)
+			is_made := update_pixmap_on_initialization
+			update_pixmap_if_made
 		end
 
 feature {EL_FACTORY_CLIENT} -- Initialization
@@ -175,20 +175,10 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 	make_with_width_cms (a_svg_path: like svg_path; a_width_cms: REAL; a_background_color: EL_COLOR)
 			--
 		do
-			make_with_path_and_width (
-				a_svg_path, Screen.horizontal_pixels (a_width_cms), a_background_color
-			)
+			make_with_path_and_width (a_svg_path, Screen.horizontal_pixels (a_width_cms), a_background_color)
 		end
 
 feature -- Access
-
-	svg_path: EL_FILE_PATH
-
-	png_output_path: EL_FILE_PATH
-		-- png output path
-
-	dimension: INTEGER
-		-- pixel dimension width or height depending on is_width_scaled
 
 	background_color: EL_COLOR
 		do
@@ -199,17 +189,27 @@ feature -- Access
 			end
 		end
 
-feature -- Status report
+	dimension: INTEGER
+		-- pixel dimension width or height depending on is_width_scaled
 
-	is_width_scaled: BOOLEAN
+	png_output_path: EL_FILE_PATH
+		-- png output path
+
+	svg_path: EL_FILE_PATH
+
+feature -- Status report
 
 	is_transparent: BOOLEAN
 
+	is_width_scaled: BOOLEAN
+
 feature -- Element change
 
-	set_svg_path (a_svg_path: like svg_path)
+	set_background_color (a_background_color: like background_color)
+			--
 		do
-			svg_path := a_svg_path
+			Precursor (a_background_color)
+			is_transparent := a_background_color.is_transparent
 			update_pixmap_if_made
 		end
 
@@ -231,11 +231,9 @@ feature -- Element change
 			update_pixmap_if_made
 		end
 
-	set_background_color (a_background_color: like background_color)
-			--
+	set_svg_path (a_svg_path: like svg_path)
 		do
-			Precursor (a_background_color)
-			is_transparent := a_background_color.is_transparent
+			svg_path := a_svg_path
 			update_pixmap_if_made
 		end
 
@@ -246,11 +244,60 @@ feature -- Element change
 
 feature {EL_SVG_PIXMAP} -- Implementation
 
+	is_made: BOOLEAN
+
+	png_output_dir: EL_DIR_PATH
+		local
+			base_path, pixmap_base_path: EL_DIR_PATH
+		do
+			base_path := Directory.Application_installation
+			if base_path.is_parent_of (svg_path) then
+				pixmap_base_path := Directory.User_configuration
+			else
+				base_path := svg_path.parent
+				pixmap_base_path := base_path
+			end
+			Result := pixmap_base_path.joined_dir_path (svg_path.relative_path (base_path).parent)
+		end
+
+	render_svg: PROCEDURE [EL_PNG_IMAGE_FILE, EL_FILE_URI_PATH, STRING, INTEGER, INTEGER]
+		do
+			if is_width_scaled then
+				Result := agent {EL_PNG_IMAGE_FILE}.render_svg_of_width
+			else
+				Result := agent {EL_PNG_IMAGE_FILE}.render_svg_of_height
+			end
+		end
+
+	rendering_variables: ARRAYED_LIST [like Type_rendering_variable]
+		do
+			create Result.make (5)
+			if is_width_scaled then
+				Result.extend ([Initial_w, dimension])
+			else
+				Result.extend ([Initial_h, dimension])
+			end
+			Result.extend ([Initial_c, background_color.rgb_32_bit])
+		end
+
+	set_centered_text_origin (a_width, a_height, left_offset, right_offset: INTEGER)
+			--
+		do
+			create text_origin.make (((width - a_width) / 2).rounded, ((height - a_height) / 2).rounded)
+		end
+
 	set_pixmap_path_from_svg
 		do
 			png_output_path := png_output_dir + unique_png_path
 			pixmap_path := png_output_path.to_path
 		end
+
+	svg_xml (a_svg_path: EL_FILE_PATH): STRING
+		do
+			Result := File_system.plain_text (a_svg_path)
+		end
+
+	text_origin: EV_COORDINATE
 
 	unique_png_path: EL_FILE_PATH
 			-- name that is unique for combined rendering variables
@@ -277,28 +324,6 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			Result.replace_extension (Extension_png)
 		end
 
-	png_output_dir: EL_DIR_PATH
-		local
-			base_path, pixmap_base_path: EL_DIR_PATH
-		do
-			base_path := Directory.Application_installation
-			if base_path.is_parent_of (svg_path) then
-				pixmap_base_path := Directory.User_configuration
-			else
-				base_path := svg_path.parent
-				pixmap_base_path := base_path
-			end
-			Result := pixmap_base_path.joined_dir_path (svg_path.relative_path (base_path).parent)
-		end
-
-	update_pixmap_if_made
-		do
-			if is_made then
-				set_pixmap_path_from_svg
-				update_pixmap (svg_path)
-			end
-		end
-
 	update_pixmap (a_svg_path: like svg_path)
 			--
 		local
@@ -315,11 +340,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 --				log_or_io.put_new_line
 				svg_uri := a_svg_path
 				create png_image_file.make_open_write (png_output_path)
-				if is_width_scaled then
-					png_image_file.render_svg_of_width (svg_uri, l_svg_xml, dimension, background_color.rgb_32_bit)
-				else
-					png_image_file.render_svg_of_height (svg_uri, l_svg_xml, dimension, background_color.rgb_32_bit)
-				end
+				render_svg (png_image_file, svg_uri, l_svg_xml, dimension, background_color.rgb_32_bit)
 				png_image_file.close
 				progress_listener.on_notify (l_svg_xml.count)
 			end
@@ -332,36 +353,18 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			write_succeeded: a_svg_path.exists implies pixmap_exists
 		end
 
-	svg_xml (a_svg_path: like svg_path): STRING
+	update_pixmap_if_made
 		do
-			Result := File_system.plain_text (a_svg_path)
+			if is_made then
+				set_pixmap_path_from_svg
+				update_pixmap (svg_path)
+			end
 		end
 
 	update_pixmap_on_initialization: BOOLEAN
 		do
 			Result := True
 		end
-
-	set_centered_text_origin (a_width, a_height, left_offset, right_offset: INTEGER)
-			--
-		do
-			create text_origin.make (((width - a_width) / 2).rounded, ((height - a_height) / 2).rounded)
-		end
-
-	rendering_variables: ARRAYED_LIST [like Type_rendering_variable]
-		do
-			create Result.make (5)
-			if is_width_scaled then
-				Result.extend ([Initial_w, dimension])
-			else
-				Result.extend ([Initial_h, dimension])
-			end
-			Result.extend ([Initial_c, background_color.rgb_32_bit])
-		end
-
-	is_made: BOOLEAN
-
-	text_origin: EV_COORDINATE
 
 feature -- Conversion
 
@@ -388,11 +391,6 @@ feature -- Constants
 
 feature {NONE} -- Constants
 
-	Png_format: EV_PNG_FORMAT
-		once
-			create Result
-		end
-
 	Extension_png: ZSTRING
 		once
 			Result := "png"
@@ -403,5 +401,10 @@ feature {NONE} -- Constants
 	Initial_h: STRING = "h"
 
 	Initial_w: STRING = "w"
+
+	Png_format: EV_PNG_FORMAT
+		once
+			create Result
+		end
 
 end

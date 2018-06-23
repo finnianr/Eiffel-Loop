@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-06-02 13:45:39 GMT (Saturday 2nd June 2018)"
+	revision: "7"
 
 deferred class
 	EL_STRING_GENERAL_CHAIN [S -> STRING_GENERAL create make, make_empty end]
@@ -23,11 +23,10 @@ feature {NONE} -- Initialization
 		deferred
 		end
 
-	make_from_array (a: ARRAY [S])
+	make_from_list (list: ITERABLE [S])
 		do
 			make_empty
-			grow (a.count)
-			a.do_all (agent extend)
+			append (list)
 		end
 
 	make_with_lines (a_string: like item)

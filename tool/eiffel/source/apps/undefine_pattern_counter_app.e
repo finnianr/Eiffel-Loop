@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-11 15:00:02 GMT (Wednesday 11th April 2018)"
-	revision: "2"
+	date: "2018-06-19 11:11:04 GMT (Tuesday 19th June 2018)"
+	revision: "4"
 
 class
 	UNDEFINE_PATTERN_COUNTER_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [UNDEFINE_PATTERN_COUNTER_COMMAND]
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [UNDEFINE_PATTERN_COUNTER_COMMAND]
 		redefine
 			Option_name
 		end

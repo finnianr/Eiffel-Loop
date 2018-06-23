@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-28 15:25:15 GMT (Thursday 28th December 2017)"
-	revision: "12"
+	date: "2018-06-18 11:00:48 GMT (Monday 18th June 2018)"
+	revision: "13"
 
 class
 	RBOX_SONG
@@ -17,11 +17,10 @@ class
 inherit
 	RBOX_IGNORED_ENTRY
 		rename
-			make as make_entry,
 			location as mp3_path,
 			set_location as set_mp3_path
 		redefine
-			make_entry, building_action_table, getter_function_table, on_context_exit,
+			make, building_action_table, getter_function_table, on_context_exit,
 			Except_fields, Template
 		end
 
@@ -57,13 +56,7 @@ feature {NONE} -- Initialization
 	make (a_database: like database)
 			--
 		do
-			make_entry
-			database := a_database; music_dir := a_database.music_dir
-		end
-
-	make_entry
-		do
-			Precursor
+			Precursor (a_database)
 			audio_id := Default_audio_id
 			create mp3_path
 			create last_copied_mp3_path
@@ -228,8 +221,6 @@ feature -- Locations
 		do
 			Result := mp3_path.relative_path (music_dir)
 		end
-
-	music_dir: EL_DIR_PATH
 
 feature -- Status query
 
@@ -534,10 +525,6 @@ feature {NONE} -- Implementation
 				uuid.put (delimiter, pos.item)
 			end
 		end
-
-feature {NONE} -- Internal Attributes
-
-	database: RBOX_DATABASE
 
 feature {NONE} -- Build from XML
 

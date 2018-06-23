@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-06-19 11:31:35 GMT (Tuesday 19th June 2018)"
+	revision: "6"
 
 deferred class
 	EL_REMOTE_ROUTINE_CALL_SERVER_APPLICATION
 
 inherit
-	EL_SUB_APPLICATION
+	EL_LOGGED_SUB_APPLICATION
 
 feature {NONE} -- Initialization
 
@@ -22,8 +22,12 @@ feature {NONE} -- Initialization
 		do
 			create port_number
 			create request_handler_count_max
-			Args.set_integer_from_word_option ("port", agent port_number.set_item , Default_port_number)
-			Args.set_integer_from_word_option ("max_threads", agent request_handler_count_max.set_item , Default_request_handler_count_max)
+			Args.set_integer_from_word_option (
+				"port", agent port_number.set_item , Default_port_number
+			)
+			Args.set_integer_from_word_option (
+				"max_threads", agent request_handler_count_max.set_item , Default_request_handler_count_max
+			)
 			create gui.make (name, port_number, request_handler_count_max)
 		end
 
@@ -34,7 +38,7 @@ feature -- Basic operations
 			gui.launch
 		end
 
-	name: STRING
+	name: ZSTRING
 			--
 
 		deferred

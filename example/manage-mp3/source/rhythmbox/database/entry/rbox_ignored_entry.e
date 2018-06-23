@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "10"
+	date: "2018-06-18 11:47:37 GMT (Monday 18th June 2018)"
+	revision: "11"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -15,7 +15,7 @@ class
 inherit
 	RBOX_IRADIO_ENTRY
 		redefine
-			building_action_table, Template, Protocol, make
+			make, building_action_table, Template, Protocol
 		end
 
 	EL_MODULE_FILE_SYSTEM
@@ -33,10 +33,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_database: like database)
 			--
 		do
-			Precursor
+			Precursor (a_database)
 			set_last_seen_time (Time.Unix_origin)
 		end
 

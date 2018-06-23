@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-22 10:13:23 GMT (Tuesday 22nd May 2018)"
-	revision: "9"
+	date: "2018-06-02 13:45:08 GMT (Saturday 2nd June 2018)"
+	revision: "10"
 
 deferred class EL_CHAIN [G]
 
@@ -100,13 +100,13 @@ feature -- Element change
 		deferred
 		end
 
-	append (items: ITERABLE [G])
+	append (list: ITERABLE [G])
 		require
-			finite: attached {FINITE [G]} items
+			finite: attached {FINITE [G]} list
 		do
-			if attached {FINITE [G]} items as finite then
+			if attached {FINITE [G]} list as finite then
 				accommodate (count + finite.count)
-				across items as it loop
+				across list as it loop
 					extend (it.item)
 				end
 			end

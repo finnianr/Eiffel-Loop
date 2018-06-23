@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-27 17:45:06 GMT (Sunday 27th May 2018)"
-	revision: "10"
+	date: "2018-06-19 9:23:00 GMT (Tuesday 19th June 2018)"
+	revision: "11"
 
 class
 	FTP_BACKUP_APP
@@ -21,6 +21,10 @@ inherit
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
+		rename
+			desktop_menu_path as Default_desktop_menu_path,
+			desktop_launcher as Default_desktop_launcher
+		end
 
 	EL_MODULE_USER_INPUT
 
@@ -105,9 +109,9 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Tar directories and ftp them off site"
 
-	Installer: EL_APPLICATION_INSTALLER_I
+	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once
-			Result := new_context_menu_installer ("Eiffel Loop/General utilities/ftp backup")
+			Result := new_context_menu_desktop ("Eiffel Loop/General utilities/ftp backup")
 		end
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]

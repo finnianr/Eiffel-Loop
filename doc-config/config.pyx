@@ -36,23 +36,10 @@ publish-repository:
 					which print the lyrics of the song "99 Bottles of Beer".
 				"""
 		tree:
-			name = "Eiffel remote object test server (EROS)"; dir = "example/net/eros-server/source"
-			ecf = "eros-server.ecf"
+			name = "Eiffel EROS server with client example"
+			ecf = "eros-server.ecf & test-clients.ecf"; dir = "example/net/EROS"
 			description:
-				"""
-					Example program demonstrating the use of the EROS library. EROS is an acronym for
-					**E**iffel **R**emote **O**bject **S**erver. It uses an XML remote procedure call protocol.
-				"""
-		tree:
-			name = "EROS test clients"; dir = "example/net/eros-test-clients/source"
-			description:
-				"""
-					Example program to demonstrate an
-					[./example/net/eros-test-clients/source/sub-applications/fourier_math_test_client_app.html EROS client] calling an
-					[./example/net/eros-server/source/sub-applications/fourier_math_server_app.html EROS server].
-					EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver. It uses an Eiffel orientated
-					XML remote procedure call protocol.
-				"""
+				"eros.emd"
 		tree:
 			name = "Eiffel to Java"; dir = "example/eiffel2java/source"; ecf = "eiffel2java.ecf"
 			description:

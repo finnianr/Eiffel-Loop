@@ -10,16 +10,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 14:18:09 GMT (Thursday 29th June 2017)"
-	revision: "2"
+	date: "2018-06-19 11:45:56 GMT (Tuesday 19th June 2018)"
+	revision: "3"
 
 class
 	QUANTUM_BALL_ANIMATION_APP
 
 inherit
-	EL_SUB_APPLICATION
+	EL_LOGGED_SUB_APPLICATION
 		redefine
-			Option_name, Installer
+			Option_name
+		end
+
+	EL_INSTALLABLE_SUB_APPLICATION
+		redefine
+			name
 		end
 
 create
@@ -44,33 +49,30 @@ feature {NONE} -- Implementation
 
 	gui: EL_VISION2_USER_INTERFACE [QUANTUM_BALL_MAIN_WINDOW]
 
-feature -- Desktop menu entries
+feature {NONE} -- Install constants
 
-	Development_menu: EL_DESKTOP_MENU_ITEM
-			-- 'Development' in KDE
-			-- 'Programming' in GNOME
+	Name: ZSTRING
 		once
-			create Result.make_standard ("Development")
+			Result := "Physics lesson (NO CONSOLE)"
 		end
 
-	Eiffel_loop_menu: EL_DESKTOP_MENU_ITEM
-			--
-		once
-			Result := new_menu_item ("Eiffel Loop", "Eiffel Loop demo applications", Icon_path_eiffel_loop)
+	desktop_launcher: EL_DESKTOP_MENU_ITEM
+		do
+			Result := new_launcher ("animation.png")
 		end
 
-feature {NONE} -- Desktop icon paths
-
-	Icon_path_eiffel_loop: EL_FILE_PATH
-			--
-		once
-			Result := Image_path.desktop_menu_icon (<< "EL-logo.png" >> )
+	desktop_menu_path: ARRAY [EL_DESKTOP_MENU_ITEM]
+		do
+			Result := <<
+				new_category ("Development"),
+				new_custom_category ("Eiffel Loop", "Eiffel Loop demo applications", "EL-logo.png")
+			>>
 		end
 
-	Icon_path_animation: EL_FILE_PATH
+	Desktop: EL_DESKTOP_ENVIRONMENT_I
 			--
 		once
-			Result := Image_path.desktop_menu_icon (<< "animation.png" >> )
+			Result := new_menu_desktop_environment
 		end
 
 feature {NONE} -- Constants
@@ -83,15 +85,6 @@ feature {NONE} -- Constants
 	Description: STRING
 		once
 			Result := "Animation of hydrogen atom as timer thread test"
-		end
-
-	Installer: EL_APPLICATION_INSTALLER_I
-			--
-		once
-			create {EL_DESKTOP_APPLICATION_INSTALLER_IMP} Result.make (
-				Current, << Development_menu, Eiffel_loop_menu >>,
-				new_launcher ("Physics lesson (NO CONSOLE)", Icon_path_animation)
-			)
 		end
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]

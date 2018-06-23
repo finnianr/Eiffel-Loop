@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-27 18:02:07 GMT (Sunday 27th May 2018)"
-	revision: "1"
+	date: "2018-06-16 13:04:56 GMT (Saturday 16th June 2018)"
+	revision: "3"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -16,11 +16,8 @@ inherit
 	EL_ARRAYED_LIST [EL_SUB_APPLICATION]
 		rename
 			make as make_list
-		end
-
-	EL_MODULE_ARGS
-		undefine
-			copy, is_equal
+		redefine
+			make_empty
 		end
 
 	EL_MODULE_EIFFEL
@@ -50,26 +47,21 @@ feature {NONE} -- Initialization
 		do
 			make_list (types.count)
 			select_first := a_select_first
+			create installable_list.make (5)
 			across types as type loop
 				if attached {EL_SUB_APPLICATION} Eiffel.new_instance_of (type.item.type_id) as app then
 					extend (app)
+					if attached {EL_INSTALLABLE_SUB_APPLICATION} app as installable_app then
+						installable_list.extend (installable_app)
+					end
 				end
 			end
-			extend (create {EL_VERSION_APP})
 			compare_objects
 		end
 
 feature -- Access
 
 	installable_list: EL_ARRAYED_LIST [EL_INSTALLABLE_SUB_APPLICATION]
-		do
-			create Result.make (count)
-			across Current as app loop
-				if attached {EL_INSTALLABLE_SUB_APPLICATION} app.item as installable then
-					Result.extend (installable)
-				end
-			end
-		end
 
 	main: EL_INSTALLABLE_SUB_APPLICATION
 		-- main installable application
@@ -86,48 +78,59 @@ feature -- Access
 			end
 		end
 
+	Main_launcher: EL_DESKTOP_MENU_ITEM
+		require
+			has_main_application: has_main
+		once
+			if attached {EL_MENU_DESKTOP_ENVIRONMENT_I} main.desktop as main_app_installer then
+				Result := main_app_installer.launcher
+			else
+				create Result.make_default
+			end
+		end
+
 feature -- Basic operations
 
 	io_put_menu
 			--
 		local
-			line_count: INTEGER; lio: EL_LOGGABLE
+			lio: EL_LOGGABLE
 		do
 			lio := new_temporary_lio -- until the logging is initialized in `EL_SUB_APPLICATION'
 
 			lio.put_new_line
 			across Current as app loop
-				lio.put_integer (app.cursor_index)
-				lio.put_string (". Command option: -")
-				lio.put_line (app.item.option_name.as_string_8)
-
+				lio.put_labeled_string (app.cursor_index.out + ". command switch", "-" + app.item.option_name)
+				lio.tab_right
 				lio.put_new_line
-				lio.put_string (String_8.spaces (Tab_width, 1))
-				lio.put_line ("DESCRIPTION: ")
-				line_count := 0
-				across app.item.description.split ('%N') as line loop
-					line_count := line_count + 1
-					lio.put_string (String_8.spaces (Tab_width, 2))
-					lio.put_line (line.item)
-				end
+				lio.put_string_field_to_max_length ("Description", app.item.description, 300)
+				lio.tab_left
 				lio.put_new_line
 			end
 		end
 
-	launch_selected
-			-- launch application selected from command-line option or user selection
+	install_menus
+		do
+			Uninstall_script.serialize
+			across installable_list as app loop
+				app.item.install
+			end
+		end
+
+	launch (name: ZSTRING)
+			-- launch sub-application with `name' or else user selected application
 		local
 			lio: EL_LOGGABLE
 		do
 			lio := new_temporary_lio -- until the logging is initialized in `EL_SUB_APPLICATION'
-			find_first (Args.option_name (1), agent {EL_SUB_APPLICATION}.new_option_name)
+			find_first (True, agent {EL_SUB_APPLICATION}.is_same_option (name))
 			if after then
 				if select_first then
 					start
+				elseif Args.has_silent then
+					lio.put_labeled_substitution ("ERROR", "Cannot find sub-application option %"%S%"", [name])
 				else
-					if not Args.has_silent then
-						io_put_menu
-					end
+					io_put_menu
 					go_i_th (user_selection)
 				end
 			end
@@ -137,10 +140,6 @@ feature -- Basic operations
 
 				lio.put_new_line
 				lio.put_new_line
-
-				wipe_out
-				-- Causes a crash on some multi-threaded applications
-				{MEMORY}.full_collect
 			end
 		end
 
@@ -149,30 +148,41 @@ feature -- Status query
 	has_main: BOOLEAN
 		-- `True' if has a main installable sub-application
 		do
-			Result := across Current as app some
-				attached {EL_INSTALLABLE_SUB_APPLICATION} app.item as installable and then installable.is_main
-			end
+			Result := installable_list.there_exists (agent {EL_INSTALLABLE_SUB_APPLICATION}.is_main)
 		end
 
 	select_first: BOOLEAN
 		-- if `True' first application selected by default
+
+feature -- Removal
+
+	make_empty
+		do
+			Precursor
+			create installable_list.make_empty
+		end
 
 feature {NONE} -- Implementation
 
 	user_selection: INTEGER
 			-- Number selected by user from menu
 		do
-			if not Args.has_silent then
-				io.put_string ("Select program by number: ")
-				io.read_line
-				if io.last_string.is_integer then
-					Result := io.last_string.to_integer
-				end
+			io.put_string ("Select program by number: ")
+			io.read_line
+			if io.last_string.is_integer then
+				Result := io.last_string.to_integer
 			end
 		end
 
-feature {NONE} -- Constants
+feature -- Constants
 
 	Tab_width: INTEGER = 3
+
+	Uninstall_script: EL_UNINSTALL_SCRIPT_I
+		require
+			has_main_application: has_main
+		once
+			create {EL_UNINSTALL_SCRIPT_IMP} Result.make (main.desktop.menu_name)
+		end
 
 end

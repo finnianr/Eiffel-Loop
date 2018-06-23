@@ -1,15 +1,13 @@
 note
-	description: "[
-		Platform independent interface to standard OS directories
-	]"
+	description: "Platform independent interface to standard OS directories"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-25 10:43:07 GMT (Thursday 25th May 2017)"
-	revision: "3"
+	date: "2018-06-23 8:26:42 GMT (Saturday 23rd June 2018)"
+	revision: "4"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -65,23 +63,16 @@ feature -- Access
 			end
 		end
 
+	user_data_steps: EL_PATH_STEPS
+			-- path to application data files relative to user profile directory
+		deferred
+		end
+
 feature -- Paths
 
 	applications: EL_DIR_PATH
 			-- In Windows this is "Program Files"
 		deferred
-		end
-
-	configuration_dir_for_user (name: ZSTRING): EL_DIR_PATH
-			-- `User_configuration' directory for user `name'
-		do
-			Result := named_user_dir (name, User_configuration)
-		end
-
-	data_dir_for_user (name: ZSTRING): EL_DIR_PATH
-			-- `User_data' directory for user `name'
-		do
-			Result := named_user_dir (name, User_data)
 		end
 
 	desktop: EL_DIR_PATH
@@ -139,24 +130,10 @@ feature -- Path constants
 			Result := home.joined_dir_path (user_data_steps)
 		end
 
-feature {NONE} -- Implementation
-
-	named_user_dir (name: ZSTRING; user_dir: EL_DIR_PATH): EL_DIR_PATH
-		local
-			steps: EL_PATH_STEPS
-		do
-			steps := user_profile; steps.last.share (name)
-			Result := steps.as_directory_path.joined_dir_path (user_dir.relative_path (user_profile))
-		end
-
-	user_data_steps: EL_PATH_STEPS
-			--
-		deferred
-		end
-
-feature {NONE} -- Constants
+feature -- Constants
 
 	User_configuration_steps: EL_PATH_STEPS
+			-- path to application configuration files relative to user profile directory
 		once
 			Result := Build_info.installation_sub_directory
 			Result.put_front (Execution.user_configuration_directory_name)

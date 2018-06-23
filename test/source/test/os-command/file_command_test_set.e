@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-06-21 10:34:29 GMT (Thursday 21st June 2018)"
+	revision: "4"
 
 class
 	FILE_COMMAND_TEST_SET
@@ -94,6 +94,17 @@ feature -- Tests
 
 			execute_and_assert (all_files_cmd (Work_area_dir), l_file_set)
 
+			lio.exit
+		end
+
+	test_dir_tree_delete
+		local
+			help_dir: EL_DIR_PATH
+		do
+			lio.enter ("test_dir_tree_delete")
+			help_dir := Work_area_dir.joined_dir_path (Help_pages)
+			OS.delete_tree (help_dir)
+			assert ("no longer exists", not help_dir.exists)
 			lio.exit
 		end
 

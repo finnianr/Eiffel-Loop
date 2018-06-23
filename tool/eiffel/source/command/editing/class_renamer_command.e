@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "8"
+	date: "2018-06-05 9:00:58 GMT (Tuesday 5th June 2018)"
+	revision: "9"
 
 class
 	CLASS_RENAMER_COMMAND
@@ -62,11 +62,12 @@ feature -- Basic operations
 						new_class_name.share (User_input.line ("New class name"))
 						new_class_name.left_adjust; new_class_name.right_adjust
 						editor.set_pattern_changed
-						Precursor; change_manifest_class_name
+						Precursor
+						lio.put_new_line
 					end
 				end
 			else
-				Precursor; change_manifest_class_name
+				Precursor
 			end
 		end
 
@@ -75,26 +76,6 @@ feature {NONE} -- Implementation
 	new_editor: CLASS_RENAMER
 		do
 			create Result.make (old_class_name, new_class_name)
-		end
-
-	change_manifest_class_name
-		local
-			lower_old_class_name: ZSTRING
-			found: BOOLEAN
-		do
-			log.enter ("change_manifest_class_name")
-			lower_old_class_name := old_class_name.as_lower
-			across manifest.file_list as source_path until found loop
-				if source_path.item.base.starts_with (lower_old_class_name)
-					and then source_path.item.base_sans_extension ~ lower_old_class_name
-				then
-					source_path.item.base.wipe_out
-					source_path.item.base.append (new_class_name.as_lower + ".e")
-					log.put_path_field ("Manifest", source_path.item); log.put_new_line
-					found := True
-				end
-			end
-			log.exit
 		end
 
 	old_class_name: ZSTRING

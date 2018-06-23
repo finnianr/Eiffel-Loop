@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "9"
+	date: "2018-06-14 11:31:21 GMT (Thursday 14th June 2018)"
+	revision: "10"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -167,6 +167,16 @@ feature -- Output
 			l_out := output
 
 			l_out.put_new_line
+			l_out.flush
+		end
+
+	put_new_line_x2
+		local
+			l_out: like output
+		do
+			l_out := output
+
+			l_out.put_new_line; l_out.put_new_line
 			l_out.flush
 		end
 

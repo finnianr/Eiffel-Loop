@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-24 10:49:19 GMT (Sunday 24th September 2017)"
-	revision: "2"
+	date: "2018-06-17 10:27:28 GMT (Sunday 17th June 2018)"
+	revision: "3"
 
 class
 	EL_TOKENIZED_STRING
@@ -83,8 +83,7 @@ feature -- Access
 	token (word: ZSTRING): CHARACTER_32
 			--
 		do
-			word_table.search (word)
-			if word_table.found then
+			if word_table.has_key (word) then
 				Result := word_table.last_code.to_character_32
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-22 10:08:16 GMT (Tuesday 22nd May 2018)"
-	revision: "11"
+	date: "2018-06-02 13:38:03 GMT (Saturday 2nd June 2018)"
+	revision: "12"
 
 class
 	EL_PATH_STEPS
@@ -47,9 +47,16 @@ inherit
 
 	EL_ZSTRING_ROUTINES
 		rename
-			Tab_string as Tab_zstring
+			joined as joined_string
 		export
 			{NONE} all
+		undefine
+			is_equal, copy, default_create
+		end
+
+	EL_STRING_CONSTANTS
+		rename
+			Tab_string as Tab_zstring
 		undefine
 			is_equal, copy, default_create
 		end

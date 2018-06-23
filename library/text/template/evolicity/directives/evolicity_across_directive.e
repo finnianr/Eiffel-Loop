@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-06-18 9:46:55 GMT (Monday 18th June 2018)"
+	revision: "3"
 
 class
 	EVOLICITY_ACROSS_DIRECTIVE
@@ -53,11 +53,20 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Iteration_object_name: STRING = "item"
+	Iteration_object_name: ZSTRING
+		once
+			Result := "item"
+		end
 
-	Iteration_key_object_name: STRING = "key"
+	Iteration_key_object_name: ZSTRING
 		-- Hash table iterator key name
+		once
+			Result := "key"
+		end
 
-	Loop_index_var_name: STRING = "cursor_index"
+	Loop_index_var_name: ZSTRING
+		once
+			Result := "cursor_index"
+		end
 
 end

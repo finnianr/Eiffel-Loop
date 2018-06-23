@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "7"
+	date: "2018-06-21 10:07:58 GMT (Thursday 21st June 2018)"
+	revision: "8"
 
 class
 	EL_LOG_MANAGER
@@ -43,6 +43,7 @@ feature {NONE} -- Initialization
 			create log_file_by_thread_id_table.make (11)
 			create log_file_by_object_id_table.make (11)
 			create thread_id_list.make (11)
+			console_manager_active := Args.word_option_exists ({EL_LOG_COMMAND_OPTIONS}.Thread_toolbar)
 		end
 
 feature -- Initialization
@@ -53,7 +54,7 @@ feature -- Initialization
 			delete_logs
 			create thread_registration_consumer.make
 
-			create thread_registration_queue.make
+			create thread_registration_queue.make (10)
 			thread_registration_queue.attach_consumer (thread_registration_consumer)
 		end
 

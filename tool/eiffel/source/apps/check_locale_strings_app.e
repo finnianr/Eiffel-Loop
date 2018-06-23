@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 11:27:32 GMT (Sunday 15th October 2017)"
-	revision: "2"
+	date: "2018-06-19 11:11:15 GMT (Tuesday 19th June 2018)"
+	revision: "4"
 
 class
 	CHECK_LOCALE_STRINGS_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [CHECK_LOCALE_STRINGS_COMMAND]
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [CHECK_LOCALE_STRINGS_COMMAND]
 		redefine
 			Option_name
 		end

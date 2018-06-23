@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "9"
+	date: "2018-06-16 13:27:16 GMT (Saturday 16th June 2018)"
+	revision: "10"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -120,6 +120,14 @@ feature -- Access
 		-- last windows code page
 
 feature -- Basic operations
+
+	exit (code: INTEGER)
+		local
+			exceptions: EXCEPTIONS
+		do
+			create exceptions
+			exceptions.die (code)
+		end
 
 	sleep (millisecs: DOUBLE)
 			--

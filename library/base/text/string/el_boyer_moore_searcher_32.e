@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-06-17 10:33:20 GMT (Sunday 17th June 2018)"
+	revision: "3"
 
 class
 	EL_BOYER_MOORE_SEARCHER_32
@@ -92,8 +92,7 @@ feature -- Access
 			from pos := start_index until found or pos > text.count - pattern_count + 1 loop
 				position_shifted := False
 				from i := pattern_count until position_shifted or i = 0 loop
-					shifts.search (text [pos + i - 1])
-					if shifts.found then
+					if shifts.has_key (text [pos + i - 1]) then
 						shift := shifts.found_item [i]
 						if shift /= 0 then
 							pos := pos + shift

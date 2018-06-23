@@ -1,0 +1,7 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			SIGNAL_MATH_I*
+				[$source SIGNAL_MATH]
+				[$source SIGNAL_MATH_PROXY]
+	]"

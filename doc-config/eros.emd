@@ -1,8 +1,26 @@
-An implementation of an experimental XML orientated remote procedure call protocol.
+EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver and is an experimental project
+that implements an Eiffel orientated XML remote procedure call protocol.
 
-**ECF Instructions**
+The two example projects demonstrate an
+[./example/net/EROS/test-clients/source/sub-applications/fourier_math_test_client_app.e.html EROS client] calling an
+[./example/net/EROS/server/source/sub-applications/fourier_math_server_app.e.html EROS server] using the EROS protocol.
 
-When including the ECF `eros.ecf' in your project it is necessary to define a custom variable
+The server program has an optional GUI mode that allows real time monitoring of network service threads
+with thread logging displayed in the console. Thread context switching is controlled by the graphical interface as
+shown in [./images/screenshot/console-thread-switch.png this screenshot]. Note that this shot was taken before the
+introduction of console color-highlighting to Eiffel-Loop.
+
+The network protocol operates in two alternative modes (set by a command switch):
+
+**1. ** plain text XML
+
+**2. ** binary compressed XML
+
+**Build Notes**
+
+When including the `eros.ecf' in your project it is necessary to define a custom variable
 `eros_server_enabled'. To build a server application set the value to `true'. To build a client
 application set value to `false'.
+
+
 

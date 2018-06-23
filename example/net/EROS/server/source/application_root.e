@@ -1,0 +1,34 @@
+note
+	description: "Application root"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-06-15 14:40:25 GMT (Friday 15th June 2018)"
+	revision: "6"
+
+class
+	APPLICATION_ROOT
+
+inherit
+	EL_MULTI_APPLICATION_ROOT [BUILD_INFO]
+
+create
+	make
+
+feature {NONE} -- Implementation
+
+	Application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
+			--
+		once
+			Result := <<
+				{FOURIER_MATH_SERVER_APP}, {CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP},
+
+				-- Installation
+				{EL_STANDARD_INSTALLER_APP}, {UNINSTALL_APP}
+			>>
+		end
+
+end

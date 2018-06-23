@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-06-19 10:10:31 GMT (Tuesday 19th June 2018)"
+	revision: "7"
 
 class
 	EL_VERSION_APP
@@ -59,13 +59,5 @@ feature {NONE} -- Constants
 	Option_name: STRING = "version"
 
 	Description: STRING = "Write application version information to a file"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{EL_VERSION_APP}, All_routines]
-			>>
-		end
 
 end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-17 16:09:53 GMT (Thursday 17th November 2016)"
-	revision: "2"
+	date: "2018-06-17 10:25:38 GMT (Sunday 17th June 2018)"
+	revision: "3"
 
 class
 	EL_SVG_BUTTON_PIXMAP_SET
@@ -127,8 +127,7 @@ feature {NONE} -- Implementation
 
 	pixmap (a_name: ZSTRING): like normal
 		do
-			pixmaps.search (a_name)
-			if pixmaps.found then
+			if pixmaps.has_key (a_name) then
 				Result := pixmaps.found_item
 			else
 				create Result

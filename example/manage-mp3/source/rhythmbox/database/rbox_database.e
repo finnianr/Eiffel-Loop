@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-22 16:14:29 GMT (Thursday 22nd February 2018)"
-	revision: "6"
+	date: "2018-06-18 12:19:59 GMT (Monday 18th June 2018)"
+	revision: "7"
 
 class
 	RBOX_DATABASE
@@ -52,6 +52,8 @@ inherit
 	EL_MODULE_OS
 
 	EL_MODULE_BUILD_INFO
+
+	EL_MODULE_URL
 
 create
 	make
@@ -174,7 +176,22 @@ feature -- Access attributes
 
 feature -- Factory
 
+	new_iradio_entry: RBOX_IRADIO_ENTRY
+		do
+			create Result.make (Current)
+		end
+
 	new_song: RBOX_SONG
+		do
+			create Result.make (Current)
+		end
+
+	new_cortina (a_source_song: RBOX_SONG; tanda_type: ZSTRING; a_track_number, a_duration: INTEGER): RBOX_CORTINA_SONG
+		do
+			create Result.make (Current, a_source_song, tanda_type, a_track_number, a_duration)
+		end
+
+	new_ignored_entry: RBOX_IGNORED_ENTRY
 		do
 			create Result.make (Current)
 		end
@@ -394,7 +411,7 @@ feature -- Element change
 						dj_playlists.extend (create {DJ_EVENT_PLAYLIST}.make (Current, playlist.item, dj_name, default_title))
 						dj_playlists.last.set_output_path (events_file_path)
 
-						create entry.make
+						entry := new_ignored_entry
 						entry.set_genre (Playlist_genre)
 						entry.set_title (dj_playlists.last.title)
 						entry.set_media_type (Text_pyxis)
@@ -404,10 +421,6 @@ feature -- Element change
 					end
 				end
 			end
-		end
-
-	new_dj_playlist_entry (playlist: DJ_EVENT_PLAYLIST): RBOX_IGNORED_ENTRY
-		do
 		end
 
 feature -- Basic operations
@@ -636,6 +649,18 @@ feature {RHYTHMBOX_MUSIC_MANAGER} -- Tag editing
 			end
 		end
 
+feature {RBOX_IRADIO_ENTRY, RBOX_PLAYLIST} -- location codecs
+
+	decoded_location (path: STRING): EL_FILE_PATH
+		do
+			Result := Url.remove_protocol_prefix (Url.decoded_path (path))
+		end
+
+	encoded_location_uri (uri: EL_FILE_URI_PATH): STRING
+		do
+			Result := Url.encoded_uri_custom (uri , Unescaped_location_characters, False)
+		end
+
 feature {NONE} -- Evolicity reflection
 
 	getter_function_table: like getter_functions
@@ -672,8 +697,8 @@ feature {NONE} -- Build from XML
 			create Result.make (<<
 				["@version", agent do version := node.to_real end],
 				["entry[@type='song']", agent add_song_entry],
-				["entry[@type='iradio']", agent do set_next_context (create {RBOX_IRADIO_ENTRY}.make) end],
-				["entry[@type='ignore']", agent do set_next_context (create {RBOX_IGNORED_ENTRY}.make) end]
+				["entry[@type='iradio']", agent do set_next_context (new_iradio_entry) end],
+				["entry[@type='ignore']", agent do set_next_context (new_ignored_entry) end]
 			>>)
 		end
 

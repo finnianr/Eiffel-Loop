@@ -10,6 +10,8 @@
 
 * Added new abstractions: `EL_WRITEABLE` and `EL_READABLE` and changed a number of existing classes to use them. See Eiffel user group article: [The missing abstractions: READABLE and WRITEABLE](https://groups.google.com/forum/#!topic/eiffel-users/7LrzqAZ4WzA)
 
+* Removed dependency on EL logging library `logging.ecf` so developers preferred logging library can be used.
+
 ## BASE library
 
 * Added the routines `push_cursor` and `pop_cursor` to class `EL_CHAIN` to make the saving and restoring of the cursor position both more efficient and more convenient. This is especially true for the implementation in class `EL_ARRAYED_LIST` as no `CURSOR` objects are created.

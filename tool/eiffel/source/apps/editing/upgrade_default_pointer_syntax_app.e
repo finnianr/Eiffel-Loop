@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-29 9:51:27 GMT (Sunday 29th April 2018)"
-	revision: "4"
+	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
+	revision: "5"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_APP

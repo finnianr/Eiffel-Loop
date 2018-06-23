@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-28 11:09:34 GMT (Saturday 28th April 2018)"
-	revision: "1"
+	date: "2018-05-28 10:39:05 GMT (Monday 28th May 2018)"
+	revision: "2"
 
 class
 	PP_BUTTON_PARAMETER
@@ -27,7 +27,6 @@ feature {NONE} -- Initialization
 		-- use last part as value, remainder as name
 		local
 			parts: EL_SPLIT_STRING_LIST [STRING]
-			l_name: STRING
 		do
 			create parts.make (field_name, once "_")
 			parts.finish

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-08 12:53:16 GMT (Sunday 8th April 2018)"
-	revision: "9"
+	date: "2018-06-17 11:28:45 GMT (Sunday 17th June 2018)"
+	revision: "10"
 
 class
 	ZSTRING_TEST_SET
@@ -236,24 +236,6 @@ feature -- Element change tests
 			end
 		end
 
-	test_xml_escape
-		local
-			xml_escaper: EL_XML_ZSTRING_ESCAPER; xml_escaper_32: EL_XML_STRING_32_ESCAPER
-		do
-			create xml_escaper.make; create xml_escaper_32.make
-			escape_test ("XML basic", xml_escaper, xml_escaper_32)
-
-			create xml_escaper.make_128_plus; create xml_escaper_32.make_128_plus
-			escape_test ("XML 128 plus", xml_escaper, xml_escaper_32)
-		end
-
-	test_bash_escape
-		local
-			bash_escaper: EL_BASH_PATH_ZSTRING_ESCAPER; bash_escaper_32: EL_BASH_PATH_STRING_32_ESCAPER
-		do
-			create bash_escaper.make; create bash_escaper_32.make
-			escape_test ("BASH", bash_escaper, bash_escaper_32)
-		end
 
 	test_insert_character
 		note
@@ -507,40 +489,6 @@ feature -- Element change tests
 					j := j + 1
 				end
 				i := i + 1
-			end
-		end
-
-	test_unescape
-		note
-			testing:	"covers/{ZSTRING}.unescape"
-		local
-			str: ZSTRING; str_32: STRING_32
-			escape_table: EL_ZSTRING_UNESCAPER; escape_table_32: like new_escape_table
-			escape_character: CHARACTER_32
-		do
-			across << ('\').to_character_32, 'л' >> as l_escape_character loop
-				escape_character := l_escape_character.item
-				create str_32.make (Text_russian_and_english.count)
-				str_32.append_character (escape_character)
-				str_32.append_character (escape_character)
-
-				escape_table_32 := new_escape_table
-				escape_table_32 [escape_character] := escape_character
-
-				across Text_russian_and_english as character loop
-					escape_table_32.search (character.item)
-					if escape_table_32.found then
-						str_32.append_character (escape_character)
-					end
-					str_32.append_character (character.item)
-				end
-				str_32 [str_32.index_of (' ', 1)] := escape_character
-				str := str_32
-
-				create escape_table.make (escape_character, escape_table_32)
-				String_32.unescape (str_32, escape_character, escape_table_32)
-				str.unescape (escape_table)
-				assert ("unescape OK", str.to_unicode ~ str_32)
 			end
 		end
 
@@ -829,6 +777,76 @@ feature -- Duplication tests
 			end
 		end
 
+feature -- Escape tests
+
+	test_bash_escape
+		local
+			bash_escaper: EL_BASH_PATH_ZSTRING_ESCAPER; bash_escaper_32: EL_BASH_PATH_STRING_32_ESCAPER
+		do
+			create bash_escaper.make; create bash_escaper_32.make
+			escape_test ("BASH", bash_escaper, bash_escaper_32)
+		end
+
+	test_xml_escape
+		local
+			xml_escaper: EL_XML_ZSTRING_ESCAPER; xml_escaper_32: EL_XML_STRING_32_ESCAPER
+		do
+			create xml_escaper.make; create xml_escaper_32.make
+			escape_test ("XML basic", xml_escaper, xml_escaper_32)
+
+			create xml_escaper.make_128_plus; create xml_escaper_32.make_128_plus
+			escape_test ("XML 128 plus", xml_escaper, xml_escaper_32)
+		end
+
+feature -- Unescape tests
+
+	test_unescape
+		note
+			testing:	"covers/{ZSTRING}.unescape"
+		local
+			str: ZSTRING; str_32: STRING_32
+			escape_table: EL_ZSTRING_UNESCAPER; escape_table_32: like new_escape_table
+			escape_character: CHARACTER_32
+		do
+			across << ('\').to_character_32, 'л' >> as l_escape_character loop
+				escape_character := l_escape_character.item
+				create str_32.make (Text_russian_and_english.count)
+				str_32.append_character (escape_character)
+				str_32.append_character (escape_character)
+
+				escape_table_32 := new_escape_table
+				escape_table_32 [escape_character] := escape_character
+
+				across Text_russian_and_english as character loop
+					escape_table_32.search (character.item)
+					if escape_table_32.found then
+						str_32.append_character (escape_character)
+					end
+					str_32.append_character (character.item)
+				end
+				str_32 [str_32.index_of (' ', 1)] := escape_character
+				str := str_32
+
+				create escape_table.make (escape_character, escape_table_32)
+				String_32.unescape (str_32, escape_character, escape_table_32)
+				str.unescape (escape_table)
+				assert ("unescape OK", str.to_unicode ~ str_32)
+			end
+		end
+
+	test_substitution_marker_unescape
+		note
+			testing:	"covers/{ZSTRING}.unescape", "covers/{ZSTRING}.unescaped",
+			 	"covers/{ZSTRING}.make_unescaped"
+		local
+			str: ZSTRING
+		do
+			str := "1 %%S 3"
+			str.unescape (Substitution_mark_unescaper)
+			assert ("has substitution marker", str.same_string ("1 %S 3"))
+		end
+
+
 feature {NONE} -- Implementation
 
 	change_case (lower_32, upper_32: STRING_32)
@@ -839,26 +857,6 @@ feature {NONE} -- Implementation
 			assert ("to_upper OK", lower.as_upper.to_unicode ~ upper_32)
 			assert ("to_lower OK", upper.as_lower.to_unicode ~ lower_32)
 		end
-
-	escape_test (name: STRING; escaper: EL_ZSTRING_ESCAPER; escaper_32: EL_STRING_32_ESCAPER)
-		local
-			str_32: STRING_32; str: ZSTRING
-		do
-			across << Text_russian_and_english, Vivalidi_title, Lower_case_characters >> as string loop
-				str_32 := string.item.twin
-				String_32.replace_character (str_32, '+', '&')
-				str := str_32
-				assert (name + " escape OK", escaper.escaped (str, False).to_unicode ~ escaper_32.escaped (str_32, False))
-			end
-		end
-
-	new_escape_table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
-		do
-			create Result.make (7)
-			Result ['t'] := '%T'
-			Result ['ь'] := 'в'
-			Result ['и'] := 'N'
- 		end
 
 	do_pruning_test (type: STRING)
 		local
@@ -889,6 +887,26 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
+
+	escape_test (name: STRING; escaper: EL_ZSTRING_ESCAPER; escaper_32: EL_STRING_32_ESCAPER)
+		local
+			str_32: STRING_32; str: ZSTRING
+		do
+			across << Text_russian_and_english, Vivalidi_title, Lower_case_characters >> as string loop
+				str_32 := string.item.twin
+				String_32.replace_character (str_32, '+', '&')
+				str := str_32
+				assert (name + " escape OK", escaper.escaped (str, False).to_unicode ~ escaper_32.escaped (str_32, False))
+			end
+		end
+
+	new_escape_table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
+		do
+			create Result.make (7)
+			Result ['t'] := '%T'
+			Result ['ь'] := 'в'
+			Result ['и'] := 'N'
+ 		end
 
 	test_concatenation (type: STRING)
 		local
@@ -929,4 +947,14 @@ feature {NONE} -- String 8 constants
 
 	Prune_trailing: STRING = "prune_trailing"
 
+feature {NONE} -- Constants
+
+	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
+		local
+			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
+		once
+			create table.make_equal (3)
+			table ['S'] := '%S'
+			create Result.make ('%%', table)
+		end
 end

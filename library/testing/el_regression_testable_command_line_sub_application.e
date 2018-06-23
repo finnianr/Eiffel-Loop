@@ -9,19 +9,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-18 11:08:09 GMT (Wednesday 18th October 2017)"
-	revision: "9"
+	date: "2018-06-19 10:45:39 GMT (Tuesday 19th June 2018)"
+	revision: "10"
 
 deferred class
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [C]
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [C]
 		rename
 			initialize as normal_initialize,
 			run as normal_run
 		undefine
-			new_lio, new_log_manager, log_filter_list
+			new_log_manager, new_lio, new_log_filter_list
 		end
 
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION

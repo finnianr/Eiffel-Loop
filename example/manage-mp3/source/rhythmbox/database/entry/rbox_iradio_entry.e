@@ -6,39 +6,34 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "16"
+	date: "2018-06-18 12:20:24 GMT (Monday 18th June 2018)"
+	revision: "17"
 
 class
 	RBOX_IRADIO_ENTRY
 
 inherit
 	EL_EIF_OBJ_BUILDER_CONTEXT
-		rename
-			make_default as make
 		undefine
 			is_equal
 		redefine
-			make, on_context_exit
+			make_default, on_context_exit
 		end
 
 	EVOLICITY_SERIALIZEABLE
-		rename
-			make_default as make
 		undefine
 			is_equal
 		redefine
-			make, getter_function_table, Template
+			make_default, getter_function_table, Template
 		end
 
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			make_default as make,
 			field_included as is_string_or_expanded_field,
 			export_name as to_kebab_case,
 			import_name as import_default
 		redefine
-			make, Except_fields
+			make_default, Except_fields
 		end
 
 	EL_SETTABLE_FROM_XML_NODE
@@ -78,13 +73,19 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 			--
 		do
 			Precursor {EL_REFLECTIVELY_SETTABLE}
 			create location
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 			Precursor {EVOLICITY_SERIALIZEABLE}
+		end
+
+	make (a_database: like database)
+		do
+			make_default
+			database := a_database; music_dir := a_database.music_dir
 		end
 
 feature -- Rhythmbox XML fields
@@ -124,8 +125,10 @@ feature -- Access
 
 	url_encoded_location_uri: ZSTRING
 		do
-			Result := Url.encoded_uri_custom (location_uri , Unescaped_location_characters, False)
+			Result := database.encoded_location_uri (location_uri)
 		end
+
+	music_dir: EL_DIR_PATH
 
 feature -- Element change
 
@@ -133,14 +136,7 @@ feature -- Element change
 			--
 		do
 			location := a_location
-		end
-
-	set_location_from_uri (a_uri: ZSTRING)
-		do
-			location := Url.remove_protocol_prefix (a_uri)
 			location.enable_out_abbreviation
-		ensure
-			reversible: a_uri ~ location_uri
 		end
 
 	set_media_type (a_media_type: like media_type)
@@ -148,13 +144,22 @@ feature -- Element change
 			media_type := a_media_type
 		end
 
+feature {NONE} -- Internal Attributes
+
+	database: RBOX_DATABASE
+
 feature {NONE} -- Build from XML
+
+	build_location
+		do
+			set_location (database.decoded_location (node.to_string_8))
+		end
 
 	building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
 			Result := building_actions_for_type ({ZSTRING}, Text_element_node) +
-				["location/text()", agent do set_location_from_uri (Url.decoded_path (node.to_string_8)) end]
+				["location/text()", agent build_location]
 		end
 
 	on_context_exit
