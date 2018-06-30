@@ -16,14 +16,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-16 16:36:02 GMT (Saturday 16th June 2018)"
-	revision: "5"
+	date: "2018-06-26 10:36:33 GMT (Tuesday 26th June 2018)"
+	revision: "6"
 
 class
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP
 
 inherit
 	EL_MENU_DESKTOP_ENVIRONMENT_I
+		undefine
+			command_path
 		redefine
 			make
 		end

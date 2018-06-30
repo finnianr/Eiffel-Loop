@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-23 8:58:26 GMT (Saturday 23rd June 2018)"
-	revision: "4"
+	date: "2018-06-29 12:31:22 GMT (Friday 29th June 2018)"
+	revision: "5"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -29,13 +29,15 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_menu_name: like menu_name)
+	make (a_application_list: like application_list)
+		require
+			has_main: application_list.has_main
+			has_uninstall: application_list.has_uninstaller
 		local
 			l_template: ZSTRING
 		do
 			Console.show_all (Lio_visible_types)
-
-			menu_name := a_menu_name
+			application_list := a_application_list
 			-- For Linux this is: /opt/Uninstall
 			output_path := Directory.Applications + ("Uninstall/uninstall-" + menu_name)
 			if_installer_debug_enabled (output_path)
@@ -103,6 +105,11 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	menu_name: ZSTRING
+		do
+			Result := application_list.main.desktop.menu_name
+		end
+
 	write_remove_directory (dir_path: EL_DIR_PATH)
 		do
 			script.put_string (remove_dir_and_parent_commands #$ [dir_path.escaped, dir_path.parent.escaped])
@@ -116,7 +123,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	menu_name: ZSTRING
+	application_list: EL_SUB_APPLICATION_LIST
 
 	script: EL_PLAIN_TEXT_FILE
 
@@ -132,7 +139,7 @@ feature {NONE} -- Evolicity fields
 
 				["completion_message",			 agent completion_message],
 				["description",					 agent description],
-				["title",							 agent: ZSTRING do Result := menu_name end],
+				["title",							 agent: ZSTRING do Result := application_list.uninstaller.Name end],
 				["return_prompt",					 agent: ZSTRING do Result := return_prompt end]
 			>>)
 		end

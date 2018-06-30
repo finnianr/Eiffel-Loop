@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-03 13:08:23 GMT (Saturday 3rd February 2018)"
-	revision: "3"
+	date: "2018-06-29 10:33:02 GMT (Friday 29th June 2018)"
+	revision: "4"
 
 class
 	EL_CAPTURED_OS_COMMAND
@@ -22,7 +22,7 @@ inherit
 		undefine
 			template_name, new_temporary_name, temporary_error_file_path
 		redefine
-			make_default
+			make_default, do_command
 		end
 
 create
@@ -43,6 +43,12 @@ feature -- Access
 		-- captured output
 
 feature {NONE} -- Implementation
+
+	do_command (a_system_command: like system_command)
+		do
+			lines.wipe_out
+			Precursor {EL_CAPTURED_OS_COMMAND_I} (a_system_command)
+		end
 
 	do_with_lines (a_lines: like adjusted_lines)
 		do

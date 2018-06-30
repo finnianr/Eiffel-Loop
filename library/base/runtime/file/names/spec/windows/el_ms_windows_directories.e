@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-06-28 14:21:02 GMT (Thursday 28th June 2018)"
+	revision: "5"
 
 class
 	EL_MS_WINDOWS_DIRECTORIES
@@ -35,6 +35,12 @@ feature -- Access
 	User, User_profile_dir: EL_DIR_PATH
 		once
 			Result := win_folder_path (Folder.user_profile)
+		end
+
+	My_documents: EL_DIR_PATH
+			--
+		once
+			Result := win_folder_path (Folder.my_documents)
 		end
 
 	Program_files_dir: EL_DIR_PATH

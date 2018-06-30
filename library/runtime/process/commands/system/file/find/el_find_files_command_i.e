@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:30:18 GMT (Wednesday 21st February 2018)"
-	revision: "3"
+	date: "2018-06-28 16:08:13 GMT (Thursday 28th June 2018)"
+	revision: "4"
 
 deferred class
 	EL_FIND_FILES_COMMAND_I
@@ -38,10 +38,10 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_file_pattern (a_name_pattern: like name_pattern)
+	set_file_pattern (a_name_pattern: READABLE_STRING_GENERAL)
 			--
 		do
-			name_pattern := a_name_pattern
+			create name_pattern.make_from_general (a_name_pattern)
 		end
 
 feature {NONE} -- Implementation

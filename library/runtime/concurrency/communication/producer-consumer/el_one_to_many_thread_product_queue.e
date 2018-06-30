@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-06-28 12:14:22 GMT (Thursday 28th June 2018)"
+	revision: "3"
 
 class
 	EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
@@ -30,7 +30,7 @@ feature -- Initialization
 	make (consumer_count_max: INTEGER; thread_manager: EL_THREAD_MANAGER)
 			--
 		do
-			make_product_queue
+			make_product_queue (10)
 			create available_consumers.make (consumer_count_max)
 			create all_consumers.make (consumer_count_max)
 			attach_delegator (create {like delegator}.make)

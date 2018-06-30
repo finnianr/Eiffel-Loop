@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-20 12:26:10 GMT (Wednesday 20th June 2018)"
-	revision: "6"
+	date: "2018-06-26 12:17:21 GMT (Tuesday 26th June 2018)"
+	revision: "7"
 
 class
 	EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP
@@ -15,12 +15,12 @@ class
 inherit
 	EL_UNINSTALL_APP_MENU_DESKTOP_ENV_I
 		undefine
-			make, Command_args_template
+			application_command, make, Command_args_template
 		end
 
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP
 		undefine
-			command_path
+			launch_command, command_path
 		redefine
 			make, add_menu_entry, save_as, launcher_exists, remove_menu_entry, Command_args_template
 		end
@@ -128,7 +128,8 @@ feature {NONE} -- Constants
 
 	Command_args_template: STRING
 		once
-			create Result.make_empty
+			-- If left empty you get a "template not found" exception
+			Result := "$command_options"
 		end
 
 	HKLM_uninstall_path: EL_DIR_PATH

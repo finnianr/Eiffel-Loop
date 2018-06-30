@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-21 19:32:07 GMT (Thursday 21st June 2018)"
-	revision: "9"
+	date: "2018-06-29 12:09:05 GMT (Friday 29th June 2018)"
+	revision: "10"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -31,7 +31,7 @@ class
 inherit
 	EL_SUB_APPLICATION
 		redefine
-			option_name
+			option_name, Data_directories
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
@@ -57,6 +57,13 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 	initialize
 			--
 		do
+		end
+
+feature -- Access
+
+	Name: ZSTRING
+		once
+			Result := Name_template #$ [Application_list.Main_launcher.name]
 		end
 
 feature -- Basic operations
@@ -130,11 +137,6 @@ feature {NONE} -- Installer constants
 			end
 		end
 
-	Name: ZSTRING
-		once
-			Result := Name_template #$ [Application_list.Main_launcher.name]
-		end
-
 	Name_template: ZSTRING
 		once
 			Locale.set_next_translation ("Uninstall %S")
@@ -142,6 +144,12 @@ feature {NONE} -- Installer constants
 		end
 
 feature {NONE} -- Application constants
+
+	Data_directories: ARRAY [EL_DIR_PATH]
+		-- so nothing is created in /home/root
+		once
+			create Result.make_empty
+		end
 
 	Description: ZSTRING
 		once

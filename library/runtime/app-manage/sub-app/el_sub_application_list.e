@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-16 13:04:56 GMT (Saturday 16th June 2018)"
-	revision: "3"
+	date: "2018-06-29 12:31:22 GMT (Friday 29th June 2018)"
+	revision: "4"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -78,6 +78,19 @@ feature -- Access
 			end
 		end
 
+	uninstaller: EL_STANDARD_UNINSTALL_APP
+		require
+			has_uninstall: has_uninstaller
+		local
+			l_found: BOOLEAN
+		do
+			across installable_list as installable until l_found loop
+				if attached {EL_STANDARD_UNINSTALL_APP} installable.item as app then
+					Result := app
+				end
+			end
+		end
+
 	Main_launcher: EL_DESKTOP_MENU_ITEM
 		require
 			has_main_application: has_main
@@ -111,7 +124,9 @@ feature -- Basic operations
 
 	install_menus
 		do
-			Uninstall_script.serialize
+			if has_uninstaller then
+				Uninstall_script.serialize
+			end
 			across installable_list as app loop
 				app.item.install
 			end
@@ -151,6 +166,14 @@ feature -- Status query
 			Result := installable_list.there_exists (agent {EL_INSTALLABLE_SUB_APPLICATION}.is_main)
 		end
 
+	has_uninstaller: BOOLEAN
+		-- `True' if there is a standard uninstaller
+		do
+			Result := across installable_list as installable some
+				attached {EL_STANDARD_UNINSTALL_APP} installable.item
+			end
+		end
+
 	select_first: BOOLEAN
 		-- if `True' first application selected by default
 
@@ -180,9 +203,10 @@ feature -- Constants
 
 	Uninstall_script: EL_UNINSTALL_SCRIPT_I
 		require
-			has_main_application: has_main
+			has_uninstall: has_uninstaller
+			has_main: has_main
 		once
-			create {EL_UNINSTALL_SCRIPT_IMP} Result.make (main.desktop.menu_name)
+			create {EL_UNINSTALL_SCRIPT_IMP} Result.make (Current)
 		end
 
 end

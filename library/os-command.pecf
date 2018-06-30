@@ -28,6 +28,9 @@ system:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library:
+			name = encoding; location = "$ISE_EIFFEL/library/encoding/encoding.ecf"
+
+		library:
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		library:

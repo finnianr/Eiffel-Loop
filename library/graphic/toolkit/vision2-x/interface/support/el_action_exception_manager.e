@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-06-30 11:02:22 GMT (Saturday 30th June 2018)"
+	revision: "5"
 
 class
-	EL_ACTION_EXCEPTION_MANAGER [D -> EL_ERROR_DIALOG create make end]
+	EL_ACTION_EXCEPTION_MANAGER [D -> EL_DIALOG create make end]
 
 inherit
 	EXCEPTION_MANAGER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:28:47 GMT (Wednesday 21st February 2018)"
-	revision: "3"
+	date: "2018-06-29 10:25:23 GMT (Friday 29th June 2018)"
+	revision: "4"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -17,22 +17,45 @@ inherit
 
 	EL_OS_IMPLEMENTATION
 
+	EL_MODULE_UTF
+
+	SYSTEM_ENCODINGS
+
+	EL_ZSTRING_ROUTINES
+		export
+			{NONE} all
+		end
+
 feature -- Basic operations
 
 	new_output_lines (file_path: EL_FILE_PATH): EL_ZSTRING_LIST
 		local
-			file: RAW_FILE; raw_text: NATIVE_STRING; list: LIST [STRING_32]
+			file: RAW_FILE; raw_text: NATIVE_STRING; list: LIST [READABLE_STRING_GENERAL]
+			line: ZSTRING; l_encoding: ENCODING
 		do
 			create file.make_open_read (file_path)
 			file.read_stream (file.count)
-			create raw_text.make_from_raw_string (file.last_string)
 			file.close
-			list := raw_text.string.split ('%N')
+			if UTF.is_valid_utf_16le_string_8 (file.last_string) then
+				create raw_text.make_from_raw_string (file.last_string)
+				list := raw_text.string.split ('%N')
+			else
+				-- Convert from console encoding
+				l_encoding := Console_encoding
+				create {EL_ZSTRING_LIST} list.make (file.last_string.occurrences ('%N') + 1)
+				across file.last_string.split ('%N') as l_line loop
+					l_encoding.convert_to (utf32, l_line.item)
+					if l_encoding.last_conversion_successful then
+						list.extend (as_zstring (l_encoding.last_converted_string_32))
+					end
+				end
+			end
 			create Result.make (list.count)
 			from list.start until list.after loop
-				list.item.prune_all_trailing ('%R')
-				if not list.item.is_empty then
-					Result.extend (list.item)
+				create line.make_from_general (list.item)
+				line.prune_all_trailing ('%R')
+				if not line.is_empty then
+					Result.extend (line)
 				end
 				list.forth
 			end

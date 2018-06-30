@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-23 8:32:50 GMT (Saturday 23rd June 2018)"
-	revision: "6"
+	date: "2018-06-28 11:49:18 GMT (Thursday 28th June 2018)"
+	revision: "7"
 
 deferred class
 	EL_OPERATING_ENVIRONMENT_I
@@ -47,7 +47,7 @@ feature -- Access
 
 	user_name: ZSTRING
 		do
-			Result := Directory.user_profile.base
+			Result := Directory.home.base
 		end
 
 feature -- Constants

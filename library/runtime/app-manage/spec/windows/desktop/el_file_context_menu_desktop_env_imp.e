@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 10:24:13 GMT (Tuesday 5th June 2018)"
-	revision: "4"
+	date: "2018-06-26 12:14:41 GMT (Tuesday 26th June 2018)"
+	revision: "5"
 
 class
 	EL_FILE_CONTEXT_MENU_DESKTOP_ENV_IMP
@@ -44,11 +44,8 @@ feature {EL_DESKTOP_ENVIRONMENT_I} -- Constants
 			create Result
 		end
 
-	Launch_script_template: STRING =
+	Launch_script_template: STRING = ""
 		-- Substitution template
-
-	"[
-	]"
 
 
 end

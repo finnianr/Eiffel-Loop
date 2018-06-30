@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-21 16:36:29 GMT (Thursday 21st June 2018)"
-	revision: "17"
+	date: "2018-06-28 13:02:59 GMT (Thursday 28th June 2018)"
+	revision: "18"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -217,7 +217,7 @@ feature {NONE} -- Implementation
 			if ctrl_c_pressed then
 				on_operating_system_signal
 			else
-				across User_data_directories as dir loop
+				across Data_directories as dir loop
 					if not dir.item.exists then
 						File_system.make_directory (dir.item)
 					end
@@ -332,9 +332,9 @@ feature {EL_DESKTOP_ENVIRONMENT_I} -- Constants
 			]"
 		end
 
-	User_data_directories: ARRAY [EL_DIR_PATH]
+	Data_directories: ARRAY [EL_DIR_PATH]
 		once
-			Result := << Directory.User_data, Directory.User_configuration >>
+			Result := << Directory.App_data, Directory.App_configuration >>
 		end
 
 note

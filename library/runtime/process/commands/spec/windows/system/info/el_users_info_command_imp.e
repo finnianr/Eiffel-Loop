@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-23 10:07:20 GMT (Saturday 23rd June 2018)"
-	revision: "4"
+	date: "2018-06-29 11:15:39 GMT (Friday 29th June 2018)"
+	revision: "5"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -32,34 +32,33 @@ create
 
 feature {NONE} -- Implementation
 
-	adjusted_lines (lines: like new_output_lines): EL_ZSTRING_LIST
-			-- Remove Public folder name if it exists
-		local
-			public_path: EL_DIR_PATH
+	adjusted_lines (lines: EL_ZSTRING_LIST): EL_ZSTRING_LIST
 		do
-			if attached {STRING_32} Execution_environment.item ("PUBLIC") as public then
-				public_path := public
-			else
-				create public_path
-			end
-			from lines.start until lines.after loop
-				if lines.item ~ public_path.base then
-					lines.remove
-				else
-					lines.forth
-				end
-			end
-			Result := lines
+			create Result.make (lines.count)
+			lines.do_if (agent Result.extend, agent is_user)
 		end
 
-	new_users_dir: EL_DIR_PATH
+	is_user (name: ZSTRING): BOOLEAN
+		-- True if name is a user recognised by "net user" command
 		do
-			Result := Directory.user_profile.parent
+			Net_user_cmd.put_string (Var_name, name)
+			Net_user_cmd.execute
+			Result := not Net_user_cmd.lines.is_empty
 		end
 
 feature {NONE} -- Constants
 
 	Template: STRING = "dir /B /AD-S-H $path"
 		-- Directories that do not have the hidden or system attribute set
+
+	Net_user_cmd: EL_CAPTURED_OS_COMMAND
+		once
+			create Result.make_with_name ("net-user", "net user $name")
+		end
+
+	Var_name: ZSTRING
+		once
+			Result := "name"
+		end
 
 end

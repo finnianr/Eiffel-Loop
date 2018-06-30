@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "7"
+	date: "2018-06-28 16:29:21 GMT (Thursday 28th June 2018)"
+	revision: "8"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -32,6 +32,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	make (tree_dir: EL_DIR_PATH)
 		do
 			make_shell ("LOCALIZATION")
+			create unchecked_translations.make (0)
 			file_list := OS.file_list (tree_dir, "*.pyx")
 		end
 
@@ -44,18 +45,33 @@ feature -- Basic operations
 
 	find_unchecked
 		local
-			list: EL_ZSTRING_LIST; language: STRING
+			language: STRING
 		do
-			create list.make (0)
 			language := input_language
-			file_list.do_all (agent add_unchecked (list, language, ?))
+			unchecked_translations.wipe_out
+			file_list.do_all (agent add_unchecked (language, ?))
+			across unchecked_translations as unchecked loop
+				lio.put_path_field ("Pyxis", unchecked.item.file_path)
+				lio.tab_right
+				lio.put_new_line
+				across unchecked.item as name loop
+					lio.put_line (name.item)
+				end
+				lio.tab_left
+				lio.put_new_line
+			end
 		end
 
 feature {EQA_TEST_SET} -- Implementation
 
-	add_unchecked (list: EL_ZSTRING_LIST; language: STRING; file_path: EL_FILE_PATH)
+	add_unchecked (language: STRING; file_path: EL_FILE_PATH)
+		local
+			list: UNCHECKED_TRANSLATIONS_LIST
 		do
-			list.append (create {UNCHECKED_TRANSLATIONS_LIST}.make (language, file_path))
+			create list.make (language, file_path)
+			if not list.is_empty then
+				unchecked_translations.extend (list)
+			end
 		end
 
 	add_file_check_attribute (file_path: EL_FILE_PATH)
@@ -99,6 +115,8 @@ feature {EQA_TEST_SET} -- Implementation
 feature {EQA_TEST_SET} -- Internal attributes
 
 	file_list: like OS.file_list
+
+	unchecked_translations: EL_ARRAYED_LIST [UNCHECKED_TRANSLATIONS_LIST]
 
 feature {NONE} -- Factory
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-23 7:56:06 GMT (Saturday 23rd June 2018)"
-	revision: "4"
+	date: "2018-06-28 20:08:51 GMT (Thursday 28th June 2018)"
+	revision: "5"
 
 class
 	EL_STANDARD_DIRECTORY_IMP
@@ -19,14 +19,43 @@ inherit
 
 feature -- Access
 
+	Adapted_home: EL_DIR_PATH
+		-- returns `Home' or /home/root if user is root (useful for uninstaller)
+		once
+			Result := Home
+			if Result.step_count = 2 then
+				Result := "/home/root"
+			end
+		end
+
+	App_data: EL_DIR_PATH
+		once
+			Result := Adapted_home.joined_dir_path (Relative_app_data)
+		end
+
 	Applications: EL_DIR_PATH
 		once
 			Result := "/opt"
 		end
 
+	Configuration: EL_DIR_PATH
+		once
+			Result := Adapted_home.joined_dir_path (".config")
+		end
+
+	Documents: EL_DIR_PATH
+		once
+			Result := Home.joined_dir_path ("Documents")
+		end
+
 	Desktop: EL_DIR_PATH
 		once
-			Result := User_profile.joined_dir_path ("Desktop")
+			Result := Home.joined_dir_path ("Desktop")
+		end
+
+	Home: EL_DIR_PATH
+		once
+			Result := environ ("HOME")
 		end
 
 	Desktop_common: EL_DIR_PATH
@@ -34,16 +63,20 @@ feature -- Access
 			Result := Desktop
 		end
 
-	User, User_profile: EL_DIR_PATH
+	user_local: EL_DIR_PATH
 		once
-			create Result.make_from_path (Home_directory_path)
+			Result := Home.joined_dir_path (".local/share")
 		end
 
-	User_data_steps: EL_PATH_STEPS
+	Users: EL_DIR_PATH
+		once
+			Result := "/home"
+		end
+
+	Relative_app_data: EL_DIR_PATH
 			--
 		once
-			Result := Build_info.installation_sub_directory
-			Result.first.prepend (Execution.Data_dir_name_prefix)
+			Result := Execution.Data_dir_name_prefix + Build_info.installation_sub_directory.to_string
 		end
 
 	System_command: EL_DIR_PATH

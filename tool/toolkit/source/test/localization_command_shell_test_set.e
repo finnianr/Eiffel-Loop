@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "2"
+	date: "2018-06-28 16:26:53 GMT (Thursday 28th June 2018)"
+	revision: "3"
 
 class
 	LOCALIZATION_COMMAND_SHELL_TEST_SET
@@ -32,7 +32,10 @@ feature -- Tests
 			shell.add_check_attribute
 
 			create list.make_empty
-			shell.file_list.do_all (agent shell.add_unchecked (list, "de", ?))
+			shell.file_list.do_all (agent shell.add_unchecked ("de", ?))
+			across shell.unchecked_translations as unchecked loop
+				list.append (unchecked.item)
+			end
 			assert ("Same set", list.count = Unchecked_de_list.count and then list.for_all (agent Unchecked_de_list.has))
 			log.exit
 		end

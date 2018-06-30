@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-23 8:38:39 GMT (Saturday 23rd June 2018)"
-	revision: "4"
+	date: "2018-06-28 14:45:48 GMT (Thursday 28th June 2018)"
+	revision: "5"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -25,13 +25,6 @@ inherit
 
 create
 	make
-
-feature {NONE} -- Implementation
-
-	new_users_dir: EL_DIR_PATH
-		do
-			Result := "/home"
-		end
 
 feature {NONE} -- Constants
 

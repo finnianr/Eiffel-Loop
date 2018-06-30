@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-06-28 14:20:11 GMT (Thursday 28th June 2018)"
+	revision: "5"
 
 class
 	EL_MS_WINDOWS_FOLDER_CONSTANTS
@@ -41,6 +41,14 @@ feature -- Access
 			"C [macro <Shlobj.h>]"
 		alias
 			"CSIDL_DESKTOPDIRECTORY"
+		end
+
+	my_documents: INTEGER
+			-- typical path is "C:\Users\xxx\My Documents".
+		external
+			"C [macro <Shlobj.h>]"
+		alias
+			"CSIDL_MYDOCUMENTS"
 		end
 
 	program_files: INTEGER

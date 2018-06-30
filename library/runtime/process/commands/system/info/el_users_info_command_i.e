@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-23 10:08:46 GMT (Saturday 23rd June 2018)"
-	revision: "3"
+	date: "2018-06-28 14:39:46 GMT (Thursday 28th June 2018)"
+	revision: "4"
 
 deferred class
 	EL_USERS_INFO_COMMAND_I
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_with_path (new_users_dir)
+			make_with_path (Directory.users)
 			execute
 		end
 
@@ -53,31 +53,27 @@ feature -- Access
 
 	configuration_dir_list: like new_dir_list
 		do
-			Result := new_dir_list (Directory.User_configuration_steps)
+			Result := new_dir_list (Directory.App_configuration)
 		end
 
 	data_dir_list: like new_dir_list
 		do
-			Result := new_dir_list (Directory.user_data_steps)
+			Result := new_dir_list (Directory.app_data)
 		end
 
 feature {NONE} -- Implementation
 
-	new_dir_list (relative_steps: EL_PATH_STEPS): EL_ARRAYED_LIST [EL_DIR_PATH]
+	new_dir_list (dir: EL_DIR_PATH): EL_ARRAYED_LIST [EL_DIR_PATH]
 		local
-			steps: EL_PATH_STEPS
+			steps: EL_PATH_STEPS; index: INTEGER
 		do
-			steps := relative_steps.twin
-			steps.put_front (Empty_string)
+			steps := dir
+			index := users_dir.step_count + 1
 			create Result.make (user_list.count)
 			across user_list as user loop
-				steps [1] := user.item
-				Result.extend (users_dir.joined_dir_steps (steps))
+				steps [index] := user.item
+				Result.extend (steps)
 			end
-		end
-
-	new_users_dir: EL_DIR_PATH
-		deferred
 		end
 
 	do_with_lines (lines: like adjusted_lines)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-04 12:44:59 GMT (Friday 4th August 2017)"
-	revision: "3"
+	date: "2018-06-30 11:09:21 GMT (Saturday 30th June 2018)"
+	revision: "4"
 
 class
 	EL_INFORMATION_DIALOG
@@ -22,18 +22,15 @@ inherit
 			button as locale_button
 		export
 			{ANY} label
+		undefine
+			add_locale_button, locale_button
 		redefine
-			initialize, add_locale_button, locale_button
+			initialize
 		end
 
-	EL_WINDOW
+	EL_MESSAGE_DIALOG
 		undefine
-			default_create, copy
-		end
-
-	EL_MODULE_DEFERRED_LOCALE
-		undefine
-			default_create, copy
+			initialize
 		end
 
 create
@@ -44,27 +41,8 @@ feature {NONE} -- Initialization
 	initialize
 			-- Initialize `Current'.
 		do
-			Precursor
+			Precursor {EV_INFORMATION_DIALOG}
 			set_title (Locale * ev_information_dialog_title)
-		end
-
-feature -- Element change
-
-	set_label_font (a_font: EL_FONT)
-		do
-			label.set_font (a_font)
-		end
-
-feature {NONE} -- Implementation
-
-	add_locale_button (english_text: READABLE_STRING_GENERAL)
-		do
-			Precursor (Locale.translation (english_text).to_unicode)
-		end
-
-	locale_button (english_text: READABLE_STRING_GENERAL): EV_BUTTON
-		do
-			Result := Precursor (Locale * english_text)
 		end
 
 end

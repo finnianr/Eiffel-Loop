@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-20 17:50:59 GMT (Wednesday 20th June 2018)"
-	revision: "1"
+	date: "2018-06-28 13:02:59 GMT (Thursday 28th June 2018)"
+	revision: "2"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
@@ -140,7 +140,7 @@ feature {NONE} -- Constants
 
 	Log_output_directory: EL_DIR_PATH
 		once
-			Result := Directory.user_data.joined_dir_steps (<< option_name.to_string_8, "logs" >>)
+			Result := Directory.App_data.joined_dir_steps (<< option_name.to_string_8, "logs" >>)
 		end
 
 	No_routines: STRING = "-*"

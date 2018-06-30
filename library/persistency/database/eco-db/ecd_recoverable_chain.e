@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-24 11:57:42 GMT (Thursday 24th May 2018)"
-	revision: "6"
+	date: "2018-06-28 13:02:59 GMT (Thursday 28th June 2018)"
+	revision: "7"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -137,7 +137,7 @@ feature {NONE} -- Implementation
 			l_name := name
 			create file_name.make (l_name.count)
 			Naming.to_kebab_lower_case (l_name, file_name)
-			Result := Directory.User_data + file_name
+			Result := Directory.App_data + file_name
 			Result.add_extension (Default_file_extension)
 		end
 

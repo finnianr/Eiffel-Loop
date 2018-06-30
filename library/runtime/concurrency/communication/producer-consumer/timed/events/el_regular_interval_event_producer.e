@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:06 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-06-28 12:14:29 GMT (Thursday 28th June 2018)"
+	revision: "4"
 
 class
 	EL_REGULAR_INTERVAL_EVENT_PRODUCER
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			interval := an_interval
-			create event_queue.make
+			create event_queue.make (10)
 			is_bounded_loop := false
 		end
 

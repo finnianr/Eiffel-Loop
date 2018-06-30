@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-23 8:40:43 GMT (Saturday 23rd June 2018)"
-	revision: "3"
+	date: "2018-06-28 16:07:45 GMT (Thursday 28th June 2018)"
+	revision: "4"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -72,7 +72,7 @@ feature -- OS commands
 			Result := Find_directories_cmd.path_list.twin
 		end
 
-	file_list (a_dir_path: EL_DIR_PATH; a_file_pattern: ZSTRING): EL_ARRAYED_LIST [EL_FILE_PATH]
+	file_list (a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [EL_FILE_PATH]
 			--
 		do
 			Find_files_cmd.set_dir_path (a_dir_path)

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:58 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-06-28 12:10:40 GMT (Thursday 28th June 2018)"
+	revision: "3"
 
 class
 	EL_IMAGE_PATH_ROUTINES
@@ -69,19 +69,19 @@ feature -- Constants
 	User_icons_path: EL_DIR_PATH
 			--
 		once
-			Result := Directory.User_configuration.joined_dir_path (Step_icons)
+			Result := Directory.App_configuration.joined_dir_path (Step_icons)
 		end
 
 	User_desktop_menu_icons_path: EL_DIR_PATH
 			--
 		once
-			Result := Directory.User_configuration.joined_dir_path (Step_desktop_icons)
+			Result := Directory.App_configuration.joined_dir_path (Step_desktop_icons)
 		end
 
 	User_images_path: EL_DIR_PATH
 			--
 		once
-			Result := Directory.User_configuration.joined_dir_path (Step_images)
+			Result := Directory.App_configuration.joined_dir_path (Step_images)
 		end
 
 	Step_icons: ZSTRING

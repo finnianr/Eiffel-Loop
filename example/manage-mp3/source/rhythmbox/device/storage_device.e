@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	date: "2018-06-28 14:49:24 GMT (Thursday 28th June 2018)"
+	revision: "3"
 
 class
 	STORAGE_DEVICE
@@ -342,7 +342,7 @@ feature {NONE} -- Implementation
 
 	local_sync_table_file_path: EL_FILE_PATH
 		do
-			Result := Directory.User_data.joined_file_steps (<< Device_data, export_config.volume.name, Sync_table_name >>)
+			Result := Directory.app_data.joined_file_steps (<< Device_data, export_config.volume.name, Sync_table_name >>)
 		end
 
 feature {NONE} -- Internal attributes

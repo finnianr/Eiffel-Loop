@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
-	revision: "7"
+	date: "2018-06-28 12:11:02 GMT (Thursday 28th June 2018)"
+	revision: "8"
 
 class
 	EL_APPLICATION_CONFIG_CELL [G -> {EL_FILE_PERSISTENT} create make_from_file end]
@@ -66,7 +66,7 @@ feature -- Access
 		local
 			l_dir_path: EL_DIR_PATH
 		do
-			l_dir_path := Directory.User_configuration.twin
+			l_dir_path := Directory.App_configuration.twin
 			if not Application_sub_option.is_empty then
 				l_dir_path.append_file_path (Application_sub_option)
 			end
@@ -80,7 +80,7 @@ feature -- Status query
 
 	configuration_directory_exists: BOOLEAN
 		do
-			Result := Directory.User_configuration.exists
+			Result := Directory.App_configuration.exists
 		end
 
 feature -- Element change
