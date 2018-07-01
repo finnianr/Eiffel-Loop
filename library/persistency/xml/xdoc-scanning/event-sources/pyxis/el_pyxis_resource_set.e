@@ -64,11 +64,10 @@ feature {NONE} -- Initialization
 			pyxis_out: PLAIN_TEXT_FILE
 			pyxis_file_paths: like xml_file_paths
 			monolithic_pyxis_path: EL_FILE_PATH; xml_out: EL_PLAIN_TEXT_FILE
-			xml_generator: EL_PYXIS_XML_TEXT_GENERATOR
 		do
 			make_machine
 			directory_name := a_directory_name
-			monolithic_pyxis_path := Directory.User_configuration + directory_name
+			monolithic_pyxis_path := Directory.app_configuration + directory_name
 			monolithic_pyxis_path.add_extension ("pyx")
 			create xml_file_paths.make_from_array (<< monolithic_pyxis_path.with_new_extension ("xml") >>)
 
@@ -126,7 +125,7 @@ feature {NONE} -- Implementation
 
 	xml_destination_dir: EL_DIR_PATH
 		do
-			Result := Directory.User_configuration.joined_dir_path (directory_name)
+			Result := Directory.app_configuration.joined_dir_path (directory_name)
 		end
 
 feature {NONE} -- Constants

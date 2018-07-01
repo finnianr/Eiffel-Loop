@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 	make (a_target: like target)
 			--
 		do
-			create call_queue.make
+			create call_queue.make (10)
 			make_call_consumer
 			call_queue.attach_consumer (call_consumer)
 			call_consumer.launch

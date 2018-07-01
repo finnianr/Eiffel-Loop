@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_thread (interval_millisecs)
-			create call_queue.make
+			create call_queue.make (10)
 			call_queue.attach_consumer (consumer)
 			thread_manager.extend (Current)
 		end

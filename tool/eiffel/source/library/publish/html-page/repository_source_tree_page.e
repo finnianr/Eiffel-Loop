@@ -22,13 +22,6 @@ inherit
 			getter_function_table, serialize
 		end
 
-	EL_HTML_META_DIGEST_PARSER
-		rename
-			make as make_meta_digest
-		undefine
-			is_equal
-		end
-
 	COMPARABLE
 
 	EL_MODULE_LOG
@@ -47,19 +40,12 @@ create
 feature {NONE} -- Initialization
 
 	make (a_repository: like repository; a_source_tree: like source_tree)
-		local
-			l_crc: like crc_generator
 		do
 			repository := a_repository; source_tree := a_source_tree
-			l_crc := crc_generator
-			across a_source_tree.description_lines as line loop
-				l_crc.add_string (line.item)
-			end
-			description_checksum := l_crc.checksum
 			make_page (repository)
-			make_meta_digest (output_path)
 			category := relative_path.first_step.as_proper_case
 			sort_category := new_sort_category
+			make_sync_item (output_path)
 		end
 
 feature -- Access
@@ -150,14 +136,6 @@ feature -- Comparison
 			end
 		end
 
-feature -- Status query
-
-	is_modified: BOOLEAN
-		do
-			Result := description_checksum /= meta_crc_digest or else
-							across source_tree.directory_list as l_directory some l_directory.item.is_modified end
-		end
-
 feature -- Basic operations
 
 	serialize
@@ -191,7 +169,18 @@ feature {NONE} -- Implementation
 			create Result.make (source_tree.description_lines, relative_file_path.parent)
 		end
 
-	description_checksum: NATURAL
+	sink_content (crc: like crc_generator)
+		do
+			crc.add_file (template_path)
+			across source_tree.description_lines as line loop
+				crc.add_string (line.item)
+			end
+			across source_tree.directory_list as dir loop
+				across dir.item.sorted_class_list as l_class loop
+					crc.add_natural (l_class.item.current_digest)
+				end
+			end
+		end
 
 	step_count: INTEGER
 		do
@@ -220,8 +209,7 @@ feature {NONE} -- Evolicity fields
 				["directory_list", 				agent: ITERABLE [SOURCE_DIRECTORY] do Result := source_tree.directory_list end] +
 				["has_ecf_name",					agent: BOOLEAN_REF do Result := has_ecf_name.to_reference end] +
 				["has_sub_directory", 			agent: BOOLEAN_REF do Result := has_sub_directory.to_reference end] +
-				["relative_path",					agent: ZSTRING do Result := relative_path end] +
-				["crc_digest",						agent: NATURAL_32_REF do Result := description_checksum.to_reference end]
+				["relative_path",					agent: ZSTRING do Result := relative_path end]
 		end
 
 feature {NONE} -- Internal attributes

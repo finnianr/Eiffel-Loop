@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 		do
 			create consumer.make
 			thread_manager.extend (consumer)
-			create call_queue.make
+			create call_queue.make (10)
 			call_queue.attach_consumer (consumer)
 		end
 

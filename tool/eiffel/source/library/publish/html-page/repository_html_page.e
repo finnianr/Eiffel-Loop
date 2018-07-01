@@ -13,6 +13,14 @@ deferred class
 	REPOSITORY_HTML_PAGE
 
 inherit
+	EL_HTML_FILE_SYNC_ITEM
+		rename
+			make as make_sync_item,
+			file_path as ftp_file_path
+		undefine
+			is_equal
+		end
+
 	EVOLICITY_SERIALIZEABLE
 		rename
 			Template as Empty_string
@@ -53,10 +61,6 @@ feature -- Access
 
 feature -- Status query
 
-	is_modified: BOOLEAN
-		deferred
-		end
-
 	is_site_map_page: BOOLEAN
 		do
 			Result := content_template = repository.templates.site_map_content
@@ -80,7 +84,8 @@ feature {NONE} -- Evolicity fields
 				["github_url", 			agent: ZSTRING do Result := repository.github_url.to_string end],
 				["favicon_markup_path", agent: ZSTRING do Result := repository.templates.favicon_markup_path end],
 
-				["version", 				agent: STRING do Result := repository.version end]
+				["version", 				agent: STRING do Result := repository.version end],
+				["crc_digest",				agent current_digest_ref]
 			>>)
 		end
 
@@ -88,6 +93,11 @@ feature {NONE} -- Implementation
 
 	content_template: EL_FILE_PATH
 		deferred
+		end
+
+	ftp_file_path: EL_FILE_PATH
+		do
+			Result := output_path.relative_path (repository.output_dir)
 		end
 
 	step_count: INTEGER

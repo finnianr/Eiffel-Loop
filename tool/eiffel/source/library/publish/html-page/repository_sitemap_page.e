@@ -25,13 +25,6 @@ create
 
 feature {NONE} -- Initialization
 
-	make_default
-		do
-			create source_tree_pages.make (0)
-			create stats_cmd.make_default
-			Precursor
-		end
-
 	make (a_repository: like repository; a_source_tree_pages: like source_tree_pages)
 		do
 			make_page (a_repository)
@@ -40,25 +33,26 @@ feature {NONE} -- Initialization
 				stats_cmd.manifest.locations.extend (tree.item)
 			end
 			stats_cmd.execute
+			make_sync_item (output_path)
+		end
+
+	make_default
+		do
+			create source_tree_pages.make (0)
+			create stats_cmd.make_default
+			Precursor
 		end
 
 feature -- Access
-
-	title: ZSTRING
-		do
-			Result := repository.name + " " + name
-		end
 
 	name: ZSTRING
 		do
 			Result := "Sitemap"
 		end
 
-feature -- Status query
-
-	is_modified: BOOLEAN
+	title: ZSTRING
 		do
-			Result := not output_path.exists or else across source_tree_pages as page some page.item.is_modified end
+			Result := repository.name + " " + name
 		end
 
 feature {NONE} -- Evolicity fields
@@ -96,6 +90,16 @@ feature {NONE} -- Implementation
 		do
 			Result := repository.templates.site_map_content
 		end
+
+	sink_content (crc: like crc_generator)
+		do
+			crc.add_file (template_path)
+			across source_tree_pages as page loop
+				crc.add_natural (page.item.current_digest)
+			end
+		end
+
+feature {NONE} -- Initialization
 
 	source_tree_pages: like repository.new_source_tree_pages
 

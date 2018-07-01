@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 			an_interval_not_negative: an_interval >= 0
 		do
 			make (an_interval)
-			create event_queue.make
+			create event_queue.make (10)
 			create timer.make
 		end
 

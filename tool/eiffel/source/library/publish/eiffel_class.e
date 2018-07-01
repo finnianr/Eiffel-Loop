@@ -15,6 +15,14 @@ class
 	EIFFEL_CLASS
 
 inherit
+	EL_HTML_FILE_SYNC_ITEM
+		rename
+			make as make_sync_item,
+			file_path as ftp_file_path
+		undefine
+			is_equal, copy
+		end
+
 	EVOLICITY_SERIALIZEABLE
 		rename
 			output_path as html_path
@@ -22,13 +30,6 @@ inherit
 			is_equal
 		redefine
 			make_default, serialize, copy
-		end
-
-	EL_HTML_META_DIGEST_PARSER
-		rename
-			make as make_meta_digest
-		undefine
-			is_equal, copy
 		end
 
 	COMPARABLE
@@ -61,11 +62,6 @@ inherit
 			is_equal, copy
 		end
 
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
-		undefine
-			is_equal, copy
-		end
-
 	SHARED_HTML_CLASS_SOURCE_TABLE
 		undefine
 			is_equal, copy
@@ -90,8 +86,6 @@ feature {NONE} -- Initialization
 
 	make (a_source_path: like source_path; a_relative_html_path: like relative_html_path; a_repository: like repository)
 			--
-		local
-			l_crc: like crc_generator; raw_source: STRING
 		do
 			relative_source_path := a_source_path.relative_path (a_repository.root_dir)
 			make_from_template_and_output (
@@ -99,13 +93,10 @@ feature {NONE} -- Initialization
 			)
 			source_path := a_source_path; relative_html_path := a_relative_html_path; repository := a_repository
 			name := source_path.base_sans_extension.as_upper
-			raw_source := File_system.plain_text (source_path)
-			l_crc := crc_generator
-			l_crc.add_string_8 (raw_source)
-			crc_digest := l_crc.checksum
-			code_text := new_code_text (raw_source)
+			code_text := new_code_text (File_system.plain_text (source_path))
+			make_sync_item (html_path)
+
 			create notes.make (relative_source_path.parent, a_repository.note_fields)
-			make_meta_digest (html_path)
 			restrict_access
 				Class_source_table.put (relative_source_path.with_new_extension (Html), name)
 			end_restriction
@@ -180,11 +171,6 @@ feature -- Status report
 			Result := relative_source_path.first_step ~ Library
 		end
 
-	is_modified: BOOLEAN
-		do
-			Result := crc_digest /= meta_crc_digest
-		end
-
 	notes_filled: BOOLEAN
 
 feature -- Basic operations
@@ -207,7 +193,6 @@ feature -- Basic operations
 				fill_notes
 			end
 			Precursor
-			repository.ftp_sync.extend_modified (html_path.relative_path (repository.output_dir))
 		end
 
 feature -- Comparison
@@ -245,6 +230,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	ftp_file_path: EL_FILE_PATH
+		do
+			Result := html_path.relative_path (repository.output_dir)
+		end
+
 	index_dir: ZSTRING
 		do
 			Result := Directory.relative_parent (relative_html_path.step_count - 1)
@@ -275,6 +265,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	sink_content (crc: like crc_generator)
+		do
+			crc.add_string (code_text)
+			crc.add_string (relative_source_path)
+		end
+
 feature {NONE} -- Factory
 
 	new_code_text (raw_source: STRING): ZSTRING
@@ -289,9 +285,6 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	crc_digest: NATURAL
-		-- Eiffel source digest
-
 	repository: REPOSITORY_PUBLISHER
 
 feature {NONE} -- Evolicity fields
@@ -304,7 +297,7 @@ feature {NONE} -- Evolicity fields
 				["note_fields",				agent: like notes.field_list do Result := notes.field_list end],
 				["has_description",			agent: BOOLEAN_REF do Result := notes.has_description.to_reference end],
 
-				["crc_digest", 				agent: NATURAL_32_REF do Result := crc_digest.to_reference end],
+				["crc_digest", 				agent current_digest_ref],
 				["notes_text", 				agent notes_text],
 				["class_text", 				agent class_text],
 				["further_information",		agent further_information],

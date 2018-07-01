@@ -56,7 +56,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create root_dir
 			create output_dir
 			create example_classes.make (500)
-			create ftp_sync.make_default
+			create ftp_sync.make
 			create web_address.make_empty
 			Precursor
 		end
@@ -69,7 +69,7 @@ feature -- Access
 	file_path: EL_FILE_PATH
 		-- config file path
 
-	ftp_sync: EL_FTP_SYNC
+	ftp_sync: EL_BUILDER_CONTEXT_FTP_SYNC
 
 	github_url: EL_DIR_URI_PATH
 
@@ -102,12 +102,10 @@ feature -- Basic operations
 
 	execute
 		local
-			relative_html_path: EL_FILE_PATH; sync_list: EL_ARRAYED_LIST [EL_FILE_PATH]
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
 			console_display: EL_CONSOLE_FILE_PROGRESS_DISPLAY; listener: like progress_listener
 		do
 			log_thread_count
-			create sync_list.make (100)
 			ftp_sync.set_root_dir (output_dir)
 
 			if version /~ previous_version then
@@ -119,17 +117,15 @@ feature -- Basic operations
 				tree.item.read_source_files
 				across tree.item.directory_list as directory loop
 					across directory.item.class_list as eiffel_class loop
-						sync_list.extend (eiffel_class.item.html_path.relative_path (output_dir))
+						ftp_sync.extend (eiffel_class.item)
 					end
 				end
 			end
 			across pages as page loop
-				relative_html_path := page.item.output_path.relative_path (output_dir)
-				sync_list.extend (relative_html_path)
 				if page.item.is_modified then
 					page.item.serialize
-					ftp_sync.extend_modified (relative_html_path)
 				end
+				ftp_sync.extend (page.item)
 			end
 			create github_contents.make (Current, output_dir + "Contents.md")
 			github_contents.serialize
@@ -142,9 +138,7 @@ feature -- Basic operations
 					create console_display.make
 					listener := console_display.new_progress_listener
 					listener.set_final_tick_count (1000)
-					track_progress (
-						listener, agent ftp_sync.login_and_upload (sync_list), agent lio.put_line ("Synchronized")
-					)
+					track_progress (listener, agent ftp_sync.login_and_upload, agent lio.put_line ("Synchronized"))
 				end
 			end
 		end

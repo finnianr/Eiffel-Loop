@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 13); build = 60
+version = (1, 0, 14); build = 63
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.14
+# Fix FTP failed transfer problem
 
 # 1.0.13
 # Added default descriptions for NOTE_EDITOR_APP

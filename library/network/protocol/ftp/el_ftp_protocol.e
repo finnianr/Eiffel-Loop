@@ -15,6 +15,7 @@ class
 inherit
 	FTP_PROTOCOL
 		rename
+			exception as exception_code,
 			send as send_to_socket,
 			make as make_protocol,
 			last_reply as last_reply_utf_8
@@ -22,6 +23,11 @@ inherit
 			{ANY} send_username, send_password
 		redefine
 			close, open, login
+		end
+
+	EL_MODULE_EXCEPTION
+		undefine
+			is_equal
 		end
 
 	EL_MODULE_FTP_COMMAND
@@ -149,7 +155,7 @@ feature -- Remote operations
 			if file_exists (file_path) then
 				send (Ftp_command.delete_file (file_path), << 250 >>)
 			else
-				last_succeeded:= True
+				last_succeeded := True
 			end
 		ensure
 			succeeded: last_succeeded
@@ -193,7 +199,13 @@ feature -- Basic operations
 		require
 			binary_mode_set: is_binary_mode
 			file_to_upload_exists: item.source_path.exists
+		local
+			is_retry: BOOLEAN
 		do
+			if is_retry then
+				lio.put_new_line
+				login; change_home_dir
+			end
 			make_directory (item.destination_dir)
 
 			address.path.share (item.destination_file_path.to_string.to_utf_8)
@@ -203,10 +215,16 @@ feature -- Basic operations
 				transfer_file_data (item.source_path)
 				transfer_initiated := false
 			else
-				lio.put_line ("Could not initiate transfer")
+				Exception.raise_developer ("Failed to transfer: %S", [item.source_path.base])
 			end
 		ensure
 			data_socket_close: data_socket.is_closed
+		rescue
+			data_socket.close
+			reset_error
+			close
+			is_retry := True
+			retry
 		end
 
 feature -- Status report

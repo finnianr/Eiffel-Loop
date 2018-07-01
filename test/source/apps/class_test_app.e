@@ -27,13 +27,26 @@ feature -- Basic operations
 
 	test_run
 			--
-		local
-			filter: LOG_FILTER
 		do
-			create filter.make_from_tuple ([{SMIL_AUDIO_SEQUENCE}, All_routines])
+			ftp_directory_exists
 		end
 
 feature -- Tests
+
+	ftp_directory_exists
+		local
+			ftp: EL_FTP_PROTOCOL
+		do
+			log.enter ("ftp_directory_exists")
+			create ftp.make_write (create {FTP_URL}.make ("eiffel-loop.com"))
+			ftp.set_home_directory ("/public/www")
+			ftp.open; ftp.login
+			ftp.change_home_dir
+			lio.put_labeled_string ("ftp.directory_exists (%"example%")", ftp.directory_exists ("/public/www/example").out)
+			lio.put_new_line
+			ftp.close
+			log.exit
+		end
 
 	part_sorted_set
 			--
