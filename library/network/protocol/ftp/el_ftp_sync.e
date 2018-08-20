@@ -1,7 +1,10 @@
 note
 	description: "[
-		Synchronizes a local directory of files with a corresponding directory on an ftp site
+		Performs synchronization to an ftp site of set of file items conforming to type [$source EL_FILE_SYNC_ITEM].
 		Files deleted locally are deleted on ftp site as well, and empty directories are deleted.
+		
+		For an example see [$source REPOSITORY_PUBLISHER] which uses the [$source EL_BUILDER_CONTEXT_FTP_SYNC]
+		variant.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-17 14:41:20 GMT (Saturday 17th February 2018)"
-	revision: "4"
+	date: "2018-07-01 17:39:16 GMT (Sunday 1st July 2018)"
+	revision: "6"
 
 class
 	EL_FTP_SYNC

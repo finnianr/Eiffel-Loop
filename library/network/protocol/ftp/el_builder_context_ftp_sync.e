@@ -1,8 +1,13 @@
 note
 	description: "FTP file synchronization initializeable from XML/Pyxis builder"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-07-01 15:54:25 GMT (Sunday 1st July 2018)"
+	revision: "1"
 
 class
 	EL_BUILDER_CONTEXT_FTP_SYNC

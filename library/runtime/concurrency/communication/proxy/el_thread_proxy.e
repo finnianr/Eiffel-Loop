@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 17:28:13 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2018-07-01 14:23:09 GMT (Sunday 1st July 2018)"
+	revision: "3"
 
 class
 	EL_THREAD_PROXY [BASE_TYPE, OPEN_ARGS -> TUPLE create default_create end]

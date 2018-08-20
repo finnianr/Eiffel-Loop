@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-07-04 11:40:47 GMT (Wednesday 4th July 2018)"
+	revision: "4"
 
 class
 	EL_PUSH_BUTTON
@@ -30,7 +30,7 @@ create
 		
 feature {NONE} -- Initialization
 
-	make (a_parent_dialog: EL_DIALOG; a_name: STRING; pos: WEL_POINT; size: WEL_SIZE; an_id: INTEGER)
+	make (a_parent_dialog: EL_WEL_DIALOG; a_name: STRING; pos: WEL_POINT; size: WEL_SIZE; an_id: INTEGER)
 			--
 		do
 			make_button (a_parent_dialog, a_name, pos.x, pos.y, size.width, size.height, an_id)

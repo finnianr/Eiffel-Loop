@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-07-04 11:33:03 GMT (Wednesday 4th July 2018)"
+	revision: "5"
 
 deferred class
 	EL_BATCH_PROCESSING_DIALOG [G]
@@ -74,7 +74,7 @@ feature {NONE} -- Initialization
 			create file_processed_event_proxy.make (Current)
 			make_processing_thread
 
-			create request_processing_queue.make
+			create request_processing_queue.make (10)
 			request_processing_queue.attach_consumer (processing_thread)
 			thread_manager.extend (processing_thread)
 		end

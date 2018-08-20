@@ -1,8 +1,23 @@
 note
-	description: "Summary description for {EL_FILE_SYNC_ITEM}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "File synchronization item based on CRC digests"
+	descendants: "[
+			EL_FILE_SYNC_ITEM*
+				[$source EL_HTML_FILE_SYNC_ITEM]*
+					[$source LIBRARY_CLASS]
+					[$source EIFFEL_CLASS]
+						[$source LIBRARY_CLASS]
+					[$source REPOSITORY_HTML_PAGE]*
+						[$source REPOSITORY_SOURCE_TREE_PAGE]
+						[$source REPOSITORY_SITEMAP_PAGE]
+	]"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-07-01 17:30:20 GMT (Sunday 1st July 2018)"
+	revision: "2"
 
 deferred class
 	EL_FILE_SYNC_ITEM

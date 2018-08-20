@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-07-04 11:40:47 GMT (Wednesday 4th July 2018)"
+	revision: "4"
 
 class
 	EL_TEXT_EDIT_FIELD
@@ -33,7 +33,7 @@ create
 feature {NONE} -- Initialization
 
 	make (
-		a_parent_dialog: EL_DIALOG; pos: WEL_POINT; size: WEL_SIZE;
+		a_parent_dialog: EL_WEL_DIALOG; pos: WEL_POINT; size: WEL_SIZE;
 		a_field_value: EL_EDITABLE_VALUE
 	)
 			-- Make a control identified by `an_id' with `a_parent'

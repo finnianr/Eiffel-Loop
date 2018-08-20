@@ -1,7 +1,7 @@
 note
 	description: "[
-		Sub-appliction to download a Youtube video with the highest resolution possible and merge with
-		m4a soundtrack to create a MP4 file.
+		Sub-appliction to download and merge selected audio and video streams from a Youtube video.
+		See [$source YOUTUBE_HD_DOWNLOAD_COMMAND] for details
 	]"
 	notes: "See end of class"
 
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 10:42:34 GMT (Tuesday 19th June 2018)"
-	revision: "2"
+	date: "2018-08-20 10:31:23 GMT (Monday 20th August 2018)"
+	revision: "3"
 
 class
 	YOUTUBE_HD_DOWNLOAD_APP
@@ -41,7 +41,7 @@ feature {NONE} -- Constants
 
 	Option_name: STRING = "youtube_dl"
 
-	Description: STRING = "Download Youtube video at highest resolution possible and convert to mp4"
+	Description: STRING = "Download selected video and audio stream from youtube video and merge to container"
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
@@ -53,7 +53,6 @@ feature {NONE} -- Constants
 		end
 
 note
-
 	notes: "[
 		**Usage**
 
@@ -65,13 +64,6 @@ note
 		**Requirements**
 
 		Utilities `youtube-dl' and `ffmpeg' must be installed.
-
-		**Frames per Second**
-
-		Sometimes a video is available at either 60 fps or 30 fps. Generally `youtube-dl -F'
-		will list the 30 fps stream first, so this is the one that is selected. This is prefered
-		as a 60 fps video may take a long time to download on slower connections, and also
-		the conversion to mp4 from webm format is pretty CPU intensive and will take twice as long.
 
 		**Desktop Launcher**
 		Here is a suggested configuration for a XDG desktop launcher

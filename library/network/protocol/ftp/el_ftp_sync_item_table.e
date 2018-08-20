@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {EL_FTP_SYNC_ITEM_TABLE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Persistent table mapping file paths to CRC-32 checksums"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-07-01 19:48:19 GMT (Sunday 1st July 2018)"
+	revision: "2"
 
 class
 	EL_FTP_SYNC_ITEM_TABLE

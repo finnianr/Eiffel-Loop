@@ -174,9 +174,11 @@ set_environ ('LD_LIBRARY_PATH', "$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_P
 ### Under the Hood
 To understand how the default environment is constructed, read the source text of the following Python modules found in: `Eiffel-Loop/tool/python-support`:
 
-   eiffel_loop.eiffel.project
-   eiffel_loop.os.environ
-   eiffel_loop.project
+```
+eiffel_loop.eiffel.project
+eiffel_loop.os.environ
+eiffel_loop.project
+```
 
 If you make any modifications you can activate them by running the Eiffel-Loop setup script again, or adding `Eiffel-Loop/tool/python-support` to the PYTHONPATH variable.
 

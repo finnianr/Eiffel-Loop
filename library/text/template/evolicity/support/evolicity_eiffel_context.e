@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:06 GMT (Saturday 19th May 2018)"
-	revision: "8"
+	date: "2018-08-19 10:01:54 GMT (Sunday 19th August 2018)"
+	revision: "9"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -45,6 +45,12 @@ feature -- Element change
 			--
 		do
 			getter_functions [variable_name] := agent get_context_item (value.to_real.to_reference)
+		end
+
+	put_natural (variable_name: ZSTRING; value: NATURAL)
+			--
+		do
+			getter_functions [variable_name] := agent get_context_item (value.to_real_32.to_reference)
 		end
 
 	put_quoted_string (variable_name: ZSTRING; a_string: READABLE_STRING_GENERAL; count: INTEGER)
