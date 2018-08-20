@@ -120,7 +120,7 @@ feature {NONE} -- Implementation
 			create deleted_dir_set.make_equal (10)
 			across sync_table.current_keys as path loop
 				if not file_item_table.has (path.item) then
-					lio.put_path_field ("Removing file", path.item)
+					lio.put_path_field ("Removing", path.item)
 					lio.put_new_line
 					sync_table.remove (path.item)
 					ftp.delete_file (path.item)
