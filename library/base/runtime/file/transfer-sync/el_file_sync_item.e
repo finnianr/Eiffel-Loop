@@ -5,7 +5,7 @@ note
 	revision: "$Revision$"
 
 class
-	EL_FILE_CRC_32_SYNC_ITEM
+	EL_FILE_SYNC_ITEM
 
 inherit
 	EL_CRC_32_SYNC_ITEM

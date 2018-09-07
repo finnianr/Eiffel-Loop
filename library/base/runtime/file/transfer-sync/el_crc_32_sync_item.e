@@ -2,7 +2,7 @@ note
 	description: "File transfer synchronization item based on CRC 32 digests"
 	descendants: "[
 			EL_CRC_32_SYNC_ITEM*
-				[$source EL_HTML_FILE_SYNC_ITEM]*
+				[$source EL_FILE_SYNC_ITEM]*
 				[$source LIBRARY_CLASS]
 				[$source EIFFEL_CLASS]
 					[$source LIBRARY_CLASS]

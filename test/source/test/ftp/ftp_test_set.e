@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 	ftp_sync_test
 		local
 			sync: EL_FTP_SYNC; file_list: EL_FILE_PATH_LIST
-			sync_item: EL_FILE_CRC_32_SYNC_ITEM
+			sync_item: EL_FILE_SYNC_ITEM
 			progress_display: EL_CONSOLE_FILE_PROGRESS_DISPLAY; listener: like progress_listener
 		do
 			log.enter ("ftp_sync_test")
