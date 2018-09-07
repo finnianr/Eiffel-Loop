@@ -60,7 +60,8 @@ feature {NONE} -- Implementation
 
 	ftp_sync_test
 		local
-			sync: EL_FTP_SYNC; file_list: EL_ARRAYED_LIST [EL_FILE_PATH]
+			sync: EL_FTP_SYNC; file_list: EL_FILE_PATH_LIST
+			sync_item: EL_FILE_CRC_32_SYNC_ITEM
 			progress_display: EL_CONSOLE_FILE_PROGRESS_DISPLAY; listener: like progress_listener
 		do
 			log.enter ("ftp_sync_test")
@@ -71,19 +72,21 @@ feature {NONE} -- Implementation
 
 			ftp.change_home_dir
 			create sync.make (ftp, Ftp_sync_path, Work_area_dir)
-			create file_list.make (file_set.count)
+			create file_list.make_with_count (file_set.count)
+
 			across file_set as file loop
-				file_list.extend (file.item.relative_path (Work_area_dir))
-				sync.extend_modified (file_list.last)
+				create sync_item.make (file.item.relative_path (Work_area_dir))
+				file_list.extend (sync_item.file_path)
+				sync.extend (sync_item)
 			end
 
 			progress_display.set_text ("Synchronizing with " + ftp.address.host)
-			track_progress (listener, agent sync.upload (file_list), agent do_nothing)
+			track_progress (listener, agent sync.upload, agent do_nothing)
 
 			assert ("files exist", across file_list as path all ftp.file_exists (path.item) end)
 
 			file_list.wipe_out
-			sync.upload (file_list)
+			sync.upload
 			assert ("Directory deleted", not ftp.directory_exists (Help_pages_mint_dir.parent))
 			log.exit
 		end

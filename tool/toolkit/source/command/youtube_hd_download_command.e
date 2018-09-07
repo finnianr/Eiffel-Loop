@@ -7,6 +7,9 @@ note
 		1. an audio stream
 		2. a video stream
 		3. an output container type (webm or mp4 for example)
+		
+		If for some reason the execution is interrupted due to a network outage, it is possible to resume
+		the downloads without loosing any progress by requesting a retry when prompted.
 	]"
 
 	author: "Finnian Reilly"
@@ -45,7 +48,7 @@ feature -- Basic operations
 
 	execute
 		local
-			output_extension: ZSTRING
+			output_extension: ZSTRING; done: BOOLEAN
 		do
 			log.enter ("execute")
 
@@ -54,16 +57,30 @@ feature -- Basic operations
 			output_extension := User_input.line ("Enter an output extension")
 			lio.put_new_line
 
-			video.download_streams
-
-			if video.selected_video_stream.extension ~ output_extension then
-				video.merge_streams
-			elseif video.selected_video_stream.extension ~ Mp4_extension then
-				video.convert_streams_to_mp4
+			from until done loop
+				video.download_streams
+				if video.is_downloaded then
+					if video.selected_video_stream.extension ~ output_extension then
+						video.merge_streams
+					elseif video.selected_video_stream.extension ~ Mp4_extension then
+						video.convert_streams_to_mp4
+					end
+					if video.is_merge_complete then
+						video.cleanup
+						lio.put_new_line
+						lio.put_line ("DONE")
+						done := True
+					else
+						lio.put_string ("Merging of streams failed. Retry? (y/n)")
+						done := not User_input.entered_letter ('y')
+						lio.put_new_line
+					end
+				else
+					lio.put_string ("Download of streams failed. Retry? (y/n)")
+					done := not User_input.entered_letter ('y')
+					lio.put_new_line
+				end
 			end
-			video.cleanup
-			lio.put_new_line
-			lio.put_line ("DONE")
 			log.exit
 		end
 

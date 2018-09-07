@@ -56,7 +56,7 @@ feature -- Access
 
 feature -- Element change
 
-	extend (file_item: EL_FILE_SYNC_ITEM)
+	extend (file_item: EL_CRC_32_SYNC_ITEM)
 		do
 			file_item_table.extend (file_item, file_item.file_path)
 		end
@@ -80,7 +80,7 @@ feature -- Basic operations
 
 	upload
 		local
-			upload_list: EL_ARRAYED_LIST [EL_FILE_SYNC_ITEM]
+			upload_list: EL_ARRAYED_LIST [EL_CRC_32_SYNC_ITEM]
 			item: EL_FTP_UPLOAD_ITEM
 		do
 			if not sync_table.is_empty then
@@ -141,7 +141,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	file_item_table: HASH_TABLE [EL_FILE_SYNC_ITEM, EL_FILE_PATH]
+	file_item_table: HASH_TABLE [EL_CRC_32_SYNC_ITEM, EL_FILE_PATH]
 
 	sync_table: EL_FTP_SYNC_ITEM_TABLE
 

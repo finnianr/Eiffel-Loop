@@ -131,13 +131,26 @@ feature -- Basic operations
 		do
 			selected.audio_code := select_stream ("AUDIO", agent {YOUTUBE_STREAM}.is_audio)
 			selected.video_code := select_stream ("VIDEO", agent {YOUTUBE_STREAM}.is_video)
+		ensure
+			audio_and_video_selected: audio_and_video_selected
 		end
 
-feature -- Contract Support
+feature -- Status query
 
 	audio_and_video_selected: BOOLEAN
 		do
 			Result := stream_table.has (selected.audio_code) and stream_table.has (selected.video_code)
+		end
+
+	is_downloaded: BOOLEAN
+		do
+			Result := selected_audio_stream.download_path.exists and selected_video_stream.download_path.exists
+		end
+
+	is_merge_complete: BOOLEAN
+		-- `True' if `output_path.exists'
+		do
+			Result := output_path.exists
 		end
 
 feature {NONE} -- Implementation

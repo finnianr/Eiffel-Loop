@@ -32,3 +32,9 @@ feature {NONE} -- Implementation
 		end
 
 end
+
+note
+	ideas: "[
+		Sept 2018
+		* Create an online service tool to do SVG rendering of buttons with png for monitor
+	]"
