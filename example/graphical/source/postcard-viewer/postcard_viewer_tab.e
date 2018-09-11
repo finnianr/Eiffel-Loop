@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-09-10 9:24:01 GMT (Monday 10th September 2018)"
+	revision: "4"
 
 class
 	POSTCARD_VIEWER_TAB
@@ -113,9 +113,7 @@ feature {NONE} -- Implementation
 			icon_path: EL_FILE_PATH
 		do
 			create Result
-			icon_path := Execution.variable_dir_path ("ISE_EIFFEL").joined_file_steps (
-				<< "examples", "vision2", "edraw", "toolbar", "picture.png" >>
-			)
+			icon_path := Execution.variable_dir_path ("ISE_EIFFEL") + "examples/vision2/edraw/toolbar/picture.png"
 			Result.set_with_named_file (icon_path)
 		end
 

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-08-20 10:38:32 GMT (Monday 20th August 2018)"
-	revision: "4"
+	date: "2018-08-21 11:43:39 GMT (Tuesday 21st August 2018)"
+	revision: "5"
 
 class
 	YOUTUBE_HD_DOWNLOAD_COMMAND

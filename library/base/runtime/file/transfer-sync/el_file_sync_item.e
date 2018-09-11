@@ -1,8 +1,13 @@
 note
 	description: "File synchronization item with CRC-32 checksum"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-09-07 10:24:25 GMT (Friday 7th September 2018)"
+	revision: "1"
 
 class
 	EL_FILE_SYNC_ITEM

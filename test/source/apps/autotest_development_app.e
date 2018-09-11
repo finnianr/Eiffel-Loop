@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-21 10:32:51 GMT (Thursday 21st June 2018)"
-	revision: "24"
+	date: "2018-09-10 9:07:09 GMT (Monday 10th September 2018)"
+	revision: "25"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -32,7 +32,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent file_command.test_dir_tree_delete)
+			do_file_data_test (agent file_tree_input_output_command.test_copy_file_command)
 		end
 
 feature -- Test sets
@@ -63,6 +63,11 @@ feature -- Test sets
 		end
 
 	file_command: FILE_COMMAND_TEST_SET
+		do
+			create Result
+		end
+
+	file_tree_input_output_command: FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET
 		do
 			create Result
 		end
