@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 13:14:36 GMT (Tuesday 19th June 2018)"
-	revision: "7"
+	date: "2018-09-12 9:32:16 GMT (Wednesday 12th September 2018)"
+	revision: "8"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -283,6 +283,16 @@ feature -- Status query
 	is_writeable_directory (dir_path: EL_DIR_PATH): BOOLEAN
 		do
 			Result := named_directory (dir_path).is_writable
+		end
+
+	is_file_newer (path_1, path_2: EL_FILE_PATH): BOOLEAN
+		-- `True' if either A or B is true
+		-- A. `path_1' modification time is greater than `path_2' modification time
+		-- B. `path_2' does not exist
+		require
+			path_1_exists: path_1.exists
+		do
+			Result := not path_2.exists or else file_modification_time (path_1) > file_modification_time (path_2)
 		end
 
 feature -- Contract Support

@@ -3,14 +3,28 @@ note
 		Used in conjunction with `[$source EL_REFLECTIVELY_SETTABLE]' to reflectively set fields
 		from corresponding JSON name-value pairs.
 	]"
+	descendants: "[
+		The following example implementations are from the Amazon Instant Access API for Eiffel.
+
+			EL_SETTABLE_FROM_JSON_STRING*
+				[$source AIA_RESPONSE]
+					[$source AIA_PURCHASE_RESPONSE]
+						[$source AIA_REVOKE_RESPONSE]
+					[$source AIA_GET_USER_ID_RESPONSE]
+				[$source AIA_REQUEST]*
+					[$source AIA_GET_USER_ID_REQUEST]
+					[$source AIA_PURCHASE_REQUEST]
+						[$source AIA_REVOKE_REQUEST]
+				[$source JSON_CURRENCY]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-27 11:48:18 GMT (Friday 27th April 2018)"
-	revision: "8"
+	date: "2018-09-19 12:05:47 GMT (Wednesday 19th September 2018)"
+	revision: "9"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -40,10 +54,10 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_from_json (string: STRING)
+	make_from_json (utf_8: STRING)
 		do
 			make_default
-			set_from_json (create {EL_JSON_NAME_VALUE_LIST}.make (string))
+			set_from_json (create {EL_JSON_NAME_VALUE_LIST}.make (utf_8))
 		end
 
 feature -- Access

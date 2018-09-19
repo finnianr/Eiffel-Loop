@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-11 11:09:40 GMT (Tuesday 11th September 2018)"
-	revision: "1"
+	date: "2018-09-12 9:45:34 GMT (Wednesday 12th September 2018)"
+	revision: "2"
 
 class
 	EL_FILE_TREE_TRANSFORMER
@@ -27,6 +27,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_input_dir, a_output_dir: EL_DIR_PATH; extensions: STRING)
+			-- `extensions' is a semi-colon separated list of file extensions
 		require
 			valid_input_dir: a_input_dir.exists
 		do
@@ -39,6 +40,7 @@ feature {NONE} -- Initialization
 		do
 			create input_dir
 			create output_dir
+			create output_extension.make_empty
 			create extension_list.make (3)
 		end
 
@@ -49,7 +51,7 @@ feature -- Basic operations
 		-- placing output in `output_dir'
 		local
 			input_path, output_path: EL_FILE_PATH
-			file_list: LIST [EL_FILE_PATH]
+			file_list: LIST [EL_FILE_PATH]; file_updated: BOOLEAN
 		do
 			across extension_list as extension loop
 				file_list := File_system.recursive_files_with_extension (input_dir, extension.item)
@@ -59,24 +61,44 @@ feature -- Basic operations
 						lio.put_new_line
 					end
 				else
+					file_updated := False
 					across file_list as path loop
 						input_path := path.item
 						output_path := output_dir + input_path.relative_path (input_dir)
-						File_system.make_directory (output_path.parent)
-						if is_lio_enabled then
-							lio.put_path_field ("Writing", output_path)
-							lio.put_new_line
+						if not output_extension.is_empty then
+							output_path.replace_extension (output_extension)
 						end
-						command.set_input_output_path (input_path, output_path)
-						command.execute
+						if File_system.is_file_newer (input_path, output_path) then
+							File_system.make_directory (output_path.parent)
+							if is_lio_enabled then
+								lio.put_path_field ("Writing", output_path)
+								lio.put_new_line
+							end
+							file_updated := True
+							command.set_input_output_path (input_path, output_path)
+							command.execute
+						end
+					end
+					if not file_updated then
+						lio.put_substitution ("No change in any of %S %S source files", [file_list.count, extension.item])
+						lio.put_new_line
 					end
 				end
 			end
 		end
 
+feature -- Element change
+
+	set_output_extension (a_output_extension: like output_extension)
+		do
+			output_extension.share (a_output_extension)
+		end
+
 feature {NONE} -- Internal attributes
 
 	extension_list: ARRAYED_LIST [STRING]
+
+	output_extension: STRING
 
 	input_dir: EL_DIR_PATH
 

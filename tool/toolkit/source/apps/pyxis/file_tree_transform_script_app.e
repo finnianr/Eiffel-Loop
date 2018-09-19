@@ -1,13 +1,17 @@
 note
-	description: "File tree transform script app"
+	description: "[
+		Application to execute file tree transformation scripts.
+
+		See class [$source FILE_TREE_TRANSFORMER_SCRIPT]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-11 11:00:33 GMT (Tuesday 11th September 2018)"
-	revision: "1"
+	date: "2018-09-12 10:02:08 GMT (Wednesday 12th September 2018)"
+	revision: "2"
 
 class
 	FILE_TREE_TRANSFORM_SCRIPT_APP
@@ -31,7 +35,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				valid_required_argument ("script", "Path to Pyxis transform script", << file_must_exist >>)
+				optional_argument ("script", "Path to Pyxis transform script")
 			>>
 		end
 

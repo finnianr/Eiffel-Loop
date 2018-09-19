@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-04 14:59:05 GMT (Friday 4th May 2018)"
-	revision: "10"
+	date: "2018-09-19 9:42:42 GMT (Wednesday 19th September 2018)"
+	revision: "11"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -172,24 +172,24 @@ note
 						[$source EL_REFLECTED_TUPLE]
 						[$source EL_REFLECTED_DATE_TIME]
 					[$source EL_REFLECTED_BOOLEAN_REF]
-					[$source EL_REFLECTED_STRING_GENERAL]
 					[$source EL_REFLECTED_MAKEABLE_FROM_STRING_GENERAL]
 					[$source EL_REFLECTED_PATH]
+					[$source EL_REFLECTED_STRING_GENERAL]
 				[$source EL_REFLECTED_EXPANDED_FIELD]*
-					[$source EL_REFLECTED_NUMERIC_FIELD]*
-						[$source EL_REFLECTED_INTEGER_32]
-						[$source EL_REFLECTED_INTEGER_8]
-						[$source EL_REFLECTED_INTEGER_16]
-						[$source EL_REFLECTED_INTEGER_64]
-						[$source EL_REFLECTED_NATURAL_8]
-						[$source EL_REFLECTED_NATURAL_16]
-						[$source EL_REFLECTED_NATURAL_32]
-						[$source EL_REFLECTED_NATURAL_64]
-						[$source EL_REFLECTED_REAL_32]
-						[$source EL_REFLECTED_REAL_64]
 					[$source EL_REFLECTED_CHARACTER_8]
 					[$source EL_REFLECTED_CHARACTER_32]
 					[$source EL_REFLECTED_BOOLEAN]
 					[$source EL_REFLECTED_POINTER]
+					[$source EL_REFLECTED_NUMERIC_FIELD]*
+						[$source EL_REFLECTED_INTEGER_8]
+						[$source EL_REFLECTED_INTEGER_16]
+						[$source EL_REFLECTED_INTEGER_32]
+						[$source EL_REFLECTED_INTEGER_64]
+						[$source EL_REFLECTED_NATURAL_16]
+						[$source EL_REFLECTED_NATURAL_32]
+						[$source EL_REFLECTED_NATURAL_64]
+						[$source EL_REFLECTED_REAL_32]
+						[$source EL_REFLECTED_NATURAL_8]
+						[$source EL_REFLECTED_REAL_64]
 	]"
 end

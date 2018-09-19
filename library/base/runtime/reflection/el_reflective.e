@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-04 13:24:24 GMT (Friday 4th May 2018)"
-	revision: "16"
+	date: "2018-09-19 13:49:00 GMT (Wednesday 19th September 2018)"
+	revision: "17"
 
 deferred class
 	EL_REFLECTIVE
@@ -260,12 +260,47 @@ feature {EL_CLASS_META_DATA} -- Constants
 note
 	descendants: "[
 			EL_REFLECTIVE*
+				[$source EL_REFLECTIVELY_SETTABLE]*
+					[$source MY_DRY_CLASS]
+					[$source EL_REFLECTIVELY_SETTABLE_STORABLE]*
+						[$source AIA_CREDENTIAL]
+						[$source STORABLE_COUNTRY]
+						[$source TEST_STORABLE]
+						[$source EL_UUID]
+						[$source EL_STORABLE_IMPL]
+						[$source EL_TRANSLATION_ITEM]
+					[$source PP_TRANSACTION]
+					[$source JSON_CURRENCY]
+					[$source FCGI_REQUEST_PARAMETERS]
+					[$source AIA_AUTHORIZATION_HEADER]
+					[$source AIA_CREDENTIAL_ID]
+					[$source JOB]
+					[$source COUNTRY]
+						[$source CAMEL_CASE_COUNTRY]
+						[$source STORABLE_COUNTRY]
+					[$source PP_ADDRESS]
+					[$source AIA_RESPONSE]
+						[$source AIA_PURCHASE_RESPONSE]
+							[$source AIA_REVOKE_RESPONSE]
+						[$source AIA_GET_USER_ID_RESPONSE]
+					[$source AIA_REQUEST]*
+						[$source AIA_GET_USER_ID_REQUEST]
+						[$source AIA_PURCHASE_REQUEST]
+							[$source AIA_REVOKE_REQUEST]
+					[$source FCGI_HTTP_HEADERS]
+					[$source EL_ENUMERATION]*
+						[$source AIA_RESPONSE_ENUM]
+						[$source AIA_REASON_ENUM]
+						[$source EL_CURRENCY_ENUM]
+						[$source PP_PAYMENT_STATUS_ENUM]
+						[$source PP_PAYMENT_PENDING_REASON_ENUM]
+						[$source PP_TRANSACTION_TYPE_ENUM]
+					[$source EL_DYNAMIC_MODULE_POINTERS]
+						[$source EL_IMAGE_UTILS_API_POINTERS]
+						[$source EL_CURL_API_POINTERS]
+					[$source PERSON]
 				[$source EL_BOOLEAN_REF]
 					[$source PP_ADDRESS_STATUS]
-				[$source EL_REFLECTIVE_RSA_KEY]*
-					[$source EL_RSA_PRIVATE_KEY]
-					[$source EL_RSA_PUBLIC_KEY]
-				[$source EL_REFLECTIVELY_SETTABLE]*
 	]"
 
 end

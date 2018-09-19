@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-10 9:07:09 GMT (Monday 10th September 2018)"
-	revision: "25"
+	date: "2018-09-19 12:12:53 GMT (Wednesday 19th September 2018)"
+	revision: "26"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -32,7 +32,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent file_tree_input_output_command.test_copy_file_command)
+			do_file_data_test (agent settable_from_json_string.test_conversion)
 		end
 
 feature -- Test sets
@@ -103,6 +103,11 @@ feature -- Test sets
 		end
 
 	se_array2: SE_ARRAY2_TEST_SET
+		do
+			create Result
+		end
+
+	settable_from_json_string: SETTABLE_FROM_JSON_STRING_TEST_SET
 		do
 			create Result
 		end

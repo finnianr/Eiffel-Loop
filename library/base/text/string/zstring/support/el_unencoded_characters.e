@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-04 14:02:25 GMT (Wednesday 4th April 2018)"
-	revision: "4"
+	date: "2018-09-19 12:57:52 GMT (Wednesday 19th September 2018)"
+	revision: "5"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -134,6 +134,8 @@ feature -- Access
 		end
 
 	item (index: INTEGER): CHARACTER_32
+		require
+			valid_index: index >= 1
 		do
 			Result := code (index).to_character_32
 		end

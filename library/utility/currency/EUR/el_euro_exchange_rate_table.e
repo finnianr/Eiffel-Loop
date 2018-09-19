@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-18 5:50:31 GMT (Monday 18th December 2017)"
-	revision: "4"
+	date: "2018-09-17 10:18:31 GMT (Monday 17th September 2018)"
+	revision: "5"
 
 class
 	EL_EURO_EXCHANGE_RATE_TABLE
@@ -116,7 +116,7 @@ feature {NONE} -- Constants
 
 	ECB_daily_rate_url: ZSTRING
 		once
-			Result := "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
+			Result := "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
 		end
 
 	Name_currency: STRING_32 = "currency"

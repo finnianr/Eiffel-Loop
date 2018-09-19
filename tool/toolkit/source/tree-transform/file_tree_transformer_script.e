@@ -1,13 +1,40 @@
 note
-	description: "Scripted file tree transformer"
+	description: "[
+		Script that applies command template to every file in a directory tree that has specified extensions
+	]"
+	notes: "[
+		Example script to do image resizing using ImageMagick tool `convert'
+
+			pyxis-doc:
+				version = 1.0; encoding = "UTF-8"
+
+			transform-tree:
+				command-template:
+					"convert -resize 630 $input_path $output_path"
+
+				input-dir:
+					"$HOME/Graphics/screenshot/en/thumbnail"
+
+				output-dir:
+					"$HOME/Desktop/thumbnail"
+					
+				extension-list:
+					"png"
+					
+		**Optional**
+				output-extension:
+					"xxx"
+
+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-11 12:20:10 GMT (Tuesday 11th September 2018)"
-	revision: "1"
+	date: "2018-09-14 8:53:42 GMT (Friday 14th September 2018)"
+	revision: "2"
 
 class
 	FILE_TREE_TRANSFORMER_SCRIPT
@@ -21,20 +48,31 @@ inherit
 		end
 
 	EL_BUILDABLE_FROM_PYXIS
-		rename
-			make_from_file as make
-		export
-			{EL_COMMAND_CLIENT} make
 		redefine
 			make_default, building_action_table
 		end
 
 	EL_COMMAND
 
+	EL_MODULE_USER_INPUT
+
 create
 	make
 
-feature {NONE} -- Initialization
+feature {EL_COMMAND_CLIENT} -- Initialization
+
+	make (a_file_path: EL_FILE_PATH)
+		local
+			l_file_path: EL_FILE_PATH
+		do
+			if a_file_path.exists then
+				l_file_path := a_file_path
+			else
+				l_file_path := User_input.file_path ("Drag and drop a Pyxis transform script")
+				lio.put_new_line
+			end
+			make_from_file (l_file_path)
+		end
 
 	make_default
 		do
@@ -81,6 +119,7 @@ feature {NONE} -- Build from Pyxis
 				["command-template/text()",	agent do command_template.copy (node.to_string_8) end],
 				["input-dir/text()",		 		agent do input_dir := node.to_expanded_dir_path end],
 				["output-dir/text()",		 	agent do output_dir := node.to_expanded_dir_path end],
+				["output-extension/text()",	agent do output_extension.share (node.to_string_8) end],
 				["extension-list/text()",		agent do extension_list.extend (node.to_string_8) end]
 			>>)
 		end

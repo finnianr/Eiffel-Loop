@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-11 9:56:02 GMT (Tuesday 11th September 2018)"
-	revision: "12"
+	date: "2018-09-14 8:51:49 GMT (Friday 14th September 2018)"
+	revision: "13"
 
 class
 	APPLICATION_ROOT
@@ -26,25 +26,26 @@ feature {NONE} -- Implementation
 			Result := <<
 				{AUTOTEST_DEVELOPMENT_APP},
 
-				{UNDATED_PHOTOS_APP},
-
 				{CRYPTO_APP},
 
 				{FILTER_INVALID_UTF_8_APP},
+				{FILE_TREE_TRANSFORM_SCRIPT_APP},
 				{FTP_BACKUP_APP}, -- uses ftp (depends eposix)
+
 				{HTML_BODY_WORD_COUNTER_APP},
 				{JOBSERVE_SEARCH_APP},
+				{LOCALIZATION_COMMAND_SHELL_APP},
 
 				{PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP},
 				{PYXIS_ENCRYPTER_APP},
 				{PYXIS_TO_XML_APP},
 				{PYXIS_TREE_TO_XML_COMPILER_APP},
-				{LOCALIZATION_COMMAND_SHELL_APP},
 				{PYXIS_TRANSLATION_TREE_COMPILER_APP},
 
 				{THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP},
 				{THUNDERBIRD_WWW_EXPORTER_APP},
-				{FILE_TREE_TRANSFORM_SCRIPT_APP},
+
+				{UNDATED_PHOTOS_APP},
 
 				{VCF_CONTACT_SPLITTER_APP},
 				{VCF_CONTACT_NAME_SWITCHER_APP},

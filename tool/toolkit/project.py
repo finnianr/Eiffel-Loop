@@ -2,12 +2,18 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 7); build = 414
+version = (1, 2, 9); build = 419
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.9
+# Fixed file drag and drop paths not being stripped of quotes
+
+# 1.2.8
+# Added class FILE_TREE_TRANSFORMER_SCRIPT
 
 # 1.2.7
 # Youtube download now features audio and video selection

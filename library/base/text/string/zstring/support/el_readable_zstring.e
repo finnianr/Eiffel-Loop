@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 8:04:58 GMT (Tuesday 5th June 2018)"
-	revision: "20"
+	date: "2018-09-19 12:58:21 GMT (Wednesday 19th September 2018)"
+	revision: "21"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -1245,8 +1245,8 @@ feature -- Conversion
 				from i := 0 until i = l_count loop
 					c_i := l_area [i]
 					if c_i = Unencoded_character then
-						is_space := unencoded_item (i).is_space
-						l_z_code := unencoded_z_code (i)
+						is_space := unencoded_item (i + 1).is_space
+						l_z_code := unencoded_z_code (i + 1)
 					else
 						is_space := c_i.is_space
 						l_z_code := c_i.natural_32_code
