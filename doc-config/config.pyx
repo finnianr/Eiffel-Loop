@@ -342,6 +342,16 @@ publish-repository:
 			description:
 				"evolicity.emd"
 
+		tree:
+			name = "Text Formats"; dir = "library/text/formats"
+			ecf = "text-formats.ecf"
+			description:
+				"""
+					A library for handling various human-readable text formats.
+					Supported formats are: XML, XHTML, HTML, JSON, CSV.
+					(Note: Eiffel-Loop has other libraries for parsing XML)
+				"""
+
 		# Library (Utility)
 		tree:
 			name = "Application License Management"; dir = "library/utility/app-license"

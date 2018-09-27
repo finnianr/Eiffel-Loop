@@ -59,6 +59,9 @@ system:
 		library:
 			name = EL_evolicity; location = "evolicity.ecf"
 
+		library:
+			name = EL_text_formats; location = "text-formats.ecf"
+
 		# Source code
 		cluster:
 			name = xml; location = "persistency/xml/xdoc-scanning"; recursive = true

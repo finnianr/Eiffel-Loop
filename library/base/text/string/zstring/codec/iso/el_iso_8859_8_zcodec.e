@@ -2,12 +2,12 @@
 	description: "Codec for ISO_8859_8 automatically generated from decoder.c in VTD-XML source"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-18 11:11:25 GMT (Sunday 18th February 2018)"
-	revision: "3"
+	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 class
 	EL_ISO_8859_8_ZCODEC

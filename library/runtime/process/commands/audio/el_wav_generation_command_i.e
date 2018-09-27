@@ -8,12 +8,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 9:33:10 GMT (Saturday 2nd December 2017)"
-	revision: "3"
+	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 deferred class
 	EL_WAV_GENERATION_COMMAND_I

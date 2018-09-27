@@ -2,12 +2,18 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 9); build = 419
+version = (1, 2, 11); build = 422
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.11
+# Removed order.txt from Thunderbird HTML export
+
+# 1.2.10
+# Fixed -help option for EL_COMMAND_LINE_SUB_APPLICATION
 
 # 1.2.9
 # Fixed file drag and drop paths not being stripped of quotes

@@ -65,6 +65,9 @@ system:
 			name = EL_network; location = "network.ecf"
 
 		library:
+			name = EL_text_formats; location = "text-formats.ecf"
+
+		library:
 			name = EL_thread; location = "thread.ecf"
 
 		library:

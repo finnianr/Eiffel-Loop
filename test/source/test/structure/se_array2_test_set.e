@@ -2,12 +2,12 @@ note
 	description: "Test suite for SmartEiffel compatible array"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-09 12:21:17 GMT (Wednesday 9th November 2016)"
-	revision: "1"
+	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
+	revision: "2"
 
 class
 	SE_ARRAY2_TEST_SET

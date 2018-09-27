@@ -2,12 +2,12 @@ note
 	description: "STRING_8 buffer medium with UTF-8 encoding by default"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 14:07:28 GMT (Tuesday 10th April 2018)"
-	revision: "4"
+	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
+	revision: "5"
 
 class
 	EL_STRING_8_IO_MEDIUM

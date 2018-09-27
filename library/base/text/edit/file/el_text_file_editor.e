@@ -2,12 +2,12 @@ note
 	description: "Editor that reads from a file and sends edited output back to the same file"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-08-05 8:40:41 GMT (Friday 5th August 2016)"
-	revision: "1"
+	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
+	revision: "2"
 
 deferred class
 	EL_TEXT_FILE_EDITOR

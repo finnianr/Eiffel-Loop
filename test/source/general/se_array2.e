@@ -2,12 +2,12 @@ note
 	description: "SmartEiffel compatible 2 dimensional array"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-11-08 12:34:12 GMT (Tuesday 8th November 2016)"
-	revision: "1"
+	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
+	revision: "2"
 
 class
 	SE_ARRAY2 [G]

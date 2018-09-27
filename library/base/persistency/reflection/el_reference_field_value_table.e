@@ -2,12 +2,12 @@ note
 	description: "Implementation of [$source EL_FIELD_VALUE_TABLE] for reference field attribute types"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-04 12:10:13 GMT (Wednesday 4th April 2018)"
-	revision: "3"
+	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 class
 	EL_REFERENCE_FIELD_VALUE_TABLE [G]

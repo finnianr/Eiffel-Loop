@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-27 19:26:17 GMT (Monday 27th November 2017)"
-	revision: "2"
+	date: "2018-09-20 9:58:40 GMT (Thursday 20th September 2018)"
+	revision: "3"
 
 class
 	EL_SPLIT_ZSTRING_LIST

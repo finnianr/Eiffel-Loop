@@ -2,12 +2,12 @@ note
 	description: "J object array"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 class
 	J_OBJECT_ARRAY [G -> JAVA_OBJECT_REFERENCE create make, make_from_pointer end]

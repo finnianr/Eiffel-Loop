@@ -2,12 +2,12 @@ note
 	description: "Extra info constants"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-20 10:34:12 GMT (Tuesday 20th September 2016)"
-	revision: "1"
+	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
+	revision: "2"
 
 class
 	EL_CURL_INFO_CONSTANTS

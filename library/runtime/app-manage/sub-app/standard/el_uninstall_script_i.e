@@ -2,12 +2,12 @@ note
 	description: "Creates script to uninstall application and a sub-script to remove user files"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-29 12:31:22 GMT (Friday 29th June 2018)"
-	revision: "5"
+	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
+	revision: "6"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I

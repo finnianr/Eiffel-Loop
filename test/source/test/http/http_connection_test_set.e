@@ -1,6 +1,6 @@
 note
 	description: "[
-		Eiffel tests for class [$source EL_HTTP_COMMAND] that can be executed with testing tool.
+		Eiffel tests for class [$source EL_HTTP_CONNECTION] that can be executed with testing tool.
 	]"
 	testing: "type/manual"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 10:12:47 GMT (Tuesday 10th April 2018)"
-	revision: "14"
+	date: "2018-09-19 15:34:33 GMT (Wednesday 19th September 2018)"
+	revision: "15"
 
 class
 	HTTP_CONNECTION_TEST_SET

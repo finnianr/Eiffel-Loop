@@ -2,12 +2,12 @@ note
 	description: "Command options"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 9:10:58 GMT (Tuesday 19th June 2018)"
-	revision: "7"
+	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
+	revision: "8"
 
 class
 	EL_COMMAND_OPTIONS

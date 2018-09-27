@@ -2,12 +2,12 @@ note
 	description: "File for reading and writing Cairo image surfaces from PNG format graphical files"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 16:33:40 GMT (Monday 3rd October 2016)"
-	revision: "3"
+	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 class
 	EL_PNG_IMAGE_FILE

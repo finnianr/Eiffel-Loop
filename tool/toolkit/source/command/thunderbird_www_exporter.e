@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-14 10:01:35 GMT (Wednesday 14th March 2018)"
-	revision: "5"
+	date: "2018-09-27 13:42:07 GMT (Thursday 27th September 2018)"
+	revision: "6"
 
 class
 	THUNDERBIRD_WWW_EXPORTER
 
 inherit
-	THUNDERBIRD_EXPORTER
+	EL_THUNDERBIRD_EXPORTER
 		export
 			{EL_SUB_APPLICATION} make
+		undefine
+			new_lio
 		end
 
 	EL_COMMAND
@@ -26,6 +28,8 @@ inherit
 
 	EL_MODULE_OS
 
+	EL_MODULE_LOG
+
 create
 	make
 
@@ -33,7 +37,7 @@ feature -- Basic operations
 
 	execute
 		local
-			exporter: THUNDERBIRD_EXPORT_AS_XHTML_BODY; file_path: EL_FILE_PATH
+			exporter: EL_THUNDERBIRD_EXPORT_AS_XHTML_BODY; file_path: EL_FILE_PATH
 			output_dir: EL_DIR_PATH
 		do
 			log.enter ("execute")

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-12 10:02:08 GMT (Wednesday 12th September 2018)"
-	revision: "2"
+	date: "2018-09-22 15:11:16 GMT (Saturday 22nd September 2018)"
+	revision: "3"
 
 class
 	FILE_TREE_TRANSFORM_SCRIPT_APP
@@ -38,8 +38,6 @@ feature {NONE} -- Implementation
 				optional_argument ("script", "Path to Pyxis transform script")
 			>>
 		end
-
-feature {NONE} -- Implementation
 
 	default_make: PROCEDURE
 		do

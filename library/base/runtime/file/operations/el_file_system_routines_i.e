@@ -2,12 +2,12 @@ note
 	description: "OS file system routines"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-12 9:32:16 GMT (Wednesday 12th September 2018)"
-	revision: "8"
+	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
+	revision: "9"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I

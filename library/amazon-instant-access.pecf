@@ -55,6 +55,9 @@ system:
 			readonly = false
 
 		library:
+			name = EL_text_formats; location = "text-formats.ecf"
+
+		library:
 			name = EL_testing; readonly = false
 			location = "testing.ecf"
 

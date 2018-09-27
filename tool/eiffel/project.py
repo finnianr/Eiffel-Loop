@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 14); build = 64
+version = (1, 0, 15); build = 65
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.15
+# Fixed NOTE_EDITOR_COMMAND to update license and contact fields
 
 # 1.0.14
 # Fix FTP failed transfer problem

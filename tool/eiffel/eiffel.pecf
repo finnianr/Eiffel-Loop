@@ -115,6 +115,10 @@ system:
 					precondition = true; postcondition = true; check = false; invariant = false
 
 		library:
+			name = EL_text_formats; readonly = false
+			location = "$EIFFEL_LOOP/library/text-formats.ecf"
+
+		library:
 			name = EL_testing; readonly = false
 			location = "$EIFFEL_LOOP/library/testing.ecf"
 

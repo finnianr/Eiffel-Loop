@@ -1,0 +1,48 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	configuration_ns = "1-16-0"
+	name = EL_formats; uuid = "1D285226-C16E-11E8-B786-73F53AB0E560" 
+	library_target = EL_formats
+	
+	target:
+		name = EL_formats
+		
+		description: 
+			"""
+				Classes for managing various human readable text formats
+				XML, HTML, CSV, JSON etc
+			"""
+
+		root:
+			all_classes = true
+
+		option:
+			namespace = "Eiffel-Loop.Library.Text.Formats"
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug=false; warning=true
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
+
+		library:
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		# Eiffel Loop
+		library:
+			name = EL_base; location = "base/base.ecf"
+
+		library:
+			name = EL_os_command; readonly = false
+			location = "$EIFFEL_LOOP/library/os-command.ecf"
+
+		# Source code
+		cluster:
+			name = formats; location = "text/formats"; recursive = true
+

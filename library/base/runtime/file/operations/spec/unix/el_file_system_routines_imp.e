@@ -2,12 +2,12 @@ note
 	description: "Unix implementation of class [$source EL_FILE_SYSTEM_ROUTINES_I]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-03 13:07:14 GMT (Tuesday 3rd April 2018)"
-	revision: "6"
+	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
+	revision: "7"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP

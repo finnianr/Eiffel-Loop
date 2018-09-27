@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:18:44 GMT (Thursday 10th May 2018)"
-	revision: "11"
+	date: "2018-09-19 15:44:06 GMT (Wednesday 19th September 2018)"
+	revision: "12"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -383,7 +383,7 @@ note
 			2. Second way
 			#evaluate ($<variable-name>.template_name, $<variable-name>)
 
-		Here the first argument is a reference to an object that conforms to type [$source EVOLICITY_SERIALIZEABLE']
+		Here the first argument is a reference to an object that conforms to type [$source EVOLICITY_SERIALIZEABLE]
 		and therefore has a template name which be referenced with the implicit variable name `template_name'.
 
 			3. Third way

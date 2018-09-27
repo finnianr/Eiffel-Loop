@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:25:37 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-09-20 11:01:43 GMT (Thursday 20th September 2018)"
+	revision: "7"
 
 class
 	CLASS_NOTES
@@ -42,6 +42,7 @@ feature {NONE} -- Initialization
 
 			create original_lines.make_empty
 			create fields.make (10)
+			create updated_fields.make (0)
  			last_time_stamp := class_lines.date
 			do_with_lines (agent find_field, class_lines)
 
@@ -49,8 +50,9 @@ feature {NONE} -- Initialization
 			across default_values as value loop
 				fields.find (value.key)
 				if fields.found then
-					if fields.item.text.is_empty then
+					if fields.item.text /~ value.item then
 						fields.item.set_text (value.item)
+						updated_fields.extend (value.key)
 					end
 				else
 					fields.extend (create {NOTE_FIELD}.make (value.key, value.item))
@@ -111,6 +113,8 @@ feature -- Access
 				end
 			end
 		end
+
+	updated_fields: EL_STRING_8_LIST
 
 	time_stamp: INTEGER
 		do

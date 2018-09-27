@@ -62,6 +62,9 @@ system:
 		library:
 			name = EL_evolicity; location = "evolicity.ecf"
 
+		library:
+			name = EL_text_formats; location = "text-formats.ecf"
+
 		# Source code
 		cluster:
 			name = EL_vtd_xml; location = "persistency/xml/vtd-xml"; recursive = true

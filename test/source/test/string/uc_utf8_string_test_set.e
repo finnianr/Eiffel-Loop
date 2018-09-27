@@ -4,12 +4,12 @@
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-01 10:59:50 GMT (Sunday 1st April 2018)"
-	revision: "3"
+	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 class
 	UC_UTF8_STRING_TEST_SET

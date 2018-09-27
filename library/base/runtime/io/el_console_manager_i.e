@@ -1,13 +1,13 @@
 note
-	description: "Console manager i"
+	description: "Console manager interface"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 11:54:36 GMT (Tuesday 19th June 2018)"
-	revision: "6"
+	date: "2018-09-26 10:05:08 GMT (Wednesday 26th September 2018)"
+	revision: "7"
 
 deferred class
 	EL_CONSOLE_MANAGER_I
@@ -60,7 +60,7 @@ feature -- Status change
 				types.do_all (agent visible_types.put)
 			end_restriction
 		end
-		
+
 feature -- Status query
 
 	is_highlighting_enabled: BOOLEAN

@@ -2,12 +2,12 @@ note
 	description: "Windows extension to `EV_SCREEN_IMP'"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-12 10:12:27 GMT (Monday 12th March 2018)"
-	revision: "3"
+	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 class
 	EL_SCREEN_IMP

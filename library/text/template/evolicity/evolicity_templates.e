@@ -8,12 +8,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:21:32 GMT (Thursday 10th May 2018)"
-	revision: "9"
+	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
+	revision: "10"
 
 class
 	EVOLICITY_TEMPLATES

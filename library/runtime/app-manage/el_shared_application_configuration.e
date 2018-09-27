@@ -2,12 +2,12 @@ note
 	description: "Shared application configuration"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
-	revision: "5"
+	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
+	revision: "6"
 
 deferred class
 	EL_SHARED_APPLICATION_CONFIGURATION [G -> {EL_FILE_PERSISTENT} create make_from_file end]

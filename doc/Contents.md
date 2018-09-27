@@ -716,6 +716,8 @@ To make an Eiffel class serializable with *Evolicity* you inherit from class [$s
 
 
 
+## Text Formats
+A library for handling various human-readable text formats. Supported formats are: XML, XHTML, HTML, JSON, CSV. (Note: Eiffel-Loop has other libraries for parsing XML)
 ## Application License Management
 This contains a few basic classes for constructing an application license manager. The most important is a way to obtain a unique machine ID using a combination of the CPU model name and MAC address either from the network card or wifi card. 
 

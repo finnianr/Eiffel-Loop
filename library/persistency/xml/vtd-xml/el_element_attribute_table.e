@@ -2,12 +2,12 @@ note
 	description: "Table of XML node attribute values"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-18 10:44:03 GMT (Tuesday 18th April 2017)"
-	revision: "3"
+	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 class
 	EL_ELEMENT_ATTRIBUTE_TABLE

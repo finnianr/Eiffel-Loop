@@ -2,12 +2,12 @@ note
 	description: "Application root"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-01 9:24:31 GMT (Saturday 1st September 2018)"
-	revision: "7"
+	date: "2018-09-26 9:58:59 GMT (Wednesday 26th September 2018)"
+	revision: "8"
 
 class
 	APPLICATION_ROOT
@@ -31,10 +31,10 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-end
-
 note
 	ideas: "[
 		Sept 2018
 		* Create an online service tool to do SVG rendering of buttons with png for monitor
 	]"
+
+end

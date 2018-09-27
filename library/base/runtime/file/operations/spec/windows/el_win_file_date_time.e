@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-16 17:36:51 GMT (Monday 16th January 2017)"
-	revision: "3"
+	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 class
 	EL_WIN_FILE_DATE_TIME

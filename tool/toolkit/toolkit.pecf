@@ -113,10 +113,6 @@ system:
 			location = "$EIFFEL_LOOP/library/encryption.ecf"
 
 		library:
-			name = EL_os_command; readonly = false
-			location = "$EIFFEL_LOOP/library/os-command.ecf"
-
-		library:
 			name = EL_evolicity; readonly = false
 			location = "$EIFFEL_LOOP/library/evolicity.ecf"
 
@@ -133,8 +129,16 @@ system:
 			location = "$EIFFEL_LOOP/library/network.ecf"
 
 		library:
+			name = EL_os_command; readonly = false
+			location = "$EIFFEL_LOOP/library/os-command.ecf"
+
+		library:
 			name = EL_public_key_encryption; readonly = false
 			location = "$EIFFEL_LOOP/library/public-key-encryption.ecf"
+
+		library:
+			name = EL_text_formats; readonly = false
+			location = "$EIFFEL_LOOP/library/text-formats.ecf"
 
 		library:
 			name = EL_testing; readonly = false

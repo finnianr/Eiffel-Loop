@@ -16,7 +16,7 @@ note
 					"$HOME/Graphics/screenshot/en/thumbnail"
 
 				output-dir:
-					"$HOME/Desktop/thumbnail"
+					"$HOME/Desktop"
 					
 				extension-list:
 					"png"
@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-14 8:53:42 GMT (Friday 14th September 2018)"
-	revision: "2"
+	date: "2018-09-20 16:19:48 GMT (Thursday 20th September 2018)"
+	revision: "3"
 
 class
 	FILE_TREE_TRANSFORMER_SCRIPT

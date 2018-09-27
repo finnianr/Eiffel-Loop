@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-03 16:44:12 GMT (Monday 3rd October 2016)"
-	revision: "2"
+	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
+	revision: "3"
 
 class
 	EL_PANGO_FONT

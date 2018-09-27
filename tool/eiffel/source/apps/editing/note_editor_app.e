@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 9:22:34 GMT (Tuesday 19th June 2018)"
-	revision: "13"
+	date: "2018-09-20 11:04:28 GMT (Thursday 20th September 2018)"
+	revision: "14"
 
 class
 	NOTE_EDITOR_APP
@@ -37,7 +37,8 @@ feature -- Basic operations
 			--
 		do
 			Test.set_excluded_file_extensions (<< "e" >>)
-			Test.do_file_tree_test ("latin1-sources", agent test_edit, 1298954317)
+--			Test.do_file_tree_test ("latin1-sources", agent test_edit, 1298954317)
+			Test.do_file_tree_test ("latin1-sources", agent test_license_change, 3309637608)
 		end
 
 feature -- Test
@@ -46,6 +47,13 @@ feature -- Test
 			--
 		do
 			create command.make (dir_path + "note-test-manifest.pyx", License_notes_path)
+			normal_run
+		end
+
+	test_license_change (dir_path: EL_DIR_PATH)
+			--
+		do
+			create command.make (dir_path + "hexagram-manifest.pyx", dir_path + "hexagram-license.pyx")
 			normal_run
 		end
 

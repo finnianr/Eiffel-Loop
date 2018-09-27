@@ -2,12 +2,12 @@ note
 	description: "Dummy file persistent"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-01-22 12:05:15 GMT (Sunday 22nd January 2017)"
-	revision: "2"
+	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
+	revision: "3"
 
 class
 	EL_FILE_PERSISTENT_IMP

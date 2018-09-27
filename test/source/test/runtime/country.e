@@ -2,12 +2,12 @@ note
 	description: "Test for reflective classes [$source EL_REFLECTIVELY_SETTABLE] and [$source EL_SETTABLE_FROM_ZSTRING]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-23 11:38:16 GMT (Monday 23rd April 2018)"
-	revision: "11"
+	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
+	revision: "12"
 
 class
 	COUNTRY

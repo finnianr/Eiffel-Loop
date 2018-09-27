@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-15 19:50:13 GMT (Wednesday 15th November 2017)"
-	revision: "3"
+	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 class
 	EL_PADDED_BYTE_ARRAY

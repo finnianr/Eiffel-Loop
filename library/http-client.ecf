@@ -31,6 +31,7 @@ See: http://www.eiffel-loop.com/library/network/protocol/http/class-index.html
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf" readonly = "false"/>
 		<library name = "EL_network" location = "network.ecf"/>
+		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf" readonly = "false"/>
 		<!--Source code-->

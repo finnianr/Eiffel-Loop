@@ -2,12 +2,12 @@ note
 	description: "List of strings conforming to `STRING_GENERAL'"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-02 13:46:26 GMT (Saturday 2nd June 2018)"
-	revision: "7"
+	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
+	revision: "8"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]

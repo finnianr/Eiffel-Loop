@@ -2,12 +2,12 @@ note
 	description: "API pointers for SO elimageutils"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-09-24 9:53:22 GMT (Saturday 24th September 2016)"
-	revision: "2"
+	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
+	revision: "3"
 
 class
 	EL_IMAGE_UTILS_API_POINTERS

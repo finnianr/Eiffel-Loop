@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-23 12:31:35 GMT (Monday 23rd April 2018)"
-	revision: "4"
+	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
+	revision: "5"
 
 deferred class
 	EL_REFLECTIVE_RSA_KEY

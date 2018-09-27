@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 10:09:38 GMT (Tuesday 19th June 2018)"
-	revision: "15"
+	date: "2018-09-20 15:29:16 GMT (Thursday 20th September 2018)"
+	revision: "16"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 			l_default_make := default_make
 			create procedure.make (l_default_make)
 			set_operands  (procedure.closed_operands)
-			if not has_argument_errors then
+			if not (command_line_help_option_exists or else has_argument_errors) then
 				command := factory.instance_from_type ({C}, l_default_make)
 			end
 		end

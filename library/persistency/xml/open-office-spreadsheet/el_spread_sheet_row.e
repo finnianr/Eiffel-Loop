@@ -4,12 +4,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:09:37 GMT (Thursday 10th May 2018)"
-	revision: "3"
+	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 class
 	EL_SPREAD_SHEET_ROW

@@ -1,13 +1,13 @@
 note
-	description: "Test class [$source _TREE_INPUT_OUTPUT_COMMAND_TEST_SET]"
+	description: "Test suite for class [$source EL_FILE_TREE_TRANSFORMER]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-11 9:12:32 GMT (Tuesday 11th September 2018)"
-	revision: "1"
+	date: "2018-09-19 15:35:47 GMT (Wednesday 19th September 2018)"
+	revision: "2"
 
 class
 	FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET

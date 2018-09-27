@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 17:09:55 GMT (Thursday 12th October 2017)"
-	revision: "7"
+	date: "2018-09-20 11:02:33 GMT (Thursday 20th September 2018)"
+	revision: "8"
 
 class
 	NOTE_EDITOR
@@ -55,7 +55,6 @@ feature -- Element change
 
 feature -- Basic operations
 
-
 	edit
 		local
 			source_file: PLAIN_TEXT_FILE; notes: CLASS_NOTES
@@ -69,8 +68,12 @@ feature -- Basic operations
 
 				revised_lines := notes.revised_lines
 				if revised_lines /~ notes.original_lines then
-					log.put_path_field ("Revising", file_path)
-					log.put_new_line
+					lio.put_path_field ("Revising", file_path)
+					lio.put_new_line
+					if not notes.updated_fields.is_empty then
+						lio.put_labeled_string ("Updated", notes.updated_fields.joined_with_string (", "))
+						lio.put_new_line
+					end
 					output_lines := revised_lines
 					Precursor
 					if notes.is_revision then

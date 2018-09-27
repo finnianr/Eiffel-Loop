@@ -2,12 +2,12 @@ note
 	description: "CRC32 algorithm described in RFC 1952"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-20 9:39:57 GMT (Saturday 20th January 2018)"
-	revision: "3"
+	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32

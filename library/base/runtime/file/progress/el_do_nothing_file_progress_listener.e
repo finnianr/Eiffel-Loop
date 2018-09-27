@@ -2,12 +2,12 @@ note
 	description: "Do nothing file progress listener"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2016-10-12 11:27:17 GMT (Wednesday 12th October 2016)"
-	revision: "2"
+	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
+	revision: "3"
 
 class
 	EL_DO_NOTHING_FILE_PROGRESS_LISTENER

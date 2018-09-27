@@ -9,12 +9,12 @@ note
 	notes: "If you specify a price, you cannot set a button variable to amount."
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-13 10:54:44 GMT (Friday 13th April 2018)"
-	revision: "4"
+	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
+	revision: "5"
 
 class
 	PP_OPTION_PRICE_PARAMETER_LIST

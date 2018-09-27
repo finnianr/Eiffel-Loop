@@ -14,6 +14,7 @@ Read Open Office spreadsheets from XML format.
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
+		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
 		<cluster name = "open_office_spread_sheet" location = "persistency/xml/open-office-spreadsheet" recursive = "true"/>
 	</target>

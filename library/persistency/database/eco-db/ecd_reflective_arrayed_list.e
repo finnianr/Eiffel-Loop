@@ -8,12 +8,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-24 11:57:42 GMT (Thursday 24th May 2018)"
-	revision: "9"
+	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
+	revision: "10"
 
 class
 	ECD_REFLECTIVE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]

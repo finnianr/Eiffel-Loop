@@ -5,12 +5,12 @@ note
 	]"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 12:35:38 GMT (Tuesday 19th June 2018)"
-	revision: "6"
+	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
+	revision: "7"
 
 deferred class
 	EL_FILE_CONTEXT_MENU_DESKTOP_ENV_I

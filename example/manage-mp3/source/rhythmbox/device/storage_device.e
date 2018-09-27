@@ -2,12 +2,12 @@ note
 	description: "Device to which to mp3 files can be exported"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-28 14:49:24 GMT (Thursday 28th June 2018)"
-	revision: "3"
+	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
+	revision: "4"
 
 class
 	STORAGE_DEVICE

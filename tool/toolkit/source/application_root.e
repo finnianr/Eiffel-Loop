@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-14 8:51:49 GMT (Friday 14th September 2018)"
-	revision: "13"
+	date: "2018-09-27 17:12:36 GMT (Thursday 27th September 2018)"
+	revision: "14"
 
 class
 	APPLICATION_ROOT
@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 				{PYXIS_TREE_TO_XML_COMPILER_APP},
 				{PYXIS_TRANSLATION_TREE_COMPILER_APP},
 
-				{THUNDERBIRD_LOCALIZED_HTML_EXPORTER_APP},
+				{LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP},
 				{THUNDERBIRD_WWW_EXPORTER_APP},
 
 				{UNDATED_PHOTOS_APP},
