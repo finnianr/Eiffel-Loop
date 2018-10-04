@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-07-01 14:45:58 GMT (Sunday 1st July 2018)"
-	revision: "10"
+	date: "2018-10-04 10:48:53 GMT (Thursday 4th October 2018)"
+	revision: "11"
 
 class
 	EIFFEL_CLASS
@@ -25,7 +25,7 @@ inherit
 
 	EVOLICITY_SERIALIZEABLE
 		rename
-			output_path as html_path
+			output_path as html_output_path
 		undefine
 			is_equal
 		redefine
@@ -84,19 +84,20 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_source_path: like source_path; a_relative_html_path: like relative_html_path; a_repository: like repository)
+	make (a_source_path: like source_path; a_library_ecf: like library_ecf; a_repository: like repository)
 			--
 		do
 			relative_source_path := a_source_path.relative_path (a_repository.root_dir)
 			make_from_template_and_output (
 				a_repository.templates.eiffel_source, a_repository.output_dir + relative_source_path.with_new_extension ("html")
 			)
-			source_path := a_source_path; relative_html_path := a_relative_html_path; repository := a_repository
+			library_ecf := a_library_ecf; repository := a_repository; source_path := a_source_path
 			name := source_path.base_sans_extension.as_upper
 			code_text := new_code_text (File_system.plain_text (source_path))
-			make_sync_item (html_path)
+			make_sync_item (html_output_path)
 
 			create notes.make (relative_source_path.parent, a_repository.note_fields)
+			create stats.make (a_source_path)
 			restrict_access
 				Class_source_table.put (relative_source_path.with_new_extension (Html), name)
 			end_restriction
@@ -134,10 +135,17 @@ feature -- Access
 	name: STRING
 
 	relative_html_path: EL_FILE_PATH
+		-- html path relative to `library_ecf.ecf_dir'
+		do
+			Result := source_path.relative_path (library_ecf.dir_path)
+			Result := source_path.relative_dot_path (library_ecf.ecf_path).with_new_extension ("html")
+		end
 
 	relative_source_path: EL_FILE_PATH
 
 	source_path: EL_FILE_PATH
+
+	stats: CLASS_STATISTICS
 
 feature -- Status report
 
@@ -232,12 +240,12 @@ feature {NONE} -- Implementation
 
 	ftp_file_path: EL_FILE_PATH
 		do
-			Result := html_path.relative_path (repository.output_dir)
+			Result := html_output_path.relative_path (repository.output_dir)
 		end
 
-	index_dir: ZSTRING
+	relative_ecf_html_path: ZSTRING
 		do
-			Result := Directory.relative_parent (relative_html_path.step_count - 1)
+			Result := library_ecf.html_index_path.relative_dot_path (relative_source_path)
 		end
 
 	top_dir: EL_DIR_PATH
@@ -287,6 +295,8 @@ feature {NONE} -- Internal attributes
 
 	repository: REPOSITORY_PUBLISHER
 
+	library_ecf: EIFFEL_CONFIGURATION_FILE
+
 feature {NONE} -- Evolicity fields
 
 	getter_function_table: like getter_functions
@@ -308,7 +318,7 @@ feature {NONE} -- Evolicity fields
 				["html_path", 					agent: ZSTRING do Result := relative_html_path end],
 				["favicon_markup_path", 	agent: ZSTRING do Result := repository.templates.favicon_markup_path end],
 				["relative_dir", 				agent: EL_DIR_PATH do Result := relative_source_path.parent end],
-				["index_dir", 					agent index_dir],
+				["ecf_contents_path", 		agent relative_ecf_html_path],
 				["is_library", 				agent: BOOLEAN_REF do Result := is_library.to_reference end],
 				["source_path", 				agent: EL_FILE_PATH do Result := relative_source_path end],
 				["top_dir", 					agent top_dir]

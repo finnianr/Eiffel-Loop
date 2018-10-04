@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<script src="$top_dir/js/prism.js"></script>
-		<p class="fixed">class <a href="$index_dir/class-index.html#$name" title="Link to class index">$name</a></p>
+		<p class="fixed">class <a href="$ecf_contents_path#$name" title="Link to class index">$name</a></p>
 		<p><a href="#source_code" title="Skip to class source code">(source code)</a></p>
 #if $is_library then
 	#if $client_examples.count > 0 then

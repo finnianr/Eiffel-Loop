@@ -16,6 +16,13 @@ pyxis-doc:
 system:
 	configuration_ns = "1-16-0"
 	name = el_animation; uuid="229b7a2e-09aa-11df-87cb-6f5c8d784696"
+	description:
+		"""
+			Vision-2 Extensions Demo
+
+			Test application for selected components from Eiffel-Loop
+			[./library/vision2-x.html extension libraries for Vision-2 and Docking].
+		"""
 	
 	# classic means C code as an intermediate language
 	target: 

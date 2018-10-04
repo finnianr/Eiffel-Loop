@@ -5,12 +5,14 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_paypal; uuid = "229b6c64-09aa-11df-87a8-a3de564c1248" 
 	library_target = EL_paypal
-	
+	description: 
+		"""
+			PayPal Payments Standard Button Manager API
+			An Eiffel interface to the
+			[https://developer.paypal.com/docs/classic/button-manager/integration-guide/ PayPal Payments Standard Button Manager NVP HTTP API]. 
+		"""
 	target:
 		name = EL_paypal
-		
-		description: 
-			"Eiffel wrapper for Paypal Standard Payments API using NVP HTTP"
 
 		root:
 			all_classes = true

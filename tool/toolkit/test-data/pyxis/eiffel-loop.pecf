@@ -20,7 +20,8 @@ system:
 		
 		description: 
 			"""
-				Library of reusable components for Eiffel. (http://www.eiffel-loop.com)
+				Library of reusable components for Eiffel.
+				(http://www.eiffel-loop.com)
 			"""
 		root:
 			all_classes = true

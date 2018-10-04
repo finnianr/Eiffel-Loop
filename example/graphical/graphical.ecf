@@ -16,6 +16,12 @@
 	
 -->
 <system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "el_animation" uuid = "229b7a2e-09aa-11df-87cb-6f5c8d784696">
+	<description>
+Vision-2 Extensions Demo
+
+Test application for selected components from Eiffel-Loop
+[./library/vision2-x.html extension libraries for Vision-2 and Docking].
+	</description>
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>

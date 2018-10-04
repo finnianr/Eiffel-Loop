@@ -5,14 +5,19 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_win_installer; uuid = "7A2B2FBA-809E-11E6-8CE5-07CE5F46A9E9" 
 	library_target = EL_win_installer
-	
+	description: 
+		"""
+			Windows Installer
+
+			**Status:** No longer maintained.
+
+			Classes to create a Windows install program.
+			
+			This library has been superceded by the capabilities of the
+			[./library/app-manage.html Multi-Application Management] library.
+		"""
 	target:
 		name = EL_win_installer
-		
-		description: 
-			"""
-				Classes to create a Windows install program. (http://www.eiffel-loop.com)
-			"""
 		root:
 			all_classes = true
 
@@ -53,6 +58,6 @@ system:
 
 		# Source code
 		cluster:
-			name = installer; location = "runtime/windows-installer"; recursive = true
+			name = installer; location = "utility/windows-installer"; recursive = true
 
 

@@ -2,11 +2,11 @@ note
 	description: "[
 		Provides the following features when used in conjunction with the classes [$source ECD_CHAIN] or
 		[$source ECD_RECOVERABLE_CHAIN] from the
-		[./library/persistency/database/Eco-DB/class-index.html Eco-DB library]:
+		[./library/Eco-DB.html Eco-DB library]:
 		
 		* An Eiffel orientated data query language via the features of [$source EL_QUERYABLE_CHAIN]. The
 		class [$source EL_QUERYABLE_ARRAYED_LIST] has links to some examples in the
-		[./library/example/manage-mp3/source/class-index.html mp3-manager] project.
+		[./example/manage-mp3/manage-mp3.html mp3-manager] project.
 		
 		* Automatically maintained field indexes accessible via the tuple attribute `index_by'
 		
@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-24 11:58:38 GMT (Thursday 24th May 2018)"
-	revision: "4"
+	date: "2018-10-04 11:50:14 GMT (Thursday 4th October 2018)"
+	revision: "5"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]

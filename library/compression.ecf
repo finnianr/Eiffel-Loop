@@ -8,8 +8,13 @@
 	
 -->
 <system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_compression" uuid = "229b6f84-09aa-11df-87b0-ab7c62abf4b2" library_target = "EL_compression">
+	<description>
+ZLib Compression
+
+A Eiffel interface to the [https://www.zlib.net/ zlib C library].
+The main class is [$source EL_COMPRESSED_ARCHIVE_FILE] with a few helper classes.
+	</description>
 	<target name = "EL_compression">
-		<description>wrapper for zlib. (http://www.eiffel-loop.com)</description>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>

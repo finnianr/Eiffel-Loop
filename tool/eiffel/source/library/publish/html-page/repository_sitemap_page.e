@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-07-01 14:32:56 GMT (Sunday 1st July 2018)"
-	revision: "5"
+	date: "2018-10-03 12:41:19 GMT (Wednesday 3rd October 2018)"
+	revision: "6"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -25,20 +25,29 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository: like repository; a_source_tree_pages: like source_tree_pages)
+	make (a_repository: like repository; a_ecf_pages: like ecf_pages)
+		local
+			class_set: EL_HASH_TABLE [EIFFEL_CLASS, EL_FILE_PATH]
 		do
 			make_page (a_repository)
-			source_tree_pages := a_source_tree_pages
-			across repository.tree_list as tree loop
-				stats_cmd.manifest.locations.extend (tree.item)
+			ecf_pages := a_ecf_pages
+			create class_set.make_equal (2000)
+			across repository.ecf_list as ecf loop
+				across ecf.item.directory_list as dir loop
+					across dir.item.class_list as l_class loop
+						if not class_set.has (l_class.item.source_path) then
+							stats_cmd.add_class_stats (l_class.item.stats)
+							class_set.extend (l_class.item, l_class.item.source_path)
+						end
+					end
+				end
 			end
-			stats_cmd.execute
 			make_sync_item (output_path)
 		end
 
 	make_default
 		do
-			create source_tree_pages.make (0)
+			create ecf_pages.make (0)
 			create stats_cmd.make_default
 			Precursor
 		end
@@ -68,12 +77,12 @@ feature {NONE} -- Implementation
 
 	category_list: ARRAYED_LIST [EVOLICITY_CONTEXT]
 		local
-			category: ZSTRING; list: EL_SORTABLE_ARRAYED_LIST [REPOSITORY_SOURCE_TREE_PAGE]
+			category: ZSTRING; list: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CONFIGURATION_INDEX_PAGE]
 		do
-			create Result.make (source_tree_pages.count // 10 + 1)
+			create Result.make (ecf_pages.count // 10 + 1)
 			create category.make_empty
 			create list.make (0)
-			across source_tree_pages as page loop
+			across ecf_pages as page loop
 				if category /~ page.item.category_index_title then
 					category := page.item.category_index_title
 					list.sort
@@ -94,14 +103,14 @@ feature {NONE} -- Implementation
 	sink_content (crc: like crc_generator)
 		do
 			crc.add_file (template_path)
-			across source_tree_pages as page loop
+			across ecf_pages as page loop
 				crc.add_natural (page.item.current_digest)
 			end
 		end
 
 feature {NONE} -- Initialization
 
-	source_tree_pages: like repository.new_source_tree_pages
+	ecf_pages: like repository.new_ecf_pages
 
 	stats_cmd: CODEBASE_STATISTICS_COMMAND
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-09-30 8:11:43 GMT (Sunday 30th September 2018)"
+	revision: "7"
 
 class
 	SOURCE_MANIFEST
@@ -31,6 +31,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			create locations.make (10)
+			create last_name.make_empty
 			Precursor
 		end
 
@@ -79,20 +80,31 @@ feature {NONE} -- Build from Pyxis
 			-- Nodes relative to root element: bix
 		do
 			create Result.make (<<
-				["location", agent extend_locations]
+				["location/@name", agent do last_name := node.to_string end],
+				["location/text()", agent extend_locations]
 			>>)
 		end
 
 	extend_locations
 			--
+		local
+			l_path: EL_DIR_PATH; tree: SOURCE_TREE
 		do
-			locations.extend (create {SOURCE_TREE}.make (parent_dir))
-			set_next_context (locations.last)
+			l_path := node.to_expanded_dir_path
+			if l_path.is_absolute then
+				create tree.make (l_path)
+			else
+				create tree.make (parent_dir.joined_dir_path (l_path))
+			end
+			tree.set_name (last_name)
+			locations.extend (tree)
 		end
 
 feature {NONE} -- Internal attributes
 
 	parent_dir: EL_DIR_PATH
+
+	last_name: ZSTRING
 
 feature {NONE} -- Constants
 

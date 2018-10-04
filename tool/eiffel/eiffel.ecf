@@ -11,6 +11,11 @@
 	
 -->
 <system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "el_eiffel" uuid = "EEA36E90-5A49-11E7-8290-A34D58BF65CD">
+	<description>
+Eiffel Development Utility
+
+See doc/eiffel-utility.txt for details.
+	</description>
 	<!--"Swiss army knife" toolkit containing a suite of command line tools for Eiffel development-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>

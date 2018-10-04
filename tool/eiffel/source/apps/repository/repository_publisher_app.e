@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
-	revision: "9"
+	date: "2018-10-03 11:04:03 GMT (Wednesday 3rd October 2018)"
+	revision: "10"
 
 class
 	REPOSITORY_PUBLISHER_APP
@@ -44,8 +44,8 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{REPOSITORY_PUBLISHER_APP}, All_routines],
-				[{REPOSITORY_SOURCE_TREE}, All_routines],
-				[{REPOSITORY_SOURCE_TREE_PAGE}, All_routines]
+				[{EIFFEL_CONFIGURATION_FILE}, All_routines],
+				[{EIFFEL_CONFIGURATION_INDEX_PAGE}, All_routines]
 			>>
 		end
 

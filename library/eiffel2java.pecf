@@ -5,14 +5,31 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_eiffel2java; uuid = "229b783a-09aa-11df-87c6-93dce164c2d4" 
 	library_target = EL_eiffel2java
-	
+	description: 
+		"""
+			Java
+
+			A high-level framework for wrapping Java classes that adds a useful layer of abstraction to Eiffel Software's 
+			interface to the JNI ([https://en.wikipedia.org/wiki/Java_Native_Interface Java Native Interface]) called
+			[https://www.eiffel.org/doc/solutions/Eiffel2Java eiffel2java].
+
+			**Features**
+			* Better Java environment discovery for initialization.
+			* Automates composition of JNI call signature strings.
+			* Automates cleanup of Java objects.
+
+			The framework is based on the concept of a Java agent that is similar to an Eiffel agent. You will find classes:
+			[$source JAVA_FUNCTION] and 
+			[$source JAVA_PROCEDURE] that inherit
+			[$source JAVA_ROUTINE].
+			These agent classes automatically generate correct JNI call signatures. The library allows the creation
+			of recursively wrapped classes where the arguments and return types to wrapped routines are themselves
+			wrapped classes.
+
+			See [./example/eiffel2java/eiffel2java.html example/eiffel2java/eiffel2java.ecf] for an example of it's use.
+		"""
 	target:
 		name = EL_eiffel2java
-		
-		description: 
-			"""
-				Eiffel interface to Java. (http://www.eiffel-loop.com)
-			"""
 		root:
 			all_classes = true
 

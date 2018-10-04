@@ -5,7 +5,16 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_encryption; uuid = "229b74ac-09aa-11df-87bd-ff346cce6bd1" 
 	library_target = EL_encryption
-	
+	description:
+		"""
+			AES Encryption
+
+			Easy interface to basic AES encryption with extensions to Colin LeMahieu's
+			[https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel AES
+			encryption library]. Includes a class for reading and writing encrypted files using
+			[https://en.wikipedia.org/wiki/Advanced_Encryption_Standard AES]
+			cipher [https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation block chains].
+		"""
 	target:
 		name = EL_encryption
 		
@@ -14,7 +23,6 @@ system:
 				AES FOR DUMMIES
 
 				Extensions to Colin Le Mahieu's encryption library.
-				Easy interface to basic AES encryption.
 			"""
 
 		root:

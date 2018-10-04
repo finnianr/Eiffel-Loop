@@ -1,8 +1,0 @@
-note
-	descendants: "See end of class"
-	descendants: "[
-			AIA_REQUEST*
-				[$source AIA_PURCHASE_REQUEST]
-					[$source AIA_REVOKE_REQUEST]
-				[$source AIA_GET_USER_ID_REQUEST]
-	]"

@@ -5,14 +5,16 @@ system:
 	configuration_ns = "1-8-0"
 	name = eiffel2java; uuid = "229b6b92-09aa-11df-87a6-133993654198" 
 	library_target = eiffel2java
+	description:
+		"""
+			Override of ES Eiffel2Java
+
+			Override of Eiffel Software's [https://www.eiffel.org/doc/solutions/Eiffel2Java Eiffel2Java] library
+			for use with the [./library/eiffel2java.html  Eiffel-Loop Eiffel to Java] library.
+		"""
 	
 	target:
 		name = eiffel2java
-		
-		description: 
-			"""
-				Adapted version of Eiffel Software's Eiffel to Java interface 
-			"""
 		root:
 			all_classes = true
 

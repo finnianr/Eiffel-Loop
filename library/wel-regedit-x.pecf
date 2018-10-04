@@ -5,14 +5,21 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_regedit; uuid = "552d167e-5817-4a31-acb4-8611c5033b28" 
 	library_target = EL_regedit
+	description: 
+		"""
+			Windows Registry Management
+
+			Classes for Windows registry searching, reading and editing.
+			
+			This library adds a layer of abstraction to the Windows registry classes found the in the
+			[https://www.eiffel.org/resources/libraries/wel Eiffel Windows Library WEL].
+			This abstraction layer makes it easier and more intuitive to search, read and edit Windows
+			registry keys and data. See
+			[https://www.eiffel.org/article/windows_registry_access_made_easy this article] on Eiffel room.
+		"""
 	
 	target:
 		name = EL_regedit
-		
-		description: 
-			"""
-				Windows registry searching, reading and editing classes
-			"""
 
 		root:
 			all_classes = true

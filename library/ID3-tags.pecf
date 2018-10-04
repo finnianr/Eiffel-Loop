@@ -9,15 +9,18 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_id3_tags; uuid = "229b4fae-09aa-11df-8771-e7444f3b4d30" 
 	library_target = EL_id3_tags
+	description:
+		"""
+			ID3 Tagging for MP3
+
+			Classes for reading and writing ID3 tags to MP3 files using a common interface to the
+			C libraries `libid3tag (C)' and `id3lib (C++)'. The former C library is used for ID3 version 2.4 tags
+			and the latter for earlier versions from 2.0 to 2.3.
+		"""
 	
 	target:
 		name = EL_id3_tags
 		
-		description: 
-			"""
-				ID3 tagging library. (http://www.eiffel-loop.com)
-			"""
-
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
@@ -109,10 +112,6 @@ system:
 
 		# Source code
 		cluster:
-			name = id3; location = "multimedia/audio/file"; recursive = true
-			file_rule:
-				exclude:
-					"/eyeD3$"
-					"/wav$"
+			name = id3; location = "multimedia/audio/file/id3"; recursive = true
 
 

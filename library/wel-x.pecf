@@ -5,14 +5,15 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_wel_x; uuid = "229b72ae-09aa-11df-87b8-0312bf157bc0" 
 	library_target = EL_wel_x
+	description: 
+		"""
+			Windows Eiffel Library Extensions
+
+			Extensions for [https://www.eiffel.org/doc/solutions/WEL WEL GUI library].
+		"""
 	
 	target:
 		name = EL_wel_x
-		
-		description: 
-			"""
-				Extensions for WEL GUI library. (http://www.eiffel-loop.com)
-			"""
 		root:
 			all_classes = true
 

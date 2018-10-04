@@ -1,34 +1,14 @@
 # Eiffel-Loop Contents
+## EROS Protocol Test server
+Signal processing application to demonstrate the [EROS remote object protocol](http://www.eiffel-loop.com/library/eros.html).
+## EROS Protocol Test clients
+Client application to demonstrate remote signal processing math using the [EROS remote object protocol](http://www.eiffel-loop.com/library/eros.html).
 ## Submission for 99-bottles-of-beer.net
 Eiffel submission for [www.99-bottles-of-beer.net](http://www.99-bottles-of-beer.net/).
 
 This website contains sample programs for over 1500 languages and variations, all of which print the lyrics of the song "99 Bottles of Beer".
-## Eiffel EROS server with client example
-EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver and is an experimental project that implements an Eiffel orientated XML remote procedure call protocol.
-
-The two example projects demonstrate an [EROS client](http://www.eiffel-loop.com/example/net/EROS/test-clients/source/sub-applications/fourier_math_test_client_app.e.html) calling an [EROS server](http://www.eiffel-loop.com/example/net/EROS/server/source/sub-applications/fourier_math_server_app.e.html) using the EROS protocol.
-
-The server program has an optional GUI mode that allows real time monitoring of network service threads with thread logging displayed in the console. Thread context switching is controlled by the graphical interface as shown in [this screenshot](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png). Note that this shot was taken before the introduction of console color-highlighting to Eiffel-Loop.
-
-The network protocol operates in two alternative modes (set by a command switch):
-
-**1. ** plain text XML
-
-**2. ** binary compressed XML
-
-**Build Notes**
-
-When including the `eros.ecf` in your project it is necessary to define a custom variable `eros_server_enabled`. To build a server application set the value to `true`. To build a client application set value to `false`.
-
-
-
-
-
-
-
-
 ## Eiffel to Java
-Demo for the Eiffel-Loop Java interface library. This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
+Demonstration program for the [Eiffel-Loop Java interface library](http://www.eiffel-loop.com/library/eiffel2java.html). This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
 ## Rhythmbox MP3 Collection Manager
 This is a full-blown MP3 collection manager that is designed to work in conjunction with the [Rhythmbox media player](https://wiki.gnome.org/Apps/Rhythmbox) and has a number of features of particular interest to Tango DJs.
 
@@ -79,7 +59,7 @@ Warning: **Use at your own risk.** It is recommended that you have a backup of y
 
 
 ## Vision-2 Extensions Demo
-Test application for selected components from Eiffel-Loop extension libraries for Vision-2 and Docking.
+Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
 ## Eiffel Development Utility
 A "Swiss-army knife" of useful Eiffel command line development tools. The most useful ones are listed here with command line switchs:
 
@@ -124,27 +104,49 @@ Compiles tree of Pyxis translation files into multiple locale files named `local
 Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
 
 
-## Development Testing
+## Eiffel-Loop Dev Tests
+## ID3 Tagging for MP3
+Classes for reading and writing ID3 tags to MP3 files using a common interface to the C libraries `libid3tag (C)` and `id3lib (C++)`. The former C library is used for ID3 version 2.4 tags and the latter for earlier versions from 2.0 to 2.3.
+## WAV Audio Processing
+Classes for reading and writing wav files on the Windows OS
+## Windows Audio
+Audio extensions for the [WEL GUI library](https://www.eiffel.org/doc/solutions/WEL) that facilitate playback and other audio functions.
+## Vision2 Audio
+Audio extensions for Windows implementation of Vision2 GUI library. This depends on the [WEL audio extensions](http://www.eiffel-loop.com/library/wel-x-audio.html) library.
+## Laabhair Audio
+**Status:** No longer maintained
 
-## Audio Processing Classes
-Class for editing ID3 tags and processing WAV files.
-## Data Structures
+The Laabhair* Audio library was developed at the [Digital Media Centre at the Dublin Institute of Technology](https://arrow.dit.ie/dmc/) to do audio processing with Eiffel and present realtime graphics audio representations using an [Adobe Flash player](https://www.adobe.com/products/flashplayer.html) GUI.
 
+*Laabhair is the Gaelic for talk.
+## Data Structure Classes
 ## Math Classes
-
-## Persistency Classes
-
+## Data Persistence
+Classes for reading and writing data to files
 ## Runtime Classes
-
-## Text Processing Classes
+## Text Processing
 Classes for parsing and processing textual data
-## Miscellaneous Utility Classes
+## Utility Classes
+Utility classes providing the following
+
+
+1. Benchmarking
+2. Date/time formatting
+3. Memory writing
+4. Cyclic redundancy check
+5. Command shells
+6. Extensions to ES uuid.ecf
 
 ## Image Utilities
+Image utilities providing:
+
+
+1. SVG to PNG conversion using C library [librsvg](http://librsvg.sourceforge.net/)
+2. Miscellaneous routines from the [Cairo graphics C library](https://cairographics.org/)
 
 ## HTML Viewer (based on Vision-2)
-
-## Vision-2 GUI Extensions
+Extension for Vision2 library to render very basic html produced by Thunderbird email client.
+## EiffelVision 2 GUI Extensions
 Provides many extensions to the Eiffel Software [Vision-2 cross-platform GUI library](https://www.eiffel.org/doc/solutions/EiffelVision%202) and the [Smart Docking library](https://dev.eiffel.com/Smart_Docking_library).
 
 **Features**
@@ -159,57 +161,22 @@ These features are only the tip of the ice-berg.
 
 
 ## Windows Eiffel Library Extensions
-
+Extensions for [WEL GUI library](https://www.eiffel.org/doc/solutions/WEL).
 ## C/C++ and MS COM objects
-
+Create Eiffel interfaces to C/C++ API's
 ## Java
-A high-level framework for wrapping Java classes that adds a useful layer of abstraction to Eiffel Software's  interface to the JNI ([Java Native Interface](https://en.wikipedia.org/wiki/Java_Native_Interface)) called [eiffel2java](https://www.eiffel.org/doc/solutions/Eiffel2Java).
+A high-level framework for wrapping Java classes that adds a useful layer of abstraction to Eiffel Software's interface to the JNI ([Java Native Interface](https://en.wikipedia.org/wiki/Java_Native_Interface)) called [eiffel2java](https://www.eiffel.org/doc/solutions/Eiffel2Java).
 
 **Features**
 * Better Java environment discovery for initialization.
 * Automates composition of JNI call signature strings.
 * Automates cleanup of Java objects.
 
-The framework is based on the concept of a Java agent that is similar to an Eiffel agent. You will find classes: [$source JAVA_FUNCTION] and  [$source JAVA_PROCEDURE] that inherit [$source JAVA_ROUTINE]. These agent classes automatically generate correct JNI call signatures. The library allows the creation of recursively wrapped classes where the arguments and return types to wrapped routines are themselves wrapped classes.
+The framework is based on the concept of a Java agent that is similar to an Eiffel agent. You will find classes: [$source JAVA_FUNCTION] and [$source JAVA_PROCEDURE] that inherit [$source JAVA_ROUTINE]. These agent classes automatically generate correct JNI call signatures. The library allows the creation of recursively wrapped classes where the arguments and return types to wrapped routines are themselves wrapped classes.
 
-[See here](http://www.eiffel-loop.com/example/eiffel2java/source/class-index.html) for an example of it's use.
-
-
-## Matlab
-**Status:** No longer maintained
-
-An Eiffel interface to [Matlab](http://uk.mathworks.com/products/matlab/), a popular math orientated scripting language. This interface was developed with Matlab Version 6.5, VC++ 8.0 Express Edition and Windows XP SP2 and successfully used in a number of linguistic research projects.
-## Praat-script
-**Status:** No longer maintained
-
-[Praat](http://www.fon.hum.uva.nl/praat) is a free tool for doing acoustic and phonetic analysis and has it's own scripting language, Praat-script.
-
-The `el_toolkit` utility has an option for converting the source code of Praat ver. 4.4 to compile with MSC. (Praat compiles "out of the box" with the mingw compiler, but at the time EiffelStudio didn't support mingw)
-
-Developed with VC++ 8.0 Express Edition, Windows XP SP2, Praat source code version 4.4.30. The conversion tool will not work with later versions of Praat.
-
-
+See [example/eiffel2java/eiffel2java.ecf](http://www.eiffel-loop.com/example/eiffel2java/eiffel2java.html) for an example of it's use.
 ## Python
 Some extensions to Daniel Rodríguez's [PEPE library for Eiffel](https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE). This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags in an MP3 file: [$source EL_EYED3_TAG].
-## Basic Networking Classes
-* Extensions for ISE network sockets.
-* Class to obtain the MAC address of network devices on both Windows and Linux.
-* Classes for managing HTTP cookies, query parameters, headers and status codes.
-
-## Adobe Flash interface for Laabhair
-**Status:** No longer maintained
-
-Eiffel interface to [Flash ActionScript objects](https://github.com/finnianr/Eiffel-Loop/blob/master/Flash_library/eiffel_loop/laabhair) used in the **Laabhair** digital signal processing framework. This framework allows you to create applications that process speech with a [Praat](http://www.fon.hum.uva.nl/praat) script in real time and create visual representations of the the data in Flash. Depends on the Eiffel-Loop Praat-script interface library.
-
-Developed on Windows XP SP2 with Flash Professional 8 IDE, EiffelStudio 6.1,  VC++ 8.0 Express Edition.
-
-Laabhair was developed at the [Digital Media Centre at the Dublin Institute of Technology](https://arrow.dit.ie/dmc/)
-
-
-
-
-## Amazon Instant Access API
-An Eiffel interface to the [Amazon Instant Access API](https://s3-us-west-2.amazonaws.com/dtg-docs/index.html). This API enables third party vendors to fulfil orders for digital goods on the Amazon store. It enables One-time purchases but not subscriptions. It passes a basic test suite but has not yet been tested in production.
 ## Eiffel Remote Object Server (EROS)
 EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver and is an experimental project that implements an Eiffel orientated XML remote procedure call protocol.
 
@@ -234,8 +201,47 @@ When including the `eros.ecf` in your project it is necessary to define a custom
 
 
 
+## Matlab
+**Status:** No longer maintained
+
+An Eiffel interface to [Matlab](http://uk.mathworks.com/products/matlab/), a popular math orientated scripting language. This interface was developed with Matlab Version 6.5, VC++ 8.0 Express Edition and Windows XP SP2 and successfully used in a number of linguistic research projects.
+
+**NOTE** This ECF is for documentation purposes only and will not compile.
+## Praat-script
+**Status:** No longer maintained
+
+Eiffel interface to the Praat scripting language
+
+[Praat](http://www.fon.hum.uva.nl/praat) is a free tool for doing acoustic and phonetic analysis and has it's own scripting language, Praat-script.
+
+The `el_toolkit` utility has an option for converting the source code of Praat ver. 4.4 to compile with MSC. (Praat compiles "out of the box" with the mingw compiler, but at the time EiffelStudio didn't support mingw)
+
+Developed with VC++ 8.0 Express Edition, Windows XP SP2, Praat source code version 4.4.30. The conversion tool will not work with later versions of Praat.
+
+**NOTE** This ECF is for documentation purposes only and will not compile.
+## Basic Networking Classes
+* Extensions for ISE network sockets.
+* Class to obtain the MAC address of network devices on both Windows and Linux.
+* Classes for managing HTTP cookies, query parameters, headers and status codes.
+
+## Adobe Flash to Laabhair
+**Status:** No longer maintained
+
+Eiffel network interface to [Flash ActionScript objects](https://github.com/finnianr/Eiffel-Loop/blob/master/Flash_library/eiffel_loop/laabhair) used in the **Laabhair** digital signal processing framework. This framework allows you to create applications that process speech with a [Praat](http://www.fon.hum.uva.nl/praat) script in real time and create visual representations of the the data using Adobe Flash. Depends on the Eiffel-Loop Praat-script interface library.
+
+Developed on Windows XP SP2 with Flash Professional 8 IDE, EiffelStudio 6.1, VC++ 8.0 Express Edition.
+
+Laabhair was developed at the [Digital Media Centre at the Dublin Institute of Technology](https://arrow.dit.ie/dmc/)
+## Amazon Instant Access API
+An Eiffel interface to the [Amazon Instant Access API](https://s3-us-west-2.amazonaws.com/dtg-docs/index.html). This API enables third party vendors to fulfil orders for digital goods on the Amazon store. It enables One-time purchases but not subscriptions. It passes a basic test suite but has not yet been tested in production.
 ## FTP Client Services
-Classes for uploading files to a server and managing server directory structure.
+Classes providing
+
+
+* uploading of files to a server
+* managing server directory structure.
+* file synchronization using the [$source EL_CRC_32_SYNC_ITEM] abstraction
+
 ## PayPal Payments Standard Button Manager API
 An Eiffel interface to the [PayPal Payments Standard Button Manager NVP HTTP API](https://developer.paypal.com/docs/classic/button-manager/integration-guide/).
 ## HTTP Client Services
@@ -243,7 +249,7 @@ Classes for remotely interacting with a HTTP server. Supports the HTTP commands:
 ## Fast CGI Servlets
 An implementation of the [Fast-CGI protocol](http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html) for creating single and multi-threaded HTTP servlet services.
 ## Eco-DB (Eiffel CHAIN Orientated Database)
-*Eco-DB* is an acronym for *Eiffel CHAIN Orientated Database*, and enables the development of container objects conforming to the base class [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) that have many of the properties of relational database tables.
+*Eco-DB* is an acronym for *Eiffel CHAIN Orientated Database*, and enables the development of container objects conforming to the base class [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) to have many of the properties of relational database tables.
 
 **PERSISTENCE**
 
@@ -277,7 +283,7 @@ Being able to assign a unique identifier to each item in a chain is essential to
 
 Of course the Eiffel language itself can be used to query any [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [$source EL_QUERYABLE_CHAIN] and it's helper [$source EL_QUERY_CONDITION_FACTORY]. The implementing class [$source ECD_ARRAYED_LIST] inherits [$source EL_QUERYABLE_CHAIN].
 
-Conditions can be combined using the logical operators: `and`, `or` and `not`. Queries are not parsed strings but actual Eiffel expressions. Some example of the expressiveness of this query language can be found in the following list of classes from the example project [Eiffel-Loop/example/manage-mp3](http://www.eiffel-loop.com/example/manage-mp3/source/class-index.html):
+Conditions can be combined using the logical operators: `and`, `or` and `not`. Queries are not parsed strings but actual Eiffel expressions. Some example of the expressiveness of this query language can be found in the following list of classes from the example project [Eiffel-Loop/example/manage-mp3](http://www.eiffel-loop.com/example/manage-mp3/manage-mp3.html):
 
 (Search page for routine `do_query`)
 
@@ -294,15 +300,30 @@ Conditions can be combined using the logical operators: `and`, `or` and `not`. Q
 
 
 ## Search Engine Classes
-Classes for parsing search terms and searching a list conforming to `CHAIN [EL_WORD_SEARCHABLE]`. The search uses case-insensivitive word tokenization. Facility to create custom search times. Terms can be combined using basic boolean operators.
-## Windows Registry Access
-This library adds a layer of abstraction to the Windows registry classes found the in the [Eiffel Windows Library WEL](https://www.eiffel.org/resources/libraries/wel). This abstraction layer makes it easier and more intuitive to search, read and edit Windows registry  keys and data. See [this article](https://room.eiffel.com/article/windows_registry_access_made_easy) on Eiffel room.
+Classes for parsing search terms and searching a list conforming to `CHAIN [EL_WORD_SEARCHABLE]`. The search uses case-insensivitive word tokenization.
 
 
+* Facility to create custom search types.
+* Terms can be combined using basic boolean operators.
+
+## Windows Registry Management
+Classes for Windows registry searching, reading and editing.
+
+This library adds a layer of abstraction to the Windows registry classes found the in the [Eiffel Windows Library WEL](https://www.eiffel.org/resources/libraries/wel). This abstraction layer makes it easier and more intuitive to search, read and edit Windows registry keys and data. See [this article](https://www.eiffel.org/article/windows_registry_access_made_easy) on Eiffel room.
 ## Eiffel LIST-orientated XML Database
-A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption. Any list conforming to `LIST [EL_STORABLE_XML_ELEMENT]` can be turned into a database. This library has now been superceded by `chain-db.ecf` which is more sophisticated and uses a binary format.
-## Xpath orientated XML node scanners and Eiffel object builders
-A library implementing various kinds of XML document node scanners fed by 5 different types of XML node parse event generators. These 5 types, all descendants of class [$source EL_PARSE_EVENT_SOURCE], are as follows:
+**Status:** No longer maintained
+
+A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption. Any list conforming to `LIST [EL_STORABLE_XML_ELEMENT]` can be turned into a database. This library has now been superceded by [Eco-DB.ecf](http://www.eiffel-loop.com/library/Eco-DB.html) which is faster, more powerful and uses a binary format.
+## Xpath Orientated Node-scanning and Object Building
+This library has two major functions:
+
+
+* Xpath orientated XML node scanners fed by 5 different types of XML node parse event generators.
+* Recursive building of Eiffel objects from XML using Xpath expressions.
+
+**XML Node Scanning**
+
+The 5 parse event generators types, all descendants of class [$source EL_PARSE_EVENT_SOURCE], are as follows:
 
 **1.** [$source EL_EXPAT_XML_PARSER]: An Eiffel binding to the [eXpat XML parser](http://expat.sourceforge.net/)
 
@@ -344,14 +365,10 @@ VTD-XML uses a very fast and efficient method of building a compressed represent
 Using the Eiffel API is considerably easier and more intuitive to use than the original Java or C version of VTD-XML.
 
 A substantial C-bridge was developed to make Eiffel work better with VTD-XML. The original VTX-XML code was forked to make it possible to compile it with the MSC compiler. This fork is found under `contrib/C`.
-
-
 ## OpenOffice Spreadsheet
 Classes for parsing [OpenDocument Flat XML spreadsheets](http://www.datypic.com/sc/odf/e-office_spreadsheet.html) using [VTD-XML](http://vtd-xml.sourceforge.net/).
-## Multi-application Management
-**Introduction**
-
-This library accomplishes two goals:
+## Multi-Application Management
+This library has two main purposes:
 
 
 1. Manage a collection of small (and possibility related) "mini-applications" as a single Eiffel application.
@@ -388,9 +405,13 @@ The library provides a system of managing application resources like graphics, h
 
 
 
-## Eiffel Thread Extensions
-A collection of about 70 classes that extend the classic EiffelThread library.
+## Concurrency
+A collection of about 75 classes that augment the classic [EiffelThread library](https://www.eiffel.org/doc/solutions/EiffelThreads).
+
+Of these, the most useful are [$source EL_PROCEDURE_DISTRIBUTER] and [$source EL_FUNCTION_DISTRIBUTER] which offers a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [$source EIFFEL_CONFIGURATION_FILE] for an example.
 ## Multi-threaded Logging
+Logging library featuring color highlighted output and mimicry of Eiffel routine code in output.
+
 **General Features**
 
 
@@ -403,11 +424,11 @@ A collection of about 70 classes that extend the classic EiffelThread library.
 * Global filtering mechanism to restrict output to selected classes and routines. A wildcard constant can be used to log all routines for a particular class.
 
 
-* By implementing the [$source EL_CONSOLE_MANAGER] class in a GUI library it is possible to create a UI component that is able to switch the logged console output to that of a different thread of execution. The [Vision2-x library](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/class-index.html) has once such component [$source EL_CONSOLE_MANAGER_TOOLBAR]. See this example [screenshot](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png). The [wel-x library](http://www.eiffel-loop.com/library/graphic/toolkit/wel-x/class-index.html) partially implements it with class [$source EL_CONSOLE_MANAGER_DIALOG].
+* By implementing the [$source EL_CONSOLE_MANAGER] class in a GUI library it is possible to create a UI component that is able to switch the logged console output to that of a different thread of execution. The [Vision2-x library](http://www.eiffel-loop.com/library/vision2-x.html) has once such component [$source EL_CONSOLE_MANAGER_TOOLBAR]. See this example [screenshot](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png). The [wel-x library](http://www.eiffel-loop.com/library/wel-x.html) partially implements it with class [$source EL_CONSOLE_MANAGER_DIALOG].
 
 **Output Format**
 
-The beauty of Eiffel-Loop logging is that the output is indented to show the entry and exit from routines. Each entry and exit to a routine is documented with a header and trailer output text based on the class name and routine name. The following is some sample output from a test program for the [Eiffel Loop VTD-XML API](http://www.eiffel-loop.com/library/persistency/xml/vtd-xml/class-index.html). The test function executes an xpath query looking for http urls in an XML document.
+The beauty of Eiffel-Loop logging is that the output is indented to show the entry and exit from routines. Each entry and exit to a routine is documented with a header and trailer output text based on the class name and routine name. The following is some sample output from a test program for the [Eiffel Loop VTD-XML API](http://www.eiffel-loop.com/library/vtd-xml.html). The test function executes an xpath query looking for http urls in an XML document.
 
 
 
@@ -516,7 +537,7 @@ my_routine is
 ````
 **Including logging in your application**
 
-There are a number of ways to include logging in your application. The first is to inherit [$source EL_LOGGED_APPLICATION] in your root class and implement the function `Log_filter` (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [$source EL_SUB_APPLICATION] in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
+There are a number of ways to include logging in your application. The first is to inherit [$source EL_LOGGED_SUB_APPLICATION] in your root class and implement the function `Log_filter` (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [$source EL_SUB_APPLICATION] in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
 
 Inheriting from class [$source EL_SUB_APPLICATION] has some incidental benefits including:
 
@@ -532,7 +553,7 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [$source EL_LOGGED_APPLICATION] and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [$source TEST_VTD_XML_APP] is implemented as follows:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [$source EL_LOGGED_SUB_APPLICATION] and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [$source TEST_VTD_XML_APP] is implemented as follows:
 
 
 ````
@@ -593,7 +614,7 @@ my_thread_index := Log_manager.thread_index ("My thread")
 ````
 **Logging Routines**
 
-Access to the logging routines is through feature log of class [$source EL_MODULE_LOG]. The log object conforms to type [$source  EL_LOGGABLE] which has numerous procedures for writing to the log as well as some useful functions.
+Access to the logging routines is through feature log of class [$source EL_MODULE_LOG]. The log object conforms to type [$source EL_LOGGABLE] which has numerous procedures for writing to the log as well as some useful functions.
 
 The procedure form: 
 
@@ -647,12 +668,10 @@ At present changes to the log filtering necessitates a recompilation of the code
 
 
 ## OS Command Wrapping
-Aproximately 100 classes for creating cross platform wrappers of OS commands with about 30 "out of the box" commands.
-
-**General Features**
+Aproximately 100 classes for creating cross platform wrappers of OS commands with about 30 "out of the box" commands. **General Features**
 
 
-* Command templates are based on the powerful [Evolicity text substitution library](http://www.eiffel-loop.com/library/text/template/evolicity/class-index.html).
+* Command templates are based on the powerful [Evolicity text substitution library](http://www.eiffel-loop.com/library/evolicity.html).
 
 
 * Support for command output capture, and error output capture.
@@ -669,7 +688,9 @@ Aproximately 100 classes for creating cross platform wrappers of OS commands wit
 
 * Has factory class [$source EL_OS_ROUTINES_IMP] (accessible via [$source EL_MODULE_OS]) which contains factory functions for common OS system commands.
 
-**Information Commands** These are "out of the box" command for obtaining system information.
+**Information Commands**
+
+These are "out of the box" command for obtaining system information.
 
 
 * Unix command to parse output of nm-tool to get MAC address of ethernet devices
@@ -678,26 +699,20 @@ Aproximately 100 classes for creating cross platform wrappers of OS commands wit
 * Unix command to obtain CPU name
 
 
-## Development Testing Classes
+## Regression Testing
 Classes for doing regression tests based on CRC checksum comparisons of logging output and output files.
-## AES Encryption Extensions
-Extensions to Colin LeMahieu's [AES encryption library](https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel). Includes a class for reading and writing encrypted files using [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) cipher [block chains](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
-## RSA Public-key Encryption Extensions
-Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability to read key-pairs conforming to the [X509 PKCS1 standard](https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates). The top level class to access these facilities is [$source EL_MODULE_X509_COMMAND].
-
-The private key reader however uses a non-standard encryption scheme. It assumes the file is encrypted using the Eiffel-Loop utility contained in `el_toolkit`. See class [$source CRYPTO_APP] for details.
-
-
-
-
-
-
 ## Internationalization
 An internationalization library with support for translations rendered in Pyxis format. There are a number of tools in `el_toolkit` to support the use of this library.
-## Evolicity Text Substitution Engine
-**Evolicity** is a text substitution language that was inspired by the [Velocity text substitution language](http://velocity.apache.org/) for Java. *Evolicity* provides a way to merge the data from Eiffel objects into a text template. The template can be either supplied externally or hard-coded into an Eiffel class. The language includes, substitution variables, conditional statements and loops. Substitution variables have a BASH like syntax. Conditionals and loops have an Eiffel like syntax.
+## AES Encryption
+Easy interface to basic AES encryption with extensions to Colin LeMahieu's [AES encryption library](https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel). Includes a class for reading and writing encrypted files using [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) cipher [block chains](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
+## RSA Public-key Encryption
+Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability to read key-pairs conforming to the [X509 PKCS1 standard](https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates). The top level class to access these facilities is [$source EL_MODULE_X509_COMMAND].
 
-The text of this web page was generated by the [Eiffel-view repository publisher](http://www.eiffel-loop.com/tool/eiffel/source/apps/repository_publisher_app.e.html) using the following combination of *Evolicity* templates:
+The private key reader however uses a non-standard encryption scheme. It assumes the file is en	crypted using the Eiffel-Loop utility contained in `el_toolkit`. See class [$source CRYPTO_APP] for details. (Missing file?)
+## Evolicity Text Substitution Engine
+*Evolicity* is a text substitution language that was inspired by the [Velocity text substitution language](http://velocity.apache.org/) for Java. *Evolicity* provides a way to merge the data from Eiffel objects into a text template. The template can be either supplied externally or hard-coded into an Eiffel class. The language includes, substitution variables, conditional statements and loops. Substitution variables have a BASH like syntax. Conditionals and loops have an Eiffel like syntax.
+
+The text of this web site was generated by the Eiffel-view repository publisher (See class [$source REPOSITORY_PUBLISHER_APP]) using the following combination of *Evolicity* templates:
 
 
 1. [doc-config/main-template.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/main-template.html.evol)
@@ -719,16 +734,20 @@ To make an Eiffel class serializable with *Evolicity* you inherit from class [$s
 ## Text Formats
 A library for handling various human-readable text formats. Supported formats are: XML, XHTML, HTML, JSON, CSV. (Note: Eiffel-Loop has other libraries for parsing XML)
 ## Application License Management
-This contains a few basic classes for constructing an application license manager. The most important is a way to obtain a unique machine ID using a combination of the CPU model name and MAC address either from the network card or wifi card. 
+This library contains a few basic classes for constructing an application license manager. The most important is a way to obtain a unique machine ID using a combination of the CPU model name and MAC address either from the network card or wifi card.
 
 The principle developer of Eiffel-loop has developed a sophisticated license management system using RSA public key cryptography, however it is not available as open source. If you are interested to license this system for your company, please contact the developer. It has been used for the [My Ching](http://myching.software) software product.
-
-
 ## ZLib Compression
 A Eiffel interface to the [zlib C library](https://www.zlib.net/). The main class is [$source EL_COMPRESSED_ARCHIVE_FILE] with a few helper classes.
 ## Currency Exchange
-Currency Exchange based on European Central bank Rates
-## Override of ES GUI Toolkits
+Currency Exchange based on European Central bank Rates from [eurofxref-daily.xml](https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml)
+## Windows Installer
+**Status:** No longer maintained.
 
-## Override of ES Eiffel to Java Interface
+Classes to create a Windows install program.
 
+This library has been superceded by the capabilities of the [Multi-Application Management](http://www.eiffel-loop.com/library/app-manage.html) library.
+## Override of EiffelVision2
+Override of Eiffel Software's EiffelVision2 for use with [Eiffel-Loop Vision2 extensions](http://www.eiffel-loop.com/library/vision2-x.html)
+## Override of Eiffel2Java
+Override of Eiffel Software's [Eiffel2Java](https://www.eiffel.org/doc/solutions/Eiffel2Java) library for use with the [ Eiffel-Loop Eiffel to Java](http://www.eiffel-loop.com/library/eiffel2java.html) library.

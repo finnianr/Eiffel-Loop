@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-09-29 9:50:23 GMT (Saturday 29th September 2018)"
+	revision: "6"
 
 class
 	LIBRARY_CLASS
@@ -43,15 +43,11 @@ feature -- Access
 feature -- Basic operations
 
 	serialize
-		local
-			l_classes: like repository.example_classes
 		do
-			l_classes := repository.example_classes
-			from l_classes.start until l_classes.after or else client_examples.count = Maximum_examples loop
-				if l_classes.item.has_class_name (name) then
-					client_examples.extend (l_classes.item)
+			across repository.example_classes as l_class until client_examples.count = Maximum_examples loop
+				if l_class.item.has_class_name (name) then
+					client_examples.extend (l_class.item)
 				end
-				l_classes.forth
 			end
 			Precursor
 		end

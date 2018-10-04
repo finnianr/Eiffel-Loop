@@ -5,15 +5,19 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_thread; uuid = "FD551656-3F7D-11E6-A8AB-E76A8A33139A" 
 	library_target = EL_thread
+	description:
+		"""
+			Concurrency
+
+			A collection of about 75 classes that augment the classic [https://www.eiffel.org/doc/solutions/EiffelThreads EiffelThread library].
+
+			Of these, the most useful are [$source EL_PROCEDURE_DISTRIBUTER] and [$source EL_FUNCTION_DISTRIBUTER]
+			which offers a convenient way to distribute the work of executing routines using a specific number of cores.
+			See routine `read_source_files' in class [$source EIFFEL_CONFIGURATION_FILE] for an example.
+		"""
 	
 	target:
 		name = EL_thread
-		
-		description:
-			"""
-				Eiffel concurrency extensions
-			"""
-
 		root:
 			all_classes = true
 

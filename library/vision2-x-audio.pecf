@@ -5,15 +5,16 @@ system:
 	configuration_ns = "1-8-0"
 	name = EL_vision2_x_audio; uuid = "229b6e58-09aa-11df-87ad-bf45b875a36c" 
 	library_target = EL_vision2_x_audio
+	description:
+		"""
+			Vision2 Audio
+
+			Audio extensions for Windows implementation of Vision2 GUI library.
+			This depends on the [./library/wel-x-audio.html WEL audio extensions] library.
+		"""
 	
 	target:
 		name = EL_vision2_x_audio
-		
-		description: 
-			"""
-				Audio extensions for Vision2 GUI library. (http://www.eiffel-loop.com)
-				(Windows only)
-			"""
 		root:
 			all_classes = true
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "10"
+	date: "2018-10-02 10:16:56 GMT (Tuesday 2nd October 2018)"
+	revision: "11"
 
 class
 	EIFFEL_NOTES
@@ -130,7 +130,7 @@ feature -- Element change
 		do
 			relative_class_dir := a_relative_class_dir
 		end
-	
+
 feature {NONE} -- Line states
 
 	find_field_text_start (line, field_name: ZSTRING; lines: EL_ZSTRING_LIST)

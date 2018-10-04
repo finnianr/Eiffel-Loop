@@ -1,0 +1,39 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+# This ECF is for documentation purposes only and will not compile.
+
+system:
+	configuration_ns = "1-16-0"
+	name = EL_praat; uuid = "40754850-C64C-11E8-B0F2-2BC04FA26098" 
+	library_target = EL_praat
+	description:
+		"""
+			Praat-script
+			
+			**Status:** No longer maintained
+
+			Eiffel interface to the Praat scripting language
+
+			[http://www.fon.hum.uva.nl/praat Praat] is a free tool for doing acoustic
+			and phonetic analysis and has it's own scripting language, Praat-script.
+
+			The `el_toolkit' utility has an option for converting the source code of Praat ver. 4.4 to compile with MSC.
+			(Praat compiles "out of the box" with the mingw compiler, but at the time EiffelStudio didn't support mingw)
+
+			Developed with VC++ 8.0 Express Edition, Windows XP SP2, Praat source code version 4.4.30. The conversion
+			tool will not work with later versions of Praat.
+
+			**NOTE**
+			This ECF is for documentation purposes only and will not compile.
+		"""
+	target:
+		name = EL_praat
+
+		root:
+			all_classes = true
+
+		# Classes
+		cluster:
+			name = EL_praat; location = "../language_interface/Praat-script"
+

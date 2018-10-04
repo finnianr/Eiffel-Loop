@@ -6,14 +6,15 @@ system:
 	name = EL_vision2_x; uuid = "229b7510-09aa-11df-87be-876e1b168743" 
 	library_target = EL_vision2_x
 	readonly = false
+	description: 
+		"""
+			EiffelVision 2 GUI Extensions
+
+			See doc/vision2-x.txt for details
+		"""
 	
 	target:
 		name = EL_vision2_x
-		
-		description: 
-			"""
-				Extensions for Vision2 GUI library. (http://www.eiffel-loop.com)
-			"""
 		root:
 			all_classes = true
 

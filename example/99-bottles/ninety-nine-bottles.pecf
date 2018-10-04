@@ -3,6 +3,15 @@ pyxis-doc:
 system:
 	configuration_ns = "1-16-0"
 	name = ninety_nine_bottles; uuid = "ABC0FAFC-91B1-473D-B203-9C90AA9CAE95"
+	description:
+		"""
+			Submission for 99-bottles-of-beer.net
+
+			Eiffel submission for [http://www.99-bottles-of-beer.net/ www.99-bottles-of-beer.net].
+			
+			This website contains sample programs for over 1500 languages and variations, all of 
+			which print the lyrics of the song "99 Bottles of Beer".
+		"""
 	target:
 		name = classic
 		root:

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Proxy to the Flash object defined by the interface: com.laabhair.Application .
+		Proxy to the Flash object defined by the interface: com.laabhair.Application
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2018-10-03 17:16:33 GMT (Wednesday 3rd October 2018)"
+	revision: "4"
 
 class
 	LB_FLASH_APPLICATION_PROXY

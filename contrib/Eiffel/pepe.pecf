@@ -1,0 +1,69 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	configuration_ns = "1-8-0"
+	name = pepe; uuid = "E29F6C46-C651-11E8-9A07-23CF65559551" 
+	library_target = pepe
+	description: 
+		"""
+			Python Interface to Eiffel
+
+			Daniel Rodríguez's
+			[https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE PEPE library for Eiffel].
+			This library allows you to call Python objects from Eiffel.
+		"""
+	
+	target:
+		name = pepe
+		option:
+			namespace = "Eiffel-Loop.Library.Pepe"; trace = false; debug=false; warning=true; syntax = standard
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+				
+		root:
+			all_classes = true
+		
+		# Windows
+		external_include: 
+			location = "$(PYTHON_HOME)/include"
+			condition:
+				platform:
+					value = windows
+
+		external_object:
+			location = "$(PYTHON_HOME)/libs/$(PYTHON_LIB_NAME).lib"
+			condition:
+				platform:
+					value = windows
+		
+		# Unix
+		external_include: 
+			location = "/usr/include/$(PYTHON_LIB_NAME)"
+			condition:
+				platform:
+					value = unix
+
+		external_object:
+			location = "-l$(PYTHON_LIB_NAME)"
+			condition:
+				platform:
+					value = unix
+
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
+
+		cluster:
+			name = pepe; location = "PEPE"; recursive = true
+
+			option:
+				assertions:
+					postcondition = true; check = true; invariant = true
+
+			option:
+				assertions:
+					postcondition = true; check = true; invariant = true
+

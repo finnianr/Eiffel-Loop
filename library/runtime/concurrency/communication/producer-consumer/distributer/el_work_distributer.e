@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-22 14:21:27 GMT (Sunday 22nd April 2018)"
-	revision: "4"
+	date: "2018-10-01 11:41:52 GMT (Monday 1st October 2018)"
+	revision: "5"
 
 class
 	EL_WORK_DISTRIBUTER [R -> ROUTINE]
@@ -65,6 +65,18 @@ feature -- Status change
 		end
 
 feature -- Basic operations
+
+	discard_applied
+		do
+			restrict_access
+				applied.wipe_out
+			end_restriction
+		end
+
+	discard_final_applied
+		do
+			final_applied.wipe_out
+		end
 
 	collect (list: LIST [R])
 		-- fill the `list' argument with already applied routines and wipe out `applied'

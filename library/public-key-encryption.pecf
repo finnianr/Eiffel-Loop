@@ -5,15 +5,21 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_public_key_encryption; uuid = "229b7448-09aa-11df-87bc-335404ca99d5" 
 	library_target = EL_public_key_encryption
-	
+	description: 
+		"""
+			RSA Public-key Encryption
+
+			Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards.
+			The most important is the ability to read key-pairs conforming to the
+			[https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates X509 PKCS1 standard].
+			The top level class to access these facilities is [$source EL_MODULE_X509_COMMAND].
+
+			The private key reader however uses a non-standard encryption scheme. It assumes the file
+			is en	crypted using the Eiffel-Loop utility contained in `el_toolkit'.
+			See class [$source CRYPTO_APP] for details.
+		"""
 	target:
 		name = EL_public_key_encryption
-		
-		description: 
-			"""
-				Extensions to Colin Le Mahieu's RSA cryptography library.
-			"""
-
 		root:
 			all_classes = true
 

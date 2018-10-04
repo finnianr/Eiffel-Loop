@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-29 13:04:11 GMT (Sunday 29th April 2018)"
-	revision: "1"
+	date: "2018-10-04 8:21:51 GMT (Thursday 4th October 2018)"
+	revision: "2"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -22,8 +22,8 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		rename
-			make as make_publisher,
-			file_path as config_path
+			make as make_publisher
+			
 		redefine
 			execute
 		end
@@ -55,7 +55,7 @@ feature -- Basic operations
 			lines: EL_FILE_LINE_SOURCE; file_out: EL_PLAIN_TEXT_FILE
 		do
 			log_thread_count
-			tree_list.do_all (agent {REPOSITORY_SOURCE_TREE}.read_source_files)
+			ecf_list.do_all (agent {EIFFEL_CONFIGURATION_FILE}.read_source_files)
 			create lines.make (file_path)
 			create file_out.make_open_write (expanded_file_path)
 			lines.do_all (agent expand_links (?, file_out))

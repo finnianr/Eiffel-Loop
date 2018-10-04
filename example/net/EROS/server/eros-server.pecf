@@ -16,6 +16,12 @@ pyxis-doc:
 system:
 	configuration_ns = "1-16-0"
 	name = el_eros; uuid = "229B79CA-09AA-11DF-87CA-871F44C15657"
+	description:
+		"""
+			EROS Protocol Test server
+
+			Signal processing application to demonstrate the [./library/eros.html EROS remote object protocol].
+		"""
 	
 	# classic means C code as an intermediate language
 	target: 

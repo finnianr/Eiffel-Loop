@@ -1,7 +1,7 @@
 note
 	description: "[
 		Reads name value pairs from file encrypted using the Eiffel-Loop 
-		`[./tool/toolkit/source/class-index.html el_toolkit -crypto]' command line utility.
+		`[./tool/toolkit/toolkit.html el_toolkit -crypto]' command line utility.
 			
 		See sub-application class: [$source CRYPTO_APP]
 		
@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "10"
+	date: "2018-10-04 11:48:29 GMT (Thursday 4th October 2018)"
+	revision: "11"
 
 class
 	PP_CREDENTIALS

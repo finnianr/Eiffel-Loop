@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "10"
+	date: "2018-10-01 13:24:51 GMT (Monday 1st October 2018)"
+	revision: "11"
 
 class
 	EL_FILE_PATH
@@ -37,6 +37,27 @@ feature -- Access
 	modification_time: INTEGER
 		do
 			Result := File_system.file_modification_time (Current)
+		end
+
+	relative_dot_path (other: EL_FILE_PATH): EL_FILE_PATH
+		-- relative path using dots do navigate from  `other.parent' to `base'
+		-- Eg. ../../<base> OR ../bbb/<base> OR <base>
+		local
+			dot_dir, super_dir: EL_DIR_PATH
+		do
+			if parent ~ other.parent then
+				Result := base
+
+			elseif parent.is_parent_of (other) then
+				dot_dir := Directory.relative_parent (other.step_count - step_count)
+				Result := dot_dir + base
+			else
+				from super_dir := parent until super_dir.is_parent_of (Current) and super_dir.is_parent_of (other) loop
+					super_dir := super_dir.parent
+				end
+				dot_dir := Directory.relative_parent (other.step_count - super_dir.step_count - 1)
+				Result := dot_dir + relative_path (super_dir)
+			end
 		end
 
 feature -- Status report

@@ -5,18 +5,20 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_xml_database; uuid = "371177CA-4083-11E7-B25C-A7C77F448613" 
 	library_target = EL_xml_database
-	
+	description: 
+		"""
+			Eiffel LIST-orientated XML Database
+
+			**Status:** No longer maintained
+
+			A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption.
+			Any list conforming to `LIST [EL_STORABLE_XML_ELEMENT]' can be turned into a database.
+			This library has now been superceded by [./library/Eco-DB.html Eco-DB.ecf] which is faster, more powerful
+			and uses a binary format.
+		"""
 	target:
 		name = EL_xml_database
 		
-		description: 
-			"""
-				A simple XML database based on VTD-XML xpath and XML parsing library.
-				Supports transactions and encryption
-				
-				NOTE:
-				This library is no longer maintained as chain-db.ecf is a better alternative.
-			"""
 		option: 
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true

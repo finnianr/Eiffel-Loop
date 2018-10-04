@@ -5,14 +5,16 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_wel_x_audio; uuid = "229b6df4-09aa-11df-87ac-abdb0fd497e6" 
 	library_target = EL_wel_x_audio
+	description: 
+		"""
+			Windows Audio
+
+			Audio extensions for the [https://www.eiffel.org/doc/solutions/WEL WEL GUI library]
+			that facilitate playback and other audio functions.
+		"""
 	
 	target:
 		name = EL_wel_x_audio
-		
-		description: 
-			"""
-				Audio extensions for WEL GUI library. (http://www.eiffel-loop.com)
-			"""
 		root:
 			all_classes = true
 
@@ -54,10 +56,8 @@ system:
 
 		# Source code
 		cluster:
-			name = audio; location = "multimedia/audio"
-			cluster:
-				name = memory; location = "$|memory"
-			cluster:
-				name = processing; location = "$|processing"
-			cluster:
-				name = wel_x_audio; location = "$|wel-x-audio"; recursive = true
+			name = memory; location = "multimedia/audio/memory"
+		cluster:
+			name = processing; location = "multimedia/audio/processing"
+		cluster:
+			name = wel_x_audio; location = "multimedia/audio/wel-x-audio"; recursive = true

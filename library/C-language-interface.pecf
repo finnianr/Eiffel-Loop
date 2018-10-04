@@ -5,15 +5,15 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_c_api; uuid = "229b522e-09aa-11df-8775-f3308731f240" 
 	library_target = EL_c_api
+	description: 
+		"""
+			C/C++ and MS COM objects
+
+			Create Eiffel interfaces to C/C++ API's
+		"""
 	
 	target:
 		name = EL_c_api
-		
-		description: 
-			"""
-				Create Eiffel interfaces to C API's
-			"""
-
 		root:
 			all_classes = true
 

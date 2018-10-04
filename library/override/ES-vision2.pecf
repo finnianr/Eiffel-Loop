@@ -8,6 +8,8 @@ system:
 		name = vision2
 		description:
 			"""
+				Override of EiffelVision2 for use with Eiffel-Loop Vision2 
+
 				EiffelVision2: Multiplatform graphical library of reusable components for Eiffel.
 				Copyright (c) 1984-2006, Eiffel Software and others.
 				Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt).

@@ -5,15 +5,15 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_http_client; uuid = "229b52e2-09aa-11df-8776-57ee66e3341a" 
 	library_target = EL_http_client
+	description:
+		"""
+			HTTP Client Services
+
+			Classes for remotely interacting with a HTTP server. Supports the HTTP commands: POST, GET and HEAD.
+		"""
 	
 	target:
 		name = EL_http_client
-		
-		description: 
-			"""
-				Http client connection using the C Curl library.
-				See: http://www.eiffel-loop.com/library/network/protocol/http/class-index.html
-			"""
 
 		root:
 			all_classes = true

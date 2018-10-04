@@ -69,13 +69,13 @@ system:
 			
 		# CLUSTERS
 		cluster:
-			name = data_structure; location = "data_structure"; recursive = true
+			name = data_structure; location = data_structure; recursive = true
 
 		cluster:
-			name = math; location = "math"; recursive = true
+			name = math; location = math; recursive = true
 
 		cluster:
-			name = runtime; location = "runtime"; recursive = true
+			name = runtime; location = runtime; recursive = true
 			file_rule:
 				exclude:
 					"/windows$"
@@ -91,14 +91,13 @@ system:
 						value = windows
 
 		cluster:
-			name = persistency; location = "persistency"; recursive = true
+			name = persistency; location = persistency; recursive = true
 
 		cluster:
-			name = text; location = "text"; recursive = true
+			name = text; location = text; recursive = true
 
-		# Source code
 		cluster:
-			name = utility; location = "utility"; recursive = true
+			name = utility; location = utility; recursive = true
 
 
 

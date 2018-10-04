@@ -5,17 +5,16 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_fast_cgi; uuid = "229b4c52-09aa-11df-876c-87080fdd2d54" 
 	library_target = EL_fast_cgi
+	description: 
+		"""
+			Fast CGI Servlets
+
+			An implementation of the [http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html Fast-CGI protocol]
+			for creating single and multi-threaded HTTP servlet services.
+		"""
 	
 	target:
 		name = EL_fast_cgi
-		
-		description: 
-			"""
-				An implementation of the Fast-CGI protocol for creating single and multi-threaded HTTP servlet services.
-				See: http://www.eiffel-loop.com/library/network/fast-cgi/class-index.html
-				and http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html
-			"""
-	
 		root:
 			all_classes = true
 

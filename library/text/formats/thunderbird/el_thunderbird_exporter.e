@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-27 18:01:06 GMT (Thursday 27th September 2018)"
-	revision: "4"
+	date: "2018-09-30 8:14:46 GMT (Sunday 30th September 2018)"
+	revision: "5"
 
 class
 	EL_THUNDERBIRD_EXPORTER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MODULE_LIO
 
-feature {EL_SUB_APPLICATION} -- Initialization
+feature {NONE} -- Initialization
 
 	make (a_account_name: ZSTRING; a_export_path, thunderbird_home_dir: EL_DIR_PATH)
 		local

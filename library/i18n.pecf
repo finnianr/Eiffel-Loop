@@ -5,14 +5,15 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_i18n; uuid = "229b7376-09aa-11df-87ba-5b96f04f3b6d" 
 	library_target = EL_i18n
-	
+	description:
+		"""
+			Internationalization
+
+			An internationalization library with support for translations rendered in Pyxis format.
+			There are a number of tools in `el_toolkit' to support the use of this library.
+		"""
 	target:
 		name = EL_i18n
-		
-		description: 
-			"""
-				Localization classes
-			"""
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true

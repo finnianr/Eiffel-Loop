@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
-	revision: "3"
+	date: "2018-10-03 11:04:03 GMT (Wednesday 3rd October 2018)"
+	revision: "4"
 
 class
 	REPOSITORY_NOTE_LINK_CHECKER_APP
@@ -36,8 +36,8 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{REPOSITORY_NOTE_LINK_CHECKER_APP}, All_routines],
-				[{REPOSITORY_SOURCE_TREE}, All_routines],
-				[{REPOSITORY_SOURCE_TREE_PAGE}, All_routines]
+				[{EIFFEL_CONFIGURATION_FILE}, All_routines],
+				[{EIFFEL_CONFIGURATION_INDEX_PAGE}, All_routines]
 			>>
 		end
 

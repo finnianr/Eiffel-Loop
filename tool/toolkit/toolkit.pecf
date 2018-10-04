@@ -11,6 +11,12 @@ pyxis-doc:
 system:
 	configuration_ns = "1-16-0"
 	name = el_toolkit; uuid = "7B1312E8-019E-4B01-B160-744B3B2E1915"
+	description:
+		"""
+			Utilities Toolkit
+			
+			See doc/toolkit.txt for details.
+		"""
 	
 	# "Swiss army knife" toolkit containing a suite of command line tools for Eiffel development
 	target: 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-07-01 14:44:40 GMT (Sunday 1st July 2018)"
-	revision: "10"
+	date: "2018-10-04 11:09:14 GMT (Thursday 4th October 2018)"
+	revision: "11"
 
 class
 	REPOSITORY_PUBLISHER
@@ -17,7 +17,7 @@ inherit
 
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
-			make_default, building_action_table
+			make_default, building_action_table, on_context_return
 		end
 
 	EL_STRING_CONSTANTS
@@ -39,18 +39,18 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_file_path: EL_FILE_PATH; a_version: STRING; a_thread_count: INTEGER)
 		do
-			file_path := a_file_path; version := a_version; thread_count := a_thread_count
+			config_path := a_file_path; version := a_version; thread_count := a_thread_count
 			make_from_file (a_file_path)
 		ensure then
 			has_name: not name.is_empty
-			has_at_least_one_source_tree: not tree_list.is_empty
+			has_at_least_one_source_tree: not ecf_list.is_empty
 		end
 
 	make_default
 			--
 		do
 			create name.make_empty
-			create tree_list.make (10)
+			create ecf_list.make (10)
 			create note_fields.make (2); note_fields.compare_objects
 			create templates.make
 			create root_dir
@@ -66,7 +66,7 @@ feature -- Access
 	example_classes: EL_ARRAYED_LIST [EIFFEL_CLASS]
 		-- Client examples list
 
-	file_path: EL_FILE_PATH
+	config_path: EL_FILE_PATH
 		-- config file path
 
 	ftp_sync: EL_BUILDER_CONTEXT_FTP_SYNC
@@ -82,15 +82,15 @@ feature -- Access
 
 	root_dir: EL_DIR_PATH
 
-	sorted_tree_list: like tree_list
+	sorted_tree_list: like ecf_list
 		do
-			tree_list.sort
-			Result := tree_list
+			ecf_list.sort
+			Result := ecf_list
 		end
 
 	templates: REPOSITORY_HTML_TEMPLATES
 
-	tree_list: EL_SORTABLE_ARRAYED_LIST [REPOSITORY_SOURCE_TREE]
+	ecf_list: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CONFIGURATION_FILE]
 
 	version: STRING
 
@@ -113,7 +113,7 @@ feature -- Basic operations
 			end
 
 			example_classes.wipe_out
-			across tree_list as tree loop
+			across ecf_list as tree loop
 				tree.item.read_source_files
 				across tree.item.directory_list as directory loop
 					across directory.item.class_list as eiffel_class loop
@@ -127,18 +127,22 @@ feature -- Basic operations
 				end
 				ftp_sync.extend (page.item)
 			end
+			ftp_sync.update
+			ftp_sync.remove_local (output_dir)
+
 			create github_contents.make (Current, output_dir + "Contents.md")
 			github_contents.serialize
 			write_version
 
-			if not ftp_sync.ftp.is_default_state then
-				lio.put_string ("Upload to website (y/n) ")
+			if ftp_sync.has_changes and not ftp_sync.ftp.is_default_state then
+				lio.put_string ("Synchronize with website (y/n) ")
 				if User_input.entered_letter ('y') then
 					lio.put_new_line
 					create console_display.make
 					listener := console_display.new_progress_listener
 					listener.set_final_tick_count (1000)
 					track_progress (listener, agent ftp_sync.login_and_upload, agent lio.put_line ("Synchronized"))
+					ftp_sync.save
 				end
 			end
 		end
@@ -157,11 +161,11 @@ feature -- Status query
 
 feature {NONE} -- Factory
 
-	new_source_tree_pages: EL_SORTABLE_ARRAYED_LIST [REPOSITORY_SOURCE_TREE_PAGE]
+	new_ecf_pages: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CONFIGURATION_INDEX_PAGE]
 		do
-			create Result.make (tree_list.count)
-			across tree_list as tree loop
-				Result.extend (create {REPOSITORY_SOURCE_TREE_PAGE}.make (Current, tree.item))
+			create Result.make (ecf_list.count)
+			across ecf_list as tree loop
+				Result.extend (create {EIFFEL_CONFIGURATION_INDEX_PAGE}.make (Current, tree.item))
 			end
 			Result.sort
 		end
@@ -185,12 +189,12 @@ feature {NONE} -- Implementation
 
 	pages: EL_ARRAYED_LIST [REPOSITORY_HTML_PAGE]
 		local
-			source_tree_pages: like new_source_tree_pages
+			ecf_pages: like new_ecf_pages
 		do
-			source_tree_pages := new_source_tree_pages
-			create Result.make (source_tree_pages.count + 1)
-			Result.extend (create {REPOSITORY_SITEMAP_PAGE}.make (Current, source_tree_pages))
-			Result.append (source_tree_pages)
+			ecf_pages := new_ecf_pages
+			create Result.make (ecf_pages.count + 1)
+			Result.extend (create {REPOSITORY_SITEMAP_PAGE}.make (Current, ecf_pages))
+			Result.append (ecf_pages)
 		end
 
 	output_sub_directories: EL_ARRAYED_LIST [EL_DIR_PATH]
@@ -200,8 +204,8 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (10)
 			create set.make_equal (10)
-			across tree_list as tree loop
-				relative_path := tree.item.dir_path.relative_path (root_dir)
+			across ecf_list as tree loop
+				relative_path := tree.item.relative_dir_path
 				first_step := relative_path.first_step
 				set.put (first_step)
 				if set.inserted then
@@ -228,7 +232,7 @@ feature {NONE} -- Build from Pyxis
 
 	set_template_context
 		do
-			templates.set_config_dir (file_path.parent)
+			templates.set_config_dir (config_path.parent)
 			set_next_context (templates)
 		end
 
@@ -242,17 +246,25 @@ feature {NONE} -- Build from Pyxis
 				["@web-address", 					agent do web_address := node.to_string end],
 
 				["templates",						agent set_template_context],
-				["sources/tree", 					agent set_tree_context],
+				["ecf-list/ecf", 					agent do set_next_context (create {ECF_INFO}.make) end],
 				["ftp-site", 						agent do set_next_context (ftp_sync) end],
 				["include-notes/note/text()", agent do note_fields.extend (node.to_string) end]
 			>>)
 		end
 
-	set_tree_context
-			--
+	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
+		local
+			ecf_path: EL_FILE_PATH
 		do
-			tree_list.extend (create {like tree_list.item}.make (Current))
-			set_next_context (tree_list.last)
+			if attached {ECF_INFO} context as ecf then
+				ecf_path := root_dir + ecf.path
+				if ecf_path.exists then
+					ecf_list.extend (create {EIFFEL_CONFIGURATION_FILE}.make (Current, ecf))
+				else
+					lio.put_path_field ("Cannot find", ecf_path)
+					lio.put_new_line
+				end
+			end
 		end
 
 feature {NONE} -- Constants

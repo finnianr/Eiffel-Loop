@@ -1,0 +1,203 @@
+**General Features**
+
+* Output is indented to reflect the state of the call stack. Shows the entry and exit from routines in a way that is designed to mimic the routines code definition.
+
+* On Unix platforms console output is syntax high-lighted by default. See this [./images/screenshot/color-highlighting.png screenshot].
+
+* Global filtering mechanism to restrict output to selected classes and routines. A wildcard constant can be used to log all routines for a particular class.
+
+* By implementing the [$source EL_CONSOLE_MANAGER] class in a GUI library it is possible to create a UI component that is able to switch the logged console output to that of a different thread of execution. The [./library/vision2-x.html Vision2-x library] has once such component [$source EL_CONSOLE_MANAGER_TOOLBAR]. See this example [./images/screenshot/console-thread-switch.png screenshot]. The [./library/wel-x.html wel-x library] partially implements it with class [$source EL_CONSOLE_MANAGER_DIALOG].
+
+**Output Format**
+
+The beauty of Eiffel-Loop logging is that the output is indented to show the entry and exit from routines. Each entry and exit to a routine is documented with a header and trailer output text based on the class name and routine name. The following is some sample output from a test program for the [./library/vtd-xml.html Eiffel Loop VTD-XML API]. The test function executes an xpath query looking for http urls in an XML document.
+
+
+	1>     VTD_XML_TEST_APP.test_bio_2 (
+	1>         argument (1) = "//value[@type='url' and contains (text(), 'http://')]"
+	1>     ) is
+	1>       doing
+	1>         
+	1>         EL_XPATH_ROOT_NODE_CONTEXT.context_list is
+	1>           doing
+	1>             
+	1>           end -- EL_XPATH_ROOT_NODE_CONTEXT
+	1>         http://iubio.bio.indiana.edu/grid/runner/
+	1>         http://iubio.bio.indiana.edu/grid/runner/docs/bix.dtd
+	1>         http://www-igbmc.u-strasbg.fr/BioInfo/ClustalW/
+	1>         http://geta.life.uiuc.edu/~gary/programs/fastDNAml.html
+	1>         
+	1>       end -- VTD_XML_TEST_APP
+
+The code which produced the above output is as follows:
+
+	class
+		VTD_XML_TEST_APP
+
+	inherit
+		EL_SUB_APPLICATION
+
+	feature -- Basic operations
+
+		test_bio_2 (xpath: STRING) is
+			-- list all url values
+			local
+				node_list: EL_XPATH_NODE_CONTEXT_LIST
+			do
+				log.enter_with_args ("test_bio_2", << xpath >>)
+				node_list := bio_info_root_node.context_list (xpath)
+				from node_list.start until node_list.after loop
+					log.put_line (node_list.context.string_value)
+					node_list.forth
+				end
+				log.exit
+			end
+
+	feature {NONE} -- Implementation
+
+		bio_info_root_node: EL_XPATH_ROOT_NODE_CONTEXT
+
+Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type `ARRAY [ANY]' and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class `ANY' for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
+
+**Comment on Java**
+
+This type of logging would be difficult to implement in Java as multiple return instructions could appear anywhere in the routine. (Not that I haven't tried, in fact this framework originally started life as a Java framework) This is another argument in favor of languages like Eiffel which disallow arbitrary returns mid routine. Also Java is littered with all kinds of exception handling which greatly increases the number of exit paths from a routine (not to mention making the code more difficult to read). Eiffel has exception handling too but the philosophy of Eiffel is to head off unbridled use of exceptions by extensive debugging with the use of contracts instead of relying on exceptions to show you the bugs.
+
+**Enter and exit variations**
+
+A number of variations exist for the enter and exit procedures in the log object:
+
+If you do not wish to log any routine arguments you can use the form:
+
+	log.enter ("test_bio_2")
+
+If you wish to suppress the routine header and trailer output text you can use the form:
+
+	log.enter_no_header ("test_bio_2")
+	..
+	log.exit_no_trailer
+
+**Managing exceptions**
+
+In order to maintain the integrity of the logging routine stack it is important to balance every call to log.enter with a call `log.exit' on exiting a logged routine. However if your routine has a rescue clause and an exception occurs, these exit calls are skipped not only in the current routine but also in all sub routines before the point where the exception was thrown.  If you wish to recover from the exception by doing a routine retry you need a way to restore the logging routine stack back to what it was before the first `log.enter' call at the start of the routine. You can accomplish this by saving the state of the logging stack to a local variable before the log.enter call and use this variable to restore the logging stack in the rescue clause. The following code illustrates:
+
+	my_routine is
+			-- Exception handling routine
+		local
+			log_stack_pos: INTEGER
+		do
+			log_stack_pos := log.call_stack_count
+			log.enter ("my_routine")
+			..
+			log.exit
+		rescue
+			log.restore (log_stack_pos)
+			..
+			retry
+		end
+
+**Including logging in your application**
+
+There are a number of ways to include logging in your application. The first is to inherit [$source EL_LOGGED_SUB_APPLICATION] in your root class and implement the function `Log_filter' (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [$source EL_SUB_APPLICATION] in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
+
+Inheriting from class [$source EL_SUB_APPLICATION] has some incidental benefits including:
+
+* Graceful handling of the ctrl-c program interrupt with the possibility of putting application cleanup into a redefinition of procedure `on_operating_system_signal'.
+
+* Integration with the Eiffel Loop multi mode application framework. This framework allows you to select from different applications by a command line switch. Useful for managing many small applications that hardly justify the disk resources of a separate project.
+
+To including logging facilities in any class, inherit from class [$source EL_MODULE_LOG] and add an entry for that class in the log filter array. (see below)
+
+By default logging is not active in the application. It must be turned on using the `-logging' command line switch.
+
+**Log output filtering**
+
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [$source EL_LOGGED_SUB_APPLICATION] and implement the routine `Log_filter' as a once function returning an array of tuples. The `Log_filter' for class [$source TEST_VTD_XML_APP] is implemented as follows:
+
+	feature {NONE} -- Constants
+
+		Log_filter: ARRAY [like CLASS_ROUTINES]
+				--
+			do
+				Result := <<
+					[{TEST_VTD_XML_APP}, All_routines]
+				>>
+			end
+
+Each tuple in the array consists of the name of the class you wish to enable logging for, followed either by a list of individual routines or a `All_routines' to indicate that any and all routines are to be logged for that class. You can disable logging for any particular routine by prefixing the name with a hyphen. In the case of a wildcard, prefixing with a hyphen disables all logging for that class. The class filter is compared only with the generating class name so all child classes in a particular inheritance tree must be listed individually.
+
+**Command Options**
+
+A list of command options which effect the logging system can be found in class [$source EL_LOG_COMMAND_OPTIONS].
+
+**User step-through logging**
+
+For debugging purposes you may wish to pause execution on the exit of each logged routine. The following call causes the application to stop execution on the exit of every logged routine and prompts the user to press enter to continue:
+
+	Logging.set_prompt_user_on_exit (true)
+
+The logging object is available in the root class or by inheriting [$source EL_MODULE_LOGGING].
+
+**Logging threads**
+
+Logging a separate thread just requires that you inherit from [$source EL_LOGGED_IDENTIFIED_THREAD] and make sure the routine `on_start' gets called. It will anyway unless you do something to over-ride this routine.
+
+	feature {NONE} -- Event handling
+
+		on_start
+			do
+				Log_manager.add_thread (Current)
+			end
+
+By default it is the log output of the main thread that is visible in the console terminal. To change the logging output visible in the console to another thread call redirect_thread_to_console with the thread's index. The index of the main launch thread is 1. Subsequently added threads have indexes of 2, 3, 4 etc. Use function is_valid_console_index to check if the index is valid.
+
+	Log_manager.redirect_thread_to_console (index)
+
+It is this index which is displayed as part of the log output prompt. If you are not sure what the index of the thread is you can obtain it from the thread name with a call like:
+
+	my_thread_index := Log_manager.thread_index ("My thread")
+
+**Logging Routines**
+
+Access to the logging routines is through feature log of class [$source EL_MODULE_LOG]. The log object conforms to type [$source EL_LOGGABLE] which has numerous procedures for writing to the log as well as some useful functions.
+
+The procedure form: 
+
+	put_<lowercase type name>
+
+is use to output the following types: `STRING, INTEGER, CHARACTER, REAL and DOUBLE'.
+
+The procedure form:
+
+	put_<lowercase type name>_field
+
+is used to output the following types prefixed with a field label: `STRING, INTEGER, INTEGER_INTERVAL, REAL and DOUBLE'.
+
+The procedure `put_string_field_to_max_length' is used to output a multi-line block of text in abbreviated form. The beginning and last 30 characters of the string is output up to a maximum number of characters (or 1/3 of the maximum length, whichever is smaller). If the text contains more than one line, tab indents are inserted to left align the text to the correct logging indent. The boolean function `current_routine_is_active' can be tested in order to conditionally execute a block of code if the current routine is unfiltered by any routine filter.
+
+**Always on logging**
+
+Class [$source EL_MODULE_LOG] also has a special logging object named `lio', short for "log or io". This is used in the same way as the usual log object with the difference that the output will still be written to the console even if logging is globally disabled. It can be used to write to the console instead of the usual io medium from class `ANY'.
+
+**Log files**
+
+All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using [$source EL_SUB_APPLICATION] then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
+
+Use the command line switch `-keep_logs'. The log files will not be deleted and will not be overwritten during subsequent application runs. It is recommended to delete them manually.
+
+If you are using the Eiffel Loop multi application mode framework then the log files are placed in the following subdirectory of the user home directory derived from the executable name and sub application name.
+
+	/<user>/home/.<executable name>/<sub app name>/logs	
+
+For example if the executable is named foo and the sub application is bar then for user joeblogs the log directory path is:
+
+	/joeblogs/home/.foo/bar/logs
+
+**Commenting out log lines**
+
+Allthough having logging turned off is usually sufficient to maximize performance of the application it may sometimes be desirable to comment out all the logging lines. An autoedit utility application is included for that purpose in the toolkit project. The best strategy is to comment out logging calls by hand in performance critical sections.
+
+**Future enhancements**
+
+At present changes to the log filtering necessitates a recompilation of the code. A useful enhancement being considered will allow the default log filtering to be overridden by a Pyxis logging configuration file.
+

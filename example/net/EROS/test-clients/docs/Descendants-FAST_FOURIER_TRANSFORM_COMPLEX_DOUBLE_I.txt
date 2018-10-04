@@ -1,7 +1,0 @@
-note
-	descendants: "See end of class"
-	descendants: "[
-			FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_I*
-				[$source FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY]
-				[$source FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE]
-	]"

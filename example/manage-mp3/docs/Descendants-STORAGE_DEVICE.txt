@@ -1,8 +1,0 @@
-note
-	descendants: "See end of class"
-	descendants: "[
-			STORAGE_DEVICE
-				[$source NOKIA_PHONE_DEVICE]
-				[$source TEST_STORAGE_DEVICE]
-				[$source SAMSUNG_TABLET_DEVICE]
-	]"

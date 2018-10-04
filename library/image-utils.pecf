@@ -5,15 +5,18 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_image_utils; uuid = "229b6cc8-09aa-11df-87a9-ffc4e5fcb1e7" 
 	library_target = el_image_utils
+	description: 
+		"""
+			Image Utilities
+
+			Image utilities providing:
+
+			1. SVG to PNG conversion using C library [http://librsvg.sourceforge.net/ librsvg]
+			2. Miscellaneous routines from the [https://cairographics.org/ Cairo graphics C library]
+		"""
 	
 	target:
 		name = EL_image_utils
-		
-		description: 
-			"""
-				SVG to PNG conversion based on librsvg (http://librsvg.sourceforge.net/)
-			"""
-
 		root:
 			all_classes = true
 

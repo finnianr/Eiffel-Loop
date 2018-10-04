@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "11"
+	date: "2018-10-04 10:49:56 GMT (Thursday 4th October 2018)"
+	revision: "12"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -20,12 +20,22 @@ inherit
 			on_prepare
 		end
 
+	EL_EIFFEL_LOOP_TEST_CONSTANTS
+		undefine
+			default_create
+		end
+
+	EL_STRING_CONSTANTS
+		undefine
+			default_create
+		end
+
 	EL_MODULE_USER_INPUT
 		undefine
 			default_create
 		end
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EL_MODULE_EXECUTION_ENVIRONMENT
 		undefine
 			default_create
 		end
@@ -46,9 +56,30 @@ feature -- Tests
 	test_regression (checksum: NATURAL)
 		local
 			n: INTEGER; actual_checksum: NATURAL
+			file_lines: EL_FILE_LINE_SOURCE; config_file: EL_PLAIN_TEXT_FILE
+			lines: EL_ZSTRING_LIST
 		do
 			log.enter ("test_regression")
+
 			execute
+			-- Remove last ecf
+			if False then
+				create file_lines.make (publisher.config_path)
+				lines := file_lines.list
+				from lines.finish until lines.item.has_substring (".ecf") loop
+					lines.remove; lines.finish
+				end
+				lines.remove
+				lines.extend (Empty_string)
+
+				create config_file.make_open_write (publisher.config_path)
+				config_file.put_lines (lines)
+				config_file.close
+
+				publisher := new_publisher
+				execute
+			end
+
 			actual_checksum := file_content_checksum
 			if checksum = actual_checksum then
 				log.put_labeled_string ("Test", "OK")
@@ -66,6 +97,7 @@ feature {NONE} -- Events
 	on_prepare
 		do
 			Precursor
+			Execution_environment.put ("workarea/doc", "EIFFEL_LOOP_DOC")
 			OS.copy_tree (Eiffel_loop_dir.joined_dir_path ("doc-config"), Work_area_dir)
 			across << "dummy", "images", "css", "js" >> as name loop
 				OS.copy_tree (Eiffel_loop_dir.joined_dir_steps (<< "doc", name.item >>), Doc_dir)
@@ -79,7 +111,7 @@ feature {NONE} -- Implementation
 		local
 			html_file_path: EL_FILE_PATH
 		do
-			across publisher.tree_list as tree loop
+			across publisher.ecf_list as tree loop
 				across tree.item.path_list as path loop
 					html_file_path := Doc_dir + path.item.relative_path (publisher.root_dir).with_new_extension ("html")
 					assert ("html exists", html_file_path.exists)
@@ -89,18 +121,18 @@ feature {NONE} -- Implementation
 
 	execute
 		local
-			source_tree: REPOSITORY_SOURCE_TREE
+			source_tree: EIFFEL_CONFIGURATION_FILE
 		do
 			publisher.set_output_dir (Doc_dir)
 			publisher.ftp_sync.ftp.set_default_state -- Turn off ftp
-			publisher.tree_list.wipe_out
-			across Sources as src loop
-				create source_tree.make_with_name (publisher, src.key, src.item.source_dir)
-				if not src.item.description.is_empty then
-					source_tree.set_description_lines (src.item.description)
-				end
-				publisher.tree_list.extend (source_tree)
-			end
+--			publisher.tree_list.wipe_out
+--			across Sources as src loop
+--				create source_tree.make_with_name (publisher, src.key, src.item.source_dir)
+--				if not src.item.description.is_empty then
+--					source_tree.set_description_lines (src.item.description)
+--				end
+--				publisher.tree_list.extend (source_tree)
+--			end
 			publisher.execute
 			check_html_exists
 		end
@@ -145,7 +177,7 @@ feature {NONE} -- Implementation
 
 	new_publisher: REPOSITORY_PUBLISHER
 		do
-			create Result.make (Work_area_dir + "doc-config/config.pyx", "1.4.0", 0)
+			create Result.make (Work_area_dir + "doc-config/config-test.pyx", "1.4.0", 0)
 		end
 
 feature {NONE} -- Internal attributes

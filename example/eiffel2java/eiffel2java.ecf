@@ -16,6 +16,12 @@
 	
 -->
 <system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "eiffel2java" uuid = "20FD9834-3FC9-4349-AD78-73ABA2C735D4">
+	<description>
+Eiffel to Java
+
+Demonstration program for the [./library/eiffel2java.html Eiffel-Loop Java interface library].
+This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
+	</description>
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>

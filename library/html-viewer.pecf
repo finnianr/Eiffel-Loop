@@ -6,15 +6,15 @@ system:
 	name = EL_html_viewer; uuid = "229b4d24-09aa-11df-876d-3bc274397d13" 
 	library_target = EL_html_viewer
 	readonly = false
+	description:
+		"""
+			HTML Viewer (based on Vision-2)
+
+			Extension for Vision2 library to render very basic html produced by Thunderbird email client.
+		"""
 	
 	target:
 		name = EL_html_viewer
-		
-		description: 
-			"""
-				Extension for Vision2 library to render very basic html produced by Thunderbird email client.
-				(http://www.eiffel-loop.com)
-			"""
 		root:
 			all_classes = true
 

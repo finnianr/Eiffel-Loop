@@ -5,14 +5,15 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_bit_utils; uuid = "A4321E98-4828-11E7-85A1-D79E23B4EDF3" 
 	library_target = EL_bit_utils
+	description: 
+		"""
+			CPU Register Operations
+
+			Interface to hardware specific bit operations like POPCNT.
+		"""
 	
 	target:
 		name = EL_bit_utils
-		
-		description: 
-			"""
-				Interface to hardware specific bit operations like POPCNT. (http://www.eiffel-loop.com)
-			"""
 
 		root:
 			all_classes = true
@@ -36,8 +37,6 @@ system:
 					value = unix
 			
 		# C externals (Windows)
-
-
 		library:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 

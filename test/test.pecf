@@ -16,6 +16,8 @@ pyxis-doc:
 system:
 	configuration_ns = "1-16-0"
 	name = el_test; uuid="A325754F-7BEB-44B6-937C-CC7EBDDA764F"
+	description:
+		"Eiffel-Loop Dev Tests"
 	
 	# classic means C code as an intermediate language
 	target: 

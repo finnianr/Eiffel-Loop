@@ -6,21 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-09-30 8:12:06 GMT (Sunday 30th September 2018)"
+	revision: "7"
 
 class
 	SOURCE_TREE
 
 inherit
 	EVOLICITY_EIFFEL_CONTEXT
-		undefine
-			is_equal
-		redefine
-			make_default
-		end
-
-	EL_EIF_OBJ_BUILDER_CONTEXT
 		undefine
 			is_equal
 		redefine
@@ -38,6 +31,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			dir_path := a_dir_path
+			path_list := new_path_list
 		end
 
 	make_default
@@ -46,7 +40,6 @@ feature {NONE} -- Initialization
 			create name.make_empty
 			create dir_path
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
-			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 		end
 
 feature -- Access
@@ -56,14 +49,18 @@ feature -- Access
 	name: ZSTRING
 
 	path_list: EL_FILE_PATH_LIST
-		do
-			create Result.make (dir_path, "*.e")
-		end
 
 	sorted_path_list: EL_FILE_PATH_LIST
 		do
 			Result := path_list
 			Result.sort
+		end
+
+feature -- Element change
+
+	set_name (a_name: like name)
+		do
+			name := a_name
 		end
 
 feature -- Comparison
@@ -72,6 +69,13 @@ feature -- Comparison
 			-- Is current object less than `other'?
 		do
 			Result := name < other.name
+		end
+
+feature {NONE} -- Implementation
+
+	new_path_list: EL_FILE_PATH_LIST
+		do
+			create Result.make (dir_path, "*.e")
 		end
 
 feature {NONE} -- Evolicity fields
@@ -85,32 +89,4 @@ feature {NONE} -- Evolicity fields
 			>>)
 		end
 
-feature {NONE} -- Build from Pyxis
-
-	set_dir_path_from_node
-		local
-			l_path: EL_DIR_PATH
-		do
-			l_path := node.to_expanded_dir_path
-			if l_path.is_absolute then
-				dir_path := l_path
-			else
-				dir_path := dir_path.joined_dir_path (l_path)
-			end
-		end
-
-	building_action_table: EL_PROCEDURE_TABLE
-		do
-			create Result.make (<<
-				["@name", agent do name := node.to_string end],
-				[Xpath_dir_path, agent set_dir_path_from_node]
-			>>)
-		end
-
-feature {NONE} -- Constants
-
-	Xpath_dir_path: STRING
-		once
-			Result := "text()"
-		end
 end

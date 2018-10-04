@@ -5,14 +5,17 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_logging; uuid = "6E0555BC-40FC-11E6-8D05-876C94B8D74F" 
 	library_target = EL_logging
+	description:
+		"""
+			Multi-threaded Logging
+
+			Logging library featuring color highlighted output and mimicry of Eiffel routine code in output.
+
+			See doc/logging.txt for details.
+		"""
 	
 	target:
 		name = EL_logging
-		
-		description:
-			"""
-				Eiffel output logging
-			"""
 
 		root:
 			all_classes = true

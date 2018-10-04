@@ -5,13 +5,18 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_amazon; uuid = "343AD402-C610-11E7-AF25-6FD4B9BA2297" 
 	library_target = EL_amazon
+	description: 
+		"""
+			Amazon Instant Access API
+
+			An Eiffel interface to the [https://s3-us-west-2.amazonaws.com/dtg-docs/index.html Amazon Instant Access API].
+			This API enables third party vendors to fulfil orders for digital goods on the Amazon store. It enables One-time
+			purchases but not subscriptions. It passes a basic test suite but has not yet been tested in production.
+		"""
+
 	
 	target:
 		name = EL_amazon
-		
-		description: 
-			"Eiffel wrapper for amazon Standard Payments API using NVP HTTP"
-
 		root:
 			all_classes = true
 

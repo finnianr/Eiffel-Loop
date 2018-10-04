@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-10-02 10:59:36 GMT (Tuesday 2nd October 2018)"
+	revision: "7"
 
 class
 	SOURCE_DIRECTORY
@@ -22,16 +22,25 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_relative_dir: EL_DIR_PATH; a_class_list: like class_list; a_index: like index)
+	make (a_library_ecf: like library_ecf; a_class_list: like class_list; a_index: like index)
 			--
 		do
 			make_default
-			relative_dir := a_relative_dir; class_list := a_class_list; index := a_index
+			library_ecf := a_library_ecf; class_list := a_class_list; index := a_index
+			relative_dir := a_library_ecf.relative_dir_path
 		end
 
 feature -- Access
 
 	class_list: EL_ARRAYED_LIST [EIFFEL_CLASS]
+
+	contents_dir_title: ZSTRING
+		do
+			Result := dir_title.twin
+			if Result /~ Current_dir then
+				Result.prepend_string_general (once ". /")
+			end
+		end
 
 	dir_title: ZSTRING
 		local
@@ -49,15 +58,9 @@ feature -- Access
 			end
 		end
 
-	contents_dir_title: ZSTRING
-		do
-			Result := dir_title.twin
-			if Result /~ Current_dir then
-				Result.prepend_string_general (once ". /")
-			end
-		end
-
 	index: INTEGER
+
+	relative_dir: EL_DIR_PATH
 
 	sorted_class_list: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CLASS]
 		local
@@ -67,12 +70,10 @@ feature -- Access
 			across class_list as c loop
 				l_class := c.item
 				Result.extend (l_class.twin)
-				Result.last.notes.set_relative_class_dir (relative_dir)
+				Result.last.notes.set_relative_class_dir (library_ecf.html_index_path.parent)
 			end
 			Result.sort
 		end
-
-	relative_dir: EL_DIR_PATH
 
 feature -- Status query
 
@@ -110,6 +111,10 @@ feature {NONE} -- Evolicity fields
 				["index", 					agent: INTEGER_REF do Result := index.to_reference end]
 			>>)
 		end
+
+feature {NONE} -- Internal attributes
+
+	library_ecf: EIFFEL_CONFIGURATION_FILE
 
 feature {NONE} -- Constants
 

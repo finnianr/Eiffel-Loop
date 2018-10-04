@@ -2,13 +2,13 @@
 #if not $description_elements.is_empty then
 	<h3>Classes</h3>
 	#if $has_ecf_name then
-	<p><b>ECF:</b> $ecf_name</p>
+	<p><b>ECF:</b> <a href="$github_url/blob/master/$ecf_path" target="_blank" title="$ecf_name on github">$ecf_name</a></p>
 	#end
 	<p><a href="#class_listing">Directory source listing</a></p>
 	<h3>Overview</h3>
 #else
 	#if $has_ecf_name then
-		<p><b>ECF:</b> $ecf_name</p>
+		<p><b>ECF:</b> <a href="$github_url/blob/master/$ecf_path" target="_blank" title="$ecf_name on github">$ecf_name</a></p>
 	#end
 #end
 

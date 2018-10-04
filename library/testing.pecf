@@ -5,15 +5,15 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_testing; uuid = "229B6BF6-09AA-11DF-87A7-175ABB67064B" 
 	library_target = EL_testing
+	description:
+		"""
+			Regression Testing
+
+			Classes for doing regression tests based on CRC checksum comparisons of logging output and output files.
+		"""
 	
 	target:
 		name = EL_testing
-		
-		description: 
-			"""
-				Classes for testing
-			"""
-
 		root:
 			all_classes = true
 

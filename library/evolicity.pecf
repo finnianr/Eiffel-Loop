@@ -5,15 +5,16 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_evolicity; uuid = "93BFD7E0-3F5E-11E6-AB1D-274761712E02" 
 	library_target = EL_evolicity
-	
+	description: 
+		"""
+			Evolicity Text Substitution Engine
+
+			''Evolicity'' is a text substitution language that was inspired by the
+			[http://velocity.apache.org/ Velocity text substitution language] for Java.
+			See doc/evolicity.txt for details.
+		"""
 	target:
 		name = EL_evolicity
-		
-		description: 
-			"""
-				Evolicity: the template substitution language for Eiffel
-			"""
-
 		root:
 			all_classes = true
 

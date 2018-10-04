@@ -1,6 +1,6 @@
 note
 	description: "[
-		Miscellaneous graphical routines related to Cairo and librsv library.
+		Miscellaneous graphical routines related to Cairo and librsvg library.
 		Accessible via class [$source EL_SHARED_IMAGE_UTILS_API]
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "8"
+	date: "2018-10-02 12:11:35 GMT (Tuesday 2nd October 2018)"
+	revision: "9"
 
 class
 	EL_IMAGE_UTILS_API

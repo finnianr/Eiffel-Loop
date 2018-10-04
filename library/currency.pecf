@@ -5,13 +5,16 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_currency; uuid = "b86dc0cc-cc46-11e7-8696-3f5f5f993355" 
 	library_target = EL_currency
-	
+	description: 
+		"""
+			Currency Exchange
+
+			Currency Exchange based on European Central bank Rates from
+			[https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml eurofxref-daily.xml]
+		"""
 	target:
 		name = EL_currency
 		
-		description: 
-			"European Central Bank currency exchange rates"
-
 		root:
 			all_classes = true
 

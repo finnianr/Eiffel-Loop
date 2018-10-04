@@ -5,15 +5,16 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_eros; uuid = "229b7574-09aa-11df-87bf-1b0f428786d3" 
 	library_target = EL_eros
+	description:
+		"""
+			Eiffel Remote Object Server (EROS)
+			
+			See doc/eros.txt for details
+		"""
 	
 	target:
 		name = EL_eros
 		
-		description: 
-			"""
-				Eiffel Remote Object Framework for creating client-server apps. (http://www.eiffel-loop.com/eros.html)
-			"""
-
 		root:
 			all_classes = true
 

@@ -16,6 +16,12 @@
 	
 -->
 <system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "el_eros_test" uuid = "4D69A6C6-DB68-46AC-9B3B-3A29B2E260AF">
+	<description>
+EROS Protocol Test clients
+
+Client application to demonstrate remote signal processing math using
+the [./library/eros.html EROS remote object protocol].
+	</description>
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>

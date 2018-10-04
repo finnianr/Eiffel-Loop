@@ -48,7 +48,6 @@ $EIFFEL_LOOP/contrib/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll
 		</cluster>
 		<cluster name = "persistency" location = "persistency" recursive = "true"/>
 		<cluster name = "text" location = "text" recursive = "true"/>
-		<!--Source code-->
 		<cluster name = "utility" location = "utility" recursive = "true"/>
 	</target>
 </system>

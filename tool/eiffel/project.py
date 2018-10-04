@@ -2,11 +2,20 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 15); build = 65
+version = (1, 0, 18); build = 85
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.18
+# Changes to EIFFEL_CONFIGURATION_INDEX_PAGE sink_content
+
+# 1.0.17
+# Changed publisher to use ECF files
+
+# 1.0.16
+# Changed distributer in REPOSITORY_SOURCE_TREE to type EL_PROCEDURE_DISTRIBUTER
 
 # 1.0.15
 # Fixed NOTE_EDITOR_COMMAND to update license and contact fields

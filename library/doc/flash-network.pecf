@@ -1,0 +1,36 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+# This ECF is for documentation purposes only and will not compile.
+
+system:
+	configuration_ns = "1-16-0"
+	name = EL_flash_net; uuid = "7a13531c-c6d9-11e8-a2d9-cb9116fa8da8" 
+	library_target = EL_flash_net
+	description:
+		"""
+			Adobe Flash to Laabhair
+
+			**Status:** No longer maintained
+
+			Eiffel network interface to
+			[https://github.com/finnianr/Eiffel-Loop/blob/master/Flash_library/eiffel_loop/laabhair Flash ActionScript objects]
+			used in the **Laabhair** digital signal processing framework.
+			This framework allows you to create applications that process speech with a
+			[http://www.fon.hum.uva.nl/praat Praat] script in real time and create visual representations
+			of the the data using Adobe Flash. Depends on the Eiffel-Loop Praat-script interface library.
+
+			Developed on Windows XP SP2 with Flash Professional 8 IDE, EiffelStudio 6.1, VC++ 8.0 Express Edition.
+
+			Laabhair was developed at the [https://arrow.dit.ie/dmc/ Digital Media Centre at the Dublin Institute of Technology]
+		"""
+	target:
+		name = EL_flash_net
+
+		root:
+			all_classes = true
+
+		# Classes
+		cluster:
+			name = EL_flash_net; location = "../network/flash"
+

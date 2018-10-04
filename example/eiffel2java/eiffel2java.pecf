@@ -16,6 +16,13 @@ pyxis-doc:
 system:
 	configuration_ns = "1-16-0"
 	name = eiffel2java; uuid = "20FD9834-3FC9-4349-AD78-73ABA2C735D4"
+	description:
+		"""
+			Eiffel to Java
+
+			Demonstration program for the [./library/eiffel2java.html Eiffel-Loop Java interface library].
+			This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
+		"""
 	
 	# classic means C code as an intermediate language
 	target: 

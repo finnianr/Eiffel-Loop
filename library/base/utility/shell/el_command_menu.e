@@ -3,7 +3,7 @@ note
 		Displays a console menu in columns each with a maximum of 10 options.
 		The columns are padded to use the minimum amount of horizontal character space.
 		
-		*Example:*
+		**Example:**
 		
 			SELECT MENU OPTION
 			0: Shutdown service             10: List failed payments
@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2018-10-02 12:06:16 GMT (Tuesday 2nd October 2018)"
+	revision: "4"
 
 class
 	EL_COMMAND_MENU

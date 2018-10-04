@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-02 9:24:32 GMT (Saturday 2nd December 2017)"
-	revision: "1"
+	date: "2018-10-01 11:08:19 GMT (Monday 1st October 2018)"
+	revision: "2"
 
 class
 	EL_STRING_HASH_TABLE [G, K -> STRING_GENERAL create make end]
@@ -24,7 +24,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (array: ARRAY [like MAP_ITEM])
+	make (array: ARRAY [like GENERAL_MAP])
 		do
 			make_equal (array.count)
 			merge_array (array)
@@ -32,10 +32,10 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	merge_array (array: ARRAY [like MAP_ITEM])
+	merge_array (array: ARRAY [like GENERAL_MAP])
 			--
 		local
-			i: INTEGER; map: like MAP_ITEM
+			i: INTEGER; map: like GENERAL_MAP
 		do
 			accommodate (count + array.count)
 			from i := 1 until i > array.count loop
@@ -45,7 +45,7 @@ feature -- Element change
 			end
 		end
 
-	plus alias "+" (tuple: like MAP_ITEM): like Current
+	plus alias "+" (tuple: like GENERAL_MAP): like Current
 		do
 			force (tuple.value, tuple.key)
 			Result := Current
@@ -66,7 +66,9 @@ feature -- Element change
 
 feature -- Type definitions
 
-	MAP_ITEM: TUPLE [key: READABLE_STRING_GENERAL; value: G]
+	GENERAL_MAP: TUPLE [key: READABLE_STRING_GENERAL; value: G]
+		require
+			never_called: False
 		do
 			create Result
 		end

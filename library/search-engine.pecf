@@ -5,7 +5,16 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_search; uuid = "131C239A-ACDD-11E6-B781-137D77BA6302" 
 	library_target = EL_search
-	
+	description:
+		"""
+			Search Engine Classes
+
+			Classes for parsing search terms and searching a list conforming to `CHAIN [EL_WORD_SEARCHABLE]'.
+			The search uses case-insensivitive word tokenization.
+
+			* Facility to create custom search types.
+			* Terms can be combined using basic boolean operators.
+		"""
 	target:
 		name = EL_search
 		

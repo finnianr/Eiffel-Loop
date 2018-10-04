@@ -5,15 +5,19 @@ system:
 	configuration_ns = "1-16-0"
 	name = EL_ftp; uuid = "229b75d8-09aa-11df-87c0-a7bad3074ff0" 
 	library_target = EL_ftp
+	description: 
+		"""
+			FTP Client Services
+
+			Classes providing
+
+			* uploading of files to a server
+			* managing server directory structure.
+			* file synchronization using the [$source EL_CRC_32_SYNC_ITEM] abstraction
+		"""
 	
 	target:
 		name = EL_ftp
-		
-		description: 
-			"""
-				ftp upload classes. (http://www.eiffel-loop.com)
-			"""
-
 		root:
 			all_classes = true
 
