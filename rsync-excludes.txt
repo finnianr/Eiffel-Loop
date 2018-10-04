@@ -15,6 +15,7 @@
 **.deps
 **.diffs
 **.dll
+**.evc
 **.exp
 **.goutput*
 **.gz
