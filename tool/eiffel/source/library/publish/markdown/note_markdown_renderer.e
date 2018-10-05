@@ -51,13 +51,12 @@ feature {NONE} -- Implementation
 				html_path := path.substring_end (Current_dir_forward_slash.count + 1)
 				l_path := html_path.universal_relative_path (relative_page_dir)
 
-			elseif path ~ Source_variable and then not text.is_empty then
-				Class_source_table.search (class_name (text))
-				if Class_source_table.found then
-					html_path := Class_source_table.found_item
-					l_path := html_path.universal_relative_path (relative_page_dir)
-					template := Class_source_name_href_template
-				end
+			elseif path ~ Source_variable and then not text.is_empty
+				and then Class_source_table.has_key (class_name (text))
+			then
+				html_path := Class_source_table.found_item
+				l_path := html_path.universal_relative_path (relative_page_dir)
+				template := Class_source_name_href_template
 			end
 			Result := template #$ [l_path, text]
 		end

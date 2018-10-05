@@ -33,7 +33,7 @@ feature {NONE} -- Evolicity fields
 		do
 			create Result.make (<<
 				["repository_name", 	agent: ZSTRING do Result := repository.name end],
-				["tree_list",	 		agent: like repository.ecf_list do Result := repository.ecf_list end]
+				["ecf_list",	 		agent: like repository.ecf_list do Result := repository.ecf_list end]
 			>>)
 		end
 
@@ -45,7 +45,7 @@ feature {NONE} -- Constants
 
 	Template: STRING = "[
 		# $repository_name Contents
-		#across $tree_list as $tree loop
+		#across $ecf_list as $tree loop
 		## $tree.item.name
 			#if $tree.item.has_description then
 		$tree.item.github_description

@@ -22,6 +22,8 @@ inherit
 
 	MARKDOWN_ROUTINES
 
+	SHARED_HTML_CLASS_SOURCE_TABLE
+
 create
 	make
 
@@ -126,18 +128,24 @@ feature {NONE} -- Implementation
 			-- in order to be compatible with Github markdown
 		local
 			pos_link, pos_space, pos_right_bracket: INTEGER; done: BOOLEAN
-			link_address: ZSTRING
+			link_address, link_text: ZSTRING
 		do
-			across Http_links as http loop
+			across Link_types as type loop
 				from done := False until done loop
-					pos_link := text.substring_index (http.item, pos_link + 1)
+					pos_link := text.substring_index (type.item, pos_link + 1)
 					if pos_link > 0 then
 						pos_space := text.index_of (' ', pos_link + 1)
 						if pos_space > 0 then
 							link_address := text.substring (pos_link + 1, pos_space - 1)
-							if link_address [1] = '.' then
-								link_address.replace_substring (repository_web_address, 1, 1)
-							end
+							inspect link_address [1]
+								when '.' then
+									link_address.replace_substring (repository_web_address, 1, 1)
+								when '$' then
+									link_text := text.substring (pos_space + 1, text.index_of (']', pos_link + 1) - 1)
+									if Class_source_table.has_key (class_name (link_text)) then
+										link_address := Join_path #$ [repository_web_address, Class_source_table.found_item]
+									end
+							else end
 							text.remove_substring (pos_link + 1, pos_space)
 							pos_right_bracket := text.index_of (']', pos_link + 1)
 							if pos_right_bracket > 0 then
@@ -174,9 +182,14 @@ feature {NONE} -- Constants
 			Result := "%N%N"
 		end
 
-	Http_links: ARRAY [ZSTRING]
+	Join_path: ZSTRING
 		once
-			Result := << "[http://", "[https://", "[./" >>
+			Result := "%S/%S"
+		end
+
+	Link_types: ARRAY [ZSTRING]
+		once
+			Result := << "[http://", "[https://", "[./", "[$source" >>
 		end
 
 end

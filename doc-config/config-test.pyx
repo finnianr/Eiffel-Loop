@@ -24,11 +24,7 @@ publish-repository:
 			"warning"
 
 	ecf-list:
-		# Library (Network)
 		ecf:
-			"library/network.ecf"
-		# Library (Language Interface)
-		ecf:
-			"library/doc/eiffel2matlab.ecf"
-			"library/doc/eiffel2praat.ecf"
+			"library/Eco-DB.ecf"
+			"library/vtd-xml.ecf"
 

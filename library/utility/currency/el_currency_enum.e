@@ -91,7 +91,7 @@ feature -- Access
 	ZAR: NATURAL_8
 
 	unit: ARRAY [NATURAL_8]
-		-- currencies that do no have decimal fractions (according to Paypal at least)
+		-- currencies that do not have decimal fractions (according to Paypal at least)
 		do
 			Result := << HUF, JPY, TWD >>
 		end

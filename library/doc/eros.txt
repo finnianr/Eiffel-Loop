@@ -12,9 +12,9 @@ introduction of console color-highlighting to Eiffel-Loop.
 
 The network protocol operates in two alternative modes (set by a command switch):
 
-**1. ** plain text XML
+**1.** plain text XML
 
-**2. ** binary compressed XML
+**2.** binary compressed XML
 
 **Build Notes**
 
