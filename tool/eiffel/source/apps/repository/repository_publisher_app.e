@@ -1,12 +1,9 @@
 note
 	description: "[
-		**Eiffel-View**, an application for publishing an Eiffel repository to a website. See Eiffel Room articles:
+		**Eiffel-View**, an application for publishing an Eiffel repository to a website and generating a `Contents.md' file
+		in Github markdown. 
 		
-		**Part I:** [https://room.eiffel.com/blog/finnianr/part_i_eiffelview_10_the_new_eiffel_repository_publishing_tool Eiffel-View 1.0,
-		the new Eiffel repository publishing tool]
-		
-		**PART II:** [https://room.eiffel.com/blog/finnianr/part_ii_eiffelview_11_the_new_eiffel_repository_publishing_tool Eiffel-View 1.1,
-		the new Eiffel repository publishing tool]
+		See [https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18 eiffel.org article]
 	]"
 
 	author: "Finnian Reilly"

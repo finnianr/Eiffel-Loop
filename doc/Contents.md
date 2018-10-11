@@ -365,8 +365,12 @@ VTD-XML uses a very fast and efficient method of building a compressed represent
 Using the Eiffel API is considerably easier and more intuitive to use than the original Java or C version of VTD-XML.
 
 A substantial C-bridge was developed to make Eiffel work better with VTD-XML. The original VTX-XML code was forked to make it possible to compile it with the MSC compiler. This fork is found under `contrib/C`.
-## OpenOffice Spreadsheet
-Classes for parsing [OpenDocument Flat XML spreadsheets](http://www.datypic.com/sc/odf/e-office_spreadsheet.html) using [VTD-XML](http://vtd-xml.sourceforge.net/).
+## Markup Document Processing
+Classes for processing documents encoded with various kinds of markup language.
+
+**1.** [OpenDocument Flat XML spreadsheets](http://www.datypic.com/sc/odf/e-office_spreadsheet.html) using [VTD-XML](http://vtd-xml.sourceforge.net/).
+
+**2.** Emails from the [Thunderbird email client](https://www.thunderbird.net/).
 ## Multi-Application Management
 This library has two main purposes:
 

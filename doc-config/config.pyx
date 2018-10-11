@@ -125,7 +125,7 @@ publish-repository:
 			"library/xml-db.ecf"
 			"library/xdoc-scanning.ecf"
 			"library/vtd-xml.ecf"
-			"library/open-office-spread.ecf"
+			"library/markup-docs.ecf"
 
 		# Library (Runtime)
 		ecf:

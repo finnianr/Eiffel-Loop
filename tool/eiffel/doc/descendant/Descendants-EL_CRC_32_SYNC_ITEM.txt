@@ -1,0 +1,11 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			EL_CRC_32_SYNC_ITEM*
+				[$source EL_HTML_FILE_SYNC_ITEM]*
+					[$source EIFFEL_CLASS]
+						[$source LIBRARY_CLASS]
+					[$source REPOSITORY_HTML_PAGE]*
+						[$source EIFFEL_CONFIGURATION_INDEX_PAGE]
+						[$source REPOSITORY_SITEMAP_PAGE]
+	]"

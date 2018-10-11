@@ -31,8 +31,14 @@ feature -- Test
 
 	test_www_export (a_dir_path: EL_DIR_PATH)
 			--
+		local
+			config_path: EL_FILE_PATH; pyxis_out: EL_PLAIN_TEXT_FILE
 		do
-			create command.make ("pop.eiffel-loop.com", a_dir_path.joined_dir_path ("export"), a_dir_path.parent)
+			config_path := a_dir_path + "config.pyx"
+			create pyxis_out.make_open_write (config_path)
+			pyxis_out.put_string (Pyxis_template #$ ["pop.eiffel-loop.com"])
+			pyxis_out.close
+			create command.make_from_file (config_path)
 			normal_run
 		end
 
@@ -41,15 +47,27 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				required_argument ("account", "Thunderbird account name"),
-				required_argument ("output", "Output directory path"),
-				optional_argument ("thunderbird_home", "Location of .thunderbird")
+				valid_required_argument ("config", "Thunderbird export configuration file", << file_must_exist >>)
 			>>
 		end
 
 	default_make: PROCEDURE
 		do
-			Result := agent {like command}.make ("pop.eiffel-loop.com", "", Directory.Home)
+			Result := agent {like command}.make_from_file ("")
+		end
+
+feature {NONE} -- Test Constants
+
+	Pyxis_template: ZSTRING
+		once
+			Result := "[
+				pyxis-doc:
+					version = 1.0; encoding = "UTF-8"
+				
+				thunderbird:
+					account = "#"; export_dir = "workarea/.thunderbird/export"; home_dir = workarea
+					charset = "ISO-8859-15"
+			]"
 		end
 
 feature {NONE} -- Constants

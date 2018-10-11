@@ -44,11 +44,11 @@ feature {NONE} -- Initialization
 			is_source_external := False -- Causes file to close automatically when after position is reached
 		end
 
-	make_encoded (encodeable: EL_ENCODEABLE_AS_TEXT; a_file_path: EL_FILE_PATH)
+	make_encoded (encoding: EL_ENCODING_BASE; a_file_path: EL_FILE_PATH)
 		do
 			make (a_file_path)
 			if not has_utf_8_bom then
-				set_encoding_from_other (encodeable)
+				set_encoding_from_other (encoding)
 			end
 		end
 

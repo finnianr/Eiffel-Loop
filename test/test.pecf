@@ -198,8 +198,8 @@ system:
 			readonly = false
 
 		library:
-			name = EL_xml_conversion; location = "$EIFFEL_LOOP/library/xml-conversion.ecf"
-			readonly = false
+			name = EL_markup_docs; readonly = false
+			location = "$EIFFEL_LOOP/library/markup-docs.ecf"
 
 		library:
 			name = EL_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"

@@ -15,17 +15,17 @@ class
 inherit
 	EL_THUNDERBIRD_LOCALIZED_HTML_EXPORTER
 		export
-			{EL_SUB_APPLICATION} make
+			{EL_COMMAND_CLIENT} make_from_file
 		end
 
 create
-	make
+	make_from_file
 
 feature {NONE} -- Implementation
 
-	new_exporter (output_dir: EL_DIR_PATH): EL_THUNDERBIRD_EXPORT_AS_XHTML_BODY
+	new_reader (a_output_dir: EL_DIR_PATH): EL_THUNDERBIRD_EXPORT_AS_XHTML_BODY
 		do
-			create Result.make (output_dir)
+			create Result.make (a_output_dir, character_set)
 		end
 
 feature {NONE} -- Constants

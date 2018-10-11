@@ -143,12 +143,16 @@ system:
 			location = "$EIFFEL_LOOP/library/public-key-encryption.ecf"
 
 		library:
-			name = EL_text_formats; readonly = false
-			location = "$EIFFEL_LOOP/library/text-formats.ecf"
+			name = EL_markup_docs; readonly = false
+			location = "$EIFFEL_LOOP/library/markup-docs.ecf"
 
 		library:
 			name = EL_testing; readonly = false
 			location = "$EIFFEL_LOOP/library/testing.ecf"
+
+		library:
+			name = EL_text_formats; readonly = false
+			location = "$EIFFEL_LOOP/library/text-formats.ecf"
 
 		library:
 			name = EL_vtd_xml; readonly = false

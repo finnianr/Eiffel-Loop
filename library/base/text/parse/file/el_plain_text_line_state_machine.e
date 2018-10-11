@@ -40,6 +40,24 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	begins (line: ZSTRING; str: READABLE_STRING_GENERAL): BOOLEAN
+		-- True if left-adjusted `line' starts with `str'
+		local
+			white_count: INTEGER
+		do
+			white_count := line.leading_white_space
+			if line.count - white_count >= str.count then
+				Result := line.same_characters (str, 1, str.count, white_count + 1)
+			end
+		end
+
+	ends_with_character (line: ZSTRING; c: CHARACTER_32): BOOLEAN
+		do
+			if not line.is_empty then
+				Result := line [line.count] = c
+			end
+		end
+
 	call (item: ZSTRING)
 		-- call state procedure with item
 		do

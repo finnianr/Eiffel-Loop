@@ -15,7 +15,7 @@ class
 inherit
 	EL_THUNDERBIRD_EXPORTER
 		export
-			{EL_SUB_APPLICATION} make
+			{EL_COMMAND_CLIENT} make_from_file
 		undefine
 			new_lio
 		end
@@ -31,22 +31,22 @@ inherit
 	EL_MODULE_LOG
 
 create
-	make
+	make_from_file
 
 feature -- Basic operations
 
 	execute
 		local
 			exporter: EL_THUNDERBIRD_EXPORT_AS_XHTML_BODY; file_path: EL_FILE_PATH
-			output_dir: EL_DIR_PATH
+			l_output_dir: EL_DIR_PATH
 		do
 			log.enter ("execute")
 			across OS.file_list (mail_dir.joined_dir_path (WWW_dir_name), "*.msf") as path loop
 				file_path := path.item.without_extension
 				log.put_path_field ("Content", file_path)
 				log.put_new_line
-				output_dir := export_path.joined_dir_path (file_path.base)
-				create exporter.make (output_dir)
+				l_output_dir := export_dir.joined_dir_path (file_path.base)
+				create exporter.make (l_output_dir, character_set)
 				exporter.export_mails (file_path)
 			end
 			log.exit

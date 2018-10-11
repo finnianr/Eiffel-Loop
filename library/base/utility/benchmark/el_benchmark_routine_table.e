@@ -64,7 +64,7 @@ feature -- Basic operations
 	put_comparison (apply_count: INTEGER)
 		local
 			times: like execution_times
-			fastest_time, execution_time: DOUBLE; description_width: INTEGER; l_padding: STRING
+			fastest_time: DOUBLE; description_width: INTEGER; l_padding: STRING
 		do
 			times := execution_times (apply_count)
 			description_width := max_key_width

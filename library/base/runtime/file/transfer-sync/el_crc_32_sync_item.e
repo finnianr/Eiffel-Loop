@@ -3,18 +3,12 @@ note
 	descendants: "[
 			EL_CRC_32_SYNC_ITEM*
 				[$source EL_FILE_SYNC_ITEM]*
-				[$source LIBRARY_CLASS]
-				[$source EIFFEL_CLASS]
-					[$source LIBRARY_CLASS]
-				[$source REPOSITORY_HTML_PAGE]*
-					[$source REPOSITORY_SOURCE_TREE_PAGE]
-					[$source REPOSITORY_SITEMAP_PAGE]
-				[$source REPOSITORY_SOURCE_TREE_PAGE]
-				[$source REPOSITORY_SITEMAP_PAGE]
 				[$source EL_HTML_FILE_SYNC_ITEM]*
-					[$source LIBRARY_CLASS]
 					[$source EIFFEL_CLASS]
+						[$source LIBRARY_CLASS]
 					[$source REPOSITORY_HTML_PAGE]*
+						[$source EIFFEL_CONFIGURATION_INDEX_PAGE]
+						[$source REPOSITORY_SITEMAP_PAGE]
 	]"
 
 	author: "Finnian Reilly"

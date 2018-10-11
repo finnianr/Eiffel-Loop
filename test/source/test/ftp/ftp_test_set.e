@@ -81,12 +81,12 @@ feature {NONE} -- Implementation
 			end
 
 			progress_display.set_text ("Synchronizing with " + ftp.address.host)
-			track_progress (listener, agent sync.upload, agent do_nothing)
+			track_progress (listener, agent sync.login_and_upload, agent do_nothing)
 
 			assert ("files exist", across file_list as path all ftp.file_exists (path.item) end)
 
 			file_list.wipe_out
-			sync.upload
+			sync.login_and_upload
 			assert ("Directory deleted", not ftp.directory_exists (Help_pages_mint_dir.parent))
 			log.exit
 		end
