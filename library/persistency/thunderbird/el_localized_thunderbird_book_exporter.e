@@ -1,16 +1,19 @@
 note
-	description: "Localized thunderbird to body exporter"
+	description: "[
+		Merge localized folder of emails into a single HTML book with chapter numbers
+		and titled derived from subject line.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 9:48:46 GMT (Friday 12th October 2018)"
-	revision: "2"
+	date: "2018-10-12 14:13:09 GMT (Friday 12th October 2018)"
+	revision: "1"
 
 class
-	LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER
+	EL_LOCALIZED_THUNDERBIRD_BOOK_EXPORTER
 
 inherit
 	EL_LOCALIZED_THUNDERBIRD_ACCOUNT_READER
@@ -23,7 +26,7 @@ create
 
 feature {NONE} -- Implementation
 
-	new_reader (a_output_dir: EL_DIR_PATH): EL_THUNDERBIRD_EXPORT_AS_XHTML_BODY
+	new_reader (a_output_dir: EL_DIR_PATH): EL_THUNDERBIRD_BOOK_EXPORTER
 		do
 			create Result.make (a_output_dir)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "7"
+	date: "2018-10-12 12:23:51 GMT (Friday 12th October 2018)"
+	revision: "8"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -54,7 +54,7 @@ feature -- Element change
  			--
  		do
  			source_path := a_source_path
-			if source_path.extension.same_string ("ecf") then
+			if source_path.has_extension ("ecf") then
 				output_path := source_path.with_new_extension ("pecf")
 			else
 				output_path := source_path.twin

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-11 14:53:00 GMT (Friday 11th May 2018)"
-	revision: "8"
+	date: "2018-10-12 12:22:41 GMT (Friday 12th October 2018)"
+	revision: "9"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -118,7 +118,7 @@ feature -- Basic operations
 			cipher_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
 		do
 			lio.enter ("export_x509_private_key_to_aes")
-			from create key_file_path until key_file_path.extension.same_string ("key") loop
+			from create key_file_path until key_file_path.has_extension ("key") loop
 				key_file_path := new_file_path ("private X509")
 			end
 			pass_phrase := new_pass_phrase
@@ -171,7 +171,7 @@ feature -- Basic operations
 			source_code: PLAIN_TEXT_FILE
 		do
 			lio.enter ("write_x509_public_key_code_assignment")
-			from create crt_file_path until crt_file_path.extension.same_string ("crt") loop
+			from create crt_file_path until crt_file_path.has_extension ("crt") loop
 				crt_file_path := new_file_path ("public x509")
 			end
 			eiffel_source_name := new_eiffel_source_name
@@ -200,7 +200,7 @@ feature {NONE} -- Implementation
 		do
 			input_path := new_file_path ("input")
 			lio.put_new_line
-			if input_path.extension.same_string ("aes") then
+			if input_path.has_extension ("aes") then
 				action.call ([create {EL_ENCRYPTED_FILE_LINE_SOURCE}.make (input_path, new_encrypter (new_pass_phrase))])
 			else
 				lio.put_line ("Invalid file extension (.aes expected)")
@@ -321,7 +321,7 @@ feature {NONE} -- Factory
 	new_eiffel_source_name: EL_FILE_PATH
 		do
 			Result := User_input.line ("Eiffel source name")
-			if not Result.extension.same_string ("e") then
+			if not Result.has_extension ("e") then
 				Result.add_extension ("e")
 			end
 		end
@@ -351,7 +351,7 @@ feature {NONE} -- Factory
 		local
 			key_file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER
 		do
-			from create key_file_path until key_file_path.extension.same_string ("aes") loop
+			from create key_file_path until key_file_path.has_extension ("aes") loop
 				key_file_path := new_file_path ("key.text.aes")
 			end
 			-- Upgraded to 256 April 2015

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-19 12:58:21 GMT (Wednesday 19th September 2018)"
-	revision: "21"
+	date: "2018-10-12 16:55:53 GMT (Friday 12th October 2018)"
+	revision: "22"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -779,6 +779,17 @@ feature -- Measurement
 
 feature -- Status query
 
+	begins_with (str: READABLE_STRING_GENERAL): BOOLEAN
+		-- True if left-adjusted string begins with `str'
+		local
+			white_count: INTEGER
+		do
+			white_count := leading_white_space
+			if count - white_count >= str.count then
+				Result := same_characters (str, 1, str.count, white_count + 1)
+			end
+		end
+
 	enclosed_with (character_pair: EL_READABLE_ZSTRING): BOOLEAN
 		require
 			is_pair: character_pair.count = 2
@@ -805,6 +816,13 @@ feature -- Status query
 			Result := internal_ends_with (str)
 			if Result and then str.has_mixed_encoding then
 				Result := Result and same_unencoded_substring (str, count - str.count + 1)
+			end
+		end
+
+	ends_with_character (c: CHARACTER_32): BOOLEAN
+		do
+			if not is_empty then
+				Result := item (count) = c
 			end
 		end
 

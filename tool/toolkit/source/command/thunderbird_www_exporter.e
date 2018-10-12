@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-27 13:42:07 GMT (Thursday 27th September 2018)"
-	revision: "6"
+	date: "2018-10-12 9:40:24 GMT (Friday 12th October 2018)"
+	revision: "7"
 
 class
 	THUNDERBIRD_WWW_EXPORTER
 
 inherit
-	EL_THUNDERBIRD_EXPORTER
+	EL_THUNDERBIRD_ACCOUNT_READER
 		export
 			{EL_COMMAND_CLIENT} make_from_file
 		undefine
@@ -46,7 +46,7 @@ feature -- Basic operations
 				log.put_path_field ("Content", file_path)
 				log.put_new_line
 				l_output_dir := export_dir.joined_dir_path (file_path.base)
-				create exporter.make (l_output_dir, character_set)
+				create exporter.make (l_output_dir)
 				exporter.export_mails (file_path)
 			end
 			log.exit

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-11 9:42:55 GMT (Tuesday 11th September 2018)"
-	revision: "15"
+	date: "2018-10-12 12:31:21 GMT (Friday 12th October 2018)"
+	revision: "16"
 
 deferred class
 	EL_PATH
@@ -295,7 +295,7 @@ feature -- Access
 			end
 		end
 
-	with_new_extension (a_new_ext: ZSTRING): like Current
+	with_new_extension (a_new_ext: READABLE_STRING_GENERAL): like Current
 		do
 			Result := twin
 			Result.replace_extension (a_new_ext)
@@ -335,6 +335,16 @@ feature -- Measurement
 		do
 			if not is_empty then
 				Result := parent_path.occurrences (Separator) + 1
+			end
+		end
+
+	has_extension (a_extension: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			index: INTEGER
+		do
+			index := dot_index
+			if index > 0 then
+				Result := base.same_characters (a_extension, 1, a_extension.count, index + 1)
 			end
 		end
 
@@ -513,7 +523,7 @@ feature -- Element change
 		do
 			l_extension := extension
 			set_base (new_name)
-			if preserve_extension and then l_extension /~ extension then
+			if preserve_extension and then not has_extension (l_extension) then
 				add_extension (l_extension)
 			end
 		end

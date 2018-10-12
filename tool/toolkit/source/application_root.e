@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-27 17:12:36 GMT (Thursday 27th September 2018)"
-	revision: "14"
+	date: "2018-10-12 13:19:21 GMT (Friday 12th October 2018)"
+	revision: "15"
 
 class
 	APPLICATION_ROOT
@@ -34,7 +34,6 @@ feature {NONE} -- Implementation
 
 				{HTML_BODY_WORD_COUNTER_APP},
 				{JOBSERVE_SEARCH_APP},
-				{LOCALIZATION_COMMAND_SHELL_APP},
 
 				{PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP},
 				{PYXIS_ENCRYPTER_APP},
@@ -42,7 +41,10 @@ feature {NONE} -- Implementation
 				{PYXIS_TREE_TO_XML_COMPILER_APP},
 				{PYXIS_TRANSLATION_TREE_COMPILER_APP},
 
+				{LOCALIZATION_COMMAND_SHELL_APP},
+				{LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP},
 				{LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP},
+
 				{THUNDERBIRD_WWW_EXPORTER_APP},
 
 				{UNDATED_PHOTOS_APP},

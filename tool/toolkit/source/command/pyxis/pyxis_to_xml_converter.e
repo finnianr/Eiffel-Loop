@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "9"
+	date: "2018-10-12 12:29:24 GMT (Friday 12th October 2018)"
+	revision: "10"
 
 class
 	PYXIS_TO_XML_CONVERTER
@@ -25,14 +25,10 @@ create
 feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_source_path, a_output_path: EL_FILE_PATH)
-		local
-			extension: ZSTRING
 		do
-			source_path  := a_source_path
-			output_path := a_output_path
+			source_path  := a_source_path; output_path := a_output_path
 			if output_path.is_empty then
-				extension := source_path.extension
-				if extension ~ Pecf then
+				if source_path.has_extension (Pecf) then
 					output_path := source_path.with_new_extension ("ecf")
 				else
 					output_path := source_path.without_extension
@@ -40,7 +36,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			else
 				File_system.make_directory (a_output_path.parent)
 			end
-			if extension ~ Pecf then
+			if source_path.has_extension (Pecf) then
 				create {ECF_XML_GENERATOR} xml_generator.make
 			else
 				create xml_generator.make
