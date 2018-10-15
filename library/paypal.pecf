@@ -9,7 +9,8 @@ system:
 		"""
 			PayPal Payments Standard Button Manager API
 			An Eiffel interface to the
-			[https://developer.paypal.com/docs/classic/button-manager/integration-guide/ PayPal Payments Standard Button Manager NVP HTTP API]. 
+			[https://developer.paypal.com/docs/classic/button-manager/integration-guide/
+			PayPal Payments Standard Button Manager NVP HTTP API]. 
 		"""
 	target:
 		name = EL_paypal

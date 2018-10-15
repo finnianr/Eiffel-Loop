@@ -370,7 +370,7 @@ Classes for processing documents encoded with various kinds of markup language.
 
 **1.** [OpenDocument Flat XML spreadsheets](http://www.datypic.com/sc/odf/e-office_spreadsheet.html) using [VTD-XML](http://vtd-xml.sourceforge.net/).
 
-**2.** Emails from the [Thunderbird email client](https://www.thunderbird.net/).
+**2.** Read and export emails from the [Thunderbird email client](https://www.thunderbird.net/).
 ## Multi-Application Management
 This library has two main purposes:
 

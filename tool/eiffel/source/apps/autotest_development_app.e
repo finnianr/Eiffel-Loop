@@ -29,7 +29,7 @@ feature -- Basic operations
 	run
 		do
 --			do_file_data_test (agent publisher.test_publisher)
-			do_file_data_test (agent publisher.test_regression (3475738517))
+			do_file_data_test (agent publisher.test_regression (1090107716))
 --			do_file_data_test (agent undefine_pattern_counter.test_command)
 --			do_file_data_test (agent note_editor.test_editor_with_new_class)
 --			do_file_data_test (agent link_expander.test_regression (1653260098))

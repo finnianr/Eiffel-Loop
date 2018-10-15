@@ -27,8 +27,6 @@ publish-repository:
 		# Examples
 		ecf:
 			"example/manage-mp3/manage-mp3.ecf"
-
-		# Library (Network)
 		ecf:
 			"library/Eco-DB.ecf"
 			"library/vtd-xml.ecf"
@@ -43,12 +41,4 @@ publish-repository:
 		# Library (Text)
 		ecf:
 			"library/i18n.ecf"
-
-		# Library (Network)
-		ecf:
-			"library/network.ecf"
-			"library/doc/flash-network.ecf"
-			"library/amazon-instant-access.ecf"
-			"library/ftp.ecf"
-			"library/paypal.ecf"
 

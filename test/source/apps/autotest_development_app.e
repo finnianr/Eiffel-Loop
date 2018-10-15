@@ -32,7 +32,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent settable_from_json_string.test_conversion)
+			do_file_data_test (agent string_editor.test_edit)
 		end
 
 feature -- Test sets
@@ -113,6 +113,11 @@ feature -- Test sets
 		end
 
 	storable: STORABLE_TEST_SET
+		do
+			create Result
+		end
+
+	string_editor: STRING_EDITOR_TEST_SET
 		do
 			create Result
 		end

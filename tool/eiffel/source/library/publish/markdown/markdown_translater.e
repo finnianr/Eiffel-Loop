@@ -126,37 +126,37 @@ feature {NONE} -- Implementation
 	replace_links (text: ZSTRING)
 			-- change [http://address.com click here] to [click here](http://address.com)
 			-- in order to be compatible with Github markdown
-		local
-			pos_link, pos_space, pos_right_bracket: INTEGER; done: BOOLEAN
-			link_address, link_text: ZSTRING
 		do
 			across Link_types as type loop
-				from done := False until done loop
-					pos_link := text.substring_index (type.item, pos_link + 1)
-					if pos_link > 0 then
-						pos_space := text.index_of (' ', pos_link + 1)
-						if pos_space > 0 then
-							link_address := text.substring (pos_link + 1, pos_space - 1)
-							inspect link_address [1]
-								when '.' then
-									link_address.replace_substring (repository_web_address, 1, 1)
-								when '$' then
-									link_text := text.substring (pos_space + 1, text.index_of (']', pos_link + 1) - 1)
-									if Class_source_table.has_key (class_name (link_text)) then
-										link_address := Join_path #$ [repository_web_address, Class_source_table.found_item]
-									end
-							else end
-							text.remove_substring (pos_link + 1, pos_space)
-							pos_right_bracket := text.index_of (']', pos_link + 1)
-							if pos_right_bracket > 0 then
-								text.insert_string (link_address.enclosed ('(', ')'), pos_right_bracket + 1)
-								pos_link := pos_right_bracket + link_address.count + 2
-							end
+				text.edit (type.item, Right_bracket, agent to_github_link)
+			end
+		end
+
+	to_github_link (start_index, end_index: INTEGER; substring: ZSTRING)
+		local
+			link_address, link_text: ZSTRING
+			space_index: INTEGER
+		do
+			substring.to_canonically_spaced
+			space_index := substring.index_of (' ', 1)
+			if space_index > 0 then
+				link_address := substring.substring (2, space_index - 1)
+				link_text := substring.substring (space_index + 1, substring.count - 1)
+				inspect link_address [1]
+					when '.' then
+						link_address.replace_substring (repository_web_address, 1, 1)
+					when '$' then
+						if Class_source_table.has_key (class_name (link_text)) then
+							link_address := Join_path #$ [repository_web_address, Class_source_table.found_item]
 						end
-					else
-						done := True
-					end
-				end
+				else end
+			else
+				link_text := Empty_string
+			end
+			if link_text.is_empty then
+				substring.share (substring.substring (2, substring.count - 1))
+			else
+				substring.share (Github_link #$ [link_text, link_address])
 			end
 		end
 
@@ -182,6 +182,11 @@ feature {NONE} -- Constants
 			Result := "%N%N"
 		end
 
+	Github_link: ZSTRING
+		once
+			Result := "[%S](%S)"
+		end
+
 	Join_path: ZSTRING
 		once
 			Result := "%S/%S"
@@ -192,4 +197,8 @@ feature {NONE} -- Constants
 			Result := << "[http://", "[https://", "[./", "[$source" >>
 		end
 
+	Right_bracket: ZSTRING
+		once
+			Result := "]"
+		end
 end

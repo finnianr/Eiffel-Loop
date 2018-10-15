@@ -194,6 +194,14 @@ feature -- Element change
 			append_substring (adapted_general (s, 1), start_index, end_index)
 		end
 
+	edit (left_delimiter, right_delimiter: READABLE_STRING_GENERAL; a_edit: PROCEDURE [INTEGER, INTEGER, ZSTRING])
+		local
+			editor: EL_ZSTRING_EDITOR
+		do
+			create editor.make (Current)
+			editor.for_each (left_delimiter, right_delimiter, a_edit)
+		end
+
 	escape (escaper: EL_ZSTRING_ESCAPER)
 		do
 			make_from_other (escaper.escaped (Current, False))
@@ -564,7 +572,7 @@ feature -- Removal
 	wipe_out
 		do
 			internal_wipe_out
-			unencoded_area := Empty_unencoded
+			make_unencoded
 		end
 
 feature {NONE} -- Implementation

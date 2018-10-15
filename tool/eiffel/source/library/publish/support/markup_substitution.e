@@ -24,6 +24,7 @@ feature {NONE} -- Initialization
 		do
 			delimiter_start := a_delimiter_start; delimiter_end := a_delimiter_end
 			markup_open := a_markup_open; markup_close := a_markup_close
+			new_expanded_link := agent empty_link
 		end
 
 	make_hyperlink (a_delimiter_start: ZSTRING)
@@ -38,36 +39,16 @@ feature -- Status query
 
 feature -- Basic operations
 
-	substitute_html (html: ZSTRING; new_expanded_link: FUNCTION [ZSTRING, ZSTRING, ZSTRING])
+	substitute_html (html: ZSTRING; new_link_agent: like new_expanded_link)
 		local
 			pos_open, pos_close, pos_space: INTEGER; done: BOOLEAN
 			expanded_link, link_path, link_text: ZSTRING
 		do
-			from until done loop
-				pos_open := html.substring_index (delimiter_start, pos_open + 1)
-				if pos_open > 0 then
-					pos_close := html.substring_index (delimiter_end, pos_open + delimiter_start.count)
-					if pos_close > 0 then
-						if is_hyperlink then
-							pos_space := index_of_white_space (html, pos_open + delimiter_start.count, pos_close - 1)
-							if pos_space > 0 and then pos_space < pos_close then
-								link_path := html.substring (pos_open + 1, pos_space - 1)
-								link_text := html.substring (pos_space + 1, pos_close - 1)
-							else
-								link_path := html.substring (pos_open + 1, pos_close - 1)
-								link_text := link_path
-							end
-							expanded_link := new_expanded_link (link_path, link_text)
-							html.replace_substring (expanded_link, pos_open, pos_close)
-							pos_open := html.index_of ('>', pos_open)
-						else
-							html.replace_substring (markup_open, pos_open, pos_open + delimiter_start.count - 1)
-							pos_close := pos_close + markup_open.count - delimiter_start.count
-							html.replace_substring (markup_close, pos_close, pos_close + delimiter_end.count - 1)
-						end
-					end
-				end
-				done := pos_open = 0 or pos_close = 0
+			if is_hyperlink then
+				new_expanded_link := new_link_agent
+				html.edit (delimiter_start, delimiter_end, agent expand_hyperlink_markup)
+			else
+				html.edit (delimiter_start, delimiter_end, agent expand_markup)
 			end
 		end
 
@@ -83,27 +64,35 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	index_of_white_space (html: ZSTRING; start_index, end_index: INTEGER): INTEGER
-		-- index of white space character just before text
-		-- (allowing links to be spread across 2 lines)
-		local
-			i: INTEGER
+	expand_markup (start_index, end_index: INTEGER; substring: ZSTRING)
 		do
-			from i := start_index until Result > 0 or i > end_index loop
-				if html.is_space_item (i) then
-					Result := i
-				end
-				i := i + 1
-			end
-			if Result > 0 then
-				from Result := 0 until Result > 0 or i > end_index loop
-					if not html.is_space_item (i) then
-						Result := i - 1
-					end
-					i := i + 1
-				end
-			end
+			substring.replace_substring (markup_close, end_index + 1, substring.count)
+			substring.replace_substring (markup_open, 1, start_index - 1)
 		end
+
+	expand_hyperlink_markup (start_index, end_index: INTEGER; substring: ZSTRING)
+		local
+			expanded_link, link_path, link_text: ZSTRING
+			space_index: INTEGER
+		do
+			substring.to_canonically_spaced
+			space_index := substring.index_of (' ', 1)
+			if space_index > 0 then
+				link_path := substring.substring (2, space_index - 1)
+				link_text := substring.substring (space_index + 1, substring.count - 1)
+			else
+				link_path := substring.substring (2, substring.count - 1)
+				link_text := link_path
+			end
+			substring.share (new_expanded_link (link_path, link_text))
+		end
+
+	empty_link (path, text: ZSTRING): ZSTRING
+		do
+			create Result.make_empty
+		end
+
+	new_expanded_link: FUNCTION [ZSTRING, ZSTRING, ZSTRING]
 
 feature {NONE} -- Constants
 
