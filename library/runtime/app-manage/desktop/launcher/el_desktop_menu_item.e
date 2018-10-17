@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2018-10-17 13:28:41 GMT (Wednesday 17th October 2018)"
+	revision: "8"
 
 class
 	EL_DESKTOP_MENU_ITEM
 
 inherit
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 	EL_ZSTRING_ROUTINES
 		export

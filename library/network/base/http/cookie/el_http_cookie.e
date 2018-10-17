@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-01 15:04:38 GMT (Sunday 1st April 2018)"
-	revision: "4"
+	date: "2018-10-17 13:51:21 GMT (Wednesday 17th October 2018)"
+	revision: "5"
 
 class
 	EL_HTTP_COOKIE
 
 inherit
-	EL_STRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
 	EL_SHARED_ONCE_STRINGS
 

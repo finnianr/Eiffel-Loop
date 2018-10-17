@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 18); build = 86
+version = (1, 0, 19); build = 87
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.19
+# Use class EL_STRING_EDITOR in repository publisher
 
 # 1.0.18
 # Changes to EIFFEL_CONFIGURATION_INDEX_PAGE sink_content

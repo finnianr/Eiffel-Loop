@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "9"
+	date: "2018-10-17 11:46:19 GMT (Wednesday 17th October 2018)"
+	revision: "10"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -261,6 +261,16 @@ feature -- Basic operations
 			file_exists: a_file_path.exists
 		do
 			closed_raw_file (a_file_path).rename_file (new_file_path)
+		end
+
+	write_plain_text (a_file_path: EL_FILE_PATH; text: STRING)
+			--
+		local
+			text_file: PLAIN_TEXT_FILE
+		do
+			create text_file.make_open_write (a_file_path)
+			text_file.put_string (text)
+			text_file.close
 		end
 
 feature -- Status query

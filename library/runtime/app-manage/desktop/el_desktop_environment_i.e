@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-20 12:29:40 GMT (Wednesday 20th June 2018)"
-	revision: "7"
+	date: "2018-10-17 13:38:06 GMT (Wednesday 17th October 2018)"
+	revision: "8"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -33,7 +33,9 @@ inherit
 
 	EL_MODULE_ARGS
 
-	EL_STRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
+
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 

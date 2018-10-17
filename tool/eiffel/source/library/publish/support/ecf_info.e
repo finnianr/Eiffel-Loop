@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-02 11:45:00 GMT (Tuesday 2nd October 2018)"
-	revision: "1"
+	date: "2018-10-17 13:47:15 GMT (Wednesday 17th October 2018)"
+	revision: "2"
 
 class
 	ECF_INFO
@@ -20,7 +20,7 @@ inherit
 			make
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

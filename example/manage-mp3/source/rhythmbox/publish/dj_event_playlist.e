@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-03 14:18:35 GMT (Tuesday 3rd April 2018)"
-	revision: "5"
+	date: "2018-10-17 14:21:30 GMT (Wednesday 17th October 2018)"
+	revision: "6"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -53,7 +53,7 @@ inherit
 			copy, is_equal
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			copy, is_equal
 		end

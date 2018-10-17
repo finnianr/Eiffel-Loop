@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 12:31:21 GMT (Friday 12th October 2018)"
-	revision: "16"
+	date: "2018-10-17 13:29:51 GMT (Wednesday 17th October 2018)"
+	revision: "17"
 
 deferred class
 	EL_PATH
@@ -54,7 +54,7 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			is_equal, default_create, out, copy
 		end

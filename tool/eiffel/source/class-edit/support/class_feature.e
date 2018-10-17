@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "8"
+	date: "2018-10-17 13:47:15 GMT (Wednesday 17th October 2018)"
+	revision: "9"
 
 class
 	CLASS_FEATURE
@@ -15,7 +15,7 @@ class
 inherit
 	COMPARABLE
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			is_equal
 		end
@@ -343,7 +343,7 @@ feature {NONE} -- Constants
 					do
 						$name := a_$name
 					end
-				
+
 			]")
 		end
 

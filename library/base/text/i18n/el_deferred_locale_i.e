@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:07:07 GMT (Wednesday 21st February 2018)"
-	revision: "5"
+	date: "2018-10-17 13:28:25 GMT (Wednesday 17th October 2018)"
+	revision: "6"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -28,7 +28,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 feature -- Access
 

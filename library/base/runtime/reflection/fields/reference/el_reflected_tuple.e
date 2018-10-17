@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "7"
+	date: "2018-10-17 13:37:12 GMT (Wednesday 17th October 2018)"
+	revision: "8"
 
 class
 	EL_REFLECTED_TUPLE
@@ -19,6 +19,10 @@ inherit
 		redefine
 			make, write, default_defined, initialize, initialize_default, reset
 		end
+
+	EL_ZSTRING_CONSTANTS
+
+	EL_STRING_32_CONSTANTS
 
 create
 	make

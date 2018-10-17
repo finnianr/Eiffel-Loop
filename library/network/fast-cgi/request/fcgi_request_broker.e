@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-04 12:11:17 GMT (Sunday 4th March 2018)"
-	revision: "6"
+	date: "2018-10-17 13:51:34 GMT (Wednesday 17th October 2018)"
+	revision: "7"
 
 class
 	FCGI_REQUEST_BROKER
@@ -31,7 +31,7 @@ inherit
 
 	EL_MODULE_EXCEPTION
 
-	EL_STRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
 create
 	make

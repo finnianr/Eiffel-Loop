@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-07-01 14:07:07 GMT (Sunday 1st July 2018)"
-	revision: "4"
+	date: "2018-10-17 13:47:17 GMT (Wednesday 17th October 2018)"
+	revision: "5"
 
 deferred class
 	REPOSITORY_HTML_PAGE
@@ -26,7 +26,7 @@ inherit
 			Template as Empty_string
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_XML
 

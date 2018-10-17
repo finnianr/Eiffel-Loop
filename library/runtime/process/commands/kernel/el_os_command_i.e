@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 13:56:30 GMT (Tuesday 19th June 2018)"
-	revision: "14"
+	date: "2018-10-17 14:34:55 GMT (Wednesday 17th October 2018)"
+	revision: "15"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -28,7 +28,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -152,7 +152,7 @@ feature {NONE} -- Implementation
 			across lines as line loop
 				line.item.replace_substring_all (current_working_directory, Variable_cwd)
 				line.item.left_adjust
-				words := line.item.split_intervals (Space_string)
+				words := line.item.split_intervals (character_string (' '))
 				from words.start until words.after loop
 					if words.item_count > 0 then
 						if not printable_line.is_empty then

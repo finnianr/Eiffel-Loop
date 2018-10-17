@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-04 10:49:56 GMT (Thursday 4th October 2018)"
-	revision: "12"
+	date: "2018-10-17 13:47:18 GMT (Wednesday 17th October 2018)"
+	revision: "13"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -25,7 +25,7 @@ inherit
 			default_create
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			default_create
 		end

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-22 11:27:02 GMT (Thursday 22nd February 2018)"
-	revision: "5"
+	date: "2018-10-17 13:31:24 GMT (Wednesday 17th October 2018)"
+	revision: "6"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
@@ -32,7 +32,7 @@ inherit
 			make_default
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

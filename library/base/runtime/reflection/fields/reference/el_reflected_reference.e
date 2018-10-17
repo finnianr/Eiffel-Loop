@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-04 17:55:42 GMT (Friday 4th May 2018)"
-	revision: "8"
+	date: "2018-10-17 13:34:55 GMT (Wednesday 17th October 2018)"
+	revision: "9"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -21,7 +21,7 @@ inherit
 
 	EL_SHARED_DEFAULT_VALUE_TABLE
 
-	EL_STRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
 create
 	make

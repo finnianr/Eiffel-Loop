@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 16:56:16 GMT (Friday 12th October 2018)"
-	revision: "6"
+	date: "2018-10-17 13:30:39 GMT (Wednesday 17th October 2018)"
+	revision: "7"
 
 class
 	EL_THUNDERBIRD_EXPORT_AS_XHTML_BODY
@@ -32,17 +32,17 @@ inherit
 
 	EL_MODULE_HTML
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_output_dir: EL_DIR_PATH)
+	make (a_config: like config)
 			--
 		do
-			Precursor (a_output_dir)
+			Precursor (a_config)
 			create h2_list.make
 		end
 

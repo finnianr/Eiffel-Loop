@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-04 17:55:42 GMT (Friday 4th May 2018)"
-	revision: "4"
+	date: "2018-10-17 13:35:31 GMT (Wednesday 17th October 2018)"
+	revision: "5"
 
 class
 	EL_REFLECTED_STRING_GENERAL
@@ -17,6 +17,10 @@ inherit
 		redefine
 			Default_objects, reset, set_from_readable, set_from_string, to_string, write
 		end
+
+	EL_STRING_32_CONSTANTS
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 17:00:42 GMT (Friday 12th October 2018)"
-	revision: "1"
+	date: "2018-10-17 13:27:04 GMT (Wednesday 17th October 2018)"
+	revision: "2"
 
 class
 	EL_BOOK_CHAPTER
 
 inherit
 	EL_THUNDERBIRD_CONSTANTS
-
-	EL_STRING_CONSTANTS
 
 create
 	make

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-10-17 14:21:30 GMT (Wednesday 17th October 2018)"
+	revision: "4"
 
 class
 	DJ_EVENT_PUBLISHER_CONFIG
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

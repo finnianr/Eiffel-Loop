@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-10-17 14:32:01 GMT (Wednesday 17th October 2018)"
+	revision: "7"
 
 deferred class
 	EL_WORD_WRAPPABLE
@@ -19,7 +19,7 @@ inherit
 
 	EL_MODULE_GUI
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Implementation
 
@@ -47,7 +47,7 @@ feature {NONE} -- Implementation
 			end
 			Result.set_font (font)
 			Result.copy_alignment (Current)
-			a_text.do_with_splits (New_line_string, agent Result.append_words)
+			a_text.do_with_splits (character_string ('%N'), agent Result.append_words)
 		end
 
 	wrapped_lines (a_text: ZSTRING): EL_ZSTRING_LIST

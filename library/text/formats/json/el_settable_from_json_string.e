@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-19 12:05:47 GMT (Wednesday 19th September 2018)"
-	revision: "9"
+	date: "2018-10-17 13:30:21 GMT (Wednesday 17th October 2018)"
+	revision: "10"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -32,7 +32,7 @@ deferred class
 inherit
 	EL_SETTABLE_FROM_ZSTRING
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			is_equal
 		end

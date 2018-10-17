@@ -20,14 +20,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 17:12:02 GMT (Friday 12th October 2018)"
-	revision: "7"
+	date: "2018-10-17 11:19:15 GMT (Wednesday 17th October 2018)"
+	revision: "8"
 
 deferred class
 	EL_LOCALIZED_THUNDERBIRD_ACCOUNT_READER
 
 inherit
 	EL_THUNDERBIRD_ACCOUNT_READER
+		export
+			{EL_COMMAND_CLIENT} make_from_file
 		redefine
 			make_default
 		end
@@ -56,54 +58,15 @@ feature -- Basic operations
 				across OS.file_list (subdir_path.item, "*.msf") as path loop
 					mails_path := path.item.without_extension
 					if not language.is_empty implies mails_path.base.same_string (language) then
-						export_mails (mails_path)
+						lio.put_path_field ("Reading", mails_path)
+						lio.put_new_line
+						new_reader.read_mails (mails_path)
 					end
 				end
 			end
 		end
 
 feature {NONE} -- Implementation
-
-	export_dir_path (mails_path: EL_FILE_PATH): EL_DIR_PATH
-		local
-			steps: EL_PATH_STEPS
-		do
-			steps := mails_path.steps
-			steps.start
-			from until steps.first.same_string (account) or steps.is_empty loop
-				steps.remove
-			end
-			if not steps.is_empty then
-				steps.remove
-			end
-			across steps as step loop
-				if step.item.ends_with (Dot_sbd_extension) then
-					step.item.remove_tail (Dot_sbd_extension.count)
-				end
-			end
-			if language.is_empty then
-				if is_language_code_first then
-					-- Put the language code at beginning, for example: help/en -> en/help
-					steps.put_front (steps.last)
-					steps.finish
-					steps.remove
-				end
-			else
-				steps.finish; steps.remove
-			end
-			Result := export_dir.joined_dir_steps (steps)
-		end
-
-	new_reader (a_output_dir: EL_DIR_PATH): EL_THUNDERBIRD_FOLDER_READER
-		deferred
-		end
-
-	export_mails (mails_path: EL_FILE_PATH)
-		do
-			lio.put_path_field ("Reading", mails_path)
-			lio.put_new_line
-			new_reader (export_dir_path (mails_path)).read_mails (mails_path)
-		end
 
 	mail_folder_dir_list: EL_ARRAYED_LIST [EL_DIR_PATH]
 		local
@@ -116,7 +79,7 @@ feature {NONE} -- Implementation
 			Result := find_cmd.path_list
 		end
 
-	is_language_code_first: BOOLEAN
+	new_reader: EL_THUNDERBIRD_FOLDER_READER
 		deferred
 		end
 

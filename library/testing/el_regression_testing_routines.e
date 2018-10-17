@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 12:20:20 GMT (Thursday 12th October 2017)"
-	revision: "8"
+	date: "2018-10-17 13:30:08 GMT (Wednesday 17th October 2018)"
+	revision: "9"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -24,7 +24,7 @@ inherit
 
 	EL_MODULE_OS
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		rename
 			Empty_string as Empty_pattern
 		end

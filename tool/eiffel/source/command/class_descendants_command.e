@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-01 9:40:12 GMT (Tuesday 1st May 2018)"
-	revision: "1"
+	date: "2018-10-17 13:47:14 GMT (Wednesday 17th October 2018)"
+	revision: "2"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -32,7 +32,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "10"
+	date: "2018-10-17 14:35:41 GMT (Wednesday 17th October 2018)"
+	revision: "11"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -35,7 +35,7 @@ inherit
 
 	EL_SHARED_ONCE_STRINGS
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -323,7 +323,7 @@ feature -- Contract support
 			text: like Once_string
 		do
 			text := empty_once_string; text.append_string_general (a_text)
-			Result := text.for_all_split (New_line_string,  agent all_words_fit_width (?, a_font, a_width))
+			Result := text.for_all_split (character_string ('%N'),  agent all_words_fit_width (?, a_font, a_width))
 		end
 
 feature -- Measurement
@@ -414,7 +414,7 @@ feature {NONE} -- Implementation
 
 	all_words_fit_width (line: ZSTRING; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
 		do
-			Result := line.for_all_split (Space_string, agent word_fits_width (?, a_font, a_width))
+			Result := line.for_all_split (character_string (' '), agent word_fits_width (?, a_font, a_width))
 		end
 
 	prune_timer (timer: EV_TIMEOUT)

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-08-21 11:33:38 GMT (Tuesday 21st August 2018)"
-	revision: "2"
+	date: "2018-10-17 13:31:38 GMT (Wednesday 17th October 2018)"
+	revision: "3"
 
 class
 	YOUTUBE_VIDEO
 
 inherit
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 	YOUTUBE_VARIABLE_NAMES
 

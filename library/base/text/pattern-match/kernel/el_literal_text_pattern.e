@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2018-10-17 13:33:44 GMT (Wednesday 17th October 2018)"
+	revision: "6"
 
 class
 	EL_LITERAL_TEXT_PATTERN
@@ -18,7 +18,7 @@ inherit
 			make_default, match_count
 		end
 
-	EL_STRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
 create
 	make_from_string

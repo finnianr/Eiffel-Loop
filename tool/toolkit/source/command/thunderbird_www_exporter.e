@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 9:40:24 GMT (Friday 12th October 2018)"
-	revision: "7"
+	date: "2018-10-16 13:36:39 GMT (Tuesday 16th October 2018)"
+	revision: "8"
 
 class
 	THUNDERBIRD_WWW_EXPORTER
@@ -46,7 +46,7 @@ feature -- Basic operations
 				log.put_path_field ("Content", file_path)
 				log.put_new_line
 				l_output_dir := export_dir.joined_dir_path (file_path.base)
-				create exporter.make (l_output_dir)
+				create exporter.make (Current)
 				exporter.export_mails (file_path)
 			end
 			log.exit

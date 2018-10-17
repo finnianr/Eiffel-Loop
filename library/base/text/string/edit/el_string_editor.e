@@ -11,13 +11,14 @@ note
 				[$source EL_STRING_8_EDITOR]
 				[$source EL_STRING_32_EDITOR]
 	]"
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2018-10-15 9:35:04 GMT (Monday 15th October 2018)"
+	revision: "6"
 
 deferred class
 	EL_STRING_EDITOR [S -> STRING_GENERAL create make end]

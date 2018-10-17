@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-08-20 10:19:55 GMT (Monday 20th August 2018)"
-	revision: "3"
+	date: "2018-10-17 14:34:54 GMT (Wednesday 17th October 2018)"
+	revision: "4"
 
 class
 	YOUTUBE_STREAM
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MODULE_LIO
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 	YOUTUBE_VARIABLE_NAMES
 
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			make_default
 			url := a_video.url
 			description := info_line
-			create parts.make (info_line.as_canonically_spaced, Space_string)
+			create parts.make (info_line.as_canonically_spaced, character_string (' '))
 			parts.start
 			if parts.item.is_integer then
 				from until parts.after loop

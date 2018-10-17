@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-12 7:17:09 GMT (Monday 12th March 2018)"
-	revision: "3"
+	date: "2018-10-17 14:37:42 GMT (Wednesday 17th October 2018)"
+	revision: "4"
 
 deferred class
 	EL_MIXED_FONT_STYLEABLE
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_GUI
 
-	EL_STRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -84,7 +84,7 @@ feature -- Measurement
 
 	space_width: INTEGER
 		do
-			Result := regular_font.string_width (Space_string_8)
+			Result := regular_font.string_width (character_string_8 (' '))
 		end
 
 feature -- Element change

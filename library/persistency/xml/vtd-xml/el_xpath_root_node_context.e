@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-17 13:02:44 GMT (Saturday 17th February 2018)"
-	revision: "4"
+	date: "2018-10-17 9:22:34 GMT (Wednesday 17th October 2018)"
+	revision: "5"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
@@ -36,7 +36,7 @@ inherit
 		end
 
 create
-	default_create, make_from_file, make_from_string
+	default_create, make_from_file, make_from_string, make_from_fragment
 
 convert
 	make_from_file ({EL_FILE_PATH})
@@ -52,6 +52,12 @@ feature {NONE} -- Initaliazation
 			--
 		do
 			make_from_string (File_system.plain_text (a_file_path))
+		end
+
+
+	make_from_fragment (xml_fragment: STRING; encoding: STRING)
+		do
+			make_from_string (Header_template.substituted_tuple (encoding).to_latin_1 + xml_fragment)
 		end
 
 	make_from_string (a_xml: STRING)
@@ -175,6 +181,13 @@ feature {NONE} -- Constants
 			--
 		once
 			create Result.make
+		end
+
+	Header_template: ZSTRING
+		once
+			Result := "[
+				<?xml version="1.0" encoding="#"?>
+			]"
 		end
 
 end

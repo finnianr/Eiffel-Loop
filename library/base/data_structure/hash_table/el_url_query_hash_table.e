@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-01 14:40:38 GMT (Sunday 1st April 2018)"
-	revision: "8"
+	date: "2018-10-17 13:31:01 GMT (Wednesday 17th October 2018)"
+	revision: "9"
 
 class
 	EL_URL_QUERY_HASH_TABLE
@@ -28,7 +28,7 @@ inherit
 			{NONE} table_item
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			is_equal, copy, default_create
 		end

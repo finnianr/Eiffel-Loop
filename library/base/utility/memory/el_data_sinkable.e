@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-10-17 13:28:10 GMT (Wednesday 17th October 2018)"
+	revision: "6"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -41,8 +41,6 @@ inherit
 		end
 
 	EL_SHARED_ONCE_STRINGS
-
-	EL_STRING_CONSTANTS
 
 	EL_MODULE_STRING_32
 

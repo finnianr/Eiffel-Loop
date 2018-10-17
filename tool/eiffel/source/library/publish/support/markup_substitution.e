@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-10-17 13:47:17 GMT (Wednesday 17th October 2018)"
+	revision: "5"
 
 class
 	MARKUP_SUBSTITUTION
 
 inherit
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 create
 	make, make_hyperlink
@@ -40,9 +40,6 @@ feature -- Status query
 feature -- Basic operations
 
 	substitute_html (html: ZSTRING; new_link_agent: like new_expanded_link)
-		local
-			pos_open, pos_close, pos_space: INTEGER; done: BOOLEAN
-			expanded_link, link_path, link_text: ZSTRING
 		do
 			if is_hyperlink then
 				new_expanded_link := new_link_agent

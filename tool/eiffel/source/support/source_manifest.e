@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-30 8:11:43 GMT (Sunday 30th September 2018)"
-	revision: "7"
+	date: "2018-10-17 13:47:18 GMT (Wednesday 17th October 2018)"
+	revision: "8"
 
 class
 	SOURCE_MANIFEST
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 create
 	make_default, make_from_file, make_from_string

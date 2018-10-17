@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 12:29:22 GMT (Saturday 3rd March 2018)"
-	revision: "12"
+	date: "2018-10-17 13:45:31 GMT (Wednesday 17th October 2018)"
+	revision: "13"
 
 class
 	EL_HTTP_CONNECTION
@@ -64,7 +64,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 	EL_SHARED_CURL_API
 

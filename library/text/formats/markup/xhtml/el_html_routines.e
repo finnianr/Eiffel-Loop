@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2018-10-17 17:28:08 GMT (Wednesday 17th October 2018)"
+	revision: "8"
 
 class
 	EL_HTML_ROUTINES
@@ -15,20 +15,26 @@ class
 inherit
 	EL_MARKUP_ROUTINES
 
+	EL_ZSTRING_CONSTANTS
+
 feature -- Access
 
 	anchor_reference (name: ZSTRING): ZSTRING
 		do
-			create Result.make (name.count + 1)
-			Result.append_character ('#')
-			Result.append (name)
-			Result.translate (Space, Underscore)
+			Result := anchor_name (name)
+			Result.prepend_character ('#')
+		end
+
+	anchor_name (name: ZSTRING): ZSTRING
+		do
+			Result := name.translated (character_string (' '), character_string ('_'))
 		end
 
 	book_mark_anchor_markup (id, text: ZSTRING): ZSTRING
 		do
 			Bookmark_template.set_variables_from_array (<<
-				[Variable.id, id.translated (Space, Underscore)], [Variable.text, text]
+				[Variable.id, anchor_name (id)],
+				[Variable.text, text]
 			>>)
 			Result := Bookmark_template.substituted
 		end
@@ -234,16 +240,6 @@ feature {NONE} -- Constants
 			Result.text := "text"
 			Result.title := "title"
 			Result.url := "url"
-		end
-
-	Space: ZSTRING
-		once
-			Result := " "
-		end
-
-	Underscore: ZSTRING
-		once
-			Result := "_"
 		end
 
 end

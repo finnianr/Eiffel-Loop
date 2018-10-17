@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-14 18:41:35 GMT (Monday 14th August 2017)"
-	revision: "3"
+	date: "2018-10-17 14:35:34 GMT (Wednesday 17th October 2018)"
+	revision: "4"
 
 class
 	EL_TEXT_RECTANGLE
@@ -49,7 +49,7 @@ inherit
 			out
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			out
 		end
@@ -392,7 +392,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (0); create line_out.make_empty
 
-			words := line.split_intervals (Space_string)
+			words := line.split_intervals (character_string (' '))
 			from words.start until words.after loop
 				old_count := line_out.count
 				if not line_out.is_empty then

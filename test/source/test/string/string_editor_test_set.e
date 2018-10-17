@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {STRING_EDITOR_TEST_SET}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "String editor test set"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-10-13 22:28:28 GMT (Saturday 13th October 2018)"
+	revision: "1"
 
 class
 	STRING_EDITOR_TEST_SET

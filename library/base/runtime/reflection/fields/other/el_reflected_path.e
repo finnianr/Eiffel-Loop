@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-04 17:55:42 GMT (Friday 4th May 2018)"
-	revision: "2"
+	date: "2018-10-17 13:36:45 GMT (Wednesday 17th October 2018)"
+	revision: "3"
 
 class
 	EL_REFLECTED_PATH
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_ZSTRING_ROUTINES
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

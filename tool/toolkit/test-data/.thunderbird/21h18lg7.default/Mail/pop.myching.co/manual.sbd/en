@@ -27,6 +27,13 @@ Content-Transfer-Encoding: 7bit
       tab. A date and question box will appear. By default the current
       date displayed is set. A set of navigation links is displayed to
       enter your hexagram results and comments.</p>
+    <p><i>(Click on screenshot for full size)</i> </p>
+    <a target="_blank"
+      href="http://localhost/en/screenshot/edit/question.html"><img
+        class="screenshot" alt="Entering the Question"
+        title="$fullsize_instructions"
+        src="http://localhost/images/screenshot/en/thumbnail/edit/question.png"
+        border="0" width="630" height="567"></a>
     <h4>Entering your hexagram</h4>
     <p> After entering your question click on the hexagram link.
       Assuming you have manually performed a divination ritual using the

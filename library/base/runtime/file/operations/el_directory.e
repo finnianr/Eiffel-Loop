@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-10-17 13:37:26 GMT (Wednesday 17th October 2018)"
+	revision: "6"
 
 class
 	EL_DIRECTORY
@@ -33,7 +33,7 @@ inherit
 			default_create
 		end
 
-	EL_STRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 		undefine
 			default_create
 		end

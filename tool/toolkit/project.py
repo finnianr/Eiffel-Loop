@@ -2,12 +2,15 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 11); build = 422
+version = (1, 2, 12); build = 423
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.12
+# Thunderbird HTML export now uses Pyxis configuration
 
 # 1.2.11
 # Removed order.txt from Thunderbird HTML export

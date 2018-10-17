@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-12 12:12:58 GMT (Saturday 12th August 2017)"
-	revision: "3"
+	date: "2018-10-17 14:35:34 GMT (Wednesday 17th October 2018)"
+	revision: "4"
 
 class
 	EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX
@@ -28,7 +28,12 @@ inherit
 			is_equal, default_create, copy
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
+		undefine
+			is_equal, default_create, copy
+		end
+
+	EL_STRING_32_CONSTANTS
 		undefine
 			is_equal, default_create, copy
 		end
@@ -57,7 +62,7 @@ feature {NONE} -- Initialization
 				code_field.set_tooltip (tooltip_text.to_string_32)
 			end
 			create color_button.make (
-				a_window, color_selection_text.to_string_32 + Space_string_32 + label_text.to_string_32.as_lower,
+				a_window, color_selection_text.to_string_32 + character_string_32 (' ') + label_text.to_string_32.as_lower,
 				code_field.height, RGB_color_code,
 				agent on_color_select (?, set_color)
 			)

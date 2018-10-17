@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:01:43 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2018-10-17 13:47:15 GMT (Wednesday 17th October 2018)"
+	revision: "8"
 
 class
 	CLASS_NOTES
@@ -28,7 +28,7 @@ inherit
 
 	EL_EIFFEL_KEYWORDS
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

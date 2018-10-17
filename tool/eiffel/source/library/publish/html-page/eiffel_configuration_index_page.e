@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-04 12:34:16 GMT (Thursday 4th October 2018)"
-	revision: "8"
+	date: "2018-10-17 14:36:16 GMT (Wednesday 17th October 2018)"
+	revision: "9"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -77,7 +77,7 @@ feature -- Access
 			if sub_category.is_empty then
 				Result := category
 			else
-				Result := sub_category + Space_string + category
+				Result := sub_category + character_string (' ') + category
 			end
 		end
 
@@ -187,7 +187,7 @@ feature {NONE} -- Implementation
 	new_sort_category: ZSTRING
 		do
 			if library_ecf.is_library then
-				Result := category + Space_string + sub_category
+				Result := category + character_string (' ') + sub_category
 			else
 				Result := category
 			end

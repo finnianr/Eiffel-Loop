@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-29 8:29:55 GMT (Sunday 29th April 2018)"
-	revision: "3"
+	date: "2018-10-17 13:50:55 GMT (Wednesday 17th October 2018)"
+	revision: "4"
 
 class
 	PP_L_VARIABLE
@@ -28,7 +28,7 @@ inherit
 			is_equal
 		end
 
-	EL_STRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 		undefine
 			is_equal
 		end

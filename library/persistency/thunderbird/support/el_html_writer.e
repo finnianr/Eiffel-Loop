@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-27 13:26:21 GMT (Thursday 27th September 2018)"
-	revision: "7"
+	date: "2018-10-17 13:44:14 GMT (Wednesday 17th October 2018)"
+	revision: "8"
 
 deferred class
 	EL_HTML_WRITER
@@ -23,6 +23,8 @@ inherit
 	EL_MODULE_TIME
 
 	EL_XML_ZTEXT_PATTERN_FACTORY
+
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -143,8 +145,11 @@ feature {NONE} -- Implementation
 		end
 
 	put_last_attribute (value: ZSTRING)
+		local
+			translated_value: ZSTRING
 		do
-			put_string (Attribute_template #$ [last_attribute_name, value.translated (New_line_string, Space_string)])
+			translated_value := value.translated (character_string ('%N'), character_string (' '))
+			put_string (Attribute_template #$ [last_attribute_name, translated_value])
 		end
 
 feature {NONE} -- Internal attributes

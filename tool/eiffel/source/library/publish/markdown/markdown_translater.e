@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-05 8:51:47 GMT (Friday 5th October 2018)"
-	revision: "4"
+	date: "2018-10-17 14:33:20 GMT (Wednesday 17th October 2018)"
+	revision: "5"
 
 class
 	MARKDOWN_TRANSLATER
@@ -18,7 +18,7 @@ inherit
 			make as make_machine
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 	MARKDOWN_ROUTINES
 
@@ -45,7 +45,7 @@ feature -- Basic operations
 			do_with_lines (agent add_normal_text, markdown)
 			if not is_code_block then
 				if last_is_line_item then
-					output.last.append (New_line_string)
+					output.last.append (character_string ('%N'))
 				end
 				translate (output.last)
 			end
@@ -56,7 +56,7 @@ feature {NONE} -- Line states
 
 	add_normal_text (line: ZSTRING)
 		do
-			if line.starts_with (Tab_string) then
+			if line.starts_with (character_string ('%T')) then
 				translate (output.last)
 				output.extend (Code_block_delimiter.twin)
 				state := agent add_code_block
@@ -67,7 +67,7 @@ feature {NONE} -- Line states
 					if line.is_empty then
 						output.last.append (Double_new_line)
 					elseif is_list_item (line) then
-						output.last.append (New_line_string)
+						output.last.append (character_string ('%N'))
 					elseif not output.last.ends_with (Double_new_line) then
 						output.last.append_character (' ')
 					end
@@ -79,8 +79,8 @@ feature {NONE} -- Line states
 
 	add_code_block (line: ZSTRING)
 		do
-			output.last.append (New_line_string)
-			if line.starts_with (Tab_string) then
+			output.last.append (character_string ('%N'))
+			if line.starts_with (character_string ('%T')) then
 				output.last.append (line.substring_end (2))
 			else
 				output.last.append (Code_block_delimiter)

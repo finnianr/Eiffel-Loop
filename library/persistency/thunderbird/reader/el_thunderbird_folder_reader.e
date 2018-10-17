@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 16:08:22 GMT (Friday 12th October 2018)"
-	revision: "1"
+	date: "2018-10-17 13:30:44 GMT (Wednesday 17th October 2018)"
+	revision: "2"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -28,20 +28,21 @@ inherit
 
 	EL_THUNDERBIRD_CONSTANTS
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
-	make (a_output_dir: EL_DIR_PATH)
+	make (a_config: like config)
 			--
 		do
 			make_default
-			output_dir := a_output_dir
+			config := a_config
 		end
 
 	make_default
 		do
 			Precursor
+			create output_dir
 			create line_source.make_default
 			create field_table.make_equal (11)
 			create subject_list.make (5)
@@ -52,11 +53,16 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	read_mails (mails_path: EL_FILE_PATH)
+		local
+			export_steps: EL_PATH_STEPS
 		do
 			-- Read headers as Latin-1, but this is changed for HTML section according to
 			-- charset field
 			create line_source.make_latin (1, mails_path)
 			subject_list.wipe_out
+
+			export_steps := config.export_steps (mails_path)
+			output_dir := config.export_dir.joined_dir_steps (export_steps)
 
 			File_system.make_directory (output_dir)
 
@@ -70,7 +76,7 @@ feature {NONE} -- State handlers
 			pos_colon: INTEGER
 		do
 			if not line.is_empty then
-				if line ~ Html_tag.open then
+				if line.begins_with (First_doc_tag) then
 					set_header_date; set_header_charset; set_header_subject
 					find_html_close (line)
 					state := agent find_html_close
@@ -100,7 +106,7 @@ feature {NONE} -- State handlers
 	find_html_close (line: ZSTRING)
 		do
 			html_lines.extend (line)
-			if line.starts_with (Html_tag.close) then
+			if line.begins_with (Last_doc_tag) then
 				on_email_collected
 				state := agent find_first_field
 			end
@@ -143,6 +149,8 @@ feature {NONE} -- Deferred
 
 feature {NONE} -- Internal attributes
 
+	config: EL_THUNDERBIRD_ACCOUNT_READER
+
 	field_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
 
 	last_header: TUPLE [date: DATE_TIME; subject: ZSTRING]
@@ -174,6 +182,16 @@ feature {NONE} -- Constants
 	Field_delimiter: ZSTRING
 		once
 			Result := ": "
+		end
+
+	First_doc_tag: ZSTRING
+		once
+			Result := Html_tag.open
+		end
+
+	Last_doc_tag: ZSTRING
+		once
+			Result := Html_tag.close
 		end
 
 end

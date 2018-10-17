@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2018-10-17 13:24:57 GMT (Wednesday 17th October 2018)"
+	revision: "6"
 
 deferred class
 	EL_PARSER
 
 inherit
-	EL_STRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
 feature {NONE} -- Initialization
 

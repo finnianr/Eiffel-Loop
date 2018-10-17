@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:22:50 GMT (Thursday 10th May 2018)"
-	revision: "10"
+	date: "2018-10-17 13:51:51 GMT (Wednesday 17th October 2018)"
+	revision: "11"
 
 class
 	FCGI_HTTP_HEADERS
@@ -30,7 +30,7 @@ inherit
 			set_table_field
 		end
 
-	EL_STRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 		undefine
 			is_equal
 		end

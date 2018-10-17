@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-11 14:46:05 GMT (Friday 11th May 2018)"
-	revision: "5"
+	date: "2018-10-17 14:37:30 GMT (Wednesday 17th October 2018)"
+	revision: "6"
 
 class
 	PP_DATE_TIME
@@ -33,7 +33,7 @@ inherit
 			make
 		end
 
-	EL_STRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 		undefine
 			is_equal, copy, out
 		end
@@ -48,7 +48,7 @@ feature {EL_DATE_TEXT} -- Initialization
 		local
 			spaces: EL_OCCURRENCE_INTERVALS [STRING]; l_zone: STRING
 		do
-			create spaces.make (s, Space_string_8)
+			create spaces.make (s, character_string_8 (' '))
 			inspect spaces.count
 				when 4 then
 					l_zone := s.substring (spaces.last_upper + 1, spaces.last_upper + 3)

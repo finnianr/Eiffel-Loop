@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-10-17 13:33:27 GMT (Wednesday 17th October 2018)"
+	revision: "5"
 
 class
 	EL_XPATH_PARTS
 
 inherit
-	EL_STRING_CONSTANTS
+	EL_STRING_32_CONSTANTS
 		redefine
 			default_create
 		end

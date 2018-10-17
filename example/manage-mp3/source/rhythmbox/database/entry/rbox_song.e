@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-18 11:00:48 GMT (Monday 18th June 2018)"
-	revision: "13"
+	date: "2018-10-17 14:21:31 GMT (Wednesday 17th October 2018)"
+	revision: "14"
 
 class
 	RBOX_SONG
@@ -43,7 +43,7 @@ inherit
 			is_equal
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			is_equal
 		end

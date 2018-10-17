@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-03 11:04:03 GMT (Wednesday 3rd October 2018)"
-	revision: "3"
+	date: "2018-10-17 13:49:28 GMT (Wednesday 17th October 2018)"
+	revision: "4"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_APP
@@ -18,7 +18,9 @@ inherit
 			Option_name, argument_specs
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
+
+	EL_STRING_8_CONSTANTS
 
 feature {NONE} -- Implementation
 

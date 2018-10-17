@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 12:15:37 GMT (Friday 12th October 2018)"
-	revision: "6"
+	date: "2018-10-17 13:30:35 GMT (Wednesday 17th October 2018)"
+	revision: "7"
 
 class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -32,6 +32,8 @@ inherit
 		end
 
 	EL_MODULE_LIO
+
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -71,12 +73,41 @@ feature {NONE} -- Initialization
 			lio.put_new_line_x2
 		end
 
+feature -- Access
+
+	export_steps (mails_path: EL_FILE_PATH): EL_PATH_STEPS
+		do
+			Result := mails_path.steps
+			Result.start
+			from until Result.first.same_string (account) or Result.is_empty loop
+				Result.remove
+			end
+			if not Result.is_empty then
+				Result.remove
+			end
+			across Result as step loop
+				if step.item.ends_with (Dot_sbd_extension) then
+					step.item.remove_tail (Dot_sbd_extension.count)
+				end
+			end
+			if language.is_empty then
+				if not language_code_last then
+					-- Put the language code at beginning, for example: help/en -> en/help
+					Result.put_front (Result.last)
+					Result.finish
+					Result.remove
+				end
+			else
+				Result.finish; Result.remove
+			end
+		end
+
+	export_dir: EL_DIR_PATH
+
 feature {NONE} -- Internal attributes
 
 	account: STRING
 		-- account name
-
-	export_dir: EL_DIR_PATH
 
 	folder_list: EL_ZSTRING_LIST
 		-- .sbd folders
@@ -84,6 +115,10 @@ feature {NONE} -- Internal attributes
 	home_dir: EL_DIR_PATH
 
 	language: STRING
+
+	language_code_last: BOOLEAN
+		-- when true put the language code directory last in directory structure
+		-- example: help/en
 
 	mail_dir: EL_DIR_PATH
 
@@ -107,24 +142,25 @@ feature {NONE} -- Build from XML
 			--
 		do
 			create Result.make (<<
-				["@account",		agent do account := node end],
-				["@language",		agent do language := node end],
-				["@home_dir",		agent do home_dir := node.to_expanded_dir_path end],
-				["@export_dir",	agent do export_dir := node.to_expanded_dir_path end],
-				["folders/text()", agent do folder_list.extend (node) end]
+				["@account",				agent do account := node end],
+				["@language",				agent do language := node end],
+				["@home_dir",				agent do home_dir := node.to_expanded_dir_path end],
+				["@export_dir",			agent do export_dir := node.to_expanded_dir_path end],
+				["@language_code_last", agent do language_code_last := node end],
+				["folders/text()", 		agent do folder_list.extend (node) end]
 			>>)
 		end
 
 feature {NONE} -- Constants
 
-	Path_equals: ZSTRING
-		once
-			Result := "Path="
-		end
-
 	Dot_sbd_extension: ZSTRING
 		once
 			Result := ".sbd"
+		end
+
+	Path_equals: ZSTRING
+		once
+			Result := "Path="
 		end
 
 end

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
-	revision: "2"
+	date: "2018-10-17 13:29:45 GMT (Wednesday 17th October 2018)"
+	revision: "3"
 
 deferred class
 	EL_OS_RELEASE_I
 
 inherit
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 	EL_SHARED_ONCE_STRINGS
 

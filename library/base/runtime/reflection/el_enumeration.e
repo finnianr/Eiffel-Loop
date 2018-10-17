@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:14:42 GMT (Thursday 10th May 2018)"
-	revision: "13"
+	date: "2018-10-17 13:28:56 GMT (Wednesday 17th October 2018)"
+	revision: "14"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -43,7 +43,7 @@ inherit
 			make, field_included, initialize_fields
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			is_equal
 		end

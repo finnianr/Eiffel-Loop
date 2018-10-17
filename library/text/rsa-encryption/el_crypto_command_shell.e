@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 12:22:41 GMT (Friday 12th October 2018)"
-	revision: "9"
+	date: "2018-10-17 13:44:38 GMT (Wednesday 17th October 2018)"
+	revision: "10"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -32,7 +32,7 @@ inherit
 
 	STRING_HANDLER
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 create
 	make_shell
@@ -62,7 +62,7 @@ feature -- Basic operations
 			lio.enter ("display_encrypted_text")
 			encrypter := new_encrypter (new_pass_phrase)
 			text := User_input.line ("Enter text")
-			text.replace_substring_all (Escaped_new_line, New_line_string)
+			text.replace_substring_all (Escaped_new_line, character_string ('%N'))
 
 			lio.put_string_field ("Key as base64", Base_64.encoded_special (encrypter.key_data))
 			lio.put_new_line

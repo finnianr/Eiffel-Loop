@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 17:15:14 GMT (Friday 12th October 2018)"
-	revision: "12"
+	date: "2018-10-16 12:52:19 GMT (Tuesday 16th October 2018)"
+	revision: "13"
 
 class
 	LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP
 
 inherit
-	TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION [LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER]
+	TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION [EL_LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER]
 		redefine
 			Option_name, test_html_body_export
 		end

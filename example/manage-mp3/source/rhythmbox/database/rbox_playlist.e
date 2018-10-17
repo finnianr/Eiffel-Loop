@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-18 12:13:53 GMT (Monday 18th June 2018)"
-	revision: "6"
+	date: "2018-10-17 14:21:31 GMT (Wednesday 17th October 2018)"
+	revision: "7"
 
 class
 	RBOX_PLAYLIST
@@ -49,7 +49,7 @@ inherit
 			is_equal, copy
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			is_equal, copy
 		end

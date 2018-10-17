@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2018-10-17 13:30:52 GMT (Wednesday 17th October 2018)"
+	revision: "5"
 
 deferred class
 	EL_TOKEN_PARSER  [L -> EL_FILE_LEXER create make end]
@@ -21,7 +21,7 @@ inherit
 			make_default, set_source_text
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 16:36:31 GMT (Thursday 12th October 2017)"
-	revision: "1"
+	date: "2018-10-17 13:47:17 GMT (Wednesday 17th October 2018)"
+	revision: "2"
 
 class
 	NOTE_FIELD
@@ -15,7 +15,7 @@ class
 inherit
 	NOTE_CONSTANTS
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

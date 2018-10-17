@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-04 8:21:51 GMT (Thursday 4th October 2018)"
-	revision: "2"
+	date: "2018-10-17 14:33:20 GMT (Wednesday 17th October 2018)"
+	revision: "3"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -23,7 +23,7 @@ inherit
 	REPOSITORY_PUBLISHER
 		rename
 			make as make_publisher
-			
+
 		redefine
 			execute
 		end
@@ -68,7 +68,7 @@ feature -- Basic operations
 			link: EL_OCCURRENCE_INTERVALS [ZSTRING]
 			pos_right_bracket, previous_pos: INTEGER
 		do
-			line.replace_substring_all (Tab_string, Triple_space)
+			line.replace_substring_all (character_string ('%T'), Triple_space)
 			previous_pos := 1
 			create link.make (line, Wiki_source_link)
 			from link.start until link.after loop
