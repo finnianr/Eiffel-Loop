@@ -6,12 +6,12 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 17:15:14 GMT (Friday 12th October 2018)"
-	revision: "1"
+	date: "2018-10-19 11:13:38 GMT (Friday 19th October 2018)"
+	revision: "2"
 
 deferred class
 	TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION [
-		READER -> EL_LOCALIZED_THUNDERBIRD_ACCOUNT_READER create make_from_file end
+		READER -> EL_ML_THUNDERBIRD_ACCOUNT_READER create make_from_file end
 	]
 
 inherit
@@ -45,6 +45,8 @@ feature -- Test
 			pyxis_out.close
 			lio.put_new_line
 			create command.make_from_file (config_path)
+			normal_run
+
 			normal_run
 		end
 

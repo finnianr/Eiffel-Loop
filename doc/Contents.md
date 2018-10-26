@@ -754,4 +754,4 @@ This library has been superceded by the capabilities of the [Multi-Application M
 ## Override of EiffelVision2
 Override of Eiffel Software's EiffelVision2 for use with [Eiffel-Loop Vision2 extensions](http://www.eiffel-loop.com/library/vision2-x.html)
 ## Override of Eiffel2Java
-Override of Eiffel Software's [Eiffel2Java](https://www.eiffel.org/doc/solutions/Eiffel2Java) library for use with the [ Eiffel-Loop Eiffel to Java](http://www.eiffel-loop.com/library/eiffel2java.html) library.
+Override of Eiffel Software's [Eiffel2Java](https://www.eiffel.org/doc/solutions/Eiffel2Java) library for use with the [Eiffel-Loop Eiffel to Java](http://www.eiffel-loop.com/library/eiffel2java.html) library.

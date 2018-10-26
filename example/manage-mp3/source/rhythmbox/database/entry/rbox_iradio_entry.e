@@ -6,18 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-18 12:20:24 GMT (Monday 18th June 2018)"
-	revision: "17"
+	date: "2018-10-26 18:47:42 GMT (Friday 26th October 2018)"
+	revision: "18"
 
 class
 	RBOX_IRADIO_ENTRY
 
 inherit
-	EL_EIF_OBJ_BUILDER_CONTEXT
-		undefine
-			is_equal
+	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
+		rename
+			xml_element_name as to_kebab_case,
+			element_node_type as	Text_element_node
 		redefine
-			make_default, on_context_exit
+			make_default, on_context_exit, set_field_from_node, building_action_table, Except_fields
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -25,22 +26,6 @@ inherit
 			is_equal
 		redefine
 			make_default, getter_function_table, Template
-		end
-
-	EL_REFLECTIVELY_SETTABLE
-		rename
-			field_included as is_string_or_expanded_field,
-			export_name as to_kebab_case,
-			import_name as import_default
-		redefine
-			make_default, Except_fields
-		end
-
-	EL_SETTABLE_FROM_XML_NODE
-		undefine
-			is_equal
-		redefine
-			set_field_from_node
 		end
 
 	EL_MODULE_XML
@@ -76,9 +61,8 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			Precursor {EL_REFLECTIVELY_SETTABLE}
+			Precursor {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT}
 			create location
-			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 			Precursor {EVOLICITY_SERIALIZEABLE}
 		end
 
@@ -217,7 +201,7 @@ feature {NONE} -- Constants
 	Except_fields: STRING
 			-- Object attributes that are not stored in Rhythmbox database
 		once
-			Result := Precursor + ", internal_encoding, xpath"
+			Result := Precursor + ", internal_encoding"
 		end
 
 	Protocol: ZSTRING

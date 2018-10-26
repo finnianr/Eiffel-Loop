@@ -1,5 +1,7 @@
 note
 	description: "[
+		Multi-lingual (ML) Thunderbird email account reader.
+
 		Reads Thunderbird HTML email documents from a selected account where content folders
 		are organized with sub-folders named as 2 letter language code to hold localized versions
 		of documents.
@@ -20,11 +22,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 11:19:15 GMT (Wednesday 17th October 2018)"
-	revision: "8"
+	date: "2018-10-19 11:14:26 GMT (Friday 19th October 2018)"
+	revision: "9"
 
 deferred class
-	EL_LOCALIZED_THUNDERBIRD_ACCOUNT_READER
+	EL_ML_THUNDERBIRD_ACCOUNT_READER
 
 inherit
 	EL_THUNDERBIRD_ACCOUNT_READER

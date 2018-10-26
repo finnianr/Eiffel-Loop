@@ -28,5 +28,6 @@ using [http://vtd-xml.sourceforge.net/ VTD-XML].
 		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf"/>
 		<cluster name = "open_office" location = "persistency/xml/open-office-spreadsheet" recursive = "true"/>
 		<cluster name = "thunderbird" location = "persistency/thunderbird" recursive = "true"/>
+		<cluster name = "kindle_book" location = "persistency/kindle-book" recursive = "true"/>
 	</target>
 </system>

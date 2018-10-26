@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-25 0:32:28 GMT (Monday 25th December 2017)"
-	revision: "4"
+	date: "2018-10-21 9:50:12 GMT (Sunday 21st October 2018)"
+	revision: "5"
 
 class
 	EL_SEQUENTIAL_INTERVALS
@@ -55,6 +55,16 @@ feature -- Access
 			other_after: item_upper < lower_integer (other)
 								implies item_upper + 1 = lower_integer (Result)
 											and upper_integer (Result) = lower_integer (other) - 1
+		end
+
+	first_lower: INTEGER
+		do
+			Result := lower_integer (first)
+		end
+
+	first_upper: INTEGER
+		do
+			Result := upper_integer (first)
 		end
 
 	item_count: INTEGER

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-15 9:35:04 GMT (Monday 15th October 2018)"
-	revision: "6"
+	date: "2018-10-21 10:50:45 GMT (Sunday 21st October 2018)"
+	revision: "7"
 
 deferred class
 	EL_STRING_EDITOR [S -> STRING_GENERAL create make end]
@@ -71,8 +71,10 @@ feature -- Basic operations
 					done := True
 				end
 			end
-			output.append_substring (l_target, end_index + 1, l_target.count)
-			set_target (output)
+			if end_index > 0 then
+				output.append_substring (l_target, end_index + 1, l_target.count)
+				set_target (output)
+			end
 		end
 
 feature {NONE} -- Edit example

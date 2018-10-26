@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:30:44 GMT (Wednesday 17th October 2018)"
-	revision: "2"
+	date: "2018-10-25 10:04:15 GMT (Thursday 25th October 2018)"
+	revision: "3"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -50,6 +50,10 @@ feature {NONE} -- Initialization
 			last_header := [create {DATE_TIME}.make_now, Empty_string]
 		end
 
+feature -- Access
+
+	output_dir: EL_DIR_PATH
+
 feature -- Basic operations
 
 	read_mails (mails_path: EL_FILE_PATH)
@@ -66,20 +70,19 @@ feature -- Basic operations
 
 			File_system.make_directory (output_dir)
 
-			do_once_with_file_lines (agent find_first_field, line_source)
+			do_once_with_file_lines (agent find_first_header, line_source)
 		end
 
 feature {NONE} -- State handlers
 
-	collect_fields (line: ZSTRING)
+	collect_headers (line: ZSTRING)
 		local
 			pos_colon: INTEGER
 		do
 			if not line.is_empty then
 				if line.begins_with (First_doc_tag) then
 					set_header_date; set_header_charset; set_header_subject
-					find_html_close (line)
-					state := agent find_html_close
+					on_first_tag (line)
 
 				elseif line.z_code (1) = 32 then
 					field_table.found_item.append (line)
@@ -92,24 +95,37 @@ feature {NONE} -- State handlers
 			end
 		end
 
-	find_first_field (line: ZSTRING)
+	find_first_header (line: ZSTRING)
 		do
 			if line.starts_with (Field.first) then
 				field_table.wipe_out
 				html_lines.wipe_out
 
-				state := agent collect_fields
-				collect_fields (line)
+				state := agent collect_headers
+				collect_headers (line)
 			end
 		end
 
-	find_html_close (line: ZSTRING)
+	find_last_tag (line: ZSTRING)
+		do
+			if line.begins_with (Last_doc_tag) then
+				on_last_tag (line)
+			elseif line_included (line) then
+				html_lines.extend (line)
+			end
+		end
+
+	on_first_tag (line: ZSTRING)
 		do
 			html_lines.extend (line)
-			if line.begins_with (Last_doc_tag) then
-				on_email_collected
-				state := agent find_first_field
-			end
+			state := agent find_last_tag
+		end
+
+	on_last_tag (line: ZSTRING)
+		do
+			html_lines.extend (line)
+			on_email_collected
+			state := agent find_first_header
 		end
 
 feature {NONE} -- Implementation
@@ -140,7 +156,48 @@ feature {NONE} -- Implementation
 			last_header.subject := subject_list.last
 		end
 
-feature {NONE} -- Deferred
+feature {NONE} -- Implementation
+
+	intervals (line, search_string: ZSTRING): like Occurrence_intervals
+		do
+			Result := Occurrence_intervals
+			Result.fill (line, search_string)
+		end
+
+	is_empty_tag_line (line: ZSTRING): BOOLEAN
+		-- True if line conforms to string pattern:
+		-- 	[white space][open tag][white space][corresponding closing tag]
+		-- For example: "    <p> </p>"
+		-- (Useful in redefinition of `line_included')
+
+		local
+			bracket_intervals: like intervals
+			right_bracket_pos: INTEGER
+		do
+			bracket_intervals := intervals (line, character_string ('<'))
+			if bracket_intervals.count = 2
+				and then line.is_substring_whitespace (1, bracket_intervals.first_lower - 1)
+				and then line.same_characters (Any_closed_tag, 1, 2, bracket_intervals.last_lower)
+				and then line.ends_with_character ('>')
+			then
+				right_bracket_pos := line.index_of ('>', bracket_intervals.first_lower + 1)
+				if right_bracket_pos > 0
+					and then right_bracket_pos < bracket_intervals.last_lower
+					and then line.is_substring_whitespace (right_bracket_pos + 1, bracket_intervals.last_lower - 1)
+				then
+					-- True if left and right tag names are the same
+					Result := line.same_characters (
+						line, bracket_intervals.first_lower + 1, right_bracket_pos - 1, bracket_intervals.first_lower + 1
+					)
+				end
+			end
+		end
+
+	line_included (line: ZSTRING): BOOLEAN
+		-- when true `line' is added to `html_lines'
+		do
+			Result := True
+		end
 
 	on_email_collected
 		-- Called after each email headers and content is collected and ready for processing
@@ -153,17 +210,20 @@ feature {NONE} -- Internal attributes
 
 	field_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
 
+	html_lines: EL_ZSTRING_LIST
+
 	last_header: TUPLE [date: DATE_TIME; subject: ZSTRING]
 
 	line_source: EL_FILE_LINE_SOURCE
 
-	output_dir: EL_DIR_PATH
-
-	html_lines: EL_ZSTRING_LIST
-
 	subject_list: EL_SUBJECT_LIST
 
 feature {NONE} -- Constants
+
+	Any_closed_tag: ZSTRING
+		once
+			Result := "</"
+		end
 
 	Charset_assignment: ZSTRING
 		once
@@ -192,6 +252,11 @@ feature {NONE} -- Constants
 	Last_doc_tag: ZSTRING
 		once
 			Result := Html_tag.close
+		end
+
+	Occurrence_intervals: EL_OCCURRENCE_INTERVALS [ZSTRING]
+		once
+			create Result.make_default
 		end
 
 end

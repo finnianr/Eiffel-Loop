@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "9"
+	date: "2018-10-26 10:58:50 GMT (Friday 26th October 2018)"
+	revision: "10"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -20,6 +20,11 @@ inherit
 			{EL_REFLECTED_FIELD_TABLE} all
 			{ANY} extend, found, found_item, count, start, after, forth, item_for_iteration, key_for_iteration,
 				current_keys
+		end
+
+	EL_MODULE_EIFFEL
+		undefine
+			is_equal, copy
 		end
 
 	EL_MODULE_NAMING
@@ -47,6 +52,21 @@ feature -- Access
 
 	last_query: EL_ARRAYED_LIST [like item]
 		-- results of last query
+
+	type_list: like type_table.linear_representation
+		do
+			Result := type_table.linear_representation
+		end
+
+	type_table: HASH_TABLE [TYPE [ANY], INTEGER]
+		do
+			create Result.make_equal (0)
+			across linear_representation as field loop
+				if not Result.has (field.item.type_id) then
+					Result.extend (Eiffel.type_of_type (field.item.type_id), field.item.type_id)
+				end
+			end
+		end
 
 feature -- Basic operations
 

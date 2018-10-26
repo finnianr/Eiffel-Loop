@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 14:29:08 GMT (Wednesday 17th October 2018)"
-	revision: "4"
+	date: "2018-10-18 9:16:05 GMT (Thursday 18th October 2018)"
+	revision: "5"
 
 class
 	EL_STYLED_TEXT
@@ -66,7 +66,7 @@ feature -- Element change
 		do
 			space_pos := text.last_index_of (' ', text.count)
 			if space_pos > 0 then
-				text := text.substring (1, space_pos) + Ellipsis_string_8
+				text := text.substring (1, space_pos) + n_character_string_8 ('.', 2)
 			end
 		end
 

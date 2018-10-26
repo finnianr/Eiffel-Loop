@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-16 12:52:19 GMT (Tuesday 16th October 2018)"
-	revision: "13"
+	date: "2018-10-19 11:15:17 GMT (Friday 19th October 2018)"
+	revision: "14"
 
 class
 	LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP
 
 inherit
-	TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION [EL_LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER]
+	TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION [EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER]
 		redefine
 			Option_name, test_html_body_export
 		end
@@ -35,7 +35,7 @@ feature -- Test
 
 --			test_config ("pop.myching.co", "en", << "manual" >>, 578589927)
 
-			test_config ("pop.myching.co", "", << "Purchase", "manual", "Product Tour", "Screenshots" >>, 411598249)
+			test_config ("pop.myching.co", "", << "Purchase", "manual", "Product Tour", "Screenshots" >>, 1701579032)
 
 --			Test.do_file_tree_test (".thunderbird", agent test_html_body_export ("small.myching.co", ?), 4015841579)
 		end

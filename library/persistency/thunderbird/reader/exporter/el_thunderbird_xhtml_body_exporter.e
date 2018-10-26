@@ -1,14 +1,10 @@
 note
 	description: "[
-		Extract all html between `<body>' and `</body>' tags and output as `<subject name>.body'.
-		Insert a page anchor before each h2 heading
+		Export Thunderbird email folders as HTML body content between `<body>' and `</body>' tags and
+		output as `<subject name>.body'. Insert a page anchor before each h2 heading
 
-			<a id="Title 1"></a>
+			<a id="Title_1"/>
 			<h2>Title 1</h2>
-
-		Insert a class attribute into the first h2 element in the page.
-
-			<h2 class="first">Title 1</h2>
 	]"
 
 	author: "Finnian Reilly"
@@ -16,18 +12,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 17:39:13 GMT (Wednesday 17th October 2018)"
-	revision: "1"
+	date: "2018-10-22 10:30:26 GMT (Monday 22nd October 2018)"
+	revision: "2"
 
 class
-	EL_THUNDERBIRD_FOLDER_TO_XHTML_BODY
+	EL_THUNDERBIRD_XHTML_BODY_EXPORTER
 
 inherit
-	EL_THUNDERBIRD_FOLDER_TO_XHTML
-		rename
-			End_tag_name as Body_tag_close
+	EL_THUNDERBIRD_XHTML_EXPORTER
 		redefine
 			make, edit, write_html,
+			on_first_tag, on_last_tag,
 			First_doc_tag, Last_doc_tag
 		end
 
@@ -44,19 +39,45 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor (a_config)
-			create h2_list.make
+			create h2_list.make (5)
+		end
+
+feature {NONE} -- State handlers
+
+	on_first_tag (line: ZSTRING)
+		do
+			state := agent find_right_angle_bracket
+			find_right_angle_bracket (line)
+		end
+
+	on_last_tag (line: ZSTRING)
+		do
+			on_email_collected
+			state := agent find_first_header
+		end
+
+	find_right_angle_bracket (line: ZSTRING)
+		do
+			if line.ends_with_character ('>') then
+				state := agent find_last_tag
+			end
 		end
 
 feature {NONE} -- Implementation
 
 	edit (html_doc: ZSTRING)
 		do
-			h2_list.wipe_out
-			html_doc.edit (H2_tag.open, H2_tag.closed, agent check_h2_tag)
+			insert_h2_id_elements (html_doc)
 			Precursor (html_doc)
 		end
 
-	h2_list: LINKED_LIST [ZSTRING]
+	insert_h2_id_elements (html_doc: ZSTRING)
+		do
+			h2_list.wipe_out
+			html_doc.edit (H2_tag.open, H2_tag.closed, agent check_h2_tag)
+		end
+
+	h2_list: ARRAYED_LIST [ZSTRING]
 		-- heading list
 
 	h2_list_file_path: EL_FILE_PATH
@@ -66,16 +87,8 @@ feature {NONE} -- Implementation
 
 	write_html
 		local
-			h2_file: EL_PLAIN_TEXT_FILE; line: ZSTRING
+			h2_file: EL_PLAIN_TEXT_FILE
 		do
-			-- Remove body tag
-			from line := Empty_string until line.ends_with_character ('>') loop
-				html_lines.start
-				line := html_lines.item
-				html_lines.remove
-			end
-			-- Remove body close tag
-			html_lines.finish; html_lines.remove
 			Precursor
 			if is_html_updated then
 				lio.put_path_field ("Write H2", h2_list_file_path)
@@ -90,25 +103,12 @@ feature {NONE} -- Implementation
 feature {NONE} -- Editing routines
 
 	check_h2_tag (start_index, end_index: INTEGER; substring: ZSTRING)
-		local
-			break_index: INTEGER
 		do
-			break_index := substring.substring_index (Html_break_tag, start_index)
-			if break_index > 0 then
-				substring.remove_substring (break_index, end_index)
-			end
 			h2_list.extend (substring.substring (start_index, substring.count - 5))
 			substring.insert_string (Anchor_template #$ [Html.anchor_name (h2_list.last)], 1)
 		end
 
 feature {NONE} -- Constants
-
-	Anchor_template: ZSTRING
-		once
-			Result := "[
-				<a id="#"/>
-			]" + "%N    "
-		end
 
 	First_doc_tag: ZSTRING
 		once
@@ -125,19 +125,9 @@ feature {NONE} -- Constants
 			Result := "h2"
 		end
 
-	Image_open_tag: ZSTRING
-		once
-			Result := "<img"
-		end
-
 	Last_doc_tag: ZSTRING
 		once
 			Result := Body_tag_close
-		end
-
-	Paragraph_tag: TUPLE [open, closed: ZSTRING]
-		once
-			Result := [XML.open_tag ("p"), XML.closed_tag ("p")]
 		end
 
 	Related_file_extensions: ARRAY [ZSTRING]

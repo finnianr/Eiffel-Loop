@@ -61,3 +61,6 @@ system:
 		cluster:
 			name = thunderbird; location = "persistency/thunderbird"; recursive = true
 
+		cluster:
+			name = kindle_book; location = "persistency/kindle-book"; recursive = true
+

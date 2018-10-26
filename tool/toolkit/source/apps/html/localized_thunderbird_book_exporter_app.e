@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 17:15:51 GMT (Friday 12th October 2018)"
-	revision: "1"
+	date: "2018-10-19 11:16:06 GMT (Friday 19th October 2018)"
+	revision: "2"
 
 class
 	LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP
 
 inherit
-	TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION [EL_LOCALIZED_THUNDERBIRD_BOOK_EXPORTER]
+	TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION [EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER]
 		redefine
 			Option_name
 		end
@@ -29,7 +29,7 @@ feature -- Test
 	test_run
 			--
 		do
-			test_config ("pop.myching.co", "en", << "manual" >>, 4293681569)
+			test_config ("pop.myching.co", "en", << "manual" >>, 2744171278)
 		end
 
 feature {NONE} -- Implementation
@@ -41,7 +41,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Description: STRING = "Export merged emails from Thunderbird folders as HTML books"
+	Description: STRING = "Export merged email chapters from Thunderbird folders as HTML book"
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--

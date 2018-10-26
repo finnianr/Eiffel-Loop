@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 14:30:17 GMT (Wednesday 17th October 2018)"
-	revision: "7"
+	date: "2018-10-18 9:15:52 GMT (Thursday 18th October 2018)"
+	revision: "8"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -234,7 +234,7 @@ feature {NONE} -- Constants
 	Styled_ellipsis: EL_STYLED_TEXT
 			--
 		once
-			Result := Ellipsis_string_8
+			Result := n_character_string_8 ('.', 2)
 		end
 
 end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-21 11:27:00 GMT (Friday 21st September 2018)"
-	revision: "4"
+	date: "2018-10-20 9:30:24 GMT (Saturday 20th October 2018)"
+	revision: "5"
 
 class
 	EL_OCCURRENCE_INTERVALS [S -> STRING_GENERAL create make end]
@@ -17,21 +17,35 @@ class
 inherit
 	EL_SEQUENTIAL_INTERVALS
 		rename
-			make as make_intervals
+			make as make_intervals,
+			fill as fill_from
 		end
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
 	make (a_string: S; search_string: READABLE_STRING_GENERAL)
 			-- Move to first position if any.
+		do
+			make_default
+			fill (a_string, search_string)
+		end
+
+	make_default
+		do
+			make_intervals (5)
+		end
+
+feature -- Basic operations
+
+	fill (a_string: S; search_string: READABLE_STRING_GENERAL)
 		local
 			i, l_count, search_string_count: INTEGER
 			search_character: like new_target.item
 		do
-			make_intervals (5)
+			wipe_out
 			search_character := search_string [1]
 			l_count := a_string.count; search_string_count := search_string.count
 			from i := 1 until i = 0 or else i > l_count - search_string_count + 1 loop

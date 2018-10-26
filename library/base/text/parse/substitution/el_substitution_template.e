@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:32:13 GMT (Wednesday 17th October 2018)"
-	revision: "12"
+	date: "2018-10-18 8:39:59 GMT (Thursday 18th October 2018)"
+	revision: "13"
 
 deferred class
 	EL_SUBSTITUTION_TEMPLATE
@@ -37,11 +37,19 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_template: like new_string)
+	make (a_template: READABLE_STRING_GENERAL)
 			--
+		local
+			new_template: like new_string
 		do
 			make_default
-			set_template (a_template)
+			if attached {like new_string} a_template as l_template then
+				set_template (l_template)
+			else
+				new_template := new_string (a_template.count)
+				new_template.append (a_template)
+				set_template (new_template)
+			end
 		end
 
 	make_default

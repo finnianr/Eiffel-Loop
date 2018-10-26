@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-16 13:36:39 GMT (Tuesday 16th October 2018)"
-	revision: "8"
+	date: "2018-10-19 9:53:09 GMT (Friday 19th October 2018)"
+	revision: "9"
 
 class
 	THUNDERBIRD_WWW_EXPORTER
@@ -37,7 +37,7 @@ feature -- Basic operations
 
 	execute
 		local
-			exporter: EL_THUNDERBIRD_EXPORT_AS_XHTML_BODY; file_path: EL_FILE_PATH
+			exporter: EL_THUNDERBIRD_XHTML_BODY_EXPORTER; file_path: EL_FILE_PATH
 			l_output_dir: EL_DIR_PATH
 		do
 			log.enter ("execute")

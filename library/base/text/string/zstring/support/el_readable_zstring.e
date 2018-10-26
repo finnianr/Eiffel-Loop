@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-13 22:32:59 GMT (Saturday 13th October 2018)"
-	revision: "23"
+	date: "2018-10-20 8:44:06 GMT (Saturday 20th October 2018)"
+	revision: "24"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -834,6 +834,34 @@ feature -- Status query
 	extendible: BOOLEAN = True
 			-- May new items be added? (Answer: yes.)
 
+	for_all (start_index, end_index: INTEGER; test: PREDICATE [CHARACTER_32]): BOOLEAN
+		-- True if `test' is true for all characters in range `start_index' .. `end_index'
+		-- (when testing for whitespace, use `is_substring_whitespace', it's more efficient)
+		require
+			start_index_big_enough: 1 <= start_index
+			end_index_small_enough: end_index <= count
+			consistent_indexes: start_index - 1 <= end_index
+		local
+			c_i: CHARACTER; i: INTEGER; l_area: like area
+			test_arg: TUPLE [CHARACTER_32]
+		do
+			create test_arg
+			test.set_operands (test_arg)
+			l_area := area
+			Result := True
+			from i := start_index until not Result or else i > end_index loop
+				c_i := l_area [i - 1]
+				if c_i = Unencoded_character then
+					test_arg.put_character_32 (unencoded_item (i), 1)
+				else
+					test_arg.put_character_32 (codec.as_unicode_character (c_i), 1)
+				end
+				test.apply
+				Result := Result and test.last_result
+				i := i + 1
+			end
+		end
+
 	has (uc: CHARACTER_32): BOOLEAN
 			-- Does string include `uc'?
 		local
@@ -967,14 +995,19 @@ feature -- Status query
 			i: INTEGER; l_area: like area; c_i: CHARACTER
 		do
 			l_area := area
-			from i := start_index - 1 until i = end_index or not Result loop
-				c_i := l_area [i]
-				if c_i = Unencoded_character then
-					Result := Result and unencoded_item (i + 1).is_space
-				else
-					Result := Result and c_i.is_space
+			if end_index = start_index - 1 then
+				Result := False
+			else
+				Result := True
+				from i := start_index - 1 until i = end_index or not Result loop
+					c_i := l_area [i]
+					if c_i = Unencoded_character then
+						Result := Result and unencoded_item (i + 1).is_space
+					else
+						Result := Result and c_i.is_space
+					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		end
 
