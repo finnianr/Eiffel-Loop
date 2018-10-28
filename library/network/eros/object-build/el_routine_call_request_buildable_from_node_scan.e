@@ -34,9 +34,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_parser_type: like parser_type)
+	make (a_parse_event_source_type: like parse_event_source_type)
 		do
-			Precursor (a_parser_type)
+			Precursor (a_parse_event_source_type)
 			make_request_parser
 		end
 

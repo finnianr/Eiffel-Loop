@@ -1,5 +1,5 @@
 note
-	description: "Eiffel object model"
+	description: "Eiffel object builder from XML/Pyxix node scanning source"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

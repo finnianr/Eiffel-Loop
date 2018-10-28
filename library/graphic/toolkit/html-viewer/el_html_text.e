@@ -15,9 +15,14 @@ class
 inherit
 	EL_RICH_TEXT
 
-	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS [EL_EXPAT_XML_PARSER]
+	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
 		rename
 			build_from_file as set_text_from_xhtml_path
+		undefine
+			default_create, copy
+		end
+
+	EL_XML_PARSE_EVENT_TYPE
 		undefine
 			default_create, copy
 		end
