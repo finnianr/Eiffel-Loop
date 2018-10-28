@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-10-28 10:10:54 GMT (Sunday 28th October 2018)"
+	revision: "5"
 
 deferred class
-	EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN [EVENT_SOURCE -> EL_PARSE_EVENT_SOURCE]
+	EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN
 
 inherit
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -52,14 +52,6 @@ feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
 				build_from_file (a_file_path)
 				set_encoding_from_name (node_source.encoding_name)
 			end
-		end
-
-feature {NONE} -- Factory
-
-	new_node_source: EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
-			--
-		do
-			create Result.make ({EVENT_SOURCE})
 		end
 
 end

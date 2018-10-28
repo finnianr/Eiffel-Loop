@@ -39,23 +39,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "4"
+	date: "2018-10-28 10:02:19 GMT (Sunday 28th October 2018)"
+	revision: "5"
 
 deferred class
-	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS [EVENT_SOURCE -> EL_PARSE_EVENT_SOURCE]
+	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
 
 inherit
 	EL_CREATEABLE_FROM_NODE_SCAN
 		rename
 			node_source as node_match_source
+		redefine
+			new_node_source
 		end
 
 feature {EL_XPATH_MATCH_SCAN_SOURCE} -- Implementation
 
 	new_node_source: EL_XPATH_MATCH_SCAN_SOURCE
 		do
-			create Result.make ({EVENT_SOURCE})
+			create Result.make (parse_event_source_type)
 		end
 
 	set_last_node (node: EL_XML_NODE)

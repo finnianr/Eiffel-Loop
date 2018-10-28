@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-23 11:58:51 GMT (Monday 23rd April 2018)"
-	revision: "8"
+	date: "2018-10-27 9:54:28 GMT (Saturday 27th October 2018)"
+	revision: "9"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -31,7 +31,7 @@ inherit
 			is_equal
 		end
 
-	EL_STRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 		undefine
 			is_equal
 		end

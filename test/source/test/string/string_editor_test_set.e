@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-13 22:28:28 GMT (Saturday 13th October 2018)"
-	revision: "1"
+	date: "2018-10-27 9:53:29 GMT (Saturday 27th October 2018)"
+	revision: "2"
 
 class
 	STRING_EDITOR_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EQA_TEST_SET
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			default_create
 		end

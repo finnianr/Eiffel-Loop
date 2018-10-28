@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-25 11:38:33 GMT (Thursday 25th October 2018)"
-	revision: "1"
+	date: "2018-10-28 17:21:52 GMT (Sunday 28th October 2018)"
+	revision: "2"
 
 class
 	EL_BOOK_HTML_CONTENTS_TABLE
 
 inherit
-	EL_BOOK_NAVIGATION_INDEX
+	EL_SERIALIZEABLE_BOOK_INDEXING
 
 create
 	make
@@ -31,8 +31,8 @@ feature {NONE} -- Constants
 		<!DOCTYPE html>
 		<html xmlns="http://www.w3.org/1999/xhtml">
 			<head>
-				<title>$title</title>
-				<meta author="$author"/>
+				<title>$info.title</title>
+				<meta author="$info.author"/>
 				<style>
 					ol {
 						list-style-type: none;

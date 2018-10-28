@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-10-27 9:54:16 GMT (Saturday 27th October 2018)"
+	revision: "4"
 
 class
 	SEQUENTIAL_INTERVALS_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EQA_TEST_SET
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			default_create
 		end
@@ -28,7 +28,7 @@ feature -- Tests
 			list: EL_SEQUENTIAL_INTERVALS
 		do
 			str := "A B C "
-			list := str.split_intervals (Space_string)
+			list := str.split_intervals (character_string (' '))
 			assert ("count is 4", list.count = 4)
 			list.finish
 			assert ("last item is empty", str.substring (list.item_lower, list.item_upper).is_empty)

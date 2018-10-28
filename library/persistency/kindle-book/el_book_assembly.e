@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-26 9:53:39 GMT (Friday 26th October 2018)"
-	revision: "1"
+	date: "2018-10-28 17:28:02 GMT (Sunday 28th October 2018)"
+	revision: "2"
 
 class
 	EL_BOOK_ASSEMBLY
@@ -36,16 +36,23 @@ feature -- Access
 
 	info: EL_BOOK_INFO
 
-	html_contents_table: EL_BOOK_HTML_CONTENTS_TABLE
-		do
-			create Result.make (Current)
-		end
-
-	navigation_control_file: EL_BOOK_NAVIGATION_CONTROL_FILE
-		do
-			create Result.make (Current)
-		end
-
 	output_dir: EL_DIR_PATH
 
+feature {NONE} -- Implementation
+
+	parts: ARRAY [EL_SERIALIZEABLE_BOOK_INDEXING]
+		do
+			Result := <<
+				create {EL_BOOK_NAVIGATION_CONTROL_FILE}.make (Current),
+				create {EL_BOOK_HTML_CONTENTS_TABLE}.make (Current),
+				create {EL_BOOK_PACKAGE}.make (Current)
+			>>
+		end
+
+feature -- Basic operations
+
+	write_files
+		do
+			parts.do_all (agent {EL_SERIALIZEABLE_BOOK_INDEXING}.serialize)
+		end
 end

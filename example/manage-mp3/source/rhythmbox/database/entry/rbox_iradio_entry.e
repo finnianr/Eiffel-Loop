@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-26 18:47:42 GMT (Friday 26th October 2018)"
-	revision: "18"
+	date: "2018-10-27 9:35:10 GMT (Saturday 27th October 2018)"
+	revision: "19"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
-			xml_element_name as to_kebab_case,
+			xml_names as to_kebab_case,
 			element_node_type as	Text_element_node
 		redefine
 			make_default, on_context_exit, set_field_from_node, building_action_table, Except_fields

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:22:24 GMT (Thursday 10th May 2018)"
-	revision: "6"
+	date: "2018-10-28 10:11:45 GMT (Sunday 28th October 2018)"
+	revision: "7"
 
 class
 	EL_XPATH_MATCH_SCAN_SOURCE
@@ -142,7 +142,7 @@ feature {NONE} -- Internal attributes
 
 	node_START_wildcard_xpath_search_term_list: LINKED_LIST [EL_TOKENIZED_XPATH]
 
-	target_object: EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS [EL_PARSE_EVENT_SOURCE]
+	target_object: EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
 
 	xpath_step_lookup: EL_XPATH_TOKEN_TABLE
 

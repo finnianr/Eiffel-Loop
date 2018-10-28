@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 14:21:51 GMT (Wednesday 21st February 2018)"
-	revision: "5"
+	date: "2018-10-28 10:09:21 GMT (Sunday 28th October 2018)"
+	revision: "6"
 
 class
 	EL_SMART_BUILDABLE_FROM_NODE_SCAN
@@ -30,10 +30,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_parser_type: like parser_type)
+	make (a_parse_event_source_type: like parse_event_source_type)
 			--
 		do
-			parser_type := a_parser_type
+			parse_event_source_type := a_parse_event_source_type
 			make_default
 			create root_builder_context.make (Root_node_name, Current)
 			target := Current
@@ -77,17 +77,9 @@ feature {NONE} -- Implementation
 			root_builder_context.reset
 		end
 
-feature {NONE} -- Factory
-
-	new_node_source: EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
-			--
-		do
-			create Result.make (parser_type)
-		end
-
 feature {NONE} -- Internal attributes
 
-	parser_type: TYPE [EL_PARSE_EVENT_SOURCE]
+	parse_event_source_type: TYPE [EL_PARSE_EVENT_SOURCE]
 
 	root_builder_context: EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT
 

@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:12:17 GMT (Thursday 10th May 2018)"
-	revision: "8"
+	date: "2018-10-28 10:20:53 GMT (Sunday 28th October 2018)"
+	revision: "9"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -70,7 +70,7 @@ feature {EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER, EL_EIF_OBJ_ROOT_BUILDER_CONT
 			--
 		do
 			Result := Precursor
-			Result.put (agent set_xml_name_space_from_node, ("@xmlns").as_string_32)
+			Result.put (agent set_xml_name_space_from_node, once "@xmlns")
 		end
 
 	new_pi_building_actions: like building_actions
@@ -85,6 +85,12 @@ feature {EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER, EL_EIF_OBJ_ROOT_BUILDER_CONT
 				Result.extend (action_table.item_for_iteration , action_table.key_for_iteration.as_string_32)
 				action_table.forth
 			end
+		end
+
+	new_node_source: EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
+			--
+		do
+			create Result.make (parse_event_source_type)
 		end
 
 feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER} -- Implementation

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 18:55:55 GMT (Thursday 10th May 2018)"
-	revision: "6"
+	date: "2018-10-27 9:53:29 GMT (Saturday 27th October 2018)"
+	revision: "7"
 
 class
 	AIA_REQUEST_MANAGER
@@ -18,7 +18,7 @@ class
 inherit
 	EL_FACTORY_CLIENT
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 	AIA_SHARED_CREDENTIAL_LIST
 

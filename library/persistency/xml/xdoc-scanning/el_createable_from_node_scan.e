@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-01 9:15:33 GMT (Thursday 1st June 2017)"
-	revision: "5"
+	date: "2018-10-28 10:08:49 GMT (Sunday 28th October 2018)"
+	revision: "6"
 
 deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
@@ -106,6 +106,10 @@ feature {NONE} -- Implementation
 
 	new_node_source: EL_XML_NODE_SCAN_SOURCE
 			--
+		deferred
+		end
+
+	parse_event_source_type: TYPE [EL_PARSE_EVENT_SOURCE]
 		deferred
 		end
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:18:48 GMT (Wednesday 21st February 2018)"
-	revision: "4"
+	date: "2018-10-28 10:16:39 GMT (Sunday 28th October 2018)"
+	revision: "5"
 
 deferred class
 	EL_BUILDABLE_FROM_PYXIS
@@ -17,12 +17,6 @@ deferred class
 inherit
 	EL_BUILDABLE_FROM_NODE_SCAN
 
-feature {NONE} -- Factory
-
-	new_node_source: EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
-			--
-		do
-			create Result.make ({EL_PYXIS_PARSER})
-		end
+	EL_PYXIS_PARSE_EVENT_TYPE
 
 end

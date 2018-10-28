@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-03 12:24:43 GMT (Thursday 3rd May 2018)"
-	revision: "4"
+	date: "2018-10-28 12:31:25 GMT (Sunday 28th October 2018)"
+	revision: "5"
 
 class
 	EL_REFLECTED_INTEGER_8
@@ -20,6 +20,14 @@ inherit
 
 create
 	make
+
+feature -- Access
+
+	reference_value (a_object: EL_REFLECTIVE): like value.to_reference
+		do
+			create Result
+			Result.set_item (value (a_object))
+		end
 
 feature -- Basic operations
 

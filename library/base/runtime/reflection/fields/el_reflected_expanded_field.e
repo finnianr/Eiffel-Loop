@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-03 12:27:47 GMT (Thursday 3rd May 2018)"
-	revision: "6"
+	date: "2018-10-28 12:27:11 GMT (Sunday 28th October 2018)"
+	revision: "7"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -30,6 +30,10 @@ feature -- Access
 		do
 			enclosing_object := a_object
 			Result := field_value (index)
+		end
+
+	reference_value (a_object: EL_REFLECTIVE): ANY
+		deferred
 		end
 
 feature -- Status query

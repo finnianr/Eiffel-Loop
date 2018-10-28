@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-19 15:44:06 GMT (Wednesday 19th September 2018)"
-	revision: "12"
+	date: "2018-10-28 11:17:35 GMT (Sunday 28th October 2018)"
+	revision: "13"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -223,11 +223,6 @@ feature {NONE} -- Constants
 			--
 		once
 			create Result
-		end
-
-	Empty_template: STRING
-		once
-			create Result.make_empty
 		end
 
 	New_line: ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-26 9:53:13 GMT (Friday 26th October 2018)"
-	revision: "3"
+	date: "2018-10-28 11:01:30 GMT (Sunday 28th October 2018)"
+	revision: "4"
 
 class
 	EL_THUNDERBIRD_BOOK_EXPORTER
@@ -42,13 +42,12 @@ feature -- Basic operations
 
 	export_mails (mails_path: EL_FILE_PATH)
 		local
-			book: EL_BOOK_ASSEMBLY
+			assembly: EL_BOOK_ASSEMBLY
 		do
 			Precursor (mails_path)
 			if across chapter_list as chapter some chapter.item.is_modified end then
-				create book.make (config.book, chapter_list, output_dir)
-				book.html_contents_table.serialize
-				book.navigation_control_file.serialize
+				create assembly.make (config.book, chapter_list, output_dir)
+				assembly.write_files
 			else
 				lio.put_labeled_string ("No modifications", output_file_path)
 				lio.put_new_line

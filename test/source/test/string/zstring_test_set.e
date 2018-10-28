@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-17 11:28:45 GMT (Sunday 17th June 2018)"
-	revision: "10"
+	date: "2018-10-27 9:55:05 GMT (Saturday 27th October 2018)"
+	revision: "11"
 
 class
 	ZSTRING_TEST_SET
@@ -41,7 +41,7 @@ inherit
 			default_create
 		end
 
-	EL_STRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 		undefine
 			default_create
 		end
@@ -524,7 +524,7 @@ feature -- Status query tests
 			across Text_lines as line_32 loop
 				line := line_32.item
 				word_list := line
-				assert ("word is in word_list", line.for_all_split (Space_string, agent word_list.has))
+				assert ("word is in word_list", line.for_all_split (character_string (' '), agent word_list.has))
 			end
 		end
 
@@ -615,7 +615,7 @@ feature -- Status query tests
 				line := line_32.item
 				word_list := line
 				across word_list as word loop
-					assert ("word is in word_list", line.there_exists_split (Space_string, agent (word.item).is_equal))
+					assert ("word is in word_list", line.there_exists_split (character_string (' '), agent (word.item).is_equal))
 				end
 			end
 		end

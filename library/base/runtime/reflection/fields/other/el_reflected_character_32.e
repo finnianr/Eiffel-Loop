@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "7"
+	date: "2018-10-28 12:29:17 GMT (Sunday 28th October 2018)"
+	revision: "8"
 
 class
 	EL_REFLECTED_CHARACTER_32
@@ -32,6 +32,12 @@ feature -- Access
 			Result := str.twin
 		end
 
+	reference_value (a_object: EL_REFLECTIVE): like value.to_reference
+		do
+			create Result
+			Result.set_item (value (a_object))
+		end
+		
 feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: CHARACTER_32)

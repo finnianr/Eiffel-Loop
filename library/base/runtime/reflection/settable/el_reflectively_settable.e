@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "13"
+	date: "2018-10-27 10:01:17 GMT (Saturday 27th October 2018)"
+	revision: "14"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE
@@ -99,45 +99,78 @@ feature {NONE} -- Constants
 note
 	descendants: "[
 			EL_REFLECTIVELY_SETTABLE*
+				[$source MY_DRY_CLASS]
 				[$source AIA_CREDENTIAL_ID]
-				[$source AIA_AUTHORIZATION_HEADER]
+				[$source JOB]
+				[$source PP_ADDRESS]
+				[$source JSON_CURRENCY]
 				[$source AIA_RESPONSE]
-					[$source AIA_GET_USER_ID_RESPONSE]
 					[$source AIA_PURCHASE_RESPONSE]
 						[$source AIA_REVOKE_RESPONSE]
+					[$source AIA_GET_USER_ID_RESPONSE]
 				[$source AIA_REQUEST]*
+					[$source AIA_GET_USER_ID_REQUEST]
 					[$source AIA_PURCHASE_REQUEST]
 						[$source AIA_REVOKE_REQUEST]
-					[$source AIA_GET_USER_ID_REQUEST]
+				[$source PP_TRANSACTION]
+					[$source PAYPAL_TRANSACTION]
+				[$source EL_COOKIE_SETTABLE]*
+					[$source LICENSE_INFO]
+				[$source PP_ADDRESS]
+					[$source ADDRESS]
+				[$source PP_PRODUCT_INFO]
+				[$source FCGI_HTTP_HEADERS]
 				[$source EL_REFLECTIVELY_SETTABLE_STORABLE]*
-				[$source EL_ENUMERATION]* [N -> {NUMERIC, HASHABLE}]
+					[$source AIA_CREDENTIAL]
+					[$source EL_UUID]
+					[$source EL_STORABLE_IMPL]
+					[$source EL_TRANSLATION_ITEM]
+					[$source MP3_IDENTIFIER]
+				[$source PP_BUTTON_DETAIL]
+				[$source PP_REFLECTIVELY_SETTABLE]*
+					[$source PP_SETTABLE_FROM_UPPER_CAMEL_CASE]
+						[$source PP_BUTTON_META_DATA]
+						[$source PP_HTTP_RESPONSE]
+							[$source PP_BUTTON_SEARCH_RESULTS]
+							[$source PP_BUTTON_QUERY_RESULTS]
+								[$source PP_BUTTON_DETAILS_QUERY_RESULTS]
+						[$source PP_BUTTON_OPTION]
+					[$source PP_CONVERTABLE_TO_PARAMETER_LIST]
+						[$source PP_HOSTED_BUTTON]
+						[$source PP_API_VERSION]
+						[$source PP_CREDENTIALS]
+						[$source PP_DATE_TIME_RANGE]
+						[$source PP_BUTTON_LOCALE]
+						[$source PP_BUTTON_METHOD]
+							[$source PP_CREATE_BUTTON_METHOD]
+							[$source PP_GET_BUTTON_DETAILS_METHOD]
+							[$source PP_UPDATE_BUTTON_METHOD]
+							[$source PP_BUTTON_SEARCH_METHOD]
+							[$source PP_MANAGE_BUTTON_STATUS_METHOD]
+				[$source EL_ENUMERATION]*
 					[$source AIA_RESPONSE_ENUM]
 					[$source AIA_REASON_ENUM]
 					[$source EL_CURRENCY_ENUM]
 					[$source EL_HTTP_STATUS_ENUM]
-					[$source PP_L_VARIABLE_ENUM]
 					[$source PP_PAYMENT_PENDING_REASON_ENUM]
 					[$source PP_PAYMENT_STATUS_ENUM]
+					[$source PP_L_VARIABLE_ENUM]
 					[$source PP_TRANSACTION_TYPE_ENUM]
-				[$source EL_COOKIE_SETTABLE]
+				[$source FCGI_REQUEST_PARAMETERS]
+				[$source FCGI_SETTABLE_FROM_SERVLET_REQUEST]*
+				[$source EL_CONVERTABLE_TO_HTTP_PARAMETER_LIST]*
+					[$source PP_CONVERTABLE_TO_PARAMETER_LIST]
 				[$source EL_DYNAMIC_MODULE_POINTERS]
 					[$source EL_IMAGE_UTILS_API_POINTERS]
 					[$source EL_CURL_API_POINTERS]
-				[$source FCGI_REQUEST_PARAMETERS]
-				[$source FCGI_HTTP_HEADERS]
-				[$source FCGI_SETTABLE_FROM_SERVLET_REQUEST]
-				[$source MY_DRY_CLASS]
-				[$source PP_ADDRESS]
-				[$source PP_BUTTON_DETAIL]
-				[$source PP_CREDENTIALS]
-				[$source PP_REFLECTIVELY_SETTABLE]
-					[$source PP_BUTTON_META_DATA]
-					[$source PP_BUTTON_OPTION]
-					[$source PP_HTTP_RESPONSE]
-						[$source PP_BUTTON_SEARCH_RESULTS]
-						[$source PP_BUTTON_QUERY_RESULTS]
-							[$source PP_BUTTON_DETAILS_QUERY_RESULTS]
-				[$source PP_PRODUCT_INFO]
-				[$source PP_TRANSACTION]
+				[$source EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT]*
+					[$source EL_BOOK_INFO]
+					[$source RBOX_IRADIO_ENTRY]
+						[$source RBOX_IGNORED_ENTRY]
+							[$source RBOX_SONG]
+								[$source RBOX_CORTINA_SONG]
+									[$source RBOX_CORTINA_TEST_SONG]
+								[$source RBOX_TEST_SONG]
+									[$source RBOX_CORTINA_TEST_SONG]
 	]"
 end

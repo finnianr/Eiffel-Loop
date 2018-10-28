@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-22 13:10:51 GMT (Sunday 22nd April 2018)"
-	revision: "7"
+	date: "2018-10-27 9:31:59 GMT (Saturday 27th October 2018)"
+	revision: "8"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 
 	building_actions_for_type (type: TYPE [ANY]; node_type: INTEGER_32): EL_PROCEDURE_TABLE
 		require
-			valid_node_type: (<< Attribute_node, Text_element_node >>).has (node_type)
+			valid_node_type: Node_types.has (node_type)
 		local
 			meta_data: like meta_data_by_type.item; table: EL_REFLECTED_FIELD_TABLE
 			field_list: LIST [EL_REFLECTED_FIELD]; text_xpath: STRING_8
@@ -86,12 +86,16 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Node types
 
-	Attribute_node: INTEGER_32 = 1
-			-- Constants
+	Node_types: ARRAY [INTEGER]
+		once
+			Result := << Attribute_node, Text_element_node >>
+		end
 
-	Text_element_node: INTEGER_32 = 2
+	Attribute_node: INTEGER = 1
+
+	Text_element_node: INTEGER = 2
 
 end
 

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-25 11:49:31 GMT (Thursday 25th October 2018)"
-	revision: "1"
+	date: "2018-10-28 17:21:52 GMT (Sunday 28th October 2018)"
+	revision: "2"
 
 class
 	EL_BOOK_NAVIGATION_CONTROL_FILE
 
 inherit
-	EL_BOOK_NAVIGATION_INDEX
+	EL_SERIALIZEABLE_BOOK_INDEXING
 		redefine
 			make_default, getter_function_table
 		end
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 
 	new_file_name: ZSTRING
 		do
-			Result := "book.ncx"
+			Result := "book-navigation.ncx"
 		end
 
 feature {NONE} -- Internal attributes
@@ -60,15 +60,15 @@ feature {NONE} -- Constants
 		<?xml version="1.0" encoding="UTF-8"?>
 		<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN" "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
 		
-		<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="en-US">
+		<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="$info.language">
 			<head>
-				<meta name="dtb:uid" content="$uuid"/>
+				<meta name="dtb:uid" content="$info.uuid"/>
 				<meta name="dtb:depth" content="2"/>
 				<meta name="dtb:totalPageCount" content="0"/>
 				<meta name="dtb:maxPageNumber" content="0"/>
 			</head>
-			<docTitle><text>$title</text></docTitle>
-			<docAuthor><text>$author</text></docAuthor>
+			<docTitle><text>$info.title</text></docTitle>
+			<docAuthor><text>$info.author</text></docAuthor>
 			
 			<navMap>
 				<navPoint class="toc" id="toc" playOrder="$next_number">

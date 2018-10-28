@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-26 18:39:59 GMT (Friday 26th October 2018)"
-	revision: "1"
+	date: "2018-10-27 9:34:56 GMT (Saturday 27th October 2018)"
+	revision: "2"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -23,7 +23,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_string_or_expanded_field,
-			export_name as xml_element_name,
+			export_name as xml_names,
 			import_name as import_default
 		redefine
 			Except_fields, make_default
@@ -47,11 +47,15 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE
 			--
 		do
-			Result := building_actions_for_each_type (field_table.type_list.to_array, element_node_type)
+			Result := building_actions_for_each_type (field_table.type_set, element_node_type)
 		end
 
 	element_node_type: INTEGER
+		-- type of XML node mapped to attribute value
+		-- Possible values `Text_element_node' or `Attribute_node'
 		deferred
+		ensure
+			valid_node_type: Node_types.has (Result)
 		end
 
 feature {NONE} -- Constants

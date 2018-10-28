@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-26 10:58:50 GMT (Friday 26th October 2018)"
-	revision: "10"
+	date: "2018-10-27 9:26:04 GMT (Saturday 27th October 2018)"
+	revision: "11"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -53,9 +53,10 @@ feature -- Access
 	last_query: EL_ARRAYED_LIST [like item]
 		-- results of last query
 
-	type_list: like type_table.linear_representation
+	type_set: ARRAY [like type_table.item]
+		-- set of types use in table
 		do
-			Result := type_table.linear_representation
+			Result := type_table.linear_representation.to_array
 		end
 
 	type_table: HASH_TABLE [TYPE [ANY], INTEGER]

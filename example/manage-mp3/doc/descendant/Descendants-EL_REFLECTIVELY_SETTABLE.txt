@@ -1,0 +1,17 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			EL_REFLECTIVELY_SETTABLE*
+				[$source EL_REFLECTIVELY_SETTABLE_STORABLE]*
+					[$source EL_UUID]
+					[$source MP3_IDENTIFIER]
+					[$source EL_STORABLE_IMPL]
+				[$source EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT]*
+					[$source RBOX_IRADIO_ENTRY]
+						[$source RBOX_IGNORED_ENTRY]
+							[$source RBOX_SONG]
+								[$source RBOX_CORTINA_SONG]
+									[$source RBOX_CORTINA_TEST_SONG]
+								[$source RBOX_TEST_SONG]
+									[$source RBOX_CORTINA_TEST_SONG]
+	]"

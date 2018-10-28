@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-03 12:25:33 GMT (Thursday 3rd May 2018)"
-	revision: "4"
+	date: "2018-10-28 12:29:56 GMT (Sunday 28th October 2018)"
+	revision: "5"
 
 class
 	EL_REFLECTED_REAL_64
@@ -20,6 +20,14 @@ inherit
 
 create
 	make
+
+feature -- Access
+
+	reference_value (a_object: EL_REFLECTIVE): like value.to_reference
+		do
+			create Result
+			Result.set_item (value (a_object))
+		end
 
 feature -- Basic operations
 
@@ -34,14 +42,14 @@ feature -- Basic operations
 			set (a_object, a_value)
 		end
 
-	set_from_string (a_object: EL_REFLECTIVELY_SETTABLE; string: READABLE_STRING_GENERAL)
-		do
-			set (a_object, string.to_real_64)
-		end
-
 	set_from_readable (a_object: EL_REFLECTIVELY_SETTABLE; readable: EL_READABLE)
 		do
 			set (a_object, readable.read_real_64)
+		end
+
+	set_from_string (a_object: EL_REFLECTIVELY_SETTABLE; string: READABLE_STRING_GENERAL)
+		do
+			set (a_object, string.to_real_64)
 		end
 
 	write (a_object: EL_REFLECTIVELY_SETTABLE; writeable: EL_WRITEABLE)

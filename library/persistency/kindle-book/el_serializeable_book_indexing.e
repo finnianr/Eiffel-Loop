@@ -1,16 +1,22 @@
 note
-	description: "Book navigation index"
+	description: "Serializeable book indexing"
+	descendants: "[
+			EL_SERIALIZEABLE_BOOK_INDEXING*
+				[$source EL_BOOK_HTML_CONTENTS_TABLE]
+				[$source EL_BOOK_NAVIGATION_CONTROL_FILE]
+				[$source EL_BOOK_PACKAGE]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-26 9:52:38 GMT (Friday 26th October 2018)"
-	revision: "1"
+	date: "2018-10-28 17:26:05 GMT (Sunday 28th October 2018)"
+	revision: "2"
 
 deferred class
-	EL_BOOK_NAVIGATION_INDEX
+	EL_SERIALIZEABLE_BOOK_INDEXING
 
 inherit
 	EVOLICITY_SERIALIZEABLE
@@ -35,10 +41,7 @@ feature {NONE} -- Evolicity
 			--
 		do
 			create Result.make (<<
-				["author",			agent: ZSTRING do Result := book.info.author end],
-				["title",			agent: ZSTRING do Result := book.info.title end],
-				["uuid",				agent: ZSTRING do Result := book.info.uuid end],
-
+				["info",			agent: like book.info do Result := book.info end],
 				["chapter_list",	agent: ITERABLE [EL_BOOK_CHAPTER] do Result := book.chapter_list end]
 			>>)
 		end

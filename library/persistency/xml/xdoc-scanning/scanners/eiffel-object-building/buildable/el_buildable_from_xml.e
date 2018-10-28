@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:18:54 GMT (Wednesday 21st February 2018)"
-	revision: "4"
+	date: "2018-10-28 10:17:25 GMT (Sunday 28th October 2018)"
+	revision: "5"
 
 deferred class
 	EL_BUILDABLE_FROM_XML
@@ -17,11 +17,6 @@ deferred class
 inherit
 	EL_BUILDABLE_FROM_NODE_SCAN
 
-feature {NONE} -- Factory
+	EL_XML_PARSE_EVENT_TYPE
 
-	new_node_source: EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
-			--
-		do
-			create Result.make ({EL_EXPAT_XML_PARSER})
-		end
 end
