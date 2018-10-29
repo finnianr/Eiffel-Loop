@@ -18,7 +18,7 @@ feature {NONE} -- Initialization
 		do
 			final := agent (v: G) do end
 			state := final
-			create tuple
+			create argument_tuple
 		end
 
 feature -- Basic operations
@@ -54,8 +54,8 @@ feature {NONE} -- Implementation
 	call (item: G)
 		-- call state procedure with item
 		do
-			tuple.put (item, 1)
-			state.set_operands (tuple)
+			argument_tuple.put (item, 1)
+			state.set_operands (argument_tuple)
 			state.apply
 		end
 
@@ -67,6 +67,6 @@ feature {NONE} -- Internal attributes
 
 	state: PROCEDURE [G]
 
-	tuple: TUPLE [G]
+	argument_tuple: TUPLE [G]
 
 end

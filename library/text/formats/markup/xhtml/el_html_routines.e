@@ -17,6 +17,8 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
+	EL_MODULE_TUPLE
+
 feature -- Access
 
 	anchor_reference (name: ZSTRING): ZSTRING
@@ -235,11 +237,7 @@ feature {NONE} -- Constants
 	Variable: TUPLE [id, description, text, title, url: ZSTRING]
 		once
 			create Result
-			Result.id := "id"
-			Result.description := "description"
-			Result.text := "text"
-			Result.title := "title"
-			Result.url := "url"
+			Tuple.fill (Result, "id, description, text, title, url")
 		end
 
 end

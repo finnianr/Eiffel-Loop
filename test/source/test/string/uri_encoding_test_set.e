@@ -15,6 +15,11 @@ class
 inherit
 	EQA_TEST_SET
 
+	EL_MODULE_TUPLE
+		undefine
+			default_create
+		end
+
 feature -- Test routines
 
 	test_url_query_hash_table
@@ -36,6 +41,7 @@ feature -- Test routines
 			create book.make (Encoded_book)
 			assert ("valid author", book.item ("author") ~ Book_info.author)
 			assert ("valid price", book.item ("price") ~ Book_info.price)
+			assert ("valid publisher", book.item ("publisher") ~ Book_info.publisher)
 			assert ("valid discount", book.item ("discount") ~ Book_info.discount)
 			assert ("same_string", book.url_query_string.same_string (Encoded_book))
 		end
@@ -45,9 +51,7 @@ feature {NONE} -- Constants
 	Book_info: TUPLE [author, price, publisher, discount: ZSTRING]
 		once
 			create Result
-			Result.author := "Günter (Wilhelm) Grass"
-			Result.price := {STRING_32} "€ 10.00"
-			Result.discount := "10%%"
+			Tuple.fill (Result, {STRING_32} "Günter (Wilhelm) Grass, € 10.00, Barnes & Noble, 10%%")
 		end
 
 	Encoded_book: STRING = "[

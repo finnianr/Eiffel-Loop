@@ -14,7 +14,10 @@ system:
 			**1.** [http://www.datypic.com/sc/odf/e-office_spreadsheet.html OpenDocument Flat XML spreadsheets]
 			using [http://vtd-xml.sourceforge.net/ VTD-XML].
 			
-			**2.** Read and export emails from the [https://www.thunderbird.net/ Thunderbird email client].
+			**2.** Read and export emails from the [https://www.thunderbird.net/ Thunderbird email client] including
+			a class to generate a Kindle book from a folder of chapter emails.
+
+			**3.** Classes for generating Kindle packages from HTML content.
 		"""
 	target:
 		name = EL_markup_docs

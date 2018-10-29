@@ -29,6 +29,8 @@ inherit
 
 	EL_MODULE_TIME
 
+	EL_MODULE_TUPLE
+
 	SONG_QUERY_CONDITIONS
 
 	TASK_CONSTANTS
@@ -727,8 +729,7 @@ feature {NONE} -- Constants
 	Device_type: TUPLE [samsung_tablet, nokia_phone: ZSTRING]
 		once
 			create Result
-			Result.samsung_tablet := "samsung tablet"
-			Result.nokia_phone := "nokia phone"
+			Tuple.fill (Result, "samsung tablet, nokia phone")
 		end
 
 	Ditto: ZSTRING

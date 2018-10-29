@@ -1,5 +1,5 @@
 note
-	description: "Zstring list"
+	description: "List of [$source EL_ZSTRING] strings"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -19,10 +19,11 @@ inherit
 		end
 
 create
-	make, make_empty, make_with_separator, make_with_lines, make_from_list, make_with_words, make_from_array
+	make, make_empty, make_with_separator, make_with_lines, make_from_list, make_with_words,
+	make_from_array, make_from_tuple
 
 convert
-	make_from_array ({ARRAY [ZSTRING]}), make_with_words ({ZSTRING})
+	make_from_array ({ARRAY [ZSTRING]}), make_with_words ({ZSTRING}), make_from_tuple ({TUPLE})
 
 feature -- Element change
 

@@ -25,6 +25,8 @@ inherit
 
 	EL_MODULE_XML
 
+	EL_MODULE_ZSTRING
+
 	EL_ZSTRING_CONSTANTS
 
 create

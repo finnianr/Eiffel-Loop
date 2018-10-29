@@ -22,7 +22,7 @@ feature {NONE} -- Implementation
 
 	new_file_name: ZSTRING
 		do
-			Result := "book-toc.html"
+			Result := File_name.book_toc
 		end
 
 feature {NONE} -- Constants

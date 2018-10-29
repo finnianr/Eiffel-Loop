@@ -29,36 +29,42 @@ feature {NONE} -- Initialization
 			append (list)
 		end
 
-	make_with_lines (a_string: like item)
+	make_with_lines (a_string: READABLE_STRING_GENERAL)
 		do
 			make_with_separator (a_string, '%N', False)
 		end
 
-	make_with_separator (a_string: like item; separator: CHARACTER_32; do_left_adjust: BOOLEAN)
+	make_with_separator (a_string: READABLE_STRING_GENERAL; separator: CHARACTER_32; do_left_adjust: BOOLEAN)
 		do
 			make_empty
 			append_split (a_string, separator, do_left_adjust)
 		end
 
-	make_with_words (a_string: like item)
+	make_with_words (a_string: READABLE_STRING_GENERAL)
 		do
 			make_with_separator (a_string, ' ', False)
 		end
 
 feature -- Element change
 
-	append_split (a_string: S; a_separator: CHARACTER_32; do_left_adjust: BOOLEAN)
+	append_split (a_string: READABLE_STRING_GENERAL; a_separator: CHARACTER_32; do_left_adjust: BOOLEAN)
 		local
-			list: LIST [like item]
+			list: LIST [READABLE_STRING_GENERAL]; str: S
 		do
 			list := a_string.split (a_separator)
-			grow (count + list.count)
-			if do_left_adjust then
-				across list as str loop
-					str.item.left_adjust
+			if attached {LIST [S]} list as same_list then
+				append (same_list)
+			else
+				grow (count + list.count)
+				across list as general loop
+					create str.make (general.item.count)
+					str.append (general.item)
+					extend (str)
+					if do_left_adjust then
+						str.left_adjust
+					end
 				end
 			end
-			list.do_all (agent extend)
 		end
 
 	indent (tab_count: INTEGER)

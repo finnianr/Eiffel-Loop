@@ -22,6 +22,7 @@ inherit
 
 	EL_MODULE_LOG
 	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_ZSTRING
 
 create
 	make
@@ -112,10 +113,7 @@ feature {NONE} -- Constants
 	Field: TUPLE [end_, begin, n, x_irmc_luid: ZSTRING]
 		once
 			create Result
-			Result.begin := "BEGIN:"
-			Result.end_ := "END:"
-			Result.n := "N:"
-			Result.x_irmc_luid := "X-IRMC-LUID:"
+			Zstring.fill_tuple (Result, "END:, BEGIN:, N:, X-IRMC-LUID:")
 		end
 
 	Name_template: ZSTRING

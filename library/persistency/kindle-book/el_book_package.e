@@ -14,15 +14,73 @@ class
 
 inherit
 	EL_SERIALIZEABLE_BOOK_INDEXING
+		redefine
+			make, getter_function_table
+		end
+
+	EL_MODULE_LIO
 
 create
 	make
 
+feature {NONE} -- Initialization
+
+	make (a_book: like book)
+		do
+			Precursor (a_book)
+			create manifest_list.make (50)
+			create spine_list.make (20)
+			across Tuple.to_zstring_list (File_name) as name loop
+				manifest_list.extend (new_item (name.item))
+			end
+			across a_book.chapter_list as chapter loop
+				manifest_list.extend (new_item (chapter.item.output_path.base))
+				spine_list.extend (manifest_list.last)
+			end
+			if images_dir.exists then
+				across File_system.recursive_files_with_extension (images_dir, "png") as image loop
+					manifest_list.extend (new_item (image.item.relative_path (a_book.output_dir)))
+				end
+			else
+				lio.put_labeled_string ("No images directory", images_dir.to_string)
+				lio.put_new_line
+			end
+		ensure then
+			valid_manifest: manifest_list.count >= 2
+				and then manifest_list.i_th (1).href_path.base ~ File_name.cover
+				and then manifest_list.i_th (2).href_path.base ~ File_name.ncx
+				and then manifest_list.i_th (3).href_path.base ~ File_name.book_toc
+		end
+
 feature {NONE} -- Implementation
+
+	images_dir: EL_DIR_PATH
+		do
+			Result := book.output_dir.joined_dir_path ("images")
+		end
 
 	new_file_name: ZSTRING
 		do
 			Result := "book-package.opf"
+		end
+
+	manifest_list: ARRAYED_LIST [EL_OPF_MANIFEST_ITEM]
+
+	spine_list: like manifest_list
+
+	new_item (path: EL_FILE_PATH): EL_OPF_MANIFEST_ITEM
+		do
+			create Result.make (path, manifest_list.count + 1)
+		end
+
+feature {NONE} -- Evolicity
+
+	getter_function_table: like getter_functions
+			--
+		do
+			Result := Precursor +
+				["manifest_list",	agent: ITERABLE [EL_OPF_MANIFEST_ITEM] do Result := manifest_list end] +
+				["spine_list",	agent: ITERABLE [EL_OPF_MANIFEST_ITEM] do Result := spine_list end]
 		end
 
 feature {NONE} -- Constants
@@ -39,11 +97,22 @@ feature {NONE} -- Constants
 				<dc:date>$info.publication_date</dc:date>
 				<dc:description>$info.description</dc:description>
 				
-				<meta name="cover" content="cover-image" />
+				<meta name="cover" content="item_1"/>
 			</metadata>
 			<manifest>
-				<item id="cover-image" media-type="image/png" href="cover.png"/>
+				#foreach $item in $manifest_list loop
+				<item id="item_$item.id" media-type="$item.media_type" href="$item.href"/>
+				#end
 			</manifest>
+			<spine toc="item_2">
+				#foreach $item in $spine_list loop
+				<itemref idref="item_$item.id"/>
+				#end
+			</spine>
+			<guide>
+				<reference type="toc" title="Table of Contents" href="book-toc.html"></reference>
+				<reference type="text" title="Introduction" href="introduction.html"></reference>
+			</guide>
 		</package>
 	]"
 

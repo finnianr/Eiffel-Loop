@@ -128,9 +128,9 @@ feature {NONE} -- Implementation
 			has_duplicate_value := has_duplicate_value or name_by_value.conflict
 		end
 
-	field_included (object: like current_object; i: INTEGER_32): BOOLEAN
+	field_included (basic_type, type_id: INTEGER_32): BOOLEAN
 		do
-			Result := field_type_id = object.field_static_type (i)
+			Result := field_type_id = type_id
 		end
 
 feature {NONE} -- Internal attributes

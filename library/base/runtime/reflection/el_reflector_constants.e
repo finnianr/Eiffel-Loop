@@ -15,10 +15,10 @@ class
 inherit
 	REFLECTOR_CONSTANTS
 		export
-			{NONE} all
+			{EL_REFLECTION_HANDLER} all
 		end
 
-feature {NONE} -- Constants
+feature {EL_REFLECTION_HANDLER} -- Constants
 
 	frozen Boolean_ref_type: INTEGER_32
 		once
@@ -58,6 +58,13 @@ feature {NONE} -- Constants
 	frozen String_types: ARRAY [INTEGER]
 		once
 			Result := << String_8_type, String_32_type, String_z_type >>
+		end
+
+	frozen String_covertable_base_types: ARRAY [INTEGER]
+		once
+			Result := <<
+				String_general_type, Boolean_ref_type, Date_time_type, Path_type, Makeable_from_string_general_type
+			>>
 		end
 
 	frozen Makeable_type: INTEGER

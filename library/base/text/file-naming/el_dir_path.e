@@ -46,6 +46,11 @@ feature -- Conversion
 			Result := joined_dir_path (a_steps)
 		end
 
+	joined_dir_tuple (tuple: TUPLE): like Current
+		do
+			Result := joined_dir_steps (tuple)
+		end
+
 	joined_file_path alias "+" (a_file_path: EL_FILE_PATH): like Type_file_path
 		do
 			create Result.make_from_other (Current); Result.append (a_file_path)
@@ -54,6 +59,11 @@ feature -- Conversion
 	joined_file_steps (a_steps: EL_PATH_STEPS): like joined_file_path
 		do
 			Result := joined_file_path (a_steps)
+		end
+
+	joined_file_tuple (tuple: TUPLE): like joined_file_path
+		do
+			Result := joined_file_steps (tuple)
 		end
 
 feature -- Status report

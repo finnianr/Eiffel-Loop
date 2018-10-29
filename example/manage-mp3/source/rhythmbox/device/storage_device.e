@@ -342,7 +342,7 @@ feature {NONE} -- Implementation
 
 	local_sync_table_file_path: EL_FILE_PATH
 		do
-			Result := Directory.app_data.joined_file_steps (<< Device_data, export_config.volume.name, Sync_table_name >>)
+			Result := Directory.app_data.joined_file_tuple ([Device_data, export_config.volume.name, Sync_table_name])
 		end
 
 feature {NONE} -- Internal attributes

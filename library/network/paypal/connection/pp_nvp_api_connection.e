@@ -131,9 +131,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_button_parameter (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER_32): BOOLEAN
+	is_button_parameter (basic_type, type_id: INTEGER_32): BOOLEAN
 		do
-			Result := object.field_static_type (index) = Button_parameter_type
+			Result := type_id = Button_parameter_type
 		end
 
 feature {PP_BUTTON_METHOD} -- Paypal parameters

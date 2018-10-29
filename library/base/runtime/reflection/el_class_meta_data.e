@@ -128,7 +128,7 @@ feature {NONE} -- Factory
 			excluded := excluded_fields
 			create Result.make (field_count - excluded.count)
 			from i := 1 until i > field_count loop
-				if not excluded.has (i) and then enclosing_object.field_included (Current, i) then
+				if not excluded.has (i) and then enclosing_object.field_included (field_type (i), field_static_type (i)) then
 					name := field_name (i)
 					-- if not a once ("OBJECT") field
 					if name [1] /= '_' then
@@ -199,9 +199,7 @@ feature {NONE} -- Constants
 
 	Base_reference_types: ARRAY [INTEGER]
 		once
-			Result := <<
-				String_general_type, Boolean_ref_type, Date_time_type, Path_type, Makeable_from_string_general_type
-			>>
+			Result := String_covertable_base_types
 		end
 
 	Info_line_length: INTEGER

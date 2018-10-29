@@ -140,7 +140,7 @@ feature {NONE} -- Constants
 
 	Log_output_directory: EL_DIR_PATH
 		once
-			Result := Directory.App_data.joined_dir_steps (<< option_name.to_string_8, "logs" >>)
+			Result := Directory.App_data.joined_dir_tuple ([option_name, "logs"])
 		end
 
 	No_routines: STRING = "-*"

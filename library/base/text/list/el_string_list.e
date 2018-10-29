@@ -59,13 +59,25 @@ feature {NONE} -- Initialization
 
 	make_from_tuple (tuple: TUPLE)
 		local
-			i: INTEGER
+			i: INTEGER; string: S; str_8: STRING
 		do
 			make (tuple.count)
 			from i := 1 until i > tuple.count loop
-				if attached {S} tuple.reference_item (i) as str then
-					extend (str)
+				if tuple.is_reference_item (i)
+					and then attached {STRING_GENERAL} tuple.reference_item (i) as general
+				then
+					if attached {S} general as str then
+						string := str
+					else
+						create string.make (general.count)
+						string.append (general)
+					end
+				else
+					str_8 := tuple.item (i).out
+					create string.make (str_8.count)
+					string.append (str_8)
 				end
+				extend (string)
 				i := i + 1
 			end
 		end

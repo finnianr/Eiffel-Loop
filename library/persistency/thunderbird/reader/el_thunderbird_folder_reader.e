@@ -30,6 +30,8 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
+	EL_MODULE_TUPLE
+
 feature {NONE} -- Initialization
 
 	make (a_config: like config)
@@ -233,10 +235,7 @@ feature {NONE} -- Constants
 	Field: TUPLE [first, content_type, date, subject: ZSTRING]
 		once
 			create Result
-			Result.first := "X-Mozilla-Status:"
-			Result.content_type := "Content-Type"
-			Result.date := "Date"
-			Result.subject := "Subject"
+			Tuple.fill (Result, "X-Mozilla-Status:, Content-Type, Date, Subject")
 		end
 
 	Field_delimiter: ZSTRING

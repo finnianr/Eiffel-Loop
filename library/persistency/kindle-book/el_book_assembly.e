@@ -1,5 +1,7 @@
 note
-	description: "Book with table of contents generated from Thunderbird email folder"
+	description: "[
+		Assembly of all book components including OPF package, navigation control file and HTML table of contents
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

@@ -33,11 +33,6 @@ inherit
 			is_equal, new_meta_data, use_default_values, Except_fields
 		end
 
-	EL_MODULE_EIFFEL
-		undefine
-			is_equal
-		end
-
 	EL_MODULE_LIO
 		undefine
 			is_equal
@@ -102,22 +97,19 @@ feature {EL_STORABLE_CLASS_META_DATA} -- Access
 
 feature {NONE} -- Implementation
 
-	is_storable_field (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER_32): BOOLEAN
+	is_storable_field (basic_type, type_id: INTEGER_32): BOOLEAN
 			-- hash of all field names in same order as new_storable_fields
-		local
-			type_id: INTEGER_32
 		do
-			inspect object.field_type (index)
+			inspect basic_type
 			when Reference_type then
-				type_id := object.field_static_type (index)
 				if String_types.has (type_id) or else
 					across << Boolean_ref_type, Date_time_type, Storable_type >> as base_type some
-						object.field_conforms_to (type_id, base_type.item)
+						Eiffel.field_conforms_to (type_id, base_type.item)
 					end
 
 				then
 					Result := True
-				elseif object.field_conforms_to (type_id, Tuple_type) then
+				elseif Eiffel.field_conforms_to (type_id, Tuple_type) then
 					Result := is_storable_tuple (Eiffel.type_of_type (type_id))
 				end
 			when Pointer_type then

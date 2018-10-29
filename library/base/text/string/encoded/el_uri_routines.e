@@ -12,6 +12,9 @@ note
 class
 	EL_URI_ROUTINES
 
+inherit
+	EL_MODULE_TUPLE
+
 feature -- Status query
 
 	is_http_uri (uri: ZSTRING): BOOLEAN
@@ -89,10 +92,7 @@ feature {NONE} -- Constants
 			-- common protocols
 		once
 			create Result
-			Result.file := "file"
-			Result.ftp := "ftp"
-			Result.http := "http"
-			Result.https := "https"
+			Tuple.fill (Result, "file, ftp, http, https")
 		end
 
 	Protocol_sign: ZSTRING

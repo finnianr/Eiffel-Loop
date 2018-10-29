@@ -33,6 +33,8 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
+	EL_MODULE_TUPLE
+
 feature {NONE} -- Initialization
 
 	make_default
@@ -250,9 +252,7 @@ feature {NONE} -- Constants
 			-- built-in variables
 		once
 			create Result
-			Result.encoding_name := "encoding_name"
-			Result.template_name := "template_name"
-			Result.current_object := "current"
+			Tuple.fill (Result, "encoding_name, template_name, current")
 		end
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT

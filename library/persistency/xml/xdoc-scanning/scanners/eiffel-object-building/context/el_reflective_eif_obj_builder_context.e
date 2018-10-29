@@ -22,7 +22,7 @@ inherit
 
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_string_or_expanded_field,
+			field_included as is_field_convertable_from_string,
 			export_name as xml_names,
 			import_name as import_default
 		redefine

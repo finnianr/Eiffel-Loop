@@ -83,7 +83,7 @@ feature {NONE} -- Implementation
 	output_lines
 		local
 			file_out: EL_PLAIN_TEXT_FILE; source: EL_FILE_LINE_SOURCE
-			lines: EL_ZSTRING_LIST; tab_count, bracket_pos, count: INTEGER
+			lines: EL_ZSTRING_LIST; tab_count, count: INTEGER
 			line: ZSTRING
 		do
 			create source.make_latin (1, output_path)

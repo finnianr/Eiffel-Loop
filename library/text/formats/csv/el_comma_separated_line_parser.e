@@ -167,8 +167,8 @@ feature {NONE} -- Implementation
 	call (item: CHARACTER)
 		-- call state procedure with item
 		do
-			tuple.put_character (item, 1)
-			state.set_operands (tuple)
+			argument_tuple.put_character (item, 1)
+			state.set_operands (argument_tuple)
 			state.apply
 		end
 

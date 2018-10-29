@@ -43,8 +43,6 @@ inherit
 		rename
 			export_name as export_default,
 			import_name as import_default
-		redefine
-			field_included
 		end
 
 	EL_MODULE_EXCEPTION
@@ -94,9 +92,9 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	field_included (object: like current_object; i: INTEGER): BOOLEAN
+	field_included (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			Result := object.field_type (i) = Pointer_type
+			Result := basic_type = Pointer_type
 		end
 
 	function_names_with_upper: ARRAY [STRING]

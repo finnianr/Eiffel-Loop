@@ -20,9 +20,9 @@ inherit
 
 feature {NONE} -- Implementation
 
-	is_paypal_field (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER_32): BOOLEAN
+	is_paypal_field (basic_type, type_id: INTEGER_32): BOOLEAN
 		do
-			Result := is_string_or_expanded_field (object, index) or else is_date_field (object, index)
+			Result := is_string_or_expanded_field (basic_type, type_id) or else is_date_field (basic_type, type_id)
 		end
 
 end

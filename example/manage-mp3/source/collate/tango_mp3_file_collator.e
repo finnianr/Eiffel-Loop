@@ -142,7 +142,7 @@ feature {NONE} -- Implementation
 			title := new_title (id3_info, mp3_path)
 			artist := new_artist (id3_info, mp3_path)
 
-			destination_mp3_path := dir_path.joined_file_steps (<< genre, artist, title >>)
+			destination_mp3_path := dir_path.joined_file_tuple ([genre, artist, title])
 			song_title_counts.search (destination_mp3_path)
 			if song_title_counts.found then
 				title_count := song_title_counts.found_item + 1

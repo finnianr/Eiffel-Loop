@@ -11,6 +11,7 @@ note
 
 class
 	EL_STRING_8_LIST
+
 inherit
 	EL_STRING_LIST [STRING]
 
@@ -18,5 +19,5 @@ create
 	make, make_empty, make_with_separator, make_with_lines, make_with_words, make_from_array, make_from_tuple
 
 convert
-	make_from_array ({ARRAY [STRING]})
+	make_from_array ({ARRAY [STRING]}), make_with_words ({STRING}), make_from_tuple ({TUPLE})
 end

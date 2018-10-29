@@ -33,6 +33,8 @@ inherit
 
 	EL_REFLECTOR_CONSTANTS
 
+	EL_MODULE_EIFFEL
+
 feature {NONE} -- Initialization
 
 	initialize_fields
@@ -161,23 +163,40 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_any_field (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER_32): BOOLEAN
+	is_any_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
 			Result := True
 		end
 
-	is_date_field (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER_32): BOOLEAN
+	is_date_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			Result := object.field_conforms_to (object.field_static_type (index), Date_time_type)
+			Result := Eiffel.field_conforms_to (type_id, Date_time_type)
 		end
 
-	is_string_or_expanded_field (object: REFLECTED_REFERENCE_OBJECT; index: INTEGER_32): BOOLEAN
+	is_string_or_expanded_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			inspect object.field_type (index)
+			inspect basic_type
 				when Reference_type then
-					Result := String_types.has (object.field_static_type (index))
+					Result := String_types.has (type_id)
 				when Pointer_type then
 			else
+				Result := True
+			end
+		end
+
+	is_field_convertable_from_string (basic_type, type_id: INTEGER): BOOLEAN
+		-- True if field is either an expanded type (with the exception of POINTER) or conforms to one of following types
+		-- 	STRING_GENERAL, EL_DATE_TIME, EL_MAKEABLE_FROM_STRING_GENERAL, BOOLEAN_REF, EL_PATH
+		do
+			inspect basic_type
+				when Reference_type then
+					Result := across String_covertable_base_types as base_type some
+						Eiffel.field_conforms_to (type_id, base_type.item)
+					end
+				when Pointer_type then
+					-- Exclude pointer
+			else
+				-- is expanded type
 				Result := True
 			end
 		end
@@ -194,7 +213,9 @@ feature {EL_CLASS_META_DATA} -- Implementation
 			create Result.make_empty
 		end
 
-	field_included (object: like current_object; index: INTEGER): BOOLEAN
+	field_included (basic_type, type_id: INTEGER): BOOLEAN
+		-- when True, include field of this type in `field_table' and `meta_data'
+		-- except when the name is one of those listed in `Except_fields'.
 		deferred
 		end
 

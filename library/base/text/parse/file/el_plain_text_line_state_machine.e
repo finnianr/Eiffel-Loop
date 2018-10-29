@@ -43,8 +43,8 @@ feature {NONE} -- Implementation
 	call (item: ZSTRING)
 		-- call state procedure with item
 		do
-			tuple.put_reference (item, 1)
-			state.set_operands (tuple)
+			argument_tuple.put_reference (item, 1)
+			state.set_operands (argument_tuple)
 			state.apply
 		end
 end

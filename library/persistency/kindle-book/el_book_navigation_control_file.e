@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 
 	new_file_name: ZSTRING
 		do
-			Result := "book-navigation.ncx"
+			Result := File_name.ncx
 		end
 
 feature {NONE} -- Internal attributes

@@ -66,10 +66,12 @@ inherit
 
 create
 	default_create, make_with_count, make,
-	make_from_array, make_from_directory_path, make_from_file_path
+	make_from_array, make_from_directory_path, make_from_file_path, make_from_tuple
 
 convert
 	make_from_array ({ARRAY [ZSTRING], ARRAY [STRING], ARRAY [STRING_32]}),
+
+	make_from_tuple ({TUPLE}),
 
 	make ({STRING_32, STRING, ZSTRING}),
 

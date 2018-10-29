@@ -21,6 +21,8 @@ deferred class
 inherit
 	EVOLICITY_SERIALIZEABLE
 
+	EL_MODULE_TUPLE
+
 feature {NONE} -- Initialization
 
 	make (a_book: like book)
@@ -50,4 +52,11 @@ feature {NONE} -- Internal attributes
 
 	book: EL_BOOK_ASSEMBLY
 
+feature {NONE} -- Constants
+
+	File_name: TUPLE [cover, ncx, book_toc: ZSTRING]
+		once
+			create Result
+			Tuple.fill (Result, "cover.png, book-navigation.ncx, book-toc.html")
+		end
 end
