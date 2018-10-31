@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 13:42:54 GMT (Sunday 28th October 2018)"
-	revision: "2"
+	date: "2018-10-31 11:23:59 GMT (Wednesday 31st October 2018)"
+	revision: "3"
 
 class
 	EL_BOOK_INFO
@@ -22,10 +22,17 @@ inherit
 		end
 
 	EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT
+		rename
+			getter_function_table as empty_function_table
 		undefine
 			is_equal
 		redefine
 			make_default
+		end
+
+	EVOLICITY_XML_ESCAPED_CONTEXT
+		undefine
+			is_equal
 		end
 
 create
@@ -44,14 +51,14 @@ feature -- Access
 	author: ZSTRING
 
 	creator: ZSTRING
-	
+
 	description: ZSTRING
 
 	language: STRING
 
-	publisher: ZSTRING
-
 	publication_date: STRING
+
+	publisher: ZSTRING
 
 	subject_heading: ZSTRING
 
@@ -59,7 +66,4 @@ feature -- Access
 
 	uuid: STRING
 
-feature {NONE} -- Constants
-
-	Is_xml_escaped: BOOLEAN = True
 end

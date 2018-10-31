@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2018-10-31 11:21:28 GMT (Wednesday 31st October 2018)"
+	revision: "7"
 
 class
 	EL_XML_ROUTINES
@@ -21,9 +21,6 @@ inherit
 		end
 
 	EL_MODULE_FILE_SYSTEM
-		export
-			{NONE} all
-		end
 
 feature -- Measurement
 

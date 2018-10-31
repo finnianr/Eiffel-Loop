@@ -1,8 +1,13 @@
 note
 	description: "Routines accessible from once routine `Tuple' in [$source EL_MODULE_TUPLE]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-10-29 15:19:00 GMT (Monday 29th October 2018)"
+	revision: "1"
 
 class
 	EL_TUPLE_ROUTINES

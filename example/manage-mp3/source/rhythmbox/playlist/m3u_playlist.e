@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2018-10-31 11:52:45 GMT (Wednesday 31st October 2018)"
+	revision: "5"
 
 class
 	M3U_PLAYLIST
@@ -114,13 +114,8 @@ feature {NONE} -- Constants
 			Result := "%S, %S -- %S"
 		end
 
-	Var_relative_path: ZSTRING
-		once
-			Result := "relative_path"
-		end
-	Var_song_info: ZSTRING
-		once
-			Result := "song_info"
-		end
+	Var_relative_path: STRING = "relative_path"
+
+	Var_song_info: STRING = "song_info"
 
 end

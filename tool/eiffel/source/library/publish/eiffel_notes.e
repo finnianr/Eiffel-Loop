@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-02 10:16:56 GMT (Tuesday 2nd October 2018)"
-	revision: "11"
+	date: "2018-10-31 12:10:35 GMT (Wednesday 31st October 2018)"
+	revision: "12"
 
 class
 	EIFFEL_NOTES
@@ -315,14 +315,8 @@ feature {NONE} -- Constants
 			Result := << "Summary description for",  "Objects that ..." >>
 		end
 
-	Var_element_list: ZSTRING
-		once
-			Result := "element_list"
-		end
+	Var_element_list: STRING = "element_list"
 
-	Var_title: ZSTRING
-		once
-			Result := "title"
-		end
+	Var_title: STRING = "title"
 
 end

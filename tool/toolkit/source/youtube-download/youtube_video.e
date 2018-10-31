@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:31:38 GMT (Wednesday 17th October 2018)"
-	revision: "3"
+	date: "2018-10-31 12:31:22 GMT (Wednesday 31st October 2018)"
+	revision: "4"
 
 class
 	YOUTUBE_VIDEO

@@ -1,34 +1,66 @@
 note
-	description: "Evolicity eiffel context with reflectively created `getter_function_table'"
+	description: "[
+		Evolicity Eiffel context with attribute field values available available by reflection
+	]"
+	notes: "[
+		Escaping of string field values is available by implemenation of `escaped_field'.
+		Rename to `unescaped_field' in descendant if escaping not required.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 12:45:31 GMT (Sunday 28th October 2018)"
-	revision: "1"
+	date: "2018-10-31 14:58:30 GMT (Wednesday 31st October 2018)"
+	revision: "2"
 
 deferred class
 	EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT
 
 inherit
 	EVOLICITY_EIFFEL_CONTEXT
+		redefine
+			context_item
+		end
 
-	EVOLICITY_REFLECTIVE_CONTEXT
+	EL_REFLECTIVE_I
 
-feature {NONE} -- Evolicity fields
+feature {NONE} -- Implementation
 
-	getter_function_table: like getter_functions
+	context_item (key: STRING; function_args: TUPLE): ANY
 		local
 			table: EL_REFLECTED_FIELD_TABLE; name: ZSTRING
 		do
-			table := meta_data_by_type.item (current_reflective).field_table
-			create Result.make_equal (table.count)
-			from table.start until table.after loop
-				name := table.key_for_iteration
-				Result [name] := agent get_field_value (table.item_for_iteration)
-				table.forth
+			table := field_table
+			if table.has_key (key) then
+				Result := table.found_item.reference_value (current_reflective)
+				if attached {READABLE_STRING_GENERAL} Result as general then
+					Result := escaped_field (general, table.found_item.type_id)
+				end
+			else
+				Result := Precursor (key, function_args)
 			end
 		end
+
+feature {NONE} -- Evolicity fields
+
+	empty_function_table: like getter_functions
+		do
+			create Result.make_equal (0)
+		end
+
+feature {NONE} -- Implementation
+
+	escaped_field (a_string: READABLE_STRING_GENERAL; type_id: INTEGER): READABLE_STRING_GENERAL
+		-- escaped value of each string field
+		-- rename to `unescaped_field' in descendant if escaping not required
+		deferred
+		end
+
+	unescaped_field (a_string: READABLE_STRING_GENERAL; type_id: INTEGER): READABLE_STRING_GENERAL
+		do
+			Result := a_string
+		end
+
 end

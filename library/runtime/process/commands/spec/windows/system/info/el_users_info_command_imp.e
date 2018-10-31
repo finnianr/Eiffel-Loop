@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2018-10-31 12:05:29 GMT (Wednesday 31st October 2018)"
+	revision: "7"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -56,9 +56,6 @@ feature {NONE} -- Constants
 			create Result.make_with_name ("net-user", "net user $name")
 		end
 
-	Var_name: ZSTRING
-		once
-			Result := "name"
-		end
+	Var_name: STRING = "name"
 
 end

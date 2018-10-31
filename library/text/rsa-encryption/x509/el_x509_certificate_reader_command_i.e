@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-18 15:41:25 GMT (Wednesday 18th April 2018)"
-	revision: "4"
+	date: "2018-10-31 12:06:39 GMT (Wednesday 31st October 2018)"
+	revision: "5"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -123,9 +123,6 @@ feature {NONE} -- Constants
 			Result := "Exponent:"
 		end
 
-	Var_name_path: ZSTRING
-		once
-			Result := "crt_file_path"
-		end
+	Var_name_path: STRING = "crt_file_path"
 
 end

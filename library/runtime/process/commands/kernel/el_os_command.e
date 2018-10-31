@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2018-10-31 11:40:57 GMT (Wednesday 31st October 2018)"
+	revision: "6"
 
 class
 	EL_OS_COMMAND
@@ -45,12 +45,12 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	put_directory_path (variable_name: ZSTRING; a_dir_path: EL_DIR_PATH)
+	put_directory_path (variable_name: STRING; a_dir_path: EL_DIR_PATH)
 		do
 			put_path (variable_name, a_dir_path)
 		end
 
-	put_file_path (variable_name: ZSTRING; a_file_path: EL_FILE_PATH)
+	put_file_path (variable_name: STRING; a_file_path: EL_FILE_PATH)
 		do
 			put_path (variable_name, a_file_path)
 		end
@@ -73,7 +73,7 @@ feature -- Element change
 			end
 		end
 
-	put_path (variable_name: ZSTRING; a_path: EL_PATH)
+	put_path (variable_name: STRING; a_path: EL_PATH)
 		do
 			getter_functions [variable_name] := agent escaped_path (a_path)
 		end

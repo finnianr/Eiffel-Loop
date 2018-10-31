@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2018-10-31 11:59:06 GMT (Wednesday 31st October 2018)"
+	revision: "5"
 
 deferred class
 	EL_WAV_GENERATION_COMMAND_I
@@ -92,10 +92,7 @@ feature -- Access
 
 feature {NONE} -- Evolicity reflection
 
-	var_name_path: ZSTRING
-		do
-			Result := "output_file_path"
-		end
+	var_name_path: STRING = "output_file_path"
 
 	getter_function_table: like getter_functions
 			--

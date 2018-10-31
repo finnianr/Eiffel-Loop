@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2018-10-31 11:56:17 GMT (Wednesday 31st October 2018)"
+	revision: "8"
 
 class
 	EL_UNIX_STREAM_SOCKET
@@ -106,14 +106,8 @@ feature {NONE} -- Constants
 			create Result.make ("chmod $permission $path")
 		end
 
-	Var_path: ZSTRING
-		once
-			Result := "path"
-		end
+	Var_path: STRING = "path"
 
-	Var_permission: ZSTRING
-		once
-			Result := "permission"
-		end
+	Var_permission: STRING = "permission"
 
 end

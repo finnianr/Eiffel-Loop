@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-10-31 11:58:48 GMT (Wednesday 31st October 2018)"
+	revision: "6"
 
 deferred class
 	EL_SINGLE_PATH_OPERAND_COMMAND_I
@@ -55,7 +55,7 @@ feature {NONE} -- Evolicity reflection
 			>>)
 		end
 
-	var_name_path: ZSTRING
+	var_name_path: STRING
 		do
 			Result := "path"
 		end

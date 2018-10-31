@@ -18,20 +18,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "18"
+	date: "2018-10-31 14:57:12 GMT (Wednesday 31st October 2018)"
+	revision: "19"
 
 deferred class
 	EL_REFLECTIVE
 
 inherit
+	EL_REFLECTIVE_I
+
 	EL_WORD_SEPARATION_ADAPTER
 		export
 			{NONE} all
 			{EL_REFLECTION_HANDLER} export_name, import_name
 		end
-
-	EL_REFLECTOR_CONSTANTS
 
 	EL_MODULE_EIFFEL
 

@@ -11,6 +11,7 @@ note
 			EL_SETTABLE_FROM_XML_NODE*
 				[$source RBOX_IGNORED_ENTRY]
 					[$source RBOX_SONG]
+				[$source EL_BOOK_INFO]
 	]"
 
 	author: "Finnian Reilly"
@@ -18,14 +19,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-27 9:31:59 GMT (Saturday 27th October 2018)"
-	revision: "8"
+	date: "2018-10-31 14:57:47 GMT (Wednesday 31st October 2018)"
+	revision: "9"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
 
 inherit
-	EL_REFLECTOR_CONSTANTS
+	EL_REFLECTIVE_I
 
 feature {NONE} -- Implementation
 
@@ -47,11 +48,10 @@ feature {NONE} -- Implementation
 		require
 			valid_node_type: Node_types.has (node_type)
 		local
-			meta_data: like meta_data_by_type.item; table: EL_REFLECTED_FIELD_TABLE
+			table: EL_REFLECTED_FIELD_TABLE
 			field_list: LIST [EL_REFLECTED_FIELD]; text_xpath: STRING_8
 		do
-			meta_data := meta_data_by_type.item (current_reflective)
-			table := meta_data.field_table
+			table := field_table
 			table.query_by_type (type)
 			field_list := table.last_query
 			create Result.make_equal (field_list.count)
@@ -73,14 +73,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Implementation
-
-	current_reflective: EL_REFLECTIVE
-		deferred
-		end
-
-	meta_data_by_type: EL_FUNCTION_RESULT_TABLE [EL_REFLECTIVE, EL_CLASS_META_DATA]
-		deferred
-		end
 
 	node: EL_XML_NODE
 		deferred

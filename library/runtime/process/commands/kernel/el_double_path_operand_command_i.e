@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-09 9:18:21 GMT (Sunday 9th September 2018)"
-	revision: "7"
+	date: "2018-10-31 12:01:54 GMT (Wednesday 31st October 2018)"
+	revision: "8"
 
 deferred class
 	EL_DOUBLE_PATH_OPERAND_COMMAND_I
@@ -53,14 +53,14 @@ feature -- Element change
 
 feature {NONE} -- Evolicity reflection
 
-	var_name_path: ZSTRING
+	var_name_path: STRING
 		do
-			Result := "source_path"
+			Result := once "source_path"
 		end
 
-	var_name_path_2: ZSTRING
+	var_name_path_2: STRING
 		do
-			Result := "destination_path"
+			Result := once "destination_path"
 		end
 
 	getter_function_table: like getter_functions

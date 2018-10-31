@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2018-10-30 11:38:21 GMT (Tuesday 30th October 2018)"
+	revision: "5"
 
 class
 	EVOLICITY_VARIABLE_REFERENCE
 
 inherit
-	EL_ZSTRING_LIST
+	EL_STRING_8_LIST
 		rename
 			item as step,
 			islast as is_last_step,
@@ -29,10 +29,10 @@ feature -- Access
 
 	out: STRING
 		do
-			Result := joined ('.').to_latin_1
+			Result := joined ('.')
 		end
 
-	arguments: ARRAY [ANY]
+	arguments: TUPLE
 			-- Arguments for eiffel context function with open arguments
 		do
 			Result := Empty_arguments
@@ -47,8 +47,8 @@ feature -- Status query
 
 feature {NONE} -- Constants
 
-	Empty_arguments: ARRAY [ANY]
+	Empty_arguments: TUPLE
 		once
-			create Result.make_empty
+			create Result
 		end
 end

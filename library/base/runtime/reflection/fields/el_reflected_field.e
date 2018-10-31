@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-19 9:42:42 GMT (Wednesday 19th September 2018)"
-	revision: "11"
+	date: "2018-10-31 10:48:11 GMT (Wednesday 31st October 2018)"
+	revision: "12"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -65,6 +65,10 @@ feature -- Access
 		-- generating type
 
 	value (a_object: EL_REFLECTIVE): ANY
+		deferred
+		end
+
+	reference_value (a_object: EL_REFLECTIVE): ANY
 		deferred
 		end
 

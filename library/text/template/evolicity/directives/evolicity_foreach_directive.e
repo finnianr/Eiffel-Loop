@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2018-10-30 16:57:06 GMT (Tuesday 30th October 2018)"
+	revision: "6"
 
 class
 	EVOLICITY_FOREACH_DIRECTIVE
@@ -64,7 +64,7 @@ feature {NONE} -- Implementation
 			loop_index: INTEGER_REF; i: INTEGER; l_cursor: ITERATION_CURSOR [ANY]
 			name_space: like outer_loop_variables
 		do
-			name_space := a_context.objects
+			name_space := a_context.object_table
 			if attached {ITERABLE [ANY]} a_context.referenced_item (traversable_container_variable_ref) as iterable then
 				save_outer_loop_variables (name_space)
 				create loop_index
@@ -130,7 +130,7 @@ feature {NONE} -- Implementation
 		require
 			empty_saved_objects_context: outer_loop_variables.is_empty
 		local
-			i: INTEGER; name: ZSTRING; names: like local_scope_variable_names
+			i: INTEGER; name: STRING; names: like local_scope_variable_names
 		do
 			names := local_scope_variable_names
 			from i := 1 until i > names.count loop
@@ -144,18 +144,18 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	iterator_var_name: ZSTRING
+	iterator_var_name: STRING
 
-	local_scope_variable_names: ARRAY [ZSTRING]
+	local_scope_variable_names: ARRAY [STRING]
 
-	outer_loop_variables: EVOLICITY_OBJECT_TABLE [ANY]
+	outer_loop_variables: HASH_TABLE [ANY, STRING]
 		-- Variables in outer loop that may have names clashing with this loop
 
 	traversable_container_variable_ref: EVOLICITY_VARIABLE_REFERENCE
 
 feature -- Constants
 
-	Loop_index_var_name: ZSTRING
+	Loop_index_var_name: STRING
 		once
 			Result := "loop_index"
 		end

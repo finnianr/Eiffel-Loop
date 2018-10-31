@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-08-19 18:59:05 GMT (Sunday 19th August 2018)"
-	revision: "1"
+	date: "2018-10-31 12:29:39 GMT (Wednesday 31st October 2018)"
+	revision: "2"
 
 class
 	YOUTUBE_VARIABLE_NAMES
@@ -19,40 +19,18 @@ feature {NONE} -- Constants
 			Result := "mp4"
 		end
 
-	Var_audio_path: ZSTRING
-		once
-			Result := "audio_path"
-		end
+	Var_audio_path: STRING = "audio_path"
 
-	Var_format: ZSTRING
-		once
-			Result := "format"
-		end
+	Var_format: STRING = "format"
 
-	Var_output_path: ZSTRING
-		once
-			Result := "output_path"
-		end
+	Var_output_path: STRING = "output_path"
 
-	Var_socket_path: ZSTRING
-		once
-			Result := "socket_path"
-		end
+	Var_socket_path: STRING = "socket_path"
 
-	Var_title: ZSTRING
-		once
-			Result := "title"
-		end
+	Var_title: STRING = "title"
 
-	Var_url: ZSTRING
-		once
-			Result := "url"
-		end
+	Var_url: STRING = "url"
 
-	Var_video_path: ZSTRING
-		once
-			Result := "video_path"
-		end
-
+	Var_video_path: STRING = "video_path"
 
 end

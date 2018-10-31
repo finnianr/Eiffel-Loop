@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-11 11:48:57 GMT (Tuesday 11th September 2018)"
-	revision: "1"
+	date: "2018-10-31 12:12:58 GMT (Wednesday 31st October 2018)"
+	revision: "2"
 
 class
 	FILE_INPUT_OUTPUT_OS_COMMAND
@@ -30,13 +30,7 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Var_input_path: ZSTRING
-		once
-			Result := "input_path"
-		end
+	Var_input_path: STRING = "input_path"
 
-	Var_output_path: ZSTRING
-		once
-			Result := "output_path"
-		end
+	Var_output_path: STRING = "output_path"
 end

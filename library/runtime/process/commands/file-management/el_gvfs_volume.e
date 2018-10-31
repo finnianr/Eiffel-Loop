@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:08:04 GMT (Thursday 10th May 2018)"
-	revision: "5"
+	date: "2018-10-31 12:04:41 GMT (Wednesday 31st October 2018)"
+	revision: "6"
 
 class
 	EL_GVFS_VOLUME
@@ -350,19 +350,10 @@ feature {NONE} -- Constants
 			Result := "*."
 		end
 
-	Var_destination_path: ZSTRING
-		once
-			Result := "destination_path"
-		end
+	Var_destination_path: STRING = "destination_path"
 
-	Var_source_path: ZSTRING
-		once
-			Result := "source_path"
-		end
+	Var_source_path: STRING = "source_path"
 
-	Var_uri: ZSTRING
-		once
-			Result := "uri"
-		end
+	Var_uri: STRING = "uri"
 
 end

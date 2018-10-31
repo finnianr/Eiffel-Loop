@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-10-31 12:02:48 GMT (Wednesday 31st October 2018)"
+	revision: "5"
 
 deferred class
 	EL_MAKE_DIRECTORY_COMMAND_I
@@ -23,9 +23,6 @@ inherit
 
 feature {NONE} -- Evolicity reflection
 
-	var_name_path: ZSTRING
-		do
-			Result := "directory_path"
-		end
+	Var_name_path: STRING = "directory_path"
 
 end

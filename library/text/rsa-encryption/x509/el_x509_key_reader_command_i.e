@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-01 10:25:15 GMT (Saturday 1st July 2017)"
-	revision: "2"
+	date: "2018-10-31 12:07:02 GMT (Wednesday 31st October 2018)"
+	revision: "3"
 
 deferred class
 	EL_X509_KEY_READER_COMMAND_I
@@ -76,8 +76,5 @@ feature {NONE} -- Constants
 
 	Var_pass_phrase: STRING = "OPENSSL_PP"
 
-	Var_name_path: ZSTRING
-		once
-			Result := "key_file_path"
-		end
+	Var_name_path: STRING = "key_file_path"
 end

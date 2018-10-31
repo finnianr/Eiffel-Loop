@@ -1,13 +1,13 @@
 note
-	description: "Pp button search results"
+	description: "Paypal button search results"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-10-31 11:57:05 GMT (Wednesday 31st October 2018)"
+	revision: "5"
 
 class
 	PP_BUTTON_SEARCH_RESULTS

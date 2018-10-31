@@ -3,7 +3,7 @@ note
 		A createable Evolicity context where you add variables in the following ways:
 		
 		* from a table of strings using `make_from_string_table'
-		* from a table of referenceable objects using `make_from_object_table'
+		* from a table of referenceable object_table using `make_from_object_table'
 		* Calling `put_variable' or `put_integer'
 	]"
 
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2018-10-30 17:21:33 GMT (Tuesday 30th October 2018)"
+	revision: "4"
 
 class
 	EVOLICITY_CONTEXT_IMP
@@ -29,29 +29,30 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			create objects
-			objects.compare_objects
+			create object_table
+			object_table.compare_objects
+		end
+
+
+	make_from_object_table (table: HASH_TABLE [ANY, STRING])
+			--
+		do
+			create object_table.make_equal (table.capacity)
+			object_table.merge (table)
 		end
 
 	make_from_string_table (table: HASH_TABLE [READABLE_STRING_GENERAL, STRING])
 
 		do
-			create objects.make_equal (table.capacity)
+			create object_table.make_equal (table.capacity)
 			from table.start until table.after loop
 				put_variable (table.item_for_iteration, table.key_for_iteration)
 				table.forth
 			end
 		end
 
-	make_from_object_table (object_table: like objects)
-			--
-		do
-			create objects.make_equal (object_table.capacity)
-			objects.merge (object_table)
-		end
+feature {NONE} -- Internal attributes
 
-feature -- Access
-
-	objects: EVOLICITY_OBJECT_TABLE [ANY]
+	object_table: EVOLICITY_OBJECT_TABLE [ANY]
 
 end

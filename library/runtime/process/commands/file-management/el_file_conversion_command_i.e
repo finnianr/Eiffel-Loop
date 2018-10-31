@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:01 GMT (Thursday 12th October 2017)"
-	revision: "3"
+	date: "2018-10-31 12:00:39 GMT (Wednesday 31st October 2018)"
+	revision: "4"
 
 deferred class
 	EL_FILE_CONVERSION_COMMAND_I
@@ -62,14 +62,14 @@ feature -- Contract Support
 
 feature {NONE} -- Evolicity reflection
 
-	var_name_path: ZSTRING
+	var_name_path: STRING
 		do
-			Result := "input_file_path"
+			Result := once "input_file_path"
 		end
 
-	var_name_path_2: ZSTRING
+	var_name_path_2: STRING
 		do
-			Result := "output_file_path"
+			Result := once "output_file_path"
 		end
 
 end

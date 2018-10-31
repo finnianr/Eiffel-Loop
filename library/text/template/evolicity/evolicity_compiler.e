@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2018-10-30 10:33:49 GMT (Tuesday 30th October 2018)"
+	revision: "7"
 
 class
 	EVOLICITY_COMPILER
@@ -631,31 +631,32 @@ feature {NONE} -- Actions
 
 feature {NONE} -- Implementation
 
-	function_arguments (position: INTEGER; tokens_matched: EL_STRING_VIEW): ARRAY [ANY]
+	function_arguments (position: INTEGER; tokens_matched: EL_STRING_VIEW): TUPLE
 		require
 			start_position_is_left_bracket: tokens_matched.code (position) = Left_bracket
 		local
 			i: INTEGER; i_th_token: NATURAL_32; string_argument: ZSTRING
-			l_result: ARRAYED_LIST [ANY]
+			buffer: like Argument_buffer
 		do
-			create l_result.make (2)
+			buffer := Argument_buffer
+			buffer.wipe_out
 			from i := position + 1 until i > tokens_matched.count loop
 				i_th_token := tokens_matched.code (i)
 				if i_th_token = Quoted_string then
 					string_argument := source_text_for_token (i, tokens_matched)
 					string_argument.remove_quotes
-					l_result.extend (string_argument)
+					buffer.extend (string_argument)
 
 				elseif i_th_token = Double_constant_token then
-					l_result.extend (source_text_for_token (i, tokens_matched).to_double)
+					buffer.extend (source_text_for_token (i, tokens_matched).to_double)
 
 				elseif i_th_token = Integer_64_constant_token then
-					l_result.extend (source_text_for_token (i, tokens_matched).to_integer_64)
+					buffer.extend (source_text_for_token (i, tokens_matched).to_integer_64)
 
 				end
 				i := i + 1
 			end
-			Result := l_result.to_array
+			Result := buffer.to_tuple
 		end
 
 	read_tokens_text (compiled_source_path: like source_file_path)
@@ -782,6 +783,11 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
+	Argument_buffer: EL_ARRAYED_LIST [ANY]
+		once
+			create Result.make (3)
+		end
+
 	Spaces_per_tab: INTEGER = 4
 
-end -- class EVOLICITY_PARSER
+end

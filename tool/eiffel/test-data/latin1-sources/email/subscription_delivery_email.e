@@ -67,9 +67,9 @@ feature {NONE} -- Evolicity fields
 			create Result.make (<<
 				["subject_utf8_base64", 	agent: STRING do Result := Base_64.encoded (subject.to_utf8) end],
 
-				["address", 					agent: ASTRING do Result := pack.customer.email end],
-				["customer_name", 			agent: ASTRING do Result := pack.customer.name end],
-				["attachment_file_name", 	agent: ASTRING do Result := content.attachment_file_name end],
+				["address", 					agent: ZSTRING do Result := pack.customer.email end],
+				["customer_name", 			agent: ZSTRING do Result := pack.customer.name end],
+				["attachment_file_name", 	agent: ZSTRING do Result := content.attachment_file_name end],
 
 				["content", 					agent: like content do Result := content end],
 				["pack", 						agent: like pack do Result := pack end]
@@ -78,7 +78,7 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Implementation
 
-	subject: ASTRING
+	subject: ZSTRING
 		do
 			Result := Locale.in (pack.language) * "{subscription-email-subject}"
 		end
@@ -157,12 +157,12 @@ feature {NONE} -- Constants
 --			String.adjust_verbatim (Result)
 		end
 
-	Var_address: ASTRING
+	Var_address: ZSTRING
 		once
 			Result := "address"
 		end
 
-	Var_email_path: ASTRING
+	Var_email_path: ZSTRING
 		once
 			Result := "email_path"
 		end

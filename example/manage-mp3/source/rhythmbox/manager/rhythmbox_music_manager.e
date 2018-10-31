@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "9"
+	date: "2018-10-29 12:39:17 GMT (Monday 29th October 2018)"
+	revision: "10"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER

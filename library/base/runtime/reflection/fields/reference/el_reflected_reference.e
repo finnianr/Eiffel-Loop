@@ -7,14 +7,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:34:55 GMT (Wednesday 17th October 2018)"
-	revision: "9"
+	date: "2018-10-31 10:48:29 GMT (Wednesday 31st October 2018)"
+	revision: "10"
 
 class
 	EL_REFLECTED_REFERENCE [G]
 
 inherit
 	EL_REFLECTED_FIELD
+		rename
+			reference_value as value
 		redefine
 			make, initialize, value, is_initialized
 		end

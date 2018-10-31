@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-10-29 16:48:22 GMT (Monday 29th October 2018)"
+	revision: "7"
 
 class
 	VCF_CONTACT_SPLITTER
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_LOG
 	EL_MODULE_FILE_SYSTEM
-	EL_MODULE_ZSTRING
+	EL_MODULE_TUPLE
 
 create
 	make
@@ -113,7 +113,7 @@ feature {NONE} -- Constants
 	Field: TUPLE [end_, begin, n, x_irmc_luid: ZSTRING]
 		once
 			create Result
-			Zstring.fill_tuple (Result, "END:, BEGIN:, N:, X-IRMC-LUID:")
+			Tuple.fill (Result, "END:, BEGIN:, N:, X-IRMC-LUID:")
 		end
 
 	Name_template: ZSTRING

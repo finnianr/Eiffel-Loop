@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-27 9:34:56 GMT (Saturday 27th October 2018)"
-	revision: "2"
+	date: "2018-10-29 9:45:01 GMT (Monday 29th October 2018)"
+	revision: "3"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT

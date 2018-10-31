@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:28:11 GMT (Wednesday 17th October 2018)"
-	revision: "9"
+	date: "2018-10-29 12:37:24 GMT (Monday 29th October 2018)"
+	revision: "10"
 
 class
 	EL_COMMA_SEPARATED_LINE_PARSER

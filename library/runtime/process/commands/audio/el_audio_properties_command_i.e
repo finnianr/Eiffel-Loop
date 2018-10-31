@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-10-31 11:59:19 GMT (Wednesday 31st October 2018)"
+	revision: "5"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I
@@ -122,10 +122,7 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Constants
 
-	Var_name_path: ZSTRING
-		once
-			Result := "file_path"
-		end
+	Var_name_path: STRING = "file_path"
 
 	Audio_tag: ZSTRING
 		once

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 17:26:05 GMT (Sunday 28th October 2018)"
-	revision: "2"
+	date: "2018-10-29 13:18:09 GMT (Monday 29th October 2018)"
+	revision: "3"
 
 deferred class
 	EL_SERIALIZEABLE_BOOK_INDEXING

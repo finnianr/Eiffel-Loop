@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2018-10-31 11:20:01 GMT (Wednesday 31st October 2018)"
+	revision: "8"
 
 class
 	EL_XML_ESCAPING_CONSTANTS

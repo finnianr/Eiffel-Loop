@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-07-01 10:49:26 GMT (Saturday 1st July 2017)"
-	revision: "2"
+	date: "2018-10-31 12:03:02 GMT (Wednesday 31st October 2018)"
+	revision: "3"
 
 deferred class
 	EL_DIRECTORY_INFO_COMMAND_I
@@ -47,10 +47,7 @@ feature -- Access
 
 feature {NONE} -- Evolicity reflection
 
-	Var_name_path: ZSTRING
-		once
-			Result := "target_path"
-		end
+	Var_name_path: STRING = "target_path"
 
 feature {NONE} -- Implementation
 

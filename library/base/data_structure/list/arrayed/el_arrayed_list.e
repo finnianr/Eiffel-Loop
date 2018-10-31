@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-27 15:00:11 GMT (Sunday 27th May 2018)"
-	revision: "13"
+	date: "2018-10-30 10:32:38 GMT (Tuesday 30th October 2018)"
+	revision: "14"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -80,6 +80,29 @@ feature -- Access
 	sub_list (start_index, end_index: INTEGER): like Current
 		do
 			create Result.make_from_sub_list (Current, start_index, end_index)
+		end
+
+	to_tuple: TUPLE
+		require
+			maximum_4_args: count <= 5
+		local
+			l_area: like area
+		do
+			l_area := area
+			inspect count
+				when 1 then
+					Result := [l_area [0]]
+				when 2 then
+					Result := [l_area [0], l_area [1]]
+				when 3 then
+					Result := [l_area [0], l_area [1], l_area [2]]
+				when 4 then
+					Result := [l_area [0], l_area [1], l_area [2], l_area [3]]
+				when 5 then
+					Result := [l_area [0], l_area [1], l_area [2], l_area [3], l_area [4]]
+			else
+				create Result
+			end
 		end
 
 feature -- Removal

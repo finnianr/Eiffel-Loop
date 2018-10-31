@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-23 8:46:04 GMT (Saturday 23rd June 2018)"
-	revision: "32"
+	date: "2018-10-30 10:10:56 GMT (Tuesday 30th October 2018)"
+	revision: "33"
 
 class EXPERIMENTS_APP
 
@@ -54,10 +54,11 @@ feature -- Basic operations
 
 	run
 		do
-			lio.enter ("print_os_user_list")
-			print_os_user_list
+			lio.enter ("abstract_increment")
+			abstract_increment
 			lio.exit
 		end
+
 
 feature -- Experiments
 
