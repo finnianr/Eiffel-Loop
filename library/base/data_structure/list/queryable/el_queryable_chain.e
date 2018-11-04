@@ -36,20 +36,6 @@ feature -- Access
 			-- songs matching criteria
 			-- Cannot be made queryable as it would create an infinite loop on creation
 
-	query (condition: EL_QUERY_CONDITION [G]): EL_QUERYABLE_ARRAYED_LIST [G]
-			-- songs matching criteria
-		do
-			push_cursor
-			create Result.make (count // 3)
-			from start until after loop
-				if condition.include (item) then
-					Result.extend (item)
-				end
-				forth
-			end
-			pop_cursor
-		end
-
 feature -- Element change
 
 	do_query (condition: EL_QUERY_CONDITION [G])

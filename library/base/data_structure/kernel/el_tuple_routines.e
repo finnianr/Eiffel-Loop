@@ -15,6 +15,8 @@ class
 inherit
 	EL_REFLECTOR_CONSTANTS
 
+	EL_MODULE_EIFFEL
+
 feature -- Basic operations
 
 	fill (tuple: TUPLE; csv_list: STRING_GENERAL)
@@ -28,19 +30,23 @@ feature -- Basic operations
 		-- items are left adjusted if `left_adjusted' is True
 		local
 			list: LIST [STRING_GENERAL]; general: STRING_GENERAL
-			found: BOOLEAN; l_tuple_type: TYPE [TUPLE]; type_id: INTEGER
+			found, is_path_field: BOOLEAN; l_tuple_type: TYPE [TUPLE]; type_id: INTEGER
 		do
 			l_tuple_type := tuple.generating_type
 			list := csv_list.split (',')
 			from list.start until list.index > tuple.count or list.after loop
 				type_id := l_tuple_type.generic_parameter_type (list.index).type_id
-				found := True
+				found := True; is_path_field := False
+
 				if type_id = String_z_type then
 					general := create {ZSTRING}.make_from_general (list.item)
 				elseif type_id = String_8_type then
 					general := list.item.to_string_8
 				elseif type_id = String_32_type then
 					general := list.item.to_string_32
+				elseif Eiffel.field_conforms_to (type_id, Path_type) then
+					general := list.item
+					is_path_field := True
 				else
 					found := False
 				end
@@ -48,7 +54,17 @@ feature -- Basic operations
 					if left_adjusted then
 						general.left_adjust
 					end
-					tuple.put_reference (general, list.index)
+					if is_path_field then
+						if type_id = File_path_type then
+							tuple.put_reference (create {EL_FILE_PATH}.make_from_general (general), list.index)
+						elseif type_id = Dir_path_type then
+							tuple.put_reference (create {EL_DIR_PATH}.make_from_general (general), list.index)
+						else
+							check invalid_path_type: False end
+						end
+					else
+						tuple.put_reference (general, list.index)
+					end
 				end
 				list.forth
 			end

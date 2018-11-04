@@ -527,7 +527,7 @@ feature -- Removal
 		do
 			from songs.start; entries.start until songs.after loop
 				song := songs.item
-				if condition.include (song) then
+				if condition.met (song) then
 					songs_by_location.remove (song.mp3_path)
 					songs_by_audio_id.remove (song.audio_id)
 					OS.delete_file (song.mp3_path)
@@ -580,10 +580,10 @@ feature {RHYTHMBOX_MUSIC_MANAGER} -- Tag editing
 		local
 			picture: EL_ID3_ALBUM_PICTURE
 		do
-			if song_has_artist_picture (pictures).include (song) and then not id3_info.has_album_picture then
+			if song_has_artist_picture (pictures).met (song) and then not id3_info.has_album_picture then
 				picture := pictures [song.artist]
 
-			elseif song_has_album_picture (pictures).include (song) and then song.album /~ Unknown then
+			elseif song_has_album_picture (pictures).met (song) and then song.album /~ Unknown then
 				picture := pictures [song.album]
 
 			else

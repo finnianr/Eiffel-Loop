@@ -24,7 +24,7 @@ inherit
 		undefine
 			index_of, occurrences, do_all, do_if, for_all, search, copy,
 			force, append_sequence, prune, prune_all, remove, swap, new_cursor,
-			pop_cursor, push_cursor,
+			pop_cursor, push_cursor, to_array,
 			-- item access
 			i_th, at, last, first,
 			-- Status query

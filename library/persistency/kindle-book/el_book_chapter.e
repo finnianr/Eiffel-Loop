@@ -38,6 +38,7 @@ feature {NONE} -- Initialization
 		local
 			h_tag: like XML.tag; base_name: ZSTRING
 		do
+			create image_list.make (5)
 			create section_table.make_equal (5)
 			title := a_title; number := a_number; text := a_text
 
@@ -59,6 +60,7 @@ feature {NONE} -- Initialization
 
 			h_tag := XML.tag ("h2")
 			text.edit (h_tag.open, h_tag.closed, agent edit_heading_2)
+			text.edit (Src_attribute, character_string ('"'), agent on_src_attribute)
 		end
 
 feature -- Access
@@ -68,6 +70,8 @@ feature -- Access
 	text: ZSTRING
 
 	title: ZSTRING
+
+	image_list: EL_ARRAYED_LIST [EL_FILE_PATH]
 
 feature -- Status query
 
@@ -81,12 +85,34 @@ feature {NONE} -- Implementation
  		do
 			key := Template.section_key #$ [number, section_table.count + 1]
 			h2_text := substring.substring (start_index, end_index)
+			on_heading_2 (key, h2_text)
+
 			h2_text.prepend_character (' ')
 			h2_text.prepend (key)
 			substring.replace_substring (h2_text, start_index, end_index)
 			section_table.extend (h2_text, key)
 
  			substring.insert_string (Anchor_template #$ [Section_prefix + key], 1)
+ 		end
+
+ 	on_heading_2 (section_key, h2_text: ZSTRING)
+ 		-- used for redefining href links within document to use template
+ 		-- "chapter-%S.html%%#sect_%S"
+ 		do
+ 		end
+
+ 	on_src_attribute (start_index, end_index: INTEGER; substring: ZSTRING)
+ 		local
+ 			image_path: EL_FILE_PATH
+ 		do
+ 			image_path := new_image_path (substring.substring (start_index, end_index))
+			substring.replace_substring (image_path.to_string, start_index, end_index)
+ 			image_list.extend (image_path)
+ 		end
+
+ 	new_image_path (src_text: ZSTRING): ZSTRING
+ 		do
+ 			Result := src_text
  		end
 
 feature {NONE} -- Evolicity fields
@@ -129,6 +155,11 @@ feature {NONE} -- Constants
 			Result.section_key := "%S.%S"
 		end
 
+	Src_attribute: ZSTRING
+		once
+			Result := "src=%""
+		end
+
 	Section_prefix: ZSTRING
 		once
 			Result := "sect_"
@@ -142,6 +173,7 @@ feature {NONE} -- Constants
 				<head>
 					<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 					<title>$title</title>
+					<link rel="stylesheet" href="style.css" type="text/css"/>
 				</head>
 				<html>
 				    <body>

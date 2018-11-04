@@ -1,5 +1,5 @@
 note
-	description: "Basic interface to reflective object useful in paralell inheritance"
+	description: "Basic interface to reflective object useful in parallel inheritance"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

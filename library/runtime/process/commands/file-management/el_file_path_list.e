@@ -27,7 +27,7 @@ inherit
 		end
 
 create
-	make, make_empty, make_with_count, make_from_array
+	make, make_empty, make_with_count, make_from_array, make_from_tuple
 
 feature {NONE} -- Initialization
 
@@ -36,6 +36,26 @@ feature {NONE} -- Initialization
 		do
 			make_empty
 			append_files (a_dir_path, wildcard)
+		end
+
+	make_from_tuple (tuple: TUPLE)
+		local
+			i: INTEGER
+		do
+			make_with_count (tuple.count)
+			from i := 1 until i > tuple.count loop
+				if tuple.is_reference_item (i) then
+					if attached {EL_FILE_PATH} tuple.reference_item (i) as file_path then
+						extend (file_path)
+
+					elseif attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as general then
+						extend (create {EL_FILE_PATH}.make_from_general (general))
+					end
+				else
+					check invalid_tuple_type: False end
+				end
+				i := i + 1
+			end
 		end
 
 feature -- Element change

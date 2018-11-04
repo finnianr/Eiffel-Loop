@@ -27,9 +27,10 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	include (item: G): BOOLEAN
+	met (item: G): BOOLEAN
+		-- True if `condition' is not met for `item'
 		do
-			Result := not condition.include (item)
+			Result := not condition.met (item)
 		end
 
 feature {NONE} -- Implementation

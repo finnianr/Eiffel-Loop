@@ -30,33 +30,29 @@ feature {NONE} -- Initialization
 			Precursor (a_book)
 			create manifest_list.make (50)
 			create spine_list.make (20)
-			across Tuple.to_zstring_list (File_name) as name loop
+
+			across create {EL_FILE_PATH_LIST}.make_from_tuple (path) as name loop
 				manifest_list.extend (new_item (name.item))
 			end
 			across a_book.chapter_list as chapter loop
 				manifest_list.extend (new_item (chapter.item.output_path.base))
 				spine_list.extend (manifest_list.last)
 			end
-			if images_dir.exists then
-				across File_system.recursive_files_with_extension (images_dir, "png") as image loop
-					manifest_list.extend (new_item (image.item.relative_path (a_book.output_dir)))
-				end
-			else
-				lio.put_labeled_string ("No images directory", images_dir.to_string)
-				lio.put_new_line
+			across a_book.image_path_set.to_array as image_path loop
+				manifest_list.extend (new_item (image_path.item))
 			end
 		ensure then
-			valid_manifest: manifest_list.count >= 2
-				and then manifest_list.i_th (1).href_path.base ~ File_name.cover
-				and then manifest_list.i_th (2).href_path.base ~ File_name.ncx
-				and then manifest_list.i_th (3).href_path.base ~ File_name.book_toc
+			valid_manifest: manifest_list.count >= 3
+				and then manifest_list.i_th (1).href_path ~ path.cover
+				and then manifest_list.i_th (2).href_path ~ path.ncx
+				and then manifest_list.i_th (3).href_path ~ path.book_toc
 		end
 
 feature {NONE} -- Implementation
 
-	images_dir: EL_DIR_PATH
+	image_dir: EL_DIR_PATH
 		do
-			Result := book.output_dir.joined_dir_path ("images")
+			Result := book.output_dir.joined_dir_path ("image")
 		end
 
 	new_file_name: ZSTRING
@@ -68,9 +64,9 @@ feature {NONE} -- Implementation
 
 	spine_list: like manifest_list
 
-	new_item (path: EL_FILE_PATH): EL_OPF_MANIFEST_ITEM
+	new_item (a_path: EL_FILE_PATH): EL_OPF_MANIFEST_ITEM
 		do
-			create Result.make (path, manifest_list.count + 1)
+			create Result.make (a_path, manifest_list.count + 1)
 		end
 
 feature {NONE} -- Evolicity

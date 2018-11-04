@@ -17,7 +17,8 @@ inherit
 
 feature -- Access
 
-	include (item: G): BOOLEAN
+	met (item: G): BOOLEAN
+		-- True for any `item'
 		do
 			Result := True
 		end

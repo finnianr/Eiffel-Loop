@@ -14,7 +14,8 @@ deferred class
 
 feature -- Access
 
-	include (item: G): BOOLEAN
+	met (item: G): BOOLEAN
+		-- True if condition is met for `item`
 		deferred
 		end
 

@@ -44,12 +44,13 @@ feature {NONE} -- Implementation
 		require
 			function_result_same_type: not off implies value.same_type (value_function.item ([item]))
 		local
-			match_found: BOOLEAN; item_arg: TUPLE [G]
+			match_found: BOOLEAN; operands: TUPLE [G]
 		do
-			create item_arg
+			create operands
+			value_function.set_operands (operands)
 			from until match_found or after loop
-				item_arg.put (item, 1)
-				if value ~ value_function.item (item_arg) then
+				operands.put (item, 1); value_function.apply
+				if value ~ value_function.last_result then
 					match_found := True
 				else
 					forth

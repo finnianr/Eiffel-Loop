@@ -44,12 +44,14 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	include (item: RBOX_SONG): BOOLEAN
+	selected_playlists: EL_ARRAYED_LIST [RBOX_PLAYLIST]
+
+feature -- Status query
+
+	met (item: RBOX_SONG): BOOLEAN
 		do
 			Result := hash_set.has (item)
 		end
-
-	selected_playlists: EL_ARRAYED_LIST [RBOX_PLAYLIST]
 
 feature {NONE} -- Implementation
 

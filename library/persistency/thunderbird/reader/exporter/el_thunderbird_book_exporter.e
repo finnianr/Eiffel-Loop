@@ -41,13 +41,10 @@ feature -- Access
 feature -- Basic operations
 
 	export_mails (mails_path: EL_FILE_PATH)
-		local
-			assembly: EL_BOOK_ASSEMBLY
 		do
 			Precursor (mails_path)
 			if across chapter_list as chapter some chapter.item.is_modified end then
-				create assembly.make (config.book, chapter_list, output_dir)
-				assembly.write_files
+				on_chapter_modified
 			else
 				lio.put_labeled_string ("No modifications", output_file_path)
 				lio.put_new_line
@@ -55,6 +52,19 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	on_chapter_modified
+		local
+			assembly: EL_BOOK_ASSEMBLY
+		do
+			across chapter_list as chapter loop
+				if chapter.item.is_modified then
+					chapter.item.serialize
+				end
+			end
+			create assembly.make (config.book, chapter_list, output_dir)
+			assembly.write_files
+		end
 
 	on_email_collected
 		local
@@ -73,9 +83,6 @@ feature {NONE} -- Implementation
 			create chapter.make (title, number, last_header.date, html_lines.joined_lines, output_dir)
 
 			edit (chapter.text)
-			if chapter.is_modified then
-				chapter.serialize
-			end
 			chapter_list.extend (chapter)
 		end
 

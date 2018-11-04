@@ -20,7 +20,7 @@ inherit
 		export
 			{NONE} array_subchain
 		undefine
-			is_equal, copy, prune_all, readable, prune, new_cursor,
+			is_equal, copy, prune_all, readable, prune, new_cursor, to_array,
 			first, last, i_th, at,
 			start, finish, move, go_i_th, remove, find_next_function_value,
 			is_inserted, has, there_exists, isfirst, islast, off, valid_index,

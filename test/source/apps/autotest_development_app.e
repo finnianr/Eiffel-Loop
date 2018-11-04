@@ -32,7 +32,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent string_editor.test_edit)
+			do_file_data_test (agent widget.test_mapping)
 		end
 
 feature -- Test sets
@@ -158,6 +158,11 @@ feature -- Test sets
 		end
 
 	uri_encoding: URI_ENCODING_TEST_SET
+		do
+			create Result
+		end
+
+	widget: WIDGET_TEST_SET
 		do
 			create Result
 		end

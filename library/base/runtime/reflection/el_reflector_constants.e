@@ -30,6 +30,16 @@ feature {EL_REFLECTION_HANDLER} -- Constants
 			Result := ({EL_DATE_TIME}).type_id
 		end
 
+	frozen Dir_path_type: INTEGER_32
+		once
+			Result := ({EL_FILE_PATH}).type_id
+		end
+
+	frozen File_path_type: INTEGER_32
+		once
+			Result := ({EL_FILE_PATH}).type_id
+		end
+
 	frozen Path_type: INTEGER_32
 		once
 			Result := ({EL_PATH}).type_id

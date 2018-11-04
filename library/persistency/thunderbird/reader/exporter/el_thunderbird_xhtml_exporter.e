@@ -258,7 +258,7 @@ feature {NONE} -- Constants
 
 	Surplus_hyperlink_attributes: ARRAYED_LIST [ZSTRING]
 		once
-			create Result.make_from_array (<< Surplus_image_attributes.first >>)
+			create Result.make_from_array (<< Surplus_image_attributes [1], "class" >>)
 		end
 
 	Text_tags: ARRAYED_LIST [TUPLE [open, close: ZSTRING]]

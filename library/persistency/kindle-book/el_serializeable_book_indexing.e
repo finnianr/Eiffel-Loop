@@ -27,8 +27,11 @@ feature {NONE} -- Initialization
 
 	make (a_book: like book)
 		do
+			path := Default_path; book := a_book
+			if not a_book.info.cover_image_path.is_empty then
+				path.cover := a_book.info.cover_image_path
+			end
 			make_from_file (a_book.output_dir + new_file_name)
-			book := a_book
 		end
 
 feature {NONE} -- Implementation
@@ -52,11 +55,13 @@ feature {NONE} -- Internal attributes
 
 	book: EL_BOOK_ASSEMBLY
 
+	path: like Default_path
+
 feature {NONE} -- Constants
 
-	File_name: TUPLE [cover, ncx, book_toc: ZSTRING]
+	Default_path: TUPLE [cover, ncx, book_toc: EL_FILE_PATH]
 		once
 			create Result
-			Tuple.fill (Result, "cover.png, book-navigation.ncx, book-toc.html")
+			Tuple.fill (Result, "image/cover.png, book-navigation.ncx, book-toc.html")
 		end
 end

@@ -156,8 +156,14 @@ feature -- Basic operations
 
 feature -- Status report
 
+	is_finalized_executable: BOOLEAN
+			-- True if application is a finalized executable
+		do
+			Result := not is_work_bench_mode
+		end
+
 	is_work_bench_mode: BOOLEAN
-			-- Is application called from within EiffelStudio
+			-- True if application is called from within EiffelStudio
 		do
 			Result := executable_path.parent.base ~ W_code
 		end

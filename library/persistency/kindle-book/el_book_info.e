@@ -56,6 +56,9 @@ feature -- Access
 
 	language: STRING
 
+	cover_image_path: EL_FILE_PATH
+		-- relative path of cover image
+
 	publication_date: STRING
 
 	publisher: ZSTRING

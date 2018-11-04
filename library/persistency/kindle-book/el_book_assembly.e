@@ -21,6 +21,11 @@ inherit
 			make as make_with_count
 		end
 
+	EL_MODULE_EXECUTION_ENVIRONMENT
+		undefine
+			is_equal, copy
+		end
+
 create
 	make
 
@@ -36,25 +41,55 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	image_path_set: EL_HASH_SET [EL_FILE_PATH]
+		local
+			list: like chapter_list
+		do
+			list := chapter_list
+			create Result.make_equal (list.sum_integer_32 (agent image_list_count))
+			across list as chapter loop
+				across chapter.item.image_list as path loop
+					Result.put (path.item)
+				end
+			end
+		end
+
 	info: EL_BOOK_INFO
 
 	output_dir: EL_DIR_PATH
 
-feature {NONE} -- Implementation
-
-	parts: ARRAY [EL_SERIALIZEABLE_BOOK_INDEXING]
-		do
-			Result := <<
-				create {EL_BOOK_NAVIGATION_CONTROL_FILE}.make (Current),
-				create {EL_BOOK_HTML_CONTENTS_TABLE}.make (Current),
-				create {EL_BOOK_PACKAGE}.make (Current)
-			>>
-		end
-
 feature -- Basic operations
 
 	write_files
+		local
+			parts: ARRAY [EL_SERIALIZEABLE_BOOK_INDEXING]
+			package: EL_BOOK_PACKAGE
 		do
+			create package.make (Current)
+			parts := <<
+				create {EL_BOOK_NAVIGATION_CONTROL_FILE}.make (Current),
+				create {EL_BOOK_HTML_CONTENTS_TABLE}.make (Current),
+				package
+			>>
 			parts.do_all (agent {EL_SERIALIZEABLE_BOOK_INDEXING}.serialize)
+			if Execution_environment.is_finalized_executable then
+				Kindlegen.set_working_directory (output_dir)
+				Kindlegen.put_string ("name", package.output_path.base)
+				Kindlegen.execute
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	image_list_count (chapter: EL_BOOK_CHAPTER): INTEGER
+		do
+			Result := chapter.image_list.count
+		end
+
+feature {NONE} -- Constants
+
+	Kindlegen: EL_OS_COMMAND
+		once
+			create Result.make ("kindlegen $name")
 		end
 end

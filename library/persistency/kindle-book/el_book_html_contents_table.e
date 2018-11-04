@@ -22,7 +22,7 @@ feature {NONE} -- Implementation
 
 	new_file_name: ZSTRING
 		do
-			Result := File_name.book_toc
+			Result := path.book_toc
 		end
 
 feature {NONE} -- Constants

@@ -27,9 +27,10 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	include (item: G): BOOLEAN
+	met (item: G): BOOLEAN
+		-- True if both `left' and `right' condition is met `item'
 		do
-			Result := left.include (item) and then right.include (item)
+			Result := left.met (item) and then right.met (item)
 		end
 
 feature {NONE} -- Implementation

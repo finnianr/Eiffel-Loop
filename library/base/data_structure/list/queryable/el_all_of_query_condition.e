@@ -27,12 +27,10 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	include (item: G): BOOLEAN
+	met (item: G): BOOLEAN
+		-- True if `item' meets all of the `conditions'
 		do
-			Result := True
-			across conditions as condition until not Result loop
-				Result := Result and condition.item.include (item)
-			end
+			Result := across conditions as condition all condition.item.met (item) end
 		end
 
 feature {NONE} -- Implementation

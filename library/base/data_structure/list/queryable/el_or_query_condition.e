@@ -15,7 +15,7 @@ class
 inherit
 	EL_AND_QUERY_CONDITION [G]
 		redefine
-			include
+			met
 		end
 
 create
@@ -23,8 +23,9 @@ create
 
 feature -- Access
 
-	include (item: G): BOOLEAN
+	met (item: G): BOOLEAN
+		-- True if either `left' or `right' condition is met for `item'
 		do
-			Result := left.include (item) or else right.include (item)
+			Result := left.met (item) or else right.met (item)
 		end
 end

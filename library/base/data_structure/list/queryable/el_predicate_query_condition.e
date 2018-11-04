@@ -18,25 +18,35 @@ inherit
 create
 	make
 
+convert
+	make ({PREDICATE [G]})
+
 feature {NONE} -- Initialization
 
 	make (a_predicate: like predicate)
 		do
 			create operands
 			predicate := a_predicate
-			predicate.set_operands (operands)
 		end
 
 feature -- Access
 
-	include (item: G): BOOLEAN
+	met (item: G): BOOLEAN
+		-- True if `predicate' applied to `item' is true
 		do
-			operands.put_reference (item, 1)
+			if operands_set then
+				operands.put_reference (item, 1)
+			else
+				operands := [item]
+				predicate.set_operands (operands)
+			end
 			predicate.apply
 			Result := predicate.last_result
 		end
 
 feature {NONE} -- Implementation
+
+	operands_set: BOOLEAN
 
 	operands: TUPLE [G]
 

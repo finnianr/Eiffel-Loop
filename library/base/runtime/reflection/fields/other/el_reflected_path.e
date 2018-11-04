@@ -17,7 +17,7 @@ inherit
 		rename
 			default_value as default_path
 		redefine
-			reset, set_from_string, Default_objects, to_string
+			reset, set_from_readable, set_from_string, Default_objects, to_string, write
 		end
 
 	EL_ZSTRING_ROUTINES
@@ -48,10 +48,24 @@ feature -- Basic operations
 			end
 		end
 
+	set_from_readable (a_object: EL_REFLECTIVE; a_value: EL_READABLE)
+		do
+			if attached {EL_PATH} value (a_object) as path then
+				path.make (a_value.read_string)
+			end
+		end
+
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
 			if attached {EL_PATH} value (a_object) as path then
 				path.make (as_zstring (string))
+			end
+		end
+
+	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
+		do
+			if attached {EL_PATH} value (a_object) as path then
+				writeable.write_string (path.to_string)
 			end
 		end
 

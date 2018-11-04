@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 
 	new_file_name: ZSTRING
 		do
-			Result := File_name.ncx
+			Result := path.ncx
 		end
 
 feature {NONE} -- Internal attributes
