@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-02 13:45:08 GMT (Saturday 2nd June 2018)"
-	revision: "10"
+	date: "2018-11-05 15:58:48 GMT (Monday 5th November 2018)"
+	revision: "11"
 
 deferred class EL_CHAIN [G]
 
@@ -20,9 +20,16 @@ inherit
 	EL_LINEAR [G]
 		undefine
 			search, has, index_of, occurrences, off
+		redefine
+			find_first_equal
 		end
 
 feature -- Access
+
+	query_if (condition: EL_PREDICATE_QUERY_CONDITION [G]): like query
+		do
+			Result := query (condition)
+		end
 
 	count_meeting (condition: EL_QUERY_CONDITION [G]): INTEGER
 		-- count of items meeting `condition'
@@ -42,35 +49,34 @@ feature -- Access
 			Result := count_meeting (condition)
 		end
 
-	index_for_value (value: ANY; value_function: FUNCTION [G, ANY]): INTEGER
+	index_for_value (target_value: ANY; value: FUNCTION [G, ANY]): INTEGER
 			-- index of item with function returning result equal to value, 0 if not found
 		do
 			push_cursor
-			find_first (value, value_function)
+			find_first_equal (target_value, value)
 			if found then
 				Result := index
 			end
 			pop_cursor
 		end
 
-	agent_query (condition: EL_PREDICATE_QUERY_CONDITION [G]): like query
+	indices_meeting (condition: EL_QUERY_CONDITION [G]): SPECIAL [INTEGER]
+		-- list of indices meeting `condition'
+		local
+			i, l_count: INTEGER
 		do
-			Result := query (condition)
-		end
-
-	query (condition: EL_QUERY_CONDITION [G]): EL_ARRAYED_LIST [G]
-			-- songs matching criteria
-		do
+			create Result.make_empty (count)
 			if attached {EL_ANY_QUERY_CONDITION [G]} condition then
-				create Result.make (count)
+				l_count := count
+				from i := 1 until i > l_count loop
+					Result.extend (i)
+					i := i + 1
+				end
 			else
-				create Result.make (count_meeting (condition))
-			end
-			if Result.capacity > 0 then
 				push_cursor
 				from start until after loop
 					if condition.met (item) then
-						Result.extend (item)
+						Result.extend (index)
 					end
 					forth
 				end
@@ -78,28 +84,40 @@ feature -- Access
 			end
 		end
 
-	search_results (value: ANY; value_function: FUNCTION [G, ANY]): ARRAYED_LIST [G]
-		require
-			valid_open_count: value_function.open_count = 1
-			valid_value_function: not is_empty implies value_function.valid_operands ([first])
+	query (condition: EL_QUERY_CONDITION [G]): EL_ARRAYED_LIST [G]
+			-- songs matching criteria
+		local
+			indices: like indices_meeting; i: INTEGER
 		do
-			push_cursor
-			create Result.make ((count // 10).max (20)) -- 10% or 20 which ever is bigger
-			from find_first (value, value_function) until after loop
-				Result.extend (item)
-				find_next (value, value_function)
+			indices := indices_meeting (condition)
+			create Result.make (indices.count)
+			from i := 0 until i = indices.count loop
+				Result.extend (i_th (indices [i]))
+				i := i + 1
 			end
-			pop_cursor
 		end
 
-	subchain (index_from, index_to: INTEGER ): EL_CHAIN [G]
+	query_is_equal (target_value: ANY; value: FUNCTION [G, ANY]): EL_ARRAYED_LIST [G]
+		-- list of all items where `value (item).is_equal (target_value)'
+		require
+			valid_open_count: value.open_count = 1
+			valid_value_function: not is_empty implies value.valid_operands ([first])
+			compatible_types: not is_empty implies value (first).same_type (target_value)
+		local
+			condition: EL_FUNCTION_VALUE_QUERY_CONDITION [G]
+		do
+			create condition.make (target_value, value)
+			Result := query (condition)
+		end
+
+	subchain (index_from, index_to: INTEGER ): EL_ARRAYED_LIST [G]
 		require
 			valid_indices: (1 <= index_from) and (index_from <= index_to) and (index_to <= count)
 		local
 			i: INTEGER
 		do
 			push_cursor
-			create {EL_ARRAYED_LIST [G]} Result.make (index_to - index_from + 1)
+			create Result.make (index_to - index_from + 1)
 			go_i_th (index_from)
 			from i := index_from until i > index_to loop
 				Result.extend (item)
@@ -144,7 +162,7 @@ feature -- Conversion
 		end
 
 	string_32_list (value: FUNCTION [G, STRING_32]): EL_STRING_LIST [STRING_32]
-			-- list of value
+			-- list of `value (item)' strings of type STRING_32
 		require
 			valid_open_count: value.open_count = 1
 			valid_value_function: not is_empty implies value.valid_operands ([first])
@@ -161,7 +179,7 @@ feature -- Conversion
 		end
 
 	string_8_list (value: FUNCTION [G, STRING]): EL_STRING_LIST [STRING]
-			-- list of value
+			-- list of `value (item)' strings of type STRING_8
 		require
 			valid_open_count: value.open_count = 1
 			valid_value_function: not is_empty implies value.valid_operands ([first])
@@ -178,7 +196,7 @@ feature -- Conversion
 		end
 
 	string_list (value: FUNCTION [G, ZSTRING]): EL_STRING_LIST [ZSTRING]
-			-- list of value
+			-- list of `value (item)' strings of type EL_ZSTRING
 		require
 			valid_open_count: value.open_count = 1
 			valid_value_function: not is_empty implies value.valid_operands ([first])
@@ -291,6 +309,13 @@ feature -- Removal
 		end
 
 feature -- Cursor movement
+
+	find_first_equal (target_value: ANY; value: FUNCTION [G, ANY])
+		require else
+			compatible_types: not is_empty implies target_value.same_type (value (first))
+		do
+			Precursor (target_value, value)
+		end
 
 	pop_cursor
 		-- restore cursor position from stack

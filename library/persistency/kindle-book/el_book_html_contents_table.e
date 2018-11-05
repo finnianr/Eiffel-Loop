@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 13:10:17 GMT (Monday 29th October 2018)"
-	revision: "3"
+	date: "2018-11-05 15:51:17 GMT (Monday 5th November 2018)"
+	revision: "4"
 
 class
 	EL_BOOK_HTML_CONTENTS_TABLE
@@ -37,6 +37,9 @@ feature {NONE} -- Constants
 					ol {
 						list-style-type: none;
 					}
+					.section {
+						left-margin: 0.5em;
+					}
 				</style>
 			</head>
 			<body>
@@ -47,7 +50,7 @@ feature {NONE} -- Constants
 					#if not $chapter.section_table.is_empty then
 					<ol>
 						#across $chapter.section_table as $section loop
-						<li><a href="$chapter.file_name#sect_$section.key">$section.item</a></li>
+						<li><a class="section" href="$chapter.file_name#sect_$section.key">$section.item</a></li>
 						#end
 					</ol>
 					#end

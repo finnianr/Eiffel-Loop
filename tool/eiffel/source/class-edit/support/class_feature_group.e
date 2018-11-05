@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2018-11-05 14:39:35 GMT (Monday 5th November 2018)"
+	revision: "5"
 
 class
 	CLASS_FEATURE_GROUP
@@ -34,7 +34,7 @@ feature -- Access
 		local
 			line: ZSTRING
 		do
-			header.find_first (True, agent {ZSTRING}.has_substring (Comment_marks))
+			header.find_first_true (agent {ZSTRING}.has_substring (Comment_marks))
 			if header.exhausted then
 				create Result.make_empty
 			else

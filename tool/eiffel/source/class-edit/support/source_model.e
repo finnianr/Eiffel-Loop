@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-01 9:36:35 GMT (Tuesday 1st August 2017)"
-	revision: "3"
+	date: "2018-11-05 14:39:36 GMT (Monday 5th November 2018)"
+	revision: "4"
 
 class
 	SOURCE_MODEL
@@ -54,7 +54,7 @@ feature -- Basic operations
 
 	search (name: ZSTRING)
 		do
-			feature_groups.find_next (name, agent {CLASS_FEATURE_GROUP}.name)
+			feature_groups.find_next_equal (name, agent {CLASS_FEATURE_GROUP}.name)
 			if feature_groups.exhausted then
 				found_group := Default_group
 			else

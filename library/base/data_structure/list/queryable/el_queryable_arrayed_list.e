@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2018-11-05 14:20:22 GMT (Monday 5th November 2018)"
+	revision: "7"
 
 class
 	EL_QUERYABLE_ARRAYED_LIST [G]
@@ -30,7 +30,7 @@ inherit
 			-- Status query
 			off, has, there_exists, is_equal, valid_index, is_inserted,
 			-- Cursor movement
-			move, start, finish, go_i_th, put_i_th, find_next_function_value
+			move, start, finish, go_i_th, put_i_th, find_next_item
 		end
 
 create

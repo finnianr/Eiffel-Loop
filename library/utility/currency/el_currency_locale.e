@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-11-05 14:27:12 GMT (Monday 5th November 2018)"
+	revision: "6"
 
 deferred class
 	EL_CURRENCY_LOCALE
@@ -59,7 +59,7 @@ feature -- Element change
 			list: like currency_list
 		do
 			list := currency_list
-			list.find_first (code, agent {EL_CURRENCY}.code)
+			list.find_first_equal (code, agent {EL_CURRENCY}.code)
 			if list.exhausted then
 				set_currency (default_currency_code)
 			else

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-20 10:22:00 GMT (Wednesday 20th June 2018)"
-	revision: "5"
+	date: "2018-11-05 14:27:12 GMT (Monday 5th November 2018)"
+	revision: "6"
 
 class
 	EL_XDG_DESKTOP_MENU
@@ -74,7 +74,7 @@ feature -- Element change
 			--
 		do
 			if entry_path.count > 1 then
-				menus.find_first (entry_path.first.name, agent {EL_XDG_DESKTOP_MENU}.name)
+				menus.find_first_equal (entry_path.first.name, agent {EL_XDG_DESKTOP_MENU}.name)
 				if menus.exhausted then
 					menus.extend (create {EL_XDG_DESKTOP_MENU}.make (entry_path.first))
 					menus.finish

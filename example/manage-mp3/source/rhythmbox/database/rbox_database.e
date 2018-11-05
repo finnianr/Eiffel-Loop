@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-18 12:19:59 GMT (Monday 18th June 2018)"
-	revision: "7"
+	date: "2018-11-05 14:40:01 GMT (Monday 5th November 2018)"
+	revision: "8"
 
 class
 	RBOX_DATABASE
@@ -112,7 +112,7 @@ feature -- Access
 
 	archive_playlist: RBOX_PLAYLIST
 		do
-			playlists.find_first (Archive, agent {RBOX_PLAYLIST}.name)
+			playlists.find_first_equal (Archive, agent {RBOX_PLAYLIST}.name)
 			if playlists.exhausted then
 				create Result.make (Current)
 			else

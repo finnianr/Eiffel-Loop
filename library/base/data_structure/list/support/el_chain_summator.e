@@ -2,9 +2,14 @@ note
 	description: "[
 		Functions to sum a numeric value function across each item in a chain of objects of type G
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-11-04 11:27:44 GMT (Sunday 4th November 2018)"
+	revision: "1"
 
 class
 	EL_CHAIN_SUMMATOR [G, N -> NUMERIC]

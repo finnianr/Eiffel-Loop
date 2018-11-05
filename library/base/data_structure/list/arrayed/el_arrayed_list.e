@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-30 10:32:38 GMT (Tuesday 30th October 2018)"
-	revision: "14"
+	date: "2018-11-05 14:25:24 GMT (Monday 5th November 2018)"
+	revision: "15"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -26,7 +26,7 @@ inherit
 			i_th, at, last, first, valid_index, is_inserted, move, start, finish, go_i_th, put_i_th,
 			force, append_sequence, prune, prune_all, remove, swap, new_cursor, to_array
 		redefine
-			find_next_function_value, push_cursor, pop_cursor
+			find_next_item, push_cursor, pop_cursor
 		end
 
 create
@@ -174,16 +174,14 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	find_next_function_value (value: ANY; value_function: FUNCTION [G, ANY])
-			-- Find next item where function returns a value matching 'a_value'
+	find_next_item (condition: EL_QUERY_CONDITION [G])
+			-- Find next `item' that meets `condition'
 		local
 			l_area: like area_v2; i, nb: INTEGER; match_found: BOOLEAN
-			item_arg: TUPLE [G]
 		do
-			l_area := area_v2; create item_arg
+			l_area := area_v2
 			from nb := count - 1; i := index - 1 until i > nb or match_found loop
-				item_arg.put (l_area [i], 1)
-				if value ~ value_function.item (item_arg) then
+				if condition.met (l_area [i]) then
 					match_found := True
 				else
 					i := i + 1

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2018-11-05 14:30:48 GMT (Monday 5th November 2018)"
+	revision: "4"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 			assert ("Role contains Manager x 2", job_list.count_of (agent role_contains (?, "Manager")) = 2)
 			assert ("telephone_1 is  x 3", job_list.count_of (agent telephone_1_starts (?, "0208")) = 3)
 
-			job_list.find_first (True, agent role_contains (?, "Change Manager"))
+			job_list.find_first_true (agent role_contains (?, "Change Manager"))
 			assert ("12 double quotes in description", job_list.item.description.occurrences ('"') = 12)
 			assert ("3 new-lines description", job_list.item.description.occurrences ('%N') = 3)
 		end
@@ -59,7 +59,7 @@ feature {NONE} -- Implementation
 			parser: EL_COMMA_SEPARATED_LINE_PARSER
 			job, job_2: JOB
 		do
-			job_list.find_first (True, agent role_contains (?, "Change Manager"))
+			job_list.find_first_true (agent role_contains (?, "Change Manager"))
 			job := job_list.item
 
 			create parser.make

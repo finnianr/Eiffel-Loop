@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-01 9:41:53 GMT (Thursday 1st February 2018)"
-	revision: "4"
+	date: "2018-11-05 14:30:22 GMT (Monday 5th November 2018)"
+	revision: "5"
 
 class
 	AIA_VERIFIER
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			authorization := request.headers.authorization
 			if not authorization.is_empty then
 				create actual_authorization_header.make_from_string (authorization)
-				credential_list.find_first (actual_authorization_header.credential.key, agent {AIA_CREDENTIAL}.public)
+				credential_list.find_first_equal (actual_authorization_header.credential.key, agent {AIA_CREDENTIAL}.public)
 				if credential_list.found then
 					credential := credential_list.item
 				end

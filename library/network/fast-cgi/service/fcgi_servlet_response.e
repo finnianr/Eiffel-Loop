@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:54:20 GMT (Wednesday 17th October 2018)"
-	revision: "10"
+	date: "2018-11-04 16:16:30 GMT (Sunday 4th November 2018)"
+	revision: "11"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -222,7 +222,7 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	add_header (name, value: STRING)
-			-- Adds a response header with the given naem and value. This
+			-- Adds a response header with the given name and value. This
 			-- method allows response headers to have multiple values.
 		do
 			header_list.extend (name, value)

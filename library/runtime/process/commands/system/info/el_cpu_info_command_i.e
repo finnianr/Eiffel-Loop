@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-23 11:02:54 GMT (Friday 23rd February 2018)"
-	revision: "3"
+	date: "2018-11-05 14:27:13 GMT (Monday 5th November 2018)"
+	revision: "4"
 
 deferred class
 	EL_CPU_INFO_COMMAND_I
@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			lines.compare_objects
-			lines.find_first (True, agent {ZSTRING}.starts_with (Text_model_name))
+			lines.find_first_true (agent {ZSTRING}.starts_with (Text_model_name))
 			if not lines.after then
 				model_name := lines.item.substring_end (lines.item.index_of (':', 1) + 2)
 			end

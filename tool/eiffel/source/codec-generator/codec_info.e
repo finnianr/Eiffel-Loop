@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-11-05 14:39:36 GMT (Monday 5th November 2018)"
+	revision: "6"
 
 class
 	CODEC_INFO
@@ -149,7 +149,7 @@ feature -- Basic operations
 						lio.put_string_field ("Alpha is neither upper or lower", latin_character.unicode_string)
 						lio.put_new_line
 					else
-						table.find_first (unicode_changed.natural_32_code, agent {LATIN_CHARACTER}.unicode)
+						table.find_first_equal (unicode_changed.natural_32_code, agent {LATIN_CHARACTER}.unicode)
 						if table.after then
 							single_case_character_set.extend (latin_character)
 							lio.put_string_field (case_type + " case character", latin_character.unicode_string)

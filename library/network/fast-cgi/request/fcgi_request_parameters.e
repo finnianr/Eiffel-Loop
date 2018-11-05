@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 14:35:21 GMT (Wednesday 17th October 2018)"
-	revision: "11"
+	date: "2018-11-05 14:27:13 GMT (Monday 5th November 2018)"
+	revision: "12"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -315,7 +315,7 @@ feature {NONE} -- Implementation
 			prefixes: like Header_prefixes
 		do
 			prefixes := Header_prefixes
-			prefixes.find_first (True, agent starts_with (name, ?))
+			prefixes.find_first_true (agent starts_with (name, ?))
 			if prefixes.found then
 				if prefixes.index = 2 then
 					-- remove HTTP_

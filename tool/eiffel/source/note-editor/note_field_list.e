@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "2"
+	date: "2018-11-05 14:39:36 GMT (Monday 5th November 2018)"
+	revision: "3"
 
 class
 	NOTE_FIELD_LIST
@@ -22,7 +22,7 @@ feature -- Basic operations
 
 	find (name: STRING)
 		do
-			find_first (name, agent {like item}.name)
+			find_first_equal (name, agent {like item}.name)
 		end
 
 feature -- Element change

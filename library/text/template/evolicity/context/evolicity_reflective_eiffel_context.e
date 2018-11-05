@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 14:58:30 GMT (Wednesday 31st October 2018)"
-	revision: "2"
+	date: "2018-11-04 16:44:52 GMT (Sunday 4th November 2018)"
+	revision: "3"
 
 deferred class
 	EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT
@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 
 	context_item (key: STRING; function_args: TUPLE): ANY
 		local
-			table: EL_REFLECTED_FIELD_TABLE; name: ZSTRING
+			table: EL_REFLECTED_FIELD_TABLE
 		do
 			table := field_table
 			if table.has_key (key) then

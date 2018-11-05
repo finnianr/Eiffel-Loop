@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 16:29:36 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-11-05 15:06:26 GMT (Monday 5th November 2018)"
+	revision: "6"
 
 class
 	EL_QUERY_CONDITION_FACTORY [G]
@@ -36,6 +36,11 @@ feature -- Access
 	predicate (a_predicate: PREDICATE [G]): EL_PREDICATE_QUERY_CONDITION [G]
 		do
 			create Result.make (a_predicate)
+		end
+
+	same_value (target_value: ANY; value: FUNCTION [G, ANY]): EL_FUNCTION_VALUE_QUERY_CONDITION [G]
+		do
+			create Result.make (target_value, value)
 		end
 
 end

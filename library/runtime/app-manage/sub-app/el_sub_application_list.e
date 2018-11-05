@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-29 12:31:22 GMT (Friday 29th June 2018)"
-	revision: "4"
+	date: "2018-11-05 14:27:12 GMT (Monday 5th November 2018)"
+	revision: "5"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -138,7 +138,7 @@ feature -- Basic operations
 			lio: EL_LOGGABLE
 		do
 			lio := new_temporary_lio -- until the logging is initialized in `EL_SUB_APPLICATION'
-			find_first (True, agent {EL_SUB_APPLICATION}.is_same_option (name))
+			find_first_true (agent {EL_SUB_APPLICATION}.is_same_option (name))
 			if after then
 				if select_first then
 					start

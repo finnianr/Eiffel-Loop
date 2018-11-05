@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-13 10:32:03 GMT (Saturday 13th October 2018)"
-	revision: "27"
+	date: "2018-11-05 8:44:05 GMT (Monday 5th November 2018)"
+	revision: "28"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -32,7 +32,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent widget.test_mapping)
+			do_file_data_test (agent chain.test_mapping)
 		end
 
 feature -- Test sets
@@ -48,6 +48,11 @@ feature -- Test sets
 		end
 
 	date_text: DATE_TEXT_TEST_SET
+		do
+			create Result
+		end
+
+	chain: CHAIN_TEST_SET
 		do
 			create Result
 		end
@@ -158,11 +163,6 @@ feature -- Test sets
 		end
 
 	uri_encoding: URI_ENCODING_TEST_SET
-		do
-			create Result
-		end
-
-	widget: WIDGET_TEST_SET
 		do
 			create Result
 		end
