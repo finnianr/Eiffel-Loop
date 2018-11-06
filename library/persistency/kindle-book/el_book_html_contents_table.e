@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 15:51:17 GMT (Monday 5th November 2018)"
-	revision: "4"
+	date: "2018-11-06 16:42:11 GMT (Tuesday 6th November 2018)"
+	revision: "5"
 
 class
 	EL_BOOK_HTML_CONTENTS_TABLE
@@ -33,14 +33,7 @@ feature {NONE} -- Constants
 			<head>
 				<title>$info.title</title>
 				<meta author="$info.author"/>
-				<style>
-					ol {
-						list-style-type: none;
-					}
-					.section {
-						left-margin: 0.5em;
-					}
-				</style>
+				<link rel="stylesheet" href="style/toc.css" type="text/css"/>
 			</head>
 			<body>
 				<h1 id="toc">Table of Contents</h1>
@@ -48,9 +41,9 @@ feature {NONE} -- Constants
 				#foreach $chapter in $chapter_list loop
 					<li><a href="$chapter.file_name">$chapter.title</a></li>
 					#if not $chapter.section_table.is_empty then
-					<ol>
+					<ol class="section">
 						#across $chapter.section_table as $section loop
-						<li><a class="section" href="$chapter.file_name#sect_$section.key">$section.item</a></li>
+						<li><a href="$chapter.file_name#sect_$section.key">$section.item</a></li>
 						#end
 					</ol>
 					#end

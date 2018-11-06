@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 15:53:06 GMT (Monday 5th November 2018)"
-	revision: "1"
+	date: "2018-11-05 22:39:21 GMT (Monday 5th November 2018)"
+	revision: "2"
 
-deferred class
+class
 	EL_ROUTINE_QUERY_CONDITION [G]
 
 inherit

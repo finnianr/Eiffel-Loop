@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 13:49:54 GMT (Monday 29th October 2018)"
-	revision: "1"
+	date: "2018-11-06 13:24:02 GMT (Tuesday 6th November 2018)"
+	revision: "2"
 
 class
 	EL_OPF_MANIFEST_ITEM
@@ -16,6 +16,8 @@ inherit
 	EVOLICITY_EIFFEL_CONTEXT
 
 	EL_MODULE_XML
+
+	EL_MEDIA_TYPE_CONSTANTS
 
 create
 	make
@@ -30,9 +32,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	id: INTEGER
-
 	href_path: EL_FILE_PATH
+
+	id: INTEGER
 
 	media_type: STRING
 		do
@@ -41,6 +43,13 @@ feature -- Access
 			else
 				Result := "text/plain"
 			end
+		end
+
+feature -- Status query
+
+	is_html_type: BOOLEAN
+		do
+			Result := media_type = Type.html
 		end
 
 feature {NONE} -- Evolicity fields
@@ -52,18 +61,6 @@ feature {NONE} -- Evolicity fields
 				["id",			agent: INTEGER_REF do Result := id.to_reference end],
 				["media_type", agent media_type],
 				["href", 		agent: ZSTRING do Result := XML.escaped (href_path) end]
-			>>)
-		end
-
-feature {NONE} -- Constants
-
-	Media_type_table: EL_HASH_TABLE [STRING, STRING]
-		once
-			create Result.make (<<
-				["png",	"image/png"],
-				["html",	"application/xhtml+xml"],
-				["ncx",	"application/x-dtbncx+xml"],
-				["txt",	"text/plain"]
 			>>)
 		end
 

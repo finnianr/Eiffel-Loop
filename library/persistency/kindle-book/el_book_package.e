@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-03 23:55:36 GMT (Saturday 3rd November 2018)"
-	revision: "3"
+	date: "2018-11-06 13:38:02 GMT (Tuesday 6th November 2018)"
+	revision: "4"
 
 class
 	EL_BOOK_PACKAGE
@@ -28,24 +28,7 @@ feature {NONE} -- Initialization
 	make (a_book: like book)
 		do
 			Precursor (a_book)
-			create manifest_list.make (50)
-			create spine_list.make (20)
-
-			across create {EL_FILE_PATH_LIST}.make_from_tuple (path) as name loop
-				manifest_list.extend (new_item (name.item))
-			end
-			across a_book.chapter_list as chapter loop
-				manifest_list.extend (new_item (chapter.item.output_path.base))
-				spine_list.extend (manifest_list.last)
-			end
-			across a_book.image_path_set.to_array as image_path loop
-				manifest_list.extend (new_item (image_path.item))
-			end
-		ensure then
-			valid_manifest: manifest_list.count >= 3
-				and then manifest_list.i_th (1).href_path ~ path.cover
-				and then manifest_list.i_th (2).href_path ~ path.ncx
-				and then manifest_list.i_th (3).href_path ~ path.book_toc
+			manifest_list := new_manifest_list
 		end
 
 feature {NONE} -- Implementation
@@ -55,19 +38,40 @@ feature {NONE} -- Implementation
 			Result := book.output_dir.joined_dir_path ("image")
 		end
 
+	spine_list: like manifest_list.query_if
+		do
+			Result := manifest_list.query_if (agent {EL_OPF_MANIFEST_ITEM}.is_html_type)
+		end
+
+feature {NONE} -- Factory
+
 	new_file_name: ZSTRING
 		do
 			Result := "book-package.opf"
 		end
 
-	manifest_list: ARRAYED_LIST [EL_OPF_MANIFEST_ITEM]
-
-	spine_list: like manifest_list
-
-	new_item (a_path: EL_FILE_PATH): EL_OPF_MANIFEST_ITEM
+	new_manifest_list: EL_OPF_MANIFEST_LIST
 		do
-			create Result.make (a_path, manifest_list.count + 1)
+			create Result.make (50)
+			across create {EL_FILE_PATH_LIST}.make_from_tuple (path) as name loop
+				Result.extend (name.item)
+			end
+			across book.chapter_list as chapter loop
+				Result.extend (chapter.item.output_path.base)
+			end
+			across book.image_path_set.to_array as image_path loop
+				Result.extend (image_path.item)
+			end
+		ensure then
+			valid_manifest: Result.count >= 3
+				and then Result.i_th (1).href_path ~ path.cover
+				and then Result.i_th (2).href_path ~ path.ncx
+				and then Result.i_th (3).href_path ~ path.book_toc
 		end
+
+feature {NONE} -- Internal attributes
+
+	manifest_list: like new_manifest_list
 
 feature {NONE} -- Evolicity
 

@@ -1,13 +1,13 @@
 note
-	description: "Test set for the [$source EL_CHAIN] and related classes"
+	description: "Test set for [$source EL_CHAIN] and related classes"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 14:37:11 GMT (Monday 5th November 2018)"
-	revision: "1"
+	date: "2018-11-05 22:36:05 GMT (Monday 5th November 2018)"
+	revision: "2"
 
 class
 	CHAIN_TEST_SET

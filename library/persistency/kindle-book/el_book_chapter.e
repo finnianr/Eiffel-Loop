@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-03 10:21:40 GMT (Saturday 3rd November 2018)"
-	revision: "5"
+	date: "2018-11-06 16:42:42 GMT (Tuesday 6th November 2018)"
+	revision: "6"
 
 class
 	EL_BOOK_CHAPTER
@@ -173,7 +173,7 @@ feature {NONE} -- Constants
 				<head>
 					<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 					<title>$title</title>
-					<link rel="stylesheet" href="style.css" type="text/css"/>
+					<link rel="stylesheet" href="style/chapter.css" type="text/css"/>
 				</head>
 				<html>
 				    <body>
