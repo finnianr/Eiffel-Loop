@@ -12,7 +12,7 @@ using [http://vtd-xml.sourceforge.net/ VTD-XML].
 **2.** Read and export emails from the [https://www.thunderbird.net/ Thunderbird email client] including
 a class to generate a Kindle book from a folder of chapter emails.
 
-**3.** Classes for generating Kindle packages from HTML content.
+**3.** Classes for generating Kindle OPF packages from HTML content.
 	</description>
 	<target name = "EL_markup_docs">
 		<root all_classes = "true"/>

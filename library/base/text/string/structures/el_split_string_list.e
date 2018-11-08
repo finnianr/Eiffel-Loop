@@ -103,13 +103,6 @@ feature -- Basic operations
 
 feature -- Access
 
-	item: S
-		-- split item
-		do
-			update_internal_item
-			Result := internal_item
-		end
-
 	first_item: S
 		-- split item
 		do
@@ -121,6 +114,13 @@ feature -- Access
 				Result := item
 			end
 			pop_cursor
+		end
+
+	item: S
+		-- split item
+		do
+			update_internal_item
+			Result := internal_item
 		end
 
 	last_item: S
@@ -156,9 +156,19 @@ feature -- Status change
 			left_adjusted := True
 		end
 
+	disable_right_adjust
+		do
+			right_adjusted := True
+		end
+
 	enable_left_adjust
 		do
 			left_adjusted := True
+		end
+
+	enable_right_adjust
+		do
+			right_adjusted := True
 		end
 
 feature -- Status query
@@ -203,6 +213,8 @@ feature -- Status query
 
 	left_adjusted: BOOLEAN
 
+	right_adjusted: BOOLEAN
+
 	there_exists (predicate: PREDICATE [like item]): BOOLEAN
 		-- `True' if one split substring matches `predicate'
 		do
@@ -245,6 +257,9 @@ feature {NONE} -- Implementation
 				end
 			end
 			internal.append_substring (string, from_index, end_index)
+			if right_adjusted then
+				internal.right_adjust
+			end
 		end
 
 feature {EL_SPLIT_STRING_LIST} -- Internal attributes

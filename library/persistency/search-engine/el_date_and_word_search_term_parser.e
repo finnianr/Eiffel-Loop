@@ -13,7 +13,7 @@ class
 	EL_DATE_AND_WORD_SEARCH_TERM_PARSER  [G -> {EL_WORD_SEARCHABLE, EL_DATEABLE}]
 
 inherit
-	EL_SEARCH_TERM_PARSER
+	EL_SEARCH_TERM_PARSER [G]
 		redefine
 			custom_patterns, make
 		end
@@ -156,7 +156,7 @@ feature {NONE} -- Implementation
 			if last_date.ordered_compact_date_valid (last_date.ordered_compact_date)
 				and then date_from.ordered_compact_date_valid (date_from.ordered_compact_date)
 			then
-				criteria.extend (create {EL_DATE_INTERVAL_SEARCH_TERM [G]}.make (date_from.twin, last_date.twin))
+				condition_list.extend (create {EL_DATE_INTERVAL_CONDITION [G]}.make (date_from.twin, last_date.twin))
 			end
 		end
 

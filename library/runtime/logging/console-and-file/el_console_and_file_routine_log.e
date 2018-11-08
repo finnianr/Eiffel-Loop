@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	enter_with_args  (routine_name: STRING; arg_objects: ARRAY [ANY] )
+	enter_with_args  (routine_name: STRING; arg_objects: TUPLE)
 			--
 		do
 			out_put_enter_heading (arg_objects)
@@ -79,7 +79,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	out_put_enter_heading (arg_objects: ARRAY [ANY] )
+	out_put_enter_heading (arg_objects: TUPLE)
 			--
 		local
 			i: INTEGER

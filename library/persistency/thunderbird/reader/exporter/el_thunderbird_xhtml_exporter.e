@@ -53,6 +53,8 @@ feature {NONE} -- Implementation
 			across Text_tags as tag loop
 				html_doc.edit (tag.item.open, tag.item.close, agent remove_surplus_break)
 			end
+	 		-- remove trailing breaks between elements <img.. /> and <p>
+			html_doc.edit (Image_tag, Paragraph.open, agent remove_trailing_breaks)
 
 			-- Change <br> to <br/>
 			across Unclosed_tags as tag loop
@@ -61,6 +63,7 @@ feature {NONE} -- Implementation
 			html_doc.edit (character_string ('&'), character_string (';'), agent substitute_html_entities)
 			html_doc.edit (Image_tag, character_string ('>'), agent edit_image_tag)
 			html_doc.edit (Anchor_tag, character_string ('>'), agent edit_anchor_tag)
+			html_doc.edit (Attribute_start.title, character_string ('"'), agent normalize_title)
 		end
 
 	file_out_extension: ZSTRING
@@ -71,15 +74,13 @@ feature {NONE} -- Implementation
 	on_email_collected
 		do
 			File_system.make_directory (output_file_path.parent)
-			if not output_file_path.exists or else last_header.date > output_file_path.modification_date_time then
+			is_html_updated := not output_file_path.exists or else last_header.date > output_file_path.modification_date_time
+			if is_html_updated then
 				lio.put_path_field (file_out_extension, output_file_path)
 				lio.put_new_line
 				lio.put_string_field ("Character set", line_source.encoding_name)
 				lio.put_new_line
 				write_html
-				is_html_updated := True
-			else
-				is_html_updated := False
 			end
 		end
 
@@ -127,7 +128,7 @@ feature {NONE} -- Editing
 		do
 			if not substring.is_alpha_item (3) then
 				remove_attributes (Surplus_hyperlink_attributes, substring, start_index)
-				substring.edit (Link_attribute.href, character_string ('"'), agent remove_localhost_ref)
+				substring.edit (Attribute_start.href, character_string ('"'), agent remove_localhost_ref)
 			end
 		end
 
@@ -138,13 +139,24 @@ feature {NONE} -- Editing
 		do
 			remove_attributes (Surplus_image_attributes, substring, start_index)
 			-- make sure src attribute is indented
-			pos_src := substring.substring_index (Link_attribute.src, start_index)
+			pos_src := substring.substring_index (Attribute_start.src, start_index)
 			if pos_src > 0 and then substring.item (pos_src - 1) = '%N' then
 				substring.insert_string (n_character_string (' ', 8), pos_src)
 			end
 			close_empty_tag (start_index, end_index, substring)
 
-			substring.edit (Link_attribute.src, character_string ('"'), agent remove_localhost_ref)
+			substring.edit (Attribute_start.src, character_string ('"'), agent remove_localhost_ref)
+		end
+
+	normalize_title (start_index, end_index: INTEGER; substring: ZSTRING)
+		local
+			list: EL_SPLIT_ZSTRING_LIST
+		do
+			create list.make (substring, Line_feed_entity)
+			if list.count > 1 then
+				list.enable_left_adjust; list.enable_right_adjust
+				substring.share (list.joined_words)
+			end
 		end
 
 	remove_attributes (list: LIST [ZSTRING]; substring: ZSTRING; start_index: INTEGER)
@@ -158,6 +170,18 @@ feature {NONE} -- Editing
 				end
 			end
 		end
+
+ 	remove_trailing_breaks (start_index, end_index: INTEGER; substring: ZSTRING)
+ 		local
+ 			pos_trailing: INTEGER; trailing: ZSTRING
+ 		do
+ 			pos_trailing := substring.substring_index (character_string ('>'), start_index) + 1
+ 			if substring.substring_index (Html_break_tag, pos_trailing) > 0 then
+	 			trailing := substring.substring (pos_trailing, end_index)
+	 			trailing.replace_substring_all (Html_break_tag, Empty_string)
+	 			substring.replace_substring (trailing, pos_trailing, end_index)
+ 			end
+ 		end
 
 	remove_surplus_break (start_index, end_index: INTEGER; substring: ZSTRING)
 		-- remove surplus breaks before closing tag eg: "<h1>Title<br>%N  </h1>"
@@ -213,15 +237,12 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Empty_tag_close: ZSTRING
+	Attribute_start: TUPLE [href, src, title: ZSTRING]
 		once
-			Result := "/>"
-		end
-
-	Html_break_tag: ZSTRING
-		-- <br>
-		once
-			Result := XML.open_tag ("br")
+			create Result
+			Tuple.fill (Result, "[
+				href=",src=",title="
+			]")
 		end
 
 	Unclosed_tags: ARRAY [ZSTRING]
@@ -234,16 +255,9 @@ feature {NONE} -- Constants
 			Result := "<a"
 		end
 
-	Image_tag: ZSTRING
+	Line_feed_entity: ZSTRING
 		once
-			Result := "<img"
-		end
-
-	Link_attribute: TUPLE [href, src: ZSTRING]
-		once
-			create Result
-			Result.href := "href=%""
-			Result.src := "src=%""
+			Result := "&#xA;"
 		end
 
 	Localhost_domain: ZSTRING

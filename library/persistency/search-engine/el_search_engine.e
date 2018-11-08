@@ -29,13 +29,13 @@ feature -- Basic operations
 		require
 			valid_query: valid_query
 		local
-			l_list: like list; criteria: like parser.criteria
+			l_list: like list; condition_list: like parser.condition_list
 		do
 			results.wipe_out
-			l_list := list; criteria := parser.criteria
+			l_list := list; condition_list := parser.condition_list
 			from l_list.start until l_list.after loop
-				if across criteria as criterion all
-						criterion.item.matches (l_list.item)
+				if across condition_list as condition all
+						condition.item.met (l_list.item)
 					end
 				then
 					results.extend (l_list.item)
@@ -70,7 +70,7 @@ feature -- Element change
 
 feature -- Access
 
-	parser: EL_SEARCH_TERM_PARSER
+	parser: EL_SEARCH_TERM_PARSER [G]
 
 	results: ARRAYED_LIST [G]
 

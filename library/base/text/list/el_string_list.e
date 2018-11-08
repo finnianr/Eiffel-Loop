@@ -58,28 +58,9 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_tuple (tuple: TUPLE)
-		local
-			i: INTEGER; string: S; str_8: STRING
 		do
 			make (tuple.count)
-			from i := 1 until i > tuple.count loop
-				if tuple.is_reference_item (i)
-					and then attached {STRING_GENERAL} tuple.reference_item (i) as general
-				then
-					if attached {S} general as str then
-						string := str
-					else
-						create string.make (general.count)
-						string.append (general)
-					end
-				else
-					str_8 := tuple.item (i).out
-					create string.make (str_8.count)
-					string.append (str_8)
-				end
-				extend (string)
-				i := i + 1
-			end
+			append_tuple (tuple)
 		end
 
 feature -- Access
@@ -97,6 +78,31 @@ feature -- Element change
 		do
 			if not is_empty then
 				put_i_th (a_first, 1); put_i_th (a_last, count)
+			end
+		end
+
+	append_tuple (tuple: TUPLE)
+		local
+			i: INTEGER; string: S; str_8: STRING
+		do
+			grow (tuple.count)
+			from i := 1 until i > tuple.count loop
+				if tuple.is_reference_item (i)
+					and then attached {STRING_GENERAL} tuple.reference_item (i) as general
+				then
+					if attached {S} general as str then
+						string := str
+					else
+						create string.make (general.count)
+						string.append (general)
+					end
+				else
+					str_8 := tuple.item (i).out
+					create string.make (str_8.count)
+					string.append (str_8)
+				end
+				extend (string)
+				i := i + 1
 			end
 		end
 

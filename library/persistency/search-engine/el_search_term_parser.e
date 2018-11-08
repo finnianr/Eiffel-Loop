@@ -10,13 +10,13 @@ note
 	revision: "5"
 
 class
-	EL_SEARCH_TERM_PARSER
+	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
 
 inherit
 	EL_FILE_PARSER
 		rename
 			make_default as make,
-			parse as compile_criteria,
+			parse as compile_conditions,
 			set_source_text as set_search_terms
 		export
 			{NONE} all
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			create word_token_table.make (1)
-			create criteria.make (10)
+			create condition_list.make (10)
 			create match_words.make (5)
 			Precursor
 		end
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 	reset
 			--
 		do
-			criteria.wipe_out
+			condition_list.wipe_out
 			match_words.wipe_out
 			invalid_wildcard := False
 			Precursor
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	criteria: ARRAYED_LIST [EL_SEARCH_TERM]
+	condition_list: ARRAYED_LIST [EL_QUERY_CONDITION [G]]
 
 	match_words: ARRAYED_LIST [EL_TOKENIZED_STRING]
 
@@ -69,7 +69,7 @@ feature -- Element Change
  			no_leading_or_trailing_white_space: search_terms.leading_white_space + search_terms.trailing_white_space = 0
  		do
  			Precursor (search_terms)
-			compile_criteria
+			compile_conditions
  		end
 
 	set_word_table (a_word_table: like word_token_table)
@@ -147,14 +147,14 @@ feature {NONE} -- Match actions
 	on_either_search_term (matched: EL_STRING_VIEW)
 			--
 		require
-			at_least_two_criteria_operands: criteria.count >= 2
+			at_least_two_condition_operands: condition_list.count >= 2
 		local
-			either_criteria: EL_OPERATOR_OR_SEARCH_TERM
+			left: EL_QUERY_CONDITION [G]
 		do
-			create either_criteria.make (criteria [criteria.count - 1], criteria.last)
-			criteria.finish
-			criteria.remove
-			criteria [criteria.count] := either_criteria
+			condition_list.finish; condition_list.back
+			left := condition_list.item -- second last item
+			condition_list.remove
+			condition_list.replace (left or condition_list.item)
 		end
 
 	on_hypen_prefix (matched: EL_STRING_VIEW; value: BOOLEAN)
@@ -164,12 +164,13 @@ feature {NONE} -- Match actions
 
 	on_positive_or_negated_search_term (matched: EL_STRING_VIEW)
 		do
-			if has_hypen_prefix then
-				criteria.last.set_negative
-				if attached {EL_CONTAINS_WORDS_SEARCH_TERM} criteria.last as last then
+			if has_hypen_prefix and then not condition_list.is_empty then
+				condition_list.finish
+				if attached {EL_CONTAINS_WORDS_CONDITION [G]} condition_list.item then
 					match_words.finish
 					match_words.remove
 				end
+				condition_list.replace (not condition_list.item)
 			end
 		end
 
@@ -183,14 +184,14 @@ feature {NONE} -- Match actions
 				text.remove_tail (1); add_wildcard_term (text)
 			else
 				create word_tokens.make_from_string (word_token_table, text)
-				criteria.extend (create {EL_CONTAINS_WORDS_SEARCH_TERM}.make (word_tokens))
+				condition_list.extend (create {EL_CONTAINS_WORDS_CONDITION [G]}.make (word_tokens))
 				match_words.extend (word_tokens)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	add_one_of_words_search_term_criteria (phrase_stem_words: EL_TOKENIZED_STRING; word_stem: ZSTRING)
+	add_one_of_words_search_term_condition (phrase_stem_words: EL_TOKENIZED_STRING; word_stem: ZSTRING)
 		local
 			word_list: like word_token_table.words
 			potential_match_word, word_variations: EL_TOKENIZED_STRING
@@ -211,7 +212,7 @@ feature {NONE} -- Implementation
 				end
 				word_list.forth
 			end
-			criteria.extend (create {EL_ONE_OF_WORDS_SEARCH_TERM}.make (phrase_stem_words, word_variations))
+			condition_list.extend (create {EL_ONE_OF_WORDS_CONDITION [G]}.make (phrase_stem_words, word_variations))
 		end
 
 	add_wildcard_term (text: ZSTRING)
@@ -228,7 +229,7 @@ feature {NONE} -- Implementation
 				else
 					create word_tokens.make_from_string (word_token_table, words.subchain (1, words.count - 1).joined_words)
 				end
-				add_one_of_words_search_term_criteria (word_tokens, words.last)
+				add_one_of_words_search_term_condition (word_tokens, words.last)
 			end
 		end
 

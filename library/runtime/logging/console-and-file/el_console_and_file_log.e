@@ -165,7 +165,7 @@ feature -- Output
 			valid_call_stack: traced_routine_call_stack.count = old traced_routine_call_stack.count + 1
 		end
 
-	enter_with_args (routine_name: STRING; arg_objects: ARRAY [ANY])
+	enter_with_args (routine_name: STRING; arg_objects: TUPLE)
 		do
 			push_call_stack (routine_name)
 			log_sink.enter_with_args (routine_name, arg_objects)
@@ -239,9 +239,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Default_arguments: ARRAY [ANY]
+	Default_arguments: TUPLE
 		once
-			create Result.make (1, 0)
+			create Result
 		end
 
 end

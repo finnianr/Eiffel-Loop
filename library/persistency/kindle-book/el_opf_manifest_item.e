@@ -41,7 +41,7 @@ feature -- Access
 			if Media_type_table.has_key (href_path.extension) then
 				Result := Media_type_table.found_item
 			else
-				Result := "text/plain"
+				Result := Type.txt
 			end
 		end
 

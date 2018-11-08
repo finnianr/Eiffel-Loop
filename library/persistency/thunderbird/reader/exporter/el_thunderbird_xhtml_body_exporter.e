@@ -105,7 +105,7 @@ feature {NONE} -- Editing routines
 	check_h2_tag (start_index, end_index: INTEGER; substring: ZSTRING)
 		do
 			h2_list.extend (substring.substring (start_index, substring.count - 5))
-			substring.insert_string (Anchor_template #$ [Html.anchor_name (h2_list.last)], 1)
+			substring.share (Anchor_template #$ [Html.anchor_name (h2_list.last), substring])
 		end
 
 feature {NONE} -- Constants

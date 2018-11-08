@@ -21,7 +21,7 @@ inherit
 			{ANY} serialize, output_path
 		end
 
-	EL_THUNDERBIRD_CONSTANTS
+--	EL_THUNDERBIRD_CONSTANTS
 
 	EL_MODULE_XML
 
@@ -92,7 +92,7 @@ feature {NONE} -- Implementation
 			substring.replace_substring (h2_text, start_index, end_index)
 			section_table.extend (h2_text, key)
 
- 			substring.insert_string (Anchor_template #$ [Section_prefix + key], 1)
+ 			substring.share (Anchor_template #$ [Section_prefix + key, substring])
  		end
 
  	on_heading_2 (section_key, h2_text: ZSTRING)
@@ -145,6 +145,13 @@ feature {NONE} -- Internal attributes
 		-- section id list
 
 feature {NONE} -- Constants
+
+	Anchor_template: ZSTRING
+		once
+			Result := "[
+				<a id="#">#</a>
+			]"
+		end
 
 	Template: TUPLE [file_name, chapter_prefix, h1_line, section_key: ZSTRING]
 		once

@@ -70,7 +70,7 @@ feature -- Output
 		do
 		end
 
-	enter_with_args (routine_name: STRING; arg_objects: ARRAY [ANY])
+	enter_with_args (routine_name: STRING; arg_objects: TUPLE)
 			--
 		do
 		end

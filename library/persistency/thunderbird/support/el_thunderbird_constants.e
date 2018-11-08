@@ -20,14 +20,8 @@ feature {NONE} -- Constants
 	Anchor_template: ZSTRING
 		once
 			Result := "[
-				<a id="#"/>
+				<a id="#">#</a>
 			]"
-			Result.append (New_line_indent)
-		end
-
-	New_line_indent: ZSTRING
-		once
-			Result := "%N    "
 		end
 
 	Body_tag: ZSTRING
@@ -40,9 +34,29 @@ feature {NONE} -- Constants
 			Result := XML.closed_tag ("body")
 		end
 
+	Empty_tag_close: ZSTRING
+		once
+			Result := "/>"
+		end
+
 	Html_tag: TUPLE [open, close: ZSTRING]
 		once
 			Result := XML.tag ("html")
+		end
+
+	Image_tag: ZSTRING
+		once
+			Result := "<img"
+		end
+
+	New_line_indent: ZSTRING
+		once
+			Result := "%N    "
+		end
+
+	Paragraph: TUPLE [open, close: ZSTRING]
+		once
+			Result := XML.tag ("p")
 		end
 
 end

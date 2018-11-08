@@ -109,11 +109,28 @@ feature {NONE} -- State handlers
 		end
 
 	find_last_tag (line: ZSTRING)
+		local
+			last_line: ZSTRING
 		do
 			if line.begins_with (Last_doc_tag) then
 				on_last_tag (line)
 			elseif line_included (line) then
-				html_lines.extend (line)
+				-- Correct lines like:
+				-- <h2 class="first">Introduction<br/>
+				-- </h2>
+				if across Heading_close_list as heading some line.begins_with (heading.item) end
+					and then not html_lines.is_empty
+				then
+					line.left_adjust
+					last_line := html_lines.last
+					if last_line.ends_with (Html_break_tag) then
+						last_line.replace_substring (line, last_line.count - Html_break_tag.count + 1 , last_line.count)
+					else
+						last_line.append (line)
+					end
+				else
+					html_lines.extend (line)
+				end
 			end
 		end
 
@@ -246,6 +263,23 @@ feature {NONE} -- Constants
 	First_doc_tag: ZSTRING
 		once
 			Result := Html_tag.open
+		end
+
+	Heading_close_list: EL_ZSTRING_LIST
+		local
+			template: ZSTRING
+		once
+			template := "</h%S>"
+			create Result.make (5)
+			from until Result.full loop
+				Result.extend (template #$ [Result.count + 1])
+			end
+		end
+
+	Html_break_tag: ZSTRING
+		-- <br>
+		once
+			Result := XML.open_tag ("br")
 		end
 
 	Last_doc_tag: ZSTRING
