@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-11-12 10:01:25 GMT (Monday 12th November 2018)"
+	revision: "6"
 
 deferred class
 	EL_PARSE_EVENT_SOURCE
@@ -38,6 +38,15 @@ feature -- Status query
 
 	has_error: BOOLEAN
 		do
+		end
+
+feature -- Factory
+
+	new_file_stream (a_file_path: EL_FILE_PATH): FILE
+		do
+			create {PLAIN_TEXT_FILE} Result.make_with_name (a_file_path)
+		ensure
+			is_closed: Result.is_closed
 		end
 
 feature -- Basic operations

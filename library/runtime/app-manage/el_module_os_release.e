@@ -6,13 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 10:09:47 GMT (Tuesday 5th June 2018)"
-	revision: "2"
+	date: "2018-11-12 18:09:44 GMT (Monday 12th November 2018)"
+	revision: "3"
 
 class
-	EL_MODULE_RELEASE
+	EL_MODULE_OS_RELEASE
 
-feature -- Constants
+feature {NONE} -- Constants
 
 	OS_release: EL_OS_RELEASE_I
 		once

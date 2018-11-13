@@ -15,7 +15,7 @@ class
 inherit
 	EL_MODULE
 
-feature -- Access
+feature {NONE} -- Constants
 
 	Locale: EL_LOCALE_ROUTINES
 			--

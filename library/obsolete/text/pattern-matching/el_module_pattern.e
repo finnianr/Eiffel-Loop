@@ -15,7 +15,7 @@ class
 inherit
 	EL_MODULE
 
-feature -- Access
+feature {NONE} -- Constants
 
 	Pattern: EL_TEXTUAL_PATTERN_MATCH_ROUTINES
 			--

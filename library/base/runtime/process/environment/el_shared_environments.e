@@ -6,16 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2018-11-12 18:21:18 GMT (Monday 12th November 2018)"
+	revision: "6"
 
 class
 	EL_SHARED_ENVIRONMENTS
 
 inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT
+		export
+			{EL_MODULE_ENVIRONMENT} all
+		end
 
-feature -- Access
+feature {EL_MODULE_ENVIRONMENT} -- Constants
 
 	Operating: EL_OPERATING_ENVIRONMENT_I
 			--

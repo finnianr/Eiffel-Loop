@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:19:59 GMT (Wednesday 21st February 2018)"
-	revision: "4"
+	date: "2018-11-12 11:00:10 GMT (Monday 12th November 2018)"
+	revision: "5"
 
 deferred class
 	EL_XML_DOCUMENT_SCANNER
@@ -107,20 +107,16 @@ feature -- Basic operations
 			end
 		end
 
-	scan_from_lines (lines: LINEAR [ZSTRING])
+	scan_from_lines (a_lines: ITERABLE [READABLE_STRING_GENERAL])
 			--
-		local
-			l_lines: EL_ZSTRING_LIST
 		do
 			if attached {EL_PYXIS_PARSER} event_source as pyxis_source then
-				pyxis_source.parse_from_lines (lines)
+				pyxis_source.parse_from_lines (new_string_list (a_lines))
 				if pyxis_source.has_error then
 					pyxis_source.log_error (lio)
 				end
 			else
-				create l_lines.make_empty
-				lines.do_all (agent l_lines.extend)
-				scan (l_lines.joined_lines.to_utf_8)
+				scan (new_string_list (a_lines).joined_lines.to_utf_8)
 			end
 		end
 
@@ -171,6 +167,13 @@ feature {EL_PARSE_EVENT_SOURCE, EL_CREATEABLE_FROM_NODE_SCAN} -- Access
 	event_source: EL_PARSE_EVENT_SOURCE
 
 	last_node: EL_XML_NODE
+
+feature {NONE} -- Implementation
+
+	new_string_list (lines: ITERABLE [READABLE_STRING_GENERAL]): EL_ZSTRING_LIST
+		do
+			create Result.make_from_general (lines)
+		end
 
 feature {NONE} -- Implementation: attributes
 

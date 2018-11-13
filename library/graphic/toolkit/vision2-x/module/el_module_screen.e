@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2018-11-12 18:16:36 GMT (Monday 12th November 2018)"
+	revision: "7"
 
 class
 	EL_MODULE_SCREEN
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MODULE
 
-feature -- Access
+feature {NONE} -- Constants
 
 	Screen: EL_SCREEN
 			--

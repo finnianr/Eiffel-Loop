@@ -1,0 +1,9 @@
+<?xml version = "1.0" encoding = "$encoding_name"?>
+<backups>
+#foreach $file in $file_list loop
+	<file name = "$file.name">
+		<modified>$file.modification_time</modified>
+		<size>$file.byte_count</size>
+	</file>
+#end
+</backups>

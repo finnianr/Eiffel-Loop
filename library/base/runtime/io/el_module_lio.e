@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2018-11-12 18:19:30 GMT (Monday 12th November 2018)"
+	revision: "6"
 
 class
 	EL_MODULE_LIO
@@ -28,14 +28,14 @@ inherit
 
 	EL_MODULE_ARGS
 
-feature -- Access
+feature {NONE} -- Access
 
 	Lio: EL_LOGGABLE
 		once
 			Result := new_lio
 		end
 
-feature -- Status query
+feature {NONE} -- Status query
 
 	is_lio_enabled: BOOLEAN
 		-- True if the `Current' type has been registered in console manger with call to

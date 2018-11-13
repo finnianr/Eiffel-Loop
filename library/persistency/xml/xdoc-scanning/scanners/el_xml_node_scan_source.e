@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-24 11:36:44 GMT (Wednesday 24th May 2017)"
-	revision: "3"
+	date: "2018-11-12 10:37:36 GMT (Monday 12th November 2018)"
+	revision: "4"
 
 deferred class
 	EL_XML_NODE_SCAN_SOURCE
@@ -33,7 +33,7 @@ feature -- Basic operations
 			scan (a_str)
 		end
 
-	apply_from_lines (a_object: like seed_object; lines: LINEAR [ZSTRING])
+	apply_from_lines (a_object: like seed_object; lines: ITERABLE [READABLE_STRING_GENERAL])
 		do
 			set_seed_object (a_object)
 			scan_from_lines (lines)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2018-11-12 18:11:52 GMT (Monday 12th November 2018)"
+	revision: "6"
 
 class
 	EL_MODULE_BUILD_INFO
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-feature -- Access
+feature {NONE} -- Constants
 
 	Build_info: EL_BUILD_INFO
 			--

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-04 15:45:27 GMT (Wednesday 4th April 2018)"
-	revision: "5"
+	date: "2018-11-12 18:15:50 GMT (Monday 12th November 2018)"
+	revision: "6"
 
 class
 	EL_MODULE_HTTP_STATUS
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MODULE
 
-feature -- Access
+feature {NONE} -- Constants
 
 	Http_status: EL_HTTP_STATUS_ENUM
 		once

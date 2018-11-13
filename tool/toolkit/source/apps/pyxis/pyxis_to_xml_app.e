@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-30 8:36:52 GMT (Sunday 30th September 2018)"
-	revision: "12"
+	date: "2018-11-12 11:07:05 GMT (Monday 12th November 2018)"
+	revision: "13"
 
 class
 	PYXIS_TO_XML_APP
@@ -31,9 +31,9 @@ feature -- Testing
 			--
 		do
 --			Test.do_all_files_test ("pyxis/localization", "*.pyx", agent test_pyxis_to_xml, 2456797719)
---			Test.do_all_files_test ("pyxis", "*", agent test_pyxis_to_xml, 3520740179)
+			Test.do_all_files_test ("pyxis", "*", agent test_pyxis_to_xml, 118385875)
 
-			Test.do_file_test ("pyxis/eiffel-loop.pecf", agent test_pyxis_to_xml, 1178369469)
+--			Test.do_file_test ("pyxis/eiffel-loop.pecf", agent test_pyxis_to_xml, 1178369469)
 
 --			Test.do_file_test ("pyxis/configuration.xsd.pyx", agent test_pyxis_to_xml, 638220420)
 

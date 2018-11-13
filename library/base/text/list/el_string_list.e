@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 14:20:34 GMT (Monday 5th November 2018)"
-	revision: "10"
+	date: "2018-11-12 10:57:30 GMT (Monday 12th November 2018)"
+	revision: "11"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -40,7 +40,7 @@ inherit
 
 create
 	make, make_empty, make_with_separator, make_with_lines,
-	make_with_words, make_from_array, make_from_list, make_from_tuple
+	make_with_words, make_from_array, make_from_list, make_from_tuple, make_from_general
 
 convert
 	make_from_array ({ARRAY [S]})
@@ -61,6 +61,16 @@ feature {NONE} -- Initialization
 		do
 			make (tuple.count)
 			append_tuple (tuple)
+		end
+
+	make_from_general (iterable: ITERABLE [READABLE_STRING_GENERAL])
+		do
+			if attached {FINITE [READABLE_STRING_GENERAL]} iterable as finite then
+				make (finite.count)
+			else
+				make (0)
+			end
+			append_general (iterable)
 		end
 
 feature -- Access
@@ -85,7 +95,7 @@ feature -- Element change
 		local
 			i: INTEGER; string: S; str_8: STRING
 		do
-			grow (tuple.count)
+			grow (count + tuple.count)
 			from i := 1 until i > tuple.count loop
 				if tuple.is_reference_item (i)
 					and then attached {STRING_GENERAL} tuple.reference_item (i) as general
@@ -103,6 +113,24 @@ feature -- Element change
 				end
 				extend (string)
 				i := i + 1
+			end
+		end
+
+	append_general (iterable: ITERABLE [READABLE_STRING_GENERAL])
+		local
+			string: S
+		do
+			if attached {FINITE [READABLE_STRING_GENERAL]} iterable as finite then
+				grow (count + finite.count)
+			end
+			across iterable as general loop
+				if attached {S} general.item as str then
+					string := str
+				else
+					create string.make (general.item.count)
+					string.append (general.item)
+				end
+				extend (string)
 			end
 		end
 

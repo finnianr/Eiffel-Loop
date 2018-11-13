@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 12:35:21 GMT (Monday 29th October 2018)"
-	revision: "4"
+	date: "2018-11-07 17:48:55 GMT (Wednesday 7th November 2018)"
+	revision: "5"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER

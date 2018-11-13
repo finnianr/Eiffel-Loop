@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-11-12 10:00:58 GMT (Monday 12th November 2018)"
+	revision: "7"
 
 class
 	EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_PARSE_EVENT_SOURCE
 		redefine
-			make
+			make, new_file_stream
 		end
 
 	EL_XML_PARSE_EVENT_STREAM
@@ -34,6 +34,13 @@ feature {NONE}  -- Initialisation
 			create attribute_list.make
 			create name_index_array.make (Name_index_table_size)
 			set_encoding (scanner.encoding_type, scanner.encoding_id)
+		end
+
+feature -- Factory
+
+	new_file_stream (a_file_path: EL_FILE_PATH): FILE
+		do
+			create {RAW_FILE} Result.make_with_name (a_file_path)
 		end
 
 feature -- Basic operations

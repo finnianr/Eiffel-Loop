@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 17:34:14 GMT (Sunday 28th October 2018)"
-	revision: "6"
+	date: "2018-11-12 11:12:18 GMT (Monday 12th November 2018)"
+	revision: "7"
 
 class
 	EL_HTML_TEXT
@@ -17,7 +17,7 @@ inherit
 
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
 		rename
-			build_from_file as set_text_from_xhtml_path
+			build_from_file as build_from_xhtml_file
 		undefine
 			default_create, copy
 		end

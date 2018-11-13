@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 10:08:49 GMT (Sunday 28th October 2018)"
-	revision: "6"
+	date: "2018-11-12 10:37:49 GMT (Monday 12th November 2018)"
+	revision: "7"
 
 deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
@@ -61,16 +61,15 @@ feature -- Basic operations
 	build_from_file (a_file_path: EL_FILE_PATH)
 			--
 		local
-			stream: IO_MEDIUM
+			file: FILE
 		do
-			if Node_source.event_source.generating_type ~ {EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE} then
-				create {RAW_FILE} stream.make_open_read (a_file_path)
-			else
-				create {PLAIN_TEXT_FILE} stream.make_open_read (a_file_path)
-			end
-			build_from_stream (stream)
-			if stream.is_open_read then
-				stream.close
+			file := Node_source.event_source.new_file_stream (a_file_path)
+			if file.exists then
+				file.open_read
+				build_from_stream (file)
+				if file.is_open_read then
+					file.close
+				end
 			end
 		end
 
@@ -88,7 +87,7 @@ feature -- Basic operations
 			Node_source.apply_from_string (Current, a_string)
 		end
 
-	build_from_lines (lines: LINEAR [ZSTRING])
+	build_from_lines (lines: ITERABLE [READABLE_STRING_GENERAL])
 			--
 		do
 			Node_source.apply_from_lines (Current, lines)

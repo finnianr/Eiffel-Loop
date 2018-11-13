@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2018-11-09 11:31:29 GMT (Friday 9th November 2018)"
+	revision: "6"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -20,9 +20,8 @@ inherit
 			set_source_text as set_search_terms
 		export
 			{NONE} all
-			{ANY} set_search_terms
 		redefine
-			make, reset, set_search_terms, source_text
+			make, reset, source_text
 		end
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
@@ -57,26 +56,29 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	condition_list: ARRAYED_LIST [EL_QUERY_CONDITION [G]]
-
 	match_words: ARRAYED_LIST [EL_TOKENIZED_STRING]
+
+	query_condition: EL_QUERY_CONDITION [G]
+		do
+			inspect condition_list.count
+				when 0 then
+					create {EL_ANY_QUERY_CONDITION [G]} Result
+				when 1 then
+					Result := condition_list.first
+			else
+				create {EL_ALL_OF_QUERY_CONDITION [G]} Result.make (condition_list.to_array)
+			end
+		end
 
 feature -- Element Change
 
- 	set_search_terms (search_terms: ZSTRING)
+ 	set_query_condition (a_search_terms: ZSTRING; a_word_table: like word_token_table)
  			--
- 		require else
- 			no_leading_or_trailing_white_space: search_terms.leading_white_space + search_terms.trailing_white_space = 0
  		do
- 			Precursor (search_terms)
+			word_token_table := a_word_table
+ 			set_search_terms (a_search_terms.stripped)
 			compile_conditions
  		end
-
-	set_word_table (a_word_table: like word_token_table)
-			--
-		do
-			word_token_table := a_word_table
-		end
 
 feature -- Status query
 
@@ -237,6 +239,10 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_empty
 		end
+
+feature {NONE} -- Internal attributes
+
+	condition_list: ARRAYED_LIST [EL_QUERY_CONDITION [G]]
 
 	has_hypen_prefix: BOOLEAN
 

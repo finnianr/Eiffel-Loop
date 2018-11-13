@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-02 11:03:28 GMT (Friday 2nd November 2018)"
-	revision: "4"
+	date: "2018-11-13 10:41:43 GMT (Tuesday 13th November 2018)"
+	revision: "5"
 
 class
 	EL_BOOK_INFO
@@ -30,7 +30,7 @@ inherit
 			make_default
 		end
 
-	EVOLICITY_XML_ESCAPED_CONTEXT
+	EVOLICITY_REFLECTIVE_XML_CONTEXT
 		undefine
 			is_equal
 		end

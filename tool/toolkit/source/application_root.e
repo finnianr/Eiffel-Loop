@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 13:19:21 GMT (Friday 12th October 2018)"
-	revision: "15"
+	date: "2018-11-12 17:49:40 GMT (Monday 12th November 2018)"
+	revision: "16"
 
 class
 	APPLICATION_ROOT
@@ -31,6 +31,7 @@ feature {NONE} -- Implementation
 				{FILTER_INVALID_UTF_8_APP},
 				{FILE_TREE_TRANSFORM_SCRIPT_APP},
 				{FTP_BACKUP_APP}, -- uses ftp (depends eposix)
+				{FILE_MANIFEST_APP},
 
 				{HTML_BODY_WORD_COUNTER_APP},
 				{JOBSERVE_SEARCH_APP},

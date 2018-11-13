@@ -372,7 +372,7 @@ Classes for processing documents encoded with various kinds of markup language.
 
 **2.** Read and export emails from the [Thunderbird email client](https://www.thunderbird.net/) including a class to generate a Kindle book from a folder of chapter emails.
 
-**3.** Classes for generating Kindle packages from HTML content.
+**3.** Classes for generating Kindle OPF packages from HTML content.
 ## Multi-Application Management
 This library has two main purposes:
 

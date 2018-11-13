@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2018-11-12 11:04:24 GMT (Monday 12th November 2018)"
+	revision: "7"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -53,7 +53,7 @@ feature -- Basic operations
 			scan_from_stream (a_input)
 		end
 
-	convert_lines (lines: LINEAR [ZSTRING]; a_output: like output)
+	convert_lines (lines: ITERABLE [READABLE_STRING_GENERAL]; a_output: like output)
 			--
 		require
 			valid_output: a_output.is_open_write and a_output.is_writable

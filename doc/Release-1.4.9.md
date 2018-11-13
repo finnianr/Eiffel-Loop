@@ -139,7 +139,9 @@ There is also an auxiliary class [`EL_KEY_INDEXABLE`](http://www.eiffel-loop.com
 
 The above example shows a descendant class `EL_REFLECTIVELY_STORABLE_LIST` which allows you to reflectively export to CSV files provided that the list parameter conforms to `EL_REFLECTIVELY_SETTABLE_STORABLE`.
 
-### New class
+### Extensions to EL_CHAIN
+
+Added many new query routines to class `EL_CHAIN`
 
 ## ENCRYPTION library
 
@@ -180,6 +182,12 @@ The above example shows a descendant class `EL_REFLECTIVELY_STORABLE_LIST` which
 * Fixed `{EL_OS_COMMAND_I}.new_temporary_file_path` to produce unique file names for the same command.
 
 * Optimised number of objects created when calling `{EL_OS_COMMAND_I}.new_temporary_file_path`
+
+* Added class `EL_FILE_MANIFEST_COMMAND` for creating XML manifest of a directory.
+
+## SEARCH-ENGINE library
+
+Refactored library to use `EL_QUERY_CONDITION` class and the function `{EL_CHAIN}.query`
 
 ## SERVLET library
 

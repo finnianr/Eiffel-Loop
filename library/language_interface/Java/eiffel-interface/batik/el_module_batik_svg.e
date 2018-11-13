@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-11-12 18:17:55 GMT (Monday 12th November 2018)"
+	revision: "6"
 
 class
 	EL_MODULE_BATIK_SVG
@@ -44,23 +44,20 @@ feature -- Clean up
 			end
 		end
 
-feature -- Access
+feature {NONE} -- Constants
 
-	batik_svg: EL_BATIK_SVG
+	Batik_svg: EL_BATIK_SVG
 		require
 			java_prepared: is_java_prepared.item
 		once
 			create Result
 		end
 
-feature -- Status query
+feature {NONE} -- Status query
 
 	is_java_prepared: BOOLEAN_REF
 		once
 			create Result
 		end
-
-feature {NONE} -- Implementation
-
 
 end

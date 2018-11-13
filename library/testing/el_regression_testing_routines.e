@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:30:08 GMT (Wednesday 17th October 2018)"
-	revision: "9"
+	date: "2018-11-13 12:18:12 GMT (Tuesday 13th November 2018)"
+	revision: "10"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -73,6 +73,8 @@ feature -- Basic operations
 			-- Perform test that operates on set of files
 		do
 			lio.put_path_field ("Testing with", relative_dir); lio.put_string_field (" pattern", file_name_pattern)
+			lio.put_new_line
+
 			do_directory_test (relative_dir, file_name_pattern, test, valid_test_checksum)
 		end
 
@@ -80,6 +82,8 @@ feature -- Basic operations
 			-- Perform test that operates on a single file
 		do
 			lio.put_path_field ("Testing with", relative_path)
+			lio.put_new_line
+
 			reset_work_area
 			OS.copy_file (test_data_dir + relative_path, work_area_dir)
 			test.set_operands ([work_area_dir + relative_path.base])
@@ -90,6 +94,8 @@ feature -- Basic operations
 			-- Perform test that operates on a file tree
 		do
 			lio.put_path_field ("Testing with", relative_dir)
+			lio.put_new_line
+			
 			do_directory_test (relative_dir, Empty_pattern, test, valid_test_checksum)
 		end
 

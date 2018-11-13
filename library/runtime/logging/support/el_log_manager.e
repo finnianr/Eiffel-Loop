@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-21 10:07:58 GMT (Thursday 21st June 2018)"
-	revision: "8"
+	date: "2018-11-12 18:15:27 GMT (Monday 12th November 2018)"
+	revision: "9"
 
 class
 	EL_LOG_MANAGER
@@ -63,7 +63,7 @@ feature -- Access
 	current_thread_log_path: EL_FILE_PATH
 			--
 		require
-			logging_is_active: logging.is_active
+			logging_is_active: is_logging_active
 		do
 			create Result.make_from_path (current_thread_log_file.path)
 		end
@@ -158,6 +158,11 @@ feature -- Status query
 			end_restriction
 		end
 
+	is_logging_active: BOOLEAN
+		do
+			Result := Logging.is_active
+		end
+
 	no_thread_logs_created: BOOLEAN
 			--
 		do
@@ -179,7 +184,7 @@ feature -- Basic operations
 		--	Activate a thread's logging output to console
 		-- (Only one thread can be active at a time)
 		require
-			valid_index: logging.is_active implies is_valid_console_index (index)
+			valid_index: is_logging_active implies is_valid_console_index (index)
 		local
 			log_file: EL_FILE_AND_CONSOLE_LOG_OUTPUT
 		do

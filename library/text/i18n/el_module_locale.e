@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-06 9:49:28 GMT (Sunday 6th August 2017)"
-	revision: "4"
+	date: "2018-11-12 18:09:11 GMT (Monday 12th November 2018)"
+	revision: "5"
 
 class
 	EL_MODULE_LOCALE
@@ -24,7 +24,7 @@ inherit
 			new_locale
 		end
 
-feature -- Access
+feature {NONE} -- Constants
 
 	Locale: EL_DEFAULT_LOCALE_I
 			--
