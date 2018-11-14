@@ -1,0 +1,34 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			EL_ROUTINE_APPLICATOR
+				[$source EL_STATE_MACHINE]
+					[$source EL_HTTP_COOKIE_TABLE]
+					[$source EL_HTTP_HEADERS]
+					[$source EL_COMMA_SEPARATED_LINE_PARSER]
+						[$source EL_UTF_8_COMMA_SEPARATED_LINE_PARSER]
+					[$source EL_PLAIN_TEXT_LINE_STATE_MACHINE]
+						[$source EL_SEND_MAIL_COMMAND_I]*
+							[$source EL_SEND_MAIL_COMMAND_IMP]
+						[$source EL_IP_ADAPTER_INFO_COMMAND_I]*
+							[$source EL_IP_ADAPTER_INFO_COMMAND_IMP]
+						[$source EL_GVFS_OS_COMMAND]
+							[$source EL_GVFS_FILE_EXISTS_COMMAND]
+							[$source EL_GVFS_REMOVE_FILE_COMMAND]
+							[$source EL_GVFS_FILE_LIST_COMMAND]
+							[$source EL_GVFS_FILE_COUNT_COMMAND]
+							[$source EL_GVFS_MOUNT_LIST_COMMAND]
+						[$source EL_AUDIO_PROPERTIES_COMMAND_I]*
+							[$source EL_AUDIO_PROPERTIES_COMMAND_IMP]
+						[$source EL_PYXIS_PARSER]
+				[$source EL_CHAIN_SUMMATOR]
+				[$source EL_CHAIN_STRING_LIST_COMPILER]
+				[$source EL_ROUTINE_QUERY_CONDITION]
+					[$source EL_PREDICATE_QUERY_CONDITION]
+					[$source EL_FUNCTION_VALUE_QUERY_CONDITION]
+				[$source EL_ROUTINE_REFERENCE_APPLICATOR]
+					[$source EL_SPLIT_STRING_LIST]
+						[$source EL_SPLIT_ZSTRING_LIST]
+					[$source EL_PLAIN_TEXT_LINE_STATE_MACHINE]
+					[$source ECD_LIST_INDEX]
+	]"

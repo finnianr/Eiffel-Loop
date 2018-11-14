@@ -28,13 +28,15 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	list (chain: EL_CHAIN [G]; value: FUNCTION [G, ANY]): EL_STRING_LIST [S]
-		-- sum of `value' function across all items of `chain'
+		-- a list of strings of type `S' obtained by converting the return value the `value' function
+		-- for each `chain' item of type `G'.
 		do
 			Result := list_meeting (chain, value, create {EL_ANY_QUERY_CONDITION [G]})
 		end
 
 	list_meeting (chain: EL_CHAIN [G]; value: FUNCTION [G, ANY]; condition: EL_QUERY_CONDITION [G]): EL_STRING_LIST [S]
-		-- sum of `value' function across all items of `chain' meeting `condition'
+		-- a list of strings of type `S' obtained by converting the return value the `value' function
+		-- for each `chain' item of type `G' that meets the `condition' argument.
 		require
 			valid_open_count: value.open_count = 1
 			valid_value_function: not chain.is_empty implies value.valid_operands ([chain.first])
