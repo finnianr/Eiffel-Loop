@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 22:39:21 GMT (Monday 5th November 2018)"
-	revision: "2"
+	date: "2018-11-14 10:26:35 GMT (Wednesday 14th November 2018)"
+	revision: "3"
 
 class
 	EL_ROUTINE_QUERY_CONDITION [G]
@@ -15,12 +15,17 @@ class
 inherit
 	EL_QUERY_CONDITION [G]
 
+	EL_ROUTINE_APPLICATOR [G]
+		rename
+			make as make_applicator
+		end
+
 feature {NONE} -- Initialization
 
 	make (a_routine: like routine)
 		do
-			create operands
 			routine := a_routine
+			make_applicator
 		end
 
 feature -- Status query
@@ -28,20 +33,10 @@ feature -- Status query
 	met (item: G): BOOLEAN
 		-- True if `routine' applied to `item' is true
 		do
-			if operands_set then
-				operands.put (item, 1)
-			else
-				operands := [item]
-				routine.set_operands (operands)
-			end
-			routine.apply
+			apply (routine, item)
 		end
 
 feature {NONE} -- Implementation
-
-	operands_set: BOOLEAN
-
-	operands: TUPLE [G]
 
 	routine: ROUTINE [G]
 

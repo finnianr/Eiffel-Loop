@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 12:37:24 GMT (Monday 29th October 2018)"
-	revision: "10"
+	date: "2018-11-14 9:49:59 GMT (Wednesday 14th November 2018)"
+	revision: "11"
 
 class
 	EL_COMMA_SEPARATED_LINE_PARSER
 
 inherit
 	EL_STATE_MACHINE [CHARACTER_8]
-		rename
-			make as make_machine
 		redefine
-			call
+			make, set_operands
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -31,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_machine
+			Precursor
 			create fields.make (0)
 			create field_string.make_empty
 			set_states
@@ -164,12 +162,9 @@ feature {NONE} -- Implementation
 			field_string.wipe_out
 		end
 
-	call (item: CHARACTER)
-		-- call state procedure with item
+	set_operands (a_operands: like operands; argument: CHARACTER)
 		do
-			argument_tuple.put_character (item, 1)
-			state.set_operands (argument_tuple)
-			state.apply
+			a_operands.put_character (argument, 1)
 		end
 
 	set_states

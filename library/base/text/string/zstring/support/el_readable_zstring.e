@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-20 8:44:06 GMT (Saturday 20th October 2018)"
-	revision: "24"
+	date: "2018-11-14 9:39:15 GMT (Wednesday 14th November 2018)"
+	revision: "25"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -843,20 +843,17 @@ feature -- Status query
 			consistent_indexes: start_index - 1 <= end_index
 		local
 			c_i: CHARACTER; i: INTEGER; l_area: like area
-			test_arg: TUPLE [CHARACTER_32]
+
 		do
-			create test_arg
-			test.set_operands (test_arg)
 			l_area := area
 			Result := True
 			from i := start_index until not Result or else i > end_index loop
 				c_i := l_area [i - 1]
 				if c_i = Unencoded_character then
-					test_arg.put_character_32 (unencoded_item (i), 1)
+					Applicator.apply (test, unencoded_item (i))
 				else
-					test_arg.put_character_32 (codec.as_unicode_character (c_i), 1)
+					Applicator.apply (test, codec.as_unicode_character (c_i))
 				end
-				test.apply
 				Result := Result and test.last_result
 				i := i + 1
 			end
@@ -2350,6 +2347,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Applicator: EL_ROUTINE_APPLICATOR [CHARACTER_32]
+		once
+			create Result.make
+		end
 
 	Once_expanded_strings: SPECIAL [STRING_32]
 		once

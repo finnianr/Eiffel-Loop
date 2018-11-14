@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-12 10:51:09 GMT (Monday 12th November 2018)"
-	revision: "9"
+	date: "2018-11-14 9:39:36 GMT (Wednesday 14th November 2018)"
+	revision: "10"
 
 class
 	EL_PYXIS_PARSER
@@ -22,7 +22,7 @@ inherit
 		rename
 			make as make_machine
 		redefine
-			call
+			apply
 		end
 
 	EL_PYTHON_UNESCAPE_CONSTANTS
@@ -80,7 +80,7 @@ feature -- Basic operations
 	parse_from_lines (line_source: LINEAR [ZSTRING])
 		do
 			do_with_lines (agent find_pyxis_doc, line_source)
-			call ("doc-end:")
+			apply (state, "doc-end:")
 			scanner.on_end_document
 		end
 
@@ -329,8 +329,7 @@ feature {NONE} -- Parse events
 
 feature {NONE} -- Implementation
 
-	call (line: ZSTRING)
-		-- call state procedure with item
+	apply (routine: ROUTINE; line: ZSTRING)
 		local
 			count_with_tabs: INTEGER
 		do
@@ -338,7 +337,7 @@ feature {NONE} -- Implementation
 			line.prune_all_leading ('%T')
 			tab_count := count_with_tabs - line.count
 			line.right_adjust
-			Precursor (line)
+			Precursor (routine, line)
 		end
 
 	adjust_element_stack

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 12:37:17 GMT (Monday 29th October 2018)"
-	revision: "7"
+	date: "2018-11-14 10:08:45 GMT (Wednesday 14th November 2018)"
+	revision: "8"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -26,8 +26,13 @@ inherit
 		rename
 			traverse as do_with_lines,
 			item_number as line_number
-		redefine
-			call
+		undefine
+			set_operands
+		end
+
+	EL_ROUTINE_REFERENCE_APPLICATOR [ZSTRING]
+		undefine
+			make
 		end
 
 feature -- Basic operations
@@ -38,13 +43,4 @@ feature -- Basic operations
 			lines.close
 		end
 
-feature {NONE} -- Implementation
-
-	call (item: ZSTRING)
-		-- call state procedure with item
-		do
-			argument_tuple.put_reference (item, 1)
-			state.set_operands (argument_tuple)
-			state.apply
-		end
 end

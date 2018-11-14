@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-24 11:57:42 GMT (Thursday 24th May 2018)"
-	revision: "6"
+	date: "2018-11-14 10:07:35 GMT (Wednesday 14th November 2018)"
+	revision: "7"
 
 class
 	ECD_LIST_INDEX [G -> EL_STORABLE create make_default end, K -> detachable HASHABLE]
@@ -26,6 +26,15 @@ inherit
 			search
 		end
 
+	EL_ROUTINE_REFERENCE_APPLICATOR [G]
+		rename
+			make as make_applicator
+		export
+			{NONE} all
+		undefine
+			is_equal, copy
+		end
+
 create
 	make
 
@@ -34,9 +43,7 @@ feature {NONE} -- Initialization
 	make (a_list: like list; a_storable_key: like storable_key; n: INTEGER)
 		do
 			list := a_list; storable_key := a_storable_key
-			make_equal (n)
-			create key_argument
-			storable_key.set_operands (key_argument)
+			make_equal (n); make_applicator
 			create default_found_item.make_default
 			found_item := default_found_item
 		end
@@ -107,15 +114,14 @@ feature {ECD_ARRAYED_LIST} -- Event handlers
 feature {NONE} -- Implementation
 
 	item_key (v: G): K
+		require
+			not_empty_list: not list.is_empty
 		do
-			key_argument.storable := list.last
-			storable_key.apply
+			apply (storable_key, list.last)
 			Result := storable_key.last_result
 		end
 
 feature {NONE} -- Internal attributes
-
-	key_argument: TUPLE [storable: G]
 
 	storable_key: FUNCTION [G, K]
 

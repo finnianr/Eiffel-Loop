@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 15:03:31 GMT (Sunday 15th October 2017)"
-	revision: "2"
+	date: "2018-11-14 10:22:10 GMT (Wednesday 14th November 2018)"
+	revision: "3"
 
 class
 	EL_ENVIRON_VARIABLE

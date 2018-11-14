@@ -8,11 +8,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-04 11:27:44 GMT (Sunday 4th November 2018)"
-	revision: "1"
+	date: "2018-11-14 9:43:08 GMT (Wednesday 14th November 2018)"
+	revision: "2"
 
 class
 	EL_CHAIN_SUMMATOR [G, N -> NUMERIC]
+
+inherit
+	EL_ROUTINE_APPLICATOR [G]
+		redefine
+			default_create
+		end
+
+feature {NONE} -- Initialization
+
+	default_create
+		do
+			make
+		end
 
 feature -- Access
 
@@ -27,20 +40,11 @@ feature -- Access
 		require
 			valid_open_count: value.open_count = 1
 			valid_value_function: not chain.is_empty implies value.valid_operands ([chain.first])
-		local
-			operands: TUPLE [G]; operands_set: BOOLEAN
 		do
 			chain.push_cursor
 			from chain.start until chain.after loop
 				if condition.met (chain.item) then
-					if operands_set then
-						operands.put (chain.item, 1)
-					else
-						operands := [chain.item]
-						value.set_operands (operands)
-						operands_set := True
-					end
-					value.apply
+					apply (value, chain.item)
 					Result := Result + value.last_result
 				end
 				chain.forth

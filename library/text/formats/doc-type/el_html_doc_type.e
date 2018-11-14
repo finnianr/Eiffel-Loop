@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 14:50:44 GMT (Tuesday 10th April 2018)"
-	revision: "7"
+	date: "2018-11-14 9:45:25 GMT (Wednesday 14th November 2018)"
+	revision: "8"
 
 class
 	EL_HTML_DOC_TYPE
@@ -21,7 +21,7 @@ inherit
 		undefine
 			out
 		redefine
-			call
+			apply
 		end
 
 create
@@ -73,11 +73,11 @@ feature {NONE} -- State handlers
 
 feature {NONE} -- Implementation
 
-	call (line: ZSTRING)
+	apply (routine: ROUTINE; line: ZSTRING)
 		-- call state procedure with item
 		do
 			line.left_adjust
-			state.call ([line])
+			apply (routine, line)
 		end
 
 feature {NONE} -- Constants

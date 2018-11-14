@@ -6,19 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 12:36:54 GMT (Monday 29th October 2018)"
-	revision: "7"
+	date: "2018-11-14 9:27:03 GMT (Wednesday 14th November 2018)"
+	revision: "8"
 
 class
 	EL_STATE_MACHINE [G]
+
+inherit
+	EL_ROUTINE_APPLICATOR [G]
+		export
+			{NONE} all
+		redefine
+			make
+		end
 
 feature {NONE} -- Initialization
 
 	make
 		do
+			Precursor
 			final := agent (v: G) do end
 			state := final
-			create argument_tuple
 		end
 
 feature -- Basic operations
@@ -31,7 +39,7 @@ feature -- Basic operations
 			item_number := 0; l_final := final
 			from sequence.start; state := initial until sequence.after or state = l_final loop
 				item_number := item_number + 1
-				call (sequence.item)
+				apply (state, sequence.item)
 				sequence.forth
 			end
 		end
@@ -44,19 +52,9 @@ feature -- Basic operations
 			upper := indexable.upper
 			from i := indexable.lower; state := initial until i > upper or state = l_final loop
 				item_number := item_number + 1
-				call (indexable [i])
+				apply (state, indexable [i])
 				i := i + 1
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	call (item: G)
-		-- call state procedure with item
-		do
-			argument_tuple.put (item, 1)
-			state.set_operands (argument_tuple)
-			state.apply
 		end
 
 feature {NONE} -- Internal attributes
@@ -66,7 +64,5 @@ feature {NONE} -- Internal attributes
 	item_number: INTEGER
 
 	state: PROCEDURE [G]
-
-	argument_tuple: TUPLE [G]
 
 end

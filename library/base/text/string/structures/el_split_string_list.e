@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-07 18:37:49 GMT (Wednesday 7th November 2018)"
-	revision: "7"
+	date: "2018-11-14 10:20:34 GMT (Wednesday 14th November 2018)"
+	revision: "8"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -29,7 +29,7 @@ inherit
 			item_upper as end_index,
 			there_exists as there_exists_interval
 		redefine
-			is_equal, make_empty, make_from_sub_list
+			is_equal, make_intervals, make_from_sub_list
 		end
 
 	EL_JOINED_STRINGS [S]
@@ -37,6 +37,13 @@ inherit
 			is_equal, copy, out
 		redefine
 			character_count
+		end
+
+	EL_ROUTINE_REFERENCE_APPLICATOR [S]
+		rename
+			make as make_applicator
+		undefine
+			is_equal, copy, out
 		end
 
 create
@@ -51,7 +58,6 @@ feature {NONE} -- Initialization
 			last_interval: INTEGER_64
 		do
 			string := a_string
-			create internal_item.make_empty
 			create l_occurrences.make (a_string, delimiter)
 			last_interval := new_item (1, 0)
 			make_intervals (l_occurrences.count + 1)
@@ -67,17 +73,19 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_empty
+	make_intervals (a_capacity: INTEGER)
 		do
-			create string.make_empty
+			make_applicator
+			if not attached string then
+				create string.make_empty
+			end
 			create internal_item.make_empty
-			Precursor
+			Precursor (a_capacity)
 		end
 
 	make_from_sub_list (list: like Current; a_start_index, a_end_index: INTEGER)
 		do
 			string := list.string
-			create internal_item.make_empty
 			Precursor (list, a_start_index, a_end_index)
 		end
 
@@ -92,10 +100,9 @@ feature -- Basic operations
 		-- apply `action' for all delimited substrings
 		do
 			push_cursor
-			set_operands (action)
 			from start until after loop
 				update_internal_item
-				action.apply
+				apply (action, internal_item)
 				forth
 			end
 			pop_cursor
@@ -178,9 +185,9 @@ feature -- Status query
 		do
 			push_cursor
 			Result := True
-			set_operands (predicate)
 			from start until not Result or after loop
-				update_internal_item; predicate.apply
+				update_internal_item
+				apply (predicate, internal_item)
 				Result := predicate.last_result
 				forth
 			end
@@ -219,9 +226,9 @@ feature -- Status query
 		-- `True' if one split substring matches `predicate'
 		do
 			push_cursor
-			set_operands (predicate)
 			from start until Result or after loop
-				update_internal_item; predicate.apply
+				update_internal_item
+				apply (predicate, internal_item)
 				Result := predicate.last_result
 				forth
 			end
@@ -236,11 +243,6 @@ feature -- Comparison
 		end
 
 feature {NONE} -- Implementation
-
-	set_operands (routine: ROUTINE [like item])
-		do
-			routine.set_operands ([internal_item])
-		end
 
 	update_internal_item
 		local
