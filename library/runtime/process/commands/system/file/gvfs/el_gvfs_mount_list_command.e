@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-14 9:37:00 GMT (Wednesday 14th November 2018)"
-	revision: "6"
+	date: "2018-11-15 15:25:40 GMT (Thursday 15th November 2018)"
+	revision: "7"
 
 class
 	EL_GVFS_MOUNT_LIST_COMMAND
@@ -18,7 +18,7 @@ inherit
 			make as make_command,
 			find_line as find_mount
 		redefine
-			find_mount, apply, reset
+			find_mount, call, reset
 		end
 
 create
@@ -60,10 +60,10 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	apply (routine: ROUTINE; line: ZSTRING)
+	call (line: ZSTRING)
 		do
 			line.left_adjust
-			Precursor (routine, line)
+			Precursor (line)
 		end
 
 feature {NONE} -- Constants

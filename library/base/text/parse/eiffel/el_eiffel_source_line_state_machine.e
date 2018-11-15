@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-14 9:45:51 GMT (Wednesday 14th November 2018)"
-	revision: "3"
+	date: "2018-11-15 15:23:15 GMT (Thursday 15th November 2018)"
+	revision: "4"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		redefine
-			apply, make
+			call, make
 		end
 
 	EL_EIFFEL_KEYWORDS
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	apply (routine: ROUTINE; line: ZSTRING)
+	call (line: ZSTRING)
 		local
 			cl: ZSTRING
 		do
@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 			if cl.count > 0 then
 				cl.right_adjust
 			end
-			Precursor (routine, line)
+			Precursor (line)
 		end
 
 	code_line_is_class_declaration: BOOLEAN

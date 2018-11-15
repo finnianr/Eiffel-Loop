@@ -6,24 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-14 9:43:15 GMT (Wednesday 14th November 2018)"
-	revision: "2"
+	date: "2018-11-15 15:17:15 GMT (Thursday 15th November 2018)"
+	revision: "3"
 
 class
 	EL_CHAIN_STRING_LIST_COMPILER [G, S -> STRING_GENERAL create make, make_empty end]
-
-inherit
-	EL_ROUTINE_APPLICATOR [G]
-		redefine
-			default_create
-		end
-
-feature {NONE} -- Initialization
-
-	default_create
-		do
-			make
-		end
 
 feature -- Access
 
@@ -42,17 +29,17 @@ feature -- Access
 			valid_value_function: not chain.is_empty implies value.valid_operands ([chain.first])
 		local
 			indices: SPECIAL [INTEGER]; i: INTEGER
-			general: READABLE_STRING_GENERAL
+			general: READABLE_STRING_GENERAL; l_value: ANY
 		do
 			indices := chain.indices_meeting (condition)
 			create Result.make (indices.count)
 			if indices.count > 0 then
 				from i := 0 until i = indices.count loop
-					apply (value, chain.i_th (indices [i]))
-					if attached {READABLE_STRING_GENERAL} value.last_result as str then
+					l_value := value (chain.i_th (indices [i]))
+					if attached {READABLE_STRING_GENERAL} l_value as str then
 						general := str
 					else
-						general := value.last_result.out
+						general := l_value.out
 					end
 					if attached {S} general as str then
 						Result.extend (str)

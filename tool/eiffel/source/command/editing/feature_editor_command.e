@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-14 9:46:57 GMT (Wednesday 14th November 2018)"
-	revision: "6"
+	date: "2018-11-15 15:35:45 GMT (Thursday 15th November 2018)"
+	revision: "7"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -19,7 +19,7 @@ inherit
 		export
 			{EL_COMMAND_CLIENT} make
 		redefine
-			apply
+			call
 		end
 
 	EL_COMMAND
@@ -38,12 +38,12 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	apply (routine: ROUTINE; line: ZSTRING)
+	call (line: ZSTRING)
 		do
 			if line.starts_with (Feature_abbreviation) then
 				expand (line)
 			end
-			Precursor (routine, line)
+			Precursor (line)
 		end
 
 	edit_feature_group (feature_list: EL_SORTABLE_ARRAYED_LIST [CLASS_FEATURE])

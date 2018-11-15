@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-14 9:39:15 GMT (Wednesday 14th November 2018)"
-	revision: "25"
+	date: "2018-11-15 15:34:21 GMT (Thursday 15th November 2018)"
+	revision: "26"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -834,8 +834,8 @@ feature -- Status query
 	extendible: BOOLEAN = True
 			-- May new items be added? (Answer: yes.)
 
-	for_all (start_index, end_index: INTEGER; test: PREDICATE [CHARACTER_32]): BOOLEAN
-		-- True if `test' is true for all characters in range `start_index' .. `end_index'
+	for_all (start_index, end_index: INTEGER; condition: PREDICATE [CHARACTER_32]): BOOLEAN
+		-- True if `condition' is true for all characters in range `start_index' .. `end_index'
 		-- (when testing for whitespace, use `is_substring_whitespace', it's more efficient)
 		require
 			start_index_big_enough: 1 <= start_index
@@ -850,11 +850,10 @@ feature -- Status query
 			from i := start_index until not Result or else i > end_index loop
 				c_i := l_area [i - 1]
 				if c_i = Unencoded_character then
-					Applicator.apply (test, unencoded_item (i))
+					Result := Result and condition (unencoded_item (i))
 				else
-					Applicator.apply (test, codec.as_unicode_character (c_i))
+					Result := Result and condition (codec.as_unicode_character (c_i))
 				end
-				Result := Result and test.last_result
 				i := i + 1
 			end
 		end
@@ -2347,11 +2346,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Applicator: EL_ROUTINE_APPLICATOR [CHARACTER_32]
-		once
-			create Result.make
-		end
 
 	Once_expanded_strings: SPECIAL [STRING_32]
 		once

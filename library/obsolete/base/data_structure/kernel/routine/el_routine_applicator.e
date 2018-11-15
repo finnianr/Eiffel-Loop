@@ -2,6 +2,9 @@ note
 	description: "Apply routine with argument of type G"
 	notes: "[
 		The purpose of this class is to reuse argument tuples across calls resulting in less garbage collection
+		
+		This [http://www.eiffel-loop.com/test/source/benchmark/summator/set_routine_argument_comparison.html
+		benchmark] shows that infact it adds 40% to the execution time, so it is now obsolete
 	]"
 	descendants: "See end of class"
 

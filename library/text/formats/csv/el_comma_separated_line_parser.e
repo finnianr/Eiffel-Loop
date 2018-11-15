@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-14 9:49:59 GMT (Wednesday 14th November 2018)"
-	revision: "11"
+	date: "2018-11-15 15:23:39 GMT (Thursday 15th November 2018)"
+	revision: "12"
 
 class
 	EL_COMMA_SEPARATED_LINE_PARSER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_STATE_MACHINE [CHARACTER_8]
 		redefine
-			make, set_operands
+			make
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -160,11 +160,6 @@ feature {NONE} -- Implementation
 				fields.i_th (column).value := new_string
 			end
 			field_string.wipe_out
-		end
-
-	set_operands (a_operands: like operands; argument: CHARACTER)
-		do
-			a_operands.put_character (argument, 1)
 		end
 
 	set_states

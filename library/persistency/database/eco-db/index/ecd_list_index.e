@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-14 10:07:35 GMT (Wednesday 14th November 2018)"
-	revision: "7"
+	date: "2018-11-15 15:15:46 GMT (Thursday 15th November 2018)"
+	revision: "8"
 
 class
 	ECD_LIST_INDEX [G -> EL_STORABLE create make_default end, K -> detachable HASHABLE]
@@ -26,15 +26,6 @@ inherit
 			search
 		end
 
-	EL_ROUTINE_REFERENCE_APPLICATOR [G]
-		rename
-			make as make_applicator
-		export
-			{NONE} all
-		undefine
-			is_equal, copy
-		end
-
 create
 	make
 
@@ -43,7 +34,7 @@ feature {NONE} -- Initialization
 	make (a_list: like list; a_storable_key: like storable_key; n: INTEGER)
 		do
 			list := a_list; storable_key := a_storable_key
-			make_equal (n); make_applicator
+			make_equal (n)
 			create default_found_item.make_default
 			found_item := default_found_item
 		end
@@ -117,8 +108,7 @@ feature {NONE} -- Implementation
 		require
 			not_empty_list: not list.is_empty
 		do
-			apply (storable_key, list.last)
-			Result := storable_key.last_result
+			Result := storable_key (list.last)
 		end
 
 feature {NONE} -- Internal attributes

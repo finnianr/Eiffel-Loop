@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-14 10:08:45 GMT (Wednesday 14th November 2018)"
-	revision: "8"
+	date: "2018-11-15 15:17:36 GMT (Thursday 15th November 2018)"
+	revision: "9"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -26,13 +26,6 @@ inherit
 		rename
 			traverse as do_with_lines,
 			item_number as line_number
-		undefine
-			set_operands
-		end
-
-	EL_ROUTINE_REFERENCE_APPLICATOR [ZSTRING]
-		undefine
-			make
 		end
 
 feature -- Basic operations

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-14 9:46:32 GMT (Wednesday 14th November 2018)"
-	revision: "6"
+	date: "2018-11-15 15:24:12 GMT (Thursday 15th November 2018)"
+	revision: "7"
 
 class
 	EL_XHTML_STRING_LIST
@@ -22,7 +22,7 @@ inherit
 		undefine
 			is_equal, copy
 		redefine
-			apply
+			call
 		end
 
 	EL_MODULE_XML
@@ -174,14 +174,14 @@ feature {NONE} -- State handlers
 
 feature {NONE} -- Implementation
 
-	apply (routine: ROUTINE; line: ZSTRING)
+	call (line: ZSTRING)
 		-- call state procedure with item
 		do
 			from substitutions.start until substitutions.after loop
 				line.replace_substring_all (substitutions.item.original, substitutions.item.new)
 				substitutions.forth
 			end
-			Precursor (routine, line)
+			Precursor (line)
 		end
 
 	break_tag: ZSTRING

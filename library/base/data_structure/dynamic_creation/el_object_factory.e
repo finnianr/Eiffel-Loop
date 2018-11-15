@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:08:41 GMT (Thursday 10th May 2018)"
-	revision: "6"
+	date: "2018-11-15 12:22:52 GMT (Thursday 15th November 2018)"
+	revision: "7"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -125,6 +125,9 @@ feature -- Access
 			Result := prefix_words.joined_words.as_lower
 		end
 
+	types_indexed_by_name: EL_ZSTRING_HASH_TABLE [TYPE [G]]
+		-- map of alias names to types
+
 	suffix_word_count: INTEGER
 
 	default_alias: ZSTRING
@@ -163,8 +166,5 @@ feature {EL_FACTORY_CLIENT} -- Implementation
 				Result := instance
 			end
 		end
-
-	types_indexed_by_name: EL_ZSTRING_HASH_TABLE [TYPE [G]]
-		-- map of alias names to types
 
 end

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-14 10:20:34 GMT (Wednesday 14th November 2018)"
-	revision: "8"
+	date: "2018-11-15 15:29:50 GMT (Thursday 15th November 2018)"
+	revision: "9"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -37,13 +37,6 @@ inherit
 			is_equal, copy, out
 		redefine
 			character_count
-		end
-
-	EL_ROUTINE_REFERENCE_APPLICATOR [S]
-		rename
-			make as make_applicator
-		undefine
-			is_equal, copy, out
 		end
 
 create
@@ -75,7 +68,6 @@ feature {NONE} -- Initialization
 
 	make_intervals (a_capacity: INTEGER)
 		do
-			make_applicator
 			if not attached string then
 				create string.make_empty
 			end
@@ -102,7 +94,7 @@ feature -- Basic operations
 			push_cursor
 			from start until after loop
 				update_internal_item
-				apply (action, internal_item)
+				action (internal_item)
 				forth
 			end
 			pop_cursor
@@ -187,8 +179,7 @@ feature -- Status query
 			Result := True
 			from start until not Result or after loop
 				update_internal_item
-				apply (predicate, internal_item)
-				Result := predicate.last_result
+				Result := predicate (internal_item)
 				forth
 			end
 			pop_cursor
@@ -228,8 +219,7 @@ feature -- Status query
 			push_cursor
 			from start until Result or after loop
 				update_internal_item
-				apply (predicate, internal_item)
-				Result := predicate.last_result
+				Result := predicate (internal_item)
 				forth
 			end
 			pop_cursor
