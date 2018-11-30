@@ -1,0 +1,154 @@
+note
+	description: "General experiments"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-11-30 12:24:47 GMT (Friday 30th November 2018)"
+	revision: "1"
+
+class
+	GENERAL_EXPERIMENTS
+
+inherit
+	EXPERIMENTAL
+
+feature -- Basic operations
+
+	boolean_ref
+		local
+			b1: BOOLEAN
+			b1_ref, b2_ref: BOOLEAN
+		do
+			b1_ref := b1.to_reference
+			b2_ref := not b1_ref
+			lio.put_string ("b2_ref.item: ")
+			lio.put_boolean (b2_ref.item)
+		end
+
+	char_compression
+		local
+			a_fold: ARRAY [CHARACTER]
+			fold_i_m_1_i: NATURAL; i: INTEGER
+		do
+			io.put_string ("Constant: "); io.put_natural ((('W').natural_32_code |<< 8) | ('W').natural_32_code)
+			a_fold := << 'N', 'W' >>
+			i := 2
+			inspect ((a_fold [i - 1]).natural_32_code |<< 8) | (a_fold [i]).natural_32_code
+				when Dir_n_n then
+				when Dir_n_w then
+				when Dir_w_w then
+
+				-- and so forth
+			else
+			end
+		end
+
+	equality_question
+		local
+			s1: STRING; s2: READABLE_STRING_GENERAL
+			s1_equal_to_s2: BOOLEAN
+		do
+			s1 := "abc"; s2 := "abc"
+			s1_equal_to_s2 := s1 ~ s2
+			lio.put_labeled_string ("s1 is equal to s2", s1_equal_to_s2.out)
+		end
+
+	once_order_test (a_first: BOOLEAN)
+		local
+--			a, b: A; c: CHARACTER
+			a: A; b: B; c: CHARACTER
+		do
+--			create a; create {B} b
+			create a; create b
+			if a_first then
+				c := a.character; c := b.character
+			else
+				c := b.character; c := a.character
+			end
+
+			lio.put_string ("a.character: " + a.character.out)
+			lio.put_string (" b.character: " + b.character.out)
+			lio.put_new_line
+		end
+
+	print_os_user_list
+		local
+			dir_path: EL_DIR_PATH; user_info: like command.new_user_info
+		do
+			user_info := command.new_user_info
+			across << user_info.configuration_dir_list, user_info.data_dir_list >> as dir_list loop
+				across dir_list.item as dir loop
+					lio.put_path_field ("", dir.item)
+					lio.put_new_line
+				end
+			end
+		end
+
+	pointer_width
+		local
+			ptr: POINTER
+		do
+			ptr := $pointer_width
+			lio.put_integer_field (ptr.out, ptr.out.count)
+		end
+
+	problem_with_function_returning_real_with_assignment
+			--
+		local
+			event: AUDIO_EVENT
+		do
+			create event.make (1.25907 ,1.38513)
+			lio.put_string ("Is threshold exceeded: ")
+			if event.is_threshold_exceeded (0.12606) then
+				lio.put_string ("true")
+			else
+				lio.put_string ("false")
+			end
+			lio.put_new_line
+		end
+
+	problem_with_function_returning_result_with_set_item
+			-- if {AUDIO_EVENT}
+		local
+			event_list: LINKED_LIST [AUDIO_EVENT]
+			event: AUDIO_EVENT
+		do
+			create event_list.make
+			create event.make (1.25907 ,1.38513)
+			event_list.extend (event)
+
+			lio.put_real_field ("event_list.last.duration", event_list.last.duration)
+			lio.put_new_line
+		end
+
+	put_execution_environment_variables
+		do
+			Execution_environment.put ("sausage", "SSL_PW")
+			Execution_environment.system ("echo Password: $SSL_PW")
+		end
+
+	transient_fields
+		local
+			field_count, i: INTEGER
+		do
+			field_count := Eiffel.field_count (Current)
+			from i := 1 until i > field_count loop
+				lio.put_labeled_string (i.out, Eiffel.field_name (i, Current))
+				lio.put_character (' '); lio.put_boolean (Eiffel.is_field_transient (i, Current))
+				lio.put_new_line
+				i := i + 1
+			end
+		end
+
+feature {NONE} -- Constants
+
+	Dir_n_n: NATURAL = 20046
+
+	Dir_n_w: NATURAL = 20055
+
+	Dir_w_w: NATURAL = 22359
+
+end

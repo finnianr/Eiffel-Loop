@@ -1,13 +1,18 @@
 note
-	description: "Compiles list of strings using value function for item chain"
+	description: "[
+		Object to compile a list of strings using a supplied value function for item chain. The value function
+		need only return a string conforming to
+		[https://www.eiffel.org/files/doc/static/16.05/libraries/base/string_general_links.html STRING_GENERAL]
+		or else any object with a meaningful implementation of the `out' function.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:17:15 GMT (Thursday 15th November 2018)"
-	revision: "3"
+	date: "2018-11-21 14:46:32 GMT (Wednesday 21st November 2018)"
+	revision: "5"
 
 class
 	EL_CHAIN_STRING_LIST_COMPILER [G, S -> STRING_GENERAL create make, make_empty end]

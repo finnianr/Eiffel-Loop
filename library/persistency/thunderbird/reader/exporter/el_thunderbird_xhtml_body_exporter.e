@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-08 10:40:23 GMT (Thursday 8th November 2018)"
-	revision: "3"
+	date: "2018-11-16 20:27:06 GMT (Friday 16th November 2018)"
+	revision: "4"
 
 class
 	EL_THUNDERBIRD_XHTML_BODY_EXPORTER
@@ -74,7 +74,7 @@ feature {NONE} -- Implementation
 	insert_h2_id_elements (html_doc: ZSTRING)
 		do
 			h2_list.wipe_out
-			html_doc.edit (H2_tag.open, H2_tag.closed, agent check_h2_tag)
+			html_doc.edit (header_tag (2).open, header_tag (2).close, agent check_h2_tag)
 		end
 
 	h2_list: ARRAYED_LIST [ZSTRING]
@@ -112,12 +112,7 @@ feature {NONE} -- Constants
 
 	First_doc_tag: ZSTRING
 		once
-			Result := Body_tag
-		end
-
-	H2_tag: TUPLE [open, closed: ZSTRING]
-		once
-			Result := XML.tag ("h2")
+			Result := Tag_start.body
 		end
 
 	Header_list_extension: ZSTRING
@@ -127,7 +122,7 @@ feature {NONE} -- Constants
 
 	Last_doc_tag: ZSTRING
 		once
-			Result := Body_tag_close
+			Result := Tag.body.close
 		end
 
 	Related_file_extensions: ARRAY [ZSTRING]

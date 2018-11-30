@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-07 17:48:55 GMT (Wednesday 7th November 2018)"
-	revision: "5"
+	date: "2018-11-17 8:53:31 GMT (Saturday 17th November 2018)"
+	revision: "6"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -29,8 +29,6 @@ inherit
 	EL_THUNDERBIRD_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
-
-	EL_MODULE_TUPLE
 
 feature {NONE} -- Initialization
 
@@ -118,13 +116,13 @@ feature {NONE} -- State handlers
 				-- Correct lines like:
 				-- <h2 class="first">Introduction<br/>
 				-- </h2>
-				if across Heading_close_list as heading some line.begins_with (heading.item) end
+				if across Heading_levels as level some line.begins_with (header_tag (level.item).close) end
 					and then not html_lines.is_empty
 				then
 					line.left_adjust
 					last_line := html_lines.last
-					if last_line.ends_with (Html_break_tag) then
-						last_line.replace_substring (line, last_line.count - Html_break_tag.count + 1 , last_line.count)
+					if last_line.ends_with (Tag.break.open) then
+						last_line.replace_substring (line, last_line.count - Tag.break.open.count + 1 , last_line.count)
 					else
 						last_line.append (line)
 					end
@@ -196,7 +194,7 @@ feature {NONE} -- Implementation
 			bracket_intervals := intervals (line, character_string ('<'))
 			if bracket_intervals.count = 2
 				and then line.is_substring_whitespace (1, bracket_intervals.first_lower - 1)
-				and then line.same_characters (Any_closed_tag, 1, 2, bracket_intervals.last_lower)
+				and then line.same_characters (Tag_close_start, 1, 2, bracket_intervals.last_lower)
 				and then line.ends_with_character ('>')
 			then
 				right_bracket_pos := line.index_of ('>', bracket_intervals.first_lower + 1)
@@ -239,11 +237,6 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Any_closed_tag: ZSTRING
-		once
-			Result := "</"
-		end
-
 	Charset_assignment: ZSTRING
 		once
 			Result := "charset="
@@ -262,29 +255,12 @@ feature {NONE} -- Constants
 
 	First_doc_tag: ZSTRING
 		once
-			Result := Html_tag.open
-		end
-
-	Heading_close_list: EL_ZSTRING_LIST
-		local
-			template: ZSTRING
-		once
-			template := "</h%S>"
-			create Result.make (5)
-			from until Result.full loop
-				Result.extend (template #$ [Result.count + 1])
-			end
-		end
-
-	Html_break_tag: ZSTRING
-		-- <br>
-		once
-			Result := XML.open_tag ("br")
+			Result := Tag.html.open
 		end
 
 	Last_doc_tag: ZSTRING
 		once
-			Result := Html_tag.close
+			Result := Tag.html.close
 		end
 
 	Occurrence_intervals: EL_OCCURRENCE_INTERVALS [ZSTRING]

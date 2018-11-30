@@ -6,35 +6,38 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-11-16 20:17:52 GMT (Friday 16th November 2018)"
+	revision: "6"
 
 class
 	EL_MARKUP_ROUTINES
+
+inherit
+	EL_MARKUP_TEMPLATES
 
 feature -- Mark up
 
 	open_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- open tag markup
 		do
-			create Result.make_from_general (once "<" + name + once ">")
+			Result := Tag_open #$ [name]
 		end
 
 	closed_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- closed tag markup
 		do
-			create Result.make_from_general (once "</" + name + once ">")
+			Result := Tag_close #$ [name]
 		end
 
 	empty_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- empty tag markup
 		do
-			create Result.make_from_general (once "<" + name + once "/>")
+			Result := Tag_empty #$ [name]
 		end
 
-	tag (name: READABLE_STRING_GENERAL): TUPLE [open, closed: ZSTRING]
+	tag (name: READABLE_STRING_GENERAL): EL_XML_TAG
 		do
-			Result := [open_tag (name), closed_tag (name)]
+			create Result.make (name)
 		end
 
 	value_element_markup (name, value: READABLE_STRING_GENERAL): ZSTRING

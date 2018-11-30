@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:42:32 GMT (Thursday 15th November 2018)"
-	revision: "7"
+	date: "2018-11-15 17:23:12 GMT (Thursday 15th November 2018)"
+	revision: "8"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -20,10 +20,6 @@ inherit
 			set_standard_options
 		end
 
-	EL_MODULE_LIO
-
-	EL_MODULE_EIFFEL
-
 	EL_FACTORY_CLIENT
 
 feature {EL_COMMAND_CLIENT} -- Initialization
@@ -32,22 +28,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			create number_of_runs
 			number_of_runs.set_item (a_number_of_runs)
-
 			make_shell ("BENCHMARK")
 		end
 
 feature {NONE} -- Implementation
-
-	compare (label: STRING; routines: ARRAY [TUPLE [READABLE_STRING_GENERAL, ROUTINE]])
-		local
-			table: EL_BENCHMARK_ROUTINE_TABLE
-		do
-			lio.put_labeled_string ("Benchmark", label)
-			lio.put_new_line
-			create table.make (routines)
-			table.put_comparison (number_of_runs)
-			lio.put_new_line
-		end
 
 	factory: EL_OBJECT_FACTORY [EL_BENCHMARK_COMPARISON]
 		deferred

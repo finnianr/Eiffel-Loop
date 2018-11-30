@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-08 12:49:25 GMT (Thursday 8th November 2018)"
-	revision: "7"
+	date: "2018-11-17 9:38:34 GMT (Saturday 17th November 2018)"
+	revision: "8"
 
 class
 	EL_BOOK_CHAPTER
@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 			end
 
 			h_tag := XML.tag ("h2")
-			text.edit (h_tag.open, h_tag.closed, agent edit_heading_2)
+			text.edit (h_tag.open, h_tag.close, agent edit_heading_2)
 			text.edit (Src_attribute, character_string ('"'), agent on_src_attribute)
 		end
 
@@ -177,12 +177,11 @@ feature {NONE} -- Constants
 			Result := "[
 				<!DOCTYPE html>
 				<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-				<head>
-					<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-					<title>$title</title>
-					<link rel="stylesheet" href="style/chapter.css" type="text/css"/>
-				</head>
-				<html>
+					<head>
+						<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+						<title>$title</title>
+						<link rel="stylesheet" href="style/chapter.css" type="text/css"/>
+					</head>
 				    <body>
 				$text
 				    </body>

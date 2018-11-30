@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-03 9:35:54 GMT (Saturday 3rd November 2018)"
-	revision: "5"
+	date: "2018-11-17 10:12:05 GMT (Saturday 17th November 2018)"
+	revision: "6"
 
 class
 	EL_THUNDERBIRD_BOOK_EXPORTER
@@ -17,7 +17,7 @@ inherit
 		export
 			{EL_BOOK_CHAPTER} html_lines, last_header
 		redefine
-			config, make_default, export_mails, on_email_collected, remove_old_files
+			config, make_default, export_mails, on_email_collected, remove_old_files, edit_list_tag
 		end
 
 create
@@ -52,6 +52,14 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	edit_list_tag (start_index, end_index: INTEGER; substring: ZSTRING)
+		do
+			Precursor (start_index, end_index, substring)
+			if not substring.is_empty and then substring.same_characters ("ol", 1, 2, 2) then
+				substring.insert_string (Ordered_list_from_1, start_index - 1)
+			end
+		end
 
 	on_chapter_modified
 		local
@@ -90,4 +98,13 @@ feature {NONE} -- Implementation
 		do
 		end
 
+feature {NONE} -- Constants
+
+	Ordered_list_from_1: ZSTRING
+		once
+			Result := "[
+				start="1" type="1"
+			]"
+			Result.prepend_character (' ')
+		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-08 13:36:04 GMT (Thursday 8th November 2018)"
-	revision: "4"
+	date: "2018-11-17 10:10:25 GMT (Saturday 17th November 2018)"
+	revision: "5"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -50,20 +50,27 @@ feature {NONE} -- Implementation
 	edit (html_doc: ZSTRING)
 		do
 			-- Remove surplus breaks
-			across Text_tags as tag loop
-				html_doc.edit (tag.item.open, tag.item.close, agent remove_surplus_break)
+			across Text_tags as l_tag loop
+				html_doc.edit (l_tag.item.open, l_tag.item.close, agent edit_text_tags)
 			end
+			-- Remove empty
+			across List_tags as l_tag loop
+				html_doc.edit (l_tag.item.open, l_tag.item.close, agent edit_list_tag)
+			end
+
 	 		-- remove trailing breaks between elements <img.. /> and <p>
-			html_doc.edit (Image_tag, Paragraph.open, agent remove_trailing_breaks)
+			html_doc.edit (Tag_start.image, Paragraph.open, agent remove_trailing_breaks)
 
 			-- Change <br> to <br/>
-			across Unclosed_tags as tag loop
-				html_doc.edit (tag.item, character_string ('>'), agent close_empty_tag)
+			across Unclosed_tags as l_tag loop
+				html_doc.edit (l_tag.item, character_string ('>'), agent close_empty_tag)
 			end
 			html_doc.edit (character_string ('&'), character_string (';'), agent substitute_html_entities)
-			html_doc.edit (Image_tag, character_string ('>'), agent edit_image_tag)
-			html_doc.edit (Anchor_tag, character_string ('>'), agent edit_anchor_tag)
-			html_doc.edit (Attribute_start.title, character_string ('"'), agent normalize_title)
+			html_doc.edit (Tag_start.image, character_string ('>'), agent edit_image_tag)
+			html_doc.edit (Tag_start.anchor, character_string ('>'), agent edit_anchor_tag)
+			across << Attribute_start.alt, Attribute_start.title >> as start loop
+				html_doc.edit (start.item, character_string ('"'), agent normalize_attribute_text)
+			end
 		end
 
 	file_out_extension: ZSTRING
@@ -117,6 +124,11 @@ feature {NONE} -- Implementation
 			File_system.write_plain_text (output_file_path, html_doc.to_utf_8)
 		end
 
+	is_tag_start (start_index, end_index: INTEGER; substring: ZSTRING): BOOLEAN
+		do
+			Result := substring [start_index] /= '>' implies substring.is_space_item (start_index)
+		end
+
 feature {NONE} -- Editing
 
 	close_empty_tag (start_index, end_index: INTEGER; substring: ZSTRING)
@@ -126,7 +138,7 @@ feature {NONE} -- Editing
 
 	edit_anchor_tag (start_index, end_index: INTEGER; substring: ZSTRING)
 		do
-			if not substring.is_alpha_item (3) then
+			if is_tag_start (start_index, end_index, substring) then
 				remove_attributes (Surplus_hyperlink_attributes, substring, start_index)
 				substring.edit (Attribute_start.href, character_string ('"'), agent remove_localhost_ref)
 			end
@@ -137,18 +149,50 @@ feature {NONE} -- Editing
 		local
 			pos_src: INTEGER
 		do
-			remove_attributes (Surplus_image_attributes, substring, start_index)
-			-- make sure src attribute is indented
-			pos_src := substring.substring_index (Attribute_start.src, start_index)
-			if pos_src > 0 and then substring.item (pos_src - 1) = '%N' then
-				substring.insert_string (n_character_string (' ', 8), pos_src)
-			end
-			close_empty_tag (start_index, end_index, substring)
+			if is_tag_start (start_index, end_index, substring) then
+				remove_attributes (Surplus_image_attributes, substring, start_index)
+				-- make sure src attribute is indented
+				pos_src := substring.substring_index (Attribute_start.src, start_index)
+				if pos_src > 0 and then substring.item (pos_src - 1) = '%N' then
+					substring.insert_string (n_character_string (' ', 8), pos_src)
+				end
+				close_empty_tag (start_index, end_index, substring)
 
-			substring.edit (Attribute_start.src, character_string ('"'), agent remove_localhost_ref)
+				substring.edit (Attribute_start.src, character_string ('"'), agent remove_localhost_ref)
+			end
 		end
 
-	normalize_title (start_index, end_index: INTEGER; substring: ZSTRING)
+	edit_list_tag (start_index, end_index: INTEGER; substring: ZSTRING)
+		do
+			if substring.is_substring_whitespace (start_index, end_index) then
+				substring.wipe_out
+			end
+		end
+
+	edit_text_tags (start_index, end_index: INTEGER; substring: ZSTRING)
+		-- remove surplus breaks before closing tag eg: "<h1>Title<br>%N  </h1>"
+		-- and remove empty
+		local
+			break_intervals: like intervals
+		do
+			if substring.is_substring_whitespace (start_index, end_index) then
+				substring.wipe_out
+			else
+				break_intervals := intervals (substring, Tag.break.open)
+				if not break_intervals.is_empty
+					and then substring.is_substring_whitespace (break_intervals.last_upper + 1, end_index)
+				then
+					if substring [substring.count - 1] = 'p' then
+						substring.remove_substring (break_intervals.last_lower, break_intervals.last_upper)
+					else
+						-- remove new line for headings
+						substring.remove_substring (break_intervals.last_lower, end_index)
+					end
+				end
+			end
+		end
+
+	normalize_attribute_text (start_index, end_index: INTEGER; substring: ZSTRING)
 		local
 			list: EL_SPLIT_ZSTRING_LIST
 		do
@@ -175,31 +219,15 @@ feature {NONE} -- Editing
  		local
  			pos_trailing: INTEGER; trailing: ZSTRING
  		do
- 			pos_trailing := substring.substring_index (character_string ('>'), start_index) + 1
- 			if substring.substring_index (Html_break_tag, pos_trailing) > 0 then
-	 			trailing := substring.substring (pos_trailing, end_index)
-	 			trailing.replace_substring_all (Html_break_tag, Empty_string)
-	 			substring.replace_substring (trailing, pos_trailing, end_index)
+ 			if is_tag_start (start_index, end_index, substring) then
+	 			pos_trailing := substring.substring_index (character_string ('>'), start_index) + 1
+	 			if substring.substring_index (Tag.break.open, pos_trailing) > 0 then
+		 			trailing := substring.substring (pos_trailing, end_index)
+		 			trailing.replace_substring_all (Tag.break.open, Empty_string)
+		 			substring.replace_substring (trailing, pos_trailing, end_index)
+	 			end
  			end
  		end
-
-	remove_surplus_break (start_index, end_index: INTEGER; substring: ZSTRING)
-		-- remove surplus breaks before closing tag eg: "<h1>Title<br>%N  </h1>"
-		local
-			break_intervals: like intervals
-		do
-			break_intervals := intervals (substring, Html_break_tag)
-			if not break_intervals.is_empty
-				and then substring.is_substring_whitespace (break_intervals.last_upper + 1, end_index)
-			then
-				if substring [substring.count - 1] = 'p' then
-					substring.remove_substring (break_intervals.last_lower, break_intervals.last_upper)
-				else
-					-- remove new line for headings
-					substring.remove_substring (break_intervals.last_lower, end_index)
-				end
-			end
-		end
 
 	remove_localhost_ref (start_index, end_index: INTEGER; substring: ZSTRING)
 		local
@@ -237,22 +265,9 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Attribute_start: TUPLE [href, src, title: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "[
-				href=",src=",title="
-			]")
-		end
-
 	Unclosed_tags: ARRAY [ZSTRING]
 		once
 			Result := << "<br" >>
-		end
-
-	Anchor_tag: ZSTRING
-		once
-			Result := "<a"
 		end
 
 	Line_feed_entity: ZSTRING
@@ -273,14 +288,6 @@ feature {NONE} -- Constants
 	Surplus_hyperlink_attributes: ARRAYED_LIST [ZSTRING]
 		once
 			create Result.make_from_array (<< Surplus_image_attributes [1], "class" >>)
-		end
-
-	Text_tags: ARRAYED_LIST [TUPLE [open, close: ZSTRING]]
-		once
-			create Result.make (5)
-			across << "h1", "h2", "h3", "h4", "p" >> as name loop
-				Result.extend (XML.tag (name.item))
-			end
 		end
 
 end

@@ -1,13 +1,13 @@
 note
-	description: "Read only form of class [$source EL_ZSTRING]"
+	description: "Read only interface to class [$source EL_ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:34:21 GMT (Thursday 15th November 2018)"
-	revision: "26"
+	date: "2018-11-21 14:15:09 GMT (Wednesday 21st November 2018)"
+	revision: "27"
 
 deferred class
 	EL_READABLE_ZSTRING
