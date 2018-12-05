@@ -13,7 +13,7 @@ class
 	EXPERIMENTS_APP
 
 inherit
-	EL_SUB_APPLICATION
+	EL_LOGGED_SUB_APPLICATION
 		redefine
 			Option_name
 		end
@@ -31,9 +31,9 @@ feature -- Basic operations
 
 	run
 		do
-			lio.enter ("abstract_increment")
-			numeric.abstract_increment
-			lio.exit
+			log.enter ("string.reading_character_32_as_natural_8")
+			string.reading_character_32_as_natural_8
+			log.exit
 		end
 
 feature {NONE} -- Experiments
@@ -89,4 +89,11 @@ feature {NONE} -- Constants
 
 	Option_name: STRING = "experiments"
 
+	Log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{EXPERIMENTS_APP}, All_routines]
+			>>
+		end
 end

@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 19); build = 87
+version = (1, 0, 20); build = 88
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.20	
+# Added class count to repository publisher
 
 # 1.0.19
 # Use class EL_STRING_EDITOR in repository publisher

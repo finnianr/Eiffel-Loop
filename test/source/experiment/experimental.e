@@ -1,5 +1,5 @@
 note
-	description: "Experimental class to check behaviour of Eiffel code"
+	description: "Experimental base class to check behaviour of Eiffel code"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

@@ -113,6 +113,13 @@ feature -- Access
 			Result := relative_dir_path.first_step.as_proper_case
 		end
 
+	class_count: INTEGER
+		do
+			across directory_list as source_dir loop
+				Result := Result + source_dir.item.class_list.count
+			end
+		end
+
 	description_lines: EL_ZSTRING_LIST
 
 	directory_list: EL_ARRAYED_LIST [SOURCE_DIRECTORY]

@@ -60,7 +60,6 @@ feature -- Tests
 			lines: EL_ZSTRING_LIST
 		do
 			log.enter ("test_regression")
-
 			execute
 			-- Remove last ecf
 			if False then

@@ -83,6 +83,24 @@ feature -- Basic operations
 			lio.put_new_line
 		end
 
+	reading_character_32_as_natural_8
+		local
+			chars: SPECIAL [CHARACTER_32]; ptr: MANAGED_POINTER
+			i: INTEGER
+		do
+			create chars.make_filled (' ', 2)
+			create ptr.share_from_pointer (chars.base_address, chars.count * 4)
+			from i := 0 until i = ptr.count loop
+				ptr.put_natural_8 (i.to_natural_8, i)
+				i := i + 1
+			end
+			from i := 0 until i = ptr.count loop
+				lio.put_integer_field (i.out, ptr.read_natural_8 (i))
+				lio.put_new_line
+				i := i + 1
+			end
+		end
+
 	replace_delimited_substring_general
 		local
 			email: ZSTRING

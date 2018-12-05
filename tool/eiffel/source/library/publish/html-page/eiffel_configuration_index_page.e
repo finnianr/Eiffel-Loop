@@ -202,6 +202,7 @@ feature {NONE} -- Evolicity fields
 				["home_description_elements",	agent home_description_elements] +
 				["description_elements",		agent description_elements] +
 				["category_title",	 			agent: ZSTRING do Result := category_title end] +
+				["class_count",					agent: INTEGER_REF do Result := library_ecf.class_count.to_reference end] +
 				["directory_list", 				agent: ITERABLE [SOURCE_DIRECTORY] do Result := library_ecf.directory_list end] +
 				["ecf_name",			 			agent: ZSTRING do Result := library_ecf.relative_ecf_path.base end] +
 				["ecf_path",			 			agent: ZSTRING do Result := library_ecf.relative_ecf_path end] +

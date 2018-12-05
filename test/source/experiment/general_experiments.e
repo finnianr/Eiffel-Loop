@@ -56,6 +56,19 @@ feature -- Basic operations
 			lio.put_labeled_string ("s1 is equal to s2", s1_equal_to_s2.out)
 		end
 
+	ftp_directory_exists
+		local
+			ftp: EL_FTP_PROTOCOL
+		do
+			create ftp.make_write (create {FTP_URL}.make ("eiffel-loop.com"))
+			ftp.set_home_directory ("/public/www")
+			ftp.open; ftp.login
+			ftp.change_home_dir
+			lio.put_labeled_string ("ftp.directory_exists (%"example%")", ftp.directory_exists ("/public/www/example").out)
+			lio.put_new_line
+			ftp.close
+		end
+
 	once_order_test (a_first: BOOLEAN)
 		local
 --			a, b: A; c: CHARACTER

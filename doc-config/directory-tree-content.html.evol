@@ -1,6 +1,6 @@
 <h1>$category_title: $name</h1>
 #if not $description_elements.is_empty then
-	<h3>Classes</h3>
+	<p><b>Classes:</b> $class_count</p>
 	#if $has_ecf_name then
 	<p><b>ECF:</b> <a href="$github_url/blob/master/$ecf_path" target="_blank" title="$ecf_name on github">$ecf_name</a></p>
 	#end

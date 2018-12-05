@@ -18,7 +18,6 @@ inherit
 			Option_name
 		end
 
-
 create
 	make
 

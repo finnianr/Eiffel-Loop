@@ -17,6 +17,66 @@ inherit
 
 feature -- Basic operations
 
+	arrayed_set
+			--
+		local
+			i: INTEGER; set: ARRAYED_SET [STRING]
+		do
+			create set.make (Names.count)
+			set.compare_objects
+			from i := 1 until i > Names.count loop
+				set.put (Names [i])
+				lio.put_integer_field ("set.count", set.count)
+				lio.put_new_line
+
+				i := i + 1
+			end
+		end
+
+	binary_search_tree_set
+			--
+		local
+			i: INTEGER
+			set: BINARY_SEARCH_TREE_SET [STRING]
+		do
+			create set.make
+			set.compare_objects
+			from i := 1 until i > Names.count loop
+				set.put (Names [i])
+				lio.put_integer_field ("set.count", set.count)
+				lio.put_new_line
+
+				i := i + 1
+			end
+		end
+
+	binary_search_tree_subtraction
+			--
+		local
+			i: INTEGER
+			set_A, set_B: BINARY_SEARCH_TREE_SET [STRING]
+		do
+			create set_A.make
+			set_A.compare_objects
+
+			create set_B.make
+			set_B.compare_objects
+
+			from i := 1 until i > Names.count loop
+				set_A.put (Names [i])
+				if i /= 1 then
+					set_B.put (Names [i])
+				end
+				i := i + 1
+			end
+			lio.put_line ("set_B.subtract (set_A)")
+			set_B.subtract (set_A)
+			lio.put_line ("DONE")
+			from set_B.start until set_B.after loop
+				lio.put_line (set_B.item)
+			end
+		end
+
 	circular_list_iteration
 		local
 			list: ARRAYED_CIRCULAR [INTEGER]
@@ -95,6 +155,58 @@ feature -- Basic operations
 			end
 		end
 
+	gobo_binary_tree_subtraction_1
+			--
+		local
+			i: INTEGER
+			set_A, set_B: DS_RED_BLACK_TREE_SET [STRING]
+			comparator: KL_COMPARABLE_COMPARATOR [STRING]
+		do
+			create comparator.make
+			create set_A.make (comparator)
+			create set_B.make (comparator)
+
+			from i := 1 until i > Names.count loop
+				set_A.put (Names [i])
+				if i /= 1 then
+					set_B.put (Names [i])
+				end
+				i := i + 1
+			end
+			lio.put_line ("set_B.subtract (set_A)")
+			set_B.subtract (set_A)
+			lio.put_line ("DONE")
+			from set_B.start until set_B.after loop
+				lio.put_line (set_B.item_for_iteration)
+			end
+		end
+
+	gobo_binary_tree_subtraction_2
+			--
+		local
+			i: INTEGER
+			set_A, set_B: DS_AVL_TREE_SET [STRING]
+			comparator: KL_COMPARABLE_COMPARATOR [STRING]
+		do
+			create comparator.make
+			create set_A.make (comparator)
+			create set_B.make (comparator)
+
+			from i := 1 until i > Names.count loop
+				set_A.put (Names [i])
+				if i /= 1 then
+					set_B.put (Names [i])
+				end
+				i := i + 1
+			end
+			lio.put_line ("set_B.subtract (set_A)")
+			set_B.subtract (set_A)
+			lio.put_line ("DONE")
+			from set_B.start until set_B.after loop
+				lio.put_line (set_B.item_for_iteration)
+			end
+		end
+
 	hash_table_plus
 		local
 			table: EL_STRING_HASH_TABLE [INTEGER, STRING]
@@ -147,6 +259,36 @@ feature -- Basic operations
 			end
 		end
 
+	hash_table_replace_key
+			--
+		local
+			table: HASH_TABLE [STRING, POINTER]
+		do
+			create table.make (3)
+			table [Default_pointer + 5] := String_hello
+			table.replace_key (Default_pointer + 10, Default_pointer + 5)
+			check
+				new_pointer_maps_to_same_string: table [Default_pointer + 10] = String_hello
+			end
+		end
+
+	part_sorted_set
+			--
+		local
+			set: PART_SORTED_SET [STRING]
+			i: INTEGER
+		do
+			create set.make
+			set.compare_objects
+			from i := 1 until i > Names.count loop
+				set.put (Names [i])
+				lio.put_integer_field ("set.count", set.count)
+				lio.put_new_line
+
+				i := i + 1
+			end
+		end
+
 	remove_from_list
 		local
 			my_list: TWO_WAY_LIST [INTEGER]
@@ -186,5 +328,20 @@ feature {NONE} -- Implementation
 		do
 			container.extend (Directory.current_working)
 		end
+
+feature {NONE} -- Constants
+
+	Names: ARRAY [STRING]
+			--
+		once
+			Result := <<
+				"Pampa.mp3",
+				"Serenata maleva - 1931 Charlo.mp3",
+				"Yo no se que me han hecho tus ojos.mp3",
+				"Cambalache.mp3"
+			>>
+		end
+
+	String_hello: STRING =	"hello"
 
 end

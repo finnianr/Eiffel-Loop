@@ -44,8 +44,6 @@ feature {NONE} -- Implementation
 				{OBJECT_BUILDER_TEST_APP},
 
 				-- Manual tests
-				{CLASS_TEST_APP},
-
 				{AUTOTEST_DEVELOPMENT_APP},
 				{TEST_SIMPLE_CLIENT},
 				{TEST_SIMPLE_SERVER},

@@ -1,5 +1,5 @@
 note
-	description: "File experiments"
+	description: "File and directory experiments"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -38,6 +38,21 @@ feature -- Basic operations
 			across find_cmd.path_list as dir loop
 				lio.put_path_field ("", dir.item)
 				lio.put_new_line
+			end
+		end
+
+	find_files_command_on_root
+			--
+		local
+			find_files_cmd: like Command.new_find_files
+		do
+			find_files_cmd := Command.new_find_files ("/", "*.rc")
+			find_files_cmd.set_depth (1 |..| 1)
+			find_files_cmd.execute
+			lio.put_new_line
+			from find_files_cmd.path_list.start until find_files_cmd.path_list.after loop
+				lio.put_line (find_files_cmd.path_list.item.to_string)
+				find_files_cmd.path_list.forth
 			end
 		end
 
