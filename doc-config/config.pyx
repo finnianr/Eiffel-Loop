@@ -82,7 +82,7 @@ publish-repository:
 			"library/base/base.ecf"
 			description:
 				"""
-					Utility Classes
+					Utility
 					
 					Utility classes providing the following
 

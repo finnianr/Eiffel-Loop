@@ -36,7 +36,7 @@
 		<li><a 
 			href="$page.item.relative_file_path" 
 			#if $page.item.has_ecf_name then
-				title="Classes: $page.item.class_count ECF: $page.item.ecf_name"
+				title="$page.item.name&#10;This $page.item.type $page.item.ecf_name has $page.item.class_count classes."
 			#end
 			target="_blank">$page.item.name</a> ($page.item.class_count)</li>
 	#end

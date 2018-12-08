@@ -119,14 +119,14 @@ Audio extensions for Windows implementation of Vision2 GUI library. This depends
 The Laabhair* Audio library was developed at the [Digital Media Centre at the Dublin Institute of Technology](https://arrow.dit.ie/dmc/) to do audio processing with Eiffel and present realtime graphics audio representations using an [Adobe Flash player](https://www.adobe.com/products/flashplayer.html) GUI.
 
 *Laabhair is the Gaelic for talk.
-## Data Structure Classes
-## Math Classes
+## Data Structure
+## Math
 ## Data Persistence
 Classes for reading and writing data to files
-## Runtime Classes
+## Runtime
 ## Text Processing
 Classes for parsing and processing textual data
-## Utility Classes
+## Utility
 Utility classes providing the following
 
 

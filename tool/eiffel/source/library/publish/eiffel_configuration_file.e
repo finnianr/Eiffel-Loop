@@ -1,13 +1,13 @@
 note
-	description: "Eiffel repository source tree"
+	description: "Eiffel configuration file"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 12:28:47 GMT (Monday 29th October 2018)"
-	revision: "10"
+	date: "2018-12-08 11:44:22 GMT (Saturday 8th December 2018)"
+	revision: "11"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -57,6 +57,7 @@ feature {NONE} -- Initialization
 			else
 				html_index_path.add_extension (ecf.cluster)
 				cluster_xpath := Selected_cluster #$ [Xpath_cluster, ecf.cluster]
+				is_cluster := True
 			end
 			html_index_path.add_extension (Html)
 
@@ -86,7 +87,6 @@ feature {NONE} -- Initialization
 			else
 				if ecf.description.is_empty then
 					create word_list.make_with_separator (ecf.cluster, '_', False)
-					word_list.extend ("Classes")
 					name := word_list.joined_propercase_words
 				else
 					set_name_and_description (ecf.description)
@@ -150,12 +150,28 @@ feature -- Access
 
 	sub_category: ZSTRING
 
+	type: STRING
+		do
+			if is_library then
+				if is_cluster then
+					Result := once "cluster in"
+				else
+					Result := once "library"
+				end
+			else
+				Result := once "project"
+			end
+		end
+
 feature -- Status query
 
 	is_library: BOOLEAN
 		do
 			Result := category ~ Library_category
 		end
+
+	is_cluster: BOOLEAN
+		-- True if classes are selected from one cluster in ecf
 
 feature -- Element change
 

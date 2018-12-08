@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-30 9:27:27 GMT (Monday 30th April 2018)"
-	revision: "12"
+	date: "2018-12-05 19:19:32 GMT (Wednesday 5th December 2018)"
+	revision: "13"
 
 class
 	APPLICATION_ROOT
@@ -54,7 +54,6 @@ feature {NONE} -- Implementation
 				{SOURCE_FILE_NAME_NORMALIZER_APP},
 				{SOURCE_LOG_LINE_REMOVER_APP},
 				{SOURCE_TREE_CLASS_RENAME_APP}
-
 			>>
 		end
 

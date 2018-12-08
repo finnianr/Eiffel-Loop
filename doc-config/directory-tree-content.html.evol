@@ -1,17 +1,11 @@
 <h1>$category_title: $name</h1>
-#if not $description_elements.is_empty then
-	<p><b>Classes:</b> $class_count</p>
-	#if $has_ecf_name then
-	<p><b>ECF:</b> <a href="$github_url/blob/master/$ecf_path" target="_blank" title="$ecf_name on github">$ecf_name</a></p>
-	#end
-	<p><a href="#class_listing">Directory source listing</a></p>
-	<h3>Overview</h3>
-#else
-	#if $has_ecf_name then
-		<p><b>ECF:</b> <a href="$github_url/blob/master/$ecf_path" target="_blank" title="$ecf_name on github">$ecf_name</a></p>
-	#end
+<p>The <i>$name</i> $type
+	<a href="$github_url/blob/master/$ecf_path" target="_blank" title="$ecf_name on github">$ecf_name</a>
+	has $class_count classes.
+</p>
+#if $description_elements.count > 5 then
+	<p><b>Source code:</b> <a href="#class_listing">directory list</a></p>
 #end
-
 #across $description_elements as $element loop
 	<$element.item.tag_name>$element.item.text</$element.item.tag_name>
 #end

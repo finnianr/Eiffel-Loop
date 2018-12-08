@@ -1,13 +1,13 @@
 note
-	description: "Perform benchmark comparisons in a command shell"
+	description: "Command shell specialized for performance comparison benchmarks"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 17:23:12 GMT (Thursday 15th November 2018)"
-	revision: "8"
+	date: "2018-12-05 19:29:29 GMT (Wednesday 5th December 2018)"
+	revision: "9"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL

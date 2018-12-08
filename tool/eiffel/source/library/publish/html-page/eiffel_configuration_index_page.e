@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 14:36:16 GMT (Wednesday 17th October 2018)"
-	revision: "9"
+	date: "2018-12-08 11:45:32 GMT (Saturday 8th December 2018)"
+	revision: "10"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -39,9 +39,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository: like repository; a_source_tree: like library_ecf)
+	make (a_repository: like repository; a_source_tree: like eiffel_config)
 		do
-			repository := a_repository; library_ecf := a_source_tree
+			repository := a_repository; eiffel_config := a_source_tree
 			make_page (repository)
 			sort_category := new_sort_category
 			make_sync_item (output_path)
@@ -51,12 +51,12 @@ feature -- Access
 
 	name: ZSTRING
 		do
-			Result := library_ecf.name
+			Result := eiffel_config.name
 		end
 
 	relative_file_path: EL_FILE_PATH
 		do
-			Result := library_ecf.html_index_path
+			Result := eiffel_config.html_index_path
 		end
 
 	title: ZSTRING
@@ -68,7 +68,7 @@ feature -- Access
 
 	category: ZSTRING
 		do
-			Result := library_ecf.category
+			Result := eiffel_config.category
 		end
 
 	category_title: ZSTRING
@@ -90,19 +90,19 @@ feature -- Access
 			else
 				Result.append_character ('s')
 			end
-			if library_ecf.is_library then
-				Result := Category_title_template  #$ [Result, sub_category]
+			if eiffel_config.is_library then
+				Result := Category_title_template #$ [Result, sub_category]
 			end
 		end
 
 	relative_path: EL_DIR_PATH
 		do
-			Result := library_ecf.relative_dir_path
+			Result := eiffel_config.relative_dir_path
 		end
 
 	sub_category: ZSTRING
 		do
-			Result := library_ecf.sub_category
+			Result := eiffel_config.sub_category
 		end
 
 	sort_category: ZSTRING
@@ -111,12 +111,12 @@ feature -- Status query
 
 	has_sub_directory: BOOLEAN
 		do
-			Result := library_ecf.directory_list.count > 1
+			Result := eiffel_config.directory_list.count > 1
 		end
 
 	has_ecf_name: BOOLEAN
 		do
-			Result := not library_ecf.relative_ecf_path.is_empty
+			Result := not eiffel_config.relative_ecf_path.is_empty
 		end
 
 feature -- Comparison
@@ -137,7 +137,7 @@ feature -- Basic operations
 		do
 			lio.put_labeled_string ("Updating", name)
 			lio.put_new_line
-			across library_ecf.directory_list as l_directory loop
+			across eiffel_config.directory_list as l_directory loop
 				l_directory.item.read_class_notes
 				if l_directory.item.is_modified then
 					lio.put_character ('.')
@@ -157,22 +157,22 @@ feature {NONE} -- Implementation
 
 	home_description_elements: NOTE_HTML_TEXT_ELEMENT_LIST
 		do
-			create Result.make (library_ecf.description_lines, Empty_string)
+			create Result.make (eiffel_config.description_lines, Empty_string)
 		end
 
 	description_elements: NOTE_HTML_TEXT_ELEMENT_LIST
 		do
-			create Result.make (library_ecf.description_lines, relative_file_path.parent)
+			create Result.make (eiffel_config.description_lines, relative_file_path.parent)
 		end
 
 	sink_content (crc: like crc_generator)
 		do
 			crc.add_file (content_template)
-			crc.add_string (library_ecf.name)
-			across library_ecf.description_lines as line loop
+			crc.add_string (eiffel_config.name)
+			across eiffel_config.description_lines as line loop
 				crc.add_string (line.item)
 			end
-			across library_ecf.directory_list as dir loop
+			across eiffel_config.directory_list as dir loop
 				across dir.item.sorted_class_list as l_class loop
 					crc.add_natural (l_class.item.current_digest)
 				end
@@ -186,7 +186,7 @@ feature {NONE} -- Implementation
 
 	new_sort_category: ZSTRING
 		do
-			if library_ecf.is_library then
+			if eiffel_config.is_library then
 				Result := category + character_string (' ') + sub_category
 			else
 				Result := category
@@ -199,22 +199,25 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			Result := Precursor +
+				-- Status query
+				["has_ecf_name",					agent: BOOLEAN_REF do Result := has_ecf_name.to_reference end] +
+				["has_sub_directory", 			agent: BOOLEAN_REF do Result := has_sub_directory.to_reference end] +
+
 				["home_description_elements",	agent home_description_elements] +
 				["description_elements",		agent description_elements] +
 				["category_title",	 			agent: ZSTRING do Result := category_title end] +
-				["class_count",					agent: INTEGER_REF do Result := library_ecf.class_count.to_reference end] +
-				["directory_list", 				agent: ITERABLE [SOURCE_DIRECTORY] do Result := library_ecf.directory_list end] +
-				["ecf_name",			 			agent: ZSTRING do Result := library_ecf.relative_ecf_path.base end] +
-				["ecf_path",			 			agent: ZSTRING do Result := library_ecf.relative_ecf_path end] +
+				["class_count",					agent: INTEGER_REF do Result := eiffel_config.class_count.to_reference end] +
+				["directory_list", 				agent: ITERABLE [SOURCE_DIRECTORY] do Result := eiffel_config.directory_list end] +
+				["ecf_name",			 			agent: ZSTRING do Result := eiffel_config.relative_ecf_path.base end] +
+				["ecf_path",			 			agent: ZSTRING do Result := eiffel_config.relative_ecf_path end] +
 				["github_url",			 			agent: ZSTRING do Result := repository.github_url end] +
-				["has_ecf_name",					agent: BOOLEAN_REF do Result := has_ecf_name.to_reference end] +
-				["has_sub_directory", 			agent: BOOLEAN_REF do Result := has_sub_directory.to_reference end] +
-				["relative_path",					agent: ZSTRING do Result := relative_path end]
+				["relative_path",					agent: ZSTRING do Result := relative_path end] +
+				["type",								agent: STRING do Result := eiffel_config.type end]
 		end
 
 feature {NONE} -- Internal attributes
 
-	library_ecf: EIFFEL_CONFIGURATION_FILE
+	eiffel_config: EIFFEL_CONFIGURATION_FILE
 
 feature {NONE} -- Constants
 
