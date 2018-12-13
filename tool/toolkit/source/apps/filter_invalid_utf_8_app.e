@@ -1,5 +1,8 @@
 note
-	description: "Filter invalid utf 8 app"
+	description: "[
+		Sub-application to Filter out all invalid UTF-8 lines from file
+		See class [$source FILTER_INVALID_UTF_8] for details.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -13,7 +16,7 @@ class
 	FILTER_INVALID_UTF_8_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [FILTER_INVALID_UTF_8_COMMAND]
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [FILTER_INVALID_UTF_8]
 		redefine
 			Option_name
 		end
@@ -46,7 +49,7 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{like Current}, All_routines],
-				[{FILTER_INVALID_UTF_8_COMMAND}, All_routines]
+				[{FILTER_INVALID_UTF_8}, All_routines]
 			>>
 		end
 

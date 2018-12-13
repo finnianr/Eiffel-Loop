@@ -1,6 +1,7 @@
 note
 	description: "[
 		Lists JPEG photos that lack the EXIF field Exif.Photo.DateTimeOriginal
+		See class [$source UNDATED_PHOTO_FINDER] for details.
 	]"
 
 	author: "Finnian Reilly"
@@ -12,10 +13,10 @@ note
 	revision: "5"
 
 class
-	UNDATED_PHOTOS_APP
+	UNDATED_PHOTO_FINDER_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [UNDATED_PHOTOS_COMMAND]
+	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [UNDATED_PHOTO_FINDER]
 		redefine
 			Option_name, normal_initialize, Test_data_dir
 		end
@@ -28,7 +29,7 @@ feature -- Testing
 	test_run
 			--
 		do
-			Console.show ({UNDATED_PHOTOS_COMMAND})
+			Console.show ({UNDATED_PHOTO_FINDER})
 
 			Test.set_binary_file_extensions (<< "jpg" >>)
 			Test.do_file_tree_test ("images", agent test_scan, 2439913648)
@@ -58,7 +59,7 @@ feature {NONE} -- Implementation
 
 	normal_initialize
 		do
-			Console.show ({UNDATED_PHOTOS_COMMAND})
+			Console.show ({UNDATED_PHOTO_FINDER})
 			Precursor
 		end
 
@@ -74,8 +75,8 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{UNDATED_PHOTOS_APP}, All_routines],
-				[{UNDATED_PHOTOS_COMMAND}, All_routines]
+				[{UNDATED_PHOTO_FINDER_APP}, All_routines],
+				[{UNDATED_PHOTO_FINDER}, All_routines]
 			>>
 		end
 

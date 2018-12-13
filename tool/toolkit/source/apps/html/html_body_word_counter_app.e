@@ -1,6 +1,6 @@
 note
 	description: "[
-		A command line interface to the [$source HTML_BODY_WORD_COUNTER_COMMAND] class.
+		A command line interface to the [$source HTML_BODY_WORD_COUNTER] class.
 	]"
 
 	author: "Finnian Reilly"
@@ -15,7 +15,7 @@ class
 	HTML_BODY_WORD_COUNTER_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [HTML_BODY_WORD_COUNTER_COMMAND]
+	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [HTML_BODY_WORD_COUNTER]
 		undefine
 			Test_data_dir
 		redefine
@@ -67,7 +67,7 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{HTML_BODY_WORD_COUNTER_APP}, All_routines],
-				[{HTML_BODY_WORD_COUNTER_COMMAND}, All_routines]
+				[{HTML_BODY_WORD_COUNTER}, All_routines]
 			>>
 		end
 

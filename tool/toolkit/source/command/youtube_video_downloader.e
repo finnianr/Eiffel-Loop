@@ -21,7 +21,7 @@ note
 	revision: "6"
 
 class
-	YOUTUBE_HD_DOWNLOAD_COMMAND
+	YOUTUBE_VIDEO_DOWNLOADER
 
 inherit
 	EL_COMMAND

@@ -81,7 +81,7 @@ Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/release
 
 
 ## Utilities Toolkit
-A "Swiss-army knife" of command line utilities accessible via a command line option. The most useful ones are listed belowe with the option name:
+A "Swiss-army knife" of command line utilities accessible via a command line option. The most useful ones are listed below with the option name:
 
 `-body_word_counts` [HTML_BODY_WORD_COUNTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/html_body_word_counter_app.html)
 

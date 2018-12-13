@@ -10,7 +10,7 @@ note
 	revision: "6"
 
 class
-	HTML_BODY_WORD_COUNTER_COMMAND
+	HTML_BODY_WORD_COUNTER
 
 inherit
 	EL_FILE_TREE_COMMAND

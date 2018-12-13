@@ -1,8 +1,10 @@
+The most useful ones are listed below with the option name:
+
 `-body_word_counts' [$source HTML_BODY_WORD_COUNTER_APP]
 
 Counts the number of words in a HTML document.
 
-`-crypto': [$source CRYPTO_APP]
+`-crypto': [$source CRYPTO_COMMAND_SHELL_APP]
 
 Menu driven shell of useful cryptographic operations.
 
@@ -18,7 +20,7 @@ Compiles tree of Pyxis translation files into multiple locale files named `local
 
 Converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf'). The attribute `configuration_ns' can be used as convenient shorthand for the ECF schema configuration information.
 
-`-youtube_dl' [$source YOUTUBE_HD_DOWNLOAD_APP]
+`-youtube_dl' [$source YOUTUBE_VIDEO_DOWNLOADER_APP]
 
 Download and merge selected audio and video streams from a Youtube video.
 
@@ -27,7 +29,7 @@ Download and merge selected audio and video streams from a Youtube video.
 Creates an XML file manifest of a target directory using either the default Evolicity template
 or an optional external Evolicity template. See class [$source EVOLICITY_SERIALIZEABLE]
 
-`-undated_photos' [$source UNDATED_PHOTOS_APP]
+`-undated_photos' [$source UNDATED_PHOTO_FINDER_APP]
 
 Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal'.
 

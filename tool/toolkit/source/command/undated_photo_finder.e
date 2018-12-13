@@ -12,7 +12,7 @@ note
 	revision: "6"
 
 class
-	UNDATED_PHOTOS_COMMAND
+	UNDATED_PHOTO_FINDER
 
 inherit
 	EL_FILE_TREE_COMMAND
