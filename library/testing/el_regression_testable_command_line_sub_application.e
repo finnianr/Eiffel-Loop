@@ -1,7 +1,7 @@
 note
 	description: "[
-		Provides a way to add regression tests to command line apps conforming to `[$source EL_COMMAND_LINE_SUB_APPLICATION]'
-		by using the regression testing routines in class `[$source EL_MODULE_TEST]'
+		Provides a way to add regression tests to command line apps conforming to [$source EL_COMMAND_LINE_SUB_APPLICATION]
+		by using the regression testing routines in class [$source EL_MODULE_TEST]
 	]"
 
 	author: "Finnian Reilly"

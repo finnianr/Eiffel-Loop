@@ -81,7 +81,7 @@ Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/release
 
 
 ## Utilities Toolkit
-A "Swiss-army knife" of useful command line tools. Some of the most useful ones are listed here with command line options:
+A "Swiss-army knife" of command line utilities accessible via a command line option. The most useful ones are listed belowe with the option name:
 
 `-crypto`: [CRYPTO_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/crypto_app.html)
 
@@ -98,6 +98,18 @@ Exports emails from selected Thunderbird email folders as HTML bodies (extension
 `-compile_translations`: [PYXIS_TRANSLATION_TREE_COMPILER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/pyxis/pyxis_translation_tree_compiler_app.html)
 
 Compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I](http://www.eiffel-loop.com/library/text/i18n/el_locale_i.html).
+
+`-youtube_dl` [YOUTUBE_HD_DOWNLOAD_COMMAND](http://www.eiffel-loop.com/tool/toolkit/source/command/youtube_hd_download_command.html)
+
+Download and merge selected audio and video streams from a Youtube video.
+
+`-file_manifest` [EL_FILE_MANIFEST_COMMAND](http://www.eiffel-loop.com/library/runtime/process/commands/file-management/el_file_manifest_command.html)
+
+Creates an XML file manifest of a target directory using either the default Evolicity template or an optional external Evolicity template. See class [EVOLICITY_SERIALIZEABLE](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable.html)
+
+`-undated_photos` [UNDATED_PHOTOS_COMMAND](http://www.eiffel-loop.com/tool/toolkit/source/command/undated_photos_command.html)
+
+Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal`.
 
 **Download**
 
@@ -147,9 +159,11 @@ Image utilities providing:
 ## HTML Viewer (based on Vision-2)
 Extension for Vision2 library to render very basic html produced by Thunderbird email client.
 ## EiffelVision 2 GUI Extensions
-Provides many extensions to the Eiffel Software [Vision-2 cross-platform GUI library](https://www.eiffel.org/doc/solutions/EiffelVision%202) and the [Smart Docking library](https://dev.eiffel.com/Smart_Docking_library).
+Extensions to the Eiffel Software [Vision-2 cross-platform GUI library](https://www.eiffel.org/doc/solutions/EiffelVision%202) and the [Smart Docking library](https://dev.eiffel.com/Smart_Docking_library).
 
 **Features**
+
+These are some highlights of a long list of features:
 
 
 * Advanced pixel buffer rendering with transparencies and anti-aliasing using the [Cairo](https://cairographics.org/) and [Pangocairo](http://www.pango.org/) 2D graphics library. See class [EL_DRAWABLE_PIXEL_BUFFER](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/pixmap/el_drawable_pixel_buffer.html)
@@ -157,7 +171,9 @@ Provides many extensions to the Eiffel Software [Vision-2 cross-platform GUI lib
 * Drop-down combo boxes with localized display strings. See class [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_locale_zstring_drop_down_box.html)
 * Drop down combo box for months of year specified as integers and displayed with English names and a localized variant [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_locale_zstring_drop_down_box.html)
 
-These features are only the tip of the ice-berg.
+
+
+
 
 
 ## Windows Eiffel Library Extensions
@@ -412,9 +428,7 @@ The library provides a system of managing application resources like graphics, h
 
 
 ## Concurrency
-A collection of about 75 classes that augment the classic [EiffelThread library](https://www.eiffel.org/doc/solutions/EiffelThreads).
-
-Of these, the most useful are [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) which offers a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE](http://www.eiffel-loop.com/tool/eiffel/source/library/publish/eiffel_configuration_file.html) for an example.
+Classes augmenting the classic [EiffelThread library](https://www.eiffel.org/doc/solutions/EiffelThreads). Of these, the most useful are [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) which offers a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE](http://www.eiffel-loop.com/tool/eiffel/source/library/publish/eiffel_configuration_file.html) for an example.
 ## Multi-threaded Logging
 Logging library featuring color highlighted output and mimicry of Eiffel routine code in output.
 
@@ -674,7 +688,9 @@ At present changes to the log filtering necessitates a recompilation of the code
 
 
 ## OS Command Wrapping
-Aproximately 100 classes for creating cross platform wrappers of OS commands with about 30 "out of the box" commands. **General Features**
+Classes for creating cross platform wrappers of OS commands with about 30 "out of the box" commands provided.
+
+**General Features**
 
 
 * Command templates are based on the powerful [Evolicity text substitution library](http://www.eiffel-loop.com/library/evolicity.html).
@@ -737,14 +753,14 @@ To make an Eiffel class serializable with *Evolicity* you inherit from class [EV
 
 
 
-## Text Formats
-A library for handling various human-readable text formats. Supported formats are: XML, XHTML, HTML, JSON, CSV. (Note: Eiffel-Loop has other libraries for parsing XML)
+## Textual Data Formats
+Classes for handling various human-readable text formats. Supported formats are: XML, XHTML, HTML, JSON, CSV. (Note: Eiffel-Loop has other libraries for parsing XML)
 ## Application License Management
-This library contains a few basic classes for constructing an application license manager. The most important is a way to obtain a unique machine ID using a combination of the CPU model name and MAC address either from the network card or wifi card.
+A few basic classes for constructing an application license manager. The most important is a way to obtain a unique machine ID using a combination of the CPU model name and MAC address either from the network card or wifi card.
 
 The principle developer of Eiffel-loop has developed a sophisticated license management system using RSA public key cryptography, however it is not available as open source. If you are interested to license this system for your company, please contact the developer. It has been used for the [My Ching](http://myching.software) software product.
 ## ZLib Compression
-A Eiffel interface to the [zlib C library](https://www.zlib.net/). The main class is [EL_COMPRESSED_ARCHIVE_FILE](http://www.eiffel-loop.com/library/utility/compression/el_compressed_archive_file.html) with a few helper classes.
+An Eiffel interface to the [zlib C library](https://www.zlib.net/). The main class is [EL_COMPRESSED_ARCHIVE_FILE](http://www.eiffel-loop.com/library/utility/compression/el_compressed_archive_file.html) with a few helper classes.
 ## Currency Exchange
 Currency Exchange based on European Central bank Rates from [eurofxref-daily.xml](https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml)
 ## Windows Installer

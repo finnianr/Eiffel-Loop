@@ -1,6 +1,6 @@
-Provides many extensions to the Eiffel Software [https://www.eiffel.org/doc/solutions/EiffelVision%202 Vision-2 cross-platform GUI library] and the [https://dev.eiffel.com/Smart_Docking_library Smart Docking library].
-
 **Features**
+
+These are some highlights of a long list of features:
 
 * Advanced pixel buffer rendering with transparencies and anti-aliasing using the [https://cairographics.org/ Cairo] and [http://www.pango.org/ Pangocairo] 2D graphics library.
 See class [$source EL_DRAWABLE_PIXEL_BUFFER]
@@ -8,4 +8,4 @@ See class [$source EL_DRAWABLE_PIXEL_BUFFER]
 * Drop-down combo boxes with localized display strings. See class [$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
 * Drop down combo box for months of year specified as integers and displayed with English names and a localized variant [$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
 
-These features are only the tip of the ice-berg.
+

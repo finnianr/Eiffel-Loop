@@ -9,8 +9,7 @@ system:
 		"""
 			Concurrency
 
-			A collection of about 75 classes that augment the classic [https://www.eiffel.org/doc/solutions/EiffelThreads EiffelThread library].
-
+			Classes augmenting the classic [https://www.eiffel.org/doc/solutions/EiffelThreads EiffelThread library].
 			Of these, the most useful are [$source EL_PROCEDURE_DISTRIBUTER] and [$source EL_FUNCTION_DISTRIBUTER]
 			which offers a convenient way to distribute the work of executing routines using a specific number of cores.
 			See routine `read_source_files' in class [$source EIFFEL_CONFIGURATION_FILE] for an example.

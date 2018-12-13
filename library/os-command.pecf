@@ -9,7 +9,8 @@ system:
 		"""
 			OS Command Wrapping
 
-			Aproximately 100 classes for creating cross platform wrappers of OS commands with about 30 "out of the box" commands.
+			Classes for creating cross platform wrappers of OS commands with about 30 "out of the box" commands provided.
+
 			See doc/os-command.txt for details.
 		"""
 	

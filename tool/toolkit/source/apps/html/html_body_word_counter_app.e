@@ -13,7 +13,7 @@ class
 	HTML_BODY_WORD_COUNTER_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [HTML_BODY_WORD_COUNTER]
+	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [HTML_BODY_WORD_COUNTER_COMMAND]
 		undefine
 			Test_data_dir
 		redefine
@@ -65,7 +65,7 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{HTML_BODY_WORD_COUNTER_APP}, All_routines],
-				[{HTML_BODY_WORD_COUNTER}, All_routines]
+				[{HTML_BODY_WORD_COUNTER_COMMAND}, All_routines]
 			>>
 		end
 

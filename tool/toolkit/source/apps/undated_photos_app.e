@@ -15,7 +15,7 @@ class
 	UNDATED_PHOTOS_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [UNDATED_PHOTOS]
+	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [UNDATED_PHOTOS_COMMAND]
 		redefine
 			Option_name, normal_initialize, Test_data_dir
 		end
@@ -28,7 +28,7 @@ feature -- Testing
 	test_run
 			--
 		do
-			Console.show ({UNDATED_PHOTOS})
+			Console.show ({UNDATED_PHOTOS_COMMAND})
 
 			Test.set_binary_file_extensions (<< "jpg" >>)
 			Test.do_file_tree_test ("images", agent test_scan, 2439913648)
@@ -58,7 +58,7 @@ feature {NONE} -- Implementation
 
 	normal_initialize
 		do
-			Console.show ({UNDATED_PHOTOS})
+			Console.show ({UNDATED_PHOTOS_COMMAND})
 			Precursor
 		end
 
@@ -75,7 +75,7 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{UNDATED_PHOTOS_APP}, All_routines],
-				[{UNDATED_PHOTOS}, All_routines]
+				[{UNDATED_PHOTOS_COMMAND}, All_routines]
 			>>
 		end
 

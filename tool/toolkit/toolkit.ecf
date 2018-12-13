@@ -14,6 +14,9 @@
 	<description>
 Utilities Toolkit
 
+A "Swiss-army knife" of command line utilities accessible via a command line option.
+The most useful ones are listed belowe with the option name:
+
 See doc/toolkit.txt for details.
 	</description>
 	<!--"Swiss army knife" toolkit containing a suite of command line tools for Eiffel development-->

@@ -10,6 +10,10 @@ system:
 		"""
 			EiffelVision 2 GUI Extensions
 
+			Extensions to the Eiffel Software
+			[https://www.eiffel.org/doc/solutions/EiffelVision%202 Vision-2 cross-platform GUI library]
+			and the [https://dev.eiffel.com/Smart_Docking_library Smart Docking library].
+
 			See doc/vision2-x.txt for details
 		"""
 	

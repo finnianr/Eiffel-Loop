@@ -7,9 +7,9 @@ system:
 	library_target = EL_formats
 	description:
 		"""
-			Text Formats
+			Textual Data Formats
 
-			A library for handling various human-readable text formats.
+			Classes for handling various human-readable text formats.
 			Supported formats are: XML, XHTML, HTML, JSON, CSV.
 			(Note: Eiffel-Loop has other libraries for parsing XML)
 		"""

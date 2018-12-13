@@ -4,7 +4,7 @@
 	<description>
 Application License Management
 
-This library contains a few basic classes for constructing an application license manager.
+A few basic classes for constructing an application license manager.
 The most important is a way to obtain a unique machine ID using a combination of the CPU model
 name and MAC address either from the network card or wifi card.
 
