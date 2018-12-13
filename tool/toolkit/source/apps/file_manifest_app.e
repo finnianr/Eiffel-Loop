@@ -1,6 +1,8 @@
 note
 	description: "[
-		Command line interface to instance of class [$source EL_FILE_MANIFEST_COMMAND]
+		Sub-application to create an XML file manifest of a target directory using either the default Evolicity template
+		or an optional external Evolicity template.
+		See class [$source EL_FILE_MANIFEST_COMMAND] for details.
 	]"
 
 	author: "Finnian Reilly"

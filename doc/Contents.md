@@ -83,13 +83,13 @@ Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/release
 ## Utilities Toolkit
 A "Swiss-army knife" of command line utilities accessible via a command line option. The most useful ones are listed belowe with the option name:
 
+`-body_word_counts` [HTML_BODY_WORD_COUNTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/html_body_word_counter_app.html)
+
+Counts the number of words in a HTML document.
+
 `-crypto`: [CRYPTO_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/crypto_app.html)
 
 Menu driven shell of useful cryptographic operations.
-
-`-pyxis_to_xml`: [PYXIS_TO_XML_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/pyxis/pyxis_to_xml_app.html)
-
-Converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf`). The attribute `configuration_ns` can be used as convenient shorthand for the ECF schema configuration information.
 
 `-export_www`: [THUNDERBIRD_WWW_EXPORTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/thunderbird_www_exporter_app.html)
 
@@ -99,15 +99,19 @@ Exports emails from selected Thunderbird email folders as HTML bodies (extension
 
 Compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I](http://www.eiffel-loop.com/library/text/i18n/el_locale_i.html).
 
-`-youtube_dl` [YOUTUBE_HD_DOWNLOAD_COMMAND](http://www.eiffel-loop.com/tool/toolkit/source/command/youtube_hd_download_command.html)
+`-pyxis_to_xml`: [PYXIS_TO_XML_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/pyxis/pyxis_to_xml_app.html)
+
+Converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf`). The attribute `configuration_ns` can be used as convenient shorthand for the ECF schema configuration information.
+
+`-youtube_dl` [YOUTUBE_HD_DOWNLOAD_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/youtube_hd_download_app.html)
 
 Download and merge selected audio and video streams from a Youtube video.
 
-`-file_manifest` [EL_FILE_MANIFEST_COMMAND](http://www.eiffel-loop.com/library/runtime/process/commands/file-management/el_file_manifest_command.html)
+`-file_manifest` [FILE_MANIFEST_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/file_manifest_app.html)
 
 Creates an XML file manifest of a target directory using either the default Evolicity template or an optional external Evolicity template. See class [EVOLICITY_SERIALIZEABLE](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable.html)
 
-`-undated_photos` [UNDATED_PHOTOS_COMMAND](http://www.eiffel-loop.com/tool/toolkit/source/command/undated_photos_command.html)
+`-undated_photos` [UNDATED_PHOTOS_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/undated_photos_app.html)
 
 Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal`.
 

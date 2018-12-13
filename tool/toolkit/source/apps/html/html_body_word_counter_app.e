@@ -1,5 +1,7 @@
 note
-	description: "Html body word counter app"
+	description: "[
+		A command line interface to the [$source HTML_BODY_WORD_COUNTER_COMMAND] class.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

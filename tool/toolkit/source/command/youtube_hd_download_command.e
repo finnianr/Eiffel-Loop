@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sub-appliction to download and merge selected audio and video streams from a Youtube video.
+		Command to download and merge selected audio and video streams from a Youtube video.
 		
 		The user is asked to select:
 		
