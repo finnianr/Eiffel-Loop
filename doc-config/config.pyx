@@ -26,8 +26,8 @@ publish-repository:
 	ecf-list:
 		# Examples
 		ecf:
-			"example/net/EROS/server/eros-server.ecf"
-			"example/net/EROS/test-clients/test-clients.ecf"
+			"example/net/EROS/signal-math/signal-math.ecf"
+			"example/net/EROS/server/signal-math-server.ecf"
 			"example/99-bottles/ninety-nine-bottles.ecf"
 			"example/eiffel2java/eiffel2java.ecf"
 			"example/manage-mp3/manage-mp3.ecf"

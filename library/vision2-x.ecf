@@ -4,10 +4,6 @@
 	<description>
 EiffelVision 2 GUI Extensions
 
-Extensions to the Eiffel Software
-[https://www.eiffel.org/doc/solutions/EiffelVision%202 Vision-2 cross-platform GUI library]
-and the [https://dev.eiffel.com/Smart_Docking_library Smart Docking library].
-
 See doc/vision2-x.txt for details
 	</description>
 	<target name = "EL_vision2_x">
@@ -15,10 +11,7 @@ See doc/vision2-x.txt for details
 		<option warning = "true" syntax = "standard" full_class_checking = "false" void_safety = "none">
 			<assertions precondition = "true" postcondition = "true" check = "false" invariant = "false"/>
 		</option>
-		<!--
-			Unix externals
-			
-		-->
+		<!--Unix externals-->
 		<external_include location = "$(EIFFEL_LOOP)/C_library/gtk-init/source">
 			<condition>
 				<platform value = "unix"/>
@@ -49,10 +42,7 @@ See doc/vision2-x.txt for details
 				<platform value = "unix"/>
 			</condition>
 		</external_object>
-		<!--
-			Windows externals
-			
-		-->
+		<!--Windows externals-->
 		<external_include location = "$(EIFFEL_LOOP)/contrib/C/Cairo-1.12.16/include/atk-1.0">
 			<condition>
 				<platform value = "windows"/>

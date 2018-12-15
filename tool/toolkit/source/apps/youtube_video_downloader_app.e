@@ -1,7 +1,7 @@
 note
 	description: "[
 		Sub-appliction to download and merge selected audio and video streams from a Youtube video.
-		See [$source YOUTUBE_HD_DOWNLOAD_COMMAND] for details
+		See [$source YOUTUBE_VIDEO_DOWNLOADER] for details
 	]"
 	notes: "See end of class"
 

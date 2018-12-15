@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 20); build = 92
+version = (1, 0, 21); build = 93
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.21
+# Fixed problem with generic param brackets in CLASS_DESCENDANTS_COMMAND
 
 # 1.0.20	
 # Added class count to repository publisher

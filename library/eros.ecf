@@ -4,6 +4,10 @@
 	<description>
 Eiffel Remote Object Server (EROS)
 
+EROS (for **E**iffel **R**emote **O**bject **S**erver), is an experimental an XML orientated remote
+procedure call application framework with an original protocol based purely on XML processing instructions
+rather that any special XML tags.
+
 See doc/eros.txt for details
 	</description>
 	<target name = "EL_eros">

@@ -1,5 +1,5 @@
 note
-	description: "Identified thread i"
+	description: "Abstract interface to a thread identified by `thread_id'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

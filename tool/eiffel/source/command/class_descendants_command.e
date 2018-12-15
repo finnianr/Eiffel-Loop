@@ -82,13 +82,13 @@ feature {NONE} -- Implementation
 
 	output_lines
 		local
-			file_out: EL_PLAIN_TEXT_FILE; source: EL_FILE_LINE_SOURCE
+			file_out: EL_PLAIN_TEXT_FILE
 			lines: EL_ZSTRING_LIST; tab_count, count: INTEGER
-			line: ZSTRING
+			line, text: ZSTRING
 		do
-			create source.make_latin (1, output_path)
-			lines := source.list
-			source.close
+			text := File_system.plain_text (output_path)
+			text.edit (" [", "]%N", agent remove_parameter_brackets)
+			create lines.make_with_lines (text)
 
 			if not output_dir.exists then
 				File_system.make_directory (output_dir)
@@ -105,7 +105,6 @@ feature {NONE} -- Implementation
 				tab_count := line.leading_occurrences ('%T')
 				if line.count > tab_count then
 					count := count + 1
-					line.replace_delimited_substring (Generic_param_start, Generic_param_end, Empty_string, True, 1)
 					line.prune_all_trailing ('.')
 					if count > 1 then
 						line.insert_string_general ("[$source ", tab_count + 1)
@@ -125,6 +124,12 @@ feature {NONE} -- Implementation
 			file_out.close
 		end
 
+	remove_parameter_brackets (start_index, end_index: INTEGER; substring: ZSTRING)
+		do
+			substring.wipe_out
+			substring.append_character ('%N')
+		end
+
 feature {NONE} -- Internal attributes
 
 	build_dir: EL_DIR_PATH
@@ -138,16 +143,6 @@ feature {NONE} -- Internal attributes
 	output_path: EL_FILE_PATH
 
 feature {NONE} -- Constants
-
-	Generic_param_start: ZSTRING
-		once
-			Result := " ["
-		end
-
-	Generic_param_end: ZSTRING
-		once
-			Result := "]"
-		end
 
 	Descendants_command: EL_OS_COMMAND
 		once

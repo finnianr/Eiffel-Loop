@@ -1,6 +1,6 @@
 note
 	description: "[
-		Wrapper for PangoFontDescription
+		Wrapper for PangoFontDescription convertable from class `EV_FONT'.
 	]"
 
 	author: "Finnian Reilly"

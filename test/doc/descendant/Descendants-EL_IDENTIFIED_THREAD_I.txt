@@ -1,0 +1,23 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			EL_IDENTIFIED_THREAD_I*
+				[$source EL_IDENTIFIED_MAIN_THREAD]
+				[$source EL_IDENTIFIED_THREAD]*
+					[$source EL_CONTINUOUS_ACTION_THREAD]*
+						[$source EL_WORK_DISTRIBUTION_THREAD]
+						[$source EL_RHYTHMIC_ACTION_THREAD]*
+							[$source EL_TIMED_COUNT_PRODUCER]
+							[$source EL_TIMEOUT]
+						[$source EL_CONSUMER_THREAD]*
+							[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+							[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+							[$source EL_COUNT_CONSUMER_THREAD]*
+								[$source EL_TIMED_PROCEDURE_THREAD]
+							[$source EL_MANY_TO_ONE_CONSUMER_THREAD]*
+							[$source EL_DELEGATING_CONSUMER_THREAD]
+							[$source EL_TUPLE_CONSUMER_THREAD]
+						[$source EL_DORMANT_ACTION_LOOP_THREAD]*
+							[$source EL_REGULAR_INTERVAL_EVENT_PRODUCER]
+					[$source EL_WORKER_THREAD]
+	]"

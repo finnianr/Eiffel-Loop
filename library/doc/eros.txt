@@ -1,26 +1,23 @@
-EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver and is an experimental project
-that implements an Eiffel orientated XML remote procedure call protocol.
+**Features**
 
-The two example projects demonstrate an
-[./example/net/EROS/test-clients/source/sub-applications/fourier_math_test_client_app.e.html EROS client] calling an
-[./example/net/EROS/server/source/sub-applications/fourier_math_server_app.e.html EROS server] using the EROS protocol.
+* Easily create multi threaded XML-RPC applications in Eiffel.
+* Allows standard XML documents (SVG, XHTML etc) to be turned into procedure calls with the addition of a single processing instruction.
+* Based on framework that allows flexible mapping of XML data to native Eiffel objects. Represent your XML data in Eiffel any way you want. The fact that you only need to include as much data as you need makes it much more efficient than a DOM based approach.
+* Deserialization (XML->Eiffel) uses declarative xpath to setter mapping arrays. Multi context mapping greatly simplifies deserialization of complex documents by eliminating the need for absolete XPaths. Instead a small number of XML contexts are defined and attribute mappings use relative xpaths.
+* Serialization (Eiffel->XML) uses [./library/evolicity.html Evolicity] the Eiffel Loop templating mini-language. Evolicity is similar to [http://velocity.apache.org/ Apache Velocity] but supports multi-context serialization. This greatly simplifies serialization of complex Eiffel structures.
+* Remotely accessible application components can be developed initially with a single threaded console test harness, and then later deployed on multi-threaded server with thread output and performance monitor.
+* A server GUI controls startup/shutdown and thread log output context switching in command console. Context switching has browser like navigation controls and allows you to easily monitor a large number of threads.
+* The server GUI monitors 11 different performance characteristics.
 
-The server program has an optional GUI mode that allows real time monitoring of network service threads
-with thread logging displayed in the console. Thread context switching is controlled by the graphical interface as
-shown in [./images/screenshot/console-thread-switch.png this screenshot]. Note that this shot was taken before the
-introduction of console color-highlighting to Eiffel-Loop.
+**Demo Applications**
 
-The network protocol operates in two alternative modes (set by a command switch):
+Two demo applications are provided that do signal math including Fourier transformations based on Greg Lee's [https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html Numeric Eiffel Library].
 
-**1.** plain text XML
-
-**2.** binary compressed XML
+1. [./example/net/EROS/signal-math/signal-math.html signal-math.ecf] is a multi-mode command-line application with 2 client modes and 2 server-test modes.
+2. [./example/net/EROS/server/signal-math-server.html signal-math-server.ecf] performs the same calculations as the server mode of demo 1 but is multi-threaded and has a graphical user interface to control the thread logging context visible in terminal console.
 
 **Build Notes**
 
 When including the `eros.ecf' in your project it is necessary to define a custom variable
 `eros_server_enabled'. To build a server application set the value to `true'. To build a client
 application set value to `false'.
-
-
-

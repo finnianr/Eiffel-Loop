@@ -1,6 +1,6 @@
 note
 	description: "[
-		Menu driven shell of various cryptographic functions listed in function `new_command_table'.
+		Menu driven shell of various cryptographic commands listed in function `new_command_table'.
 	]"
 
 	author: "Finnian Reilly"

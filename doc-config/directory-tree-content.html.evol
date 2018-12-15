@@ -1,5 +1,5 @@
 <h1>$category_title: $name</h1>
-<p>The <i>$name</i> $type has $class_count classes.</p>
+<p>This $type has $class_count classes.</p>
 <p><b>ECF:</b> <a href="$github_url/blob/master/$ecf_path" target="_blank" title="$ecf_name on github">$ecf_name</a></p>
 #if $description_elements.count > 5 then
 <p><b>Source code:</b> <a href="#class_listing">directory list</a></p>

@@ -1,6 +1,7 @@
 note
 	description: "[
-		Lists JPEG photos that lack the EXIF field Exif.Photo.DateTimeOriginal
+		Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal'.
+		
 		See class [$source UNDATED_PHOTO_FINDER] for details.
 	]"
 

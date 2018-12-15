@@ -1,8 +1,47 @@
 # Eiffel-Loop Contents
-## EROS Protocol Test server
-Signal processing application to demonstrate the [EROS remote object protocol](http://www.eiffel-loop.com/library/eros.html).
-## EROS Protocol Test clients
-Client application to demonstrate remote signal processing math using the [EROS remote object protocol](http://www.eiffel-loop.com/library/eros.html).
+## Signal Math Demo of the EROS Protocol
+A multi-mode application demonstrating the [EROS remote object protocol](http://www.eiffel-loop.com/library/eros.html). The application calculates Fourier transformations based on Greg Lee's [Numeric Eiffel Library](https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html). It has two client modes and two server modes, accessible via a command line option.
+
+**Client Modes**
+
+`-test_client` Sub-application [FOURIER_MATH_TEST_CLIENT_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/sub-applications/fourier_math_test_client_app.html)
+
+Test client to generate random wave forms and do fourier transforms for 25 seconds
+
+`-bext_test_client` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/sub-applications/bext_client_test_app.html)
+
+Client to test Binary Encoded XML Transfer (BEXT).
+
+**Server Modes**
+
+`-bext_test_server` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/sub-applications/bext_client_test_app.html)
+
+Server to test Binary Encoded XML Transfer (BEXT). Ctrl-c shuts down the server.
+
+`-test_server` Sub-application [FOURIER_MATH_TEST_SERVER_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/sub-applications/fourier_math_test_server_app.html)
+
+Single connection test server for fourier math. Ctrl-c shuts down the server.
+
+**Installer Mode**
+
+`-install` Sub-application [EL_STANDARD_INSTALLER_APP](http://www.eiffel-loop.com/library/runtime/app-manage/sub-app/standard/el_standard_installer_app.html)
+
+Installs application with desktop menu options for each mode.
+
+
+## Signal Math EROS Server with GUI
+A multi-threaded EROS server demonstrating the [EROS remote object protocol](http://www.eiffel-loop.com/library/eros.html). The application performs signal math including Fourier transformations based on Greg Lee's [Numeric Eiffel Library](https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html)
+
+**Features**
+
+
+* A graphical user interface (GUI) to control startup and shutdown.
+* GUI monitors 11 different performance characteristics.
+* GUI has controls allowing you to switch the console logging output to a different thread context.
+
+**Screenshot**
+
+[Server GUI and terminal window displaying logging output](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png)
 ## Submission for 99-bottles-of-beer.net
 Eiffel submission for [www.99-bottles-of-beer.net](http://www.99-bottles-of-beer.net/).
 
@@ -81,13 +120,15 @@ Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/release
 
 
 ## Utilities Toolkit
-A "Swiss-army knife" of command line utilities accessible via a command line option. The most useful ones are listed below with the option name:
+A "Swiss-army knife" of command line utilities accessible via a command line option.
+
+The most useful ones are listed below with the option name:
 
 `-body_word_counts` [HTML_BODY_WORD_COUNTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/html_body_word_counter_app.html)
 
 Counts the number of words in a HTML document.
 
-`-crypto`: [CRYPTO_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/crypto_app.html)
+`-crypto`: [CRYPTO_COMMAND_SHELL_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/crypto_command_shell_app.html)
 
 Menu driven shell of useful cryptographic operations.
 
@@ -103,7 +144,7 @@ Compiles tree of Pyxis translation files into multiple locale files named `local
 
 Converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf`). The attribute `configuration_ns` can be used as convenient shorthand for the ECF schema configuration information.
 
-`-youtube_dl` [YOUTUBE_HD_DOWNLOAD_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/youtube_hd_download_app.html)
+`-youtube_dl` [YOUTUBE_VIDEO_DOWNLOADER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/youtube_video_downloader_app.html)
 
 Download and merge selected audio and video streams from a Youtube video.
 
@@ -111,7 +152,7 @@ Download and merge selected audio and video streams from a Youtube video.
 
 Creates an XML file manifest of a target directory using either the default Evolicity template or an optional external Evolicity template. See class [EVOLICITY_SERIALIZEABLE](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable.html)
 
-`-undated_photos` [UNDATED_PHOTOS_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/undated_photos_app.html)
+`-undated_photos` [UNDATED_PHOTO_FINDER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/undated_photo_finder_app.html)
 
 Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal`.
 
@@ -163,8 +204,6 @@ Image utilities providing:
 ## HTML Viewer (based on Vision-2)
 Extension for Vision2 library to render very basic html produced by Thunderbird email client.
 ## EiffelVision 2 GUI Extensions
-Extensions to the Eiffel Software [Vision-2 cross-platform GUI library](https://www.eiffel.org/doc/solutions/EiffelVision%202) and the [Smart Docking library](https://dev.eiffel.com/Smart_Docking_library).
-
 **Features**
 
 These are some highlights of a long list of features:
@@ -198,27 +237,31 @@ See [example/eiffel2java/eiffel2java.ecf](http://www.eiffel-loop.com/example/eif
 ## Python
 Some extensions to Daniel Rodríguez's [PEPE library for Eiffel](https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE). This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags in an MP3 file: [EL_EYED3_TAG](http://www.eiffel-loop.com/library/language_interface/Python/example/el_eyed3_tag.html).
 ## Eiffel Remote Object Server (EROS)
-EROS is an acronym for **E**iffel **R**emote **O**bject **S**erver and is an experimental project that implements an Eiffel orientated XML remote procedure call protocol.
+EROS (for **E**iffel **R**emote **O**bject **S**erver), is an experimental an XML orientated remote procedure call application framework with an original protocol based purely on XML processing instructions rather that any special XML tags.
 
-The two example projects demonstrate an [EROS client](http://www.eiffel-loop.com/example/net/EROS/test-clients/source/sub-applications/fourier_math_test_client_app.e.html) calling an [EROS server](http://www.eiffel-loop.com/example/net/EROS/server/source/sub-applications/fourier_math_server_app.e.html) using the EROS protocol.
+**Features**
 
-The server program has an optional GUI mode that allows real time monitoring of network service threads with thread logging displayed in the console. Thread context switching is controlled by the graphical interface as shown in [this screenshot](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png). Note that this shot was taken before the introduction of console color-highlighting to Eiffel-Loop.
 
-The network protocol operates in two alternative modes (set by a command switch):
+* Easily create multi threaded XML-RPC applications in Eiffel.
+* Allows standard XML documents (SVG, XHTML etc) to be turned into procedure calls with the addition of a single processing instruction.
+* Based on framework that allows flexible mapping of XML data to native Eiffel objects. Represent your XML data in Eiffel any way you want. The fact that you only need to include as much data as you need makes it much more efficient than a DOM based approach.
+* Deserialization (XML->Eiffel) uses declarative xpath to setter mapping arrays. Multi context mapping greatly simplifies deserialization of complex documents by eliminating the need for absolete XPaths. Instead a small number of XML contexts are defined and attribute mappings use relative xpaths.
+* Serialization (Eiffel->XML) uses [Evolicity](http://www.eiffel-loop.com/library/evolicity.html) the Eiffel Loop templating mini-language. Evolicity is similar to [Apache Velocity](http://velocity.apache.org/) but supports multi-context serialization. This greatly simplifies serialization of complex Eiffel structures.
+* Remotely accessible application components can be developed initially with a single threaded console test harness, and then later deployed on multi-threaded server with thread output and performance monitor.
+* A server GUI controls startup/shutdown and thread log output context switching in command console. Context switching has browser like navigation controls and allows you to easily monitor a large number of threads.
+* The server GUI monitors 11 different performance characteristics.
 
-**1.** plain text XML
+**Demo Applications**
 
-**2.** binary compressed XML
+Two demo applications are provided that do signal math including Fourier transformations based on Greg Lee's [Numeric Eiffel Library](https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html).
+
+
+1. [signal-math.ecf](http://www.eiffel-loop.com/example/net/EROS/signal-math/signal-math.html) is a multi-mode command-line application with 2 client modes and 2 server-test modes.
+2. [signal-math-server.ecf](http://www.eiffel-loop.com/example/net/EROS/server/signal-math-server.html) performs the same calculations as the server mode of demo 1 but is multi-threaded and has a graphical user interface to control the thread logging context visible in terminal console.
 
 **Build Notes**
 
 When including the `eros.ecf` in your project it is necessary to define a custom variable `eros_server_enabled`. To build a server application set the value to `true`. To build a client application set value to `false`.
-
-
-
-
-
-
 
 
 ## Matlab
@@ -432,7 +475,110 @@ The library provides a system of managing application resources like graphics, h
 
 
 ## Concurrency
-Classes augmenting the classic [EiffelThread library](https://www.eiffel.org/doc/solutions/EiffelThreads). Of these, the most useful are [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) which offers a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE](http://www.eiffel-loop.com/tool/eiffel/source/library/publish/eiffel_configuration_file.html) for an example.
+Classes augmenting the classic [EiffelThread library](https://www.eiffel.org/doc/solutions/EiffelThreads).
+
+**Work Distribution**
+
+Classes [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) offer a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE](http://www.eiffel-loop.com/tool/eiffel/source/library/publish/eiffel_configuration_file.html) for an example.
+
+**Producer-Consumer Framework**
+
+A generic producer-consumer thread communication framework where a producing thread places products onto a queue for consumption by a consumer thread.
+
+*Features*
+
+
+* Implementation of a single consumer thread consuming the products of a single worker thread.
+* Implementation of multiple consumer threads consuming the products of a single worker thread.
+* Vision2 extension allowing products of a thread to be consumed by the main GUI application thread.
+* Specialized consumer-producer thread classes for agent action consuming.
+
+*Consumer Descendants*
+
+
+````
+EL_CONSUMER*
+	[$source EL_NONE_CONSUMER]
+	[$source EL_CONSUMER_MAIN_THREAD]*
+		[$source EL_TUPLE_CONSUMER_MAIN_THREAD]
+		[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
+			[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
+		[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
+		[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+	[$source EL_COUNT_CONSUMER]*
+		[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
+		[$source EL_TIMED_PROCEDURE]*
+			[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
+			[$source EL_TIMED_PROCEDURE_THREAD]
+		[$source EL_COUNT_CONSUMER_THREAD]*
+			[$source EL_TIMED_PROCEDURE_THREAD]
+	[$source EL_PROCEDURE_CALL_CONSUMER]*
+		[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
+		[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+	[$source EL_REGULAR_INTERVAL_EVENT_CONSUMER]*
+		[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+		[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+	[$source EL_CONSUMER_THREAD]*
+		[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+		[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+		[$source EL_COUNT_CONSUMER_THREAD]*
+		[$source EL_MANY_TO_ONE_CONSUMER_THREAD]*
+		[$source EL_DELEGATING_CONSUMER_THREAD]
+````
+*Product Queue Descendants*
+
+
+````
+EL_THREAD_PRODUCT_QUEUE
+	[$source EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE]
+	[$source EL_PROCEDURE_CALL_QUEUE]
+````
+**Specialized Threads**
+
+The library includes many thread classes inheriting from [EL_IDENTIFIED_THREAD_I](http://www.eiffel-loop.com/library/runtime/concurrency/thread-types/el_identified_thread_i.html) that perform specialized tasks.
+
+*Examples*
+
+
+* Intermittently repeat an action with a specified sleep interval until signaled to stop.
+* Continuously repeat an action until signaled to stop.
+* Continuously repeat an action until receiving a signal to suspend or exit. Remains suspended unless signaled to resume or exit.
+
+*Descendants*
+
+
+````
+EL_IDENTIFIED_THREAD_I*
+	[$source EL_IDENTIFIED_MAIN_THREAD]
+	[$source EL_IDENTIFIED_THREAD]*
+		[$source EL_CONTINUOUS_ACTION_THREAD]*
+			[$source EL_WORK_DISTRIBUTION_THREAD]
+			[$source EL_RHYTHMIC_ACTION_THREAD]*
+				[$source EL_TIMED_COUNT_PRODUCER]
+				[$source EL_TIMEOUT]
+			[$source EL_CONSUMER_THREAD]*
+				[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+				[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+				[$source EL_COUNT_CONSUMER_THREAD]*
+					[$source EL_TIMED_PROCEDURE_THREAD]
+				[$source EL_MANY_TO_ONE_CONSUMER_THREAD]*
+				[$source EL_DELEGATING_CONSUMER_THREAD]
+				[$source EL_TUPLE_CONSUMER_THREAD]
+			[$source EL_DORMANT_ACTION_LOOP_THREAD]*
+				[$source EL_REGULAR_INTERVAL_EVENT_PRODUCER]
+		[$source EL_WORKER_THREAD]
+````
+**Other Features**
+
+
+* A Vision2 extension framework for building proxy interfaces to GUI components that are callable from non-GUI threads. Allows non-GUI threads to asynchronously call routines that call Vision2 routines.
+* Intermittent timed event framework
+* Container cell class for numeric types shared across threads. Features thread safe increment, decrement, add and subtract operations.
+* Thread safe queue and stack container classes.
+
+
+
+
 ## Multi-threaded Logging
 Logging library featuring color highlighted output and mimicry of Eiffel routine code in output.
 
@@ -636,6 +782,10 @@ It is this index which is displayed as part of the log output prompt. If you are
 ````
 my_thread_index := Log_manager.thread_index ("My thread")
 ````
+**Synchronization Monitor**
+
+A generic synchronization monitor allows synchronization on an object to be protected with a contract requiring that the object is locked before being referenced. It is integrated with the logging framework to help detect deadlock conditions. If a thread needs to wait for a lock on a synchronized object, both the waiting and acquiring of the lock is logged in the thread's log. See class [EL_LOGGED_MUTEX_REFERENCE](http://www.eiffel-loop.com/library/runtime/logging/concurrency/el_logged_mutex_reference.html)
+
 **Logging Routines**
 
 Access to the logging routines is through feature log of class [EL_MODULE_LOG](http://www.eiffel-loop.com/library/runtime/logging/el_module_log.html). The log object conforms to type [EL_LOGGABLE](http://www.eiffel-loop.com/library/base/runtime/io/loggable/el_loggable.html) which has numerous procedures for writing to the log as well as some useful functions.
@@ -734,7 +884,7 @@ Easy interface to basic AES encryption with extensions to Colin LeMahieu's [AES 
 ## RSA Public-key Encryption
 Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability to read key-pairs conforming to the [X509 PKCS1 standard](https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates). The top level class to access these facilities is [EL_MODULE_X509_COMMAND](http://www.eiffel-loop.com/library/text/rsa-encryption/x509/el_module_x509_command.html).
 
-The private key reader however uses a non-standard encryption scheme. It assumes the file is en	crypted using the Eiffel-Loop utility contained in `el_toolkit`. See class [CRYPTO_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/crypto_app.html) for details. (Missing file?)
+The private key reader however uses a non-standard encryption scheme. It assumes the file is en	crypted using the Eiffel-Loop utility contained in `el_toolkit`. See class [CRYPTO_APP]($source) for details. (Missing file?)
 ## Evolicity Text Substitution Engine
 *Evolicity* is a text substitution language that was inspired by the [Velocity text substitution language](http://velocity.apache.org/) for Java. *Evolicity* provides a way to merge the data from Eiffel objects into a text template. The template can be either supplied externally or hard-coded into an Eiffel class. The language includes, substitution variables, conditional statements and loops. Substitution variables have a BASH like syntax. Conditionals and loops have an Eiffel like syntax.
 

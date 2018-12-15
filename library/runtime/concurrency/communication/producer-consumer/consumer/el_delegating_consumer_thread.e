@@ -1,7 +1,5 @@
 note
-	description: "[
-		Consumer thread
-	]"
+	description: "Consumer thread that delegates consumption to multiple consumer threads"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

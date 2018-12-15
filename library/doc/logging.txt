@@ -157,6 +157,10 @@ It is this index which is displayed as part of the log output prompt. If you are
 
 	my_thread_index := Log_manager.thread_index ("My thread")
 
+**Synchronization Monitor**
+
+A generic synchronization monitor allows synchronization on an object to be protected with a contract requiring that the object is locked before being referenced. It is integrated with the logging framework to help detect deadlock conditions. If a thread needs to wait for a lock on a synchronized object, both the waiting and acquiring of the lock is logged in the thread's log. See class [$source EL_LOGGED_MUTEX_REFERENCE]
+
 **Logging Routines**
 
 Access to the logging routines is through feature log of class [$source EL_MODULE_LOG]. The log object conforms to type [$source EL_LOGGABLE] which has numerous procedures for writing to the log as well as some useful functions.

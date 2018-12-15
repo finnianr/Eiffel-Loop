@@ -18,7 +18,7 @@ inherit
 			default_create as make
 		end
 
-	GTK2
+	EL_GTK2_API
 		rename
 			default_create as make
 		end

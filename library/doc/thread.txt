@@ -1,0 +1,92 @@
+**Work Distribution**
+
+Classes [$source EL_PROCEDURE_DISTRIBUTER] and [$source EL_FUNCTION_DISTRIBUTER]
+offer a convenient way to distribute the work of executing routines using a specific number of cores.
+See routine `read_source_files' in class [$source EIFFEL_CONFIGURATION_FILE] for an example.
+
+**Producer-Consumer Framework**
+
+A generic producer-consumer thread communication framework where a producing thread places products onto a queue for consumption by a consumer thread.
+
+''Features''
+
+* Implementation of a single consumer thread consuming the products of a single worker thread.
+* Implementation of multiple consumer threads consuming the products of a single worker thread.
+* Vision2 extension allowing products of a thread to be consumed by the main GUI application thread.
+* Specialized consumer-producer thread classes for agent action consuming.
+
+''Consumer Descendants''
+
+	EL_CONSUMER*
+		[$source EL_NONE_CONSUMER]
+		[$source EL_CONSUMER_MAIN_THREAD]*
+			[$source EL_TUPLE_CONSUMER_MAIN_THREAD]
+			[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
+				[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
+			[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
+			[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+		[$source EL_COUNT_CONSUMER]*
+			[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
+			[$source EL_TIMED_PROCEDURE]*
+				[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
+				[$source EL_TIMED_PROCEDURE_THREAD]
+			[$source EL_COUNT_CONSUMER_THREAD]*
+				[$source EL_TIMED_PROCEDURE_THREAD]
+		[$source EL_PROCEDURE_CALL_CONSUMER]*
+			[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
+			[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+		[$source EL_REGULAR_INTERVAL_EVENT_CONSUMER]*
+			[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+			[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+		[$source EL_CONSUMER_THREAD]*
+			[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+			[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+			[$source EL_COUNT_CONSUMER_THREAD]*
+			[$source EL_MANY_TO_ONE_CONSUMER_THREAD]*
+			[$source EL_DELEGATING_CONSUMER_THREAD]
+
+''Product Queue Descendants''
+
+	EL_THREAD_PRODUCT_QUEUE
+		[$source EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE]
+		[$source EL_PROCEDURE_CALL_QUEUE]
+
+**Specialized Threads**
+
+The library includes many thread classes inheriting from [$source EL_IDENTIFIED_THREAD_I] that perform specialized tasks.
+
+''Examples''
+
+* Intermittently repeat an action with a specified sleep interval until signaled to stop.
+* Continuously repeat an action until signaled to stop.
+* Continuously repeat an action until receiving a signal to suspend or exit. Remains suspended unless signaled to resume or exit.
+
+''Descendants''
+
+	EL_IDENTIFIED_THREAD_I*
+		[$source EL_IDENTIFIED_MAIN_THREAD]
+		[$source EL_IDENTIFIED_THREAD]*
+			[$source EL_CONTINUOUS_ACTION_THREAD]*
+				[$source EL_WORK_DISTRIBUTION_THREAD]
+				[$source EL_RHYTHMIC_ACTION_THREAD]*
+					[$source EL_TIMED_COUNT_PRODUCER]
+					[$source EL_TIMEOUT]
+				[$source EL_CONSUMER_THREAD]*
+					[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+					[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+					[$source EL_COUNT_CONSUMER_THREAD]*
+						[$source EL_TIMED_PROCEDURE_THREAD]
+					[$source EL_MANY_TO_ONE_CONSUMER_THREAD]*
+					[$source EL_DELEGATING_CONSUMER_THREAD]
+					[$source EL_TUPLE_CONSUMER_THREAD]
+				[$source EL_DORMANT_ACTION_LOOP_THREAD]*
+					[$source EL_REGULAR_INTERVAL_EVENT_PRODUCER]
+			[$source EL_WORKER_THREAD]
+
+**Other Features**
+
+* A Vision2 extension framework for building proxy interfaces to GUI components that are callable from non-GUI threads. Allows non-GUI threads to asynchronously call routines that call Vision2 routines.
+* Intermittent timed event framework
+* Container cell class for numeric types shared across threads. Features thread safe increment, decrement, add and subtract operations.
+* Thread safe queue and stack container classes.
+

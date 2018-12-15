@@ -1,27 +1,19 @@
 pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
-# Pyxis is data format inspired by the Python programming language and designed to be a more
-# readable supplement/substitute for XML configuration files.
-
-# Pyxis as an acronym stands for: Pythonic XML ideal source.
-# It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold 
-# cosmetics, trinkets or jewellery. 
-
-# The following is project configuration data for an Eiffel programming language project
-# compiled with the EiffelStudio IDE
-
-# This project contains a parser for the Pyxis format and a Pyxis to XML convertion utility
-
 system:
 	configuration_ns = "1-16-0"
-	name = el_eros_test; uuid = "4D69A6C6-DB68-46AC-9B3B-3A29B2E260AF"
+	name = el_signal_math; uuid = "4D69A6C6-DB68-46AC-9B3B-3A29B2E260AF"
 	description:
 		"""
-			EROS Protocol Test clients
+			Signal Math Demo of the EROS Protocol
 
-			Client application to demonstrate remote signal processing math using
-			the [./library/eros.html EROS remote object protocol].
+			A multi-mode application demonstrating the [./library/eros.html EROS remote object protocol].
+			The application calculates Fourier transformations based on Greg Lee's
+			[https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html Numeric Eiffel Library].
+			It has two client modes and two server modes, accessible via a command line option.
+
+			See doc/signal-math.txt for details
 		"""
 	
 	# classic means C code as an intermediate language

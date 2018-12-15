@@ -35,12 +35,14 @@ feature {NONE} -- Implementation
 		end
 
 	default_make: PROCEDURE
-		local
-			build_dir: EL_DIR_PATH
 		do
-			build_dir := "build/$ISE_PLATFORM"
-			build_dir.expand
-			Result := agent {like command}.make (build_dir, "doc", Empty_string_8)
+			Result := agent {like command}.make (build_ise_platform, "doc", Empty_string_8)
+		end
+
+	build_ise_platform: EL_DIR_PATH
+		do
+			Result := "build/$ISE_PLATFORM"
+			Result.expand
 		end
 
 feature {NONE} -- Constants
