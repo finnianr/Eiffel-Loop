@@ -41,6 +41,9 @@ system:
 			name = EL_eco_db; location = "Eco-DB.ecf"; readonly = false
 
 		library:
+			name = EL_text_process; location = "text-process.ecf"
+
+		library:
 			name = EL_thread; location = "thread.ecf"
 
 		library:

@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-12-17 14:24:51 GMT (Monday 17th December 2018)"
+	revision: "6"
 
 deferred class
 	EL_TEXT_PATTERN
 
 inherit
+	EL_TEXT_PATTERN_I
+	
 	EL_STRING_INTERVAL
 		rename
 			set_from_other as set_interval_from_other

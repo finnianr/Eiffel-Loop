@@ -67,6 +67,9 @@ system:
 		library:
 			name = EL_text_formats; location = "text-formats.ecf"
 
+		library:
+			name = EL_text_process; location = "text-process.ecf"
+
 		# Source code
 		cluster:
 			name = xml; location = "persistency/xml/xdoc-scanning"; recursive = true

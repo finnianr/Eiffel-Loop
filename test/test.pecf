@@ -190,6 +190,10 @@ system:
 			location = "$EIFFEL_LOOP/library/testing.ecf"
 
 		library:
+			name = EL_text_process; readonly = false
+			location = "$EIFFEL_LOOP/library/text-process.ecf"
+
+		library:
 			name = EL_thread; readonly = false
 			location = "$EIFFEL_LOOP/library/thread.ecf"
 

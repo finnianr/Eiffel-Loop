@@ -157,6 +157,10 @@ system:
 			location = "$EIFFEL_LOOP/library/text-formats.ecf"
 
 		library:
+			name = EL_text_process; readonly = false
+			location = "$EIFFEL_LOOP/library/text-process.ecf"
+
+		library:
 			name = EL_vtd_xml; readonly = false
 			location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
 

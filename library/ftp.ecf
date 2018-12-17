@@ -20,6 +20,7 @@ Classes providing
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_network" location = "network.ecf"/>
+		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
 		<library name = "EL_xdoc_scanning" readonly = "false" location = "xdoc-scanning.ecf"/>
 		<!--Source code-->

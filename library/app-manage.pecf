@@ -62,6 +62,9 @@ system:
 			name = EL_os_command; location = "os-command.ecf"
 
 		library:
+			name = EL_text_process; location = "text-process.ecf"
+
+		library:
 			name = EL_wel_regedit_x; location = "wel-regedit-x.ecf"
 			condition:
 				platform:

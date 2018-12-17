@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2018-12-17 11:52:49 GMT (Monday 17th December 2018)"
+	revision: "5"
 
 deferred class
 	EL_VARIABLE_TABLE [G]
@@ -17,13 +17,11 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_from_file_in_location (data_location, file_name: STRING)
+	make_from_file (file_path: EL_FILE_PATH)
 			--
 		local
-			file_path: EL_FILE_PATH; file_in: PLAIN_TEXT_FILE; variable: STRING
+			file_in: PLAIN_TEXT_FILE; variable: STRING
 		do
-			file_path := data_location
-			file_path.append_file_path (file_name)
 			make (7)
 			from
 				create file_in.make_open_read (file_path)

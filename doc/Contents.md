@@ -303,7 +303,7 @@ Classes providing
 
 * uploading of files to a server
 * managing server directory structure.
-* file synchronization using the [EL_CRC_32_SYNC_ITEM](http://www.eiffel-loop.com/library/base/runtime/file/transfer-sync/el_crc_32_sync_item.html) abstraction
+* file synchronization using the [EL_CRC_32_SYNC_ITEM](http://www.eiffel-loop.com/library/network/base/transfer-sync/el_crc_32_sync_item.html) abstraction
 
 ## PayPal Payments Standard Button Manager API
 An Eiffel interface to the [PayPal Payments Standard Button Manager NVP HTTP API](https://developer.paypal.com/docs/classic/button-manager/integration-guide/).
@@ -909,6 +909,12 @@ To make an Eiffel class serializable with *Evolicity* you inherit from class [EV
 
 ## Textual Data Formats
 Classes for handling various human-readable text formats. Supported formats are: XML, XHTML, HTML, JSON, CSV. (Note: Eiffel-Loop has other libraries for parsing XML)
+## Text Editing
+Classes for editing file and other text.
+## Parsing
+Classes for parsing text data.
+## Pattern-matching
+Classes for finding and matching textual patterns.
 ## Application License Management
 A few basic classes for constructing an application license manager. The most important is a way to obtain a unique machine ID using a combination of the CPU model name and MAC address either from the network card or wifi card.
 

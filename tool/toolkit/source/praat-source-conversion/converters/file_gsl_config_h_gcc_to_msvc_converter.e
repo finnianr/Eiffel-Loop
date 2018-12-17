@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2018-12-17 14:16:41 GMT (Monday 17th December 2018)"
+	revision: "4"
 
 class
 	FILE_GSL_CONFIG_H_GCC_TO_MSVC_CONVERTER
@@ -83,7 +83,6 @@ feature {NONE} -- Match actions
 			put_string ("%T#undef HAVE_ISNAN")
 			put_new_line
 			put_string ("#elif")
-
 		end
 
 end

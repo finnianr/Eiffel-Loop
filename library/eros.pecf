@@ -62,6 +62,9 @@ system:
 			name = EL_thread; location = "thread.ecf"
 
 		library:
+			name = EL_text_process; location = "text-process.ecf"
+
+		library:
 			name = EL_vision2; location = "vision2-x.ecf"
 			condition:
 				custom:

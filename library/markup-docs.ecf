@@ -27,6 +27,7 @@ a class to generate a Kindle book from a folder of chapter emails.
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
+		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
 		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf"/>
 		<cluster name = "open_office" location = "persistency/xml/open-office-spreadsheet" recursive = "true"/>

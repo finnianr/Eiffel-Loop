@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:47:17 GMT (Wednesday 17th October 2018)"
-	revision: "5"
+	date: "2018-12-17 14:21:31 GMT (Monday 17th December 2018)"
+	revision: "6"
 
 class
 	MARKUP_SUBSTITUTION
@@ -69,7 +69,7 @@ feature {NONE} -- Implementation
 
 	expand_hyperlink_markup (start_index, end_index: INTEGER; substring: ZSTRING)
 		local
-			expanded_link, link_path, link_text: ZSTRING
+			link_path, link_text: ZSTRING
 			space_index: INTEGER
 		do
 			substring.to_canonically_spaced

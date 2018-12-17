@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-08 11:44:22 GMT (Saturday 8th December 2018)"
-	revision: "11"
+	date: "2018-12-16 17:15:42 GMT (Sunday 16th December 2018)"
+	revision: "12"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -46,18 +46,16 @@ feature {NONE} -- Initialization
 			--
 		local
 			root: EL_XPATH_ROOT_NODE_CONTEXT; location: ZSTRING
-			source_dir: EL_DIR_PATH; cluster_xpath: STRING; word_list: EL_ZSTRING_LIST
+			source_dir: EL_DIR_PATH
 		do
 			make_default
 			repository := a_repository
 			relative_ecf_path.share (ecf.path)
+			is_cluster := ecf.is_cluster
+
 			html_index_path := relative_ecf_path.without_extension
-			if ecf.cluster.is_empty then
-				cluster_xpath := Xpath_cluster
-			else
+			if is_cluster then
 				html_index_path.add_extension (ecf.cluster)
-				cluster_xpath := Selected_cluster #$ [Xpath_cluster, ecf.cluster]
-				is_cluster := True
 			end
 			html_index_path.add_extension (Html)
 
@@ -66,30 +64,27 @@ feature {NONE} -- Initialization
 			if root.parse_failed then
 				lio.put_path_field ("Parse failed", relative_ecf_path)
 				lio.put_new_line
-			end
-			across root.context_list (cluster_xpath) as cluster loop
-				location := cluster.node.attributes [Attribute_location]
-				if location.starts_with (Parent_dir_dots) then
-					source_dir := ecf_dir.parent.joined_dir_path (location.substring_end (4))
-				else
-					source_dir := ecf_dir.joined_dir_path (location)
-				end
-				if cluster.cursor_index = 1 then
-					dir_path := source_dir
-				elseif not dir_path.is_parent_of (source_dir) then
-					dir_path := source_dir.parent
-				end
-				source_dir_list.extend (source_dir)
-			end
-			path_list := new_path_list; sub_category := new_sub_category
-			if ecf.cluster.is_empty then
-				set_name_and_description (root.string_at_xpath (Xpath_description).stripped)
 			else
-				if ecf.description.is_empty then
-					create word_list.make_with_separator (ecf.cluster, '_', False)
-					name := word_list.joined_propercase_words
-				else
+				is_library := root.is_xpath (Xpath_all_classes)
+				across root.context_list (ecf.cluster_xpath) as cluster loop
+					location := cluster.node.attributes [Attribute_location]
+					if location.starts_with (Parent_dir_dots) then
+						source_dir := ecf_dir.parent.joined_dir_path (location.substring_end (4))
+					else
+						source_dir := ecf_dir.joined_dir_path (location)
+					end
+					if cluster.cursor_index = 1 then
+						dir_path := source_dir
+					elseif not dir_path.is_parent_of (source_dir) then
+						dir_path := source_dir.parent
+					end
+					source_dir_list.extend (source_dir)
+				end
+				path_list := new_path_list; sub_category := new_sub_category
+				if is_cluster then
 					set_name_and_description (ecf.description)
+				else
+					set_name_and_description (root.string_at_xpath (Xpath_description).stripped)
 				end
 			end
 		end
@@ -164,9 +159,6 @@ feature -- Access
 feature -- Status query
 
 	is_library: BOOLEAN
-		do
-			Result := category ~ Library_category
-		end
 
 	is_cluster: BOOLEAN
 		-- True if classes are selected from one cluster in ecf
@@ -320,9 +312,9 @@ feature {NONE} -- Xpath constants
 
 	Attribute_location: STRING = "location"
 
-	Xpath_cluster: STRING = "/system/target/cluster"
-
 	Xpath_description: STRING = "/system/description"
+
+	Xpath_all_classes: STRING = "/system/target/root/@all_classes"
 
 feature {NONE} -- Constants
 
@@ -358,11 +350,6 @@ feature {NONE} -- Constants
 			create Result
 			Result.begins := "See "
 			Result.ends := " for details"
-		end
-
-	Selected_cluster: ZSTRING
-		once
-			Result := "%S[@name='%S']"
 		end
 
 	Translater: MARKDOWN_TRANSLATER

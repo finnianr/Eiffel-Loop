@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 10:42:34 GMT (Tuesday 19th June 2018)"
-	revision: "4"
+	date: "2018-12-13 15:08:33 GMT (Thursday 13th December 2018)"
+	revision: "5"
 
 class
 	FILTER_INVALID_UTF_8_APP

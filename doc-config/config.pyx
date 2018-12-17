@@ -145,7 +145,33 @@ publish-repository:
 			"library/public-key-encryption.ecf"
 			"library/evolicity.ecf"
 			"library/text-formats.ecf"
+		ecf:
+			cluster = edit
+			"library/text-process.ecf"
+			description:
+				"""
+					Text Editing
 
+					Classes for editing file and other text.
+				"""
+		ecf:
+			cluster = parse
+			"library/text-process.ecf"
+			description:
+				"""
+					Parsing
+					
+					Classes for parsing text data.
+				"""
+		ecf:
+			cluster = pattern_match
+			"library/text-process.ecf"
+			description:
+				"""
+					Pattern-matching
+
+					Classes for finding and matching textual patterns.
+				"""
 		# Library (Utility)
 		ecf:
 			"library/app-license-keys.ecf"

@@ -102,10 +102,6 @@ system:
 			location = "$EIFFEL_LOOP/library/ftp.ecf"
 
 		library:
-			name = EL_os_command; readonly = false
-			location = "$EIFFEL_LOOP/library/os-command.ecf"
-
-		library:
 			name = EL_evolicity; readonly = false
 			location = "$EIFFEL_LOOP/library/evolicity.ecf"
 
@@ -121,8 +117,20 @@ system:
 					precondition = true; postcondition = true; check = false; invariant = false
 
 		library:
+			name = EL_network; readonly = false
+			location = "$EIFFEL_LOOP/library/network.ecf"
+
+		library:
+			name = EL_os_command; readonly = false
+			location = "$EIFFEL_LOOP/library/os-command.ecf"
+
+		library:
 			name = EL_text_formats; readonly = false
 			location = "$EIFFEL_LOOP/library/text-formats.ecf"
+
+		library:
+			name = EL_text_process; readonly = false
+			location = "$EIFFEL_LOOP/library/text-process.ecf"
 
 		library:
 			name = EL_testing; readonly = false

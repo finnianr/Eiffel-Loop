@@ -1,5 +1,5 @@
 note
-	description: "String 8 list"
+	description: "List of `STRING_8' strings"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

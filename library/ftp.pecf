@@ -42,6 +42,9 @@ system:
 			name = EL_network; location = "network.ecf"
 
 		library:
+			name = EL_text_process; location = "text-process.ecf"
+
+		library:
 			name = EL_vtd_xml; location = "vtd-xml.ecf"
 
 		library:

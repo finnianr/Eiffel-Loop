@@ -55,6 +55,9 @@ system:
 		library:
 			name = EL_os_command; location = "os-command.ecf"
 
+		library:
+			name = EL_text_process; location = "text-process.ecf"
+
 		# Source code
 		cluster:
 			name = RSA_public_key; location = "text/rsa-encryption"; recursive = true

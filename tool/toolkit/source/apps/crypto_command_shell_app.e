@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 10:43:46 GMT (Tuesday 19th June 2018)"
-	revision: "9"
+	date: "2018-12-13 15:15:56 GMT (Thursday 13th December 2018)"
+	revision: "10"
 
 class
 	CRYPTO_COMMAND_SHELL_APP

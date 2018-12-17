@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "12"
+	date: "2018-12-17 18:39:51 GMT (Monday 17th December 2018)"
+	revision: "13"
 
 deferred class
 	EL_DATE_TEXT
@@ -22,8 +22,8 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create format_templates.make (3)
-			text_functions := new_text_functions
+			create template_table.make (3)
+			function_table := new_function_table
 		end
 
 feature -- Access
@@ -31,21 +31,8 @@ feature -- Access
 	formatted (date: DATE; format: STRING): ZSTRING
 		require
 			valid_format: is_valid_format (format)
-		local
-			template: like format_templates.item
 		do
-			if format_templates.has_key (format) then
-				template := format_templates.found_item
-			else
-				create template.make (format)
-				format_templates [format] := template
-			end
-			across template.variables as variable loop
-				if text_functions.has_key (variable.item.to_string_8) then
-					template.set_variable (variable.item, text_functions.found_item (date))
-				end
-			end
-			Result := template.substituted
+			Result := template (format).substituted (date)
 		end
 
 	from_ISO_8601_formatted (iso8601_string: STRING): DATE_TIME
@@ -186,7 +173,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_text_functions: EL_HASH_TABLE [FUNCTION [DATE, ZSTRING], STRING]
+	new_function_table: EL_DATE_FUNCTION_TABLE
 		do
 			create Result.make (<<
 				["long_day_name", 				agent long_day_name],
@@ -210,6 +197,16 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	template (format: STRING): EL_DATE_TEXT_TEMPLATE
+		do
+			if template_table.has_key (format) then
+				Result := template_table.found_item
+			else
+				create Result.make (format, function_table)
+				template_table.extend (Result, format)
+			end
+		end
+
 	week_day_name (day_of_week: INTEGER; short: BOOLEAN): ZSTRING
 			--
 		deferred
@@ -227,18 +224,15 @@ feature {NONE} -- Implementation
 feature -- Contract Support
 
 	is_valid_format (format: STRING): BOOLEAN
-		local
-			template: like format_templates.item
 		do
-			create template.make (format)
-			Result := across template.variables as variable all text_functions.has (variable.item.to_string_8) end
+			Result := template (format).valid_variables
 		end
 
 feature {NONE} -- Internal attributes
 
-	format_templates: HASH_TABLE [EL_ZSTRING_TEMPLATE, STRING]
+	template_table: HASH_TABLE [like template, STRING]
 
-	text_functions: like new_text_functions
+	function_table: like new_function_table
 
 feature {NONE} -- Constants
 

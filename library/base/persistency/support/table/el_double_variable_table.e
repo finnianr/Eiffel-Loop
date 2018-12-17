@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2018-12-17 11:52:54 GMT (Monday 17th December 2018)"
+	revision: "5"
 
 class
 	EL_DOUBLE_VARIABLE_TABLE
@@ -16,7 +16,7 @@ inherit
 	EL_VARIABLE_TABLE [DOUBLE]
 
 create
-	make_from_file_in_location
+	make_from_file
 
 feature {NONE} -- Implementation
 

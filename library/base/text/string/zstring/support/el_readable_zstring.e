@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-21 14:15:09 GMT (Wednesday 21st November 2018)"
-	revision: "27"
+	date: "2018-12-17 14:22:56 GMT (Monday 17th December 2018)"
+	revision: "28"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -1012,7 +1012,7 @@ feature -- Status query
 			Result := not has_mixed_encoding
 		end
 
-	matches (a_pattern: EL_TEXT_PATTERN): BOOLEAN
+	matches (a_pattern: EL_TEXT_PATTERN_I): BOOLEAN
 		do
 			Result := a_pattern.matches_string_general (Current)
 		end
@@ -2013,7 +2013,7 @@ feature {EL_READABLE_ZSTRING} -- Contract Support
 			end
 		end
 
-feature {EL_READABLE_ZSTRING, EL_ZSTRING_VIEW} -- Access
+feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Access
 
 	area_i_th_z_code (a_area: like area; i: INTEGER): NATURAL
 		local

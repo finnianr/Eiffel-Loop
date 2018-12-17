@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-15 9:40:30 GMT (Monday 15th October 2018)"
-	revision: "16"
+	date: "2018-12-16 16:44:09 GMT (Sunday 16th December 2018)"
+	revision: "17"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -29,7 +29,7 @@ feature -- Basic operations
 	run
 		do
 --			do_file_data_test (agent publisher.test_publisher)
-			do_file_data_test (agent publisher.test_regression (2239611113))
+			do_file_data_test (agent publisher.test_regression (1960850107))
 --			do_file_data_test (agent undefine_pattern_counter.test_command)
 --			do_file_data_test (agent note_editor.test_editor_with_new_class)
 --			do_file_data_test (agent link_expander.test_regression (1653260098))
