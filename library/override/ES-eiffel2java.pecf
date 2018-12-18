@@ -48,6 +48,13 @@ system:
 		# Source code
 		cluster:
 			name = EL_override; location = "language_interface/Java"; recursive = true
+			description:
+				"""
+					Override of Eiffel2Java
+
+					Override of Eiffel Software's [https://www.eiffel.org/doc/solutions/Eiffel2Java Eiffel2Java] library
+					for use with the [./library/eiffel2java.html  Eiffel-Loop Eiffel to Java] library.
+				"""
 			file_rule:
 				exclude:
 					"/windows$"

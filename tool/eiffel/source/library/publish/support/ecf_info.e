@@ -31,7 +31,6 @@ feature {NONE} -- Initialization
 			--
 		do
 			cluster := Empty_string
-			description_text := Empty_string
 			create path
 			Precursor
 		end
@@ -53,11 +52,16 @@ feature -- Access
 		local
 			word_list: EL_ZSTRING_LIST
 		do
-			if description_text.is_empty then
-				create word_list.make_with_separator (cluster, '_', False)
-				Result := word_list.joined_propercase_words
+			create word_list.make_with_separator (cluster, '_', False)
+			Result := word_list.joined_propercase_words
+		end
+
+	description_xpath: STRING
+		do
+			if is_cluster then
+				Result := cluster_xpath + once "/description"
 			else
-				Result := description_text
+				Result := Xpath_description
 			end
 		end
 
@@ -70,17 +74,12 @@ feature -- Status query
 			Result := not cluster.is_empty
 		end
 
-feature {NONE} -- Internal attributes
-
-	description_text: ZSTRING
-
 feature {NONE} -- Build from XML
 
 	building_action_table: EL_PROCEDURE_TABLE
 		do
 			create Result.make (<<
 				["@cluster", 	agent do cluster := node.to_string end],
-				["description/text()", 	agent do description_text := node.to_string end],
 				["text()", agent do path.set_path (node.to_string) end]
 			>>)
 		end
@@ -93,5 +92,7 @@ feature {NONE} -- Constants
 		end
 
 	Xpath_cluster: STRING = "/system/target/cluster"
+
+	Xpath_description: STRING = "/system/description"
 
 end

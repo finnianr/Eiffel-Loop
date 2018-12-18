@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 	make (a_repository: like repository; ecf: ECF_INFO)
 			--
 		local
-			root: EL_XPATH_ROOT_NODE_CONTEXT; location: ZSTRING
+			root: EL_XPATH_ROOT_NODE_CONTEXT; location, l_description: ZSTRING
 			source_dir: EL_DIR_PATH
 		do
 			make_default
@@ -81,11 +81,11 @@ feature {NONE} -- Initialization
 					source_dir_list.extend (source_dir)
 				end
 				path_list := new_path_list; sub_category := new_sub_category
-				if is_cluster then
-					set_name_and_description (ecf.description)
-				else
-					set_name_and_description (root.string_at_xpath (Xpath_description).stripped)
+				l_description := root.string_at_xpath (ecf.description_xpath).stripped
+				if is_cluster and l_description.is_empty then
+					l_description := ecf.description
 				end
+				set_name_and_description (l_description)
 			end
 		end
 
@@ -311,8 +311,6 @@ feature {NONE} -- Evolicity fields
 feature {NONE} -- Xpath constants
 
 	Attribute_location: STRING = "location"
-
-	Xpath_description: STRING = "/system/description"
 
 	Xpath_all_classes: STRING = "/system/target/root/@all_classes"
 

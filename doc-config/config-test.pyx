@@ -28,7 +28,7 @@ publish-repository:
 		ecf:
 			"example/manage-mp3/manage-mp3.ecf"
 
-		# Library (Network)
+		# Library (Persistency)
 		ecf:
 			"library/Eco-DB.ecf"
 			"library/vtd-xml.ecf"
@@ -37,7 +37,7 @@ publish-repository:
 			cluster = data_structure
 			"library/base/base.ecf"
 		ecf:
-			cluster = runtime
+			cluster = utility
 			"library/base/base.ecf"
 
 		# Library (Text)
@@ -48,7 +48,4 @@ publish-repository:
 		ecf:
 			"library/network.ecf"
 			"library/doc/flash-network.ecf"
-			"library/amazon-instant-access.ecf"
-			"library/ftp.ecf"
-			"library/paypal.ecf"
 

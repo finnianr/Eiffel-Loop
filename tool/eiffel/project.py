@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 21); build = 93
+version = (1, 0, 22); build = 94
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.22
+# Obtain cluster description from ecf in repository publisher
 
 # 1.0.21
 # Fixed problem with generic param brackets in CLASS_DESCENDANTS_COMMAND

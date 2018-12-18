@@ -28,6 +28,12 @@ for use with the [./library/eiffel2java.html  Eiffel-Loop Eiffel to Java] librar
 		<library name = "api_wrapper" location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"/>
 		<!--Source code-->
 		<cluster name = "EL_override" location = "language_interface/Java" recursive = "true">
+			<description>
+Override of Eiffel2Java
+
+Override of Eiffel Software&apos;s [https://www.eiffel.org/doc/solutions/Eiffel2Java Eiffel2Java] library
+for use with the [./library/eiffel2java.html  Eiffel-Loop Eiffel to Java] library.
+			</description>
 			<file_rule>
 				<exclude>/windows$</exclude>
 				<condition>

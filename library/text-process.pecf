@@ -10,6 +10,12 @@ system:
 			Textual Data Processing
 
 			Classes for editing, parsing and pattern-matching textual data.
+
+			CLUSTERS
+
+			* Text Editing
+			* Parsing
+			* Pattern-matching
 		"""
 	target:
 		name = EL_text_process
@@ -36,10 +42,28 @@ system:
 		# Source code
 		cluster:
 			name = edit; location = "text/edit"; recursive = true
+			description:
+				"""
+					Text Editing
 
+					Classes for editing file and other text.
+				"""
 		cluster:
 			name = parse; location = "text/parse"; recursive = true
+			description:
+				"""
+					Parsing
+					
+					Classes for parsing text data.
+				"""
 
 		cluster:
 			name = pattern_match; location = "text/pattern-match"; recursive = true
+			description:
+				"""
+					Pattern-matching
+
+					Classes for finding and matching textual patterns.
+				"""
+
 

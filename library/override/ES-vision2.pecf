@@ -315,6 +315,12 @@ system:
 		# Eiffel-Loop overrides
 		cluster:
 			name = EL_override; location = "graphic/toolkit/vision2"
+			description:
+				"""
+					Override of EiffelVision2
+
+					Override of Eiffel Software's EiffelVision2 for use with [./library/vision2-x.html Eiffel-Loop Vision2 extensions]
+				"""
 			cluster:
 				name = el_interface; location = "$|implementation/interface"; recursive = true
 			cluster:

@@ -57,42 +57,17 @@ publish-repository:
 		ecf:
 			cluster = persistency
 			"library/base/base.ecf"
-			description:
-				"""
-					Data Persistence
-
-					Classes for reading and writing data to files
-				"""
 		ecf:
 			cluster = runtime
 			"library/base/base.ecf"
 		ecf:
 			cluster = text
 			"library/base/base.ecf"
-			description:
-				"""
-					Text Processing					
-
-					Classes for parsing and processing textual data
-				"""
 			alias-map:
 				old_name = EL_ZSTRING; new_name = ZSTRING
 		ecf:
 			cluster = utility
 			"library/base/base.ecf"
-			description:
-				"""
-					Utility
-					
-					Utility classes providing the following
-
-					1. Benchmarking
-					2. Date/time formatting
-					3. Memory writing
-					4. Cyclic redundancy check
-					5. Command shells
-					6. Extensions to ES uuid.ecf
-				"""
 		# Library Graphics
 		ecf:
 			"library/image-utils.ecf"
@@ -148,30 +123,12 @@ publish-repository:
 		ecf:
 			cluster = edit
 			"library/text-process.ecf"
-			description:
-				"""
-					Text Editing
-
-					Classes for editing file and other text.
-				"""
 		ecf:
 			cluster = parse
 			"library/text-process.ecf"
-			description:
-				"""
-					Parsing
-					
-					Classes for parsing text data.
-				"""
 		ecf:
 			cluster = pattern_match
 			"library/text-process.ecf"
-			description:
-				"""
-					Pattern-matching
-
-					Classes for finding and matching textual patterns.
-				"""
 		# Library (Utility)
 		ecf:
 			"library/app-license-keys.ecf"
@@ -183,20 +140,7 @@ publish-repository:
 		ecf:
 			cluster = EL_override
 			"library/override/ES-vision2.ecf"
-			description:
-				"""
-					Override of EiffelVision2
-
-					Override of Eiffel Software's EiffelVision2 for use with [./library/vision2-x.html Eiffel-Loop Vision2 extensions]
-				"""
 		ecf:
 			cluster = EL_override
 			"library/override/ES-eiffel2java.ecf"
-			description:
-				"""
-					Override of Eiffel2Java
-
-					Override of Eiffel Software's [https://www.eiffel.org/doc/solutions/Eiffel2Java Eiffel2Java] library
-					for use with the [./library/eiffel2java.html  Eiffel-Loop Eiffel to Java] library.
-				"""
 

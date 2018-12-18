@@ -8,10 +8,18 @@ system:
 	
 	target:
 		name = EL_base
-		
 		description: 
 			"""
-				Library of reusable components for Eiffel. (http://www.eiffel-loop.com)
+				Base classes for Eiffel-Loop
+
+				Clusters:
+
+				* Data Structure
+				* Math
+				* Runtime
+				* Data Persistence
+				* Text Processing
+				* Utility
 			"""
 		root:
 			all_classes = true
@@ -92,12 +100,51 @@ system:
 
 		cluster:
 			name = persistency; location = persistency; recursive = true
+			description:
+				"""
+					Data Persistence
 
+					Classes for reading and writing data to file
+				"""
 		cluster:
 			name = text; location = text; recursive = true
+			description:
+				"""
+					Text Processing
 
+					Classes providing the following facilities
+
+					* Character and character sequence conversion
+					* Character encoding
+					* File, directory and resource naming
+					* Deferred internationalization
+					* Text line processing
+					* Managing string lists
+					* Parsing and manipulating name-value pairs
+					* String escaping
+					* A memory compact string with same character range as `STRING_32'
+					* Efficient string splitting
+					* Associating formatting styles with strings
+					* Recording and managing string edit histories
+					* Abstractions for objects createable from strings
+					* String occurrence interval lists
+					* URI encoding/decoding
+				"""
 		cluster:
 			name = utility; location = utility; recursive = true
+			description:
+				"""
+					Utility
+					
+					Utility classes providing the following
+
+					1. Benchmarking
+					2. Date/time formatting
+					3. Memory writing
+					4. Cyclic redundancy check
+					5. Command shells
+					6. Extensions to ES uuid.ecf
+				"""
 
 
 

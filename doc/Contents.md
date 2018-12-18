@@ -179,10 +179,28 @@ The Laabhair* Audio library was developed at the [Digital Media Centre at the Du
 ## Data Structure
 ## Math
 ## Data Persistence
-Classes for reading and writing data to files
+Classes for reading and writing data to file
 ## Runtime
 ## Text Processing
-Classes for parsing and processing textual data
+Classes providing the following facilities
+
+
+* Character and character sequence conversion
+* Character encoding
+* File, directory and resource naming
+* Deferred internationalization
+* Text line processing
+* Managing string lists
+* Parsing and manipulating name-value pairs
+* String escaping
+* A memory compact string with same character range as `STRING_32`
+* Efficient string splitting
+* Associating formatting styles with strings
+* Recording and managing string edit histories
+* Abstractions for objects createable from strings
+* String occurrence interval lists
+* URI encoding/decoding
+
 ## Utility
 Utility classes providing the following
 

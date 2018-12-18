@@ -39,11 +39,11 @@ feature -- Tests
 	test_formatted_date
 		local
 			date_text: EL_ENGLISH_DATE_TEXT
-			canonical_text: ZSTRING
+			canonical_format: ZSTRING
 		do
 			create date_text.make
-			canonical_text := date_text.formatted (Date_time.date, {EL_DATE_FORMATS}.canonical)
-			assert ("Is Thursday 23rd Nov 2017", canonical_text.same_string ("Thursday 23rd November 2017"))
+			canonical_format := date_text.formatted (Date_time.date, {EL_DATE_FORMATS}.canonical)
+			assert ("Is Thursday 23rd Nov 2017", canonical_format.same_string ("Thursday 23rd November 2017"))
 		end
 
 feature {NONE} -- Constants

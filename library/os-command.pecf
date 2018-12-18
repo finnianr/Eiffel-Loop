@@ -46,9 +46,6 @@ system:
 			name = EL_evolicity; location = "evolicity.ecf"
 
 		library:
-			name = EL_text_process; location = "text-process.ecf"
-
-		library:
 			name = EL_thread; location = "thread.ecf"
 
 		# Source code
