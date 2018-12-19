@@ -1,0 +1,16 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			HASH_TABLE
+				[$source EL_HASH_TABLE]
+					[$source EL_STRING_HASH_TABLE]
+						[$source EL_ZSTRING_HASH_TABLE]
+							[$source EL_URL_QUERY_HASH_TABLE]
+						[$source EL_PROCEDURE_TABLE]
+				[$source EL_HASH_SET]
+				[$source EL_FUNCTION_RESULT_TABLE]
+				[$source EL_CODE_TABLE]
+					[$source EL_UNIQUE_CODE_TABLE]
+				[$source EL_GROUP_TABLE]
+				[$source EL_TYPE_TABLE]
+	]"

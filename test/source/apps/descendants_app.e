@@ -49,6 +49,14 @@ feature {NONE} -- Descendants
 			>>
 		end
 
+	el_linear: ARRAY [TYPE [EL_LINEAR [ANY]]]
+		do
+			Result := <<
+				{EL_UNIQUE_ARRAYED_LIST [HASHABLE]},
+				{EL_CALL_SEQUENCE [TUPLE]}
+			>>
+		end
+
 	el_thread_product_queue: ARRAY [TYPE [EL_THREAD_PRODUCT_QUEUE [ANY]]]
 		do
 			Result := <<
@@ -65,6 +73,16 @@ feature {NONE} -- Descendants
 				{EL_TUPLE_CONSUMER_THREAD [TUPLE]},
 				{EL_TIMEOUT},
 				{EL_WORKER_THREAD}
+			>>
+		end
+
+	hash_table: ARRAY [TYPE [HASH_TABLE [ANY, HASHABLE]]]
+		do
+			Result := <<
+				{EL_CODE_TABLE [HASHABLE]},
+				{EL_GROUP_TABLE [ANY, HASHABLE]},
+				{EL_TYPE_TABLE [ANY]},
+				{EL_UNIQUE_CODE_TABLE [HASHABLE]}
 			>>
 		end
 

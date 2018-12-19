@@ -78,6 +78,14 @@ system:
 		# CLUSTERS
 		cluster:
 			name = data_structure; location = data_structure; recursive = true
+			description:
+				"""
+					Data Structure
+					
+					Various hash-table, array, list, chain and linear types
+
+					See doc/base.data_structure.txt for details
+				"""
 
 		cluster:
 			name = math; location = math; recursive = true
@@ -104,7 +112,12 @@ system:
 				"""
 					Data Persistence
 
-					Classes for reading and writing data to file
+					Classes providing the following facilities:
+
+					* Reading and writing arrays of floating-point type `DOUBLE'.
+					* Files that notify a listener of byte-count written and read.
+					* A file conforming to `PLAIN_TEXT_FILE' that implements [$source EL_OUTPUT_MEDIUM]
+					* File line source and other abstractions
 				"""
 		cluster:
 			name = text; location = text; recursive = true
@@ -112,7 +125,7 @@ system:
 				"""
 					Text Processing
 
-					Classes providing the following facilities
+					Classes providing the following facilities:
 
 					* Character and character sequence conversion
 					* Character encoding
@@ -136,14 +149,14 @@ system:
 				"""
 					Utility
 					
-					Utility classes providing the following
+					Classes providing the following facilities:
 
-					1. Benchmarking
-					2. Date/time formatting
-					3. Memory writing
-					4. Cyclic redundancy check
-					5. Command shells
-					6. Extensions to ES uuid.ecf
+					* Benchmarking
+					* Date/time formatting
+					* Memory writing
+					* Cyclic redundancy check
+					* Command shells
+					* Extensions to ES uuid.ecf
 				"""
 
 

@@ -49,25 +49,17 @@ publish-repository:
 
 		# Library Base
 		ecf:
-			cluster = data_structure
-			"library/base/base.ecf"
+			"library/base/base.ecf#data_structure"
+			"library/base/base.ecf#math"
+			"library/base/base.ecf#persistency"
+			"library/base/base.ecf#runtime"
+			"library/base/base.ecf#utility"
 		ecf:
-			cluster = math
-			"library/base/base.ecf"
-		ecf:
-			cluster = persistency
-			"library/base/base.ecf"
-		ecf:
-			cluster = runtime
-			"library/base/base.ecf"
-		ecf:
-			cluster = text
-			"library/base/base.ecf"
+			"library/base/base.ecf#text"
 			alias-map:
 				old_name = EL_ZSTRING; new_name = ZSTRING
+
 		ecf:
-			cluster = utility
-			"library/base/base.ecf"
 		# Library Graphics
 		ecf:
 			"library/image-utils.ecf"
@@ -120,15 +112,9 @@ publish-repository:
 			"library/public-key-encryption.ecf"
 			"library/evolicity.ecf"
 			"library/text-formats.ecf"
-		ecf:
-			cluster = edit
-			"library/text-process.ecf"
-		ecf:
-			cluster = parse
-			"library/text-process.ecf"
-		ecf:
-			cluster = pattern_match
-			"library/text-process.ecf"
+			"library/text-process.ecf#edit"
+			"library/text-process.ecf#parse"
+			"library/text-process.ecf#pattern_match"
 		# Library (Utility)
 		ecf:
 			"library/app-license-keys.ecf"
@@ -138,9 +124,6 @@ publish-repository:
 
 		# Library (Override)
 		ecf:
-			cluster = EL_override
-			"library/override/ES-vision2.ecf"
-		ecf:
-			cluster = EL_override
-			"library/override/ES-eiffel2java.ecf"
+			"library/override/ES-vision2.ecf#EL_override"
+			"library/override/ES-eiffel2java.ecf#EL_override"
 

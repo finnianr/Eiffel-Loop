@@ -176,7 +176,7 @@ feature {NONE} -- Implementation
 
 	new_publisher: REPOSITORY_PUBLISHER
 		do
-			create Result.make (Work_area_dir + "doc-config/config-test.pyx", "1.4.0", 0)
+			create Result.make (Work_area_dir + "doc-config/config-test-2.pyx", "1.4.0", 0)
 		end
 
 feature {NONE} -- Internal attributes

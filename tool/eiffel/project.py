@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 22); build = 94
+version = (1, 0, 23); build = 95
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.23
+# Removed cluster attribute from repository configuration
 
 # 1.0.22
 # Obtain cluster description from ecf in repository publisher

@@ -1,5 +1,5 @@
 note
-	description: "Eiffel library configuration info"
+	description: "ECF project information"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -12,84 +12,37 @@ note
 class
 	ECF_INFO
 
-inherit
-	EL_EIF_OBJ_BUILDER_CONTEXT
-		rename
-			make_default as make
-		redefine
-			make
-		end
-
-	EL_ZSTRING_CONSTANTS
-
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_path: EL_FILE_PATH)
 			--
 		do
-			cluster := Empty_string
-			create path
-			Precursor
+			path := a_path
 		end
 
 feature -- Access
 
-	cluster: ZSTRING
-
 	cluster_xpath: STRING
 		do
-			if is_cluster then
-				Result := Selected_cluster #$ [Xpath_cluster, cluster]
-			else
-				Result := Xpath_cluster
-			end
+			Result := Xpath_cluster
 		end
 
 	description: ZSTRING
-		local
-			word_list: EL_ZSTRING_LIST
 		do
-			create word_list.make_with_separator (cluster, '_', False)
-			Result := word_list.joined_propercase_words
+			create Result.make_empty
 		end
 
 	description_xpath: STRING
 		do
-			if is_cluster then
-				Result := cluster_xpath + once "/description"
-			else
-				Result := Xpath_description
-			end
+			Result := Xpath_description
 		end
 
 	path: EL_FILE_PATH
 
-feature -- Status query
-
-	is_cluster: BOOLEAN
-		do
-			Result := not cluster.is_empty
-		end
-
-feature {NONE} -- Build from XML
-
-	building_action_table: EL_PROCEDURE_TABLE
-		do
-			create Result.make (<<
-				["@cluster", 	agent do cluster := node.to_string end],
-				["text()", agent do path.set_path (node.to_string) end]
-			>>)
-		end
-
 feature {NONE} -- Constants
-
-	Selected_cluster: ZSTRING
-		once
-			Result := "%S[@name='%S']"
-		end
 
 	Xpath_cluster: STRING = "/system/target/cluster"
 

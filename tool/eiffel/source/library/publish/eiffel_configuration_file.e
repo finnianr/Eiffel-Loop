@@ -51,11 +51,11 @@ feature {NONE} -- Initialization
 			make_default
 			repository := a_repository
 			relative_ecf_path.share (ecf.path)
-			is_cluster := ecf.is_cluster
 
 			html_index_path := relative_ecf_path.without_extension
-			if is_cluster then
-				html_index_path.add_extension (ecf.cluster)
+			if attached {ECF_CLUSTER_INFO} ecf as cluster then
+				html_index_path.add_extension (cluster.name)
+				is_cluster := True
 			end
 			html_index_path.add_extension (Html)
 

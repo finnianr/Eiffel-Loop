@@ -177,12 +177,79 @@ The Laabhair* Audio library was developed at the [Digital Media Centre at the Du
 
 *Laabhair is the Gaelic for talk.
 ## Data Structure
+Classes providing the following facilities:
+
+**Hash Tables**
+
+
+````
+HASH_TABLE
+	[$source EL_HASH_TABLE]
+		[$source EL_STRING_HASH_TABLE]
+			[$source EL_ZSTRING_HASH_TABLE]
+				[$source EL_URL_QUERY_HASH_TABLE]
+			[$source EL_PROCEDURE_TABLE]
+	[$source EL_HASH_SET]
+	[$source EL_FUNCTION_RESULT_TABLE]
+	[$source EL_CODE_TABLE]
+		[$source EL_UNIQUE_CODE_TABLE]
+	[$source EL_GROUP_TABLE]
+	[$source EL_TYPE_TABLE]
+````
+**Linear Chains**
+
+
+````
+[$source EL_LINEAR]*
+	[$source EL_LINE_SOURCE]*
+		[$source EL_TEXT_LINE_SOURCE]
+		[$source EL_FILE_LINE_SOURCE]
+	[$source EL_CHAIN]*
+		[$source EL_ARRAYED_LIST]
+			[$source EL_SUB_APPLICATION_LIST]
+			[$source EL_ARRAYED_MAP_LIST]
+				[$source EL_SORTABLE_ARRAYED_MAP_LIST]*
+					[$source EL_VALUE_SORTABLE_ARRAYED_MAP_LIST]
+					[$source EL_KEY_SORTABLE_ARRAYED_MAP_LIST]
+			[$source EL_IMPORTABLE_ARRAYED_LIST]
+			[$source EL_SORTABLE_ARRAYED_LIST]
+			[$source EL_QUERYABLE_ARRAYED_LIST]
+			[$source EL_UNIQUE_ARRAYED_LIST]
+			[$source EL_CALL_SEQUENCE]
+````
+**Other Classes**
+
+
+* Sub-array abstraction and byte array
+* Lists and chains
+
+
+
+
 ## Math
 ## Data Persistence
-Classes for reading and writing data to file
+Classes providing the following facilities:
+
+
+* Reading and writing arrays of floating-point type `DOUBLE`.
+* Files that notify a listener of byte-count written and read.
+* A file conforming to `PLAIN_TEXT_FILE` that implements [EL_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/base/runtime/io/el_output_medium.html)
+* File line source and other abstractions
+
 ## Runtime
+## Utility
+Classes providing the following facilities:
+
+
+* Benchmarking
+* Date/time formatting
+* Memory writing
+* Cyclic redundancy check
+* Command shells
+* Extensions to ES uuid.ecf
+
 ## Text Processing
-Classes providing the following facilities
+Classes providing the following facilities:
 
 
 * Character and character sequence conversion
@@ -200,17 +267,6 @@ Classes providing the following facilities
 * Abstractions for objects createable from strings
 * String occurrence interval lists
 * URI encoding/decoding
-
-## Utility
-Utility classes providing the following
-
-
-1. Benchmarking
-2. Date/time formatting
-3. Memory writing
-4. Cyclic redundancy check
-5. Command shells
-6. Extensions to ES uuid.ecf
 
 ## Image Utilities
 Image utilities providing:

@@ -34,11 +34,8 @@ publish-repository:
 			"library/vtd-xml.ecf"
 		# Library Base
 		ecf:
-			cluster = data_structure
-			"library/base/base.ecf"
-		ecf:
-			cluster = utility
-			"library/base/base.ecf"
+			"library/base/base.ecf#data_structure"
+			"library/base/base.ecf#utility"
 
 		# Library (Text)
 		ecf:

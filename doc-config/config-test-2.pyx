@@ -24,19 +24,13 @@ publish-repository:
 			"warning"
 
 	ecf-list:
-		# Examples
-		ecf:
-			"example/manage-mp3/manage-mp3.ecf"
-		ecf:
-			"library/Eco-DB.ecf"
-			"library/vtd-xml.ecf"
 		# Library Base
 		ecf:
-			cluster = data_structure
-			"library/base/base.ecf"
-		ecf:
-			cluster = runtime
-			"library/base/base.ecf"
+			"library/base/base.ecf#data_structure"
+			"library/base/base.ecf#math"
+			"library/base/base.ecf#persistency"
+			"library/base/base.ecf#runtime"
+			"library/base/base.ecf#text"
 
 		# Library (Text)
 		ecf:
