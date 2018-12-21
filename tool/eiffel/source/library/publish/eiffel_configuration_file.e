@@ -147,12 +147,13 @@ feature -- Access
 
 	type: STRING
 		do
-			if is_library and is_cluster then
-				Result := once "library cluster"
-			elseif is_library then
+			if is_library then
 				Result := once "library"
 			else
 				Result := once "project"
+			end
+			if is_cluster then
+				Result := Result + once " cluster"
 			end
 		end
 

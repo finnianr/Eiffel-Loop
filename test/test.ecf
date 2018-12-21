@@ -5,18 +5,9 @@
 	Pyxis is data format inspired by the Python programming language and designed to be a more
 	readable supplement/substitute for XML configuration files.
 	
-	Pyxis as an acronym stands for: Pythonic XML ideal source.
-	It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold
-	cosmetics, trinkets or jewellery.
-	
-	The following is project configuration data for an Eiffel programming language project
-	compiled with the EiffelStudio IDE
-	
-	This project contains a parser for the Pyxis format and a Pyxis to XML convertion utility
-	
 -->
 <system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "el_test" uuid = "A325754F-7BEB-44B6-937C-CC7EBDDA764F">
-	<description>Eiffel-Loop Dev Tests</description>
+	<description>Eiffel-Loop Library Tests</description>
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
@@ -86,7 +77,14 @@
 		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>
 		<library name = "EL_markup_docs" readonly = "false" location = "$EIFFEL_LOOP/library/markup-docs.ecf"/>
 		<library name = "EL_xdoc_scanning" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf" readonly = "false"/>
-		<cluster name = "project" location = "source" recursive = "true">
+		<cluster name = "test" location = "source/test-apps" recursive = "true">
+			<description>
+Eiffel-Loop Dev Tests
+
+Sub-applications for testing the &apos;&apos;Eiffel-Loop&apos;&apos; libraries
+
+See doc/test.project.txt for details
+			</description>
 			<file_rule>
 				<exclude>/spec/unix$</exclude>
 				<condition>
@@ -99,6 +97,22 @@
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
+		</cluster>
+		<cluster name = "test_set" location = "source/test-set" recursive = "true">
+			<description>
+Eiffel-Loop Test Sets
+
+Test sets classes inheriting [https://www.eiffel.org/doc/eiffelstudio/Testing-_Background_and_basics EQA_TEST_SET]
+			</description>
+		</cluster>
+		<cluster name = "benchmark" location = "source/benchmark" recursive = "true">
+			<description>
+Eiffel-Loop Benchmark Testing
+
+Benchmarks comparing performance of related routines. See class [$source BENCHMARK_APP].
+
+See doc/test.benchmark.txt for details
+			</description>
 		</cluster>
 	</target>
 </system>

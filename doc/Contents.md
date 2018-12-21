@@ -161,7 +161,28 @@ Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal`.
 Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
 
 
+## Eiffel-Loop Benchmark Testing
+Benchmarks comparing performance of related routines. See class [BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/benchmark_app.html).
+
+**Descendants**
+
+
+````
+EL_BENCHMARK_COMPARISON*
+	[$source LIST_ITERATION_COMPARISON]
+	[$source STRING_CONCATENATION_COMPARISON]
+	[$source STRING_BENCHMARK_COMPARISON]*
+		[$source REPLACE_SUBSTRING_COMPARISON]
+		[$source SUBSTRING_INDEX_COMPARISON]
+	[$source SET_ROUTINE_ARGUMENT_COMPARISON]
+````
+
 ## Eiffel-Loop Dev Tests
+Sub-applications for testing the *Eiffel-Loop* libraries
+
+See doc/test.project.txt for details (Missing file?)
+## Eiffel-Loop Test Sets
+Test sets classes inheriting [EQA_TEST_SET](https://www.eiffel.org/doc/eiffelstudio/Testing-_Background_and_basics)
 ## ID3 Tagging for MP3
 Classes for reading and writing ID3 tags to MP3 files using a common interface to the C libraries `libid3tag (C)` and `id3lib (C++)`. The former C library is used for ID3 version 2.4 tags and the latter for earlier versions from 2.0 to 2.3.
 ## WAV Audio Processing
@@ -916,7 +937,7 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [TEST_VTD_XML_APP](http://www.eiffel-loop.com/test/source/apps/xml/test_vtd_xml_app.html) is implemented as follows:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [TEST_VTD_XML_APP](http://www.eiffel-loop.com/test/source/test-apps/apps/xml/test_vtd_xml_app.html) is implemented as follows:
 
 
 ````

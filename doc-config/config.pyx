@@ -38,7 +38,9 @@ publish-repository:
 			"tool/toolkit/toolkit.ecf"
 		# Test
 		ecf:
-			"test/test.ecf"
+			"test/test.ecf#benchmark"
+			"test/test.ecf#test"
+			"test/test.ecf#test_set"
 		# Library Audio
 		ecf:
 			"library/ID3-tags.ecf"

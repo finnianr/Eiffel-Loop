@@ -4,20 +4,13 @@ pyxis-doc:
 # Pyxis is data format inspired by the Python programming language and designed to be a more
 # readable supplement/substitute for XML configuration files.
 
-# Pyxis as an acronym stands for: Pythonic XML ideal source.
-# It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold 
-# cosmetics, trinkets or jewellery. 
-
-# The following is project configuration data for an Eiffel programming language project
-# compiled with the EiffelStudio IDE
-
-# This project contains a parser for the Pyxis format and a Pyxis to XML convertion utility
-
 system:
 	configuration_ns = "1-16-0"
 	name = el_test; uuid="A325754F-7BEB-44B6-937C-CC7EBDDA764F"
 	description:
-		"Eiffel-Loop Dev Tests"
+		"""
+			Eiffel-Loop Library Tests
+		"""
 	
 	# classic means C code as an intermediate language
 	target: 
@@ -210,8 +203,15 @@ system:
 			readonly = false
 
 		cluster:
-			name = project; location = "source"; recursive = true
+			name = test; location = "source/test-apps"; recursive = true
+			description:
+				"""
+					Eiffel-Loop Dev Tests
+					
+					Sub-applications for testing the ''Eiffel-Loop'' libraries
 
+					See doc/test.test-apps.txt for details
+				"""
 			file_rule:
 				exclude:
 					"/spec/unix$"
@@ -226,3 +226,29 @@ system:
 					platform:
 						value = unix
 	
+		cluster:
+			name = test_set; location = "source/test-set"; recursive = true
+			description:
+				"""
+					Eiffel-Loop Test Sets
+				
+					Test sets classes inheriting [https://www.eiffel.org/doc/eiffelstudio/Testing-_Background_and_basics EQA_TEST_SET]
+					
+					**Sub-applications**
+					
+					* [$source AUTOTEST_DEVELOPMENT_APP]
+					* [$source ZSTRING_BENCHMARK_APP]
+				"""
+
+		cluster:
+			name = benchmark; location = "source/benchmark"; recursive = true
+			description:
+				"""
+					Eiffel-Loop Benchmark Testing
+				
+					Benchmarks comparing performance of related routines. The benchmarks are run from a menu shell.
+					See class [$source BENCHMARK_APP].
+
+					See doc/test.benchmark.txt for details
+				"""
+
