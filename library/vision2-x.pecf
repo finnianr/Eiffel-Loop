@@ -8,9 +8,14 @@ system:
 	readonly = false
 	description: 
 		"""
-			EiffelVision 2 GUI Extensions
+			EiffelVision2 GUI Extensions
+			
+			CLUSTERS
 
-			See doc/vision2-x.txt for details
+			* PangoCairo 2D graphics interface
+			* General extensions
+			* Container extensions
+			* Widget extensions
 		"""
 	target:
 		name = EL_vision2_x
@@ -151,7 +156,7 @@ system:
 				platform:
 					value = windows
 
-		# Source code
+		# Source clusters
 		cluster:
 			name = pango_cairo; location = "graphic/toolkit/vision2-x/pango-cairo"; recursive = true
 			description:
