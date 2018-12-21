@@ -22,6 +22,11 @@ inherit
 			import_name as import_default
 		end
 
+	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+		rename
+			make as make_machine
+		end
+
 	EL_COMMAND
 
 	EL_MODULE_LOG
@@ -39,11 +44,12 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_build_dir, a_output_dir: EL_DIR_PATH; a_class_name: STRING)
-		local
-			find_files: EL_FIND_FILES_COMMAND_I
+	make (a_build_dir, a_output_dir: EL_DIR_PATH; a_class_name: STRING; a_target_name: ZSTRING)
 		do
+			make_machine
+
 			build_dir := a_build_dir; output_dir := a_output_dir; class_name := a_class_name
+			target_name := a_target_name
 			create ecf_path
 			output_path := output_dir + (a_class_name + ".txt")
 			output_path.base.prepend_string_general ("Descendants-")
@@ -51,12 +57,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			if output_path.exists then
 				File_system.remove_file (output_path)
 			end
-			find_files := Command.new_find_files (Directory.current_working, "*.ecf")
-			find_files.set_max_depth (1)
-			find_files.execute
-			if not find_files.path_list.is_empty then
-				ecf_path := find_files.path_list.first
-			end
+			set_ecf_path_from_target
 		end
 
 feature -- Basic operations
@@ -65,7 +66,7 @@ feature -- Basic operations
 		do
 			log.enter ("execute")
 			if ecf_path.is_empty then
-				lio.put_path_field ("ERROR: no", ecf_path)
+				lio.put_string_field ("ERROR: Cannot find ECF file with target", target_name)
 				lio.put_new_line
 			else
 				lio.put_path_field ("Writing", output_path)
@@ -76,6 +77,21 @@ feature -- Basic operations
 				lio.put_line ("DONE")
 			end
 			log.exit
+		end
+
+feature {NONE} -- Line states
+
+	find_target_name (line: ZSTRING; a_ecf_path: EL_FILE_PATH)
+		local
+			l_target_name: ZSTRING
+		do
+			if line.begins_with (Element_target_name) then
+				l_target_name := line.substring_between (character_string ('"'), character_string ('"'), 1).as_lower
+				if l_target_name ~ target_name then
+					ecf_path := a_ecf_path
+				end
+				state := final
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -130,6 +146,21 @@ feature {NONE} -- Implementation
 			substring.append_character ('%N')
 		end
 
+	set_ecf_path_from_target
+		local
+			find_files: EL_FIND_FILES_COMMAND_I
+			ecf_lines: EL_FILE_LINE_SOURCE
+		do
+			find_files := Command.new_find_files (Directory.current_working, "*.ecf")
+			find_files.set_max_depth (1)
+			find_files.execute
+
+			across find_files.path_list as path until not ecf_path.is_empty loop
+				create ecf_lines.make_latin (1, path.item)
+				do_once_with_file_lines (agent find_target_name (?, path.item), ecf_lines)
+			end
+		end
+
 feature {NONE} -- Internal attributes
 
 	build_dir: EL_DIR_PATH
@@ -142,7 +173,14 @@ feature {NONE} -- Internal attributes
 
 	output_path: EL_FILE_PATH
 
+	target_name: ZSTRING
+
 feature {NONE} -- Constants
+
+	Element_target_name: ZSTRING
+		once
+			Result := "<target name"
+		end
 
 	Descendants_command: EL_OS_COMMAND
 		once

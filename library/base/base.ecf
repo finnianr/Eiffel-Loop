@@ -45,7 +45,7 @@ $EIFFEL_LOOP/contrib/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll
 			<description>
 Data Structure
 
-Classes providing the following facilities:
+Various hash-table, array, list, chain and linear types
 
 See doc/base.data_structure.txt for details
 			</description>

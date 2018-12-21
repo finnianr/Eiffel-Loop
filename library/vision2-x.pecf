@@ -12,7 +12,6 @@ system:
 
 			See doc/vision2-x.txt for details
 		"""
-	
 	target:
 		name = EL_vision2_x
 		root:
@@ -154,26 +153,92 @@ system:
 
 		# Source code
 		cluster:
-			name = vision2x; location = "graphic/toolkit/vision2-x"
-			cluster:
-				name = interface; location = "$|interface"; recursive = true
-			cluster:
-				name = module; location = "$|module"; recursive = true
-			cluster:
-				name = implementation; location = "$|implementation"; recursive = true
-				file_rule:
-					exclude:
-						"/windows$"
-						"/mswin$"
-					condition:
-						platform:
-							value = unix
-				file_rule:
-					exclude:
-						"/unix$"
-						"/gtk$"
-					condition:
-						platform:
-							value = windows
+			name = pango_cairo; location = "graphic/toolkit/vision2-x/pango-cairo"; recursive = true
+			description:
+				"""
+					Pango-Cairo 2D Graphics
 
+					Eiffel interface to the [https://cairographics.org/ Cairo 2D graphics library]
+					providing advanced pixel buffer rendering with transparencies and anti-aliasing.
+					See class [$source EL_DRAWABLE_PIXEL_BUFFER].
+				"""
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
+		cluster:
+			name = extensions; location = "graphic/toolkit/vision2-x/extensions"; recursive = true
+			description:
+				"""
+					Vision2-X UI Extensions
+
+					Various extensions for the [https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
+				"""
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
+		cluster:
+			name = container; location = "graphic/toolkit/vision2-x/container"; recursive = true
+			description:
+				"""
+					Vision2-X UI Container Extensions
+
+					Window, dialogs and other widget-container extensions for the
+					[https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
+
+					See doc/vision2-x.container.txt for details
+				"""
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
+
+		cluster:
+			name = widget; location = "graphic/toolkit/vision2-x/widget"; recursive = true
+			description:
+				"""
+					Vision2-X UI Widget Extensions
+
+					Widgets extensions for the
+					[https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library
+
+					See doc/vision2-x.widget.txt for details
+				"""
+			file_rule:
+				exclude:
+					"/windows$"
+				condition:
+					platform:
+						value = unix
+			file_rule:
+				exclude:
+					"/unix$"
+				condition:
+					platform:
+						value = windows
 

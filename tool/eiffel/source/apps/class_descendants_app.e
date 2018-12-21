@@ -30,13 +30,14 @@ feature {NONE} -- Implementation
 			Result := <<
 				valid_optional_argument ("build_dir", "Parent directory of EIFGENs", << file_must_exist >>),
 				optional_argument ("out_dir", "Output directory path"),
-				valid_required_argument ("class", "Path to Eiffel class", << file_must_exist >>)
+				valid_required_argument ("class", "Path to Eiffel class", << file_must_exist >>),
+				optional_argument ("target", "Target name used to identify ecf file")
 			>>
 		end
 
 	default_make: PROCEDURE
 		do
-			Result := agent {like command}.make (build_ise_platform, "doc", Empty_string_8)
+			Result := agent {like command}.make (build_ise_platform, "doc", Empty_string_8, "classic")
 		end
 
 	build_ise_platform: EL_DIR_PATH

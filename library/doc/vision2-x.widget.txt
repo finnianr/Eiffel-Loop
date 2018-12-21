@@ -1,0 +1,53 @@
+**Drop-down Combo Boxes**
+
+* Drop-downs linked to data containers conforming to `FINITE [G]' and initialized with a value of type ''G'', and a selection change agent of type `PROCEDURE [G]'. See class [$source EL_DROP_DOWN_BOX]
+* Drop-downs with localized display strings. See class [$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
+* Drop downs for months of year specified as integers and displayed with English names and a localized variant [$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
+
+** Widget Descendants**
+
+	EV_WIDGET*
+		EV_PRIMITIVE*
+			EV_TEXT_COMPONENT*
+				EV_TEXT_FIELD
+					EV_COMBO_BOX
+						[$source EL_COMBO_BOX]
+							[$source EL_DROP_DOWN_BOX]
+								[$source EL_MONTH_DROP_DOWN_BOX]
+								[$source EL_ZSTRING_DROP_DOWN_BOX]
+									[$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
+					[$source EL_TEXT_FIELD]
+				EV_TEXT
+					EV_RICH_TEXT
+						[$source EL_RICH_TEXT]
+					[$source EL_TEXT]
+			EV_LABEL
+				[$source EL_LABEL]
+			EV_TOOL_BAR
+				[$source EL_SHARED_RADIO_GROUP_TOOL_BAR]
+			EV_DRAWING_AREA
+				[$source EL_BUSY_PROCESS_ANIMATION]
+				[$source EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA]
+				[$source EL_TIMED_PROGRESS_BAR]
+				[$source EL_DRAWING_AREA_BASE]*
+					[$source EL_HYPERLINK_AREA]
+					[$source EL_DRAWING_AREA]
+						[$source EL_DRAWING_AREA_LABEL]
+					[$source EL_MIXED_STYLE_LABEL_AREA]
+			EV_PIXMAP
+				[$source EL_BUTTON_PIXMAP]
+				[$source EL_PIXMAP]
+					[$source EL_SVG_PIXMAP]
+						[$source EL_SVG_TEMPLATE_PIXMAP]
+							[$source EL_STRETCHABLE_SVG_TEMPLATE_PIXMAP]
+					[$source EL_DRAWING_PIXMAP]*
+						[$source EL_LABEL_PIXMAP]
+			EV_GAUGE*
+				EV_RANGE*
+					EV_VERTICAL_RANGE]
+						[$source EL_SCALE_SLIDER]
+			EV_BUTTON
+				[$source EL_BUTTON]
+				[$source EL_COLOR_BUTTON]
+				[$source EL_DECORATED_BUTTON]
+

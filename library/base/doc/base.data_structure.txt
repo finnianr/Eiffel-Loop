@@ -2,9 +2,6 @@
 
 	HASH_TABLE
 		[$source EL_HASH_TABLE]
-			[$source EL_STRING_HASH_TABLE]
-				[$source EL_ZSTRING_HASH_TABLE]
-					[$source EL_URL_QUERY_HASH_TABLE]
 				[$source EL_PROCEDURE_TABLE]
 		[$source EL_HASH_SET]
 		[$source EL_FUNCTION_RESULT_TABLE]
@@ -16,9 +13,6 @@
 **Linear Chains**
 
 	[$source EL_LINEAR]*
-		[$source EL_LINE_SOURCE]*
-			[$source EL_TEXT_LINE_SOURCE]
-			[$source EL_FILE_LINE_SOURCE]
 		[$source EL_CHAIN]*
 			[$source EL_ARRAYED_LIST]
 				[$source EL_SUB_APPLICATION_LIST]
@@ -35,5 +29,8 @@
 **Other Classes**
 
 * Sub-array abstraction and byte array
-* Lists and chains
+* Repeated numeric encoding
+* Tuple initialization
+* Object initialization abstractions
+* Software versioning
 

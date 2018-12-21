@@ -177,7 +177,7 @@ The Laabhair* Audio library was developed at the [Digital Media Centre at the Du
 
 *Laabhair is the Gaelic for talk.
 ## Data Structure
-Classes providing the following facilities:
+Various hash-table, array, list, chain and linear types
 
 **Hash Tables**
 
@@ -185,9 +185,6 @@ Classes providing the following facilities:
 ````
 HASH_TABLE
 	[$source EL_HASH_TABLE]
-		[$source EL_STRING_HASH_TABLE]
-			[$source EL_ZSTRING_HASH_TABLE]
-				[$source EL_URL_QUERY_HASH_TABLE]
 			[$source EL_PROCEDURE_TABLE]
 	[$source EL_HASH_SET]
 	[$source EL_FUNCTION_RESULT_TABLE]
@@ -201,9 +198,6 @@ HASH_TABLE
 
 ````
 [$source EL_LINEAR]*
-	[$source EL_LINE_SOURCE]*
-		[$source EL_TEXT_LINE_SOURCE]
-		[$source EL_FILE_LINE_SOURCE]
 	[$source EL_CHAIN]*
 		[$source EL_ARRAYED_LIST]
 			[$source EL_SUB_APPLICATION_LIST]
@@ -221,7 +215,10 @@ HASH_TABLE
 
 
 * Sub-array abstraction and byte array
-* Lists and chains
+* Repeated numeric encoding
+* Tuple initialization
+* Object initialization abstractions
+* Software versioning
 
 
 
@@ -277,21 +274,143 @@ Image utilities providing:
 
 ## HTML Viewer (based on Vision-2)
 Extension for Vision2 library to render very basic html produced by Thunderbird email client.
-## EiffelVision 2 GUI Extensions
-**Features**
+## Vision2-X UI Container Extensions
+Window, dialogs and other widget-container extensions for the [EiffelVision2](https://www.eiffel.org/resources/libraries/eiffelvision2) library.
 
-These are some highlights of a long list of features:
-
-
-* Advanced pixel buffer rendering with transparencies and anti-aliasing using the [Cairo](https://cairographics.org/) and [Pangocairo](http://www.pango.org/) 2D graphics library. See class [EL_DRAWABLE_PIXEL_BUFFER](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/pixmap/el_drawable_pixel_buffer.html)
-* Drop-down combo boxes linked to data containers conforming to `FINITE [G]` and initialized with a value of type *G*, and a selection change agent of type `PROCEDURE [G]`. See class [EL_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_drop_down_box.html)
-* Drop-down combo boxes with localized display strings. See class [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_locale_zstring_drop_down_box.html)
-* Drop down combo box for months of year specified as integers and displayed with English names and a localized variant [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/widgets/primitives/drop-downs/el_locale_zstring_drop_down_box.html)
+**Container Descendants**
 
 
+````
+EV_CONTAINER*
+	EV_CELL
+		EV_VIEWPORT
+			EV_SCROLLABLE_AREA
+				[$source EL_SCROLLABLE_AREA]
+			[$source EL_CENTERED_VIEWPORT]
+		EV_WINDOW
+			EV_TITLED_WINDOW
+				EV_DIALOG
+					EV_UNTITLED_DIALOG
+						[$source EL_PROGRESS_DIALOG]
+						[$source EL_VERTICAL_DIALOG]*
+							[$source EL_HORIZONTAL_DIALOG]*
+								[$source EL_HYPERLINK_MENU]*
+					EV_MESSAGE_DIALOG
+						EV_CONFIRMATION_DIALOG
+							[$source EL_CONFIRMATION_DIALOG]
+								[$source EL_SAVE_CHANGES_CONFIRMATION_DIALOG]
+								[$source EL_APPLY_CHANGES_CONFIRMATION_DIALOG]
+						EV_INFORMATION_DIALOG
+							[$source EL_INFORMATION_DIALOG]
+						EV_WARNING_DIALOG
+							[$source EL_LOCALE_WARNING_DIALOG]
+						EV_ERROR_DIALOG
+							[$source EL_ERROR_DIALOG]
+						[$source EL_MESSAGE_DIALOG]
+							[$source EL_ERROR_DIALOG]
+							[$source EL_INFORMATION_DIALOG]
+					[$source EL_DIALOG]*
+				[$source EL_TITLED_WINDOW]
+					[$source EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER]*
+					[$source EL_TITLED_TAB_BOOK_WINDOW]
+		EV_FRAME
+			[$source EL_FRAME]
+		[$source EL_EXPANDED_CELL]
+	EV_WIDGET_LIST*
+		EV_BOX*
+			EV_HORIZONTAL_BOX
+				[$source EL_HORIZONTAL_BOX]
+					[$source EL_SCROLLABLE_BOX]
+						[$source EL_SCROLLABLE_VERTICAL_BOX]
+							[$source EL_SCROLLABLE_SEARCH_RESULTS]
+						[$source EL_SCROLLABLE_PAGE]
+					[$source EL_AUTO_CELL_HIDING_HORIZONTAL_BOX]
+					[$source EL_CENTERED_VERTICAL_BOX]
+					[$source EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX]
+					[$source EL_CONSOLE_MANAGER_TOOLBAR]
+				[$source EL_DIRECTORY_USER_SELECT]
+			EV_VERTICAL_BOX
+				[$source EL_VERTICAL_BOX]
+					[$source EL_AUTO_CELL_HIDING_VERTICAL_BOX]
+				[$source EL_DOCKED_TAB_BOOK]
+					[$source EL_SPLIT_AREA_DOCKED_TAB_BOOK]
+				[$source EL_TOOL_BAR_RADIO_BUTTON_GRID]
+			[$source EL_BOX]*
+				[$source EL_HORIZONTAL_BOX]
+				[$source EL_AUTO_CELL_HIDING_BOX]*
+					[$source EL_AUTO_CELL_HIDING_HORIZONTAL_BOX]
+					[$source EL_AUTO_CELL_HIDING_VERTICAL_BOX]
+				[$source EL_VERTICAL_BOX]
+		EV_NOTEBOOK
+			[$source EL_FIXED_TAB_BOOK]*
+			[$source EL_TAB_BOOK]
+		EV_FIXED
+			[$source EL_MIXED_STYLE_FIXED_LABELS]
+````
+
+## Vision2-X UI Extensions
+Various extensions for the [EiffelVision2](https://www.eiffel.org/resources/libraries/eiffelvision2) library.
+## Pango-Cairo 2D Graphics
+Eiffel interface to the [Cairo](https://cairographics.org/) 2D graphics library providing advanced pixel buffer rendering with transparencies and anti-aliasing. See class [EL_DRAWABLE_PIXEL_BUFFER](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/pango-cairo/el_drawable_pixel_buffer.html).
+## Vision2-X UI Widget Extensions
+Widgets extensions for the [EiffelVision2](https://www.eiffel.org/resources/libraries/eiffelvision2) library
+
+**Drop-down Combo Boxes**
 
 
+* Drop-downs linked to data containers conforming to `FINITE [G]` and initialized with a value of type *G*, and a selection change agent of type `PROCEDURE [G]`. See class [EL_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_drop_down_box.html)
+* Drop-downs with localized display strings. See class [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.html)
+* Drop downs for months of year specified as integers and displayed with English names and a localized variant [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.html)
 
+** Widget Descendants**
+
+
+````
+EV_WIDGET*
+	EV_PRIMITIVE*
+		EV_TEXT_COMPONENT*
+			EV_TEXT_FIELD
+				EV_COMBO_BOX
+					[$source EL_COMBO_BOX]
+						[$source EL_DROP_DOWN_BOX]
+							[$source EL_MONTH_DROP_DOWN_BOX]
+							[$source EL_ZSTRING_DROP_DOWN_BOX]
+								[$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
+				[$source EL_TEXT_FIELD]
+			EV_TEXT
+				EV_RICH_TEXT
+					[$source EL_RICH_TEXT]
+				[$source EL_TEXT]
+		EV_LABEL
+			[$source EL_LABEL]
+		EV_TOOL_BAR
+			[$source EL_SHARED_RADIO_GROUP_TOOL_BAR]
+		EV_DRAWING_AREA
+			[$source EL_BUSY_PROCESS_ANIMATION]
+			[$source EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA]
+			[$source EL_TIMED_PROGRESS_BAR]
+			[$source EL_DRAWING_AREA_BASE]*
+				[$source EL_HYPERLINK_AREA]
+				[$source EL_DRAWING_AREA]
+					[$source EL_DRAWING_AREA_LABEL]
+				[$source EL_MIXED_STYLE_LABEL_AREA]
+		EV_PIXMAP
+			[$source EL_BUTTON_PIXMAP]
+			[$source EL_PIXMAP]
+				[$source EL_SVG_PIXMAP]
+					[$source EL_SVG_TEMPLATE_PIXMAP]
+						[$source EL_STRETCHABLE_SVG_TEMPLATE_PIXMAP]
+				[$source EL_DRAWING_PIXMAP]*
+					[$source EL_LABEL_PIXMAP]
+		EV_GAUGE*
+			EV_RANGE*
+				EV_VERTICAL_RANGE]
+					[$source EL_SCALE_SLIDER]
+		EV_BUTTON
+			[$source EL_BUTTON]
+			[$source EL_COLOR_BUTTON]
+			[$source EL_DECORATED_BUTTON]
+````
 
 ## Windows Eiffel Library Extensions
 Extensions for [WEL GUI library](https://www.eiffel.org/doc/solutions/WEL).
@@ -668,7 +787,7 @@ Logging library featuring color highlighted output and mimicry of Eiffel routine
 * Global filtering mechanism to restrict output to selected classes and routines. A wildcard constant can be used to log all routines for a particular class.
 
 
-* By implementing the [EL_CONSOLE_MANAGER](http://www.eiffel-loop.com/library/runtime/logging/support/el_console_manager.html) class in a GUI library it is possible to create a UI component that is able to switch the logged console output to that of a different thread of execution. The [Vision2-x library](http://www.eiffel-loop.com/library/vision2-x.html) has once such component [EL_CONSOLE_MANAGER_TOOLBAR](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/interface/logging/el_console_manager_toolbar.html). See this example [screenshot](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png). The [wel-x library](http://www.eiffel-loop.com/library/wel-x.html) partially implements it with class [EL_CONSOLE_MANAGER_DIALOG](http://www.eiffel-loop.com/library/graphic/toolkit/wel-x/logging/el_console_manager_dialog.html).
+* By implementing the [EL_CONSOLE_MANAGER](http://www.eiffel-loop.com/library/runtime/logging/support/el_console_manager.html) class in a GUI library it is possible to create a UI component that is able to switch the logged console output to that of a different thread of execution. The [Vision2-x library](http://www.eiffel-loop.com/library/vision2-x.html) has once such component [EL_CONSOLE_MANAGER_TOOLBAR](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/container/cell/box/special/el_console_manager_toolbar.html). See this example [screenshot](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png). The [wel-x library](http://www.eiffel-loop.com/library/wel-x.html) partially implements it with class [EL_CONSOLE_MANAGER_DIALOG](http://www.eiffel-loop.com/library/graphic/toolkit/wel-x/logging/el_console_manager_dialog.html).
 
 **Output Format**
 
