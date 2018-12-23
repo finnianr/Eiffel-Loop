@@ -99,20 +99,109 @@ Warning: **Use at your own risk.** It is recommended that you have a backup of y
 
 ## Vision-2 Extensions Demo
 Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
-## Eiffel Development Utility
-A "Swiss-army knife" of useful Eiffel command line development tools. The most useful ones are listed here with command line switchs:
+## Eiffel Development Utilities
+A "Swiss-army knife" of Eiffel development utilities invokeable by a command-line switch.
 
-`-publish_repository`: [REPOSITORY_PUBLISHER_APP](http://www.eiffel-loop.com/tool/eiffel/source/apps/repository/repository_publisher_app.html)
+**Sub-applications**
+
+`-publish_repository`: [REPOSITORY_PUBLISHER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/repository_publisher_app.html)
 
 Publishes an Eiffel code repository as a website with module descriptions.
 
-`-edit_notes`: [NOTE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/apps/editing/note_editor_app.html)
+`-generate_codecs`: [CODEC_GENERATOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/codec_generator_app.html)
+
+Generate Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/string/zstring/codec/el_zcodec.html) from VTD-XML C code
+
+`-ecf_to_pecf`: [ECF_TO_PECF_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/ecf_to_pecf_app.html)
+
+Convert Eiffel configuration files to Pyxis format
+
+`-library_override`: [LIBRARY_OVERRIDE_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/library_override_app.html)
+
+Generates override of standard libaries to work with Eiffel-Loop
+
+`-expand_links`: [REPOSITORY_SOURCE_LINK_EXPANDER](http://www.eiffel-loop.com/tool/eiffel/source/root/command/repository/repository_source_link_expander.html)
+
+Use a supplied repository publishing configuration to expand `$source` variable path in wiki-links  containined in a wiki-markup text file. Write the expanded output to file named as follows:
+
+
+````
+<file name>.expanded.<file extension>
+
+````
+An incidental function is to expand all tabs as 3 spaces.
+
+`-normalize_class_file_name`: [SOURCE_FILE_NAME_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/source_file_name_normalizer_app.html)
+
+Normalize class filenames as lowercase classnames within a source directory
+
+**Download**
+
+Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
+
+
+## Eiffel Class Editing Utilities
+A "Swiss-army knife" of Eiffel class editing utilities invokeable by a command-line switch.
+
+**Sub-applications**
+
+`-remove_prefix`: [CLASS_PREFIX_REMOVAL_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/class_prefix_removal_app.html)
+
+Removes all classname prefixes over a source directory
+
+`-edit_notes`: [NOTE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/note_editor_app.html)
 
 Add default values to note fields using a source tree manifest.
 
-`-feature_edit`: [FEATURE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/apps/editing/feature_editor_app.html)
+`-feature_edit`: [FEATURE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/feature_editor_app.html)
 
 Expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
+
+`-find_replace`: [FIND_AND_REPLACE_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/find_and_replace_app.html)
+
+Finds and replaces text in Eiffel source files specified by a source tree manifest
+
+`-elog_remover`: [SOURCE_LOG_LINE_REMOVER_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_log_line_remover_app.html)
+
+Comment out logging lines from Eiffel source code tree
+
+`-class_rename`: [SOURCE_TREE_CLASS_RENAME_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_tree_class_rename_app.html)
+
+Rename classes defined by a source manifest file
+
+**Download**
+
+Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
+
+
+## Eiffel Class Analysis Utilities
+A "Swiss-army knife" of Eiffel class analysis utilities invokeable by a command-line switch.
+
+**Sub-applications**
+
+`-check_locale_strings`: [CHECK_LOCALE_STRINGS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/check_locale_strings_app.html)
+
+Verify localization translation identifiers against various kinds of source texts.
+
+`-descendants`: [CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html)
+
+Output a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
+
+`-codebase_stats`: [CODEBASE_STATISTICS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/codebase_statistics_app.html)
+
+Count classes, code words and combined source file size for Eiffel source trees specified in manifest
+
+`-check_encoding`: [ENCODING_CHECK_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/encoding_check_app.html)
+
+Checks for UTF-8 files that could be encoded as Latin-1
+
+`-check_note_links`: [REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html)
+
+Checks for invalid class references in repository note links
+
+`-undefine_counter`: [UNDEFINE_PATTERN_COUNTER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/undefine_pattern_counter_app.html)
+
+Count the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
 
 **Download**
 
@@ -251,7 +340,7 @@ Classes providing the following facilities:
 
 * Reading and writing arrays of floating-point type `DOUBLE`.
 * Files that notify a listener of byte-count written and read.
-* A file conforming to `PLAIN_TEXT_FILE` that implements [EL_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/base/runtime/io/el_output_medium.html)
+* A file conforming to `PLAIN_TEXT_FILE` that implements [EL_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/base/runtime/io/medium/el_output_medium.html)
 * File line source and other abstractions
 
 ## Runtime
@@ -693,7 +782,7 @@ Classes augmenting the classic [EiffelThread library](https://www.eiffel.org/doc
 
 **Work Distribution**
 
-Classes [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) offer a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE](http://www.eiffel-loop.com/tool/eiffel/source/library/publish/eiffel_configuration_file.html) for an example.
+Classes [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) offer a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE](http://www.eiffel-loop.com/tool/eiffel/source/root/library/publish/eiffel_configuration_file.html) for an example.
 
 **Producer-Consumer Framework**
 
@@ -1002,7 +1091,7 @@ A generic synchronization monitor allows synchronization on an object to be prot
 
 **Logging Routines**
 
-Access to the logging routines is through feature log of class [EL_MODULE_LOG](http://www.eiffel-loop.com/library/runtime/logging/el_module_log.html). The log object conforms to type [EL_LOGGABLE](http://www.eiffel-loop.com/library/base/runtime/io/loggable/el_loggable.html) which has numerous procedures for writing to the log as well as some useful functions.
+Access to the logging routines is through feature log of class [EL_MODULE_LOG](http://www.eiffel-loop.com/library/runtime/logging/el_module_log.html). The log object conforms to type [EL_LOGGABLE](http://www.eiffel-loop.com/library/base/runtime/io/logging/el_loggable.html) which has numerous procedures for writing to the log as well as some useful functions.
 
 The procedure form: 
 
@@ -1102,7 +1191,7 @@ The private key reader however uses a non-standard encryption scheme. It assumes
 ## Evolicity Text Substitution Engine
 *Evolicity* is a text substitution language that was inspired by the [Velocity text substitution language](http://velocity.apache.org/) for Java. *Evolicity* provides a way to merge the data from Eiffel objects into a text template. The template can be either supplied externally or hard-coded into an Eiffel class. The language includes, substitution variables, conditional statements and loops. Substitution variables have a BASH like syntax. Conditionals and loops have an Eiffel like syntax.
 
-The text of this web site was generated by the Eiffel-view repository publisher (See class [REPOSITORY_PUBLISHER_APP](http://www.eiffel-loop.com/tool/eiffel/source/apps/repository/repository_publisher_app.html)) using the following combination of *Evolicity* templates:
+The text of this web site was generated by the Eiffel-view repository publisher (See class [REPOSITORY_PUBLISHER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/repository_publisher_app.html)) using the following combination of *Evolicity* templates:
 
 
 1. [doc-config/main-template.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/main-template.html.evol)

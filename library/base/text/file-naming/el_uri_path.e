@@ -18,7 +18,7 @@ inherit
 			{ANY} Forward_slash
 		redefine
 			default_create, count, make, make_from_other, to_string, Type_parent, hash_code,
-			is_uri, is_equal, is_less, is_path_absolute, Separator
+			is_uri, is_equal, is_less, is_path_absolute, Separator, set_path
 		end
 
 	EL_URI_ROUTINES
@@ -139,6 +139,11 @@ feature -- Element change
 	set_protocol (a_protocol: like protocol)
 		do
 			protocol := a_protocol
+		end
+
+	set_path (a_path: ZSTRING)
+		do
+			make (a_path)
 		end
 
 feature -- Status query

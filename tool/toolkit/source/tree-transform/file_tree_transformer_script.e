@@ -61,17 +61,10 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH)
-		local
-			l_file_path: EL_FILE_PATH
+	make (a_input: EL_INPUT_PATH [EL_FILE_PATH])
 		do
-			if a_file_path.exists then
-				l_file_path := a_file_path
-			else
-				l_file_path := User_input.file_path ("Drag and drop a Pyxis transform script")
-				lio.put_new_line
-			end
-			make_from_file (l_file_path)
+			a_input.check_path ("Drag and drop a Pyxis transform script")
+			make_from_file (a_input.path)
 		end
 
 	make_default

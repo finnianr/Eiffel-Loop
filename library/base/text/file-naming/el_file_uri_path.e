@@ -17,7 +17,8 @@ inherit
 		undefine
 			default_create, count, make, make_from_other,
 			is_equal, is_less, is_path_absolute, is_uri,
-			to_string, Type_parent, hash_code, Separator
+			to_string, Type_parent, hash_code, Separator,
+			set_path
 		end
 
 	EL_URI_PATH

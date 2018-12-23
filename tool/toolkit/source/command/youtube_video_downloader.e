@@ -39,9 +39,10 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_url: ZSTRING)
+	make (a_url: EL_INPUT_PATH [EL_DIR_URI_PATH])
 		do
-			create video.make (a_url)
+			a_url.check_path_default
+			create video.make (a_url.to_string)
 		end
 
 feature -- Basic operations

@@ -1,0 +1,30 @@
+**Sub-applications**
+
+`-remove_prefix': [$source CLASS_PREFIX_REMOVAL_APP]
+
+Removes all classname prefixes over a source directory
+
+`-edit_notes': [$source NOTE_EDITOR_APP]
+
+Add default values to note fields using a source tree manifest.
+
+`-feature_edit': [$source FEATURE_EDITOR_APP]
+
+Expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
+
+`-find_replace': [$source FIND_AND_REPLACE_APP]
+
+Finds and replaces text in Eiffel source files specified by a source tree manifest
+
+`-elog_remover': [$source SOURCE_LOG_LINE_REMOVER_APP]
+
+Comment out logging lines from Eiffel source code tree
+
+`-class_rename': [$source SOURCE_TREE_CLASS_RENAME_APP]
+
+Rename classes defined by a source manifest file
+
+**Download**
+
+Download binary of [https://github.com/finnianr/Eiffel-Loop/releases/latest `el_eiffel']
+for ''Ubuntu 14.04'' or ''Linux Mint 17.x''.

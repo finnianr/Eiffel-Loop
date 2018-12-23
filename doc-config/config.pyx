@@ -34,7 +34,9 @@ publish-repository:
 			"example/graphical/graphical.ecf"
 		# Tools
 		ecf:
-			"tool/eiffel/eiffel.ecf"
+			"tool/eiffel/eiffel.ecf#root"
+			"tool/eiffel/eiffel.ecf#edit"
+			"tool/eiffel/eiffel.ecf#analyse"
 			"tool/toolkit/toolkit.ecf"
 		# Test
 		ecf:

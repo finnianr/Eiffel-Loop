@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE
 		do
-			Result := agent {like command}.make ("")
+			Result := agent {like command}.make (create {EL_INPUT_PATH [EL_DIR_URI_PATH]})
 		end
 
 feature {NONE} -- Constants

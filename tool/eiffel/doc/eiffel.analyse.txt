@@ -1,0 +1,31 @@
+**Sub-applications**
+
+`-check_locale_strings': [$source CHECK_LOCALE_STRINGS_APP]
+
+Verify localization translation identifiers against various kinds of source texts.
+
+`-descendants': [$source CLASS_DESCENDANTS_APP]
+
+Output a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
+
+`-codebase_stats': [$source CODEBASE_STATISTICS_APP]
+
+Count classes, code words and combined source file size for Eiffel source trees specified in manifest
+
+`-check_encoding': [$source ENCODING_CHECK_APP]
+
+Checks for UTF-8 files that could be encoded as Latin-1
+
+`-check_note_links': [$source REPOSITORY_NOTE_LINK_CHECKER_APP]
+
+Checks for invalid class references in repository note links
+
+`-undefine_counter': [$source UNDEFINE_PATTERN_COUNTER_APP]
+
+Count the number of classes in the source tree manifest that exhibit multiple inheritance
+of classes with an identical pattern of feature undefining.
+
+**Download**
+
+Download binary of [https://github.com/finnianr/Eiffel-Loop/releases/latest `el_eiffel']
+for ''Ubuntu 14.04'' or ''Linux Mint 17.x''.

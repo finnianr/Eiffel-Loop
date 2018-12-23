@@ -1,0 +1,35 @@
+**Sub-applications**
+
+`-publish_repository': [$source REPOSITORY_PUBLISHER_APP]
+
+Publishes an Eiffel code repository as a website with module descriptions.
+
+`-generate_codecs': [$source CODEC_GENERATOR_APP]
+
+Generate Eiffel classes conforming to [$source EL_ZCODEC] from VTD-XML C code
+
+`-ecf_to_pecf': [$source ECF_TO_PECF_APP]
+
+Convert Eiffel configuration files to Pyxis format
+
+`-library_override': [$source LIBRARY_OVERRIDE_APP]
+
+Generates override of standard libaries to work with Eiffel-Loop
+
+`-expand_links': [$source REPOSITORY_SOURCE_LINK_EXPANDER]
+
+Use a supplied repository publishing configuration to expand `$source' variable path in wiki-links 
+containined in a wiki-markup text file. Write the expanded output to file named as follows:
+
+	<file name>.expanded.<file extension>
+	
+An incidental function is to expand all tabs as 3 spaces.
+
+`-normalize_class_file_name': [$source SOURCE_FILE_NAME_NORMALIZER_APP]
+
+Normalize class filenames as lowercase classnames within a source directory
+
+**Download**
+
+Download binary of [https://github.com/finnianr/Eiffel-Loop/releases/latest `el_eiffel']
+for ''Ubuntu 14.04'' or ''Linux Mint 17.x''.

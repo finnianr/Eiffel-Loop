@@ -13,13 +13,13 @@ class
 	EL_TYPE_TABLE [G]
 
 inherit
-	HASH_TABLE [G, TYPE [ANY]]
+	EL_HASH_TABLE [G, TYPE [ANY]]
 		rename
 			item as cached_item
 		end
 
 create
-	make_equal
+	make_equal, make
 
 feature -- Access
 

@@ -13,7 +13,7 @@ system:
 	name = el_eiffel; uuid = "EEA36E90-5A49-11E7-8290-A34D58BF65CD"
 	description:
 		"""
-			Eiffel Development Utility
+			Eiffel Development Utilities
 			
 			See doc/eiffel-utility.txt for details.
 		"""
@@ -149,5 +149,33 @@ system:
 			location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
 
 		cluster:
-			name = project; location = "source"; recursive = true
+			name = root; location = "source/root"; recursive = true
+			description:
+				"""
+					Eiffel Development Utilities
+
+					A "Swiss-army knife" of Eiffel development utilities invokeable by a command-line switch.
+			
+					See doc/eiffel.root.txt for details.
+				"""
+		cluster:
+			name = edit; location = "source/edit"; recursive = true
+			description:
+				"""
+					Eiffel Class Editing Utilities
+
+					A "Swiss-army knife" of Eiffel class editing utilities invokeable by a command-line switch.
+			
+					See doc/eiffel.edit.txt for details.
+				"""
+		cluster:
+			name = analyse; location = "source/analyse"; recursive = true
+			description:
+				"""
+					Eiffel Class Analysis Utilities
+
+					A "Swiss-army knife" of Eiffel class analysis utilities invokeable by a command-line switch.
+			
+					See doc/eiffel.analyse.txt for details.
+				"""
 

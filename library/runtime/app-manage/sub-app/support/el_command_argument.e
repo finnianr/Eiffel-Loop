@@ -73,6 +73,10 @@ feature -- Basic operations
 				)
 				setter.set_operand (index)
 
+			elseif attached {EL_MAKEABLE_FROM_STRING_GENERAL} operand as makeable then
+				create {EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER} setter.make (app, Current)
+				setter.set_operand (index)
+
 			elseif attached {EL_BUILDABLE_FROM_FILE} operand as buildable then
 				create {EL_BUILDABLE_FROM_FILE_OPERAND_SETTER} setter.make (app, Current)
 				setter.set_operand (index)

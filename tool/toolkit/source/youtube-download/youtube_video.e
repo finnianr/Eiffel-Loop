@@ -29,25 +29,21 @@ create
 feature {NONE} -- Initialization
 
 	make (a_url: ZSTRING)
+		require
+			not_empty: not a_url.is_empty
 		local
 			stream: YOUTUBE_STREAM
 		do
+			url := a_url
 			create selected
-			if a_url.is_empty then
-				url := User_input.line ("Drag and drop a url")
-				url.trim
-				lio.put_new_line
-			else
-				url := a_url
-			end
 			title := User_input.line ("Enter a title")
 			lio.put_new_line
 
 			create output_path
 			create stream_table.make (17)
-			lio.put_labeled_string ("Fetching formats for", url)
+			lio.put_labeled_string ("Fetching formats for", a_url)
 			lio.put_new_line
-			Cmd_get_youtube_options.put_string (Var_url, url)
+			Cmd_get_youtube_options.put_string (Var_url, a_url)
 			Cmd_get_youtube_options.execute
 
 			across Cmd_get_youtube_options.lines as line loop
