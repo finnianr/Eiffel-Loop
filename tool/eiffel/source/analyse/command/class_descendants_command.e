@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-15 18:54:04 GMT (Saturday 15th December 2018)"
-	revision: "4"
+	date: "2018-12-23 15:41:07 GMT (Sunday 23rd December 2018)"
+	revision: "5"
 
 class
 	CLASS_DESCENDANTS_COMMAND

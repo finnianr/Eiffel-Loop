@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:03 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-12-19 16:53:13 GMT (Wednesday 19th December 2018)"
+	revision: "6"
 
 class
 	EL_CALL_SEQUENCE [CALL_ARGS -> TUPLE create default_create end]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:47:17 GMT (Wednesday 17th October 2018)"
-	revision: "12"
+	date: "2018-12-24 13:32:27 GMT (Monday 24th December 2018)"
+	revision: "13"
 
 class
 	REPOSITORY_PUBLISHER
@@ -31,6 +31,8 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_OS
+
+	EL_ITERATION_OUTPUT
 
 create
 	make
@@ -90,7 +92,7 @@ feature -- Access
 
 	templates: REPOSITORY_HTML_TEMPLATES
 
-	ecf_list: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CONFIGURATION_FILE]
+	ecf_list: EL_SORTABLE_ARRAYED_LIST [like new_configuration_file]
 
 	version: STRING
 
@@ -104,6 +106,7 @@ feature -- Basic operations
 		local
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
 			console_display: EL_CONSOLE_FILE_PROGRESS_DISPLAY; listener: like progress_listener
+			i: NATURAL
 		do
 			log_thread_count
 			ftp_sync.set_root_dir (output_dir)
@@ -113,14 +116,20 @@ feature -- Basic operations
 			end
 
 			example_classes.wipe_out
+			ecf_list.do_all (agent {EIFFEL_CONFIGURATION_FILE}.read_source_files)
+
+			lio.put_labeled_string ("Adding to current_digest", "description $source variable paths and client example paths")
+			lio.put_new_line
 			across ecf_list as tree loop
-				tree.item.read_source_files
 				across tree.item.directory_list as directory loop
 					across directory.item.class_list as eiffel_class loop
+						eiffel_class.item.sink_source_subsitutions
 						ftp_sync.extend (eiffel_class.item)
+						print_progress (i); i := i + 1
 					end
 				end
 			end
+			lio.put_new_line
 			across pages as page loop
 				if page.item.is_modified then
 					page.item.serialize
@@ -168,6 +177,11 @@ feature {NONE} -- Factory
 				Result.extend (create {EIFFEL_CONFIGURATION_INDEX_PAGE}.make (Current, tree.item))
 			end
 			Result.sort
+		end
+
+	new_configuration_file (ecf: ECF_INFO): EIFFEL_CONFIGURATION_FILE
+		do
+			create Result.make (Current, ecf)
 		end
 
 feature {NONE} -- Implementation
@@ -249,7 +263,7 @@ feature {NONE} -- Build from Pyxis
 			end
 			ecf_path := root_dir + ecf.path
 			if ecf_path.exists then
-				ecf_list.extend (create {EIFFEL_CONFIGURATION_FILE}.make (Current, ecf))
+				ecf_list.extend (new_configuration_file (ecf))
 			else
 				lio.put_path_field ("Cannot find", ecf_path)
 				lio.put_new_line
@@ -273,6 +287,8 @@ feature {NONE} -- Build from Pyxis
 		end
 
 feature {NONE} -- Constants
+
+	Iterations_per_dot: NATURAL_32 = 200
 
 	Root_node_name: STRING = "publish-repository"
 

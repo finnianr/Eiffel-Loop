@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-21 14:06:43 GMT (Wednesday 21st November 2018)"
-	revision: "11"
+	date: "2018-12-23 10:54:04 GMT (Sunday 23rd December 2018)"
+	revision: "12"
 
 class
 	EL_MEMORY_READER_WRITER

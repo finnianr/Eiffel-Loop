@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:17:36 GMT (Thursday 15th November 2018)"
-	revision: "9"
+	date: "2018-12-18 12:28:36 GMT (Tuesday 18th December 2018)"
+	revision: "10"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE

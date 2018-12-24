@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-01 13:24:51 GMT (Monday 1st October 2018)"
-	revision: "11"
+	date: "2018-12-23 23:26:28 GMT (Sunday 23rd December 2018)"
+	revision: "12"
 
 class
 	EL_FILE_PATH
@@ -49,13 +49,13 @@ feature -- Access
 				Result := base
 
 			elseif parent.is_parent_of (other) then
-				dot_dir := Directory.relative_parent (other.step_count - step_count)
+				create dot_dir.make (Directory.relative_parent (other.step_count - step_count))
 				Result := dot_dir + base
 			else
 				from super_dir := parent until super_dir.is_parent_of (Current) and super_dir.is_parent_of (other) loop
 					super_dir := super_dir.parent
 				end
-				dot_dir := Directory.relative_parent (other.step_count - super_dir.step_count - 1)
+				create dot_dir.make (Directory.relative_parent (other.step_count - super_dir.step_count - 1))
 				Result := dot_dir + relative_path (super_dir)
 			end
 		end

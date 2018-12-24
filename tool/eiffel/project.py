@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 23); build = 100
+version = (1, 0, 24); build = 104
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.24
+# Add value of $source substitutions to class current_digest
 
 # 1.0.23
 # Removed cluster attribute from repository configuration

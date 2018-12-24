@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-08 11:45:32 GMT (Saturday 8th December 2018)"
-	revision: "10"
+	date: "2018-12-23 23:37:31 GMT (Sunday 23rd December 2018)"
+	revision: "11"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -141,7 +141,7 @@ feature -- Basic operations
 				l_directory.item.read_class_notes
 				if l_directory.item.is_modified then
 					lio.put_character ('.')
-					l_directory.item.write_class_html (top_dir)
+					l_directory.item.write_class_html
 				end
 			end
 			lio.put_new_line

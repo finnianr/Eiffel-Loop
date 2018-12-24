@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:20:59 GMT (Thursday 12th October 2017)"
-	revision: "3"
+	date: "2018-12-21 8:13:30 GMT (Friday 21st December 2018)"
+	revision: "4"
 
 class
 	EL_DECORATED_BUTTON

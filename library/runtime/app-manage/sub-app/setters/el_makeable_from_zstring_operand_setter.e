@@ -2,9 +2,14 @@ note
 	description: "[
 		Sets an operand conforming to [$source EL_MAKEABLE_FROM_STRING_GENERAL] in `make' routine argument tuple
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-12-23 11:59:39 GMT (Sunday 23rd December 2018)"
+	revision: "1"
 
 class
 	EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-22 15:11:16 GMT (Saturday 22nd September 2018)"
-	revision: "3"
+	date: "2018-12-23 13:17:56 GMT (Sunday 23rd December 2018)"
+	revision: "4"
 
 class
 	FILE_TREE_TRANSFORM_SCRIPT_APP

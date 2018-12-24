@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-28 10:24:57 GMT (Thursday 28th September 2017)"
-	revision: "3"
+	date: "2018-12-21 9:24:44 GMT (Friday 21st December 2018)"
+	revision: "4"
 
 class
 	EL_MANAGED_WIDGET [W -> EV_WIDGET create default_create end]

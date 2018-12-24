@@ -1,8 +1,13 @@
 note
 	description: "Path that is settable either from `make' routine or user input"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-12-23 13:41:54 GMT (Sunday 23rd December 2018)"
+	revision: "1"
 
 class
 	EL_INPUT_PATH [P -> EL_PATH create default_create end]

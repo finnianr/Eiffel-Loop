@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:47:17 GMT (Wednesday 17th October 2018)"
-	revision: "5"
+	date: "2018-12-23 23:47:19 GMT (Sunday 23rd December 2018)"
+	revision: "6"
 
 deferred class
 	REPOSITORY_HTML_PAGE
@@ -54,11 +54,6 @@ feature -- Access
 		deferred
 		end
 
-	top_dir: STRING
-		do
-			Result := Directory.relative_parent (step_count)
-		end
-
 feature -- Status query
 
 	is_site_map_page: BOOLEAN
@@ -73,19 +68,17 @@ feature {NONE} -- Evolicity fields
 		do
 			create Result.make (<<
 				["content_template",		agent content_template],
-				["top_dir", 				agent top_dir],
+				["top_dir", 				agent: ZSTRING do Result := Directory.relative_parent (step_count) end],
 				["title", 					agent: like title do Result := XML.escaped (title) end],
-
 				["name", 					agent: like name do Result := XML.escaped (name) end],
+				["crc_digest",				agent current_digest_ref],
 
 				["is_site_map_page",		agent: BOOLEAN_REF do Result := is_site_map_page.to_reference end],
 
 				["relative_file_path", 	agent: ZSTRING do Result := relative_file_path end],
 				["github_url", 			agent: ZSTRING do Result := repository.github_url.to_string end],
 				["favicon_markup_path", agent: ZSTRING do Result := repository.templates.favicon_markup_path end],
-
-				["version", 				agent: STRING do Result := repository.version end],
-				["crc_digest",				agent current_digest_ref]
+				["version", 				agent: STRING do Result := repository.version end]
 			>>)
 		end
 

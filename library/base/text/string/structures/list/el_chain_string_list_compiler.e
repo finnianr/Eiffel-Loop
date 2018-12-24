@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-21 14:46:32 GMT (Wednesday 21st November 2018)"
-	revision: "5"
+	date: "2018-12-19 16:54:50 GMT (Wednesday 19th December 2018)"
+	revision: "6"
 
 class
 	EL_CHAIN_STRING_LIST_COMPILER [G, S -> STRING_GENERAL create make, make_empty end]

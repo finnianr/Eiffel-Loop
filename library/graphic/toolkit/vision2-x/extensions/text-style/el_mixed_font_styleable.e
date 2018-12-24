@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 14:37:42 GMT (Wednesday 17th October 2018)"
-	revision: "4"
+	date: "2018-12-21 12:03:13 GMT (Friday 21st December 2018)"
+	revision: "5"
 
 deferred class
 	EL_MIXED_FONT_STYLEABLE

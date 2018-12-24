@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-02 10:59:36 GMT (Tuesday 2nd October 2018)"
-	revision: "7"
+	date: "2018-12-23 23:37:07 GMT (Sunday 23rd December 2018)"
+	revision: "8"
 
 class
 	SOURCE_DIRECTORY
@@ -89,11 +89,10 @@ feature -- Basic operations
 			class_list.do_all (agent {EIFFEL_CLASS}.fill_notes)
 		end
 
-	write_class_html (class_index_top_dir: STRING)
+	write_class_html
 		do
 			across class_list as l_class loop
 				if l_class.item.is_modified then
-					l_class.item.set_class_index_top_dir (class_index_top_dir)
 					l_class.item.serialize
 				end
 			end

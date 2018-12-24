@@ -29,8 +29,6 @@ publish-repository:
 			"library/base/base.ecf#data_structure"
 			"library/base/base.ecf#math"
 			"library/base/base.ecf#persistency"
-			"library/base/base.ecf#runtime"
-			"library/base/base.ecf#text"
 
 		# Library (Text)
 		ecf:

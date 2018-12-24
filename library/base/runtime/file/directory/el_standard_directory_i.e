@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-01 11:58:56 GMT (Monday 1st October 2018)"
-	revision: "6"
+	date: "2018-12-23 23:24:52 GMT (Sunday 23rd December 2018)"
+	revision: "7"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -36,6 +36,8 @@ inherit
 			{NONE} all
 		end
 
+	EL_ZSTRING_CONSTANTS
+
 feature -- Factory
 
 	new_path (a_path: READABLE_STRING_GENERAL): EL_DIR_PATH
@@ -50,7 +52,7 @@ feature -- Access
 			Result := operating_environment.Directory_separator
 		end
 
-	relative_parent (step_count: INTEGER): STRING
+	relative_parent (step_count: INTEGER): ZSTRING
 			-- parent relative to current using '../'
 			-- Returns '.' if `step_count' = 0
 			-- Returns '../' if `step_count' = 1
@@ -58,7 +60,7 @@ feature -- Access
 			-- and so forth
 		do
 			if step_count = 0 then
-				Result := "."
+				Result := character_string ('.')
 			else
 				Result := Parent.twin
 				Result.multiply (step_count)
@@ -149,6 +151,9 @@ feature -- Path constants
 
 feature -- Constants
 
-	Parent: STRING = "/.."
+	Parent: ZSTRING
+		once
+			Result := "/.."
+		end
 
 end

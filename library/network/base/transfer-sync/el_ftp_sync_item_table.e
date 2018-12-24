@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-07 9:24:08 GMT (Friday 7th September 2018)"
-	revision: "3"
+	date: "2018-12-24 12:26:38 GMT (Monday 24th December 2018)"
+	revision: "4"
 
 class
 	EL_FTP_SYNC_ITEM_TABLE
@@ -36,16 +36,20 @@ feature -- Basic operations
 			file_path_set: not file_path.is_empty
 		local
 			file: EL_PLAIN_TEXT_FILE
+			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [EL_FILE_PATH, NATURAL]
 		do
+			create map_list.make_from_table (Current)
+			map_list.sort (True)
+
 			create file.make_open_write (file_path)
-			from start until after loop
+			from map_list.start until map_list.after loop
 				if file.count > 0 then
 					file.put_new_line
 				end
-				file.put_natural (item_for_iteration)
+				file.put_natural (map_list.item_value)
 				file.put_raw_string_8 (": ")
-				file.put_string (key_for_iteration)
-				forth
+				file.put_string (map_list.item_key)
+				map_list.forth
 			end
 			file.close
 		end

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-23 16:36:00 GMT (Friday 23rd February 2018)"
-	revision: "4"
+	date: "2018-12-21 7:36:12 GMT (Friday 21st December 2018)"
+	revision: "5"
 
 class
 	EL_CONSOLE_MANAGER_TOOLBAR

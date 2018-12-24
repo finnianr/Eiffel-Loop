@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:50:15 GMT (Wednesday 17th October 2018)"
-	revision: "12"
+	date: "2018-12-24 10:56:54 GMT (Monday 24th December 2018)"
+	revision: "13"
 
 class
 	EIFFEL_CLASS
@@ -79,6 +79,11 @@ inherit
 			make_default
 		end
 
+	EL_SHARED_ONCE_STRINGS
+		undefine
+			is_equal, copy
+		end
+
 create
 	make
 
@@ -107,7 +112,6 @@ feature {NONE} -- Initialization
 		do
 			create source_path
 			create name.make_empty
-			create class_index_top_dir
 			make_machine
 			Precursor {EL_SINGLE_THREAD_ACCESS}
 			Precursor {EVOLICITY_SERIALIZEABLE}
@@ -115,24 +119,21 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	code_text: ZSTRING
-
-	class_index_top_dir: EL_DIR_PATH
-		-- top level directory relative to class-index.html for this class
-
 	class_text: ZSTRING
 		do
 			Result := XML.escaped (code_text.substring_end (class_begin_index + 1))
 		end
 
+	code_text: ZSTRING
+
+	name: STRING
+
+	notes: EIFFEL_NOTES
+
 	notes_text: ZSTRING
 		do
 			Result := XML.escaped (code_text.substring (1, class_begin_index))
 		end
-
-	notes: EIFFEL_NOTES
-
-	name: STRING
 
 	relative_html_path: EL_FILE_PATH
 		-- html path relative to `library_ecf.ecf_dir'
@@ -218,18 +219,18 @@ feature -- Comparison
 
 feature -- Element change
 
-	set_class_index_top_dir (a_class_index_top_dir: like class_index_top_dir)
+	sink_source_subsitutions
+		-- sink the values of $source occurrences `code_text'. Eg. [$source CLASS_NAME]
+		local
+			crc: like crc_generator
 		do
-			class_index_top_dir := a_class_index_top_dir
+			crc := crc_generator
+			crc.set_checksum (current_digest)
+			code_text.edit (Source_link, character_string (']'), agent sink_source_path (?, ?, ?, crc))
+			current_digest := crc.checksum
 		end
 
 feature {NONE} -- Implementation
-
-	copy (other: like Current)
-		do
-			standard_copy (other)
-			notes := other.notes.twin
-		end
 
 	class_begin_index: INTEGER
 		do
@@ -238,24 +239,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	copy (other: like Current)
+		do
+			standard_copy (other)
+			notes := other.notes.twin
+		end
+
 	ftp_file_path: EL_FILE_PATH
 		do
 			Result := html_output_path.relative_path (repository.output_dir)
-		end
-
-	relative_ecf_html_path: ZSTRING
-		do
-			Result := library_ecf.html_index_path.relative_dot_path (relative_source_path)
-		end
-
-	top_dir: EL_DIR_PATH
-		do
-			Result := Directory.relative_parent (relative_source_path.step_count - 1)
-		end
-
-	further_information_fields: EL_ZSTRING_LIST
-		do
-			Result := notes.other_field_titles
 		end
 
 	further_information: ZSTRING
@@ -270,6 +262,27 @@ feature {NONE} -- Implementation
 					Result.replace_substring_general (" and", pos_comma, pos_comma)
 				end
 				Result.to_lower
+			end
+		end
+
+	further_information_fields: EL_ZSTRING_LIST
+		do
+			Result := notes.other_field_titles
+		end
+
+	relative_ecf_html_path: ZSTRING
+		do
+			Result := library_ecf.html_index_path.relative_dot_path (relative_source_path)
+		end
+
+	sink_source_path (start_index, end_index: INTEGER; substring: ZSTRING; crc: like crc_generator)
+		local
+			l_name: ZSTRING
+		do
+			l_name := once_substring (substring, start_index, end_index)
+			l_name.left_adjust
+			if Class_source_table.has_key (l_name) then
+				crc.add_path (Class_source_table.found_item)
 			end
 		end
 
@@ -293,9 +306,9 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	repository: REPOSITORY_PUBLISHER
-
 	library_ecf: EIFFEL_CONFIGURATION_FILE
+
+	repository: REPOSITORY_PUBLISHER
 
 feature {NONE} -- Evolicity fields
 
@@ -305,23 +318,26 @@ feature {NONE} -- Evolicity fields
 			create Result.make (<<
 				["description_elements",	agent: like notes.description_elements do Result := notes.description_elements end],
 				["note_fields",				agent: like notes.field_list do Result := notes.field_list end],
+
 				["has_description",			agent: BOOLEAN_REF do Result := notes.has_description.to_reference end],
+				["has_further_information",agent: BOOLEAN_REF do Result := has_further_information.to_reference end],
+				["has_fields",					agent: BOOLEAN_REF do Result := notes.has_fields.to_reference end],
+				["is_library", 				agent: BOOLEAN_REF do Result := is_library.to_reference end],
 
 				["crc_digest", 				agent current_digest_ref],
 				["notes_text", 				agent notes_text],
 				["class_text", 				agent class_text],
 				["further_information",		agent further_information],
-				["has_further_information",agent: BOOLEAN_REF do Result := has_further_information.to_reference end],
-				["has_fields",					agent: BOOLEAN_REF do Result := notes.has_fields.to_reference end],
+				["ecf_contents_path", 		agent relative_ecf_html_path],
+
 				["name", 						agent: STRING do Result := name.string end],
 				["name_as_lower", 			agent: STRING do Result := name.string.as_lower end],
 				["html_path", 					agent: ZSTRING do Result := relative_html_path end],
 				["favicon_markup_path", 	agent: ZSTRING do Result := repository.templates.favicon_markup_path end],
+				["top_dir", 					agent: ZSTRING do Result := Directory.relative_parent (relative_source_path.step_count - 1) end],
+
 				["relative_dir", 				agent: EL_DIR_PATH do Result := relative_source_path.parent end],
-				["ecf_contents_path", 		agent relative_ecf_html_path],
-				["is_library", 				agent: BOOLEAN_REF do Result := is_library.to_reference end],
-				["source_path", 				agent: EL_FILE_PATH do Result := relative_source_path end],
-				["top_dir", 					agent top_dir]
+				["source_path", 				agent: EL_FILE_PATH do Result := relative_source_path end]
 			>>)
 		end
 
@@ -340,11 +356,6 @@ feature {NONE} -- Constants
 			Result := "html"
 		end
 
-	Relative_root: EL_DIR_PATH
-		once
-			create Result
-		end
-
 	Library: ZSTRING
 		once
 			Result := "library"
@@ -353,6 +364,16 @@ feature {NONE} -- Constants
 	Note_description: ZSTRING
 		once
 			Result := "description"
+		end
+
+	Relative_root: EL_DIR_PATH
+		once
+			create Result
+		end
+
+	Source_link: ZSTRING
+		once
+			Result := "[$source"
 		end
 
 	Template: STRING = ""

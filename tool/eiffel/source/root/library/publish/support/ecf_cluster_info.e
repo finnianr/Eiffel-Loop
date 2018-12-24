@@ -1,8 +1,13 @@
 note
 	description: "ECF project name information"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2018-12-19 16:50:53 GMT (Wednesday 19th December 2018)"
+	revision: "1"
 
 class
 	ECF_CLUSTER_INFO

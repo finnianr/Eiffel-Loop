@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-13 16:37:44 GMT (Thursday 13th December 2018)"
-	revision: "5"
+	date: "2018-12-24 10:48:05 GMT (Monday 24th December 2018)"
+	revision: "6"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -23,6 +23,18 @@ feature -- Access
 
 feature -- Element change
 
+	add_character (c: CHARACTER)
+			--
+		do
+			add_array ($c, 1, {PLATFORM}.Character_8_bytes)
+		end
+
+	add_data (data: MANAGED_POINTER)
+			--
+		do
+			add_array (data.item, data.count, 1)
+		end
+
 	add_directory_tree (tree_path: EL_DIR_PATH)
 			--
 		do
@@ -33,33 +45,6 @@ feature -- Element change
 			--
 		do
 			add_data (File_system.file_data (file_path))
-		end
-
-	add_string (str: ZSTRING)
-			--
-		do
-			add_array (str.area.base_address, str.count, {PLATFORM}.character_8_bytes)
-			if str.has_mixed_encoding then
-				add_array (str.unencoded_area.base_address, str.unencoded_area.count, {PLATFORM}.character_32_bytes)
-			end
-		end
-
-	add_string_8 (str: STRING)
-			--
-		do
-			add_array (str.area.base_address, str.count, {PLATFORM}.character_8_bytes)
-		end
-
-	add_string_32 (str: STRING_32)
-			--
-		do
-			add_array (str.area.base_address, str.count, {PLATFORM}.character_32_bytes)
-		end
-
-	add_character (c: CHARACTER)
-			--
-		do
-			add_array ($c, 1, {PLATFORM}.Character_8_bytes)
 		end
 
 	add_integer (n: INTEGER)
@@ -74,16 +59,42 @@ feature -- Element change
 			add_array ($n, 1, {PLATFORM}.Integer_32_bytes)
 		end
 
-	add_data (data: MANAGED_POINTER)
+	add_path (path: EL_PATH)
 			--
 		do
-			add_array (data.item, data.count, 1)
+			add_string (path.parent_path)
+			add_string (path.base)
+		end
+
+	add_string (str: ZSTRING)
+			--
+		do
+			add_array (str.area.base_address, str.count, {PLATFORM}.character_8_bytes)
+			if str.has_mixed_encoding then
+				add_array (str.unencoded_area.base_address, str.unencoded_area.count, {PLATFORM}.character_32_bytes)
+			end
+		end
+
+	add_string_32 (str: STRING_32)
+			--
+		do
+			add_array (str.area.base_address, str.count, {PLATFORM}.character_32_bytes)
+		end
+
+	add_string_8 (str: STRING)
+			--
+		do
+			add_array (str.area.base_address, str.count, {PLATFORM}.character_8_bytes)
 		end
 
 	reset
-			--
 		do
 			checksum := 0
+		end
+
+	set_checksum (a_checksum: NATURAL)
+		do
+			checksum := a_checksum
 		end
 
 feature {NONE} -- Implementation

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:29:51 GMT (Wednesday 17th October 2018)"
-	revision: "17"
+	date: "2018-12-23 23:19:40 GMT (Sunday 23rd December 2018)"
+	revision: "18"
 
 deferred class
 	EL_PATH
@@ -107,7 +107,6 @@ feature -- Initialization
 			else
 				norm_path := a_path
 			end
-
 			if not norm_path.is_empty then
 				pos_last_separator := norm_path.last_index_of (Separator, norm_path.count)
 				if pos_last_separator = 0 then
