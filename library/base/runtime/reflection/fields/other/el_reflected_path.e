@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-02 12:04:18 GMT (Friday 2nd November 2018)"
-	revision: "4"
+	date: "2018-12-25 18:46:41 GMT (Tuesday 25th December 2018)"
+	revision: "5"
 
 class
 	EL_REFLECTED_PATH
@@ -58,7 +58,7 @@ feature -- Basic operations
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
 			if attached {EL_PATH} value (a_object) as path then
-				path.make (as_zstring (string))
+				path.make (new_zstring (string))
 			end
 		end
 

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:29:50 GMT (Thursday 15th November 2018)"
-	revision: "9"
+	date: "2018-12-25 11:28:33 GMT (Tuesday 25th December 2018)"
+	revision: "10"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -24,6 +24,7 @@ inherit
 			do_all as do_all_intervals,
 			for_all as for_all_intervals,
 			make as make_intervals,
+			i_th as i_th_interval,
 			item as interval_item,
 			item_lower as start_index,
 			item_upper as end_index,
@@ -45,25 +46,14 @@ create
 feature {NONE} -- Initialization
 
 	make (a_string: like item; delimiter: READABLE_STRING_GENERAL)
-			--
-		local
-			l_occurrences: EL_OCCURRENCE_INTERVALS [S]
-			last_interval: INTEGER_64
 		do
-			string := a_string
-			create l_occurrences.make (a_string, delimiter)
-			last_interval := new_item (1, 0)
-			make_intervals (l_occurrences.count + 1)
-			if l_occurrences.is_empty then
-				extend (1, a_string.count)
-			else
-				from l_occurrences.start until l_occurrences.after loop
-					extend (upper_integer (last_interval) + 1, l_occurrences.item_lower - 1)
-					last_interval := l_occurrences.item
-					l_occurrences.forth
-				end
-				extend (upper_integer (last_interval)  + 1, a_string.count)
-			end
+			initialize (a_string, delimiter, True)
+		end
+
+	make_from_sub_list (list: like Current; a_start_index, a_end_index: INTEGER)
+		do
+			string := list.string
+			Precursor (list, a_start_index, a_end_index)
 		end
 
 	make_intervals (a_capacity: INTEGER)
@@ -73,12 +63,6 @@ feature {NONE} -- Initialization
 			end
 			create internal_item.make_empty
 			Precursor (a_capacity)
-		end
-
-	make_from_sub_list (list: like Current; a_start_index, a_end_index: INTEGER)
-		do
-			string := list.string
-			Precursor (list, a_start_index, a_end_index)
 		end
 
 feature -- Basic operations
@@ -115,6 +99,14 @@ feature -- Access
 			pop_cursor
 		end
 
+	i_th (i: INTEGER): S
+		local
+			interval: INTEGER_64
+		do
+			interval := i_th_interval (i)
+			Result := string.substring (lower_integer (interval), upper_integer (interval))
+		end
+
 	item: S
 		-- split item
 		do
@@ -146,6 +138,13 @@ feature -- Measurement
 				forth
 			end
 			pop_cursor
+		end
+
+feature -- Element change
+
+	set_string (a_string: like item; delimiter: READABLE_STRING_GENERAL)
+		do
+			initialize (a_string, delimiter, False)
 		end
 
 feature -- Status change
@@ -233,6 +232,39 @@ feature -- Comparison
 		end
 
 feature {NONE} -- Implementation
+
+	append_intervals (a_intervals: EL_OCCURRENCE_INTERVALS [S])
+		local
+			last_interval: INTEGER_64
+		do
+			last_interval := new_item (1, 0)
+			if a_intervals.is_empty then
+				extend (1, string.count)
+			else
+				from a_intervals.start until a_intervals.after loop
+					extend (upper_integer (last_interval) + 1, a_intervals.item_lower - 1)
+					last_interval := a_intervals.item
+					a_intervals.forth
+				end
+				extend (upper_integer (last_interval)  + 1, string.count)
+			end
+		end
+
+	initialize (a_string: like item; delimiter: READABLE_STRING_GENERAL; is_new: BOOLEAN)
+			--
+		local
+			l_intervals: EL_OCCURRENCE_INTERVALS [S]
+		do
+			string := a_string
+			create l_intervals.make (a_string, delimiter)
+			if is_new then
+				make_intervals (l_intervals.count + 1)
+			else
+				wipe_out
+				grow (l_intervals.count + 1)
+			end
+			append_intervals (l_intervals)
+		end
 
 	update_internal_item
 		local

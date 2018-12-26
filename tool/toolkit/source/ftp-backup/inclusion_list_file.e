@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2018-12-25 19:08:36 GMT (Tuesday 25th December 2018)"
+	revision: "5"
 
 class
 	INCLUSION_LIST_FILE
@@ -48,9 +48,8 @@ feature {NONE} -- Implementation
 					path_steps.append (found_path.item.parent.steps)
 					path_steps.extend (found_path.item.base)
 					if path_steps.first ~ Short_directory_current then
-						path_steps.start; path_steps.remove
+						path_steps.remove_head (1)
 					end
-
 					Precursor (Specifier_file, path_steps.as_directory_path.to_string)
 				end
 			end

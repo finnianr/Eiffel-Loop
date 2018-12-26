@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-13 12:18:12 GMT (Tuesday 13th November 2018)"
-	revision: "10"
+	date: "2018-12-25 10:33:13 GMT (Tuesday 25th December 2018)"
+	revision: "11"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -95,7 +95,7 @@ feature -- Basic operations
 		do
 			lio.put_path_field ("Testing with", relative_dir)
 			lio.put_new_line
-			
+
 			do_directory_test (relative_dir, Empty_pattern, test, valid_test_checksum)
 		end
 
@@ -212,15 +212,6 @@ feature {NONE} -- Implementation
 			Checksum_list.extend (new_checksum)
 			reset_work_area
 			lio.put_new_line
-		end
-
-	normalized_directory_path (a_unix_path: ZSTRING): EL_DIR_PATH
-			-- normalize unix path for current platform
-		local
-			l_steps: EL_PATH_STEPS
-		do
-			create l_steps.make (a_unix_path)
-			Result := l_steps.as_directory_path
 		end
 
 feature {NONE} -- Internal attributes

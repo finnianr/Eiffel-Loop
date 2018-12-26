@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 23:19:40 GMT (Sunday 23rd December 2018)"
-	revision: "18"
+	date: "2018-12-25 22:59:13 GMT (Tuesday 25th December 2018)"
+	revision: "19"
 
 deferred class
 	EL_PATH
@@ -78,7 +78,7 @@ feature {NONE} -- Initialization
 
 	make_from_general (a_path: READABLE_STRING_GENERAL)
 		do
-			make (as_zstring (a_path))
+			make (new_zstring (a_path))
 		end
 
 	make_from_other (other: EL_PATH)
@@ -332,8 +332,11 @@ feature -- Measurement
 
 	step_count: INTEGER
 		do
-			if not is_empty then
-				Result := parent_path.occurrences (Separator) + 1
+			if not base.is_empty then
+				Result := 1
+			end
+			if not parent_path.is_empty then
+				Result := Result + parent_path.occurrences (Separator) + 1
 			end
 		end
 

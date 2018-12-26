@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:30:35 GMT (Wednesday 17th October 2018)"
-	revision: "7"
+	date: "2018-12-25 18:58:43 GMT (Tuesday 25th December 2018)"
+	revision: "8"
 
 class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -78,12 +78,11 @@ feature -- Access
 	export_steps (mails_path: EL_FILE_PATH): EL_PATH_STEPS
 		do
 			Result := mails_path.steps
-			Result.start
-			from until Result.first.same_string (account) or Result.is_empty loop
-				Result.remove
+			from until Result.is_empty or else Result.first.same_string (account) loop
+				Result.remove_head (1)
 			end
 			if not Result.is_empty then
-				Result.remove
+				Result.remove_head (1)
 			end
 			across Result as step loop
 				if step.item.ends_with (Dot_sbd_extension) then
@@ -94,11 +93,10 @@ feature -- Access
 				if not language_code_last then
 					-- Put the language code at beginning, for example: help/en -> en/help
 					Result.put_front (Result.last)
-					Result.finish
-					Result.remove
+					Result.remove_tail (1)
 				end
 			else
-				Result.finish; Result.remove
+				Result.remove_tail (1)
 			end
 		end
 

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-24 16:05:05 GMT (Monday 24th December 2018)"
-	revision: "1"
+	date: "2018-12-26 14:00:25 GMT (Wednesday 26th December 2018)"
+	revision: "2"
 
 class
 	CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 			Precursor (a_repository, ecf)
 			create cluster_list.make (source_dir_list.count)
 			across source_dir_list as source_dir loop
-				cluster_list.extend (create {CROSS_PLATFORM_CLUSTER}.make (source_dir.item, path_list))
+				cluster_list.extend (create {CROSS_PLATFORM_CLUSTER}.make (source_dir.item, path_list, ecf))
 			end
 		end
 
@@ -53,7 +53,11 @@ feature -- Basic operations
 	normalize_imp_classes
 		-- normalize location of classes with file-names ending with "_imp.e"
 		do
-			cluster_list.do_all (agent {CROSS_PLATFORM_CLUSTER}.normalize_locations)
+			across cluster_list as cluster loop
+				if not cluster.item.is_empty then
+					cluster.item.normalize_locations
+				end
+			end
 		end
 
 feature {NONE} -- Factory
@@ -83,6 +87,11 @@ feature {NONE} -- Constants
 	Asterisk: ZSTRING
 		once
 			Result := "*"
+		end
+
+	Override: ZSTRING
+		once
+			Result := "override"
 		end
 
 	Wildcards: ARRAY [ZSTRING]

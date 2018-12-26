@@ -1,119 +1,92 @@
 note
-	description: "Path steps"
+	description: "[
+		Path steps internally represented as a string of `CHARACTER_32' tokens in attribute `token_list'.
+		Tokens are translated back to strings via the shared once-table `Token_table'.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 15:40:40 GMT (Monday 29th October 2018)"
-	revision: "14"
+	date: "2018-12-26 14:54:48 GMT (Wednesday 26th December 2018)"
+	revision: "15"
 
 class
 	EL_PATH_STEPS
 
 inherit
-	EL_ZSTRING_LIST
-		rename
-			make as make_list,
-			make_from_array as make_from_zstring_array,
-			joined as joined_list,
-			extend as extend_path
-		export
-			{NONE} extend_path, append_sequence
+	READABLE_INDEXABLE [ZSTRING]
 		redefine
-			remove, append, replace, default_create, wipe_out
+			default_create, is_equal
 		end
 
 	HASHABLE
 		undefine
-			is_equal, copy, default_create
+			default_create, is_equal
+		end
+
+	DEBUG_OUTPUT
+		rename
+			debug_output as to_string_32
+		undefine
+			default_create, is_equal
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 		undefine
-			is_equal, copy, default_create
+			default_create, is_equal
 		end
 
 	EL_MODULE_DIRECTORY
 		undefine
-			is_equal, copy, default_create
+			default_create, is_equal
 		end
 
 	EL_MODULE_FILE_SYSTEM
 		undefine
-			is_equal, copy, default_create
+			default_create, is_equal
 		end
 
 	EL_ZSTRING_ROUTINES
 		rename
-			joined as joined_string
+			joined as joined_iterable
 		export
 			{NONE} all
 		undefine
-			is_equal, copy, default_create
+			default_create, is_equal
 		end
 
 	EL_ZSTRING_CONSTANTS
 		undefine
-			is_equal, copy, default_create
+			default_create, is_equal
 		end
 
 	STRING_HANDLER
 		undefine
-			is_equal, copy, default_create
+			default_create, is_equal
 		end
 
 create
-	default_create, make_with_count, make,
+	default_create, make_with_count, make, make_from_tokens,
 	make_from_array, make_from_directory_path, make_from_file_path, make_from_tuple
 
 convert
 	make_from_array ({ARRAY [ZSTRING], ARRAY [STRING], ARRAY [STRING_32]}),
 
-	make_from_tuple ({TUPLE}),
+	make ({STRING_32, STRING, ZSTRING}), make_from_tuple ({TUPLE}),
 
-	make ({STRING_32, STRING, ZSTRING}),
-
-	as_file_path: {EL_FILE_PATH}, as_directory_path: {EL_DIR_PATH}, unicode: {READABLE_STRING_GENERAL}
+	as_file_path: {EL_FILE_PATH}, as_directory_path: {EL_DIR_PATH}, to_string_32: {READABLE_STRING_GENERAL}
 
 feature {NONE} -- Initialization
 
 	default_create
 			--
 		do
-			make_list (0)
-			compare_objects
+			create token_list.make_empty
 		end
 
-	make_from_array, make_from_strings (a_steps: INDEXABLE [READABLE_STRING_GENERAL, INTEGER])
-			-- Create list from array `steps'.
-		local
-			i: INTEGER
-		do
-			make_with_count (a_steps.upper - a_steps.lower + 1)
-			from i := a_steps.lower until i > a_steps.upper loop
-				extend (a_steps [i])
-				i := i + 1
-			end
-		end
-
-	make_from_directory_path, make_from_file_path (a_path: EL_PATH)
-		do
-			make (a_path.to_string)
-		end
-
-	make_with_count (n: INTEGER)
-			--
-		do
-			make_list (n)
-			internal_hash_code := 0
-			compare_objects
-		end
-
-feature -- Initialization
-
-	make, set_from_string (a_path: READABLE_STRING_GENERAL)
+	make (a_path: READABLE_STRING_GENERAL)
 
 		local
 			separator: CHARACTER_32
@@ -123,60 +96,130 @@ feature -- Initialization
 				-- Uses unix separators as default fall back.
 				separator := '/'
 			end
-			make_with_separator (as_zstring (a_path), separator, False)
+			token_list := Token_table.token_list (as_zstring (a_path), separator)
+		end
+
+	make_from_array, make_from_strings (a_steps: FINITE [READABLE_STRING_GENERAL])
+			-- Create list from array `steps'.
+		do
+			token_list := Token_table.iterable_to_token_list (a_steps)
+		end
+
+	make_from_directory_path, make_from_file_path (a_path: EL_PATH)
+		do
+			if a_path.parent_path.is_empty then
+				create token_list.make_filled (Token_table.token (a_path.base), 1)
+			else
+				token_list := Token_table.token_list (a_path.parent_path, a_path.Separator)
+				token_list.extend (Token_table.token (a_path.base))
+			end
+		ensure
+			same_count: count = a_path.step_count
+			reversible_if_directory: attached {EL_DIR_PATH} a_path as dir_path implies dir_path ~ as_directory_path
+			reversible_if_file: attached {EL_FILE_PATH} a_path as file_path implies file_path ~ as_file_path
+		end
+
+	make_from_tokens (a_tokens: like token_list)
+		do
+			token_list.wipe_out
+			token_list.append (a_tokens)
+		end
+
+	make_from_tuple (tuple: TUPLE)
+		do
+			make_from_strings (create {EL_ZSTRING_LIST}.make_from_tuple (tuple))
+		end
+
+	make_with_count (n: INTEGER)
+			--
+		do
+			create token_list.make (n)
 		end
 
 feature -- Access
 
+	first: ZSTRING
+		require
+			not_empty: not is_empty
+		do
+			if token_list.is_empty then
+				create Result.make_empty
+			else
+				Result := Token_table.token_string (token_list [1])
+			end
+		end
+
+	item alias "[]" (i: INTEGER): ZSTRING assign put
+		-- Item at `i'-th position
+		do
+			Result := Token_table.token_string (token_list [i])
+		end
+
+	last: ZSTRING
+		require
+			not_empty: not is_empty
+		do
+			if token_list.is_empty then
+				create result.make_empty
+			else
+				Result := Token_table.token_string (token_list [count])
+			end
+		end
+
+	to_array: ARRAY [ZSTRING]
+		do
+			Result := Token_table.string_list (token_list).to_array
+		end
+
+feature -- Measurement
+
+	count: INTEGER
+			-- step count
+		do
+			Result := token_list.count
+		end
+
 	hash_code: INTEGER
 			-- Hash code value
-		local
-			i, nb: INTEGER; l_area: SPECIAL [CHARACTER_8]
 		do
-			Result := internal_hash_code
-			if Result = 0 then
-				from start until after loop
-					nb := item.count
-					l_area := item.area
-					from i := 0 until i = nb loop
-						Result := ((Result \\ Magic_number) |<< 8) + l_area.item (i).code
-						i := i + 1
-					end
-					forth
-				end
-				internal_hash_code := Result
-			end
+			Result := token_list.hash_code
+		end
+
+	index_of (step: ZSTRING; start_index: INTEGER): INTEGER
+		do
+			Result := token_list.index_of (Token_table.token (step), start_index)
+		end
+
+	upper: INTEGER
+			-- step count
+		do
+			Result := token_list.count
 		end
 
 feature -- Element change
 
-	append (steps: ITERABLE [like item])
+	append (steps: EL_PATH_STEPS)
 			-- Append a copy of `steps'.
 		do
-			internal_hash_code := 0
-			Precursor (steps)
+			token_list.append (steps.token_list)
 		end
 
 	expand_variables
 		local
-			steps: like to_array; environ_path: EL_DIR_PATH
-			variable_name: ZSTRING
+			l_expanded: EL_PATH_STEPS
 		do
-			internal_hash_code := 0
-			steps := to_array.twin
-			wipe_out
-			across steps as step loop
-				if is_variable_name (step.item) then
-					variable_name := step.item; variable_name.remove_head (1)
-					environ_path := Execution_environment.variable_dir_path (variable_name.to_unicode)
-					if environ_path.is_empty then
-						extend (step.item)
+			if across Current as step some is_variable_name (step.item) end then
+				create l_expanded.make_with_count (count)
+				across Current as step loop
+					if is_variable_name (step.item)
+						and then attached {STRING_32} Execution_environment.item (variable_name (step.item)) as value
+					then
+						l_expanded.append (create {EL_PATH_STEPS}.make (value))
 					else
-						environ_path.steps.do_all (agent extend_path)
+						l_expanded.extend (step.item)
 					end
-				else
-					extend_path (step.item)
 				end
+				token_list := l_expanded.token_list
 			end
 		end
 
@@ -184,31 +227,42 @@ feature -- Element change
 			-- Add `step' to end.
 			-- Do not move cursor.
 		do
-			internal_hash_code := 0
-			extend_path (as_zstring (step))
+			token_list.extend (Token_table.token (as_zstring (step)))
 		end
 
-	is_variable_name (a_step: ZSTRING): BOOLEAN
+	grow (n: INTEGER)
+		do
+			token_list.grow (n)
+		end
+
+	put (step: ZSTRING; i: INTEGER_32)
+			-- Replace `i'-th entry, if in index interval, by `v'.
+		require
+			valid_index: valid_index (i)
 		local
-			i: INTEGER
+			table: like Token_table
 		do
-			if a_step.count > 1 and then a_step [1] = '$' and then a_step.is_alpha_item (2) then
-				Result := True
-				from i := 3 until not Result or i > a_step.count loop
-					Result := a_step.is_alpha_numeric_item (i) or a_step [i] = '_'
-					i := i + 1
-				end
-			end
+			table := Token_table
+			table.put (step)
+			token_list.put (table.last_token, i)
 		end
 
-	replace (step: like first)
-			-- Replace current item by `step'.
+	put_front (step: ZSTRING)
 		do
-			internal_hash_code := 0
-			Precursor (step)
+			token_list.prepend_character (Token_table.token (as_zstring (step)))
+		end
+
+	set_from_string (a_path: READABLE_STRING_GENERAL)
+		do
+			make (a_path)
 		end
 
 feature -- Status query
+
+	has_sub_steps (steps: EL_PATH_STEPS): BOOLEAN
+		do
+			Result := token_list.has_substring (steps.token_list)
+		end
 
 	is_absolute: BOOLEAN
 		do
@@ -233,28 +287,26 @@ feature -- Status query
 			end
 		end
 
-	starts_with (other: like Current): BOOLEAN
-			--
-		local
-			mismatch_found: BOOLEAN
+	is_empty: BOOLEAN
 		do
-			if Current = other then
-				Result := True
+			Result := token_list.is_empty
+		end
 
-			elseif other.count > count then
-				Result := False
+	is_equal (other: like Current): BOOLEAN
+		do
+			Result := token_list ~ other.token_list
+		end
 
-			else
-				from
-					start; other.start
-				until
-					mismatch_found or after or other.after
-				loop
-					mismatch_found := item /~ other.item
-					forth; other.forth
-				end
-				Result := other.after and not mismatch_found
-			end
+	starts_with (steps: EL_PATH_STEPS): BOOLEAN
+		-- `True' if Currrent starts with `steps'
+		do
+			Result := token_list.starts_with (steps.token_list)
+		end
+
+	valid_index (i: INTEGER): BOOLEAN
+			-- Is `i' a valid index?
+		do
+			Result := token_list.valid_index (i)
 		end
 
 feature -- Conversion
@@ -285,11 +337,11 @@ feature -- Conversion
 			result.expand_variables
 		end
 
-	joined (other: like Current): like Current
+	joined (steps: EL_PATH_STEPS): like Current
 		do
-			create Result.make_with_count (count + other.count)
+			create Result.make_with_count (count + steps.count)
 			Result.append (Current)
-			Result.append (other)
+			Result.append (steps)
 		end
 
 	last_steps (step_count: INTEGER): like Current
@@ -303,48 +355,70 @@ feature -- Conversion
 		require
 			valid_indices: (1 <= index_from) and (index_from <= index_to) and (index_to <= count)
 		do
-			create Result.make_from_array (to_array.subarray (index_from, index_to))
+			create Result.make_from_tokens (token_list.substring (index_from, index_to))
 		end
 
-	to_string: like item
+	to_string: ZSTRING
 			--
 		do
-			Result := joined_list (Operating_environment.Directory_separator)
+			Result := Token_table.joined (token_list, Operating_environment.Directory_separator)
 		end
 
-	unicode: STRING_32
+	to_unicode, to_string_32: STRING_32
 		do
 			Result := to_string.to_unicode
 		end
 
 feature -- Removal
 
-	remove
-			-- Remove current item.
+	remove (i: INTEGER)
+		-- remove i'th step
+		require
+			valid_index: valid_index (i)
 		do
-			internal_hash_code := 0
-			Precursor
+			token_list.remove (i)
+		end
+
+	remove_head (n: INTEGER)
+		do
+			token_list.remove_head (n)
+		end
+
+	remove_tail (n: INTEGER)
+		do
+			token_list.remove_tail (n)
 		end
 
 	wipe_out
 		do
-			internal_hash_code := 0
-			Precursor
+			token_list.wipe_out
 		end
 
-feature {NONE} -- Internal attributes
+feature {NONE} -- Implementation
 
-	internal_hash_code: INTEGER
-
-	is_volume_name (name: STRING): BOOLEAN
+	is_volume_name (name: ZSTRING): BOOLEAN
 		do
-			Result := name.count = 2 and then name.item (1).is_alpha and then name @ 2 = ':'
+			Result := name.count = 2 and then name.is_alpha_item (1) and then name [2] = ':'
 		end
 
-feature -- Constants
+	variable_name (step: ZSTRING): STRING_32
+		do
+			Result := step
+			Result.remove_head (1)
+		end
 
-	Magic_number: INTEGER = 8388593
-		-- Greatest prime lower than 2^23
-		-- so that this magic number shifted to the left does not exceed 2^31.
+feature {EL_PATH_STEPS} -- Internal attributes
+
+	token_list: STRING_32
+		-- step tokens
+
+feature {NONE} -- Constants
+
+	Lower: INTEGER = 1
+
+	Token_table: EL_ZSTRING_TOKEN_TABLE
+		once
+			create Result.make (19)
+		end
 
 end

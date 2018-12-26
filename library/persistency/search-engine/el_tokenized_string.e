@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-17 10:27:28 GMT (Sunday 17th June 2018)"
-	revision: "3"
+	date: "2018-12-25 16:12:47 GMT (Tuesday 25th December 2018)"
+	revision: "4"
 
 class
 	EL_TOKENIZED_STRING
@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 		do
 			make_tokens (a_tokens.count)
 			word_table := a_word_table
-			l_max_code := word_table.words.count.to_natural_32
+			l_max_code := word_table.word_list.count.to_natural_32
 			from i := 1 until l_missing_token or i > a_tokens.count loop
 				l_code := a_tokens.code (i)
 				if l_code > l_max_code then

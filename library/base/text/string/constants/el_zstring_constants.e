@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-18 9:37:02 GMT (Thursday 18th October 2018)"
-	revision: "6"
+	date: "2018-12-26 10:39:52 GMT (Wednesday 26th December 2018)"
+	revision: "7"
 
 class
 	EL_ZSTRING_CONSTANTS
@@ -19,7 +19,7 @@ feature {NONE} -- Implemenation
 			Result := n_character_string (uc, 1)
 		end
 
-	n_character_string (uc: CHARACTER_32; n: NATURAL): ZSTRING
+	n_character_string (uc: CHARACTER_32; n: NATURAL_64): ZSTRING
 		local
 			key: NATURAL_64
 		do
@@ -30,6 +30,8 @@ feature {NONE} -- Implemenation
 				create Result.make_filled (uc, n.to_integer_32)
 				Character_string_table.extend (Result, key)
 			end
+		ensure
+			valid_result: Result.occurrences (uc) = n.to_integer_32
 		end
 
 feature {NONE} -- Constants

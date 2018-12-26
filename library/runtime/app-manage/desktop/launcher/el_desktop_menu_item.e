@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:28:41 GMT (Wednesday 17th October 2018)"
-	revision: "8"
+	date: "2018-12-25 18:46:41 GMT (Tuesday 25th December 2018)"
+	revision: "9"
 
 class
 	EL_DESKTOP_MENU_ITEM
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 	make (a_name, a_comment: READABLE_STRING_GENERAL; a_icon_path: EL_FILE_PATH)
 			--
 		do
-			name := as_zstring (a_name); comment := as_zstring (a_comment)
+			name := new_zstring (a_name); comment := new_zstring (a_comment)
 			icon_path := a_icon_path
 		end
 

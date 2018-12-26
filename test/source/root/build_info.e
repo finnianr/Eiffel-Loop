@@ -7,7 +7,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-24 12:27:46 GMT (Monday 24th December 2018)"
+	date: "2018-12-25 12:15:13 GMT (Tuesday 25th December 2018)"
 	revision: "1"
 
 class
@@ -18,13 +18,13 @@ inherit
 
 feature -- Constants
 
-	Version_number: NATURAL = 01_00_24
+	Version_number: NATURAL = 01_00_06
 
-	Build_number: NATURAL = 104
+	Build_number: NATURAL = 362
 
 	Installation_sub_directory: EL_DIR_PATH
 		once
-			Result := "Eiffel-Loop/eiffel"
+			Result := "Eiffel-Loop/test"
 		end
 
 end

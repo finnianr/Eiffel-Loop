@@ -105,6 +105,17 @@ def create_classic_f_code_tar (ise_platform):
 	f_code_tar.append ('EIFGENs/classic/F_code', exclude_list)
 
 	return path.normpath (result)
+
+def build_info_path (ecf_ctx):
+	# attempt to get location of 'build_info.e' file from ECF, defaulting to 'source' if not found
+
+	result = ecf_ctx.attribute ("/ec:system/ec:target/ec:variable[@name='build_info_dir']/@value")
+	if result:
+		result = path.normpath (result)
+	else:
+		result = 'source'
+	result = path.join (result, 'build_info.e')
+	return result
 	
 def restore_classic_f_code_tar (f_code_tar_path, ise_platform):
 	build_dir = path.join ('build', ise_platform)
@@ -139,8 +150,12 @@ class EIFFEL_PROJECT (object):
 
 # Initialization
 	def __init__ (self):
+		project_name = glob ('*.ecf')[0]
+		ecf_ctx = XPATH_CONTEXT (project_name, 'ec')
+		self.exe_name = ecf_ctx.attribute ('/ec:system/@name')
+
 		# Get version from Eiffel class BUILD_INFO in source
-		f = open (path.normpath ('source/build_info.e'), 'r')
+		f = open (build_info_path (ecf_ctx), 'r')
 		for ln in f.readlines ():
 			if ln.startswith ('\tVersion_number'):
 				numbers = ln [ln.rfind (' ') + 1:-1].split ('_')
@@ -150,8 +165,6 @@ class EIFFEL_PROJECT (object):
 			numbers [i] = str (int (n))
 		self.version = ('.').join (numbers)
 
-		project_name = glob ('*.ecf')[0]
-		self.exe_name = XPATH_CONTEXT (project_name, 'ec').attribute ('/ec:system/@name')
 
 # Basic operation
 	def install (self, install_dir, f_code = False):

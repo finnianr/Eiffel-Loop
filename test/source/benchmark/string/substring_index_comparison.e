@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 12:19:25 GMT (Thursday 15th November 2018)"
-	revision: "1"
+	date: "2018-12-25 18:46:40 GMT (Tuesday 25th December 2018)"
+	revision: "2"
 
 class
 	SUBSTRING_INDEX_COMPARISON
@@ -35,7 +35,7 @@ feature {NONE} -- substring_index
 			str: ZSTRING; pos: INTEGER
 		do
 			str := Hexagram_1_description
-			pos := str.substring_index (as_zstring (Chinese [1]), 1)
+			pos := str.substring_index (new_zstring (Chinese [1]), 1)
 		end
 
 	substring_index_general

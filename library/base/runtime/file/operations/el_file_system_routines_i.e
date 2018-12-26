@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 11:46:19 GMT (Wednesday 17th October 2018)"
-	revision: "10"
+	date: "2018-12-26 14:11:29 GMT (Wednesday 26th December 2018)"
+	revision: "11"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -204,8 +204,8 @@ feature -- Basic operations
 			dir_steps := dir_path
 			from dir := named_directory (dir_path) until dir_steps.is_empty or else not dir.is_empty loop
 				dir.delete
-				dir_steps.remove_last
-				dir.make_with_name (dir_steps)
+				dir_steps.remove_tail (1)
+				dir.make_with_name (dir_steps.to_string_32)
 			end
 		end
 

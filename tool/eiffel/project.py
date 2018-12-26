@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 24); build = 104
+version = (1, 0, 25); build = 112
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.25
+# First build of CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE
 
 # 1.0.24
 # Add value of $source substitutions to class current_digest

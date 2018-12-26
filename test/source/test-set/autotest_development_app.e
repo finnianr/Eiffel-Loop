@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 14:16:10 GMT (Friday 21st December 2018)"
-	revision: "31"
+	date: "2018-12-25 11:11:02 GMT (Tuesday 25th December 2018)"
+	revision: "32"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -97,7 +97,7 @@ feature -- Test sets
 			create Result
 		end
 
-	path: EL_PATH_TEST_SET
+	path: PATH_TEST_SET
 		do
 			create Result
 		end
@@ -185,7 +185,7 @@ feature {NONE} -- Constants
 				[{AUDIO_COMMAND_TEST_SET}, All_routines],
 				[{FTP_TEST_SET}, All_routines],
 				[{HTTP_CONNECTION_TEST_SET}, All_routines],
-				[{EL_PATH_TEST_SET}, All_routines],
+				[{PATH_TEST_SET}, All_routines],
 				[{COMMA_SEPARATED_IMPORT_TEST_SET}, All_routines],
 				[{REFLECTIVE_TEST_SET}, All_routines]
 			>>

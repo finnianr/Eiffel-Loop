@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2018-12-25 16:12:47 GMT (Tuesday 25th December 2018)"
+	revision: "6"
 
 class
 	EL_STORED_WORD_TOKEN_TABLE
@@ -93,7 +93,7 @@ feature -- Status setting
 						else
 							create line.make_from_utf_8 (utf8_line)
 							extend (count + 1, line)
-							words.extend (line)
+							word_list.extend (line)
 							crc.add_string (line)
 						end
 					end
@@ -108,7 +108,7 @@ feature -- Status setting
 					lio.put_line ("Checksum does not match")
 					lio.put_line ("open_write")
 					word_file.open_write
-					crc.reset; wipe_out; words.wipe_out
+					crc.reset; wipe_out; word_list.wipe_out
 				end
 				last_code := count
 			else

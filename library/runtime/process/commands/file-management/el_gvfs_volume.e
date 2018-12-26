@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 12:04:41 GMT (Wednesday 31st October 2018)"
-	revision: "6"
+	date: "2018-12-25 18:57:14 GMT (Tuesday 25th December 2018)"
+	revision: "7"
 
 class
 	EL_GVFS_VOLUME
@@ -120,7 +120,7 @@ feature -- File operations
 		do
 			from dir_steps := dir_path until dir_steps.is_empty or else not is_directory_empty (dir_steps) loop
 				delete_directory (dir_steps)
-				dir_steps.remove_last
+				dir_steps.remove_tail (1)
 			end
 		end
 

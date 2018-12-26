@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-24 10:56:54 GMT (Monday 24th December 2018)"
-	revision: "13"
+	date: "2018-12-25 11:59:58 GMT (Tuesday 25th December 2018)"
+	revision: "14"
 
 class
 	EIFFEL_CLASS
@@ -334,7 +334,7 @@ feature {NONE} -- Evolicity fields
 				["name_as_lower", 			agent: STRING do Result := name.string.as_lower end],
 				["html_path", 					agent: ZSTRING do Result := relative_html_path end],
 				["favicon_markup_path", 	agent: ZSTRING do Result := repository.templates.favicon_markup_path end],
-				["top_dir", 					agent: ZSTRING do Result := Directory.relative_parent (relative_source_path.step_count - 1) end],
+				["top_dir", 					agent: ZSTRING do Result := Directory.relative_parent (relative_source_path.step_count - 2) end],
 
 				["relative_dir", 				agent: EL_DIR_PATH do Result := relative_source_path.parent end],
 				["source_path", 				agent: EL_FILE_PATH do Result := relative_source_path end]

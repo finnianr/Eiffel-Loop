@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-24 13:29:45 GMT (Monday 24th December 2018)"
-	revision: "13"
+	date: "2018-12-25 18:12:59 GMT (Tuesday 25th December 2018)"
+	revision: "14"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -258,12 +258,11 @@ feature {NONE} -- Factory
 			if is_library then
 				if not source_dir_list.is_empty then
 					steps := source_dir_list.first.relative_path (repository.root_dir)
-					steps.go_i_th (2)
-					if steps.after then
-						create Result.make_empty
-					else
-						create words.make_with_separator (steps.item, '_', False)
+					if steps.count >= 2 then
+						create words.make_with_separator (steps.item (2), '_', False)
 						Result := words.joined_propercase_words
+					else
+						create Result.make_empty
 					end
 				end
 			else

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-05 10:05:45 GMT (Friday 5th October 2018)"
-	revision: "21"
+	date: "2018-12-25 18:46:41 GMT (Tuesday 25th December 2018)"
+	revision: "22"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -190,7 +190,7 @@ feature -- Element change
 					a_boolean_value.set_item (Args.word_option_exists (a_word_option))
 
 				elseif attached {EL_ZSTRING_HASH_TABLE [STRING]} a_attribute as hash_table then
-					hash_table [Zstring.as_zstring (a_word_option)] := l_argument
+					hash_table [Zstring.new_zstring (a_word_option)] := l_argument
 				end
 			else
 				if is_required then

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-13 22:34:02 GMT (Saturday 13th October 2018)"
-	revision: "12"
+	date: "2018-12-26 11:07:17 GMT (Wednesday 26th December 2018)"
+	revision: "13"
 
 class
 	EL_ZSTRING
@@ -572,13 +572,15 @@ feature -- Removal
 	wipe_out
 		do
 			internal_wipe_out
+			internal_hash_code := 0
 			make_unencoded
 		end
 
 feature {NONE} -- Implementation
 
-	append_raw_character_8 (value: CHARACTER)
+	append_raw_character_8 (c: CHARACTER)
 		do
+			append_character (c)
 		end
 
 	append_string_8 (str: READABLE_STRING_8)
@@ -627,6 +629,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make (5)
 		end
+
 note
 
 	notes: "[

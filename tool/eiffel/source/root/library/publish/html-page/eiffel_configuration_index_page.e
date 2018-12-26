@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 23:37:31 GMT (Sunday 23rd December 2018)"
-	revision: "11"
+	date: "2018-12-26 10:42:09 GMT (Wednesday 26th December 2018)"
+	revision: "12"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -181,7 +181,7 @@ feature {NONE} -- Implementation
 
 	step_count: INTEGER
 		do
-			Result := relative_file_path.step_count - 1
+			Result := relative_file_path.step_count - 2
 		end
 
 	new_sort_category: ZSTRING

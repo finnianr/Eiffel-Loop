@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:06 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-12-25 19:08:06 GMT (Tuesday 25th December 2018)"
+	revision: "6"
 
 class
 	EL_DIRECTORY_CONTENT_PROCESSOR
@@ -87,11 +87,11 @@ feature -- Basic operations
 				create input_file_path
 				create destination_dir_path
 
-				input_file_path_steps.fill (input_dir_path_steps)
-				input_file_path_steps.fill (input_file_relative_path_steps_list.item)
+				input_file_path_steps.append (input_dir_path_steps)
+				input_file_path_steps.append (input_file_relative_path_steps_list.item)
 
-				output_file_dir_path_steps.fill (output_dir_path_steps)
-				output_file_dir_path_steps.fill (input_file_relative_path_steps_list.item)
+				output_file_dir_path_steps.append (output_dir_path_steps)
+				output_file_dir_path_steps.append (input_file_relative_path_steps_list.item)
 
 				create output_file_unqualified_name.make_from_string (output_file_dir_path_steps.last)
 				dot_pos := output_file_unqualified_name.last_index_of ('.', output_file_unqualified_name.count)
@@ -101,8 +101,7 @@ feature -- Basic operations
 				else
 					output_file_extension := ""
 				end
-				output_file_dir_path_steps.finish
-				output_file_dir_path_steps.remove
+				output_file_dir_path_steps.remove_tail (1)
 
 				input_file_path := input_file_path_steps.as_file_path
 				File_system.make_directory (output_file_dir_path_steps)
@@ -133,8 +132,7 @@ feature {NONE} -- Implementation
 
 				-- Make path relative to input dir
 				from i := 1 until i > input_dir_path_steps.count loop
-					file_path_steps.start
-					file_path_steps.remove
+					file_path_steps.remove_head (1)
 					i := i + 1
 				end
 				input_file_relative_path_steps_list.extend (file_path_steps)

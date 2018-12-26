@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2018-12-25 11:11:02 GMT (Tuesday 25th December 2018)"
+	revision: "6"
 
 class
-	EL_PATH_TEST_SET
+	PATH_TEST_SET
 
 inherit
 	EIFFEL_LOOP_TEST_SET

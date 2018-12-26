@@ -9,48 +9,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-17 10:27:46 GMT (Sunday 17th June 2018)"
-	revision: "3"
+	date: "2018-12-25 17:49:03 GMT (Tuesday 25th December 2018)"
+	revision: "4"
 
 class
 	EL_WORD_TOKEN_TABLE
 
 inherit
-	EL_UNIQUE_CODE_TABLE [ZSTRING]
-		export
-			{ANY} is_empty, count, has_key
-		redefine
-			put, make
-		end
+	EL_ZSTRING_TOKEN_TABLE
 
 create
 	make
-
-feature -- Initialization
-
-	make (n: INTEGER)
-			--
-		do
-			Precursor (n)
-			create words.make (n)
-		end
-
-feature -- Access
-
-	words: ARRAYED_LIST [ZSTRING]
-
-feature -- Element change
-
-	put (word: ZSTRING)
-			--
-		do
-			Precursor (word)
-			if not found then
-				words.extend (word)
-			end
-		ensure then
-			same_count: count = words.count
-		end
 
 feature -- Basic operations
 
@@ -60,18 +29,9 @@ feature -- Basic operations
 
 feature -- Conversion
 
-	tokens_to_string (tokens: EL_TOKENIZED_STRING): ZSTRING
-		local
-			i: INTEGER
+	tokens_to_string (a_tokens: EL_TOKENIZED_STRING): ZSTRING
 		do
-			create Result.make_empty
-			from i := 1 until i > tokens.count loop
-				if i > 1 then
-					Result.append_character (' ')
-				end
-				Result.append (words [tokens.item (i).code])
-				i := i + 1
-			end
+			Result := joined (a_tokens, ' ')
 		end
 
 feature -- Status change

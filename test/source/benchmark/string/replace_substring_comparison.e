@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 12:18:50 GMT (Thursday 15th November 2018)"
-	revision: "1"
+	date: "2018-12-25 18:46:40 GMT (Tuesday 25th December 2018)"
+	revision: "2"
 
 class
 	REPLACE_SUBSTRING_COMPARISON
@@ -35,7 +35,7 @@ feature {NONE} -- replace_substring_all
 			str: ZSTRING
 		do
 			str := Hexagram_1_description
-			str.replace_substring_all (as_zstring (Chinese [1]), as_zstring (Chinese [2]))
+			str.replace_substring_all (new_zstring (Chinese [1]), new_zstring (Chinese [2]))
 		end
 
 	replace_substring_general_all

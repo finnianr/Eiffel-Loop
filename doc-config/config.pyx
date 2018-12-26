@@ -32,17 +32,20 @@ publish-repository:
 			"example/eiffel2java/eiffel2java.ecf"
 			"example/manage-mp3/manage-mp3.ecf"
 			"example/graphical/graphical.ecf"
+
 		# Tools
 		ecf:
 			"tool/eiffel/eiffel.ecf#root"
 			"tool/eiffel/eiffel.ecf#edit"
 			"tool/eiffel/eiffel.ecf#analyse"
 			"tool/toolkit/toolkit.ecf"
+
 		# Test
 		ecf:
 			"test/test.ecf#benchmark"
-			"test/test.ecf#test"
+			"test/test.ecf#root"
 			"test/test.ecf#test_set"
+
 		# Library Audio
 		ecf:
 			"library/ID3-tags.ecf"
@@ -73,6 +76,7 @@ publish-repository:
 			"library/vision2-x.ecf#pango_cairo"
 			"library/vision2-x.ecf#widget"
 			"library/wel-x.ecf"
+
 		# Library (Language Interface)
 		ecf:
 			"library/C-language-interface.ecf"
@@ -91,6 +95,7 @@ publish-repository:
 			"library/paypal.ecf"
 			"library/http-client.ecf"
 			"library/fast-cgi.ecf"
+
 		# Library (Persistency)
 		ecf:
 			"library/Eco-DB.ecf"
@@ -122,6 +127,7 @@ publish-repository:
 			"library/text-process.ecf#edit"
 			"library/text-process.ecf#parse"
 			"library/text-process.ecf#pattern_match"
+
 		# Library (Utility)
 		ecf:
 			"library/app-license-keys.ecf"

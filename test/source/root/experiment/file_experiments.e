@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-30 22:43:33 GMT (Friday 30th November 2018)"
-	revision: "2"
+	date: "2018-12-25 12:14:29 GMT (Tuesday 25th December 2018)"
+	revision: "3"
 
 class
 	FILE_EXPERIMENTS
@@ -86,6 +86,27 @@ feature -- Basic operations
 			file.close
 			file.delete
 		end
+
+	print_app_data
+		do
+			lio.put_path_field ("Directory.app_data", Directory.app_data)
+			lio.put_new_line
+		end
+
+	print_os_user_list
+		local
+			dir_path: EL_DIR_PATH; user_info: like command.new_user_info
+		do
+			user_info := command.new_user_info
+			across << user_info.configuration_dir_list, user_info.data_dir_list >> as dir_list loop
+				across dir_list.item as dir loop
+					lio.put_path_field ("", dir.item)
+					lio.put_new_line
+				end
+			end
+		end
+
+
 
 	self_deletion_from_batch
 		do

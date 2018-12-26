@@ -105,9 +105,7 @@ class EIFFEL_CONFIG_FILE (object):
 
 		self.system_type = ecf_ctx.attribute ('/ec:system/ec:target/@name')
 
-		self.dir_build_info = ecf_ctx.attribute ("/ec:system/ec:target/ec:variable[@name='dir_build_info']/@value")
-		if not self.dir_build_info:
-			self.dir_build_info = 'source'
+		self.build_info_path = project.build_info_path (ecf_ctx)
 
 		location = ecf_ctx.attribute ('/ec:system/ec:target/ec:precompile/@location')
 		if location:
@@ -202,7 +200,7 @@ class FREEZE_BUILD (object):
 		self.precompile_path = self.ecf.precompile_path
 		self.exe_name = self.ecf.exe_name + programs_suffix ()
 		self.system_type = self.ecf.system_type
-		self.dir_build_info = self.ecf.dir_build_info
+		self.build_info_path = self.ecf.build_info_path
 		self.library_names = []
 
 		print 'Precompile: '
@@ -397,9 +395,7 @@ class FREEZE_BUILD (object):
 
 	def __write_class_build_info (self):
 		self.write_io ('__write_class_build_info\n')
-		file_path = path.join (path.normpath (self.dir_build_info), 'build_info.e')
-	
-		f = open (file_path, 'w')
+		f = open (self.build_info_path, 'w')
 		f.write (
 			build_info_class_template.substitute (
 				version = "%02d_%02d_%02d" % self.version,

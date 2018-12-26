@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-09 11:31:29 GMT (Friday 9th November 2018)"
-	revision: "6"
+	date: "2018-12-25 16:12:47 GMT (Tuesday 25th December 2018)"
+	revision: "7"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -195,13 +195,13 @@ feature {NONE} -- Implementation
 
 	add_one_of_words_search_term_condition (phrase_stem_words: EL_TOKENIZED_STRING; word_stem: ZSTRING)
 		local
-			word_list: like word_token_table.words
+			word_list: like word_token_table.word_list
 			potential_match_word, word_variations: EL_TOKENIZED_STRING
 			end_word_token: NATURAL; word_stem_lower: ZSTRING
 		do
 			word_stem_lower := word_stem.as_lower
 			create word_variations.make (word_token_table, 20)
-			word_list := word_token_table.words
+			word_list := word_token_table.word_list
 			from word_list.start until word_list.after loop
 				if word_list.item.starts_with (word_stem_lower) then
 					end_word_token := word_list.index.to_natural_32

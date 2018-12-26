@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 14:40:01 GMT (Monday 5th November 2018)"
-	revision: "8"
+	date: "2018-12-25 13:26:18 GMT (Tuesday 25th December 2018)"
+	revision: "9"
 
 class
 	RBOX_DATABASE
@@ -317,8 +317,8 @@ feature -- Element change
 				song.set_track_number (id3_info.track)
 				song.set_recording_year (id3_info.year)
 
-				song.set_genre (relative_path_steps.i_th (1))
-				song.set_artist (relative_path_steps.i_th (2))
+				song.set_genre (relative_path_steps.item (1))
+				song.set_artist (relative_path_steps.item (2))
 
 				song.write_id3_info (id3_info)
 				song.set_mp3_path (song.unique_normalized_mp3_path)

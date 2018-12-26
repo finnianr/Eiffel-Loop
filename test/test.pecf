@@ -19,6 +19,9 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 
+		variable:
+			name = build_info_dir; value = "source/root"
+
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			assertions:
@@ -203,14 +206,14 @@ system:
 			readonly = false
 
 		cluster:
-			name = test; location = "source/test-apps"; recursive = true
+			name = root; location = "source/root"; recursive = true
 			description:
 				"""
 					Eiffel-Loop Dev Tests
 					
 					Sub-applications for testing the ''Eiffel-Loop'' libraries
 
-					See doc/test.test-apps.txt for details
+					See doc/test.root.txt for details
 				"""
 			file_rule:
 				exclude:

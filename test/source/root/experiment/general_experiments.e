@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-30 22:41:19 GMT (Friday 30th November 2018)"
-	revision: "2"
+	date: "2018-12-25 12:12:30 GMT (Tuesday 25th December 2018)"
+	revision: "3"
 
 class
 	GENERAL_EXPERIMENTS
@@ -85,19 +85,6 @@ feature -- Basic operations
 			lio.put_string ("a.character: " + a.character.out)
 			lio.put_string (" b.character: " + b.character.out)
 			lio.put_new_line
-		end
-
-	print_os_user_list
-		local
-			dir_path: EL_DIR_PATH; user_info: like command.new_user_info
-		do
-			user_info := command.new_user_info
-			across << user_info.configuration_dir_list, user_info.data_dir_list >> as dir_list loop
-				across dir_list.item as dir loop
-					lio.put_path_field ("", dir.item)
-					lio.put_new_line
-				end
-			end
 		end
 
 	pointer_width

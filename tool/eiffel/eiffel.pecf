@@ -25,6 +25,9 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 
+		variable:
+			name = build_info_dir; value = "source/root"
+
 		option: 
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
