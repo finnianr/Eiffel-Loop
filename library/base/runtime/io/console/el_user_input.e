@@ -37,7 +37,29 @@ feature -- Status query
 			Result := io.last_string.as_lower @ 1 = a_letter.as_lower
 		end
 
+feature -- Basic operations
+
+	press_enter
+		local
+			l: ZSTRING
+		do
+			l := line ("Press <ENTER> to continue")
+			lio.put_new_line
+		end
+
 feature -- Input
+
+	dir_path (prompt: READABLE_STRING_GENERAL): EL_DIR_PATH
+			--
+		do
+			Result := path (prompt)
+		end
+
+	file_path (prompt: READABLE_STRING_GENERAL): EL_FILE_PATH
+			--
+		do
+			Result := path (prompt)
+		end
 
 	integer (prompt: READABLE_STRING_GENERAL): INTEGER
 		local
@@ -53,18 +75,12 @@ feature -- Input
 			end
 		end
 
-	real (prompt: READABLE_STRING_GENERAL): REAL
-		local
-			l_line: like line; done: BOOLEAN
+	line (prompt: READABLE_STRING_GENERAL): ZSTRING
+			--
 		do
-			from until done loop
-				l_line := line (prompt)
-				if l_line.is_empty then
-					done := True
-				elseif l_line.is_real then
-					Result := l_line.to_real; done := True
-				end
-			end
+			lio.put_labeled_string (prompt, "")
+			io.read_line
+			create Result.make_from_utf_8 (io.last_string)
 		end
 
 	natural (prompt: READABLE_STRING_GENERAL): NATURAL
@@ -91,26 +107,6 @@ feature -- Input
 			end
 		end
 
-	line (prompt: READABLE_STRING_GENERAL): ZSTRING
-			--
-		do
-			lio.put_labeled_string (prompt, "")
-			io.read_line
-			create Result.make_from_utf_8 (io.last_string)
-		end
-
-	file_path (prompt: READABLE_STRING_GENERAL): EL_FILE_PATH
-			--
-		do
-			Result := path (prompt)
-		end
-
-	dir_path (prompt: READABLE_STRING_GENERAL): EL_DIR_PATH
-			--
-		do
-			Result := path (prompt)
-		end
-
 	path (prompt: READABLE_STRING_GENERAL): ZSTRING
 			--
 		do
@@ -119,6 +115,20 @@ feature -- Input
 			across 1 |..| 2 as type loop
 				if Result.has_quotes (type.item) then
 					Result.remove_quotes
+				end
+			end
+		end
+
+	real (prompt: READABLE_STRING_GENERAL): REAL
+		local
+			l_line: like line; done: BOOLEAN
+		do
+			from until done loop
+				l_line := line (prompt)
+				if l_line.is_empty then
+					done := True
+				elseif l_line.is_real then
+					Result := l_line.to_real; done := True
 				end
 			end
 		end

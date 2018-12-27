@@ -113,13 +113,13 @@ providing advanced pixel buffer rendering with transparencies and anti-aliasing.
 See class [$source EL_DRAWABLE_PIXEL_BUFFER].
 			</description>
 			<file_rule>
-				<exclude>/windows$</exclude>
+				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>/unix$</exclude>
+				<exclude>/imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>
@@ -132,13 +132,13 @@ Vision2-X UI Extensions
 Various extensions for the [https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
 			</description>
 			<file_rule>
-				<exclude>/windows$</exclude>
+				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>/unix$</exclude>
+				<exclude>/imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>
@@ -154,13 +154,13 @@ Window, dialogs and other widget-container extensions for the
 See doc/vision2-x.container.txt for details
 			</description>
 			<file_rule>
-				<exclude>/windows$</exclude>
+				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>/unix$</exclude>
+				<exclude>/imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>
@@ -176,13 +176,13 @@ Widgets extensions for the
 See doc/vision2-x.widget.txt for details
 			</description>
 			<file_rule>
-				<exclude>/windows$</exclude>
+				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>/unix$</exclude>
+				<exclude>/imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>

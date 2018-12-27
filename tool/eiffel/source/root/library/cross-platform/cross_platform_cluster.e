@@ -89,7 +89,12 @@ feature -- Basic operations
 		do
 			lio.put_labeled_string ("ECF", ecf_name)
 			lio.put_new_line
-			lio.put_path_field (" Cluster", cluster_dir)
+			lio.put_path_field ("Cluster", cluster_dir)
+			lio.put_new_line
+			across implementation_list as path loop
+				lio.put_path_field ("Imp", path.item)
+				lio.put_new_line
+			end
 			lio.put_new_line
 			across interface_list as path loop
 				lio.put_path_field ("Source", path.item)
@@ -124,6 +129,7 @@ feature {NONE} -- Implementation
 			if actual_path /~ target_path then
 				lio.put_labeled_string ("copy", actual_path.to_string)
 				lio.put_labeled_string (" to", target_path)
+				lio.put_new_line
 				if Execution_environment.is_finalized_executable then
 					Execution_environment.push_current_working (cluster_dir)
 
@@ -132,11 +138,7 @@ feature {NONE} -- Implementation
 					File_system.delete_empty_branch (actual_path.parent)
 
 					Execution_environment.pop_current_working
-
-					lio.put_line ("Press 'y' to continue")
-					lio.put_new_line
-					from until User_input.entered_letter ('y') loop
-					end
+					User_input.press_enter
 				end
 			end
 		end

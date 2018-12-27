@@ -251,7 +251,7 @@ Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releas
 
 
 ## Eiffel-Loop Benchmark Testing
-Benchmarks comparing performance of related routines. See class [BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/benchmark_app.html).
+Benchmarks comparing performance of related routines. The benchmarks are run from a menu shell. See class [BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/benchmark_app.html).
 
 **Descendants**
 
@@ -269,9 +269,40 @@ EL_BENCHMARK_COMPARISON*
 ## Eiffel-Loop Dev Tests
 Sub-applications for testing the *Eiffel-Loop* libraries
 
-See doc/test.project.txt for details (Missing file?)
+**Descendants**
+
+
+````
+EL_SUB_APPLICATION*
+	[$source EL_LOGGED_SUB_APPLICATION]*
+		[$source TEST_WORK_DISTRIBUTER_APP]
+		[$source EL_REGRESSION_TESTABLE_SUB_APPLICATION]*
+			[$source REGRESSION_TESTABLE_SUB_APPLICATION]*
+				[$source MEDIA_PLAYER_DUMMY_APP]
+				[$source COMPRESSION_TEST_APP]
+				[$source ENCRYPTION_TEST_APP]
+				[$source DECLARATIVE_XPATH_PROCESSING_TEST_APP]
+				[$source RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
+				[$source STRING_EDITION_HISTORY_TEST_APP]
+				[$source SVG_TO_PNG_CONVERSION_TEST_APP]
+				[$source OBJECT_BUILDER_TEST_APP]
+					[$source BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
+				[$source TEST_SIMPLE_SERVER]
+				[$source TEST_VTD_XML_APP]
+				[$source EVOLICITY_TEST_APP]
+		[$source EXPERIMENTS_APP]
+		[$source TEST_SIMPLE_CLIENT]
+````
+
 ## Eiffel-Loop Test Sets
 Test sets classes inheriting [EQA_TEST_SET](https://www.eiffel.org/doc/eiffelstudio/Testing-_Background_and_basics)
+
+**Sub-applications**
+
+
+* [AUTOTEST_DEVELOPMENT_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/autotest_development_app.html)
+* [ZSTRING_BENCHMARK_APP](http://www.eiffel-loop.com/test/source/test-set/zstring_benchmark_app.html)
+
 ## ID3 Tagging for MP3
 Classes for reading and writing ID3 tags to MP3 files using a common interface to the C libraries `libid3tag (C)` and `id3lib (C++)`. The former C library is used for ID3 version 2.4 tags and the latter for earlier versions from 2.0 to 2.3.
 ## WAV Audio Processing
@@ -1026,7 +1057,7 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [TEST_VTD_XML_APP](http://www.eiffel-loop.com/test/source/test-apps/apps/xml/test_vtd_xml_app.html) is implemented as follows:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [TEST_VTD_XML_APP](http://www.eiffel-loop.com/test/source/root/apps/xml/test_vtd_xml_app.html) is implemented as follows:
 
 
 ````

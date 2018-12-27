@@ -11,7 +11,6 @@ system:
 
 			Create Eiffel interfaces to C/C++ API's
 		"""
-	
 	target:
 		name = EL_c_api
 		root:
@@ -36,17 +35,17 @@ system:
 			name = c_api; location = "language_interface/C"; recursive = true
 			file_rule:
 				exclude:
-					"/windows$"
-					"/MS-COM$"
+					"/imp_mswin$"
 				condition:
 					platform:
 						value = unix
 
 			file_rule:
 				exclude:
-					"/unix$"
+					"/imp_unix$"
 				condition:
 					platform:
 						value = windows
+
 
 

@@ -1,7 +1,8 @@
 note
 	description: "[
 		Normalizes location of implementation classes `(*_imp.e)' in relation to respective interfaces
-		`(*_i.e)' for all projects referenced in repository publishing configuration.
+		`(*_i.e)' for all projects referenced in repository publishing configuration. See class
+		[$source CROSS_PLATFORM_CLUSTER] for details.
 	]"
 
 	author: "Finnian Reilly"

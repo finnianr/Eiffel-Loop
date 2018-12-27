@@ -53,13 +53,13 @@ See doc/base.data_structure.txt for details
 		<cluster name = "math" location = "math" recursive = "true"/>
 		<cluster name = "runtime" location = "runtime" recursive = "true">
 			<file_rule>
-				<exclude>/windows$</exclude>
+				<exclude>imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>/unix$</exclude>
+				<exclude>imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>

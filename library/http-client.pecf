@@ -80,13 +80,14 @@ system:
 				namespace = "Eiffel-Loop.http"
 			file_rule:
 				exclude:
-					"/windows$"
+					"/imp_mswin$"
 				condition:
 					platform:
 						value = unix
+
 			file_rule:
 				exclude:
-					"/unix$"
+					"/imp_unix$"
 				condition:
 					platform:
 						value = windows

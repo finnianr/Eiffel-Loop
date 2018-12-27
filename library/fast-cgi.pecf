@@ -64,13 +64,14 @@ system:
 			name = fast_cgi; location = "network/fast-cgi"; recursive = true
 			file_rule:
 				exclude:
-					"/windows$"
+					"/imp_mswin$"
 				condition:
 					platform:
 						value = unix
+
 			file_rule:
 				exclude:
-					"/unix$"
+					"/imp_unix$"
 				condition:
 					platform:
 						value = windows

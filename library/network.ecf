@@ -41,13 +41,13 @@ Basic Networking Classes
 		<cluster name = "EL_net_base" location = "network/base" recursive = "true">
 			<option namespace = "Eiffel-Loop-net"/>
 			<file_rule>
-				<exclude>/windows$</exclude>
+				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>/unix$</exclude>
+				<exclude>/imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>

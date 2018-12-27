@@ -48,13 +48,13 @@ This fork is found under `contrib/C&apos;.
 		<!--Source code-->
 		<cluster name = "EL_vtd_xml" location = "persistency/xml/vtd-xml" recursive = "true">
 			<file_rule>
-				<exclude>/windows$</exclude>
+				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>/unix$</exclude>
+				<exclude>/imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>

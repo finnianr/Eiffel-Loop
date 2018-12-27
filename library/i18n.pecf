@@ -57,14 +57,14 @@ system:
 			name = EL_i18n; location = "text/i18n"; recursive = true
 			file_rule:
 				exclude:
-					"/windows$"
+					"/imp_mswin$"
 				condition:
 					platform:
 						value = unix
 
 			file_rule:
 				exclude:
-					"/unix$"
+					"/imp_unix$"
 				condition:
 					platform:
 						value = windows

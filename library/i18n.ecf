@@ -27,13 +27,13 @@ There are a number of tools in `el_toolkit&apos; to support the use of this libr
 		<!--Source code-->
 		<cluster name = "EL_i18n" location = "text/i18n" recursive = "true">
 			<file_rule>
-				<exclude>/windows$</exclude>
+				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>/unix$</exclude>
+				<exclude>/imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>

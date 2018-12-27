@@ -16,14 +16,13 @@ Create Eiffel interfaces to C/C++ API&apos;s
 		<library name = "api_wrapper" location = "$ISE_LIBRARY/library/api_wrapper/api_wrapper.ecf"/>
 		<cluster name = "c_api" location = "language_interface/C" recursive = "true">
 			<file_rule>
-				<exclude>/windows$</exclude>
-				<exclude>/MS-COM$</exclude>
+				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>/unix$</exclude>
+				<exclude>/imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>

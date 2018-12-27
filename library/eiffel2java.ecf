@@ -49,13 +49,13 @@ See [./example/eiffel2java/eiffel2java.html example/eiffel2java/eiffel2java.ecf]
 		<!--Source code-->
 		<cluster name = "EL_java" location = "language_interface/Java" recursive = "true">
 			<file_rule>
-				<exclude>/windows$</exclude>
+				<exclude>/imp_mswin$</exclude>
 				<condition>
 					<platform value = "unix"/>
 				</condition>
 			</file_rule>
 			<file_rule>
-				<exclude>/unix$</exclude>
+				<exclude>/imp_unix$</exclude>
 				<condition>
 					<platform value = "windows"/>
 				</condition>
