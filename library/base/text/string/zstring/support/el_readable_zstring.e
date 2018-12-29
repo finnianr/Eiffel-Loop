@@ -356,6 +356,8 @@ feature -- Access
 		end
 
 	last_index_of (uc: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
+			-- Position of last occurrence of `c',
+			-- 0 if none.
 		local
 			c: CHARACTER
 		do

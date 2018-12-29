@@ -16,7 +16,7 @@ Convert Eiffel configuration files to Pyxis format
 
 Generates override of standard libaries to work with Eiffel-Loop
 
-`-expand_links': [$source REPOSITORY_SOURCE_LINK_EXPANDER]
+`-expand_links': [$source REPOSITORY_NOTE_LINK_CHECKER_APP]
 
 Use a supplied repository publishing configuration to expand `$source' variable path in wiki-links 
 containined in a wiki-markup text file. Write the expanded output to file named as follows:
@@ -28,6 +28,11 @@ An incidental function is to expand all tabs as 3 spaces.
 `-normalize_class_file_name': [$source SOURCE_FILE_NAME_NORMALIZER_APP]
 
 Normalize class filenames as lowercase classnames within a source directory
+
+`normalize_imp_location' [$source IMP_CLASS_LOCATION_NORMALIZER_APP]
+
+Normalizes location of implementation classes in relation to respective interfaces
+for all projects listed in publisher configuration.
 
 **Download**
 

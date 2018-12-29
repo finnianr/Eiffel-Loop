@@ -1,5 +1,5 @@
 note
-	description: "Double math"
+	description: "Integral and other double math routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

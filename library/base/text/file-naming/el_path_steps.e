@@ -26,6 +26,13 @@ inherit
 			default_create, is_equal
 		end
 
+	EL_PATH_CONSTANTS
+		export
+			{NONE} all
+		undefine
+			default_create, is_equal
+		end
+
 	DEBUG_OUTPUT
 		rename
 			debug_output as to_string_32
@@ -89,14 +96,14 @@ feature {NONE} -- Initialization
 	make (a_path: READABLE_STRING_GENERAL)
 
 		local
-			separator: CHARACTER_32
+			sep: CHARACTER_32
 		do
-			separator:= Operating_environment.directory_separator
-			if not a_path.has (separator) then
+			sep:= Separator
+			if not a_path.has (sep) then
 				-- Uses unix separators as default fall back.
-				separator := '/'
+				sep := '/'
 			end
-			token_list := Token_table.token_list (as_zstring (a_path), separator)
+			token_list := Token_table.token_list (as_zstring (a_path), sep)
 		end
 
 	make_from_array, make_from_strings (a_steps: FINITE [READABLE_STRING_GENERAL])
@@ -313,7 +320,8 @@ feature -- Conversion
 
 	as_directory_path: EL_DIR_PATH
 		do
-			Result := to_string
+			create Result
+			fill_path (Result)
 		end
 
 	as_expanded_directory_path: EL_DIR_PATH
@@ -323,7 +331,8 @@ feature -- Conversion
 
 	as_expanded_file_path: EL_FILE_PATH
 		do
-			Result := expanded_path.to_string
+			create Result
+			fill_path (Result)
 		end
 
 	as_file_path: EL_FILE_PATH
@@ -361,7 +370,7 @@ feature -- Conversion
 	to_string: ZSTRING
 			--
 		do
-			Result := Token_table.joined (token_list, Operating_environment.Directory_separator)
+			Result := Token_table.joined (token_list, Separator)
 		end
 
 	to_unicode, to_string_32: STRING_32
@@ -392,6 +401,28 @@ feature -- Removal
 	wipe_out
 		do
 			token_list.wipe_out
+		end
+
+feature -- Basic operations
+
+	fill_path (path: EL_PATH)
+		-- set `path' from `Current'
+		local
+			path_string: ZSTRING; separator_pos: INTEGER
+		do
+			if is_empty then
+				path.wipe_out
+			else
+				path_string := to_string
+				separator_pos := path_string.last_index_of (Separator, path_string.count)
+				path.set_base (path_string.substring_end (separator_pos + 1))
+				if separator_pos > 0 then
+					path_string.remove_tail (path.base.count)
+					path.set_parent_path (path_string)
+				end
+			end
+		ensure
+			reversible: path.steps ~ Current
 		end
 
 feature {NONE} -- Implementation

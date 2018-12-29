@@ -24,11 +24,15 @@ inherit
 
 	EL_FILE_PROGRESS_TRACKER
 
+	EL_MODULE_CONSOLE
+
 	EL_MODULE_LIO
 
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_LOG_MANAGER
 
 	EL_MODULE_OS
 
@@ -65,7 +69,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Access
 
-	example_classes: EL_ARRAYED_LIST [EIFFEL_CLASS]
+	example_classes: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CLASS]
 		-- Client examples list
 
 	config_path: EL_FILE_PATH
@@ -110,6 +114,7 @@ feature -- Basic operations
 		do
 			log_thread_count
 			ftp_sync.set_root_dir (output_dir)
+			ftp_sync.set_display_uploads (Log_manager.is_logging_active)
 
 			if version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {EL_DIR_PATH}.exists)
@@ -117,6 +122,9 @@ feature -- Basic operations
 
 			example_classes.wipe_out
 			ecf_list.do_all (agent {EIFFEL_CONFIGURATION_FILE}.read_source_files)
+			-- Necessary to sort examples to ensure routine `{LIBRARY_CLASS}.sink_source_subsitutions' makes a consistent value for
+			-- make `current_digest'
+			example_classes.sort
 
 			lio.put_labeled_string ("Adding to current_digest", "description $source variable paths and client example paths")
 			lio.put_new_line
@@ -125,6 +133,10 @@ feature -- Basic operations
 					across directory.item.class_list as eiffel_class loop
 						eiffel_class.item.sink_source_subsitutions
 						ftp_sync.extend (eiffel_class.item)
+--						if eiffel_class.item.html_output_path.exists then
+--						else
+--							ftp_sync.force (eiffel_class.item)
+--						end
 						print_progress (i); i := i + 1
 					end
 				end
@@ -147,10 +159,14 @@ feature -- Basic operations
 				lio.put_string ("Synchronize with website (y/n) ")
 				if User_input.entered_letter ('y') then
 					lio.put_new_line
-					create console_display.make
-					listener := console_display.new_progress_listener
-					listener.set_final_tick_count (1000)
-					track_progress (listener, agent ftp_sync.login_and_upload, agent lio.put_line ("Synchronized"))
+					if Log_manager.is_logging_active then
+						ftp_sync.login_and_upload
+					else
+						create console_display.make
+						listener := console_display.new_progress_listener
+						listener.set_final_tick_count (1000)
+						track_progress (listener, agent ftp_sync.login_and_upload, agent lio.put_line ("Synchronized"))
+					end
 					ftp_sync.save
 				end
 			end

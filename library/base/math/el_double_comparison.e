@@ -1,5 +1,5 @@
 note
-	description: "Double comparison"
+	description: "Comparison of `ARRAY [DOUBLE]' instances"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

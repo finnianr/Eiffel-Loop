@@ -48,6 +48,7 @@ feature -- Element change
 		-- in alphabetical order of class name.
 		local
 			crc: like crc_generator; list: like Name_to_class_map_list
+			previous_name: ZSTRING
 		do
 			Precursor
 			crc := crc_generator; list := Name_to_class_map_list
@@ -58,7 +59,20 @@ feature -- Element change
 					list.extend (l_class.item.name, l_class.item)
 				end
 			end
-			list.sort (True)
+			if not list.is_empty then
+				list.sort (True)
+				-- Remove duplicate names Eg. BUILD_INFO as example of using EL_DIR_PATH
+				list.start
+				previous_name := list.item_key
+				from list.forth until list.after loop
+					if previous_name ~ list.item_key then
+						list.remove
+					else
+						previous_name := list.item_key
+						list.forth
+					end
+				end
+			end
 			client_examples := list.value_list
 			across client_examples as example loop
 				crc.add_path (example.item.relative_source_path)

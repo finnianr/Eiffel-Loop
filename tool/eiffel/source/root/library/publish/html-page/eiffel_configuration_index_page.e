@@ -155,11 +155,6 @@ feature {NONE} -- Implementation
 			Result := repository.templates.directory_content
 		end
 
-	home_description_elements: NOTE_HTML_TEXT_ELEMENT_LIST
-		do
-			create Result.make (eiffel_config.description_lines, Empty_string)
-		end
-
 	description_elements: NOTE_HTML_TEXT_ELEMENT_LIST
 		do
 			create Result.make (eiffel_config.description_lines, relative_file_path.parent)
@@ -203,11 +198,12 @@ feature {NONE} -- Evolicity fields
 				["has_ecf_name",					agent: BOOLEAN_REF do Result := has_ecf_name.to_reference end] +
 				["has_sub_directory", 			agent: BOOLEAN_REF do Result := has_sub_directory.to_reference end] +
 
-				["home_description_elements",	agent home_description_elements] +
+				["description_count",			agent: INTEGER_REF do Result := eiffel_config.description_lines.character_count end] +
+				["class_count",					agent: INTEGER_REF do Result := eiffel_config.class_count.to_reference end] +
+
+				["directory_list", 				agent: ITERABLE [SOURCE_DIRECTORY] do Result := eiffel_config.directory_list end] +
 				["description_elements",		agent description_elements] +
 				["category_title",	 			agent: ZSTRING do Result := category_title end] +
-				["class_count",					agent: INTEGER_REF do Result := eiffel_config.class_count.to_reference end] +
-				["directory_list", 				agent: ITERABLE [SOURCE_DIRECTORY] do Result := eiffel_config.directory_list end] +
 				["ecf_name",			 			agent: ZSTRING do Result := eiffel_config.relative_ecf_path.base end] +
 				["ecf_path",			 			agent: ZSTRING do Result := eiffel_config.relative_ecf_path end] +
 				["github_url",			 			agent: ZSTRING do Result := repository.github_url end] +

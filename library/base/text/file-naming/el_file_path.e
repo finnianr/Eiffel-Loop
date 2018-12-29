@@ -1,5 +1,5 @@
 note
-	description: "File path"
+	description: "File path name"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

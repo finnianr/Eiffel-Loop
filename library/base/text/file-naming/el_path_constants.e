@@ -14,6 +14,15 @@ class
 
 feature -- Constants
 
+	Separator: CHARACTER_32
+		once
+			Result := Operating_environment.Directory_separator
+		end
+
+	Unix_separator: CHARACTER_32 = '/'
+
+	Windows_separator: CHARACTER_32 = '\'
+
 	Invalid_NTFS_characters: ZSTRING
 		-- path characters that are invalid for a Windows NT file system
 		once

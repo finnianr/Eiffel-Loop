@@ -60,7 +60,16 @@ feature -- Access
 
 	root_dir: EL_DIR_PATH
 
+feature -- Status change
+
+	set_display_uploads (enabled: BOOLEAN)
+		do
+			display_uploads := enabled
+		end
+
 feature -- Status query
+
+	display_uploads: BOOLEAN
 
 	has_changes: BOOLEAN
 		do
@@ -72,6 +81,15 @@ feature -- Element change
 	extend (file_item: EL_CRC_32_SYNC_ITEM)
 		do
 			file_item_table.extend (file_item, file_item.file_path)
+		end
+
+	force (file_item: EL_CRC_32_SYNC_ITEM)
+		-- force `file_item' to be uploaded
+		do
+			extend (file_item)
+			if sync_table.has (file_item.file_path) then
+				sync_table [file_item.file_path] := 0
+			end
 		end
 
 	set_root_dir (a_root_dir: like root_dir)
@@ -171,6 +189,10 @@ feature {NONE} -- Implementation
 				item.set_source_path (root_dir + file.item.file_path)
 				item.set_destination_path (file.item.file_path.parent)
 				if item.source_path.exists then
+					if display_uploads then
+						lio.put_path_field ("Uploading", file.item.file_path)
+						lio.put_new_line
+					end
 					ftp.upload (item)
 				else
 					lio.put_path_field ("Missing upload", file.item.file_path)

@@ -1,5 +1,5 @@
 note
-	description: "Path"
+	description: "Path name"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -38,6 +38,7 @@ inherit
 	EL_PATH_CONSTANTS
 		export
 			{NONE} all
+			{ANY} Separator
 		undefine
 			is_equal, default_create, out, copy
 		end
@@ -547,23 +548,23 @@ feature -- Element change
 
 	set_parent_path (a_parent: ZSTRING)
 		local
-			l_parent_set: like Parent_set; l_parent: ZSTRING
+			set: like Parent_set; l_path: ZSTRING
 		do
 			if a_parent.is_empty then
 				parent_path := Empty_string
 			else
-				l_parent := empty_once_string
-				l_parent.append (a_parent)
-				if a_parent [a_parent.count] /= Separator then
-					l_parent.append_character (Separator)
-				end
-				l_parent_set := Parent_set
-				l_parent_set.search (l_parent)
-				if l_parent_set.found then
-					parent_path := l_parent_set.found_item
+				if a_parent [a_parent.count] = Separator then
+					l_path := a_parent
 				else
-					parent_path := l_parent.twin
-					l_parent_set.force_new (parent_path)
+					l_path := once_copy (a_parent)
+					l_path.append_character (Separator)
+				end
+				set := Parent_set
+				if set.has_key (l_path) then
+					parent_path := set.found_item
+				else
+					parent_path := l_path.twin
+					set.extend (parent_path)
 				end
 			end
 			is_absolute := is_path_absolute (parent_path)
@@ -605,6 +606,11 @@ feature -- Removal
 			if index > 0 then
 				base.remove_tail (base.count - index + 1)
 			end
+		end
+
+	wipe_out
+		do
+			default_create
 		end
 
 feature -- Conversion
@@ -687,19 +693,19 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 		require
 			relative_path: not a_path.is_absolute
 		local
-			l_parent: ZSTRING
+			l_path: ZSTRING
 		do
 			if not a_path.is_empty then
-				create l_parent.make (parent_path.count + base.count + parent_path.count + 2)
-				l_parent.append (parent_path)
-				l_parent.append (base)
+				create l_path.make (parent_path.count + base.count + parent_path.count + 2)
+				l_path.append (parent_path)
+				l_path.append (base)
 				if not base.is_empty then
-					l_parent.append_unicode (Separator.natural_32_code)
+					l_path.append_unicode (Separator.natural_32_code)
 				end
 				if not a_path.parent_path.is_empty then
-					l_parent.append (a_path.parent_path)
+					l_path.append (a_path.parent_path)
 				end
-				set_parent_path (l_parent)
+				set_parent_path (l_path)
 				base := a_path.base
 			end
 		end
@@ -770,17 +776,6 @@ feature {NONE} -- Type definitions
 		once
 		end
 
-feature -- Constants
-
-	Separator: CHARACTER_32
-		once
-			Result := Operating_environment.Directory_separator
-		end
-
-	Unix_separator: CHARACTER_32 = '/'
-
-	Windows_separator: CHARACTER_32 = '\'
-
 feature {NONE} -- Constants
 
 	Back_dir_step: ZSTRING
@@ -808,7 +803,7 @@ feature {NONE} -- Constants
 
 	Magic_number: INTEGER = 8388593
 
-	Parent_set: DS_HASH_SET [ZSTRING]
+	Parent_set: EL_HASH_SET [ZSTRING]
 			--
 		once
 			create Result.make_equal (100)

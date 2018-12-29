@@ -16,11 +16,13 @@ inherit
 	HASH_TABLE [detachable G, detachable G]
 		rename
 			put as table_put,
+			extend as table_extend,
 			item_for_iteration as item,
 			item as table_item,
 			current_keys as to_array
 		export
-			{NONE} table_put, force, extend
+			{NONE} all
+			{ANY} has, has_key, found, found_item, search, remove, count, inserted, to_array, wipe_out, conflict
 		end
 
 	LINEAR [detachable G]
@@ -47,6 +49,12 @@ feature -- Element change
 			--
 		do
 			table_put (new, new)
+		end
+
+	extend (new: detachable G)
+			--
+		do
+			table_extend (new, new)
 		end
 
 feature -- Access

@@ -210,7 +210,11 @@ feature -- Comparison
 			-- Is current object less than `other'?
 		do
 			if notes.has_description = other.notes.has_description then
-				Result := name < other.name
+				if name ~ other.name then
+					Result := relative_source_path < other.relative_source_path
+				else
+					Result := name < other.name
+				end
 
 			else
 				Result := notes.has_description
