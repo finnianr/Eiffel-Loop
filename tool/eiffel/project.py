@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 25); build = 130
+version = (1, 0, 26); build = 133
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.26
+# Renamed REPOSITORY_PUBLISHER_APP to EIFFEL_VIEW_APP
 
 # 1.0.25
 # First build of CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE

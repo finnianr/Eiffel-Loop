@@ -1,7 +1,7 @@
 note
 	description: "[
-		**Eiffel-View**, an application for publishing an Eiffel repository to a website and generating
-		a `Contents.md' file in Github markdown. 
+		**Eiffel-View** is a sub-application to publish source code and descriptions of Eiffel projects
+		to a website as static html and generate a `Contents.md' file in Github markdown. 
 		
 		See [https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18
 		eiffel.org article]
@@ -16,7 +16,7 @@ note
 	revision: "12"
 
 class
-	REPOSITORY_PUBLISHER_APP
+	EIFFEL_VIEW_APP
 
 inherit
 	REPOSITORY_PUBLISHER_SUB_APPLICATION [REPOSITORY_PUBLISHER]
@@ -33,15 +33,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Option_name: STRING = "publish_repository"
+	Option_name: STRING = "eiffel_view"
 
-	Description: STRING = "Publishes an Eiffel repository to a website"
+	Description: STRING = "Publishes source code and descriptions of Eiffel projects to a website as static html"
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
-				[{REPOSITORY_PUBLISHER_APP}, All_routines],
+				[{EIFFEL_VIEW_APP}, All_routines],
 				[{EIFFEL_CONFIGURATION_FILE}, All_routines],
 				[{EIFFEL_CONFIGURATION_INDEX_PAGE}, All_routines]
 			>>

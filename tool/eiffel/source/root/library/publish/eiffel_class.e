@@ -211,6 +211,7 @@ feature -- Comparison
 		do
 			if notes.has_description = other.notes.has_description then
 				if name ~ other.name then
+					-- Needed to get a consistent `current_digest' in `LIBRARY_CLASS'
 					Result := relative_source_path < other.relative_source_path
 				else
 					Result := name < other.name

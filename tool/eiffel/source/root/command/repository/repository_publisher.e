@@ -132,11 +132,11 @@ feature -- Basic operations
 				across tree.item.directory_list as directory loop
 					across directory.item.class_list as eiffel_class loop
 						eiffel_class.item.sink_source_subsitutions
-						ftp_sync.extend (eiffel_class.item)
---						if eiffel_class.item.html_output_path.exists then
---						else
---							ftp_sync.force (eiffel_class.item)
---						end
+						if eiffel_class.item.html_output_path.exists then
+							ftp_sync.extend (eiffel_class.item)
+						else
+							ftp_sync.force (eiffel_class.item)
+						end
 						print_progress (i); i := i + 1
 					end
 				end

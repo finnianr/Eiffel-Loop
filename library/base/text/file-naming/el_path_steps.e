@@ -3,6 +3,25 @@ note
 		Path steps internally represented as a string of `CHARACTER_32' tokens in attribute `token_list'.
 		Tokens are translated back to strings via the shared once-table `Token_table'.
 	]"
+	notes: "[
+		As of Dec 2018 instead of inheriting [$source EL_ZSTRING_LIST] this class was reimplemented internally
+		as a string of tokenized steps. A token is a CHARACTER_32 representing a step looked up in hash
+		table. This makes it much easier to analyse paths as a sequence of steps
+		using the features of STRING_32. For example `has_sub_steps' uses the function `{STRING_32}.has_substring'
+		
+			feature -- Status query
+
+				has_sub_steps (steps: EL_PATH_STEPS): BOOLEAN
+					do
+						Result := token_list.has_substring (steps.token_list)
+					end
+
+		**Concurrency Warning**
+
+		The value of the tokens depends on the order in which string steps were presented to the
+		shared instance of [$source EL_ZSTRING_TOKEN_TABLE], so care must be taken when comparing
+		path steps tokens created by different threads.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -19,6 +38,13 @@ inherit
 	READABLE_INDEXABLE [ZSTRING]
 		redefine
 			default_create, is_equal
+		end
+
+	FINITE [ZSTRING]
+		undefine
+			default_create, is_equal
+		redefine
+			is_empty
 		end
 
 	HASHABLE
@@ -173,9 +199,14 @@ feature -- Access
 			end
 		end
 
+	linear_representation: EL_ZSTRING_LIST
+		do
+			Result := Token_table.string_list (token_list)
+		end
+
 	to_array: ARRAY [ZSTRING]
 		do
-			Result := Token_table.string_list (token_list).to_array
+			Result := linear_representation.to_array
 		end
 
 feature -- Measurement
@@ -207,6 +238,8 @@ feature -- Element change
 
 	append (steps: EL_PATH_STEPS)
 			-- Append a copy of `steps'.
+		require
+			same_thread: same_thread (steps)
 		do
 			token_list.append (steps.token_list)
 		end
@@ -266,7 +299,26 @@ feature -- Element change
 
 feature -- Status query
 
+	full: BOOLEAN
+		do
+			Result := token_list.full
+		end
+
+	has (step: ZSTRING): BOOLEAN
+		do
+			Result := token_list.has (Token_table.token (step))
+		end
+
+	has_steps (steps: FINITE [READABLE_STRING_GENERAL]): BOOLEAN
+		require
+			finite_and_iterable: attached {ITERABLE [READABLE_STRING_GENERAL]} steps
+		do
+			Result := token_list.has_substring (Token_table.iterable_to_token_list (steps))
+		end
+
 	has_sub_steps (steps: EL_PATH_STEPS): BOOLEAN
+		require
+			same_thread: same_thread (steps)
 		do
 			Result := token_list.has_substring (steps.token_list)
 		end
@@ -300,12 +352,16 @@ feature -- Status query
 		end
 
 	is_equal (other: like Current): BOOLEAN
+		require else
+			same_thread: same_thread (other)
 		do
 			Result := token_list ~ other.token_list
 		end
 
 	starts_with (steps: EL_PATH_STEPS): BOOLEAN
 		-- `True' if Currrent starts with `steps'
+		require
+			same_thread: same_thread (steps)
 		do
 			Result := token_list.starts_with (steps.token_list)
 		end
@@ -314,6 +370,14 @@ feature -- Status query
 			-- Is `i' a valid index?
 		do
 			Result := token_list.valid_index (i)
+		end
+
+feature -- Contract Support
+
+	same_thread (other: EL_PATH_STEPS): BOOLEAN
+		-- `True' if tokens of `other' were created by the same thread
+		do
+			Result := Token_table = other.Token_table
 		end
 
 feature -- Conversion
@@ -347,6 +411,8 @@ feature -- Conversion
 		end
 
 	joined (steps: EL_PATH_STEPS): like Current
+		require
+			same_thread: same_thread (steps)
 		do
 			create Result.make_with_count (count + steps.count)
 			Result.append (Current)
@@ -443,7 +509,7 @@ feature {EL_PATH_STEPS} -- Internal attributes
 	token_list: STRING_32
 		-- step tokens
 
-feature {NONE} -- Constants
+feature {EL_PATH_STEPS} -- Constants
 
 	Lower: INTEGER = 1
 

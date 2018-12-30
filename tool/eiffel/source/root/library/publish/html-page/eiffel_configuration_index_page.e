@@ -19,7 +19,7 @@ inherit
 		undefine
 			is_equal
 		redefine
-			getter_function_table, serialize
+			getter_function_table, serialize, is_modified
 		end
 
 	COMPARABLE
@@ -117,6 +117,16 @@ feature -- Status query
 	has_ecf_name: BOOLEAN
 		do
 			Result := not eiffel_config.relative_ecf_path.is_empty
+		end
+
+	is_modified: BOOLEAN
+		do
+			Result := Precursor or else
+				across eiffel_config.directory_list as dir some
+					across dir.item.class_list as l_class some
+						l_class.item.is_modified
+					end
+				end
 		end
 
 feature -- Comparison

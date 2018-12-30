@@ -84,7 +84,7 @@ feature -- Element change
 		end
 
 	force (file_item: EL_CRC_32_SYNC_ITEM)
-		-- force `file_item' to be uploaded
+		-- `extend' and force `file_item' to be uploaded
 		do
 			extend (file_item)
 			if sync_table.has (file_item.file_path) then
