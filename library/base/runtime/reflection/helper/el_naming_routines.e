@@ -3,7 +3,7 @@ note
 		Object with attribute names that are translateable TO and FROM another naming convention
 		There are also routines to derive a name from the class generator name.
 		
-		Accessible from shared object `Naming' in class [$source EL_MODULE_NAMING]
+		Accessible from shared object_or_type `Naming' in class [$source EL_MODULE_NAMING]
 	]"
 
 	author: "Finnian Reilly"
@@ -11,14 +11,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-24 11:29:12 GMT (Tuesday 24th April 2018)"
-	revision: "6"
+	date: "2019-01-04 19:29:04 GMT (Friday 4th January 2019)"
+	revision: "7"
 
 class
 	EL_NAMING_ROUTINES
 
 inherit
 	EL_MODULE_STRING_8
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -34,29 +36,57 @@ feature -- Access
 
 	no_words: ARRAY [STRING]
 
-feature -- Class names
+feature -- Class name derivations
 
-	crop_as_camel_case (str: STRING; removed_head, removed_tail: INTEGER): STRING
+	class_as_camel (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
 		local
 			l_name: STRING
 		do
-			l_name := crop_as_lower_snake_case (str, removed_head, removed_tail)
+			l_name := class_as_lower_snake (object_or_type, head_count, tail_count)
 			create Result.make (l_name.count)
 			to_camel_case (l_name, Result)
 			String_8.first_to_upper (Result)
 		end
 
-	crop_as_lower_snake_case (str: STRING; removed_head, removed_tail: INTEGER): STRING
+	class_as_lower_kebab (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
 		do
-			Result := crop_as_upper_snake_case (str, removed_head, removed_tail)
+			Result := class_with_separator (object_or_type, '-', head_count, tail_count)
 			Result.to_lower
 		end
 
-	crop_as_upper_snake_case (str: STRING; removed_head, removed_tail: INTEGER): STRING
+	class_as_lower_snake (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
 		do
-			Result := str
-			Result.remove_head (removed_head)
-			Result.remove_tail (removed_tail)
+			Result := class_as_upper_snake (object_or_type, head_count, tail_count)
+			Result.to_lower
+		end
+
+	class_with_separator (object_or_type: ANY; separator: CHARACTER; head_count, tail_count: INTEGER): STRING
+		do
+			Result := class_as_upper_snake (object_or_type, head_count, tail_count)
+			String_8.replace_character (Result, '_', separator)
+		end
+
+	class_as_upper_snake (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
+		-- class name of `object_or_type' (object if not conforming to TYPE [ANY])
+		-- with `head_count' words removed from head and `tail_count' words removed from tail
+		local
+			split_string: EL_SPLIT_STRING_LIST [STRING]
+		do
+			if attached {TYPE [ANY]} object_or_type as type then
+				Result := type.name
+			else
+				Result := object_or_type.generator
+			end
+			if head_count + tail_count > 0 then
+				create split_string.make (Result, character_string_8 ('_'))
+				if head_count > 0 then
+					split_string.remove_head (head_count)
+				end
+				if tail_count > 0 then
+					split_string.remove_tail (tail_count)
+				end
+				Result := split_string.joined ('_')
+			end
 		end
 
 feature -- Import names

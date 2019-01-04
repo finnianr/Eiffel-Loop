@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-01-01 16:06:08 GMT (Tuesday 1st January 2019)"
+	revision: "6"
 
 class
 	EL_HASH_SET [G -> HASHABLE]
@@ -22,7 +22,8 @@ inherit
 			current_keys as to_array
 		export
 			{NONE} all
-			{ANY} has, has_key, found, found_item, search, remove, count, inserted, to_array, wipe_out, conflict
+			{ANY} has, has_key, found, found_item, search, remove, count,
+				 inserted, to_array, wipe_out, conflict, key_for_iteration, item
 		end
 
 	LINEAR [detachable G]

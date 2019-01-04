@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 11:11:02 GMT (Tuesday 25th December 2018)"
-	revision: "6"
+	date: "2019-01-02 13:42:28 GMT (Wednesday 2nd January 2019)"
+	revision: "7"
 
 class
 	PATH_TEST_SET
@@ -31,6 +31,17 @@ inherit
 		end
 
 feature -- Tests
+
+	test_joined_steps
+		note
+			testing: "covers/{EL_PATH}.make_from_path"
+		local
+			home_path, config_path: EL_DIR_PATH
+		do
+			home_path := "/home"
+			config_path := home_path.joined_dir_steps (<< "finnian", ".config" >>)
+			assert ("same path", config_path.to_string.to_latin_1 ~ "/home/finnian/.config")
+		end
 
 	test_universal_relative_path
 		local

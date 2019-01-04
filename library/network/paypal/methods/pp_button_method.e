@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-28 19:04:15 GMT (Saturday 28th April 2018)"
-	revision: "5"
+	date: "2019-01-04 10:57:08 GMT (Friday 4th January 2019)"
+	revision: "6"
 
 class
 	PP_BUTTON_METHOD [R -> PP_HTTP_RESPONSE create make_default, make end]
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			connection := a_connection
-			method := "BM" + Naming.crop_as_camel_case (generator, 3, 7)
+			method := "BM" + Naming.class_as_camel (Current, 1, 1)
 			parameter_list := to_parameter_list
 			parameter_list.append_tuple ([a_connection.credentials.http_parameters, a_connection.version])
 		end

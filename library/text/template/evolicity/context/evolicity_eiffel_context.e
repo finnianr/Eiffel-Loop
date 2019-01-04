@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-30 17:31:38 GMT (Tuesday 30th October 2018)"
-	revision: "10"
+	date: "2019-01-03 13:51:11 GMT (Thursday 3rd January 2019)"
+	revision: "11"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -19,6 +19,8 @@ inherit
 		redefine
 			context_item, put_variable
 		end
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
 feature {NONE} -- Initialization
 
@@ -52,7 +54,7 @@ feature {EVOLICITY_EIFFEL_CONTEXT} -- Factory
 			Result.compare_objects
 		end
 
-feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
+feature {NONE} -- Implementation
 
 	context_item (key: STRING; function_args: TUPLE): ANY
 			--
@@ -69,14 +71,15 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 					getter_action.apply
 					Result := getter_action.last_result
 
-				elseif getter_action.open_count = function_args.count then
-					Result := getter_action.item (function_args)
+				elseif getter_action.valid_operands (function_args) then
+					Result := getter_action.flexible_item (function_args)
 				else
-					template := "Invalid open argument count: %S {%S}.%S"
+					template := "Cannot set %S operands for: {%S}.%S"
 					Result := template #$ [getter_action.open_count, generator, key]
 				end
 			else
-				Result := ""
+				template := "($%S undefined)"
+				Result := template #$ [key]
 			end
 		end
 
@@ -84,6 +87,22 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 			--
 		deferred
 		end
+
+	set_operands (getter_action: FUNCTION [ANY]; function_args: TUPLE)
+		-- workaround for Catcall errors in EiffelStudio as for example
+		-- Catcall detected in {ROUTINE}.set_operands for arg#1: expected TUPLE [EL_ZSTRING] but got TUPLE [ANY]
+		local
+			operands: TUPLE; i: INTEGER
+		do
+			operands := getter_action.empty_operands.twin
+			from i := 1 until i > function_args.count loop
+				operands.put (function_args [i], i)
+				i := i + 1
+			end
+			getter_action.set_operands (operands)
+		end
+
+feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Internal attributes
 
 	getter_functions: EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]
 

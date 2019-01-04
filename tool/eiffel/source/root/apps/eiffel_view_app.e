@@ -4,7 +4,7 @@ note
 		to a website as static html and generate a `Contents.md' file in Github markdown. 
 		
 		See [https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18
-		eiffel.org article]
+		eiffel.org article] and the [$source REPOSITORY_PUBLISHER] command.
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 16:01:40 GMT (Sunday 23rd December 2018)"
-	revision: "12"
+	date: "2018-12-30 12:38:23 GMT (Sunday 30th December 2018)"
+	revision: "13"
 
 class
 	EIFFEL_VIEW_APP

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 15:35:13 GMT (Monday 29th October 2018)"
-	revision: "7"
+	date: "2019-01-02 13:35:56 GMT (Wednesday 2nd January 2019)"
+	revision: "8"
 
 class
 	EL_DIR_PATH
@@ -26,7 +26,7 @@ inherit
 		end
 
 create
-	default_create, make, make_from_general, make_from_path, make_from_other
+	default_create, make, make_from_general, make_from_path, make_from_other, make_from_steps
 
 convert
 	make ({ZSTRING}), make_from_general ({STRING_32, STRING}), make_from_path ({PATH}),
@@ -41,14 +41,14 @@ feature -- Conversion
 			Result.append_dir_path (a_dir_path)
 		end
 
-	joined_dir_steps (a_steps: EL_PATH_STEPS): like Current
+	joined_dir_steps (a_steps: FINITE [READABLE_STRING_GENERAL]): like Current
 		do
-			Result := joined_dir_path (a_steps)
+			Result := joined_dir_path (create {EL_DIR_PATH}.make_from_steps (a_steps))
 		end
 
 	joined_dir_tuple (tuple: TUPLE): like Current
 		do
-			Result := joined_dir_steps (tuple)
+			Result := joined_dir_steps (create {EL_ZSTRING_LIST}.make_from_tuple (tuple))
 		end
 
 	joined_file_path alias "+" (a_file_path: EL_FILE_PATH): like Type_file_path
@@ -56,14 +56,14 @@ feature -- Conversion
 			create Result.make_from_other (Current); Result.append (a_file_path)
 		end
 
-	joined_file_steps (a_steps: EL_PATH_STEPS): like joined_file_path
+	joined_file_steps (a_steps: FINITE [READABLE_STRING_GENERAL]): like joined_file_path
 		do
-			Result := joined_file_path (a_steps)
+			Result := joined_file_path (create {EL_FILE_PATH}.make_from_steps (a_steps))
 		end
 
 	joined_file_tuple (tuple: TUPLE): like joined_file_path
 		do
-			Result := joined_file_steps (tuple)
+			Result := joined_file_steps (create {EL_ZSTRING_LIST}.make_from_tuple (tuple))
 		end
 
 feature -- Status report

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-26 11:52:16 GMT (Wednesday 26th December 2018)"
-	revision: "9"
+	date: "2019-01-02 13:49:09 GMT (Wednesday 2nd January 2019)"
+	revision: "10"
 
 class
 	EL_ZSTRING_ROUTINES
@@ -23,17 +23,35 @@ feature {EL_MODULE_ZSTRING} -- Conversion
 			end
 		end
 
+	joined (separator: CHARACTER_32; a_list: FINITE [READABLE_STRING_GENERAL]): ZSTRING
+		local
+			count: INTEGER; list: LINEAR [READABLE_STRING_GENERAL]
+		do
+			list := a_list.linear_representation
+			from list.start until list.after loop
+				if count > 0 then
+					count := count + 1
+				end
+				count := count + list.item.count
+				list.forth
+			end
+			create Result.make (count)
+			from list.start until list.after loop
+				if list.index > 1 then
+					Result.append_character (separator)
+				end
+				if attached {ZSTRING} list.item as zstr then
+					Result.append (zstr)
+				else
+					Result.append_string_general (list.item)
+				end
+				list.forth
+			end
+		end
+
 	new_zstring (general: READABLE_STRING_GENERAL): ZSTRING
 		do
 			create Result.make_from_general (general)
-		end
-
-	joined (separator: CHARACTER_32; a_list: ITERABLE [ZSTRING]): ZSTRING
-		local
-			list: EL_ZSTRING_LIST
-		do
-			create list.make_from_list (a_list)
-			Result := list.joined (separator)
 		end
 
 feature {EL_MODULE_ZSTRING} -- Status query

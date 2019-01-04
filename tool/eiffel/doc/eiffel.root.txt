@@ -1,8 +1,11 @@
 **Sub-applications**
 
-`-publish_repository': [$source REPOSITORY_PUBLISHER_APP]
+`-eiffel_view': [$source EIFFEL_VIEW_APP]
 
-Publishes an Eiffel code repository as a website with module descriptions.
+A sub-application to publish source code and descriptions of Eiffel projects
+to a website as static html and generate a `Contents.md' file in Github markdown.
+See [https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18
+ eiffel.org article]
 
 `-generate_codecs': [$source CODEC_GENERATOR_APP]
 

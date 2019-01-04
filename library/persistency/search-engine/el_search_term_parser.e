@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 16:12:47 GMT (Tuesday 25th December 2018)"
-	revision: "7"
+	date: "2019-01-02 16:01:48 GMT (Wednesday 2nd January 2019)"
+	revision: "8"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -28,6 +28,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	STRING_HANDLER
 
 create
 	make

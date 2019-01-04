@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 12:03:42 GMT (Tuesday 25th December 2018)"
-	revision: "5"
+	date: "2019-01-02 12:28:49 GMT (Wednesday 2nd January 2019)"
+	revision: "6"
 
 deferred class
 	EL_USERS_INFO_COMMAND_I
@@ -71,7 +71,7 @@ feature {NONE} -- Implementation
 			index := users_dir.step_count
 			create Result.make (user_list.count)
 			across user_list as user loop
-				steps [index] := user.item
+				steps [index + 1] := user.item
 				Result.extend (steps)
 			end
 		end

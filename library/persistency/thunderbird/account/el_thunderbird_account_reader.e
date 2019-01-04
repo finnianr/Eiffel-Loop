@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 18:58:43 GMT (Tuesday 25th December 2018)"
-	revision: "8"
+	date: "2019-01-02 14:30:32 GMT (Wednesday 2nd January 2019)"
+	revision: "9"
 
 class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -76,17 +76,19 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	export_steps (mails_path: EL_FILE_PATH): EL_PATH_STEPS
+		local
+			account_index: INTEGER; dot_sbd_step: ZSTRING
 		do
 			Result := mails_path.steps
-			from until Result.is_empty or else Result.first.same_string (account) loop
-				Result.remove_head (1)
-			end
-			if not Result.is_empty then
-				Result.remove_head (1)
+			account_index := Result.index_of (account, 1)
+			if account_index > 0 then
+				Result.remove_head (account_index)
 			end
 			across Result as step loop
 				if step.item.ends_with (Dot_sbd_extension) then
-					step.item.remove_tail (Dot_sbd_extension.count)
+					dot_sbd_step := step.item.twin
+					dot_sbd_step.remove_tail (Dot_sbd_extension.count)
+					Result [step.cursor_index] := dot_sbd_step
 				end
 			end
 			if language.is_empty then

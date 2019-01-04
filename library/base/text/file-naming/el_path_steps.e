@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-26 14:54:48 GMT (Wednesday 26th December 2018)"
-	revision: "15"
+	date: "2019-01-02 12:43:09 GMT (Wednesday 2nd January 2019)"
+	revision: "16"
 
 class
 	EL_PATH_STEPS
@@ -102,10 +102,10 @@ inherit
 
 create
 	default_create, make_with_count, make, make_from_tokens,
-	make_from_array, make_from_directory_path, make_from_file_path, make_from_tuple
+	make_from_strings, make_from_path, make_from_tuple
 
 convert
-	make_from_array ({ARRAY [ZSTRING], ARRAY [STRING], ARRAY [STRING_32]}),
+	make_from_strings ({ARRAY [ZSTRING], ARRAY [STRING], ARRAY [STRING_32]}),
 
 	make ({STRING_32, STRING, ZSTRING}), make_from_tuple ({TUPLE}),
 
@@ -132,19 +132,19 @@ feature {NONE} -- Initialization
 			token_list := Token_table.token_list (as_zstring (a_path), sep)
 		end
 
-	make_from_array, make_from_strings (a_steps: FINITE [READABLE_STRING_GENERAL])
+	make_from_strings (a_steps: FINITE [READABLE_STRING_GENERAL])
 			-- Create list from array `steps'.
 		do
 			token_list := Token_table.iterable_to_token_list (a_steps)
 		end
 
-	make_from_directory_path, make_from_file_path (a_path: EL_PATH)
+	make_from_path (a_path: EL_PATH)
 		do
 			if a_path.parent_path.is_empty then
 				create token_list.make_filled (Token_table.token (a_path.base), 1)
 			else
 				token_list := Token_table.token_list (a_path.parent_path, a_path.Separator)
-				token_list.extend (Token_table.token (a_path.base))
+				token_list [token_list.count] := Token_table.token (a_path.base)
 			end
 		ensure
 			same_count: count = a_path.step_count
@@ -178,14 +178,16 @@ feature -- Access
 			if token_list.is_empty then
 				create Result.make_empty
 			else
-				Result := Token_table.token_string (token_list [1])
+				Result := item (1)
 			end
 		end
 
 	item alias "[]" (i: INTEGER): ZSTRING assign put
 		-- Item at `i'-th position
 		do
-			Result := Token_table.token_string (token_list [i])
+			Result := Internal_item
+			Result.wipe_out
+			Result.append (Token_table.token_string (token_list [i]))
 		end
 
 	last: ZSTRING
@@ -195,7 +197,7 @@ feature -- Access
 			if token_list.is_empty then
 				create result.make_empty
 			else
-				Result := Token_table.token_string (token_list [count])
+				Result := item (count)
 			end
 		end
 
@@ -223,9 +225,23 @@ feature -- Measurement
 			Result := token_list.hash_code
 		end
 
-	index_of (step: ZSTRING; start_index: INTEGER): INTEGER
+	index_of (step: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		do
-			Result := token_list.index_of (Token_table.token (step), start_index)
+			Result := token_list.index_of (Token_table.token (as_zstring (step)), start_index)
+		end
+
+	index_of_true (is_step: PREDICATE [EL_ZSTRING]; start_index: INTEGER): INTEGER
+		-- returns first index from `start_index' where `is_step (item (index))' is `True'
+		local
+			i: INTEGER; table: like Token_table
+		do
+			table := Token_table
+			from i := start_index until Result > 0 or i > token_list.count loop
+				if is_step (table.token_string (token_list [i])) then
+					Result := i
+				end
+				i := i + 1
+			end
 		end
 
 	upper: INTEGER
@@ -242,6 +258,12 @@ feature -- Element change
 			same_thread: same_thread (steps)
 		do
 			token_list.append (steps.token_list)
+		end
+
+	append_strings (a_steps: FINITE [READABLE_STRING_GENERAL])
+			-- Create list from array `steps'.
+		do
+			token_list.append (Token_table.iterable_to_token_list (a_steps))
 		end
 
 	expand_variables
@@ -512,6 +534,11 @@ feature {EL_PATH_STEPS} -- Internal attributes
 feature {EL_PATH_STEPS} -- Constants
 
 	Lower: INTEGER = 1
+
+	Internal_item: ZSTRING
+		once
+			create Result.make_empty
+		end
 
 	Token_table: EL_ZSTRING_TOKEN_TABLE
 		once

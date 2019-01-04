@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 16:12:47 GMT (Tuesday 25th December 2018)"
-	revision: "6"
+	date: "2019-01-02 15:59:49 GMT (Wednesday 2nd January 2019)"
+	revision: "7"
 
 class
 	EL_STORED_WORD_TOKEN_TABLE
@@ -42,14 +42,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Element change
-
-	append (a_words: ARRAYED_LIST [ZSTRING])
-		do
-			from a_words.start until a_words.after loop
-				put (a_words.item)
-				a_words.forth
-			end
-		end
 
 	put (a_word: ZSTRING)
 			--

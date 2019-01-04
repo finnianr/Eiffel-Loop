@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 12:14:29 GMT (Tuesday 25th December 2018)"
-	revision: "3"
+	date: "2019-01-02 12:27:23 GMT (Wednesday 2nd January 2019)"
+	revision: "4"
 
 class
 	FILE_EXPERIMENTS
@@ -105,8 +105,6 @@ feature -- Basic operations
 				end
 			end
 		end
-
-
 
 	self_deletion_from_batch
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 11:11:02 GMT (Tuesday 25th December 2018)"
-	revision: "32"
+	date: "2019-01-02 12:36:04 GMT (Wednesday 2nd January 2019)"
+	revision: "33"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -32,22 +32,17 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent date_text.test_formatted_date)
+			do_file_data_test (agent path_steps.test_path_to_steps)
 		end
 
 feature -- Test sets
-
-	audio_command: AUDIO_COMMAND_TEST_SET
-		do
-			create Result
-		end
 
 	amazon_instant_access: AMAZON_INSTANT_ACCESS_TEST_SET
 		do
 			create Result
 		end
 
-	date_text: DATE_TEXT_TEST_SET
+	audio_command: AUDIO_COMMAND_TEST_SET
 		do
 			create Result
 		end
@@ -62,7 +57,17 @@ feature -- Test sets
 			create Result
 		end
 
+	date_text: DATE_TEXT_TEST_SET
+		do
+			create Result
+		end
+
 	digest: DIGEST_ROUTINES_TEST_SET
+		do
+			create Result
+		end
+
+	dir_uri_path: DIR_URI_PATH_TEST_SET
 		do
 			create Result
 		end
@@ -102,7 +107,22 @@ feature -- Test sets
 			create Result
 		end
 
+	path_steps: PATH_STEPS_TEST_SET
+		do
+			create Result
+		end
+
+	paypal: PP_TEST_SET
+		do
+			create Result
+		end
+
 	reflection: REFLECTION_TEST_SET
+		do
+			create Result
+		end
+
+	reflective: REFLECTIVE_TEST_SET
 		do
 			create Result
 		end
@@ -122,12 +142,12 @@ feature -- Test sets
 			create Result
 		end
 
-	string_editor: STRING_EDITOR_TEST_SET
+	string_32_routines: STRING_32_ROUTINES_TEST_SET
 		do
 			create Result
 		end
 
-	string_32_routines: STRING_32_ROUTINES_TEST_SET
+	string_editor: STRING_EDITOR_TEST_SET
 		do
 			create Result
 		end
@@ -142,22 +162,7 @@ feature -- Test sets
 			create Result
 		end
 
-	paypal: PP_TEST_SET
-		do
-			create Result
-		end
-
-	reflective: REFLECTIVE_TEST_SET
-		do
-			create Result
-		end
-
 	translation_table: TRANSLATION_TABLE_TEST_SET
-		do
-			create Result
-		end
-
-	dir_uri_path: DIR_URI_PATH_TEST_SET
 		do
 			create Result
 		end
@@ -168,6 +173,11 @@ feature -- Test sets
 		end
 
 	zstring: ZSTRING_TEST_SET
+		do
+			create Result
+		end
+
+	zstring_token_table: ZSTRING_TOKEN_TABLE_TEST_SET
 		do
 			create Result
 		end

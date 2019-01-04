@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-26 12:06:19 GMT (Wednesday 26th December 2018)"
-	revision: "1"
+	date: "2019-01-02 16:00:57 GMT (Wednesday 2nd January 2019)"
+	revision: "2"
 
 class
 	EL_ZSTRING_TOKEN_TABLE
@@ -48,6 +48,22 @@ feature -- Initialization
 		end
 
 feature -- Element change
+
+	append (a_words: FINITE [ZSTRING])
+		local
+			l_list: LINEAR [ZSTRING]
+		do
+			l_list := l_list.linear_representation
+			from l_list.start until l_list.after loop
+				put (l_list.item)
+				l_list.forth
+			end
+		end
+
+	append_table (table: EL_ZSTRING_TOKEN_TABLE)
+		do
+			append (table.word_list)
+		end
 
 	put (word: ZSTRING)
 			--
@@ -102,7 +118,7 @@ feature -- Access
 			area := a_tokens.area; word_area := word_list.area
 			create Result.make (a_tokens.count)
 			from i := 0 until i = a_tokens.count loop
-				Result.extend (word_area [area.item (i).code - 1])
+				Result.extend (word_area.item (area.item (i).code - 1).twin)
 				i := i + 1
 			end
 		end
@@ -138,6 +154,8 @@ feature -- Access
 			reversible: string ~ joined (Result, separator)
 		end
 
+feature {STRING_HANDLER, EL_ZSTRING_TOKEN_TABLE} -- Implementation
+
 	token_string (a_token: CHARACTER_32): ZSTRING
 		require
 			valid_token: word_list.valid_index (a_token.code)
@@ -153,6 +171,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty
 		end
+
 	Split_list: EL_SPLIT_ZSTRING_LIST
 		once
 			create Result.make_empty

@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-28 13:02:59 GMT (Thursday 28th June 2018)"
-	revision: "7"
+	date: "2019-01-04 11:16:05 GMT (Friday 4th January 2019)"
+	revision: "8"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -74,7 +74,8 @@ feature -- Access
 
 	name: STRING
 		do
-			Result := Naming.crop_as_upper_snake_case (generator, 0, Suffix_count)
+			-- Use {Current} do prevent invariant violiation
+			Result := Naming.class_as_upper_snake ({like Current}, 0, Trailing_word_count)
 		end
 
 feature -- Element change
@@ -156,8 +157,8 @@ feature {NONE} -- Constants
 			Result := "dat"
 		end
 
-	Suffix_count: INTEGER
-		-- Class name suffix count
+	Trailing_word_count: INTEGER
+		-- Number of trailing words to remove from class name when deriving file name
 		once
 			Result := 0
 		end

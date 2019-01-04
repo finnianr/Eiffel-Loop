@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 22:59:13 GMT (Tuesday 25th December 2018)"
-	revision: "19"
+	date: "2019-01-02 13:24:44 GMT (Wednesday 2nd January 2019)"
+	revision: "20"
 
 deferred class
 	EL_PATH
@@ -92,6 +92,20 @@ feature {NONE} -- Initialization
 	make_from_path (a_path: PATH)
 		do
 			make_from_general (a_path.name)
+		end
+
+	make_from_steps (a_steps: FINITE [READABLE_STRING_GENERAL])
+		local
+			path: ZSTRING
+		do
+			path := joined (Separator, a_steps)
+			if a_steps.count = 1 then
+				base := path; parent_path := Empty_string
+			else
+				base := path.substring_end (path.last_index_of (Separator, path.count) + 1)
+				path.remove_tail (base.count)
+				set_parent_path (path)
+			end
 		end
 
 feature -- Initialization
@@ -333,12 +347,7 @@ feature -- Measurement
 
 	step_count: INTEGER
 		do
-			if not base.is_empty then
-				Result := 1
-			end
-			if not parent_path.is_empty then
-				Result := Result + parent_path.occurrences (Separator) + 1
-			end
+			Result := parent_path.occurrences (Separator) + 1
 		end
 
 	has_extension (a_extension: READABLE_STRING_GENERAL): BOOLEAN
@@ -640,7 +649,7 @@ feature -- Conversion
 	steps: EL_PATH_STEPS
 			--
 		do
-			create Result.make (to_string)
+			create Result.make_from_path (Current)
 		end
 
 	to_string: ZSTRING

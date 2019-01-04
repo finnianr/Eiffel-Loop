@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 11:28:33 GMT (Tuesday 25th December 2018)"
-	revision: "10"
+	date: "2019-01-04 11:06:41 GMT (Friday 4th January 2019)"
+	revision: "11"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]

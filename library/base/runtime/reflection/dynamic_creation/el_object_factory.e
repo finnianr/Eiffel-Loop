@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 12:22:52 GMT (Thursday 15th November 2018)"
-	revision: "7"
+	date: "2019-01-04 11:37:55 GMT (Friday 4th January 2019)"
+	revision: "8"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -21,6 +21,11 @@ inherit
 		end
 
 	EL_MODULE_EXCEPTION
+		undefine
+			default_create
+		end
+
+	EL_MODULE_NAMING
 		undefine
 			default_create
 		end
@@ -116,19 +121,18 @@ feature -- Access
 		end
 
 	alias_name (type: TYPE [G]): ZSTRING
-		local
-			words: EL_ZSTRING_LIST
-			prefix_words: EL_STRING_LIST [ZSTRING]
+		-- type name as lower case words with `suffix_word_count' words removed from tail
+		-- (separated by spaces)
 		do
-			create words.make_with_separator (type.name.to_string_8, '_', False)
-			prefix_words := words.subchain (1, words.count - suffix_word_count)
-			Result := prefix_words.joined_words.as_lower
+			Result := Naming.class_with_separator (type, ' ', 0, suffix_word_count)
+			Result.to_lower
 		end
 
 	types_indexed_by_name: EL_ZSTRING_HASH_TABLE [TYPE [G]]
 		-- map of alias names to types
 
 	suffix_word_count: INTEGER
+		-- number of words to remove from tail of type name when deriving `alias_name'
 
 	default_alias: ZSTRING
 

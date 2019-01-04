@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 12:14:52 GMT (Tuesday 25th December 2018)"
-	revision: "37"
+	date: "2019-01-02 12:27:35 GMT (Wednesday 2nd January 2019)"
+	revision: "38"
 
 class
 	EXPERIMENTS_APP
@@ -31,8 +31,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("file.print_app_data")
-			file.print_app_data
+			log.enter ("file.print_os_user_list")
+			file.print_os_user_list
 			log.exit
 		end
 

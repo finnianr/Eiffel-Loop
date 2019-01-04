@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-26 16:50:13 GMT (Wednesday 26th December 2018)"
-	revision: "2"
+	date: "2018-12-27 11:08:39 GMT (Thursday 27th December 2018)"
+	revision: "3"
 
 class
 	IMP_CLASS_LOCATION_NORMALIZER
