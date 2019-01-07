@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-26 14:11:29 GMT (Wednesday 26th December 2018)"
-	revision: "11"
+	date: "2019-01-07 15:28:34 GMT (Monday 7th January 2019)"
+	revision: "12"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -84,6 +84,20 @@ feature -- Access
 				end
 			end
 			text_file.close
+		end
+
+feature -- File lists
+
+	files (a_dir_path: EL_DIR_PATH): like Directory.files
+			--
+		do
+			Result := named_directory (a_dir_path).recursive_files
+		end
+
+	files_with_extension (a_dir_path: EL_DIR_PATH; extension: READABLE_STRING_GENERAL): like Directory.files
+			--
+		do
+			Result := named_directory (a_dir_path).files_with_extension (extension)
 		end
 
 	recursive_files (a_dir_path: EL_DIR_PATH): like Directory.recursive_files
@@ -290,11 +304,6 @@ feature -- Status query
 			l_file.close
 		end
 
-	is_writeable_directory (dir_path: EL_DIR_PATH): BOOLEAN
-		do
-			Result := named_directory (dir_path).is_writable
-		end
-
 	is_file_newer (path_1, path_2: EL_FILE_PATH): BOOLEAN
 		-- `True' if either A or B is true
 		-- A. `path_1' modification time is greater than `path_2' modification time
@@ -303,6 +312,11 @@ feature -- Status query
 			path_1_exists: path_1.exists
 		do
 			Result := not path_2.exists or else file_modification_time (path_1) > file_modification_time (path_2)
+		end
+
+	is_writeable_directory (dir_path: EL_DIR_PATH): BOOLEAN
+		do
+			Result := named_directory (dir_path).is_writable
 		end
 
 feature -- Contract Support

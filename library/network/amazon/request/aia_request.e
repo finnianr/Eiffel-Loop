@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-09 15:28:36 GMT (Wednesday 9th May 2018)"
-	revision: "8"
+	date: "2019-01-07 15:16:44 GMT (Monday 7th January 2019)"
+	revision: "9"
 
 deferred class
 	AIA_REQUEST
@@ -55,7 +55,7 @@ feature {AIA_REQUEST_MANAGER} -- Access
 
 	operation: STRING
 		do
-			Result := Naming.crop_as_lower_snake_case (generator, 4, 8)
+			Result := Naming.class_as_lower_snake (Current, 1, 1)
 		end
 
 	response: AIA_RESPONSE

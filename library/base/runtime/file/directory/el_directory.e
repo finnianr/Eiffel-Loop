@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 11:08:53 GMT (Sunday 23rd December 2018)"
-	revision: "7"
+	date: "2019-01-07 15:26:58 GMT (Monday 7th January 2019)"
+	revision: "8"
 
 class
 	EL_DIRECTORY
@@ -82,7 +82,7 @@ feature -- Access
 			read_entries (Result, Type_any, extension)
 		end
 
-	files: EL_ARRAYED_LIST [EL_FILE_PATH]
+	files: EL_SORTABLE_ARRAYED_LIST [EL_FILE_PATH]
 		do
 			create Result.make (20)
 			read_entries (Result, Type_file, Empty_string_8)

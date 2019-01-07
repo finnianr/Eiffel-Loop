@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2019-01-06 10:16:09 GMT (Sunday 6th January 2019)"
+	revision: "7"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -49,7 +49,13 @@ feature -- Access
 
 	name_pattern: ZSTRING
 
-	path_list: EL_ARRAYED_LIST [like new_path]
+	path_list: EL_SORTABLE_ARRAYED_LIST [like new_path]
+
+	sorted_path_list: like path_list
+		do
+			Result := path_list
+			Result.sort
+		end
 
 	type: STRING
 			-- Unix find type
