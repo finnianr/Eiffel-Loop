@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-01-08 10:21:07 GMT (Tuesday 8th January 2019)"
+	revision: "5"
 
 class
 	EL_IMAGE_PATH_ROUTINES
@@ -29,19 +29,19 @@ inherit
 feature -- Access
 
 	icon (relative_path_steps: EL_PATH_STEPS): EL_FILE_PATH
-			-- application icon
+		-- application icon
 		do
 			Result := Icons_path.joined_file_path (relative_path_steps)
 		end
 
 	desktop_menu_icon (relative_path_steps: EL_PATH_STEPS): EL_FILE_PATH
-			-- Icons for setting up desktop menu launchers
+		-- Icons for setting up desktop menu launchers
 		do
 			Result := Desktop_menu_icons_path.joined_file_path (relative_path_steps)
 		end
 
 	image (relative_path_steps: EL_PATH_STEPS): EL_FILE_PATH
-			-- application image
+		-- application image
 		do
 			Result := Images_path.joined_file_path (relative_path_steps)
 		end
@@ -49,37 +49,31 @@ feature -- Access
 feature -- Constants
 
 	Icons_path: EL_DIR_PATH
-			--
 		once
 			Result := Directory.application_installation.joined_dir_path (Step_icons)
 		end
 
 	Desktop_menu_icons_path: EL_DIR_PATH
-			--
 		once
 			Result := Directory.application_installation.joined_dir_path (Step_desktop_icons)
 		end
 
 	Images_path: EL_DIR_PATH
-			--
 		once
 			Result := Directory.application_installation.joined_dir_path (Step_images)
 		end
 
 	User_icons_path: EL_DIR_PATH
-			--
 		once
 			Result := Directory.App_configuration.joined_dir_path (Step_icons)
 		end
 
 	User_desktop_menu_icons_path: EL_DIR_PATH
-			--
 		once
 			Result := Directory.App_configuration.joined_dir_path (Step_desktop_icons)
 		end
 
 	User_images_path: EL_DIR_PATH
-			--
 		once
 			Result := Directory.App_configuration.joined_dir_path (Step_images)
 		end

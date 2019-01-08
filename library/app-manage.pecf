@@ -37,6 +37,9 @@ system:
 			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
 
 		library:
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		library:
 			name = vision2; location="override/ES-vision2.ecf"
 			condition:
 				custom:
@@ -59,10 +62,16 @@ system:
 			name = EL_evolicity; location = "evolicity.ecf"
 
 		library:
+			name = EL_http_client; location = "http-client.ecf"
+
+		library:
 			name = EL_os_command; location = "os-command.ecf"
 
 		library:
 			name = EL_text_process; location = "text-process.ecf"
+
+		library:
+			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
 
 		library:
 			name = EL_wel_regedit_x; location = "wel-regedit-x.ecf"

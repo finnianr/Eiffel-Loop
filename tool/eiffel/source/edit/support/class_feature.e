@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 14:39:36 GMT (Monday 5th November 2018)"
-	revision: "10"
+	date: "2019-01-08 22:23:11 GMT (Tuesday 8th January 2019)"
+	revision: "11"
 
 class
 	CLASS_FEATURE
@@ -343,7 +343,7 @@ feature {NONE} -- Constants
 					do
 						$name := a_$name
 					end
-
+				
 			]")
 		end
 

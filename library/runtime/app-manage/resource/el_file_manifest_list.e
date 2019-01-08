@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-07 18:33:28 GMT (Monday 7th January 2019)"
-	revision: "1"
+	date: "2019-01-08 18:37:47 GMT (Tuesday 8th January 2019)"
+	revision: "2"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -66,6 +66,22 @@ feature -- Access
 				end
 				lines.close
 			end
+		end
+
+	name_set: EL_HASH_SET [ZSTRING]
+		do
+			create Result.make_equal (count)
+			across Current as file loop
+				Result.put (file.item.name)
+			end
+		end
+
+	total_byte_count: INTEGER
+		local
+			summator: EL_CHAIN_SUMMATOR [EL_FILE_MANIFEST_ITEM, INTEGER]
+		do
+			create summator
+			Result := summator.sum (Current, agent {EL_FILE_MANIFEST_ITEM}.byte_count)
 		end
 
 feature -- Element change

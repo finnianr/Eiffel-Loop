@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-07 18:28:14 GMT (Monday 7th January 2019)"
-	revision: "2"
+	date: "2019-01-08 22:21:41 GMT (Tuesday 8th January 2019)"
+	revision: "3"
 
 class
 	EL_FILE_MANIFEST_ITEM
@@ -73,6 +73,11 @@ feature -- Access
 	modification_time: INTEGER
 
 	name: ZSTRING
+
+	set_name (a_name: ZSTRING)
+		do
+			name := a_name
+		end
 
 feature -- Comparison
 
