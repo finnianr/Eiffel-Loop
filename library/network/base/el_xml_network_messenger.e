@@ -27,7 +27,7 @@ inherit
 			default_create, is_equal, copy
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 		undefine
 			default_create, is_equal, copy
 		end
@@ -49,11 +49,14 @@ feature {NONE} -- Implementation
 	send_message
 			--
 		do
-			log.enter ("send_message")
+			if is_lio_enabled then
+				lio.put_line ("sending message")
+			end
 			data_socket.put_string (xml_message)
-			log.put_string_field_to_max_length ("XML", xml_message, 80 )
-			log.put_new_line
-			log.exit
+			if is_lio_enabled then
+				lio.put_string_field_to_max_length ("XML", xml_message, 80 )
+				lio.put_new_line
+			end
 		rescue
 			-- The network connection has probably been broken
 			net_exception_occurred := true

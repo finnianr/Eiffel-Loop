@@ -61,9 +61,6 @@ system:
 			name = EL_c_api; location = "C-language-interface.ecf"
 
 		library:
-			name = EL_logging; location = "logging.ecf"
-
-		library:
 			name = EL_os_command; location = "os-command.ecf"
 
 		library:

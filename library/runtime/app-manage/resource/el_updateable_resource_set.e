@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 		do
 			installed_dir := installed_base_dir.joined_dir_path (relative_path)
 			updated_dir := updated_base_dir.joined_dir_path (relative_path)
-			manifest_path := item_path (Manifest_name)
+			manifest_path := new_item_path (Manifest_name)
 			if manifest_path.exists then
 				make_from_file (manifest_path)
 			else
@@ -52,7 +52,7 @@ feature -- Access
 	i_th_path (i: INTEGER): EL_FILE_PATH
 		do
 			if valid_index (i) then
-				Result := item_path (i_th (i).name)
+				Result := new_item_path (i_th (i).name)
 			else
 				create Result
 			end
@@ -61,7 +61,12 @@ feature -- Access
 	installed_dir: EL_DIR_PATH
 		-- directory for installed items
 
-	item_path (name: ZSTRING): EL_FILE_PATH
+	item_path: EL_FILE_PATH
+		do
+			Result := new_item_path (item.name)
+		end
+
+	new_item_path (name: ZSTRING): EL_FILE_PATH
 		do
 			Result := updated_dir + name
 			if not Result.exists then

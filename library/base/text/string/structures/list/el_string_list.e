@@ -35,7 +35,7 @@ inherit
 		export
 			{NONE} array_subchain
 		redefine
-			make, make_from_array
+			make, make_from_array, make_from_tuple
 		end
 
 create

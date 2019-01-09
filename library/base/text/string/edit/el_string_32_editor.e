@@ -19,11 +19,19 @@ class
 
 inherit
 	EL_STRING_EDITOR [STRING_32]
+		redefine
+			new_string
+		end
 
 create
 	make
 
 feature {NONE} -- Implementation
+
+	new_string (general: READABLE_STRING_GENERAL): STRING
+		do
+			Result := general.to_string_32
+		end
 
 	set_target (str: STRING_32)
 		do

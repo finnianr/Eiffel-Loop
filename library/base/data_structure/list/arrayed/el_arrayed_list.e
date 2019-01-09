@@ -30,7 +30,7 @@ inherit
 		end
 
 create
-	make, make_filled, make_from_array, make_empty, make_from_sub_list
+	make, make_filled, make_from_array, make_empty, make_from_sub_list, make_from_tuple
 
 convert
 	make_from_array ({ARRAY [G]})
@@ -57,6 +57,20 @@ feature {NONE} -- Initialization
 					extend (list [i])
 					i := i + 1
 				end
+			end
+		end
+
+	make_from_tuple (tuple: TUPLE)
+		-- extend Current with items in `tuple' of type conforming to `G'
+		local
+			i: INTEGER
+		do
+			make (tuple.count)
+			from i := 1 until i > tuple.count loop
+				if attached {G} tuple.item (i) as l_item then
+					extend (l_item)
+				end
+				i := i + 1
 			end
 		end
 
@@ -136,21 +150,6 @@ feature -- Cursor movement
 
 feature -- Element change
 
-	shift_i_th (i, offset: INTEGER)
-		-- shift `i'th item by `offset' positions to the right
-		-- or to the left if `offset' negative
-		require
-			valid_index: valid_index (i)
-			valid_offset: (1 |..| count).has (i + offset)
-		do
-			if offset /= 0 then
-				push_cursor
-				go_i_th (i)
-				shift (offset)
-				pop_cursor
-			end
-		end
-
 	shift (offset: INTEGER)
 		-- shift item by `offset' positions to the right
 		-- or to the left if `offset' negative
@@ -169,6 +168,21 @@ feature -- Element change
 					go_i_th (index + offset)
 				end
 				put_right (l_item)
+			end
+		end
+
+	shift_i_th (i, offset: INTEGER)
+		-- shift `i'th item by `offset' positions to the right
+		-- or to the left if `offset' negative
+		require
+			valid_index: valid_index (i)
+			valid_offset: (1 |..| count).has (i + offset)
+		do
+			if offset /= 0 then
+				push_cursor
+				go_i_th (i)
+				shift (offset)
+				pop_cursor
 			end
 		end
 

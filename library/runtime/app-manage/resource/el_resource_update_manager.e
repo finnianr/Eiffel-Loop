@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	extend (download_list: LIST [EL_DOWNLOADEABLE_RESOURCES])
+	extend (download_list: LIST [EL_DOWNLOADEABLE_RESOURCE])
 		do
 			download_list.extend (Current)
 		end

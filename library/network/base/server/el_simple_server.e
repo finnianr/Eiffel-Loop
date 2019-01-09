@@ -13,7 +13,7 @@ class
 	EL_SIMPLE_SERVER [H -> EL_SERVER_COMMAND_HANDLER create make end]
 
 inherit
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make_local
@@ -34,11 +34,11 @@ feature -- Basic operations
 			client: EL_NETWORK_STREAM_SOCKET
 			done: BOOLEAN; pos_space: INTEGER; command, message: STRING
 		do
-			log.enter ("launch")
+			lio.put_line ("launching")
 			socket.listen (1)
-			log.put_line ("Waiting for connection")
+			lio.put_line ("Waiting for connection")
 			socket.accept
-			log.put_line ("accepted")
+			lio.put_line ("accepted")
 			from until done loop
 				if socket.is_client_connected then
 					client := socket.accepted
@@ -60,7 +60,6 @@ feature -- Basic operations
 				end
 			end
 			socket.cleanup
-			log.exit
 		end
 
 feature {NONE} -- Implementation

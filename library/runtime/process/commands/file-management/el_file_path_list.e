@@ -19,6 +19,8 @@ inherit
 			first as first_path,
 			item as path,
 			last as last_path
+		redefine
+			make_from_tuple
 		end
 
 	EL_MODULE_OS

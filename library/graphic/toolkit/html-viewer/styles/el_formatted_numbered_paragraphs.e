@@ -13,11 +13,12 @@ class
 	EL_FORMATTED_NUMBERED_PARAGRAPHS
 
 inherit
-	EL_FORMATTED_TEXT_BLOCK
+	EL_FORMATTED_BULLETED_PARAGRAPHS
 		rename
-			make as make_paragraph
+			make as make_paragraph,
+			bullet_text as numbered_text
 		redefine
-			append_text, separate_from_previous
+			numbered_text
 		end
 
 create
@@ -31,34 +32,21 @@ feature {NONE} -- Initialization
 			index := a_index
 		end
 
-feature -- Basic operations
-
-	separate_from_previous (a_previous: EL_FORMATTED_TEXT_BLOCK)
-			-- append new line to previous paragraph if not a header
-		do
-			a_previous.append_new_line
-			if attached {EL_FORMATTED_TEXT_BLOCK} a_previous then
-				a_previous.append_new_line
-			end
-		end
-
 feature -- Access
 
 	index: INTEGER
 
 feature -- Element change
 
-	append_text (a_text: ZSTRING)
-		do
-			if paragraphs.is_empty then
-				Precursor (index.out + ".")
-			end
-			Precursor (a_text)
-		end
-
 	set_index (a_index: like index)
 		do
 			index := a_index
 		end
 
+feature {NONE} -- Implementation
+
+	numbered_text: ZSTRING
+		do
+			Result := index.out + "."
+		end
 end

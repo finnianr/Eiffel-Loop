@@ -1,5 +1,17 @@
 note
-	description: "Html text"
+	description: "[
+		Simple XHTML text renderer with support for the following markup:
+		
+		* Blockquotes: `<blockquote>'
+		* Paragraphs: `<p>'
+		* Ordered lists: `<ol><li>`
+		* Unordered lists: `<ul><li>`
+		* Pre-formatted text: `<pre>'
+		* Anchor text highlighting but no hyperlink: `<a>'
+		* Bold text: `<b>'
+		* Italic text: `<i>'
+		* Line breaks: `<br/>'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -106,6 +118,47 @@ feature -- Access
 
 	page_title: ZSTRING
 
+feature {NONE} -- Ordered list Xpath events
+
+	on_ordered_list
+		do
+			list_item_number := 1
+			block_indent := block_indent + 1
+		end
+
+	on_ordered_list_start
+		do
+			list_item_number := last_node.to_integer
+		end
+
+	on_ordered_list_close
+		do
+			block_indent := block_indent - 1
+		end
+
+	on_ordered_list_item
+		do
+			text_blocks.extend (create {EL_FORMATTED_NUMBERED_PARAGRAPHS}.make (style, block_indent, list_item_number))
+			list_item_number := list_item_number + 1
+		end
+
+feature {NONE} -- Unordered list Xpath events
+
+	on_unordered_list
+		do
+			block_indent := block_indent + 1
+		end
+
+	on_unordered_list_close
+		do
+			block_indent := block_indent - 1
+		end
+
+	on_unordered_list_item
+		do
+			text_blocks.extend (create {EL_FORMATTED_BULLETED_PARAGRAPHS}.make (style, block_indent))
+		end
+
 feature {NONE} -- Xpath event handlers
 
 	on_title
@@ -169,28 +222,6 @@ feature {NONE} -- Xpath event handlers
 			end
 		end
 
-	on_numbered_list
-		do
-			list_item_number := 1
-			block_indent := block_indent + 1
-		end
-
-	on_numbered_list_start
-		do
-			list_item_number := last_node.to_integer
-		end
-
-	on_numbered_list_close
-		do
-			block_indent := block_indent - 1
-		end
-
-	on_numbered_list_item
-		do
-			text_blocks.extend (create {EL_FORMATTED_NUMBERED_PARAGRAPHS}.make (style, block_indent, list_item_number))
-			list_item_number := list_item_number + 1
-		end
-
 	on_text
 		do
 			if not last_node.is_empty then
@@ -232,10 +263,14 @@ feature {NONE} -- Implementation
 
 				[on_open, "//pre",  				agent on_preformatted],
 
-				[on_open, "//ol",  				agent on_numbered_list],
-				[on_open, "//ol/@start",		agent on_numbered_list_start],
-				[on_close, "//ol", 	 			agent on_numbered_list_close],
-				[on_open, "//ol/li", 			agent on_numbered_list_item],
+				[on_open, "//ol",  				agent on_ordered_list],
+				[on_open, "//ol/@start",		agent on_ordered_list_start],
+				[on_close, "//ol", 	 			agent on_ordered_list_close],
+				[on_open, "//ol/li", 			agent on_ordered_list_item],
+
+				[on_open, "//ul",  				agent on_unordered_list],
+				[on_close, "//ul", 	 			agent on_unordered_list_close],
+				[on_open, "//ul/li", 			agent on_unordered_list_item],
 
 				[on_open, "//text()", 			agent on_text],
 				[on_open, "//br",  				agent on_line_break],

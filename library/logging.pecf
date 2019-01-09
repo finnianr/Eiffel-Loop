@@ -9,7 +9,8 @@ system:
 		"""
 			Multi-threaded Logging
 
-			Logging library featuring color highlighted output and mimicry of Eiffel routine code in output.
+			Logging library featuring color highlighted output and mimicry of Eiffel routine code
+			in output.
 
 			See doc/logging.txt for details.
 		"""

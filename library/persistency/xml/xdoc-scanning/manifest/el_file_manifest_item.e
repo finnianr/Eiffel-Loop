@@ -46,7 +46,10 @@ inherit
 		end
 
 create
-	make, make_default
+	make, make_default, make_named
+
+convert
+	make_named ({STRING, STRING_32})
 
 feature {NONE} -- Initialization
 
@@ -66,6 +69,12 @@ feature {NONE} -- Initialization
 			Precursor {EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT}
 		end
 
+	make_named (a_name: READABLE_STRING_GENERAL)
+		do
+			make_default
+			create name.make_from_general (a_name)
+		end
+
 feature -- Access
 
 	byte_count: INTEGER
@@ -74,6 +83,18 @@ feature -- Access
 
 	name: ZSTRING
 
+feature -- Element change
+
+	set_byte_count (a_byte_count: like byte_count)
+		do
+			byte_count := a_byte_count
+		end
+	
+	set_modification_time (a_modification_time: like modification_time)
+		do
+			modification_time := a_modification_time
+		end
+	
 	set_name (a_name: ZSTRING)
 		do
 			name := a_name

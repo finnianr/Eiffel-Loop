@@ -26,11 +26,6 @@ inherit
 
 feature -- Access
 
-	query_if (condition: EL_PREDICATE_QUERY_CONDITION [G]): like query
-		do
-			Result := query (condition)
-		end
-
 	count_meeting (condition: EL_QUERY_CONDITION [G]): INTEGER
 		-- count of items meeting `condition'
 		do
@@ -95,6 +90,11 @@ feature -- Access
 				Result.extend (i_th (indices [i]))
 				i := i + 1
 			end
+		end
+
+	query_if (condition: EL_PREDICATE_QUERY_CONDITION [G]): like query
+		do
+			Result := query (condition)
 		end
 
 	query_is_equal (target_value: ANY; value: FUNCTION [G, ANY]): EL_ARRAYED_LIST [G]

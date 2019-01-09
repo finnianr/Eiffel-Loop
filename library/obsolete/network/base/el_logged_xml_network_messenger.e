@@ -1,5 +1,10 @@
 note
 	description: "Logged xml network messenger"
+	
+	notes: "[
+		Removed from network.ecf because it created a dependency cycle between
+		app-manage.ecf, logging.ecf and network.ecf.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
