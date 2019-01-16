@@ -66,7 +66,6 @@ publish-repository:
 			alias-map:
 				old_name = EL_ZSTRING; new_name = ZSTRING
 
-		ecf:
 		# Library Graphics
 		ecf:
 			"library/image-utils.ecf"

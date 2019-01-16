@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-09 17:42:15 GMT (Monday 9th April 2018)"
-	revision: "2"
+	date: "2019-01-10 19:07:37 GMT (Thursday 10th January 2019)"
+	revision: "3"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -18,13 +18,13 @@ deferred class
 inherit
 	STRING
 		rename
-			append as append_8,
+			append as append_raw_8,
+			append_substring_general as append_raw_substring_general,
 			make_from_string as make_encoded,
 			set as set_encoded
 		export
 			{NONE} all
-			{ANY} Is_string_8, wipe_out, share, set_encoded, count, area, is_empty, capacity, same_string
-
+			{ANY} Is_string_8, wipe_out, share, set_encoded, count, area, is_empty, capacity, same_string, to_c
 		end
 
 	EL_MODULE_UTF
@@ -67,27 +67,67 @@ feature -- Conversion
 feature -- Element change
 
 	append_general (s: READABLE_STRING_GENERAL)
+		do
+			append_substring_general (s, 1, s.count)
+		end
+
+	append_substring_general (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
+		require
+			start_index_valid: start_index >= 1
+			end_index_valid: end_index <= s.count
+			valid_bounds: start_index <= end_index + 1
 		local
-			i, s_count: INTEGER; uc: CHARACTER_32; utf_count: INTEGER
+			uc: CHARACTER_32; i, utf_count, s_count: INTEGER
 			utf_8: like Utf_8_sequence
 		do
 			utf_8 := Utf_8_sequence
-			s_count := s.count
-			utf_count := utf_8_bytes_count (utf_8, s)
+			s_count := end_index - start_index + 1
+			utf_count := utf_8.byte_count (s, start_index, end_index)
 			grow (count + utf_count + (utf_count - s_count) // 2)
-			from i := 1 until i > s_count loop
+			from i := start_index until i > end_index loop
 				uc := s [i]
-				if is_unescaped_basic (uc) then
-					append_code (uc.natural_32_code)
-				elseif is_unescaped_extra (uc) then
-					append_code (uc.natural_32_code)
+				if is_unescaped_basic (uc) or else is_unescaped_extra (uc) then
+					append_character (uc.to_character_8)
 				else
 					append_encoded	(utf_8, uc)
 				end
 				i := i + 1
 			end
 		ensure
-			reversible: UTF.utf_32_string_to_utf_8_string_8 (s.to_string_32) ~ substring (old count + 1, count).to_utf_8
+			reversible: substring_utf_8 (s, start_index, end_index) ~ substring (old count + 1, count).to_utf_8
+		end
+
+	append_unencoded_general (s: READABLE_STRING_GENERAL)
+		-- append `s' without any encoding
+		do
+			append_unencoded_substring_general (s, 1, s.count)
+		end
+
+	append_unencoded_substring_general (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
+		-- append `s' without any encoding from `start_index' to `end_index'
+		require
+			start_index_valid: start_index >= 1
+			end_index_valid: end_index <= s.count
+			valid_bounds: start_index <= end_index + 1
+		local
+			uc: CHARACTER_32; i, j: INTEGER
+			l_area: like area
+		do
+			grow (count + end_index - start_index + 1)
+			l_area := area
+			from i := start_index until i > end_index loop
+				uc := s [i]; j := count + i - start_index
+				if uc.is_character_8 then
+					l_area [j] := uc.to_character_8
+				else
+					l_area [j] := Unencoded_character
+				end
+				i := i + 1
+			end
+			set_count (count + end_index - start_index + 1)
+			internal_hash_code := 0
+		ensure
+			appended_is_unencoded: s.same_characters (Current, start_index, end_index, old count + 1)
 		end
 
 	set_from_string (str: ZSTRING)
@@ -106,7 +146,7 @@ feature {NONE} -- Implementation
 	append_encoded (utf_8: like Utf_8_sequence; uc: CHARACTER_32)
 		do
 			utf_8.set (uc)
-			utf_8.append_hexadecimal_escaped_to (Current, Escape_character)
+			append_string (utf_8.to_hexadecimal_escaped (Escape_character))
 		end
 
 	is_sequence (a_area: like area; offset: INTEGER): BOOLEAN
@@ -145,16 +185,9 @@ feature {NONE} -- Implementation
 			Result := (Hexadecimal.to_decimal (hi_c) |<< 4) | Hexadecimal.to_decimal (low_c)
 		end
 
-	utf_8_bytes_count (utf_8: like Utf_8_sequence; s: READABLE_STRING_GENERAL): INTEGER
-		local
-			i, s_count: INTEGER
+	substring_utf_8 (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING
 		do
-			s_count := s.count
-			from i := 1 until i > s_count loop
-				utf_8.set (s [i])
-				Result := Result + utf_8.count
-				i := i + 1
-			end
+			Result := UTF.utf_32_string_to_utf_8_string_8 (s.substring (start_index, end_index).to_string_32)
 		end
 
 feature {NONE} -- Deferred implementation
@@ -180,4 +213,9 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
+	Unencoded_character: CHARACTER = '%/026/'
+		-- The substitute character SUB
+		-- A substitute character (SUB) is a control character that is used in the place of a character that is
+		-- recognized to be invalid or in error or that cannot be represented on a given device.
+		-- See https://en.wikipedia.org/wiki/Substitute_character
 end

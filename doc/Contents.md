@@ -417,8 +417,12 @@ Image utilities providing:
 1. SVG to PNG conversion using C library [librsvg](http://librsvg.sourceforge.net/)
 2. Miscellaneous routines from the [Cairo graphics C library](https://cairographics.org/)
 
-## HTML Viewer (based on Vision-2)
-Extension for Vision2 library to render very basic html produced by Thunderbird email client.
+## XHTML Viewer
+A basic XHTML text renderer based on the [EV_RICH_TEXT](https://www.eiffel.org/files/doc/static/17.05/libraries/vision2/ev_rich_text_flatshort.html) component found in the [EiffelVision2 library](https://www.eiffel.org/doc/solutions/EiffelVision_2).
+
+It was used to create the help system in the [My Ching software](http://myching.software) with page content authored in the Thunderbird email client and then exported as XHTML.
+
+See class [EL_HTML_TEXT](http://www.eiffel-loop.com/library/graphic/toolkit/html-viewer/el_html_text.html) below for supported XHTML tags. This component facilitates the creation of a hyperlinked contents side bar in a split window.
 ## Vision2-X UI Container Extensions
 Window, dialogs and other widget-container extensions for the [EiffelVision2](https://www.eiffel.org/resources/libraries/eiffelvision2) library.
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-01-09 19:18:36 GMT (Wednesday 9th January 2019)"
+	revision: "5"
 
 class
 	TEST_SIMPLE_SERVER
@@ -61,8 +61,7 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{TEST_SIMPLE_SERVER}, All_routines],
-				[{SIMPLE_COMMAND_HANDLER}, All_routines],
-				[{EL_SIMPLE_SERVER [SIMPLE_COMMAND_HANDLER]}, All_routines]
+				[{SIMPLE_COMMAND_HANDLER}, All_routines]
 			>>
 		end
 

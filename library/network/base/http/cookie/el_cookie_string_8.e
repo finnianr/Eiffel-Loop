@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-09 16:25:34 GMT (Monday 9th April 2018)"
-	revision: "2"
+	date: "2019-01-10 19:07:38 GMT (Thursday 10th January 2019)"
+	revision: "3"
 
 class
 	EL_COOKIE_STRING_8
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 	append_encoded (utf_8: like Utf_8_sequence; uc: CHARACTER_32)
 		do
 			utf_8.set (uc)
-			utf_8.append_octal_escaped_to (Current, Escape_character)
+			append_string (utf_8.to_octal_escaped (Escape_character))
 		end
 
 	is_unescaped_basic (c: CHARACTER_32): BOOLEAN

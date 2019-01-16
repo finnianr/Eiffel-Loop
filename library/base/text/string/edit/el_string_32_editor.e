@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-13 22:26:58 GMT (Saturday 13th October 2018)"
-	revision: "1"
+	date: "2019-01-09 19:16:12 GMT (Wednesday 9th January 2019)"
+	revision: "2"
 
 class
 	EL_STRING_32_EDITOR
@@ -28,7 +28,7 @@ create
 
 feature {NONE} -- Implementation
 
-	new_string (general: READABLE_STRING_GENERAL): STRING
+	new_string (general: READABLE_STRING_GENERAL): STRING_32
 		do
 			Result := general.to_string_32
 		end

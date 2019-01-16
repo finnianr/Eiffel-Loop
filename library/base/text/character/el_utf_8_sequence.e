@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-09 10:58:59 GMT (Monday 9th April 2018)"
-	revision: "2"
+	date: "2019-01-10 19:07:24 GMT (Thursday 10th January 2019)"
+	revision: "3"
 
 class
 	EL_UTF_8_SEQUENCE
 
 inherit
 	EL_UTF_SEQUENCE
+
+	STRING_HANDLER
 
 create
 	make
@@ -61,49 +63,96 @@ feature -- Element change
 			end
 		end
 
+feature -- Measurement
+
+	byte_count (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER
+		require
+			start_index_valid: start_index >= 1
+			end_index_valid: end_index <= str.count
+			valid_bounds: start_index <= end_index + 1
+		local
+			i: INTEGER; code: NATURAL
+		do
+			from i := start_index until i > end_index loop
+				code := str.item (i).natural_32_code
+				if code <= 0x7F then
+						-- 0xxxxxxx
+					Result := Result + 1
+
+				elseif code <= 0x7FF then
+						-- 110xxxxx 10xxxxxx
+					Result := Result + 2
+
+				elseif code <= 0xFFFF then
+						-- 1110xxxx 10xxxxxx 10xxxxxx
+					Result := Result + 3
+				else
+						-- code <= 1FFFFF - there are no higher code points
+						-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+					Result := Result + 4
+				end
+				i := i + 1
+			end
+		end
+
+feature -- Conversion
+
+	to_hexadecimal_escaped (escape_character: CHARACTER): STRING
+		local
+			i, l_count: INTEGER; l_area: like area
+			code: NATURAL; buffer_area: like buffer.area
+		do
+			l_area := area; l_count := count
+			Result := buffer
+			Result.grow (l_count * 3)
+			buffer_area := Result.area
+			from i := 0 until i = l_count loop
+				code := l_area [i]
+				buffer_area [i * 3] := escape_character
+				buffer_area [i * 3 + 1] := (code |>> 4).to_hex_character
+				buffer_area [i * 3 + 2] := (code & 0xF).to_hex_character
+				i := i + 1
+			end
+			Result.set_count (l_count * 3)
+		end
+
+	to_octal_escaped (escape_character: CHARACTER): STRING
+		local
+			i, l_count: INTEGER; l_area: like area
+			code: NATURAL; buffer_area: like buffer.area
+		do
+			l_area := area; l_count := count
+			Result := buffer
+			Result.grow (l_count * 4)
+			buffer_area := Result.area
+			from i := 0 until i = l_count loop
+				code := l_area [i]
+				buffer_area [i * 4] := escape_character
+				buffer_area [i * 4 + 1] := octal_character (code |>> 6)
+				buffer_area [i * 4 + 2] := octal_character ((code |>> 3) & 0x7)
+				buffer_area [i * 4 + 3] := octal_character (code & 0x7)
+				i := i + 1
+			end
+			Result.set_count (l_count * 3)
+		end
+
+	to_utf_8: STRING
+		local
+			i, l_count: INTEGER; l_area: like area
+			buffer_area: like buffer.area
+		do
+			l_area := area; l_count := count
+			Result := buffer
+			Result.grow (l_count)
+			buffer_area := Result.area
+			from i := 0 until i = l_count loop
+				buffer_area [i] := l_area.item (i).to_character_8
+				i := i + 1
+			end
+			Result.set_count (l_count * 3)
+		end
+
 feature -- Basic operations
-
-	append_hexadecimal_escaped_to (str: STRING; escape_character: CHARACTER)
-		local
-			i, l_count: INTEGER; l_area: like area
-			code: NATURAL
-		do
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				code := l_area [i]
-				str.append_character (escape_character)
-				str.append_character ((code |>> 4).to_hex_character)
-				str.append_character ((code & 0xF).to_hex_character)
-				i := i + 1
-			end
-		end
-
-	append_octal_escaped_to (str: STRING; escape_character: CHARACTER)
-		local
-			i, l_count: INTEGER; l_area: like area
-			code: NATURAL
-		do
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				code := l_area [i]
-				str.append_character (escape_character)
-				str.append_character (octal_character (code |>> 6))
-				str.append_character (octal_character ((code |>> 3) & 0x7 ))
-				str.append_character (octal_character (code & 0x7))
-				i := i + 1
-			end
-		end
-
-	append_to (str: STRING)
-		local
-			i, l_count: INTEGER; l_area: like area
-		do
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				str.append_code (l_area.item (i))
-				i := i + 1
-			end
-		end
 
 	write (writeable: EL_WRITEABLE)
 		local
@@ -125,6 +174,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Buffer: STRING = ""
 
 	Zero_code: NATURAL = 48
 

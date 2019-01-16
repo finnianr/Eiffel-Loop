@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2019-01-11 19:26:45 GMT (Friday 11th January 2019)"
+	revision: "8"
 
 class
 	EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]
@@ -16,7 +16,7 @@ inherit
 	EL_ARRAYED_LIST [G]
 
 create
-	make, make_filled, make_from_array, make_sorted
+	make, make_filled, make_from_array, make_sorted, make_empty
 
 convert
 	make_sorted ({FINITE [G]})

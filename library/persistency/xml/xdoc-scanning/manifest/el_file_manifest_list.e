@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-08 18:37:47 GMT (Tuesday 8th January 2019)"
-	revision: "2"
+	date: "2019-01-13 17:36:20 GMT (Sunday 13th January 2019)"
+	revision: "4"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -15,14 +15,17 @@ class
 inherit
 	EL_SORTABLE_ARRAYED_LIST [EL_FILE_MANIFEST_ITEM]
 		rename
-			make as make_list
+			make as make_list,
+			make_empty as make_empty_list
 		end
 
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
+		rename
+			make_default as make_empty
 		undefine
 			is_equal, copy
 		redefine
-			make_default
+			make_empty
 		end
 
 	EL_MODULE_CRC_32
@@ -36,13 +39,13 @@ inherit
 		end
 
 create
-	make_from_template_and_output, make_from_file, make_from_string
+	make_empty, make_from_template_and_output, make_from_file, make_from_string
 
 feature {NONE} -- Initialization
 
-	make_default
+	make_empty
 		do
-			make_list (0)
+			make_empty_list
 			compare_objects
 			Precursor
 		end
@@ -100,6 +103,11 @@ feature -- Element change
 			end
 		end
 
+	set_digest (a_digest: like digest)
+		do
+			digest := a_digest
+		end
+	
 feature -- Status query
 
 	is_modified: BOOLEAN

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-01-14 12:44:15 GMT (Monday 14th January 2019)"
+	revision: "6"
 
 deferred class
 	EL_VERTICAL_DIALOG
@@ -276,13 +276,13 @@ feature {NONE} -- Implementation
 
 	new_box_section_list: ARRAYED_LIST [EL_BOX]
 		local
-			array: like components; i: INTEGER
+			list: LINEAR [ARRAY [EV_WIDGET]]; finite: like components
 		do
-			array := components
-			create Result.make (array.count)
-			from i := 1 until i > array.count loop
-				Result.extend (new_section_box (array [i], i))
-				i := i + 1
+			finite := components; list := finite.linear_representation
+			create Result.make (finite.count)
+			from list.start until list.after loop
+				Result.extend (new_section_box (list.item, list.index))
+				list.forth
 			end
 		end
 
@@ -333,7 +333,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Unimplementated
 
-	components: ARRAY [ARRAY [EV_WIDGET]]
+	components: FINITE [ARRAY [EV_WIDGET]]
 		deferred
 		end
 

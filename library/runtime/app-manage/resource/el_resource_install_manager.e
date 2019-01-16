@@ -1,13 +1,21 @@
 note
-	description: "Resource manager to install items by HTTP download"
+	description: "[
+		Manager to install a directory of file items with common extension by HTTP download
+		A related class [$source EL_RESOURCE_UPDATE_MANAGER] can be used to make an update
+		manager that checks for an installs updates in a user directory.
+	]"
+	instructions: "[
+		Use the class [source EL_UPDATEABLE_RESOURCE_SET] to to create a shared instance of the resource
+		to be managed for use in your application. Define `resource_set' to make it accessible to a manager class.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-08 22:57:18 GMT (Tuesday 8th January 2019)"
-	revision: "1"
+	date: "2019-01-13 15:57:49 GMT (Sunday 13th January 2019)"
+	revision: "3"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -24,22 +32,10 @@ inherit
 feature {NONE} -- Initialization
 
 	make
-		local
-			web: like new_connection
 		do
 			create last_download_name.make_empty
 			download_complete_action := agent last_download_name.share
-			web := new_connection
-			web.open (url_template #$ [domain, manifest_name])
-			web.read_string_get
-			web.close
-			if web.last_string.has_substring ("</file-list>") then
-				File_system.make_directory (target_dir)
-				File_system.write_plain_text (target_dir + manifest_name, web.last_string)
-				create manifest.make_from_string (web.last_string)
-			else
-				has_error := True
-			end
+			create manifest.make_empty
 		end
 
 feature -- Access
@@ -66,15 +62,33 @@ feature -- Basic operations
 			across manifest.query_if (agent is_updated) as file loop
 				progress_listener.display.set_text (progress_template #$ [file.item.name])
 				file_path := target_dir + file.item.name
-				web.open (url_template #$ [domain, file.item.name])
+				web.open (url_file_item (file.item.name))
 				web.download (file_path)
 				web.close
 				File_system.set_file_modification_time (file_path, file.item.modification_time)
 				download_complete_action (file.item.name)
 			end
+			-- Update shared resource set
 			resource_set.wipe_out
 			resource_set.append (manifest)
 			clean_up
+		end
+
+	download_manifest
+		local
+			web: like new_connection
+		do
+			web := new_connection
+			web.open (url_manifest)
+			web.read_string_get
+			web.close
+			if web.last_string.has_substring ("</file-list>") then
+				File_system.make_directory (target_dir)
+				File_system.write_plain_text (target_dir + resource_set.manifest_name, web.last_string)
+				create manifest.make_from_string (web.last_string)
+			else
+				has_error := True
+			end
 		end
 
 	print_updated
@@ -115,7 +129,7 @@ feature {NONE} -- Implementation
 		do
 			name_set := manifest.name_set
 			across File_system.files_with_extension (target_dir, file_extension) as path loop
-				if not name_set.has (path.item) then
+				if not name_set.has (path.item.base) then
 					File_system.remove_file (path.item)
 				end
 			end
@@ -172,6 +186,16 @@ feature {NONE} -- Implementation
 			Result := installed_dir
 		end
 
+	url_manifest: ZSTRING
+		do
+			Result := url_template #$ [domain, manifest_name]
+		end
+
+	url_file_item (name: ZSTRING): ZSTRING
+		do
+			Result := url_template #$ [domain, name]
+		end
+
 	updated_dir: EL_DIR_PATH
 		-- directory for updated items
 		do
@@ -200,8 +224,6 @@ feature {NONE} -- Deferred implementation
 
 	url_template: ZSTRING
 		deferred
-		ensure
-			has_place_holder: Result.occurrences ('%S') = 2
 		end
 
 feature {NONE} -- Internal attributes

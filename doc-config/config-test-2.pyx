@@ -33,4 +33,7 @@ publish-repository:
 		# Library (Text)
 		ecf:
 			"library/i18n.ecf"
+		# Library Graphics
+		ecf:
+			"library/html-viewer.ecf"
 

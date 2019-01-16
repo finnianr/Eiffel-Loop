@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-08 10:21:07 GMT (Tuesday 8th January 2019)"
-	revision: "5"
+	date: "2019-01-13 15:27:38 GMT (Sunday 13th January 2019)"
+	revision: "6"
 
 class
 	EL_IMAGE_PATH_ROUTINES
@@ -25,6 +25,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_MODULE_TUPLE
 
 feature -- Access
 
@@ -50,47 +52,38 @@ feature -- Constants
 
 	Icons_path: EL_DIR_PATH
 		once
-			Result := Directory.application_installation.joined_dir_path (Step_icons)
+			Result := Directory.application_installation.joined_dir_path (Step.icons)
 		end
 
 	Desktop_menu_icons_path: EL_DIR_PATH
 		once
-			Result := Directory.application_installation.joined_dir_path (Step_desktop_icons)
+			Result := Directory.application_installation.joined_dir_path (Step.desktop_icons)
 		end
 
 	Images_path: EL_DIR_PATH
 		once
-			Result := Directory.application_installation.joined_dir_path (Step_images)
+			Result := Directory.application_installation.joined_dir_path (Step.images)
 		end
 
 	User_icons_path: EL_DIR_PATH
 		once
-			Result := Directory.App_configuration.joined_dir_path (Step_icons)
+			Result := Directory.App_configuration.joined_dir_path (Step.icons)
 		end
 
 	User_desktop_menu_icons_path: EL_DIR_PATH
 		once
-			Result := Directory.App_configuration.joined_dir_path (Step_desktop_icons)
+			Result := Directory.App_configuration.joined_dir_path (Step.desktop_icons)
 		end
 
 	User_images_path: EL_DIR_PATH
 		once
-			Result := Directory.App_configuration.joined_dir_path (Step_images)
+			Result := Directory.App_configuration.joined_dir_path (Step.images)
 		end
 
-	Step_icons: ZSTRING
+	Step: TUPLE [icons, desktop_icons, images: ZSTRING]
 		once
-			Result := "icons"
-		end
-
-	Step_desktop_icons: ZSTRING
-		once
-			Result := "desktop-icons"
-		end
-
-	Step_images: ZSTRING
-		once
-			Result := "images"
+			create Result
+			Tuple.fill (Result, "icons, desktop-icons, images")
 		end
 
 end

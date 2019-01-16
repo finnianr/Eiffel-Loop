@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-17 11:51:56 GMT (Saturday 17th November 2018)"
-	revision: "4"
+	date: "2019-01-11 12:12:58 GMT (Friday 11th January 2019)"
+	revision: "5"
 
 class
 	EL_THUNDERBIRD_CONSTANTS
@@ -16,6 +16,8 @@ inherit
 	EL_MODULE_XML
 
 	EL_MODULE_TUPLE
+
+	EL_MODULE_STRING_8
 
 	EL_ZSTRING_CONSTANTS
 
@@ -46,7 +48,7 @@ feature {NONE} -- Strings
 		once
 			Result := "/>"
 		end
-		
+
 	New_line_indent: ZSTRING
 		once
 			Result := "%N    "
@@ -100,7 +102,9 @@ feature {NONE} -- Constants
 			across Heading_levels as level loop
 				Result.extend (XML.tag (character_string ('h') + level.item.out))
 			end
-			Result.extend (XML.tag ("p"))
+			across String_8.list ("p, li, ol") as name loop
+				Result.extend (XML.tag (name.item))
+			end
 		end
 
 end

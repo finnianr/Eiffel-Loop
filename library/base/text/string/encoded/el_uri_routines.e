@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 12:35:26 GMT (Monday 29th October 2018)"
-	revision: "4"
+	date: "2019-01-10 13:52:46 GMT (Thursday 10th January 2019)"
+	revision: "5"
 
 class
 	EL_URI_ROUTINES
 
 inherit
-	EL_MODULE_TUPLE
+	EL_PROTOCOL_CONSTANTS
+		export
+			{NONE} all
+		end
 
 feature -- Status query
 
@@ -78,26 +81,6 @@ feature {NONE} -- Implementation
 		do
 			code := c.natural_32_code.to_integer_32
 			Result := {ASCII}.Lower_a <= code and code <= {ASCII}.Lower_z
-		end
-
-feature {NONE} -- Constants
-
-	Http_protocols: ARRAY [ZSTRING]
-		once
-			Result := << Protocol.http, Protocol.https >>
-			Result.compare_objects
-		end
-
-	Protocol: TUPLE [file, ftp, http, https: ZSTRING]
-			-- common protocols
-		once
-			create Result
-			Tuple.fill (Result, "file, ftp, http, https")
-		end
-
-	Protocol_sign: ZSTRING
-		once
-			Result := "://"
 		end
 
 end

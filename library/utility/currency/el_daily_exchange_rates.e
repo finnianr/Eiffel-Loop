@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-01-16 1:20:17 GMT (Wednesday 16th January 2019)"
+	revision: "5"
 
 class
 	EL_DAILY_EXCHANGE_RATES [RATES -> EL_EXCHANGE_RATE_TABLE create make end]
@@ -23,6 +23,11 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	today, previous: RATES
+
+	currency_code: NATURAL_8
+		do
+			Result := today.base_currency
+		end
 
 feature -- Element change
 

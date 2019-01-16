@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-08 22:35:54 GMT (Tuesday 8th January 2019)"
-	revision: "1"
+	date: "2019-01-10 10:08:56 GMT (Thursday 10th January 2019)"
+	revision: "2"
 
 class
 	EL_UPDATEABLE_RESOURCE_SET
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 			if manifest_path.exists then
 				make_from_file (manifest_path)
 			else
-				make_default
+				make_empty
 			end
 		end
 

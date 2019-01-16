@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-01-11 12:15:48 GMT (Friday 11th January 2019)"
+	revision: "7"
 
 class
 	EL_STRING_32_ROUTINES
@@ -46,9 +46,19 @@ feature -- Measurement
 
 feature -- Transformation
 
+	left_adjust (str: STRING_32)
+		do
+			str.left_adjust
+		end
+
 	prune_all_leading (str: STRING_32; c: CHARACTER_32)
 		do
 			str.prune_all_leading (c)
+		end
+
+	right_adjust (str: STRING_32)
+		do
+			str.right_adjust
 		end
 
 end

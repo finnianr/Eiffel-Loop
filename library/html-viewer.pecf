@@ -8,9 +8,17 @@ system:
 	readonly = false
 	description:
 		"""
-			HTML Viewer (based on Vision-2)
+			XHTML Viewer			
 
-			Extension for Vision2 library to render very basic html produced by Thunderbird email client.
+			A basic XHTML text renderer based on the
+			[https://www.eiffel.org/files/doc/static/17.05/libraries/vision2/ev_rich_text_flatshort.html EV_RICH_TEXT]
+			component found in the [https://www.eiffel.org/doc/solutions/EiffelVision_2 EiffelVision2 library].
+
+			It was used to create the help system in the [http://myching.software My Ching software]
+			with page content authored in the Thunderbird email client and then exported as XHTML.
+
+			See class [$source EL_HTML_TEXT] below for supported XHTML tags. This component facilitates
+			the creation of a hyperlinked contents side bar in a split window. 
 		"""
 	
 	target:
@@ -35,6 +43,9 @@ system:
 		library:
 			name = EL_base; location = "base/base.ecf"
 			readonly = false
+
+		library:
+			name = EL_text_formats; location = "text-formats.ecf"
 
 		library:
 			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:45:31 GMT (Wednesday 17th October 2018)"
-	revision: "13"
+	date: "2019-01-10 17:55:33 GMT (Thursday 10th January 2019)"
+	revision: "14"
 
 class
 	EL_HTTP_CONNECTION
@@ -64,11 +64,18 @@ inherit
 			{NONE} all
 		end
 
+	EL_MODULE_HTTP_STATUS
+
 	EL_ZSTRING_CONSTANTS
 
 	EL_SHARED_CURL_API
 
 	EL_SHARED_UTF_8_ZCODEC
+
+	EL_PROTOCOL_CONSTANTS
+		export
+			{NONE} all
+		end
 
 create
 	make
@@ -83,6 +90,7 @@ feature {NONE} -- Initialization
 			create headers.make_equal (0)
 			create post_data.make_empty (0)
 			create user_agent.make_empty
+			create url.make_empty
 		end
 
 feature -- Access
@@ -94,7 +102,7 @@ feature -- Access
 	error_code: INTEGER
 		-- curl error code
 
-	http_error_code: NATURAL
+	http_error_code: NATURAL_16
 		local
 			pos_title, pos_space: INTEGER
 			code_string: STRING
@@ -105,8 +113,8 @@ feature -- Access
 					pos_space := last_string.index_of (' ', pos_title)
 					if pos_space > 0 then
 						code_string := last_string.substring (pos_title + Title_tag.count, pos_space - 1)
-						if code_string.is_natural then
-							Result := code_string.to_natural
+						if code_string.is_natural_16 then
+							Result := code_string.to_natural_16
 						end
 					end
 				end
@@ -114,15 +122,8 @@ feature -- Access
 		end
 
 	http_error_name: STRING
-		local
-			code: NATURAL
 		do
-			code := http_error_code
-			if (400 |..| 510).has (code.to_integer_32) then
-				Result := Http_error_messages [code]
-			else
-				create Result.make_empty
-			end
+			Result := Http_status.name (http_error_code)
 		end
 
 	http_version: DOUBLE
@@ -182,7 +183,7 @@ feature -- Basic operations
 	close
 			-- write any cookies if `cookie_store_path' is set and closes connection
 		do
-			url := Empty_string
+			url.wipe_out
 			headers.wipe_out; post_data.set_count (0)
 			dispose
 
@@ -279,6 +280,7 @@ feature -- Element change
 	reset
 		do
 			last_string.wipe_out
+			url.wipe_out
 			post_data.set_count (0)
 			error_code := 0
 		end
@@ -431,10 +433,27 @@ feature -- Element change
 		end
 
 	set_url (a_url: like url)
+		local
+			start_index, path_index: INTEGER; encoded: like Encoded_url
 		do
-			url := a_url
+			url.share (a_url)
+			encoded := Encoded_url
+			encoded.wipe_out
+			start_index := a_url.substring_index (Protocol_sign, 1)
+			if start_index > 0 then
+				path_index := a_url.index_of ('/', start_index + 3)
+				if path_index > 0 then
+					encoded.append_unencoded_substring_general (a_url, 1, path_index - 1)
+					encoded.append_substring_general (a_url, path_index, a_url.count)
+				else
+					encoded.append_unencoded_substring_general (a_url, 1, a_url.count)
+				end
+			end
+			if is_lio_enabled then
+				lio.put_line (encoded)
+			end
 --			Curl already does url encoding
-			set_curl_string_8_option (CURLOPT_url, a_url.to_utf_8)
+			set_curl_string_8_option (CURLOPT_url, encoded)
 			-- Essential calls for using https
 			if a_url.starts_with (Secure_protocol) then
 				set_ssl_certificate_verification (is_certificate_verified)
@@ -641,53 +660,14 @@ feature {NONE} -- Implementation attributes
 
 feature {NONE} -- Constants
 
+	Encoded_url: EL_URL_STRING_8
+		once
+			create Result.make_empty
+		end
+
 	Doctype_declaration: STRING = "<!DOCTYPE"
 
-	Http_error_messages: HASH_TABLE [STRING, NATURAL]
-		once
-			create Result.make (5)
-			Result [400] := "Bad Request"
-			Result [401] := "Unauthorized"
-			Result [402] := "Payment Required"
-			Result [403] := "Forbidden"
-			Result [404] := "Not Found"
-			Result [405] := "Method Not Allowed"
-			Result [406] := "Not Acceptable"
-			Result [407] := "Proxy Auth Required"
-			Result [408] := "Request Timeout"
-			Result [409] := "Conflict"
-			Result [410] := "Gone"
-			Result [411] := "Length Required"
-			Result [412] := "Precondition Failed"
-			Result [413] := "Request Entity too large"
-			Result [414] := "Request-URI too long"
-			Result [415] := "Unsupported Media Type"
-			Result [416] := "Requested range not satisfiable"
-			Result [417] := "Expectation Failed"
-			Result [422] := "Unprocessable Entity"
-			Result [423] := "Locked"
-			Result [424] := "Failed Dependency"
-			Result [425] := "Unordered Collection"
-			Result [426] := "Upgrade Required"
-			Result [449] := "Retry With"
-			Result [500] := "Internal Server Error"
-			Result [501] := "Not Implemented"
-			Result [502] := "Bad gateway"
-			Result [503] := "Service Unavailable"
-			Result [504] := "Gateway Timeout"
-			Result [505] := "HTTP Version Not Supported"
-			Result [506] := "Variant Also Negotiates"
-			Result [507] := "Insufficient Storage"
-			Result [509] := "Bandwidth Limit Exceeded"
-			Result [510] := "Not Extended"
-		end
-
 	Is_memory_owned: BOOLEAN = True
-
-	Secure_protocol: ZSTRING
-		once
-			Result := "https:"
-		end
 
 	Title_tag: STRING = "<title>"
 

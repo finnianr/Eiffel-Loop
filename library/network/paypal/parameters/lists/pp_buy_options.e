@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:48:42 GMT (Wednesday 17th October 2018)"
-	revision: "10"
+	date: "2019-01-15 12:32:02 GMT (Tuesday 15th January 2019)"
+	revision: "11"
 
 class
 	PP_BUY_OPTIONS
@@ -84,7 +84,7 @@ feature {NONE} -- Implementation
 				l_price_x100 := price_x100
 			end
 			Result.append_integer (l_price_x100)
-			if not Currency.unit.has (currency_code) then
+			if Result.count >= 3 and not Currency.unit.has (currency_code) then
 				Result.insert_character ('.', Result.count - 1)
 			end
 		end

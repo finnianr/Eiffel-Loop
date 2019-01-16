@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-26 10:49:50 GMT (Thursday 26th April 2018)"
-	revision: "8"
+	date: "2019-01-10 13:41:00 GMT (Thursday 10th January 2019)"
+	revision: "9"
 
 class
 	EL_HTTP_STATUS_ENUM
@@ -67,6 +67,12 @@ feature {NONE} -- Initialization
 			unsupported_media_type := 415
 			range_not_satisfiable := 416
 			expectation_failed := 417
+			unprocessable_entity := 422
+			locked := 423
+			failed_dependency := 424
+			unordered_collection := 425
+			upgrade_required := 426
+			retry_with := 449
 
 			internal_server_error := 500
 			not_implemented := 501
@@ -74,6 +80,10 @@ feature {NONE} -- Initialization
 			service_unavailable := 503
 			gateway_timeout := 504
 			http_version_not_supported := 505
+			variant_also_negotiates := 506
+			insufficient_storage := 507
+			bandwidth_limit_exceeded := 509
+			not_extended := 510
 		end
 
 feature -- 1xx codes
@@ -203,6 +213,25 @@ feature -- 4xx codes
 	unsupported_media_type: NATURAL_16
 		-- Unsupported media-type
 
+	unprocessable_entity: NATURAL_16
+		-- Unprocessable Entity
+
+	locked: NATURAL_16
+		-- Locked
+
+	failed_dependency: NATURAL_16
+		-- Failed Dependency
+
+	unordered_collection: NATURAL_16
+		-- Unordered Collection
+
+	upgrade_required: NATURAL_16
+		-- Upgrade Required
+
+	retry_with: NATURAL_16
+		-- Retry With
+
+
 feature -- 5xx codes
 
 	bad_gateway: NATURAL_16
@@ -224,6 +253,18 @@ feature -- 5xx codes
 	service_unavailable: NATURAL_16
 		-- Server is currently unable to handle request due to
 		-- temporary overloading or maintenance of server.
+
+	variant_also_negotiates: NATURAL_16
+ 		-- Variant Also Negotiates
+
+	insufficient_storage: NATURAL_16
+ 		-- Insufficient Storage
+
+	bandwidth_limit_exceeded: NATURAL_16
+ 		-- Bandwidth Limit Exceeded
+
+	not_extended: NATURAL_16
+ 		-- Not Extended
 
 feature {NONE} -- Implementation
 

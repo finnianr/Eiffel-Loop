@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 8:15:13 GMT (Friday 21st December 2018)"
-	revision: "5"
+	date: "2019-01-11 14:58:01 GMT (Friday 11th January 2019)"
+	revision: "6"
 
 class
 	EL_HYPERLINK_AREA
@@ -32,16 +32,16 @@ create
 
 feature {NONE} -- Initialization
 
-	make_default
-		do
-			make ("", agent do_nothing, create {EV_FONT}, create {EV_COLOR})
-		end
-
 	make (a_text: READABLE_STRING_GENERAL; a_action: PROCEDURE; a_font: EV_FONT; a_background_color: EV_COLOR)
 		do
 			create styled_text.make (1)
 			styled_text.extend (a_text)
 			make_with_styles (styled_text, a_font, default_fixed_font (a_font) , a_action, a_background_color)
+		end
+
+	make_default
+		do
+			make ("", agent do_nothing, create {EV_FONT}, create {EV_COLOR})
 		end
 
 	make_with_styles (
@@ -80,20 +80,14 @@ feature -- Status query
 
 feature -- Access
 
-	link_text_color: EV_COLOR
-
 	disabled_link_text_color: EV_COLOR
+
+	link_text_color: EV_COLOR
 
 	styled_text: EL_MIXED_STYLE_TEXT_LIST
 		-- link text
 
 feature -- Element change
-
-	set_link_text_color (a_link_text_color: like link_text_color)
-			--
-		do
-			link_text_color := a_link_text_color
-		end
 
 	set_disabled_link_text_color (a_disabled_link_text_color: like disabled_link_text_color)
 			--
@@ -110,6 +104,12 @@ feature -- Element change
 			end
 		end
 
+	set_link_text_color (a_link_text_color: like link_text_color)
+			--
+		do
+			link_text_color := a_link_text_color
+		end
+
 	update_size
 		do
 			set_minimum_size (text_rect.x + text_rect.width, text_rect.height)
@@ -117,10 +117,10 @@ feature -- Element change
 
 feature -- Status change
 
-	set_underlined
+	disable
 			--
 		do
-			is_underlined := True
+			is_enabled := false
 		end
 
 	enable
@@ -129,13 +129,37 @@ feature -- Status change
 			is_enabled := true
 		end
 
-	disable
+	set_action (a_action: like action)
+		do
+			action := a_action
+		end
+	
+	set_underlined
 			--
 		do
-			is_enabled := false
+			is_underlined := True
 		end
 
 feature {NONE} -- Event handling
+
+	on_pointer_button_press (
+		x_pos, y_pos, button: INTEGER; x_tilt, y_tilt, pressure: DOUBLE; ascreen_x, ascreen_y: INTEGER
+	)
+			--
+		do
+			if button = 1 and then is_selected then
+				action.apply
+			end
+			on_pointer_leave
+		end
+
+	on_pointer_leave
+			--
+		do
+			set_pointer_style (GUI.Standard_cursor)
+			is_selected := False
+			redraw
+		end
 
 	on_pointer_motion (a_x, a_y: INTEGER; a_x_tilt, a_y_tilt, a_pressure: DOUBLE; a_screen_x, a_screen_y: INTEGER)
 			--
@@ -183,26 +207,9 @@ feature {NONE} -- Event handling
 			end
 		end
 
-	on_pointer_leave
-			--
-		do
-			set_pointer_style (GUI.Standard_cursor)
-			is_selected := False
-			redraw
-		end
-
-	on_pointer_button_press (
-		x_pos, y_pos, button: INTEGER; x_tilt, y_tilt, pressure: DOUBLE; ascreen_x, ascreen_y: INTEGER
-	)
-			--
-		do
-			if button = 1 and then is_selected then
-				action.apply
-			end
-			on_pointer_leave
-		end
-
 feature {NONE} -- Implementation
+
+	action: PROCEDURE
 
 	check_pointer_still_here
 		do
@@ -218,7 +225,5 @@ feature {NONE} -- Implementation
 		end
 
 	text_rect: EV_RECTANGLE
-
-	action: PROCEDURE
 
 end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "13"
+	date: "2019-01-11 12:16:53 GMT (Friday 11th January 2019)"
+	revision: "14"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -72,7 +72,18 @@ feature -- Conversion
 			Result := s.to_string_32
 		end
 
-feature -- Transformation
+feature -- Lists
+
+	list (text: S): LIST [S]
+		-- comma separated list
+		local
+			comma: S
+		do
+			create comma.make (1)
+			comma.append_code ((',').natural_32_code)
+			Result := delimited_list (text, comma)
+			Result.do_all (agent left_adjust)
+		end
 
 	delimited_list (text, delimiter: S): LIST [S]
 			-- string delimited list
@@ -82,6 +93,23 @@ feature -- Transformation
 			create splits.make (text, delimiter)
 			Result := splits.as_string_list
 		end
+
+	words (str: READABLE_STRING_GENERAL): LIST [S]
+			-- unpunctuated words
+		local
+			i: INTEGER; l_str: S
+		do
+			create l_str.make (str.count)
+			from i := 1 until i > str.count loop
+				if not is_punctuation (str [i]) then
+					l_str.append_code (str.code (i))
+				end
+				i := i + 1
+			end
+			Result := l_str.split (' ')
+		end
+
+feature -- Transformation
 
 	enclosed (str: READABLE_STRING_GENERAL; left, right: CHARACTER_32): S
 			--
@@ -142,6 +170,10 @@ feature -- Transformation
 			end
 		end
 
+	left_adjust (str: S)
+		deferred
+		end
+
 	prune_all_leading (str: S; c: CHARACTER_32)
 		deferred
 		end
@@ -188,6 +220,10 @@ feature -- Transformation
 				end
 				i := i + 1
 			end
+		end
+
+	right_adjust (str: S)
+		deferred
 		end
 
 	spaces (width, count: INTEGER): S
@@ -286,21 +322,6 @@ feature -- Transformation
 					pos_escape := 0
 				end
 			end
-		end
-
-	words (str: READABLE_STRING_GENERAL): LIST [S]
-			-- unpunctuated words
-		local
-			i: INTEGER; l_str: S
-		do
-			create l_str.make (str.count)
-			from i := 1 until i > str.count loop
-				if not is_punctuation (str [i]) then
-					l_str.append_code (str.code (i))
-				end
-				i := i + 1
-			end
-			Result := l_str.split (' ')
 		end
 
 feature -- Status query
