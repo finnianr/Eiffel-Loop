@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 14:21:30 GMT (Wednesday 17th October 2018)"
-	revision: "9"
+	date: "2019-01-18 12:38:33 GMT (Friday 18th January 2019)"
+	revision: "10"
 
 class
 	MANAGER_CONFIG
@@ -146,7 +146,7 @@ feature -- Status change
 
 feature {NONE} -- Build from XML
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<

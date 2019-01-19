@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-01-18 12:40:32 GMT (Friday 18th January 2019)"
+	revision: "6"
 
 class
 	EL_EROS_STRING_RESULT
@@ -70,7 +70,7 @@ feature {NONE} -- Building from XML
 			value := node.to_string
 		end
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<

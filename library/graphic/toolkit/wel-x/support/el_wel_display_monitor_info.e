@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-01-18 14:55:52 GMT (Friday 18th January 2019)"
+	revision: "6"
 
 class
 	EL_WEL_DISPLAY_MONITOR_INFO
@@ -85,7 +85,7 @@ feature -- Access
 		do
 			-- Example device_id: "MONITOR\IVM5601\{4d36e96e-e325-11ce-bfc1-08002be10318}\0000"
 			path_steps := primary_device.device_id
-			Result := path_steps.i_th (2)
+			Result := path_steps.item (2)
 		end
 
 	primary_device: EL_WEL_DISPLAY_DEVICE

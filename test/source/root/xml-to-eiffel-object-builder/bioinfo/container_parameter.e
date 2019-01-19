@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 20:19:09 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2019-01-18 12:43:09 GMT (Friday 18th January 2019)"
+	revision: "3"
 
 class
 	CONTAINER_PARAMETER
@@ -54,7 +54,7 @@ feature {NONE} -- Build from XML
 			set_next_context (parameter_list)
 		end
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to element: value
 		do
 			create Result.make (<<

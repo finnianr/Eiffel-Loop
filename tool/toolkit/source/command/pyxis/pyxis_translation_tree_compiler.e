@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:31:24 GMT (Wednesday 17th October 2018)"
-	revision: "6"
+	date: "2019-01-18 12:37:53 GMT (Friday 18th January 2019)"
+	revision: "7"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
@@ -104,7 +104,7 @@ feature {NONE} -- Build from XML
 
 	Root_node_name: STRING = "translations"
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
 				["item/@id", 						agent do item_id := node.to_string end],

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-10 19:13:40 GMT (Thursday 10th May 2018)"
-	revision: "7"
+	date: "2019-01-18 12:28:53 GMT (Friday 18th January 2019)"
+	revision: "8"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -104,7 +104,7 @@ feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Implementation attributes
 
 feature {NONE} -- Implementation
 
-	add_builder_actions_for_xpaths_containing_attribute_value_predicates (a_building_actions: EL_PROCEDURE_TABLE)
+	add_builder_actions_for_xpaths_containing_attribute_value_predicates (a_building_actions: EL_PROCEDURE_TABLE [STRING])
 			--
 		local
 			xpath_array: ARRAY [STRING]
@@ -126,7 +126,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		deferred
 		end

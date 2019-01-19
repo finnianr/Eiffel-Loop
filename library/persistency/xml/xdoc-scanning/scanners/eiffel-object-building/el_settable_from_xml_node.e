@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 14:57:47 GMT (Wednesday 31st October 2018)"
-	revision: "9"
+	date: "2019-01-18 12:29:02 GMT (Friday 18th January 2019)"
+	revision: "10"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -30,7 +30,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	building_actions_for_each_type (types: ARRAY [TYPE [ANY]]; node_type: INTEGER_32): EL_PROCEDURE_TABLE
+	building_actions_for_each_type (types: ARRAY [TYPE [ANY]]; node_type: INTEGER_32): EL_PROCEDURE_TABLE [STRING]
 		local
 			i: INTEGER_32
 		do
@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	building_actions_for_type (type: TYPE [ANY]; node_type: INTEGER_32): EL_PROCEDURE_TABLE
+	building_actions_for_type (type: TYPE [ANY]; node_type: INTEGER_32): EL_PROCEDURE_TABLE [STRING]
 		require
 			valid_node_type: Node_types.has (node_type)
 		local

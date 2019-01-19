@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-18 10:10:23 GMT (Monday 18th June 2018)"
-	revision: "5"
+	date: "2019-01-18 12:39:12 GMT (Friday 18th January 2019)"
+	revision: "6"
 
 class
 	TEST_MANAGER_CONFIG
@@ -38,7 +38,7 @@ feature -- Factory
 
 feature {NONE} -- Build from XML
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			Result := Precursor
 			Result ["@test_checksum"] := agent do test_checksum := node.to_natural end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-01-18 12:38:33 GMT (Friday 18th January 2019)"
+	revision: "6"
 
 class
 	RBOX_PLAYLIST_ARRAY
@@ -101,7 +101,7 @@ feature {NONE} -- Build from XML
 			set_next_context (last)
 		end
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: rhythmdb-playlists
 		do
 			create Result.make (<<

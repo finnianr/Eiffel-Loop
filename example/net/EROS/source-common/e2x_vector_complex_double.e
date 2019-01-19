@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 9:00:12 GMT (Monday 22nd May 2017)"
-	revision: "2"
+	date: "2019-01-18 12:40:48 GMT (Friday 18th January 2019)"
+	revision: "3"
 
 deferred class
 	E2X_VECTOR_COMPLEX_DOUBLE
@@ -139,7 +139,7 @@ feature {NONE} -- Building from XML
 		deferred
 		end
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<

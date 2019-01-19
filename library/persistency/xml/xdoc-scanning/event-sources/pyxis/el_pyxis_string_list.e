@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-01-18 12:37:28 GMT (Friday 18th January 2019)"
+	revision: "5"
 
 deferred class
 	EL_PYXIS_STRING_LIST
@@ -26,7 +26,7 @@ feature -- Element change
 
 feature {NONE} -- Build from XML
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<

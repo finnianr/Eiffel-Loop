@@ -45,8 +45,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 20:16:54 GMT (Sunday 21st May 2017)"
-	revision: "2"
+	date: "2019-01-18 12:42:31 GMT (Friday 18th January 2019)"
+	revision: "3"
 
 class
 	BIOINFORMATIC_COMMANDS
@@ -99,7 +99,7 @@ feature {NONE} -- Build from XML
 			set_next_context (commands.last)
 		end
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: bix
 		do
 			create Result.make (<<

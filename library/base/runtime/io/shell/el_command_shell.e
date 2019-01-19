@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-18 9:33:00 GMT (Friday 18th May 2018)"
-	revision: "6"
+	date: "2019-01-18 12:32:20 GMT (Friday 18th January 2019)"
+	revision: "7"
 
 deferred class
 	EL_COMMAND_SHELL
@@ -36,7 +36,7 @@ feature -- Basic operations
 
 	run_command_loop
 		local
-			n: INTEGER
+			n: INTEGER; invalid: BOOLEAN
 		do
 			from until user_exit loop
 				menu.display
@@ -46,8 +46,17 @@ feature -- Basic operations
 					lio.put_labeled_string ("SELECTED", menu.option_key (n))
 					lio.put_new_line
 
-					command_table.item (menu.option_key (n)).apply
+					if command_table.has_key (menu.option_key (n)) then
+						command_table.found_item.apply
+					else
+						lio.put_labeled_string (menu.option_key (n), "not found")
+						lio.put_new_line
+						invalid := True
+					end
 				else
+					invalid := True
+				end
+				if invalid then
 					lio.put_integer_field ("Invalid option", n)
 					lio.put_new_line
 				end
@@ -72,7 +81,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	command_table: EL_ZSTRING_HASH_TABLE [PROCEDURE]
+	command_table: EL_PROCEDURE_TABLE [ZSTRING]
 
 	menu: EL_COMMAND_MENU
 

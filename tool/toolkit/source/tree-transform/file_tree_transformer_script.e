@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 13:20:57 GMT (Sunday 23rd December 2018)"
-	revision: "4"
+	date: "2019-01-18 12:37:27 GMT (Friday 18th January 2019)"
+	revision: "5"
 
 class
 	FILE_TREE_TRANSFORMER_SCRIPT
@@ -106,7 +106,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Build from Pyxis
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
 				["command-template/text()",	agent do command_template.copy (node.to_string_8) end],

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-18 11:47:37 GMT (Monday 18th June 2018)"
-	revision: "11"
+	date: "2019-01-18 12:39:12 GMT (Friday 18th January 2019)"
+	revision: "12"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -96,7 +96,7 @@ feature -- Rhythmbox XML fields
 
 feature {NONE} -- Build from XML
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			Result := Precursor

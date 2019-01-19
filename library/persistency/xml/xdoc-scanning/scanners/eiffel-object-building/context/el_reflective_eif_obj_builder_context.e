@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 9:45:01 GMT (Monday 29th October 2018)"
-	revision: "3"
+	date: "2019-01-18 12:29:44 GMT (Friday 18th January 2019)"
+	revision: "4"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Build from XML
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			Result := building_actions_for_each_type (field_table.type_set, element_node_type)

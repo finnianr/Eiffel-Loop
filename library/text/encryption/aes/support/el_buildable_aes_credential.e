@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-27 8:01:42 GMT (Tuesday 27th February 2018)"
-	revision: "5"
+	date: "2019-01-18 12:30:02 GMT (Friday 18th January 2019)"
+	revision: "6"
 
 class
 	EL_BUILDABLE_AES_CREDENTIAL
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<

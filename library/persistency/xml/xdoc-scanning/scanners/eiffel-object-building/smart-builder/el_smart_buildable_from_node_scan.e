@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 10:09:21 GMT (Sunday 28th October 2018)"
-	revision: "6"
+	date: "2019-01-18 12:37:28 GMT (Friday 18th January 2019)"
+	revision: "7"
 
 class
 	EL_SMART_BUILDABLE_FROM_NODE_SCAN
@@ -63,7 +63,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result

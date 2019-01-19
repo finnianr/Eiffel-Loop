@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 13:26:18 GMT (Tuesday 25th December 2018)"
-	revision: "9"
+	date: "2019-01-18 12:38:35 GMT (Friday 18th January 2019)"
+	revision: "10"
 
 class
 	RBOX_DATABASE
@@ -691,7 +691,7 @@ feature {NONE} -- Build from XML
 			end
 		end
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: rhythmdb
 		do
 			create Result.make (<<

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-13 17:36:20 GMT (Sunday 13th January 2019)"
-	revision: "4"
+	date: "2019-01-18 12:30:30 GMT (Friday 18th January 2019)"
+	revision: "5"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -107,7 +107,7 @@ feature -- Element change
 		do
 			digest := a_digest
 		end
-	
+
 feature -- Status query
 
 	is_modified: BOOLEAN
@@ -128,7 +128,7 @@ feature {NONE} -- Evolicity
 
 feature {NONE} -- Build from XML
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: smil
 		do
 			create Result.make (<<

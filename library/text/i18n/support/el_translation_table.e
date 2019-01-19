@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-15 16:09:29 GMT (Tuesday 15th January 2019)"
-	revision: "11"
+	date: "2019-01-18 12:29:58 GMT (Friday 18th January 2019)"
+	revision: "12"
 
 class
 	EL_TRANSLATION_TABLE
@@ -213,7 +213,7 @@ feature {NONE} -- Build from XML
 
 	Root_node_name: STRING = "translations"
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<

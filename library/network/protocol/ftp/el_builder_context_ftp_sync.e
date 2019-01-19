@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-07-01 15:54:25 GMT (Sunday 1st July 2018)"
-	revision: "1"
+	date: "2019-01-18 12:36:19 GMT (Friday 18th January 2019)"
+	revision: "2"
 
 class
 	EL_BUILDER_CONTEXT_FTP_SYNC
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Build from XML
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
 				["@url", 		agent do ftp.make_write (create {FTP_URL}.make (node.to_string_8)) end],

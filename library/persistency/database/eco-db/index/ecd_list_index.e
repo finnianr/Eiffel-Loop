@@ -1,13 +1,20 @@
 note
-	description: "Eco-DB storable arrayed list index"
+	description: "[
+		A field index for Eco-DB arrayed lists conforming to [$source ECD_ARRAYED_LIST] `[EL_STORABLE]'
+	]"
+	notes: "[
+		The index is only maintend for field values that are unique. 
+		If the field value is an empty string then the data item of type `G' is excluded
+		from being deleted, extended or replaced.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:15:46 GMT (Thursday 15th November 2018)"
-	revision: "8"
+	date: "2019-01-19 15:45:35 GMT (Saturday 19th January 2019)"
+	revision: "9"
 
 class
 	ECD_LIST_INDEX [G -> EL_STORABLE create make_default end, K -> detachable HASHABLE]
@@ -78,13 +85,23 @@ feature {ECD_ARRAYED_LIST} -- Access
 feature {ECD_ARRAYED_LIST} -- Event handlers
 
 	on_delete (a_item: G)
+		local
+			key: like item_key
 		do
-			remove (item_key (a_item))
+			key := item_key (a_item)
+			if not key_is_empty (key) then
+				remove (key)
+			end
 		end
 
 	on_extend (a_item: G)
+		local
+			key: like item_key
 		do
-			put (list.count, item_key (a_item))
+			key := item_key (a_item)
+			if not key_is_empty (key)then
+				put (list.count, key)
+			end
 		ensure
 			no_conflict: not conflict
 		end
@@ -93,22 +110,31 @@ feature {ECD_ARRAYED_LIST} -- Event handlers
 		require
 			cursor_on_item: not list.off
 		local
-			old_key: K
+			old_key, new_key: K
 		do
 			old_key := item_key (list.item)
-			force (list.index, item_key (new_item))
-			if not_found then
+			if not key_is_empty (old_key) then
 				remove (old_key)
+			end
+			new_key := item_key (new_item)
+			if not key_is_empty (new_key) then
+				extend (list.index, new_key)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	item_key (v: G): K
-		require
-			not_empty_list: not list.is_empty
+	key_is_empty (key: like item_key): BOOLEAN
 		do
-			Result := storable_key (list.last)
+			if attached {READABLE_STRING_GENERAL} key as key_string then
+				Result := key_string.is_empty
+			end
+		end
+
+	item_key (v: G): K
+		-- allows possibility to call `a_item.key' directly in `ECD_KEY_INDEX' descendant
+		do
+			Result := storable_key (v)
 		end
 
 feature {NONE} -- Internal attributes

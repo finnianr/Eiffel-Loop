@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 14:21:30 GMT (Wednesday 17th October 2018)"
-	revision: "4"
+	date: "2019-01-18 12:38:02 GMT (Friday 18th January 2019)"
+	revision: "5"
 
 class
 	DJ_EVENT_PUBLISHER_CONFIG
@@ -59,7 +59,7 @@ feature -- Status query
 
 feature {NONE} -- Build from XML
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
 				["@www_dir", 							agent do www_dir := node.to_expanded_dir_path end],

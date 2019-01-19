@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:03 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2019-01-18 12:42:32 GMT (Friday 18th January 2019)"
+	revision: "4"
 
 class
 	WEB_FORM_DROP_DOWN_LIST
@@ -78,7 +78,7 @@ feature {NONE} -- Build from XML
 			log.exit
 		end
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Relative to nodes /html/body/select
 		do
 			create Result.make (<<

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-24 11:57:42 GMT (Thursday 24th May 2018)"
-	revision: "4"
+	date: "2019-01-19 15:40:48 GMT (Saturday 19th January 2019)"
+	revision: "5"
 
 class
 	ECD_KEY_INDEX [G -> EL_KEY_IDENTIFIABLE_STORABLE create make_default end]

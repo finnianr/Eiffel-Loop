@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:47:18 GMT (Wednesday 17th October 2018)"
-	revision: "8"
+	date: "2019-01-18 12:36:19 GMT (Friday 18th January 2019)"
+	revision: "9"
 
 class
 	SOURCE_MANIFEST
@@ -76,7 +76,7 @@ feature -- Access
 
 feature {NONE} -- Build from Pyxis
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: bix
 		do
 			create Result.make (<<

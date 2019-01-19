@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-02 14:30:32 GMT (Wednesday 2nd January 2019)"
-	revision: "9"
+	date: "2019-01-18 12:31:01 GMT (Friday 18th January 2019)"
+	revision: "10"
 
 class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -138,7 +138,7 @@ feature {NONE} -- Build from XML
 
 	Root_node_name: STRING = "thunderbird"
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<

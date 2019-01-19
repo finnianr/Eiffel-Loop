@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:03 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-01-18 12:42:30 GMT (Friday 18th January 2019)"
+	revision: "5"
 
 class
 	SMIL_PRESENTATION
@@ -99,7 +99,7 @@ feature {NONE} -- Build from XML
 			log.exit
 		end
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: smil
 		do
 			create Result.make (<<
@@ -116,7 +116,7 @@ feature {NONE} -- Build from XML
 			>>)
 		end
 
-	PI_building_action_table: EL_PROCEDURE_TABLE
+	PI_building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<

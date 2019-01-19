@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-26 9:48:22 GMT (Friday 26th October 2018)"
-	revision: "3"
+	date: "2019-01-18 12:31:08 GMT (Friday 18th January 2019)"
+	revision: "4"
 
 class
 	EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER
@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Build from XML
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			Result := Precursor + ["kindle-book", agent do set_next_context (book) end]

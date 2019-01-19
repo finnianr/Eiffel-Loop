@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-27 9:35:10 GMT (Saturday 27th October 2018)"
-	revision: "19"
+	date: "2019-01-18 12:38:34 GMT (Friday 18th January 2019)"
+	revision: "20"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -139,7 +139,7 @@ feature {NONE} -- Build from XML
 			set_location (database.decoded_location (node.to_string_8))
 		end
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			Result := building_actions_for_type ({ZSTRING}, Text_element_node) +

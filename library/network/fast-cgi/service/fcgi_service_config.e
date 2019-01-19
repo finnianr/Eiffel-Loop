@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-30 16:11:44 GMT (Friday 30th March 2018)"
-	revision: "7"
+	date: "2019-01-18 12:29:30 GMT (Friday 18th January 2019)"
+	revision: "8"
 
 class
 	FCGI_SERVICE_CONFIG
@@ -96,7 +96,7 @@ feature {NONE} -- Build from XML
 
 	Root_node_name: STRING = "config"
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<

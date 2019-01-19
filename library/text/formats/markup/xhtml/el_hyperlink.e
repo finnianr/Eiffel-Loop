@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-11 19:37:59 GMT (Friday 11th January 2019)"
-	revision: "1"
+	date: "2019-01-18 14:22:47 GMT (Friday 18th January 2019)"
+	revision: "2"
 
 class
 	EL_HYPERLINK
@@ -22,7 +22,8 @@ feature {NONE} -- Initialization
 
 	make (a_id, a_href: ZSTRING)
 		do
-			id := a_id; href := a_href
+			make_default
+			id.share (a_id); href.share (a_href)
 		end
 
 	make_default

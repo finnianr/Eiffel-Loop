@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-28 16:20:46 GMT (Thursday 28th June 2018)"
-	revision: "4"
+	date: "2019-01-18 12:37:28 GMT (Friday 18th January 2019)"
+	revision: "5"
 
 class
 	UNCHECKED_TRANSLATIONS_LIST
@@ -79,7 +79,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Build from XML
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<

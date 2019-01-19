@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-23 13:14:55 GMT (Friday 23rd February 2018)"
-	revision: "3"
+	date: "2019-01-18 17:59:23 GMT (Friday 18th January 2019)"
+	revision: "4"
 
 deferred class
 	EL_JOINED_STRINGS [S -> STRING_GENERAL create make end]
@@ -99,14 +99,18 @@ feature -- Access
 			pop_cursor
 		end
 
-	joined_with_string (a_separator: like item): like item
+	joined_with_string (a_separator: READABLE_STRING_GENERAL): like item
 			-- Null character joins without separation
+		local
+			l_separator: like item
 		do
+			create l_separator.make (a_separator.count)
+			l_separator.append (a_separator)
 			push_cursor
-			create Result.make (character_count + (count - 1) * a_separator.count)
+			create Result.make (character_count + (count - 1) * l_separator.count)
 			from start until after loop
 				if index > 1 then
-					Result.append (a_separator)
+					Result.append (l_separator)
 				end
 				Result.append (item)
 				forth

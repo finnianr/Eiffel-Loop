@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-09 15:45:19 GMT (Wednesday 9th January 2019)"
-	revision: "17"
+	date: "2019-01-19 12:51:52 GMT (Saturday 19th January 2019)"
+	revision: "18"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -94,6 +94,19 @@ feature -- Access
 	sub_list (start_index, end_index: INTEGER): like Current
 		do
 			create Result.make_from_sub_list (Current, start_index, end_index)
+		end
+
+	tail (a_count: INTEGER): like Current
+		require
+			valid_count: a_count <= count
+		local
+			i: INTEGER
+		do
+			create Result.make (a_count)
+			from i := count - a_count + 1 until i > count loop
+				Result.extend (i_th (i))
+				i := i + 1
+			end
 		end
 
 	to_tuple: TUPLE

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 14:21:30 GMT (Wednesday 17th October 2018)"
-	revision: "6"
+	date: "2019-01-18 12:38:33 GMT (Friday 18th January 2019)"
+	revision: "7"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -213,7 +213,7 @@ feature {NONE} -- Building from XML
 
 	Root_node_name: STRING = "DJ-event"
 
-	building_action_table: EL_PROCEDURE_TABLE
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
 				["@title", 				agent do title := node.to_string end],

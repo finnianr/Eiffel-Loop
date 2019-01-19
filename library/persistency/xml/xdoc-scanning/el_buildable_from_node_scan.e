@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 10:20:53 GMT (Sunday 28th October 2018)"
-	revision: "9"
+	date: "2019-01-18 12:29:14 GMT (Friday 18th January 2019)"
+	revision: "10"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -95,7 +95,7 @@ feature {EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER, EL_EIF_OBJ_ROOT_BUILDER_CONT
 
 feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER} -- Implementation
 
-	PI_building_action_table: EL_PROCEDURE_TABLE
+	PI_building_action_table: EL_PROCEDURE_TABLE [STRING]
 		-- building actions assigned to top level processing instructions
 		-- i.e. the same level as the root element
 		do
