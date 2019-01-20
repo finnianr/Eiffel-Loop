@@ -7,9 +7,11 @@ system:
 	library_target = EL_testing
 	description:
 		"""
-			Regression Testing
+			Development Testing
 
-			Classes for doing regression tests based on CRC checksum comparisons of logging output and output files.
+			* Regression tests based on CRC checksum comparisons of logging output and output files.
+			These are used extensively in Eiffel-Loop projects.
+			* Helper classes for unit tests based on `EQA_TEST_SET'
 		"""
 	
 	target:
