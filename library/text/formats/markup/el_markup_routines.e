@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-16 20:17:52 GMT (Friday 16th November 2018)"
-	revision: "6"
+	date: "2019-01-20 11:14:58 GMT (Sunday 20th January 2019)"
+	revision: "7"
 
 class
 	EL_MARKUP_ROUTINES
@@ -15,13 +15,37 @@ class
 inherit
 	EL_MARKUP_TEMPLATES
 
-feature -- Mark up
+	EL_MODULE_ZSTRING
 
-	open_tag (name: READABLE_STRING_GENERAL): ZSTRING
-			-- open tag markup
+feature -- Access
+
+	numbered_tag_list (base_name: READABLE_STRING_GENERAL; lower, upper: INTEGER): EL_ARRAYED_LIST [EL_XML_TAG]
+		local
+			i: INTEGER; name: ZSTRING
 		do
-			Result := Tag_open #$ [name]
+			create Result.make (upper - lower + 1)
+			create name.make (base_name.count + 1)
+			from i := 1 until i > upper loop
+				name.wipe_out
+				name.append_string_general (base_name)
+				name.append_integer (i)
+				Result.extend (tag (name))
+				i := i + 1
+			end
 		end
+
+	tag_list (string_list: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [EL_XML_TAG]
+		local
+			list: EL_ZSTRING_LIST
+		do
+			create list.make_with_separator (string_list, ',', True)
+			create Result.make (list.count)
+			across list as name loop
+				Result.extend (tag (name.item))
+			end
+		end
+
+feature -- Mark up
 
 	closed_tag (name: READABLE_STRING_GENERAL): ZSTRING
 			-- closed tag markup
@@ -33,6 +57,23 @@ feature -- Mark up
 			-- empty tag markup
 		do
 			Result := Tag_empty #$ [name]
+		end
+
+	open_tag (name: READABLE_STRING_GENERAL): ZSTRING
+			-- open tag markup
+		do
+			Result := Tag_open #$ [name]
+		end
+
+	parent_element_markup (name, element_list: READABLE_STRING_GENERAL): ZSTRING
+			-- Wrap a list of elements with a parent element
+		do
+			create Result.make (name.count + element_list.count + 7)
+			Result.append (open_tag (name))
+			Result.append_character ('%N')
+			Result.append_string_general (element_list)
+			Result.append (closed_tag (name))
+			Result.append_character ('%N')
 		end
 
 	tag (name: READABLE_STRING_GENERAL): EL_XML_TAG
@@ -47,17 +88,6 @@ feature -- Mark up
 			Result.append (open_tag (name))
 			Result.append_string_general (value)
 			Result.append (closed_tag (name))
-		end
-
-	parent_element_markup (name, element_list: READABLE_STRING_GENERAL): ZSTRING
-			-- Wrap a list of elements with a parent element
-		do
-			create Result.make (name.count + element_list.count + 7)
-			Result.append (open_tag (name))
-			Result.append_character ('%N')
-			Result.append_string_general (element_list)
-			Result.append (closed_tag (name))
-			Result.append_character ('%N')
 		end
 
 end

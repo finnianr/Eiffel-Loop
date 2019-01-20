@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:29:58 GMT (Friday 18th January 2019)"
-	revision: "12"
+	date: "2019-01-20 12:57:16 GMT (Sunday 20th January 2019)"
+	revision: "13"
 
 class
 	EL_TRANSLATION_TABLE
@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 		do
 			create last_id.make_empty
 			create duplicates.make_empty
-			create internal_zstring_key.make_empty
+			create general.make
 			make_equal (60)
 			Precursor
 		end
@@ -106,7 +106,7 @@ feature -- Status query
 
 	has_general (key: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := has (zstring_key (key))
+			Result := has (general.to_zstring (key))
 		end
 
 	has_general_quantity_key (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
@@ -119,7 +119,7 @@ feature -- Cursor movement
 
 	search_general (key: READABLE_STRING_GENERAL)
 		do
-			search (zstring_key (key))
+			search (general.to_zstring (key))
 		end
 
 	search_quantity_general (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER)
@@ -174,9 +174,7 @@ feature {NONE} -- Implementation
 	quantity_key (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
 			-- complete partial_key by appending .zero .singular OR .plural
 		do
-			Result := internal_zstring_key
-			Result.wipe_out
-			Result.append_string_general (partial_key)
+			Result := general.to_zstring (partial_key)
 			if quantity = 1 then
 				Result.append_string (Dot_singular)
 			else
@@ -192,22 +190,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	zstring_key (key: READABLE_STRING_GENERAL): ZSTRING
-		do
-			if attached {ZSTRING} key as z_key then
-				Result := z_key
-			else
-				Result := internal_zstring_key
-				Result.wipe_out
-				Result.append_string_general (key)
-			end
-		end
-
 feature {NONE} -- Internal attributes
 
 	duplicates: EL_ZSTRING_LIST
 
-	internal_zstring_key: ZSTRING
+	general: EL_ZSTRING_CONVERTER
 
 feature {NONE} -- Build from XML
 

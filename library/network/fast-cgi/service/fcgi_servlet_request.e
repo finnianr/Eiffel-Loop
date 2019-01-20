@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 10:48:50 GMT (Tuesday 10th April 2018)"
-	revision: "7"
+	date: "2019-01-20 13:02:41 GMT (Sunday 20th January 2019)"
+	revision: "8"
 
 class
 	FCGI_SERVLET_REQUEST
@@ -41,16 +41,16 @@ feature -- Access
 
 	headers: FCGI_HTTP_HEADERS
 
-	parameters: like broker.parameters
-		do
-			Result := broker.parameters
-		end
-
 	method_parameters: EL_URL_QUERY_HASH_TABLE
 		-- non-duplicate http parameters from either the GET-data (URI query string)
 		-- or POST-data (`raw_stdin_content')
 		do
 			Result := parameters.method_parameters
+		end
+
+	parameters: like broker.parameters
+		do
+			Result := broker.parameters
 		end
 
 	relative_path_info: ZSTRING
@@ -76,27 +76,27 @@ feature -- Access
 			Result := parameters.script_name
 		end
 
-	value_integer (name: ZSTRING): INTEGER
+	value_integer (name: READABLE_STRING_GENERAL): INTEGER
 		do
 			Result := value_string (name).to_integer_32
 		end
 
-	value_natural_8 (name: ZSTRING): NATURAL_8
-		do
-			Result := value_string (name).to_natural_8
-		end
-
-	value_natural (name: ZSTRING): NATURAL
+	value_natural (name: READABLE_STRING_GENERAL): NATURAL
 		do
 			Result := value_string (name).to_natural_32
 		end
 
-	value_string (name: ZSTRING): ZSTRING
+	value_natural_8 (name: READABLE_STRING_GENERAL): NATURAL_8
+		do
+			Result := value_string (name).to_natural_8
+		end
+
+	value_string (name: READABLE_STRING_GENERAL): ZSTRING
 		local
 			table: like method_parameters
 		do
 			table := method_parameters
-			table.search (name)
+			table.search (General.to_zstring (name))
 			if table.found then
 				Result := table.found_item
 			else
@@ -104,17 +104,17 @@ feature -- Access
 			end
 		end
 
-	value_string_8 (name: ZSTRING): STRING
+	value_string_8 (name: READABLE_STRING_GENERAL): STRING
 		do
 			Result := value_string (name)
 		end
 
 feature -- Status query
 
-	has_parameter (name: ZSTRING): BOOLEAN
+	has_parameter (name: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does this request have a parameter named 'name'?
 		do
-			Result := method_parameters.has (name)
+			Result := method_parameters.has (General.to_zstring (name))
 		end
 
 feature -- Measurement
@@ -142,5 +142,12 @@ feature {NONE} -- Internal attributes
 		-- Response object held so that session cookie can be set.
 
 	servlet: FCGI_HTTP_SERVLET
+
+feature {NONE} -- Constants
+
+	General: EL_ZSTRING_CONVERTER
+		once
+			create Result.make
+		end
 
 end

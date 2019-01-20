@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:24:57 GMT (Wednesday 17th October 2018)"
-	revision: "4"
+	date: "2019-01-20 12:52:56 GMT (Sunday 20th January 2019)"
+	revision: "5"
 
 class
 	EL_STRING_8_TEMPLATE
@@ -30,12 +30,12 @@ convert
 
 feature {NONE} -- Implementation
 
-	append_from_general (target: STRING_8; general: READABLE_STRING_GENERAL)
+	append_from_general (target: STRING_8; a_general: READABLE_STRING_GENERAL)
 		do
-			if attached {ZSTRING} general as z_str then
+			if attached {ZSTRING} a_general as z_str then
 				z_str.append_to_string_8 (target)
 			else
-				target.append (general.to_string_8)
+				target.append (a_general.to_string_8)
 			end
 		end
 

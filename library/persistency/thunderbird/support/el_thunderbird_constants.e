@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-11 12:12:58 GMT (Friday 11th January 2019)"
-	revision: "5"
+	date: "2019-01-20 11:15:35 GMT (Sunday 20th January 2019)"
+	revision: "6"
 
 class
 	EL_THUNDERBIRD_CONSTANTS
@@ -28,11 +28,6 @@ feature {NONE} -- Implementation
 			valid_level: Heading_levels.has (level)
 		do
 			Result := Text_tags [level]
-		end
-
-	paragraph: like Text_tags.item
-		do
-			Result := Text_tags.last
 		end
 
 feature {NONE} -- Strings
@@ -80,6 +75,11 @@ feature {NONE} -- Constants
 			Result := << Tag.ordered_list, Tag.unordered_list >>
 		end
 
+	Paragraph: EL_XML_TAG
+		once
+			Result := XML.tag ("p")
+		end
+
 	Tag: TUPLE [break, body, html, ordered_list, unordered_list: EL_XML_TAG]
 		once
 			create Result
@@ -98,13 +98,8 @@ feature {NONE} -- Constants
 
 	Text_tags: ARRAYED_LIST [EL_XML_TAG]
 		once
-			create Result.make (Heading_levels.upper + 1)
-			across Heading_levels as level loop
-				Result.extend (XML.tag (character_string ('h') + level.item.out))
-			end
-			across String_8.list ("p, li, ol") as name loop
-				Result.extend (XML.tag (name.item))
-			end
+			Result := XML.numbered_tag_list ("h", Heading_levels.lower, Heading_levels.upper) + Paragraph
+			Result.append (XML.tag_list ("li, ol"))
 		end
 
 end

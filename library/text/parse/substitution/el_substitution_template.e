@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-18 8:39:59 GMT (Thursday 18th October 2018)"
-	revision: "13"
+	date: "2019-01-20 12:52:11 GMT (Sunday 20th January 2019)"
+	revision: "14"
 
 deferred class
 	EL_SUBSTITUTION_TEMPLATE
@@ -181,12 +181,10 @@ feature -- Element change
 			meta_object: like new_current_object; table: EL_REFLECTED_FIELD_TABLE
 			i, field_count: INTEGER; name: ZSTRING
 		do
-			name := Once_name
 			if attached {EL_REFLECTIVE} object as reflective then
 				table := reflective.field_table
 				from table.start until table.after loop
-					name.wipe_out
-					name.append_string_general (table.key_for_iteration)
+					name := General.to_zstring (table.key_for_iteration)
 					if has_variable (name) then
 						set_variable (name, table.item_for_iteration.to_string (reflective))
 					end
@@ -196,8 +194,7 @@ feature -- Element change
 				meta_object := new_current_object (object)
 				field_count := meta_object.field_count
 				from i := 1 until i > field_count loop
-					name.wipe_out
-					name.append_string_general (meta_object.field_name (i))
+					name := General.to_zstring (meta_object.field_name (i))
 					if has_variable (name) then
 						set_variable (name, meta_object.field (i))
 					end
@@ -259,7 +256,7 @@ feature {NONE} -- Implementation: parsing actions
 
 feature {NONE} -- Implementation
 
-	append_from_general (target: like new_string; general: READABLE_STRING_GENERAL)
+	append_from_general (target: like new_string; a_general: READABLE_STRING_GENERAL)
 		deferred
 		end
 
@@ -273,13 +270,7 @@ feature {NONE} -- Implementation
 
 	from_general (a_str: READABLE_STRING_GENERAL): ZSTRING
 		do
-			if attached {ZSTRING} a_str as zstr then
-				Result := zstr
-			else
-				Result := Once_name
-				Result.wipe_out
-				Result.append_string_general (a_str)
-			end
+			Result := General.to_zstring (a_str)
 		end
 
 	parse
@@ -312,9 +303,9 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Once_name: ZSTRING
+	General: EL_ZSTRING_CONVERTER
 		once
-			create Result.make_empty
+			create Result.make
 		end
 
 	Meta_data_by_type: HASH_TABLE [EL_CLASS_META_DATA, TYPE [ANY]]

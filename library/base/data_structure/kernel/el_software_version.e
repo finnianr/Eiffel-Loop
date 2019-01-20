@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2019-01-20 13:41:45 GMT (Sunday 20th January 2019)"
+	revision: "7"
 
 class
 	EL_SOFTWARE_VERSION
@@ -62,7 +62,7 @@ feature -- Access
 		local
 			list: EL_STRING_LIST [STRING]
 		do
-			create list.make_from_array (<< major.out, minor.out, maintenance.out >>)
+			create list.make_from_tuple ([major, minor, maintenance])
 			Result := list.joined ('.')
 		end
 
