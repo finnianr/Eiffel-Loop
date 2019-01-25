@@ -1,6 +1,6 @@
 note
 	description: "[
-		Access control for tests based on `EQA_TEST_SET'
+		Access control for tests based on `EQA_TEST_SET'.
 		See Larry Rix's [https://github.com/ljr1981/test_extension/blob/master/bridge/test_set_bridge.e explanation].
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-20 21:35:24 GMT (Sunday 20th January 2019)"
-	revision: "1"
+	date: "2019-01-20 21:56:36 GMT (Sunday 20th January 2019)"
+	revision: "2"
 
 class
 	EL_TEST_SET_BRIDGE

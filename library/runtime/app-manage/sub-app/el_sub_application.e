@@ -7,16 +7,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 18:46:41 GMT (Tuesday 25th December 2018)"
-	revision: "22"
+	date: "2019-01-25 2:28:27 GMT (Friday 25th January 2019)"
+	revision: "23"
 
 deferred class
 	EL_SUB_APPLICATION
 
 inherit
+	EL_APPLICATION_ARGUMENTS
+		redefine
+			make
+		end
+
 	EL_MODULE_BUILD_INFO
 
-	EL_MODULE_EXCEPTIONS
+	EL_MODULE_EXCEPTION
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
@@ -28,14 +33,14 @@ inherit
 
 	EL_MODULE_LIO
 
-feature {EL_SUB_APPLICATION_LIST} -- Initiliazation
+feature {EL_SUB_APPLICATION_LIST} -- Initialization
 
 	initialize
 			--
 		deferred
 		end
 
-	init_logging
+	init_console
 		do
 			Console.show_all (visible_types)
 		end
@@ -45,15 +50,14 @@ feature {EL_SUB_APPLICATION_LIST} -- Initiliazation
 		local
 			boolean: BOOLEAN_REF
 		do
-			create options_help.make (11)
-			create argument_errors.make (0)
-			Exceptions.catch (Exceptions.Signal_exception)
+			Precursor
+			Exception.catch ({EXCEP_CONST}.Signal_exception)
 
 			create boolean
 			across standard_options as option loop
 				set_boolean_from_command_opt (boolean, option.key, option.item)
 			end
-			init_logging
+			init_console
 			if not (Args.has_no_app_header or Args.has_silent) then
 				io_put_header
 			end
@@ -61,8 +65,6 @@ feature {EL_SUB_APPLICATION_LIST} -- Initiliazation
 		end
 
 feature -- Access
-
-	argument_errors: ARRAYED_LIST [EL_COMMAND_ARGUMENT_ERROR]
 
 	description: READABLE_STRING_GENERAL
 		deferred
@@ -73,8 +75,6 @@ feature -- Access
 		do
 			Result := generator.as_lower
 		end
-
-	options_help: EL_SUB_APPLICATION_HELP_LIST
 
 	unwrapped_description: ZSTRING
 	 -- description unwrapped as a single line
@@ -92,24 +92,6 @@ feature -- Basic operations
 
 feature -- Status query
 
-	ask_user_to_quit: BOOLEAN
-			--
-		do
-			Result := Args.word_option_exists ({EL_COMMAND_OPTIONS}.Ask_user_to_quit)
-		end
-
-	command_line_help_option_exists: BOOLEAN
-		do
-			-- Args.character_option_exists ({EL_COMMAND_OPTIONS}.Help [1]) or else
-			-- This doesn't work because of a bug in {ARGUMENTS_32}.option_character_equal
-			Result := Args.word_option_exists ({EL_COMMAND_OPTIONS}.Help)
-		end
-
-	has_argument_errors: BOOLEAN
-		do
-			Result := not argument_errors.is_empty
-		end
-
 	is_same_option (name: ZSTRING): BOOLEAN
 		do
 			Result := name.same_string (option_name)
@@ -125,86 +107,6 @@ feature -- Element change
 			create config_cell.make_from_option_name (a_name)
 		end
 
-	set_attribute_from_command_opt (a_attribute: ANY; a_word_option, a_description: READABLE_STRING_GENERAL)
-		do
-			set_from_command_opt (a_attribute, a_word_option, a_description, False)
-		end
-
-	set_boolean_from_command_opt (a_bool: BOOLEAN_REF; a_word_option, a_description: READABLE_STRING_GENERAL)
-		do
-			if a_bool.item and then Args.word_option_exists (a_word_option) then
-				a_bool.set_item (False)
-			else
-				a_bool.set_item (Args.word_option_exists (a_word_option))
-			end
-			options_help.extend (a_word_option, a_description, False)
-		end
-
-	set_from_command_opt (
-		a_attribute: ANY; a_word_option, a_description: READABLE_STRING_GENERAL; is_required: BOOLEAN
-	)
-			-- set class attribute from command line option
-		local
-			l_argument_index: INTEGER; l_argument: ZSTRING
-			argument_error: like new_argument_error
-		do
-			argument_error := new_argument_error (a_word_option)
-			options_help.extend (a_word_option, a_description, a_attribute)
-			if Args.has_value (a_word_option) then
-				l_argument_index := Args.index_of_word_option (a_word_option) + 1
-				l_argument := Args.item (l_argument_index)
-
-				if attached {ZSTRING} a_attribute as a_string then
-					a_string.share (l_argument)
-
-				elseif attached {EL_DIR_PATH} a_attribute as a_dir_path then
-					a_dir_path.set_path (l_argument)
-					if not a_dir_path.exists then
-						argument_errors.extend (argument_error)
-						argument_errors.last.set_path_error (Eng_directory, a_dir_path)
-					end
-
-				elseif attached {EL_FILE_PATH} a_attribute as a_file_path then
-					a_file_path.set_path (l_argument)
-					if not a_file_path.exists then
-						argument_errors.extend (argument_error)
-						argument_errors.last.set_path_error (Eng_file, a_file_path)
-					end
-
-				elseif attached {REAL_REF} a_attribute as a_real_value then
-					if l_argument.is_real then
-						a_real_value.set_item (l_argument.to_real)
-					else
-						argument_errors.extend (argument_error)
-						argument_errors.last.set_type_error ("real number")
-					end
-
-				elseif attached {INTEGER_REF} a_attribute as a_integer_value then
-					if l_argument.is_integer then
-						a_integer_value.set_item (l_argument.to_integer)
-					else
-						argument_errors.extend (argument_error)
-						argument_errors.last.set_type_error ("integer")
-					end
-				elseif attached {BOOLEAN_REF} a_attribute as a_boolean_value then
-					a_boolean_value.set_item (Args.word_option_exists (a_word_option))
-
-				elseif attached {EL_ZSTRING_HASH_TABLE [STRING]} a_attribute as hash_table then
-					hash_table [Zstring.new_zstring (a_word_option)] := l_argument
-				end
-			else
-				if is_required then
-					argument_errors.extend (argument_error)
-					argument_errors.last.set_required_error
-				end
-			end
-		end
-
-	set_required_attribute_from_command_opt (a_attribute: ANY; a_word_option, a_description: READABLE_STRING_GENERAL)
-		do
-			set_from_command_opt (a_attribute, a_word_option, a_description, True)
-		end
-
 feature {NONE} -- Implementation
 
 	call (object: ANY)
@@ -213,6 +115,8 @@ feature {NONE} -- Implementation
 		end
 
 	do_application
+		local
+			ctrl_c_pressed: BOOLEAN
 		do
 			if ctrl_c_pressed then
 				on_operating_system_signal
@@ -238,7 +142,7 @@ feature {NONE} -- Implementation
 				end
 			end
 		rescue
-			if Exceptions.is_signal then
+			if Exception.last.is_signal then
 				ctrl_c_pressed := True
 				retry
 			end
@@ -276,17 +180,6 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	standard_options: EL_HASH_TABLE [STRING, STRING]
-		-- Standard command line options
-		do
-			create Result.make (<<
-				[{EL_COMMAND_OPTIONS}.No_highlighting, 	"Turn off color highlighting for console output"],
-				[{EL_COMMAND_OPTIONS}.No_app_header, 		"Suppress output of application information"],
-				[{EL_COMMAND_OPTIONS}.silent, 				"Suppress all output to console"],
-				[{EL_COMMAND_OPTIONS}.Ask_user_to_quit, 	"Prompt user to quit before exiting application"]
-			>>)
-		end
-
 	visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
 		-- types with lio output visible in console
 		-- See: {EL_CONSOLE_MANAGER_I}.show_all
@@ -294,43 +187,7 @@ feature {NONE} -- Implementation
 			create Result.make_empty
 		end
 
-feature {NONE} -- Internal attributes
-
-	ctrl_c_pressed: BOOLEAN
-
-feature {NONE} -- Factory routines
-
-	new_argument_error (option: READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT_ERROR
-		do
-			create Result.make (option)
-		end
-
-feature -- Constants
-
-	Eng_directory: ZSTRING
-		once
-			Result := "directory"
-		end
-
-	Eng_file: ZSTRING
-		once
-			Result := "file"
-		end
-
 feature {EL_DESKTOP_ENVIRONMENT_I} -- Constants
-
-	Input_path_option_name: STRING
-			--
-		once
-			Result := "file"
-		end
-
-	Template_command_error: ZSTRING
-		once
-			Result := "[
-				Command "#" failed!
-			]"
-		end
 
 	Data_directories: ARRAY [EL_DIR_PATH]
 		once

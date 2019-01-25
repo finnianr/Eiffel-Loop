@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:29:30 GMT (Friday 18th January 2019)"
-	revision: "8"
+	date: "2019-01-24 14:33:28 GMT (Thursday 24th January 2019)"
+	revision: "9"
 
 class
 	FCGI_SERVICE_CONFIG
@@ -102,13 +102,13 @@ feature {NONE} -- Build from XML
 			create Result.make (<<
 				["@port", agent do server_port := node end],
 				["@socket_path", agent do server_socket_path := node.to_expanded_file_path end],
-				["document-root/text()", agent do set_document_root_dir (node.to_string) end]
+				["document-root/text()", agent do set_document_root_dir (node.to_expanded_dir_path) end]
 			>>)
 		end
 
 feature {NONE} -- Implementation
 
-	set_document_root_dir (a_document_root_dir: like document_root_dir)
+	set_document_root_dir (a_document_root_dir: EL_DIR_PATH)
 		do
 			document_root_dir := a_document_root_dir
 		end

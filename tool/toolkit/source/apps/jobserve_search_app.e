@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-01-25 2:05:02 GMT (Friday 25th January 2019)"
+	revision: "5"
 
 class
 	JOBSERVE_SEARCH_APP
@@ -17,6 +17,8 @@ inherit
 		redefine
 			option_name
 		end
+
+	EL_COMMAND_ARGUMENT_CONSTANTS
 
 create
 	make

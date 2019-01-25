@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-29 12:09:05 GMT (Friday 29th June 2018)"
-	revision: "10"
+	date: "2019-01-25 2:00:33 GMT (Friday 25th January 2019)"
+	revision: "11"
 
 class
 	EL_STANDARD_UNINSTALL_APP

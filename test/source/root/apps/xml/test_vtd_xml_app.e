@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:03 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2019-01-25 2:41:01 GMT (Friday 25th January 2019)"
+	revision: "7"
 
 class
 	TEST_VTD_XML_APP
@@ -18,7 +18,7 @@ inherit
 			Option_name, initialize
 		end
 
-	EXCEPTIONS
+	EL_MODULE_EXCEPTION
 
 	EL_MODULE_OS
 
@@ -251,8 +251,8 @@ feature {NONE} -- Implementation
 			log.exit
 		rescue
 			log.restore (log_stack_pos)
-			if is_developer_exception then
-				io.put_string (developer_exception_name)
+			if Exception.last.is_developer_exception then
+				io.put_string (Exception.last.developer_exception_name)
 				io.put_new_line
 				io.put_string ("Retry? (y/n) ")
 				io.read_line

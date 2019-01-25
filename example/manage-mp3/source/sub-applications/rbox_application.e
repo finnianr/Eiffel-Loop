@@ -6,13 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-01-25 2:22:41 GMT (Friday 25th January 2019)"
+	revision: "6"
 
 deferred class	RBOX_APPLICATION obsolete "Rewrite descendants using music manager task"
 
 inherit
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
+
+	EL_ARGUMENT_TO_ATTRIBUTE_SETTING
+		undefine
+			make, standard_options
+		end
 
 	EL_MODULE_AUDIO_COMMAND
 

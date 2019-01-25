@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
-	revision: "6"
+	date: "2019-01-25 2:03:24 GMT (Friday 25th January 2019)"
+	revision: "7"
 
 deferred class
 	EL_PATH_OPERAND_SETTER [G -> EL_PATH]
@@ -17,6 +17,8 @@ inherit
 		redefine
 			set_error, new_list
 		end
+
+	EL_COMMAND_ARGUMENT_CONSTANTS
 
 feature {NONE} -- Implementation
 
@@ -42,14 +44,10 @@ feature {NONE} -- Implementation
 		do
 			if valid_description.has_substring ("must exist") then
 				app.argument_errors.extend (argument.new_error)
-				app.argument_errors.last.set_path_error (app.Eng_directory, a_value)
+				app.argument_errors.last.set_path_error (Eng_directory, a_value)
 			else
 				Precursor (a_value, valid_description)
 			end
-		end
-
-	type_name: ZSTRING
-		deferred
 		end
 
 end

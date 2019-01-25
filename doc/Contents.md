@@ -1217,8 +1217,10 @@ These are "out of the box" command for obtaining system information.
 * Unix command to obtain CPU name
 
 
-## Regression Testing
-Classes for doing regression tests based on CRC checksum comparisons of logging output and output files.
+## Development Testing
+* Regression tests based on CRC checksum comparisons of logging output and output files. These are used extensively in Eiffel-Loop projects.
+* Helper classes for unit tests based on `EQA_TEST_SET`
+
 ## Internationalization
 An internationalization library with support for translations rendered in Pyxis format. There are a number of tools in `el_toolkit` to support the use of this library.
 ## AES Encryption

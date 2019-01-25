@@ -6,18 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 15:35:45 GMT (Monday 29th October 2018)"
-	revision: "3"
+	date: "2019-01-25 2:29:28 GMT (Friday 25th January 2019)"
+	revision: "4"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
 
 inherit
 	EL_SUB_APPLICATION
+		rename
+			init_console as init_console_and_logging
 		undefine
 			new_lio
 		redefine
-			do_application, init_logging, io_put_header, standard_options
+			do_application, init_console_and_logging, io_put_header, standard_options
 		end
 
 	EL_MODULE_LOG
@@ -32,10 +34,13 @@ feature {NONE} -- Implementation
 
 	do_application
 		local
-			log_stack_pos: INTEGER
+			log_stack_pos: INTEGER; ctrl_c_pressed, other_exception: BOOLEAN
 		do
 			if ctrl_c_pressed then
 				on_operating_system_signal
+
+			elseif other_exception then
+				Exception.put_last_trace (log)
 			else
 				log.enter ("make")
 				log_stack_pos := log.call_stack_count
@@ -43,16 +48,18 @@ feature {NONE} -- Implementation
 			end
 			log.exit
 			Log_manager.close_logs
-			Log_manager.delete_logs
-		rescue
-			if Exceptions.is_signal then
-				log.restore (log_stack_pos)
-				ctrl_c_pressed := True
-				retry -- for normal exit
-			else
-				-- Close logs for inspection and application exits here
-				Log_manager.close_logs
+
+			if not other_exception then
+				Log_manager.delete_logs
 			end
+		rescue
+			if Exception.last.is_signal then
+				ctrl_c_pressed := True
+			else
+				other_exception := True
+			end
+			log.restore (log_stack_pos)
+			retry -- for normal exit
 		end
 
 	io_put_header
@@ -66,7 +73,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	init_logging
+	init_console_and_logging
 			--
 		do
 			Precursor

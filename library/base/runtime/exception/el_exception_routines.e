@@ -6,14 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2019-01-24 14:14:59 GMT (Thursday 24th January 2019)"
+	revision: "8"
 
 class
 	EL_EXCEPTION_ROUTINES
-
-inherit
-	EXCEPTION_MANAGER_FACTORY
 
 create
 	make
@@ -22,15 +19,26 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			manager := Exception_manager
+			create internal_exceptions
+			manager := internal_exceptions.Exception_manager
 		end
 
 feature -- Access
 
+	general, last: EXCEPTIONS
+		do
+			Result := internal_exceptions
+		end
+
+	last_exception: EXCEPTION
+		do
+			Result := manager.last_exception
+		end
+
 	last_out: STRING
 		do
-			if attached {EXCEPTION} last_exception as last then
-				Result := last.out
+			if attached {EXCEPTION} last_exception as l_last then
+				Result := l_last.out
 			else
 				create Result.make_empty
 			end
@@ -48,19 +56,19 @@ feature -- Access
 
 	last_trace: STRING_32
 		do
-			if attached {EXCEPTION} last_exception as last then
-				Result := last.trace
+			if attached {EXCEPTION} last_exception as l_last then
+				Result := l_last.trace
 			else
 				create Result.make_empty
 			end
 		end
 
-	last_exception: EXCEPTION
+	last_trace_lines: EL_SPLIT_STRING_LIST [STRING_32]
 		do
-			Result := manager.last_exception
+			create Result.make (last_trace, "%N")
 		end
 
-	manager: like exception_manager
+	manager: EXCEPTION_MANAGER
 
 feature -- Status query
 
@@ -78,7 +86,25 @@ feature -- Status query
 			Result := Termination_signals.has (last_signal_code)
 		end
 
+feature -- Status setting
+
+	catch (code: INTEGER)
+		do
+			general.catch (code)
+		end
+
 feature -- Basic operations
+
+	put_last_trace (log: EL_LOGGABLE)
+		local
+			lines: like last_trace_lines
+		do
+			lines := last_trace_lines
+			from lines.start until lines.after loop
+				log.put_line (lines.item)
+				lines.forth
+			end
+		end
 
 	raise (exception: EXCEPTION; template: ZSTRING; inserts: TUPLE)
 		local
@@ -117,6 +143,10 @@ feature -- Basic operations
 			trace_file.put_string_32 (last_trace)
 			trace_file.close
 		end
+
+feature {NONE} -- Internal attributes
+
+	internal_exceptions: EXCEPTIONS
 
 feature {NONE} -- Constants
 

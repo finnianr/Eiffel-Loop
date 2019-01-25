@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 9:22:34 GMT (Tuesday 19th June 2018)"
-	revision: "12"
+	date: "2019-01-25 1:59:15 GMT (Friday 25th January 2019)"
+	revision: "13"
 
 class
 	SOURCE_TREE_CLASS_RENAME_APP
@@ -23,6 +23,8 @@ inherit
 			desktop_menu_path as Default_desktop_menu_path,
 			desktop_launcher as Default_desktop_launcher
 		end
+
+	EL_COMMAND_ARGUMENT_CONSTANTS
 
 create
 	make

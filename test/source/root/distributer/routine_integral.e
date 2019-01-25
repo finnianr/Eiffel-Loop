@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "2"
+	date: "2019-01-25 2:39:41 GMT (Friday 25th January 2019)"
+	revision: "3"
 
 deferred class
 	ROUTINE_INTEGRAL [G]
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_MODULE_EXCEPTIONS
+	EL_MODULE_EXCEPTION
 
 feature {NONE} -- Initialization
 
@@ -61,10 +61,10 @@ feature -- Basic operations
 			end
 			log.exit
 		rescue
-			if Exceptions.is_signal then
+			if Exception.last.is_signal then
 				distributer.do_final
 				is_canceled := True
-				Exceptions.no_message_on_failure
+				Exception.last.no_message_on_failure
 				retry
 			end
 		end

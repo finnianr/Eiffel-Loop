@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:29:26 GMT (Wednesday 17th October 2018)"
-	revision: "4"
+	date: "2019-01-25 2:02:51 GMT (Friday 25th January 2019)"
+	revision: "5"
 
 deferred class
 	EL_INSTALLABLE_SUB_APPLICATION
@@ -16,6 +16,11 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_IMAGE_PATH
+
+	EL_COMMAND_ARGUMENT_CONSTANTS
+		export
+			{EL_DESKTOP_ENVIRONMENT_I} input_path_option_name
+		end
 
 feature -- Access
 
@@ -28,14 +33,6 @@ feature -- Access
 		end
 
 	desktop_menu_path: ARRAY [EL_DESKTOP_MENU_ITEM]
-		deferred
-		end
-
-	input_path_option_name: STRING
-		-- name of command-line option representing file/directory argument to application
-		-- Defined in EL_SUB_APPLICATION with the default value "file"
-		-- Used with routine `new_context_menu_installer' to create file/directory context menu that launches
-		-- the application.
 		deferred
 		end
 
