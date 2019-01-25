@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 19:08:06 GMT (Tuesday 25th December 2018)"
-	revision: "6"
+	date: "2019-01-25 12:05:47 GMT (Friday 25th January 2019)"
+	revision: "7"
 
 class
 	EL_DIRECTORY_CONTENT_PROCESSOR
 
 inherit
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_OS
 
 	EL_MODULE_LIO
 
@@ -104,7 +104,7 @@ feature -- Basic operations
 				output_file_dir_path_steps.remove_tail (1)
 
 				input_file_path := input_file_path_steps.as_file_path
-				File_system.make_directory (output_file_dir_path_steps)
+				OS.File_system.make_directory (output_file_dir_path_steps)
 				destination_dir_path := output_file_dir_path_steps.as_directory_path
 
 				file_processing_action.call (
@@ -124,7 +124,7 @@ feature {NONE} -- Implementation
 			file_path_steps: EL_PATH_STEPS
 			i: INTEGER
 		do
-			create file_path_list.make (input_dir, wild_card)
+			create file_path_list.make (OS.file_list (input_dir, wild_card))
 
 			input_file_relative_path_steps_list.wipe_out
 			across file_path_list as file_path loop

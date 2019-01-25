@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 2:40:12 GMT (Friday 25th January 2019)"
-	revision: "8"
+	date: "2019-01-25 10:32:01 GMT (Friday 25th January 2019)"
+	revision: "9"
 
 class
 	TEST_WORK_DISTRIBUTER_APP
@@ -27,9 +27,6 @@ inherit
 		end
 
 	EL_ARGUMENT_TO_ATTRIBUTE_SETTING
-		undefine
-			make, standard_options
-		end
 
 	EL_DOUBLE_MATH
 

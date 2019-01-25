@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 10:33:13 GMT (Tuesday 25th December 2018)"
-	revision: "11"
+	date: "2019-01-25 12:19:22 GMT (Friday 25th January 2019)"
+	revision: "12"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -18,7 +18,7 @@ class
 inherit
 	EL_MODULE_DIRECTORY
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_OS
 
 	EL_MODULE_LOG
 
@@ -117,7 +117,7 @@ feature {NONE} -- Implementation
 			file_list: EL_FILE_PATH_LIST; lines: EL_FILE_LINE_SOURCE
 			extension: ZSTRING
 		do
-			create file_list.make (input_dir_path, "*")
+			file_list := OS.file_list (input_dir_path, "*")
 			from file_list.start until file_list.after loop
 				extension := file_list.path.extension
 				if not excluded_file_extensions.has (extension) then
@@ -143,7 +143,7 @@ feature {NONE} -- Implementation
 				OS.delete_tree (work_area_dir)
 				reset_work_area
 			else
-				File_system.make_directory (work_area_dir)
+				OS.File_system.make_directory (work_area_dir)
 			end
 		end
 
@@ -156,7 +156,7 @@ feature {NONE} -- Implementation
 		do
 			reset_work_area
 			input_dir_path := work_area_dir.joined_dir_path (relative_dir.base)
-			File_system.make_directory (input_dir_path)
+			OS.File_system.make_directory (input_dir_path)
 
 			OS.copy_tree (test_data_dir.joined_dir_path (relative_dir), work_area_dir)
 			check
@@ -183,10 +183,9 @@ feature {NONE} -- Implementation
 				is_executing := True; test.apply; is_executing := False
 			else
 				search_results := OS.file_list (input_dir_path, file_name_pattern)
-				from search_results.start until search_results.after loop
-					test.set_operands ([search_results.item])
+				across search_results as search loop
+					test.set_operands ([search.item])
 					is_executing := True; test.apply; is_executing := False
-					search_results.forth
 				end
 			end
 			timer.stop

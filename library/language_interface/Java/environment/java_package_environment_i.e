@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-01-25 12:23:00 GMT (Friday 25th January 2019)"
+	revision: "5"
 
 deferred class
 	JAVA_PACKAGE_ENVIRONMENT_I
@@ -19,7 +19,7 @@ inherit
 
 	EL_MODULE_ENVIRONMENT
 
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_OS
 
 	EL_MODULE_LIO
 
@@ -165,7 +165,7 @@ feature {NONE} -- Implementation
 			create jar_file_name.make_from_string (package_name + "*.jar")
 			last_package_found := False
 			across jar_dir_list as jar_dir until last_package_found loop
-				create package_list.make (jar_dir.item, jar_file_name)
+				package_list := OS.file_list (jar_dir.item, jar_file_name)
 				if not package_list.is_empty then
 					last_package_found := True
 					extend_class_path_list (package_list.first_path)

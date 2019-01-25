@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2019-01-25 12:15:02 GMT (Friday 25th January 2019)"
+	revision: "7"
 
 class
 	ID3_EDITOR
@@ -19,6 +19,8 @@ inherit
 
 	EL_MODULE_USER_INPUT
 
+	EL_MODULE_OS
+
 create
 	make
 
@@ -27,7 +29,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	make (a_media_dir: EL_DIR_PATH; a_edition_name: like edition_name)
 		do
 			edition_name := a_edition_name
-			create file_paths.make (a_media_dir, "*.mp3")
+			create file_paths.make (OS.file_list (a_media_dir, "*.mp3"))
 			create id3_edits
 			editions_table := new_editions_table
 		end
