@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 12:09:48 GMT (Friday 25th January 2019)"
-	revision: "12"
+	date: "2019-01-25 17:56:22 GMT (Friday 25th January 2019)"
+	revision: "13"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -35,11 +35,6 @@ feature -- Access
 	validation: EL_ZSTRING_HASH_TABLE [PREDICATE]
 
 	word_option: READABLE_STRING_GENERAL
-
-	new_error: EL_COMMAND_ARGUMENT_ERROR
-		do
-			create Result.make (word_option)
-		end
 
 feature -- Status query
 

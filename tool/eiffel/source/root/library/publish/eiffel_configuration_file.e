@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 18:12:59 GMT (Tuesday 25th December 2018)"
-	revision: "14"
+	date: "2019-01-25 17:39:40 GMT (Friday 25th January 2019)"
+	revision: "15"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -243,9 +243,9 @@ feature {NONE} -- Factory
 		do
 			across source_dir_list as path loop
 				if path.cursor_index = 1 then
-					create Result.make (path.item, Eiffel_wildcard)
+					Result := OS.file_list (path.item, Eiffel_wildcard)
 				else
-					create list.make (path.item, Eiffel_wildcard)
+					list := OS.file_list (path.item, Eiffel_wildcard)
 					Result.append (list)
 				end
 			end

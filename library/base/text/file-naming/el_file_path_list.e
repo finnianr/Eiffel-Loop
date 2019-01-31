@@ -1,13 +1,13 @@
 note
-	description: "File path list from OS command"
+	description: "File path list sortable by path, base name or file size."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 12:04:14 GMT (Friday 25th January 2019)"
-	revision: "5"
+	date: "2019-01-25 14:31:26 GMT (Friday 25th January 2019)"
+	revision: "6"
 
 class
 	EL_FILE_PATH_LIST
@@ -21,6 +21,11 @@ inherit
 			last as last_path
 		redefine
 			make_from_tuple
+		end
+
+	EL_MODULE_FILE_SYSTEM
+		undefine
+			is_equal, copy
 		end
 
 create
@@ -58,6 +63,24 @@ feature {NONE} -- Initialization
 				end
 				i := i + 1
 			end
+		end
+
+feature -- Basic operations
+
+	sort_by_base (in_ascending_order: BOOLEAN)
+		local
+			map: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [ZSTRING, EL_FILE_PATH]
+		do
+			create map.make_sorted (Current, agent {EL_FILE_PATH}.base, in_ascending_order)
+			make_from_array (map.value_list.to_array)
+		end
+
+	sort_by_size (in_ascending_order: BOOLEAN)
+		local
+			map: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [INTEGER, EL_FILE_PATH]
+		do
+			create map.make_sorted (Current, agent File_system.file_byte_count, in_ascending_order)
+			make_from_array (map.value_list.to_array)
 		end
 
 end

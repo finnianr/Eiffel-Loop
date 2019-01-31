@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-10 19:07:37 GMT (Thursday 10th January 2019)"
-	revision: "3"
+	date: "2019-01-29 13:11:25 GMT (Tuesday 29th January 2019)"
+	revision: "4"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -24,7 +24,7 @@ inherit
 			set as set_encoded
 		export
 			{NONE} all
-			{ANY} Is_string_8, wipe_out, share, set_encoded, count, area, is_empty, capacity, same_string, to_c
+			{ANY} Is_string_8, wipe_out, share, set_encoded, count, area, is_empty, capacity, same_string, to_c, to_string_8
 		end
 
 	EL_MODULE_UTF

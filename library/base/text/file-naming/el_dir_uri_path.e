@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 12:45:44 GMT (Sunday 23rd December 2018)"
-	revision: "9"
+	date: "2019-01-30 12:27:53 GMT (Wednesday 30th January 2019)"
+	revision: "10"
 
 class
 	EL_DIR_URI_PATH
@@ -25,7 +25,8 @@ inherit
 
 	EL_URI_PATH
 		rename
-			make_from_file_path as make_from_dir_path
+			make_from_file_path as make_from_dir_path,
+			to_file_path as to_dir_path
 		undefine
 			has_step
 		redefine
@@ -49,6 +50,13 @@ feature {NONE} -- Initialization
 	make_from_dir_path (a_path: EL_DIR_PATH)
 		do
 			Precursor (a_path)
+		end
+
+feature -- Conversion
+
+	to_dir_path: EL_DIR_PATH
+		do
+			Result := parent_path + base
 		end
 
 feature {NONE} -- Type definitions

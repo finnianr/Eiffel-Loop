@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 10:59:32 GMT (Friday 25th January 2019)"
-	revision: "24"
+	date: "2019-01-25 18:03:56 GMT (Friday 25th January 2019)"
+	revision: "25"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -131,6 +131,18 @@ feature -- Status query
 				a_bool.set_item (Args.word_option_exists (a_word_option))
 			end
 			options_help.extend (a_word_option, a_description, False)
+		end
+
+feature -- Element change
+
+	extend_help (word_option, a_description: READABLE_STRING_GENERAL; default_value: ANY)
+		do
+			options_help.extend (word_option, a_description, default_value)
+		end
+
+	extend_errors (error: EL_COMMAND_ARGUMENT_ERROR)
+		do
+			argument_errors.extend (error)
 		end
 
 feature {NONE} -- Factory routines

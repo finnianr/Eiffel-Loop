@@ -1,13 +1,13 @@
 note
-	description: "Dir path operand command i"
+	description: "Dir path operand command interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2019-01-31 10:41:37 GMT (Thursday 31st January 2019)"
+	revision: "4"
 
 deferred class
 	EL_DIR_PATH_OPERAND_COMMAND_I

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 12:48:55 GMT (Sunday 23rd December 2018)"
-	revision: "8"
+	date: "2019-01-30 12:25:07 GMT (Wednesday 30th January 2019)"
+	revision: "9"
 
 deferred class
 	EL_URI_PATH
@@ -155,8 +155,12 @@ feature -- Status query
 
 feature -- Conversion
 
-	 to_string: ZSTRING
-	 	local
+	to_file_path: EL_PATH
+		deferred
+		end
+
+	to_string: ZSTRING
+		local
 	 		l_path: ZSTRING
 	 	do
 	 		l_path := Precursor
@@ -167,13 +171,14 @@ feature -- Conversion
 	 		Result.append (l_path)
 	 	end
 
-	 to_encoded_utf_8: EL_URL_STRING_8
+	 to_encoded_utf_8: STRING
 	 	local
-	 		string: ZSTRING
+	 		string: ZSTRING; url: EL_URL_STRING_8
 	 	do
 	 		string := to_string
-	 		create Result.make (UTF.utf_8_bytes_count (string, 1, string.count))
-	 		Result.append_general (string)
+	 		create url.make_empty
+	 		url.append_substring_general (string, protocol.count + Protocol_sign.count + 1, string.count)
+	 		Result := (protocol + Protocol_sign).to_string_8 + url.to_string_8
 	 	end
 
 feature -- Comparison

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 12:45:49 GMT (Sunday 23rd December 2018)"
-	revision: "8"
+	date: "2019-01-30 12:27:53 GMT (Wednesday 30th January 2019)"
+	revision: "9"
 
 class
 	EL_FILE_URI_PATH
@@ -44,4 +44,12 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_path)
 		end
+
+feature -- Conversion
+
+	to_file_path: EL_FILE_PATH
+		do
+			Result := parent_path + base
+		end
+
 end

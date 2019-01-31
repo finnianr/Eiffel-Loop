@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-01 10:09:06 GMT (Thursday 1st November 2018)"
-	revision: "11"
+	date: "2019-01-30 13:13:50 GMT (Wednesday 30th January 2019)"
+	revision: "12"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -17,6 +17,8 @@ inherit
 		rename
 			sleep as sleep_nanosecs,
 			current_working_directory as current_working_directory_obselete
+		redefine
+			put
 		end
 
 	EL_MODULE_ARGS
@@ -174,6 +176,11 @@ feature -- Status report
 		end
 
 feature -- Status setting
+
+	put (value, key: READABLE_STRING_GENERAL)
+		do
+			Precursor (value.to_string_32, key.to_string_32)
+		end
 
 	restore_last_code_page
 			-- Restore original Windows console code page

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 10:31:05 GMT (Friday 25th January 2019)"
-	revision: "2"
+	date: "2019-01-25 17:46:37 GMT (Friday 25th January 2019)"
+	revision: "3"
 
 deferred class
 	EL_ARGUMENT_TO_ATTRIBUTE_SETTING
@@ -41,7 +41,7 @@ feature -- Element change
 			argument_error: like new_argument_error
 		do
 			argument_error := new_argument_error (a_word_option)
-			options_help.extend (a_word_option, a_description, a_attribute)
+			extend_help (a_word_option, a_description, a_attribute)
 			if Args.has_value (a_word_option) then
 				l_argument_index := Args.index_of_word_option (a_word_option) + 1
 				l_argument := Args.item (l_argument_index)
@@ -107,7 +107,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	options_help: EL_SUB_APPLICATION_HELP_LIST
+	extend_help (word_option, a_description: READABLE_STRING_GENERAL; default_value: ANY)
 		deferred
 		end
 end

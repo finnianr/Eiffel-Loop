@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:43:19 GMT (Friday 25th January 2019)"
-	revision: "18"
+	date: "2019-01-25 17:45:06 GMT (Friday 25th January 2019)"
+	revision: "19"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -140,11 +140,6 @@ feature {NONE} -- Implementation
 		deferred
 		ensure
 			closed_except_for_target: Result.open_count = 1 and not Result.is_target_closed
-		end
-
-	extend_help (word_option, a_description: READABLE_STRING_GENERAL; default_value: ANY)
-		do
-			options_help.extend (word_option, a_description, default_value)
 		end
 
 	factory: EL_OBJECT_FACTORY [C]

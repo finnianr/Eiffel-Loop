@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-30 8:12:06 GMT (Sunday 30th September 2018)"
-	revision: "7"
+	date: "2019-01-25 17:38:25 GMT (Friday 25th January 2019)"
+	revision: "8"
 
 class
 	SOURCE_TREE
@@ -21,6 +21,11 @@ inherit
 		end
 
 	COMPARABLE
+
+	EL_MODULE_OS
+		undefine
+			is_equal
+		end
 
 create
 	make
@@ -75,7 +80,7 @@ feature {NONE} -- Implementation
 
 	new_path_list: EL_FILE_PATH_LIST
 		do
-			create Result.make (dir_path, "*.e")
+			Result := Os.file_list (dir_path, "*.e")
 		end
 
 feature {NONE} -- Evolicity fields

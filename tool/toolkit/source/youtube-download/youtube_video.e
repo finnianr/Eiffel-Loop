@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 13:06:43 GMT (Sunday 23rd December 2018)"
-	revision: "5"
+	date: "2019-01-26 22:39:59 GMT (Saturday 26th January 2019)"
+	revision: "6"
 
 class
 	YOUTUBE_VIDEO
@@ -33,6 +33,7 @@ feature {NONE} -- Initialization
 			not_empty: not a_url.is_empty
 		local
 			stream: YOUTUBE_STREAM
+			video_map: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [INTEGER, YOUTUBE_STREAM]
 		do
 			url := a_url
 			create selected
@@ -46,12 +47,20 @@ feature {NONE} -- Initialization
 			Cmd_get_youtube_options.put_string (Var_url, a_url)
 			Cmd_get_youtube_options.execute
 
+			create video_map.make (20)
 			across Cmd_get_youtube_options.lines as line loop
 				create stream.make (Current, line.item)
 				-- Filter out low resolution videos
-				if stream.is_audio or else (stream.is_video and then stream.resolution_x >= Minimum_x_resolution) then
+				if stream.is_audio then
 					stream_table [stream.code] := stream
+				elseif stream.is_video then
+					video_map.extend (stream.resolution_x, stream)
 				end
+			end
+			video_map.sort (False)
+			from video_map.start until video_map.after or else video_map.index > 6 loop
+				stream_table [video_map.item_value.code] := video_map.item_value
+				video_map.forth
 			end
 		end
 

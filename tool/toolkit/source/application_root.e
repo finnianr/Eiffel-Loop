@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-13 15:15:56 GMT (Thursday 13th December 2018)"
-	revision: "17"
+	date: "2019-01-27 13:47:36 GMT (Sunday 27th January 2019)"
+	revision: "18"
 
 class
 	APPLICATION_ROOT
@@ -27,6 +27,7 @@ feature {NONE} -- Implementation
 				{AUTOTEST_DEVELOPMENT_APP},
 
 				{CRYPTO_COMMAND_SHELL_APP},
+				{DUPLICITY_BACKUP_APP},
 
 				{FILTER_INVALID_UTF_8_APP},
 				{FILE_TREE_TRANSFORM_SCRIPT_APP},

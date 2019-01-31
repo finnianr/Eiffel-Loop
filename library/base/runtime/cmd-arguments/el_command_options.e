@@ -1,13 +1,13 @@
 note
-	description: "Command options"
+	description: "Some standard command-line word options for Eiffel-Loop"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:46:56 GMT (Friday 25th January 2019)"
-	revision: "9"
+	date: "2019-01-25 12:30:25 GMT (Friday 25th January 2019)"
+	revision: "10"
 
 class
 	EL_COMMAND_OPTIONS

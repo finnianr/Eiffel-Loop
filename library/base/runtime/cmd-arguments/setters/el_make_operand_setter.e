@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:50:14 GMT (Friday 25th January 2019)"
-	revision: "8"
+	date: "2019-01-25 18:03:43 GMT (Friday 25th January 2019)"
+	revision: "9"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -38,7 +38,7 @@ feature -- Basic operations
 
 	set_operand (i: INTEGER)
 		local
-			string_value: ZSTRING
+			string_value: ZSTRING; error: EL_COMMAND_ARGUMENT_ERROR
 		do
 			if Args.has_value (argument.word_option) then
 				string_value := Args.value (argument.word_option)
@@ -46,16 +46,18 @@ feature -- Basic operations
 				create string_value.make_empty
 			end
 			if argument.is_required and string_value.is_empty then
-				make_routine.argument_errors.extend (argument.new_error)
-				make_routine.argument_errors.last.set_missing_argument
+				create error.make (argument.word_option)
+				error.set_missing_argument
+				make_routine.extend_errors (error)
 
 			elseif not string_value.is_empty then
 				across new_list (string_value) as str loop
 					if is_convertible (str.item) then
 						try_put_value (value (str.item), i)
 					else
-						make_routine.argument_errors.extend (argument.new_error)
-						make_routine.argument_errors.last.set_type_error (type_description)
+						create error.make (argument.word_option)
+						error.set_type_error (type_description)
+						make_routine.extend_errors (error)
 					end
 				end
 			end
@@ -71,7 +73,7 @@ feature {NONE} -- Implementation
 	try_put_value (a_value: like value; i: INTEGER)
 		do
 			validate (a_value)
-			if make_routine.argument_errors.is_empty then
+			if not make_routine.has_argument_errors then
 				if is_list and then attached {CHAIN [like value]} make_routine.operands.item (i) as list then
 					list.extend (a_value)
 				else
@@ -101,9 +103,12 @@ feature {NONE} -- Implementation
 		end
 
 	set_error (a_value: like value; valid_description: ZSTRING)
+		local
+			error: EL_COMMAND_ARGUMENT_ERROR
 		do
-			make_routine.argument_errors.extend (argument.new_error)
-			make_routine.argument_errors.last.set_invalid_argument (valid_description)
+			create error.make (argument.word_option)
+			error.set_invalid_argument (valid_description)
+			make_routine.extend_errors (error)
 		end
 
 	value (str: ZSTRING): G

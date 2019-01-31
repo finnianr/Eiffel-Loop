@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-26 14:00:25 GMT (Wednesday 26th December 2018)"
-	revision: "2"
+	date: "2019-01-25 17:40:21 GMT (Friday 25th January 2019)"
+	revision: "3"
 
 class
 	CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE
@@ -69,10 +69,10 @@ feature {NONE} -- Factory
 			across Wildcards as wildcard loop
 				across source_dir_list as path loop
 					if attached Result then
-						create list.make (path.item, wildcard.item)
+						list := OS.file_list (path.item, wildcard.item)
 						Result.append (list)
 					else
-						create Result.make (path.item, wildcard.item)
+						Result := OS.file_list (path.item, wildcard.item)
 					end
 				end
 			end

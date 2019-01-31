@@ -2,13 +2,15 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 13); build = 428
+version = (1, 2, 14); build = 429
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
 
+# 1.2.14
+# Fixed YOUTUBE_VIDEO to only select the 6 highest video resolutions
 
 # 1.2.13
 # EL_FILE_MANIFEST_COMMAND with digest
