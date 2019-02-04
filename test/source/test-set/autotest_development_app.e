@@ -32,7 +32,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent path_steps.test_path_to_steps)
+			do_file_data_test (agent string_edition_history.test_zstring_editions)
 		end
 
 feature -- Test sets
@@ -143,6 +143,11 @@ feature -- Test sets
 		end
 
 	string_32_routines: STRING_32_ROUTINES_TEST_SET
+		do
+			create Result
+		end
+
+	string_edition_history: STRING_EDITION_HISTORY_TEST_SET
 		do
 			create Result
 		end

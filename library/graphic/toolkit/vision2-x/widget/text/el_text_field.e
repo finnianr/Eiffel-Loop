@@ -20,7 +20,7 @@ inherit
 
 	EL_UNDOABLE_TEXT
 		undefine
-			default_create, copy
+			copy, is_in_default_state
 		redefine
 			implementation
 		end

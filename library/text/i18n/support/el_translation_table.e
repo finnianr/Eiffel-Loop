@@ -174,19 +174,9 @@ feature {NONE} -- Implementation
 	quantity_key (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
 			-- complete partial_key by appending .zero .singular OR .plural
 		do
-			Result := general.to_zstring (partial_key)
-			if quantity = 1 then
-				Result.append_string (Dot_singular)
-			else
-				if quantity = 0 then
-					Result.append_string (Dot_zero)
-					if not has (Result) then
-						Result.remove_tail (Dot_zero.count)
-						Result.append_string (Dot_plural)
-					end
-				else
-					Result.append_string (Dot_plural)
-				end
+			Result := general.joined (partial_key, Dot_suffixes [quantity.min (2)])
+			if not has (Result) then
+				Result := general.joined (partial_key, Dot_suffixes [2])
 			end
 		end
 

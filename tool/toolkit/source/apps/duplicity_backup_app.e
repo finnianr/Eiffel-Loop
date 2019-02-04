@@ -1,5 +1,5 @@
 note
-	description: "Duplicity backup app"
+	description: "A command line interface to the class [$source DUPLICITY_BACKUP]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

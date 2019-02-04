@@ -18,19 +18,10 @@ note
 deferred class
 	EL_UNDOABLE_TEXT
 
-feature -- Access
-
-	clipboard_content: STRING_32
-			-- `Result' is current clipboard content.
-		deferred
-		end
-
-	caret_position: INTEGER
-		deferred
-		end
-
-	text: STRING_32
-		deferred
+inherit
+	EV_TEXT_COMPONENT
+		redefine
+			implementation
 		end
 
 feature -- Element change
@@ -42,14 +33,6 @@ feature -- Element change
 
 feature -- Status query
 
-	has_focus: BOOLEAN
-		deferred
-		end
-
-	has_selection: BOOLEAN
-		deferred
-		end
-
 	has_undo_items: BOOLEAN
 		do
 			Result := implementation.has_undo_items
@@ -58,6 +41,11 @@ feature -- Status query
 	has_redo_items: BOOLEAN
 		do
 			Result := implementation.has_redo_items
+		end
+
+	has_clipboard_content: BOOLEAN
+		do
+			Result := not clipboard_content.is_empty
 		end
 
 feature -- Status setting
@@ -74,22 +62,6 @@ feature -- Status setting
 
 feature -- Basic operations
 
-	cut_selection
-		deferred
-		end
-
-	copy_selection
-		deferred
-		end
-
-	paste (a_position: INTEGER)
-		deferred
-		end
-
-	select_all
-		deferred
-		end
-
 	undo
 		do
 			implementation.undo
@@ -103,15 +75,5 @@ feature -- Basic operations
 feature {EL_UNDOABLE_TEXT} -- Implementation
 
 	implementation: EL_UNDOABLE_TEXT_COMPONENT_I
-		deferred
-		end
-
-	pointer_button_release_actions: EV_POINTER_BUTTON_ACTION_SEQUENCE
-		deferred
-		end
-
-	focus_in_actions: EV_NOTIFY_ACTION_SEQUENCE
-		deferred
-		end
 
 end

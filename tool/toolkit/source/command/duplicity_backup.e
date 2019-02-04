@@ -1,6 +1,9 @@
 note
-	description: "Duplicity backup"
-
+	description: "[
+		Create a backup using the [http://duplicity.nongnu.org/ duplicity] utility and configured with a
+		file in Pyxis format. See the notes section.
+	]"
+	notes: "See end of class"
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
@@ -46,6 +49,8 @@ inherit
 			{NONE} all
 		end
 
+	EL_MODULE_DATE
+
 create
 	make
 
@@ -59,6 +64,7 @@ feature {NONE} -- Initialization
 			create backup_contents.make_empty
 			create backup_statistics.make_empty
 			create encryption_key.make_empty
+			create name.make_empty
 			create destination_dir_list.make (5)
 			create target_dir
 			create exclude_any_list.make_empty
@@ -87,18 +93,19 @@ feature -- Basic operations
 				lio.put_new_line
 				Execution_environment.put (ftp_pw, "FTP_PASSWORD")
 			end
-			if continue then
-				across destination_dir_list as dir until not continue loop
-					destination_dir := dir.item.joined_dir_path (target_dir.base)
-					if dir.cursor_index = 1 then
-						display_size (destination_dir)
-						lio.put_string ("Do you wish to continue backup (y/n)")
-						continue := User_input.entered_letter ('y')
-						lio.put_new_line
-					end
+			across destination_dir_list as dir until not continue loop
+				destination_dir := dir.item.joined_dir_path (destination_name)
+				if dir.cursor_index = 1 then
+					display_size (destination_dir)
+					lio.put_string ("Do you wish to continue backup (y/n)")
+					continue := User_input.entered_letter ('y')
+					lio.put_new_line
 					if continue then
-						backup (destination_dir)
+						write_change_comment
 					end
+				end
+				if continue then
+					backup (destination_dir)
 				end
 			end
 		end
@@ -113,7 +120,7 @@ feature {NONE} -- Line states
 				state := agent backup_statistics.extend
 				backup_statistics.extend (line)
 
-			elseif line.starts_with (Substring.A_for_add) then
+			elseif line.starts_with (Substring.A_for_add) or else line.starts_with (Substring.M_for_modify) then
 				file_path := target_dir + line.substring_end (3)
 				Text_file.make_with_name (file_path)
 				if not Text_file.is_directory then
@@ -137,35 +144,10 @@ feature {NONE} -- Implementation
 		do
 			lio.put_string_field ("Creating", destination_dir.to_string)
 			lio.put_new_line
-			verbosity_level := Verbosity.info
+			verbosity_level := Verbosity.notice
 			cmd := duplicity (destination_dir, False).command
 			cmd.set_working_directory (target_dir.parent)
 			cmd.execute
-		end
-
-	duplicity (destination_dir: EL_DIR_URI_PATH; is_dry_run: BOOLEAN): DUPLICITY_ARGUMENTS
-		local
-			options: EL_ZSTRING_LIST
-		do
-			create Result.make
-			Result.type.share (type)
-
-			create options.make (5)
-			if is_dry_run then
-				options.extend ("--dry-run")
-			end
-			options.extend ("--verbosity")
-			options.extend (verbosity_level)
-			if not encryption_key.is_empty then
-				options.extend ("--encrypt-key")
-				options.extend (encryption_key)
-			end
-			Result.options.share (options.joined_words)
-
-			Result.append_exclusions (exclude_any_list)
-			Result.append_exclusions (exclude_files_list)
-			Result.target.share (Path_escaper.escaped (target_dir.base, True))
-			Result.destination.share (destination_dir.to_string)
 		end
 
 	display_size (destination_dir: EL_DIR_URI_PATH)
@@ -182,7 +164,6 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 
 			dry_cmd := duplicity (destination_dir, True).captured_command
-
 			dry_cmd.set_working_directory (target_dir.parent)
 			dry_cmd.execute
 			lio.put_new_line
@@ -209,6 +190,33 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	duplicity (destination_dir: EL_DIR_URI_PATH; is_dry_run: BOOLEAN): DUPLICITY_ARGUMENTS
+		local
+			options: EL_ZSTRING_LIST
+		do
+			create Result.make
+			Result.type.share (type)
+
+			create options.make (5)
+			if is_dry_run then
+				options.extend ("--dry-run")
+			end
+			options.extend ("--verbosity")
+			options.extend (verbosity_level)
+			if encryption_key.is_empty then
+				options.extend ("--no-encryption")
+			else
+				options.extend ("--encrypt-key")
+				options.extend (encryption_key)
+			end
+			Result.options.share (options.joined_words)
+
+			Result.append_exclusions (exclude_any_list)
+			Result.append_exclusions (exclude_files_list)
+			Result.target.set_base (target_dir.base)
+			Result.destination.share (destination_dir.to_string)
+		end
+
 	is_file_protocol (dir: EL_DIR_URI_PATH): BOOLEAN
 		do
 			Result := dir.protocol ~ Protocol.file
@@ -217,6 +225,33 @@ feature {NONE} -- Implementation
 	is_ftp_protocol (dir: EL_DIR_URI_PATH): BOOLEAN
 		do
 			Result := dir.protocol ~ Protocol.ftp
+		end
+
+	destination_name: ZSTRING
+		do
+			if name.is_empty then
+				Result := target_dir.base
+			else
+				Result := name
+			end
+		end
+
+	write_change_comment
+		local
+			comment, date_line: ZSTRING; file: EL_PLAIN_TEXT_FILE
+			stamp: DATE_TIME
+		do
+			create stamp.make_now_utc
+			comment := User_input.line ("Enter comment for changes.txt")
+			if comment.is_empty then
+				comment := "none"
+			end
+			date_line := Date.formatted (stamp.date, {EL_DATE_FORMATS}.short_canonical)
+								+ ", " + stamp.time.formatted_out ("hh:[0]mi:[0]ss")
+			lio.put_new_line
+			create file.make_open_append (target_dir + "changes.txt")
+			file.put_lines (<< date_line, comment, Empty_string, Empty_string >>)
+			file.close
 		end
 
 feature {NONE} -- Internal attributes
@@ -233,9 +268,11 @@ feature {NONE} -- Internal attributes
 
 	exclude_files_list: EL_ZSTRING_LIST
 
-	type: ZSTRING
+	name: ZSTRING
 
 	target_dir: EL_DIR_PATH
+
+	type: ZSTRING
 
 	verbosity_level: STRING
 
@@ -260,7 +297,9 @@ feature {NONE} -- Build from XML
 			parent_dir: ZSTRING
 		do
 			create exclude_files_list.make_with_lines (node.to_string)
-			parent_dir := target_dir.base + character_string (Operating.Directory_separator)
+			parent_dir := target_dir.base
+			parent_dir.append_character (Operating.Directory_separator)
+
 			across exclude_files_list as file loop
 				file.item.prepend_string (parent_dir)
 			end
@@ -270,6 +309,7 @@ feature {NONE} -- Build from XML
 		do
 			create Result.make (<<
 				["@encryption_key",			agent do encryption_key := node end],
+				["@name",						agent do name := node end],
 				["@target_dir",				agent do target_dir := node.to_expanded_dir_path end],
 
 				["destination/text()",		agent append_destination_dir],
@@ -296,17 +336,17 @@ feature {NONE} -- Constants
 			Result := File_protocol_prefix
 		end
 
-	Path_escaper: EL_BASH_PATH_ZSTRING_ESCAPER
-		once
-			create Result.make
-		end
-
 	Root_node_name: STRING = "duplicity"
 
-	Substring: TUPLE [backup_statistics, last_full_backup, A_for_add: ZSTRING]
+	Substring: TUPLE [backup_statistics, last_full_backup, A_for_add, M_for_modify: ZSTRING]
 		once
 			create Result
-			Tuple.fill (Result, "[ Backup Statistics ], Last full backup, A ")
+			Tuple.fill (Result, "[ Backup Statistics ], Last full backup, A , M ")
+		end
+
+	Text_file: PLAIN_TEXT_FILE
+		once
+			create Result.make_with_name ("none")
 		end
 
 	Verbosity: TUPLE [error, warning, notice, info, debug_: STRING]
@@ -315,9 +355,50 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "error, warning, notice, info, debug")
 		end
 
-	Text_file: PLAIN_TEXT_FILE
-		once
-			create Result.make_with_name ("none")
-		end
+note
+	notes: "[
+		A typical configuration file is shown below. The configuration `name' is optional and defaults to
+		the base of the `target_dir'. This name is used to name the backup directory name. All `exclude-files'
+		entries are relative to the `target_dir'.
+
+			pyxis-doc:
+				version = 1.0; encoding = "UTF-8"
+
+			duplicity:
+				encryption_key = VAL; target_dir = "$HOME/dev/Eiffel/myching-server"; name = "My Ching server"
+				destination:
+					"file://$HOME/Backups/duplicity"
+					"file:///media/finnian/Seagate-1/Backups/duplicity"
+					"ftp://username@ftp.eiffel-loop.com/public/www/Backups/duplicity"
+					"sftp://finnian@18.14.67.44/$HOME/Backups/duplicity"
+
+				exclude-files:
+					"""
+						resources/locale.??
+						www/images
+					"""
+				exclude-any:
+					"""
+						**/build
+						**/workarea
+						**/.sconf_temp
+						**.a
+						**.la
+						**.lib
+						**.obj
+						**.o
+						**.exe
+						**.pyc
+						**.evc
+						**.dblite
+						**.deps
+						**.pdb
+						**.zip
+						**.tar.gz
+						**.lnk
+						**.goutputstream**
+					"""
+
+	]"
 
 end

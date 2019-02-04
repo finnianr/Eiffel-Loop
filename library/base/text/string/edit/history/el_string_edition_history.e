@@ -1,5 +1,5 @@
 note
-	description: "String edition history"
+	description: "String edition_item history"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -13,11 +13,11 @@ deferred class
 	EL_STRING_EDITION_HISTORY [S -> STRING_GENERAL create make_empty end]
 
 inherit
-	ARRAYED_STACK [TUPLE [index: INTEGER_8; arguments: TUPLE]]
+	ARRAYED_STACK [EL_STRING_EDITION]
 		rename
 			extend as list_extend,
 			make as make_array,
-			item as edition
+			item as edition_item
 		redefine
 			wipe_out
 		end
@@ -43,7 +43,7 @@ feature -- Element change
 
 	set_string (a_string: like string)
 		do
-			string := a_string
+			string.copy (a_string)
 			caret_position := string.count + 1
 		end
 
@@ -51,7 +51,7 @@ feature -- Element change
 		require
 			different_from_current: string /~ a_string
 		do
-			list_extend (new_edition (string, a_string))
+			put (new_edition (string, a_string))
 			string := a_string
 			redo_stack.wipe_out
 		end
@@ -123,27 +123,25 @@ feature {NONE} -- Edition operations
 
 feature {NONE} -- Contract Support
 
-	is_edition_valid (a_edition: like edition; latter, former: like string): BOOLEAN
+	is_edition_valid (a_edition: EL_STRING_EDITION; latter, former: like string): BOOLEAN
 		local
 			l_string: like string; l_caret_position: like caret_position
 		do
 			l_string := string; l_caret_position := caret_position
 			string := latter.twin
-			apply (a_edition)
+			a_edition.apply (edition_procedures)
 			Result := string ~ former
 			string := l_string; caret_position := l_caret_position
 		end
 
 feature {NONE} -- Factory
 
-	new_edition (former, latter: like string): like edition
+	new_edition (former, latter: like string): EL_STRING_EDITION
 		require
 			are_different: latter /~ former
 		local
 			shorter, longer: like string
 			interval: INTEGER_INTERVAL; start_index, end_index: INTEGER
-			edition_index: INTEGER_8
-			arguments: TUPLE
 		do
 			if latter.count < former.count then
 				shorter := latter; longer := former
@@ -154,62 +152,57 @@ feature {NONE} -- Factory
 			start_index := interval.lower; end_index := interval.upper
 			if former.count < latter.count then
 				if interval.count = latter.count then
-					edition_index := Edition_set_string; arguments := [former]
+					create Result.make (Edition.set_string, [former])
 
 				elseif interval.count = 1 then
-					edition_index := Edition_remove_character; arguments := [start_index]
+					create Result.make (Edition.remove_character, [start_index])
 				else
-					edition_index := Edition_remove_substring; arguments := [start_index, end_index]
+					create Result.make (Edition.remove_substring, [start_index, end_index])
 				end
 			elseif former.count > latter.count  then
 				if interval.count = former.count then
-					edition_index := Edition_set_string; arguments := [former]
+					create Result.make (Edition.set_string, [former])
 
 				elseif interval.count = 1 then
-					edition_index := Edition_insert_character; arguments := [former [start_index], start_index]
+					create Result.make (Edition.insert_character, [former [start_index], start_index])
 				else
-					edition_index := Edition_insert_string; arguments := [former.substring (start_index, end_index), start_index]
+					create Result.make (Edition.insert_string, [former.substring (start_index, end_index), start_index])
 				end
 			else
 				if interval.count = 1 then
-					edition_index := Edition_replace_character; arguments := [former [start_index], start_index]
+					create Result.make (Edition.replace_character, [former [start_index], start_index])
 				else
-					edition_index := Edition_replace_substring
-					arguments := [former.substring (start_index, end_index), start_index, end_index]
+					create Result.make (
+						Edition.replace_substring, [former.substring (start_index, end_index), start_index, end_index]
+					)
 				end
 			end
-			Result := [edition_index, arguments]
 		ensure
 			edition_can_revert_latter_to_former: is_edition_valid (Result, latter, former)
 		end
 
 	new_edition_procedures: ARRAY [PROCEDURE]
 		do
-			create Result.make_filled (agent do_nothing, 1, Edition_upper)
+			create Result.make_filled (agent do_nothing, 1, Edition.upper)
 
-			Result [Edition_insert_character] := agent insert_character
-			Result [Edition_insert_string] := agent insert_string
-			Result [Edition_remove_character] := agent remove_character
-			Result [Edition_remove_substring] := agent remove_substring
-			Result [Edition_replace_character] := agent replace_character
-			Result [Edition_replace_substring] := agent replace_substring
-			Result [Edition_set_string] := agent set_string
+			Result [Edition.insert_character] := agent insert_character
+			Result [Edition.insert_string] := agent insert_string
+			Result [Edition.remove_character] := agent remove_character
+			Result [Edition.remove_substring] := agent remove_substring
+			Result [Edition.replace_character] := agent replace_character
+			Result [Edition.replace_substring] := agent replace_substring
+			Result [Edition.set_string] := agent set_string
 		end
 
 feature {NONE} -- Implementation
 
-	apply (a_edition: like edition)
-		do
-			edition_procedures.item (a_edition.index).call (a_edition.arguments)
-		end
-
-	restore (edition_stack, counter_edition_stack: ARRAYED_STACK [like edition])
-			-- restore from edition_stack.item and extend counter edition to undo
+	restore (edition_stack, counter_edition_stack: ARRAYED_STACK [EL_STRING_EDITION])
+			-- restore from edition_stack.item and extend counter edition_item to undo
 		local
 			l_string: S
 		do
 			l_string := string.twin
-			apply (edition_stack.item)
+			edition_stack.item.apply (edition_procedures)
 			edition_stack.remove
 			counter_edition_stack.extend (new_edition (l_string, string))
 		end
@@ -241,24 +234,15 @@ feature {NONE} -- Implementation
 			create Result.make (left_i, right_i)
 		end
 
-	redo_stack: ARRAYED_STACK [like edition]
+	redo_stack: ARRAYED_STACK [EL_STRING_EDITION]
 
 	edition_procedures: like new_edition_procedures
 
 feature {NONE} -- Constants
 
-	Edition_insert_character: INTEGER_8 = 1
-
-	Edition_insert_string: INTEGER_8 = 2
-
-	Edition_remove_character: INTEGER_8 = 3
-
-	Edition_remove_substring: INTEGER_8 = 4
-
-	Edition_replace_character: INTEGER_8 = 5
-
-	Edition_replace_substring: INTEGER_8 = 6
-
-	Edition_set_string, Edition_upper: INTEGER_8 = 7
+	Edition: EL_STRING_EDITION
+		once
+			create Result.make (0, [])
+		end
 
 end

@@ -16,24 +16,12 @@ feature {NONE} -- Constants
 
 	Variable_quantity: STRING = "QUANTITY"
 
-	Dot_singular: ZSTRING
+	Dot_suffixes: SPECIAL [ZSTRING]
 		once
-			Result := ".singular"
-		end
-
-	Dot_plural: ZSTRING
-		once
-			Result := ".plural"
-		end
-
-	Dot_zero: ZSTRING
-		once
-			Result := ".zero"
-		end
-
-	Dot_suffixes: EL_ZSTRING_LIST
-		once
-			Result := << Dot_zero, Dot_singular, Dot_plural >>
+			create Result.make_empty (3)
+			Result.extend (".zero")
+			Result.extend (".singular")
+			Result.extend (".plural")
 		end
 
 	Unknown_key_template: ZSTRING

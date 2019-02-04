@@ -15,13 +15,6 @@ deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
 
 inherit
-	EXCEPTIONS
-		rename
-			class_name as exception_class_name
-		export
-			{NONE} all
-		end
-
 	EL_BUILDABLE_FROM_FILE
 
 feature {NONE} -- Initialization

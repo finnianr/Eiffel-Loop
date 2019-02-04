@@ -37,6 +37,14 @@ feature -- Access
 			end
 		end
 
+	joined (str_1, str_2: READABLE_STRING_GENERAL): ZSTRING
+		do
+			Result := item
+			Result.wipe_out
+			Result.append_string_general (str_1)
+			Result.append_string_general (str_2)
+		end
+
 feature {NONE} -- Internal attributes
 
 	item: ZSTRING

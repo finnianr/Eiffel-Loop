@@ -1,5 +1,5 @@
 note
-	description: "String 32 edition history"
+	description: "String 8 edition history"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -10,10 +10,10 @@ note
 	revision: "5"
 
 class
-	EL_STRING_32_EDITION_HISTORY
+	EL_STRING_8_EDITION_HISTORY
 
 inherit
-	EL_STRING_EDITION_HISTORY [STRING_32]
+	EL_STRING_EDITION_HISTORY [STRING_8]
 
 create
 	make
@@ -22,11 +22,11 @@ feature {NONE} -- Edition operations
 
 	insert_character (c: CHARACTER_32; start_index: INTEGER)
 		do
-			string.insert_character (c, start_index)
+			string.insert_character (c.to_character_8, start_index)
 			caret_position := start_index + 1
 		end
 
-	insert_string (s: STRING_32; start_index: INTEGER)
+	insert_string (s: STRING_8; start_index: INTEGER)
 		do
 			string.insert_string (s, start_index)
 			caret_position := start_index + s.count
@@ -38,7 +38,7 @@ feature {NONE} -- Edition operations
 			caret_position := start_index
 		end
 
-	replace_substring (s: STRING_32; start_index, end_index: INTEGER)
+	replace_substring (s: STRING_8; start_index, end_index: INTEGER)
 		do
 			string.replace_substring (s, start_index, end_index)
 			caret_position := start_index + 1

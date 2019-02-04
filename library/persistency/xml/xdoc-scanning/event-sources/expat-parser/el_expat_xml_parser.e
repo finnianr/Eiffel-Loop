@@ -48,17 +48,14 @@ inherit
 			make_parser, set_fixed_address
 		end
 
-	EXCEPTIONS
-		export
-			{NONE} all
-		end
-
 	EL_ZCODEC_FACTORY
 
 	EL_MODULE_C_DECODER
 		export
 			{NONE} all
 		end
+
+	EL_MODULE_EXCEPTION
 
 create
 	make
@@ -80,7 +77,7 @@ feature {NONE}  -- Initialisation
 			Precursor
 			make_from_pointer (exml_xml_parsercreate (Default_pointer))
 			if not is_attached (self_ptr) then
-				raise ("failure to create parser with xml_parsercreate.")
+				Exception.raise_developer ("{%S} failed to create parser with exml_xml_parsercreate", [generator])
 			end
 			is_correct := true
 			last_error := xml_err_none

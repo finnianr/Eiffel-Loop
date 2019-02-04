@@ -101,6 +101,12 @@ feature -- Access
 			Result := wide_string (c_evaluate_xpath_to_string (context.self_ptr, self_ptr))
 		end
 
+	evaluate_string_8: STRING_8
+			--
+		do
+			Result := wide_string (c_evaluate_xpath_to_string (context.self_ptr, self_ptr))
+		end
+
 	evaluate_string_32: STRING_32
 			--
 		do

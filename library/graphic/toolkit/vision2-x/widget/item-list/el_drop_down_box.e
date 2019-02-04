@@ -106,6 +106,14 @@ feature -- Element change
 			set_text (displayed_value (a_value).to_unicode)
 		end
 
+	select_initial_item (a_index: INTEGER)
+		-- select item without triggering `select_actions'
+		do
+			select_actions.block
+			select_item (a_index)
+			select_actions.resume
+		end
+
 feature {NONE} -- Event handling
 
 	on_select_value

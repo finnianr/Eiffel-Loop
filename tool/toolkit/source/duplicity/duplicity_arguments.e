@@ -16,7 +16,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			make_default as make,
-			field_included as is_string_or_expanded_field,
+			field_included as is_any_field,
 			export_name as export_default,
 			import_name as import_default
 		end
@@ -32,7 +32,7 @@ feature -- Access
 
 	type: ZSTRING
 
-	target: ZSTRING
+	target: EL_DIR_PATH
 
 	destination: ZSTRING
 
@@ -72,6 +72,5 @@ feature {NONE} -- Constants
 	Template: STRING = "[
 		duplicity $type $options $exclusions $target "$destination"
 	]"
-
 
 end

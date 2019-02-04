@@ -10,13 +10,30 @@ note
 	revision: "5"
 
 class
-	EL_STRING_32_EDITION_HISTORY
+	EL_ZSTRING_EDITION_HISTORY
 
 inherit
-	EL_STRING_EDITION_HISTORY [STRING_32]
+	EL_STRING_EDITION_HISTORY [ZSTRING]
+
+	EL_MODULE_ZSTRING
+		undefine
+			is_equal, copy
+		end
 
 create
 	make
+
+feature -- Element change
+
+	set_string_from_general (general: READABLE_STRING_GENERAL)
+		do
+			set_string (Zstring.as_zstring (general))
+		end
+
+	extend_from_general (general: READABLE_STRING_GENERAL)
+		do
+			extend (Zstring.as_zstring (general))
+		end
 
 feature {NONE} -- Edition operations
 
@@ -26,7 +43,7 @@ feature {NONE} -- Edition operations
 			caret_position := start_index + 1
 		end
 
-	insert_string (s: STRING_32; start_index: INTEGER)
+	insert_string (s: ZSTRING; start_index: INTEGER)
 		do
 			string.insert_string (s, start_index)
 			caret_position := start_index + s.count
@@ -38,7 +55,7 @@ feature {NONE} -- Edition operations
 			caret_position := start_index
 		end
 
-	replace_substring (s: STRING_32; start_index, end_index: INTEGER)
+	replace_substring (s: ZSTRING; start_index, end_index: INTEGER)
 		do
 			string.replace_substring (s, start_index, end_index)
 			caret_position := start_index + 1

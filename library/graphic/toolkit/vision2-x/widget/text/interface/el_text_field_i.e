@@ -14,7 +14,17 @@ deferred class
 
 inherit
 	EV_TEXT_FIELD_I
+		redefine
+			interface
+		end
 
 	EL_UNDOABLE_TEXT_COMPONENT_I
+		redefine
+			interface
+		end
+
+feature {EV_ANY, EV_ANY_I} -- Implementation
+
+	interface: EL_TEXT_FIELD
 
 end

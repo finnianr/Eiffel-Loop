@@ -143,6 +143,12 @@ feature -- Access
 			Result := new_query (a_xpath).evaluate_string_32
 		end
 
+	string_8_at_xpath (a_xpath: READABLE_STRING_GENERAL): STRING
+			--
+		do
+			Result := new_query (a_xpath).evaluate_string_8
+		end
+
 	string_at_xpath (a_xpath: READABLE_STRING_GENERAL): ZSTRING
 			--
 		do

@@ -70,16 +70,12 @@ feature -- Element change
 
 	append_unexpanded (a_widgets: ARRAY [EV_WIDGET])
 			--
-		local
-			i, upper: INTEGER
 		do
- 			upper := a_widgets.upper
-			from i := a_widgets.lower until i > upper loop
-				extend (a_widgets [i])
-				if not attached {EL_EXPANDABLE} a_widgets [i] then
-					disable_item_expand (a_widgets [i])
+			across a_widgets as widget loop
+				extend (widget.item)
+				if not attached {EL_EXPANDABLE} widget.item then
+					disable_item_expand (widget.item)
 				end
-				i := i + 1
 			end
 		end
 

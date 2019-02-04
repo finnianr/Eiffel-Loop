@@ -12,6 +12,9 @@ note
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT_I
 
+inherit
+	EV_TEXT_COMPONENT_I
+
 feature {NONE} -- Initialization
 
 	make
@@ -21,7 +24,7 @@ feature {NONE} -- Initialization
 
 feature {EL_UNDOABLE_TEXT_COMPONENT_I} -- Access
 
-	edit_history: EL_STRING_32_EDITION_HISTORY
+	edit_history: EL_ZSTRING_EDITION_HISTORY
 
 	text: STRING_32
 		deferred
@@ -95,10 +98,9 @@ feature {EL_UNDOABLE_TEXT} -- Event handling
 		do
 			if is_undo_enabled and then not is_restoring then
 				if edit_history.is_in_default_state then
-					edit_history.set_string (text)
-
-				elseif text /~ edit_history.string then
-					edit_history.extend (text)
+					edit_history.set_string_from_general (text)
+				elseif not edit_history.string.same_string (text) then
+					edit_history.extend_from_general (text)
 				end
 			end
 		end
@@ -109,16 +111,12 @@ feature {EL_UNDOABLE_TEXT_COMPONENT_I} -- Implementation
 			-- restore result of redo or undo
 		do
 			is_restoring := True
-			set_text (edit_history.string)
+			set_text (edit_history.string.to_unicode)
 			set_caret_position (edit_history.caret_position)
 			is_restoring := False
 		end
 
 	set_text (a_text: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	interface: EV_TEXT_COMPONENT
 		deferred
 		end
 

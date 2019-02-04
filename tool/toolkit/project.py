@@ -2,12 +2,15 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 14); build = 429
+version = (1, 2, 15); build = 436
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.15
+# Finished DUPLICITY_BACKUP_APP
 
 # 1.2.14
 # Fixed YOUTUBE_VIDEO to only select the 6 highest video resolutions
