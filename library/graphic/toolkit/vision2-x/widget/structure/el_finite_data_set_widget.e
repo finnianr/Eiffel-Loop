@@ -10,11 +10,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 9:01:51 GMT (Friday 21st December 2018)"
-	revision: "6"
+	date: "2019-02-05 17:20:23 GMT (Tuesday 5th February 2019)"
+	revision: "7"
 
 deferred class
-	EL_INPUT_WIDGET [G]
+	EL_FINITE_DATA_SET_WIDGET [G]
 
 inherit
 	PART_COMPARATOR [EL_WIDGET_VALUE [G]]
@@ -27,7 +27,9 @@ feature {NONE} -- Initialization
 			make_widget (new_value_list (initial_value, values))
 		end
 
-	make_sorted (initial_value: G; values: FINITE [G]; a_value_change_action: like value_change_action; in_ascending_order: BOOLEAN)
+	make_sorted (
+		initial_value: G; values: FINITE [G]; a_value_change_action: like value_change_action; in_ascending_order: BOOLEAN
+	)
 		local
 			quick: QUICK_SORTER [EL_WIDGET_VALUE [G]]
 			list: like new_value_list

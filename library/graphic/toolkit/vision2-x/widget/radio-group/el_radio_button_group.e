@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-21 12:17:29 GMT (Monday 21st May 2018)"
-	revision: "5"
+	date: "2019-02-05 17:20:23 GMT (Tuesday 5th February 2019)"
+	revision: "6"
 
 deferred class
 	EL_RADIO_BUTTON_GROUP [G]
 
 inherit
-	EL_INPUT_WIDGET [G]
+	EL_FINITE_DATA_SET_WIDGET [G]
 
 	EL_MODULE_VISION_2
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-17 8:53:07 GMT (Thursday 17th August 2017)"
-	revision: "1"
+	date: "2019-02-02 18:56:03 GMT (Saturday 2nd February 2019)"
+	revision: "2"
 
 class
 	EL_LOCALE_CONSTANTS

@@ -4,13 +4,14 @@ note
 		file in Pyxis format. See the notes section.
 	]"
 	notes: "See end of class"
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-31 17:45:36 GMT (Thursday 31st January 2019)"
-	revision: "1"
+	date: "2019-02-03 19:08:25 GMT (Sunday 3rd February 2019)"
+	revision: "2"
 
 class
 	DUPLICITY_BACKUP

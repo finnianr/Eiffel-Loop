@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-02 15:59:49 GMT (Wednesday 2nd January 2019)"
-	revision: "7"
+	date: "2019-02-05 14:36:27 GMT (Tuesday 5th February 2019)"
+	revision: "8"
 
 class
 	EL_STORED_WORD_TOKEN_TABLE
@@ -127,6 +127,11 @@ feature -- Status setting
 	reopen
 		do
 			word_file.open_append
+		end
+
+	update_listener
+		do
+			word_file.update_listener
 		end
 
 feature -- Status query

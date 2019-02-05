@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 8:17:35 GMT (Friday 21st December 2018)"
-	revision: "4"
+	date: "2019-02-05 17:20:23 GMT (Tuesday 5th February 2019)"
+	revision: "5"
 
 class
 	EL_DROP_DOWN_BOX [G]
@@ -34,7 +34,7 @@ inherit
 			initialize
 		end
 
-	EL_INPUT_WIDGET [G]
+	EL_FINITE_DATA_SET_WIDGET [G]
 		rename
 			make as make_unadjusted,
 			make_sorted as make_unadjusted_sorted

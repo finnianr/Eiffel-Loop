@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-02-04 19:12:11 GMT (Monday 4th February 2019)"
+	revision: "6"
 
 deferred class
 	EL_STRING_EDITION_HISTORY [S -> STRING_GENERAL create make_empty end]

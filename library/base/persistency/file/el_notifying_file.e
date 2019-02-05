@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-17 11:59:07 GMT (Monday 17th December 2018)"
-	revision: "4"
+	date: "2019-02-05 14:32:12 GMT (Tuesday 5th February 2019)"
+	revision: "5"
 
 deferred class
 	EL_NOTIFYING_FILE
@@ -33,13 +33,13 @@ feature -- Status setting
 	open_read
 		do
 			Precursor
-			listener := progress_listener
+			update_listener
 		end
 
 	open_write
 		do
 			Precursor
-			listener := progress_listener
+			update_listener
 		end
 
 feature -- Status setting
@@ -49,6 +49,11 @@ feature -- Status setting
 		do
 			Precursor
 			listener := Do_nothing_listener
+		end
+
+	update_listener
+		do
+			listener := progress_listener
 		end
 
 feature -- Basic operations

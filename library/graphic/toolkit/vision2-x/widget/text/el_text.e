@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 8:35:26 GMT (Friday 21st December 2018)"
-	revision: "6"
+	date: "2019-02-05 9:26:51 GMT (Tuesday 5th February 2019)"
+	revision: "7"
 
 class
 	EL_TEXT
@@ -18,7 +18,7 @@ inherit
 			create_implementation, implementation, paste
 		end
 
-	EL_UNDOABLE_TEXT
+	EL_UNDOABLE_TEXT_COMPONENT
 		undefine
 			copy, is_in_default_state, paste
 		redefine

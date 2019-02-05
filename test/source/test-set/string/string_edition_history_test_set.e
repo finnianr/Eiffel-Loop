@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {STRING_EDITION_HISTORY_TEST_SET}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "String edition history test set"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-02-04 18:47:34 GMT (Monday 4th February 2019)"
+	revision: "1"
 
 class
 	STRING_EDITION_HISTORY_TEST_SET

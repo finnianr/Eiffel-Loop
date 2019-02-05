@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 9:02:04 GMT (Friday 21st December 2018)"
-	revision: "6"
+	date: "2019-02-05 17:15:17 GMT (Tuesday 5th February 2019)"
+	revision: "7"
 
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT_I
@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 			create edit_history.make (100)
 		end
 
-feature {EL_UNDOABLE_TEXT_COMPONENT_I} -- Access
+feature {EL_UNDOABLE_TEXT_COMPONENT, EL_UNDOABLE_TEXT_COMPONENT_I} -- Access
 
 	edit_history: EL_ZSTRING_EDITION_HISTORY
 
@@ -34,7 +34,15 @@ feature {EL_UNDOABLE_TEXT_COMPONENT_I} -- Access
 		deferred
 		end
 
-feature {EL_UNDOABLE_TEXT} -- Element change
+feature {EL_UNDOABLE_TEXT_COMPONENT} -- Element change
+
+	set_initial_text (a_text: READABLE_STRING_GENERAL)
+		do
+			is_restoring := True
+			edit_history.set_string_from_general (a_text)
+			set_text (a_text.to_string_32)
+			is_restoring := False
+		end
 
 	set_edit_history_from_other (other: EL_UNDOABLE_TEXT_COMPONENT_I)
 		do
@@ -45,7 +53,7 @@ feature {EL_UNDOABLE_TEXT} -- Element change
 		deferred
 		end
 
-feature {EL_UNDOABLE_TEXT} -- Status query
+feature {EL_UNDOABLE_TEXT_COMPONENT} -- Status query
 
 	has_undo_items: BOOLEAN
 		do
@@ -59,24 +67,17 @@ feature {EL_UNDOABLE_TEXT} -- Status query
 
 	is_undo_enabled: BOOLEAN
 
-feature {EL_UNDOABLE_TEXT} -- Status setting
+feature {EL_UNDOABLE_TEXT_COMPONENT} -- Status setting
 
-	enable_undo
+	set_undo (enabled: BOOLEAN)
 		do
-			if not is_undo_enabled then
-				is_undo_enabled := True
-			end
-		end
-
-	disable_undo
-		do
-			if is_undo_enabled then
-				is_undo_enabled := False
+			is_undo_enabled := enabled
+			if not enabled then
 				edit_history.wipe_out
 			end
 		end
-
-feature {EL_UNDOABLE_TEXT} -- Basic operations
+		
+feature {EL_UNDOABLE_TEXT_COMPONENT} -- Basic operations
 
 	undo
 		do
@@ -92,7 +93,7 @@ feature {EL_UNDOABLE_TEXT} -- Basic operations
 			end
 		end
 
-feature {EL_UNDOABLE_TEXT} -- Event handling
+feature {EL_UNDOABLE_TEXT_COMPONENT} -- Event handling
 
 	on_change_actions
 		do
