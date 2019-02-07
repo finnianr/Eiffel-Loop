@@ -1,5 +1,5 @@
 note
-	description: "Input field"
+	description: "Input field for data of generic type `G'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -39,32 +39,17 @@ feature -- Element change
 			set_text (to_text (a_value))
 		end
 
-feature {NONE} -- Imp6lementation
-
-	force_numeric_text
-		local
-			l_text: STRING_32; i, caret_pos: INTEGER
-		do
-			l_text := text
-			if l_text.count > 0 and then not l_text.is_integer then
-				from i := 1 until i > l_text.count loop
-					if not (l_text @ i).is_digit then
-						l_text.remove (i)
-						caret_pos := i
-					else
-						i := i + 1
-					end
-				end
-				set_text (l_text)
-				if caret_pos > 0 then
-					set_caret_position (caret_pos)
-				end
-			end
-		end
+feature {NONE} -- Implementation
 
 	on_text_change
 		do
+			normalize
 			on_change (to_data (text))
+		end
+
+	normalize
+		-- normalize the text by expelling invalid characters
+		do
 		end
 
 	to_data (str: STRING_32): G

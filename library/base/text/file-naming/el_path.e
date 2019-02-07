@@ -534,7 +534,7 @@ feature -- Element change
 			l_extension: like extension
 		do
 			l_extension := extension
-			set_base (new_name)
+			base.copy (new_name)
 			if preserve_extension and then not has_extension (l_extension) then
 				add_extension (l_extension)
 			end

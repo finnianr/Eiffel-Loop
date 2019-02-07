@@ -30,15 +30,10 @@ feature {NONE} -- Initialization
 			create month_list.make_long (agent date.set_month)
 			create year_field.make (agent date.set_year)
 
+			day_field.set_capacity (2); year_field.set_capacity (4)
 			across << day_field, year_field >> as field loop
-				if field.cursor_index = 1 then
-					field.item.set_capacity (2)
-				else
-					field.item.set_capacity (4)
-				end
 				field.item.disable_undo
 			end
-
 			across << day_field.change_actions, month_list.select_actions, year_field.change_actions >> as actions loop
 				actions.item.extend (agent on_date_change)
 			end
