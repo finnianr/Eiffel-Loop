@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:37:12 GMT (Wednesday 17th October 2018)"
-	revision: "8"
+	date: "2019-02-08 12:09:07 GMT (Friday 8th February 2019)"
+	revision: "9"
 
 class
 	EL_REFLECTED_TUPLE
@@ -30,17 +30,9 @@ create
 feature {EL_CLASS_META_DATA} -- Initialization
 
 	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: STRING)
-		local
-			l_type: TYPE [ANY]; i, count: INTEGER
 		do
 			make_reflected (a_object)
-			l_type := Eiffel.type_of_type (field_static_type (a_index))
-			count := l_type.generic_parameter_count
-			create member_types.make_filled ({INTEGER}, 1, count)
-			from i := 1 until i > count loop
-				member_types [i] := l_type.generic_parameter_type (i)
-				i := i + 1
-			end
+			create member_types.make_from_static (field_static_type (a_index))
 			Precursor (a_object, a_index, a_name)
 		end
 
@@ -214,7 +206,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	member_types: ARRAY [TYPE [ANY]]
+	member_types: EL_TUPLE_TYPE_ARRAY
 		-- types of tuple members
 
 feature {NONE} -- Constants

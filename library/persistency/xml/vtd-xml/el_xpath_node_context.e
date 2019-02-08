@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-02 15:29:57 GMT (Saturday 2nd February 2019)"
-	revision: "6"
+	date: "2019-02-08 15:53:41 GMT (Friday 8th February 2019)"
+	revision: "7"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -42,6 +42,10 @@ inherit
 	EL_XPATH_FIELD_SETTERS
 
 	EL_MODULE_LIO
+
+	EL_MODULE_EIFFEL
+
+	EL_REFLECTOR_CONSTANTS
 
 create
 	make_from_other
@@ -218,6 +222,47 @@ feature -- External field setters
 			find_node (a_xpath)
 			if node_found then
 				set_values (found_node)
+			end
+		end
+
+	set_tuple (tuple: TUPLE; a_xpath_list: STRING)
+		require
+			same_field_count: tuple.count = a_xpath_list.occurrences (',') + 1
+		local
+			xpath_list: EL_STRING_8_LIST; index, type_id: INTEGER
+			type_array: EL_TUPLE_TYPE_ARRAY; xpath: STRING
+		do
+			create type_array.make_from_tuple (tuple)
+			create xpath_list.make_with_separator (a_xpath_list, ',', True)
+			across xpath_list as l_xpath loop
+				index := l_xpath.cursor_index
+				xpath := l_xpath.item
+				type_id := type_array.item (index).type_id
+				inspect Eiffel.abstract_type (type_id)
+					when Integer_32_type then
+						tuple.put_integer (integer_at_xpath (xpath), index)
+					when Integer_64_type then
+						tuple.put_integer_64 (integer_64_at_xpath (xpath), index)
+					when Natural_32_type then
+						tuple.put_natural_32 (natural_at_xpath (xpath), index)
+					when Natural_64_type then
+						tuple.put_natural_64 (natural_64_at_xpath (xpath), index)
+					when Real_32_type then
+						tuple.put_real_32 (real_at_xpath (xpath), index)
+					when Real_64_type then
+						tuple.put_real_64 (double_at_xpath (xpath), index)
+					when Boolean_type then
+						tuple.put_boolean (is_xpath (xpath), index)
+
+				else
+					if type_id = String_z_type then
+						tuple.put_reference (string_at_xpath (xpath), index)
+					elseif type_id = String_8_type then
+						tuple.put_reference (string_8_at_xpath (xpath), index)
+					elseif type_id = String_32_type then
+						tuple.put_reference (string_32_at_xpath (xpath), index)
+					end
+				end
 			end
 		end
 

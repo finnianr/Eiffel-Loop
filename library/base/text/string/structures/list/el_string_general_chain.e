@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 10:58:59 GMT (Monday 29th October 2018)"
-	revision: "9"
+	date: "2019-02-08 14:36:00 GMT (Friday 8th February 2019)"
+	revision: "10"
 
 deferred class
 	EL_STRING_GENERAL_CHAIN [S -> STRING_GENERAL create make, make_empty end]
@@ -50,6 +50,7 @@ feature -- Element change
 	append_split (a_string: READABLE_STRING_GENERAL; a_separator: CHARACTER_32; do_left_adjust: BOOLEAN)
 		local
 			list: LIST [READABLE_STRING_GENERAL]; str: S
+			i: INTEGER
 		do
 			list := a_string.split (a_separator)
 			if attached {LIST [S]} list as same_list then
@@ -60,9 +61,12 @@ feature -- Element change
 					create str.make (general.item.count)
 					str.append (general.item)
 					extend (str)
-					if do_left_adjust then
-						str.left_adjust
-					end
+				end
+			end
+			if do_left_adjust then
+				from i := 1 until i > list.count loop
+					i_th (count - (i - 1)).left_adjust
+					i := i + 1
 				end
 			end
 		end
@@ -160,6 +164,11 @@ feature -- Resizing
 
 feature -- Access
 
+	item_count: INTEGER
+		do
+			Result := item.count
+		end
+
 	item_indent: INTEGER
 		local
 			i: INTEGER; done: BOOLEAN
@@ -172,11 +181,6 @@ feature -- Access
 				end
 				i := i + 1
 			end
-		end
-
-	item_count: INTEGER
-		do
-			Result := item.count
 		end
 
 feature -- Status query

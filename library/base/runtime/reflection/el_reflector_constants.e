@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-02 11:16:13 GMT (Friday 2nd November 2018)"
-	revision: "15"
+	date: "2019-02-08 11:12:10 GMT (Friday 8th February 2019)"
+	revision: "16"
 
 class
 	EL_REFLECTOR_CONSTANTS
@@ -62,7 +62,7 @@ feature {EL_REFLECTION_HANDLER} -- Constants
 
 	frozen String_z_type: INTEGER
 		once
-			Result := ({EL_ZSTRING}).type_id
+			Result := ({ZSTRING}).type_id
 		end
 
 	frozen String_types: ARRAY [INTEGER]

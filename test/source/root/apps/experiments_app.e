@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-02 12:27:35 GMT (Wednesday 2nd January 2019)"
-	revision: "38"
+	date: "2019-02-08 12:28:10 GMT (Friday 8th February 2019)"
+	revision: "39"
 
 class
 	EXPERIMENTS_APP
@@ -31,8 +31,7 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("file.print_os_user_list")
-			file.print_os_user_list
+			log.enter ("tuple.print_evolicity_tuple_context")
 			log.exit
 		end
 
