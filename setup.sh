@@ -10,12 +10,20 @@ sudo apt-get install python2.7-dev python-lxml scons libxrandr-dev librsvg2-dev
 sudo apt-get install siggen libav-tools sox lame exiv2
 if [ $? == "0" ]
 then
-	if [ ! -d ~/bin ]
-	then
-		mkdir ~/bin
+	# Build "MTeiffel_curl.o" if missing
+	curl_lib=cURL/spec/$ISE_PLATFORM/lib
+	if [ ! -f $ISE_LIBRARY/library/$curl_lib/MTeiffel_curl.o ]; then
+		cp -r $ISE_LIBRARY/library/cURL .
+		pushd .
+		cd cURL/Clib
+		finish_freezing -library
+		popd
+		sudo cp $curl_lib/MTeiffel_curl.o $ISE_LIBRARY/library/$curl_lib
+		rm -r cURL
+	else
+		echo Found MTeiffel_curl.o
 	fi
-	bin_path=~/bin
-	eval bin_path=$bin_path
+
 	sudo python setup.py install --install-scripts=/usr/local/bin
 	python -m eiffel_loop.scripts.setup
 else

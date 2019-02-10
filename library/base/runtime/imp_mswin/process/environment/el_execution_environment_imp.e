@@ -26,6 +26,8 @@ inherit
 			current_working_directory as current_working_directory_obselete
 		export
 			{NONE} all
+		undefine
+			put
 		end
 
 	EL_OS_IMPLEMENTATION
