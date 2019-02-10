@@ -66,7 +66,8 @@ class INSTALLER (object): # Common: Unix and Windows
 			bin_path = self.tools_bin ()
 			if not path.exists (bin_path):
 				dir_util.mkpath (bin_path)
-			build_cmd = ['python', 'ec_build_finalized.py', '--install', bin_path]
+			# for windows compatiblity
+			build_cmd = ['python', '-m', 'eiffel_loop.scripts.ec_build_finalized.py', '--install', bin_path]
 			if subprocess.call (build_cmd, shell=self.is_windows ()) == 0:
 				self.print_completion ()
 			else:
