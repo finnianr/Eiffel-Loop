@@ -63,11 +63,11 @@ class INSTALLER (object): # Common: Unix and Windows
 		
 		os.chdir (path.join (eiffel_loop_home_dir, path.normpath ('tool/toolkit')))
 		if not environ.command_exists (['el_toolkit', '-pyxis_to_xml', '-h'], shell=self.is_windows ()):
-			if subprocess.call (['scons', 'action=finalize', 'project=toolkit.ecf'], shell=self.is_windows ()) == 0:
-				dir_util.mkpath (self.tools_bin ())
-				package_bin = path.expandvars (path.normpath ('build/$ISE_PLATFORM/package/bin'))
-				for dest_path in dir_util.copy_tree (package_bin, self.tools_bin ()):
-					print 'Copied:', dest_path
+			bin_path = self.tools_bin ()
+			if not path.exists (bin_path):
+				dir_util.mkpath (bin_path)
+			build_cmd = ['python', 'ec_build_finalized.py', '--install', bin_path]
+			if subprocess.call (build_cmd, shell=self.is_windows ()) == 0:
 				self.print_completion ()
 			else:
 				print 'ERROR: failed to build el_toolkit'
@@ -258,7 +258,7 @@ class UNIX_INSTALLER (INSTALLER):
 		return False
 
 	def tools_bin (self):
-		return path.expanduser ('~/bin')
+		return path.expanduser ('/usr/local/bin')
 
 	def install_gedit_pecf_support (self):
 		os.chdir (path.join (eiffel_loop_home_dir, 'tool/toolkit'))

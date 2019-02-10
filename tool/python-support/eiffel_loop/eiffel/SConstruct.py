@@ -112,11 +112,12 @@ else:
 				if not lib in lib_dependencies:
 					lib_dependencies.append (lib)
 
-		Depends (executable, lib_dependencies)
-
-		productions = [executable]
 		if f_code:
-			productions.append (tar_build.target ())
+			Depends (tar_build.target (), lib_dependencies)
+			productions = [executable, tar_build.target ()]
+		else:
+			Depends (executable, lib_dependencies)
+			productions = [executable]
 
 		env.NoClean (productions)
 
