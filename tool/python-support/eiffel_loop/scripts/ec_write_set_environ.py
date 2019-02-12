@@ -1,11 +1,13 @@
 #! /usr/bin/env python
 
 #	author: "Finnian Reilly"
-#	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
+#	copyright: "Copyright (c) 2001-2019 Finnian Reilly"
 #	contact: "finnian at eiffel hyphen loop dot com"
 #	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-#	date: "26 Oct 2016"
-#	revision: "0.2"
+#	date: "12 Feb 2019"
+#	revision: "0.01"
+
+# Description: Generates the script `set_environ.sh' which can be used to setup Eiffel compilation environment
 
 import platform, subprocess, sys, os, stat
 
@@ -18,10 +20,7 @@ from eiffel_loop.eiffel import project
 
 # Word around for bug "LookupError: unknown encoding: cp65001"
 if platform.system () == "Windows":
-	platform_name = "windows"
 	codecs.register (lambda name: codecs.lookup ('utf-8') if name == 'cp65001' else None)
-else:
-	platform_name = "unix"
 
 usage = "usage: ec_write_set_environ [--x86]"
 parser = OptionParser(usage=usage)
