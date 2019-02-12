@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 18:03:56 GMT (Friday 25th January 2019)"
-	revision: "25"
+	date: "2019-02-11 10:56:28 GMT (Monday 11th February 2019)"
+	revision: "26"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -30,6 +30,8 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_OS_RELEASE
 
 	EL_MODULE_ZSTRING
 
@@ -118,6 +120,11 @@ feature -- Status query
 			Result := not argument_errors.is_empty
 		end
 
+	is_valid_platform: BOOLEAN
+		do
+			Result := True
+		end
+
 	is_same_option (name: ZSTRING): BOOLEAN
 		do
 			Result := name.same_string (option_name)
@@ -172,11 +179,16 @@ feature {NONE} -- Implementation
 					end
 				end
 				initialize
-				if command_line_help_option_exists then
+				if not is_valid_platform then
+					lio.put_labeled_string ("Application option", option_name)
+					lio.put_new_line
+					lio.put_labeled_string ("This option is not designed to run on", OS_release.description)
+					lio.put_new_line
+				elseif command_line_help_option_exists then
 					options_help.print_to_lio
 
 				elseif has_argument_errors then
-					argument_errors.do_all (agent {like argument_errors.item}.print_to_lio)
+					argument_errors.do_all (agent {EL_COMMAND_ARGUMENT_ERROR}.print_to_lio)
 				else
 					run
 					if Ask_user_to_quit then

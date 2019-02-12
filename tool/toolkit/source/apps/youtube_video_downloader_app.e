@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 13:18:04 GMT (Sunday 23rd December 2018)"
-	revision: "5"
+	date: "2019-02-11 10:54:48 GMT (Monday 11th February 2019)"
+	revision: "6"
 
 class
 	YOUTUBE_VIDEO_DOWNLOADER_APP
@@ -19,11 +19,18 @@ class
 inherit
 	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [YOUTUBE_VIDEO_DOWNLOADER]
 		redefine
-			Option_name
+			Option_name, is_valid_platform
 		end
 
 create
 	make
+
+feature -- Status query
+
+	is_valid_platform: BOOLEAN
+		do
+			Result := {PLATFORM}.is_unix
+		end
 
 feature {NONE} -- Implementation
 

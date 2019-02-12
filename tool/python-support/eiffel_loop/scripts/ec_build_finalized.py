@@ -12,9 +12,8 @@ import os, sys, platform, codecs
 from os import path
 from subprocess import call
 from optparse import OptionParser
-from glob import glob
 
-from eiffel_loop.eiffel.project import EIFFEL_PROJECT
+from eiffel_loop.eiffel.project import new_eiffel_project
 from eiffel_loop.eiffel.project import increment_build_number
 
 # Word around for bug "LookupError: unknown encoding: cp65001"
@@ -24,7 +23,7 @@ if platform.system () == "Windows":
 else:
 	platform_name = "unix"
 
-usage = "usage: python create_installer [--x86] [--install] [--no_build]"
+usage = "usage: ec_build_finalized [--x86] [--install] [--no_build]"
 parser = OptionParser(usage=usage)
 parser.add_option (
 	"-x", "--x86", action="store_true", dest="build_x86", default=False, help="Build a 32 bit version in addition to 64 bit"
@@ -43,8 +42,8 @@ if options.build_x86:
 	target_architectures.append ('x86')
 	
 # Find project ECF file
-ecf_name = glob ("*.ecf")[0]
-project_name = path.splitext (ecf_name)[0]
+project = new_eiffel_project ()
+
 f_code_tar = path.join ('build', 'F_code-%s.tar') % platform_name
 if not path.exists (f_code_tar):
 	f_code_tar = None
@@ -60,20 +59,10 @@ else:
 		if os.path.getsize(f_code_tar) < 1000000:
 			os.remove (f_code_tar)
 
-
-# Build for each architecture
-if platform.system () == "Windows":
-	build_cmd = ['python', path.join (os.path.dirname (os.path.realpath (sys.executable)), 'scons.py')]
-else:
-	build_cmd = ['scons']
-
 for cpu_target in target_architectures:
-	call (build_cmd + ['cpu=' + cpu_target, 'action=finalize', 'project=%s.ecf' % project_name])
-
-(options, args) = parser.parse_args()
+	project.build (cpu_target)
 
 # Install with version link
 if options.install_dir:
-	project = EIFFEL_PROJECT ()
 	project.install (options.install_dir)
 

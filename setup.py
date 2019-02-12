@@ -35,6 +35,7 @@ setup (
 		script_path % 'ec_clean_build',
 		script_path % 'ec_create_f_code_tar_gz',
 		script_path % 'ec_install_app',
+		script_path % 'ec_write_set_environ',
 		script_path % 'ec_write_software_version'
 	]
 

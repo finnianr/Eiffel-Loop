@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-26 22:39:59 GMT (Saturday 26th January 2019)"
-	revision: "6"
+	date: "2019-02-11 10:58:06 GMT (Monday 11th February 2019)"
+	revision: "7"
 
 class
 	YOUTUBE_VIDEO
@@ -195,7 +195,7 @@ feature {NONE} -- Implementation
 
 			socket.accept
 			-- Track progress via Unix socket
-			if attached {EL_UNIX_STREAM_SOCKET} socket.accepted as ffmpeg_socket then
+			if attached {EL_STREAM_SOCKET} socket.accepted as ffmpeg_socket then
 				create progress_display.make
 				from until ffmpeg_socket.was_error loop
 					ffmpeg_socket.read_line

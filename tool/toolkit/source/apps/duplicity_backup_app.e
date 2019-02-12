@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-01 11:24:29 GMT (Friday 1st February 2019)"
-	revision: "2"
+	date: "2019-02-11 10:56:28 GMT (Monday 11th February 2019)"
+	revision: "3"
 
 class
 	DUPLICITY_BACKUP_APP
@@ -23,12 +23,6 @@ create
 
 feature {NONE} -- Implementation
 
-	initialize
-		do
-			Console.show ({EL_CAPTURED_OS_COMMAND})
-			Precursor
-		end
-
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
@@ -41,9 +35,13 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end
 
-feature {NONE} -- Constants
+	initialize
+		do
+			Console.show ({EL_CAPTURED_OS_COMMAND})
+			Precursor
+		end
 
-	Option_name: STRING = "duplicity"
+feature {NONE} -- Constants
 
 	Description: STRING = "Create an incremental backup with duplicity command"
 
@@ -54,5 +52,7 @@ feature {NONE} -- Constants
 				[{like Current}, All_routines]
 			>>
 		end
+
+	Option_name: STRING = "duplicity"
 
 end

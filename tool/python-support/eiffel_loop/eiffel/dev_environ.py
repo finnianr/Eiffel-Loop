@@ -73,8 +73,18 @@ def set_build_environment (target_cpu):
 	else:
 		os.environ.update (environ)
 
-	for name in sorted (environ):
+	for name in sorted (eiffel_environ ()):
 		print name + " =", os.environ [name]
+
+def eiffel_environ ():
+	result = environ.copy ()
+	for key in os.environ:
+		if not key in result:
+			if key.startswith ("ISE_") or key.startswith ("EIFFEL"):
+				result [key] = os.environ [key]
+
+	return result
+	
 
 # SCRIPT BEGIN
 
@@ -89,9 +99,13 @@ environ = {
 }
 
 var_eiffel = 'EIFFEL'
+var_ise_library = 'ISE_LIBRARY'
 eiffel_basename = 'Eiffel'
 library_basename = 'library'
 cur_dir = path.curdir ()
+
+if not var_ise_library in os.environ:
+	os.environ [var_ise_library] = os.environ ['ISE_EIFFEL']
 
 if var_eiffel in os.environ:
 	library_dir = path.join (os.environ [var_eiffel], library_basename)

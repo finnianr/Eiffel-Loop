@@ -368,7 +368,7 @@ class FREEZE_BUILD (object):
 			script_path = path.join (bin_dir, self.exe_name + '.sh')
 			f = open (script_path, 'w')
 			f.write (launch_script_template % (install_bin_dir, self.exe_name))
-			f.close
+			f.close ()
 
 	def write_io (self, str):
 		sys.stdout.write (str)

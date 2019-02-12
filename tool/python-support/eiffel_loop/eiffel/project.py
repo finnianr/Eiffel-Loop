@@ -5,18 +5,21 @@
 #	date: "11 Jan 2010"
 #	revision: "0.1"
 
-import os, string, sys, imp, subprocess
+import ctypes, os, string, sys, imp, subprocess, platform
 
 from string import Template
 from os import path
 from glob import glob
 
 from eiffel_loop.xml.xpath import XPATH_CONTEXT
+from eiffel_loop.distutils import file_util
 from eiffel_loop import tar
 from subprocess import call
 
+global __CSL
 global program_files
 
+__CSL = None
 program_files = 'Program Files'
 
 def platform_spec_build_dir ():
@@ -126,6 +129,13 @@ def restore_classic_f_code_tar (f_code_tar_path, ise_platform):
 	print	'Extracting:', f_code_tar_path, ' to', build_dir
 	call (['tar', '-xf', f_code_tar_path, '-C', build_dir])
 
+def new_eiffel_project ():
+	if platform.system () == "Windows":
+		result = MSWIN_EIFFEL_PROJECT ()
+	else:
+		result = UNIX_EIFFEL_PROJECT ()
+	return result
+
 class TESTS (object):
 
 # Initialization
@@ -150,9 +160,10 @@ class EIFFEL_PROJECT (object):
 
 # Initialization
 	def __init__ (self):
-		project_name = glob ('*.ecf')[0]
-		ecf_ctx = XPATH_CONTEXT (project_name, 'ec')
-		self.exe_name = ecf_ctx.attribute ('/ec:system/@name')
+		self.ecf_name = glob ('*.ecf')[0]
+		self.name = path.splitext (self.ecf_name)[0]
+		ecf_ctx = XPATH_CONTEXT (self.ecf_name, 'ec')
+		self.exe_name = self.ecf_exe_name (ecf_ctx, '/ec:system/@name')
 
 		# Get version from Eiffel class BUILD_INFO in source
 		f = open (build_info_path (ecf_ctx), 'r')
@@ -165,8 +176,19 @@ class EIFFEL_PROJECT (object):
 			numbers [i] = str (int (n))
 		self.version = ('.').join (numbers)
 
-
 # Basic operation
+	def build (self, cpu_target):
+		call (self.scons_cmd () + ['cpu=' + cpu_target, 'action=finalize', 'project=%s.ecf' % self.name])
+
+	def copy (self, exe_path, exe_dest_path):
+		pass
+
+	def shared_object_list (self, dir_path):
+		pass
+
+	def link (self, target, link_name):
+		pass
+
 	def install (self, install_dir, f_code = False):
 		# Install linked version of executable in `install_dir'
 		platform = os.environ ['ISE_PLATFORM']
@@ -175,15 +197,89 @@ class EIFFEL_PROJECT (object):
 		else:
 			exe_path = path.join ('build', platform, 'package', 'bin', self.exe_name)
 
-		exe_dest_path = path.join (install_dir, self.exe_name + '-' + self.version)
+		exe_dest_path = path.join (install_dir, self.versioned_exe_name ())
 
-		if subprocess.call (['sudo', 'cp', '-T', exe_path, exe_dest_path]) == 0:
-			print "Copied " + exe_path + " to", install_dir
-		else:
-			print "Copy error"
+		self.copy (exe_path, exe_dest_path)
+		print "Copied " + exe_path + " to", install_dir
 
-		if subprocess.call (['sudo', 'ln', '-f', '-s', exe_dest_path, path.join (install_dir, self.exe_name)]) == 0:
+		if self.link (exe_dest_path, path.join (install_dir, self.exe_name)) == 0:
 			print 'Linked', self.exe_name, '->', exe_dest_path
 		else:
 			print "Link error"
+
+		for so_path in self.shared_object_list (path.dirname (exe_path)):
+			dest_so_path = path.join (install_dir, path.basename (so_path))
+			if not path.exists (dest_so_path):
+				self.copy (so_path, dest_so_path)
+				print 'Copied', so_path
+			
+
+# Implementation
+	def scons_cmd (self):
+		pass
+
+	def ecf_exe_name (self, ecf_ctx, a_path):
+		pass
+
+	def versioned_exe_name (self):
+		pass
+
+class UNIX_EIFFEL_PROJECT (EIFFEL_PROJECT):
+
+# Basic operation
+	def copy (self, exe_path, exe_dest_path):
+		return file_util.sudo_copy_file (exe_path, exe_dest_path)
+
+	def shared_object_list (self, dir_path):
+		return glob (path.join (dir_path, '*.so'))
+
+	def link (self, target, link_name):
+		return subprocess.call (['sudo', 'ln', '-f', '-s', target, link_name])
+
+# Implementation
+	def scons_cmd (self):
+		return ['scons']
+
+	def ecf_exe_name (self, ecf_ctx, a_path):
+		return ecf_ctx.attribute (a_path)
+
+	def versioned_exe_name (self):
+		return self.exe_name + '-' + self.version
+
+
+class MSWIN_EIFFEL_PROJECT (EIFFEL_PROJECT):
+# Basic operation
+	def copy (self, exe_path, exe_dest_path):
+		return file_util.copy_file (exe_path, exe_dest_path)
+
+	def shared_object_list (self, dir_path):
+		return glob (path.join (dir_path, '*.dll'))
+
+	def link (self, target, link_name):
+		if path.exists (link_name):
+			print "removing", link_name
+			os.unlink (link_name)
+
+		if __CSL is None:
+			csl = ctypes.windll.kernel32.CreateSymbolicLinkW
+			csl.argtypes = (ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint32)
+			csl.restype = ctypes.c_ubyte
+			__CSL = csl
+			flags = 0
+		if source is not None and os.path.isdir(source):
+			flags = 1
+		if __CSL(link_name, source, flags) == 0:
+			raise ctypes.WinError()
+		return 0
+
+# Implementation
+	def scons_cmd (self):
+		return ['python', path.join (path.dirname (path.realpath (sys.executable)), 'scons.py')]
+
+	def ecf_exe_name (self, ecf_ctx, a_path):
+		return ecf_ctx.attribute (a_path) + '.exe'
+
+	def versioned_exe_name (self):
+		template = "%s" + '-' + self.version + "%s"
+		return template % path.splitext (self.exe_name)
 
