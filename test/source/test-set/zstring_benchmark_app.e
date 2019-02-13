@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 14:02:46 GMT (Friday 21st December 2018)"
-	revision: "5"
+	date: "2019-02-13 13:28:28 GMT (Wednesday 13th February 2019)"
+	revision: "6"
 
 class
 	ZSTRING_BENCHMARK_APP
@@ -18,7 +18,7 @@ inherit
 			Option_name
 		end
 
-	MODULE_HEXAGRAM
+	EL_MODULE_HEXAGRAM
 
 	EL_SHARED_ZCODEC
 

@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-04 11:16:05 GMT (Friday 4th January 2019)"
-	revision: "8"
+	date: "2019-02-13 19:54:53 GMT (Wednesday 13th February 2019)"
+	revision: "9"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -29,7 +29,7 @@ inherit
 		rename
 			delete as chain_delete
 		redefine
-			make_from_file, rename_file, safe_store
+			make_from_file, on_estimating_bytes, rename_file, safe_store
 		end
 
 	ECD_CHAIN_EDITIONS [G]
@@ -140,6 +140,12 @@ feature {NONE} -- Implementation
 			Naming.to_kebab_lower_case (l_name, file_name)
 			Result := Directory.App_data + file_name
 			Result.add_extension (Default_file_extension)
+		end
+
+	on_estimating_bytes
+		do
+			Precursor
+			progress_listener.increment_estimated_bytes_from_file (editions_file_path)
 		end
 
 feature {NONE} -- Constants

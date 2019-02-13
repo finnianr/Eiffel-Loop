@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-02 16:00:57 GMT (Wednesday 2nd January 2019)"
-	revision: "2"
+	date: "2019-02-13 14:42:59 GMT (Wednesday 13th February 2019)"
+	revision: "3"
 
 class
 	EL_ZSTRING_TOKEN_TABLE
@@ -20,7 +20,7 @@ inherit
 		export
 			{ANY} is_empty, count, has_key
 		redefine
-			put, make
+			put, make, is_equal
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -74,6 +74,13 @@ feature -- Element change
 			end
 		ensure then
 			same_count: count = word_list.count
+		end
+
+feature -- Comparison
+
+	is_equal (other: like Current): BOOLEAN
+		do
+			Result := Precursor {EL_UNIQUE_CODE_TABLE}(other) and then word_list.is_equal (other.word_list)
 		end
 
 feature -- Access
@@ -163,7 +170,7 @@ feature {STRING_HANDLER, EL_ZSTRING_TOKEN_TABLE} -- Implementation
 			Result := word_list.i_th (a_token.code)
 		end
 
-	word_list: ARRAYED_LIST [ZSTRING]
+	word_list: EL_ZSTRING_LIST
 
 feature {NONE} -- Constants
 

@@ -9,22 +9,35 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 17:49:03 GMT (Tuesday 25th December 2018)"
-	revision: "4"
+	date: "2019-02-13 15:45:47 GMT (Wednesday 13th February 2019)"
+	revision: "5"
 
 class
 	EL_WORD_TOKEN_TABLE
 
 inherit
 	EL_ZSTRING_TOKEN_TABLE
+		redefine
+			make
+		end
+
+	EL_NOTIFYABLE
+		rename
+			make_default as make_notifyable
+		undefine
+			is_equal, copy
+		end
 
 create
 	make
 
-feature -- Basic operations
+feature -- Initialization
 
-	flush
+	make (n: INTEGER)
+			--
 		do
+			Precursor (n)
+			make_notifyable
 		end
 
 feature -- Conversion

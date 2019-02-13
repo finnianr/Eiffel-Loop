@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-24 11:57:42 GMT (Thursday 24th May 2018)"
-	revision: "9"
+	date: "2019-02-13 19:51:09 GMT (Wednesday 13th February 2019)"
+	revision: "10"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -45,12 +45,15 @@ inherit
 
 	EL_FILE_PERSISTENT
 		rename
-			make_from_file as make_persistent_file
+			make_from_file as make_persistent_file,
+			new_open_read_file as new_file
 		end
 
 	EL_ENCRYPTABLE
 
 	EL_STORABLE_HANDLER
+
+	EL_SHARED_FILE_PROGRESS_LISTENER
 
 feature {NONE} -- Initialization
 
@@ -60,7 +63,7 @@ feature {NONE} -- Initialization
 
 	make_from_file (a_file_path: like file_path)
 		local
-			l_file: like new_open_read_file
+			l_file: like new_file
 		do
 			if not attached encrypter then
 				make_default_encryptable
@@ -69,7 +72,8 @@ feature {NONE} -- Initialization
 			reader_writer := new_reader_writer
 
 			if file_path.exists then
-				l_file := new_open_read_file (file_path)
+				l_file := new_file (file_path)
+				l_file.open_read
 				-- Check version
 				l_file.read_natural_32
 				if l_file.last_natural_32 /= software_version then
@@ -145,12 +149,15 @@ feature -- Basic operations
 
 	retrieve
 		local
-			l_file: like new_open_read_file
+			l_file: like new_file
 			l_reader: like reader_writer
 			i: INTEGER
 		do
+			if is_progress_tracking then
+				on_estimating_bytes
+			end
 			encrypter.reset
-			l_file := new_open_read_file (file_path)
+			l_file := new_file (file_path)
 			l_reader := reader_writer
 			l_reader.set_for_reading
 
@@ -167,12 +174,13 @@ feature -- Basic operations
 
 	store_as (a_file_path: like file_path)
 		local
-			l_file: like new_open_read_file
+			l_file: like new_file
 			l_writer: like reader_writer
 		do
 --			log.enter_with_args ("store_as", << a_file_path >>)
 			encrypter.reset
-			create l_file.make_open_write (a_file_path)
+			l_file := new_file (a_file_path)
+			l_file.open_write
 			l_writer := reader_writer
 			l_writer.set_for_writing
 
@@ -239,17 +247,30 @@ feature -- Status query
 			end
 		end
 
+	is_progress_tracking: BOOLEAN
+		do
+		end
+
 feature {NONE} -- Event handler
 
 	on_delete
 		deferred
 		end
 
+	on_estimating_bytes
+		do
+			progress_listener.increment_estimated_bytes_from_file (file_path)
+		end
+
 feature {NONE} -- Factory
 
-	new_open_read_file (a_file_path: like file_path): RAW_FILE
+	new_file (a_file_path: like file_path): RAW_FILE
 		do
-			create Result.make_open_read (a_file_path)
+			if is_progress_tracking then
+				create {EL_NOTIFYING_RAW_FILE} Result.make_with_name (a_file_path)
+			else
+				create Result.make_with_name (a_file_path)
+			end
 		end
 
 	new_reader_writer: ECD_READER_WRITER [G]
@@ -282,7 +303,7 @@ feature {ECD_EDITIONS_FILE} -- Implementation
 			a_file.put_integer (undeleted_count)
 		end
 
-	stored_successfully (a_file: like new_open_read_file): BOOLEAN
+	stored_successfully (a_file: like new_file): BOOLEAN
 		local
 			i, l_count: INTEGER
 		do

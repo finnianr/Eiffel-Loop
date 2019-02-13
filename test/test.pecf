@@ -178,8 +178,12 @@ system:
 			location = "$EIFFEL_LOOP/library/paypal.ecf"
 
 		library:
-			name = EL_text_formats; location = "$EIFFEL_LOOP/library/text-formats.ecf"
-			readonly = false
+			name = EL_search_engine; readonly = false
+			location = "$EIFFEL_LOOP/library/search-engine.ecf"
+
+		library:
+			name = EL_text_formats; readonly = false
+			location = "$EIFFEL_LOOP/library/text-formats.ecf"
 
 		library:
 			name = EL_testing; readonly = false
@@ -194,8 +198,8 @@ system:
 			location = "$EIFFEL_LOOP/library/thread.ecf"
 
 		library:
-			name = EL_vtd_xml; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
-			readonly = false
+			name = EL_vtd_xml; readonly = false
+			location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
 
 		library:
 			name = EL_markup_docs; readonly = false

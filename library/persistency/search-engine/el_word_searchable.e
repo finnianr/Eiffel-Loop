@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-18 9:15:52 GMT (Thursday 18th October 2018)"
-	revision: "8"
+	date: "2019-02-13 17:21:46 GMT (Wednesday 13th February 2019)"
+	revision: "9"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -79,11 +79,7 @@ feature {NONE} -- Element change
 
 	set_searchable_words_from_paragraphs (a_tokenized_paragraphs: LIST [EL_TOKENIZED_STRING])
 			--
-		local
-			old_count: INTEGER
 		do
-			old_count := word_table.count
-
 			searchable_words.wipe_out
 			across a_tokenized_paragraphs as list loop
 				if not searchable_words.is_empty then
@@ -91,9 +87,7 @@ feature {NONE} -- Element change
 				end
 				searchable_words.append (list.item)
 			end
-			if word_table.count > old_count then
-				word_table.flush
-			end
+			word_table.notify
 		end
 
 feature -- Access

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-07 15:28:34 GMT (Monday 7th January 2019)"
-	revision: "12"
+	date: "2019-02-13 18:16:21 GMT (Wednesday 13th February 2019)"
+	revision: "13"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -189,12 +189,12 @@ feature -- Basic operations
 			-- Read
 			create data.make (byte_count)
 			source_file.read_to_managed_pointer (data, 0, byte_count)
-			notify_progress (source_file)
+			notify_progress (source_file, False)
 			source_file.close
 			-- Write
 			destination_file.make_open_write (destination_path)
 			destination_file.put_managed_pointer (data, 0, byte_count)
-			notify_progress (destination_file)
+			notify_progress (destination_file, True)
 			destination_file.close
 		end
 
@@ -360,10 +360,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	notify_progress (file: FILE)
+	notify_progress (file: FILE; final: BOOLEAN)
 		do
 			if attached {EL_NOTIFYING_FILE} file as l_file then
-				l_file.notify
+				l_file.notify (final)
 			end
 		end
 

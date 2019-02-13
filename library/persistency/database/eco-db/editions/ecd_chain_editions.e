@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-02-13 19:42:35 GMT (Wednesday 13th February 2019)"
+	revision: "7"
 
 deferred class
 	ECD_CHAIN_EDITIONS [G -> EL_STORABLE create make_default end]
@@ -34,11 +34,20 @@ feature {NONE} -- Initialization
 
 	make (storable_chain: like editions_file.item_chain)
 			--
+		local
+			path: EL_FILE_PATH
 		do
-			if is_encrypted then
-				create {ECD_ENCRYPTABLE_EDITIONS_FILE [G]} editions_file.make (editions_file_path, storable_chain)
+			path := editions_file_path
+			if is_encrypted and is_progress_tracking then
+				create {ECD_NOTIFYING_ENCRYPTABLE_EDITIONS_FILE [G]} editions_file.make (path, storable_chain)
+
+			elseif is_encrypted then
+				create {ECD_ENCRYPTABLE_EDITIONS_FILE [G]} editions_file.make (path, storable_chain)
+
+			elseif is_progress_tracking then
+				create {ECD_NOTIFYING_EDITIONS_FILE [G]} editions_file.make (path, storable_chain)
 			else
-				create editions_file.make (editions_file_path, storable_chain)
+				create editions_file.make (path, storable_chain)
 			end
 		end
 
@@ -149,6 +158,10 @@ feature {NONE} -- Implementation
 
 	chain_replace (a_item: like item)
 			--
+		deferred
+		end
+
+	is_progress_tracking: BOOLEAN
 		deferred
 		end
 

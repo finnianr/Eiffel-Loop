@@ -1,16 +1,23 @@
 ﻿note
-	description: "I ching hexagram constants"
+	description: "[
+		I Ching hexagram names and titles in Chinese and English that can be used for testing
+		string processing classes.
+		
+		The English titles are read from the text file:
+		
+			$EIFFEL_LOOP/test/data/hexagrams.txt
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-02-13 13:31:20 GMT (Wednesday 13th February 2019)"
+	revision: "5"
 
 class
-	I_CHING_HEXAGRAM_CONSTANTS
+	EL_HEXAGRAM_STRINGS
 
 create
 	make
@@ -28,7 +35,7 @@ feature {NONE} -- Initialization
 			end
 
 			create english_titles.make (64)
-			create txt_file.make_open_read (Hexagrams_path.expanded_path)
+			create txt_file.make_open_read (Hexagrams_path)
 			from until done loop
 				txt_file.read_line
 				if txt_file.end_of_file then
@@ -131,6 +138,7 @@ feature -- Constants
 	Hexagrams_path: EL_FILE_PATH
 		once
 			Result := "$EIFFEL_LOOP/test/data/hexagrams.txt"
+			Result.expand
 		end
 
 end

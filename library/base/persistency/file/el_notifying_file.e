@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-05 14:32:12 GMT (Tuesday 5th February 2019)"
-	revision: "5"
+	date: "2019-02-13 18:23:51 GMT (Wednesday 13th February 2019)"
+	revision: "6"
 
 deferred class
 	EL_NOTIFYING_FILE
@@ -15,58 +15,23 @@ deferred class
 inherit
 	FILE
 		redefine
-			make_with_name, open_read, open_write, close, move, go, recede, back, start, finish, forth
+			move, go, recede, back, start, finish, forth
 		end
 
 	EL_SHARED_FILE_PROGRESS_LISTENER
 
-feature -- Initialization
-
-	make_with_name (fn: READABLE_STRING_GENERAL)
-		do
-			Precursor (fn)
-			listener := Do_nothing_listener
-		end
-
-feature -- Status setting
-
-	open_read
-		do
-			Precursor
-			update_listener
-		end
-
-	open_write
-		do
-			Precursor
-			update_listener
-		end
-
-feature -- Status setting
-
-	close
-		-- Notify listener of bytes read or written
-		do
-			Precursor
-			listener := Do_nothing_listener
-		end
-
-	update_listener
-		do
-			listener := progress_listener
-		end
-
 feature -- Basic operations
 
-	notify
+	notify (final: BOOLEAN)
+		-- notify progress of file operation
 		local
-			l_count: INTEGER
+			delta_count: INTEGER
 		do
-			l_count := position - last_position
-			if l_count > 0 then
-				listener.on_notify (l_count)
+			delta_count := position - last_position
+			if not final implies delta_count > 500 then
+				progress_listener.on_notify (delta_count)
+				last_position := position
 			end
-			last_position := position
 		end
 
 feature -- Cursor movement
@@ -117,7 +82,5 @@ feature -- Cursor movement
 feature -- Implementation
 
 	last_position: INTEGER
-
-	listener: EL_FILE_PROGRESS_LISTENER
 
 end

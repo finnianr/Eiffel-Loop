@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-02-13 19:34:45 GMT (Wednesday 13th February 2019)"
+	revision: "7"
 
 class
 	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
 
 inherit
-	EL_NOTIFYING_RAW_FILE
+	RAW_FILE
 		rename
 			make as make_file,
 			count as file_count
@@ -59,19 +59,18 @@ feature -- Initialization
 
 feature -- Access
 
+	actual_count: INTEGER
+		-- count of editions found
+
 	count: INTEGER
 		-- reported edition count
 
-	read_count: INTEGER
-		-- count of editions successfully read
-
-	actual_count: INTEGER
-		-- count of editions found
+	crc: EL_CYCLIC_REDUNDANCY_CHECK_32
 
 	extended_byte_count: INTEGER
 		-- total data bytes that extend list
 
-	crc: EL_CYCLIC_REDUNDANCY_CHECK_32
+	item_chain: ECD_CHAIN [G]
 
 	kilo_byte_count: REAL
 		do
@@ -80,7 +79,8 @@ feature -- Access
 
 	last_edition_code: CHARACTER
 
-	item_chain: ECD_CHAIN [G]
+	read_count: INTEGER
+		-- count of editions successfully read
 
 feature -- Status report
 
@@ -99,17 +99,17 @@ feature -- Status report
 
 feature -- Removal
 
+	close_and_delete
+			--
+		do
+			close; delete
+		end
+
 	delete
 		do
 			Precursor
 			count := 0; actual_count := 0; extended_byte_count := 0
 			crc.reset
-		end
-
-	close_and_delete
-			--
-		do
-			close; delete
 		end
 
 feature {ECD_CHAIN_EDITIONS} -- Basic operations
@@ -126,6 +126,7 @@ feature {ECD_CHAIN_EDITIONS} -- Basic operations
 			end
 			close
 			read_count := i - 1
+			notify (True)
 		end
 
 	put_edition (edition_code: CHARACTER; a_item: G)
@@ -163,21 +164,13 @@ feature {ECD_CHAIN_EDITIONS} -- Basic operations
 
 feature {NONE} -- Implementation
 
+	notify (final: BOOLEAN)
+		do
+		end
+
 	put_header
 		do
 			put_integer (count)
-		end
-
-	read_header
-		do
-			read_integer_32
-			count := last_integer_32
-			notify
-		end
-
-	skip_header
-		do
-			move ({PLATFORM}.integer_32_bytes)
 		end
 
 	read_edition
@@ -220,13 +213,20 @@ feature {NONE} -- Implementation
 			else
 				has_checksum_mismatch := True
 			end
-			notify
+			notify (False)
 		end
 
 	read_edition_code
 		do
 			read_character
 			last_edition_code := last_character
+		end
+
+	read_header
+		do
+			read_integer_32
+			count := last_integer_32
+			notify (False)
 		end
 
 	skip_edition (edition_code: CHARACTER)
@@ -252,18 +252,25 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	reader_writer: ECD_READER_WRITER [G]
+	skip_header
+		do
+			move ({PLATFORM}.integer_32_bytes)
+		end
+
+feature {NONE} -- Internal attributes
 
 	checksum: NATURAL
 
+	reader_writer: ECD_READER_WRITER [G]
+
 feature -- Constants
 
-	Edition_code_replace: CHARACTER = '1'
+	Edition_code_delete: CHARACTER = '4'
 
 	Edition_code_extend: CHARACTER = '2'
 
 	Edition_code_remove: CHARACTER = '3'
 
-	Edition_code_delete: CHARACTER = '4'
+	Edition_code_replace: CHARACTER = '1'
 
 end

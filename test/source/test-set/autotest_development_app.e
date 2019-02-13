@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-04 18:47:44 GMT (Monday 4th February 2019)"
-	revision: "34"
+	date: "2019-02-13 15:04:34 GMT (Wednesday 13th February 2019)"
+	revision: "35"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -32,7 +32,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent string_edition_history.test_zstring_editions)
+			do_file_data_test (agent search_engine.test_persistent_word_table)
 		end
 
 feature -- Test sets
@@ -127,6 +127,11 @@ feature -- Test sets
 			create Result
 		end
 
+	search_engine: SEARCH_ENGINE_TEST_SET
+		do
+			create Result
+		end
+
 	se_array2: SE_ARRAY2_TEST_SET
 		do
 			create Result
@@ -202,7 +207,8 @@ feature {NONE} -- Constants
 				[{HTTP_CONNECTION_TEST_SET}, All_routines],
 				[{PATH_TEST_SET}, All_routines],
 				[{COMMA_SEPARATED_IMPORT_TEST_SET}, All_routines],
-				[{REFLECTIVE_TEST_SET}, All_routines]
+				[{REFLECTIVE_TEST_SET}, All_routines],
+				[{SEARCH_ENGINE_TEST_SET}, All_routines]
 			>>
 		end
 
