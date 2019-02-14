@@ -48,7 +48,7 @@ feature -- Basic operations
 			if failed_list.is_empty then
 				lio.put_line ("All tests PASSED OK")
 			else
-				lio.put_line ("The following test failed")
+				lio.put_line ("The following tests failed")
 				lio.put_new_line
 				across failed_list as failed loop
 					failed.item.print_failures
