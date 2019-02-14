@@ -1,0 +1,75 @@
+note
+	description: "EQA test set evaluator"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-02-14 13:23:46 GMT (Thursday 14th February 2019)"
+	revision: "1"
+
+deferred class
+	EL_EQA_TEST_SET_EVALUATOR [G -> EQA_TEST_SET create default_create end]
+
+inherit
+	EL_COMMAND
+		redefine
+			default_create
+		end
+
+	EL_MODULE_LIO
+		undefine
+			default_create
+		end
+
+feature {EL_MODULE_EIFFEL} -- Initialization
+
+	default_create
+		do
+			create item
+		end
+
+feature -- Basic operations
+
+	execute
+		local
+			evaluator: EQA_TEST_EVALUATOR [G]
+			l_result: EQA_PARTIAL_RESULT; duration: EL_DATE_TIME_DURATION
+		do
+			create evaluator
+			lio.put_labeled_string ("TEST SET", item.generator)
+			lio.put_new_line
+			across test_table as test loop
+				lio.put_labeled_string ("Executing test", test.key)
+				lio.put_new_line
+				l_result := evaluator.execute (agent do_test (?, test.item))
+				if l_result.is_pass then
+					create duration.make_from_other (l_result.duration)
+					lio.put_labeled_string ("Executed in", duration.out_mins_and_secs)
+					lio.put_new_line
+					lio.put_line ("TEST OK")
+				else
+					lio.put_line ("TEST FAILED")
+				end
+				lio.put_new_line_x2
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	do_test (test_set: G; test: PROCEDURE)
+		do
+			test.set_target (test_set)
+			test.apply
+		end
+
+	test_table: EL_PROCEDURE_TABLE [STRING]
+		deferred
+		end
+
+feature {NONE} -- Internal attributes
+
+	item: G
+
+end

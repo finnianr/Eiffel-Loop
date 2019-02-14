@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 12:01:53 GMT (Tuesday 19th June 2018)"
-	revision: "3"
+	date: "2019-02-14 12:14:51 GMT (Thursday 14th February 2019)"
+	revision: "4"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -29,7 +29,7 @@ feature -- Basic operations
 
 	run
 		do
-			do_file_data_test (agent localization_command_shell_test_set.test_add_unchecked)
+			apply (agent localization_command_shell_test_set.test_add_unchecked)
 		end
 
 feature -- Tests

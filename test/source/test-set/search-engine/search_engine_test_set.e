@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-13 15:03:55 GMT (Wednesday 13th February 2019)"
-	revision: "1"
+	date: "2019-02-14 12:54:43 GMT (Thursday 14th February 2019)"
+	revision: "2"
 
 class
 	SEARCH_ENGINE_TEST_SET
@@ -25,11 +25,6 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_LOG
-		undefine
-			default_create
-		end
-
 feature -- Tests
 
 	test_persistent_word_table
@@ -38,12 +33,11 @@ feature -- Tests
 			i: INTEGER; token_table: EL_WORD_TOKEN_TABLE
 			tokens: EL_TOKENIZED_STRING
 		do
-			log.enter ("test_persistent_word_table")
 			create token_table.make (100)
 			word_list := new_word_list
 			from i := 1 until i > 64 loop
-				log.put_integer_field ("hexagram", i)
-				log.put_new_line
+				lio.put_integer_field ("hexagram", i)
+				lio.put_new_line
 				create tokens.make_from_string (token_table, Hexagram.english_titles [i])
 				word_list.update_words (token_table)
 				if i \\ 8 = 0 then
@@ -54,12 +48,11 @@ feature -- Tests
 				i := i + 1
 			end
 			word_list.close
-			log.exit
 		end
 
 	test_encrypted_persistent_word_table
 		do
-			log.put_line ("Encryption test")
+			lio.put_line ("Encryption test")
 			create encrypter.make_128 ("hexagram")
 			test_persistent_word_table
 		end

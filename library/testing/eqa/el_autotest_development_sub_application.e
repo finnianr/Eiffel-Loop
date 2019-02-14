@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-20 21:22:03 GMT (Sunday 20th January 2019)"
-	revision: "6"
+	date: "2019-02-14 13:24:25 GMT (Thursday 14th February 2019)"
+	revision: "7"
 
 deferred class
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
@@ -18,19 +18,42 @@ inherit
 			Option_name
 		end
 
-feature {NONE} -- Implementation
+	EL_MODULE_EIFFEL
 
-	do_file_data_test (test: PROCEDURE)
+feature {NONE} -- Initialization
+
+	initialize
 		do
-			test.apply
-			if attached {EL_FILE_DATA_TEST_SET} test.target as data_test then
-				data_test.clean (False)
-			elseif attached {EL_TEST_DATA_TEST_SET} test.target as test_data then
-				test_data.clean (False)
+		end
+
+feature -- Basic operations
+
+	run
+		do
+			across evalator_types as type loop
+				if attached {EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]} Eiffel.new_instance_of (type.item.type_id)
+					as evaluator
+				then
+					evaluator.default_create
+					evaluator.execute
+				end
+				lio.put_new_line
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	evalator_types: ARRAY [like Type_evaluator]
+		deferred
+		end
+
 feature {NONE} -- Constants
+
+	Type_evaluator: TYPE [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]
+		require
+			never_called: False
+		once
+		end
 
 	Description: STRING = "Call manual and automatic sets during development"
 
