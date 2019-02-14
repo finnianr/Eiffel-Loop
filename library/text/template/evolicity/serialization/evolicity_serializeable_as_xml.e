@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-02-14 17:21:15 GMT (Thursday 14th February 2019)"
+	revision: "5"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE_AS_XML
@@ -48,7 +48,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	stored_successfully (a_file: like new_open_read_file): BOOLEAN
+	stored_successfully (a_file: like new_file): BOOLEAN
 		require else
 			xml_template_ends_with_tag: Template.item (Template.count) = '>'
 		local

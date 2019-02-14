@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-17 11:59:45 GMT (Monday 17th December 2018)"
-	revision: "6"
+	date: "2019-02-14 17:18:26 GMT (Thursday 14th February 2019)"
+	revision: "7"
 
 deferred class
 	EL_FILE_PERSISTENT
@@ -75,21 +75,22 @@ feature -- Basic operations
 			-- and replace saved file with temporary file
 		local
 			new_file_path: EL_FILE_PATH
-			new_file: like new_open_read_file
+			l_file: like new_file
 		do
 			last_store_ok := False
 			new_file_path := file_path.twin
 			new_file_path.add_extension ("new")
 			store_as (new_file_path)
 
-			new_file := new_open_read_file (new_file_path)
-			last_store_ok := stored_successfully (new_file)
-			new_file.close
+			l_file := new_file (new_file_path)
+			l_file.open_read
+			last_store_ok := stored_successfully (l_file)
+			l_file.close
 
 			if last_store_ok then
 				File_system.remove_file (file_path)
 				-- Change name
-				new_file.rename_file (file_path)
+				l_file.rename_file (file_path)
 			end
 		end
 
@@ -100,13 +101,13 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	stored_successfully (a_file: like new_open_read_file): BOOLEAN
+	stored_successfully (a_file: like new_file): BOOLEAN
 		require
 			file_open_read: a_file.is_open_read
 		deferred
 		end
 
-	new_open_read_file (a_file_path: like file_path): FILE
+	new_file (a_file_path: like file_path): FILE
 		deferred
 		end
 end

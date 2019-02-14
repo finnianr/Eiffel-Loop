@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-17 11:59:50 GMT (Monday 17th December 2018)"
-	revision: "4"
+	date: "2019-02-14 18:13:37 GMT (Thursday 14th February 2019)"
+	revision: "5"
 
 class
 	EL_FILE_PERSISTENT_IMP
@@ -45,11 +45,11 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	stored_successfully (a_file: like new_open_read_file): BOOLEAN
+	stored_successfully (a_file: like new_file): BOOLEAN
 		do
 		end
 
-	new_open_read_file (a_file_path: like file_path): FILE
+	new_file (a_file_path: like file_path): FILE
 		do
 		end
 end

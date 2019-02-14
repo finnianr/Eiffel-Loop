@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-02 13:53:46 GMT (Wednesday 2nd January 2019)"
-	revision: "20"
+	date: "2019-02-14 18:22:24 GMT (Thursday 14th February 2019)"
+	revision: "21"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -18,44 +18,23 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialization
+feature {NONE} -- Implementation
 
-	initialize
+	evalator_types: ARRAY [like Type_evaluator]
 		do
+			Result := <<
+				{REPOSITORY_PUBLISHER_TEST_EVALUATOR},
+				{REPOSITORY_SOURCE_LINK_EXPANDER_TEST_EVALUATOR}
+			>>
 		end
 
-feature -- Basic operations
+feature {NONE} -- Tests
 
-	run
-		do
---			do_file_data_test (agent publisher.test_publisher)
-			do_file_data_test (agent publisher.test_regression (957041218))
---			do_file_data_test (agent undefine_pattern_counter.test_command)
---			do_file_data_test (agent note_editor.test_editor_with_new_class)
---			do_file_data_test (agent link_expander.test_regression (1653260098))
-		end
-
-feature {NONE} -- Test
-
-	publisher: REPOSITORY_PUBLISHER_TEST_SET
+	tuple: TUPLE [NOTE_EDITOR_TEST_SET, UNDEFINE_PATTERN_COUNTER_TEST_SET]
 		do
 			create Result
 		end
 
-	link_expander: REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
-		do
-			create Result
-		end
-
-	note_editor: NOTE_EDITOR_TEST_SET
-		do
-			create Result
-		end
-
-	undefine_pattern_counter: UNDEFINE_PATTERN_COUNTER_TEST_SET
-		do
-			create Result
-		end
 
 feature {NONE} -- Constants
 

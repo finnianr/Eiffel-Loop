@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 12:35:05 GMT (Monday 29th October 2018)"
-	revision: "14"
+	date: "2019-02-14 17:54:04 GMT (Thursday 14th February 2019)"
+	revision: "15"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -34,6 +34,8 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_TUPLE
+
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -154,9 +156,9 @@ feature {NONE} -- Implementation
 			Result [Default_variable.current_object] := agent: EVOLICITY_CONTEXT do Result := Current end
 		end
 
-	new_open_read_file (file_path: like output_path): PLAIN_TEXT_FILE
+	new_file (file_path: like output_path): PLAIN_TEXT_FILE
 		do
-			create Result.make_open_read (file_path)
+			create Result.make_with_name (file_path)
 		end
 
 	new_open_write_file (file_path: like output_path): EL_PLAIN_TEXT_FILE
@@ -169,7 +171,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	stored_successfully (a_file: like new_open_read_file): BOOLEAN
+	stored_successfully (a_file: like new_file): BOOLEAN
 		do
 			Result := True
 		end
@@ -177,22 +179,13 @@ feature {NONE} -- Implementation
 	stripped_template: ZSTRING
 			-- template stripped of any leading tabs
 		local
-			tab_count: INTEGER; l_template: like template
+			tab_count: NATURAL; new_line_tabs: ZSTRING
 		do
-			l_template := template
-			if attached {ZSTRING} l_template as str_z then
-				Result := str_z.twin
-			else
-				create Result.make_from_general (l_template)
-			end
-			if not Result.is_empty then
-				from until Result.z_code (tab_count + 1) /= Tabulation_code loop
-					tab_count := tab_count + 1
-				end
-			end
+			create Result.make_from_general (template)
+			tab_count := Result.leading_occurrences ('%T').to_natural_32
 			if tab_count > 1 then
-				Result.prepend (new_line)
-				Result.replace_substring_all (create {ZSTRING}.make_filled ('%N', tab_count), New_line)
+				Result.prepend_character ('%N')
+				Result.replace_substring_all (New_line + n_character_string ('%T', tab_count), New_line)
 				Result.remove_head (1)
 			end
 		end
@@ -229,7 +222,7 @@ feature {NONE} -- Constants
 
 	New_line: ZSTRING
 		once
-			Result := "%N"
+			Result := character_string ('%N')
 		end
 
 	Tabulation_code: NATURAL

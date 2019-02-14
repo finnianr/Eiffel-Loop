@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-14 13:24:25 GMT (Thursday 14th February 2019)"
-	revision: "7"
+	date: "2019-02-14 17:03:59 GMT (Thursday 14th February 2019)"
+	revision: "8"
 
 deferred class
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
@@ -24,6 +24,7 @@ feature {NONE} -- Initialization
 
 	initialize
 		do
+
 		end
 
 feature -- Basic operations

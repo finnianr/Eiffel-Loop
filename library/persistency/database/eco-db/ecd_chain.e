@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-13 19:51:09 GMT (Wednesday 13th February 2019)"
-	revision: "10"
+	date: "2019-02-14 17:18:02 GMT (Thursday 14th February 2019)"
+	revision: "11"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -45,8 +45,8 @@ inherit
 
 	EL_FILE_PERSISTENT
 		rename
-			make_from_file as make_persistent_file,
-			new_open_read_file as new_file
+			make_from_file as make_persistent_file
+			
 		end
 
 	EL_ENCRYPTABLE

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-14 12:14:51 GMT (Thursday 14th February 2019)"
-	revision: "4"
+	date: "2019-02-14 16:59:03 GMT (Thursday 14th February 2019)"
+	revision: "5"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -15,28 +15,19 @@ class
 inherit
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
 		redefine
-			visible_types
+			Visible_types
 		end
 
 create
 	make
 
-feature -- Basic operations
+feature {NONE} -- Implementation
 
-	initialize
+	evalator_types: ARRAY [like Type_evaluator]
 		do
-		end
-
-	run
-		do
-			apply (agent localization_command_shell_test_set.test_add_unchecked)
-		end
-
-feature -- Tests
-
-	localization_command_shell_test_set: LOCALIZATION_COMMAND_SHELL_TEST_SET
-		do
-			create Result
+			Result := <<
+				{LOCALIZATION_COMMAND_SHELL_TEST_EVALUATOR}
+			>>
 		end
 
 feature {NONE} -- Constants
