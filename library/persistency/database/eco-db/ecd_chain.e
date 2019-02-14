@@ -158,6 +158,7 @@ feature -- Basic operations
 			end
 			encrypter.reset
 			l_file := new_file (file_path)
+			l_file.open_read
 			l_reader := reader_writer
 			l_reader.set_for_reading
 

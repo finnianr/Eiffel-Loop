@@ -23,11 +23,33 @@ inherit
 			default_create
 		end
 
+	EL_MODULE_USER_INPUT
+		undefine
+			default_create
+		end
+
+	EL_MODULE_EXCEPTION
+		undefine
+			default_create
+		end
+
 feature {EL_MODULE_EIFFEL} -- Initialization
 
 	default_create
 		do
 			create item
+			create failure_table.make_equal (3)
+		end
+
+feature -- Access
+
+	failure_table: HASH_TABLE [EXCEPTION, STRING]
+
+feature -- Status query
+
+	has_failures: BOOLEAN
+		do
+			Result := not failure_table.is_empty
 		end
 
 feature -- Basic operations
@@ -38,12 +60,11 @@ feature -- Basic operations
 			l_result: EQA_PARTIAL_RESULT; duration: EL_DATE_TIME_DURATION
 		do
 			create evaluator
-			lio.put_labeled_string ("TEST SET", item.generator)
-			lio.put_new_line
+			print_name
 			across test_table as test loop
 				lio.put_labeled_string ("Executing test", test.key)
 				lio.put_new_line
-				l_result := evaluator.execute (agent do_test (?, test.item))
+				l_result := evaluator.execute (agent do_test (?, test.key, test.item))
 				if l_result.is_pass then
 					create duration.make_from_other (l_result.duration)
 					lio.put_labeled_string ("Executed in", duration.out_mins_and_secs)
@@ -52,16 +73,45 @@ feature -- Basic operations
 				else
 					lio.put_line ("TEST FAILED")
 				end
-				lio.put_new_line_x2
+				lio.put_new_line
+			end
+		end
+
+	print_name
+		do
+			lio.put_labeled_string ("TEST SET", item.generator)
+			lio.put_new_line_x2
+		end
+
+	print_failures
+		do
+			print_name
+			across failure_table as failed loop
+				lio.put_labeled_string ("Test " + failed.key + " failed", failed.item.description)
+				lio.put_new_line
+				across failed.item.trace.split ('%N') as line loop
+					lio.put_line (line.item)
+				end
+				if not failed.is_last then
+					User_input.press_enter
+				end
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	do_test (test_set: G; test: PROCEDURE)
+	do_test (test_set: G; name: STRING; test: PROCEDURE)
+		local
+			skip: BOOLEAN
 		do
-			test.set_target (test_set)
-			test.apply
+			if not skip then
+				test.set_target (test_set)
+				test.apply
+			end
+		rescue
+			failure_table [name] := Exception.last_exception
+			skip := True
+			retry
 		end
 
 	test_table: EL_PROCEDURE_TABLE [STRING]

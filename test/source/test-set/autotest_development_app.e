@@ -22,7 +22,10 @@ feature {NONE} -- Implementation
 
 	evalator_types: ARRAY [like Type_evaluator]
 		do
-			Result := << {HTTP_CONNECTION_TEST_EVALUATOR} >>
+			Result := <<
+				{HTTP_CONNECTION_TEST_EVALUATOR}
+--				{SEARCH_ENGINE_TEST_EVALUATOR}
+			>>
 		end
 
 feature {NONE} -- Constants

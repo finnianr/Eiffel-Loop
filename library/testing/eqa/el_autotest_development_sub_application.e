@@ -29,15 +29,30 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	run
+		local
+			failed_list: EL_ARRAYED_LIST [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]
 		do
+			create failed_list.make_empty
 			across evalator_types as type loop
 				if attached {EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]} Eiffel.new_instance_of (type.item.type_id)
 					as evaluator
 				then
 					evaluator.default_create
 					evaluator.execute
+					if evaluator.has_failures then
+						failed_list.extend (evaluator)
+					end
 				end
 				lio.put_new_line
+			end
+			if failed_list.is_empty then
+				lio.put_line ("All tests PASSED OK")
+			else
+				lio.put_line ("The following test failed")
+				lio.put_new_line
+				across failed_list as failed loop
+					failed.item.print_failures
+				end
 			end
 		end
 

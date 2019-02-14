@@ -22,6 +22,7 @@ feature {NONE} -- Implementation
 			create Result.make (<<
 				["http_hash_table",						agent item.test_http_hash_table],
 				["download_image_and_headers",		agent item.test_download_image_and_headers],
+				["cookies",									agent item.test_cookies],
 				["image_headers",							agent item.test_image_headers],
 				["documents_download",					agent item.test_documents_download],
 				["download_document_and_headers",	agent item.test_download_document_and_headers],

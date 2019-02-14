@@ -20,7 +20,8 @@ feature {NONE} -- Implementation
 	test_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["persistent_word_table", agent item.test_persistent_word_table]
+				["persistent_word_table", 				agent item.test_persistent_word_table],
+				["encrypted_persistent_word_table", agent item.test_encrypted_persistent_word_table]
 			>>)
 		end
 end

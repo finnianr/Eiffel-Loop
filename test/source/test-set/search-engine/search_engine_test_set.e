@@ -52,7 +52,6 @@ feature -- Tests
 
 	test_encrypted_persistent_word_table
 		do
-			lio.put_line ("Encryption test")
 			create encrypter.make_128 ("hexagram")
 			test_persistent_word_table
 		end

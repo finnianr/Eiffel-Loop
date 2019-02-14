@@ -18,11 +18,6 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 
-	EL_MODULE_LOG
-		undefine
-			default_create
-		end
-
 	EL_MODULE_WEB
 		undefine
 			default_create
@@ -45,11 +40,10 @@ feature -- Test routines
 			city_location, json_fields: EL_URL_QUERY_HASH_TABLE
 			url: ZSTRING; cookies: EL_HTTP_COOKIE_TABLE
 		do
-			log.enter ("test_cookies")
 			city_location := new_city_location
 			url := Set_cookie_url + city_location.url_query_string
-			log.put_labeled_string ("url", url)
-			log.put_new_line
+			lio.put_labeled_string ("url", url)
+			lio.put_new_line
 
 			web.set_cookie_paths (Cookie_path)
 			web.open (url)
@@ -64,46 +58,42 @@ feature -- Test routines
 
 			assert ("two cookies set", cookies.count = 2)
 			across cookies as cookie loop
-				log.put_string_field (cookie.key, cookie.item)
-				log.put_new_line
+				lio.put_string_field (cookie.key, cookie.item)
+				lio.put_new_line
 				assert ("json has cookie key", json_fields.has (cookie.key))
 				assert ("cookie equals json value", json_fields.item (cookie.key) ~ cookie.item)
 			end
-			log.exit
 		end
 
 	test_documents_download
 		local
 			url: ZSTRING
 		do
-			log.enter ("test_documents_download")
 			across << Http >> as protocol loop -- Https
 				across document_retrieved_table as is_retrieved loop
 					url := protocol.item + Httpbin_url + is_retrieved.key
-					log.put_labeled_string ("url", url)
-					log.put_new_line
+					lio.put_labeled_string ("url", url)
+					lio.put_new_line
 					web.open (url)
 
 					web.read_string_get
 					assert ("retrieved", is_retrieved.item (web.last_string))
 
 					web.close
-					log.put_new_line
+					lio.put_new_line
 				end
 			end
-			log.exit
 		end
 
 	test_download_document_and_headers
 		local
 			url: ZSTRING; headers: like web.last_headers
 		do
-			log.enter ("test_download_document_and_headers")
 			across << Http >> as protocol loop -- Https
 				across document_retrieved_table as is_retrieved loop
 					url := protocol.item + Httpbin_url + is_retrieved.key
-					log.put_labeled_string ("url", url)
-					log.put_new_line
+					lio.put_labeled_string ("url", url)
+					lio.put_new_line
 					web.open (url)
 
 					web.read_string_head
@@ -121,10 +111,9 @@ feature -- Test routines
 					assert ("valid content_length", headers.content_length = web.last_string.count)
 
 					web.close
-					log.put_new_line
+					lio.put_new_line
 				end
 			end
-			log.exit
 		end
 
 	test_download_image_and_headers
@@ -134,7 +123,6 @@ feature -- Test routines
 			headers: like web.last_headers
 			image_path: like new_image_path
 		do
-			log.enter ("test_download_image_and_headers")
 			across << "png", "jpeg", "webp", "svg" >> as image loop
 				web.open (Image_url + image.item)
 				web.read_string_head
@@ -151,7 +139,6 @@ feature -- Test routines
 
 				web.close
 			end
-			log.exit
 		end
 
 	test_http_hash_table
@@ -161,19 +148,17 @@ feature -- Test routines
 			table_1, table_2: EL_URL_QUERY_HASH_TABLE
 			query_string: STRING
 		do
-			log.enter ("test_table")
 			create table_1.make_equal (2)
 			table_1.set_string_general ("city", "Dún Búinne")
 			table_1.set_string_general ("code", "+/xPVBTmoka3ZBeARZ8uKA==")
 			query_string := table_1.url_query_string
-			log.put_line (query_string)
+			lio.put_line (query_string)
 			create table_2.make (query_string)
 			across table_2 as variable loop
 				table_1.search (variable.key)
 				assert ("has variable", table_1.found)
 				assert ("same value", variable.item ~ table_1.found_item)
 			end
-			log.exit
 		end
 
 	test_http_post
@@ -181,12 +166,11 @@ feature -- Test routines
 			city_location, json_fields: EL_URL_QUERY_HASH_TABLE
 			url: ZSTRING
 		do
-			log.enter ("test_http_post")
 			city_location := new_city_location
 			across << Http, Https >> as protocol loop
 				url := protocol.item + Html_post_url
-				log.put_labeled_string ("url", url)
-				log.put_new_line
+				lio.put_labeled_string ("url", url)
+				lio.put_new_line
 				web.open (url)
 				web.set_post_parameters (city_location)
 				web.read_string_post
@@ -200,7 +184,6 @@ feature -- Test routines
 				assert ("url echoed", json_fields.item ("url") ~ url)
 				web.close
 			end
-			log.exit
 		end
 
 	test_image_headers
@@ -210,7 +193,6 @@ feature -- Test routines
 		local
 			headers: like web.last_headers
 		do
-			log.enter ("test_image_headers")
 			across << "png", "jpeg", "webp", "svg" >> as image loop
 				web.open (Image_url + image.item)
 				web.read_string_head
@@ -222,7 +204,6 @@ feature -- Test routines
 
 				web.close
 			end
-			log.exit
 		end
 
 feature {NONE} -- Implementation
@@ -270,9 +251,9 @@ feature {NONE} -- Implementation
 	print_lines (a_web: like web)
 		do
 			across a_web.last_string.split ('%N') as line loop
-				log.put_line (line.item)
+				lio.put_line (line.item)
 			end
-			log.put_new_line
+			lio.put_new_line
 		end
 
 	title_text (text: ZSTRING): ZSTRING
@@ -311,7 +292,7 @@ feature {NONE} -- Factory
 				if lines.index > 1 and then lines.index < lines.count and then not lines.item.has_substring ("%": %"") then
 					lines.remove
 				else
-					log.put_line (lines.item)
+					lio.put_line (lines.item)
 					lines.forth
 				end
 			end
