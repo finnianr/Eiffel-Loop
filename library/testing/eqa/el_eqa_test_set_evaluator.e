@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-14 15:02:02 GMT (Thursday 14th February 2019)"
-	revision: "2"
+	date: "2019-02-15 18:05:56 GMT (Friday 15th February 2019)"
+	revision: "3"
 
 deferred class
 	EL_EQA_TEST_SET_EVALUATOR [G -> EQA_TEST_SET create default_create end]
@@ -56,7 +56,7 @@ feature -- Basic operations
 
 	execute
 		local
-			evaluator: EQA_TEST_EVALUATOR [G]
+			evaluator: EQA_TEST_EVALUATOR [like item]
 			l_result: EQA_PARTIAL_RESULT; duration: EL_DATE_TIME_DURATION
 		do
 			create evaluator
@@ -100,7 +100,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	do_test (test_set: G; name: STRING; test: PROCEDURE)
+	do_test (test_set: like item; name: STRING; test: PROCEDURE)
 		local
 			skip: BOOLEAN
 		do

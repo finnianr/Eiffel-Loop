@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-13 15:30:27 GMT (Wednesday 13th February 2019)"
-	revision: "6"
+	date: "2019-02-15 17:56:08 GMT (Friday 15th February 2019)"
+	revision: "7"
 
 class
 	EL_AES_ENCRYPTER
@@ -91,6 +91,14 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	new_duplicate: like Current
+		-- duplicate of current in default state
+		do
+			create Result.make_from_key (key_data)
+		ensure
+			in_default_state: Result.is_default_state
+		end
+
 	out: STRING
 		local
 			i: INTEGER
@@ -107,14 +115,6 @@ feature -- Access
 			Result.append (" >>")
 		end
 
-	new_duplicate: like Current
-		-- duplicate of current in default state
-		do
-			create Result.make_from_key (key_data)
-		ensure
-			in_default_state: Result.is_default_state
-		end
-
 feature -- Access attributes
 
 	key_data: SPECIAL [NATURAL_8]
@@ -124,30 +124,18 @@ feature -- Status setting
 	reset
 			-- reset chain block to initial block
 		do
-			create encryption.make (aes_key, initial_block, 0)
-			create decryption.make (aes_key, initial_block, 0)
+			encryption := new_encryption
+			decryption := new_decryption
 		end
 
 feature -- Status query
 
 	is_default_state: BOOLEAN
 		do
-			Result := across key_data as component all component.item = 0 end
+			Result := encryption ~ new_encryption and then decryption ~ new_decryption
 		end
 
 feature -- File operations
-
-	save_encryption_state (file: RAW_FILE)
-		local
-			data: MANAGED_POINTER; block: ARRAY [NATURAL_8]
-		do
---			log.enter ("save_encryption_state")
-			create block.make_from_special (encryption.last_block)
-			create data.make_from_array (block)
-			file.put_managed_pointer (data, 0, data.count)
---			log.put_string_field ("Last block", Base_64.encoded_special (block))
---			log.exit
-		end
 
 	restore_encryption_state (file: RAW_FILE)
 		local
@@ -158,6 +146,18 @@ feature -- File operations
 			file.read_to_managed_pointer (data, 0, data.count)
 			block := data.read_array (0, data.count)
 			encryption.make (aes_key, block, 0)
+--			log.put_string_field ("Last block", Base_64.encoded_special (block))
+--			log.exit
+		end
+
+	save_encryption_state (file: RAW_FILE)
+		local
+			data: MANAGED_POINTER; block: ARRAY [NATURAL_8]
+		do
+--			log.enter ("save_encryption_state")
+			create block.make_from_special (encryption.last_block)
+			create data.make_from_array (block)
+			file.put_managed_pointer (data, 0, data.count)
 --			log.put_string_field ("Last block", Base_64.encoded_special (block))
 --			log.exit
 		end
@@ -244,6 +244,18 @@ feature -- Decryption
 				Result.area.copy_data (block_out, 0, offset, Block_size)
 				i := i + 1
 			end
+		end
+
+feature {NONE} -- Factory
+
+	new_decryption: EL_CBC_DECRYPTION
+		do
+			create Result.make (aes_key, initial_block, 0)
+		end
+
+	new_encryption: EL_CBC_ENCRYPTION
+		do
+			create Result.make (aes_key, initial_block, 0)
 		end
 
 feature {EL_ENCRYPTABLE} -- Implementation: attributes

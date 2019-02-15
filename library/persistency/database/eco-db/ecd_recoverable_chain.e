@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-13 19:54:53 GMT (Wednesday 13th February 2019)"
-	revision: "9"
+	date: "2019-02-15 12:06:50 GMT (Friday 15th February 2019)"
+	revision: "10"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
