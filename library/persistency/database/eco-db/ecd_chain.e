@@ -46,7 +46,7 @@ inherit
 	EL_FILE_PERSISTENT
 		rename
 			make_from_file as make_persistent_file
-			
+
 		end
 
 	EL_ENCRYPTABLE
@@ -153,9 +153,7 @@ feature -- Basic operations
 			l_reader: like reader_writer
 			i: INTEGER
 		do
-			if is_progress_tracking then
-				on_estimating_bytes
-			end
+			on_make_estimate
 			encrypter.reset
 			l_file := new_file (file_path)
 			l_file.open_read
@@ -248,17 +246,13 @@ feature -- Status query
 			end
 		end
 
-	is_progress_tracking: BOOLEAN
-		do
-		end
-
 feature {NONE} -- Event handler
 
 	on_delete
 		deferred
 		end
 
-	on_estimating_bytes
+	on_make_estimate
 		do
 			progress_listener.increment_estimated_bytes_from_file (file_path)
 		end

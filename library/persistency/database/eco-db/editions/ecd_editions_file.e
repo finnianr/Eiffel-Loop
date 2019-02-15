@@ -35,6 +35,7 @@ feature -- Initialization
 			create crc
 			make_with_name (a_file_path)
 			if exists then
+				attributes := [file_count, date]
 				open_read
 				if not is_empty then
 					read_header
@@ -53,6 +54,7 @@ feature -- Initialization
 				end
 				close
 			else
+				attributes := [0, 0]
 				open_write; put_header; close
 			end
 		end
@@ -92,6 +94,12 @@ feature -- Status report
 			Result := count > 0
 		end
 
+	is_bigger: BOOLEAN
+		-- True if file is bigger since object was created
+		do
+			Result := file_count > attributes.file_count
+		end
+
 	is_read_complete: BOOLEAN
 		do
 			Result := read_count = count
@@ -102,7 +110,10 @@ feature -- Removal
 	close_and_delete
 			--
 		do
-			close; delete
+			if not is_closed then
+				close
+			end
+			delete
 		end
 
 	delete
@@ -150,6 +161,15 @@ feature {ECD_CHAIN_EDITIONS} -- Basic operations
 			start; put_header; finish
 			flush
 		end
+
+	restore_date
+		do
+			if attributes.date_stamp > 0 then
+				set_date (attributes.date_stamp)
+			end
+		end
+
+feature -- Status change
 
 	reopen
 		do
@@ -262,6 +282,8 @@ feature {NONE} -- Internal attributes
 	checksum: NATURAL
 
 	reader_writer: ECD_READER_WRITER [G]
+
+	attributes: TUPLE [file_count, date_stamp: INTEGER]
 
 feature -- Constants
 

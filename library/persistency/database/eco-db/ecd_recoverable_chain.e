@@ -29,7 +29,7 @@ inherit
 		rename
 			delete as chain_delete
 		redefine
-			make_from_file, on_estimating_bytes, rename_file, safe_store
+			make_from_file, on_make_estimate, rename_file, safe_store
 		end
 
 	ECD_CHAIN_EDITIONS [G]
@@ -84,7 +84,7 @@ feature -- Element change
 			--
 		do
 			Precursor (a_name)
-			editions_file.rename_file (editions_file_path)
+			editions.rename_file (editions_file_path)
 		end
 
 feature -- Basic operations
@@ -95,20 +95,24 @@ feature -- Basic operations
 			if is_integration_pending then
 				safe_store
 				if last_store_ok then
-					editions_file.close_and_delete
+					editions.close_and_delete
 					compact
 					status := Closed_safe_store
 				else
-					editions_file.close
+					editions.close
 					status := Closed_safe_store_failed
 				end
 
-			elseif editions_file.has_editions then
-				editions_file.close
+			elseif editions.has_editions then
+				editions.close
 				status := Closed_editions
 			else
-				editions_file.close_and_delete
+				editions.close_and_delete
 				status := Closed_no_editions
+			end
+			-- This is so that incremental backups will work
+			if editions.exists and then not editions.is_bigger then
+				editions.restore_date
 			end
 		end
 
@@ -124,7 +128,7 @@ feature -- Removal
 		do
 			encrypter.reset
 			wipe_out
-			editions_file.close_and_delete
+			editions.close_and_delete
 			File_system.remove_file (file_path)
 			make_from_file (file_path)
 		end
@@ -142,7 +146,7 @@ feature {NONE} -- Implementation
 			Result.add_extension (Default_file_extension)
 		end
 
-	on_estimating_bytes
+	on_make_estimate
 		do
 			Precursor
 			progress_listener.increment_estimated_bytes_from_file (editions_file_path)

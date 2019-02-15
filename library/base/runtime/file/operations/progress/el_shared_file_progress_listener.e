@@ -19,6 +19,13 @@ feature -- Access
 			Result := Progress_listener_cell.item
 		end
 
+feature -- Status query
+
+	is_progress_tracking: BOOLEAN
+		do
+			Result := progress_listener /= Do_nothing_listener
+		end
+
 feature {NONE} -- Constants
 
 	Do_nothing_listener: EL_DO_NOTHING_FILE_PROGRESS_LISTENER

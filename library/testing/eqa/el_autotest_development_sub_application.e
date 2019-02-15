@@ -40,7 +40,7 @@ feature -- Basic operations
 				then
 					evaluator.default_create
 					evaluator.execute
-					if evaluator.has_failures then
+					if evaluator.has_failure then
 						failed_list.extend (evaluator)
 					end
 				end

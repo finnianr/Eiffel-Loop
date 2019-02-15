@@ -67,13 +67,12 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Conversion
+feature -- Basic operations
 
-	to_token_table: EL_WORD_TOKEN_TABLE
+	fill_table (table: EL_WORD_TOKEN_TABLE)
 		do
-			create Result.make (actual_word_count)
 			from start until after loop
-				item.word_list.do_all (agent Result.put)
+				item.word_list.do_all (agent table.put)
 				forth
 			end
 		end
@@ -96,7 +95,7 @@ feature {NONE} -- Implementation
 		do
 			Precursor
 			word_count := actual_word_count
-			if editions_file.read_count > 0 and not editions_file.has_checksum_mismatch then
+			if editions.read_count > 0 and not editions.has_checksum_mismatch then
 				is_restored := True
 			end
 		end

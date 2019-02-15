@@ -47,7 +47,7 @@ feature -- Access
 
 feature -- Status query
 
-	has_failures: BOOLEAN
+	has_failure: BOOLEAN
 		do
 			Result := not failure_table.is_empty
 		end

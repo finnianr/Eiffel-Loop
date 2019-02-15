@@ -63,18 +63,21 @@ feature -- Cursor movement
 
 	go (abs_position: INTEGER)
 		do
+			notify (True)
 			Precursor (abs_position)
 			last_position := position
 		end
 
 	move (offset: INTEGER)
 		do
+			notify (True)
 			Precursor (offset)
 			last_position := position
 		end
 
 	recede (abs_position: INTEGER)
 		do
+			notify (True)
 			Precursor (abs_position)
 			last_position := position
 		end
