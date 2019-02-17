@@ -1,13 +1,13 @@
 note
-	description: "Comma separated words"
+	description: "A list of comma separated words for used with EL_COMMA_SEPARATED_WORDS_LIST"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-13 14:55:19 GMT (Wednesday 13th February 2019)"
-	revision: "1"
+	date: "2019-02-16 14:16:13 GMT (Saturday 16th February 2019)"
+	revision: "2"
 
 class
 	EL_COMMA_SEPARATED_WORDS
@@ -47,6 +47,17 @@ feature -- Access
 	word_list: EL_ZSTRING_LIST
 		do
 			create Result.make_with_separator (words, ',', False)
+		end
+
+feature -- Measurement
+
+	byte_count (reader: EL_MEMORY_READER_WRITER): INTEGER
+		-- Estimated byte count
+		do
+			Result := reader.size_of_string (words)
+			if attached {EL_ENCRYPTABLE} reader as encryptable then
+				Result := encryptable.encrypted_size (Result)
+			end
 		end
 
 feature -- Element change

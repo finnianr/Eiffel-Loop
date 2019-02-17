@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 9:25:23 GMT (Friday 21st December 2018)"
-	revision: "4"
+	date: "2019-02-17 16:58:14 GMT (Sunday 17th February 2019)"
+	revision: "5"
 
 class
 	EL_MANAGED_CONTAINABLE [W -> EV_CONTAINABLE create default_create end]
@@ -24,7 +24,7 @@ inherit
 		end
 
 create
-	make_with_container, default_create
+	make_with_container, make_with_container_at_position, default_create
 
 feature {NONE} -- Initialization
 
@@ -35,10 +35,25 @@ feature {NONE} -- Initialization
 
 	make_with_container (a_container: like container; a_new_item: like new_item)
 		do
+			make_with_container_at_position (a_container, a_new_item, 0)
+		end
+
+	make_with_container_at_position (a_container: like container; a_new_item: like new_item; position: INTEGER)
+		-- add `new_item' into `a_container' at `position' or at the end if `position = 0'
+		local
+			cursor: like container.cursor
+		do
 			container := a_container; new_item := a_new_item
 			new_item.apply
 			item := new_item.last_result
-			container.extend (item)
+			if position > 0 and then container.valid_index (position - 1) then
+				cursor := container.cursor
+				container.go_i_th (position - 1)
+				container.put_right (item)
+				container.go_to (cursor)
+			else
+				container.extend (item)
+			end
 		end
 
 feature -- Element change

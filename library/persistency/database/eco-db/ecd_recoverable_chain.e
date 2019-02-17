@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-15 12:06:50 GMT (Friday 15th February 2019)"
-	revision: "10"
+	date: "2019-02-16 15:08:21 GMT (Saturday 16th February 2019)"
+	revision: "11"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -29,7 +29,7 @@ inherit
 		rename
 			delete as chain_delete
 		redefine
-			make_from_file, on_make_estimate, rename_file, safe_store
+			make_from_file, on_retrieve, rename_file, safe_store
 		end
 
 	ECD_CHAIN_EDITIONS [G]
@@ -40,6 +40,8 @@ inherit
 	EL_MODULE_NAMING
 
 	EL_MODULE_DIRECTORY
+
+	EL_MODULE_LIO
 
 feature {NONE} -- Initialization
 
@@ -116,10 +118,39 @@ feature -- Basic operations
 			end
 		end
 
+	force_compaction
+		do
+			safe_store
+			if last_store_ok then
+				editions.close_and_delete
+				compact
+				editions.reopen
+			end
+		end
+
 	safe_store
 		do
 			reader_writer.set_default_data_version
 			Precursor
+		end
+
+	print_status
+		do
+			inspect status
+				when Closed_safe_store then
+					lio.put_line ("Stored editions")
+
+				when Closed_safe_store_failed then
+					lio.put_line ("Failed to store editions")
+
+				when Closed_no_editions then
+					lio.put_line ("Closed editions")
+
+				when Closed_editions then
+					lio.put_line ("No editions made")
+
+			else
+			end
 		end
 
 feature -- Removal
@@ -146,7 +177,7 @@ feature {NONE} -- Implementation
 			Result.add_extension (Default_file_extension)
 		end
 
-	on_make_estimate
+	on_retrieve
 		do
 			Precursor
 			progress_listener.increment_estimated_bytes_from_file (editions_file_path)

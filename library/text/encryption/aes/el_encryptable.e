@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-02-16 14:08:00 GMT (Saturday 16th February 2019)"
+	revision: "6"
 
 class
 	EL_ENCRYPTABLE
@@ -36,11 +36,18 @@ feature -- Status query
 
 feature -- Access
 
+	encrypter: EL_AES_ENCRYPTER
+
+	encrypted_size (byte_count: INTEGER): INTEGER
+		do
+			Result := (byte_count / encrypter.Block_size).ceiling * encrypter.Block_size
+		end
+
+feature {NONE} -- Constants
+
 	Default_encrypter: EL_AES_ENCRYPTER
 		once ("PROCESS")
 			create Result
 		end
-
-	encrypter: EL_AES_ENCRYPTER
 
 end

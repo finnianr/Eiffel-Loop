@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-03 19:08:25 GMT (Sunday 3rd February 2019)"
-	revision: "2"
+	date: "2019-02-15 18:21:05 GMT (Friday 15th February 2019)"
+	revision: "3"
 
 class
 	DUPLICITY_BACKUP
@@ -242,17 +242,16 @@ feature {NONE} -- Implementation
 			comment, date_line: ZSTRING; file: EL_PLAIN_TEXT_FILE
 			stamp: DATE_TIME
 		do
-			create stamp.make_now_utc
 			comment := User_input.line ("Enter comment for changes.txt")
-			if comment.is_empty then
-				comment := "none"
+			if not comment.is_empty then
+				create stamp.make_now_utc
+				date_line := Date.formatted (stamp.date, {EL_DATE_FORMATS}.short_canonical)
+									+ ", " + stamp.time.formatted_out ("hh:[0]mi:[0]ss")
+				lio.put_new_line
+				create file.make_open_append (target_dir + "changes.txt")
+				file.put_lines (<< date_line, comment, Empty_string, Empty_string >>)
+				file.close
 			end
-			date_line := Date.formatted (stamp.date, {EL_DATE_FORMATS}.short_canonical)
-								+ ", " + stamp.time.formatted_out ("hh:[0]mi:[0]ss")
-			lio.put_new_line
-			create file.make_open_append (target_dir + "changes.txt")
-			file.put_lines (<< date_line, comment, Empty_string, Empty_string >>)
-			file.close
 		end
 
 feature {NONE} -- Internal attributes

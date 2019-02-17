@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-03 10:48:27 GMT (Sunday 3rd February 2019)"
-	revision: "5"
+	date: "2019-02-17 16:56:46 GMT (Sunday 17th February 2019)"
+	revision: "6"
 
 deferred class
 	EL_MENU
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 	make (a_window: like window)
 		do
 			window := a_window
-			create internal_menu.make_with_container (container, agent new_menu)
+			create internal_menu.make_with_container_at_position (container, agent new_menu, position)
 			create keyboard_shortcuts.make (window)
 			create shortcut_descriptions.make (11)
 
@@ -45,16 +45,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
-
-	name: ZSTRING
-		do
-			Result := Locale * eng_name
-		end
-
-	menu: like internal_menu.item
-		do
-			Result := internal_menu.item
-		end
 
 	item (id: INTEGER): EV_MENU_ITEM
 		require
@@ -67,6 +57,16 @@ feature -- Access
 			end
 		end
 
+	menu: like internal_menu.item
+		do
+			Result := internal_menu.item
+		end
+
+	name: ZSTRING
+		do
+			Result := Locale * eng_name
+		end
+
 feature -- Basic operations
 
 	update
@@ -76,11 +76,6 @@ feature -- Basic operations
 		end
 
 feature -- Element change
-
-	add_item (a_name: READABLE_STRING_GENERAL; action: like Type_menu_action)
-		do
-			menu.extend (new_item (a_name, action))
-		end
 
 	add_identified_item (id: INTEGER; a_name: READABLE_STRING_GENERAL; action: like Type_menu_action)
 		local
@@ -98,6 +93,11 @@ feature -- Element change
 			sub_menu.menu.set_data (id)
 		end
 
+	add_item (a_name: READABLE_STRING_GENERAL; action: like Type_menu_action)
+		do
+			menu.extend (new_item (a_name, action))
+		end
+
 	add_separator
 		do
 			menu.extend (create {EV_MENU_SEPARATOR})
@@ -111,35 +111,9 @@ feature -- Status change
 		do
 		end
 
-	enable_all_items_sensitive
-		do
-			apply_action_all (agent internal_enable_sensitive)
-		end
-
-	enable_items_sensitive (selected_ids: ARRAY [INTEGER])
-		do
-			apply_action (agent internal_enable_sensitive, selected_ids)
-		end
-
-	enable_item_sensitive (id: INTEGER)
-		do
-			enable_items_sensitive (<< id >>)
-		end
-
-	enable_sensitive
-		do
-			menu.enable_sensitive
-			is_menu_sensitive := True
-		end
-
 	disable_all_items_sensitive
 		do
 			apply_action_all (agent internal_disable_sensitive)
-		end
-
-	disable_items_sensitive (selected_ids: ARRAY [INTEGER])
-		do
-			apply_action (agent internal_disable_sensitive, selected_ids)
 		end
 
 	disable_item_sensitive (id: INTEGER)
@@ -147,10 +121,36 @@ feature -- Status change
 			disable_items_sensitive (<< id >>)
 		end
 
+	disable_items_sensitive (selected_ids: ARRAY [INTEGER])
+		do
+			apply_action (agent internal_disable_sensitive, selected_ids)
+		end
+
 	disable_sensitive
 		do
 			menu.disable_sensitive
 			is_menu_sensitive := False
+		end
+
+	enable_all_items_sensitive
+		do
+			apply_action_all (agent internal_enable_sensitive)
+		end
+
+	enable_item_sensitive (id: INTEGER)
+		do
+			enable_items_sensitive (<< id >>)
+		end
+
+	enable_items_sensitive (selected_ids: ARRAY [INTEGER])
+		do
+			apply_action (agent internal_enable_sensitive, selected_ids)
+		end
+
+	enable_sensitive
+		do
+			menu.enable_sensitive
+			is_menu_sensitive := True
 		end
 
 	set_item_sensitivity (id: INTEGER; sensitive: BOOLEAN)
@@ -166,12 +166,12 @@ feature -- Status change
 
 feature -- Status query
 
+	is_menu_sensitive: BOOLEAN
+
 	is_valid_id (id: INTEGER): BOOLEAN
 		do
 			Result := attached {EV_MENU_ITEM} menu.retrieve_item_by_data (id, True)
 		end
-
-	is_menu_sensitive: BOOLEAN
 
 feature -- Basic operations
 
@@ -243,10 +243,19 @@ feature {NONE} -- Event handler
 
 feature {NONE} -- Implementation
 
-	adjust_menu_texts
-			-- adjust menu texts to include shortcut information and extra space for Windows Aero themes
+	add_keyboard_shortcuts
 		do
-			menu.do_all (agent adjust_menu_item_text)
+		end
+
+	add_shortcut (id, key_code: INTEGER; combined_key_modifiers: NATURAL)
+			-- add keyboard shortcut with modifiers combined with logical OR
+		require
+			valid_id: is_valid_id (id)
+		do
+			keyboard_shortcuts.add_key_action (
+				key_code, agent on_keyboard_shortcut (item (id).select_actions), combined_key_modifiers
+			)
+			shortcut_descriptions [id] :=  new_shortcut_description (key_code, combined_key_modifiers)
 		end
 
 	adjust_menu_item_text (menu_item: EV_MENU_ITEM)
@@ -265,19 +274,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	add_keyboard_shortcuts
+	adjust_menu_texts
+			-- adjust menu texts to include shortcut information and extra space for Windows Aero themes
 		do
-		end
-
-	add_shortcut (id, key_code: INTEGER; combined_key_modifiers: NATURAL)
-			-- add keyboard shortcut with modifiers combined with logical OR
-		require
-			valid_id: is_valid_id (id)
-		do
-			keyboard_shortcuts.add_key_action (
-				key_code, agent on_keyboard_shortcut (item (id).select_actions), combined_key_modifiers
-			)
-			shortcut_descriptions [id] :=  new_shortcut_description (key_code, combined_key_modifiers)
+			menu.do_all (agent adjust_menu_item_text)
 		end
 
 	call (object: ANY)
@@ -289,18 +289,6 @@ feature {NONE} -- Implementation
 			Result := window.menu_bar
 		end
 
-	internal_enable_sensitive (menu_item: EV_MENU_ITEM)
-		do
-			menu_item.enable_sensitive
-			menu_item.select_actions.resume
-		end
-
-	internal_disable_sensitive (menu_item: EV_MENU_ITEM)
-		do
-			menu_item.disable_sensitive
-			menu_item.select_actions.block
-		end
-
 	eng_name: READABLE_STRING_GENERAL
 		deferred
 		end
@@ -309,7 +297,25 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	window: EV_WINDOW
+	internal_disable_sensitive (menu_item: EV_MENU_ITEM)
+		do
+			menu_item.disable_sensitive
+			menu_item.select_actions.block
+		end
+
+	internal_enable_sensitive (menu_item: EV_MENU_ITEM)
+		do
+			menu_item.enable_sensitive
+			menu_item.select_actions.resume
+		end
+
+	position: INTEGER
+		-- position at which to enter menu
+		-- if 0 then extend menu_bar
+		do
+		end
+
+feature {NONE} -- Internal attributes
 
 	internal_menu: EL_MANAGED_CONTAINABLE [EV_MENU]
 
@@ -317,6 +323,8 @@ feature {NONE} -- Implementation
 
 	shortcut_descriptions: HASH_TABLE [ZSTRING, INTEGER]
 		-- keyboard shortcuts info indexed by menu item id
+
+	window: EV_WINDOW
 
 feature {NONE} -- Type definitions
 

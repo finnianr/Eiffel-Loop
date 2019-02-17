@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-13 18:16:21 GMT (Wednesday 13th February 2019)"
-	revision: "13"
+	date: "2019-02-16 12:33:33 GMT (Saturday 16th February 2019)"
+	revision: "14"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -363,7 +363,11 @@ feature {NONE} -- Implementation
 	notify_progress (file: FILE; final: BOOLEAN)
 		do
 			if attached {EL_NOTIFYING_FILE} file as l_file then
-				l_file.notify (final)
+				if final then
+					l_file.notify_final
+				else
+					l_file.notify
+				end
 			end
 		end
 

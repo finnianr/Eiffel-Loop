@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-15 11:32:40 GMT (Friday 15th February 2019)"
-	revision: "7"
+	date: "2019-02-16 12:34:07 GMT (Saturday 16th February 2019)"
+	revision: "8"
 
 deferred class
 	EL_NOTIFYING_FILE
@@ -15,23 +15,27 @@ deferred class
 inherit
 	FILE
 		redefine
-			move, go, recede, back, start, finish, forth
+			close, move, go, recede, back, start, finish, forth
 		end
 
 	EL_SHARED_FILE_PROGRESS_LISTENER
 
 feature -- Basic operations
 
-	notify (final: BOOLEAN)
-		-- notify progress of file operation
-		local
-			delta_count: INTEGER
+	notify_final
 		do
-			delta_count := position - last_position
-			if not final implies delta_count > 500 then
-				progress_listener.on_notify (delta_count)
-				last_position := position
-			end
+			notify_progress (True)
+		end
+
+	notify
+		do
+			notify_progress (False)
+		end
+
+	close
+		do
+			notify_final
+			Precursor
 		end
 
 feature -- Cursor movement
@@ -63,26 +67,38 @@ feature -- Cursor movement
 
 	go (abs_position: INTEGER)
 		do
-			notify (True)
+			notify_final
 			Precursor (abs_position)
 			last_position := position
 		end
 
 	move (offset: INTEGER)
 		do
-			notify (True)
+			notify_final
 			Precursor (offset)
 			last_position := position
 		end
 
 	recede (abs_position: INTEGER)
 		do
-			notify (True)
+			notify_final
 			Precursor (abs_position)
 			last_position := position
 		end
 
-feature -- Implementation
+feature {NONE} -- Implementation
+
+	notify_progress (final: BOOLEAN)
+		-- notify progress of file operation
+		local
+			delta_count: INTEGER
+		do
+			delta_count := position - last_position
+			if not final implies delta_count > 500 then
+				progress_listener.on_notify (delta_count)
+				last_position := position
+			end
+		end
 
 	last_position: INTEGER
 

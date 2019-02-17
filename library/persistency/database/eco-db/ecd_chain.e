@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-15 12:07:14 GMT (Friday 15th February 2019)"
-	revision: "12"
+	date: "2019-02-16 13:33:52 GMT (Saturday 16th February 2019)"
+	revision: "13"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -46,7 +46,6 @@ inherit
 	EL_FILE_PERSISTENT
 		rename
 			make_from_file as make_persistent_file
-
 		end
 
 	EL_ENCRYPTABLE
@@ -153,7 +152,7 @@ feature -- Basic operations
 			l_reader: like reader_writer
 			i: INTEGER
 		do
-			on_make_estimate
+			on_retrieve
 			encrypter.reset
 			l_file := new_file (file_path)
 			l_file.open_read
@@ -252,9 +251,15 @@ feature {NONE} -- Event handler
 		deferred
 		end
 
-	on_make_estimate
+	on_retrieve
+		-- called just before `retrieve'
 		do
 			progress_listener.increment_estimated_bytes_from_file (file_path)
+		end
+
+	on_version_mismatch (actual_version: NATURAL)
+		do
+			reader_writer.set_data_version (actual_version)
 		end
 
 feature {NONE} -- Factory
@@ -287,11 +292,6 @@ feature {NONE} -- Factory
 
 feature {ECD_EDITIONS_FILE} -- Implementation
 
-	on_version_mismatch (actual_version: NATURAL)
-		do
-			reader_writer.set_data_version (actual_version)
-		end
-
 	put_header (a_file: RAW_FILE)
 		do
 			a_file.put_natural_32 (software_version)
@@ -320,6 +320,11 @@ feature {ECD_EDITIONS_FILE} -- Implementation atttributes
 	reader_writer: like new_reader_writer
 
 feature {NONE} -- Constants
+
+	Header_size: INTEGER
+		once
+			Result := {PLATFORM}.integer_32_bytes * 2
+		end
 
 	Descendants: ARRAY [TYPE [G]]
 		do

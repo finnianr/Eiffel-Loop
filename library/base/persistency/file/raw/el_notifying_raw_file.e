@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-13 19:27:14 GMT (Wednesday 13th February 2019)"
-	revision: "6"
+	date: "2019-02-16 12:23:59 GMT (Saturday 16th February 2019)"
+	revision: "7"
 
 class
 	EL_NOTIFYING_RAW_FILE
@@ -22,7 +22,7 @@ inherit
 
 	RAW_FILE
 		undefine
-			move, go, recede, back, start, finish, forth
+			close, move, go, recede, back, start, finish, forth
 		end
 
 create

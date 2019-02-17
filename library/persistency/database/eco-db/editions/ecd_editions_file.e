@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-15 17:07:48 GMT (Friday 15th February 2019)"
-	revision: "8"
+	date: "2019-02-16 12:34:22 GMT (Saturday 16th February 2019)"
+	revision: "9"
 
 class
 	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -137,7 +137,6 @@ feature {ECD_CHAIN_EDITIONS} -- Basic operations
 			end
 			close
 			read_count := i - 1
-			notify (True)
 		end
 
 	put_edition (edition_code: CHARACTER; a_item: G)
@@ -184,7 +183,11 @@ feature -- Status change
 
 feature {NONE} -- Implementation
 
-	notify (final: BOOLEAN)
+	notify
+		do
+		end
+
+	notify_final
 		do
 		end
 
@@ -233,7 +236,7 @@ feature {NONE} -- Implementation
 			else
 				has_checksum_mismatch := True
 			end
-			notify (False)
+			notify
 		end
 
 	read_edition_code
@@ -246,7 +249,7 @@ feature {NONE} -- Implementation
 		do
 			read_integer_32
 			count := last_integer_32
-			notify (False)
+			notify
 		end
 
 	skip_edition (edition_code: CHARACTER)

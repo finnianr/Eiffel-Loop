@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-15 11:42:33 GMT (Friday 15th February 2019)"
-	revision: "2"
+	date: "2019-02-16 12:32:22 GMT (Saturday 16th February 2019)"
+	revision: "3"
 
 class
 	ECD_NOTIFYING_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -15,7 +15,7 @@ class
 inherit
 	ECD_EDITIONS_FILE [G]
 		undefine
-			notify, move, go, recede, back, start, finish, forth
+			close, notify, notify_final, move, go, recede, back, start, finish, forth
 		end
 
 	EL_NOTIFYING_RAW_FILE
