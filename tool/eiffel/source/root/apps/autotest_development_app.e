@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-14 18:22:24 GMT (Thursday 14th February 2019)"
-	revision: "21"
+	date: "2019-02-20 13:41:44 GMT (Wednesday 20th February 2019)"
+	revision: "22"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -18,25 +18,19 @@ inherit
 create
 	make
 
-feature {NONE} -- Implementation
-
-	evalator_types: ARRAY [like Type_evaluator]
-		do
-			Result := <<
-				{REPOSITORY_PUBLISHER_TEST_EVALUATOR},
-				{REPOSITORY_SOURCE_LINK_EXPANDER_TEST_EVALUATOR}
-			>>
-		end
-
-feature {NONE} -- Tests
+feature {NONE} -- Other tests
 
 	tuple: TUPLE [NOTE_EDITOR_TEST_SET, UNDEFINE_PATTERN_COUNTER_TEST_SET]
 		do
 			create Result
 		end
 
-
 feature {NONE} -- Constants
+
+	Evaluator_types: TUPLE [REPOSITORY_PUBLISHER_TEST_EVALUATOR, REPOSITORY_SOURCE_LINK_EXPANDER_TEST_EVALUATOR]
+		once
+			create Result
+		end
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--

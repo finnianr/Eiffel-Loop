@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-15 17:56:08 GMT (Friday 15th February 2019)"
-	revision: "7"
+	date: "2019-02-19 17:07:04 GMT (Tuesday 19th February 2019)"
+	revision: "8"
 
 class
 	EL_AES_ENCRYPTER
@@ -30,13 +30,13 @@ feature {NONE} -- Initialization
 
 	default_create
 		do
-			make_from_key (create {ARRAY [NATURAL_8]}.make_filled (0, 1, 16))
+			make_from_key (new_block)
 		end
 
 	make (pass_phrase: ZSTRING; key_size_bits: INTEGER)
 			--
 		require
-			valid_key_size: (<< 128, 192, 256 >>).has (key_size_bits)
+			valid_key_size: Bit_sizes.has (key_size_bits)
 		local
 			size_bytes: INTEGER
 		do
@@ -67,19 +67,20 @@ feature {NONE} -- Initialization
 			make (pass_phrase, 256)
 		end
 
-	make_from_key (a_key_data: like key_data)
+	make_from_key (a_key_data: like new_block)
 			--
 		require
-			valid_key_size: (<< 16, 24, 32 >>).has (a_key_data.count)
+			valid_key_size: Byte_sizes.has (a_key_data.count)
 		local
-			i: INTEGER
+			i: INTEGER; initial: SPECIAL [NATURAL_8]
 		do
 			key_data := a_key_data
-			create initial_block.make_empty (Block_size)
-			from i := 0 until i = initial_block.capacity loop
-				initial_block.extend (i.to_natural_8)
+			create initial.make_empty (Block_size)
+			from i := 0 until i = initial.capacity loop
+				initial.extend (i.to_natural_8)
 				i := i + 1
 			end
+			block := [initial, new_block, new_block]
 			create aes_key.make (key_data)
 			reset
 		end
@@ -90,6 +91,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	key_size: INTEGER
+		do
+			Result := key_data.count
+		end
 
 	new_duplicate: like Current
 		-- duplicate of current in default state
@@ -117,7 +123,7 @@ feature -- Access
 
 feature -- Access attributes
 
-	key_data: SPECIAL [NATURAL_8]
+	key_data: like new_block
 
 feature -- Status setting
 
@@ -139,24 +145,24 @@ feature -- File operations
 
 	restore_encryption_state (file: RAW_FILE)
 		local
-			data: MANAGED_POINTER; block: ARRAY [NATURAL_8]
+			data: MANAGED_POINTER; l_block: ARRAY [NATURAL_8]
 		do
 --			log.enter ("restore_encryption_state")
 			create data.make (Block_size)
 			file.read_to_managed_pointer (data, 0, data.count)
-			block := data.read_array (0, data.count)
-			encryption.make (aes_key, block, 0)
+			l_block := data.read_array (0, data.count)
+			encryption.make (aes_key, l_block, 0)
 --			log.put_string_field ("Last block", Base_64.encoded_special (block))
 --			log.exit
 		end
 
 	save_encryption_state (file: RAW_FILE)
 		local
-			data: MANAGED_POINTER; block: ARRAY [NATURAL_8]
+			data: MANAGED_POINTER; l_block: ARRAY [NATURAL_8]
 		do
 --			log.enter ("save_encryption_state")
-			create block.make_from_special (encryption.last_block)
-			create data.make_from_array (block)
+			create l_block.make_from_special (encryption.last_block)
+			create data.make_from_array (l_block)
 			file.put_managed_pointer (data, 0, data.count)
 --			log.put_string_field ("Last block", Base_64.encoded_special (block))
 --			log.exit
@@ -179,9 +185,9 @@ feature -- Encryption
 			is_16_byte_blocks: plain_data.count \\ Block_size = 0
 		local
 			i, block_count, offset: INTEGER
-			block_out: like Out_block
+			block_out: like new_block
 		do
-			block_out := Out_block
+			block_out := block.output
 			create Result.make (plain_data.count)
 			block_count := plain_data.count // Block_size
 			from i := 0 until i = block_count loop
@@ -231,9 +237,9 @@ feature -- Decryption
 			count_multiple_of_block_size: cipher_data.count \\ Block_size = 0
 		local
 			i, block_count, offset: INTEGER
-			block_out, block_in: like Out_block
+			block_out, block_in: like new_block
 		do
-			block_in := In_block; block_out := Out_block
+			block_in := block.input; block_out := block.output
 			create Result.make (cipher_data.count, Block_size)
 
 			block_count := cipher_data.count // Block_size
@@ -246,39 +252,54 @@ feature -- Decryption
 			end
 		end
 
+feature -- Constants
+
+	Bit_sizes: ARRAYED_LIST [INTEGER]
+		once
+			create Result.make (3)
+			across Byte_sizes as count loop
+				Result.extend (count.item * 8)
+			end
+		end
+
+	Block_size: INTEGER
+		local
+			key: AES_KEY
+		once
+			create key.make_spec_128
+			Result := key.Block_size
+		end
+
+	Byte_sizes: ARRAY [INTEGER]
+		once
+			Result := << 16, 24, 32 >>
+		end
+
 feature {NONE} -- Factory
+
+	new_block: SPECIAL [NATURAL_8]
+		do
+			create Result.make_filled (0, Block_size)
+		end
 
 	new_decryption: EL_CBC_DECRYPTION
 		do
-			create Result.make (aes_key, initial_block, 0)
+			create Result.make (aes_key, block.initial, 0)
 		end
 
 	new_encryption: EL_CBC_ENCRYPTION
 		do
-			create Result.make (aes_key, initial_block, 0)
+			create Result.make (aes_key, block.initial, 0)
 		end
 
 feature {EL_ENCRYPTABLE} -- Implementation: attributes
 
 	aes_key: AES_KEY
 
+	block: TUPLE [initial, input, output: like new_block]
+
 	decryption: EL_CBC_DECRYPTION
 
 	encryption: EL_CBC_ENCRYPTION
 
-	initial_block: SPECIAL [NATURAL_8]
-
-feature -- Constants
-
-	Block_size: INTEGER = 16
-
-	In_block: SPECIAL [NATURAL_8]
-		once
-			create Result.make_filled (0, Block_size)
-		end
-
-	Out_block: SPECIAL [NATURAL_8]
-		once
-			create Result.make_filled (0, Block_size)
-		end
 end

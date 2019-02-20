@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-16 13:33:52 GMT (Saturday 16th February 2019)"
-	revision: "13"
+	date: "2019-02-20 12:35:06 GMT (Wednesday 20th February 2019)"
+	revision: "14"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -44,11 +44,14 @@ inherit
 		end
 
 	EL_FILE_PERSISTENT
-		rename
-			make_from_file as make_persistent_file
+		redefine
+			make_from_file
 		end
 
 	EL_ENCRYPTABLE
+		redefine
+			set_encrypter
+		end
 
 	EL_STORABLE_HANDLER
 
@@ -67,7 +70,7 @@ feature {NONE} -- Initialization
 			if not attached encrypter then
 				make_default_encryptable
 			end
-			make_persistent_file (a_file_path)
+			Precursor (a_file_path)
 			reader_writer := new_reader_writer
 
 			if file_path.exists then
@@ -103,8 +106,6 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	deleted_count: INTEGER
-
-	file_path: EL_FILE_PATH
 
 	file_version: NATURAL
 		local
@@ -197,10 +198,13 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_file_path (a_file_path: EL_FILE_PATH)
+	set_encrypter (a_encrypter: EL_AES_ENCRYPTER)
 			--
 		do
-			file_path := a_file_path
+			encrypter := a_encrypter
+			if attached {EL_ENCRYPTABLE} reader_writer as rw then
+				rw.set_encrypter (a_encrypter)
+			end
 		end
 
 feature -- Removal

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-14 22:34:52 GMT (Thursday 14th February 2019)"
-	revision: "9"
+	date: "2019-02-20 13:34:35 GMT (Wednesday 20th February 2019)"
+	revision: "10"
 
 deferred class
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
@@ -34,7 +34,7 @@ feature -- Basic operations
 			failed_list: EL_ARRAYED_LIST [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]
 		do
 			create failed_list.make_empty
-			across evalator_types as type loop
+			across evaluator_type_list (evaluator_types) as type loop
 				if attached {EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]} Eiffel.new_instance_of (type.item.type_id)
 					as evaluator
 				then
@@ -59,17 +59,26 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	evalator_types: ARRAY [like Type_evaluator]
+	evaluator_types: TUPLE
 		deferred
+		ensure
+			correct_types: evaluator_type_list (Result).count = Result.count
+		end
+
+	evaluator_type_list (type_tuple: like evaluator_types): ARRAYED_LIST [TYPE [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]]
+		local
+			type_array: EL_TUPLE_TYPE_ARRAY
+		do
+			create type_array.make_from_tuple (type_tuple)
+			create Result.make (type_array.count)
+			across type_array as type loop
+				if attached {like evaluator_type_list.item} type.item as evaluator_type then
+					Result.extend (evaluator_type)
+				end
+			end
 		end
 
 feature {NONE} -- Constants
-
-	Type_evaluator: TYPE [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]
-		require
-			never_called: False
-		once
-		end
 
 	Description: STRING = "Call manual and automatic sets during development"
 

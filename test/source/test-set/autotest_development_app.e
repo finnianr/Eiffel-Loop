@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-14 15:09:11 GMT (Thursday 14th February 2019)"
-	revision: "37"
+	date: "2019-02-20 13:38:21 GMT (Wednesday 20th February 2019)"
+	revision: "38"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -18,17 +18,17 @@ inherit
 create
 	make
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	evalator_types: ARRAY [like Type_evaluator]
-		do
-			Result := <<
-				{HTTP_CONNECTION_TEST_EVALUATOR},
-				{SEARCH_ENGINE_TEST_EVALUATOR}
-			>>
+	Evaluator_types: TUPLE [SEARCH_ENGINE_TEST_EVALUATOR]
+		once
+			create Result
 		end
 
-feature {NONE} -- Constants
+	Evaluator_types_all: TUPLE [HTTP_CONNECTION_TEST_EVALUATOR, SEARCH_ENGINE_TEST_EVALUATOR]
+		once
+			create Result
+		end
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--

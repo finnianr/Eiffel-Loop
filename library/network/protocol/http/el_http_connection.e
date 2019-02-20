@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-10 17:55:33 GMT (Thursday 10th January 2019)"
-	revision: "14"
+	date: "2019-02-20 13:04:58 GMT (Wednesday 20th February 2019)"
+	revision: "15"
 
 class
 	EL_HTTP_CONNECTION
@@ -200,7 +200,7 @@ feature -- Basic operations
 			do_command (create {EL_FILE_DOWNLOAD_HTTP_COMMAND}.make (Current, file_path))
 		end
 
-	open (a_url: like url)
+	open (a_url: READABLE_STRING_GENERAL)
 		do
 			if is_lio_enabled then
 				lio.put_labeled_string ("open", a_url); lio.put_new_line
@@ -432,11 +432,12 @@ feature -- Element change
 			set_curl_integer_option (CURLOPT_timeout, seconds)
 		end
 
-	set_url (a_url: like url)
+	set_url (a_url: READABLE_STRING_GENERAL)
 		local
 			start_index, path_index: INTEGER; encoded: like Encoded_url
 		do
-			url.share (a_url)
+			url.wipe_out
+			url.append_string_general (a_url)
 			encoded := Encoded_url
 			encoded.wipe_out
 			start_index := a_url.substring_index (Protocol_sign, 1)
@@ -461,19 +462,19 @@ feature -- Element change
 			end
 		end
 
-	set_url_arguments (arguments: ZSTRING)
+	set_url_arguments (arguments: READABLE_STRING_GENERAL)
 		local
 			pos_qmark: INTEGER
 			l_url: like url
 		do
-			l_url := url
+			create l_url.make_from_general (arguments)
 			pos_qmark := l_url.index_of ('?', 1)
 			if pos_qmark > 0 then
-				l_url.replace_substring (arguments, pos_qmark + 1, l_url.count)
+				l_url.replace_substring_general (arguments, pos_qmark + 1, l_url.count)
 			else
 				l_url.grow (l_url.count + arguments.count + 1)
 				l_url.append_character ('?')
-				l_url.append (arguments)
+				l_url.append_string_general (arguments)
 			end
 			set_url (l_url)
 		end

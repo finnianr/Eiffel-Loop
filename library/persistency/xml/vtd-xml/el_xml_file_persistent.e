@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-26 13:21:53 GMT (Wednesday 26th December 2018)"
-	revision: "6"
+	date: "2019-02-20 12:40:27 GMT (Wednesday 20th February 2019)"
+	revision: "7"
 
 deferred class
 	EL_XML_FILE_PERSISTENT
@@ -22,12 +22,10 @@ inherit
 			make_from_file, file_must_exist
 		end
 
-	EL_FILE_PERSISTENT
+	EL_FILE_PERSISTENT_I
 		rename
 			file_path as output_path,
 			set_file_path as set_output_path
-		undefine
-			make_from_file
 		end
 
 feature {NONE} -- Initialization

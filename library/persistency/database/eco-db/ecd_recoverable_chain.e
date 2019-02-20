@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-16 15:08:21 GMT (Saturday 16th February 2019)"
-	revision: "11"
+	date: "2019-02-20 12:56:41 GMT (Wednesday 20th February 2019)"
+	revision: "12"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -29,7 +29,7 @@ inherit
 		rename
 			delete as chain_delete
 		redefine
-			make_from_file, on_retrieve, rename_file, safe_store
+			make_from_file, delete_file, on_retrieve, rename_file, safe_store, is_closed
 		end
 
 	ECD_CHAIN_EDITIONS [G]
@@ -50,16 +50,16 @@ feature {NONE} -- Initialization
 			make_from_encrypted_file (new_file_path, a_encrypter)
 		end
 
+	make_from_default_file
+		do
+			make_from_file (new_file_path)
+		end
+
 	make_from_encrypted_file (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
 			--
 		do
 			encrypter := a_encrypter
 			make_from_file (a_file_path)
-		end
-
-	make_from_default_file
-		do
-			make_from_file (new_file_path)
 		end
 
 	make_from_file (a_file_path: EL_FILE_PATH)
@@ -72,12 +72,19 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	status: INTEGER_8
-
 	name: STRING
 		do
 			-- Use {Current} do prevent invariant violiation
 			Result := Naming.class_as_upper_snake ({like Current}, 0, Trailing_word_count)
+		end
+
+	status: INTEGER_8
+
+feature -- Status query
+
+	is_closed: BOOLEAN
+		do
+			Result := editions.is_closed
 		end
 
 feature -- Element change
@@ -128,12 +135,6 @@ feature -- Basic operations
 			end
 		end
 
-	safe_store
-		do
-			reader_writer.set_default_data_version
-			Precursor
-		end
-
 	print_status
 		do
 			inspect status
@@ -153,15 +154,20 @@ feature -- Basic operations
 			end
 		end
 
+	safe_store
+		do
+			reader_writer.set_default_data_version
+			Precursor
+		end
+
 feature -- Removal
 
 	delete_file
 		do
-			encrypter.reset
-			wipe_out
-			editions.close_and_delete
-			File_system.remove_file (file_path)
-			make_from_file (file_path)
+			if editions.exists then
+				editions.close_and_delete
+			end
+			Precursor
 		end
 
 feature {NONE} -- Implementation

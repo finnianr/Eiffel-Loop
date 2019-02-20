@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-02-20 12:14:18 GMT (Wednesday 20th February 2019)"
+	revision: "7"
 
 deferred class
-	EL_SHARED_APPLICATION_CONFIGURATION [G -> {EL_FILE_PERSISTENT} create make_from_file end]
+	EL_SHARED_APPLICATION_CONFIGURATION [G -> {EL_FILE_PERSISTENT_I} create make_from_file end]
 
 feature -- Element change
 

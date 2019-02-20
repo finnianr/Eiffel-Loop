@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-16 12:34:22 GMT (Saturday 16th February 2019)"
-	revision: "9"
+	date: "2019-02-19 19:29:01 GMT (Tuesday 19th February 2019)"
+	revision: "10"
 
 class
 	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -113,7 +113,9 @@ feature -- Removal
 			if not is_closed then
 				close
 			end
-			delete
+			if exists then
+				delete
+			end
 		end
 
 	delete

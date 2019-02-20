@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 10:10:54 GMT (Sunday 28th October 2018)"
-	revision: "5"
+	date: "2019-02-20 12:40:41 GMT (Wednesday 20th February 2019)"
+	revision: "6"
 
 deferred class
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN
@@ -26,12 +26,10 @@ inherit
 			make_from_file, make_default
 		end
 
-	EL_FILE_PERSISTENT
+	EL_FILE_PERSISTENT_I
 		rename
 			file_path as output_path,
 			set_file_path as set_output_path
-		redefine
-			make_from_file
 		end
 
 feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization

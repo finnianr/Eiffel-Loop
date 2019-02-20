@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 10:59:14 GMT (Friday 25th January 2019)"
-	revision: "9"
+	date: "2019-02-20 12:14:18 GMT (Wednesday 20th February 2019)"
+	revision: "10"
 
 class
-	EL_APPLICATION_CONFIG_CELL [G -> {EL_FILE_PERSISTENT} create make_from_file end]
+	EL_APPLICATION_CONFIG_CELL [G -> {EL_FILE_PERSISTENT_I} create make_from_file end]
 
 inherit
 	CELL [G]
