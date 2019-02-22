@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-13 17:21:46 GMT (Wednesday 13th February 2019)"
-	revision: "9"
+	date: "2019-02-22 22:04:15 GMT (Friday 22nd February 2019)"
+	revision: "10"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create searchable_words.make_empty
+			create word_token_list.make_empty
 			create word_table.make (0)
 		end
 
@@ -34,42 +34,40 @@ feature -- Element change
 
 	set_word_table (a_word_table: like word_table)
 		do
-			word_table := a_word_table
-			searchable_words.set_word_table (a_word_table)
-			searchable_words.append_word (New_paragraph_symbol)
-			searchable_words.remove_tail (1)
+			if word_table /= a_word_table then
+				word_table := a_word_table
+				update_searchable_words
+			end
 		end
 
 	update_searchable_words
 			--
 		do
-			set_searchable_words_from_paragraphs (tokenized_paragraphs (searchable_paragraphs_with_words))
+			word_token_list := word_table.paragraph_list_tokens (searchable_paragraphs.query_if (agent has_alpha_numeric))
 		end
 
 feature {NONE} -- Element change
 
-	set_searchable_words (a_word_tokens: STRING_32)
+	set_word_token_list (token_list: STRING_32)
 		local
-			paragraphs: like searchable_paragraphs
-			last_word_token, paragraph_divider_token: CHARACTER_32
+			paragraphs: LIST [ZSTRING]
+			last_word_token: CHARACTER_32
 		do
-			paragraphs := searchable_paragraphs_with_words
+			paragraphs := searchable_paragraphs.query_if (agent has_alpha_numeric)
 			if not paragraphs.is_empty then
-				if not word_table.is_restored or else a_word_tokens.is_empty then
+				if not word_table.is_restored or else token_list.is_empty then
 					update_searchable_words
 
 				else
-					paragraph_divider_token := word_table.item (New_paragraph_symbol).to_character_32
 					last_word_token := word_table.item (last_word (paragraphs.last)).to_character_32
 
-					if a_word_tokens.occurrences (paragraph_divider_token) + 1 = paragraphs.count
-						and a_word_tokens.item (a_word_tokens.count) = last_word_token
+					if token_list.occurrences (word_table.Paragraph_separator) + 1 = paragraphs.count
+						and token_list.item (token_list.count) = last_word_token
 					then
-						create searchable_words.make_from_tokens (word_table, a_word_tokens)
+						create word_token_list.make_from_tokens (token_list)
 
 						-- In case tokens files is corrupted and missing some values
-						if searchable_words.incomplete_word_table then
-							searchable_words.clear_incomplete_word_table
+						if word_table.is_incomplete (word_token_list) then
 							update_searchable_words
 						end
 					end
@@ -77,34 +75,21 @@ feature {NONE} -- Element change
 			end
 		end
 
-	set_searchable_words_from_paragraphs (a_tokenized_paragraphs: LIST [EL_TOKENIZED_STRING])
-			--
-		do
-			searchable_words.wipe_out
-			across a_tokenized_paragraphs as list loop
-				if not searchable_words.is_empty then
-				 	searchable_words.append_word (New_paragraph_symbol)
-				end
-				searchable_words.append (list.item)
-			end
-			word_table.notify
-		end
-
 feature -- Access
 
-	word_match_extracts (search_words: ARRAYED_LIST [EL_TOKENIZED_STRING]): ARRAYED_LIST [like keywords_in_bold]
+	word_token_list: EL_WORD_TOKEN_LIST
+
+	word_match_extracts (search_words: ARRAYED_LIST [EL_WORD_TOKEN_LIST]): ARRAYED_LIST [like keywords_in_bold]
 			--
 		local
-			tokens_list: LIST [EL_TOKENIZED_STRING]
-			token_divider: CHARACTER_32
+			tokens_list: LIST [EL_WORD_TOKEN_LIST]
 		do
-			token_divider := searchable_words.token (New_paragraph_symbol)
 			if search_words.is_empty then
 				create Result.make (0)
 			else
 				create Result.make (search_words.count)
 				from search_words.start until search_words.after loop
-					tokens_list := searchable_words.split (token_divider)
+					tokens_list := word_token_list.split (word_table.Paragraph_separator)
 					from tokens_list.start until tokens_list.after loop
 						if tokens_list.item.has_substring (search_words.item) then
 							Result.extend (keywords_in_bold (search_words.item, tokens_list.item))
@@ -116,9 +101,41 @@ feature -- Access
 			end
 		end
 
-	searchable_words: EL_TOKENIZED_STRING
+feature {EL_WORD_SEARCHABLE} -- Implementation
 
-feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
+	fixed_styled (str: ZSTRING): EL_MONOSPACED_STYLED_TEXT
+			--
+		do
+			Result := str
+		end
+
+	keywords_in_bold (keyword_tokens, searchable_tokens: EL_WORD_TOKEN_LIST): EL_MIXED_STYLE_TEXT_LIST
+			--
+		local
+			pos_match, start_index, end_index: INTEGER
+			token_list: EL_WORD_TOKEN_LIST
+		do
+			create Result.make (3)
+			pos_match := searchable_tokens.substring_index (keyword_tokens, 1)
+			start_index := (pos_match - Keyword_quote_leeway).max (1)
+			end_index := (pos_match + keyword_tokens.count - 1 + Keyword_quote_leeway).min (searchable_tokens.count)
+			if start_index > 1 then
+				Result.extend (Styled_ellipsis)
+			end
+			if start_index < pos_match then
+				token_list := searchable_tokens.substring (start_index, pos_match - 1)
+				Result.extend (styled (word_table.tokens_to_string (token_list)))
+			end
+			Result.extend (styled (word_table.tokens_to_string (keyword_tokens)))
+			Result.last.set_bold
+			if end_index > pos_match + keyword_tokens.count - 1 then
+				token_list := searchable_tokens.substring (pos_match + keyword_tokens.count, end_index)
+				Result.extend (styled (word_table.tokens_to_string (token_list)))
+			end
+			if end_index < searchable_tokens.count then
+				Result.extend (Styled_ellipsis)
+			end
+		end
 
 	last_word (paragraph: ZSTRING): ZSTRING
 		local
@@ -136,41 +153,14 @@ feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 			Result.to_lower
 		end
 
-	tokenized_paragraphs (paragraphs: LIST [ZSTRING]): ARRAYED_LIST [EL_TOKENIZED_STRING]
-			--
-		do
-			create Result.make (paragraphs.count)
-			across paragraphs as list loop
-				Result.extend (create {EL_TOKENIZED_STRING}.make_from_string (word_table, list.item))
-			end
-		end
-
-	keywords_in_bold (keyword_tokens, searchable_tokens: EL_TOKENIZED_STRING): EL_MIXED_STYLE_TEXT_LIST
-			--
+	has_alpha_numeric (str: ZSTRING): BOOLEAN
+		-- `True' if `str' has an alpha numeric character
 		local
-			pos_match, start_index, end_index: INTEGER
+			i: INTEGER
 		do
-			create Result.make (3)
-			pos_match := searchable_tokens.substring_index (keyword_tokens, 1)
-			start_index := (pos_match - Keyword_quote_leeway).max (1)
-			end_index := (pos_match + keyword_tokens.count - 1 + Keyword_quote_leeway).min (searchable_tokens.count)
-			if start_index > 1 then
-				Result.extend (Styled_ellipsis)
-			end
-			if start_index < pos_match then
-				Result.extend (
-					styled (searchable_tokens.substring (start_index, pos_match - 1).words)
-				)
-			end
-			Result.extend (styled (keyword_tokens.words))
-			Result.last.set_bold
-			if end_index > pos_match + keyword_tokens.count - 1 then
-				Result.extend (
-					styled (searchable_tokens.substring (pos_match + keyword_tokens.count, end_index).words)
-				)
-			end
-			if end_index < searchable_tokens.count then
-				Result.extend (Styled_ellipsis)
+			from i := 1 until Result or i > str.count loop
+				Result := str.is_alpha_numeric_item (i)
+				i := i + 1
 			end
 		end
 
@@ -180,38 +170,13 @@ feature {EL_WORD_SEARCHABLE, EL_SEARCH_ENGINE} -- Implementation
 			Result := str
 		end
 
-	fixed_styled (str: ZSTRING): EL_MONOSPACED_STYLED_TEXT
-			--
-		do
-			Result := str
-		end
-
-	searchable_paragraphs_with_words: ARRAYED_LIST [ZSTRING]
-		local
-			paragraphs: like searchable_paragraphs
-			i: INTEGER
-			is_alpha_numeric: BOOLEAN
-			paragraph: ZSTRING
-		do
-			paragraphs := searchable_paragraphs
-			create Result.make (paragraphs.count)
-			across paragraphs as p loop
-				paragraph := p.item
-				from is_alpha_numeric := False; i := 1 until is_alpha_numeric or i > paragraph.count loop
-					is_alpha_numeric := paragraph.is_alpha_numeric_item (i)
-					i := i + 1
-				end
-				if is_alpha_numeric then
-					Result.extend (paragraph)
-				end
-			end
-		end
+feature {EL_SEARCH_ENGINE} -- Internal attributes
 
 	word_table: EL_WORD_TOKEN_TABLE
 
-feature {NONE} -- Unimplemented
+feature {EL_SEARCH_ENGINE} -- Unimplemented
 
-	searchable_paragraphs: LIST [ZSTRING]
+	searchable_paragraphs: EL_CHAIN [ZSTRING]
 		deferred
 		end
 
@@ -219,11 +184,6 @@ feature {NONE} -- Constants
 
 	Keyword_quote_leeway: INTEGER = 3
 		-- Number of words on either side of keywords to quote in search result extract
-
-	New_paragraph_symbol: ZSTRING
-		once
-			Result := "<*>"
-		end
 
 	Styled_ellipsis: EL_STYLED_TEXT
 			--

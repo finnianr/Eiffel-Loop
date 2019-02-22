@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-08 20:23:49 GMT (Thursday 8th November 2018)"
-	revision: "4"
+	date: "2019-02-22 20:35:27 GMT (Friday 22nd February 2019)"
+	revision: "5"
 
 class
 	EL_ONE_OF_WORDS_CONDITION [G -> EL_WORD_SEARCHABLE]
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_phrase_stem, a_ending_variations: EL_TOKENIZED_STRING)
+	make (a_phrase_stem, a_ending_variations: EL_WORD_TOKEN_LIST)
 			--
 		do
 			make_contains (a_phrase_stem)
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	ending_variations: EL_TOKENIZED_STRING
+	ending_variations: EL_WORD_TOKEN_LIST
 		-- list of possible last phrase token variations
 
 feature {NONE} -- Implementation
@@ -47,10 +47,10 @@ feature {NONE} -- Implementation
 			--
 		local
 			phrase_stem_word_count, start_index, i: INTEGER
-			l_searchable_words, endings: EL_TOKENIZED_STRING
+			l_searchable_words, endings: EL_WORD_TOKEN_LIST
 			word_token: CHARACTER_32; stem_searcher: like phrase_stem_searcher
 		do
-			l_searchable_words := item.searchable_words
+			l_searchable_words := item.word_token_list
 			endings := ending_variations
 			if phrase_stem.is_empty then
 				from i := 1 until Result or i > endings.count loop

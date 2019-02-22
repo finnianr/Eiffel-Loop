@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-02 16:01:48 GMT (Wednesday 2nd January 2019)"
-	revision: "8"
+	date: "2019-02-22 21:47:01 GMT (Friday 22nd February 2019)"
+	revision: "9"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	match_words: ARRAYED_LIST [EL_TOKENIZED_STRING]
+	match_words: ARRAYED_LIST [EL_WORD_TOKEN_LIST]
 
 	query_condition: EL_QUERY_CONDITION [G]
 		do
@@ -181,13 +181,13 @@ feature {NONE} -- Match actions
 	on_word_or_phrase (matched: EL_STRING_VIEW)
 			--
 		local
-			word_tokens: EL_TOKENIZED_STRING; text: ZSTRING
+			word_tokens: EL_WORD_TOKEN_LIST; text: ZSTRING
 		do
 			text := matched
 			if not text.is_empty and then text [text.count] = '*' then
 				text.remove_tail (1); add_wildcard_term (text)
 			else
-				create word_tokens.make_from_string (word_token_table, text)
+				word_tokens := word_token_table.paragraph_tokens (text)
 				condition_list.extend (create {EL_CONTAINS_WORDS_CONDITION [G]}.make (word_tokens))
 				match_words.extend (word_tokens)
 			end
@@ -195,21 +195,21 @@ feature {NONE} -- Match actions
 
 feature {NONE} -- Implementation
 
-	add_one_of_words_search_term_condition (phrase_stem_words: EL_TOKENIZED_STRING; word_stem: ZSTRING)
+	add_one_of_words_search_term_condition (phrase_stem_words: EL_WORD_TOKEN_LIST; word_stem: ZSTRING)
 		local
 			word_list: like word_token_table.word_list
-			potential_match_word, word_variations: EL_TOKENIZED_STRING
+			potential_match_word, word_variations: EL_WORD_TOKEN_LIST
 			end_word_token: NATURAL; word_stem_lower: ZSTRING
 		do
 			word_stem_lower := word_stem.as_lower
-			create word_variations.make (word_token_table, 20)
+			create word_variations.make (20)
 			word_list := word_token_table.word_list
 			from word_list.start until word_list.after loop
 				if word_list.item.starts_with (word_stem_lower) then
 					end_word_token := word_list.index.to_natural_32
 					word_variations.append_code (end_word_token)
 
-					create potential_match_word.make (word_token_table, phrase_stem_words.count + 1)
+					create potential_match_word.make (phrase_stem_words.count + 1)
 					potential_match_word.append (phrase_stem_words)
 					potential_match_word.append_code (end_word_token)
 					match_words.extend (potential_match_word)
@@ -221,7 +221,7 @@ feature {NONE} -- Implementation
 
 	add_wildcard_term (text: ZSTRING)
 		local
-			words: EL_ZSTRING_LIST; word_tokens: EL_TOKENIZED_STRING
+			words: EL_ZSTRING_LIST; word_tokens: EL_WORD_TOKEN_LIST
 		do
 			create words.make_with_words (text)
 			words.prune_all_empty
@@ -229,9 +229,9 @@ feature {NONE} -- Implementation
 				invalid_wildcard := True
 			else
 				if words.count = 1 then
-					create word_tokens.make (word_token_table, 0)
+					create word_tokens.make (0)
 				else
-					create word_tokens.make_from_string (word_token_table, words.subchain (1, words.count - 1).joined_words)
+					word_tokens := word_token_table.paragraph_tokens (words.subchain (1, words.count - 1).joined_words)
 				end
 				add_one_of_words_search_term_condition (word_tokens, words.last)
 			end

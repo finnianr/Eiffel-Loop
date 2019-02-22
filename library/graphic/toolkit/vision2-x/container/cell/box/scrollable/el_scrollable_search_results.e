@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 7:46:25 GMT (Friday 21st December 2018)"
-	revision: "5"
+	date: "2019-02-22 20:35:27 GMT (Friday 22nd February 2019)"
+	revision: "6"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -417,7 +417,7 @@ feature {NONE} -- Implementation: attributes
 
 	result_set: DYNAMIC_CHAIN [G]
 
-	search_words: ARRAYED_LIST [EL_TOKENIZED_STRING]
+	search_words: ARRAYED_LIST [EL_WORD_TOKEN_LIST]
 
 feature {NONE} -- Constants
 

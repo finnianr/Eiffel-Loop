@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-08 20:23:37 GMT (Thursday 8th November 2018)"
-	revision: "6"
+	date: "2019-02-22 20:35:27 GMT (Friday 22nd February 2019)"
+	revision: "7"
 
 class
 	EL_CONTAINS_WORDS_CONDITION [G -> EL_WORD_SEARCHABLE]
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_words: EL_TOKENIZED_STRING)
+	make (a_words: EL_WORD_TOKEN_LIST)
 			--
 		do
 			words := a_words
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	words: EL_TOKENIZED_STRING
+	words: EL_WORD_TOKEN_LIST
 
 feature -- Status query
 
@@ -41,9 +41,9 @@ feature -- Status query
 			--
 		do
 			if words.count = 1 then
-				Result := item.searchable_words.has (words [1])
+				Result := item.word_token_list.has (words [1])
 			else
-				Result := searcher.index (item.searchable_words, 1) > 0
+				Result := searcher.index (item.word_token_list, 1) > 0
 			end
 		end
 
