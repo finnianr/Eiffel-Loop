@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 13:34:35 GMT (Wednesday 20th February 2019)"
-	revision: "10"
+	date: "2019-02-20 15:00:02 GMT (Wednesday 20th February 2019)"
+	revision: "11"
 
 deferred class
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
@@ -65,17 +65,9 @@ feature {NONE} -- Implementation
 			correct_types: evaluator_type_list (Result).count = Result.count
 		end
 
-	evaluator_type_list (type_tuple: like evaluator_types): ARRAYED_LIST [TYPE [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]]
-		local
-			type_array: EL_TUPLE_TYPE_ARRAY
+	evaluator_type_list (type_tuple: like evaluator_types): EL_TUPLE_TYPE_LIST [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]
 		do
-			create type_array.make_from_tuple (type_tuple)
-			create Result.make (type_array.count)
-			across type_array as type loop
-				if attached {like evaluator_type_list.item} type.item as evaluator_type then
-					Result.extend (evaluator_type)
-				end
-			end
+			create Result.make_from_tuple (type_tuple)
 		end
 
 feature {NONE} -- Constants

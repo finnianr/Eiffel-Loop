@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-19 17:07:04 GMT (Tuesday 19th February 2019)"
-	revision: "8"
+	date: "2019-02-20 21:20:17 GMT (Wednesday 20th February 2019)"
+	revision: "9"
 
 class
 	EL_AES_ENCRYPTER
@@ -23,8 +23,20 @@ inherit
 			default_create, out
 		end
 
+	EL_AES_CONSTANTS
+		export
+			{ANY} all
+		undefine
+			default_create, out
+		end
+
+	EL_MODULE_UTF
+		undefine
+			default_create, out
+		end
+
 create
-	default_create, make_from_key, make_256, make_192, make_128, make_from_other
+	default_create, make, make_from_key, make_from_other
 
 feature {NONE} -- Initialization
 
@@ -33,44 +45,26 @@ feature {NONE} -- Initialization
 			make_from_key (new_block)
 		end
 
-	make (pass_phrase: ZSTRING; key_size_bits: INTEGER)
+	make (pass_phrase: READABLE_STRING_GENERAL; key_size_bits: NATURAL)
 			--
 		require
 			valid_key_size: Bit_sizes.has (key_size_bits)
 		local
 			size_bytes: INTEGER
 		do
-			key_data := Digest.sha_256 (pass_phrase.to_utf_8)
+			key_data := Digest.sha_256 (UTF.string_32_to_utf_8_string_8 (pass_phrase.to_string_32))
 
-			size_bytes := key_size_bits // 8
+			size_bytes := key_size_bits.to_integer_32 // 8
 			if size_bytes < key_data.count then
 				key_data.keep_head (size_bytes)
 			end
 			make_from_key (key_data)
 		end
 
-	make_128 (pass_phrase: ZSTRING)
-			--
-		do
-			make (pass_phrase, 128)
-		end
-
-	make_192 (pass_phrase: ZSTRING)
-			--
-		do
-			make (pass_phrase, 192)
-		end
-
-	make_256 (pass_phrase: ZSTRING)
-			--
-		do
-			make (pass_phrase, 256)
-		end
-
 	make_from_key (a_key_data: like new_block)
 			--
 		require
-			valid_key_size: Byte_sizes.has (a_key_data.count)
+			valid_key_size: Byte_sizes.has (a_key_data.count.to_natural_32)
 		local
 			i: INTEGER; initial: SPECIAL [NATURAL_8]
 		do
@@ -119,6 +113,11 @@ feature -- Access
 				i := i + 1
 			end
 			Result.append (" >>")
+		end
+
+	encrypted_size (byte_count: INTEGER): INTEGER
+		do
+			Result := (byte_count / Block_size).ceiling * Block_size
 		end
 
 feature -- Access attributes
@@ -250,29 +249,6 @@ feature -- Decryption
 				Result.area.copy_data (block_out, 0, offset, Block_size)
 				i := i + 1
 			end
-		end
-
-feature -- Constants
-
-	Bit_sizes: ARRAYED_LIST [INTEGER]
-		once
-			create Result.make (3)
-			across Byte_sizes as count loop
-				Result.extend (count.item * 8)
-			end
-		end
-
-	Block_size: INTEGER
-		local
-			key: AES_KEY
-		once
-			create key.make_spec_128
-			Result := key.Block_size
-		end
-
-	Byte_sizes: ARRAY [INTEGER]
-		once
-			Result := << 16, 24, 32 >>
 		end
 
 feature {NONE} -- Factory

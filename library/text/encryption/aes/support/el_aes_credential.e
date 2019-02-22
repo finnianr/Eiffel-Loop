@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-14 10:47:15 GMT (Wednesday 14th February 2018)"
-	revision: "7"
+	date: "2019-02-20 21:15:32 GMT (Wednesday 20th February 2019)"
+	revision: "8"
 
 class
 	EL_AES_CREDENTIAL
@@ -36,6 +36,11 @@ inherit
 	EL_MODULE_LIO
 
 	EL_MODULE_STRING_8
+
+	EL_AES_CONSTANTS
+		export
+			{ANY} Bit_sizes
+		end
 
 create
 	make, make_default
@@ -194,15 +199,9 @@ feature -- Factory
 	new_aes_encrypter (bit_count: NATURAL): EL_AES_ENCRYPTER
 		require
 			valid_pass_phrase: is_valid
+			valid_bit_count: Bit_sizes.has (bit_count)
 		do
-			inspect bit_count
-				when 256 then
-					create Result.make_256 (phrase)
-				when 192 then
-					create Result.make_192 (phrase)
-			else
-				create Result.make_128 (phrase)
-			end
+			create Result.make (phrase, bit_count)
 		end
 
 feature {NONE} -- Implementation

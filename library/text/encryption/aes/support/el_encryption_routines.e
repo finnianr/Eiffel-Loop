@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-02-20 21:17:03 GMT (Wednesday 20th February 2019)"
+	revision: "5"
 
 class
 	EL_ENCRYPTION_ROUTINES
 
 inherit
 	EL_BASE_64_ROUTINES
+
+	EL_AES_CONSTANTS
+		export
+			{ANY} Bit_sizes
+		end
 
 feature -- Conversion
 
@@ -39,17 +44,10 @@ feature -- Conversion
 feature -- Factory
 
 	new_aes_encrypter (pass_phrase: ZSTRING; bit_count: NATURAL): EL_AES_ENCRYPTER
+		require
+			valid_bit_count: Bit_sizes.has (bit_count)
 		do
-			inspect bit_count
-				when 128 then
-					create Result.make_128 (pass_phrase)
-				when 192 then
-					create Result.make_192 (pass_phrase)
-				when 256 then
-					create Result.make_256 (pass_phrase)
-			else
-				create Result.make_128 (pass_phrase)
-			end
+			create Result.make (pass_phrase, bit_count)
 		end
 
 feature {NONE} -- Implementation

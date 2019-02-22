@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-13 15:42:46 GMT (Thursday 13th December 2018)"
-	revision: "11"
+	date: "2019-02-20 21:05:38 GMT (Wednesday 20th February 2019)"
+	revision: "12"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -355,7 +355,7 @@ feature {NONE} -- Factory
 				key_file_path := new_file_path ("key.text.aes")
 			end
 			-- Upgraded to 256 April 2015
-			create encrypter.make_256 (User_input.line ("Private key password"))
+			create encrypter.make (User_input.line ("Private key password"), 256)
 			create Result.make_from_pkcs1_file (key_file_path, encrypter)
 		end
 

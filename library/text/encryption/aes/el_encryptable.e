@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-16 14:08:00 GMT (Saturday 16th February 2019)"
-	revision: "6"
+	date: "2019-02-20 21:11:59 GMT (Wednesday 20th February 2019)"
+	revision: "7"
 
 class
 	EL_ENCRYPTABLE
@@ -37,11 +37,6 @@ feature -- Status query
 feature -- Access
 
 	encrypter: EL_AES_ENCRYPTER
-
-	encrypted_size (byte_count: INTEGER): INTEGER
-		do
-			Result := (byte_count / encrypter.Block_size).ceiling * encrypter.Block_size
-		end
 
 feature {NONE} -- Constants
 

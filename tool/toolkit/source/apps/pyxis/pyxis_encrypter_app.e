@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 11:50:58 GMT (Sunday 15th October 2017)"
-	revision: "7"
+	date: "2019-02-20 21:05:38 GMT (Wednesday 20th February 2019)"
+	revision: "8"
 
 class
 	PYXIS_ENCRYPTER_APP
@@ -39,7 +39,7 @@ feature {NONE} -- Initiliazation
 	normal_initialize
 		do
 			if not is_test_mode then
-				create aes_encrypter.make_256 (User_input.line ("Enter pass phrase"))
+				create aes_encrypter.make (User_input.line ("Enter pass phrase"), 256)
 				lio.put_new_line
 			end
 			Precursor
@@ -63,7 +63,7 @@ feature -- Testing
 			plain_text: STRING
 		do
 			log.enter ("test_translation")
-			create aes_encrypter.make_128 ("happydays")
+			create aes_encrypter.make ("happydays", 128)
 			create pyxis_encrypter.make (a_file_path, create {EL_FILE_PATH}, aes_encrypter)
 			normal_run
 			aes_encrypter.reset

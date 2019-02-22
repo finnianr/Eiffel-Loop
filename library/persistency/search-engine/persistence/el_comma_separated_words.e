@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-16 14:16:13 GMT (Saturday 16th February 2019)"
-	revision: "2"
+	date: "2019-02-20 21:12:57 GMT (Wednesday 20th February 2019)"
+	revision: "3"
 
 class
 	EL_COMMA_SEPARATED_WORDS
@@ -56,7 +56,7 @@ feature -- Measurement
 		do
 			Result := reader.size_of_string (words)
 			if attached {EL_ENCRYPTABLE} reader as encryptable then
-				Result := encryptable.encrypted_size (Result)
+				Result := encryptable.encrypter.encrypted_size (Result)
 			end
 		end
 
