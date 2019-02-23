@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-15 18:05:56 GMT (Friday 15th February 2019)"
-	revision: "3"
+	date: "2019-02-23 11:51:26 GMT (Saturday 23rd February 2019)"
+	revision: "4"
 
 deferred class
 	EL_EQA_TEST_SET_EVALUATOR [G -> EQA_TEST_SET create default_create end]
@@ -44,6 +44,12 @@ feature {EL_MODULE_EIFFEL} -- Initialization
 feature -- Access
 
 	failure_table: HASH_TABLE [EXCEPTION, STRING]
+
+	test_set_name: STRING
+		-- class name of test set
+		do
+			Result := ({like item}).name
+		end
 
 feature -- Status query
 

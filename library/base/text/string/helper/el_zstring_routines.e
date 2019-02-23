@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-02 13:49:09 GMT (Wednesday 2nd January 2019)"
-	revision: "10"
+	date: "2019-02-23 12:39:10 GMT (Saturday 23rd February 2019)"
+	revision: "11"
 
 class
 	EL_ZSTRING_ROUTINES
@@ -49,12 +49,39 @@ feature {EL_MODULE_ZSTRING} -- Conversion
 			end
 		end
 
+	last_word (str: ZSTRING): ZSTRING
+		-- last alpha-numeric word in `str'
+		local
+			i: INTEGER
+		do
+			create Result.make (20)
+			from i := str.count until i < 1 or else str.is_alpha_numeric_item (i) loop
+				i := i - 1
+			end
+			from until i < 1 or else not str.is_alpha_numeric_item (i) loop
+				Result.append_character (str.item (i))
+				i := i - 1
+			end
+			Result.mirror
+		end
+
 	new_zstring (general: READABLE_STRING_GENERAL): ZSTRING
 		do
 			create Result.make_from_general (general)
 		end
 
 feature {EL_MODULE_ZSTRING} -- Status query
+
+	has_alpha_numeric (str: ZSTRING): BOOLEAN
+		-- `True' if `str' has an alpha numeric character
+		local
+			i: INTEGER
+		do
+			from i := 1 until Result or i > str.count loop
+				Result := str.is_alpha_numeric_item (i)
+				i := i + 1
+			end
+		end
 
 	is_variable_name (str: ZSTRING): BOOLEAN
 		local
