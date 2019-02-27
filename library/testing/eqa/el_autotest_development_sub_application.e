@@ -1,13 +1,18 @@
 note
-	description: "Sub application for calling a particular AutoTest test"
+	description: "[
+		Sub application allowing execution of multiple EQA unit tests. A summary of any failed tests is 
+		printed when all tests have finished executing.
+		
+		See any of the [$source AUTOTEST_DEVELOPMENT_APP] classes for an example.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-23 11:52:23 GMT (Saturday 23rd February 2019)"
-	revision: "12"
+	date: "2019-02-27 13:39:59 GMT (Wednesday 27th February 2019)"
+	revision: "13"
 
 deferred class
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION

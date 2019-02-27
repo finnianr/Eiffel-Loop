@@ -1,13 +1,24 @@
 note
-	description: "EQA test set evaluator"
+	description: "[
+		EQA test set evaluator that allows the use of inheritance in creating tests.
+		
+		Can be used in conjunction with class [$source EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION] to
+		create unit testing sub-applications.
+	]"
+	descendants: "[
+			EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]*
+				[$source HTTP_CONNECTION_TEST_EVALUATOR]
+				[$source SEARCH_ENGINE_TEST_EVALUATOR]
+					[$source ENCRYPTED_SEARCH_ENGINE_TEST_EVALUATOR]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-23 11:51:26 GMT (Saturday 23rd February 2019)"
-	revision: "4"
+	date: "2019-02-27 13:41:07 GMT (Wednesday 27th February 2019)"
+	revision: "5"
 
 deferred class
 	EL_EQA_TEST_SET_EVALUATOR [G -> EQA_TEST_SET create default_create end]

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-23 14:37:17 GMT (Saturday 23rd February 2019)"
-	revision: "7"
+	date: "2019-02-24 1:58:23 GMT (Sunday 24th February 2019)"
+	revision: "8"
 
 class
 	EL_WORD_TOKEN_TABLE
@@ -52,13 +52,6 @@ feature -- Access
 
 feature -- Status query
 
-	is_incomplete (tokens: EL_WORD_TOKEN_LIST): BOOLEAN
-		-- True if table has some missing values
-		-- (this might happen if a tokens data file became corrupted)
-		do
-			Result := not tokens.all_less_or_equal_to (word_list.count.to_character_32)
-		end
-
 	valid_token_list (tokens: EL_WORD_TOKEN_LIST; paragraph_list: EL_CHAIN [ZSTRING]): BOOLEAN
 		-- quick check to make sure `tokens' meets basic conditions to be valid
 		local
@@ -80,6 +73,7 @@ feature -- Status query
 			if found
 				and then last_token = tokens.last_token
 				and then tokens.occurrences (New_line_token) + 1 = non_empty_count
+				and then tokens.all_less_or_equal_to (count.to_character_32)
 			then
 				Result := True
 			end

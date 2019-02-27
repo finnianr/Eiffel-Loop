@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 12:06:00 GMT (Wednesday 20th February 2019)"
-	revision: "4"
+	date: "2019-02-27 13:31:24 GMT (Wednesday 27th February 2019)"
+	revision: "5"
 
 class
 	SEARCH_ENGINE_TEST_SET
@@ -30,15 +30,14 @@ feature -- Tests
 	test_persistent_word_table
 		local
 			word_list: like new_word_list
-			i: INTEGER; tokens: EL_TOKENIZED_STRING
+			i: INTEGER; tokens: EL_WORD_TOKEN_LIST
 			l_token_table: like token_table
 		do
 			word_list := new_word_list
 			from i := 1 until i > 64 loop
 				lio.put_integer_field ("hexagram", i)
 				lio.put_new_line
-				create tokens.make_from_string (token_table, Hexagram.english_titles [i])
-				token_table.notify
+				tokens := token_table.paragraph_tokens (Hexagram.english_titles [i])
 				if i \\ 8 = 0 then
 					l_token_table := token_table
 					create token_table.make (l_token_table.count)
@@ -52,44 +51,26 @@ feature -- Tests
 			word_list.close
 		end
 
-	test_encrypted_persistent_word_table
-		do
-			create encrypter.make_128 ("hexagram")
-			test_persistent_word_table
-		end
-
 feature {NONE} -- Events
 
 	on_prepare
 		do
 			Precursor
 			create token_table.make (100)
-			encrypter := Default_encrypter
 		end
 
 feature {NONE} -- Implementation
 
 	new_word_list: EL_COMMA_SEPARATED_WORDS_LIST
 		do
-			if encrypter = Default_encrypter then
-				create Result.make (token_table, Words_file_path)
-			else
-				create Result.make_encrypted (token_table, Words_file_path, encrypter)
-			end
+			create Result.make (token_table, Words_file_path)
 		end
 
 feature {NONE} -- Internal attributes
 
-	encrypter: EL_AES_ENCRYPTER
-
 	token_table: EL_WORD_TOKEN_TABLE
 
 feature {NONE} -- Constants
-
-	Default_encrypter: EL_AES_ENCRYPTER
-		once
-			create Result
-		end
 
 	Words_file_path: EL_FILE_PATH
 		once

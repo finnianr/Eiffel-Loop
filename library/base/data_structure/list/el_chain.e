@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-09 15:38:48 GMT (Wednesday 9th January 2019)"
-	revision: "13"
+	date: "2019-02-24 10:50:18 GMT (Sunday 24th February 2019)"
+	revision: "14"
 
 deferred class EL_CHAIN [G]
 
@@ -79,8 +79,15 @@ feature -- Access
 			end
 		end
 
+feature -- Item query
+
+	inverse_query_if (condition: EL_PREDICATE_QUERY_CONDITION [G]): like query
+		do
+			Result := query (not condition)
+		end
+
 	query (condition: EL_QUERY_CONDITION [G]): EL_ARRAYED_LIST [G]
-			-- songs matching criteria
+			-- all item meeting condition
 		local
 			indices: like indices_meeting; i: INTEGER
 		do
@@ -93,6 +100,7 @@ feature -- Access
 		end
 
 	query_if (condition: EL_PREDICATE_QUERY_CONDITION [G]): like query
+		-- all items meeting agent predicate condition
 		do
 			Result := query (condition)
 		end

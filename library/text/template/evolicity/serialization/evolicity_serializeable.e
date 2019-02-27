@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-14 17:54:04 GMT (Thursday 14th February 2019)"
-	revision: "15"
+	date: "2019-02-23 20:56:56 GMT (Saturday 23rd February 2019)"
+	revision: "16"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -179,7 +179,7 @@ feature {NONE} -- Implementation
 	stripped_template: ZSTRING
 			-- template stripped of any leading tabs
 		local
-			tab_count: NATURAL; new_line_tabs: ZSTRING
+			tab_count: NATURAL
 		do
 			create Result.make_from_general (template)
 			tab_count := Result.leading_occurrences ('%T').to_natural_32

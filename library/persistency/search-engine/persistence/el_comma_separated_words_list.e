@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-16 16:05:18 GMT (Saturday 16th February 2019)"
-	revision: "3"
+	date: "2019-02-25 12:37:49 GMT (Monday 25th February 2019)"
+	revision: "4"
 
 class
 	EL_COMMA_SEPARATED_WORDS_LIST
@@ -39,7 +39,7 @@ inherit
 			extend as chain_extend,
 			replace as chain_replace
 		export
-			{NONE} chain_remove, chain_replace
+			{ECD_CHAIN} set_area
 		end
 
 	EL_MODULE_BUILD_INFO
@@ -66,20 +66,19 @@ feature {NONE} -- Initialization
 
 	make (a_table: EL_WORD_TOKEN_TABLE; a_file_path: EL_FILE_PATH)
 		do
-			table := a_table
+			set_table (a_table)
 			make_from_file (a_file_path)
 		end
 
 	make_encrypted (a_table: EL_WORD_TOKEN_TABLE; a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
 			--
 		do
-			table := a_table
+			set_table (a_table)
 			make_from_encrypted_file (a_file_path, a_encrypter)
 		end
 
 	make_from_file (a_file_path: EL_FILE_PATH)
 		do
-			table.set_listener (Current)
 			is_restored := a_file_path.exists
 			Precursor (a_file_path)
 
@@ -108,8 +107,17 @@ feature -- Status query
 feature -- Measurement
 
 	estimated_byte_count: INTEGER
+		local
+			sum_header_count: INTEGER
 		do
-			Result := sum_integer (agent {like item}.byte_count (reader_writer))
+			sum_header_count := count * {PLATFORM}.Integer_32_bytes
+			Result := sum_header_count + sum_integer (agent {like item}.byte_count (reader_writer))
+		end
+
+	set_table (a_table: like table)
+		do
+			table := a_table
+			table.set_listener (Current)
 		end
 
 feature {NONE} -- Implementation

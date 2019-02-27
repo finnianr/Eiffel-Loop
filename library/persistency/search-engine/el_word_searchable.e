@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-23 13:18:25 GMT (Saturday 23rd February 2019)"
-	revision: "11"
+	date: "2019-02-24 1:58:23 GMT (Sunday 24th February 2019)"
+	revision: "12"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -36,11 +36,11 @@ feature -- Element change
 		do
 			if word_table /= a_word_table then
 				word_table := a_word_table
-				update_word_token_list
+				update_word_tokens
 			end
 		end
 
-	update_word_token_list
+	update_word_tokens
 			--
 		do
 			word_token_list := word_table.paragraph_list_tokens (searchable_paragraphs)
@@ -54,15 +54,15 @@ feature {NONE} -- Element change
 			if token_list.is_empty
 				or else not word_table.is_restored
 				or else not word_table.valid_token_list (word_token_list, searchable_paragraphs)
-			 	or else word_table.is_incomplete (word_token_list)
 			then
-				update_word_token_list
+				update_word_tokens
 			end
 		end
 
 feature -- Access
 
 	word_token_list: EL_WORD_TOKEN_LIST
+		-- tokenized form of `searchable_paragraphs'
 
 	word_match_extracts (search_words: ARRAYED_LIST [EL_WORD_TOKEN_LIST]): ARRAYED_LIST [like keywords_in_bold]
 			--
