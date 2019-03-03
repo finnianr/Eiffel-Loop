@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 9:58:40 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2019-03-03 14:45:07 GMT (Sunday 3rd March 2019)"
+	revision: "4"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -35,11 +35,4 @@ feature {NONE} -- Initialization
 			create internal_item.make_empty
 		end
 
-feature {NONE} -- Constants
-
-	Tuple: TUPLE [substring: ZSTRING]
-		once
-			create Result
-			Result.substring := ""
-		end
 end

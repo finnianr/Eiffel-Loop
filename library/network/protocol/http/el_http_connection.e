@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 13:04:58 GMT (Wednesday 20th February 2019)"
-	revision: "15"
+	date: "2019-03-03 15:01:08 GMT (Sunday 3rd March 2019)"
+	revision: "17"
 
 class
 	EL_HTTP_CONNECTION
@@ -102,6 +102,9 @@ feature -- Access
 	error_code: INTEGER
 		-- curl error code
 
+	headers: EL_CURL_HEADER_TABLE
+		-- request headers to send
+
 	http_error_code: NATURAL_16
 		local
 			pos_title, pos_space: INTEGER
@@ -127,9 +130,6 @@ feature -- Access
 		end
 
 	http_version: DOUBLE
-
-	headers: EL_CURL_HEADER_TABLE
-		-- request headers to send
 
 	last_headers: EL_HTTP_HEADERS
 		do
@@ -202,12 +202,17 @@ feature -- Basic operations
 
 	open (a_url: READABLE_STRING_GENERAL)
 		do
+			open_with_parameters (a_url, Default_parameter_table)
+		end
+
+	open_with_parameters (a_url: READABLE_STRING_GENERAL; parameter_table: like Default_parameter_table)
+		do
 			if is_lio_enabled then
 				lio.put_labeled_string ("open", a_url); lio.put_new_line
 			end
 			reset
 			make_from_pointer (Curl.new_pointer)
-			set_url (a_url)
+			set_url_with_parameters (a_url, parameter_table)
 			set_curl_boolean_option (CURLOPT_verbose, False)
 			if not user_agent.is_empty then
 				set_curl_string_8_option (CURLOPT_useragent, user_agent)
@@ -236,9 +241,9 @@ feature -- Basic operations
 
 feature -- Status setting
 
-	disable_cookies
+	disable_cookie_load
 		do
-			disable_cookie_store; disable_cookie_load
+			create cookie_load_path
 		end
 
 	disable_cookie_store
@@ -246,9 +251,9 @@ feature -- Status setting
 			create cookie_store_path
 		end
 
-	disable_cookie_load
+	disable_cookies
 		do
-			create cookie_load_path
+			disable_cookie_store; disable_cookie_load
 		end
 
 	disable_verbose
@@ -290,13 +295,6 @@ feature -- Element change
 			set_curl_string_option (CURLOPT_cainfo, cacert_path)
 		end
 
-	set_cookie_paths (a_cookie_path: like cookie_store_path)
-			-- Set both `cookie_load_path' and `cookie_store_path' to the same file
-		do
-			cookie_load_path := a_cookie_path
-			cookie_store_path := a_cookie_path
-		end
-
 	set_cookie_load_path (a_cookie_load_path: like cookie_load_path)
 		-- Enables the cookie engine, making the connection parse and send cookies on subsequent requests.
 		-- The cookie data can be in either the old Netscape / Mozilla cookie data format or just
@@ -312,6 +310,13 @@ feature -- Element change
 		-- See also: https://curl.haxx.se/libcurl/c/CURLOPT_COOKIEFILE.html
 		do
 			cookie_load_path := a_cookie_load_path
+		end
+
+	set_cookie_paths (a_cookie_path: like cookie_store_path)
+			-- Set both `cookie_load_path' and `cookie_store_path' to the same file
+		do
+			cookie_load_path := a_cookie_path
+			cookie_store_path := a_cookie_path
 		end
 
 	set_cookie_store_path (a_cookie_store_path: like cookie_store_path)
@@ -342,17 +347,17 @@ feature -- Element change
 			set_curl_integer_option (CURLOPT_http_version, option)
 		end
 
-	set_post_parameters (parameters: EL_URL_QUERY_HASH_TABLE)
-		do
-			set_post_data (parameters.url_query_string)
-		end
-
 	set_post_data (raw_string_8: STRING)
 		-- You must make sure that the data is formatted the way you want the server to receive it.
 		-- libcurl will not convert or encode it for you in any way. For example, the web server may
 		-- assume that this data is url-encoded.
 		do
 			post_data.set_string (raw_string_8)
+		end
+
+	set_post_parameters (parameters: EL_URL_QUERY_HASH_TABLE)
+		do
+			set_post_data (parameters.url_query_string)
 		end
 
 	set_ssl_certificate_verification (flag: BOOLEAN)
@@ -368,24 +373,6 @@ feature -- Element change
      		-- subjectAltName) fields, libcurl will refuse to connect.
 		do
 			set_curl_boolean_option (CURLOPT_ssl_verifyhost, flag)
-		end
-
-	set_ssl_version (version: INTEGER)
-			-- 0 is default
-		require
-			valid_version: (<< 0, 2, 3 >>).has (version)
-		local
-			option: INTEGER
-		do
-			inspect version
-				when 2 then
-					option := curl_sslversion_sslv2
-				when 3 then
-					option := curl_sslversion_sslv3
-			else
-				option := curl_sslversion_default
-			end
-			set_curl_integer_option (CURLOPT_sslversion, option)
 		end
 
 	set_ssl_tls_version (version: DOUBLE)
@@ -414,6 +401,24 @@ feature -- Element change
 			set_curl_integer_option (CURLOPT_sslversion, curl_sslversion_TLSv1)
 		end
 
+	set_ssl_version (version: INTEGER)
+			-- 0 is default
+		require
+			valid_version: (<< 0, 2, 3 >>).has (version)
+		local
+			option: INTEGER
+		do
+			inspect version
+				when 2 then
+					option := curl_sslversion_sslv2
+				when 3 then
+					option := curl_sslversion_sslv3
+			else
+				option := curl_sslversion_default
+			end
+			set_curl_integer_option (CURLOPT_sslversion, option)
+		end
+
 	set_timeout (millisecs: INTEGER)
 			-- set maximum time in milli-seconds the request is allowed to take
 		do
@@ -433,50 +438,27 @@ feature -- Element change
 		end
 
 	set_url (a_url: READABLE_STRING_GENERAL)
+		do
+			set_url_with_parameters (a_url, Default_parameter_table)
+		end
+
+	set_url_with_parameters (a_url: READABLE_STRING_GENERAL; parameter_table: like Default_parameter_table)
 		local
-			start_index, path_index: INTEGER; encoded: like Encoded_url
+			l_encoded: like encoded
 		do
 			url.wipe_out
 			url.append_string_general (a_url)
-			encoded := Encoded_url
-			encoded.wipe_out
-			start_index := a_url.substring_index (Protocol_sign, 1)
-			if start_index > 0 then
-				path_index := a_url.index_of ('/', start_index + 3)
-				if path_index > 0 then
-					encoded.append_unencoded_substring_general (a_url, 1, path_index - 1)
-					encoded.append_substring_general (a_url, path_index, a_url.count)
-				else
-					encoded.append_unencoded_substring_general (a_url, 1, a_url.count)
-				end
-			end
+			l_encoded := encoded (a_url, parameter_table)
 			if is_lio_enabled then
-				lio.put_line (encoded)
+				lio.put_line (l_encoded)
 			end
 --			Curl already does url encoding
-			set_curl_string_8_option (CURLOPT_url, encoded)
+			set_curl_string_8_option (CURLOPT_url, l_encoded)
 			-- Essential calls for using https
 			if a_url.starts_with (Secure_protocol) then
 				set_ssl_certificate_verification (is_certificate_verified)
 				set_ssl_hostname_verification (is_host_verified)
 			end
-		end
-
-	set_url_arguments (arguments: READABLE_STRING_GENERAL)
-		local
-			pos_qmark: INTEGER
-			l_url: like url
-		do
-			create l_url.make_from_general (arguments)
-			pos_qmark := l_url.index_of ('?', 1)
-			if pos_qmark > 0 then
-				l_url.replace_substring_general (arguments, pos_qmark + 1, l_url.count)
-			else
-				l_url.grow (l_url.count + arguments.count + 1)
-				l_url.append_character ('?')
-				l_url.append_string_general (arguments)
-			end
-			set_url (l_url)
 		end
 
 	set_user_agent (a_user_agent: STRING)
@@ -566,6 +548,12 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			end
 		end
 
+	enable_get_method
+		do
+			set_curl_boolean_option (CURLOPT_httpget, True)
+			set_curl_boolean_option (CURLOPT_post, False)
+		end
+
 	enable_post_method
 		do
 			set_curl_boolean_option (CURLOPT_httpget, False)
@@ -574,12 +562,6 @@ feature {EL_HTTP_COMMAND} -- Implementation
 				set_curl_option_with_data (CURLOPT_postfields, post_data.item)
 				set_curl_integer_option (CURLOPT_postfieldsize, post_data.count)
 			end
-		end
-
-	enable_get_method
-		do
-			set_curl_boolean_option (CURLOPT_httpget, True)
-			set_curl_boolean_option (CURLOPT_post, False)
 		end
 
 	set_cookies
@@ -628,6 +610,59 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	encoded (a_url: READABLE_STRING_GENERAL; parameter_table: like Default_parameter_table): like Encoded_url
+		local
+			start_index, end_index, path_index, qmark_index, equal_index: INTEGER
+			parameter_list: EL_SPLIT_STRING_LIST [STRING_32]
+			parameter_string: STRING_32
+		do
+			Result := Encoded_url
+			Result.wipe_out
+			start_index := a_url.substring_index (Protocol_sign, 1)
+			qmark_index := a_url.index_of ('?', 1)
+			if qmark_index > 0 then
+				end_index := qmark_index - 1
+			else
+				end_index := a_url.count
+			end
+			if start_index > 0 then
+				path_index := a_url.index_of ('/', start_index + 3)
+				if path_index > 0 then
+					Result.append_unencoded_substring_general (a_url, 1, path_index - 1)
+					Result.append_substring_general (a_url, path_index, end_index)
+				else
+					Result.append_unencoded_substring_general (a_url, 1, end_index)
+				end
+			end
+			if qmark_index > 0 then
+				Result.append_character ('?')
+				parameter_string := a_url.substring (qmark_index + 1, a_url.count).to_string_32
+				create parameter_list.make (parameter_string, "&")
+				from parameter_list.start until parameter_list.after loop
+					if parameter_list.index > 1 then
+						Result.append_character ('&')
+					end
+					start_index := parameter_list.start_index
+					end_index := parameter_list.end_index
+					equal_index := parameter_list.item.index_of ('=', start_index)
+					if start_index < equal_index  and equal_index < parameter_list.end_index then
+						Result.append_substring_general (parameter_string, start_index, equal_index - 1)
+						Result.append_character ('=')
+						Result.append_substring_general (parameter_string, equal_index + 1, end_index)
+					end
+					parameter_list.forth
+				end
+			end
+			across parameter_table as table loop
+				if table.is_first and qmark_index = 0 then
+					Result.append_character ('?')
+				end
+				Result.append_general (table.key)
+				Result.append_character ('=')
+				Result.append_general (table.item)
+			end
+		end
+
 	set_curl_integer_option (a_option: INTEGER; option: INTEGER)
 		do
 			Curl.setopt_integer (self_ptr, a_option, option)
@@ -661,12 +696,17 @@ feature {NONE} -- Implementation attributes
 
 feature {NONE} -- Constants
 
+	Default_parameter_table: HASH_TABLE [READABLE_STRING_GENERAL, STRING]
+		once
+			create {HASH_TABLE [STRING, STRING]} Result.make (0)
+		end
+
+	Doctype_declaration: STRING = "<!DOCTYPE"
+
 	Encoded_url: EL_URL_STRING_8
 		once
 			create Result.make_empty
 		end
-
-	Doctype_declaration: STRING = "<!DOCTYPE"
 
 	Is_memory_owned: BOOLEAN = True
 

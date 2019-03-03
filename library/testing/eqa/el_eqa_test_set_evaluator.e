@@ -1,6 +1,6 @@
 note
 	description: "[
-		EQA test set evaluator that allows the use of inheritance in creating tests.
+		EQA test set evaluator that makes it possible to run inherited test procedures.
 		
 		Can be used in conjunction with class [$source EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION] to
 		create unit testing sub-applications.
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-27 13:41:07 GMT (Wednesday 27th February 2019)"
-	revision: "5"
+	date: "2019-02-27 14:04:29 GMT (Wednesday 27th February 2019)"
+	revision: "6"
 
 deferred class
 	EL_EQA_TEST_SET_EVALUATOR [G -> EQA_TEST_SET create default_create end]
