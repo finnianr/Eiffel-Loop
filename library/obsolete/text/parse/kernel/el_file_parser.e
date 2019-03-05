@@ -50,7 +50,7 @@ feature -- Element Change
   	set_source_text_from_file (file_path: EL_FILE_PATH)
  			--
  		local
- 			lines: EL_FILE_LINE_SOURCE; input: PLAIN_TEXT_FILE
+ 			lines: EL_PLAIN_TEXT_LINE_SOURCE; input: PLAIN_TEXT_FILE
  		do
  			create input.make_open_read (file_path)
  			create lines.make_from_file (input)
@@ -59,7 +59,7 @@ feature -- Element Change
  			input.close
  		end
 
-	set_source_text_from_line_source (lines: EL_FILE_LINE_SOURCE)
+	set_source_text_from_line_source (lines: EL_PLAIN_TEXT_LINE_SOURCE)
 			--
 		local
 			text: STRING_GENERAL; line: EL_ASTRING

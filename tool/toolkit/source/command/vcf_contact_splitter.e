@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 16:48:22 GMT (Monday 29th October 2018)"
-	revision: "7"
+	date: "2019-03-05 13:56:14 GMT (Tuesday 5th March 2019)"
+	revision: "8"
 
 class
 	VCF_CONTACT_SPLITTER
@@ -44,7 +44,7 @@ feature -- Basic operations
 
 	execute
 		local
-			source_lines: EL_FILE_LINE_SOURCE
+			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			log.enter ("execute")
 			create source_lines.make (vcf_path)

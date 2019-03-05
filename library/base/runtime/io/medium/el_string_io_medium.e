@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:30:26 GMT (Wednesday 17th October 2018)"
-	revision: "4"
+	date: "2019-03-05 11:31:08 GMT (Tuesday 5th March 2019)"
+	revision: "5"
 
 deferred class
 	EL_STRING_IO_MEDIUM
@@ -17,7 +17,6 @@ inherit
 		rename
 			has as has_8,
 			item as item_8,
-			last_string as last_string_8,
 			make as make_with_name_8,
 			make_open_write as make_file_open_write,
 			put_string as put_raw_string_8,
@@ -45,24 +44,24 @@ inherit
 
 	EL_OUTPUT_MEDIUM
 		redefine
-			put_bom
+			make_default, put_bom
 		end
 
 	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
-	make (size: INTEGER)
-		local
-			object_ptr: POINTER_REF
+	make_default
 		do
-			create last_string_8.make_empty
-			set_last_string (new_string (0))
-			text := new_string (size)
-			create object_ptr
-			object_ptr.set_item ($Current)
-			make_with_name (object_ptr.out)
+			Precursor
+			create last_string.make_empty
+			make_with_name (new_name)
+		end
+
+	make (size: INTEGER)
+		do
 			make_default
+			text := new_string (size)
 		end
 
 	make_open_read_from_text (a_text: like text)
@@ -97,10 +96,6 @@ feature -- Access
 	item: CHARACTER_32
 		do
 			Result := text [position]
-		end
-
-	last_string: like text
-		deferred
 		end
 
 	position: INTEGER
@@ -246,7 +241,7 @@ feature -- Input
 			else
 				end_index := text.count
 			end
-			set_last_string (text.substring (start_index, end_index))
+			set_last_string (start_index, end_index)
 			position := end_index + 1
 		end
 
@@ -256,7 +251,7 @@ feature -- Input
 		do
 			start_index := position + 1
 			end_index := (start_index + nb_char -1).min (count)
-			set_last_string (text.substring (start_index, end_index))
+			set_last_string (start_index, end_index)
 			position := end_index
 		end
 
@@ -291,11 +286,31 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
+	new_name: STRING
+		local
+			id: like Unique_id
+		do
+			create Result.make (50)
+			Result.append (generator)
+			id := Unique_id
+			id.set_item (id.item + 1)
+			Result.append_character ('-')
+			Result.append_natural_32 (id.item)
+		end
+
 	new_string (a_count: INTEGER): like text
 		deferred
 		end
-	set_last_string (a_string: like last_string)
+
+	set_last_string (start_index, end_index: INTEGER)
 		deferred
+		end
+
+feature {NONE} -- Initialization
+
+	Unique_id: NATURAL_32_REF
+		once
+			create Result
 		end
 
 end

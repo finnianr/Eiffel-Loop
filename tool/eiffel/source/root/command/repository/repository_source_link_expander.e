@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 14:33:20 GMT (Wednesday 17th October 2018)"
-	revision: "3"
+	date: "2019-03-05 14:14:26 GMT (Tuesday 5th March 2019)"
+	revision: "4"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -52,7 +52,7 @@ feature -- Basic operations
 
 	execute
 		local
-			lines: EL_FILE_LINE_SOURCE; file_out: EL_PLAIN_TEXT_FILE
+			lines: EL_PLAIN_TEXT_LINE_SOURCE; file_out: EL_PLAIN_TEXT_FILE
 		do
 			log_thread_count
 			ecf_list.do_all (agent {EIFFEL_CONFIGURATION_FILE}.read_source_files)

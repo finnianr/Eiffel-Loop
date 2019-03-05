@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 12:29:24 GMT (Friday 12th October 2018)"
-	revision: "10"
+	date: "2019-03-05 10:00:23 GMT (Tuesday 5th March 2019)"
+	revision: "11"
 
 class
 	PYXIS_TO_XML_CONVERTER
@@ -32,6 +32,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 					output_path := source_path.with_new_extension ("ecf")
 				else
 					output_path := source_path.without_extension
+					if not output_path.base.has ('.') then
+						output_path.add_extension ("xml")
+					end
 				end
 			else
 				File_system.make_directory (a_output_path.parent)

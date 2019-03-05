@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-07 9:23:23 GMT (Friday 7th September 2018)"
-	revision: "4"
+	date: "2019-03-05 14:10:45 GMT (Tuesday 5th March 2019)"
+	revision: "5"
 
 deferred class
 	EL_HTML_FILE_SYNC_ITEM
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			if html_path.exists then
-				do_once_with_file_lines (agent find_meta_digest, create {EL_FILE_LINE_SOURCE}.make_latin (1, html_path))
+				do_once_with_file_lines (agent find_meta_digest, create {EL_PLAIN_TEXT_LINE_SOURCE}.make_latin (1, html_path))
 			end
 			make_sync
 		end

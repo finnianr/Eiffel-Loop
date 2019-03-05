@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-28 16:29:21 GMT (Thursday 28th June 2018)"
-	revision: "8"
+	date: "2019-03-05 14:01:45 GMT (Tuesday 5th March 2019)"
+	revision: "9"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -80,7 +80,7 @@ feature {EQA_TEST_SET} -- Implementation
 
 		local
 			lines: EL_ZSTRING_LIST; line, trim_line: ZSTRING
-			line_source: EL_FILE_LINE_SOURCE; file_out: EL_PLAIN_TEXT_FILE
+			line_source: EL_PLAIN_TEXT_LINE_SOURCE; file_out: EL_PLAIN_TEXT_FILE
 		do
 			lio.put_path_field ("add_check_attribute", file_path)
 			lio.put_new_line

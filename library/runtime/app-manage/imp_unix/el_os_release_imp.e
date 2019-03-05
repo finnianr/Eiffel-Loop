@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 10:09:47 GMT (Tuesday 5th June 2018)"
-	revision: "2"
+	date: "2019-03-05 13:54:29 GMT (Tuesday 5th March 2019)"
+	revision: "3"
 
 class
 	EL_OS_RELEASE_IMP
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			source: EL_FILE_LINE_SOURCE
+			source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			Precursor
 			name := Empty_string

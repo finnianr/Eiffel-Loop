@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-02 13:48:39 GMT (Tuesday 2nd October 2018)"
-	revision: "1"
+	date: "2019-03-05 14:09:17 GMT (Tuesday 5th March 2019)"
+	revision: "2"
 
 class
 	CLASS_STATISTICS
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make (source_path: EL_FILE_PATH)
 		local
-			source_lines: EL_FILE_LINE_SOURCE
+			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make_machine
 			create source_lines.make (source_path)

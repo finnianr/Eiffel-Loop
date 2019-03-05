@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-03-05 14:23:58 GMT (Tuesday 5th March 2019)"
+	revision: "5"
 
 class
 	M3U_PLAYLIST_READER
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 	make (a_file_path: EL_FILE_PATH)
 			-- Build object from xml file
 		local
-			lines: EL_FILE_LINE_SOURCE
+			lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make_list; make_machine
 

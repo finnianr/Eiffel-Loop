@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:24:12 GMT (Thursday 15th November 2018)"
-	revision: "7"
+	date: "2019-03-05 14:39:22 GMT (Tuesday 5th March 2019)"
+	revision: "8"
 
 class
 	EL_XHTML_STRING_LIST
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 	make_from_file (file_path: EL_FILE_PATH)
 			--
 		local
-			line_source: EL_FILE_LINE_SOURCE
+			line_source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make_list (10)
 			create text_group_end_tags.make_from_array (<< "</p>" >>)

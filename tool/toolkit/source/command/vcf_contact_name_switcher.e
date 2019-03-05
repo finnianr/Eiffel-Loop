@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-22 11:28:49 GMT (Thursday 22nd February 2018)"
-	revision: "4"
+	date: "2019-03-05 13:56:08 GMT (Tuesday 5th March 2019)"
+	revision: "5"
 
 class
 	VCF_CONTACT_NAME_SWITCHER
@@ -42,7 +42,7 @@ feature -- Basic operations
 
 	execute
 		local
-			source_lines: EL_FILE_LINE_SOURCE
+			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			log.enter ("execute")
 			create source_lines.make_latin (1, vcf_path)

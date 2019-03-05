@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 
 	Line_processing_enabled: BOOLEAN = true
 
-	do_with_lines (lines: EL_FILE_LINE_SOURCE)
+	do_with_lines (lines: EL_PLAIN_TEXT_LINE_SOURCE)
 			--
 		do
 			lines.compare_objects

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 14:39:36 GMT (Monday 5th November 2018)"
-	revision: "4"
+	date: "2019-03-05 14:12:13 GMT (Tuesday 5th March 2019)"
+	revision: "5"
 
 class
 	SOURCE_MODEL
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 
 	make (a_source_path: like source_path)
 		local
-			input_lines: EL_FILE_LINE_SOURCE
+			input_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make_machine
 			source_path := a_source_path

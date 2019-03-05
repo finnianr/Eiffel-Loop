@@ -6,19 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2019-03-05 13:48:17 GMT (Tuesday 5th March 2019)"
+	revision: "4"
 
 class
-	EL_ENCRYPTED_FILE_LINE_SOURCE
+	EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE
 
 inherit
-	EL_FILE_LINE_SOURCE
+	EL_PLAIN_TEXT_LINE_SOURCE
 		rename
-			make as make_line_source,
-			text_file as encrypted_text_file
+			make as make_line_source
 		redefine
-			encrypted_text_file
+			Default_file
 		end
 
 create
@@ -29,11 +28,14 @@ feature {NONE} -- Initialization
 	make (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
 		do
 			make_latin (1, a_file_path)
-			encrypted_text_file.set_encrypter (a_encrypter)
+			file.set_encrypter (a_encrypter)
 		end
 
-feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
+feature {NONE} -- Constants
 
-	encrypted_text_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
+	Default_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
+		once
+			create Result.make_with_name (Precursor.path.name)
+		end
 
 end

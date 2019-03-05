@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 16:08:48 GMT (Sunday 23rd December 2018)"
-	revision: "9"
+	date: "2019-03-05 14:12:06 GMT (Tuesday 5th March 2019)"
+	revision: "10"
 
 class
 	CODEC_GENERATOR
@@ -41,7 +41,7 @@ feature -- Basic operations
 
 	execute
 		local
-			source_lines: EL_FILE_LINE_SOURCE
+			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			log.enter ("execute")
 			create source_lines.make (source_path)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:21:04 GMT (Thursday 15th November 2018)"
-	revision: "9"
+	date: "2019-03-05 14:15:39 GMT (Tuesday 5th March 2019)"
+	revision: "10"
 
 class
 	EL_HTML_DOC_TYPE
@@ -45,7 +45,7 @@ feature -- Element change
 
 	set_from_file (a_file_path: EL_FILE_PATH)
 		do
-			do_once_with_file_lines (agent find_charset, create {EL_FILE_LINE_SOURCE}.make (a_file_path))
+			do_once_with_file_lines (agent find_charset, create {EL_PLAIN_TEXT_LINE_SOURCE}.make (a_file_path))
 		end
 
 feature {NONE} -- State handlers

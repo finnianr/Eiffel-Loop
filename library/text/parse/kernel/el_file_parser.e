@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:04 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-03-05 18:22:46 GMT (Tuesday 5th March 2019)"
+	revision: "6"
 
 deferred class
 	EL_FILE_PARSER
@@ -49,32 +49,21 @@ feature -- Element Change
  			set_source_text_from_line_source (new_input_lines (file_path))
  		end
 
-	set_source_text_from_line_source (lines: EL_FILE_LINE_SOURCE)
+	set_source_text_from_line_source (lines: EL_PLAIN_TEXT_LINE_SOURCE)
 			--
 		do
  			source_file_path := lines.file_path
  			set_encoding_from_other (lines) -- May have detected UTF-8 BOM
- 			set_source_text (new_source_text (lines))
+ 			set_source_text (lines.joined)
 		end
 
 feature {NONE} -- Factory
 
- 	new_input_lines (file_path: EL_FILE_PATH): EL_FILE_LINE_SOURCE
+ 	new_input_lines (file_path: EL_FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
  		do
  			create Result.make_encoded (Current, file_path)
+ 			Result.enable_shared_item
  		end
-
-	new_source_text (lines: EL_FILE_LINE_SOURCE): ZSTRING
-		do
- 			create Result.make (lines.byte_count)
-			from lines.start until lines.after loop
-				if not Result.is_empty then
-					Result.append_z_code (10)
-				end
-				Result.append_string (lines.item)
-				lines.forth
-			end
-		end
 
 feature {NONE} -- Internal attributes
 

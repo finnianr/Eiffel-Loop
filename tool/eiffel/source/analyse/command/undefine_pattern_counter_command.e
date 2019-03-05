@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 15:44:01 GMT (Sunday 23rd December 2018)"
-	revision: "3"
+	date: "2019-03-05 14:12:30 GMT (Tuesday 5th March 2019)"
+	revision: "4"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -82,7 +82,7 @@ feature -- Basic operations
 
 	process_file (source_path: EL_FILE_PATH)
 		local
-			source_lines: EL_FILE_LINE_SOURCE
+			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			total_class_count := total_class_count + 1
 			pattern_count := 0

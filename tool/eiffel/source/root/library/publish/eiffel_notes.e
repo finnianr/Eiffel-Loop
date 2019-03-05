@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 12:10:35 GMT (Wednesday 31st October 2018)"
-	revision: "12"
+	date: "2019-03-05 14:11:17 GMT (Tuesday 5th March 2019)"
+	revision: "13"
 
 class
 	EIFFEL_NOTES
@@ -116,7 +116,7 @@ feature -- Basic operations
 
 	fill (source_path: EL_FILE_PATH)
 		do
-			do_once_with_file_lines (agent find_note_section, create {EL_FILE_LINE_SOURCE}.make_latin (1, source_path))
+			do_once_with_file_lines (agent find_note_section, create {EL_PLAIN_TEXT_LINE_SOURCE}.make_latin (1, source_path))
 			across fields.current_keys as key loop
 				if fields.item (key.item).is_empty then
 					fields.remove (key.item)

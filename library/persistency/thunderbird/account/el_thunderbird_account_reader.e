@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:31:01 GMT (Friday 18th January 2019)"
-	revision: "10"
+	date: "2019-03-05 13:58:09 GMT (Tuesday 5th March 2019)"
+	revision: "11"
 
 class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 
 	make_from_file (a_file_path: EL_FILE_PATH)
 		local
-			profile_lines: EL_FILE_LINE_SOURCE; mail_dir_path_steps: EL_PATH_STEPS
+			profile_lines: EL_PLAIN_TEXT_LINE_SOURCE; mail_dir_path_steps: EL_PATH_STEPS
 		do
 			Precursor (a_file_path)
 			lio.put_labeled_string ("Account", account)
@@ -61,6 +61,8 @@ feature {NONE} -- Initialization
 			mail_dir_path_steps := home_dir
 			mail_dir_path_steps.extend (".thunderbird")
 			create profile_lines.make (mail_dir_path_steps.as_directory_path + "profiles.ini")
+			profile_lines.enable_shared_item
+			
 			across profile_lines as line loop
 				if line.item.starts_with (Path_equals) then
 					mail_dir_path_steps.extend (line.item.split ('=').last)

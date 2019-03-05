@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-02 12:31:29 GMT (Wednesday 2nd January 2019)"
-	revision: "13"
+	date: "2019-03-05 17:27:23 GMT (Tuesday 5th March 2019)"
+	revision: "14"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -61,7 +61,8 @@ feature -- Access
 
 	title: ZSTRING
 		do
-			Result := Title_template #$ [repository.name, category_title, name]
+--			Result := Title_template #$ [repository.name, category_title, name]
+			Result := relative_file_path.without_extension.base
 		end
 
 feature -- Access

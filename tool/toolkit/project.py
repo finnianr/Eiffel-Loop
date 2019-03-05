@@ -2,12 +2,16 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 15); build = 481
+version = (1, 2, 16); build = 482
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.16
+# fixed bug in EL_FILE_LINE_SOURCE when calling reader.append_next_line
+
 
 # 1.2.15
 # Finished DUPLICITY_BACKUP_APP

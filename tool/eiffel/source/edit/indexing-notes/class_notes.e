@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:47:15 GMT (Wednesday 17th October 2018)"
-	revision: "8"
+	date: "2019-03-05 14:11:58 GMT (Tuesday 5th March 2019)"
+	revision: "9"
 
 class
 	CLASS_NOTES
@@ -35,7 +35,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (class_lines: EL_FILE_LINE_SOURCE; default_values: EL_HASH_TABLE [ZSTRING, STRING])
+	make (class_lines: EL_PLAIN_TEXT_LINE_SOURCE; default_values: EL_HASH_TABLE [ZSTRING, STRING])
 		do
 			make_machine
 			class_name := class_lines.file_path.base_sans_extension

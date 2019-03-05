@@ -1,7 +1,7 @@
 pyxis-doc:
 	version = 1.0; encoding = "UTF-8"
 
-# My Ching Credits
+# Testing UTF-8 encoding
 translations:
 	item:
 		id = "{credits}"
@@ -32,4 +32,13 @@ translations:
 		translation:
 			lang = en
 			"My Ching Version %S"
+
+	item:
+		id = "{Apple}"
+		translation:
+			lang = de; check = true
+			"Apple™"
+		translation:
+			lang = en
+			"Apple™"
 

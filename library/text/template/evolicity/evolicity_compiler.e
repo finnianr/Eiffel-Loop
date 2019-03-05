@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-30 10:33:49 GMT (Tuesday 30th October 2018)"
-	revision: "7"
+	date: "2019-03-05 18:22:46 GMT (Tuesday 5th March 2019)"
+	revision: "8"
 
 class
 	EVOLICITY_COMPILER
@@ -66,7 +66,7 @@ feature -- Element change
 			Precursor (file_path)
 		end
 
-	set_source_text_from_line_source (lines: EL_FILE_LINE_SOURCE)
+	set_source_text_from_line_source (lines: EL_PLAIN_TEXT_LINE_SOURCE)
 			--
 		local
 			compiled_source_path: like source_file_path
@@ -80,10 +80,10 @@ feature -- Element change
 			then
 				read_tokens_text (compiled_source_path)
 				tokens_view := pattern.new_text_view (tokens_text)
-				source_view := pattern.new_text_view (new_source_text (lines))
+				source_view := pattern.new_text_view (lines.joined)
 	 			reset
 			else
-	 			set_source_text (new_source_text (lines))
+	 			set_source_text (lines.joined)
 	 			-- Check write permission
 				if compiled_source_path.parent.exists_and_is_writeable then
 					write_tokens_text (compiled_source_path)

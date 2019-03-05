@@ -1,9 +1,11 @@
 pyxis-doc:
-	version = 1.0; encoding = "UTF-8"
+	version = 1.0; encoding = "ISO-8859-15"
+
+# Testing ISO-8859-15 encoding
 
 translations:
 	item:
-		id = "{â‚¬}"
+		id = "{¤}"
 		# first has no check
 		translation:
 			lang = de
@@ -13,7 +15,7 @@ translations:
 			"Euro Currency Sign"
 
 	item:
-		id = "{Å¸Å“}"
+		id = "{¾½}"
 		translation:
 			lang = de; check = true
 			"Latin-15 Zeichen"
@@ -21,13 +23,5 @@ translations:
 			lang = en
 			"Latin-15 characters"
 
-	item:
-		id = "{Apple}"
-		translation:
-			lang = de; check = true
-			"Appleâ„¢"
-		translation:
-			lang = en
-			"Appleâ„¢"
 
 

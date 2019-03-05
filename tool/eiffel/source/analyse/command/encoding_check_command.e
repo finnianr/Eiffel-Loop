@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 15:43:26 GMT (Sunday 23rd December 2018)"
-	revision: "6"
+	date: "2019-03-05 14:13:59 GMT (Tuesday 5th March 2019)"
+	revision: "7"
 
 class
 	ENCODING_CHECK_COMMAND
@@ -28,7 +28,7 @@ feature -- Basic operations
 
 	process_file (source_path: EL_FILE_PATH)
 		local
-			source_lines: EL_FILE_LINE_SOURCE; relative_source_path: EL_FILE_PATH
+			source_lines: EL_PLAIN_TEXT_LINE_SOURCE; relative_source_path: EL_FILE_PATH
 			source_32: STRING_32; source_utf_8: STRING
 			last_date: INTEGER; source_out: PLAIN_TEXT_FILE
 		do

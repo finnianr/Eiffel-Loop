@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-24 12:26:38 GMT (Monday 24th December 2018)"
-	revision: "4"
+	date: "2019-03-04 21:29:58 GMT (Monday 4th March 2019)"
+	revision: "5"
 
 class
 	EL_FTP_SYNC_ITEM_TABLE
@@ -58,13 +58,19 @@ feature -- Element change
 
 	set_from_file (a_file_path: EL_FILE_PATH)
 		local
-			nvp: EL_NAME_VALUE_PAIR [ZSTRING]
+			nvp: EL_NAME_VALUE_PAIR [ZSTRING]; condition: BOOLEAN
+			line_source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			file_path := a_file_path
 			if file_path.exists then
 				create nvp.make_empty
-				across create {EL_FILE_LINE_SOURCE}.make (file_path) as line loop
+				create line_source.make (file_path)
+				line_source.enable_shared_item
+				across line_source as line loop
 					nvp.set_from_string (line.item, ':')
+					if nvp.value.ends_with_general ("youtube_video.html") then
+						condition := true
+					end
 					extend (nvp.name.to_natural, nvp.value)
 				end
 			end

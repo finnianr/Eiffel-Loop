@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:38:33 GMT (Friday 18th January 2019)"
-	revision: "6"
+	date: "2019-03-05 14:24:23 GMT (Tuesday 5th March 2019)"
+	revision: "7"
 
 class
 	RBOX_PLAYLIST_ARRAY
@@ -169,7 +169,7 @@ feature {RBOX_DATABASE} -- Implementation
 
 	build_from_file (a_file_path: EL_FILE_PATH)
 		local
-			lines: EL_FILE_LINE_SOURCE
+			lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			create lines.make (a_file_path)
 			create xml_string.make (lines.byte_count)

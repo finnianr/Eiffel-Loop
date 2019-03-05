@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-20 19:03:57 GMT (Thursday 20th December 2018)"
-	revision: "4"
+	date: "2019-03-05 17:37:23 GMT (Tuesday 5th March 2019)"
+	revision: "5"
 
 class
 	EL_GENERATED_SVG_BUTTON_PIXMAP_SET
@@ -155,7 +155,7 @@ feature {NONE} -- Implementation
 
 				-- Generate highlighted.svg and clicked.svg from normal.svg
 				do_with_lines (
-					agent find_linear_gradient_stop, create {EL_FILE_LINE_SOURCE}.make (image_dir_path + Normal_svg)
+					agent find_linear_gradient_stop, create {EL_PLAIN_TEXT_LINE_SOURCE}.make (image_dir_path + Normal_svg)
 				)
 				file_highlighted.close; file_clicked.close
 

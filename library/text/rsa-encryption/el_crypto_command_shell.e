@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 21:05:38 GMT (Wednesday 20th February 2019)"
-	revision: "12"
+	date: "2019-03-05 13:45:46 GMT (Tuesday 5th March 2019)"
+	revision: "13"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -187,21 +187,21 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	display_plain_text (encrypted_lines: EL_ENCRYPTED_FILE_LINE_SOURCE)
+	display_plain_text (encrypted_lines: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE)
 		do
 			across encrypted_lines as line loop
 				lio.put_line (line.item)
 			end
 		end
 
-	do_with_encrypted_file (action: PROCEDURE [EL_ENCRYPTED_FILE_LINE_SOURCE])
+	do_with_encrypted_file (action: PROCEDURE [EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE])
 		local
 			input_path: EL_FILE_PATH
 		do
 			input_path := new_file_path ("input")
 			lio.put_new_line
 			if input_path.has_extension ("aes") then
-				action.call ([create {EL_ENCRYPTED_FILE_LINE_SOURCE}.make (input_path, new_encrypter (new_pass_phrase))])
+				action.call ([create {EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE}.make (input_path, new_encrypter (new_pass_phrase))])
 			else
 				lio.put_line ("Invalid file extension (.aes expected)")
 			end
@@ -254,7 +254,7 @@ feature {NONE} -- Implementation
 			source_code.put_new_line
 		end
 
-	write_plain_text (encrypted_lines: EL_ENCRYPTED_FILE_LINE_SOURCE)
+	write_plain_text (encrypted_lines: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE)
 		local
 			out_file: EL_PLAIN_TEXT_FILE
 		do

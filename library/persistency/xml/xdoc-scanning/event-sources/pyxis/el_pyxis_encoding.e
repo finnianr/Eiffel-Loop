@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "7"
+	date: "2019-03-05 13:55:46 GMT (Tuesday 5th March 2019)"
+	revision: "8"
 
 class
 	EL_PYXIS_ENCODING
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 	make_from_file (a_file_path: EL_FILE_PATH)
 		local
-			source_lines: EL_FILE_LINE_SOURCE
+			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make_machine
 			make_latin_1

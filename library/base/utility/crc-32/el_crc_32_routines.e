@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-09-01 13:20:28 GMT (Friday 1st September 2017)"
-	revision: "1"
+	date: "2019-03-05 13:48:46 GMT (Tuesday 5th March 2019)"
+	revision: "2"
 
 class
 	EL_CRC_32_ROUTINES
@@ -39,7 +39,7 @@ feature -- Access
 		-- returns CRC 32 checksum for UTF-8 encoded file as a list of ZSTRING's
 		do
 			if file_path.exists then
-				Result := lines (create {EL_FILE_LINE_SOURCE}.make (file_path))
+				Result := lines (create {EL_PLAIN_TEXT_LINE_SOURCE}.make (file_path))
 			end
 		end
 

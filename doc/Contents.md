@@ -99,214 +99,6 @@ Warning: **Use at your own risk.** It is recommended that you have a backup of y
 
 ## Vision-2 Extensions Demo
 Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
-## Eiffel Development Utilities
-A "Swiss-army knife" of Eiffel development utilities invokeable by a command-line switch.
-
-**Sub-applications**
-
-`-eiffel_view`: [EIFFEL_VIEW_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/eiffel_view_app.html)
-
-A sub-application to publish source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [eiffel.org article](https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18)
-
-`-generate_codecs`: [CODEC_GENERATOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/codec_generator_app.html)
-
-Generate Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/string/zstring/codec/el_zcodec.html) from VTD-XML C code
-
-`-ecf_to_pecf`: [ECF_TO_PECF_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/ecf_to_pecf_app.html)
-
-Convert Eiffel configuration files to Pyxis format
-
-`-library_override`: [LIBRARY_OVERRIDE_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/library_override_app.html)
-
-Generates override of standard libaries to work with Eiffel-Loop
-
-`-expand_links`: [REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html)
-
-Use a supplied repository publishing configuration to expand `$source` variable path in wiki-links  containined in a wiki-markup text file. Write the expanded output to file named as follows:
-
-
-````
-<file name>.expanded.<file extension>
-
-````
-An incidental function is to expand all tabs as 3 spaces.
-
-`-normalize_class_file_name`: [SOURCE_FILE_NAME_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/source_file_name_normalizer_app.html)
-
-Normalize class filenames as lowercase classnames within a source directory
-
-`normalize_imp_location` [IMP_CLASS_LOCATION_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/imp_class_location_normalizer_app.html)
-
-Normalizes location of implementation classes in relation to respective interfaces for all projects listed in publisher configuration.
-
-**Download**
-
-Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
-
-
-## Eiffel Class Editing Utilities
-A "Swiss-army knife" of Eiffel class editing utilities invokeable by a command-line switch.
-
-**Sub-applications**
-
-`-remove_prefix`: [CLASS_PREFIX_REMOVAL_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/class_prefix_removal_app.html)
-
-Removes all classname prefixes over a source directory
-
-`-edit_notes`: [NOTE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/note_editor_app.html)
-
-Add default values to note fields using a source tree manifest.
-
-`-feature_edit`: [FEATURE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/feature_editor_app.html)
-
-Expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
-
-`-find_replace`: [FIND_AND_REPLACE_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/find_and_replace_app.html)
-
-Finds and replaces text in Eiffel source files specified by a source tree manifest
-
-`-elog_remover`: [SOURCE_LOG_LINE_REMOVER_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_log_line_remover_app.html)
-
-Comment out logging lines from Eiffel source code tree
-
-`-class_rename`: [SOURCE_TREE_CLASS_RENAME_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_tree_class_rename_app.html)
-
-Rename classes defined by a source manifest file
-
-**Download**
-
-Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
-
-
-## Eiffel Class Analysis Utilities
-A "Swiss-army knife" of Eiffel class analysis utilities invokeable by a command-line switch.
-
-**Sub-applications**
-
-`-check_locale_strings`: [CHECK_LOCALE_STRINGS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/check_locale_strings_app.html)
-
-Verify localization translation identifiers against various kinds of source texts.
-
-`-descendants`: [CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html)
-
-Output a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
-
-`-codebase_stats`: [CODEBASE_STATISTICS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/codebase_statistics_app.html)
-
-Count classes, code words and combined source file size for Eiffel source trees specified in manifest
-
-`-check_encoding`: [ENCODING_CHECK_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/encoding_check_app.html)
-
-Checks for UTF-8 files that could be encoded as Latin-1
-
-`-check_note_links`: [REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html)
-
-Checks for invalid class references in repository note links
-
-`-undefine_counter`: [UNDEFINE_PATTERN_COUNTER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/undefine_pattern_counter_app.html)
-
-Count the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
-
-**Download**
-
-Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
-
-
-## Utilities Toolkit
-A "Swiss-army knife" of command line utilities accessible via a command line option.
-
-The most useful ones are listed below with the option name:
-
-`-body_word_counts` [HTML_BODY_WORD_COUNTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/html_body_word_counter_app.html)
-
-Counts the number of words in a HTML document.
-
-`-crypto`: [CRYPTO_COMMAND_SHELL_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/crypto_command_shell_app.html)
-
-Menu driven shell of useful cryptographic operations.
-
-`-export_www`: [THUNDERBIRD_WWW_EXPORTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/thunderbird_www_exporter_app.html)
-
-Exports emails from selected Thunderbird email folders as HTML bodies (extension: `body`). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
-
-`-compile_translations`: [PYXIS_TRANSLATION_TREE_COMPILER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/pyxis/pyxis_translation_tree_compiler_app.html)
-
-Compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I](http://www.eiffel-loop.com/library/text/i18n/el_locale_i.html).
-
-`-pyxis_to_xml`: [PYXIS_TO_XML_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/pyxis/pyxis_to_xml_app.html)
-
-Converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf`). The attribute `configuration_ns` can be used as convenient shorthand for the ECF schema configuration information.
-
-`-youtube_dl` [YOUTUBE_VIDEO_DOWNLOADER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/youtube_video_downloader_app.html)
-
-Download and merge selected audio and video streams from a Youtube video.
-
-`-file_manifest` [FILE_MANIFEST_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/file_manifest_app.html)
-
-Creates an XML file manifest of a target directory using either the default Evolicity template or an optional external Evolicity template. See class [EVOLICITY_SERIALIZEABLE](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable.html)
-
-`-undated_photos` [UNDATED_PHOTO_FINDER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/undated_photo_finder_app.html)
-
-Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal`.
-
-**Download**
-
-Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
-
-
-## Eiffel-Loop Benchmark Testing
-Benchmarks comparing performance of related routines. The benchmarks are run from a menu shell. See class [BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/benchmark_app.html).
-
-**Descendants**
-
-
-````
-EL_BENCHMARK_COMPARISON*
-	[$source LIST_ITERATION_COMPARISON]
-	[$source STRING_CONCATENATION_COMPARISON]
-	[$source STRING_BENCHMARK_COMPARISON]*
-		[$source REPLACE_SUBSTRING_COMPARISON]
-		[$source SUBSTRING_INDEX_COMPARISON]
-	[$source SET_ROUTINE_ARGUMENT_COMPARISON]
-````
-
-## Eiffel-Loop Dev Tests
-Sub-applications for testing the *Eiffel-Loop* libraries
-
-**Descendants**
-
-
-````
-EL_SUB_APPLICATION*
-	[$source EL_LOGGED_SUB_APPLICATION]*
-		[$source TEST_WORK_DISTRIBUTER_APP]
-		[$source EL_REGRESSION_TESTABLE_SUB_APPLICATION]*
-			[$source REGRESSION_TESTABLE_SUB_APPLICATION]*
-				[$source MEDIA_PLAYER_DUMMY_APP]
-				[$source COMPRESSION_TEST_APP]
-				[$source ENCRYPTION_TEST_APP]
-				[$source DECLARATIVE_XPATH_PROCESSING_TEST_APP]
-				[$source RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
-				[$source STRING_EDITION_HISTORY_TEST_APP]
-				[$source SVG_TO_PNG_CONVERSION_TEST_APP]
-				[$source OBJECT_BUILDER_TEST_APP]
-					[$source BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
-				[$source TEST_SIMPLE_SERVER]
-				[$source TEST_VTD_XML_APP]
-				[$source EVOLICITY_TEST_APP]
-		[$source EXPERIMENTS_APP]
-		[$source TEST_SIMPLE_CLIENT]
-````
-
-## Eiffel-Loop Test Sets
-Test sets classes inheriting [EQA_TEST_SET](https://www.eiffel.org/doc/eiffelstudio/Testing-_Background_and_basics)
-
-**Sub-applications**
-
-
-* [AUTOTEST_DEVELOPMENT_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/autotest_development_app.html)
-* [ZSTRING_BENCHMARK_APP](http://www.eiffel-loop.com/test/source/test-set/zstring_benchmark_app.html)
-
 ## ID3 Tagging for MP3
 Classes for reading and writing ID3 tags to MP3 files using a common interface to the C libraries `libid3tag (C)` and `id3lib (C++)`. The former C library is used for ID3 version 2.4 tags and the latter for earlier versions from 2.0 to 2.3.
 ## WAV Audio Processing
@@ -578,6 +370,24 @@ The framework is based on the concept of a Java agent that is similar to an Eiff
 See [example/eiffel2java/eiffel2java.ecf](http://www.eiffel-loop.com/example/eiffel2java/eiffel2java.html) for an example of it's use.
 ## Python
 Some extensions to Daniel Rodríguez's [PEPE library for Eiffel](https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE). This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags in an MP3 file: [EL_EYED3_TAG](http://www.eiffel-loop.com/library/language_interface/Python/example/el_eyed3_tag.html).
+## Matlab
+**Status:** No longer maintained
+
+An Eiffel interface to [Matlab](http://uk.mathworks.com/products/matlab/), a popular math orientated scripting language. This interface was developed with Matlab Version 6.5, VC++ 8.0 Express Edition and Windows XP SP2 and successfully used in a number of linguistic research projects.
+
+**NOTE** This ECF is for documentation purposes only and will not compile.
+## Praat-script
+**Status:** No longer maintained
+
+Eiffel interface to the Praat scripting language
+
+[Praat](http://www.fon.hum.uva.nl/praat) is a free tool for doing acoustic and phonetic analysis and has it's own scripting language, Praat-script.
+
+The `el_toolkit` utility has an option for converting the source code of Praat ver. 4.4 to compile with MSC. (Praat compiles "out of the box" with the mingw compiler, but at the time EiffelStudio didn't support mingw)
+
+Developed with VC++ 8.0 Express Edition, Windows XP SP2, Praat source code version 4.4.30. The conversion tool will not work with later versions of Praat.
+
+**NOTE** This ECF is for documentation purposes only and will not compile.
 ## Eiffel Remote Object Server (EROS)
 EROS (for **E**iffel **R**emote **O**bject **S**erver), is an experimental an XML orientated remote procedure call application framework with an original protocol based purely on XML processing instructions rather that any special XML tags.
 
@@ -606,24 +416,6 @@ Two demo applications are provided that do signal math including Fourier transfo
 When including the `eros.ecf` in your project it is necessary to define a custom variable `eros_server_enabled`. To build a server application set the value to `true`. To build a client application set value to `false`.
 
 
-## Matlab
-**Status:** No longer maintained
-
-An Eiffel interface to [Matlab](http://uk.mathworks.com/products/matlab/), a popular math orientated scripting language. This interface was developed with Matlab Version 6.5, VC++ 8.0 Express Edition and Windows XP SP2 and successfully used in a number of linguistic research projects.
-
-**NOTE** This ECF is for documentation purposes only and will not compile.
-## Praat-script
-**Status:** No longer maintained
-
-Eiffel interface to the Praat scripting language
-
-[Praat](http://www.fon.hum.uva.nl/praat) is a free tool for doing acoustic and phonetic analysis and has it's own scripting language, Praat-script.
-
-The `el_toolkit` utility has an option for converting the source code of Praat ver. 4.4 to compile with MSC. (Praat compiles "out of the box" with the mingw compiler, but at the time EiffelStudio didn't support mingw)
-
-Developed with VC++ 8.0 Express Edition, Windows XP SP2, Praat source code version 4.4.30. The conversion tool will not work with later versions of Praat.
-
-**NOTE** This ECF is for documentation purposes only and will not compile.
 ## Basic Networking Classes
 * Extensions for ISE network sockets.
 * Class to obtain the MAC address of network devices on both Windows and Linux.
@@ -653,6 +445,10 @@ An Eiffel interface to the [PayPal Payments Standard Button Manager NVP HTTP API
 Classes for remotely interacting with a HTTP server. Supports the HTTP commands: POST, GET and HEAD.
 ## Fast CGI Servlets
 An implementation of the [Fast-CGI protocol](http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html) for creating single and multi-threaded HTTP servlet services.
+## Override of EiffelVision2
+Override of Eiffel Software's EiffelVision2 for use with [Eiffel-Loop Vision2 extensions](http://www.eiffel-loop.com/library/vision2-x.html)
+## Override of Eiffel2Java
+Override of Eiffel Software's [Eiffel2Java](https://www.eiffel.org/doc/solutions/Eiffel2Java) library for use with the [Eiffel-Loop Eiffel to Java](http://www.eiffel-loop.com/library/eiffel2java.html) library.
 ## Eco-DB (Eiffel CHAIN Orientated Database)
 *Eco-DB* is an acronym for *Eiffel CHAIN Orientated Database*, and enables the development of container objects conforming to the base class [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) to have many of the properties of relational database tables.
 
@@ -1273,7 +1069,211 @@ Currency Exchange based on European Central bank Rates from [eurofxref-daily.xml
 Classes to create a Windows install program.
 
 This library has been superceded by the capabilities of the [Multi-Application Management](http://www.eiffel-loop.com/library/app-manage.html) library.
-## Override of EiffelVision2
-Override of Eiffel Software's EiffelVision2 for use with [Eiffel-Loop Vision2 extensions](http://www.eiffel-loop.com/library/vision2-x.html)
-## Override of Eiffel2Java
-Override of Eiffel Software's [Eiffel2Java](https://www.eiffel.org/doc/solutions/Eiffel2Java) library for use with the [Eiffel-Loop Eiffel to Java](http://www.eiffel-loop.com/library/eiffel2java.html) library.
+## Eiffel Development Utilities
+A "Swiss-army knife" of Eiffel development utilities invokeable by a command-line switch.
+
+**Sub-applications**
+
+`-eiffel_view`: [EIFFEL_VIEW_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/eiffel_view_app.html)
+
+A sub-application to publish source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [eiffel.org article](https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18)
+
+`-generate_codecs`: [CODEC_GENERATOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/codec_generator_app.html)
+
+Generate Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/string/zstring/codec/el_zcodec.html) from VTD-XML C code
+
+`-ecf_to_pecf`: [ECF_TO_PECF_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/ecf_to_pecf_app.html)
+
+Convert Eiffel configuration files to Pyxis format
+
+`-library_override`: [LIBRARY_OVERRIDE_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/library_override_app.html)
+
+Generates override of standard libaries to work with Eiffel-Loop
+
+`-expand_links`: [REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html)
+
+Use a supplied repository publishing configuration to expand `$source` variable path in wiki-links  containined in a wiki-markup text file. Write the expanded output to file named as follows:
+
+
+````
+<file name>.expanded.<file extension>
+
+````
+An incidental function is to expand all tabs as 3 spaces.
+
+`-normalize_class_file_name`: [SOURCE_FILE_NAME_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/source_file_name_normalizer_app.html)
+
+Normalize class filenames as lowercase classnames within a source directory
+
+`normalize_imp_location` [IMP_CLASS_LOCATION_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/imp_class_location_normalizer_app.html)
+
+Normalizes location of implementation classes in relation to respective interfaces for all projects listed in publisher configuration.
+
+**Download**
+
+Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
+
+
+## Eiffel Class Editing Utilities
+A "Swiss-army knife" of Eiffel class editing utilities invokeable by a command-line switch.
+
+**Sub-applications**
+
+`-remove_prefix`: [CLASS_PREFIX_REMOVAL_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/class_prefix_removal_app.html)
+
+Removes all classname prefixes over a source directory
+
+`-edit_notes`: [NOTE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/note_editor_app.html)
+
+Add default values to note fields using a source tree manifest.
+
+`-feature_edit`: [FEATURE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/feature_editor_app.html)
+
+Expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
+
+`-find_replace`: [FIND_AND_REPLACE_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/find_and_replace_app.html)
+
+Finds and replaces text in Eiffel source files specified by a source tree manifest
+
+`-elog_remover`: [SOURCE_LOG_LINE_REMOVER_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_log_line_remover_app.html)
+
+Comment out logging lines from Eiffel source code tree
+
+`-class_rename`: [SOURCE_TREE_CLASS_RENAME_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_tree_class_rename_app.html)
+
+Rename classes defined by a source manifest file
+
+**Download**
+
+Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
+
+
+## Eiffel Class Analysis Utilities
+A "Swiss-army knife" of Eiffel class analysis utilities invokeable by a command-line switch.
+
+**Sub-applications**
+
+`-check_locale_strings`: [CHECK_LOCALE_STRINGS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/check_locale_strings_app.html)
+
+Verify localization translation identifiers against various kinds of source texts.
+
+`-descendants`: [CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html)
+
+Output a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
+
+`-codebase_stats`: [CODEBASE_STATISTICS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/codebase_statistics_app.html)
+
+Count classes, code words and combined source file size for Eiffel source trees specified in manifest
+
+`-check_encoding`: [ENCODING_CHECK_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/encoding_check_app.html)
+
+Checks for UTF-8 files that could be encoded as Latin-1
+
+`-check_note_links`: [REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html)
+
+Checks for invalid class references in repository note links
+
+`-undefine_counter`: [UNDEFINE_PATTERN_COUNTER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/undefine_pattern_counter_app.html)
+
+Count the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
+
+**Download**
+
+Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
+
+
+## Utilities Toolkit
+A "Swiss-army knife" of command line utilities accessible via a command line option.
+
+The most useful ones are listed below with the option name:
+
+`-body_word_counts` [HTML_BODY_WORD_COUNTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/html_body_word_counter_app.html)
+
+Counts the number of words in a HTML document.
+
+`-crypto`: [CRYPTO_COMMAND_SHELL_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/crypto_command_shell_app.html)
+
+Menu driven shell of useful cryptographic operations.
+
+`-export_www`: [THUNDERBIRD_WWW_EXPORTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/thunderbird_www_exporter_app.html)
+
+Exports emails from selected Thunderbird email folders as HTML bodies (extension: `body`). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
+
+`-compile_translations`: [PYXIS_TRANSLATION_TREE_COMPILER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/pyxis/pyxis_translation_tree_compiler_app.html)
+
+Compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I](http://www.eiffel-loop.com/library/text/i18n/el_locale_i.html).
+
+`-pyxis_to_xml`: [PYXIS_TO_XML_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/pyxis/pyxis_to_xml_app.html)
+
+Converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf`). The attribute `configuration_ns` can be used as convenient shorthand for the ECF schema configuration information.
+
+`-youtube_dl` [YOUTUBE_VIDEO_DOWNLOADER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/youtube_video_downloader_app.html)
+
+Download and merge selected audio and video streams from a Youtube video.
+
+`-file_manifest` [FILE_MANIFEST_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/file_manifest_app.html)
+
+Creates an XML file manifest of a target directory using either the default Evolicity template or an optional external Evolicity template. See class [EVOLICITY_SERIALIZEABLE](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable.html)
+
+`-undated_photos` [UNDATED_PHOTO_FINDER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/undated_photo_finder_app.html)
+
+Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal`.
+
+**Download**
+
+Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
+
+
+## Eiffel-Loop Benchmark Testing
+Benchmarks comparing performance of related routines. The benchmarks are run from a menu shell. See class [BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/benchmark_app.html).
+
+**Descendants**
+
+
+````
+EL_BENCHMARK_COMPARISON*
+	[$source LIST_ITERATION_COMPARISON]
+	[$source STRING_CONCATENATION_COMPARISON]
+	[$source STRING_BENCHMARK_COMPARISON]*
+		[$source REPLACE_SUBSTRING_COMPARISON]
+		[$source SUBSTRING_INDEX_COMPARISON]
+	[$source SET_ROUTINE_ARGUMENT_COMPARISON]
+````
+
+## Eiffel-Loop Dev Tests
+Sub-applications for testing the *Eiffel-Loop* libraries
+
+**Descendants**
+
+
+````
+EL_SUB_APPLICATION*
+	[$source EL_LOGGED_SUB_APPLICATION]*
+		[$source TEST_WORK_DISTRIBUTER_APP]
+		[$source EL_REGRESSION_TESTABLE_SUB_APPLICATION]*
+			[$source REGRESSION_TESTABLE_SUB_APPLICATION]*
+				[$source MEDIA_PLAYER_DUMMY_APP]
+				[$source COMPRESSION_TEST_APP]
+				[$source ENCRYPTION_TEST_APP]
+				[$source DECLARATIVE_XPATH_PROCESSING_TEST_APP]
+				[$source RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
+				[$source STRING_EDITION_HISTORY_TEST_APP]
+				[$source SVG_TO_PNG_CONVERSION_TEST_APP]
+				[$source OBJECT_BUILDER_TEST_APP]
+					[$source BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
+				[$source TEST_SIMPLE_SERVER]
+				[$source TEST_VTD_XML_APP]
+				[$source EVOLICITY_TEST_APP]
+		[$source EXPERIMENTS_APP]
+		[$source TEST_SIMPLE_CLIENT]
+````
+
+## Eiffel-Loop Test Sets
+Test sets classes inheriting [EQA_TEST_SET](https://www.eiffel.org/doc/eiffelstudio/Testing-_Background_and_basics)
+
+**Sub-applications**
+
+
+* [AUTOTEST_DEVELOPMENT_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/autotest_development_app.html)
+* [ZSTRING_BENCHMARK_APP](http://www.eiffel-loop.com/test/source/test-set/zstring_benchmark_app.html)
+

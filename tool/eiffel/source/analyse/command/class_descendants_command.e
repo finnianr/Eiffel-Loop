@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 15:41:07 GMT (Sunday 23rd December 2018)"
-	revision: "5"
+	date: "2019-03-05 14:12:36 GMT (Tuesday 5th March 2019)"
+	revision: "6"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -149,7 +149,7 @@ feature {NONE} -- Implementation
 	set_ecf_path_from_target
 		local
 			find_files: EL_FIND_FILES_COMMAND_I
-			ecf_lines: EL_FILE_LINE_SOURCE
+			ecf_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			find_files := Command.new_find_files (Directory.current_working, "*.ecf")
 			find_files.set_max_depth (1)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 12:19:22 GMT (Friday 25th January 2019)"
-	revision: "12"
+	date: "2019-03-05 13:57:24 GMT (Tuesday 5th March 2019)"
+	revision: "13"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -114,7 +114,7 @@ feature {NONE} -- Implementation
 	check_file_output (input_dir_path: EL_DIR_PATH)
 			--
 		local
-			file_list: EL_FILE_PATH_LIST; lines: EL_FILE_LINE_SOURCE
+			file_list: EL_FILE_PATH_LIST; lines: EL_PLAIN_TEXT_LINE_SOURCE
 			extension: ZSTRING
 		do
 			file_list := OS.file_list (input_dir_path, "*")

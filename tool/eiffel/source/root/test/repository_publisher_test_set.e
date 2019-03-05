@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-14 18:16:03 GMT (Thursday 14th February 2019)"
-	revision: "16"
+	date: "2019-03-05 14:14:18 GMT (Tuesday 5th March 2019)"
+	revision: "17"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -56,7 +56,7 @@ feature -- Tests
 	test_regression (checksum: NATURAL)
 		local
 			n: INTEGER; actual_checksum: NATURAL
-			file_lines: EL_FILE_LINE_SOURCE; config_file: EL_PLAIN_TEXT_FILE
+			file_lines: EL_PLAIN_TEXT_LINE_SOURCE; config_file: EL_PLAIN_TEXT_FILE
 			lines: EL_ZSTRING_LIST
 		do
 			log.enter ("test_regression")

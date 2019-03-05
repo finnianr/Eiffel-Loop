@@ -19,7 +19,7 @@ inherit
 
 feature -- Access
 
-	new_output_lines: EL_FILE_LINE_SOURCE
+	new_output_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			create Result.make (output_file_path)
 			Result.set_encoding (Result.Encoding_UTF, 8)

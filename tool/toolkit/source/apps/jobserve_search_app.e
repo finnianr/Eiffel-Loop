@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 2:05:02 GMT (Friday 25th January 2019)"
-	revision: "5"
+	date: "2019-03-05 14:01:15 GMT (Tuesday 5th March 2019)"
+	revision: "6"
 
 class
 	JOBSERVE_SEARCH_APP
@@ -85,7 +85,7 @@ feature {NONE} -- Tests
 	test_parser (file_path: EL_FILE_PATH)
 			--
 		local
-			duration_text_list: EL_FILE_LINE_SOURCE
+			duration_text_list: EL_PLAIN_TEXT_LINE_SOURCE
 			end_index: INTEGER
 		do
 			log.enter ("test_parser")

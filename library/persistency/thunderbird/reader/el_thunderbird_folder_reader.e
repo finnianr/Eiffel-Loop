@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-17 8:53:31 GMT (Saturday 17th November 2018)"
-	revision: "6"
+	date: "2019-03-05 13:56:51 GMT (Tuesday 5th March 2019)"
+	revision: "7"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -231,7 +231,7 @@ feature {NONE} -- Internal attributes
 
 	last_header: TUPLE [date: DATE_TIME; subject: ZSTRING]
 
-	line_source: EL_FILE_LINE_SOURCE
+	line_source: EL_PLAIN_TEXT_LINE_SOURCE
 
 	subject_list: EL_SUBJECT_LIST
 

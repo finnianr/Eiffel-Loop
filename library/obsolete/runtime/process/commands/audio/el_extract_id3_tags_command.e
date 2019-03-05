@@ -38,7 +38,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	do_with_lines (lines: EL_FILE_LINE_SOURCE)
+	do_with_lines (lines: EL_PLAIN_TEXT_LINE_SOURCE)
 			--
 		local
 			last_character_is_T_or_U_count, pos_field_delimiter: INTEGER

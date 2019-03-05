@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-03-05 13:53:58 GMT (Tuesday 5th March 2019)"
+	revision: "5"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -25,7 +25,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	new_output_lines (file_path: EL_FILE_PATH): EL_FILE_LINE_SOURCE
+	new_output_lines (file_path: EL_FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			create Result.make (file_path)
 		end

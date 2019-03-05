@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 17:39:40 GMT (Friday 25th January 2019)"
-	revision: "15"
+	date: "2019-03-05 14:13:39 GMT (Tuesday 5th March 2019)"
+	revision: "16"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -173,7 +173,7 @@ feature -- Element change
 		local
 			lines: like description_lines
 			doc_path, relative_doc_path: EL_FILE_PATH
-			file_lines: EL_FILE_LINE_SOURCE
+			file_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			create lines.make_with_lines (a_description)
 			from lines.start until lines.after loop

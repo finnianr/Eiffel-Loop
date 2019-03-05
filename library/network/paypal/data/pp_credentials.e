@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-04 11:48:29 GMT (Thursday 4th October 2018)"
-	revision: "11"
+	date: "2019-03-05 14:04:26 GMT (Tuesday 5th March 2019)"
+	revision: "12"
 
 class
 	PP_CREDENTIALS
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 
 	make (credentials_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
 		local
-			lines: EL_ENCRYPTED_FILE_LINE_SOURCE
+			lines: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE
 		do
 			make_default
 			create lines.make (credentials_path, encrypter)

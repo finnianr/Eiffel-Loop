@@ -17,7 +17,7 @@ project:
 		"""
 			description: "Eiffel Ant file for the FreeELKS Library"
 			library: "FreeELKS"
-			copyright: "Copyright (c) 2005, Eric Bezault & others"
+			copyright: "Copyright © 2005, Eric Bezault & others"
 			license: "MIT License"
 			date: "$Date: 2008-04-22 09:12:58 -0700 (Tue, 22 Apr 2008) $"
 			revision: "$Revision: 6373 $"

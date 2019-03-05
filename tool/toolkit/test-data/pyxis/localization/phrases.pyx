@@ -1,5 +1,7 @@
 pyxis-doc:
-	version = 1.0; encoding = "UTF-8"
+	version = 1.0; encoding = "ISO-8859-1"
+
+# Testing ISO-8859-1 encoding
 
 translations:
 	item:
@@ -7,7 +9,7 @@ translations:
 		# first has no check
 		translation:
 			lang = de
-			'Geben sie ein passphrase fÃ¼r "$NAME" tagebuch'
+			'Geben sie ein passphrase für "$NAME" tagebuch'
 		translation:
 			lang = en
 			'Enter a passphrase for "$NAME" journal'
@@ -16,7 +18,7 @@ translations:
 		id = "Delete journal"
 		translation:
 			lang = de; check = true
-			'LÃ¶schen tagebuch: "%S"\nSind sie sicher?'
+			'Löschen tagebuch: "%S"\nSind sie sicher?'
 		translation:
 			lang = en
 			'Delete journal: "%S"\nAre you sure?'
@@ -26,7 +28,7 @@ translations:
 		translation:
 			lang = de; check = true
 			"""
-				Sie kÃ¶nnen diese Software auf 1 anderen Computer
+				Sie können diese Software auf 1 anderen Computer
 				mit diesem Pack Abonnement freizuschalten.
 			"""
 		translation:

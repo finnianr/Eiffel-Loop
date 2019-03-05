@@ -5,7 +5,7 @@
 		<meta name="digest" content="$crc_digest"/>
 		<meta name="description" content="Source code for class $name"/>
 
-		<title>$source_path</title>
+		<title>$name_as_lower</title>
 
 		<link href="$top_dir/css/prism.css" rel="stylesheet"/>
 

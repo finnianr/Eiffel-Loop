@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 26); build = 134
+version = (1, 0, 27); build = 137
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.27
+# fixed bug in EL_FILE_LINE_SOURCE when calling reader.append_next_line
 
 # 1.0.26
 # Renamed REPOSITORY_PUBLISHER_APP to EIFFEL_VIEW_APP

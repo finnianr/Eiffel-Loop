@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-03-05 14:28:52 GMT (Tuesday 5th March 2019)"
+	revision: "5"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 	make (file_path: EL_FILE_PATH)
 			--
 		local
-			property_lines: EL_FILE_LINE_SOURCE
+			property_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make_default
 			create property_lines.make (file_path)

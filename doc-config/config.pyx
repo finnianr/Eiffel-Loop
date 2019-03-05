@@ -33,19 +33,6 @@ publish-repository:
 			"example/manage-mp3/manage-mp3.ecf"
 			"example/graphical/graphical.ecf"
 
-		# Tools
-		ecf:
-			"tool/eiffel/eiffel.ecf#root"
-			"tool/eiffel/eiffel.ecf#edit"
-			"tool/eiffel/eiffel.ecf#analyse"
-			"tool/toolkit/toolkit.ecf"
-
-		# Test
-		ecf:
-			"test/test.ecf#benchmark"
-			"test/test.ecf#root"
-			"test/test.ecf#test_set"
-
 		# Library Audio
 		ecf:
 			"library/ID3-tags.ecf"
@@ -81,12 +68,12 @@ publish-repository:
 			"library/C-language-interface.ecf"
 			"library/eiffel2java.ecf"
 			"library/eiffel2python.ecf"
-			"library/eros.ecf"
 			"library/doc/eiffel2matlab.ecf"
 			"library/doc/eiffel2praat.ecf"
 
 		# Library (Network)
 		ecf:
+			"library/eros.ecf"
 			"library/network.ecf"
 			"library/doc/flash-network.ecf"
 			"library/amazon-instant-access.ecf"
@@ -94,6 +81,11 @@ publish-repository:
 			"library/paypal.ecf"
 			"library/http-client.ecf"
 			"library/fast-cgi.ecf"
+
+		# Library (Override)
+		ecf:
+			"library/override/ES-vision2.ecf#EL_override"
+			"library/override/ES-eiffel2java.ecf#EL_override"
 
 		# Library (Persistency)
 		ecf:
@@ -134,8 +126,17 @@ publish-repository:
 			"library/currency.ecf"
 			"library/win-installer.ecf"
 
-		# Library (Override)
+		# Tools
 		ecf:
-			"library/override/ES-vision2.ecf#EL_override"
-			"library/override/ES-eiffel2java.ecf#EL_override"
+			"tool/eiffel/eiffel.ecf#root"
+			"tool/eiffel/eiffel.ecf#edit"
+			"tool/eiffel/eiffel.ecf#analyse"
+			"tool/toolkit/toolkit.ecf"
 
+		# Test
+		ecf:
+			"test/test.ecf#benchmark"
+			"test/test.ecf#root"
+			"test/test.ecf#test_set"
+
+	

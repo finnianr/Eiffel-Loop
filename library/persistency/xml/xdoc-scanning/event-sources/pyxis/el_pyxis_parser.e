@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:24:59 GMT (Thursday 15th November 2018)"
-	revision: "11"
+	date: "2019-03-05 12:11:27 GMT (Tuesday 5th March 2019)"
+	revision: "12"
 
 class
 	EL_PYXIS_PARSER
@@ -45,7 +45,6 @@ feature {NONE} -- Initialization
 			create attribute_list.make
 			previous_state := agent find_pyxis_doc
 			create element_stack.make (10)
-			set_encoding (Type_latin, 1)
 		end
 
 feature -- Basic operations
@@ -55,11 +54,19 @@ feature -- Basic operations
 		local
 			line_source: LINEAR [ZSTRING]
 		do
-			if attached {EL_STRING_IO_MEDIUM} a_stream as string_medium then
-				create {EL_TEXT_LINE_SOURCE} line_source.make (string_medium)
+			if attached {PLAIN_TEXT_FILE} a_stream as text_file then
+				create {EL_PLAIN_TEXT_LINE_SOURCE} line_source.make_from_file (text_file)
 
-			elseif attached {PLAIN_TEXT_FILE} a_stream as text_file then
-				create {EL_FILE_LINE_SOURCE} line_source.make_from_file (text_file)
+			elseif attached {EL_STRING_8_IO_MEDIUM} a_stream as string_medium then
+				create {EL_STRING_8_IO_MEDIUM_LINE_SOURCE} line_source.make (string_medium)
+
+			elseif attached {EL_ZSTRING_IO_MEDIUM} a_stream as string_medium then
+				create {EL_ZSTRING_IO_MEDIUM_LINE_SOURCE} line_source.make (string_medium)
+
+			end
+			if attached {EL_ENCODEABLE_AS_TEXT} line_source as encodeable_source then
+				-- propagate encoding change in pyxis-doc declaration
+				encoding_change_actions.extend (agent encodeable_source.set_encoding_from_other (Current))
 			end
 			parse_from_lines (line_source)
 		end
@@ -67,13 +74,9 @@ feature -- Basic operations
 	parse_from_string (a_string: STRING)
 			-- Parse document from `a_string'.
 		local
-			stream: IO_MEDIUM
+			stream: EL_STRING_8_IO_MEDIUM
 		do
-			if pyxis_encoding (a_string) ~ once "UTF-8" then
-				create {EL_STRING_8_IO_MEDIUM} stream.make_open_read_from_text (a_string)
-			else
-				create {EL_ZSTRING_IO_MEDIUM} stream.make_open_read_from_text (a_string)
-			end
+			create stream.make_open_read_from_text (a_string)
 			parse_from_stream (stream)
 		end
 

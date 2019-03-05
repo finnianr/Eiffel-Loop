@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-03-05 11:21:52 GMT (Tuesday 5th March 2019)"
+	revision: "6"
 
 class
 	EL_STRING_8_IO_MEDIUM
 
 inherit
 	EL_STRING_IO_MEDIUM
-		rename
-			last_string_8 as last_string
 		redefine
 			text, put_raw_string_8
 		end
@@ -115,9 +113,10 @@ feature -- Output
 
 feature {NONE} -- Implementation
 
-	set_last_string (a_string: like last_string)
+	set_last_string (start_index, end_index: INTEGER)
 		do
-			last_string := a_string
+			last_string.wipe_out
+			last_string.append_substring (text, start_index, end_index)
 		end
 
 	new_string (a_count: INTEGER): like text

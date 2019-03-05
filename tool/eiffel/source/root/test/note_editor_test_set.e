@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "7"
+	date: "2019-03-05 14:14:10 GMT (Tuesday 5th March 2019)"
+	revision: "8"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -87,7 +87,7 @@ feature -- Tests
 				create old_revision; create new_revision
 				across << old_revision, new_revision >> as revision loop
 					do_once_with_file_lines (
-						agent get_revision (?, revision.item), create {EL_FILE_LINE_SOURCE}.make_latin (1, file_path)
+						agent get_revision (?, revision.item), create {EL_PLAIN_TEXT_LINE_SOURCE}.make_latin (1, file_path)
 					)
 					if revision.cursor_index = 1 then
 						create file.make_with_name (file_path)
@@ -171,7 +171,7 @@ feature {NONE} -- Implementation
 
 	encoding_name (file_path: EL_FILE_PATH): STRING
 		local
-			source: EL_FILE_LINE_SOURCE
+			source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			create source.make_latin (1, file_path)
 			Result := source.encoding_name
@@ -179,7 +179,7 @@ feature {NONE} -- Implementation
 
 	restore_default_fields (file_path: EL_FILE_PATH)
 		local
-			source: EL_FILE_LINE_SOURCE; lines: EL_ZSTRING_LIST
+			source: EL_PLAIN_TEXT_LINE_SOURCE; lines: EL_ZSTRING_LIST
 		do
 			create source.make_latin (1, file_path)
 			lines := source.list

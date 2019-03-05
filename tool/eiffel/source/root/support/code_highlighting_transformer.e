@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-03-05 14:11:09 GMT (Tuesday 5th March 2019)"
+	revision: "6"
 
 class
 	CODE_HIGHLIGHTING_TRANSFORMER
@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 	make_from_file (a_output: like output; a_file_path: EL_FILE_PATH; a_selected_features: like selected_features)
 			--
 		local
-			source_lines: EL_FILE_LINE_SOURCE
+			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make (a_output)
 
