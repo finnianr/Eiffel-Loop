@@ -1,5 +1,8 @@
 note
-	description: "Process file lines using using either the `ITERABLE' or `LINEAR' interface"
+	description: "[
+		Iterates over lines of a plain text file lines using either the `ITERABLE' or `LINEAR' interface.
+		If a UTF-8 BOM is detected the encoding changes accordingly.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -13,7 +16,7 @@ class
 	EL_PLAIN_TEXT_LINE_SOURCE
 
 inherit
-	EL_PLAIN_TEXT_LINE_SOURCE_I
+	EL_FILE_LINE_SOURCE
 		rename
 			make as make_from_file,
 			make_latin_1 as make_latin_1_encoding
@@ -131,18 +134,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	update (line: like item)
+	update_item
 		local
 			raw_line: STRING
 		do
-			line.wipe_out
 			raw_line := file.last_string
 			raw_line.prune_all_trailing ('%R')
-			if line.encoded_with (codec) then
-				raw_line.prune_all ('%/026/') -- Reserved by `EL_ZSTRING' as Unicode placeholder
-				line.append_raw_string_8 (raw_line)
+			if is_shared_item then
+				item.wipe_out
 			else
-				line.append_string_general (codec.as_unicode (raw_line, False))
+				create item.make (raw_line.count)
+			end
+			if item.encoded_with (codec) then
+				raw_line.prune_all ('%/026/') -- Reserved by `EL_ZSTRING' as Unicode placeholder
+				item.append_raw_string_8 (raw_line)
+			else
+				item.append_string_general (codec.as_unicode (raw_line, False))
 			end
 		end
 

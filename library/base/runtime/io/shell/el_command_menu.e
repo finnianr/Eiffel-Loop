@@ -69,7 +69,7 @@ feature -- Basic operations
 			row, column, index: INTEGER
 		do
 			lio.put_labeled_string ("MENU", name)
-			lio.put_new_line
+			lio.put_new_line_x2
 			from row := 0 until row > options.count.min (9) loop
 				from column := 1 until column > (full_column_count + 1) loop
 					index := (column - 1) * 10 + row + 1

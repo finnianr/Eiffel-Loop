@@ -15,7 +15,7 @@ class
 inherit
 	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [DUPLICITY_RESTORE]
 		redefine
-			Option_name, initialize
+			Option_name, visible_types
 		end
 
 create
@@ -35,10 +35,11 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end
 
-	initialize
+	visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+		-- types with lio output visible in console
+		-- See: {EL_CONSOLE_MANAGER_I}.show_all
 		do
-			Console.show ({EL_CAPTURED_OS_COMMAND})
-			Precursor
+			Result := << {EL_CAPTURED_OS_COMMAND} >>
 		end
 
 feature {NONE} -- Constants

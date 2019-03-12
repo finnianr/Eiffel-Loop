@@ -195,7 +195,7 @@ feature -- Access
 			not_empty: not is_empty
 		do
 			if token_list.is_empty then
-				create result.make_empty
+				create Result.make_empty
 			else
 				Result := item (count)
 			end

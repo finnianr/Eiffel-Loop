@@ -15,7 +15,6 @@ class
 inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			make_default as make,
 			field_included as is_any_field,
 			export_name as export_default,
 			import_name as import_default
@@ -24,31 +23,47 @@ inherit
 create
 	make
 
+feature {NONE} -- Initialization
+
+	make (backup: DUPLICITY_BACKUP; destination_dir: EL_DIR_URI_PATH; is_dry_run: BOOLEAN)
+		local
+			option_list: EL_ZSTRING_LIST
+		do
+			make_default
+			type := backup.type
+			create option_list.make (5)
+			if is_dry_run then
+				option_list.extend ("--dry-run")
+			end
+			option_list.extend ("--verbosity")
+			option_list.extend (backup.verbosity_level)
+			if backup.encryption_key.is_empty then
+				option_list.extend ("--no-encryption")
+			else
+				option_list.extend ("--encrypt-key")
+				option_list.extend (backup.encryption_key)
+			end
+			options := option_list.joined_words
+
+			append_exclusions (backup.exclude_any_list)
+			append_exclusions (backup.exclude_files_list)
+			target.set_base (backup.target_dir.base)
+			destination := destination_dir.to_string
+		end
+
 feature -- Access
+
+	destination: ZSTRING
 
 	exclusions: ZSTRING
 
 	options: ZSTRING
 
-	type: ZSTRING
-
 	target: EL_DIR_PATH
 
-	destination: ZSTRING
+	type: ZSTRING
 
-	command: EL_OS_COMMAND
-		do
-			create Result.make (Template)
-			Result.put_object (Current)
-		end
-
-	captured_command: EL_CAPTURED_OS_COMMAND
-		do
-			create Result.make (Template)
-			Result.put_object (Current)
-		end
-
-feature -- Element change
+feature {NONE} -- Implementation
 
 	append_exclusions (list: EL_ZSTRING_LIST)
 		do
@@ -68,9 +83,5 @@ feature {NONE} -- Constants
 				--exclude "#"
 			]"
 		end
-
-	Template: STRING = "[
-		duplicity $type $options $exclusions $target "$destination"
-	]"
 
 end

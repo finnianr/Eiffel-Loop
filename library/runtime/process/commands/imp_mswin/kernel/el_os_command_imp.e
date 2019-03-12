@@ -31,19 +31,24 @@ feature -- Basic operations
 	new_output_lines (file_path: EL_FILE_PATH): EL_ZSTRING_LIST
 		local
 			file: RAW_FILE; raw_text: NATIVE_STRING; list: LIST [READABLE_STRING_GENERAL]
-			line: ZSTRING; l_encoding: ENCODING
+			line: ZSTRING; l_encoding: ENCODING; last_string: STRING
 		do
-			create file.make_open_read (file_path)
-			file.read_stream (file.count)
-			file.close
-			if UTF.is_valid_utf_16le_string_8 (file.last_string) then
-				create raw_text.make_from_raw_string (file.last_string)
+			if file_path.exists then
+				create file.make_open_read (file_path)
+				file.read_stream (file.count)
+				file.close
+				last_string := file.last_string
+			else
+				create last_string.make_empty
+			end
+			if UTF.is_valid_utf_16le_string_8 (last_string) then
+				create raw_text.make_from_raw_string (last_string)
 				list := raw_text.string.split ('%N')
 			else
 				-- Convert from console encoding
 				l_encoding := Console_encoding
-				create {EL_ZSTRING_LIST} list.make (file.last_string.occurrences ('%N') + 1)
-				across file.last_string.split ('%N') as l_line loop
+				create {EL_ZSTRING_LIST} list.make (last_string.occurrences ('%N') + 1)
+				across last_string.split ('%N') as l_line loop
 					l_encoding.convert_to (utf32, l_line.item)
 					if l_encoding.last_conversion_successful then
 						list.extend (as_zstring (l_encoding.last_converted_string_32))

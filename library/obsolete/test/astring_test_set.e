@@ -1,6 +1,6 @@
 ﻿note
 	description: "[
-		Tests for classes EL_ASTRING and EL_PLAIN_TEXT_LINE_SOURCE
+		Tests for classes EL_ASTRING and EL_FILE_LINE_SOURCE
 	]"
 	testing: "type/manual"
 
@@ -31,14 +31,14 @@ inherit
 			default_create
 		end
 
-feature -- EL_PLAIN_TEXT_LINE_SOURCE tests
+feature -- EL_FILE_LINE_SOURCE tests
 
 	test_read_text_lines
 			-- New test routine
 		note
-			testing: "covers/{EL_PLAIN_TEXT_LINE_SOURCE}"
+			testing: "covers/{EL_FILE_LINE_SOURCE}"
 		local
-			lines: EL_PLAIN_TEXT_LINE_SOURCE
+			lines: EL_FILE_LINE_SOURCE
 			expected_interval, lines_interval: INTEGER_INTERVAL
 			path_list: EL_FILE_PATH_LIST
 		do

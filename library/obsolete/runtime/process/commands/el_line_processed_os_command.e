@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 			Precursor (a_system_command)
 		end
 
-	do_with_output_lines (lines: EL_PLAIN_TEXT_LINE_SOURCE)
+	do_with_output_lines (lines: EL_FILE_LINE_SOURCE)
 		do
 			do_once_with_file_lines (initial_state, lines)
 		end

@@ -30,7 +30,7 @@ inherit
 
 feature -- Basic operations
 
-	do_once_with_file_lines (initial: like state; lines: EL_PLAIN_TEXT_LINE_SOURCE_I)
+	do_once_with_file_lines (initial: like state; lines: EL_FILE_LINE_SOURCE)
 		do
 			do_with_lines (initial, lines)
 			lines.close

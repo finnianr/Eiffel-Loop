@@ -25,9 +25,13 @@ inherit
 
 feature {NONE} -- Implementation
 
-	new_output_lines (file_path: EL_FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
+	new_output_lines (file_path: EL_FILE_PATH): EL_LINEAR [ZSTRING]
 		do
-			create Result.make (file_path)
+			if file_path.exists then
+				create {EL_PLAIN_TEXT_LINE_SOURCE} Result.make (file_path)
+			else
+				create {EL_ZSTRING_LIST} Result.make_empty
+			end
 		end
 
 feature {NONE} -- Constants

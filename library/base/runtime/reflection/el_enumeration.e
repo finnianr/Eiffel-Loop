@@ -8,10 +8,10 @@ note
 		Typically you would make a shared instance of an implementation class inheriting
 		this class.
 
-		Overriding import_name from [$source EL_REFLECTIVELY_SETTABLE] allows you to lookup
+		Overriding `import_name' from [$source EL_REFLECTIVELY_SETTABLE] allows you to lookup
 		a code using a foreign naming convention, camelCase, for example. Overriding
-		export_name allows the name returned by `code_name' to use a foreign convention.
-		Choose a convention from the Naming object.
+		`export_name' allows the name returned by `code_name' to use a foreign convention.
+		Choose a convention from the `Naming' object.
 	]"
 	notes: "[
 		**TO DO**

@@ -46,7 +46,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	do_with_lines (a_lines: EL_PLAIN_TEXT_LINE_SOURCE)
+	do_with_lines (a_lines: EL_FILE_LINE_SOURCE)
 			--
 		do
 			implementation.do_with_lines (a_lines)

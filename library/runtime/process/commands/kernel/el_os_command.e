@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 	make_with_name (name: READABLE_STRING_GENERAL; a_template: like template)
 		do
 			template := a_template
-			template_name := name_template #$ [generating_type, name]
+			template_name := name_template #$ [generator, name]
 			make_default
 		end
 

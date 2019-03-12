@@ -22,7 +22,22 @@ inherit
 			make_default
 		end
 
+	EL_PROTOCOL_CONSTANTS
+		export
+			{NONE} all
+		end
+
 	EL_SHARED_ENVIRONMENTS
+
+	EL_ZSTRING_CONSTANTS
+
+	EL_MODULE_LIO
+
+	EL_MODULE_OS
+
+	EL_MODULE_USER_INPUT
+
+	EL_MODULE_DATE
 
 feature {NONE} -- Initialization
 
@@ -37,11 +52,11 @@ feature {NONE} -- Initialization
 			Precursor
 		end
 
-feature {NONE} -- Internal attributes
-
-	encryption_key: ZSTRING
+feature -- Access
 
 	destination_dir_list: EL_ARRAYED_LIST [EL_DIR_URI_PATH]
+
+	encryption_key: ZSTRING
 
 	exclude_any_list: EL_ZSTRING_LIST
 
@@ -72,8 +87,7 @@ feature {NONE} -- Build from XML
 			parent_dir: ZSTRING
 		do
 			create exclude_files_list.make_with_lines (node.to_string)
-			parent_dir := target_dir.base
-			parent_dir.append_character (Operating.Directory_separator)
+			parent_dir := target_dir.base + character_string (Operating.Directory_separator)
 
 			across exclude_files_list as file loop
 				file.item.prepend_string (parent_dir)

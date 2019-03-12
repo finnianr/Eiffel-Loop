@@ -13,7 +13,7 @@ class
 	EL_ZSTRING_IO_MEDIUM_LINE_SOURCE
 
 inherit
-	EL_PLAIN_TEXT_LINE_SOURCE_I
+	EL_FILE_LINE_SOURCE
 
 	EL_ZSTRING_CONSTANTS
 
@@ -22,9 +22,9 @@ create
 
 feature {NONE} -- Implementation
 
-	update (line: like item)
+	update_item
 		do
-			internal_item.append (file.last_string)
+			item := file.last_string
 		end
 
 feature {NONE} -- Constants

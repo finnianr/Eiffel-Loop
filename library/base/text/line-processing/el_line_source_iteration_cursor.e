@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	item: ZSTRING
-			-- Item at current cursor position.
+			-- item at current cursor position.
 		do
 			Result := lines.item
 		end

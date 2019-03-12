@@ -86,6 +86,15 @@ feature -- Access
 			text_file.close
 		end
 
+	plain_text_bomless (a_file_path: EL_FILE_PATH): STRING
+		-- file text without byte-order mark
+		do
+			Result := plain_text (a_file_path)
+			if Result.starts_with ({UTF_CONVERTER}.Utf_8_bom_to_string_8) then
+				Result.remove_head (3)
+			end
+		end
+
 feature -- File lists
 
 	files (a_dir_path: EL_DIR_PATH): like Directory.files

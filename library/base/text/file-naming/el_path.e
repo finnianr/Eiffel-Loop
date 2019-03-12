@@ -522,9 +522,15 @@ feature -- Element change
 
 	expand
 			-- expand an environment variables
+		local
+			l_steps: like steps
 		do
 			if is_potenially_expandable (parent) or else is_potenially_expandable (base) then
-				set_path (steps.expanded_path.to_string)
+				l_steps := steps
+				l_steps.expand_variables
+				base := l_steps.last.twin
+				l_steps.remove_tail (1)
+				set_parent_path (l_steps.to_string)
 			end
 		end
 

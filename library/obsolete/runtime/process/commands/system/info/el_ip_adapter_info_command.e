@@ -132,7 +132,7 @@ feature {NONE} -- State handlers
 
 feature {NONE} -- Implementation
 
-	do_with_lines (lines: EL_PLAIN_TEXT_LINE_SOURCE)
+	do_with_lines (lines: EL_FILE_LINE_SOURCE)
 			--
 		do
 			parse_lines (agent find_first_device, lines)

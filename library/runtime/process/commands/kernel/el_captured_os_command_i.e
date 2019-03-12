@@ -52,7 +52,9 @@ feature {NONE} -- Implementation
 				do_with_lines (adjusted_lines (new_output_lines (l_output_path)))
 			end
 			File_system_mutex.lock
-				File_system.remove_file (l_output_path)
+				if l_output_path.exists then
+					File_system.remove_file (l_output_path)
+				end
 			File_system_mutex.unlock
 		end
 

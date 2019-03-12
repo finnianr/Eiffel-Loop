@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 27); build = 137
+version = (1, 0, 28); build = 139
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.28
+# Refinements to item sharing in `EL_PLAIN_TEXT_LINE_SOURCE'
 
 # 1.0.27
 # fixed bug in EL_FILE_LINE_SOURCE when calling reader.append_next_line

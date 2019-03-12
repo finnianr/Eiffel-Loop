@@ -23,7 +23,7 @@ feature -- Access
 
 feature {EL_DIRECTORY_INFO_COMMAND} -- Implementation
 
-	do_with_lines (a_lines: EL_PLAIN_TEXT_LINE_SOURCE)
+	do_with_lines (a_lines: EL_FILE_LINE_SOURCE)
 			--
 		do
 		end

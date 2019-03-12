@@ -13,7 +13,7 @@ deferred class
 	EL_COMMAND_SHELL_COMMAND
 
 inherit
-	EL_COMMAND_SHELL
+	EL_COMMAND_SHELL_I
 		export
 			{EL_COMMAND_CLIENT} make_shell
 		end
