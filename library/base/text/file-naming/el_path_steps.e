@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-02 12:43:09 GMT (Wednesday 2nd January 2019)"
-	revision: "16"
+	date: "2019-03-11 11:08:33 GMT (Monday 11th March 2019)"
+	revision: "17"
 
 class
 	EL_PATH_STEPS

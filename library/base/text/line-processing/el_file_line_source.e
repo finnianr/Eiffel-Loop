@@ -11,13 +11,14 @@ note
 					[$source EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE]
 					[$source EL_STRING_8_IO_MEDIUM_LINE_SOURCE]
 	]"
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 18:18:40 GMT (Tuesday 5th March 2019)"
-	revision: "5"
+	date: "2019-03-06 18:13:44 GMT (Wednesday 6th March 2019)"
+	revision: "6"
 
 deferred class
 	EL_FILE_LINE_SOURCE

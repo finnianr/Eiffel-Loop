@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-02 10:59:25 GMT (Saturday 2nd March 2019)"
-	revision: "4"
+	date: "2019-03-12 10:53:22 GMT (Tuesday 12th March 2019)"
+	revision: "5"
 
 class
 	DUPLICITY_RESTORE

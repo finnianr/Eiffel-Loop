@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {DUPLICITY_LISTING_COMMAND}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Duplicity listing command"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-03-12 11:39:02 GMT (Tuesday 12th March 2019)"
+	revision: "1"
 
 class
 	DUPLICITY_LISTING_COMMAND
