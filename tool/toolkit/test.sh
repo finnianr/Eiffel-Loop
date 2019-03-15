@@ -1,7 +1,10 @@
-#export PYTHONPATH=$PYTHONPATH:$EIFFEL/library/Eiffel-Loop/tool/python-support
+declare -x LANG="en_GB.UTF-8"
 
-# duplicity full --dry-run --no-encryption --verbosity info $HOME/bin "file:///home/finnian/Backups/duplicity/bin scripts"
+read -p "Enter pass phrase: " pass_phrase
 
-#python -m eiffel_loop.scripts.ec_write_set_environ
+export PASSPHRASE=$pass_phrase
 
-ec_write_set_environ
+# 
+sudo -E duplicity --time 2019-02-17 --file-to-restore source/UI/my_ching_vision2_ui.e \
+	file\:///home/finnian/Backups/duplicity/My\ Ching /home/finnian/Backups-restored/my_ching_vision2_ui.e
+

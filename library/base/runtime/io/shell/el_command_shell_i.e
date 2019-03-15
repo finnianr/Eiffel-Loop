@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-11 10:44:34 GMT (Monday 11th March 2019)"
-	revision: "8"
+	date: "2019-03-14 9:03:09 GMT (Thursday 14th March 2019)"
+	revision: "9"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -22,7 +22,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_shell (name: ZSTRING)
+	make_shell (name: READABLE_STRING_GENERAL)
 		local
 			table: like new_command_table
 		do

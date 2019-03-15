@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-11 10:28:34 GMT (Monday 11th March 2019)"
-	revision: "5"
+	date: "2019-03-14 9:03:15 GMT (Thursday 14th March 2019)"
+	revision: "6"
 
 class
 	EL_COMMAND_SHELL
@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (name: ZSTRING; table: like command_table)
+	make (name: READABLE_STRING_GENERAL; table: like command_table)
 		do
 			command_table := table
 			make_shell (name)

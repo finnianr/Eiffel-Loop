@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-11 11:12:55 GMT (Monday 11th March 2019)"
-	revision: "22"
+	date: "2019-03-13 15:18:38 GMT (Wednesday 13th March 2019)"
+	revision: "23"
 
 deferred class
 	EL_PATH
@@ -31,6 +31,11 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 		export
 			{NONE} all
+		undefine
+			is_equal, default_create, out, copy
+		end
+
+	EL_MODULE_FORMAT
 		undefine
 			is_equal, default_create, out, copy
 		end
@@ -590,12 +595,9 @@ feature -- Element change
 			has_version_number: has_version_number
 		local
 			interval: like version_interval
-			l_integer: like Integer
 		do
-			l_integer := Integer
 			interval := version_interval
-			l_integer.set_width (interval.count)
-			base.replace_substring_general (l_integer.formatted (number), interval.lower, interval.upper)
+			base.replace_substring_general (Format.integer_zero (number, interval.count), interval.lower, interval.upper)
 		end
 
 	share (other: like Current)
@@ -808,12 +810,6 @@ feature {NONE} -- Constants
 	Forward_slash: ZSTRING
 		once
 			Result := "/"
-		end
-
-	Integer: FORMAT_INTEGER
-		once
-			create Result.make (2)
-			Result.zero_fill
 		end
 
 	Magic_number: INTEGER = 8388593

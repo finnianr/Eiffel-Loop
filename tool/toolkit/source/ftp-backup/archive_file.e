@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-03-13 15:15:07 GMT (Wednesday 13th March 2019)"
+	revision: "5"
 
 class
 	ARCHIVE_FILE
@@ -22,6 +22,8 @@ inherit
 			{NONE} all
 			{ANY} file_path
 		end
+
+	EL_MODULE_FORMAT
 
 	EL_MODULE_LOG
 
@@ -57,7 +59,7 @@ feature {NONE} -- Initialization
 				versions := directory_node.found_node.attributes
 				if versions.has ("max") then
 					save_version_no (versions.integer ("max"))
-					archive_file_path.add_extension (Version_00.formatted (version_no))
+					archive_file_path.add_extension (Format.integer_zero (version_no, 2))
 				end
 			end
 			archive_file_path.add_extension ("tar.gz")
@@ -191,21 +193,6 @@ feature {NONE} -- gpg encryption command with variables
 			create Result.make ("[
 				gpg --batch --encrypt --recipient $GPG_KEY_ID "$TAR_NAME"
 			]")
-		end
-
---	Encryption_command: EL_GPG_ENCRYPT_COMMAND
---			--
---		once
---			create Result.make_default
---		end
-
-feature {NONE} -- Constants
-
-	Version_00: FORMAT_INTEGER
-			--
-		once
-			create Result.make (2)
-			Result.zero_fill
 		end
 
 end

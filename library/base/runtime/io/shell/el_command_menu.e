@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-11 11:20:15 GMT (Monday 11th March 2019)"
-	revision: "5"
+	date: "2019-03-14 9:03:05 GMT (Thursday 14th March 2019)"
+	revision: "6"
 
 class
 	EL_COMMAND_MENU
@@ -38,9 +38,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: like name; a_options: like options)
+	make (a_name: READABLE_STRING_GENERAL; a_options: like options)
 		do
-			name := a_name; options := a_options
+			create name.make_from_general (a_name); options := a_options
 			max_column_widths := new_max_column_widths
 		end
 

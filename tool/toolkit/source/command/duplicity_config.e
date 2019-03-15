@@ -1,13 +1,14 @@
 note
-	description: "Duplicity config"
+	description: "Duplicity configuration buildable from a Pyxis file"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-12 19:00:14 GMT (Tuesday 12th March 2019)"
-	revision: "2"
+	date: "2019-03-13 10:07:04 GMT (Wednesday 13th March 2019)"
+	revision: "3"
 
 deferred class
 	DUPLICITY_CONFIG
@@ -46,6 +47,7 @@ feature {NONE} -- Initialization
 			create encryption_key.make_empty
 			create name.make_empty
 			create destination_dir_list.make (5)
+			create restore_dir
 			create target_dir
 			create exclude_any_list.make_empty
 			create exclude_files_list.make_empty
@@ -63,6 +65,8 @@ feature -- Access
 	exclude_files_list: EL_ZSTRING_LIST
 
 	name: ZSTRING
+
+	restore_dir: EL_DIR_PATH
 
 	target_dir: EL_DIR_PATH
 
@@ -100,6 +104,7 @@ feature {NONE} -- Build from XML
 				["@encryption_key",			agent do encryption_key := node end],
 				["@name",						agent do name := node end],
 				["@target_dir",				agent do target_dir := node.to_expanded_dir_path end],
+				["@restore_dir",				agent do restore_dir := node.to_expanded_dir_path end],
 
 				["destination/text()",		agent append_destination_dir],
 				["exclude-any/text()",		agent append_exclude_any],
@@ -110,5 +115,52 @@ feature {NONE} -- Build from XML
 feature {NONE} -- Constants
 
 	Root_node_name: STRING = "duplicity"
+
+note
+	notes: "[
+		A typical configuration file is shown below. The configuration `name' is optional and defaults to
+		the base of the `target_dir'. This name is used to name the backup directory name. All `exclude-files'
+		entries are relative to the `target_dir'.
+
+			pyxis-doc:
+				version = 1.0; encoding = "UTF-8"
+
+			duplicity:
+				name = "My Ching server"; encryption_key = VAL
+				target_dir = "$HOME/dev/Eiffel/myching-server"
+				destination:
+					"file://$HOME/Backups/duplicity"
+					"file:///media/finnian/Seagate-1/Backups/duplicity"
+					"ftp://username@ftp.eiffel-loop.com/public/www/Backups/duplicity"
+					"sftp://finnian@18.14.67.44/$HOME/Backups/duplicity"
+
+				exclude-files:
+					"""
+						resources/locale.??
+						www/images
+					"""
+				exclude-any:
+					"""
+						**/build
+						**/workarea
+						**/.sconf_temp
+						**.a
+						**.la
+						**.lib
+						**.obj
+						**.o
+						**.exe
+						**.pyc
+						**.evc
+						**.dblite
+						**.deps
+						**.pdb
+						**.zip
+						**.tar.gz
+						**.lnk
+						**.goutputstream**
+					"""
+
+	]"
 
 end

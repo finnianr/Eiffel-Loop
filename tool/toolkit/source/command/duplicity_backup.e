@@ -1,17 +1,16 @@
 note
 	description: "[
-		Create a backup using the [http://duplicity.nongnu.org/ duplicity] utility and configured with a
-		file in Pyxis format. See the notes section.
+		Create a backup using the [http://duplicity.nongnu.org/ duplicity] utility and configured from a
+		file in Pyxis format. See class [$source DUPLICITY_CONFIG] for details.
 	]"
-	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-12 19:03:26 GMT (Tuesday 12th March 2019)"
-	revision: "5"
+	date: "2019-03-12 22:08:46 GMT (Tuesday 12th March 2019)"
+	revision: "6"
 
 class
 	DUPLICITY_BACKUP
@@ -47,8 +46,7 @@ feature -- Basic operations
 	 execute
 		local
 			destination_dir: EL_DIR_URI_PATH; continue: BOOLEAN
-			ftp_pw: ZSTRING; target_info: DUPLICITY_TARGET_INFO
-			backup_command: DUPLICITY_BACKUP_COMMAND
+			ftp_pw: ZSTRING; backup_command: DUPLICITY_BACKUP_COMMAND
 			arguments: DUPLICITY_ARGUMENTS
 		do
 			continue := True
@@ -70,12 +68,7 @@ feature -- Basic operations
 					lio.put_path_field ("Backup", target_dir)
 					lio.put_new_line
 					get_backup_type
-					create arguments.make (Current, destination_dir, True)
-					create target_info.make (arguments, target_dir)
-					target_info.display_size
-
-					lio.put_string ("Do you wish to continue backup (y/n)")
-					continue := User_input.entered_letter ('y')
+					continue := user_accepts_dry_run (destination_dir)
 					lio.put_new_line
 					if continue then
 						write_change_comment
@@ -99,6 +92,18 @@ feature -- Basic operations
 				type := Backup_type.incremental
 			end
 			lio.put_new_line
+		end
+
+	user_accepts_dry_run (destination_dir: EL_DIR_URI_PATH): BOOLEAN
+		local
+			target_info: DUPLICITY_TARGET_INFO; arguments: DUPLICITY_ARGUMENTS
+		do
+			create arguments.make (Current, destination_dir, True)
+			create target_info.make (arguments, target_dir)
+			target_info.display_size
+
+			lio.put_string ("Do you wish to continue backup (y/n)")
+			Result := User_input.entered_letter ('y')
 		end
 
 feature {NONE} -- Implementation
@@ -157,51 +162,5 @@ feature {NONE} -- Constants
 			create Result
 			Tuple.fill (Result, "error, warning, notice, info, debug")
 		end
-
-note
-	notes: "[
-		A typical configuration file is shown below. The configuration `name' is optional and defaults to
-		the base of the `target_dir'. This name is used to name the backup directory name. All `exclude-files'
-		entries are relative to the `target_dir'.
-
-			pyxis-doc:
-				version = 1.0; encoding = "UTF-8"
-
-			duplicity:
-				encryption_key = VAL; target_dir = "$HOME/dev/Eiffel/myching-server"; name = "My Ching server"
-				destination:
-					"file://$HOME/Backups/duplicity"
-					"file:///media/finnian/Seagate-1/Backups/duplicity"
-					"ftp://username@ftp.eiffel-loop.com/public/www/Backups/duplicity"
-					"sftp://finnian@18.14.67.44/$HOME/Backups/duplicity"
-
-				exclude-files:
-					"""
-						resources/locale.??
-						www/images
-					"""
-				exclude-any:
-					"""
-						**/build
-						**/workarea
-						**/.sconf_temp
-						**.a
-						**.la
-						**.lib
-						**.obj
-						**.o
-						**.exe
-						**.pyc
-						**.evc
-						**.dblite
-						**.deps
-						**.pdb
-						**.zip
-						**.tar.gz
-						**.lnk
-						**.goutputstream**
-					"""
-
-	]"
 
 end
