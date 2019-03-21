@@ -1219,6 +1219,14 @@ Creates an XML file manifest of a target directory using either the default Evol
 
 Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal`.
 
+`-duplicity` [DUPLICITY_BACKUP_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/duplicity_backup_app.html)
+
+Create an duplicity backup using a configuration file in Pyxis format.
+
+`-duplicity_restore` [DUPLICITY_RESTORE_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/duplicity_restore_app.html)
+
+Restores either an entire duplicity backup or a selected file or directory.  Restoration output directory is defined in same configuration file as backup.
+
 **Download**
 
 Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-04 16:16:30 GMT (Sunday 4th November 2018)"
-	revision: "11"
+	date: "2019-03-21 12:42:29 GMT (Thursday 21st March 2019)"
+	revision: "12"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -63,9 +63,12 @@ feature -- Access
 		-- The result status that will be send with this response.
 
 	status_message: STRING
-		-- The status message. Void if none.
+		-- The status message
 		do
-			Result := Http_status.name (status)
+			create Result.make (30)
+			Result.append_natural_16 (status)
+			Result.append_character (' ')
+			Result.append (Http_status.name (status))
 		end
 
 feature -- Status query
@@ -94,13 +97,9 @@ feature -- Basic operations
 		-- send response headers and content
 		do
 			if not is_sent then
-				set_header (once "Content-Length", content_length.out)
-				set_header (once "Content-Type", content_type.specification)
-
-				-- NOTE: There is no need to send the HTTP status line because
-				-- the FastCGI protocol does it for us.
+				set_default_headers
 				if status = Http_status.ok then
-					set_default_headers; set_cookie_headers
+					set_cookie_headers
 				end
 				if is_head_request then
 					write (sorted_headers)
@@ -111,16 +110,25 @@ feature -- Basic operations
 			end
 		end
 
-	send_error (sc: like status; message: STRING)
+	send_error (sc: like status; message: READABLE_STRING_GENERAL; a_content_type: EL_DOC_TYPE)
 			-- Send an error response to the client using the specified
 			-- status code and descriptive message. The server generally
 			-- creates the response to look like a normal server error page.
 		local
-			code_name: STRING
+			code_name: STRING; html: ZSTRING
 		do
 			code_name := Http_status.name (sc)
-			content_type := Doc_type_plain_latin_1
-			content := Error_page_template #$ [code_name, code_name, message]
+			content_type := a_content_type
+			if a_content_type.type ~ once "html" then
+				html := Error_page_template #$ [code_name, code_name, message]
+				if a_content_type.encoding.is_type_utf then
+					content := html.to_utf_8
+				else
+					content := html.to_latin_1
+				end
+			else
+				content := message.to_string_8
+			end
 			set_status (sc)
 			send
 		end
@@ -246,6 +254,10 @@ feature {NONE} -- Implementation
 	set_default_headers
 			-- Set default headers for all responses including the Server and Date headers.	
 		do
+			set_header (once "Server", once "Eiffel-Loop FCGI servlet")
+			set_header (once "Status", status_message)
+			set_header (once "Content-Length", content_length.out)
+			set_header (once "Content-Type", content_type.specification)
 		end
 
 	sorted_headers: EL_STRING_8_LIST

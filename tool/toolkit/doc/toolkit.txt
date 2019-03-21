@@ -33,6 +33,15 @@ or an optional external Evolicity template. See class [$source EVOLICITY_SERIALI
 
 Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal'.
 
+`-duplicity' [$source DUPLICITY_BACKUP_APP]
+
+Create an duplicity backup using a configuration file in Pyxis format.
+
+`-duplicity_restore' [$source DUPLICITY_RESTORE_APP]
+
+Restores either an entire duplicity backup or a selected file or directory. 
+Restoration output directory is defined in same configuration file as backup.
+
 **Download**
 
 Download binary of [https://github.com/finnianr/Eiffel-Loop/releases/latest `el_toolkit'] for ''Ubuntu 14.04'' or ''Linux Mint 17.x''.

@@ -17,8 +17,6 @@ for creating single and multi-threaded HTTP servlet services.
 			<renaming old_name = "EMAIL" new_name = "NET_EMAIL"/>
 		</library>
 		<library name = "time" location = "$ISE_EIFFEL/library/time/time.ecf"/>
-		<!--Other-->
-		<library name = "log4e" location = "$LOG4E/library/log4e.ecf" readonly = "false"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>

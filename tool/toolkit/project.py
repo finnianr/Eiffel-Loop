@@ -2,7 +2,7 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 17); build = 486
+version = (1, 2, 17); build = 487
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 

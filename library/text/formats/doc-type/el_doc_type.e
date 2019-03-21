@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 14:49:35 GMT (Tuesday 10th April 2018)"
-	revision: "5"
+	date: "2019-03-21 12:15:34 GMT (Thursday 21st March 2019)"
+	revision: "6"
 
 class
 	EL_DOC_TYPE
@@ -31,11 +31,18 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	encoding: EL_ENCODING
+
 	specification: STRING
 
 	type: STRING
 
-	encoding: EL_ENCODING
+feature -- Comparison
+
+	same_as (other: EL_DOC_TYPE): BOOLEAN
+		do
+			Result := encoding.same_as (other.encoding) and type ~ other.type
+		end
 
 feature {NONE} -- Implementation
 

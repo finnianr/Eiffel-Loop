@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-12 18:37:49 GMT (Tuesday 12th March 2019)"
-	revision: "1"
+	date: "2019-03-19 15:47:16 GMT (Tuesday 19th March 2019)"
+	revision: "2"
 
 class
 	DUPLICITY_TARGET_INFO
@@ -47,7 +47,13 @@ feature {NONE} -- Initialization
 			put_object (arguments)
 			set_working_directory (target_dir.parent)
 			execute
-			do_with_lines (agent find_last_full_backup, lines)
+			if has_error then
+				across errors as error loop
+					lio.put_line (error.item)
+				end
+			else
+				do_with_lines (agent find_last_full_backup, lines)
+			end
 		end
 
 feature -- Basic operations

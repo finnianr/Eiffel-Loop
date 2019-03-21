@@ -11,15 +11,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "13"
+	date: "2019-03-21 12:28:47 GMT (Thursday 21st March 2019)"
+	revision: "14"
 
 deferred class
 	FCGI_SERVLET_SERVICE
 
 inherit
-	L4E_PRIORITY_CONSTANTS
-
 	EL_MODULE_HTTP_STATUS
 
 	EL_MODULE_FILE_SYSTEM
@@ -33,6 +31,10 @@ inherit
 	EL_MODULE_EXCEPTION
 
 	EL_COMMAND
+
+	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_DOCUMENT_TYPES
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
@@ -50,7 +52,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			make_default
 			config := a_config
-			initialize_logger
 		end
 
 	make_default
@@ -92,18 +93,6 @@ feature {NONE}
 			end
 		end
 
-	initialize_logger
-			-- Set logger appenders
-		local
-			appender: L4E_APPENDER; layout: L4E_LAYOUT; output_path: EL_FILE_PATH
-		do
-			output_path := Log_manager.output_directory_path + ("log" + config.server_port.out + ".txt")
-			create {L4E_FILE_APPENDER} appender.make (output_path.to_string.to_string_8, True)
-			create {L4E_PATTERN_LAYOUT} layout.make ("@d [@-6p] @c - @m%N")
-			appender.set_layout (layout)
-			log_hierarchy.logger (Servlet_app_log_category).add_appender (appender)
-		end
-
 	initialize_servlets
 		-- initialize servlets
 		do
@@ -121,12 +110,11 @@ feature -- Basic operations
 				initialize_servlets; initialize_listening
 
 				if unable_to_listen then
-					log_servlet_error ("Application unable to listen")
+					log_error (Empty_string_8, "Application unable to listen")
 				else
 					do_transitions
 
 					broker.close
-					Log_hierarchy.close_all
 					across servlets as servlet loop
 						servlet.item.on_shutdown
 					end
@@ -135,8 +123,7 @@ feature -- Basic operations
 				socket.close
 			else
 				across config.error_messages as message loop
-					lio.put_labeled_string ("Error " + message.cursor_index.out, message.item)
-					lio.put_new_line
+					log_error ("Configuration error " + message.cursor_index.out, message.item)
 				end
 			end
 			log.exit
@@ -183,7 +170,9 @@ feature {NONE} -- States
 				table.search (Default_servlet_key)
 			end
 			if table.found then
-				log_servlet_info (Service_info_template #$ [broker.relative_path_info, table.found_item.servlet_info])
+				log_message (
+					once "Servicing path", Service_info_template #$ [broker.relative_path_info, table.found_item.servlet_info]
+				)
 				table.found_item.serve_fast_cgi (broker)
 			else
 				on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (broker))
@@ -207,7 +196,7 @@ feature {NONE} -- States
 				end
 			else
 				a_socket.close
-				log_servlet_error ("{FCGI_SERVLET_SERVICE}.reading_request failed")
+				log_error ("routine reading_request", "failed")
 				state := agent accepting_connection
 			end
 		end
@@ -217,7 +206,7 @@ feature {NONE} -- Event handling
 	on_missing_servlet (resp: FCGI_SERVLET_RESPONSE)
 			-- Send error page indicating missing servlet
 		do
-			resp.send_error (Http_status.not_found, "Missing servlet")
+			resp.send_error (Http_status.not_found, "Resource not found", Doc_type_html_utf_8)
 		end
 
 	on_shutdown
@@ -241,65 +230,33 @@ feature {NONE} -- Implementation
 		rescue
 			if Exception.received_broken_pipe_signal then
 				broker.close
-				log_servlet_error ("Broken pipe exception")
+				log_error (Empty_string_8, "Broken pipe exception")
 				retry
 
 			elseif Exception.received_termination_signal then
-				log_servlet_error (" Ctrl-C detected, shutting down ..")
+				log_message ("Ctrl-C detected", "shutting down ..")
 				state := Final
 				retry
 			else
-				log_servlet_error ("Exiting after unrescueable exception: " + Exception.last_out)
+				log_error ("Exiting after unrescueable exception", Exception.last_out)
 				Exception.write_last_trace (Current)
 			end
 		end
 
-	log_error (logger: STRING; message: ANY)
+	log_error (label, message: READABLE_STRING_GENERAL)
 		do
-			if Log_hierarchy.is_enabled_for (Error_p) then
-				Log_hierarchy.logger (logger).error (message)
-			end
-			if attached {STRING} message as str then
-				log_message (str)
-			else
-				log_message (message.out)
-			end
+			log_message ("ERROR", generator)
+			log_message (label, message)
 		end
 
-	log_info (logger: STRING; message: ANY)
+	log_message (label, message: READABLE_STRING_GENERAL)
 		do
-			if Log_hierarchy.is_enabled_for (Info_p) then
-				Log_hierarchy.logger (logger).info (message)
-			end
-			if attached {READABLE_STRING_GENERAL} message as str then
-				log_message (str)
-			else
-				log_message (message.out)
-			end
-		end
-
-	log_message (message: READABLE_STRING_GENERAL)
-		local
-			pos_colon: INTEGER; label: READABLE_STRING_GENERAL
-		do
-			pos_colon := message.index_of (':', 1)
-			if pos_colon > 0 then
-				label := message.substring (1, pos_colon - 1)
-				lio.put_labeled_string (label, message.substring (pos_colon + 2, message.count))
+			if not label.is_empty then
+				lio.put_labeled_string (label, message)
 				lio.put_new_line
 			else
 				lio.put_line (message)
 			end
-		end
-
-	log_servlet_error (message: ANY)
-		do
-			log_error (Servlet_app_log_category, message)
-		end
-
-	log_servlet_info (message: ANY)
-		do
-			log_info (Servlet_app_log_category, message)
 		end
 
 	new_config (file_path: EL_FILE_PATH): like config
@@ -340,7 +297,9 @@ feature {NONE} -- String constants
 
 	Service_info_template: ZSTRING
 		once
-			Result := "Servicing path: %"%S%" with servlet %S"
+			Result := "[
+				"#" with servlet #
+			]"
 		end
 
 	Servlet_app_log_category: STRING = "servlet.app"
@@ -351,12 +310,6 @@ feature {NONE} -- String constants
 		end
 
 feature {NONE} -- Constants
-
-	Log_hierarchy: L4E_HIERARCHY
-			-- Shared logging hierarchy.
-		once
-			create Result.make (Info_p)
-		end
 
 	Max_initialization_retry_count: INTEGER
 		-- The maximum number of times application will retry

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-11 10:56:28 GMT (Monday 11th February 2019)"
-	revision: "3"
+	date: "2019-03-19 14:42:02 GMT (Tuesday 19th March 2019)"
+	revision: "4"
 
 class
 	DUPLICITY_BACKUP_APP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [DUPLICITY_BACKUP]
 		redefine
-			Option_name, initialize
+			Option_name, Visible_types
 		end
 
 create
@@ -35,12 +35,6 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end
 
-	initialize
-		do
-			Console.show ({EL_CAPTURED_OS_COMMAND})
-			Precursor
-		end
-
 feature {NONE} -- Constants
 
 	Description: STRING = "Create an incremental backup with duplicity command"
@@ -54,5 +48,10 @@ feature {NONE} -- Constants
 		end
 
 	Option_name: STRING = "duplicity"
+
+	Visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+		once
+			Result := << {EL_CAPTURED_OS_COMMAND}, {DUPLICITY_TARGET_INFO} >>
+		end
 
 end
