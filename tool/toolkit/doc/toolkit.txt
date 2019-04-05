@@ -8,6 +8,12 @@ Counts the number of words in a HTML document.
 
 Menu driven shell of useful cryptographic operations.
 
+`-export_book': [$source THUNDERBIRD_BOOK_EXPORTER_APP]
+
+Merges a localized folder of emails in the Thunderbird email client into a
+single HTML book with chapter numbers and titles derived from subject line.
+The output files are used to generate a Kindle book.
+
 `-export_www': [$source THUNDERBIRD_WWW_EXPORTER_APP]
 
 Exports emails from selected Thunderbird email folders as HTML bodies (extension: `body'). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.

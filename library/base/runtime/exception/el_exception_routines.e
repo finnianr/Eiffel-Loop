@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-24 14:14:59 GMT (Thursday 24th January 2019)"
-	revision: "8"
+	date: "2019-03-25 11:15:39 GMT (Monday 25th March 2019)"
+	revision: "9"
 
 class
 	EL_EXCEPTION_ROUTINES
@@ -77,7 +77,7 @@ feature -- Status query
 			if attached {ROUTINE_FAILURE} last_exception as routine
 				and then attached {IO_FAILURE} routine.original as exception
 			then
-				Result := exception.message.same_string ("Broken pipe")
+				Result := exception.description.same_string ("Broken pipe")
 			end
 		end
 

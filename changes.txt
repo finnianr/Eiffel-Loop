@@ -4,3 +4,6 @@ Full backup
 Thu 21st Mar 2019, 14:54:34
 Fixed FCGI_SERVLET_RESPONSE to return status code
 
+Fri 5th Apr 2019, 16:29:47
+Documentation changes
+

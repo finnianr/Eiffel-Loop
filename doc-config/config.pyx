@@ -95,7 +95,7 @@ publish-repository:
 			"library/xml-db.ecf"
 			"library/xdoc-scanning.ecf"
 			"library/vtd-xml.ecf"
-			"library/markup-docs.ecf"
+			"library/markup-docs.ecf#open_office"
 
 		# Library (Runtime)
 		ecf:
@@ -114,6 +114,8 @@ publish-repository:
 			"library/encryption.ecf"
 			"library/public-key-encryption.ecf"
 			"library/evolicity.ecf"
+			"library/markup-docs.ecf#kindle_book"
+			"library/markup-docs.ecf#thunderbird"
 			"library/text-formats.ecf"
 			"library/text-process.ecf#edit"
 			"library/text-process.ecf#parse"

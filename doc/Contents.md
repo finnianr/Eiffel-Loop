@@ -500,8 +500,8 @@ Conditions can be combined using the logical operators: `and`, `or` and `not`. Q
 *** We are using the term *join* somewhat loosely and mean only that if you have two chains *CHAIN [A]* and *CHAIN [B]*, you can produce a subchain of *CHAIN [B]* where each *B* item has a matching field value with an item from *CHAIN [A]*.
 
 
-## Search Engine Classes
-Classes for parsing search terms and searching a list conforming to `CHAIN [EL_WORD_SEARCHABLE]`. The search uses case-insensivitive word tokenization.
+## Search Engine
+Classes for parsing search terms and searching a list conforming to `CHAIN [EL_WORD_SEARCHABLE]` using case-insensitive word tokenization.
 
 
 * Facility to create custom search types.
@@ -566,14 +566,8 @@ VTD-XML uses a very fast and efficient method of building a compressed represent
 Using the Eiffel API is considerably easier and more intuitive to use than the original Java or C version of VTD-XML.
 
 A substantial C-bridge was developed to make Eiffel work better with VTD-XML. The original VTX-XML code was forked to make it possible to compile it with the MSC compiler. This fork is found under `contrib/C`.
-## Markup Document Processing
-Classes for processing documents encoded with various kinds of markup language.
-
-**1.** [OpenDocument Flat XML spreadsheets](http://www.datypic.com/sc/odf/e-office_spreadsheet.html) using [VTD-XML](http://vtd-xml.sourceforge.net/).
-
-**2.** Read and export emails from the [Thunderbird email client](https://www.thunderbird.net/) including a class to generate a Kindle book from a folder of chapter emails.
-
-**3.** Classes for generating Kindle OPF packages from HTML content.
+## Open Office Spreadsheets
+Classes for reading the contents of [OpenDocument Flat XML spreadsheets](http://www.datypic.com/sc/odf/e-office_spreadsheet.html) using [VTD-XML](http://vtd-xml.sourceforge.net/).
 ## Multi-Application Management
 This library has two main purposes:
 
@@ -1047,6 +1041,10 @@ To make an Eiffel class serializable with *Evolicity* you inherit from class [EV
 
 
 
+## Kindle Publishing
+Classes for generating Kindle OPF packages from HTML content.
+## Thunderbird Email Export
+Classes to read and export emails from the [Thunderbird email client](https://www.thunderbird.net/) including a class to generate a Kindle book from a folder of chapter emails.
 ## Textual Data Formats
 Classes for handling various human-readable text formats. Supported formats are: XML, XHTML, HTML, JSON, CSV. (Note: Eiffel-Loop has other libraries for parsing XML)
 ## Text Editing
@@ -1194,6 +1192,10 @@ Counts the number of words in a HTML document.
 `-crypto`: [CRYPTO_COMMAND_SHELL_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/crypto_command_shell_app.html)
 
 Menu driven shell of useful cryptographic operations.
+
+`-export_book`: [THUNDERBIRD_BOOK_EXPORTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/thunderbird_book_exporter_app.html)
+
+Merges a localized folder of emails in the Thunderbird email client into a single HTML book with chapter numbers and titles derived from subject line. The output files are used to generate a Kindle book.
 
 `-export_www`: [THUNDERBIRD_WWW_EXPORTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/thunderbird_www_exporter_app.html)
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-28 10:49:17 GMT (Thursday 28th February 2019)"
-	revision: "19"
+	date: "2019-04-04 14:01:09 GMT (Thursday 4th April 2019)"
+	revision: "20"
 
 class
 	APPLICATION_ROOT
@@ -48,6 +48,7 @@ feature {NONE} -- Implementation
 				{LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP},
 				{LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP},
 
+				{THUNDERBIRD_BOOK_EXPORTER_APP},
 				{THUNDERBIRD_WWW_EXPORTER_APP},
 
 				{UNDATED_PHOTO_FINDER_APP},

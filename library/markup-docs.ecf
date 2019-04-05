@@ -6,13 +6,11 @@ Markup Document Processing
 
 Classes for processing documents encoded with various kinds of markup language.
 
-**1.** [http://www.datypic.com/sc/odf/e-office_spreadsheet.html OpenDocument Flat XML spreadsheets]
-using [http://vtd-xml.sourceforge.net/ VTD-XML].
+CLUSTERS
 
-**2.** Read and export emails from the [https://www.thunderbird.net/ Thunderbird email client] including
-a class to generate a Kindle book from a folder of chapter emails.
-
-**3.** Classes for generating Kindle OPF packages from HTML content.
+* Open Office Spreadsheets
+* Thunderbird Email Export
+* Kindle Publishing
 	</description>
 	<target name = "EL_markup_docs">
 		<root all_classes = "true"/>
@@ -30,8 +28,29 @@ a class to generate a Kindle book from a folder of chapter emails.
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
 		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf"/>
-		<cluster name = "open_office" location = "persistency/xml/open-office-spreadsheet" recursive = "true"/>
-		<cluster name = "thunderbird" location = "persistency/thunderbird" recursive = "true"/>
-		<cluster name = "kindle_book" location = "persistency/kindle-book" recursive = "true"/>
+		<cluster name = "open_office" location = "persistency/xml/open-office-spreadsheet" recursive = "true">
+			<description>
+Open Office Spreadsheets
+
+Classes for reading the contents of
+[http://www.datypic.com/sc/odf/e-office_spreadsheet.html OpenDocument Flat XML spreadsheets]
+using [http://vtd-xml.sourceforge.net/ VTD-XML].
+			</description>
+		</cluster>
+		<cluster name = "thunderbird" location = "persistency/thunderbird" recursive = "true">
+			<description>
+Thunderbird Email Export
+
+Classes to read and export emails from the [https://www.thunderbird.net/ Thunderbird email client]
+including a class to generate a Kindle book from a folder of chapter emails.
+			</description>
+		</cluster>
+		<cluster name = "kindle_book" location = "persistency/kindle-book" recursive = "true">
+			<description>
+Kindle Publishing
+
+Classes for generating Kindle OPF packages from HTML content.
+			</description>
+		</cluster>
 	</target>
 </system>

@@ -7,10 +7,10 @@ system:
 	library_target = EL_search
 	description:
 		"""
-			Search Engine Classes
+			Search Engine
 
-			Classes for parsing search terms and searching a list conforming to `CHAIN [EL_WORD_SEARCHABLE]'.
-			The search uses case-insensivitive word tokenization.
+			Classes for parsing search terms and searching a list conforming to `CHAIN [EL_WORD_SEARCHABLE]'
+			using case-insensitive word tokenization.
 
 			* Facility to create custom search types.
 			* Terms can be combined using basic boolean operators.
@@ -19,7 +19,7 @@ system:
 		name = EL_search
 		
 		description: 
-			"Search engine classes"
+			"Search engine"
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
