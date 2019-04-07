@@ -48,7 +48,7 @@ system:
 
 		# Source code
 		cluster:
-			name = search; location = "persistency/search-engine"; recursive = true; readonly = false
+			name = search; location = "text/search-engine"; recursive = true; readonly = false
 			
 
 
