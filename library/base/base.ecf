@@ -50,7 +50,17 @@ Various hash-table, array, list, chain and linear types
 See doc/base.data_structure.txt for details
 			</description>
 		</cluster>
-		<cluster name = "math" location = "math" recursive = "true"/>
+		<cluster name = "math" location = "math" recursive = "true">
+			<description>
+Math
+
+Some basic math classes for the following:
+
+* 2D geometry
+* Calculating integrals of arbitrary functions
+* Representing column vectors
+			</description>
+		</cluster>
 		<cluster name = "runtime" location = "runtime" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

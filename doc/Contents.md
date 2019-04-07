@@ -161,6 +161,13 @@ HASH_TABLE
 
 
 ## Math
+Some basic math classes for the following:
+
+
+* 2D geometry
+* Calculating integrals of arbitrary functions
+* Representing column vectors
+
 ## Data Persistence
 Classes providing the following facilities:
 

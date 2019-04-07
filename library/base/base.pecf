@@ -89,6 +89,16 @@ system:
 
 		cluster:
 			name = math; location = math; recursive = true
+			description:
+				"""
+					Math
+					
+					Some basic math classes for the following:
+
+					* 2D geometry
+					* Calculating integrals of arbitrary functions
+					* Representing column vectors
+				"""
 
 		cluster:
 			name = runtime; location = runtime; recursive = true
