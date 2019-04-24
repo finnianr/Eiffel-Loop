@@ -2,12 +2,15 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 17); build = 487
+version = (1, 2, 18); build = 488
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.18
+# DUPLICITY_BACKUP_APP: change prompt for FTP password to indicate site name
 
 # 1.2.17
 # fixed bug in EL_PYXIS_PARSER to change codec for document encoding type

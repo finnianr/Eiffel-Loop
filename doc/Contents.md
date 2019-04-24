@@ -107,12 +107,47 @@ Classes for reading and writing wav files on the Windows OS
 Audio extensions for the [WEL GUI library](https://www.eiffel.org/doc/solutions/WEL) that facilitate playback and other audio functions.
 ## Vision2 Audio
 Audio extensions for Windows implementation of Vision2 GUI library. This depends on the [WEL audio extensions](http://www.eiffel-loop.com/library/wel-x-audio.html) library.
-## Laabhair Audio
+## Laabhair Audio Analysis Framework
 **Status:** No longer maintained
 
-The Laabhair* Audio library was developed at the [Digital Media Centre at the Dublin Institute of Technology](https://arrow.dit.ie/dmc/) to do audio processing with Eiffel and present realtime graphics audio representations using an [Adobe Flash player](https://www.adobe.com/products/flashplayer.html) GUI.
+The *Laabhair** audio analysis framework was developed at the [Digital Media Centre at the Dublin Institute of Technology](https://arrow.dit.ie/dmc/) to do audio analysis with Eiffel in real-time, presenting graphical audio representations using an [Adobe Flash player](https://www.adobe.com/products/flashplayer.html) GUI.
 
-*Laabhair is the Gaelic for talk.
+(**Laabhair is the Gaelic for talk.*)
+
+**Benefits for various developer audiences**
+
+*Eiffel Programmers*
+
+
+1. Easy access to the advanced sound analysis capabilities of Praat and conversely gives Praat programmers easy access to the advanced engineering capabilities of Eiffel. Praat script is an elegant little language with an ADA like syntax that does for sound analysis what PL/SQL does for database querying. The level of Eiffel required to make use of the framework is very minimal. The essence of a Laabhair application can be understood from a single Eiffel class.
+2. Easy access to the advanced presentation capabilities of Flash and conversely gives Flash programmers easy access to the advanced engineering capabilities of Eiffel. The most significant part of this framework is an elegantly simple XML-orientated network-RPC protocol allowing Eiffel to make asynchronous calls to ActionScript procedures in a Flash application. Unlike SOAP, Laabhair RPC messages have a very transparent syntax that is self-explanatory. Communication in the other direction is through parameterless commands representing Flash button clicks.
+
+*Praat programmers*
+
+Easy access to the advanced presentation capabilities of Flash and conversely gives Flash programmers easy access to the advanced sound analysis capabilities of Praat.
+
+**Structure of the Laabhair framework**
+
+The framework is used to develop both an Eiffel sound analyis program and a Flash presentation program which communicate over a network socket. The analyzer has a small GUI consisting of a status light and a sound level meter and a minimize and close caption bar button. The analyzer window situates itself in the top right hand corner. The presentation application is launched in fullscreen mode by the analyzer. The analyzer window is set to be "always on top" so it is not obscured by the Flash application. A button on the Flash GUI is used to stop and start the analyzer taking input from the mic. Another button closes the application.
+
+The sound analysis program implements an application specific Praat analyzer which is fed by a continuous stream of small sound clips streamed from audio input. (Typically of 100 millisecs duration) The analyzer class contains an embedded Praat script which is run for each sound clip sample. The analyzer does some calculation on the results (in Eiffel) before calling (asynchronously) a Flash presentation procedure with the results.
+
+The framework allows editing of application configuration values in a dialog activated from a drop down menu. Each time the analyzer is activated any edit changes are propagated to registered listeners. Out of the box the configuration edit dialog allows you to change the following parameters:
+
+
+* Location of an external Praat script to be used in place of the embedded script (useful for testing)
+* Change the duration of each audio sample clip fed to the analyzer. (default is 100 ms)
+* Change the signal threshold below which audio input is ignored. (Set to a higher value when operating in a noisey environment)
+
+All of the configurable values can also be set from the command line at startup.
+
+**Related libraries in Eiffel-Loop**
+
+
+* Eiffel interface to the Windows sound input API  allowing streaming audio from the microphone to be processed in Eiffel using classes from the producer-consumer thread library. The wrapper is implemented as a WEL extension.
+* Eiffel interface to the Praat sound analysis engine and script interpreter. The wrapper allows Praat scripts to be run from Eiffel and the resulting values of script variables to be accessed from Eiffel. The wrapper uses a modified version of the Praat source code allowing operation from Eiffel and compilation as a library using the MSVC command line compiler.
+
+
 ## Data Structure
 Various hash-table, array, list, chain and linear types
 
@@ -457,7 +492,7 @@ Override of Eiffel Software's EiffelVision2 for use with [Eiffel-Loop Vision2 ex
 ## Override of Eiffel2Java
 Override of Eiffel Software's [Eiffel2Java](https://www.eiffel.org/doc/solutions/Eiffel2Java) library for use with the [Eiffel-Loop Eiffel to Java](http://www.eiffel-loop.com/library/eiffel2java.html) library.
 ## Eco-DB (Eiffel CHAIN Orientated Database)
-*Eco-DB* is an acronym for *Eiffel CHAIN Orientated Database*, and enables the development of container objects conforming to the base class [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) to have many of the properties of relational database tables.
+*Eco-DB* is an acronym for *Eiffel CHAIN Orientated Database*. This library allows the extension (by inheritance) of a container object inheriting the base class [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) so that it assumes many of the charateristics of a database table.
 
 **PERSISTENCE**
 
@@ -506,13 +541,6 @@ Conditions can be combined using the logical operators: `and`, `or` and `not`. Q
 
 *** We are using the term *join* somewhat loosely and mean only that if you have two chains *CHAIN [A]* and *CHAIN [B]*, you can produce a subchain of *CHAIN [B]* where each *B* item has a matching field value with an item from *CHAIN [A]*.
 
-
-## Search Engine
-Classes for parsing search terms and searching a list conforming to `CHAIN [EL_WORD_SEARCHABLE]` using case-insensitive word tokenization.
-
-
-* Facility to create custom search types.
-* Terms can be combined using basic boolean operators.
 
 ## Windows Registry Management
 Classes for Windows registry searching, reading and editing.
@@ -1052,6 +1080,13 @@ To make an Eiffel class serializable with *Evolicity* you inherit from class [EV
 Classes for generating Kindle OPF packages from HTML content.
 ## Thunderbird Email Export
 Classes to read and export emails from the [Thunderbird email client](https://www.thunderbird.net/) including a class to generate a Kindle book from a folder of chapter emails.
+## Search Engine
+Classes for parsing search terms and searching a list conforming to `CHAIN [EL_WORD_SEARCHABLE]` using case-insensitive word tokenization.
+
+
+* Facility to create custom search types.
+* Terms can be combined using basic boolean operators.
+
 ## Textual Data Formats
 Classes for handling various human-readable text formats. Supported formats are: XML, XHTML, HTML, JSON, CSV. (Note: Eiffel-Loop has other libraries for parsing XML)
 ## Text Editing

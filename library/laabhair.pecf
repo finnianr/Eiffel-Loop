@@ -9,15 +9,18 @@ system:
 	library_target = EL_laabhair
 	description:
 		"""
-			Laabhair Audio
+			Laabhair Audio Analysis Framework
 
 			**Status:** No longer maintained
 
-			The Laabhair* Audio library was developed at the [https://arrow.dit.ie/dmc/ Digital Media Centre
-			at the Dublin Institute of Technology] to do audio processing with Eiffel and present realtime graphics
+			The ''Laabhair''* audio analysis framework was developed at the
+			[https://arrow.dit.ie/dmc/ Digital Media Centre at the Dublin Institute of Technology]
+			to do audio analysis with Eiffel in real-time, presenting graphical
 			audio representations using an [https://www.adobe.com/products/flashplayer.html Adobe Flash player] GUI.
 
-			*Laabhair is the Gaelic for talk.
+			(*''Laabhair is the Gaelic for talk.'')
+
+			See doc/laabhair.txt for details
 		"""
 	target:
 		name = EL_laabhair
@@ -27,5 +30,5 @@ system:
 
 		# Classes
 		cluster:
-			name = EL_laabhair; location = "../multimedia/audio/laabhair"
+			name = EL_laabhair; location = "multimedia/audio/laabhair"
 

@@ -39,7 +39,7 @@ publish-repository:
 			"library/wav-audio.ecf"
 			"library/wel-x-audio.ecf"
 			"library/vision2-x-audio.ecf"
-			"library/doc/laabhair.ecf"
+			"library/laabhair.ecf"
 
 		# Library Base
 		ecf:
@@ -90,7 +90,6 @@ publish-repository:
 		# Library (Persistency)
 		ecf:
 			"library/Eco-DB.ecf"
-			"library/search-engine.ecf"
 			"library/wel-regedit-x.ecf"
 			"library/xml-db.ecf"
 			"library/xdoc-scanning.ecf"
@@ -116,6 +115,7 @@ publish-repository:
 			"library/evolicity.ecf"
 			"library/markup-docs.ecf#kindle_book"
 			"library/markup-docs.ecf#thunderbird"
+			"library/search-engine.ecf"
 			"library/text-formats.ecf"
 			"library/text-process.ecf#edit"
 			"library/text-process.ecf#parse"

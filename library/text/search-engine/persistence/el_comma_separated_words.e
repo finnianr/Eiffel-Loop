@@ -1,5 +1,5 @@
 note
-	description: "A list of comma separated words for used with EL_COMMA_SEPARATED_WORDS_LIST"
+	description: "A list of comma separated words for use with [$source EL_COMMA_SEPARATED_WORDS_LIST]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

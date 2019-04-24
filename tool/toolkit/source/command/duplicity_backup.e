@@ -46,7 +46,7 @@ feature -- Basic operations
 	 execute
 		local
 			destination_dir: EL_DIR_URI_PATH; continue: BOOLEAN
-			ftp_pw: ZSTRING; backup_command: DUPLICITY_BACKUP_COMMAND
+			backup_command: DUPLICITY_BACKUP_COMMAND
 			arguments: DUPLICITY_ARGUMENTS
 		do
 			continue := True
@@ -58,9 +58,7 @@ feature -- Basic operations
 				end
 			end
 			if continue and then destination_dir_list.query_if (agent is_ftp_protocol).count > 0 then
-				ftp_pw := User_input.line ("Enter ftp password")
-				lio.put_new_line
-				Execution_environment.put (ftp_pw, "FTP_PASSWORD")
+				set_ftp_password
 			end
 			across destination_dir_list as dir until not continue loop
 				destination_dir := dir.item.joined_dir_path (destination_name)
@@ -125,6 +123,20 @@ feature {NONE} -- Implementation
 	is_ftp_protocol (dir: EL_DIR_URI_PATH): BOOLEAN
 		do
 			Result := dir.protocol ~ Protocol.ftp
+		end
+
+	set_ftp_password
+		local
+			ftp_pw, prompt_template, site_name: ZSTRING
+		do
+			destination_dir_list.find_first_true (agent is_ftp_protocol)
+			if not destination_dir_list.exhausted then
+				prompt_template := "Enter %S ftp password"
+				site_name := destination_dir_list.item.to_string.substring_between_general ("@", "/", 1)
+				ftp_pw := User_input.line (prompt_template #$ [site_name])
+				lio.put_new_line
+				Execution_environment.put (ftp_pw, "FTP_PASSWORD")
+			end
 		end
 
 	write_change_comment
