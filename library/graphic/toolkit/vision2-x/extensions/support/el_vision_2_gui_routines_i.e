@@ -6,22 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 12:06:20 GMT (Friday 21st December 2018)"
-	revision: "13"
+	date: "2019-05-20 13:41:19 GMT (Monday 20th May 2019)"
+	revision: "14"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
 
 inherit
-	EV_STOCK_COLORS
-		rename
-			Implementation as Implementation_stock_colors
-		end
-
-	EV_STOCK_PIXMAPS
-		rename
-			Implementation as Implementation_pixmaps
-		end
+	EL_MODULE_COLOR
 
 	EV_FRAME_CONSTANTS
 
@@ -30,6 +22,8 @@ inherit
 	EL_MODULE_LOG
 
 	EL_MODULE_HEXADECIMAL
+
+	EL_MODULE_PIXMAP
 
 	EL_MODULE_SCREEN
 		export
@@ -119,10 +113,10 @@ feature -- Constants
 
 feature -- Basic operations
 
-	apply_background_color (a_components: ARRAY [EV_COLORIZABLE]; color: EV_COLOR)
+	apply_background_color (a_components: ARRAY [EV_COLORIZABLE]; a_color: EV_COLOR)
 			--
 		do
-			a_components.do_all (agent {EV_COLORIZABLE}.set_background_color (color))
+			a_components.do_all (agent {EV_COLORIZABLE}.set_background_color (a_color))
 		end
 
 	apply_foreground_and_background_color (
@@ -134,10 +128,10 @@ feature -- Basic operations
 			apply_background_color (a_components, background_color)
 		end
 
-	apply_foreground_color (a_components: ARRAY [EV_COLORIZABLE]; color: EV_COLOR)
+	apply_foreground_color (a_components: ARRAY [EV_COLORIZABLE]; a_color: EV_COLOR)
 			--
 		do
-			a_components.do_all (agent {EV_COLORIZABLE}.set_foreground_color (color))
+			a_components.do_all (agent {EV_COLORIZABLE}.set_foreground_color (a_color))
 		end
 
 	do_later (a_action: PROCEDURE; millisecs_interval: INTEGER_32)
@@ -230,7 +224,7 @@ feature -- Mouse pointer setting
 	restore_standard_pointer
 		do
 			if busy_widget /= Default_busy_widget then
-				busy_widget.set_pointer_style (Standard_cursor)
+				busy_widget.set_pointer_style (Pixmap.Standard_cursor)
 				busy_widget := Default_busy_widget
 			end
 		end
@@ -264,22 +258,23 @@ feature -- Mouse pointer setting
 
 	set_busy_pointer_at_position (widget: EV_WIDGET; position_x, position_y: INTEGER)
 		local
-			x, y: INTEGER
+			x, y: INTEGER; cursor: like Pixmap.Busy_cursor
 		do
+			cursor := Pixmap.Busy_cursor
 			x := position_x; y := position_y
 			if x = 0 then
-				x := Busy_cursor.x_hotspot - Busy_cursor.width
+				x := cursor.x_hotspot - cursor.width
 			else
-				x := x + Busy_cursor.x_hotspot
+				x := x + cursor.x_hotspot
 			end
 			if y = 0 then
-				y := Busy_cursor.y_hotspot - Busy_cursor.height
+				y := cursor.y_hotspot - cursor.height
 			else
-				y := y + Busy_cursor.y_hotspot
+				y := y + cursor.y_hotspot
 			end
 			Screen.set_pointer_position (widget.screen_x + x, widget.screen_y  + y)
 			busy_widget := widget_container (widget)
-			busy_widget.set_pointer_style (Busy_cursor)
+			busy_widget.set_pointer_style (cursor)
 		end
 
 	set_busy_pointer_for_action (action: PROCEDURE; widget: EV_WIDGET; position: INTEGER)

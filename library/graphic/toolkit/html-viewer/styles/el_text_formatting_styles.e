@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-05-20 13:29:58 GMT (Monday 20th May 2019)"
+	revision: "6"
 
 class
 	EL_TEXT_FORMATTING_STYLES
 
 inherit
-	EL_MODULE_GUI
+	EL_MODULE_COLOR EL_MODULE_GUI
 
 	EL_MODULE_SCREEN
 
@@ -136,7 +136,7 @@ feature {NONE} -- Implementation
 	new_character_format (a_font: EL_FONT): EV_CHARACTER_FORMAT
 			--
 		do
-			create Result.make_with_font_and_color (a_font, GUI.Black, background_color)
+			create Result.make_with_font_and_color (a_font, Color.Black, background_color)
 		end
 
 	darken_color (intensity: REAL): REAL

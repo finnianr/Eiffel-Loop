@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-05-20 15:01:27 GMT (Monday 20th May 2019)"
+	revision: "5"
 
 class
 	QUANTUM_BALL_ANIMATION_AREA_CELL
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 	initialize
 			-- Initialize `Current'.
 		do
-			Precursor {EV_MODEL_WORLD_CELL}
+			Precursor
 			disable_resize
 			disable_scrollbars
 			projector.register_figure (create {MODEL_ELECTRON}, agent projector.draw_figure_picture)

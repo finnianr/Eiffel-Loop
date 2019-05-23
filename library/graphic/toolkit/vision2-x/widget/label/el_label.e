@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 8:30:12 GMT (Friday 21st December 2018)"
-	revision: "6"
+	date: "2019-05-20 13:47:13 GMT (Monday 20th May 2019)"
+	revision: "7"
 
 class
 	EL_LABEL
@@ -29,6 +29,11 @@ inherit
 			align_text_center, align_text_left, align_text_right
 		redefine
 			align_text_top, align_text_vertical_center, align_text_bottom
+		end
+
+	EL_MODULE_COLOR
+		undefine
+			is_equal, copy, default_create
 		end
 
 	EL_MODULE_SCREEN
@@ -131,7 +136,7 @@ feature -- Element change
 			set_text (a_text)
 			timer.set_interval ((1000 * timeout_secs).rounded)
 			timer.actions.extend_kamikaze (agent remove_text)
-			timer.actions.extend_kamikaze (agent set_foreground_color (GUI.default_foreground_color))
+			timer.actions.extend_kamikaze (agent set_foreground_color (Color.default_foreground_color))
 		end
 
 feature -- Status setting

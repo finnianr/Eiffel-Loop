@@ -6,14 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 8:12:26 GMT (Friday 21st December 2018)"
-	revision: "5"
+	date: "2019-05-20 13:29:31 GMT (Monday 20th May 2019)"
+	revision: "6"
 
 class
 	EL_COLOR_BUTTON
 
 inherit
 	EV_BUTTON
+
+	EL_MODULE_COLOR
+		rename
+			Color as Mod_color
+		undefine
+			default_create, copy
+		end
 
 	EL_MODULE_GUI
 		undefine
@@ -56,7 +63,7 @@ feature -- Element change
 			color.set_rgb_with_24_bit (rgb_code)
 			color_pixmap.set_background_color (color)
 			color_pixmap.clear
-			color_pixmap.set_foreground_color (GUI.Dark_gray)
+			color_pixmap.set_foreground_color (Mod_color.Dark_gray)
 			color_pixmap.draw_straight_line (1, color_pixmap.height - 1, color_pixmap.width, color_pixmap.height - 1)
 			color_pixmap.draw_straight_line (color_pixmap.width - 1, 1, color_pixmap.width - 1, color_pixmap.height)
 			set_pixmap (color_pixmap)

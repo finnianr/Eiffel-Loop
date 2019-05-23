@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-05-20 13:22:15 GMT (Monday 20th May 2019)"
+	revision: "6"
 
 deferred class
 	EL_DRAWABLE
 
 inherit
 	EL_MODULE_GUI
+
+	EL_MODULE_COLOR
 
 feature -- Drawing operations
 
@@ -51,17 +53,17 @@ feature -- Drawing operations
 			y1 := y + a_height - 1
 
 			save_colors
-			set_foreground_color (GUI.White)
+			set_foreground_color (Color.White)
 			set_line_width (1)
 			draw_segment (x, y, x, y1)
 			draw_segment (x, y, x1, y)
 
 			set_line_width (1)
-			set_foreground_color (GUI.Gray)
+			set_foreground_color (Color.Gray)
 			draw_segment (x1, y + 1, x1, y1 - 1)
 			draw_segment (x + 1, y1, x1 - 1, y1)
 
-			set_foreground_color (GUI.Dark_gray)
+			set_foreground_color (Color.Dark_gray)
 			draw_segment (x1 - 1, y + 1, x1 - 1, y1 - 1)
 			draw_segment (x + 1, y1 - 1, x1 - 1, y1 - 1)
 			restore_colors

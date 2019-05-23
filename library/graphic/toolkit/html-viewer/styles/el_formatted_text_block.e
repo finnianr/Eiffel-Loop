@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-05-20 13:48:10 GMT (Monday 20th May 2019)"
+	revision: "5"
 
 class
 	EL_FORMATTED_TEXT_BLOCK
 
 inherit
+	EL_MODULE_COLOR
+
 	EL_MODULE_GUI
 
 	EL_MODULE_VISION_2
@@ -137,7 +139,7 @@ feature -- Enable styles
 
 	enable_blue
 		do
-			change_text_style (agent text_style.set_color (GUI.Blue))
+			change_text_style (agent text_style.set_color (Color.Blue))
 		end
 
 	enable_darkend_fixed_width
@@ -160,7 +162,7 @@ feature -- Disable styles
 
 	disable_blue
 		do
-			change_text_style (agent text_style.set_color (GUI.Black))
+			change_text_style (agent text_style.set_color (Color.Black))
 		end
 
 	disable_bold, disable_fixed_width, disable_italic

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 9:13:34 GMT (Friday 21st December 2018)"
-	revision: "6"
+	date: "2019-05-20 13:49:34 GMT (Monday 20th May 2019)"
+	revision: "7"
 
 deferred class
 	EL_DRAWABLE_LABEL
@@ -20,6 +20,8 @@ inherit
 	EL_SHARED_ONCE_STRINGS
 
 	EL_STRING_8_CONSTANTS
+
+	EL_MODULE_COLOR
 
 feature {NONE} -- Initialization
 
@@ -36,7 +38,7 @@ feature {NONE} -- Initialization
 			text := a_text
 			align_text_left; align_text_center
 			set_font_and_height (a_font)
-			set_foreground_color (GUI.Black)
+			set_foreground_color (Color.Black)
 		end
 
 feature -- Access

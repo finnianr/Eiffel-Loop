@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-11 14:58:01 GMT (Friday 11th January 2019)"
-	revision: "6"
+	date: "2019-05-20 13:50:57 GMT (Monday 20th May 2019)"
+	revision: "7"
 
 class
 	EL_HYPERLINK_AREA
@@ -18,6 +18,16 @@ inherit
 	EL_MIXED_FONT_STYLEABLE
 		rename
 			make as make_mixed_font
+		undefine
+			default_create, copy
+		end
+
+	EL_MODULE_COLOR
+		undefine
+			default_create, copy
+		end
+
+	EL_MODULE_PIXMAP
 		undefine
 			default_create, copy
 		end
@@ -55,7 +65,7 @@ feature {NONE} -- Initialization
 			default_create
 
 			set_background_color (a_background_color)
-			link_text_color := GUI.Blue; disabled_link_text_color := GUI.Black
+			link_text_color := Color.Blue; disabled_link_text_color := Color.Black
 
 			create text_rect.make (
 				0, 0, mixed_style_width (styled_text), bold_font.line_height + bold_font.line_height // 8
@@ -133,7 +143,7 @@ feature -- Status change
 		do
 			action := a_action
 		end
-	
+
 	set_underlined
 			--
 		do
@@ -156,7 +166,7 @@ feature {NONE} -- Event handling
 	on_pointer_leave
 			--
 		do
-			set_pointer_style (GUI.Standard_cursor)
+			set_pointer_style (Pixmap.Standard_cursor)
 			is_selected := False
 			redraw
 		end
@@ -170,13 +180,13 @@ feature {NONE} -- Event handling
 			is_selected := is_enabled and then has_pointer
 			if old_is_selected /= is_selected then
 				if is_selected then
-					set_pointer_style (GUI.Hyperlink_cursor)
+					set_pointer_style (Pixmap.Hyperlink_cursor)
 
 					-- Link exit not always detected by pointer motion event,
 					-- so check a little later if pointer is still over this link
 					GUI.do_later (agent check_pointer_still_here, 150)
 				else
-					set_pointer_style (GUI.Standard_cursor)
+					set_pointer_style (Pixmap.Standard_cursor)
 				end
 				redraw
 			end

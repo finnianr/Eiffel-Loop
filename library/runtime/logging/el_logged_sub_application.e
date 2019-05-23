@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 2:29:28 GMT (Friday 25th January 2019)"
-	revision: "4"
+	date: "2019-05-05 8:51:42 GMT (Sunday 5th May 2019)"
+	revision: "5"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 				on_operating_system_signal
 
 			elseif other_exception then
-				Exception.put_last_trace (log)
+				on_exception
 			else
 				log.enter ("make")
 				log_stack_pos := log.call_stack_count
@@ -94,6 +94,11 @@ feature {NONE} -- Implementation
 	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		deferred
+		end
+
+	on_exception
+		do
+			Exception.put_last_trace (log)
 		end
 
 	standard_options: EL_HASH_TABLE [STRING, STRING]

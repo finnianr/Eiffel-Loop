@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-05-20 14:08:07 GMT (Monday 20th May 2019)"
+	revision: "5"
 
 class
 	QUANTUM_BALL_MAIN_WINDOW
@@ -16,6 +16,11 @@ inherit
 	EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER
 		redefine
 			 initialize, prepare_to_show
+		end
+
+	EL_MODULE_COLOR
+		undefine
+			copy , default_create
 		end
 
 	EL_MODULE_LOG
@@ -45,7 +50,7 @@ feature {NONE} -- Initialization
 			set_title (Window_title)
 			set_icon_pixmap (Icon_window)
 			set_border_width (Border_width)
-			set_border_color (GUI.Black)
+			set_border_color (Color.Black)
 
 			create ball_animation.make
 			add_toolbar_buttons

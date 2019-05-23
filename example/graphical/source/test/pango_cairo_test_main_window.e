@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-05-20 13:25:34 GMT (Monday 20th May 2019)"
+	revision: "5"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -16,6 +16,11 @@ inherit
 	EL_TITLED_WINDOW
 		redefine
 			make
+		end
+
+	EL_MODULE_COLOR
+		undefine
+			default_create, copy, is_equal
 		end
 
 	EL_MODULE_SCREEN
@@ -70,7 +75,7 @@ feature {NONE} -- Initialization
 
 			create pixmap_cell.make_with_container (cell, agent new_pixmap)
 			picture_box := Vision_2.new_horizontal_box (0.3, 0.0, << cell >>)
-			picture_box.set_background_color (GUI.White)
+			picture_box.set_background_color (Color.White)
 			extend (
 				Vision_2.new_vertical_box (0.1, 0.1, <<
 					picture_box,
@@ -125,7 +130,7 @@ feature {NONE} -- Implementation
 			name_rect.move (10, 60)
 
 			l_pixmap := lenna_pixmap
-			l_pixmap.set_foreground_color (GUI.White)
+			l_pixmap.set_foreground_color (Color.White)
 			l_pixmap.set_line_width (1)
 
 			l_pixmap.draw_rectangle (name_rect.x, name_rect.y, name_rect.width, name_rect.height)
@@ -150,7 +155,7 @@ feature {NONE} -- Implementation
 
 --			Result.lock
 
-			Result.set_color (GUI.White)
+			Result.set_color (Color.White)
 			Result.fill_rectangle (0, 0, l_pixmap.width, l_pixmap.height)
 			Result.draw_rounded_pixmap (0, 0, 35, l_pixmap)
 --			Result.draw_pixmap (0, 0, l_pixmap)

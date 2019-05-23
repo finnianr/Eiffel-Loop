@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-14 12:44:15 GMT (Monday 14th January 2019)"
-	revision: "6"
+	date: "2019-05-20 13:45:44 GMT (Monday 20th May 2019)"
+	revision: "7"
 
 deferred class
 	EL_VERTICAL_DIALOG
@@ -24,6 +24,11 @@ inherit
 		end
 
 	EL_WINDOW
+		undefine
+			default_create, copy
+		end
+
+	EL_MODULE_COLOR
 		undefine
 			default_create, copy
 		end
@@ -388,7 +393,7 @@ feature -- Constants
 
 	Default_border_color: EL_COLOR
 		once
-			Result := GUI.gray
+			Result := Color.gray
 		end
 
 feature {NONE} -- Dimensions

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-22 20:35:27 GMT (Friday 22nd February 2019)"
-	revision: "6"
+	date: "2019-05-20 14:05:36 GMT (Monday 20th May 2019)"
+	revision: "7"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -40,9 +40,9 @@ inherit
 			is_equal, copy, default_create
 		end
 
-	EL_MODULE_SCREEN
+	EL_MODULE_COLOR
 		undefine
-			is_equal, copy, default_create
+			 is_equal, copy, default_create
 		end
 
 	EL_MODULE_GUI
@@ -51,6 +51,16 @@ inherit
 		end
 
 	EL_MODULE_LOG
+		undefine
+			is_equal, copy, default_create
+		end
+
+	EL_MODULE_PIXMAP
+		undefine
+			is_equal, default_create, copy
+		end
+
+	EL_MODULE_SCREEN
 		undefine
 			is_equal, copy, default_create
 		end
@@ -76,7 +86,7 @@ feature {NONE} -- Initialization
 
 			result_selected_action := a_result_selected_action
 			links_per_page := a_links_per_page
-			link_text_color := GUI.Blue
+			link_text_color := Color.Blue
 
 			create search_words.make (0)
 			comparator := Default_comparator
@@ -255,13 +265,13 @@ feature -- Status setting
 
 	set_busy_pointer
 		do
-			set_pointer_style (GUI.Busy_cursor)
+			set_pointer_style (Pixmap.Busy_cursor)
 			position_pointer_on_first_line
 		end
 
 	set_standard_pointer
 		do
-			set_pointer_style (GUI.Standard_cursor)
+			set_pointer_style (Pixmap.Standard_cursor)
 		end
 
 feature {NONE} -- Event handling

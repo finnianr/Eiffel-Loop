@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-05-20 13:23:09 GMT (Monday 20th May 2019)"
+	revision: "6"
 
 deferred class
 	EL_APPLICATION_PIXMAP
 
 inherit
-	EL_MODULE_GUI
-
-	EL_MODULE_SCREEN
+	EL_MODULE_COLOR EL_MODULE_SCREEN
 
 	EL_MODULE_IMAGE_PATH
 		rename
@@ -149,8 +147,8 @@ feature -- Constants
 			create font.make_bold ("Verdana", 1.0)
 			create rect.make_for_text ("?", font)
 			create Result.make_with_rectangle (rect)
-			Result.set_background_color (GUI.Black)
-			Result.set_foreground_color (GUI.White)
+			Result.set_background_color (Color.Black)
+			Result.set_foreground_color (Color.White)
 			Result.clear
 			Result.set_font (font)
 			Result.draw_centered_text ("?", rect)

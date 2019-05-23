@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-05-20 13:30:34 GMT (Monday 20th May 2019)"
+	revision: "6"
 
 class
 	EL_THUMBNAIL_RADIO_BUTTON_GROUP
@@ -22,7 +22,7 @@ inherit
 			set_table_items
 		end
 
-	EL_MODULE_GUI
+	EL_MODULE_COLOR
 
 create
 	make
@@ -111,7 +111,7 @@ feature {NONE} -- Constants
 
 	Highlight_color: EV_COLOR
 		once
-			Result := GUI.Green
+			Result := Color.Green
 		end
 
 end

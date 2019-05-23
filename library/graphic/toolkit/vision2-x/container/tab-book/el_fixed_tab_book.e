@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 8:03:06 GMT (Friday 21st December 2018)"
-	revision: "6"
+	date: "2019-05-20 14:02:22 GMT (Monday 20th May 2019)"
+	revision: "7"
 
 deferred class
 	EL_FIXED_TAB_BOOK [W -> {EV_WINDOW}]
@@ -28,6 +28,11 @@ inherit
 	EL_TAB_SHORTCUTS
 		undefine
 			copy , default_create, is_equal
+		end
+
+	EL_MODULE_COLOR
+		undefine
+			 copy, default_create, is_equal
 		end
 
 	EL_MODULE_LOG
@@ -55,7 +60,7 @@ feature {NONE} -- Initialization
 			window := a_window
 			default_create
 			init_keyboard_shortcuts (a_window)
-			set_background_color (GUI.color_3d_face)
+			set_background_color (Color.color_3d_face)
 			selection_actions.extend (agent
 				do
 					-- Postponing until Ctrl page up/down actions are handled

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 8:13:30 GMT (Friday 21st December 2018)"
-	revision: "4"
+	date: "2019-05-20 13:43:52 GMT (Monday 20th May 2019)"
+	revision: "5"
 
 class
 	EL_DECORATED_BUTTON
@@ -24,6 +24,13 @@ inherit
 		end
 
 	EL_MODULE_GUI
+		undefine
+			default_create, copy
+		end
+
+	EL_MODULE_PIXMAP
+		rename
+			Pixmap as Mod_pixmap
 		undefine
 			default_create, copy
 		end
@@ -147,7 +154,7 @@ feature {NONE} -- Event handlers
 			--
 		do
 			if is_sensitive then
-				set_pointer_style (GUI.Hyperlink_cursor)
+				set_pointer_style (Mod_pixmap.Hyperlink_cursor)
 				is_cursor_over := True
 				set_pixmap_highlighted
 			end
@@ -156,7 +163,7 @@ feature {NONE} -- Event handlers
 	on_pointer_leave
 			--
 		do
-			set_pointer_style (GUI.Standard_cursor)
+			set_pointer_style (Mod_pixmap.Standard_cursor)
 			is_cursor_over := False
 			set_pixmap_normal
 		end

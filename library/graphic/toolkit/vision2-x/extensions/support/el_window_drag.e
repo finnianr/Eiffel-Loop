@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-05-20 13:43:14 GMT (Monday 20th May 2019)"
+	revision: "5"
 
 class
 	EL_WINDOW_DRAG
@@ -16,6 +16,8 @@ inherit
 	EL_MODULE_SCREEN
 
 	EL_MODULE_GUI
+
+	EL_MODULE_PIXMAP
 
 create
 	make
@@ -52,7 +54,7 @@ feature -- Event handling
 				anchor_position.set_y (title_bar.screen_y + title_bar.height // 5)
 				GUI.Screen.set_pointer_position (anchor_position.x, anchor_position.y)
 
-				title_bar.set_pointer_style (GUI.Hyperlink_cursor)
+				title_bar.set_pointer_style (Pixmap.Hyperlink_cursor)
 			end
 		end
 
@@ -62,7 +64,7 @@ feature -- Event handling
 		do
 			if button = 1 and is_active  then
 				is_active := False
-				title_bar.set_pointer_style (GUI.Standard_cursor)
+				title_bar.set_pointer_style (Pixmap.Standard_cursor)
 			end
 		end
 

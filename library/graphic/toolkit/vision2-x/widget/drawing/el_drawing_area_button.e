@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-05-20 13:44:32 GMT (Monday 20th May 2019)"
+	revision: "6"
 
 class
 	EL_DRAWING_AREA_BUTTON
@@ -16,6 +16,16 @@ inherit
 	EL_RECTANGLE
 		rename
 			make as make_rectangle
+		end
+
+	EL_MODULE_COLOR
+		undefine
+			out
+		end
+
+	EL_MODULE_PIXMAP
+		undefine
+			out
 		end
 
 	EL_MODULE_VISION_2
@@ -148,11 +158,11 @@ feature {NONE} -- Implementation
 						end
 				)
 				timer.set_interval (1200)
-				drawing_area.set_pointer_style (GUI.Hyperlink_cursor)
+				drawing_area.set_pointer_style (Pixmap.Hyperlink_cursor)
 			else
 				is_tooltip_displayed := False
 				timer.set_interval (0)
-				drawing_area.set_pointer_style (GUI.Standard_cursor)
+				drawing_area.set_pointer_style (Pixmap.Standard_cursor)
 			end
 			drawing_area.redraw
 		end
@@ -179,7 +189,7 @@ feature {NONE} -- Implementation
 			drawable_buffer.draw_rectangle (text_rect.x, text_rect.y, text_rect.width, text_rect.height)
 
 			drawable_buffer.set_font (l_font)
-			drawable_buffer.set_color (GUI.Black)
+			drawable_buffer.set_color (Color.Black)
 			drawable_buffer.draw_text_top_left (text_rect.x + l_font.descent, text_rect.y, tool_tip.to_unicode)
 		end
 
