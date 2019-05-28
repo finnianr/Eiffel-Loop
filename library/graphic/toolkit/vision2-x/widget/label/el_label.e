@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-20 13:47:13 GMT (Monday 20th May 2019)"
-	revision: "7"
+	date: "2019-05-24 16:00:17 GMT (Friday 24th May 2019)"
+	revision: "8"
 
 class
 	EL_LABEL
@@ -136,7 +136,7 @@ feature -- Element change
 			set_text (a_text)
 			timer.set_interval ((1000 * timeout_secs).rounded)
 			timer.actions.extend_kamikaze (agent remove_text)
-			timer.actions.extend_kamikaze (agent set_foreground_color (Color.default_foreground_color))
+			timer.actions.extend_kamikaze (agent set_foreground_color (Color.Default_foreground))
 		end
 
 feature -- Status setting

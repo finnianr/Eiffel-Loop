@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 8:34:50 GMT (Friday 21st December 2018)"
-	revision: "6"
+	date: "2019-05-28 13:55:55 GMT (Tuesday 28th May 2019)"
+	revision: "7"
 
 class
 	EL_PIXMAP
@@ -24,6 +24,11 @@ inherit
 		end
 
 	EL_DRAWABLE
+		undefine
+			is_equal, default_create, copy
+		end
+
+	EL_ORIENTATION_CONSTANTS
 		undefine
 			is_equal, default_create, copy
 		end
@@ -46,27 +51,13 @@ feature {NONE} -- Initialization
 		end
 
 	make_scaled_to_width (other: like Current; a_width: INTEGER)
-		local
-			pixels: EL_DRAWABLE_PIXEL_BUFFER; scale_factor: DOUBLE
 		do
-			scale_factor := a_width / other.width
-			create pixels.make_rgb_24_with_size (a_width, (other.height * scale_factor).floor)
-			pixels.lock
-			pixels.draw_scaled_pixel_buffer (0, 0, scale_factor, other)
-			pixels.unlock
-			make_with_pixel_buffer (pixels)
+			make_with_pixel_buffer (create {EL_DRAWABLE_PIXEL_BUFFER}.make_rgb_24_with_sized_pixmap (a_width, By_width, other))
 		end
 
 	make_scaled_to_height (other: like Current; a_height: INTEGER)
-		local
-			pixels: EL_DRAWABLE_PIXEL_BUFFER; scale_factor: DOUBLE
 		do
-			scale_factor := a_height / other.height
-			create pixels.make_rgb_24_with_size ((other.width * scale_factor).floor, a_height)
-			pixels.lock
-			pixels.draw_scaled_pixel_buffer (0, 0, scale_factor, other)
-			pixels.unlock
-			make_with_pixel_buffer (pixels)
+			make_with_pixel_buffer (create {EL_DRAWABLE_PIXEL_BUFFER}.make_rgb_24_with_sized_pixmap (a_height, By_height, other))
 		end
 
 	make_with_pixel_buffer (a_pixel_buffer: EV_PIXEL_BUFFER)

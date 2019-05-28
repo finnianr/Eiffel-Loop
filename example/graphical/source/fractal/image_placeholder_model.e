@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-23 17:43:39 GMT (Thursday 23rd May 2019)"
-	revision: "1"
+	date: "2019-05-27 14:32:30 GMT (Monday 27th May 2019)"
+	revision: "2"
 
 class
 	IMAGE_PLACEHOLDER_MODEL
@@ -17,7 +17,7 @@ class
 inherit
 	EV_MODEL_GROUP
 
-	EL_MODULE_COLOR
+	COLOR_CONSTANTS
 		undefine
 			default_create
 		end
@@ -46,16 +46,16 @@ feature {NONE} -- Initialization
 		end
 
 	make_within_bounds (a_bounding: EL_MODEL_ROTATED_RECTANGLE)
-		local
-			border, height: DOUBLE
 		do
 			default_create
 			image_area := a_bounding
 			image_area.set_foreground_color (Color.White)
-			image_area.set_background_color (Color.Dark_gray)
+			image_area.set_background_color (Color_placeholder)
 
 			extend (image_area)
-			extend (create {DOLL_MODEL}.make (image_area))
+
+			extend (create {DOLL_BASE_MODEL}.make (image_area))
+			extend (create {DOLL_HEAD_MODEL}.make (image_area))
 		end
 
 feature -- Access

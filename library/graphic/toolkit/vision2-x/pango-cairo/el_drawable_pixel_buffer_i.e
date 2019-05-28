@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-05-28 16:09:09 GMT (Tuesday 28th May 2019)"
+	revision: "6"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -16,10 +16,8 @@ inherit
 	EV_PIXEL_BUFFER_I
 		rename
 			draw_text as buffer_draw_text,
-			draw_pixel_buffer as old_draw_pixel_buffer,
+			draw_pixel_buffer as draw_pixel_buffer_at_rectangle,
 			make_with_size as make_pixel_buffer_with_size,
-			width as buffer_width,
-			height as buffer_height,
 			set_with_named_path as set_pixel_buffer_with_named_path
 		redefine
 			lock, unlock, interface, default_create
@@ -64,6 +62,11 @@ inherit
 			default_create
 		end
 
+	EL_ORIENTATION_CONSTANTS
+		undefine
+			default_create
+		end
+
 	EL_PANGO_CAIRO_CONSTANTS
 		undefine
 			default_create
@@ -79,7 +82,7 @@ inherit
 			default_create
 		end
 
-	MATH_CONST
+	EL_MODEL_MATH
 		undefine
 			default_create
 		end
@@ -151,26 +154,6 @@ feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 			make_cairo (Cairo.new_image_surface (Cairo_format_argb32, a_width, a_height))
 		end
 
-feature -- Measurement
-
-	height: INTEGER
-		do
-			if is_attached (cairo_surface) then
-				Result := Cairo.surface_height (cairo_surface)
-			else
-				Result := buffer_height
-			end
-		end
-
-	width: INTEGER
-		do
-			if is_attached (cairo_surface) then
-				Result := Cairo.surface_width (cairo_surface)
-			else
-				Result := buffer_width
-			end
-		end
-
 feature -- Element change
 
 	set_angle (angle: REAL)
@@ -180,31 +163,34 @@ feature -- Element change
 			Cairo.rotate (cairo_ctx, angle)
 		end
 
-	set_clip_bottom_rounded_rectangle (x, y, a_width, a_height, radius: INTEGER)
+	set_clip_rounded_rectangle (x, y, a_width, a_height, radius, corners_bitmap: INTEGER)
+		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
 		require
 			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
 		do
-			set_clip_rounded_rectangle_for_corners (x, y, a_width, a_height, radius, False, True, True, False)
-		end
-
-	set_clip_concave_corner_top_left (x, y, radius: INTEGER)
-		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
-		do
-		end
-
-	set_clip_rounded_rectangle (x, y, a_width, a_height, radius: INTEGER)
-		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
-		do
-			set_clip_rounded_rectangle_for_corners (x, y, a_width, a_height, radius, True, True, True, True)
-		end
-
-	set_clip_top_rounded_rectangle (x, y, a_width, a_height, radius: INTEGER)
-		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
-		do
-			set_clip_rounded_rectangle_for_corners (x, y, a_width, a_height, radius, True, False, False, True)
+			Cairo.define_sub_path (cairo_ctx)
+			if (Top_right & corners_bitmap).to_boolean then
+				Cairo.arc (cairo_ctx, x + a_width - radius, y + radius, radius, radians (90).opposite, 0.0);
+			else
+				Cairo.line_to (cairo_ctx, x + a_width, y)
+			end
+			if (Top_left & corners_bitmap).to_boolean then
+				Cairo.arc (cairo_ctx, x + radius, y + radius, radius, radians (180), radians (270));
+			else
+				Cairo.line_to (cairo_ctx, x, y)
+			end
+			if (Bottom_right & corners_bitmap).to_boolean then
+				Cairo.arc (cairo_ctx, x + a_width - radius, y + a_height - radius, radius, 0.0, radians (90));
+			else
+				Cairo.line_to (cairo_ctx, x + a_width, y + a_height)
+			end
+			if (Bottom_left & corners_bitmap).to_boolean then
+				Cairo.arc (cairo_ctx, x + radius, y + a_height - radius, radius, radians (90), radians (180));
+			else
+				Cairo.line_to (cairo_ctx, x, y + a_height)
+			end
+			Cairo.close_sub_path (cairo_ctx)
+			Cairo.clip (cairo_ctx);
 		end
 
 	set_color (a_color: like color)
@@ -231,6 +217,12 @@ feature -- Element change
 			Cairo.set_line_width (cairo_ctx, size)
 		end
 
+	set_with_named_path_as_rgb_24 (a_file_name: PATH)
+		do
+			dispose
+			set_pixel_buffer_with_named_path (a_file_name)
+		end
+
 	set_with_path (file_path: EL_FILE_PATH)
 		local
 			cairo_file: EL_PNG_IMAGE_FILE; l_cairo_surface: POINTER
@@ -243,12 +235,6 @@ feature -- Element change
 				make_cairo (l_cairo_surface)
 				set_surface_color_order
 			end
-		end
-
-	set_with_named_path_as_rgb_24 (a_file_name: PATH)
-		do
-			dispose
-			set_pixel_buffer_with_named_path (a_file_name)
 		end
 
 feature -- Basic operations
@@ -340,15 +326,25 @@ feature -- Basic operations
 			restore
 		end
 
-	draw_scaled_pixel_buffer (x, y: INTEGER; scale_factor: DOUBLE; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_scaled_pixel_buffer (x, y, a_size, dimension: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+		require
+			valid_dimension: is_valid_dimension (dimension)
+		local
+			scale_factor: DOUBLE
 		do
 			save
+			inspect dimension
+				when By_width then
+					scale_factor := a_size / a_buffer.width
+				when By_height then
+					scale_factor := a_size / a_buffer.height
+			else end
 			scale (scale_factor, scale_factor)
 			draw_pixel_buffer (x, y, a_buffer.implementation)
 			restore
 		end
 
-	draw_scaled_pixmap (x, y: INTEGER; scale_factor: DOUBLE; a_pixmap: EV_PIXMAP)
+	draw_scaled_pixmap (x, y, a_size, dimension: INTEGER; a_pixmap: EV_PIXMAP)
 		require
 			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
 		local
@@ -356,7 +352,7 @@ feature -- Basic operations
 		do
 			create rgb_24_buffer.make_rgb_24_with_pixmap (a_pixmap)
 			rgb_24_buffer.lock
-			draw_scaled_pixel_buffer (x, y, scale_factor, rgb_24_buffer)
+			draw_scaled_pixel_buffer (x, y, a_size, dimension, rgb_24_buffer)
 			rgb_24_buffer.unlock
 		end
 
@@ -385,42 +381,59 @@ feature -- Basic operations
 			draw_layout_text
 		end
 
-	fill_concave_corner_bottom_left (x, y, radius: INTEGER)
+	fill_concave_corners (radius, corners_bitmap: INTEGER)
+		-- `corners_bitmap' are OR'd corner values from `EL_ORIENTATION_CONSTANTS', eg. Top_left | Top_right
 		require
 			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+		local
+			x, y, corner, i: INTEGER
 		do
-			set_clip_concave_corner (x, y, radius, False, False, True, False)
-			fill_rectangle (x, y, radius, radius)
-			remove_clip
+			from i := 1 until i > 4 loop
+				corner := All_corners [i]
+				if (corner & corners_bitmap).to_boolean then
+					inspect corner
+						when Top_left then
+							x := 0; y := 0
+						when Top_right then
+							x := width - radius; y := 0
+						when Bottom_right then
+							x := width - radius; y := height - radius
+						when Bottom_left then
+							x := 0; y := height - radius
+					else end
+					set_clip_concave_corner (x, y, radius, corner)
+					fill_rectangle (x, y, radius, radius)
+					remove_clip
+				end
+				i := i + 1
+			end
 		end
 
-	fill_concave_corner_bottom_right (x, y, radius: INTEGER)
+	fill_convex_corners (radius, corners_bitmap: INTEGER)
+		-- `corners_bitmap' are OR'd corner values from `EL_ORIENTATION_CONSTANTS', eg. Top_left | Top_right
 		require
 			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+		local
+			x, y, corner, i: INTEGER
 		do
-			set_clip_concave_corner (x, y, radius, False, True, False, False)
-			fill_rectangle (x, y, radius, radius)
-			remove_clip
+			from i := 1 until i > 4 loop
+				corner := All_corners [i]
+				if (corner & corners_bitmap).to_boolean then
+					inspect corner
+						when Top_left then
+							x := 0; y := 0
+						when Top_right then
+							x := width; y := 0
+						when Bottom_right then
+							x := width; y := height
+						when Bottom_left then
+							x := 0; y := height
+					else end
+					fill_convex_corner (x, y, radius, corner)
+				end
+				i := i + 1
+			end
 		end
-
-	fill_concave_corner_top_left (x, y, radius: INTEGER)
-		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
-		do
-			set_clip_concave_corner (x, y, radius, False, False, False, True)
-			fill_rectangle (x, y, radius, radius)
-			remove_clip
-		end
-
-	fill_concave_corner_top_right (x, y, radius: INTEGER)
-		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
-		do
-			set_clip_concave_corner (x, y, radius, True, False, False, False)
-			fill_rectangle (x, y, radius, radius)
-			remove_clip
-		end
-
 	fill_rectangle (x, y, a_width, a_height: INTEGER)
 		require
 			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
@@ -451,6 +464,32 @@ feature -- Status query
 			Result := format = Cairo_format_rgb24
 		end
 
+feature -- Transform
+
+	rotate (angle: DOUBLE)
+			-- rotate coordinate system by angle in radians
+		require
+			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+		do
+			Cairo.rotate (cairo_ctx, angle)
+			rotation_angle := angle
+		end
+
+	scale (x_factor, y_factor: DOUBLE)
+		require
+			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+		do
+			Cairo.scale (cairo_ctx, x_factor, y_factor)
+		end
+
+	translate (x, y: DOUBLE)
+			-- translate coordinate origin to point x, y
+		require
+			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+		do
+			Cairo.translate (cairo_ctx, x, y)
+		end
+
 feature -- Status change
 
 	lock
@@ -474,15 +513,6 @@ feature -- Status change
 			Cairo.restore (cairo_ctx)
 		end
 
-	rotate (angle: DOUBLE)
-			-- rotate coordinate system by angle in radians
-		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
-		do
-			Cairo.rotate (cairo_ctx, angle)
-			rotation_angle := angle
-		end
-
 	save
 			-- save current drawing setting state on to a stack
 		require
@@ -491,27 +521,12 @@ feature -- Status change
 			Cairo.save (cairo_ctx)
 		end
 
-	scale (x_factor, y_factor: DOUBLE)
-		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
-		do
-			Cairo.scale (cairo_ctx, x_factor, y_factor)
-		end
-
 	set_antialias_best
 		require
 			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
 		do
 			Cairo.set_antialias (cairo_ctx, Cairo_antialias_best)
 --			Cairo.set_antialias (cairo_ctx, Cairo_antialias_subpixel)
-		end
-
-	translate (x, y: INTEGER)
-			-- translate coordinate origin to point x, y
-		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
-		do
-			Cairo.translate (cairo_ctx, x, y)
 		end
 
 	unlock
@@ -586,8 +601,6 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	color: EL_COLOR
-
 	dispose
 		do
 			if not is_in_final_collect then
@@ -601,7 +614,25 @@ feature {NONE} -- Implementation
 			Pango_cairo.show_layout (cairo_ctx, pango_layout)
 		end
 
-	font: EV_FONT
+	fill_convex_corner (x, y, radius, corner: INTEGER)
+		require
+			valid_corner: All_corners.has (corner)
+		do
+			Cairo.define_sub_path (cairo_ctx)
+			Cairo.move_to (cairo_ctx, x, y)
+			inspect corner
+				when Top_left then
+					Cairo.arc (cairo_ctx, x, y, radius, 0, radians (90))
+				when Top_right then
+					Cairo.arc (cairo_ctx, x, y, radius, radians (90), radians (180))
+				when Bottom_right then
+					Cairo.arc (cairo_ctx, x, y, radius, radians (180), radians (270))
+				when Bottom_left then
+					Cairo.arc (cairo_ctx, x, y, radius, radians (270), radians (360))
+			else end
+			Cairo.close_sub_path (cairo_ctx)
+			Cairo.fill (cairo_ctx);
+		end
 
 	format: INTEGER
 		do
@@ -631,60 +662,25 @@ feature {NONE} -- Implementation
 			Result := Pango.layout_size (pango_layout).width
 		end
 
-	pango_layout: POINTER
-
-	rotation_angle: DOUBLE
-
-	set_clip_concave_corner (
-		x, y, radius: INTEGER; top_right, bottom_right, bottom_left, top_left: BOOLEAN
-	)
+	set_clip_concave_corner (x, y, radius, corner: INTEGER)
+		require
+			valid_corner: All_corners.has (corner)
 		do
 			Cairo.define_sub_path (cairo_ctx)
-			if top_right then
-				Cairo.move_to (cairo_ctx, x + radius, y)
-				Cairo.arc (cairo_ctx, x, y + radius, radius, Pi_2.opposite, 0.0);
-			end
-			if bottom_right then
-				Cairo.move_to (cairo_ctx, x + radius, y + radius)
-				Cairo.arc (cairo_ctx, x, y, radius, 0.0, Pi_2);
-			end
-			if bottom_left then
-				Cairo.move_to (cairo_ctx, x, y + radius)
-				Cairo.arc (cairo_ctx, x + radius, y, radius, Pi_2, Pi);
-			end
-			if top_left then
-				Cairo.move_to (cairo_ctx, x, y)
-				Cairo.arc (cairo_ctx, x + radius, y + radius, radius, Pi, Pi + Pi_2);
-			end
-			Cairo.close_sub_path (cairo_ctx)
-			Cairo.clip (cairo_ctx);
-		end
-
-	set_clip_rounded_rectangle_for_corners (
-		x, y, a_width, a_height, radius: INTEGER; top_right, bottom_right, bottom_left, top_left: BOOLEAN
-	)
-		do
-			Cairo.define_sub_path (cairo_ctx)
-			if top_right then
-				Cairo.arc (cairo_ctx, x + a_width - radius, y + radius, radius, Pi_2.opposite, 0.0);
-			else
-				Cairo.line_to (cairo_ctx, x + a_width, y)
-			end
-			if bottom_right then
-				Cairo.arc (cairo_ctx, x + a_width - radius, y + a_height - radius, radius, 0.0, Pi_2);
-			else
-				Cairo.line_to (cairo_ctx, x + a_width, y + a_height)
-			end
-			if bottom_left then
-				Cairo.arc (cairo_ctx, x + radius, y + a_height - radius, radius, Pi_2, Pi);
-			else
-				Cairo.line_to (cairo_ctx, x, y + a_height)
-			end
-			if top_left then
-				Cairo.arc (cairo_ctx, x + radius, y + radius, radius, Pi, Pi + Pi_2);
-			else
-				Cairo.line_to (cairo_ctx, x, y)
-			end
+			inspect corner
+				when Top_left then
+					Cairo.move_to (cairo_ctx, x, y)
+					Cairo.arc (cairo_ctx, x + radius, y + radius, radius, radians (180), radians (270))
+				when Top_right then
+					Cairo.move_to (cairo_ctx, x + radius, y)
+					Cairo.arc (cairo_ctx, x, y + radius, radius, radians (90).opposite, 0.0)
+				when Bottom_right then
+					Cairo.move_to (cairo_ctx, x + radius, y + radius)
+					Cairo.arc (cairo_ctx, x, y, radius, 0.0, radians (90))
+				when Bottom_left then
+					Cairo.move_to (cairo_ctx, x, y + radius)
+					Cairo.arc (cairo_ctx, x + radius, y, radius, radians (90), radians (180))
+			else end
 			Cairo.close_sub_path (cairo_ctx)
 			Cairo.clip (cairo_ctx);
 		end
@@ -723,5 +719,15 @@ feature {NONE} -- Deferred implementation
 	stride: INTEGER
 		deferred
 		end
+
+feature {NONE} -- Internal attributes
+
+	pango_layout: POINTER
+
+	rotation_angle: DOUBLE
+
+	color: EL_COLOR
+
+	font: EV_FONT
 
 end

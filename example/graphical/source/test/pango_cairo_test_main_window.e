@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-20 13:25:34 GMT (Monday 20th May 2019)"
-	revision: "5"
+	date: "2019-05-28 14:02:35 GMT (Tuesday 28th May 2019)"
+	revision: "6"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -38,7 +38,14 @@ inherit
 			default_create, copy, is_equal
 		end
 
-	MATH_CONST
+	EL_MODEL_MATH
+		rename
+			log as natural_log
+		undefine
+			default_create, copy, is_equal
+		end
+
+	EL_ORIENTATION_CONSTANTS
 		undefine
 			default_create, copy, is_equal
 		end
@@ -139,7 +146,7 @@ feature {NONE} -- Implementation
 				l_pixmap.draw_text_top_left (name_rect.x, name_rect.y, l_title)
 			else
 				l_pixmap.implementation.draw_rotated_text (
-					name_rect.x + title_font.descent, name_rect.y, Pi_2.opposite.truncated_to_real, l_title
+					name_rect.x + title_font.descent, name_rect.y, radians (90).opposite.truncated_to_real, l_title
 				)
 			end
 
@@ -157,7 +164,7 @@ feature {NONE} -- Implementation
 
 			Result.set_color (Color.White)
 			Result.fill_rectangle (0, 0, l_pixmap.width, l_pixmap.height)
-			Result.draw_rounded_pixmap (0, 0, 35, l_pixmap)
+			Result.draw_rounded_pixmap (0, 0, 35, Top_left | Top_right | Bottom_right | Bottom_left, l_pixmap)
 --			Result.draw_pixmap (0, 0, l_pixmap)
 			Result.set_font (title_font)
 			if text_angle = 0 then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-20 13:46:30 GMT (Monday 20th May 2019)"
-	revision: "7"
+	date: "2019-05-24 16:00:17 GMT (Friday 24th May 2019)"
+	revision: "8"
 
 deferred class
 	EL_HYPERLINK_MENU [G -> EL_NAMEABLE]
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 			font := a_font
 			create links.make (20)
 			from item_list.start until item_list.after loop
-				create link.make (item_list.item.name, agent on_select (item_list.item), font, Color.color_dialog)
+				create link.make (item_list.item.name, agent on_select (item_list.item), font, Color.Dialog)
 				link.set_link_text_color (a_link_text_color)
 --				link.set_tooltip (a_tooltip: READABLE_STRING_GENERAL)
 				links.extend (link)

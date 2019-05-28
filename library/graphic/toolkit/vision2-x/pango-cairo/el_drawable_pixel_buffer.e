@@ -8,8 +8,8 @@ note
 		and unlocking before calling to_pixmap.
 
 		Note that for the Windows implementation you will need to distribute the Cairo, Pango and GTK DLLs with your application.
-		It is recommended to use the Eiffel-Loop Scons build system for the initial application freeze as this will download the required
-		DLL's and header files. See [https://github.com/finnianr/Eiffel-Loop/blob/master/Readme.md Readme.md]
+		It is recommended to use the Eiffel-Loop Scons build system for the initial application freeze as this will download the
+		required DLL's and header files. See [https://github.com/finnianr/Eiffel-Loop/blob/master/Readme.md Readme.md]
 			scons action=freeze project=<project-name>.ecf
 		
 		Doing a finalized build with scons will place the required DLLs under `package/<$ISE_PLATFORM>/bin'
@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-05-28 16:09:09 GMT (Tuesday 28th May 2019)"
+	revision: "6"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -35,10 +35,10 @@ inherit
 			make_with_size as make_rgb_24_with_size,
 			set_with_named_path as set_with_path_as_rgb_24
 		export
-			{NONE} buffer_draw_text
+			{NONE} buffer_draw_text, draw_pixel_buffer_with_x_y
 		redefine
 			make_with_pixmap, make_rgb_24_with_size, actual_implementation, create_implementation, implementation,
-			to_pixmap, lock, unlock, set_with_path_as_rgb_24, width, height
+			to_pixmap, lock, unlock, set_with_path_as_rgb_24
 		end
 
 	EV_FONTABLE
@@ -46,9 +46,14 @@ inherit
 			implementation
 		end
 
+	EL_ORIENTATION_CONSTANTS
+		undefine
+			default_create, copy
+		end
+
 create
 	default_create, make_with_pixmap, make_with_size, make_rgb_24_with_pixmap, make_rgb_24_with_size, make_with_path,
-	make_from_svg_image
+	make_from_svg_image, make_rgb_24_with_sized_pixmap
 
 convert
 	make_with_pixmap ({EL_PIXMAP})
@@ -86,6 +91,18 @@ feature {NONE} -- Initialization
 			implementation.make_rgb_24_with_pixmap (a_pixmap)
 		end
 
+	make_rgb_24_with_sized_pixmap (a_size, dimension: INTEGER; a_pixmap: EV_PIXMAP)
+		require
+			valid_dimension: is_valid_dimension (dimension)
+		do
+			if dimension = By_width then
+				make_rgb_24_with_size (a_size, (a_pixmap.height * a_size / a_pixmap.width).floor)
+			else
+				make_rgb_24_with_size ((a_pixmap.width * a_size / a_pixmap.height).floor, a_size)
+			end
+			draw_scaled_pixmap (0, 0, a_size, dimension, a_pixmap)
+		end
+
 	make_with_path (a_png_file_path: EL_FILE_PATH)
 		-- make from a PNG file
 		do
@@ -97,18 +114,6 @@ feature {NONE} -- Initialization
 		do
 			default_create
 			implementation.make_from_svg_image (svg_image, a_background_color)
-		end
-
-feature -- Measurement
-
-	width: INTEGER
-		do
-			Result := implementation.width
-		end
-
-	height: INTEGER
-		do
-			Result := implementation.height
 		end
 
 feature -- Status query
@@ -135,19 +140,18 @@ feature -- Basic operations
 			implementation.draw_pixel_buffer (x, y, a_buffer.implementation)
 		end
 
-	draw_pixel_buffer_scaled_to_width (x, y, a_width: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_scaled_pixmap (x, y, a_size, dimension: INTEGER; a_pixmap: EV_PIXMAP)
+		require
+			valid_dimension: is_valid_dimension (dimension)
 		do
-			draw_scaled_pixel_buffer (x, y, a_width / a_buffer.width, a_buffer)
+			implementation.draw_scaled_pixmap (x, y, a_size, dimension, a_pixmap)
 		end
 
-	draw_pixel_buffer_scaled_to_height (x, y, a_height: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_scaled_pixel_buffer (x, y, a_size, dimension: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+		require
+			valid_dimension: is_valid_dimension (dimension)
 		do
-			draw_scaled_pixel_buffer (x, y, a_height / a_buffer.height, a_buffer)
-		end
-
-	draw_scaled_pixel_buffer (x, y: INTEGER; scale_factor: DOUBLE; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
-		do
-			implementation.draw_scaled_pixel_buffer (x, y, scale_factor, a_buffer)
+			implementation.draw_scaled_pixel_buffer (x, y, a_size, dimension, a_buffer)
 		end
 
 	draw_pixmap (x, y: INTEGER; a_pixmap: EV_PIXMAP)
@@ -155,39 +159,19 @@ feature -- Basic operations
 			implementation.draw_pixmap (x, y, a_pixmap)
 		end
 
-	draw_rounded_pixmap (x, y, radius: INTEGER; a_pixmap: EV_PIXMAP)
+	draw_rounded_pixmap (x, y, radius, corners_bitmap: INTEGER; a_pixmap: EV_PIXMAP)
+		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
 		do
-			implementation.set_clip_rounded_rectangle (x, y, a_pixmap.width, a_pixmap.height, radius)
+			implementation.set_clip_rounded_rectangle (x, y, a_pixmap.width, a_pixmap.height, radius, corners_bitmap)
 			implementation.draw_pixmap (x, y, a_pixmap)
 		end
 
-	draw_rounded_pixel_buffer (x, y, radius: INTEGER; a_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_rounded_pixel_buffer (x, y, radius, corners_bitmap: INTEGER; a_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
 		do
-			implementation.set_clip_rounded_rectangle (x, y, a_pixel_buffer.width, a_pixel_buffer.height, radius)
-			implementation.draw_pixel_buffer (x, y, a_pixel_buffer.implementation)
-		end
-
-	draw_top_rounded_pixmap (x, y, radius: INTEGER; a_pixmap: EV_PIXMAP)
-		do
-			implementation.set_clip_top_rounded_rectangle (x, y, a_pixmap.width, a_pixmap.height, radius)
-			implementation.draw_pixmap (x, y, a_pixmap)
-		end
-
-	draw_top_rounded_pixel_buffer (x, y, radius: INTEGER; a_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER)
-		do
-			implementation.set_clip_top_rounded_rectangle (x, y, a_pixel_buffer.width, a_pixel_buffer.height, radius)
-			implementation.draw_pixel_buffer (x, y, a_pixel_buffer.implementation)
-		end
-
-	draw_bottom_rounded_pixmap (x, y, radius: INTEGER; a_pixmap: EV_PIXMAP)
-		do
-			implementation.set_clip_bottom_rounded_rectangle (x, y, a_pixmap.width, a_pixmap.height, radius)
-			implementation.draw_pixmap (x, y, a_pixmap)
-		end
-
-	draw_bottom_rounded_pixel_buffer (x, y, radius: INTEGER; a_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER)
-		do
-			implementation.set_clip_bottom_rounded_rectangle (x, y, a_pixel_buffer.width, a_pixel_buffer.height, radius)
+			implementation.set_clip_rounded_rectangle (
+				x, y, a_pixel_buffer.width, a_pixel_buffer.height, radius, corners_bitmap
+			)
 			implementation.draw_pixel_buffer (x, y, a_pixel_buffer.implementation)
 		end
 
@@ -211,24 +195,21 @@ feature -- Basic operations
 			implementation.draw_rotated_text_top_left (x, y, angle, a_text)
 		end
 
-	fill_concave_corner_bottom_left (x, y, radius: INTEGER)
+	fill
 		do
-			implementation.fill_concave_corner_bottom_left (x, y, radius)
+			implementation.fill_rectangle (0, 0, width, height)
 		end
 
-	fill_concave_corner_bottom_right (x, y, radius: INTEGER)
+	fill_concave_corners (radius, corners_bitmap: INTEGER)
+		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
 		do
-			implementation.fill_concave_corner_bottom_right (x, y, radius)
+			implementation.fill_concave_corners (radius, corners_bitmap)
 		end
 
-	fill_concave_corner_top_left (x, y, radius: INTEGER)
+	fill_convex_corners (radius, corners_bitmap: INTEGER)
+		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
 		do
-			implementation.fill_concave_corner_top_left (x, y, radius)
-		end
-
-	fill_concave_corner_top_right (x, y, radius: INTEGER)
-		do
-			implementation.fill_concave_corner_top_right (x, y, radius)
+			implementation.fill_convex_corners (radius, corners_bitmap)
 		end
 
 	fill_rectangle (x, y, a_width, a_height: INTEGER)
@@ -244,19 +225,10 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_clip_rounded_rectangle (x, y, a_width, a_height, radius: INTEGER)
+	set_clip_rounded_rectangle (x, y, a_width, a_height, radius, corners_bitmap: INTEGER)
+		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
 		do
-			implementation.set_clip_rounded_rectangle (x, y, a_width, a_height, radius)
-		end
-
-	set_clip_top_rounded_rectangle (x, y, a_width, a_height, radius: INTEGER)
-		do
-			implementation.set_clip_top_rounded_rectangle (x, y, a_width, a_height, radius)
-		end
-
-	set_clip_bottom_rounded_rectangle (x, y, a_width, a_height, radius: INTEGER)
-		do
-			implementation.set_clip_bottom_rounded_rectangle (x, y, a_width, a_height, radius)
+			implementation.set_clip_rounded_rectangle (x, y, a_width, a_height, radius, corners_bitmap)
 		end
 
 	set_color (a_color: EL_COLOR)
@@ -279,18 +251,7 @@ feature -- Element change
 			implementation.set_with_named_path_as_rgb_24 (a_file_name)
 		end
 
-feature -- Status change
-
-	set_antialias_best
-		do
-			implementation.set_antialias_best
-		end
-
-	translate (x, y: INTEGER)
-			-- translate coordinate origin to point x, y
-		do
-			implementation.translate (x, y)
-		end
+feature -- Transform
 
 	rotate (angle: DOUBLE)
 			-- rotate coordinate system by angle in radians
@@ -301,6 +262,19 @@ feature -- Status change
 	scale (x_factor, y_factor: REAL_64)
 		do
 			implementation.scale (x_factor, y_factor)
+		end
+
+	translate (x, y: DOUBLE)
+			-- translate coordinate origin to point x, y
+		do
+			implementation.translate (x, y)
+		end
+
+feature -- Status change
+
+	set_antialias_best
+		do
+			implementation.set_antialias_best
 		end
 
 	save

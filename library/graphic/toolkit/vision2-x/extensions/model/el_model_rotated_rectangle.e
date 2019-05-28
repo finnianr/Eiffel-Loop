@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-23 17:29:26 GMT (Thursday 23rd May 2019)"
-	revision: "1"
+	date: "2019-05-25 21:24:27 GMT (Saturday 25th May 2019)"
+	revision: "2"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -15,10 +15,10 @@ class
 inherit
 	EV_MODEL_PARALLELOGRAM
 		export
-			{EL_MODEL_ROTATED_RECTANGLE} center
+			{EV_MODEL} center, set_center
 		end
 
-	DOUBLE_MATH
+	EL_MODEL_MATH
 		undefine
 			default_create
 		end
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			make_with_coordinates (rect.to_point_array)
 		end
 
-	make_from_other (other: like Current)
+	make_from_other (other: EL_MODEL_ROTATED_RECTANGLE)
 		do
 			make_with_coordinates (other.point_array)
 		end
@@ -59,29 +59,20 @@ feature -- Access
 			pa := point_array
 			p0 := pa.item (0)
 			p3 := pa.item (3)
-			Result := distance (p0.x_precise, p0.y_precise, p3.x_precise, p3.y_precise)
+			Result := point_distance (p0, p3)
 		ensure
 			height_positive: height >= Result.zero
 		end
 
 	radius: DOUBLE
 		do
-			Result := distance (
-				center.x_precise, center.y_precise, point_array.item (0).x_precise, point_array.item (0).y_precise
-			)
+			Result := point_distance (center, point_array.item (0))
 		end
 
 	width_precise: DOUBLE
 			-- The `width' of the parallelogram.
-		local
-			pa: like point_array
-			p0, p1: EV_COORDINATE
 		do
-			pa := point_array
-			p0 := pa.item (0)
-			p1 := pa.item (1)
-
-			Result := distance (p0.x_precise, p0.y_precise, p1.x_precise, p1.y_precise)
+			Result := point_distance (point_array.item (0), point_array.item (1))
 		ensure
 			width_positive: width >= Result.zero
 		end

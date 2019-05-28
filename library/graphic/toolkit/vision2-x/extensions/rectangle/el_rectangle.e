@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-23 16:53:50 GMT (Thursday 23rd May 2019)"
-	revision: "6"
+	date: "2019-05-25 20:06:08 GMT (Saturday 25th May 2019)"
+	revision: "7"
 
 class
 	EL_RECTANGLE
@@ -21,10 +21,11 @@ inherit
 		end
 
 create
-	make, make_cms, make_for_text, make_for_pixmap, make_from_cms_tuple
+	make, make_cms, make_for_text, make_for_pixmap, make_from_cms_tuple, make_from_other
 
 convert
-	make_from_cms_tuple ({TUPLE [DOUBLE, DOUBLE, DOUBLE, DOUBLE]})
+	make_from_cms_tuple ({TUPLE [DOUBLE, DOUBLE, DOUBLE, DOUBLE]}),
+	make_from_other ({EV_RECTANGLE})
 
 feature {NONE} -- Initialization
 
@@ -53,6 +54,23 @@ feature {NONE} -- Initialization
 				a.pos_x.truncated_to_real, a.pos_y.truncated_to_real,
 				a.width.truncated_to_real, a.height.truncated_to_real
 			)
+		end
+
+	make_from_other (other: EV_RECTANGLE)
+		do
+			make (other.x, other.y, other.width, other.height)
+		end
+
+feature -- Access
+
+	center_x: INTEGER
+		do
+			Result := x + width // 2
+		end
+
+	center_y: INTEGER
+		do
+			Result := y + height // 2
 		end
 
 feature -- Basic operations
@@ -96,10 +114,10 @@ feature -- Conversion
 	to_point_array: EL_COORDINATE_ARRAY
 		do
 			create Result.make (4)
-			Result [1] := upper_left
-			Result [2] := upper_right
-			Result [3] := lower_right
-			Result [4] := lower_left
+			Result [0] := upper_left
+			Result [1] := upper_right
+			Result [2] := lower_right
+			Result [3] := lower_left
 		end
 
 end

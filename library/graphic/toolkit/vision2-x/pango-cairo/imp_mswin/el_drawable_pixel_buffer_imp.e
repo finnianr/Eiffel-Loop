@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-05-27 10:10:08 GMT (Monday 27th May 2019)"
+	revision: "6"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_IMP
@@ -20,13 +20,11 @@ inherit
 			make_with_pixmap as make_pixel_buffer,
 			make_with_size as make_pixel_buffer_with_size,
 			set_with_named_path as set_pixel_buffer_with_named_path,
-			width as buffer_width,
-			height as buffer_height,
 			unlock as unlock_buffer
 		undefine
 			lock, default_create
 		redefine
-			interface, old_make, make
+			interface, old_make, make, width, height
 		end
 
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -56,6 +54,26 @@ feature {NONE} -- Initialization
 			-- Creation method.
 		do
 			assign_interface (an_interface)
+		end
+
+feature -- Measurement
+
+	height: INTEGER
+		do
+			if is_attached (cairo_surface) then
+				Result := Cairo.surface_height (cairo_surface)
+			else
+				Result := Precursor
+			end
+		end
+
+	width: INTEGER
+		do
+			if is_attached (cairo_surface) then
+				Result := Cairo.surface_width (cairo_surface)
+			else
+				Result := Precursor
+			end
 		end
 
 feature {EV_ANY, EV_ANY_I} -- Implementation

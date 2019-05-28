@@ -1,13 +1,13 @@
 note
-	description: "Coordinate array"
+	description: "Zero based coordinate array"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-23 16:53:14 GMT (Thursday 23rd May 2019)"
-	revision: "1"
+	date: "2019-05-25 20:05:41 GMT (Saturday 25th May 2019)"
+	revision: "2"
 
 class
 	EL_COORDINATE_ARRAY
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 
 	make (n: INTEGER)
 		do
-			make_filled (create {EV_COORDINATE}, 1, n)
+			make_filled (create {EV_COORDINATE}, 0, n - 1)
 		end
 
 feature -- Basic operations

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 12:05:38 GMT (Friday 21st December 2018)"
-	revision: "7"
+	date: "2019-05-24 15:38:00 GMT (Friday 24th May 2019)"
+	revision: "8"
 
 class
 	EL_COLOR
@@ -29,7 +29,7 @@ create
 	make_with_html, make_transparent
 
 convert
-	make ({EV_COLOR}), make_with_rgb_24_bit ({INTEGER}),
+	make ({EV_COLOR}), make_with_rgb_24_bit ({INTEGER}), make_with_html ({STRING}),
 	rgb_24_bit: {INTEGER}
 
 feature {NONE} -- Initialization
@@ -45,12 +45,12 @@ feature {NONE} -- Initialization
 			is_transparent := True
 		end
 
-	make_with_html (a_html_color: STRING)
+	make_with_html (color_code: STRING)
 		require
-			valid_color_string: a_html_color.count = 7 and then a_html_color [1] = '#'
+			valid_color_string: color_code.count = 7 and then color_code [1] = '#'
 		do
 			default_create
-			set_rgb_with_24_bit (Hexadecimal.to_integer (a_html_color.substring (2, a_html_color.count)))
+			set_with_html (color_code)
 		end
 
 	make_with_rgb_24_bit (a_24_bit_rgb: INTEGER)
@@ -88,17 +88,14 @@ feature -- Access
 			end
 		end
 
-feature -- Element change
+feature -- Conversion
 
-	set_rgb_with_32_bit (a_rgb_32_bit: like rgb_32_bit)
+	to_color: EV_COLOR
 		do
-			if a_rgb_32_bit < 0 then
-				set_rgb_with_24_bit (0)
-				is_transparent := True
-			else
-				set_rgb_with_24_bit (a_rgb_32_bit)
-			end
+			create Result.make_with_rgb (red, green, blue)
 		end
+
+feature -- Element change
 
 	set_rgb_with_24_bit (a_24_bit_rgb: INTEGER)
 		local
@@ -121,6 +118,23 @@ feature -- Element change
 			end
 		ensure then
 			assigned: rgb_24_bit = a_24_bit_rgb
+		end
+
+	set_rgb_with_32_bit (a_rgb_32_bit: like rgb_32_bit)
+		do
+			if a_rgb_32_bit < 0 then
+				set_rgb_with_24_bit (0)
+				is_transparent := True
+			else
+				set_rgb_with_24_bit (a_rgb_32_bit)
+			end
+		end
+
+	set_with_html (color_code: STRING)
+		require
+			valid_color_string: color_code.count = 7 and then color_code [1] = '#'
+		do
+			set_rgb_with_24_bit (Hexadecimal.to_integer (color_code.substring (2, color_code.count)))
 		end
 
 feature -- Status query

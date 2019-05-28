@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-23 17:33:59 GMT (Thursday 23rd May 2019)"
+	date: "2019-05-28 15:09:41 GMT (Tuesday 28th May 2019)"
 	revision: "1"
 
-class
+deferred class
 	DOLL_MODEL
 
 inherit
-	EV_MODEL_GROUP
+	EL_MODEL_ROTATED_RECTANGLE
+		rename
+			make as make_from_rectangle
+		redefine
+			project, recursive_transform
+		end
 
 	EL_MODEL_MATH
 		undefine
@@ -25,147 +30,127 @@ inherit
 			default_create
 		end
 
-create
-	make
+	COLOR_CONSTANTS
+		undefine
+			default_create
+		end
+
+	EL_MODULE_IMAGE
+		undefine
+			default_create
+		end
+
+	EL_ORIENTATION_CONSTANTS
+		rename
+			Top_left as Top_left_corner
+		undefine
+			default_create
+		end
 
 feature {NONE} -- Initialization
 
 	make (rectangle: EL_MODEL_ROTATED_RECTANGLE)
 		local
-			doll_area: EL_MODEL_ROTATED_RECTANGLE
-			head: like new_head; head_area: EL_MODEL_ROTATED_RECTANGLE
+			alpha, diameter, l_angle: DOUBLE; l_center: EV_COORDINATE
+			points: EL_COORDINATE_ARRAY; i: INTEGER
 		do
-			default_create
-			create doll_area.make_from_other (rectangle)
-			doll_area.scale_x (0.8)
-			doll_area.scale_y (0.95)
+			diameter := rectangle.width_precise
+			alpha := rectangle.angle; l_angle := alpha
+			make_from_other (rectangle)
 
-			extend (new_body (doll_area))
+			set_point_array (rectangle, alpha, diameter)
+			set_center
 
-			doll_area.scale_x (0.8)
+			l_center := center
+			-- points in circumscribed square
+			create points.make (4)
+			from i := 0; alpha := radians (135).opposite until i = 4 loop
+				points [i] := point_on_circle (l_center, l_angle + alpha, diameter / 2)
+				i := i + 1
+				alpha := alpha + radians (90)
+			end
+			make_with_coordinates (points)
+		end
 
-			head := new_head (doll_area)
-			extend (head)
+feature -- Visitor
 
-			create head_area.make_with_coordinates (head.point_array)
-			head_area.scale (0.75)
-			extend (new_face (head_area))
+	project (a_projector: EV_MODEL_DRAWING_ROUTINES)
+			-- <Precursor>
+		do
+--			set_center
+			a_projector.draw_figure_picture (new_picture (point_on_circle (center, radians (180 + 45), radius)))
+--			a_projector.draw_figure_picture (picture_model)
+--			a_projector.draw_figure_parallelogram (Current)
+		end
 
-			head_area.scale (0.55)
-			head_area.displace (head_area.height_precise * 0.3, Pi / 2)
-			extend (new_eyes (head_area))
+feature -- Element change
 
-			head_area.scale (0.45)
-			extend (new_lips (head_area))
+	recursive_transform (a_transformation: EV_MODEL_TRANSFORMATION)
+		do
+			Precursor (a_transformation)
+			set_center
+		end
+
+feature {NONE} -- Implementation
+
+	pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER
+		deferred
+		end
+
+	pixmap_table: HASH_TABLE [EV_PIXMAP, INTEGER_64]
+		deferred
+		end
+
+	set_point_array (rectangle: EL_MODEL_ROTATED_RECTANGLE; alpha, diameter: DOUBLE)
+		deferred
 		end
 
 feature {NONE} -- Factory
 
-	new_body (rectangle: EL_MODEL_ROTATED_RECTANGLE): EV_MODEL_ROTATED_ELLIPSE
-		local
-			top_left, top_right: EV_COORDINATE
-			alpha, top_border: DOUBLE
+	new_picture (a_center: EV_COORDINATE): EV_MODEL_PICTURE
 		do
-			create Result
-			Result.set_background_color (Color.Red)
-			Result.set_foreground_color (Color.Red)
-			rectangle.copy_coordinates_to (Result)
-
-			top_left := rectangle.point_array [0] -- top left
-			top_right := rectangle.point_array [1] -- top right
-			alpha := rectangle.angle + Pi / 2
-			top_border := rectangle.height_precise * 0.155
-			Result.point_array.item (0).copy (point_on_circle (top_left, alpha, top_border))
-			Result.point_array.item (1).copy (point_on_circle (top_right, alpha, top_border))
-
-			Result.center_invalidate
+			create Result.make_with_pixmap (new_pixmap (angle, width))
+			Result.set_point_position (a_center.x, a_center.y)
 		end
 
-	new_eye_circle: EV_MODEL_ROTATED_ELLIPSE
+	new_pixels_buffer (a_width: INTEGER): EL_DRAWABLE_PIXEL_BUFFER
 		do
-			create Result
-			Result.set_background_color (Color.Black)
-			Result.set_foreground_color (Color.Black)
+			create Result.make_with_size (a_width, a_width)
+			Result.set_color (Color_placeholder)
+			Result.fill
 		end
 
-	new_eyes (rectangle: EL_MODEL_ROTATED_RECTANGLE): EV_MODEL_GROUP
+	new_pixmap (alpha: DOUBLE; a_width: INTEGER): EV_PIXMAP
+		-- pixmap rotated and scaled
 		local
-			points: EL_COORDINATE_ARRAY; circle: EV_MODEL_ROTATED_ELLIPSE
-			alpha, diameter: DOUBLE; i: INTEGER
+			pixels: EL_DRAWABLE_PIXEL_BUFFER
+			pixmap_id: INTEGER_64; half_width: DOUBLE
 		do
-			diameter := rectangle.width_precise * 0.3
-			create Result
-			alpha := rectangle.angle
-			create points.make (4)
-			from i := 1 until i > 2 loop
-				circle := new_eye_circle
+			pixmap_id := a_width.to_integer_64 |<< 32 | (positive_angle (alpha) * Angle_multiplier).truncated_to_integer
 
-				if i = 1 then
-					-- left
-					points [1] := rectangle.point_array [0]
-				else
-					-- right
-					points [1] := point_on_circle (rectangle.point_array [1], alpha + Pi, diameter)
-				end
-				points [2] := point_on_circle (points [1], alpha, diameter)
-				points [3] := point_on_circle (points [2], alpha + Pi / 2, diameter)
-				points [4] := point_on_circle (points [3], alpha + Pi, diameter)
-				points.copy_to (circle.point_array)
-				circle.center_invalidate
-				Result.extend (circle)
-				i := i + 1
+			if pixmap_table.has_key (pixmap_id) then
+				Result := pixmap_table.found_item
+			else
+				pixels := new_pixels_buffer (a_width)
+
+				half_width := width_precise / 2
+				pixels.translate (half_width, half_width)
+				pixels.rotate (alpha)
+				pixels.translate (half_width.opposite, half_width.opposite)
+				pixels.draw_scaled_pixel_buffer (0, 0, a_width, By_width, pixel_buffer)
+
+				Result := pixels.to_pixmap
+				pixmap_table.extend (Result, pixmap_id)
 			end
 		end
 
-	new_face (rectangle: EL_MODEL_ROTATED_RECTANGLE): EV_MODEL_ROTATED_ELLIPSE
-		do
-			create Result
-			Result.set_background_color (Color.Yellow)
-			Result.set_foreground_color (Color.Yellow)
-			rectangle.copy_coordinates_to (Result)
-			Result.center_invalidate
-		end
+feature {NONE} -- Constants
 
-	new_head (rectangle: EL_MODEL_ROTATED_RECTANGLE): EV_MODEL_ROTATED_ELLIPSE
+	Angle_multiplier: DOUBLE
 		local
-			top_left, top_right: EV_COORDINATE
-			alpha, top_border, diameter: DOUBLE
-		do
-			create Result
-			Result.set_background_color (Color.Red)
-			Result.set_foreground_color (Color.Red)
-
-			top_left := rectangle.point_array [0] -- top left
-			top_right := rectangle.point_array [1] -- top right
-
-			alpha := rectangle.angle + Pi / 2
-			diameter := rectangle.width_precise
-			top_border := diameter / 5
-
-			rectangle.copy_coordinates_to (Result)
-
-			Result.point_array [2] := point_on_circle (top_right, alpha, diameter)
-			Result.point_array [3] := point_on_circle (top_left, alpha, diameter)
-			Result.center_invalidate
-		end
-
-	new_lips (rectangle: EL_MODEL_ROTATED_RECTANGLE): EV_MODEL_ROTATED_ELLIPSE
-		local
-			points: EL_COORDINATE_ARRAY; alpha, height: DOUBLE
-		do
-			create Result
-			Result.set_background_color (Color.Red)
-			Result.set_foreground_color (Color.Red)
-			alpha := rectangle.angle
-			height := rectangle.width_precise * 0.4
-
-			points := rectangle.point_array
-			points [1] := point_on_circle (points [4], alpha + Pi / 2 * 3, height)
-			points [2] := point_on_circle (points [1], alpha, rectangle.width_precise)
-
-			points.copy_to (Result.point_array)
-
-			Result.center_invalidate
+			natural: NATURAL
+		once
+			Result := natural.Max_value / 10.0
 		end
 
 end
