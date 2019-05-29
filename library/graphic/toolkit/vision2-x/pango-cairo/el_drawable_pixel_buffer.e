@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-28 16:09:09 GMT (Tuesday 28th May 2019)"
-	revision: "6"
+	date: "2019-05-28 17:30:14 GMT (Tuesday 28th May 2019)"
+	revision: "7"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -60,28 +60,10 @@ convert
 
 feature {NONE} -- Initialization
 
-	make_with_size (a_width, a_height: INTEGER)
-			--- make alpha rgb 32 bit format
-		require
-			a_width_valid: a_width > 0
-			a_height_valid: a_height > 0
+	make_from_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
 		do
 			default_create
-			implementation.make_with_size (a_width, a_height)
-		end
-
-	make_rgb_24_with_size (a_width, a_height: INTEGER)
-			-- make rgb 24 bit format
-		do
-			default_create
-			implementation.make_rgb_24_with_size (a_width, a_height)
-		end
-
-	make_with_pixmap (a_pixmap: EV_PIXMAP)
-			-- make alpha rgb 32 bit format
-		do
-			default_create
-			implementation.make_with_pixmap (a_pixmap)
+			implementation.make_from_svg_image (svg_image, a_background_color)
 		end
 
 	make_rgb_24_with_pixmap (a_pixmap: EV_PIXMAP)
@@ -89,6 +71,13 @@ feature {NONE} -- Initialization
 		do
 			default_create
 			implementation.make_rgb_24_with_pixmap (a_pixmap)
+		end
+
+	make_rgb_24_with_size (a_width, a_height: INTEGER)
+			-- make rgb 24 bit format
+		do
+			default_create
+			implementation.make_rgb_24_with_size (a_width, a_height)
 		end
 
 	make_rgb_24_with_sized_pixmap (a_size, dimension: INTEGER; a_pixmap: EV_PIXMAP)
@@ -110,22 +99,33 @@ feature {NONE} -- Initialization
 			implementation.set_with_path (a_png_file_path)
 		end
 
-	make_from_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
+	make_with_pixmap (a_pixmap: EV_PIXMAP)
+			-- make alpha rgb 32 bit format
 		do
 			default_create
-			implementation.make_from_svg_image (svg_image, a_background_color)
+			implementation.make_with_pixmap (a_pixmap)
+		end
+
+	make_with_size (a_width, a_height: INTEGER)
+			--- make alpha rgb 32 bit format
+		require
+			a_width_valid: a_width > 0
+			a_height_valid: a_height > 0
+		do
+			default_create
+			implementation.make_with_size (a_width, a_height)
 		end
 
 feature -- Status query
 
-	is_rgb_24_bit: BOOLEAN
-		do
-			Result := implementation.is_rgb_24_bit
-		end
-
 	is_alpha_rgb_32_bit: BOOLEAN
 		do
 			Result := implementation.is_alpha_rgb_32_bit
+		end
+
+	is_rgb_24_bit: BOOLEAN
+		do
+			Result := implementation.is_rgb_24_bit
 		end
 
 feature -- Basic operations
@@ -140,30 +140,19 @@ feature -- Basic operations
 			implementation.draw_pixel_buffer (x, y, a_buffer.implementation)
 		end
 
-	draw_scaled_pixmap (x, y, a_size, dimension: INTEGER; a_pixmap: EV_PIXMAP)
-		require
-			valid_dimension: is_valid_dimension (dimension)
-		do
-			implementation.draw_scaled_pixmap (x, y, a_size, dimension, a_pixmap)
-		end
-
-	draw_scaled_pixel_buffer (x, y, a_size, dimension: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
-		require
-			valid_dimension: is_valid_dimension (dimension)
-		do
-			implementation.draw_scaled_pixel_buffer (x, y, a_size, dimension, a_buffer)
-		end
-
 	draw_pixmap (x, y: INTEGER; a_pixmap: EV_PIXMAP)
 		do
 			implementation.draw_pixmap (x, y, a_pixmap)
 		end
 
-	draw_rounded_pixmap (x, y, radius, corners_bitmap: INTEGER; a_pixmap: EV_PIXMAP)
-		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
+	draw_rectangle (x, y, a_width, a_height: INTEGER)
 		do
-			implementation.set_clip_rounded_rectangle (x, y, a_pixmap.width, a_pixmap.height, radius, corners_bitmap)
-			implementation.draw_pixmap (x, y, a_pixmap)
+			implementation.draw_rectangle (x, y, a_width, a_height)
+		end
+
+	draw_rotated_text_top_left (x, y: INTEGER; angle: DOUBLE; a_text: READABLE_STRING_GENERAL)
+		do
+			implementation.draw_rotated_text_top_left (x, y, angle, a_text)
 		end
 
 	draw_rounded_pixel_buffer (x, y, radius, corners_bitmap: INTEGER; a_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER)
@@ -175,9 +164,25 @@ feature -- Basic operations
 			implementation.draw_pixel_buffer (x, y, a_pixel_buffer.implementation)
 		end
 
-	draw_rectangle (x, y, a_width, a_height: INTEGER)
+	draw_rounded_pixmap (x, y, radius, corners_bitmap: INTEGER; a_pixmap: EV_PIXMAP)
+		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
 		do
-			implementation.draw_rectangle (x, y, a_width, a_height)
+			implementation.set_clip_rounded_rectangle (x, y, a_pixmap.width, a_pixmap.height, radius, corners_bitmap)
+			implementation.draw_pixmap (x, y, a_pixmap)
+		end
+
+	draw_scaled_pixel_buffer (x, y, a_size, dimension: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+		require
+			valid_dimension: is_valid_dimension (dimension)
+		do
+			implementation.draw_scaled_pixel_buffer (x, y, a_size, dimension, a_buffer)
+		end
+
+	draw_scaled_pixmap (x, y, a_size, dimension: INTEGER; a_pixmap: EV_PIXMAP)
+		require
+			valid_dimension: is_valid_dimension (dimension)
+		do
+			implementation.draw_scaled_pixmap (x, y, a_size, dimension, a_pixmap)
 		end
 
 	draw_text (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
@@ -188,11 +193,6 @@ feature -- Basic operations
 	draw_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
 		do
 			implementation.draw_text_top_left (x, y, a_text)
-		end
-
-	draw_rotated_text_top_left (x, y: INTEGER; angle: DOUBLE; a_text: READABLE_STRING_GENERAL)
-		do
-			implementation.draw_rotated_text_top_left (x, y, angle, a_text)
 		end
 
 	fill
@@ -272,15 +272,11 @@ feature -- Transform
 
 feature -- Status change
 
-	set_antialias_best
+	lock
+		require else
+			not_alpha_32_format: not is_alpha_rgb_32_bit
 		do
-			implementation.set_antialias_best
-		end
-
-	save
-			-- save current drawing setting state on to a stack
-		do
-			implementation.save
+			implementation.lock
 		end
 
 	restore
@@ -289,11 +285,15 @@ feature -- Status change
 			implementation.restore
 		end
 
-	lock
-		require else
-			not_alpha_32_format: not is_alpha_rgb_32_bit
+	save
+			-- save current drawing setting state on to a stack
 		do
-			implementation.lock
+			implementation.save
+		end
+
+	set_antialias_best
+		do
+			implementation.set_antialias_best
 		end
 
 	unlock
@@ -329,8 +329,8 @@ feature {NONE} -- Implementation
 
 feature {EL_DRAWABLE_PIXEL_BUFFER_I, EL_DRAWABLE_PIXEL_BUFFER} -- Implementation
 
-	implementation: EL_DRAWABLE_PIXEL_BUFFER_I
-
 	actual_implementation: EL_DRAWABLE_PIXEL_BUFFER_IMP
+
+	implementation: EL_DRAWABLE_PIXEL_BUFFER_I
 
 end

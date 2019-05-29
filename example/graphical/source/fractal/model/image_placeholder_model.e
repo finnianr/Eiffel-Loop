@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-27 14:32:30 GMT (Monday 27th May 2019)"
-	revision: "2"
+	date: "2019-05-29 17:51:15 GMT (Wednesday 29th May 2019)"
+	revision: "3"
 
 class
 	IMAGE_PLACEHOLDER_MODEL
@@ -17,7 +17,12 @@ class
 inherit
 	EV_MODEL_GROUP
 
-	COLOR_CONSTANTS
+	MODEL_CONSTANTS
+		undefine
+			default_create
+		end
+
+	EL_ORIENTATION_CONSTANTS
 		undefine
 			default_create
 		end
@@ -46,6 +51,9 @@ feature {NONE} -- Initialization
 		end
 
 	make_within_bounds (a_bounding: EL_MODEL_ROTATED_RECTANGLE)
+		local
+			head: DOLL_HEAD_MODEL; base: EL_MODEL_ROTATED_SQUARE_PICTURE
+			doll: EV_MODEL_GROUP
 		do
 			default_create
 			image_area := a_bounding
@@ -54,8 +62,22 @@ feature {NONE} -- Initialization
 
 			extend (image_area)
 
-			extend (create {DOLL_BASE_MODEL}.make (image_area))
-			extend (create {DOLL_HEAD_MODEL}.make (image_area))
+			if image_area.height >= image_area.width then
+				create head.make (image_area, Top, Doll_head_pixels, Color_placeholder)
+				doll.extend (head)
+				create base.make (image_area, Top, Doll_base_pixels, Color_placeholder)
+				base.set_x_y_precise (head.mid_point_bottom)
+				doll.put_front (base)
+			else
+				create head.make (image_area, Left, Doll_head_pixels, Color_placeholder)
+				if image_area.width > image_area.height * 1.7 then
+					create base.make (image_area, Right, Doll_base_pixels, Color_placeholder)
+					extend (base)
+				else
+					head.move_to_center (image_area)
+				end
+			end
+			extend (doll)
 		end
 
 feature -- Access

@@ -81,7 +81,8 @@ Test application for selected components from Eiffel-Loop
 				<platform value = "windows"/>
 			</condition>
 		</library>
-		<library name = "el_vision2" location = "$EIFFEL_LOOP/library/vision2-x.ecf"/>
+		<library name = "EL_xdoc_scanning" readonly = "false" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"/>
+		<library name = "EL_vision2" location = "$EIFFEL_LOOP/library/vision2-x.ecf"/>
 		<cluster name = "project" location = "source" recursive = "true"/>
 	</target>
 </system>

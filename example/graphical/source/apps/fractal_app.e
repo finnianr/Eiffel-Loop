@@ -6,39 +6,36 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-20 13:10:11 GMT (Monday 20th May 2019)"
-	revision: "1"
+	date: "2019-05-29 14:11:07 GMT (Wednesday 29th May 2019)"
+	revision: "2"
 
 class
 	FRACTAL_APP
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [FRACTAL_COMMAND]
 		redefine
 			Option_name
 		end
 
+	SHARED_FRACTAL_CONFIG
+
 create
 	make
 
-feature {NONE} -- Initialization
-
-	initialize
-			--
-		do
-			create gui.make (True)
-		end
-
-feature -- Basic operations
-
-	run
-		do
-			gui.launch
-		end
-
 feature {NONE} -- Implementation
 
-	gui: EL_VISION2_USER_INTERFACE [FRACTAL_MAIN_WINDOW]
+	argument_specs: ARRAY [like specs.item]
+		do
+			Result := <<
+				valid_required_argument ("config", "Configuration file path", << file_must_exist >>)
+			>>
+		end
+
+	default_make: PROCEDURE
+		do
+			Result := agent {like command}.make (fractal_config)
+		end
 
 feature {NONE} -- Constants
 

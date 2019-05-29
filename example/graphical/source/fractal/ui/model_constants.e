@@ -6,16 +6,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-27 14:41:27 GMT (Monday 27th May 2019)"
-	revision: "1"
+	date: "2019-05-29 15:53:38 GMT (Wednesday 29th May 2019)"
+	revision: "2"
 
 class
-	COLOR_CONSTANTS
+	MODEL_CONSTANTS
 
 inherit
 	EL_MODULE_COLOR
 
+	EL_MODULE_IMAGE
+
 feature {NONE} -- Constants
+
+	Doll_head_pixels: EL_DRAWABLE_PIXEL_BUFFER
+		once
+			create Result.make_with_path (Image.image_path ("doll-head.png"))
+		end
+
+	Doll_base_pixels: EL_DRAWABLE_PIXEL_BUFFER
+		once
+			create Result.make_with_path (Image.image_path ("doll-base.png"))
+		end
 
 	Color_placeholder: EV_COLOR
 		once

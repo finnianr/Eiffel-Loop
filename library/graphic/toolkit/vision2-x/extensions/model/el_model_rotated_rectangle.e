@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-25 21:24:27 GMT (Saturday 25th May 2019)"
-	revision: "2"
+	date: "2019-05-29 17:27:21 GMT (Wednesday 29th May 2019)"
+	revision: "3"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -19,6 +19,13 @@ inherit
 		end
 
 	EL_MODEL_MATH
+		undefine
+			default_create
+		end
+
+	EL_ORIENTATION_CONSTANTS
+		rename
+			Top_left as Top_left_corner
 		undefine
 			default_create
 		end
@@ -53,12 +60,12 @@ feature -- Access
 	height_precise: DOUBLE
 			-- The `height' of the parallelogram.
 		local
-			pa: like point_array
+			points: like point_array
 			p0, p3: EV_COORDINATE
 		do
-			pa := point_array
-			p0 := pa.item (0)
-			p3 := pa.item (3)
+			points := point_array
+			p0 := points.item (0)
+			p3 := points.item (3)
 			Result := point_distance (p0, p3)
 		ensure
 			height_positive: height >= Result.zero
@@ -82,6 +89,42 @@ feature -- Access
 			Result := point_array
 		end
 
+	circumscribed_square (side: INTEGER): EL_MODEL_ROTATED_RECTANGLE
+		-- unrotated square inside a circle inside the square indicated by `side'
+		require
+			valid_side: is_valid_side (side)
+			valid_horizontal_side: is_horizontal_side (side) implies height >= width
+			valid_vertical_side: is_vertical_side (side) implies width >= height
+		local
+			alpha, diameter, l_angle: DOUBLE; i: INTEGER
+			points: like point_array
+		do
+			diameter := width_precise; l_angle := angle
+			create Result.make_from_other (Current)
+			points := Result.point_array
+			inspect side
+				when Top then
+					points [3] := point_on_circle (point_array [0], l_angle + radians (90), diameter)
+					points [2] := point_on_circle (point_array [1], l_angle + radians (90), diameter)
+				when Bottom then
+					points [0] := point_on_circle (point_array [3], l_angle - radians (90), diameter)
+					points [1] := point_on_circle (point_array [2], l_angle - radians (90), diameter)
+				when Left then
+					points [1] := point_on_circle (point_array [0], l_angle, diameter)
+					points [2] := point_on_circle (point_array [3], l_angle, diameter)
+				when Right then
+					points [0] := point_on_circle (point_array [1], l_angle - radians (180), diameter)
+					points [3] := point_on_circle (point_array [2], l_angle - radians (180), diameter)
+			else
+			end
+			Result.set_center
+			from i := 0; alpha := radians (135).opposite until i = 4 loop
+				points [i] := point_on_circle (Result.center, l_angle + alpha, diameter / 2)
+				i := i + 1
+				alpha := alpha + radians (90)
+			end
+		end
+
 feature -- Basic operations
 
 	copy_coordinates_to (target: EV_MODEL)
@@ -92,12 +135,12 @@ feature -- Basic operations
 	displace (a_distance, a_angle: DOUBLE)
 		local
 			a_delta_y, a_delta_x, alpha: DOUBLE
-			pa: like point_array
+			points: like point_array
 			l_coordinate: EV_COORDINATE
 			i, nb: INTEGER
 		do
 			alpha := angle + a_angle
-			pa := point_array
+			points := point_array
 
 			a_delta_x := cosine (alpha) * a_distance
 			a_delta_y := sine (alpha) * a_distance
@@ -105,16 +148,48 @@ feature -- Basic operations
 			if a_delta_y /= a_delta_y.zero or a_delta_x /= a_delta_x.zero then
 				from
 					i := 0
-					nb := pa.count - 1
+					nb := points.count - 1
 				until
 					i > nb
 				loop
-					l_coordinate := pa.item (i)
+					l_coordinate := points.item (i)
 					l_coordinate.set_precise (l_coordinate.x_precise + a_delta_x, l_coordinate.y_precise + a_delta_y)
 					i := i + 1
 				end
 			end
 			set_center
+		end
+
+	move_to_center (other: EL_MODEL_ROTATED_RECTANGLE)
+		do
+			set_x_y_precise (other.center)
+		end
+
+	set_x_y_precise (a_center: EV_COORDINATE)
+		local
+			a_delta_y, a_delta_x: DOUBLE; i, nb: INTEGER
+			l_point_array: SPECIAL [EV_COORDINATE]; l_coordinate: EV_COORDINATE
+		do
+			a_delta_y := a_center.y_precise - center.y_precise
+			a_delta_x := a_center.x_precise - center.x_precise
+			if a_delta_y /= a_delta_y.zero or a_delta_x /= a_delta_x.zero then
+				l_point_array := point_array
+				from
+					i := 0
+					nb := l_point_array.count - 1
+				until
+					i > nb
+				loop
+					l_coordinate := l_point_array.item (i)
+					l_coordinate.set_precise (l_coordinate.x_precise + a_delta_x, l_coordinate.y_precise + a_delta_y)
+					i := i + 1
+				end
+				if is_in_group and then attached group as l_group and then l_group.is_center_valid then
+					l_group.center_invalidate
+				end
+				center.set_precise (a_center.x_precise, a_center.y_precise)
+				invalidate
+			end
 		end
 
 	rotate_around_other (a_angle: DOUBLE; other: EL_MODEL_ROTATED_RECTANGLE)

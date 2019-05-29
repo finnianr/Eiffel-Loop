@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-28 16:09:09 GMT (Tuesday 28th May 2019)"
-	revision: "6"
+	date: "2019-05-28 22:01:08 GMT (Tuesday 28th May 2019)"
+	revision: "7"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -434,6 +434,7 @@ feature -- Basic operations
 				i := i + 1
 			end
 		end
+		
 	fill_rectangle (x, y, a_width, a_height: INTEGER)
 		require
 			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-28 16:01:03 GMT (Tuesday 28th May 2019)"
-	revision: "1"
+	date: "2019-05-29 16:30:57 GMT (Wednesday 29th May 2019)"
+	revision: "2"
 
 class
 	FRACTAL_WORLD_CELL
@@ -30,6 +30,11 @@ inherit
 			default_create, copy
 		end
 
+	SHARED_FRACTAL_CONFIG
+		undefine
+			default_create, copy
+		end
+
 create
 	make
 
@@ -41,6 +46,7 @@ feature {NONE} -- Initialization
 			world.set_background_color (Color_background)
 			default_create
 			set_background_color (Color_background)
+			create replicated_image.make_with_path (fractal_config.image_path)
 		end
 
 feature -- Basic operations
@@ -51,12 +57,14 @@ feature -- Basic operations
 			rectangle, cell_rectangle: EL_RECTANGLE
 		do
 			create cell_rectangle.make (0, 0, width, height)
-			rectangle := [0.0, 0.0, 5.0, 7.0]
+			create rectangle.make (0, 0, replicated_image.width, replicated_image.height)
 			rectangle.move_center (cell_rectangle)
 
 			create seed_image.make (rectangle)
 			world.set_fractal (seed_image, agent new_branch_list)
+
 			center_fractal
+			resize_if_necessary
 		end
 
 	add_layer
@@ -111,6 +119,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	world: FRACTAL_IMAGE_MODEL_WORLD
+
+	replicated_image: EL_DRAWABLE_PIXEL_BUFFER
 
 feature {NONE} -- Constants
 
