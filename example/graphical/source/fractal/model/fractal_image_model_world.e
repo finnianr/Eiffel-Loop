@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-29 13:26:59 GMT (Wednesday 29th May 2019)"
-	revision: "2"
+	date: "2019-05-30 10:54:25 GMT (Thursday 30th May 2019)"
+	revision: "3"
 
 class
 	FRACTAL_IMAGE_MODEL_WORLD
@@ -38,11 +38,11 @@ feature -- Access
 		local
 			points: SPECIAL [EV_COORDINATE]; i: INTEGER
 		do
-			points := layer_list.first.first.image_area.point_array
+			points := layer_list.first.first.point_array
 			create Result.make (points.item (0).x, points.item (0).y, 0, 0)
 			across layer_list as branch_list loop
 				across branch_list.item as branch_image loop
-					points := branch_image.item.image_area.point_array
+					points := branch_image.item.point_array
 					from i := 0 until i = points.count loop
 						Result.include_point (points [i])
 						i := i + 1
@@ -82,7 +82,7 @@ feature -- Basic operations
 			end
 		end
 
-	set_fractal (seed_image: IMAGE_PLACEHOLDER_MODEL; a_new_branch_list: like new_branch_list)
+	set_fractal (seed_image: REPLICATED_IMAGE_MODEL; a_new_branch_list: like new_branch_list)
 		local
 			new_layer: like layer_list.item
 		do
@@ -97,7 +97,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	default_branch_list (a_parent: IMAGE_PLACEHOLDER_MODEL): ARRAYED_LIST [IMAGE_PLACEHOLDER_MODEL]
+	default_branch_list (a_parent: REPLICATED_IMAGE_MODEL): ARRAYED_LIST [REPLICATED_IMAGE_MODEL]
 		do
 			create Result.make (0)
 		end
@@ -115,6 +115,6 @@ feature {NONE} -- Internal attributes
 
 	layer_list: ARRAYED_LIST [like default_branch_list]
 
-	new_branch_list: FUNCTION [IMAGE_PLACEHOLDER_MODEL, like default_branch_list]
+	new_branch_list: FUNCTION [REPLICATED_IMAGE_MODEL, like default_branch_list]
 
 end

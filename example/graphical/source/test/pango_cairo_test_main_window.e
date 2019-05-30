@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-28 14:02:35 GMT (Tuesday 28th May 2019)"
-	revision: "6"
+	date: "2019-05-30 9:29:07 GMT (Thursday 30th May 2019)"
+	revision: "7"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -45,7 +45,7 @@ inherit
 			default_create, copy, is_equal
 		end
 
-	EL_ORIENTATION_CONSTANTS
+	EL_ORIENTATION_ROUTINES
 		undefine
 			default_create, copy, is_equal
 		end

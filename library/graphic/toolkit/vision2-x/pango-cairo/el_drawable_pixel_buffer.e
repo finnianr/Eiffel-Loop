@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-28 17:30:14 GMT (Tuesday 28th May 2019)"
-	revision: "7"
+	date: "2019-05-30 9:29:07 GMT (Thursday 30th May 2019)"
+	revision: "8"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -46,7 +46,7 @@ inherit
 			implementation
 		end
 
-	EL_ORIENTATION_CONSTANTS
+	EL_ORIENTATION_ROUTINES
 		undefine
 			default_create, copy
 		end

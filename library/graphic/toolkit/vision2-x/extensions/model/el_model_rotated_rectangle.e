@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-29 17:27:21 GMT (Wednesday 29th May 2019)"
-	revision: "3"
+	date: "2019-05-30 13:40:07 GMT (Thursday 30th May 2019)"
+	revision: "4"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -19,11 +19,6 @@ inherit
 		end
 
 	EL_MODEL_MATH
-		undefine
-			default_create
-		end
-
-	EL_ORIENTATION_CONSTANTS
 		rename
 			Top_left as Top_left_corner
 		undefine
@@ -89,39 +84,20 @@ feature -- Access
 			Result := point_array
 		end
 
-	circumscribed_square (side: INTEGER): EL_MODEL_ROTATED_RECTANGLE
-		-- unrotated square inside a circle inside the square indicated by `side'
-		require
-			valid_side: is_valid_side (side)
-			valid_horizontal_side: is_horizontal_side (side) implies height >= width
-			valid_vertical_side: is_vertical_side (side) implies width >= height
+	outer_radial_square_coordinates: EL_COORDINATE_ARRAY
+		-- coordinates of square that encloses circle circumscribing `Current'
 		local
-			alpha, diameter, l_angle: DOUBLE; i: INTEGER
-			points: like point_array
+			i: INTEGER; alpha, x_delta, l_radius: DOUBLE
+			p_top, p1: EV_COORDINATE
 		do
-			diameter := width_precise; l_angle := angle
-			create Result.make_from_other (Current)
-			points := Result.point_array
-			inspect side
-				when Top then
-					points [3] := point_on_circle (point_array [0], l_angle + radians (90), diameter)
-					points [2] := point_on_circle (point_array [1], l_angle + radians (90), diameter)
-				when Bottom then
-					points [0] := point_on_circle (point_array [3], l_angle - radians (90), diameter)
-					points [1] := point_on_circle (point_array [2], l_angle - radians (90), diameter)
-				when Left then
-					points [1] := point_on_circle (point_array [0], l_angle, diameter)
-					points [2] := point_on_circle (point_array [3], l_angle, diameter)
-				when Right then
-					points [0] := point_on_circle (point_array [1], l_angle - radians (180), diameter)
-					points [3] := point_on_circle (point_array [2], l_angle - radians (180), diameter)
-			else
-			end
-			Result.set_center
-			from i := 0; alpha := radians (135).opposite until i = 4 loop
-				points [i] := point_on_circle (Result.center, l_angle + alpha, diameter / 2)
+			alpha := angle
+			p_top := point_on_circle (center, alpha - radians (90), radius)
+			p1 := point_on_circle (p_top, alpha, radius)
+			l_radius := point_distance (center, p1)
+			create Result.make (4)
+			from i := 0 until i = 4 loop
+				Result [i] := point_on_circle (center, corner_angle (All_corners [i + 1]), l_radius)
 				i := i + 1
-				alpha := alpha + radians (90)
 			end
 		end
 

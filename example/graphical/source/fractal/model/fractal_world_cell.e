@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-29 16:30:57 GMT (Wednesday 29th May 2019)"
-	revision: "2"
+	date: "2019-05-30 11:20:39 GMT (Thursday 30th May 2019)"
+	revision: "3"
 
 class
 	FRACTAL_WORLD_CELL
 
 inherit
-	EV_MODEL_WORLD_CELL
+	EL_MODEL_WORLD_CELL
 		redefine
 			world
 		end
@@ -53,14 +53,15 @@ feature -- Basic operations
 
 	add_fractal
 		local
-			seed_image: IMAGE_PLACEHOLDER_MODEL
+			seed_image: REPLICATED_IMAGE_MODEL
 			rectangle, cell_rectangle: EL_RECTANGLE
 		do
 			create cell_rectangle.make (0, 0, width, height)
 			create rectangle.make (0, 0, replicated_image.width, replicated_image.height)
 			rectangle.move_center (cell_rectangle)
+			rectangle.scale ((300 / replicated_image.width.max (replicated_image.height)).truncated_to_real)
 
-			create seed_image.make (rectangle)
+			create seed_image.make (rectangle.to_point_array, replicated_image)
 			world.set_fractal (seed_image, agent new_branch_list)
 
 			center_fractal
@@ -81,9 +82,9 @@ feature -- Basic operations
 
 feature {NONE} -- Factory
 
-	new_branch_list (a_parent: IMAGE_PLACEHOLDER_MODEL): ARRAYED_LIST [IMAGE_PLACEHOLDER_MODEL]
+	new_branch_list (a_parent: REPLICATED_IMAGE_MODEL): ARRAYED_LIST [REPLICATED_IMAGE_MODEL]
 		local
-			branch: IMAGE_PLACEHOLDER_MODEL
+			branch: REPLICATED_IMAGE_MODEL
 		do
 			create Result.make (3)
 			create branch.make_satellite (a_parent, 0.7, 1, 0)

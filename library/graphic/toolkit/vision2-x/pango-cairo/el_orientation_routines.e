@@ -6,13 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-29 14:43:26 GMT (Wednesday 29th May 2019)"
-	revision: "2"
+	date: "2019-05-30 9:35:45 GMT (Thursday 30th May 2019)"
+	revision: "3"
 
 class
-	EL_ORIENTATION_CONSTANTS
+	EL_ORIENTATION_ROUTINES
 
 feature -- Contract Support
+
+	is_horizontal_side (side: INTEGER): BOOLEAN
+		do
+			Result := ((Top | Bottom) & side).to_boolean
+		end
 
 	is_valid_dimension (dimension: INTEGER): BOOLEAN
 		do
@@ -22,14 +27,14 @@ feature -- Contract Support
 			else end
 		end
 
+	is_valid_corner (corner: INTEGER): BOOLEAN
+		do
+			Result := All_corners.has (corner)
+		end
+
 	is_valid_side (side: INTEGER): BOOLEAN
 		do
 			Result := All_sides.has (side)
-		end
-
-	is_horizontal_side (side: INTEGER): BOOLEAN
-		do
-			Result := ((Top | Bottom) & side).to_boolean
 		end
 
 	is_vertical_side (side: INTEGER): BOOLEAN

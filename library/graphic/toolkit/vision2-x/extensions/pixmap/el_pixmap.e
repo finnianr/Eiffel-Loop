@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-28 13:55:55 GMT (Tuesday 28th May 2019)"
-	revision: "7"
+	date: "2019-05-30 9:29:07 GMT (Thursday 30th May 2019)"
+	revision: "8"
 
 class
 	EL_PIXMAP
@@ -28,7 +28,7 @@ inherit
 			is_equal, default_create, copy
 		end
 
-	EL_ORIENTATION_CONSTANTS
+	EL_ORIENTATION_ROUTINES
 		undefine
 			is_equal, default_create, copy
 		end

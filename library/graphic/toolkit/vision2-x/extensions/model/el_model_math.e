@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-28 14:20:01 GMT (Tuesday 28th May 2019)"
-	revision: "2"
+	date: "2019-05-30 12:37:05 GMT (Thursday 30th May 2019)"
+	revision: "3"
 
 class
 	EL_MODEL_MATH
@@ -15,7 +15,30 @@ class
 inherit
 	DOUBLE_MATH
 
+	EL_ORIENTATION_ROUTINES
+
 feature {NONE} -- Implementation
+
+	degrees (a_radians: DOUBLE): INTEGER
+		do
+			Result := (360 * a_radians / (2 * Pi)).rounded
+		end
+
+	corner_angle (corner: INTEGER): DOUBLE
+		require
+			valid_corner: is_valid_corner (corner)
+		do
+			inspect corner
+				when Top_left then
+					Result := radians (135).opposite
+				when Top_right then
+					Result := radians (45).opposite
+				when Bottom_right then
+					Result := radians (45)
+				when Bottom_left then
+					Result := radians (135)
+			else end
+		end
 
 	positive_angle (alpha: DOUBLE): DOUBLE
 		do
@@ -36,9 +59,9 @@ feature {NONE} -- Implementation
 			create Result.make_precise (center.x_precise + cosine (angle) * radius, center.y_precise + sine (angle) * radius)
 		end
 
-	radians (degrees: INTEGER): DOUBLE
+	radians (a_degrees: INTEGER): DOUBLE
 		do
-			Result := degrees * Pi / 180
+			Result := a_degrees * Pi / 180
 		end
 
 end

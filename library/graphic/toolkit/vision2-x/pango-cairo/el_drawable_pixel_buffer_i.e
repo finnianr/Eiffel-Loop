@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-28 22:01:08 GMT (Tuesday 28th May 2019)"
-	revision: "7"
+	date: "2019-05-30 9:33:46 GMT (Thursday 30th May 2019)"
+	revision: "8"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -62,7 +62,7 @@ inherit
 			default_create
 		end
 
-	EL_ORIENTATION_CONSTANTS
+	EL_ORIENTATION_ROUTINES
 		undefine
 			default_create
 		end
@@ -434,7 +434,7 @@ feature -- Basic operations
 				i := i + 1
 			end
 		end
-		
+
 	fill_rectangle (x, y, a_width, a_height: INTEGER)
 		require
 			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
@@ -617,7 +617,7 @@ feature {NONE} -- Implementation
 
 	fill_convex_corner (x, y, radius, corner: INTEGER)
 		require
-			valid_corner: All_corners.has (corner)
+			valid_corner: is_valid_corner (corner)
 		do
 			Cairo.define_sub_path (cairo_ctx)
 			Cairo.move_to (cairo_ctx, x, y)
@@ -665,7 +665,7 @@ feature {NONE} -- Implementation
 
 	set_clip_concave_corner (x, y, radius, corner: INTEGER)
 		require
-			valid_corner: All_corners.has (corner)
+			valid_corner: is_valid_corner (corner)
 		do
 			Cairo.define_sub_path (cairo_ctx)
 			inspect corner
