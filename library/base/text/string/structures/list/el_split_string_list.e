@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-04 11:06:41 GMT (Friday 4th January 2019)"
-	revision: "11"
+	date: "2019-06-02 9:41:56 GMT (Sunday 2nd June 2019)"
+	revision: "12"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -62,6 +62,8 @@ feature {NONE} -- Initialization
 				create string.make_empty
 			end
 			create internal_item.make_empty
+			left_adjusted := False
+			right_adjusted := False
 			Precursor (a_capacity)
 		end
 
@@ -208,9 +210,9 @@ feature -- Status query
 			end
 		end
 
-	left_adjusted: BOOLEAN
+	left_adjusted: EL_BOOLEAN_OPTION
 
-	right_adjusted: BOOLEAN
+	right_adjusted: EL_BOOLEAN_OPTION
 
 	there_exists (predicate: PREDICATE [like item]): BOOLEAN
 		-- `True' if one split substring matches `predicate'
@@ -275,13 +277,13 @@ feature {NONE} -- Implementation
 				bag.wipe_out
 			end
 			from_index := start_index
-			if left_adjusted then
+			if left_adjusted.is_enabled then
 				from until from_index > end_index or else not string.item (from_index).is_space loop
 					from_index := from_index + 1
 				end
 			end
 			internal.append_substring (string, from_index, end_index)
-			if right_adjusted then
+			if right_adjusted.is_enabled then
 				internal.right_adjust
 			end
 		end

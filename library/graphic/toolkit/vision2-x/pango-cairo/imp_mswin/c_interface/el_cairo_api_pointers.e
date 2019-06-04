@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "2"
+	date: "2019-05-31 18:38:53 GMT (Friday 31st May 2019)"
+	revision: "3"
 
 class
 	EL_CAIRO_API_POINTERS
@@ -55,6 +55,8 @@ feature {EL_DYNAMIC_MODULE} -- Access
 	win32_surface_create: POINTER
 
 	paint: POINTER
+
+	paint_with_alpha: POINTER
 
 	rectangle: POINTER
 

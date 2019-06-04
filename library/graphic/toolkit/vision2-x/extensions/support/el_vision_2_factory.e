@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-03 18:11:58 GMT (Sunday 3rd February 2019)"
-	revision: "8"
+	date: "2019-05-31 9:27:41 GMT (Friday 31st May 2019)"
+	revision: "9"
 
 class
 	EL_VISION_2_FACTORY
@@ -33,6 +33,12 @@ feature -- Factory
 	new_color (a_rgb_24_bit: INTEGER): EL_COLOR
 		do
 			create Result.make_with_rgb_24_bit (a_rgb_24_bit)
+		end
+
+	new_expanded_color_cell (color: EV_COLOR): EL_EXPANDED_CELL
+		do
+			create Result
+			Result.set_background_color (color)
 		end
 
 	new_font_regular (a_families_list: STRING; a_height_cms: REAL): EL_FONT

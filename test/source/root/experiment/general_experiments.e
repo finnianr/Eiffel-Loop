@@ -6,14 +6,47 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 12:12:30 GMT (Tuesday 25th December 2018)"
-	revision: "3"
+	date: "2019-06-03 10:58:57 GMT (Monday 3rd June 2019)"
+	revision: "4"
 
 class
 	GENERAL_EXPERIMENTS
 
 inherit
 	EXPERIMENTAL
+
+feature -- Equal to comparison
+
+	is_a_equal_to_b_ref (a, b: INTEGER_REF): BOOLEAN
+		do
+			if a = b then
+				Result := True
+			end
+		end
+
+	is_a_equal_to_b (a, b: INTEGER): BOOLEAN
+		do
+			if a = b then
+				Result := True
+			end
+		end
+
+feature -- Less than or equal to comparison
+
+	is_a_less_than_or_equal_to_b_ref (a, b: INTEGER_REF): BOOLEAN
+		do
+			if a <= b then
+				Result := True
+			end
+		end
+
+	is_a_less_than_or_equal_to_b (a, b: INTEGER): BOOLEAN
+		do
+			if a <= b then
+				Result := True
+			end
+		end
+
 
 feature -- Basic operations
 

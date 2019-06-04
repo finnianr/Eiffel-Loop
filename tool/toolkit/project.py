@@ -2,12 +2,15 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 18); build = 488
+version = (1, 2, 19); build = 489
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.19
+# DUPLICITY_RESTORE_APP: fixed date menu list for unencrypted backups
 
 # 1.2.18
 # DUPLICITY_BACKUP_APP: change prompt for FTP password to indicate site name

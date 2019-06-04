@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-05-31 18:07:42 GMT (Friday 31st May 2019)"
+	revision: "6"
 
 deferred class
 	EL_CAIRO_I
@@ -188,6 +188,12 @@ feature -- Drawing operations
 		end
 
 	paint (context: POINTER)
+		require
+			is_attached: is_attached (context)
+		deferred
+		end
+
+	paint_with_alpha (context: POINTER; alpha: DOUBLE)
 		require
 			is_attached: is_attached (context)
 		deferred

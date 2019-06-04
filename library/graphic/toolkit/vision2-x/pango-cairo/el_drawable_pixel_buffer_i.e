@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-30 9:33:46 GMT (Thursday 30th May 2019)"
-	revision: "8"
+	date: "2019-06-04 13:40:43 GMT (Tuesday 4th June 2019)"
+	revision: "10"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -98,6 +98,7 @@ feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 			-- Called from {EL_DRAWABLE_PIXEL_BUFFER_IMP}.make
 		do
 			create font; create color
+			set_opaque
 		end
 
 	make_cairo (a_cairo_surface: POINTER)
@@ -107,7 +108,7 @@ feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 			pango_layout := Pango_cairo.create_layout (cairo_ctx)
 		end
 
-	make_from_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
+	make_with_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
 		do
 			make_with_size (svg_image.width, svg_image.height)
 			if not a_background_color.is_transparent then
@@ -137,6 +138,27 @@ feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 			make_pixel_buffer_with_size (a_width, a_height)
 		end
 
+	make_mirrored (a_buffer: EL_DRAWABLE_PIXEL_BUFFER; axis: INTEGER)
+			-- make alpha 32 bit format
+		require
+			valid_axis: is_valid_axis (axis)
+		do
+			make_with_size (a_buffer.width, a_buffer.height)
+			if a_buffer.is_rgb_24_bit then
+				a_buffer.lock
+			end
+			inspect axis
+				when X_axis then
+					translate (0, a_buffer.height); scale (1, -1)
+				when Y_axis then
+					translate (a_buffer.width, 0); scale (-1, 1)
+			else end
+			draw_pixel_buffer (0, 0, a_buffer.implementation)
+			if a_buffer.is_rgb_24_bit then
+				a_buffer.unlock
+			end
+		end
+
 	make_with_pixmap (a_pixmap: EV_PIXMAP)
 			-- make alpha 32 bit format
 		local
@@ -158,7 +180,7 @@ feature -- Element change
 
 	set_angle (angle: REAL)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			Cairo.rotate (cairo_ctx, angle)
 		end
@@ -166,7 +188,7 @@ feature -- Element change
 	set_clip_rounded_rectangle (x, y, a_width, a_height, radius, corners_bitmap: INTEGER)
 		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			Cairo.define_sub_path (cairo_ctx)
 			if (Top_right & corners_bitmap).to_boolean then
@@ -195,7 +217,7 @@ feature -- Element change
 
 	set_color (a_color: like color)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			color := a_color
 			update_cairo_color (cairo_ctx)
@@ -203,7 +225,7 @@ feature -- Element change
 
 	set_font (a_font: like font)
 		require else
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			font := a_font.twin
 			check_font_availability
@@ -212,9 +234,19 @@ feature -- Element change
 
 	set_line_width (size: INTEGER)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			Cairo.set_line_width (cairo_ctx, size)
+		end
+
+	set_opaque
+		do
+			opacity := 100
+		end
+
+	set_opacity (percentage: INTEGER)
+		do
+			opacity := percentage
 		end
 
 	set_with_named_path_as_rgb_24 (a_file_name: PATH)
@@ -241,7 +273,7 @@ feature -- Basic operations
 
 	draw_line (x1, y1, x2, y2: INTEGER)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		local
 			l_antialias: INTEGER
 		do
@@ -259,17 +291,21 @@ feature -- Basic operations
 
 	draw_pixel_buffer (x, y: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER_I)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			Cairo.set_source_surface (cairo_ctx, a_buffer.cairo_surface, x, y)
 			Cairo.set_antialias (cairo_ctx, Cairo_antialias_best)
-			Cairo.paint (cairo_ctx)
+			if opacity = 100 then
+				Cairo.paint (cairo_ctx)
+			elseif opacity > 0 then
+				Cairo.paint_with_alpha (cairo_ctx, opacity / 100)
+			end
 			set_color (color) -- Need to restore color after set_source_surface
 		end
 
 	draw_pixmap (x, y: INTEGER; a_pixmap: EV_PIXMAP)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		local
 			rgb_24_buffer: EL_DRAWABLE_PIXEL_BUFFER
 		do
@@ -281,7 +317,7 @@ feature -- Basic operations
 
 	draw_rectangle (x, y, a_width, a_height: INTEGER)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		local
 			l_antialias: INTEGER
 		do
@@ -298,7 +334,7 @@ feature -- Basic operations
 
 	draw_rotated_text_top_left (x, y: INTEGER; angle: DOUBLE; a_text: READABLE_STRING_GENERAL)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		local
 			text_rect: EL_RECTANGLE; text_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER
 			l_x, l_y, hyphen_width: INTEGER
@@ -328,6 +364,7 @@ feature -- Basic operations
 
 	draw_scaled_pixel_buffer (x, y, a_size, dimension: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		require
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit and a_buffer.locked_for_rgb_24_bit
 			valid_dimension: is_valid_dimension (dimension)
 		local
 			scale_factor: DOUBLE
@@ -346,7 +383,7 @@ feature -- Basic operations
 
 	draw_scaled_pixmap (x, y, a_size, dimension: INTEGER; a_pixmap: EV_PIXMAP)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		local
 			rgb_24_buffer: EL_DRAWABLE_PIXEL_BUFFER
 		do
@@ -358,14 +395,14 @@ feature -- Basic operations
 
 	draw_text (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			draw_text_top_left (x, y - font.ascent, a_text)
 		end
 
 	draw_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		local
 			actual_width, required_width: INTEGER
 		do
@@ -384,7 +421,7 @@ feature -- Basic operations
 	fill_concave_corners (radius, corners_bitmap: INTEGER)
 		-- `corners_bitmap' are OR'd corner values from `EL_ORIENTATION_CONSTANTS', eg. Top_left | Top_right
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		local
 			x, y, corner, i: INTEGER
 		do
@@ -412,7 +449,7 @@ feature -- Basic operations
 	fill_convex_corners (radius, corners_bitmap: INTEGER)
 		-- `corners_bitmap' are OR'd corner values from `EL_ORIENTATION_CONSTANTS', eg. Top_left | Top_right
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		local
 			x, y, corner, i: INTEGER
 		do
@@ -437,7 +474,7 @@ feature -- Basic operations
 
 	fill_rectangle (x, y, a_width, a_height: INTEGER)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			Cairo.rectangle (cairo_ctx, x, y, a_width, a_height)
 			Cairo.fill (cairo_ctx)
@@ -470,7 +507,7 @@ feature -- Transform
 	rotate (angle: DOUBLE)
 			-- rotate coordinate system by angle in radians
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			Cairo.rotate (cairo_ctx, angle)
 			rotation_angle := angle
@@ -478,7 +515,7 @@ feature -- Transform
 
 	scale (x_factor, y_factor: DOUBLE)
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			Cairo.scale (cairo_ctx, x_factor, y_factor)
 		end
@@ -486,7 +523,7 @@ feature -- Transform
 	translate (x, y: DOUBLE)
 			-- translate coordinate origin to point x, y
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			Cairo.translate (cairo_ctx, x, y)
 		end
@@ -509,7 +546,7 @@ feature -- Status change
 	restore
 			-- restore last drawing setting state from state stack
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			Cairo.restore (cairo_ctx)
 		end
@@ -517,14 +554,14 @@ feature -- Status change
 	save
 			-- save current drawing setting state on to a stack
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			Cairo.save (cairo_ctx)
 		end
 
 	set_antialias_best
 		require
-			locked_for_24_rgb_format: is_rgb_24_bit implies is_locked
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
 			Cairo.set_antialias (cairo_ctx, Cairo_antialias_best)
 --			Cairo.set_antialias (cairo_ctx, Cairo_antialias_subpixel)
@@ -552,6 +589,14 @@ feature -- Conversion
 				Result.draw_pixel_buffer (0, 0, interface)
 				Result.unlock
 			end
+		end
+
+feature -- Contract Support
+
+	locked_for_rgb_24_bit: BOOLEAN
+		-- `False' if `format = Cairo_format_rgb24' and `not locked'
+		do
+			Result := is_rgb_24_bit implies is_locked
 		end
 
 feature {EL_SVG_IMAGE, EL_DRAWABLE_PIXEL_BUFFER_I} -- Access
@@ -723,12 +768,15 @@ feature {NONE} -- Deferred implementation
 
 feature {NONE} -- Internal attributes
 
-	pango_layout: POINTER
-
-	rotation_angle: DOUBLE
-
 	color: EL_COLOR
 
 	font: EV_FONT
+
+	opacity: INTEGER
+		-- percentage opacity. 100 is totally opaque
+
+	pango_layout: POINTER
+
+	rotation_angle: DOUBLE
 
 end

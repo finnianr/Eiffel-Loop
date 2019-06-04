@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-30 9:29:07 GMT (Thursday 30th May 2019)"
-	revision: "8"
+	date: "2019-06-04 13:41:00 GMT (Tuesday 4th June 2019)"
+	revision: "10"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -52,18 +52,24 @@ inherit
 		end
 
 create
-	default_create, make_with_pixmap, make_with_size, make_rgb_24_with_pixmap, make_rgb_24_with_size, make_with_path,
-	make_from_svg_image, make_rgb_24_with_sized_pixmap
+	default_create,
+	make_mirrored,
+	make_rgb_24_with_pixmap,
+	make_rgb_24_with_size, make_with_path,
+	make_rgb_24_with_sized_pixmap,
+	make_with_pixmap,
+	make_with_size,
+	make_with_svg_image
 
 convert
 	make_with_pixmap ({EL_PIXMAP})
 
 feature {NONE} -- Initialization
 
-	make_from_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
+	make_with_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
 		do
 			default_create
-			implementation.make_from_svg_image (svg_image, a_background_color)
+			implementation.make_with_svg_image (svg_image, a_background_color)
 		end
 
 	make_rgb_24_with_pixmap (a_pixmap: EV_PIXMAP)
@@ -89,7 +95,9 @@ feature {NONE} -- Initialization
 			else
 				make_rgb_24_with_size ((a_pixmap.width * a_size / a_pixmap.height).floor, a_size)
 			end
+			lock
 			draw_scaled_pixmap (0, 0, a_size, dimension, a_pixmap)
+			unlock
 		end
 
 	make_with_path (a_png_file_path: EL_FILE_PATH)
@@ -104,6 +112,15 @@ feature {NONE} -- Initialization
 		do
 			default_create
 			implementation.make_with_pixmap (a_pixmap)
+		end
+
+	make_mirrored (a_buffer: EL_DRAWABLE_PIXEL_BUFFER; axis: INTEGER)
+		-- create copy mirrored in the y-axis
+		require
+			valid_axis: is_valid_axis (axis)
+		do
+			default_create
+			implementation.make_mirrored (a_buffer, axis)
 		end
 
 	make_with_size (a_width, a_height: INTEGER)
@@ -241,6 +258,18 @@ feature -- Element change
 			implementation.set_line_width (size)
 		end
 
+	set_opacity (percentage: INTEGER)
+		require
+			is_percentage: 0 <= percentage and percentage <= 100
+		do
+			implementation.set_opacity (percentage)
+		end
+
+	set_opaque
+		do
+			implementation.set_opaque
+		end
+
 	set_with_path (file_path: EL_FILE_PATH)
 		do
 			implementation.set_with_path (file_path)
@@ -316,6 +345,13 @@ feature -- Conversion
 			not_locked: not is_locked
 		do
 			Result := implementation.to_rgb_24_buffer
+		end
+
+feature -- Contract Support
+
+	locked_for_rgb_24_bit: BOOLEAN
+		do
+			Result := implementation.locked_for_rgb_24_bit
 		end
 
 feature {NONE} -- Implementation

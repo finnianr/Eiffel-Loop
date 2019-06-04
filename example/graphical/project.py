@@ -3,7 +3,7 @@
 import os
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 0); build = 30
+version = (1, 0, 0); build = 36
 
 installation_sub_directory = 'Eiffel-Loop/graphical'
 

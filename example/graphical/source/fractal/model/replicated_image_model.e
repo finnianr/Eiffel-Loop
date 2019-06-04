@@ -6,16 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-30 13:43:40 GMT (Thursday 30th May 2019)"
-	revision: "1"
+	date: "2019-06-04 18:50:52 GMT (Tuesday 4th June 2019)"
+	revision: "3"
 
 class
 	REPLICATED_IMAGE_MODEL
 
 inherit
 	EL_MODEL_ROTATED_PICTURE
+		export
+			{FRACTAL_LAYER} point_array
+			{FRACTAL_LAYER_LIST} center
 		redefine
-			make
+			make, project
 		end
 
 	MODEL_CONSTANTS
@@ -23,8 +26,15 @@ inherit
 			default_create
 		end
 
+	EL_ORIENTATION_ROUTINES
+		rename
+			Top_left as Top_left_corner
+		undefine
+			default_create
+		end
+
 create
-	make, make_satellite
+	make, make_satellite, make_default, make_scaled
 
 feature {NONE} -- Initialization
 
@@ -43,6 +53,39 @@ feature {NONE} -- Initialization
 			scale (size_proportion)
 			l_distance := other.radius * displaced_radius_proportion + radius
 			displace (l_distance, relative_angle)
+		end
+
+	make_scaled (other: like Current; position: EV_COORDINATE; proportion: DOUBLE)
+		local
+			points: like point_array
+			l_width, l_height: DOUBLE
+		do
+			make_from_other (other)
+			scale (proportion)
+			set_x_y_precise (position)
+		end
+
+feature -- Basic operations
+
+	render (pixels: EL_DRAWABLE_PIXEL_BUFFER)
+		local
+			p0: EV_COORDINATE
+		do
+			p0 := point_array [0]
+			pixels.save
+			pixels.translate (p0.x, p0.y)
+			pixels.rotate (angle)
+			pixels.draw_scaled_pixel_buffer (0, 0, width, By_width, pixel_buffer)
+			pixels.restore
+		end
+
+feature -- Visitor
+
+	project (a_projector: EV_MODEL_DRAWING_ROUTINES)
+			-- <Precursor>
+		do
+			a_projector.draw_figure_parallelogram (Current)
+
 		end
 
 end

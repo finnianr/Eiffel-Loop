@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-05-31 18:38:25 GMT (Friday 31st May 2019)"
+	revision: "7"
 
 class
 	EL_CAIRO_API
@@ -189,6 +189,11 @@ feature -- Basic operations
 	paint (context: POINTER)
 		do
 			cairo_paint (api.paint, context)
+		end
+
+	paint_with_alpha (context: POINTER; alpha: DOUBLE)
+		do
+			cairo_paint_with_alpha (api.paint_with_alpha, context, alpha)
 		end
 
 	rectangle (context: POINTER; x, y, width, height: DOUBLE)

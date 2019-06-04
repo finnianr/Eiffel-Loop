@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-23 20:56:56 GMT (Saturday 23rd February 2019)"
-	revision: "16"
+	date: "2019-06-02 9:21:45 GMT (Sunday 2nd June 2019)"
+	revision: "17"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -167,7 +167,7 @@ feature {NONE} -- Implementation
 			create Result.make_open_write (file_path)
 			Result.set_encoding_from_other (Current)
 			if is_bom_enabled then
-				Result.enable_bom; Result.put_bom
+				Result.byte_order_mark.enable; Result.put_bom
 			end
 		end
 

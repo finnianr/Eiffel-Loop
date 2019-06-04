@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-30 13:41:20 GMT (Thursday 30th May 2019)"
-	revision: "1"
+	date: "2019-06-04 17:54:21 GMT (Tuesday 4th June 2019)"
+	revision: "2"
 
 class
 	EL_MODEL_BUFFER_PROJECTOR

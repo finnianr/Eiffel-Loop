@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-22 11:27:12 GMT (Thursday 22nd February 2018)"
-	revision: "7"
+	date: "2019-06-02 9:20:36 GMT (Sunday 2nd June 2019)"
+	revision: "8"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 			converter: EL_PYXIS_XML_TEXT_GENERATOR; xml_out: EL_PLAIN_TEXT_FILE
 		do
 			create xml_out.make_open_write (output_file_path)
-			xml_out.enable_bom
+			xml_out.byte_order_mark.enable
 			create converter.make
 			lio.put_new_line
 			lio.put_path_field ("Compiling", output_file_path)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-05-31 18:07:19 GMT (Friday 31st May 2019)"
+	revision: "6"
 
 class
 	EL_CAIRO_API
@@ -251,6 +251,14 @@ feature -- Basic operations
 			"C signature (cairo_t *) use <cairo.h>"
 		alias
 			"cairo_paint"
+		end
+
+	frozen paint_with_alpha (context: POINTER; alpha: DOUBLE)
+			-- void cairo_paint_with_alpha (cairo_t *cr, double alpha);
+		external
+			"C signature (cairo_t *, double) use <cairo.h>"
+		alias
+			"cairo_paint_with_alpha"
 		end
 
 	frozen rectangle (context: POINTER; x, y, width, height: DOUBLE)

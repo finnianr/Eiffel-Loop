@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-25 20:06:08 GMT (Saturday 25th May 2019)"
-	revision: "7"
+	date: "2019-06-02 16:18:33 GMT (Sunday 2nd June 2019)"
+	revision: "8"
 
 class
 	EL_RECTANGLE
@@ -21,7 +21,7 @@ inherit
 		end
 
 create
-	make, make_cms, make_for_text, make_for_pixmap, make_from_cms_tuple, make_from_other
+	default_create, make, make_cms, make_for_text, make_for_pixmap, make_from_cms_tuple, make_from_other
 
 convert
 	make_from_cms_tuple ({TUPLE [DOUBLE, DOUBLE, DOUBLE, DOUBLE]}),

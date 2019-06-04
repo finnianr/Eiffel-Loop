@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-11 17:20:34 GMT (Friday 11th January 2019)"
-	revision: "5"
+	date: "2019-06-02 9:21:45 GMT (Sunday 2nd June 2019)"
+	revision: "6"
 
 class
 	EL_THUNDERBIRD_XHTML_BODY_EXPORTER
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 				lio.put_path_field ("Write H2", h2_list_file_path)
 				lio.put_new_line
 				create h2_file.make_open_write (h2_list_file_path)
-				h2_file.enable_bom
+				h2_file.byte_order_mark.enable
 				h2_file.put_lines (h2_list)
 				h2_file.close
 			end

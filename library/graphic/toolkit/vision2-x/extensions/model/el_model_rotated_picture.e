@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-30 12:10:58 GMT (Thursday 30th May 2019)"
-	revision: "1"
+	date: "2019-06-04 17:58:02 GMT (Tuesday 4th June 2019)"
+	revision: "3"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -23,7 +23,7 @@ inherit
 		end
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
@@ -31,6 +31,12 @@ feature {NONE} -- Initialization
 		do
 			make_with_coordinates (a_points)
 			pixel_buffer := a_pixel_buffer
+		end
+
+	make_default
+		do
+			default_create
+			create pixel_buffer
 		end
 
 	make_from_other (other: EL_MODEL_ROTATED_PICTURE)
@@ -53,6 +59,15 @@ feature -- Access
 			l_width := (points.item (1).x_precise - points.item (0).x_precise).rounded
 			l_height := (points.item (2).y_precise - points.item (1).y_precise).rounded
 			create Result.make (points.item (0).x, points.item (0).y, l_width, l_height)
+		end
+
+feature -- Transformation
+
+	mirror (axis: INTEGER)
+		require
+			valid_axis: is_valid_axis (axis)
+		do
+			create pixel_buffer.make_mirrored (pixel_buffer, axis)
 		end
 
 feature {EL_MODEL_BUFFER_PROJECTOR, EV_MODEL} -- Access

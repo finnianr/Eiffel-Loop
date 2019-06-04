@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-05-31 18:36:55 GMT (Friday 31st May 2019)"
+	revision: "6"
 
 class
 	EL_CAIRO_C_API
@@ -437,6 +437,20 @@ feature -- Basic operations
 					FUNCTION_CAST(void, (cairo_t *))$function
 				) (
 					(cairo_t *)$context
+				)
+			]"
+		end
+
+	frozen cairo_paint_with_alpha (function, context: POINTER; alpha: INTEGER)
+			-- void cairo_paint_with_alpha (cairo_t *cr, double alpha);
+		external
+			"C inline use <cairo.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (cairo_t *, double))$function
+				) (
+					(cairo_t *)$context, (double)$alpha
 				)
 			]"
 		end

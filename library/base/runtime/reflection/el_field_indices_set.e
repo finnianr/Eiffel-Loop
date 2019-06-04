@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-04 10:22:09 GMT (Thursday 4th January 2018)"
-	revision: "2"
+	date: "2019-06-02 9:41:17 GMT (Sunday 2nd June 2019)"
+	revision: "3"
 
 class
 	EL_FIELD_INDICES_SET
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 				make_empty
 			else
 				create field_list.make (field_names, once ",")
-				field_list.enable_left_adjust
+				field_list.left_adjusted.enable
 
 				make_filled (0, 1, field_list.count)
 				from i := 1 until i > reflected.field_count loop

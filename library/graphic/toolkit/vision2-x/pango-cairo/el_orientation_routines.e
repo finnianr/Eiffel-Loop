@@ -6,13 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-30 9:35:45 GMT (Thursday 30th May 2019)"
-	revision: "3"
+	date: "2019-06-04 13:36:03 GMT (Tuesday 4th June 2019)"
+	revision: "4"
 
 class
 	EL_ORIENTATION_ROUTINES
 
 feature -- Contract Support
+
+	is_valid_axis (axis: INTEGER): BOOLEAN
+		do
+			inspect axis
+				when X_axis, Y_axis then
+					Result := True
+			else end
+		end
 
 	is_horizontal_side (side: INTEGER): BOOLEAN
 		do
@@ -41,6 +49,12 @@ feature -- Contract Support
 		do
 			Result := ((Left | Right) & side).to_boolean
 		end
+
+feature {NONE} -- Axis
+
+	X_axis: INTEGER = 1
+
+	Y_axis: INTEGER = 2
 
 feature {NONE} -- Directions
 

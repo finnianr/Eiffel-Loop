@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-06-02 9:27:06 GMT (Sunday 2nd June 2019)"
+	revision: "6"
 
 class
 	SOURCE_FILE
@@ -29,7 +29,7 @@ feature -- Element change
 	set_utf_encoding (id: INTEGER)
 		do
 			Precursor (id)
-			enable_bom
+			byte_order_mark.enable
 		end
 
 end

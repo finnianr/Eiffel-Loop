@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 11:13:22 GMT (Sunday 23rd December 2018)"
-	revision: "9"
+	date: "2019-06-02 9:20:36 GMT (Sunday 2nd June 2019)"
+	revision: "10"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -51,6 +51,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor
+			create byte_order_mark
 			set_codec
 			encoding_change_actions.extend (agent set_codec)
 		end
@@ -158,26 +159,14 @@ feature -- String output
 			end
 		end
 
-feature -- Status change
-
-	disable_bom
-		do
-			is_bom_enabled := False
-		end
-
-	enable_bom
-		do
-			is_bom_enabled := True
-		end
-
 feature -- Status query
 
-	is_bom_enabled: BOOLEAN
-		-- True if UTF-8 byte-order-mark writing is enabled
+	byte_order_mark: EL_BOOLEAN_OPTION
+		-- writes a UTF-8 byte-order-mark when enabled
 
 	is_bom_writeable: BOOLEAN
 		do
-			Result := is_bom_enabled and then is_utf_encoding (8)
+			Result := byte_order_mark.is_enabled and then is_utf_encoding (8)
 		end
 
 	is_open_write: BOOLEAN

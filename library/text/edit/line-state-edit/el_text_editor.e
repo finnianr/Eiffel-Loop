@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-17 14:20:28 GMT (Saturday 17th February 2018)"
-	revision: "3"
+	date: "2019-06-02 9:19:49 GMT (Sunday 2nd June 2019)"
+	revision: "4"
 
 deferred class
 	EL_TEXT_EDITOR
@@ -37,7 +37,7 @@ feature -- Basic operations
 			output := new_output; output.set_encoding_from_other (Current)
 
 			if is_bom_enabled and then attached {EL_PLAIN_TEXT_FILE} output then
-				output.enable_bom; output.put_bom
+				output.byte_order_mark.enable; output.put_bom
 			end
 			put_editions; close
 		end

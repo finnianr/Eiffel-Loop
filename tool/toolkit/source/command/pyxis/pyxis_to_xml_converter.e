@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 10:00:23 GMT (Tuesday 5th March 2019)"
-	revision: "11"
+	date: "2019-06-02 9:21:45 GMT (Sunday 2nd June 2019)"
+	revision: "12"
 
 class
 	PYXIS_TO_XML_CONVERTER
@@ -68,7 +68,7 @@ feature -- Basic operations
 			end
 
 			create out_file.make_open_write (output_path)
-			out_file.enable_bom
+			out_file.byte_order_mark.enable
 			out_file.set_encoding_from_other (encoding)
 
 			xml_generator.convert_stream (in_file, out_file)

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 11:43:00 GMT (Friday 21st December 2018)"
-	revision: "5"
+	date: "2019-06-04 12:42:59 GMT (Tuesday 4th June 2019)"
+	revision: "6"
 
 class
 	EL_SVG_IMAGE
@@ -69,7 +69,7 @@ feature -- Conversion
 		require
 			height_and_width_defined: dimensions_defined
 		do
-			create Result.make_from_svg_image (Current, background_color)
+			create Result.make_with_svg_image (Current, background_color)
 		end
 
 feature -- Element change

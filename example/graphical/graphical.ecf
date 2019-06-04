@@ -15,7 +15,7 @@
 	This project contains a parser for the Pyxis format and a Pyxis to XML convertion utility
 	
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "el_animation" uuid = "229b7a2e-09aa-11df-87cb-6f5c8d784696">
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "el_graphical" uuid = "229b7a2e-09aa-11df-87cb-6f5c8d784696">
 	<description>
 Vision-2 Extensions Demo
 

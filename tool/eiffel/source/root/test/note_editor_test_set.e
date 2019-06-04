@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:14:10 GMT (Tuesday 5th March 2019)"
-	revision: "8"
+	date: "2019-06-02 9:26:41 GMT (Sunday 2nd June 2019)"
+	revision: "9"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -185,7 +185,7 @@ feature {NONE} -- Implementation
 			lines := source.list
 
 			create file_out.make_open_write (file_path)
-			file_out.enable_bom
+			file_out.byte_order_mark.enable
 			file_out.set_encoding_from_other (source)
 			file_out.put_bom
 

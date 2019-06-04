@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-15 11:33:04 GMT (Friday 15th March 2019)"
-	revision: "6"
+	date: "2019-05-31 10:46:51 GMT (Friday 31st May 2019)"
+	revision: "7"
 
 class
 	DUPLICITY_RESTORE
@@ -61,19 +61,24 @@ feature {NONE} -- Implementation
 
 	date_list: EL_SORTABLE_ARRAYED_LIST [DATE]
 		local
-			file_list: like OS.file_list
-			parts: EL_SPLIT_ZSTRING_LIST
-			l_date: DATE
+			file_list: like OS.file_list; parts: EL_SPLIT_ZSTRING_LIST
+			l_date: DATE; l_name: ZSTRING; found: BOOLEAN
 		do
-			file_list := OS.file_list (backup_dir.to_dir_path, "*.manifest.*")
+			file_list := OS.file_list (backup_dir.to_dir_path, "*.manifest")
 			create Result.make (file_list.count)
 			Result.compare_objects
 			across file_list as path loop
-				create parts.make (path.item.base, character_string ('.'))
-				parts.go_i_th (parts.count - 2)
-				l_date := Date.from_iso_8601_formatted (parts.item.to_latin_1).date
-				if not Result.has (l_date) then
-					Result.extend (l_date)
+				l_name := path.item.base
+				create parts.make (l_name, character_string ('.'))
+				from parts.finish; found := false until found or parts.before loop
+					if parts.item.ends_with_character ('Z') then
+						l_date := Date.from_iso_8601_formatted (parts.item.to_latin_1).date
+						if not Result.has (l_date) then
+							Result.extend (l_date)
+						end
+						found := True
+					end
+					parts.back
 				end
 			end
 			Result.sort
