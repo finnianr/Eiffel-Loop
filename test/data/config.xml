@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_configuration
+	file_path = "$HOME/Graphics/icon.png"
+>
+	<values double = "1.3" integer = "3"/>
+	<values_list>
+		<item double = "2.4" integer = "4"/>
+	</values_list>
+<test_configuration>

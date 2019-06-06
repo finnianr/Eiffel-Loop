@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:28:53 GMT (Friday 18th January 2019)"
-	revision: "8"
+	date: "2019-06-06 18:59:15 GMT (Thursday 6th June 2019)"
+	revision: "9"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -20,7 +20,7 @@ inherit
 			make_default
 		end
 
-feature {NONE} -- Initialization
+feature {EL_SETTABLE_FROM_XML_NODE} -- Initialization
 
 	make_default
 			--

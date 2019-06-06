@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-04 15:06:17 GMT (Tuesday 4th June 2019)"
-	revision: "5"
+	date: "2019-06-05 14:45:35 GMT (Wednesday 5th June 2019)"
+	revision: "6"
 
 class
 	FRACTAL_MODEL_WORLD
@@ -165,15 +165,19 @@ feature {NONE} -- Implementation
 
 	rendered_pixels: EL_DRAWABLE_PIXEL_BUFFER
 		local
-			proportion: DOUBLE
+			opacity, minimum_opacity, decrement: DOUBLE
 		do
 			create Result.make_with_size (rectangle.width, rectangle.height)
 			Result.draw_scaled_pixmap (0, 0, rectangle.width, By_width, background_image)
 
+			opacity := fractal_config.fading.maximum / 100
+			minimum_opacity := fractal_config.fading.minimum / 100
+			decrement := (opacity - minimum_opacity) / (layer_list.count - 1)
+
 			across layer_list as layer loop
 				if opacity_graduation.is_enabled then
-					proportion := (layer_list.count - (layer.cursor_index - 1)) / layer_list.count
-					Result.set_opacity (100 - (proportion * 80).rounded)
+					Result.set_opacity ((100 * opacity).rounded.min (100))
+					opacity := opacity - decrement
 				else
 					Result.set_opaque
 				end

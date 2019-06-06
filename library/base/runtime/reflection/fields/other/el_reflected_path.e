@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-25 18:46:41 GMT (Tuesday 25th December 2018)"
-	revision: "5"
+	date: "2019-06-06 8:08:24 GMT (Thursday 6th June 2019)"
+	revision: "6"
 
 class
 	EL_REFLECTED_PATH
@@ -39,6 +39,13 @@ feature -- Access
 		end
 
 feature -- Basic operations
+
+	expand (a_object: EL_REFLECTIVE)
+		do
+			if attached {EL_PATH} value (a_object) as path then
+				path.expand
+			end
+		end
 
 	reset (a_object: EL_REFLECTIVE)
 		do

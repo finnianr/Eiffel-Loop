@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-04 14:51:31 GMT (Tuesday 4th June 2019)"
-	revision: "1"
+	date: "2019-06-05 13:35:25 GMT (Wednesday 5th June 2019)"
+	revision: "2"
 
 class
 	SATELLITE_PARAMETERS

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:29:44 GMT (Friday 18th January 2019)"
-	revision: "4"
+	date: "2019-06-06 19:27:54 GMT (Thursday 6th June 2019)"
+	revision: "5"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -22,7 +22,7 @@ inherit
 
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_field_convertable_from_string,
+			field_included as is_field_convertable_from_xml,
 			export_name as xml_names,
 			import_name as import_default
 		redefine
@@ -40,6 +40,18 @@ feature {NONE} -- Initialization
 		do
 			Precursor {EL_REFLECTIVELY_SETTABLE}
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
+		end
+
+feature {NONE} -- Implementation
+
+	is_field_convertable_from_xml (basic_type, type_id: INTEGER): BOOLEAN
+		do
+			Result := is_field_convertable_from_string (basic_type, type_id)
+			if not Result and then basic_type = Reference_type then
+				Result := across Convertable_types as base_type some
+					Eiffel.field_conforms_to (type_id, base_type.item)
+				end
+			end
 		end
 
 feature {NONE} -- Build from XML
@@ -62,7 +74,7 @@ feature {NONE} -- Constants
 
 	Except_fields: STRING
 		once
-			Result := Precursor + ", xpath"
+			Result := Precursor + ", next_context, xpath"
 		end
 
 end

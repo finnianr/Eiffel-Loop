@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-27 13:29:08 GMT (Wednesday 27th February 2019)"
-	revision: "39"
+	date: "2019-06-06 9:39:20 GMT (Thursday 6th June 2019)"
+	revision: "40"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -20,13 +20,14 @@ create
 
 feature {NONE} -- Constants
 
-	Evaluator_types: TUPLE [SEARCH_ENGINE_TEST_EVALUATOR]
+	Evaluator_types: TUPLE [REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML_TEST_EVALUATOR]
 		once
 			create Result
 		end
 
 	Evaluator_types_all: TUPLE [
-		HTTP_CONNECTION_TEST_EVALUATOR, SEARCH_ENGINE_TEST_EVALUATOR, ENCRYPTED_SEARCH_ENGINE_TEST_EVALUATOR
+		HTTP_CONNECTION_TEST_EVALUATOR, SEARCH_ENGINE_TEST_EVALUATOR, ENCRYPTED_SEARCH_ENGINE_TEST_EVALUATOR,
+		REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML_TEST_EVALUATOR
 	]
 		once
 			create Result

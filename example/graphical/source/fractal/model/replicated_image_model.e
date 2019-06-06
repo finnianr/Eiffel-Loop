@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-04 18:50:52 GMT (Tuesday 4th June 2019)"
-	revision: "3"
+	date: "2019-06-05 14:16:29 GMT (Wednesday 5th June 2019)"
+	revision: "4"
 
 class
 	REPLICATED_IMAGE_MODEL
@@ -83,9 +83,27 @@ feature -- Visitor
 
 	project (a_projector: EV_MODEL_DRAWING_ROUTINES)
 			-- <Precursor>
+		local
+			circle: like Once_circle; points: EL_COORDINATE_ARRAY
+			l_width: DOUBLE; p0: EV_COORDINATE
 		do
-			a_projector.draw_figure_parallelogram (Current)
+			l_width := width_precise.min (height_precise) * 0.17
+			p0 := point_on_circle (point_array [0], angle + radians (45), l_width / 6)
+			create points.make_square (p0, angle, l_width)
 
+			circle := Once_circle
+			points.copy_to (circle.point_array)
+			circle.center_invalidate
+
+			a_projector.draw_figure_parallelogram (Current)
+			a_projector.draw_figure_rotated_ellipse (circle)
 		end
 
+feature {NONE} -- Constants
+
+	Once_circle: EV_MODEL_ROTATED_ELLIPSE
+		once
+			create Result
+			Result.set_foreground_color (foreground_color)
+		end
 end

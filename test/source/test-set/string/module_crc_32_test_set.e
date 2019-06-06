@@ -6,11 +6,11 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-19 11:43:49 GMT (Wednesday 19th September 2018)"
-	revision: "4"
+	date: "2019-06-06 9:04:15 GMT (Thursday 6th June 2019)"
+	revision: "5"
 
 class
-	EL_MODULE_CRC_32_TEST_SET
+	MODULE_CRC_32_TEST_SET
 
 inherit
 	EL_FILE_DATA_TEST_SET

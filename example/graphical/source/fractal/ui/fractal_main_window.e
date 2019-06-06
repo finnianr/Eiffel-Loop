@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-04 13:45:51 GMT (Tuesday 4th June 2019)"
-	revision: "5"
+	date: "2019-06-06 6:56:05 GMT (Thursday 6th June 2019)"
+	revision: "6"
 
 class
 	FRACTAL_MAIN_WINDOW
@@ -68,7 +68,7 @@ feature {NONE} -- Create UI
 		do
 			create model_cell.make
 
-			create border_box.make (0, 0)
+			create border_box.make (0.25, 0.2)
 			border_box.extend_unexpanded (new_control_bar)
 			border_box.extend (model_cell)
 
@@ -80,25 +80,26 @@ feature {NONE} -- Create UI
 
 feature {NONE} -- Factory
 
-	new_control_bar: EL_HORIZONTAL_BOX
+	new_control_bar: EL_VERTICAL_BOX
 		local
 			fading_button: EV_TOGGLE_BUTTON
 		do
 			create fading_button.make_with_text ("Fading on")
 			fading_button.select_actions.extend (agent model_cell.invert_fading (fading_button))
 
-			create Result.make_unexpanded (0.2, 0.2, <<
+			create Result.make_unexpanded (0, 0.25, <<
 				create {EV_BUTTON}.make_with_text_and_action ("Add layer", agent model_cell.add_layer),
+				create {EV_BUTTON}.make_with_text_and_action ("Add background", agent model_cell.render_as_pixmap),
+				fading_button,
 				create {EV_BUTTON}.make_with_text_and_action ("Invert layers", agent model_cell.invert_layers),
-				create {EV_BUTTON}.make_with_text_and_action ("Render fractal", agent model_cell.render_as_pixmap),
-				create {EV_BUTTON}.make_with_text_and_action ("Reset layers", agent model_cell.reset_layers),
-				fading_button
+				create {EV_BUTTON}.make_with_text_and_action ("Reset layers", agent model_cell.reset_layers)
 			>>)
+			Result.set_background_color (Color.Black)
 		end
 
 feature {NONE} -- Internal attributes
 
-	border_box: EL_VERTICAL_BOX
+	border_box: EL_HORIZONTAL_BOX
 
 	model_cell: FRACTAL_WORLD_CELL
 
@@ -106,7 +107,7 @@ feature {NONE} -- Constants
 
 	Border_width_cms: REAL = 0.5
 
-	Window_title: STRING = "Fractals"
+	Window_title: STRING = "Fractal"
 			-- Title of the window.
 
 end

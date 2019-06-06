@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-04 13:49:36 GMT (Tuesday 4th June 2019)"
-	revision: "5"
+	date: "2019-06-05 14:12:07 GMT (Wednesday 5th June 2019)"
+	revision: "6"
 
 class
 	FRACTAL_WORLD_CELL
@@ -47,12 +47,12 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create replicated_image.make_with_path (fractal_config.image_path)
-
 			create pixmap_world
-			pixmap_world.set_background_color (Color_background)
-			create fractal_world.make (32, create {FRACTAL_LAYER_LIST}.make (new_root_image))
+			pixmap_world.set_background_color (Color.Black)
+
+			create fractal_world.make (32, fractal_config.root_layer)
 			fractal_world.set_background_color (Color_background)
+
 			world := fractal_world
 			default_create
 			disable_scrollbars
@@ -92,7 +92,6 @@ feature -- Basic operations
 	render_as_pixmap
 		do
 			pixmap_world.extend (fractal_world.as_picture)
---			pixmap_world.set_x_y (0, 0)
 			set_world (pixmap_world)
 			projector.project
 		end
@@ -110,16 +109,6 @@ feature -- Basic operations
 				pixmap_world.replace (fractal_world.as_picture)
 			end
 			projector.project
-		end
-
-feature {NONE} -- Factory
-
-	new_root_image: REPLICATED_IMAGE_MODEL
-		local
-			rectangle: EL_RECTANGLE
-		do
-			create rectangle.make (0, 0, replicated_image.width, replicated_image.height)
-			create Result.make (rectangle.to_point_array, replicated_image)
 		end
 
 feature -- Status query
@@ -167,8 +156,6 @@ feature {NONE} -- Internal attributes
 	fractal_world: FRACTAL_MODEL_WORLD
 
 	pixmap_world: EV_MODEL_WORLD
-
-	replicated_image: EL_DRAWABLE_PIXEL_BUFFER
 
 feature {NONE} -- Constants
 
