@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-06 19:33:06 GMT (Thursday 6th June 2019)"
-	revision: "11"
+	date: "2019-06-07 8:03:52 GMT (Friday 7th June 2019)"
+	revision: "12"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -32,6 +32,8 @@ inherit
 
 	EL_SHARED_DEFAULT_VALUE_TABLE
 
+	EL_EIF_OBJ_BUILDER_CONTEXT_TYPE_CONSTANTS
+
 feature {NONE} -- Implementation
 
 	building_actions_for_each_type (types: ARRAY [TYPE [ANY]]; node_type: INTEGER_32): EL_PROCEDURE_TABLE [STRING]
@@ -41,7 +43,7 @@ feature {NONE} -- Implementation
 		do
 			from i := 1 until i > types.count loop
 				i_th := types [i]
-				if across Convertable_types as base_type some
+				if across Builder_context_types as base_type some
 						Eiffel.field_conforms_to (i_th.type_id, base_type.item)
 					end
 				then
@@ -83,28 +85,54 @@ feature {NONE} -- Implementation
 					text_xpath := field_list.item.export_name
 					context_change := True
 				end
-				if context_change and then attached {EL_REFLECTED_REFERENCE [ANY]} field_list.item as l_reference then
-					if Eiffel.field_conforms_to (type.type_id, EIF_OBJ_BUILDER_CONTEXT) then
-						Result [text_xpath] := agent change_context (l_reference)
-
-					elseif Eiffel.field_conforms_to (type.type_id, COLLECTION_EIF_OBJ_BUILDER_CONTEXT) then
-						if Default_value_table.has_key (type.generic_parameter_type (1).type_id)
-							and then attached {EL_EIF_OBJ_BUILDER_CONTEXT} Default_value_table.found_item as default_value
-						then
-							Result [text_xpath + once "/item"] := agent extend_collection (l_reference, default_value)
-						else
-							check
-								default_value_available: False
-								-- Need to add a default value for collection item to `Default_value_table'
-							end
+				if attached {EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT} field_list.item as context_field_collection
+				then
+					if Default_value_table.has_key (type.generic_parameter_type (1).type_id)
+						and then attached {EL_EIF_OBJ_BUILDER_CONTEXT} Default_value_table.found_item as default_value
+					then
+						Result [text_xpath + List_item_element_name] := agent extend_collection (
+							context_field_collection, default_value
+						)
+					else
+						check
+							default_value_available: False
+							-- Need to add a default value for collection item to `Default_value_table'
 						end
 					end
+
+				elseif attached {EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT} field_list.item as context_field then
+					Result [text_xpath] := agent change_context (context_field)
+
 				elseif attached {EL_REFLECTED_PATH} field_list.item as path_field then
 					Result [text_xpath] := agent set_path_field_from_node (path_field)
 				else
 					Result [text_xpath] := agent set_field_from_node (field_list.item)
 				end
 				field_list.forth
+			end
+		end
+
+	change_context (context_field: EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT)
+		do
+			if attached {EL_EIF_OBJ_XPATH_CONTEXT} context_field.value (current_reflective) as context then
+				set_next_context (context)
+			end
+		end
+
+	extend_collection (
+		context_field_collection: EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT
+		default_value: EL_EIF_OBJ_BUILDER_CONTEXT
+	)
+		local
+			new_context: EL_EIF_OBJ_BUILDER_CONTEXT
+		do
+			if attached {COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]}
+				context_field_collection.value (current_reflective) as collection
+			then
+				new_context := default_value.twin
+				new_context.make_default
+				set_next_context (new_context)
+				collection.extend (new_context)
 			end
 		end
 
@@ -119,26 +147,6 @@ feature {NONE} -- Implementation
 			field.expand (current_reflective)
 		end
 
-	extend_collection (a_reference: EL_REFLECTED_REFERENCE [ANY]; default_value: EL_EIF_OBJ_BUILDER_CONTEXT)
-		local
-			new_context: EL_EIF_OBJ_BUILDER_CONTEXT
-		do
-			if attached {COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]} a_reference.value (current_reflective) as collection
-			then
-				new_context := default_value.twin
-				new_context.make_default
-				set_next_context (new_context)
-				collection.extend (new_context)
-			end
-		end
-
-	change_context (a_reference: EL_REFLECTED_REFERENCE [ANY])
-		do
-			if attached {EL_EIF_OBJ_XPATH_CONTEXT} a_reference.value (current_reflective) as context then
-				set_next_context (context)
-			end
-		end
-
 feature {NONE} -- Implementation
 
 	node: EL_XML_NODE
@@ -149,35 +157,24 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	list_item_element_name: STRING
+		deferred
+		ensure
+			has_forward_slash: Result.item (1) ~ '/'
+		end
+
 feature {NONE} -- Node types
 
 	Attribute_node: INTEGER = 1
+
+	Element_node: INTEGER = 2
 
 	Node_types: ARRAY [INTEGER]
 		once
 			Result := << Attribute_node, Element_node, Text_element_node >>
 		end
 
-	Element_node: INTEGER = 2
-
 	Text_element_node: INTEGER = 3
-
-feature {NONE} -- Constants
-
-	Convertable_types: ARRAY [INTEGER]
-		once
-			Result := << EIF_OBJ_BUILDER_CONTEXT, COLLECTION_EIF_OBJ_BUILDER_CONTEXT >>
-		end
-
-	EIF_OBJ_BUILDER_CONTEXT: INTEGER
-		once ("PROCESS")
-			Result := ({EL_EIF_OBJ_BUILDER_CONTEXT}).type_id
-		end
-
-	COLLECTION_EIF_OBJ_BUILDER_CONTEXT: INTEGER
-		once ("PROCESS")
-			Result := ({COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]}).type_id
-		end
 
 end
 

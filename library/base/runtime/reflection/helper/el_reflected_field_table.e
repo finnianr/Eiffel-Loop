@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 10:42:08 GMT (Wednesday 31st October 2018)"
-	revision: "12"
+	date: "2019-06-07 8:07:32 GMT (Friday 7th June 2019)"
+	revision: "13"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -72,13 +72,15 @@ feature -- Access
 feature -- Basic operations
 
 	query_by_type (type: TYPE [ANY])
-		local
-			id: INTEGER
 		do
-			id := type.type_id
+			query_by_type_id (type.type_id)
+		end
+
+	query_by_type_id (type_id: INTEGER)
+		do
 			last_query.wipe_out
 			from start until after loop
-				if item_for_iteration.type_id = id then
+				if item_for_iteration.type_id = type_id then
 					last_query.extend (item_for_iteration)
 				end
 				forth

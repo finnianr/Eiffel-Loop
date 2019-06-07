@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-02 9:20:36 GMT (Sunday 2nd June 2019)"
-	revision: "10"
+	date: "2019-06-07 6:45:41 GMT (Friday 7th June 2019)"
+	revision: "11"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -92,6 +92,16 @@ feature -- String output
 		do
 			if is_bom_writeable then
 				put_raw_string_8 ({UTF_CONVERTER}.Utf_8_bom_to_string_8)
+			end
+		end
+
+	put_indent (tab_count: INTEGER)
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > tab_count loop
+				put_character_8 ('%T')
+				i := i + 1
 			end
 		end
 

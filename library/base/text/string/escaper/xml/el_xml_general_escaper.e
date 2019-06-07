@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-06-07 15:57:10 GMT (Friday 7th June 2019)"
+	revision: "6"
 
 deferred class
 	EL_XML_GENERAL_ESCAPER
@@ -31,6 +31,7 @@ feature {NONE} -- Initialization
 			extend_entities ('>', "gt")
 			extend_entities ('&', "amp")
 			extend_entities ('%'', "apos")
+			extend_entities ('"', "quot")
 
 			make_escaper (new_predefined_string)
 		end
