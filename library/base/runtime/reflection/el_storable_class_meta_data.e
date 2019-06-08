@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-04 15:10:41 GMT (Friday 4th May 2018)"
-	revision: "5"
+	date: "2019-06-08 10:27:53 GMT (Saturday 8th June 2019)"
+	revision: "6"
 
 class
 	EL_STORABLE_CLASS_META_DATA
@@ -15,7 +15,7 @@ class
 inherit
 	EL_CLASS_META_DATA
 		redefine
-			make, enclosing_object, Reference_type_table, Base_reference_types
+			make, enclosing_object, Reference_type_table
 		end
 
 create
@@ -43,22 +43,13 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Base_reference_types: ARRAY [INTEGER]
-		local
-			list: ARRAYED_LIST [INTEGER]
+	Reference_type_table: EL_HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE [ANY]], INTEGER_32]
 		once
 			-- We check if fields conforms to `EL_STORABLE' first because some fields
 			-- may conform to both `EL_STORABLE' and `EL_MAKEABLE_FROM_STRING_GENERAL'. For example: `EL_UUID'
-			create list.make_from_array (<< Storable_type, Tuple_type >>)
-			Precursor.do_all (agent list.extend)
-			Result := list.to_array
-		end
-
-	Reference_type_table: EL_HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE [ANY]], INTEGER_32]
-		once
 			create Result.make (<<
-				[Tuple_type, {EL_REFLECTED_TUPLE}],
-				[Storable_type, {EL_REFLECTED_STORABLE}]
+				[Storable_type, {EL_REFLECTED_STORABLE}],
+				[Tuple_type, {EL_REFLECTED_TUPLE}]
 			>>)
 			Result.merge (Precursor)
 		end

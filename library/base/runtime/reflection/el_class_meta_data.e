@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 9:40:36 GMT (Monday 29th October 2018)"
-	revision: "10"
+	date: "2019-06-08 10:31:27 GMT (Saturday 8th June 2019)"
+	revision: "11"
 
 class
 	EL_CLASS_META_DATA
@@ -176,10 +176,10 @@ feature {NONE} -- Implementation
 
 	reference_type_id (index: INTEGER): INTEGER
 		local
-			reference_types: like Base_reference_types; type_id, base_type_id, i: INTEGER
+			reference_types: ARRAY [INTEGER]; type_id, base_type_id, i: INTEGER
 		do
 			type_id := field_static_type (index)
-			reference_types := Base_reference_types
+			reference_types := Reference_type_table.current_keys
 			from i := 1 until Result > 0 or i > reference_types.count loop
 				base_type_id := reference_types [i]
 				if field_conforms_to (type_id, base_type_id) then
@@ -197,11 +197,6 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Base_reference_types: ARRAY [INTEGER]
-		once
-			Result := String_covertable_base_types
-		end
-
 	Info_line_length: INTEGER
 		once
 			Result := 100
@@ -210,12 +205,16 @@ feature {NONE} -- Constants
 	Reference_type_table: EL_HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE [ANY]], INTEGER]
 		once
 			create Result.make (<<
+				[String_general_type,					{EL_REFLECTED_STRING_GENERAL}],
 				[Boolean_ref_type,						{EL_REFLECTED_BOOLEAN_REF}],
 				[Date_time_type,							{EL_REFLECTED_DATE_TIME}],
-				[Makeable_from_string_general_type, {EL_REFLECTED_MAKEABLE_FROM_STRING_GENERAL}],
 				[Path_type,									{EL_REFLECTED_PATH}],
-				[String_general_type,					{EL_REFLECTED_STRING_GENERAL}]
+				[String_collection_type,				{EL_REFLECTED_COLLECTION [STRING]}],
+				[Makeable_from_string_general_type, {EL_REFLECTED_MAKEABLE_FROM_STRING_GENERAL}]
 			>>)
+		ensure
+			makeable_from_string_general_type_is_last:
+				Result.current_keys [Result.count] = Makeable_from_string_general_type
 		end
 
 	frozen Expanded_field_types: ARRAY [TYPE [EL_REFLECTED_FIELD]]

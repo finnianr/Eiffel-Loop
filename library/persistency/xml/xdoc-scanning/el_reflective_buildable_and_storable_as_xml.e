@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-07 9:24:20 GMT (Friday 7th June 2019)"
-	revision: "2"
+	date: "2019-06-07 16:35:18 GMT (Friday 7th June 2019)"
+	revision: "3"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -43,7 +43,7 @@ feature -- Basic operations
 
 	store (file_path: EL_FILE_PATH)
 		local
-			xml_out: EL_PLAIN_TEXT_FILE; has_elements: BOOLEAN
+			xml_out: EL_PLAIN_TEXT_FILE
 		do
 			create xml_out.make_open_write (file_path)
 			xml_out.put_bom

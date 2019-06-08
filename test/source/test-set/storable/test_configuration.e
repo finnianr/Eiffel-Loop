@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-07 9:41:52 GMT (Friday 7th June 2019)"
-	revision: "2"
+	date: "2019-06-08 7:37:14 GMT (Saturday 8th June 2019)"
+	revision: "3"
 
 class
 	TEST_CONFIGURATION
@@ -34,6 +34,8 @@ feature {NONE} -- Initialization
 			register_default_values
 			create values_list.make (3)
 			values_list.compare_objects
+			create colors.make (3)
+			colors.compare_objects
 			Precursor
 		end
 
@@ -47,6 +49,8 @@ feature {NONE} -- Implementation
 feature -- Access
 
 	file_path: EL_FILE_PATH
+
+	colors: ARRAYED_LIST [STRING]
 
 	name: STRING
 

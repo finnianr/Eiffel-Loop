@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 14:57:12 GMT (Wednesday 31st October 2018)"
-	revision: "19"
+	date: "2019-06-08 13:41:59 GMT (Saturday 8th June 2019)"
+	revision: "20"
 
 deferred class
 	EL_REFLECTIVE
@@ -184,13 +184,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	is_collection_field (basic_type, type_id: INTEGER): BOOLEAN
+		do
+			Result := basic_type = Reference_type
+							and then across Collection_types as type some
+								Eiffel.field_conforms_to (type_id, type.item)
+							end
+		end
+
 	is_field_convertable_from_string (basic_type, type_id: INTEGER): BOOLEAN
 		-- True if field is either an expanded type (with the exception of POINTER) or conforms to one of following types
 		-- 	STRING_GENERAL, EL_DATE_TIME, EL_MAKEABLE_FROM_STRING_GENERAL, BOOLEAN_REF, EL_PATH
 		do
 			inspect basic_type
 				when Reference_type then
-					Result := across String_covertable_base_types as base_type some
+					Result := across String_convertable_base_types as base_type some
 						Eiffel.field_conforms_to (type_id, base_type.item)
 					end
 				when Pointer_type then

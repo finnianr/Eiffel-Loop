@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-08 11:12:10 GMT (Friday 8th February 2019)"
-	revision: "16"
+	date: "2019-06-08 10:25:31 GMT (Saturday 8th June 2019)"
+	revision: "17"
 
 class
 	EL_REFLECTOR_CONSTANTS
@@ -45,6 +45,22 @@ feature {EL_REFLECTION_HANDLER} -- Constants
 			Result := ({EL_PATH}).type_id
 		end
 
+feature {NONE} -- Collection types
+
+	frozen String_collection_type: INTEGER
+		once
+			Result := ({COLLECTION [STRING]}).type_id
+		end
+
+	frozen Collection_types: ARRAY [INTEGER]
+		once
+			Result := <<
+				String_collection_type
+			>>
+		end
+
+feature {NONE} -- String types
+
 	frozen String_general_type: INTEGER
 		once
 			Result := ({STRING_GENERAL}).type_id
@@ -70,7 +86,7 @@ feature {EL_REFLECTION_HANDLER} -- Constants
 			Result := << String_8_type, String_32_type, String_z_type >>
 		end
 
-	frozen String_covertable_base_types: ARRAY [INTEGER]
+	frozen String_convertable_base_types: ARRAY [INTEGER]
 		once
 			Result := <<
 				String_general_type, Boolean_ref_type, Date_time_type, Path_type, Makeable_from_string_general_type
