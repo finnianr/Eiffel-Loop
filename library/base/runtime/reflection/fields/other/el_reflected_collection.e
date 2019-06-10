@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-08 11:06:57 GMT (Saturday 8th June 2019)"
-	revision: "1"
+	date: "2019-06-10 11:42:37 GMT (Monday 10th June 2019)"
+	revision: "2"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -87,15 +87,17 @@ feature {NONE} -- Constants
 				[{CHARACTER_32}, agent {EL_READABLE}.read_character_32],
 
 				[{INTEGER_8}, agent {EL_READABLE}.read_integer_8],
+				[{INTEGER_16}, agent {EL_READABLE}.read_integer_16],
 				[{INTEGER_32}, agent {EL_READABLE}.read_integer_32],
 				[{INTEGER_64}, agent {EL_READABLE}.read_integer_64],
 
 				[{NATURAL_8}, agent {EL_READABLE}.read_natural_8],
+				[{NATURAL_16}, agent {EL_READABLE}.read_natural_16],
 				[{NATURAL_32}, agent {EL_READABLE}.read_natural_32],
 				[{NATURAL_64}, agent {EL_READABLE}.read_natural_64],
 
-				[{DOUBLE}, agent {EL_READABLE}.read_real_64],
-				[{REAL}, agent {EL_READABLE}.read_real_32],
+				[{REAL_32}, agent {EL_READABLE}.read_real_32],
+				[{REAL_64}, agent {EL_READABLE}.read_real_64],
 
 				[{STRING}, agent {EL_READABLE}.read_string_8],
 				[{STRING_32}, agent {EL_READABLE}.read_string_32],

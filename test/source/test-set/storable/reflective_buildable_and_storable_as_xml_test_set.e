@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-08 7:38:03 GMT (Saturday 8th June 2019)"
-	revision: "3"
+	date: "2019-06-09 10:21:32 GMT (Sunday 9th June 2019)"
+	revision: "4"
 
 class
 	REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML_TEST_SET
@@ -45,7 +45,8 @@ feature -- Tests
 			config.colors.extend ("Green")
 			config.colors.extend ("Blue")
 
-			config.store (file_path)
+			config.set_file_path (file_path)
+			config.store
 			create config_2.make_from_file (file_path)
 			assert ("same configurations", config ~ config_2)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-08 10:31:27 GMT (Saturday 8th June 2019)"
-	revision: "11"
+	date: "2019-06-10 20:35:57 GMT (Monday 10th June 2019)"
+	revision: "12"
 
 class
 	EL_CLASS_META_DATA
@@ -142,12 +142,16 @@ feature {NONE} -- Factory
 
 	new_reference_field (index: INTEGER; name: STRING): EL_REFLECTED_FIELD
 		local
-			table: like Reference_type_table
+			type_id: INTEGER; found: BOOLEAN
 		do
-			table := Reference_type_table
-			if table.has_key (reference_type_id (index)) then
-				Result := new_reflected_field_for_type (table.found_item, index, name)
-			else
+			type_id := field_static_type (index)
+			across Reference_type_tables as table until found loop
+				if table.item.has_type (type_id) then
+					Result := new_reflected_field_for_type (table.item.found_item, index, name)
+					found := True
+				end
+			end
+			if not found then
 				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
 			end
 		end
@@ -172,23 +176,6 @@ feature {NONE} -- Factory
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	reference_type_id (index: INTEGER): INTEGER
-		local
-			reference_types: ARRAY [INTEGER]; type_id, base_type_id, i: INTEGER
-		do
-			type_id := field_static_type (index)
-			reference_types := Reference_type_table.current_keys
-			from i := 1 until Result > 0 or i > reference_types.count loop
-				base_type_id := reference_types [i]
-				if field_conforms_to (type_id, base_type_id) then
-					Result := base_type_id
-				end
-				i := i + 1
-			end
-		end
-
 feature {NONE} -- Internal attributes
 
 	cached_field_indices_set: HASH_TABLE [EL_FIELD_INDICES_SET, STRING]
@@ -200,21 +187,6 @@ feature {NONE} -- Constants
 	Info_line_length: INTEGER
 		once
 			Result := 100
-		end
-
-	Reference_type_table: EL_HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE [ANY]], INTEGER]
-		once
-			create Result.make (<<
-				[String_general_type,					{EL_REFLECTED_STRING_GENERAL}],
-				[Boolean_ref_type,						{EL_REFLECTED_BOOLEAN_REF}],
-				[Date_time_type,							{EL_REFLECTED_DATE_TIME}],
-				[Path_type,									{EL_REFLECTED_PATH}],
-				[String_collection_type,				{EL_REFLECTED_COLLECTION [STRING]}],
-				[Makeable_from_string_general_type, {EL_REFLECTED_MAKEABLE_FROM_STRING_GENERAL}]
-			>>)
-		ensure
-			makeable_from_string_general_type_is_last:
-				Result.current_keys [Result.count] = Makeable_from_string_general_type
 		end
 
 	frozen Expanded_field_types: ARRAY [TYPE [EL_REFLECTED_FIELD]]
@@ -245,4 +217,13 @@ feature {NONE} -- Constants
 				Result [Pointer_type] := {EL_REFLECTED_POINTER}
 			end
 
+	Reference_type_tables: ARRAY [EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY], ANY]]
+		once
+			Result := <<
+				String_convertable_type_table,
+				String_collection_type_table,
+				Numeric_collection_type_table,
+				Other_collection_type_table
+			>>
+		end
 end

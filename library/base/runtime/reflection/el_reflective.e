@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-08 13:41:59 GMT (Saturday 8th June 2019)"
-	revision: "20"
+	date: "2019-06-10 10:13:49 GMT (Monday 10th June 2019)"
+	revision: "21"
 
 deferred class
 	EL_REFLECTIVE
@@ -170,43 +170,24 @@ feature {NONE} -- Implementation
 
 	is_date_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			Result := Eiffel.field_conforms_to (type_id, Date_time_type)
+			Result := Eiffel.field_conforms_to_date_time (basic_type, type_id)
 		end
 
 	is_string_or_expanded_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			inspect basic_type
-				when Reference_type then
-					Result := String_types.has (type_id)
-				when Pointer_type then
-			else
-				Result := True
-			end
+			Result := Eiffel.is_string_or_expanded_type (basic_type, type_id)
 		end
 
 	is_collection_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			Result := basic_type = Reference_type
-							and then across Collection_types as type some
-								Eiffel.field_conforms_to (type_id, type.item)
-							end
+			Result := Eiffel.field_conforms_to_collection (basic_type, type_id)
 		end
 
 	is_field_convertable_from_string (basic_type, type_id: INTEGER): BOOLEAN
 		-- True if field is either an expanded type (with the exception of POINTER) or conforms to one of following types
 		-- 	STRING_GENERAL, EL_DATE_TIME, EL_MAKEABLE_FROM_STRING_GENERAL, BOOLEAN_REF, EL_PATH
 		do
-			inspect basic_type
-				when Reference_type then
-					Result := across String_convertable_base_types as base_type some
-						Eiffel.field_conforms_to (type_id, base_type.item)
-					end
-				when Pointer_type then
-					-- Exclude pointer
-			else
-				-- is expanded type
-				Result := True
-			end
+			Result := Eiffel.is_type_convertable_from_string (basic_type, type_id)
 		end
 
 feature {EL_CLASS_META_DATA} -- Implementation

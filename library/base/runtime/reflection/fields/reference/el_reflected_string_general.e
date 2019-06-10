@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:35:31 GMT (Wednesday 17th October 2018)"
-	revision: "5"
+	date: "2019-06-10 14:16:50 GMT (Monday 10th June 2019)"
+	revision: "6"
 
 class
 	EL_REFLECTED_STRING_GENERAL
@@ -30,6 +30,13 @@ feature -- Access
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		do
 			Result := value (a_object)
+		end
+
+feature -- Status query
+
+	is_zstring: BOOLEAN
+		do
+			Result := type_id = String_z_type
 		end
 
 feature -- Basic operations

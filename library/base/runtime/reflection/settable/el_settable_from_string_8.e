@@ -9,17 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-19 10:30:56 GMT (Thursday 19th April 2018)"
-	revision: "5"
+	date: "2019-06-10 9:50:39 GMT (Monday 10th June 2019)"
+	revision: "6"
 
 deferred class
 	EL_SETTABLE_FROM_STRING_8
 
 inherit
 	EL_SETTABLE_FROM_STRING
-		rename
-			string_type_id as String_8_type
-		end
 
 feature {EL_REFLECTION_HANDLER} -- Implementation
 

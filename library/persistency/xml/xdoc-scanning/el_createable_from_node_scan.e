@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-01 17:34:48 GMT (Friday 1st February 2019)"
-	revision: "8"
+	date: "2019-06-09 10:00:13 GMT (Sunday 9th June 2019)"
+	revision: "9"
 
 deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
@@ -26,8 +26,6 @@ feature {NONE} -- Initialization
 
 	make_from_file (a_file_path: EL_FILE_PATH)
 			--
-		require
-			path_exists: a_file_path.exists
 		do
 			make_default
 			build_from_file (a_file_path)

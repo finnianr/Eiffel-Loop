@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 12:14:18 GMT (Wednesday 20th February 2019)"
-	revision: "10"
+	date: "2019-06-09 9:50:26 GMT (Sunday 9th June 2019)"
+	revision: "11"
 
 class
 	EL_APPLICATION_CONFIG_CELL [G -> {EL_FILE_PERSISTENT_I} create make_from_file end]

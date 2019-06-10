@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-02 10:17:06 GMT (Wednesday 2nd May 2018)"
-	revision: "14"
+	date: "2019-06-10 10:01:44 GMT (Monday 10th June 2019)"
+	revision: "15"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -288,11 +288,6 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 			else
 				field.set (object, value)
 			end
-		end
-
-	string_type_id: INTEGER
-		-- type_id of string {S}
-		deferred
 		end
 
 feature {NONE} -- Constants

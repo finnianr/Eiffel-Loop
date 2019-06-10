@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-08 10:27:53 GMT (Saturday 8th June 2019)"
-	revision: "6"
+	date: "2019-06-10 20:34:43 GMT (Monday 10th June 2019)"
+	revision: "7"
 
 class
 	EL_STORABLE_CLASS_META_DATA
@@ -15,7 +15,7 @@ class
 inherit
 	EL_CLASS_META_DATA
 		redefine
-			make, enclosing_object, Reference_type_table
+			make, enclosing_object, Reference_type_tables
 		end
 
 create
@@ -43,15 +43,24 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Reference_type_table: EL_HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE [ANY]], INTEGER_32]
+	Storable_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY], ANY]
 		once
-			-- We check if fields conforms to `EL_STORABLE' first because some fields
-			-- may conform to both `EL_STORABLE' and `EL_MAKEABLE_FROM_STRING_GENERAL'. For example: `EL_UUID'
 			create Result.make (<<
 				[Storable_type, {EL_REFLECTED_STORABLE}],
 				[Tuple_type, {EL_REFLECTED_TUPLE}]
 			>>)
-			Result.merge (Precursor)
 		end
 
+	Reference_type_tables: ARRAY [EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY], ANY]]
+		once
+			Result := <<
+--				We check if fields conforms to `EL_STORABLE' first because some fields
+--				may conform to both `EL_STORABLE' and `EL_MAKEABLE_FROM_STRING_GENERAL'. For example: `EL_UUID'
+				Storable_type_table,
+				String_convertable_type_table,
+				String_collection_type_table,
+				Numeric_collection_type_table,
+				Other_collection_type_table
+			>>
+		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:38:34 GMT (Friday 18th January 2019)"
-	revision: "20"
+	date: "2019-06-10 14:31:28 GMT (Monday 10th June 2019)"
+	revision: "21"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -16,7 +16,8 @@ inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			xml_names as to_kebab_case,
-			element_node_type as	Text_element_node
+			element_node_type as	Text_element_node,
+			New_line as New_line_character
 		redefine
 			make_default, on_context_exit, set_field_from_node, building_action_table, Except_fields
 		end
@@ -62,7 +63,6 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT}
-			create location
 			Precursor {EVOLICITY_SERIALIZEABLE}
 		end
 
@@ -157,11 +157,12 @@ feature {NONE} -- Build from XML
 
 	set_field_from_node (field: EL_REFLECTED_FIELD)
 		do
-			if field.type_id = String_z_type
-				and then attached {ZSTRING} field.value (Current) as value
+			if attached {EL_REFLECTED_STRING_GENERAL} field as string_field
+				and then string_field.is_zstring
+				and then attached {ZSTRING} string_field.value (Current) as value
 				and then value ~ Unknown_string
 			then
-				field.set (Current, Unknown_string)
+				string_field.set (Current, Unknown_string)
 			else
 				field.set_from_readable (Current, node)
 			end

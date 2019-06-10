@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-07 8:07:32 GMT (Friday 7th June 2019)"
-	revision: "13"
+	date: "2019-06-10 13:58:42 GMT (Monday 10th June 2019)"
+	revision: "14"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -80,7 +80,7 @@ feature -- Basic operations
 		do
 			last_query.wipe_out
 			from start until after loop
-				if item_for_iteration.type_id = type_id then
+				if type_id = Any_type_id or else type_id = item_for_iteration.type_id then
 					last_query.extend (item_for_iteration)
 				end
 				forth
@@ -111,6 +111,11 @@ feature {NONE} -- Internal attributes
 	Name_in: STRING
 		once
 			create Result.make (20)
+		end
+
+	Any_type_id: INTEGER
+		once
+			Result := ({ANY}).type_id
 		end
 
 end

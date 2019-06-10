@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-08 13:57:17 GMT (Saturday 8th June 2019)"
-	revision: "13"
+	date: "2019-06-10 14:09:54 GMT (Monday 10th June 2019)"
+	revision: "14"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -38,10 +38,9 @@ inherit
 
 	EL_XML_ESCAPING_CONSTANTS
 
-
 feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 
-	put_xml_element (xml_out: EL_PLAIN_TEXT_FILE; name: STRING; tab_count: INTEGER)
+	put_xml_element (xml_out: EL_OUTPUT_MEDIUM; name: STRING; tab_count: INTEGER)
 		-- recursively output elements to file as XML
 		local
 			has_child_element: BOOLEAN; table: like field_table
@@ -83,7 +82,7 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 			String_pool.recycle (value)
 		end
 
-	put_child_elements (xml_out: EL_PLAIN_TEXT_FILE; table: like field_table; value: ZSTRING; tab_count: INTEGER)
+	put_child_elements (xml_out: EL_OUTPUT_MEDIUM; table: like field_table; value: ZSTRING; tab_count: INTEGER)
 		local
 			context_list: LINEAR [EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT]
 			needs_escaping: BOOLEAN
@@ -122,7 +121,7 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 			end
 		end
 
-	put_value (xml_out: EL_PLAIN_TEXT_FILE; value: ZSTRING; escape: BOOLEAN)
+	put_value (xml_out: EL_OUTPUT_MEDIUM; value: ZSTRING; escape: BOOLEAN)
 		do
 			if escape then
 				xml_out.put_string_general (Xml_escaper.escaped (value, False))
@@ -131,17 +130,17 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 			end
 		end
 
-	put_xml_tag_open (xml_out: EL_PLAIN_TEXT_FILE; name: STRING; tab_count: INTEGER; character: CHARACTER)
+	put_xml_tag_open (xml_out: EL_OUTPUT_MEDIUM; name: STRING; tab_count: INTEGER; character: CHARACTER)
 		do
 			put_xml_tag (xml_out, name, tab_count, False, character)
 		end
 
-	put_xml_tag_close (xml_out: EL_PLAIN_TEXT_FILE; name: STRING; tab_count: INTEGER; character: CHARACTER)
+	put_xml_tag_close (xml_out: EL_OUTPUT_MEDIUM; name: STRING; tab_count: INTEGER; character: CHARACTER)
 		do
 			put_xml_tag (xml_out, name, tab_count, True, character)
 		end
 
-	put_xml_tag (xml_out: EL_PLAIN_TEXT_FILE; name: STRING; tab_count: INTEGER; closed: BOOLEAN; character: CHARACTER)
+	put_xml_tag (xml_out: EL_OUTPUT_MEDIUM; name: STRING; tab_count: INTEGER; closed: BOOLEAN; character: CHARACTER)
 		do
 			xml_out.put_indent (tab_count)
 			if closed then
@@ -160,18 +159,10 @@ feature {NONE} -- Implementation
 
 	building_actions_for_each_type (types: ARRAY [TYPE [ANY]]; node_type: INTEGER_32): EL_PROCEDURE_TABLE [STRING]
 		local
-			i: INTEGER_32; i_th: TYPE [ANY]
-			table: EL_PROCEDURE_TABLE [STRING]
+			i: INTEGER_32; table: EL_PROCEDURE_TABLE [STRING]
 		do
 			from i := 1 until i > types.count loop
-				i_th := types [i]
-				if is_builder_context_field (Reference_type, i_th.type_id)
-					or else is_collection_field (Reference_type, i_th.type_id)
-				then
-					table := building_actions_for_type (i_th, Element_node)
-				else
-					table := building_actions_for_type (i_th, node_type)
-				end
+				table := building_actions_for_type (types [i], node_type)
 				if i = 1 then
 					Result := table
 				else
@@ -185,30 +176,20 @@ feature {NONE} -- Implementation
 		require
 			valid_node_type: Node_types.has (node_type)
 		local
-			table: EL_REFLECTED_FIELD_TABLE
-			field_list: LIST [EL_REFLECTED_FIELD]; text_xpath: STRING_8
-			context_change: BOOLEAN
+			table: EL_REFLECTED_FIELD_TABLE; field_list: LIST [EL_REFLECTED_FIELD]; xpath: STRING_8
 		do
 			table := field_table
 			table.query_by_type (type)
 			field_list := table.last_query
 			create Result.make_equal (field_list.count)
 			from field_list.start until field_list.after loop
-				inspect node_type
-					when Attribute_node then
-						text_xpath := once "@" + field_list.item.export_name
-					when Text_element_node then
-						text_xpath := field_list.item.export_name + once "/text()"
-				else
-					text_xpath := field_list.item.export_name
-				end
-				context_change := node_type = Element_node
 				if attached {EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT} field_list.item as context_field_collection
 				then
-					if Default_value_table.has_key (type.generic_parameter_type (1).type_id)
+					if Default_value_table.has_key (context_field_collection.item_type_id)
 						and then attached {EL_EIF_OBJ_BUILDER_CONTEXT} Default_value_table.found_item as default_value
 					then
-						Result [text_xpath + Item_xpath] := agent extend_context_collection (context_field_collection, default_value)
+						xpath := new_xpath (field_list.item, Element_node) + Item_xpath
+						Result [xpath] := agent extend_context_collection (context_field_collection, default_value)
 					else
 						check
 							default_value_available: False
@@ -217,17 +198,30 @@ feature {NONE} -- Implementation
 					end
 
 				elseif attached {EL_REFLECTED_COLLECTION [ANY]} field_list.item as collection_field then
-					Result [text_xpath + Item_text_xpath] := agent extend_collection (collection_field)
+					xpath := new_xpath (field_list.item, Element_node) + Item_text_xpath
+					Result [xpath] := agent extend_collection (collection_field)
 
 				elseif attached {EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT} field_list.item as context_field then
-					Result [text_xpath] := agent change_context (context_field)
+					Result [new_xpath (field_list.item, Element_node)] := agent change_context (context_field)
 
 				elseif attached {EL_REFLECTED_PATH} field_list.item as path_field then
-					Result [text_xpath] := agent set_path_field_from_node (path_field)
+					Result [new_xpath (field_list.item, node_type)] := agent set_path_field_from_node (path_field)
 				else
-					Result [text_xpath] := agent set_field_from_node (field_list.item)
+					Result [new_xpath (field_list.item, node_type)] := agent set_field_from_node (field_list.item)
 				end
 				field_list.forth
+			end
+		end
+
+	new_xpath (field: EL_REFLECTED_FIELD; node_type: INTEGER): STRING
+		do
+			inspect node_type
+				when Attribute_node then
+					Result := once "@" + field.export_name
+				when Text_element_node then
+					Result := field.export_name + once "/text()"
+			else
+				Result := field.export_name
 			end
 		end
 
@@ -269,12 +263,8 @@ feature {NONE} -- Implementation
 
 	is_builder_context_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			Result := basic_type = Reference_type
-							and then across Builder_context_types as base_type some
-								Eiffel.field_conforms_to (type_id, base_type.item)
-							end
+			Result := Eiffel.field_conforms_to_one_of (basic_type, type_id, Builder_context_types)
 		end
-
 
 	set_field_from_node (field: EL_REFLECTED_FIELD)
 		do

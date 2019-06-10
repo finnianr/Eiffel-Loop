@@ -32,8 +32,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 9:19:11 GMT (Monday 29th October 2018)"
-	revision: "11"
+	date: "2019-06-10 10:15:42 GMT (Monday 10th June 2019)"
+	revision: "12"
 
 class
 	EL_DYNAMIC_MODULE_POINTERS
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 
 	field_included (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			Result := basic_type = Pointer_type
+			Result := basic_type = {REFLECTOR_CONSTANTS}.Pointer_type
 		end
 
 	function_names_with_upper: ARRAY [STRING]

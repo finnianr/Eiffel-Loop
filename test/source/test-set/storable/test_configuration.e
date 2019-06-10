@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-08 7:37:14 GMT (Saturday 8th June 2019)"
-	revision: "3"
+	date: "2019-06-09 9:15:09 GMT (Sunday 9th June 2019)"
+	revision: "4"
 
 class
 	TEST_CONFIGURATION
@@ -23,10 +23,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_file_path: like file_path; a_name: like name; a_values: like values)
+	make (a_image_path: like image_path; a_name: like name; a_values: like values)
 		do
 			make_default
-			file_path := a_file_path; name := a_name; values := a_values
+			image_path := a_image_path; name := a_name; values := a_values
 		end
 
 	make_default
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 
 feature -- Access
 
-	file_path: EL_FILE_PATH
+	image_path: EL_FILE_PATH
 
 	colors: ARRAYED_LIST [STRING]
 

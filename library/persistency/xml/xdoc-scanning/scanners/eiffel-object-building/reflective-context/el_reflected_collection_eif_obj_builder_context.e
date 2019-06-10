@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-07 7:10:05 GMT (Friday 7th June 2019)"
-	revision: "1"
+	date: "2019-06-10 14:07:03 GMT (Monday 10th June 2019)"
+	revision: "2"
 
 class
 	EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT
@@ -17,4 +17,12 @@ inherit
 
 create
 	make
+
+feature -- Access
+
+	item_type_id: INTEGER
+		do
+			Result := Eiffel.type_of_type (type_id).generic_parameter_type (1).type_id
+		end
+
 end

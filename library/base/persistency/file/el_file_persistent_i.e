@@ -9,21 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 13:10:28 GMT (Wednesday 20th February 2019)"
-	revision: "8"
+	date: "2019-06-09 10:10:47 GMT (Sunday 9th June 2019)"
+	revision: "9"
 
 deferred class
 	EL_FILE_PERSISTENT_I
 
 inherit
+	EL_CREATEABLE_FROM_FILE
+
 	EL_MODULE_FILE_SYSTEM
-
-feature {NONE} -- Initialization
-
-	make_from_file (a_file_path: EL_FILE_PATH)
-			--
-		deferred
-		end
 
 feature -- Access
 
@@ -49,6 +44,9 @@ feature -- Basic operations
 			-- store to temporary file checking if storage operation completed
 			-- If storage was successful set last_store_ok to true
 			-- and replace saved file with temporary file
+		require
+			file_path_set: not file_path.is_empty
+			directory_exists_and_is_writeable: file_path.parent.exists_and_is_writeable
 		local
 			new_file_path: EL_FILE_PATH
 			l_file: like new_file
@@ -71,6 +69,9 @@ feature -- Basic operations
 		end
 
 	store
+		require
+			file_path_set: not file_path.is_empty
+			directory_exists_and_is_writeable: file_path.parent.exists_and_is_writeable
 		do
 			store_as (file_path)
 		end
@@ -80,7 +81,7 @@ feature {NONE} -- Implementation
 	new_file (a_file_path: like file_path): FILE
 		deferred
 		end
-		
+
 	store_as (a_file_path: like file_path)
 			--
 		deferred

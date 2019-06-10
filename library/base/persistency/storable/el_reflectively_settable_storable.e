@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 9:20:36 GMT (Monday 29th October 2018)"
-	revision: "18"
+	date: "2019-06-10 9:59:15 GMT (Monday 10th June 2019)"
+	revision: "19"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -98,40 +98,8 @@ feature {EL_STORABLE_CLASS_META_DATA} -- Access
 feature {NONE} -- Implementation
 
 	is_storable_field (basic_type, type_id: INTEGER_32): BOOLEAN
-			-- hash of all field names in same order as new_storable_fields
 		do
-			inspect basic_type
-			when Reference_type then
-				if String_types.has (type_id) or else
-					across << Boolean_ref_type, Date_time_type, Storable_type >> as base_type some
-						Eiffel.field_conforms_to (type_id, base_type.item)
-					end
-
-				then
-					Result := True
-				elseif Eiffel.field_conforms_to (type_id, Tuple_type) then
-					Result := is_storable_tuple (Eiffel.type_of_type (type_id))
-				end
-			when Pointer_type then
-				Result := False
-			else
-				Result := True
-			end
-		end
-
-	is_storable_tuple (type: TYPE [ANY]): BOOLEAN
-		local
-			i, count: INTEGER_32; member_type: TYPE [ANY]
-		do
-			Result := True
-			count := type.generic_parameter_count
-			from i := 1 until not Result or else i > count loop
-				member_type := type.generic_parameter_type (i)
-				if not member_type.is_expanded then
-					Result := String_types.has (member_type.type_id)
-				end
-				i := i + 1
-			end
+			Result := Eiffel.is_storable_type (basic_type, type_id)
 		end
 
 	new_meta_data: EL_STORABLE_CLASS_META_DATA

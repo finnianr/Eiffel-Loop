@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:39:46 GMT (Friday 18th January 2019)"
-	revision: "16"
+	date: "2019-06-10 14:30:32 GMT (Monday 10th June 2019)"
+	revision: "17"
 
 class
 	RBOX_SONG
@@ -20,7 +20,7 @@ inherit
 			location as mp3_path,
 			set_location as set_mp3_path
 		redefine
-			make, building_action_table, getter_function_table, on_context_exit,
+			make, make_default, building_action_table, getter_function_table, on_context_exit,
 			Except_fields, Template
 		end
 
@@ -58,12 +58,14 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_database)
 			audio_id := Default_audio_id
-			create mp3_path
-			create last_copied_mp3_path
-			create mp3_path
-			create album_artists_list.make_empty
 			create album_artists_prefix.make_empty
 			set_first_seen_time (Time.Unix_origin)
+		end
+
+	make_default
+		do
+			create album_artists_list.make_empty
+			Precursor
 		end
 
 feature -- Rhythmbox XML fields
