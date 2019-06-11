@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-10 20:36:20 GMT (Monday 10th June 2019)"
-	revision: "18"
+	date: "2019-06-11 14:42:06 GMT (Tuesday 11th June 2019)"
+	revision: "20"
 
 class
 	EL_REFLECTOR_CONSTANTS
@@ -20,6 +20,46 @@ inherit
 
 feature {EL_REFLECTION_HANDLER} -- Constants
 
+	frozen Makeable_type: INTEGER
+		once
+			Result := ({EL_MAKEABLE}).type_id
+		end
+
+	frozen Makeable_from_zstring_type: INTEGER
+		once
+			Result := ({EL_MAKEABLE_FROM_ZSTRING}).type_id
+		end
+
+	frozen Makeable_from_string_8_type: INTEGER
+		once
+			Result := ({EL_MAKEABLE_FROM_STRING_8}).type_id
+		end
+
+	frozen Makeable_from_string_32_type: INTEGER
+		once
+			Result := ({EL_MAKEABLE_FROM_STRING_32}).type_id
+		end
+
+	frozen Storable_type: INTEGER_32
+		once
+			Result := ({EL_STORABLE}).type_id
+		end
+
+	frozen Tuple_type: INTEGER_32
+		once
+			Result := ({TUPLE}).type_id
+		end
+
+	frozen Dir_path_type: INTEGER_32
+		once
+			Result := ({EL_FILE_PATH}).type_id
+		end
+
+	frozen Path_type: INTEGER_32
+		once
+			Result := ({EL_PATH}).type_id
+		end
+
 	frozen Boolean_ref_type: INTEGER_32
 		once
 			Result := ({EL_BOOLEAN_REF}).type_id
@@ -30,90 +70,88 @@ feature {EL_REFLECTION_HANDLER} -- Constants
 			Result := ({EL_DATE_TIME}).type_id
 		end
 
-	frozen Dir_path_type: INTEGER_32
-		once
-			Result := ({EL_FILE_PATH}).type_id
-		end
-
 	frozen File_path_type: INTEGER_32
 		once
 			Result := ({EL_FILE_PATH}).type_id
 		end
 
-	frozen Path_type: INTEGER_32
-		once
-			Result := ({EL_PATH}).type_id
-		end
+feature {EL_REFLECTION_HANDLER} -- Collection types
 
-feature {NONE} -- Numeric collection types
-
-	frozen Numeric_collection_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_COLLECTION [NUMERIC], NUMERIC]
+	frozen Numeric_collection_type_table: EL_REFLECTED_COLLECTION_TYPE_TABLE [NUMERIC]
 		once
 			create Result.make (<<
-				(create {EL_COLLECTION_TYPE [INTEGER_8]}).to_tuple,
-				(create {EL_COLLECTION_TYPE [INTEGER_16]}).to_tuple,
-				(create {EL_COLLECTION_TYPE [INTEGER_32]}).to_tuple,
-				(create {EL_COLLECTION_TYPE [INTEGER_64]}).to_tuple,
+				{EL_COLLECTION_TYPE_ASSOCIATION [INTEGER_8]},
+				{EL_COLLECTION_TYPE_ASSOCIATION [INTEGER_16]},
+				{EL_COLLECTION_TYPE_ASSOCIATION [INTEGER_32]},
+				{EL_COLLECTION_TYPE_ASSOCIATION [INTEGER_64]},
 
-				(create {EL_COLLECTION_TYPE [NATURAL_8]}).to_tuple,
-				(create {EL_COLLECTION_TYPE [NATURAL_16]}).to_tuple,
-				(create {EL_COLLECTION_TYPE [NATURAL_32]}).to_tuple,
-				(create {EL_COLLECTION_TYPE [NATURAL_64]}).to_tuple,
+				{EL_COLLECTION_TYPE_ASSOCIATION [NATURAL_8]},
+				{EL_COLLECTION_TYPE_ASSOCIATION [NATURAL_16]},
+				{EL_COLLECTION_TYPE_ASSOCIATION [NATURAL_32]},
+				{EL_COLLECTION_TYPE_ASSOCIATION [NATURAL_64]},
 
-				(create {EL_COLLECTION_TYPE [REAL_32]}).to_tuple,
-				(create {EL_COLLECTION_TYPE [REAL_64]}).to_tuple
+				{EL_COLLECTION_TYPE_ASSOCIATION [REAL_32]},
+				{EL_COLLECTION_TYPE_ASSOCIATION [REAL_64]}
 			>>)
 		end
 
-feature {NONE} -- Other collection types
-
-	frozen Other_collection_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_COLLECTION [ANY], ANY]
+	frozen Other_collection_type_table: EL_REFLECTED_COLLECTION_TYPE_TABLE [ANY]
 		once
 			create Result.make (<<
-				(create {EL_COLLECTION_TYPE [BOOLEAN]}).to_tuple,
-				(create {EL_COLLECTION_TYPE [CHARACTER_8]}).to_tuple,
-				(create {EL_COLLECTION_TYPE [CHARACTER_32]}).to_tuple
+				{EL_COLLECTION_TYPE_ASSOCIATION [BOOLEAN]},
+				{EL_COLLECTION_TYPE_ASSOCIATION [CHARACTER_8]},
+				{EL_COLLECTION_TYPE_ASSOCIATION [CHARACTER_32]}
 			>>)
 		end
 
-feature {NONE} -- String collection types
+	frozen String_collection_type_table: EL_REFLECTED_COLLECTION_TYPE_TABLE [STRING_GENERAL]
+		once
+			create Result.make (<<
+				{EL_COLLECTION_TYPE_ASSOCIATION [STRING_8]},
+				{EL_COLLECTION_TYPE_ASSOCIATION [STRING_32]},
+				{EL_COLLECTION_TYPE_ASSOCIATION [ZSTRING]}
+			>>)
+		end
 
-	frozen String_collection_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [
-		EL_REFLECTED_COLLECTION [STRING_GENERAL], COLLECTION [STRING_GENERAL]
+feature {EL_REFLECTION_HANDLER} -- Reference types
+
+	frozen Makeable_from_string_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [
+		EL_REFLECTED_MAKEABLE_FROM_STRING [EL_MAKEABLE_FROM_STRING_GENERAL], EL_MAKEABLE_FROM_STRING_GENERAL
 	]
 		once
 			create Result.make (<<
-				(create {EL_COLLECTION_TYPE [STRING_8]}).to_tuple,
-				(create {EL_COLLECTION_TYPE [STRING_32]}).to_tuple,
-				(create {EL_COLLECTION_TYPE [ZSTRING]}).to_tuple
+				[Makeable_from_zstring_type, {EL_REFLECTED_MAKEABLE_FROM_ZSTRING}],
+				[Makeable_from_string_8_type, {EL_REFLECTED_MAKEABLE_FROM_STRING_8}],
+				[Makeable_from_string_32_type, {EL_REFLECTED_MAKEABLE_FROM_STRING_32}]
 			>>)
 		end
 
-	String_convertable_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY], ANY]
+	frozen String_convertable_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY], ANY]
 		once
 			create Result.make (<<
-				[String_general_type,					{EL_REFLECTED_STRING_GENERAL}],
 				[Boolean_ref_type,						{EL_REFLECTED_BOOLEAN_REF}],
 				[Date_time_type,							{EL_REFLECTED_DATE_TIME}],
-				[Path_type,									{EL_REFLECTED_PATH}],
-				[Makeable_from_string_general_type, {EL_REFLECTED_MAKEABLE_FROM_STRING_GENERAL}]
+				[Path_type,									{EL_REFLECTED_PATH}]
 			>>)
-		ensure
-			makeable_from_string_general_type_is_last:
-				Result.type_array [Result.count] = Makeable_from_string_general_type
 		end
 
-feature {NONE} -- String types
-
-	frozen String_general_type: INTEGER
+	frozen String_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [
+		EL_REFLECTED_STRING_GENERAL [STRING_GENERAL], STRING_GENERAL
+	]
 		once
-			Result := ({STRING_GENERAL}).type_id
+			create Result.make (<<
+				[String_8_type,	{EL_REFLECTED_STRING_8}],
+				[String_32_type,	{EL_REFLECTED_STRING_32}],
+				[String_z_type,	{EL_REFLECTED_ZSTRING}]
+			>>)
 		end
 
-	frozen String_8_type: INTEGER
+	frozen Storable_type_table: EL_REFLECTED_STORABLE_REFERENCE_TYPE_TABLE
 		once
-			Result := ({STRING}).type_id
+			create Result.make
 		end
+
+feature {EL_REFLECTION_HANDLER} -- String types
 
 	frozen String_32_type: INTEGER
 		once
@@ -125,29 +163,9 @@ feature {NONE} -- String types
 			Result := ({ZSTRING}).type_id
 		end
 
-	frozen String_types: ARRAY [INTEGER]
+	frozen String_8_type: INTEGER
 		once
-			Result := << String_8_type, String_32_type, String_z_type >>
-		end
-
-	frozen Makeable_type: INTEGER
-		once
-			Result := ({EL_MAKEABLE}).type_id
-		end
-
-	frozen Makeable_from_string_general_type: INTEGER
-		once
-			Result := ({EL_MAKEABLE_FROM_STRING_GENERAL}).type_id
-		end
-
-	frozen Storable_type: INTEGER_32
-		once
-			Result := ({EL_STORABLE}).type_id
-		end
-
-	frozen Tuple_type: INTEGER_32
-		once
-			Result := ({TUPLE}).type_id
+			Result := ({STRING}).type_id
 		end
 
 end

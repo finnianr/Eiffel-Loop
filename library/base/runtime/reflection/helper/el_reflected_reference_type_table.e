@@ -1,13 +1,13 @@
 note
-	description: "Reflected reference type table"
+	description: "Table of reflected reference fields for types conforming to `BASE_TYPE' and indexed by type_id"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-10 20:29:53 GMT (Monday 10th June 2019)"
-	revision: "1"
+	date: "2019-06-11 14:40:41 GMT (Tuesday 11th June 2019)"
+	revision: "3"
 
 class
 	EL_REFLECTED_REFERENCE_TYPE_TABLE [REFLECTED_TYPE -> EL_REFLECTED_REFERENCE [ANY], BASE_TYPE]
@@ -21,7 +21,9 @@ inherit
 			make
 		end
 
-	EL_MODULE_EIFFEL
+	REFLECTOR
+		export
+			{NONE} all
 		undefine
 			is_equal, copy, default_create
 		end
@@ -35,6 +37,11 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor (array)
+			initialize
+		end
+
+	initialize
+		do
 			base_type_id := ({BASE_TYPE}).type_id
 			type_array := current_keys
 		end
@@ -47,19 +54,33 @@ feature -- Access
 
 feature -- Status query
 
+	has_conforming (type_id: INTEGER): BOOLEAN
+		do
+			Result := conforming_type (type_id) > 0
+		end
+
 	has_type (type_id: INTEGER): BOOLEAN
 		local
-			i, conforming_type: INTEGER
+			l_type_id: INTEGER
 		do
-			if Eiffel.field_conforms_to (type_id, base_type_id) then
-				from i := 1 until conforming_type > 0 or i > type_array.count loop
-					if Eiffel.field_conforms_to (type_id, type_array [i]) then
-						conforming_type := type_array [i]
+			l_type_id := conforming_type (type_id)
+			if l_type_id > 0 then
+				Result := has_key (l_type_id)
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	conforming_type (type_id: INTEGER): INTEGER
+		local
+			i: INTEGER
+		do
+			if field_conforms_to (type_id, base_type_id) then
+				from i := 1 until Result > 0 or i > type_array.count loop
+					if field_conforms_to (type_id, type_array [i]) then
+						Result := type_array [i]
 					end
 					i := i + 1
-				end
-				if conforming_type > 0 then
-					Result := has_key (conforming_type)
 				end
 			end
 		end

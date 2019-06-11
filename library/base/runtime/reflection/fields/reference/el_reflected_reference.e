@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 10:48:29 GMT (Wednesday 31st October 2018)"
-	revision: "10"
+	date: "2019-06-11 12:09:16 GMT (Tuesday 11th June 2019)"
+	revision: "11"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -175,12 +175,21 @@ note
 			EL_REFLECTED_REFERENCE
 				[$source EL_REFLECTED_READABLE]*
 					[$source EL_REFLECTED_STORABLE]
-					[$source EL_REFLECTED_TUPLE]
 					[$source EL_REFLECTED_DATE_TIME]
+					[$source EL_REFLECTED_TUPLE]
 				[$source EL_REFLECTED_BOOLEAN_REF]
-				[$source EL_REFLECTED_STRING_GENERAL]
-				[$source EL_REFLECTED_MAKEABLE_FROM_STRING_GENERAL]
 				[$source EL_REFLECTED_PATH]
+				[$source EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT]
+				[$source EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT]
+				[$source EL_REFLECTED_STRING_GENERAL]*
+					[$source EL_REFLECTED_ZSTRING]
+					[$source EL_REFLECTED_STRING_8]
+					[$source EL_REFLECTED_STRING_32]
+				[$source EL_REFLECTED_COLLECTION]
+				[$source EL_REFLECTED_MAKEABLE_FROM_STRING]*
+					[$source EL_REFLECTED_MAKEABLE_FROM_ZSTRING]
+					[$source EL_REFLECTED_MAKEABLE_FROM_STRING_8]
+					[$source EL_REFLECTED_MAKEABLE_FROM_STRING_32]
 	]"
 end
 

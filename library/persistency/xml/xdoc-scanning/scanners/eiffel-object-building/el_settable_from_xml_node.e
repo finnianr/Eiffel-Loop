@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-10 14:09:54 GMT (Monday 10th June 2019)"
-	revision: "14"
+	date: "2019-06-11 10:40:44 GMT (Tuesday 11th June 2019)"
+	revision: "15"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -44,13 +44,14 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 		-- recursively output elements to file as XML
 		local
 			has_child_element: BOOLEAN; table: like field_table
-			attribute_count: INTEGER; value: ZSTRING
+			attribute_count: INTEGER; value: ZSTRING; l_name: STRING
 		do
 			table := field_table
 			value := String_pool.new_string
 			xml_out.put_indent (tab_count); xml_out.put_character_8 ('<')
 			xml_out.put_string_8 (name)
 			across table as field loop
+				l_name := field.item.name
 				if attached {EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT} field.item
 					or else attached {EL_REFLECTED_COLLECTION [ANY]} field.item
 					or else attached {EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT} field.item
@@ -65,7 +66,7 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 						end
 						xml_out.put_indent (tab_count + 1); xml_out.put_string_8 (field.item.name)
 						xml_out.put_string_8 (once " = %"")
-						put_value (xml_out, value, attached {EL_REFLECTED_STRING_GENERAL} field.item)
+						put_value (xml_out, value, attached {EL_REFLECTED_STRING_GENERAL [STRING_GENERAL]} field.item)
 						xml_out.put_string_8 (once "%"%N")
 						attribute_count := attribute_count + 1
 					end
@@ -263,7 +264,7 @@ feature {NONE} -- Implementation
 
 	is_builder_context_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			Result := Eiffel.field_conforms_to_one_of (basic_type, type_id, Builder_context_types)
+			Result := Eiffel.is_reference (basic_type) and then Eif_obj_builder_type_table.has_conforming (type_id)
 		end
 
 	set_field_from_node (field: EL_REFLECTED_FIELD)

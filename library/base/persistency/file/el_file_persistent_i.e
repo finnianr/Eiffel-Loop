@@ -9,16 +9,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-09 10:10:47 GMT (Sunday 9th June 2019)"
-	revision: "9"
+	date: "2019-06-11 8:01:23 GMT (Tuesday 11th June 2019)"
+	revision: "10"
 
 deferred class
 	EL_FILE_PERSISTENT_I
 
 inherit
-	EL_CREATEABLE_FROM_FILE
-
 	EL_MODULE_FILE_SYSTEM
+
+feature {NONE} -- Initialization
+
+	make_from_file (a_file_path: EL_FILE_PATH)
+		deferred
+		end
 
 feature -- Access
 

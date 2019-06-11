@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-10 20:36:39 GMT (Monday 10th June 2019)"
-	revision: "3"
+	date: "2019-06-11 14:07:03 GMT (Tuesday 11th June 2019)"
+	revision: "5"
 
 class
 	EL_INTERNAL
@@ -28,9 +28,9 @@ feature -- Type queries
 		-- True if `type_id' conforms to COLLECTION [X] where x is a string or an expanded type
 		do
 			if is_reference (basic_type) then
-				Result := conforms_to_one_of (type_id, String_collection_type_table.type_array)
-								or else conforms_to_one_of (type_id, Numeric_collection_type_table.type_array)
-								or else conforms_to_one_of (type_id, Other_collection_type_table.type_array)
+				Result := String_collection_type_table.has_conforming (type_id)
+								or else Numeric_collection_type_table.has_conforming (type_id)
+								or else Other_collection_type_table.has_conforming (type_id)
 			end
 		end
 
@@ -54,13 +54,7 @@ feature -- Type queries
 		do
 			inspect basic_type
 				when Reference_type then
-					if String_types.has (type_id) or else
-						conforms_to_one_of (type_id, << Boolean_ref_type, Date_time_type, Storable_type >>)
-					then
-						Result := True
-					elseif field_conforms_to (type_id, Tuple_type) then
-						Result := tuple_items_are_expanded_or_string_types (type_of_type (type_id))
-					end
+					Result := String_type_table.type_array.has (type_id) or else Storable_type_table.has_conforming (type_id)
 				when Pointer_type then
 					Result := False
 			else
@@ -72,7 +66,7 @@ feature -- Type queries
 		do
 			inspect basic_type
 				when Reference_type then
-					Result := String_types.has (type_id)
+					Result := String_type_table.type_array.has (type_id)
 				when Pointer_type then
 			else
 				Result := True
@@ -85,7 +79,10 @@ feature -- Type queries
 		do
 			inspect basic_type
 				when Reference_type then
-					Result := conforms_to_one_of (type_id, String_convertable_type_table.type_array)
+					Result := String_type_table.type_array.has (type_id)
+									or else String_convertable_type_table.has_conforming (type_id)
+									or else Makeable_from_string_type_table.has_conforming (type_id)
+
 				when Pointer_type then
 					-- Exclude pointer
 			else
@@ -110,21 +107,6 @@ feature {NONE} -- Implementation
 		do
 			from i := 1 until Result or i > types.count loop
 				Result := field_conforms_to (type_id, types [i])
-				i := i + 1
-			end
-		end
-
-	tuple_items_are_expanded_or_string_types (type: TYPE [ANY]): BOOLEAN
-		local
-			i, count: INTEGER_32; member_type: TYPE [ANY]
-		do
-			Result := True
-			count := type.generic_parameter_count
-			from i := 1 until not Result or else i > count loop
-				member_type := type.generic_parameter_type (i)
-				if not member_type.is_expanded then
-					Result := String_types.has (member_type.type_id)
-				end
 				i := i + 1
 			end
 		end

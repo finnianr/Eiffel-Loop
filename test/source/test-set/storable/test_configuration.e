@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-09 9:15:09 GMT (Sunday 9th June 2019)"
-	revision: "4"
+	date: "2019-06-11 10:21:37 GMT (Tuesday 11th June 2019)"
+	revision: "5"
 
 class
 	TEST_CONFIGURATION
@@ -35,7 +35,9 @@ feature {NONE} -- Initialization
 			create values_list.make (3)
 			values_list.compare_objects
 			create colors.make (3)
+			create integer_list.make (3)
 			colors.compare_objects
+			clipping := True
 			Precursor
 		end
 
@@ -48,13 +50,19 @@ feature {NONE} -- Implementation
 
 feature -- Access
 
+	colors: ARRAYED_LIST [STRING]
+
 	image_path: EL_FILE_PATH
 
-	colors: ARRAYED_LIST [STRING]
+	integer_list: ARRAYED_LIST [INTEGER]
 
 	name: STRING
 
 	values: TEST_VALUES
 
 	values_list: ARRAYED_LIST [TEST_VALUES]
+
+feature -- Status query
+
+	clipping: EL_BOOLEAN_OPTION
 end

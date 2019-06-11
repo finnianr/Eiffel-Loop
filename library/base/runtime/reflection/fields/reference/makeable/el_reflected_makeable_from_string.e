@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-08 20:21:08 GMT (Friday 8th February 2019)"
-	revision: "7"
+	date: "2019-06-11 10:42:42 GMT (Tuesday 11th June 2019)"
+	revision: "8"
 
-class
-	EL_REFLECTED_MAKEABLE_FROM_STRING_GENERAL
+deferred class
+	EL_REFLECTED_MAKEABLE_FROM_STRING [MAKEABLE -> EL_MAKEABLE_FROM_STRING_GENERAL]
 
 inherit
-	EL_REFLECTED_REFERENCE [EL_MAKEABLE_FROM_STRING_GENERAL]
+	EL_REFLECTED_REFERENCE [MAKEABLE]
+		undefine
+			set_from_readable, write
 		redefine
 			default_defined, initialize_default, reset,
 			set_from_string, set_from_readable, to_string
@@ -21,24 +23,7 @@ inherit
 
 	EL_REFLECTOR_CONSTANTS
 
-create
-	make
-
 feature -- Basic operations
-
-	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
-		local
-			l_value: like value
-		do
-			l_value := value (a_object)
-			if attached {EL_MAKEABLE_FROM_ZSTRING} l_value as from_zstring then
-				from_zstring.make (readable.read_string)
-			elseif attached {EL_MAKEABLE_FROM_STRING_8} l_value as from_string_8 then
-				from_string_8.make (readable.read_string_8)
-			elseif attached {EL_MAKEABLE_FROM_STRING_32} l_value as from_string_32 then
-				from_string_32.make (readable.read_string_32)
-			end
-		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
@@ -57,7 +42,7 @@ feature -- Status query
 	default_defined: BOOLEAN
 		do
 			if not Default_value_table.has (type_id)
-				and then field_conforms_to (type_id, Makeable_from_string_general_type)
+				and then field_conforms_to (type_id, makeable_from_string_type_id)
 			then
 				Result := True
 			end
@@ -80,6 +65,10 @@ feature {NONE} -- Implementation
 				new_value.make_default
 				default_value := new_value
 			end
+		end
+
+	makeable_from_string_type_id: INTEGER
+		deferred
 		end
 
 end

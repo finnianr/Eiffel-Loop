@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-10 11:42:37 GMT (Monday 10th June 2019)"
-	revision: "2"
+	date: "2019-06-11 9:26:36 GMT (Tuesday 11th June 2019)"
+	revision: "3"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -40,7 +40,7 @@ feature -- Status query
 
 	is_string_item: BOOLEAN
 		do
-			Result := String_types.has (type_id)
+			Result := String_collection_type_table.type_array.has (type_id)
 		end
 
 feature -- Basic operations

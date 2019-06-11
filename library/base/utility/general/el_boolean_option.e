@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-01 9:48:02 GMT (Saturday 1st June 2019)"
-	revision: "2"
+	date: "2019-06-11 10:26:04 GMT (Tuesday 11th June 2019)"
+	revision: "3"
 
 class
 	EL_BOOLEAN_OPTION
@@ -38,6 +38,14 @@ inherit
 		export
 			{NONE} all
 			{ANY} is_enabled
+		end
+
+	EL_MAKEABLE_FROM_STRING_8
+		rename
+			make as make_from_string,
+			make_default as make_enabled
+		undefine
+			out
 		end
 
 create
@@ -56,6 +64,11 @@ feature {NONE} -- Initialization
 	make_enabled
 		do
 			enable
+		end
+
+	make_from_string (a_string: STRING)
+		do
+			set_item (a_string.to_boolean)
 		end
 
 feature -- Status query
@@ -94,6 +107,13 @@ feature -- Element change
 	set_action (a_action: PROCEDURE [BOOLEAN])
 		do
 			action := a_action
+		end
+
+feature -- Access
+
+	to_string: STRING
+		do
+			Result := out
 		end
 
 feature {NONE} -- Implementation

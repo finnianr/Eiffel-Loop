@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-14 10:01:13 GMT (Thursday 14th March 2019)"
-	revision: "2"
+	date: "2019-06-11 13:43:27 GMT (Tuesday 11th June 2019)"
+	revision: "3"
 
 class
 	DUPLICITY_LISTING_COMMAND
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			put_string (Var.date, date)
 
 			execute
-			do_with_lines (agent find_last_full_backup, lines)
+			do_with_lines (agent find_first_line, lines)
 		end
 
 feature -- Access
@@ -52,17 +52,11 @@ feature -- Access
 
 feature {NONE} -- Line states
 
-	find_last_full_backup (line: ZSTRING)
+	find_first_line (line: ZSTRING)
+		-- find first line that looks something like "Sat Mar 16 10:04:29 2019 ."
 		do
-			if line.starts_with (Last_full_backup) then
-				state := agent set_start_index
-			end
-		end
-
-	set_start_index (line: ZSTRING)
-		do
-			start_index := line.index_of ('.', 1)
-			if start_index > 0 then
+			if line.occurrences (':') = 2 and then line.occurrences (' ') = 5 and then line.ends_with (Space_dot) then
+				start_index := line.count
 				state := agent append_matching
 			end
 		end
@@ -97,6 +91,11 @@ feature {NONE} -- Constants
 	Last_full_backup: ZSTRING
 		once
 			Result := "Last full backup"
+		end
+
+	Space_dot: ZSTRING
+		once
+			Result := " ."
 		end
 
 end

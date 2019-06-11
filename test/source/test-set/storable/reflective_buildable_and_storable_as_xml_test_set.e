@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-09 10:21:32 GMT (Sunday 9th June 2019)"
-	revision: "4"
+	date: "2019-06-11 8:19:09 GMT (Tuesday 11th June 2019)"
+	revision: "5"
 
 class
 	REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML_TEST_SET
@@ -41,6 +41,16 @@ feature -- Tests
 				config.values_list.extend (new_values)
 				i := i + 1
 			end
+
+			from i := 1 until i > 4 loop
+				if i = 1 then
+					config.integer_list.extend (1)
+				else
+					config.integer_list.extend (config.integer_list.last * 2)
+				end
+				i := i + 1
+			end
+
 			config.colors.extend ("Red")
 			config.colors.extend ("Green")
 			config.colors.extend ("Blue")

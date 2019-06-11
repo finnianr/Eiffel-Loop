@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-10 14:31:28 GMT (Monday 10th June 2019)"
-	revision: "21"
+	date: "2019-06-11 9:36:30 GMT (Tuesday 11th June 2019)"
+	revision: "22"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -157,12 +157,10 @@ feature {NONE} -- Build from XML
 
 	set_field_from_node (field: EL_REFLECTED_FIELD)
 		do
-			if attached {EL_REFLECTED_STRING_GENERAL} field as string_field
-				and then string_field.is_zstring
-				and then attached {ZSTRING} string_field.value (Current) as value
-				and then value ~ Unknown_string
+			if attached {EL_REFLECTED_ZSTRING} field as zstring_field
+				and then zstring_field.value (Current) ~ Unknown_string
 			then
-				string_field.set (Current, Unknown_string)
+				zstring_field.set (Current, Unknown_string)
 			else
 				field.set_from_readable (Current, node)
 			end
