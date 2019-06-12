@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 14:42:06 GMT (Tuesday 11th June 2019)"
-	revision: "20"
+	date: "2019-06-12 10:51:46 GMT (Wednesday 12th June 2019)"
+	revision: "21"
 
 class
 	EL_REFLECTOR_CONSTANTS
@@ -52,7 +52,7 @@ feature {EL_REFLECTION_HANDLER} -- Constants
 
 	frozen Dir_path_type: INTEGER_32
 		once
-			Result := ({EL_FILE_PATH}).type_id
+			Result := ({EL_DIR_PATH}).type_id
 		end
 
 	frozen Path_type: INTEGER_32
@@ -67,7 +67,7 @@ feature {EL_REFLECTION_HANDLER} -- Constants
 
 	frozen Date_time_type: INTEGER_32
 		once
-			Result := ({EL_DATE_TIME}).type_id
+			Result := ({DATE_TIME}).type_id
 		end
 
 	frozen File_path_type: INTEGER_32
@@ -129,9 +129,10 @@ feature {EL_REFLECTION_HANDLER} -- Reference types
 	frozen String_convertable_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY], ANY]
 		once
 			create Result.make (<<
-				[Boolean_ref_type,						{EL_REFLECTED_BOOLEAN_REF}],
-				[Date_time_type,							{EL_REFLECTED_DATE_TIME}],
-				[Path_type,									{EL_REFLECTED_PATH}]
+				[Boolean_ref_type,	{EL_REFLECTED_BOOLEAN_REF}],
+				[Date_time_type,		{EL_REFLECTED_DATE_TIME}],
+				[Path_type,				{EL_REFLECTED_PATH}],
+				[Tuple_type,			{EL_REFLECTED_TUPLE}]
 			>>)
 		end
 

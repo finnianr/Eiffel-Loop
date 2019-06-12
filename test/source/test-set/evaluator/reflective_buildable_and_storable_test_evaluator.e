@@ -6,21 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-06 9:39:59 GMT (Thursday 6th June 2019)"
-	revision: "1"
+	date: "2019-06-12 12:49:37 GMT (Wednesday 12th June 2019)"
+	revision: "2"
 
 class
-	REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML_TEST_EVALUATOR
+	REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_EVALUATOR
 
 inherit
-	EL_EQA_TEST_SET_EVALUATOR [REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML_TEST_SET]
+	EL_EQA_TEST_SET_EVALUATOR [REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET]
 
 feature {NONE} -- Implementation
 
 	test_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["store_and_build", 	agent item.test_store_and_build]
+				["reflective_buildable_and_storable_as_xml", agent item.test_reflective_buildable_and_storable_as_xml],
+				["read_write", 										agent item.test_read_write]
 			>>)
 		end
 

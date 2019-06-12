@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2019-06-12 12:34:02 GMT (Wednesday 12th June 2019)"
+	revision: "8"
 
 class
 	TEST_STORABLE
@@ -43,7 +43,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_values (str: STRING_32)
+	set_string_values (str: STRING_32)
 		do
 			string_32 := str
 			string := str

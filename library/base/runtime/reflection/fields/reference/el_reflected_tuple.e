@@ -1,28 +1,31 @@
 note
-	description: "Reflected tuple"
+	description: "Reflected TUPLE that can be read from a string"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-08 12:09:07 GMT (Friday 8th February 2019)"
-	revision: "9"
+	date: "2019-06-12 11:09:53 GMT (Wednesday 12th June 2019)"
+	revision: "1"
 
 class
 	EL_REFLECTED_TUPLE
 
 inherit
-	EL_REFLECTED_READABLE [TUPLE]
+	EL_REFLECTED_REFERENCE [TUPLE]
 		rename
 			default_value as default_tuple
 		redefine
-			make, write, default_defined, initialize, initialize_default, reset
+			make, write, default_defined, initialize, initialize_default, reset,
+			set_from_readable, set_from_string, to_string
 		end
 
 	EL_ZSTRING_CONSTANTS
 
 	EL_STRING_32_CONSTANTS
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -38,90 +41,64 @@ feature {EL_CLASS_META_DATA} -- Initialization
 
 feature -- Basic operations
 
-	initialize (a_object: EL_REFLECTIVE)
+	reset (a_object: EL_REFLECTIVE)
 		do
-			if attached {TUPLE} default_tuple as tuple then
-				set (a_object, tuple.deep_twin)
+			initialize (a_object)
+		end
+
+	set_from_readable (a_object: EL_REFLECTIVE; reader: EL_READABLE)
+		do
+			if member_types.is_latin_1_representable then
+				set_from_string (a_object, reader.read_string_8)
+			else
+				set_from_string (a_object, reader.read_string)
 			end
 		end
 
-	reset (a_object: EL_REFLECTIVE)
+	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		local
-			l_value: like value
+			list: EL_SPLIT_STRING_LIST [STRING_GENERAL]
 		do
-			l_value := value (a_object)
-		end
+			if attached {ZSTRING} string as str_z then
+				create {EL_SPLIT_ZSTRING_LIST} list.make (str_z, character_string (','))
 
-	read (a_object: EL_REFLECTIVE; reader: EL_MEMORY_READER_WRITER)
-		do
-			read_tuple (value (a_object), reader)
+			elseif attached {STRING_8} string as str_8 then
+				create {EL_SPLIT_STRING_LIST [STRING_8]} list.make (str_8, character_string_8 (','))
+
+			else
+				create {EL_SPLIT_STRING_LIST [STRING_32]} list.make (string.to_string_32, character_string_32 (','))
+			end
+			list.left_adjusted.enable
+			set_from_list (a_object, list)
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		do
-			write_tuple (value (a_object), writeable)
+			write_tuple (value (a_object), writeable, once ", ")
+		end
+
+feature -- Conversion
+
+	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
+		local
+			str: ZSTRING
+		do
+			str := String_pool.new_string
+			write (a_object, str)
+			if member_types.is_latin_1_representable then
+				Result := str.to_latin_1
+			else
+				Result := str.twin
+			end
+			String_pool.recycle (str)
 		end
 
 feature {NONE} -- Implementation
 
-	read_tuple (tuple: TUPLE; reader: EL_MEMORY_READER_WRITER)
-		local
-			i: INTEGER
+	initialize (a_object: EL_REFLECTIVE)
 		do
-			from i := 1 until i > tuple.count loop
-				inspect tuple.item_code (i)
-					when {TUPLE}.Character_8_code then
-						tuple.put_character (reader.read_character_8, i)
-
-					when {TUPLE}.Character_32_code then
-						tuple.put_character_32 (reader.read_character_32, i)
-
-					when {TUPLE}.Boolean_code then
-						tuple.put_boolean (reader.read_boolean, i)
-
-					when {TUPLE}.Integer_8_code then
-						tuple.put_integer_8 (reader.read_integer_8, i)
-
-					when {TUPLE}.Integer_16_code then
-						tuple.put_integer_16 (reader.read_integer_16, i)
-
-					when {TUPLE}.Integer_32_code then
-						tuple.put_integer (reader.read_integer_32, i)
-
-					when {TUPLE}.Integer_64_code then
-						tuple.put_integer_64 (reader.read_integer_64, i)
-
-					when {TUPLE}.Natural_8_code then
-						tuple.put_natural_8 (reader.read_natural_8, i)
-
-					when {TUPLE}.Natural_16_code then
-						tuple.put_natural_16 (reader.read_natural_16, i)
-
-					when {TUPLE}.Natural_32_code then
-						tuple.put_natural_32 (reader.read_natural_32, i)
-
-					when {TUPLE}.Natural_64_code then
-						tuple.put_natural_64 (reader.read_natural_64, i)
-
-					when {TUPLE}.Real_32_code then
-						tuple.put_real_32 (reader.read_real_32, i)
-
-					when {TUPLE}.Real_64_code then
-						tuple.put_real_64 (reader.read_real_64, i)
-
-					when {TUPLE}.Reference_code then
-						if attached {STRING_GENERAL} tuple.reference_item (i) as str then
-							if attached {ZSTRING} str then
-								tuple.put_reference (reader.read_string, i)
-							elseif attached {STRING} str then
-								tuple.put_reference (reader.read_string_8, i)
-							elseif attached {STRING_32} str then
-								tuple.put_reference (reader.read_string_32, i)
-							end
-						end
-				else
-				end
-				i := i + 1
+			if attached {TUPLE} default_tuple as tuple then
+				set (a_object, tuple.deep_twin)
 			end
 		end
 
@@ -149,11 +126,100 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_tuple (tuple: TUPLE; writeable: EL_WRITEABLE)
+	set_from_list (a_object: EL_REFLECTIVE; list: EL_SPLIT_STRING_LIST [STRING_GENERAL])
+		local
+			tuple: TUPLE; item: STRING_GENERAL
+			i, l_count: INTEGER
+		do
+			tuple := value (a_object)
+			l_count := tuple.count.min (list.count)
+			from i := 1 until i > l_count loop
+				list.go_i_th (i)
+				item := list.item
+				inspect tuple.item_code (i)
+					when {TUPLE}.Character_8_code then
+						if not item.is_empty then
+							tuple.put_character (item.item (1).to_character_8, i)
+						end
+
+					when {TUPLE}.Character_32_code then
+						if not item.is_empty then
+							tuple.put_character_32 (item.item (1), i)
+						end
+
+					when {TUPLE}.Boolean_code then
+						if item.is_boolean then
+							tuple.put_boolean (item.to_boolean, i)
+						end
+
+					when {TUPLE}.Integer_8_code then
+						if item.is_integer_8 then
+							tuple.put_integer_8 (item.to_integer_8, i)
+						end
+
+					when {TUPLE}.Integer_16_code then
+						if item.is_integer_16 then
+							tuple.put_integer_16 (item.to_integer_16, i)
+						end
+
+					when {TUPLE}.Integer_32_code then
+						if item.is_integer_32 then
+							tuple.put_integer (item.to_integer_32, i)
+						end
+
+					when {TUPLE}.Integer_64_code then
+						if item.is_integer_64 then
+							tuple.put_integer_64 (item.to_integer_64, i)
+						end
+
+					when {TUPLE}.Natural_8_code then
+						if item.is_natural_8 then
+							tuple.put_natural_8 (item.to_natural_8, i)
+						end
+
+					when {TUPLE}.Natural_16_code then
+						if item.is_natural_16 then
+							tuple.put_natural_16 (item.to_natural_16, i)
+						end
+
+					when {TUPLE}.Natural_32_code then
+						if item.is_natural_32 then
+							tuple.put_natural_32 (item.to_natural_32, i)
+						end
+
+					when {TUPLE}.Natural_64_code then
+						if item.is_natural_64 then
+							tuple.put_natural_64 (item.to_natural_64, i)
+						end
+
+					when {TUPLE}.Real_32_code then
+						if item.is_real_32 then
+							tuple.put_real_32 (item.to_real_32, i)
+						end
+
+					when {TUPLE}.Real_64_code then
+						if item.is_real_64 then
+							tuple.put_real_64 (item.to_real_64, i)
+						end
+
+					when {TUPLE}.Reference_code then
+						if attached {STRING_GENERAL} tuple.reference_item (i) as str then
+							str.keep_head (0); str.append (item)
+						end
+				else
+				end
+				i := i + 1
+			end
+		end
+
+	write_tuple (tuple: TUPLE; writeable: EL_WRITEABLE; delimiter: STRING)
 		local
 			i: INTEGER
 		do
 			from i := 1 until i > tuple.count loop
+				if i > 1 and then not delimiter.is_empty then
+					writeable.write_string_8 (delimiter)
+				end
 				inspect tuple.item_code (i)
 					when {TUPLE}.Character_8_code then
 						writeable.write_character_8 (tuple.character_8_item (i))

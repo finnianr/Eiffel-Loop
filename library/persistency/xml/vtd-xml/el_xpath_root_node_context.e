@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 9:22:34 GMT (Wednesday 17th October 2018)"
-	revision: "5"
+	date: "2019-06-12 15:24:40 GMT (Wednesday 12th June 2019)"
+	revision: "6"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
@@ -53,7 +53,6 @@ feature {NONE} -- Initaliazation
 		do
 			make_from_string (File_system.plain_text (a_file_path))
 		end
-
 
 	make_from_fragment (xml_fragment: STRING; encoding: STRING)
 		do

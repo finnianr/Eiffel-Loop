@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-08 12:04:15 GMT (Friday 8th February 2019)"
-	revision: "1"
+	date: "2019-06-12 9:42:59 GMT (Wednesday 12th June 2019)"
+	revision: "2"
 
 class
 	EL_TUPLE_TYPE_ARRAY
@@ -23,24 +23,15 @@ inherit
 			is_equal, copy
 		end
 
+	EL_REFLECTOR_CONSTANTS
+		undefine
+			is_equal, copy
+		end
+
 create
 	make, make_from_static, make_from_tuple
 
 feature {NONE} -- Initialization
-
-	make_from_tuple (tuple: TUPLE)
-		do
-			make_from_static (Eiffel.dynamic_type (tuple))
-		end
-
-	make_from_static (static_type: INTEGER)
-		do
-			if attached {TYPE [TUPLE]} Eiffel.type_of_type (static_type) as type then
-				make (type)
-			else
-				make_filled ({INTEGER}, 0, 0)
-			end
-		end
 
 	make (type: TYPE [TUPLE])
 		local
@@ -53,4 +44,35 @@ feature {NONE} -- Initialization
 			end
 		end
 
+	make_from_static (static_type: INTEGER)
+		do
+			if attached {TYPE [TUPLE]} Eiffel.type_of_type (static_type) as type then
+				make (type)
+			else
+				make_filled ({INTEGER}, 0, 0)
+			end
+		end
+
+	make_from_tuple (tuple: TUPLE)
+		do
+			make_from_static (Eiffel.dynamic_type (tuple))
+		end
+
+feature -- Status query
+
+	is_latin_1_representable: BOOLEAN
+		do
+			Result := for_all (agent type_is_latin_1_representable)
+		end
+
+feature {NONE} -- Implementation
+
+	type_is_latin_1_representable (type: TYPE [ANY]): BOOLEAN
+		do
+			if String_collection_type_table.has_conforming (type.type_id) then
+				Result := type.type_id = String_8_type
+			else
+				Result := True
+			end
+		end
 end

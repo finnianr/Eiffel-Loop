@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "12"
+	date: "2019-06-12 13:02:00 GMT (Wednesday 12th June 2019)"
+	revision: "13"
 
 class
 	COUNTRY
@@ -38,6 +38,8 @@ feature -- Access
 
 	population: INTEGER
 
+	temperature_range: TUPLE [winter, summer: INTEGER; unit_name: STRING]
+
 feature -- Element change
 
 	set_code (a_code: like code)
@@ -58,6 +60,12 @@ feature -- Element change
 	set_population (a_population: like population)
 		do
 			population := a_population
+		end
+
+	set_temperature_range (a_temperature_range: like temperature_range)
+		do
+			temperature_range.copy (a_temperature_range)
+			temperature_range.compare_objects
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 14:11:05 GMT (Tuesday 11th June 2019)"
-	revision: "1"
+	date: "2019-06-12 8:48:03 GMT (Wednesday 12th June 2019)"
+	revision: "2"
 
 class
 	EL_REFLECTED_STORABLE_REFERENCE_TYPE_TABLE
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 				[Storable_type,		{EL_REFLECTED_STORABLE}],
 				[Boolean_ref_type,	{EL_REFLECTED_BOOLEAN_REF}],
 				[Date_time_type,		{EL_REFLECTED_DATE_TIME}],
-				[Tuple_type,			{EL_REFLECTED_TUPLE}]
+				[Tuple_type,			{EL_REFLECTED_STORABLE_TUPLE}]
 			>>)
 		end
 

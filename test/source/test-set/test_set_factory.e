@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-14 13:14:03 GMT (Thursday 14th February 2019)"
-	revision: "1"
+	date: "2019-06-12 11:54:18 GMT (Wednesday 12th June 2019)"
+	revision: "2"
 
 class
 	TEST_SET_FACTORY
@@ -115,11 +115,6 @@ feature -- Test sets
 		end
 
 	settable_from_json_string: SETTABLE_FROM_JSON_STRING_TEST_SET
-		do
-			create Result
-		end
-
-	storable: STORABLE_TEST_SET
 		do
 			create Result
 		end

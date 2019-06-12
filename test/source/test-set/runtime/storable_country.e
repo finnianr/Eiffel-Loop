@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-06-12 12:30:42 GMT (Wednesday 12th June 2019)"
+	revision: "5"
 
 class
 	STORABLE_COUNTRY
@@ -30,12 +30,8 @@ inherit
 create
 	make, make_default
 
-feature -- Access
-
-	temperature_range: TUPLE [winter, summer: INTEGER; unit_name: STRING]
-
 feature {NONE} -- Constants
 
-	Field_hash: NATURAL_32 = 2945197152
+	Field_hash: NATURAL_32 = 2100029591
 
 end

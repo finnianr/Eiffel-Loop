@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 10:21:37 GMT (Tuesday 11th June 2019)"
-	revision: "5"
+	date: "2019-06-12 10:55:08 GMT (Wednesday 12th June 2019)"
+	revision: "6"
 
 class
 	TEST_CONFIGURATION
@@ -31,13 +31,13 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			register_default_values
 			create values_list.make (3)
 			values_list.compare_objects
 			create colors.make (3)
 			create integer_list.make (3)
 			colors.compare_objects
 			clipping := True
+			register_default_values
 			Precursor
 		end
 
@@ -55,6 +55,8 @@ feature -- Access
 	image_path: EL_FILE_PATH
 
 	integer_list: ARRAYED_LIST [INTEGER]
+
+	substring_interval: TUPLE [start_index, end_index: INTEGER]
 
 	name: STRING
 

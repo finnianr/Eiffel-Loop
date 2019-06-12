@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-09 10:34:05 GMT (Sunday 9th June 2019)"
-	revision: "4"
+	date: "2019-06-12 10:58:29 GMT (Wednesday 12th June 2019)"
+	revision: "5"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -38,7 +38,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			make_from_file, Except_fields
+			make_from_file, make_default, Except_fields
 		end
 
 	EL_MODULE_XML
@@ -53,6 +53,15 @@ feature {NONE} -- Initialization
 		do
 			file_path := a_file_path
 			Precursor {EL_REFLECTIVE_BUILDABLE_FROM_NODE_SCAN} (a_file_path)
+		end
+
+	make_default
+		do
+			register_default_values
+			if not attached file_path then
+				create file_path
+			end
+			Precursor {EL_REFLECTIVE_BUILDABLE_FROM_NODE_SCAN}
 		end
 
 feature {NONE} -- Implementation
@@ -87,6 +96,16 @@ feature {NONE} -- Implementation
 	new_file (a_file_path: like file_path): EL_PLAIN_TEXT_FILE
 		do
 			create Result.make_with_name (a_file_path)
+		end
+
+	register_default_values
+		-- Implement this as a once routine to register a default value for any attributes
+		-- conforming to class `EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT'.
+	 	-- For example:
+		-- once
+		--		Default_value_table.extend_from_array (<< create {like values}.make_default >>)
+		--	end
+		deferred
 		end
 
 	root_node_name: STRING
