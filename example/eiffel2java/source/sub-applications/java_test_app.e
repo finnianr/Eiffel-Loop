@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:02 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-06-14 9:51:46 GMT (Friday 14th June 2019)"
+	revision: "5"
 
 class
 	JAVA_TEST_APP
@@ -52,7 +52,7 @@ feature -- Test
 	call_java_classes (source_path: EL_DIR_PATH)
 			--
 		do
-			log.enter_with_args ("call_java_classes", << source_path >>)
+			log.enter_with_args ("call_java_classes", [source_path])
 			Java_packages.append_class_locations (<< source_path >>)
 			Java_packages.open (<< >>)
 
@@ -70,7 +70,7 @@ feature -- Test
 		local
 			properties: JAVA_DEPLOYMENT_PROPERTIES
 		do
-			log.enter_with_args ("read_deployment_file", << file_path >>)
+			log.enter_with_args ("read_deployment_file", [file_path])
 			create properties.make (file_path)
 			properties.dump
 			log.exit

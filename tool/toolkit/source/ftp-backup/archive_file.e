@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-13 15:15:07 GMT (Wednesday 13th March 2019)"
-	revision: "5"
+	date: "2019-06-14 9:41:51 GMT (Friday 14th June 2019)"
+	revision: "6"
 
 class
 	ARCHIVE_FILE
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 			last_step_target_path: STRING
 			working_directory: EL_DIR_PATH
 		do
-			log.enter_with_args ("make", << target_dir_path, archive_dir_path, a_backup_name >>)
+			log.enter_with_args ("make", [target_dir_path, archive_dir_path, a_backup_name])
 			archive_directory_path := archive_dir_path
 			backup_name := a_backup_name
 			target_directory_name := target_dir_path.base

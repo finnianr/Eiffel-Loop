@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-12 15:20:51 GMT (Wednesday 12th June 2019)"
-	revision: "2"
+	date: "2019-06-12 15:33:27 GMT (Wednesday 12th June 2019)"
+	revision: "3"
 
 deferred class
-	EL_APP_CONFIGURATION
+	EL_APPLICATION_CONFIGURATION
 
 inherit
 	EL_FILE_PERSISTENT_I
@@ -38,14 +38,13 @@ feature {NONE} -- Initialization
 					make_default
 				end
 			end
-			config_path := user_dir + base_name
-			if not config_path.exists then
-				set_file_path (User_dir + base_name)
+			set_file_path (User_dir + base_name)
+			if not file_path.exists then
 				File_system.make_directory (User_dir)
 				store
 			end
 		ensure
-			user_file_exists: (user_dir + base_name).exists
+			user_file_exists: file_path.exists
 		end
 
 	make_default

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-04 13:41:00 GMT (Tuesday 4th June 2019)"
-	revision: "10"
+	date: "2019-06-13 8:45:43 GMT (Thursday 13th June 2019)"
+	revision: "11"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -114,7 +114,7 @@ feature {NONE} -- Initialization
 			implementation.make_with_pixmap (a_pixmap)
 		end
 
-	make_mirrored (a_buffer: EL_DRAWABLE_PIXEL_BUFFER; axis: INTEGER)
+	make_mirrored (a_buffer: EL_DRAWABLE_PIXEL_BUFFER; axis: CHARACTER)
 		-- create copy mirrored in the y-axis
 		require
 			valid_axis: is_valid_axis (axis)

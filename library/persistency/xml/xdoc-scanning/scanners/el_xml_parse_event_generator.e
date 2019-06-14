@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-06-14 9:29:14 GMT (Friday 14th June 2019)"
+	revision: "6"
 
 class
 	EL_XML_PARSE_EVENT_GENERATOR
@@ -67,7 +67,7 @@ feature -- Basic operations
 	send_object (object: EVOLICITY_SERIALIZEABLE_AS_XML)
 			--
 		do
-			lio.enter_with_args ("send_object", << object.generator >>)
+			lio.enter_with_args ("send_object", [object.generator])
 			event_source.parse_from_serializable_object (object)
 			lio.exit
 		end

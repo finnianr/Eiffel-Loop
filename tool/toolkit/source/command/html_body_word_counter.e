@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-13 15:03:51 GMT (Thursday 13th December 2018)"
-	revision: "7"
+	date: "2019-06-14 9:40:05 GMT (Friday 14th June 2019)"
+	revision: "8"
 
 class
 	HTML_BODY_WORD_COUNTER
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 			xhtml: EL_XHTML_UTF_8_SOURCE; xhtml_file: PLAIN_TEXT_FILE
 			node_event_generator: EL_XML_NODE_EVENT_GENERATOR; counter: EL_XHTML_WORD_COUNTER
 		do
-			log.enter_with_args ("count_words", << body_path.to_string.to_utf_8 >>)
+			log.enter_with_args ("count_words", [body_path])
 			create xhtml.make (File_system.plain_text (body_path))
 			create counter
 			create node_event_generator.make_with_handler (counter)

@@ -37,8 +37,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-12 10:37:13 GMT (Saturday 12th January 2019)"
-	revision: "9"
+	date: "2019-06-14 9:44:44 GMT (Friday 14th June 2019)"
+	revision: "10"
 
 class
 	EL_HTML_TEXT
@@ -51,6 +51,8 @@ inherit
 			build_from_file as build_from_xhtml_file
 		undefine
 			default_create, copy
+		redefine
+			make_default
 		end
 
 	EL_XML_PARSE_EVENT_TYPE
@@ -94,6 +96,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
+			Precursor
 			create text_blocks.make (5)
 			create page_title.make_empty
 			create link_stack.make (1)

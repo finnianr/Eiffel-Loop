@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-09 10:00:13 GMT (Sunday 9th June 2019)"
-	revision: "9"
+	date: "2019-06-14 8:45:01 GMT (Friday 14th June 2019)"
+	revision: "10"
 
 deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
@@ -21,7 +21,8 @@ feature {NONE} -- Initialization
 
 	make_default
 			--
-		deferred
+		do
+			create node_source.make (agent new_node_source)
 		end
 
 	make_from_file (a_file_path: EL_FILE_PATH)
@@ -54,7 +55,7 @@ feature -- Basic operations
 		local
 			file: FILE
 		do
-			file := Node_source.event_source.new_file_stream (a_file_path)
+			file := node_source.item.event_source.new_file_stream (a_file_path)
 			if file.exists then
 				file.open_read
 				build_from_stream (file)
@@ -64,24 +65,24 @@ feature -- Basic operations
 			end
 		end
 
+	build_from_lines (lines: ITERABLE [READABLE_STRING_GENERAL])
+			--
+		do
+			node_source.item.apply_from_lines (Current, lines)
+		end
+
 	build_from_stream (a_stream: IO_MEDIUM)
 			--
 		require
 			open_stream: a_stream.is_open_read
 		do
-			Node_source.apply_from_stream (Current, a_stream)
+			node_source.item.apply_from_stream (Current, a_stream)
 		end
 
 	build_from_string (a_string: STRING)
 			--
 		do
-			Node_source.apply_from_string (Current, a_string)
-		end
-
-	build_from_lines (lines: ITERABLE [READABLE_STRING_GENERAL])
-			--
-		do
-			Node_source.apply_from_lines (Current, lines)
+			node_source.item.apply_from_string (Current, a_string)
 		end
 
 feature -- Element change
@@ -89,7 +90,7 @@ feature -- Element change
 	set_parser_type (type: TYPE [EL_PARSE_EVENT_SOURCE])
 			--
 		do
-			Node_source.set_parser_type (type)
+			node_source.item.set_parser_type (type)
 		end
 
 feature {NONE} -- Implementation
@@ -105,9 +106,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	Node_source: like new_node_source
-		once ("OBJECT")
-			Result := new_node_source
-		end
+	node_source: EL_DEFERRED_CELL [EL_XML_NODE_SCAN_SOURCE]
 
 end

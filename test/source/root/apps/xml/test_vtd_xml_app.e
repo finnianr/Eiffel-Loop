@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 2:41:01 GMT (Friday 25th January 2019)"
-	revision: "7"
+	date: "2019-06-14 9:31:41 GMT (Friday 14th June 2019)"
+	revision: "8"
 
 class
 	TEST_VTD_XML_APP
@@ -78,7 +78,7 @@ feature {NONE} -- Tests
 
 	query_bioinfo (file_path: EL_FILE_PATH)
 		do
-			log.enter_with_args ("query_bioinfo", << file_path >>)
+			log.enter_with_args ("query_bioinfo", [file_path])
 			create root_node.make_from_file (file_path)
 			log.put_string_field ("Encoding", root_node.encoding_name)
 			log.put_new_line
@@ -113,7 +113,7 @@ feature {NONE} -- Tests
 
 	query_svg (file_path: EL_FILE_PATH)
 		do
-			log.enter_with_args ("query_svg", << file_path >>)
+			log.enter_with_args ("query_svg", [file_path])
 			create root_node.make_from_file (file_path)
 			log.put_string_field ("Encoding", root_node.encoding_name)
 			log.put_new_line
@@ -128,7 +128,7 @@ feature {NONE} -- Tests
 
 	query_cd_catalog (file_path: EL_FILE_PATH)
 		do
-			log.enter_with_args ("query_cd_catalog", << file_path >>)
+			log.enter_with_args ("query_cd_catalog", [file_path])
 			create root_node.make_from_file (file_path)
 			log.put_string_field ("Encoding", root_node.encoding_name)
 			log.put_new_line
@@ -144,7 +144,7 @@ feature {NONE} -- Tests
 	query_processing_instruction (file_path: EL_FILE_PATH)
 			--
 		do
-			log.enter_with_args ("query_processing_instruction", << file_path >>)
+			log.enter_with_args ("query_processing_instruction", [file_path])
 
 			create root_node.make_from_file (file_path)
 			log.put_string_field ("Encoding", root_node.encoding_name)
@@ -265,7 +265,7 @@ feature {NONE} -- Implementation
 	do_query_bioinfo_2 (xpath: STRING)
 			-- list all url values
 		do
-			log.enter_with_args ("do_query_bioinfo_2", << xpath >>)
+			log.enter_with_args ("do_query_bioinfo_2", [xpath])
 			across root_node.context_list (xpath) as label loop
 				log.put_line (label.node.normalized_string_value)
 			end
@@ -277,7 +277,7 @@ feature {NONE} -- Implementation
 		local
 			id: STRING
 		do
-			log.enter_with_args ("do_query_bioinfo_3", << xpath >>)
+			log.enter_with_args ("do_query_bioinfo_3", [xpath])
 			across root_node.context_list (xpath) as value loop
 				id := value.node.string_at_xpath ("parent::node()/id")
 				log.put_integer_field (id, value.node.integer_value)
@@ -289,7 +289,7 @@ feature {NONE} -- Implementation
 	do_query_bioinfo_4 (label, xpath: STRING)
 			-- element count
 		do
-			log.enter_with_args ("do_query_bioinfo_4", << xpath >>)
+			log.enter_with_args ("do_query_bioinfo_4", [xpath])
 			log.put_integer_field (label, root_node.context_list (xpath).count)
 			log.put_new_line
 			log.exit
@@ -298,7 +298,7 @@ feature {NONE} -- Implementation
 	do_query_bioinfo_5 (label, xpath: STRING)
 			-- element count
 		do
-			log.enter_with_args ("do_query_bioinfo_5", << xpath >>)
+			log.enter_with_args ("do_query_bioinfo_5", [xpath])
 			log.put_string_field (label, root_node.string_at_xpath (xpath))
 			log.put_new_line
 			log.exit
@@ -309,7 +309,7 @@ feature {NONE} -- Implementation
 		local
 			p1, p2: SVG_POINT
 		do
-			log.enter_with_args ("do_query_svg_1", << xpath >>)
+			log.enter_with_args ("do_query_svg_1", [xpath])
 			across root_node.context_list (xpath) as line loop
 				create p1.make (line.node.attributes, 1)
 				create p2.make (line.node.attributes, 2)
@@ -325,7 +325,7 @@ feature {NONE} -- Implementation
 			line_node_list: EL_XPATH_NODE_CONTEXT_LIST
 			p1, p2: SVG_INTEGER_POINT
 		do
-			log.enter_with_args ("do_query_svg_2", << xpath >>)
+			log.enter_with_args ("do_query_svg_2", [xpath])
 			across root_node.context_list (xpath) as line loop
 				create p1.make (line.node.attributes, 1)
 				create p2.make (line.node.attributes, 2)
@@ -338,7 +338,7 @@ feature {NONE} -- Implementation
 	do_query_svg_3 (xpath: STRING)
 			--
 		do
-			log.enter_with_args ("do_query_svg_3", << xpath >>)
+			log.enter_with_args ("do_query_svg_3", [xpath])
 			log.put_double_field (xpath, root_node.double_at_xpath (xpath))
 			log.put_new_line
 			log.exit
@@ -348,7 +348,7 @@ feature {NONE} -- Implementation
 		local
 			xpath: STRING; template: ZSTRING
 		do
-			log.enter_with_args ("do_query_cd_catalog", << criteria >>)
+			log.enter_with_args ("do_query_cd_catalog", [criteria])
 			template := once "/CATALOG/CD[%S]"
 			xpath := template #$ [criteria]
 

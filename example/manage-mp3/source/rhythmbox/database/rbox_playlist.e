@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:38:34 GMT (Friday 18th January 2019)"
-	revision: "8"
+	date: "2019-06-14 9:47:57 GMT (Friday 14th June 2019)"
+	revision: "9"
 
 class
 	RBOX_PLAYLIST
@@ -156,7 +156,7 @@ feature -- Element change
 
 	add_song_from_audio_id (a_audio_id: EL_UUID)
 		do
-			log.enter_with_args ("add_song_from_audio_id", << a_audio_id >>)
+			log.enter_with_args ("add_song_from_audio_id", [a_audio_id])
 			index_by_audio_id.search (a_audio_id)
 			if index_by_audio_id.found then
 				extend (index_by_audio_id.found_item)

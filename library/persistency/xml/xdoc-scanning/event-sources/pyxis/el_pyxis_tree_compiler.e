@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 13:56:01 GMT (Tuesday 5th March 2019)"
-	revision: "2"
+	date: "2019-06-14 9:34:59 GMT (Friday 14th June 2019)"
+	revision: "3"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -40,6 +40,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor
+			create output_modification_time.make (agent new_output_modification_time)
 			create source_tree_path
 		end
 
@@ -114,16 +115,13 @@ feature {NONE} -- Implementation
 	source_changed: BOOLEAN
 		do
 			Result := across pyxis_file_path_list as file_path some
-				file_path.item.modification_date_time > Output_modification_time
+				file_path.item.modification_date_time > output_modification_time.item
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	Output_modification_time: DATE_TIME
-		once ("OBJECT")
-			Result := new_output_modification_time
-		end
+	output_modification_time: EL_DEFERRED_CELL [DATE_TIME]
 
 	source_tree_path: EL_DIR_PATH
 

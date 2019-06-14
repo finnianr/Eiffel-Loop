@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-06-14 13:03:51 GMT (Friday 14th June 2019)"
+	revision: "7"
 
 class
 	EL_FILE_PROGRESS_LISTENER
@@ -16,9 +16,12 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_LIO
+		rename
+			Args as Mod_args
+		end
 
 create
-	make, make_estimated
+	make, make_estimated, make_exact
 
 feature {NONE} -- Initialization
 
@@ -28,10 +31,16 @@ feature {NONE} -- Initialization
 			final_tick_count := Default_final_tick_count
 		end
 
-	make_estimated (a_display: like display; a_estimated_byte_count: INTEGER)
+	make_estimated (a_display: EL_FILE_PROGRESS_DISPLAY; a_estimated_byte_count: INTEGER)
 		do
 			make (a_display)
 			estimated_byte_count := a_estimated_byte_count
+		end
+
+	make_exact (a_display: EL_FILE_PROGRESS_DISPLAY; a_final_tick_count: INTEGER)
+		do
+			display := a_display
+			final_tick_count := a_final_tick_count
 		end
 
 feature -- Access
@@ -80,6 +89,12 @@ feature {EL_NOTIFYING_FILE, EL_FILE_PROGRESS_LISTENER,  EL_SHARED_FILE_PROGRESS_
 		end
 
 feature -- Basic operations
+
+	notify_tick
+		do
+			tick_count := tick_count + 1
+			display.set_progress (tick_count / final_tick_count)
+		end
 
 	finish
 		do

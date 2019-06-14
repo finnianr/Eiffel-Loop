@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 12:40:41 GMT (Wednesday 20th February 2019)"
-	revision: "6"
+	date: "2019-06-14 9:07:03 GMT (Friday 14th June 2019)"
+	revision: "7"
 
 deferred class
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN
@@ -21,7 +21,6 @@ inherit
 	EVOLICITY_SERIALIZEABLE_AS_XML
 		rename
 			save_as_xml as store_as
---			make_default as make_serializeable
 		redefine
 			make_from_file, make_default
 		end
@@ -37,9 +36,9 @@ feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
 	make_default
 		do
 			-- NOT THIS:
+			Precursor {EL_BUILDABLE_FROM_NODE_SCAN}
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML}
 --			make_empty
-			Precursor {EL_BUILDABLE_FROM_NODE_SCAN}
 		end
 
 	make_from_file (a_file_path: like output_path)
@@ -48,7 +47,7 @@ feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML} (a_file_path)
 			if a_file_path.exists then
 				build_from_file (a_file_path)
-				set_encoding_from_name (node_source.encoding_name)
+				set_encoding_from_name (node_source.item.encoding_name)
 			end
 		end
 

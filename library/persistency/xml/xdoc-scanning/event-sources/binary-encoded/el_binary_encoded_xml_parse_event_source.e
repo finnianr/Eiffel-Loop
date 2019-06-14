@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-12 10:00:58 GMT (Monday 12th November 2018)"
-	revision: "7"
+	date: "2019-06-14 9:28:47 GMT (Friday 14th June 2019)"
+	revision: "8"
 
 class
 	EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE
@@ -233,7 +233,7 @@ feature {NONE} -- Implementation
 	set_name_from_stream (name: STRING_32; index_or_count: INTEGER; is_index: BOOLEAN)
 			--
 		do
-			lio.enter_with_args ("set_name_from_stream", << name, index_or_count, is_index >>)
+			lio.enter_with_args ("set_name_from_stream", [name, index_or_count, is_index])
 			name.wipe_out
 			if is_index then
 				name.append_string_general (name_index_array [index_or_count])
@@ -249,7 +249,7 @@ feature {NONE} -- Implementation
 	set_string_from_stream (str: STRING_32; count: INTEGER)
 			--
 		do
-			lio.enter_with_args ("set_string_from_stream", << count >>)
+			lio.enter_with_args ("set_string_from_stream", [count])
 			str.wipe_out
 			event_stream.read_stream (count)
 			str.append_string_general (event_stream.last_string)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-06-14 9:28:47 GMT (Friday 14th June 2019)"
+	revision: "5"
 
 class
 	COMPRESSION_TEST_APP
@@ -42,7 +42,7 @@ feature -- Tests
 			text: STRING
 			file_data, compressed_data, uncompressed_data: MANAGED_POINTER
 		do
-			log.enter_with_args ("compress_file", << a_file_path >>)
+			log.enter_with_args ("compress_file", [a_file_path])
 			file_data := File_system.file_data (a_file_path)
 
 			text := Zlib.compress (file_data, 0.3, 9)
@@ -67,7 +67,7 @@ feature -- Tests
 			output_path: EL_FILE_PATH
 			file_list: LIST [EL_FILE_PATH]
 		do
-			log.enter_with_args ("compress_files", << a_dir_path >>)
+			log.enter_with_args ("compress_files", [a_dir_path])
 			output_path := a_dir_path + "xml_files.z"
 			file_list := OS.file_list (a_dir_path, All_routines)
 			create compressed_file.make_open_write (output_path)

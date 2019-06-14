@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 15:42:26 GMT (Monday 29th October 2018)"
-	revision: "5"
+	date: "2019-06-14 9:47:58 GMT (Friday 14th June 2019)"
+	revision: "6"
 
 class
 	STORAGE_DEVICE
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 
 	make (a_export_config: like export_config; a_database: like database)
 		do
-			log.enter_with_args ("make", << a_export_config.volume.name, a_export_config.volume.destination_dir >>)
+			log.enter_with_args ("make", [a_export_config.volume.name, a_export_config.volume.destination_dir])
 			export_config := a_export_config; database := a_database
 			set_volume (export_config.new_volume)
 			create sync_table.make_default

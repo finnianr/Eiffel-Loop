@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-05 10:47:56 GMT (Wednesday 5th June 2019)"
-	revision: "4"
+	date: "2019-06-13 12:08:21 GMT (Thursday 13th June 2019)"
+	revision: "5"
 
 class
 	EL_MODEL_MATH
 
 inherit
 	DOUBLE_MATH
+		export
+			{NONE} all
+		end
 
 	EL_ORIENTATION_ROUTINES
 

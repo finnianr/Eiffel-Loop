@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:38:35 GMT (Friday 18th January 2019)"
-	revision: "10"
+	date: "2019-06-14 9:47:57 GMT (Friday 14th June 2019)"
+	revision: "11"
 
 class
 	RBOX_DATABASE
@@ -303,7 +303,7 @@ feature -- Element change
 			id3_info: EL_ID3_INFO
 			song: RBOX_SONG
 		do
-			log.enter_with_args ("import_mp3", << mp3_path >>)
+			log.enter_with_args ("import_mp3", [mp3_path])
 			relative_path_steps := mp3_path.relative_path (music_dir).steps
 			if relative_path_steps.count = 3 then
 				create id3_info.make (mp3_path)

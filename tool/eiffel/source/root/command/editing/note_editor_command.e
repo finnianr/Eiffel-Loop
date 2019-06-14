@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-11 14:28:18 GMT (Friday 11th May 2018)"
-	revision: "6"
+	date: "2019-06-14 9:43:25 GMT (Friday 14th June 2019)"
+	revision: "7"
 
 class
 	NOTE_EDITOR_COMMAND
@@ -32,7 +32,7 @@ feature {EL_SUB_APPLICATION} -- Initialization
 	make (source_manifest_path, license_notes_path: EL_FILE_PATH)
 
 		do
-			log.enter_with_args ("make", << source_manifest_path >>)
+			log.enter_with_args ("make", [source_manifest_path])
 			create license_notes.make_from_file (license_notes_path)
 			make_editor (source_manifest_path)
 			log.exit

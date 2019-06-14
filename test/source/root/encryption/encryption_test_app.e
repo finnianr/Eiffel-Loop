@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:08:14 GMT (Tuesday 5th March 2019)"
-	revision: "6"
+	date: "2019-06-14 9:29:32 GMT (Friday 14th June 2019)"
+	revision: "7"
 
 class
 	ENCRYPTION_TEST_APP
@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 		local
 			lines: EL_PLAIN_TEXT_LINE_SOURCE; encrypted_lines: LINKED_LIST [STRING]
 		do
-			log.enter_with_args ("test_file_encryption", << file_path.base >>)
+			log.enter_with_args ("test_file_encryption", [file_path.base])
 			create encrypter.make ("hanami", 256)
 
 			create lines.make (file_path)

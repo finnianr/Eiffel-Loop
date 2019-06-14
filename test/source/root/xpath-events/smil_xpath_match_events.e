@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 10:17:25 GMT (Sunday 28th October 2018)"
-	revision: "5"
+	date: "2019-06-14 8:34:53 GMT (Friday 14th June 2019)"
+	revision: "6"
 
 class
 	SMIL_XPATH_MATCH_EVENTS
 
 inherit
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
-		rename
-			make_default as do_nothing
-		end
 
 	EL_XML_PARSE_EVENT_TYPE
 

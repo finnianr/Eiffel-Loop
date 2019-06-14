@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-13 15:18:38 GMT (Wednesday 13th March 2019)"
-	revision: "23"
+	date: "2019-06-13 13:23:22 GMT (Thursday 13th June 2019)"
+	revision: "24"
 
 deferred class
 	EL_PATH
@@ -23,19 +23,9 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
-	EL_MODULE_DIRECTORY
-		undefine
-			is_equal, default_create, out, copy
-		end
-
 	EL_MODULE_FILE_SYSTEM
 		export
 			{NONE} all
-		undefine
-			is_equal, default_create, out, copy
-		end
-
-	EL_MODULE_FORMAT
 		undefine
 			is_equal, default_create, out, copy
 		end
@@ -48,11 +38,6 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
-	STRING_HANDLER
-		undefine
-			is_equal, default_create, out, copy
-		end
-
 	DEBUG_OUTPUT
 		rename
 			debug_output as as_string_32
@@ -60,20 +45,17 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
-	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal, default_create, out, copy
-		end
+	EL_MODULE_DIRECTORY undefine is_equal, default_create, out, copy end
 
-	EL_SHARED_ONCE_STRINGS
-		undefine
-			is_equal, default_create, out, copy
-		end
+	EL_MODULE_FORMAT undefine is_equal, default_create, out, copy end
 
-	EL_ZSTRING_ROUTINES
-		undefine
-			is_equal, default_create, out, copy
-		end
+	STRING_HANDLER undefine is_equal, default_create, out, copy end
+
+	EL_ZSTRING_CONSTANTS undefine is_equal, default_create, out, copy end
+
+	EL_SHARED_ONCE_STRINGS undefine is_equal, default_create, out, copy end
+
+	EL_ZSTRING_ROUTINES undefine is_equal, default_create, out, copy end
 
 feature {NONE} -- Initialization
 

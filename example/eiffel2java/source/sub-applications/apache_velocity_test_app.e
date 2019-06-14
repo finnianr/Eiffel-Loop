@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-29 14:09:28 GMT (Thursday 29th June 2017)"
-	revision: "4"
+	date: "2019-06-14 9:51:46 GMT (Friday 14th June 2019)"
+	revision: "5"
 
 class
 	APACHE_VELOCITY_TEST_APP
@@ -48,7 +48,7 @@ feature -- Test
 	write_class_manifest (source_path: EL_DIR_PATH)
 			--
 		do
-			log.enter_with_args ("write_class_manifest", << source_path >>)
+			log.enter_with_args ("write_class_manifest", [source_path])
 			write_manifest (source_path)
 			log.exit
 		end

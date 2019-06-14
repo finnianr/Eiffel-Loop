@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-30 12:27:34 GMT (Friday 30th November 2018)"
-	revision: "1"
+	date: "2019-06-14 9:27:07 GMT (Friday 14th June 2019)"
+	revision: "2"
 
 class
 	AGENT_EXPERIMENTS
@@ -77,10 +77,10 @@ feature {NONE} -- Implementation
 			lio.put_integer_field (str, n)
 			lio.put_new_line
 		end
-		
+
 	hello_routine (a_arg: STRING)
 		do
-			lio.enter_with_args ("hello_routine", << a_arg >>)
+			lio.enter_with_args ("hello_routine", [a_arg])
 			lio.exit
 		end
 

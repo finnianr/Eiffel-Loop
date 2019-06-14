@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-12 10:58:29 GMT (Wednesday 12th June 2019)"
-	revision: "5"
+	date: "2019-06-14 8:56:41 GMT (Friday 14th June 2019)"
+	revision: "6"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -27,7 +27,9 @@ inherit
 		rename
 			xml_name_space as xmlns
 		undefine
-			is_equal, make_default, new_building_actions, make_from_file
+			is_equal, new_building_actions, make_from_file
+		redefine
+			make_default
 		end
 
 	EL_REFLECTIVE_BUILDABLE_FROM_NODE_SCAN
@@ -61,6 +63,7 @@ feature {NONE} -- Initialization
 			if not attached file_path then
 				create file_path
 			end
+			create node_source.make (agent new_node_source)
 			Precursor {EL_REFLECTIVE_BUILDABLE_FROM_NODE_SCAN}
 		end
 

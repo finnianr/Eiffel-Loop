@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-04 17:58:02 GMT (Tuesday 4th June 2019)"
-	revision: "3"
+	date: "2019-06-13 8:43:11 GMT (Thursday 13th June 2019)"
+	revision: "4"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -63,7 +63,7 @@ feature -- Access
 
 feature -- Transformation
 
-	mirror (axis: INTEGER)
+	mirror (axis: CHARACTER)
 		require
 			valid_axis: is_valid_axis (axis)
 		do

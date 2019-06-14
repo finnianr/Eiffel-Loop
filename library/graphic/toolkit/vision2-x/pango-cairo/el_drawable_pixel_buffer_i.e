@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-04 13:40:43 GMT (Tuesday 4th June 2019)"
-	revision: "10"
+	date: "2019-06-13 8:46:07 GMT (Thursday 13th June 2019)"
+	revision: "11"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -138,7 +138,7 @@ feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 			make_pixel_buffer_with_size (a_width, a_height)
 		end
 
-	make_mirrored (a_buffer: EL_DRAWABLE_PIXEL_BUFFER; axis: INTEGER)
+	make_mirrored (a_buffer: EL_DRAWABLE_PIXEL_BUFFER; axis: CHARACTER)
 			-- make alpha 32 bit format
 		require
 			valid_axis: is_valid_axis (axis)

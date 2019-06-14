@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-04 13:36:03 GMT (Tuesday 4th June 2019)"
-	revision: "4"
+	date: "2019-06-13 8:43:05 GMT (Thursday 13th June 2019)"
+	revision: "5"
 
 class
 	EL_ORIENTATION_ROUTINES
 
 feature -- Contract Support
 
-	is_valid_axis (axis: INTEGER): BOOLEAN
+	is_valid_axis (axis: CHARACTER): BOOLEAN
 		do
 			inspect axis
 				when X_axis, Y_axis then
@@ -52,9 +52,9 @@ feature -- Contract Support
 
 feature {NONE} -- Axis
 
-	X_axis: INTEGER = 1
+	X_axis: CHARACTER = 'X'
 
-	Y_axis: INTEGER = 2
+	Y_axis: CHARACTER = 'Y'
 
 feature {NONE} -- Directions
 

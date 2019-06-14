@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-31 9:27:41 GMT (Friday 31st May 2019)"
-	revision: "9"
+	date: "2019-06-13 9:04:50 GMT (Thursday 13th June 2019)"
+	revision: "10"
 
 class
 	EL_VISION_2_FACTORY
@@ -29,6 +29,11 @@ inherit
 		end
 
 feature -- Factory
+
+	new_button (a_text: READABLE_STRING_GENERAL; an_action: PROCEDURE): EV_BUTTON
+		do
+			create Result.make_with_text_and_action (a_text, an_action)
+		end
 
 	new_color (a_rgb_24_bit: INTEGER): EL_COLOR
 		do

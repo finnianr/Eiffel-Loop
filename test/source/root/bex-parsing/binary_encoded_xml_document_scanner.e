@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2019-06-14 9:27:39 GMT (Friday 14th June 2019)"
+	revision: "4"
 
 class
 	BINARY_ENCODED_XML_DOCUMENT_SCANNER
@@ -61,7 +61,7 @@ feature {NONE} -- Parsing events
 	on_start_tag
 			--
 		do
-			log.enter_with_args ("on_start_tag", << last_node_name >>)
+			log.enter_with_args ("on_start_tag", [last_node_name])
 			name_stack.extend (last_node_name.string)
 			from attribute_list.start until attribute_list.after loop
 				log.put_string_field (attribute_list.node.xpath_name, attribute_list.node.to_string)

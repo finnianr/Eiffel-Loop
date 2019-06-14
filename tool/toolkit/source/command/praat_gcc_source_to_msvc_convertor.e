@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-06-14 9:40:49 GMT (Friday 14th June 2019)"
+	revision: "6"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 			converter: GCC_TO_MSVC_CONVERTER
 			source_name: ZSTRING
 		do
-			log.enter_with_args ("convert_c_source_file", << input_file_path, output_directory, input_file_name >>)
+			log.enter_with_args ("convert_c_source_file", [input_file_path, output_directory, input_file_name])
 
 			output_file_path := input_file_name
 			output_file_path.add_extension (input_file_extension)
@@ -122,7 +122,7 @@ feature {NONE} -- Implementation
 	)
 			--
 		do
-			log.enter_with_args ("convert_makefile", << input_file_path, output_directory, input_file_name >>)
+			log.enter_with_args ("convert_makefile", [input_file_path, output_directory, input_file_name])
 			make_file_parser.new_c_library (input_file_path)
 
 			log.put_string (input_file_path.out)
@@ -158,7 +158,7 @@ feature {NONE} -- Implementation
 		local
 			path_processor: EL_SOURCE_TEXT_PROCESSOR
 		once
-			log.enter_with_args ("set_version_from_path", << output_directory >>)
+			log.enter_with_args ("set_version_from_path", [output_directory])
 			create path_processor.make_with_delimiter (
 				all_of (<<
 					character_literal (Operating_environment.Directory_separator),

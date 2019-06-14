@@ -15,14 +15,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 10:17:25 GMT (Sunday 28th October 2018)"
-	revision: "6"
+	date: "2019-06-14 8:35:41 GMT (Friday 14th June 2019)"
+	revision: "7"
 
 class
 	XHTML_XPATH_MATCH_EVENTS
 
 inherit
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
+		redefine
+			make_default
+		end
 
 	EL_XML_PARSE_EVENT_TYPE
 
@@ -36,6 +39,7 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
+			Precursor
 			create title.make_empty
 		end
 

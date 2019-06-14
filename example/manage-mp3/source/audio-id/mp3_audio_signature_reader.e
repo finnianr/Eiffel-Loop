@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-06-14 9:47:57 GMT (Friday 14th June 2019)"
+	revision: "6"
 
 class
 	MP3_AUDIO_SIGNATURE_READER
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 		local
 			l_file_1, l_file_2: EL_FILE_PATH
 		do
-			log.enter_with_args ("remove_duplicate", << mp3, file_1, file_2 >>)
+			log.enter_with_args ("remove_duplicate", [mp3, file_1, file_2])
 			if is_clean_up then
 				l_file_1 := file_1.without_extension; l_file_1.remove_extension
 				l_file_2 := file_2.without_extension; l_file_2.remove_extension

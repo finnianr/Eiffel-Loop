@@ -22,3 +22,6 @@ Bug fix for -duplicity_restore and first rendered fractal
 Sun 2nd Jun 2019, 20:44:43
 Made Fractal window resizeable
 
+Thu 13th Jun 2019, 15:39:21
+Fixed once per object bug in EL_CREATEABLE_FROM_NODE_SCAN
+

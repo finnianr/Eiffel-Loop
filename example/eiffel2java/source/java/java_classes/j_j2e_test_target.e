@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:02 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2019-06-14 9:51:47 GMT (Friday 14th June 2019)"
+	revision: "4"
 
 class
 	J_J2E_TEST_TARGET
@@ -88,7 +88,7 @@ feature -- Access
 	my_function (n: J_INT; s: J_STRING): J_FLOAT
 			--
 		do
-			log.enter_with_args ("my_function", << n.value, s.value >>)
+			log.enter_with_args ("my_function", [n.value, s.value])
 			Result := jagent_my_function.item (Current, [n, s])
 			log.put_string_field ("Result", Result.value.out)
 			log.put_new_line
@@ -98,7 +98,7 @@ feature -- Access
 	my_method (n: J_INT; s: J_STRING)
 			--
 		do
-			log.enter_with_args ("my_method", << n.value, s.value >>)
+			log.enter_with_args ("my_method", [n.value, s.value])
 			jagent_my_method.call (Current, [n, s])
 			log.exit
 		end

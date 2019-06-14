@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 12:15:04 GMT (Tuesday 5th March 2019)"
-	revision: "14"
+	date: "2019-06-14 9:40:50 GMT (Friday 14th June 2019)"
+	revision: "15"
 
 class
 	PYXIS_TO_XML_APP
@@ -58,7 +58,7 @@ feature -- Testing
 			document_logger: EL_XML_DOCUMENT_LOGGER
 			pyxis_file: PLAIN_TEXT_FILE
 		do
-			log.enter_with_args ("test_pyxis_parser", << file_path.to_string >>)
+			log.enter_with_args ("test_pyxis_parser", [file_path])
 			create pyxis_file.make_open_read (file_path)
 			create document_logger.make ({EL_PYXIS_PARSER})
 			document_logger.scan_from_stream (pyxis_file)

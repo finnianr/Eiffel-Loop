@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-13 13:02:13 GMT (Monday 13th November 2017)"
-	revision: "8"
+	date: "2019-06-14 9:32:49 GMT (Friday 14th June 2019)"
+	revision: "9"
 
 class
 	OBJECT_BUILDER_TEST_APP
@@ -67,7 +67,7 @@ feature -- Tests
 		local
 			matrix: MATRIX_CALCULATOR
 		do
-			log.enter_with_args ("operate_on_matrix", << file_in_path.to_string >>)
+			log.enter_with_args ("operate_on_matrix", [file_in_path])
 			create matrix.make_from_file (file_in_path)
 			matrix.find_column_sum
 			matrix.find_column_average
@@ -77,7 +77,7 @@ feature -- Tests
 	read_and_save (file_path: EL_FILE_PATH; constructed_object: EVOLICITY_SERIALIZEABLE_AS_XML)
 			--
 		do
-			log.enter_with_args ("read_and_save", << file_path.to_string >>)
+			log.enter_with_args ("read_and_save", [file_path])
 			constructed_object.save_as_xml (file_path)
 			log.exit
 		end
@@ -85,7 +85,7 @@ feature -- Tests
 	smart_build_file (file_path: EL_FILE_PATH)
 			--
 		do
-			log.enter_with_args ("smart_build_file", << file_path >>)
+			log.enter_with_args ("smart_build_file", [file_path])
 			smart_builder.build_from_file (file_path)
 
 			if attached {EL_FILE_PERSISTENT_BUILDABLE_FROM_XML} smart_builder.target as storable then

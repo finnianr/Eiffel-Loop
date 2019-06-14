@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:02 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2019-06-14 9:51:47 GMT (Friday 14th June 2019)"
+	revision: "4"
 
 class
 	J_VELOCITY
@@ -47,7 +47,7 @@ feature -- Access
 	template (name: J_STRING): J_TEMPLATE
 			--
 		do
-			log.enter_with_args ("template", << name.value >>)
+			log.enter_with_args ("template", [name.value])
 			Result := jagent_template.item (Current, [name])
 			log.exit
 		end

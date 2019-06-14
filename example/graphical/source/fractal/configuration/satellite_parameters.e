@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-05 13:35:25 GMT (Wednesday 5th June 2019)"
-	revision: "2"
+	date: "2019-06-14 9:54:16 GMT (Friday 14th June 2019)"
+	revision: "3"
 
 class
 	SATELLITE_PARAMETERS
@@ -56,11 +56,11 @@ feature {NONE} -- Build from nodes
 
 	add_mirror
 		local
-			l_axis: INTEGER
+			l_axis: CHARACTER; str: STRING
 		do
-			if node.to_string.as_lower ~ Axis_name.x then
-				l_axis := X_axis
-			else
+			str := node.to_string_8
+			l_axis := X_axis
+			if not str.is_empty and then str.item (1).as_upper = Y_axis then
 				l_axis := Y_axis
 			end
 			transformation_list.extend (agent {REPLICATED_IMAGE_MODEL}.mirror (l_axis))

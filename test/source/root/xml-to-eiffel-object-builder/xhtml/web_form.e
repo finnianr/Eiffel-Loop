@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:42:31 GMT (Friday 18th January 2019)"
-	revision: "5"
+	date: "2019-06-14 9:32:05 GMT (Friday 14th June 2019)"
+	revision: "6"
 
 class
 	WEB_FORM
@@ -72,7 +72,7 @@ feature {NONE} -- Element change
 	add_text
 			--
 		do
-			log.enter_with_args ("add_text", << node.to_string >>)
+			log.enter_with_args ("add_text", [node.to_string])
 			if not node.is_empty then
 				component_list.extend (create {WEB_FORM_TEXT}.make (node.to_string))
 			end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-13 13:42:54 GMT (Monday 13th November 2017)"
-	revision: "4"
+	date: "2019-06-14 9:43:25 GMT (Friday 14th June 2019)"
+	revision: "5"
 
 class
 	LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR
@@ -82,7 +82,7 @@ feature {NONE} -- Parsing actions
 	on_logging_statement (text: EL_STRING_VIEW)
 			--
 		do
-			log.enter_with_args ("on_logging_statement", <<text>>)
+			log.enter_with_args ("on_logging_statement", [text.to_string])
 			string_tokenizer_by_new_line.set_from_string (text)
 			from
 				string_tokenizer_by_new_line.start
