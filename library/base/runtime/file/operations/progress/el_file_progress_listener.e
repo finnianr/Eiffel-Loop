@@ -6,13 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 13:03:51 GMT (Friday 14th June 2019)"
-	revision: "7"
+	date: "2019-06-16 11:05:48 GMT (Sunday 16th June 2019)"
+	revision: "8"
 
 class
 	EL_FILE_PROGRESS_LISTENER
 
 inherit
+	EL_PROGRESS_LISTENER
+		rename
+			make as make_exact
+		redefine
+			finish, reset
+		end
+
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_LIO
@@ -21,31 +28,22 @@ inherit
 		end
 
 create
-	make, make_estimated, make_exact
+	make_default, make_estimated
 
 feature {NONE} -- Initialization
 
-	make (a_display: like display)
+	make_default (a_display: EL_PROGRESS_DISPLAY)
 		do
-			display := a_display
-			final_tick_count := Default_final_tick_count
+			make_exact (a_display, Default_final_tick_count)
 		end
 
-	make_estimated (a_display: EL_FILE_PROGRESS_DISPLAY; a_estimated_byte_count: INTEGER)
+	make_estimated (a_display: EL_PROGRESS_DISPLAY; a_estimated_byte_count: INTEGER)
 		do
-			make (a_display)
+			make_default (a_display)
 			estimated_byte_count := a_estimated_byte_count
 		end
 
-	make_exact (a_display: EL_FILE_PROGRESS_DISPLAY; a_final_tick_count: INTEGER)
-		do
-			display := a_display
-			final_tick_count := a_final_tick_count
-		end
-
 feature -- Access
-
-	display: EL_FILE_PROGRESS_DISPLAY
 
 	byte_count: INTEGER
 		-- bytes read/written
@@ -90,12 +88,6 @@ feature {EL_NOTIFYING_FILE, EL_FILE_PROGRESS_LISTENER,  EL_SHARED_FILE_PROGRESS_
 
 feature -- Basic operations
 
-	notify_tick
-		do
-			tick_count := tick_count + 1
-			display.set_progress (tick_count / final_tick_count)
-		end
-
 	finish
 		do
 			display.set_progress (1.0)
@@ -111,11 +103,11 @@ feature {NONE} -- Implementation
 
 	reset
 		do
+			tick_count := 0
 			byte_count := 0
 			bytes_per_tick := 0
 			estimated_byte_count := 0
 			next_byte_count := 0
-			tick_count := 0
 			final_tick_count := Default_final_tick_count
 		end
 
@@ -123,13 +115,8 @@ feature {NONE} -- Internal attributes
 
 	bytes_per_tick: INTEGER
 
-	final_tick_count: INTEGER
-
 	next_byte_count: INTEGER
 		-- next value of `byte_count' to increment the `tick_count'
-
-	tick_count: INTEGER
-		-- number of times set_progress has been called
 
 feature {NONE} -- Constants
 
@@ -137,5 +124,4 @@ feature {NONE} -- Constants
 		once
 			Result := 100
 		end
-
 end

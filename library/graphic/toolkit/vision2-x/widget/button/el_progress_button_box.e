@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 17:51:01 GMT (Friday 14th June 2019)"
-	revision: "1"
+	date: "2019-06-16 9:51:59 GMT (Sunday 16th June 2019)"
+	revision: "2"
 
 class
 	EL_PROGRESS_BUTTON_BOX [B -> EV_BUTTON create make_with_text_and_action end]
@@ -18,7 +18,7 @@ inherit
 			item as item_widget
 		end
 
-	EL_FILE_PROGRESS_TRACKER
+	EL_PROGRESS_TRACKER
 		rename
 			track_progress as do_track_progress
 		undefine
@@ -33,7 +33,7 @@ inherit
 
 	EL_MODULE_SCREEN undefine copy, default_create, is_equal end
 
-	EL_FILE_PROGRESS_DISPLAY undefine copy, default_create, is_equal end
+	EL_PROGRESS_DISPLAY undefine copy, default_create, is_equal end
 
 create
 	make_with_text_and_action, make_with_tick_count
@@ -72,7 +72,7 @@ feature -- Basic operations
 		do
 			parent.set_pointer_style (Pixmap.Busy_cursor)
 			tick_count.apply
-			do_track_progress (new_listener_exact (Current, tick_count.last_result), an_action, agent do_nothing)
+			do_track_progress (new_listener (Current, tick_count.last_result), an_action, agent do_nothing)
 			parent.set_pointer_style (Pixmap.Standard_cursor)
 		end
 

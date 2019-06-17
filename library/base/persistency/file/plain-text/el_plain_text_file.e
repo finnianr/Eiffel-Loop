@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-16 17:02:57 GMT (Friday 16th February 2018)"
-	revision: "3"
+	date: "2019-06-16 11:20:56 GMT (Sunday 16th June 2019)"
+	revision: "4"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -31,7 +31,6 @@ create
 	make_open_read, make_open_write, make_open_append,
 	make_open_read_write, make_create_read_write,
 	make_open_read_append
-
 
 feature {NONE} -- Initialization
 

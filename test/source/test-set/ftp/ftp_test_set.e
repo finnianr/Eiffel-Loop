@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-11 11:24:09 GMT (Thursday 11th October 2018)"
-	revision: "6"
+	date: "2019-06-16 11:55:30 GMT (Sunday 16th June 2019)"
+	revision: "7"
 
 class
 	FTP_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			on_prepare, on_clean
 		end
 
-	EL_FILE_PROGRESS_TRACKER
+	EL_PROGRESS_TRACKER
 		undefine
 			default_create
 		end
@@ -62,14 +62,8 @@ feature {NONE} -- Implementation
 		local
 			sync: EL_FTP_SYNC; file_list: EL_FILE_PATH_LIST
 			sync_item: EL_FILE_SYNC_ITEM
-			progress_display: EL_CONSOLE_FILE_PROGRESS_DISPLAY; listener: like progress_listener
 		do
 			log.enter ("ftp_sync_test")
-
-			create progress_display.make
-			listener := progress_display.new_progress_listener
-			listener.set_final_tick_count (1000)
-
 			ftp.change_home_dir
 			create sync.make (ftp, Ftp_sync_path, Work_area_dir)
 			create file_list.make_with_count (file_set.count)
@@ -79,9 +73,7 @@ feature {NONE} -- Implementation
 				file_list.extend (sync_item.file_path)
 				sync.extend (sync_item)
 			end
-
-			progress_display.set_text ("Synchronizing with " + ftp.address.host)
-			track_progress (listener, agent sync.login_and_upload, agent do_nothing)
+			track_progress (sync.new_progress_listener (create {EL_CONSOLE_PROGRESS_DISPLAY}.make), agent sync.login_and_upload, agent do_nothing)
 
 			assert ("files exist", across file_list as path all ftp.file_exists (path.item) end)
 

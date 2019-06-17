@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2019-06-16 9:32:56 GMT (Sunday 16th June 2019)"
+	revision: "4"
 
 class
-	EL_DO_NOTHING_FILE_PROGRESS_LISTENER
+	EL_DEFAULT_FILE_PROGRESS_LISTENER
 
 inherit
 	EL_FILE_PROGRESS_LISTENER
@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 
 	default_create
 		do
-			create {EL_DO_NOTHING_FILE_PROGRESS_DISPLAY} display
+			create {EL_DEFAULT_PROGRESS_DISPLAY} display
 		end
 
 feature {NONE} -- Implementation

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-13 8:43:11 GMT (Thursday 13th June 2019)"
-	revision: "4"
+	date: "2019-06-15 7:44:06 GMT (Saturday 15th June 2019)"
+	revision: "5"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -19,11 +19,11 @@ inherit
 		rename
 			make as make_from_rectangle
 		redefine
-			make_from_other
+			default_create, make_from_other
 		end
 
 create
-	make, make_default
+	make, default_create
 
 feature {NONE} -- Initialization
 
@@ -33,10 +33,11 @@ feature {NONE} -- Initialization
 			pixel_buffer := a_pixel_buffer
 		end
 
-	make_default
+	default_create
 		do
-			default_create
+			Precursor
 			create pixel_buffer
+			border_drawing := False
 		end
 
 	make_from_other (other: EL_MODEL_ROTATED_PICTURE)
@@ -47,6 +48,7 @@ feature {NONE} -- Initialization
 			if other.is_filled then
 				set_background_color (other.background_color)
 			end
+			border_drawing.set_state (other.border_drawing.is_enabled)
 		end
 
 feature -- Access
@@ -60,6 +62,10 @@ feature -- Access
 			l_height := (points.item (2).y_precise - points.item (1).y_precise).rounded
 			create Result.make (points.item (0).x, points.item (0).y, l_width, l_height)
 		end
+
+feature -- Status query
+
+	border_drawing: EL_BOOLEAN_OPTION
 
 feature -- Transformation
 

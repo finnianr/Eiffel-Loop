@@ -12,15 +12,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-30 12:19:54 GMT (Sunday 30th December 2018)"
-	revision: "9"
+	date: "2019-06-16 11:00:20 GMT (Sunday 16th June 2019)"
+	revision: "10"
 
 class
 	EL_FTP_SYNC
 
 inherit
-	EL_SHARED_FILE_PROGRESS_LISTENER
-
 	EL_MODULE_LIO
 
 	EL_MODULE_EXCEPTION
@@ -97,14 +95,20 @@ feature -- Element change
 			root_dir := a_root_dir
 		end
 
+feature -- Factory
+
+	new_progress_listener (a_display: EL_PROGRESS_DISPLAY): EL_PROGRESS_LISTENER
+		do
+			create Result.make (a_display, removed_items.count + upload_list.count)
+			a_display.set_text ("Synchronizing with " + ftp.address.host)
+		end
+
 feature -- Basic operations
 
 	login_and_upload
 		do
 			ftp.open; ftp.login; ftp.change_home_dir
 			lio.put_new_line
-
-			progress_listener.display.set_text ("Synchronizing with " + ftp.address.host)
 			upload
 			ftp.close
 		end
@@ -159,8 +163,6 @@ feature {NONE} -- Implementation
 		do
 			create deleted_dir_set.make_equal (10)
 			across removed_items as path loop
-				lio.put_path_field ("Removing", path.item)
-				lio.put_new_line
 				ftp.delete_file (path.item)
 				deleted_dir_set.put (path.item.parent)
 			end
@@ -181,9 +183,6 @@ feature {NONE} -- Implementation
 			item: EL_FTP_UPLOAD_ITEM
 		do
 			remove_remote
-			across upload_list as file loop
-				progress_listener.increment_estimated_bytes_from_file (root_dir + file.item.file_path)
-			end
 			create item.make_default
 			across upload_list as file loop
 				item.set_source_path (root_dir + file.item.file_path)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-20 13:41:19 GMT (Monday 20th May 2019)"
-	revision: "14"
+	date: "2019-06-16 13:36:38 GMT (Sunday 16th June 2019)"
+	revision: "15"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -149,12 +149,14 @@ feature -- Basic operations
 			application.do_once_on_idle (an_action)
 		end
 
-	enable_sensitive_if (item: EV_SENSITIVE; condition_true: BOOLEAN)
+	enable_sensitive_if (item_list: ARRAY [EV_SENSITIVE]; condition_true: BOOLEAN)
 		do
-			if condition_true then
-				item.enable_sensitive
-			else
-				item.disable_sensitive
+			across item_list as widget loop
+				if condition_true then
+					widget.item.enable_sensitive
+				else
+					widget.item.disable_sensitive
+				end
 			end
 		end
 

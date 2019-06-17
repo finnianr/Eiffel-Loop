@@ -1,16 +1,16 @@
 note
-	description: "File progress display"
+	description: "Operation progress display"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-06-16 11:46:56 GMT (Sunday 16th June 2019)"
+	revision: "5"
 
 deferred class
-	EL_FILE_PROGRESS_DISPLAY
+	EL_PROGRESS_DISPLAY
 
 feature -- Element change
 
@@ -29,12 +29,17 @@ feature -- Element change
 
 feature -- Factory
 
-	new_progress_listener: EL_FILE_PROGRESS_LISTENER
+	new_file_progress_listener (a_estimated_byte_count: INTEGER): EL_FILE_PROGRESS_LISTENER
 		do
-			create Result.make (Current)
+			create Result.make_estimated (Current, a_estimated_byte_count)
 		end
 
-feature {EL_NOTIFYING_FILE, EL_FILE_PROGRESS_LISTENER, EL_FILE_PROGRESS_DISPLAY,  EL_SHARED_FILE_PROGRESS_LISTENER}
+	new_progress_listener (final_tick_count: INTEGER): EL_PROGRESS_LISTENER
+		do
+			create Result.make (Current, final_tick_count)
+		end
+
+feature {EL_NOTIFYING_FILE, EL_PROGRESS_LISTENER, EL_PROGRESS_DISPLAY,  EL_SHARED_FILE_PROGRESS_LISTENER}
 	-- Event handling
 
 	on_finish

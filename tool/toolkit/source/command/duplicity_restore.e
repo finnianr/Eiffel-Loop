@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-31 10:46:51 GMT (Friday 31st May 2019)"
-	revision: "7"
+	date: "2019-06-15 4:36:33 GMT (Saturday 15th June 2019)"
+	revision: "8"
 
 class
 	DUPLICITY_RESTORE
@@ -64,7 +64,11 @@ feature {NONE} -- Implementation
 			file_list: like OS.file_list; parts: EL_SPLIT_ZSTRING_LIST
 			l_date: DATE; l_name: ZSTRING; found: BOOLEAN
 		do
-			file_list := OS.file_list (backup_dir.to_dir_path, "*.manifest")
+			-- match either:
+			--		duplicity-inc.20190606T065915Z.to.20190613T153838Z.manifest.gpg
+			-- 	duplicity-inc.20190606T065915Z.to.20190613T153838Z.manifest
+
+			file_list := OS.file_list (backup_dir.to_dir_path, "*.manifest*")
 			create Result.make (file_list.count)
 			Result.compare_objects
 			across file_list as path loop

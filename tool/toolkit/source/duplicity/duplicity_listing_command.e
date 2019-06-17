@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 13:43:27 GMT (Tuesday 11th June 2019)"
-	revision: "3"
+	date: "2019-06-15 5:17:49 GMT (Saturday 15th June 2019)"
+	revision: "4"
 
 class
 	DUPLICITY_LISTING_COMMAND
@@ -27,6 +27,8 @@ inherit
 		end
 
 	EL_MODULE_TUPLE
+
+	EL_ZTEXT_PATTERN_FACTORY
 
 create
 	make
@@ -55,7 +57,7 @@ feature {NONE} -- Line states
 	find_first_line (line: ZSTRING)
 		-- find first line that looks something like "Sat Mar 16 10:04:29 2019 ."
 		do
-			if line.occurrences (':') = 2 and then line.occurrences (' ') = 5 and then line.ends_with (Space_dot) then
+			if	line.matches (Date_time_dot_pattern) then
 				start_index := line.count
 				state := agent append_matching
 			end
@@ -73,6 +75,47 @@ feature {NONE} -- Line states
 			end
 		end
 
+feature {NONE} -- Pattern
+
+	Date_time_dot_pattern: EL_MATCH_ALL_IN_LIST_TP
+		-- matches line like: `Thu Jun  6 07:59:15 2019 .'
+		once
+			Result := all_of_separated_by (non_breaking_white_space, <<
+				day_abbreviation, month_abbreviation, day_of_month, time, year, character_literal ('.')
+			>>)
+		end
+
+	day_abbreviation, month_abbreviation: EL_MATCH_COUNT_WITHIN_BOUNDS_TP
+		do
+			Result := letter #occurs (3 |..| 3)
+		end
+
+	day_of_month: EL_MATCH_COUNT_WITHIN_BOUNDS_TP
+		do
+			Result := digit #occurs (1 |..| 2)
+		end
+
+	zero_padded_digit: EL_MATCH_COUNT_WITHIN_BOUNDS_TP
+		do
+			Result := digit #occurs (2 |..| 2)
+		end
+
+	time: like all_of
+		do
+			Result := all_of (<<
+				zero_padded_digit,
+				character_literal (':'),
+				zero_padded_digit,
+				character_literal (':'),
+				zero_padded_digit
+			>>)
+		end
+
+	year: EL_MATCH_COUNT_WITHIN_BOUNDS_TP
+		do
+			Result := digit #occurs (4 |..| 4)
+		end
+
 feature {NONE} -- Internal attributes
 
 	search_string: ZSTRING
@@ -86,11 +129,6 @@ feature {NONE} -- Constants
 		once
 			create Result
 			Tuple.fill (Result, "date, target_dir")
-		end
-
-	Last_full_backup: ZSTRING
-		once
-			Result := "Last full backup"
 		end
 
 	Space_dot: ZSTRING

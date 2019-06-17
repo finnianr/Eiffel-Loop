@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-07-01 12:12:18 GMT (Sunday 1st July 2018)"
-	revision: "7"
+	date: "2019-06-16 10:25:02 GMT (Sunday 16th June 2019)"
+	revision: "8"
 
 class
 	EL_FTP_PROTOCOL
@@ -55,7 +55,7 @@ inherit
 			is_equal
 		end
 
-	EL_SHARED_FILE_PROGRESS_LISTENER
+	EL_SHARED_PROGRESS_LISTENER
 		undefine
 			is_equal
 		end
@@ -154,6 +154,7 @@ feature -- Remote operations
 		do
 			if file_exists (file_path) then
 				send (Ftp_command.delete_file (file_path), << 250 >>)
+				progress_listener.notify_tick
 			else
 				last_succeeded := True
 			end
@@ -214,6 +215,7 @@ feature -- Basic operations
 			if transfer_initiated then
 				transfer_file_data (item.source_path)
 				transfer_initiated := false
+				progress_listener.notify_tick
 			else
 				Exception.raise_developer ("Failed to transfer: %S", [item.source_path.base])
 			end
@@ -397,17 +399,18 @@ feature {NONE} -- Implementation
 						packet.data.resize (bytes_read)
 					end
 					data_socket.write (packet)
-					progress_listener.on_notify (packet.count)
 				end
 			end
 			data_socket.close
 			is_packet_pending := false
 			transfer_file.close
 			receive (main_socket)
-			if error and then is_lio_enabled then
-				lio.put_new_line; lio.put_new_line
-				lio.put_string_field ("ERROR: Server replied", last_reply)
-				lio.put_new_line
+			if error then
+				if is_lio_enabled then
+					lio.put_new_line; lio.put_new_line
+					lio.put_string_field ("ERROR: Server replied", last_reply)
+					lio.put_new_line
+				end
 			end
 		end
 

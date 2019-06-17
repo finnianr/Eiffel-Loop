@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2019-06-16 11:39:23 GMT (Sunday 16th June 2019)"
+	revision: "4"
 
 class
 	EL_FILE_PROCESS_THREAD
@@ -17,7 +17,7 @@ class
 inherit
 	EL_IDENTIFIED_THREAD
 
-	EL_FILE_PROGRESS_TRACKER
+	EL_PROGRESS_TRACKER
 		undefine
 			default_create
 		end
@@ -43,7 +43,7 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	display: EL_FILE_PROGRESS_DISPLAY
+	display: EL_PROGRESS_DISPLAY
 
 	action: PROCEDURE [ANY, TUPLE]
 

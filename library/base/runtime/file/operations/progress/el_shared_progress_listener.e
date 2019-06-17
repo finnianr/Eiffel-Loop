@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-16 10:44:54 GMT (Sunday 16th June 2019)"
+	date: "2019-06-16 10:41:58 GMT (Sunday 16th June 2019)"
 	revision: "7"
 
 class
-	EL_SHARED_FILE_PROGRESS_LISTENER
+	EL_SHARED_PROGRESS_LISTENER
 
 feature -- Access
 
-	progress_listener: EL_FILE_PROGRESS_LISTENER
+	progress_listener: EL_PROGRESS_LISTENER
 		do
 			Result := Progress_listener_cell.item
 		end
@@ -23,14 +23,14 @@ feature -- Status query
 
 	is_progress_tracking: BOOLEAN
 		do
-			Result := not attached {EL_DEFAULT_FILE_PROGRESS_LISTENER} progress_listener
+			Result := not attached {EL_DEFAULT_PROGRESS_LISTENER} progress_listener
 		end
 
 feature {NONE} -- Constants
 
-	Progress_listener_cell: CELL [EL_FILE_PROGRESS_LISTENER]
+	Progress_listener_cell: CELL [EL_PROGRESS_LISTENER]
 		once
-			create Result.put (create {EL_DEFAULT_FILE_PROGRESS_LISTENER})
+			create Result.put (create {EL_DEFAULT_PROGRESS_LISTENER})
 		end
 
 end

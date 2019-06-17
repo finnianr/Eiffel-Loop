@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 10:26:04 GMT (Tuesday 11th June 2019)"
-	revision: "3"
+	date: "2019-06-15 7:37:33 GMT (Saturday 15th June 2019)"
+	revision: "4"
 
 class
 	EL_BOOLEAN_OPTION
@@ -34,10 +34,11 @@ class
 inherit
 	BOOLEAN_REF
 		rename
-			item as is_enabled
+			item as is_enabled,
+			set_item as set_state
 		export
 			{NONE} all
-			{ANY} is_enabled
+			{ANY} is_enabled, set_state
 		end
 
 	EL_MAKEABLE_FROM_STRING_8
@@ -49,16 +50,16 @@ inherit
 		end
 
 create
-	default_create, make_enabled, make, set_item
+	default_create, make_enabled, make, set_state
 
 convert
-	set_item ({BOOLEAN})
+	set_state ({BOOLEAN})
 
 feature {NONE} -- Initialization
 
 	make (enabled: BOOLEAN; a_action: PROCEDURE [BOOLEAN])
 		do
-			set_item (enabled); action := a_action
+			set_state (enabled); action := a_action
 		end
 
 	make_enabled
@@ -68,7 +69,7 @@ feature {NONE} -- Initialization
 
 	make_from_string (a_string: STRING)
 		do
-			set_item (a_string.to_boolean)
+			set_state (a_string.to_boolean)
 		end
 
 feature -- Status query
@@ -82,13 +83,13 @@ feature -- Status change
 
 	disable
 		do
-			set_item (False)
+			set_state (False)
 			notify
 		end
 
 	enable
 		do
-			set_item (True)
+			set_state (True)
 			notify
 		end
 

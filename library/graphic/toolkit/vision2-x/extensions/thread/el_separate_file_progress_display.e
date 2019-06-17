@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-06 10:00:33 GMT (Sunday 6th August 2017)"
-	revision: "2"
+	date: "2019-06-16 9:22:39 GMT (Sunday 16th June 2019)"
+	revision: "3"
 
 class
 	EL_SEPARATE_FILE_PROGRESS_DISPLAY
 
 inherit
-	EL_FILE_PROGRESS_DISPLAY
+	EL_PROGRESS_DISPLAY
 
 	EL_MODULE_GUI
 
@@ -60,6 +60,6 @@ feature {NONE} -- Implementation
 			GUI.do_once_on_idle (an_action)
 		end
 
-	display: EL_FILE_PROGRESS_DISPLAY
+	display: EL_PROGRESS_DISPLAY
 		-- GUI display display
 end

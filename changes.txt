@@ -25,3 +25,6 @@ Made Fractal window resizeable
 Thu 13th Jun 2019, 15:39:21
 Fixed once per object bug in EL_CREATEABLE_FROM_NODE_SCAN
 
+Sat 15th Jun 2019, 8:45:21
+Added class el_progress_toggle_button_box
+

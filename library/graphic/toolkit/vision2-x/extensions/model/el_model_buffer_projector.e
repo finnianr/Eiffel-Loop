@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-04 17:54:21 GMT (Tuesday 4th June 2019)"
-	revision: "2"
+	date: "2019-06-15 7:33:39 GMT (Saturday 15th June 2019)"
+	revision: "3"
 
 class
 	EL_MODEL_BUFFER_PROJECTOR
@@ -52,9 +52,13 @@ feature -- Basic operations
 
 	draw_figure_parallelogram (parallelogram: EV_MODEL_PARALLELOGRAM)
 		do
-			Precursor (parallelogram)
 			if attached {EL_MODEL_ROTATED_PICTURE} parallelogram as picture then
+				if picture.border_drawing.is_enabled then
+					Precursor (parallelogram)
+				end
 				draw_figure_rotated_picture (picture)
+			else
+				Precursor (parallelogram)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-11 10:58:06 GMT (Monday 11th February 2019)"
-	revision: "7"
+	date: "2019-06-16 11:52:17 GMT (Sunday 16th June 2019)"
+	revision: "8"
 
 class
 	YOUTUBE_VIDEO
@@ -173,7 +173,7 @@ feature {NONE} -- Implementation
 
 	do_conversion (command: EL_OS_COMMAND; description: STRING)
 		local
-			socket: EL_UNIX_STREAM_SOCKET; progress_display: EL_CONSOLE_FILE_PROGRESS_DISPLAY
+			socket: EL_UNIX_STREAM_SOCKET; progress_display: EL_CONSOLE_PROGRESS_DISPLAY
 			pos_out_time: INTEGER; total_duration: DOUBLE; line: STRING; time: TIME
 		do
 			total_duration := video_duration_fine_seconds

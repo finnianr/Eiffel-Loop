@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-07 6:45:41 GMT (Friday 7th June 2019)"
-	revision: "11"
+	date: "2019-06-16 11:23:12 GMT (Sunday 16th June 2019)"
+	revision: "12"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -50,8 +50,8 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor
 			create byte_order_mark
+			Precursor
 			set_codec
 			encoding_change_actions.extend (agent set_codec)
 		end

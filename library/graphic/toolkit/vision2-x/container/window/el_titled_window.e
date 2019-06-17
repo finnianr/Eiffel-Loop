@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-06-17 7:19:53 GMT (Monday 17th June 2019)"
+	revision: "5"
 
 class
 	EL_TITLED_WINDOW
@@ -84,6 +84,13 @@ feature -- Access
 
 feature -- Basic operations
 
+	close_application
+		do
+			destroy
+			ev_application.destroy
+			lio.put_line ("CLOSED")
+		end
+
 	show_centered_modal (dialog: EV_DIALOG)
 			--
 		do
@@ -139,13 +146,6 @@ feature {NONE} -- Implementation
 				thread_check_timer.set_interval (0)
 				close_application
 			end
-		end
-
-	close_application
-		do
-			destroy
-			ev_application.destroy
-			lio.put_line ("CLOSED")
 		end
 
 	thread_check_timer: EV_TIMEOUT

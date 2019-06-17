@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 28); build = 139
+version = (1, 0, 29); build = 142
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.29
+# Fixed FTP upload progress
 
 # 1.0.28
 # Refinements to item sharing in `EL_PLAIN_TEXT_LINE_SOURCE'

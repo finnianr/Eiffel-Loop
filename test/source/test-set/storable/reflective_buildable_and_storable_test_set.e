@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-12 13:02:50 GMT (Wednesday 12th June 2019)"
-	revision: "6"
+	date: "2019-06-17 10:03:08 GMT (Monday 17th June 2019)"
+	revision: "7"
 
 class
 	REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
@@ -97,7 +97,7 @@ feature {NONE} -- Constants
 
 	File_path: EL_FILE_PATH
 		once
-			Result := Work_area_dir + ""
+			Result := Work_area_dir + "data.x"
 		end
 
 	Country_reader_writer: ECD_READER_WRITER [STORABLE_COUNTRY]

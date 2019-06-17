@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:36:20 GMT (Friday 18th January 2019)"
-	revision: "15"
+	date: "2019-06-16 10:24:13 GMT (Sunday 16th June 2019)"
+	revision: "16"
 
 class
 	REPOSITORY_PUBLISHER
@@ -22,7 +22,7 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_FILE_PROGRESS_TRACKER
+	EL_PROGRESS_TRACKER
 
 	EL_MODULE_CONSOLE
 
@@ -108,9 +108,7 @@ feature -- Basic operations
 
 	execute
 		local
-			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
-			console_display: EL_CONSOLE_FILE_PROGRESS_DISPLAY; listener: like progress_listener
-			i: NATURAL
+			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN i: NATURAL
 		do
 			log_thread_count
 			ftp_sync.set_root_dir (output_dir)
@@ -162,10 +160,10 @@ feature -- Basic operations
 					if Log_manager.is_logging_active then
 						ftp_sync.login_and_upload
 					else
-						create console_display.make
-						listener := console_display.new_progress_listener
-						listener.set_final_tick_count (1000)
-						track_progress (listener, agent ftp_sync.login_and_upload, agent lio.put_line ("Synchronized"))
+						track_progress (
+							ftp_sync.new_progress_listener (create {EL_CONSOLE_PROGRESS_DISPLAY}.make),
+							agent ftp_sync.login_and_upload, agent lio.put_line ("Synchronized")
+						)
 					end
 					ftp_sync.save
 				end

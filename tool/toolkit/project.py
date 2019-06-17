@@ -2,14 +2,17 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 20); build = 490
+version = (1, 2, 21); build = 491
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
 
-# 1.2.19
+# 1.2.21
+# Added Date_time_dot_pattern to find first line of output: duplicity list-current-files
+
+# 1.2.20
 # DUPLICITY_RESTORE_APP: fixed finding of first line in restore listing
 
 # 1.2.19

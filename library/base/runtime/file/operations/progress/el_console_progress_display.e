@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-06-16 10:01:44 GMT (Sunday 16th June 2019)"
+	revision: "7"
 
 class
-	EL_CONSOLE_FILE_PROGRESS_DISPLAY
+	EL_CONSOLE_PROGRESS_DISPLAY
 
 inherit
-	EL_FILE_PROGRESS_DISPLAY
+	EL_PROGRESS_DISPLAY
 
 	EL_MODULE_LIO
 
