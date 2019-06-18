@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-15 7:33:39 GMT (Saturday 15th June 2019)"
-	revision: "3"
+	date: "2019-06-18 8:58:46 GMT (Tuesday 18th June 2019)"
+	revision: "4"
 
 class
 	EL_MODEL_BUFFER_PROJECTOR
@@ -30,14 +30,30 @@ feature -- Basic operations
 	draw_figure_rotated_picture (picture: EL_MODEL_ROTATED_PICTURE)
 		local
 			radial_square: EV_RECTANGLE; half_width: DOUBLE
-			pixels: EL_DRAWABLE_PIXEL_BUFFER
+			pixels: EL_DRAWABLE_PIXEL_BUFFER; cropped: EL_RECTANGLE
+			x, y: INTEGER
 		do
 			radial_square := picture.outer_radial_square
 			radial_square.move (radial_square.x + offset_x, radial_square.y + offset_y)
 			half_width := radial_square.width / 2
-			create pixels.make_with_pixmap (drawable.sub_pixmap (radial_square))
+			-- crop the square if outside bounds
+			if radial_square.x < 0 or radial_square.y < 0 then
+				create pixels.make_with_size (radial_square.width, radial_square.height)
+				create cropped.make_from_other (radial_square)
+				if cropped.x < 0 then
+					x := cropped.x.opposite
+					cropped.grow_left (cropped.x)
+				end
+				if cropped.y < 0 then
+					y := cropped.y.opposite
+					cropped.grow_top (cropped.y)
+				end
+				pixels.draw_pixmap (x, y, drawable.sub_pixmap (cropped))
+			else
+				create pixels.make_with_pixmap (drawable.sub_pixmap (radial_square))
+			end
 
---			Show corners of square			
+--			Show corners of square	
 --			pixels.set_color (Color.cyan)
 --			pixels.fill_convex_corners ((picture.width_precise / 5).rounded, Top_left | Top_right | Bottom_right | Bottom_left)
 

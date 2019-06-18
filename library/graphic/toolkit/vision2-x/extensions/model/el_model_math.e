@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-13 12:08:21 GMT (Thursday 13th June 2019)"
-	revision: "5"
+	date: "2019-06-18 16:54:14 GMT (Tuesday 18th June 2019)"
+	revision: "6"
 
 class
 	EL_MODEL_MATH
@@ -50,6 +50,11 @@ feature {NONE} -- Implementation
 			else
 				Result := alpha
 			end
+		end
+
+	mid_point (p1, p2: EV_COORDINATE): EV_COORDINATE
+		do
+			create Result.make_precise ((p1.x_precise + p2.x_precise) / 2, (p1.y_precise + p2.y_precise) / 2)
 		end
 
 	point_distance (p1, p2: EV_COORDINATE): DOUBLE
