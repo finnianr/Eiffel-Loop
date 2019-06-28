@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-27 10:10:51 GMT (Monday 27th May 2019)"
-	revision: "6"
+	date: "2019-06-24 7:37:14 GMT (Monday 24th June 2019)"
+	revision: "7"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_IMP
@@ -33,7 +33,11 @@ inherit
 			make_with_pixmap
 		end
 
-	EL_SHARED_IMAGE_UTILS_API
+	EL_SHARED_IMAGE_UTILS_API undefine default_create end
+
+	EL_MODULE_COLOR
+		rename
+			Color as Mod_color
 		undefine
 			default_create
 		end
@@ -55,7 +59,7 @@ feature {NONE} -- Initialization
 					-- Creating managed pointer used for inspecting RGBA data.
 				create reusable_managed_pointer.share_from_pointer (default_pointer, 0)
 				lock
-				set_color (0)
+				set_color (Mod_color.black)
 				fill_rectangle (0, 0, a_width, a_height)
 				unlock
 			else

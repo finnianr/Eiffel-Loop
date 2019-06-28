@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-13 8:45:43 GMT (Thursday 13th June 2019)"
-	revision: "11"
+	date: "2019-06-28 7:52:53 GMT (Friday 28th June 2019)"
+	revision: "12"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -248,7 +248,7 @@ feature -- Element change
 			implementation.set_clip_rounded_rectangle (x, y, a_width, a_height, radius, corners_bitmap)
 		end
 
-	set_color (a_color: EL_COLOR)
+	set_color (a_color: EV_COLOR)
 		do
 			implementation.set_color (a_color)
 		end

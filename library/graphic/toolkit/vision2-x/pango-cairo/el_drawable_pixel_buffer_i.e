@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-13 8:46:07 GMT (Thursday 13th June 2019)"
-	revision: "11"
+	date: "2019-06-24 7:35:18 GMT (Monday 24th June 2019)"
+	revision: "12"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -768,7 +768,7 @@ feature {NONE} -- Deferred implementation
 
 feature {NONE} -- Internal attributes
 
-	color: EL_COLOR
+	color: EV_COLOR
 
 	font: EV_FONT
 
