@@ -21,9 +21,6 @@ inherit
 		end
 
 	EL_MODULE_HEXADECIMAL
-		undefine
-			is_equal, copy
-		end
 
 	create
 		make

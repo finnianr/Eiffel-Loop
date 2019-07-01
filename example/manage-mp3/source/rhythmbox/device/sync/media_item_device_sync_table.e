@@ -28,15 +28,12 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_LOG
-		undefine
-			is_equal, copy
-		end
-
 	EL_QUERY_CONDITION_FACTORY [MEDIA_ITEM]
 		undefine
 			is_equal, copy
 		end
+
+	EL_MODULE_LOG
 
 create
 	make_default, make_from_file

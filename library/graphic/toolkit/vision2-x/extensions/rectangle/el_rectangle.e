@@ -16,9 +16,6 @@ inherit
 	EV_RECTANGLE
 
 	EL_MODULE_SCREEN
-		undefine
-			out
-		end
 
 create
 	default_create, make, make_cms, make_for_text, make_for_pixmap, make_from_cms_tuple, make_from_other

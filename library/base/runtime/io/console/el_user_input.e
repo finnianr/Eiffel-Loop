@@ -13,7 +13,7 @@ class
 	EL_USER_INPUT
 
 inherit
-	EL_MODULE_LIO
+	ANY EL_MODULE_LIO
 
 feature -- Basic operations
 

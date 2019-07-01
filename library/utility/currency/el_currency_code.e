@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_SHARED_CURRENCY_ENUM
-		undefine
-			is_equal
-		end
 
 create
 	make, make_default

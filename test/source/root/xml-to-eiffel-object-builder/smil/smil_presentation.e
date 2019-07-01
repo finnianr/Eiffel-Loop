@@ -22,14 +22,8 @@ inherit
 		end
 
 	EL_MODULE_LOG
-		undefine
-			default_create
-		end
 
 	EL_MODULE_URL
-		undefine
-			default_create
-		end
 
 create
 	make_from_file, make_from_string, make

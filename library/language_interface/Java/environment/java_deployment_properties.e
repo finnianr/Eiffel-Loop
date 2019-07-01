@@ -16,6 +16,8 @@ class
 	JAVA_DEPLOYMENT_PROPERTIES
 
 inherit
+	ANY
+	
 	EL_MODULE_LIO
 
 create

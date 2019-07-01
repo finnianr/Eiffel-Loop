@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_SHARED_ONCE_STRINGS
-		undefine
-			is_equal, copy, out
-		end
 
 create
 	make, make_now, make_from_other

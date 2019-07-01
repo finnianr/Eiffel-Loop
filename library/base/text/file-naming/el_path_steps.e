@@ -66,21 +66,6 @@ inherit
 			default_create, is_equal
 		end
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
-		undefine
-			default_create, is_equal
-		end
-
-	EL_MODULE_DIRECTORY
-		undefine
-			default_create, is_equal
-		end
-
-	EL_MODULE_FILE_SYSTEM
-		undefine
-			default_create, is_equal
-		end
-
 	EL_ZSTRING_ROUTINES
 		rename
 			joined as joined_iterable
@@ -99,6 +84,12 @@ inherit
 		undefine
 			default_create, is_equal
 		end
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_DIRECTORY
+
+	EL_MODULE_FILE_SYSTEM
 
 create
 	default_create, make_with_count, make, make_from_tokens,

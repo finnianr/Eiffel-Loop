@@ -9,8 +9,11 @@ note
 	date: "2018-12-21 11:41:53 GMT (Friday 21st December 2018)"
 	revision: "7"
 
-class
+deferred class
 	EL_MODULE_KEY
+
+inherit
+	EL_MODULE
 
 feature {NONE} -- Constants
 

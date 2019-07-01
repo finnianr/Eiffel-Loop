@@ -16,9 +16,6 @@ inherit
 	EL_STRING_EDITION_HISTORY [ZSTRING]
 
 	EL_MODULE_ZSTRING
-		undefine
-			is_equal, copy
-		end
 
 create
 	make

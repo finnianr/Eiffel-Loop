@@ -9,8 +9,11 @@ note
 	date: "2018-04-26 8:07:12 GMT (Thursday 26th April 2018)"
 	revision: "4"
 
-class
+deferred class
 	EL_SHARED_DEFAULT_VALUE_TABLE
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

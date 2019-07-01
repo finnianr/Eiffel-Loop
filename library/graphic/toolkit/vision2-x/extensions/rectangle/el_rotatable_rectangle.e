@@ -22,9 +22,6 @@ inherit
 		end
 
 	EL_MODULE_SCREEN
-		undefine
-			default_create
-		end
 
 create
 	make_rotated, make_rotated_cms

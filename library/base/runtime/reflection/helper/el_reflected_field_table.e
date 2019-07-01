@@ -22,20 +22,14 @@ inherit
 				current_keys
 		end
 
-	EL_MODULE_EIFFEL
-		undefine
-			is_equal, copy
-		end
-
-	EL_MODULE_NAMING
-		undefine
-			is_equal, copy
-		end
-
 	EL_REFLECTION_HANDLER
 		undefine
 			is_equal, copy
 		end
+
+	EL_MODULE_EIFFEL
+
+	EL_MODULE_NAMING
 
 create
 	make

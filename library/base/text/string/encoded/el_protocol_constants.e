@@ -9,7 +9,7 @@ note
 	date: "2019-01-11 15:32:33 GMT (Friday 11th January 2019)"
 	revision: "7"
 
-class
+deferred class
 	EL_PROTOCOL_CONSTANTS
 
 inherit

@@ -26,14 +26,8 @@ inherit
 		end
 
 	EL_MODULE_XML
-		undefine
-			is_equal, copy
-		end
 
-	EL_XML_ESCAPING_CONSTANTS
-		undefine
-			is_equal, copy
-		end
+	EL_XML_ESCAPING_CONSTANTS undefine is_equal, copy end
 
 create
 	make_from_file

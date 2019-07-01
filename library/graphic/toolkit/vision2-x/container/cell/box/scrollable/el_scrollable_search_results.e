@@ -35,42 +35,24 @@ inherit
 			is_equal, copy, default_create
 		end
 
-	EL_MODULE_DEFERRED_LOCALE
-		undefine
-			is_equal, copy, default_create
-		end
-
-	EL_MODULE_COLOR
-		undefine
-			 is_equal, copy, default_create
-		end
-
-	EL_MODULE_GUI
-		undefine
-			is_equal, copy, default_create
-		end
-
-	EL_MODULE_LOG
-		undefine
-			is_equal, copy, default_create
-		end
-
-	EL_MODULE_PIXMAP
-		undefine
-			is_equal, default_create, copy
-		end
-
-	EL_MODULE_SCREEN
-		undefine
-			is_equal, copy, default_create
-		end
-
 	PART_COMPARATOR [G]
 		export
 			{NONE} all
 		undefine
 			is_equal, copy, default_create
 		end
+
+	EL_MODULE_DEFERRED_LOCALE
+
+	EL_MODULE_COLOR
+
+	EL_MODULE_GUI
+
+	EL_MODULE_LOG
+
+	EL_MODULE_PIXMAP
+
+	EL_MODULE_SCREEN
 
 create
 	make, default_create

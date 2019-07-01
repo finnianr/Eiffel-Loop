@@ -26,25 +26,16 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_STRING_32
-		undefine
-			default_create
-		end
-
-	EL_SHARED_ZCODEC
-		undefine
-			default_create
-		end
-
-	EL_SHARED_UTF_8_ZCODEC
-		undefine
-			default_create
-		end
-
 	EL_ZSTRING_CONSTANTS
 		undefine
 			default_create
 		end
+
+	EL_MODULE_STRING_32
+
+	EL_SHARED_ZCODEC
+
+	EL_SHARED_UTF_8_ZCODEC
 
 feature {NONE} -- Events
 

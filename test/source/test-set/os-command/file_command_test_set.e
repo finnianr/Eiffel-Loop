@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_MODULE_COMMAND
-		undefine
-			default_create
-		end
 
 feature -- Tests
 

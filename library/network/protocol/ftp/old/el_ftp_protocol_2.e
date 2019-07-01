@@ -25,15 +25,12 @@ inherit
 			is_equal
 		end
 
-	EL_MODULE_LIO
-		undefine
-			is_equal
-		end
-
 	EL_ZTEXT_PATTERN_FACTORY
 		undefine
 			is_equal
 		end
+
+	EL_MODULE_LIO
 
 create
 	make, make_default

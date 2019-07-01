@@ -34,14 +34,8 @@ inherit
 		end
 
 	EL_MODULE_LIO
-		undefine
-			is_equal
-		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-		undefine
-			is_equal
-		end
 
 feature -- Basic operations
 

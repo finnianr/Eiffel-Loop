@@ -71,8 +71,7 @@ feature {NONE} -- Handlers
 				start_directory := l_path
 				create l_directory.make (start_directory)
 				path_exists := l_directory.exists
-				l_path.finish
-				l_path.remove
+				l_path.remove_tail (1)
 			end
 			directory_dialog.set_start_directory (start_directory)
 			directory_dialog.show_modal_to_window (first_window)

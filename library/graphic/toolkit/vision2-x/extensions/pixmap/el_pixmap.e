@@ -18,20 +18,14 @@ inherit
 			sub_pixmap, make_with_pixel_buffer
 		end
 
-	EL_MODULE_SCREEN
-		undefine
-			is_equal, default_create, copy
-		end
-
 	EL_DRAWABLE
-		undefine
-			is_equal, default_create, copy
-		end
 
 	EL_ORIENTATION_ROUTINES
 		undefine
 			is_equal, default_create, copy
 		end
+
+	EL_MODULE_SCREEN
 
 create
 	default_create,

@@ -13,7 +13,7 @@ class
 	EL_FTP_UPLOAD_ITEM
 
 inherit
-	EL_MODULE_LIO
+	ANY EL_MODULE_LIO
 
 create
 	make, make_default

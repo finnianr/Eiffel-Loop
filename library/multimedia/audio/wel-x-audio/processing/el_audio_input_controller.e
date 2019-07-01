@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 	make (a_waveform_format: EL_WAVEFORM_FORMAT; a_clip_duration_millisecs: INTEGER )
 			--
 		do
-			create audio_clip_queue.make
+			create audio_clip_queue.make (0)
 
 			audio_clip_queue.attach_consumer (audio_clip_consumer)
 

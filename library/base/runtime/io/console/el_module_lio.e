@@ -18,7 +18,7 @@ note
 	date: "2018-12-23 11:12:04 GMT (Sunday 23rd December 2018)"
 	revision: "7"
 
-class
+deferred class
 	EL_MODULE_LIO
 
 inherit

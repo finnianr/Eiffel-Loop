@@ -36,26 +36,18 @@ inherit
 			make_default, building_action_table, getter_function_table
 		end
 
-	EL_MODULE_LOG
+	EL_ZSTRING_CONSTANTS
 		undefine
 			copy, is_equal
 		end
 
+	EL_MODULE_LOG
+
 	EL_MODULE_TIME
-		undefine
-			copy, is_equal
-		end
 
 	EL_MODULE_DATE
 		rename
 			Date as Mod_date
-		undefine
-			copy, is_equal
-		end
-
-	EL_ZSTRING_CONSTANTS
-		undefine
-			copy, is_equal
 		end
 
 create

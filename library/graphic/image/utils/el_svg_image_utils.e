@@ -17,6 +17,8 @@ class
 	EL_SVG_IMAGE_UTILS
 
 inherit
+	ANY
+	
 	EL_SHARED_IMAGE_UTILS_API
 
 feature -- Basic operations

@@ -18,15 +18,12 @@ inherit
 			make as make_array
 		end
 
-	EL_MODULE_EIFFEL
-		undefine
-			is_equal, copy
-		end
-
 	EL_REFLECTOR_CONSTANTS
 		undefine
 			is_equal, copy
 		end
+
+	EL_MODULE_EIFFEL
 
 create
 	make, make_from_static, make_from_tuple

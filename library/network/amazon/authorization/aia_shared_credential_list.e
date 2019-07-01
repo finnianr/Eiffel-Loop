@@ -12,10 +12,12 @@ note
 	date: "2019-02-27 13:18:24 GMT (Wednesday 27th February 2019)"
 	revision: "3"
 
-class
+deferred class
 	AIA_SHARED_CREDENTIAL_LIST
 
 inherit
+	EL_ANY_SHARED
+	
 	EL_MODULE_DIRECTORY
 
 feature {NONE} -- Implementation

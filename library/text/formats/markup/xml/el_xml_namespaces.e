@@ -13,7 +13,7 @@ class
 	EL_XML_NAMESPACES
 
 inherit
-	EL_MODULE_FILE_SYSTEM
+	ANY EL_MODULE_FILE_SYSTEM
 
 create
 	make, make_from_other, make_from_file

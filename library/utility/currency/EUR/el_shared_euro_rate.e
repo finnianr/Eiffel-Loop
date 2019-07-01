@@ -9,8 +9,11 @@ note
 	date: "2019-01-16 0:44:58 GMT (Wednesday 16th January 2019)"
 	revision: "4"
 
-class
+deferred class
 	EL_SHARED_EURO_RATE
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

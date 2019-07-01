@@ -24,9 +24,6 @@ inherit
 		end
 
 	EL_MODULE_OCTAL
-		undefine
-			is_equal, copy, out
-		end
 
 create
 	make_encoded, make_empty, make

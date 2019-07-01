@@ -25,9 +25,6 @@ inherit
 		end
 
 	EL_SHARED_ONCE_STRINGS
-		undefine
-			default_create, is_equal, copy
-		end
 
 create
 	default_create, make_from_other,

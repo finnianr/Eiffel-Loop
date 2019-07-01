@@ -15,15 +15,12 @@ class
 inherit
 	EQA_TEST_SET
 
-	EL_MODULE_LOG
-		undefine
-			default_create
-		end
-
 	EL_REFLECTION_HANDLER
 		undefine
 			default_create
 		end
+
+	EL_MODULE_LOG
 
 feature -- Tests
 

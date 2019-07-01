@@ -21,9 +21,6 @@ inherit
 		end
 
 	EL_MODULE_STRING_32
-		undefine
-			default_create
-		end
 
 feature -- Conversion tests
 

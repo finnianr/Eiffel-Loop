@@ -33,14 +33,12 @@ inherit
 			make_with_pixmap
 		end
 
-	EL_SHARED_IMAGE_UTILS_API undefine default_create end
-
 	EL_MODULE_COLOR
 		rename
 			Color as Mod_color
-		undefine
-			default_create
 		end
+
+	EL_SHARED_IMAGE_UTILS_API
 
 create
 	make

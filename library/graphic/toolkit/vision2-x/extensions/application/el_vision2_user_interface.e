@@ -21,32 +21,17 @@ inherit
 			create_implementation, create_interface_objects, initialize
 		end
 
-	EL_MODULE_LOG
-		undefine
-			copy, default_create
-		end
-
-	EL_SHARED_LOGGED_THREAD_MANAGER
-		undefine
-			copy, default_create
-		end
-
-	EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE
-		undefine
-			copy, default_create
-		end
-
-	EL_SHARED_USEABLE_SCREEN
-		undefine
-			copy, default_create
-		end
-
 	EV_BUILDER
 
+	EL_MODULE_LOG
+
 	EL_MODULE_SCREEN
-		undefine
-			copy, default_create
-		end
+
+	EL_SHARED_LOGGED_THREAD_MANAGER
+
+	EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE
+
+	EL_SHARED_USEABLE_SCREEN
 
 create
 	make, make_maximized

@@ -18,20 +18,14 @@ inherit
 			initialize
 		end
 
-	EL_MODULE_GUI
-		undefine
-			copy, default_create
-		end
-
-	EL_MODULE_VISION_2
-		undefine
-			copy, default_create
-		end
-
 	EL_EVENT_LISTENER
 		undefine
 			copy, default_create
 		end
+
+	EL_MODULE_GUI
+
+	EL_MODULE_VISION_2
 
 create
 	make_dialog

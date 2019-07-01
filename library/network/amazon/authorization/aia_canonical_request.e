@@ -26,9 +26,6 @@ inherit
 		end
 
 	EL_MODULE_DIGEST
-		undefine
-			is_equal, copy
-		end
 
 create
 	make

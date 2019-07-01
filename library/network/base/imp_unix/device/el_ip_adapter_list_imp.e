@@ -29,9 +29,6 @@ inherit
 		end
 
 	EL_MODULE_COMMAND
-		undefine
-			copy, is_equal
-		end
 
 create
 	make

@@ -9,7 +9,7 @@ note
 	date: "2018-12-23 10:51:10 GMT (Sunday 23rd December 2018)"
 	revision: "8"
 
-class
+deferred class
 	EL_MODULE_USER_INPUT
 
 inherit

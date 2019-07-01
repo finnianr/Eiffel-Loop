@@ -26,14 +26,6 @@ inherit
 		end
 
 	EL_MODULE_GUI
-		undefine
-			is_equal, default_create, copy
-		end
-
---	EL_MODULE_LOG
---		undefine
---			is_equal, default_create, copy
---		end
 
 feature {NONE} -- Initialization
 

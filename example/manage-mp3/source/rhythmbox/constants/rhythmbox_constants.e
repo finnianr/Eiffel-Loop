@@ -9,19 +9,13 @@ note
 	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
 	revision: "4"
 
-class
+deferred class
 	RHYTHMBOX_CONSTANTS
 
 inherit
 	EL_MODULE_URL
-		export
-			{NONE} all
-		end
 
 	EL_MODULE_DIRECTORY
-		export
-			{NONE} all
-		end
 
 feature {NONE} -- Genres
 

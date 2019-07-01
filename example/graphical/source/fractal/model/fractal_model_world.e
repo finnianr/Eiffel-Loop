@@ -19,20 +19,14 @@ class
 inherit
 	EV_MODEL_WORLD
 
-	EL_MODULE_COLOR
-		undefine
-			default_create
-		end
-
 	EL_ORIENTATION_ROUTINES
 		undefine
 			default_create
 		end
 
+	EL_MODULE_COLOR
+
 	SHARED_FRACTAL_CONFIG
-		undefine
-			default_create
-		end
 
 create
 	make
@@ -53,7 +47,7 @@ feature {NONE} -- Initialization
 			create l_dimensions.make_cms (0, 0, initial_width_cms, 0)
 			l_dimensions.set_height ((background_image.height * l_dimensions.width / background_image.width).rounded)
 
-			create root_image.make_default
+			create root_image
 			create opacity_graduation
 			create root_image_at_top.make (True, agent invert_layers)
 

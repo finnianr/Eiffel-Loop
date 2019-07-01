@@ -25,40 +25,22 @@ inherit
 			close, open, login
 		end
 
-	EL_MODULE_EXCEPTION
-		undefine
-			is_equal
-		end
-
-	EL_MODULE_FTP_COMMAND
-		undefine
-			is_equal
-		end
-
-	EL_MODULE_FILE_SYSTEM
-		undefine
-			is_equal
-		end
-
-	EL_MODULE_LIO
-		undefine
-			is_equal
-		end
-
-	EL_MODULE_USER_INPUT
-		undefine
-			is_equal
-		end
-
 	EL_ZTEXT_PATTERN_FACTORY
 		undefine
 			is_equal
 		end
 
+	EL_MODULE_EXCEPTION
+
+	EL_MODULE_FTP_COMMAND
+
+	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_LIO
+
+	EL_MODULE_USER_INPUT
+
 	EL_SHARED_PROGRESS_LISTENER
-		undefine
-			is_equal
-		end
 
 create
 	make_write, make_default

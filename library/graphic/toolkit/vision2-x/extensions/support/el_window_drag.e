@@ -13,6 +13,8 @@ class
 	EL_WINDOW_DRAG
 
 inherit
+	ANY
+	
 	EL_MODULE_SCREEN
 
 	EL_MODULE_GUI

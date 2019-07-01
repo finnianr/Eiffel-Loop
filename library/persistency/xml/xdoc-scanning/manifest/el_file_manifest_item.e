@@ -41,9 +41,6 @@ inherit
 		end
 
 	EL_MODULE_FILE_SYSTEM
-		undefine
-			is_equal
-		end
 
 create
 	make, make_default, make_named
@@ -89,12 +86,12 @@ feature -- Element change
 		do
 			byte_count := a_byte_count
 		end
-	
+
 	set_modification_time (a_modification_time: like modification_time)
 		do
 			modification_time := a_modification_time
 		end
-	
+
 	set_name (a_name: ZSTRING)
 		do
 			name := a_name

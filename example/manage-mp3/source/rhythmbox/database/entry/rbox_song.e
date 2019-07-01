@@ -33,20 +33,14 @@ inherit
 			is_equal
 		end
 
-	EL_MODULE_OS
-		undefine
-			is_equal
-		end
-
-	EL_MODULE_TAG
-		undefine
-			is_equal
-		end
-
 	EL_ZSTRING_CONSTANTS
 		undefine
 			is_equal
 		end
+
+	EL_MODULE_OS
+
+	EL_MODULE_TAG
 
 create
 	make

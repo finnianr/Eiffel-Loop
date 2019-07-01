@@ -22,25 +22,13 @@ inherit
 			on_prepare, on_clean
 		end
 
+	EL_EIFFEL_LOOP_TEST_CONSTANTS
+
 	EL_MODULE_LOG
-		undefine
-			default_create
-		end
 
 	EL_MODULE_FILE_SYSTEM
-		undefine
-			default_create
-		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-		undefine
-			default_create
-		end
-
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
-		undefine
-			default_create
-		end
 
 feature {NONE} -- Events
 

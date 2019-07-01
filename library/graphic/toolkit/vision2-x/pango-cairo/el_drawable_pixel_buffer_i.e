@@ -37,26 +37,6 @@ inherit
 			dispose
 		end
 
-	EL_SHARED_CAIRO_API
-		undefine
-			default_create
-		end
-
-	EL_SHARED_PANGO_API
-		undefine
-			default_create
-		end
-
-	EL_SHARED_PANGO_CAIRO_API
-		undefine
-			default_create
-		end
-
-	EL_SHARED_GOBJECT_API
-		undefine
-			default_create
-		end
-
 	EL_CAIRO_CONSTANTS
 		undefine
 			default_create
@@ -72,25 +52,25 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_UTF
-		undefine
-			default_create
-		end
-
-	EL_MODULE_GUI
-		undefine
-			default_create
-		end
-
 	EL_MODEL_MATH
 		undefine
 			default_create
 		end
 
+	EL_MODULE_UTF
+
+	EL_MODULE_GUI
+
+	EL_SHARED_CAIRO_API
+
 	EL_SHARED_ONCE_STRINGS
-		undefine
-			default_create
-		end
+
+	EL_SHARED_PANGO_API
+
+	EL_SHARED_PANGO_CAIRO_API
+
+	EL_SHARED_GOBJECT_API
+
 
 feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 

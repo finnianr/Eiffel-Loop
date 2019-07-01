@@ -23,19 +23,10 @@ inherit
 		end
 
 	EL_MODULE_LOG
-		undefine
-			default_create
-		end
 
 	EL_MODULE_OS
-		undefine
-			default_create
-		end
 
 	EL_MODULE_DIRECTORY
-		undefine
-			default_create
-		end
 
 feature {NONE} -- Events
 

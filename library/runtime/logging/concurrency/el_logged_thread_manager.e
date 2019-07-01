@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_MODULE_LOG
-		undefine
-			default_create
-		end
 
 feature -- Basic operations
 

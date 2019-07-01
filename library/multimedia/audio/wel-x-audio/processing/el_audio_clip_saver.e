@@ -33,24 +33,12 @@ inherit
 		end
 
 	EL_MODULE_LOG
-		undefine
-			default_create, is_equal, copy
-		end
 
 	EL_MODULE_LOG_MANAGER
-		undefine
-			default_create, is_equal, copy
-		end
 
 	EL_MODULE_FILE_SYSTEM
-		undefine
-			default_create, is_equal, copy
-		end
 
 	EL_MODULE_DIRECTORY
-		undefine
-			default_create, is_equal, copy
-		end
 
 create
 	make
@@ -62,7 +50,7 @@ feature {NONE} -- Initialization
 		do
 			make_consumer
 			noise_threshold := rms_energy
-			create audio_file_processing_queue.make
+			create audio_file_processing_queue.make (0)
 			log.put_new_line
 
 			across Temporary_directory.files_with_extension ("wav") as wav_path loop

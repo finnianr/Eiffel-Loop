@@ -18,19 +18,11 @@ inherit
 	EL_MODULE_COLOR
 		rename
 			Color as Mod_color
-		undefine
-			default_create, copy
 		end
 
 	EL_MODULE_GUI
-		undefine
-			default_create, copy
-		end
 
 	EL_MODULE_SCREEN
-		undefine
-			default_create, copy
-		end
 
 create
 	make

@@ -21,9 +21,6 @@ inherit
 		end
 
 	EL_MODULE_DEFERRED_LOCALE
-		undefine
-			default_create, copy, is_equal
-		end
 
 create
 	default_create, make, make_unadjusted, make_sorted, make_unadjusted_sorted

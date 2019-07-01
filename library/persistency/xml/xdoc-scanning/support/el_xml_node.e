@@ -37,9 +37,6 @@ inherit
 		end
 
 	EL_SHARED_UTF_8_ZCODEC
-		undefine
-			default_create
-		end
 
 create
 	default_create

@@ -21,37 +21,19 @@ inherit
 			make_from_other, initialize, set_background_color
 		end
 
+	EV_BUILDER
+
 	EL_MODULE_FILE_SYSTEM
-		undefine
-			default_create, is_equal, copy
-		end
 
 	EL_MODULE_SCREEN
-		undefine
-			default_create, is_equal, copy
-		end
 
 	EL_MODULE_LIO
-		undefine
-			default_create, is_equal, copy
-		end
 
 	EL_MODULE_DIRECTORY
-		undefine
-			default_create, is_equal, copy
-		end
 
 	EL_SHARED_FILE_PROGRESS_LISTENER
-		undefine
-			default_create, is_equal, copy
-		end
 
 	EL_SHARED_ONCE_STRINGS
-		undefine
-			default_create, is_equal, copy
-		end
-
-	EV_BUILDER
 
 create
 	default_create, make_from_other,

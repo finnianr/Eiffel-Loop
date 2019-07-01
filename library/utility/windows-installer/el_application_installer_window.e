@@ -29,14 +29,8 @@ inherit
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-		undefine
-			copy , default_create
-		end
 
 	EL_MODULE_LOG
-		undefine
-			copy , default_create
-		end
 
 create
 	make

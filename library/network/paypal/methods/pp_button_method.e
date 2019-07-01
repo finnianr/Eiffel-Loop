@@ -16,14 +16,8 @@ inherit
 	PP_CONVERTABLE_TO_PARAMETER_LIST
 
 	EL_MODULE_NAMING
-		undefine
-			is_equal
-		end
 
 	EL_MODULE_LIO
-		undefine
-			is_equal
-		end
 
 create
 	make

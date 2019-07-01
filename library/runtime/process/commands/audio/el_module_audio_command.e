@@ -9,7 +9,7 @@ note
 	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
 	revision: "5"
 
-class
+deferred class
 	EL_MODULE_AUDIO_COMMAND
 
 inherit

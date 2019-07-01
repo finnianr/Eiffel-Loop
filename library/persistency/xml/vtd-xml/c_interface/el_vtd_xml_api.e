@@ -9,14 +9,11 @@ note
 	date: "2018-12-26 12:43:05 GMT (Wednesday 26th December 2018)"
 	revision: "5"
 
-class
+deferred class
 	EL_VTD_XML_API
 
 inherit
 	EL_SHARED_C_WIDE_CHARACTER_STRING
-		export
-			{NONE} all
-		end
 
 feature {NONE} -- Access
 

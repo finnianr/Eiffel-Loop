@@ -46,9 +46,6 @@ inherit
 		end
 
 	EL_MODULE_EXCEPTION
-		undefine
-			is_equal
-		end
 
 create
 	make

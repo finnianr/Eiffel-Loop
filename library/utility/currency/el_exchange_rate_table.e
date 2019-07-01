@@ -19,25 +19,16 @@ inherit
 			fill as fill_from
 		end
 
-	EL_MODULE_LIO
-		undefine
-			copy, is_equal
-		end
-
 	EL_INTEGER_MATH
 		undefine
 			copy, is_equal
 		end
 
+	EL_MODULE_LIO
+
 	EL_MODULE_DIRECTORY
-		undefine
-			copy, is_equal
-		end
 
 	EL_SHARED_CURRENCY_ENUM
-		undefine
-			copy, is_equal
-		end
 
 feature {NONE} -- Initialization
 

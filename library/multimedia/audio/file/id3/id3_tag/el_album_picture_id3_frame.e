@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_MODULE_FILE_SYSTEM
-		undefine
-			out
-		end
 
 feature {NONE} -- Initialization
 

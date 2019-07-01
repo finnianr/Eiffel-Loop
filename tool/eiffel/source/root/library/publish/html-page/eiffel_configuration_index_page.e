@@ -25,14 +25,8 @@ inherit
 	COMPARABLE
 
 	EL_MODULE_LOG
-		undefine
-			is_equal
-		end
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
-		undefine
-			is_equal
-		end
 
 create
 	make

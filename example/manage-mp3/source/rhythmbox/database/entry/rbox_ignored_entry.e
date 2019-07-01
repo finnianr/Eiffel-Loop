@@ -19,14 +19,8 @@ inherit
 		end
 
 	EL_MODULE_FILE_SYSTEM
-		undefine
-			is_equal
-		end
 
 	EL_MODULE_TIME
-		undefine
-			is_equal
-		end
 
 create
 	make

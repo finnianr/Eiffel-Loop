@@ -13,10 +13,12 @@ class
 	EL_ID3_ALBUM_PICTURE
 
 inherit
-	EL_MODULE_FILE_SYSTEM
+	ANY
 		redefine
 			default_create
 		end
+
+	EL_MODULE_FILE_SYSTEM
 
 create
 	default_create, make, make_from_file

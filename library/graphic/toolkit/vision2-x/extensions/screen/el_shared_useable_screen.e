@@ -9,8 +9,11 @@ note
 	date: "2018-12-21 11:43:49 GMT (Friday 21st December 2018)"
 	revision: "2"
 
-class
+deferred class
 	EL_SHARED_USEABLE_SCREEN
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

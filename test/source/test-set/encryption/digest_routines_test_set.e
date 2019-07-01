@@ -16,19 +16,10 @@ inherit
 	EQA_TEST_SET
 
 	EL_MODULE_DIGEST
-		undefine
-			default_create
-		end
 
 	EL_MODULE_LIO
-		undefine
-			default_create
-		end
 
 	EL_MODULE_STRING_8
-		undefine
-			default_create
-		end
 
 feature -- Tests
 

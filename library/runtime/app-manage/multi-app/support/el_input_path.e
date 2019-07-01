@@ -19,14 +19,8 @@ inherit
 		end
 
 	EL_MODULE_USER_INPUT
-		undefine
-			default_create
-		end
 
 	EL_MODULE_LIO
-		undefine
-			default_create
-		end
 
 create
 	make, default_create

@@ -18,26 +18,6 @@ inherit
 			make
 		end
 
-	EL_MODULE_COLOR
-		undefine
-			default_create, copy, is_equal
-		end
-
-	EL_MODULE_SCREEN
-		undefine
-			default_create, copy, is_equal
-		end
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
-		undefine
-			default_create, copy, is_equal
-		end
-
-	EL_MODULE_VISION_2
-		undefine
-			default_create, copy, is_equal
-		end
-
 	EL_MODEL_MATH
 		rename
 			log as natural_log
@@ -49,6 +29,14 @@ inherit
 		undefine
 			default_create, copy, is_equal
 		end
+
+	EL_MODULE_COLOR
+
+	EL_MODULE_SCREEN
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_VISION_2
 
 create
 	make

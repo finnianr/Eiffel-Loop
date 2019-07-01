@@ -16,29 +16,14 @@ inherit
 	EL_MODEL_WORLD_CELL
 
 	EL_MODULE_COLOR
-		undefine
-			default_create, copy
-		end
 
 	EL_MODULE_SCREEN
-		undefine
-			default_create, copy
-		end
 
 	EL_MODULE_LIO
-		undefine
-			default_create, copy
-		end
 
 	EL_MODULE_GUI
-		undefine
-			default_create, copy
-		end
 
 	SHARED_FRACTAL_CONFIG
-		undefine
-			default_create, copy
-		end
 
 create
 	make

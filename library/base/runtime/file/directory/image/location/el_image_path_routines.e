@@ -21,10 +21,9 @@ class
 	EL_IMAGE_PATH_ROUTINES
 
 inherit
+	ANY
+	
 	EL_MODULE_DIRECTORY
-		export
-			{NONE} all
-		end
 
 	EL_MODULE_TUPLE
 

@@ -34,9 +34,8 @@ inherit
 		end
 
 	EL_MODULE_LOG
-		undefine
-			copy , default_create, is_equal
-		end
+
+	EL_MODULE_COLOR
 
 create
 	make, default_create
@@ -56,7 +55,7 @@ feature {NONE} -- Initialization
 			padding_cms := a_padding_cms
 			default_create
 			init_keyboard_shortcuts (a_window)
-			set_background_color (GUI.color_3d_face)
+			set_background_color (Color.Face_3d)
 			selection_actions.extend (agent
 				do
 					-- Postponing until Ctrl page up/down actions are handled

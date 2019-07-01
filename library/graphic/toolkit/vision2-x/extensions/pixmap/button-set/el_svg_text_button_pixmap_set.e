@@ -20,20 +20,14 @@ inherit
 			normal, new_svg_image, fill_pixmaps, set_enabled, set_disabled, svg_icon
 		end
 
-	EL_MODULE_GUI
-		undefine
-			default_create
-		end
-
-	EL_MODULE_LOG
-		undefine
-			default_create
-		end
-
 	SD_COLOR_HELPER
 		undefine
 			default_create
 		end
+
+	EL_MODULE_GUI
+
+	EL_MODULE_LOG
 
 feature {NONE} -- Initialization
 

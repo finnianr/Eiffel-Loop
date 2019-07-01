@@ -31,21 +31,6 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_IMAGE
-		undefine
-			default_create
-		end
-
-	EL_MODULE_ARGS
-		undefine
-			default_create
-		end
-
-	EL_MODULE_LOG
-		undefine
-			default_create
-		end
-
 	MODEL_WORLD_TILER
 		rename
 			model as world
@@ -64,6 +49,12 @@ inherit
 		undefine
 			default_create
 		end
+
+	EL_MODULE_IMAGE
+
+	EL_MODULE_ARGS
+
+	EL_MODULE_LOG
 
 create
 	make

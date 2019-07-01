@@ -32,19 +32,10 @@ inherit
 		end
 
 	EL_MODULE_COLOR
-		undefine
-			is_equal, copy, default_create
-		end
 
 	EL_MODULE_SCREEN
-		undefine
-			is_equal, copy, default_create
-		end
 
 	EL_MODULE_STRING_32
-		undefine
-			is_equal, copy, default_create
-		end
 
 create
 	default_create, make_with_text, make_wrapped, make_wrapped_to_width

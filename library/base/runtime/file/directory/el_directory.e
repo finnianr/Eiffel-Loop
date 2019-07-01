@@ -28,15 +28,12 @@ inherit
 			default_create, delete_content_with_action
 		end
 
-	EL_MODULE_FILE_SYSTEM
-		undefine
-			default_create
-		end
-
 	EL_STRING_8_CONSTANTS
 		undefine
 			default_create
 		end
+
+	EL_MODULE_FILE_SYSTEM
 
 create
 	default_create, make, make_open_read, make_with_path

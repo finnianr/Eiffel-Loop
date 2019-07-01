@@ -137,25 +137,6 @@ inherit
 			out, copy, is_equal
 		end
 
-	EL_SHARED_ZCODEC
-		export
-			{NONE} all
-		undefine
-			is_equal, copy, out
-		end
-
-	EL_SHARED_UTF_8_ZCODEC
-		undefine
-			is_equal, copy, out
-		end
-
-	EL_SHARED_ONCE_STRINGS
-		export
-			{NONE} all
-		undefine
-			is_equal, copy, out
-		end
-
 	STRING_HANDLER
 		undefine
 			is_equal, copy, out
@@ -167,6 +148,12 @@ inherit
 		undefine
 			is_equal, copy, out
 		end
+
+	EL_SHARED_ZCODEC
+
+	EL_SHARED_UTF_8_ZCODEC
+
+	EL_SHARED_ONCE_STRINGS
 
 feature {NONE} -- Initialization
 

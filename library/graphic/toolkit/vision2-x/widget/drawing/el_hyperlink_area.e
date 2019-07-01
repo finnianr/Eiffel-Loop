@@ -23,19 +23,10 @@ inherit
 		end
 
 	EL_MODULE_COLOR
-		undefine
-			default_create, copy
-		end
 
 	EL_MODULE_PIXMAP
-		undefine
-			default_create, copy
-		end
 
 	EL_MODULE_SCREEN
-		undefine
-			default_create, copy
-		end
 
 create
 	make, make_with_styles, make_default

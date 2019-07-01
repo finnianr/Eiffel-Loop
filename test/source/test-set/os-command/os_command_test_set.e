@@ -18,15 +18,9 @@ inherit
 			new_file_tree as new_empty_file_tree
 		end
 
-	EL_MODULE_COMMAND
-		undefine
-			default_create
-		end
-
 	EL_EIFFEL_LOOP_TEST_CONSTANTS
-		undefine
-			default_create
-		end
+
+	EL_MODULE_COMMAND
 
 feature -- Tests
 

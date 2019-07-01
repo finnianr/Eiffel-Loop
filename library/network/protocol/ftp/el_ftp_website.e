@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_MODULE_LIO
-		undefine
-			is_equal
-		end
 
 create
 	make, make_from_node

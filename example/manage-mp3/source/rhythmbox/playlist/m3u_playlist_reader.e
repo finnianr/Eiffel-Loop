@@ -27,9 +27,6 @@ inherit
 		end
 
 	EL_MODULE_UTF
-		undefine
-			is_equal, copy
-		end
 
 create
 	make

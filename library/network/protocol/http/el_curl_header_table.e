@@ -16,9 +16,6 @@ inherit
 	HASH_TABLE [STRING, STRING]
 
 	EL_SHARED_CURL_API
-		undefine
-			is_equal, copy
-		end
 
 create
 	make_equal

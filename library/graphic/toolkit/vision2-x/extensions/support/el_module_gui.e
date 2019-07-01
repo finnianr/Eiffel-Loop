@@ -9,7 +9,7 @@ note
 	date: "2019-05-20 13:16:56 GMT (Monday 20th May 2019)"
 	revision: "8"
 
-class
+deferred class
 	EL_MODULE_GUI
 
 inherit

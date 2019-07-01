@@ -9,9 +9,12 @@ note
 	date: "2018-05-19 17:36:21 GMT (Saturday 19th May 2018)"
 	revision: "3"
 
-class
+deferred class
 	AIA_SHARED_REQUEST_MANAGER
 
+inherit
+	EL_ANY_SHARED
+	
 feature -- Access
 
 	Request_manager: AIA_REQUEST_MANAGER

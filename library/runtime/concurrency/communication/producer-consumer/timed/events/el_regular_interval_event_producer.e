@@ -24,9 +24,6 @@ inherit
 		end
 
 	EL_SHARED_THREAD_MANAGER
-		undefine
-			default_create, is_equal, copy
-		end
 
 create
 	make_with_interval, make_with_interval_and_upper_count

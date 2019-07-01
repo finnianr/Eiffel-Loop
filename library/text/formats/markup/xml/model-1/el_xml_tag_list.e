@@ -22,15 +22,12 @@ inherit
 			{ANY} do_all, count, start, item
 		end
 
-	EL_MODULE_XML
-		undefine
-			copy, is_equal
-		end
-
 	EL_SERIALIZEABLE_AS_XML
 		undefine
 			copy, is_equal
 		end
+
+	EL_MODULE_XML
 
 create
 	make, make_empty

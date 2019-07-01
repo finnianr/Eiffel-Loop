@@ -13,7 +13,7 @@ class
 	EL_GVFS_VOLUME
 
 inherit
-	EL_MODULE_DIRECTORY
+	ANY EL_MODULE_DIRECTORY
 
 create
 	make, make_with_volume

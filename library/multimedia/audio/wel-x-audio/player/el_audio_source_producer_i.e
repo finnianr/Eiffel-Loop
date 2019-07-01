@@ -38,7 +38,7 @@ feature -- Basic operations
 			log.exit
 		end
 
-	buffer_audio_from_source (event_listener: EL_AUDIO_PLAYER_EVENT_LISTENER; waiting_player_thread: EL_SUSPENDABLE_THREAD)
+	buffer_audio_from_source (event_listener: EL_AUDIO_PLAYER_EVENT_LISTENER; waiting_player_thread: EL_SUSPENDABLE)
 			--
 		do
 			queue_call_with_args (agent target.buffer_audio_from_source, [event_listener, waiting_player_thread])

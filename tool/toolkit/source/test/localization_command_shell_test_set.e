@@ -16,9 +16,6 @@ inherit
 	EL_TEST_DATA_TEST_SET
 
 	EL_MODULE_LOG
-		undefine
-			default_create
-		end
 
 feature -- Tests
 

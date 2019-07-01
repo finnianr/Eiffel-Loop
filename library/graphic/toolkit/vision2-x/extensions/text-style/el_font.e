@@ -19,14 +19,8 @@ inherit
 		end
 
 	EL_MODULE_SCREEN
-		undefine
-			copy , default_create, is_equal
-		end
 
 	EL_MODULE_STRING_32
-		undefine
-			copy , default_create, is_equal
-		end
 
 create
 	default_create, make_regular, make_bold, make_with_values

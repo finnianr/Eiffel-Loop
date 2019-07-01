@@ -16,9 +16,6 @@ inherit
 	EQA_TEST_SET
 
 	EL_MODULE_TUPLE
-		undefine
-			default_create
-		end
 
 feature -- Test routines
 

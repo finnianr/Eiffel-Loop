@@ -12,6 +12,9 @@ note
 deferred class
 	EL_SHARED_CELL [G]
 
+inherit
+	EL_ANY_SHARED
+
 feature -- Access
 
 	item: G

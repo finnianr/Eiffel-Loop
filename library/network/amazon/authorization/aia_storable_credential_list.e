@@ -38,9 +38,6 @@ inherit
 		end
 
 	EL_MODULE_BUILD_INFO
-		undefine
-			is_equal, copy
-		end
 
 create
 	make

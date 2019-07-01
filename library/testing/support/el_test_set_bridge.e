@@ -12,7 +12,7 @@ note
 	date: "2019-01-20 21:56:36 GMT (Sunday 20th January 2019)"
 	revision: "2"
 
-class
+deferred class
 	EL_TEST_SET_BRIDGE
 
 inherit

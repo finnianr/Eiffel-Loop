@@ -28,9 +28,6 @@ inherit
 		end
 
 	EL_MODULE_FILE_SYSTEM
-		undefine
-			default_create, is_equal, copy
-		end
 
 create
 	make_from_file, default_create

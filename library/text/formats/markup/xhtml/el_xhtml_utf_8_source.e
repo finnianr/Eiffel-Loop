@@ -13,7 +13,7 @@ class
 	EL_XHTML_UTF_8_SOURCE
 
 inherit
-	EL_MODULE_XML
+	ANY EL_MODULE_XML
 
 create
 	make

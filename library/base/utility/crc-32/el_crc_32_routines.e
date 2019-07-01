@@ -13,6 +13,8 @@ class
 	EL_CRC_32_ROUTINES
 
 inherit
+	ANY
+	
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 feature -- Access

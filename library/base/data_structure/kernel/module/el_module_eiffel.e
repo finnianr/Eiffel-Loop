@@ -9,7 +9,7 @@ note
 	date: "2019-02-08 15:19:03 GMT (Friday 8th February 2019)"
 	revision: "7"
 
-class
+deferred class
 	EL_MODULE_EIFFEL
 
 inherit

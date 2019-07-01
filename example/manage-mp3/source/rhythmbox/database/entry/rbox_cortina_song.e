@@ -19,16 +19,9 @@ inherit
 		end
 
 	RHYTHMBOX_CONSTANTS
-		export
-			{NONE} all
-		undefine
-			is_equal
-		end
 
 	EL_MODULE_AUDIO_COMMAND
-		undefine
-			is_equal
-		end
+
 create
 	make
 

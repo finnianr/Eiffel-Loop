@@ -37,20 +37,14 @@ inherit
 			is_equal
 		end
 
-	EL_SHARED_ONCE_STRINGS
+	EL_REFLECTION_HANDLER
 		undefine
 			is_equal
 		end
 
 	EL_MODULE_NAMING
-		undefine
-			is_equal
-		end
 
-	EL_REFLECTION_HANDLER
-		undefine
-			is_equal
-		end
+	EL_SHARED_ONCE_STRINGS
 
 feature {NONE} -- Initialization
 

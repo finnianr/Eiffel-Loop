@@ -58,9 +58,6 @@ inherit
 		end
 
 	EL_MODULE_EIFFEL
-		undefine
-			default_create
-		end
 
 create
 	make

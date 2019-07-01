@@ -43,6 +43,10 @@ system:
 			name = EL_evolicity; location = "evolicity.ecf"
 
 		library:
+			name = EL_text_process; readonly = false
+			location = "text-process.ecf"
+
+		library:
 			name = EL_vtd_xml; location = "vtd-xml.ecf"
 
 		# Source code

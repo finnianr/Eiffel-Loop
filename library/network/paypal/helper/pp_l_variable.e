@@ -23,20 +23,14 @@ inherit
 			is_equal
 		end
 
-	PP_SHARED_L_VARIABLE_ENUM
-		undefine
-			is_equal
-		end
-
 	EL_STRING_8_CONSTANTS
 		undefine
 			is_equal
 		end
 
 	EL_SHARED_ONCE_STRINGS
-		undefine
-			is_equal
-		end
+
+	PP_SHARED_L_VARIABLE_ENUM
 
 create
 	make, make_default

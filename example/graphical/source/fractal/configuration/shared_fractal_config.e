@@ -9,9 +9,12 @@ note
 	date: "2019-05-29 14:10:59 GMT (Wednesday 29th May 2019)"
 	revision: "1"
 
-class
+deferred class
 	SHARED_FRACTAL_CONFIG
 
+inherit
+	EL_ANY_SHARED
+	
 feature {NONE} -- Implementation
 
 	fractal_config: FRACTAL_CONFIG

@@ -25,22 +25,16 @@ inherit
 			set_background_color, append_unexpanded, set_focus
 		end
 
-	EL_MODULE_LOG
-		undefine
-			is_equal, copy, default_create
-		end
-
-	EL_MODULE_GUI
-		undefine
-			is_equal, copy, default_create
-		end
-
 	EV_KEY_CONSTANTS
 		export
 			{NONE} all
 		undefine
 			is_equal, copy, default_create
 		end
+
+	EL_MODULE_LOG
+
+	EL_MODULE_GUI
 
 feature {NONE} -- Initialization
 

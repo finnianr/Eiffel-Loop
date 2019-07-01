@@ -23,7 +23,7 @@ feature {NONE} -- Implementation
 			if not id.is_empty then
 				Value_xpath.set_variable ("id", id)
 			end
-			Result := Rsa.integer_x_from_base64 (root_node.string_at_xpath (Value_xpath.substituted))
+			Result := Rsa.integer_x_from_base_64 (root_node.string_at_xpath (Value_xpath.substituted))
 		end
 
 	value_xpath: EL_STRING_8_TEMPLATE

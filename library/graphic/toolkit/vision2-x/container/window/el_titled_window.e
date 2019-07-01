@@ -23,34 +23,16 @@ inherit
 		end
 
 	EL_WINDOW
-		undefine
-			copy, default_create
-		end
 
 	EL_MODULE_SCREEN
-		undefine
-			copy, default_create
-		end
 
 	EL_MODULE_GUI
-		undefine
-			copy, default_create
-		end
 
 	EL_MODULE_LOG
-		undefine
-			copy, default_create
-		end
 
 	EL_MODULE_LOG_MANAGER
-		undefine
-			copy, default_create
-		end
 
 	EL_SHARED_THREAD_MANAGER
-		undefine
-			copy, default_create
-		end
 
 create
 	make

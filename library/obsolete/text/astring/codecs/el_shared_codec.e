@@ -9,7 +9,7 @@ note
 	date: "2015-12-04 8:21:09 GMT (Friday 4th December 2015)"
 	revision: "1"
 
-class
+deferred class
 	EL_SHARED_CODEC
 
 inherit

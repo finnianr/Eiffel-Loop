@@ -16,7 +16,7 @@ inherit
 	EV_PIXEL_BUFFER_IMP
 		rename
 			draw_text as buffer_draw_text,
-			draw_pixel_buffer as old_draw_pixel_buffer,
+			draw_pixel_buffer as draw_pixel_buffer_at_rectangle,
 			make_with_pixmap as make_pixel_buffer,
 			make_with_size as make_pixel_buffer_with_size,
 			set_with_named_path as set_pixel_buffer_with_named_path,
@@ -35,9 +35,6 @@ inherit
 		end
 
 	EL_MODULE_SYSTEM_FONTS
-		undefine
-			default_create
-		end
 
 create
 	make

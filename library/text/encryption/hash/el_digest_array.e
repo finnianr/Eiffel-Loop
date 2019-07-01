@@ -22,9 +22,6 @@ inherit
 		end
 
 	EL_MODULE_BASE_64
-		undefine
-			is_equal, copy
-		end
 
 create
 	make, make_from_base64, make_md5_128, make_sha_256, make_hmac_sha_256, make_from_integer_x,

@@ -23,9 +23,6 @@ inherit
 		end
 
 	EL_MODULE_DEFERRED_LOCALE
-		undefine
-			default_create, is_equal, copy
-		end
 
 create
 	make, make_long

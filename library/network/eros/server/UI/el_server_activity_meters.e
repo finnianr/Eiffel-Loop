@@ -34,11 +34,6 @@ inherit
 		end
 
 	EL_MODULE_LOG
-		export
-			{NONE} all
-		undefine
-			default_create
-		end
 
 create
 	make

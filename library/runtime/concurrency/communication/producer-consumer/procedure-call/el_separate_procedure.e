@@ -13,10 +13,12 @@ class
 	EL_SEPARATE_PROCEDURE [OPEN_ARGS -> TUPLE create default_create end]
 
 inherit
-	EL_SHARED_THREAD_MANAGER
-		undefine
+	ANY
+		redefine
 			default_create
 		end
+
+	EL_SHARED_THREAD_MANAGER
 
 create
 	make, default_create

@@ -39,30 +39,18 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_URL
-		undefine
-			is_equal, copy
-		end
-
-	EL_MODULE_UTF
-		undefine
-			is_equal, copy
-		end
-
 	EL_ZSTRING_CONSTANTS
 		undefine
 			is_equal, copy
 		end
 
+	EL_MODULE_URL
+
+	EL_MODULE_UTF
+
 	EL_MODULE_LOG
-		undefine
-			is_equal, copy
-		end
 
 	EL_MODULE_DIGEST
-		undefine
-			is_equal, copy
-		end
 
 create
 	make, make_with_name

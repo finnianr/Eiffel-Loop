@@ -11,20 +11,17 @@ note
 
 class
 	EL_BUTTON_PIXMAP
+
 inherit
 	EV_PIXMAP
 
 	EV_BUILDER
 
 	EL_MODULE_SCREEN
-		undefine
-			default_create, is_equal, copy
-		end
 
 	EL_MODULE_GUI
-		undefine
-			default_create, is_equal, copy
-		end
+
+	EL_MODULE_COLOR
 
 create
 	make_from_pixmap
@@ -64,7 +61,7 @@ feature -- Basic operations
 			draw_pixmap (0, 0, pixmap)
 			if is_mouse_over_button then
 				set_line_width (3)
-				set_foreground_color (GUI.Black)
+				set_foreground_color (Color.Black)
 				draw_rectangle (0, 0, width, height)
 			end
 		end

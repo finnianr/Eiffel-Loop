@@ -18,16 +18,6 @@ inherit
 			make as make_box
 		end
 
-	EL_MODULE_GUI
-		undefine
-			is_equal, default_create, copy
-		end
-
-	EL_MODULE_VISION_2
-		undefine
-			is_equal, default_create, copy
-		end
-
 	EL_ZSTRING_CONSTANTS
 		undefine
 			is_equal, default_create, copy
@@ -37,6 +27,10 @@ inherit
 		undefine
 			is_equal, default_create, copy
 		end
+
+	EL_MODULE_GUI
+
+	EL_MODULE_VISION_2
 
 create
 	make

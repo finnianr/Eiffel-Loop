@@ -25,13 +25,6 @@ inherit
 			copy, is_equal
 		end
 
-	EL_SHARED_C_WIDE_CHARACTER_STRING
-		export
-			{NONE} all
-		undefine
-			copy, is_equal
-		end
-
 	EL_IP_ADAPTER_CONSTANTS
 		undefine
 			copy, is_equal
@@ -41,6 +34,8 @@ inherit
 		undefine
 			copy, is_equal
 		end
+
+	EL_SHARED_C_WIDE_CHARACTER_STRING
 
 create
 	make

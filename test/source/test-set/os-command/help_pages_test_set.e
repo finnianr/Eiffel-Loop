@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_EIFFEL_LOOP_TEST_CONSTANTS
-		undefine
-			default_create
-		end
 
 feature {NONE} -- Implementation
 

@@ -18,32 +18,20 @@ inherit
 			make as make_rectangle
 		end
 
-	EL_MODULE_COLOR
-		undefine
-			out
-		end
-
-	EL_MODULE_PIXMAP
-		undefine
-			out
-		end
-
-	EL_MODULE_VISION_2
-		undefine
-			out
-		end
-
-	EL_MODULE_GUI
-		undefine
-			out
-		end
-
 	SD_COLOR_HELPER
 		export
 			{NONE} all
 		undefine
 			out
 		end
+
+	EL_MODULE_COLOR
+
+	EL_MODULE_PIXMAP
+
+	EL_MODULE_VISION_2
+
+	EL_MODULE_GUI
 
 create
 	make

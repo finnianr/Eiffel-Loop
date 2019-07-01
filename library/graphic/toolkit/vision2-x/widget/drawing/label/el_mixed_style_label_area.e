@@ -22,6 +22,8 @@ inherit
 			copy, default_create
 		end
 
+	EL_MODULE_COLOR
+
 create
 	make, make_with_styles
 
@@ -53,7 +55,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			clear
-			set_foreground_color (GUI.Black)
+			set_foreground_color (Color.Black)
 			draw_mixed_style_text_top_left (0, 0, styled_text)
 		end
 end

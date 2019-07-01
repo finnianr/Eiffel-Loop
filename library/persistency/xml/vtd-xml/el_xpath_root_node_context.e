@@ -23,17 +23,14 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_FILE_SYSTEM
-		undefine
-			default_create
-		end
-
 	EXCEPTION_MANAGER
 		export
 			{NONE} all
 		undefine
 			default_create
 		end
+
+	EL_MODULE_FILE_SYSTEM
 
 create
 	default_create, make_from_file, make_from_string, make_from_fragment

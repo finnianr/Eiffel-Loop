@@ -16,9 +16,6 @@ inherit
 	EV_BOX
 
 	EL_MODULE_SCREEN
-		undefine
-			is_equal, default_create, copy
-		end
 
 feature {NONE} -- Initialization
 

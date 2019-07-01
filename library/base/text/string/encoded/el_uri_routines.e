@@ -9,7 +9,7 @@ note
 	date: "2019-01-10 13:52:46 GMT (Thursday 10th January 2019)"
 	revision: "5"
 
-class
+deferred class
 	EL_URI_ROUTINES
 
 inherit

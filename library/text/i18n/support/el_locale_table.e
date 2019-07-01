@@ -22,9 +22,6 @@ inherit
 		end
 
 	EL_SHARED_DIRECTORY
-		undefine
-			is_equal, copy
-		end
 
 create
 	make, make_default

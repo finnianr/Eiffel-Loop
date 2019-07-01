@@ -46,9 +46,6 @@ inherit
 		end
 
 	EL_MODULE_LOG
-		undefine
-			copy, default_create
-		end
 
 create
 	make

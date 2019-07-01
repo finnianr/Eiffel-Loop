@@ -19,14 +19,8 @@ inherit
 		end
 
 	EL_MODULE_COLOR
-		undefine
-			copy , default_create
-		end
 
 	EL_MODULE_KEY
-		undefine
-			copy , default_create
-		end
 
 feature {NONE} -- Initialization
 

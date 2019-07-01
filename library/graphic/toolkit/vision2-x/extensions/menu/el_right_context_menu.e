@@ -16,9 +16,6 @@ inherit
 	EV_MENU
 
 	EL_MODULE_DEFERRED_LOCALE
-		undefine
-			 copy, default_create, is_equal
-		end
 
 create
 	make

@@ -9,10 +9,12 @@ note
 	date: "2015-12-16 7:35:49 GMT (Wednesday 16th December 2015)"
 	revision: "1"
 
-class
+deferred class
 	EL_SHARED_CODEC_FACTORY
 
 inherit
+	EL_ANY_SHARED
+
 	EL_FACTORY_CLIENT
 
 feature {NONE} -- Factory

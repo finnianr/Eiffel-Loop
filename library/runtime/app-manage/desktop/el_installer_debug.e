@@ -9,7 +9,7 @@ note
 	date: "2018-06-20 10:22:00 GMT (Wednesday 20th June 2018)"
 	revision: "2"
 
-class
+deferred class
 	EL_INSTALLER_DEBUG
 
 inherit

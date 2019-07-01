@@ -13,14 +13,13 @@ deferred class
 	FCGI_HTTP_SERVLET
 
 inherit
-	EL_MODULE_LOG
-		export
-			{NONE} all
-		end
+	ANY
 
-	EL_SHARED_DOCUMENT_TYPES
+	EL_MODULE_LOG
 
 	EL_MODULE_HTTP_STATUS
+
+	EL_SHARED_DOCUMENT_TYPES
 
 feature {NONE} -- Initialization
 

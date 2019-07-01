@@ -23,8 +23,6 @@ inherit
 	EL_MODULE_LOG
 		rename
 			Args as Command_args
-		undefine
-			is_equal
 		end
 
 create

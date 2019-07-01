@@ -23,9 +23,6 @@ inherit
 	COMPARABLE
 
 	EL_MODULE_OS
-		undefine
-			is_equal
-		end
 
 create
 	make

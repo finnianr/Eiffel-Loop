@@ -81,7 +81,7 @@ feature -- Basic operations
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT
 			edition_node_list: EL_XPATH_NODE_CONTEXT_LIST
 			edition_node: EL_XPATH_NODE_CONTEXT
-			template: EL_SUBSTITUTION_TEMPLATE [STRING]
+			template: EL_STRING_8_TEMPLATE
 		do
 			if not editions_text.is_empty then
 				create template.make (XML_template)

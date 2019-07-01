@@ -9,7 +9,7 @@ note
 	date: "2018-11-12 18:16:26 GMT (Monday 12th November 2018)"
 	revision: "4"
 
-class
+deferred class
 	EL_MODULE_URI
 
 inherit
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	URI: EL_URI_ROUTINES
+	URI: EL_URI_ROUTINES_IMP
 		once
 			create Result
 		end

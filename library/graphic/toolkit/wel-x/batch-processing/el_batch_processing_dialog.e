@@ -48,11 +48,6 @@ inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
 	EL_SHARED_THREAD_MANAGER
-		export
-			{NONE} all
-		undefine
-			copy, default_create
-		end
 
 feature {NONE} -- Initialization
 

@@ -9,7 +9,7 @@ note
 	date: "2019-03-13 10:26:42 GMT (Wednesday 13th March 2019)"
 	revision: "1"
 
-class
+deferred class
 	EL_MODULE_FORMAT
 
 inherit

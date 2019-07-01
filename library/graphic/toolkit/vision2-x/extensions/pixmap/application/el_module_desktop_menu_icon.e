@@ -9,7 +9,7 @@ note
 	date: "2018-11-12 18:19:04 GMT (Monday 12th November 2018)"
 	revision: "6"
 
-class
+deferred class
 	EL_MODULE_DESKTOP_MENU_ICON
 
 inherit

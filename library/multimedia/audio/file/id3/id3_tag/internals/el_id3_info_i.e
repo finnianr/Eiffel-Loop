@@ -21,9 +21,6 @@ inherit
 		end
 
 	EL_MODULE_TAG
-		undefine
-			default_create
-		end
 
 feature -- Initialization
 

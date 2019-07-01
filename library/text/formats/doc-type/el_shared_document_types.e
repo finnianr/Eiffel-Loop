@@ -9,8 +9,11 @@ note
 	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
 	revision: "7"
 
-class
+deferred class
 	EL_SHARED_DOCUMENT_TYPES
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

@@ -37,26 +37,6 @@ inherit
 			copy
 		end
 
-	EL_MODULE_DIRECTORY
-		undefine
-			is_equal, copy
-		end
-
-	EL_MODULE_LOG
-		undefine
-			is_equal, copy
-		end
-
-	EL_MODULE_UTF
-		undefine
-			is_equal, copy
-		end
-
-	EL_MODULE_XML
-		undefine
-			is_equal, copy
-		end
-
 	EL_ZSTRING_CONSTANTS
 		undefine
 			is_equal, copy
@@ -79,10 +59,15 @@ inherit
 			make_default
 		end
 
+	EL_MODULE_DIRECTORY
+
+	EL_MODULE_LOG
+
+	EL_MODULE_UTF
+
+	EL_MODULE_XML
+
 	EL_SHARED_ONCE_STRINGS
-		undefine
-			is_equal, copy
-		end
 
 create
 	make

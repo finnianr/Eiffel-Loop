@@ -21,22 +21,14 @@ inherit
 		end
 
 	EL_MODULE_EIFFEL
-		undefine
-			copy, is_equal
-		end
 
 	EL_MODULE_LIO
 		rename
 			Lio as Later_lio,
 			new_lio as new_temporary_lio
-		undefine
-			copy, is_equal
 		end
 
 	EL_MODULE_STRING_8
-		undefine
-			copy, is_equal
-		end
 
 create
 	make, make_empty

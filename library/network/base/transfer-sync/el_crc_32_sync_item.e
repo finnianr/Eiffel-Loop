@@ -23,6 +23,8 @@ deferred class
 	EL_CRC_32_SYNC_ITEM
 
 inherit
+	ANY
+	
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 feature {NONE} -- Initialization

@@ -19,9 +19,6 @@ inherit
 	EL_FILE_MANIFEST_LIST
 
 	EL_MODULE_DIRECTORY
-		undefine
-			is_equal, copy
-		end
 
 create
 	make, make_standard

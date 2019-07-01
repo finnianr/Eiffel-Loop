@@ -24,44 +24,6 @@ inherit
 		end
 
 	EL_WINDOW
-		undefine
-			default_create, copy
-		end
-
-	EL_MODULE_COLOR
-		undefine
-			default_create, copy
-		end
-
-	EL_MODULE_GUI
-		undefine
-			default_create, copy
-		end
-
-	EL_MODULE_ICON
-		undefine
-			default_create, copy
-		end
-
-	EL_MODULE_DEFERRED_LOCALE
-		undefine
-			default_create, copy
-		end
-
-	EL_MODULE_SCREEN
-		undefine
-			default_create, copy
-		end
-
-	EL_MODULE_IMAGE
-		undefine
-			default_create, copy
-		end
-
-	EL_MODULE_VISION_2
-		undefine
-			default_create, copy
-		end
 
 	SD_COLOR_HELPER
 		export
@@ -69,6 +31,20 @@ inherit
 		undefine
 			default_create, copy
 		end
+
+	EL_MODULE_COLOR
+
+	EL_MODULE_GUI
+
+	EL_MODULE_ICON
+
+	EL_MODULE_DEFERRED_LOCALE
+
+	EL_MODULE_SCREEN
+
+	EL_MODULE_IMAGE
+
+	EL_MODULE_VISION_2
 
 feature {NONE} -- Initialization
 

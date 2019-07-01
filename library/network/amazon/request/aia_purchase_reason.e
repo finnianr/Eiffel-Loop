@@ -19,9 +19,6 @@ inherit
 		end
 
 	AIA_SHARED_ENUMERATIONS
-		undefine
-			is_equal
-		end
 
 create
 	make, make_default

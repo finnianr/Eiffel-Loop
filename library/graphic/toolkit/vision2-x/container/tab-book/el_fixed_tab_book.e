@@ -31,19 +31,10 @@ inherit
 		end
 
 	EL_MODULE_COLOR
-		undefine
-			 copy, default_create, is_equal
-		end
 
 	EL_MODULE_LOG
-		undefine
-			copy , default_create, is_equal
-		end
 
 	EL_MODULE_EIFFEL
-		undefine
-			copy , default_create, is_equal
-		end
 
 feature {NONE} -- Initialization
 

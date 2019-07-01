@@ -24,8 +24,5 @@ inherit
 	EL_SETTABLE_FROM_ZSTRING
 
 	PP_NAMING_ROUTINES
-		undefine
-			is_equal
-		end
 
 end

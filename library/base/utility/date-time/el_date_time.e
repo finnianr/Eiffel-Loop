@@ -25,14 +25,9 @@ inherit
 	EL_MODULE_TIME
 		rename
 			Time as Mod_time
-		undefine
-			is_equal, copy, out
 		end
 
 	EL_SHARED_ONCE_STRINGS
-		undefine
-			is_equal, copy, out
-		end
 
 create
 	make,

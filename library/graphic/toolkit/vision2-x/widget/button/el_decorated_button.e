@@ -23,24 +23,16 @@ inherit
 			initialize, set_background_color, enable_sensitive, disable_sensitive, is_sensitive
 		end
 
+	EV_BUILDER
+
 	EL_MODULE_GUI
-		undefine
-			default_create, copy
-		end
 
 	EL_MODULE_PIXMAP
 		rename
 			Pixmap as Mod_pixmap
-		undefine
-			default_create, copy
 		end
 
 	EL_MODULE_SCREEN
-		undefine
-			default_create, copy
-		end
-
-	EV_BUILDER
 
 create
 	default_create, make, make_with_action

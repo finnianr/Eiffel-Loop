@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_MODULE_LOG_MANAGER
-		undefine
-			default_create, copy
-		end
 
 feature {NONE} -- Initialization
 

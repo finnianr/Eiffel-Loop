@@ -27,11 +27,6 @@ inherit
 			is_equal, copy
 		end
 
-	EL_MODULE_XML
-		undefine
-			is_equal, copy
-		end
-
 	EL_STRING_8_CONSTANTS
 		undefine
 			is_equal, copy
@@ -46,6 +41,8 @@ inherit
 		undefine
 			is_equal, copy
 		end
+
+	EL_MODULE_XML
 
 create
 	make, make_empty

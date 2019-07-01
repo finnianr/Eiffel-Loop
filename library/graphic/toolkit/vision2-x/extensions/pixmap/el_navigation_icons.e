@@ -9,7 +9,7 @@ note
 	date: "2018-12-21 12:14:04 GMT (Friday 21st December 2018)"
 	revision: "5"
 
-class
+deferred class
 	EL_NAVIGATION_ICONS
 
 inherit

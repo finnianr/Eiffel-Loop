@@ -13,6 +13,8 @@ class
 	EL_FORMATTED_TEXT_BLOCK
 
 inherit
+	ANY
+	
 	EL_MODULE_COLOR
 
 	EL_MODULE_GUI

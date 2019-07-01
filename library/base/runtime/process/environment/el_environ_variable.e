@@ -16,10 +16,12 @@ class
 	EL_ENVIRON_VARIABLE
 
 inherit
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	ANY
 		redefine
 			default_create
 		end
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
 	make, make_from_string, default_create

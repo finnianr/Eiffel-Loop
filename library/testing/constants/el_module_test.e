@@ -9,7 +9,7 @@ note
 	date: "2019-01-13 14:51:10 GMT (Sunday 13th January 2019)"
 	revision: "8"
 
-class
+deferred class
 	EL_MODULE_TEST
 
 inherit

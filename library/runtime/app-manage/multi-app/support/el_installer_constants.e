@@ -9,7 +9,7 @@ note
 	date: "2019-01-25 11:08:54 GMT (Friday 25th January 2019)"
 	revision: "7"
 
-class
+deferred class
 	EL_INSTALLER_CONSTANTS
 
 inherit

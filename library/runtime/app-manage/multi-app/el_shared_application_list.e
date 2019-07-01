@@ -9,8 +9,11 @@ note
 	date: "2019-01-25 11:08:22 GMT (Friday 25th January 2019)"
 	revision: "3"
 
-class
+deferred class
 	EL_SHARED_APPLICATION_LIST
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Implementation
 

@@ -13,6 +13,8 @@ deferred class
 	EL_DOCKED_TAB
 
 inherit
+	ANY
+	
 	EL_MODULE_GUI
 
 feature {NONE} -- Initialization

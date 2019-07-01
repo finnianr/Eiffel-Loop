@@ -21,9 +21,6 @@ inherit
 		end
 
 	EL_WINDOW
-		undefine
-			default_create, copy
-		end
 
 feature {NONE} -- Initialization
 

@@ -15,6 +15,8 @@ deferred class
 	EL_TAB_SHORTCUTS
 
 inherit
+	ANY
+	
 	EL_MODULE_KEY
 
 	EL_MODULE_GUI

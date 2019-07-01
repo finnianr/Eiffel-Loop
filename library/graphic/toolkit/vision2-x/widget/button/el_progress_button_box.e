@@ -25,15 +25,15 @@ inherit
 			copy, default_create, is_equal
 		end
 
-	EL_MODULE_GUI undefine copy, default_create, is_equal end
-
-	EL_MODULE_SCREEN undefine copy, default_create, is_equal end
-
-	EL_MODULE_PIXMAP undefine copy, default_create, is_equal end
-
-	EL_MODULE_SCREEN undefine copy, default_create, is_equal end
-
 	EL_PROGRESS_DISPLAY undefine copy, default_create, is_equal end
+
+	EL_MODULE_GUI
+
+	EL_MODULE_SCREEN
+
+	EL_MODULE_PIXMAP
+
+	EL_MODULE_SCREEN
 
 create
 	make_with_text_and_action, make_with_tick_count

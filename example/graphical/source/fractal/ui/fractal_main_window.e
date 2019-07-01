@@ -21,24 +21,12 @@ inherit
 		end
 
 	EL_MODULE_COLOR
-		undefine
-			copy , default_create
-		end
 
 	EL_MODULE_ICON
-		undefine
-			copy , default_create
-		end
 
 	EL_MODULE_VISION_2
-		undefine
-			copy , default_create
-		end
 
 	SHARED_FRACTAL_CONFIG
-		undefine
-			copy , default_create
-		end
 
 create
 	make

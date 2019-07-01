@@ -13,7 +13,7 @@ class
 	EL_SIMPLE_SERVER [H -> EL_SERVER_COMMAND_HANDLER create make end]
 
 inherit
-	EL_MODULE_LIO
+	ANY EL_MODULE_LIO
 
 create
 	make_local

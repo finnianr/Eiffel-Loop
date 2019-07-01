@@ -26,15 +26,12 @@ inherit
 			make_default, building_action_table
 		end
 
-	EL_MODULE_LIO
-		undefine
-			is_equal, copy, default_create
-		end
-
 	EL_LOCALE_CONSTANTS
 		undefine
 			is_equal, copy, default_create
 		end
+
+	EL_MODULE_LIO
 
 create
 	make, make_from_root_node, make_from_pyxis_source, make_from_pyxis, make_from_list

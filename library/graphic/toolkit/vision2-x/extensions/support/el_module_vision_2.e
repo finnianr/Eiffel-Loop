@@ -9,7 +9,7 @@ note
 	date: "2018-12-21 12:06:12 GMT (Friday 21st December 2018)"
 	revision: "7"
 
-class
+deferred class
 	EL_MODULE_VISION_2
 
 inherit

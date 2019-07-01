@@ -9,9 +9,12 @@ note
 	date: "2017-12-18 6:21:25 GMT (Monday 18th December 2017)"
 	revision: "2"
 
-class
+deferred class
 	AIA_SHARED_ENUMERATIONS
 
+inherit
+	EL_ANY_SHARED
+	
 feature {NONE} -- Constants
 
 	Response_enum: AIA_RESPONSE_ENUM

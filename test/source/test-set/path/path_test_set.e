@@ -16,19 +16,10 @@ inherit
 	EIFFEL_LOOP_TEST_SET
 
 	EL_MODULE_COMMAND
-		undefine
-			default_create
-		end
 
 	EL_MODULE_DIRECTORY
-		undefine
-			default_create
-		end
 
 	EL_MODULE_OS
-		undefine
-			default_create
-		end
 
 feature -- Tests
 

@@ -13,7 +13,7 @@ class
 	EL_PYXIS_XML_ROUTINES
 
 inherit
-	EL_MODULE_FILE_SYSTEM
+	ANY EL_MODULE_FILE_SYSTEM
 
 feature -- Status query
 

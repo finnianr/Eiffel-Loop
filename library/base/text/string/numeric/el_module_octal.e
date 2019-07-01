@@ -9,7 +9,7 @@ note
 	date: "2018-04-02 13:08:36 GMT (Monday 2nd April 2018)"
 	revision: "1"
 
-class
+deferred class
 	EL_MODULE_OCTAL
 
 inherit

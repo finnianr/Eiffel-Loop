@@ -9,7 +9,7 @@ note
 	date: "2018-10-29 12:32:36 GMT (Monday 29th October 2018)"
 	revision: "1"
 
-class
+deferred class
 	EL_MODULE_TUPLE
 
 inherit

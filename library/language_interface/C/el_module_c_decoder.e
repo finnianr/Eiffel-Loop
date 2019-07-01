@@ -9,7 +9,7 @@ note
 	date: "2018-11-12 18:10:14 GMT (Monday 12th November 2018)"
 	revision: "6"
 
-class
+deferred class
 	EL_MODULE_C_DECODER
 
 inherit
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	c_decoder: EL_C_DECODER
+	C_decoder: EL_C_DECODER
 			--
 		once
 			create Result

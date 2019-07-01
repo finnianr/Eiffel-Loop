@@ -9,7 +9,7 @@ note
 	date: "2018-04-05 15:19:10 GMT (Thursday 5th April 2018)"
 	revision: "2"
 
-class
+deferred class
 	EL_MODULE_BINARY
 
 inherit

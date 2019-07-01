@@ -9,8 +9,11 @@ note
 	date: "2019-01-16 0:49:43 GMT (Wednesday 16th January 2019)"
 	revision: "4"
 
-class
+deferred class
 	EL_SHARED_GB_POUND_RATE
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

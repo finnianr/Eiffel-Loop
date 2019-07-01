@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_DRAWABLE
-		undefine
-			is_equal, copy, default_create
-		end
 
 feature {NONE} -- Initialization
 

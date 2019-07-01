@@ -15,6 +15,8 @@ class
 	EL_MAIN_THREAD_PROXY [G]
 
 inherit
+	ANY
+	
 	EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE
 
 create
@@ -23,7 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make (a_target: like target)
-			-- 
+			--
 		do
 			target := a_target
 		end
@@ -37,5 +39,5 @@ feature {NONE} -- Implementation
 		end
 
 	target: G
-	
+
 end

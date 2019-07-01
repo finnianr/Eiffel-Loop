@@ -19,14 +19,8 @@ inherit
 		end
 
 	EL_MODULE_GUI
-		undefine
-			default_create, is_equal, copy
-		end
 
 	EL_MODULE_SCREEN
-		undefine
-			default_create, is_equal, copy
-		end
 
 create
 	default_create, make_with_strings

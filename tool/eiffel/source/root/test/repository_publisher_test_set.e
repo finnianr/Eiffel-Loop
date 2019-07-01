@@ -21,9 +21,6 @@ inherit
 		end
 
 	EL_EIFFEL_LOOP_TEST_CONSTANTS
-		undefine
-			default_create
-		end
 
 	EL_ZSTRING_CONSTANTS
 		undefine
@@ -31,14 +28,8 @@ inherit
 		end
 
 	EL_MODULE_USER_INPUT
-		undefine
-			default_create
-		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-		undefine
-			default_create
-		end
 
 feature -- Tests
 

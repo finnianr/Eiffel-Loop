@@ -9,9 +9,12 @@ note
 	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
 	revision: "7"
 
-class
+deferred class
 	PP_SHARED_L_VARIABLE_ENUM
 
+inherit
+	EL_ANY_SHARED
+	
 feature {NONE} -- Constants
 
 	L_variable: PP_L_VARIABLE_ENUM

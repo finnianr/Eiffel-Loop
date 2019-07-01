@@ -21,24 +21,12 @@ inherit
 	EV_BUILDER
 
 	EL_MODULE_GUI
-		undefine
-			default_create, copy, is_equal
-		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-		undefine
-			default_create, copy, is_equal
-		end
 
 	EL_MODULE_LOG
-		undefine
-			default_create, copy, is_equal
-		end
 
 	EL_MODULE_VISION_2
-		undefine
-			default_create, copy, is_equal
-		end
 
 create
 	make

@@ -62,7 +62,7 @@ feature -- Basic operations
 			log.exit
 		end
 
-	buffer_audio_from_source (event_listener: EL_AUDIO_PLAYER_EVENT_LISTENER; player_waiting_thread: EL_SUSPENDABLE_THREAD)
+	buffer_audio_from_source (event_listener: EL_AUDIO_PLAYER_EVENT_LISTENER; player_waiting_thread: EL_SUSPENDABLE)
 			--
 		local
 			l_source: EL_AUDIO_SAMPLE_SOURCE [SAMPLE_TYPE]

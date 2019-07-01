@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_MODULE_HEXADECIMAL
-		undefine
-			default_create, out, is_equal, copy
-		end
 
 create
 	default_create,

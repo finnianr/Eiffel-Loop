@@ -441,7 +441,7 @@ feature -- Basic operations
 			]"
 		end
 
-	frozen cairo_paint_with_alpha (function, context: POINTER; alpha: INTEGER)
+	frozen cairo_paint_with_alpha (function, context: POINTER; alpha: DOUBLE)
 			-- void cairo_paint_with_alpha (cairo_t *cr, double alpha);
 		external
 			"C inline use <cairo.h>"

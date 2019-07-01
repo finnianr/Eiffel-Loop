@@ -9,7 +9,7 @@ note
 	date: "2019-01-25 11:46:59 GMT (Friday 25th January 2019)"
 	revision: "9"
 
-class
+deferred class
 	EL_MODULE_ARGS
 
 inherit

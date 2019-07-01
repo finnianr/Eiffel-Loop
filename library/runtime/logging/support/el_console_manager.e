@@ -13,12 +13,11 @@ deferred class
 	EL_CONSOLE_MANAGER
 
 inherit
+	ANY
+	
 	EL_MODULE_LOG_MANAGER
 
 	EL_SHARED_THREAD_MANAGER
-		export
-			{NONE} all
-		end
 
 feature {NONE} -- Initialization
 

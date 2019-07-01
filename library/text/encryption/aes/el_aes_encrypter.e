@@ -13,16 +13,6 @@ class
 	EL_AES_ENCRYPTER
 
 inherit
-	EL_MODULE_BASE_64
-		redefine
-			default_create, out
-		end
-
-	EL_MODULE_DIGEST
-		undefine
-			default_create, out
-		end
-
 	EL_AES_CONSTANTS
 		export
 			{ANY} all
@@ -30,10 +20,11 @@ inherit
 			default_create, out
 		end
 
+	EL_MODULE_BASE_64
+
+	EL_MODULE_DIGEST
+
 	EL_MODULE_UTF
-		undefine
-			default_create, out
-		end
 
 create
 	default_create, make, make_from_key, make_from_other

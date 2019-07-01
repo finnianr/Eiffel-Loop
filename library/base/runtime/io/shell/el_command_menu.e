@@ -31,7 +31,7 @@ class
 	EL_COMMAND_MENU
 
 inherit
-	EL_MODULE_LIO
+	ANY EL_MODULE_LIO
 
 create
 	make

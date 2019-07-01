@@ -19,11 +19,6 @@ inherit
 		end
 
 	RHYTHMBOX_CONSTANTS
-		export
-			{NONE} all
-		undefine
-			is_equal, copy
-		end
 
 create
 	make

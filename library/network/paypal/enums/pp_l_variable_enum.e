@@ -22,9 +22,6 @@ inherit
 		end
 
 	PP_NAMING_ROUTINES
-		undefine
-			is_equal
-		end
 
 create
 	make

@@ -13,7 +13,7 @@ class
 	EL_ADAPTER_DEVICE
 
 inherit
-	EL_MODULE_HEXADECIMAL
+	ANY EL_MODULE_HEXADECIMAL
 
 create
 	make

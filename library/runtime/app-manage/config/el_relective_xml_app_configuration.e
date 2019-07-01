@@ -14,9 +14,6 @@ deferred class
 
 inherit
 	EL_APPLICATION_CONFIGURATION
-		undefine
-			is_equal
-		end
 
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
 		export

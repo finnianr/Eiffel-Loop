@@ -20,22 +20,16 @@ inherit
 			getter_function_table, make_default, new_path_list
 		end
 
-	EL_MODULE_LOG
-		undefine
-			is_equal
-		end
-
-	EL_MODULE_DIRECTORY
-		undefine
-			is_equal
-		end
-
 	EL_SINGLE_THREAD_ACCESS
 		undefine
 			is_equal
 		redefine
 			make_default
 		end
+
+	EL_MODULE_LOG
+
+	EL_MODULE_DIRECTORY
 
 create
 	make

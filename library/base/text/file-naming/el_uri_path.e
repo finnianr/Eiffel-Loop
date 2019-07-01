@@ -28,14 +28,9 @@ inherit
 		export
 			{NONE} all
 			{ANY} is_uri_of_type, is_uri_string, Protocol_name, uri_path
-		undefine
-			default_create, out, is_equal, copy
 		end
 
 	EL_MODULE_UTF
-		undefine
-			default_create, out, is_equal, copy
-		end
 
 feature {NONE} -- Initialization
 

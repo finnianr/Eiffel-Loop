@@ -136,11 +136,11 @@ feature {NONE} -- Implementation
 			pixmaps [Normal_svg] := svg_icon (Normal_svg, width_cms)
 
 			final_relative_path_steps := icon_path_steps.twin
-			final_relative_path_steps.put_front (Image_path.Step_icons)
+			final_relative_path_steps.put_front (Image_path.Step.icons)
 			image_dir_path := Directory.Application_installation.joined_dir_steps (final_relative_path_steps)
 
 			create generated_svg_relative_path_steps.make_with_count (icon_path_steps.count + 1)
-			generated_svg_relative_path_steps.extend (Image_path.Step_icons)
+			generated_svg_relative_path_steps.extend (Image_path.Step.icons)
 			generated_svg_relative_path_steps.append (icon_path_steps)
 			generated_svg_image_dir := Directory.App_configuration.joined_dir_steps (
 				generated_svg_relative_path_steps
@@ -160,12 +160,12 @@ feature {NONE} -- Implementation
 				file_highlighted.close; file_clicked.close
 
 			end
-			final_relative_path_steps.force (Highlighted_svg)
+			final_relative_path_steps.extend (Highlighted_svg)
 			pixmaps [Highlighted_svg] := create {like normal}.make_with_width_cms (
 				Directory.App_configuration.joined_file_steps (final_relative_path_steps),
 				width_cms, background_color
 			)
-			final_relative_path_steps.finish; final_relative_path_steps.replace (Depressed_svg)
+			final_relative_path_steps [final_relative_path_steps.count] := Depressed_svg
 			pixmaps [Depressed_svg] := create {like normal}.make_with_width_cms (
 				Directory.App_configuration.joined_file_steps (final_relative_path_steps),
 				width_cms, background_color

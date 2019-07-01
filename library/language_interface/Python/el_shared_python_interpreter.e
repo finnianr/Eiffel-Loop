@@ -9,8 +9,11 @@ note
 	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
 	revision: "5"
 
-class
+deferred class
 	EL_SHARED_PYTHON_INTERPRETER
+
+inherit
+	EL_ANY_SHARED
 
 feature -- Access
 

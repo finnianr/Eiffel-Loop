@@ -24,9 +24,6 @@ inherit
 		end
 
 	EL_MODULE_EIFFEL
-		undefine
-			is_equal, copy
-		end
 
 create
 	make

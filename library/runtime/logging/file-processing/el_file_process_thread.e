@@ -38,13 +38,13 @@ feature -- Basic operations
 	execute
 			--
 		do
-			track_progress (display.new_progress_listener, action, agent do_nothing)
+			track_progress (display.new_file_progress_listener (0), action, agent do_nothing)
 		end
 
 feature {NONE} -- Internal attributes
 
 	display: EL_PROGRESS_DISPLAY
 
-	action: PROCEDURE [ANY, TUPLE]
+	action: PROCEDURE
 
 end

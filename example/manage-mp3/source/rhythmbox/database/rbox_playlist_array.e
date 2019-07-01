@@ -25,17 +25,14 @@ inherit
 			make_default, building_action_table, getter_function_table, build_from_file
 		end
 
-	EL_MODULE_LOG
-		undefine
-			is_equal, copy
-		end
-
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
 			make as make_machine
 		undefine
 			is_equal, copy
 		end
+
+	EL_MODULE_LOG
 
 create
 	make

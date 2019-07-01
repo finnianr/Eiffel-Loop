@@ -13,7 +13,7 @@ class
 	EL_BASE_64_ROUTINES
 
 inherit
-	EL_MODULE_STRING_8
+	ANY EL_MODULE_STRING_8
 
 feature -- Conversion
 

@@ -42,11 +42,6 @@ inherit
 			{ECD_CHAIN} set_area
 		end
 
-	EL_MODULE_BUILD_INFO
-		undefine
-			copy, is_equal
-		end
-
 	STRING_HANDLER
 		undefine
 			copy, is_equal
@@ -58,6 +53,8 @@ inherit
 		undefine
 			copy, is_equal
 		end
+
+	EL_MODULE_BUILD_INFO
 
 create
 	make, make_encrypted

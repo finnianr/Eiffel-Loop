@@ -29,9 +29,6 @@ inherit
 		end
 
 	EL_MODULE_BASE_64
-		undefine
-			is_equal
-		end
 
 create
 	make, make_copy

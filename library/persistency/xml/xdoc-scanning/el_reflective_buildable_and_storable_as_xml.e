@@ -20,7 +20,7 @@ deferred class
 inherit
 	EL_FILE_PERSISTENT
 		undefine
-			is_equal, make_from_file
+			make_from_file
 		end
 
 	EL_BUILDABLE_FROM_XML
@@ -44,9 +44,6 @@ inherit
 		end
 
 	EL_MODULE_XML
-		undefine
-			is_equal
-		end
 
 feature {NONE} -- Initialization
 

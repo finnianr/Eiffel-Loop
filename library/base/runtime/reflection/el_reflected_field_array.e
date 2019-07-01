@@ -20,9 +20,6 @@ inherit
 		end
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
-		undefine
-			is_equal, copy
-		end
 
 create
 	make

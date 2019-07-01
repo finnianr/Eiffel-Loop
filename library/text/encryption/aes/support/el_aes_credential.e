@@ -17,8 +17,6 @@ class
 	EL_AES_CREDENTIAL
 
 inherit
-	EL_MODULE_BASE_64
-
 	UUID_GENERATOR
 		export
 			{NONE} all
@@ -29,6 +27,11 @@ inherit
 			make_default
 		end
 
+	EL_AES_CONSTANTS
+		export
+			{ANY} Bit_sizes
+		end
+
 	EL_MODULE_DEFERRED_LOCALE
 
 	EL_MODULE_USER_INPUT
@@ -37,10 +40,7 @@ inherit
 
 	EL_MODULE_STRING_8
 
-	EL_AES_CONSTANTS
-		export
-			{ANY} Bit_sizes
-		end
+	EL_MODULE_BASE_64
 
 create
 	make, make_default

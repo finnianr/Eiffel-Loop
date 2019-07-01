@@ -20,17 +20,14 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_TAG
-		undefine
-			default_create
-		end
-
 	EL_MEMORY
 		export
 			{NONE} all
 		undefine
 			default_create
 		end
+
+	EL_MODULE_TAG
 
 create
 	make, make_version, make_version_23

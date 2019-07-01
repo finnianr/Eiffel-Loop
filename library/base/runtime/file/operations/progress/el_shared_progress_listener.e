@@ -9,8 +9,11 @@ note
 	date: "2019-06-16 10:41:58 GMT (Sunday 16th June 2019)"
 	revision: "7"
 
-class
+deferred class
 	EL_SHARED_PROGRESS_LISTENER
+
+inherit
+	EL_ANY_SHARED
 
 feature -- Access
 

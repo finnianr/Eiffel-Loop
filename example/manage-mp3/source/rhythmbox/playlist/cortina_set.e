@@ -18,17 +18,12 @@ inherit
 			make as make_string_table
 		end
 
-	EL_MODULE_LOG
-		undefine
-			is_equal, copy, default_create
-		end
-
 	RHYTHMBOX_CONSTANTS
 		export
 			{NONE} all
-		undefine
-			is_equal, copy, default_create
 		end
+
+	EL_MODULE_LOG
 
 create
 	make

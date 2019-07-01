@@ -13,6 +13,8 @@ class
 	AIA_SIGNER
 
 inherit
+	ANY
+	
 	EL_MODULE_DATE
 
 create

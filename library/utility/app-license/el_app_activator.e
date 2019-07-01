@@ -13,6 +13,8 @@ class
 	EL_APP_ACTIVATOR
 
 inherit
+	ANY
+
 	EL_MODULE_BASE_64
 
 	EL_MODULE_ENCRYPTION
@@ -33,7 +35,7 @@ feature {NONE} -- Initiliazation
 		local
 			private_key: EL_RSA_PRIVATE_KEY; user_machine_md5: EL_MD5_128
 		do
-			private_key := RSA.private_key (private_key_path, private_key_encrypter)
+			create private_key.make_from_pkcs1_file (private_key_path, private_key_encrypter)
 
 			create user_machine_md5.make_copy (Machine_id.md5)
 			user_machine_md5.sink_string (registration_name)

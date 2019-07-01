@@ -21,8 +21,6 @@ inherit
 	EL_SHARED_DIRECTORY
 		rename
 			directory as shared_directory
-		undefine
-			default_create, out, is_equal, copy
 		end
 
 create

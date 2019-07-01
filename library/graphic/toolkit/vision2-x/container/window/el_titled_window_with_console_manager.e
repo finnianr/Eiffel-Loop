@@ -26,14 +26,8 @@ inherit
 		end
 
 	EL_MODULE_GUI
-		undefine
-			copy, default_create
-		end
 
 	EL_MODULE_VISION_2
-		undefine
-			copy, default_create
-		end
 
 feature {NONE} -- Initialization
 

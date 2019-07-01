@@ -9,7 +9,7 @@ note
 	date: "2019-06-05 23:38:24 GMT (Wednesday 5th June 2019)"
 	revision: "4"
 
-class
+deferred class
 	MODEL_CONSTANTS
 
 inherit

@@ -30,14 +30,8 @@ inherit
 		end
 
 	EL_MODULE_UTF
-		undefine
-			is_equal, copy, out
-		end
 
 	EL_MODULE_HEXADECIMAL
-		undefine
-			is_equal, copy, out
-		end
 
 feature -- Conversion
 

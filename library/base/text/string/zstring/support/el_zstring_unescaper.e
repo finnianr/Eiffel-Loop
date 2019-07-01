@@ -23,9 +23,6 @@ inherit
 		end
 
 	EL_SHARED_ZCODEC
-		undefine
-			is_equal, copy
-		end
 
 create
 	make

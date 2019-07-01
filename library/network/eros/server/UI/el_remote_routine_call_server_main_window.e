@@ -28,20 +28,11 @@ inherit
 			copy, default_create
 		end
 
-	EL_MODULE_LOG
-		undefine
-			copy , default_create
-		end
-
 	EL_SHARED_THREAD_MANAGER
-		undefine
-			copy , default_create
-		end
 
 	EL_MODULE_ICON
-		undefine
-			copy , default_create
-		end
+
+	EL_MODULE_LOG
 
 create
 	make

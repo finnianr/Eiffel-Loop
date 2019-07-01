@@ -16,9 +16,6 @@ inherit
 	EVOLICITY_NESTED_TEMPLATE_DIRECTIVE
 
 	EL_MODULE_FILE_SYSTEM
-		undefine
-			is_equal, copy
-		end
 
 create
 	make
@@ -33,7 +30,7 @@ feature -- Basic operations
 			if attached {ZSTRING} context.referenced_item (variable_ref) as file_path then
 				create line_source.make_encoded (output, file_path)
 				line_source.enable_shared_item
-				
+
 				if Evolicity_templates.is_nested_output_indented then
 					output.put_indented_lines (tabs, line_source)
 				else

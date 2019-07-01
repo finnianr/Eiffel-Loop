@@ -18,25 +18,16 @@ inherit
 			make
 		end
 
-	EL_MODULE_LOG
-		undefine
-			default_create, copy, is_equal
-		end
-
-	EL_MODULE_GUI
-		undefine
-			default_create, copy, is_equal
-		end
-
-	EL_MODULE_DIRECTORY
-		undefine
-			default_create, copy, is_equal
-		end
-
 	SD_ACCESS
 		undefine
 			default_create, copy, is_equal
 		end
+
+	EL_MODULE_LOG
+
+	EL_MODULE_GUI
+
+	EL_MODULE_DIRECTORY
 
 create
 	make

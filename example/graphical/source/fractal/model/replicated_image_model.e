@@ -21,11 +21,6 @@ inherit
 			make, project
 		end
 
-	MODEL_CONSTANTS
-		undefine
-			default_create
-		end
-
 	EL_ORIENTATION_ROUTINES
 		rename
 			Top_left as Top_left_corner
@@ -33,8 +28,10 @@ inherit
 			default_create
 		end
 
+	MODEL_CONSTANTS
+
 create
-	make, make_satellite, make_default, make_scaled
+	make, make_satellite, make_scaled, default_create
 
 feature {NONE} -- Initialization
 
@@ -56,9 +53,6 @@ feature {NONE} -- Initialization
 		end
 
 	make_scaled (other: like Current; position: EV_COORDINATE; proportion: DOUBLE)
-		local
-			points: like point_array
-			l_width, l_height: DOUBLE
 		do
 			make_from_other (other)
 			scale (proportion)

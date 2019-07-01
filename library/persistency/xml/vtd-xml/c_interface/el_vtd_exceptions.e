@@ -31,9 +31,6 @@ inherit
 		end
 
 	EL_MODULE_LIO
-		undefine
-			out
-		end
 
 create
 	make

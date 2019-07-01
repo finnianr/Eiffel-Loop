@@ -29,20 +29,7 @@ inherit
 			make_default, getter_function_table, Template
 		end
 
-	EL_MODULE_XML
-		undefine
-			is_equal
-		end
-
-	EL_MODULE_LOG
-		undefine
-			is_equal
-		end
-
 	RHYTHMBOX_CONSTANTS
-		undefine
-			is_equal
-		end
 
 	EL_XML_ESCAPING_CONSTANTS
 		undefine
@@ -53,6 +40,10 @@ inherit
 		undefine
 			is_equal
 		end
+
+	EL_MODULE_XML
+
+	EL_MODULE_LOG
 
 create
 	make

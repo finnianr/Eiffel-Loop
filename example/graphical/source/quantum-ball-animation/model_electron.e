@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_MODULE_IMAGE
-		undefine
-			copy , default_create
-		end
 
 create
 	make, default_create

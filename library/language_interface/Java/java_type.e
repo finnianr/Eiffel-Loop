@@ -16,8 +16,6 @@ inherit
 	EL_MODULE_LIO
 		rename
 			Args as Command_args
-		undefine
-			is_equal
 		end
 
 feature {NONE} -- Initialization

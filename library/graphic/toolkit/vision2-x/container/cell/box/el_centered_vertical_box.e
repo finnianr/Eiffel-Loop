@@ -29,9 +29,6 @@ inherit
 		end
 
 	EL_MODULE_GUI
-		undefine
-			default_create, is_equal, copy
-		end
 
 create
 	make, default_create

@@ -9,11 +9,11 @@ note
 	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
 	revision: "4"
 
-class
+deferred class
 	EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE
 
-create
-	default_create
+inherit
+	EL_ANY_SHARED
 
 feature -- Access
 
@@ -38,7 +38,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	main_thread_event_request_queue_cell: CELL [EL_MAIN_THREAD_EVENT_REQUEST_QUEUE]
+	Main_thread_event_request_queue_cell: CELL [EL_MAIN_THREAD_EVENT_REQUEST_QUEUE]
 			--
 		once ("PROCESS")
 			create Result.put (create {EL_DEFAULT_MAIN_THREAD_EVENT_REQUEST_QUEUE})

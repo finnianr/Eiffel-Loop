@@ -13,6 +13,8 @@ class
 	EL_MEDIA_TYPE_CONSTANTS
 
 inherit
+	ANY
+	
 	EL_MODULE_TUPLE
 
 feature {NONE} -- Constants

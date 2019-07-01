@@ -13,22 +13,16 @@ class
 	EL_OBJECT_FACTORY [G]
 
 inherit
-	EL_MODULE_EIFFEL
-		export
-			{NONE} all
+	ANY
 		redefine
 			default_create
 		end
+		
+	EL_MODULE_EIFFEL
 
 	EL_MODULE_EXCEPTION
-		undefine
-			default_create
-		end
 
 	EL_MODULE_NAMING
-		undefine
-			default_create
-		end
 
 create
 	make, make_from_table, default_create

@@ -21,14 +21,8 @@ inherit
 		end
 
 	EL_MODULE_LOG
-		undefine
-			default_create, is_equal, copy
-		end
 
 	EL_MODULE_LOG_MANAGER
-		undefine
-			default_create, is_equal, copy
-		end
 
 create
 	make

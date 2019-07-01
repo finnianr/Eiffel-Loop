@@ -87,7 +87,7 @@ feature -- Access
 	outer_radial_square_coordinates: EL_COORDINATE_ARRAY
 		-- coordinates of square that encloses circle circumscribing `Current'
 		local
-			i: INTEGER; alpha, x_delta, l_radius: DOUBLE
+			i: INTEGER; alpha, l_radius: DOUBLE
 			p_top, p1: EV_COORDINATE
 		do
 			alpha := angle

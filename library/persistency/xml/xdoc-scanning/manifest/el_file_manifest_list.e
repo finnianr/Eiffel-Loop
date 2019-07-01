@@ -28,15 +28,12 @@ inherit
 			make_empty
 		end
 
-	EL_MODULE_CRC_32
-		undefine
-			is_equal, copy
-		end
-
 	EL_ZSTRING_CONSTANTS
 		undefine
 			is_equal, copy
 		end
+
+	EL_MODULE_CRC_32
 
 create
 	make_empty, make_from_template_and_output, make_from_file, make_from_string

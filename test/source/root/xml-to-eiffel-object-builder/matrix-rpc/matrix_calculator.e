@@ -52,9 +52,6 @@ inherit
 		end
 
 	EL_MODULE_LOG
-		undefine
-			copy, is_equal
-		end
 
 create
 	make_from_file, make_from_string

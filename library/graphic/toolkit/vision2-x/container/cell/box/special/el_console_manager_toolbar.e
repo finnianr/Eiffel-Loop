@@ -27,22 +27,7 @@ inherit
 			is_equal, copy
 		end
 
-	EL_MODULE_SCREEN
-		undefine
-			is_equal, copy
-		end
-
-	EL_MODULE_GUI
-		export
-			{NONE} all
-		undefine
-			is_equal, copy
-		end
-
 	EL_NAVIGATION_ICONS
-		undefine
-			is_equal, copy
-		end
 
 	EL_HORIZONTAL_BOX
 		rename
@@ -51,6 +36,10 @@ inherit
 		select
 			make_default_box
 		end
+
+	EL_MODULE_SCREEN
+
+	EL_MODULE_GUI
 
 create
 	make

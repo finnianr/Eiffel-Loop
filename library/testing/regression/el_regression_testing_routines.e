@@ -16,6 +16,11 @@ class
 	EL_REGRESSION_TESTING_ROUTINES
 
 inherit
+	EL_ZSTRING_CONSTANTS
+		rename
+			Empty_string as Empty_pattern
+		end
+
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_OS
@@ -23,11 +28,6 @@ inherit
 	EL_MODULE_LOG
 
 	EL_MODULE_OS
-
-	EL_ZSTRING_CONSTANTS
-		rename
-			Empty_string as Empty_pattern
-		end
 
 create
 	make

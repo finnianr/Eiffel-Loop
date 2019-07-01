@@ -22,9 +22,6 @@ inherit
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-		undefine
-			is_equal, copy
-		end
 
 create
 	make

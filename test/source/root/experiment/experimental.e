@@ -13,6 +13,8 @@ class
 	EXPERIMENTAL
 
 inherit
+	ANY
+	
 	EL_MODULE_COMMAND
 
 	EL_MODULE_LIO

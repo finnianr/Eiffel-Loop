@@ -28,9 +28,6 @@ inherit
 		end
 
 	EL_SHARED_ONCE_STRINGS
-		undefine
-			default_create
-		end
 
 create
 	default_create

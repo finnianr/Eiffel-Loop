@@ -23,13 +23,6 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
-	EL_MODULE_FILE_SYSTEM
-		export
-			{NONE} all
-		undefine
-			is_equal, default_create, out, copy
-		end
-
 	EL_PATH_CONSTANTS
 		export
 			{NONE} all
@@ -45,17 +38,19 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
-	EL_MODULE_DIRECTORY undefine is_equal, default_create, out, copy end
-
-	EL_MODULE_FORMAT undefine is_equal, default_create, out, copy end
-
 	STRING_HANDLER undefine is_equal, default_create, out, copy end
 
 	EL_ZSTRING_CONSTANTS undefine is_equal, default_create, out, copy end
 
-	EL_SHARED_ONCE_STRINGS undefine is_equal, default_create, out, copy end
-
 	EL_ZSTRING_ROUTINES undefine is_equal, default_create, out, copy end
+
+	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_DIRECTORY
+
+	EL_MODULE_FORMAT
+
+	EL_SHARED_ONCE_STRINGS
 
 feature {NONE} -- Initialization
 
@@ -610,6 +605,8 @@ feature -- Removal
 	wipe_out
 		do
 			default_create
+		ensure
+			is_empty: is_empty
 		end
 
 feature -- Conversion

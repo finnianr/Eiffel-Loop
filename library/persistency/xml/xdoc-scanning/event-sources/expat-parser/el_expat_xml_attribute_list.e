@@ -34,11 +34,6 @@ inherit
 		end
 
 	EL_MODULE_C_DECODER
-		export
-			{NONE} all
-		undefine
-			copy, is_equal
-		end
 
 	EL_POINTER_ROUTINES
 		export

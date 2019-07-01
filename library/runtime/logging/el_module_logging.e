@@ -9,7 +9,7 @@ note
 	date: "2018-11-12 18:14:06 GMT (Monday 12th November 2018)"
 	revision: "8"
 
-class
+deferred class
 	EL_MODULE_LOGGING
 
 inherit

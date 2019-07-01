@@ -21,9 +21,6 @@ inherit
 		end
 
 	EL_MODULE_EVOLICITY_TEMPLATES
-		undefine
-			is_equal, copy
-		end
 
 feature -- Initialization
 

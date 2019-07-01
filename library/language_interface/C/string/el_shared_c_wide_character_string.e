@@ -9,10 +9,13 @@ note
 	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
 	revision: "5"
 
-class
+deferred class
 	EL_SHARED_C_WIDE_CHARACTER_STRING
 
-feature -- Access
+inherit
+	EL_ANY_SHARED
+
+feature {NONE} -- Implementation
 
 	wide_string (a_native_string: POINTER): EL_C_WIDE_CHARACTER_STRING
 		do

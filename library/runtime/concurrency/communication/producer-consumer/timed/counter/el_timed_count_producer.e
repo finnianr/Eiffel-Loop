@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_SHARED_THREAD_MANAGER
-		undefine
-			default_create, is_equal, copy
-		end
 
 create
 	make

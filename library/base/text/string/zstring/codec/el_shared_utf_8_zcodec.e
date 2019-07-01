@@ -9,8 +9,11 @@ note
 	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
 	revision: "3"
 
-class
+deferred class
 	EL_SHARED_UTF_8_ZCODEC
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

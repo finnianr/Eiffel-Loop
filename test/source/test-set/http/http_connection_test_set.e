@@ -18,20 +18,11 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 
+	EL_EIFFEL_LOOP_TEST_CONSTANTS
+
 	EL_MODULE_WEB
-		undefine
-			default_create
-		end
 
 	EL_MODULE_HTML
-		undefine
-			default_create
-		end
-
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
-		undefine
-			default_create
-		end
 
 feature -- Test routines
 

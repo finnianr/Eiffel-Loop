@@ -26,9 +26,6 @@ inherit
 		end
 
 	EL_EIFFEL_LOOP_TEST_CONSTANTS
-		undefine
-			default_create
-		end
 
 	NOTE_CONSTANTS
 		undefine
@@ -40,25 +37,13 @@ inherit
 			default_create
 		end
 
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
-		undefine
-			default_create
-		end
-
 	EL_MODULE_COLON_FIELD
-		undefine
-			default_create
-		end
 
 	EL_MODULE_USER_INPUT
-		undefine
-			default_create
-		end
 
 	EL_MODULE_TIME
-		undefine
-			default_create
-		end
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 feature -- Tests
 

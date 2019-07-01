@@ -24,9 +24,6 @@ inherit
 		end
 
 	EL_MODULE_FILE_SYSTEM
-		undefine
-			is_equal, copy
-		end
 
 create
 	make, make_empty, make_with_count, make_from_array, make_from_tuple

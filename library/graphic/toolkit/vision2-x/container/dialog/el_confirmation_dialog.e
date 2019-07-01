@@ -27,14 +27,8 @@ inherit
 		end
 
 	EL_WINDOW
-		undefine
-			default_create, copy
-		end
 
 	EL_MODULE_DEFERRED_LOCALE
-		undefine
-			default_create, copy
-		end
 
 create
 	default_create,

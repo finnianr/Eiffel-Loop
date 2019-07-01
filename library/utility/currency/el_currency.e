@@ -25,22 +25,16 @@ inherit
 			is_equal
 		end
 
-	EL_MODULE_DEFERRED_LOCALE
-		undefine
-			is_equal
-		end
-
-	EL_SHARED_CURRENCY_ENUM
-		undefine
-			is_equal
-		end
-
 	EL_INTEGER_MATH
 		export
 			{NONE} all
 		undefine
 			is_equal
 		end
+
+	EL_MODULE_DEFERRED_LOCALE
+
+	EL_SHARED_CURRENCY_ENUM
 
 create
 	make

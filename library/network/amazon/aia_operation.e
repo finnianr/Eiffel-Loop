@@ -16,6 +16,8 @@ class
 	AIA_OPERATION
 
 inherit
+	ANY
+	
 	EL_MODULE_NAMING
 
 create

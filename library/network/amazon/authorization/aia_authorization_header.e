@@ -26,20 +26,14 @@ inherit
 			make_default as make
 		end
 
-	EL_SHARED_ONCE_STRINGS
-		undefine
-			is_equal
-		end
-
 	EL_STRING_8_CONSTANTS
 		undefine
 			is_equal
 		end
 
 	EL_MODULE_DIGEST
-		undefine
-			is_equal
-		end
+
+	EL_SHARED_ONCE_STRINGS
 
 create
 	make, make_from_string, make_signed

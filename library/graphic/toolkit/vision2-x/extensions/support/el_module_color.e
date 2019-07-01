@@ -12,7 +12,7 @@ note
 	date: "2019-05-24 15:33:16 GMT (Friday 24th May 2019)"
 	revision: "9"
 
-class
+deferred class
 	EL_MODULE_COLOR
 
 inherit

@@ -15,9 +15,9 @@ deferred class
 inherit
 	EL_FILE_PERSISTENT_I
 
-	EL_MODULE_DIRECTORY undefine is_equal end
+	EL_SHARED_APPLICATION_OPTION_NAME
 
-	EL_SHARED_APPLICATION_OPTION_NAME undefine is_equal end
+	EL_MODULE_DIRECTORY
 
 feature {NONE} -- Initialization
 

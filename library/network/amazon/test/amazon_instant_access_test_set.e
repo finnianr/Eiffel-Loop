@@ -21,31 +21,17 @@ inherit
 		end
 
 	EL_MODULE_STRING_8
-		undefine
-			default_create
-		end
 
 	EL_MODULE_EIFFEL
-		undefine
-			default_create
-		end
 
 	AIA_SHARED_CREDENTIAL_LIST
-		undefine
-			default_create
 		redefine
 			credentials_file_path
 		end
 
 	AIA_SHARED_REQUEST_MANAGER
-		undefine
-			default_create
-		end
 
 	AIA_SHARED_ENUMERATIONS
-		undefine
-			default_create
-		end
 
 feature -- Account Linking
 

@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_MODULE_SCREEN
-		undefine
-			default_create, copy, is_equal
-		end
 
 create
 	make

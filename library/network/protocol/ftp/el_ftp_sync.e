@@ -19,6 +19,8 @@ class
 	EL_FTP_SYNC
 
 inherit
+	ANY
+	
 	EL_MODULE_LIO
 
 	EL_MODULE_EXCEPTION

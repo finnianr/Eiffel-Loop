@@ -9,7 +9,13 @@ note
 	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
 	revision: "4"
 
-class
+deferred class
 	EL_MODULE
+
+inherit
+	ANY
+		undefine
+			copy, default_create, is_equal, out
+		end
 
 end

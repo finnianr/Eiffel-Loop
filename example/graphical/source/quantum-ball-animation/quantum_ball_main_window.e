@@ -18,25 +18,16 @@ inherit
 			 initialize, prepare_to_show
 		end
 
-	EL_MODULE_COLOR
-		undefine
-			copy , default_create
-		end
-
-	EL_MODULE_LOG
-		undefine
-			copy , default_create
-		end
-
-	EL_MODULE_ICON
-		undefine
-			copy , default_create
-		end
-
 	EL_THREAD_DEVELOPER_CLASS
 		undefine
 			copy , default_create
 		end
+
+	EL_MODULE_COLOR
+
+	EL_MODULE_LOG
+
+	EL_MODULE_ICON
 
 create
 	make

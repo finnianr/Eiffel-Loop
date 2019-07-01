@@ -15,17 +15,16 @@ class
 inherit
 	EV_BUTTON
 
+	EV_BUILDER
+
 	EL_MODULE_GUI
-		undefine
-			default_create, copy
+
+	EL_MODULE_PIXMAP
+		rename
+			Pixmap as Mod_pixmap
 		end
 
 	EL_MODULE_SCREEN
-		undefine
-			default_create, copy
-		end
-
-	EV_BUILDER
 
 create
 	make, make_with_pixmap_and_action
@@ -95,7 +94,7 @@ feature {NONE} -- Event handlers
 	on_pointer_enter
 			--
 		do
-			set_pointer_style (GUI.Hyperlink_cursor)
+			set_pointer_style (Mod_pixmap.Hyperlink_cursor)
 			is_cursor_over := True
 --			background_color_at_start := background_color
 --			set_background_color (GUI.Red)
@@ -104,7 +103,7 @@ feature {NONE} -- Event handlers
 	on_pointer_leave
 			--
 		do
-			set_pointer_style (GUI.Standard_cursor)
+			set_pointer_style (Mod_pixmap.Standard_cursor)
 			is_cursor_over := False
 --			set_background_color (background_color_at_start)
 		end

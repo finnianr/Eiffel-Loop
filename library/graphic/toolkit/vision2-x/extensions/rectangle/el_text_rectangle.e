@@ -39,20 +39,14 @@ inherit
 			out
 		end
 
-	EL_MODULE_LOG
-		undefine
-			out
-		end
-
-	EL_MODULE_GUI
-		undefine
-			out
-		end
-
 	EL_ZSTRING_CONSTANTS
 		undefine
 			out
 		end
+
+	EL_MODULE_LOG
+
+	EL_MODULE_GUI
 
 create
 	make_cms, make, make_from_rectangle

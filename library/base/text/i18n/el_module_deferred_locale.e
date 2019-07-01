@@ -12,7 +12,7 @@ note
 	date: "2018-02-21 17:07:22 GMT (Wednesday 21st February 2018)"
 	revision: "2"
 
-class
+deferred class
 	EL_MODULE_DEFERRED_LOCALE
 
 inherit

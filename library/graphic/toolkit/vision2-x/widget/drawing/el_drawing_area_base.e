@@ -19,14 +19,8 @@ inherit
 		end
 
 	EL_DRAWABLE
-		undefine
-			default_create, copy
-		end
 
 	EL_MODULE_STRING_32
-		undefine
-			default_create, copy
-		end
 
 feature -- Access
 

@@ -35,9 +35,6 @@ inherit
 		end
 
 	EL_MODULE_LOG
-		undefine
-			copy, is_equal
-		end
 
 create
 	make

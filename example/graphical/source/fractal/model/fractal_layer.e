@@ -19,9 +19,6 @@ inherit
 		end
 
 	SHARED_FRACTAL_CONFIG
-		undefine
-			copy, is_equal
-		end
 
 create
 	make, make_first

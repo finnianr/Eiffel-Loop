@@ -19,9 +19,6 @@ inherit
 		end
 
 	PP_SHARED_PAYMENT_PENDING_REASON_ENUM
-		undefine
-			is_equal
-		end
 
 create
 	make, make_default

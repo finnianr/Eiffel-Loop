@@ -13,6 +13,8 @@ class
 	EL_FTP_WEBSITE_2
 
 inherit
+	ANY
+	
 	EL_MODULE_LIO
 
 	EL_MODULE_USER_INPUT

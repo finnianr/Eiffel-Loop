@@ -9,7 +9,7 @@ note
 	date: "2018-11-12 18:16:36 GMT (Monday 12th November 2018)"
 	revision: "7"
 
-class
+deferred class
 	EL_MODULE_SCREEN
 
 inherit

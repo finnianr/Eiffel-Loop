@@ -19,9 +19,6 @@ inherit
 		end
 
 	PP_SHARED_L_VARIABLE_ENUM
-		undefine
-			is_equal
-		end
 
 create
 	make_default, make

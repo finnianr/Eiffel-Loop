@@ -13,6 +13,8 @@ class
 	EL_COMMAND_SHELL
 
 inherit
+	ANY
+
 	EL_COMMAND_SHELL_I
 		rename
 			new_command_table as command_table

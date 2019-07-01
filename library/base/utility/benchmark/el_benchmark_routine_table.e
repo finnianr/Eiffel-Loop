@@ -21,9 +21,6 @@ inherit
 		end
 
 	EL_MODULE_LIO
-		undefine
-			is_equal, copy, default_create
-		end
 
 create
 	make

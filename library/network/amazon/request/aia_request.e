@@ -39,9 +39,6 @@ inherit
 		end
 
 	AIA_SHARED_ENUMERATIONS
-		undefine
-			is_equal
-		end
 
 feature {NONE} -- Initialization
 

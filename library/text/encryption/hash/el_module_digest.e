@@ -9,7 +9,7 @@ note
 	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
 	revision: "3"
 
-class
+deferred class
 	EL_MODULE_DIGEST
 
 inherit

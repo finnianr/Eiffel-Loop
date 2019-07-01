@@ -30,19 +30,10 @@ inherit
 		end
 
 	EL_MODULE_LIO
-		undefine
-			default_create
-		end
 
 	EL_MODULE_USER_INPUT
-		undefine
-			default_create
-		end
 
 	EL_MODULE_EXCEPTION
-		undefine
-			default_create
-		end
 
 feature {EL_MODULE_EIFFEL} -- Initialization
 

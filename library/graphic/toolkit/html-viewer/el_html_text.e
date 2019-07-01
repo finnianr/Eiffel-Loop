@@ -61,19 +61,10 @@ inherit
 		end
 
 	EL_MODULE_GUI
-		undefine
-			default_create, copy
-		end
 
 	EL_MODULE_SCREEN
-		undefine
-			default_create, copy
-		end
 
 	EL_MODULE_FILE_SYSTEM
-		undefine
-			default_create, copy
-		end
 
 create
 	make

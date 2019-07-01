@@ -20,14 +20,8 @@ inherit
 		end
 
 	EL_MODULE_GUI
-		undefine
-			is_equal, copy, default_create
-		end
 
 	EL_MODULE_SCREEN
-		undefine
-			is_equal, copy, default_create
-		end
 
 create
 	default_create, make_with_text_and_widget, make_with_text, make
