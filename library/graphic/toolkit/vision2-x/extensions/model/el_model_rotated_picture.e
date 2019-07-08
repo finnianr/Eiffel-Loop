@@ -67,12 +67,22 @@ feature -- Status query
 
 	border_drawing: EL_BOOLEAN_OPTION
 
+	is_mirrored_x: BOOLEAN
+
+	is_mirrored_y: BOOLEAN
+
 feature -- Transformation
 
 	mirror (axis: CHARACTER)
 		require
 			valid_axis: is_valid_axis (axis)
 		do
+			inspect axis
+				when X_axis then
+					is_mirrored_x := not is_mirrored_x
+				when Y_axis then
+					is_mirrored_y := not is_mirrored_y
+			else end
 			create pixel_buffer.make_mirrored (pixel_buffer, axis)
 		end
 

@@ -96,17 +96,18 @@ feature -- Access
 
 feature -- Element change
 
-	set_command_line_options (option_list: ITERABLE [READABLE_STRING_GENERAL])
-			-- set list of command options prepending a hyphen to each
+	set_command_line_options (options: ITERABLE [READABLE_STRING_GENERAL])
+			-- set `command_line_options' from `options' prepending a hyphen to each except if the option is a place holder
+		local
+			option_list: EL_ZSTRING_LIST
 		do
-			command_line_options.wipe_out
+			create option_list.make_from_general (options)
 			across option_list as option loop
-				if not command_line_options.is_empty then
-					command_line_options.append_character (' ')
+				if not (option.item.count > 0 and then option.item [1] = '%%') then
+					option.item.prepend_character ('-')
 				end
-				command_line_options.append_character ('-')
-				command_line_options.append_string_general (option.item)
 			end
+			command_line_options.share (option_list.joined_words)
 		end
 
 feature {NONE} -- Evolicity implementation

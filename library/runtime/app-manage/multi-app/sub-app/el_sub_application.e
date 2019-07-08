@@ -78,10 +78,22 @@ feature -- Access
 		deferred
 		end
 
+	default_option_name: STRING
+		-- lower case generator with `_app*' removed from tail
+		local
+			words: LIST [STRING]
+		do
+			Result := generator.as_lower
+			words := Result.split ('_')
+			if words.last.starts_with ("app") then
+				Result.remove_tail (words.last.count + 1)
+			end
+		end
+
 	option_name: READABLE_STRING_GENERAL
 			-- Command option name
 		do
-			Result := generator.as_lower
+			Result := default_option_name
 		end
 
 	options_help: EL_SUB_APPLICATION_HELP_LIST

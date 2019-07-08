@@ -1,5 +1,5 @@
 note
-	description: "Shared instance ancestor"
+	description: "Ancestor for classes that primarly provide access to a shared instance of a class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

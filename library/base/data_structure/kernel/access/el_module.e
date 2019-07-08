@@ -1,5 +1,8 @@
 note
-	description: "Module"
+	description: "[
+		Ancestor for classes that provide access to a shared instance of a stateless class that is primarly
+		intended to house some category of routines.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -13,9 +16,6 @@ deferred class
 	EL_MODULE
 
 inherit
-	ANY
-		undefine
-			copy, default_create, is_equal, out
-		end
+	EL_ANY_SHARED
 
 end

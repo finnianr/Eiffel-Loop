@@ -58,7 +58,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			Result := building_actions_for_type (({ANY}), Attribute_node)
+			Result := building_actions_for_type (({ANY}), element_node_type)
 		end
 
 	element_node_type: INTEGER

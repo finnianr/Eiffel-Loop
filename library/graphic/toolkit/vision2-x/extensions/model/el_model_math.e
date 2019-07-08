@@ -24,7 +24,7 @@ feature {NONE} -- Implementation
 
 	degrees (a_radians: DOUBLE): INTEGER
 		do
-			Result := (360 * a_radians / (2 * Pi)).rounded
+			Result := (360 * a_radians / (2 * Pi)).rounded \\ 360
 		end
 
 	corner_angle (corner: INTEGER): DOUBLE

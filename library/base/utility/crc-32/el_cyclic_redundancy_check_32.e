@@ -59,6 +59,18 @@ feature -- Element change
 			add_array ($n, 1, {PLATFORM}.Integer_32_bytes)
 		end
 
+	add_real_32 (real: REAL)
+			--
+		do
+			add_array ($real, 1, {PLATFORM}.Real_32_bits)
+		end
+
+	add_real_64 (real: DOUBLE)
+			--
+		do
+			add_array ($real, 1, {PLATFORM}.Real_64_bits)
+		end
+
 	add_path (path: EL_PATH)
 			--
 		do

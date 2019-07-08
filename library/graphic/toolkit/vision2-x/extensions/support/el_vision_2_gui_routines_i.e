@@ -134,6 +134,11 @@ feature -- Basic operations
 			a_components.do_all (agent {EV_COLORIZABLE}.set_foreground_color (a_color))
 		end
 
+	block_all (actions: ARRAY [ACTION_SEQUENCE [TUPLE]])
+		do
+			actions.do_all (agent {ACTION_SEQUENCE [TUPLE]}.block)
+		end
+
 	do_later (a_action: PROCEDURE; millisecs_interval: INTEGER_32)
 		local
 			timer: EV_TIMEOUT
@@ -188,6 +193,11 @@ feature -- Basic operations
 		do
 			a_widget.refresh_now
 			application.process_graphical_events
+		end
+
+	resume_all (actions: ARRAY [ACTION_SEQUENCE [TUPLE]])
+		do
+			actions.do_all (agent {ACTION_SEQUENCE [TUPLE]}.resume)
 		end
 
 	set_selection (widget: EV_SELECTABLE; is_selected: BOOLEAN)
