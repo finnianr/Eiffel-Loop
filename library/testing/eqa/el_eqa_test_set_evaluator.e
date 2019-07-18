@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-27 14:04:29 GMT (Wednesday 27th February 2019)"
-	revision: "6"
+	date: "2019-07-01 9:40:54 GMT (Monday 1st July 2019)"
+	revision: "7"
 
 deferred class
 	EL_EQA_TEST_SET_EVALUATOR [G -> EQA_TEST_SET create default_create end]

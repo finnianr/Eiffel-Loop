@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-12 10:51:46 GMT (Wednesday 12th June 2019)"
-	revision: "21"
+	date: "2019-07-17 7:37:58 GMT (Wednesday 17th July 2019)"
+	revision: "22"
 
 class
 	EL_REFLECTOR_CONSTANTS
@@ -60,11 +60,6 @@ feature {EL_REFLECTION_HANDLER} -- Constants
 			Result := ({EL_PATH}).type_id
 		end
 
-	frozen Boolean_ref_type: INTEGER_32
-		once
-			Result := ({EL_BOOLEAN_REF}).type_id
-		end
-
 	frozen Date_time_type: INTEGER_32
 		once
 			Result := ({DATE_TIME}).type_id
@@ -115,6 +110,14 @@ feature {EL_REFLECTION_HANDLER} -- Collection types
 
 feature {EL_REFLECTION_HANDLER} -- Reference types
 
+	frozen Boolean_ref_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_BOOLEAN_REF, BOOLEAN_REF]
+		once
+			create Result.make (<<
+				[EL_boolean_ref_type, {EL_REFLECTED_BOOLEAN_REF}],
+				[EL_boolean_option_type, {EL_REFLECTED_BOOLEAN_REF}]
+			>>)
+		end
+
 	frozen Makeable_from_string_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [
 		EL_REFLECTED_MAKEABLE_FROM_STRING [EL_MAKEABLE_FROM_STRING_GENERAL], EL_MAKEABLE_FROM_STRING_GENERAL
 	]
@@ -129,7 +132,6 @@ feature {EL_REFLECTION_HANDLER} -- Reference types
 	frozen String_convertable_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY], ANY]
 		once
 			create Result.make (<<
-				[Boolean_ref_type,	{EL_REFLECTED_BOOLEAN_REF}],
 				[Date_time_type,		{EL_REFLECTED_DATE_TIME}],
 				[Path_type,				{EL_REFLECTED_PATH}],
 				[Tuple_type,			{EL_REFLECTED_TUPLE}]
@@ -150,6 +152,23 @@ feature {EL_REFLECTION_HANDLER} -- Reference types
 	frozen Storable_type_table: EL_REFLECTED_STORABLE_REFERENCE_TYPE_TABLE
 		once
 			create Result.make
+		end
+
+feature {EL_REFLECTION_HANDLER} -- Boolean types
+
+	frozen Boolean_ref_type: INTEGER
+		once
+			Result := ({BOOLEAN_REF}).type_id
+		end
+
+	frozen EL_boolean_option_type: INTEGER
+		once
+			Result := ({EL_BOOLEAN_OPTION}).type_id
+		end
+
+	frozen EL_boolean_ref_type: INTEGER
+		once
+			Result := ({EL_BOOLEAN_REF}).type_id
 		end
 
 feature {EL_REFLECTION_HANDLER} -- String types

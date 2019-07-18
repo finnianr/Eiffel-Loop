@@ -6,26 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:03:09 GMT (Friday 25th January 2019)"
-	revision: "1"
+	date: "2019-07-18 18:35:55 GMT (Thursday 18th July 2019)"
+	revision: "2"
 
 deferred class
-	EL_SHARED_APPLICATION_OPTION_NAME
+	EL_SHARED_SUB_APPLICATION
 
 inherit
 	EL_ANY_SHARED
 
-feature {NONE} -- Implementation
-
-	new_application_option_name: READABLE_STRING_GENERAL
-		do
-			Result := ""
-		end
-
 feature {NONE} -- Constants
 
-	Application_option_name: ZSTRING
+	Sub_application: EL_SUB_APPLICATION
 		once
-			create Result.make_from_general (new_application_option_name)
+			if attached {EL_SUB_APPLICATION} Current as l_result then
+				Result := l_result
+			else
+				create {EL_VERSION_APP} Result
+			end
 		end
 end

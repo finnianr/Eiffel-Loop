@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-29 14:10:59 GMT (Wednesday 29th May 2019)"
-	revision: "1"
+	date: "2019-07-01 11:06:57 GMT (Monday 1st July 2019)"
+	revision: "2"
 
 deferred class
 	SHARED_FRACTAL_CONFIG

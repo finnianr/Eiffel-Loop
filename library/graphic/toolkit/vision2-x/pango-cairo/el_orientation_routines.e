@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-13 8:43:05 GMT (Thursday 13th June 2019)"
-	revision: "5"
+	date: "2019-07-18 9:18:54 GMT (Thursday 18th July 2019)"
+	revision: "6"
 
 class
 	EL_ORIENTATION_ROUTINES
@@ -62,11 +62,11 @@ feature {NONE} -- Directions
 
 	By_width: INTEGER = 2
 
-feature {NONE} -- Four sides
+feature {NONE} -- Four sides/directions
 
-	All_sides: ARRAY [INTEGER]
+	All_sides, All_directions: ARRAY [INTEGER]
 		once
-			Result := << Left, Top, Bottom, Right >>
+			Result := << Left, Bottom, Right, Top >>
 		end
 
 	Bottom: INTEGER = 4

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-22 13:14:08 GMT (Sunday 22nd April 2018)"
-	revision: "3"
+	date: "2019-07-01 16:46:14 GMT (Monday 1st July 2019)"
+	revision: "4"
 
 class
 	EL_APPLICATION_INSTALLER_WINDOW [INSTALLER_TYPE -> EL_APPLICATION_INSTALLER create make end]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-27 9:46:20 GMT (Sunday 27th May 2018)"
-	revision: "3"
+	date: "2019-07-01 10:49:03 GMT (Monday 1st July 2019)"
+	revision: "4"
 
 class
 	AIA_STORABLE_CREDENTIAL_LIST

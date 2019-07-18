@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-24 7:35:18 GMT (Monday 24th June 2019)"
-	revision: "12"
+	date: "2019-07-15 10:48:29 GMT (Monday 15th July 2019)"
+	revision: "13"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -60,6 +60,8 @@ inherit
 	EL_MODULE_UTF
 
 	EL_MODULE_GUI
+
+	EL_MODULE_ZSTRING
 
 	EL_SHARED_CAIRO_API
 
@@ -385,13 +387,15 @@ feature -- Basic operations
 			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		local
 			actual_width, required_width: INTEGER
+			l_text: READABLE_STRING_GENERAL
 		do
 			set_antialias_best
 			Cairo.move_to (cairo_ctx, x, y)
-			set_layout_text (a_text)
+			l_text := Zstring.to_unicode_general (a_text)
+			set_layout_text (l_text)
 
 			-- horizontal scaling to fit required width
-			actual_width := layout_text_width; required_width := font.string_width (a_text)
+			actual_width := layout_text_width; required_width := font.string_width (l_text)
 
 --			Commented out these lines to fix badly aligned shadow text on button (5/9/2014)
 
@@ -713,12 +717,13 @@ feature {NONE} -- Implementation
 
 	set_layout_text (a_text: READABLE_STRING_GENERAL)
 		local
-			utf8_text: STRING
+			utf8_text: STRING; l_text: READABLE_STRING_GENERAL
 		do
+			l_text := Zstring.to_unicode_general (a_text)
 			utf8_text := empty_once_string_8
-			UTF.utf_32_string_into_utf_8_string_8 (a_text, utf8_text)
+			UTF.utf_32_string_into_utf_8_string_8 (l_text, utf8_text)
 			Pango.set_layout_text (pango_layout, utf8_text.area.base_address, utf8_text.count)
-			adjust_pango_font (font.string_width (a_text))
+			adjust_pango_font (font.string_width (l_text))
 		end
 
 	set_layout_text_font (a_font: EL_PANGO_FONT)

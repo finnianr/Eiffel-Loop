@@ -6,13 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-23 12:39:10 GMT (Saturday 23rd February 2019)"
-	revision: "11"
+	date: "2019-07-15 10:20:37 GMT (Monday 15th July 2019)"
+	revision: "12"
 
 class
 	EL_ZSTRING_ROUTINES
 
 feature {EL_MODULE_ZSTRING} -- Conversion
+
+	to_unicode_general (general: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
+		do
+			if attached {ZSTRING} general as zstr then
+				Result := zstr.to_string_32
+			else
+				Result := general
+			end
+		end
 
 	as_zstring, to (general: READABLE_STRING_GENERAL): ZSTRING
 		do

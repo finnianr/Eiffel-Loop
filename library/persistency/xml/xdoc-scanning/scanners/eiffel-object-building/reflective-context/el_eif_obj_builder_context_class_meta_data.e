@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 10:20:53 GMT (Tuesday 11th June 2019)"
-	revision: "4"
+	date: "2019-07-17 7:06:20 GMT (Wednesday 17th July 2019)"
+	revision: "5"
 
 class
 	EL_EIF_OBJ_BUILDER_CONTEXT_CLASS_META_DATA
@@ -29,6 +29,7 @@ feature {NONE} -- Constants
 		once
 			Result := <<
 				String_type_table,
+				Boolean_ref_type_table,
 				Makeable_from_string_type_table,
 				String_convertable_type_table,
 				Eif_obj_builder_type_table,

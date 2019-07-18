@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-20 14:05:36 GMT (Monday 20th May 2019)"
-	revision: "7"
+	date: "2019-07-01 12:23:30 GMT (Monday 1st July 2019)"
+	revision: "8"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]

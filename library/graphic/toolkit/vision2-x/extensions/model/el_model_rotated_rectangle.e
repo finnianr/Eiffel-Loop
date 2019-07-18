@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-30 13:40:07 GMT (Thursday 30th May 2019)"
-	revision: "4"
+	date: "2019-07-18 9:10:17 GMT (Thursday 18th July 2019)"
+	revision: "5"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -52,6 +52,28 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	center_line_points (axis: CHARACTER): EL_COORDINATE_ARRAY
+		do
+			create Result.make (2)
+			if not is_center_valid then
+				set_center
+			end
+			inspect axis
+				when 'X' then
+					set_point_on_circle (Result.p0, center, angle, width_precise / 2)
+					set_point_on_circle (Result.p1, center, angle + radians (180), width_precise / 2)
+
+				when 'Y' then
+					set_point_on_circle (Result.p0, center, angle - radians (90), height_precise / 2)
+					set_point_on_circle (Result.p1, center, angle + radians (90), height_precise / 2)
+			else end
+		end
+
+	coordinate_array: EL_COORDINATE_ARRAY
+		do
+			Result := point_array
+		end
+
 	height_precise: DOUBLE
 			-- The `height' of the parallelogram.
 		local
@@ -66,6 +88,27 @@ feature -- Access
 			height_positive: height >= Result.zero
 		end
 
+	outer_radial_square_coordinates: EL_COORDINATE_ARRAY
+		-- coordinates of square that encloses circle circumscribing `Current'
+		local
+			i: INTEGER; alpha, l_radius: DOUBLE
+			p_top: EV_COORDINATE
+		do
+			alpha := angle
+			p_top := point_on_circle (center, alpha - radians (90), radius)
+			l_radius := point_distance (center, point_on_circle (p_top, alpha, radius))
+			create Result.make (4)
+			from i := 0 until i = 4 loop
+				set_point_on_circle (Result.item (i), center, corner_angle (All_corners [i + 1]), l_radius)
+				i := i + 1
+			end
+		end
+
+	point_angle (p: EV_COORDINATE): DOUBLE
+		do
+			Result := line_angle (p.x_precise, p.y_precise, center.x_precise, center.y_precise)
+		end
+
 	radius: DOUBLE
 		do
 			Result := point_distance (center, point_array.item (0))
@@ -77,28 +120,6 @@ feature -- Access
 			Result := point_distance (point_array.item (0), point_array.item (1))
 		ensure
 			width_positive: width >= Result.zero
-		end
-
-	coordinate_array: EL_COORDINATE_ARRAY
-		do
-			Result := point_array
-		end
-
-	outer_radial_square_coordinates: EL_COORDINATE_ARRAY
-		-- coordinates of square that encloses circle circumscribing `Current'
-		local
-			i: INTEGER; alpha, l_radius: DOUBLE
-			p_top, p1: EV_COORDINATE
-		do
-			alpha := angle
-			p_top := point_on_circle (center, alpha - radians (90), radius)
-			p1 := point_on_circle (p_top, alpha, radius)
-			l_radius := point_distance (center, p1)
-			create Result.make (4)
-			from i := 0 until i = 4 loop
-				Result [i] := point_on_circle (center, corner_angle (All_corners [i + 1]), l_radius)
-				i := i + 1
-			end
 		end
 
 feature -- Basic operations
@@ -141,6 +162,29 @@ feature -- Basic operations
 			set_x_y_precise (other.center)
 		end
 
+	rotate_around_other (a_angle: DOUBLE; other: EL_MODEL_ROTATED_RECTANGLE)
+			-- Rotate around center of `other' rectangle by `a_angle'.
+		do
+			rotate_around_point (a_angle, other.center)
+		ensure
+			center_valid: is_center_valid
+		end
+
+	rotate_around_point (an_angle: DOUBLE; point: EV_COORDINATE)
+			-- Rotate around (`ax', `ay') for `an_angle'.
+		do
+			if not is_center_valid then
+				set_center
+			end
+			projection_matrix.rotate (an_angle, point.x_precise, point.y_precise)
+			recursive_transform (projection_matrix)
+			is_center_valid := True
+		ensure
+			center_valid: is_center_valid
+		end
+
+feature -- Element change
+
 	set_x_y_precise (a_center: EV_COORDINATE)
 		local
 			a_delta_y, a_delta_x: DOUBLE; i, nb: INTEGER
@@ -168,17 +212,10 @@ feature -- Basic operations
 			end
 		end
 
-	rotate_around_other (a_angle: DOUBLE; other: EL_MODEL_ROTATED_RECTANGLE)
-			-- Rotate around center of `other' rectangle by `a_angle'.
-		require
-			is_rotatable: is_rotatable
+	set_points (other: EL_MODEL_ROTATED_RECTANGLE)
 		do
-			projection_matrix.rotate (a_angle, other.center.x_precise, other.center.y_precise)
-			recursive_transform (projection_matrix)
+			other.coordinate_array.copy_to (point_array)
 			set_center
-			is_center_valid := True
-		ensure
-			center_valid: is_center_valid
 		end
 
 end

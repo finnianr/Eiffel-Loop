@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:38:33 GMT (Friday 18th January 2019)"
-	revision: "7"
+	date: "2019-07-01 10:04:10 GMT (Monday 1st July 2019)"
+	revision: "8"
 
 class
 	DJ_EVENT_PLAYLIST

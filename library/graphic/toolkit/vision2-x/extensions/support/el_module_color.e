@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-24 15:33:16 GMT (Friday 24th May 2019)"
-	revision: "9"
+	date: "2019-07-01 9:24:02 GMT (Monday 1st July 2019)"
+	revision: "10"
 
 deferred class
 	EL_MODULE_COLOR

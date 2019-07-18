@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-07-15 10:25:41 GMT (Monday 15th July 2019)"
+	revision: "5"
 
 class
 	EL_FRAME [B -> EL_BOX create make end]
@@ -22,6 +22,8 @@ inherit
 	EL_MODULE_GUI
 
 	EL_MODULE_SCREEN
+
+	EL_MODULE_ZSTRING
 
 create
 	default_create, make_with_text_and_widget, make_with_text, make
@@ -40,7 +42,7 @@ feature {NONE} -- Initialization
 		do
 			make (a_border_cms, a_padding_cms)
 			if not a_text.is_empty then
-				set_text (" [ " + a_text + " ] ")
+				set_text (Zstring.to_unicode_general (" [ " + a_text + " ] "))
 			end
 		end
 

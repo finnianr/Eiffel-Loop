@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-07-04 11:33:03 GMT (Wednesday 4th July 2018)"
-	revision: "5"
+	date: "2019-07-01 14:18:15 GMT (Monday 1st July 2019)"
+	revision: "6"
 
 deferred class
 	EL_BATCH_PROCESSING_DIALOG [G]

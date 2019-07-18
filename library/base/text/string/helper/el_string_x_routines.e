@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-11 12:16:53 GMT (Friday 11th January 2019)"
-	revision: "14"
+	date: "2019-07-13 11:39:26 GMT (Saturday 13th July 2019)"
+	revision: "15"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -269,6 +269,18 @@ feature -- Transformation
 					target.append_code (c.natural_32_code)
 				end
 				i := i + 1
+			end
+		end
+
+	truncated (str: S; max_count: INTEGER): S
+		-- return `str' truncated to `max_count' characters, adding ellipsis where necessary
+		do
+			if str.count <= max_count then
+				Result := str
+			else
+				Result := str.substring (1, max_count - 2)
+				str.append_code ({ASCII}.Dot.to_natural_32)
+				str.append_code ({ASCII}.Dot.to_natural_32)
 			end
 		end
 

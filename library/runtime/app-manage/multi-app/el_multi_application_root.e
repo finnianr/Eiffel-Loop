@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:03:17 GMT (Friday 25th January 2019)"
-	revision: "8"
+	date: "2019-07-18 15:34:16 GMT (Thursday 18th July 2019)"
+	revision: "9"
 
 deferred class
 	-- Generic to make sure scons generated `BUILD_INFO' is compiled from project source
@@ -22,20 +22,17 @@ deferred class
 
 inherit
 	ANY
-	
+
 	EL_MODULE_ARGS
 
 	EL_MODULE_ENVIRONMENT
-
-	EL_SHARED_APPLICATION_LIST
-		redefine
-			new_application_list
-		end
 
 feature {NONE} -- Initialization
 
 	make
 			--
+		local
+			list: EL_SUB_APPLICATION_LIST
 		do
 			if not Args.has_silent then
 				-- Force console creation. Needed to set `{EL_EXECUTION_ENVIRONMENT_I}.last_codepage'
@@ -48,14 +45,16 @@ feature {NONE} -- Initialization
 			-- Must be called before current_working_directory changes
 			if Environment.Execution.Executable_path.is_file then
 			end
-			Application_list.launch (Args.option_name (1))
+			create list.make (application_types, select_first)
+			list.extend (create {EL_VERSION_APP})
+			list.launch (Args.option_name (1))
 --				Environment.Execution.restore_last_code_page
 --				FOR WINDOWS
 --				If the original code page is not restored after changing to 65001 (utf-8)
 --				this could effect subsequent programs that run in the same shell.
 --				Python for example might give a "LookupError: unknown encoding: cp65001" error.
 
-			Application_list.make_empty
+			list.make_empty
 				-- Causes a crash on some multi-threaded applications
 			{MEMORY}.full_collect
 		end
@@ -65,12 +64,6 @@ feature {NONE} -- Implementation
 	application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
 			--
 		deferred
-		end
-
-	new_application_list: EL_SUB_APPLICATION_LIST
-		do
-			create Result.make (application_types, select_first)
-			Result.extend (create {EL_VERSION_APP})
 		end
 
 	select_first: BOOLEAN

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 8:03:11 GMT (Friday 21st December 2018)"
-	revision: "4"
+	date: "2019-07-01 12:49:11 GMT (Monday 1st July 2019)"
+	revision: "5"
 
 class
 	EL_TAB_BOOK [B -> {EL_BOX} create make end]

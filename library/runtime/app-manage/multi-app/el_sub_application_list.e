@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:08:26 GMT (Friday 25th January 2019)"
-	revision: "6"
+	date: "2019-07-18 15:32:55 GMT (Thursday 18th July 2019)"
+	revision: "7"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -30,13 +30,16 @@ inherit
 
 	EL_MODULE_STRING_8
 
+	EL_SHARED_APPLICATION_LIST
+
 create
-	make, make_empty
+	make
 
 feature {NONE} -- Initialization
 
 	make (types: ARRAY [TYPE [EL_SUB_APPLICATION]]; a_select_first: BOOLEAN)
 		do
+			check_singleton (Application_list)
 			make_list (types.count)
 			select_first := a_select_first
 			create installable_list.make (5)

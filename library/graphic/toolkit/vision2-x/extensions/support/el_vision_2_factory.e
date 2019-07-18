@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-13 9:04:50 GMT (Thursday 13th June 2019)"
-	revision: "10"
+	date: "2019-07-14 14:16:11 GMT (Sunday 14th July 2019)"
+	revision: "11"
 
 class
 	EL_VISION_2_FACTORY
@@ -84,7 +84,7 @@ feature -- Factory
 		end
 
 	new_horizontal_framed_box (
-		inner_border_cms, a_padding_cms: REAL; a_text: STRING; a_widgets: ARRAY [EV_WIDGET]
+		inner_border_cms, a_padding_cms: REAL; a_text: READABLE_STRING_GENERAL; a_widgets: ARRAY [EV_WIDGET]
 	): EL_FRAME [EL_HORIZONTAL_BOX]
 			--
 		do
@@ -148,7 +148,7 @@ feature -- Factory
 		end
 
 	new_vertical_framed_box (
-		inner_border_cms, a_padding_cms: REAL; a_text: STRING; a_widgets: ARRAY [EV_WIDGET]
+		inner_border_cms, a_padding_cms: REAL; a_text: READABLE_STRING_GENERAL; a_widgets: ARRAY [EV_WIDGET]
 	): EL_FRAME [EL_VERTICAL_BOX]
 			--
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-27 18:14:12 GMT (Thursday 27th December 2018)"
-	revision: "29"
+	date: "2019-07-15 10:17:03 GMT (Monday 15th July 2019)"
+	revision: "30"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -1324,19 +1324,22 @@ feature -- Conversion
 	to_string_8, to_latin_1, as_string_8: STRING
 			-- encoded as ISO-8859-1
 		local
-			i, l_count: INTEGER; c: CHARACTER
-			l_area: like area; l_result_area: like to_latin_1.area
+			i, l_count: INTEGER; l_unicode: CHARACTER_32
+			l_area: SPECIAL [CHARACTER_32]; l_result_area: like to_latin_1.area
+			str_32: STRING_32
 		do
 			if Codec.is_latin_id (1) then
 				Result := to_latin_string_8
 			else
 				l_count := count
 				create Result.make_filled (Unencoded_character, l_count)
-				l_area := area; l_result_area := Result.area
+				str_32 := empty_once_string_32
+				append_to_string_32 (str_32)
+				l_area := str_32.area; l_result_area := Result.area
 				from i := 0  until i = l_count loop
-					c := l_area [i]
-					if c /= Unencoded_character then
-						l_result_area [i] := codec.as_unicode_character (c).to_character_8
+					l_unicode := l_area [i]
+					if l_unicode.natural_32_code <= 0xFF then
+						l_result_area [i] := l_unicode.to_character_8
 					end
 					i := i + 1
 				end

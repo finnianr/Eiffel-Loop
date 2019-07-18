@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-17 7:19:53 GMT (Monday 17th June 2019)"
-	revision: "5"
+	date: "2019-07-13 10:11:46 GMT (Saturday 13th July 2019)"
+	revision: "6"
 
 class
 	EL_TITLED_WINDOW
@@ -39,6 +39,12 @@ create
 
 feature {EL_VISION2_USER_INTERFACE} -- Initialization
 
+	initialize
+		do
+			Precursor
+			create keyboard_shortcuts.make (Current)
+		end
+
 	make
 		do
 			default_create
@@ -47,12 +53,6 @@ feature {EL_VISION2_USER_INTERFACE} -- Initialization
 --			show_actions.extend_kamikaze (agent on_initial_show)
 
 --			GUI.do_once_on_idle (agent on_initial_show)
-		end
-
-	initialize
-		do
-			Precursor
-			create keyboard_shortcuts.make (Current)
 		end
 
 	prepare_to_show
@@ -113,10 +113,25 @@ feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Implementation
 			close_request_actions.extend (agent on_close_request)
 		end
 
+	set_standard_menu_bar
+		do
+			set_menu_bar (create {EV_MENU_BAR})
+		end
+
+feature {NONE} -- Internal attributes
+
 	implementation: EL_TITLED_WINDOW_I
 			-- Responsible for interaction with native graphics toolkit.
 
 feature {NONE} -- Implementation
+
+	create_implementation
+			-- Responsible for interaction with native graphics toolkit.
+		do
+			create {EL_TITLED_WINDOW_IMP} implementation.make
+		end
+
+	thread_check_timer: EV_TIMEOUT
 
 	try_close_application
 		local
@@ -130,22 +145,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	thread_check_timer: EV_TIMEOUT
-
-	create_implementation
-			-- Responsible for interaction with native graphics toolkit.
-		do
-			create {EL_TITLED_WINDOW_IMP} implementation.make
-		end
-
 feature {NONE} -- Constants
-
-	Thread_status_update_interval_ms: INTEGER = 200
-		-- Interval between checking that all threads are stopped
 
 	Active_thread_title_template: ZSTRING
 		once
 			Result := "SHUTTING DOWN (Active threads: %S)"
 		end
+
+	Thread_status_update_interval_ms: INTEGER = 200
+		-- Interval between checking that all threads are stopped
 
 end

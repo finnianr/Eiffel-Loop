@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-06 9:04:15 GMT (Thursday 6th June 2019)"
-	revision: "5"
+	date: "2019-07-01 11:20:17 GMT (Monday 1st July 2019)"
+	revision: "6"
 
 class
 	MODULE_CRC_32_TEST_SET

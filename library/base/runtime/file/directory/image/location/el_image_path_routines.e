@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-13 15:27:38 GMT (Sunday 13th January 2019)"
-	revision: "6"
+	date: "2019-07-01 9:24:27 GMT (Monday 1st July 2019)"
+	revision: "7"
 
 class
 	EL_IMAGE_PATH_ROUTINES

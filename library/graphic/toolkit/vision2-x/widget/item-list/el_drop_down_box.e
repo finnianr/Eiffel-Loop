@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-05 17:20:23 GMT (Tuesday 5th February 2019)"
-	revision: "5"
+	date: "2019-07-15 10:32:58 GMT (Monday 15th July 2019)"
+	revision: "6"
 
 class
 	EL_DROP_DOWN_BOX [G]
@@ -41,6 +41,8 @@ inherit
 		undefine
 			is_equal, default_create, copy
 		end
+
+	EL_MODULE_ZSTRING
 
 create
 	default_create, make, make_unadjusted, make_sorted, make_unadjusted_sorted
@@ -103,7 +105,7 @@ feature -- Element change
 
 	set_value (a_value: G)
 		do
-			set_text (displayed_value (a_value).to_unicode)
+			set_text (Zstring.to_unicode_general (displayed_value (a_value)))
 		end
 
 	select_initial_item (a_index: INTEGER)

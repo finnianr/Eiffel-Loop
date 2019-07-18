@@ -7,19 +7,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-11 10:56:28 GMT (Monday 11th February 2019)"
-	revision: "26"
+	date: "2019-07-18 18:32:52 GMT (Thursday 18th July 2019)"
+	revision: "27"
 
 deferred class
 	EL_SUB_APPLICATION
 
 inherit
-	EL_SHARED_APPLICATION_OPTION_NAME
-		rename
-			new_application_option_name as new_option_name
-		undefine
-			new_option_name
-		end
+	EL_SHARED_SUB_APPLICATION
 
 	EL_MODULE_BUILD_INFO
 
@@ -54,10 +49,11 @@ feature {EL_SUB_APPLICATION_LIST} -- Initialization
 		local
 			boolean: BOOLEAN_REF
 		do
+			call (Sub_application)
+
 			create options_help.make (11)
 			create argument_errors.make (0)
 			Exception.catch ({EXCEP_CONST}.Signal_exception)
-			call (Application_option_name)
 
 			create boolean
 			across standard_options as option loop

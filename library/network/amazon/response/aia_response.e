@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-09 15:29:45 GMT (Wednesday 9th May 2018)"
-	revision: "6"
+	date: "2019-07-01 11:16:58 GMT (Monday 1st July 2019)"
+	revision: "7"
 
 class
 	AIA_RESPONSE

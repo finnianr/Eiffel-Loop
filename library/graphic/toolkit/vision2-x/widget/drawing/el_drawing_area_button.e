@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-20 13:44:32 GMT (Monday 20th May 2019)"
-	revision: "6"
+	date: "2019-07-15 10:43:57 GMT (Monday 15th July 2019)"
+	revision: "7"
 
 class
 	EL_DRAWING_AREA_BUTTON
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 			drawing_area.pointer_button_release_actions.extend (agent on_pointer_button_release)
 			drawing_area.pointer_motion_actions.extend (agent on_pointer_motion)
 
-			create tool_tip.make_empty
+			create {STRING} tool_tip.make_empty
 			create timer
 		end
 
@@ -157,9 +157,7 @@ feature {NONE} -- Implementation
 
 	draw_tooltip (drawable_buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		local
-			text_rect: EL_RECTANGLE
-			l_font: EL_FONT
-			position: EV_COORDINATE
+			text_rect: EL_RECTANGLE; l_font: EL_FONT; position: EV_COORDINATE
 		do
 			l_font := Vision_2.new_font_regular ("", 0.35)
 			position := drawing_area.pointer_position
@@ -178,7 +176,7 @@ feature {NONE} -- Implementation
 
 			drawable_buffer.set_font (l_font)
 			drawable_buffer.set_color (Color.Black)
-			drawable_buffer.draw_text_top_left (text_rect.x + l_font.descent, text_rect.y, tool_tip.to_unicode)
+			drawable_buffer.draw_text_top_left (text_rect.x + l_font.descent, text_rect.y, tool_tip)
 		end
 
 	drawing_area: EL_DRAWING_AREA_BASE
@@ -189,7 +187,7 @@ feature {NONE} -- Implementation
 
 	image_set: EL_DRAWABLE_PIXEL_BUFFER_SET
 
-	tool_tip: ZSTRING
+	tool_tip: READABLE_STRING_GENERAL
 
 	timer: EV_TIMEOUT
 

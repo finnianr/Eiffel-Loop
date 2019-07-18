@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:00 GMT (Thursday 12th October 2017)"
-	revision: "6"
+	date: "2019-07-01 11:34:54 GMT (Monday 1st July 2019)"
+	revision: "7"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER

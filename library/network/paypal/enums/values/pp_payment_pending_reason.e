@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-24 9:27:18 GMT (Tuesday 24th April 2018)"
-	revision: "3"
+	date: "2019-07-01 11:04:10 GMT (Monday 1st July 2019)"
+	revision: "4"
 
 class
 	PP_PAYMENT_PENDING_REASON

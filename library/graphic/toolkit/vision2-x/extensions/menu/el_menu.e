@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-17 16:56:46 GMT (Sunday 17th February 2019)"
-	revision: "6"
+	date: "2019-07-13 10:09:52 GMT (Saturday 13th July 2019)"
+	revision: "7"
 
 deferred class
 	EL_MENU
@@ -34,6 +34,8 @@ inherit
 feature {NONE} -- Initialization
 
 	make (a_window: like window)
+		require
+			has_menu_bar: attached a_window.menu_bar
 		do
 			window := a_window
 			create internal_menu.make_with_container_at_position (container, agent new_menu, position)

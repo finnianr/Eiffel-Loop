@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-12 15:33:27 GMT (Wednesday 12th June 2019)"
-	revision: "3"
+	date: "2019-07-18 15:51:06 GMT (Thursday 18th July 2019)"
+	revision: "4"
 
 deferred class
 	EL_APPLICATION_CONFIGURATION
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_FILE_PERSISTENT_I
 
-	EL_SHARED_APPLICATION_OPTION_NAME
+	EL_SHARED_SUB_APPLICATION
 
 	EL_MODULE_DIRECTORY
 
@@ -75,8 +75,8 @@ feature {NONE} -- Constants
 	User_dir: EL_DIR_PATH
 		once
 			Result := Directory.App_configuration.twin
-			if not Application_option_name.is_empty then
-				Result.append_step (Application_option_name)
+			if not Sub_application.option_name.is_empty then
+				Result.append_step (Sub_application.option_name)
 			end
 		end
 

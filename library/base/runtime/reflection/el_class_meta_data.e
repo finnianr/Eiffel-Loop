@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 10:20:18 GMT (Tuesday 11th June 2019)"
-	revision: "13"
+	date: "2019-07-17 6:50:08 GMT (Wednesday 17th July 2019)"
+	revision: "14"
 
 class
 	EL_CLASS_META_DATA
@@ -221,6 +221,7 @@ feature {NONE} -- Constants
 		once
 			Result := <<
 				String_type_table,
+				Boolean_ref_type_table,
 				Makeable_from_string_type_table,
 				String_convertable_type_table,
 				String_collection_type_table,

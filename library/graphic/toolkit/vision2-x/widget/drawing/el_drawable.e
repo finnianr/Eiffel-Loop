@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-20 13:22:15 GMT (Monday 20th May 2019)"
-	revision: "6"
+	date: "2019-07-15 10:37:58 GMT (Monday 15th July 2019)"
+	revision: "7"
 
 deferred class
 	EL_DRAWABLE
@@ -16,6 +16,8 @@ inherit
 	EL_MODULE_GUI
 
 	EL_MODULE_COLOR
+
+	EL_MODULE_ZSTRING
 
 feature -- Drawing operations
 
@@ -31,7 +33,7 @@ feature -- Drawing operations
 			draw_text_top_left (x + offset, y + offset, a_text)
 
 			set_foreground_color (l_color)
-			draw_text_top_left (x, y, a_text)
+			draw_text_top_left (x, y, Zstring.to_unicode_general (a_text))
 		end
 
 	draw_raised_rectangle (x, y, a_width, a_height: INTEGER; a_color: EV_COLOR)
@@ -89,7 +91,7 @@ feature -- Drawing operations
 			centered_rect.move_center (rect)
 			centered_rect.set_y (centered_rect.y - font.descent // 2)
 
-			draw_text_top_left (centered_rect.x, centered_rect.y, a_text)
+			draw_text_top_left (centered_rect.x, centered_rect.y, Zstring.to_unicode_general (a_text))
 		end
 
 	draw_pixel_buffer (x, y: INTEGER; a_pixels: EV_PIXEL_BUFFER)
@@ -192,7 +194,7 @@ feature -- EV_DRAWABLE routines
 			-- Rotation is number of radians counter-clockwise from horizontal plane.
 		do
 			if attached {EV_DRAWABLE_IMP} implementation as imp then
-				imp.draw_rotated_text (x, y, angle, a_text)
+				imp.draw_rotated_text (x, y, angle, Zstring.to_unicode_general (a_text))
 			end
 		end
 

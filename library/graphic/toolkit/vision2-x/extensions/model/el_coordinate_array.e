@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-05 11:15:17 GMT (Wednesday 5th June 2019)"
-	revision: "3"
+	date: "2019-07-18 9:08:16 GMT (Thursday 18th July 2019)"
+	revision: "4"
 
 class
 	EL_COORDINATE_ARRAY
@@ -34,8 +34,14 @@ convert
 feature {NONE} -- Initialization
 
 	make (n: INTEGER)
+		local
+			i: INTEGER
 		do
 			make_filled (create {EV_COORDINATE}, 0, n - 1)
+			from i := 1 until i = n loop
+				put (create {EV_COORDINATE}, i)
+				i := i + 1
+			end
 		end
 
 	make_from_area (a: SPECIAL [EV_COORDINATE])
@@ -45,14 +51,42 @@ feature {NONE} -- Initialization
 			upper := a.count - 1
 		end
 
-	make_square (p0: EV_COORDINATE; angle, width: DOUBLE)
+	make_square (a_p0: EV_COORDINATE; angle, width: DOUBLE)
 
 		do
 			make (4)
-			put (p0, 0)
-			put (point_on_circle (p0, angle, width), 1)
-			put (point_on_circle (item (1), angle + radians (90), width), 2)
-			put (point_on_circle (item (2), angle + radians (180), width), 3)
+			p0.copy (a_p0)
+			set_point_on_circle (p1, a_p0, angle, width)
+			set_point_on_circle (p2, p1, angle + radians (90), width)
+			set_point_on_circle (p3, p2, angle + radians (180), width)
+		end
+
+feature -- Access
+
+	p0: EV_COORDINATE
+		do
+			Result := item (0)
+		end
+
+	p1: EV_COORDINATE
+		require
+			valid_index: valid_index (1)
+		do
+			Result := item (1)
+		end
+
+	p2: EV_COORDINATE
+		require
+			valid_index: valid_index (2)
+		do
+			Result := item (2)
+		end
+
+	p3: EV_COORDINATE
+		require
+			valid_index: valid_index (3)
+		do
+			Result := item (3)
 		end
 
 feature -- Basic operations

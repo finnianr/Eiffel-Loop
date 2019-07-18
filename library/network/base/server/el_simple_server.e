@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-09 10:44:57 GMT (Wednesday 9th January 2019)"
-	revision: "6"
+	date: "2019-07-01 9:37:13 GMT (Monday 1st July 2019)"
+	revision: "7"
 
 class
 	EL_SIMPLE_SERVER [H -> EL_SERVER_COMMAND_HANDLER create make end]

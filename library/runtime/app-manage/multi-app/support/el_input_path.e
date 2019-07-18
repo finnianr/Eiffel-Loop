@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 1:26:45 GMT (Friday 25th January 2019)"
-	revision: "2"
+	date: "2019-07-01 9:40:11 GMT (Monday 1st July 2019)"
+	revision: "3"
 
 class
 	EL_INPUT_PATH [P -> EL_PATH create default_create end]

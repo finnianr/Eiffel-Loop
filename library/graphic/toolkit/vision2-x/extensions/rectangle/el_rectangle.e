@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-02 16:18:33 GMT (Sunday 2nd June 2019)"
-	revision: "8"
+	date: "2019-07-18 9:30:54 GMT (Thursday 18th July 2019)"
+	revision: "9"
 
 class
 	EL_RECTANGLE
@@ -16,6 +16,8 @@ inherit
 	EV_RECTANGLE
 
 	EL_MODULE_SCREEN
+
+	EL_MODULE_ZSTRING
 
 create
 	default_create, make, make_cms, make_for_text, make_for_pixmap, make_from_cms_tuple, make_from_other
@@ -42,7 +44,7 @@ feature {NONE} -- Initialization
 
 	make_for_text (a_text: READABLE_STRING_GENERAL; font: EV_FONT)
 		do
-			make (0, 0, font.string_width (a_text), font.line_height)
+			make (0, 0, font.string_width (Zstring.to_unicode_general (a_text)), font.line_height)
 		end
 
 	make_from_cms_tuple (a: TUPLE [pos_x: DOUBLE; pos_y: DOUBLE; width: DOUBLE; height: DOUBLE])
@@ -68,6 +70,13 @@ feature -- Access
 	center_y: INTEGER
 		do
 			Result := y + height // 2
+		end
+
+feature -- Status query
+
+	is_default: BOOLEAN
+		do
+			Result := not (x.to_boolean or y.to_boolean or width.to_boolean or height.to_boolean)
 		end
 
 feature -- Basic operations

@@ -6,27 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:08:22 GMT (Friday 25th January 2019)"
-	revision: "3"
+	date: "2019-07-18 16:33:23 GMT (Thursday 18th July 2019)"
+	revision: "4"
 
 deferred class
 	EL_SHARED_APPLICATION_LIST
 
 inherit
-	EL_ANY_SHARED
-
-feature {NONE} -- Implementation
-
-	new_application_list: EL_SUB_APPLICATION_LIST
-		do
-			create Result.make_empty
+	EL_SHARED_SINGLETON [EL_SUB_APPLICATION_LIST]
+		rename
+			item as Application_list
+		redefine
+			Application_list
 		end
 
 feature {NONE} -- Constants
 
 	Application_list: EL_SUB_APPLICATION_LIST
 		once ("PROCESS")
-			Result := new_application_list
+			Result := Precursor
 		end
 
 end

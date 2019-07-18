@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2019-07-01 16:42:04 GMT (Monday 1st July 2019)"
+	revision: "4"
 
 class
 	EL_AUDIO_SOURCE_PRODUCER [SAMPLE_TYPE -> EL_AUDIO_PCM_SAMPLE create make end]

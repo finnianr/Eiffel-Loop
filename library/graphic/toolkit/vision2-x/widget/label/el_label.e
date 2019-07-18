@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-24 16:00:17 GMT (Friday 24th May 2019)"
-	revision: "8"
+	date: "2019-07-15 10:53:16 GMT (Monday 15th July 2019)"
+	revision: "9"
 
 class
 	EL_LABEL
@@ -36,6 +36,8 @@ inherit
 	EL_MODULE_SCREEN
 
 	EL_MODULE_STRING_32
+
+	EL_MODULE_ZSTRING
 
 create
 	default_create, make_with_text, make_wrapped, make_wrapped_to_width
@@ -97,7 +99,7 @@ feature -- Element change
 	set_text (a_text: READABLE_STRING_GENERAL)
 		do
 			is_wrapped := False
-			set_text_general (a_text.to_string_32)
+			set_text_general (Zstring.to_unicode_general (a_text))
 		end
 
 	set_text_wrapped (a_text: ZSTRING)

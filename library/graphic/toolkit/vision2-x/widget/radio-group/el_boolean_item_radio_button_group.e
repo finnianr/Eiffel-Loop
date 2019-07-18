@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-21 12:12:52 GMT (Monday 21st May 2018)"
-	revision: "2"
+	date: "2019-07-13 12:29:34 GMT (Saturday 13th July 2019)"
+	revision: "3"
 
 class
 	EL_BOOLEAN_ITEM_RADIO_BUTTON_GROUP
@@ -30,11 +30,11 @@ create
 feature {NONE} -- Initialization
 
 	make (
-		initial_value: BOOLEAN; false_option, true_option: ZSTRING
+		initial_value: BOOLEAN; false_option, true_option: READABLE_STRING_GENERAL
 		a_value_change_action: like value_change_action
 	)
 		do
-			create option_list.make_from_array (<< false_option, true_option >>)
+			create option_list.make_from_general (<< false_option, true_option >>)
 			make_button_group (initial_value, << False, True >>, a_value_change_action)
 		end
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-15 7:44:06 GMT (Saturday 15th June 2019)"
-	revision: "5"
+	date: "2019-07-18 9:04:27 GMT (Thursday 18th July 2019)"
+	revision: "6"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -58,9 +58,9 @@ feature -- Access
 			points: EL_COORDINATE_ARRAY; l_width, l_height: INTEGER_32
 		do
 			points := outer_radial_square_coordinates
-			l_width := (points.item (1).x_precise - points.item (0).x_precise).rounded
-			l_height := (points.item (2).y_precise - points.item (1).y_precise).rounded
-			create Result.make (points.item (0).x, points.item (0).y, l_width, l_height)
+			l_width := (points.p1.x_precise - points.p0.x_precise).rounded
+			l_height := (points.p2.y_precise - points.p1.y_precise).rounded
+			create Result.make (points.p0.x, points.p0.y, l_width, l_height)
 		end
 
 feature -- Status query
@@ -84,6 +84,7 @@ feature -- Transformation
 					is_mirrored_y := not is_mirrored_y
 			else end
 			create pixel_buffer.make_mirrored (pixel_buffer, axis)
+			invalidate
 		end
 
 feature {EL_MODEL_BUFFER_PROJECTOR, EV_MODEL} -- Access

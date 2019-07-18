@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 9:24:09 GMT (Tuesday 11th June 2019)"
-	revision: "7"
+	date: "2019-07-17 7:31:20 GMT (Wednesday 17th July 2019)"
+	revision: "8"
 
 deferred class
 	EL_REFLECTED_STRING_GENERAL [S -> STRING_GENERAL]
