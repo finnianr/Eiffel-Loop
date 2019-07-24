@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-18 9:30:54 GMT (Thursday 18th July 2019)"
-	revision: "9"
+	date: "2019-07-22 9:39:08 GMT (Monday 22nd July 2019)"
+	revision: "10"
 
 class
 	EL_RECTANGLE
@@ -20,7 +20,8 @@ inherit
 	EL_MODULE_ZSTRING
 
 create
-	default_create, make, make_cms, make_for_text, make_for_pixmap, make_from_cms_tuple, make_from_other
+	default_create, make, make_cms, make_for_text,
+	make_for_size, make_from_cms_tuple, make_from_other, make_size
 
 convert
 	make_from_cms_tuple ({TUPLE [DOUBLE, DOUBLE, DOUBLE, DOUBLE]}),
@@ -37,9 +38,9 @@ feature {NONE} -- Initialization
 			)
 		end
 
-	make_for_pixmap (a_pixmap: EV_PIXMAP)
+	make_for_size (sized: EV_POSITIONED)
 		do
-			make (0, 0, a_pixmap.width, a_pixmap.height)
+			make (0, 0, sized.width, sized.height)
 		end
 
 	make_for_text (a_text: READABLE_STRING_GENERAL; font: EV_FONT)
@@ -60,6 +61,11 @@ feature {NONE} -- Initialization
 			make (other.x, other.y, other.width, other.height)
 		end
 
+	make_size (a_width, a_height: INTEGER)
+		do
+			make (0, 0, a_width, a_height)
+		end
+
 feature -- Access
 
 	center_x: INTEGER
@@ -70,6 +76,11 @@ feature -- Access
 	center_y: INTEGER
 		do
 			Result := y + height // 2
+		end
+
+	dimensions: TUPLE [width, height: INTEGER]
+		do
+			Result := [width, height]
 		end
 
 feature -- Status query

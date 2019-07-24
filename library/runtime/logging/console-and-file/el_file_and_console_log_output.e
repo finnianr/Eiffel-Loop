@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:06 GMT (Saturday 19th May 2018)"
-	revision: "8"
+	date: "2019-07-23 8:18:56 GMT (Tuesday 23rd July 2019)"
+	revision: "9"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -25,6 +25,7 @@ inherit
 			make as make_read,
 			put_string as put_file_string,
 			put_integer as put_file_integer,
+			put_natural as put_file_natural,
 			put_real as put_file_real,
 			put_character as put_file_character,
 			put_boolean as put_file_boolean,

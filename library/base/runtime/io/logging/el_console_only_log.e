@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-08 8:51:46 GMT (Thursday 8th November 2018)"
-	revision: "9"
+	date: "2019-07-23 8:15:50 GMT (Tuesday 23rd July 2019)"
+	revision: "10"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -66,17 +66,13 @@ feature -- Output
 		do
 		end
 
-	enter_with_args (routine_name: STRING; arg_objects: TUPLE)
-			--
-		do
-		end
-
 	enter_no_header (routine_name: STRING)
 			--
 		do
 		end
 
-	exit_no_trailer
+	enter_with_args (routine_name: STRING; arg_objects: TUPLE)
+			--
 		do
 		end
 
@@ -84,8 +80,36 @@ feature -- Output
 		do
 		end
 
+	exit_no_trailer
+		do
+		end
+
+	put_boolean (b: BOOLEAN)
+			--
+		do
+			log_sink.put_boolean (b)
+		end
+
+	put_character (c: CHARACTER)
+			--
+		do
+			log_sink.put_character (c)
+		end
+
 	put_configuration_info (log_filters: ARRAYED_LIST [EL_LOG_FILTER])
 		do
+		end
+
+	put_elapsed_time
+			-- Log time elapsed since set_timer called
+		do
+			log_sink.put_elapsed_time
+		end
+
+	put_integer (i: INTEGER)
+			--
+		do
+			log_sink.put_integer (i)
 		end
 
 	put_labeled_string (label, str: READABLE_STRING_GENERAL)
@@ -99,52 +123,23 @@ feature -- Output
 			log_sink.put_labeled_substitution (label, template, inserts)
 		end
 
-	put_string (s: READABLE_STRING_GENERAL)
-			--
-		do
-			log_sink.put_string (s)
-		end
-
 	put_line (l: READABLE_STRING_GENERAL)
 			-- put string with new line
 		do
 			log_sink.put_line (l)
 		end
 
-	put_integer (i: INTEGER)
+	put_new_line
 			--
 		do
-			log_sink.put_integer (i)
+			log_sink.put_new_line
 		end
 
-	put_character (c: CHARACTER)
+	put_new_line_x2
 			--
 		do
-			log_sink.put_character (c)
-		end
-
-	put_real (r: REAL)
-			--
-		do
-			log_sink.put_real (r)
-		end
-
-	put_boolean (b: BOOLEAN)
-			--
-		do
-			log_sink.put_boolean (b)
-		end
-
-	put_double (d: DOUBLE)
-			--
-		do
-			log_sink.put_double (d)
-		end
-
-	put_string_field (label, field_value: READABLE_STRING_GENERAL)
-			--
-		do
-			log_sink.put_string_field (label, field_value)
+			log_sink.put_new_line
+			log_sink.put_new_line
 		end
 
 	put_path_field (label: READABLE_STRING_GENERAL; a_path: EL_PATH)
@@ -169,6 +164,18 @@ feature -- Output
 			put_string_field (l_name, a_path.to_string)
 		end
 
+	put_string (s: READABLE_STRING_GENERAL)
+			--
+		do
+			log_sink.put_string (s)
+		end
+
+	put_string_field (label, field_value: READABLE_STRING_GENERAL)
+			--
+		do
+			log_sink.put_string_field (label, field_value)
+		end
+
 	put_string_field_to_max_length (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
 			-- Put string to log file edited to fit into max_length
 		do
@@ -182,6 +189,18 @@ feature -- Output
 
 feature -- Numeric output
 
+	put_double (d: DOUBLE)
+			--
+		do
+			log_sink.put_double (d)
+		end
+
+	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE)
+			--
+		do
+			log_sink.put_double_field (label, field_value)
+		end
+
 	put_integer_field (label: READABLE_STRING_GENERAL; field_value: INTEGER)
 			--
 		do
@@ -194,36 +213,22 @@ feature -- Numeric output
 			log_sink.put_integer_interval_field (label, field_value)
 		end
 
+	put_natural (n: NATURAL)
+			--
+		do
+			log_sink.put_natural (n)
+		end
+
+	put_real (r: REAL)
+			--
+		do
+			log_sink.put_real (r)
+		end
 
 	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL)
 			--
 		do
 			log_sink.put_real_field (label, field_value)
-		end
-
-	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE)
-			--
-		do
-			log_sink.put_double_field (label, field_value)
-		end
-
-	put_new_line
-			--
-		do
-			log_sink.put_new_line
-		end
-
-	put_new_line_x2
-			--
-		do
-			log_sink.put_new_line
-			log_sink.put_new_line
-		end
-
-	put_elapsed_time
-			-- Log time elapsed since set_timer called
-		do
-			log_sink.put_elapsed_time
 		end
 
 feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LIO} -- Element change
@@ -246,6 +251,8 @@ feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LIO} -- Element change
 
 feature {NONE} -- Implementation
 
+	log_sink: EL_LOGGABLE
+
 	new_output: EL_CONSOLE_LOG_OUTPUT
 		do
 			if Console.is_highlighting_enabled then
@@ -255,18 +262,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	log_sink: EL_LOGGABLE
-
 feature {NONE} -- Constants
-
-	Eng_word_file: ZSTRING
-		once
-			Result := "file"
-		end
 
 	Eng_word_directory: ZSTRING
 		once
 			Result := "directory"
+		end
+
+	Eng_word_file: ZSTRING
+		once
+			Result := "file"
 		end
 
 end

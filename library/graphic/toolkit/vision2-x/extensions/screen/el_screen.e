@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-07-19 9:52:15 GMT (Friday 19th July 2019)"
+	revision: "7"
 
 class
 	EL_SCREEN
@@ -60,6 +60,11 @@ feature -- Access
 		end
 
 feature -- Measurement
+
+	aspect_ratio: REAL
+		do
+			Result := height_cms / width_cms
+		end
 
 	height_mm: INTEGER
 		do

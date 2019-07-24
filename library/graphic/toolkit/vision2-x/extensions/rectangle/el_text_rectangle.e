@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:23:06 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2019-07-21 8:27:08 GMT (Sunday 21st July 2019)"
+	revision: "6"
 
 class
 	EL_TEXT_RECTANGLE
@@ -215,7 +215,7 @@ feature -- Basic operations
 				line := internal_lines [text_point.cursor_index]
 				if not line.is_empty and then attached {EV_MODEL_DOT} text_point.item as point then
 					canvas.set_font (line.font)
-					canvas.draw_rotated_text (point.x, point.y, a_angle.truncated_to_real.opposite, line.text.to_unicode)
+					canvas.draw_rotated_text (point.x, point.y, a_angle.truncated_to_real.opposite, line.text)
 				end
 			end
 		end

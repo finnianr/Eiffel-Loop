@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-08 8:51:27 GMT (Thursday 8th November 2018)"
-	revision: "7"
+	date: "2019-07-23 8:12:27 GMT (Tuesday 23rd July 2019)"
+	revision: "8"
 
 class
 	EL_SILENT_LOG
@@ -113,6 +113,11 @@ feature -- Output
 
 	put_line (l: READABLE_STRING_GENERAL)
 			-- put string with new line
+		do
+		end
+
+	put_natural (n: NATURAL)
+			--
 		do
 		end
 

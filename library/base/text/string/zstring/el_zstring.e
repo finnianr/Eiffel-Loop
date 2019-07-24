@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-26 11:07:17 GMT (Wednesday 26th December 2018)"
-	revision: "13"
+	date: "2019-07-21 8:24:50 GMT (Sunday 21st July 2019)"
+	revision: "14"
 
 class
 	EL_ZSTRING
@@ -117,7 +117,7 @@ create
 convert
 	make_from_general ({STRING_32, STRING}),
 
-	to_unicode: {STRING_32}, to_latin_1: {STRING}
+	to_string_32: {STRING_32}, to_latin_1: {STRING}
 
 feature -- Access
 

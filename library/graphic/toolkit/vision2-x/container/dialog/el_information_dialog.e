@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-30 11:09:21 GMT (Saturday 30th June 2018)"
-	revision: "4"
+	date: "2019-07-23 7:31:43 GMT (Tuesday 23rd July 2019)"
+	revision: "5"
 
 class
 	EL_INFORMATION_DIALOG
@@ -34,7 +34,7 @@ inherit
 		end
 
 create
-	default_create, make_with_text
+	default_create, make_with_text, make_with_template
 
 feature {NONE} -- Initialization
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:28:19 GMT (Monday 1st July 2019)"
-	revision: "3"
+	date: "2019-07-23 7:48:24 GMT (Tuesday 23rd July 2019)"
+	revision: "4"
 
 class
 	EL_CONFIRMATION_DIALOG
@@ -22,37 +22,35 @@ inherit
 			button as locale_button
 		export
 			{ANY} label
+		undefine
+			add_locale_button, locale_button
 		redefine
 			initialize, add_locale_button, locale_button
 		end
 
-	EL_WINDOW
-
-	EL_MODULE_DEFERRED_LOCALE
+	EL_MESSAGE_DIALOG
+		undefine
+			initialize
+		end
 
 create
 	default_create,
 	make_with_text,
-	make_with_text_and_actions
+	make_with_text_and_actions,
+	make_with_template
 
 feature {NONE} -- Initialization
 
 	initialize
 			-- Initialize `Current'.
 		do
-			Precursor
+			Precursor {EV_CONFIRMATION_DIALOG}
 			set_title (Locale * ev_confirmation_dialog_title)
+			default_push_button.select_actions.extend (agent do ok_selected := True end)
 		end
 
-feature {NONE} -- Implementation
+feature -- Status query
 
-	add_locale_button (english_text: READABLE_STRING_GENERAL)
-		do
-			Precursor (Locale.translation (english_text).to_unicode)
-		end
+	ok_selected: BOOLEAN
 
-	locale_button (english_text: READABLE_STRING_GENERAL): EV_BUTTON
-		do
-			Result := Precursor (Locale * english_text)
-		end
 end

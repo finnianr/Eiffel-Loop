@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-15 10:20:37 GMT (Monday 15th July 2019)"
-	revision: "12"
+	date: "2019-07-21 8:41:41 GMT (Sunday 21st July 2019)"
+	revision: "13"
 
 class
 	EL_ZSTRING_ROUTINES
@@ -17,7 +17,7 @@ feature {EL_MODULE_ZSTRING} -- Conversion
 	to_unicode_general (general: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 		do
 			if attached {ZSTRING} general as zstr then
-				Result := zstr.to_string_32
+				Result := zstr.to_unicode
 			else
 				Result := general
 			end

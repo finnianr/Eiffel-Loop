@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:26:12 GMT (Monday 1st July 2019)"
-	revision: "18"
+	date: "2019-07-21 8:28:24 GMT (Sunday 21st July 2019)"
+	revision: "19"
 
 class
 	EL_PATH_STEPS
@@ -452,7 +452,12 @@ feature -- Conversion
 			Result := Token_table.joined (token_list, Separator)
 		end
 
-	to_unicode, to_string_32: STRING_32
+	to_string_32: STRING_32
+		do
+			Result := to_string.to_string_32
+		end
+
+	to_unicode: READABLE_STRING_GENERAL
 		do
 			Result := to_string.to_unicode
 		end

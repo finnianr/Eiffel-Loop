@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:25:34 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2019-07-22 11:06:19 GMT (Monday 22nd July 2019)"
+	revision: "7"
 
 deferred class
 	EL_SVG_TEXT_BUTTON_PIXMAP_SET
@@ -113,7 +113,7 @@ feature {NONE} -- Implementation
 			across pixmaps as a_pixmap loop
 				l_pixmap := a_pixmap.item
 				create text_rect.make_for_text (l_text, font)
-				text_rect.move_center (create {EL_RECTANGLE}.make_for_pixmap (l_pixmap))
+				text_rect.move_center (create {EL_RECTANGLE}.make_for_size (l_pixmap))
 				half_font_descent := font.descent // 2
 				text_rect.set_y (text_rect.y - half_font_descent)
 				text_rect.move (text_rect.x - half_font_descent, text_rect.y)

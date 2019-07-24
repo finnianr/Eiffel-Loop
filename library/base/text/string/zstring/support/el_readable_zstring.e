@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-15 10:17:03 GMT (Monday 15th July 2019)"
-	revision: "30"
+	date: "2019-07-21 8:31:49 GMT (Sunday 21st July 2019)"
+	revision: "31"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -1314,7 +1314,7 @@ feature -- Conversion
 			Result.area.copy_data (area, 0, 0, count)
 		end
 
-	to_string_32, to_unicode, as_string_32: STRING_32
+	to_string_32, as_string_32: STRING_32
 			-- UCS-4
 		do
 			create Result.make (count)
@@ -1350,6 +1350,19 @@ feature -- Conversion
 		do
 			create Result.make (count)
 			append_to_utf_8 (Result)
+		end
+
+	to_unicode, to_general: READABLE_STRING_GENERAL
+		local
+			str_32: STRING_32
+		do
+			str_32 := empty_once_string_32
+			append_to_string_32 (str_32)
+			if str_32.is_valid_as_string_8 then
+				Result := str_32.as_string_8
+			else
+				Result := str_32.twin
+			end
 		end
 
 	translated (old_characters, new_characters: EL_READABLE_ZSTRING): like Current
@@ -1974,7 +1987,7 @@ feature {EL_READABLE_ZSTRING} -- Contract Support
 		local
 			i: INTEGER
 		do
-			across to_unicode as uc loop
+			across to_string_32 as uc loop
 				i := old_characters.index_of (uc.item, 1)
 				if i > 0 and then new_characters.z_code (i) = 0 then
 					Result := Result + 1

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "9"
+	date: "2019-07-23 8:19:35 GMT (Tuesday 23rd July 2019)"
+	revision: "10"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -84,18 +84,6 @@ feature -- Output
 			set_text_default
 		end
 
-	put_double (d: DOUBLE)
-			--
-		do
-			extended_buffer_last.append_double (d)
-		end
-
-	put_integer (i: INTEGER)
-			-- Add a string to the buffer
-		do
-			extended_buffer_last.append_integer (i)
-		end
-
 	put_keyword (keyword: STRING)
 		require
 			not_augmented_latin_string: not attached {ZSTRING} keyword
@@ -152,12 +140,6 @@ feature -- Output
 			set_text_default
 		end
 
-	put_real (r: REAL)
-			--
-		do
-			extended_buffer_last.append_real (r)
-		end
-
 	put_separator
 		do
 			buffer.extend (Line_separator)
@@ -174,6 +156,32 @@ feature -- Output
 		do
 			buffer.extend (s)
 		end
+
+feature -- Numeric output
+
+	put_double (d: DOUBLE)
+			--
+		do
+			extended_buffer_last.append_double (d)
+		end
+
+	put_integer (i: INTEGER)
+			-- Add a string to the buffer
+		do
+			extended_buffer_last.append_integer (i)
+		end
+
+	put_natural (n: NATURAL)
+		do
+			extended_buffer_last.append_natural_32 (n)
+		end
+
+	put_real (r: REAL)
+			--
+		do
+			extended_buffer_last.append_real (r)
+		end
+
 
 feature -- Basic operations
 

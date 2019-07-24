@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:22:57 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2019-07-21 8:37:11 GMT (Sunday 21st July 2019)"
+	revision: "7"
 
 deferred class
 	EL_DOCKED_TAB
 
 inherit
 	ANY
-	
+
 	EL_MODULE_GUI
 
 feature {NONE} -- Initialization
@@ -87,13 +87,13 @@ feature -- Basic operations
 
 	update_properties
 		do
-			properties.set_unique_title (unique_title.to_unicode)
-			properties.set_short_title (title.to_unicode)
-			properties.set_long_title (long_title.to_unicode)
-			properties.set_description (description.to_unicode)
-			properties.set_detail (detail.to_unicode)
+			properties.set_unique_title (unique_title.to_string_32)
+			properties.set_short_title (title.to_string_32)
+			properties.set_long_title (long_title.to_string_32)
+			properties.set_description (description)
+			properties.set_detail (detail)
 			properties.set_pixmap (icon)
-			properties.set_tab_tooltip (long_title.to_unicode)
+			properties.set_tab_tooltip (long_title)
 		end
 
 feature -- Status change

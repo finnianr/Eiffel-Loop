@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 12:11:27 GMT (Tuesday 5th March 2019)"
-	revision: "12"
+	date: "2019-07-21 8:25:35 GMT (Sunday 21st July 2019)"
+	revision: "13"
 
 class
 	EL_PYXIS_PARSER
@@ -370,13 +370,13 @@ feature {NONE} -- Implementation
 	set_last_node_name (name: ZSTRING)
 		do
 			last_node_name.wipe_out
-			last_node_name.append (name.to_unicode)
+			last_node_name.append (name.to_string_32)
 		end
 
 	set_last_node_text (text: ZSTRING)
 		do
 			last_node_text.wipe_out
-			last_node_text.append (text.to_unicode)
+			last_node_text.append (text.to_string_32)
 		end
 
 feature {NONE} -- Implementation: attributes

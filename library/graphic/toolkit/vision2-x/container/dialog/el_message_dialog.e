@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:28:28 GMT (Monday 1st July 2019)"
-	revision: "2"
+	date: "2019-07-23 7:31:28 GMT (Tuesday 23rd July 2019)"
+	revision: "3"
 
 class
 	EL_MESSAGE_DIALOG
@@ -29,6 +29,15 @@ inherit
 	EL_WINDOW
 
 	EL_MODULE_DEFERRED_LOCALE
+
+	EL_MODULE_ZSTRING
+
+feature {NONE} -- Initialization
+
+	make_with_template (template: READABLE_STRING_GENERAL; inserts: TUPLE)
+		do
+			make_with_text (Zstring.as_zstring (template).substituted_tuple (inserts).to_unicode)
+		end
 
 feature -- Element change
 

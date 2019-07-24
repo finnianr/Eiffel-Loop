@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-18 9:04:27 GMT (Thursday 18th July 2019)"
-	revision: "6"
+	date: "2019-07-23 17:00:01 GMT (Tuesday 23rd July 2019)"
+	revision: "7"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -49,6 +49,12 @@ feature {NONE} -- Initialization
 				set_background_color (other.background_color)
 			end
 			border_drawing.set_state (other.border_drawing.is_enabled)
+			if other.is_mirrored_x then
+				mirror ('X')
+			end
+			if other.is_mirrored_y then
+				mirror ('Y')
+			end
 		end
 
 feature -- Access
