@@ -1,11 +1,8 @@
 pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 system:
-	xmlns = "http://www.eiffel.com/developers/xml/configuration-1-0-0"
-	xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance"
-	xsi.schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-0-0 http://www.eiffel.com/developers/xml/configuration-1-0-0.xsd"
-	name = Wex_MCI
-	uuid = "264827f0-fcb7-11dc-95ff-0800200c9a66"
+	configuration_ns = "1-8-0"
+	name = Wex_MCI; uuid = "264827f0-fcb7-11dc-95ff-0800200c9a66"
 	library_target = Wex_MCI
 
 	target:
@@ -20,22 +17,22 @@ system:
 			name = Wex; location = source; recursive = true
 
 		external_include:
-			location = "$WEX_MCI_LIBRARY\C_library\source"
+			location = "$(EL_CONTRIB)/C++/Wex_MCI/include"
 			condition:
 				platform:
 					value = windows
 		external_object:
-			location = "$WEX_MCI_LIBRARY\C_library\wex_mci-mt.lib"
+			location = "$(EL_CONTRIB)/C++/Wex_MCI/wex_mci.lib"
 			condition:
 				platform:
 					value = windows
 		external_object:
-			location = "$(PLATFORM_SDK)\Lib\WinMM.lib"
+			location = "WinMM.lib"
 			condition:
 				platform:
 					value = windows
 
 		library:
-			name = wel; location = "$ISE_LIBRARY\library\wel\wel.ecf"
+			name = wel; location = "$ISE_LIBRARY/library/wel/wel.ecf"
 		library:
-			name = base; location = "$ISE_LIBRARY\library\base\base.ecf"
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"

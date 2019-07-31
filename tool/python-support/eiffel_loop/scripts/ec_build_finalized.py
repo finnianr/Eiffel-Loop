@@ -9,7 +9,7 @@
 
 #	Description: build finalized Eiffel-Loop project and optionally install it
 
-import os, sys, platform, codecs
+import os, sys, codecs
 
 from os import path
 from subprocess import call
@@ -19,7 +19,7 @@ from eiffel_loop.eiffel.project import new_eiffel_project
 from eiffel_loop.eiffel.project import increment_build_number
 
 # Word around for bug "LookupError: unknown encoding: cp65001"
-if platform.system () == "Windows":
+if os.name == "nt":
 	platform_name = "windows"
 	codecs.register (lambda name: codecs.lookup ('utf-8') if name == 'cp65001' else None)
 else:
@@ -28,7 +28,8 @@ else:
 usage = "usage: ec_build_finalized [--x86] [--install] [--no_build]"
 parser = OptionParser(usage=usage)
 parser.add_option (
-	"-x", "--x86", action="store_true", dest="build_x86", default=False, help="Build a 32 bit version in addition to 64 bit"
+	"-x", "--x86", action="store_true",
+	dest = "build_x86", default = False, help = "Build a 32 bit version in addition to 64 bit"
 )
 parser.add_option (
 	"-n", "--no_build", action="store_true", dest="no_build", default=False, help="Build without incrementing build number"

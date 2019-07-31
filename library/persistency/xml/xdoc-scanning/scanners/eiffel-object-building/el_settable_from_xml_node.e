@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-12 9:19:38 GMT (Wednesday 12th June 2019)"
-	revision: "16"
+	date: "2019-07-25 10:41:12 GMT (Thursday 25th July 2019)"
+	revision: "17"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -59,7 +59,8 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 					has_child_element := True
 				else
 					value.wipe_out
-					value.append_string_general (field.item.to_string (current_reflective))
+					field.item.write (current_reflective, value)
+--					value.append_string_general (field.item.to_string (current_reflective))
 					if not value.is_empty then
 						if attribute_count = 0 then
 							xml_out.put_new_line

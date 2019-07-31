@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-07-31 6:39:00 GMT (Wednesday 31st July 2019)"
+	revision: "7"
 
 class
 	EL_WEL_SYSTEM_FONTS
@@ -86,7 +86,7 @@ feature -- Constants
 		once
 			create Result.make_equal (30)
 			across Win_registry.string_list (HKLM_font_substitutes) as string loop
-				Result [string.item.name.split (',').first.to_unicode] := string.item.value.split (',').first
+				Result [string.item.name.split (',').first.to_string_32] := string.item.value.split (',').first
 			end
 		end
 

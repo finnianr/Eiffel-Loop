@@ -27,16 +27,16 @@ system:
 
 		# C interface
 		external_include: 
-			location = "$(EIFFEL_LOOP_C)/cURL/source"
+			location = "$(EL_C_LIB)/cURL/source"
 
 		external_object:
-			location = "-L$(EIFFEL_LOOP_C)/cURL/spec/$(ISE_PLATFORM) -lelcurl"
+			location = "-L$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM) -lelcurl"
 			condition:
 				platform:
 					value = unix
 
 		external_object:
-			location = "$(EIFFEL_LOOP_C)/cURL/spec/$(ISE_PLATFORM)/elcurl.lib"
+			location = "$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM)/elcurl.lib"
 			condition:
 				platform:
 					value = windows

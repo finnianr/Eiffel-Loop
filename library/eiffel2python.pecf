@@ -59,7 +59,7 @@ system:
 
 		# Contribution
 		library:
-			name = pepe; location = "$EIFFEL_LOOP/contrib/Eiffel/pepe.ecf"
+			name = pepe; location = "$EL_CONTRIB/Eiffel/pepe.ecf"
 			option:
 				assertions:
 					postcondition = true; check = true; invariant = true

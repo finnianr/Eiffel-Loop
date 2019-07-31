@@ -29,7 +29,7 @@ system:
 
 		# Unix externals
 		external_include:
-			location = "$(EIFFEL_LOOP)/C_library/gtk-init/source"
+			location = "$(EL_C_LIB)/gtk-init/source"
 			condition:
 				platform:
 					value = unix
@@ -59,38 +59,38 @@ system:
 					value = unix
 
 		external_object:
-			location = "$(EIFFEL_LOOP)/C_library/gtk-init/spec/$(ISE_PLATFORM)/libgtkinit.a"
+			location = "$(EL_C_LIB)/gtk-init/spec/$(ISE_PLATFORM)/libgtkinit.a"
 			condition:
 				platform:
 					value = unix
 
 		# Windows externals
 		external_include:
-			location = "$(EIFFEL_LOOP)/contrib/C/Cairo-1.12.16/include/atk-1.0"
+			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/atk-1.0"
 			condition:
 				platform:
 					value = windows
 
 		external_include:
-			location = "$(EIFFEL_LOOP)/contrib/C/Cairo-1.12.16/include/cairo"
+			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/cairo"
 			condition:
 				platform:
 					value = windows
 
 		external_include:
-			location = "$(EIFFEL_LOOP)/contrib/C/Cairo-1.12.16/include/gtk-3.0"
+			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/gtk-3.0"
 			condition:
 				platform:
 					value = windows
 
 		external_include:
-			location = "$(EIFFEL_LOOP)/contrib/C/Cairo-1.12.16/include/gdk-pixbuf-2.0"
+			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/gdk-pixbuf-2.0"
 			condition:
 				platform:
 					value = windows
 
 		external_include:
-			location = "$(EIFFEL_LOOP)/contrib/C/Cairo-1.12.16/include/pango-1.0"
+			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/pango-1.0"
 			condition:
 				platform:
 					value = windows

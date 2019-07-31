@@ -36,23 +36,23 @@ system:
 				precondition = true; postcondition = true; check = true; invariant = true
 
 		external_include: 
-			location = "$(EIFFEL_LOOP_C)/include"
+			location = "$(EL_C_LIB)/include"
 			description: 
 				"""
 					C implementation of EL_C_CALLABLE_PROCEDURE
 				"""
 
 		external_include: 
-			location = "$(EIFFEL_LOOP_C)/vtd2eiffel/source"
+			location = "$(EL_C_LIB)/vtd2eiffel/source"
 
 		external_object:
-			location = "-L$(EIFFEL_LOOP_C)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml"
+			location = "-L$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM) -lvtd-xml"
 			condition:
 				platform:
 					value = unix
 
 		external_object:
-			location = "$(EIFFEL_LOOP_C)/vtd2eiffel/spec/$(ISE_PLATFORM)/vtd-xml.lib"
+			location = "$(EL_C_LIB)/vtd2eiffel/spec/$(ISE_PLATFORM)/vtd-xml.lib"
 			condition:
 				platform:
 					value = windows

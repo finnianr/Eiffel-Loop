@@ -12,13 +12,13 @@ Classes for remotely interacting with a HTTP server. Supports the HTTP commands:
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
 		<!--C interface-->
-		<external_include location = "$(EIFFEL_LOOP_C)/cURL/source"/>
-		<external_object location = "-L$(EIFFEL_LOOP_C)/cURL/spec/$(ISE_PLATFORM) -lelcurl">
+		<external_include location = "$(EL_C_LIB)/cURL/source"/>
+		<external_object location = "-L$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM) -lelcurl">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_object>
-		<external_object location = "$(EIFFEL_LOOP_C)/cURL/spec/$(ISE_PLATFORM)/elcurl.lib">
+		<external_object location = "$(EL_C_LIB)/cURL/spec/$(ISE_PLATFORM)/elcurl.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>

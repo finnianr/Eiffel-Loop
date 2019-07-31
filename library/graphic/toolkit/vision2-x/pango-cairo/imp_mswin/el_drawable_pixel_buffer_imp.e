@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 15:00:08 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2019-07-31 6:39:00 GMT (Wednesday 31st July 2019)"
+	revision: "8"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_IMP
@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 			substitute_fonts.search (font.name)
 			if substitute_fonts.found then
 				font.preferred_families.start
-				font.preferred_families.replace (substitute_fonts.found_item.to_unicode)
+				font.preferred_families.replace (substitute_fonts.found_item.to_string_32)
 			end
 		end
 

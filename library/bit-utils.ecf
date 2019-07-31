@@ -15,8 +15,8 @@ Interface to hardware specific bit operations like POPCNT.
 			C externals (Unix)
 			
 		-->
-		<external_include location = "$(EIFFEL_LOOP)/C_library/bit-utils/source"/>
-		<external_object location = "-L$(EIFFEL_LOOP)/C_library/bit-utils/spec/$(ISE_PLATFORM) -lpf_bit_utils">
+		<external_include location = "$(EL_C_LIB)/bit-utils/source"/>
+		<external_object location = "-L$(EL_C_LIB)/bit-utils/spec/$(ISE_PLATFORM) -lpf_bit_utils">
 			<condition>
 				<platform value = "unix"/>
 			</condition>

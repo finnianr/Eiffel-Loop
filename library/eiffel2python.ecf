@@ -39,7 +39,7 @@ in an MP3 file: [$source EL_EYED3_TAG].
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "gobo_base" location = "gobo-base.ecf"/>
 		<!--Contribution-->
-		<library name = "pepe" location = "$EIFFEL_LOOP/contrib/Eiffel/pepe.ecf">
+		<library name = "pepe" location = "$EL_CONTRIB/Eiffel/pepe.ecf">
 			<option>
 				<assertions postcondition = "true" check = "true" invariant = "true"/>
 			</option>

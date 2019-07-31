@@ -1,21 +1,24 @@
 note
-	description: "Xml cyclic redundancy check 32"
+	description: "XML cyclic redundancy check 32"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-07-25 11:10:40 GMT (Thursday 25th July 2019)"
+	revision: "6"
 
 class
 	EL_XML_CYCLIC_REDUNDANCY_CHECK_32
 
 inherit
-	EL_XML_NODE_EVENT_HANDLER
-
 	EL_CYCLIC_REDUNDANCY_CHECK_32
+
+	EL_XML_NODE_EVENT_HANDLER
+		undefine
+			copy, default_create, is_equal
+		end
 
 feature {EL_XML_NODE_EVENT_GENERATOR} -- Parsing events
 

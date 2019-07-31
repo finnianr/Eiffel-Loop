@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-13 13:28:28 GMT (Wednesday 13th February 2019)"
-	revision: "4"
+	date: "2019-07-25 11:11:34 GMT (Thursday 25th July 2019)"
+	revision: "5"
 
 deferred class
 	STRING_BENCHMARK
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make (a_number_of_runs: like number_of_runs; a_routine_filter: ZSTRING)
 		do
-			number_of_runs := a_number_of_runs; routine_filter := a_routine_filter.to_unicode
+			number_of_runs := a_number_of_runs; routine_filter := a_routine_filter
 			create {STRING} output_string.make (0)
 			create input_string_list.make (64)
 			create input_substring_list.make (64)

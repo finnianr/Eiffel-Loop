@@ -35,7 +35,7 @@ system:
 					value = windows
 
 		library:
-			name = wex_mci; location="$EIFFEL_LOOP/contrib/Eiffel/Wex_MCI/Wex_MCI.ecf"
+			name = wex_mci; location="$EL_CONTRIB/Eiffel/Wex_MCI/Wex_MCI.ecf"
 			condition:
 				platform:
 					value = windows

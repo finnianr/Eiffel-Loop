@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-07-30 9:00:17 GMT (Tuesday 30th July 2019)"
+	revision: "6"
 
 class
 	EL_LIBID3_FIELD
@@ -130,7 +130,7 @@ feature -- Element change
 
 			elseif l_encoding = Encoding_UTF_16 or l_encoding = Encoding_UTF_16_BE then
 				-- A bit strange that only Big Endian works
-				set_text_unicode (str.to_unicode)
+				set_text_unicode (str.to_string_32)
 
 			elseif l_encoding = Encoding_UTF_8 then
 				set_text_utf8 (str.to_utf_8)

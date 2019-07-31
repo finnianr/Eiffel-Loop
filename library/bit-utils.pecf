@@ -28,10 +28,10 @@ system:
 		# C externals (Unix)
 
 		external_include: 
-			location = "$(EIFFEL_LOOP)/C_library/bit-utils/source"
+			location = "$(EL_C_LIB)/bit-utils/source"
 
 		external_object:
-			location = "-L$(EIFFEL_LOOP)/C_library/bit-utils/spec/$(ISE_PLATFORM) -lpf_bit_utils"
+			location = "-L$(EL_C_LIB)/bit-utils/spec/$(ISE_PLATFORM) -lpf_bit_utils"
 			condition:
 				platform:
 					value = unix

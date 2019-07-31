@@ -38,11 +38,11 @@ system:
 			name = link_object; value = false
 			
 		external_object:
-			location = "$EIFFEL_LOOP/contrib/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll"
+			location = "$EL_CONTRIB/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll"
 			description:
 				"""
 					msvcr71.dll requires:
-					$EIFFEL_LOOP/contrib/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll
+					$EL_CONTRIB/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll
 				"""
 			condition:
 				platform:

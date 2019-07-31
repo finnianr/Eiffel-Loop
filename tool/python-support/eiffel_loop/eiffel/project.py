@@ -13,8 +13,10 @@ from glob import glob
 
 from eiffel_loop.xml.xpath import XPATH_CONTEXT
 from eiffel_loop.distutils import file_util
+from eiffel_loop.scons.util import scons_command
 from eiffel_loop import tar
 from subprocess import call
+
 
 global __CSL
 global program_files
@@ -178,7 +180,7 @@ class EIFFEL_PROJECT (object):
 
 # Basic operation
 	def build (self, cpu_target):
-		call (self.scons_cmd () + ['cpu=' + cpu_target, 'action=finalize', 'project=%s.ecf' % self.name])
+		call (scons_command (['cpu=' + cpu_target, 'action=finalize', 'project=%s.ecf' % self.name]))
 
 	def copy (self, exe_path, exe_dest_path):
 		pass
@@ -215,9 +217,6 @@ class EIFFEL_PROJECT (object):
 			
 
 # Implementation
-	def scons_cmd (self):
-		pass
-
 	def ecf_exe_name (self, ecf_ctx, a_path):
 		pass
 
@@ -237,9 +236,6 @@ class UNIX_EIFFEL_PROJECT (EIFFEL_PROJECT):
 		return subprocess.call (['sudo', 'ln', '-f', '-s', target, link_name])
 
 # Implementation
-	def scons_cmd (self):
-		return ['scons']
-
 	def ecf_exe_name (self, ecf_ctx, a_path):
 		return ecf_ctx.attribute (a_path)
 
@@ -273,9 +269,6 @@ class MSWIN_EIFFEL_PROJECT (EIFFEL_PROJECT):
 		return 0
 
 # Implementation
-	def scons_cmd (self):
-		return ['python', path.join (path.dirname (path.realpath (sys.executable)), 'scons.py')]
-
 	def ecf_exe_name (self, ecf_ctx, a_path):
 		return ecf_ctx.attribute (a_path) + '.exe'
 

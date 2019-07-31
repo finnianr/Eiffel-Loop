@@ -14,7 +14,7 @@ from eiffel_loop.scons import c as c_scons
 from eiffel_loop.scons.c import CONFIG_HEADER
 from eiffel_loop.eiffel import project
 
-include_path = 	[path.normpath ('$ISE_EIFFEL/C_library/zlib'), path.abspath (os.curdir), 'include', path.join ('include', 'id3')]
+include_path = [path.normpath ('$ISE_EIFFEL/C_library/zlib'), path.abspath (os.curdir), 'include', path.join ('include', 'id3')]
 
 if platform.system () == "Windows":
 	compiler_flags = ['-Ox', '-Zi', '-MT', '-w', '-nologo', '-DID3LIB_LINKOPTION=1', '-EHsc', '-DWIN32']

@@ -2,7 +2,7 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 6); build = 362
+version = (1, 0, 6); build = 364
 
 installation_sub_directory = 'Eiffel-Loop/test'
 

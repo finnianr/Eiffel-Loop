@@ -19,13 +19,13 @@ Classes for reading and writing wav files on the Windows OS
 		</option>
 		<root all_classes = "true"/>
 		<!--For Windows: Internal WaveOut API callback function.-->
-		<external_include location = "$(EIFFEL_LOOP)/C_library/audio/source">
+		<external_include location = "$(EL_C_LIB)/audio/source">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
 		<external_include location = "$(ISE_LIBRARY)/C_library/zlib"/>
-		<external_object location = "$(EIFFEL_LOOP)/C_library/audio/spec/$(ISE_PLATFORM)/el_audio.lib">
+		<external_object location = "$(EL_C_LIB)/audio/spec/$(ISE_PLATFORM)/el_audio.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>

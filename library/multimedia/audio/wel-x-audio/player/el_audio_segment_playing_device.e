@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-07-30 16:27:38 GMT (Tuesday 30th July 2019)"
+	revision: "5"
 
 class
 	EL_AUDIO_SEGMENT_PLAYING_DEVICE
@@ -22,14 +22,14 @@ inherit
 		export
 			{NONE} all
 		end
-		
-create	
+
+create
 	make
 
-feature {EL_WAVE_AUDIO_PLAYBACK} -- Basic operations
+feature -- Basic operations
 
 	play_segment (segment_params: EL_AUDIO_SEGMENT_PARAMS)
-			-- 
+			--
 		require
 			opened: opened
 			not_already_playing: not is_playing
@@ -39,6 +39,6 @@ feature {EL_WAVE_AUDIO_PLAYBACK} -- Basic operations
 		do
 			create play_parms.make (parent, segment_params.onset, segment_params.offset)
 			play_device (play_parms, Mci_notify | Mci_from | Mci_to)
-		end	
-		
+		end
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2019-07-30 16:25:29 GMT (Tuesday 30th July 2019)"
+	revision: "4"
 
 class
 	EL_AUDIO_MONITOR
@@ -57,7 +57,7 @@ feature -- Element change
 			signal_level_meter.set_signal_threshold (rms_energy)
 		end
 
-feature {LB_MAIN_WINDOW} -- Implementation
+feature -- Access
 
 	signal_level_meter: EL_AUDIO_SIGNAL_LEVEL_METER
 

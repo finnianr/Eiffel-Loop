@@ -32,11 +32,11 @@ system:
 
 		# libid3 and libid3tag externals
 		external_include: 
-			location = "$(EIFFEL_LOOP)/contrib/C/libid3tag-0.15.1b/include"
+			location = "$(EL_CONTRIB)/C/libid3tag-0.15.1b/include"
 		
 		# For Windows: libid3 and libid3tag externals
 		external_include: 
-			location = "$(EIFFEL_LOOP)/contrib/C++/id3lib/include"
+			location = "$(EL_CONTRIB)/C++/id3lib/include"
 			condition:
 				platform:
 					value = windows
@@ -48,32 +48,32 @@ system:
 					value = windows
 
 		external_object:
-			location = "$(EIFFEL_LOOP)/contrib/C/libid3tag-0.15.1b/spec/$(ISE_PLATFORM)/id3tag.lib"
+			location = "$(EL_CONTRIB)/C/libid3tag-0.15.1b/spec/$(ISE_PLATFORM)/id3tag.lib"
 			condition:
 				platform:
 					value = windows
 
 		external_object:
-			location = "$(EIFFEL_LOOP)/contrib/C++/id3lib/spec/$(ISE_PLATFORM)/id3.lib"
+			location = "$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM)/id3.lib"
 			condition:
 				platform:
 					value = windows
 
 		# For Unix: libid3 and libid3tag externals
 		external_include: 
-			location = "$(EIFFEL_LOOP)/contrib/C++/id3lib/include"
+			location = "$(EL_CONTRIB)/C++/id3lib/include"
 			condition:
 				platform:
 					value = unix
 
 		external_object:
-			location = "-L$(EIFFEL_LOOP)/contrib/C++/id3lib/spec/$(ISE_PLATFORM) -lid3"
+			location = "-L$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM) -lid3"
 			condition:
 				platform:
 					value = unix
 
 		external_object:
-			location = "-L$(EIFFEL_LOOP)/contrib/C/libid3tag-0.15.1b/spec/$(ISE_PLATFORM) -lid3tag"
+			location = "-L$(EL_CONTRIB)/C/libid3tag-0.15.1b/spec/$(ISE_PLATFORM) -lid3tag"
 			description: 
 				"""
 					WARNING: subtle bug
@@ -90,6 +90,7 @@ system:
 				platform:
 					value = unix
 
+		# ISE libraries
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 

@@ -5,10 +5,10 @@
 #define HAVE_ASSERT 1
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
-#define HAVE_DLFCN 1
+/* #undef HAVE_DLFCN */
 
 /* Define to 1 if you have the <inttypes.h> header file. */
-#define HAVE_INTTYPES 1
+/* #undef HAVE_INTTYPES */
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY 1
@@ -20,19 +20,19 @@
 #define HAVE_STDLIB 1
 
 /* Define to 1 if you have the <strings.h> header file. */
-#define HAVE_STRINGS 1
+/* #undef HAVE_STRINGS */
 
 /* Define to 1 if you have the <string.h> header file. */
 #define HAVE_STRING 1
 
-/* Define to 1 if you have the <sys/stat.h> header file. */
+/* Define to 1 if you have the <sys\stat.h> header file. */
 #define HAVE_SYS_STAT 1
 
-/* Define to 1 if you have the <sys/types.h> header file. */
+/* Define to 1 if you have the <sys\types.h> header file. */
 #define HAVE_SYS_TYPES 1
 
 /* Define to 1 if you have the <unistd.h> header file. */
-#define HAVE_UNISTD 1
+/* #undef HAVE_UNISTD */
 
 /* Define to the name of package */
 #define PACKAGE "libid3tag"

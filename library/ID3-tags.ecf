@@ -21,9 +21,9 @@ and the latter for earlier versions from 2.0 to 2.3.
 		</option>
 		<root all_classes = "true"/>
 		<!--libid3 and libid3tag externals-->
-		<external_include location = "$(EIFFEL_LOOP)/contrib/C/libid3tag-0.15.1b/include"/>
+		<external_include location = "$(EL_CONTRIB)/C/libid3tag-0.15.1b/include"/>
 		<!--For Windows: libid3 and libid3tag externals-->
-		<external_include location = "$(EIFFEL_LOOP)/contrib/C++/id3lib/include">
+		<external_include location = "$(EL_CONTRIB)/C++/id3lib/include">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
@@ -33,28 +33,28 @@ and the latter for earlier versions from 2.0 to 2.3.
 				<platform value = "windows"/>
 			</condition>
 		</external_cflag>
-		<external_object location = "$(EIFFEL_LOOP)/contrib/C/libid3tag-0.15.1b/spec/$(ISE_PLATFORM)/id3tag.lib">
+		<external_object location = "$(EL_CONTRIB)/C/libid3tag-0.15.1b/spec/$(ISE_PLATFORM)/id3tag.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_object>
-		<external_object location = "$(EIFFEL_LOOP)/contrib/C++/id3lib/spec/$(ISE_PLATFORM)/id3.lib">
+		<external_object location = "$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM)/id3.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_object>
 		<!--For Unix: libid3 and libid3tag externals-->
-		<external_include location = "$(EIFFEL_LOOP)/contrib/C++/id3lib/include">
+		<external_include location = "$(EL_CONTRIB)/C++/id3lib/include">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_include>
-		<external_object location = "-L$(EIFFEL_LOOP)/contrib/C++/id3lib/spec/$(ISE_PLATFORM) -lid3">
+		<external_object location = "-L$(EL_CONTRIB)/C++/id3lib/spec/$(ISE_PLATFORM) -lid3">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
 		</external_object>
-		<external_object location = "-L$(EIFFEL_LOOP)/contrib/C/libid3tag-0.15.1b/spec/$(ISE_PLATFORM) -lid3tag">
+		<external_object location = "-L$(EL_CONTRIB)/C/libid3tag-0.15.1b/spec/$(ISE_PLATFORM) -lid3tag">
 			<description>
 WARNING: subtle bug
 Only link against a static library. If linked against a shared object library
@@ -69,6 +69,7 @@ GetRawText() routine will return null for utf8 strings.
 				<platform value = "unix"/>
 			</condition>
 		</external_object>
+		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "c_library_zlib" location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf">
 			<condition>

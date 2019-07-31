@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2019-07-31 6:34:21 GMT (Wednesday 31st July 2019)"
+	revision: "4"
 
 class
 	EL_AUDIO_CLIP_SAVER_CONSTANTS
@@ -18,9 +18,7 @@ feature {NONE} -- Constants
 
 	Clip_no_base: INTEGER
 			--
-		note
-			once_status: global
-		once
+		once ("PROCESS")
 			Result := (10.0 ^ Num_digits_in_clip_no.to_double ).rounded
 		end
 
@@ -31,9 +29,7 @@ feature {NONE} -- Constants
 
 	Silent_clip_name: STRING
 			--
-		note
-			once_status: global
-		once
+		once ("PROCESS")
 			Result := "silence"
 		end
 

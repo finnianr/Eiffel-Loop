@@ -206,6 +206,20 @@ system:
 			location = "$EIFFEL_LOOP/library/markup-docs.ecf"
 
 		library:
+			name = EL_wav_audio; readonly = false
+			location = "$EIFFEL_LOOP/library/wav-audio.ecf"
+			condition:
+				platform:
+					value = windows
+
+		library:
+			name = EL_wel_x_audio; readonly = false
+			location = "$EIFFEL_LOOP/library/wel-x-audio.ecf"
+			condition:
+				platform:
+					value = windows
+
+		library:
 			name = EL_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
 			readonly = false
 

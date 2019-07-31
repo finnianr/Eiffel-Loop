@@ -36,5 +36,5 @@ VariantDir (build_dir, 'source', duplicate=0)
 sources = Glob (path.join (build_dir, '*.c'))
 lib = env.StaticLibrary (path.join (build_dir, 'elcurl'), sources)
 	
-#env.NoClean (lib)
+env.NoClean (lib)
 #Return ('lib')

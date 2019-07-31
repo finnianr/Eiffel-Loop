@@ -152,8 +152,8 @@ The development root is either a directory path that ends with the step name `Ei
 In addition it adds valid values for these variables: `JDK_HOME, PYTHON_HOME, PYTHON_LIB_NAME` as well as the following *Eiffel-Loop* variables:
 
 ```
-EXPAT = $EIFFEL_LOOP/contrib/C/Expat
-VTD_XML_INCLUDE = $EIFFEL_LOOP/contrib/C/VTD-XML.2.7/include
+EL_CONTRIB = $EIFFEL_LOOP/contrib
+EL_C_LIB = $EIFFEL_LOOP/C_library
 
 ```
 ### Overriding the Defaults
@@ -168,7 +168,7 @@ version = (1, 0, 4); build = 223
 
 installation_sub_directory = 'Eiffel-Loop/test'
 
-set_environ ('LD_LIBRARY_PATH', "$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_PLATFORM")
+set_environ ('LD_LIBRARY_PATH', "$EL_C_LIB/svg-graphics/spec/$ISE_PLATFORM")
 
 ```
 ### Under the Hood
@@ -272,12 +272,16 @@ Each project has a class `APPLICATION_ROOT` which inherits from `EL_MULTI_APPLIC
 ```` eiffel
 class
    APPLICATION_ROOT
+
 inherit
    EL_MULTI_APPLICATION_ROOT [BUILD_INFO]
+
 create
    make
+
 feature {NONE} -- Implementation
-   Application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
+
+	Application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
      once
        Result := <<
          {MY_FIRST_APP},

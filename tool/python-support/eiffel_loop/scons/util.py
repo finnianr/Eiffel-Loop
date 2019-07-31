@@ -42,3 +42,15 @@ def add_lib_a_to_targets (target, source, env):
 		source.append (source [i])
 	return target, source
 
+def scons_command (arguments = None):
+	if os.name == "nt":
+		# Windows
+		result = ['python', path.join (path.dirname (path.realpath (sys.executable)), 'scons.py')]
+	else:
+		result = ['scons']
+
+	if arguments:
+		result.extend (arguments)
+
+	return result
+

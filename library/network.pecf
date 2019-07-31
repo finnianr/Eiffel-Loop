@@ -28,11 +28,11 @@ system:
 
 		# C externals
 		external_include: 
-			location = "$(EIFFEL_LOOP_C)/network-adapter/source"
+			location = "$(EL_C_LIB)/network-adapter/source"
 
 
 		external_object:
-			location = "$(EIFFEL_LOOP_C)/network-adapter/spec/$(ISE_PLATFORM)/network-adapter.lib"
+			location = "$(EL_C_LIB)/network-adapter/spec/$(ISE_PLATFORM)/network-adapter.lib"
 			condition:
 				platform:
 					value = windows

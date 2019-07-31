@@ -27,32 +27,32 @@ system:
 				precondition = true; postcondition = true; check = true; invariant = true
 
 		external_include:
-			location = "$(EIFFEL_LOOP)/C_library/include"
+			location = "$(EL_C_LIB)/include"
 
 		external_include:
-			location = "$(EIFFEL_LOOP)/C_library/image-utils/source"
+			location = "$(EL_C_LIB)/image-utils/source"
 
 		# Windows includes
 		external_include:
-			location = "$(EIFFEL_LOOP)/contrib/C/Cairo-1.12.16/include/cairo"
+			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/cairo"
 			condition:
 				platform:
 					value = windows
 
 		external_include:
-			location = "$(EIFFEL_LOOP)/contrib/C/Cairo-1.12.16/include/librsvg-2.0/librsvg"
+			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/librsvg-2.0/librsvg"
 			condition:
 				platform:
 					value = windows
 
 		external_include: 
-			location = "$(EIFFEL_LOOP)/contrib/C/Cairo-1.12.16/include/glib-2.0"
+			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/include/glib-2.0"
 			condition:
 				platform:
 					value = windows
 
 		external_include: 
-			location = "$(EIFFEL_LOOP)/contrib/C/Cairo-1.12.16/lib/glib-2.0/include"
+			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/lib/glib-2.0/include"
 			condition:
 				platform:
 					value = windows
@@ -91,11 +91,11 @@ system:
 			name = link_object; value = false
 
 		external_object:
-			location = "$(EIFFEL_LOOP)/C_library/image-utils/spec/$(ISE_PLATFORM)/elimageutils.dll"
+			location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/elimageutils.dll"
 			description:
 				"""
 					elimageutils.dll requires:
-					$EIFFEL_LOOP/C_library/image-utils/spec/$ISE_PLATFORM/elimageutils.dll
+					$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/elimageutils.dll
 				"""
 			condition:
 				platform:
@@ -104,11 +104,11 @@ system:
 					name = link_object; value = true
 
 		external_object:
-			location = "$(EIFFEL_LOOP)/contrib/C/Cairo-1.12.16/spec/$(ISE_PLATFORM)/libcairo-2.dll"
+			location = "$(EL_CONTRIB)/C/Cairo-1.12.16/spec/$(ISE_PLATFORM)/libcairo-2.dll"
 			description:
 				"""
 					libcairo-2.dll requires:
-					$EIFFEL_LOOP/contrib/C/Cairo-1.12.16/spec/$ISE_PLATFORM/*.dll
+					$EL_CONTRIB/C/Cairo-1.12.16/spec/$ISE_PLATFORM/*.dll
 				"""
 			condition:
 				platform:
@@ -118,11 +118,11 @@ system:
 
 		# For Unix
 		external_object:
-			location = "$(EIFFEL_LOOP)/C_library/image-utils/spec/$(ISE_PLATFORM)/libelimageutils.so"
+			location = "$(EL_C_LIB)/image-utils/spec/$(ISE_PLATFORM)/libelimageutils.so"
 			description:
 				"""
 					libelimageutils.so requires:
-					$EIFFEL_LOOP/C_library/image-utils/spec/$ISE_PLATFORM/libelimageutils.so
+					$EL_C_LIB/image-utils/spec/$ISE_PLATFORM/libelimageutils.so
 				"""
 			condition:
 				platform:

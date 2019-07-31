@@ -119,7 +119,6 @@ if not library_dir or not path.exists (library_dir):
 	else:
 		eiffel_dir = None
 		library_dir = None
-	
 
 if not library_dir or not path.exists (library_dir):
 	print 'ERROR: cannot find "library" directory'
@@ -135,9 +134,8 @@ if not path.exists (library_dir):
 
 set_environ_from_directory (library_dir)
 	
-set_environ ('EXPAT',				'$EIFFEL_LOOP/contrib/C/Expat')
-set_environ ('VTD_XML_INCLUDE',	'$EIFFEL_LOOP/contrib/C/VTD-XML.2.7/include')
-set_environ ('EIFFEL_LOOP_C',		'$EIFFEL_LOOP/C_library')
+set_environ ('EL_CONTRIB',	'$EIFFEL_LOOP/contrib')
+set_environ ('EL_C_LIB',	'$EIFFEL_LOOP/C_library')
 
 MSC_options = ['/x64', '/win7', '/Release']
 

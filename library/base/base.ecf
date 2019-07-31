@@ -21,10 +21,10 @@ Clusters:
 		<mapping old_name = "ZSTRING" new_name = "EL_ZSTRING"/>
 		<!--Needed for Windows XP-->
 		<variable name = "link_object" value = "false"/>
-		<external_object location = "$EIFFEL_LOOP/contrib/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll">
+		<external_object location = "$EL_CONTRIB/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll">
 			<description>
 msvcr71.dll requires:
-$EIFFEL_LOOP/contrib/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll
+$EL_CONTRIB/C/MSC-runtime/spec/$ISE_PLATFORM/msvcr71.dll
 			</description>
 			<condition>
 				<platform value = "windows"/>

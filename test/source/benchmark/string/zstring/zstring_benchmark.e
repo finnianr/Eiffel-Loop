@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-09 13:45:33 GMT (Monday 9th April 2018)"
-	revision: "4"
+	date: "2019-07-25 11:11:52 GMT (Thursday 25th July 2019)"
+	revision: "5"
 
 class
 	ZSTRING_BENCHMARK
@@ -73,7 +73,7 @@ feature {NONE} -- Implementation
 
 	to_string_32 (string: like new_string): STRING_32
 		do
-			Result := string.to_unicode
+			Result := string.to_string_32
 		end
 
 	remove_substring (target: like new_string; start_index, end_index: INTEGER)

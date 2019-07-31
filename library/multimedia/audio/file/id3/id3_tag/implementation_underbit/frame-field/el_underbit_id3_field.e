@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-07-30 9:00:36 GMT (Tuesday 30th July 2019)"
+	revision: "5"
 
 class
 	EL_UNDERBIT_ID3_FIELD
@@ -236,7 +236,7 @@ feature {NONE} -- Implementation
 				create Result.make_owned (c_id3_utf8_ucs4duplicate (l_area.base_address))
 
 			elseif encoding = Encoding_UTF_16 or encoding = Encoding_UTF_16_BE then
-				l_area_16 := UTF.string_32_to_utf_16_0 (str.to_unicode)
+				l_area_16 := UTF.string_32_to_utf_16_0 (str.to_string_32)
 				create Result.make_owned (c_id3_utf16_ucs4duplicate (l_area_16.base_address))
 
 			end

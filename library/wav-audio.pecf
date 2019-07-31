@@ -30,7 +30,7 @@ system:
 
 		# For Windows: Internal WaveOut API callback function.
 		external_include: 
-			location = "$(EIFFEL_LOOP)/C_library/audio/source"
+			location = "$(EL_C_LIB)/audio/source"
 			condition:
 				platform:
 					value = windows
@@ -39,7 +39,7 @@ system:
 			location = "$(ISE_LIBRARY)/C_library/zlib"
 					
 		external_object:
-			location = "$(EIFFEL_LOOP)/C_library/audio/spec/$(ISE_PLATFORM)/el_audio.lib"
+			location = "$(EL_C_LIB)/audio/spec/$(ISE_PLATFORM)/el_audio.lib"
 			condition:
 				platform:
 					value = windows

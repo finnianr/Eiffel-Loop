@@ -31,23 +31,24 @@ system:
 
 		# Expat
 		external_include: 
-			location = "$(EXPAT)/include"
+			location = "$(EL_CONTRIB)/C/Expat/include"
 
 		external_cflag:
 			value = "-DXML_BUILDING_EXPAT"
 
 		external_object:
-			location = "-L$(EXPAT)/spec/$(ISE_PLATFORM) -lexpat"
+			location = "-L$(EL_CONTRIB)/C/Expat/spec/$(ISE_PLATFORM) -lexpat"
 			condition:
 				platform:
 					value = unix
 
 		external_object:
-			location = "$(EXPAT)/spec/$(ISE_PLATFORM)/expat.lib"
+			location = "$(EL_CONTRIB)/C/Expat/spec/$(ISE_PLATFORM)/expat.lib"
 			condition:
 				platform:
 					value = windows
 
+		# ISE libraries
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
