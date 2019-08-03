@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-21 8:31:49 GMT (Sunday 21st July 2019)"
-	revision: "31"
+	date: "2019-08-02 12:59:47 GMT (Friday 2nd August 2019)"
+	revision: "32"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -939,6 +939,20 @@ feature -- Status query
 					space_count := 0
 				end
 				i := i + 1
+			end
+		end
+
+	is_numeric_item (i: INTEGER): BOOLEAN
+		require
+			valid_index: valid_index (i)
+		local
+			c: CHARACTER
+		do
+			c := area [i - 1]
+			if c = Unencoded_character then
+				Result := unencoded_item (i).is_digit
+			else
+				Result := codec.is_numeric (c.natural_32_code)
 			end
 		end
 

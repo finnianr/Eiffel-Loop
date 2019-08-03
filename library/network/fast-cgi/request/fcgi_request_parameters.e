@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 14:27:13 GMT (Monday 5th November 2018)"
-	revision: "12"
+	date: "2019-08-03 16:29:42 GMT (Saturday 3rd August 2019)"
+	revision: "13"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -38,6 +38,8 @@ inherit
 		undefine
 			is_equal
 		end
+
+	EL_MODULE_IP_ADDRESS
 
 create
 	make, make_from_table
@@ -206,17 +208,8 @@ feature -- Access
 		end
 
 	remote_address_32: NATURAL
-		local
-			parts: EL_SPLIT_STRING_LIST [STRING]; l_result: NATURAL_32_REF
 		do
-			create parts.make (remote_addr, Dot)
-			if parts.count = 4 then
-				create l_result
-				parts.do_all (agent append_byte (?, l_result))
-				Result := l_result.item
-			elseif remote_addr ~ once "::1" then
-				Result := 0x7F_00_00_01
-			end
+			Result := IP_address.to_number (remote_addr)
 		end
 
 	server_software_version: NATURAL
@@ -303,11 +296,6 @@ feature -- ZSTRING parameters
 	server_software: ZSTRING
 
 feature {NONE} -- Implementation
-
-	append_byte (byte_string: STRING; n: NATURAL_32_REF)
-		do
-			n.set_item (n.item |<< 8 | byte_string.to_natural_32)
-		end
 
 	set_table_field (table: like field_table; name: STRING; value: ZSTRING)
 

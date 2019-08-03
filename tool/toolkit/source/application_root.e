@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-04-04 14:01:09 GMT (Thursday 4th April 2019)"
-	revision: "20"
+	date: "2019-08-02 13:21:30 GMT (Friday 2nd August 2019)"
+	revision: "21"
 
 class
 	APPLICATION_ROOT
@@ -52,6 +52,7 @@ feature {NONE} -- Implementation
 				{THUNDERBIRD_WWW_EXPORTER_APP},
 
 				{UNDATED_PHOTO_FINDER_APP},
+				{USER_AGENT_APP},
 
 				{VCF_CONTACT_SPLITTER_APP},
 				{VCF_CONTACT_NAME_SWITCHER_APP},
