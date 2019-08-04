@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-23 8:12:27 GMT (Tuesday 23rd July 2019)"
-	revision: "8"
+	date: "2019-08-04 8:59:59 GMT (Sunday 4th August 2019)"
+	revision: "9"
 
 class
 	EL_SILENT_LOG
@@ -116,11 +116,6 @@ feature -- Output
 		do
 		end
 
-	put_natural (n: NATURAL)
-			--
-		do
-		end
-
 	put_new_line
 			--
 		do
@@ -166,7 +161,6 @@ feature -- Numeric output
 		do
 		end
 
-
 	put_integer (i: INTEGER)
 			--
 		do
@@ -179,6 +173,15 @@ feature -- Numeric output
 
 	put_integer_interval_field (label: READABLE_STRING_GENERAL; field_value: INTEGER_INTERVAL)
 			--
+		do
+		end
+
+	put_natural (n: NATURAL)
+			--
+		do
+		end
+
+	put_natural_field (label: READABLE_STRING_GENERAL; field_value: NATURAL)
 		do
 		end
 

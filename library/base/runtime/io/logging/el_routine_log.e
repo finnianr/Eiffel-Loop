@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-23 8:13:46 GMT (Tuesday 23rd July 2019)"
-	revision: "12"
+	date: "2019-08-04 8:59:08 GMT (Sunday 4th August 2019)"
+	revision: "13"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -332,6 +332,19 @@ feature -- Numeric output
 		do
 			l_out := output
 			l_out.put_natural (n)
+			l_out.flush
+		end
+
+	put_natural_field (label: READABLE_STRING_GENERAL; field_value: NATURAL)
+			--
+		local
+			l_out: like output
+		do
+			l_out := output
+
+			l_out.put_label (label)
+			l_out.put_natural (field_value)
+
 			l_out.flush
 		end
 

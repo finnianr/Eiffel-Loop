@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-23 8:12:06 GMT (Tuesday 23rd July 2019)"
-	revision: "9"
+	date: "2019-08-04 8:52:40 GMT (Sunday 4th August 2019)"
+	revision: "10"
 
 deferred class
 	EL_LOGGABLE
@@ -128,6 +128,11 @@ feature -- Output
 		end
 
 	put_natural (n: NATURAL)
+			--
+		deferred
+		end
+
+	put_natural_field (label: READABLE_STRING_GENERAL; field_value: NATURAL)
 			--
 		deferred
 		end

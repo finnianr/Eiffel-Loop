@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-23 8:15:50 GMT (Tuesday 23rd July 2019)"
-	revision: "10"
+	date: "2019-08-04 9:01:30 GMT (Sunday 4th August 2019)"
+	revision: "11"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -106,12 +106,6 @@ feature -- Output
 			log_sink.put_elapsed_time
 		end
 
-	put_integer (i: INTEGER)
-			--
-		do
-			log_sink.put_integer (i)
-		end
-
 	put_labeled_string (label, str: READABLE_STRING_GENERAL)
 			--
 		do
@@ -201,6 +195,12 @@ feature -- Numeric output
 			log_sink.put_double_field (label, field_value)
 		end
 
+	put_integer (i: INTEGER)
+			--
+		do
+			log_sink.put_integer (i)
+		end
+
 	put_integer_field (label: READABLE_STRING_GENERAL; field_value: INTEGER)
 			--
 		do
@@ -217,6 +217,12 @@ feature -- Numeric output
 			--
 		do
 			log_sink.put_natural (n)
+		end
+
+	put_natural_field (label: READABLE_STRING_GENERAL; field_value: NATURAL)
+			--
+		do
+			log_sink.put_natural_field (label, field_value)
 		end
 
 	put_real (r: REAL)

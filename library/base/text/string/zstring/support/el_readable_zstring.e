@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-02 12:59:47 GMT (Friday 2nd August 2019)"
-	revision: "32"
+	date: "2019-08-04 11:02:58 GMT (Sunday 4th August 2019)"
+	revision: "33"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -766,6 +766,58 @@ feature -- Measurement
 			end
 		end
 
+feature -- Character status query
+
+	is_alpha_item (i: INTEGER): BOOLEAN
+		require
+			valid_index: valid_index (i)
+		do
+			Result := is_area_alpha_item (area, i - 1)
+		end
+
+	is_alpha_numeric_item (i: INTEGER): BOOLEAN
+		require
+			valid_index: valid_index (i)
+		local
+			c: CHARACTER
+		do
+			c := area [i - 1]
+			if c = Unencoded_character then
+				Result := unencoded_item (i).is_alpha_numeric
+			else
+				Result := codec.is_alphanumeric (c.natural_32_code)
+			end
+		end
+
+	is_numeric_item (i: INTEGER): BOOLEAN
+		require
+			valid_index: valid_index (i)
+		local
+			c: CHARACTER
+		do
+			c := area [i - 1]
+			if c = Unencoded_character then
+				Result := unencoded_item (i).is_digit
+			else
+				Result := codec.is_numeric (c.natural_32_code)
+			end
+		end
+
+	is_space_item (i: INTEGER): BOOLEAN
+		require
+			valid_index: valid_index (i)
+		local
+			c: CHARACTER
+		do
+			c := area [i - 1]
+			if c = Unencoded_character then
+				-- Because of a compiler bug we need `is_space_32'
+				Result := is_space_32 (unencoded_item (i))
+			else
+				Result := c.is_space
+			end
+		end
+
 feature -- Status query
 
 	begins_with (str: READABLE_STRING_GENERAL): BOOLEAN
@@ -888,27 +940,6 @@ feature -- Status query
 			end
 		end
 
-	is_alpha_item (i: INTEGER): BOOLEAN
-		require
-			valid_index: valid_index (i)
-		do
-			Result := is_area_alpha_item (area, i - 1)
-		end
-
-	is_alpha_numeric_item (i: INTEGER): BOOLEAN
-		require
-			valid_index: valid_index (i)
-		local
-			c: CHARACTER
-		do
-			c := area [i - 1]
-			if c = Unencoded_character then
-				Result := unencoded_item (i).is_alpha_numeric
-			else
-				Result := codec.is_alphanumeric (c.natural_32_code)
-			end
-		end
-
 	is_canonically_spaced: BOOLEAN
 		-- `True' if the longest substring of whitespace consists of one space character
 		local
@@ -942,20 +973,6 @@ feature -- Status query
 			end
 		end
 
-	is_numeric_item (i: INTEGER): BOOLEAN
-		require
-			valid_index: valid_index (i)
-		local
-			c: CHARACTER
-		do
-			c := area [i - 1]
-			if c = Unencoded_character then
-				Result := unencoded_item (i).is_digit
-			else
-				Result := codec.is_numeric (c.natural_32_code)
-			end
-		end
-
 	is_left_adjustable: BOOLEAN
 		-- True if `left_adjust' will change the `count'
 		do
@@ -966,21 +983,6 @@ feature -- Status query
 		-- True if `right_adjust' will change the `count'
 		do
 			Result := not is_empty and then is_space_item (count)
-		end
-
-	is_space_item (i: INTEGER): BOOLEAN
-		require
-			valid_index: valid_index (i)
-		local
-			c: CHARACTER
-		do
-			c := area [i - 1]
-			if c = Unencoded_character then
-				-- Because of a compiler bug we need `is_space_32'
-				Result := is_space_32 (unencoded_item (i))
-			else
-				Result := c.is_space
-			end
 		end
 
 	is_string_32: BOOLEAN = True

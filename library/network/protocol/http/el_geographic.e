@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-03 18:09:33 GMT (Saturday 3rd August 2019)"
-	revision: "1"
+	date: "2019-08-04 12:37:06 GMT (Sunday 4th August 2019)"
+	revision: "2"
 
 class
 	EL_GEOGRAPHIC
@@ -22,12 +22,18 @@ inherit
 
 	EL_MODULE_IP_ADDRESS
 
+	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_LIO
+
 create
 	make
 
 feature -- Access
 
 	location (ip_number: NATURAL): ZSTRING
+		local
+			done: BOOLEAN
 		do
 			if has_key (ip_number) then
 				Result := found_item
@@ -38,8 +44,18 @@ feature -- Access
 						Result.append_string (Separator)
 					end
 					Web.open (IP_api_template #$ [Ip_address.to_string (ip_number), name.item])
-					Web.read_string_get
-					Result.append_utf_8 (Web.last_string)
+					from done := False until done loop
+						Web.read_string_get
+						if Web.last_string.has_substring (Ratelimited) then
+							lio.put_new_line
+							lio.put_string ("Waiting for ipapi.co ..")
+							lio.put_new_line
+							Execution_environment.sleep (500)
+						else
+							Result.append_utf_8 (Web.last_string)
+							done := True
+						end
+					end
 					Web.close
 				end
 				extend (Result, ip_number)
@@ -49,6 +65,8 @@ feature -- Access
 feature {NONE} -- Constants
 
 	IP_api_template: ZSTRING
+		-- example: https://ipapi.co/91.196.50.33/country_name/
+		-- Possible error: {"reason": "RateLimited", "message": "", "wait": 1.0, "error": true}
 		once
 			Result := "https://ipapi.co/%S/%S/"
 		end
@@ -62,5 +80,7 @@ feature {NONE} -- Constants
 		once
 			Result := ", "
 		end
+
+	RateLimited: STRING = "RateLimited"
 
 end

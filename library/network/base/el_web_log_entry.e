@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-03 17:13:28 GMT (Saturday 3rd August 2019)"
-	revision: "1"
+	date: "2019-08-04 9:26:36 GMT (Sunday 4th August 2019)"
+	revision: "2"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -31,8 +31,7 @@ feature {NONE} -- Initialization
 		require
 			valid_line: line.occurrences (Quote) = 6
 		local
-			list: like Split_list; index: INTEGER
-			address: STRING
+			list: like Split_list; index: INTEGER; address: STRING
 		do
 			list := Split_list
 			list.wipe_out
@@ -40,7 +39,7 @@ feature {NONE} -- Initialization
 			from list.start until list.after loop
 				inspect list.index
 					when 1 then
-						address := list.item.substring (1, list.item.index_of (' ', 1))
+						address := list.item.substring (1, list.item.index_of (' ', 1) - 1)
 						ip_address := Mod_ip_address.to_number (address)
 						date := list.item.substring_between (Square_bracket.left, Square_bracket.right, address.count + 3)
 					when 2 then
