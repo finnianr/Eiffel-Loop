@@ -1,0 +1,75 @@
+note
+	description: "Cached geopgraphic lookup of ip number"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-08-05 11:12:22 GMT (Monday 5th August 2019)"
+	revision: "3"
+
+class
+	EL_GEOGRAPHICAL_ROUTINES
+
+inherit
+	ANY
+
+	EL_MODULE_WEB
+
+	EL_MODULE_IP_ADDRESS
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_LIO
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			create region_table.make (50)
+			create country_table.make (50)
+		end
+
+feature -- Element change
+
+	cache_location (ip_number: NATURAL; character: CHARACTER)
+		do
+			region_table.cache_location (ip_number, character)
+			country_table.cache_location (ip_number, character)
+		end
+
+feature -- Access
+
+	country (ip_number: NATURAL): ZSTRING
+		do
+			Result := country_table.location (ip_number)
+		end
+
+	location (ip_number: NATURAL): ZSTRING
+		do
+			Result := country (ip_number) + Separator + region (ip_number)
+		end
+
+	region (ip_number: NATURAL): ZSTRING
+		do
+			Result := region_table.location (ip_number)
+		end
+
+feature {NONE} -- Internal attributes
+
+	country_table: EL_COUNTRY_CACHE_TABLE
+
+	region_table: EL_REGION_CACHE_TABLE
+
+feature {NONE} -- Constants
+
+	Separator: ZSTRING
+		once
+			Result := ", "
+		end
+
+end

@@ -24,7 +24,7 @@ inherit
 create
 	make
 
-feature -- Element change
+feature -- Conversion
 
 	to_number (address: STRING): NATURAL
 		do
@@ -42,7 +42,7 @@ feature -- Element change
 			reversible: address /= Loop_back_one implies address ~ to_string (Result)
 		end
 
-	to_string (address: NATURAL): STRING
+	to_string (ip_number: NATURAL): STRING
 		local
 			mem: like Memory
 			i: INTEGER
@@ -50,7 +50,7 @@ feature -- Element change
 			mem := Memory
 			mem.set_for_writing
 			mem.reset_count
-			mem.write_natural_32 (address)
+			mem.write_natural_32 (ip_number)
 
 			mem.reset_count
 			mem.set_for_reading
@@ -64,7 +64,7 @@ feature -- Element change
 				i := i + 1
 			end
 		ensure
-			reversible: address = to_number (Result)
+			reversible: ip_number = to_number (Result)
 		end
 
 feature {NONE} -- Implementation
