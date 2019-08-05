@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-04 9:26:36 GMT (Sunday 4th August 2019)"
-	revision: "2"
+	date: "2019-08-05 9:21:28 GMT (Monday 5th August 2019)"
+	revision: "3"
 
 class
 	EL_WEB_LOG_ENTRY
 
 inherit
 	ANY
-
-	EL_MODULE_TUPLE
 
 	EL_MODULE_IP_ADDRESS
 		rename
@@ -41,7 +39,10 @@ feature {NONE} -- Initialization
 					when 1 then
 						address := list.item.substring (1, list.item.index_of (' ', 1) - 1)
 						ip_address := Mod_ip_address.to_number (address)
-						date := list.item.substring_between (Square_bracket.left, Square_bracket.right, address.count + 3)
+						index := list.item.index_of ('[', address.count + 3) + 1
+						date := Date_factory.create_date (list.item.substring (index, index + 10))
+						index := index + 12
+						time := Time_factory.create_time (list.item.substring (index, index + 7))
 					when 2 then
 						http_command := list.item.substring (1, list.item.index_of (' ', 1))
 						index := list.item.substring_index (Http_protocol, http_command.count + 1)
@@ -68,7 +69,9 @@ feature -- Access
 
 	byte_count: NATURAL
 
-	date: STRING
+	date: DATE
+
+	time: TIME
 
 	http_command: STRING
 
@@ -119,10 +122,14 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Square_bracket: TUPLE [left, right: ZSTRING]
+	Date_factory: DATE_TIME_CODE_STRING
 		once
-			create Result
-			Tuple.fill (Result, "[, ]")
+			create Result.make ("[0]dd/mmm/yyyy")
+		end
+
+	Time_factory: DATE_TIME_CODE_STRING
+		once
+			create Result.make ("[0]hh:[0]mm:[0]ss")
 		end
 
 end

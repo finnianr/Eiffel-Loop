@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:55:48 GMT (Monday 1st July 2019)"
-	revision: "16"
+	date: "2019-08-05 11:40:13 GMT (Monday 5th August 2019)"
+	revision: "17"
 
 class
 	EIFFEL_CLASS
@@ -37,27 +37,16 @@ inherit
 			copy
 		end
 
-	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal, copy
-		end
-
-	SHARED_HTML_CLASS_SOURCE_TABLE
-		undefine
-			is_equal, copy
-		end
-
-	EL_EIFFEL_KEYWORDS
-		undefine
-			is_equal, copy
-		end
-
 	EL_SINGLE_THREAD_ACCESS
 		undefine
 			is_equal, copy
 		redefine
 			make_default
 		end
+
+	EL_EIFFEL_KEYWORDS undefine is_equal, copy end
+
+	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_DIRECTORY
 
@@ -68,6 +57,8 @@ inherit
 	EL_MODULE_XML
 
 	EL_SHARED_ONCE_STRINGS
+
+	SHARED_HTML_CLASS_SOURCE_TABLE
 
 create
 	make

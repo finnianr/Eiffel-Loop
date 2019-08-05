@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:33:02 GMT (Monday 1st July 2019)"
-	revision: "11"
+	date: "2019-08-05 11:42:14 GMT (Monday 5th August 2019)"
+	revision: "12"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -32,15 +32,12 @@ deferred class
 inherit
 	EL_SETTABLE_FROM_ZSTRING
 
-	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal
-		end
-
 	EL_REFLECTION_HANDLER
 		undefine
 			is_equal
 		end
+
+	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_NAMING
 

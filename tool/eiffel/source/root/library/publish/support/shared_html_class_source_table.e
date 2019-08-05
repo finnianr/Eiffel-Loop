@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-08-05 11:34:11 GMT (Monday 5th August 2019)"
+	revision: "5"
 
-class
+deferred class
 	SHARED_HTML_CLASS_SOURCE_TABLE
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Implementation
 

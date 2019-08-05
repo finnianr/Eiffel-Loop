@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:01:40 GMT (Monday 1st July 2019)"
-	revision: "18"
+	date: "2019-08-05 11:38:17 GMT (Monday 5th August 2019)"
+	revision: "19"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -23,9 +23,6 @@ inherit
 	EL_EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
-		undefine
-			default_create
-		end
 
 	EL_MODULE_USER_INPUT
 

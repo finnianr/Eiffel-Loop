@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:48:38 GMT (Wednesday 17th October 2018)"
-	revision: "4"
+	date: "2019-08-05 11:42:49 GMT (Monday 5th August 2019)"
+	revision: "5"
 
 class
 	FCGI_STRING_CONTENT_RECORD
@@ -27,15 +27,13 @@ inherit
 			default_create, set_padding_and_byte_count, is_last, on_last_read
 		end
 
-	EL_ZSTRING_CONSTANTS
-		undefine
-			default_create
-		end
-
 	STRING_HANDLER
 		undefine
 			default_create
 		end
+
+	EL_ZSTRING_CONSTANTS
+
 create
 	default_create
 

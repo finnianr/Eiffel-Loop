@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:29:59 GMT (Wednesday 17th October 2018)"
-	revision: "6"
+	date: "2019-08-05 11:37:12 GMT (Monday 5th August 2019)"
+	revision: "7"
 
 class
 	EL_PATTERN_SPLIT_STRING_LIST
@@ -33,9 +33,6 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal, copy
-		end
 
 create
 	make, make_with_delimiter

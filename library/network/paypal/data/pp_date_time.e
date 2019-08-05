@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 14:37:30 GMT (Wednesday 17th October 2018)"
-	revision: "6"
+	date: "2019-08-05 11:55:18 GMT (Monday 5th August 2019)"
+	revision: "7"
 
 class
 	PP_DATE_TIME
@@ -34,9 +34,6 @@ inherit
 		end
 
 	EL_STRING_8_CONSTANTS
-		undefine
-			is_equal, copy, out
-		end
 
 create
 	make, make_now

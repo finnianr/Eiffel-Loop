@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:30:56 GMT (Wednesday 17th October 2018)"
-	revision: "5"
+	date: "2019-08-05 11:36:52 GMT (Monday 5th August 2019)"
+	revision: "6"
 
 class
 	EL_TRANSLATION_ITEM
@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal
-		end
 
 create
 	make, make_default

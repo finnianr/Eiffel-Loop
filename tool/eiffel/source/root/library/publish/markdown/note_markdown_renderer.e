@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-05 8:06:57 GMT (Friday 5th October 2018)"
-	revision: "8"
+	date: "2019-08-05 11:34:45 GMT (Monday 5th August 2019)"
+	revision: "9"
 
 class
 	NOTE_MARKDOWN_RENDERER
@@ -19,9 +19,6 @@ inherit
 		end
 
 	SHARED_HTML_CLASS_SOURCE_TABLE
-		undefine
-			default_create
-		end
 
 create
 	default_create

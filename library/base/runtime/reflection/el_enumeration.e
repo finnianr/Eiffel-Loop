@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-07 16:28:45 GMT (Thursday 7th March 2019)"
-	revision: "16"
+	date: "2019-08-05 11:42:57 GMT (Monday 5th August 2019)"
+	revision: "17"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -44,9 +44,6 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal
-		end
 
 feature {NONE} -- Initialization
 

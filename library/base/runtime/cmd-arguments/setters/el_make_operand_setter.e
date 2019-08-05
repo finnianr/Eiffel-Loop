@@ -8,16 +8,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 18:03:43 GMT (Friday 25th January 2019)"
-	revision: "9"
+	date: "2019-08-05 11:39:06 GMT (Monday 5th August 2019)"
+	revision: "10"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
 
 inherit
-	EL_MODULE_ARGS
+	ANY
 
 	EL_ZSTRING_CONSTANTS
+
+	EL_MODULE_ARGS
 
 	EL_MODULE_STRING_8
 

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 17:40:21 GMT (Friday 25th January 2019)"
-	revision: "3"
+	date: "2019-08-05 11:37:54 GMT (Monday 5th August 2019)"
+	revision: "4"
 
 class
 	CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE
@@ -24,15 +24,12 @@ inherit
 			make, new_path_list
 		end
 
-	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal
-		end
-
 	CROSS_PLATFORM_CONSTANTS
 		undefine
 			is_equal
 		end
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

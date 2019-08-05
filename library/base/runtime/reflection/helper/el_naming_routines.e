@@ -11,13 +11,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-04 19:29:04 GMT (Friday 4th January 2019)"
-	revision: "7"
+	date: "2019-08-05 11:54:20 GMT (Monday 5th August 2019)"
+	revision: "8"
 
 class
 	EL_NAMING_ROUTINES
 
 inherit
+	ANY
+	
 	EL_MODULE_STRING_8
 
 	EL_STRING_8_CONSTANTS

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:36:45 GMT (Monday 1st July 2019)"
-	revision: "25"
+	date: "2019-08-05 11:39:43 GMT (Monday 5th August 2019)"
+	revision: "26"
 
 deferred class
 	EL_PATH
@@ -40,9 +40,9 @@ inherit
 
 	STRING_HANDLER undefine is_equal, default_create, out, copy end
 
-	EL_ZSTRING_CONSTANTS undefine is_equal, default_create, out, copy end
-
 	EL_ZSTRING_ROUTINES undefine is_equal, default_create, out, copy end
+
+	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_FILE_SYSTEM
 

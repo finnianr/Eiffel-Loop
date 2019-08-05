@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:27:43 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2019-08-05 11:41:21 GMT (Monday 5th August 2019)"
+	revision: "8"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -29,9 +29,6 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal, copy
-		end
 
 	EL_MODULE_CRC_32
 

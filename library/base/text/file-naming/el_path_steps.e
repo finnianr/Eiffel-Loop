@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-21 8:28:24 GMT (Sunday 21st July 2019)"
-	revision: "19"
+	date: "2019-08-05 11:40:00 GMT (Monday 5th August 2019)"
+	revision: "20"
 
 class
 	EL_PATH_STEPS
@@ -75,15 +75,12 @@ inherit
 			default_create, is_equal
 		end
 
-	EL_ZSTRING_CONSTANTS
-		undefine
-			default_create, is_equal
-		end
-
 	STRING_HANDLER
 		undefine
 			default_create, is_equal
 		end
+
+	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 

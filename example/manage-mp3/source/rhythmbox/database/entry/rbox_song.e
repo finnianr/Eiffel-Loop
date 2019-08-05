@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:09:31 GMT (Monday 1st July 2019)"
-	revision: "18"
+	date: "2019-08-05 12:02:42 GMT (Monday 5th August 2019)"
+	revision: "19"
 
 class
 	RBOX_SONG
@@ -34,9 +34,6 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal
-		end
 
 	EL_MODULE_OS
 

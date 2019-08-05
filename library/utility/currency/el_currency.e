@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:51:30 GMT (Monday 1st July 2019)"
-	revision: "10"
+	date: "2019-08-05 11:44:09 GMT (Monday 5th August 2019)"
+	revision: "11"
 
 class
 	EL_CURRENCY
@@ -20,17 +20,14 @@ inherit
 
 	COMPARABLE
 
-	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal
-		end
-
 	EL_INTEGER_MATH
 		export
 			{NONE} all
 		undefine
 			is_equal
 		end
+
+	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_DEFERRED_LOCALE
 

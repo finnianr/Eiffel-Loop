@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:42:46 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2019-08-05 11:51:40 GMT (Monday 5th August 2019)"
+	revision: "7"
 
 class
 	EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX
@@ -18,15 +18,9 @@ inherit
 			make as make_box
 		end
 
-	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal, default_create, copy
-		end
-
 	EL_STRING_32_CONSTANTS
-		undefine
-			is_equal, default_create, copy
-		end
+
+	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_GUI
 

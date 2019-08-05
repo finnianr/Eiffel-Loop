@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-03 16:29:42 GMT (Saturday 3rd August 2019)"
-	revision: "13"
+	date: "2019-08-05 11:41:51 GMT (Monday 5th August 2019)"
+	revision: "14"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -35,9 +35,6 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal
-		end
 
 	EL_MODULE_IP_ADDRESS
 

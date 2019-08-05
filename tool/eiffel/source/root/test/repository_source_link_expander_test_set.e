@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "2"
+	date: "2019-08-05 11:34:39 GMT (Monday 5th August 2019)"
+	revision: "3"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -21,9 +21,6 @@ inherit
 		end
 
 	SHARED_HTML_CLASS_SOURCE_TABLE
-		undefine
-			default_create
-		end
 
 feature {NONE} -- Events
 

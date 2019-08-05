@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-20 11:15:35 GMT (Sunday 20th January 2019)"
-	revision: "6"
+	date: "2019-08-05 11:41:14 GMT (Monday 5th August 2019)"
+	revision: "7"
 
 class
 	EL_THUNDERBIRD_CONSTANTS
 
 inherit
+	ANY
+	
 	EL_MODULE_XML
 
 	EL_MODULE_TUPLE

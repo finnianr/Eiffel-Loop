@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-13 14:42:59 GMT (Wednesday 13th February 2019)"
-	revision: "3"
+	date: "2019-08-05 11:40:30 GMT (Monday 5th August 2019)"
+	revision: "4"
 
 class
 	EL_ZSTRING_TOKEN_TABLE
@@ -23,17 +23,14 @@ inherit
 			put, make, is_equal
 		end
 
-	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal, copy
-		end
-
 	EL_ZSTRING_ROUTINES
 		rename
 			joined as joined_iterable
 		undefine
 			is_equal, copy
 		end
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

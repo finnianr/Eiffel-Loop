@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-17 14:21:31 GMT (Monday 17th December 2018)"
-	revision: "6"
+	date: "2019-08-05 11:37:00 GMT (Monday 5th August 2019)"
+	revision: "7"
 
 class
 	MARKUP_SUBSTITUTION
 
 inherit
+	ANY
+	
 	EL_ZSTRING_CONSTANTS
 
 create

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:51:51 GMT (Wednesday 17th October 2018)"
-	revision: "11"
+	date: "2019-08-05 11:55:28 GMT (Monday 5th August 2019)"
+	revision: "12"
 
 class
 	FCGI_HTTP_HEADERS
@@ -31,9 +31,6 @@ inherit
 		end
 
 	EL_STRING_8_CONSTANTS
-		undefine
-			is_equal
-		end
 
 create
 	make

@@ -9,13 +9,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:53:21 GMT (Monday 1st July 2019)"
-	revision: "14"
+	date: "2019-08-05 11:36:31 GMT (Monday 5th August 2019)"
+	revision: "15"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
 
 inherit
+	ANY
+
 	EL_ZSTRING_CONSTANTS
 		rename
 			Empty_string as Empty_pattern

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-21 8:27:08 GMT (Sunday 21st July 2019)"
-	revision: "6"
+	date: "2019-08-05 11:46:18 GMT (Monday 5th August 2019)"
+	revision: "7"
 
 class
 	EL_TEXT_RECTANGLE
@@ -40,9 +40,6 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
-		undefine
-			out
-		end
 
 	EL_MODULE_LOG
 

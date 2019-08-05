@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:01:03 GMT (Monday 1st July 2019)"
-	revision: "8"
+	date: "2019-08-05 11:54:47 GMT (Monday 5th August 2019)"
+	revision: "9"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -27,20 +27,14 @@ inherit
 			is_equal, copy
 		end
 
-	EL_STRING_8_CONSTANTS
-		undefine
-			is_equal, copy
-		end
-
-	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal, copy
-		end
-
 	MARKDOWN_ROUTINES
 		undefine
 			is_equal, copy
 		end
+
+	EL_STRING_8_CONSTANTS
+
+	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_XML
 

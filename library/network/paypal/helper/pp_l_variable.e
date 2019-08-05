@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:00:15 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2019-08-05 11:55:01 GMT (Monday 5th August 2019)"
+	revision: "6"
 
 class
 	PP_L_VARIABLE
@@ -24,9 +24,6 @@ inherit
 		end
 
 	EL_STRING_8_CONSTANTS
-		undefine
-			is_equal
-		end
 
 	EL_SHARED_ONCE_STRINGS
 

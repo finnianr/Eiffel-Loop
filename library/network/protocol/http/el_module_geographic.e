@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-03 18:02:39 GMT (Saturday 3rd August 2019)"
-	revision: "1"
+	date: "2019-08-05 10:22:06 GMT (Monday 5th August 2019)"
+	revision: "2"
 
 deferred class
 	EL_MODULE_GEOGRAPHIC
@@ -19,6 +19,6 @@ feature {NONE} -- Constants
 
 	Geographic: EL_GEOGRAPHIC
 		once
-			create Result.make (17)
+			create Result.make
 		end
 end

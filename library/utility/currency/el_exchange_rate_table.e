@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:33:09 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2019-08-05 9:18:49 GMT (Monday 5th August 2019)"
+	revision: "8"
 
 deferred class
 	EL_EXCHANGE_RATE_TABLE
@@ -44,13 +44,12 @@ feature -- Access
 	cached_dates: EL_SORTABLE_ARRAYED_LIST [DATE]
 		-- dates of disk cached rates sorted in reverse chronological order
 		local
-			dir: EL_DIRECTORY; date_string: STRING
+			dir: EL_DIRECTORY
 		do
 			create Result.make (5)
 			create dir.make (Rates_dir)
 			across dir.files_with_extension (XML_extension) as file_path loop
-				date_string := file_path.item.base_sans_extension
-				Result.extend (create {DATE}.make_from_string (date_string, Date_format))
+				Result.extend (Date_factory.create_date (file_path.item.base_sans_extension))
 			end
 			Result.reverse_sort
 			Result.compare_objects
@@ -105,6 +104,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Date_factory: DATE_TIME_CODE_STRING
+		once
+			create Result.make (Date_format)
+		end
 
 	Date_format: STRING = "yyyy-[0]mm-[0]dd"
 
