@@ -1,585 +1,801 @@
-file C:\Program Files\Python27\lib\site-packages\eiffel_loop\scons\eiffel.py,line 53:
+file /usr/local/lib/python2.7/dist-packages/eiffel_loop/scons/eiffel.py,line 53:
 	Configure(confdir = .sconf_temp)
-scons: Configure: Checking for C library IPHlpApi... 
-.sconf_temp\conftest_0.c <-
-  |
-  |
-  |
-  |int
-  |main() {
-  |  
-  |return 0;
-  |}
-  |
-cl /Fo.sconf_temp\conftest_0.obj /c .sconf_temp\conftest_0.c /nologo
-conftest_0.c
-link /nologo /OUT:.sconf_temp\conftest_0.exe IPHlpApi.lib .sconf_temp\conftest_0.obj
-scons: Configure: yes
 
-
-file D:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\SConscript,line 36:
-	Configure(confdir = .sconf_temp)
-scons: Configure: Checking for C header file assert.h... 
-.sconf_temp\conftest_1.c <-
-  |
-  |#include "assert.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_1.obj /c .sconf_temp\conftest_1.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_1.c
-scons: Configure: yes
-
-scons: Configure: Checking for C header file dlfcn.h... 
-.sconf_temp\conftest_2.c <-
-  |
-  |#include "dlfcn.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_2.obj /c .sconf_temp\conftest_2.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_2.c
-.sconf_temp\conftest_2.c(2) : fatal error C1083: Cannot open include file: 'dlfcn.h': No such file or directory
-scons: Configure: no
-
-scons: Configure: Checking for C header file inttypes.h... 
-.sconf_temp\conftest_3.c <-
-  |
-  |#include "inttypes.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_3.obj /c .sconf_temp\conftest_3.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_3.c
-.sconf_temp\conftest_3.c(2) : fatal error C1083: Cannot open include file: 'inttypes.h': No such file or directory
-scons: Configure: no
-
-scons: Configure: Checking for C header file memory.h... 
-.sconf_temp\conftest_4.c <-
-  |
-  |#include "memory.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_4.obj /c .sconf_temp\conftest_4.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_4.c
-scons: Configure: yes
-
-scons: Configure: Checking for C header file stdint.h... 
-.sconf_temp\conftest_5.c <-
-  |
-  |#include "stdint.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_5.obj /c .sconf_temp\conftest_5.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_5.c
-scons: Configure: yes
-
-scons: Configure: Checking for C header file stdlib.h... 
-.sconf_temp\conftest_6.c <-
-  |
-  |#include "stdlib.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_6.obj /c .sconf_temp\conftest_6.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_6.c
-scons: Configure: yes
-
-scons: Configure: Checking for C header file strings.h... 
-.sconf_temp\conftest_7.c <-
-  |
-  |#include "strings.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_7.obj /c .sconf_temp\conftest_7.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_7.c
-.sconf_temp\conftest_7.c(2) : fatal error C1083: Cannot open include file: 'strings.h': No such file or directory
-scons: Configure: no
-
-scons: Configure: Checking for C header file string.h... 
-.sconf_temp\conftest_8.c <-
-  |
-  |#include "string.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_8.obj /c .sconf_temp\conftest_8.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_8.c
-scons: Configure: yes
-
-scons: Configure: Checking for C header file sys\stat.h... 
-.sconf_temp\conftest_9.c <-
-  |
-  |#include "sys\stat.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_9.obj /c .sconf_temp\conftest_9.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_9.c
-scons: Configure: yes
-
-scons: Configure: Checking for C header file sys\types.h... 
-.sconf_temp\conftest_10.c <-
-  |
-  |#include "sys\types.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_10.obj /c .sconf_temp\conftest_10.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_10.c
-scons: Configure: yes
-
-scons: Configure: Checking for C header file unistd.h... 
-.sconf_temp\conftest_11.c <-
-  |
-  |#include "unistd.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_11.obj /c .sconf_temp\conftest_11.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_11.c
-.sconf_temp\conftest_11.c(2) : fatal error C1083: Cannot open include file: 'unistd.h': No such file or directory
-scons: Configure: no
-
-scons: Configure: Checking for C header file stdlib.h... 
-.sconf_temp\conftest_12.c <-
-  |
-  |#include "stdlib.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_12.obj /c .sconf_temp\conftest_12.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_12.c
-scons: Configure: yes
-
-scons: Configure: Checking for C header file stdarg.h... 
-.sconf_temp\conftest_13.c <-
-  |
-  |#include "stdarg.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_13.obj /c .sconf_temp\conftest_13.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_13.c
-scons: Configure: yes
-
-scons: Configure: Checking for C header file string.h... 
-.sconf_temp\conftest_14.c <-
-  |
-  |#include "string.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_14.obj /c .sconf_temp\conftest_14.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_14.c
-scons: Configure: yes
-
-scons: Configure: Checking for C header file float.h... 
-.sconf_temp\conftest_15.c <-
-  |
-  |#include "float.h"
-  |
-  |
-cl /Fo.sconf_temp\conftest_15.obj /c .sconf_temp\conftest_15.c -Ox -Zi -MT -w -nologo /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b /ID:\Eiffel\library\Eiffel-Loop\contrib\C\libid3tag-0.15.1b\include
-conftest_15.c
-scons: Configure: yes
-
-
-file D:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\SConscript,line 36:
+file /home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/SConscript,line 36:
 	Configure(confdir = .sconf_temp)
 scons: Configure: Checking for C function getopt_long()... 
-.sconf_temp\conftest_16.c <-
+scons: Configure: ".sconf_temp/conftest_0.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_0.c <-
+  |  |
+  |  |
+  |  |#include <assert.h>
+  |  |
+  |  |#ifdef __cplusplus
+  |  |extern "C"
+  |  |#endif
+  |  |char getopt_long();
+  |  |
+  |  |int main() {
+  |  |#if defined (__stub_getopt_long) || defined (__stub___getopt_long)
+  |  |  fail fail fail
+  |  |#else
+  |  |  getopt_long();
+  |  |#endif
+  |  |
+  |  |  return 0;
+  |  |}
+  |  |
   |
+scons: Configure: ".sconf_temp/conftest_0.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_0.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_0.c
   |
-  |#include <assert.h>
+scons: Configure: ".sconf_temp/conftest_0" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_0 .sconf_temp/conftest_0.o
   |
-  |#ifdef __cplusplus
-  |extern "C"
-  |#endif
-  |char getopt_long();
-  |
-  |int main() {
-  |#if defined (__stub_getopt_long) || defined (__stub___getopt_long)
-  |  fail fail fail
-  |#else
-  |  getopt_long();
-  |#endif
-  |
-  |  return 0;
-  |}
-  |
-cl /Fo.sconf_temp\conftest_16.obj /c .sconf_temp\conftest_16.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_16.c
-link /nologo /OUT:.sconf_temp\conftest_16.exe .sconf_temp\conftest_16.obj
-conftest_16.obj : error LNK2019: unresolved external symbol getopt_long referenced in function main
-.sconf_temp\conftest_16.exe : fatal error LNK1120: 1 unresolved externals
-scons: Configure: no
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C function mkstemp()... 
-.sconf_temp\conftest_17.c <-
+scons: Configure: ".sconf_temp/conftest_1.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_1.c <-
+  |  |
+  |  |
+  |  |#include <assert.h>
+  |  |
+  |  |#ifdef __cplusplus
+  |  |extern "C"
+  |  |#endif
+  |  |char mkstemp();
+  |  |
+  |  |int main() {
+  |  |#if defined (__stub_mkstemp) || defined (__stub___mkstemp)
+  |  |  fail fail fail
+  |  |#else
+  |  |  mkstemp();
+  |  |#endif
+  |  |
+  |  |  return 0;
+  |  |}
+  |  |
   |
+scons: Configure: ".sconf_temp/conftest_1.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_1.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_1.c
   |
-  |#include <assert.h>
+scons: Configure: ".sconf_temp/conftest_1" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_1 .sconf_temp/conftest_1.o
   |
-  |#ifdef __cplusplus
-  |extern "C"
-  |#endif
-  |char mkstemp();
-  |
-  |int main() {
-  |#if defined (__stub_mkstemp) || defined (__stub___mkstemp)
-  |  fail fail fail
-  |#else
-  |  mkstemp();
-  |#endif
-  |
-  |  return 0;
-  |}
-  |
-cl /Fo.sconf_temp\conftest_17.obj /c .sconf_temp\conftest_17.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_17.c
-link /nologo /OUT:.sconf_temp\conftest_17.exe .sconf_temp\conftest_17.obj
-conftest_17.obj : error LNK2019: unresolved external symbol mkstemp referenced in function main
-.sconf_temp\conftest_17.exe : fatal error LNK1120: 1 unresolved externals
-scons: Configure: no
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C function truncate()... 
-.sconf_temp\conftest_18.c <-
+scons: Configure: ".sconf_temp/conftest_2.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_2.c <-
+  |  |
+  |  |
+  |  |#include <assert.h>
+  |  |
+  |  |#ifdef __cplusplus
+  |  |extern "C"
+  |  |#endif
+  |  |char truncate();
+  |  |
+  |  |int main() {
+  |  |#if defined (__stub_truncate) || defined (__stub___truncate)
+  |  |  fail fail fail
+  |  |#else
+  |  |  truncate();
+  |  |#endif
+  |  |
+  |  |  return 0;
+  |  |}
+  |  |
   |
+scons: Configure: ".sconf_temp/conftest_2.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_2.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_2.c
   |
-  |#include <assert.h>
+scons: Configure: ".sconf_temp/conftest_2" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_2 .sconf_temp/conftest_2.o
   |
-  |#ifdef __cplusplus
-  |extern "C"
-  |#endif
-  |char truncate();
-  |
-  |int main() {
-  |#if defined (__stub_truncate) || defined (__stub___truncate)
-  |  fail fail fail
-  |#else
-  |  truncate();
-  |#endif
-  |
-  |  return 0;
-  |}
-  |
-cl /Fo.sconf_temp\conftest_18.obj /c .sconf_temp\conftest_18.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_18.c
-link /nologo /OUT:.sconf_temp\conftest_18.exe .sconf_temp\conftest_18.obj
-conftest_18.obj : error LNK2019: unresolved external symbol truncate referenced in function main
-.sconf_temp\conftest_18.exe : fatal error LNK1120: 1 unresolved externals
-scons: Configure: no
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file dlfcn.h... 
-.sconf_temp\conftest_19.c <-
+scons: Configure: ".sconf_temp/conftest_3.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_3.c <-
+  |  |
+  |  |#include "dlfcn.h"
+  |  |
+  |  |
   |
-  |#include "dlfcn.h"
+scons: Configure: ".sconf_temp/conftest_3.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_3.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_3.c
   |
-  |
-cl /Fo.sconf_temp\conftest_19.obj /c .sconf_temp\conftest_19.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_19.c
-.sconf_temp\conftest_19.c(2) : fatal error C1083: Cannot open include file: 'dlfcn.h': No such file or directory
-scons: Configure: no
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file inttypes.h... 
-.sconf_temp\conftest_20.c <-
+scons: Configure: ".sconf_temp/conftest_4.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_4.c <-
+  |  |
+  |  |#include "inttypes.h"
+  |  |
+  |  |
   |
-  |#include "inttypes.h"
+scons: Configure: ".sconf_temp/conftest_4.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_4.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_4.c
   |
-  |
-cl /Fo.sconf_temp\conftest_20.obj /c .sconf_temp\conftest_20.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_20.c
-.sconf_temp\conftest_20.c(2) : fatal error C1083: Cannot open include file: 'inttypes.h': No such file or directory
-scons: Configure: no
+scons: Configure: (cached) yes
 
-scons: Configure: Checking for C header file libcw\sys.h... 
-.sconf_temp\conftest_21.c <-
+scons: Configure: Checking for C header file libcw/sys.h... 
+scons: Configure: ".sconf_temp/conftest_5.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_5.c <-
+  |  |
+  |  |#include "libcw/sys.h"
+  |  |
+  |  |
   |
-  |#include "libcw\sys.h"
+scons: Configure: Building ".sconf_temp/conftest_5.o" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_5.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_5.c
   |
-  |
-cl /Fo.sconf_temp\conftest_21.obj /c .sconf_temp\conftest_21.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_21.c
-.sconf_temp\conftest_21.c(2) : fatal error C1083: Cannot open include file: 'libcw\sys.h': No such file or directory
-scons: Configure: no
+scons: Configure: (cached) no
 
 scons: Configure: Checking for C header file memory.h... 
-.sconf_temp\conftest_22.c <-
+scons: Configure: ".sconf_temp/conftest_6.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_6.c <-
+  |  |
+  |  |#include "memory.h"
+  |  |
+  |  |
   |
-  |#include "memory.h"
+scons: Configure: ".sconf_temp/conftest_6.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_6.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_6.c
   |
-  |
-cl /Fo.sconf_temp\conftest_22.obj /c .sconf_temp\conftest_22.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_22.c
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file stdint.h... 
-.sconf_temp\conftest_23.c <-
+scons: Configure: ".sconf_temp/conftest_7.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_7.c <-
+  |  |
+  |  |#include "stdint.h"
+  |  |
+  |  |
   |
-  |#include "stdint.h"
+scons: Configure: ".sconf_temp/conftest_7.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_7.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_7.c
   |
-  |
-cl /Fo.sconf_temp\conftest_23.obj /c .sconf_temp\conftest_23.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_23.c
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file stdlib.h... 
-.sconf_temp\conftest_24.c <-
+scons: Configure: ".sconf_temp/conftest_8.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_8.c <-
+  |  |
+  |  |#include "stdlib.h"
+  |  |
+  |  |
   |
-  |#include "stdlib.h"
+scons: Configure: ".sconf_temp/conftest_8.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_8.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_8.c
   |
-  |
-cl /Fo.sconf_temp\conftest_24.obj /c .sconf_temp\conftest_24.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_24.c
-scons: Configure: yes
+scons: Configure: (cached) yes
 
-scons: Configure: Checking for C header file sys\param.h... 
-.sconf_temp\conftest_25.c <-
+scons: Configure: Checking for C header file sys/param.h... 
+scons: Configure: ".sconf_temp/conftest_9.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_9.c <-
+  |  |
+  |  |#include "sys/param.h"
+  |  |
+  |  |
   |
-  |#include "sys\param.h"
+scons: Configure: ".sconf_temp/conftest_9.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_9.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_9.c
   |
-  |
-cl /Fo.sconf_temp\conftest_25.obj /c .sconf_temp\conftest_25.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_25.c
-.sconf_temp\conftest_25.c(2) : fatal error C1083: Cannot open include file: 'sys\param.h': No such file or directory
-scons: Configure: no
+scons: Configure: (cached) yes
 
-scons: Configure: Checking for C header file sys\stat.h... 
-.sconf_temp\conftest_26.c <-
+scons: Configure: Checking for C header file sys/stat.h... 
+scons: Configure: ".sconf_temp/conftest_10.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_10.c <-
+  |  |
+  |  |#include "sys/stat.h"
+  |  |
+  |  |
   |
-  |#include "sys\stat.h"
+scons: Configure: ".sconf_temp/conftest_10.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_10.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_10.c
   |
-  |
-cl /Fo.sconf_temp\conftest_26.obj /c .sconf_temp\conftest_26.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_26.c
-scons: Configure: yes
+scons: Configure: (cached) yes
 
-scons: Configure: Checking for C header file sys\types.h... 
-.sconf_temp\conftest_27.c <-
+scons: Configure: Checking for C header file sys/types.h... 
+scons: Configure: ".sconf_temp/conftest_11.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_11.c <-
+  |  |
+  |  |#include "sys/types.h"
+  |  |
+  |  |
   |
-  |#include "sys\types.h"
+scons: Configure: ".sconf_temp/conftest_11.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_11.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_11.c
   |
-  |
-cl /Fo.sconf_temp\conftest_27.obj /c .sconf_temp\conftest_27.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_27.c
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file unistd.h... 
-.sconf_temp\conftest_28.c <-
+scons: Configure: ".sconf_temp/conftest_12.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_12.c <-
+  |  |
+  |  |#include "unistd.h"
+  |  |
+  |  |
   |
-  |#include "unistd.h"
+scons: Configure: ".sconf_temp/conftest_12.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_12.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_12.c
   |
-  |
-cl /Fo.sconf_temp\conftest_28.obj /c .sconf_temp\conftest_28.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_28.c
-.sconf_temp\conftest_28.c(2) : fatal error C1083: Cannot open include file: 'unistd.h': No such file or directory
-scons: Configure: no
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file wchar.h... 
-.sconf_temp\conftest_29.c <-
+scons: Configure: ".sconf_temp/conftest_13.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_13.c <-
+  |  |
+  |  |#include "wchar.h"
+  |  |
+  |  |
   |
-  |#include "wchar.h"
+scons: Configure: ".sconf_temp/conftest_13.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_13.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_13.c
   |
-  |
-cl /Fo.sconf_temp\conftest_29.obj /c .sconf_temp\conftest_29.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_29.c
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file zlib.h... 
-.sconf_temp\conftest_30.c <-
+scons: Configure: ".sconf_temp/conftest_14.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_14.c <-
+  |  |
+  |  |#include "zlib.h"
+  |  |
+  |  |
   |
-  |#include "zlib.h"
+scons: Configure: ".sconf_temp/conftest_14.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_14.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_14.c
   |
-  |
-cl /Fo.sconf_temp\conftest_30.obj /c .sconf_temp\conftest_30.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_30.c
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file bitset... 
-.sconf_temp\conftest_31.cpp <-
+scons: Configure: ".sconf_temp/conftest_15.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_15.cpp <-
+  |  |
+  |  |#include "bitset"
+  |  |
+  |  |
   |
-  |#include "bitset"
+scons: Configure: ".sconf_temp/conftest_15.o" is up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_15.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_15.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_31.obj /c .sconf_temp\conftest_31.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_31.cpp
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file cctype... 
-.sconf_temp\conftest_32.cpp <-
+scons: Configure: ".sconf_temp/conftest_16.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_16.cpp <-
+  |  |
+  |  |#include "cctype"
+  |  |
+  |  |
   |
-  |#include "cctype"
+scons: Configure: ".sconf_temp/conftest_16.o" is up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_16.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_16.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_32.obj /c .sconf_temp\conftest_32.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_32.cpp
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file climits... 
-.sconf_temp\conftest_33.cpp <-
+scons: Configure: ".sconf_temp/conftest_17.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_17.cpp <-
+  |  |
+  |  |#include "climits"
+  |  |
+  |  |
   |
-  |#include "climits"
+scons: Configure: ".sconf_temp/conftest_17.o" is up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_17.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_17.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_33.obj /c .sconf_temp\conftest_33.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_33.cpp
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file cstdio... 
-.sconf_temp\conftest_34.cpp <-
+scons: Configure: ".sconf_temp/conftest_18.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_18.cpp <-
+  |  |
+  |  |#include "cstdio"
+  |  |
+  |  |
   |
-  |#include "cstdio"
+scons: Configure: ".sconf_temp/conftest_18.o" is up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_18.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_18.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_34.obj /c .sconf_temp\conftest_34.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_34.cpp
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file cstdlib... 
-.sconf_temp\conftest_35.cpp <-
+scons: Configure: ".sconf_temp/conftest_19.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_19.cpp <-
+  |  |
+  |  |#include "cstdlib"
+  |  |
+  |  |
   |
-  |#include "cstdlib"
+scons: Configure: ".sconf_temp/conftest_19.o" is up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_19.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_19.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_35.obj /c .sconf_temp\conftest_35.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_35.cpp
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file cstring... 
-.sconf_temp\conftest_36.cpp <-
+scons: Configure: ".sconf_temp/conftest_20.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_20.cpp <-
+  |  |
+  |  |#include "cstring"
+  |  |
+  |  |
   |
-  |#include "cstring"
+scons: Configure: ".sconf_temp/conftest_20.o" is up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_20.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_20.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_36.obj /c .sconf_temp\conftest_36.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_36.cpp
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file fstream... 
-.sconf_temp\conftest_37.cpp <-
+scons: Configure: ".sconf_temp/conftest_21.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_21.cpp <-
+  |  |
+  |  |#include "fstream"
+  |  |
+  |  |
   |
-  |#include "fstream"
+scons: Configure: ".sconf_temp/conftest_21.o" is up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_21.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_21.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_37.obj /c .sconf_temp\conftest_37.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_37.cpp
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file fstream.h... 
-.sconf_temp\conftest_38.cpp <-
+scons: Configure: ".sconf_temp/conftest_22.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_22.cpp <-
+  |  |
+  |  |#include "fstream.h"
+  |  |
+  |  |
   |
-  |#include "fstream.h"
+scons: Configure: Building ".sconf_temp/conftest_22.o" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_22.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_22.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_38.obj /c .sconf_temp\conftest_38.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_38.cpp
-.sconf_temp\conftest_38.cpp(2) : fatal error C1083: Cannot open include file: 'fstream.h': No such file or directory
-scons: Configure: no
+scons: Configure: (cached) no
 
 scons: Configure: Checking for C++ header file iomanip... 
-.sconf_temp\conftest_39.cpp <-
+scons: Configure: ".sconf_temp/conftest_23.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_23.cpp <-
+  |  |
+  |  |#include "iomanip"
+  |  |
+  |  |
   |
-  |#include "iomanip"
+scons: Configure: ".sconf_temp/conftest_23.o" is up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_23.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_23.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_39.obj /c .sconf_temp\conftest_39.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_39.cpp
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file iomanip.h... 
-.sconf_temp\conftest_40.cpp <-
+scons: Configure: ".sconf_temp/conftest_24.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_24.cpp <-
+  |  |
+  |  |#include "iomanip.h"
+  |  |
+  |  |
   |
-  |#include "iomanip.h"
+scons: Configure: Building ".sconf_temp/conftest_24.o" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_24.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_24.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_40.obj /c .sconf_temp\conftest_40.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_40.cpp
-.sconf_temp\conftest_40.cpp(2) : fatal error C1083: Cannot open include file: 'iomanip.h': No such file or directory
-scons: Configure: no
+scons: Configure: (cached) no
 
 scons: Configure: Checking for C++ header file iostream... 
-.sconf_temp\conftest_41.cpp <-
+scons: Configure: ".sconf_temp/conftest_25.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_25.cpp <-
+  |  |
+  |  |#include "iostream"
+  |  |
+  |  |
   |
-  |#include "iostream"
+scons: Configure: ".sconf_temp/conftest_25.o" is up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_25.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_25.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_41.obj /c .sconf_temp\conftest_41.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_41.cpp
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file iostream.h... 
-.sconf_temp\conftest_42.cpp <-
+scons: Configure: ".sconf_temp/conftest_26.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_26.cpp <-
+  |  |
+  |  |#include "iostream.h"
+  |  |
+  |  |
   |
-  |#include "iostream.h"
+scons: Configure: Building ".sconf_temp/conftest_26.o" failed in a previous run and all its sources are up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_26.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_26.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_42.obj /c .sconf_temp\conftest_42.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_42.cpp
-.sconf_temp\conftest_42.cpp(2) : fatal error C1083: Cannot open include file: 'iostream.h': No such file or directory
-scons: Configure: no
+scons: Configure: (cached) no
 
 scons: Configure: Checking for C++ header file string... 
-.sconf_temp\conftest_43.cpp <-
+scons: Configure: ".sconf_temp/conftest_27.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_27.cpp <-
+  |  |
+  |  |#include "string"
+  |  |
+  |  |
   |
-  |#include "string"
+scons: Configure: ".sconf_temp/conftest_27.o" is up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_27.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_27.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_43.obj /c .sconf_temp\conftest_43.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_43.cpp
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file strings.h... 
-.sconf_temp\conftest_44.cpp <-
+scons: Configure: ".sconf_temp/conftest_28.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_28.cpp <-
+  |  |
+  |  |#include "strings.h"
+  |  |
+  |  |
   |
-  |#include "strings.h"
+scons: Configure: ".sconf_temp/conftest_28.o" is up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_28.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_28.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_44.obj /c .sconf_temp\conftest_44.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_44.cpp
-.sconf_temp\conftest_44.cpp(2) : fatal error C1083: Cannot open include file: 'strings.h': No such file or directory
-scons: Configure: no
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file string.h... 
-.sconf_temp\conftest_45.cpp <-
+scons: Configure: ".sconf_temp/conftest_29.cpp" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_29.cpp <-
+  |  |
+  |  |#include "string.h"
+  |  |
+  |  |
   |
-  |#include "string.h"
+scons: Configure: ".sconf_temp/conftest_29.o" is up to date.
+scons: Configure: The original builder output was:
+  |g++ -o .sconf_temp/conftest_29.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_29.cpp
   |
-  |
-cl /Fo.sconf_temp\conftest_45.obj /c .sconf_temp\conftest_45.cpp /TP -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_45.cpp
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file stdlib.h... 
-.sconf_temp\conftest_46.c <-
+scons: Configure: ".sconf_temp/conftest_30.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_30.c <-
+  |  |
+  |  |#include "stdlib.h"
+  |  |
+  |  |
   |
-  |#include "stdlib.h"
+scons: Configure: ".sconf_temp/conftest_30.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_30.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_30.c
   |
-  |
-cl /Fo.sconf_temp\conftest_46.obj /c .sconf_temp\conftest_46.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_46.c
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file stdarg.h... 
-.sconf_temp\conftest_47.c <-
+scons: Configure: ".sconf_temp/conftest_31.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_31.c <-
+  |  |
+  |  |#include "stdarg.h"
+  |  |
+  |  |
   |
-  |#include "stdarg.h"
+scons: Configure: ".sconf_temp/conftest_31.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_31.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_31.c
   |
-  |
-cl /Fo.sconf_temp\conftest_47.obj /c .sconf_temp\conftest_47.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_47.c
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file string.h... 
-.sconf_temp\conftest_48.c <-
+scons: Configure: ".sconf_temp/conftest_32.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_32.c <-
+  |  |
+  |  |#include "string.h"
+  |  |
+  |  |
   |
-  |#include "string.h"
+scons: Configure: ".sconf_temp/conftest_32.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_32.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_32.c
   |
-  |
-cl /Fo.sconf_temp\conftest_48.obj /c .sconf_temp\conftest_48.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_48.c
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file float.h... 
-scons: Configure: ".sconf_temp\conftest_49.c" is up to date.
+scons: Configure: ".sconf_temp/conftest_33.c" is up to date.
 scons: Configure: The original builder output was:
-  |.sconf_temp/conftest_49.c <-
+  |.sconf_temp/conftest_33.c <-
   |  |
   |  |#include "float.h"
   |  |
   |  |
   |
-cl /Fo.sconf_temp\conftest_49.obj /c .sconf_temp\conftest_49.c -Ox -Zi -MT -w -nologo -DID3LIB_LINKOPTION=1 -EHsc -DWIN32 /DHAVE_CONFIG_H "/ID:\Program Files\Eiffel_16.05\C_library\zlib" /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include /ID:\Eiffel\library\Eiffel-Loop\contrib\C++\id3lib\include\id3
-conftest_49.c
-scons: Configure: yes
+scons: Configure: ".sconf_temp/conftest_33.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_33.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_33.c
+  |
+scons: Configure: (cached) yes
+
+
+file /home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/SConscript,line 36:
+	Configure(confdir = .sconf_temp)
+scons: Configure: Checking for C header file assert.h... 
+scons: Configure: ".sconf_temp/conftest_34.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_34.c <-
+  |  |
+  |  |#include "assert.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_34.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_34.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_34.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file dlfcn.h... 
+scons: Configure: ".sconf_temp/conftest_35.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_35.c <-
+  |  |
+  |  |#include "dlfcn.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_35.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_35.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_35.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file inttypes.h... 
+scons: Configure: ".sconf_temp/conftest_36.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_36.c <-
+  |  |
+  |  |#include "inttypes.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_36.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_36.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_36.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file memory.h... 
+scons: Configure: ".sconf_temp/conftest_37.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_37.c <-
+  |  |
+  |  |#include "memory.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_37.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_37.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_37.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file stdint.h... 
+scons: Configure: ".sconf_temp/conftest_38.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_38.c <-
+  |  |
+  |  |#include "stdint.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_38.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_38.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_38.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file stdlib.h... 
+scons: Configure: ".sconf_temp/conftest_39.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_39.c <-
+  |  |
+  |  |#include "stdlib.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_39.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_39.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_39.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file strings.h... 
+scons: Configure: ".sconf_temp/conftest_40.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_40.c <-
+  |  |
+  |  |#include "strings.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_40.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_40.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_40.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file string.h... 
+scons: Configure: ".sconf_temp/conftest_41.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_41.c <-
+  |  |
+  |  |#include "string.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_41.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_41.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_41.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file sys/stat.h... 
+scons: Configure: ".sconf_temp/conftest_42.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_42.c <-
+  |  |
+  |  |#include "sys/stat.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_42.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_42.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_42.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file sys/types.h... 
+scons: Configure: ".sconf_temp/conftest_43.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_43.c <-
+  |  |
+  |  |#include "sys/types.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_43.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_43.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_43.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file unistd.h... 
+scons: Configure: ".sconf_temp/conftest_44.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_44.c <-
+  |  |
+  |  |#include "unistd.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_44.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_44.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_44.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file stdlib.h... 
+scons: Configure: ".sconf_temp/conftest_45.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_45.c <-
+  |  |
+  |  |#include "stdlib.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_45.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_45.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_45.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file stdarg.h... 
+scons: Configure: ".sconf_temp/conftest_46.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_46.c <-
+  |  |
+  |  |#include "stdarg.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_46.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_46.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_46.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file string.h... 
+scons: Configure: ".sconf_temp/conftest_47.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_47.c <-
+  |  |
+  |  |#include "string.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_47.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_47.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_47.c
+  |
+scons: Configure: (cached) yes
+
+scons: Configure: Checking for C header file float.h... 
+scons: Configure: ".sconf_temp/conftest_48.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_48.c <-
+  |  |
+  |  |#include "float.h"
+  |  |
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_48.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_48.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_48.c
+  |
+scons: Configure: (cached) yes
 
 

@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal
-		end
 
 create
 	make, make_default

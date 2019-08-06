@@ -21,8 +21,6 @@ inherit
 			restore, set_logged_object, current_routine_is_active
 		end
 
-	EL_MODULE_EIFFEL
-
 	EL_MODULE_LOGGING
 
 	EL_MODULE_LOG_MANAGER
@@ -214,7 +212,7 @@ feature {NONE} -- Implementation
 		local
 			type_id: INTEGER
 		do
-			type_id := Eiffel.dynamic_type (traced_object)
+			type_id := {ISE_RUNTIME}.dynamic_type (traced_object)
 
 			traced_routine_call_stack.extend (logging.loggable_routine (type_id, routine_name))
 			set_log_sink_for_routine (current_routine)

@@ -31,7 +31,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("tuple.print_evolicity_tuple_context")
+			log.enter ("numeric.iteration_10_to_pow_8")
+			numeric.iteration_10_to_pow_8
 			log.exit
 		end
 

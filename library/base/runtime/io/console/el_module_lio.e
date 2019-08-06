@@ -35,13 +35,19 @@ feature {NONE} -- Access
 			Result := new_lio
 		end
 
+	Sio, Silent_io: EL_SILENT_LOG
+		-- do nothing log
+		once
+			create Result
+		end
+
 feature {NONE} -- Status query
 
 	is_lio_enabled: BOOLEAN
 		-- True if the `Current' type has been registered in console manger with call to
 		-- `Console.show ({MY_TYPE})'
 		do
-			Result := Console.is_type_visible ({like Current})
+			Result := Console.is_type_visible ({ISE_RUNTIME}.dynamic_type (Current))
 		end
 
 feature {NONE} -- Implementation

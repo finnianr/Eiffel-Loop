@@ -2,7 +2,7 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 6); build = 364
+version = (1, 0, 7); build = 368
 
 installation_sub_directory = 'Eiffel-Loop/test'
 
@@ -15,6 +15,9 @@ tests.append (['-test_x2e_and_e2x', '-logging'])
 tests.append (['-test_recursive_x2e_and_e2x', '-logging'])
 tests.append (['-test_evolicity', '-logging'])
 tests.append (['-test_declarative_xpath', '-logging'])
+
+# 1.0.7
+# Compare hash-set vs linear search
 
 # 1.0.6
 # Improved benchmarking shell and fixed EL_DATE_TIME_DURATION bug

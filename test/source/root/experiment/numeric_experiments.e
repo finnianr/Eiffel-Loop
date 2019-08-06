@@ -27,6 +27,17 @@ feature -- Basic operations
 			lio.put_labeled_string ("number", number.out)
 		end
 
+	iteration_10_to_pow_8
+		local
+			capacity: INTEGER_64
+		do
+			from capacity := 10 until capacity >= 100_000_000 loop
+				lio.put_labeled_string ("capacity", capacity.out)
+				lio.put_new_line
+				capacity := capacity * 10
+			end
+		end
+
 	negative_integer_32_in_integer_64
 			-- is it possible to store 2 negative INTEGER_32's in one INTEGER_64
 		local

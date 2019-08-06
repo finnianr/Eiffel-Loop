@@ -369,7 +369,7 @@ feature {NONE} -- Implementation
 			mint_copy_dir := Help_pages_mint_dir.joined_dir_path ("copy")
 			l_file_set.put (dir_path + mint_copy_dir.joined_file_path (Wireless_notes_path.base))
 
-			l_file_set.remove (dir_path + Wireless_notes_path)
+			l_file_set.prune (dir_path + Wireless_notes_path)
 			l_file_set.put (dir_path + (Help_pages_mint_docs_dir + Wireless_notes_path.base))
 
 			across new_file_tree [Help_pages_mint_docs_dir] as path loop

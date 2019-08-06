@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 			if logging.is_active then
 				create {EL_CONSOLE_AND_FILE_LOG} Result.make -- Normal logging object
 			else
-				create {EL_SILENT_LOG} Result
+				Result := Silent_io
 			end
 		end
 

@@ -19,48 +19,54 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_MODULE_LIO
-
 feature -- Element change
 
-	cache_location (ip_number: NATURAL; character: CHARACTER)
-		local
-			str: ZSTRING
+	cache_location (ip_number: NATURAL; lio: EL_LOGGABLE)
 		do
 			if not is_location_cached (ip_number) then
-				str := location (ip_number)
-				if character.natural_32_code.to_boolean then
-					lio.put_character (character)
-				end
+				extend_for (ip_number)
+				lio.put_character ('.')
 			end
 		end
 
 feature -- Access
 
 	location (ip_number: NATURAL): ZSTRING
-		local
-			done: BOOLEAN
 		do
 			if has_key (ip_number) then
 				Result := found_item
 			else
-				create Result.make_empty
-				Web.open (IP_api_template #$ [Ip_address.to_string (ip_number), location_type])
-				from done := False until done loop
-					Web.read_string_get
-					if Web.last_string.has_substring (Ratelimited) then
-						Execution_environment.sleep (500)
-					else
-						Result.append_utf_8 (Web.last_string)
-						done := True
-					end
+				extend_for (ip_number)
+				if has_key (ip_number) then
+					Result := found_item
+				else
+					create Result.make_empty
 				end
-				Web.close
-				extend (Result, ip_number)
 			end
 		end
 
 feature {NONE} -- Implementation
+
+	extend_for (ip_number: NATURAL)
+		local
+			done: BOOLEAN
+		do
+			Web.open (IP_api_template #$ [Ip_address.to_string (ip_number), location_type])
+			from done := False until done loop
+				Web.read_string_get
+				if Web.has_error then
+					extend ("<unknown>", ip_number)
+					done := True
+
+				elseif Web.last_string.has_substring (Ratelimited) then
+					Execution_environment.sleep (500)
+				else
+					extend (create {ZSTRING}.make_from_utf_8 (Web.last_string), ip_number)
+					done := True
+				end
+			end
+			Web.close
+		end
 
 	location_type: STRING
 		deferred

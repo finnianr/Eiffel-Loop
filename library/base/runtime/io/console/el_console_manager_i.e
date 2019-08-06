@@ -28,36 +28,38 @@ feature {NONE} -- Initialization
 
 feature -- Status change
 
-	hide (type: like visible_types.item)
+	hide (type: TYPE [EL_MODULE_LIO])
 			-- hide conditional `lio' output for type
 			--	if {EL_MODULE_LIO}.is_lio_enabled then
 			--		lio.put_xxx (xxx)
 			--	end
 		do
 			restrict_access
-				visible_types.remove (type)
+				visible_types.prune (type.type_id)
 			end_restriction
 		end
 
-	show (type: like visible_types.item)
+	show (type: TYPE [EL_MODULE_LIO])
 			-- show conditional `lio' output for type
 			--	if {EL_MODULE_LIO}.is_lio_enabled then
 			--		lio.put_xxx (xxx)
 			--	end
 		do
 			restrict_access
-				visible_types.put (type)
+				visible_types.put (type.type_id)
 			end_restriction
 		end
 
-	show_all (types: ARRAY [like visible_types.item])
+	show_all (type_list: ARRAY [TYPE [EL_MODULE_LIO]])
 			-- show conditional `lio' output for all types
 			--	if {EL_MODULE_LIO}.is_lio_enabled then
 			--		lio.put_xxx (xxx)
 			--	end
 		do
 			restrict_access
-				types.do_all (agent visible_types.put)
+				across type_list as type loop
+					visible_types.put (type.item.type_id)
+				end
 			end_restriction
 		end
 
@@ -68,7 +70,7 @@ feature -- Status query
 		deferred
 		end
 
-	is_type_visible (type: like visible_types.item): BOOLEAN
+	is_type_visible (type: INTEGER): BOOLEAN
 			--
 		do
 			restrict_access
@@ -81,5 +83,5 @@ feature {NONE} -- Internal attributes
 	no_highlighting_word_option_exists: BOOLEAN
 		-- `True' if `no_highlighting' word option exists
 
-	visible_types: EL_HASH_SET [TYPE [EL_MODULE_LIO]]
+	visible_types: EL_HASH_SET [INTEGER]
 end

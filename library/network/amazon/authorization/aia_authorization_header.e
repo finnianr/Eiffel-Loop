@@ -27,9 +27,6 @@ inherit
 		end
 
 	EL_STRING_8_CONSTANTS
-		undefine
-			is_equal
-		end
 
 	EL_MODULE_DIGEST
 

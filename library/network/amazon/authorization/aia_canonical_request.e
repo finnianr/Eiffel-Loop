@@ -21,9 +21,6 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
-		undefine
-			is_equal, copy
-		end
 
 	EL_MODULE_DIGEST
 

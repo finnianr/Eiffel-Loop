@@ -15,22 +15,30 @@ class
 inherit
 	HASH_TABLE [detachable G, detachable G]
 		rename
-			put as table_put,
-			extend as table_extend,
-			item_for_iteration as item,
+			current_keys as to_array,
+			disjoint as ht_disjoint,
+			extend as ht_extend,
+			extendible as ht_extendible,
 			item as table_item,
-			current_keys as to_array
+			merge as ht_merge,
+			prune as ht_prune,
+			remove as prune,
+			put as ht_put
 		export
 			{NONE} all
-			{ANY} has, has_key, found, found_item, search, remove, count,
-				 inserted, to_array, wipe_out, conflict, key_for_iteration, item
+			{ANY} has, has_key, found, found_item, search, count,
+				 inserted, to_array, wipe_out, conflict, key_for_iteration, item_for_iteration
+		undefine
+			changeable_comparison_criterion
 		end
 
-	LINEAR [detachable G]
+	TRAVERSABLE_SUBSET [detachable G]
 		rename
-			has as has_item
+			item as item_for_iteration
 		undefine
-			copy, is_equal, off, search, linear_representation, occurrences, has_item
+			is_equal, copy
+		select
+			put, has, extend, prune, extendible
 		end
 
 create
@@ -41,36 +49,27 @@ feature {NONE} -- Initialization
 	make_from_array (set: ARRAY [G])
 		do
 			make_equal (set.count)
-			set.do_all (agent put)
+			across set as l loop
+				ht_extend (l.item, l.item)
+			end
 		end
 
 feature -- Element change
 
-	put (new: detachable G)
+	extend, put (new: detachable G)
 			--
 		do
-			table_put (new, new)
+			ht_put (new, new)
 		end
 
-	extend (new: detachable G)
-			--
+	remove
 		do
-			table_extend (new, new)
+			prune (key_for_iteration)
 		end
 
 feature -- Access
 
 	index: INTEGER
-
-	subset_include (is_member: PREDICATE [G]): like Current
-		do
-			Result := subset (is_member, False)
-		end
-
-	subset_exclude (is_member: PREDICATE [G]): like Current
-		do
-			Result := subset (is_member, True)
-		end
 
 	subset (is_member: PREDICATE [G]; inverse: BOOLEAN): like Current
 		do
@@ -93,11 +92,40 @@ feature -- Access
 			end
 		end
 
-feature {NONE} -- Unused
-
-	finish
-			--
+	subset_exclude (is_member: PREDICATE [G]): like Current
 		do
+			Result := subset (is_member, True)
+		end
+
+	subset_include (is_member: PREDICATE [G]): like Current
+		do
+			Result := subset (is_member, False)
+		end
+
+feature -- Duplication
+
+	duplicate (n: INTEGER): EL_HASH_SET [G]
+		do
+			if object_comparison then
+				create Result.make_equal (n)
+			else
+				create Result.make (n)
+			end
+			Result.copy (Current)
+		end
+
+feature -- Status query
+
+	Extendible: BOOLEAN = True
+		-- May new items be added?
+
+feature {NONE} -- Implementation
+
+	subset_strategy_selection (v: G; other: EL_HASH_SET [G]): SUBSET_STRATEGY_HASHABLE [G]
+			-- Strategy to calculate several subset features selected depending
+			-- on the dynamic type of `v' and `other'
+		do
+			create Result
 		end
 
 end

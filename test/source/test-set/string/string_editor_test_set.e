@@ -16,9 +16,6 @@ inherit
 	EQA_TEST_SET
 
 	EL_ZSTRING_CONSTANTS
-		undefine
-			default_create
-		end
 
 feature -- Tests
 

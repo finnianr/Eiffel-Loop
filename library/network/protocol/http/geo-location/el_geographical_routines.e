@@ -21,8 +21,6 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_MODULE_LIO
-
 create
 	make
 
@@ -36,10 +34,14 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	cache_location (ip_number: NATURAL; character: CHARACTER)
+	cache_region (ip_number: NATURAL; lio: EL_LOGGABLE)
 		do
-			region_table.cache_location (ip_number, character)
-			country_table.cache_location (ip_number, character)
+			region_table.cache_location (ip_number, lio)
+		end
+
+	cache_country (ip_number: NATURAL; lio: EL_LOGGABLE)
+		do
+			country_table.cache_location (ip_number, lio)
 		end
 
 feature -- Access

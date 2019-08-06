@@ -27,9 +27,6 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
-		undefine
-			default_create
-		end
 
 	EL_MODULE_STRING_32
 
