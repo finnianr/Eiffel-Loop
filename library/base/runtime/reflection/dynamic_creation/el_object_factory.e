@@ -17,7 +17,7 @@ inherit
 		redefine
 			default_create
 		end
-		
+
 	EL_MODULE_EIFFEL
 
 	EL_MODULE_EXCEPTION
@@ -79,7 +79,7 @@ feature -- Factory
 		do
 			Result := instance_from_dynamic_type (Eiffel.dynamic_type_from_string (class_name), initialize)
 			if not attached Result then
-				Exception.raise_panic ("Class %S is not compiled into system", [class_name])
+				Exception.raise_panic (Template_not_compiled, [class_name])
 			end
 		end
 
@@ -105,6 +105,21 @@ feature -- Factory
 			end
 			if not attached Result then
 				Exception.raise_panic ("Could not instantiate class with alias: %"%S%"", [type_alias])
+			end
+		end
+
+	raw_instance_from_class_name (class_name: STRING): G
+			--
+		require
+			valid_type: valid_type (class_name)
+		local
+			type_id: INTEGER
+		do
+			type_id := Eiffel.dynamic_type_from_string (class_name)
+			if type_id > 0 and then attached {G} Eiffel.new_instance_of (type_id) as instance then
+				Result := instance
+			else
+				Exception.raise_panic (Template_not_compiled, [class_name])
 			end
 		end
 
@@ -139,7 +154,7 @@ feature -- Contract support
 			Result := types_indexed_by_name.has (General.to_zstring (type_alias))
 		end
 
-	valid_type (class_name: ZSTRING): BOOLEAN
+	valid_type (class_name: STRING): BOOLEAN
 		do
 			Result := Eiffel.dynamic_type_from_string (class_name) >= 0
 		end
@@ -167,6 +182,11 @@ feature {EL_FACTORY_CLIENT} -- Implementation
 		-- map of alias names to types
 
 feature {NONE} -- Constants
+
+	Template_not_compiled: ZSTRING
+		once
+			Result := "Class %S is not compiled into system"
+		end
 
 	General: EL_ZSTRING_CONVERTER
 		once

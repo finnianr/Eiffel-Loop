@@ -12,15 +12,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:45:15 GMT (Monday 1st July 2019)"
-	revision: "11"
+	date: "2019-08-07 12:38:36 GMT (Wednesday 7th August 2019)"
+	revision: "12"
 
 class
 	EL_FTP_SYNC
 
 inherit
 	ANY
-	
+
 	EL_MODULE_LIO
 
 	EL_MODULE_EXCEPTION
@@ -50,6 +50,7 @@ feature {NONE} -- Initialization
 			create file_item_table.make (100)
 			create removed_items.make (0)
 			create upload_list.make (0)
+			display_uploads := False
 		end
 
 feature -- Access
@@ -60,16 +61,9 @@ feature -- Access
 
 	root_dir: EL_DIR_PATH
 
-feature -- Status change
-
-	set_display_uploads (enabled: BOOLEAN)
-		do
-			display_uploads := enabled
-		end
-
 feature -- Status query
 
-	display_uploads: BOOLEAN
+	display_uploads: EL_BOOLEAN_OPTION
 
 	has_changes: BOOLEAN
 		do
@@ -190,7 +184,7 @@ feature {NONE} -- Implementation
 				item.set_source_path (root_dir + file.item.file_path)
 				item.set_destination_path (file.item.file_path.parent)
 				if item.source_path.exists then
-					if display_uploads then
+					if display_uploads.is_enabled then
 						lio.put_path_field ("Uploading", file.item.file_path)
 						lio.put_new_line
 					end

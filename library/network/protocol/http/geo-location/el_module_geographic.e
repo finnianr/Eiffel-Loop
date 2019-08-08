@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {EL_MODULE_IP_NUMBER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Module geographic"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-08-05 14:09:19 GMT (Monday 5th August 2019)"
+	revision: "1"
 
 deferred class
 	EL_MODULE_GEOGRAPHIC

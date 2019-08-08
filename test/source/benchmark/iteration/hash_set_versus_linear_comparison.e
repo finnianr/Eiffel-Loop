@@ -4,9 +4,14 @@ note
 		
 		Answer: count > 10
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-08-06 11:55:53 GMT (Tuesday 6th August 2019)"
+	revision: "1"
 
 class
 	HASH_SET_VERSUS_LINEAR_COMPARISON

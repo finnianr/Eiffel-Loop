@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:12:22 GMT (Monday 5th August 2019)"
-	revision: "3"
+	date: "2019-08-06 7:44:03 GMT (Tuesday 6th August 2019)"
+	revision: "4"
 
 class
 	EL_GEOGRAPHICAL_ROUTINES

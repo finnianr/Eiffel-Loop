@@ -1,25 +1,28 @@
 note
-	description: "Region of country lookup table for ip number"
+	description: "Test builder context ftp sync"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 14:28:44 GMT (Monday 5th August 2019)"
+	date: "2019-08-07 11:27:00 GMT (Wednesday 7th August 2019)"
 	revision: "1"
 
 class
-	EL_REGION_CACHE_TABLE
+	TEST_BUILDER_CONTEXT_FTP_SYNC
 
 inherit
-	EL_LOCATION_CACHE_TABLE
+	EL_BUILDER_CONTEXT_FTP_SYNC
+		redefine
+			ftp
+		end
 
 create
 	make
 
-feature {NONE} -- Constants
+feature -- Access
 
-	Location_type: STRING = "region"
-
+	ftp: FAUX_FTP_PROTOCOL
+	
 end

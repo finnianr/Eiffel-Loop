@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-27 9:54:16 GMT (Saturday 27th October 2018)"
-	revision: "4"
+	date: "2019-08-06 8:06:03 GMT (Tuesday 6th August 2019)"
+	revision: "5"
 
 class
 	SEQUENTIAL_INTERVALS_TEST_SET

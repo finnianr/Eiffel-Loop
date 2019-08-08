@@ -23,7 +23,13 @@ feature {NONE} -- Initialization
 			create mutex.make
 		end
 
-feature {NONE} -- Basic operations
+feature -- Status change
+
+	end_restriction
+			-- end restricted thread access
+		do
+			mutex.unlock
+		end
 
 	restrict_access
 			-- restrict access to single thread at a time
@@ -31,11 +37,7 @@ feature {NONE} -- Basic operations
 			mutex.lock
 		end
 
-	end_restriction
-			-- end restricted thread access
-		do
-			mutex.unlock
-		end
+feature -- Basic operations
 
 	wait_until (condition: CONDITION_VARIABLE)
 		do

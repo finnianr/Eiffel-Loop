@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 13:41:44 GMT (Wednesday 20th February 2019)"
-	revision: "22"
+	date: "2019-08-07 11:06:58 GMT (Wednesday 7th August 2019)"
+	revision: "23"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -27,7 +27,12 @@ feature {NONE} -- Other tests
 
 feature {NONE} -- Constants
 
-	Evaluator_types: TUPLE [REPOSITORY_PUBLISHER_TEST_EVALUATOR, REPOSITORY_SOURCE_LINK_EXPANDER_TEST_EVALUATOR]
+	Evaluator_types: TUPLE [REPOSITORY_PUBLISHER_TEST_EVALUATOR]
+		once
+			create Result
+		end
+
+	Evaluator_types_all: TUPLE [REPOSITORY_PUBLISHER_TEST_EVALUATOR, REPOSITORY_SOURCE_LINK_EXPANDER_TEST_EVALUATOR]
 		once
 			create Result
 		end

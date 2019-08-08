@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:14:26 GMT (Tuesday 5th March 2019)"
-	revision: "4"
+	date: "2019-08-07 10:22:22 GMT (Wednesday 7th August 2019)"
+	revision: "5"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -23,7 +23,6 @@ inherit
 	REPOSITORY_PUBLISHER
 		rename
 			make as make_publisher
-
 		redefine
 			execute
 		end

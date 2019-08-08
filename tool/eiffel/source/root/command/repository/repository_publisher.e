@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-16 10:24:13 GMT (Sunday 16th June 2019)"
-	revision: "16"
+	date: "2019-08-07 12:36:50 GMT (Wednesday 7th August 2019)"
+	revision: "17"
 
 class
 	REPOSITORY_PUBLISHER
@@ -53,7 +53,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		end
 
 	make_default
-			--
 		do
 			create name.make_empty
 			create ecf_list.make (10)
@@ -112,7 +111,6 @@ feature -- Basic operations
 		do
 			log_thread_count
 			ftp_sync.set_root_dir (output_dir)
-			ftp_sync.set_display_uploads (Log_manager.is_logging_active)
 
 			if version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {EL_DIR_PATH}.exists)
@@ -154,8 +152,7 @@ feature -- Basic operations
 			write_version
 
 			if ftp_sync.has_changes and not ftp_sync.ftp.is_default_state then
-				lio.put_string ("Synchronize with website (y/n) ")
-				if User_input.entered_letter ('y') then
+				if ok_to_synchronize then
 					lio.put_new_line
 					if Log_manager.is_logging_active then
 						ftp_sync.login_and_upload
@@ -180,6 +177,12 @@ feature -- Status query
 	has_version_changed: BOOLEAN
 		do
 			Result := version /~ previous_version
+		end
+
+	ok_to_synchronize: BOOLEAN
+		do
+			lio.put_string ("Synchronize with website (y/n) ")
+			Result := User_input.entered_letter ('y')
 		end
 
 feature {NONE} -- Factory

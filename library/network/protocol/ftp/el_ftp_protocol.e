@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:37:36 GMT (Monday 1st July 2019)"
-	revision: "9"
+	date: "2019-08-07 12:38:24 GMT (Wednesday 7th August 2019)"
+	revision: "10"
 
 class
 	EL_FTP_PROTOCOL
@@ -93,7 +93,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_current_directory (a_current_directory: like current_directory)
+	set_current_directory (a_current_directory: EL_DIR_PATH)
 		do
 			send (Ftp_command.change_directory (absolute_dir (a_current_directory)), << 200, 250 >>)
 			if last_succeeded then

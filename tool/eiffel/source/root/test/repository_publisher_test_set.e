@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:38:17 GMT (Monday 5th August 2019)"
-	revision: "19"
+	date: "2019-08-07 12:54:47 GMT (Wednesday 7th August 2019)"
+	revision: "20"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -32,69 +32,74 @@ feature -- Tests
 
 	test_publisher
 		local
-			n: INTEGER
+			publisher: like new_publisher; editor: FIND_AND_REPLACE_EDITOR
+			line: ZSTRING
 		do
 			log.enter ("test_publisher")
-			execute
-			execute_second (file_modification_checksum)
-			n := User_input.integer ("Return to finish")
-			log.exit
-		end
+			publisher := new_publisher
+			publisher.execute
+			check_html_exists (publisher)
 
-	test_regression (checksum: NATURAL)
-		local
-			n: INTEGER; actual_checksum: NATURAL
-			file_lines: EL_PLAIN_TEXT_LINE_SOURCE; config_file: EL_PLAIN_TEXT_FILE
-			lines: EL_ZSTRING_LIST
-		do
-			log.enter ("test_regression")
-			execute
-			-- Remove last ecf
-			if False then
-				create file_lines.make (publisher.config_path)
-				lines := file_lines.list
-				from lines.finish until lines.item.has_substring (".ecf") loop
-					lines.remove; lines.finish
+			create editor.make ("ht_extend", "table_extend")
+			editor.set_file_path (Hash_set_path)
+			editor.edit
+			line := User_input.line ("Enter to continue")
+			publisher := new_publisher
+			publisher.execute
+
+			assert ("Three files uploaded", Modified_files.count = publisher.ftp_sync.ftp.uploaded_list.count
+				and then across publisher.ftp_sync.ftp.uploaded_list as path all
+					Modified_files.has (path.item.base)
 				end
-				lines.remove
-				lines.extend (Empty_string)
-
-				create config_file.make_open_write (publisher.config_path)
-				config_file.put_lines (lines)
-				config_file.close
-
-				publisher := new_publisher
-				execute
-			end
-
-			actual_checksum := file_content_checksum
-			if checksum = actual_checksum then
-				log.put_labeled_string ("Test", "OK")
-			else
-				log.put_labeled_string ("checksum", checksum.out)
-				log.put_labeled_string (" actual_checksum", actual_checksum.out)
-			end
-			log.put_new_line
-			n := User_input.integer ("Return to finish")
+			)
 			log.exit
 		end
 
 feature {NONE} -- Events
 
 	on_prepare
+		local
+			lib_dir: EL_DIR_PATH
 		do
 			Precursor
-			Execution_environment.put ("workarea/doc", "EIFFEL_LOOP_DOC")
 			OS.copy_tree (Eiffel_loop_dir.joined_dir_path ("doc-config"), Work_area_dir)
+			OS.copy_file ("test-data/publish/config-1.pyx", Doc_config_dir)
 			across << "dummy", "images", "css", "js" >> as name loop
 				OS.copy_tree (Eiffel_loop_dir.joined_dir_steps (<< "doc", name.item >>), Doc_dir)
 			end
-			publisher := new_publisher
+			across (<<
+				"library",
+				"library/base",
+				"library/text",
+				"library/graphic",
+				"library/graphic/toolkit"
+			>>) as dir loop
+				OS.File_system.make_directory (Work_area_dir.joined_dir_path (dir.item))
+			end
+			across (<<
+				"library/base/data_structure",
+				"library/base/math",
+				"library/base/persistency",
+				"library/text/i18n",
+				"library/graphic/toolkit/html-viewer"
+			>>) as dir loop
+				lib_dir := dir.item
+				OS.copy_tree (Eiffel_loop_dir.joined_dir_path (lib_dir), Work_area_dir.joined_dir_path (lib_dir.parent))
+			end
+			across (<<
+				"library/base/base.ecf",
+				"library/i18n.ecf",
+				"library/html-viewer.ecf"
+			>>) as path loop
+				OS.copy_file (Eiffel_loop_dir + path.item, (Work_area_dir + path.item).parent)
+			end
+			Execution_environment.put ("workarea", "EIFFEL_LOOP")
+			Execution_environment.put ("workarea/doc", "EIFFEL_LOOP_DOC")
 		end
 
 feature {NONE} -- Implementation
 
-	check_html_exists
+	check_html_exists (publisher: like new_publisher)
 		local
 			html_file_path: EL_FILE_PATH
 		do
@@ -104,32 +109,6 @@ feature {NONE} -- Implementation
 					assert ("html exists", html_file_path.exists)
 				end
 			end
-		end
-
-	execute
-		local
-			source_tree: EIFFEL_CONFIGURATION_FILE
-		do
-			publisher.set_output_dir (Doc_dir)
-			publisher.ftp_sync.ftp.set_default_state -- Turn off ftp
---			publisher.tree_list.wipe_out
---			across Sources as src loop
---				create source_tree.make_with_name (publisher, src.key, src.item.source_dir)
---				if not src.item.description.is_empty then
---					source_tree.set_description_lines (src.item.description)
---				end
---				publisher.tree_list.extend (source_tree)
---			end
-			publisher.execute
-			check_html_exists
-		end
-
-	execute_second (checksum: NATURAL)
-		do
-			log.put_labeled_string ("checksum", checksum.out)
-			log.put_new_line
-			publisher.execute
-			assert ("no file was modified", checksum = file_modification_checksum)
 		end
 
 	file_content_checksum: NATURAL
@@ -162,46 +141,32 @@ feature {NONE} -- Implementation
 			Result := crc.checksum
 		end
 
-	new_publisher: REPOSITORY_PUBLISHER
+	new_publisher: REPOSITORY_TEST_PUBLISHER
 		do
-			create Result.make (Work_area_dir + "doc-config/config-test-2.pyx", "1.4.0", 0)
+			create Result.make (Doc_config_dir + "config-1.pyx", "1.4.0", 0)
 		end
-
-feature {NONE} -- Internal attributes
-
-	publisher: like new_publisher
 
 feature {NONE} -- Constants
 
-	Sources: EL_HASH_TABLE [TUPLE [source_dir, description: STRING], STRING]
+	Modified_files: ARRAY [ZSTRING]
 		once
-			create Result.make_equal (7)
-			Result ["Eiffel object reflection"] := ["library/base/runtime/reflection", "[
-				See class [$source EL_REFLECTIVE]
-			]"]
-			Result ["Eiffel persistency reflection"] := ["library/base/persistency/reflection", "[
-				See class [$source EL_FIELD_VALUE_TABLE]
-			]"]
-			Result ["Eiffel Remote Object Server (EROS)"] := ["library/network/eros", ""]
-
-			Result ["Networking Classes"] := ["library/network/paypal", "Class for network communication"]
-
-			Result ["Vision 2 override"] := ["library/override/graphic/toolkit/vision2", ""]
-			Result ["C callbacks"] := ["library/language_interface/C/eiffel-callback", ""]
-
-			Result ["Submission for 99-bottles-of-beer.net"] := ["example/99-bottles/source", "[
-				Eiffel submission for [http://www.99-bottles-of-beer.net].
-				
-				This website contains sample programs for over 1500 languages and variations, all of
-				which print the lyrics of the song "99 Bottles of Beer" using.
-				
-				**ECF:** ninety-nine-bottles.ecf
-			]"]
-			Result ["SMIL class test"] := ["test/source/xml-to-eiffel-object-builder/smil", ""]
+			Result := << "base.data_structure.html", "el_hash_set.html", "index.html" >>
+			Result.compare_objects
 		end
 
 	Doc_dir: EL_DIR_PATH
 		once
 			Result := Work_area_dir.joined_dir_path ("doc")
 		end
+
+	Doc_config_dir: EL_DIR_PATH
+		once
+			Result := Work_area_dir.joined_dir_path ("doc-config")
+		end
+
+	Hash_set_path: EL_FILE_PATH
+		once
+			Result := Work_area_dir + "library/base/data_structure/set/el_hash_set.e"
+		end
+
 end

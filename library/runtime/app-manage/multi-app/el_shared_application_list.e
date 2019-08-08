@@ -13,18 +13,16 @@ deferred class
 	EL_SHARED_APPLICATION_LIST
 
 inherit
-	EL_SHARED_SINGLETON [EL_SUB_APPLICATION_LIST]
-		rename
-			item as Application_list
-		redefine
-			Application_list
-		end
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 
 	Application_list: EL_SUB_APPLICATION_LIST
+		local
+			l: EL_SINGLETON [EL_SUB_APPLICATION_LIST]
 		once ("PROCESS")
-			Result := Precursor
+			create l
+			Result := l.singleton
 		end
 
 end
