@@ -12,7 +12,7 @@
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_object location = "$(EL_CONTRIB)/C++/Wex_MCI/wex_mci.lib">
+		<external_object location = "$(EL_CONTRIB)/C++/Wex_MCI/spec/$ISE_PLATFORM/wex_mci.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>

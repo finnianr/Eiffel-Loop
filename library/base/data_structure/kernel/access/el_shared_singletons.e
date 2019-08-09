@@ -13,7 +13,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	set_singleton (obj: ANY)
+	put_singleton (obj: ANY)
 		-- for clarity we supply `Current' as argument `obj'
 		do
 			Singleton_table.put (obj, {ISE_RUNTIME}.dynamic_type (obj))
@@ -30,7 +30,7 @@ feature {NONE} -- Constants
 note
 	notes: "[
 		To shared an object with the rest of an application as a singleton,
-		make a call to `set_singleton' as follows:
+		make a call to routine `set_singleton' as follows:
 
 			class MY_CLASS
 			inherit
@@ -39,7 +39,7 @@ note
 			feature {NONE}	-- Initialization
 				make
 					do
-						set_singleton (Current)
+						put_singleton (Current)
 						..
 					end
 
@@ -59,7 +59,8 @@ note
 						Result := l.singleton
 					end
 			end
-
+			
+		See also class: [$source EL_SINGLETON] `[G]'
 	]"
 
 end

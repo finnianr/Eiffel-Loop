@@ -30,6 +30,8 @@ inherit
 
 	EL_MODULE_EXCEPTION
 
+	EL_MODULE_UNIX_SIGNALS
+
 	EL_COMMAND
 
 	EL_STRING_8_CONSTANTS
@@ -221,6 +223,8 @@ feature {NONE} -- Implementation
 
 	do_transitions
 		-- iterate over state transitions
+		local
+			except: EXCEPTION; signal: INTEGER
 		do
 			if state /= Final then
 				from state := agent accepting_connection until state = Final loop
@@ -228,17 +232,27 @@ feature {NONE} -- Implementation
 				end
 			end
 		rescue
-			if Exception.received_broken_pipe_signal then
-				broker.close
-				log_error (Empty_string_8, "Broken pipe exception")
-				retry
+			except := Exception.last_exception.cause -- `cause' gets cause of ROUTINE_FAILURE
 
-			elseif Exception.received_termination_signal then
+			if attached {OPERATING_SYSTEM_SIGNAL_FAILURE} except as os then
+				signal := os.signal_code
+			elseif attached {IO_FAILURE} except then
+				-- arrives here in workbench mode
+				if broker.is_pipe_broken then
+					signal := Unix_signals.broken_pipe
+				end
+			end
+			if Unix_signals.is_termination (signal) then
+				log_message (except.generator, except.description)
 				log_message ("Ctrl-C detected", "shutting down ..")
 				state := Final
 				retry
+			elseif signal = Unix_signals.broken_pipe then
+				broker.close
+				log_message (except.generator, Unix_signals.broken_pipe_message)
+				retry
 			else
-				log_error ("Exiting after unrescueable exception", Exception.last_out)
+				log_message ("Exiting after unrescueable exception", except.generator)
 				Exception.write_last_trace (Current)
 			end
 		end

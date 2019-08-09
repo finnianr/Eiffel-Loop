@@ -15,7 +15,7 @@ class
 inherit
 	EL_COMMAND_SHELL_SUB_APPLICATION [BENCHMARK_COMMAND_SHELL]
 		redefine
-			Option_name, argument_specs, default_make, initialize
+			argument_specs, default_make, initialize
 		end
 
 feature {NONE} -- Implementation
@@ -39,8 +39,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Option_name: STRING = "benchmark"
 
 	Description: STRING = "Menu driven benchmark tests"
 

@@ -22,7 +22,7 @@ system:
 				platform:
 					value = windows
 		external_object:
-			location = "$(EL_CONTRIB)/C++/Wex_MCI/wex_mci.lib"
+			location = "$(EL_CONTRIB)/C++/Wex_MCI/spec/$ISE_PLATFORM/wex_mci.lib"
 			condition:
 				platform:
 					value = windows

@@ -73,6 +73,11 @@ feature -- Access
 			Result := socket.error
 		end
 
+	socket_error_number: INTEGER
+		do
+			Result := socket.error_number
+		end
+
 	type: NATURAL_8
 
 	version: NATURAL_8
@@ -96,6 +101,12 @@ feature -- Status query
 	is_head_request: BOOLEAN
 		do
 			Result := parameters.is_head_request
+		end
+
+	is_pipe_broken: BOOLEAN
+		-- `True' if web server shut connection too early
+		do
+			Result := socket.error_number = 32
 		end
 
 	read_ok, write_ok: BOOLEAN

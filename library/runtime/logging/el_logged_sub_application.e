@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 				Log_manager.delete_logs
 			end
 		rescue
-			if Exception.last.is_signal then
+			if Exception.is_termination_signal then
 				ctrl_c_pressed := True
 			else
 				other_exception := True

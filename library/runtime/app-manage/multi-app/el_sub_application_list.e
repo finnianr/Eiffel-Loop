@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 
 	make (types: ARRAY [TYPE [EL_SUB_APPLICATION]]; a_select_first: BOOLEAN)
 		do
-			set_singleton (Current)
+			put_singleton (Current)
 			make_list (types.count)
 			select_first := a_select_first
 			create installable_list.make (5)

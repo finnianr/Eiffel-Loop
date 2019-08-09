@@ -12,6 +12,11 @@ note
 class
 	EL_EXCEPTION_ROUTINES
 
+inherit
+	ANY
+
+	EL_MODULE_UNIX_SIGNALS
+
 create
 	make
 
@@ -72,18 +77,9 @@ feature -- Access
 
 feature -- Status query
 
-	received_broken_pipe_signal: BOOLEAN
+	is_termination_signal: BOOLEAN
 		do
-			if attached {ROUTINE_FAILURE} last_exception as routine
-				and then attached {IO_FAILURE} routine.original as exception
-			then
-				Result := exception.description.same_string ("Broken pipe")
-			end
-		end
-
-	received_termination_signal: BOOLEAN
-		do
-			Result := Termination_signals.has (last_signal_code)
+			Result := Unix_signals.is_termination (last_signal_code)
 		end
 
 feature -- Status setting
@@ -153,16 +149,6 @@ feature {NONE} -- Constants
 	Template_error_in_routine: ZSTRING
 		once
 			Result := "Error in routine: {%S}.%S"
-		end
-
-	Termination_signals: ARRAY [INTEGER]
-		once
-			Result := << Unix.Sigint, Unix.Sigterm >>
-		end
-
-	Unix: UNIX_SIGNALS
-		once
-			create Result
 		end
 
 end

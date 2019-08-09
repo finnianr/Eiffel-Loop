@@ -103,7 +103,7 @@ feature {NONE} -- Implementation
 				end
 			end
 		rescue
-			if Mod_exception.received_termination_signal then
+			if Mod_exception.is_termination_signal then
 				exception_manager.last_exception.raise
 			elseif not assertion_violation then
 				retried := True

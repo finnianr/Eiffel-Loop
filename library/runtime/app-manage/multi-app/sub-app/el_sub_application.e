@@ -14,7 +14,7 @@ deferred class
 	EL_SUB_APPLICATION
 
 inherit
-	EL_SHARED_SUB_APPLICATION
+	ANY
 
 	EL_MODULE_BUILD_INFO
 
@@ -26,11 +26,11 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
+	EL_MODULE_LIO
+
 	EL_MODULE_OS_RELEASE
 
-	EL_MODULE_ZSTRING
-
-	EL_MODULE_LIO
+	EL_SHARED_SUB_APPLICATION
 
 feature {EL_SUB_APPLICATION_LIST} -- Initialization
 
@@ -207,7 +207,8 @@ feature {NONE} -- Implementation
 				end
 			end
 		rescue
-			if Exception.last.is_signal then
+			-- NOTE: Windows does not trigger an exception on Ctrl-C
+			if Exception.is_termination_signal then
 				ctrl_c_pressed := True
 				retry
 			end
