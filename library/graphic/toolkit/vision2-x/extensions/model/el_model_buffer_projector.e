@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-28 11:26:27 GMT (Friday 28th June 2019)"
-	revision: "5"
+	date: "2019-08-11 11:07:45 GMT (Sunday 11th August 2019)"
+	revision: "6"
 
 class
 	EL_MODEL_BUFFER_PROJECTOR
@@ -75,6 +75,8 @@ feature -- Basic operations
 				l_pixels.translate (half_width, half_width)
 				l_pixels.rotate (picture.angle)
 				l_pixels.translate (picture.width_precise.opposite / 2, picture.height_precise.opposite / 2)
+
+				l_pixels.flip (picture.width, picture.height, picture.mirror_state)
 
 				l_pixels.draw_scaled_pixel_buffer (0, 0, picture.width, By_width, picture.pixel_buffer)
 				if attached intersection then

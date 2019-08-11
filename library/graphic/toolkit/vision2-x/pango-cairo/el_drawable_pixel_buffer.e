@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-28 7:52:53 GMT (Friday 28th June 2019)"
-	revision: "12"
+	date: "2019-08-11 11:10:41 GMT (Sunday 11th August 2019)"
+	revision: "13"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -114,7 +114,7 @@ feature {NONE} -- Initialization
 			implementation.make_with_pixmap (a_pixmap)
 		end
 
-	make_mirrored (a_buffer: EL_DRAWABLE_PIXEL_BUFFER; axis: CHARACTER)
+	make_mirrored (a_buffer: EL_DRAWABLE_PIXEL_BUFFER; axis: INTEGER)
 		-- create copy mirrored in the y-axis
 		require
 			valid_axis: is_valid_axis (axis)
@@ -288,7 +288,7 @@ feature -- Transform
 			implementation.rotate (angle)
 		end
 
-	scale (x_factor, y_factor: REAL_64)
+	scale (x_factor, y_factor: DOUBLE)
 		do
 			implementation.scale (x_factor, y_factor)
 		end
@@ -297,6 +297,23 @@ feature -- Transform
 			-- translate coordinate origin to point x, y
 		do
 			implementation.translate (x, y)
+		end
+
+	flip (a_width, a_height: DOUBLE; mirror_state: INTEGER)
+		local
+			x_factor, y_factor, l_width, l_height: DOUBLE
+		do
+			if mirror_state.to_boolean then
+				x_factor := x_factor.one; y_factor := y_factor.one
+				if (mirror_state & X_axis).to_boolean then
+					l_height := a_height; y_factor := y_factor.opposite
+				end
+				if (mirror_state & Y_axis).to_boolean then
+					l_width := a_width; x_factor := x_factor.opposite
+				end
+				implementation.translate (l_width, l_height)
+				implementation.scale (x_factor, y_factor)
+			end
 		end
 
 feature -- Status change

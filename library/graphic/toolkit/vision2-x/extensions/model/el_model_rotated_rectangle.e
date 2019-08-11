@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-18 9:10:17 GMT (Thursday 18th July 2019)"
-	revision: "5"
+	date: "2019-08-11 10:39:39 GMT (Sunday 11th August 2019)"
+	revision: "6"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -52,18 +52,18 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	center_line_points (axis: CHARACTER): EL_COORDINATE_ARRAY
+	center_line_points (axis: INTEGER): EL_COORDINATE_ARRAY
 		do
 			create Result.make (2)
 			if not is_center_valid then
 				set_center
 			end
 			inspect axis
-				when 'X' then
+				when X_axis then
 					set_point_on_circle (Result.p0, center, angle, width_precise / 2)
 					set_point_on_circle (Result.p1, center, angle + radians (180), width_precise / 2)
 
-				when 'Y' then
+				when Y_axis then
 					set_point_on_circle (Result.p0, center, angle - radians (90), height_precise / 2)
 					set_point_on_circle (Result.p1, center, angle + radians (90), height_precise / 2)
 			else end

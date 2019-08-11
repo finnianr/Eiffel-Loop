@@ -3,9 +3,14 @@ note
 		Allow implementation of shared [https://en.wikipedia.org/wiki/Singleton_pattern singleton] for type G.
 		See class [$source EL_SHARED_SINGLETONS] for details.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-08-08 10:31:08 GMT (Thursday 8th August 2019)"
+	revision: "1"
 
 class
 	EL_SINGLETON [G]

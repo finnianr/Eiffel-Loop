@@ -31,3 +31,6 @@ Added class el_progress_toggle_button_box
 Mon 5th Aug 2019, 12:19:28
 Made string constant classes inherit from EL_ANY_SHARED
 
+Sat 10th Aug 2019, 14:07:13
+Made mirroring more efficient by only rendering the flipped image in EL_ROTATE_PICTURE_BUFFER
+

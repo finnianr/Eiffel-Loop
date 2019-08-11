@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-23 17:00:01 GMT (Tuesday 23rd July 2019)"
-	revision: "7"
+	date: "2019-08-11 11:09:41 GMT (Sunday 11th August 2019)"
+	revision: "8"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -22,22 +22,24 @@ inherit
 			default_create, make_from_other
 		end
 
+	EL_SHARED_PROGRESS_LISTENER
+
 create
 	make, default_create
 
 feature {NONE} -- Initialization
-
-	make (a_points: EL_COORDINATE_ARRAY; a_pixel_buffer: like pixel_buffer)
-		do
-			make_with_coordinates (a_points)
-			pixel_buffer := a_pixel_buffer
-		end
 
 	default_create
 		do
 			Precursor
 			create pixel_buffer
 			border_drawing := False
+		end
+
+	make (a_points: EL_COORDINATE_ARRAY; a_pixel_buffer: like pixel_buffer)
+		do
+			make_with_coordinates (a_points)
+			pixel_buffer := a_pixel_buffer
 		end
 
 	make_from_other (other: EL_MODEL_ROTATED_PICTURE)
@@ -49,12 +51,7 @@ feature {NONE} -- Initialization
 				set_background_color (other.background_color)
 			end
 			border_drawing.set_state (other.border_drawing.is_enabled)
-			if other.is_mirrored_x then
-				mirror ('X')
-			end
-			if other.is_mirrored_y then
-				mirror ('Y')
-			end
+			mirror_state := other.mirror_state
 		end
 
 feature -- Access
@@ -69,28 +66,49 @@ feature -- Access
 			create Result.make (points.p0.x, points.p0.y, l_width, l_height)
 		end
 
+	mirror_state: NATURAL_8
+		-- bit mask for mirroring in X and Y axis
+
 feature -- Status query
 
 	border_drawing: EL_BOOLEAN_OPTION
 
 	is_mirrored_x: BOOLEAN
+		do
+			Result := (mirror_state & X_axis.to_natural_8).to_boolean
+		end
 
 	is_mirrored_y: BOOLEAN
+		do
+			Result := (mirror_state & Y_axis.to_natural_8).to_boolean
+		end
 
 feature -- Transformation
 
-	mirror (axis: CHARACTER)
+	mirror (axis: INTEGER)
 		require
 			valid_axis: is_valid_axis (axis)
 		do
-			inspect axis
-				when X_axis then
-					is_mirrored_x := not is_mirrored_x
-				when Y_axis then
-					is_mirrored_y := not is_mirrored_y
-			else end
-			create pixel_buffer.make_mirrored (pixel_buffer, axis)
+			mirror_state := mirror_state.bit_xor (axis.to_natural_8)
 			invalidate
+		end
+
+feature -- Basic operations
+
+	render (pixels: EL_DRAWABLE_PIXEL_BUFFER)
+		local
+			p0: EV_COORDINATE
+		do
+			p0 := point_array [0]
+			pixels.save
+			pixels.translate (p0.x, p0.y)
+			pixels.rotate (angle)
+
+			pixels.flip (width, height, mirror_state)
+
+			pixels.draw_scaled_pixel_buffer (0, 0, width, By_width, pixel_buffer)
+			pixels.restore
+			progress_listener.notify_tick
 		end
 
 feature {EL_MODEL_BUFFER_PROJECTOR, EV_MODEL} -- Access
