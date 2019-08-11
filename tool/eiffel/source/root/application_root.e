@@ -62,6 +62,9 @@ feature {NONE} -- Implementation
 		do
 		end
 note
+	notes: "[
+		Needs some work on EL_FTP_SYNC to ensure correct sync info is saved in case of network error.
+	"]
 	ideas: "[
 		* use lftp to sync with ftp account
 		See https://www.linux.com/blog/using-lftp-synchronize-folders-ftp-account

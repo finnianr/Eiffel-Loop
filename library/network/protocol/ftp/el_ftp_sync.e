@@ -103,10 +103,14 @@ feature -- Basic operations
 
 	login_and_upload
 		do
-			ftp.open; ftp.login; ftp.change_home_dir
-			lio.put_new_line
-			upload
-			ftp.close
+			ftp.open
+			if ftp.is_open then
+				ftp.login; ftp.change_home_dir
+				lio.put_new_line
+				upload
+				ftp.close
+				sync_table.save
+			end
 		end
 
 	remove_local (local_root_dir: EL_DIR_PATH)
@@ -122,11 +126,6 @@ feature -- Basic operations
 			end
 		end
 
-	save
-		do
-			sync_table.save
-		end
-
 	update
 		-- update `sync_table' and `removed_items'
 		do
@@ -135,16 +134,13 @@ feature -- Basic operations
 				if sync_table.has_key (file.key) then
 					if file.item.current_digest /= sync_table.found_item then
 						upload_list.extend (file.item)
-						sync_table [file.key] := file.item.current_digest -- modified item
 					end
 				else
 					upload_list.extend (file.item)
-					sync_table.extend (file.item.current_digest, file.key) -- new item
 				end
 			end
 			across sync_table.current_keys as path loop
 				if not file_item_table.has_key (path.item) then
-					sync_table.remove (path.item)
 					removed_items.extend (path.item)
 				end
 			end
@@ -160,7 +156,10 @@ feature {NONE} -- Implementation
 			create deleted_dir_set.make_equal (10)
 			across removed_items as path loop
 				ftp.delete_file (path.item)
-				deleted_dir_set.put (path.item.parent)
+				if ftp.last_succeeded then
+					sync_table.remove (path.item)
+					deleted_dir_set.put (path.item.parent)
+				end
 			end
 			-- sort in reverse order of directory step count
 			create sorted_dir_list.make_sorted (deleted_dir_set, agent {EL_DIR_PATH}.step_count, False)
@@ -168,9 +167,6 @@ feature {NONE} -- Implementation
 				if named_directory (root_dir.joined_dir_path (dir.item)).is_empty then
 					ftp.remove_directory (dir.item)
 				end
-			end
-			if not deleted_dir_set.is_empty then
-				sync_table.save
 			end
 		end
 
@@ -189,11 +185,16 @@ feature {NONE} -- Implementation
 						lio.put_new_line
 					end
 					ftp.upload (item)
+					if ftp.last_succeeded then
+						sync_table [file.item.file_path] := file.item.current_digest -- modified item
+					end
 				else
 					lio.put_path_field ("Missing upload", file.item.file_path)
 					lio.put_new_line
 				end
 			end
+		rescue
+			sync_table.save
 		end
 
 feature {NONE} -- Internal attributes

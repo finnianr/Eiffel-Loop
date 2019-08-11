@@ -1,6 +1,7 @@
 note
 	description: "[
-		Model of a rotated picture. Requires projector of type [$source EL_MODEL_BUFFER_PROJECTOR] to be rendered.
+		Model of a flippable, rotatable picture. Requires projector of type [$source EL_MODEL_BUFFER_PROJECTOR] to be rendered.
+		Flipping is achieved via routine `mirror'.
 	]"
 
 	author: "Finnian Reilly"
@@ -67,7 +68,7 @@ feature -- Access
 		end
 
 	mirror_state: NATURAL_8
-		-- bit mask for mirroring in X and Y axis
+		-- bit OR'd combination of `X_axis' and `Y_axis'
 
 feature -- Status query
 
@@ -75,17 +76,18 @@ feature -- Status query
 
 	is_mirrored_x: BOOLEAN
 		do
-			Result := (mirror_state & X_axis.to_natural_8).to_boolean
+			Result := (mirror_state.to_integer_32 & X_axis).to_boolean
 		end
 
 	is_mirrored_y: BOOLEAN
 		do
-			Result := (mirror_state & Y_axis.to_natural_8).to_boolean
+			Result := (mirror_state.to_integer_32 & Y_axis).to_boolean
 		end
 
 feature -- Transformation
 
 	mirror (axis: INTEGER)
+		-- invert the mirror state for axis `axis'
 		require
 			valid_axis: is_valid_axis (axis)
 		do

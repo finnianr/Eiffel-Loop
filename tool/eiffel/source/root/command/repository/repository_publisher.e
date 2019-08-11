@@ -162,7 +162,6 @@ feature -- Basic operations
 							agent ftp_sync.login_and_upload, agent lio.put_line ("Synchronized")
 						)
 					end
-					ftp_sync.save
 				end
 			end
 		end

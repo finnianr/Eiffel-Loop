@@ -300,6 +300,7 @@ feature -- Transform
 		end
 
 	flip (a_width, a_height: DOUBLE; mirror_state: INTEGER)
+		-- mirror_state is bit OR'd combination of `X_axis' and `Y_axis'
 		local
 			x_factor, y_factor, l_width, l_height: DOUBLE
 		do
