@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-07 6:57:01 GMT (Friday 7th June 2019)"
-	revision: "3"
+	date: "2019-08-27 13:47:45 GMT (Tuesday 27th August 2019)"
+	revision: "4"
 
 deferred class
-	EL_REFLECTIVE_BUILDABLE_FROM_NODE_SCAN
+	EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN
 
 inherit
 	EL_BUILDABLE_FROM_NODE_SCAN

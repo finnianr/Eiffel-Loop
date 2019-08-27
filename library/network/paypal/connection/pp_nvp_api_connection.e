@@ -1,13 +1,13 @@
 note
-	description: "Paypal NVP API connection accessible via `{[$source PP_SHARED_CONNECTION]}.paypal'"
+	description: "Paypal NVP API connection accessible via `{[$source PP_SHARED_API_CONNECTION]}.paypal'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 9:21:38 GMT (Monday 29th October 2018)"
-	revision: "10"
+	date: "2019-08-27 13:44:54 GMT (Tuesday 27th August 2019)"
+	revision: "11"
 
 class
 	PP_NVP_API_CONNECTION
@@ -34,16 +34,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (
-		a_cert_authority_info_path: EL_FILE_PATH; a_credentials: like credentials
-		a_api_version: REAL; a_is_sandbox: like is_sandbox
-	)
+	make (a_api_version: REAL)
 		do
-			credentials := a_credentials
+			credentials := Configuration.new_credentials
 			create version.make (a_api_version)
-			is_sandbox := a_is_sandbox
-			make_http_connection (a_cert_authority_info_path)
-			create notify_url.make_empty
+			make_http_connection
 			create button_search.make (Current)
 			create create_button.make (Current)
 			create get_button_details_method.make (Current)
@@ -60,12 +55,8 @@ feature -- Access
 	notify_url: STRING
 		-- The URL to which PayPal posts information about the payment,
 		-- in the form of Instant Payment Notification messages.
-
-feature -- Element change
-
-	set_notify_url (a_notify_url: like notify_url)
 		do
-			notify_url := a_notify_url
+			Result := Configuration.notify_url
 		end
 
 feature -- Button management
@@ -113,9 +104,6 @@ feature -- Basic operations
 
 feature -- Status query
 
-	is_sandbox: BOOLEAN
-		-- True if calls made to test server
-
 	last_call_succeeded: BOOLEAN
 		do
 			Result := not has_error
@@ -125,10 +113,7 @@ feature {NONE} -- Implementation
 
 	api_url: ZSTRING
 		do
-			Result := "https://api-3t.paypal.com/nvp"
-			if is_sandbox then
-				Result.insert_string_general (".sandbox", Result.index_of ('.', 1))
-			end
+			Result := Configuration.api_url
 		end
 
 	is_button_parameter (basic_type, type_id: INTEGER_32): BOOLEAN

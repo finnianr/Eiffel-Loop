@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-23 7:03:41 GMT (Tuesday 23rd July 2019)"
-	revision: "2"
+	date: "2019-08-20 14:10:12 GMT (Tuesday 20th August 2019)"
+	revision: "3"
 
 class
 	EL_FILE_SAVE_DIALOG
@@ -31,6 +31,8 @@ inherit
 
 	EL_MODULE_GUI
 
+	EL_ZSTRING_CONSTANTS
+
 create
 	make
 
@@ -39,12 +41,11 @@ feature {NONE} -- Initialization
 	make (a_name, description, extension: READABLE_STRING_GENERAL; a_last_saved_dir: EL_DIR_PATH; a_save: like save)
 		local
 			file_path: EL_FILE_PATH; name: ZSTRING
-			l_extension: READABLE_STRING_GENERAL
 		do
-			l_extension := to_unicode_general (extension)
-			make_with_title ("Save " + description)
+			make_with_title ("Save as " + description)
+			create filter_extensions.make (2)
 			save := a_save; last_saved_dir := a_last_saved_dir
-			filters.extend (["*." + l_extension, Filter_template.substituted_tuple ([description, extension]).to_unicode])
+			add_filter (description, extension)
 			create name.make_from_general (a_name)
 			file_path := last_saved_dir + name
 			if not file_path.has_extension (extension) then
@@ -52,6 +53,25 @@ feature {NONE} -- Initialization
 			end
 			set_full_file_path (file_path)
 		end
+
+feature -- Element change
+
+	add_filter (description, extension: READABLE_STRING_GENERAL)
+		local
+			wild_card, l_extension, l_description: ZSTRING
+		do
+			create l_extension.make_from_general (extension)
+			filter_extensions.extend (l_extension)
+			filter_extensions.last.to_lower
+			wild_card := "*."
+			wild_card.append_string_general (extension)
+			l_description := l_extension.as_upper + character_string (' ') + description
+			filters.extend ([wild_card, Filter_template.substituted_tuple ([l_description, extension]).to_unicode])
+		end
+
+feature -- Access
+
+	filter_extensions: EL_ZSTRING_LIST
 
 feature -- Status setting
 
@@ -66,9 +86,21 @@ feature {NONE} -- Event handling
 	on_save (a_window: EV_WINDOW)
 		local
 			dialog: EL_CONFIRMATION_DIALOG; confirmed: BOOLEAN
-			file_path: EL_FILE_PATH
+			file_path: EL_FILE_PATH; extension, format_extension: ZSTRING
 		do
-			file_path := full_file_path
+			file_path := full_file_path; extension := file_path.extension.as_lower
+			if filters.valid_index (selected_filter_index) then
+				create format_extension.make_from_general (filters.i_th (selected_filter_index).filter)
+				format_extension.remove_head (2)
+				format_extension.to_lower
+				if extension /~ format_extension then
+					if filter_extensions.has (extension) then
+						file_path := file_path.with_new_extension (format_extension)
+					else
+						file_path.add_extension (format_extension)
+					end
+				end
+			end
 			if file_path.exists then
 				create dialog.make_with_text (Confirmation_template.substituted_tuple ([file_path.base]).to_string_32)
 				dialog.show_modal_to_window (a_window)
@@ -84,9 +116,9 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Internal attributes
 
-	save: PROCEDURE [EL_FILE_PATH]
-
 	last_saved_dir: EL_DIR_PATH
+
+	save: PROCEDURE [EL_FILE_PATH]
 
 feature {NONE} -- Constants
 

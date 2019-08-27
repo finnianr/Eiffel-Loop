@@ -4,7 +4,8 @@
 	<description>
 PayPal Payments Standard Button Manager API
 An Eiffel interface to the
-[https://developer.paypal.com/docs/classic/button-manager/integration-guide/ PayPal Payments Standard Button Manager NVP HTTP API].
+[https://developer.paypal.com/docs/classic/button-manager/integration-guide/
+PayPal Payments Standard Button Manager NVP HTTP API].
 	</description>
 	<target name = "EL_paypal">
 		<root all_classes = "true"/>
@@ -20,6 +21,7 @@ An Eiffel interface to the
 		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<library name = "EL_http_client" location = "http-client.ecf"/>
 		<library name = "EL_network" location = "network.ecf"/>
+		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf"/>
 		<!--Source code-->
 		<cluster name = "paypal" location = "network/paypal" recursive = "true"/>
 	</target>

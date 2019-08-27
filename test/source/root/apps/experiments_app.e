@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-06 10:05:29 GMT (Tuesday 6th August 2019)"
-	revision: "40"
+	date: "2019-08-23 10:38:19 GMT (Friday 23rd August 2019)"
+	revision: "41"
 
 class
 	EXPERIMENTS_APP
@@ -69,6 +69,11 @@ feature {NONE} -- Experiments
 		end
 
 	structure: STRUCTURE_EXPERIMENTS
+		do
+			create Result
+		end
+
+	syntax: SYNTAX_EXPERIMENTS
 		do
 			create Result
 		end

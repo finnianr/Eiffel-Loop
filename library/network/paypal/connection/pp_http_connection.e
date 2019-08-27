@@ -1,35 +1,27 @@
 note
-	description: "Pp http connection"
+	description: "Paypal HTTP connection"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-08-27 12:02:47 GMT (Tuesday 27th August 2019)"
+	revision: "5"
 
 class
 	PP_HTTP_CONNECTION
 
 inherit
 	EL_HTTP_CONNECTION
-		rename
-			make as make_connection
 		redefine
 			open
 		end
 
+	PP_SHARED_CONFIGURATION
+
 create
 	make
-	
-feature {NONE} -- Initialization
-
-	make (a_cert_authority_info_path: EL_FILE_PATH)
-		do
-			cert_authority_info_path := a_cert_authority_info_path
-			make_connection
-		end
 
 feature -- Basic operations
 
@@ -41,12 +33,8 @@ feature -- Basic operations
 			set_ssl_tls_version (1.2)
 			set_ssl_certificate_verification (True)
 			set_ssl_hostname_verification (True)
-			set_certificate_authority_info (cert_authority_info_path)
+			set_certificate_authority_info (Configuration.cert_authority_info_path)
 			headers ["Connection"] := "Close"
 		end
-
-feature {NONE} -- Internal attributes
-
-	cert_authority_info_path: EL_FILE_PATH
 
 end

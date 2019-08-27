@@ -73,7 +73,7 @@ system:
 
 		# Source code
 		cluster:
-			name = xml; location = "persistency/xml/xdoc-scanning"; recursive = true
+			name = XDOC_scanning; location = "persistency/xml/xdoc-scanning"; recursive = true
 			option:
-				namespace = XML
+				namespace = XDOC_scanning
 

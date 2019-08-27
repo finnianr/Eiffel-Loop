@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-25 10:30:55 GMT (Thursday 25th July 2019)"
-	revision: "8"
+	date: "2019-08-27 13:47:45 GMT (Tuesday 27th August 2019)"
+	revision: "9"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -32,7 +32,7 @@ inherit
 			make_default
 		end
 
-	EL_REFLECTIVE_BUILDABLE_FROM_NODE_SCAN
+	EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN
 		rename
 			element_node_type as	Attribute_node,
 			xml_names as export_default,
@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			file_path := a_file_path
-			Precursor {EL_REFLECTIVE_BUILDABLE_FROM_NODE_SCAN} (a_file_path)
+			Precursor {EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN} (a_file_path)
 		end
 
 	make_default
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 				create file_path
 			end
 			create node_source.make (agent new_node_source)
-			Precursor {EL_REFLECTIVE_BUILDABLE_FROM_NODE_SCAN}
+			Precursor {EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN}
 		end
 
 feature {NONE} -- Implementation

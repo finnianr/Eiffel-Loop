@@ -1,13 +1,15 @@
 note
-	description: "Constants for defining directions of drawing operations in class [$source EL_DRAWABLE_PIXEL_BUFFER]"
+	description: "[
+		Constants for defining directions/dimensions of drawing operations in class [$source EL_DRAWABLE_PIXEL_BUFFER]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-11 11:25:42 GMT (Sunday 11th August 2019)"
-	revision: "7"
+	date: "2019-08-12 9:33:05 GMT (Monday 12th August 2019)"
+	revision: "8"
 
 class
 	EL_ORIENTATION_ROUTINES

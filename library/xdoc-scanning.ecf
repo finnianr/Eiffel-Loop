@@ -39,8 +39,8 @@ See doc/xdoc-scanning.txt for details.
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->
-		<cluster name = "xml" location = "persistency/xml/xdoc-scanning" recursive = "true">
-			<option namespace = "XML"/>
+		<cluster name = "XDOC_scanning" location = "persistency/xml/xdoc-scanning" recursive = "true">
+			<option namespace = "XDOC_scanning"/>
 		</cluster>
 	</target>
 </system>

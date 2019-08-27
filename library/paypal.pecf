@@ -49,6 +49,9 @@ system:
 		library:
 			name = EL_network; location = "network.ecf"
 
+		library:
+			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
+
 		# Source code
 		cluster:
 			name = paypal; location = "network/paypal"; recursive = true
