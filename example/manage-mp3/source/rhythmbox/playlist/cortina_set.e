@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:05:32 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2019-08-31 12:26:04 GMT (Saturday 31st August 2019)"
+	revision: "7"
 
 class
 	CORTINA_SET
@@ -76,8 +76,8 @@ feature {NONE} -- Implementation
 			source_offset_secs, clip_duration: INTEGER; fade_in_duration, fade_out_duration: REAL
 			cortina: RBOX_CORTINA_SONG
 		do
-			fade_in_duration := config.cortina_set.fade_in_duration
-			fade_out_duration := config.cortina_set.fade_out_duration
+			fade_in_duration := config.cortina_set.fade_in
+			fade_out_duration := config.cortina_set.fade_out
 			if genre ~ Tanda_type_the_end then
 				clip_duration := source_song.duration
 			else
@@ -98,7 +98,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation
 
-	config: MANAGER_CONFIG
+	config: TASK_CONFIG
 
 	source_song: RBOX_SONG
 

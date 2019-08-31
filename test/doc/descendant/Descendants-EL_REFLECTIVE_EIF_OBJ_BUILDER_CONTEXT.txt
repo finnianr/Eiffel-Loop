@@ -1,0 +1,9 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT*
+				[$source TEST_VALUES]
+				[$source EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN]*
+					[$source EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML]*
+						[$source TEST_CONFIGURATION]
+	]"

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 11:38:48 GMT (Sunday 15th October 2017)"
-	revision: "7"
+	date: "2019-08-31 12:35:20 GMT (Saturday 31st August 2019)"
+	revision: "8"
 
 class
 	TANGO_MP3_FILE_COLLATOR_APP
@@ -39,7 +39,7 @@ feature -- Testing
 		local
 			manager: TEST_MUSIC_MANAGER
 		do
-			create manager.make (create {MANAGER_CONFIG}.make)
+			create manager.make (create {TASK_CONFIG}.make_default)
 			create command.make ("workarea/rhythmdb/Music", True)
 			normal_run
 		end

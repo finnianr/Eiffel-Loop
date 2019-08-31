@@ -1,16 +1,16 @@
 note
-	description: "DJ event publisher config"
+	description: "Cortina set info"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:01:38 GMT (Saturday 31st August 2019)"
-	revision: "6"
+	date: "2019-08-31 12:20:54 GMT (Saturday 31st August 2019)"
+	revision: "1"
 
 class
-	DJ_EVENT_PUBLISHER_CONFIG
+	CORTINA_SET_INFO
 
 inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -22,8 +22,6 @@ inherit
 			make
 		end
 
-	EL_MODULE_DIRECTORY
-
 create
 	make
 
@@ -32,26 +30,23 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			www_dir := Directory.home.joined_dir_path ("www")
-			upload := True
+			fade_in := 3.0; fade_out := 3.0
+			clip_duration := 25
+			tango_count := 8
+			tangos_per_vals := 4
 		end
 
 feature -- Access
 
-	www_dir: EL_DIR_PATH
+	clip_duration: INTEGER
 
-	html_template: ZSTRING
+	fade_in: REAL
+		-- fade in duration
 
-	html_index_template: ZSTRING
+	fade_out: REAL
+		-- fade out duration
 
-	ftp_url: ZSTRING
+	tango_count: INTEGER
 
-	ftp_user_home: ZSTRING
-
-	ftp_destination_dir: ZSTRING
-
-feature -- Status query
-
-	upload: BOOLEAN
-
+	tangos_per_vals: INTEGER
 end

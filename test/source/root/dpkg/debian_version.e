@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-17 16:45:45 GMT (Friday 17th May 2019)"
-	revision: "1"
+	date: "2019-08-28 9:32:21 GMT (Wednesday 28th August 2019)"
+	revision: "2"
 
 class
 	DEBIAN_VERSION
@@ -22,7 +22,6 @@ feature {NONE} -- Initialization
 
 	make (str: STRING)
 		do
-
 		end
 
 feature -- Status query

@@ -26,8 +26,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 11:38:23 GMT (Sunday 15th October 2017)"
-	revision: "12"
+	date: "2019-08-31 12:36:50 GMT (Saturday 31st August 2019)"
+	revision: "13"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -55,7 +55,7 @@ feature {NONE} -- Initialization
 
 feature -- Testing
 
-	test_music_manager (data_path: EL_DIR_PATH; config: TEST_MANAGER_CONFIG)
+	test_music_manager (data_path: EL_DIR_PATH; config: TEST_TASK_CONFIG)
 			--
 		do
 			log.enter ("test_music_manager")
@@ -68,7 +68,7 @@ feature -- Testing
 		do
 			if not has_argument_errors then
 				Test.set_excluded_file_extensions (<< "mp3", "jpeg" >>)
-				if attached {TEST_MANAGER_CONFIG} operands.reference_item (1) as config then
+				if attached {TEST_TASK_CONFIG} operands.reference_item (1) as config then
 					Test.do_file_tree_test ("rhythmdb", agent test_music_manager (?, config), config.test_checksum)
 				end
 			end
@@ -86,9 +86,9 @@ feature {NONE} -- Implementation
 	default_make: PROCEDURE
 		do
 			if Is_test_mode then
-				Result := agent {like music_manager_command}.make (create {TEST_MANAGER_CONFIG}.make)
+				Result := agent {like music_manager_command}.make (create {TEST_TASK_CONFIG}.make_default)
 			else
-				Result := agent {like music_manager_command}.make (create {MANAGER_CONFIG}.make)
+				Result := agent {like music_manager_command}.make (create {TASK_CONFIG}.make_default)
 			end
 		end
 

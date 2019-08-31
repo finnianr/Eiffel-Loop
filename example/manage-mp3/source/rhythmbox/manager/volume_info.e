@@ -1,16 +1,16 @@
 note
-	description: "DJ event publisher config"
+	description: "Volume info"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:01:38 GMT (Saturday 31st August 2019)"
-	revision: "6"
+	date: "2019-08-31 12:44:59 GMT (Saturday 31st August 2019)"
+	revision: "1"
 
 class
-	DJ_EVENT_PUBLISHER_CONFIG
+	VOLUME_INFO
 
 inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -22,8 +22,6 @@ inherit
 			make
 		end
 
-	EL_MODULE_DIRECTORY
-
 create
 	make
 
@@ -32,26 +30,32 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			www_dir := Directory.home.joined_dir_path ("www")
-			upload := True
+			name := "."
+			id3_version := 2.3
+			is_windows_format := True
 		end
 
 feature -- Access
 
-	www_dir: EL_DIR_PATH
+	destination_dir: EL_DIR_PATH
 
-	html_template: ZSTRING
+	id3_version: REAL
 
-	html_index_template: ZSTRING
+	is_windows_format: BOOLEAN
 
-	ftp_url: ZSTRING
+	name: ZSTRING
 
-	ftp_user_home: ZSTRING
+	type: ZSTRING
 
-	ftp_destination_dir: ZSTRING
+feature -- Element change
 
-feature -- Status query
+	set_destination_dir (a_destination_dir: EL_DIR_PATH)
+		do
+			destination_dir := a_destination_dir
+		end
 
-	upload: BOOLEAN
-
+	set_name (a_name: ZSTRING)
+		do
+			name := a_name
+		end
 end

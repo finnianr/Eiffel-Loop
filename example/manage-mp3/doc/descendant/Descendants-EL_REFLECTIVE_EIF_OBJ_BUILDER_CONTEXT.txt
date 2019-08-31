@@ -1,0 +1,21 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT*
+				[$source RBOX_IRADIO_ENTRY]
+					[$source RBOX_IGNORED_ENTRY]
+						[$source RBOX_SONG]
+							[$source RBOX_CORTINA_SONG]
+								[$source RBOX_CORTINA_TEST_SONG]
+							[$source RBOX_TEST_SONG]
+								[$source RBOX_CORTINA_TEST_SONG]
+				[$source EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN]*
+					[$source EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS]*
+						[$source TASK_CONFIG]
+							[$source TEST_TASK_CONFIG]
+				[$source DJ_EVENT_PUBLISHER_CONFIG]
+				[$source CORTINA_SET_INFO]
+				[$source DJ_EVENT_INFO]
+				[$source PLAYLIST_EXPORT_INFO]
+				[$source VOLUME_INFO]
+	]"

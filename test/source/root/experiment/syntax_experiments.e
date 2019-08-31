@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-23 10:43:43 GMT (Friday 23rd August 2019)"
-	revision: "1"
+	date: "2019-08-30 16:53:18 GMT (Friday 30th August 2019)"
+	revision: "2"
 
 class
 	SYNTAX_EXPERIMENTS
@@ -28,6 +28,19 @@ feature -- Equality
 			if b1 = b2 then
 				-- something
 			end
+			if a1 = b2 then
+
+			end
+		end
+
+	ref_equal_to_expanded
+		local
+			a: INTEGER_REF; b: INTEGER
+			bool: BOOLEAN
+		do
+			a := 1; b := 1
+			bool := a = b
+			bool := a ~ b
 		end
 
 end

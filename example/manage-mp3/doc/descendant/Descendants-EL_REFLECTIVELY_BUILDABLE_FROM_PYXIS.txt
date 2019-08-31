@@ -1,0 +1,7 @@
+note
+	descendants: "See end of class"
+	descendants: "[
+			EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS*
+				[$source TASK_CONFIG]
+					[$source TEST_TASK_CONFIG]
+	]"

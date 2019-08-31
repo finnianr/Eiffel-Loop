@@ -1,36 +1,14 @@
 note
 	description: "API configuration"
-	notes: "[
-		Create an instance of this class first before accessing {[$source PP_SHARED_API_CONNECTION]}.API_connection
-
-		*Example Configuration*
-				
-			pyxis-doc:
-				version = 1.0; encoding = "UTF-8"
-
-			pp_configuration:
-				is_sandbox = true
-				cert_authority_info_path = "$HOME/Documents/Certificates/cacert.pem"
-				domain_name = "www.sandbox.paypal.com"
-
-				account_id = ALDKM1CSCFFXJ
-				api_url = "https://api-3t.sandbox.paypal.com/nvp"
-				credentials_path = "$HOME/Documents/Certificates/sandbox-paypal.text.aes"
-				notify_url = "http://sandbox.myching.software/IPN/listener"
-
-				# Instant Payment Notification
-				receiver_email = "john-facilitator@widgets.com"
-				validation_url = "https://ipnpb.sandbox.paypal.com/cgi-bin/webscr"
-
-	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-27 14:14:28 GMT (Tuesday 27th August 2019)"
-	revision: "1"
+	date: "2019-08-27 14:32:02 GMT (Tuesday 27th August 2019)"
+	revision: "2"
 
 class
 	PP_CONFIGURATION
@@ -92,4 +70,27 @@ feature {NONE} -- Implementation
 		once
 		end
 
+note
+	notes: "[
+		Create an instance of this class first before accessing {[$source PP_SHARED_API_CONNECTION]}.API_connection
+
+		**Example Configuration File**
+
+			pyxis-doc:
+				version = 1.0; encoding = "UTF-8"
+
+			pp_configuration:
+				is_sandbox = true
+				cert_authority_info_path = "$HOME/Documents/Certificates/cacert.pem"
+				domain_name = "www.sandbox.paypal.com"
+
+				account_id = ALDKM1CSCFFXJ
+				api_url = "https://api-3t.sandbox.paypal.com/nvp"
+				credentials_path = "$HOME/Documents/Certificates/sandbox-paypal.text.aes"
+				notify_url = "http://sandbox.myching.software/IPN/listener"
+
+				# Instant Payment Notification
+				receiver_email = "john-facilitator@widgets.com"
+				validation_url = "https://ipnpb.sandbox.paypal.com/cgi-bin/webscr"
+	]"
 end

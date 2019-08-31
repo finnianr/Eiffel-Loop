@@ -1,25 +1,27 @@
 note
-	description: "Test manager config"
+	description: "Test task config"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:39:12 GMT (Friday 18th January 2019)"
-	revision: "6"
+	date: "2019-08-31 12:35:57 GMT (Saturday 31st August 2019)"
+	revision: "1"
 
 class
-	TEST_MANAGER_CONFIG
+	TEST_TASK_CONFIG
 
 inherit
-	MANAGER_CONFIG
+	TASK_CONFIG
 		redefine
-			building_action_table
+			Root_node_name, on_context_exit
 		end
 
+	EL_MODULE_DIRECTORY
+
 create
-	make, make_from_file
+	make, make_default
 
 feature -- Access
 
@@ -36,14 +38,15 @@ feature -- Factory
 			end
 		end
 
-feature {NONE} -- Build from XML
+feature {NONE} -- Implementation
 
-	building_action_table: EL_PROCEDURE_TABLE [STRING]
+	on_context_exit
 		do
-			Result := Precursor
-			Result ["@test_checksum"] := agent do test_checksum := node.to_natural end
-			Result ["@music_dir"] := agent do
-				music_dir := Directory.current_working.joined_dir_path (node.to_expanded_dir_path)
-			end
+			music_dir := Directory.current_working.joined_dir_path (music_dir)
 		end
+
+feature {NONE} -- Constants
+
+	Root_node_name: STRING = "task_config"
+
 end

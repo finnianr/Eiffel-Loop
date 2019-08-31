@@ -1,13 +1,14 @@
 note
 	description: "Reflective Eiffel object builder (from XML) context"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-02 8:39:53 GMT (Tuesday 2nd July 2019)"
-	revision: "9"
+	date: "2019-08-31 12:51:42 GMT (Saturday 31st August 2019)"
+	revision: "10"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -76,4 +77,28 @@ feature {NONE} -- Constants
 			Result := Precursor + ", next_context, xpath"
 		end
 
+note
+	descendants: "[
+			EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT*
+				[$source TEST_VALUES]
+				[$source EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN]*
+					[$source EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML]*
+						[$source TEST_CONFIGURATION]
+				[$source RBOX_IRADIO_ENTRY]
+					[$source RBOX_IGNORED_ENTRY]
+						[$source RBOX_SONG]
+							[$source RBOX_CORTINA_SONG]
+								[$source RBOX_CORTINA_TEST_SONG]
+							[$source RBOX_TEST_SONG]
+								[$source RBOX_CORTINA_TEST_SONG]
+				[$source EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN]*
+					[$source EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS]*
+						[$source TASK_CONFIG]
+							[$source TEST_TASK_CONFIG]
+				[$source DJ_EVENT_PUBLISHER_CONFIG]
+				[$source CORTINA_SET_INFO]
+				[$source DJ_EVENT_INFO]
+				[$source PLAYLIST_EXPORT_INFO]
+				[$source VOLUME_INFO]
+	]"
 end

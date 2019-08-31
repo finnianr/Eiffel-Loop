@@ -1,13 +1,18 @@
 note
 	description: "Reflectively buildable from pyxis"
+	descendants: "[
+			EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS*
+				[$source TASK_CONFIG]
+					[$source TEST_TASK_CONFIG]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-27 13:47:45 GMT (Tuesday 27th August 2019)"
-	revision: "1"
+	date: "2019-08-31 12:48:47 GMT (Saturday 31st August 2019)"
+	revision: "2"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS

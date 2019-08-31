@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-06 18:58:48 GMT (Thursday 6th June 2019)"
-	revision: "6"
+	date: "2019-08-28 17:28:48 GMT (Wednesday 28th August 2019)"
+	revision: "7"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT
@@ -24,8 +24,8 @@ feature {NONE} -- Initialization
 feature {EL_XML_NODE_CLIENT} -- Event handler
 
 	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
-			-- Called each time the XML parser returns from the context set by 'set_next_context'
-			-- Can be used to carry out processing on an object passed to 'set_next_context'
+		-- Called each time the XML parser returns from the context set by 'set_next_context'
+		-- Can be used to carry out processing on an object passed to 'set_next_context'
 		do
 		end
 

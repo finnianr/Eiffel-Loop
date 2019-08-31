@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 10:32:31 GMT (Friday 25th January 2019)"
-	revision: "7"
+	date: "2019-08-31 12:39:23 GMT (Saturday 31st August 2019)"
+	revision: "8"
 
 deferred class	RBOX_APPLICATION obsolete "Rewrite descendants using music manager task"
 
@@ -84,14 +84,13 @@ feature {NONE} -- Initialization
 			set_attribute_from_command_opt (config_file_path, "config", "Configuration file path")
 
 			if config_file_path.is_empty then
-				create config.make
+				create config.make_default
 			else
-				create config.make_from_file (config_file_path)
+				create config.make (config_file_path)
 			end
 
 			if config.is_dry_run then
-				config.set_volume_name ("~")
-				config.set_volume_destination_dir ("Desktop/Music")
+				config.volume.set_name ("Desktop/Music")
 			end
 			if not (Is_test_mode or command_line_help_option_exists) then
 				get_user_input
@@ -188,7 +187,7 @@ feature {NONE} -- Implementation: attributes
 
 	conditions: ARRAYED_LIST [like predicate]
 
-	config: MANAGER_CONFIG
+	config: TASK_CONFIG
 
 	database: RBOX_DATABASE
 

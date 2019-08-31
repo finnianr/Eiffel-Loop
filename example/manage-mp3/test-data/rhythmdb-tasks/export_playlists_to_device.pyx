@@ -1,13 +1,13 @@
 pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-15"
 
-music-collection:
+task_config:
 	task = "export_playlists_to_device"; is_dry_run = False; test_checksum = 2738974618
 	music_dir = "workarea/rhythmdb/Music"
 
 	volume:
-		name = "TABLET"; destination = "Card/Music"; id3_version = 2.3
-	playlist:
+		name = "TABLET"; destination_dir = "Card/Music"; id3_version = 2.3
+	playlist_export:
 		root = "/storage/extSdCard"; subdirectory_name = "playlists"
 	
 

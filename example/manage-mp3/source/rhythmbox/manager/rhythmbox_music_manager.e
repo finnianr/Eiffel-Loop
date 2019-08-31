@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 12:39:17 GMT (Monday 29th October 2018)"
-	revision: "10"
+	date: "2019-08-31 12:30:50 GMT (Saturday 31st August 2019)"
+	revision: "11"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER
@@ -587,7 +587,7 @@ feature {NONE} -- Implementation
 
 				elseif config_file_path.exists then
 					if File_system.line_one (config_file_path).starts_with ("pyxis-doc:") then
-						create config.make_from_file (config_file_path)
+						create config.make (config_file_path)
 						done := True
 					else
 						lio.put_line ("File is not a valid pyxis document")
@@ -702,7 +702,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	config: MANAGER_CONFIG
+	config: TASK_CONFIG
 
 	dir_path: EL_DIR_PATH
 

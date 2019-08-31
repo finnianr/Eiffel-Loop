@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-27 13:44:54 GMT (Tuesday 27th August 2019)"
-	revision: "11"
+	date: "2019-08-27 18:42:48 GMT (Tuesday 27th August 2019)"
+	revision: "12"
 
 class
 	PP_NVP_API_CONNECTION
@@ -52,11 +52,21 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	api_url: ZSTRING
+		do
+			Result := Configuration.api_url
+		end
+
 	notify_url: STRING
 		-- The URL to which PayPal posts information about the payment,
 		-- in the form of Instant Payment Notification messages.
 		do
 			Result := Configuration.notify_url
+		end
+
+	domain_name: STRING
+		do
+			Result := Configuration.domain_name
 		end
 
 feature -- Button management
@@ -110,11 +120,6 @@ feature -- Status query
 		end
 
 feature {NONE} -- Implementation
-
-	api_url: ZSTRING
-		do
-			Result := Configuration.api_url
-		end
 
 	is_button_parameter (basic_type, type_id: INTEGER_32): BOOLEAN
 		do

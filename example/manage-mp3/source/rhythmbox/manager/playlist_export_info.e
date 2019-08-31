@@ -1,16 +1,16 @@
 note
-	description: "DJ event publisher config"
+	description: "Playlist export info"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:01:38 GMT (Saturday 31st August 2019)"
-	revision: "6"
+	date: "2019-08-31 12:39:50 GMT (Saturday 31st August 2019)"
+	revision: "1"
 
 class
-	DJ_EVENT_PUBLISHER_CONFIG
+	PLAYLIST_EXPORT_INFO
 
 inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -22,8 +22,6 @@ inherit
 			make
 		end
 
-	EL_MODULE_DIRECTORY
-
 create
 	make
 
@@ -32,26 +30,27 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			www_dir := Directory.home.joined_dir_path ("www")
-			upload := True
+			subdirectory_name := Default_playlists_subdirectory_name
+			m3u_extension := Default_m3u_extension
 		end
 
 feature -- Access
 
-	www_dir: EL_DIR_PATH
+	root: ZSTRING
 
-	html_template: ZSTRING
+	subdirectory_name: ZSTRING
 
-	html_index_template: ZSTRING
+	m3u_extension: ZSTRING
 
-	ftp_url: ZSTRING
+feature {NONE} -- Constants
 
-	ftp_user_home: ZSTRING
+	Default_m3u_extension: ZSTRING
+		once
+			Result := "m3u"
+		end
 
-	ftp_destination_dir: ZSTRING
-
-feature -- Status query
-
-	upload: BOOLEAN
-
+	Default_playlists_subdirectory_name: ZSTRING
+		once
+			Result := "playlists"
+		end
 end

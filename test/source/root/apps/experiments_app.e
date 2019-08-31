@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-23 10:38:19 GMT (Friday 23rd August 2019)"
-	revision: "41"
+	date: "2019-08-30 16:50:57 GMT (Friday 30th August 2019)"
+	revision: "42"
 
 class
 	EXPERIMENTS_APP
@@ -31,8 +31,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("numeric.iteration_10_to_pow_8")
-			numeric.iteration_10_to_pow_8
+			log.enter ("syntax.ref_equal_to_expanded")
+			syntax.ref_equal_to_expanded
 			log.exit
 		end
 

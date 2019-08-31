@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-17 16:46:25 GMT (Friday 17th May 2019)"
-	revision: "1"
+	date: "2019-08-28 9:20:47 GMT (Wednesday 28th August 2019)"
+	revision: "2"
 
 class
-	LIBACL1 -- libacl1
+	GCC_4_9_BASE -- gcc-4.9-base
 
 feature -- Access
 
 	version: DEBIAN_VERSION
 		once
-			Result := "2.2.52-1"
+			Result := "4.9.3-0ubuntu4"
 		end
 end

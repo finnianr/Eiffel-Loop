@@ -1,16 +1,16 @@
 note
-	description: "DJ event publisher config"
+	description: "Dj event info"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:01:38 GMT (Saturday 31st August 2019)"
-	revision: "6"
+	date: "2019-08-31 12:33:47 GMT (Saturday 31st August 2019)"
+	revision: "1"
 
 class
-	DJ_EVENT_PUBLISHER_CONFIG
+	DJ_EVENT_INFO
 
 inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -22,8 +22,6 @@ inherit
 			make
 		end
 
-	EL_MODULE_DIRECTORY
-
 create
 	make
 
@@ -31,27 +29,16 @@ feature {NONE} -- Initialization
 
 	make
 		do
+			create publisher.make
 			Precursor
-			www_dir := Directory.home.joined_dir_path ("www")
-			upload := True
+			dj_name := "Unknown"
 		end
 
 feature -- Access
 
-	www_dir: EL_DIR_PATH
+	default_title: ZSTRING
 
-	html_template: ZSTRING
+	dj_name: ZSTRING
 
-	html_index_template: ZSTRING
-
-	ftp_url: ZSTRING
-
-	ftp_user_home: ZSTRING
-
-	ftp_destination_dir: ZSTRING
-
-feature -- Status query
-
-	upload: BOOLEAN
-
+	publisher: DJ_EVENT_PUBLISHER_CONFIG
 end
