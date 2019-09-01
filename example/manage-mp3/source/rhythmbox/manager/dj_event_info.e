@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:33:47 GMT (Saturday 31st August 2019)"
-	revision: "1"
+	date: "2019-09-01 14:36:51 GMT (Sunday 1st September 2019)"
+	revision: "2"
 
 class
 	DJ_EVENT_INFO
@@ -29,7 +29,6 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create publisher.make
 			Precursor
 			dj_name := "Unknown"
 		end
@@ -40,5 +39,4 @@ feature -- Access
 
 	dj_name: ZSTRING
 
-	publisher: DJ_EVENT_PUBLISHER_CONFIG
 end

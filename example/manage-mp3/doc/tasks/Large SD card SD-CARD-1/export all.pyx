@@ -3,12 +3,12 @@ pyxis-doc:
 
 # Synchronize selected genres of music with connected device.
 
-music-collection:
-	task = export_music_to_device; is_dry_run = False
+export_music_to_device:
+	is_dry_run = false
 
 	volume:
-		name = "SD-CARD-1"; destination = "Music"; id3_version = 2.4
-	playlist:
+		name = "SD-CARD-1"; destination_dir = "Music"; id3_version = 2.4
+	playlist_export:
 		root = "/"; subdirectory_name = "playlists"
 	
 

@@ -1,11 +1,11 @@
 pyxis-doc:
 	version = 1.0; encoding = "UTF-8"
 
-music-collection:
-	task = export_music_to_device; is_dry_run = False
+export_music_to_device:
+	is_dry_run = false
 
 	volume:
-		name = "32 GB Volume"; destination = "Music"; id3_version = 2.3; type = "Samsung Tablet"
-	playlist:
+		name = "32 GB Volume"; destination_dir = "Music"; id3_version = 2.3; type = "Samsung Tablet"
+	playlist_export:
 		root = "/mnt/sdcard"; subdirectory_name = "playlists"
 

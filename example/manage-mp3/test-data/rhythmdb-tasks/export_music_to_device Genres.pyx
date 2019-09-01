@@ -1,8 +1,8 @@
 pyxis-doc:
-	version = 1.0; encoding = "ISO-8859-15"
+	version = 1.0; encoding = "ISO-8859-1"
 
-task_config:
-	task = "export_music_to_device"; is_dry_run = False; test_checksum = 2583245024
+export_music_to_device:
+	is_dry_run = false; test_checksum = 2477937448
 	music_dir = "workarea/rhythmdb/Music"
 	
 	volume:

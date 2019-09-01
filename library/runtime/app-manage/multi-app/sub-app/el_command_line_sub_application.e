@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 17:45:06 GMT (Friday 25th January 2019)"
-	revision: "19"
+	date: "2019-09-01 17:30:47 GMT (Sunday 1st September 2019)"
+	revision: "20"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -43,13 +43,13 @@ feature {NONE} -- Initialization
 	initialize
 			--
 		local
-			l_default_make: PROCEDURE; procedure: EL_PROCEDURE
+			make_command: PROCEDURE; procedure: EL_PROCEDURE
 		do
-			l_default_make := default_make
-			create procedure.make (l_default_make)
+			make_command := default_make
+			create procedure.make (make_command)
 			set_operands  (procedure.closed_operands)
 			if not (command_line_help_option_exists or else has_argument_errors) then
-				command := factory.instance_from_type ({C}, l_default_make)
+				command := factory.instance_from_type ({like command}, make_command)
 			end
 		end
 
@@ -72,19 +72,19 @@ feature {NONE} -- Argument setting
 
 feature {NONE} -- Implementation
 
-	optional_argument (word_option, help_description: ZSTRING): like specs.item
+	optional_argument (word_option, help_description: READABLE_STRING_GENERAL): like specs.item
 		do
 			create Result.make (Current, word_option, help_description)
 		end
 
-	required_argument (word_option, help_description: ZSTRING): like specs.item
+	required_argument (word_option, help_description: READABLE_STRING_GENERAL): like specs.item
 		do
 			create Result.make (Current, word_option, help_description)
 			Result.set_required
 		end
 
 	valid_optional_argument (
-		word_option, help_description: ZSTRING; validations: ARRAY [like always_valid]
+		word_option, help_description: READABLE_STRING_GENERAL; validations: ARRAY [like always_valid]
 	): like specs.item
 		do
 			create Result.make (Current, word_option, help_description)
@@ -92,7 +92,7 @@ feature {NONE} -- Implementation
 		end
 
 	valid_required_argument (
-		word_option, help_description: ZSTRING; validations: ARRAY [like always_valid]
+		word_option, help_description: READABLE_STRING_GENERAL; validations: ARRAY [like always_valid]
 	): like specs.item
 		do
 			Result := required_argument (word_option, help_description)
@@ -142,7 +142,7 @@ feature {NONE} -- Implementation
 			closed_except_for_target: Result.open_count = 1 and not Result.is_target_closed
 		end
 
-	factory: EL_OBJECT_FACTORY [C]
+	factory: EL_OBJECT_FACTORY [like command]
 		do
 			create Result
 		end

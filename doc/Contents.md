@@ -88,7 +88,7 @@ el_rhythmbox -manager -config <task-configuration>.pyx
 
 **Manual**
 
-For details on how to use, read the source documentation notes in class [RHYTHMBOX_MUSIC_MANAGER_APP](http://www.eiffel-loop.com/example/manage-mp3/source/sub-applications/rhythmbox_music_manager_app.html).
+For details on how to use, read the source documentation notes in class [RHYTHMBOX_MUSIC_MANAGER_APP](http://www.eiffel-loop.com/example/manage-mp3/source/apps/rhythmbox_music_manager_app.html).
 
 **Download**
 

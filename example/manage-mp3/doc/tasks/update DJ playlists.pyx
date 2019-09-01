@@ -6,10 +6,10 @@ pyxis-doc:
 
 # These playlists can be published to a website using a Evolicity HTML template
 
-music-collection:
-	task = update_dj_playlists; is_dry_run = False
+update_dj_playlists:
+	is_dry_run = false
 
 	# Set default DJ name and title for the event
-	DJ-events:
-		DJ_name = "Finnian Reilly"; default_title = "DATS Milonga Playlist"
+	dj_events:
+		dj_name = "Finnian Reilly"; default_title = "DATS Milonga Playlist"
 

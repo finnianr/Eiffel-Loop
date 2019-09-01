@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-10 17:12:11 GMT (Monday 10th June 2019)"
-	revision: "14"
+	date: "2019-09-01 17:31:56 GMT (Sunday 1st September 2019)"
+	revision: "15"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -22,9 +22,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_make_routine: like make_routine; a_word_option, a_help_description: ZSTRING)
+	make (a_make_routine: like make_routine; a_word_option, a_help_description: READABLE_STRING_GENERAL)
 		do
-			make_routine := a_make_routine; word_option := a_word_option; help_description := a_help_description
+			make_routine := a_make_routine;
+			word_option := a_word_option
+			create help_description.make_from_general (a_help_description)
 			create validation.make_equal (0)
 		end
 

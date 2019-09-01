@@ -11,15 +11,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:54:20 GMT (Monday 5th August 2019)"
-	revision: "8"
+	date: "2019-09-01 9:51:06 GMT (Sunday 1st September 2019)"
+	revision: "9"
 
 class
 	EL_NAMING_ROUTINES
 
 inherit
 	ANY
-	
+
 	EL_MODULE_STRING_8
 
 	EL_STRING_8_CONSTANTS
@@ -65,7 +65,9 @@ feature -- Class name derivations
 	class_with_separator (object_or_type: ANY; separator: CHARACTER; head_count, tail_count: INTEGER): STRING
 		do
 			Result := class_as_upper_snake (object_or_type, head_count, tail_count)
-			String_8.replace_character (Result, '_', separator)
+			if separator /= '_' then
+				String_8.replace_character (Result, '_', separator)
+			end
 		end
 
 	class_as_upper_snake (object_or_type: ANY; head_count, tail_count: INTEGER): STRING

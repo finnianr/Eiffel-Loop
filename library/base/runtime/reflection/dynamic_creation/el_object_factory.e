@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-07 14:24:35 GMT (Wednesday 7th August 2019)"
-	revision: "11"
+	date: "2019-09-01 12:20:54 GMT (Sunday 1st September 2019)"
+	revision: "12"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -25,7 +25,7 @@ inherit
 	EL_MODULE_NAMING
 
 create
-	make, make_from_table, default_create
+	make, make_words, make_from_table, default_create
 
 feature {NONE} -- Initialization
 
@@ -36,8 +36,13 @@ feature {NONE} -- Initialization
 			create default_alias.make_empty
 		end
 
-	make (a_suffix_word_count: INTEGER; types: ARRAY [TYPE [G]])
-			-- Store type MY_USEFUL_CLASS as alias "my useful" with suffix_word_count = 1
+	make_words (a_suffix_word_count: INTEGER; types: ARRAY [TYPE [G]])
+		do
+			make (a_suffix_word_count, ' ', types)
+		end
+
+	make (a_suffix_word_count: INTEGER; separator: CHARACTER; types: ARRAY [TYPE [G]])
+			-- Store type MY_USEFUL_CLASS as alias "my${separator}useful" with suffix_word_count = 1
 		require
 			not_types_empty: not types.is_empty
 			all_type_names_have_enough_words_in_prefix:
@@ -48,9 +53,9 @@ feature {NONE} -- Initialization
 			suffix_word_count := a_suffix_word_count
 			create types_indexed_by_name.make_equal (types.count)
 			across types as type loop
-				types_indexed_by_name [alias_name (type.item)] := type.item
+				types_indexed_by_name [alias_name (type.item, separator)] := type.item
 			end
-			set_default_alias (types [1])
+			set_default_alias (types [1], separator)
 		end
 
 	make_from_table (mapping_table: ARRAY [TUPLE [name: READABLE_STRING_GENERAL; type: TYPE [G]]])
@@ -59,7 +64,7 @@ feature {NONE} -- Initialization
 		do
 			create types_indexed_by_name.make (mapping_table)
 			types_indexed_by_name.compare_objects
-			set_default_alias (mapping_table.item (1).type)
+			set_default_alias (mapping_table.item (1).type, ' ')
 		end
 
 feature -- Factory
@@ -137,14 +142,19 @@ feature -- Access
 
 feature -- Element change
 
+	force (type: TYPE [G]; name: ZSTRING)
+		do
+			types_indexed_by_name.force (type, name)
+		end
+
 	put (type: TYPE [G]; name: ZSTRING)
 		do
 			types_indexed_by_name.put (type, name)
 		end
 
-	set_default_alias (type: TYPE [G])
+	set_default_alias (type: TYPE [G]; separator: CHARACTER)
 		do
-			default_alias := alias_name (type)
+			default_alias := alias_name (type, separator)
 		end
 
 feature -- Contract support
@@ -161,11 +171,16 @@ feature -- Contract support
 
 feature {EL_FACTORY_CLIENT} -- Implementation
 
-	alias_name (type: TYPE [G]): ZSTRING
+	alias_words (type: TYPE [G]): ZSTRING
+		do
+			Result := alias_name (type, ' ')
+		end
+
+	alias_name (type: TYPE [G]; separator: CHARACTER): ZSTRING
 		-- type name as lower case words with `suffix_word_count' words removed from tail
 		-- (separated by spaces)
 		do
-			Result := Naming.class_with_separator (type, ' ', 0, suffix_word_count)
+			Result := Naming.class_with_separator (type, separator, 0, suffix_word_count)
 			Result.to_lower
 		end
 

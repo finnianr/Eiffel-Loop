@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:47:57 GMT (Friday 14th June 2019)"
-	revision: "11"
+	date: "2019-09-01 15:55:20 GMT (Sunday 1st September 2019)"
+	revision: "12"
 
 class
 	RBOX_DATABASE
@@ -55,6 +55,8 @@ inherit
 
 	EL_MODULE_URL
 
+	EL_SHARED_SINGLETONS
+
 create
 	make
 
@@ -63,6 +65,7 @@ feature {NONE} -- Initialization
 	make (a_xml_database_path: EL_FILE_PATH; a_music_dir: like music_dir)
 			--
 		do
+			put_singleton (Current)
 			music_dir := a_music_dir
 
 			lio.put_path_field ("Reading", a_xml_database_path)
@@ -457,6 +460,34 @@ feature -- Basic operations
 			end
 		end
 
+	for_all_songs_id3_info (
+		condition: EL_QUERY_CONDITION [RBOX_SONG]
+		do_id3_edit: PROCEDURE [EL_ID3_INFO, EL_FILE_PATH]
+	)
+			--
+		local
+			song: RBOX_SONG
+		do
+			across songs.query (condition) as query loop
+				song := query.item
+				do_id3_edit (song.id3_info, song.mp3_relative_path)
+			end
+		end
+
+	for_all_songs (
+		condition: EL_QUERY_CONDITION [RBOX_SONG]
+		do_with_song_id3: PROCEDURE [RBOX_SONG, EL_FILE_PATH, EL_ID3_INFO]
+	)
+			--
+		local
+			song: RBOX_SONG
+		do
+			across songs.query (condition) as query loop
+				song := query.item
+				do_with_song_id3 (song, song.mp3_relative_path, song.id3_info)
+			end
+		end
+
 	restore_playlists
 			-- restore playlists from playlists.backup.xml
 		local
@@ -571,7 +602,7 @@ feature -- Tag editing
 			end
 		end
 
-feature {RHYTHMBOX_MUSIC_MANAGER} -- Tag editing
+feature {RHYTHMBOX_MUSIC_MANAGER, MANAGEMENT_TASK} -- Tag editing
 
 	add_song_picture (
 		song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:26:04 GMT (Saturday 31st August 2019)"
-	revision: "7"
+	date: "2019-09-01 14:55:09 GMT (Sunday 1st September 2019)"
+	revision: "8"
 
 class
 	CORTINA_SET
@@ -30,11 +30,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_database: like database; a_config: like config; a_source_song: like source_song)
+	make (a_database: like database; a_cortina: like cortina; a_source_song: like source_song)
 		local
 			genre: ZSTRING
 		do
-			database := a_database; config := a_config; source_song := a_source_song
+			database := a_database; cortina := a_cortina; source_song := a_source_song
 			make_equal (4)
 
 			create tanda_type_counts.make (<<
@@ -61,7 +61,7 @@ feature -- Access
 
 	tango_count: INTEGER
 		do
-			Result := config.cortina_set.tango_count
+			Result := cortina.tango_count
 		end
 
 	vals_count: INTEGER
@@ -73,22 +73,20 @@ feature {NONE} -- Implementation
 
 	new_cortina_list (genre: ZSTRING): like item
 		local
-			source_offset_secs, clip_duration: INTEGER; fade_in_duration, fade_out_duration: REAL
-			cortina: RBOX_CORTINA_SONG
+			source_offset_secs, clip_duration: INTEGER
+			cortina_song: RBOX_CORTINA_SONG
 		do
-			fade_in_duration := config.cortina_set.fade_in
-			fade_out_duration := config.cortina_set.fade_out
 			if genre ~ Tanda_type_the_end then
 				clip_duration := source_song.duration
 			else
-				clip_duration := config.cortina_set.clip_duration
+				clip_duration := cortina.clip_duration
 			end
 			create Result.make (tanda_type_counts [genre])
 			from until Result.full loop
-				cortina := database.new_cortina (source_song, genre, Result.count + 1, clip_duration)
-				lio.put_path_field ("Creating", cortina.mp3_path); lio.put_new_line
-				cortina.write_clip (source_offset_secs, fade_in_duration, fade_out_duration)
-				Result.extend (cortina)
+				cortina_song := database.new_cortina (source_song, genre, Result.count + 1, clip_duration)
+				lio.put_path_field ("Creating", cortina_song.mp3_path); lio.put_new_line
+				cortina_song.write_clip (source_offset_secs, cortina.fade_in, cortina.fade_out)
+				Result.extend (cortina_song)
 				source_offset_secs := source_offset_secs + clip_duration
  				if source_offset_secs + clip_duration > source_song.duration then
  					source_offset_secs := 0
@@ -98,7 +96,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation
 
-	config: TASK_CONFIG
+	cortina: CORTINA_SET_INFO
 
 	source_song: RBOX_SONG
 

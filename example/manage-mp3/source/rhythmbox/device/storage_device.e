@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:31:14 GMT (Saturday 31st August 2019)"
-	revision: "7"
+	date: "2019-09-01 16:28:22 GMT (Sunday 1st September 2019)"
+	revision: "8"
 
 class
 	STORAGE_DEVICE
@@ -33,23 +33,25 @@ inherit
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
+	SHARED_DATABASE
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_export_config: like export_config; a_database: like database)
+	make (a_task: like task)
 		do
-			log.enter_with_args ("make", [a_export_config.volume.name, a_export_config.volume.destination_dir])
-			export_config := a_export_config; database := a_database
-			set_volume (export_config.new_volume)
+			log.enter_with_args ("make", [a_task.volume.name, a_task.volume.destination_dir])
+			task := a_task
+			set_volume (task.new_volume)
 			create sync_table.make_default
 			temporary_dir := Operating.Temp_directory_path.joined_dir_path (generator)
-			temporary_dir.append_dir_path (export_config.volume.destination_dir)
+			temporary_dir.append_dir_path (task.volume.destination_dir)
 			if temporary_dir.exists then
 				OS.delete_tree (temporary_dir)
 			end
-			Root_m3u_path_count.set_item (export_config.playlist_export.root.count + ("/Music/").count)
+			Root_m3u_path_count.set_item (task.playlist_export.root.count + ("/Music/").count)
 			log.exit
 		end
 
@@ -62,7 +64,7 @@ feature -- Status query
 	is_windows_format: BOOLEAN
 			-- true if volume formatted as FAT32 or NTFS
 		do
-			Result := export_config.volume.is_windows_format
+			Result := task.volume.is_windows_format
 		end
 
 feature -- Element change
@@ -70,7 +72,7 @@ feature -- Element change
 	set_volume (a_volume: like volume)
 		do
 			volume := a_volume
-			volume.extend_uri_root (export_config.volume.destination_dir)
+			volume.extend_uri_root (task.volume.destination_dir)
 		end
 
 feature -- Basic operations
@@ -108,8 +110,8 @@ feature -- Basic operations
 			log.put_new_line
 
 			store_sync_table
-			if has_sync_table_changed and then export_config.is_full_export_task then
-				database.store_in_directory (temporary_dir)
+			if has_sync_table_changed and then task.is_full_export_task then
+				Database.store_in_directory (temporary_dir)
 			end
 			export_temporary_dir
 			File_system.delete_empty_branch (temporary_dir)
@@ -213,7 +215,7 @@ feature {NONE} -- Volume file operations
 					-- Might have different usb port number in url
 					volume.reset_uri_root
 					if volume.is_valid then
-						volume.extend_uri_root (export_config.volume.destination_dir)
+						volume.extend_uri_root (task.volume.destination_dir)
 						volume_is_valid := True
 					else
 						message := "Volume not mounted"
@@ -242,7 +244,7 @@ feature {NONE} -- Implementation
 
 					create id3_info.make (temp_file_path); id3_info.set_encoding ("UTF-8")
 					adjust_genre (id3_info)
-					id3_info.set_version (export_config.volume.id3_version)
+					id3_info.set_version (task.volume.id3_version)
 					id3_info.update
 
 				elseif attached {RBOX_PLAYLIST} media_item as playlist then
@@ -295,17 +297,17 @@ feature {NONE} -- Implementation
 
 	playlist_root: ZSTRING
 		do
-			Result := export_config.playlist_export.root
+			Result := task.playlist_export.root
 		end
 
 	playlist_subdirectory_name: ZSTRING
 		do
-			Result := export_config.playlist_export.subdirectory_name
+			Result := task.playlist_export.subdirectory_name
 		end
 
 	playlists: EL_ARRAYED_LIST [RBOX_PLAYLIST]
 		do
-			Result := database.playlists
+			Result := Database.playlists
 		end
 
 	store_sync_table
@@ -321,14 +323,14 @@ feature {NONE} -- Implementation
 			end
 	 	end
 
-	songs: like database.songs
+	songs: like Database.songs
 		do
-			Result := database.songs
+			Result := Database.songs
 		end
 
-	songs_by_audio_id: like database.songs_by_audio_id
+	songs_by_audio_id: like Database.songs_by_audio_id
 		do
-			Result := database.songs_by_audio_id
+			Result := Database.songs_by_audio_id
 		end
 
 	sync_checksum: NATURAL
@@ -342,14 +344,12 @@ feature {NONE} -- Implementation
 
 	local_sync_table_file_path: EL_FILE_PATH
 		do
-			Result := Directory.app_data.joined_file_tuple ([Device_data, export_config.volume.name, Sync_table_name])
+			Result := Directory.app_data.joined_file_tuple ([Device_data, task.volume.name, Sync_table_name])
 		end
 
 feature {NONE} -- Internal attributes
 
-	database: RBOX_DATABASE
-
-	export_config: TASK_CONFIG
+	task: EXPORT_MUSIC_TO_DEVICE_TASK
 
 	has_sync_table_changed: BOOLEAN
 

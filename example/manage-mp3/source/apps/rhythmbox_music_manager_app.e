@@ -26,18 +26,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:36:50 GMT (Saturday 31st August 2019)"
-	revision: "13"
+	date: "2019-09-01 17:32:21 GMT (Sunday 1st September 2019)"
+	revision: "14"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [RHYTHMBOX_MUSIC_MANAGER]
-		rename
-			command as music_manager_command
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [RHYTHMBOX_MUSIC_MANAGER]
 		redefine
-			Option_name, skip_normal_initialize, initialize
+			Option_name
 		end
 
 	RHYTHMBOX_CONSTANTS
@@ -45,66 +43,26 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialization
-
-	initialize
-		do
---			Console.show_all (<< {EL_VIDEO_TO_MP3_COMMAND_IMP}, {EL_WAV_FADER_IMP}, {EL_WAV_TO_MP3_COMMAND_IMP} >>)
-			Precursor
-		end
-
-feature -- Testing
-
-	test_music_manager (data_path: EL_DIR_PATH; config: TEST_TASK_CONFIG)
-			--
-		do
-			log.enter ("test_music_manager")
-			config.new_music_manager.execute
-			log.exit
-		end
-
-	test_run
-			--
-		do
-			if not has_argument_errors then
-				Test.set_excluded_file_extensions (<< "mp3", "jpeg" >>)
-				if attached {TEST_TASK_CONFIG} operands.reference_item (1) as config then
-					Test.do_file_tree_test ("rhythmdb", agent test_music_manager (?, config), config.test_checksum)
-				end
-			end
-		end
-
 feature {NONE} -- Implementation
 
 	argument_specs: ARRAY [like specs.item]
 		do
 			Result := <<
-				valid_required_argument (Arg_config, "Task configuration file",  << file_must_exist >>)
+				valid_required_argument ("config", "Task configuration file",  << file_must_exist >>)
 			>>
 		end
 
 	default_make: PROCEDURE
 		do
-			if Is_test_mode then
-				Result := agent {like music_manager_command}.make (create {TEST_TASK_CONFIG}.make_default)
-			else
-				Result := agent {like music_manager_command}.make (create {TASK_CONFIG}.make_default)
-			end
-		end
-
-	skip_normal_initialize: BOOLEAN
-		do
-			Result := False
+			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end
 
 feature {NONE} -- Constants
 
-	Arg_config: ZSTRING
+	Description: STRING
 		once
-			Result := "config"
+			Result := "Manage Rhythmbox Music Collection"
 		end
-
-	Description: STRING = "Manage Rhythmbox Music Collection"
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
@@ -112,20 +70,29 @@ feature {NONE} -- Constants
 			Result := <<
 				[{RHYTHMBOX_MUSIC_MANAGER_APP}, All_routines],
 				[{RHYTHMBOX_MUSIC_MANAGER}, All_routines],
-				[{TEST_VIDEO_IMPORT_MUSIC_MANAGER}, All_routines],
 				[{RBOX_DATABASE}, All_routines],
-
-				[{TEST_MUSIC_MANAGER}, All_routines],
-				[{TEST_STORAGE_DEVICE}, All_routines],
 
 				[{STORAGE_DEVICE}, All_routines],
 				[{NOKIA_PHONE_DEVICE}, All_routines],
-				[{SAMSUNG_TABLET_DEVICE}, All_routines]
+				[{SAMSUNG_TABLET_DEVICE}, All_routines],
+
+				[{ADD_ALBUM_ART_TASK}, All_routines],
+				[{COLLATE_SONGS_TASK}, All_routines],
+				[{DELETE_COMMENTS_TASK}, All_routines],
+				[{DISPLAY_INCOMPLETE_ID3_INFO_TASK}, All_routines],
+				[{DISPLAY_MUSIC_BRAINZ_INFO_TASK}, All_routines],
+				[{NORMALIZE_COMMENTS_TASK}, All_routines],
+				[{PRINT_COMMENTS_TASK}, All_routines],
+				[{PUBLISH_DJ_EVENTS_TASK}, All_routines],
+				[{REMOVE_ALL_UFIDS_TASK}, All_routines]
 
 			>>
 		end
 
-	Option_name: STRING = "manager"
+	Option_name: STRING
+		once
+			Result := "manager"
+		end
 
 note
 	instructions: "[
