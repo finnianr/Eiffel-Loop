@@ -1,7 +1,7 @@
 .git
 build/
 **/.sconf_temp/
-**/build/
+**/build/**
 **/workarea/
 projects.data/XML/Legislation.xml
 **/exception*.log
