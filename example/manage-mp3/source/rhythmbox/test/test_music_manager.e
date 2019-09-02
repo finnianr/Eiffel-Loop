@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 10:17:29 GMT (Monday 2nd September 2019)"
-	revision: "8"
+	date: "2019-09-02 18:16:13 GMT (Monday 2nd September 2019)"
+	revision: "9"
 
 class
 	TEST_MUSIC_MANAGER
@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	testing_tasks: ARRAY [TYPE [TEST_MANAGEMENT_TASK]]
+	testing_tasks: ARRAY [TYPE [MANAGEMENT_TASK]]
 		do
 			Result := <<
 				{EXPORT_MUSIC_TO_DEVICE_TEST_TASK},

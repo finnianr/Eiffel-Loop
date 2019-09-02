@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 16:28:22 GMT (Sunday 1st September 2019)"
-	revision: "8"
+	date: "2019-09-02 18:10:12 GMT (Monday 2nd September 2019)"
+	revision: "9"
 
 class
 	STORAGE_DEVICE
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 		do
 			log.enter_with_args ("make", [a_task.volume.name, a_task.volume.destination_dir])
 			task := a_task
-			set_volume (task.new_volume)
+			set_volume (task.volume.to_gvfs)
 			create sync_table.make_default
 			temporary_dir := Operating.Temp_directory_path.joined_dir_path (generator)
 			temporary_dir.append_dir_path (task.volume.destination_dir)
@@ -349,7 +349,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	task: EXPORT_MUSIC_TO_DEVICE_TASK
+	task: EXPORT_TO_DEVICE_TASK
 
 	has_sync_table_changed: BOOLEAN
 

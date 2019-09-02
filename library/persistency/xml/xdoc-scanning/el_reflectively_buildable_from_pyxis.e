@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 12:14:22 GMT (Monday 2nd September 2019)"
-	revision: "3"
+	date: "2019-09-02 18:22:33 GMT (Monday 2nd September 2019)"
+	revision: "4"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
@@ -70,17 +70,6 @@ note
 					[$source COLLATE_SONGS_TASK]
 					[$source DEFAULT_TASK]
 					[$source ADD_ALBUM_ART_TASK]
-					[$source EXPORT_MUSIC_TO_DEVICE_TASK]
-						[$source EXPORT_MUSIC_TO_DEVICE_TEST_TASK]
-						[$source EXPORT_PLAYLISTS_TO_DEVICE_TASK]
-							[$source EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK]
-					[$source TEST_MANAGEMENT_TASK]*
-						[$source EXPORT_MUSIC_TO_DEVICE_TEST_TASK]
-						[$source EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK]
-						[$source IMPORT_VIDEOS_TEST_TASK]
-						[$source UPDATE_DJ_PLAYLISTS_TEST_TASK]
-						[$source REPLACE_SONGS_TEST_TASK]
-						[$source REPLACE_CORTINA_SET_TEST_TASK]
 					[$source IMPORT_VIDEOS_TASK]
 						[$source IMPORT_VIDEOS_TEST_TASK]
 					[$source ARCHIVE_SONGS_TASK]
@@ -99,5 +88,20 @@ note
 					[$source REMOVE_UNKNOWN_ALBUM_PICTURES_TASK]
 					[$source UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK]
 					[$source NORMALIZE_COMMENTS_TASK]
-	]"	
+					[$source TEST_MANAGEMENT_TASK]*
+						[$source IMPORT_VIDEOS_TEST_TASK]
+						[$source UPDATE_DJ_PLAYLISTS_TEST_TASK]
+						[$source REPLACE_SONGS_TEST_TASK]
+						[$source REPLACE_CORTINA_SET_TEST_TASK]
+						[$source EXPORT_TO_DEVICE_TEST_TASK]*
+							[$source EXPORT_MUSIC_TO_DEVICE_TEST_TASK]
+							[$source EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK]
+					[$source EXPORT_TO_DEVICE_TASK]*
+						[$source EXPORT_MUSIC_TO_DEVICE_TASK]
+							[$source EXPORT_PLAYLISTS_TO_DEVICE_TASK]
+								[$source EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK]
+							[$source EXPORT_MUSIC_TO_DEVICE_TEST_TASK]
+						[$source EXPORT_TO_DEVICE_TEST_TASK]*
+	]"
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:44:59 GMT (Saturday 31st August 2019)"
-	revision: "1"
+	date: "2019-09-02 17:52:28 GMT (Monday 2nd September 2019)"
+	revision: "2"
 
 class
 	VOLUME_INFO
@@ -46,6 +46,14 @@ feature -- Access
 	name: ZSTRING
 
 	type: ZSTRING
+
+feature -- Conversion
+
+	to_gvfs: EL_GVFS_VOLUME
+		do
+			create Result.make_with_volume (name, is_windows_format)
+			Result.enable_path_translation
+		end
 
 feature -- Element change
 

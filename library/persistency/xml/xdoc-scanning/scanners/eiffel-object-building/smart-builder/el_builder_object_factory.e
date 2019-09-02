@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 10:24:18 GMT (Monday 2nd September 2019)"
-	revision: "1"
+	date: "2019-09-02 15:24:51 GMT (Monday 2nd September 2019)"
+	revision: "2"
 
 class
 	EL_BUILDER_OBJECT_FACTORY [G -> EL_BUILDABLE_FROM_NODE_SCAN]
@@ -59,7 +59,9 @@ feature -- Access
 				else
 					Result := instance_from_alias (default_alias, make_default)
 					if is_lio_enabled then
-						lio.put_labeled_substitution ("ERROR", "No type for root element %"%S%"", [last_root_element])
+						lio.put_labeled_substitution (
+							"ERROR", "No type corresponding to root element %"%S%"", [last_root_element]
+						)
 						lio.put_new_line
 					end
 				end

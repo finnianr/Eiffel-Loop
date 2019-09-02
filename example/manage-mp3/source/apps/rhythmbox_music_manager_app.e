@@ -26,8 +26,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 12:05:08 GMT (Monday 2nd September 2019)"
-	revision: "15"
+	date: "2019-09-02 15:19:28 GMT (Monday 2nd September 2019)"
+	revision: "16"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -81,6 +81,7 @@ feature {NONE} -- Constants
 				[{DELETE_COMMENTS_TASK}, All_routines],
 				[{DISPLAY_INCOMPLETE_ID3_INFO_TASK}, All_routines],
 				[{DISPLAY_MUSIC_BRAINZ_INFO_TASK}, All_routines],
+				[{EXPORT_MUSIC_TO_DEVICE_TASK}, All_routines],
 				[{NORMALIZE_COMMENTS_TASK}, All_routines],
 				[{PRINT_COMMENTS_TASK}, All_routines],
 				[{PUBLISH_DJ_EVENTS_TASK}, All_routines],

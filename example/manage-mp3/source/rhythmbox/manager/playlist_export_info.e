@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:39:50 GMT (Saturday 31st August 2019)"
-	revision: "1"
+	date: "2019-09-02 18:05:17 GMT (Monday 2nd September 2019)"
+	revision: "2"
 
 class
 	PLAYLIST_EXPORT_INFO
@@ -36,11 +36,18 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	m3u_extension: ZSTRING
+
 	root: ZSTRING
 
 	subdirectory_name: ZSTRING
 
-	m3u_extension: ZSTRING
+feature -- Status query
+
+	is_windows_path: BOOLEAN
+		do
+			Result := root.count > 1 and then root.is_alpha_item (1) and then root [2] = ':'
+		end
 
 feature {NONE} -- Constants
 

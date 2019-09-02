@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 16:32:02 GMT (Sunday 1st September 2019)"
-	revision: "1"
+	date: "2019-09-02 18:16:53 GMT (Monday 2nd September 2019)"
+	revision: "2"
 
 class
 	EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK
@@ -15,12 +15,12 @@ class
 inherit
 	EXPORT_PLAYLISTS_TO_DEVICE_TASK
 		undefine
-			root_node_name
+			root_node_name, new_device
 		redefine
 			apply
 		end
 
-	TEST_MANAGEMENT_TASK
+	EXPORT_TO_DEVICE_TEST_TASK
 		undefine
 			make_default
 		end

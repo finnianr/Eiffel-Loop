@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 10:27:39 GMT (Monday 2nd September 2019)"
-	revision: "2"
+	date: "2019-09-02 15:20:44 GMT (Monday 2nd September 2019)"
+	revision: "3"
 
 class
 	TEST_RHYTHMBOX_MUSIC_MANAGER_APP
@@ -51,6 +51,19 @@ feature -- Testing
 			end
 		end
 
+	test_types: ARRAY [TYPE [EL_MODULE_LOG]]
+		do
+			Result := <<
+				{TEST_STORAGE_DEVICE},
+				{EXPORT_MUSIC_TO_DEVICE_TEST_TASK},
+				{EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK},
+				{IMPORT_VIDEOS_TEST_TASK},
+				{UPDATE_DJ_PLAYLISTS_TEST_TASK},
+				{REPLACE_SONGS_TEST_TASK},
+				{REPLACE_CORTINA_SET_TEST_TASK}
+			>>
+		end
+
 feature {NONE} -- Internal attributes
 
 	command: TEST_MUSIC_MANAGER
@@ -66,11 +79,18 @@ feature {NONE} -- Constants
 
 	Log_filter: ARRAY [like CLASS_ROUTINES]
 			--
+
+		local
+			list: ARRAYED_LIST [like CLASS_ROUTINES]
 		do
-			Result := Precursor
-			Result [1] := [{TEST_RHYTHMBOX_MUSIC_MANAGER_APP}, All_routines]
-			Result [2] := [{TEST_MUSIC_MANAGER}, All_routines]
-			Result [3] := [{RBOX_TEST_DATABASE}, All_routines]
+			create list.make_from_array (Precursor)
+			list [1] := [{TEST_RHYTHMBOX_MUSIC_MANAGER_APP}, All_routines]
+			list [2] := [{TEST_MUSIC_MANAGER}, All_routines]
+			list [3] := [{RBOX_TEST_DATABASE}, All_routines]
+			across test_types as type loop
+				list.extend ([type.item, All_routines])
+			end
+			Result := list.to_array
 		end
 
 	Option_name: STRING
