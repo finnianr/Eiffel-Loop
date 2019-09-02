@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 17:30:47 GMT (Sunday 1st September 2019)"
-	revision: "20"
+	date: "2019-09-02 11:41:21 GMT (Monday 2nd September 2019)"
+	revision: "21"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 	initialize
 			--
 		local
-			make_command: PROCEDURE; procedure: EL_PROCEDURE
+			make_command: PROCEDURE [like command]; procedure: EL_PROCEDURE
 		do
 			make_command := default_make
 			create procedure.make (make_command)
@@ -64,10 +64,17 @@ feature -- Basic operations
 feature {NONE} -- Argument setting
 
 	set_operands (a_operands: like operands)
+		local
+			offset: INTEGER
 		do
 			operands := a_operands
+			if a_operands.count > 0 and then a_operands.reference_item (1) = Current then
+				offset := 1
+			end
 			create specs.make_from_array (argument_specs)
-			specs.do_all_with_index (agent {EL_COMMAND_ARGUMENT}.set_operand)
+			across specs as argument_spec loop
+				argument_spec.item.set_operand (argument_spec.cursor_index + offset)
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -106,20 +113,20 @@ feature {NONE} -- Validations
 			Result := ["Always true", agent: BOOLEAN do Result := True end]
 		end
 
-	file_must_exist: like always_valid
+	directory_must_exist: like always_valid
 		do
 			Result := [
-				"The file must exist", agent (path: EL_FILE_PATH): BOOLEAN
+				"The directory must exist", agent (path: EL_DIR_PATH): BOOLEAN
 				do
 					Result := not path.is_empty implies path.exists
 				end
 			]
 		end
 
-	directory_must_exist: like always_valid
+	file_must_exist: like always_valid
 		do
 			Result := [
-				"The directory must exist", agent (path: EL_DIR_PATH): BOOLEAN
+				"The file must exist", agent (path: EL_FILE_PATH): BOOLEAN
 				do
 					Result := not path.is_empty implies path.exists
 				end
@@ -135,11 +142,12 @@ feature {NONE} -- Implementation
 			valid_specs_count: Result.count <= operands.count
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		-- make procedure with open target and default operands
 		deferred
 		ensure
-			closed_except_for_target: Result.open_count = 1 and not Result.is_target_closed
+			closed_except_for_target: Result.open_count = 1
+			target_is_open: Result.target /= Current implies not Result.is_target_closed
 		end
 
 	factory: EL_OBJECT_FACTORY [like command]

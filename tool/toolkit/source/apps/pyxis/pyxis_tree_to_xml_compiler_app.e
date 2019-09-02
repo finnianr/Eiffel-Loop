@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-15 11:51:33 GMT (Sunday 15th October 2017)"
-	revision: "7"
+	date: "2019-09-02 9:28:48 GMT (Monday 2nd September 2019)"
+	revision: "8"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_APP
@@ -47,7 +47,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("", "")
 		end

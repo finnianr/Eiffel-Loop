@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 10:51:46 GMT (Tuesday 19th June 2018)"
-	revision: "8"
+	date: "2019-09-02 9:16:25 GMT (Monday 2nd September 2019)"
+	revision: "9"
 
 class
 	MP3_AUDIO_SIGNATURE_READER_APP
@@ -31,7 +31,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("", False)
 		end

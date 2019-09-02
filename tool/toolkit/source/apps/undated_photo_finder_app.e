@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-13 16:33:18 GMT (Thursday 13th December 2018)"
-	revision: "6"
+	date: "2019-09-02 9:28:47 GMT (Monday 2nd September 2019)"
+	revision: "7"
 
 class
 	UNDATED_PHOTO_FINDER_APP
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (".", "undated-photos.txt")
 		end

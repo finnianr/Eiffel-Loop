@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-31 10:33:56 GMT (Friday 31st May 2019)"
-	revision: "7"
+	date: "2019-09-02 9:28:43 GMT (Monday 2nd September 2019)"
+	revision: "8"
 
 class
 	DUPLICITY_RESTORE_APP
@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end

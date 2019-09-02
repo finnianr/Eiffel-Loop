@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 21:05:38 GMT (Wednesday 20th February 2019)"
-	revision: "8"
+	date: "2019-09-02 9:29:33 GMT (Monday 2nd September 2019)"
+	revision: "9"
 
 class
 	PYXIS_ENCRYPTER_APP
@@ -107,7 +107,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like pyxis_encrypter]
 		do
 			Result := agent {like pyxis_encrypter}.make ("", "", aes_encrypter)
 		end

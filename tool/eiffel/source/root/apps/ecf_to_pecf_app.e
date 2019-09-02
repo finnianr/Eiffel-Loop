@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 16:10:06 GMT (Sunday 23rd December 2018)"
-	revision: "11"
+	date: "2019-09-02 10:29:58 GMT (Monday 2nd September 2019)"
+	revision: "12"
 
 class
 	ECF_TO_PECF_APP
@@ -57,7 +57,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like tree_processor]
 		do
 			Result := agent {like tree_processor}.make ("", create {XML_TO_PYXIS_CONVERTER}.make_default)
 		end

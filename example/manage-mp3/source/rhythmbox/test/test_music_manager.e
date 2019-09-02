@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 17:01:24 GMT (Sunday 1st September 2019)"
-	revision: "7"
+	date: "2019-09-02 10:17:29 GMT (Monday 2nd September 2019)"
+	revision: "8"
 
 class
 	TEST_MUSIC_MANAGER
@@ -65,20 +65,29 @@ feature {NONE} -- Implementation
 
 	add_test (type: TYPE [MANAGEMENT_TASK]; factory: EL_OBJECT_FACTORY [MANAGEMENT_TASK])
 		do
-			factory.force (type, Naming.class_with_separator (type.name, '_', 0, 2))
+		end
+
+	testing_tasks: ARRAY [TYPE [TEST_MANAGEMENT_TASK]]
+		do
+			Result := <<
+				{EXPORT_MUSIC_TO_DEVICE_TEST_TASK},
+				{EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK},
+				{IMPORT_VIDEOS_TEST_TASK},
+				{UPDATE_DJ_PLAYLISTS_TEST_TASK},
+				{REPLACE_SONGS_TEST_TASK},
+				{REPLACE_CORTINA_SET_TEST_TASK}
+			>>
 		end
 
 feature {NONE} -- Constants
 
-	Task_factory: EL_OBJECT_FACTORY [MANAGEMENT_TASK]
+	Task_factory: EL_BUILDER_OBJECT_FACTORY [MANAGEMENT_TASK]
 		once
 			Result := Precursor
-			add_test ({EXPORT_MUSIC_TO_DEVICE_TEST_TASK}, Result)
-			add_test ({EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK}, Result)
-			add_test ({IMPORT_VIDEOS_TEST_TASK}, Result)
-			add_test ({UPDATE_DJ_PLAYLISTS_TEST_TASK}, Result)
-			add_test ({REPLACE_SONGS_TEST_TASK}, Result)
-			add_test ({REPLACE_CORTINA_SET_TEST_TASK}, Result)
+			Result.set_type_alias (agent Naming.class_as_lower_snake (?, 0, 2))
+			across testing_tasks as type loop
+				Result.extend (type.item)
+			end
 		end
 
 end

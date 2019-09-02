@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 9:51:06 GMT (Sunday 1st September 2019)"
-	revision: "9"
+	date: "2019-09-02 8:43:34 GMT (Monday 2nd September 2019)"
+	revision: "10"
 
 class
 	EL_NAMING_ROUTINES
@@ -62,15 +62,18 @@ feature -- Class name derivations
 			Result.to_lower
 		end
 
-	class_with_separator (object_or_type: ANY; separator: CHARACTER; head_count, tail_count: INTEGER): STRING
+	class_with_separator_as_lower (object_or_type: ANY; separator: CHARACTER; head_count, tail_count: INTEGER): STRING
 		do
-			Result := class_as_upper_snake (object_or_type, head_count, tail_count)
-			if separator /= '_' then
-				String_8.replace_character (Result, '_', separator)
-			end
+			Result := class_with_separator (object_or_type, separator, head_count, tail_count)
+			Result.to_lower
 		end
 
 	class_as_upper_snake (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
+		do
+			Result := class_with_separator (object_or_type, '_', head_count, tail_count)
+		end
+
+	class_with_separator (object_or_type: ANY; separator: CHARACTER; head_count, tail_count: INTEGER): STRING
 		-- class name of `object_or_type' (object if not conforming to TYPE [ANY])
 		-- with `head_count' words removed from head and `tail_count' words removed from tail
 		local
@@ -89,7 +92,7 @@ feature -- Class name derivations
 				if tail_count > 0 then
 					split_string.remove_tail (tail_count)
 				end
-				Result := split_string.joined ('_')
+				Result := split_string.joined (separator)
 			end
 		end
 

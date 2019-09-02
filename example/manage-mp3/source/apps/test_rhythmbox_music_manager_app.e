@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 17:19:39 GMT (Sunday 1st September 2019)"
-	revision: "1"
+	date: "2019-09-02 10:27:39 GMT (Monday 2nd September 2019)"
+	revision: "2"
 
 class
 	TEST_RHYTHMBOX_MUSIC_MANAGER_APP
@@ -24,8 +24,10 @@ inherit
 		end
 
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
+		undefine
+			Visible_types, Option_name
 		redefine
-			Option_name, Is_test_mode, skip_normal_initialize
+			Is_test_mode, skip_normal_initialize
 		select
 			initialize, run
 		end
@@ -47,13 +49,6 @@ feature -- Testing
 				Test.set_excluded_file_extensions (<< "mp3", "jpeg" >>)
 				Test.do_file_tree_test ("rhythmdb", agent test_music_manager, command.task.test_checksum)
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	skip_normal_initialize: BOOLEAN
-		do
-
 		end
 
 feature {NONE} -- Internal attributes
@@ -82,4 +77,7 @@ feature {NONE} -- Constants
 		once
 			Result := "test_manager"
 		end
+
+	Skip_normal_initialize: BOOLEAN = False
+
 end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 16:19:49 GMT (Sunday 23rd December 2018)"
-	revision: "10"
+	date: "2019-09-02 10:30:21 GMT (Monday 2nd September 2019)"
+	revision: "11"
 
 class
 	CODEBASE_STATISTICS_APP
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("", create {EL_DIR_PATH_ENVIRON_VARIABLE})
 		end

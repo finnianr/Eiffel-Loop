@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-20 13:23:09 GMT (Monday 20th May 2019)"
-	revision: "6"
+	date: "2019-09-02 9:26:11 GMT (Monday 2nd September 2019)"
+	revision: "7"
 
 deferred class
 	EL_APPLICATION_PIXMAP
@@ -121,7 +121,7 @@ feature -- SVG
 
 feature {NONE} -- Factory
 
-	new_svg_pixmap (make_pixmap: PROCEDURE): EL_SVG_PIXMAP
+	new_svg_pixmap (make_pixmap: PROCEDURE [EL_SVG_PIXMAP]): EL_SVG_PIXMAP
 		do
 			Procedure.set_from_other (make_pixmap)
 			if attached {like image_path} Procedure.closed_operands.reference_item (1) as l_image_path then

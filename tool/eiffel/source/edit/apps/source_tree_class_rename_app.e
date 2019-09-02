@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 1:59:15 GMT (Friday 25th January 2019)"
-	revision: "13"
+	date: "2019-09-02 10:29:57 GMT (Monday 2nd September 2019)"
+	revision: "14"
 
 class
 	SOURCE_TREE_CLASS_RENAME_APP
@@ -65,7 +65,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("", "", "")
 		end

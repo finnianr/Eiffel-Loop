@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-11 13:41:27 GMT (Thursday 11th October 2018)"
-	revision: "11"
+	date: "2019-09-02 9:28:47 GMT (Monday 2nd September 2019)"
+	revision: "12"
 
 class
 	THUNDERBIRD_WWW_EXPORTER_APP
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make_from_file ("")
 		end

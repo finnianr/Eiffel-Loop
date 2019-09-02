@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 9:23:00 GMT (Tuesday 19th June 2018)"
-	revision: "11"
+	date: "2019-09-02 9:29:26 GMT (Monday 2nd September 2019)"
+	revision: "12"
 
 class
 	FTP_BACKUP_APP
@@ -96,7 +96,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like ftp_command]
 		do
 			Result := agent {like ftp_command}.make (create {EL_FILE_PATH_LIST}.make_with_count (0), False)
 		end

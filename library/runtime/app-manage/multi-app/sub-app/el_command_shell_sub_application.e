@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:07:48 GMT (Friday 25th January 2019)"
-	revision: "10"
+	date: "2019-09-02 11:57:58 GMT (Monday 2nd September 2019)"
+	revision: "11"
 
 deferred class
 	EL_COMMAND_SHELL_SUB_APPLICATION [C -> EL_COMMAND_SHELL_COMMAND]
@@ -22,9 +22,14 @@ feature {NONE} -- Implementation
 			create Result.make_empty
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
-			Result := agent {EL_COMMAND_SHELL_COMMAND}.make_shell (create {ZSTRING}.make_from_general (Menu_name))
+			Result := agent make_shell (?, Menu_name)
+		end
+
+	make_shell (cmd: like command; name: READABLE_STRING_GENERAL)
+		do
+			cmd.make_shell (name)
 		end
 
 	menu_name: READABLE_STRING_GENERAL

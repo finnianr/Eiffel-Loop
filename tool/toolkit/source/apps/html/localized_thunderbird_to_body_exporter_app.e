@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-19 11:15:17 GMT (Friday 19th October 2018)"
-	revision: "14"
+	date: "2019-09-02 9:28:49 GMT (Monday 2nd September 2019)"
+	revision: "15"
 
 class
 	LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP
@@ -64,7 +64,7 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make_from_file ("")
 		end

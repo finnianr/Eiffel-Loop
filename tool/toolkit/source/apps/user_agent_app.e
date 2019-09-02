@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-02 13:23:21 GMT (Friday 2nd August 2019)"
-	revision: "1"
+	date: "2019-09-02 9:28:42 GMT (Monday 2nd September 2019)"
+	revision: "2"
 
 class
 	USER_AGENT_APP
@@ -27,7 +27,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end

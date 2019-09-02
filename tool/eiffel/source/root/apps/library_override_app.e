@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 16:11:03 GMT (Sunday 23rd December 2018)"
-	revision: "12"
+	date: "2019-09-02 10:29:55 GMT (Monday 2nd September 2019)"
+	revision: "13"
 
 class
 	LIBRARY_OVERRIDE_APP
@@ -20,7 +20,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("", "workarea")
 		end

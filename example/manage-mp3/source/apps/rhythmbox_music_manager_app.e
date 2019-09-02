@@ -26,8 +26,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 17:32:21 GMT (Sunday 1st September 2019)"
-	revision: "14"
+	date: "2019-09-02 12:05:08 GMT (Monday 2nd September 2019)"
+	revision: "15"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -35,7 +35,7 @@ class
 inherit
 	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [RHYTHMBOX_MUSIC_MANAGER]
 		redefine
-			Option_name
+			Option_name, Visible_types
 		end
 
 	RHYTHMBOX_CONSTANTS
@@ -52,7 +52,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end
@@ -85,13 +85,17 @@ feature {NONE} -- Constants
 				[{PRINT_COMMENTS_TASK}, All_routines],
 				[{PUBLISH_DJ_EVENTS_TASK}, All_routines],
 				[{REMOVE_ALL_UFIDS_TASK}, All_routines]
-
 			>>
 		end
 
 	Option_name: STRING
 		once
 			Result := "manager"
+		end
+
+	Visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+		once
+			Result := << {EL_BUILDER_OBJECT_FACTORY [MANAGEMENT_TASK]} >>
 		end
 
 note

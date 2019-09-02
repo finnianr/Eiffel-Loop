@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 16:26:07 GMT (Sunday 1st September 2019)"
-	revision: "1"
+	date: "2019-09-01 22:50:56 GMT (Sunday 1st September 2019)"
+	revision: "2"
 
 class
 	NORMALIZE_COMMENTS_TASK
@@ -31,6 +31,5 @@ feature -- Basic operations
 			Database.store_all
 			log.exit
 		end
-
 
 end

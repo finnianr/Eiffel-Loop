@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-30 12:38:23 GMT (Sunday 30th December 2018)"
-	revision: "13"
+	date: "2019-09-02 10:29:56 GMT (Monday 2nd September 2019)"
+	revision: "14"
 
 class
 	EIFFEL_VIEW_APP
@@ -26,7 +26,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("", "", 0)
 		end

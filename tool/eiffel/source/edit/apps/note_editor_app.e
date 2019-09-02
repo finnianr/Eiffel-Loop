@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:04:28 GMT (Thursday 20th September 2018)"
-	revision: "14"
+	date: "2019-09-02 10:29:57 GMT (Monday 2nd September 2019)"
+	revision: "15"
 
 class
 	NOTE_EDITOR_APP
@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("", "")
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-24 12:49:35 GMT (Monday 24th December 2018)"
-	revision: "1"
+	date: "2019-09-02 10:29:56 GMT (Monday 2nd September 2019)"
+	revision: "2"
 
 class
 	IMP_CLASS_LOCATION_NORMALIZER_APP
@@ -20,7 +20,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("", "", 0)
 		end

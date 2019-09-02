@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 15:41:00 GMT (Sunday 23rd December 2018)"
-	revision: "6"
+	date: "2019-09-02 10:29:55 GMT (Monday 2nd September 2019)"
+	revision: "7"
 
 class
 	CLASS_DESCENDANTS_APP
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (build_ise_platform, "doc", Empty_string_8, "classic")
 		end

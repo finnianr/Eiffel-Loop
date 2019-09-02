@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:37:37 GMT (Monday 5th August 2019)"
-	revision: "12"
+	date: "2019-09-02 8:23:49 GMT (Monday 2nd September 2019)"
+	revision: "13"
 
 class
 	CLASS_FEATURE
@@ -334,14 +334,17 @@ feature {NONE} -- Constants
 		end
 
 	Atttribute_setter_template: EL_ZSTRING_TEMPLATE
+		local
+			str: STRING
 		once
-			create Result.make ("[
+			str := "[
 				set_$name (a_$name: like $name)
 					do
 						$name := a_$name
 					end
-
-			]")
+			]"
+			str.append_character ('%N')
+			create Result.make (str)
 		end
 
 	Loop_template: EL_ZSTRING_TEMPLATE

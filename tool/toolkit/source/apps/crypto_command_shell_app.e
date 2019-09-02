@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-13 15:15:56 GMT (Thursday 13th December 2018)"
-	revision: "10"
+	date: "2019-09-02 11:57:32 GMT (Monday 2nd September 2019)"
+	revision: "11"
 
 class
 	CRYPTO_COMMAND_SHELL_APP
@@ -26,8 +26,8 @@ inherit
 
 feature {NONE} -- Constants
 
-	Option_name: STRING = "crypto"
-
 	Description: STRING = "Menu driven cryptographic tool"
+
+	Option_name: STRING = "crypto"
 
 end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-13 15:04:31 GMT (Thursday 13th December 2018)"
-	revision: "8"
+	date: "2019-09-02 9:28:48 GMT (Monday 2nd September 2019)"
+	revision: "9"
 
 class
 	HTML_BODY_WORD_COUNTER_APP
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (Directory.Current_working)
 		end

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 12:02:51 GMT (Tuesday 19th June 2018)"
-	revision: "9"
+	date: "2019-09-02 9:28:44 GMT (Monday 2nd September 2019)"
+	revision: "10"
 
 class
 	LOCALIZATION_COMMAND_SHELL_APP
@@ -36,7 +36,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("")
 		end

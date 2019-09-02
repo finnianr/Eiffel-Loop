@@ -52,7 +52,7 @@ feature -- Basic operations
 		local
 			device: like new_device
 		do
-			log.enter ("export_music_to_device")
+			log.enter ("apply")
 			device := new_device
 			if device.volume.is_valid then
 				if selected_genres.is_empty then

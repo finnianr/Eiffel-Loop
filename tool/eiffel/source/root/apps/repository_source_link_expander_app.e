@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 16:01:42 GMT (Sunday 23rd December 2018)"
-	revision: "5"
+	date: "2019-09-02 10:29:56 GMT (Monday 2nd September 2019)"
+	revision: "6"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_APP
@@ -24,7 +24,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (Empty_string, Empty_string, Empty_string_8, 0)
 		end

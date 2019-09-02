@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-07 18:27:00 GMT (Monday 7th January 2019)"
-	revision: "3"
+	date: "2019-09-02 9:28:46 GMT (Monday 2nd September 2019)"
+	revision: "4"
 
 class
 	FILE_MANIFEST_APP
@@ -70,7 +70,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (Empty_string, Empty_string, Empty_string, "*")
 		end

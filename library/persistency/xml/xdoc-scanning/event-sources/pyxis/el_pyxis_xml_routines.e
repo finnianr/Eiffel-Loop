@@ -6,14 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:32:03 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2019-09-02 9:44:30 GMT (Monday 2nd September 2019)"
+	revision: "8"
 
 class
 	EL_PYXIS_XML_ROUTINES
 
 inherit
-	ANY EL_MODULE_FILE_SYSTEM
+	ANY
+
+	EL_MODULE_FILE_SYSTEM
+
+	EL_ZSTRING_CONSTANTS
 
 feature -- Status query
 
@@ -39,14 +43,31 @@ feature -- Basic operations
 
 feature -- Access
 
-	to_xml (a_pyxis_file_path: EL_FILE_PATH): ZSTRING
-		local
-			xml_out: EL_ZSTRING_IO_MEDIUM
+	encoding (file_path: EL_FILE_PATH): EL_PYXIS_ENCODING
 		do
-			create xml_out.make_open_write (File_system.file_byte_count (a_pyxis_file_path))
-			convert_to_xml (a_pyxis_file_path, xml_out)
-			xml_out.close
-			Result := xml_out.text
+			create Result.make_from_file (file_path)
+		end
+
+	root_element (file_path: EL_FILE_PATH): ZSTRING
+		local
+			lines: EL_PLAIN_TEXT_LINE_SOURCE; done: BOOLEAN
+		do
+			create lines.make_latin (1, file_path)
+			create Result.make_empty
+			from lines.start until done or lines.after loop
+				lines.item.right_adjust
+				if lines.index = 1 then
+					if not lines.item.starts_with (Pyxis_doc) then
+						done := True
+					end
+				elseif lines.item.ends_with (character_string (':')) then
+					Result := lines.item
+					Result.remove_tail (1)
+					done := True
+				end
+				lines.forth
+			end
+			lines.close
 		end
 
 	to_utf_8_xml (a_pyxis_file_path: EL_FILE_PATH): STRING
@@ -59,9 +80,21 @@ feature -- Access
 			Result := xml_out.text
 		end
 
-	encoding (file_path: EL_FILE_PATH): EL_PYXIS_ENCODING
+	to_xml (a_pyxis_file_path: EL_FILE_PATH): ZSTRING
+		local
+			xml_out: EL_ZSTRING_IO_MEDIUM
 		do
-			create Result.make_from_file (file_path)
+			create xml_out.make_open_write (File_system.file_byte_count (a_pyxis_file_path))
+			convert_to_xml (a_pyxis_file_path, xml_out)
+			xml_out.close
+			Result := xml_out.text
+		end
+
+feature {NONE} -- Constants
+
+	Pyxis_doc: ZSTRING
+		once
+			Result := "pyxis-doc:"
 		end
 
 end

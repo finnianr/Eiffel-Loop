@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 16:22:26 GMT (Sunday 23rd December 2018)"
-	revision: "5"
+	date: "2019-09-02 10:28:52 GMT (Monday 2nd September 2019)"
+	revision: "6"
 
 class
 	UNDEFINE_PATTERN_COUNTER_APP
@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("", create {EL_DIR_PATH_ENVIRON_VARIABLE})
 		end

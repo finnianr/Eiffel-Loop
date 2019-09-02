@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "8"
+	date: "2019-09-02 9:28:46 GMT (Monday 2nd September 2019)"
+	revision: "9"
 
 class
 	VCF_CONTACT_NAME_SWITCHER_APP
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("")
 		end

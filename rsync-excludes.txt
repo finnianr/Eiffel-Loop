@@ -2,7 +2,7 @@
 build/
 **/.sconf_temp/
 **/build/**
-**/workarea/
+**/workarea/**
 projects.data/XML/Legislation.xml
 **/exception*.log
 **~

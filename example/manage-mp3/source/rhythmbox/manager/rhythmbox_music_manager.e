@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 17:24:26 GMT (Sunday 1st September 2019)"
-	revision: "12"
+	date: "2019-09-02 10:20:13 GMT (Monday 2nd September 2019)"
+	revision: "13"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER
@@ -17,19 +17,13 @@ inherit
 
 	EL_MODULE_LOG
 
+	EL_MODULE_NAMING
+
+	EL_MODULE_PYXIS
+
 	EL_MODULE_USER_INPUT
 
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_OS
-
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_TUPLE
-
-	SONG_QUERY_CONDITIONS
-
-	EL_ZSTRING_CONSTANTS
+	RHYTHMBOX_CONSTANTS
 
 	SHARED_DATABASE
 
@@ -62,18 +56,19 @@ feature -- Basic operations
 					lio.put_labeled_string ("Task not found", task_name)
 					lio.put_new_line
 				else
-					lio.put_labeled_string ("Task", task_name)
-					lio.put_new_line
 					if is_rhythmbox_open then
 						lio.put_line ("ERROR: Rhythmbox application is open. Exit and try again.")
 					else
 						task.error_check
 						if task.error_message.is_empty then
-							call (new_database)
-							call (Database)
+							call (new_database); call (Database)
+
+							lio.put_labeled_string ("Executing", task_name)
+							lio.put_new_line
 							task.apply
 						else
 							lio.put_labeled_string ("ERROR", task.error_message)
+							lio.put_new_line
 						end
 					end
 				end
@@ -124,30 +119,11 @@ feature {NONE} -- Implementation
 		end
 
 	set_task (a_file_path: EL_FILE_PATH)
-		local
-			lines: EL_PLAIN_TEXT_LINE_SOURCE; done: BOOLEAN
 		do
-			create lines.make_latin (1, a_file_path)
-			task_name := a_file_path.base_sans_extension
-			from lines.start until done or lines.after loop
-				lines.item.right_adjust
-				if lines.index = 1 then
-					if not lines.item.starts_with ("pyxis-doc:") then
-						lio.put_line ("File is not a valid pyxis document")
-						done := True
-					end
-				elseif lines.item.ends_with (character_string (':')) then
-					task_name := lines.item
-					task_name.remove_tail (1)
-					done := True
-				end
-				lines.forth
-			end
-			lines.close
-			if Task_factory.has_alias (task_name) then
-				task := Task_factory.instance_from_alias (task_name, agent {MANAGEMENT_TASK}.make (a_file_path))
-			else
-				create {DEFAULT_TASK} task.make_default
+			task := Task_factory.instance_from_pyxis (a_file_path, agent {MANAGEMENT_TASK}.make_default)
+			task_name := Task_factory.last_root_element
+			if task_name.is_empty then
+				task_name := a_file_path.base
 			end
 		end
 
@@ -169,9 +145,16 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Task_factory: EL_OBJECT_FACTORY [MANAGEMENT_TASK]
+	Quit: ZSTRING
 		once
-			create Result.make (1, '_', <<
+			Result := "quit"
+		end
+
+	Task_factory: EL_BUILDER_OBJECT_FACTORY [MANAGEMENT_TASK]
+		once
+			create Result.make (agent Naming.class_as_lower_snake (?, 0, 1), <<
+				{DEFAULT_TASK}, -- Must be first
+
 				{ADD_ALBUM_ART_TASK},
 				{ARCHIVE_SONGS_TASK},
 				{COLLATE_SONGS_TASK},
@@ -191,11 +174,6 @@ feature {NONE} -- Constants
 				{UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK},
 				{UPDATE_DJ_PLAYLISTS_TASK}
 			>>)
-		end
-
-	Quit: ZSTRING
-		once
-			Result := "quit"
 		end
 
 end
