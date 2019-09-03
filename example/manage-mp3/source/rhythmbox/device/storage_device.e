@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 18:10:12 GMT (Monday 2nd September 2019)"
-	revision: "9"
+	date: "2019-09-03 12:55:08 GMT (Tuesday 3rd September 2019)"
+	revision: "10"
 
 class
 	STORAGE_DEVICE
 
 inherit
-	RHYTHMBOX_CONSTANTS
+	M3U_PLAY_LIST_CONSTANTS
 
 	EL_MODULE_DIRECTORY
 
@@ -51,7 +51,6 @@ feature {NONE} -- Initialization
 			if temporary_dir.exists then
 				OS.delete_tree (temporary_dir)
 			end
-			Root_m3u_path_count.set_item (task.playlist_export.root.count + ("/Music/").count)
 			log.exit
 		end
 
@@ -122,7 +121,7 @@ feature {NONE} -- Factory
 
 	new_m3u_playlist (playlist: RBOX_PLAYLIST; output_path: EL_FILE_PATH): M3U_PLAYLIST
 		do
-			create Result.make (playlist.m3u_list, playlist_root, is_windows_format, output_path)
+			create Result.make (playlist, is_windows_format, output_path)
 		end
 
 	new_sync_table (media_item_list: EL_ARRAYED_LIST [MEDIA_ITEM]): like sync_table
@@ -293,11 +292,6 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (list_a.count + list_b.count)
 			Result.append (list_a); Result.append (list_b)
-		end
-
-	playlist_root: ZSTRING
-		do
-			Result := task.playlist_export.root
 		end
 
 	playlist_subdirectory_name: ZSTRING

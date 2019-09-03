@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 18:05:17 GMT (Monday 2nd September 2019)"
-	revision: "2"
+	date: "2019-09-03 13:39:09 GMT (Tuesday 3rd September 2019)"
+	revision: "3"
 
 class
 	PLAYLIST_EXPORT_INFO
@@ -19,8 +19,10 @@ inherit
 			xml_names as export_default,
 			element_node_type as	Attribute_node
 		redefine
-			make
+			make, on_context_exit
 		end
+
+	M3U_PLAY_LIST_CONSTANTS
 
 create
 	make
@@ -40,13 +42,25 @@ feature -- Access
 
 	root: ZSTRING
 
+	root_dir: EL_DIR_PATH
+		do
+			Result := root + "\"
+		end
+
 	subdirectory_name: ZSTRING
 
 feature -- Status query
 
 	is_windows_path: BOOLEAN
 		do
-			Result := root.count > 1 and then root.is_alpha_item (1) and then root [2] = ':'
+			Result := root_dir.has_volume
+		end
+
+feature -- Event handling
+
+	on_context_exit
+		do
+			M3U.play_list_root := root
 		end
 
 feature {NONE} -- Constants

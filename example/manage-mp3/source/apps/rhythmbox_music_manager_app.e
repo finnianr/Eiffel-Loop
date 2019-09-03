@@ -26,14 +26,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 15:19:28 GMT (Monday 2nd September 2019)"
-	revision: "16"
+	date: "2019-09-03 8:46:20 GMT (Tuesday 3rd September 2019)"
+	revision: "17"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [RHYTHMBOX_MUSIC_MANAGER]
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [RBOX_MUSIC_MANAGER]
 		redefine
 			Option_name, Visible_types
 		end
@@ -69,7 +69,7 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{RHYTHMBOX_MUSIC_MANAGER_APP}, All_routines],
-				[{RHYTHMBOX_MUSIC_MANAGER}, All_routines],
+				[{RBOX_MUSIC_MANAGER}, All_routines],
 				[{RBOX_DATABASE}, All_routines],
 
 				[{STORAGE_DEVICE}, All_routines],

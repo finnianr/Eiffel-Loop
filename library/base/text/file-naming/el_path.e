@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:39:43 GMT (Monday 5th August 2019)"
-	revision: "26"
+	date: "2019-09-03 13:44:29 GMT (Tuesday 3rd September 2019)"
+	revision: "27"
 
 deferred class
 	EL_PATH
@@ -376,6 +376,12 @@ feature -- Status Query
 			end
 		end
 
+	has_volume: BOOLEAN
+		-- `True' if path has volume drive letter
+		do
+			Result := parent_path.count >= 2 and then parent_path [2] = ':' and then parent_path.is_alpha_item (1)
+		end
+
 	has_step (step: ZSTRING): BOOLEAN
 			-- true if path has directory step
 		local
@@ -677,7 +683,8 @@ feature -- Contract Support
 	is_path_absolute (a_path: ZSTRING): BOOLEAN
 		do
 			if {PLATFORM}.is_windows then
-				Result := a_path.count >= 3 and then a_path [2] = ':' and then a_path [3] = Separator
+				Result := a_path.count >= 3 and then a_path [2] = ':'
+								and then a_path.is_alpha_item (1) and then a_path [3] = Separator
 			else
 				Result := not a_path.is_empty and then a_path [1] = Separator
 			end

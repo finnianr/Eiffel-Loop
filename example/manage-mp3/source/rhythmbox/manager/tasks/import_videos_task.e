@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 16:26:47 GMT (Sunday 1st September 2019)"
-	revision: "1"
+	date: "2019-09-03 12:03:35 GMT (Tuesday 3rd September 2019)"
+	revision: "2"
 
 class
 	IMPORT_VIDEOS_TASK
@@ -126,7 +126,7 @@ feature {NONE} -- Factory
 				Result.set_beats_per_minute (l_song_info.beats_per_minute)
 			end
 			Result.set_album (l_song_info.album_name)
-			Result.set_album_artists_list (l_song_info.album_artists)
+			Result.set_album_artists (l_song_info.album_artists)
 			Result.set_mp3_path (Result.unique_normalized_mp3_path)
 
 			video_to_mp3_command := Audio_command.new_video_to_mp3 (video_path, Result.mp3_path)

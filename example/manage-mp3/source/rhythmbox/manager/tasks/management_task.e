@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 16:59:53 GMT (Sunday 1st September 2019)"
-	revision: "1"
+	date: "2019-09-03 8:46:20 GMT (Tuesday 3rd September 2019)"
+	revision: "2"
 
 deferred class
 	MANAGEMENT_TASK
@@ -17,7 +17,7 @@ inherit
 		rename
 			make_from_file as make
 		export
-			{RHYTHMBOX_MUSIC_MANAGER} make
+			{RBOX_MUSIC_MANAGER} make
 		redefine
 			make, make_default, Except_fields, root_node_name
 		end
@@ -36,7 +36,7 @@ inherit
 
 	SHARED_DATABASE
 
-feature {RHYTHMBOX_MUSIC_MANAGER} -- Initialization
+feature {RBOX_MUSIC_MANAGER} -- Initialization
 
 	make (a_file_path: EL_FILE_PATH)
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:00:13 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2019-09-03 12:02:47 GMT (Tuesday 3rd September 2019)"
+	revision: "6"
 
 deferred class
 	RHYTHMBOX_CONSTANTS
@@ -16,6 +16,8 @@ inherit
 	EL_MODULE_URL
 
 	EL_MODULE_DIRECTORY
+
+	EL_MODULE_TUPLE
 
 feature {NONE} -- Genres
 
@@ -61,6 +63,22 @@ feature {NONE} -- Genres
 
 feature {NONE} -- Constants
 
+	Artist_type: TUPLE [artist, composer, performer, singer, soloist: ZSTRING]
+		once
+			create Result
+			Tuple.fill (Result, "Artist, Composer, Performer, Singer, Soloist")
+		end
+
+	Artist_type_list: EL_ZSTRING_LIST
+		once
+			create Result.make_from_tuple (Artist_type)
+		end
+
+	Default_album_artists: TUPLE [type: ZSTRING; list: EL_ZSTRING_LIST]
+		once
+			Result := [Unknown_string, create {EL_ZSTRING_LIST}.make_empty]
+		end
+
 	ID3_comment_description: ZSTRING
 		once
 			Result := "c0"
@@ -105,11 +123,9 @@ feature {NONE} -- Constants
 			Result := "Album"
 		end
 
-	Root_m3u_path_count: INTEGER_REF
-			-- string count of M3U playlist root music path (used to calculate playlist size in mb)
-			-- Example: "/storage/sdcard1/Music/"
+	Unknown_string: ZSTRING
 		once
-			create Result
+			Result := "Unknown"
 		end
 
 	Unescaped_location_characters: DS_HASH_SET [CHARACTER]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-21 8:41:41 GMT (Sunday 21st July 2019)"
-	revision: "13"
+	date: "2019-09-03 12:11:01 GMT (Tuesday 3rd September 2019)"
+	revision: "14"
 
 class
 	EL_ZSTRING_ROUTINES
@@ -80,6 +80,11 @@ feature {EL_MODULE_ZSTRING} -- Conversion
 		end
 
 feature {EL_MODULE_ZSTRING} -- Status query
+
+	starts_with (a, b: ZSTRING): BOOLEAN
+		do
+			Result := a.starts_with (b)
+		end
 
 	has_alpha_numeric (str: ZSTRING): BOOLEAN
 		-- `True' if `str' has an alpha numeric character

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-09-03 12:19:39 GMT (Tuesday 3rd September 2019)"
+	revision: "5"
 
 class
 	SONG_QUERY_CONDITIONS
@@ -101,7 +101,7 @@ feature {NONE} -- Conditions
 		do
 			Result := predicate (agent (song: RBOX_SONG): BOOLEAN
 				do
-					Result := not song.album_artists_list.is_empty
+					Result := not song.album_artists.list.is_empty
 				end
 			)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-09-03 12:19:30 GMT (Tuesday 3rd September 2019)"
+	revision: "5"
 
 class
 	HTML_SONG
@@ -31,14 +31,14 @@ feature {NONE} -- Initialization
 			song := a_song; start_time := a_start_time; tanda_type := a_tanda_type
 			artists := song.lead_artist.twin
 			if song.artists_list.count > 1 then
-				if song.album_artists_prefix.as_lower.starts_with_general ("singer") then
+				if song.album_artists.type = Artist_type.singer then
 					artists.append_string_general (" with vocalist")
-					if song.album_artists_list.count > 1 then
+					if song.album_artists.list.count > 1 then
 						artists.append_string_general ("s: ")
 					else
 						artists.append_string_general (": ")
 					end
-					across song.album_artists_list as artist loop
+					across song.album_artists.list as artist loop
 						if artist.cursor_index > 1 then
 							artists.append_string_general (", ")
 						end

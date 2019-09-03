@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 12:02:42 GMT (Monday 5th August 2019)"
-	revision: "19"
+	date: "2019-09-03 13:25:44 GMT (Tuesday 3rd September 2019)"
+	revision: "20"
 
 class
 	RBOX_SONG
@@ -33,11 +33,17 @@ inherit
 			is_equal
 		end
 
+	M3U_PLAY_LIST_CONSTANTS
+
 	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_OS
 
 	EL_MODULE_TAG
+
+	EL_MODULE_COLON_FIELD
+
+	EL_MODULE_ZSTRING
 
 create
 	make
@@ -49,13 +55,12 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_database)
 			audio_id := Default_audio_id
-			create album_artists_prefix.make_empty
 			set_first_seen_time (Time.Unix_origin)
 		end
 
 	make_default
 		do
-			create album_artists_list.make_empty
+			album_artists := Default_album_artists
 			Precursor
 		end
 
@@ -109,17 +114,14 @@ feature -- Rhythmbox XML fields
 
 feature -- Artist
 
-	album_artists_list: like artists_list
+	album_artists: like Default_album_artists
 
-	album_artists_prefix: ZSTRING
-		-- Singer, Performer etc
-
-	artists_list: EL_STRING_LIST [ZSTRING]
+	artists_list: EL_ZSTRING_LIST
 			-- All artists including album
 		do
-			create Result.make (1 + album_artists_list.count)
+			create Result.make (1 + album_artists.list.count)
 			Result.extend (artist)
-			Result.append (album_artists_list)
+			Result.append (album_artists.list)
 		end
 
 	lead_artist: ZSTRING
@@ -179,6 +181,45 @@ feature -- Access
 			create Result.make (mp3_path)
 		end
 
+	m3u_entry (tanda_index: INTEGER; is_windows_format, is_nokia_phone: BOOLEAN): ZSTRING
+			-- For example:
+
+			-- #EXTINF: 182, Te Aconsejo Que me Olvides -- Aníbal Troilo (Singers: Francisco Fiorentino)
+			-- /storage/sdcard1/Music/Tango/Aníbal Troilo/Te Aconsejo Que me Olvides.02.mp3
+
+			-- For Nokia phone:
+			-- E:\Music\Tango\Aníbal Troilo\Te Aconsejo Que me Olvides.02.mp3
+		local
+			artists, info: ZSTRING; tanda_name: EL_ZSTRING_LIST
+			destination_dir: EL_DIR_PATH; destination_path: EL_FILE_PATH
+		do
+ 			artists := lead_artist.twin
+ 			if not album_artists.list.is_empty then
+ 				artists.append (Bracket_template #$ [album_artist])
+ 			end
+			if is_cortina then
+				create tanda_name.make_with_words (title)
+				tanda_name.start
+				if not tanda_name.after and then tanda_name.item.has ('.') then
+					tanda_name.remove
+				end
+				tanda_name.finish
+				if not tanda_name.off and then tanda_name.item.has ('_') then
+					tanda_name.remove
+				end
+				info := M3U.info_template #$ [duration, tanda_name.joined_words, Tanda_digits.formatted (tanda_index)]
+			else
+				info := M3U.info_template #$ [duration, title, artists]
+			end
+			destination_dir := M3U.play_list_root + Music_directory
+			destination_path := destination_dir + exported_relative_path (is_windows_format)
+			if is_nokia_phone then
+				Result := destination_path.as_windows
+			else
+				Result := M3U.extinf + info + character_string ('%N') + destination_path
+			end
+		end
+
 	short_silence: RBOX_SONG
 			-- short silence played at end of song to compensate for recorded silence
 		local
@@ -225,7 +266,7 @@ feature -- Status query
 	has_other_artists: BOOLEAN
 			--
 		do
-			Result := not album_artists_list.is_empty
+			Result := not album_artists.list.is_empty
 		end
 
 	has_silence_specified: BOOLEAN
@@ -299,26 +340,26 @@ feature -- Element change
 			album := a_album
 		end
 
-	set_album_artists_list (a_album_artists: ZSTRING)
+	set_album_artists (text: ZSTRING)
 			--
 		local
-			pos_colon: INTEGER
-			text: ZSTRING
+			list: EL_ZSTRING_LIST; type: ZSTRING
 		do
-			pos_colon := a_album_artists.index_of (':', 1)
-			if pos_colon > 0 then
-				album_artists_prefix := a_album_artists.substring (1, pos_colon - 1)
-				text := a_album_artists.substring_end (pos_colon + 1)
-				text.left_adjust
-			else
-				text := a_album_artists
-				album_artists_prefix := Empty_string
+			if not (text.is_empty or text ~ Unknown_string) then
+				type := Colon_field.name (text)
+				if type.is_empty then
+					create list.make_with_separator (text, ',', True)
+					album_artists := [Unknown_string, list]
+				else
+					create list.make_with_separator (Colon_field.value (text), ',', True)
+					Artist_type_list.find_first_true (agent ZString.starts_with (type, ?))
+					if Artist_type_list.after then
+						album_artists := [type, list]
+					else
+						album_artists := [Artist_type_list.item, list]
+					end
+				end
 			end
-			album_artists_list.wipe_out
-			album_artists_list.append_split (text, ',', True)
-			comment := album_artist
-		ensure
-			is_set: a_album_artists.has_substring (": ") implies a_album_artists ~ album_artist
 		end
 
 	set_album_picture_checksum (picture_checksum: NATURAL)
@@ -526,7 +567,7 @@ feature {NONE} -- Build from XML
 		do
 			Precursor
 			update_checksum
-			set_album_artists_list (album_artist)
+			set_album_artists (album_artist)
 		end
 
 	set_audio_id_from_node
@@ -578,23 +619,6 @@ feature {NONE} -- Evolicity reflection
 
 feature -- Constants
 
-	Album_artist_prefix_list: ARRAY [ZSTRING]
-			-- Field headings in ID3 'c0' comment, used to indicate other artists
-		local
-			l_result: ARRAYED_LIST [ZSTRING]
-		once
-			Result := << "Singer", "Artist", "Soloist", "Performer", "Composer" >>
-			create l_result.make_from_array (Result)
-
-			-- Add plural
-			across Result as name loop
-				l_result.extend (name.item.twin)
-				l_result.last.append_character ('s')
-			end
-			Result := l_result.to_array
-			Result.compare_objects
-		end
-
 	Days_in_year: INTEGER = 365
 
 	Default_audio_id: EL_UUID
@@ -605,7 +629,7 @@ feature -- Constants
 	Except_fields: STRING
 			-- Object attributes that are not stored in Rhythmbox database
 		once
-			Result := Precursor + ", album_artists_prefix"
+			Result := Precursor + ", album_artists"
 		end
 
 	Problem_file_name_characters: ZSTRING

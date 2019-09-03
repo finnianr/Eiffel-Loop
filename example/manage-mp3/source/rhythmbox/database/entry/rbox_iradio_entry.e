@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:06:08 GMT (Monday 1st July 2019)"
-	revision: "23"
+	date: "2019-09-03 11:57:39 GMT (Tuesday 3rd September 2019)"
+	revision: "24"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -211,11 +211,6 @@ feature {NONE} -- Constants
 				<date>0</date>
 			</entry>
 			]"
-		end
-
-	Unknown_string: ZSTRING
-		once
-			Result := "Unknown"
 		end
 
 end

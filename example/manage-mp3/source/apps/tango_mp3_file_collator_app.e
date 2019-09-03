@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 9:16:44 GMT (Monday 2nd September 2019)"
-	revision: "10"
+	date: "2019-09-03 8:47:26 GMT (Tuesday 3rd September 2019)"
+	revision: "11"
 
 class
 	TANGO_MP3_FILE_COLLATOR_APP
@@ -37,7 +37,7 @@ feature -- Testing
 	test_normal_run (a_dir_path: EL_DIR_PATH)
 			--
 		local
-			manager: TEST_MUSIC_MANAGER
+			manager: RBOX_TEST_MUSIC_MANAGER
 		do
 			create manager.make (create {EL_FILE_PATH})
 			create command.make ("workarea/rhythmdb/Music", True)

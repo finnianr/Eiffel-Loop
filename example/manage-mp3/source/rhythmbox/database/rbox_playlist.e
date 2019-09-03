@@ -1,13 +1,13 @@
 note
-	description: "Rbox playlist"
+	description: "Rhythmbox playlist"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 12:02:34 GMT (Monday 5th August 2019)"
-	revision: "11"
+	date: "2019-09-03 13:22:52 GMT (Tuesday 3rd September 2019)"
+	revision: "12"
 
 class
 	RBOX_PLAYLIST
@@ -38,6 +38,8 @@ inherit
 		redefine
 			make_default
 		end
+
+	M3U_PLAY_LIST_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
 
@@ -94,34 +96,28 @@ feature -- Access
 		end
 
 	file_size_mb: DOUBLE
-			-- Sum of size of m3u line (mega bytes) For example:
-
-			-- #EXTINF: 182, Te Aconsejo Que me Olvides -- Aníbal Troilo (Singers: Francisco Fiorentino)
-			-- /storage/sdcard1/Music/Tango/Aníbal Troilo/Te Aconsejo Que me Olvides.02.mp3
+			-- Sum of size of m3u line (mega bytes)
 		local
-			bytes: INTEGER
+			summator: EL_CHAIN_SUMMATOR [ZSTRING, INTEGER]; bytes: INTEGER
 		do
-			bytes := 8
-			from start until after loop
-				bytes := bytes + 22 + song.title.count + song.lead_artist.count + Root_m3u_path_count
-							+ song.mp3_path.to_string.count
-	 			if not song.album_artists_list.is_empty then
-	 				bytes := bytes + 3 + song.album_artist.count
-	 			end
-				forth
-			end
+			create summator
+			bytes := M3U.extm3u.count + summator.sum (m3u_entry_list (False, False), agent {ZSTRING}.count)
 			Result := bytes / 1000000
 		end
 
-	m3u_list: ARRAYED_LIST [RBOX_SONG]
-		 -- song list with extra silence when required by songs with not enough silence
+	m3u_entry_list (is_windows_format, is_nokia_phone: BOOLEAN): EL_ZSTRING_LIST
+		local
+			tanda_index: INTEGER
 		do
 			create Result.make (count)
 			from start until after loop
 				if not song.is_hidden then
-					Result.extend (song)
+					if song.is_cortina then
+						tanda_index := tanda_index + 1
+					end
+					Result.extend (song.m3u_entry (tanda_index, is_windows_format, is_nokia_phone))
 					if song.has_silence_specified then
-						Result.extend (song.short_silence)
+						Result.extend (song.short_silence.m3u_entry (tanda_index, is_windows_format, is_nokia_phone))
 					end
 				end
 				forth
@@ -225,6 +221,7 @@ feature {NONE} -- Constants
 		once
 			Result := "m3u"
 		end
+
 	Playlists_dir: EL_DIR_PATH
 		once
 			Result := "playlists"

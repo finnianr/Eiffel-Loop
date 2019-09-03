@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-14 10:01:53 GMT (Wednesday 14th November 2018)"
-	revision: "3"
+	date: "2019-09-03 13:27:49 GMT (Tuesday 3rd September 2019)"
+	revision: "4"
 
 class
 	EL_TUPLE_ROUTINES
@@ -28,6 +28,8 @@ feature -- Basic operations
 		-- fill tuple with STRING items from comma-separated list `csv_list' of strings
 		-- TUPLE may contain any of types STRING_8, STRING_32, ZSTRING
 		-- items are left adjusted if `left_adjusted' is True
+		require
+			valid_comma_count: csv_list.occurrences (',') = tuple.count - 1
 		local
 			list: LIST [STRING_GENERAL]; general: STRING_GENERAL
 			found, is_path_field: BOOLEAN; l_tuple_type: TYPE [TUPLE]; type_id: INTEGER

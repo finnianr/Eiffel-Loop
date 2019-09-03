@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 18:16:13 GMT (Monday 2nd September 2019)"
-	revision: "9"
+	date: "2019-09-03 8:55:11 GMT (Tuesday 3rd September 2019)"
+	revision: "10"
 
 class
-	TEST_MUSIC_MANAGER
+	RBOX_TEST_MUSIC_MANAGER
 
 inherit
-	RHYTHMBOX_MUSIC_MANAGER
+	RBOX_MUSIC_MANAGER
 		redefine
 			make, new_database, xml_data_dir,
 
@@ -75,7 +75,8 @@ feature {NONE} -- Implementation
 				{IMPORT_VIDEOS_TEST_TASK},
 				{UPDATE_DJ_PLAYLISTS_TEST_TASK},
 				{REPLACE_SONGS_TEST_TASK},
-				{REPLACE_CORTINA_SET_TEST_TASK}
+				{REPLACE_CORTINA_SET_TEST_TASK},
+				{IMPORT_VIDEOS_TEST_TASK}
 			>>
 		end
 

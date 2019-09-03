@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 15:55:20 GMT (Sunday 1st September 2019)"
-	revision: "12"
+	date: "2019-09-03 12:20:05 GMT (Tuesday 3rd September 2019)"
+	revision: "13"
 
 class
 	RBOX_DATABASE
@@ -602,7 +602,7 @@ feature -- Tag editing
 			end
 		end
 
-feature {RHYTHMBOX_MUSIC_MANAGER, MANAGEMENT_TASK} -- Tag editing
+feature {RBOX_MUSIC_MANAGER, MANAGEMENT_TASK} -- Tag editing
 
 	add_song_picture (
 		song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO
@@ -658,10 +658,10 @@ feature {RHYTHMBOX_MUSIC_MANAGER, MANAGEMENT_TASK} -- Tag editing
 			-- Due to a bug in Rhythmbox, it is not possible to set album-artist to zero length
 			-- As a workaround, setting album-artist to '--' will cause it to be deleted
 
-			if song.album_artists_list.count = 1 and song.album_artists_list.first ~ song.artist
+			if song.album_artists.list.count = 1 and song.album_artists.list.first ~ song.artist
 				or else song.album_artist.is_equal ("--")
 			then
-				song.set_album_artists_list ("")
+				song.set_album_artists ("")
 				id3_info.remove_basic_field (Tag.Album_artist)
 				l_album_artists := song.album_artist
 			end

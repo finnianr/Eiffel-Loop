@@ -26,6 +26,7 @@
 		<genre>Classical</genre>
 		<artist>Antonio Vivaldi</artist>
 		<album>The English Concert Orchestra, Trevor Pinnock: Le Quattro Stagioni</album>
+		<album-artist>Unknown</album-artist>
 		<track-number>4</track-number>
 		<duration>284</duration>
 		<file-size>9105536</file-size>
@@ -43,6 +44,7 @@
 		<title>The Hangmans Reel</title>
 		<genre>Irish Traditional</genre>
 		<artist>Zoe Conway</artist>
+		<album-artist>Unknown</album-artist>
 		<album>Youtube</album>
 		<duration>206</duration>
 		<file-size>14336</file-size>
@@ -63,6 +65,7 @@
 		<genre>Irish Traditional</genre>
 		<artist>Anisa Angarola</artist>
 		<album>Irish Airs &amp; Dances</album>
+		<album-artist>Unknown</album-artist>
 		<track-number>11</track-number>
 		<duration>197</duration>
 		<file-size>14336</file-size>

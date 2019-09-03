@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:40:00 GMT (Monday 5th August 2019)"
-	revision: "20"
+	date: "2019-09-03 12:11:38 GMT (Tuesday 3rd September 2019)"
+	revision: "21"
 
 class
 	EL_PATH_STEPS
@@ -68,7 +68,8 @@ inherit
 
 	EL_ZSTRING_ROUTINES
 		rename
-			joined as joined_iterable
+			joined as joined_iterable,
+			starts_with as a_starts_with_b
 		export
 			{NONE} all
 		undefine

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 8:56:29 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2019-09-03 13:17:57 GMT (Tuesday 3rd September 2019)"
+	revision: "7"
 
 deferred class
 	EL_MODULE_ZSTRING
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	Zstring: EL_ZSTRING_ROUTINES
+	ZString: EL_ZSTRING_ROUTINES
 			--
 		once
 			create Result

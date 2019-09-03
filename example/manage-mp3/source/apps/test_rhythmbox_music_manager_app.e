@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 15:20:44 GMT (Monday 2nd September 2019)"
-	revision: "3"
+	date: "2019-09-03 8:47:26 GMT (Tuesday 3rd September 2019)"
+	revision: "4"
 
 class
 	TEST_RHYTHMBOX_MUSIC_MANAGER_APP
@@ -66,7 +66,7 @@ feature -- Testing
 
 feature {NONE} -- Internal attributes
 
-	command: TEST_MUSIC_MANAGER
+	command: RBOX_TEST_MUSIC_MANAGER
 
 feature {NONE} -- Constants
 
@@ -85,7 +85,7 @@ feature {NONE} -- Constants
 		do
 			create list.make_from_array (Precursor)
 			list [1] := [{TEST_RHYTHMBOX_MUSIC_MANAGER_APP}, All_routines]
-			list [2] := [{TEST_MUSIC_MANAGER}, All_routines]
+			list [2] := [{RBOX_TEST_MUSIC_MANAGER}, All_routines]
 			list [3] := [{RBOX_TEST_DATABASE}, All_routines]
 			across test_types as type loop
 				list.extend ([type.item, All_routines])
