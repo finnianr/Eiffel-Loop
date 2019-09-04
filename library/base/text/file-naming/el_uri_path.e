@@ -17,8 +17,10 @@ inherit
 		export
 			{ANY} Forward_slash
 		redefine
-			default_create, count, make, make_from_other, to_string, Type_parent, hash_code,
-			is_uri, is_equal, is_less, is_path_absolute, Separator, set_path
+			default_create, make, make_from_other,
+			is_uri, is_equal, is_less,
+			set_path, part_count, part_string,
+			Separator, Type_parent
 		end
 
 	EL_URI_ROUTINES
@@ -109,23 +111,7 @@ feature -- Initialization
 
 feature -- Access
 
-	count: INTEGER
-		-- Character count
-		do
-			Result := Precursor + protocol.count + Protocol_sign.count
-		end
-
 	domain: ZSTRING
-
-	hash_code: INTEGER
-			-- Hash code value
-		do
-			Result := internal_hash_code
-			if Result = 0 then
-				Result := combined_hash_code (<< protocol, domain, parent_path, base >>)
-				internal_hash_code := Result
-			end
-		end
 
 	protocol: ZSTRING
 
@@ -153,18 +139,6 @@ feature -- Conversion
 	to_file_path: EL_PATH
 		deferred
 		end
-
-	to_string: ZSTRING
-		local
-	 		l_path: ZSTRING
-	 	do
-	 		l_path := Precursor
-	 		create Result.make (protocol.count + 3 + domain.count + l_path.count)
-	 		Result.append (protocol)
-	 		Result.append (Protocol_sign)
-	 		Result.append (domain)
-	 		Result.append (l_path)
-	 	end
 
 	 to_encoded_utf_8: STRING
 	 	local
@@ -200,17 +174,35 @@ feature -- Comparison
 
 feature -- Contract Support
 
-	is_path_absolute (a_path: ZSTRING): BOOLEAN
-		do
-			Result := a_path.starts_with (Forward_slash)
-		end
-
 	is_uri_absolute (a_uri: ZSTRING): BOOLEAN
 		do
 			if uri_protocol (a_uri) ~ Protocol_name.file then
 				Result := uri_path (a_uri).starts_with (Forward_slash)
 			else
 				Result := uri_path (a_uri).has (Forward_slash [1])
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	part_count: INTEGER
+		do
+			Result := 5
+		end
+
+	part_string (index: INTEGER): ZSTRING
+		do
+			inspect index
+				when 1 then
+					Result := protocol
+				when 2 then
+					Result := Protocol_sign
+				when 3 then
+					Result := domain
+				when 4 then
+					Result := parent_path
+			else
+				Result := base
 			end
 		end
 

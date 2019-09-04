@@ -27,7 +27,7 @@ feature {NONE} -- Implementation
 			-- Galaxy tab players treats the Tango genre in a weird way (don't remember exactly what, displays as Latin or something)
 			-- so change to something else here
 		do
-			if id3_info.genre ~ Genre_tango then
+			if id3_info.genre ~ Tango_genre.tango then
 				id3_info.set_genre ("Tango (Classical)")
 			end
 		end

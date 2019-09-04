@@ -19,46 +19,34 @@ inherit
 
 	EL_MODULE_TUPLE
 
-feature {NONE} -- Genres
+feature {NONE} -- Tango related
 
-	General_tango_genres: ARRAY [ZSTRING]
+	Tanda: TUPLE [foxtrot, milonga, other, tango, vals, the_end: ZSTRING]
 		once
-			Result := << Genre_tango, Genre_vals, Genre_milonga, Genre_foxtrot >>
+			create Result
+			Tuple.fill (Result, "Foxtrot, Milonga, Other, Tango, Vals, THE END")
 		end
 
-	Genre_cortina: ZSTRING
+	Tanda_types: EL_ZSTRING_LIST
 		once
-			Result := "Cortina"
+			create Result.make_from_tuple (Tanda)
 		end
 
-	Genre_foxtrot: ZSTRING
+	Tango_genre: TUPLE [foxtrot, milonga, tango, vals: ZSTRING]
 		once
-			Result := "Foxtrot"
+			create Result
+			Tuple.fill (Result, "Foxtrot, Milonga, Tango, Vals")
 		end
 
-	Genre_tango: ZSTRING
+	Tango_genre_list: EL_ZSTRING_LIST
 		once
-			Result := "Tango"
+			create Result.make_from_tuple (Tango_genre)
 		end
 
-	Genre_vals: ZSTRING
+	Extra_genre: TUPLE [cortina, other, silence: ZSTRING]
 		once
-			Result := "Vals"
-		end
-
-	Genre_milonga: ZSTRING
-		once
-			Result := "Milonga"
-		end
-
-	Genre_other: ZSTRING
-		once
-			Result := "Other"
-		end
-
-	Genre_silence: ZSTRING
-		once
-			Result := "Silence"
+			create Result
+			Tuple.fill (Result, "Cortina, Other, Silence")
 		end
 
 feature {NONE} -- Constants
@@ -84,33 +72,15 @@ feature {NONE} -- Constants
 			Result := "c0"
 		end
 
-	Media_types: EL_ZSTRING_LIST
+	Media_type: TUPLE [octet_stream, mpeg, plain_text, pyxis: ZSTRING]
 		once
-			create Result.make_from_array (
-				<< "application/octet-stream", "audio/mpeg", Text_plain, Text_pyxis >>
-			)
+			create Result
+			Tuple.fill (Result, "application/octet-stream, audio/mpeg, text/plain, text/pyxis")
 		end
 
-	Text_plain: ZSTRING
+	Media_type_list: EL_ZSTRING_LIST
 		once
-			Result := "text/plain"
-		end
-
-	Text_pyxis: ZSTRING
-		once
-			Result := "text/pyxis"
-		end
-
-	Tanda_types: ARRAY [ZSTRING]
-		once
-			Result := <<
-				Genre_tango, Genre_vals, Genre_milonga, Genre_other, Genre_foxtrot, Tanda_type_the_end
-			>>
-		end
-
-	Tanda_type_the_end: ZSTRING
-		once
-			Result := "THE END"
+			create Result.make_from_tuple (Media_type)
 		end
 
 	Picture_artist: ZSTRING

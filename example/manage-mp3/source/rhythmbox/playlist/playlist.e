@@ -20,6 +20,8 @@ inherit
 
 	RHYTHMBOX_CONSTANTS
 
+	EL_MODULE_ZSTRING
+
 create
 	make
 
@@ -28,21 +30,19 @@ feature -- Access
 	cortina_tanda_type: ZSTRING
 		require
 			song_item_is_cortina: song.is_cortina
-		local
-			match_found: BOOLEAN; next_genre: ZSTRING
 		do
 			if islast then
-				Result := Tanda_type_the_end
+				Result := Tanda.the_end
 			else
-				next_genre := i_th (index + 1).genre
-				across Tanda_types as type until match_found loop
-					if next_genre.starts_with (type.item) then
-						Result := type.item
-						match_found := True
+				if valid_index (index + 1) then
+					Tanda_types.find_first_true (agent ZString.starts_with (i_th (index + 1).genre, ?))
+					if Tanda_types.after then
+						Result := Tanda.other
+					else
+						Result := Tanda_types.item
 					end
-				end
-				if not match_found then
-					Result := Genre_other
+				else
+					Result := Tanda.other
 				end
 			end
 		end
@@ -63,7 +63,7 @@ feature -- Element change
 					was_removed := False
 					if song.is_cortina then
 						tanda_type := cortina_tanda_type
-						if tanda_type ~ Tanda_type_the_end then
+						if tanda_type ~ Tanda.the_end then
 							replace (cortina_set.end_song)
 						else
 							if cortina_set.item (tanda_type).after then
@@ -108,7 +108,7 @@ feature {NONE} -- Implementation
 			i: INTEGER; cortina_list: ARRAYED_LIST [RBOX_CORTINA_SONG]
 		do
 			from start until after loop
-				if song.title ~ Tanda_type_the_end then
+				if song.title ~ Tanda.the_end then
 					replace (cortina_set.end_song)
 					forth
 				else

@@ -76,6 +76,13 @@ feature -- Tests
 			end
 		end
 
+	test_is_absolute
+		note
+			testing:	"covers/{EL_PATH}.is_absolute"
+		do
+
+		end
+
 feature {NONE} -- Constants
 
 	Path_string: ZSTRING

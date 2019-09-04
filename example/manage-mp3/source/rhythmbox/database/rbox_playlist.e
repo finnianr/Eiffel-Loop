@@ -51,29 +51,24 @@ inherit
 
 	EL_MODULE_DIGEST
 
+	SHARED_DATABASE
+
 create
-	make, make_with_name
+	make, make_default
 
 feature {NONE} -- Initialization
-
-	make (a_database: RBOX_DATABASE)
-			--
-		do
-			make_default
-			database := a_database
-			set_name (Empty_string)
-		end
 
 	make_default
 		do
 			make_playlist (10)
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
+			set_name (Empty_string)
 		end
 
-	make_with_name (a_name: like name; a_database: RBOX_DATABASE)
+	make (a_name: like name)
 		do
-			make (a_database)
+			make_default
 			set_name (a_name)
 		end
 
@@ -106,6 +101,7 @@ feature -- Access
 		end
 
 	m3u_entry_list (is_windows_format, is_nokia_phone: BOOLEAN): EL_ZSTRING_LIST
+		-- entry list with insert silences when song has not enough trailing silence
 		local
 			tanda_index: INTEGER
 		do
@@ -160,29 +156,29 @@ feature -- Element change
 	set_name (a_name: like name)
 		do
 			name := a_name
-			create id.make_from_array (Digest.md5 (a_name.to_utf_8))
+			if a_name.is_empty then
+				create id.make_default
+			else
+				create id.make_from_array (Digest.md5 (a_name.to_utf_8))
+			end
 		end
 
 feature {NONE} -- Implementation
 
 	index_by_audio_id: HASH_TABLE [RBOX_SONG, EL_UUID]
 		do
-			Result := database.songs_by_audio_id
+			Result := Database.songs_by_audio_id
 		end
 
 	index_by_location: HASH_TABLE [RBOX_SONG, EL_FILE_PATH]
 		do
-			Result := database.songs_by_location
+			Result := Database.songs_by_location
 		end
 
 	silence_intervals: ARRAY [RBOX_SONG]
 		do
-			Result := database.silence_intervals
+			Result := Database.silence_intervals
 		end
-
-feature {NONE} -- Internal attributes
-
-	database: RBOX_DATABASE
 
 feature {NONE} -- Build from XML
 
@@ -192,7 +188,7 @@ feature {NONE} -- Build from XML
 			create Result.make (<<
 				["location/text()", agent
 					do
-						add_song_from_path (database.decoded_location (node.to_string_8))
+						add_song_from_path (Database.decoded_location (node.to_string_8))
 					end
 				],
 				["audio-id/text()", agent

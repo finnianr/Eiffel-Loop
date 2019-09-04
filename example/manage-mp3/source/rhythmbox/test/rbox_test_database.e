@@ -21,6 +21,11 @@ inherit
 
 	EL_MODULE_AUDIO_COMMAND
 
+	EL_PROTOCOL_CONSTANTS
+		export
+			{NONE} all
+		end
+
 create
 	make
 
@@ -43,14 +48,14 @@ feature -- Factory
 
 	new_song: RBOX_TEST_SONG
 		do
-			create Result.make (Current)
+			create Result.make
 		end
 
 	new_cortina (
-		a_source_song: RBOX_SONG; tanda_type: ZSTRING; a_track_number, a_duration: INTEGER
+		a_source_song: RBOX_SONG; a_tanda_type: ZSTRING; a_track_number, a_duration: INTEGER
 	): RBOX_CORTINA_TEST_SONG
 		do
-			create Result.make (Current, a_source_song, tanda_type, a_track_number, a_duration)
+			create Result.make (a_source_song, a_tanda_type, a_track_number, a_duration)
 		end
 
 feature {RBOX_IRADIO_ENTRY} -- location codecs
@@ -142,7 +147,7 @@ feature {NONE} -- Constants
 		once
 			uri := music_dir
 			Result := Url.encoded_uri_custom (uri, Unescaped_location_characters, False)
-			Result.remove_head (uri.count - music_dir.count)
+			Result.remove_head (File_protocol_prefix.count)
 		end
 
 	Test_wav_generator: EL_WAV_GENERATION_COMMAND_I

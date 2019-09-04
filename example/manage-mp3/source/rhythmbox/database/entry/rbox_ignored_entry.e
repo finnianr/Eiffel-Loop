@@ -27,10 +27,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_database: like database)
+	make
 			--
 		do
-			Precursor (a_database)
+			Precursor
 			set_last_seen_time (Time.Unix_origin)
 		end
 
@@ -78,7 +78,7 @@ feature -- Rhythmbox XML fields
 		-- Combination of file modification time and file size
 		--
 		-- rhythmdb.c
-		-- /* compare modification time and size to the values in the database.
+		-- /* compare modification time and size to the values in the Database.
 		--  * if either has changed, we'll re-read the file.
 		--  */
 		-- new_mtime = g_file_info_get_attribute_uint64 (event->file_info, G_FILE_ATTRIBUTE_TIME_MODIFIED);

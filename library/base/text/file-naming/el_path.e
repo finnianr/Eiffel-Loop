@@ -68,7 +68,8 @@ feature {NONE} -- Initialization
 		do
 			base := other.base.twin
 			parent_path := other.parent_path
-			is_absolute := other.is_absolute
+			internal_hash_code := other.internal_hash_code
+			out_abbreviated := other.out_abbreviated
 		end
 
 	make_from_path (a_path: PATH)
@@ -199,28 +200,7 @@ feature -- Access
 		do
 			Result := new_relative_path
 			if not a_parent.is_empty then
-				Result.set_parent_path (parent_path.substring_end (a_parent.count + 2))
-			end
-			Result.set_relative
-		end
-
-	universal_relative_path (dir_path: EL_DIR_PATH): like Current
-		-- path steps of `Current' relative to directory `dir_path' using parent notation `..'
-		-- if `dir_path' is not a parent of `Current'
-		local
-			back_step_count: INTEGER; common_path: EL_DIR_PATH
-		do
-			if dir_path.is_empty then
-				Result := Current
-			else
-				from common_path := dir_path until common_path.is_parent_of (Current) loop
-					common_path := common_path.parent
-					back_step_count := back_step_count + 1
-				end
-				Result := relative_path (common_path)
-				if back_step_count > 0 then
-					Result.set_parent_path (Back_dir_step.multiplied (back_step_count) + Result.parent_path)
-				end
+				Result.set_parent_path (parent_path.substring_end (a_parent.parent_count + a_parent.base.count + 2))
 			end
 		end
 
@@ -245,6 +225,26 @@ feature -- Access
 		do
 			Result := twin
 			Result.translate (originals, substitutions)
+		end
+
+	universal_relative_path (dir_path: EL_DIR_PATH): like Current
+		-- path steps of `Current' relative to directory `dir_path' using parent notation `..'
+		-- if `dir_path' is not a parent of `Current'
+		local
+			back_step_count: INTEGER; common_path: EL_DIR_PATH
+		do
+			if dir_path.is_empty then
+				Result := Current
+			else
+				from common_path := dir_path until common_path.is_parent_of (Current) loop
+					common_path := common_path.parent
+					back_step_count := back_step_count + 1
+				end
+				Result := relative_path (common_path)
+				if back_step_count > 0 then
+					Result.set_parent_path (Back_dir_step.multiplied (back_step_count) + Result.parent_path)
+				end
+			end
 		end
 
 	version_interval: INTEGER_INTERVAL
@@ -306,30 +306,26 @@ feature -- Access
 feature -- Measurement
 
 	count: INTEGER
-		-- Character count
+		-- character count
+		-- (works for uri paths too)
+		local
+			i: INTEGER
 		do
-			Result := parent_path.count + base.count
+			from i := 1 until i > part_count loop
+				Result := part_string (i).count
+				i := i + 1
+			end
+		end
+
+	parent_count: INTEGER
+		do
+			Result := parent_path.count
 		end
 
 	dot_index: INTEGER
 		-- index of last dot, 0 if none
 		do
 			Result := base.last_index_of ('.', base.count)
-		end
-
-	hash_code: INTEGER
-			-- Hash code value
-		do
-			Result := internal_hash_code
-			if Result = 0 then
-				Result := combined_hash_code (<< parent_path, base >>)
-				internal_hash_code := Result
-			end
-		end
-
-	step_count: INTEGER
-		do
-			Result := parent_path.occurrences (Separator) + 1
 		end
 
 	has_extension (a_extension: READABLE_STRING_GENERAL): BOOLEAN
@@ -340,6 +336,32 @@ feature -- Measurement
 			if index > 0 then
 				Result := base.same_characters (a_extension, 1, a_extension.count, index + 1)
 			end
+		end
+
+	hash_code: INTEGER
+			-- Hash code value
+		local
+			i, j, nb: INTEGER; part: ZSTRING
+			l_area: like base.area
+		do
+			Result := internal_hash_code
+			if Result = 0 then
+				from j := 1 until j > part_count loop
+					part := part_string (j)
+					l_area := part.area; nb := part.count
+					from i := 0 until i = nb loop
+						Result := ((Result \\ Magic_number) |<< 8) + l_area.item (i).code
+						i := i + 1
+					end
+					j := j + 1
+				end
+				internal_hash_code := Result
+			end
+		end
+
+	step_count: INTEGER
+		do
+			Result := parent_path.occurrences (Separator) + 1
 		end
 
 feature -- Status Query
@@ -366,20 +388,14 @@ feature -- Status Query
 
 	has_parent: BOOLEAN
 		local
-			parent_count: INTEGER
+			l_count: INTEGER
 		do
-			parent_count := parent_path.count
+			l_count := parent_path.count
 			if is_absolute then
-				Result := not base.is_empty and then parent_count >= 1 and then parent_path [parent_count] = Separator
+				Result := not base.is_empty and then l_count >= 1 and then parent_path [l_count] = Separator
 			else
-				Result := not parent_path.is_empty and then parent_path [parent_count] = Separator
+				Result := not parent_path.is_empty and then parent_path [l_count] = Separator
 			end
-		end
-
-	has_volume: BOOLEAN
-		-- `True' if path has volume drive letter
-		do
-			Result := parent_path.count >= 2 and then parent_path [2] = ':' and then parent_path.is_alpha_item (1)
 		end
 
 	has_step (step: ZSTRING): BOOLEAN
@@ -402,6 +418,16 @@ feature -- Status Query
 		end
 
 	is_absolute: BOOLEAN
+		local
+			str: ZSTRING
+		do
+			str := parent_path
+			if {PLATFORM}.is_windows then
+				Result := starts_with_drive (str)
+			else
+				Result := not str.is_empty and then str [1] = Separator
+			end
+		end
 
 	is_directory: BOOLEAN
 		deferred
@@ -449,20 +475,16 @@ feature -- Status change
 			out_abbreviated := True
 		end
 
-	set_relative
-		do
-			is_absolute := False
-		end
-
 feature -- Element change
 
 	add_extension (a_extension: READABLE_STRING_GENERAL)
 		local
-			l_base: ZSTRING
+			str: ZSTRING
 		do
-			l_base := base
-			l_base.grow (base.count + a_extension.count + 1)
-			l_base.append_character ('.'); l_base.append_string_general (a_extension)
+			create str.make (base.count + a_extension.count + 1)
+			str.append (base); str.append_character ('.'); str.append_string_general (a_extension)
+			base := str
+			internal_hash_code := 0
 		end
 
 	append_dir_path (a_dir_path: EL_DIR_PATH)
@@ -532,6 +554,7 @@ feature -- Element change
 			if preserve_extension and then not has_extension (l_extension) then
 				add_extension (l_extension)
 			end
+			internal_hash_code := 0
 		end
 
 	replace_extension (a_replacement: READABLE_STRING_GENERAL)
@@ -542,11 +565,13 @@ feature -- Element change
 			if index > 0 then
 				base.replace_substring_general (a_replacement, index + 1, base.count)
 			end
+			internal_hash_code := 0
 		end
 
 	set_base (a_base: like base)
 		do
 			base := a_base
+			internal_hash_code := 0
 		end
 
 	set_parent_path (a_parent: ZSTRING)
@@ -570,7 +595,7 @@ feature -- Element change
 					set.extend (parent_path)
 				end
 			end
-			is_absolute := is_path_absolute (parent_path)
+			internal_hash_code := 0
 		end
 
 	set_version_number (number: like version_number)
@@ -581,19 +606,21 @@ feature -- Element change
 		do
 			interval := version_interval
 			base.replace_substring_general (Format.integer_zero (number, interval.count), interval.lower, interval.upper)
+			internal_hash_code := 0
 		end
 
 	share (other: like Current)
 		do
 			base := other.base
 			parent_path := other.parent_path
-			is_absolute := other.is_absolute
+			internal_hash_code := other.internal_hash_code
 		end
 
 	translate (originals, substitutions: ZSTRING)
 		do
 			base.translate (originals, substitutions)
 			parent_path.translate (originals, substitutions)
+			internal_hash_code := 0
 		end
 
 feature -- Removal
@@ -618,8 +645,16 @@ feature -- Removal
 feature -- Conversion
 
 	as_string_32: STRING_32
+		local
+			i: INTEGER
 		do
-			Result := to_string.to_string_32
+			create Result.make (count)
+			from i := 1 until i > part_count loop
+				part_string (i).append_to_string_32 (Result)
+				i := i + 1
+			end
+		ensure then
+			same_as_to_string: to_string.as_string_32 ~ Result
 		end
 
 	escaped: ZSTRING
@@ -647,10 +682,14 @@ feature -- Conversion
 
 	to_string: ZSTRING
 			--
+		local
+			i: INTEGER
 		do
-			create Result.make (parent_path.count + base.count)
-			Result.append (parent_path)
-			Result.append (base)
+			create Result.make (count)
+			from i := 1 until i > part_count loop
+				Result.append (part_string (i))
+				i := i + 1
+			end
 		end
 
 feature -- Comparison
@@ -678,18 +717,6 @@ feature -- Duplication
 			make_from_other (other)
 		end
 
-feature -- Contract Support
-
-	is_path_absolute (a_path: ZSTRING): BOOLEAN
-		do
-			if {PLATFORM}.is_windows then
-				Result := a_path.count >= 3 and then a_path [2] = ':'
-								and then a_path.is_alpha_item (1) and then a_path [3] = Separator
-			else
-				Result := not a_path.is_empty and then a_path [1] = Separator
-			end
-		end
-
 feature {EL_PATH, STRING_HANDLER} -- Implementation
 
 	append (a_path: EL_PATH)
@@ -713,26 +740,32 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			end
 		end
 
-	parent_path: ZSTRING
-
-feature {EL_PATH} -- Implementation
-
-	combined_hash_code (strings: ARRAY [like base]): INTEGER
-		local
-			i, nb: INTEGER
-			l_area: like base.area
+	part_count: INTEGER
+		-- count of string components
+		-- (5 in the case of URI paths)
 		do
-			across strings as string loop
-				l_area := string.item.area
-				nb := string.item.count
-				from i := 0 until i = nb loop
-					Result := ((Result \\ Magic_number) |<< 8) + l_area.item (i).code
-					i := i + 1
-				end
+			Result := 2
+		end
+
+	part_string (index: INTEGER): ZSTRING
+		require
+			valid_index:  1 <= index and index <= part_count
+		do
+			inspect index
+				when 1 then
+					Result := parent_path
+			else
+				Result := base
 			end
 		end
 
+feature {EL_PATH, STRING_HANDLER} -- Internal attributes
+
+	parent_path: ZSTRING
+
 	internal_hash_code: INTEGER
+
+feature {EL_PATH} -- Implementation
 
 	is_potenially_expandable (a_path: ZSTRING): BOOLEAN
 		local

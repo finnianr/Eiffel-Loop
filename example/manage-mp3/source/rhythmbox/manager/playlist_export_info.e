@@ -24,6 +24,8 @@ inherit
 
 	M3U_PLAY_LIST_CONSTANTS
 
+	EL_MODULE_ZSTRING
+
 create
 	make
 
@@ -42,18 +44,13 @@ feature -- Access
 
 	root: ZSTRING
 
-	root_dir: EL_DIR_PATH
-		do
-			Result := root + "\"
-		end
-
 	subdirectory_name: ZSTRING
 
 feature -- Status query
 
 	is_windows_path: BOOLEAN
 		do
-			Result := root_dir.has_volume
+			Result := Zstring.starts_with_drive (root)
 		end
 
 feature -- Event handling

@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
+		rename
+			make_from_file as make
 		undefine
 			is_equal, copy
 		redefine
@@ -45,13 +47,6 @@ feature {NONE} -- Initialization
 			create non_static_playlist_lines.make_empty
 			create xml_string.make_empty
 			Precursor
-		end
-
-	make (a_file_path: EL_FILE_PATH; a_database: RBOX_DATABASE)
-			-- Build object from xml file
-		do
-			database := a_database
-			make_from_file (a_file_path)
 		end
 
 feature -- Cursor movement
@@ -94,7 +89,7 @@ feature {NONE} -- Build from XML
 	build_playlist
 			--
 		do
-			extend (create {RBOX_PLAYLIST}.make (database))
+			extend (create {RBOX_PLAYLIST}.make_default)
 			set_next_context (last)
 		end
 
@@ -180,8 +175,6 @@ feature {RBOX_DATABASE} -- Implementation
 			xml_string.append (a_line)
 			xml_string.append_character ('%N')
 		end
-
-	database: RBOX_DATABASE
 
 	static_playlist_count: INTEGER
 

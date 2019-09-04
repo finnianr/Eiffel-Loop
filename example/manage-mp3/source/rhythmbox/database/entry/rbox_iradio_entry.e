@@ -30,6 +30,9 @@ inherit
 		end
 
 	RHYTHMBOX_CONSTANTS
+		rename
+			Media_type as Media_types
+		end
 
 	EL_XML_ESCAPING_CONSTANTS
 		undefine
@@ -45,6 +48,8 @@ inherit
 
 	EL_MODULE_LOG
 
+	SHARED_DATABASE
+
 create
 	make
 
@@ -57,10 +62,10 @@ feature {NONE} -- Initialization
 			Precursor {EVOLICITY_SERIALIZEABLE}
 		end
 
-	make (a_database: like database)
+	make
 		do
 			make_default
-			database := a_database; music_dir := a_database.music_dir
+			music_dir := Database.music_dir
 		end
 
 feature -- Rhythmbox XML fields
@@ -119,10 +124,6 @@ feature -- Element change
 			media_type := a_media_type
 		end
 
-feature {NONE} -- Internal Attributes
-
-	database: RBOX_DATABASE
-
 feature {NONE} -- Build from XML
 
 	build_location
@@ -139,10 +140,10 @@ feature {NONE} -- Build from XML
 
 	on_context_exit
 		do
-			Media_types.start
-			Media_types.search (media_type)
-			if not Media_types.exhausted then
-				media_type := Media_types.item
+			Media_type_list.start
+			Media_type_list.search (media_type)
+			if not Media_type_list.exhausted then
+				media_type := Media_type_list.item
 			end
 		end
 

@@ -15,17 +15,16 @@ deferred class
 inherit
 	EL_ANY_SHARED
 
-feature {NONE} -- Implementation
-
-	new_shared: EL_SINGLETON [RBOX_DATABASE]
-		do
-			create Result
-		end
+	EL_MODULE_EXCEPTION
 
 feature {NONE} -- Constants
 
 	Database: RBOX_DATABASE
 		once
-			Result := new_shared.singleton
+			if attached {RBOX_DATABASE} Current as db then
+				Result := db
+			else
+				Exception.raise_developer ("Attempt to initialize Database once variable from %S", [generator])
+			end
 		end
 end

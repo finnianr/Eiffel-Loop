@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_song: like song; a_start_time: like start_time; a_tanda_type: like tanda_type)
+	make (a_song: like song; a_start_time: like start_time; a_tanda_type: ZSTRING)
 		do
 			make_default
 			song := a_song; start_time := a_start_time; tanda_type := a_tanda_type
@@ -65,7 +65,7 @@ feature -- Status query
 
 	is_final_cortina: BOOLEAN
 		do
-			Result := tanda_type ~ Tanda_type_the_end
+			Result := tanda_type ~ Tanda.the_end
 		end
 
 feature {NONE} -- Evolicity fields

@@ -19,6 +19,9 @@ inherit
 		end
 
 	RHYTHMBOX_CONSTANTS
+		rename
+			Media_type as Media_types
+		end
 
 	EL_MODULE_AUDIO_COMMAND
 
@@ -27,21 +30,18 @@ create
 
 feature {NONE} -- Initialization
 
-	make (
-		a_database: like database; a_source_song: RBOX_SONG
-		tanda_type: ZSTRING; a_track_number, a_duration: INTEGER
-	)
+	make (a_source_song: RBOX_SONG; tanda_type: ZSTRING; a_track_number, a_duration: INTEGER)
 		do
-			make_song (a_database)
+			make_song
 			source_song := a_source_song; track_number := a_track_number; duration := a_duration
-			if tanda_type ~ Tanda_type_the_end then
-				title := Tanda_type_the_end
+			if tanda_type ~ Tanda.the_end then
+				title := Tanda.the_end
 			else
 				title := Title_template #$ ['A' + (track_number - 1), tanda_type.as_upper]
 				title.append (create {ZSTRING}.make_filled ('_', 30 - title.count))
 			end
 			artist := source_song.artist
-			genre := Genre_cortina
+			genre := Extra_genre.cortina
 			mp3_path := music_dir.joined_file_steps (<< genre, artist, title + ".mp3" >>)
 			album := source_song.album
 		end

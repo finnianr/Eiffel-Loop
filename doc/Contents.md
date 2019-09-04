@@ -532,8 +532,8 @@ Conditions can be combined using the logical operators: `and`, `or` and `not`. Q
 
 
 * [SONG_QUERY_CONDITIONS](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/database/song_query_conditions.html)
-* [RHYTHMBOX_MUSIC_MANAGER](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/manager/rhythmbox_music_manager.html)
-* [TEST_MUSIC_MANAGER](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/test/test_music_manager.html)
+* [RHYTHMBOX_MUSIC_MANAGER]($source)
+* [TEST_MUSIC_MANAGER]($source)
 
 **Foot Notes**
 

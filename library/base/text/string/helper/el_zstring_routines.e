@@ -86,6 +86,15 @@ feature {EL_MODULE_ZSTRING} -- Status query
 			Result := a.starts_with (b)
 		end
 
+	starts_with_drive (str: ZSTRING): BOOLEAN
+		do
+			inspect str.count
+				when 0, 1 then
+			else
+				Result := str [2] = ':' and then str.is_alpha_item (1)
+			end
+		end
+
 	has_alpha_numeric (str: ZSTRING): BOOLEAN
 		-- `True' if `str' has an alpha numeric character
 		local

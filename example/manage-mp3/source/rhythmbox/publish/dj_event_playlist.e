@@ -28,8 +28,6 @@ inherit
 		end
 
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_PYXIS
-		rename
-			make_from_file as make_from_pyxis_file
 		undefine
 			copy, is_equal
 		redefine
@@ -47,18 +45,20 @@ inherit
 			Date as Mod_date
 		end
 
+	SHARED_DATABASE
+
 create
 	make, make_from_file
 
 feature {NONE} -- Initialization
 
-	make (a_database: like database; playlist: RBOX_PLAYLIST; a_dj_name: like dj_name; a_title: like title)
+	make (playlist: RBOX_PLAYLIST; a_dj_name: like dj_name; a_title: like title)
 			--
 		local
 			word_list: EL_ZSTRING_LIST; date_str: STRING
 		do
 			make_default
-			database := a_database; dj_name := a_dj_name; title := a_title
+			dj_name := a_dj_name; title := a_title
 			word_list := playlist.name
 			date_str := word_list.first.to_latin_1
 			if Date_checker.date_valid (date_str, Name_date_format) then
@@ -85,12 +85,6 @@ feature {NONE} -- Initialization
 			create date.make_by_days (0)
 			is_publishable := True
 			Precursor
-		end
-
-	make_from_file (a_database: like database; a_file_path: EL_FILE_PATH)
-		do
-			database := a_database
-			make_from_pyxis_file (a_file_path)
 		end
 
 feature -- Access
@@ -258,10 +252,6 @@ feature {NONE} -- Building from XML
 				create start_time.make_from_string (str, "hh:mi")
 			end
 		end
-
-feature {NONE} -- Implementation
-
-	database: RBOX_DATABASE
 
 feature {NONE} -- Constants
 

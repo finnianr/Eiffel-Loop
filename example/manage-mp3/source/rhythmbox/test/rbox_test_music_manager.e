@@ -15,9 +15,9 @@ class
 inherit
 	RBOX_MUSIC_MANAGER
 		redefine
-			make, new_database, xml_data_dir,
+			make, Database, xml_data_dir,
 
-			Task_factory, new_shared,
+			Task_factory,
 
 			-- User input
 			ask_user_for_task
@@ -47,17 +47,6 @@ feature {NONE} -- User input
 
 feature {NONE} -- Implementation
 
-	new_database: RBOX_TEST_DATABASE
-		do
-			create Result.make (xml_file_path ("rhythmdb"), task.music_dir)
-			Result.update_index_by_audio_id
-		end
-
-	new_shared: EL_SINGLETON [RBOX_TEST_DATABASE]
-		do
-			create Result
-		end
-
 	xml_data_dir: EL_DIR_PATH
 		do
 			Result := task.music_dir.parent
@@ -81,6 +70,12 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Database: RBOX_TEST_DATABASE
+		once
+			create Result.make (xml_file_path ("rhythmdb"), task.music_dir)
+			Result.update_index_by_audio_id
+		end
 
 	Task_factory: EL_BUILDER_OBJECT_FACTORY [MANAGEMENT_TASK]
 		once

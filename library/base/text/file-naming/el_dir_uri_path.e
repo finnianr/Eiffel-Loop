@@ -15,10 +15,10 @@ class
 inherit
 	EL_DIR_PATH
 		undefine
-			default_create, count, make, make_from_other,
-			is_equal, is_less, is_path_absolute, is_uri,
-			to_string, Type_parent, hash_code, Separator,
-			set_path
+			default_create, make, make_from_other,
+			is_equal, is_less, is_uri,
+			Type_parent, Separator,
+			set_path, part_count, part_string
 		redefine
 			Type_file_path
 		end

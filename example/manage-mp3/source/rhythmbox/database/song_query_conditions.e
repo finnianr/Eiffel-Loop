@@ -25,6 +25,8 @@ inherit
 			{NONE} all
 		end
 
+	EL_MODULE_ZSTRING
+
 feature {NONE} -- Conditions
 
 	song_contains_path_step (a_path_step: ZSTRING): like predicate
@@ -82,7 +84,7 @@ feature {NONE} -- Conditions
 		do
 			Result := predicate (agent (song: RBOX_SONG): BOOLEAN
 				do
-					Result := across General_tango_genres as genre some song.genre.starts_with (genre.item) end
+					Result := Tango_genre_list.there_exists (agent Zstring.starts_with (song.genre, ?))
 				end
 			)
 		end

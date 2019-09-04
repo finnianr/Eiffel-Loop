@@ -25,8 +25,6 @@ inherit
 
 	RHYTHMBOX_CONSTANTS
 
-	SHARED_DATABASE
-
 create
 	make
 
@@ -61,7 +59,7 @@ feature -- Basic operations
 					else
 						task.error_check
 						if task.error_message.is_empty then
-							call (new_database); call (Database)
+							call (Database)
 
 							lio.put_labeled_string ("Executing", task_name)
 							lio.put_new_line
@@ -113,11 +111,6 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	new_database: RBOX_DATABASE
-		do
-			create Result.make (xml_file_path ("rhythmdb"), task.music_dir)
-		end
-
 	set_task (a_file_path: EL_FILE_PATH)
 		do
 			task := Task_factory.instance_from_pyxis (a_file_path, agent {MANAGEMENT_TASK}.make_default)
@@ -144,6 +137,11 @@ feature {NONE} -- Internal attributes
 	file_path: EL_FILE_PATH
 
 feature {NONE} -- Constants
+
+	Database: RBOX_DATABASE
+		once
+			create Result.make (xml_file_path ("rhythmdb"), task.music_dir)
+		end
 
 	Quit: ZSTRING
 		once

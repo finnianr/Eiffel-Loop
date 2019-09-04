@@ -55,7 +55,7 @@ inherit
 
 	EL_MODULE_URL
 
-	EL_SHARED_SINGLETONS
+	SHARED_DATABASE
 
 create
 	make
@@ -65,7 +65,8 @@ feature {NONE} -- Initialization
 	make (a_xml_database_path: EL_FILE_PATH; a_music_dir: like music_dir)
 			--
 		do
-			put_singleton (Current)
+			call (Database)
+
 			music_dir := a_music_dir
 
 			lio.put_path_field ("Reading", a_xml_database_path)
@@ -90,7 +91,7 @@ feature {NONE} -- Initialization
 			lio.put_new_line
 
 			playlists_xml_path := xml_database_path.parent + "playlists.xml"
-			create playlists.make (playlists_xml_path, Current)
+			create playlists.make (playlists_xml_path)
 			is_initialized := not songs.is_empty
 		end
 
@@ -117,7 +118,7 @@ feature -- Access
 		do
 			playlists.find_first_equal (Archive, agent {RBOX_PLAYLIST}.name)
 			if playlists.exhausted then
-				create Result.make (Current)
+				create Result.make_default
 			else
 				Result := playlists.item
 			end
@@ -181,27 +182,27 @@ feature -- Factory
 
 	new_iradio_entry: RBOX_IRADIO_ENTRY
 		do
-			create Result.make (Current)
+			create Result.make
 		end
 
 	new_song: RBOX_SONG
 		do
-			create Result.make (Current)
+			create Result.make
 		end
 
-	new_cortina (a_source_song: RBOX_SONG; tanda_type: ZSTRING; a_track_number, a_duration: INTEGER): RBOX_CORTINA_SONG
+	new_cortina (a_source_song: RBOX_SONG; a_tanda_type: ZSTRING; a_track_number, a_duration: INTEGER): RBOX_CORTINA_SONG
 		do
-			create Result.make (Current, a_source_song, tanda_type, a_track_number, a_duration)
+			create Result.make (a_source_song, a_tanda_type, a_track_number, a_duration)
 		end
 
 	new_ignored_entry: RBOX_IGNORED_ENTRY
 		do
-			create Result.make (Current)
+			create Result.make
 		end
 
 	new_playlist (a_name: STRING): RBOX_PLAYLIST
 		do
-			create Result.make_with_name (a_name, Current)
+			create Result.make (a_name)
 		end
 
 feature -- Status query
@@ -240,7 +241,7 @@ feature -- Element change
 				extend_with_song (song)
 
 			elseif attached {RBOX_IGNORED_ENTRY} a_entry as entry and then entry.genre ~ Playlist_genre then
-				dj_playlists.extend (create {DJ_EVENT_PLAYLIST}.make_from_file (Current, entry.location))
+				dj_playlists.extend (create {DJ_EVENT_PLAYLIST}.make_from_file (entry.location))
 				entry.set_title (dj_playlists.last.title) -- Override title with the one in the DJ event playlist
 			end
 		end
@@ -351,7 +352,7 @@ feature -- Element change
 			condition: EL_AND_QUERY_CONDITION [RBOX_SONG]
 		do
 			create directory_set.make_equal (2)
-			condition := not song_is_hidden and song_is_genre (Genre_cortina)
+			condition := not song_is_hidden and song_is_genre (Extra_genre.cortina)
 
 			across songs.query (condition) as song loop
 				directory_set.put (song.item.mp3_path.parent)
@@ -411,13 +412,13 @@ feature -- Element change
 					events_file_path := dj_playlist_dir + playlist.item.name
 					events_file_path.add_extension ("pyx")
 					if not events_file_path.exists then
-						dj_playlists.extend (create {DJ_EVENT_PLAYLIST}.make (Current, playlist.item, dj_name, default_title))
+						dj_playlists.extend (create {DJ_EVENT_PLAYLIST}.make (playlist.item, dj_name, default_title))
 						dj_playlists.last.set_output_path (events_file_path)
 
 						entry := new_ignored_entry
 						entry.set_genre (Playlist_genre)
 						entry.set_title (dj_playlists.last.title)
-						entry.set_media_type (Text_pyxis)
+						entry.set_media_type (Media_type.pyxis)
 						entry.set_location (events_file_path)
 
 						entries.extend (entry)
@@ -497,7 +498,7 @@ feature -- Basic operations
 			if backup_path.exists then
 				lio.put_path_field ("Restoring playlists from", backup_path); lio.put_new_line
 
-				create playlists.make (backup_path, Current)
+				create playlists.make (backup_path)
 				OS.delete_file (playlists_xml_path)
 				playlists.set_output_path (playlists_xml_path)
 				playlists.store
@@ -680,7 +681,7 @@ feature {RBOX_MUSIC_MANAGER, MANAGEMENT_TASK} -- Tag editing
 			end
 		end
 
-feature {RBOX_IRADIO_ENTRY, RBOX_PLAYLIST} -- location codecs
+feature {RBOX_IRADIO_ENTRY, RBOX_PLAYLIST} -- Implemenation
 
 	decoded_location (path: STRING): EL_FILE_PATH
 		do
@@ -690,6 +691,10 @@ feature {RBOX_IRADIO_ENTRY, RBOX_PLAYLIST} -- location codecs
 	encoded_location_uri (uri: EL_FILE_URI_PATH): STRING
 		do
 			Result := Url.encoded_uri_custom (uri , Unescaped_location_characters, False)
+		end
+
+	call (obj: ANY)
+		do
 		end
 
 feature {NONE} -- Evolicity reflection

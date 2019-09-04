@@ -50,10 +50,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_database: like database)
+	make
 			--
 		do
-			Precursor (a_database)
+			Precursor
 			audio_id := Default_audio_id
 			set_first_seen_time (Time.Unix_origin)
 		end
@@ -230,7 +230,7 @@ feature -- Access
 			else
 				index := 1
 			end
-			Result := database.silence_intervals [index]
+			Result := Database.silence_intervals [index]
 		end
 
 	unique_normalized_mp3_path: EL_FILE_PATH
@@ -273,19 +273,19 @@ feature -- Status query
 			-- true if mp3 track does not have enough silence at end and has some extra silence
 			-- specified by beats_per_minute
 		do
-			Result := database.silence_intervals.valid_index (beats_per_minute)
+			Result := Database.silence_intervals.valid_index (beats_per_minute)
 		end
 
 	is_cortina: BOOLEAN
 			-- Is genre a short clip used to separate a dance set (usually used in Tango dances)
 		do
-			Result := genre ~ Genre_cortina
+			Result := genre ~ Extra_genre.cortina
 		end
 
 	is_genre_silence: BOOLEAN
 			-- Is genre a short silent clip used to pad a song
 		do
-			Result := genre ~ Genre_silence
+			Result := genre ~ Extra_genre.silence
 		end
 
 	is_hidden: BOOLEAN
@@ -627,7 +627,7 @@ feature -- Constants
 		end
 
 	Except_fields: STRING
-			-- Object attributes that are not stored in Rhythmbox database
+			-- Object attributes that are not stored in Rhythmbox Database
 		once
 			Result := Precursor + ", album_artists"
 		end

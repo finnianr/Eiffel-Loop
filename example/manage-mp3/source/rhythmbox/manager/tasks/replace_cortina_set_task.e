@@ -36,7 +36,7 @@ feature -- Basic operations
 
 			if Database.songs_by_location.has (cortina_path) then
 				lio.put_line ("Replacing current set")
-				create new_set.make (Database, cortina_set, Database.songs_by_location [cortina_path])
+				create new_set.make (cortina_set, Database.songs_by_location [cortina_path])
 				Database.replace_cortinas (new_set)
 				Database.store_all
 			else
