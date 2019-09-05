@@ -13,20 +13,16 @@ class
 	M3U_PLAYLIST_READER
 
 inherit
-	LINKED_LIST [EL_PATH_STEPS]
-		rename
-			make as make_list,
-			item as path_steps
-		end
-
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
 			make as make_machine
-		undefine
-			is_equal, copy
 		end
 
 	EL_MODULE_UTF
+
+	EL_MODULE_LIO
+
+	SHARED_DATABASE
 
 create
 	make
@@ -38,7 +34,8 @@ feature {NONE} -- Initialization
 		local
 			lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
-			make_list; make_machine
+			make_machine
+			create path_list.make (20)
 
 			if a_file_path.exists then
 				create lines.make (a_file_path)
@@ -50,6 +47,23 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	name: ZSTRING
+
+	to_playlist: RBOX_PLAYLIST
+		local
+			song_path: EL_FILE_PATH
+		do
+			create Result.make (name)
+			across path_list as path_steps loop
+				song_path := Database.music_dir + path_steps.item
+				if Database.has_song (song_path) then
+					Result.add_song_from_path (song_path)
+					lio.put_path_field ("Imported", song_path)
+				else
+					lio.put_path_field ("Not found", song_path)
+				end
+				lio.put_new_line
+			end
+		end
 
 feature {NONE} -- State line procedures
 
@@ -68,9 +82,12 @@ feature {NONE} -- State line procedures
 		do
 			if not line.is_empty then
 				l_path := line
-				extend (l_path.steps)
+				path_list.extend (l_path.steps)
 				state := agent find_extinf
 			end
 		end
 
+feature {NONE} -- Internal attributes
+
+	path_list: ARRAYED_LIST [EL_PATH_STEPS]
 end

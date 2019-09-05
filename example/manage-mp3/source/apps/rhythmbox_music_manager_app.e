@@ -96,7 +96,7 @@ feature {NONE} -- Constants
 
 	Visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
 		once
-			Result := << {EL_BUILDER_OBJECT_FACTORY [MANAGEMENT_TASK]} >>
+			Result := << {EL_BUILDER_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK]}, {M3U_PLAYLIST_READER} >>
 		end
 
 note

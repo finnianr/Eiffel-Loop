@@ -34,7 +34,7 @@ feature -- Testing
 	test_normal_run (a_media_dir: EL_DIR_PATH)
 			--
 		local
-			edits: ID3_EDITS
+			edits: ID3_TAG_INFO_ROUTINES
 		do
 			create edits
 --			create command.make (a_media_dir, agent edits.save_album_picture_id3 (?, ?, "Rafael Canaro"))
@@ -78,7 +78,7 @@ feature {NONE} -- Constants
 				[{ID3_EDITOR_APP}, All_routines],
 				[{ID3_EDITOR}, All_routines],
 --				[{EL_ID3_INFO}, No_routines],
-				[{ID3_EDITS}, All_routines]
+				[{ID3_TAG_INFO_ROUTINES}, All_routines]
 			>>
 		end
 

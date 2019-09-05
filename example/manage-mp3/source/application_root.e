@@ -24,17 +24,11 @@ feature {NONE} -- Implementation
 			--
 		once
 			Result := <<
+				{ID3_EDITOR_APP},
 				{MP3_AUDIO_SIGNATURE_READER_APP},
 				{RHYTHMBOX_MUSIC_MANAGER_APP},
 
---				Obsolete apps
---				{RBOX_IMPORT_NEW_MP3_APP},
---				{RBOX_PLAYLIST_IMPORT_APP},
---				{RBOX_RESTORE_PLAYLISTS_APP},
-
-				{ID3_EDITOR_APP},
-				{TANGO_MP3_FILE_COLLATOR_APP},
-
+--				Testing
 				{TEST_RHYTHMBOX_MUSIC_MANAGER_APP},
 				{TEST_APP}
 			>>

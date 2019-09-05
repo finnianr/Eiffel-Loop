@@ -52,11 +52,11 @@ feature {NONE} -- Implementation
 			Result := task.music_dir.parent
 		end
 
-	add_test (type: TYPE [MANAGEMENT_TASK]; factory: EL_OBJECT_FACTORY [MANAGEMENT_TASK])
+	add_test (type: TYPE [RBOX_MANAGEMENT_TASK]; factory: EL_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK])
 		do
 		end
 
-	testing_tasks: ARRAY [TYPE [MANAGEMENT_TASK]]
+	testing_tasks: ARRAY [TYPE [RBOX_MANAGEMENT_TASK]]
 		do
 			Result := <<
 				{EXPORT_MUSIC_TO_DEVICE_TEST_TASK},
@@ -65,6 +65,7 @@ feature {NONE} -- Implementation
 				{UPDATE_DJ_PLAYLISTS_TEST_TASK},
 				{REPLACE_SONGS_TEST_TASK},
 				{REPLACE_CORTINA_SET_TEST_TASK},
+				{IMPORT_NEW_MP3_TEST_TASK},
 				{IMPORT_VIDEOS_TEST_TASK}
 			>>
 		end
@@ -77,7 +78,7 @@ feature {NONE} -- Constants
 			Result.update_index_by_audio_id
 		end
 
-	Task_factory: EL_BUILDER_OBJECT_FACTORY [MANAGEMENT_TASK]
+	Task_factory: EL_BUILDER_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK]
 		once
 			Result := Precursor
 			Result.set_type_alias (agent Naming.class_as_lower_snake (?, 0, 2))

@@ -13,7 +13,7 @@ class
 	REPLACE_CORTINA_SET_TASK
 
 inherit
-	MANAGEMENT_TASK
+	RBOX_MANAGEMENT_TASK
 		redefine
 			error_check
 		end

@@ -83,7 +83,7 @@ feature {NONE} -- Build from XML
 			set_next_context (new_song)
 		end
 
-feature {NONE} -- Implementation
+feature {TEST_MANAGEMENT_TASK} -- Access
 
 	cached_song_file_path (song: RBOX_SONG): EL_FILE_PATH
 			-- Path to auto generated mp3 file under build directory

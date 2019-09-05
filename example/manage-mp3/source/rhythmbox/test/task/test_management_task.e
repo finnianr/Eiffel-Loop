@@ -13,7 +13,7 @@ deferred class
 	TEST_MANAGEMENT_TASK
 
 inherit
-	MANAGEMENT_TASK
+	RBOX_MANAGEMENT_TASK
 		redefine
 			root_node_name
 		end

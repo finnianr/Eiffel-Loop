@@ -173,10 +173,12 @@ feature -- Access
 
 	item alias "[]" (i: INTEGER): ZSTRING assign put
 		-- Item at `i'-th position
+		-- do not keep as reference
 		do
 			Result := Internal_item
 			Result.wipe_out
 			Result.append (Token_table.token_string (token_list [i]))
+			create Result.make_from_other (Result)
 		end
 
 	last: ZSTRING

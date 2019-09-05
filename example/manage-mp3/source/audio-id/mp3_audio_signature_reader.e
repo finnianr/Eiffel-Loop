@@ -1,5 +1,5 @@
 note
-	description: "Mp3 audio signature reader"
+	description: "MP3 audio signature reader"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

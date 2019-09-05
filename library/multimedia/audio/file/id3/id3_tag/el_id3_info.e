@@ -223,7 +223,7 @@ feature -- Basic fields
 			Result := field_integer (Tag.Track)
 		end
 
-	duration: TIME
+	duration: TIME_DURATION
 			--
 		do
 			create Result.make_by_fine_seconds (field_integer (Tag.duration) / 1000)

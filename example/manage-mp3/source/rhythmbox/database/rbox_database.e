@@ -37,8 +37,6 @@ inherit
 			is_equal, copy
 		end
 
-	ID3_EDITS
-
 	SONG_QUERY_CONDITIONS
 
 	EL_MODULE_ARGS
@@ -200,11 +198,6 @@ feature -- Factory
 			create Result.make
 		end
 
-	new_playlist (a_name: STRING): RBOX_PLAYLIST
-		do
-			create Result.make (a_name)
-		end
-
 feature -- Status query
 
 	is_initialized: BOOLEAN
@@ -297,42 +290,6 @@ feature -- Element change
 						end
 					end
 			)
-		end
-
-	import_mp3 (mp3_path: EL_FILE_PATH)
-		require
-			not_already_present: not songs_by_location.has (mp3_path)
-		local
-			relative_path_steps: EL_PATH_STEPS
-			id3_info: EL_ID3_INFO
-			song: RBOX_SONG
-		do
-			log.enter_with_args ("import_mp3", [mp3_path])
-			relative_path_steps := mp3_path.relative_path (music_dir).steps
-			if relative_path_steps.count = 3 then
-				create id3_info.make (mp3_path)
-				song := new_song
-				if id3_info.title.is_empty then
-					song.set_title (mp3_path.base_sans_extension)
-				else
-					song.set_title (id3_info.title)
-				end
-				song.set_album (id3_info.album)
-				song.set_track_number (id3_info.track)
-				song.set_recording_year (id3_info.year)
-
-				song.set_genre (relative_path_steps.item (1))
-				song.set_artist (relative_path_steps.item (2))
-
-				song.write_id3_info (id3_info)
-				song.set_mp3_path (song.unique_normalized_mp3_path)
-				OS.move_file (mp3_path, song.mp3_path)
-
-				extend (song)
-				lio.put_path_field ("Imported", song.mp3_relative_path)
-				lio.put_new_line
-			end
-			log.exit
 		end
 
 	set_playlists (a_playlists: like playlists)
@@ -429,38 +386,6 @@ feature -- Element change
 
 feature -- Basic operations
 
-	import_m3u_playlist (m3u_playlist: M3U_PLAYLIST_READER)
-		local
-			song_path: EL_FILE_PATH
-		do
-			lio.put_string_field ("Importing playlist", m3u_playlist.name)
-			lio.put_new_line
-			playlists.extend (new_playlist (m3u_playlist.name))
-			across m3u_playlist as path_steps loop
-				song_path := music_dir + path_steps.item
-				if has_song (song_path) then
-					playlists.last.add_song_from_path (song_path)
-					lio.put_path_field ("Imported", song_path)
-				else
-					lio.put_path_field ("Not found", song_path)
-				end
-				lio.put_new_line
-			end
-			lio.put_new_line
-		end
-
-	display_incomplete_id3_info (song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO)
-			-- Display songs with incomplete TXXX ID3 tags
-		do
-			if across id3_info.user_text_table as user_text
-				some
-					user_text.item.description.is_empty and then user_text.item.string.is_integer
-				end
-			then
-				print_id3 (id3_info, relative_song_path)
-			end
-		end
-
 	for_all_songs_id3_info (
 		condition: EL_QUERY_CONDITION [RBOX_SONG]
 		do_id3_edit: PROCEDURE [EL_ID3_INFO, EL_FILE_PATH]
@@ -486,24 +411,6 @@ feature -- Basic operations
 			across songs.query (condition) as query loop
 				song := query.item
 				do_with_song_id3 (song, song.mp3_relative_path, song.id3_info)
-			end
-		end
-
-	restore_playlists
-			-- restore playlists from playlists.backup.xml
-		local
-			backup_path: EL_FILE_PATH
-		do
-			backup_path := playlists_xml_path.with_new_extension ("backup.xml")
-			if backup_path.exists then
-				lio.put_path_field ("Restoring playlists from", backup_path); lio.put_new_line
-
-				create playlists.make (backup_path)
-				OS.delete_file (playlists_xml_path)
-				playlists.set_output_path (playlists_xml_path)
-				playlists.store
-  			else
-				lio.put_path_field ("File not found", backup_path); lio.put_new_line
 			end
 		end
 
@@ -589,98 +496,6 @@ feature -- Removal
 			songs_by_audio_id.wipe_out
 		end
 
-feature -- Tag editing
-
-	remove_unknown_album_picture (song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO)
-		do
-			if id3_info.has_album_picture and then id3_info.album_picture.description ~ Picture_artist then
-				id3_info.remove_album_picture
-				Musicbrainz_album_id_set.do_all (agent id3_info.remove_user_text)
-				id3_info.update
-				song.set_album_picture_checksum (0)
-				lio.put_path_field ("Removed album picture", relative_song_path)
-				lio.put_new_line
-			end
-		end
-
-feature {RBOX_MUSIC_MANAGER, MANAGEMENT_TASK} -- Tag editing
-
-	add_song_picture (
-		song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO
-		pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]
-	)
-		local
-			picture: EL_ID3_ALBUM_PICTURE
-		do
-			if song_has_artist_picture (pictures).met (song) and then not id3_info.has_album_picture then
-				picture := pictures [song.artist]
-
-			elseif song_has_album_picture (pictures).met (song) and then song.album /~ Unknown then
-				picture := pictures [song.album]
-
-			else
-				create picture
-			end
-			if picture.data.count > 0 and then picture.checksum /= song.album_picture_checksum then
-				lio.put_labeled_string ("Setting", picture.description.as_proper_case + " picture")
-				lio.put_new_line
-				lio.put_path_field ("Song", relative_song_path)
-				lio.put_new_line
-				lio.put_new_line
-
-				id3_info.set_album_picture (picture)
-
-				-- Both albumid fields need to be set in ID3 info otherwise
-				-- Rhythmbox changes musicbrainz_albumid to match "MusicBrainz Album Id"
-				Musicbrainz_album_id_set.do_all (agent id3_info.set_user_text (?, id3_info.album_picture.checksum.out))
-				id3_info.update
-				song.set_album_picture_checksum (id3_info.album_picture.checksum)
-				song.update_checksum
-			end
-		end
-
-	remove_ufid (song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO)
-			--
-		do
-			if not id3_info.unique_id_list.is_empty then
-				print_id3 (id3_info, relative_song_path)
-				id3_info.remove_all_unique_ids
-				id3_info.update
-			end
-		end
-
-	update_song_comment_with_album_artists (song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO)
-			--
-		local
-			l_album_artists: ZSTRING
-		do
-			l_album_artists := song.album_artist
-
-			-- Due to a bug in Rhythmbox, it is not possible to set album-artist to zero length
-			-- As a workaround, setting album-artist to '--' will cause it to be deleted
-
-			if song.album_artists.list.count = 1 and song.album_artists.list.first ~ song.artist
-				or else song.album_artist.is_equal ("--")
-			then
-				song.set_album_artists ("")
-				id3_info.remove_basic_field (Tag.Album_artist)
-				l_album_artists := song.album_artist
-			end
-			if l_album_artists /~ id3_info.comment (ID3_frame_c0) then
-				print_id3 (id3_info, relative_song_path)
-				lio.put_string_field ("Album artists", l_album_artists)
-				lio.put_new_line
-				lio.put_string_field (ID3_frame_c0, id3_info.comment (ID3_frame_c0))
-				lio.put_new_line
-				if l_album_artists.is_empty then
-					id3_info.remove_comment (ID3_frame_c0)
-				else
-					id3_info.set_comment (ID3_frame_c0, l_album_artists)
-				end
-				id3_info.update
-			end
-		end
-
 feature {RBOX_IRADIO_ENTRY, RBOX_PLAYLIST} -- Implemenation
 
 	decoded_location (path: STRING): EL_FILE_PATH
@@ -741,13 +556,6 @@ feature {NONE} -- Build from XML
 	Root_node_name: STRING = "rhythmdb"
 
 feature {NONE} -- Constants
-
-	Musicbrainz_album_id_set: ARRAY [ZSTRING]
-			-- Both fields need to be set in ID3 info otherwise
-			-- Rhythmbox changes musicbrainz_albumid to match "MusicBrainz Album Id"
-		once
-			Result := << "MusicBrainz Album Id", "musicbrainz_albumid" >>
-		end
 
 	Archive: ZSTRING
 		once

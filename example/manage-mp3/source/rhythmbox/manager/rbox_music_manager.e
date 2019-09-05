@@ -38,7 +38,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Access
 
-	task: MANAGEMENT_TASK
+	task: RBOX_MANAGEMENT_TASK
 
 	task_name: ZSTRING
 
@@ -113,7 +113,7 @@ feature {NONE} -- Implementation
 
 	set_task (a_file_path: EL_FILE_PATH)
 		do
-			task := Task_factory.instance_from_pyxis (a_file_path, agent {MANAGEMENT_TASK}.make_default)
+			task := Task_factory.instance_from_pyxis (a_file_path, agent {RBOX_MANAGEMENT_TASK}.make_default)
 			task_name := Task_factory.last_root_element
 			if task_name.is_empty then
 				task_name := a_file_path.base
@@ -148,7 +148,7 @@ feature {NONE} -- Constants
 			Result := "quit"
 		end
 
-	Task_factory: EL_BUILDER_OBJECT_FACTORY [MANAGEMENT_TASK]
+	Task_factory: EL_BUILDER_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK]
 		once
 			create Result.make (agent Naming.class_as_lower_snake (?, 0, 1), <<
 				{DEFAULT_TASK}, -- Must be first
@@ -161,7 +161,9 @@ feature {NONE} -- Constants
 				{DISPLAY_MUSIC_BRAINZ_INFO_TASK},
 				{EXPORT_MUSIC_TO_DEVICE_TASK},
 				{EXPORT_PLAYLISTS_TO_DEVICE_TASK},
+				{IMPORT_NEW_MP3_TASK},
 				{IMPORT_VIDEOS_TASK},
+				{M3U_PLAYLIST_IMPORT_TASK},
 				{NORMALIZE_COMMENTS_TASK},
 				{PRINT_COMMENTS_TASK},
 				{PUBLISH_DJ_EVENTS_TASK},
@@ -169,6 +171,7 @@ feature {NONE} -- Constants
 				{REMOVE_UNKNOWN_ALBUM_PICTURES_TASK},
 				{REPLACE_CORTINA_SET_TASK},
 				{REPLACE_SONGS_TASK},
+				{RESTORE_PLAYLISTS_TASK},
 				{UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK},
 				{UPDATE_DJ_PLAYLISTS_TASK}
 			>>)

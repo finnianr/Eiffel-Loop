@@ -21,6 +21,8 @@ inherit
 
 	EL_MODULE_OS
 
+	ID3_TAG_INFO_ROUTINES
+
 create
 	make
 
@@ -30,7 +32,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			edition_name := a_edition_name
 			create file_paths.make (OS.file_list (a_media_dir, "*.mp3"))
-			create id3_edits
 			editions_table := new_editions_table
 		end
 
@@ -62,9 +63,9 @@ feature {NONE} -- Implementation
 	new_editions_table: like editions_table
 		do
 			create Result.make (<<
-				["delete_id3_comments", agent id3_edits.delete_id3_comments],
-				["set_fields_from_path", agent id3_edits.set_fields_from_path],
-				["remove_rbox_id", agent id3_edits.remove_rbox_id]
+				["delete_id3_comments", agent delete_id3_comments],
+				["set_fields_from_path", agent set_fields_from_path],
+				["remove_rbox_id", agent remove_rbox_id]
 			>>)
 		end
 
@@ -75,7 +76,5 @@ feature {NONE} -- Internal attributes
 	edition_name: ZSTRING
 
 	file_paths: EL_FILE_PATH_LIST
-
-	id3_edits: ID3_EDITS
 
 end
