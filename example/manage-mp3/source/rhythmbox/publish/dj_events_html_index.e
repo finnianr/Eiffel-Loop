@@ -27,17 +27,29 @@ create
 
 feature {NONE} -- Initialization
 
-	make (dj_events: ARRAY [DJ_EVENT_PLAYLIST]; a_template_path, a_output_path: like output_path)
+	make (a_dj_events: like dj_events; a_template_path, a_output_path: like output_path)
 			--
+		do
+			make_from_template_and_output (a_template_path, a_output_path)
+			dj_events := a_dj_events
+		end
+
+feature {NONE} -- Implementation
+
+	events_ordered_by_date: EL_SORTABLE_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
+		do
+			create Result.make_from_array (dj_events)
+			Result.sort
+		end
+
+feature {NONE} -- Evolicity fields
+
+	get_events_by_year: EL_ARRAYED_LIST [EVOLICITY_CONTEXT_IMP]
 		local
-			events_ordered_by_date: EL_SORTABLE_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
 			events_for_year: EL_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
 			year: INTEGER; year_context: EVOLICITY_CONTEXT_IMP
 		do
-			create events_by_year.make (10)
-			make_from_template_and_output (a_template_path, a_output_path)
-			create events_ordered_by_date.make_from_array (dj_events)
-			events_ordered_by_date.sort
+			create Result.make (10)
 			across events_ordered_by_date as event loop
 				if year /= event.item.date.year then
 					create events_for_year.make (20)
@@ -45,24 +57,20 @@ feature {NONE} -- Initialization
 					year := event.item.date.year
 					year_context.put_variable (year.to_reference, once "year")
 					year_context.put_variable (events_for_year, once "list")
-					events_by_year.extend (year_context)
+					Result.extend (year_context)
 				end
 				events_for_year.extend (event.item)
 			end
 		end
 
-feature -- Access
-
-	events_by_year: EL_ARRAYED_LIST [EVOLICITY_CONTEXT_IMP]
-
-feature {NONE} -- Evolicity fields
-
 	getter_function_table: like getter_functions
 		do
-			create Result.make (<<
-				["events_by_year", agent: like events_by_year do Result := events_by_year end]
-			>>)
+			create Result.make (<< ["events_by_year", agent get_events_by_year] >>)
 		end
+
+feature {NONE} -- Internal attributes
+
+	dj_events: ARRAY [DJ_EVENT_PLAYLIST]
 
 feature {NONE} -- Constants
 

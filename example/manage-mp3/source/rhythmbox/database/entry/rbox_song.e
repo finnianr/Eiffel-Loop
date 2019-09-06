@@ -18,6 +18,7 @@ inherit
 	RBOX_IGNORED_ENTRY
 		rename
 			location as mp3_path,
+			relative_location as relative_mp3_path,
 			set_location as set_mp3_path
 		redefine
 			make, make_default, building_action_table, getter_function_table, on_context_exit,

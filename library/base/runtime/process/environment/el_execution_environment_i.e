@@ -35,6 +35,8 @@ inherit
 
 	EL_MODULE_STRING_32
 
+	EL_MODULE_EXCEPTION
+
 feature {EL_MODULE_EXECUTION_ENVIRONMENT} -- Initialization
 
 	make
@@ -124,11 +126,8 @@ feature -- Access
 feature -- Basic operations
 
 	exit (code: INTEGER)
-		local
-			exceptions: EXCEPTIONS
 		do
-			create exceptions
-			exceptions.die (code)
+			Exception.general.die (code)
 		end
 
 	sleep (millisecs: DOUBLE)

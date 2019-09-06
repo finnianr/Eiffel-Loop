@@ -103,6 +103,11 @@ feature -- Access
 			create Result.make_protocol (Protocol, location)
 		end
 
+	relative_location: EL_FILE_PATH
+		do
+			Result := location.relative_path (music_dir)
+		end
+
 	url_encoded_location_uri: ZSTRING
 		do
 			Result := database.encoded_location_uri (location_uri)

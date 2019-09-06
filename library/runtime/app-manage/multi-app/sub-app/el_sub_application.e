@@ -32,7 +32,7 @@ inherit
 
 	EL_SHARED_SUB_APPLICATION
 
-feature {EL_SUB_APPLICATION_LIST} -- Initialization
+feature {EL_FACTORY_CLIENT} -- Initialization
 
 	init_console
 		do
@@ -70,10 +70,6 @@ feature -- Access
 
 	argument_errors: ARRAYED_LIST [EL_COMMAND_ARGUMENT_ERROR]
 
-	description: READABLE_STRING_GENERAL
-		deferred
-		end
-
 	default_option_name: STRING
 		-- lower case generator with `_app*' removed from tail
 		local
@@ -85,6 +81,12 @@ feature -- Access
 				Result.remove_tail (words.last.count + 1)
 			end
 		end
+
+	description: READABLE_STRING_GENERAL
+		deferred
+		end
+
+	exit_code: INTEGER
 
 	option_name: READABLE_STRING_GENERAL
 			-- Command option name
@@ -128,14 +130,14 @@ feature -- Status query
 			Result := not argument_errors.is_empty
 		end
 
-	is_valid_platform: BOOLEAN
-		do
-			Result := True
-		end
-
 	is_same_option (name: ZSTRING): BOOLEAN
 		do
 			Result := name.same_string (option_name)
+		end
+
+	is_valid_platform: BOOLEAN
+		do
+			Result := True
 		end
 
 	set_boolean_from_command_opt (a_bool: BOOLEAN_REF; a_word_option, a_description: READABLE_STRING_GENERAL)
@@ -150,14 +152,19 @@ feature -- Status query
 
 feature -- Element change
 
+	extend_errors (error: EL_COMMAND_ARGUMENT_ERROR)
+		do
+			argument_errors.extend (error)
+		end
+
 	extend_help (word_option, a_description: READABLE_STRING_GENERAL; default_value: ANY)
 		do
 			options_help.extend (word_option, a_description, default_value)
 		end
 
-	extend_errors (error: EL_COMMAND_ARGUMENT_ERROR)
+	set_exit_code (a_exit_code: INTEGER)
 		do
-			argument_errors.extend (error)
+			exit_code := a_exit_code
 		end
 
 feature {NONE} -- Factory routines

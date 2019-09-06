@@ -20,13 +20,9 @@ inherit
 			make_empty
 		end
 
-	EL_MODULE_EIFFEL
+	EL_MODULE_ARGS
 
-	EL_MODULE_LIO
-		rename
-			Lio as Later_lio,
-			new_lio as new_temporary_lio
-		end
+	EL_MODULE_EIFFEL
 
 	EL_MODULE_STRING_8
 
@@ -99,13 +95,8 @@ feature -- Access
 
 feature -- Basic operations
 
-	io_put_menu
-			--
-		local
-			lio: EL_LOGGABLE
+	io_put_menu (lio: EL_LOGGABLE)
 		do
-			lio := new_temporary_lio -- until the logging is initialized in `EL_SUB_APPLICATION'
-
 			lio.put_new_line
 			across Current as app loop
 				lio.put_labeled_string (app.cursor_index.out + ". command switch", "-" + app.item.option_name)
@@ -127,12 +118,9 @@ feature -- Basic operations
 			end
 		end
 
-	launch (name: ZSTRING)
-			-- launch sub-application with `name' or else user selected application
-		local
-			lio: EL_LOGGABLE
+	find (lio: EL_LOGGABLE; name: ZSTRING)
+			-- find sub-application with `name' or else user selected application
 		do
-			lio := new_temporary_lio -- until the logging is initialized in `EL_SUB_APPLICATION'
 			find_first_true (agent {EL_SUB_APPLICATION}.is_same_option (name))
 			if after then
 				if select_first then
@@ -140,16 +128,9 @@ feature -- Basic operations
 				elseif Args.has_silent then
 					lio.put_labeled_substitution ("ERROR", "Cannot find sub-application option %"%S%"", [name])
 				else
-					io_put_menu
+					io_put_menu (lio)
 					go_i_th (user_selection)
 				end
-			end
-			if not off then
-
-				item.make -- Initialize and run application
-
-				lio.put_new_line
-				lio.put_new_line
 			end
 		end
 

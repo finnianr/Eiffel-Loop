@@ -195,6 +195,15 @@ feature {NONE} -- Conditions
 			Result := predicate (agent {RBOX_SONG}.is_mp3_path_normalized)
 		end
 
+	song_has_title_substring (a_substring: READABLE_STRING_GENERAL): like predicate
+		do
+			Result := predicate (agent (song: RBOX_SONG; substring: READABLE_STRING_GENERAL): BOOLEAN
+				do
+					Result := song.title.has_substring (substring)
+				end (?, a_substring)
+			)
+		end
+
 	song_has_unique_id (a_owner: STRING): like predicate
 		do
 			Result := predicate (agent (song: RBOX_SONG; owner: STRING): BOOLEAN

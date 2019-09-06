@@ -1,0 +1,68 @@
+1774791301fa960870af333aca07f27f  workarea/rhythmdb/album-art/Artist/Enrique Rodríguez.jpeg
+fba4cc74dd513dc6f481a2e464148ec0  workarea/rhythmdb/album-art/Artist/Unknown.jpeg
+40818d7a68d22da8374214f1502307cf  workarea/rhythmdb/empty-playlists.xml
+fb80178cd98474d618c980c3ad946aed  workarea/rhythmdb/Francisco Vals.m3u
+d94c653b209724802c67ad57370892fa  workarea/rhythmdb/Music/Classical/Antonio Vivaldi/Le Quattro Stagioni ´L´Estate`- I.Allegro non molto.02.mp3
+1d3c91b035d4a891fe3ddf545c7d9e21  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/A. FOXTROT tanda _____________.mp3
+4968547e32d3a4aed3fac286874d7ce9  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/A. MILONGA tanda _____________.mp3
+3d701ef330467b81c091e6598f7c6a08  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/A. OTHER tanda _______________.mp3
+d880fef9030513c90b6e598cd324d796  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/A. TANGO tanda _______________.mp3
+c4e3d19b154c3fbfbc30bce660afa553  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/A. VALS tanda ________________.mp3
+7dde35bf5a1064dcbe97f9dd448bd1c4  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/B. MILONGA tanda _____________.mp3
+0254d63d3d2e963dd765fa6226394860  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/B. OTHER tanda _______________.mp3
+d05aab7de86c63199de3848759e78107  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/B. TANGO tanda _______________.mp3
+709d751808bd26aae130a51a22d8bbb7  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/B. VALS tanda ________________.mp3
+bf6708674a76d4c6edd5a2c3fd850874  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/C. MILONGA tanda _____________.mp3
+b12b7397c9bc95d9e23029809d25e88c  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/C. OTHER tanda _______________.mp3
+4d3741445442be23997a421d9567f063  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/C. TANGO tanda _______________.mp3
+85176851173c063a2f10d604cf9e840e  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/C. VALS tanda ________________.mp3
+f6699b5740ded41d4583c1650cbe69e2  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/D. TANGO tanda _______________.mp3
+022274b29ee717fc487eb8a0197cb553  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/E. TANGO tanda _______________.mp3
+da649be741ef03b8fffebfc0ca3392a5  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/F. TANGO tanda _______________.mp3
+a6944c7713c352af978accb2d8e6c709  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/G. TANGO tanda _______________.mp3
+dfb9314766d6e0ba14353d2ff7d733e0  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/H. TANGO tanda _______________.mp3
+df6ca26579f15d59c98670a7bdc55b0e  workarea/rhythmdb/Music/Cortina/Fabrizio De Andrè/THE END.mp3
+03ddadcf435a769d375bc173d06b384a  workarea/rhythmdb/Music/Enrique Rodríguez/Enrique Rodríguez -- Suerte Loca.01.mp3
+1097ce7b611159f41f5e61d087ce309a  workarea/rhythmdb/Music/Playlists/2014-10-01 Belvedere.pyx
+cd3da79747007191f8daddd9552fdef1  workarea/rhythmdb/Music/Pop/Enya/Carribean Blue.02.mp3
+0994ce8b454a4be4846b644d19127f02  workarea/rhythmdb/Music/Recent/April 14/Anisa Angarola - Spatter the Dew.mp3
+e6876e8d85921066d65199a5b176df6a  workarea/rhythmdb/Music/Recent/April 14/Zoe Conway _ John McIntyre at Whelans Dublin 9th October _07.mp3
+f185ee6fb22bd567f8186ff1eb2b24db  workarea/rhythmdb/Music/Recent/Awards for World Music 2006/(Armenia) Armenian Navy Band - Let The Factories Open.mp3
+696cac1c6dc86499ed19b45869b97786  workarea/rhythmdb/Music/Recent/Awards for World Music 2006/(India-USA) Kronos Quartet & Asha Bhosle - Ekta Deshlai Kathi Jwalao (Light a Match).mp3
+cadef8a7b14b0d22e1c79e5536a02b90  workarea/rhythmdb/Music/Recent/Feb 17/Enrique Rodriguez & His Orchestra - Con tu Mirar.mp3
+679168096aff1dfe2e15b1cf785bae70  workarea/rhythmdb/Music/Recent/Feb 17/Enrique Rodríguez/Enrique Rodriguez & His Orchestra - No te Quiero M_s.mp3
+a597530ee5e3f5ee75c3c47107a3da4e  workarea/rhythmdb/Music/Recent/Feb 17/Enrique Rodríguez/Enrique Rodriguez _ His Orchestra - La Casita Est_ Triste.mp3
+9984c49012c526cd4ce27fb9b30994e4  workarea/rhythmdb/Music/Recent/Feb 23/04 Exotic modern.mp3
+06274a786a0f7cc70322809f9848a891  workarea/rhythmdb/Music/Recent/Feb 28/Juan D'Arienzo - Tu Olvido.mp3
+f44cab457c6f21d8caa3bd23876fe93d  workarea/rhythmdb/Music/Recent/Feb 28/Various Artists - El Temblor.mp3
+c5d1666e99a6834ca96c8992ea464c42  workarea/rhythmdb/Music/Recent/Feb 4/Francisco Lomuto y su orquesta tipica - Has Muerto Para Mi.mp3
+b7673c94cc12376429cc8efcffbb851b  workarea/rhythmdb/Music/Recent/Feb 4/Francisco Lomuto y su orquesta tipica - Lo Que Vieron Tus Ojos.mp3
+d0859b3ce8fe2789312a76b32009ed20  workarea/rhythmdb/Music/Recent/Feb 4/Francisco Lomuto y su orquesta tipica - Mar De Fondo.mp3
+2c33bd27a128e49c235f9e882023c9e6  workarea/rhythmdb/Music/Recent/Feb 4/Various - Recuerdo.mp3
+7b110a01e594a617bdf1025be5489571  workarea/rhythmdb/Music/Recent/Feb 4/Various Artists - Tango Mio.mp3
+18fedbd4b64c7fb4b601df0599f4b3fa  workarea/rhythmdb/Music/Recent/Francisco Canaro/Francisco Canaro -- Corazon de Oro.01.mp3
+02ede9ed3d391a4abd72e780c8568235  workarea/rhythmdb/Music/Recent/Francisco Canaro/Francisco Canaro -- Corazòn de Oro.02.mp3
+5ffb012b9537f8a869c5eae35a421d4c  workarea/rhythmdb/Music/Recent/June 10/Ada Falc_n - Florcita Criolla.mp3
+f523b7409909c0abec2a828edf20753c  workarea/rhythmdb/Music/Recent/La Mujer y el Tango/Besos Brujos - Elsa Rivas.mp3
+2c51db55f7a962f2a3af483eaaa4aa94  workarea/rhythmdb/Music/Recent/La Mujer y el Tango/Caserón de tejas - Nelly Vazquez.mp3
+1975fb3fadc919051e15f963f5404fea  workarea/rhythmdb/Music/Recent/La Mujer y el Tango/Garras - Virginia Luque.mp3
+5f6b6c3db63634ed8cd015afb6a62930  workarea/rhythmdb/Music/Recent/La Mujer y el Tango/La pulpera de Santa Lucía - Nelly Omar.mp3
+a8cc33f03f84938b08c8269f45f5cb1c  workarea/rhythmdb/Music/Recent/La Mujer y el Tango/Sin Palabras - Susana Rinaldi.mp3
+87594bdffb9de0e0fb123bdf0a4d2e0b  workarea/rhythmdb/Music/Recent/La Mujer y el Tango/Una lágrima tuya - Susy Leiva.mp3
+09ac06a5e1fa086195d425fc18fa010b  workarea/rhythmdb/Music/Recent/March 14/William Appling - Partita No. 1 in B-flat_ I.mp3
+b7b8cc4bb3a4522183a96f22e42667ae  workarea/rhythmdb/Music/Recent/March 16/08 - La Naranja Naci Verde.mp3
+e606d20e8e4774a06937f76568717aa5  workarea/rhythmdb/Music/Recent/March 23/09_-_Fabrizio_De_Andrè_-_Disamistade.mp3
+6bc8419bcd9d9a8b96e562e25093ed81  workarea/rhythmdb/Music/Recent/€Ángel D'agostino/Ángel D'agostino -- Tres Esquinas.02.mp3
+7fef37977dabb5523ddf4e362904bd36  workarea/rhythmdb/Music/Rock/Rage Against The Machine/Wake up.01.mp3
+4aacca0c8d5d0522b23c4f65e19e7c25  workarea/rhythmdb/Music/Special/silence-1.mp3
+ff51da9e89b528b71d01a9f91f6f2459  workarea/rhythmdb/Music/Special/silence-2.mp3
+66bf2e57f61c06236d4ebf28061acd40  workarea/rhythmdb/Music/Special/silence.mp3
+6394069883517895893bc55204615633  workarea/rhythmdb/Music/Vals/Rafael Rossi/Rosas de Otoño.01.mp3
+c597032c81f1c69bffc6c6d6340d9c97  workarea/rhythmdb/Music/Vals (Modern)/Yann Tiersen/L'Autre Valse d'Amélie.02.mp3
+d2e3b729785a2aac1e19f4f4e1a9cbbd  workarea/rhythmdb/Music-Vals.msync
+0f50817ab4fb0cc317d1d064638ec4a2  workarea/rhythmdb/Music.msync
+ed3271a2be3211f2b3f3437ed5203705  workarea/rhythmdb/playlists.xml
+2592b825a9054fc712fd5bb8ac2e3837  workarea/rhythmdb/rhythmdb.xml
+6e37015cd96685f364736639bc59408c  workarea/rhythmdb/Vals.m3u
+1ae734ae8bf8f63ba3927cd2bb20c431  workarea/rhythmdb/www/playlist-index.html.evol
+5abb59b4ebc44f6fb8ba3058e53eead2  workarea/rhythmdb/www/playlist.html.evol

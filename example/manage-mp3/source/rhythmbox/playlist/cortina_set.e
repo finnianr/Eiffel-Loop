@@ -90,7 +90,7 @@ feature {NONE} -- Implementation
 			create Result.make (tanda_type_counts [genre])
 			from until Result.full loop
 				cortina_song := Database.new_cortina (source_song, genre, Result.count + 1, clip_duration)
-				lio.put_path_field ("Creating", cortina_song.mp3_path); lio.put_new_line
+				lio.put_path_field ("Creating", cortina_song.relative_mp3_path); lio.put_new_line
 				cortina_song.write_clip (source_offset_secs, cortina.fade_in, cortina.fade_out)
 				Result.extend (cortina_song)
 				source_offset_secs := source_offset_secs + clip_duration

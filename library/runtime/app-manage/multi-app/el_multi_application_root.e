@@ -21,18 +21,27 @@ deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO]
 
 inherit
-	ANY
+	EL_FACTORY_CLIENT
 
 	EL_MODULE_ARGS
 
 	EL_MODULE_ENVIRONMENT
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_LIO
+		rename
+			Lio as Later_lio,
+			new_lio as new_temporary_lio
+		end
 
 feature {NONE} -- Initialization
 
 	make
 			--
 		local
-			list: EL_SUB_APPLICATION_LIST
+			list: EL_SUB_APPLICATION_LIST; app: EL_SUB_APPLICATION
+			lio: EL_LOGGABLE; exit_code: INTEGER
 		do
 			if not Args.has_silent then
 				-- Force console creation. Needed to set `{EL_EXECUTION_ENVIRONMENT_I}.last_codepage'
@@ -45,21 +54,42 @@ feature {NONE} -- Initialization
 			-- Must be called before current_working_directory changes
 			if Environment.Execution.Executable_path.is_file then
 			end
-			create list.make (application_types, select_first)
-			list.extend (create {EL_VERSION_APP})
-			list.launch (Args.option_name (1))
+			lio := new_temporary_lio -- until the logging is initialized in `EL_SUB_APPLICATION'
+
 --				Environment.Execution.restore_last_code_page
 --				FOR WINDOWS
 --				If the original code page is not restored after changing to 65001 (utf-8)
 --				this could effect subsequent programs that run in the same shell.
 --				Python for example might give a "LookupError: unknown encoding: cp65001" error.
 
+			create list.make (application_types, select_first)
+			list.extend (create {EL_VERSION_APP})
+			list.find (lio, Args.option_name (1))
+			if list.found then
+				app := list.item
+				app.make -- Initialize and run application
+
+				exit_code := app.exit_code
+
+				lio.put_new_line
+				lio.put_new_line
+			end
+
 			list.make_empty
+
 				-- Causes a crash on some multi-threaded applications
 			{MEMORY}.full_collect
+
+			if exit_code > 0 then
+				Execution_environment.exit (exit_code)
+			end
 		end
 
 feature {NONE} -- Implementation
+
+	call (obj: ANY)
+		do
+		end
 
 	application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
 			--

@@ -29,7 +29,12 @@ feature {NONE} -- Implementation
 
 	user_input_file_path (name: ZSTRING): EL_FILE_PATH
 		do
-			Result := music_dir + "Recent/March 23/09_-_Fabrizio_De_Andrè_Disamistade.mp3"
+			Database.songs.find_first (song_has_title_substring ("Disamistade"))
+			if Database.songs.found then
+				Result := Database.songs.item.mp3_path
+			else
+				create Result
+			end
 		end
 
 end

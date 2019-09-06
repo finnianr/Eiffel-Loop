@@ -38,6 +38,9 @@ feature -- Basic operations
 			if is_test_mode then
 				Console.show ({EL_REGRESSION_TESTING_ROUTINES})
 				test_run
+				if not Test.last_test_succeeded then
+					exit_code := 1
+				end
 			else
 				normal_run
 			end
