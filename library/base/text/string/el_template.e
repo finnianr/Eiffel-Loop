@@ -14,32 +14,42 @@ feature {NONE} -- Initialization
 
 	make (a_template: READABLE_STRING_GENERAL)
 		local
-			list: EL_SPLIT_STRING_LIST [S]
-			i, length: INTEGER
+			list: EL_SPLIT_STRING_LIST [S]; item: S
+			i, length, start_index, end_index: INTEGER; has_braces: BOOLEAN
 		do
 			create list.make (new_string (a_template), Dollor_sign)
 			create variable_values.make (list.count)
 			create part_list.make (list.count * 2)
 			from list.start until list.after loop
+				item := list.item
 				if list.index = 1 then
-					if not list.item.is_empty then
-						part_list.extend (list.item.twin)
+					if not item.is_empty then
+						part_list.extend (item.twin)
 					end
 				else
-					length := 0
-					from i := 1 until i > list.item.count loop
-						inspect list.item [i]
-							when 'a'.. 'z', 'A'.. 'Z', '0' .. '9', '_' then
+					length := 0; has_braces := False
+					from i := 1 until i > item.count loop
+						inspect item [i]
+							when 'a'.. 'z', 'A'.. 'Z', '0' .. '9', '_', '{' then
 								length := length + 1
 								i := i + 1
+							when '}' then
+								length := length + 1
+								i := item.count + 1
+								has_braces := True
 						else
-							i := list.item.count + 1
+							i := item.count + 1
 						end
 					end
-					variable_values.put (create {S}.make_empty, list.item.substring (1, length).to_string_8)
+					if has_braces then
+						start_index := 2; end_index := length - 1
+					else
+						start_index := 1; end_index := length
+					end
+					variable_values.put (create {S}.make_empty, item.substring (start_index, end_index).to_string_8)
 					part_list.extend (variable_values.found_item)
-					if length < list.item.count then
-						part_list.extend (list.item.substring (length + 1, list.item.count))
+					if length < item.count then
+						part_list.extend (item.substring (length + 1, item.count))
 					end
 				end
 				list.forth

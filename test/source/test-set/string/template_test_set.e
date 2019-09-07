@@ -18,9 +18,9 @@ feature -- Tests
 			template_string, prefix_string: STRING
 			s1, s2, one_two, one_one: ZSTRING
 		do
-			prefix_string := "--"; template_string := "$s1, $s2"
+			prefix_string := "--"; template_string := "${s1}, $s2"
 			s1 := "one"; s2 := "two"; one_two := "one, two"; one_one := "one, one"
-			
+
 			across 1 |..| 2 as n loop
 				if n.cursor_index = 2 then
 					template_string.prepend (prefix_string)
