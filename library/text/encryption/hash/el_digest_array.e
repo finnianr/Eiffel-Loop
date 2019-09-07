@@ -125,6 +125,26 @@ feature -- Conversion
 			end
 		end
 
+	to_uuid: EL_UUID
+		local
+			data: MANAGED_POINTER; reader: EL_MEMORY_READER_WRITER
+		do
+			inspect count
+				when 16 then
+					create Result.make_from_array (Current)
+
+			else
+				create data.make_from_array (Current)
+				create reader.make_with_buffer (data)
+				reader.set_for_reading
+				create Result.make (
+					reader.read_natural_32,
+					reader.read_natural_16, reader.read_natural_16, reader.read_natural_16,
+					reader.read_natural_64
+				)
+			end
+		end
+
 feature {NONE} -- Constants
 
 	Hmac_sha_256_table: HASH_TABLE [EL_HMAC_SHA_256, STRING]

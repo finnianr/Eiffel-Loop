@@ -57,13 +57,6 @@ feature -- Basic operations
 			id3_info.update
 		end
 
-	remove_rbox_id (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)
-		do
-			id3_info.remove_unique_id ("http://musicbrainz.org")
-			id3_info.set_unique_id ("http://musicbrainz.org", "E5A98512-B327-2590-B57F-1516280FE58A")
-			id3_info.update
-		end
-
 	delete_id3_comments (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)
 		local
 			l_frame: EL_ID3_FRAME; frame_string: ZSTRING; is_changed: BOOLEAN; pos_colon: INTEGER

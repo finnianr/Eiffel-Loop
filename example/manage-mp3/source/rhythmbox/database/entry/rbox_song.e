@@ -443,10 +443,9 @@ feature -- Element change
 
 	update_audio_id
 		local
-			l_id3_info: like id3_info; mp3: MP3_IDENTIFIER
+			l_id3_info: like id3_info
 		do
-			create mp3.make (mp3_path)
-			audio_id := mp3.audio_id
+			audio_id := new_audio_id
 			l_id3_info := id3_info
 --			l_id3_info.remove_unique_id ("RBOX"); l_id3_info.remove_unique_id ("UFID")
 			l_id3_info.set_music_brainz_track_id (music_brainz_track_id)
@@ -539,6 +538,14 @@ feature {NONE} -- Implementation
 			if not audio_id.is_null then
 				set_uuid_delimiter (Result, ':')
 			end
+		end
+
+	new_audio_id: like audio_id
+		local
+			mp3: MP3_IDENTIFIER
+		do
+			create mp3.make (mp3_path)
+			Result := mp3.audio_id
 		end
 
 	normalized_mp3_base_path: EL_FILE_PATH

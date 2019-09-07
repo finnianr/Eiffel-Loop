@@ -63,9 +63,7 @@ feature {NONE} -- Implementation
 	new_editions_table: like editions_table
 		do
 			create Result.make (<<
-				["delete_id3_comments", agent delete_id3_comments],
-				["set_fields_from_path", agent set_fields_from_path],
-				["remove_rbox_id", agent remove_rbox_id]
+				["set_fields_from_path", agent set_fields_from_path]
 			>>)
 		end
 

@@ -46,8 +46,8 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{MP3_AUDIO_SIGNATURE_READER_APP}, "*"],
-				[{MP3_AUDIO_SIGNATURE_READER}, "*"]
+				[{MP3_AUDIO_SIGNATURE_READER_APP}, All_routines],
+				[{MP3_AUDIO_SIGNATURE_READER}, All_routines]
 			>>
 		end
 
