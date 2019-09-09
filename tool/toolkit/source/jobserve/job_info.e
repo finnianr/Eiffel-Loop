@@ -19,9 +19,6 @@ inherit
 		end
 
 	EVOLICITY_EIFFEL_CONTEXT
-		undefine
-			is_equal
-		end
 
 create
 	make

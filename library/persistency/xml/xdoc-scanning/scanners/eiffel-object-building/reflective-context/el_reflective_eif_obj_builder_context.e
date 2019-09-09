@@ -43,11 +43,16 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
+			register_default_values
 			Precursor {EL_REFLECTIVELY_SETTABLE}
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 		end
 
 feature {NONE} -- Implementation
+
+	register_default_values
+		deferred
+		end
 
 	new_meta_data: EL_EIF_OBJ_BUILDER_CONTEXT_CLASS_META_DATA
 		do

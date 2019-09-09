@@ -20,9 +20,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_source_path: like source_path; a_destination_path: like destination_dir)
+	make (a_source_path: like source_path; a_destination_dir: EL_DIR_PATH)
 		do
-			source_path := a_source_path; destination_dir := a_destination_path
+			source_path := a_source_path; destination_dir := a_destination_dir
 		end
 
 	make_default
@@ -41,9 +41,9 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_destination_path (a_destination_path: like destination_dir)
+	set_destination_dir (a_destination_dir: like destination_dir)
 		do
-			destination_dir := a_destination_path
+			destination_dir := a_destination_dir
 		end
 
 	set_source_path (a_source_path: like source_path)

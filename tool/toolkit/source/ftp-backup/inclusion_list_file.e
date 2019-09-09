@@ -13,27 +13,29 @@ class
 	INCLUSION_LIST_FILE
 
 inherit
-	EXCLUSION_LIST_FILE
+	TAR_LIST_FILE
 		redefine
-			Query_path, File_name,  Info_heading, put_file_specifier
+			put_file_specifier
 		end
+
+	EL_MODULE_COMMAND
+
+	EL_MODULE_DIRECTORY
+
 create
 	make
 
 feature {NONE} -- Implementation
 
-	put_file_specifier (specifier_name, file_specifier: ZSTRING)
+	put_file_specifier (file_specifier: ZSTRING)
 			--
 		local
 			find_files_cmd: like Command.new_find_files
 			path_steps: EL_PATH_STEPS
 			target_parent, specifier_path: EL_DIR_PATH
 		do
-			target_parent := target_path.parent
-			if specifier_name ~ Specifier_file then
-				Precursor (specifier_name, file_specifier)
-
-			elseif specifier_name ~ Specifier_all_files then
+			target_parent := backup.target_dir.parent
+			if is_wild_card (file_specifier) then
 				specifier_path := Directory.new_path (Short_directory_current).joined_dir_path (file_specifier)
 				find_files_cmd := Command.new_find_files (specifier_path.parent, specifier_path.base)
 				find_files_cmd.set_depth (1 |..| 1)
@@ -50,44 +52,30 @@ feature {NONE} -- Implementation
 					if path_steps.first ~ Short_directory_current then
 						path_steps.remove_head (1)
 					end
-					Precursor (Specifier_file, path_steps.as_directory_path.to_string)
+					Precursor (path_steps.as_directory_path.to_string)
 				end
+			else
+				Precursor (file_specifier)
 			end
 		end
 
 feature {NONE} -- Constants
-
-	Specifier_all_files: ZSTRING
-		once
-			Result := "all-files"
-		end
-
-	Specifier_file: ZSTRING
-		once
-			Result := "file"
-		end
 
 	Short_directory_current: ZSTRING
 		once
 			Result := "."
 		end
 
-	Query_path: STRING_32
+	specifier_list: EL_ZSTRING_LIST
 			--
 		once
-			Result := "include/child::*"
+			Result := backup.include_list
 		end
 
 	File_name: STRING
 			--
 		once
 			Result := "include.txt"
-		end
-
-	Info_heading: STRING
-			--
-		once
-			Result := "INCLUDE FILES:"
 		end
 
 end

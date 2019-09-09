@@ -14,9 +14,6 @@ class
 
 inherit
 	EVOLICITY_EIFFEL_CONTEXT
-		undefine
-			is_equal
-		end
 
 	COMPARABLE
 

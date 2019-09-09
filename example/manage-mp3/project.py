@@ -2,12 +2,15 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 4, 2); build = 363
+version = (1, 4, 3); build = 364
 
 installation_sub_directory = 'Eiffel-Loop/manage-mp3'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_rhythmbox_read_write', '-logging'])
+
+# 1.4.3
+# Fixed all test task so they pass, and task now implemented using RBOX_MANAGEMENT_TASK
 
 # 1.4.2
 # Fixed bug EL_WAV_FADER_I for substitution variables

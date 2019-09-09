@@ -113,7 +113,7 @@ feature -- Factory
 				if attached {G} Eiffel.new_instance_of (types_indexed_by_name.found_item.type_id) as instance then
 					Result := instance
 				end
-			elseif type_alias /= default_alias and then not default_alias.is_empty then
+			elseif not default_alias.is_empty then
 				Result := raw_instance_from_alias (default_alias)
 			end
 			if not attached Result then

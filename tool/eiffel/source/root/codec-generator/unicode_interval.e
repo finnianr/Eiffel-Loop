@@ -19,16 +19,11 @@ inherit
 		end
 
 	EVOLICITY_EIFFEL_CONTEXT
-		undefine
-			is_equal, copy
 		redefine
 			make_default
 		end
 
-	COMPARABLE
-		undefine
-			is_equal, copy
-		end
+	COMPARABLE undefine is_equal, copy end
 
 create
 	make
@@ -61,9 +56,6 @@ feature -- Comparison
 		do
 			Result := count > other.count
 		end
-
-feature -- Status query
-
 
 feature -- Element change
 

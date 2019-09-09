@@ -31,7 +31,7 @@ inherit
 		undefine
 			copy, is_equal
 		redefine
-			make_default, building_action_table, getter_function_table
+			make_default, building_action_table, getter_function_table, Is_bom_enabled
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -261,6 +261,8 @@ feature {NONE} -- Constants
 		end
 
 	Date_format: STRING = "dd/mm/yyyy"
+
+	Is_bom_enabled: BOOLEAN = False
 
 	Name_date_format: STRING = "yyyy-mm-dd"
 

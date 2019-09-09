@@ -31,8 +31,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("syntax.ref_equal_to_expanded")
-			syntax.ref_equal_to_expanded
+			log.enter ("agent_routine.numeric_reference_conversion")
+			agent_routine.numeric_reference_conversion
 			log.exit
 		end
 

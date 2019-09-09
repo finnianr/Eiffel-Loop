@@ -16,7 +16,8 @@ inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			xml_names as to_kebab_case,
-			element_node_type as	Text_element_node
+			element_node_type as	Text_element_node,
+			register_default_values as do_nothing
 		redefine
 			make_default
 		end

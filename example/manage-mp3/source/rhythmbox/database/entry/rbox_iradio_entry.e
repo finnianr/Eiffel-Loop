@@ -17,7 +17,8 @@ inherit
 		rename
 			xml_names as to_kebab_case,
 			element_node_type as	Text_element_node,
-			New_line as New_line_character
+			New_line as New_line_character,
+			register_default_values as do_nothing
 		redefine
 			make_default, on_context_exit, set_field_from_node, building_action_table, Except_fields
 		end

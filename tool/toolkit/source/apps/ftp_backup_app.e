@@ -13,7 +13,7 @@ class
 	FTP_BACKUP_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [FTP_BACKUP]
+	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [FTP_BACKUP_COMMAND_2]
 		rename
 			command as ftp_command
 		redefine
@@ -47,7 +47,8 @@ feature -- Test operations
 --			Test.set_binary_file_extensions (<< "mp3" >>)
 
 --			Test.do_file_tree_test ("bkup", agent test_gpg_normal_run (?, "rhythmdb.bkup"), 4026256056)
-			Test.do_file_tree_test ("bkup", agent test_normal_run (?, "id3$.bkup"), 813868097)
+--			Test.do_file_tree_test ("bkup", agent test_normal_run (?, "id3$.bkup"), 813868097)
+			Test.do_file_tree_test ("bkup", agent test_normal_run (?, "Eiffel-Loop.bkup"), 813868097)
 
 			Test.print_checksum_list
 		end
@@ -61,7 +62,7 @@ feature -- Test operations
 			ftp_command := test_backup (data_path, backup_name)
 
 			gpg_recipient := User_input.line ("Enter an encryption recipient id for gpg")
-			ftp_command.environment_variables.put_variable (gpg_recipient, "RECIPIENT")
+			Execution_environment.put (gpg_recipient, "RECIPIENT")
 
 			normal_run
 			log.exit
@@ -76,7 +77,7 @@ feature -- Test operations
 			log.exit
 		end
 
-	test_backup (data_path: EL_DIR_PATH; backup_name: STRING): FTP_BACKUP
+	test_backup (data_path: EL_DIR_PATH; backup_name: STRING): FTP_BACKUP_COMMAND_2
 		local
 			file_list: EL_FILE_PATH_LIST
 		do
@@ -101,7 +102,7 @@ feature {NONE} -- Implementation
 			Result := agent {like ftp_command}.make (create {EL_FILE_PATH_LIST}.make_with_count (0), False)
 		end
 
-	ftp_command: FTP_BACKUP
+	ftp_command: FTP_BACKUP_COMMAND_2
 
 feature {NONE} -- Constants
 
@@ -122,7 +123,7 @@ feature {NONE} -- Constants
 				[{ARCHIVE_FILE}, All_routines],
 				[{INCLUSION_LIST_FILE}, All_routines],
 				[{EXCLUSION_LIST_FILE}, All_routines],
-				[{FTP_BACKUP}, All_routines]
+				[{FTP_BACKUP_COMMAND}, All_routines]
 			>>
 		end
 

@@ -16,11 +16,9 @@ inherit
 	RAW_FILE
 		rename
 			file_exists as this_file_exists,
-			path as file_path,
 			make as make_file
 		export
 			{NONE} all
-			{ANY} file_path
 		end
 
 	EL_MODULE_FORMAT
@@ -34,81 +32,62 @@ create
 
 feature {NONE} -- Initialization
 
-	make (directory_node: EL_XPATH_NODE_CONTEXT
-		target_dir_path, archive_dir_path: EL_DIR_PATH
-		a_backup_name: STRING
-
-	)
+	make (backup: FTP_BACKUP)
 			--
 		local
 			encrypted_archive_file: RAW_FILE
 			encrypted_archive_file_path, archive_file_path: EL_FILE_PATH
-			versions, gpg_key: EL_ELEMENT_ATTRIBUTE_TABLE
 			last_step_target_path: STRING
 			working_directory: EL_DIR_PATH
 		do
-			log.enter_with_args ("make", [target_dir_path, archive_dir_path, a_backup_name])
-			archive_directory_path := archive_dir_path
-			backup_name := a_backup_name
-			target_directory_name := target_dir_path.base
+			log.enter_with_args ("make", [backup.target_dir, backup.archive_dir, backup.name])
+			archive_dir := backup.archive_dir
 
-			archive_file_path := backup_name
-
-			directory_node.find_node ("versions")
-			if directory_node.node_found then
-				versions := directory_node.found_node.attributes
-				if versions.has ("max") then
-					save_version_no (versions.integer ("max"))
-					archive_file_path.add_extension (Format.integer_zero (version_no, 2))
-				end
+			archive_file_path := backup.name
+			if backup.max_versions > 0 then
+				save_version_no (backup.max_versions)
+				archive_file_path.add_extension (Format.integer_zero (version_no, 2))
 			end
 			archive_file_path.add_extension ("tar.gz")
 
-			last_step_target_path := target_dir_path.base
-			create exclusion_list_file.make (directory_node, archive_directory_path, target_dir_path)
-			create inclusion_list_file.make (directory_node, archive_directory_path, target_dir_path)
+			last_step_target_path := backup.target_dir.base
+			create exclusion_list_file.make (backup)
+			create inclusion_list_file.make (backup)
 
-			working_directory := target_dir_path.parent
+			working_directory := backup.target_dir.parent
 			Archive_command.set_working_directory (working_directory)
 			lio.put_path_field ("WORKING DIRECTORY", working_directory)
 			lio.put_new_line
 
 			Archive_command.put_variables (<<
-				[TAR_EXCLUDE, 			exclusion_list_file.file_path.name ],
-				[TAR_INCLUDE, 			inclusion_list_file.file_path.name ],
-				[TAR_NAME, 				(archive_dir_path + archive_file_path).to_string ],
-				[TARGET_DIRECTORY, 	target_directory_name ]
+				[TAR_EXCLUDE, 			exclusion_list_file.file_path ],
+				[TAR_INCLUDE, 			inclusion_list_file.file_path ],
+				[TAR_NAME, 				archive_dir + archive_file_path],
+				[TARGET_DIRECTORY, 	backup.target_dir.base]
 			>> )
 
 			Archive_command.execute
 
-			make_open_read (archive_directory_path + archive_file_path)
+			make_open_read (archive_dir + archive_file_path)
 			if exists then
-				kilo_bytes := (count / 1024).rounded
+				byte_count := count.to_natural_32
 				close
-				directory_node.find_node ("gpg-key")
-
-				if directory_node.node_found then
-					gpg_key := directory_node.found_node.attributes
-
-					if gpg_key.has ("recipient") then
-						encrypted_archive_file_path := file_path
-						encrypted_archive_file_path.add_extension ("gpg")
-						create encrypted_archive_file.make_with_name (encrypted_archive_file_path)
-						if encrypted_archive_file.exists then
-							encrypted_archive_file.delete
-						end
-						Encryption_command.set_working_directory (Archive_directory_path)
-
-						Encryption_command.put_string (GPG_KEY_ID, gpg_key ["recipient"])
-						Encryption_command.put_string (TAR_NAME, archive_file_path.to_string)
-
-						Encryption_command.execute
-						delete
-
-						make_with_name (encrypted_archive_file_path)
+				if not backup.gpg_key.is_empty then
+					encrypted_archive_file_path := file_path
+					encrypted_archive_file_path.add_extension ("gpg")
+					create encrypted_archive_file.make_with_name (encrypted_archive_file_path)
+					if encrypted_archive_file.exists then
+						encrypted_archive_file.delete
 					end
+					Encryption_command.set_working_directory (archive_dir)
 
+					Encryption_command.put_string (GPG_KEY_ID, backup.gpg_key)
+					Encryption_command.put_file_path (TAR_NAME, archive_file_path)
+
+					Encryption_command.execute
+					delete
+
+					make_with_name (encrypted_archive_file_path)
 				end
 			end
 			log.exit
@@ -116,7 +95,12 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	kilo_bytes: INTEGER
+	byte_count: NATURAL
+
+	file_path: EL_FILE_PATH
+		do
+			Result := path
+		end
 
 feature {NONE} -- Implementation
 
@@ -127,7 +111,7 @@ feature {NONE} -- Implementation
 			version_data_file: PLAIN_TEXT_FILE
 		do
 			log.enter ("save_version_no")
-			version_data_file_path := archive_directory_path + "version.txt"
+			version_data_file_path := archive_dir + "version.txt"
 
 			create version_data_file.make_with_name (version_data_file_path)
 			if version_data_file.exists then
@@ -152,11 +136,7 @@ feature {NONE} -- Implementation: attributes
 
 	version_no: INTEGER
 
-	archive_directory_path: EL_DIR_PATH
-
-	target_directory_name: STRING
-
-	backup_name: STRING
+	archive_dir: EL_DIR_PATH
 
 	exclusion_list_file: EXCLUSION_LIST_FILE
 
@@ -177,9 +157,9 @@ feature {NONE} -- tar archive command with variables
 			-- --verbose
 		once
 			create Result.make ("[
-				tar --create --auto-compress --dereference --file="$TAR_NAME" "$TARGET_DIRECTORY"
-				--exclude-from="$TAR_EXCLUDE"
-				--files-from="$TAR_INCLUDE"
+				tar --create --auto-compress --dereference --file $TAR_NAME "$TARGET_DIRECTORY"
+				--exclude-from $TAR_EXCLUDE
+				--files-from $TAR_INCLUDE
 			]")
 		end
 

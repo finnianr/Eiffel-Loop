@@ -15,12 +15,12 @@ class
 inherit
 	EL_OS_COMMAND_I
 		redefine
-			template_name, new_temporary_name, temporary_error_file_path
+			template_name, new_temporary_name, temporary_error_file_path, put_variable
 		end
 
 	EL_OS_COMMAND_IMP
 		redefine
-			template_name, new_temporary_name, temporary_error_file_path
+			template_name, new_temporary_name, temporary_error_file_path, put_variable
 		end
 
 	EL_REFLECTION_HANDLER
@@ -76,6 +76,15 @@ feature -- Element change
 	put_path (variable_name: STRING; a_path: EL_PATH)
 		do
 			getter_functions [variable_name] := agent escaped_path (a_path)
+		end
+
+	put_variable (object: ANY; variable_name: STRING)
+		do
+			if attached {EL_PATH} object as path then
+				put_path (variable_name, path)
+			else
+				Precursor (object, variable_name)
+			end
 		end
 
 feature {NONE} -- Implementation

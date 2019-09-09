@@ -21,7 +21,7 @@ inherit
 	EL_MODULE_LIO
 
 create
-	make, make_from_node
+	make
 
 feature -- Element change
 
@@ -42,12 +42,6 @@ feature -- Element change
 				make_write (ftp_site)
 				set_home_directory (user_home_directory)
 			end
-		end
-
-	make_from_node (ftp_site_node: EL_XPATH_NODE_CONTEXT)
-			--
-		do
-			make (ftp_site_node.string_at_xpath ("url"), ftp_site_node.string_32_at_xpath ("user-home"))
 		end
 
 feature -- Basic operations

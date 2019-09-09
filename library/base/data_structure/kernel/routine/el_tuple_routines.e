@@ -72,12 +72,12 @@ feature -- Basic operations
 			end
 		end
 
-	to_string_8_list (tuple: TUPLE): EL_STRING_8_LIST
+	to_string_32_list (tuple: TUPLE): EL_STRING_32_LIST
 		do
 			Result := tuple
 		end
 
-	to_string_32_list (tuple: TUPLE): EL_STRING_32_LIST
+	to_string_8_list (tuple: TUPLE): EL_STRING_8_LIST
 		do
 			Result := tuple
 		end

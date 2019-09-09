@@ -12,6 +12,9 @@ note
 deferred class
 	EVOLICITY_CONTEXT
 
+inherit
+	EL_MODULE_ZSTRING
+
 feature -- Access
 
 	context_item (variable_name: STRING; function_args: TUPLE): ANY
@@ -66,7 +69,7 @@ feature -- Element change
 	put_natural (variable_name: STRING; value: NATURAL)
 			--
 		do
-			put_variable (value.to_real_32.to_reference, variable_name)
+			put_variable (value.to_reference, variable_name)
 		end
 
 	put_quoted_string (variable_name: STRING; a_string: READABLE_STRING_GENERAL; count: INTEGER)
@@ -80,13 +83,13 @@ feature -- Element change
 	put_real (variable_name: STRING; value: REAL)
 			--
 		do
-			object_table [variable_name] := value.to_reference
+			put_variable (value.to_reference, variable_name)
 		end
 
 	put_string (variable_name: STRING; value: READABLE_STRING_GENERAL)
 			--
 		do
-			put_variable (value, variable_name)
+			put_variable (Zstring.as_zstring (value), variable_name)
 		end
 
 	put_variables (name_value_pair_list: ARRAY [TUPLE])
@@ -97,29 +100,60 @@ feature -- Element change
 					tuple.item.count = 2 and then attached {READABLE_STRING_GENERAL} tuple.item.reference_item (1)
 				end
 		local
-			value_ref: ANY; variable_name: STRING; name_value_pair: TUPLE
+			variable_name: STRING; ref_item: ANY
 		do
 			across name_value_pair_list as pair loop
-				name_value_pair := pair.item
-				if attached {READABLE_STRING_GENERAL} name_value_pair.reference_item (1) as general_string then
+				if attached {READABLE_STRING_GENERAL} pair.item.reference_item (1) as general_string then
 					variable_name := general_string.to_string_8
-					if name_value_pair.is_double_item (2) then
-						put_double (variable_name, name_value_pair.real_64_item (2))
+				end
+				inspect pair.item.item_code (2)
+					when {TUPLE}.Character_8_code then
+						put_variable (pair.item.character_8_item (2).out, variable_name)
 
-					elseif name_value_pair.is_real_item (2) then
-						put_real (variable_name, name_value_pair.real_32_item (2))
+					when {TUPLE}.Character_32_code then
+						put_variable (pair.item.character_32_item (2).out, variable_name)
 
-					elseif name_value_pair.is_integer_item (2) then
-						put_integer (variable_name, name_value_pair.integer_32_item (2))
+					when {TUPLE}.Boolean_code then
+						put_boolean (variable_name, pair.item.boolean_item (2))
 
-					else
-						value_ref := name_value_pair.reference_item (2)
-						if attached {READABLE_STRING_GENERAL} value_ref as str_value then
-							put_string (variable_name, str_value)
+					when {TUPLE}.Integer_8_code then
+						put_integer (variable_name, pair.item.integer_8_item (2))
+
+					when {TUPLE}.Integer_16_code then
+						put_integer (variable_name, pair.item.integer_16_item (2))
+
+					when {TUPLE}.Integer_32_code then
+						put_integer (variable_name, pair.item.integer_32_item (2))
+
+					when {TUPLE}.Integer_64_code then
+						put_variable (pair.item.integer_64_item (2).to_reference, variable_name)
+
+					when {TUPLE}.Natural_8_code then
+						put_natural (variable_name, pair.item.natural_8_item (2))
+
+					when {TUPLE}.Natural_16_code then
+						put_natural (variable_name, pair.item.natural_16_item (2))
+
+					when {TUPLE}.Natural_32_code then
+						put_natural (variable_name, pair.item.natural_32_item (2))
+
+					when {TUPLE}.Natural_64_code then
+						put_variable (pair.item.natural_64_item (2).to_reference, variable_name)
+
+					when {TUPLE}.Real_32_code then
+						put_real (variable_name, pair.item.real_32_item (2))
+
+					when {TUPLE}.Real_64_code then
+						put_double (variable_name, pair.item.real_64_item (2))
+
+					when {TUPLE}.Reference_code then
+						ref_item := pair.item.reference_item (2)
+						if attached {READABLE_STRING_GENERAL} ref_item as general then
+							 put_string (variable_name, general)
 						else
-							put_string (variable_name, value_ref.out)
+							put_variable (ref_item, variable_name)
 						end
-					end
+				else
 				end
 			end
 		end
@@ -177,18 +211,11 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 			-- object conforms to one of following types
 		do
 			if attached {EVOLICITY_CONTEXT} object as ctx or
-			else attached {ZSTRING} object as zstring or
+			else attached {ZSTRING} object as zstr or
 			else attached {STRING} object as string or
 			else attached {BOOLEAN_REF} object as boolean_ref or
 
-			else attached {REAL_REF} object as real_ref or
-			else attached {DOUBLE_REF} object as double_ref or
-
-			else attached {INTEGER_REF} object as integer_ref or
-			else attached {INTEGER_64_REF} object as integer_64_ref or
-
-			else attached {NATURAL_32_REF} object as natural_ref or
-			else attached {NATURAL_64_REF} object as natural_64_ref or
+			else attached {NUMERIC} object as numeric_ref or
 
 			else attached {SEQUENCE [EVOLICITY_CONTEXT]} object as ctx_sequence or
 			else attached {EVOLICITY_OBJECT_TABLE [EVOLICITY_CONTEXT]} object as table or

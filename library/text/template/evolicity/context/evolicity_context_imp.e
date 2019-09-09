@@ -19,6 +19,8 @@ class
 	EVOLICITY_CONTEXT_IMP
 
 inherit
+	ANY
+	
 	EVOLICITY_CONTEXT
 
 create

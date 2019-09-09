@@ -3,18 +3,17 @@ pyxis-doc:
 
 	# Backup selected files
 
-backup-script:
-	ftp-site:
-		url:
-			"eiffel-loop.com"
-		user-home:
-			"/public/www"
-	directory:
-		path:
-			"$EIFFEL_LOOP/projects.data/id3$/230"
-		include:
-			file:
-				"ozzy.tag"
-				"thatspot.tag"
-		ftp-destination-path:
-			"myfiles/test"
+backup_config:
+	ftp_url = "eiffel_loop.com"
+	ftp_home_dir = "/public/www"
+
+	backup_list:
+		item:
+			target_dir = "$EIFFEL_LOOP/projects.data/id3$/230"
+			ftp_destination_path = "myfiles/test"
+			max_versions = 5
+			include_list:
+				item:
+					"ozzy.tag"
+					"thatspot.tag"
+

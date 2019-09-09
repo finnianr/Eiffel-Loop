@@ -1,4 +1,4 @@
-# Execute all testing tasks
+# Regression test all test tasks
 
 f_code=build/linux-x86-64/EIFGENs/classic/F_code
 for pyx_path in test-data/rhythmdb-tasks/*

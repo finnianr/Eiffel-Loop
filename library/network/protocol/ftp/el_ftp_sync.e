@@ -178,7 +178,7 @@ feature {NONE} -- Implementation
 			create item.make_default
 			across upload_list as file loop
 				item.set_source_path (root_dir + file.item.file_path)
-				item.set_destination_path (file.item.file_path.parent)
+				item.set_destination_dir (file.item.file_path.parent)
 				if item.source_path.exists then
 					if display_uploads.is_enabled then
 						lio.put_path_field ("Uploading", file.item.file_path)

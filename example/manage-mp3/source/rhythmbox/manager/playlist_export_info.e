@@ -17,7 +17,8 @@ inherit
 		rename
 			make_default as make,
 			xml_names as export_default,
-			element_node_type as	Attribute_node
+			element_node_type as	Attribute_node,
+			register_default_values as do_nothing
 		redefine
 			make, on_context_exit
 		end

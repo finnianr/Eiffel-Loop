@@ -21,15 +21,22 @@ feature -- Basic operation
 
 	evaluate (context: EVOLICITY_CONTEXT)
 			--
+		local
+			left, right: COMPARABLE
 		do
 			left_hand_expression.evaluate (context)
 			right_hand_expression.evaluate (context)
-			left_comparable := left_hand_expression.item
-			right_comparable := right_hand_expression.item
-			if not left_comparable.same_type (right_comparable) then
-				harmonize_types
-			end
-			compare
+			left := left_hand_expression.item; right := right_hand_expression.item
+
+			if left.same_type (right) then
+				compare (left, right)
+			elseif attached {NUMERIC} left as left_numeric and then attached {NUMERIC} right as right_numeric then
+				if is_real_type (left_numeric) or else is_real_type (right_numeric) then
+					compare_double (to_double (left_numeric), to_double (right_numeric))
+				else
+					compare_integer_64 (to_integer_64 (left_numeric), to_integer_64 (right_numeric))
+				end
+ 			end
 		end
 
 feature -- Element change
@@ -48,103 +55,87 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	compare
+	compare (left, right: COMPARABLE)
 			--
 		deferred
 		end
 
-	harmonize_types
-			-- make types comparable
-		local
-			type_ids: ARRAY [INTEGER]
-			operands: ARRAY [COMPARABLE]
+	compare_double (left, right: DOUBLE)
+		deferred
+		end
+
+	compare_integer_64 (left, right: INTEGER_64)
+		deferred
+		end
+
+	to_double (n: NUMERIC): DOUBLE
+			--
 		do
-			if attached {NUMERIC} left_comparable as left and then attached {NUMERIC} right_comparable as right then
-				type_ids := << Eiffel.dynamic_type (left), Eiffel.dynamic_type (right) >>
-				if type_ids.there_exists (agent is_floating_type) then
-					operands := double_operands (<< left_comparable, right_comparable >>)
-				else
-					operands := integer_64_operands (<< left_comparable, right_comparable >>)
-				end
-				left_comparable := operands [1]
-				right_comparable := operands [2]
+			if attached {REAL_32_REF} n as r_32 then
+				Result := r_32.to_double
+			elseif attached {REAL_64_REF} n as r_64 then
+				Result := r_64.item
+
+			elseif attached {INTEGER_8_REF} n as i_8 then
+				Result := i_8.to_double
+			elseif attached {INTEGER_16_REF} n as i_16 then
+				Result := i_16.to_double
+			elseif attached {INTEGER_32_REF} n as i_32 then
+				Result := i_32.to_double
+			elseif attached {INTEGER_64_REF} n as i_64 then
+				Result := i_64.to_double
+
+			elseif attached {NATURAL_8_REF} n as n_8 then
+				Result := n_8.to_real_64
+			elseif attached {NATURAL_16_REF} n as n_16 then
+				Result := n_16.to_real_64
+			elseif attached {NATURAL_32_REF} n as n_32 then
+				Result := n_32.to_real_64
+			elseif attached {NATURAL_64_REF} n as n_64 then
+				Result := n_64.to_real_64
+
 			end
 		end
 
-	double_operands (operands: ARRAY [COMPARABLE]): ARRAY [COMPARABLE]
+	to_integer_64 (n: NUMERIC): INTEGER_64
 			--
-		local
-			i: INTEGER
 		do
-			Result := operands
-			from i := 1 until i > Result.count loop
-				if attached {INTEGER_REF} Result.item (i) as integer then
-					Result [i] := integer.to_double
+			if attached {INTEGER_8_REF} n as i_8 then
+				Result := i_8.to_integer_64
+			elseif attached {INTEGER_16_REF} n as i_16 then
+				Result := i_16.to_integer_64
+			elseif attached {INTEGER_32_REF} n as i_32 then
+				Result := i_32.to_integer_64
+			elseif attached {INTEGER_64_REF} n as i_64 then
+				Result := i_64.item
 
-				elseif attached {INTEGER_64_REF} Result.item (i) as integer_64 then
-					Result [i] := integer_64.to_double
+			elseif attached {NATURAL_8_REF} n as n_8 then
+				Result := n_8.to_integer_64
+			elseif attached {NATURAL_16_REF} n as n_16 then
+				Result := n_16.to_integer_64
+			elseif attached {NATURAL_32_REF} n as n_32 then
+				Result := n_32.to_integer_64
+			elseif attached {NATURAL_64_REF} n as n_64 then
+				Result := n_64.to_integer_64
 
-				elseif attached {NATURAL_32_REF} Result.item (i) as natural_32 then
-					Result [i] := natural_32.to_real_64
+			elseif attached {REAL_32_REF} n as r_32 then
+				Result := r_32.truncated_to_integer_64
+			elseif attached {REAL_64_REF} n as r_64 then
+				Result := r_64.truncated_to_integer_64
 
-				elseif attached {NATURAL_64_REF} Result.item (i) as natural_64 then
-					Result [i] := natural_64.to_real_64
-
-				elseif attached {REAL_REF} Result.item (i) as real then
-					Result [i] := real.to_double
-
-				end
-				i := i + 1
 			end
 		end
 
-	integer_64_operands (operands: ARRAY [COMPARABLE]): ARRAY [COMPARABLE]
-			--
-		local
-			i: INTEGER
-		do
-			Result := operands
-			from i := 1 until i > Result.count loop
-				if attached {INTEGER_REF} Result.item (i) as integer then
-					Result [i] := integer.to_integer_64.to_reference
-
-				elseif attached {NATURAL_32_REF} Result.item (i) as natural_32 then
-					Result [i] := natural_32.to_integer_64.to_reference
-
-				elseif attached {NATURAL_64_REF} Result.item (i) as natural_64 then
-					Result [i] := natural_64.to_integer_64.to_reference
-
-				end
-				i := i + 1
-			end
-		end
-
-	is_floating_type (type_id: INTEGER): BOOLEAN
+	is_real_type (n: NUMERIC): BOOLEAN
 			--
 		do
-			Result := type_id = Real_ref_type_id or type_id = Double_ref_type_id
+			Result := attached {REAL_64_REF} n or else attached {REAL_32_REF} n
 		end
+
+feature {NONE} -- Internal attributes
 
 	left_hand_expression: EVOLICITY_COMPARABLE
 
 	right_hand_expression: EVOLICITY_COMPARABLE
-
-	left_comparable: COMPARABLE
-
-	right_comparable: COMPARABLE
-
-feature -- Constants
-
-	Real_ref_type_id: INTEGER
-			--
-		once
-			Result := Eiffel.dynamic_type (create {REAL_REF})
-		end
-
-	Double_ref_type_id: INTEGER
-			--
-		once
-			Result := Eiffel.dynamic_type (create {DOUBLE_REF})
-		end
 
 end

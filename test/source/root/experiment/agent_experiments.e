@@ -34,6 +34,15 @@ feature -- Basic operations
 			lio.put_double_field ("duration.last_result", duration.item ([event]))
 		end
 
+	numeric_reference_conversion
+		local
+			integer: INTEGER_32_REF
+			integer_64: INTEGER_64
+		do
+			integer := 32
+			integer_64 := as_integer_64 (integer)
+		end
+
 	polymorphism
 		local
 			append: PROCEDURE [READABLE_STRING_GENERAL]
@@ -82,6 +91,14 @@ feature {NONE} -- Implementation
 		do
 			lio.enter_with_args ("hello_routine", [a_arg])
 			lio.exit
+		end
+
+	as_integer_64 (ref: NUMERIC): INTEGER_64
+		local
+			to_integer_64: FUNCTION [NUMERIC, INTEGER_64]
+		do
+			to_integer_64 := agent {INTEGER_32_REF}.to_integer_64
+			Result := to_integer_64 (ref)
 		end
 
 end

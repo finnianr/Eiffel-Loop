@@ -17,9 +17,20 @@ inherit
 
 feature {NONE} -- Implementation
 
-	compare
+	compare (left, right: COMPARABLE)
 			--
 		do
-			is_true := left_comparable > right_comparable
+			is_true := left > right
 		end
+
+	compare_double (left, right: DOUBLE)
+		do
+			is_true := left > right
+		end
+
+	compare_integer_64 (left, right: INTEGER_64)
+		do
+			is_true := left > right
+		end
+
 end
