@@ -6,18 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-12 11:09:53 GMT (Wednesday 12th June 2019)"
-	revision: "1"
+	date: "2019-09-10 16:22:45 GMT (Tuesday 10th September 2019)"
+	revision: "2"
 
 class
 	EL_REFLECTED_TUPLE
 
 inherit
 	EL_REFLECTED_REFERENCE [TUPLE]
-		rename
-			default_value as default_tuple
 		redefine
-			make, write, default_defined, initialize, initialize_default, reset,
+			is_initializeable,
+			make, write, new_instance, reset,
 			set_from_readable, set_from_string, to_string
 		end
 
@@ -37,6 +36,16 @@ feature {EL_CLASS_META_DATA} -- Initialization
 			make_reflected (a_object)
 			create member_types.make_from_static (field_static_type (a_index))
 			Precursor (a_object, a_index, a_name)
+		end
+
+feature -- Status query
+
+	is_initializeable: BOOLEAN
+		-- `True' when possible to create an initialized instance of the field
+		do
+			Result := across member_types as l_type all
+				not l_type.item.is_expanded implies New_instance_table.has (l_type.item.type_id)
+			end
 		end
 
 feature -- Basic operations
@@ -95,14 +104,7 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
-	initialize (a_object: EL_REFLECTIVE)
-		do
-			if attached {TUPLE} default_tuple as tuple then
-				set (a_object, tuple.deep_twin)
-			end
-		end
-
-	initialize_default
+	new_instance: TUPLE
 		local
 			i: INTEGER_32; l_type: TYPE [ANY]; has_reference: BOOLEAN
 			l_types: like member_types
@@ -112,8 +114,9 @@ feature {NONE} -- Implementation
 				from i := 1 until i > l_types.count loop
 					l_type := l_types [i]
 					if not l_type.is_expanded then
-						if Default_strings.has_key (l_type.type_id) then
-							new_tuple.put_reference (Default_strings.found_item.twin, i)
+						if New_instance_table.has_key (l_type.type_id) then
+							New_instance_table.found_item.apply
+							new_tuple.put_reference (New_instance_table.found_item.last_result, i)
 						end
 						has_reference := True
 					end
@@ -122,7 +125,7 @@ feature {NONE} -- Implementation
 				if has_reference then
 					new_tuple.compare_objects
 				end
-				default_tuple := new_tuple
+				Result := new_tuple
 			end
 		end
 
@@ -274,14 +277,5 @@ feature {NONE} -- Internal attributes
 
 	member_types: EL_TUPLE_TYPE_ARRAY
 		-- types of tuple members
-
-feature {NONE} -- Constants
-
-	Default_defined: BOOLEAN = True
-
-	Default_strings: EL_OBJECTS_BY_TYPE
-		once
-			create Result.make_from_array (<< Empty_string, Empty_string_8, Empty_string_32 >>)
-		end
 
 end

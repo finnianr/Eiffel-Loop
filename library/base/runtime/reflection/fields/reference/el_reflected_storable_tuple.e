@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-12 11:09:42 GMT (Wednesday 12th June 2019)"
-	revision: "10"
+	date: "2019-09-10 16:22:45 GMT (Tuesday 10th September 2019)"
+	revision: "11"
 
 class
 	EL_REFLECTED_STORABLE_TUPLE
@@ -21,10 +21,9 @@ inherit
 		end
 
 	EL_REFLECTED_READABLE [TUPLE]
-		rename
-			default_value as default_tuple
 		undefine
-			default_defined, make, initialize, initialize_default, reset, set_from_string, to_string
+			is_initializeable,
+			make, initialize, new_instance, reset, set_from_string, to_string
 		redefine
 			write
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:27:07 GMT (Friday 14th June 2019)"
-	revision: "2"
+	date: "2019-09-10 8:26:13 GMT (Tuesday 10th September 2019)"
+	revision: "3"
 
 class
 	AGENT_EXPERIMENTS
@@ -15,7 +15,22 @@ class
 inherit
 	EXPERIMENTAL
 
+	EL_MODULE_EIFFEL
+
 feature -- Basic operations
+
+	function_result_query
+		local
+			f: FUNCTION [ANY]; t: TYPE [ANY]
+			str: STRING
+		do
+			f := agent: STRING do create Result.make_empty end
+			t := Eiffel.type_of_type ({ISE_RUNTIME}.dynamic_type (f)).generic_parameter_type (2)
+			f.apply
+			if attached {STRING} f.last_result as s then
+				str := s
+			end
+		end
 
 	open_function_target
 		local

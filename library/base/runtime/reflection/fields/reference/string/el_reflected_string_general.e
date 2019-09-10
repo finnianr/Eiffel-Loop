@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-17 7:31:20 GMT (Wednesday 17th July 2019)"
-	revision: "8"
+	date: "2019-09-10 16:20:57 GMT (Tuesday 10th September 2019)"
+	revision: "9"
 
 deferred class
 	EL_REFLECTED_STRING_GENERAL [S -> STRING_GENERAL]
@@ -17,25 +17,14 @@ inherit
 		undefine
 			reset, set_from_readable, set_from_string, write
 		redefine
-			Default_objects, reset, set_from_readable, set_from_string, to_string, write
+			reset, set_from_readable, set_from_string, to_string, write
 		end
-
-	EL_STRING_32_CONSTANTS
-
-	EL_ZSTRING_CONSTANTS
 
 feature -- Access
 
 	to_string (a_object: EL_REFLECTIVE): S
 		do
 			Result := value (a_object)
-		end
-
-feature {NONE} -- Constants
-
-	Default_objects: EL_OBJECTS_BY_TYPE
-		once
-			create Result.make_from_array (<< Empty_string, Empty_string_8, Empty_string_32 >>)
 		end
 
 end

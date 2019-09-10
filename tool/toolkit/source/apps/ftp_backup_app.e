@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 9:29:26 GMT (Monday 2nd September 2019)"
-	revision: "12"
+	date: "2019-09-09 18:38:14 GMT (Monday 9th September 2019)"
+	revision: "13"
 
 class
 	FTP_BACKUP_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [FTP_BACKUP_COMMAND_2]
+	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [FTP_BACKUP_COMMAND]
 		rename
 			command as ftp_command
 		redefine
@@ -77,7 +77,7 @@ feature -- Test operations
 			log.exit
 		end
 
-	test_backup (data_path: EL_DIR_PATH; backup_name: STRING): FTP_BACKUP_COMMAND_2
+	test_backup (data_path: EL_DIR_PATH; backup_name: STRING): FTP_BACKUP_COMMAND
 		local
 			file_list: EL_FILE_PATH_LIST
 		do
@@ -102,7 +102,7 @@ feature {NONE} -- Implementation
 			Result := agent {like ftp_command}.make (create {EL_FILE_PATH_LIST}.make_with_count (0), False)
 		end
 
-	ftp_command: FTP_BACKUP_COMMAND_2
+	ftp_command: FTP_BACKUP_COMMAND
 
 feature {NONE} -- Constants
 
@@ -123,7 +123,7 @@ feature {NONE} -- Constants
 				[{ARCHIVE_FILE}, All_routines],
 				[{INCLUSION_LIST_FILE}, All_routines],
 				[{EXCLUSION_LIST_FILE}, All_routines],
-				[{FTP_BACKUP_COMMAND}, All_routines]
+				[{BACKUP_CONFIG}, All_routines]
 			>>
 		end
 

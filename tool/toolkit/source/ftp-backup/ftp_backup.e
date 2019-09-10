@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {FTP_BACKUP}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Ftp backup"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-09-10 13:22:02 GMT (Tuesday 10th September 2019)"
+	revision: "1"
 
 class
 	FTP_BACKUP
@@ -10,7 +15,6 @@ class
 inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
-			make_default as make,
 			xml_names as export_default,
 			element_node_type as	Attribute_node
 		redefine
@@ -23,6 +27,14 @@ inherit
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make (a_config: BACKUP_CONFIG)
+		do
+			config := a_config
+			make_default
+		end
 
 feature -- Access
 
@@ -55,23 +67,21 @@ feature -- Element change
 
 feature -- Basic operations
 
-	execute (config: BACKUP_CONFIG)
+	execute
 		require
 			target_directory_exists: target_dir.exists
 		local
-			backup_name: ZSTRING; ftp_destination_directory: EL_DIR_PATH
+			ftp_destination_directory: EL_DIR_PATH
 			archive: ARCHIVE_FILE
 		do
 			log.enter ("execute")
 			lio.put_path_field ("Backup", target_dir)
 			lio.put_new_line
 
-			archive_dir := config.file_path.parent.joined_dir_steps (<< Tar_gz, backup_name >>)
 			File_system.make_directory (archive_dir)
 
 			create archive.make (Current)
 			total_byte_count := total_byte_count + archive.byte_count
-			lio.put_path_field ("Creating archive", archive.file_path); lio.put_new_line
 
 			if archive.file_path.exists and then not ftp_destination_path.is_empty then
 				log.put_new_line
@@ -91,20 +101,18 @@ feature {NONE} -- Implementation
 			if name.is_empty then
 				name := target_dir.base
 			end
+			archive_dir := config.file_path.parent.joined_dir_steps (<< Tar_gz, name >>)
 		end
 
-	register_default_values
-		once
-			Default_value_table.extend_from_array (<<
-				create {EL_ZSTRING_LIST}.make_empty
-			>>)
-		end
+feature {NONE} -- Internal attributes
+
+	config: BACKUP_CONFIG
 
 feature {NONE} -- Constants
 
 	Except_fields: STRING
 		once
-			Result := Precursor + ", archive_dir, total_byte_count"
+			Result := Precursor + ", total_byte_count, config"
 		end
 
 	Tar_gz: ZSTRING

@@ -1,5 +1,14 @@
 note
 	description: "Reflectively buildable from pyxis"
+	notes: "[
+		Override `new_instance_functions' to add creation functions for any attributes
+		conforming to class `EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT'. For example:
+
+			new_instance_functions: ARRAY [FUNCTION [ANY]]
+				do
+					Result := << agent: FTP_BACKUP do create Result.make end >>
+				end
+	]"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"
@@ -7,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 18:22:33 GMT (Monday 2nd September 2019)"
-	revision: "4"
+	date: "2019-09-10 14:13:11 GMT (Tuesday 10th September 2019)"
+	revision: "5"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
@@ -40,22 +49,11 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			register_default_values
 			create node_source.make (agent new_node_source)
 			Precursor {EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN}
 		end
 
 feature {NONE} -- Implementation
-
-	register_default_values
-		-- Implement this as a once routine to register a default value for any attributes
-		-- conforming to class `EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT'.
-	 	-- For example:
-		-- once
-		--		Default_value_table.extend_from_array (<< create {like values}.make_default >>)
-		--	end
-		deferred
-		end
 
 	root_node_name: STRING
 			--

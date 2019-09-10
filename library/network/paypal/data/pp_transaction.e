@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "14"
+	date: "2019-09-10 8:56:27 GMT (Tuesday 10th September 2019)"
+	revision: "15"
 
 class
 	PP_TRANSACTION
@@ -28,7 +28,7 @@ inherit
 			export_name as export_default,
 			import_name as import_default
 		redefine
-			make_default, default_values
+			make_default, new_instance_functions
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -155,9 +155,11 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	default_values: ARRAY [ANY]
+	new_instance_functions: ARRAY [FUNCTION [ANY]]
 		do
-			Result := << create {PP_DATE_TIME}.make_now >>
+			Result := <<
+				agent: PP_DATE_TIME do create Result.make_now end
+			>>
 		end
 
 	set_name_value (key, a_value: ZSTRING)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-07 9:32:16 GMT (Friday 7th June 2019)"
-	revision: "2"
+	date: "2019-09-10 8:36:04 GMT (Tuesday 10th September 2019)"
+	revision: "3"
 
 class
 	TEST_VALUES
@@ -16,8 +16,7 @@ inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			xml_names as export_default,
-			element_node_type as	Attribute_node,
-			register_default_values as do_nothing
+			element_node_type as	Attribute_node
 		end
 
 create

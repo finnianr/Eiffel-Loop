@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-30 17:36:21 GMT (Tuesday 30th October 2018)"
-	revision: "5"
+	date: "2019-09-10 8:12:59 GMT (Tuesday 10th September 2019)"
+	revision: "6"
 
 deferred class
 	EVOLICITY_CONTEXT
 
 inherit
+	ANY
+	
 	EL_MODULE_ZSTRING
 
 feature -- Access

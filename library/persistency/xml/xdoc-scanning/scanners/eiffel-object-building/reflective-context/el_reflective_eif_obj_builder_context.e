@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:51:42 GMT (Saturday 31st August 2019)"
-	revision: "10"
+	date: "2019-09-10 8:32:59 GMT (Tuesday 10th September 2019)"
+	revision: "11"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -43,16 +43,11 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			register_default_values
 			Precursor {EL_REFLECTIVELY_SETTABLE}
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 		end
 
 feature {NONE} -- Implementation
-
-	register_default_values
-		deferred
-		end
 
 	new_meta_data: EL_EIF_OBJ_BUILDER_CONTEXT_CLASS_META_DATA
 		do

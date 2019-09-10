@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-06 8:08:24 GMT (Thursday 6th June 2019)"
-	revision: "6"
+	date: "2019-09-10 9:25:02 GMT (Tuesday 10th September 2019)"
+	revision: "7"
 
 class
 	EL_REFLECTED_PATH
 
 inherit
 	EL_REFLECTED_REFERENCE [EL_PATH]
-		rename
-			default_value as default_path
 		redefine
-			reset, set_from_readable, set_from_string, Default_objects, to_string, write
+			reset, set_from_readable, set_from_string, to_string, write
 		end
 
 	EL_ZSTRING_ROUTINES
@@ -74,18 +72,6 @@ feature -- Basic operations
 			if attached {EL_PATH} value (a_object) as path then
 				writeable.write_string (path.to_string)
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Default_objects: EL_OBJECTS_BY_TYPE
-		once
-			create Result.make_from_array (<<
-				create {EL_DIR_PATH},
-				create {EL_DIR_URI_PATH},
-				create {EL_FILE_PATH},
-				create {EL_FILE_URI_PATH}
-			>>)
 		end
 
 end

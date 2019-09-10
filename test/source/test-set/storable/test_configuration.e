@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-12 10:55:08 GMT (Wednesday 12th June 2019)"
-	revision: "6"
+	date: "2019-09-10 8:59:14 GMT (Tuesday 10th September 2019)"
+	revision: "7"
 
 class
 	TEST_CONFIGURATION
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
 		redefine
-			make_default
+			make_default, new_instance_functions
 		end
 
 create
@@ -37,15 +37,16 @@ feature {NONE} -- Initialization
 			create integer_list.make (3)
 			colors.compare_objects
 			clipping := True
-			register_default_values
 			Precursor
 		end
 
 feature {NONE} -- Implementation
 
-	register_default_values
-		once
-			Default_value_table.extend_from_array (<< create {like values}.make_default >>)
+	new_instance_functions: ARRAY [FUNCTION [ANY]]
+		do
+			Result := <<
+				agent: like values do create Result.make_default end
+			>>
 		end
 
 feature -- Access

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 12:00:56 GMT (Monday 2nd September 2019)"
-	revision: "12"
+	date: "2019-09-10 8:22:24 GMT (Tuesday 10th September 2019)"
+	revision: "13"
 
 class
 	BENCHMARK_APP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COMMAND_SHELL_SUB_APPLICATION [BENCHMARK_COMMAND_SHELL]
 		redefine
-			argument_specs, default_make, initialize
+			argument_specs, initialize
 		end
 
 feature {NONE} -- Implementation
@@ -31,11 +31,6 @@ feature {NONE} -- Implementation
 			Result := <<
 				optional_argument ("runs", "Number of runs to average over")
 			>>
-		end
-
-	default_make: PROCEDURE [like command]
-		do
-			Result := agent {like command}.make (500)
 		end
 
 feature {NONE} -- Constants

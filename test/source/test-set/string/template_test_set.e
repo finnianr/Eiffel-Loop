@@ -1,8 +1,13 @@
 note
 	description: "Test class [$source EL_TEMPLATE]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-09-07 10:11:03 GMT (Saturday 7th September 2019)"
+	revision: "1"
 
 class
 	TEMPLATE_TEST_SET

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-03 12:02:47 GMT (Tuesday 3rd September 2019)"
-	revision: "6"
+	date: "2019-09-03 15:07:25 GMT (Tuesday 3rd September 2019)"
+	revision: "7"
 
 deferred class
 	RHYTHMBOX_CONSTANTS

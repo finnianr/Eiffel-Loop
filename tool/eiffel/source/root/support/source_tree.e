@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:57:33 GMT (Monday 1st July 2019)"
-	revision: "9"
+	date: "2019-09-10 15:58:01 GMT (Tuesday 10th September 2019)"
+	revision: "10"
 
 class
 	SOURCE_TREE
 
 inherit
 	EVOLICITY_EIFFEL_CONTEXT
+		undefine
+			is_equal
 		redefine
 			make_default
 		end

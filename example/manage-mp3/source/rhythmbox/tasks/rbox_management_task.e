@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-03 8:46:20 GMT (Tuesday 3rd September 2019)"
-	revision: "2"
+	date: "2019-09-10 15:21:40 GMT (Tuesday 10th September 2019)"
+	revision: "3"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -20,7 +20,7 @@ inherit
 		export
 			{RBOX_MUSIC_MANAGER} make
 		redefine
-			make, make_default, Except_fields, root_node_name
+			make, make_default, new_instance_functions, Except_fields, root_node_name
 		end
 
 	SONG_QUERY_CONDITIONS undefine is_equal end
@@ -94,15 +94,15 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	register_default_values
-		once
-			Default_value_table.extend_from_array (<<
-				create {VOLUME_INFO}.make,
-				create {PLAYLIST_EXPORT_INFO}.make,
-				create {DJ_EVENT_INFO}.make,
-				create {CORTINA_SET_INFO}.make,
-				create {DJ_EVENT_PUBLISHER_CONFIG}.make
-			>>)
+	new_instance_functions: ARRAY [FUNCTION [ANY]]
+		do
+			Result := <<
+				agent: VOLUME_INFO do create Result.make end,
+				agent: PLAYLIST_EXPORT_INFO do create Result.make end,
+				agent: DJ_EVENT_INFO do create Result.make end,
+				agent: CORTINA_SET_INFO do create Result.make end,
+				agent: DJ_EVENT_PUBLISHER_CONFIG do create Result.make end
+			>>
 		end
 
 	root_node_name: STRING

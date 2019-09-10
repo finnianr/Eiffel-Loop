@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "8"
+	date: "2019-09-10 9:34:17 GMT (Tuesday 10th September 2019)"
+	revision: "9"
 
 class
 	EL_REFLECTED_DATE_TIME
 
 inherit
 	EL_REFLECTED_READABLE [DATE_TIME]
-		rename
-			default_value as default_date_time
 		redefine
-			write, reset, set_from_readable, set_from_string, Default_objects, to_string
+			write, reset, set_from_readable, set_from_string, to_string
 		end
 
 create
@@ -71,18 +69,6 @@ feature -- Basic operations
 	write (a_object: EL_REFLECTIVELY_SETTABLE; writeable: EL_MEMORY_READER_WRITER)
 		do
 			writeable.write_date_time (value (a_object))
-		end
-
-feature {NONE} -- Constants
-
-	Default_objects: EL_OBJECTS_BY_TYPE
-		once
-			create Result.make_from_array (<<
-				create {DATE_TIME}.make_now,
-				create {EL_DATE_TIME}.make_now,
-				create {EL_ISO_8601_DATE_TIME}.make_now,
-				create {EL_SHORT_ISO_8601_DATE_TIME}.make_now
-			>>)
 		end
 
 end

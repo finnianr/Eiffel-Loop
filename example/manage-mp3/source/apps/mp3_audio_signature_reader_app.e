@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 9:16:25 GMT (Monday 2nd September 2019)"
-	revision: "9"
+	date: "2019-09-07 9:07:31 GMT (Saturday 7th September 2019)"
+	revision: "10"
 
 class
 	MP3_AUDIO_SIGNATURE_READER_APP

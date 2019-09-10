@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-10 10:13:49 GMT (Monday 10th June 2019)"
-	revision: "21"
+	date: "2019-09-10 8:54:43 GMT (Tuesday 10th September 2019)"
+	revision: "22"
 
 deferred class
 	EL_REFLECTIVE
@@ -197,7 +197,8 @@ feature {EL_CLASS_META_DATA} -- Implementation
 			Result := Current
 		end
 
-	default_values: ARRAY [ANY]
+	new_instance_functions: ARRAY [FUNCTION [ANY]]
+		-- array of functions returning a new value for result type
 		do
 			create Result.make_empty
 		end

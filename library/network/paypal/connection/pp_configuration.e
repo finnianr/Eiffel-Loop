@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-27 14:32:02 GMT (Tuesday 27th August 2019)"
-	revision: "2"
+	date: "2019-09-10 15:44:00 GMT (Tuesday 10th September 2019)"
+	revision: "3"
 
 class
 	PP_CONFIGURATION
@@ -62,12 +62,6 @@ feature -- Factory
 	new_credentials: PP_CREDENTIALS
 		do
 			create Result.make (credentials_path, decrypter)
-		end
-
-feature {NONE} -- Implementation
-
-	register_default_values
-		once
 		end
 
 note

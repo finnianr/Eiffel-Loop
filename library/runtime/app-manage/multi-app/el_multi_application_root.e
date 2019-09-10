@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-18 15:34:16 GMT (Thursday 18th July 2019)"
-	revision: "9"
+	date: "2019-09-06 11:32:42 GMT (Friday 6th September 2019)"
+	revision: "10"
 
 deferred class
 	-- Generic to make sure scons generated `BUILD_INFO' is compiled from project source

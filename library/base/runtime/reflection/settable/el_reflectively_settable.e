@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-27 10:01:17 GMT (Saturday 27th October 2018)"
-	revision: "14"
+	date: "2019-09-10 8:05:29 GMT (Tuesday 10th September 2019)"
+	revision: "15"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE
@@ -33,9 +33,9 @@ feature {NONE} -- Initialization
 		do
 			if not attached field_table then
 				field_table := Meta_data_by_type.item (Current).field_table
-				if use_default_values then
-					initialize_fields
-				end
+			end
+			if use_default_values then
+				initialize_fields
 			end
 		end
 

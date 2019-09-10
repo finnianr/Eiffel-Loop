@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:54:16 GMT (Friday 14th June 2019)"
-	revision: "3"
+	date: "2019-09-10 16:05:46 GMT (Tuesday 10th September 2019)"
+	revision: "4"
 
 class
 	SATELLITE_PARAMETERS
@@ -56,7 +56,7 @@ feature {NONE} -- Build from nodes
 
 	add_mirror
 		local
-			l_axis: CHARACTER; str: STRING
+			l_axis: INTEGER; str: STRING
 		do
 			str := node.to_string_8
 			l_axis := X_axis

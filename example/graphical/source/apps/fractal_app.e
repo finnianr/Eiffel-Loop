@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-29 14:11:07 GMT (Wednesday 29th May 2019)"
-	revision: "2"
+	date: "2019-09-10 16:05:10 GMT (Tuesday 10th September 2019)"
+	revision: "3"
 
 class
 	FRACTAL_APP
@@ -32,7 +32,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE
+	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (fractal_config)
 		end

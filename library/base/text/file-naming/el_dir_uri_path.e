@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-30 12:27:53 GMT (Wednesday 30th January 2019)"
-	revision: "10"
+	date: "2019-09-04 15:10:30 GMT (Wednesday 4th September 2019)"
+	revision: "11"
 
 class
 	EL_DIR_URI_PATH

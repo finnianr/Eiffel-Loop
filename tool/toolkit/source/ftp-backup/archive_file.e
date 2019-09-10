@@ -6,22 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:41:51 GMT (Friday 14th June 2019)"
-	revision: "6"
+	date: "2019-09-09 19:22:35 GMT (Monday 9th September 2019)"
+	revision: "7"
 
 class
 	ARCHIVE_FILE
 
 inherit
-	RAW_FILE
-		rename
-			file_exists as this_file_exists,
-			make as make_file
-		export
-			{NONE} all
-		end
+	ANY
 
 	EL_MODULE_FORMAT
+
+	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_LOG
 
@@ -32,25 +28,22 @@ create
 
 feature {NONE} -- Initialization
 
-	make (backup: FTP_BACKUP)
+	make (a_backup: FTP_BACKUP)
 			--
 		local
-			encrypted_archive_file: RAW_FILE
-			encrypted_archive_file_path, archive_file_path: EL_FILE_PATH
-			last_step_target_path: STRING
-			working_directory: EL_DIR_PATH
+			gpg_file_path: EL_FILE_PATH; working_directory: EL_DIR_PATH
 		do
+			backup := a_backup
 			log.enter_with_args ("make", [backup.target_dir, backup.archive_dir, backup.name])
-			archive_dir := backup.archive_dir
 
-			archive_file_path := backup.name
+			file_path := archive_dir + backup.name
+
 			if backup.max_versions > 0 then
 				save_version_no (backup.max_versions)
-				archive_file_path.add_extension (Format.integer_zero (version_no, 2))
+				file_path.add_extension (Format.integer_zero (version_no, 2))
 			end
-			archive_file_path.add_extension ("tar.gz")
+			file_path.add_extension ("tar.gz")
 
-			last_step_target_path := backup.target_dir.base
 			create exclusion_list_file.make (backup)
 			create inclusion_list_file.make (backup)
 
@@ -62,32 +55,30 @@ feature {NONE} -- Initialization
 			Archive_command.put_variables (<<
 				[TAR_EXCLUDE, 			exclusion_list_file.file_path ],
 				[TAR_INCLUDE, 			inclusion_list_file.file_path ],
-				[TAR_NAME, 				archive_dir + archive_file_path],
+				[TAR_NAME, 				file_path],
 				[TARGET_DIRECTORY, 	backup.target_dir.base]
 			>> )
 
+			lio.put_labeled_string ("Creating archive", file_path)
+			lio.put_new_line
 			Archive_command.execute
 
-			make_open_read (archive_dir + archive_file_path)
-			if exists then
-				byte_count := count.to_natural_32
-				close
+			if file_path.exists then
+				byte_count := File_system.file_byte_count (file_path).to_natural_32
 				if not backup.gpg_key.is_empty then
-					encrypted_archive_file_path := file_path
-					encrypted_archive_file_path.add_extension ("gpg")
-					create encrypted_archive_file.make_with_name (encrypted_archive_file_path)
-					if encrypted_archive_file.exists then
-						encrypted_archive_file.delete
+					gpg_file_path := file_path.twin
+					gpg_file_path.add_extension ("gpg")
+					if gpg_file_path.exists then
+						File_system.remove_file (gpg_file_path)
 					end
 					Encryption_command.set_working_directory (archive_dir)
 
 					Encryption_command.put_string (GPG_KEY_ID, backup.gpg_key)
-					Encryption_command.put_file_path (TAR_NAME, archive_file_path)
+					Encryption_command.put_file_path (TAR_NAME, file_path)
 
 					Encryption_command.execute
-					delete
-
-					make_with_name (encrypted_archive_file_path)
+					File_system.remove_file (file_path)
+					file_path := gpg_file_path
 				end
 			end
 			log.exit
@@ -98,9 +89,6 @@ feature -- Access
 	byte_count: NATURAL
 
 	file_path: EL_FILE_PATH
-		do
-			Result := path
-		end
 
 feature {NONE} -- Implementation
 
@@ -134,9 +122,14 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation: attributes
 
+	backup: FTP_BACKUP
+
 	version_no: INTEGER
 
 	archive_dir: EL_DIR_PATH
+		do
+			Result := backup.archive_dir
+		end
 
 	exclusion_list_file: EXCLUSION_LIST_FILE
 

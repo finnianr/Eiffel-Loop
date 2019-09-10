@@ -1,8 +1,13 @@
 note
 	description: "Test import of new MP3 and tag according to genre and artist location"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-09-05 8:48:27 GMT (Thursday 5th September 2019)"
+	revision: "1"
 
 class
 	IMPORT_NEW_MP3_TEST_TASK

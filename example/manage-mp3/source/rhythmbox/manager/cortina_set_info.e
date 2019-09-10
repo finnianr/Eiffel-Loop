@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:20:54 GMT (Saturday 31st August 2019)"
-	revision: "1"
+	date: "2019-09-10 8:33:23 GMT (Tuesday 10th September 2019)"
+	revision: "2"
 
 class
 	CORTINA_SET_INFO
@@ -17,8 +17,7 @@ inherit
 		rename
 			make_default as make,
 			xml_names as export_default,
-			element_node_type as	Attribute_node,
-			register_default_values as do_nothing
+			element_node_type as	Attribute_node
 		redefine
 			make
 		end

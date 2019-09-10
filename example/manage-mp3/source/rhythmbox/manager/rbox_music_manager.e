@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-03 8:46:20 GMT (Tuesday 3rd September 2019)"
-	revision: "14"
+	date: "2019-09-10 15:18:57 GMT (Tuesday 10th September 2019)"
+	revision: "15"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -113,7 +113,7 @@ feature {NONE} -- Implementation
 
 	set_task (a_file_path: EL_FILE_PATH)
 		do
-			task := Task_factory.instance_from_pyxis (a_file_path, agent {RBOX_MANAGEMENT_TASK}.make_default)
+			task := Task_factory.instance_from_pyxis (agent {RBOX_MANAGEMENT_TASK}.make (a_file_path))
 			task_name := Task_factory.last_root_element
 			if task_name.is_empty then
 				task_name := a_file_path.base
@@ -175,6 +175,7 @@ feature {NONE} -- Constants
 				{UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK},
 				{UPDATE_DJ_PLAYLISTS_TASK}
 			>>)
+			Result.set_make_default (agent {RBOX_MANAGEMENT_TASK}.make_default)
 		end
 
 end

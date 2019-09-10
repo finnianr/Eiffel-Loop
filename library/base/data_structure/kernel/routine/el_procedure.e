@@ -10,26 +10,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:15:10 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2019-09-10 15:11:17 GMT (Tuesday 10th September 2019)"
+	revision: "7"
 
 class
-	EL_PROCEDURE
+	EL_PROCEDURE [OPEN_ARGS -> detachable TUPLE create default_create end]
 
 inherit
-	PROCEDURE
+	PROCEDURE [OPEN_ARGS]
 		export
 			{NONE} all
-			{ANY} closed_operands
+			{ANY} closed_operands, closed_count
 		end
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
 	make, default_create
 
 convert
-	make ({PROCEDURE})
+	make ({PROCEDURE [OPEN_ARGS]})
 
 feature -- Initialization
 

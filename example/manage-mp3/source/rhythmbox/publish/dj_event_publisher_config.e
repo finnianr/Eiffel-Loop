@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-31 12:01:38 GMT (Saturday 31st August 2019)"
-	revision: "6"
+	date: "2019-09-10 8:33:43 GMT (Tuesday 10th September 2019)"
+	revision: "7"
 
 class
 	DJ_EVENT_PUBLISHER_CONFIG
@@ -17,8 +17,7 @@ inherit
 		rename
 			make_default as make,
 			xml_names as export_default,
-			element_node_type as	Attribute_node,
-			register_default_values as do_nothing
+			element_node_type as	Attribute_node
 		redefine
 			make
 		end

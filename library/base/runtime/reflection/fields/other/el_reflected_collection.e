@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 9:26:36 GMT (Tuesday 11th June 2019)"
-	revision: "3"
+	date: "2019-09-10 17:38:02 GMT (Tuesday 10th September 2019)"
+	revision: "4"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -28,10 +28,10 @@ feature {NONE} -- Initialization
 
 	make (a_object: EL_REFLECTIVE; a_index: INTEGER_32; a_name: STRING_8)
 		require else
-			has_read_function_for_type: Read_functions.has ({G})
+			has_read_function_for_type: Read_functions_table.has ({G})
 		do
 			Precursor (a_object, a_index, a_name)
-			if attached {like new_item} Read_functions [{G}] as l_new_item then
+			if attached {like new_item} Read_functions_table [{G}] as l_new_item then
 				new_item := l_new_item
 			end
 		end
@@ -72,36 +72,49 @@ feature -- Conversion
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	read_functions: ARRAY [FUNCTION [EL_READABLE, ANY]]
+		do
+			Result := <<
+				agent {EL_READABLE}.read_character_8,
+				agent {EL_READABLE}.read_character_32,
+
+				agent {EL_READABLE}.read_integer_8,
+				agent {EL_READABLE}.read_integer_16,
+				agent {EL_READABLE}.read_integer_32,
+				agent {EL_READABLE}.read_integer_64,
+
+				agent {EL_READABLE}.read_natural_8,
+				agent {EL_READABLE}.read_natural_16,
+				agent {EL_READABLE}.read_natural_32,
+				agent {EL_READABLE}.read_natural_64,
+
+				agent {EL_READABLE}.read_real_32,
+				agent {EL_READABLE}.read_real_64,
+
+				agent {EL_READABLE}.read_string_8,
+				agent {EL_READABLE}.read_string_32,
+				agent {EL_READABLE}.read_string
+			>>
+		end
+
 feature {NONE} -- Internal attributes
 
 	new_item: FUNCTION [EL_READABLE, G]
 
 feature {NONE} -- Constants
 
-	Read_functions: EL_HASH_TABLE [FUNCTION [EL_READABLE, ANY], TYPE [ANY]]
+	Read_functions_table: EL_HASH_TABLE [FUNCTION [EL_READABLE, ANY], TYPE [ANY]]
+		local
+			l_read_functions: like read_functions
 		once
-			create Result.make (<<
-				[{BOOLEAN}, agent {EL_READABLE}.read_boolean],
+			l_read_functions := read_functions
+			create Result.make_size (l_read_functions.count)
 
-				[{CHARACTER_8}, agent {EL_READABLE}.read_character_8],
-				[{CHARACTER_32}, agent {EL_READABLE}.read_character_32],
-
-				[{INTEGER_8}, agent {EL_READABLE}.read_integer_8],
-				[{INTEGER_16}, agent {EL_READABLE}.read_integer_16],
-				[{INTEGER_32}, agent {EL_READABLE}.read_integer_32],
-				[{INTEGER_64}, agent {EL_READABLE}.read_integer_64],
-
-				[{NATURAL_8}, agent {EL_READABLE}.read_natural_8],
-				[{NATURAL_16}, agent {EL_READABLE}.read_natural_16],
-				[{NATURAL_32}, agent {EL_READABLE}.read_natural_32],
-				[{NATURAL_64}, agent {EL_READABLE}.read_natural_64],
-
-				[{REAL_32}, agent {EL_READABLE}.read_real_32],
-				[{REAL_64}, agent {EL_READABLE}.read_real_64],
-
-				[{STRING}, agent {EL_READABLE}.read_string_8],
-				[{STRING_32}, agent {EL_READABLE}.read_string_32],
-				[{ZSTRING}, agent {EL_READABLE}.read_string]
-			>>)
+			Result [{BOOLEAN}] := agent {EL_READABLE}.read_boolean
+			across l_read_functions as function loop
+				Result.extend (function.item, function.item.generating_type.generic_parameter_type (2))
+			end
 		end
 end

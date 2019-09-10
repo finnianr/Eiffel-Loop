@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 12:09:16 GMT (Tuesday 11th June 2019)"
-	revision: "11"
+	date: "2019-09-10 16:24:30 GMT (Tuesday 10th September 2019)"
+	revision: "12"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -18,31 +18,13 @@ inherit
 		rename
 			reference_value as value
 		redefine
-			make, initialize, value, is_initialized
+			initialize, value, is_initialized
 		end
 
-	EL_SHARED_DEFAULT_VALUE_TABLE
-
-	EL_STRING_8_CONSTANTS
+	EL_SHARED_NEW_INSTANCE_TABLE
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make (a_object: EL_REFLECTIVE; a_index: INTEGER_32; a_name: STRING_8)
-		do
-			Precursor (a_object, a_index, a_name)
-			if default_defined then
-				initialize_default
-			elseif Default_value_table.has_key (type_id)
-				and then attached {G} Default_value_table.found_item as l_default
-			then
-				default_value := l_default
-			else
-				default_value := new_default_value
-			end
-		end
 
 feature -- Access
 
@@ -51,15 +33,13 @@ feature -- Access
 			Result := value (a_object).out
 		end
 
-	value (a_object: EL_REFLECTIVE): like default_value
+	value (a_object: EL_REFLECTIVE): G
 		do
 			enclosing_object := a_object
-			if attached {like default_value} reference_field (index) as l_value then
+			if attached {G} reference_field (index) as l_value then
 				Result := l_value
-			elseif attached default_value then
-				Result := default_value.twin
 			else
-				Result := new_default_value
+				Result := new_instance
 			end
 		end
 
@@ -67,19 +47,22 @@ feature -- Status query
 
 	Is_expanded: BOOLEAN = False
 
-	default_defined: BOOLEAN
-		do
-			if not Default_value_table.has (type_id)
-				and then (Default_objects.has (type_id) or else field_conforms_to (type_id, Makeable_type))
-			then
-				Result := True
-			end
-		end
-
 	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
 		do
 			enclosing_object := a_object
 			Result := attached reference_field (index)
+		end
+
+	is_initializeable: BOOLEAN
+		-- `True' when it is possible to create an initialized instance of the field
+
+		-- (To satisfy this precondition, override `{EL_REFLECTIVE}.new_instance_functions'
+		-- to return a suitable creation function)
+		do
+			Result := New_instance_table.has (type_id)
+							or else field_conforms_to (type_id, Makeable_from_string_general_type)
+							or else field_conforms_to (type_id, Makeable_type)
+
 		end
 
 feature -- Basic operations
@@ -101,10 +84,10 @@ feature -- Basic operations
 		end
 
 	initialize (a_object: EL_REFLECTIVE)
+		require else
+			initializeable: is_initializeable
 		do
-			if attached default_value then
-				set (a_object, default_value.twin)
-			end
+			set (a_object, new_instance)
 		end
 
 	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER_32)
@@ -134,40 +117,29 @@ feature -- Comparison
 
 feature {NONE} -- Implementation
 
-	new_default_value: G
-		-- uninitialized value
-		do
-			if attached {G} Eiffel.new_instance_of (type_id) as new_instance then
-				Result := new_instance
-			end
-		end
-
-	initialize_default
+	new_instance: G
+		-- new initialized instance of field
 		local
-			types: like Default_objects
+			new: FUNCTION [ANY]; is_assigned: BOOLEAN
 		do
-			types := Default_objects
-			if types.has_key (type_id) and then attached {G} types.found_item as l_value then
-				default_value := l_value
-			else
-				default_value := new_default_value
-				if attached {EL_MAKEABLE} default_value as makeable then
-					makeable.make
+			if New_instance_table.has_key (type_id) then
+				new := New_instance_table.found_item
+				new.apply
+				if attached {G} new.last_result as l_new then
+					Result := l_new
+					is_assigned := True
 				end
 			end
-		ensure
-			default_value_initialized: attached default_value
-		end
-
-feature {NONE} -- Internal attributes
-
-	default_value: G
-
-feature {NONE} -- Constants
-
-	Default_objects: EL_OBJECTS_BY_TYPE
-		once
-			create Result.make (0)
+			if not is_assigned then
+				if attached {G} Eiffel.new_instance_of (type_id) as l_new then
+					if attached {EL_MAKEABLE_FROM_STRING_GENERAL} l_new as m then
+						m.make_default
+					elseif attached {EL_MAKEABLE} l_new as m then
+						m.make
+					end
+					Result := l_new
+				end
+			end
 		end
 
 note

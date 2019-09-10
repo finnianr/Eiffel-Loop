@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-17 6:50:08 GMT (Wednesday 17th July 2019)"
-	revision: "14"
+	date: "2019-09-10 8:56:35 GMT (Tuesday 10th September 2019)"
+	revision: "15"
 
 class
 	EL_CLASS_META_DATA
@@ -26,7 +26,7 @@ inherit
 
 	EL_MODULE_NAMING
 
-	EL_SHARED_DEFAULT_VALUE_TABLE
+	EL_SHARED_NEW_INSTANCE_TABLE
 
 	EL_REFLECTION_HANDLER
 
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 	make (a_enclosing_object: like enclosing_object)
 		do
 			Precursor (a_enclosing_object)
-			Default_value_table.extend_from_array (a_enclosing_object.default_values)
+			New_instance_table.extend_from_array (a_enclosing_object.new_instance_functions)
 			create cached_field_indices_set.make_equal (3)
 			excluded_fields := new_field_indices_set (a_enclosing_object.Except_fields)
 			hidden_fields := new_field_indices_set (a_enclosing_object.Hidden_fields)

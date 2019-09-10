@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-25 10:41:12 GMT (Thursday 25th July 2019)"
-	revision: "17"
+	date: "2019-09-10 9:52:14 GMT (Tuesday 10th September 2019)"
+	revision: "18"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -30,7 +30,7 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-	EL_SHARED_DEFAULT_VALUE_TABLE
+	EL_SHARED_NEW_INSTANCE_TABLE
 
 	EL_EIF_OBJ_BUILDER_CONTEXT_TYPE_CONSTANTS
 
@@ -187,11 +187,11 @@ feature {NONE} -- Implementation
 			from field_list.start until field_list.after loop
 				if attached {EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT} field_list.item as context_field_collection
 				then
-					if Default_value_table.has_key (context_field_collection.item_type_id)
-						and then attached {EL_EIF_OBJ_BUILDER_CONTEXT} Default_value_table.found_item as default_value
+					if New_instance_table.has_key (context_field_collection.item_type_id)
+						and then attached {FUNCTION [EL_EIF_OBJ_BUILDER_CONTEXT]} New_instance_table.found_item as new_instance
 					then
 						xpath := new_xpath (field_list.item, Element_node) + Item_xpath
-						Result [xpath] := agent extend_context_collection (context_field_collection, default_value)
+						Result [xpath] := agent extend_context_collection (context_field_collection, new_instance)
 					else
 						check
 							default_value_available: False
@@ -241,18 +241,17 @@ feature {NONE} -- Implementation
 
 	extend_context_collection (
 		context_field_collection: EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT
-		default_value: EL_EIF_OBJ_BUILDER_CONTEXT
+		new_instance: FUNCTION [EL_EIF_OBJ_BUILDER_CONTEXT]
 	)
-		local
-			new_context: EL_EIF_OBJ_BUILDER_CONTEXT
 		do
 			if attached {COLLECTION [EL_EIF_OBJ_BUILDER_CONTEXT]}
 				context_field_collection.value (current_reflective) as collection
 			then
-				new_context := default_value.twin
-				new_context.make_default
-				set_next_context (new_context)
-				collection.extend (new_context)
+				new_instance.apply
+				if attached {EL_EIF_OBJ_BUILDER_CONTEXT} new_instance.last_result as new_context then
+					set_next_context (new_context)
+					collection.extend (new_context)
+				end
 			end
 		end
 

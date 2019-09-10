@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {BACKUP_CONFIG}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Backup config"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-09-10 16:19:21 GMT (Tuesday 10th September 2019)"
+	revision: "1"
 
 class
 	BACKUP_CONFIG
@@ -12,17 +17,17 @@ inherit
 		rename
 			make_from_file as make
 		redefine
-			make, make_default
+			make, make_default, new_instance_functions
 		end
 
 	EL_MODULE_DIRECTORY
 
-	EL_MODULE_LIO
+	EL_MODULE_LOG
 
 	EL_MODULE_USER_INPUT
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
@@ -33,13 +38,14 @@ feature {NONE} -- Initialization
 			else
 				file_path := Directory.current_working + a_file_path
 			end
+			create backup_list.make (10)
+			new_ftp_backup.set_target (Current)
 			Precursor (file_path)
 			backup_list.do_all (agent {FTP_BACKUP}.set_absolute_target_dir (file_path.parent))
 		end
 
 	make_default
 		do
-			create backup_list.make (5)
 			create archive_upload_list.make
 			Precursor
 		end
@@ -61,7 +67,10 @@ feature -- Basic operations
 			website: EL_FTP_WEBSITE; mega_bytes: REAL
 			summator: EL_CHAIN_SUMMATOR [FTP_BACKUP, NATURAL]
 		do
-			backup_list.do_all (agent {FTP_BACKUP}.execute (Current))
+			log.enter ("backup_all")
+			across backup_list as backup loop
+				backup.item.execute
+			end
 			create summator
 			mega_bytes := (summator.sum (backup_list, agent {FTP_BACKUP}.total_byte_count) / 1000_000).truncated_to_real
 
@@ -87,15 +96,23 @@ feature -- Basic operations
 					end
 				end
 			end
+			log.exit
 		end
 
 feature {NONE} -- Implementation
 
-	register_default_values
+	new_instance_functions: ARRAY [FUNCTION [ANY]]
+		-- array of functions returning a new value for result type
+		do
+			Result := <<
+				new_ftp_backup
+			>>
+		end
+
+	new_ftp_backup: FUNCTION [ANY]
+		-- We need to be able to set the target of this result from `make'
 		once
-			Default_value_table.extend_from_array (<<
-				create {FTP_BACKUP}.make
-			>>)
+			Result := agent: FTP_BACKUP do create Result.make (Current) end
 		end
 
 feature {FTP_BACKUP} -- Internal attributes

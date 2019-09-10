@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-03 11:57:39 GMT (Tuesday 3rd September 2019)"
-	revision: "24"
+	date: "2019-09-10 8:33:50 GMT (Tuesday 10th September 2019)"
+	revision: "25"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -17,8 +17,7 @@ inherit
 		rename
 			xml_names as to_kebab_case,
 			element_node_type as	Text_element_node,
-			New_line as New_line_character,
-			register_default_values as do_nothing
+			New_line as New_line_character
 		redefine
 			make_default, on_context_exit, set_field_from_node, building_action_table, Except_fields
 		end

@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {TAR_LIST_FILE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Tar list file"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-09-09 16:40:59 GMT (Monday 9th September 2019)"
+	revision: "1"
 
 deferred class
 	TAR_LIST_FILE

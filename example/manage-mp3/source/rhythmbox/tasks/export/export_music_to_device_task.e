@@ -6,28 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 18:09:53 GMT (Monday 2nd September 2019)"
-	revision: "2"
+	date: "2019-09-10 14:38:00 GMT (Tuesday 10th September 2019)"
+	revision: "3"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK
 
 inherit
 	EXPORT_TO_DEVICE_TASK
-		redefine
-			make_default
-		end
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make_default
-		do
-			create selected_genres.make (10)
-			Precursor
-		end
 
 feature -- Access
 

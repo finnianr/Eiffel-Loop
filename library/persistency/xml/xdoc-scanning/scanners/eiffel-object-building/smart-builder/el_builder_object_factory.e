@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 15:24:51 GMT (Monday 2nd September 2019)"
-	revision: "2"
+	date: "2019-09-10 15:17:39 GMT (Tuesday 10th September 2019)"
+	revision: "3"
 
 class
 	EL_BUILDER_OBJECT_FACTORY [G -> EL_BUILDABLE_FROM_NODE_SCAN]
@@ -38,26 +38,25 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	last_root_element: ZSTRING
-
-	instance_from_pyxis (pyxis_path: EL_FILE_PATH; make_default: PROCEDURE [G]): G
+	instance_from_pyxis (make_from_file: PROCEDURE [G]): G
 		require
-			path_exists: pyxis_path.exists
+			path_exists: new_pyxis_path (make_from_file).exists
+			make_default_set: attached make_default
+		local
+			pyxis_path: EL_FILE_PATH
 		do
+			pyxis_path := new_pyxis_path (make_from_file)
 			if pyxis_path.exists then
 				last_root_element := Pyxis.root_element (pyxis_path)
 				if last_root_element.is_empty then
-					Result := instance_from_alias (default_alias, make_default)
 					if is_lio_enabled then
 						lio.put_labeled_substitution ("ERROR", "File %"%S%" is not a valid Pyxis document", [pyxis_path])
 						lio.put_new_line
 					end
 
 				elseif has_alias (last_root_element) then
-					Result := instance_from_alias (last_root_element, make_default)
-					Result.build_from_file (pyxis_path)
+					Result := instance_from_alias (last_root_element, make_from_file)
 				else
-					Result := instance_from_alias (default_alias, make_default)
 					if is_lio_enabled then
 						lio.put_labeled_substitution (
 							"ERROR", "No type corresponding to root element %"%S%"", [last_root_element]
@@ -65,8 +64,39 @@ feature -- Access
 						lio.put_new_line
 					end
 				end
-			else
-				Result := instance_from_alias (default_alias, make_default)
+			end
+			if not attached Result then
+				if attached {PROCEDURE [G]} make_default as l_make_default then
+					Result := instance_from_alias (default_alias, l_make_default)
+				else
+					Result := raw_instance_from_alias (default_alias)
+				end
 			end
 		end
+
+	new_pyxis_path (make_from_file: PROCEDURE [G]): EL_FILE_PATH
+		local
+			p: EL_PROCEDURE [G]
+		do
+			p := make_from_file
+			if p.closed_count = 1 and then attached {EL_FILE_PATH} p.closed_operands.reference_item (1) as path then
+				Result := path
+			else
+				create Result
+			end
+		end
+
+feature -- Access attributes
+
+	last_root_element: ZSTRING
+
+	make_default: detachable PROCEDURE [G]
+
+feature -- Element change
+
+	set_make_default (a_make_default: PROCEDURE [G])
+		do
+			make_default := a_make_default
+		end
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:26:25 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2019-09-10 16:04:43 GMT (Tuesday 10th September 2019)"
+	revision: "6"
 
 class
 	REPLICATED_IMAGE_MODEL
@@ -57,20 +57,6 @@ feature {NONE} -- Initialization
 			make_from_other (other)
 			scale (proportion)
 			set_x_y_precise (position)
-		end
-
-feature -- Basic operations
-
-	render (pixels: EL_DRAWABLE_PIXEL_BUFFER)
-		local
-			p0: EV_COORDINATE
-		do
-			p0 := point_array [0]
-			pixels.save
-			pixels.translate (p0.x, p0.y)
-			pixels.rotate (angle)
-			pixels.draw_scaled_pixel_buffer (0, 0, width, By_width, pixel_buffer)
-			pixels.restore
 		end
 
 feature -- Visitor
