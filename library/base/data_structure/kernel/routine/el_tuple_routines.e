@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 13:21:35 GMT (Monday 9th September 2019)"
-	revision: "5"
+	date: "2019-09-11 18:14:17 GMT (Wednesday 11th September 2019)"
+	revision: "6"
 
 class
 	EL_TUPLE_ROUTINES
@@ -58,9 +58,9 @@ feature -- Basic operations
 					end
 					if is_path_field then
 						if type_id = File_path_type then
-							tuple.put_reference (create {EL_FILE_PATH}.make_from_general (general), list.index)
+							tuple.put_reference (create {EL_FILE_PATH}.make (general), list.index)
 						elseif type_id = Dir_path_type then
-							tuple.put_reference (create {EL_DIR_PATH}.make_from_general (general), list.index)
+							tuple.put_reference (create {EL_DIR_PATH}.make (general), list.index)
 						else
 							check invalid_path_type: False end
 						end

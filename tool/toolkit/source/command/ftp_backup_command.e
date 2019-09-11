@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 18:44:13 GMT (Monday 9th September 2019)"
-	revision: "1"
+	date: "2019-09-11 8:12:45 GMT (Wednesday 11th September 2019)"
+	revision: "2"
 
 class
 	FTP_BACKUP_COMMAND
@@ -20,26 +20,21 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (config_file_path_list: EL_FILE_PATH_LIST; a_ask_user_to_upload: BOOLEAN)
+	make (config_file_path: EL_FILE_PATH; a_ask_user_to_upload: BOOLEAN)
 		do
-			create config_list.make (config_file_path_list.count)
-			across config_file_path_list as path loop
-				config_list.extend (create {BACKUP_CONFIG}.make (path.item))
-			end
+			create config.make (config_file_path)
 			ask_user_to_upload := a_ask_user_to_upload
 		end
 
 	execute
 		do
-			across config_list as config loop
-				config.item.backup_all (ask_user_to_upload)
-			end
+			config.backup_all (ask_user_to_upload)
 		end
 
 feature {NONE} -- Implementation: attributes
 
 	ask_user_to_upload: BOOLEAN
 
-	config_list: ARRAYED_LIST [BACKUP_CONFIG]
+	config: BACKUP_CONFIG
 
 end

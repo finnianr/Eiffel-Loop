@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-05 7:31:33 GMT (Thursday 5th September 2019)"
-	revision: "14"
+	date: "2019-09-11 10:17:17 GMT (Wednesday 11th September 2019)"
+	revision: "15"
 
 class
 	RBOX_DATABASE
@@ -228,14 +228,20 @@ feature -- Status query
 feature -- Element change
 
 	extend (a_entry: RBOX_IRADIO_ENTRY)
+		local
+			playlist: DJ_EVENT_PLAYLIST
 		do
-			entries.extend (a_entry)
-			if attached {RBOX_SONG} a_entry as song and then song.mp3_path.extension ~ Mp3_extension then
+			if attached {RBOX_SONG} a_entry as song and then song.is_mp3_format then
 				extend_with_song (song)
+				entries.extend (song)
 
-			elseif attached {RBOX_IGNORED_ENTRY} a_entry as entry and then entry.genre ~ Playlist_genre then
-				dj_playlists.extend (create {DJ_EVENT_PLAYLIST}.make_from_file (entry.location))
-				entry.set_title (dj_playlists.last.title) -- Override title with the one in the DJ event playlist
+			elseif attached {RBOX_IGNORED_ENTRY} a_entry as ignored and then ignored.is_playlist then
+				create playlist.make_from_file (ignored.location)
+				dj_playlists.extend (playlist)
+
+				entries.extend (playlist.new_rbox_entry)
+			else
+				entries.extend (a_entry)
 			end
 		end
 
@@ -280,16 +286,11 @@ feature -- Element change
 	extend_from_playlist (playlist: RBOX_PLAYLIST)
 			--
 		do
-			playlist.do_all (
-				agent (song: RBOX_SONG)
-					do
-						if not song.is_hidden
-							and then not songs_by_location.has (song.mp3_path)
-						then
-							extend (song)
-						end
-					end
-			)
+			across playlist as song loop
+				if not song.item.is_hidden and then not songs_by_location.has (song.item.mp3_path) then
+					extend (song.item)
+				end
+			end
 		end
 
 	set_playlists (a_playlists: like playlists)
@@ -360,25 +361,18 @@ feature -- Element change
 	update_DJ_playlists (dj_name, default_title: ZSTRING)
 			-- update DJ event playlists with any new Rhythmbox playlists
 		local
-			events_file_path: EL_FILE_PATH; entry: RBOX_IGNORED_ENTRY
-			parts: EL_ZSTRING_LIST
+			dj_playlist: DJ_EVENT_PLAYLIST; events_file_path: EL_FILE_PATH
 		do
 			across playlists as playlist loop
-				parts := playlist.item.name
-				if parts.count > 1 and then Date_checker.date_valid (parts [1], once "yyyy-mm-dd") then
+				if playlist.item.is_name_dated then
 					events_file_path := dj_playlist_dir + playlist.item.name
 					events_file_path.add_extension ("pyx")
 					if not events_file_path.exists then
-						dj_playlists.extend (create {DJ_EVENT_PLAYLIST}.make (playlist.item, dj_name, default_title))
-						dj_playlists.last.set_output_path (events_file_path)
+						create dj_playlist.make (playlist.item, dj_name, default_title)
+						dj_playlist.set_output_path (events_file_path)
+						dj_playlists.extend (dj_playlist)
 
-						entry := new_ignored_entry
-						entry.set_genre (Playlist_genre)
-						entry.set_title (dj_playlists.last.title)
-						entry.set_media_type (Media_type.pyxis)
-						entry.set_location (events_file_path)
-
-						entries.extend (entry)
+						entries.extend (dj_playlist.new_rbox_entry)
 					end
 				end
 			end
@@ -570,28 +564,6 @@ feature {NONE} -- Constants
 	Artists_field: ZSTRING
 		once
 			Result := "Artists: "
-		end
-
-	Mp3_extension: ZSTRING
-		once
-			Result := "mp3"
-		end
-
-	Date_checker: DATE_VALIDITY_CHECKER
-		once
-			create Result
-		end
-
-	Playlist_genre: ZSTRING
-		-- special genre to mark Rhythmbox ignored entry as a DJ event playlist
-		once
-			Result := "playlist"
-		end
-
-	Unknown_artist_names: ARRAY [ZSTRING]
-		once
-			Result := << "Various", "Various Artists", "Unknown" >>
-			Result.compare_objects
 		end
 
 	Template: STRING =

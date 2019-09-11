@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:38:16 GMT (Monday 1st July 2019)"
-	revision: "9"
+	date: "2019-09-11 18:13:18 GMT (Wednesday 11th September 2019)"
+	revision: "10"
 
 class
 	EL_DIR_PATH
@@ -24,10 +24,10 @@ inherit
 		end
 
 create
-	default_create, make, make_from_general, make_from_path, make_from_other, make_from_steps
+	default_create, make, make_from_path, make_from_other, make_from_steps
 
 convert
-	make ({ZSTRING}), make_from_general ({STRING_32, STRING}), make_from_path ({PATH}),
+	make ({ZSTRING, STRING_32, STRING}), make_from_path ({PATH}),
 
  	to_string: {ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL}, steps: {EL_PATH_STEPS}, to_path: {PATH}
 

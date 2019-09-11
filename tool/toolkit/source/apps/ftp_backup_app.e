@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 18:38:14 GMT (Monday 9th September 2019)"
-	revision: "13"
+	date: "2019-09-11 9:06:37 GMT (Wednesday 11th September 2019)"
+	revision: "14"
 
 class
 	FTP_BACKUP_APP
@@ -44,46 +44,36 @@ feature -- Test operations
 
 	test_run
 		do
---			Test.set_binary_file_extensions (<< "mp3" >>)
-
---			Test.do_file_tree_test ("bkup", agent test_gpg_normal_run (?, "rhythmdb.bkup"), 4026256056)
---			Test.do_file_tree_test ("bkup", agent test_normal_run (?, "id3$.bkup"), 813868097)
-			Test.do_file_tree_test ("bkup", agent test_normal_run (?, "Eiffel-Loop.bkup"), 813868097)
-
-			Test.print_checksum_list
+			Test.set_excluded_file_extensions (<< "gz" >>) -- tar files are date stamped therefore must be excluded
+			Test.do_file_test ("bkup/id3-1.bkup", agent test_normal_run, 2260245724)
+			Test.do_file_test ("bkup/id3-2.bkup", agent test_normal_run, 3403517712)
+			Test.do_file_test ("bkup/id3-3.bkup", agent test_normal_run, 1379707871)
 		end
 
-	test_gpg_normal_run (data_path: EL_DIR_PATH; backup_name: STRING)
+	test_gpg_normal_run (file_path: EL_FILE_PATH)
 			--
 		local
 			gpg_recipient: STRING
 		do
 			log.enter ("test_gpg_normal_run")
-			ftp_command := test_backup (data_path, backup_name)
-
 			gpg_recipient := User_input.line ("Enter an encryption recipient id for gpg")
 			Execution_environment.put (gpg_recipient, "RECIPIENT")
 
+			create ftp_command.make (file_path, False)
+
 			normal_run
 			log.exit
 		end
 
-	test_normal_run (data_path: EL_DIR_PATH; backup_name: STRING)
+	test_normal_run (file_path: EL_FILE_PATH)
 			--
 		do
 			log.enter ("test_normal_run")
-			ftp_command := test_backup (data_path, backup_name)
+			create ftp_command.make (file_path, False)
 			normal_run
 			log.exit
 		end
 
-	test_backup (data_path: EL_DIR_PATH; backup_name: STRING): FTP_BACKUP_COMMAND
-		local
-			file_list: EL_FILE_PATH_LIST
-		do
-			create file_list.make_from_array (<< Directory.Working.joined_dir_path (data_path) + backup_name >>)
-			create Result.make (file_list, False)
-		end
 
 feature {NONE} -- Implementation
 
@@ -91,7 +81,7 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				valid_required_argument (
-					"scripts", "List of files to backup (Must be the last parameter)", << file_must_exist >>
+					"config", "Path to configuration file", << file_must_exist >>
 				),
 				optional_argument ("upload", "Upload the archive after creation")
 			>>
@@ -99,7 +89,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like ftp_command]
 		do
-			Result := agent {like ftp_command}.make (create {EL_FILE_PATH_LIST}.make_with_count (0), False)
+			Result := agent {like ftp_command}.make (create {EL_FILE_PATH}, False)
 		end
 
 	ftp_command: FTP_BACKUP_COMMAND
@@ -108,7 +98,7 @@ feature {NONE} -- Constants
 
 	Option_name: STRING = "ftp_backup"
 
-	Description: STRING = "Tar directories and ftp them off site"
+	Description: STRING = "Create tar.gz backups and ftp them off site"
 
 	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once

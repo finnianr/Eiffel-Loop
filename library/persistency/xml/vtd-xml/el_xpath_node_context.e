@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-10 10:16:37 GMT (Monday 10th June 2019)"
-	revision: "8"
+	date: "2019-09-11 18:42:33 GMT (Wednesday 11th September 2019)"
+	revision: "9"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -276,6 +276,12 @@ feature -- External field setters
 			-- call `set_value' with ZSTRING value at `a_xpath'
 		do
 			Setter_string.set_from_node (Current, a_xpath, set_value)
+		end
+
+	set_string_general (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [READABLE_STRING_GENERAL])
+			-- call `set_value' with ZSTRING value at `a_xpath'
+		do
+			Setter_string_general.set_from_node (Current, a_xpath, set_value)
 		end
 
 	set_string_32 (a_xpath: READABLE_STRING_GENERAL; set_value: PROCEDURE [STRING_32])

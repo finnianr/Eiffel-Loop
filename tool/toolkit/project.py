@@ -2,12 +2,15 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 2, 21); build = 493
+version = (1, 2, 22); build = 495
 
 installation_sub_directory = 'Eiffel-Loop/toolkit'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_editors', '-logging'])
+
+# 1.2.22
+# Updated ftp backup to use reflective building
 
 # 1.2.21
 # Added Date_time_dot_pattern to find first line of output: duplicity list-current-files

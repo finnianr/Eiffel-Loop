@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:36:31 GMT (Monday 5th August 2019)"
-	revision: "15"
+	date: "2019-09-11 8:27:30 GMT (Wednesday 11th September 2019)"
+	revision: "16"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -40,8 +40,8 @@ feature {NONE} -- Initialization
 			--
 		do
 			work_area_dir := a_work_area_dir; test_data_dir := a_test_data_dir
-			create binary_file_extensions.make (1, 0)
-			create excluded_file_extensions.make (1, 0)
+			create binary_file_extensions.make_empty
+			create excluded_file_extensions.make_empty
 		end
 
 feature -- Access
@@ -54,16 +54,16 @@ feature -- Status query
 
 feature -- Element change
 
-	set_binary_file_extensions (a_binary_file_extensions: like binary_file_extensions)
+	set_binary_file_extensions (list: ARRAY [READABLE_STRING_GENERAL])
 			-- set binary files to exclude from file normalization before checksum
 		do
-			binary_file_extensions := a_binary_file_extensions
+			create binary_file_extensions.make_from_general (list)
 			binary_file_extensions.compare_objects
 		end
 
-	set_excluded_file_extensions (a_excluded_file_extensions: like excluded_file_extensions)
+	set_excluded_file_extensions (list: ARRAY [READABLE_STRING_GENERAL])
 		do
-			excluded_file_extensions := a_excluded_file_extensions
+			create excluded_file_extensions.make_from_general (list)
 			excluded_file_extensions.compare_objects
 		end
 
@@ -217,9 +217,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	binary_file_extensions: ARRAY [ZSTRING]
+	binary_file_extensions: EL_ZSTRING_LIST
 
-	excluded_file_extensions: ARRAY [ZSTRING]
+	excluded_file_extensions: EL_ZSTRING_LIST
 
 	work_area_dir: EL_DIR_PATH
 

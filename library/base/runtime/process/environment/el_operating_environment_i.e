@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-28 11:49:18 GMT (Thursday 28th June 2018)"
-	revision: "7"
+	date: "2019-09-11 18:14:41 GMT (Wednesday 11th September 2019)"
+	revision: "8"
 
 deferred class
 	EL_OPERATING_ENVIRONMENT_I
@@ -55,7 +55,7 @@ feature -- Constants
 	Temp_directory_path: EL_DIR_PATH
 			--
 		once
-			create Result.make_from_general (temp_directory_name)
+			Result := temp_directory_name
 		end
 
 feature -- Measurement

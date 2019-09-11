@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:25:44 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2019-09-11 18:15:28 GMT (Wednesday 11th September 2019)"
+	revision: "8"
 
 class
 	EL_FILE_PATH_LIST
@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 						extend (file_path)
 
 					elseif attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as general then
-						extend (create {EL_FILE_PATH}.make_from_general (general))
+						extend (create {EL_FILE_PATH}.make (general))
 					end
 				else
 					check invalid_tuple_type: False end

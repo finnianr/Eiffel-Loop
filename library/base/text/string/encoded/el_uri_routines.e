@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:06:56 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2019-09-11 18:04:25 GMT (Wednesday 11th September 2019)"
+	revision: "7"
 
 deferred class
 	EL_URI_ROUTINES
 
 inherit
 	EL_PROTOCOL_CONSTANTS
+		export
+			{NONE} all
+		end
+
+	EL_ZSTRING_ROUTINES
 		export
 			{NONE} all
 		end
@@ -25,10 +30,11 @@ feature -- Status query
 			Result := is_uri (uri) and then Http_protocols.has (uri_protocol (uri))
 		end
 
-	is_uri (uri: ZSTRING): BOOLEAN
+	is_uri (a_uri: READABLE_STRING_GENERAL): BOOLEAN
 		local
-			pos_sign: INTEGER
+			pos_sign: INTEGER; uri: ZSTRING
 		do
+			uri := as_zstring (a_uri)
 			pos_sign := uri.substring_index (Protocol_sign, 1)
 			if pos_sign >= 3 and then uri.count > pos_sign + Protocol_sign.count
 				and then is_alpha_string (uri.substring (1, pos_sign - 1))

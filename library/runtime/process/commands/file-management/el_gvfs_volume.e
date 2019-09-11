@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:30:19 GMT (Monday 1st July 2019)"
-	revision: "8"
+	date: "2019-09-11 18:17:23 GMT (Wednesday 11th September 2019)"
+	revision: "9"
 
 class
 	EL_GVFS_VOLUME
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			make_default
 			name := a_name; is_windows_format := a_is_windows_format
 			if a_name ~ Current_directory then
-				create {EL_DIR_PATH} uri_root.make_from_general (".")
+				create {EL_DIR_PATH} uri_root.make (once ".")
 			elseif a_name ~ Home_directory then
 				create {EL_DIR_URI_PATH} uri_root.make_from_path (Directory.home)
 			else

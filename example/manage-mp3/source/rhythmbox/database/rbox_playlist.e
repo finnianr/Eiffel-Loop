@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-04 12:56:01 GMT (Wednesday 4th September 2019)"
-	revision: "13"
+	date: "2019-09-11 9:55:12 GMT (Wednesday 11th September 2019)"
+	revision: "14"
 
 class
 	RBOX_PLAYLIST
@@ -58,18 +58,18 @@ create
 
 feature {NONE} -- Initialization
 
+	make (a_name: like name)
+		do
+			make_default
+			set_name (a_name)
+		end
+
 	make_default
 		do
 			make_playlist (10)
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
 			set_name (Empty_string)
-		end
-
-	make (a_name: like name)
-		do
-			make_default
-			set_name (a_name)
 		end
 
 feature -- Access
@@ -127,6 +127,16 @@ feature -- Access
 		do
 			Result := Playlists_dir + name
 			Result.add_extension (M3U_extension)
+		end
+
+feature -- Status query
+
+	is_name_dated: BOOLEAN
+		local
+			parts: EL_SPLIT_ZSTRING_LIST
+		do
+			create parts.make (name, character_string (' '))
+			Result := parts.count > 1 and then Date_checker.date_valid (parts.i_th (1), once "yyyy-mm-dd")
 		end
 
 feature -- Element change
@@ -212,6 +222,11 @@ feature {NONE} -- Evolicity reflection
 		end
 
 feature {NONE} -- Constants
+
+	Date_checker: DATE_VALIDITY_CHECKER
+		once
+			create Result
+		end
 
 	M3U_extension: ZSTRING
 		once

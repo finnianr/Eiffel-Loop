@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 8:17:46 GMT (Tuesday 10th September 2019)"
-	revision: "43"
+	date: "2019-09-11 8:46:54 GMT (Wednesday 11th September 2019)"
+	revision: "44"
 
 class
 	EXPERIMENTS_APP
@@ -31,8 +31,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("agent_routine.function_result_query")
-			agent_routine.function_result_query
+			log.enter ("agent_routine.routine_tagged_out")
+			agent_routine.routine_tagged_out
 			log.exit
 		end
 

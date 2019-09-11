@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 23:24:52 GMT (Sunday 23rd December 2018)"
-	revision: "7"
+	date: "2019-09-11 18:16:53 GMT (Wednesday 11th September 2019)"
+	revision: "8"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -42,7 +42,7 @@ feature -- Factory
 
 	new_path (a_path: READABLE_STRING_GENERAL): EL_DIR_PATH
 		do
-			create Result.make_from_general (a_path.as_string_32)
+			create Result.make (a_path)
 		end
 
 feature -- Access

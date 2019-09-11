@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 8:26:13 GMT (Tuesday 10th September 2019)"
-	revision: "3"
+	date: "2019-09-11 8:56:43 GMT (Wednesday 11th September 2019)"
+	revision: "4"
 
 class
 	AGENT_EXPERIMENTS
@@ -82,6 +82,15 @@ feature -- Basic operations
 		do
 			procedure := agent log_integer (?, "n")
 			procedure (2)
+		end
+
+	routine_tagged_out
+		local
+			routine: PROCEDURE
+		do
+			routine := agent log_integer
+			lio.put_string_field_to_max_length ("routine", routine.tagged_out, 1000)
+			lio.put_new_line
 		end
 
 	twinning_procedures

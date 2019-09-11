@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-03 15:07:25 GMT (Tuesday 3rd September 2019)"
-	revision: "7"
+	date: "2019-09-11 9:56:15 GMT (Wednesday 11th September 2019)"
+	revision: "8"
 
 deferred class
 	RHYTHMBOX_CONSTANTS
@@ -83,6 +83,17 @@ feature {NONE} -- Constants
 			create Result.make_from_tuple (Media_type)
 		end
 
+	Mp3_extension: ZSTRING
+		once
+			Result := "mp3"
+		end
+
+	Playlist_genre: ZSTRING
+		-- special genre to mark Rhythmbox ignored entry as a DJ event playlist
+		once
+			Result := "playlist"
+		end
+
 	Picture_artist: ZSTRING
 		once
 			Result := "Artist"
@@ -96,6 +107,12 @@ feature {NONE} -- Constants
 	Unknown_string: ZSTRING
 		once
 			Result := "Unknown"
+		end
+
+	Unknown_artist_names: ARRAY [ZSTRING]
+		once
+			Result := << "Various", "Various Artists", "Unknown" >>
+			Result.compare_objects
 		end
 
 	Unescaped_location_characters: DS_HASH_SET [CHARACTER]

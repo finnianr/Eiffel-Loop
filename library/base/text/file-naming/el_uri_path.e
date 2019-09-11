@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-04 15:26:49 GMT (Wednesday 4th September 2019)"
-	revision: "11"
+	date: "2019-09-11 18:12:10 GMT (Wednesday 11th September 2019)"
+	revision: "12"
 
 deferred class
 	EL_URI_PATH
@@ -30,6 +30,8 @@ inherit
 		export
 			{NONE} all
 			{ANY} is_uri_of_type, is_uri_string, Protocol_name, uri_path
+		undefine
+			copy, default_create, is_equal, out
 		end
 
 	EL_MODULE_UTF
@@ -45,22 +47,27 @@ feature {NONE} -- Initialization
 
 feature -- Initialization
 
-	make (a_uri: ZSTRING)
+	make (a_uri: READABLE_STRING_GENERAL)
 		require else
 			is_uri: is_uri_string (a_uri)
 			is_absolute: is_uri_absolute (a_uri)
 		local
-			l_uri_path: like uri_path; pos_separator: INTEGER
+			l_path: ZSTRING; pos_sign, pos_separator: INTEGER
 		do
-			protocol := uri_protocol (a_uri)
-			l_uri_path := uri_path (a_uri)
+			l_path := temporary_copy (a_uri)
+			protocol := uri_protocol (l_path)
+			pos_sign := l_path.substring_index (Protocol_sign, 1)
+			if pos_sign >= 3 then
+				l_path.remove_head (pos_sign + Protocol_sign.count - 1)
+			end
 			if protocol ~ Protocol_name.file then
 				create domain.make_empty
-				Precursor (l_uri_path)
+				Precursor (l_path)
 			else
-				pos_separator := l_uri_path.index_of (Separator, 1)
-				domain := l_uri_path.substring (1, pos_separator - 1)
-				Precursor (l_uri_path.substring_end (pos_separator))
+				pos_separator := l_path.index_of (Separator, 1)
+				domain := l_path.substring (1, pos_separator - 1)
+				l_path.remove_head (pos_separator - 1)
+				Precursor (l_path)
 			end
 		ensure then
 			is_absolute: is_absolute
@@ -174,12 +181,15 @@ feature -- Comparison
 
 feature -- Contract Support
 
-	is_uri_absolute (a_uri: ZSTRING): BOOLEAN
+	is_uri_absolute (a_uri: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			uri: ZSTRING
 		do
-			if uri_protocol (a_uri) ~ Protocol_name.file then
-				Result := uri_path (a_uri).starts_with (Forward_slash)
+			uri := temporary_copy (a_uri)
+			if uri_protocol (uri) ~ Protocol_name.file then
+				Result := uri_path (uri).starts_with (Forward_slash)
 			else
-				Result := uri_path (a_uri).has (Forward_slash [1])
+				Result := uri_path (uri).has (Forward_slash [1])
 			end
 		end
 

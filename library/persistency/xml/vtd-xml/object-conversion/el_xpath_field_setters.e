@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-04-19 9:25:29 GMT (Wednesday 19th April 2017)"
-	revision: "1"
+	date: "2019-09-11 18:42:24 GMT (Wednesday 11th September 2019)"
+	revision: "2"
 
 class
 	EL_XPATH_FIELD_SETTERS
@@ -60,6 +60,11 @@ feature {NONE} -- Field setters
 		end
 
 	Setter_string_32: EL_XPATH_STRING_32_SETTER
+		once
+			create Result
+		end
+
+	Setter_string_general: EL_XPATH_STRING_GENERAL_SETTER
 		once
 			create Result
 		end

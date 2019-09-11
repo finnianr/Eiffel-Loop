@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-04 15:27:47 GMT (Wednesday 4th September 2019)"
-	revision: "28"
+	date: "2019-09-11 18:58:28 GMT (Wednesday 11th September 2019)"
+	revision: "29"
 
 deferred class
 	EL_PATH
@@ -42,26 +42,17 @@ inherit
 
 	EL_ZSTRING_ROUTINES undefine is_equal, default_create, out, copy end
 
-	EL_ZSTRING_CONSTANTS
-
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FORMAT
 
-	EL_SHARED_ONCE_STRINGS
-
 feature {NONE} -- Initialization
 
 	default_create
 		do
 			parent_path := Empty_path; base := Empty_path
-		end
-
-	make_from_general (a_path: READABLE_STRING_GENERAL)
-		do
-			make (new_zstring (a_path))
 		end
 
 	make_from_other (other: EL_PATH)
@@ -74,7 +65,7 @@ feature {NONE} -- Initialization
 
 	make_from_path (a_path: PATH)
 		do
-			make_from_general (a_path.name)
+			make (a_path.name)
 		end
 
 	make_from_steps (a_steps: FINITE [READABLE_STRING_GENERAL])
@@ -83,7 +74,7 @@ feature {NONE} -- Initialization
 		do
 			path := joined (Separator, a_steps)
 			if a_steps.count = 1 then
-				base := path; parent_path := Empty_string
+				base := path; parent_path := Empty_path
 			else
 				base := path.substring_end (path.last_index_of (Separator, path.count) + 1)
 				path.remove_tail (base.count)
@@ -93,28 +84,27 @@ feature {NONE} -- Initialization
 
 feature -- Initialization
 
-	make, set_path (a_path: ZSTRING)
+	make, set_path (a_path: READABLE_STRING_GENERAL)
 			--
 		local
-			pos_last_separator: INTEGER norm_path: ZSTRING
+			pos_last_separator: INTEGER l_path: ZSTRING
 		do
+			l_path := temporary_copy (a_path)
 			-- Normalize path
 			if not is_uri and then {PLATFORM}.is_windows and then a_path.has (Unix_separator) then
-				norm_path := a_path.twin
-				norm_path.replace_character (Unix_separator, Separator)
-			else
-				norm_path := a_path
+				l_path.replace_character (Unix_separator, Separator)
 			end
-			if not norm_path.is_empty then
-				pos_last_separator := norm_path.last_index_of (Separator, norm_path.count)
+			if not l_path.is_empty then
+				pos_last_separator := l_path.last_index_of (Separator, l_path.count)
 				if pos_last_separator = 0 then
 					if not is_uri and then {PLATFORM}.is_windows then
-						pos_last_separator := norm_path.last_index_of (':', norm_path.count)
+						pos_last_separator := l_path.last_index_of (':', l_path.count)
 					end
 				end
 			end
-			set_parent_path (norm_path.substring (1, pos_last_separator))
-			base := norm_path.substring_end (pos_last_separator + 1)
+			base := l_path.substring_end (pos_last_separator + 1)
+			l_path.keep_head (pos_last_separator)
+			set_parent_path (l_path)
 		end
 
 feature -- Access
@@ -317,11 +307,6 @@ feature -- Measurement
 			end
 		end
 
-	parent_count: INTEGER
-		do
-			Result := parent_path.count
-		end
-
 	dot_index: INTEGER
 		-- index of last dot, 0 if none
 		do
@@ -357,6 +342,11 @@ feature -- Measurement
 				end
 				internal_hash_code := Result
 			end
+		end
+
+	parent_count: INTEGER
+		do
+			Result := parent_path.count
 		end
 
 	step_count: INTEGER
@@ -467,6 +457,19 @@ feature -- Status Query
 	out_abbreviated: BOOLEAN
 		-- is the current directory in 'out string' abbreviated to $CWD
 
+feature -- Basic operations
+
+	append_to (str: ZSTRING)
+		-- append path to string `str'
+		local
+			i: INTEGER
+		do
+			str.grow (str.count + count)
+			from i := 1 until i > part_count loop
+				str.append (part_string (i))
+				i := i + 1
+			end
+		end
 
 feature -- Status change
 
@@ -574,17 +577,15 @@ feature -- Element change
 			internal_hash_code := 0
 		end
 
-	set_parent_path (a_parent: ZSTRING)
+	set_parent_path (a_parent: READABLE_STRING_GENERAL)
 		local
 			set: like Parent_set; l_path: ZSTRING
 		do
 			if a_parent.is_empty then
-				parent_path := Empty_string
+				parent_path := Empty_path
 			else
-				if a_parent [a_parent.count] = Separator then
-					l_path := a_parent
-				else
-					l_path := once_copy (a_parent)
+				l_path := temporary_copy (a_parent)
+				if a_parent [a_parent.count] /= Separator then
 					l_path.append_character (Separator)
 				end
 				set := Parent_set
@@ -726,17 +727,14 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			l_path: ZSTRING
 		do
 			if not a_path.is_empty then
-				create l_path.make (parent_path.count + base.count + parent_path.count + 2)
-				l_path.append (parent_path)
-				l_path.append (base)
-				if not base.is_empty then
+				l_path := Temp_path; l_path.wipe_out; append_to (l_path)
+
+				if not l_path.is_empty then
 					l_path.append_unicode (Separator.natural_32_code)
 				end
-				if not a_path.parent_path.is_empty then
-					l_path.append (a_path.parent_path)
-				end
-				set_parent_path (l_path)
-				base := a_path.base
+				l_path.append (a_path.parent_path)
+				l_path.append (a_path.base)
+				set_path (l_path)
 			end
 		end
 
@@ -761,9 +759,9 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 
 feature {EL_PATH, STRING_HANDLER} -- Internal attributes
 
-	parent_path: ZSTRING
-
 	internal_hash_code: INTEGER
+
+	parent_path: ZSTRING
 
 feature {EL_PATH} -- Implementation
 
@@ -804,6 +802,15 @@ feature {EL_PATH} -- Implementation
 			set_parent_path (l_path)
 		end
 
+	temporary_copy (path: READABLE_STRING_GENERAL): ZSTRING
+		do
+			Result := Temp_path
+			if Result /= path then
+				Result.wipe_out
+				Result.append_string_general (path)
+			end
+		end
+
 feature {NONE} -- Type definitions
 
 	Type_parent: EL_DIR_PATH
@@ -842,6 +849,11 @@ feature {NONE} -- Constants
 	Single_dot: ZSTRING
 		once
 			Result := "."
+		end
+
+	Temp_path: ZSTRING
+		once
+			create Result.make_empty
 		end
 
 	Variable_cwd: ZSTRING

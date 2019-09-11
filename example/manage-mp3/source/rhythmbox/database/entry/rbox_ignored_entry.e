@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-04 12:23:57 GMT (Wednesday 4th September 2019)"
-	revision: "14"
+	date: "2019-09-11 9:33:35 GMT (Wednesday 11th September 2019)"
+	revision: "15"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -44,6 +44,13 @@ feature -- Access
 	modification_time: DATE_TIME
 		do
 			create Result.make_from_epoch (mtime)
+		end
+
+feature -- Status query
+
+	is_playlist: BOOLEAN
+		do
+			Result := genre ~ Playlist_genre
 		end
 
 feature -- Element change

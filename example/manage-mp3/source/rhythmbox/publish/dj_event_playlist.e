@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-08 13:30:25 GMT (Sunday 8th September 2019)"
-	revision: "10"
+	date: "2019-09-11 9:47:24 GMT (Wednesday 11th September 2019)"
+	revision: "11"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -114,6 +114,11 @@ feature -- Access
 				end
 				forth
 			end
+		end
+
+	new_rbox_entry: RBOX_PLAYLIST_ENTRY
+		do
+			create Result.make (Current)
 		end
 
 	spell_date: ZSTRING
