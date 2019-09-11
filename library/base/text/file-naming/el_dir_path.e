@@ -41,12 +41,20 @@ feature -- Conversion
 
 	joined_dir_steps (a_steps: FINITE [READABLE_STRING_GENERAL]): like Current
 		do
-			Result := joined_dir_path (create {EL_DIR_PATH}.make_from_steps (a_steps))
+			if a_steps.is_empty then
+				Result := Current
+			else
+				create Result.make (temporary_joined (a_steps))
+			end
 		end
 
 	joined_dir_tuple (tuple: TUPLE): like Current
 		do
-			Result := joined_dir_steps (create {EL_ZSTRING_LIST}.make_from_tuple (tuple))
+			if tuple.is_empty then
+				Result := Current
+			else
+				create Result.make (temporary_joined_tuple (tuple))
+			end
 		end
 
 	joined_file_path alias "+" (a_file_path: EL_FILE_PATH): like Type_file_path
@@ -56,12 +64,12 @@ feature -- Conversion
 
 	joined_file_steps (a_steps: FINITE [READABLE_STRING_GENERAL]): like joined_file_path
 		do
-			Result := joined_file_path (create {EL_FILE_PATH}.make_from_steps (a_steps))
+			create Result.make (temporary_joined (a_steps))
 		end
 
 	joined_file_tuple (tuple: TUPLE): like joined_file_path
 		do
-			Result := joined_file_steps (create {EL_ZSTRING_LIST}.make_from_tuple (tuple))
+			create Result.make (temporary_joined_tuple (tuple))
 		end
 
 feature -- Status report
@@ -107,6 +115,50 @@ feature -- Status report
 		end
 
 feature {NONE} -- Implementation
+
+	temporary_joined (a_steps: FINITE [READABLE_STRING_GENERAL]): ZSTRING
+		local
+			list: LINEAR [READABLE_STRING_GENERAL]
+		do
+			Result := Temp_path; Result.wipe_out; append_to (Result)
+			list := a_steps.linear_representation
+			from list.start until list.after loop
+				if not Result.is_empty then
+					Result.append_unicode (Separator.natural_32_code)
+				end
+				Result.append_string_general (list.item)
+				list.forth
+			end
+		end
+
+	temporary_joined_tuple (tuple: TUPLE): ZSTRING
+		local
+			i: INTEGER
+		do
+			Result := Temp_path; Result.wipe_out; append_to (Result)
+			from i := 1 until i > tuple.count loop
+				if not Result.is_empty then
+					Result.append_unicode (Separator.natural_32_code)
+				end
+				inspect tuple.item_code (i)
+					when {TUPLE}.Reference_code then
+						if attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as general then
+							Result.append_string_general (general)
+						elseif attached {EL_PATH} tuple.reference_item (i) as path
+							and then not path.is_absolute
+						then
+							path.append_to (Result)
+						elseif attached {PATH} tuple.reference_item (i) as path
+							and then not path.is_absolute
+						then
+							Result.append_string_general (path.name)
+						end
+				else
+					Result.append_string_general (tuple.item (i).out)
+				end
+				i := i + 1
+			end
+		end
 
 	new_relative_path: EL_DIR_PATH
 		do

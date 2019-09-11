@@ -862,5 +862,5 @@ feature {NONE} -- Constants
 		end
 
 invariant
-	parent_set_has_parent_path: not parent_path.is_empty implies Parent_set.has (parent_path)
+	parent_set_has_parent_path: parent_path /= Empty_path implies Parent_set.has (parent_path)
 end
