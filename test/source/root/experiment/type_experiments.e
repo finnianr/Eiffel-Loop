@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-30 12:23:41 GMT (Friday 30th November 2018)"
-	revision: "1"
+	date: "2019-09-13 15:20:04 GMT (Friday 13th September 2019)"
+	revision: "2"
 
 class
 	TYPE_EXPERIMENTS
@@ -16,6 +16,15 @@ inherit
 	EXPERIMENTAL
 
 feature -- Basic operations
+
+	conforming_types
+		do
+			if {ISE_RUNTIME}.type_conforms_to (
+				({EL_STANDARD_UNINSTALL_APP}).type_id, ({EL_INSTALLABLE_SUB_APPLICATION}).type_id
+				) then
+				lio.put_line ("Conforms")
+			end
+		end
 
 	create_aia_credential
 		local

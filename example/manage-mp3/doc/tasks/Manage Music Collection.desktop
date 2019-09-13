@@ -1,0 +1,8 @@
+[Desktop Entry]
+Comment=Manage Rhythmbox MP3 collection
+Terminal=false
+Name=Music Collection
+Exec=gnome-terminal --command="el_rhythmbox -manager -ask_user_to_quit -config '%f'" --geometry 140x50+100+100 --title="Rhythmbox Music"
+Type=Application
+Icon=/usr/share/icons/hicolor/256x256/apps/rhythmbox.png
+Name[en_GB]=Manage Music Collection

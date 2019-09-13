@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-27 13:30:41 GMT (Thursday 27th September 2018)"
-	revision: "3"
+	date: "2019-09-12 14:58:56 GMT (Thursday 12th September 2019)"
+	revision: "4"
 
 class
 	EL_SUBJECT_LINE_DECODER_TEST_SET
@@ -36,10 +36,10 @@ feature -- Access
 	test_utf_8
 		do
 			subject.set_line ("=?UTF-8?B?w5xiZXLigqwgTXkgQ2hpbmc=?=")
-			assert ("same string", subject.decoded_line.to_unicode ~ {STRING_32} "Über€ My Ching")
+			assert ("same string", subject.decoded_line.same_string ({STRING_32} "Über€ My Ching"))
 
 			subject.set_line ("=?UTF-8?Q?Journaleintr=c3=a4ge_bearbeiten?=")
-			assert ("same string", subject.decoded_line.to_unicode ~ "Journaleinträge bearbeiten")
+			assert ("same string", subject.decoded_line.same_string ("Journaleinträge bearbeiten"))
 
 		end
 

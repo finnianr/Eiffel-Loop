@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-12 12:49:37 GMT (Wednesday 12th June 2019)"
-	revision: "2"
+	date: "2019-09-12 13:27:02 GMT (Thursday 12th September 2019)"
+	revision: "3"
 
 class
 	REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_EVALUATOR

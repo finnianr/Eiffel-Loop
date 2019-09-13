@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-05 7:28:50 GMT (Thursday 5th September 2019)"
-	revision: "9"
+	date: "2019-09-13 9:52:57 GMT (Friday 13th September 2019)"
+	revision: "10"
 
 class
 	RBOX_PLAYLIST_ARRAY
@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 
 feature -- Cursor movement
 
-	search_by_name (playlist_name: STRING)
+	search_by_name (playlist_name: ZSTRING)
 			--
 		local
 			name_found: BOOLEAN
@@ -217,6 +217,7 @@ feature {NONE} -- Constants
 		end
 
 	Static_type_attribute: STRING = "type=%"static%">"
+
 	Tag_ending: ZSTRING
 		once
 			Result := "/>"

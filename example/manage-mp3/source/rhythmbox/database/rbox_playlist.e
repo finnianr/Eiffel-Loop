@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 9:55:12 GMT (Wednesday 11th September 2019)"
-	revision: "14"
+	date: "2019-09-13 16:49:13 GMT (Friday 13th September 2019)"
+	revision: "15"
 
 class
 	RBOX_PLAYLIST
@@ -136,7 +136,8 @@ feature -- Status query
 			parts: EL_SPLIT_ZSTRING_LIST
 		do
 			create parts.make (name, character_string (' '))
-			Result := parts.count > 1 and then Date_checker.date_valid (parts.i_th (1), once "yyyy-mm-dd")
+			Result := parts.count > 1 and then parts.i_th (1).count = 9
+							and then Date_checker.date_valid (parts.i_th (1), once "yyyy-mm-dd")
 		end
 
 feature -- Element change

@@ -11,5 +11,5 @@ update_dj_playlists:
 
 	# Set default DJ name and title for the event
 	dj_events:
-		dj_name = "Finnian Reilly"; default_title = "DATS Milonga Playlist"
+		dj_name = "Finnian Reilly"; default_title = "Milonga Classico Playlist"
 

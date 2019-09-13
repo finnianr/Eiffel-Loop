@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-15"
 
 replace_cortina_set:
-	is_dry_run = false; test_checksum = 4228449272
+	is_dry_run = false; test_checksum = 882734125
 	music_dir = "workarea/rhythmdb/Music"
 
 	cortina_set:

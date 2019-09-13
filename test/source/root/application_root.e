@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-28 9:21:46 GMT (Wednesday 28th August 2019)"
-	revision: "20"
+	date: "2019-09-13 14:39:39 GMT (Friday 13th September 2019)"
+	revision: "21"
 
 class
 	APPLICATION_ROOT
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	notes: TUPLE [DONE_LIST, TO_DO_LIST, MY_WET_CLASS, MY_DRY_CLASS, EL_TEST_SET_BRIDGE, LIBGCC1]
+	compile_also: TUPLE [MY_WET_CLASS, MY_DRY_CLASS, EL_TEST_SET_BRIDGE, LIBGCC1]
 		do
 		end
 

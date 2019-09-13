@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-04 18:15:33 GMT (Wednesday 4th September 2019)"
-	revision: "7"
+	date: "2019-09-12 10:39:31 GMT (Thursday 12th September 2019)"
+	revision: "8"
 
 class
 	M3U_PLAYLIST_READER
@@ -53,8 +53,8 @@ feature -- Access
 			song_path: EL_FILE_PATH
 		do
 			create Result.make (name)
-			across path_list as path_steps loop
-				song_path := Database.music_dir + path_steps.item
+			across path_list as path loop
+				song_path := Database.music_dir + path.item
 				if Database.has_song (song_path) then
 					Result.add_song_from_path (song_path)
 					lio.put_path_field ("Imported", song_path)
@@ -78,16 +78,27 @@ feature {NONE} -- State line procedures
 	find_path_entry (line: ZSTRING)
 			--
 		local
-			l_path: EL_FILE_PATH
+			steps: EL_PATH_STEPS; start_index: INTEGER
 		do
 			if not line.is_empty then
-				l_path := line
-				path_list.extend (l_path.steps)
+				steps := line
+				start_index := steps.index_of (Music, 1)
+				if start_index > 0 then
+					steps := steps.sub_steps (start_index, steps.count)
+				end
+				path_list.extend (steps)
 				state := agent find_extinf
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	path_list: ARRAYED_LIST [EL_PATH_STEPS]
+	path_list: ARRAYED_LIST [EL_FILE_PATH]
+
+feature {NONE} -- Constants
+
+	Music: ZSTRING
+		once
+			Result := "Music"
+		end
 end

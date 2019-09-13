@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 18:13:18 GMT (Wednesday 11th September 2019)"
-	revision: "10"
+	date: "2019-09-11 23:04:22 GMT (Wednesday 11th September 2019)"
+	revision: "11"
 
 class
 	EL_DIR_PATH
@@ -27,7 +27,7 @@ create
 	default_create, make, make_from_path, make_from_other, make_from_steps
 
 convert
-	make ({ZSTRING, STRING_32, STRING}), make_from_path ({PATH}),
+	make ({ZSTRING, STRING, STRING_32}), make_from_path ({PATH}),
 
  	to_string: {ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL}, steps: {EL_PATH_STEPS}, to_path: {PATH}
 
@@ -41,20 +41,12 @@ feature -- Conversion
 
 	joined_dir_steps (a_steps: FINITE [READABLE_STRING_GENERAL]): like Current
 		do
-			if a_steps.is_empty then
-				Result := Current
-			else
-				create Result.make (temporary_joined (a_steps))
-			end
+			create Result.make (temporary_joined (a_steps))
 		end
 
 	joined_dir_tuple (tuple: TUPLE): like Current
 		do
-			if tuple.is_empty then
-				Result := Current
-			else
-				create Result.make (temporary_joined_tuple (tuple))
-			end
+			create Result.make (temporary_joined_tuple (tuple))
 		end
 
 	joined_file_path alias "+" (a_file_path: EL_FILE_PATH): like Type_file_path
@@ -140,19 +132,18 @@ feature {NONE} -- Implementation
 				if not Result.is_empty then
 					Result.append_unicode (Separator.natural_32_code)
 				end
-				inspect tuple.item_code (i)
-					when {TUPLE}.Reference_code then
-						if attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as general then
-							Result.append_string_general (general)
-						elseif attached {EL_PATH} tuple.reference_item (i) as path
-							and then not path.is_absolute
-						then
-							path.append_to (Result)
-						elseif attached {PATH} tuple.reference_item (i) as path
-							and then not path.is_absolute
-						then
-							Result.append_string_general (path.name)
-						end
+				if tuple.is_reference_item (i) then
+					if attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as general then
+						Result.append_string_general (general)
+					elseif attached {EL_PATH} tuple.reference_item (i) as path
+						and then not path.is_absolute
+					then
+						path.append_to (Result)
+					elseif attached {PATH} tuple.reference_item (i) as path
+						and then not path.is_absolute
+					then
+						Result.append_string_general (path.name)
+					end
 				else
 					Result.append_string_general (tuple.item (i).out)
 				end

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 10:17:17 GMT (Wednesday 11th September 2019)"
-	revision: "15"
+	date: "2019-09-12 8:58:42 GMT (Thursday 12th September 2019)"
+	revision: "16"
 
 class
 	RBOX_DATABASE
@@ -95,7 +95,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	playlists_all: EL_ARRAYED_LIST [PLAYLIST]
+	all_playlists: EL_ARRAYED_LIST [PLAYLIST]
 		do
 			create Result.make (playlists.count + dj_playlists.count)
 			Result.append (playlists)
@@ -220,7 +220,7 @@ feature -- Status query
 			l_music_extra_playlist: like archive_playlist
 		do
 			l_music_extra_playlist := archive_playlist
-			Result := across playlists_all as playlist some
+			Result := across all_playlists as playlist some
 				playlist.item /= l_music_extra_playlist and then playlist.item.has (song)
 			end
 		end
@@ -325,7 +325,7 @@ feature -- Element change
 					extend (cortina.item)
 				end
 			end
-			playlists_all.do_all (agent {PLAYLIST}.replace_cortinas (a_cortina_set))
+			all_playlists.do_all (agent {PLAYLIST}.replace_cortinas (a_cortina_set))
 		end
 
 	replace (deleted_path, replacement_path: EL_FILE_PATH)
@@ -338,7 +338,7 @@ feature -- Element change
 		do
 			deleted := songs_by_location [deleted_path]
 			replacement := songs_by_location [replacement_path]
-			playlists_all.do_all (agent {PLAYLIST}.replace_song (deleted, replacement))
+			all_playlists.do_all (agent {PLAYLIST}.replace_song (deleted, replacement))
 		end
 
 	update_index_by_audio_id
@@ -425,7 +425,11 @@ feature -- Basic operations
 		do
 			log.put_line ("Saving playlists")
 			playlists.store
-			dj_playlists.do_all (agent {DJ_EVENT_PLAYLIST}.store)
+			across dj_playlists as playlist loop
+				if playlist.item.is_modified then
+					playlist.item.store
+				end
+			end
 		end
 
 	store_in_directory (a_dir_path: EL_DIR_PATH)
@@ -446,7 +450,7 @@ feature -- Removal
 	remove (song: RBOX_SONG)
 			-- remove without deleting file
 		require
-			not_in_any_playlist: across playlists_all as playlist all not playlist.item.has (song) end
+			not_in_any_playlist: across all_playlists as playlist all not playlist.item.has (song) end
 		do
 			songs.start; songs.prune (song)
 			entries.start; entries.prune (song)

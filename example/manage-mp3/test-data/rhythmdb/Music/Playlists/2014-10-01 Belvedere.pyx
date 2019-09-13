@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "UTF-8"
 DJ-event:
 	title = "DATS Milonga Playlist"; date = "1/10/2014"; start_time = "21:15"
-	venue = "Belvedere Hotel"; DJ_name = "Finnian Reilly"
+	venue = "Belvedere Hotel"; DJ_name = "Finnian Reilly"; ignore = false
 	mp3-path:
 		"Cortina/Enya/A. MILONGA tanda _____________.mp3"
 		"Recent/Feb 28/Various Artists - El Temblor.mp3"

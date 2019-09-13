@@ -30,6 +30,11 @@
       </subquery>
     </conjunction>
   </playlist>
+  <playlist name="Tai Chi warmup" type="static">
+    <location>file://$MUSIC/Recent/Feb%204/Francisco%20Lomuto%20y%20su%20orquesta%20tipica%20-%20Lo%20Que%20Vieron%20Tus%20Ojos.mp3</location>
+    <location>file://$MUSIC/Recent/Feb%204/Francisco%20Lomuto%20y%20su%20orquesta%20tipica%20-%20Has%20Muerto%20Para%20Mi.mp3</location>
+    <location>file://$MUSIC/Recent/Feb%204/Francisco%20Lomuto%20y%20su%20orquesta%20tipica%20-%20Mar%20De%20Fondo.mp3</location>
+  </playlist>
   <playlist name="2014-10-01 Belvedere" type="static">
     <location>file://$MUSIC/Cortina/Enya/A.%20MILONGA%20tanda%20_____________.mp3</location>
     <location>file://$MUSIC/Recent/Feb%2028/Various%20Artists%20-%20El%20Temblor.mp3</location>

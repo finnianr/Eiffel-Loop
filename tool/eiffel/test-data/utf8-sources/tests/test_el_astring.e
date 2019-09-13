@@ -61,7 +61,7 @@ feature -- Test routines
 				str.append_unicode_general (Tao)
 				str.append_unicode_general (Trademark)
 			end
-			assert ("append OK", str.to_unicode ~ Tao + Trademark + Tao + Trademark + Tao + Trademark)
+			assert ("append OK", str.same_string (Tao + Trademark + Tao + Trademark + Tao + Trademark))
 			search_str := Trademark
 			search_str.remove_tail (2)
 			create substrings.make (str, search_str)
@@ -116,7 +116,7 @@ feature -- Test routines
 			s: EL_ASTRING
 		do
 			s := Italian_business
-			assert ("unicode correct", s.to_unicode ~ Italian_business)
+			assert ("unicode correct", s.same_string (Italian_business))
 		end
 
 	test_special_arrays
@@ -134,7 +134,7 @@ feature -- Test routines
 			a, b: EL_ASTRING
 		do
 			a := Upper_case
-			assert ("Upper substring OK", a.substring (2, a.count).to_unicode ~ Upper_case.substring (2, Upper_case.count))
+			assert ("Upper substring OK", a.substring (2, a.count).same_string (Upper_case.substring (2, Upper_case.count)))
 
 			a := Italian_business
 			b := Italian_business
@@ -151,7 +151,7 @@ feature -- Test routines
 			search_str := Russian_water
 			pos := s.substring_index (search_str, 1)
 			found_str := s.substring (pos, pos + search_str.count - 1)
-			assert ("found substring OK", found_str.to_unicode ~ Russian_water)
+			assert ("found substring OK", found_str.same_string (Russian_water))
 		end
 
 	test_case_changing
@@ -166,9 +166,9 @@ feature -- Test routines
 			lower, upper: EL_ASTRING
 		do
 			lower := a_lower
-			assert ("To upper conversion OK", lower.as_upper.to_unicode ~ a_upper)
+			assert ("To upper conversion OK", lower.as_upper.same_string (a_upper))
 			upper :=  a_upper
-			assert ("To lower conversion OK", upper.as_lower.to_unicode ~ a_lower)
+			assert ("To lower conversion OK", upper.as_lower.same_string (a_lower))
 		end
 
 	test_russian
@@ -178,7 +178,7 @@ feature -- Test routines
 			a := Russian_eat_a_fish_proverb
 			b := Russian_eat_a_fish_proverb
 			assert ("a equals b", a ~ b)
-			assert ("unicode conversion OK", a.to_unicode ~ Russian_eat_a_fish_proverb)
+			assert ("unicode conversion OK", a.same_string (Russian_eat_a_fish_proverb))
 		end
 
 feature {NONE} -- Constants

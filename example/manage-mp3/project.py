@@ -2,7 +2,7 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 4, 3); build = 364
+version = (1, 4, 3); build = 368
 
 installation_sub_directory = 'Eiffel-Loop/manage-mp3'
 

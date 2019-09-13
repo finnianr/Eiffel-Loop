@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 18:13:48 GMT (Wednesday 11th September 2019)"
-	revision: "12"
+	date: "2019-09-11 23:04:47 GMT (Wednesday 11th September 2019)"
+	revision: "13"
 
 class
 	EL_DIR_URI_PATH
@@ -37,7 +37,7 @@ create
 	default_create, make, make_file, make_protocol, make_from_path, make_from_dir_path
 
 convert
-	make ({ZSTRING, STRING_32, STRING}),
+	make ({ZSTRING, STRING, STRING_32}),
 	make_from_path ({PATH}),
 	make_from_dir_path ({EL_DIR_PATH}),
 

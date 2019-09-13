@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 9:47:24 GMT (Wednesday 11th September 2019)"
-	revision: "11"
+	date: "2019-09-12 8:45:07 GMT (Thursday 12th September 2019)"
+	revision: "12"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -31,7 +31,7 @@ inherit
 		undefine
 			copy, is_equal
 		redefine
-			make_default, building_action_table, getter_function_table, Is_bom_enabled
+			make_default, make_from_file, building_action_table, getter_function_table, Is_bom_enabled
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -44,6 +44,8 @@ inherit
 		rename
 			Date as Mod_date
 		end
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 	SHARED_DATABASE
 
@@ -85,6 +87,12 @@ feature {NONE} -- Initialization
 			create date.make_by_days (0)
 			is_publishable := True
 			Precursor
+		end
+
+	make_from_file (a_file_path: like output_path)
+		do
+			Precursor (a_file_path)
+			checksum := new_checksum
 		end
 
 feature -- Access
@@ -138,6 +146,11 @@ feature -- Access
 
 feature -- Status query
 
+	is_modified: BOOLEAN
+		do
+			Result := checksum /= new_checksum
+		end
+
 	is_publishable: BOOLEAN
 		-- False if @ignore is set to true in DJ event list
 
@@ -161,6 +174,29 @@ feature -- Element change
 		do
 			Precursor (a_song, replacement_song)
 			unplayed.replace_song (a_song, replacement_song)
+		end
+
+feature {NONE} -- Implementation
+
+	new_checksum: NATURAL
+		local
+			crc: like crc_generator
+		do
+			crc := crc_generator
+			across << dj_name, title, venue >> as str loop
+				crc.add_string (str.item)
+			end
+			across << date.ordered_compact_date, start_time.compact_time >> as n loop
+				crc.add_integer (n.item)
+			end
+			crc.add_boolean (is_publishable)
+
+			across << Current, unplayed >> as list loop
+				across list.item as l_song loop
+					crc.add_path (l_song.item.mp3_path)
+				end
+			end
+			Result := crc.checksum
 		end
 
 feature {NONE} -- Evolicity fields
@@ -257,6 +293,10 @@ feature {NONE} -- Building from XML
 				create start_time.make_from_string (str, "hh:mi")
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	checksum: NATURAL
 
 feature {NONE} -- Constants
 

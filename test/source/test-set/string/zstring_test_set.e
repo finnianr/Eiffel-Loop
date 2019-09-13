@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-06 8:05:49 GMT (Tuesday 6th August 2019)"
-	revision: "14"
+	date: "2019-09-12 13:51:21 GMT (Thursday 12th September 2019)"
+	revision: "15"
 
 class
 	ZSTRING_TEST_SET
@@ -53,7 +53,7 @@ feature -- Conversion tests
 				str_32 := word.item; str := str_32
 				mirror_32 := str_32.mirrored
 				mirror := str.mirrored
-				assert ("mirror OK", mirror.to_unicode ~ mirror_32)
+				assert ("mirror OK", mirror.same_string (mirror_32))
 			end
 		end
 
@@ -70,7 +70,7 @@ feature -- Conversion tests
 				assert ("same word count", word_list.count = words_32.count)
 				if word_list.count = words_32.count then
 					from word_list.start; words_32.start until word_list.after loop
-						assert ("test_split OK", word_list.item.to_unicode ~ words_32.item)
+						assert ("test_split OK", word_list.item.same_string (words_32.item))
 						word_list.forth; words_32.forth
 					end
 				end
@@ -107,7 +107,7 @@ feature -- Conversion tests
 				end
 				str_2.append (l_substring)
 			end
-			assert ("substring_split OK", str.to_unicode ~ Text_russian_and_english)
+			assert ("substring_split OK", str.same_string (Text_russian_and_english))
 		end
 
 feature -- Element change tests
@@ -142,7 +142,7 @@ feature -- Element change tests
 			across Text_russian_and_english as uc loop
 				a.append_unicode (uc.item.natural_32_code)
 			end
-			assert ("append_unicode OK", a.to_unicode ~ Text_russian_and_english)
+			assert ("append_unicode OK", a.same_string (Text_russian_and_english))
 		end
 
 	test_append_string_general
@@ -159,9 +159,9 @@ feature -- Element change tests
 				end
 				str_32.append (word_32)
 				str.append_string_general (word_32)
-				assert ("append_string_general OK", str.to_unicode ~ str_32)
+				assert ("append_string_general OK", str.same_string (str_32))
 				l_word := str.substring (str.count - word_32.count + 1, str.count)
-				assert ("substring OK", l_word.to_unicode ~ word_32)
+				assert ("substring OK", l_word.same_string (word_32))
 			end
 		end
 
@@ -199,7 +199,7 @@ feature -- Element change tests
 					index := substituted.index_of ('%S', 1)
 					substituted.replace_substring_general (Escaped_substitution_marker, index, index)
 				end
-				assert ("substitute_tuple OK", substituted.to_unicode ~ str_32)
+				assert ("substitute_tuple OK", substituted.same_string (str_32))
 			end
 		end
 
@@ -220,7 +220,7 @@ feature -- Element change tests
 				str_32 := word.item; str := str_32
 				str_32.prepend_character ('"'); str_32.append_character ('"')
 				str.quote (2)
-				assert ("enclose OK", str.to_unicode ~ str_32)
+				assert ("enclose OK", str.same_string (str_32))
 			end
 		end
 
@@ -238,7 +238,7 @@ feature -- Element change tests
 					from i := 1 until i > 5 loop
 						str_32 := line.item.twin; str := str_32
 						str_32.insert_character (uc, i); str.insert_character (uc, i)
-						assert ("insert_character OK", str.to_unicode ~ str_32)
+						assert ("insert_character OK", str.same_string (str_32))
 						i := i + 1
 					end
 				end
@@ -259,7 +259,7 @@ feature -- Element change tests
 						str_32 := line.item.twin; str := str_32
 						str_32.insert_string (insert_32, i)
 						str.insert_string (insert, i)
-						assert ("insert_string OK", str.to_unicode ~ str_32)
+						assert ("insert_string OK", str.same_string (str_32))
 						i := i + 1
 					end
 				end
@@ -287,7 +287,7 @@ feature -- Element change tests
 				across Text_lines as line loop
 					str_32 := line.item.twin; str := str_32
 					str_32.prune_all (uc); str.prune_all (uc)
-					assert ("prune_all OK", str.to_unicode ~ str_32)
+					assert ("prune_all OK", str.same_string (str_32))
 				end
 			end
 			across Text_words as word loop
@@ -295,7 +295,7 @@ feature -- Element change tests
 				from until str_32.is_empty loop
 					uc := str_32 [1]
 					str_32.prune_all (uc); str.prune_all (uc)
-					assert ("prune_all OK", str.to_unicode ~ str_32)
+					assert ("prune_all OK", str.same_string (str_32))
 				end
 			end
 		end
@@ -327,7 +327,7 @@ feature -- Element change tests
 					from i := line.item.index_of (uc, 1) until i = 0 loop
 						str_32 := line.item.twin; str := str_32
 						str_32.put_code (uc.natural_32_code, i); str.put_unicode (uc.natural_32_code, i)
-						assert ("put_unicode OK", str.to_unicode ~ str_32)
+						assert ("put_unicode OK", str.same_string (str_32))
 						i := line.item.index_of (uc, i + 1)
 					end
 				end
@@ -351,7 +351,7 @@ feature -- Element change tests
 						str_32 := Text_russian_and_english.twin; str := str_32
 						str_32.remove_substring (l_interval.lower, l_interval.upper)
 						str.remove_substring (l_interval.lower, l_interval.upper)
-						assert ("remove_substring OK", str.to_unicode ~ str_32)
+						assert ("remove_substring OK", str.same_string (str_32))
 					end
 					offset := offset + (interval.item.count // 2).max (1)
 				end
@@ -381,7 +381,7 @@ feature -- Element change tests
 					str_32 := Text_russian_and_english.twin; str := str_32
 					str_32.replace_substring (word_32.item, l_interval.lower, l_interval.upper)
 					str.replace_substring (word, l_interval.lower, l_interval.upper)
-					assert ("replace_substring OK", str.to_unicode ~ str_32)
+					assert ("replace_substring OK", str.same_string (str_32))
 				end
 			end
 		end
@@ -402,7 +402,7 @@ feature -- Element change tests
 					str := str_32
 					str_32.replace_substring_all (word_32, previous_word_32)
 					str.replace_substring_all (word, previous_word)
-					assert ("replace_substring_all OK", str.to_unicode ~ str_32)
+					assert ("replace_substring_all OK", str.same_string (str_32))
 				end
 				previous_word_32 := word_32; previous_word := word
 			end
@@ -421,7 +421,7 @@ feature -- Element change tests
 					str_32 := line.item.twin; str := str_32
 					String_32.replace_character (str_32, uc_old, uc_new)
 					str.replace_character (uc_old, uc_new)
-					assert ("replace_character OK", str.to_unicode ~ str_32)
+					assert ("replace_character OK", str.same_string (str_32))
 				end
 			end
 		end
@@ -444,7 +444,7 @@ feature -- Element change tests
 				str_utf_8 := str.to_utf_8
 				assert ("to_utf_8 OK", str_utf_8 ~ Utf_8_codec.as_utf_8 (str_32, False))
 				create str_2.make_from_utf_8 (str_utf_8)
-				assert ("make_from_utf_8 OK", str_2.to_unicode ~ str_32)
+				assert ("make_from_utf_8 OK", str_2.same_string (str_32))
 			end
 		end
 
@@ -473,7 +473,7 @@ feature -- Element change tests
 					str_32 := Text_russian_and_english.twin; str := str_32
 					String_32.translate_deleting_null_characters (str_32, old_characters_32, new_characters_32, j = 2)
 					str.translate_deleting_null_characters (old_characters, new_characters, j = 2)
-					assert ("translate OK", str.to_unicode ~ str_32)
+					assert ("translate OK", str.same_string (str_32))
 					j := j + 1
 				end
 				i := i + 1
@@ -498,7 +498,7 @@ feature -- Status query tests
 				end
 				assert ("ends_with OK", str.ends_with (word) = str_32.ends_with (word_32))
 				str_32.remove_tail (count); str.remove_tail (count)
-				assert ("remove_tail OK", str.to_unicode ~ str_32)
+				assert ("remove_tail OK", str.same_string (str_32))
 				i := i - 1
 			end
 		end
@@ -564,7 +564,7 @@ feature -- Status query tests
 					sorted.extend (word); sorted_32.extend (w.item)
 				end
 				sorted.sort; sorted_32.sort
-				assert ("sorting OK", across sorted as l_a all l_a.item.to_unicode ~ sorted_32.i_th (l_a.cursor_index) end)
+				assert ("sorting OK", across sorted as l_a all l_a.item.same_string (sorted_32.i_th (l_a.cursor_index)) end)
 			end
 		end
 
@@ -588,7 +588,7 @@ feature -- Status query tests
 					word := word_32
 					assert ("starts_with OK", str.starts_with (word) = str_32.starts_with (word_32))
 					str_32.remove_head (word_32.count); str.remove_head (word.count)
-					assert ("remove_head OK", str.to_unicode ~ str_32)
+					assert ("remove_head OK", str.same_string (str_32))
 				end
 			end
 		end
@@ -620,7 +620,7 @@ feature -- Removal tests
 				from i := 1 until i > word.item.count loop
 					str_32 := word.item.twin; str := str_32
 					str.remove (i); str_32.remove (i)
-					assert ("remove OK", str.to_unicode ~ str_32)
+					assert ("remove OK", str.same_string (str_32))
 					i := i + 1
 				end
 			end
@@ -640,7 +640,7 @@ feature -- Removal tests
 				else
 					str_32.remove_head (str_32.count) str.remove_head (str.count)
 				end
-				assert ("remove_head OK", str.to_unicode ~ str_32)
+				assert ("remove_head OK", str.same_string (str_32))
 			end
 		end
 
@@ -658,7 +658,7 @@ feature -- Removal tests
 				else
 					str_32.remove_tail (str_32.count) str.remove_tail (str.count)
 				end
-				assert ("remove_tail OK", str.to_unicode ~ str_32)
+				assert ("remove_tail OK", str.same_string (str_32))
 			end
 		end
 
@@ -733,7 +733,7 @@ feature -- Access tests
 					if pos_32 > 0 then
 						word := str.substring (pos, pos + search_word.count - 1)
 						word_32 := str_32.substring (pos_32, pos_32 + search_word_32.item.count - 1)
-						assert ("substring_index OK", word.to_unicode ~ word_32)
+						assert ("substring_index OK", word.same_string (word_32))
 					end
 				end
 			end
@@ -760,7 +760,7 @@ feature -- Duplication tests
 			str_32 := Text_russian_and_english; str := Text_russian_and_english
 			count := str_32.count
 			from i := 1 until (i + 4) > count loop
-				assert ("substring OK",  str.substring (i, i + 4).to_unicode ~ str_32.substring (i, i + 4))
+				assert ("substring OK",  str.substring (i, i + 4).same_string (str_32.substring (i, i + 4)))
 				i := i + 1
 			end
 		end
@@ -818,7 +818,7 @@ feature -- Unescape tests
 				create escape_table.make (escape_character, escape_table_32)
 				String_32.unescape (str_32, escape_character, escape_table_32)
 				str.unescape (escape_table)
-				assert ("unescape OK", str.to_unicode ~ str_32)
+				assert ("unescape OK", str.same_string (str_32))
 			end
 		end
 
@@ -842,8 +842,8 @@ feature {NONE} -- Implementation
 			lower, upper: ZSTRING
 		do
 			lower := lower_32; upper :=  upper_32
-			assert ("to_upper OK", lower.as_upper.to_unicode ~ upper_32)
-			assert ("to_lower OK", upper.as_lower.to_unicode ~ lower_32)
+			assert ("to_upper OK", lower.as_upper.same_string (upper_32))
+			assert ("to_lower OK", upper.as_lower.same_string (lower_32))
 		end
 
 	do_pruning_test (type: STRING)
@@ -861,8 +861,8 @@ feature {NONE} -- Implementation
 						end
 						str := str_32
 					end
-					assert ("append_character OK", str.to_unicode ~ str_32)
-					assert ("prepend_character OK", str.to_unicode ~ str_32)
+					assert ("append_character OK", str.same_string (str_32))
+					assert ("prepend_character OK", str.same_string (str_32))
 
 					if type = Left_adjust then
 						str.left_adjust; str_32.left_adjust
@@ -871,20 +871,22 @@ feature {NONE} -- Implementation
 					elseif type = Prune_trailing then
 						str.prune_all_trailing (c.item); str_32.prune_all_trailing (c.item)
 					end
-					assert (type + " OK", str.to_unicode ~ str_32)
+					assert (type + " OK", str.same_string (str_32))
 				end
 			end
 		end
 
 	escape_test (name: STRING; escaper: EL_ZSTRING_ESCAPER; escaper_32: EL_STRING_32_ESCAPER)
 		local
-			str_32: STRING_32; str: ZSTRING
+			str_32, escaped_32: STRING_32; str, escaped: ZSTRING
 		do
-			across << Text_russian_and_english, Vivalidi_title, Lower_case_characters >> as string loop
+			across Text_lines as string loop
 				str_32 := string.item.twin
 				String_32.replace_character (str_32, '+', '&')
 				str := str_32
-				assert (name + " escape OK", escaper.escaped (str, False).to_unicode ~ escaper_32.escaped (str_32, False))
+				escaped := escaper.escaped (str, True)
+				escaped_32 := escaper_32.escaped (str_32, True)
+				assert (name + " escape OK", escaped.same_string (escaped_32))
 			end
 		end
 
@@ -910,7 +912,7 @@ feature {NONE} -- Implementation
 				else
 					str.prepend (substring);  str_32.prepend (substring_32)
 				end
-				assert (type + " OK", str.to_unicode ~ str_32)
+				assert (type + " OK", str.same_string (str_32))
 				i := i + 5
 			end
 		end
@@ -922,7 +924,7 @@ feature {NONE} -- Implementation
 			str := str_32
 			part_a := str.substring (1, str.index_of (uc, 1))
 			part_32 := str_32.substring (1, str_32.index_of (uc, 1))
-			assert ("unicode_index_of OK", part_a.to_unicode ~ part_32)
+			assert ("unicode_index_of OK", part_a.same_string (part_32))
 		end
 
 feature {NONE} -- String 8 constants

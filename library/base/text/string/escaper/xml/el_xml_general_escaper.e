@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-07 15:57:10 GMT (Friday 7th June 2019)"
-	revision: "6"
+	date: "2019-09-13 8:55:28 GMT (Friday 13th September 2019)"
+	revision: "7"
 
 deferred class
 	EL_XML_GENERAL_ESCAPER
@@ -44,19 +44,27 @@ feature {NONE} -- Initialization
 
 feature -- Transformation
 
-	escape_sequence (code: NATURAL): STRING
+	escape_sequence (code: NATURAL): like new_string
 		local
-			entities: like predefined_entities; l_name: STRING
+			entities: like predefined_entities
+			byte_count: INTEGER
 		do
 			entities := predefined_entities
 			if entities.has_key (code) then
 				Result := entities.found_item
 			else
-				l_name := empty_once_string_8
-				l_name.append_character ('#')
-				l_name.append_natural_32 (code)
-				Result := named_entity (l_name)
+				byte_count := hex_byte_count (code)
+				Result := new_string (4 + byte_count)
+				Result.append (once "&#x")
+				Result.append_substring (code.to_hex_string, 8 - byte_count + 1, 8)
+				Result.append_code ((';').natural_32_code)
+				entities.extend (Result, code)
 			end
+		end
+
+	append_escape_sequence (str: like new_string; code: NATURAL)
+		do
+			str.append (escape_sequence (code))
 		end
 
 feature -- Element change
@@ -73,9 +81,17 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	append_escape_sequence (str: like once_buffer; code: NATURAL)
+	hex_byte_count (code: NATURAL): INTEGER
+		local
+			mask: NATURAL
 		do
-			str.append (escape_sequence (code))
+			Result := 8
+			mask := 0xF
+			mask := mask |<< (32 - 4)
+			from until mask = 0 or else (code & mask).to_boolean loop
+				mask := mask |>> 4
+				Result := Result - 1
+			end
 		end
 
 	is_escaped (table: like code_table; code: NATURAL): BOOLEAN
@@ -83,12 +99,12 @@ feature {NONE} -- Implementation
 			Result := table.found or else (escape_128_plus and then code > 128)
 		end
 
-	named_entity (a_name: STRING): STRING
+	named_entity (a_name: STRING): like new_string
 		do
-			create Result.make (a_name.count + 2)
-			Result.append_character ('&')
+			Result := new_string (a_name.count + 2)
+			Result.append_code (('&').natural_32_code)
 			Result.append (a_name)
-			Result.append_character (';')
+			Result.append_code ((';').natural_32_code)
 		end
 
 	new_predefined_string: STRING
@@ -99,10 +115,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_string (n: INTEGER): STRING_GENERAL
+		deferred
+		end
+
 feature {NONE} -- Internal attributes
 
 	escape_128_plus: BOOLEAN
 
-	predefined_entities: HASH_TABLE [STRING, NATURAL]
+	predefined_entities: HASH_TABLE [like new_string, NATURAL]
 
 end
