@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 15:03:30 GMT (Wednesday 20th February 2019)"
-	revision: "1"
+	date: "2019-09-14 11:28:59 GMT (Saturday   14th   September   2019)"
+	revision: "2"
 
 class
 	EL_TUPLE_TYPE_LIST [T]
@@ -28,6 +28,7 @@ feature {NONE} -- Initialization
 		do
 			make_list (type_array.count)
 			across type_array as type loop
+				-- skip non-conforming types
 				if attached {like item} type.item as l_type then
 					extend (l_type)
 				end

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-06 11:32:42 GMT (Friday 6th September 2019)"
-	revision: "10"
+	date: "2019-09-14 9:37:36 GMT (Saturday   14th   September   2019)"
+	revision: "11"
 
 deferred class
 	-- Generic to make sure scons generated `BUILD_INFO' is compiled from project source
@@ -62,7 +62,7 @@ feature {NONE} -- Initialization
 --				this could effect subsequent programs that run in the same shell.
 --				Python for example might give a "LookupError: unknown encoding: cp65001" error.
 
-			create list.make (application_types, select_first)
+			create list.make (application_type_list, select_first)
 			list.extend (create {EL_VERSION_APP})
 			list.find (lio, Args.option_name (1))
 			if list.found then
@@ -87,18 +87,24 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
+	applications: TUPLE
+	 	deferred
+	 	end
+
 	call (obj: ANY)
 		do
-		end
-
-	application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
-			--
-		deferred
 		end
 
 	select_first: BOOLEAN
 		-- if `True' first application in `Application_list' selected by default
 		do
+		end
+
+	application_type_list: EL_TUPLE_TYPE_LIST [EL_SUB_APPLICATION]
+		do
+			create Result.make_from_tuple (applications)
+		ensure
+			all_conform_to_sub_appplication: Result.count = applications.count
 		end
 
 end

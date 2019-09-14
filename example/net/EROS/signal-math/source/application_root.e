@@ -18,18 +18,17 @@ inherit
 create
 	make
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	Application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
-			--
+	Applications: TUPLE [
+		BEXT_CLIENT_TEST_APP,
+		BEXT_SERVER_TEST_APP,
+		FOURIER_MATH_TEST_CLIENT_APP,
+		FOURIER_MATH_TEST_SERVER_APP,
+		EL_STANDARD_INSTALLER_APP
+	]
 		once
-			Result := <<
-				{BEXT_CLIENT_TEST_APP},
-				{BEXT_SERVER_TEST_APP},
-				{FOURIER_MATH_TEST_CLIENT_APP},
-				{FOURIER_MATH_TEST_SERVER_APP},
-				{EL_STANDARD_INSTALLER_APP}
-			>>
+			create Result
 		end
 
 end

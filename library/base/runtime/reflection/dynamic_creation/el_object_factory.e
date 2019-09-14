@@ -1,13 +1,23 @@
 note
-	description: "Factory for instances of Eiffel classes conforming to parameter G"
+	description: "[
+		Factory for instances of Eiffel classes conforming to parameter `G'
+		
+		Tuple arguments act as type manifests with each type `A, B, C..' conforming to `G'. 
+		A contract ensures all types conform. Typically you would create the tuple like this:
+		
+			Types: TUPLE [A, B, C ..]
+				once
+					create Result
+				end
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-08 11:55:11 GMT (Sunday 8th September 2019)"
-	revision: "14"
+	date: "2019-09-14 11:45:09 GMT (Saturday   14th   September   2019)"
+	revision: "15"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -38,17 +48,20 @@ feature {NONE} -- Initialization
 			create default_alias.make_empty
 		end
 
-	make (a_type_alias: like type_alias; types: ARRAY [TYPE [G]])
+	make (a_type_alias: like type_alias; type_tuple: TUPLE)
 			-- Store type MY_USEFUL_CLASS as alias "my${separator}useful" with suffix_word_count = 1
 		require
-			not_types_empty: not types.is_empty
-			all_aliases_not_empty: across types as type all not a_type_alias (type.item).is_empty	end
+			not_types_empty: type_tuple.count >= 1
+			all_aliases_not_empty: all_aliases_not_empty (a_type_alias, type_tuple)
+		local
+			type_list: like new_type_list
 		do
 			default_create
 			type_alias := a_type_alias
-			types_indexed_by_name.accommodate (types.count)
-			types.do_all (agent extend)
-			set_default_alias (types [1])
+			types_indexed_by_name.accommodate (type_tuple.count)
+			type_list:= new_type_list (type_tuple)
+			type_list.do_all (agent extend)
+			set_default_alias (type_list [1])
 		end
 
 	make_from_table (mapping_table: ARRAY [TUPLE [name: READABLE_STRING_GENERAL; type: TYPE [G]]])
@@ -65,14 +78,14 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_words_lower (a_suffix_word_count: INTEGER; types: ARRAY [TYPE [G]])
+	make_words_lower (a_suffix_word_count: INTEGER; type_tuple: TUPLE)
 		do
-			make (agent Naming.class_with_separator_as_lower (?, ' ', 0, a_suffix_word_count), types)
+			make (agent Naming.class_with_separator_as_lower (?, ' ', 0, a_suffix_word_count), type_tuple)
 		end
 
-	make_words_upper (a_suffix_word_count: INTEGER; types: ARRAY [TYPE [G]])
+	make_words_upper (a_suffix_word_count: INTEGER; type_tuple: TUPLE)
 		do
-			make (agent Naming.class_with_separator (?, ' ', 0, a_suffix_word_count), types)
+			make (agent Naming.class_with_separator (?, ' ', 0, a_suffix_word_count), type_tuple)
 		end
 
 feature -- Factory
@@ -150,6 +163,12 @@ feature -- Access
 
 feature -- Element change
 
+	append (type_tuple: TUPLE)
+		do
+			types_indexed_by_name.accommodate (types_indexed_by_name.count + type_tuple.count)
+			new_type_list (type_tuple).do_all (agent extend)
+		end
+
 	extend (type: TYPE [G])
 		-- extend `types_indexed_by_name' using `type_alias' function
 		require
@@ -190,6 +209,11 @@ feature -- Contract support
 			Result := Eiffel.dynamic_type_from_string (class_name) >= 0
 		end
 
+	all_aliases_not_empty (a_type_alias: like type_alias; type_tuple: TUPLE): BOOLEAN
+		do
+			Result := not across new_type_list (type_tuple) as type some a_type_alias (type.item).is_empty end
+		end
+
 feature {EL_FACTORY_CLIENT} -- Implementation
 
 	alias_name (type: TYPE [G]): ZSTRING
@@ -212,6 +236,15 @@ feature {EL_FACTORY_CLIENT} -- Implementation
 				Result := instance
 			end
 		end
+
+	new_type_list (type_tuple: TUPLE): EL_TUPLE_TYPE_LIST [G]
+		do
+			create Result.make_from_tuple (type_tuple)
+		ensure
+			all_conform_to_generic_parameter_G: Result.count = type_tuple.count
+		end
+
+feature {NONE} -- Internal attributes
 
 	types_indexed_by_name: EL_ZSTRING_HASH_TABLE [TYPE [G]]
 		-- map of alias names to types

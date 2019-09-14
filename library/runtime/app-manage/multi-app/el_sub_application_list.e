@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-06 11:32:42 GMT (Friday 6th September 2019)"
-	revision: "10"
+	date: "2019-09-14 9:36:26 GMT (Saturday   14th   September   2019)"
+	revision: "11"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -33,13 +33,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (types: ARRAY [TYPE [EL_SUB_APPLICATION]]; a_select_first: BOOLEAN)
+	make (type_list: EL_TUPLE_TYPE_LIST [EL_SUB_APPLICATION]; a_select_first: BOOLEAN)
 		do
 			put_singleton (Current)
-			make_list (types.count)
+			make_list (type_list.count)
 			select_first := a_select_first
 			create installable_list.make (5)
-			across types as type loop
+			across type_list as type loop
 				if attached {EL_SUB_APPLICATION} Eiffel.new_instance_of (type.item.type_id) as app then
 					extend (app)
 					if attached {EL_INSTALLABLE_SUB_APPLICATION} app as installable_app then

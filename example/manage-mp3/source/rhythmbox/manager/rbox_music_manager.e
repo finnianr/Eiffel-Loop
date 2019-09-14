@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 15:18:57 GMT (Tuesday 10th September 2019)"
-	revision: "15"
+	date: "2019-09-14 10:39:01 GMT (Saturday   14th   September   2019)"
+	revision: "16"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -148,33 +148,38 @@ feature {NONE} -- Constants
 			Result := "quit"
 		end
 
+	Task_types: TUPLE [
+		DEFAULT_TASK, -- Must be first
+
+		ADD_ALBUM_ART_TASK,
+		ARCHIVE_SONGS_TASK,
+		COLLATE_SONGS_TASK,
+		DELETE_COMMENTS_TASK,
+		DISPLAY_INCOMPLETE_ID3_INFO_TASK,
+		DISPLAY_MUSIC_BRAINZ_INFO_TASK,
+		EXPORT_MUSIC_TO_DEVICE_TASK,
+		EXPORT_PLAYLISTS_TO_DEVICE_TASK,
+		IMPORT_NEW_MP3_TASK,
+		IMPORT_VIDEOS_TASK,
+		M3U_PLAYLIST_IMPORT_TASK,
+		NORMALIZE_COMMENTS_TASK,
+		PRINT_COMMENTS_TASK,
+		PUBLISH_DJ_EVENTS_TASK,
+		REMOVE_ALL_UFIDS_TASK,
+		REMOVE_UNKNOWN_ALBUM_PICTURES_TASK,
+		REPLACE_CORTINA_SET_TASK,
+		REPLACE_SONGS_TASK,
+		RESTORE_PLAYLISTS_TASK,
+		UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK,
+		UPDATE_DJ_PLAYLISTS_TASK
+	]
+		once
+			create Result
+		end
+
 	Task_factory: EL_BUILDER_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK]
 		once
-			create Result.make (agent Naming.class_as_lower_snake (?, 0, 1), <<
-				{DEFAULT_TASK}, -- Must be first
-
-				{ADD_ALBUM_ART_TASK},
-				{ARCHIVE_SONGS_TASK},
-				{COLLATE_SONGS_TASK},
-				{DELETE_COMMENTS_TASK},
-				{DISPLAY_INCOMPLETE_ID3_INFO_TASK},
-				{DISPLAY_MUSIC_BRAINZ_INFO_TASK},
-				{EXPORT_MUSIC_TO_DEVICE_TASK},
-				{EXPORT_PLAYLISTS_TO_DEVICE_TASK},
-				{IMPORT_NEW_MP3_TASK},
-				{IMPORT_VIDEOS_TASK},
-				{M3U_PLAYLIST_IMPORT_TASK},
-				{NORMALIZE_COMMENTS_TASK},
-				{PRINT_COMMENTS_TASK},
-				{PUBLISH_DJ_EVENTS_TASK},
-				{REMOVE_ALL_UFIDS_TASK},
-				{REMOVE_UNKNOWN_ALBUM_PICTURES_TASK},
-				{REPLACE_CORTINA_SET_TASK},
-				{REPLACE_SONGS_TASK},
-				{RESTORE_PLAYLISTS_TASK},
-				{UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK},
-				{UPDATE_DJ_PLAYLISTS_TASK}
-			>>)
+			create Result.make (agent Naming.class_as_lower_snake (?, 0, 1), Task_types)
 			Result.set_make_default (agent {RBOX_MANAGEMENT_TASK}.make_default)
 		end
 

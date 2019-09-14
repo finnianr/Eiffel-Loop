@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-06 9:57:24 GMT (Friday 6th September 2019)"
-	revision: "7"
+	date: "2019-09-14 10:20:04 GMT (Saturday   14th   September   2019)"
+	revision: "8"
 
 class
 	APPLICATION_ROOT
@@ -18,21 +18,20 @@ inherit
 create
 	make
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	Application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
-			--
+	Applications: TUPLE [
+		ID3_EDITOR_APP,
+		MP3_AUDIO_SIGNATURE_READER_APP,
+		RHYTHMBOX_MUSIC_MANAGER_APP,
+		TANGO_MP3_FILE_COLLATOR_APP,
+
+--		Testing
+		TEST_RHYTHMBOX_MUSIC_MANAGER_APP,
+		TEST_APP
+	]
 		once
-			Result := <<
-				{ID3_EDITOR_APP},
-				{MP3_AUDIO_SIGNATURE_READER_APP},
-				{RHYTHMBOX_MUSIC_MANAGER_APP},
-				{TANGO_MP3_FILE_COLLATOR_APP},
-
---				Testing
-				{TEST_RHYTHMBOX_MUSIC_MANAGER_APP},
-				{TEST_APP}
-			>>
+			create Result
 		end
 
 end

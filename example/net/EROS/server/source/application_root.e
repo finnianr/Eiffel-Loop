@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-26 9:58:59 GMT (Wednesday 26th September 2018)"
-	revision: "8"
+	date: "2019-09-14 10:19:27 GMT (Saturday   14th   September   2019)"
+	revision: "9"
 
 class
 	APPLICATION_ROOT
@@ -18,17 +18,18 @@ inherit
 create
 	make
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	Application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
-			--
+	Applications: TUPLE [
+		FOURIER_MATH_SERVER_APP,
+		CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP,
+
+		-- Installation
+		EL_STANDARD_INSTALLER_APP,
+		UNINSTALL_APP
+	]
 		once
-			Result := <<
-				{FOURIER_MATH_SERVER_APP}, {CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP},
-
-				-- Installation
-				{EL_STANDARD_INSTALLER_APP}, {UNINSTALL_APP}
-			>>
+			create Result
 		end
 
 note

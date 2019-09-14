@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 15:17:39 GMT (Tuesday 10th September 2019)"
-	revision: "3"
+	date: "2019-09-14 10:38:51 GMT (Saturday   14th   September   2019)"
+	revision: "4"
 
 class
 	EL_BUILDER_OBJECT_FACTORY [G -> EL_BUILDABLE_FROM_NODE_SCAN]
