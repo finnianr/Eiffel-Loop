@@ -6,15 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:30:29 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2019-09-18 11:20:56 GMT (Wednesday   18th   September   2019)"
+	revision: "8"
 
-class
+deferred class
 	EL_PROGRESS_TRACKER
 
 inherit
-	ANY
-	
 	EL_SHARED_PROGRESS_LISTENER
 
 	EL_SHARED_FILE_PROGRESS_LISTENER
