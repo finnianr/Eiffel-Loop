@@ -2,12 +2,15 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 4, 3); build = 368
+version = (1, 4, 4); build = 374
 
 installation_sub_directory = 'Eiffel-Loop/manage-mp3'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_rhythmbox_read_write', '-logging'])
+
+# 1.4.4
+# Fixed missing songs in playlists by reading playlists after reading songs
 
 # 1.4.3
 # Fixed all test task so they pass, and task now implemented using RBOX_MANAGEMENT_TASK

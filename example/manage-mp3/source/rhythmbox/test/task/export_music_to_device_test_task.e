@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 18:14:24 GMT (Monday 2nd September 2019)"
-	revision: "2"
+	date: "2019-09-15 9:30:55 GMT (Sunday   15th   September   2019)"
+	revision: "3"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TEST_TASK
@@ -21,9 +21,6 @@ inherit
 		end
 
 	EXPORT_TO_DEVICE_TEST_TASK
-		undefine
-			make_default
-		end
 
 create
 	make

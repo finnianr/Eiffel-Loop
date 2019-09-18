@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-05 7:20:59 GMT (Thursday 5th September 2019)"
-	revision: "1"
+	date: "2019-09-16 10:54:13 GMT (Monday   16th   September   2019)"
+	revision: "2"
 
 class
-	M3U_PLAYLIST_IMPORT_TASK
+	IMPORT_M3U_PLAYLISTS_TASK
 
 inherit
 	RBOX_MANAGEMENT_TASK
@@ -34,9 +34,19 @@ feature -- Basic operations
 			if m3u_dir.exists then
 				across OS.file_list (m3u_dir, "*.m3u") as m3u_path loop
 					create reader.make (m3u_path.item)
-					lio.put_string_field ("Importing playlist", reader.name)
 					lio.put_new_line
-					Database.playlists.extend (reader.to_playlist)
+					if Database.has_playlist (reader.name) then
+						lio.put_substitution ("Playlist %"%S%" already exists in database", [reader.name])
+
+					elseif reader.missing_count > 0 then
+						lio.put_substitution (
+							"ERROR: Playlist %"%S%" not imported. Missing %S entries", [reader.name, reader.missing_count]
+						)
+					else
+						Database.playlists.extend (reader.playlist)
+						lio.put_string_field ("Imported playlist", reader.name)
+					end
+					lio.put_new_line
 					lio.put_new_line
 				end
 				if not is_dry_run then

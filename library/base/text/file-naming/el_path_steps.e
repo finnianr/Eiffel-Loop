@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-05 8:41:25 GMT (Thursday 5th September 2019)"
-	revision: "22"
+	date: "2019-09-15 9:23:32 GMT (Sunday   15th   September   2019)"
+	revision: "23"
 
 class
 	EL_PATH_STEPS
@@ -141,10 +141,9 @@ feature {NONE} -- Initialization
 			reversible_if_file: attached {EL_FILE_PATH} a_path as file_path implies file_path ~ as_file_path
 		end
 
-	make_from_tokens (a_tokens: like token_list)
+	make_from_tokens (a_tokens: STRING_32)
 		do
-			token_list.wipe_out
-			token_list.append (a_tokens)
+			token_list := a_tokens.twin
 		end
 
 	make_from_tuple (tuple: TUPLE)

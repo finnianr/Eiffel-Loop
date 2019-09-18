@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 17:02:55 GMT (Monday 9th September 2019)"
-	revision: "7"
+	date: "2019-09-17 8:31:45 GMT (Tuesday   17th   September   2019)"
+	revision: "8"
 
 class
 	EL_FTP_WEBSITE
@@ -59,7 +59,7 @@ feature -- Status query
 
 	is_initialized: BOOLEAN
 		do
-			Result := address = Default_url
+			Result := address /= Default_url
 		end
 
 end

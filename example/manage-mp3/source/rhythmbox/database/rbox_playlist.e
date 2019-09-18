@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-13 16:49:13 GMT (Friday 13th September 2019)"
-	revision: "15"
+	date: "2019-09-17 9:14:19 GMT (Tuesday   17th   September   2019)"
+	revision: "16"
 
 class
 	RBOX_PLAYLIST
@@ -51,8 +51,6 @@ inherit
 
 	EL_MODULE_DIGEST
 
-	SHARED_DATABASE
-
 create
 	make, make_default
 
@@ -73,32 +71,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
-
-	checksum: NATURAL_32
-			-- Media item attribute
-		local
-			crc: like crc_generator
-		do
-			crc := crc_generator
-			from start until after loop
-				crc.add_string (song.mp3_relative_path.to_string)
-				if song.has_silence_specified then
-					crc.add_integer (song.beats_per_minute)
-				end
-				forth
-			end
-			Result := crc.checksum
-		end
-
-	file_size_mb: DOUBLE
-			-- Sum of size of m3u line (mega bytes)
-		local
-			summator: EL_CHAIN_SUMMATOR [ZSTRING, INTEGER]; bytes: INTEGER
-		do
-			create summator
-			bytes := M3U.extm3u.count + summator.sum (m3u_entry_list (False, False), agent {ZSTRING}.count)
-			Result := bytes / 1000000
-		end
 
 	m3u_entry_list (is_windows_format, is_nokia_phone: BOOLEAN): EL_ZSTRING_LIST
 		-- entry list with insert silences when song has not enough trailing silence
@@ -129,6 +101,34 @@ feature -- Access
 			Result.add_extension (M3U_extension)
 		end
 
+feature -- Measurement
+
+	checksum: NATURAL_32
+			-- Media item attribute
+		local
+			crc: like crc_generator
+		do
+			crc := crc_generator
+			from start until after loop
+				crc.add_string (song.mp3_relative_path.to_string)
+				if song.has_silence_specified then
+					crc.add_integer (song.beats_per_minute)
+				end
+				forth
+			end
+			Result := crc.checksum
+		end
+
+	file_size_mb: DOUBLE
+			-- Sum of size of m3u line (mega bytes)
+		local
+			summator: EL_CHAIN_SUMMATOR [ZSTRING, INTEGER]; bytes: INTEGER
+		do
+			create summator
+			bytes := M3U.extm3u.count + summator.sum (m3u_entry_list (False, False), agent {ZSTRING}.count)
+			Result := bytes / 1000000
+		end
+
 feature -- Status query
 
 	is_name_dated: BOOLEAN
@@ -136,8 +136,8 @@ feature -- Status query
 			parts: EL_SPLIT_ZSTRING_LIST
 		do
 			create parts.make (name, character_string (' '))
-			Result := parts.count > 1 and then parts.i_th (1).count = 9
-							and then Date_checker.date_valid (parts.i_th (1), once "yyyy-mm-dd")
+			Result := parts.count > 1 and then parts.i_th (1).count = Date_format.count
+							and then Date_checker.date_valid (parts.i_th (1), Date_format)
 		end
 
 feature -- Element change
@@ -228,6 +228,8 @@ feature {NONE} -- Constants
 		once
 			create Result
 		end
+
+	Date_format: STRING = "yyyy-mm-dd"
 
 	M3U_extension: ZSTRING
 		once

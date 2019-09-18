@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-03 14:40:06 GMT (Tuesday 3rd September 2019)"
-	revision: "6"
+	date: "2019-09-16 10:07:33 GMT (Monday   16th   September   2019)"
+	revision: "7"
 
-class
+deferred class
 	PLAYLIST
 
 inherit
@@ -22,8 +22,7 @@ inherit
 
 	EL_MODULE_ZSTRING
 
-create
-	make
+	SHARED_DATABASE
 
 feature -- Access
 
@@ -45,6 +44,10 @@ feature -- Access
 					Result := Tanda.other
 				end
 			end
+		end
+
+	name: ZSTRING
+		deferred
 		end
 
 feature -- Element change

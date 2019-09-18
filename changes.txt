@@ -37,3 +37,6 @@ Made mirroring more efficient by only rendering the flipped image in EL_ROTATE_P
 Sun 11th Aug 2019, 11:57:07
 Added routine flip to class EL_DRAWABLE_PIXEL_BUFFER with or'd flip state
 
+Sat   14th   Sep   2019, 11:48:43
+Using TUPLE's to specifiy list of factory types
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-06 15:29:38 GMT (Friday 6th September 2019)"
-	revision: "2"
+	date: "2019-09-15 9:30:46 GMT (Sunday   15th   September   2019)"
+	revision: "3"
 
 class
 	REPLACE_CORTINA_SET_TEST_TASK
@@ -22,7 +22,7 @@ inherit
 
 	TEST_MANAGEMENT_TASK
 		undefine
-			error_check, user_input_file_path, make_default
+			error_check, user_input_file_path
 		end
 
 feature {NONE} -- Implementation

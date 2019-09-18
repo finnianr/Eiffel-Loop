@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-12 7:48:24 GMT (Thursday 12th September 2019)"
-	revision: "6"
+	date: "2019-09-16 14:41:20 GMT (Monday   16th   September   2019)"
+	revision: "7"
 
 class
 	DJ_EVENTS_PUBLISHER
 
 inherit
 	ANY
-	
+
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_DIRECTORY
@@ -55,6 +55,8 @@ feature -- Basic operations
 			across playlists as list loop
 				playlist_path := config.www_dir + list.item.html_page_name
 				if not playlist_path.exists then
+					lio.put_labeled_string ("Writing", list.item.html_page_name)
+					lio.put_new_line
 					create event_page.make (list.item, config.www_dir + config.html_template, playlist_path)
 					event_page.serialize
 					file_upload_list.extend (new_copy_file_arguments (playlist_path, config.ftp_destination_dir))
@@ -64,7 +66,10 @@ feature -- Basic operations
 				lio.put_string ("Upload pages (y/n) ")
 				if user_input.entered_letter ('y') then
 					create website.make (config.ftp_url, config.ftp_user_home)
-					website.do_ftp_upload (file_upload_list)
+					website.login
+					if website.is_initialized and then website.is_logged_in then
+						website.do_ftp_upload (file_upload_list)
+					end
 				end
 			end
 		end

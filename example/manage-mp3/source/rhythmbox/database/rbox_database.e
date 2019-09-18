@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-12 8:58:42 GMT (Thursday 12th September 2019)"
-	revision: "16"
+	date: "2019-09-17 9:05:38 GMT (Tuesday   17th   September   2019)"
+	revision: "17"
 
 class
 	RBOX_DATABASE
@@ -62,6 +62,8 @@ feature {NONE} -- Initialization
 
 	make (a_xml_database_path: EL_FILE_PATH; a_music_dir: like music_dir)
 			--
+		local
+			playlist: DJ_EVENT_PLAYLIST
 		do
 			call (Database)
 
@@ -90,6 +92,16 @@ feature {NONE} -- Initialization
 
 			playlists_xml_path := xml_database_path.parent + "playlists.xml"
 			create playlists.make (playlists_xml_path)
+
+			-- This can only be done after all the songs have been read
+			from entries.start until entries.after loop
+				if attached {RBOX_IGNORED_ENTRY} entries.item as ignored and then ignored.is_playlist then
+					create playlist.make_from_file (ignored.location)
+					dj_playlists.extend (playlist)
+					entries.replace (playlist.new_rbox_entry) -- replace `RBOX_IGNORED_ENTRY' with `DJ_EVENT_PLAYLIST'
+				end
+				entries.forth
+			end
 			is_initialized := not songs.is_empty
 		end
 
@@ -100,16 +112,6 @@ feature -- Access
 			create Result.make (playlists.count + dj_playlists.count)
 			Result.append (playlists)
 			Result.append (dj_playlists)
-		end
-
-	title_and_album (mp3_path: EL_FILE_PATH): ZSTRING
-		do
-			songs_by_location.search (mp3_path)
-			if songs_by_location.found then
-				Result := songs_by_location.found_item.title_and_album
-			else
-				create Result.make_empty
-			end
 		end
 
 	archive_playlist: RBOX_PLAYLIST
@@ -148,45 +150,45 @@ feature -- Access
 			end
 		end
 
+	title_and_album (mp3_path: EL_FILE_PATH): ZSTRING
+		do
+			songs_by_location.search (mp3_path)
+			if songs_by_location.found then
+				Result := songs_by_location.found_item.title_and_album
+			else
+				create Result.make_empty
+			end
+		end
+
 feature -- Access attributes
-
-	entries: EL_ARRAYED_LIST [RBOX_IRADIO_ENTRY]
-
-	songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
-
-	playlists: RBOX_PLAYLIST_ARRAY
-
-	dj_playlists: EL_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
-		-- Playlists with DJ event information stored in $HOME/Music/Playlists using Pyxis format
-
-	playlists_xml_path: EL_FILE_PATH
-
-	music_dir: EL_DIR_PATH
-
-	songs_by_location: HASH_TABLE [RBOX_SONG, EL_FILE_PATH]
-
-	songs_by_audio_id: HASH_TABLE [RBOX_SONG, EL_UUID]
-
-	silence_intervals: ARRAY [RBOX_SONG]
-
-	version: REAL
 
 	dj_playlist_dir: EL_DIR_PATH
 		do
 			Result := music_dir.joined_dir_path ("Playlists")
 		end
 
+	dj_playlists: EL_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
+		-- Playlists with DJ event information stored in $HOME/Music/Playlists using Pyxis format
+
+	entries: EL_ARRAYED_LIST [RBOX_IRADIO_ENTRY]
+
+	music_dir: EL_DIR_PATH
+
+	playlists: RBOX_PLAYLIST_ARRAY
+
+	playlists_xml_path: EL_FILE_PATH
+
+	silence_intervals: ARRAY [RBOX_SONG]
+
+	songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
+
+	songs_by_audio_id: HASH_TABLE [RBOX_SONG, EL_UUID]
+
+	songs_by_location: HASH_TABLE [RBOX_SONG, EL_FILE_PATH]
+
+	version: REAL
+
 feature -- Factory
-
-	new_iradio_entry: RBOX_IRADIO_ENTRY
-		do
-			create Result.make
-		end
-
-	new_song: RBOX_SONG
-		do
-			create Result.make
-		end
 
 	new_cortina (a_source_song: RBOX_SONG; a_tanda_type: ZSTRING; a_track_number, a_duration: INTEGER): RBOX_CORTINA_SONG
 		do
@@ -198,22 +200,31 @@ feature -- Factory
 			create Result.make
 		end
 
-feature -- Status query
+	new_iradio_entry: RBOX_IRADIO_ENTRY
+		do
+			create Result.make
+		end
 
-	is_initialized: BOOLEAN
+	new_song: RBOX_SONG
+		do
+			create Result.make
+		end
+
+feature -- Status query
 
 	has_song (song_path: EL_FILE_PATH): BOOLEAN
 		do
 			Result := songs_by_location.has (song_path)
 		end
 
-	is_valid_genre (a_genre: ZSTRING): BOOLEAN
+	has_playlist (name: ZSTRING): BOOLEAN
 		do
-			Result := across songs as song
-				some
-					song.item.genre ~ a_genre
-				end
+			Result := across all_playlists as l_playlist some
+				l_playlist.item.name ~ name
+			end
 		end
+
+	is_initialized: BOOLEAN
 
 	is_song_in_any_playlist (song: RBOX_SONG): BOOLEAN
 		local
@@ -225,23 +236,21 @@ feature -- Status query
 			end
 		end
 
+	is_valid_genre (a_genre: ZSTRING): BOOLEAN
+		do
+			Result := across songs as song
+				some
+					song.item.genre ~ a_genre
+				end
+		end
+
 feature -- Element change
 
 	extend (a_entry: RBOX_IRADIO_ENTRY)
-		local
-			playlist: DJ_EVENT_PLAYLIST
 		do
+			entries.extend (a_entry)
 			if attached {RBOX_SONG} a_entry as song and then song.is_mp3_format then
 				extend_with_song (song)
-				entries.extend (song)
-
-			elseif attached {RBOX_IGNORED_ENTRY} a_entry as ignored and then ignored.is_playlist then
-				create playlist.make_from_file (ignored.location)
-				dj_playlists.extend (playlist)
-
-				entries.extend (playlist.new_rbox_entry)
-			else
-				entries.extend (a_entry)
 			end
 		end
 
@@ -283,25 +292,17 @@ feature -- Element change
 			end
 		end
 
-	extend_from_playlist (playlist: RBOX_PLAYLIST)
-			--
+	replace (deleted_path, replacement_path: EL_FILE_PATH)
+		require
+			not_same_song: deleted_path /~ replacement_path
+			has_deleted_path: songs_by_location.has (deleted_path)
+			has_replacement_path: songs_by_location.has (replacement_path)
+		local
+			deleted, replacement: RBOX_SONG
 		do
-			across playlist as song loop
-				if not song.item.is_hidden and then not songs_by_location.has (song.item.mp3_path) then
-					extend (song.item)
-				end
-			end
-		end
-
-	set_playlists (a_playlists: like playlists)
-			--
-		do
-			playlists := a_playlists
-		end
-
-	set_playlists_xml_path (a_playlists_xml_path: STRING)
-		do
-			playlists_xml_path := a_playlists_xml_path.as_string_32
+			deleted := songs_by_location [deleted_path]
+			replacement := songs_by_location [replacement_path]
+			all_playlists.do_all (agent {PLAYLIST}.replace_song (deleted, replacement))
 		end
 
 	replace_cortinas (a_cortina_set: CORTINA_SET)
@@ -328,17 +329,37 @@ feature -- Element change
 			all_playlists.do_all (agent {PLAYLIST}.replace_cortinas (a_cortina_set))
 		end
 
-	replace (deleted_path, replacement_path: EL_FILE_PATH)
-		require
-			not_same_song: deleted_path /~ replacement_path
-			has_deleted_path: songs_by_location.has (deleted_path)
-			has_replacement_path: songs_by_location.has (replacement_path)
-		local
-			deleted, replacement: RBOX_SONG
+	set_playlists (a_playlists: like playlists)
+			--
 		do
-			deleted := songs_by_location [deleted_path]
-			replacement := songs_by_location [replacement_path]
-			all_playlists.do_all (agent {PLAYLIST}.replace_song (deleted, replacement))
+			playlists := a_playlists
+		end
+
+	set_playlists_xml_path (a_playlists_xml_path: STRING)
+		do
+			playlists_xml_path := a_playlists_xml_path.as_string_32
+		end
+
+	update_DJ_playlists (dj_name, default_title: ZSTRING)
+			-- update DJ event playlists with any new Rhythmbox playlists
+		local
+			dj_playlist: DJ_EVENT_PLAYLIST; events_file_path: EL_FILE_PATH
+			p: RBOX_PLAYLIST
+		do
+			across playlists as playlist loop
+				p := playlist.item
+				if playlist.item.is_name_dated then
+					events_file_path := dj_playlist_dir + playlist.item.name
+					events_file_path.add_extension ("pyx")
+					if not events_file_path.exists then
+						create dj_playlist.make (playlist.item, dj_name, default_title)
+						dj_playlist.set_output_path (events_file_path)
+						dj_playlists.extend (dj_playlist)
+
+						entries.extend (dj_playlist.new_rbox_entry)
+					end
+				end
+			end
 		end
 
 	update_index_by_audio_id
@@ -358,41 +379,7 @@ feature -- Element change
 			end
 		end
 
-	update_DJ_playlists (dj_name, default_title: ZSTRING)
-			-- update DJ event playlists with any new Rhythmbox playlists
-		local
-			dj_playlist: DJ_EVENT_PLAYLIST; events_file_path: EL_FILE_PATH
-		do
-			across playlists as playlist loop
-				if playlist.item.is_name_dated then
-					events_file_path := dj_playlist_dir + playlist.item.name
-					events_file_path.add_extension ("pyx")
-					if not events_file_path.exists then
-						create dj_playlist.make (playlist.item, dj_name, default_title)
-						dj_playlist.set_output_path (events_file_path)
-						dj_playlists.extend (dj_playlist)
-
-						entries.extend (dj_playlist.new_rbox_entry)
-					end
-				end
-			end
-		end
-
 feature -- Basic operations
-
-	for_all_songs_id3_info (
-		condition: EL_QUERY_CONDITION [RBOX_SONG]
-		do_id3_edit: PROCEDURE [EL_ID3_INFO, EL_FILE_PATH]
-	)
-			--
-		local
-			song: RBOX_SONG
-		do
-			across songs.query (condition) as query loop
-				song := query.item
-				do_id3_edit (song.id3_info, song.mp3_relative_path)
-			end
-		end
 
 	for_all_songs (
 		condition: EL_QUERY_CONDITION [RBOX_SONG]
@@ -405,6 +392,20 @@ feature -- Basic operations
 			across songs.query (condition) as query loop
 				song := query.item
 				do_with_song_id3 (song, song.mp3_relative_path, song.id3_info)
+			end
+		end
+
+	for_all_songs_id3_info (
+		condition: EL_QUERY_CONDITION [RBOX_SONG]
+		do_id3_edit: PROCEDURE [EL_ID3_INFO, EL_FILE_PATH]
+	)
+			--
+		local
+			song: RBOX_SONG
+		do
+			across songs.query (condition) as query loop
+				song := query.item
+				do_id3_edit (song.id3_info, song.mp3_relative_path)
 			end
 		end
 
@@ -421,17 +422,6 @@ feature -- Basic operations
 			Precursor
 		end
 
-	store_playlists
-		do
-			log.put_line ("Saving playlists")
-			playlists.store
-			across dj_playlists as playlist loop
-				if playlist.item.is_modified then
-					playlist.item.store
-				end
-			end
-		end
-
 	store_in_directory (a_dir_path: EL_DIR_PATH)
 			-- Save database and playlists in location 'a_dir_path'
 		local
@@ -445,18 +435,18 @@ feature -- Basic operations
 			playlists.set_output_path (l_previous_dir_path + playlists.output_path.base)
 		end
 
-feature -- Removal
-
-	remove (song: RBOX_SONG)
-			-- remove without deleting file
-		require
-			not_in_any_playlist: across all_playlists as playlist all not playlist.item.has (song) end
+	store_playlists
 		do
-			songs.start; songs.prune (song)
-			entries.start; entries.prune (song)
-			songs_by_location.remove (song.mp3_path)
-			songs_by_audio_id.remove (song.audio_id)
+			log.put_line ("Saving playlists")
+			playlists.store
+			across dj_playlists as playlist loop
+				if playlist.item.is_modified then
+					playlist.item.store
+				end
+			end
 		end
+
+feature -- Removal
 
 	delete (condition: EL_QUERY_CONDITION [RBOX_SONG])
 		local
@@ -485,6 +475,17 @@ feature -- Removal
 			same_number_removed: old songs.count - songs.count = old entries.count - entries.count
 		end
 
+	remove (song: RBOX_SONG)
+			-- remove without deleting file
+		require
+			not_in_any_playlist: across all_playlists as playlist all not playlist.item.has (song) end
+		do
+			songs.start; songs.prune (song)
+			entries.start; entries.prune (song)
+			songs_by_location.remove (song.mp3_path)
+			songs_by_audio_id.remove (song.audio_id)
+		end
+
 	wipe_out
 			--
 		do
@@ -496,6 +497,10 @@ feature -- Removal
 
 feature {RBOX_IRADIO_ENTRY, RBOX_PLAYLIST} -- Implemenation
 
+	call (obj: ANY)
+		do
+		end
+
 	decoded_location (path: STRING): EL_FILE_PATH
 		do
 			Result := Url.remove_protocol_prefix (Url.decoded_path (path))
@@ -504,10 +509,6 @@ feature {RBOX_IRADIO_ENTRY, RBOX_PLAYLIST} -- Implemenation
 	encoded_location_uri (uri: EL_FILE_URI_PATH): STRING
 		do
 			Result := Url.encoded_uri_custom (uri , Unescaped_location_characters, False)
-		end
-
-	call (obj: ANY)
-		do
 		end
 
 feature {NONE} -- Evolicity reflection
@@ -523,6 +524,8 @@ feature {NONE} -- Evolicity reflection
 
 feature {NONE} -- Build from XML
 
+	Root_node_name: STRING = "rhythmdb"
+
 	add_song_entry
 			--
 		do
@@ -530,14 +533,6 @@ feature {NONE} -- Build from XML
 				io.put_string (Read_progress_template #$ [songs.count, songs.capacity])
 			end
 			set_next_context (new_song)
-		end
-
-	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
-			--
-		do
-			if attached {RBOX_IRADIO_ENTRY} context as entry then
-				extend (entry)
-			end
 		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
@@ -551,7 +546,13 @@ feature {NONE} -- Build from XML
 			>>)
 		end
 
-	Root_node_name: STRING = "rhythmdb"
+	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
+			--
+		do
+			if attached {RBOX_IRADIO_ENTRY} context as entry then
+				extend (entry)
+			end
+		end
 
 feature {NONE} -- Constants
 
@@ -560,14 +561,14 @@ feature {NONE} -- Constants
 			Result := "Archive"
 		end
 
-	Read_progress_template: ZSTRING
-		once
-			Result := "%RSongs: [%S of %S]"
-		end
-
 	Artists_field: ZSTRING
 		once
 			Result := "Artists: "
+		end
+
+	Read_progress_template: ZSTRING
+		once
+			Result := "%RSongs: [%S of %S]"
 		end
 
 	Template: STRING =

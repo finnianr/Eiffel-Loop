@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-12 9:33:05 GMT (Monday 12th August 2019)"
-	revision: "8"
+	date: "2019-09-18 9:05:51 GMT (Wednesday   18th   September   2019)"
+	revision: "9"
 
 class
 	EL_ORIENTATION_ROUTINES
@@ -18,10 +18,7 @@ feature -- Contract Support
 
 	is_valid_axis (axis: INTEGER): BOOLEAN
 		do
-			inspect axis
-				when X_axis, Y_axis then
-					Result := True
-			else end
+			Result := X_Y_axes.has (axis)
 		end
 
 	is_horizontal_side (side: INTEGER): BOOLEAN
@@ -54,6 +51,15 @@ feature -- Contract Support
 
 feature {NONE} -- Axis
 
+	axis_letter (axis: INTEGER): CHARACTER
+		do
+			if axis = X_axis then
+				Result := 'X'
+			else
+				Result := 'Y'
+			end
+		end
+
 	to_axis (letter: CHARACTER): INTEGER
 		do
 			inspect letter.as_upper
@@ -67,6 +73,11 @@ feature {NONE} -- Axis
 	X_axis: INTEGER = 1
 
 	Y_axis: INTEGER = 2
+
+	X_Y_axes: ARRAY [INTEGER]
+		once
+			Result := << X_axis, Y_axis >>
+		end
 
 feature {NONE} -- Directions
 

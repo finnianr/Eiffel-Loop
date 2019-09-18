@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-14 10:39:01 GMT (Saturday   14th   September   2019)"
-	revision: "16"
+	date: "2019-09-15 9:05:43 GMT (Sunday   15th   September   2019)"
+	revision: "17"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -161,7 +161,7 @@ feature {NONE} -- Constants
 		EXPORT_PLAYLISTS_TO_DEVICE_TASK,
 		IMPORT_NEW_MP3_TASK,
 		IMPORT_VIDEOS_TASK,
-		M3U_PLAYLIST_IMPORT_TASK,
+		IMPORT_M3U_PLAYLISTS_TASK,
 		NORMALIZE_COMMENTS_TASK,
 		PRINT_COMMENTS_TASK,
 		PUBLISH_DJ_EVENTS_TASK,

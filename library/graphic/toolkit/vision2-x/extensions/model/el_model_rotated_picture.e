@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-11 12:07:10 GMT (Sunday 11th August 2019)"
-	revision: "9"
+	date: "2019-09-18 9:05:05 GMT (Wednesday   18th   September   2019)"
+	revision: "10"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -74,14 +74,21 @@ feature -- Status query
 
 	border_drawing: EL_BOOLEAN_OPTION
 
+	is_mirrored (axis: INTEGER): BOOLEAN
+		require
+			valid_axis: is_valid_axis (axis)
+		do
+			Result := (mirror_state.to_integer_32 & axis).to_boolean
+		end
+
 	is_mirrored_x: BOOLEAN
 		do
-			Result := (mirror_state.to_integer_32 & X_axis).to_boolean
+			Result := is_mirrored (X_axis)
 		end
 
 	is_mirrored_y: BOOLEAN
 		do
-			Result := (mirror_state.to_integer_32 & Y_axis).to_boolean
+			Result := is_mirrored (Y_axis)
 		end
 
 feature -- Transformation

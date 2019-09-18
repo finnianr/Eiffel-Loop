@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-14 11:00:04 GMT (Saturday   14th   September   2019)"
-	revision: "12"
+	date: "2019-09-15 9:43:01 GMT (Sunday   15th   September   2019)"
+	revision: "13"
 
 class
 	RBOX_TEST_MUSIC_MANAGER
@@ -67,12 +67,13 @@ feature {NONE} -- Constants
 	Testing_tasks: TUPLE [
 		EXPORT_MUSIC_TO_DEVICE_TEST_TASK,
 		EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK,
+
+		IMPORT_NEW_MP3_TEST_TASK,
 		IMPORT_VIDEOS_TEST_TASK,
+
 		UPDATE_DJ_PLAYLISTS_TEST_TASK,
 		REPLACE_SONGS_TEST_TASK,
-		REPLACE_CORTINA_SET_TEST_TASK,
-		IMPORT_NEW_MP3_TEST_TASK,
-		IMPORT_VIDEOS_TEST_TASK
+		REPLACE_CORTINA_SET_TEST_TASK
 	]
 		once
 			create Result

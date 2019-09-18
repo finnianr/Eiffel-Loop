@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-12 10:39:31 GMT (Thursday 12th September 2019)"
-	revision: "8"
+	date: "2019-09-16 10:55:06 GMT (Monday   16th   September   2019)"
+	revision: "9"
 
 class
 	M3U_PLAYLIST_READER
@@ -35,35 +35,22 @@ feature {NONE} -- Initialization
 			lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make_machine
-			create path_list.make (20)
+			name := a_file_path.base_sans_extension
+			create playlist.make (a_file_path.base_sans_extension)
 
 			if a_file_path.exists then
 				create lines.make (a_file_path)
 				do_once_with_file_lines (agent find_extinf, lines)
 			end
-			name := a_file_path.base_sans_extension
 		end
 
 feature -- Access
 
 	name: ZSTRING
 
-	to_playlist: RBOX_PLAYLIST
-		local
-			song_path: EL_FILE_PATH
-		do
-			create Result.make (name)
-			across path_list as path loop
-				song_path := Database.music_dir + path.item
-				if Database.has_song (song_path) then
-					Result.add_song_from_path (song_path)
-					lio.put_path_field ("Imported", song_path)
-				else
-					lio.put_path_field ("Not found", song_path)
-				end
-				lio.put_new_line
-			end
-		end
+	playlist: RBOX_PLAYLIST
+
+	missing_count: INTEGER
 
 feature {NONE} -- State line procedures
 
@@ -78,22 +65,28 @@ feature {NONE} -- State line procedures
 	find_path_entry (line: ZSTRING)
 			--
 		local
-			steps: EL_PATH_STEPS; start_index: INTEGER
+			steps: EL_PATH_STEPS; index: INTEGER
+			song_path, relative_path: EL_FILE_PATH
 		do
 			if not line.is_empty then
 				steps := line
-				start_index := steps.index_of (Music, 1)
-				if start_index > 0 then
-					steps := steps.sub_steps (start_index, steps.count)
+				index := steps.index_of (Music, 1)
+				if index > 0 then
+					steps := steps.sub_steps (index + 1, steps.count)
 				end
-				path_list.extend (steps)
+				song_path := Database.music_dir + steps.as_file_path
+				relative_path := song_path.relative_path (Database.music_dir)
+				if Database.has_song (song_path) then
+					playlist.add_song_from_path (song_path)
+					lio.put_path_field ("Found", relative_path)
+				else
+					lio.put_path_field ("Not found", relative_path)
+					missing_count := missing_count + 1
+				end
+				lio.put_new_line
 				state := agent find_extinf
 			end
 		end
-
-feature {NONE} -- Internal attributes
-
-	path_list: ARRAYED_LIST [EL_FILE_PATH]
 
 feature {NONE} -- Constants
 

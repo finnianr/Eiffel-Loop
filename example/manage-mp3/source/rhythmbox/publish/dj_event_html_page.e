@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-12 7:48:24 GMT (Thursday 12th September 2019)"
-	revision: "5"
+	date: "2019-09-16 10:23:45 GMT (Monday   16th   September   2019)"
+	revision: "6"
 
 class
 	DJ_EVENT_HTML_PAGE
@@ -39,11 +39,12 @@ feature {NONE} -- Initialization
 	make (a_DJ_event: like DJ_event; a_template_path, a_output_path: like output_path)
 		local
 			playlist_duration: TIME_DURATION; tanda_type: ZSTRING
-			song: RBOX_SONG; played_list: PLAYLIST
+			song: RBOX_SONG; played_list: RBOX_PLAYLIST
 		do
 			make_from_template_and_output (a_template_path, a_output_path)
 			DJ_event := a_DJ_event
-			played_list := dj_event.less_unplayed
+			create played_list.make_default
+			played_list.append (dj_event.less_unplayed)
 			grow (played_list.count)
 			tanda_type := once "Tango"
 			create playlist_duration.make_by_seconds (0)

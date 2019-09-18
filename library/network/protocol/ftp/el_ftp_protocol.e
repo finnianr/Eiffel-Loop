@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-11 12:19:18 GMT (Sunday 11th August 2019)"
-	revision: "11"
+	date: "2019-09-16 16:00:40 GMT (Monday   16th   September   2019)"
+	revision: "12"
 
 class
 	EL_FTP_PROTOCOL
@@ -18,11 +18,12 @@ inherit
 			exception as exception_code,
 			send as send_to_socket,
 			make as make_protocol,
+			login as ftp_login,
 			last_reply as last_reply_utf_8
 		export
 			{ANY} send_username, send_password
 		redefine
-			close, open, login
+			close, open
 		end
 
 	EL_ZTEXT_PATTERN_FACTORY

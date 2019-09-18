@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-12 8:45:07 GMT (Thursday 12th September 2019)"
-	revision: "12"
+	date: "2019-09-16 10:19:16 GMT (Monday   16th   September   2019)"
+	revision: "13"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -79,7 +79,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			make_playlist (20)
-			create unplayed.make (0); unplayed.compare_objects
+			create unplayed.make (Unplayed_name); unplayed.compare_objects
 			title := Empty_string
 			venue := Empty_string
 			dj_name := Empty_string
@@ -112,7 +112,7 @@ feature -- Access
 			Result := output_path.base_sans_extension + ".html"
 		end
 
-	less_unplayed: PLAYLIST
+	less_unplayed: EL_ARRAYED_LIST [RBOX_SONG]
 		-- list less the unplayed songs
 		do
 			create Result.make (count - unplayed.count)
@@ -122,6 +122,11 @@ feature -- Access
 				end
 				forth
 			end
+		end
+
+	name: ZSTRING
+		do
+			Result := output_path.base_sans_extension
 		end
 
 	new_rbox_entry: RBOX_PLAYLIST_ENTRY
@@ -139,7 +144,7 @@ feature -- Access
 
 	title: ZSTRING
 
-	unplayed: PLAYLIST
+	unplayed: RBOX_PLAYLIST
 		-- songs unplayed on the night (marked by the DJ with an X as first character of path)
 
 	venue: ZSTRING
@@ -181,6 +186,7 @@ feature {NONE} -- Implementation
 	new_checksum: NATURAL
 		local
 			crc: like crc_generator
+			both: ARRAY [PLAYLIST]
 		do
 			crc := crc_generator
 			across << dj_name, title, venue >> as str loop
@@ -190,8 +196,8 @@ feature {NONE} -- Implementation
 				crc.add_integer (n.item)
 			end
 			crc.add_boolean (is_publishable)
-
-			across << Current, unplayed >> as list loop
+			both := << Current, unplayed >>
+			across both as list loop
 				across list.item as l_song loop
 					crc.add_path (l_song.item.mp3_path)
 				end
@@ -259,8 +265,7 @@ feature {NONE} -- Building from XML
 			if is_unplayed then
 				path.remove_head (1)
 			end
-			database.songs_by_location.search (database.music_dir + path)
-			if database.songs_by_location.found then
+			if database.songs_by_location.has_key (database.music_dir + path) then
 				extend (database.songs_by_location.found_item)
 				if is_unplayed then
 					unplayed.extend (last)
@@ -322,5 +327,10 @@ feature {NONE} -- Constants
 				"$path.item"
 			#end
 	]"
+
+	Unplayed_name: ZSTRING
+		once
+			Result := "unplayed"
+		end
 
 end

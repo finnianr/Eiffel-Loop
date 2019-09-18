@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-05 8:48:27 GMT (Thursday 5th September 2019)"
-	revision: "1"
+	date: "2019-09-15 9:30:27 GMT (Sunday   15th   September   2019)"
+	revision: "2"
 
 class
 	IMPORT_NEW_MP3_TEST_TASK
@@ -21,9 +21,6 @@ inherit
 		end
 
 	TEST_MANAGEMENT_TASK
-		undefine
-			make_default
-		end
 
 feature -- Basic operations
 

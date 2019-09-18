@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 15:02:12 GMT (Sunday 1st September 2019)"
-	revision: "1"
+	date: "2019-09-15 9:31:24 GMT (Sunday   15th   September   2019)"
+	revision: "2"
 
 class
 	REPLACE_SONGS_TEST_TASK
@@ -21,9 +21,6 @@ inherit
 		end
 
 	TEST_MANAGEMENT_TASK
-		undefine
-			make_default
-		end
 
 feature {NONE} -- Factory
 
