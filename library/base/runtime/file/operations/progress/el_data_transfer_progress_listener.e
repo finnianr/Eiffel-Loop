@@ -1,16 +1,19 @@
 note
-	description: "File progress listener"
+	description: "[
+		Listener to track the progress of a data transfer operation. Reading or writing from a file
+		for example.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-16 11:05:48 GMT (Sunday 16th June 2019)"
-	revision: "8"
+	date: "2019-09-22 11:05:16 GMT (Sunday   22nd   September   2019)"
+	revision: "9"
 
 class
-	EL_FILE_PROGRESS_LISTENER
+	EL_DATA_TRANSFER_PROGRESS_LISTENER
 
 inherit
 	EL_PROGRESS_LISTENER
@@ -28,18 +31,13 @@ inherit
 		end
 
 create
-	make_default, make_estimated
+	make
 
 feature {NONE} -- Initialization
 
-	make_default (a_display: EL_PROGRESS_DISPLAY)
+	make (a_display: EL_PROGRESS_DISPLAY; a_estimated_byte_count: INTEGER)
 		do
 			make_exact (a_display, Default_final_tick_count)
-		end
-
-	make_estimated (a_display: EL_PROGRESS_DISPLAY; a_estimated_byte_count: INTEGER)
-		do
-			make_default (a_display)
 			estimated_byte_count := a_estimated_byte_count
 		end
 
@@ -69,7 +67,7 @@ feature -- Element change
 			final_tick_count := a_final_tick_count
 		end
 
-feature {EL_NOTIFYING_FILE, EL_FILE_PROGRESS_LISTENER,  EL_SHARED_FILE_PROGRESS_LISTENER} -- Event handling
+feature {EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER} -- Event handling
 
 	on_notify (a_byte_count: INTEGER)
 		do
@@ -94,6 +92,11 @@ feature -- Basic operations
 			display.on_finish
 			if is_lio_enabled then
 				lio.put_integer_field (display.generator + " byte_count", byte_count)
+				if byte_count = estimated_byte_count then
+					lio.put_string (" estimate OK")
+				else
+					lio.put_integer_field (" estimated_byte_count", estimated_byte_count)
+				end
 				lio.put_new_line
 			end
 			reset

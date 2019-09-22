@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 9:49:19 GMT (Friday 12th May 2017)"
-	revision: "3"
+	date: "2019-09-20 8:42:21 GMT (Friday   20th   September   2019)"
+	revision: "4"
 
 deferred class
 	EL_DOWNLOAD_HTTP_COMMAND
@@ -15,15 +15,13 @@ deferred class
 inherit
 	EL_HTTP_COMMAND
 
-	EL_SHARED_ONCE_STRINGS
-
 feature {NONE} -- Implementation
 
 	frozen on_data_transfer (c_string: POINTER; a_size, a_nmemb: INTEGER): INTEGER
 		local
-			string: like Once_string_8
+			string: like Buffer
 		do
-			string := empty_once_string_8
+			string := Buffer
 			string.from_c_substring (c_string, 1, a_size * a_nmemb)
 			Result := string.count
 			on_string_transfer (string)
@@ -42,6 +40,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Buffer: STRING
+		once
+			create Result.make (50)
+		end
 
 	Call_back_routines: ARRAY [POINTER]
 			-- redefine with addresses of frozen procedures

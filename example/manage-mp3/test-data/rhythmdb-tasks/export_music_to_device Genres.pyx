@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 export_music_to_device:
-	is_dry_run = false; test_checksum = 4263375370
+	is_dry_run = false; test_checksum = 4202046454
 	music_dir = "workarea/rhythmdb/Music"
 	
 	volume:

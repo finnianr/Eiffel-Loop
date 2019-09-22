@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-11 13:03:43 GMT (Sunday 11th August 2019)"
-	revision: "18"
+	date: "2019-09-22 12:33:26 GMT (Sunday   22nd   September   2019)"
+	revision: "19"
 
 class
 	REPOSITORY_PUBLISHER
@@ -157,9 +157,8 @@ feature -- Basic operations
 					if Log_manager.is_logging_active then
 						ftp_sync.login_and_upload
 					else
-						track_progress (
-							ftp_sync.new_progress_listener (create {EL_CONSOLE_PROGRESS_DISPLAY}.make),
-							agent ftp_sync.login_and_upload, agent lio.put_line ("Synchronized")
+						track_progress_to_console (
+							ftp_sync.operation_count, agent ftp_sync.login_and_upload, agent lio.put_line ("Synchronized")
 						)
 					end
 				end

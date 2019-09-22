@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-09-19 9:07:43 GMT (Thursday   19th   September   2019)"
+	revision: "5"
 
 class
 	EVOLICITY_FILE_LEXER
@@ -111,7 +111,11 @@ feature {NONE} -- Patterns
 		end
 
 	dollar_literal: like string_literal
-			-- Eg: ${clip.offset}
+			-- Example in Bash script
+			
+			-- RETVAL=$?
+			-- if [ $$RETVAL -eq 0 ]
+			-- then
 		do
 			Result := string_literal ("$$") |to| add_token_action (Double_dollor_sign)
 		end

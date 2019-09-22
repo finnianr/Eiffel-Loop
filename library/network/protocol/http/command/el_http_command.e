@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 10:25:05 GMT (Friday 12th May 2017)"
-	revision: "5"
+	date: "2019-09-22 8:52:44 GMT (Sunday   22nd   September   2019)"
+	revision: "6"
 
 deferred class
 	EL_HTTP_COMMAND
@@ -25,7 +25,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_FILE_PROGRESS_LISTENER
+	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
 
 feature {NONE} -- Initialization
 
@@ -63,7 +63,7 @@ feature {NONE} -- Internal attributes
 
 	connection: EL_HTTP_CONNECTION
 
-	listener: EL_FILE_PROGRESS_LISTENER
+	listener: EL_DATA_TRANSFER_PROGRESS_LISTENER
 		-- progress listener
 
 feature {NONE} -- C externals

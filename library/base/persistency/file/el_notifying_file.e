@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-16 12:34:07 GMT (Saturday 16th February 2019)"
-	revision: "8"
+	date: "2019-09-22 8:52:44 GMT (Sunday   22nd   September   2019)"
+	revision: "9"
 
 deferred class
 	EL_NOTIFYING_FILE
@@ -18,7 +18,7 @@ inherit
 			close, move, go, recede, back, start, finish, forth
 		end
 
-	EL_SHARED_FILE_PROGRESS_LISTENER
+	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
 
 feature -- Basic operations
 

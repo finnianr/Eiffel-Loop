@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-14 11:45:09 GMT (Saturday   14th   September   2019)"
-	revision: "15"
+	date: "2019-09-19 9:27:25 GMT (Thursday   19th   September   2019)"
+	revision: "16"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -154,6 +154,11 @@ feature -- Access
 	alias_names: EL_ZSTRING_LIST
 		do
 			create Result.make_from_array (types_indexed_by_name.current_keys)
+		end
+
+	count: INTEGER
+		do
+			Result := types_indexed_by_name.count
 		end
 
 	default_alias: ZSTRING

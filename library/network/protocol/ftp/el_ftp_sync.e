@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 16:59:29 GMT (Monday 9th September 2019)"
-	revision: "14"
+	date: "2019-09-22 12:24:20 GMT (Sunday   22nd   September   2019)"
+	revision: "15"
 
 class
 	EL_FTP_SYNC
@@ -25,9 +25,11 @@ inherit
 
 	EL_MODULE_EXCEPTION
 
+	EL_MODULE_FILE_SYSTEM
+
 	EL_SHARED_DIRECTORY
 
-	EL_MODULE_FILE_SYSTEM
+	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
 
 create
 	make, make_default
@@ -61,6 +63,11 @@ feature -- Access
 
 	root_dir: EL_DIR_PATH
 
+	operation_count: INTEGER
+		do
+			Result := removed_items.count + upload_list.count
+		end
+
 feature -- Status query
 
 	display_uploads: EL_BOOLEAN_OPTION
@@ -91,14 +98,6 @@ feature -- Element change
 			root_dir := a_root_dir
 		end
 
-feature -- Factory
-
-	new_progress_listener (a_display: EL_PROGRESS_DISPLAY): EL_PROGRESS_LISTENER
-		do
-			create Result.make (a_display, removed_items.count + upload_list.count)
-			a_display.set_text ("Synchronizing with " + ftp.address.host)
-		end
-
 feature -- Basic operations
 
 	login_and_upload
@@ -107,6 +106,7 @@ feature -- Basic operations
 			if ftp.is_open then
 				ftp.login; ftp.change_home_dir
 				lio.put_new_line
+				progress_listener.display.set_text ("Synchronizing with " + ftp.address.host)
 				upload
 				ftp.close
 				sync_table.save

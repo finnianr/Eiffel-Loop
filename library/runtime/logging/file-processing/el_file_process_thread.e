@@ -8,19 +8,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:47:25 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2019-09-19 21:36:41 GMT (Thursday   19th   September   2019)"
+	revision: "6"
 
 class
 	EL_FILE_PROCESS_THREAD
 
 inherit
+	ANY
+
 	EL_IDENTIFIED_THREAD
 
 	EL_PROGRESS_TRACKER
-		undefine
-			default_create
-		end
 
 create
 	make
@@ -30,7 +29,7 @@ feature {NONE} -- Initialization
 	make (a_display: like display; a_action: like action)
 		do
 			display := a_display; action := a_action
-			default_create
+			make_default
 		end
 
 feature -- Basic operations

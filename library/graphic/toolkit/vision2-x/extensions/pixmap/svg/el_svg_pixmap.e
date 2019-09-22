@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:38:35 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2019-09-22 8:52:44 GMT (Sunday   22nd   September   2019)"
+	revision: "8"
 
 class
 	EL_SVG_PIXMAP
@@ -31,7 +31,7 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_SHARED_FILE_PROGRESS_LISTENER
+	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
 
 	EL_SHARED_ONCE_STRINGS
 

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-13 15:57:49 GMT (Sunday 13th January 2019)"
-	revision: "3"
+	date: "2019-09-22 8:52:44 GMT (Sunday   22nd   September   2019)"
+	revision: "4"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -25,7 +25,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_SHARED_FILE_PROGRESS_LISTENER
+	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
 
 	EL_MODULE_LIO
 

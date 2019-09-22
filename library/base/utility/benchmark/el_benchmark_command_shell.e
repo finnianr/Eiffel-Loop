@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-05 19:29:29 GMT (Wednesday 5th December 2018)"
-	revision: "9"
+	date: "2019-09-19 9:32:03 GMT (Thursday   19th   September   2019)"
+	revision: "10"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -26,25 +26,29 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_number_of_runs: INTEGER)
 		do
-			create number_of_runs
-			number_of_runs.set_item (a_number_of_runs)
+			number_of_runs := a_number_of_runs
 			make_shell ("BENCHMARK")
 		end
 
 feature {NONE} -- Implementation
+
+	do_comparison (name: ZSTRING)
+		local
+			comparison: EL_BENCHMARK_COMPARISON
+		do
+			comparison := factory.instance_from_alias (name, agent {EL_BENCHMARK_COMPARISON}.make (number_of_runs))
+			comparison.execute
+		end
 
 	factory: EL_OBJECT_FACTORY [EL_BENCHMARK_COMPARISON]
 		deferred
 		end
 
 	new_command_table: like command_table
-		local
-			comparison: EL_BENCHMARK_COMPARISON
 		do
-			create Result.make_equal (factory.types_indexed_by_name.count)
-			across factory.types_indexed_by_name as type loop
-				comparison := factory.instance_from_alias (type.key, agent {EL_BENCHMARK_COMPARISON}.make (number_of_runs))
-				Result [type.key] := agent comparison.execute
+			create Result.make_equal (Factory.count)
+			across Factory.alias_names as name loop
+				Result [name.item] := agent do_comparison (name.item)
 			end
 		end
 

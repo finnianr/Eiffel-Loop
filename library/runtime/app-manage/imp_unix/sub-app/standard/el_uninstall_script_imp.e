@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-09-19 9:50:08 GMT (Thursday   19th   September   2019)"
+	revision: "6"
 
 class
 	EL_UNINSTALL_SCRIPT_IMP
@@ -47,11 +47,13 @@ feature {NONE} -- Constants
 			]"
 		end
 
+	-- In `Template' $RETVAL must be escaped with $$
+
 	Template: STRING = "[
 		#!/usr/bin/env bash
 		$application_path -uninstall
 		RETVAL=$?
-		if [ $RETVAL -eq 0 ]
+		if [ $$RETVAL -eq 0 ]
 		then
 			. $remove_files_script_path
 			rm $remove_files_script_path

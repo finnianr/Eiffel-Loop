@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 12:56:41 GMT (Wednesday 20th February 2019)"
-	revision: "12"
+	date: "2019-09-22 12:14:23 GMT (Sunday   22nd   September   2019)"
+	revision: "13"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -186,7 +186,7 @@ feature {NONE} -- Implementation
 	on_retrieve
 		do
 			Precursor
-			progress_listener.increment_estimated_bytes_from_file (editions_file_path)
+			increment_estimated_file_transfer_bytes (editions_file_path)
 		end
 
 feature {NONE} -- Constants

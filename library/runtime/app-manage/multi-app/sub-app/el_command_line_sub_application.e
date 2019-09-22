@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 11:41:21 GMT (Monday 2nd September 2019)"
-	revision: "21"
+	date: "2019-09-19 9:45:12 GMT (Thursday   19th   September   2019)"
+	revision: "22"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -68,7 +68,10 @@ feature {NONE} -- Argument setting
 			offset: INTEGER
 		do
 			operands := a_operands
-			if a_operands.count > 0 and then a_operands.reference_item (1) = Current then
+			if a_operands.count > 0
+				and then a_operands.is_reference_item (1)
+				and then a_operands.reference_item (1) = Current
+			then
 				offset := 1
 			end
 			create specs.make_from_array (argument_specs)

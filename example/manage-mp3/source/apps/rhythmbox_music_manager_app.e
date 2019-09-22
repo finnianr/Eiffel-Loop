@@ -1,8 +1,12 @@
 ﻿note
 	description: "[
-		MP3 manager for the Rhythmbox media player. The manager executes tasks defined by
-		[https://github.com/finnianr/Eiffel-Loop/tree/master/example/manage-mp3/doc/tasks task configuration files]
-		written in [https://room.eiffel.com/node/527 Pyxis format].
+		MP3 manager for the Rhythmbox media player. The manager executes tasks defined by task configuration
+		written in [https://room.eiffel.com/node/527 Pyxis format] (an XML analog).
+	 		See 
+		[https://github.com/finnianr/Eiffel-Loop/tree/master/example/manage-mp3/doc/tasks example/manage-mp3/doc/tasks]
+		for configuration examples.
+		
+		See the class hierarchy with [$source RBOX_MANAGEMENT_TASK] as it's root.
 		
 		Usage:
 			el_rhythmbox -manager -config <task-configuration>
@@ -26,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-05 7:20:59 GMT (Thursday 5th September 2019)"
-	revision: "18"
+	date: "2019-09-19 18:36:23 GMT (Thursday   19th   September   2019)"
+	revision: "19"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP

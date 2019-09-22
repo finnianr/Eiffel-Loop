@@ -1,19 +1,19 @@
 note
-	description: "Do nothing file progress listener"
+	description: "Do nothing data transfer progress listener"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-16 9:32:56 GMT (Sunday 16th June 2019)"
-	revision: "4"
+	date: "2019-09-22 8:51:09 GMT (Sunday   22nd   September   2019)"
+	revision: "5"
 
 class
-	EL_DEFAULT_FILE_PROGRESS_LISTENER
+	EL_DEFAULT_DATA_TRANSFER_PROGRESS_LISTENER
 
 inherit
-	EL_FILE_PROGRESS_LISTENER
+	EL_DATA_TRANSFER_PROGRESS_LISTENER
 		redefine
 			default_create, on_notify, increment_estimated_bytes, increment_estimated_bytes_from_file
 		end

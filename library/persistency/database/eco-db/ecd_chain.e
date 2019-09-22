@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 12:35:06 GMT (Wednesday 20th February 2019)"
-	revision: "14"
+	date: "2019-09-22 12:14:23 GMT (Sunday   22nd   September   2019)"
+	revision: "15"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -55,7 +55,7 @@ inherit
 
 	EL_STORABLE_HANDLER
 
-	EL_SHARED_FILE_PROGRESS_LISTENER
+	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
 
 feature {NONE} -- Initialization
 
@@ -258,7 +258,7 @@ feature {NONE} -- Event handler
 	on_retrieve
 		-- called just before `retrieve'
 		do
-			progress_listener.increment_estimated_bytes_from_file (file_path)
+			increment_estimated_file_transfer_bytes (file_path)
 		end
 
 	on_version_mismatch (actual_version: NATURAL)
