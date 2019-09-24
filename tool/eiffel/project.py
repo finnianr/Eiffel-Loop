@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 30); build = 147
+version = (1, 0, 31); build = 149
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.31
+# Changes to ftp login
 
 # 1.0.30
 # Fixed EL_FTP_SYNC to update sync table only when item successfully synced

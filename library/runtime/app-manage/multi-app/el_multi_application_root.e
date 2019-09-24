@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-14 9:37:36 GMT (Saturday   14th   September   2019)"
-	revision: "11"
+	date: "2019-09-24 8:35:48 GMT (Tuesday   24th   September   2019)"
+	revision: "12"
 
 deferred class
 	-- Generic to make sure scons generated `BUILD_INFO' is compiled from project source
@@ -56,11 +56,11 @@ feature {NONE} -- Initialization
 			end
 			lio := new_temporary_lio -- until the logging is initialized in `EL_SUB_APPLICATION'
 
---				Environment.Execution.restore_last_code_page
---				FOR WINDOWS
---				If the original code page is not restored after changing to 65001 (utf-8)
---				this could effect subsequent programs that run in the same shell.
---				Python for example might give a "LookupError: unknown encoding: cp65001" error.
+--			Environment.Execution.restore_last_code_page
+--			FOR WINDOWS
+--			If the original code page is not restored after changing to 65001 (utf-8)
+--			this could effect subsequent programs that run in the same shell.
+--			Python for example might give a "LookupError: unknown encoding: cp65001" error.
 
 			create list.make (application_type_list, select_first)
 			list.extend (create {EL_VERSION_APP})

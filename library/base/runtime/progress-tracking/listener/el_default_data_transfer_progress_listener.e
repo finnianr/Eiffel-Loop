@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-22 8:51:09 GMT (Sunday   22nd   September   2019)"
-	revision: "5"
+	date: "2019-09-24 8:27:59 GMT (Tuesday   24th   September   2019)"
+	revision: "6"
 
 class
 	EL_DEFAULT_DATA_TRANSFER_PROGRESS_LISTENER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_DATA_TRANSFER_PROGRESS_LISTENER
 		redefine
-			default_create, on_notify, increment_estimated_bytes, increment_estimated_bytes_from_file
+			default_create, on_notify, increase_data_estimate, increase_file_data_estimate
 		end
 
 feature {NONE} -- Initialization
@@ -27,11 +27,11 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	increment_estimated_bytes (a_count: INTEGER)
+	increase_data_estimate (a_count: INTEGER)
 		do
 		end
 
-	increment_estimated_bytes_from_file (a_file_path: EL_FILE_PATH)
+	increase_file_data_estimate (a_file_path: EL_FILE_PATH)
 		do
 		end
 

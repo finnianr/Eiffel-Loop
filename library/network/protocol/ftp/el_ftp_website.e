@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-22 12:34:13 GMT (Sunday   22nd   September   2019)"
-	revision: "10"
+	date: "2019-09-24 8:07:27 GMT (Tuesday   24th   September   2019)"
+	revision: "11"
 
 class
 	EL_FTP_WEBSITE
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_PROGRESS_TRACKER
+	EL_MODULE_TRACK
 
 create
 	make
@@ -54,9 +54,8 @@ feature -- Basic operations
 			logged_in: is_logged_in
 		do
 			change_home_dir
-			track_progress_to_console (
-				upload_list.count, agent upload_list.do_all (agent upload), agent lio.put_line ("DONE")
-			)
+			Track.progress (Console_display, upload_list.count, agent upload_list.do_all (agent upload))
+			lio.put_line ("DONE")
 		end
 
 feature -- Status query

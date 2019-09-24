@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-22 12:31:53 GMT (Sunday   22nd   September   2019)"
-	revision: "8"
+	date: "2019-09-24 8:33:14 GMT (Tuesday   24th   September   2019)"
+	revision: "9"
 
 class
 	FTP_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			on_prepare, on_clean
 		end
 
-	EL_PROGRESS_TRACKER
+	EL_MODULE_TRACK
 
 feature -- Tests
 
@@ -70,7 +70,8 @@ feature {NONE} -- Implementation
 				file_list.extend (sync_item.file_path)
 				sync.extend (sync_item)
 			end
-			track_progress_to_console (sync.operation_count, agent sync.login_and_upload, agent do_nothing)
+
+			Track.progress (Console_display, sync.operation_count, agent sync.login_and_upload)
 
 			assert ("files exist", across file_list as path all ftp.file_exists (path.item) end)
 

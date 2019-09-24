@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-22 12:13:43 GMT (Sunday   22nd   September   2019)"
-	revision: "9"
+	date: "2019-09-24 8:41:23 GMT (Tuesday   24th   September   2019)"
+	revision: "10"
 
 deferred class
 	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
@@ -25,16 +25,6 @@ feature {NONE} -- Implementation
 	is_progress_tracking: BOOLEAN
 		do
 			Result := not attached {EL_DEFAULT_DATA_TRANSFER_PROGRESS_LISTENER} progress_listener
-		end
-
-	increment_estimated_transfer_bytes (a_count: INTEGER)
-		do
-			progress_listener.increment_estimated_bytes (a_count)
-		end
-
-	increment_estimated_file_transfer_bytes (a_file_path: EL_FILE_PATH)
-		do
-			progress_listener.increment_estimated_bytes_from_file (a_file_path)
 		end
 
 feature {NONE} -- Constants

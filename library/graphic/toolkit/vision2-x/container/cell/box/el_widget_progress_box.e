@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-22 12:02:22 GMT (Sunday   22nd   September   2019)"
-	revision: "2"
+	date: "2019-09-24 8:14:10 GMT (Tuesday   24th   September   2019)"
+	revision: "3"
 
 class
 	EL_WIDGET_PROGRESS_BOX [W -> EV_WIDGET create default_create end]
@@ -16,11 +16,6 @@ inherit
 	EL_VERTICAL_BOX
 		rename
 			make as make_box
-		end
-
-	EL_PROGRESS_TRACKER
-		rename
-			track_progress as do_track_progress
 		end
 
 	EL_PROGRESS_DISPLAY undefine copy, default_create, is_equal end
@@ -32,6 +27,8 @@ inherit
 	EL_MODULE_PIXMAP
 
 	EL_MODULE_SCREEN
+
+	EL_MODULE_TRACK
 
 create
 	make, make_default
@@ -65,7 +62,7 @@ feature -- Basic operations
 		do
 			parent.set_pointer_style (Pixmap.Busy_cursor)
 			tick_count.apply
-			do_track_progress (Current, tick_count.last_result, an_action, agent do_nothing)
+			Track.progress (Current, tick_count.last_result, an_action)
 			parent.set_pointer_style (Pixmap.Standard_cursor)
 		end
 

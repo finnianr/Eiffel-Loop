@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-14 10:01:51 GMT (Saturday   14th   September   2019)"
-	revision: "22"
+	date: "2019-09-24 8:58:52 GMT (Tuesday   24th   September   2019)"
+	revision: "23"
 
 class
 	APPLICATION_ROOT
@@ -24,6 +24,8 @@ feature {NONE} -- Constants
 		AUTOTEST_DEVELOPMENT_APP,
 
 		CRYPTO_COMMAND_SHELL_APP,
+
+		EL_DEBIAN_PACKAGER_APP,
 		DUPLICITY_BACKUP_APP,
 		DUPLICITY_RESTORE_APP,
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-22 11:05:16 GMT (Sunday   22nd   September   2019)"
-	revision: "9"
+	date: "2019-09-24 8:27:59 GMT (Tuesday   24th   September   2019)"
+	revision: "10"
 
 class
 	EL_DATA_TRANSFER_PROGRESS_LISTENER
@@ -50,15 +50,15 @@ feature -- Access
 
 feature -- Element change
 
-	increment_estimated_bytes (a_count: INTEGER)
+	increase_data_estimate (a_count: INTEGER)
 		do
 			estimated_byte_count := estimated_byte_count + a_count
 		end
 
-	increment_estimated_bytes_from_file (a_file_path: EL_FILE_PATH)
+	increase_file_data_estimate (a_file_path: EL_FILE_PATH)
 		do
 			if a_file_path.exists then
-				increment_estimated_bytes (File_system.file_byte_count (a_file_path))
+				increase_data_estimate (File_system.file_byte_count (a_file_path))
 			end
 		end
 

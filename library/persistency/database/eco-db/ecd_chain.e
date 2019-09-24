@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-22 12:14:23 GMT (Sunday   22nd   September   2019)"
-	revision: "15"
+	date: "2019-09-24 8:27:37 GMT (Tuesday   24th   September   2019)"
+	revision: "16"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -258,7 +258,7 @@ feature {NONE} -- Event handler
 	on_retrieve
 		-- called just before `retrieve'
 		do
-			increment_estimated_file_transfer_bytes (file_path)
+			progress_listener.increase_file_data_estimate (file_path)
 		end
 
 	on_version_mismatch (actual_version: NATURAL)
