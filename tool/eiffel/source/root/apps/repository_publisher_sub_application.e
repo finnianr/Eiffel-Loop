@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 16:01:45 GMT (Sunday 23rd December 2018)"
-	revision: "5"
+	date: "2019-09-25 15:25:36 GMT (Wednesday   25th   September   2019)"
+	revision: "6"
 
 deferred class
 	REPOSITORY_PUBLISHER_SUB_APPLICATION [C -> REPOSITORY_PUBLISHER]

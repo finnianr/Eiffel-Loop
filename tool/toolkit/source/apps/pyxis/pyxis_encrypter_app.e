@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 9:29:33 GMT (Monday 2nd September 2019)"
-	revision: "9"
+	date: "2019-09-25 15:26:06 GMT (Wednesday   25th   September   2019)"
+	revision: "10"
 
 class
 	PYXIS_ENCRYPTER_APP

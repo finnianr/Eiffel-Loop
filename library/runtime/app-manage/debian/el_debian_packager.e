@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-24 9:03:08 GMT (Tuesday   24th   September   2019)"
-	revision: "1"
+	date: "2019-09-26 14:42:55 GMT (Thursday   26th   September   2019)"
+	revision: "2"
 
 class
 	EL_DEBIAN_PACKAGER
@@ -49,15 +49,15 @@ feature -- Basic operations
 
 	execute
 		local
-			destination_dir: EL_DIR_PATH
-			control_file: EL_DEBIAN_CONTROL
+			control_file: EL_DEBIAN_CONTROL; destination_dir: EL_DIR_PATH
 		do
 			destination_dir := application_output_dir
 			File_system.make_directory (destination_dir)
 			Command.new_find_directories (package_dir).copy_sub_directories (destination_dir)
-			Command.new_find_files (package_dir, "*").copy_directory_files (destination_dir)
+			Command.new_find_files (package_dir, All_files).copy_directory_files (destination_dir)
 
 			create control_file.make (template_dir + Control, debian_output_dir + Control)
+			control_file.set_installed_size (Command.new_find_files (package_dir, All_files).sum_file_byte_count)
 			control_file.serialize
 		end
 
@@ -100,6 +100,8 @@ feature {NONE} -- Internal attributes
 		-- package name with appended version
 
 feature {NONE} -- Constants
+
+	All_files: STRING = "*"
 
 	Name_template: ZSTRING
 		once

@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {MUSIC_MANAGER_SUB_APPLICATION}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Music manager sub application"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-09-25 16:44:32 GMT (Wednesday   25th   September   2019)"
+	revision: "1"
 
 class
 	MUSIC_MANAGER_SUB_APPLICATION

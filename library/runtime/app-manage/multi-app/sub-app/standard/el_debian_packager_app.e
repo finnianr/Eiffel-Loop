@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-24 9:15:49 GMT (Tuesday   24th   September   2019)"
-	revision: "1"
+	date: "2019-09-26 12:52:29 GMT (Thursday   26th   September   2019)"
+	revision: "2"
 
 class
 	EL_DEBIAN_PACKAGER_APP
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 
 	visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
 		do
-			Result := << {EL_FIND_DIRECTORIES_COMMAND_IMP} >>
+			Result := << {EL_FIND_DIRECTORIES_COMMAND_IMP}, {EL_FIND_FILES_COMMAND_IMP} >>
 		end
 
 feature {NONE} -- Constants

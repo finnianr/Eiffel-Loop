@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 9:28:48 GMT (Monday 2nd September 2019)"
-	revision: "8"
+	date: "2019-09-25 15:26:10 GMT (Wednesday   25th   September   2019)"
+	revision: "9"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP

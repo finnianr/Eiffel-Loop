@@ -40,3 +40,6 @@ Added routine flip to class EL_DRAWABLE_PIXEL_BUFFER with or'd flip state
 Sat   14th   Sep   2019, 11:48:43
 Using TUPLE's to specifiy list of factory types
 
+Thu   26th   Sep   2019, 19:03:51
+Changed argument_specs: ARRAY
+

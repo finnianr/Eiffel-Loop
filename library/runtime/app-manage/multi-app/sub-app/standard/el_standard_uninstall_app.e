@@ -14,7 +14,6 @@ note
 		
 		**3.** By default the launcher menu is put in the System submenu. Over-ride `Desktop_menu_path' to put
 		it somewhere else.
-
 	]"
 
 	author: "Finnian Reilly"
@@ -22,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-18 18:32:36 GMT (Thursday 18th July 2019)"
-	revision: "12"
+	date: "2019-09-26 13:49:43 GMT (Thursday   26th   September   2019)"
+	revision: "13"
 
 class
 	EL_STANDARD_UNINSTALL_APP

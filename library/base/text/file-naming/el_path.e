@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 21:40:33 GMT (Wednesday 11th September 2019)"
-	revision: "30"
+	date: "2019-09-26 13:40:49 GMT (Thursday   26th   September   2019)"
+	revision: "31"
 
 deferred class
 	EL_PATH
@@ -23,30 +23,10 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
-	EL_PATH_CONSTANTS
-		export
-			{NONE} all
-			{ANY} Separator
+	EL_PATH_IMPLEMENTATION
 		undefine
 			is_equal, default_create, out, copy
 		end
-
-	DEBUG_OUTPUT
-		rename
-			debug_output as as_string_32
-		undefine
-			is_equal, default_create, out, copy
-		end
-
-	STRING_HANDLER undefine is_equal, default_create, out, copy end
-
-	EL_ZSTRING_ROUTINES undefine is_equal, default_create, out, copy end
-
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_FORMAT
 
 feature {NONE} -- Initialization
 
@@ -280,7 +260,11 @@ feature -- Access
 	with_new_extension (a_new_ext: READABLE_STRING_GENERAL): like Current
 		do
 			Result := twin
-			Result.replace_extension (a_new_ext)
+			if has_dot_extension then
+				Result.replace_extension (a_new_ext)
+			else
+				Result.add_extension (a_new_ext)
+			end
 		end
 
 	without_extension: like Current
@@ -290,34 +274,6 @@ feature -- Access
 		end
 
 feature -- Measurement
-
-	count: INTEGER
-		-- character count
-		-- (works for uri paths too)
-		local
-			i: INTEGER
-		do
-			from i := 1 until i > part_count loop
-				Result := Result + part_string (i).count
-				i := i + 1
-			end
-		end
-
-	dot_index: INTEGER
-		-- index of last dot, 0 if none
-		do
-			Result := base.last_index_of ('.', base.count)
-		end
-
-	has_extension (a_extension: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			index: INTEGER
-		do
-			index := dot_index
-			if index > 0 then
-				Result := base.same_characters (a_extension, 1, a_extension.count, index + 1)
-			end
-		end
 
 	hash_code: INTEGER
 			-- Hash code value
@@ -340,16 +296,6 @@ feature -- Measurement
 			end
 		end
 
-	parent_count: INTEGER
-		do
-			Result := parent_path.count
-		end
-
-	step_count: INTEGER
-		do
-			Result := parent_path.occurrences (Separator) + 1
-		end
-
 feature -- Status Query
 
 	base_matches (name: READABLE_STRING_GENERAL): BOOLEAN
@@ -370,6 +316,21 @@ feature -- Status Query
 
 	exists: BOOLEAN
 		deferred
+		end
+
+	has_dot_extension: BOOLEAN
+		do
+			Result := dot_index > 0
+		end
+
+	has_extension (a_extension: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			index: INTEGER
+		do
+			index := dot_index
+			if index > 0 then
+				Result := base.same_characters (a_extension, 1, a_extension.count, index + 1)
+			end
 		end
 
 	has_parent: BOOLEAN
@@ -641,19 +602,6 @@ feature -- Removal
 
 feature -- Conversion
 
-	as_string_32: STRING_32
-		local
-			i: INTEGER
-		do
-			create Result.make (count)
-			from i := 1 until i > part_count loop
-				part_string (i).append_to_string_32 (Result)
-				i := i + 1
-			end
-		ensure then
-			same_as_to_string: to_string.as_string_32 ~ Result
-		end
-
 	escaped: ZSTRING
 		do
 			Result := File_system.escaped_path (Current)
@@ -675,18 +623,6 @@ feature -- Conversion
 			--
 		do
 			create Result.make_from_path (Current)
-		end
-
-	to_string: ZSTRING
-			--
-		local
-			i: INTEGER
-		do
-			create Result.make (count)
-			from i := 1 until i > part_count loop
-				Result.append (part_string (i))
-				i := i + 1
-			end
 		end
 
 feature -- Comparison
@@ -714,72 +650,13 @@ feature -- Duplication
 			make_from_other (other)
 		end
 
-feature {EL_PATH, STRING_HANDLER} -- Implementation
-
-	append (a_path: EL_PATH)
-		require
-			relative_path: not a_path.is_absolute
-		local
-			l_path: ZSTRING
-		do
-			if not a_path.is_empty then
-				l_path := temporary_path
-
-				if not l_path.is_empty then
-					l_path.append_unicode (Separator.natural_32_code)
-				end
-				l_path.append (a_path.parent_path)
-				l_path.append (a_path.base)
-				set_path (l_path)
-			end
-		end
-
-	part_count: INTEGER
-		-- count of string components
-		-- (5 in the case of URI paths)
-		do
-			Result := 2
-		end
-
-	part_string (index: INTEGER): ZSTRING
-		require
-			valid_index:  1 <= index and index <= part_count
-		do
-			inspect index
-				when 1 then
-					Result := parent_path
-			else
-				Result := base
-			end
-		end
-
-feature {EL_PATH, STRING_HANDLER} -- Internal attributes
+feature {EL_PATH_IMPLEMENTATION, STRING_HANDLER} -- Internal attributes
 
 	internal_hash_code: INTEGER
 
 	parent_path: ZSTRING
 
 feature {EL_PATH} -- Implementation
-
-	is_potenially_expandable (a_path: ZSTRING): BOOLEAN
-		local
-			pos_dollor: INTEGER
-		do
-			pos_dollor := a_path.index_of ('$', 1)
-			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
-		end
-
-	relative_temporary_path (a_parent: EL_DIR_PATH): ZSTRING
-		local
-			remove_count: INTEGER
-		do
-			Result := temporary_path
-			remove_count := a_parent.count
-			if Result.count > remove_count and then Result [remove_count + 1] = Separator then
-				remove_count := remove_count + 1
-			end
-			Result.remove_head (remove_count)
-		end
 
 	remove_base
 		require
@@ -801,80 +678,12 @@ feature {EL_PATH} -- Implementation
 			end
 		end
 
-	replace_separator (separator_old, separator_new: CHARACTER_32)
-		local
-			l_path: like parent_path
-		do
-			l_path := parent_path.twin
-			l_path.replace_character (separator_old, separator_new)
-			set_parent_path (l_path)
-		end
-
-	temporary_copy (path: READABLE_STRING_GENERAL): ZSTRING
-		do
-			Result := Temp_path
-			if Result /= path then
-				Result.wipe_out
-				Result.append_string_general (path)
-			end
-		end
-
-	temporary_path: ZSTRING
-		-- temporary shared copy of current path
-		do
-			Result := Temp_path
-			Result.wipe_out
-			append_to (Result)
-		end
-
 feature {NONE} -- Type definitions
 
 	Type_parent: EL_DIR_PATH
 		require
 			never_called: False
 		once
-		end
-
-feature {NONE} -- Constants
-
-	Back_dir_step: ZSTRING
-		once
-			Result := "../"
-		end
-
-	Empty_path: ZSTRING
-		once
-			create Result.make_empty
-		end
-		-- Greatest prime lower than 2^23
-		-- so that this magic number shifted to the left does not exceed 2^31.
-
-	Forward_slash: ZSTRING
-		once
-			Result := "/"
-		end
-
-	Magic_number: INTEGER = 8388593
-
-	Parent_set: EL_HASH_SET [ZSTRING]
-			--
-		once
-			create Result.make_equal (100)
-		end
-
-	Single_dot: ZSTRING
-		once
-			Result := "."
-		end
-
-	Temp_path: ZSTRING
-		once
-			create Result.make_empty
-		end
-
-	Variable_cwd: ZSTRING
-		once
-			Result := "$CWD"
 		end
 
 invariant

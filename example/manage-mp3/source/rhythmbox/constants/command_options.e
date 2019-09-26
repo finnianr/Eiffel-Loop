@@ -2,12 +2,12 @@ note
 	description: "Command options"
 
 	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2019 Finnian Reilly"
-	contact: "finnian at hex11software dot com"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
 
-	license: "All rights reserved"
-	date: "2019-07-03 8:45:33 GMT (Wednesday 3rd July 2019)"
-	revision: "3"
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-09-25 15:45:00 GMT (Wednesday   25th   September   2019)"
+	revision: "4"
 
 class
 	COMMAND_OPTIONS

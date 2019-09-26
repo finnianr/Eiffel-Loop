@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 9:28:45 GMT (Monday 2nd September 2019)"
-	revision: "5"
+	date: "2019-09-25 15:26:00 GMT (Wednesday   25th   September   2019)"
+	revision: "6"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP

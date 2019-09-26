@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {EL_DEBIAN_CONTROL}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Debian package information file: `DEBIAN/control'"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-09-26 13:52:31 GMT (Thursday   26th   September   2019)"
+	revision: "1"
 
 class
 	EL_DEBIAN_CONTROL
@@ -39,8 +44,15 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	installed_size: INTEGER
+	installed_size: NATURAL
 
 	version: STRING
+
+feature -- Element change
+
+	set_installed_size (a_installed_size: NATURAL)
+		do
+			installed_size := a_installed_size
+		end
 
 end
