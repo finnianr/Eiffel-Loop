@@ -184,14 +184,10 @@ feature -- Access
 			end
 		end
 
-	relative_path (a_parent: EL_DIR_PATH): like new_relative_path
+	relative_path (a_parent: EL_DIR_PATH): EL_PATH
 		require
 			parent_is_parent: a_parent.is_parent_of (Current)
-		do
-			Result := new_relative_path
-			if not a_parent.is_empty then
-				Result.set_parent_path (parent_path.substring_end (a_parent.parent_count + a_parent.base.count + 2))
-			end
+		deferred
 		end
 
 	to_path: PATH
@@ -302,7 +298,7 @@ feature -- Measurement
 			i: INTEGER
 		do
 			from i := 1 until i > part_count loop
-				Result := part_string (i).count
+				Result := Result + part_string (i).count
 				i := i + 1
 			end
 		end
@@ -727,7 +723,7 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			l_path: ZSTRING
 		do
 			if not a_path.is_empty then
-				l_path := Temp_path; l_path.wipe_out; append_to (l_path)
+				l_path := temporary_path
 
 				if not l_path.is_empty then
 					l_path.append_unicode (Separator.natural_32_code)
@@ -773,8 +769,16 @@ feature {EL_PATH} -- Implementation
 			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
 		end
 
-	new_relative_path: EL_PATH
-		deferred
+	relative_temporary_path (a_parent: EL_DIR_PATH): ZSTRING
+		local
+			remove_count: INTEGER
+		do
+			Result := temporary_path
+			remove_count := a_parent.count
+			if Result.count > remove_count and then Result [remove_count + 1] = Separator then
+				remove_count := remove_count + 1
+			end
+			Result.remove_head (remove_count)
 		end
 
 	remove_base
@@ -782,14 +786,18 @@ feature {EL_PATH} -- Implementation
 			has_parent: has_parent
 		local
 			pos_separator, pos_last_separator: INTEGER
+			l_path: ZSTRING
 		do
 			pos_last_separator := parent_path.count
 			if pos_last_separator = 1 then
 				base.wipe_out
+				internal_hash_code := 0
 			else
 				pos_separator := parent_path.last_index_of (Separator, pos_last_separator - 1)
 				base := parent_path.substring (pos_separator + 1, pos_last_separator - 1)
-				set_parent_path (parent_path.substring (1, pos_separator))
+				l_path := Temp_path; l_path.wipe_out
+				l_path.append_substring (parent_path, 1, pos_separator)
+				set_parent_path (l_path)
 			end
 		end
 
@@ -809,6 +817,14 @@ feature {EL_PATH} -- Implementation
 				Result.wipe_out
 				Result.append_string_general (path)
 			end
+		end
+
+	temporary_path: ZSTRING
+		-- temporary shared copy of current path
+		do
+			Result := Temp_path
+			Result.wipe_out
+			append_to (Result)
 		end
 
 feature {NONE} -- Type definitions

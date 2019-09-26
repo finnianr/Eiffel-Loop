@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
 				valid_required_argument ("music", "Location of music files", << directory_must_exist >>),

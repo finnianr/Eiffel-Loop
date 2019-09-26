@@ -1,5 +1,5 @@
 note
-	description: "Application desktop menu icon"
+	description: "Application desktop menu icon accessible via [$source EL_MODULE_DESKTOP_MENU_ICON]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

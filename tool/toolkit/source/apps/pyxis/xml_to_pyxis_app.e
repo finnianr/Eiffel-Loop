@@ -64,7 +64,7 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
 				valid_required_argument ("in", "Path to XML source file", << file_must_exist >>)

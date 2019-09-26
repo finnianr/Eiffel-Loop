@@ -1,5 +1,5 @@
 note
-	description: "English date text"
+	description: "English date text accessible via [$source EL_MODULE_DATE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

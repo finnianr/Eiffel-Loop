@@ -1,5 +1,5 @@
 note
-	description: "Base 64 routines"
+	description: "Base 64 routines accessible via [$source EL_MODULE_BASE_64]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -68,7 +68,7 @@ feature -- Conversion
 			plain: STRING
 		do
 			plain := decoded (base64_string)
-			create Result.make (1, plain.count)
+			create Result.make_filled (0, 1, plain.count)
 			Result.area.base_address.memory_copy (plain.area.base_address, plain.count)
 		end
 

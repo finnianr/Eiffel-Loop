@@ -29,9 +29,9 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (Empty_string, Empty_string, Empty_string_8, 0)
 		end
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		local
-			list: ARRAYED_LIST [like specs.item]
+			list: ARRAYED_LIST [EL_COMMAND_ARGUMENT]
 		do
 			create list.make_from_array (Precursor)
 			list.put_front (

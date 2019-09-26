@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			create Result.make_empty
 		end

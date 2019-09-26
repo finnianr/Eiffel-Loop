@@ -15,11 +15,36 @@ deferred class
 inherit
 	EVOLICITY_SERIALIZEABLE
 		undefine
-			context_item
+			context_item, is_equal
+		redefine
+			make_default
 		end
 
 	EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT
 		undefine
-			make_default, new_getter_functions
+			is_equal, make_default, new_getter_functions
+		end
+
+	EL_REFLECTIVELY_SETTABLE
+		rename
+			import_name as import_default
+		redefine
+			make_default, Except_fields
+		end
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			Precursor {EL_REFLECTIVELY_SETTABLE}
+			Precursor {EVOLICITY_SERIALIZEABLE}
+		end
+
+feature {NONE} -- Constants
+
+	Except_fields: STRING
+			-- list of comma-separated fields to be excluded
+		once
+			Result := Precursor + ", internal_encoding, output_path, template_path"
 		end
 end

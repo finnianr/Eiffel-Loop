@@ -13,7 +13,7 @@ class
 	TEST_RHYTHMBOX_MUSIC_MANAGER_APP
 
 inherit
-	RHYTHMBOX_MUSIC_MANAGER_APP
+	MUSIC_MANAGER_SUB_APPLICATION
 		rename
 			initialize as normal_initialize,
 			run as normal_run
@@ -84,19 +84,13 @@ feature {NONE} -- Constants
 			list: ARRAYED_LIST [like CLASS_ROUTINES]
 		do
 			create list.make_from_array (Precursor)
-			list [1] := [{TEST_RHYTHMBOX_MUSIC_MANAGER_APP}, All_routines]
-			list [2] := [{RBOX_TEST_MUSIC_MANAGER}, All_routines]
-			list [3] := [{RBOX_TEST_DATABASE}, All_routines]
 			across test_types as type loop
 				list.extend ([type.item, All_routines])
 			end
 			Result := list.to_array
 		end
 
-	Option_name: STRING
-		once
-			Result := "test_manager"
-		end
+	Option_name: STRING = "test_manager"
 
 	Skip_normal_initialize: BOOLEAN = False
 

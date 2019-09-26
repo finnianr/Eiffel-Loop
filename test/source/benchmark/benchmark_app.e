@@ -31,7 +31,7 @@ feature {NONE} -- Implementation
 			Console.show ({EL_BENCHMARK_ROUTINE_TABLE})
 		end
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
 				optional_argument ("runs", "Number of runs to average over")

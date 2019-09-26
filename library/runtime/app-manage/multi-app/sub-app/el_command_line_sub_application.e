@@ -82,12 +82,12 @@ feature {NONE} -- Argument setting
 
 feature {NONE} -- Implementation
 
-	optional_argument (word_option, help_description: READABLE_STRING_GENERAL): like specs.item
+	optional_argument (word_option, help_description: READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT
 		do
 			create Result.make (Current, word_option, help_description)
 		end
 
-	required_argument (word_option, help_description: READABLE_STRING_GENERAL): like specs.item
+	required_argument (word_option, help_description: READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT
 		do
 			create Result.make (Current, word_option, help_description)
 			Result.set_required
@@ -95,7 +95,7 @@ feature {NONE} -- Implementation
 
 	valid_optional_argument (
 		word_option, help_description: READABLE_STRING_GENERAL; validations: ARRAY [like always_valid]
-	): like specs.item
+	): EL_COMMAND_ARGUMENT
 		do
 			create Result.make (Current, word_option, help_description)
 			Result.validation.merge_array (validations)
@@ -103,7 +103,7 @@ feature {NONE} -- Implementation
 
 	valid_required_argument (
 		word_option, help_description: READABLE_STRING_GENERAL; validations: ARRAY [like always_valid]
-	): like specs.item
+	): EL_COMMAND_ARGUMENT
 		do
 			Result := required_argument (word_option, help_description)
 			Result.validation.merge_array (validations)
@@ -138,7 +138,7 @@ feature {NONE} -- Validations
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 			-- argument specifications
 		deferred
 		ensure

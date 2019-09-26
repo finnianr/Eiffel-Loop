@@ -1,5 +1,5 @@
 note
-	description: "Module colon field"
+	description: "Shared instance of class [$source EL_COLON_FIELD_ROUTINES]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

@@ -30,4 +30,10 @@ feature {NONE} -- Constants
 			create Result
 		end
 
+	Compile_also: TUPLE [EL_SEPARATE_PROGRESS_DISPLAY]
+		once
+			create Result
+		end
+
+
 end

@@ -60,7 +60,7 @@ feature -- Test operations
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
 				optional_argument ("template", "Path to Evolicity template"),

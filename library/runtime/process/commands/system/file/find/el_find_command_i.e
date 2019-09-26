@@ -26,6 +26,8 @@ inherit
 			do_with_lines, getter_function_table, reset
 		end
 
+	EL_MODULE_OS
+
 feature {NONE} -- Initialization
 
 	make_default
@@ -40,6 +42,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	depth_range: INTEGER_INTERVAL
+		do
+			Result := min_depth |..| max_depth
+		end
 
 	max_depth: INTEGER
 		-- See: man find on Unix
@@ -122,6 +129,33 @@ feature -- Element change
 			min_depth := a_min_depth
 		end
 
+feature -- Basic operations
+
+	copy_directory_items (destination_dir: EL_DIR_PATH)
+		-- copy each directory content item at level 1 to `destination_dir'
+		local
+			l_depth_range: like depth_range
+		do
+			l_depth_range := depth_range
+
+			set_depth (1 |..| 1); execute
+			across path_list as source_dir loop
+				if is_lio_enabled then
+					lio.put_path_field ("Copying", source_dir.item)
+					lio.tab_right
+					lio.put_new_line
+					lio.put_path_field ("to", destination_dir)
+					lio.tab_left
+					lio.put_new_line
+				end
+				copy_path_item (source_dir.item, destination_dir)
+				if is_lio_enabled then
+					lio.put_new_line
+				end
+			end
+			set_depth (l_depth_range)
+		end
+
 feature {NONE} -- Evolicity reflection
 
 	getter_function_table: like getter_functions
@@ -137,6 +171,10 @@ feature {NONE} -- Evolicity reflection
 		end
 
 feature {NONE} -- Implementation
+
+	copy_path_item (source_path: like new_path; destination_dir: EL_DIR_PATH)
+		deferred
+		end
 
 	do_with_lines (lines: like adjusted_lines)
 			--

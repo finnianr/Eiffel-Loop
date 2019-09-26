@@ -1,5 +1,5 @@
 note
-	description: "Internal reflection routines"
+	description: "Internal reflection routines accessible via [$source EL_MODULE_EIFFEL]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

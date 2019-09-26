@@ -1,5 +1,5 @@
 note
-	description: "Audio command factory"
+	description: "Audio command factory  accessible via [$source EL_MODULE_AUDIO_COMMAND]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

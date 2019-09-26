@@ -1,5 +1,5 @@
 note
-	description: "Colon field routines"
+	description: "Colon field routines accessible via [$source EL_MODULE_COLON_FIELD]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -53,4 +53,5 @@ feature -- Access
 				Result.set_item (l_value.to_integer)
 			end
 		end
+
 end

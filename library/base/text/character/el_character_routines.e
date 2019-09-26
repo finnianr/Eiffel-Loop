@@ -1,5 +1,5 @@
 note
-	description: "Character routines"
+	description: "Character routines accessible via [$source EL_MODULE_CHARACTER]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

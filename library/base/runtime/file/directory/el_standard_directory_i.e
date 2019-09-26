@@ -1,5 +1,7 @@
 note
-	description: "Platform independent interface to standard OS directories"
+	description: "[
+		Platform independent interface to standard OS directories accessible via [$source EL_MODULE_DIRECTORY]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

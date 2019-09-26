@@ -27,7 +27,7 @@ feature -- Element change
 			set_identified_text (0, a_text)
 		end
 
-feature {EL_PROGRESS_LISTENER}
+feature {EL_PROGRESS_LISTENER, EL_PROGRESS_DISPLAY}
 	-- Event handling
 
 	on_finish

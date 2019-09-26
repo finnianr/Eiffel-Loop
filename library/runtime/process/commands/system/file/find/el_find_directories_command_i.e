@@ -14,8 +14,16 @@ deferred class
 
 inherit
 	EL_FIND_COMMAND_I
+		rename
+			copy_directory_items as copy_sub_directories
+		end
 
 feature {NONE} -- Implementation
+
+	copy_path_item (source_path: like new_path; destination_dir: EL_DIR_PATH)
+		do
+			OS.copy_tree (source_path, destination_dir)
+		end
 
 	new_path (a_path: ZSTRING): EL_DIR_PATH
 		do

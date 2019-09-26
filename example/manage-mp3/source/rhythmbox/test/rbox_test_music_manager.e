@@ -52,10 +52,6 @@ feature {NONE} -- Implementation
 			Result := task.music_dir.parent
 		end
 
-	add_test (type: TYPE [RBOX_MANAGEMENT_TASK]; factory: EL_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK])
-		do
-		end
-
 feature {NONE} -- Constants
 
 	Database: RBOX_TEST_DATABASE

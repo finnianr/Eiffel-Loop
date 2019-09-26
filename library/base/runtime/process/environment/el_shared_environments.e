@@ -1,5 +1,5 @@
 note
-	description: "Shared environments"
+	description: "Shared environments accessible via [$source EL_MODULE_ENVIRONMENT]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

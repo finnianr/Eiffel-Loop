@@ -31,6 +31,13 @@ convert
 
  	to_string: {ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL}, steps: {EL_PATH_STEPS}, to_path: {PATH}
 
+feature -- Access
+
+	relative_path (a_parent: EL_DIR_PATH): EL_DIR_PATH
+		do
+			create Result.make (relative_temporary_path (a_parent))
+		end
+
 feature -- Conversion
 
 	joined_dir_path (a_dir_path: EL_DIR_PATH): like Current
@@ -112,7 +119,7 @@ feature {NONE} -- Implementation
 		local
 			list: LINEAR [READABLE_STRING_GENERAL]
 		do
-			Result := Temp_path; Result.wipe_out; append_to (Result)
+			Result := temporary_path
 			list := a_steps.linear_representation
 			from list.start until list.after loop
 				if not Result.is_empty then
@@ -127,7 +134,7 @@ feature {NONE} -- Implementation
 		local
 			i: INTEGER
 		do
-			Result := Temp_path; Result.wipe_out; append_to (Result)
+			Result := temporary_path
 			from i := 1 until i > tuple.count loop
 				if not Result.is_empty then
 					Result.append_unicode (Separator.natural_32_code)
@@ -149,11 +156,6 @@ feature {NONE} -- Implementation
 				end
 				i := i + 1
 			end
-		end
-
-	new_relative_path: EL_DIR_PATH
-		do
-			create Result.make_from_other (Current)
 		end
 
 feature {NONE} -- Type definitions

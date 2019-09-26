@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
 				valid_optional_argument ("build_dir", "Parent directory of EIFGENs", << file_must_exist >>),

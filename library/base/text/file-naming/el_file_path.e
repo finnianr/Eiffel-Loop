@@ -60,6 +60,11 @@ feature -- Access
 			end
 		end
 
+	relative_path (a_parent: EL_DIR_PATH): EL_FILE_PATH
+		do
+			create Result.make (relative_temporary_path (a_parent))
+		end
+
 feature -- Status report
 
 	Is_directory: BOOLEAN = False
@@ -67,13 +72,6 @@ feature -- Status report
 	exists: BOOLEAN
 		do
 			Result := File_system.file_exists (Current)
-		end
-
-feature {NONE} -- Implementation
-
-	new_relative_path: EL_FILE_PATH
-		do
-			create Result.make_from_other (Current)
 		end
 
 end

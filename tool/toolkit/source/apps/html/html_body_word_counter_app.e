@@ -44,7 +44,7 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
 				required_argument ("path", "Directory path")

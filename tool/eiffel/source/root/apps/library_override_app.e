@@ -25,7 +25,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", "workarea")
 		end
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
 				valid_required_argument ("ise_eiffel", "Path to EiffelStudio installation", << file_must_exist >>),

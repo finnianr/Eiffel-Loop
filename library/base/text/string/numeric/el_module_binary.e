@@ -1,5 +1,8 @@
 note
-	description: "Access to shared instance of class [$source EL_BINARY_STRING_CONVERSION]"
+	description: "[
+		Access to shared instance of class [$source EL_BINARY_STRING_CONVERSION].
+		Accessible via [$source EL_MODULE_BINARY]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

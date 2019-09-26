@@ -1,5 +1,7 @@
 note
-	description: "Routines for AES encryption and creating SHA or MD5 digests"
+	description: "[
+		Routines for AES encryption and creating SHA or MD5 digests. Accessible via [$source EL_MODULE_ENCRYPTION]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

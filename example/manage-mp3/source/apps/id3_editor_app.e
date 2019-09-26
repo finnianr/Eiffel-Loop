@@ -50,7 +50,7 @@ feature -- Testing
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
 				valid_required_argument ("mp3_dir", "Path to root directory of MP3 files",  << directory_must_exist >>),

@@ -1,5 +1,5 @@
 note
-	description: "Digest routines"
+	description: "Digest routines accessible via [$source EL_MODULE_DIGEST]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

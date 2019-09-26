@@ -136,7 +136,7 @@ feature {NONE} -- Internal attributes
 
 	file_path: EL_FILE_PATH
 
-feature {NONE} -- Constants
+feature {MUSIC_MANAGER_SUB_APPLICATION} -- Constants
 
 	Database: RBOX_DATABASE
 		once

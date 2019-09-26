@@ -18,6 +18,11 @@ inherit
 			getter_function_table
 		end
 
+	EL_STRING_8_CONSTANTS
+		rename
+			Empty_string_8 as Template
+		end
+
 	EL_MODULE_LOG
 
 	EL_MODULE_FILE_SYSTEM
@@ -71,9 +76,5 @@ feature {NONE} -- Evolicity fields
 feature {NONE} -- Internal attributes
 
 	dj_events: ARRAY [DJ_EVENT_PLAYLIST]
-
-feature {NONE} -- Constants
-
-	Template: STRING = ""
 
 end

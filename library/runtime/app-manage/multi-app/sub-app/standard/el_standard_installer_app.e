@@ -20,7 +20,7 @@ class
 inherit
 	EL_SUB_APPLICATION
 		redefine
-			option_name
+			option_name, visible_types
 		end
 
 	EL_SHARED_APPLICATION_LIST
@@ -82,18 +82,6 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	copy_directory (source_dir: EL_DIR_PATH; destination_dir: EL_DIR_PATH)
-		do
-			lio.put_path_field ("Copying", source_dir)
-			lio.tab_right
-			lio.put_new_line
-			lio.put_path_field ("to", destination_dir)
-			lio.tab_left
-			lio.put_new_line
-			OS.copy_tree (source_dir, destination_dir)
-			lio.put_new_line
-		end
-
 	install_package
 			--
 		require
@@ -111,13 +99,16 @@ feature {NONE} -- Implementation
 
 			File_system.make_directory (destination_dir)
 
-			find_directories_cmd := Command.new_find_directories (Package_dir)
-			find_directories_cmd.set_depth (1 |..| 1)
-			find_directories_cmd.execute
-			find_directories_cmd.path_list.do_all (agent copy_directory (?, destination_dir))
+			Command.new_find_directories (Package_dir).copy_sub_directories (destination_dir)
+			Command.new_find_files (Package_dir, "*").copy_directory_files (destination_dir)
 
 			Application_list.install_menus
 			lio.put_line ("DONE")
+		end
+
+	visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+		do
+			Result := << {EL_FIND_DIRECTORIES_COMMAND_IMP} >>
 		end
 
 feature {NONE} -- Constants

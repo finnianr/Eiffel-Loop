@@ -15,7 +15,8 @@ deferred class
 inherit
 	EL_FIND_COMMAND_I
 		rename
-			make as make_path
+			make as make_path,
+			copy_directory_items as copy_directory_files
 		redefine
 			make_default
 		end
@@ -45,6 +46,11 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	copy_path_item (source_path: like new_path; destination_dir: EL_DIR_PATH)
+		do
+			OS.copy_file (source_path, destination_dir)
+		end
 
 	new_path (a_path: ZSTRING): EL_FILE_PATH
 		do

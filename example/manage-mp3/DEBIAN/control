@@ -1,0 +1,11 @@
+Package: MP3-manager
+Version: $version
+Architecture: amd64
+Maintainer: Finnian Reilly <finnian@eiffel-loop.com>
+Installed-Size: $installed_size
+Pre-Depends: sox, swgen, avconv, lame, gvfs-mount
+Section: sound
+Priority: optional
+Homepage: http://www.eiffel-loop.com/example/manage-mp3/manage-mp3.html
+Description:  A MP3 collection manager that is designed to work in conjunction with the Rhythmbox media
+ player and has a number of features of particular interest to Tango DJs.

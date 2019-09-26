@@ -22,7 +22,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
 				valid_required_argument ("sources", "Path to sources manifest file", << file_must_exist >>)

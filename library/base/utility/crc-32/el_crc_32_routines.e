@@ -1,5 +1,8 @@
 note
-	description: "Routines for finding and comparing cyclical redundancy check-sums of string lists"
+	description: "[
+		Routines for finding and comparing cyclical redundancy check-sums of string lists.
+		Accessible via [$source EL_MODULE_CRC_32]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -14,7 +17,7 @@ class
 
 inherit
 	ANY
-	
+
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 feature -- Access

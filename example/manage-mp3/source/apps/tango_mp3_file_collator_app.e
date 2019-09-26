@@ -48,7 +48,7 @@ feature -- Testing
 
 feature {NONE} -- Implementation
 
-	argument_specs: ARRAY [like specs.item]
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
 				valid_required_argument ("directory", "MP3 location", << directory_must_exist >>),
