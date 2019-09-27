@@ -507,13 +507,13 @@ Of course this is the fundamental property of any database. *Eco-DB* offers 2 ki
 
 **1. CHAIN level persistence**
 
-This type of persistence involves storing the entire chain to a file in one operation. This is useful for data that is more or less static, like for example the localization table [EL_TRANSLATION_ITEMS_LIST](http://www.eiffel-loop.com/library/text/i18n/support/el_translation_items_list.html). 
+This type of persistence involves storing the entire chain to a file in one operation. This is useful for data that is more or less static, like for example the localisation table [EL_TRANSLATION_ITEMS_LIST](http://www.eiffel-loop.com/library/text/i18n/support/el_translation_items_list.html). 
 
 See class [ECD_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/ecd_chain.html).
 
 **2. item level persistence**
 
-Item level, or "incremental persistence" is where the effects of any of the basic [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) operations `(extend/replace/delete**)` are recorded as they happen in a separate editions file. When the chain is loaded during object initialization, a chain level store is loaded first, and then the stored editions are applied to bring the chain to it's final state.
+Item level, or "incremental persistence" is where the effects of any of the basic [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) operations `(extend/replace/delete**)` are recorded as they happen in a separate editions file. When the chain is loaded during object initialisation, a chain level store is loaded first, and then the stored editions are applied to bring the chain to it's final state.
 
 See class [ECD_RECOVERABLE_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/ecd_recoverable_chain.html) for more details.
 
@@ -533,15 +533,62 @@ Being able to assign a unique identifier to each item in a chain is essential to
 
 Of course the Eiffel language itself can be used to query any [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [EL_QUERYABLE_CHAIN](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_queryable_chain.html) and it's helper [EL_QUERY_CONDITION_FACTORY](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_query_condition_factory.html). The implementing class [ECD_ARRAYED_LIST](http://www.eiffel-loop.com/library/persistency/database/eco-db/ecd_arrayed_list.html) inherits [EL_QUERYABLE_CHAIN](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_queryable_chain.html).
 
-Conditions can be combined using the logical operators: `and`, `or` and `not`. Queries are not parsed strings but actual Eiffel expressions. Some example of the expressiveness of this query language can be found in the following list of classes from the example project [Eiffel-Loop/example/manage-mp3](http://www.eiffel-loop.com/example/manage-mp3/manage-mp3.html):
+Conditions can be combined using the logical operators: `and`, `or` and `not`. Queries are not parsed strings but actual Eiffel expressions. Some example of the expressiveness of this query language can be found in the following hierarchy of classes descended from [SONG_QUERY_CONDITIONS](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/database/song_query_conditions.html). See project [Eiffel-Loop/example/manage-mp3](http://www.eiffel-loop.com/example/manage-mp3/manage-mp3.html).
 
-(Search page for routine `do_query`)
+(Search source code pages for routine `query`)
 
 
-* [SONG_QUERY_CONDITIONS](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/database/song_query_conditions.html)
-* [RHYTHMBOX_MUSIC_MANAGER]($source)
-* [TEST_MUSIC_MANAGER]($source)
-
+````
+SONG_QUERY_CONDITIONS
+	[$source STORAGE_DEVICE]
+		[$source SAMSUNG_TABLET_DEVICE]
+		[$source NOKIA_PHONE_DEVICE]
+		[$source TEST_STORAGE_DEVICE]
+	[$source RBOX_DATABASE]
+		[$source RBOX_TEST_DATABASE]
+	[$source RBOX_MANAGEMENT_TASK]*
+		[$source COLLATE_SONGS_TASK]
+		[$source PUBLISH_DJ_EVENTS_TASK]
+		[$source ID3_TASK]*
+			[$source ADD_ALBUM_ART_TASK]
+			[$source DELETE_COMMENTS_TASK]
+			[$source DISPLAY_INCOMPLETE_ID3_INFO_TASK]
+			[$source DISPLAY_MUSIC_BRAINZ_INFO_TASK]
+			[$source NORMALIZE_COMMENTS_TASK]
+			[$source PRINT_COMMENTS_TASK]
+			[$source REMOVE_ALL_UFIDS_TASK]
+			[$source REMOVE_UNKNOWN_ALBUM_PICTURES_TASK]
+			[$source UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK]
+		[$source UPDATE_DJ_PLAYLISTS_TASK]
+			[$source UPDATE_DJ_PLAYLISTS_TEST_TASK]
+		[$source IMPORT_NEW_MP3_TASK]
+			[$source IMPORT_NEW_MP3_TEST_TASK]
+		[$source DEFAULT_TASK]
+		[$source ARCHIVE_SONGS_TASK]
+		[$source IMPORT_VIDEOS_TASK]
+			[$source IMPORT_VIDEOS_TEST_TASK]
+		[$source REPLACE_CORTINA_SET_TASK]
+			[$source REPLACE_CORTINA_SET_TEST_TASK]
+		[$source REPLACE_SONGS_TASK]
+			[$source REPLACE_SONGS_TEST_TASK]
+		[$source RESTORE_PLAYLISTS_TASK]
+		[$source EXPORT_TO_DEVICE_TASK]*
+			[$source EXPORT_MUSIC_TO_DEVICE_TASK]
+				[$source EXPORT_PLAYLISTS_TO_DEVICE_TASK]
+					[$source EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK]
+				[$source EXPORT_MUSIC_TO_DEVICE_TEST_TASK]
+			[$source EXPORT_TO_DEVICE_TEST_TASK]*
+				[$source EXPORT_MUSIC_TO_DEVICE_TEST_TASK]
+				[$source EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK]
+		[$source TEST_MANAGEMENT_TASK]*
+			[$source EXPORT_TO_DEVICE_TEST_TASK]*
+			[$source IMPORT_VIDEOS_TEST_TASK]
+			[$source UPDATE_DJ_PLAYLISTS_TEST_TASK]
+			[$source REPLACE_SONGS_TEST_TASK]
+			[$source REPLACE_CORTINA_SET_TEST_TASK]
+			[$source IMPORT_NEW_MP3_TEST_TASK]
+		[$source IMPORT_M3U_PLAYLISTS_TASK]
+````
 **Foot Notes**
 
 ** `delete` is a routine from [ECD_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/ecd_chain.html) and not from `CHAIN`.

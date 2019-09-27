@@ -1,5 +1,7 @@
 .git
 build/
+**/doc/Descendants*.txt
+**/docs/Descendants*.txt
 **/.sconf_temp/
 **/build/**
 **/workarea/**

@@ -1,5 +1,12 @@
 note
-	description: "Song query conditions"
+	description: "[
+		Song query conditions for use with [$source EL_CHAIN] routines
+		
+			query
+			query_if
+			inverse_query_if
+	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -272,4 +279,56 @@ feature {NONE} -- Constants
 			Result := "trackid"
 		end
 
+note
+	descendants: "[
+			SONG_QUERY_CONDITIONS
+				[$source STORAGE_DEVICE]
+					[$source SAMSUNG_TABLET_DEVICE]
+					[$source NOKIA_PHONE_DEVICE]
+					[$source TEST_STORAGE_DEVICE]
+				[$source RBOX_DATABASE]
+					[$source RBOX_TEST_DATABASE]
+				[$source RBOX_MANAGEMENT_TASK]*
+					[$source COLLATE_SONGS_TASK]
+					[$source PUBLISH_DJ_EVENTS_TASK]
+					[$source ID3_TASK]*
+						[$source ADD_ALBUM_ART_TASK]
+						[$source DELETE_COMMENTS_TASK]
+						[$source DISPLAY_INCOMPLETE_ID3_INFO_TASK]
+						[$source DISPLAY_MUSIC_BRAINZ_INFO_TASK]
+						[$source NORMALIZE_COMMENTS_TASK]
+						[$source PRINT_COMMENTS_TASK]
+						[$source REMOVE_ALL_UFIDS_TASK]
+						[$source REMOVE_UNKNOWN_ALBUM_PICTURES_TASK]
+						[$source UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK]
+					[$source UPDATE_DJ_PLAYLISTS_TASK]
+						[$source UPDATE_DJ_PLAYLISTS_TEST_TASK]
+					[$source IMPORT_NEW_MP3_TASK]
+						[$source IMPORT_NEW_MP3_TEST_TASK]
+					[$source DEFAULT_TASK]
+					[$source ARCHIVE_SONGS_TASK]
+					[$source IMPORT_VIDEOS_TASK]
+						[$source IMPORT_VIDEOS_TEST_TASK]
+					[$source REPLACE_CORTINA_SET_TASK]
+						[$source REPLACE_CORTINA_SET_TEST_TASK]
+					[$source REPLACE_SONGS_TASK]
+						[$source REPLACE_SONGS_TEST_TASK]
+					[$source RESTORE_PLAYLISTS_TASK]
+					[$source EXPORT_TO_DEVICE_TASK]*
+						[$source EXPORT_MUSIC_TO_DEVICE_TASK]
+							[$source EXPORT_PLAYLISTS_TO_DEVICE_TASK]
+								[$source EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK]
+							[$source EXPORT_MUSIC_TO_DEVICE_TEST_TASK]
+						[$source EXPORT_TO_DEVICE_TEST_TASK]*
+							[$source EXPORT_MUSIC_TO_DEVICE_TEST_TASK]
+							[$source EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK]
+					[$source TEST_MANAGEMENT_TASK]*
+						[$source EXPORT_TO_DEVICE_TEST_TASK]*
+						[$source IMPORT_VIDEOS_TEST_TASK]
+						[$source UPDATE_DJ_PLAYLISTS_TEST_TASK]
+						[$source REPLACE_SONGS_TEST_TASK]
+						[$source REPLACE_CORTINA_SET_TEST_TASK]
+						[$source IMPORT_NEW_MP3_TEST_TASK]
+					[$source IMPORT_M3U_PLAYLISTS_TASK]
+	]"
 end
