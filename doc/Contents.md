@@ -1331,13 +1331,17 @@ Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releas
 
 
 ## Eiffel-Loop Benchmark Testing
-Benchmarks comparing performance of related routines. The benchmarks are run from a menu shell. See class [BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/benchmark_app.html).
+**Sub-applications**
 
-**Descendants**
+
+* [ZSTRING_BENCHMARK_APP](http://www.eiffel-loop.com/test/source/test-set/zstring_benchmark_app.html) does performance testing of class [EL_ZSTRING](http://www.eiffel-loop.com/library/base/text/string/zstring/el_zstring.html)
+* [BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/benchmark_app.html) compares performance of related routines with [EL_BENCHMARK_COMPARISON](http://www.eiffel-loop.com/library/base/utility/benchmark/el_benchmark_comparison.html). The benchmarks are run from a menu shell.
+
+**Descendants of EL_BENCHMARK_COMPARISON**
 
 
 ````
-EL_BENCHMARK_COMPARISON*
+[$source EL_BENCHMARK_COMPARISON]*
 	[$source LIST_ITERATION_COMPARISON]
 	[$source STRING_CONCATENATION_COMPARISON]
 	[$source STRING_BENCHMARK_COMPARISON]*
@@ -1375,11 +1379,58 @@ EL_SUB_APPLICATION*
 ````
 
 ## Eiffel-Loop Test Sets
-Test sets classes inheriting [EQA_TEST_SET](https://www.eiffel.org/doc/eiffelstudio/Testing-_Background_and_basics)
+Sub-application [AUTOTEST_DEVELOPMENT_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/autotest_development_app.html) allows selected test sets to be run via normal program execution and also to test them as finalized executable.
 
-**Sub-applications**
+Hierarchy of classes inheriting from [EQA_TEST_SET](https://www.eiffel.org/doc/eiffelstudio/Testing-_Background_and_basics)
 
 
-* [AUTOTEST_DEVELOPMENT_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/autotest_development_app.html)
-* [ZSTRING_BENCHMARK_APP](http://www.eiffel-loop.com/test/source/test-set/zstring_benchmark_app.html)
+````
+EQA_TEST_SET*
+	[$source CHAIN_TEST_SET]
+		[$source WIDGET_TEST_SET]
+	[$source STRING_LIST_TEST_SET]
+	[$source GENERAL_TEST_SET]
+	[$source ARRAYED_LIST_TEST_SET]
+	[$source EIFFEL_NAME_TRANSLATEABLE_TEST_SET]
+	[$source UC_UTF8_STRING_TEST_SET]
+	[$source PATH_STEPS_TEST_SET]
+	[$source SUBSTITUTION_TEMPLATE_TEST_SET]
+	[$source PP_TEST_SET]
+	[$source REFLECTION_TEST_SET]
+	[$source STRING_EDITION_HISTORY_TEST_SET]
+	[$source SE_ARRAY2_TEST_SET]
+	[$source SETTABLE_FROM_JSON_STRING_TEST_SET]
+	[$source ZSTRING_TOKEN_TABLE_TEST_SET]
+	[$source DIR_URI_PATH_TEST_SET]
+	[$source EL_FILE_DATA_TEST_SET]*
+		[$source SEARCH_ENGINE_TEST_SET]
+			[$source ENCRYPTED_SEARCH_ENGINE_TEST_SET]
+		[$source REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET]
+		[$source AMAZON_INSTANT_ACCESS_TEST_SET]
+		[$source HTTP_CONNECTION_TEST_SET]
+		[$source MODULE_CRC_32_TEST_SET]
+		[$source OS_COMMAND_TEST_SET]
+		[$source AUDIO_COMMAND_TEST_SET]
+		[$source HELP_PAGES_TEST_SET]*
+			[$source FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET]
+			[$source FILE_COMMAND_TEST_SET]
+			[$source FTP_TEST_SET]
+	[$source EL_TEST_DATA_TEST_SET]*
+	[$source JSON_NAME_VALUE_LIST_TEST_SET]
+	[$source URI_ENCODING_TEST_SET]
+	[$source REFLECTIVE_TEST_SET]
+	[$source STRING_32_ROUTINES_TEST_SET]
+	[$source COMMA_SEPARATED_IMPORT_TEST_SET]
+	[$source DATE_TEXT_TEST_SET]
+	[$source DIGEST_ROUTINES_TEST_SET]
+	[$source EIFFEL_LOOP_TEST_SET]
+		[$source TRANSLATION_TABLE_TEST_SET]
+		[$source PATH_TEST_SET]
+	[$source SEQUENTIAL_INTERVALS_TEST_SET]
+	[$source STRING_EDITOR_TEST_SET]
+	[$source TEXT_PARSER_TEST_SET]
+	[$source TEMPLATE_TEST_SET]
+	[$source EL_SUBJECT_LINE_DECODER_TEST_SET]
+	[$source ZSTRING_TEST_SET]
+````
 

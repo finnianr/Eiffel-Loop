@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-04 9:12:25 GMT (Wednesday 4th September 2019)"
-	revision: "9"
+	date: "2019-09-27 23:24:47 GMT (Friday   27th   September   2019)"
+	revision: "10"
 
 class
 	PATH_TEST_SET
@@ -26,6 +26,17 @@ feature -- Tests
 	test_joined_steps
 		note
 			testing: "covers/{EL_PATH}.make_from_path"
+		local
+			p1, p2: EL_DIR_PATH
+		do
+			p1 := Path_string
+			create p2.make_from_steps (Path_string.split ('/'))
+			assert ("same path", p1 ~ p2)
+		end
+
+	test_make_from_steps
+		note
+			testing: "covers/{EL_PATH}.make_from_steps"
 		local
 			home_path, config_path: EL_DIR_PATH
 		do
@@ -74,13 +85,6 @@ feature -- Tests
 				is_parent := dir_string.starts_with (dir_string_home) and dir_string.count > dir_string_home.count
 				assert ("same result", is_parent ~ dir_home.is_parent_of (dir))
 			end
-		end
-
-	test_is_absolute
-		note
-			testing:	"covers/{EL_PATH}.is_absolute"
-		do
-
 		end
 
 feature {NONE} -- Constants

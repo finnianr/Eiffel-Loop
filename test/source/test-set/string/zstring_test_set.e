@@ -1,5 +1,5 @@
 ﻿note
-	description: "Tests for class EL_ZSTRING"
+	description: "Tests for class [$source EL_ZSTRING]"
 	notes: "[
 		Don't forget to also run the test with the latin-15 codec. See `on_prepare'
 	]"
@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-12 13:51:21 GMT (Thursday 12th September 2019)"
-	revision: "15"
+	date: "2019-09-29 18:56:23 GMT (Sunday   29th   September   2019)"
+	revision: "16"
 
 class
 	ZSTRING_TEST_SET
@@ -27,6 +27,8 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
+
+	EL_STRING_32_CONSTANTS
 
 	EL_MODULE_STRING_32
 
@@ -117,34 +119,6 @@ feature -- Element change tests
 			test_concatenation ("append")
 		end
 
-	test_append_to_string_32
-		local
-			str_32: STRING_32; word: ZSTRING
-		do
-			across Text_lines as line_32 loop
-				create str_32.make (0)
-				across line_32.item.split (' ') as word_32 loop
-					word := word_32.item
-					if word_32.cursor_index > 1 then
-						str_32.append_character (' ')
-					end
-					word.append_to_string_32 (str_32)
-				end
-				assert ("same string", str_32 ~ line_32.item)
-			end
-		end
-
-	test_append_unicode
-		local
-			a: ZSTRING
-		do
-			create a.make_empty
-			across Text_russian_and_english as uc loop
-				a.append_unicode (uc.item.natural_32_code)
-			end
-			assert ("append_unicode OK", a.same_string (Text_russian_and_english))
-		end
-
 	test_append_string_general
 		note
 			testing: "covers/{ZSTRING}.append_string_general", "covers/{ZSTRING}.substring"
@@ -186,8 +160,8 @@ feature -- Element change tests
 						attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as word
 					then
 						l_word := word
-					elseif tuple.is_integer_32_item (i) then
-						l_word := tuple.integer_32_item (i).out
+					else
+						l_word := tuple.item (i).out
 					end
 					index := template_32.substring_index (l_word, 1)
 					template_32.replace_substring ("%S", index, index + l_word.count - 1)
@@ -201,6 +175,34 @@ feature -- Element change tests
 				end
 				assert ("substitute_tuple OK", substituted.same_string (str_32))
 			end
+		end
+
+	test_append_to_string_32
+		local
+			str_32: STRING_32; word: ZSTRING
+		do
+			across Text_lines as line_32 loop
+				create str_32.make (0)
+				across line_32.item.split (' ') as word_32 loop
+					word := word_32.item
+					if word_32.cursor_index > 1 then
+						str_32.append_character (' ')
+					end
+					word.append_to_string_32 (str_32)
+				end
+				assert ("same string", str_32 ~ line_32.item)
+			end
+		end
+
+	test_append_unicode
+		local
+			a: ZSTRING
+		do
+			create a.make_empty
+			across Text_russian_and_english as uc loop
+				a.append_unicode (uc.item.natural_32_code)
+			end
+			assert ("append_unicode OK", a.same_string (Text_russian_and_english))
 		end
 
 	test_case_changing
@@ -223,7 +225,6 @@ feature -- Element change tests
 				assert ("enclose OK", str.same_string (str_32))
 			end
 		end
-
 
 	test_insert_character
 		note
@@ -276,6 +277,30 @@ feature -- Element change tests
 	test_prepend
 		do
 			test_concatenation ("prepend")
+		end
+
+	test_prepend_substring
+		local
+			str_32: STRING_32; str, line: ZSTRING
+			word_list: EL_OCCURRENCE_INTERVALS [STRING_32]
+			start_index, end_index: INTEGER
+		do
+			across Text_lines as line_32 loop
+				line := line_32.item
+				create str_32.make_empty; create str.make_empty
+				create word_list.make (line_32.item, character_string_32 (' '))
+				start_index := 1
+				from word_list.start until word_list.after loop
+					end_index := word_list.item_lower - 1
+					str_32.prepend_substring (line_32.item, start_index, end_index)
+					str_32.prepend_substring (line_32.item, word_list.item_lower, word_list.item_upper)
+					str.prepend_substring (line, start_index, end_index)
+					str.prepend_substring (line, word_list.item_lower, word_list.item_upper)
+					assert ("put_unicode OK", str.same_string (str_32))
+					start_index := word_list.item_upper + 1
+					word_list.forth
+				end
+			end
 		end
 
 	test_prune_all
@@ -363,6 +388,24 @@ feature -- Element change tests
 			end
 		end
 
+	test_replace_character
+		note
+			testing:	"covers/{ZSTRING}.replace_character"
+		local
+			str_32: STRING_32; str: ZSTRING; uc_new, uc_old: CHARACTER_32
+		do
+			across Text_words as word loop
+				uc_old := word.item [1]
+				uc_new := word.item [word.item.count]
+				across Text_lines as line loop
+					str_32 := line.item.twin; str := str_32
+					String_32.replace_character (str_32, uc_old, uc_new)
+					str.replace_character (uc_old, uc_new)
+					assert ("replace_character OK", str.same_string (str_32))
+				end
+			end
+		end
+
 	test_replace_substring
 		note
 			testing:	"covers/{ZSTRING}.replace_substring"
@@ -405,24 +448,6 @@ feature -- Element change tests
 					assert ("replace_substring_all OK", str.same_string (str_32))
 				end
 				previous_word_32 := word_32; previous_word := word
-			end
-		end
-
-	test_replace_character
-		note
-			testing:	"covers/{ZSTRING}.replace_character"
-		local
-			str_32: STRING_32; str: ZSTRING; uc_new, uc_old: CHARACTER_32
-		do
-			across Text_words as word loop
-				uc_old := word.item [1]
-				uc_new := word.item [word.item.count]
-				across Text_lines as line loop
-					str_32 := line.item.twin; str := str_32
-					String_32.replace_character (str_32, uc_old, uc_new)
-					str.replace_character (uc_old, uc_new)
-					assert ("replace_character OK", str.same_string (str_32))
-				end
 			end
 		end
 
@@ -788,6 +813,19 @@ feature -- Escape tests
 
 feature -- Unescape tests
 
+	test_substitution_marker_unescape
+		note
+			testing:	"covers/{ZSTRING}.unescape", "covers/{ZSTRING}.unescaped",
+			 	"covers/{ZSTRING}.make_unescaped"
+		local
+			str: ZSTRING
+		do
+			str := "1 %%S 3"
+			str.unescape (Substitution_mark_unescaper)
+			assert ("has substitution marker", str.same_string ("1 %S 3"))
+		end
+
+
 	test_unescape
 		note
 			testing:	"covers/{ZSTRING}.unescape"
@@ -821,19 +859,6 @@ feature -- Unescape tests
 				assert ("unescape OK", str.same_string (str_32))
 			end
 		end
-
-	test_substitution_marker_unescape
-		note
-			testing:	"covers/{ZSTRING}.unescape", "covers/{ZSTRING}.unescaped",
-			 	"covers/{ZSTRING}.make_unescaped"
-		local
-			str: ZSTRING
-		do
-			str := "1 %%S 3"
-			str.unescape (Substitution_mark_unescaper)
-			assert ("has substitution marker", str.same_string ("1 %S 3"))
-		end
-
 
 feature {NONE} -- Implementation
 
@@ -931,11 +956,11 @@ feature {NONE} -- String 8 constants
 
 	Left_adjust: STRING = "left_adjust"
 
-	Right_adjust: STRING = "right_right"
-
 	Prune_leading: STRING = "prune_leading"
 
 	Prune_trailing: STRING = "prune_trailing"
+
+	Right_adjust: STRING = "right_right"
 
 feature {NONE} -- Constants
 

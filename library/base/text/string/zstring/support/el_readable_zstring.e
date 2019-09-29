@@ -1,13 +1,14 @@
 note
 	description: "Read only interface to class [$source EL_ZSTRING]"
+	test: "[$source ZSTRING_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-04 11:02:58 GMT (Sunday 4th August 2019)"
-	revision: "33"
+	date: "2019-09-29 19:07:33 GMT (Sunday   29th   September   2019)"
+	revision: "34"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -57,10 +58,12 @@ inherit
 			linear_representation as internal_linear_representation,
 			left_adjust as internal_left_adjust,
 			make as internal_make,
+			mirror as internal_mirror,
 			occurrences as internal_occurrences,
 			order_comparison as internal_order_comparison,
 			prepend_character as internal_prepend_character,
 			prepend as internal_prepend,
+			prepend_substring as internal_prepend_substring,
 			prune_all as internal_prune_all,
 			remove as internal_remove,
 			remove_substring as internal_remove_substring,
@@ -154,6 +157,9 @@ inherit
 	EL_SHARED_UTF_8_ZCODEC
 
 	EL_SHARED_ONCE_STRINGS
+		rename
+			Once_string_8 as Shared_once_string_8
+		end
 
 feature {NONE} -- Initialization
 
@@ -1149,10 +1155,10 @@ feature -- Conversion
 						end
 						i := i - 1
 					end
-					current_string.mirror
+					internal_mirror
 					set_unencoded_area (l_unencoded.area_copy)
 				else
-					current_string.mirror
+					internal_mirror
 				end
 				internal_hash_code := 0
 			end
@@ -1606,11 +1612,6 @@ feature {EL_READABLE_ZSTRING} -- Element change
 			end
 		end
 
-	append_boolean (b: BOOLEAN)
-		do
-			current_string.append_boolean (b)
-		end
-
 	append_character, extend (uc: CHARACTER_32)
 		do
 			append_unicode (uc.natural_32_code)
@@ -1619,56 +1620,6 @@ feature {EL_READABLE_ZSTRING} -- Element change
 	append_character_8 (uc: CHARACTER_8)
 		do
 			append_unicode (uc.natural_32_code)
-		end
-
-	append_double (n: DOUBLE)
-		do
-			current_string.append_double (n)
-		end
-
-	append_integer (n: INTEGER)
-		do
-			current_string.append_integer (n)
-		end
-
-	append_integer_16 (n: INTEGER_16)
-		do
-			current_string.append_integer_16 (n)
-		end
-
-	append_integer_64 (n: INTEGER_64)
-		do
-			current_string.append_integer_64 (n)
-		end
-
-	append_integer_8 (n: INTEGER_8)
-		do
-			current_string.append_integer_8 (n)
-		end
-
-	append_natural_16 (n: NATURAL_16)
-		do
-			current_string.append_natural_16 (n)
-		end
-
-	append_natural_32 (n: NATURAL)
-		do
-			current_string.append_natural_32 (n)
-		end
-
-	append_natural_64 (n: NATURAL_64)
-		do
-			current_string.append_natural_64 (n)
-		end
-
-	append_natural_8 (n: NATURAL_8)
-		do
-			current_string.append_natural_8 (n)
-		end
-
-	append_real (n: REAL)
-		do
-			current_string.append_real (n)
 		end
 
 	append_string, append (s: EL_READABLE_ZSTRING)
@@ -1851,6 +1802,34 @@ feature {EL_READABLE_ZSTRING} -- Element change
 			if c = Unencoded_character then
 				put_unencoded_code (uc.natural_32_code, 1)
 			end
+		end
+
+	prepend_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
+		local
+			old_count: INTEGER; l_unencoded: like unencoded_substring
+		do
+			old_count := count
+			internal_prepend_substring (s, start_index, end_index)
+			inspect respective_encoding (s)
+				when Both_have_mixed_encoding then
+					shift_unencoded (end_index - start_index + 1)
+					l_unencoded := s.unencoded_substring (start_index, end_index)
+					if l_unencoded.not_empty then
+						l_unencoded.append (Current)
+						unencoded_area := l_unencoded.area_copy
+					end
+				when Only_current then
+					shift_unencoded (end_index - start_index + 1)
+				when Only_other then
+					l_unencoded := s.unencoded_substring (start_index, end_index)
+					if l_unencoded.not_empty then
+						unencoded_area := l_unencoded.area_copy
+					end
+			else
+			end
+		ensure
+			new_count: count = old count + (end_index - start_index + 1)
+			appended: elks_checking implies same_string (old (s.substring (start_index, end_index) + Current))
 		end
 
 	put_unicode (a_code: NATURAL_32; i: INTEGER)
@@ -2172,7 +2151,9 @@ feature {NONE} -- Implementation
 
 	is_space_32 (uc: CHARACTER_32): BOOLEAN
 		do
-			Result := uc.is_space
+--			Does not work in 16.05 compiler
+--			Result := uc.is_space
+			Result := Unicode_property.is_space (uc)
 		end
 
 	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
@@ -2367,6 +2348,12 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Unicode_property: CHARACTER_PROPERTY
+			-- Property for Unicode characters.
+		once
+			create Result.make
+		end
 
 	Once_expanded_strings: SPECIAL [STRING_32]
 		once

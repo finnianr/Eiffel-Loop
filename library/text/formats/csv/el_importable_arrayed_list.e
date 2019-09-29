@@ -4,14 +4,15 @@ note
 		Comma Separated Value (CSV) file. The first line must contain field names that match
 		the settable fields of type G.
 	]"
+	test: "[$source COMMA_SEPARATED_IMPORT_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2019-09-29 11:24:30 GMT (Sunday   29th   September   2019)"
+	revision: "8"
 
 class
 	EL_IMPORTABLE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE create make_default end]

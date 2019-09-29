@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-09-29 19:07:08 GMT (Sunday   29th   September   2019)"
+	revision: "7"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
 
 inherit
 	STRING_HANDLER
+
+	EL_ZSTRING_APPEND_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -134,22 +136,8 @@ feature -- Measurement
 
 	occurrences (c: CHARACTER_8): INTEGER
 			-- Number of times `c' appears in the string
-		local
-			i, nb: INTEGER
-			a: SPECIAL [CHARACTER_8]
 		do
-			from
-				i := area_lower
-				nb := count + i
-				a := area
-			until
-				i = nb
-			loop
-				if a.item (i) = c then
-					Result := Result + 1
-				end
-				i := i + 1
-			end
+			Result := current_string_8.occurrences (c)
 		ensure
 			zero_if_empty: count = 0 implies Result = 0
 		end
@@ -158,60 +146,16 @@ feature -- Status query
 
 	ends_with (s: EL_ZSTRING_IMPLEMENTATION): BOOLEAN
 			-- Does string finish with `s'?
-		require
-			argument_not_void: s /= Void
-		local
-			i, j, nb: INTEGER
-			l_area, l_s_area: like area
 		do
-			if Current = s then
-				Result := True
-			else
-				i := s.count
-				j := count
-				if i <= j then
-					from
-						l_area := area
-						l_s_area := s.area
-						j := area_upper + 1
-						i := s.area_upper + 1
-						nb := s.area_lower
-						Result := True
-					until
-						i = nb
-					loop
-						i := i - 1
-						j := j - 1
-						if l_area.item (j) /= l_s_area.item (i) then
-							Result := False
-							i := nb -- Jump out of loop
-						end
-					end
-				end
-			end
+			Result := current_string_8.ends_with (string_8_argument (s, 1))
 		ensure
 			definition: Result = s.string.same_string (substring (count - s.count + 1, count))
 		end
 
 	has (c: CHARACTER_8): BOOLEAN
 			-- Does string include `c'?
-		local
-			i, nb: INTEGER
-			l_area: like area
 		do
-			nb := count
-			if nb > 0 then
-				from
-					i := area_lower
-					l_area := area
-					nb := nb + i
-				until
-					i = nb or else (l_area.item (i) = c)
-				loop
-					i := i + 1
-				end
-				Result := (i < nb)
-			end
+			Result := current_string_8.has (c)
 		ensure then
 			false_if_empty: count = 0 implies not Result
 			true_if_first: count > 0 and then item (1) = c implies Result
@@ -220,51 +164,23 @@ feature -- Status query
 	is_boolean: BOOLEAN
 			-- Does `Current' represent a BOOLEAN?
 		do
-			Result := current_string.is_boolean
+			Result := current_string_8.is_boolean
 		end
 
 	is_double, is_real_64: BOOLEAN
 		do
-			Result := current_string.is_double
+			Result := current_string_8.is_double
 		end
 
 	is_integer, is_integer_32: BOOLEAN
 		do
-			Result := current_string.is_integer
+			Result := current_string_8.is_integer
 		end
 
 	starts_with (s: EL_ZSTRING_IMPLEMENTATION): BOOLEAN
 			-- Does string begin with `s'?
-		require
-			argument_not_void: s /= Void
-		local
-			i, j, nb: INTEGER
-			l_area, l_s_area: like area
 		do
-			if Current = s then
-				Result := True
-			else
-				i := s.count
-				if i <= count then
-					from
-						l_area := area
-						l_s_area := s.area
-						j := area_lower + i
-						i := s.area_upper + 1
-						nb := s.area_lower
-						Result := True
-					until
-						i = nb
-					loop
-						i := i - 1
-						j := j - 1
-						if l_area.item (j) /= l_s_area.item (i) then
-							Result := False
-							i := nb -- Jump out of loop
-						end
-					end
-				end
-			end
+			Result := current_string_8.starts_with (string_8_argument (s, 1))
 		ensure
 			definition: Result = s.string.same_string (substring (1, s.count))
 		end
@@ -358,9 +274,9 @@ feature -- Conversion
 			Result := string.linear_representation
 		end
 
-	string: EL_ZSTRING_8_IMP
+	string: EL_STRING_8
 		do
-			create Result.make_from_zstring (Current)
+			create Result.make (Current)
 		end
 
 	substring (start_index, end_index: INTEGER): like string
@@ -370,69 +286,20 @@ feature -- Conversion
 
 	to_boolean: BOOLEAN
 		do
-			Result := current_string.to_boolean
+			Result := current_string_8.to_boolean
 		end
 
 	to_double, to_real_64: DOUBLE
 		do
-			Result := current_string.to_double
+			Result := current_string_8.to_double
 		end
 
 	to_integer, to_integer_32: INTEGER_32
 		do
-			Result := current_string.to_integer
+			Result := current_string_8.to_integer
 		end
 
-feature -- Element change
-
-	append (s: EL_ZSTRING_IMPLEMENTATION)
-			-- Append characters of `s' at end.
-		require
-			argument_not_void: s /= Void
-		local
-			l_count, s_count, l_new_size: INTEGER
-		do
-			s_count := s.count
-			if s_count > 0 then
-				l_count := count
-				l_new_size := s_count + l_count
-				if l_new_size > capacity then
-					resize (l_new_size + additional_space)
-				end
-				area.copy_data (s.area, s.area_lower, l_count, s_count)
-				count := l_new_size
-				reset_hash
-			end
-		ensure
-			new_count: count = old count + old s.count
-			appended: elks_checking implies string.same_string (old (string + s.string))
-		end
-
-	append_substring (s: EL_ZSTRING_IMPLEMENTATION; start_index, end_index: INTEGER)
-			-- Append characters of `s.substring (start_index, end_index)' at end.
-		require
-			argument_not_void: s /= Void
-			start_index_valid: start_index >= 1
-			end_index_valid: end_index <= s.count
-			valid_bounds: start_index <= end_index + 1
-		local
-			l_count, l_s_count, l_new_size: INTEGER
-		do
-			l_s_count := end_index - start_index + 1
-			if l_s_count > 0 then
-				l_count := count
-				l_new_size := l_s_count + l_count
-				if l_new_size > capacity then
-					resize (l_new_size + additional_space)
-				end
-				area.copy_data (s.area, s.area_lower + start_index - 1, l_count, l_s_count)
-				count := l_new_size
-				reset_hash
-			end
-		ensure
-			new_count: count = old count + (end_index - start_index + 1)
-			appended: elks_checking implies string.same_string (old (string + s.substring (start_index, end_index)))
-		end
+feature {NONE} -- Element change
 
 	fill_character (c: CHARACTER_8)
 			-- Fill with `capacity' characters all equal to `c'.
@@ -457,27 +324,10 @@ feature -- Element change
 		require
 			valid_insertion_index: 1 <= i and i <= count + 1
 		local
-			pos, new_size: INTEGER
-			l_area: like area
+			str: like current_string_8
 		do
-				-- Resize Current if necessary.
-			new_size := 1 + count
-			if new_size > capacity then
-				resize (new_size + additional_space)
-			end
-
-				-- Perform all operations using a zero based arrays.
-			pos := i - 1
-			l_area := area
-
-				-- First shift from `s.count' position all characters starting at index `pos'.
-			l_area.overlapping_move (pos, pos + 1, count - pos)
-
-				-- Insert new character
-			l_area.put (c, pos)
-
-			count := new_size
-			reset_hash
+			str := current_string_8; str.insert_character (c, i)
+			set_from_string_8 (str)
 		ensure
 			one_more_character: count = old count + 1
 			inserted: item (i) = c
@@ -488,38 +338,12 @@ feature -- Element change
 	insert_string (s: EL_ZSTRING_IMPLEMENTATION; i: INTEGER)
 			-- Insert `s' at index `i', shifting characters between ranks
 			-- `i' and `count' rightwards.
-		require
-			string_exists: s /= Void
-			valid_insertion_index: 1 <= i and i <= count + 1
 		local
-			pos, new_size: INTEGER
-			l_s_count: INTEGER
-			l_area: like area
+			str: like current_string_8
 		do
-				-- Insert `s' if `s' is not empty, otherwise is useless.
-			l_s_count := s.count
-			if l_s_count /= 0 then
-					-- Resize Current if necessary.
-				new_size := l_s_count + count
-				if new_size > capacity then
-					resize (new_size + additional_space)
-				end
-
-					-- Perform all operations using a zero based arrays.
-				l_area := area
-				pos := i - 1
-
-					-- First shift from `s.count' position all characters starting at index `pos'.
-				l_area.overlapping_move (pos, pos + l_s_count, count - pos)
-
-					-- Copy string `s' at index `pos'.
-				l_area.copy_data (s.area, s.area_lower, pos, l_s_count)
-
-				count := new_size
-				reset_hash
-			end
-		ensure
-			inserted: elks_checking implies (string ~ (old substring (1, i - 1) + old (s.string) + old substring (i, count)))
+			str := current_string_8
+			str.insert_string (string_8_argument (s, 1), i)
+			set_from_string_8 (str)
 		end
 
 	keep_head (n: INTEGER)
@@ -549,83 +373,19 @@ feature -- Element change
 	left_adjust
 			-- Remove leading whitespace.
 		local
-			nb, nb_space: INTEGER
-			l_area: like area
+			str: like current_string_8
 		do
-				-- Compute number of spaces at the left of current string.
-			from
-				nb := count - 1
-				l_area := area
-			until
-				nb_space > nb or else not l_area.item (nb_space).is_space
-			loop
-				nb_space := nb_space + 1
-			end
-
-			if nb_space > 0 then
-					-- Set new count value.
-				nb := nb + 1 - nb_space
-					-- Shift characters to the left.
-				l_area.overlapping_move (nb_space, 0, nb)
-					-- Set new count.
-				count := nb
-				reset_hash
-			end
-		end
-
-	prepend (s: EL_ZSTRING_IMPLEMENTATION)
-			-- Prepend characters of `s' at front.
-		require
-			argument_not_void: s /= Void
-		do
-			insert_string (s, 1)
-		ensure
-			new_count: count = old (count + s.count)
-			inserted: elks_checking implies string.same_string (old (s.string + string))
-		end
-
-	prepend_character (c: CHARACTER_8)
-			-- Add `c' at front.
-		local
-			l_area: like area
-		do
-			if count = capacity then
-				resize (count + additional_space)
-			end
-			l_area := area
-			l_area.overlapping_move (0, 1, count)
-			l_area.put (c, 0)
-			count := count + 1
-			reset_hash
-		ensure
-			new_count: count = old count + 1
+			str := current_string_8; str.left_adjust
+			set_from_string_8 (str)
 		end
 
 	prune_all (c: CHARACTER)
 			-- Remove all occurrences of `c'.
-		require else
-			True
 		local
-			i, j, nb: INTEGER; l_area: like area; l_char: CHARACTER
+			str: like current_string_8
 		do
-				-- Traverse string and shift characters to the left
-				-- each time we find an occurrence of `c'.
-			from
-				l_area := area
-				nb := count
-			until
-				i = nb
-			loop
-				l_char := l_area.item (i)
-				if l_char /= c then
-					l_area.put (l_char, j)
-					j := j + 1
-				end
-				i := i + 1
-			end
-			count := j
-			l_area [j] := '%U'
-			reset_hash
+			str := current_string_8; str.prune_all (c)
+			set_from_string_8 (str)
 		ensure then
 			changed_count: count = (old count) - (old occurrences (c))
 			-- removed: For every `i' in 1..`count', `item' (`i') /= `c'
@@ -639,70 +399,44 @@ feature -- Element change
 			valid_end_index: end_index <= count
 			meaningfull_interval: start_index <= end_index + 1
 		local
-			new_size: INTEGER
-			diff: INTEGER
-			l_area: like area
-			s_count: INTEGER
-			old_count: INTEGER
+			str: like current_string_8
 		do
-			s_count := s.count
-			old_count := count
-			diff := s_count - (end_index - start_index + 1)
-			new_size := diff + old_count
-			if diff > 0 then
-					-- We need to resize the string.
-				grow (new_size)
-			end
-
-			l_area := area
-				--| We move the end of the string forward (if diff is > 0), backward (if diff < 0),
-				--| and nothing otherwise.
-			if diff /= 0 then
-				l_area.overlapping_move (end_index, end_index + diff, old_count - end_index)
-			end
-				--| Set new count
-			set_count (new_size)
-				--| We copy the substring.
-			l_area.copy_data (s.area, s.area_lower, start_index - 1, s_count)
+			str := current_string_8
+			str.replace_substring (string_8_argument (s, 1), start_index, end_index)
+			set_from_string_8 (str)
 		ensure
 			new_count: count = old count + old s.count - end_index + start_index - 1
 			replaced: elks_checking implies (string ~ (old (substring (1, start_index - 1) + s.string + substring (end_index + 1, count))))
 		end
 
-	replace_substring_all (original, new: READABLE_STRING_8)
+	replace_substring_all (original, new: EL_READABLE_ZSTRING)
+		local
+			str, l_original, l_new: like current_string_8
 		do
-			current_string.replace_substring_all (original, new)
+			str := current_string_8
+			l_original := string_8_argument (original, 1)
+			l_new := string_8_argument (new, 2)
+			str.replace_substring_all (l_original, l_new)
+			set_from_string_8 (str)
 		end
 
 	right_adjust
 			-- Remove trailing whitespace.
 		local
-			i, nb: INTEGER
-			nb_space: INTEGER
-			l_area: like area
+			str: like current_string_8
 		do
-				-- Compute number of spaces at the right of current string.
-			from
-				nb := count - 1
-				i := nb
-				l_area := area
-			until
-				i < 0 or else not l_area.item (i).is_space
-			loop
-				nb_space := nb_space + 1
-				i := i - 1
-			end
-
-			if nb_space > 0 then
-					-- Set new count.
-				count := nb + 1 - nb_space
-				reset_hash
-			end
+			str := current_string_8; str.right_adjust
+			set_from_string_8 (str)
 		end
 
-	set_area (a_area: like area)
+feature {NONE} -- Implementation
+
+	mirror
+		local
+			str: like current_string_8
 		do
-			area := a_area
+			str := current_string_8; str.mirror
+			set_from_string_8 (str)
 		end
 
 	share (other: EL_ZSTRING_IMPLEMENTATION)
@@ -741,15 +475,11 @@ feature -- Removal
 			valid_end_index: end_index <= count
 			meaningful_interval: start_index <= end_index + 1
 		local
-			l_count, nb_removed: INTEGER
+			str: like current_string_8
 		do
-			nb_removed := end_index - start_index + 1
-			if nb_removed > 0 then
-				l_count := count
-				area.overlapping_move (start_index + nb_removed - 1, start_index - 1, l_count - end_index)
-				count := l_count - nb_removed
-				reset_hash
-			end
+			str := current_string_8
+			str.remove_substring (start_index, end_index)
+			set_from_string_8 (str)
 		ensure
 			removed: elks_checking implies string ~ (old substring (1, start_index - 1) + old substring (end_index + 1, count))
 		end
@@ -806,14 +536,10 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Implementation
 			end
 		end
 
-	current_string: like Once_zstring_8_array.item
+	current_string_8: EL_STRING_8
 		do
-			Result := Once_zstring_8_array [0]
-			Result.set_from_zstring (Current)
-		end
-
-	elks_checking: BOOLEAN
-		deferred
+			Result := Once_string_8
+			Result.set_area_and_count (area, count)
 		end
 
 	order_comparison (this, other: like area; this_index, other_index, n: INTEGER): INTEGER
@@ -850,13 +576,29 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Implementation
 		deferred
 		end
 
+	set_from_string_8 (str: EL_STRING_8)
+		do
+			area := str.area set_count (str.count)
+		end
+
+	string_8_argument (zstr: EL_ZSTRING_IMPLEMENTATION; index: INTEGER): EL_STRING_8
+		require else
+			valid_index: 1 <= index and index <= 2
+		do
+			Result := String_8_args [index - 1]
+			Result.set_area_and_count (zstr.area, zstr.count)
+		end
+
 feature -- Constants
 
-	Once_zstring_8_array: SPECIAL [EL_ZSTRING_8_IMP]
+	Once_string_8: EL_STRING_8
 		once
-			create Result.make_empty (3)
-			from  until Result.count = 3 loop
-				Result.extend (create {EL_ZSTRING_8_IMP}.make_empty)
-			end
+			create Result.make_empty
+		end
+
+	String_8_args: SPECIAL [EL_STRING_8]
+		once
+			create Result.make_filled (create {EL_STRING_8}.make_empty, 2)
+			Result [1] := create {EL_STRING_8}.make_empty
 		end
 end

@@ -1,13 +1,13 @@
 note
-	description: "Enumeration of Paypal 'L' variables"
+	description: "Enumeration of Paypal `L' variables"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:08:37 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2019-09-28 11:50:49 GMT (Saturday   28th   September   2019)"
+	revision: "7"
 
 class
 	PP_L_VARIABLE_ENUM

@@ -113,20 +113,24 @@ See doc/test.root.txt for details
 			<description>
 Eiffel-Loop Test Sets
 
-Test sets classes inheriting [https://www.eiffel.org/doc/eiffelstudio/Testing-_Background_and_basics EQA_TEST_SET]
+Sub-application [$source AUTOTEST_DEVELOPMENT_APP] allows selected test sets to be run via normal program execution
+and also to test them as finalized executable.
 
-**Sub-applications**
+Hierarchy of classes inheriting from
+[https://www.eiffel.org/doc/eiffelstudio/Testing-_Background_and_basics EQA_TEST_SET]
 
-* [$source AUTOTEST_DEVELOPMENT_APP]
-* [$source ZSTRING_BENCHMARK_APP]
+See doc/test.test_sets.txt for details
 			</description>
 		</cluster>
 		<cluster name = "benchmark" location = "source/benchmark" recursive = "true">
 			<description>
 Eiffel-Loop Benchmark Testing
 
-Benchmarks comparing performance of related routines. The benchmarks are run from a menu shell.
-See class [$source BENCHMARK_APP].
+**Sub-applications**
+
+* [$source ZSTRING_BENCHMARK_APP] does performance testing of class [$source EL_ZSTRING]
+* [$source BENCHMARK_APP] compares performance of related routines with [$source EL_BENCHMARK_COMPARISON].
+The benchmarks are run from a menu shell.
 
 See doc/test.benchmark.txt for details
 			</description>

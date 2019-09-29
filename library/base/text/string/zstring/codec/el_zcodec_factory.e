@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-09-29 12:23:14 GMT (Sunday   29th   September   2019)"
+	revision: "7"
 
 class
 	EL_ZCODEC_FACTORY
@@ -16,6 +16,8 @@ inherit
 	EL_FACTORY_CLIENT
 
 	EL_SHARED_UTF_8_ZCODEC
+
+	EL_MODULE_NAMING
 
 feature {NONE} -- Factory
 
@@ -29,14 +31,8 @@ feature {NONE} -- Factory
 			if encoding.is_utf_id (8) then
 				Result := Utf_8_codec
 
-			elseif encoding.is_type_windows or encoding.is_type_latin then
-				table := Codec_table
-				if table.has_key (encoding.id) then
-					Result := table.found_item
-				else
-					Result := new_codec_by_id (encoding.id)
-					table.extend (Result, encoding.id)
-				end
+			elseif has_codec_id (encoding.id) then
+				Result := Codec_table.item (encoding.id)
 			else
 				create {EL_ISO_8859_1_ZCODEC} Result.make
 			end
@@ -44,63 +40,73 @@ feature {NONE} -- Factory
 
 	new_codec_by_id (id: INTEGER): EL_ZCODEC
 		do
-			Result := Codec_factory.instance_from_type (Codec_types [id], agent {EL_ZCODEC}.make)
+			inspect id
+				when 1 .. 11, 13 .. 15 then
+					Result := ISO_8859_factory.instance_from_alias (id.out, agent {EL_ZCODEC}.make)
+
+				when 1250 .. 1258 then
+					Result := Windows_factory.instance_from_alias (id.out, agent {EL_ZCODEC}.make)
+
+			else
+				create {EL_ISO_8859_1_ZCODEC} Result.make
+			end
+		end
+
+	windows_codecs: TUPLE [
+		EL_WINDOWS_1250_ZCODEC, EL_WINDOWS_1251_ZCODEC, EL_WINDOWS_1252_ZCODEC,
+		EL_WINDOWS_1253_ZCODEC, EL_WINDOWS_1254_ZCODEC, EL_WINDOWS_1255_ZCODEC,
+		EL_WINDOWS_1256_ZCODEC, EL_WINDOWS_1257_ZCODEC, EL_WINDOWS_1258_ZCODEC
+	]
+		do
+			create Result
+		end
+
+	ISO_8859_codecs: TUPLE [
+		EL_ISO_8859_1_ZCODEC, EL_ISO_8859_2_ZCODEC, EL_ISO_8859_3_ZCODEC,
+		EL_ISO_8859_4_ZCODEC, EL_ISO_8859_5_ZCODEC, EL_ISO_8859_6_ZCODEC,
+		EL_ISO_8859_7_ZCODEC, EL_ISO_8859_8_ZCODEC, EL_ISO_8859_9_ZCODEC,
+		EL_ISO_8859_10_ZCODEC, EL_ISO_8859_11_ZCODEC,
+--		EL_ISO_8859_12_ZCODEC is not available as No. 12 was missing from the original C-source code
+--		used to generate codecs
+		EL_ISO_8859_13_ZCODEC, EL_ISO_8859_14_ZCODEC, EL_ISO_8859_15_ZCODEC
+	]
+		do
+			create Result
 		end
 
 feature {NONE} -- Status query
 
 	has_codec (encoding: EL_ENCODING_BASE): BOOLEAN
 		do
-			if encoding.is_type_windows or encoding.is_type_latin then
-				Result := Codec_types.has_key (encoding.id)
+			Result := encoding.is_utf_id (8) or else has_codec_id (encoding.id)
+		end
 
-			elseif encoding.is_type_utf then
-				Result := encoding.id = 8
-			end
+	has_codec_id (id: INTEGER): BOOLEAN
+		do
+			inspect id
+				when 1 .. 11, 13 .. 15 then
+					Result := True
+
+				when 1250 .. 1258 then
+					Result := True
+
+			else end
 		end
 
 feature {NONE} -- Constants
 
-	Codec_table: HASH_TABLE [EL_ZCODEC, INTEGER]
+	Codec_table: EL_CACHE_TABLE [EL_ZCODEC, INTEGER]
 		once
-			create Result.make (30)
+			create Result.make_equal (30, agent new_codec_by_id)
 		end
 
-	Codec_types: HASH_TABLE [TYPE [EL_ZCODEC], INTEGER]
+	ISO_8859_factory: EL_OBJECT_FACTORY [EL_ZCODEC]
 		once
-			create Result.make (30)
-			Result [1] := {EL_ISO_8859_1_ZCODEC}
-			Result [2] := {EL_ISO_8859_2_ZCODEC}
-			Result [3] := {EL_ISO_8859_3_ZCODEC}
-			Result [4] := {EL_ISO_8859_4_ZCODEC}
-			Result [5] := {EL_ISO_8859_5_ZCODEC}
-			Result [6] := {EL_ISO_8859_6_ZCODEC}
-			Result [7] := {EL_ISO_8859_7_ZCODEC}
-			Result [8] := {EL_ISO_8859_8_ZCODEC}
-			Result [9] := {EL_ISO_8859_9_ZCODEC}
-			Result [10] := {EL_ISO_8859_10_ZCODEC}
-			Result [11] := {EL_ISO_8859_11_ZCODEC}
-
--- 		1SO-8859-12 is not available as it was missing from the original C-source code
---			used to generate codecs
-
-			Result [13] := {EL_ISO_8859_13_ZCODEC}
-			Result [14] := {EL_ISO_8859_14_ZCODEC}
-			Result [15] := {EL_ISO_8859_15_ZCODEC}
-
-			Result [1251] := {EL_WINDOWS_1251_ZCODEC}
-			Result [1252] := {EL_WINDOWS_1252_ZCODEC}
-			Result [1253] := {EL_WINDOWS_1253_ZCODEC}
-			Result [1254] := {EL_WINDOWS_1254_ZCODEC}
-			Result [1255] := {EL_WINDOWS_1255_ZCODEC}
-			Result [1256] := {EL_WINDOWS_1256_ZCODEC}
-			Result [1257] := {EL_WINDOWS_1257_ZCODEC}
-			Result [1258] := {EL_WINDOWS_1258_ZCODEC}
+			create Result.make (agent Naming.class_as_lower_snake (?, 3, 1), ISO_8859_codecs)
 		end
 
-	Codec_factory: EL_OBJECT_FACTORY [EL_ZCODEC]
+	Windows_factory: EL_OBJECT_FACTORY [EL_ZCODEC]
 		once
-			create Result
+			create Result.make (agent Naming.class_as_lower_snake (?, 2, 1), windows_codecs)
 		end
-
 end

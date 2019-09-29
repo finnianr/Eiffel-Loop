@@ -9,6 +9,9 @@ using case-insensitive word tokenization.
 
 * Facility to create custom search types.
 * Terms can be combined using basic boolean operators.
+
+See [http://myching.software/en/home/my-ching.html myching.software] for an example of a commercial
+application that makes use of this library.
 	</description>
 	<target name = "EL_search">
 		<description>Search engine</description>

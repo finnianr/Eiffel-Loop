@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-09-29 11:26:20 GMT (Sunday   29th   September   2019)"
+	revision: "5"
 
 class
 	EL_WINDOWS_1250_ZCODEC
@@ -259,15 +259,6 @@ feature -- Character query
 				when 181, 223 then
 					Result := True
 
-			else
-			end
-		end
-
-	is_numeric (code: NATURAL): BOOLEAN
-		do
-			inspect code
-				when 48..57 then
-					Result := True
 			else
 			end
 		end

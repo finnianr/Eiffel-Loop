@@ -5,6 +5,7 @@ note
 		while the execution efficiency is roughly the same as for `STRING_8'. For short strings the saving is much less:
 		about 50%. ISO-8859-15 covers most Western european languages.
 	]"
+	test: "[$source ZSTRING_TEST_SET]"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
@@ -12,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-21 8:24:50 GMT (Sunday 21st July 2019)"
-	revision: "14"
+	date: "2019-09-29 16:25:34 GMT (Sunday   29th   September   2019)"
+	revision: "15"
 
 class
 	EL_ZSTRING
@@ -24,12 +25,21 @@ inherit
 			{ANY}
 --			Element change
 			append_all, append_all_general,
-			append_boolean, append_character, append_character_8, append_double,
-			append_integer_8, append_integer, append_integer_16, append_integer_64,
-			append_natural_8, append_natural_16, append_natural_32, append_natural_64, append_real,
-			append_unicode, append_string, append, append_string_general, append_substring, append_tuple_item, append_utf_8,
+			append_boolean, append_character, append_character_8,
+
+			append_double, append_real, append_integer, append_natural,
+			append_real_32, append_real_64,
+			append_integer_8, append_integer_16, append_integer_32, append_integer_64,
+			append_natural_8, append_natural_16, append_natural_32, append_natural_64,
+
+			append_unicode, append_string, append, append_string_general, append_substring,
+			append_tuple_item, append_utf_8,
 			extend, enclose, fill_character, multiply,
-			precede, prepend_character, put_unicode, quote,
+
+			prepend_boolean, prepend_character, prepend_integer, prepend_integer_32,
+			prepend_real_32, prepend_real, prepend_real_64, prepend_double, prepend_substring,
+
+			precede, put_unicode, quote,
 			translate, translate_general,
 --			Conversion
 			to_lower, to_proper_case, to_upper,
@@ -381,7 +391,7 @@ feature -- Element change
 
 	replace_substring_all (original, new: EL_READABLE_ZSTRING)
 		local
-			l_original, l_new: EL_ZSTRING_8_IMP; replace_not_done: BOOLEAN; positions: ARRAYED_LIST [INTEGER]
+			replace_not_done: BOOLEAN; positions: ARRAYED_LIST [INTEGER]
 			size_difference, end_index, original_count, new_count: INTEGER
 		do
 			inspect respective_encoding (original)
@@ -394,9 +404,7 @@ feature -- Element change
 						replace_not_done := True
 					else
 						-- Can use STRING_8 implemenation
-						l_original := Once_zstring_8_array [1]; l_original.set_from_zstring (original)
-						l_new := Once_zstring_8_array [2]; l_new.set_from_zstring (new)
-						internal_replace_substring_all (l_original, l_new)
+						internal_replace_substring_all (original, new)
 					end
 			else
 				replace_not_done := True

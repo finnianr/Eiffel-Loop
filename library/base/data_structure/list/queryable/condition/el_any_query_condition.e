@@ -1,13 +1,14 @@
 note
 	description: "Any query condition"
+	test: "[$source CHAIN_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-04 11:52:01 GMT (Sunday 4th November 2018)"
-	revision: "6"
+	date: "2019-09-29 11:21:56 GMT (Sunday   29th   September   2019)"
+	revision: "7"
 
 class
 	EL_ANY_QUERY_CONDITION [G]

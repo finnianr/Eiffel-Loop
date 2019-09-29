@@ -49,7 +49,10 @@ For a short description of each module see [doc/Contents.md](doc/Contents.md) or
 
 ### Requirements
 
-* EiffelStudio >= 7.1 Variables `ISE_PLATFORM`, `ISE_EIFFEL` and `ISE_C_COMPILER` should be defined. The estudio command must be in your path.
+**EiffelStudio 16.05**
+It will take considerable work to migrate Eiffel-Loop to EiffelStudio 19.05 and beyond. Unfortunately Finnian has to prioritize making his Matryohska project a commercial success before undertaking a migration of Eiffel-Loop to 19.05.
+
+* Variables `ISE_PLATFORM`, `ISE_EIFFEL` and `ISE_C_COMPILER` should be defined. The estudio command must be in your path.
 * Python 2.6.x or 2.7.x. Versions >= 3.0 are not compatible with the [scons](http://www.scons.org/) builder. The python command must be in your path.
 
 #### For Windows
@@ -281,13 +284,12 @@ create
 
 feature {NONE} -- Implementation
 
-	Application_types: ARRAY [TYPE [EL_SUB_APPLICATION]]
+	Application_types: TUPLE [
+      MY_FIRST_APP,
+      MY_SECOND_APP
+	]
      once
-       Result := <<
-         {MY_FIRST_APP},
-         {MY_SECOND_APP},
-         ..
-       >>
+        create Result
      end
 end
 ````

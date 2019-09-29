@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-12 13:20:25 GMT (Thursday 12th September 2019)"
-	revision: "5"
+	date: "2019-09-29 13:51:46 GMT (Sunday   29th   September   2019)"
+	revision: "6"
 
 class
 	TEST_STRING_CONSTANTS
@@ -31,7 +31,6 @@ feature {NONE} -- Constants
 	Text_lines: LIST [STRING_32]
 		once
 			Result := Text_russian_and_english.split ('%N')
-			Result.extend (Vivalidi_title)
 		end
 
 	Text_characters: ARRAY [CHARACTER_32]
@@ -77,17 +76,21 @@ feature {NONE} -- String_32 contants
 		Wanting to eat a fish without first catching it from the waters
 		Latin-1: ¼ + ¾ = 1
 		Latin-15: Slavoj Žižek
+		Le Quattro Stagioni ´L´Estate`- I. Allegro non molto
 	]"
 
 	Substituted_words: ARRAY [TUPLE]
 		once
 			Result := <<
 				[{STRING_32} "и", {STRING_32} "съесть",{STRING_32} "лезть"],
-				["eat", "fish", "catching"], [1, 1], [15]
+				["eat", "fish", "catching"],
+				[1, 1],
+				[15],
+				['´']
 			>>
+		ensure
+			same_number: Result.count = Text_russian_and_english.occurrences ('%N') + 1
 		end
-
-	Vivalidi_title: STRING_32 = "Le Quattro Stagioni ´L´Estate`- I. Allegro non molto"
 
 	Lower_case_characters: STRING_32 = "™ÿaàöžšœ" --
 

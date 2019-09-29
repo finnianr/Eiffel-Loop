@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:42:57 GMT (Monday 5th August 2019)"
-	revision: "17"
+	date: "2019-09-28 8:28:14 GMT (Saturday   28th   September   2019)"
+	revision: "18"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -40,7 +40,7 @@ inherit
 		rename
 			make_default as make
 		redefine
-			make, field_included, initialize_fields
+			make, initialize_fields
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -64,9 +64,7 @@ feature {NONE} -- Initialization
 	initialize_fields
 			-- initialize fields with unique value
 		do
-			across
-				field_table as field
-			loop
+			across field_table as field loop
 				field.item.set_from_integer (Current, field.cursor_index)
 			end
 		end

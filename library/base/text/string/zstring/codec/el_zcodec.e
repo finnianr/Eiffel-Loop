@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 14:59:43 GMT (Tuesday 10th April 2018)"
-	revision: "7"
+	date: "2019-09-28 19:12:39 GMT (Saturday   28th   September   2019)"
+	revision: "8"
 
 deferred class
 	EL_ZCODEC
@@ -92,8 +92,14 @@ feature -- Character query
 		end
 
 	is_numeric (code: NATURAL): BOOLEAN
-		deferred
+		do
+			inspect code
+				when 48..57 then
+					Result := True
+			else
+			end
 		end
+
 
 	is_upper (code: NATURAL): BOOLEAN
 		deferred

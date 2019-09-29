@@ -1,13 +1,14 @@
 note
 	description: "Arrayed list"
+	test: "[$source ARRAYED_LIST_TEST_SET], [$source CHAIN_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-19 12:51:52 GMT (Saturday 19th January 2019)"
-	revision: "18"
+	date: "2019-09-29 11:19:35 GMT (Sunday   29th   September   2019)"
+	revision: "19"
 
 class
 	EL_ARRAYED_LIST [G]

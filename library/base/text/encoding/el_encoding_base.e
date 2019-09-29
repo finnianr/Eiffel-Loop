@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 14:35:35 GMT (Tuesday 10th April 2018)"
-	revision: "1"
+	date: "2019-09-29 12:17:12 GMT (Sunday   29th   September   2019)"
+	revision: "2"
 
 class
 	EL_ENCODING_BASE
@@ -34,7 +34,7 @@ feature -- Access
 	id: INTEGER
 		-- A 12-bit code suffix that qualifies the `type'
 		-- For `Type_utf' these are: {8, 16, 32}
-		-- For `Type_latin' these are: 1..16
+		-- For `Type_latin' these are: 1..15
 		-- For `Type_windows' these are: 1250..1258
 		do
 			Result := internal_encoding & Type_mask
@@ -237,7 +237,7 @@ feature {NONE} -- Constants
 			across << 8, 16, 32 >> as bytes loop utf_encodings.put (bytes.item) end
 			Result [Type_utf] := utf_encodings
 
-			Result [Type_latin] := 1 |..| 16
+			Result [Type_latin] := 1 |..| 15
 			Result [Type_windows] := 1250 |..| 1258
 		end
 

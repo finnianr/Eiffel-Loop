@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 13:42:24 GMT (Thursday   26th   September   2019)"
-	revision: "1"
+	date: "2019-09-27 23:03:51 GMT (Friday   27th   September   2019)"
+	revision: "2"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -26,7 +26,7 @@ inherit
 
 	STRING_HANDLER
 
-	EL_ZSTRING_ROUTINES
+	EL_MODULE_ZSTRING
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -92,11 +92,21 @@ feature -- Conversion
 			end
 		end
 
-feature {NONE} -- Deferred implementation
+feature -- Basic operations
 
 	append_to (str: ZSTRING)
-		deferred
+		-- append path to string `str'
+		local
+			i: INTEGER
+		do
+			str.grow (str.count + count)
+			from i := 1 until i > part_count loop
+				str.append (part_string (i))
+				i := i + 1
+			end
 		end
+
+feature {NONE} -- Deferred implementation
 
 	base: ZSTRING
 		deferred

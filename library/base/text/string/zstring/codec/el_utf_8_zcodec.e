@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-07 15:06:26 GMT (Saturday 7th April 2018)"
-	revision: "2"
+	date: "2019-09-28 19:15:58 GMT (Saturday   28th   September   2019)"
+	revision: "3"
 
 class
 	EL_UTF_8_ZCODEC
@@ -17,7 +17,7 @@ inherit
 		rename
 			single_byte_unicode_chars as new_unicode_table
 		redefine
-			as_unicode, write_encoded, write_encoded_character
+			as_unicode, write_encoded, write_encoded_character, is_numeric
 		end
 
 	EL_UTF_CONVERTER

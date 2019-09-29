@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 13:40:49 GMT (Thursday   26th   September   2019)"
-	revision: "31"
+	date: "2019-09-27 23:29:22 GMT (Friday   27th   September   2019)"
+	revision: "32"
 
 deferred class
 	EL_PATH
@@ -48,18 +48,18 @@ feature {NONE} -- Initialization
 			make (a_path.name)
 		end
 
-	make_from_steps (a_steps: FINITE [READABLE_STRING_GENERAL])
+	make_from_steps (a_steps: ITERABLE [READABLE_STRING_GENERAL])
 		local
-			path: ZSTRING
+			l_path: ZSTRING
 		do
-			path := joined (Separator, a_steps)
-			if a_steps.count = 1 then
-				base := path; parent_path := Empty_path
-			else
-				base := path.substring_end (path.last_index_of (Separator, path.count) + 1)
-				path.remove_tail (base.count)
-				set_parent_path (path)
+			l_path := Temp_path; l_path.wipe_out
+			across a_steps as step loop
+				if not l_path.is_empty then
+					l_path.append_character (Separator)
+				end
+				l_path.append_string_general (step.item)
 			end
+			set_path (l_path)
 		end
 
 feature -- Initialization
@@ -370,7 +370,7 @@ feature -- Status Query
 		do
 			str := parent_path
 			if {PLATFORM}.is_windows then
-				Result := starts_with_drive (str)
+				Result := Zstring.starts_with_drive (str)
 			else
 				Result := not str.is_empty and then str [1] = Separator
 			end
@@ -413,20 +413,6 @@ feature -- Status Query
 
 	out_abbreviated: BOOLEAN
 		-- is the current directory in 'out string' abbreviated to $CWD
-
-feature -- Basic operations
-
-	append_to (str: ZSTRING)
-		-- append path to string `str'
-		local
-			i: INTEGER
-		do
-			str.grow (str.count + count)
-			from i := 1 until i > part_count loop
-				str.append (part_string (i))
-				i := i + 1
-			end
-		end
 
 feature -- Status change
 
@@ -491,7 +477,7 @@ feature -- Element change
 		end
 
 	expand
-			-- expand an environment variables
+			-- expand environment variables in each step
 		local
 			l_steps: like steps
 		do
