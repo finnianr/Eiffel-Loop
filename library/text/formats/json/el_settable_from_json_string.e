@@ -1,8 +1,9 @@
 note
 	description: "[
-		Used in conjunction with `[$source EL_REFLECTIVELY_SETTABLE]' to reflectively set fields
+		Used in conjunction with [$source EL_REFLECTIVELY_SETTABLE] to reflectively set fields
 		from corresponding JSON name-value pairs.
 	]"
+	test: "[$source REFLECTIVE_TEST_SET]"
 	descendants: "[
 		The following example implementations are from the Amazon Instant Access API for Eiffel.
 
@@ -60,9 +61,8 @@ feature -- Access
 		do
 			field := [create {STRING}.make (0), Empty_string]
 
-			Result := empty_once_string
+			Result := once_copy_general (once "{%N")
 			table := field_table
-			Result.append_string_general (once "{%N")
 			from is_first := True; table.start until table.after loop
 				if is_first then
 					is_first := False

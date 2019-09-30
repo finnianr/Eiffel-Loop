@@ -50,7 +50,7 @@ feature -- Tests
 		do
 			log.enter ("test_serialization")
 			create euro.make ("Euro", {STRING_32}"€", "EUR")
-			create currency.make_from_json (euro.as_json)
+			create currency.make_from_json (euro.as_json.to_utf_8)
 			assert ("same value", euro ~ currency)
 			log.exit
 		end

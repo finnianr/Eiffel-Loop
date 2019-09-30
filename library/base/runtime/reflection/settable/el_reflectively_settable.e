@@ -8,6 +8,7 @@ note
 		Override `use_default_values' to return `False' if the default values set
 		by `set_default_values' is not required.
 	]"
+	test: "[$source REFLECTIVE_TEST_SET]"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"

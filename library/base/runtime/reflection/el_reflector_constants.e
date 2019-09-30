@@ -173,7 +173,7 @@ feature {EL_REFLECTION_HANDLER} -- Boolean types
 
 	frozen EL_boolean_ref_type: INTEGER
 		once
-			Result := ({EL_BOOLEAN_REF}).type_id
+			Result := ({EL_REFLECTIVE_BOOLEAN_REF}).type_id
 		end
 
 feature {EL_REFLECTION_HANDLER} -- String types

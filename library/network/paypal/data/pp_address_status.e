@@ -10,6 +10,7 @@ note
 		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/?mark=ipn#buyer-information-variables
 		Buyer information variables]
 	]"
+	test: "[$source PP_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -23,7 +24,7 @@ class
 	PP_ADDRESS_STATUS
 
 inherit
-	EL_BOOLEAN_REF
+	EL_REFLECTIVE_BOOLEAN_REF
 		rename
 			item as confirmed
 		redefine
@@ -38,7 +39,7 @@ convert
 
 feature {NONE} -- Constants
 
-	false_name: STRING
+	False_name: STRING
 		once
 			Result := "unconfirmed"
 		end

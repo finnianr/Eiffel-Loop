@@ -43,3 +43,6 @@ Using TUPLE's to specifiy list of factory types
 Thu   26th   Sep   2019, 19:03:51
 Changed argument_specs: ARRAY
 
+Mon   30th   Sep   2019, 6:25:11
+Split EL_SHARED_ONCE_STRINGS into 3 classes
+

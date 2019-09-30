@@ -3,6 +3,7 @@ note
 		Used in conjunction with [$source EL_REFLECTIVE] to reflectively set fields
 		from name-value pairs, where value conforms to [$source EL_ZSTRING] (aka `ZSTRING')
 	]"
+	test: "[$source REFLECTIVE_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

@@ -44,7 +44,7 @@ feature {NONE} -- Constants
 
 				-- Boolean refs
 				agent: BOOLEAN_REF do create Result end,
-				agent: EL_BOOLEAN_REF do create Result.make_default end,
+				agent: EL_REFLECTIVE_BOOLEAN_REF do create Result.make_default end,
 				agent: EL_BOOLEAN_OPTION do create Result end,
 
 				-- Path types

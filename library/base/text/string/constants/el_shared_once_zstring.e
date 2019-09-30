@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of class [$source EL_ZSTRING' that can be used as a temporary buffer"
+	description: "Shared instance of class [$source EL_ZSTRING] that can be used as a temporary buffer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

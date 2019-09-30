@@ -1,5 +1,6 @@
 note
-	description: "Field conforming to [$source EL_BOOLEAN_REF]"
+	description: "Field conforming to [$source BOOLEAN_REF]"
+	test: "[$source PP_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -35,9 +36,14 @@ feature -- Basic operations
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+		local
+			l_value: BOOLEAN_REF
 		do
-			if string.is_boolean then
-				value (a_object).set_item (string.to_boolean)
+			l_value := value (a_object)
+			if attached {EL_REFLECTIVE_BOOLEAN_REF} l_value as reflective_value then
+				reflective_value.set_from_string (string)
+			elseif string.is_boolean then
+				l_value.set_item (string.to_boolean)
 			end
 		end
 
