@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-22 8:52:44 GMT (Sunday   22nd   September   2019)"
-	revision: "8"
+	date: "2019-09-30 5:01:30 GMT (Monday   30th   September   2019)"
+	revision: "9"
 
 class
 	EL_SVG_PIXMAP
@@ -33,7 +33,7 @@ inherit
 
 	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_ZSTRING
 
 create
 	default_create, make_from_other,

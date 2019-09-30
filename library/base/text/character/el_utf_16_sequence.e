@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-09 12:18:32 GMT (Monday 9th April 2018)"
-	revision: "2"
+	date: "2019-09-30 4:53:45 GMT (Monday   30th   September   2019)"
+	revision: "3"
 
 class
 	EL_UTF_16_SEQUENCE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_UTF_SEQUENCE
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_ZSTRING
 
 create
 	make

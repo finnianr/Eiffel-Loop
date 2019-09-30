@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:41:22 GMT (Monday 1st July 2019)"
-	revision: "11"
+	date: "2019-09-30 5:01:34 GMT (Monday   30th   September   2019)"
+	revision: "12"
 
 class
 	EL_SVG_TEMPLATE_PIXMAP
@@ -24,7 +24,7 @@ inherit
 			rendering_variables, svg_xml
 		end
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_ZSTRING
 
 create
 	default_create, make_from_other,

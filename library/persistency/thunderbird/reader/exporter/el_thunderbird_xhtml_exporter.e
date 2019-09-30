@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-17 10:10:25 GMT (Saturday 17th November 2018)"
-	revision: "5"
+	date: "2019-09-30 4:54:36 GMT (Monday   30th   September   2019)"
+	revision: "6"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -26,7 +26,7 @@ inherit
 	EL_MODULE_LIO
 	EL_MODULE_DIRECTORY
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_ZSTRING
 
 
 feature {NONE} -- Initialization

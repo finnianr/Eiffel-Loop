@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-23 8:19:35 GMT (Tuesday 23rd July 2019)"
-	revision: "10"
+	date: "2019-09-30 4:47:38 GMT (Monday   30th   September   2019)"
+	revision: "11"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -19,7 +19,7 @@ inherit
 
 	EL_SHARED_UTF_8_ZCODEC
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_STRING_32
 
 create
 	make

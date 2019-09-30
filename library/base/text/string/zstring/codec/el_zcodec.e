@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-28 19:12:39 GMT (Saturday   28th   September   2019)"
-	revision: "8"
+	date: "2019-09-30 4:37:23 GMT (Monday   30th   September   2019)"
+	revision: "9"
 
 deferred class
 	EL_ZCODEC
@@ -25,7 +25,7 @@ inherit
 
 	STRING_HANDLER
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_STRING_8
 
 	EL_ZCODE_CONVERSION
 		rename

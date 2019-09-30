@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2019-09-30 4:57:16 GMT (Monday   30th   September   2019)"
+	revision: "8"
 
 class
 	EL_RSA_ROUTINES
@@ -15,7 +15,7 @@ class
 inherit
 	EL_BASE_64_ROUTINES
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_STRING_8
 
 	EL_MODULE_HEXADECIMAL
 

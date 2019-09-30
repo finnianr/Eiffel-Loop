@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-29 19:07:33 GMT (Sunday   29th   September   2019)"
-	revision: "34"
+	date: "2019-09-30 6:05:39 GMT (Monday   30th   September   2019)"
+	revision: "35"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -42,8 +42,6 @@ inherit
 
 	EL_ZSTRING_IMPLEMENTATION
 		rename
-			append as internal_append,
-			append_substring as internal_append_substring,
 			ends_with as internal_ends_with,
 			fill_character as internal_fill_character,
 			has as internal_has,
@@ -61,9 +59,6 @@ inherit
 			mirror as internal_mirror,
 			occurrences as internal_occurrences,
 			order_comparison as internal_order_comparison,
-			prepend_character as internal_prepend_character,
-			prepend as internal_prepend,
-			prepend_substring as internal_prepend_substring,
 			prune_all as internal_prune_all,
 			remove as internal_remove,
 			remove_substring as internal_remove_substring,
@@ -156,10 +151,7 @@ inherit
 
 	EL_SHARED_UTF_8_ZCODEC
 
-	EL_SHARED_ONCE_STRINGS
-		rename
-			Once_string_8 as Shared_once_string_8
-		end
+	EL_SHARED_ONCE_STRING_32
 
 feature {NONE} -- Initialization
 
@@ -316,35 +308,46 @@ feature -- Access
 		deferred
 		end
 
-	joined (a_list: FINITE [like Current]): ZSTRING
+	joined (a_list: ITERABLE [like Current]): ZSTRING
 		-- `a_list' joined with `Current' as delimiter
 		local
-			list: LINEAR [like Current]
+			cursor: ITERATION_CURSOR [like Current]
 		do
-			list := a_list.linear_representation
-			create Result.make (sum_count (list) + (lines.count - 1) * count)
-			from list.start until list.after loop
-				if list.index > 1 then
+			cursor := a_list.new_cursor
+			create Result.make (sum_count (cursor) + (lines.count - 1) * count)
+			if attached {INDEXABLE_ITERATION_CURSOR [like Current]} cursor as l_cursor then
+				l_cursor.start
+			else
+				cursor := a_list.new_cursor
+			end
+			from until cursor.after loop
+				if not Result.is_empty then
 					Result.append (Current)
 				end
-				Result.append_string_general (list.item)
-				list.forth
+				Result.append (cursor.item)
+				cursor.forth
 			end
 		end
 
-	joined_general (a_list: FINITE [READABLE_STRING_GENERAL]): ZSTRING
+	joined_general (a_list: ITERABLE [READABLE_STRING_GENERAL]): ZSTRING
 		-- `a_list' joined with `Current' as delimiter
 		local
-			list: LINEAR [READABLE_STRING_GENERAL]
+			cursor: ITERATION_CURSOR [READABLE_STRING_GENERAL]
 		do
-			list := a_list.linear_representation
-			create Result.make (sum_count (list) + (lines.count - 1) * count)
-			from list.start until list.after loop
-				if list.index > 1 then
+			cursor := a_list.new_cursor
+			create Result.make (sum_count (cursor) + (lines.count - 1) * count)
+
+			if attached {INDEXABLE_ITERATION_CURSOR [READABLE_STRING_GENERAL]} cursor as l_cursor then
+				l_cursor.start
+			else
+				cursor := a_list.new_cursor
+			end
+			from until cursor.after loop
+				if not Result.is_empty then
 					Result.append (Current)
 				end
-				Result.append_string_general (list.item)
-				list.forth
+				Result.append_string_general (cursor.item)
+				cursor.forth
 			end
 		end
 
@@ -438,7 +441,7 @@ feature -- Access
 
 	substring_between_general (start_string, end_string: READABLE_STRING_GENERAL; start_index: INTEGER): like Current
 		do
-			Result := substring_between (adapted_general (start_string, 1), adapted_general (end_string, 2), start_index)
+			Result := substring_between (adapted_argument (start_string, 1), adapted_argument (end_string, 2), start_index)
 		end
 
 	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
@@ -446,7 +449,7 @@ feature -- Access
 			inspect respective_encoding (other)
 				when Both_have_mixed_encoding, Only_current, Neither then
 					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					Result := String_searcher.substring_index (Current, other.as_expanded, start_index, count)
+					Result := String_searcher.substring_index (Current, other.as_expanded (1), start_index, count)
 				when Only_other then
 					Result := 0
 			else
@@ -455,7 +458,7 @@ feature -- Access
 
 	substring_index_general (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		do
-			Result := substring_index (adapted_general (other, 1), start_index)
+			Result := substring_index (adapted_argument (other, 1), start_index)
 		end
 
 	substring_index_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
@@ -463,7 +466,7 @@ feature -- Access
 			inspect respective_encoding (other)
 				when Both_have_mixed_encoding, Only_current, Neither then
 					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					Result := String_searcher.substring_index (Current, other.as_expanded, start_pos, end_pos)
+					Result := String_searcher.substring_index (Current, other.as_expanded (1), start_pos, end_pos)
 				when Only_other then
 					Result := 0
 			else
@@ -472,12 +475,12 @@ feature -- Access
 
 	substring_index_in_bounds_general (other: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER): INTEGER
 		do
-			Result := substring_index_in_bounds (adapted_general (other, 1), start_pos, end_pos)
+			Result := substring_index_in_bounds (adapted_argument (other, 1), start_pos, end_pos)
 		end
 
 	substring_index_list (delimiter: EL_READABLE_ZSTRING): like internal_substring_index_list
 		do
-			Result := internal_substring_index_list (adapted_general (delimiter, 1)).twin
+			Result := internal_substring_index_list (adapted_argument (delimiter, 1)).twin
 		end
 
 	substring_intervals (str: READABLE_STRING_GENERAL): EL_SEQUENTIAL_INTERVALS
@@ -485,7 +488,7 @@ feature -- Access
 			l_index_list: like internal_substring_index_list
 			l_count, index: INTEGER
 		do
-			l_index_list := internal_substring_index_list (adapted_general (str, 1))
+			l_index_list := internal_substring_index_list (adapted_argument (str, 1))
 			create Result.make (l_index_list.count)
 			l_count := str.count
 			from l_index_list.start until l_index_list.after loop
@@ -533,7 +536,7 @@ feature -- Access
 
 	word_index_general (word: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		do
-			Result := word_index (adapted_general (word, 1), start_index)
+			Result := word_index (adapted_argument (word, 1), start_index)
 		end
 
 	z_code (i: INTEGER): NATURAL_32
@@ -850,7 +853,7 @@ feature -- Status query
 		require
 			is_pair: character_pair.count = 2
 		do
-			Result := enclosed_with (adapted_general (character_pair, 1))
+			Result := enclosed_with (adapted_argument (character_pair, 1))
 		end
 
 	encoded_with (a_codec: EL_ZCODEC): BOOLEAN
@@ -875,7 +878,7 @@ feature -- Status query
 
 	ends_with_general (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := ends_with (adapted_general (str, 1))
+			Result := ends_with (adapted_argument (str, 1))
 		end
 
 	extendible: BOOLEAN = True
@@ -1044,7 +1047,7 @@ feature -- Status query
 
 	starts_with_general (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := starts_with (adapted_general (str, 1))
+			Result := starts_with (adapted_argument (str, 1))
 		end
 
 	valid_code (a_code: NATURAL_32): BOOLEAN
@@ -1588,36 +1591,7 @@ feature {EL_READABLE_ZSTRING} -- Removal
 
 feature {EL_READABLE_ZSTRING} -- Element change
 
-	append_all (a_list: FINITE [like Current])
-		local
-			list: LINEAR [like Current]
-		do
-			list := a_list.linear_representation
-			grow (count + sum_count (list))
-			from list.start until list.after loop
-				append (list.item)
-				list.forth
-			end
-		end
-
-	append_all_general (a_list: INDEXABLE [READABLE_STRING_GENERAL, INTEGER])
-		local
-			list: LINEAR [READABLE_STRING_GENERAL]
-		do
-			list := a_list.linear_representation
-			grow (count + sum_count (list))
-			from list.start until list.after loop
-				append_string_general (list.item)
-				list.forth
-			end
-		end
-
 	append_character, extend (uc: CHARACTER_32)
-		do
-			append_unicode (uc.natural_32_code)
-		end
-
-	append_character_8 (uc: CHARACTER_8)
 		do
 			append_unicode (uc.natural_32_code)
 		end
@@ -1747,13 +1721,6 @@ feature {EL_READABLE_ZSTRING} -- Element change
 			item_inserted: unicode (count) = uc
 			new_count: count = old count + 1
 			stable_before: elks_checking implies substring (1, count - 1) ~ (old twin)
-		end
-
-	append_utf_8 (a_utf_8: READABLE_STRING_8)
-		do
-			if attached {STRING} a_utf_8 as utf_8 then
-				append_string_general (Utf_8_codec.as_unicode (utf_8, False))
-			end
 		end
 
 	append_z_code (c: like z_code)
@@ -1925,7 +1892,7 @@ feature {EL_READABLE_ZSTRING} -- Element change
 
 	translate_general (old_characters, new_characters: READABLE_STRING_GENERAL)
 		do
-			translate (adapted_general (old_characters, 1), adapted_general (new_characters, 2))
+			translate (adapted_argument (old_characters, 1), adapted_argument (new_characters, 2))
 		end
 
 feature {EL_READABLE_ZSTRING} -- Removal
@@ -2027,17 +1994,12 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Access
 			end
 		end
 
-	as_expanded: STRING_32
+	as_expanded (index: INTEGER): STRING_32
 			-- Current expanded as `z_code' sequence
+		require
+			valid_index: 1 <= index and index <= 2
 		do
-			Result := Once_expanded_strings [0]; Result.wipe_out
-			fill_expanded (Result)
-		end
-
-	as_expanded_2: STRING_32
-			-- Current expanded as `z_code' sequence
-		do
-			Result := Once_expanded_strings [1]; Result.wipe_out
+			Result := Once_expanded_strings [index - 1]; Result.wipe_out
 			fill_expanded (Result)
 		end
 
@@ -2089,15 +2051,20 @@ feature -- Basic operation
 
 feature {NONE} -- Implementation
 
-	adapted_general (a_general: READABLE_STRING_GENERAL; argument_number: INTEGER): like Current
+	adapted_argument (a_general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
+		require
+			valid_index: 1 <= index and index <= 2
 		do
-			if attached {EL_READABLE_ZSTRING} a_general as zstring then
+			if attached {EL_ZSTRING} a_general as zstring then
 				Result := zstring
-			elseif argument_number = 1 then
-				Result := Empty_once_string
-				Result.append_string_general (a_general)
 			else
-				Result := new_string (a_general.count)
+				inspect index
+					when 1 .. 2 then
+						Result := Once_adapted_argument [index - 1]
+						Result.wipe_out
+				else
+					create Result.make (a_general.count)
+				end
 				Result.append_string_general (a_general)
 			end
 		end
@@ -2278,11 +2245,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	sum_count (list: LINEAR [READABLE_STRING_GENERAL]): INTEGER
+	sum_count (cursor: ITERATION_CURSOR [READABLE_STRING_GENERAL]): INTEGER
 		do
-			from list.start until list.after loop
-				Result := Result + list.item.count
-				list.forth
+			from until cursor.after loop
+				Result := Result + cursor.item.count
+				cursor.forth
 			end
 		end
 
@@ -2355,12 +2322,16 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
+	Once_adapted_argument: SPECIAL [ZSTRING]
+		once
+			create Result.make_filled (create {ZSTRING}.make_empty, 2)
+			Result [1] := create {ZSTRING}.make_empty
+		end
+
 	Once_expanded_strings: SPECIAL [STRING_32]
 		once
-			create Result.make_empty (2)
-			from  until Result.count = 2 loop
-				Result.extend (create {STRING_32}.make_empty)
-			end
+			create Result.make_filled (create {STRING_32}.make_empty, 2)
+			Result [1] := create {STRING_32}.make_empty
 		end
 
 	Once_substring_indices: ARRAYED_LIST [INTEGER]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-29 12:23:14 GMT (Sunday   29th   September   2019)"
-	revision: "7"
+	date: "2019-09-30 6:13:38 GMT (Monday   30th   September   2019)"
+	revision: "8"
 
 class
 	EL_ZCODEC_FACTORY
@@ -25,8 +25,6 @@ feature {NONE} -- Factory
 		-- cached codec
 		require
 			has_codec: has_codec (encoding)
-		local
-			table: like Codec_table
 		do
 			if encoding.is_utf_id (8) then
 				Result := Utf_8_codec

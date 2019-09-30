@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:29:45 GMT (Wednesday 17th October 2018)"
-	revision: "3"
+	date: "2019-09-30 4:53:45 GMT (Monday   30th   September   2019)"
+	revision: "4"
 
 deferred class
 	EL_OS_RELEASE_I
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_ZSTRING_CONSTANTS
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_ZSTRING
 
 feature -- Access
 

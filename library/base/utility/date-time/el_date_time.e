@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:42:34 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2019-09-30 4:38:15 GMT (Monday   30th   September   2019)"
+	revision: "8"
 
 class
 	EL_DATE_TIME
@@ -27,7 +27,7 @@ inherit
 			Time as Mod_time
 		end
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_STRING_8
 
 create
 	make,

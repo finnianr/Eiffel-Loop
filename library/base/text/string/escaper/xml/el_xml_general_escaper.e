@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-13 8:55:28 GMT (Friday 13th September 2019)"
-	revision: "7"
+	date: "2019-09-30 4:53:45 GMT (Monday   30th   September   2019)"
+	revision: "8"
 
 deferred class
 	EL_XML_GENERAL_ESCAPER
@@ -20,7 +20,7 @@ inherit
 			append_escape_sequence, is_escaped
 		end
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_ZSTRING
 
 feature {NONE} -- Initialization
 

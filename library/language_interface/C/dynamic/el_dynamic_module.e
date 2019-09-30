@@ -55,8 +55,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-17 12:24:33 GMT (Sunday 17th June 2018)"
-	revision: "8"
+	date: "2019-09-30 4:53:45 GMT (Monday   30th   September   2019)"
+	revision: "9"
 
 deferred class
 	EL_DYNAMIC_MODULE [G -> EL_DYNAMIC_MODULE_POINTERS create make end]
@@ -72,7 +72,7 @@ inherit
 			initialize
 		end
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_ZSTRING
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 

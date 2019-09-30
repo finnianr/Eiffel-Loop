@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:40:13 GMT (Monday 5th August 2019)"
-	revision: "17"
+	date: "2019-09-30 4:58:49 GMT (Monday   30th   September   2019)"
+	revision: "18"
 
 class
 	EIFFEL_CLASS
@@ -56,7 +56,7 @@ inherit
 
 	EL_MODULE_XML
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_ZSTRING
 
 	SHARED_HTML_CLASS_SOURCE_TABLE
 

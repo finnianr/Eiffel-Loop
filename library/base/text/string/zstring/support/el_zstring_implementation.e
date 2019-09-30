@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-29 19:07:08 GMT (Sunday   29th   September   2019)"
-	revision: "7"
+	date: "2019-09-30 4:05:30 GMT (Monday   30th   September   2019)"
+	revision: "8"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -16,6 +16,13 @@ inherit
 	STRING_HANDLER
 
 	EL_ZSTRING_APPEND_ROUTINES
+		rename
+			append as internal_append,
+			append_substring as internal_append_substring,
+			prepend as internal_prepend,
+			prepend_character as internal_prepend_character,
+			prepend_substring as internal_prepend_substring
+		end
 
 feature {NONE} -- Initialization
 
@@ -231,7 +238,6 @@ feature -- Comparison
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `index_pos'.
 		require
-			other_not_void: other /= Void
 			valid_start_pos: other.valid_index (start_pos)
 			valid_end_pos: other.valid_index (end_pos)
 			valid_bounds: (start_pos <= end_pos) or (start_pos = end_pos + 1)
@@ -394,7 +400,6 @@ feature {NONE} -- Element change
 	replace_substring (s: EL_ZSTRING_IMPLEMENTATION; start_index, end_index: INTEGER)
 			-- Replace characters from `start_index' to `end_index' with `s'.
 		require
-			string_not_void: s /= Void
 			valid_start_index: 1 <= start_index
 			valid_end_index: end_index <= count
 			meaningfull_interval: start_index <= end_index + 1
@@ -582,8 +587,6 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Implementation
 		end
 
 	string_8_argument (zstr: EL_ZSTRING_IMPLEMENTATION; index: INTEGER): EL_STRING_8
-		require else
-			valid_index: 1 <= index and index <= 2
 		do
 			Result := String_8_args [index - 1]
 			Result.set_area_and_count (zstr.area, zstr.count)

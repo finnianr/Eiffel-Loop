@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-29 16:24:39 GMT (Sunday   29th   September   2019)"
-	revision: "1"
+	date: "2019-09-30 4:06:09 GMT (Monday   30th   September   2019)"
+	revision: "2"
 
 deferred class
 	EL_ZSTRING_APPEND_ROUTINES
@@ -242,6 +242,8 @@ feature {NONE} -- Implementation
 		end
 
 	string_8_argument (zstr: EL_ZSTRING_IMPLEMENTATION; index: INTEGER): EL_STRING_8
+		require
+			valid_index: 1 <= index and index <= 2
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 12:29:28 GMT (Sunday 28th October 2018)"
-	revision: "8"
+	date: "2019-09-30 4:38:31 GMT (Monday   30th   September   2019)"
+	revision: "9"
 
 class
 	EL_REFLECTED_CHARACTER_8
@@ -17,6 +17,8 @@ inherit
 		rename
 			field_value as character_8_field
 		end
+
+	EL_SHARED_ONCE_STRING_8
 
 create
 	make
@@ -37,7 +39,7 @@ feature -- Access
 			create Result
 			Result.set_item (value (a_object))
 		end
-		
+
 feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: CHARACTER_8)

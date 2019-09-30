@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-06 8:05:39 GMT (Tuesday 6th August 2019)"
-	revision: "11"
+	date: "2019-09-30 4:38:15 GMT (Monday   30th   September   2019)"
+	revision: "12"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -30,7 +30,7 @@ inherit
 
 	EL_MODULE_DIGEST
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_STRING_8
 
 create
 	make, make_from_string, make_signed

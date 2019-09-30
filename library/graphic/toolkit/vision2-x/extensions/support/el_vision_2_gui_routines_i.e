@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-05 10:19:11 GMT (Friday 5th July 2019)"
-	revision: "16"
+	date: "2019-09-30 5:35:36 GMT (Monday   30th   September   2019)"
+	revision: "17"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -30,9 +30,11 @@ inherit
 			{EL_MODULE_GUI} Screen
 		end
 
-	EL_SHARED_ONCE_STRINGS
-
 	EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_ONCE_STRING_8
+	EL_SHARED_ONCE_STRING_32
+	EL_SHARED_ONCE_ZSTRING
 
 feature {NONE} -- Initialization
 
@@ -332,7 +334,7 @@ feature -- Contract support
 		local
 			text: like Once_string
 		do
-			text := empty_once_string; text.append_string_general (a_text)
+			text := once_copy_general (a_text)
 			Result := text.for_all_split (character_string ('%N'),  agent all_words_fit_width (?, a_font, a_width))
 		end
 

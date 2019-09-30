@@ -6,18 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:56:16 GMT (Monday 5th August 2019)"
-	revision: "6"
+	date: "2019-09-30 5:32:35 GMT (Monday   30th   September   2019)"
+	revision: "7"
 
 class
 	EL_STYLED_TEXT
 
 inherit
 	ANY
-	
+
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_STRING_32
 
 create
 	make

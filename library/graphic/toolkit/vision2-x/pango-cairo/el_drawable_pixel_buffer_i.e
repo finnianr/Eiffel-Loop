@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-11 10:40:04 GMT (Sunday 11th August 2019)"
-	revision: "14"
+	date: "2019-09-30 5:31:13 GMT (Monday   30th   September   2019)"
+	revision: "15"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -65,7 +65,7 @@ inherit
 
 	EL_SHARED_CAIRO_API
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_STRING_8
 
 	EL_SHARED_PANGO_API
 

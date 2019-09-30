@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 10:46:36 GMT (Thursday   26th   September   2019)"
-	revision: "5"
+	date: "2019-09-30 6:13:49 GMT (Monday   30th   September   2019)"
+	revision: "6"
 
 class
 	EL_STANDARD_INSTALLER_APP
@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 		require
 			package_installable: is_package_installable
 		local
-			destination_dir: EL_DIR_PATH; find_directories_cmd: like Command.new_find_directories
+			destination_dir: EL_DIR_PATH
 		do
 			destination_dir := Directory.Application_installation
 			if_installer_debug_enabled (destination_dir)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:43:29 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2019-09-30 4:38:16 GMT (Monday   30th   September   2019)"
+	revision: "6"
 
 class
 	EL_ISO_8601_DATE_TIME
@@ -18,7 +18,7 @@ inherit
 			make, Default_format_string, to_string
 		end
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_STRING_8
 
 create
 	make, make_now, make_from_other

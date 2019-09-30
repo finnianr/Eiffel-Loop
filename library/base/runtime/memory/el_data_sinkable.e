@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 10:58:15 GMT (Sunday 23rd December 2018)"
-	revision: "7"
+	date: "2019-09-30 4:53:45 GMT (Monday   30th   September   2019)"
+	revision: "8"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -40,7 +40,7 @@ inherit
 			write_pointer as sink_pointer
 		end
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_ZSTRING
 
 	EL_MODULE_STRING_32
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:51:21 GMT (Wednesday 17th October 2018)"
-	revision: "5"
+	date: "2019-09-30 4:57:02 GMT (Monday   30th   September   2019)"
+	revision: "6"
 
 class
 	EL_HTTP_COOKIE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_STRING_8
 
 	EL_SHARED_UTF_8_ZCODEC
 

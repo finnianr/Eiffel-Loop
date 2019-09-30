@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 10:48:00 GMT (Wednesday 31st October 2018)"
-	revision: "8"
+	date: "2019-09-30 4:48:12 GMT (Monday   30th   September   2019)"
+	revision: "9"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
 
 inherit
 	EL_REFLECTED_FIELD
-
-	EL_SHARED_ONCE_STRINGS
 
 feature -- Basic operations
 

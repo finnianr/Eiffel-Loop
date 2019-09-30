@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-29 18:56:23 GMT (Sunday   29th   September   2019)"
-	revision: "16"
+	date: "2019-09-30 5:52:59 GMT (Monday   30th   September   2019)"
+	revision: "17"
 
 class
 	ZSTRING_TEST_SET
@@ -705,6 +705,26 @@ feature -- Access tests
 						assert ("index_of OK", str.index_of (uc, i) = str_32.index_of (uc, i))
 					end
 				end
+			end
+		end
+
+	test_joined
+		local
+			list: EL_ZSTRING_LIST; str: ZSTRING
+			list_32: LIST [STRING_32] linked: LINKED_LIST [ZSTRING]
+		do
+			across Text_lines as line loop
+				str := line.item
+				create list.make_with_separator (str, ' ', False)
+				create linked.make
+				list.do_all (agent linked.extend)
+				across << list, list.to_array, linked >> as l_list loop
+					if attached {ITERABLE [ZSTRING]} l_list.item as iterable then
+						assert ("same joined", str ~ character_string (' ').joined (iterable))
+					end
+				end
+				list_32 := line.item.split (' ')
+				assert ("same joined", str ~ character_string (' ').joined_general (list_32))
 			end
 		end
 

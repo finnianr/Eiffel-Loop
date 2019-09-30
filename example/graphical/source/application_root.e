@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 11:21:02 GMT (Thursday   26th   September   2019)"
-	revision: "6"
+	date: "2019-09-30 6:11:05 GMT (Monday   30th   September   2019)"
+	revision: "7"
 
 class
 	APPLICATION_ROOT
@@ -34,6 +34,5 @@ feature {NONE} -- Constants
 		once
 			create Result
 		end
-
 
 end

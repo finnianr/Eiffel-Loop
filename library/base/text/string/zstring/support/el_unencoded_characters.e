@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-29 17:02:57 GMT (Sunday   29th   September   2019)"
-	revision: "7"
+	date: "2019-09-30 4:14:36 GMT (Monday   30th   September   2019)"
+	revision: "8"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -832,6 +832,8 @@ feature {NONE} -- `count_greater_than_zero_flags' values
 
 	Only_other: INTEGER = 1
 
+	Neither: INTEGER = 0
+
 feature {EL_ZCODEC} -- Constants
 
 	Once_extendible_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS
@@ -847,8 +849,6 @@ feature {NONE} -- Constants
 		end
 
 	Minimum_capacity: INTEGER = 3
-
-	Neither: INTEGER = 0
 
 	Once_index_list: ARRAYED_LIST [INTEGER]
 		once

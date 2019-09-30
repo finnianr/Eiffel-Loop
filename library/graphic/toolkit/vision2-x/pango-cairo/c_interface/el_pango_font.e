@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-10 19:17:17 GMT (Thursday 10th January 2019)"
-	revision: "5"
+	date: "2019-09-30 5:31:20 GMT (Monday   30th   September   2019)"
+	revision: "6"
 
 class
 	EL_PANGO_FONT
@@ -39,7 +39,7 @@ inherit
 
 	EL_MODULE_UTF
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_STRING_8
 
 create
 	make, default_create

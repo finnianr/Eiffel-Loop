@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-29 16:25:34 GMT (Sunday   29th   September   2019)"
-	revision: "15"
+	date: "2019-09-30 6:05:48 GMT (Monday   30th   September   2019)"
+	revision: "16"
 
 class
 	EL_ZSTRING
@@ -24,8 +24,7 @@ inherit
 		export
 			{ANY}
 --			Element change
-			append_all, append_all_general,
-			append_boolean, append_character, append_character_8,
+			append_boolean, append_character,
 
 			append_double, append_real, append_integer, append_natural,
 			append_real_32, append_real_64,
@@ -33,7 +32,7 @@ inherit
 			append_natural_8, append_natural_16, append_natural_32, append_natural_64,
 
 			append_unicode, append_string, append, append_string_general, append_substring,
-			append_tuple_item, append_utf_8,
+			append_tuple_item,
 			extend, enclose, fill_character, multiply,
 
 			prepend_boolean, prepend_character, prepend_integer, prepend_integer_32,
@@ -186,6 +185,45 @@ feature -- Status query
 
 feature -- Element change
 
+	append_all (a_list: ITERABLE [like Current])
+		local
+			cursor: ITERATION_CURSOR [like Current]
+		do
+			cursor := a_list.new_cursor
+			grow (count + sum_count (cursor))
+			if attached {INDEXABLE_ITERATION_CURSOR [like Current]} cursor as l_cursor then
+				l_cursor.start
+			else
+				cursor := a_list.new_cursor
+			end
+			from until cursor.after loop
+				append (cursor.item)
+				cursor.forth
+			end
+		end
+
+	append_all_general (a_list: ITERABLE [READABLE_STRING_GENERAL])
+		local
+			cursor: ITERATION_CURSOR [READABLE_STRING_GENERAL]
+		do
+			cursor := a_list.new_cursor
+			grow (count + sum_count (cursor))
+			if attached {INDEXABLE_ITERATION_CURSOR [READABLE_STRING_GENERAL]} cursor as l_cursor then
+				l_cursor.start
+			else
+				cursor := a_list.new_cursor
+			end
+			from until cursor.after loop
+				append_string_general (cursor.item)
+				cursor.forth
+			end
+		end
+
+	append_character_8 (uc: CHARACTER_8)
+		do
+			append_unicode (uc.natural_32_code)
+		end
+
 	append_raw_string_8 (str: STRING_8)
 			-- append string with same encoding as `codec'
 		require else
@@ -201,7 +239,14 @@ feature -- Element change
 
 	append_substring_general (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
 		do
-			append_substring (adapted_general (s, 1), start_index, end_index)
+			append_substring (adapted_argument (s, 1), start_index, end_index)
+		end
+
+	append_utf_8 (a_utf_8: READABLE_STRING_8)
+		do
+			if attached {STRING} a_utf_8 as utf_8 then
+				append_string_general (Utf_8_codec.as_unicode (utf_8, False))
+			end
 		end
 
 	edit (left_delimiter, right_delimiter: READABLE_STRING_GENERAL; a_edit: PROCEDURE [INTEGER, INTEGER, ZSTRING])
@@ -258,7 +303,7 @@ feature -- Element change
 
 	insert_string_general (s: READABLE_STRING_GENERAL; i: INTEGER)
 		do
-			insert_string (adapted_general (s, 1), i)
+			insert_string (adapted_argument (s, 1), i)
 		end
 
 	left_pad (uc: CHARACTER_32; a_count: INTEGER)
@@ -290,7 +335,7 @@ feature -- Element change
 
 	prepend_string_general (str: READABLE_STRING_GENERAL)
 		do
-			prepend_string (adapted_general (str, 1))
+			prepend_string (adapted_argument (str, 1))
 		ensure then
 			unencoded_valid: is_unencoded_valid
 		end
@@ -362,7 +407,7 @@ feature -- Element change
 	)
 		do
 			replace_delimited_substring (
-				adapted_general (left, 1), adapted_general (right, 2), adapted_general (new, 3), include_delimiter, start_index
+				adapted_argument (left, 1), adapted_argument (right, 2), adapted_argument (new, 3), include_delimiter, start_index
 			)
 		end
 
@@ -433,12 +478,12 @@ feature -- Element change
 
 	replace_substring_general (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
 		do
-			replace_substring (adapted_general (s, 1), start_index, end_index)
+			replace_substring (adapted_argument (s, 1), start_index, end_index)
 		end
 
 	replace_substring_general_all (original, new: READABLE_STRING_GENERAL)
 		do
-			replace_substring_all (adapted_general (original, 1), adapted_general (new, 2))
+			replace_substring_all (adapted_argument (original, 1), adapted_argument (new, 2))
 		end
 
 	right_pad (uc: CHARACTER_32; a_count: INTEGER)
@@ -467,7 +512,7 @@ feature -- Element change
 		do
 			l_area := area; new_characters_area := new_characters.area; l_count := count
 			l_new_unencoded := extendible_unencoded; l_unencoded := unencoded_interval_index
-			old_expanded := old_characters.as_expanded; new_expanded := new_characters.as_expanded_2
+			old_expanded := old_characters.as_expanded (1); new_expanded := new_characters.as_expanded (2)
 			from until i = l_count loop
 				old_z_code := area_i_th_z_code (l_area, i)
 				index := old_expanded.index_of (old_z_code.to_character_32, 1)
@@ -618,12 +663,13 @@ feature {NONE} -- Implementation
 			create Result.make (n)
 		end
 
-	once_padding (uc: CHARACTER_32; a_count: INTEGER): like empty_once_string
+	once_padding (uc: CHARACTER_32; a_count: INTEGER): like Current
 		local
 			i, difference: INTEGER; pad_code: NATURAL
 		do
 			pad_code := Codec.as_z_code (uc)
-			Result := empty_once_string
+			Result := Once_adapted_argument [0]
+			Result.wipe_out
 			difference := a_count - count
 			from i := 1 until i > difference loop
 				Result.append_z_code (pad_code)

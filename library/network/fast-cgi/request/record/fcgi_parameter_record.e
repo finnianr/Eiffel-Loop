@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:04:32 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2019-09-30 4:57:10 GMT (Monday   30th   September   2019)"
+	revision: "6"
 
 class
 	FCGI_PARAMETER_RECORD
@@ -27,7 +27,7 @@ inherit
 			default_create, read_memory, write_memory, on_data_read, on_last_read
 		end
 
-	EL_SHARED_ONCE_STRINGS
+	EL_SHARED_ONCE_STRING_8
 
 create
 	default_create
