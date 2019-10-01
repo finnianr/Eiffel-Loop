@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-04 11:50:14 GMT (Thursday 4th October 2018)"
-	revision: "5"
+	date: "2019-10-01 19:12:45 GMT (Tuesday   1st   October   2019)"
+	revision: "6"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]

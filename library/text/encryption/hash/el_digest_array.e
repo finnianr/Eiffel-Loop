@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 18:59:22 GMT (Tuesday   1st   October   2019)"
-	revision: "7"
+	date: "2019-10-01 19:35:41 GMT (Tuesday   1st   October   2019)"
+	revision: "8"
 
 class
 	EL_DIGEST_ARRAY
 
 inherit
 	ARRAY [NATURAL_8]
-		rename
-			make as make_array
 		export
 			{NONE} all
 			{ANY} area, to_special, count
@@ -26,21 +24,16 @@ inherit
 	EL_MODULE_BASE_64
 
 create
-	make, make_final, make_reflective, make_from_base64, make_sink, make_from_integer_x
+	make_final, make_reflective, make_from_base64, make_sink, make_from_integer_x
 
 convert
-	to_special: {SPECIAL [NATURAL_8]}, to_uuid: {EL_UUID}
+	to_special: {SPECIAL [NATURAL_8]}, to_uuid: {EL_UUID}, to_data: {MANAGED_POINTER}
 
 feature {NONE} -- Initialization
 
-	make (digest: EL_DATA_SINKABLE)
-		do
-			make_filled (0, 1, digest.byte_width)
-		end
-
 	make_final (digest: EL_DATA_SINKABLE)
 		do
-			make (digest)
+			make_filled (0, 1, digest.byte_width)
 			if attached {MD5} digest as md5 then
 				md5.do_final (area, 0)
 
@@ -106,22 +99,23 @@ feature -- Conversion
 			end
 		end
 
+	to_data: MANAGED_POINTER
+		do
+			create Result.make_from_array (Current)
+		end
+
 	to_uuid: EL_UUID
 		local
-			data: MANAGED_POINTER; reader: EL_MEMORY_READER_WRITER
+			data: MANAGED_POINTER
 		do
-			inspect count
-				when 16 then
-					create Result.make_from_array (Current)
-
+			if count = 16 then
+				create Result.make_from_array (Current)
 			else
-				create data.make_from_array (Current)
-				create reader.make_with_buffer (data)
-				reader.set_for_reading
+				data := to_data
 				create Result.make (
-					reader.read_natural_32,
-					reader.read_natural_16, reader.read_natural_16, reader.read_natural_16,
-					reader.read_natural_64
+					data.read_natural_32 (0),
+					data.read_natural_16 (4), data.read_natural_16 (6), data.read_natural_16 (8),
+					data.read_natural_64 (10)
 				)
 			end
 		end
