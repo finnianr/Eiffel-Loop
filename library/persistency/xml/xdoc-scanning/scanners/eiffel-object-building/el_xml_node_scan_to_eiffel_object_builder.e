@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 17:39:15 GMT (Sunday 28th October 2018)"
-	revision: "3"
+	date: "2019-10-01 15:39:29 GMT (Tuesday   1st   October   2019)"
+	revision: "4"
 
 class
 	EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
@@ -34,20 +34,47 @@ feature {NONE}  -- Initialisation
 
 feature {NONE} -- Parsing events
 
-	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
+	on_comment
 			--
 		do
+			apply_building_action_for_node (last_node)
 		end
 
-	on_start_document
+	on_content
 			--
 		do
+			apply_building_action_for_node (last_node)
 		end
 
 	on_end_document
 			--
 		do
 			context_stack.wipe_out
+		end
+
+	on_end_tag
+			--
+		local
+			popped_context: EL_EIF_OBJ_XPATH_CONTEXT
+		do
+			if not context_stack.item.is_xpath_prunable then
+				popped_context := context_stack.item
+				context_stack.remove
+				popped_context.on_context_exit
+				context_stack.item.on_context_return (popped_context)
+			end
+			context_stack.item.remove_xpath_step
+		end
+
+	on_processing_instruction
+			--
+		do
+			apply_building_action_for_node (last_node)
+		end
+
+	on_start_document
+			--
+		do
 		end
 
 	on_start_tag
@@ -81,36 +108,9 @@ feature {NONE} -- Parsing events
 			end
 		end
 
-	on_end_tag
-			--
-		local
-			popped_context: EL_EIF_OBJ_XPATH_CONTEXT
-		do
-			if not context_stack.item.is_xpath_prunable then
-				popped_context := context_stack.item
-				context_stack.remove
-				popped_context.on_context_exit
-				context_stack.item.on_context_return (popped_context)
-			end
-			context_stack.item.remove_xpath_step
-		end
-
-	on_content
+	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
 			--
 		do
-			apply_building_action_for_node (last_node)
-		end
-
-	on_comment
-			--
-		do
-			apply_building_action_for_node (last_node)
-		end
-
-	on_processing_instruction
-			--
-		do
-			apply_building_action_for_node (last_node)
 		end
 
 feature -- Element change
@@ -123,20 +123,13 @@ feature -- Element change
 			Precursor (a_target)
 			target.set_node (last_node)
 
-			root_context := target.root_builder_context
+			root_context := Root_context_table.item (target.root_node_name)
 			root_context.set_node (last_node)
 			root_context.set_target (target)
 			context_stack.extend (root_context)
 		end
 
 feature {NONE} -- Implementation
-
-	change_context (new_context: EL_EIF_OBJ_XPATH_CONTEXT)
-			--
-		do
-			context_stack.item.delete_next_context
-			context_stack.extend (new_context)
-		end
 
 	apply_building_action_for_node (node: EL_XML_NODE)
 			--
@@ -147,9 +140,33 @@ feature {NONE} -- Implementation
 			context_stack.item.remove_xpath_step
 		end
 
+	change_context (new_context: EL_EIF_OBJ_XPATH_CONTEXT)
+			--
+		do
+			context_stack.item.delete_next_context
+			context_stack.extend (new_context)
+		end
+
+	new_builder_context (a_root_node_name: STRING): EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
+			--
+		do
+			create Result.make (a_root_node_name, target)
+		end
+
+feature {NONE} -- Internal attributes
+
 	context_stack: ARRAYED_STACK [EL_EIF_OBJ_XPATH_CONTEXT]
 
 	target: EL_BUILDABLE_FROM_NODE_SCAN
 		-- target object to build from XML node scan
+
+
+feature {NONE} -- Constants
+
+	Root_context_table: EL_CACHE_TABLE [EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, STRING]
+			--
+		once
+			create Result.make (11, agent new_builder_context)
+		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-08 9:53:51 GMT (Thursday 8th August 2019)"
-	revision: "5"
+	date: "2019-10-01 11:48:52 GMT (Tuesday   1st   October   2019)"
+	revision: "6"
 
 deferred class
 	EL_SHARED_APPLICATION_LIST
@@ -19,10 +19,10 @@ feature {NONE} -- Constants
 
 	Application_list: EL_SUB_APPLICATION_LIST
 		local
-			l: EL_SINGLETON [EL_SUB_APPLICATION_LIST]
+			s: EL_SINGLETON [EL_SUB_APPLICATION_LIST]
 		once ("PROCESS")
-			create l
-			Result := l.singleton
+			create s
+			Result := s.singleton
 		end
 
 end

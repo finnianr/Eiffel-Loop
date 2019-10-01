@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-23 10:28:52 GMT (Friday 23rd June 2017)"
-	revision: "4"
+	date: "2019-10-01 13:06:15 GMT (Tuesday   1st   October   2019)"
+	revision: "5"
 
 class
 	EL_WIN_FILE_INFO
@@ -199,7 +199,7 @@ feature {NONE} -- Constants
 
 	Default_internal_name: MANAGED_POINTER
 		once ("PROCESS")
-			create internal_name.make (0)
+			create Result.make (0)
 		end
 
 	File_info: FILE_INFO

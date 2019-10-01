@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:35:55 GMT (Monday 5th August 2019)"
-	revision: "8"
+	date: "2019-10-01 14:06:16 GMT (Tuesday   1st   October   2019)"
+	revision: "9"
 
 deferred class
 	EL_ZSTRING_CONSTANTS
@@ -23,25 +23,22 @@ feature {NONE} -- Implemenation
 		end
 
 	n_character_string (uc: CHARACTER_32; n: NATURAL_64): ZSTRING
-		local
-			key: NATURAL_64
 		do
-			key := n |<< 32 | uc.natural_32_code
-			if Character_string_table.has_key (key) then
-				Result := Character_string_table.found_item
-			else
-				create Result.make_filled (uc, n.to_integer_32)
-				Character_string_table.extend (Result, key)
-			end
+			Result := Character_string_table.item (n |<< 32 | uc.natural_32_code)
 		ensure
 			valid_result: Result.occurrences (uc) = n.to_integer_32
 		end
 
+	new_filled_string (key: NATURAL_64): ZSTRING
+		do
+			create Result.make_filled (key.to_character_32, (key |>> 32).to_integer_32)
+		end
+
 feature {NONE} -- Constants
 
-	Character_string_table: HASH_TABLE [ZSTRING, NATURAL_64]
+	Character_string_table: EL_CACHE_TABLE [ZSTRING, NATURAL_64]
 		once
-			create Result.make (7)
+			create Result.make_equal (7, agent new_filled_string)
 		end
 
 	Empty_string: ZSTRING

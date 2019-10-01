@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-17 10:34:40 GMT (Sunday 17th June 2018)"
-	revision: "5"
+	date: "2019-10-01 15:44:42 GMT (Tuesday   1st   October   2019)"
+	revision: "6"
 
 deferred class
 	EL_DEFAULT_LOCALE_I
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
  	make
  		do
  			make_with_language (key_language, key_language)
- 			create other_locales.make_equal (3)
+ 			create other_locales.make_equal (3, agent new_locale)
  		end
 
 feature -- Access
@@ -42,12 +42,7 @@ feature -- Access
 				Result := Current
 			else
 				restrict_access
-					if other_locales.has_key (a_language) then
-						Result := other_locales.found_item
-					else
-						create {EL_LOCALE_IMP} Result.make (a_language, Key_language)
-						other_locales.extend (Result, a_language)
-					end
+					Result := other_locales.item (a_language)
 				end_restriction
 			end
 		end
@@ -59,6 +54,13 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	other_locales: HASH_TABLE [EL_LOCALE_I, STRING]
+	new_locale (a_language: STRING): like in
+		do
+			create {EL_LOCALE_IMP} Result.make (a_language, Key_language)
+		end
+
+feature {NONE} -- Internal attributes
+
+	other_locales: EL_CACHE_TABLE [EL_LOCALE_I, STRING]
 
 end

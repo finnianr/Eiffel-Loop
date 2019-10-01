@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 8:56:35 GMT (Tuesday 10th September 2019)"
-	revision: "15"
+	date: "2019-10-01 13:33:21 GMT (Tuesday   1st   October   2019)"
+	revision: "16"
 
 class
 	EL_CLASS_META_DATA
@@ -41,9 +41,9 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_enclosing_object)
 			New_instance_table.extend_from_array (a_enclosing_object.new_instance_functions)
-			create cached_field_indices_set.make_equal (3)
-			excluded_fields := new_field_indices_set (a_enclosing_object.Except_fields)
-			hidden_fields := new_field_indices_set (a_enclosing_object.Hidden_fields)
+			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
+			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Except_fields)
+			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)
 			create field_array.make (new_field_list.to_array)
 			field_table := field_array.to_table (a_enclosing_object)
 		end
@@ -109,15 +109,11 @@ feature -- Comparison
 feature {NONE} -- Factory
 
 	new_field_indices_set (field_names: STRING): EL_FIELD_INDICES_SET
-		local
-			cached: like cached_field_indices_set
 		do
-			cached := cached_field_indices_set
-			if cached.has_key (field_names) then
-				Result := cached.found_item
+			if field_names.is_empty then
+				Result := Empty_field_indices_set
 			else
 				create Result.make (Current, field_names)
-				cached.extend (Result, field_names)
 			end
 		end
 
@@ -178,11 +174,16 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	cached_field_indices_set: HASH_TABLE [EL_FIELD_INDICES_SET, STRING]
+	cached_field_indices_set: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
 
 	enclosing_object: EL_REFLECTIVE
 
 feature {NONE} -- Constants
+
+	Empty_field_indices_set: EL_FIELD_INDICES_SET
+		once
+			create Result.make_empty
+		end
 
 	Info_line_length: INTEGER
 		once

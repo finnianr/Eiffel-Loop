@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-02 9:41:17 GMT (Sunday 2nd June 2019)"
-	revision: "3"
+	date: "2019-10-01 13:26:18 GMT (Tuesday   1st   October   2019)"
+	revision: "4"
 
 class
 	EL_FIELD_INDICES_SET
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make
+	make, make_empty
 
 feature {NONE} -- Initialization
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-17 18:39:51 GMT (Monday 17th December 2018)"
-	revision: "13"
+	date: "2019-10-01 12:48:26 GMT (Tuesday   1st   October   2019)"
+	revision: "14"
 
 deferred class
 	EL_DATE_TEXT
@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create template_table.make (3)
+			create template_table.make_equal (3, agent new_template)
 			function_table := new_function_table
 		end
 
@@ -190,21 +190,21 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
+	new_template (format: STRING): EL_DATE_TEXT_TEMPLATE
+		do
+			create Result.make (format, function_table)
+		end
+
 	ordinal_indicator (i: INTEGER): ZSTRING
 			--	
 		require
-			valid_number: i >=0 and i <= 3
+			valid_number: i >= 0 and i <= 3
 		deferred
 		end
 
 	template (format: STRING): EL_DATE_TEXT_TEMPLATE
 		do
-			if template_table.has_key (format) then
-				Result := template_table.found_item
-			else
-				create Result.make (format, function_table)
-				template_table.extend (Result, format)
-			end
+			Result := template_table.item (format)
 		end
 
 	week_day_name (day_of_week: INTEGER; short: BOOLEAN): ZSTRING
@@ -230,7 +230,7 @@ feature -- Contract Support
 
 feature {NONE} -- Internal attributes
 
-	template_table: HASH_TABLE [like template, STRING]
+	template_table: EL_CACHE_TABLE [like template, STRING]
 
 	function_table: like new_function_table
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-20 13:25:25 GMT (Sunday 20th January 2019)"
-	revision: "1"
+	date: "2019-10-01 14:08:15 GMT (Tuesday   1st   October   2019)"
+	revision: "2"
 
 class
 	EL_CACHE_TABLE [G, K -> HASHABLE]
@@ -15,15 +15,22 @@ class
 inherit
 	HASH_TABLE [G, K]
 		rename
+			make as make_table,
 			make_equal as make_equal_table,
 			item as cached_item,
 			remove as remove_type
 		end
 
 create
-	make_equal
+	make, make_equal
 
 feature {NONE} -- Initialization
+
+	make (n: INTEGER; a_new_item: like new_item)
+		do
+			make_table (n)
+			new_item := a_new_item
+		end
 
 	make_equal (n: INTEGER; a_new_item: like new_item)
 		do

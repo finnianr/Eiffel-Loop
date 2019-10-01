@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:48:29 GMT (Monday 5th August 2019)"
-	revision: "7"
+	date: "2019-10-01 14:03:46 GMT (Tuesday   1st   October   2019)"
+	revision: "8"
 
 deferred class
 	EL_STRING_32_CONSTANTS
@@ -23,23 +23,20 @@ feature {NONE} -- Implemenation
 		end
 
 	n_character_string_32 (uc: CHARACTER_32; n: NATURAL): STRING_32
-		local
-			key: NATURAL_64
 		do
-			key := n |<< 32 | uc.natural_32_code
-			if Character_string_32_table.has_key (key) then
-				Result := Character_string_32_table.found_item
-			else
-				create Result.make_filled (uc, n.to_integer_32)
-				Character_string_32_table.extend (Result, key)
-			end
+			Result := Character_string_32_table.item (n |<< 32 | uc.natural_32_code)
+		end
+
+	new_filled_string_32 (key: NATURAL_64): STRING_32
+		do
+			create Result.make_filled (key.to_character_32, (key |>> 32).to_integer_32)
 		end
 
 feature {NONE} -- Constants
 
-	Character_string_32_table: HASH_TABLE [STRING_32, NATURAL_64]
+	Character_string_32_table: EL_CACHE_TABLE [STRING_32, NATURAL_64]
 		once
-			create Result.make (7)
+			create Result.make_equal (7, agent new_filled_string_32)
 		end
 
 	Empty_string_32: STRING_32

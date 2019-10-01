@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:53:45 GMT (Monday   30th   September   2019)"
-	revision: "8"
+	date: "2019-10-01 15:28:38 GMT (Tuesday   1st   October   2019)"
+	revision: "9"
 
 deferred class
 	EL_XML_GENERAL_ESCAPER
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create predefined_entities.make (4)
+			create predefined_entities.make (4, agent new_sequence)
 			extend_entities ('<', "lt")
 			extend_entities ('>', "gt")
 			extend_entities ('&', "amp")
@@ -45,21 +45,8 @@ feature {NONE} -- Initialization
 feature -- Transformation
 
 	escape_sequence (code: NATURAL): like new_string
-		local
-			entities: like predefined_entities
-			byte_count: INTEGER
 		do
-			entities := predefined_entities
-			if entities.has_key (code) then
-				Result := entities.found_item
-			else
-				byte_count := hex_byte_count (code)
-				Result := new_string (4 + byte_count)
-				Result.append (once "&#x")
-				Result.append_substring (code.to_hex_string, 8 - byte_count + 1, 8)
-				Result.append_code ((';').natural_32_code)
-				entities.extend (Result, code)
-			end
+			Result := predefined_entities.item (code)
 		end
 
 	append_escape_sequence (str: like new_string; code: NATURAL)
@@ -107,6 +94,17 @@ feature {NONE} -- Implementation
 			Result.append_code ((';').natural_32_code)
 		end
 
+	new_sequence (code: NATURAL): like new_string
+		local
+			byte_count: INTEGER
+		do
+			byte_count := hex_byte_count (code)
+			Result := new_string (4 + byte_count)
+			Result.append (once "&#x")
+			Result.append_substring (code.to_hex_string, 8 - byte_count + 1, 8)
+			Result.append_code ((';').natural_32_code)
+		end
+
 	new_predefined_string: STRING
 		do
 			create Result.make (predefined_entities.count)
@@ -123,6 +121,6 @@ feature {NONE} -- Internal attributes
 
 	escape_128_plus: BOOLEAN
 
-	predefined_entities: HASH_TABLE [like new_string, NATURAL]
+	predefined_entities: EL_CACHE_TABLE [like new_string, NATURAL]
 
 end

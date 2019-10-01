@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-02 9:21:45 GMT (Sunday 2nd June 2019)"
-	revision: "17"
+	date: "2019-10-01 16:33:50 GMT (Tuesday   1st   October   2019)"
+	revision: "18"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -147,6 +147,11 @@ feature {NONE} -- Implementation
 			Result := False
 		end
 
+	new_file (file_path: like output_path): PLAIN_TEXT_FILE
+		do
+			create Result.make_with_name (file_path)
+		end
+
 	new_getter_functions: like getter_functions
 			--
 		do
@@ -154,11 +159,6 @@ feature {NONE} -- Implementation
 			Result [Default_variable.template_name] := agent template_name
 			Result [Default_variable.encoding_name] := agent encoding_name
 			Result [Default_variable.current_object] := agent: EVOLICITY_CONTEXT do Result := Current end
-		end
-
-	new_file (file_path: like output_path): PLAIN_TEXT_FILE
-		do
-			create Result.make_with_name (file_path)
 		end
 
 	new_open_write_file (file_path: like output_path): EL_PLAIN_TEXT_FILE
@@ -169,6 +169,11 @@ feature {NONE} -- Implementation
 			if is_bom_enabled then
 				Result.byte_order_mark.enable; Result.put_bom
 			end
+		end
+
+	new_template_name (type: TYPE [EVOLICITY_SERIALIZEABLE]): EL_FILE_PATH
+		do
+			Result := Template_name_template #$ [type.name]
 		end
 
 	stored_successfully (a_file: like new_file): BOOLEAN
@@ -199,20 +204,24 @@ feature {NONE} -- Implementation
 			--
 		do
 			if template_path.is_empty then
-				if Template_names.has_key (generator) then
-					Result := template_names.found_item
-				else
-					Result := Template_name_template #$ [generator]
-					template_names.extend (Result, generator)
-				end
+				Result := Template_names.item (generating_type)
 			else
 				Result := template_path
 			end
 		end
 
+feature {NONE} -- Internal attributes
+
 	template_path: like output_path
 
 feature {NONE} -- Constants
+
+	Default_variable: TUPLE [encoding_name, template_name, current_object: ZSTRING]
+			-- built-in variables
+		once
+			create Result
+			Tuple.fill (Result, "encoding_name, template_name, current")
+		end
 
 	Empty_file_path: EL_FILE_PATH
 			--
@@ -236,16 +245,9 @@ feature {NONE} -- Constants
 			Result := "{%S}.template"
 		end
 
-	Template_names: HASH_TABLE [EL_FILE_PATH, STRING]
+	Template_names: EL_CACHE_TABLE [EL_FILE_PATH, TYPE [EVOLICITY_SERIALIZEABLE]]
 		once
-			create Result.make (7)
-		end
-
-	Default_variable: TUPLE [encoding_name, template_name, current_object: ZSTRING]
-			-- built-in variables
-		once
-			create Result
-			Tuple.fill (Result, "encoding_name, template_name, current")
+			create Result.make (7, agent new_template_name)
 		end
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT

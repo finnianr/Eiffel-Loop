@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:40:30 GMT (Monday 5th August 2019)"
-	revision: "4"
+	date: "2019-09-30 19:49:13 GMT (Monday   30th   September   2019)"
+	revision: "5"
 
 class
 	EL_ZSTRING_TOKEN_TABLE
@@ -46,14 +46,10 @@ feature -- Initialization
 
 feature -- Element change
 
-	append (a_words: FINITE [ZSTRING])
-		local
-			l_list: LINEAR [ZSTRING]
+	append (a_words: ITERABLE [ZSTRING])
 		do
-			l_list := l_list.linear_representation
-			from l_list.start until l_list.after loop
-				put (l_list.item)
-				l_list.forth
+			across a_words as word loop
+				put (word.item)
 			end
 		end
 

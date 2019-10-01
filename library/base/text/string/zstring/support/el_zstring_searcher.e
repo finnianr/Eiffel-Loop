@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2019-09-30 14:40:15 GMT (Monday   30th   September   2019)"
+	revision: "8"
 
 frozen class
 	EL_ZSTRING_SEARCHER
@@ -21,6 +21,8 @@ inherit
 		end
 
 	STRING_HANDLER
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -219,6 +221,7 @@ feature {NONE} -- Constants
 		require else
 			never_called: False
 		once
+			Result := Empty_string
 		end
 
 	Unencoded_character: CHARACTER = '%/026/'

@@ -21,6 +21,7 @@ publish-repository:
 			"descendants"
 			"instructions"
 			"notes"
+			"tests"
 			"warning"
 
 	ecf-list:

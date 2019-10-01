@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-10 9:50:49 GMT (Monday 10th June 2019)"
-	revision: "7"
+	date: "2019-09-30 6:36:39 GMT (Monday   30th   September   2019)"
+	revision: "8"
 
 deferred class
 	EL_SETTABLE_FROM_ZSTRING

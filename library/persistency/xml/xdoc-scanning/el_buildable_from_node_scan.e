@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 15:15:36 GMT (Tuesday 10th September 2019)"
-	revision: "13"
+	date: "2019-10-01 15:39:08 GMT (Tuesday   1st   October   2019)"
+	revision: "14"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -105,17 +105,6 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER} 
 			create Result
 		end
 
-	root_builder_context: EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
-			--
-		do
-			if Root_builder_context_table.has_key (root_node_name) then
-				Result := Root_builder_context_table.found_item
-			else
-				create Result.make (root_node_name, Current)
-				Root_builder_context_table.extend (Result, root_node_name)
-			end
-		end
-
 	root_node_name: STRING
 			--
 		deferred
@@ -131,12 +120,6 @@ feature {NONE} -- Constants
 			--
 		once
 			create Result.make (11, agent {EL_BUILDABLE_FROM_NODE_SCAN}.new_pi_building_actions)
-		end
-
-	Root_builder_context_table: HASH_TABLE [EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, STRING]
-			--
-		once
-			create Result.make (11)
 		end
 
 note

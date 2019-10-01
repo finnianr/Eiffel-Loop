@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 16:22:45 GMT (Tuesday 10th September 2019)"
-	revision: "2"
+	date: "2019-09-30 20:32:26 GMT (Monday   30th   September   2019)"
+	revision: "3"
 
 class
 	EL_REFLECTED_TUPLE
@@ -126,6 +126,8 @@ feature {NONE} -- Implementation
 					new_tuple.compare_objects
 				end
 				Result := new_tuple
+			else
+				create Result
 			end
 		end
 
