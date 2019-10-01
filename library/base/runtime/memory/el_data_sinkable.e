@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:53:45 GMT (Monday   30th   September   2019)"
-	revision: "8"
+	date: "2019-10-01 18:30:20 GMT (Tuesday   1st   October   2019)"
+	revision: "9"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -46,6 +46,12 @@ inherit
 
 	EL_MODULE_CHARACTER
 
+feature -- Measurement
+
+	byte_width: INTEGER
+		deferred
+		end
+
 feature -- Status query
 
 	utf_8_mode_enabled: BOOLEAN
@@ -62,6 +68,10 @@ feature -- Status change
 	enable_utf_8_mode
 		do
 			utf_8_mode_enabled := True
+		end
+
+	reset
+		deferred
 		end
 
 feature -- General sinks

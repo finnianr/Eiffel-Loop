@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 14:08:15 GMT (Tuesday   1st   October   2019)"
-	revision: "2"
+	date: "2019-10-01 17:13:10 GMT (Tuesday   1st   October   2019)"
+	revision: "3"
 
 class
 	EL_CACHE_TABLE [G, K -> HASHABLE]
@@ -44,12 +44,10 @@ feature -- Access
 			-- Returns the cached value of `new_item (key)' if available, or else
 			-- the actual value
 		do
-			if has_key (key) then
-				Result := found_item
-			else
-				Result := new_item (key)
-				extend (Result, key)
+			if not has_key (key) then
+				put (new_item (key), key)
 			end
+			Result := found_item
 		end
 
 feature {NONE} -- Initialization

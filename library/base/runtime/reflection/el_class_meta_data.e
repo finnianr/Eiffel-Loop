@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 13:33:21 GMT (Tuesday   1st   October   2019)"
-	revision: "16"
+	date: "2019-10-01 17:47:36 GMT (Tuesday   1st   October   2019)"
+	revision: "17"
 
 class
 	EL_CLASS_META_DATA
@@ -58,9 +58,9 @@ feature -- Access
 
 	hidden_fields: EL_FIELD_INDICES_SET
 
-	sink_except (a_object: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE; field_names: STRING)
+	sink_except (a_object: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE; except_field_names: STRING)
 		do
-			field_array.sink_except (a_object, sinkable, new_field_indices_set (field_names))
+			field_array.sink_except (a_object, sinkable, new_field_indices_set (except_field_names))
 		end
 
 feature -- Basic operations

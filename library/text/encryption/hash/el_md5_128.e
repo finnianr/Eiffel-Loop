@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:45:44 GMT (Monday 1st July 2019)"
-	revision: "11"
+	date: "2019-10-01 18:09:26 GMT (Tuesday   1st   October   2019)"
+	revision: "12"
 
 class
 	EL_MD5_128
@@ -36,6 +36,10 @@ create
 convert
 	to_uuid: {EL_UUID}
 
+feature -- Measurement
+
+	Byte_width: INTEGER = 16
+		
 feature -- Access	
 
 	digest: SPECIAL [NATURAL_8]

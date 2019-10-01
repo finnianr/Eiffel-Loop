@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 15:39:29 GMT (Tuesday   1st   October   2019)"
-	revision: "4"
+	date: "2019-10-01 17:17:48 GMT (Tuesday   1st   October   2019)"
+	revision: "5"
 
 class
 	EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
@@ -147,10 +147,10 @@ feature {NONE} -- Implementation
 			context_stack.extend (new_context)
 		end
 
-	new_builder_context (a_root_node_name: STRING): EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
+	new_builder_context (root_node_name: STRING): EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
 			--
 		do
-			create Result.make (a_root_node_name, target)
+			create Result.make (root_node_name, target)
 		end
 
 feature {NONE} -- Internal attributes
@@ -159,7 +159,6 @@ feature {NONE} -- Internal attributes
 
 	target: EL_BUILDABLE_FROM_NODE_SCAN
 		-- target object to build from XML node scan
-
 
 feature {NONE} -- Constants
 

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:37:28 GMT (Friday 18th January 2019)"
-	revision: "7"
+	date: "2019-10-01 18:44:23 GMT (Tuesday   1st   October   2019)"
+	revision: "8"
 
 class
 	EL_SMART_BUILDABLE_FROM_NODE_SCAN
@@ -22,7 +22,7 @@ class
 inherit
 	EL_BUILDABLE_FROM_NODE_SCAN
 		redefine
-			root_builder_context, build_from_stream, build_from_string
+			build_from_stream, build_from_string
 		end
 
 create

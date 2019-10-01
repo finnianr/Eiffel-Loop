@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-07 7:18:52 GMT (Saturday 7th September 2019)"
-	revision: "6"
+	date: "2019-10-01 18:59:22 GMT (Tuesday   1st   October   2019)"
+	revision: "7"
 
 class
 	EL_DIGEST_ARRAY
@@ -21,32 +21,36 @@ inherit
 			{ANY} area, to_special, count
 		end
 
+	EL_REFLECTION_HANDLER undefine copy, is_equal end
+
 	EL_MODULE_BASE_64
 
 create
-	make, make_from_base64, make_md5_128, make_sha_256, make_hmac_sha_256, make_from_integer_x,
-	make_final_sha_256, make_final_md5_128
+	make, make_final, make_reflective, make_from_base64, make_sink, make_from_integer_x
 
 convert
-	to_special: {SPECIAL [NATURAL_8]}
+	to_special: {SPECIAL [NATURAL_8]}, to_uuid: {EL_UUID}
 
 feature {NONE} -- Initialization
 
-	make (n: INTEGER)
+	make (digest: EL_DATA_SINKABLE)
 		do
-			make_filled (0, 1, n)
+			make_filled (0, 1, digest.byte_width)
 		end
 
-	make_final_md5_128 (md5: EL_MD5_128)
+	make_final (digest: EL_DATA_SINKABLE)
 		do
-			make (16)
-			md5.do_final (area, 0)
-		end
+			make (digest)
+			if attached {MD5} digest as md5 then
+				md5.do_final (area, 0)
 
-	make_final_sha_256 (sha: EL_SHA_256)
-		do
-			make (32)
-			sha.do_final (area, 0)
+			elseif attached {SHA256} digest as sha then
+				sha.do_final (area, 0)
+
+			elseif attached {EL_HMAC_SHA_256} digest as sha then
+				sha.finish
+				sha.hmac.to_bytes (area, 0)
+			end
 		end
 
 	make_from_base64 (base64_string: STRING)
@@ -54,7 +58,7 @@ feature {NONE} -- Initialization
 			plain: STRING
 		do
 			plain := Base_64.decoded (base64_string)
-			make (plain.count)
+			make_filled (0, 1, plain.count)
 			area.base_address.memory_copy (plain.area.base_address, plain.count)
 		end
 
@@ -65,41 +69,18 @@ feature {NONE} -- Initialization
 			upper := area.count
 		end
 
-	make_hmac_sha_256 (string, secret_key: STRING)
-		local
-			hmac: EL_HMAC_SHA_256; table: like Hmac_sha_256_table
+	make_reflective (digest: EL_DATA_SINKABLE; object: EL_REFLECTIVE; except_field_names: STRING)
 		do
-			make (32)
-
-			table := Hmac_sha_256_table
-			if table.has_key (secret_key) then
-				hmac := table.found_item
-			else
-				create hmac.make_ascii_key (secret_key)
-				table.extend (hmac, secret_key)
-			end
-			hmac.reset
-			hmac.sink_string (string)
-			hmac.finish
-			hmac.hmac.to_bytes (area, 0)
+			digest.reset
+			object.meta_data.sink_except (object, digest, except_field_names)
+			make_final (digest)
 		end
 
-	make_md5_128 (string: STRING)
-		local
-			md5: EL_MD5_128
+	make_sink (digest: EL_DATA_SINKABLE; string: STRING)
 		do
-			md5 := Once_md5; md5.reset
-			md5.sink_string (string)
-			make_final_md5_128 (md5)
-		end
-
-	make_sha_256 (string: STRING)
-		local
-			sha: EL_SHA_256
-		do
-			sha := Once_sha_256; sha.reset
-			sha.sink_string (string)
-			make_final_sha_256 (sha)
+			digest.reset
+			digest.sink_string (string)
+			make_final (digest)
 		end
 
 feature -- Conversion
@@ -143,23 +124,6 @@ feature -- Conversion
 					reader.read_natural_64
 				)
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Hmac_sha_256_table: HASH_TABLE [EL_HMAC_SHA_256, STRING]
-		once
-			create Result.make_equal (3)
-		end
-
-	Once_md5: EL_MD5_128
-		once
-			create Result.make
-		end
-
-	Once_sha_256: EL_SHA_256
-		once
-			create Result.make
 		end
 
 end

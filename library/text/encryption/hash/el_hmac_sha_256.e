@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-16 11:04:07 GMT (Friday 16th February 2018)"
-	revision: "3"
+	date: "2019-10-01 18:10:01 GMT (Tuesday   1st   October   2019)"
+	revision: "4"
 
 class
 	EL_HMAC_SHA_256
@@ -38,6 +38,10 @@ feature -- Initialization
 			Precursor (k)
 			create initial_message_hash.make_copy (message_hash)
 		end
+
+feature -- Measurement
+
+	Byte_width: INTEGER = 32
 
 feature -- Access
 

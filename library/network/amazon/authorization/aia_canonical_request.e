@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-06 8:05:27 GMT (Tuesday 6th August 2019)"
-	revision: "8"
+	date: "2019-10-01 18:46:29 GMT (Tuesday   1st   October   2019)"
+	revision: "9"
 
 class
 	AIA_CANONICAL_REQUEST
@@ -79,7 +79,7 @@ feature -- Access
 			sha.enable_utf_8_mode
 
 			sha.sink_joined_strings (Current, '%N')
-			create Result.make_final_sha_256 (sha)
+			create Result.make_final (sha)
 		end
 
 	sorted_header_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [STRING, ZSTRING]
