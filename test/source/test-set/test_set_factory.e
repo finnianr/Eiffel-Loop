@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-12 11:54:18 GMT (Wednesday 12th June 2019)"
-	revision: "2"
+	date: "2019-10-02 10:45:28 GMT (Wednesday   2nd   October   2019)"
+	revision: "3"
 
 class
 	TEST_SET_FACTORY
@@ -89,7 +89,7 @@ feature -- Test sets
 			create Result
 		end
 
-	paypal: PP_TEST_SET
+	paypal: PAYPAL_TEST_SET
 		do
 			create Result
 		end

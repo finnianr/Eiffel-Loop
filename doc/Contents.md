@@ -24,7 +24,7 @@ Single connection test server for fourier math. Ctrl-c shuts down the server.
 
 **Installer Mode**
 
-`-install` Sub-application [EL_STANDARD_INSTALLER_APP]($source)
+`-install` Sub-application [EL_STANDARD_INSTALLER_APP](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/standard/el_standard_installer_app.html)
 
 Installs application with desktop menu options for each mode.
 
@@ -666,14 +666,14 @@ This library has two main purposes:
 
 **"Swiss-army-knife applications"**
 
-Creating a new project application in Eiffel is expensive both in terms of time to create a new ECF and project directory structure, and in terms of diskspace. If all you want to do is create a small utility to do some relatively minor task, it makes sense to include it with a other such utilities in a single application. But you need some framework to manage all these sub-applications. In this package, the two classes [EL_MULTI_APPLICATION_ROOT]($source) and [EL_SUB_APPLICATION]($source) provide this capability.
+Creating a new project application in Eiffel is expensive both in terms of time to create a new ECF and project directory structure, and in terms of diskspace. If all you want to do is create a small utility to do some relatively minor task, it makes sense to include it with a other such utilities in a single application. But you need some framework to manage all these sub-applications. In this package, the two classes [EL_MULTI_APPLICATION_ROOT](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/el_multi_application_root.html) and [EL_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/el_sub_application.html) provide this capability.
 
 **Command line sub-applications**
 
 The following features exist for creating command line applications:
 
 
-* The class [EL_COMMAND_LINE_SUB_APPLICATION]($source) provides a smart way of mapping command line arguments to the arguments of a creation procedure with automatic string conversion according to type.
+* The class [EL_COMMAND_LINE_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/el_command_line_sub_application.html) provides a smart way of mapping command line arguments to the arguments of a creation procedure with automatic string conversion according to type.
 * Built-in help system with usage help.
 * Create menu driven command line shells.
 
@@ -928,9 +928,9 @@ my_routine is
 ````
 **Including logging in your application**
 
-There are a number of ways to include logging in your application. The first is to inherit [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) in your root class and implement the function `Log_filter` (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [EL_SUB_APPLICATION]($source) in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
+There are a number of ways to include logging in your application. The first is to inherit [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) in your root class and implement the function `Log_filter` (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [EL_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/el_sub_application.html) in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
 
-Inheriting from class [EL_SUB_APPLICATION]($source) has some incidental benefits including:
+Inheriting from class [EL_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/el_sub_application.html) has some incidental benefits including:
 
 
 * Graceful handling of the ctrl-c program interrupt with the possibility of putting application cleanup into a redefinition of procedure `on_operating_system_signal`.
@@ -1035,7 +1035,7 @@ Class [EL_MODULE_LOG](http://www.eiffel-loop.com/library/runtime/logging/el_modu
 
 **Log files**
 
-All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using [EL_SUB_APPLICATION]($source) then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
+All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using [EL_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/el_sub_application.html) then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
 
 Use the command line switch `-keep_logs`. The log files will not be deleted and will not be overwritten during subsequent application runs. It is recommended to delete them manually.
 

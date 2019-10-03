@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-10-02 11:44:50 GMT (Wednesday   2nd   October   2019)"
+	revision: "6"
 
 class
 	EL_FIND_FILES_COMMAND_IMP
@@ -25,7 +25,8 @@ inherit
 
 	EL_FIND_COMMAND_IMP
 		rename
-			make as make_path
+			make as make_path,
+			copy_directory_items as copy_directory_files
 		undefine
 			getter_function_table
 		end

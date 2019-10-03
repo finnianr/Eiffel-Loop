@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-14 11:28:59 GMT (Saturday   14th   September   2019)"
-	revision: "2"
+	date: "2019-10-03 11:12:54 GMT (Thursday   3rd   October   2019)"
+	revision: "3"
 
 class
 	EL_TUPLE_TYPE_LIST [T]

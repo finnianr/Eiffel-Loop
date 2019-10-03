@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 5:52:59 GMT (Monday   30th   September   2019)"
-	revision: "17"
+	date: "2019-10-02 9:57:56 GMT (Wednesday   2nd   October   2019)"
+	revision: "18"
 
 class
 	ZSTRING_TEST_SET
@@ -589,7 +589,11 @@ feature -- Status query tests
 					sorted.extend (word); sorted_32.extend (w.item)
 				end
 				sorted.sort; sorted_32.sort
-				assert ("sorting OK", across sorted as l_a all l_a.item.same_string (sorted_32.i_th (l_a.cursor_index)) end)
+				assert ("sorting OK",
+					across sorted as l_a all
+						l_a.item.same_string (sorted_32.i_th (l_a.cursor_index))
+					end
+				)
 			end
 		end
 
@@ -628,7 +632,10 @@ feature -- Status query tests
 				line := line_32.item
 				word_list := line
 				across word_list as word loop
-					assert ("word is in word_list", line.there_exists_split (character_string (' '), agent (word.item).is_equal))
+					assert (
+						"word is in word_list",
+						line.there_exists_split (character_string (' '), agent (word.item).is_equal)
+					)
 				end
 			end
 		end
@@ -844,7 +851,6 @@ feature -- Unescape tests
 			str.unescape (Substitution_mark_unescaper)
 			assert ("has substitution marker", str.same_string ("1 %S 3"))
 		end
-
 
 	test_unescape
 		note

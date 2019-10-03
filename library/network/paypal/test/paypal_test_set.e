@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
-	revision: "2"
+	date: "2019-10-02 10:45:28 GMT (Wednesday   2nd   October   2019)"
+	revision: "3"
 
 class
-	PP_TEST_SET
+	PAYPAL_TEST_SET
 
 inherit
 	EQA_TEST_SET
@@ -22,13 +22,23 @@ feature -- Test
 			testing: "covers/{EL_SETTABLE_FROM_STRING}.set_inner_table_field",
 				"covers/{EL_SETTABLE_FROM_STRING}.set_table_field"
 		local
-			transaction: PP_TRANSACTION
+			transaction: PP_TRANSACTION; date_time: EL_DATE_TIME
 		do
 			create transaction.make (ipn_url_query)
-			assert ("mc_gross=4.85", transaction.amount_x100 = 485)
 			assert ("address_country=Ireland", transaction.address.country ~ "Ireland")
 			assert ("address_country_code=IE", transaction.address.country_code ~ "IE")
 			assert ("address_status=confirmed", transaction.address.status.to_string ~ "confirmed")
+
+			assert ("charset=UTF-8", transaction.charset.name ~ "UTF-8")
+
+			assert ("mc_gross=4.85", transaction.amount_x100 = 485)
+			assert ("mc_currency=SGD", transaction.mc_currency.to_string ~ "SGD")
+			assert ("payment_status=Completed", transaction.payment_status.to_string ~ "Completed")
+
+			create date_time.make_from_parts (2018, 4, 10, 10, 22, 41)
+			assert ("payment_date=2018/4/10 10:22:41", transaction.payment_date.to_unix = date_time.to_unix)
+			assert ("pending_reason=other", transaction.pending_reason.to_string ~ "Other")
+			assert ("txn_type=web_accept", transaction.txn_type.to_string ~ "Web accept")
 		end
 
 feature {NONE} -- Implementation
@@ -64,6 +74,7 @@ feature {NONE} -- Constants
 		settle_currency=EUR
 		custom=
 		payer_status=verified
+		pending_reason=other
 		business=finnian-facilitator%40eiffel-loop.com
 		address_country=Ireland
 		address_city=D%C3%BAn+B%C3%BAinne

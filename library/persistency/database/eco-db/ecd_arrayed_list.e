@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 19:12:45 GMT (Tuesday   1st   October   2019)"
-	revision: "6"
+	date: "2019-10-03 12:31:31 GMT (Thursday   3rd   October   2019)"
+	revision: "7"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
@@ -100,6 +100,12 @@ feature {NONE} -- Factory
 	new_index_by: TUPLE
 		do
 			create Result
+		end
+
+	new_index_by_byte_array (field_function: FUNCTION [G, EL_BYTE_ARRAY]): ECD_LIST_INDEX [G, EL_BYTE_ARRAY]
+		-- for use with class `EL_DIGEST_ARRAY' in encryption library
+		do
+			create Result.make (Current, field_function, capacity)
 		end
 
 	new_index_by_string (field_function: FUNCTION [G, ZSTRING]): ECD_LIST_INDEX [G, ZSTRING]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-10-02 11:44:07 GMT (Wednesday   2nd   October   2019)"
+	revision: "5"
 
 class
 	EL_FIND_DIRECTORIES_COMMAND_IMP
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_FIND_COMMAND_IMP
+		rename
+			copy_directory_items as copy_sub_directories
 		undefine
 			make_default, do_command, do_with_lines
 		redefine

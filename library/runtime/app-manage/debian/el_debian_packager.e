@@ -1,13 +1,13 @@
 note
-	description: "Debian packager"
+	description: "Debian package command that will create a Debian package for current application"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 14:42:55 GMT (Thursday   26th   September   2019)"
-	revision: "2"
+	date: "2019-10-01 20:25:17 GMT (Tuesday   1st   October   2019)"
+	revision: "3"
 
 class
 	EL_DEBIAN_PACKAGER

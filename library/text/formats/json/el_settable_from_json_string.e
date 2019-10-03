@@ -3,7 +3,7 @@ note
 		Used in conjunction with [$source EL_REFLECTIVELY_SETTABLE] to reflectively set fields
 		from corresponding JSON name-value pairs.
 	]"
-	test: "[$source REFLECTIVE_TEST_SET]"
+	tests: "[$source REFLECTIVE_TEST_SET]"
 	descendants: "[
 		The following example implementations are from the Amazon Instant Access API for Eiffel.
 
@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 6:32:14 GMT (Monday   30th   September   2019)"
-	revision: "14"
+	date: "2019-10-02 17:24:26 GMT (Wednesday   2nd   October   2019)"
+	revision: "15"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING

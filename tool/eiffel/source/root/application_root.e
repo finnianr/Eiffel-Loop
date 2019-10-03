@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-14 10:04:25 GMT (Saturday   14th   September   2019)"
-	revision: "17"
+	date: "2019-10-02 11:03:18 GMT (Wednesday   2nd   October   2019)"
+	revision: "18"
 
 class
 	APPLICATION_ROOT
@@ -65,7 +65,10 @@ feature {NONE} -- Constants
 note
 	notes: "[
 		Needs some work on EL_FTP_SYNC to ensure correct sync info is saved in case of network error.
-	"]
+	]"
+	to_do: "[
+		* [Oct 2019] Fix "tests" note not appearing in published page
+	]"
 	ideas: "[
 		* use lftp to sync with ftp account
 		See https://www.linux.com/blog/using-lftp-synchronize-folders-ftp-account

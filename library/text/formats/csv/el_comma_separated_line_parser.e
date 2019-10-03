@@ -1,14 +1,14 @@
 note
 	description: "CSV parser for lines encoded as Latin-1"
-	test: "[$source COMMA_SEPARATED_IMPORT_TEST_SET]"
+	tests: "[$source COMMA_SEPARATED_IMPORT_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-29 11:23:50 GMT (Sunday   29th   September   2019)"
-	revision: "13"
+	date: "2019-10-02 17:24:20 GMT (Wednesday   2nd   October   2019)"
+	revision: "14"
 
 class
 	EL_COMMA_SEPARATED_LINE_PARSER

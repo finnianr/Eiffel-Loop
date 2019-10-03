@@ -10,15 +10,15 @@ note
 		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/?mark=ipn#buyer-information-variables
 		Buyer information variables]
 	]"
-	test: "[$source PP_TEST_SET]"
+	tests: "[$source PP_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 7:07:26 GMT (Monday   30th   September   2019)"
-	revision: "4"
+	date: "2019-10-02 17:24:03 GMT (Wednesday   2nd   October   2019)"
+	revision: "5"
 
 class
 	PP_ADDRESS_STATUS

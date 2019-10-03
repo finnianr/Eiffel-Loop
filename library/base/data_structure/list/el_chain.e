@@ -1,14 +1,14 @@
 note
 	description: "Sequence of items"
-	test: "[$source CHAIN_TEST_SET]"
+	tests: "[$source CHAIN_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-29 11:22:47 GMT (Sunday   29th   September   2019)"
-	revision: "15"
+	date: "2019-10-02 17:18:38 GMT (Wednesday   2nd   October   2019)"
+	revision: "16"
 
 deferred class EL_CHAIN [G]
 

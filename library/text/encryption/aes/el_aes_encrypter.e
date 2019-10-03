@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:09:22 GMT (Monday 1st July 2019)"
-	revision: "10"
+	date: "2019-10-03 12:37:16 GMT (Thursday   3rd   October   2019)"
+	revision: "11"
 
 class
 	EL_AES_ENCRYPTER
@@ -202,8 +202,7 @@ feature -- Decryption
 	decrypted_base64 (base64_cipher_text: STRING): STRING
 			-- decrypt base 64 encoded string
 		local
-			cipher_text: STRING
-			cipher_data: EL_BYTE_ARRAY
+			cipher_text: STRING; cipher_data: EL_BYTE_ARRAY
 		do
 			cipher_text := Base_64.decoded (base64_cipher_text)
 			create cipher_data.make_from_string (cipher_text)
