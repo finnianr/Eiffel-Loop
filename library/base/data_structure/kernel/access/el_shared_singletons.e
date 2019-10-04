@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-08 11:53:01 GMT (Thursday 8th August 2019)"
-	revision: "1"
+	date: "2019-10-04 8:23:57 GMT (Friday   4th   October   2019)"
+	revision: "2"
 
 deferred class
 	EL_SHARED_SINGLETONS
@@ -21,12 +21,12 @@ feature {NONE} -- Implementation
 	put_singleton (obj: ANY)
 		-- for clarity we supply `Current' as argument `obj'
 		do
-			Singleton_table.put (obj, {ISE_RUNTIME}.dynamic_type (obj))
+			Singleton_table.put (obj)
 		end
 
 feature {NONE} -- Constants
 
-	Singleton_table: HASH_TABLE [ANY, INTEGER]
+	Singleton_table: EL_SINGLETON_TABLE
 		-- singleton item
 		once ("PROCESS")
 			create Result.make (11)

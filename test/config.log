@@ -4,25 +4,28 @@ file /usr/local/lib/python2.7/dist-packages/eiffel_loop/scons/eiffel.py,line 53:
 file /home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/SConscript,line 36:
 	Configure(confdir = .sconf_temp)
 scons: Configure: Checking for C function getopt_long()... 
-.sconf_temp/conftest_0.c <-
-  |
-  |
-  |#include <assert.h>
-  |
-  |#ifdef __cplusplus
-  |extern "C"
-  |#endif
-  |char getopt_long();
-  |
-  |int main() {
-  |#if defined (__stub_getopt_long) || defined (__stub___getopt_long)
-  |  fail fail fail
-  |#else
-  |  getopt_long();
-  |#endif
-  |
-  |  return 0;
-  |}
+scons: Configure: ".sconf_temp/conftest_0.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_0.c <-
+  |  |
+  |  |
+  |  |#include <assert.h>
+  |  |
+  |  |#ifdef __cplusplus
+  |  |extern "C"
+  |  |#endif
+  |  |char getopt_long();
+  |  |
+  |  |int main() {
+  |  |#if defined (__stub_getopt_long) || defined (__stub___getopt_long)
+  |  |  fail fail fail
+  |  |#else
+  |  |  getopt_long();
+  |  |#endif
+  |  |
+  |  |  return 0;
+  |  |}
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_0.o" is up to date.
 scons: Configure: The original builder output was:
@@ -32,28 +35,31 @@ scons: Configure: ".sconf_temp/conftest_0" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_0 .sconf_temp/conftest_0.o
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C function mkstemp()... 
-.sconf_temp/conftest_1.c <-
-  |
-  |
-  |#include <assert.h>
-  |
-  |#ifdef __cplusplus
-  |extern "C"
-  |#endif
-  |char mkstemp();
-  |
-  |int main() {
-  |#if defined (__stub_mkstemp) || defined (__stub___mkstemp)
-  |  fail fail fail
-  |#else
-  |  mkstemp();
-  |#endif
-  |
-  |  return 0;
-  |}
+scons: Configure: ".sconf_temp/conftest_1.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_1.c <-
+  |  |
+  |  |
+  |  |#include <assert.h>
+  |  |
+  |  |#ifdef __cplusplus
+  |  |extern "C"
+  |  |#endif
+  |  |char mkstemp();
+  |  |
+  |  |int main() {
+  |  |#if defined (__stub_mkstemp) || defined (__stub___mkstemp)
+  |  |  fail fail fail
+  |  |#else
+  |  |  mkstemp();
+  |  |#endif
+  |  |
+  |  |  return 0;
+  |  |}
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_1.o" is up to date.
 scons: Configure: The original builder output was:
@@ -63,28 +69,31 @@ scons: Configure: ".sconf_temp/conftest_1" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_1 .sconf_temp/conftest_1.o
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C function truncate()... 
-.sconf_temp/conftest_2.c <-
-  |
-  |
-  |#include <assert.h>
-  |
-  |#ifdef __cplusplus
-  |extern "C"
-  |#endif
-  |char truncate();
-  |
-  |int main() {
-  |#if defined (__stub_truncate) || defined (__stub___truncate)
-  |  fail fail fail
-  |#else
-  |  truncate();
-  |#endif
-  |
-  |  return 0;
-  |}
+scons: Configure: ".sconf_temp/conftest_2.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_2.c <-
+  |  |
+  |  |
+  |  |#include <assert.h>
+  |  |
+  |  |#ifdef __cplusplus
+  |  |extern "C"
+  |  |#endif
+  |  |char truncate();
+  |  |
+  |  |int main() {
+  |  |#if defined (__stub_truncate) || defined (__stub___truncate)
+  |  |  fail fail fail
+  |  |#else
+  |  |  truncate();
+  |  |#endif
+  |  |
+  |  |  return 0;
+  |  |}
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_2.o" is up to date.
 scons: Configure: The original builder output was:
@@ -94,7 +103,7 @@ scons: Configure: ".sconf_temp/conftest_2" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_2 .sconf_temp/conftest_2.o
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file dlfcn.h... 
 scons: Configure: ".sconf_temp/conftest_3.c" is up to date.
@@ -127,88 +136,109 @@ scons: Configure: The original builder output was:
 scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file libcw/sys.h... 
-.sconf_temp/conftest_5.c <-
-  |
-  |#include "libcw/sys.h"
-  |
+scons: Configure: ".sconf_temp/conftest_5.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_5.c <-
+  |  |
+  |  |#include "libcw/sys.h"
+  |  |
+  |  |
   |
 scons: Configure: Building ".sconf_temp/conftest_5.o" failed in a previous run and all its sources are up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_5.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_5.c
   |
-scons: Configure: no
+scons: Configure: (cached) no
 
 scons: Configure: Checking for C header file memory.h... 
-.sconf_temp/conftest_6.c <-
-  |
-  |#include "memory.h"
-  |
+scons: Configure: ".sconf_temp/conftest_6.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_6.c <-
+  |  |
+  |  |#include "memory.h"
+  |  |
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_6.o" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_6.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_6.c
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file stdint.h... 
-.sconf_temp/conftest_7.c <-
-  |
-  |#include "stdint.h"
-  |
+scons: Configure: ".sconf_temp/conftest_7.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_7.c <-
+  |  |
+  |  |#include "stdint.h"
+  |  |
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_7.o" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_7.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_7.c
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file stdlib.h... 
-.sconf_temp/conftest_8.c <-
-  |
-  |#include "stdlib.h"
-  |
+scons: Configure: ".sconf_temp/conftest_8.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_8.c <-
+  |  |
+  |  |#include "stdlib.h"
+  |  |
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_8.o" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_8.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_8.c
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file sys/param.h... 
-.sconf_temp/conftest_9.c <-
-  |
-  |#include "sys/param.h"
-  |
+scons: Configure: ".sconf_temp/conftest_9.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_9.c <-
+  |  |
+  |  |#include "sys/param.h"
+  |  |
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_9.o" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_9.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_9.c
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file sys/stat.h... 
-.sconf_temp/conftest_10.c <-
-  |
-  |#include "sys/stat.h"
-  |
+scons: Configure: ".sconf_temp/conftest_10.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_10.c <-
+  |  |
+  |  |#include "sys/stat.h"
+  |  |
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_10.o" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_10.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_10.c
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file sys/types.h... 
-.sconf_temp/conftest_11.c <-
-  |
-  |#include "sys/types.h"
-  |
+scons: Configure: ".sconf_temp/conftest_11.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_11.c <-
+  |  |
+  |  |#include "sys/types.h"
+  |  |
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_11.o" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_11.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_11.c
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file unistd.h... 
 scons: Configure: ".sconf_temp/conftest_12.c" is up to date.
@@ -226,28 +256,34 @@ scons: Configure: The original builder output was:
 scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file wchar.h... 
-.sconf_temp/conftest_13.c <-
-  |
-  |#include "wchar.h"
-  |
+scons: Configure: ".sconf_temp/conftest_13.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_13.c <-
+  |  |
+  |  |#include "wchar.h"
+  |  |
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_13.o" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_13.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_13.c
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file zlib.h... 
-.sconf_temp/conftest_14.c <-
-  |
-  |#include "zlib.h"
-  |
+scons: Configure: ".sconf_temp/conftest_14.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_14.c <-
+  |  |
+  |  |#include "zlib.h"
+  |  |
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_14.o" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_14.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_14.c
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C++ header file bitset... 
 scons: Configure: ".sconf_temp/conftest_15.cpp" is up to date.
@@ -475,28 +511,34 @@ scons: Configure: The original builder output was:
 scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file stdlib.h... 
-.sconf_temp/conftest_30.c <-
-  |
-  |#include "stdlib.h"
-  |
+scons: Configure: ".sconf_temp/conftest_30.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_30.c <-
+  |  |
+  |  |#include "stdlib.h"
+  |  |
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_30.o" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_30.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_30.c
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file stdarg.h... 
-.sconf_temp/conftest_31.c <-
-  |
-  |#include "stdarg.h"
-  |
+scons: Configure: ".sconf_temp/conftest_31.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_31.c <-
+  |  |
+  |  |#include "stdarg.h"
+  |  |
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_31.o" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_31.o -c -g -O2 -Wall -Woverloaded-virtual -Wmissing-declarations -Wno-write-strings -Wno-unused -Wno-inline -DHAVE_CONFIG_H -DHAVE_UNISTD_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C++/id3lib/include/id3 .sconf_temp/conftest_31.c
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file string.h... 
 scons: Configure: ".sconf_temp/conftest_32.c" is up to date.
@@ -727,27 +769,33 @@ scons: Configure: The original builder output was:
 scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file string.h... 
-.sconf_temp/conftest_47.c <-
-  |
-  |#include "string.h"
-  |
+scons: Configure: ".sconf_temp/conftest_47.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_47.c <-
+  |  |
+  |  |#include "string.h"
+  |  |
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_47.o" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_47.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_47.c
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 scons: Configure: Checking for C header file float.h... 
-.sconf_temp/conftest_48.c <-
-  |
-  |#include "float.h"
-  |
+scons: Configure: ".sconf_temp/conftest_48.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_48.c <-
+  |  |
+  |  |#include "float.h"
+  |  |
+  |  |
   |
 scons: Configure: ".sconf_temp/conftest_48.o" is up to date.
 scons: Configure: The original builder output was:
   |gcc -o .sconf_temp/conftest_48.o -c -g -O2 -Wall -Wno-write-strings -DHAVE_CONFIG_H -I/opt/ES/Eiffel_16.05/C_library/zlib -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b -I/home/finnian/dev/Eiffel/library/Eiffel-Loop/contrib/C/libid3tag-0.15.1b/include .sconf_temp/conftest_48.c
   |
-scons: Configure: yes
+scons: Configure: (cached) yes
 
 

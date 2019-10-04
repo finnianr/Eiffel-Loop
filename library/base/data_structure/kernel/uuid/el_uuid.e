@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "11"
+	date: "2019-10-03 14:06:22 GMT (Thursday   3rd   October   2019)"
+	revision: "12"
 
 class
 	EL_UUID
@@ -26,7 +26,7 @@ inherit
 		undefine
 			out
 		redefine
-			adjust_field_order
+			ordered_alphabetically
 		end
 
 	EL_MAKEABLE_FROM_STRING_8
@@ -46,14 +46,6 @@ feature {NONE} -- Implementation
 			make_from_string_general (str)
 		end
 
-	adjust_field_order (fields: EL_REFLECTED_FIELD_ARRAY)
-		-- change order to: data_1, data_2 etc
-		do
-			fields.reorder (<<
-				[4, -3] -- `date_1' left 3
-			>>)
-		end
-
 feature -- Access
 
 	to_string: STRING
@@ -63,11 +55,14 @@ feature -- Access
 
 feature -- Constants
 
+	Ordered_alphabetically: BOOLEAN = True
+		-- read/write fields in alphabetical order
+
 	Byte_count: INTEGER
 		once
 			Result := (32 + 16 * 3 + 64) // 8
 		end
 
-	field_hash: NATURAL = 201719989
+	Field_hash: NATURAL = 201719989
 
 end

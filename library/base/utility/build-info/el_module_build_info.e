@@ -1,13 +1,20 @@
 note
-	description: "Module build info"
+	description: "Access to shared descendant of [$source EL_BUILD_INFO]"
+	notes: "[
+		Somewhere at the start of your application you need to create an instance of
+		and object that inherits [$source EL_BUILD_INFO]
+		If you use [$source EL_MULTI_APPLICATION_ROOT] to implement your root class, this
+		will done for you automatically. A class `BUILD_INFO' is automatically generated
+		by the Eiffel-Loop scons build system.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 11:00:30 GMT (Thursday   3rd   October   2019)"
-	revision: "9"
+	date: "2019-10-04 9:09:13 GMT (Friday   4th   October   2019)"
+	revision: "10"
 
 deferred class
 	EL_MODULE_BUILD_INFO
@@ -15,17 +22,14 @@ deferred class
 inherit
 	EL_MODULE
 
-	EL_MODULE_EIFFEL
-
 feature {NONE} -- Constants
 
 	Build_info: EL_BUILD_INFO
 			--
 		local
-			factory: EL_OBJECT_FACTORY [EL_BUILD_INFO]
+			s: EL_SINGLETON [EL_BUILD_INFO]
 		once
-			create factory
-			-- BUILD_INFO exists only in the application project
-			Result := factory.instance_from_class_name ("BUILD_INFO", agent {EL_BUILD_INFO}.do_nothing)
+			create s.make (True)
+			Result := s.singleton
 		end
 end

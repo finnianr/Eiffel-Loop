@@ -13,12 +13,12 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-24 8:35:48 GMT (Tuesday   24th   September   2019)"
-	revision: "12"
+	date: "2019-10-04 9:06:54 GMT (Friday   4th   October   2019)"
+	revision: "13"
 
 deferred class
 	-- Generic to make sure scons generated `BUILD_INFO' is compiled from project source
-	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO]
+	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create default_create end]
 
 inherit
 	EL_FACTORY_CLIENT
@@ -41,8 +41,9 @@ feature {NONE} -- Initialization
 			--
 		local
 			list: EL_SUB_APPLICATION_LIST; app: EL_SUB_APPLICATION
-			lio: EL_LOGGABLE; exit_code: INTEGER
+			lio: EL_LOGGABLE; exit_code: INTEGER; shared_build_info: B
 		do
+			create shared_build_info
 			if not Args.has_silent then
 				-- Force console creation. Needed to set `{EL_EXECUTION_ENVIRONMENT_I}.last_codepage'
 

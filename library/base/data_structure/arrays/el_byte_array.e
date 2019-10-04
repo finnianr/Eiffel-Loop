@@ -1,13 +1,13 @@
 note
-	description: "Array of 8 bit bytes"
+	description: "Array of 8 bit bytes: `TO_SPECIAL [NATURAL_8]'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 12:34:00 GMT (Thursday   3rd   October   2019)"
-	revision: "4"
+	date: "2019-10-03 14:17:42 GMT (Thursday   3rd   October   2019)"
+	revision: "5"
 
 class
 	EL_BYTE_ARRAY
@@ -133,20 +133,27 @@ feature -- Conversion
 		end
 
 	to_uuid: EL_UUID
-		require
-			valid_size: count = 16 or count = 32
+		-- copy first `count.min (18)' bytes to make `EL_UUID'
 		local
-			last_seg_64: NATURAL_64; found: BOOLEAN
+			last_seg_64: NATURAL_64; padded: ARRAY [NATURAL_8]
 		do
 			inspect count
+				when 0 .. 15 then
+					create padded.make_filled (0, 1, 16)
+					padded.area.copy_data (Current, 0, 0, count)
+
 				when 16 then
 					last_seg_64 := read_natural_64 (10, 6)
-				when 32 then
-					last_seg_64 := read_natural_64 (10, 8)
+
+				when 17 then
+					last_seg_64 := read_natural_64 (10, 7)
 			else
-				create Result.make_default
+				-- 18 bytes and over
+				last_seg_64 := read_natural_64 (10, 8)
 			end
-			if not attached Result then
+			if attached padded as l_padded then
+				create Result.make_from_array (l_padded)
+			else
 				create Result.make (
 					read_natural_64 (0, 4).to_natural_32,
 

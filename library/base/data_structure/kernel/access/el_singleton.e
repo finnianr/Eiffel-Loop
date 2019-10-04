@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 11:49:43 GMT (Tuesday   1st   October   2019)"
-	revision: "2"
+	date: "2019-10-04 8:29:42 GMT (Friday   4th   October   2019)"
+	revision: "3"
 
 class
 	EL_SINGLETON [G]
@@ -41,10 +41,7 @@ feature -- Status query
 
 	is_singleton_created: BOOLEAN
 		do
-			Result := Singleton_table.has (base_type_id)
-			if not Result and descendant_allowed then
-				Result := conforming_type_id.to_boolean
-			end
+			Result := Singleton_table.has_type (base_type_id, descendant_allowed)
 		end
 
 feature -- Access
@@ -55,14 +52,9 @@ feature -- Access
 		local
 			insert: TUPLE
 		do
-			if Singleton_table.has_key (base_type_id) and then attached {G} Singleton_table.found_item as item
-			then
+			if attached {G} Singleton_table.item (base_type_id, descendant_allowed) as item then
 				Result := item
 
-			elseif descendant_allowed and then Singleton_table.has_key (conforming_type_id)
-				and then attached {G} Singleton_table.found_item as item
-			then
-				Result := item
 			else
 				if descendant_allowed then
 					insert := ["conforming to " + ({G}).name]
@@ -78,18 +70,6 @@ feature {NONE} -- Implementation
 	base_type_id: INTEGER
 		do
 			Result := ({G}).type_id
-		end
-
-	conforming_type_id: INTEGER
-		local
-			base_id: INTEGER
-		do
-			base_id := base_type_id
-			across Singleton_table.current_keys as type_id until Result.to_boolean loop
-				if {ISE_RUNTIME}.type_conforms_to (type_id.item, base_id) then
-					Result := type_id.item
-				end
-			end
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 9:25:02 GMT (Tuesday 10th September 2019)"
-	revision: "7"
+	date: "2019-10-03 13:55:02 GMT (Thursday   3rd   October   2019)"
+	revision: "8"
 
 class
 	EL_REFLECTED_PATH
@@ -18,7 +18,7 @@ inherit
 			reset, set_from_readable, set_from_string, to_string, write
 		end
 
-	EL_ZSTRING_ROUTINES
+	EL_ZSTRING_ROUTINES undefine is_equal end
 
 	EL_ZSTRING_CONSTANTS
 

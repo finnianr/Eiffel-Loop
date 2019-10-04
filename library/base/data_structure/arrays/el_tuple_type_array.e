@@ -1,13 +1,13 @@
 note
-	description: "Array of TUPLE parameter types"
+	description: "Array of `TUPLE' parameter types: `ARRAY [TYPE [ANY]]'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 11:12:21 GMT (Thursday   3rd   October   2019)"
-	revision: "4"
+	date: "2019-10-03 12:55:01 GMT (Thursday   3rd   October   2019)"
+	revision: "5"
 
 class
 	EL_TUPLE_TYPE_ARRAY

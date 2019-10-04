@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:41:20 GMT (Monday 1st July 2019)"
-	revision: "20"
+	date: "2019-10-03 14:07:04 GMT (Thursday   3rd   October   2019)"
+	revision: "21"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -68,10 +68,20 @@ feature -- Element change
 			end
 		end
 
+feature -- Status query
+
+	ordered_alphabetically: BOOLEAN
+		-- when `True' read/write fields in alphabetical order of field name
+		do
+		end
+
 feature {EL_STORABLE_CLASS_META_DATA} -- Implementation
 
 	adjust_field_order (fields: EL_REFLECTED_FIELD_ARRAY)
 		do
+			if ordered_alphabetically then
+				fields.sort
+			end
 		end
 
 feature -- Comparison

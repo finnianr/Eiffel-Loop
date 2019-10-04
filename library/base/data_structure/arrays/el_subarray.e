@@ -2,7 +2,8 @@ note
 	description: "[
 		Sub arrays implemented using shared memory areas rather than copied memory area. 
 		For large arrays, subarray memory copies can incurr a significant performance overhead. 
-		Using shared memory subarrays can in some applications reduce execution time by as much as 50%. (hard to believe I know)
+		Using shared memory subarrays can in some applications reduce execution time by as much as 50%.
+		(hard to believe I know)
 		
 		Sub array can be referenced using either lower to upper indexes of parent array or 1 based index.
 	]"
@@ -12,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2019-10-03 22:15:47 GMT (Thursday   3rd   October   2019)"
+	revision: "4"
 
 class
 	EL_SUBARRAY [G]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 11:20:30 GMT (Thursday   3rd   October   2019)"
-	revision: "5"
+	date: "2019-10-03 13:57:52 GMT (Thursday   3rd   October   2019)"
+	revision: "6"
 
 class
 	EL_REFLECTED_FIELD_ARRAY
@@ -66,6 +66,17 @@ feature -- Conversion
 
 feature -- Basic operations
 
+	reorder (tuple_list: ARRAY [TUPLE [i: INTEGER_32; offset: INTEGER_32]])
+			-- reorder array by shifting each field with tuples (`i', `offset')
+		local
+			shift: PROCEDURE [INTEGER_32, INTEGER_32]
+			list: EL_ARRAYED_LIST [like item]
+		do
+			create list.make_from_array (Current)
+			shift := agent list.shift_i_th (?, ?)
+			tuple_list.do_all (agent shift.call)
+		end
+
 	sink_except (enclosing_object: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE; excluded: EL_FIELD_INDICES_SET)
 		local
 			i: INTEGER
@@ -78,15 +89,13 @@ feature -- Basic operations
 			end
 		end
 
-	reorder (tuple_list: ARRAY [TUPLE [i: INTEGER_32; offset: INTEGER_32]])
-			-- reorder array by shifting each field with tuples (`i', `offset')
+	sort
+		-- alphabetically by `item.name'
 		local
-			shift: PROCEDURE [INTEGER_32, INTEGER_32]
-			list: EL_ARRAYED_LIST [like item]
+			l_array: SORTABLE_ARRAY [like item]
 		do
-			create list.make_from_array (Current)
-			shift := agent list.shift_i_th (?, ?)
-			tuple_list.do_all (agent shift.call)
+			create l_array.make_from_array (Current)
+			l_array.sort
 		end
 
 end

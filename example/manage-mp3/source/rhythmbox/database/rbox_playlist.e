@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-17 9:14:19 GMT (Tuesday   17th   September   2019)"
-	revision: "16"
+	date: "2019-10-03 12:51:07 GMT (Thursday   3rd   October   2019)"
+	revision: "17"
 
 class
 	RBOX_PLAYLIST
@@ -170,7 +170,7 @@ feature -- Element change
 			if a_name.is_empty then
 				create id.make_default
 			else
-				create id.make_from_array (Digest.md5 (a_name.to_utf_8))
+				id := Digest.md5 (a_name.to_utf_8)
 			end
 		end
 

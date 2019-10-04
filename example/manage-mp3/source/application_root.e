@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 8:55:20 GMT (Thursday   26th   September   2019)"
-	revision: "9"
+	date: "2019-10-03 17:19:51 GMT (Thursday   3rd   October   2019)"
+	revision: "10"
 
 class
 	APPLICATION_ROOT
@@ -31,6 +31,11 @@ feature {NONE} -- Constants
 		TEST_RHYTHMBOX_MUSIC_MANAGER_APP,
 		TEST_APP
 	]
+		once
+			create Result
+		end
+
+	Compile_also: TUPLE [EL_SUBARRAY [ANY]]
 		once
 			create Result
 		end
