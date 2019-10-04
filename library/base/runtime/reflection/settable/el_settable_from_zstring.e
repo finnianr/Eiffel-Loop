@@ -3,15 +3,15 @@ note
 		Used in conjunction with [$source EL_REFLECTIVE] to reflectively set fields
 		from name-value pairs, where value conforms to [$source EL_ZSTRING] (aka `ZSTRING')
 	]"
-	tests: "[$source REFLECTIVE_TEST_SET]"
+	tests: "Class [$source REFLECTIVE_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-02 17:23:50 GMT (Wednesday   2nd   October   2019)"
-	revision: "9"
+	date: "2019-10-04 13:16:37 GMT (Friday   4th   October   2019)"
+	revision: "10"
 
 deferred class
 	EL_SETTABLE_FROM_ZSTRING

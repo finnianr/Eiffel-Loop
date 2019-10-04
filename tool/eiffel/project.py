@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 31); build = 149
+version = (1, 0, 32); build = 150
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.32
+# Fixed tests not appearing in generated html of Eiffel-View publisher
 
 # 1.0.31
 # Changes to ftp login

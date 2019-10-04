@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:11:17 GMT (Tuesday 5th March 2019)"
-	revision: "13"
+	date: "2019-10-04 13:13:53 GMT (Friday   4th   October   2019)"
+	revision: "14"
 
 class
 	EIFFEL_NOTES
@@ -27,6 +27,8 @@ inherit
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_XML
+
+	EL_MODULE_ZSTRING
 
 	SHARED_HTML_CLASS_SOURCE_TABLE
 
@@ -144,9 +146,11 @@ feature {NONE} -- Line states
 					when '"' then
 						text.remove_tail (1)
 						if field_name ~ Field_description
-							and then not across Standard_descriptions as l_text some text.starts_with (l_text.item) end
-							and then not text.is_empty
+							and then Standard_descriptions.there_exists (agent Zstring.starts_with (text, ?))
 						then
+							text.wipe_out
+						end
+						if not text.is_empty then
 							lines.extend (text)
 						end
 						state := agent find_note_section_end

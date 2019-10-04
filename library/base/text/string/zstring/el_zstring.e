@@ -5,7 +5,7 @@ note
 		while the execution efficiency is roughly the same as for `STRING_8'. For short strings the saving is much less:
 		about 50%. ISO-8859-15 covers most Western european languages.
 	]"
-	tests: "[$source ZSTRING_TEST_SET]"
+	tests: "Class [$source ZSTRING_TEST_SET]"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-02 17:23:53 GMT (Wednesday   2nd   October   2019)"
-	revision: "17"
+	date: "2019-10-04 13:16:43 GMT (Friday   4th   October   2019)"
+	revision: "18"
 
 class
 	EL_ZSTRING

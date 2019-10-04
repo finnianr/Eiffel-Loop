@@ -4,15 +4,15 @@ note
 		The supplied function agent must return a value conforming to type
 		[https://www.eiffel.org/files/doc/static/18.01/libraries/base/numeric_links.html NUMERIC].
 	]"
-	tests: "[$source CHAIN_TEST_SET]"
+	tests: "Class [$source CHAIN_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 17:15:12 GMT (Monday   30th   September   2019)"
-	revision: "6"
+	date: "2019-10-04 13:16:17 GMT (Friday   4th   October   2019)"
+	revision: "7"
 
 class
 	EL_CHAIN_SUMMATOR [G, N -> NUMERIC]

@@ -1,14 +1,14 @@
 note
 	description: "Field conforming to [$source BOOLEAN_REF]"
-	tests: "[$source PP_TEST_SET]"
+	tests: "Class [$source PP_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-02 17:23:43 GMT (Wednesday   2nd   October   2019)"
-	revision: "8"
+	date: "2019-10-04 13:16:28 GMT (Friday   4th   October   2019)"
+	revision: "9"
 
 class
 	EL_REFLECTED_BOOLEAN_REF

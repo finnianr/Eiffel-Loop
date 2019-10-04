@@ -8,7 +8,7 @@ note
 		Override `use_default_values' to return `False' if the default values set
 		by `set_default_values' is not required.
 	]"
-	tests: "[$source REFLECTIVE_TEST_SET]"
+	tests: "Class [$source REFLECTIVE_TEST_SET]"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"
@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-02 17:23:48 GMT (Wednesday   2nd   October   2019)"
-	revision: "17"
+	date: "2019-10-04 13:16:32 GMT (Friday   4th   October   2019)"
+	revision: "18"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE

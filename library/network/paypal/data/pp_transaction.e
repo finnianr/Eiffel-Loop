@@ -4,15 +4,15 @@ note
 		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#id091EB04C0HS
 		Payment information variables] in IPN integration guide.
 	]"
-	tests: "[$source PP_TEST_SET]"
+	tests: "Class [$source PP_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-02 17:24:05 GMT (Wednesday   2nd   October   2019)"
-	revision: "17"
+	date: "2019-10-04 13:16:55 GMT (Friday   4th   October   2019)"
+	revision: "18"
 
 class
 	PP_TRANSACTION
