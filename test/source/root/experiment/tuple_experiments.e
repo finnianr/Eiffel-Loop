@@ -60,6 +60,15 @@ feature -- Basic operations
 			end
 		end
 
+	find_abstract_type
+		local
+			tuple: TUPLE [CHARACTER_8]
+		do
+			create tuple
+			lio.put_integer_field ("abstract_type", tuple.item_code (1))
+			lio.put_new_line
+		end
+
 	set_values
 		local
 			color: TUPLE [foreground, background: STRING_GENERAL]

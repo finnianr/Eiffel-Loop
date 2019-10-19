@@ -66,6 +66,7 @@ feature {NONE} -- Implementation
 					output_file.rename_file (file_path)
 					lio.put_new_line
 					lio.put_labeled_substitution ("Renamed", "%S -> %S", [current_class_name, a_class_name])
+					lio.put_new_line
 				end
 			end
 		end

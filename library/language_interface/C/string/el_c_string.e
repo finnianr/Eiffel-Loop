@@ -33,6 +33,8 @@ inherit
 			default_create, is_equal, copy
 		end
 
+	EL_SHARED_ONCE_STRING_32
+
 feature -- Initialization
 
 	set_shared_from_c, make_shared (c_ptr: POINTER)
@@ -226,24 +228,28 @@ feature -- Conversion
 	as_string: ZSTRING
 			--
 		do
-			Result := as_string_32
+			create Result.make_from_general (filled_string_32)
 		end
 
 	as_string_8: STRING
 			--
 		do
-			create Result.make (count)
-			fill_string (Result)
+			Result := filled_string_32.to_string_8
 		end
 
 	as_string_32: STRING_32
 			--
 		do
-			create Result.make (count)
-			fill_string (Result)
+			Result := filled_string_32.twin
 		end
 
 feature {NONE} -- Implementation
+
+	filled_string_32: STRING_32
+		do
+			Result := empty_once_string_32
+			fill_string (Result)
+		end
 
 	is_item_zero (address: POINTER): BOOLEAN
 			--

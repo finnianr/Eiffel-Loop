@@ -13,45 +13,9 @@ deferred class
 	EL_CPP_OBJECT
 
 inherit
-	EL_DISPOSEABLE
-		export
-			{NONE} all
-		redefine
-			dispose
+	EL_C_OBJECT
+		rename
+			c_free as cpp_delete
 		end
-
-feature {NONE} -- Initialization
-
-	make_from_pointer (cpp_ptr: POINTER)
-			--
-		require
-			valid_object: is_attached (cpp_ptr)
-		do
-			self_ptr := cpp_ptr
-		end
-
-feature {EL_CPP_ITERATOR} -- Implementation
-
-	is_memory_owned: BOOLEAN
-			--
-		do
-			Result := false
-		end
-
-	dispose
-			--
-		do
-			if is_memory_owned and then is_attached (self_ptr) then
-				cpp_delete (self_ptr)
-				self_ptr := Default_pointer
-			end
-		end
-
-	cpp_delete (this: POINTER)
-			--
-		do
-		end
-
-	self_ptr: POINTER
 
 end

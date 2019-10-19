@@ -14,6 +14,9 @@ deferred class
 
 inherit
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
+		redefine
+			visible_types
+		end
 
 	EL_ARGUMENT_TO_ATTRIBUTE_SETTING
 
@@ -35,7 +38,7 @@ feature -- Basic operations
 		local
 			tree_processor: SOURCE_TREE_PROCESSOR
 		do
-			create tree_processor.make (tree_path, create {EDITING_COMMAND}.make (new_editor))
+			create tree_processor.make (tree_path, agent new_editor)
 			tree_processor.do_all
 		end
 
@@ -44,7 +47,7 @@ feature -- Testing
 	test_run
 			--
 		do
-			across << "latin1-sources", "utf8-sources" >> as source loop
+			across test_sources as source loop
 				Test.do_file_tree_test (source.item, agent test_source_tree, checksum [source.cursor_index])
 			end
 		end
@@ -53,25 +56,40 @@ feature -- Testing
 		do
 			set_defaults
 			tree_path := dir_path
-			normal_initialize
 			normal_run
 		end
+
+feature {NONE} -- Implementation
 
 	checksum: ARRAY [NATURAL]
 		deferred
 		end
 
-feature {NONE} -- Implementation
+	new_editor (file_path_list: LIST [EL_FILE_PATH]): EL_EIFFEL_SOURCE_EDITOR
+		deferred
+		end
 
 	set_defaults
 		do
 			create tree_path
 		end
 
-	tree_path: EL_DIR_PATH
-
-	new_editor: EL_EIFFEL_SOURCE_EDITOR
-		deferred
+	test_sources: ARRAY [STRING]
+		do
+			Result := << "latin1-sources", "utf8-sources" >>
+		ensure
+			same_count_as_checksum: Result.count = checksum.count
 		end
+
+	visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+		-- types with lio output visible in console
+		-- See: {EL_CONSOLE_MANAGER_I}.show_all
+		do
+			Result := << {SOURCE_TREE_PROCESSOR} >>
+		end
+
+feature {NONE} -- Internal attributes
+
+	tree_path: EL_DIR_PATH
 
 end

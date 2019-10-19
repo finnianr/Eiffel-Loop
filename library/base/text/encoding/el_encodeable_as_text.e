@@ -73,8 +73,8 @@ feature -- Element change
 		local
 			changed: BOOLEAN
 		do
-			changed := internal_encoding /= type | id
-			internal_encoding := type | id
+			changed := encoding_bitmap /= type | id
+			encoding_bitmap := type | id
 			if changed and then not encoding_change_actions.is_empty then
 				encoding_change_actions.call ([])
 			end

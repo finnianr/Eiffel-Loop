@@ -26,10 +26,7 @@ feature {NONE} -- Constants
 
 	Build_info: EL_BUILD_INFO
 			--
-		local
-			s: EL_SINGLETON [EL_BUILD_INFO]
 		once
-			create s.make (True)
-			Result := s.singleton
+			Result := create {EL_CONFORMING_SINGLETON [EL_BUILD_INFO]}
 		end
 end

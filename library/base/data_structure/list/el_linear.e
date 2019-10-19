@@ -30,6 +30,11 @@ feature -- Cursor movement
 			start; find_next_item (condition)
 		end
 
+	find_first_conforming (type: TYPE [G])
+		do
+			start; find_next_conforming_item (type)
+		end
+
 	find_first_equal (target_value: ANY; value: FUNCTION [G, ANY])
 		-- Find first `item' where `value (item).is_equal (target_value)'
 		do
@@ -51,6 +56,14 @@ feature -- Cursor movement
 			end
 		end
 
+	find_next_conforming (type: TYPE [G])
+		do
+			forth
+			if not after then
+				find_next_conforming_item (type)
+			end
+		end
+
 	find_next_equal (target_value: ANY; value: FUNCTION [G, ANY])
 			-- Find next `item' where `value (item).is_equal (target_value)'
 		require
@@ -66,6 +79,21 @@ feature -- Cursor movement
 		end
 
 feature {NONE} -- Implementation
+
+	find_next_conforming_item (type: TYPE [G])
+		local
+			type_id, item_type_id: INTEGER; match_found: BOOLEAN
+		do
+			type_id := type.type_id
+			from until match_found or after loop
+				item_type_id := {ISE_RUNTIME}.dynamic_type (item)
+				if {ISE_RUNTIME}.type_conforms_to (item_type_id, item_type_id) then
+					match_found := True
+				else
+					forth
+				end
+			end
+		end
 
 	find_next_item (condition: EL_QUERY_CONDITION [G])
 			-- Find next `item' that meets `condition' including the current `item'

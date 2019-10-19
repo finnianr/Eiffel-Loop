@@ -25,7 +25,7 @@ feature -- Testing
 
 	test_source_tree (dir_path: EL_DIR_PATH)
 		do
-			create {SOURCE_TREE_PROCESSOR} command.make (dir_path, new_editing_command)
+			create {SOURCE_TREE_PROCESSOR} command.make (dir_path, agent new_editor)
 			command.do_all
 		end
 
@@ -44,15 +44,10 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("", new_editing_command)
+			Result := agent {like command}.make (create {EL_DIR_PATH}, agent new_editor)
 		end
 
-	new_editing_command: EDITING_COMMAND
-		do
-			create Result.make (new_editor)
-		end
-
-	new_editor: EL_EIFFEL_SOURCE_EDITOR
+	new_editor (file_path_list: LIST [EL_FILE_PATH]): EL_EIFFEL_SOURCE_EDITOR
 		deferred
 		end
 

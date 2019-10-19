@@ -7,7 +7,7 @@
 	cosmetics, trinkets or jewellery.
 	
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_id3_tags" uuid = "229b4fae-09aa-11df-8771-e7444f3b4d30" library_target = "EL_id3_tags">
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_id3_tag" uuid = "229b4fae-09aa-11df-8771-e7444f3b4d30" library_target = "EL_id3_tag">
 	<description>
 ID3 Tagging for MP3
 
@@ -15,7 +15,7 @@ Classes for reading and writing ID3 tags to MP3 files using a common interface t
 C libraries `libid3tag (C)&apos; and `id3lib (C++)&apos;. The former C library is used for ID3 version 2.4 tags
 and the latter for earlier versions from 2.0 to 2.3.
 	</description>
-	<target name = "EL_id3_tags">
+	<target name = "EL_id3_tag">
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 		</option>
@@ -81,6 +81,6 @@ GetRawText() routine will return null for utf8 strings.
 		<library name = "EL_base" location = "base/base.ecf" readonly = "false"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<!--Source code-->
-		<cluster name = "id3" location = "multimedia/audio/file/id3" recursive = "true"/>
+		<cluster name = "id3_tag" location = "multimedia/audio/file/id3_tag" recursive = "true"/>
 	</target>
 </system>

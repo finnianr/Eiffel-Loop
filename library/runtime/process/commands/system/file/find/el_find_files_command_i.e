@@ -23,11 +23,11 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_dir_path: like dir_path; a_name_pattern: like name_pattern)
+	make (a_dir_path: like dir_path; a_name_pattern: READABLE_STRING_GENERAL)
 			--
 		do
 			make_path (a_dir_path)
-			name_pattern := a_name_pattern
+			create name_pattern.make_from_general (a_name_pattern)
 		end
 
 	make_default

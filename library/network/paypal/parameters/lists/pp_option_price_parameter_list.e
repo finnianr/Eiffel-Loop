@@ -6,7 +6,7 @@ note
 		
 		It is a list of variables for each OPTIONnNAME, in which x is a digit between 0 and 9, inclusive
 	]"
-	notes: "If you specify a price, you cannot set a button variable to amount."
+	notes: "Specifying a price means you cannot set a button variable to amount"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

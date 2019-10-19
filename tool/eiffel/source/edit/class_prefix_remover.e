@@ -25,44 +25,51 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_prefix_letters: like prefix_characters)
+	make (a_prefix_letters: STRING; file_path_list: LIST [EL_FILE_PATH])
 			--
 		do
 			make_editor
 			prefix_characters := a_prefix_letters + "_"
 			create class_name.make_empty
+			create class_set.make_equal (file_path_list.count)
+			across file_path_list as path loop
+				class_set.put (path.item.base_sans_extension.as_upper)
+			end
 		end
-
 feature {NONE} -- Events
 
 	on_class_name (text: EL_STRING_VIEW)
 			--
 		local
-			name: STRING
+			name: ZSTRING
 		do
-			name := text
-			if class_name.is_empty then
-				if name.starts_with (prefix_characters) then
-					name.remove_head (prefix_characters.count)
-					set_class_name (name)
-				end
+			name := new_name (text)
+			if class_name.is_empty and then name.count < text.count then
+				set_class_name (name)
 			end
 			put_string (name)
 		end
 
 	on_class_reference (text: EL_STRING_VIEW)
 			--
-		local
-			name: STRING
 		do
-			name := text
-			if name.starts_with (prefix_characters) then
-				name.remove_head (prefix_characters.count)
-			end
-			put_string (name)
+			put_string (new_name (text))
 		end
 
 feature {NONE} -- Implementation
 
-	prefix_characters: STRING
+	new_name (text: EL_STRING_VIEW): ZSTRING
+		do
+			Result := text
+			if Result.starts_with (prefix_characters) and then class_set.has (Result) then
+				Result.remove_head (prefix_characters.count)
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	class_set: EL_HASH_SET [ZSTRING]
+
+	prefix_characters: ZSTRING
+
 end

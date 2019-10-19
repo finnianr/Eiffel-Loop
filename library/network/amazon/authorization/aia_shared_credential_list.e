@@ -3,6 +3,7 @@ note
 	notes: "[
 		Override `new_credential_list' if you wish to implement your own storage scheme
 	]"
+	tests: "See: [$source AMAZON_INSTANT_ACCESS_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -17,7 +18,7 @@ deferred class
 
 inherit
 	EL_ANY_SHARED
-	
+
 	EL_MODULE_DIRECTORY
 
 feature {NONE} -- Implementation

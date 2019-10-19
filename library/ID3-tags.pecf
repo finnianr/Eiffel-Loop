@@ -7,8 +7,8 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_id3_tags; uuid = "229b4fae-09aa-11df-8771-e7444f3b4d30" 
-	library_target = EL_id3_tags
+	name = EL_id3_tag; uuid = "229b4fae-09aa-11df-8771-e7444f3b4d30" 
+	library_target = EL_id3_tag
 	description:
 		"""
 			ID3 Tagging for MP3
@@ -19,7 +19,7 @@ system:
 		"""
 	
 	target:
-		name = EL_id3_tags
+		name = EL_id3_tag
 		
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
@@ -113,6 +113,6 @@ system:
 
 		# Source code
 		cluster:
-			name = id3; location = "multimedia/audio/file/id3"; recursive = true
+			name = id3_tag; location = "multimedia/audio/file/id3_tag"; recursive = true
 
 

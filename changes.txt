@@ -46,3 +46,9 @@ Changed argument_specs: ARRAY
 Mon   30th   Sep   2019, 6:25:11
 Split EL_SHARED_ONCE_STRINGS into 3 classes
 
+Tue   8th   Oct   2019, 18:15:25
+Major refactoring of ID3-tags.ecf
+
+Sun   13th   Oct   2019, 16:12:15
+Progress on new Underbit ID3 implemenation
+

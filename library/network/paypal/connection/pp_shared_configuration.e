@@ -18,10 +18,7 @@ inherit
 feature {NONE} -- Constants
 
 	Configuration: PP_CONFIGURATION
-		local
-			s: EL_SINGLETON [PP_CONFIGURATION]
 		once ("PROCESS")
-			create s
-			Result := s.singleton
+			Result := create {EL_SINGLETON [PP_CONFIGURATION]}
 		end
 end

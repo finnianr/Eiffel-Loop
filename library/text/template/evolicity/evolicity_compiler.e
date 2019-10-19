@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 			make_default
 			create modification_time.make (0, 0, 0, 0, 0, 0)
 			reset_directives
-			internal_encoding := 0 -- indicates a text source by default
+			encoding_bitmap := 0 -- indicates a text source by default
 		end
 
 feature -- Access

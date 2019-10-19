@@ -1,8 +1,0 @@
-note
-	descendants: "See end of class"
-	descendants: "[
-			EL_STRING_EDITOR*
-				[$source EL_ZSTRING_EDITOR]
-				[$source EL_STRING_8_EDITOR]
-				[$source EL_STRING_32_EDITOR]
-	]"

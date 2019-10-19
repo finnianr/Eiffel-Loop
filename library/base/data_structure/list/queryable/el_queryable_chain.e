@@ -2,12 +2,10 @@ note
 	description: "[
 		A chain that is queryable using query condition objects that can be combined using the
 		Eiffel logical operators: `and', `or', `not'.
-		
-		Access more query constructs by inheriting class `[$source EL_QUERY_CONDITION_FACTORY]'
-		in client classes.
 	]"
 	notes: "[
-
+		Access more query constructs by inheriting class `[$source EL_QUERY_CONDITION_FACTORY]'
+		in client classes.
 	]"
 
 	author: "Finnian Reilly"

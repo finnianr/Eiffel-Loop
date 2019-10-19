@@ -10,7 +10,7 @@ note
 	revision: "6"
 
 deferred class
-	EL_CPP_ITERATOR [G -> EL_CPP_OBJECT create make_from_pointer end]
+	EL_CPP_ITERATOR [G -> EL_CPP_OBJECT]
 
 inherit
 	EL_CPP_OBJECT
@@ -89,8 +89,8 @@ feature -- Status query
 feature {NONE} -- Implementation
 
 	new_item: G
-		do
-			create Result.make_from_pointer (cpp_item)
+		-- new wrapper object `item' created from C++ reference `cpp_item'
+		deferred
 		end
 
 	function_create_iterator: FUNCTION [POINTER]

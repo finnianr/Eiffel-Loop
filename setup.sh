@@ -5,7 +5,9 @@
 #	date: "21 Dec 2012"
 #	revision: "0.1"
 
-sudo apt-get install python2.7-dev python-lxml scons libxrandr-dev librsvg2-dev
+# cmake required to make taglib.ecf
+
+sudo apt-get install python2.7-dev python-lxml scons libxrandr-dev librsvg2-dev cmake
 # Required for example/manage-mp3 and toolkit
 sudo apt-get install siggen libav-tools sox lame exiv2
 if [ $? == "0" ]

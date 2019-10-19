@@ -295,9 +295,9 @@ bool mm::parse(ID3_TagImpl& tag, ID3_Reader& rdr)
         String mimetype("image/");
         mimetype += imgExt;
         frame->GetField(ID3FN_MIMETYPE)->Set(mimetype.c_str());
-        frame->GetField(ID3FN_IMAGEFORMAT)->Set("");
+        /*frame->GetField(ID3FN_IMAGEFORMAT)->Set("");
         frame->GetField(ID3FN_PICTURETYPE)->Set(static_cast<unsigned int>(0));
-        frame->GetField(ID3FN_DESCRIPTION)->Set("");
+        frame->GetField(ID3FN_DESCRIPTION)->Set("");*/
         frame->GetField(ID3FN_DATA)->Set(reinterpret_cast<const uchar*>(imgData.data()), imgData.size());
         tag.AttachFrame(frame);
       }

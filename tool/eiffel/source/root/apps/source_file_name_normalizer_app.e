@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Implementation
 
-	new_editor: CLASS_FILE_NAME_NORMALIZER
+	new_editor (file_path_list: LIST [EL_FILE_PATH]): CLASS_FILE_NAME_NORMALIZER
 		do
 			create Result.make
 		end

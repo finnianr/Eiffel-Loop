@@ -31,8 +31,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("type.conforming_types")
-			type.conforming_types
+			log.enter ("tuple.find_abstract_type")
+			tuple.find_abstract_type
 			log.exit
 		end
 

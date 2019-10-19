@@ -154,12 +154,12 @@ system:
 			location = "$EIFFEL_LOOP/library/i18n.ecf"
 
 		library:
-			name = EL_image_utils; readonly = false
-			location="$EIFFEL_LOOP/library/image-utils.ecf"
-
-		library:
 			name = EL_id3_tags; location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
 			readonly = false
+
+		library:
+			name = EL_image_utils; readonly = false
+			location="$EIFFEL_LOOP/library/image-utils.ecf"
 
 		library:
 			name = EL_logging; readonly = false

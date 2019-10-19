@@ -1,8 +1,0 @@
-note
-	descendants: "See end of class"
-	descendants: "[
-			EL_EQA_TEST_SET_EVALUATOR*
-				[$source HTTP_CONNECTION_TEST_EVALUATOR]
-				[$source SEARCH_ENGINE_TEST_EVALUATOR]
-					[$source ENCRYPTED_SEARCH_ENGINE_TEST_EVALUATOR]
-	]"

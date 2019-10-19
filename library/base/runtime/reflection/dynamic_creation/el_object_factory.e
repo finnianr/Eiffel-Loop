@@ -67,14 +67,17 @@ feature {NONE} -- Initialization
 	make_from_table (mapping_table: ARRAY [TUPLE [name: READABLE_STRING_GENERAL; type: TYPE [G]]])
 		require
 			not_empty: not mapping_table.is_empty
+		local
+			key: ZSTRING
 		do
 			default_create
 			types_indexed_by_name.accommodate (mapping_table.count)
 			across mapping_table as map loop
+				key := Zstring.as_zstring (map.item.name)
 				if map.cursor_index = 1 then
-					set_default_alias (map.item.type) -- First type
+					default_alias := key
 				end
-				types_indexed_by_name [Zstring.as_zstring (map.item.name)] := map.item.type
+				types_indexed_by_name [key] := map.item.type
 			end
 		end
 

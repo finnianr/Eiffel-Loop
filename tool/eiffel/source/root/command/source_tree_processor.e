@@ -14,8 +14,8 @@ class
 
 inherit
 	EL_DIRECTORY_TREE_FILE_PROCESSOR
-		redefine
-			make
+		rename
+			make as make_processor
 		end
 
 create
@@ -23,11 +23,11 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_path: like source_directory_path; editing_command: EDITING_COMMAND)
+	make (a_path: like source_dir; new_editor: FUNCTION [LIST [EL_FILE_PATH], EL_EIFFEL_SOURCE_EDITOR])
 			--
 		do
-			Precursor (a_path, editing_command)
-			file_pattern := "*.e"
+			make_processor (a_path, "*.e", create {EL_DEFAULT_FILE_PROCESSING_COMMAND})
+			create {EDITING_COMMAND} file_processor.make (new_editor (file_path_list))
 		end
 
 end

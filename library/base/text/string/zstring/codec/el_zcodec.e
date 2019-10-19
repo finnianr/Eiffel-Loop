@@ -52,11 +52,11 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 				inspect l_name.index
 					when 2 then
 						if l_name.item ~ Name_iso then
-							internal_encoding := Type_latin
+							encoding_bitmap := Type_latin
 						elseif l_name.item ~ Name_windows then
-							internal_encoding := Type_windows
+							encoding_bitmap := Type_windows
 						elseif l_name.item ~ Name_utf then
-							internal_encoding := Type_utf
+							encoding_bitmap := Type_utf
 						end
 					when 3 then
 						if is_type_windows then

@@ -52,7 +52,7 @@ feature -- Informational
 
 feature -- File management
 
-	new_find_files (a_dir_path: EL_DIR_PATH; a_file_pattern: ZSTRING): EL_FIND_FILES_COMMAND_I
+	new_find_files (a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): EL_FIND_FILES_COMMAND_I
 		do
 			create {EL_FIND_FILES_COMMAND_IMP} Result.make (a_dir_path, a_file_pattern)
 		end

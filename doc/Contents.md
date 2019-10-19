@@ -1083,7 +1083,7 @@ Classes for creating cross platform wrappers of OS commands with about 30 "out o
 * Support for making "convenience wrappers" without any need to create a new class. These are classes: [EL_OS_COMMAND](http://www.eiffel-loop.com/library/runtime/process/commands/kernel/el_os_command.html) and [EL_CAPTURED_OS_COMMAND](http://www.eiffel-loop.com/library/runtime/process/commands/kernel/el_captured_os_command.html).
 
 
-* Has factory class [EL_OS_ROUTINES_IMP](http://www.eiffel-loop.com/library/runtime/process/commands/imp_mswin/system/el_os_routines_imp.html) (accessible via [EL_MODULE_OS]($source)) which contains factory functions for common OS system commands.
+* Has factory class [EL_OS_ROUTINES_IMP](http://www.eiffel-loop.com/library/runtime/process/commands/imp_mswin/system/el_os_routines_imp.html) (accessible via [EL_MODULE_OS](http://www.eiffel-loop.com/library/runtime/process/commands/system/el_module_os.html)) which contains factory functions for common OS system commands.
 
 **Information Commands**
 

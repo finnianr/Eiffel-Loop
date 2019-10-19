@@ -35,4 +35,10 @@ feature -- Element change
 			area := a_area
 			count := a_count
 		end
+
+	set_from_c (c_string: POINTER)
+		do
+			make_from_c (c_string)
+		end
+
 end

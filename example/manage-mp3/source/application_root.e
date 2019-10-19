@@ -35,9 +35,4 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Compile_also: TUPLE [EL_SUBARRAY [ANY]]
-		once
-			create Result
-		end
-
 end

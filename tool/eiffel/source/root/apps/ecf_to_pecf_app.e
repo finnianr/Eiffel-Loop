@@ -17,7 +17,7 @@ inherit
 		rename
 			command as tree_processor
 		redefine
-			Option_name, normal_run
+			Option_name
 		end
 
 create
@@ -31,18 +31,12 @@ feature -- Basic operations
 			Test.do_file_tree_test ("ECF", agent test_xml_to_pyxis, 3319767416)
 		end
 
-	normal_run
-		do
-			tree_processor.set_file_pattern ("*.ecf")
-			Precursor
-		end
-
 feature -- Test
 
 	test_xml_to_pyxis (a_dir_path: EL_DIR_PATH)
 			--
 		do
-			create tree_processor.make (a_dir_path, create {XML_TO_PYXIS_CONVERTER}.make_default)
+			create tree_processor.make (a_dir_path, "*.ecf", create {XML_TO_PYXIS_CONVERTER}.make_default)
 			normal_run
 		end
 
@@ -59,7 +53,9 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like tree_processor]
 		do
-			Result := agent {like tree_processor}.make ("", create {XML_TO_PYXIS_CONVERTER}.make_default)
+			Result := agent {like tree_processor}.make (
+				create {EL_DIR_PATH}, "*.ecf", create {XML_TO_PYXIS_CONVERTER}.make_default
+			)
 		end
 
 feature {NONE} -- Constants

@@ -1,7 +1,0 @@
-note
-	descendants: "See end of class"
-	descendants: "[
-			EL_THREAD_PRODUCT_QUEUE
-				[$source EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE create make end]]
-				[$source EL_PROCEDURE_CALL_QUEUE]
-	]"

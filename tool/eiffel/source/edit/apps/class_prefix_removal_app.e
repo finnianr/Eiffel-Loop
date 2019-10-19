@@ -15,7 +15,7 @@ class
 inherit
 	SOURCE_TREE_EDITING_SUB_APPLICATION
 		redefine
-			Option_name, normal_initialize, set_defaults
+			Option_name, normal_initialize, set_defaults, test_sources
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
@@ -36,12 +36,16 @@ feature {NONE} -- Initialization
 			set_attribute_from_command_opt (prefix_letters, "prefix", "Prefix letters to remove")
 		end
 
-
 feature {NONE} -- Implementation
 
-	new_editor: CLASS_PREFIX_REMOVER
+	new_editor (file_path_list: LIST [EL_FILE_PATH]): CLASS_PREFIX_REMOVER
 		do
-			create Result.make (prefix_letters)
+			create Result.make (prefix_letters, file_path_list)
+		end
+
+	test_sources: ARRAY [STRING]
+		do
+			Result := << "latin1-sources/os-command" >>
 		end
 
 	prefix_letters: STRING
@@ -56,7 +60,7 @@ feature {NONE} -- Constants
 
 	Checksum: ARRAY [NATURAL]
 		once
-			Result := << 0, 0 >>
+			Result := << 2669768227 >>
 		end
 
 	Option_name: STRING = "remove_prefix"

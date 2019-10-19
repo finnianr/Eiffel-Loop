@@ -45,6 +45,51 @@ feature {NONE} -- Initialization
 			make_with_separator (a_string, ' ', False)
 		end
 
+feature -- Access
+
+	item_count: INTEGER
+		do
+			Result := item.count
+		end
+
+	item_indent: INTEGER
+		local
+			i: INTEGER; done: BOOLEAN
+		do
+			from i := 1 until done or i > item.count loop
+				if item.code (i) = Tabulation then
+					Result := Result + 1
+				else
+					done := True
+				end
+				i := i + 1
+			end
+		end
+
+feature -- Status query
+
+	is_indented: BOOLEAN
+		 do
+		 	Result := across Current as str all
+		 		not str.item.is_empty and then str.item.code (1) = Tabulation
+		 	end
+		 end
+
+	same_items (a_list: ITERABLE [S]): BOOLEAN
+		local
+			l_cursor: ITERATION_CURSOR [S]
+		do
+			push_cursor
+			if attached {FINITE [S]} a_list as finite and then finite.count = count then
+				Result := True
+				from start; l_cursor := a_list.new_cursor until after or not Result loop
+					Result := item ~ l_cursor.item
+					forth; l_cursor.forth
+				end
+			end
+			pop_cursor
+		end
+
 feature -- Element change
 
 	append_split (a_string: READABLE_STRING_GENERAL; a_separator: CHARACTER_32; do_left_adjust: BOOLEAN)
@@ -204,36 +249,6 @@ feature -- Resizing
 			-- Change the capacity to at least `i'.
 		deferred
 		end
-
-feature -- Access
-
-	item_count: INTEGER
-		do
-			Result := item.count
-		end
-
-	item_indent: INTEGER
-		local
-			i: INTEGER; done: BOOLEAN
-		do
-			from i := 1 until done or i > item.count loop
-				if item.code (i) = Tabulation then
-					Result := Result + 1
-				else
-					done := True
-				end
-				i := i + 1
-			end
-		end
-
-feature -- Status query
-
-	is_indented: BOOLEAN
-		 do
-		 	Result := across Current as str all
-		 		not str.item.is_empty and then str.item.code (1) = Tabulation
-		 	end
-		 end
 
 feature {NONE} -- Implementation
 

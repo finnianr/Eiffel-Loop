@@ -29,6 +29,11 @@ feature {NONE} -- Initialization
 			set_utf (8)
 		end
 
+	make_bitmap (a_encoding_bitmap: INTEGER)
+		do
+			encoding_bitmap := a_encoding_bitmap
+		end
+
 feature -- Access
 
 	id: INTEGER
@@ -37,14 +42,17 @@ feature -- Access
 		-- For `Type_latin' these are: 1..15
 		-- For `Type_windows' these are: 1250..1258
 		do
-			Result := internal_encoding & Type_mask
+			Result := encoding_bitmap & Type_mask
 		end
+
+	encoding_bitmap: INTEGER
+		-- bitwise OR of `type' and `id'
 
 	name: STRING
 			--
 		do
 			create Result.make (12)
-			if internal_encoding = 0 then
+			if encoding_bitmap = 0 then
 				Result.append (once "Unknown")
 			else
 				inspect type
@@ -66,7 +74,7 @@ feature -- Access
 	type: INTEGER
 		-- a 4-bit code left-shifted by 12 representing the encoding type: UTF, WINDOWS or ISO-8859
 		do
-			Result := internal_encoding & ID_mask
+			Result := encoding_bitmap & ID_mask
 		end
 
 feature -- Status query
@@ -82,7 +90,7 @@ feature -- Status query
 		require
 			valid_id: is_valid (Type_latin, a_id)
 		do
-			Result := internal_encoding = Type_latin | a_id
+			Result := encoding_bitmap = Type_latin | a_id
 		end
 
 	is_type_latin: BOOLEAN
@@ -104,19 +112,19 @@ feature -- Status query
 		require
 			valid_id: is_valid (Type_utf, a_id)
 		do
-			Result := internal_encoding = Type_utf | a_id
+			Result := encoding_bitmap = Type_utf | a_id
 		end
 
 	is_windows_id (a_id: INTEGER): BOOLEAN
 		require
 			valid_id: is_valid (Type_windows, a_id)
 		do
-			Result := internal_encoding = Type_windows | a_id
+			Result := encoding_bitmap = Type_windows | a_id
 		end
 
 	same_as (other: EL_ENCODING_BASE): BOOLEAN
 		do
-			Result := internal_encoding = other.internal_encoding
+			Result := encoding_bitmap = other.encoding_bitmap
 		end
 
 feature -- Element change
@@ -126,7 +134,7 @@ feature -- Element change
 		require
 			valid_type_and_id: is_valid (a_type, a_id)
 		do
-			internal_encoding := a_type | a_id
+			encoding_bitmap := a_type | a_id
 		ensure
 			type_set: type = a_type
 			id_set: id = a_id
@@ -161,17 +169,17 @@ feature -- Element change
 			if is_valid (l_type, l_id) then
 				set_encoding (l_type, l_id)
 			else
-				internal_encoding := 0
+				encoding_bitmap := 0
 			end
 		ensure
-			reversible: internal_encoding > 0 implies a_name.to_string_8.as_upper ~ name
+			reversible: encoding_bitmap > 0 implies a_name.to_string_8.as_upper ~ name
 		end
 
 	set_from_other (other: EL_ENCODING_BASE)
 		do
 			set_encoding (other.type, other.id)
 		ensure
-			same_encoding: internal_encoding = other.internal_encoding
+			same_encoding: encoding_bitmap = other.encoding_bitmap
 		end
 
 	set_default
@@ -193,11 +201,6 @@ feature -- Element change
 		do
 			set_encoding (Type_windows, a_id)
 		end
-
-feature {EL_ENCODING_BASE} -- Internal attributes
-
-	internal_encoding: INTEGER
-		-- bitwise OR of `type' and `id'
 
 feature -- Encoding types
 

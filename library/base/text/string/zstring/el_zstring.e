@@ -491,6 +491,15 @@ feature -- Element change
 			append_string (once_padding (uc, a_count))
 		end
 
+	set_from_latin_1_c (latin_1_ptr: POINTER)
+		local
+			latin: EL_STRING_8
+		do
+			latin := Latin_1_c_string
+			latin.set_from_c (latin_1_ptr)
+			wipe_out; append_string_general (latin)
+		end
+
 	substitute_tuple (inserts: TUPLE)
 		do
 			make_from_other (substituted_tuple (inserts))

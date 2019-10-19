@@ -18,11 +18,8 @@ inherit
 feature {NONE} -- Constants
 
 	Application_list: EL_SUB_APPLICATION_LIST
-		local
-			s: EL_SINGLETON [EL_SUB_APPLICATION_LIST]
 		once ("PROCESS")
-			create s
-			Result := s.singleton
+			Result := create {EL_SINGLETON [EL_SUB_APPLICATION_LIST]}
 		end
 
 end

@@ -2,11 +2,14 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 32); build = 150
+version = (1, 0, 33); build = 152
 
 installation_sub_directory = 'Eiffel-Loop/eiffel'
 
 tests = None
+
+# 1.0.33
+# Stopped CLASS_PREFIX_REMOVAL_APP from renaming classes that are not in the source directory
 
 # 1.0.32
 # Fixed tests not appearing in generated html of Eiffel-View publisher

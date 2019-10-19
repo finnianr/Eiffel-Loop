@@ -1,11 +1,11 @@
 .git
 build/
-**/doc/Descendants*.txt
-**/docs/Descendants*.txt
+contrib/C++/taglib/
+projects.data/XML/Legislation.xml
+**/doc/descendant/
 **/.sconf_temp/
 **/build/**
 **/workarea/**
-projects.data/XML/Legislation.xml
 **/exception*.log
 **~
 **.a

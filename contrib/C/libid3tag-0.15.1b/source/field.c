@@ -709,7 +709,7 @@ int id3_field_setbinarydata(union id3_field *field,
 
   assert(field);
 
-  if (field->type != ID3_FIELD_TYPE_BINARYDATA)
+  if (field->type != ID3_FIELD_TYPE_BINARYDATA || field->type != ID3_FIELD_TYPE_INT32PLUS)
     return -1;
 
   id3_field_finish(field);
@@ -879,7 +879,7 @@ id3_byte_t const *id3_field_getbinarydata(union id3_field const *field,
 
   assert(field && length);
 
-  if (field->type != ID3_FIELD_TYPE_BINARYDATA)
+  if (field->type != ID3_FIELD_TYPE_BINARYDATA || field->type != ID3_FIELD_TYPE_INT32PLUS)
     return 0;
 
   assert(field->binary.length == 0 || field->binary.data);

@@ -123,7 +123,7 @@ system:
 			location = "$EIFFEL_LOOP/library/logging.ecf"
 
 		library:
-			name = EL_id3_tags; location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
+			name = EL_id3_tags_old; location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
 			readonly = false
 
 		library:

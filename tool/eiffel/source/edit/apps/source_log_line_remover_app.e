@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Implementation
 
-	new_editor: LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR
+	new_editor (file_path_list: LIST [EL_FILE_PATH]): LOG_LINE_COMMENTING_OUT_SOURCE_EDITOR
 		do
 			create Result.make
 		end

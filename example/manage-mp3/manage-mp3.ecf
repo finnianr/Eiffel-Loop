@@ -62,7 +62,7 @@ See doc/manage-mp3.txt for details
 		<library name = "EL_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/encryption.ecf"/>
 		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
-		<library name = "EL_id3_tags" location = "$EIFFEL_LOOP/library/ID3-tags.ecf" readonly = "false"/>
+		<library name = "EL_id3_tags_old" location = "$EIFFEL_LOOP/library/ID3-tags.ecf" readonly = "false"/>
 		<library name = "EL_ftp" location = "$EIFFEL_LOOP/library/ftp.ecf" readonly = "false"/>
 		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
 		<library name = "EL_text_formats" readonly = "false" location = "$EIFFEL_LOOP/library/text-formats.ecf"/>

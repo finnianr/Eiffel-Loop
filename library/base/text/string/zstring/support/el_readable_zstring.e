@@ -176,8 +176,12 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_latin_1_c (latin_1_ptr: POINTER)
+		local
+			latin: EL_STRING_8
 		do
-			make_from_general (create {STRING}.make_from_c (latin_1_ptr))
+			latin := Latin_1_c_string
+			latin.set_from_c (latin_1_ptr)
+			make_from_general (latin)
 		end
 
 	make_from_other (other: EL_READABLE_ZSTRING)
@@ -1661,6 +1665,9 @@ feature {EL_READABLE_ZSTRING} -- Element change
 				when {TUPLE}.Character_32_code then
 					append_character (tuple.character_32_item (i))
 
+				when {TUPLE}.Integer_8_code then
+					append_integer_8 (tuple.integer_8_item (i))
+
 				when {TUPLE}.Integer_16_code then
 					append_integer_16 (tuple.integer_16_item (i))
 
@@ -1669,6 +1676,9 @@ feature {EL_READABLE_ZSTRING} -- Element change
 
 				when {TUPLE}.Integer_64_code then
 					append_integer_64 (tuple.integer_64_item (i))
+
+				when {TUPLE}.Natural_8_code then
+					append_natural_8 (tuple.natural_8_item (i))
 
 				when {TUPLE}.Natural_16_code then
 					append_integer_16 (tuple.integer_16_item (i))
@@ -1679,14 +1689,14 @@ feature {EL_READABLE_ZSTRING} -- Element change
 				when {TUPLE}.Natural_64_code then
 					append_natural_64 (tuple.natural_64_item (i))
 
-				when {TUPLE}.Pointer_code then
-					append_string_general (tuple.pointer_item (i).out)
-
 				when {TUPLE}.Real_32_code then
 					append_real (tuple.real_32_item (i))
 
 				when {TUPLE}.Real_64_code then
 					append_double (tuple.real_64_item (i))
+
+				when {TUPLE}.Pointer_code then
+					append_string_general (tuple.pointer_item (i).out)
 
 				when {TUPLE}.Reference_code then
 					l_reference := tuple.reference_item (i)
@@ -2315,6 +2325,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Latin_1_c_string: EL_STRING_8
+		once
+			create Result.make_empty
+		end
 
 	Unicode_property: CHARACTER_PROPERTY
 			-- Property for Unicode characters.

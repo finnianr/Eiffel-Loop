@@ -13,7 +13,7 @@ class
 	MODULE_CRC_32_TEST_SET
 
 inherit
-	EL_FILE_DATA_TEST_SET
+	EL_GENERATED_FILE_DATA_TEST_SET
 		rename
 			new_file_tree as new_empty_file_tree
 		end

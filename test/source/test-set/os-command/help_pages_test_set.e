@@ -13,7 +13,7 @@ deferred class
 	HELP_PAGES_TEST_SET
 
 inherit
-	EL_FILE_DATA_TEST_SET
+	EL_GENERATED_FILE_DATA_TEST_SET
 		redefine
 			new_file_tree
 		end

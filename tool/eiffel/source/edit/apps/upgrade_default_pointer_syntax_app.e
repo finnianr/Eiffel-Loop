@@ -27,7 +27,7 @@ create
 
 feature {NONE} -- Implementation
 
-	new_editor: UPGRADE_DEFAULT_POINTER_SYNTAX_EDITOR
+	new_editor (file_path_list: LIST [EL_FILE_PATH]): UPGRADE_DEFAULT_POINTER_SYNTAX_EDITOR
 		do
 			create Result.make
 		end

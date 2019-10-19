@@ -5,6 +5,7 @@ note
 		
 		Accessible from shared object_or_type `Naming' in class [$source EL_MODULE_NAMING]
 	]"
+	tests: "See: [$source EIFFEL_NAME_TRANSLATEABLE_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
