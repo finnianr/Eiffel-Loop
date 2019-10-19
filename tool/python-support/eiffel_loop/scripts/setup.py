@@ -10,6 +10,7 @@ import os, sys, subprocess, platform, zipfile
 from distutils import dir_util, file_util
 from os import path
 
+from eiffel_loop.eiffel import ise
 from eiffel_loop.os import environ
 from eiffel_loop import package
 from eiffel_loop.package import ZIP_SOFTWARE_PACKAGE
@@ -23,10 +24,6 @@ from eiffel_loop.scripts import templates
 
 python_home_dir = environ.python_home_dir()
 eiffel_loop_home_dir = path.abspath (os.curdir)
-
-def ise_version ():
-	result = path.basename (path.expandvars ('$ISE_EIFFEL')).split ('_')[1]
-	return result
 
 def gedit_home_dir ():
 	software_dir = 'SOFTWARE'
@@ -88,19 +85,8 @@ class INSTALLER (object): # Common: Unix and Windows
 	def print_completion (self):
 		pass
 
-	def ise_precomp (self, ise_platform):
-		var_ise_precomp = "ISE_PRECOMP"
-		if os.environ.has_key (var_ise_precomp):
-			result = os.environ [var_ise_precomp]
-		else:
-			result = path.expanduser (path.expandvars (self.precompile_template () % (ise_version (), ise_platform))) 
-		return result
-
-	def precompile_template (self):
-		pass
-
 	def install_precompiles (self, ise_platform):
-		el_precomp = path.join (self.ise_precomp (ise_platform), "EL")
+		el_precomp = path.join (ise.precomp, "EL")
 		precomp = 'precomp'
 		dir_util.mkpath (el_precomp)
 		for ecf in os.listdir (precomp):
@@ -120,7 +106,7 @@ class WINDOWS_INSTALLER (INSTALLER):
 
 		self.install_batch_scripts ()
 	
-		self.install_precompiles (os.environ ['ISE_PLATFORM'])
+		self.install_precompiles (ise.platform)
 		self.build_toolkit ()
 		self.install_gedit_pecf_support ()
 
@@ -229,13 +215,9 @@ class WINDOWS_INSTALLER (INSTALLER):
 	def install_precompiles (self, ise_platform):
 		super (WINDOWS_INSTALLER, self).install_precompiles (ise_platform)
 		if ise_platform == 'win64':
-			if path.exists (project.x86_path (os.environ ['ISE_EIFFEL'])):
+			if path.exists (project.x86_path (ise.eiffel)):
 				super (WINDOWS_INSTALLER, self).install_precompiles ('windows')
 
-	def precompile_template (self):
-		result = r"~\Documents\Eiffel User Files\%s\precomp\spec\%s"
-		return result
-		
 
 class UNIX_INSTALLER (INSTALLER):
 
@@ -249,7 +231,7 @@ class UNIX_INSTALLER (INSTALLER):
 		self.write_script_file (launch_estudio_path, templates.launch_estudio)
 		os.chmod (launch_estudio_path, 0777)
 
-		self.install_precompiles (os.environ ['ISE_PLATFORM'])
+		self.install_precompiles (ise.platform)
 
 		self.build_toolkit ()
 
@@ -283,10 +265,6 @@ class UNIX_INSTALLER (INSTALLER):
 			print 'OK'
 		else:
 			print 'FAILED'
-
-	def precompile_template (self):
-		result = "~/.es/eiffel_user_files/%s/precomp/spec/%s"
-		return result
 
 if platform.python_version_tuple () >= ('3','0','0'):
 	print 'ERROR: Python Version %s is not suitable for use with scons build system' % platform.python_version ()

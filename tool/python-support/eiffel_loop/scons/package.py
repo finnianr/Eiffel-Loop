@@ -10,7 +10,7 @@ from os import path
 from string import Template
 
 from eiffel_loop.package import ZIP_SOFTWARE_PACKAGE
-from eiffel_loop.package import ZIP_SOFTWARE_PACKAGE
+from eiffel_loop.eiffel import ise
 
 if os.name == 'posix':
 	from debian import debfile
@@ -59,33 +59,17 @@ def source_url_and_member_name (get_fpath, variables):
 def platform_variables ():
 	result = {}
 	
-	var_ise_platform = 'ISE_PLATFORM'
-	var_ise_eiffel = 'ISE_EIFFEL'
-	var_ise_library = 'ISE_LIBRARY'
-	var_ise_c_compiler = 'ISE_C_COMPILER'
-
 	var_gnome_platform = 'GNOME_PLATFORM'
 	var_debian_platform = 'DEB_PLATFORM'
 	var_cpu_bits = 'CPU_BITS'
 	
-	for ise_variable in [var_ise_eiffel, var_ise_platform, var_ise_library]:
-		result [ise_variable] = os.environ [ise_variable]
-
-	if os.environ.has_key (var_ise_c_compiler):
-		result [var_ise_c_compiler] = os.environ [var_ise_c_compiler]
-	elif os.name == 'posix':
-		result [var_ise_c_compiler] = 'gcc'
-	else:
-		result [var_ise_c_compiler] = 'msc'
-		
-	ise_platform = os.environ [var_ise_platform]
-	if ise_platform == 'windows':
+	if ise.platform == 'windows':
 		cpu_bits = '32'; gnome_platform = 'win32'; debian_platform = 'i386'
 
-	elif ise_platform == 'win64':
+	elif ise.platform == 'win64':
 		cpu_bits = '64'; gnome_platform = 'win64'; debian_platform = 'amd64'
 
-	elif ise_platform.endswith ('x86-64'):
+	elif ise.platform.endswith ('x86-64'):
 		cpu_bits = '64'; gnome_platform = ''; debian_platform = 'amd64'
 	else:
 		cpu_bits = '32'; gnome_platform = ''; debian_platform = 'i386'

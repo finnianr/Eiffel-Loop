@@ -1,5 +1,6 @@
 import os
 
+from eiffel_loop.eiffel import ise
 from eiffel_loop.eiffel import project
 
 from eiffel_loop.eiffel.ecf import EIFFEL_CONFIG_FILE
@@ -13,14 +14,14 @@ var = Variables ()
 var.Add ('cpu', '', 'x64')
 var.Add ('project', '', glob ('*.ecf')[0])
 
-os.environ ['ISE_LIBRARY'] = os.environ ['ISE_EIFFEL']
+os.environ ['ISE_LIBRARY'] = ise.eiffel
 
 env = Base ()
 
 var.Update (env)
 
 env.Append (ENV = os.environ)
-env.Append (ISE_PLATFORM = os.environ ['ISE_PLATFORM'])
+env.Append (ISE_PLATFORM = ise.platform)
 
 project_py = project.read_project_py ()
 project_py.set_build_environment (env.get ('cpu'))

@@ -12,6 +12,7 @@ import os, sys, platform
 from os import path
 from distutils import dir_util
 from subprocess import call
+from eiffel_loop.eiffel import ise
 
 project_ecf = sys.argv [1]
 
@@ -24,7 +25,7 @@ if project_ecf:
 		platform_name	= 'unix'
 		build_cmd = ['scons']
 
-	eifgen_steps = ['build', os.environ ['ISE_PLATFORM'], 'EIFGENs']
+	eifgen_steps = ['build', ise.platform, 'EIFGENs']
 	eifgen_path = os.sep.join (eifgen_steps)
 	if path.exists (eifgen_path):
 		dir_util.remove_tree (eifgen_path)

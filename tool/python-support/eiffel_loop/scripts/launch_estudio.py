@@ -12,6 +12,7 @@ import subprocess, sys, os, stat
 from distutils import dir_util
 from os import path
 
+from eiffel_loop.eiffel import ise
 from eiffel_loop.eiffel import project
 
 def convert_pyxis_to_xml (pecf_path):
@@ -44,7 +45,7 @@ if parts [1] == '.pecf':
 	if os.stat (pecf_path)[stat.ST_MTIME] > os.stat (project_path)[stat.ST_MTIME]:
 		convert_pyxis_to_xml (pecf_path)
 		
-eifgen_path = path.join ('build', os.environ ['ISE_PLATFORM'])	
+eifgen_path = path.join ('build', ise.platform)	
 if not path.exists (eifgen_path):
 	dir_util.mkpath (eifgen_path)
 

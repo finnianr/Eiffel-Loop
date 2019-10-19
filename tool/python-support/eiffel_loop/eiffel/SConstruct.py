@@ -9,6 +9,7 @@ import os, sys
 
 from os import path
 
+from eiffel_loop.eiffel import ise
 from eiffel_loop.eiffel import project
 from eiffel_loop.scons import eiffel
 
@@ -62,9 +63,7 @@ else:
 
 	project_py.set_build_environment (env.get ('cpu'))
 
-	env.Append (ENV = os.environ, ISE_PLATFORM = os.environ ['ISE_PLATFORM'])
-	if 'ISE_C_COMPILER' in os.environ:
-		env.Append (ISE_C_COMPILER = os.environ ['ISE_C_COMPILER'])
+	env.Append (ENV = os.environ, ISE_PLATFORM = ise.platform, ISE_C_COMPILER = ise.c_compiler)
 
 	config = EIFFEL_CONFIG_FILE (ecf_path)
 

@@ -12,6 +12,7 @@ from string import Template
 from glob import glob
 from os import path
 
+from eiffel_loop.eiffel import ise
 from eiffel_loop import osprocess
 from eiffel_loop.distutils import dir_util, file_util
 from eiffel_loop.xml.xpath import XPATH_CONTEXT
@@ -181,8 +182,6 @@ class FREEZE_BUILD (object):
 		self.version = project_py.version
 		self.build_number = project_py.build
 
-		self.ise_platform = os.environ ['ISE_PLATFORM']
-		
 		# This should be kept with Unix forward slash directory separator
 		if '\\' in project_py.installation_sub_directory:
 			self.write_io ("WARNING: file 'project.py'\n")
@@ -247,7 +246,7 @@ class FREEZE_BUILD (object):
 		return result
 
 	def code_dir_steps (self):
-		result = ['build', self.ise_platform, 'EIFGENs', self.system_type, self.build_type ()]
+		result = ['build', ise.platform, 'EIFGENs', self.system_type, self.build_type ()]
 		return result
 
 	def target (self):
@@ -281,7 +280,7 @@ class FREEZE_BUILD (object):
 		return result
 	
 	def project_path (self):
-		return path.join ('build', self.ise_platform)
+		return path.join ('build', ise.platform)
 
 	def compilation_options (self):
 		return ['-freeze', '-c_compile']
@@ -296,7 +295,7 @@ class FREEZE_BUILD (object):
 		else:
 			suffix = ''
 			# In case you are compiling a 32 bit version on a 64 bit machine.
-			if self.ise_platform == 'windows' and os_platform.machine () == 'AMD64':
+			if ise.platform == 'windows' and os_platform.machine () == 'AMD64':
 				suffix = ' (x86)'
 			result = path.join ('c:\\Program files' + suffix, path.normpath (self.installation_sub_directory))
 			
@@ -472,7 +471,7 @@ class FINALIZED_BUILD (FREEZE_BUILD):
 		return 'F_code'
 
 	def resources_destination (self):
-		return path.join ('build', self.ise_platform, 'package')
+		return path.join ('build', ise.platform, 'package')
 
 	def target_steps (self):
 		result = self.resources_destination ().split (os.sep) + ['bin', self.exe_name]

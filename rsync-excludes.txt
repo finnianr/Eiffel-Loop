@@ -1,8 +1,10 @@
-.git
+.git/
 build/
-contrib/C++/taglib/
+contrib/C++/**/spec/
+contrib/C/**/spec/
+C_library/**/spec/
 projects.data/XML/Legislation.xml
-**/doc/descendant/
+**/Descendant*.txt
 **/.sconf_temp/
 **/build/**
 **/workarea/**

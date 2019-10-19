@@ -11,6 +11,7 @@ from string import Template
 from os import path
 from glob import glob
 
+from eiffel_loop.eiffel import ise
 from eiffel_loop.xml.xpath import XPATH_CONTEXT
 from eiffel_loop.distutils import file_util
 from eiffel_loop.scons.util import scons_command
@@ -25,7 +26,7 @@ __CSL = None
 program_files = 'Program Files'
 
 def platform_spec_build_dir ():
-	return path.join ('spec', os.environ ['ISE_PLATFORM'])
+	return path.join ('spec', ise.platform)
 
 def x86_path (a_path):
 	result = a_path.replace (program_files, 'Program Files (x86)', 1)
@@ -65,7 +66,6 @@ def increment_build_number ():
 def x86_environ (environ):
 	result = {}
 	x86_ise_platform = 'windows'
-	ise_library = os.environ ['ISE_LIBRARY']
 
 	# Change any /Program Files/ to /Program Files (x86)/
 	for name in environ:
@@ -79,14 +79,14 @@ def x86_environ (environ):
 	name = 'PATH'
 	path_list = []
 	for line in (os.environ [name]).split (';'):
-		if line.startswith (ise_library):
+		if line.startswith (ise.library):
 			path_list.append (x86_path (line).replace ('win64', x86_ise_platform, 1))
 		else:
 			path_list.append (line)
 	result [name] = (';').join (path_list)
 
-	result ['ISE_LIBRARY'] = x86_path (ise_library)
-	result ['ISE_EIFFEL'] = x86_path (os.environ ['ISE_EIFFEL'])
+	result ['ISE_LIBRARY'] = x86_path (ise.library)
+	result ['ISE_EIFFEL'] = x86_path (ise.eiffel)
 	result ['ISE_PLATFORM'] = x86_ise_platform
 
 	return result
@@ -193,11 +193,10 @@ class EIFFEL_PROJECT (object):
 
 	def install (self, install_dir, f_code = False):
 		# Install linked version of executable in `install_dir'
-		platform = os.environ ['ISE_PLATFORM']
 		if f_code:
-			exe_path = path.join ('build', platform, 'EIFGENs', 'classic', 'F_code', self.exe_name)
+			exe_path = path.join ('build', ise.platform, 'EIFGENs', 'classic', 'F_code', self.exe_name)
 		else:
-			exe_path = path.join ('build', platform, 'package', 'bin', self.exe_name)
+			exe_path = path.join ('build', ise.platform, 'package', 'bin', self.exe_name)
 
 		exe_dest_path = path.join (install_dir, self.versioned_exe_name ())
 

@@ -29,3 +29,7 @@ git filter-branch --tree-filter 'rm -rf $path' --prune-empty HEAD
 rm -Rf .git/logs .git/refs/original
 
 git gc --prune=all --aggressive
+
+git count-objects -vH
+git push origin --all --force
+git push origin --tags --force

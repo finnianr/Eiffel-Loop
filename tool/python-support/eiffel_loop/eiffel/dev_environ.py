@@ -17,6 +17,7 @@ from eiffel_loop.os import path
 from eiffel_loop.os import environ
 from eiffel_loop.C_util import C_dev
 from eiffel_loop.eiffel import project
+from eiffel_loop.eiffel import ise
 
 from eiffel_loop.eiffel.test import TESTS
 
@@ -99,13 +100,12 @@ environ = {
 }
 
 var_eiffel = 'EIFFEL'
-var_ise_library = 'ISE_LIBRARY'
 eiffel_basename = 'Eiffel'
 library_basename = 'library'
 cur_dir = path.curdir ()
 
-if not var_ise_library in os.environ:
-	os.environ [var_ise_library] = os.environ ['ISE_EIFFEL']
+if not ise.key_library in os.environ:
+	os.environ [ise.key_library] = ise.eiffel
 
 if var_eiffel in os.environ:
 	library_dir = path.join (os.environ [var_eiffel], library_basename)
